@@ -1,90 +1,78 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6EB2AD25
-	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 16:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5171CD2C;
+	Mon, 25 Nov 2024 23:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732551995; cv=none; b=pUGpY3S5q27xTId4nux5oeGZzRLu5oz/+eptgmg3iUz3xHbCn1x76I3iyRh8cOu9Y9UcxTMlGs7Y6EuLfB+M1q6PWELZgqTC/nYORWAvpQgQzVvqkqbdbbBsPCeWepPLCK1kGuvqRgLauArLxaXZeXRfw5v09mJHruoiYTZDF4Y=
+	t=1732577401; cv=none; b=Obh979XJYpbcQq9lIveO3qFKCYSwk9XoIx9YUjDDiKmHBktWA3frd66jqe/HTOQyrzImOfDZqNIwndMeTw5SUS5AuaJDOTAutIoqiDNVqPTlHd2HBBdVQWFCzFR04WgYITr4qH91WfpWtQMInoqu0Y4Ji1FAtXg9nOKqczEA3j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732551995; c=relaxed/simple;
-	bh=l1qWIVwvXjEkCYh8peO0L0gffJPk0BmLlnRXYEB1NGg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qH8//xJXAkkZTmOW+PKMIvqOHjgkKqI+60IMySRb/pi95HQLQ6D3NQhFyaJ7nQfJwsKxrVZQoC8mhyLL4VAgcXOxfqL45KpKWAjy0NbGCmViCG2LRTjF2SHgHmhvPRb/AYnxXoPxZiTkguUAqt3wValiEnPMrqmaRgs001XyJ6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FBaquhIE; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732577401; c=relaxed/simple;
+	bh=RcIAlDpiZCSATkNyuZVzgcKeSyPLiVdPefWA8rTbZMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a5IRf12Cxuv6FqxncfjZ8g2xnGFUqTPr1T7Ps8Sp9IKi4Jhge5hEafh+N2dfdZaU9g9EFOi1I09ZGs9QC6Xd5e7lsHSKblfmGSCm6M1yPBpBeqK/O0hPZIikp8Scvi6l+ahi4bii+YTmTbzZfWHXMakAHuf7wNLC10myg+q1QqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2fuigt1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FBaquhIE"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ea4648eb96so825705a91.3
-        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 08:26:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732551994; x=1733156794; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l1qWIVwvXjEkCYh8peO0L0gffJPk0BmLlnRXYEB1NGg=;
-        b=FBaquhIEbMLbdBNcTMbQEXfvMys7pNj8oQbVSogotvs5+YwlKzNRz+bMTQFQ31uE6T
-         lM2Ungd3QC+GNMbHYrhxvjeKBXY61ocUvAnpD35fQfW3+yrRqvn5ahHAu3ItTGcco7u0
-         CUUSMorq5r0ya9PZjT7hr0JzX6I8qhKim5tH6foIUqpALFNQiGSQlObPCWbQj1LPrEKA
-         0pL1CyQKsCYkGpdLM8d/FRz9dOooAWjiXbn0/FiDL8nnNtrmmGPV1ovulF0Rv3TELkTM
-         omhiTW3Yt1XUbBbEEQSjH8pAAJ8bL+0s6/LU14AtIeoL/uaWfJchK4zfa67/ZxCSjfua
-         8Y9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732551994; x=1733156794;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l1qWIVwvXjEkCYh8peO0L0gffJPk0BmLlnRXYEB1NGg=;
-        b=tbhIOMOZeAIcZi/3kDB2FN/r/JGbu8RsmDuDkXuVUKnEZAfs5N//z+PGbeyCdVA/kf
-         l5LZsS92E2vyb60vsjiYpOtWtVNhWDdh6mSMJL4tFk7GbWL77jjFiAQi6+a3s6yp7hsa
-         gY3kvQgRa1eoq/b4NdAuu1qB8hzKGBooIP38TC2VvP3QPMprkByDmfGIVGlThMzqhzQ8
-         LP/LC8kxT0rYvKVDyUW2fQ2R2BDPxoHEGQa2+kbvHyzGp9Gh3USAG1CsZeaDeWbUFWEX
-         qf61xVuwW3rc8aUwF79yTeSS0XvL4P8jfJsrpGcfd2GmYBIlnfONA9lPwzS/PoXN1ry+
-         Qlkw==
-X-Forwarded-Encrypted: i=1; AJvYcCV8rhoMSr3X2rFh14QXSaKfPTv9OAkGX+HeU0RpSvMwnjR8LDpcLUvD/MbIrI6Sch6dA/uB9g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJZcbWMXl7Srt/drNN24HaVrUyvnG0NRBH2ZGcGwEq7lK0PvFY
-	9zMLW0ZQIUZP1sA8SkGMfBOWUVsMT1Z+vFlVO+1mkovz2jSbP3rGD6Xl7ixVRuGo/2kbAiywAF7
-	3ClToKUA5yoC0F02hH/gNc0HemiU=
-X-Gm-Gg: ASbGncuexseU2bhMjawL6snmVOrzw1MSk2JG2g+BeLoSqEDIyE6gHMzBpyF/i9r6M0V
-	Oo48aqsU9Kk6l2AwxdTiOkEMfTqnGQ7I=
-X-Google-Smtp-Source: AGHT+IF+8fEQeszb1CA+TJE0pUpQ7FhynpOE1PM0+96KcWBP3IR2nn1UVp0S0hnjEA6WnDs/Au1QOKwMAvSC3gQFWPI=
-X-Received: by 2002:a17:90b:2249:b0:2ea:c768:3c52 with SMTP id
- 98e67ed59e1d1-2ede7e68c98mr345414a91.7.1732551993870; Mon, 25 Nov 2024
- 08:26:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2fuigt1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2777FC4CECF;
+	Mon, 25 Nov 2024 23:30:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732577400;
+	bh=RcIAlDpiZCSATkNyuZVzgcKeSyPLiVdPefWA8rTbZMY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B2fuigt1qS9/0fLvlfqPjCo377tXkjRU0cNuZje+05zsKWZ7ZiqVt6qssc+uRTXQS
+	 5QhmHpnNvl1GfhBCPVZgLfH2WrdfX98WY+hCDuiNb0sLNDxC1T8W1OG41WKKpzz8iH
+	 KqUFo4DF2mJI8xVTurMGuJBTRKrpF7ReeqP2wb2S8O6HdNxrznDB5gg1HI2tQgMLvP
+	 WfKysRMvFz5H1l0s9EuEDk0Az1v387nBqoDvw7J9Xijcxo/s5V9PdBcRIY8dgJ0VSX
+	 ViwNNj7P/FSeM+K3v4Wdaq9bdol+Wpk14JFAEq4J+Z0XYwh47DNv17J3dnF+6gW/D4
+	 BKl4b80bzeonA==
+Date: Mon, 25 Nov 2024 15:29:58 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthew Maurer <mmaurer@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Asahi Linux <asahi@lists.linux.dev>,
+	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v6 01/18] tools: Add gendwarfksyms
+Message-ID: <Z0UIdmDHYQtUTR1i@bombadil.infradead.org>
+References: <20241121204220.2378181-20-samitolvanen@google.com>
+ <20241121204220.2378181-21-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241123-rust-fix-arraylayout-v1-1-197e64c95bd4@asahilina.net>
- <CANiq72=axLe_WvPohRRpAnmmPOHtwSK1W3e86n7FMF2mao8HUg@mail.gmail.com> <Z0SjvVIALIkOE3nj@boqun-archlinux>
-In-Reply-To: <Z0SjvVIALIkOE3nj@boqun-archlinux>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 25 Nov 2024 17:26:20 +0100
-Message-ID: <CANiq72kCWQW1rjdpG-2pxrDJ_oKuTi3A1wyQcAhRRTpNPvV3kQ@mail.gmail.com>
-Subject: Re: [PATCH] rust: alloc: Fix `ArrayLayout` allocations
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Janne Grunau <j@jannau.net>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241121204220.2378181-21-samitolvanen@google.com>
 
-On Mon, Nov 25, 2024 at 5:20=E2=80=AFPM Boqun Feng <boqun.feng@gmail.com> w=
-rote:
->
-> While we are at it, I think it'll be good to add some example/tests for
-> those functions of ArrayLayout, for example, the below will catch this:
->
-> I will open a good-first-issue.
+On Thu, Nov 21, 2024 at 08:42:22PM +0000, Sami Tolvanen wrote:
+> Add a basic DWARF parser, which uses libdw to traverse the debugging
+> information in an object file and looks for functions and variables.
+> In follow-up patches, this will be expanded to produce symbol versions
+> for CONFIG_MODVERSIONS from DWARF.
+> 
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+> ---
+>  kernel/module/Kconfig                 |   8 ++
+>  scripts/Makefile                      |   1 +
+>  scripts/gendwarfksyms/.gitignore      |   2 +
 
-Indeed, thanks!
+This doesn't add scripts/gendwarfksyms to MAINTAINERS
+but then again   scripts/genksyms/ is not there either
+but it does got to Masahiro.
 
-Cheers,
-Miguel
+Masahiro, should we just add both to KERNEL BUILD and add
+Sami as a Reviewer to help with gendwarfksyms?
+
+  Luis
