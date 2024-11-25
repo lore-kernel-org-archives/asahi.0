@@ -1,173 +1,90 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC8F4A1A
-	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 16:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6EB2AD25
+	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 16:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732551625; cv=none; b=T7CrpTWLULcbuJtqzwvTEQnKHjCRnthutw2vZPdceYCQ92FikYDDPzYlflLaGyfSfSuLDzHgO2Y5PBzbis8joXYsDRSYK9ZZt0IHiQgMAn+FiRFP/EJJsSqMSLywGELaZgWAPPfdiai1q5id00u2DurSqi2ATsaSQrU15DxXuRI=
+	t=1732551995; cv=none; b=pUGpY3S5q27xTId4nux5oeGZzRLu5oz/+eptgmg3iUz3xHbCn1x76I3iyRh8cOu9Y9UcxTMlGs7Y6EuLfB+M1q6PWELZgqTC/nYORWAvpQgQzVvqkqbdbbBsPCeWepPLCK1kGuvqRgLauArLxaXZeXRfw5v09mJHruoiYTZDF4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732551625; c=relaxed/simple;
-	bh=wiJO8EafWrL3t6qlIiyV2F5okSL6L2pFYmTGRurbNkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/e+jGioaxEuSiUzV7fYlGSTwg0VRXr1sz9rEDrFw1RbzACoBaLtsAtzketjIn9hR2CmTEVGMwntpdqXnFhzXORog0e17Z1dlZSOi0zxCKEkFIYbqrBE1MFJNLgEtW91Z41GQ4Trno8AlgD4FvY510WDv5ea9EWM7XxUwo2UuLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k45fQzAo; arc=none smtp.client-ip=209.85.219.49
+	s=arc-20240116; t=1732551995; c=relaxed/simple;
+	bh=l1qWIVwvXjEkCYh8peO0L0gffJPk0BmLlnRXYEB1NGg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qH8//xJXAkkZTmOW+PKMIvqOHjgkKqI+60IMySRb/pi95HQLQ6D3NQhFyaJ7nQfJwsKxrVZQoC8mhyLL4VAgcXOxfqL45KpKWAjy0NbGCmViCG2LRTjF2SHgHmhvPRb/AYnxXoPxZiTkguUAqt3wValiEnPMrqmaRgs001XyJ6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FBaquhIE; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k45fQzAo"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d4241457b7so30264836d6.2
-        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 08:20:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FBaquhIE"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ea4648eb96so825705a91.3
+        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 08:26:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732551622; x=1733156422; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=kGAJxqXAxllg/W2VuJ5ECjZPkQ6tCWdsZghimeCyrgk=;
-        b=k45fQzAodlQF0ny6oU0bg1nfFT7qs67dgNq4GZWZm1k1GlBUy+HITxlpCZLCiriuwg
-         Zor+netV51MqW6hP9fKeeu/WCRgyirwF4OGDAVFWfek+S5aGSA0DqrwORu1oBsRDxYrl
-         LbCtzpoXawri7mCKAoVyCw17sZRhz0w0gkXv0A7GdOy2PjoqSgOOdFDtV1WRMO1L6XMY
-         VvvMuQuWXyIuYd8YDr+EyyFsEt8uaBBiA29lOC8C2X6NWY96FEx95TTecnkjPLOWj4w2
-         ek8QSJA54V/PqvWnm7kwVDpUo/+75eCJKUryaiFhvSD0Pxy0ktEZUcQ4xnpknSZpqdWp
-         kbcg==
+        d=gmail.com; s=20230601; t=1732551994; x=1733156794; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l1qWIVwvXjEkCYh8peO0L0gffJPk0BmLlnRXYEB1NGg=;
+        b=FBaquhIEbMLbdBNcTMbQEXfvMys7pNj8oQbVSogotvs5+YwlKzNRz+bMTQFQ31uE6T
+         lM2Ungd3QC+GNMbHYrhxvjeKBXY61ocUvAnpD35fQfW3+yrRqvn5ahHAu3ItTGcco7u0
+         CUUSMorq5r0ya9PZjT7hr0JzX6I8qhKim5tH6foIUqpALFNQiGSQlObPCWbQj1LPrEKA
+         0pL1CyQKsCYkGpdLM8d/FRz9dOooAWjiXbn0/FiDL8nnNtrmmGPV1ovulF0Rv3TELkTM
+         omhiTW3Yt1XUbBbEEQSjH8pAAJ8bL+0s6/LU14AtIeoL/uaWfJchK4zfa67/ZxCSjfua
+         8Y9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732551622; x=1733156422;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kGAJxqXAxllg/W2VuJ5ECjZPkQ6tCWdsZghimeCyrgk=;
-        b=F4snSRUv2mKcERCVVz+ICu9DD8OTHTs9bYgiruXJuh+WtC6T3inxM9evuW/XrO7N4c
-         StCd/2fYXPATvgySuF4qPAl+pP74dhs0FXPwHToLOqusgzfXo0ZPSRairUtRgkq+hOzv
-         7dXY1C42adscSEoc51/V8N7ue8UEMb1Mk5ubmxe1G+vAjbzTCtbkThduLZd7Ku3MjqMC
-         Aa1p+jwDV6jKRdpp68WavnlZ1UM/Jr3NXwO/DrxkpQn6+BqIiTfWb0982giNfysjGBIf
-         tUfi/xhNl16/jjHOjVfv/fKYKly7YmhlZrStjAXp5h9zbDvjd3oqlZDyauNZJ4+iIR+K
-         2OFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5+xXizWON9I9KurGmtoPGjQ3je0iZRLFY2/AuRnl0xmOqgi72F26TdzRjmlxYJYz1t22/HQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywq4V1BXRDYbM+5ZsyVeBZ234WZtcY7fWDQmFgvISRS7LBOesHP
-	Uq/uvZcftUtR8SNj/WhFmzFpVJjOqyMmzozHvhl5hdTAzl5nglfC
-X-Gm-Gg: ASbGncv26llFPVedu7ZMlVEbHe03pC22Ww0nmn0ELU4rf5T3O49Q2InNnZ8UtC11tLP
-	58zXmUFPa0H4FnzlEt10hUpmeH4mbSjRjBe6yeHXge72f6BaC1Xd+kFwlOtV7519XdaUgJDQse4
-	+6cDCw2GCvPsXCBX05zj0pf8sxacME6BBR9ZIwRW92n9GNYh2FxT7b4Q/utySe5PZMj8jhXF8fs
-	OhqtXcvU5Ej+Bm+kLHStrWE5Ka6GDTTGGhyLhbe6+915GEGInOkaBJ9v26ZSrLAj1hlnGWWqdAp
-	kNnyk7qCoVgT5wAp3mBq99F6g3JlwsBB1oNLIwjd
-X-Google-Smtp-Source: AGHT+IGPkw8t4N9gDzf9lwkJ1qKoELH7ZpcCc2tznTmePFzUIMnxy8viKSeF32UNYG2rISDhl961FA==
-X-Received: by 2002:a05:6214:508e:b0:6d4:287d:b8d6 with SMTP id 6a1803df08f44-6d450e7c2dfmr232620986d6.18.1732551622507;
-        Mon, 25 Nov 2024 08:20:22 -0800 (PST)
-Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d451ab6198sm44259746d6.68.2024.11.25.08.20.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 08:20:22 -0800 (PST)
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 73B0B1200043;
-	Mon, 25 Nov 2024 11:20:21 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 25 Nov 2024 11:20:21 -0500
-X-ME-Sender: <xms:xaNEZ8jgXg6EClOFb0EdNDQapx01hExRBG23E0qN6FB-Q4OLwnz60Q>
-    <xme:xaNEZ1CBr0wBExBiBJNfQN8dAWhalqJDjuHivAJRywRyQ3MfcfhbTvvbeLRDhyDYd
-    C2dcdYwHL81tYuUcw>
-X-ME-Received: <xmr:xaNEZ0FHCOIR1D06brxo3ypPQ_QA28DNBMsYUlJDU0SkzKVZdUNmBnj48qA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrgeehgdekhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
-    ucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrd
-    gtohhmqeenucggtffrrghtthgvrhhnpeevgffhueevkedutefgveduuedujeefledthffg
-    heegkeekiefgudekhffggeelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhi
-    thihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmh
-    grihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepudeipdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopehmihhguhgvlhdrohhjvggurgdrshgrnhguoh
-    hnihhssehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhgrsegrshgrhhhilhhinhgr
-    rdhnvghtpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhgvgidrghgrhihnohhr
-    sehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpd
-    hrtghpthhtohepsghjohhrnhefpghghhesphhrohhtohhnmhgrihhlrdgtohhmpdhrtghp
-    thhtohepsggvnhhnohdrlhhoshhsihhnsehprhhothhonhdrmhgvpdhrtghpthhtoheprg
-    drhhhinhgusghorhhgsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:xaNEZ9QoWgDXfljotMT4iAiewSfrNSieGrP0EnlgO5FoIDwbFlECbQ>
-    <xmx:xaNEZ5yexd6XKa05cooNYWM1L9-1cqCbFoqk6I4iVjbWgUSWlpoKzg>
-    <xmx:xaNEZ75MW2dAI0LQ8f5LH0eitJbQxgJ2lsixwBzEIDGjsC35SOtYEg>
-    <xmx:xaNEZ2zyl_4NzGbdw7vyeRju93LVm-ecnRhjqfTMPI8zPtLwioSiCQ>
-    <xmx:xaNEZ9gMwBYCS9jL5CZJPQhQ9fhU6-GhOIK2una9n93U4Djii5DR6H9Y>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Nov 2024 11:20:20 -0500 (EST)
-Date: Mon, 25 Nov 2024 08:20:13 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Janne Grunau <j@jannau.net>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH] rust: alloc: Fix `ArrayLayout` allocations
-Message-ID: <Z0SjvVIALIkOE3nj@boqun-archlinux>
-References: <20241123-rust-fix-arraylayout-v1-1-197e64c95bd4@asahilina.net>
- <CANiq72=axLe_WvPohRRpAnmmPOHtwSK1W3e86n7FMF2mao8HUg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1732551994; x=1733156794;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l1qWIVwvXjEkCYh8peO0L0gffJPk0BmLlnRXYEB1NGg=;
+        b=tbhIOMOZeAIcZi/3kDB2FN/r/JGbu8RsmDuDkXuVUKnEZAfs5N//z+PGbeyCdVA/kf
+         l5LZsS92E2vyb60vsjiYpOtWtVNhWDdh6mSMJL4tFk7GbWL77jjFiAQi6+a3s6yp7hsa
+         gY3kvQgRa1eoq/b4NdAuu1qB8hzKGBooIP38TC2VvP3QPMprkByDmfGIVGlThMzqhzQ8
+         LP/LC8kxT0rYvKVDyUW2fQ2R2BDPxoHEGQa2+kbvHyzGp9Gh3USAG1CsZeaDeWbUFWEX
+         qf61xVuwW3rc8aUwF79yTeSS0XvL4P8jfJsrpGcfd2GmYBIlnfONA9lPwzS/PoXN1ry+
+         Qlkw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8rhoMSr3X2rFh14QXSaKfPTv9OAkGX+HeU0RpSvMwnjR8LDpcLUvD/MbIrI6Sch6dA/uB9g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJZcbWMXl7Srt/drNN24HaVrUyvnG0NRBH2ZGcGwEq7lK0PvFY
+	9zMLW0ZQIUZP1sA8SkGMfBOWUVsMT1Z+vFlVO+1mkovz2jSbP3rGD6Xl7ixVRuGo/2kbAiywAF7
+	3ClToKUA5yoC0F02hH/gNc0HemiU=
+X-Gm-Gg: ASbGncuexseU2bhMjawL6snmVOrzw1MSk2JG2g+BeLoSqEDIyE6gHMzBpyF/i9r6M0V
+	Oo48aqsU9Kk6l2AwxdTiOkEMfTqnGQ7I=
+X-Google-Smtp-Source: AGHT+IF+8fEQeszb1CA+TJE0pUpQ7FhynpOE1PM0+96KcWBP3IR2nn1UVp0S0hnjEA6WnDs/Au1QOKwMAvSC3gQFWPI=
+X-Received: by 2002:a17:90b:2249:b0:2ea:c768:3c52 with SMTP id
+ 98e67ed59e1d1-2ede7e68c98mr345414a91.7.1732551993870; Mon, 25 Nov 2024
+ 08:26:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=axLe_WvPohRRpAnmmPOHtwSK1W3e86n7FMF2mao8HUg@mail.gmail.com>
+References: <20241123-rust-fix-arraylayout-v1-1-197e64c95bd4@asahilina.net>
+ <CANiq72=axLe_WvPohRRpAnmmPOHtwSK1W3e86n7FMF2mao8HUg@mail.gmail.com> <Z0SjvVIALIkOE3nj@boqun-archlinux>
+In-Reply-To: <Z0SjvVIALIkOE3nj@boqun-archlinux>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 25 Nov 2024 17:26:20 +0100
+Message-ID: <CANiq72kCWQW1rjdpG-2pxrDJ_oKuTi3A1wyQcAhRRTpNPvV3kQ@mail.gmail.com>
+Subject: Re: [PATCH] rust: alloc: Fix `ArrayLayout` allocations
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Janne Grunau <j@jannau.net>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 23, 2024 at 06:39:23PM +0100, Miguel Ojeda wrote:
-> On Sat, Nov 23, 2024 at 11:30 AM Asahi Lina <lina@asahilina.net> wrote:
-> >
-> > We were accidentally allocating a layout for the *square* of the object
-> > size due to a variable shadowing mishap.
-> 
-> Good catch, thanks! (Square?)
-> 
+On Mon, Nov 25, 2024 at 5:20=E2=80=AFPM Boqun Feng <boqun.feng@gmail.com> w=
+rote:
+>
+> While we are at it, I think it'll be good to add some example/tests for
+> those functions of ArrayLayout, for example, the below will catch this:
+>
+> I will open a good-first-issue.
 
-While we are at it, I think it'll be good to add some example/tests for
-those functions of ArrayLayout, for example, the below will catch this:
+Indeed, thanks!
 
-I will open a good-first-issue.
-
-Regards,
-Boqun
-
------------------------->8
-diff --git a/rust/kernel/alloc/layout.rs b/rust/kernel/alloc/layout.rs
-index 7e0c2f46157b..bb3ce3b2218b 100644
---- a/rust/kernel/alloc/layout.rs
-+++ b/rust/kernel/alloc/layout.rs
-@@ -7,6 +7,7 @@
- use core::{alloc::Layout, marker::PhantomData};
- 
- /// Error when constructing an [`ArrayLayout`].
-+#[derive(Debug)]
- pub struct LayoutError;
- 
- /// A layout for an array `[T; n]`.
-@@ -43,6 +44,20 @@ pub const fn empty() -> Self {
-     /// # Errors
-     ///
-     /// When `len * size_of::<T>()` overflows or when `len * size_of::<T>() > isize::MAX`.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```rust
-+    /// use kernel::alloc::layout::ArrayLayout;
-+    ///
-+    /// // No overflow.
-+    /// let layout = ArrayLayout::<i32>::new(12);
-+    /// assert_eq!(layout.expect("sizeof(i32) * 12 is 48, not overflow").len(), 12);
-+    ///
-+    /// // Overflow, should return `Err`.
-+    /// let layout = ArrayLayout::<i32>::new(isize::MAX as usize);
-+    /// assert!(layout.is_err());
-+    /// ```
-     pub const fn new(len: usize) -> Result<Self, LayoutError> {
-         match len.checked_mul(core::mem::size_of::<T>()) {
-             Some(len) if len <= ISIZE_MAX => {
+Cheers,
+Miguel
