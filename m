@@ -1,125 +1,161 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D82D1E502
-	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 15:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775E81E502
+	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 15:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732548897; cv=none; b=eIf7Hx6Vg12HlaKd0kcPqemVAh99TP5jn8fcsmrbXUOdb162AHgCv3gUcipPQfHL02vxv1NvNwU5YQ9U8uAojVod5DX0gJhnddzOC1K2JLQbTze6+uHE1Zy0ADx8N05dssyWnCCzSA1PvmQiIeCwJo9OteLgbMEeS1TBkk3Q5B4=
+	t=1732549060; cv=none; b=iPLTkbh23yBacnM+MdMFX2LSF2FsGyYoaodSPwzKzkS2Ii+1qq6ncRdYoUeUTd0sFnwUGre/g1cbTOHv3wF47whcjb78aJ1hQqhscvTkU9Hp2I8UJkbS2189WWpnYAxKOiWtI3CIIFVOMHbaDNBF3mBhavas1gUYxj3AE0TurYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732548897; c=relaxed/simple;
-	bh=rEFJdZSwH2wd+21uchAY2/iTR59ZVMr1M18odRCoI1Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B71MX8/6m4HYYFs+7DkzbsaJdNhHliOMyl+miYVolE7+2/b46E3LNUKg3eHlGKXcOtmnswH7A/hrhFK8m6NbXda2sMS628JxPWDLXFTGCDaM7tiKKm0TABnUUjziQMZrWTsF/jeWz5tvUWAs4Z5OcWSnCtm8To2v5oaEHJMMzvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TF6ReRGS; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1732549060; c=relaxed/simple;
+	bh=G9neb+XkH6gOH+GosPEzMre6WvIqpGwyQ7NQSc5QvYU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=VPJ5KzZwA4q9H8Le71twDS2r4HTtldmMasixLuCdHVLdZfCoAoN/SF/qdLGGnhxpExmCyW9KFc1yrbdulz+WjGG7567sXcQ6uwo9LtMfIpaOwiPEvYoPW2Vl1fT3vktnjpbLNxTVdq/UYkNj8WO4OVdhc9mIPOn9ULLBG3wa67Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EHbarfrj; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TF6ReRGS"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d027dc53ccso12781a12.1
-        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 07:34:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EHbarfrj"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53dd9e853ccso2573505e87.1
+        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 07:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732548894; x=1733153694; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rEFJdZSwH2wd+21uchAY2/iTR59ZVMr1M18odRCoI1Q=;
-        b=TF6ReRGSfq1DAqjn7Bp4H6UE+f6a5PNe1P+6RkMKjTkd2MBZS55PFcCcNdfJJhK7Fn
-         GGCiBxJSgRJRptIxM19ytvCagmGHh72yChyKmNPXoo359dEwLi4dvzO9GWqqRmyIG9ZQ
-         4F5Av5SVA53kkDuN/Rg2jD871N7nwyG4y4voiDYSg3ELgybCUGdMVuel4WcnKoN0MkBV
-         6vkY/1oNqoSjVDuUDdV1afVWtf+s0ePKTn+kUg7w/to3qAbDiAwkp2sSN7EzG4OWl5em
-         Ne5NLEVdEReRGX2K7mql3B2sHg3Nl9NNREmKVm2Jjxzan4zkTReG6cSBxZyTFvGm8vHR
-         Y0zg==
+        d=linaro.org; s=google; t=1732549056; x=1733153856; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3Hg71u/nSxxdt/8mQpbUuh2Vaj/SF/MUnmwqWlHQVd0=;
+        b=EHbarfrjtirKz2m5RD6usd7dtRcAP9xNJA6pIGaiKKy8R3jsnKyOnSGA7KZiBNW8Dk
+         zcok2P7rIs59znIhQFBBCdcJJAhCP51c8zAj4ij8bx3PooVq/s5PYu3yzpyDYKbzjgWx
+         Cpp7zYfHSV5KSRlB2Salte/0tQSFHxAlP8FlMW7SnnwSLsxV8AWSeLCYHRahLjLB80js
+         3iWg1buaM/82uPAjPM0UukkVW1NaEajNHpw5fJpoJLSAc6STxho7CbwYzgbazpnwyN4m
+         xz2d6t2e0FiomSv7KoS0TTCzOQxTdJifM373pH+1vC1tP9OtauiNKPHTP+V8h7EzyR84
+         aNJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732548894; x=1733153694;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rEFJdZSwH2wd+21uchAY2/iTR59ZVMr1M18odRCoI1Q=;
-        b=i/r3EPrPuSJRFRveiOeyPKjF/ETKSU9BbP4yiFLhQi+UETHTx2vhMICJfEMfHABsK3
-         bH36UjWrnNLkoxpxbZLDfEbmEdFXmEs/YYYMptB50Haav6UfJtswC9LzJOCNgOzVi7/R
-         ddFJ1MI35ZdTu1jhJ5QhL6553FkNbUXSDPNPELntDHCi4Q5ml31JsA770iM8tiA69/cg
-         WUP/wuf812AgMz4Z0fsogmB+SuxJ6asJUeuqcPWbcTeoFW6518JO4kg7BhNSfeS+06Md
-         MptkW2CnsESaNMiFow0BrPJNu9fsxCpg521XLz1ICNXZPBOn87K3n8d6SJOfNwYu1Kfu
-         1OqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXikPqrT1S476OX8cISp7kjzP1EUi2JMteNHd5q38koT9kwenkzy2y1tW7cG4Is/8/BpgMKJw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzsYjcCp6ohRW5BiYLvXbhl/De8vW+j8KvSLmEzCCDYPjsH051V
-	khJYqcP6YcR3KIKJ8115ui0tONu15oc/CrYAtwRIpbYFm2hp7JCAhSW+iNkyVF50jHrZYSVeyHR
-	gLfUjeuHdnb9hhqti1PBuvM7v5Uyvl4MImlwA
-X-Gm-Gg: ASbGncuuV1jLqXfRe2p5ZnTBWaWJEfjDnUBJZoazcoyQxdSkB+AoISGdIrpZ/wjxeyg
-	EBNrspBtA9nck453ejqgg+rnjbAyi+/Pc
-X-Google-Smtp-Source: AGHT+IE62Erf6kbiue7Q5RpwnMVj1FvBBMrksPcQ0CAHn5mGwDMlww3cSZdxQ5Drpgle+KMsT0aQiif1LekyY7uoXNo=
-X-Received: by 2002:aa7:c504:0:b0:5d0:3dcc:16bb with SMTP id
- 4fb4d7f45d1cf-5d03dcc1934mr98711a12.4.1732548893632; Mon, 25 Nov 2024
- 07:34:53 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732549056; x=1733153856;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3Hg71u/nSxxdt/8mQpbUuh2Vaj/SF/MUnmwqWlHQVd0=;
+        b=jmfULS1m2KAKjoh1e1lCsg2A71l67NswIgkDRouSPQ7+rtcNNbqcXyIjltD2dPS+dz
+         8uZACSZRYaJxL8P5wMA4oqrEdxSwbOOQz2JoarFxOwkgWqYwjy6X1H6UJKjqm30Hkp9Z
+         SFj36oigcqFq9j3VlTHO/hznWsTZvfiYUnxjFP0e4WZRs+6GGH7iw6FURizJcZ8T/9Kw
+         iav4F9QFOohl3ZVYjFU6v8UANCItcGS/7viiU1fHWQPYeJkDwU6ILvEtc+V9Sa3jdnzr
+         Nd7LceOJrtGBq//T0tistJpKA9fRZ/+q2JJevQHFOoziy85+Xlr8LmKH+PeIFgkFNut4
+         k7rg==
+X-Forwarded-Encrypted: i=1; AJvYcCW402Oi1PHUTbxrwPkXBuAbDYal3ldpEMqum9LIiCGmFPYYppIBMTaLCf8oozBn9cCs3FPKhg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwP1Dkx/9zD0bljHHwDk6IndemcVwozauxhbPYlzXk0lQ6A21k
+	TgUjIbu2xU/pTezLyPGs93/bO/9pLJPAko3bKaWb9kcDAZ+FuSQ0X4Uvmt2k1nU=
+X-Gm-Gg: ASbGncsa5V7VzSbqywCZsK8nQjkTjy4GxeJy7mOcoUoU1NpE+VhRw2KC+KhhC0nR4Vg
+	fC36CcTAPRLIGwrXpRO1mEu80W6KUXVXrjlzldKAGiIGM18Ya6UA4X1aFYUGsPnnu18OFo9ANp+
+	jOynSPG0lmCLrL/wHcgKQl6iYPYCr3wP6XLOVXNcDqqiyiQIWYpN2uuUv1Km6f2HnVFHiYr0NnL
+	0oomzMTX8Qz/lE/fvRZ+frLMTsJ+LEBh5Z8iEyIVXRHrCR3XoX3+0lZn1WdQdmsPxdx44OYoxc6
+	4mOu9Z3g45ydKPMUfFVWh0qSDTc=
+X-Google-Smtp-Source: AGHT+IHmC/h4cTUnON85E6sO/QnQqtWoSOkY3lw5hIYTrZwaGeM/PrXuqTSpTpCW43QaBSIa3xvw0g==
+X-Received: by 2002:a05:6512:1247:b0:53d:a9a4:7567 with SMTP id 2adb3069b0e04-53dd39b4f71mr6398723e87.48.1732549056577;
+        Mon, 25 Nov 2024 07:37:36 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:9dc0:6c46:415c:5f8b? ([2a01:e0a:982:cbb0:9dc0:6c46:415c:5f8b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349ca82957sm66277205e9.33.2024.11.25.07.37.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Nov 2024 07:37:36 -0800 (PST)
+Message-ID: <48f3bb08-a591-401c-bc0c-6af0506a1b1f@linaro.org>
+Date: Mon, 25 Nov 2024 16:37:35 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <CAEg-Je-h4NitWb2ErFGCOqt0KQfXuyKWLhpnNHCdRzZdxi018Q@mail.gmail.com> <CANiq72m4fea15Z0fFZauz8N2madkBJ0G7Dc094OwoajnXmROOA@mail.gmail.com>
-In-Reply-To: <CANiq72m4fea15Z0fFZauz8N2madkBJ0G7Dc094OwoajnXmROOA@mail.gmail.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Mon, 25 Nov 2024 17:34:17 +0200
-Message-ID: <CABCJKudozEhZXLZVxVixsO5YuZg0nOEmgo3=vMyhcrEw+6Xo5w@mail.gmail.com>
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Neal Gompa <neal@gompa.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	"Darrick J. Wong" <djwong@kernel.org>, Donald Zickus <dzickus@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH 2/5] gpu: drm: adp: Add Apple Display Pipe driver
+To: Hector Martin <marcan@marcan.st>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
+References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
+ <20241124-adpdrm-v1-2-3191d8e6e49a@gmail.com>
+ <10d0aa88-de2e-4856-a137-301519e58b2d@linaro.org>
+ <CAMT+MTRWZWj=3AP7wyooXr49-W4vcm0ZbAoqPyEuNkQBMOaJfw@mail.gmail.com>
+ <cc71021e-b53d-4eda-bad8-abb4df13575f@marcan.st>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <cc71021e-b53d-4eda-bad8-abb4df13575f@marcan.st>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 25, 2024 at 4:41=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Mon, Nov 25, 2024 at 2:29=E2=80=AFPM Neal Gompa <neal@gompa.dev> wrote=
-:
-> >
-> > As my Acked-by was removed, I'm sorry to say that there is no point
-> > for me to provide feedback since it is unwanted.
-> >
-> > I hope it lands soon, but I also hope the people here who decided that
-> > a person's efforts aren't worth recording because they don't
-> > personally know them should reflect on this too. It's a good way to
-> > keep people from coming into the community for the long term.
->
-> Hopefully this reply helps -- apologies to anyone if I am overstepping.
->
-> On one side, it is true that Acked-by is typically used by people that
-> is responsible for the code one way or another, because the tag is
-> meant for them to acknowledge they are OK with the change going in,
-> and so I can see the argument that restricting it for that purpose
-> only may help avoid confusion later on reading the log.
->
-> On the other hand, someone being willing to put their name on a patch
-> is very valuable, whoever they are, and whatever the tag name is.
-> Moreover, it is also true that, Acked-by may be used here in a "as a
-> key user downstream, this looks reasonable and satisfies our needs"
-> sense.
->
-> Finally, sometimes new tags are invented on the fly because there is
-> no good fit, too.
->
-> Either way, I don't think anyone wanted to disregard your efforts or
-> to be rude to you in particular, but rather wanted to keep tags usage
-> aligned to how they view them or how they use them in their subsystem.
-> The Tested-by was still wanted, so I doubt their goal was to remove
-> you from the log or to make you feel unwelcomed.
+Hi Hector,
 
-Thank you for putting this more eloquently than I could, Miguel. Neal,
-I do appreciate your feedback, and I'm sorry if I didn't make it clear
-enough in my previous emails. I would very much welcome your
-Tested-by, or another suitable tag that's acceptable to both you and
-Masahiro.
+On 25/11/2024 15:24, Hector Martin wrote:
+> 
+> 
+> On 2024/11/25 20:24, Sasha Finkelstein wrote:
+>> On Mon, 25 Nov 2024 at 09:50, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+>>>
+>>> So this controller only supports a single mode ???????
+>>>
+>> Most likely. On all devices it is connected to a single built-in display.
+> 
+> More specifically, the controller obviously supports multiple modes but
+> it is pre-initialized by the bootloader for the single hardwired
+> display's only mode. So as far as the driver is concerned, there is a
+> single possible mode, and there's no point in trying to be more generic
+> if there is no hardware that would use that.
 
-Sami
+I totally got the point, I just asked to slightly change the design to fit
+the overall DRM/DSI/Panel architecture.
+
+> 
+> In general, it is not possible/practical to be generic for reverse
+> engineered hardware with no specs documenting how to drive it
+> generically. You just can't know how to implement the options that are
+> never used in practice. I spent a lot of time on exceptions to this rule
+> for the GPIO and SPI controllers, and that's not going to happen for
+> more complex hardware like MIPI DSI.
+
+I'm fine with the overall actual design since it's a special usecase
+for a special display present on only a few SKUs.
+
+Nevertheless, as Maxime expressed, you should still try to fit nicely
+on the abstractions, or change the abstractions.
+
+Neil
+
+> 
+> - Hector
+> 
+
