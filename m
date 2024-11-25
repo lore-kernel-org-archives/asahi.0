@@ -1,119 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14D882877
-	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 09:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B03418B476
+	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 09:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732525511; cv=none; b=rzeCLAE8OeBgXTIC5WGVqZ/HhApgnzfWkiu1hPy7Zp6v4f+UGCs2Dx6GcRv8XdGWwea2Z4SNzy+fv970SKsGIO/JarDy12Il2Fw3pL9b3Xz02NVOU944OBuryc4WVaAdjh2v30/TUjy6fi/jhW7zhpraVlw4LDmJteuzod7viDI=
+	t=1732526527; cv=none; b=MyArad5HahRxtm9jO/i71G8U6tzy1Ez1vFI41DMRCnueH23k6BLo6k7AC1fee/V4J3Gc7nQKgYguqV0/02MDkkGrh9TsU92sOeOrn31qfwjbFwQ2WXJgF9S+P/WKxGOgq43cE2f6nBmlAhM/5R/jMDEhG6E9nJOY22jK3Go4lzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732525511; c=relaxed/simple;
-	bh=1HEwJ06OdfnNR7EruhIW+OMlB4IJ53R9E6nB3+JJJdI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AHd54w2b/ZvwUqjtUmXgBZae58xvSUYety8IEz9lYZ/Tb0DA0n35roo1lmnVBUmKTCXb1HF92OE41MZ9Rvgv30pLJUQLj+acyEanCETaNB2FtolZ1L+H03dnJeRWiRsh/xQFhGnssLJMTNIriu9HsOB7Y7Ez9cW7tD2hs8cQycw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DWcKaA79; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732526527; c=relaxed/simple;
+	bh=FCYlpekwLX29y1babPtkl5hhwfzqAWLF9A3oe2+5id0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NlZlykeWxF14QFBIRpqoePFimmE0i6gNBEhuANHwuMGF10v7Bxb2VAUVktxfg0+GA50YmxSzWJQNtuzLk0tDwffNJXVEYP9M4atr8GWAsCu9IDrRXKdWvNR5S9woIEipYi+rH4HUyONY6lnSGEsJ4kGNHX/Sh42Xc/kkLR0n9Ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BqOXoee4; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DWcKaA79"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732525510; x=1764061510;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=1HEwJ06OdfnNR7EruhIW+OMlB4IJ53R9E6nB3+JJJdI=;
-  b=DWcKaA79Prfj2sB5WBoyVWXhoTbYXvmakQSdePBamx4vg1teNr/nIwEY
-   HeSOralMrgRzwsL0eL88hruHP7BJwB5yDejuMOvuzDnGuJANFcR07j5cm
-   zimqL/rUGafdjyfj8Lba7OJWIfERPA7geK8ocFkoHRDXfSNKK/lUwW23b
-   6BFQLYyOCpH1pODlMhjG4OFATQ2fS31nNOWXomoyj+mpWou6WbA7wXk11
-   6NwgVj2mrdL1ufPreYWmr/yI+Nd6R9F/kNXUBtUrgpkvgUzeXPoKaeHoB
-   kTYTu5sX59LKdsSDAhHKYYRzt+nJ1SwI5U/iOd6WMVcEl0ZY8xa5gtwNg
-   g==;
-X-CSE-ConnectionGUID: O28JB8XWThm4Klhi37IEoA==
-X-CSE-MsgGUID: oKxsZOkKS12IlysnPqzWRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="36400626"
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="36400626"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 01:05:09 -0800
-X-CSE-ConnectionGUID: R1kbqonqR++M9M/J5KxKdg==
-X-CSE-MsgGUID: iccNDivmR82kc2bbOfKeJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="122049485"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.243])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 01:05:03 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sasha Finkelstein via B4 Relay
- <devnull+fnkl.kernel.gmail.com@kernel.org>, Hector Martin
- <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Sasha
- Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH 2/5] gpu: drm: adp: Add Apple Display Pipe driver
-In-Reply-To: <20241124-adpdrm-v1-2-3191d8e6e49a@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-2-3191d8e6e49a@gmail.com>
-Date: Mon, 25 Nov 2024 11:04:59 +0200
-Message-ID: <8734jfznt0.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BqOXoee4"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5cfc264b8b6so8221a12.0
+        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 01:22:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732526524; x=1733131324; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FCYlpekwLX29y1babPtkl5hhwfzqAWLF9A3oe2+5id0=;
+        b=BqOXoee4sLWJ0RlwTba3WZOALs8DNAlD7+osMlpBH4xkqmT3rL7skuufW6nnlhh0o1
+         yKI5MS88zH5Zs22bhZoz3Q5tV3RJMD6ebLXI6JKteJYbrwgOubyTLm++orXDcTU4pYgg
+         B9/+W2GXoVCsBwgUyX5YwlzZjuz55znuZhmNyg9ffl3266weRt7nbMODcDba3J807Lns
+         BVglclwKmOlRn9Jr4qEKYZMoA9KMTbKUmCoFc7KDnqOIIeS/xRhifACR+MIjIGKjzthn
+         GBL7yCUdQ8kv0iXNLgtfraLS1hZBmR2W3XRil4RKTS37jpOK0W+qiX2GSmt9RODuxBW/
+         jFEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732526524; x=1733131324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FCYlpekwLX29y1babPtkl5hhwfzqAWLF9A3oe2+5id0=;
+        b=q2BienRnXiWoqAKBvnlQZMFi2xvlb58HlEcDbG/1f/WuzwEoQxrKO+MpoUlyVBN4Dl
+         S2n0wMx/Vm5+uiZ8i4tiQDxfhxrJhci6JQLK3RHQI7eJF8g4pqxCMOpWp5BFwwC3Pm+C
+         wYJBbcyBjWQrg/GZ/+w5a9/KArufYSP8ZbGlNzOkZ5txZ4ADZCVoM4xoscw+22C+q+RW
+         LqDRhUMi1d9t6t4x3y6aXKNI/boLdNcRrLacQc+Uo1odR5McW7mkxle+EzMzb7mncb+d
+         6RPJZrF3i1KSpMBhyYtwhtRlCc3ydv0QrlcnuKIDI351aep4o5Y3LhGxRl6RDrMB3gS/
+         MDUw==
+X-Forwarded-Encrypted: i=1; AJvYcCXqU2cAVSTgnzI6ZB1Y7Vwlnn6e3oo6eTDqmLlv5uNupr/WoBB1YnzmrIhECccXklSo24RGzw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWK3J8TKeFBBUUKoD8bXjEPRHUZ89/o2Ra5BqnvLF5omoo4naz
+	VfDZQY0u4UVwxuDrerMsW+kBvebzFOtwDKuRKp7+U8N3llA2m4gwLujjY5tEZusPvnRHy5/ulq5
+	SKtakeQ0lXWEMdzgwZxueTTqvcX5CsycCV42s
+X-Gm-Gg: ASbGncvebgIz+E+nluCKsnAnsNEI/JsXaPjpafoXJL8p4ntTSMfiW4q/WNQqviL7l1z
+	p4I8PFlpiNXaQyM1el/InEeyC+Wl3ib6E
+X-Google-Smtp-Source: AGHT+IEyjVc+w4xYMWK45ReBVdh5zSSYk8/svaq/gH5CeUai6F225gz3gVyn1zbIlnkBPYmtw02u4vkN3IF6RImReBs=
+X-Received: by 2002:a05:6402:1ca2:b0:5d0:3807:bcbd with SMTP id
+ 4fb4d7f45d1cf-5d03807bf0amr89021a12.6.1732526523672; Mon, 25 Nov 2024
+ 01:22:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20241121204220.2378181-20-samitolvanen@google.com> <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com>
+In-Reply-To: <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Mon, 25 Nov 2024 11:21:26 +0200
+Message-ID: <CABCJKufb7SLY3j7EqRwFkNbrp22moJ51rDJm8madpUQdOhV9kQ@mail.gmail.com>
+Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
+To: sedat.dilek@gmail.com
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 24 Nov 2024, Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org> wrote:
-> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..36510194e18161ef6514885c764b2e7085c587e5
-> --- /dev/null
-> +++ b/drivers/gpu/drm/adp/adp_drv.c
-> @@ -0,0 +1,814 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/anon_inodes.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/file.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/types.h>
-> +
-> +#include <asm/current.h>
-> +
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_damage_helper.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_edid.h>
-> +#include <drm/drm_fb_dma_helper.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_framebuffer.h>
-> +#include <drm/drm_gem_atomic_helper.h>
-> +#include <drm/drm_gem_dma_helper.h>
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +#include <drm/drm_vblank.h>
+Hi Sedat,
 
-Please only include what you use.
+On Fri, Nov 22, 2024 at 3:51=E2=80=AFAM Sedat Dilek <sedat.dilek@gmail.com>=
+ wrote:
+>
+> Thanks for the update, Sami.
+>
+> What are your plans to get this upstream?
 
-BR,
-Jani.
+Once everything has been reviewed, I'm suspect it would be up to
+Masahiro to decide if he wants to pick this up.
 
+> Is Linux 6.13 the new development base?
+>
+> Personally, I would like to see a Linux v6.12 LTS version offered.
 
--- 
-Jani Nikula, Intel
+This version is based on linux-kbuild/for-next, which at the time was
+based on 6.12-rc6, I think. It should apply cleanly to 6.12.
+
+> LTO is not supported - might be worth mentioning this in the
+> documentation patch with some explanations?
+
+Sure, it's probably worthwhile to add a note.
+
+Sami
