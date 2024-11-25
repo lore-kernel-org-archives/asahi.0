@@ -1,63 +1,66 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650E218A6C4
-	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 08:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6AC17AE1D
+	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 08:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732524215; cv=none; b=mWUfwmzHIyT1hrEPpKDqBiXUm8FFHXF38KRlvol60N2lhcUNYfx0TeGmuYrLFuNqvp7fl8idrCOlhx2Y7XPbGJtt6CWKvnmCPb5aM5B3usAwrXaOZ1ShkzgRpUBuz6SqJYtFdJFLCJE+kkemLX2DQ8FE1pqyxd9ooAQQ/iFycHM=
+	t=1732524312; cv=none; b=dte3ZlSmgxYUbi6Gtv3Vt+4+aWzbMZNzS+VNCswIAZKww7HU/Gsj0KIcQZ9HybXga3NR7HS18ynQdHCmLfRkZgYHwdjwxMhOO0Z90KtwBwJOuHBky2nPJx2lnBOBnRYatiWjh3zoTFZYWtb5paXnidUp9Dr328jLqnHLsoQdHY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732524215; c=relaxed/simple;
-	bh=AsbyBTK9GRr6ucLVmXwxS+szhGmlI1Yq48V5IFbo/Dg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LuXs+ByYpyEfmz8I3qEy+E+ZyC3VQFWMDbsk9MYH81TS8ZbQ5R8HSHqBmhGD+dQvVxx9bPrZa0s/yDvYLISsLi6yTfsquR0NdEN0+gsHnD0kSjdpj8m9j/aRPcIbrIpuMDUhQf52y3B9ou6IsYZEgRGwT5/5VmixjakEgzRKri0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hgtIGAEp; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732524312; c=relaxed/simple;
+	bh=pdoF1bJIxWzA7EiXkU3sjqlhShv/0u+F5JoQOJYzzOc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=FJnDLsS2jANRzDc1SRM+PGA4b12a1MVIy/r5pPgQajE0m97Uw6Y42JYfEcJz7TZWoWgx6x80yUM1SD3bucGjuYumvJ2VnFUy2VqC2y7vSvKgDdUVFx4MCTBoznh1Peni2EKhMMIdv2/fmyz/1hXhgX/xiSsAsrbJlPvX6hi3kPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I7qq1fui; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hgtIGAEp"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7fc2dbee20fso541133a12.3
-        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 00:43:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I7qq1fui"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4349e4e252dso7721375e9.0
+        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 00:45:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732524214; x=1733129014; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pI8BQQ/T5SVzIWF61zZavJ6P7DIvRK0aGvjhr4khLmI=;
-        b=hgtIGAEp3fre+3SD/3WeKytiaoSgljEoJlns59UqlJHPOQKixSVa/Pw3xGGrSXf6mn
-         YuAjLzKgZWWrwxjDLc/SKIcil0GJzpBuhwZoqLCqqvB8+1BM35QzuKcYCMv5OTI4YLjT
-         XWkvwZqkHnNHii7C4N/A3Sq3ncC73At5gVrsfDQDWvP9+dkrdZeLGTNxEI70YfQlIjKR
-         lfqN/0E3LDAQBvbB5wU1Yi2bOVJx7iJpkjiNm8NVZLYrMfE+MULMSuMhDbJj1caH3p2P
-         Buc6uUGkhvfBlcTKpuR23COChszVZfhLqd+OQykuAu6IAscXEBhIcC/WGUu4i8uB3+0/
-         vOVQ==
+        d=linaro.org; s=google; t=1732524309; x=1733129109; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+XGB9+sw6OIOChWIiAo8iO+Vdi73C9rgZ6nQSylkr0c=;
+        b=I7qq1fuiMzelN/K3Rliuz9Tn1jZLmkkLXVcvtNMok/EChuwQjDzoZKFbzQ9F/UWT9F
+         xiEWY8qvysuCE1mv9SAoGwyGl46XtdYfUl3V1+uPRXmIKPpqvGzecqt3xNxo0luSc6JF
+         Dw7/kHQIV1qVrIaop3pExgR7fiBep1pxqAB7Jo1gcgxiK0yF637NC3kWhwyHVUpxifyl
+         Jx6z+YRNHrbE9ca2jxyCOSr4icFTaaedbfjIM6SgmGI6kfDnuPlt7G3a+XPJJKz7MTh5
+         qWpspeDWOAAMmX/8pfkmtkCq2EDA3RRN71HwtW1TF05JZm/ZqD8dsmRmAIlr14QA9Bp5
+         8UbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732524214; x=1733129014;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pI8BQQ/T5SVzIWF61zZavJ6P7DIvRK0aGvjhr4khLmI=;
-        b=HDTxB+PL2HJ5BBQCz/LE+73xPKswrLGPZX0jH6Y9nuqOpzq+WrrNOmMbchd6E4YYJe
-         Amg8KuEIuXWcIAedq8VgLIib8oaV5zRfIJaAFvHRPu++hTjzeO5uMD8sDENJz1z8OOCN
-         8GNjEE4f722JEVmKAIX8CyOzkO4ftfTzBNY4jjP0d4WN1Q3/tfJYtmOsmymrRFunmayk
-         q6VgrodCB5tluCOOpcxZ/14HarYefXPXTWlv321bT0oFkvbY14yXBfMlN+FiC17d55Nr
-         Y2u9SmZIu6g8kU+hEo5G1St6vYxz7OJ2/bnulMtphmxYENAlUkYxDyzm8Vm/wF23R0Ww
-         YgTA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQaybJ7Jm3nDpxuoJFR5b3nHhU7NGMWAR7sPYtGj+qMyqjMZsTPIznkcEFgyLT7GKt/J9LbQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFHiCad69/KEpJnRVW4sFOW2CnCq7ePToblmAC8Q1WcDBaK/bL
-	iW9IKmzV0uoZtiEyYG9mTQzR88Vh8wOvHmR/LxviglF8BLeKZmNG
-X-Gm-Gg: ASbGncuUE7K88ZJ1Kp2eHb8Rsq5AiC8cUPPHR3+3mrje0wSOU0nUiMK3HLBs2PE6G2l
-	8MvH8MqStIZAOVqQlc9ZBHSg3fepZ8VWMGEFaLxVJpR0FLPZFkp2YUoYSqXFFqWDzZp6m/MA8/Q
-	oVz2kAc74roKucTaqR2z0x/lsZjZCAMgO5tjWqOEjJTktdysuxq8WVUDEVcIkP91G33IdeOBgON
-	JGlodUl8uMj6Rdi4CPQL5yieX4vcgQ1E/WalaqiloFo5WaAMuktTzk5kZI6rCQMqdJK
-X-Google-Smtp-Source: AGHT+IGhgxcXQ0ft9/Za4vorVCq/dkomo2GMsbGwiP5RlHt6aZtAoqt6aKppLpP3grbtnbLAwPJzMA==
-X-Received: by 2002:a05:6a21:7881:b0:1e0:c92a:c838 with SMTP id adf61e73a8af0-1e0c92ac9e8mr5471906637.35.1732524213648;
-        Mon, 25 Nov 2024 00:43:33 -0800 (PST)
-Received: from [192.168.0.115] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129db9fdd5sm59524145ad.58.2024.11.25.00.43.29
+        d=1e100.net; s=20230601; t=1732524309; x=1733129109;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+XGB9+sw6OIOChWIiAo8iO+Vdi73C9rgZ6nQSylkr0c=;
+        b=heO4JIm+1tUgGckZltL9mR9ffMzGNrguH2zSjLdUW5115HvNM6nh/AH+sToD2M70wY
+         EBa6NpNyazVtA/4D+LikK7G8eh8j9WPxPl0sFBAZ9FbF/IgXBO+IU2yxOSsTqkpxRm2I
+         D/5DQCmVlEueWTVGf3RrWS1rJraRsNdCBH8P56zW4NTZp8NJ5KNItoPU1WgAPdedQFQk
+         BQX5dmIknczmOHEajNoPJ0PL7JU28GRTdL22hDkyOx9g54NPn0ainMeVXklfkH3qzjxF
+         zWXzy6iKjxBvn2gIpvQML2Po9f7IOloS9+3wuLij28hrbFOEyrMU6k9QfznPPjfzWwJ4
+         5Viw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXRqdGi2eW3v0iWKIh8XzWGNZoOjYoUcbg5lA4sSdpgdUEEbFrdvFcmmpl8MW5AW7ZGuWGCw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYY2qC3qQQicl6VgXYPJYT1rIgB/JeX3gQ7813//SmoIU72F7s
+	EvIMs4r0ykloTS3lh7iloa8EowiR69IE+LtqFXeLDsJCC4bn04GkBjJ3JfHmqQU=
+X-Gm-Gg: ASbGncuxmG47cj5EWxJ2yw3DDokVLT4EBhpe/z48/DmP6jvKL6Gr7yPBYpJAGA+SH4+
+	Ayn6x/KI2Uu0TphGkKp3twm+NNiNJRedqwwAsJpU7+/ORbf17W4anzx+EOO8IOA2ap/7BkYOt6k
+	x87qRNfyz8ISFTt8V84YjJhSzeDWvfTEN7sU1+kNzvN5k8ezS4853JsS7C4TyeAaVpMXnFZG5Ev
+	UQSue+YVFkca03R0gxMUyopjuPwpBBsTBT5CLgQqaMjwBrkzU2xLr5FxLqk/wWkIlGqyfNOcqN9
+	kFL+n353PUq0xXMwSUik6tY6Fn8=
+X-Google-Smtp-Source: AGHT+IH3nnS9lv2OrHPa7UzXVP/Pzo4LcGgWclg0dKbnKj5nL+O4oRZUuLf50pEuMQSrE0T4y1sWig==
+X-Received: by 2002:a05:600c:511f:b0:430:5654:45d0 with SMTP id 5b1f17b1804b1-433ce4250camr103403735e9.14.1732524309108;
+        Mon, 25 Nov 2024 00:45:09 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:9dc0:6c46:415c:5f8b? ([2a01:e0a:982:cbb0:9dc0:6c46:415c:5f8b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825faf9829sm9756935f8f.31.2024.11.25.00.45.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 00:43:33 -0800 (PST)
-Message-ID: <4a3c832b-0c8d-4487-b1bc-122450a57516@gmail.com>
-Date: Mon, 25 Nov 2024 16:43:28 +0800
+        Mon, 25 Nov 2024 00:45:08 -0800 (PST)
+Message-ID: <3bac31fc-57aa-4234-b10b-d48d3bbfa344@linaro.org>
+Date: Mon, 25 Nov 2024 09:45:07 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -65,56 +68,194 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] arm64: dts: apple: Add touchbar screen nodes
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH 3/5] gpu: drm: adp: Add a backlight driver for the Summit
+ LCD
 To: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>,
  Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
+ Conor Dooley <conor+dt@kernel.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Janne Grunau <j@jannau.net>
+ Nick Chan <towinchenmi@gmail.com>
 References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-4-3191d8e6e49a@gmail.com>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20241124-adpdrm-v1-4-3191d8e6e49a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <20241124-adpdrm-v1-3-3191d8e6e49a@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20241124-adpdrm-v1-3-3191d8e6e49a@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Hi,
+
+On 24/11/2024 23:29, Sasha Finkelstein via B4 Relay wrote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> 
+> This is the display panel used for the touchbar on laptops that have it.
+> 
+> Co-developed-by: Nick Chan <towinchenmi@gmail.com>
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>   drivers/gpu/drm/adp/panel-summit.c | 108 +++++++++++++++++++++++++++++++++++++
+>   1 file changed, 108 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/adp/panel-summit.c b/drivers/gpu/drm/adp/panel-summit.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..2dcbddd925ce3863742aa60164369ba9db0bbfff
+> --- /dev/null
+> +++ b/drivers/gpu/drm/adp/panel-summit.c
+> @@ -0,0 +1,108 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/backlight.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <video/mipi_display.h>
+> +
+> +struct summit_data {
+> +	struct mipi_dsi_device *dsi;
+> +	struct backlight_device *bl;
+> +};
+> +
+> +static int summit_set_brightness(struct device *dev)
+> +{
+> +	struct summit_data *panel = dev_get_drvdata(dev);
+> +	int level = backlight_get_brightness(panel->bl);
+> +	int err = mipi_dsi_dcs_set_display_brightness(panel->dsi, level);
+> +
+> +	if (err < 0)
+> +		return err;
+> +	return 0;
+
+Just return err here.
+
+> +}
+> +
+> +static int summit_bl_update_status(struct backlight_device *dev)
+> +{
+> +	return summit_set_brightness(&dev->dev);
+> +}
+> +
+> +static int summit_bl_get_brightness(struct backlight_device *dev)
+> +{
+> +	return backlight_get_brightness(dev);
+> +}
+> +
+> +static const struct backlight_ops summit_bl_ops = {
+> +	.get_brightness = summit_bl_get_brightness,
+> +	.update_status	= summit_bl_update_status,
+> +};
+> +
+> +static int summit_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct backlight_properties props = { 0 };
+> +	struct device *dev = &dsi->dev;
+> +	struct summit_data *panel;
+> +
+> +	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
+> +	if (!panel)
+> +		return -ENOMEM;
+> +
+> +	mipi_dsi_set_drvdata(dsi, panel);
+> +	panel->dsi = dsi;
+> +
+> +	int ret = device_property_read_u32(dev, "max-brightness", &props.max_brightness);
+> +
+> +	if (ret)
+> +		props.max_brightness = 255;
+> +	props.type = BACKLIGHT_RAW;
+> +
+> +	panel->bl = devm_backlight_device_register(dev, dev_name(dev),
+> +						   dev, panel, &summit_bl_ops, &props);
+> +	if (IS_ERR(panel->bl))
+> +		return PTR_ERR(panel->bl);
+> +
+> +	return mipi_dsi_attach(dsi);
+> +}
+> +
+> +static void summit_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	mipi_dsi_detach(dsi);
+> +}
+> +
+> +static int summit_resume(struct device *dev)
+> +{
+> +	return summit_set_brightness(dev);
+> +}
+> +
+> +static int summit_suspend(struct device *dev)
+> +{
+> +	struct summit_data *panel = dev_get_drvdata(dev);
+> +
+> +	int err = mipi_dsi_dcs_set_display_brightness(panel->dsi, 0);
+> +
+> +	if (err < 0)
+> +		return err;
+> +	return 0;
+
+Just return err here, add a common function to set a brighness value and
+avoid duplicate code like here.
+
+Neil
 
 
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(summit_pm_ops, summit_suspend,
+> +				summit_resume);
+> +
+> +static const struct of_device_id summit_of_match[] = {
+> +	{ .compatible = "apple,summit" },
+> +	{},
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, summit_of_match);
+> +
+> +static struct mipi_dsi_driver summit_driver = {
+> +	.probe = summit_probe,
+> +	.remove = summit_remove,
+> +	.driver = {
+> +		.name = "panel-summit",
+> +		.of_match_table = summit_of_match,
+> +		.pm = pm_sleep_ptr(&summit_pm_ops),
+> +	},
+> +};
+> +module_mipi_dsi_driver(summit_driver);
+> +
+> +MODULE_DESCRIPTION("Summit Display Panel Driver");
+> +MODULE_LICENSE("GPL");
+> 
 
-Sasha Finkelstein via B4 Relay 於 2024/11/25 早上6:29 寫道:
+Please move the driver into drivers/gpu/drm/panels
 
-[...]
-> diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-> index 1666e6ab250bc0be9b8318e3c8fc903ccd3f3760..726b11376692580abb129b9be35107bee1550a93 100644
-> --- a/arch/arm64/boot/dts/apple/t8112.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-> @@ -379,6 +379,31 @@ cpufreq_p: cpufreq@211e20000 {
->  			#performance-domain-cells = <0>;
->  		};
->  
-> +		display_dfr: display-pipe@228200000 {
-> +			compatible = "apple,t8112-display-pipe", "apple,h7-display-pipe";
-> +			reg-names = "be", "fe", "mipi";
-> +			reg = <0x2 0x28200000 0x0 0xc000>,
-> +				<0x2 0x28400000 0x0 0x4000>,
-> +				<0x2 0x28600000 0x0 0x100000>;
-> +			power-domains = <&ps_dispdfr_fe>, <&ps_dispdfr_be>, <&ps_mipi_dsi>;
-> +			interrupt-parent = <&aic>;
-> +			interrupts = <AIC_IRQ 614 IRQ_TYPE_LEVEL_HIGH>,
-> +				<AIC_IRQ 618 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "be", "fe";
-> +			status = "disabled";
-
-Forgot to add, status should go after other properties here as well.
-> +			iommus = <&displaydfr_dart 0>;
-> +		};
-[...]
-
-Nick Chan
+Thanks,
+Neil
