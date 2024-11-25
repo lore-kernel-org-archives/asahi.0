@@ -1,63 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1582317C60;
-	Mon, 25 Nov 2024 02:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C64C2500AE;
+	Mon, 25 Nov 2024 07:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732500413; cv=none; b=tt0ibwoTTcxm+R/5gevmUH2m13S4r7k3YYYDUOIeSELoLsyciHi/QPdfac/K9z2mxBlJuwZ9rw2sczxIFb2lmgdpQ1x7NjE4zo3wn+T9+5/Jpy73J2+3E2CvWCa+x2ZZrfVEndYUOjsm2lAQv2gB0bLwyPTrvojuK2wCMMsrGDo=
+	t=1732520750; cv=none; b=rR1zfDoaRC0vfGi3MHF1UiZlgSPjwcqh1R+02BgJpzS7W/l+RUYrWaj83tWJ7w6Fl5mb3dNQ2nBi82NCXO01BNujvWfkqEshDz0ZXK9e/zIj4UI/OssMzEJtra7AhtVQIzYwMA0lIcE7u6SwF99GYzBZ2x0oFuS7p/RyYu9LJ2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732500413; c=relaxed/simple;
-	bh=Gu5Wu6oqy5RrPJGF75jiB8mV6u7GUvi00veqq4oAV6I=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=YouYvHkcsUwAr7lnYucoUGb3+BDYIMhnz19TM0OdCpaZTvMya7zS3GSYy1otCzS4xiigKUwpF3UEh+oIQd/R6sbcOOYVXFw6f5LAaOMBJvwa3+qCUfVq6md69ADuSR5rVm1/PwMYZH7mZ5XtiJeYvflmHBpvgBwTMzF+DQuXSLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MYCyg9Na; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732520750; c=relaxed/simple;
+	bh=QkmKRQufxVbtOJlGOhCoU0r8+2yxxJyk9PPJcIydGG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PhofHyj+CN37BFu0tgckGwNh1Sier5xfciCPZqTw/TObDgKvRR+VUDiEUG/Yv+IekIYcyF2si1x9BHzMPtylCnvSUEqLFj0ouKZLTKlrIN1ftS1ir1FoKt1w80Pz/Yhx2+DtpSU0Y3VFM7WLZB4ZoWXVqI1lNIKd2muufhIZJ0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MYFrveyd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MYCyg9Na"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31A7C4CED9;
-	Mon, 25 Nov 2024 02:06:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MYFrveyd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A65BC4CECE;
+	Mon, 25 Nov 2024 07:45:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732500412;
-	bh=Gu5Wu6oqy5RrPJGF75jiB8mV6u7GUvi00veqq4oAV6I=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=MYCyg9Na2ZSPDLA10+VfV7vvGR536PZbxkdwlN9SVGiZXCNzmI4JkyDU4ml3fYcz8
-	 HOYLlKb2i8HldOFxv15S6gVnl2YWa8yYMfxL9gqs9YYgLXWpcE/DVzlDug1xD9AIUs
-	 xgoTY0HkEL1a5n/pQBK1zMeJRptg9wNThp07WVrBCiIL5cFOpefCPGp8BjBHUqKHRN
-	 Kbj7ZpslOPuKDpu1i7WKRP9xiMw7t1d3k3MO99sMOmwKaAaBDL0ISNZb4MUcli10bc
-	 r/JBxZUf/mUqJvtjdoBd7DjhpSa0A2R2aT6B04oJ2vAL0JntI9gx2hsAYXZvxVmRzC
-	 wk+GWhxiBC0VA==
-Date: Sun, 24 Nov 2024 20:06:51 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1732520749;
+	bh=QkmKRQufxVbtOJlGOhCoU0r8+2yxxJyk9PPJcIydGG4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MYFrveydLiYRWlAIyh8GYlL0YM9Q896zpfUzgrP0F9/Go8fZEYiUzoU56kg8PVMbI
+	 c0BolaJeNa1960vBUIJdWNczsAwuU5LjEenBa9nIm0/SHrtDlUGMjs0ASf9Y2QWrbi
+	 odnBkyNsXl3TUXYUj0aXwkubOMoLldrvbsHk65USwfjW0KoIiZc/H739irmyq9cjsK
+	 Jp/0N6/JvyJK7ut2EnOqctMa9QNnFqxpIK8EClS/Ro9X7CCRi1BX8TzQJx6jfDhA4b
+	 Es3cOdNVgtyzREvIT7yFzdZmmMVMlyl54De87aPPHr5dcZwxTVVMwuz9KvqfDHN1mE
+	 CY9x0i+yy68Ag==
+Date: Mon, 25 Nov 2024 08:45:46 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindgins: display: Add Apple pre-DCP display
+ controller bindings
+Message-ID: <ksdp54qj55v7igvvcshl6y2cxpmqy7rlsh4xsixpptjn7s7wlu@76ejtq6ytvbp>
+References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
+ <20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, asahi@lists.linux.dev, 
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- linux-arm-kernel@lists.infradead.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Hector Martin <marcan@marcan.st>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Simona Vetter <simona@ffwll.ch>, 
- Sven Peter <sven@svenpeter.dev>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com>
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com>
-Message-Id: <173250040970.6667.2839660338071681474.robh@kernel.org>
-Subject: Re: [PATCH 1/5] dt-bindgins: display: Add Apple pre-DCP display
- controller bindings
 
-
-On Sun, 24 Nov 2024 23:29:24 +0100, Sasha Finkelstein wrote:
+On Sun, Nov 24, 2024 at 11:29:24PM +0100, Sasha Finkelstein wrote:
 > Add bindings for a secondary display controller present on certain
 > Apple laptops.
 > 
@@ -67,28 +62,133 @@ On Sun, 24 Nov 2024 23:29:24 +0100, Sasha Finkelstein wrote:
 >  .../bindings/display/panel/apple,summit.yaml       | 24 +++++++++
 >  2 files changed, 83 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/display/apple,display-pipe.yaml b/Documentation/devicetree/bindings/display/apple,display-pipe.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..bd25ddc6e09dd636c0221c854e594113f6011866
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/apple,display-pipe.yaml
 
-My bot found errors running 'make dt_binding_check' on your patch:
+No, use fallback compatible as filename.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/apple,display-pipe.yaml:21:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+> @@ -0,0 +1,59 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/apple,display-pipe.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple pre-DCP display controller.
+> +
+> +maintainers:
+> +  - asahi@lists.linux.dev
+> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
+> +
+> +description: |
 
-dtschema/dtc warnings/errors:
+Drop |
 
-doc reference errors (make refcheckdocs):
+> +  A secondary display controller used to drive the "touchbar" on certain
+> +  Apple laptops.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +        - "apple,t8112-display-pipe"
+> +        - "apple,t8103-display-pipe"
+> +      - const: "apple,h7-display-pipe"
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+This wasn't tested... Drop all quotes. Do you see any file with quotes?
+Why doing things entirely different than everyone else?
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+> +
+> +  reg:
+> +    minItems: 3
 
-pip3 install dtschema --upgrade
+Drop
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+> +    maxItems: 3
+> +
+> +  reg-names:
+> +    items:
+> +      - const: be
+> +      - const: fe
+> +      - const: mipi
+> +
+> +  power-domains: true
+
+List the items instead or maxItems: 1.
+
+> +
+> +  interrupts:
+> +    minItems: 2
+
+Drop
+
+> +    maxItems: 2
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: be
+> +      - const: fe
+> +
+> +  iommus: true
+
+
+maxItems: 1
+
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +additionalProperties: true
+
+This cannot be true. Must be false.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+
+This goes before additionalProperties.
+
+Missing example: that's a strong NAK and prove that this could not be
+even tested.
+
+Do you see any device schema without example? No. Do not develop things
+differently, Apple is not unique, special or exceptional.
+
+
+> diff --git a/Documentation/devicetree/bindings/display/panel/apple,summit.yaml b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..dc281c1f52c1ed07cc2f7f804dcfd2f3b4239d89
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+> @@ -0,0 +1,24 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/apple,summit.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple "Summit" display panel.
+> +
+> +maintainers:
+> +  - asahi@lists.linux.dev
+> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: apple,summit
+
+No, too generic. Panels need much more properties, this is heavily
+incomplete. See other panel bindings.
+
+Best regards,
+Krzysztof
 
