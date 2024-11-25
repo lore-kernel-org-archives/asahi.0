@@ -1,125 +1,109 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBF1190472
-	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 09:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2670C194A43
+	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 09:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732526669; cv=none; b=eYvL7enTqpb4RmsPcSvGLnYZyNjN8RULowaEuvCfSnZm6VY8TGkBi3ifhTckLaCejOH7jziiOmjrLO/8pBu1yWo2W+wz5ZY07DdoqMsBLbKqQCnUNza9bLA1RxQx9MltZOtQ5E5kI9HC8KRIms4T9r04PBsC0kmXZwPiFKFxRc8=
+	t=1732527310; cv=none; b=PFFlzQEO60xsc+w6nLwpUlA4dKdSLDd1GlzRgNJUzhI+XaJYN0+W8/qXafE6UqeFaFIo3R9KqOsUo+a+xHWTLUgFpIc0QeEuBiWC0n2J6+hwrLzJ3wuYCkbEVVUncaoRz5n/n/DJ5gb/L0lYeJmnfaJNT1p9yzSk9aZTkGmO2HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732526669; c=relaxed/simple;
-	bh=dFAwG0pk25WHHBGzk3B7O450dnKjPQyykPlvZ7p/+cA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u46HOUPtTcmz5NO9hW21A6aqYhC7/2fj3pQjlTyP66d/KhkWkv4sNuN//oDvNOAJFprf4zBZp8rqHoHJclqAjNXxs4YiER/lEn4mjAL/WqgcYt4TYJITsWVdrObx3LpPorOZNWH66h0PiVAgsgAU/5mIUsF6Q7B0wvoi8Jvhzzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gjjC9tt8; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732527310; c=relaxed/simple;
+	bh=jaT2gMZATI1cr2w+kBtCP6nseVsxavYfNusYFbNNQeg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tDeI9Lhcjom8sQrhST0yL6lT0XcOmlgOQPxdI5V8TdFMrPbypgNmOuhDrJWXzQgtJYcBiPWbN3mML4vKuIiIVNdgZN+Cw9xTfkiLrVhn6gAvYFV6tl2CjQCHhBldOVEe0MSf9VZoC17CzgqPzWyOV5Jvoo/WcpkkQSWHDe3J44w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sa3mMI2B; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gjjC9tt8"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-724e5fb3f9dso2137360b3a.3
-        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 01:24:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sa3mMI2B"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5cfc18d5259so7663a12.1
+        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 01:35:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732526668; x=1733131468; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GH47thgLGLAwhEyFYzkW0bapLRnqQvS6F+hSbhzlTX4=;
-        b=gjjC9tt8+7lN0YxlmIdk++9GPXcgS5XljQw2u31aPVl/L6pLHT1c+Zept9Iz4/O+/v
-         VODZ3dEKNKvVKwv8buvFFyimfwbtbKUIw7+PwbpARfnF++Gw0FsBgoJETAtvK9DUhQBU
-         ps2khC2JB1m+IgihC4JzcZqbHUVElAY81/1b3gSPFwlrOaLRot+bsMUv5/YTmnK0kqQh
-         gywUuKx2YooY9b+ANgm/UpXQu2frxgqHb2f50Bf2r6w4OivkiwynRVsCSDLTc5mOQoQX
-         Plmonbcq8umx1YV3R+zEoRy5UgK2hWHVrvhM57hfX+gb0Oi8cqt9o4gT5AzRlJxM1arK
-         mggw==
+        d=google.com; s=20230601; t=1732527307; x=1733132107; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jaT2gMZATI1cr2w+kBtCP6nseVsxavYfNusYFbNNQeg=;
+        b=sa3mMI2BmOzxWte56F7mILMg5iyI9UQZG15h88C7Qoy7aafkh7eau6mIBTheIWVMfG
+         Pu2QOBUd9OuLJ+2co3666xCyvQXGDkOLNQ9xgb86dHqrPGtdWMKgewVS3tKY4Q15iRUZ
+         mDmKF1s3P7K5Jkwfihqyzvil+FtgXQ/P0fO0eng+Qe11S85CbgoX9BUUxsR8XlRlPANY
+         90kjm8jCgXfmEs35RNUNnEt15OM1CBn10rSzNjSQQ6yurFzi7dYizpigD57P72LCXBEU
+         +BblMkqH/hRganud8BxLeMDZ/bCnUNcKPdBsI3Zpos7NUxEQrYdL7YgrR2C/35WUHAyX
+         V1Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732526668; x=1733131468;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GH47thgLGLAwhEyFYzkW0bapLRnqQvS6F+hSbhzlTX4=;
-        b=l5ihD0TphCWmaNPvVy15e9uO4ZawZPugyEDteB3UYNRhRKleNOzHBAHvLBq+rMHWJt
-         XszFOx3vvPEFzT4+8CUZ6brDFvr3zt+xAdcxfHV8d6OjVFsJmZEmeMqbpyLNR9G/KzJ1
-         ZztwPlKhsanY+/+9/wGONqcWfg1B9QRdqTWkwNMfAdDj+NosbHjtnATmLIB3Yl3Bx+Fx
-         TPzTzh2/N0dpqro6etwOSb6e9JZSDxMbXMMpi9g3BzdW0h4832Kf0LFo53Hm7p7Ghswa
-         HgNtR5JnGu0g3PZEu8cBU/Nhsotzk86rfXBKTVNn+AvMKQVg3hVkFstiu4QPRnFT6Htz
-         M3HA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZLzAwCg+E5GXLUIIYFXjPYf005ZK5qWmRHowZO7UHspXqAGBQ9mIaytqfPxOWwubao6Zudg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyaGLKP9qp8AR1FcrFpC66YbDJ5M6ATLdUYlGre3BDaPl1heZ77
-	ivyDsBemPt3JoDHcNpBHO2u4AW2DGHjIg6VLL5369+A1HuiGDZD9
-X-Gm-Gg: ASbGnctrfrSXKVexCHRxybUJom1x7ib2xOWbniQxhiWJRqlq0CKv2bvBeFNcPOzVz9z
-	J5E3Wn5WezxPmvClJEVLiKcY7hSZIpgKITj3AomrdviJedg5YHy5PChG9fkS4r2nUtty8pRqXVC
-	qwLvkgadALzZrOAkuYkNwvu0Cg56NamRzqP/H+MNECgQVu+zdPn2sgW+n+yK9MeCR3wZh9ZMLP5
-	vgoCcOXFdk0lS3G7/o1krB2B3u4VKzEN5JffjLMI5PobiItRPdbD07diwklfkXjLOMO
-X-Google-Smtp-Source: AGHT+IGH/2hu7Jr9H6sYJsbkLS36GY64EFbufco7FimN9lRF0ny00OASpXVX5qeXHk77eHloKg29MQ==
-X-Received: by 2002:a05:6a00:a8f:b0:71e:410:4764 with SMTP id d2e1a72fcca58-724df5d453fmr19361348b3a.8.1732526667715;
-        Mon, 25 Nov 2024 01:24:27 -0800 (PST)
-Received: from [192.168.0.115] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de5762b4sm5950940b3a.179.2024.11.25.01.24.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 01:24:27 -0800 (PST)
-Message-ID: <54759f1f-2575-4e84-b351-119cefed2b17@gmail.com>
-Date: Mon, 25 Nov 2024 17:24:22 +0800
+        d=1e100.net; s=20230601; t=1732527307; x=1733132107;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jaT2gMZATI1cr2w+kBtCP6nseVsxavYfNusYFbNNQeg=;
+        b=WLd//XFE0KlPBUKFIq3jSxON+2yWtWX4LRAEXx+qXNaaOgEZVHKxuVBrysxIuZM0Pe
+         RWPRMQrJiJSZ4+8koSxgWO6CKaIFMpb5+jF0sF2ie1mLSjA9QHOD9PjLYWzGMjxieqZ6
+         8q9T2XXM1ImyHmu4aL6K/Hj+r6H2HZu8iDZFDfA+CkORQcehJZWHLsf5W0r/c09YVpkI
+         /lKW51c4lc2dmHILWt0ksqCoeg81pWvkz7jPNrUJ3wrjUg4F9TCW3SzLYCmyaG1rpkuC
+         qfvb92T3ApwA8F3xzPTXfAw7YlMFO4aFfs4eQ6vPTm6NTyfa5h6EPBlKRvoSO7vdWkzP
+         zabQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqraVPELQPztI0UNUGVv9w6Ou0hca7g4pAHeF9OwjEs0ZaSjjs6lI+yR1olfcLtxMPGYSmzQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxu/3aKjk+vDkdERPBJZDIKuorSmg0KXptbElkhZGQ3BSBK1IhU
+	gP7JmNoVeJ5L7i5/S3+IaCQSoMrGGFmH8yDksFiRiwxbl6q4k0cfrnSnY4s0f1J6FOMPLpIJxRE
+	xpcPshtQs1A4MF/h6guwWI57sE42rG4cBmYEA
+X-Gm-Gg: ASbGncvpK3lugQaFnf+eYg0LO48GQb1oyNgzsy1sARDHud4mK7MWrr08rFxx0UJX80Z
+	wgiIIl+VchdKQwdqYv8iBMpsLkpDp0B1b
+X-Google-Smtp-Source: AGHT+IGTmrlfZpaacQIL7m1sVBbpke3zA30uDeHjmOTDx5UHOJssl129/RankrUjb/fulgjiVDxdQ2FhiBHkvVnjtVM=
+X-Received: by 2002:aa7:ce09:0:b0:5d0:3ddd:c773 with SMTP id
+ 4fb4d7f45d1cf-5d03dddc84bmr69002a12.4.1732527307223; Mon, 25 Nov 2024
+ 01:35:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] MAINTAINERS: Add entries for touchbar display driver
-To: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
- <20241124-adpdrm-v1-5-3191d8e6e49a@gmail.com>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20241124-adpdrm-v1-5-3191d8e6e49a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241121204220.2378181-20-samitolvanen@google.com>
+ <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com> <CA+icZUWSKygQJNiODzdauNiHz2Di-2eSGGmd-fgBrFpdyh_HgA@mail.gmail.com>
+In-Reply-To: <CA+icZUWSKygQJNiODzdauNiHz2Di-2eSGGmd-fgBrFpdyh_HgA@mail.gmail.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Mon, 25 Nov 2024 11:34:30 +0200
+Message-ID: <CABCJKudwpKX1_j46Tp6=eAJ0JU2zWE15+c8OFq9LMAnSqwesOw@mail.gmail.com>
+Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
+To: sedat.dilek@gmail.com
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
+On Sat, Nov 23, 2024 at 1:23=E2=80=AFPM Sedat Dilek <sedat.dilek@gmail.com>=
+ wrote:
+>
+> > BTW, I am testing with the latest kmod-git and pahole-git.
+> >
+> > I will give this a try when Linux v6.12.1 is released.
+> >
+>
+> I have a prolonged build-time of +22,75 per cent.
+> Compared gendwarfksyms-v5 + Linux-v6.12.0 VS. gendwarfksyms-v6 + Linux-v6=
+.12.1
+>
+> Is this a known issue?
 
-Sasha Finkelstein via B4 Relay 於 2024/11/25 早上6:29 寫道:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> 
-> Add the MAINTAINERS entries for the driver
-> 
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  MAINTAINERS | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e7f0170977013889ca7c39b17727ba36d32e92dc..1964bb705cae0b0f12e2174fc96c5cd123d31520 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2164,6 +2164,7 @@ F:	Documentation/devicetree/bindings/arm/apple.yaml
->  F:	Documentation/devicetree/bindings/arm/apple/*
->  F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
->  F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
-> +F:	Documentation/devicetree/bindings/display/apple,display-pipe.yaml
+In my tests, compared to a genksyms defconfig build with debugging
+information, v5 was slightly faster, and v6 was 5.6% slower. This is
+because the expansion limits were dropped in this version to ensure
+version stability when exports are removed. See the explanation here:
 
-Missing F:
-Documentation/devicetree/bindings/display/panel/apple,summit.yaml
->  F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
->  F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
->  F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
-> @@ -2183,6 +2184,7 @@ F:	drivers/bluetooth/hci_bcm4377.c
->  F:	drivers/clk/clk-apple-nco.c
->  F:	drivers/cpufreq/apple-soc-cpufreq.c
->  F:	drivers/dma/apple-admac.c
-> +F:	drivers/gpu/drm/adp/
->  F:	drivers/pmdomain/apple/
->  F:	drivers/i2c/busses/i2c-pasemi-core.c
->  F:	drivers/i2c/busses/i2c-pasemi-platform.c
-> 
+https://lore.kernel.org/linux-modules/20241120215454.GA3512979@google.com/
 
-Nick Chan
+I did profile this quickly and most of the time seems to be spent in
+libdw looking up attributes. We might be able to speed this up by
+limiting the number of attributes we look up depending on the DIE
+type, but I haven't had time to look into it yet. I'll take a closer
+look when I'm back from my vacation in about three weeks.
+
+Sami
