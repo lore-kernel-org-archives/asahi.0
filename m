@@ -1,122 +1,173 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E341A28689
-	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 15:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC8F4A1A
+	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 16:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732550113; cv=none; b=eKdcVKAsfJyRk/LHaZDf7KTeLox/8KEUP61m3haM9/0TdNh3iuiGeoszu3tdvaj3PN7BJw/35yDBFlhLLxOXGXwfxrcFoT19wayuI8cowIdcMnmmgHN0ngm1QygxKUhcvB9AhG6umOLVI4yDgpWygOqGCbpijV8wqIccRQSRlgU=
+	t=1732551625; cv=none; b=T7CrpTWLULcbuJtqzwvTEQnKHjCRnthutw2vZPdceYCQ92FikYDDPzYlflLaGyfSfSuLDzHgO2Y5PBzbis8joXYsDRSYK9ZZt0IHiQgMAn+FiRFP/EJJsSqMSLywGELaZgWAPPfdiai1q5id00u2DurSqi2ATsaSQrU15DxXuRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732550113; c=relaxed/simple;
-	bh=Nbi7jGHMHqCOiVJdgNk+yM5Aex5D7yPTPOFZz9QtO4Y=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ezESWFEBRnS9bUAoNQq/hlzsoFDD6TXNSFdt9KowBn/RXrsAIrPis4fJt+2/wriw8/f+OQ/qh0b9yGRnoV/3yEHrmBpmONbkSyyR1aWZElpvq8E9fUb5zVJa2T/S49/Lo+FFnwjPvpyS82baQWHFr/tCyAe6v3FhShZUmpIcxJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=UBjsckh9; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+	s=arc-20240116; t=1732551625; c=relaxed/simple;
+	bh=wiJO8EafWrL3t6qlIiyV2F5okSL6L2pFYmTGRurbNkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A/e+jGioaxEuSiUzV7fYlGSTwg0VRXr1sz9rEDrFw1RbzACoBaLtsAtzketjIn9hR2CmTEVGMwntpdqXnFhzXORog0e17Z1dlZSOi0zxCKEkFIYbqrBE1MFJNLgEtW91Z41GQ4Trno8AlgD4FvY510WDv5ea9EWM7XxUwo2UuLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k45fQzAo; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="UBjsckh9"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id BF2F541A48;
-	Mon, 25 Nov 2024 15:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1732550109; bh=Nbi7jGHMHqCOiVJdgNk+yM5Aex5D7yPTPOFZz9QtO4Y=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References;
-	b=UBjsckh9mezNpgAv1OBbxdguxzVBpMiV456rgWaUT13XQgWO+iA7HihREOcrTh7Cf
-	 9MMScOaAT2AXHeLQdaF+BpipbD6nkUaH7cwmcjECCORCcJBQ+d/g/9+1irOEhFY5Fv
-	 gpvDptEQ4r4BhTuWaHZRyt/V9sa/cSnUhu16TzQsLPcpTa3LwOkxb0O5jy6TdZ56q/
-	 vukcqHwux/0UYuDXEuRQr/ckvDjB1yI0mwVygvHum2kOYQJvsQdaNhMi5E+VPUej/t
-	 6NBI0BP2Nb/Ipwd//qkRFHAv0YZic4IykczXrOODGeKKJHxJFlfd4Gj9FoqNddkXU9
-	 Tap+AiIiLaxKg==
-Date: Mon, 25 Nov 2024 16:55:04 +0100
-From: Hector Martin <marcan@marcan.st>
-To: Maxime Ripard <mripard@kernel.org>
-CC: Sasha Finkelstein <fnkl.kernel@gmail.com>, neil.armstrong@linaro.org,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH 2/5] gpu: drm: adp: Add Apple Display Pipe driver
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20241125-gabby-furry-rooster-cf28a9@houat>
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com> <20241124-adpdrm-v1-2-3191d8e6e49a@gmail.com> <10d0aa88-de2e-4856-a137-301519e58b2d@linaro.org> <CAMT+MTRWZWj=3AP7wyooXr49-W4vcm0ZbAoqPyEuNkQBMOaJfw@mail.gmail.com> <cc71021e-b53d-4eda-bad8-abb4df13575f@marcan.st> <20241125-gabby-furry-rooster-cf28a9@houat>
-Message-ID: <891D03B0-1A2C-4C38-85F2-F8CBBAC1A5CC@marcan.st>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k45fQzAo"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d4241457b7so30264836d6.2
+        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 08:20:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732551622; x=1733156422; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=kGAJxqXAxllg/W2VuJ5ECjZPkQ6tCWdsZghimeCyrgk=;
+        b=k45fQzAodlQF0ny6oU0bg1nfFT7qs67dgNq4GZWZm1k1GlBUy+HITxlpCZLCiriuwg
+         Zor+netV51MqW6hP9fKeeu/WCRgyirwF4OGDAVFWfek+S5aGSA0DqrwORu1oBsRDxYrl
+         LbCtzpoXawri7mCKAoVyCw17sZRhz0w0gkXv0A7GdOy2PjoqSgOOdFDtV1WRMO1L6XMY
+         VvvMuQuWXyIuYd8YDr+EyyFsEt8uaBBiA29lOC8C2X6NWY96FEx95TTecnkjPLOWj4w2
+         ek8QSJA54V/PqvWnm7kwVDpUo/+75eCJKUryaiFhvSD0Pxy0ktEZUcQ4xnpknSZpqdWp
+         kbcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732551622; x=1733156422;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kGAJxqXAxllg/W2VuJ5ECjZPkQ6tCWdsZghimeCyrgk=;
+        b=F4snSRUv2mKcERCVVz+ICu9DD8OTHTs9bYgiruXJuh+WtC6T3inxM9evuW/XrO7N4c
+         StCd/2fYXPATvgySuF4qPAl+pP74dhs0FXPwHToLOqusgzfXo0ZPSRairUtRgkq+hOzv
+         7dXY1C42adscSEoc51/V8N7ue8UEMb1Mk5ubmxe1G+vAjbzTCtbkThduLZd7Ku3MjqMC
+         Aa1p+jwDV6jKRdpp68WavnlZ1UM/Jr3NXwO/DrxkpQn6+BqIiTfWb0982giNfysjGBIf
+         tUfi/xhNl16/jjHOjVfv/fKYKly7YmhlZrStjAXp5h9zbDvjd3oqlZDyauNZJ4+iIR+K
+         2OFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5+xXizWON9I9KurGmtoPGjQ3je0iZRLFY2/AuRnl0xmOqgi72F26TdzRjmlxYJYz1t22/HQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywq4V1BXRDYbM+5ZsyVeBZ234WZtcY7fWDQmFgvISRS7LBOesHP
+	Uq/uvZcftUtR8SNj/WhFmzFpVJjOqyMmzozHvhl5hdTAzl5nglfC
+X-Gm-Gg: ASbGncv26llFPVedu7ZMlVEbHe03pC22Ww0nmn0ELU4rf5T3O49Q2InNnZ8UtC11tLP
+	58zXmUFPa0H4FnzlEt10hUpmeH4mbSjRjBe6yeHXge72f6BaC1Xd+kFwlOtV7519XdaUgJDQse4
+	+6cDCw2GCvPsXCBX05zj0pf8sxacME6BBR9ZIwRW92n9GNYh2FxT7b4Q/utySe5PZMj8jhXF8fs
+	OhqtXcvU5Ej+Bm+kLHStrWE5Ka6GDTTGGhyLhbe6+915GEGInOkaBJ9v26ZSrLAj1hlnGWWqdAp
+	kNnyk7qCoVgT5wAp3mBq99F6g3JlwsBB1oNLIwjd
+X-Google-Smtp-Source: AGHT+IGPkw8t4N9gDzf9lwkJ1qKoELH7ZpcCc2tznTmePFzUIMnxy8viKSeF32UNYG2rISDhl961FA==
+X-Received: by 2002:a05:6214:508e:b0:6d4:287d:b8d6 with SMTP id 6a1803df08f44-6d450e7c2dfmr232620986d6.18.1732551622507;
+        Mon, 25 Nov 2024 08:20:22 -0800 (PST)
+Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d451ab6198sm44259746d6.68.2024.11.25.08.20.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2024 08:20:22 -0800 (PST)
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 73B0B1200043;
+	Mon, 25 Nov 2024 11:20:21 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Mon, 25 Nov 2024 11:20:21 -0500
+X-ME-Sender: <xms:xaNEZ8jgXg6EClOFb0EdNDQapx01hExRBG23E0qN6FB-Q4OLwnz60Q>
+    <xme:xaNEZ1CBr0wBExBiBJNfQN8dAWhalqJDjuHivAJRywRyQ3MfcfhbTvvbeLRDhyDYd
+    C2dcdYwHL81tYuUcw>
+X-ME-Received: <xmr:xaNEZ0FHCOIR1D06brxo3ypPQ_QA28DNBMsYUlJDU0SkzKVZdUNmBnj48qA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrgeehgdekhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
+    ucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrd
+    gtohhmqeenucggtffrrghtthgvrhhnpeevgffhueevkedutefgveduuedujeefledthffg
+    heegkeekiefgudekhffggeelfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhi
+    thihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmh
+    grihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepudeipdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopehmihhguhgvlhdrohhjvggurgdrshgrnhguoh
+    hnihhssehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhgrsegrshgrhhhilhhinhgr
+    rdhnvghtpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhgvgidrghgrhihnohhr
+    sehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpd
+    hrtghpthhtohepsghjohhrnhefpghghhesphhrohhtohhnmhgrihhlrdgtohhmpdhrtghp
+    thhtohepsggvnhhnohdrlhhoshhsihhnsehprhhothhonhdrmhgvpdhrtghpthhtoheprg
+    drhhhinhgusghorhhgsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:xaNEZ9QoWgDXfljotMT4iAiewSfrNSieGrP0EnlgO5FoIDwbFlECbQ>
+    <xmx:xaNEZ5yexd6XKa05cooNYWM1L9-1cqCbFoqk6I4iVjbWgUSWlpoKzg>
+    <xmx:xaNEZ75MW2dAI0LQ8f5LH0eitJbQxgJ2lsixwBzEIDGjsC35SOtYEg>
+    <xmx:xaNEZ2zyl_4NzGbdw7vyeRju93LVm-ecnRhjqfTMPI8zPtLwioSiCQ>
+    <xmx:xaNEZ9gMwBYCS9jL5CZJPQhQ9fhU6-GhOIK2una9n93U4Djii5DR6H9Y>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Nov 2024 11:20:20 -0500 (EST)
+Date: Mon, 25 Nov 2024 08:20:13 -0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Janne Grunau <j@jannau.net>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH] rust: alloc: Fix `ArrayLayout` allocations
+Message-ID: <Z0SjvVIALIkOE3nj@boqun-archlinux>
+References: <20241123-rust-fix-arraylayout-v1-1-197e64c95bd4@asahilina.net>
+ <CANiq72=axLe_WvPohRRpAnmmPOHtwSK1W3e86n7FMF2mao8HUg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72=axLe_WvPohRRpAnmmPOHtwSK1W3e86n7FMF2mao8HUg@mail.gmail.com>
 
-On November 25, 2024 4:28:00 PM GMT+01:00, Maxime Ripard <mripard@kernel=2E=
-org> wrote:
->On Mon, Nov 25, 2024 at 11:24:25PM +0900, Hector Martin wrote:
->>=20
->>=20
->> On 2024/11/25 20:24, Sasha Finkelstein wrote:
->> > On Mon, 25 Nov 2024 at 09:50, Neil Armstrong <neil=2Earmstrong@linaro=
-=2Eorg> wrote:
->> >>
->> >> So this controller only supports a single mode ???????
->> >>
->> > Most likely=2E On all devices it is connected to a single built-in di=
-splay=2E
->>=20
->> More specifically, the controller obviously supports multiple modes but
->> it is pre-initialized by the bootloader for the single hardwired
->> display's only mode=2E So as far as the driver is concerned, there is a
->> single possible mode, and there's no point in trying to be more generic
->> if there is no hardware that would use that=2E
->
->It's not only about being generic, it's also about fitting nicely in the
->usual abstractions=2E You could also always register a single panel, with
->a single timing set, and the driver would never see anything else=2E And
->still fall within the usual pattern=2E
->
->> In general, it is not possible/practical to be generic for reverse
->> engineered hardware with no specs documenting how to drive it
->> generically=2E You just can't know how to implement the options that ar=
-e
->> never used in practice=2E I spent a lot of time on exceptions to this
->> rule for the GPIO and SPI controllers, and that's not going to happen
->> for more complex hardware like MIPI DSI=2E
->
->How is GPIO or SPI even remotely related to that discussion? We are
->different maintainers, with different concerns, and different things to
->care about=2E
->
->Also, "My way or the highway" is never a great discussion opener=2E
+On Sat, Nov 23, 2024 at 06:39:23PM +0100, Miguel Ojeda wrote:
+> On Sat, Nov 23, 2024 at 11:30 AM Asahi Lina <lina@asahilina.net> wrote:
+> >
+> > We were accidentally allocating a layout for the *square* of the object
+> > size due to a variable shadowing mishap.
+> 
+> Good catch, thanks! (Square?)
+> 
 
-This was not an attempt to push back on the review feedback at all=2E I wa=
-s just trying to add context about *why* the controller will never be used =
-with nor support more than a single mode, not argue about how that should b=
-e implemented=2E Sorry if it came across as otherwise=2E
+While we are at it, I think it'll be good to add some example/tests for
+those functions of ArrayLayout, for example, the below will catch this:
 
-GPIO and SPI are relevant not because of anything related to the kernel, b=
-ut because I was able to reverse engineer the generic features of those con=
-trollers quite comprehensively by literally probing a GPIO routed to an ext=
-ernal USB-C port with a custom test bench and an oscilloscope (for GPIO) an=
-d by using the GPIO registers along with a bespoke bare-metal test platform=
- as a "software" logic analyzer to inspect the signals generated as I twidd=
-led register bits (for SPI)=2E I'd love to have all hardware comprehensivel=
-y documented like that (I did GPIO and SPI because I wanted to, not because=
- any maintainer asked for it), but as you might imagine, this kind of deep =
-hardware RE doesn't scale and isn't practical for anything more complex, an=
-d I was just trying to convey that fact=2E
+I will open a good-first-issue.
 
-(Sending from mobile, apologies for the likely dodgy line wrap)
+Regards,
+Boqun
 
-
--- Hector
+------------------------>8
+diff --git a/rust/kernel/alloc/layout.rs b/rust/kernel/alloc/layout.rs
+index 7e0c2f46157b..bb3ce3b2218b 100644
+--- a/rust/kernel/alloc/layout.rs
++++ b/rust/kernel/alloc/layout.rs
+@@ -7,6 +7,7 @@
+ use core::{alloc::Layout, marker::PhantomData};
+ 
+ /// Error when constructing an [`ArrayLayout`].
++#[derive(Debug)]
+ pub struct LayoutError;
+ 
+ /// A layout for an array `[T; n]`.
+@@ -43,6 +44,20 @@ pub const fn empty() -> Self {
+     /// # Errors
+     ///
+     /// When `len * size_of::<T>()` overflows or when `len * size_of::<T>() > isize::MAX`.
++    ///
++    /// # Examples
++    ///
++    /// ```rust
++    /// use kernel::alloc::layout::ArrayLayout;
++    ///
++    /// // No overflow.
++    /// let layout = ArrayLayout::<i32>::new(12);
++    /// assert_eq!(layout.expect("sizeof(i32) * 12 is 48, not overflow").len(), 12);
++    ///
++    /// // Overflow, should return `Err`.
++    /// let layout = ArrayLayout::<i32>::new(isize::MAX as usize);
++    /// assert!(layout.is_err());
++    /// ```
+     pub const fn new(len: usize) -> Result<Self, LayoutError> {
+         match len.checked_mul(core::mem::size_of::<T>()) {
+             Some(len) if len <= ISIZE_MAX => {
