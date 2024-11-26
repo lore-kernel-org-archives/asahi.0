@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A191D9694;
-	Tue, 26 Nov 2024 16:34:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7D81DA10C;
+	Tue, 26 Nov 2024 16:34:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732638866; cv=none; b=KU6oOVuTBHcWmL2TkQ/tiM7uaUt7WtsDM5FeBB53P4W2n4ftEN8ZydNJoknZBN06uBJbVZKVsKJT6v8U8cEJSi3anzHa5dndYZEiwnVXmN4MaWORtYyIa1Toz3J8qXRHGiuiMw+4py0uWhd8GwS4kX/Nz7KC4a+oboAQf338Vf8=
+	t=1732638866; cv=none; b=Xx6lt2DH3Gp3hb/RoHnT/3mSj/hMHFeE8mI8dPgRAzkOUUaTeZMtOFasbjIpkDJWKDZ1y/HRQO/k/b5Sk6KEq5yR7NpsxeOYfcMBSgpiHuODZPVgasVKqjo71lUWvrFHAaG5IncvVB7PEss0khIP6tLZ1JtzMzrzad/5oLYnKfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1732638866; c=relaxed/simple;
-	bh=/LDcePj0XDKsYma0zK+FP7xyH1ASdKtuEO+PZnGEDFc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZTvtBQyHRCh+tcNd/V7hSfyZDVNgSxm/1djTxA182RkHIPx8N1FxgdtrUnXHRg5L8VG9y6u6GL1xlMYyG7mWtiAkJcVed3VbmlKMeSjk6jfwBaUjQB5gACmmzVVYIQgHiMcOVjfZ6VM6FDaoZ/eYg20jhhJO2W5oF0xoDxObMws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a99O8UWv; arc=none smtp.client-ip=10.30.226.201
+	bh=sUSc56MZ6GGd9Dy3LCU1d+9JVt2n1csAlpdyoy5NKMI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=iYjoeGK372vWb2FAS90HCGU8n6TVXI7MrQ7mNjYVXIP6fGWOV8WdoapHN/v9ykwiJ+I33WqzrJWSva/SHK/B8Er11GHO491QpH+PkCFcmwAJH7RxqSOj2Lw81ijYJdqiVrnr66OJVPM8KMH76ng+kiVBH5LQpYf48pYke01qSLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dsj7SLoM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a99O8UWv"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B4865C4CED3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dsj7SLoM"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E9600C4CED2;
 	Tue, 26 Nov 2024 16:34:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732638865;
-	bh=/LDcePj0XDKsYma0zK+FP7xyH1ASdKtuEO+PZnGEDFc=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=a99O8UWvqNcfnyMxK2dxnhjfTBiX2N75eQ/DkDrR+dQA6DZluHFfy88xA0PWdPhzu
-	 DRAGNJkMHf2pRK7rIi5zMgTk0dbFtMuhUCBtawk6M1fHm44i6sOjHcQZSDHj7HOAyW
-	 3m78QcpINTiKv/Lf2wo2E1dwQgz5zNDpp3dabtm229Nlw17itUow0JlSWqRzI1aH53
-	 v3ZS6HensCtlQI9ft2UwzHvKoszRdb07g9bfgCJUi7AOfePesWu1kDlISbU+EJ+IqC
-	 +rFNcpNz+zoJLDql0cxBrXBOC9jDXm+iEdophb3ptSV7fi0TP0NAaGEQ/Qt6U5ekm5
-	 EqVl5OtcNDRLA==
+	s=k20201202; t=1732638866;
+	bh=sUSc56MZ6GGd9Dy3LCU1d+9JVt2n1csAlpdyoy5NKMI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=dsj7SLoMz6NXLtLKyK9FSCHEBCfQrsdtiisWe3BoYnqyqtDcGo6+Phaamj6V0n2ON
+	 iAWelk794iT70u1YLmSRz734M6MbHL/S53gR06xt2byvOeW6iNZg44MlraWb1MOdGq
+	 T/lI6Odrn0UcDYBqytvJPS0QPgpo5+ZFS0XYfsCUxnmBEFhTyAZN/5ugTTnNysRdfM
+	 MDaPNbjqj9DpfKUUHAcqusGdALopEQ8VXxQmgxD7MR1A0hmWdaTtBZx3Tv5DCSoVTi
+	 urJXBhxg/5vzktlbxOwf71WMn2rQwFya2ORvmfihbUiNSjL0OYkrMdWLJaJiIGTaEi
+	 /+OHoPbHOQV/A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0BBBD3B9BE;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF37D3B9BE;
 	Tue, 26 Nov 2024 16:34:25 +0000 (UTC)
 From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Subject: [PATCH v2 0/5] Driver for pre-DCP apple display controller.
-Date: Tue, 26 Nov 2024 17:34:19 +0100
-Message-Id: <20241126-adpdrm-v2-0-c90485336c09@gmail.com>
+Date: Tue, 26 Nov 2024 17:34:22 +0100
+Subject: [PATCH v2 3/5] drm: panel: Add a panel driver for the Summit
+ display
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,10 +41,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIv4RWcC/2XMQQ6CMBCF4auQWVvDlKrAynsYFk1ngEkskNY0G
- tK7W9m6/F9evh0iB+EIfbVD4CRR1qWEPlXgZrtMrIRKg661QdRGWdooeKUvo+OGqLU3hHLeAo/
- yPqDHUHqW+FrD53AT/tY/IqGqVYMdUstXNp29T97K8+xWD0PO+QtOmwltnAAAAA==
-X-Change-ID: 20241124-adpdrm-25fce3dd8a71
+Message-Id: <20241126-adpdrm-v2-3-c90485336c09@gmail.com>
+References: <20241126-adpdrm-v2-0-c90485336c09@gmail.com>
+In-Reply-To: <20241126-adpdrm-v2-0-c90485336c09@gmail.com>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -55,14 +55,14 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, 
  Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732638864; l=2009;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732638864; l=6332;
  i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=/LDcePj0XDKsYma0zK+FP7xyH1ASdKtuEO+PZnGEDFc=;
- b=OZR7bklMcaizua9kd4TjpLz0AjqB1X+Vunzk81NYY7+bDd6YxbJUoKnvBPvak/Wdfbw4r/1u6
- ivWR35297jmCQnjxOTmbOKHjfiKdJI/RzDIBL6aOxGv6AdRQodof9IX
+ bh=yS3wMDhwYxNd88DcL6/ejDY14iFml6WLH9Iqb+QwyXY=;
+ b=iwS9x3NRGK4j37HlLDzzLTfPWfsOWzumTWYe/9uuYBdhj+ItexkAH6WSssrKpO96bsRBRsyK3
+ 1hsPUYsN+a9CNAvSVjfoKVH2Bb876YnxpDcvQxdyxV4hY83JeKg9SGU
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
@@ -70,47 +70,202 @@ X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
 X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Reply-To: fnkl.kernel@gmail.com
 
-Hi.
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-This patch series adds support for a secondary display controller
-present on Apple M1/M2 chips and used to drive the display of the
-"touchbar" touch panel present on those. 
+This is the display panel used for the touchbar on laptops that have it.
 
+Co-developed-by: Nick Chan <towinchenmi@gmail.com>
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 ---
-Changes in v2:
-- Addressing the review feedback.
-- Split out the mipi part of the display controller into a separate device
-- Link to v1: https://lore.kernel.org/r/20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com
+ drivers/gpu/drm/panel/Kconfig        |   9 +++
+ drivers/gpu/drm/panel/Makefile       |   1 +
+ drivers/gpu/drm/panel/panel-summit.c | 143 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 153 insertions(+)
 
----
-Sasha Finkelstein (5):
-      dt-bindings: display: Add Apple pre-DCP display controller bindings
-      drm: adp: Add Apple Display Pipe driver
-      drm: panel: Add a panel driver for the Summit display
-      arm64: dts: apple: Add touchbar screen nodes
-      MAINTAINERS: Add entries for touchbar display driver
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index d7469c565d1db8b8e974dd6c45d03d9352d99d63..5085a82e4bc695e85cabbc3200859bbe10cb0f91 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -925,6 +925,15 @@ config DRM_PANEL_SIMPLE
+ 	  that it can be automatically turned off when the panel goes into a
+ 	  low power state.
+ 
++config DRM_PANEL_SUMMIT
++	tristate "Apple Summit display panel"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y if you want to enable support for the "Summit" display panel
++	  used as a touchbar on certain Apple laptops.
++
+ config DRM_PANEL_SYNAPTICS_R63353
+ 	tristate "Synaptics R63353-based panels"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index 7dcf72646cacff11bab90c78e3b8b1f357e5f14a..10ac2e850f5cd6d6546439de75483466e4015d1a 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -89,6 +89,7 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LS060T1SX01) += panel-sharp-ls060t1sx01.o
+ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
+ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
+ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
++obj-$(CONFIG_DRM_PANEL_SUMMIT) += panel-summit.o
+ obj-$(CONFIG_DRM_PANEL_SYNAPTICS_R63353) += panel-synaptics-r63353.o
+ obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
+ obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
+diff --git a/drivers/gpu/drm/panel/panel-summit.c b/drivers/gpu/drm/panel/panel-summit.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..16bd9fa1213d7bc3f022b878ea5cfeadbd468995
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-summit.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/backlight.h>
++#include <drm/drm_device.h>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_mode.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <video/mipi_display.h>
++
++struct summit_data {
++	struct mipi_dsi_device *dsi;
++	struct backlight_device *bl;
++	struct drm_panel panel;
++};
++
++static int summit_set_brightness(struct device *dev)
++{
++	struct summit_data *s_data = dev_get_drvdata(dev);
++	int level = backlight_get_brightness(s_data->bl);
++
++	return mipi_dsi_dcs_set_display_brightness(s_data->dsi, level);
++}
++
++static int summit_bl_update_status(struct backlight_device *dev)
++{
++	return summit_set_brightness(&dev->dev);
++}
++
++static int summit_bl_get_brightness(struct backlight_device *dev)
++{
++	return backlight_get_brightness(dev);
++}
++
++static const struct backlight_ops summit_bl_ops = {
++	.get_brightness = summit_bl_get_brightness,
++	.update_status	= summit_bl_update_status,
++};
++
++static int summit_get_modes(struct drm_panel *panel,
++			    struct drm_connector *connector)
++{
++	struct drm_display_mode *mode = drm_mode_create(connector->dev);
++
++	connector->display_info.non_desktop = true;
++	drm_object_property_set_value(&connector->base,
++				      connector->dev->mode_config.non_desktop_property,
++				      connector->display_info.non_desktop);
++
++	mode->vdisplay = 2008;
++	mode->hdisplay = 60;
++	mode->hsync_start = mode->hdisplay + 8;
++	mode->hsync_end = mode->hsync_start + 80;
++	mode->htotal = mode->hsync_end + 40;
++	mode->vsync_start = mode->vdisplay + 1;
++	mode->vsync_end = mode->vsync_start + 15;
++	mode->vtotal = mode->vsync_end + 6;
++	mode->clock = (mode->vtotal * mode->htotal * 60) / 1000;
++	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	mode->flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC;
++	drm_mode_set_name(mode);
++	drm_mode_probed_add(connector, mode);
++	return 1;
++}
++
++static const struct drm_panel_funcs summit_panel_funcs = {
++	.get_modes = summit_get_modes,
++};
++
++static int summit_probe(struct mipi_dsi_device *dsi)
++{
++	struct backlight_properties props = { 0 };
++	struct device *dev = &dsi->dev;
++	struct summit_data *s_data;
++	int ret;
++
++	s_data = devm_kzalloc(dev, sizeof(*s_data), GFP_KERNEL);
++	if (!s_data)
++		return -ENOMEM;
++
++	mipi_dsi_set_drvdata(dsi, s_data);
++	s_data->dsi = dsi;
++
++	ret = device_property_read_u32(dev, "max-brightness", &props.max_brightness);
++	if (ret)
++		return ret;
++	props.type = BACKLIGHT_RAW;
++
++	s_data->bl = devm_backlight_device_register(dev, dev_name(dev),
++						   dev, s_data, &summit_bl_ops, &props);
++	if (IS_ERR(s_data->bl))
++		return PTR_ERR(s_data->bl);
++
++	drm_panel_init(&s_data->panel, dev, &summit_panel_funcs,
++		       DRM_MODE_CONNECTOR_DSI);
++	drm_panel_add(&s_data->panel);
++
++	return mipi_dsi_attach(dsi);
++}
++
++static void summit_remove(struct mipi_dsi_device *dsi)
++{
++	struct summit_data *s_data = mipi_dsi_get_drvdata(dsi);
++
++	mipi_dsi_detach(dsi);
++	drm_panel_remove(&s_data->panel);
++}
++
++static int summit_resume(struct device *dev)
++{
++	return summit_set_brightness(dev);
++}
++
++static int summit_suspend(struct device *dev)
++{
++	struct summit_data *s_data = dev_get_drvdata(dev);
++
++	return mipi_dsi_dcs_set_display_brightness(s_data->dsi, 0);
++}
++
++static DEFINE_SIMPLE_DEV_PM_OPS(summit_pm_ops, summit_suspend,
++				summit_resume);
++
++static const struct of_device_id summit_of_match[] = {
++	{ .compatible = "apple,summit" },
++	{},
++};
++
++MODULE_DEVICE_TABLE(of, summit_of_match);
++
++static struct mipi_dsi_driver summit_driver = {
++	.probe = summit_probe,
++	.remove = summit_remove,
++	.driver = {
++		.name = "panel-summit",
++		.of_match_table = summit_of_match,
++		.pm = pm_sleep_ptr(&summit_pm_ops),
++	},
++};
++module_mipi_dsi_driver(summit_driver);
++
++MODULE_DESCRIPTION("Summit Display Panel Driver");
++MODULE_LICENSE("GPL");
 
- .../display/apple,h7-display-pipe-mipi.yaml        |  89 +++
- .../bindings/display/apple,h7-display-pipe.yaml    |  77 +++
- .../bindings/display/panel/apple,summit.yaml       |  58 ++
- MAINTAINERS                                        |   5 +
- arch/arm64/boot/dts/apple/t8103-j293.dts           |  31 ++
- arch/arm64/boot/dts/apple/t8103.dtsi               |  61 +++
- arch/arm64/boot/dts/apple/t8112-j493.dts           |  31 ++
- arch/arm64/boot/dts/apple/t8112.dtsi               |  62 +++
- drivers/gpu/drm/Kconfig                            |   2 +
- drivers/gpu/drm/Makefile                           |   1 +
- drivers/gpu/drm/adp/Kconfig                        |  16 +
- drivers/gpu/drm/adp/Makefile                       |   4 +
- drivers/gpu/drm/adp/adp-mipi.c                     | 251 +++++++++
- drivers/gpu/drm/adp/adp_drv.c                      | 594 +++++++++++++++++++++
- drivers/gpu/drm/panel/Kconfig                      |   9 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-summit.c               | 143 +++++
- 17 files changed, 1435 insertions(+)
----
-base-commit: 9f16d5e6f220661f73b36a4be1b21575651d8833
-change-id: 20241124-adpdrm-25fce3dd8a71
+-- 
+2.47.1
 
 
