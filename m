@@ -1,87 +1,225 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7203B1DE2AA
-	for <asahi@lists.linux.dev>; Tue, 26 Nov 2024 18:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F6F946C;
+	Tue, 26 Nov 2024 20:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732646049; cv=none; b=fF++qpIAfkjPR8Ry1YuzYlnvpBwzfUvfIx5D0KWHrrkJKDAXtDNb8KjxhAUVrEeaF6cB1MD34ba6LxvRWPYDJJ80fDg6thjJpP0Zyf/uLliJuzP52idG3+RrVINFROjwqPnLOTbilXYn9vi96Rt6+vb3dMwE6bbeOa4Cya1SfRA=
+	t=1732654094; cv=none; b=exZll5H4DQWf437TL5a7jvROxb2YGhtoHx+MguSqdKpNXjwpLuyJi49lt19Csfna/vR/BTyXD6OQkUqHBMLQuJ44klbfVapUD/Rg2zaqcZVRw2yuAKQTsZRf6NdWehJSVxScyFJkdJYyNhrEl4uCW9SdFqBbWc/oBApQ5bc3mWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732646049; c=relaxed/simple;
-	bh=B5ZdijXHGTf9/VBMxXk0sgaeGJSHANk1xhdrCGF3VVs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jcXBG+IBMWDGFCMaEI4biJreigbvkNITPfOQmxrXvQ9x6EEAvGbh/A872Y71qL1lnxs/jvPa1vPhrdmytJxB7NAL0v8l3X0chkO47ltumkxbceytd0huMJIUxNpie3yIryOo3DBS/u04CgEN+uPLhrCJyWxIlC4ftAVtl/pjMe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTnJCpiH; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732654094; c=relaxed/simple;
+	bh=3sfwidJbVEfmW6zxaxyjnfU+ygUlFzzFkMzDLVh/wfs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=mg4S32dXQT9uYruTmz9qsNQBvAs2goI27jx7ubr1ZK0OSD8Cvr70bIp32Qin9BUlc/z+TmR3v/8yQqMzR7/ud7ErnkiPxkQcvJ5LQtbi19sP0xiheNe0Ng6NJzKPC+W/oyLYX0i0BXdM2gfT2/BpDLaTAH48X4Cu5qWNHEIpRNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qwy7qRyt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTnJCpiH"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e382589e8fdso5807557276.0
-        for <asahi@lists.linux.dev>; Tue, 26 Nov 2024 10:34:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732646047; x=1733250847; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=B5ZdijXHGTf9/VBMxXk0sgaeGJSHANk1xhdrCGF3VVs=;
-        b=bTnJCpiHN8HIFuPwWjrPeBGN7GYKZXy5NMirIcApjL4oGbGRUKUWPAFWt67PVdPs2e
-         UcIf3WHwx5V48PnNooMWYkQYmULZBpNr6xxXol4H18d1KlK1ZVQdRzPtVqO4jpWARTBF
-         DQIN34rkPgRqn2sGEs7YCMerfDaw2ipdHhj70I+1gPqepJJMXCDW+Jz4F5OBChVx90yJ
-         EkUhnvtihWv4/wkRZXe4DnGZ+VWU2keDX7neT42uUKYJt0dfsXHpP46p1bNWdAevYYCO
-         rypIZ/NqO+PYvOy4VVeNEPpqQTUCm51gIomQD15oF8gqBh0zhNBcEK7sR75w4RY4CmOR
-         gq5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732646047; x=1733250847;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B5ZdijXHGTf9/VBMxXk0sgaeGJSHANk1xhdrCGF3VVs=;
-        b=YWyTGNhAdgkiCN1aIVchOhj0HTu6IHXRiErWi5GT0JrV9EP1Vksl6HLk4sXcNY9P/N
-         FOsqnWzR3DDZ0cVjooU1zo3xK6KrtGdy+oHT9KxgjyYFSGG+xne1NBBKDMzNioqeu2MP
-         ljqAzUpk9mFgqDIk33Ib5DEAv4+xqU3yV+vWQy13kFSGP6bVU31cuAeHERdPo29afjk3
-         wBZe0P746lxNWfqhRQ4KOh8/p3VJxUkhZt2hdzFbtXMiEUy/b6dj/4P401auBqHWX1EB
-         OxNIjG8ZmMGhkMQKBkKdmgOGVY8F9Do/Ek0UwO2ScWam4lrX0oTbH0uQOfziEFbcL9g0
-         OzYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQh32eicGULYNA9awmAn3hD99SxiPVBo6sraxQB4iMQ+Y0pv+I1lLFV2a5jbBi1XDOqQLIhg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGAYg5ayIkJhWDvowIQa2TlLFJKpzwwsJS9zz4mtDf0bOxi/Ev
-	cqPvvE8fprE9z6JRWbTCy9P+JF0ZwWI8eTSbiPcyIrWuR3u6jx6jdP70lCXLb0yngZJwyTwXTCf
-	QjYsqJFBD/Rlveq+7l+kSJBD8OTE=
-X-Gm-Gg: ASbGncs69dQ0kXtTFU8SpUe+gxvyv82Hdlik6tgtY7mxSiOqG5DYOrH3S8RuuEDoU9V
-	YTnYmv6WPgGbr3vwEXjMGL4E41Wj3sV3q
-X-Google-Smtp-Source: AGHT+IEAKAQZoBZRcCS59s6ATzOJRqSPoDhyFrhH0wpI4a7G9pyRjoqsbwGfh6mDJveSJ2gv3edzPDtBsyPh4VazY1Y=
-X-Received: by 2002:a05:6902:2606:b0:e30:e9b8:abcc with SMTP id
- 3f1490d57ef6-e395b973db9mr91652276.48.1732646047430; Tue, 26 Nov 2024
- 10:34:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qwy7qRyt"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D5443C4CED3;
+	Tue, 26 Nov 2024 20:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732654093;
+	bh=3sfwidJbVEfmW6zxaxyjnfU+ygUlFzzFkMzDLVh/wfs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=Qwy7qRytUbDPXbnhZYUz1OyCHBrgynuDosnuP6FApFOuv+o1zYReI3X1sMTv78IFr
+	 WZKgGodHntj+rYDlSQdLIWL6x7U1kTrtYowW0pL9UrgGjvojBVHOweEoDuZUDTMb4G
+	 rZZ+BExcAMi+jfaL+njkphmJ/V5k4u6HROyST8tSLLTd4O3mMYxhc1eD73fiIpcHUX
+	 UWo8fw5cxPgV0mtkSjXiDWb/1liJ9HU3RNzFCVcZhrKwh+wSegtmdySnHDI9dachFH
+	 DSMqPeErte2xuYM7/9iNqrPbY4mq18qD5wj0FX91zBSE2lvGeGOjJeTzktzek74vfF
+	 /6fjpfHJs2QHw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA719D65525;
+	Tue, 26 Nov 2024 20:48:13 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Date: Tue, 26 Nov 2024 21:48:01 +0100
+Subject: [PATCH 3/4] arm64: dts: apple: Add touchbar digitizer nodes
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241126-adpdrm-v2-0-c90485336c09@gmail.com> <20241126-adpdrm-v2-1-c90485336c09@gmail.com>
- <050d1398-cfc2-4921-b82a-95eecbcddba4@kernel.org>
-In-Reply-To: <050d1398-cfc2-4921-b82a-95eecbcddba4@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241126-z2-v1-3-c43c4cc6200d@gmail.com>
+References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
+In-Reply-To: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732654092; l=4794;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=gqYKJvX7z4TYFIJsxMCI4+iHYsE1/zB864hQ5FlH8lE=;
+ b=Nw0G9eeqDcbozBTTSvbTNsP02fpKEivr65A5bAVLeDx3aczp+j91xqgla8OBRfAY6NSjMiyh1
+ M0XVh9RkM2eBs2Lz7HYpPRPm4B1HrmkDyzdg+gzTUKKZC5iUDEJs8MC
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
+
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Tue, 26 Nov 2024 19:33:56 +0100
-Message-ID: <CAMT+MTRJrN1_LBm+Ba6wh1BcdG0co-AHY8t4rnLuLAV=75wZbA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: Add Apple pre-DCP display
- controller bindings
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 26 Nov 2024 at 17:46, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> Please take a look how other bindings define ports. You miss here
-> several items and more important - description what are these ports for.
+Adds device tree entries for the touchbar digitizer
 
-Aside from missing descriptions, this definition is copied almost verbatim from
-snps,dw-mipi-dsi.
-Ack on the rest of the comments, those and the descriptions will be
-fixed for v3.
+Co-developed-by: Janne Grunau <j@jannau.net>
+Signed-off-by: Janne Grunau <j@jannau.net>
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+ arch/arm64/boot/dts/apple/t8103-j293.dts | 24 ++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi     | 19 +++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112-j493.dts | 20 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi     | 14 ++++++++++++++
+ 4 files changed, 77 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
+index 56b0c67bfcda321b60c621de092643017693ff91..a1c4e5731f2147121a9845bc9f34d224025fb145 100644
+--- a/arch/arm64/boot/dts/apple/t8103-j293.dts
++++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
+@@ -28,6 +28,10 @@ led-0 {
+ 			default-state = "keep";
+ 		};
+ 	};
++
++	aliases {
++		touchbar0 = &touchbar0;
++	};
+ };
+ 
+ &bluetooth0 {
+@@ -38,6 +42,26 @@ &wifi0 {
+ 	brcm,board-type = "apple,honshu";
+ };
+ 
++&spi0 {
++	status = "okay";
++
++	touchbar0: touchbar@0 {
++		compatible = "apple,j293-touchbar",
++			"apple,z2-touchbar", "apple,z2-multitouch";
++		reg = <0>;
++		spi-max-frequency = <11500000>;
++		spi-cs-setup-delay-ns = <2000>;
++		spi-cs-hold-delay-ns = <2000>;
++		reset-gpios = <&pinctrl_ap 139 GPIO_ACTIVE_LOW>;
++		cs-gpios = <&pinctrl_ap 109 0>;
++		interrupts-extended = <&pinctrl_ap 194 IRQ_TYPE_EDGE_FALLING>;
++		firmware-name = "apple/dfrmtfw-j293.bin";
++		touchscreen-size-x = <23045>;
++		touchscreen-size-y = <640>;
++		label = "MacBookPro17,1 Touch Bar";
++	};
++};
++
+ &i2c2 {
+ 	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+index 9b0dad6b618444ac6b1c9735c50cccfc3965f947..dc72aae3844bf33579f623f0b01abc7de4033af4 100644
+--- a/arch/arm64/boot/dts/apple/t8103.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+@@ -326,6 +326,13 @@ clkref: clock-ref {
+ 		clock-output-names = "clkref";
+ 	};
+ 
++	clk_200m: clock-200m {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <200000000>;
++		clock-output-names = "clk_200m";
++	};
++
+ 	/*
+ 	 * This is a fabulated representation of the input clock
+ 	 * to NCO since we don't know the true clock tree.
+@@ -441,6 +448,18 @@ fpwm1: pwm@235044000 {
+ 			status = "disabled";
+ 		};
+ 
++		spi0: spi@235100000 {
++			compatible = "apple,t8103-spi", "apple,spi";
++			reg = <0x2 0x35100000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 614 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&clk_200m>;
++			power-domains = <&ps_spi0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled"; /* only used in J293 */
++		};
++
+ 		serial0: serial@235200000 {
+ 			compatible = "apple,s5l-uart";
+ 			reg = <0x2 0x35200000 0x0 0x1000>;
+diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
+index 0ad908349f55406783942735a2e9dad54cda00ec..03fb711b3a1fa767ba70807a6d3404e4d52eb783 100644
+--- a/arch/arm64/boot/dts/apple/t8112-j493.dts
++++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
+@@ -20,6 +20,7 @@ / {
+ 	aliases {
+ 		bluetooth0 = &bluetooth0;
+ 		wifi0 = &wifi0;
++		touchbar0 = &touchbar0;
+ 	};
+ 
+ 	led-controller {
+@@ -67,3 +68,22 @@ &i2c4 {
+ &fpwm1 {
+ 	status = "okay";
+ };
++
++&spi3 {
++	status = "okay";
++
++	touchbar0: touchbar@0 {
++		compatible = "apple,j493-touchbar", "apple,z2-touchbar", "apple,z2-multitouch";
++		reg = <0>;
++		label = "Mac14,7 Touch Bar";
++		spi-max-frequency = <8000000>;
++		spi-cs-setup-delay-ns = <2000>;
++		spi-cs-hold-delay-ns = <2000>;
++
++		reset-gpios = <&pinctrl_ap 170 GPIO_ACTIVE_LOW>;
++		interrupts-extended = <&pinctrl_ap 174 IRQ_TYPE_EDGE_FALLING>;
++		firmware-name = "apple/dfrmtfw-j493.bin";
++		touchscreen-size-x = <23045>;
++		touchscreen-size-y = <640>;
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
+index 1666e6ab250bc0be9b8318e3c8fc903ccd3f3760..977c1ca5e8c1b566bb3876b6619ea8812b98e072 100644
+--- a/arch/arm64/boot/dts/apple/t8112.dtsi
++++ b/arch/arm64/boot/dts/apple/t8112.dtsi
+@@ -467,6 +467,20 @@ fpwm1: pwm@235044000 {
+ 			status = "disabled";
+ 		};
+ 
++		spi3: spi@23510c000 {
++			compatible = "apple,t8112-spi", "apple,spi";
++			reg = <0x2 0x3510c000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 751 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&clkref>;
++			pinctrl-0 = <&spi3_pins>;
++			pinctrl-names = "default";
++			power-domains = <&ps_spi3>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
+ 		serial0: serial@235200000 {
+ 			compatible = "apple,s5l-uart";
+ 			reg = <0x2 0x35200000 0x0 0x1000>;
+
+-- 
+2.47.1
+
+
