@@ -1,220 +1,160 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1ED5B05E
-	for <asahi@lists.linux.dev>; Tue, 26 Nov 2024 17:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D534E1D63FD;
+	Tue, 26 Nov 2024 17:20:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732640877; cv=none; b=e2ZfFv+OQK2U6DTNU2BDR68gn4qdIvHWP3wbf+RWHE+AI56Ue3I1Zn1QPJwnTRkx74f/dbSXQTrg0FDR1DCTzxRkIfgmDfwlgJpvQ0EjZUc77SdG5zLqTrPJ9MDUVmUZW5PTgQ/fvkjmQS4cI94h8/WIPEUMRDzOJE6Tn/Kb+tw=
+	t=1732641660; cv=none; b=IdPgzd8rbEn1pZh23+xsO4uZCJ5a9u4arJj0zot92Q68QtBNSxI/v3sJG8xN2UvK8uiQ67jM3O8jN6HX9R6xCkI63GVVdkDGi6Wh9WhwkbM6/MV2dkupmlqFpNOWEC7xRAm3Y4Sm57SBSKQt1GlHx6noYmsrSUHCTuUIW+O1AfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732640877; c=relaxed/simple;
-	bh=pV/9u4I8GzbUzuhef6l8bVcuRWjBHjz/xWKgCklFCCg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qYct4UMQ8X4HyjWguW8+xgcyIe/JR2tjgFpR6LjzMWiBnn0i+iiKgMeX3hwGXCndlTEEIh86tyRKHor+gwr2NaCZA+97uImV9MDO+gWtVjFEQ9BNzE+zZmF+G9SDAH8QnOnMGkfwH/8AWFYTquXWFlA77EDLqXLy78wslhRhDJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xbmu7P3C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732641660; c=relaxed/simple;
+	bh=HC+vl7/DBwGqbZ5r3+JrPsKVS/tT8M2IrQGD/R4uK10=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=prcKUG8soGQ8d6yDNzUMu0OnettAhoHE+gRCLJbN36VQBXOwLjIkYCvUT4Vx1N/fbo0c0vX9mYTe4uE7vNPxZOgrJ92y8r8ODD5PaZQ7Bdx4Og8ytOadclUmNIkyqaGywy4Y3Hc+/TOvZFJU0yc2kwo5a9NaniqZdggupQ4MSnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKUo4AUW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xbmu7P3C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB470C4CEDB
-	for <asahi@lists.linux.dev>; Tue, 26 Nov 2024 17:07:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKUo4AUW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA19BC4CECF;
+	Tue, 26 Nov 2024 17:20:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732640876;
-	bh=pV/9u4I8GzbUzuhef6l8bVcuRWjBHjz/xWKgCklFCCg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Xbmu7P3CxXdzZ1ojMF1f0tfwsfzxc/67inreyFT4h9ch3TgnJtWBWhOryHi1y42K1
-	 NUodPUWXsr3b0up4YdlJWyS5fqSmHNgZ108i2j3jHzXzHzgZ3Tj2/JEBGb/BN+LaUh
-	 iy1XA0viYqxHdfsKXh2WMWp3hj/CSAnHKVFlfn6X7dzuTmRGAQpc6nQ7DHQwtMadKl
-	 M0F7x2X3YDqcFFbunyt/b6l/sNIsd14pcWD10f84fGKj5trcDL+fSEi2MwBTCHXMUq
-	 rURtg5U3VqJorN95Pna6kLRLgKsGHuFqAEyjYKaRQObGpuz3XOkrDdQ1IRNGVqK9Cz
-	 HGcReODgJ1kGQ==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53de101525eso2560556e87.0
-        for <asahi@lists.linux.dev>; Tue, 26 Nov 2024 09:07:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUfOaI0lpRIfAPnhLehybf3WK8ETd+B4zu2TmOlWb2oxkQd2a58vvGBS8aQCMQUqCiynClM+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQdmEYMiOPyQ0jv7d9DcmQbWly8HjOWsGeZBypdwLVRLp0L8Yi
-	1WRvq+8Qy3oNHdqN9O7VCRCNdsKj71+JL5qVAFUorwmkKLGv0ogVZeWXjdz/A6D0RYDW9Mat6Gr
-	QxGLiJ3sux3pBLyYa3ftzF86Tmbo=
-X-Google-Smtp-Source: AGHT+IEsHaKYGw7w+gVoJMAtUh2GgApnKj5MhP1ZudIvdeWbErn4bg7YUAsqfagcTYCCPN44cxsWm6jAxXerxT2y9nk=
-X-Received: by 2002:a05:6512:224f:b0:53d:de87:d82f with SMTP id
- 2adb3069b0e04-53de8800089mr1246206e87.4.1732640875354; Tue, 26 Nov 2024
- 09:07:55 -0800 (PST)
+	s=k20201202; t=1732641659;
+	bh=HC+vl7/DBwGqbZ5r3+JrPsKVS/tT8M2IrQGD/R4uK10=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vKUo4AUWUqgyr3tNszGEBeFlv4CqYDiy84iSx7kY9FsdyPVVATZPe8WQ5TAM+J1T5
+	 ya0iAvKRLh0w9jsrCquEHPMxjVV8Py2Z4vSNRn5oOG4Kdg1AOfyfZQ+8dkMMARZCU6
+	 NX6lH7fGTJKe59i5Ku3csAQhfYjyrgryoqwaCUjHbuYHqg50CZZiRPj3DqiOwBGPE9
+	 2Q9RFnp3DNG9nGszuGejmxGhvYBEe73PqVYPLX1vV8hj7o1KAUR1cSMvfg3WBAZcS0
+	 PSS6Zt5P0B1uc1ckNkSFNSfZ2FdkDmYKbfj0xKcSzAwRFgpy92leyPlde7uvrSmKCw
+	 WlRDSbIGfhdPQ==
+Message-ID: <e5b9ad58-ab31-4485-a2fe-d622f8e0f31b@kernel.org>
+Date: Tue, 26 Nov 2024 18:20:51 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com> <20241121204220.2378181-37-samitolvanen@google.com>
-In-Reply-To: <20241121204220.2378181-37-samitolvanen@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 27 Nov 2024 02:07:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQUkMtRmyiovCebrXhrdz2GnUo+0SQMHaCc0evZatohfw@mail.gmail.com>
-Message-ID: <CAK7LNAQUkMtRmyiovCebrXhrdz2GnUo+0SQMHaCc0evZatohfw@mail.gmail.com>
-Subject: Re: [PATCH v6 17/18] kbuild: Add gendwarfksyms as an alternative to genksyms
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: Add Apple pre-DCP display
+ controller bindings
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241126-adpdrm-v2-0-c90485336c09@gmail.com>
+ <20241126-adpdrm-v2-1-c90485336c09@gmail.com>
+ <050d1398-cfc2-4921-b82a-95eecbcddba4@kernel.org>
+ <CAMT+MTSwCf=iwmD3t=E7T81K_d+o-5XpCxov9fk=_oUnwooA-A@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CAMT+MTSwCf=iwmD3t=E7T81K_d+o-5XpCxov9fk=_oUnwooA-A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 22, 2024 at 5:43=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
->
-> When MODVERSIONS is enabled, allow selecting gendwarfksyms as the
-> implementation, but default to genksyms.
->
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> ---
->  kernel/module/Kconfig  | 25 ++++++++++++++++++++++++-
->  scripts/Makefile       |  2 +-
->  scripts/Makefile.build | 35 +++++++++++++++++++++++++++++------
->  3 files changed, 54 insertions(+), 8 deletions(-)
->
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index f9e5f82fa88b..e6b2427e5c19 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -169,13 +169,36 @@ config MODVERSIONS
->           make them incompatible with the kernel you are running.  If
->           unsure, say N.
->
-> +choice
-> +       prompt "Module versioning implementation"
-> +       depends on MODVERSIONS
-> +       default GENKSYMS
+On 26/11/2024 18:00, Sasha Finkelstein wrote:
+> On Tue, 26 Nov 2024 at 17:46, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>> +allOf:
+>>> +  - $ref: dsi-controller.yaml#
+> ...
+>>> +patternProperties:
+>>> +  "^panel@[0-3]$": true
+>>
+>> These look unusual. Is this a DSI controller? If so, then reference
+>> dsi-controller. See other bindings how this is done.
+> 
+> This is a DSI controller, as referenced above. Those properties are from
+> dsi-controller.yaml
 
-This is redundant because the first entry is the default.
+Ahh, indeed, I missed that and focused on the additionalProperties.
+Instead use unevaluatedProperties: false and drop all properties already
+in dsi-controller.yaml.
 
+> 
+>>> +properties:
+>>> +  compatible:
+>>> +    items:
+>>> +      - enum:
+>>> +          - apple,j293-summit
+>>> +          - apple,j493-summit
+>>> +      - const: apple,summit
+>>
+>> Summit tells me nothing - no description, title repeats it, so I suggest
+>> using device specific compatible.
+> 
+> The j293/j493 are the device-specific compatibles, those are chassis names
+> for the specific laptops the panel is present in.
 
+This does not address my comment. Use specific compatibles as fallback,
+just like we recommend for every device. This should not be different.
+If you do not know the hardware details, using generic is even less
+appropriate.
 
-> +       help
-> +         Select the tool used to calculate symbol versions for modules.
-> +
-> +         If unsure, select GENKSYMS.
-> +
-> +config GENKSYMS
-> +       bool "genksyms (from source code)"
-> +       help
-> +         Calculate symbol versions from pre-processed source code using
-> +         genksyms.
-> +
-> +         If unsure, say Y.
-> +
->  config GENDWARFKSYMS
-> -       bool
-> +       bool "gendwarfksyms (from debugging information)"
->         depends on DEBUG_INFO
->         # Requires full debugging information, split DWARF not supported.
->         depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
->         # Requires ELF object files.
->         depends on !LTO
-> +       help
-> +         Calculate symbol versions from DWARF debugging information usin=
-g
-> +         gendwarfksyms. Requires DEBUG_INFO to be enabled.
-> +
-> +         If unsure, say N.
-> +endchoice
->
->  config ASM_MODVERSIONS
->         bool
-> diff --git a/scripts/Makefile b/scripts/Makefile
-> index d7fec46d38c0..8533f4498885 100644
-> --- a/scripts/Makefile
-> +++ b/scripts/Makefile
-> @@ -53,7 +53,7 @@ hostprogs +=3D unifdef
->  targets +=3D module.lds
->
->  subdir-$(CONFIG_GCC_PLUGINS) +=3D gcc-plugins
-> -subdir-$(CONFIG_MODVERSIONS) +=3D genksyms
-> +subdir-$(CONFIG_GENKSYMS) +=3D genksyms
->  subdir-$(CONFIG_GENDWARFKSYMS) +=3D gendwarfksyms
->  subdir-$(CONFIG_SECURITY_SELINUX) +=3D selinux
->  subdir-$(CONFIG_SECURITY_IPE) +=3D ipe
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index f41ce2131979..d6b211a7b261 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -107,13 +107,24 @@ cmd_cpp_i_c       =3D $(CPP) $(c_flags) -o $@ $<
->  $(obj)/%.i: $(obj)/%.c FORCE
->         $(call if_changed_dep,cpp_i_c)
->
-> +getexportsymbols =3D $(NM) $@ | sed -n 's/.* __export_symbol_\(.*\)/$(1)=
-/p'
-> +
-> +gendwarfksyms =3D $(objtree)/scripts/gendwarfksyms/gendwarfksyms \
-> +       $(if $(KBUILD_SYMTYPES), --symtypes $(@:.o=3D.symtypes))  \
-> +       $(if $(KBUILD_GENDWARFKSYMS_STABLE), --stable)
-> +
->  genksyms =3D $(objtree)/scripts/genksyms/genksyms                \
->         $(if $(KBUILD_SYMTYPES), -T $(@:.o=3D.symtypes))  \
->         $(if $(KBUILD_PRESERVE), -p)                    \
->         $(addprefix -r , $(wildcard $(@:.o=3D.symref)))
->
->  # These mirror gensymtypes_S and co below, keep them in synch.
-> +ifdef CONFIG_GENDWARFKSYMS
-> +cmd_gensymtypes_c =3D $(if $(skip_gendwarfksyms),,       \
-> +       $(call getexportsymbols,\1) | $(gendwarfksyms) $@)
-> +else
->  cmd_gensymtypes_c =3D $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
-> +endif # CONFIG_GENDWARFKSYMS
->
->  # LLVM assembly
->  # Generate .ll files from .c
-> @@ -279,14 +290,26 @@ $(obj)/%.ll: $(obj)/%.rs FORCE
->  # This is convoluted. The .S file must first be preprocessed to run guar=
-ds and
->  # expand names, then the resulting exports must be constructed into plai=
-n
->  # EXPORT_SYMBOL(symbol); to build our dummy C file, and that gets prepro=
-cessed
-> -# to make the genksyms input.
-> +# to make the genksyms input or compiled into an object for gendwarfksym=
-s.
->  #
->  # These mirror gensymtypes_c and co above, keep them in synch.
-> -cmd_gensymtypes_S =3D                                                   =
-      \
-> -   { echo "\#include <linux/kernel.h>" ;                                =
-    \
-> -     echo "\#include <asm/asm-prototypes.h>" ;                          =
-    \
-> -     $(NM) $@ | sed -n 's/.* __export_symbol_\(.*\)/EXPORT_SYMBOL(\1);/p=
-' ; } | \
-> -    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
-> +getasmexports =3D                                                       =
-         \
-> +   { echo "\#include <linux/kernel.h>" ;                               \
-> +     echo "\#include <linux/string.h>" ;                               \
-> +     echo "\#include <asm/asm-prototypes.h>" ;                         \
-> +     $(call getexportsymbols,EXPORT_SYMBOL(\1);) ; }
-> +
-> +ifdef CONFIG_GENDWARFKSYMS
-> +cmd_gensymtypes_S =3D                                                   =
- \
-> +       $(getasmexports) |                                              \
-> +       $(CC) $(c_flags) -c -o $(@:.o=3D.gendwarfksyms.o) -xc -;         =
- \
-> +       $(call getexportsymbols,\1) |                                   \
-> +       $(gendwarfksyms) $(@:.o=3D.gendwarfksyms.o)
-> +else
-> +cmd_gensymtypes_S =3D                                                   =
- \
-> +       $(getasmexports) |                                              \
-> +       $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
-> +endif # CONFIG_GENDWARFKSYMS
->
->  quiet_cmd_cpp_s_S =3D CPP $(quiet_modtag) $@
->  cmd_cpp_s_S       =3D $(CPP) $(a_flags) -o $@ $<
-> --
-> 2.47.0.371.ga323438b13-goog
->
+> 
+> 
+>> No, these cannot be true without definition. Again, please open existing
+>> bindings and use them as example. You probably miss here some reference,
+>> but max-brightness for panel is a bit confusing. I asked already and did
+>> not get answer: isn't this backlight property? What is this device -
+>> backlight or panel? If panel, then what bus?
+> 
+> Per my response on previous version, it's both, kind of. This is a
+> self-emissive panel on
+
+I see, I think I again totally missed that you have there references to
+backlight, so binding is in general fine. Describe the hardware in
+description field (see commit for mentioned Samsung panel).
 
 
---=20
-Best Regards
-Masahiro Yamada
+Best regards,
+Krzysztof
