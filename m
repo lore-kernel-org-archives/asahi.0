@@ -1,71 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E165AD26D;
-	Tue, 26 Nov 2024 18:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7203B1DE2AA
+	for <asahi@lists.linux.dev>; Tue, 26 Nov 2024 18:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732645810; cv=none; b=WhGw3jJGsosXRM5vYVDDba6XuDApy5Tjw4P3pMzDVZf52aUMEDK+ylLi8zLmIUI244II4Zu3+ULRm3f3+XK8i/qNcdV++fkIISZho4xkTMC7Xy7JWHm//sIB2GSh5lldIAWqaRcIDFBPZ3zpNeF1KpnzewO3pkPAOR3AmH2K7ao=
+	t=1732646049; cv=none; b=fF++qpIAfkjPR8Ry1YuzYlnvpBwzfUvfIx5D0KWHrrkJKDAXtDNb8KjxhAUVrEeaF6cB1MD34ba6LxvRWPYDJJ80fDg6thjJpP0Zyf/uLliJuzP52idG3+RrVINFROjwqPnLOTbilXYn9vi96Rt6+vb3dMwE6bbeOa4Cya1SfRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732645810; c=relaxed/simple;
-	bh=xJxnjepxK0AEdfOi6g9/KK12La2nbdJnN04DFsBA1UU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c8JVCcI0qZVU1o5udfJ9CnEU7TC2j6n+7/AkfZ67Z31MD4v3qu/wTDOvEigfh8xx5NmtgKEJtTslkaeNaGOeezeYfEBQdRww1V9rsic6mcEND+MKMF2WywS08pyEcagZ3GscRaCWvGJgv3R/zfPtW1FIYDQi9+6tv2ndDbv7XaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMdrxGfx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732646049; c=relaxed/simple;
+	bh=B5ZdijXHGTf9/VBMxXk0sgaeGJSHANk1xhdrCGF3VVs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jcXBG+IBMWDGFCMaEI4biJreigbvkNITPfOQmxrXvQ9x6EEAvGbh/A872Y71qL1lnxs/jvPa1vPhrdmytJxB7NAL0v8l3X0chkO47ltumkxbceytd0huMJIUxNpie3yIryOo3DBS/u04CgEN+uPLhrCJyWxIlC4ftAVtl/pjMe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTnJCpiH; arc=none smtp.client-ip=209.85.219.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMdrxGfx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF45CC4CED0;
-	Tue, 26 Nov 2024 18:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732645809;
-	bh=xJxnjepxK0AEdfOi6g9/KK12La2nbdJnN04DFsBA1UU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QMdrxGfxApaLT6JB8X+787BYq9pDSG9WhjeCG55VdqH+w/RUWwLHLhVS0W9U2s902
-	 TkBJC8WDKfGLDKQBmymw7OOJjWOE9wGowLBeZ+gmybqPXtuKajzpg8xcveo7BCwOgl
-	 yMlaDb717UxCNP7AHYZvpbYqOArsNXZ+ooBmMaqDkcQBESl5M2fH+fXpBYjsYdfsuJ
-	 3HBqORXD3W67Jr/IzZjhLbk90+uMUKI1KgTRKtCATSg16L7z0fVjmBQgchOqJqfyXd
-	 XiyHiBzLSXi4CeBE8O4sTA7xvd23Z27/mItW3ib5I9pjmKEXwQ6SV2Xf7s5IaCOV6K
-	 8e0wmuXHhiYzw==
-Date: Tue, 26 Nov 2024 10:30:07 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthew Maurer <mmaurer@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
-	Miroslav Benes <mbenes@suse.cz>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-Message-ID: <Z0YTrwR67-5T86E6@bombadil.infradead.org>
-References: <20241121204220.2378181-20-samitolvanen@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTnJCpiH"
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e382589e8fdso5807557276.0
+        for <asahi@lists.linux.dev>; Tue, 26 Nov 2024 10:34:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732646047; x=1733250847; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=B5ZdijXHGTf9/VBMxXk0sgaeGJSHANk1xhdrCGF3VVs=;
+        b=bTnJCpiHN8HIFuPwWjrPeBGN7GYKZXy5NMirIcApjL4oGbGRUKUWPAFWt67PVdPs2e
+         UcIf3WHwx5V48PnNooMWYkQYmULZBpNr6xxXol4H18d1KlK1ZVQdRzPtVqO4jpWARTBF
+         DQIN34rkPgRqn2sGEs7YCMerfDaw2ipdHhj70I+1gPqepJJMXCDW+Jz4F5OBChVx90yJ
+         EkUhnvtihWv4/wkRZXe4DnGZ+VWU2keDX7neT42uUKYJt0dfsXHpP46p1bNWdAevYYCO
+         rypIZ/NqO+PYvOy4VVeNEPpqQTUCm51gIomQD15oF8gqBh0zhNBcEK7sR75w4RY4CmOR
+         gq5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732646047; x=1733250847;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B5ZdijXHGTf9/VBMxXk0sgaeGJSHANk1xhdrCGF3VVs=;
+        b=YWyTGNhAdgkiCN1aIVchOhj0HTu6IHXRiErWi5GT0JrV9EP1Vksl6HLk4sXcNY9P/N
+         FOsqnWzR3DDZ0cVjooU1zo3xK6KrtGdy+oHT9KxgjyYFSGG+xne1NBBKDMzNioqeu2MP
+         ljqAzUpk9mFgqDIk33Ib5DEAv4+xqU3yV+vWQy13kFSGP6bVU31cuAeHERdPo29afjk3
+         wBZe0P746lxNWfqhRQ4KOh8/p3VJxUkhZt2hdzFbtXMiEUy/b6dj/4P401auBqHWX1EB
+         OxNIjG8ZmMGhkMQKBkKdmgOGVY8F9Do/Ek0UwO2ScWam4lrX0oTbH0uQOfziEFbcL9g0
+         OzYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQh32eicGULYNA9awmAn3hD99SxiPVBo6sraxQB4iMQ+Y0pv+I1lLFV2a5jbBi1XDOqQLIhg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGAYg5ayIkJhWDvowIQa2TlLFJKpzwwsJS9zz4mtDf0bOxi/Ev
+	cqPvvE8fprE9z6JRWbTCy9P+JF0ZwWI8eTSbiPcyIrWuR3u6jx6jdP70lCXLb0yngZJwyTwXTCf
+	QjYsqJFBD/Rlveq+7l+kSJBD8OTE=
+X-Gm-Gg: ASbGncs69dQ0kXtTFU8SpUe+gxvyv82Hdlik6tgtY7mxSiOqG5DYOrH3S8RuuEDoU9V
+	YTnYmv6WPgGbr3vwEXjMGL4E41Wj3sV3q
+X-Google-Smtp-Source: AGHT+IEAKAQZoBZRcCS59s6ATzOJRqSPoDhyFrhH0wpI4a7G9pyRjoqsbwGfh6mDJveSJ2gv3edzPDtBsyPh4VazY1Y=
+X-Received: by 2002:a05:6902:2606:b0:e30:e9b8:abcc with SMTP id
+ 3f1490d57ef6-e395b973db9mr91652276.48.1732646047430; Tue, 26 Nov 2024
+ 10:34:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241121204220.2378181-20-samitolvanen@google.com>
+References: <20241126-adpdrm-v2-0-c90485336c09@gmail.com> <20241126-adpdrm-v2-1-c90485336c09@gmail.com>
+ <050d1398-cfc2-4921-b82a-95eecbcddba4@kernel.org>
+In-Reply-To: <050d1398-cfc2-4921-b82a-95eecbcddba4@kernel.org>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Tue, 26 Nov 2024 19:33:56 +0100
+Message-ID: <CAMT+MTRJrN1_LBm+Ba6wh1BcdG0co-AHY8t4rnLuLAV=75wZbA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: Add Apple pre-DCP display
+ controller bindings
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 21, 2024 at 08:42:21PM +0000, Sami Tolvanen wrote:
-> If you also want to test the series with actual Rust modules, this
-> branch adds Matt's latest modversion_info series:
+On Tue, 26 Nov 2024 at 17:46, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> Please take a look how other bindings define ports. You miss here
+> several items and more important - description what are these ports for.
 
-The merge window for v6.13 is now open so this is too late for that, so
-this is all work to be queued up after, so in about 2 weeks or so. Given
-that, considering this and the extended modversions patches what I don't
-see is actual selftests to easily test this and extended modversions.
-Could you guys add tests for this? Since we have automated tests for
-modules and we now extended it with another new test for kallsyms under
-the modules directly it should be fairly easy I think to add tests for
-this. Think about how we can easily grow these tests to ensure we don't
-break things with future kernel regressions.
-
-  Luis
+Aside from missing descriptions, this definition is copied almost verbatim from
+snps,dw-mipi-dsi.
+Ack on the rest of the comments, those and the descriptions will be
+fixed for v3.
