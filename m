@@ -1,238 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7207013D278;
-	Wed, 27 Nov 2024 09:00:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69572A95E;
+	Wed, 27 Nov 2024 09:52:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732698025; cv=none; b=L57DjY0ZQC7MFPmhKL2XZ+tnLwDTfRUAPq7Ofsf9DHGYh69e2mt5280oHlVXkxqqleDl4h5ZPX6SnDRMLqnFOPgn6OBBwe7UKGMwRQg3ekNQdCKm6IrpNjj0WMMzhhSFDaB+vOCW9vJaAcR1QkE8GO8NNKBLcBwoh3wAMbgDtQY=
+	t=1732701176; cv=none; b=nauZfUx0yVuZhXw56dBe/z1nmqQZAhz/b7no34jBJ7/VLWq+yyIGse2FbmvU3Yb2+M6NhZM+f8g6qq1u9aGslrzuuhB7cAAszrwK/P7dYGSjgAE8QLhF1fPjowheVmgOZE//xApM4pJm+gqWt7QNCoTHN7ChPE5fOV0MMR6h3so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732698025; c=relaxed/simple;
-	bh=skOG+mShRmZEUftI8NfzklM92Fji6/eTdCiEyIalZAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p5DHdehMGzpJlXEFW353xqgGRr+TYixo3skNJ2xkz3eSb/KvWPBIbY9hcoy35W0seDCMl+tPBGW3oeIn2EscXl0nK3EW9k+9wCqmCQY7vGzV8gRP5pddRUELX6nHE10F34nDR8VeC6whd7tZJUlL3ERGqO9FB6Kj7A+tquA3wZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMB8cufs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732701176; c=relaxed/simple;
+	bh=mrf6lKlF96SpNcTN0gbN/Kkk9/u7S84IM9hSP1KPBDw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=P/UO17VnajTv8R4j05HrgR0ZVwt0ZNiDnSr47LeWziGjWRw6QW3Fhsurg1NxEChQMna/HMml7RxhTDTlSSkOBefHSzPJDeo33W9sOgLy88V35De0+DYMxkKDZBMB7oCaeicHPFnt/QKCXDfYBgv13qyaX3V8QFroLHeKDM8Py/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OyA0CIpb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMB8cufs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3606FC4CED3;
-	Wed, 27 Nov 2024 09:00:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OyA0CIpb"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 01863C4CED3;
+	Wed, 27 Nov 2024 09:52:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732698025;
-	bh=skOG+mShRmZEUftI8NfzklM92Fji6/eTdCiEyIalZAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QMB8cufs71rrLPIEQ4bVG2jDaYfa8StaN0GAOpQA1h/fdinByMiftHdvjWLQhO5lw
-	 DaYLtwMXqd9YYEjCnRzjPYPKexatzVpXXOYRP+UhdLbpoIVn+4NrUHW9WcoOOObvaH
-	 Hm5Ykm2Cs3XtT5AG4f8TEtQVHojz5rsBWMqX9EWlbiIPSWfDYTITc+DJSVBcFQdOWu
-	 1SitDC+yOjFQAiJPONQqDTTlKPgxNQU4ag02HsFv7mg8gX8/GH4ZfSs40/iiH47l5h
-	 TV3qw0cMe/ygKN9VeppUKg3RsWJ/fxXZ/L6T/3y1sx6GEeKj0nYbRP9dWJsFaIs27F
-	 K2/Wj2uKNYwMA==
-Date: Wed, 27 Nov 2024 10:00:21 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH 2/4] input: apple_z2: Add a driver for Apple Z2
- touchscreens
-Message-ID: <27amnmlm52igidlv23h3d3bvaezbdumedfkqicbtreka3llhqs@fafepduxgv43>
-References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com>
- <20241126-z2-v1-2-c43c4cc6200d@gmail.com>
+	s=k20201202; t=1732701176;
+	bh=mrf6lKlF96SpNcTN0gbN/Kkk9/u7S84IM9hSP1KPBDw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=OyA0CIpb58l7sK6keulMNr6mc/02BxPLn6cAkJdESs07aC+qg0b5uWMBWXRJi0b/B
+	 /r7SDWsL7VjNesD4YaQbGl9wBQ3W3dm1/qbx2Bzuof/ciAPDqLGzMCdIt90YJJcdfm
+	 si3PAgq56nQ6oaLiark25E84goCJ5Hxmg+iz3XFSLoTIWD3WbrYbhB/yBb95mZoyg9
+	 eVtKkolxuiTkAAVSfMNLEGJtAoXuB1urlylOEV7xgRdOfS/X+uOdGg3G+DHgMf4QYS
+	 Mk25VS4KlmB8I6S3jBvAqGqAooLUuY7pnkN042ko8/hjovIHRp//85Vp1E78vx35Ow
+	 q+CgJp9KBJ0UA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3ADFD609C6;
+	Wed, 27 Nov 2024 09:52:55 +0000 (UTC)
+From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Date: Wed, 27 Nov 2024 10:52:28 +0100
+Subject: [PATCH RESEND 1/5] arm64: dts: apple: t8103: Fix spi4 power domain
+ sort order
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241126-z2-v1-2-c43c4cc6200d@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241127-asahi-spi-dt-v1-1-907c9447f623@jannau.net>
+References: <20241127-asahi-spi-dt-v1-0-907c9447f623@jannau.net>
+In-Reply-To: <20241127-asahi-spi-dt-v1-0-907c9447f623@jannau.net>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1456; i=j@jannau.net;
+ s=yk2024; h=from:subject:message-id;
+ bh=dM/GrGK9N/5tAToyLPPTWx70HidhWtGG6XOo893Pexw=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhnS311/32JbP5bsq58ui+/r2j9WvAx7t70h6m/D3h2PmR
+ VuH+oK0jlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABPZPp3hr/hp1+8/arcbTFp/
+ 4argg5kL7Fgvv93rdbijhvPHpdnzTxgzMtwQfK5+QCftNNcO8/Ue4mtZH3FndTJeEwgW83u7f/H
+ jTBYA
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: j@jannau.net
 
-On Tue, Nov 26, 2024 at 09:48:00PM +0100, Sasha Finkelstein wrote:
-> +static int apple_z2_boot(struct apple_z2 *z2)
-> +{
-> +	int timeout;
-> +
-> +	enable_irq(z2->spidev->irq);
-> +	gpiod_direction_output(z2->reset_gpio, 0);
-> +	timeout = wait_for_completion_timeout(&z2->boot_irq, msecs_to_jiffies(20));
-> +	if (timeout == 0)
-> +		return -ETIMEDOUT;
-> +	return apple_z2_upload_firmware(z2);
-> +}
-> +
-> +static int apple_z2_open(struct input_dev *dev)
-> +{
-> +	struct apple_z2 *z2 = input_get_drvdata(dev);
-> +	int error;
-> +
-> +	/* Reset the device on boot */
-> +	gpiod_direction_output(z2->reset_gpio, 1);
-> +	usleep_range(5000, 10000);
-> +	error = apple_z2_boot(z2);
-> +	if (error) {
-> +		gpiod_direction_output(z2->reset_gpio, 1);
+From: Hector Martin <marcan@marcan.st>
 
-This is less readable code. Each function should clean up its own stuff,
-so if z2_boot() de-asserted the reset, then z2_boot() should clean up by
-asserting again, not expecting the caller to do this.
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ arch/arm64/boot/dts/apple/t8103-pmgr.dtsi | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-> +		disable_irq(z2->spidev->irq);
-> +	} else
-> +		z2->open = 1;
-> +	return error;
-> +}
-> +
-> +static void apple_z2_close(struct input_dev *dev)
-> +{
-> +	struct apple_z2 *z2 = input_get_drvdata(dev);
-> +
-> +	disable_irq(z2->spidev->irq);
-> +	gpiod_direction_output(z2->reset_gpio, 1);
-> +	z2->open = 0;
-> +	z2->booted = 0;
-> +}
-> +
-> +static int apple_z2_probe(struct spi_device *spi)
-> +{
-> +	struct device *dev = &spi->dev;
-> +	struct apple_z2 *z2;
-> +	int error;
-> +	const char *label;
-> +	struct touchscreen_properties props;
-> +
-> +	z2 = devm_kzalloc(dev, sizeof(*z2), GFP_KERNEL);
-> +	if (!z2)
-> +		return -ENOMEM;
-> +
-> +	z2->spidev = spi;
-> +	init_completion(&z2->boot_irq);
-> +	spi_set_drvdata(spi, z2);
-> +
-> +	z2->cs_gpio = devm_gpiod_get_index(dev, "cs", 0, 0);
-> +	if (IS_ERR(z2->cs_gpio)) {
-> +		if (PTR_ERR(z2->cs_gpio) != -ENOENT) {
-> +			dev_err(dev, "unable to get cs");
-> +			return PTR_ERR(z2->cs_gpio);
-> +		}
-> +		z2->cs_gpio = NULL;
-> +	}
-> +
-> +	z2->reset_gpio = devm_gpiod_get_index(dev, "reset", 0, 0);
-> +	if (IS_ERR(z2->reset_gpio)) {
-> +		dev_err(dev, "unable to get reset");
+diff --git a/arch/arm64/boot/dts/apple/t8103-pmgr.dtsi b/arch/arm64/boot/dts/apple/t8103-pmgr.dtsi
+index 9645861a858c1a7c46c25a614c2cc4b03083bf46..c41c57d63997a59a9fe3c88de31fddb31781398e 100644
+--- a/arch/arm64/boot/dts/apple/t8103-pmgr.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103-pmgr.dtsi
+@@ -387,6 +387,15 @@ ps_spi3: power-controller@258 {
+ 		power-domains = <&ps_sio>, <&ps_spi_p>;
+ 	};
+ 
++	ps_spi4: power-controller@260 {
++		compatible = "apple,t8103-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x260 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "spi4";
++		power-domains = <&ps_sio>, <&ps_spi_p>;
++	};
++
+ 	ps_uart_n: power-controller@268 {
+ 		compatible = "apple,t8103-pmgr-pwrstate", "apple,pmgr-pwrstate";
+ 		reg = <0x268 4>;
+@@ -558,15 +567,6 @@ ps_mcc: power-controller@2f8 {
+ 		apple,always-on; /* Memory controller */
+ 	};
+ 
+-	ps_spi4: power-controller@260 {
+-		compatible = "apple,t8103-pmgr-pwrstate", "apple,pmgr-pwrstate";
+-		reg = <0x260 4>;
+-		#power-domain-cells = <0>;
+-		#reset-cells = <0>;
+-		label = "spi4";
+-		power-domains = <&ps_sio>, <&ps_spi_p>;
+-	};
+-
+ 	ps_dcs0: power-controller@300 {
+ 		compatible = "apple,t8103-pmgr-pwrstate", "apple,pmgr-pwrstate";
+ 		reg = <0x300 4>;
 
-Syntax is: return dev_err_probe, almost everywhere here.
+-- 
+2.47.0
 
-> +		return PTR_ERR(z2->reset_gpio);
-> +	}
-> +
-> +	error = devm_request_threaded_irq(dev, z2->spidev->irq, NULL,
-> +					apple_z2_irq, IRQF_ONESHOT | IRQF_NO_AUTOEN,
-> +					"apple-z2-irq", spi);
-> +	if (error < 0) {
-> +		dev_err(dev, "unable to request irq");
-> +		return z2->spidev->irq;
-> +	}
-> +
-> +	error = device_property_read_string(dev, "label", &label);
-> +	if (error) {
-> +		dev_err(dev, "unable to get device name");
-> +		return error;
-> +	}
-> +
-> +	error = device_property_read_string(dev, "firmware-name", &z2->fw_name);
-> +	if (error) {
-> +		dev_err(dev, "unable to get firmware name");
-> +		return error;
-> +	}
-> +
-> +	z2->cal_blob = of_get_property(dev->of_node, "apple,z2-cal-blob", &z2->cal_size);
-
-There is no such property.
-
-You cannot sneak undocumented properties.
-
-> +	if (!z2->cal_blob) {
-> +		dev_warn(dev, "unable to get calibration, precision may be degraded");
-> +		z2->cal_size = 0;
-> +	}
-> +
-> +	z2->input_dev = devm_input_allocate_device(dev);
-> +	if (!z2->input_dev)
-> +		return -ENOMEM;
-> +	z2->input_dev->name = label;
-> +	z2->input_dev->phys = "apple_z2";
-> +	z2->input_dev->dev.parent = dev;
-> +	z2->input_dev->id.bustype = BUS_SPI;
-> +	z2->input_dev->open = apple_z2_open;
-> +	z2->input_dev->close = apple_z2_close;
-> +
-> +	/* Allocate the axes before setting from DT */
-> +	input_set_abs_params(z2->input_dev, ABS_MT_POSITION_X, 0, 0, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_POSITION_Y, 0, 0, 0, 0);
-> +	touchscreen_parse_properties(z2->input_dev, true, &props);
-> +	z2->y_size = props.max_y;
-> +	input_abs_set_res(z2->input_dev, ABS_MT_POSITION_X, 100);
-> +	input_abs_set_res(z2->input_dev, ABS_MT_POSITION_Y, 100);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_WIDTH_MAJOR, 0, 65535, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_WIDTH_MINOR, 0, 65535, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_TOUCH_MAJOR, 0, 65535, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_TOUCH_MINOR, 0, 65535, 0, 0);
-> +	input_set_abs_params(z2->input_dev, ABS_MT_ORIENTATION, -32768, 32767, 0, 0);
-> +
-> +	input_set_drvdata(z2->input_dev, z2);
-> +
-> +	error = input_mt_init_slots(z2->input_dev, 256, INPUT_MT_DIRECT);
-> +	if (error < 0) {
-> +		dev_err(dev, "unable to initialize multitouch slots");
-> +		return error;
-> +	}
-> +
-> +	error = input_register_device(z2->input_dev);
-> +	if (error < 0)
-> +		dev_err(dev, "unable to register input device");
-> +
-> +	return error;
-> +}
-> +
-> +static const struct of_device_id apple_z2_of_match[] = {
-> +	{ .compatible = "apple,z2-multitouch" },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, apple_z2_of_match);
-> +
-> +static struct spi_device_id apple_z2_of_id[] = {
-> +	{ .name = "j293-touchbar" },
-> +	{ .name = "j493-touchbar" },
-> +	{ .name = "z2-touchbar" },
-
-You should not need all these above.
-
-> +	{ .name = "z2-multitouch" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(spi, apple_z2_of_id);
-> +
-> +static struct spi_driver apple_z2_driver = {
-> +	.driver = {
-> +		.name	= "apple-z2",
-> +		.owner = THIS_MODULE,
-
-Drop, this is some very old code. All owners were removed ~10 or more
-years ago. This suggests you took some old or poorly maintained driver
-as a template, thus you duplicate all the issues we already fixed.
-
-> +		.of_match_table = of_match_ptr(apple_z2_of_match),
-
-Drop of_match_ptr(), you have a warning here.
-
-> +	},
-> +	.id_table       = apple_z2_of_id,
-> +	.probe		= apple_z2_probe,
-
-Best regards,
-Krzysztof
 
