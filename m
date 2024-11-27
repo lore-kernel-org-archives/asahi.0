@@ -1,69 +1,68 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6914B13C816
-	for <asahi@lists.linux.dev>; Wed, 27 Nov 2024 08:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7F5183CA6
+	for <asahi@lists.linux.dev>; Wed, 27 Nov 2024 08:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732695869; cv=none; b=b82NOlHLg5OHNUMHUJjZzSDfKSdwb7/TFFBWivIhnuT08PfbdUaE+3dDuHx7U2nOVtz6ld8vv6Ve8euxPYpN5f1C4p2LOSenVydPJKxEMkxBdTV9QokbzRpi3ABhkQ7QiL/z4umjq858hgIYNTRnpsugpMN0RUeUsDgKlUDZOnI=
+	t=1732696173; cv=none; b=dO9HDNzdnQTB6isGQmDHJAOPrpXN5/ty6HlowP7D7djdUnSCn6dack17q6qHaxcCp8Z1RPf/U0dUltQmfX/rkqylTIcFgeGVwH799VCnxyzlkyw8dKxgsy9qorYriHy1MA2/OHjk3kM/MpN0k754LkVVrTrBWZ7KcgMFnspPJXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732695869; c=relaxed/simple;
-	bh=6PxgdC42a8ZvRFETs70k63iKhzy70aAH+Rwgk6+gxnw=;
+	s=arc-20240116; t=1732696173; c=relaxed/simple;
+	bh=njd05bArOgKjbgLgjHcusDaTScXAtClI9n8o3C7sop4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NTUNUudE8Ed5xVzo7MdwhFVYa0icsqz0EauWBRaoOIRZU5tKs32HodKbEy4DE1Z6o7oyrPzmdN27YKn7yZW/numYJoDd74fL6JdATelNrNKYxxcaNGFwx6mhbJ7ByYBinc2NU7JhZ6fHcw80ZR0w2kv4UW0Iwu8lxa2jolsycIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XAXTEDyy; arc=none smtp.client-ip=209.85.219.169
+	 To:Cc:Content-Type; b=rmBhRFX9Y/juQWwxY+0qXpTAygBxbZ/+UdLagxexfjyqRlyW21RZycri5xx5pI3fwL00anr5A0rJyn2/13SRphDwhS252a4PG2OZgFLDaLnXFumGDtdgHYkh0oWRU8dUGlZPbG+X59t9SmN8LeSi7c5ax+pwSML3+b6XAi+YM+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5hfd3hJ; arc=none smtp.client-ip=209.85.219.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XAXTEDyy"
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e3836b1ed44so448466276.1
-        for <asahi@lists.linux.dev>; Wed, 27 Nov 2024 00:24:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5hfd3hJ"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e38df4166c7so6006115276.0
+        for <asahi@lists.linux.dev>; Wed, 27 Nov 2024 00:29:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732695867; x=1733300667; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1732696171; x=1733300971; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lOqsn9U9UwR9ECKJB886+Y24JEgcO/1OMJG6KFsH084=;
-        b=XAXTEDyyrte4r4Y/TDkC+E6A8x4MfBKL4BG7ujeGj2/gz9NTCR6VbR9zcurNEoQkiL
-         v5MJJMAkWQnBiP1oo3kRIRKa1MDQLgWVGJNvN/TOL7OQFeLAPDRrsF7wZpaTttQYviqT
-         5wmJfoItRFzIrUkm/PNFUdxX8pZniwtTNNLWOUBqLAgYbKl7spY7SMVI7hv51s0Ur6j6
-         y+o6p88W2KEn0obhjLFfiky0POBFT6O6cZ3uimJ2auSb3cf10MSG2VYXuJ6fDGglbSqj
-         K7NG+Z3/EEQIAwlkiuLYo4T7ye8zQs87ujLV9t5WkkApbhux5tFyvFwLESpcJOX3OHnN
-         s8bw==
+        bh=njd05bArOgKjbgLgjHcusDaTScXAtClI9n8o3C7sop4=;
+        b=X5hfd3hJSDpy7wNh8gmwI8ez5dHGAd0F1h7+K38igrkBqgVp+le44lidV45fPiu/6k
+         /vBry6wApIalt2kIy+C4D+z/cghJw9IfcfPFJc/Ylnj7m6zmjrWhYE3eE6TEldrdHnn9
+         +QkHlQmjvSxK02FJxiBxewiouxL1JKIH2TszK5PP1/LFKAJbAI+7mLYmhWXyheXAY+WH
+         z9hKmGEjUgb45BFFC45K1+jHZyg+E41ZCp654Q32nI+437/C8MlBMUgxH4bxqngqi4Sp
+         cuZoyBXIyt3e/oqj5Ef+9QO2IUrDJsyNWrt7QBpbg910Jk2pIdck2wRGgoIKAwF/3WiM
+         Emcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732695867; x=1733300667;
+        d=1e100.net; s=20230601; t=1732696171; x=1733300971;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lOqsn9U9UwR9ECKJB886+Y24JEgcO/1OMJG6KFsH084=;
-        b=Wo7pZybFemgGt+yPPpSlmFNEPThmX3pJ3O600554Ti30wvNPjBH3F+omb3PgkaT8fm
-         mO3G6ycEPfXTCLyo7ZNs8Kt1QvGHikVhKaVwlXPqoSYpUY5SXM7wqZReia7XRyK7MB0r
-         0LxE7TIp0prvAfH2Ib63AXZ7JOYPS/6E5GQiFVBbSso4+c/Ks1d8oCrGcI4WHgA5dZ+W
-         bvKyjptWrv/sLRGRyBZxbBYUZrycFLE9smcXwOiZbuzLR4ujqmOyt1hD80L9NNaqBcMW
-         Q8bu6Jjx2ad5i09KsxRTYOWW4f7B+wYX0QNgk9Bruu02h+r0mqwSUS9F3+3J4gCoOwur
-         nprQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5GgPOsvYcbgDG/V3Qk5xqovFJp/eLmeTCzGSc+1fWy6gL+ZaG2T6FkKktwCiHHOb/pAa3JQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBPvUjvMHWGlTh5WpLanK/9En7P42Xlpe0eHh3EPd8vHHwNksr
-	zkJ/+fEDfiseVuB3MrddJ6FdV1CVEkanojq0kTweUT0VaCCdAJz+SOkdXoaxKCzmsOjwYmT2CBP
-	FWNIx24aHuTNxjMGXwLvDYyYwA+s=
-X-Gm-Gg: ASbGncvzFd3GNLkVj4OlY64JWTFTHiiS7QjLh6XiPdcSg+D559JdCxiV2P7Ws0wWytB
-	qbLWFlhFjtkU8wRM/EFL9kmGycnvkXbyc
-X-Google-Smtp-Source: AGHT+IE7WQ4zcWjkTsHj3YU6P5a3zfrxQl6S9zfO+CZjireFyD7ogJ24uCCbFBJtrFm5m1j/xcyE0rDoDRhRHJhalAM=
-X-Received: by 2002:a05:6902:91e:b0:e35:ddad:5ab0 with SMTP id
- 3f1490d57ef6-e395af12b3dmr1823834276.18.1732695867370; Wed, 27 Nov 2024
- 00:24:27 -0800 (PST)
+        bh=njd05bArOgKjbgLgjHcusDaTScXAtClI9n8o3C7sop4=;
+        b=WbOPmyScs5cA4Drywrbelh5OuCFoiAFCFaS4oy8VSMklvmJ42mDNOQeDzBUVDM6rJa
+         +IbH2hCe8vm+t2yTjxnAVWNCEu17NtEWnOoaYsVzR9SE5UUsnnJ58WMAO58thRSyx1r+
+         In6pBPBATsxEMEKmgvZLrNFhJvtT76b3QU9x3xqzhM4YLm2g9B+5J9Pmkqhl537dZ38r
+         SEux1BFuwwOPdhl9MAQL7QdTjsxDYi/gTD495KpzRAsvBl7GUrS/YSTI3zlk83OLgiXE
+         iTVNQfQ8EotdePNuGolx2G6GFduesZVKWcW9Mh+Yn+7EZJgO1aBF9yc62hZ+P/311LE3
+         QibQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUlNnrSvswaqIcRi9dTjBsFPRBWWu46jA6QI6Er+MoUTX1z+ANH484WssK/vvjZwzxexQVtsA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAFpLKHW050TtQLtx8Kdikq+k9qp0ILEK41SCYifpD8DJe6k7b
+	D0jYm+rPn8LLtXHEZNcLUvMdvKM56KoVS8G4h0wBooaSyBh8spRYEbZaBcZnbyUqQye+jLY2uF/
+	gYyuyqcJKc7nF6ZmlQhARYdbkZXc=
+X-Gm-Gg: ASbGncvzq9WzDy5cKBw6sG03hCWE4qVMxc2mk9TlCPVesIdt6/2jHZe4MbAANWPiZ33
+	eQnt9AlgCGPrbh0j/06dmh7uFoqNb5dUB
+X-Google-Smtp-Source: AGHT+IG4T6iCfTuQRbFcDR8g+9gj9vnb1SF11d4ey59iqSnin7GgRZc6RSmnNx6SkL9tm182e4/IfH05c5ENgkbSLA0=
+X-Received: by 2002:a05:6902:a07:b0:e2b:df40:2588 with SMTP id
+ 3f1490d57ef6-e395b8a1b09mr2315229276.21.1732696170745; Wed, 27 Nov 2024
+ 00:29:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com> <20241126-z2-v1-2-c43c4cc6200d@gmail.com>
- <Z0aCSBNEAJlgNIAI@google.com>
-In-Reply-To: <Z0aCSBNEAJlgNIAI@google.com>
+References: <20241126-z2-v1-0-c43c4cc6200d@gmail.com> <Z0Z7Lrv3rBfzac_e@google.com>
+In-Reply-To: <Z0Z7Lrv3rBfzac_e@google.com>
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 27 Nov 2024 09:24:16 +0100
-Message-ID: <CAMT+MTT0oiODONgEipLuAaZyzD-YyM8mbAcRsZKn8N4E326kMw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] input: apple_z2: Add a driver for Apple Z2 touchscreens
+Date: Wed, 27 Nov 2024 09:29:19 +0100
+Message-ID: <CAMT+MTThJoYLYhtYAHwh6F3LTApid9Em+eP2AZYc3JChC2b9ig@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Driver for Apple Z2 touchscreens.
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
@@ -71,59 +70,20 @@ Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Janne Grunau <j@jannau.net>
+	Janne Grunau <j@jannau.net>, Mark Brown <broonie@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 27 Nov 2024 at 03:22, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> > +     u16 checksum;
->
-> Does this need endianness annotation? It is being sent to the device...
+On Wed, 27 Nov 2024 at 02:51, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> I believe this needs to be done at the SPI controller level. See
+> "cs-gpiods" property in
+> Documentation/devicetree/bindings/spi/spi-controller.yaml that, as far
+> as I understand, allows overriding controller's native CS handling with
+> a GPIO when needed.
 
-Both host and device are always little endian, and this whole thing is
-using a bespoke Apple protocol, so is unlikely to ever be seen on a BE
-machine. But i am not opposed to adding endianness handling.
-
-> > +             slot_valid = fingers[i].state == APPLE_Z2_TOUCH_STARTED ||
-> > +                          fingers[i].state == APPLE_Z2_TOUCH_MOVED;
-> > +             input_mt_slot(z2->input_dev, slot);
-> > +             input_mt_report_slot_state(z2->input_dev, MT_TOOL_FINGER, slot_valid);
-> > +             if (!slot_valid)
-> > +                     continue;
->
-> Shorter form:
->
->                 if (!input_mt_report_slot_state(...))
->                         continue;
-
-Sorry, but i fail to see how that is shorter, i am setting the slot state to
-slot_valid, which is being computed above, so, why not just reuse
-that instead of fetching it from input's slot state?
-
-> > +     ack_xfer.tx_buf = int_ack;
-> > +     ack_xfer.rx_buf = ack_rsp;
->
-> I think these buffers need to be DMA-safe.
-
-Do they? Our spi controller is not capable of doing DMA (yet?)
-and instead copies everything into a fifo. But even if it was capable,
-wouldn't that be the controller driver's responsibility to dma-map them?
-
-> > +             if (fw->size - fw_idx < 8) {
-> > +                     dev_err(&z2->spidev->dev, "firmware malformed");
->
-> Maybe check this before uploading half of it?
-
-That would be an extra pass though the firmware file, and the device
-is okay with getting reset after a partial firmware upload, there is no
-onboard storage that can be corrupted, and we fully reset it on each
-boot (or even more often) anyway.
-
-> > +     error = apple_z2_boot(z2);
->
-> Why can't we wait for the boot in probe()? We can mark the driver as
-> preferring asynchronous probe to not delay the overall boot process.
-
-A comment on previous version of this submission asked not to load
-firmware in probe callback, since the fs may be unavailable at that point.
-
-Ack on all other comments, will be fixed for v2.
+I have already tried doing that (adding the relevant gpio as cs-gpios
+on the controller)
+and for some reason none of my attempts worked. Since there is no hardware
+documentation, I can't really tell why, could be possible that we need both
+native CS and that gpio, could be memory barrier issues somewhere in
+the driver core,
+but the method above is the only one i could get to work.
