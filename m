@@ -1,110 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556F745C14;
-	Fri, 29 Nov 2024 07:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC9D15098B
+	for <asahi@lists.linux.dev>; Fri, 29 Nov 2024 07:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732864565; cv=none; b=jL+I/oCrFd/rxfLzSB7a/VeHARshvxCEQLv8Qiw6I73ZymmS2/CYsDd16mIDbTPXXwBzv4TUhfdbQT7J5yyKT1xw/g3DRBFcIu5PrUkYRquWG4d48WD+Ye63JTY3g20ga4vACh3rNM9NMjnHsWS/+bo3hBu/0OB44vNAjvhLMBo=
+	t=1732866852; cv=none; b=RPc9WUyoheZsai97fJo4Vwbm5hNOSlkuY+pTAF19PGc3ArcDj69jK3Y/Hgzuy9QSjmKSbkSFz9Bj7prj0phwKeOqsRgRNNQUALlANuZNDH2D5GsDdoCdfASV0a2PNzsv4vn298Wz7eSXhSaJd9oRKl+K7CmdH/rpp9edRsZIBJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732864565; c=relaxed/simple;
-	bh=yfUMcS/42xc22dFe7ApSwq6gDTwMxL0f/YsB9GrDmHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MRyyBvr4J8m6byTAmt7YZcavBXaUH+PGuQRkfGqbgw69MTeHnYGLGG2yDjA1LcvLUGFMTNZGt3HDXMxot1NDNp0f1xjMc9Cq/l5j9iFdngh9mUrrUsym+AOvs/71UEbHVsEQwSNZvFrHtLKYHdGT+RVIxPVFYKU4SnZwZXGj4v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OM5swOw3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732866852; c=relaxed/simple;
+	bh=9spqvrZ+LoHD+ZOLFz4+YFT0uhD8v0cffSFDzPA0+pY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M9QZ336zC40s6tY8QLllvqNVesKtVeN4qXt4NTlKtnaXY5LYYb2dias6dP477mdBNUklNES/BQyExUSfQcUSYOskZVJuWraZumU5Jth3rigQFfgN/2RP6NadJkPiUYi4xkpVDP9uOyyrmyF5vMj4buCCJIhyZ/7gFaAZe3xQ6IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HgOuFT4g; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OM5swOw3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14CC3C4CED2;
-	Fri, 29 Nov 2024 07:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732864564;
-	bh=yfUMcS/42xc22dFe7ApSwq6gDTwMxL0f/YsB9GrDmHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OM5swOw3L1BAa8TgjDLNaPD2oVuJGxzlpg9LJlS7Wpnn6Kns4WLL3qhuuxt6Ob14Z
-	 YFfS+qnoJ8NhMOBA88PNiV7nytXrP4iOgLCMKt8EnYHSDft4YzGQhfmNQfa6aQTuYd
-	 wFGDkOrSODM2BfdFJH1sJhCjCM8D6bfB2BjrRHwL2fkDvfanzptMPIhYqoeTDGv3jd
-	 6/1q5/BJpo++JYRg/SQwKpq0xPC2r4ORO3rHjNGkKrS1W3+1ppSpOG6gJgU0vXuflb
-	 qfQ90xSq46FTfejzB+Solr9cMTt7n1kV648yJk0qRq5V4se6GVeYRUvPHf64xpj/XE
-	 VvQUsBjBm2/3A==
-Date: Fri, 29 Nov 2024 08:16:01 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: input: touchscreen: Add Z2 controller
-Message-ID: <abmpkfnfrbcarqhp7pspxmy4veuiavpy2p5zqe5ljkstveuuzz@ur7grz3zd7xx>
-References: <20241128-z2-v2-0-76cc59bbf117@gmail.com>
- <20241128-z2-v2-1-76cc59bbf117@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HgOuFT4g"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6eeb2680092so16087557b3.1
+        for <asahi@lists.linux.dev>; Thu, 28 Nov 2024 23:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732866849; x=1733471649; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MILLxUu9rzLsxKaeqYpm+2Gulr4Avp7+0QuruaQfahA=;
+        b=HgOuFT4grguaBCtDk5VVQKnLTr/PsaHtWZSfrmJJ3VNtsJpo2q06OOV410FCb6ySTS
+         t7rmgzelP8mvMmMDJ1UkM3V2Xxd/QNf++bFYhT9RlDtnLt6G8lIZMAtdeJ2kiLJwsle4
+         31t8y1Q+9UZKYiMA9AndzMmx5uEAYtFjHETRSKbeyZ16kjRBZTJjlOfXhS/q/VEl5Iqt
+         TzVjKG/9EcAvndnsDkq1DEmyENQZ3xVT8lePOBzirH2wHp0qkzezvRDpkpoj0PCWchCx
+         p9mIXY6acgc0B/M4sNghQFbJTZGacIxNIFnynuZbJW1utRyCVwkT+7uuGUnsQ0IupksI
+         39jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732866849; x=1733471649;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MILLxUu9rzLsxKaeqYpm+2Gulr4Avp7+0QuruaQfahA=;
+        b=SH9SzjmD8TbY2PP56/eMyssPOrz9LSVhLZEhcyagtJmvh3xlcC2BTnfIcVpxwazepU
+         xjcXC6Yj9HnQXOc9HD8f1ehKJApXfyvV9S2ExmlNAybu+/tTcOPrEeoS/4L4b+Cfag0Y
+         klT4YEoY3QXFeKXIpvMkKsz2uovYyo9zwjCS+zv0veC+fy2g8I6rSkFXlPRddFcSaEvk
+         LxZoj2H6pbtc47b4rjuoJV+Uuu+pFQax+90OMsuJbWk/rXNSQjLnRXVc7bMuLCzQMMz5
+         m3ABkXfMzER12d8Vb1LTRmlJCGGPgFGgEo2AMuzOeNR4/rhUw4bDsMZpSjDcRakvcznh
+         O1Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCWjXPI8UpGXsIn2UK4iHNF7/ay3pkwTHielwoUJkh7d3Sn3uPenzUNoTNSDC4BkWNnlDKR+Qw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwX05g+hvPtA+18oA+xRvrGJQeIcADiUppZJt3tS+jo09V+96Qt
+	Ws3LD9TzoJvxzYmuDxJuCnHnlxYePDD8tphB3y526C0fQwz2xAS8jX7ts+g6MnVBbgxyQd3yZIB
+	NOyOZgEVTkQWCY+C5hqyIXNFM0Q8=
+X-Gm-Gg: ASbGncvVl9ZxdNDgKQk75H6Dxg6jMWgn5j6CnWEJf/xBiFMuE4VUVqrqBucMrB1178Y
+	2EvrINQaCPdDnt95vVF4B/uTdUhN3kLLZ
+X-Google-Smtp-Source: AGHT+IF8HFusBVWylrBABsLEcXExgX39TFtK9CKcRntzgb2j/Eixg3DOFVeP3pBNmvcd13VUQ6ALY6h5mUnCdbvtq3I=
+X-Received: by 2002:a05:6902:114c:b0:e39:772b:4bc0 with SMTP id
+ 3f1490d57ef6-e39772b4fc5mr5024271276.42.1732866849543; Thu, 28 Nov 2024
+ 23:54:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241128-z2-v2-1-76cc59bbf117@gmail.com>
+References: <20241128-z2-v2-0-76cc59bbf117@gmail.com> <20241128-z2-v2-1-76cc59bbf117@gmail.com>
+ <abmpkfnfrbcarqhp7pspxmy4veuiavpy2p5zqe5ljkstveuuzz@ur7grz3zd7xx>
+In-Reply-To: <abmpkfnfrbcarqhp7pspxmy4veuiavpy2p5zqe5ljkstveuuzz@ur7grz3zd7xx>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Fri, 29 Nov 2024 08:53:58 +0100
+Message-ID: <CAMT+MTTRT+z2i6qrqVo-KVNuPF2o2OV5HpfhbXiAaWU0TBr-WA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: input: touchscreen: Add Z2 controller
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 28, 2024 at 11:29:16PM +0100, Sasha Finkelstein wrote:
-> Add bindings for touchscreen controllers attached using the Z2 protocol.
-> Those are present in most Apple devices.
-> 
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  .../input/touchscreen/apple,z2-multitouch.yaml     | 69 ++++++++++++++++++++++
->  1 file changed, 69 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..c4c0b41178728d5e0a782979d6eecd32e0a83618
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/apple,z2-multitouch.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple touchscreens attached using the Z2 protocol
-> +
-> +maintainers:
-> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-> +
-> +description: A series of touschscreen controllers used in Apple products
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - apple,j293-touchbar
-> +      - apple,j493-touchbar
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  firmware-name:
-> +    maxItems: 1
-> +
-> +  apple,z2-cal-blob:
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    description:
-> +      Calibration blob supplied by the bootloader
+On Fri, 29 Nov 2024 at 08:16, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > +    description:
+> > +      Calibration blob supplied by the bootloader
+>
+> What is the expected size? Fixed size or maximum?
 
-What is the expected size? Fixed size or maximum?
+Unspecified, 1688 bytes on my machine, but the firmware
+has a size field. Most likely less than 4k.
 
-Add it to the example.
+> Add it to the example.
 
-Best regards,
-Krzysztof
-
+That seems counterproductive - it is a ~1.5kb blob,
+and it is supposed to be set by the bootloader, not
+by person writing the dts.
