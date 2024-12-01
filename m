@@ -1,61 +1,61 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9301D5CCD
-	for <asahi@lists.linux.dev>; Sun,  1 Dec 2024 16:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482C81D799C
+	for <asahi@lists.linux.dev>; Sun,  1 Dec 2024 16:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733068846; cv=none; b=QsiLP72S28wn4Tp49YPXRwHWHfQNlEluokcE4qeLJvip9iS9+v0TdI2J007WUkb+WMlDh6RKUvyOaraNFtFXn4paBarJH1WfFAZgGPSGWvSdzGbzN7qmPuMtFQmwzHzxzfLRx8ziY90Ec7PEFb7XRqDLq/DVggQugFVuUJ9K9pk=
+	t=1733068849; cv=none; b=gRDPdnV6OZ7JrdUit2+Tv+0WN+WuanaiyWAJkTMBIlCejzxBzE6uZez+S2rahwbAiMrykR4GPA2K+F7n6akf5F+XLSbtdnPjnaYzLDP0AlEDPmGvtZMCf1rfzWl5UaLBKbK87RUIfj5G5DJ7UBgdCbCFTSBx89JGOs0mrjh+zK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733068846; c=relaxed/simple;
-	bh=GLduTRh+mc8PcL0g7Ssi4bKecwo5Rok5jKtZiwlOm8g=;
+	s=arc-20240116; t=1733068849; c=relaxed/simple;
+	bh=JMWpSydVPFwLIP7hwqHVLy9mm0uOzzCuwbbtgb+K8o4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F7PlfrQQ4Ix2StjVC+8sS+N4dKNdhvM286B9yA0ihA5TpU6quSgeRofO13xU3Az0VBQoTHxuw3J4erIIQA4sNsLxQHJNYp4UmXycmQkmLXk52cac1p5FBLWBO8ZIEr6XrxwBQUQ5BbdYJLx632NajpA4tNWwDdVqTQtU7pTddc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nH7XkNVf; arc=none smtp.client-ip=209.85.216.49
+	 MIME-Version; b=kuphyJcHsxR0DH353FuIDS2Bl3lsADKlyuXMjRuSlUMe39kOh4mYTsPF8IeuAgD0UsSe79gxhiu/ydvlHF4cjucTHklnzPBf5rhik4IexT2dIF56oHj2y5+rdL36d5KWu1IbV6rXi7RgLwj37wMY8PoRwLtq6Q/IRlAakjIRwW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OR2bj1hc; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nH7XkNVf"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ee709715d9so1189086a91.3
-        for <asahi@lists.linux.dev>; Sun, 01 Dec 2024 08:00:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OR2bj1hc"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2e56750bb0dso2421638a91.0
+        for <asahi@lists.linux.dev>; Sun, 01 Dec 2024 08:00:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733068844; x=1733673644; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1733068847; x=1733673647; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Wa5SS8TIm70D96W83i/T8FBfkF8phya3zla9FCJAKVY=;
-        b=nH7XkNVfoPIfDE72HQbiD1YP1GEHVqaEDNTBJmn8Jy3WVpUsS6KAs9LGVo1jn8qJT7
-         QnOuRtAEm8+akHTJBG9rFk2MD7wR9i7g7twrTei880RLEcajjy3RFql+pn5p0PCZIexp
-         KUlQpn7kgSJWAc7eYDDIY58DwaitEB3F9bSAUMeXsPzuF3NdZIxhHqnYwp2NN2/rmBVY
-         fdv0hAVZISjftJWgsrcSQAmRoZ5SgPl/CtxYwYbL7El/R99Sza6ImcC6SP1CLjaPEWzy
-         7qxjbfyesUL0As/ZfB/l9I0NnUkc4ZfB2g9dRKu/89toghhVRgRZVkkHx5rQr524j2Wn
-         yTdg==
+        bh=5TDeoespPvIrlTOx8hDFrx88LNZsHxk3XgRr9sFcF/k=;
+        b=OR2bj1hc9N4AKyRyRyouW4raPuirBJpdV5P7CGfvDhdbxbCNyxoU3d4JS5wmcuSirS
+         YFJXRgQbqqgVaHJnjcQcl1ryUkMy70unOxq6iUCjRmRSg8wz7lZcj3wyTvkg81U+FWjw
+         r9UFchXY92USwOA/DUVXu/smkYIxj4aIiTze5ZoMuaTcVbpkGFdgk0ooFsbUs3Cg1ml2
+         f1jcWf+xllQDmhpN7x0phLRlg1pmkV+F84BHmDoUi6N3nBZn++aiXHmpxSYyGBb0j8vp
+         ngf6vau51uYXfTUf5/IwKEx9b48kxb620S5k4v0mz81HNjXhwhzyKsdq5AOjjM1wVS9E
+         /dGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733068844; x=1733673644;
+        d=1e100.net; s=20230601; t=1733068847; x=1733673647;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Wa5SS8TIm70D96W83i/T8FBfkF8phya3zla9FCJAKVY=;
-        b=mdRoeRVLtTML/wiJ7+61LcHQHnoEkdcbVvlQEOhsY8hFbuPu/mbGSJd+jVO8Gh7Uyj
-         G7fhcG2rex36a381XMVeL4hyti8zq3NPGY91EnwxGkg8v6HU4+nw9mEfpWL8EYF0rooW
-         rZLnsZMue3YcNX8Kw5hznsYInS94JL4zradgrG7VCtBg43EHdEyqt4NFygsaa1oOm3oM
-         Kob6aiBjWszFATvxlPCz3zou2CXSmpQE9qd+uFHB3ywMmGxiWURBrVDIKf/u27GdYKCS
-         hMNadnypkVgbqa+ZNhnMQCxRO/mrptJZ7v0Ec7VU+PDh9XrsBD4+CHaRUUvfjbVcIs0o
-         PVGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnlFSdEmEDx6hTYWkNgnzLGUb2VnAnztb5bQopyyA6rvS1Qpd46RVmQk9SS6aQRcmEyXcfmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzT7tnZ0WZj0KD1sWjHL+/8MMs+kmPbuFvvi0TuDg3Lt7Qd7sVj
-	U18+5Z1gIlCLshQ2nHB0VTHPRUfH1FUI2kbX5n6WyQvODNo6ka4w
-X-Gm-Gg: ASbGncugnoVDAgQSARFbGh8Fs6tzxM+oaoRr/xAcVCCkGNWszCEoCWws8xmXGly6WLv
-	q8j4lJ9dldhDH7/ps+gfQTzpvdmLTCH7KJAI0fV58VvOfMvDtZeIA6I5ctNSu18LpNBEfAa64aY
-	FqiEChd4NX0usURpCl/6RrI8qrx7cPZcYZ1DRUju3UK87IRkzBJt5X2nata03OgtNSLe5V8vuTK
-	XRPSg9B/xaQ6NYe0MojuRFP7bq88wRNL+C7Q7I67Xw0iFk0gAw5rmCUOopm34bknA==
-X-Google-Smtp-Source: AGHT+IE67IoMhdkZhbCqGTTlL81j+rymuRthOI6+qz6dw9AZsphEAOs24hWrEsa0WM735TWFubxf5A==
-X-Received: by 2002:a17:90b:1dc1:b0:2ee:d186:fe48 with SMTP id 98e67ed59e1d1-2eed1871fc8mr15046a91.28.1733068844164;
-        Sun, 01 Dec 2024 08:00:44 -0800 (PST)
+        bh=5TDeoespPvIrlTOx8hDFrx88LNZsHxk3XgRr9sFcF/k=;
+        b=NeXwUwj08Tu6hf4JNh0fJdyQvqO0ugQkuudJx2+pfITlVje90W7g8iO1aeA7Acy31R
+         4ckzkHEMAvISH1Wzsw7d2rh6v5LFQvRpIKkLHs14SDj3iW0PK/Mh97EihF89xZVS632I
+         l0GEwN88JfUj5wcIbiA9c/YhYYuzsgz5VByuyQL873XfBg9NklEepyYufI47asSP5FCM
+         Q98OKxGypGbhWCRVx14uDEzCRQ/I6nHZa8g1ODvpFYWf/8jAOSmVmWDJZMF4ZSuyAMQU
+         rVx6D8oJOfdfa4GP1toHc6blAo/jHxOiwpTEwevAGDWo5/ie4MIwFEmgbEFOzqhIUvbh
+         dZ9A==
+X-Forwarded-Encrypted: i=1; AJvYcCXrgqdww5UFje9mPNA/yIUYMxpHKVsNbvp5jj2gxilSSfCoqIFVppGPrN8NiqX6k1j8npOOPQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxCPt7OE+4pl7NLPKuPfL5Hh05/0m9a7fOLrrQbkufNTUeGcGOY
+	bFSN6x8Yh92UQgy30WLn+3vMS9/5DvjVcUuPRpUGn1XABdoptdnX
+X-Gm-Gg: ASbGnctqZLuy+qgTNAv1YmnZhCHOuaHtCSxZlRn5ABGIBfEXcCs7ScypmoHe3PfJUH7
+	Ap2xLW2Q1FEEQlzrKhHlnOLlaQEI1VRZev4ib8Hxx8s2o7TKaAXhK2My8DPP4mMgyPBnr2KjfxE
+	o1GDMWQgDLSuXiNb4NQheKaGyf8LrzEqc7Yf1iq4CtQwBJjkNKR0rWy/ei3brLutSkHbbgqIfB9
+	zURk/JH6wA1DL/GTfmXgTVeprIMfbj7ao43qtNnfuu19f7qgXkPrwudo+Px/MK4PQ==
+X-Google-Smtp-Source: AGHT+IGrv3hVqmAY6jnCNt/owtSORP/V6bWy622k5imkOMd+IKJHnRO+Fqx1Qyrr4NmirwD+yWdaMA==
+X-Received: by 2002:a17:90b:2252:b0:2ea:8b06:ffcb with SMTP id 98e67ed59e1d1-2ee08eb2b91mr24578454a91.14.1733068847505;
+        Sun, 01 Dec 2024 08:00:47 -0800 (PST)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2ee6ebc4a73sm2395173a91.0.2024.12.01.08.00.41
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2ee6ebc4a73sm2395173a91.0.2024.12.01.08.00.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Dec 2024 08:00:43 -0800 (PST)
+        Sun, 01 Dec 2024 08:00:46 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -69,9 +69,9 @@ To: Hector Martin <marcan@marcan.st>,
 	linux-kernel@vger.kernel.org
 Cc: Nick Chan <towinchenmi@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 01/10] dt-bindings: arm: apple: apple,pmgr: Add A7-A11 compatibles
-Date: Sun,  1 Dec 2024 23:56:38 +0800
-Message-ID: <20241201155820.29259-2-towinchenmi@gmail.com>
+Subject: [PATCH v4 02/10] dt-bindings: arm: apple: apple,pmgr-pwrstate: Add A7-A11 compatibles
+Date: Sun,  1 Dec 2024 23:56:39 +0800
+Message-ID: <20241201155820.29259-3-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241201155820.29259-1-towinchenmi@gmail.com>
 References: <20241201155820.29259-1-towinchenmi@gmail.com>
@@ -84,31 +84,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 The blocks found on Apple A7-A11 SoCs are compatible with the existing
-driver so add their per-SoC compatibles.
+driver so add their per-SoC compatible.
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Acked-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml | 5 +++++
+ .../devicetree/bindings/power/apple,pmgr-pwrstate.yaml       | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-index 673277a7a224..5001f4d5a0dc 100644
---- a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-+++ b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-@@ -22,6 +22,11 @@ properties:
+diff --git a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+index 59a6af735a21..6e9a670eaf56 100644
+--- a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
++++ b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+@@ -31,6 +31,11 @@ properties:
    compatible:
      items:
        - enum:
-+          - apple,s5l8960x-pmgr
-+          - apple,t7000-pmgr
-+          - apple,s8000-pmgr
-+          - apple,t8010-pmgr
-+          - apple,t8015-pmgr
-           - apple,t8103-pmgr
-           - apple,t8112-pmgr
-           - apple,t6000-pmgr
++          - apple,s5l8960x-pmgr-pwrstate
++          - apple,t7000-pmgr-pwrstate
++          - apple,s8000-pmgr-pwrstate
++          - apple,t8010-pmgr-pwrstate
++          - apple,t8015-pmgr-pwrstate
+           - apple,t8103-pmgr-pwrstate
+           - apple,t8112-pmgr-pwrstate
+           - apple,t6000-pmgr-pwrstate
 -- 
 2.47.1
 
