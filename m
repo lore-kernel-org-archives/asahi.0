@@ -1,84 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3B51FECD2;
-	Mon,  2 Dec 2024 13:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316823BB48
+	for <asahi@lists.linux.dev>; Mon,  2 Dec 2024 15:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733146241; cv=none; b=LBfnRpor84pvPLkdNuwkvarTOMTQV4Fl92h4WT+1D8w7z/QTDBrrKDBdeSxi9xvlqZXDZhZoqc7VbmVd/5z7C3jn1oIIyx5nwif5hrWEPns1ZKwpklZ5lwBzhfuzEii61FcEO8JPuh5gKD1/cCpgWErALlxr/6mtaDrn0mJblTA=
+	t=1733154383; cv=none; b=mPfYRAwvtskmLBdGZpYFvGcGDcckpJJfJQcAf2N3ISBLSMvloFIkhcK/WV/e2TT4cxBM1YHJl7lA8P8xewnhn1zxdmKeiHT+O05LaVtcu6xJcMA5F4aIpQsxJvbhBcTNsFwFXL+JvCwPFG5wdExwIqPL48jg3SLYPf1lHmne+ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733146241; c=relaxed/simple;
-	bh=0L7xq5I8jnvsqyo1vi4o9DWhUq92QRZxs0rdJPkIi1c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qXxbwUsoOpyE6uP7o/ZM7CvNSp0i7wpLWKpATppVkQm42zNbOfXiPNz4w6jtplkTN9cSSa2QdBVdlFBD2cjsNePcoler11kTRnxk7vfobpJsXAoqySxJuwKDyn1oyVFhGxAUkasImtmN6RubgEZal7jWNITmeADtyaEhaoAv1Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F06a8CGE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733154383; c=relaxed/simple;
+	bh=KkbmJ/0wUFhwA7bjHSghg85dmdpPXJnyMoZLc288wGU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UdLKoW/YUJ7pTfBCR8AqND6C2xAZMxyWcoYdp/pgaKu+mSDDq7xncl4bIOZrY7g05zQtOoOBMOEKK6uCDQfli8kykMDULuY3RKhBq2YFsLshcd4nZ7btCehkN71aGTsgYDIlOJBX91L0/TDDi+C40T4YmX5TZZs+lqfwX4LKEAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=C4TYS1Us; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F06a8CGE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C260C4CED1;
-	Mon,  2 Dec 2024 13:30:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733146241;
-	bh=0L7xq5I8jnvsqyo1vi4o9DWhUq92QRZxs0rdJPkIi1c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=F06a8CGEPJXGp7CvHDbG56l65xOMToVFzR2rMDHnlq05tBoMAcIGLtlJpZI1LFvaw
-	 21ez31VRp0RXzpXdcHDaibB/Yd3WBCvuxO3Whziwe6VpAF3EABuwgEeehrpFYgdCMR
-	 bEdV+FPoRUet8aW9tXrY0IMlFK4ibkFN4oyhMpJKatIAy7UVECxn1p7NexTXVqok6w
-	 wmohYG5Qd7EL8DeWb0syIPxhf9v2jn6BLNI03Gh7P6ZbpFFoWyH9bS38xmeh2vh+j/
-	 Sq4Ld1q1ca5GLC45O63Cni1NiUsNTnw6DqfBR87dcT4j0BvjXS9npVALuS2YBuS6ab
-	 c0QmARCUP8j7g==
-From: Mark Brown <broonie@kernel.org>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: linux-spi@vger.kernel.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241127-gpio-descs-v1-1-c586b518a7d5@gmail.com>
-References: <20241127-gpio-descs-v1-1-c586b518a7d5@gmail.com>
-Subject: Re: [PATCH] spi: apple: Set use_gpio_descriptors to true
-Message-Id: <173314623984.54221.9478516701597362964.b4-ty@kernel.org>
-Date: Mon, 02 Dec 2024 13:30:39 +0000
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="C4TYS1Us"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B28lSlB028149;
+	Mon, 2 Dec 2024 15:46:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	SZqfzFnoinYb8hXvyVjaGDwr8pEj/sloniKe/f3uz+A=; b=C4TYS1Ustp1jxs60
+	Wtgd9JIg1qGQJ7DehkReoJC65U4n8EpfxICVbODI2QT1lSzYwKSJQ5Qg2FQY1xnR
+	W9pR5H4Y+2wYiTnelH/OyJ5tPLxaMM22ObQCGHVI8aOHYXxPsVScWVolPC/PweBd
+	x7VNV1+Kvq4V6agMNJWwUVxEHNfevriJkiDGBjHAwGZN8/zeivADnBLJ4HKK4Q/L
+	2kHE2XxH+29cvU2tHrd6U5KgmPF1QpOm5yDdHyfzMf43A72M2UiFMTdYIyDo1T6U
+	7+Mi85ZjzNoi6dvjGqqSQRtK/ZLSMCqIviQJirzmnk8w9GU/llobpIA96/PYiRP0
+	Ua75vQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437r2mwgtx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 02 Dec 2024 15:46:09 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B2Fk8K0029779
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 2 Dec 2024 15:46:08 GMT
+Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
+ 07:46:07 -0800
+Message-ID: <626c3135-9d8a-4e22-a3ad-6b637cbbd463@quicinc.com>
+Date: Mon, 2 Dec 2024 07:46:07 -0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] input: apple_z2: Add a driver for Apple Z2
+ touchscreens
+To: <fnkl.kernel@gmail.com>, Hector Martin <marcan@marcan.st>,
+        Sven Peter
+	<sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>
+CC: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Janne Grunau <j@jannau.net>
+References: <20241128-z2-v2-0-76cc59bbf117@gmail.com>
+ <20241128-z2-v2-2-76cc59bbf117@gmail.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20241128-z2-v2-2-76cc59bbf117@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: fkhK5wsaq_hXSjnF0-8oIRRhsx6pzl93
+X-Proofpoint-GUID: fkhK5wsaq_hXSjnF0-8oIRRhsx6pzl93
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
+ bulkscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ phishscore=0 mlxlogscore=870 clxscore=1011 mlxscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412020135
 
-On Wed, 27 Nov 2024 23:18:29 +0100, Sasha Finkelstein wrote:
-> There is at least one peripheral that is attached to this
-> controller and can not use native CS. Make it possible to use
-> a GPIO instead.
+On 11/28/24 14:29, Sasha Finkelstein via B4 Relay wrote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 > 
+> Adds a driver for Apple touchscreens using the Z2 protocol.
 > 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+...
+> +MODULE_LICENSE("GPL");
+> +MODULE_FIRMWARE("apple/dfrmtfw-*.bin");
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
+description is missing"), a module without a MODULE_DESCRIPTION() will
+result in a warning when built with make W=1.
 
-Thanks!
-
-[1/1] spi: apple: Set use_gpio_descriptors to true
-      commit: 1b299bd0c22887543b276bcc5b4ed26f5bd83ae4
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Please add the missing MODULE_DESCRIPTION()
 
