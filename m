@@ -1,99 +1,96 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339A81E411D
-	for <asahi@lists.linux.dev>; Tue,  3 Dec 2024 11:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87841E4A9;
+	Tue,  3 Dec 2024 14:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733226915; cv=none; b=Uh3Yw0xBJ1RAb48/3ASzD0vKJRUg234vQd7ILoRmnf09RbGOhaGrygjn4IyqkR68l/O/Z45HGU9cKgCnfyqfVuy4CbgdEE1BaErqqX0u1p8eab68kP7nwKDNpp2A9hKUOYS0i6uI4CjNz0FjSRmt69IzmDMBrB8nwubNMCXPOR8=
+	t=1733236919; cv=none; b=SuG+r88yqxF4df0kXbsUGdN8ieN4qyrzhDW+5854Dn6+dDEN7EywVUfzcGj77zxjblLIhPlS5RCt6fSqZ+JEgSWm1Dzcx9ypvL+s6UD0uEqmYCdqOeYG8NMiF82vup7kZZsQ3dxWQtF0pb7xWSm2jM4QFjUEc8nQ8VMO4CuJVs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733226915; c=relaxed/simple;
-	bh=v8zoQZ6dwqd3xojwqV6vSH8uy1LrM8PkPp2K6MbPIqU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JR/kOOi91G7KXQ/CL7eOQqa0ezCpvpN4TpwgXFD0W0rFojFPtHWSIY/y6AuL+GAJ+pG546gInYcWP5susVdk5Vrs1SHeWA2iCa5a7wl80aru2OpAtVs6HJ3FDrWmknU6I6+KGbVdzrkkxdCEg3/IYq7djxpesyTwsOpmHXNobZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YYxQJtEL; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1733236919; c=relaxed/simple;
+	bh=3s2rLqVFzkG/7hsZLgSm+vZhQcwjwFq4j/0oY+CmA0g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=V+94lrKxhg9FhDx6xr2c+wO/D0E2vfMCYqZj/eJZE2hToKBNtO9EHQWCc57dpppd1ZPtBgZs0IK36r8yKdCgTssw4wIdstizf+NQohtWL4emBUmWTu5Scaekjc6csYI7TZRdFoasyb2X8QhUy6zHVyammhK1Yt4zS/6gFWYAYN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dTSADOOh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YYxQJtEL"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-434aabd688fso34892475e9.3
-        for <asahi@lists.linux.dev>; Tue, 03 Dec 2024 03:55:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1733226912; x=1733831712; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=on3sYEGd2/W0CVrqLqHMmcTuEZdP/rp7cfagL/Up9EA=;
-        b=YYxQJtELFe+3zZfrCeh4VSM+1Ce6x93zq/LLDt5tEDHkXbJqxLxNCMN8Y4k7E9RBeW
-         xRSC+rEypDXhIMeWFOMRYkG7J2y3KzJvuGVL4bXyHAS2DtsbOrM0Cp/1idxN/UtuPWWL
-         mYoAOFVKqip9Tqe44wV1xD72gxW727ef7uyOj3NyfLVM4WNIv5bzbzPHVOgrf+bubQU6
-         b6Bo9YHBNZ2oTnYsi5zrBpumhP9TFhY9qFwlAaNdeUdMILuN8Z5tW1K/E5bWv9NxSHf/
-         TKnt1qYq8xzC5QObnjYQiWZYfyg+mpU2DKTEu2rYiHzKnk63fLSRMUvdVImibNLRhCM7
-         IU0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733226912; x=1733831712;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=on3sYEGd2/W0CVrqLqHMmcTuEZdP/rp7cfagL/Up9EA=;
-        b=o12bkHPb5kF+pHb0EBKFUJ5QZEoCewGLAaTNqtjkLGT52F/HV5ogLxiQLAno12BVbD
-         DenLTmVMxw8Jhs5zhuTlSmjIpFr7oP2wYVtjcKTmKjqnAmsifVkG/zcFNsKuwOlvo2Rh
-         dw/3c/o03QOEQEX/a2IBipZFh0GT/YezQdjFMQ4UnFDNFvzNNlHVTxBcOyxzVDYDvM6C
-         mxhTwu1IMk/UtRAIdM3epWV2/c1KC22VNXeUxpfAUuiT5Asg0OE9W5L3NNLxHa6ZZCef
-         Ckfh8aHwOh9K5A27ofKoTgpVxjkdC5/0z2metHqQpk2xU/MLW5gPGjP3hExA+/0AX5rA
-         erLw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8LBSUr4oU54JfVjL6lSudVrj30wkDrSyC3ETBpa3iW8FgLTD68/CGEBaPAxm7jt5vLDA6+A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzHrWNVi7jHQ1DeYWcGs5x+7H0EumsYsrqVMYJcW3X65Rrlc9TE
-	n0fygMIKSnLMfS5VeW5O6dFSb4FBqS4zbFrYMz+74Nf0RjrGQH//k3SUGIF+UTI=
-X-Gm-Gg: ASbGncth1vnqTdTwNPR2liQ8BTa3YocGTt0U3+CdYoj+deADacMf3Fv27RAeRDm5KY5
-	ISLpx0DFWjkrxcSTNTxPJikWACaJOHfS2p4qsaauy6NdBHFk2GsHH0vDQqu/7H1fUZ5G3ZGRmZt
-	cVtyNMQMut5vsWRVHzU4dAkIqkuaw8ur1n2yrSIl0AsVWCY9099+c8cVYkIfWoXEPKGGncXvh77
-	JzRQGrpWa85e+WB9AP6Bv/yvigzKBlR06ngBwdXiFeVk+Db4rDh6A==
-X-Google-Smtp-Source: AGHT+IEOoaKE+Jx2lB/U0/CuOwfrHNpbiVubl22ruotoapXCu3d/MzBK3IqvDfPWg35JXHbV7cl2rQ==
-X-Received: by 2002:a05:6000:1ac7:b0:385:f44a:a64 with SMTP id ffacd0b85a97d-385fd3d0816mr1896449f8f.24.1733226912618;
-        Tue, 03 Dec 2024 03:55:12 -0800 (PST)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385ccd36557sm15172989f8f.24.2024.12.03.03.55.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Dec 2024 03:55:12 -0800 (PST)
-Message-ID: <ba893003-afda-4615-bf96-79b62bee51a0@suse.com>
-Date: Tue, 3 Dec 2024 12:55:11 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dTSADOOh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A97BC4CECF;
+	Tue,  3 Dec 2024 14:41:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733236918;
+	bh=3s2rLqVFzkG/7hsZLgSm+vZhQcwjwFq4j/0oY+CmA0g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dTSADOOhLCmWUTN5/YFlhk5W6YBLSUq8FWrJ2+kOvr6Ij6EcEyEkd92CkOpKJrJqZ
+	 15V5Wv53fySH1hW7Qm0lst6kxxrPDs9fp4e3D/TETsi8iAH9WdV9HGVcB21pyCMwpa
+	 bFOy1/zfosWmXXCi1M0tdLbfrzDSiX2pgbdT2cW1kRMlmXF3qMpCi1nzT6GA4vIdSO
+	 URgxKgfJhxLOuc1uEU0PzL3BSxFthai0PN6fegUzqhxe7FCcAS0HfjyiflMFyAmwxL
+	 DTGQDNDpO57ybDsXOZaPA6nIaKGLaevgAr8ZurFcGUjQyFWsvh+caEhuYIeMD4/tNA
+	 a0x5hK+8Gw54w==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Kiseok Jo <kiseok.jo@irondevice.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
+ Tang Bin <tangbin@cmss.chinamobile.com>, 
+ Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, 
+ Yang Li <yang.lee@linux.alibaba.com>, 
+ Igor Prusov <ivprusov@salutedevices.com>, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, asahi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20241202113641.1003836-2-u.kleine-koenig@baylibre.com>
+References: <20241202113641.1003836-2-u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH] ASoC: Drop explicit initialization of struct
+ i2c_device_id::driver_data to 0
+Message-Id: <173323691528.75840.3593450234330035704.b4-ty@kernel.org>
+Date: Tue, 03 Dec 2024 14:41:55 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 12/18] gendwarfksyms: Add symbol versioning
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
- Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <20241121204220.2378181-32-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20241121204220.2378181-32-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-9b746
 
-On 11/21/24 21:42, Sami Tolvanen wrote:
-> Calculate symbol versions from the fully expanded type strings in
-> type_map, and output the versions in a genksyms-compatible format.
+On Mon, 02 Dec 2024 12:36:41 +0100, Uwe Kleine-König wrote:
+> These drivers don't use the driver_data member of struct i2c_device_id,
+> so don't explicitly initialize this member.
 > 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> This prepares putting driver_data in an anonymous union which requires
+> either no initialization or named designators. But it's also a nice
+> cleanup on its own.
+> 
+> [...]
 
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+Applied to
 
--- 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: Drop explicit initialization of struct i2c_device_id::driver_data to 0
+      commit: 8359ea9c119570fb5971379655661f77a3aafb1d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
 Thanks,
-Petr
+Mark
+
