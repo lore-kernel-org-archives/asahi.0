@@ -1,192 +1,110 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008B71CDA17
-	for <asahi@lists.linux.dev>; Tue,  3 Dec 2024 08:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9BB1E411D
+	for <asahi@lists.linux.dev>; Tue,  3 Dec 2024 11:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733213072; cv=none; b=JU/TDRp95OArvOyfpVDXcCIQ/RZOacqis5zhDAu19u7UzQBWf6gioemw/blDJUT0JNtuMc7XEVrX8adnmx24/UMNxIZeehvfHTlopLME+vurRMgR0MXlSWs8YoKxVjw8ZmFD8ZF1WeKdhGbeqqCgDt9tV+Bf2LNjzyswJ9I21vc=
+	t=1733226852; cv=none; b=Sb9UZXgfBACyRyHOBBxOtG44TY5mlzXf8GENTzue4nhdomjEo2K2RMbhCg2oma/q8a+QypYbvg/mFn5AJ3K3kIJhQSbw1Hr7WtVdv/GVbyUcZJVSCIkfnr7wkbWep9ZHtxVbV6xBtgqA0zRtKp6sV/PaU0Bg8LnQ1hRZ/PqR8TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733213072; c=relaxed/simple;
-	bh=yDYD+yl0+WDeQPBYxaJGQ1tkSEz3OvhJNj3f9jq0pz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S4FWzxO8EyA2JdsDLyfOURMgfXApdw+1T776sPTLUPRcVWB80MxzT1phclUWXdREaW4O9aF3mhS5nddR4tJCrrB3o79JTi8OR4dt9gdBrm6mc9wXLUTk+8rfsPqoAizg3HkXRCS9DnLKOdo16JmR0p3lgxczX3oOurQdP5yaZOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=fuhSYsQO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nTMLuboH; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1733226852; c=relaxed/simple;
+	bh=iZ6iZsYDGgn6+nosV/i7U3c9sBZT+1+wu183Z3mPfA4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UmARPqkc54ElvJiJDNiqllzp2y87Y29mFTIW1KiAnEEjQYmfxN90Ducuk6WlO2IdV6XT3Ds1dBZ3nKq32Jp0ubmy5hOXPnDoB4vMnZ2f43tzIejpxT4Ag4TZYkORvrSG2uUVbq+VpNESiogSPu1x2trEzePIAV1ZdKYoDMBpzHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UpqbBpAa; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="fuhSYsQO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nTMLuboH"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id D4537114008E;
-	Tue,  3 Dec 2024 03:04:29 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Tue, 03 Dec 2024 03:04:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1733213069; x=1733299469; bh=ZWVU5IWmat
-	tSZ28Z0DFPKDl8mHNr4ydvW+wphgIGkSg=; b=fuhSYsQOU0mGUHobNWEfacorSV
-	G+ONaLSX9pvznk3aaLBMAOEMGLgEORy1NYCvK9/nCxv7KEKokENGK7BIzaiEbX+/
-	KOowx6GpiA1m+RfK6wbmyKo0kvpHgguq2TiQRBAg5CKYSjdAzu6wXf2aQ7+SnssD
-	4bYwZFZ80xZzEwEo6JEYsNrnIg7lWZoem+qxdsGv3xVuhkna7IPtlVFlLP5xTYyq
-	bJEs0p/2ScFE24mZB1tcXvDof2AM5LniywB41bHMWDPseDNj5s85pSfmJA3qVbIN
-	w80m7RUHzCFXrFwg6x2BYeesHWcq7T1vxptgmFNT4Vy6tz0Ve2jPFOdVw5SQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1733213069; x=1733299469; bh=ZWVU5IWmattSZ28Z0DFPKDl8mHNr4ydvW+w
-	phgIGkSg=; b=nTMLuboHE0haQpl0c89usXC90jBGyKAZToeaQY99fJyjKxkNT38
-	17YINjtMpCbYcn1WEL6m17Gb3j+A74HsSDh0TeFQOE45Y9OVDSCzQwNHtLh8Es69
-	VyAr5Xxe7HO4PH7r/f39VAHkhtxY3LWIKGYe/Fgf1OKbPzMbVyeHnbJ7K0W3vDET
-	9Caw17vpD8DSCbmCBfIfWXZ3WFv36+XMsSYz4V5JyZMCZ0Bxawe8xfaNgmSt5zxr
-	7E82Gdy3itb6SKzHitpZzvpCwho63lkYZboX1AzR2f8zMHiwU5Ilc1FQepQR7QkB
-	ptDscAYIpHeMo97WKQ37SDI0E8sL2ZNLzWA==
-X-ME-Sender: <xms:jLtOZxvGiMYUrXGYlEpbo7PVspkZrcE3ZoVjuG6VBfm6J2t1kgtPyA>
-    <xme:jLtOZ6e3Er0LA_aaA73eYGDijO_NuzSiaOl9U5jJTax-OtU8bT9Hs8qpgkzETHFQz
-    7FZqjMQG3R35z1RnW4>
-X-ME-Received: <xmr:jLtOZ0yUTGltTN7L69IgFv_22vS9bMAN4ivKFvSRV-icuDtj1yuhEbSrV56YiiFPneh365ltFBMQCxfzYp9u4XkWUgyRV7DSou4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddriedugdefhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecu
-    hfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecugg
-    ftrfgrthhtvghrnhepgfduueffleefkeegueektdehkeejtedtffdtudejhfdvheetgfei
-    gfeltdeufeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdp
-    nhgspghrtghpthhtohepudegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehfnh
-    hklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrhgtrghnsehm
-    rghrtggrnhdrshhtpdhrtghpthhtohepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpd
-    hrtghpthhtoheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtohep
-    ughmihhtrhihrdhtohhrohhkhhhovhesghhmrghilhdrtghomhdprhgtphhtthhopehroh
-    gshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehrhigusggvrhhgsegsihhtmhgrthhhrdhorhhg
-X-ME-Proxy: <xmx:jLtOZ4PYyoXOF_WHCXiBQY16ljwNzyFGD6Gylb8DVA-7JiG8_LSO4A>
-    <xmx:jLtOZx-m66TPqIuiljjMhnYojaLzyukjVGitZ2wbpazkCH8Wi4Lszg>
-    <xmx:jLtOZ4UxEHcli7CfPxNpk0Khduvh2ghK8UyZrZCjflZyFpDMkEQQIA>
-    <xmx:jLtOZyclnK1uoHFpkR23E_aK23U9sTQd6qbioIpqn_yvqu35loywfg>
-    <xmx:jbtOZ1U3FWeeR2Fy_ac13jXc-ROY-APNVl7rAMkBH82sWiTWbhfwc-3K>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Dec 2024 03:04:27 -0500 (EST)
-Date: Tue, 3 Dec 2024 09:04:25 +0100
-From: Janne Grunau <j@jannau.net>
-To: fnkl.kernel@gmail.com
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] arm64: dts: apple: Add touchbar digitizer nodes
-Message-ID: <20241203080425.GA1282717@robin.jannau.net>
-References: <20241128-z2-v2-0-76cc59bbf117@gmail.com>
- <20241128-z2-v2-3-76cc59bbf117@gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UpqbBpAa"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385eaecc213so1406242f8f.1
+        for <asahi@lists.linux.dev>; Tue, 03 Dec 2024 03:54:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1733226848; x=1733831648; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZR6c9RoUjrM3dk40cs7PLYguaqe6xp835zylMe9vPV0=;
+        b=UpqbBpAaXMcaNSn4oCZqPlLRj28n9EkWT0kXjbGWa/VkVR+OxgZPfAPkJXrkMcRRk9
+         VPqW2zGZOqrZB8ubS4g2A5ymisqS1fU6JH6CmNaFvY9lq/LWJ5ouRTL4HymJ3L9qSfV4
+         X4BV81DJA5Sq+a6HJqL4WzKs2aL/Wu+aI0tEWFhVTf9fcp/9TLQgEAvwJ1mSmN0e/QrC
+         a3Q7eIJRjV7vWB9UdSQQHud/HmoIkVYXaqpiVT9lGnE9Cr9G7KqFIzqWHVaAxuNMgbeT
+         P4FDFAm426GU4fgyj6x0u0PU2pMrkIn35gsuW91YfMnMlXgbZ9y/jiN8oPQKSdLS9Et5
+         v7nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733226848; x=1733831648;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZR6c9RoUjrM3dk40cs7PLYguaqe6xp835zylMe9vPV0=;
+        b=vzntndqw6VRxRR+96f3MZkComnIo0QxeZY/6AFsFxjscGO3+zzAjSU3VKloIMaqri1
+         14UVE6Bx2R7gFUZAEabBSGy65AAOVxXUPzb40KwiJ1GpEmqhJNgbQD8q11ygjwCadiZx
+         RCKqJCfg0IUG4sAK9xO8weFRaXUzrIZBfjIJiGfOE9CpU721Y1tY1HwYe3nkQWCU6hqc
+         CZij+43Ju534y2EflIUmxw6yeTwXf3Dx9K/p2F3ff8TCSpsu7+DDddEXOYmPqOEyOaMX
+         v/YwP2sRGiMvoerTLsQhxYrLnbYTK9V1uLR8+/rC4ZNRI6mmdf75sJFv+UvJYL9NhMFc
+         Dtwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJ1Skmffmm2iJmLVcfuO6tE+DexG5sCkC0nNEy4AUtm8mJ3EDod3AdBaSHynri+5jnrYvUrg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzykL6BTPQk1Ch+ENypJ+EwaCB2NiI/Xi1lgoNXvcRERrGTp8E+
+	9sMm4QVZuexRs9hlcmWXyLPbY0vj9hz+t6+AM2BE6ub7DzcDDdKwqzEWRPA5EqE=
+X-Gm-Gg: ASbGncsuNPU8+4mp6vnvoJhioTw7DVxiEIlZBvIa1M6hwTKcnzXHKOdfWS3OiZ31ux7
+	k5HdTnApzdmD7Wo4kugVVkAjr4oquCYTsU4ZpRkszBJD1G/GnXUKNge7YlkWCFgcnJVHrFACHR1
+	LLpxxNffx8uPxSpZZ7aWVTDWE25Mo5P1Ywgb3mekOrN7JMFiBjboTTgEeh0NwitEyJPMBcLuNdG
+	/lIpEOJCN21F32Qqsn4uvqevOz5U5d9sq+onNEqDYwWH5AjMGo8cw==
+X-Google-Smtp-Source: AGHT+IF3C+gAe9enWE6coDrJOE0PJBinw+OtrvrTgQQOl+8HAIq0aTYlzIw7cnuVNYgk8Zd7vO+IRQ==
+X-Received: by 2002:a05:6000:2c2:b0:385:e8e7:d09a with SMTP id ffacd0b85a97d-385fd969071mr2152487f8f.2.1733226848550;
+        Tue, 03 Dec 2024 03:54:08 -0800 (PST)
+Received: from [10.100.51.161] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385fa330ca0sm3064430f8f.11.2024.12.03.03.54.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 03:54:08 -0800 (PST)
+Message-ID: <32fdbc0a-ba70-4d99-93c8-15ec8ebe6f70@suse.com>
+Date: Tue, 3 Dec 2024 12:54:07 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241128-z2-v2-3-76cc59bbf117@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 11/18] gendwarfksyms: Add symtypes output
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
+ Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+ Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
+ Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+References: <20241121204220.2378181-20-samitolvanen@google.com>
+ <20241121204220.2378181-31-samitolvanen@google.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20241121204220.2378181-31-samitolvanen@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 28, 2024 at 11:29:18PM +0100, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On 11/21/24 21:42, Sami Tolvanen wrote:
+> Add support for producing genksyms-style symtypes files. Process
+> die_map to find the longest expansions for each type, and use symtypes
+> references in type definitions. The basic file format is similar to
+> genksyms, with two notable exceptions:
 > 
-> Adds device tree entries for the touchbar digitizer
+>   1. Type names with spaces (common with Rust) in references are
+>      wrapped in single quotes. E.g.:
 > 
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  arch/arm64/boot/dts/apple/t8103-j293.dts | 26 ++++++++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t8103.dtsi     | 20 ++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t8112-j493.dts | 24 ++++++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t8112.dtsi     | 14 ++++++++++++++
->  4 files changed, 84 insertions(+)
+>      s#'core::result::Result<u8, core::num::error::ParseIntError>'
 > 
-> diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-> index 56b0c67bfcda321b60c621de092643017693ff91..c31eb3f6f54268cafc9197a9244a5954fbb42802 100644
-> --- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-> +++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-> @@ -17,6 +17,14 @@ / {
->  	compatible = "apple,j293", "apple,t8103", "apple,arm-platform";
->  	model = "Apple MacBook Pro (13-inch, M1, 2020)";
->  
-> +	/*
-> +	 * All of those are used by the bootloader to pass calibration
-> +	 * blobs and other device-specific properties
-> +	 */
-> +	aliases {
-> +		touchbar0 = &touchbar0;
-> +	};
-> +
->  	led-controller {
->  		compatible = "pwm-leds";
->  		led-0 {
-> @@ -49,3 +57,21 @@ &i2c4 {
->  &fpwm1 {
->  	status = "okay";
->  };
-> +
-> +&spi0 {
-> +	status = "okay";
-> +
-> +	touchbar0: touchbar@0 {
-> +		compatible = "apple,j293-touchbar";
-> +		reg = <0>;
-> +		spi-max-frequency = <11500000>;
-> +		spi-cs-setup-delay-ns = <2000>;
-> +		spi-cs-hold-delay-ns = <2000>;
-> +		reset-gpios = <&pinctrl_ap 139 GPIO_ACTIVE_LOW>;
-> +		interrupts-extended = <&pinctrl_ap 194 IRQ_TYPE_EDGE_FALLING>;
-> +		firmware-name = "apple/dfrmtfw-j293.bin";
-> +		touchscreen-size-x = <23045>;
-> +		touchscreen-size-y = <640>;
-> +		touchscreen-inverted-y;
-> +	};
-> +};
-> diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-> index 9b0dad6b618444ac6b1c9735c50cccfc3965f947..9b83341a799d9a37578e5461e6b184f81ee7435c 100644
-> --- a/arch/arm64/boot/dts/apple/t8103.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-> @@ -326,6 +326,13 @@ clkref: clock-ref {
->  		clock-output-names = "clkref";
->  	};
->  
-> +	clk_200m: clock-200m {
-> +		compatible = "fixed-clock";
-> +		#clock-cells = <0>;
-> +		clock-frequency = <200000000>;
-> +		clock-output-names = "clk_200m";
-> +	};
-> +
->  	/*
->  	 * This is a fabulated representation of the input clock
->  	 * to NCO since we don't know the true clock tree.
-> @@ -441,6 +448,19 @@ fpwm1: pwm@235044000 {
->  			status = "disabled";
->  		};
->  
-> +		spi0: spi@235100000 {
-> +			compatible = "apple,t8103-spi", "apple,spi";
-> +			reg = <0x2 0x35100000 0x0 0x4000>;
-> +			interrupt-parent = <&aic>;
-> +			interrupts = <AIC_IRQ 614 IRQ_TYPE_LEVEL_HIGH>;
-> +			cs-gpios = <&pinctrl_ap 109 GPIO_ACTIVE_LOW>;
+>   2. The actual type definition is the simple parsed DWARF format we
+>      output with --dump-dies, not the preprocessed C-style format
+>      genksyms produces.
+> 
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-Since this appears to be a regular GPIO pin I think it should go into
-the spi0 override in t8103-j293.dts. Kind of academic since that's the
-only device using spi0. It will however allow to easily rebase this on
-top of "Add Apple SPI controller and spi-nor dt nodes:
-https://lore.kernel.org/asahi/20241203-asahi-spi-dt-v2-0-cd68bfaf0c84@jannau.net/T/#u
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
-Janne
+-- 
+Thanks,
+Petr
