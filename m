@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE631922F1;
-	Mon,  9 Dec 2024 03:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0A1199FB2;
+	Mon,  9 Dec 2024 03:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733715668; cv=none; b=AlHo2qkHmMEP8QtH491mcFkmhOIpFalBojCTkakuRD91lucL0Jm2ABheEoQJIbKZnL1zh3PJJjH9mU9FBOQlXHIgh9xI5cdDPy3QUEvVoPfpETBoWQp4bBH3mSP5ROS2jtEWHKvFHb7jfn8RpotwpnnSB83BBx3hMbNchLiAXbg=
+	t=1733715728; cv=none; b=Oilv2s3F4kmcyO7eE79bwEjFxl+bcOoYUjQKH7VTScARWRVeKbvjW0loFmYpzIMPOdq8ZeqYWcqCwggnDSK476ADgv5oK/Hxc9LtEHOo25ScfRP3iaekcicb+BjkcvpE7w4HGAaRJAZo9kjPMIU1SKMBEy4TIoYCJQhYrqthd10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733715668; c=relaxed/simple;
-	bh=ncK/sE8+KnlE+XPzzVk25YCDyXg/f1NqF+jwwsC606M=;
+	s=arc-20240116; t=1733715728; c=relaxed/simple;
+	bh=jjCNDzZlfiFPST1Vis/4xXYsOg56hSTf+XAT+Z9Q2rE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eecuc9Pd691mwylDCZ9Jr+FialQ7h4ASmcI55pFmAg4zydZtnmBe3MOof+xHDTEgFXyIiBdCXtBMee7OKe5D+ncOKT+qSrNCDmdZhnbvpYNkqtUxCA+rXnCZ4Lo/uCn9puxyrGhLCw+TSjVn2/5kS7KvpG23iluCf0XDaSmlRE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEnEG7pA; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=QRZ/8ndxest00FWpPydw3HCsu0WLS0XdPBgc6b/zMoQMQkVAT511xi9AoUpjQ0lHE6vdKy8Oe1GnJu6157wxmZmhnYszG5SRONcjL4itUd3erCAve1rle2nhOkvWj1m2M16s8wbWlKv0sQigq08OSBQEPLy2hLUF+++mCp+Qw/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ci4UOFuZ; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEnEG7pA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ci4UOFuZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733715666; x=1765251666;
+  t=1733715727; x=1765251727;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ncK/sE8+KnlE+XPzzVk25YCDyXg/f1NqF+jwwsC606M=;
-  b=hEnEG7pAZ1aPRWgU5BUMJmr6xRn0U0qe25wHFuJFjOf/OrusXHx/ymcB
-   hvgzz6vvkUZA/KbBaQTU7gYOi+T7ykRBNT3BRscP9610c9FZsYs3Vgmuo
-   wohapfzsWQk20VAQGxH4z2gVISloGUGhM22EdS2aZmB/QyEGuAbJZz0kg
-   vxFqyXIGfDbBjD7/KyyRtOr6ESBPI7HrJ6bPqx4DrAE/pyS0+ow9uzUBy
-   feGAYGadSWlJJojge34UWEKLyAC1fjLdLkemW1kmnJbFzOtzTOCEYsCld
-   8HLgUesgQ2f+ZE/+Lkua3VkDjAhd8P6hajNBmsclqWg/F2BAZFspgIDlh
+  bh=jjCNDzZlfiFPST1Vis/4xXYsOg56hSTf+XAT+Z9Q2rE=;
+  b=ci4UOFuZPSPrUPphy43bBdegj5Jo88zPorw/shgi5NDnvRymnI1/UbhZ
+   PA0qVeW+HdsHDcHrssfSL3nbC0D7cfaz2UoPsMtHq8PMXXZlc0wE917Z4
+   64+qgL3Sbx4tVHQq2oZwZ8jX1R5XulHWMWLN6M+vl5N8RuOJPnjwBC2fj
+   Q4CsX2DQiJ961pk9RRGvtwyWl60vGB2qzyFUYToxpkMK63e9dBp9U3s0J
+   QfPMYdTDt5X83/Ui4GHknQOKQurWfL8KyEhUf5cV8IstHVpaGS9qMyslc
+   BVX/dpypmTD2FH5Z5uS+6uIhouRdB4ENejnHkgdf1HE7KDQL0silYO0jd
    A==;
-X-CSE-ConnectionGUID: CaLH7h9DRnawXTeAPHh2eg==
-X-CSE-MsgGUID: HXHqvo4HQ++nY0Lx7fwzGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33889106"
+X-CSE-ConnectionGUID: eX71qfsISm2NNWAf1Bs8rQ==
+X-CSE-MsgGUID: KaDCIlISRRyVfkJNv9Vp5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34135604"
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="33889106"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:41:06 -0800
-X-CSE-ConnectionGUID: X3YHOIjOT4KxtkQC+kKXTQ==
-X-CSE-MsgGUID: nkT5gCzYSmOuxlFtB3DBpQ==
+   d="scan'208";a="34135604"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2024 19:42:07 -0800
+X-CSE-ConnectionGUID: Hbvqi3ZbQg6aI6/GpXdtlQ==
+X-CSE-MsgGUID: 0/36i1gHQEmF+PLe0iTyfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95295523"
+   d="scan'208";a="94752221"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 19:41:02 -0800
+  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2024 19:42:02 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tKUdn-0003kB-0K;
-	Mon, 09 Dec 2024 03:40:59 +0000
-Date: Mon, 9 Dec 2024 11:40:50 +0800
+	id 1tKUel-0003kL-0f;
+	Mon, 09 Dec 2024 03:41:59 +0000
+Date: Mon, 9 Dec 2024 11:41:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Nick Chan <towinchenmi@gmail.com>, Lee Jones <lee@kernel.org>,
 	Daniel Thompson <danielt@kernel.org>,
@@ -61,9 +61,9 @@ To: Nick Chan <towinchenmi@gmail.com>, Lee Jones <lee@kernel.org>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-fbdev@vger.kernel.org, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
-Message-ID: <202412070721.9tZI9Ogl-lkp@intel.com>
+Message-ID: <202412070752.4Q1AOuGo-lkp@intel.com>
 References: <20241206172735.4310-3-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -85,26 +85,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Chan/dt-bindings-led
 base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
 patch link:    https://lore.kernel.org/r/20241206172735.4310-3-towinchenmi%40gmail.com
 patch subject: [PATCH 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
-config: arc-randconfig-001-20241207 (https://download.01.org/0day-ci/archive/20241207/202412070721.9tZI9Ogl-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070721.9tZI9Ogl-lkp@intel.com/reproduce)
+config: hexagon-randconfig-001-20241207 (https://download.01.org/0day-ci/archive/20241207/202412070752.4Q1AOuGo-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070752.4Q1AOuGo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070721.9tZI9Ogl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070752.4Q1AOuGo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/video/backlight/dwi_bl.c: In function 'dwi_bl_update_status':
->> drivers/video/backlight/dwi_bl.c:46:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-      46 |         cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
-         |                ^~~~~~~~~~
-   drivers/video/backlight/dwi_bl.c: In function 'dwi_bl_get_brightness':
->> drivers/video/backlight/dwi_bl.c:61:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-      61 |         return FIELD_GET(DWI_BL_CMD_DATA, cmd);
-         |                ^~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/video/backlight/dwi_bl.c:46:9: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
+                  ^
+>> drivers/video/backlight/dwi_bl.c:61:9: error: implicit declaration of function 'FIELD_GET' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return FIELD_GET(DWI_BL_CMD_DATA, cmd);
+                  ^
+   2 errors generated.
 
 
 vim +/FIELD_PREP +46 drivers/video/backlight/dwi_bl.c
