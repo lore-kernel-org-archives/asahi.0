@@ -1,187 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3042AE90;
-	Wed, 11 Dec 2024 04:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A8B187872
+	for <asahi@lists.linux.dev>; Wed, 11 Dec 2024 11:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733890775; cv=none; b=NB3YZpkG9IgN06We+WasJKP1cPQH1jiJ6Z6UuGEfjUVA3/JSUZzKNBtAFCV+GTzk7gdzPDiiB9cMK0gThVA53AqSKJNAoxPhPvIFBbx0kcYFwQigNArPyCMv+iZmlj6ROGuzuVhCjAIkABC1G402Aga/xg68vvXSHjGWGivCp1A=
+	t=1733916185; cv=none; b=dWIJxN/F2FBY1xQJKkp3ohONBPDU3IZ5CXBPFOALWy9oEqgUitUx/RRxSCgyW7LDx49GFjUM2VhJ6l5wyGYsCBnvFQ3JI7m/nSD4OItUXORG9Tc6xvzj00/MNaZ02Ub9ILncAnrLI/BgUhSVUEuUG+KJHu2pTQZa6WbKxb+vZ1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733890775; c=relaxed/simple;
-	bh=C32hIFQ3Gfh9PhB3jChte3FH0hDXjjDORJiNlEbV5hE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F4gY92cnG942iqODIKzTNAUiKRa0VY/b+LGQSut8ZAiC044d8h+pyl4vVOoySPYgDJpCDD43rS4VRTnBfb5NgcPI+cRlD+yUMgX+XtCVdKH8Q56BxLbQZ3oEKoyAbwAY5Gre/rGzq3jkefAOpdAq1kHGFBrZAcuCv+IPz5vQKMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJ8MLIR0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733916185; c=relaxed/simple;
+	bh=bfYMhLAAkkZc88mag8TEfhSuTWGW9xyLT/3qKbgJ2ts=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m5p9Idi/k0gru2m+9tkJGwvcwipW2DbyuevNWjTAub812ppz/5f6vuiR2GskjUmKyVT16QBlUs6hDxrrypwLvDar1smJsf7n7SFi+gRMaLsT9FcYZLgcqc1HRRL3BSVP9k0yFvq8IEb8zwKgcWhI190MyYLA1xL/sQsK/vjaGuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D3NLQLEg; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJ8MLIR0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845F0C4CED2;
-	Wed, 11 Dec 2024 04:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733890775;
-	bh=C32hIFQ3Gfh9PhB3jChte3FH0hDXjjDORJiNlEbV5hE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JJ8MLIR0CTwqHxwJxamypw1b1Jj5WZfI7UnyPLqu6PE57z1AaQJfyNPJq6dnG6Oez
-	 /YLKEJg3UvN1Q0EGkOauLQ4ug0r2VUzoWEwBIlKIJ+0V8WRuh8lhej+0pS2XUFqEpz
-	 KQTygoyTSr4ykcwR2rK8f3x6umawGrG9DKr47d6DCK7w4IF1Gvh2q7XWu/zucw5VHD
-	 ow/E3EKgkZRPlPPloiVWzX9MMkxI0LOE2goQUQ7yo8fhQLkS/BaIliQPUKtwCLxQz8
-	 CUnw0PSLaT5/BC+Do2UpS6PkIfxPb1pPxNxlnGcKMOveD6tLziMU8EBFvpZb/stFNi
-	 ZHCmzFrJ7Dbrw==
-Date: Tue, 10 Dec 2024 20:19:33 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>, Sami Tolvanen <samitolvanen@google.com>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthew Maurer <mmaurer@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
-	Miroslav Benes <mbenes@suse.cz>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Donald Zickus <dzickus@redhat.com>
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-Message-ID: <Z1kS1Y8_aUQc83tb@bombadil.infradead.org>
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <CAEg-Je-h4NitWb2ErFGCOqt0KQfXuyKWLhpnNHCdRzZdxi018Q@mail.gmail.com>
- <CANiq72m4fea15Z0fFZauz8N2madkBJ0G7Dc094OwoajnXmROOA@mail.gmail.com>
- <CABCJKudozEhZXLZVxVixsO5YuZg0nOEmgo3=vMyhcrEw+6Xo5w@mail.gmail.com>
- <CAEg-Je-58WxKXOFEDBWmZDpt8E+SaRq+kK7ZnfMER2qtnKUD=w@mail.gmail.com>
- <CAK7LNATR0epWogDDDOnAvBJyypdgY-CPsi_mUehOWsvphg4LSA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D3NLQLEg"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21619108a6bso39064565ad.3
+        for <asahi@lists.linux.dev>; Wed, 11 Dec 2024 03:23:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733916183; x=1734520983; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W2fBpF4DPgk8VjYpxJsEGAE8QpoFNbBTEEgsMSm8FzQ=;
+        b=D3NLQLEgLLqvHuYww02MtNoEi73GY/sVfAigsT2XAf4JCGVuTM/YSFUW8DkB3MheBX
+         9yrCtXpqVBpk0wA5nG+Dpwb0qA10tW57fF/EQ94M4lIRCdl4wPjtDXaDIvOVyURofEj2
+         MXoVyvh23X6xLZG/fBr2/78N67vlHD70iSFaY2/kcZk91sRBQRq6PkpuiInkUBKPkJT7
+         VYz9tOkHZD1fn+u0zAaZ7sgIIafR1/Zz/ZIdee1gfNKtYVO2MBKX6iZCeKxQ+cOweiuc
+         CHywWP+xl9Jr9VgPZ8pDQapWd7IAgWzi7Sj0nw98ZV/Q456QZwUJtaOh5hXOjDL4b4OH
+         4pug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733916183; x=1734520983;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W2fBpF4DPgk8VjYpxJsEGAE8QpoFNbBTEEgsMSm8FzQ=;
+        b=A563nbGr73UPOTW4fLlUAyzyd3baZ5SIF6AYLUItFs4+nf6J4lJYbOjr4gFHDmPmjd
+         IxMh8mzFU7GBS9gLF+9/Cm7xKSnoDcDuIKSrQ3srIuDUwmYBOSB+FTIicEJyqVQaRPat
+         n0oRNdwWIbQEQ+0aEp+8OUx3NOfipvjFOGr/syf7vQBIP4CG4WGuZmGNXXqhYzQpuVy2
+         MGpYLrGeODv3Tysd95EB6zJsVm6lshoB/6hDjaWomfHE4QYG47znyfcs8zNUKF+hNXCB
+         cMcWQHObCWVBC6xDryz/AlfKf8reuiQpParqXhRYoRhHOIuj2ESQcr90jIMfLODbfR7j
+         m6fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXizscG+TEhPchQ27mdNk11WoeGSjWFYVwyNminDv7MX/1c8vybAKw1et59b44FGhN0kzpzLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwICcohknjdWIqc4btHa1wAc1DjoccQH+L8Cd+V5arw8ab0ZMbz
+	3DlOQUMBTutxbjgwBaenA9rn035a4dqzWQROBNFDWGx9StxuIy+N
+X-Gm-Gg: ASbGncsQ5ZuLUAQyfi5oYOZjE7Eb1nwBRO17vQ1fJy2sQ/afXZV1c5GViNSgLzP4CxY
+	Ej/FP2iwS+xhFO+juRKuso6sIHOsDuNvTJ7nrDJDoTr9N/kxqB2GCHhc8XxBAXhX2+q8+QU1Kso
+	6XlSDu5n4iNvCJBxqnLSCkm7VLwRn+ZOxD11IolufJ3xSGMAUggtchhacitDgENANDouY9mIStU
+	1IkfUeqyB+GBFGqU/FAZL7YGB9WxpW5/r3UOEch7mil3AN8LURfb7VWrxbN0o3TPlPDOA==
+X-Google-Smtp-Source: AGHT+IFQ2IW9tilUc4WqlMVThxJsWeAViNnNodENYGpepZHa2B/aZBLf4geEEAiOuYgDZKDGadI7tA==
+X-Received: by 2002:a17:902:cecc:b0:216:2b14:b625 with SMTP id d9443c01a7336-2177853690emr44032965ad.31.1733916183466;
+        Wed, 11 Dec 2024 03:23:03 -0800 (PST)
+Received: from localhost.localdomain ([59.188.211.160])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-21650ccdc7esm48956615ad.133.2024.12.11.03.23.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 03:23:03 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH 0/7] Apple A7-A11, T2 SoC cpufreq support
+Date: Wed, 11 Dec 2024 19:19:27 +0800
+Message-ID: <20241211112244.18393-1-towinchenmi@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATR0epWogDDDOnAvBJyypdgY-CPsi_mUehOWsvphg4LSA@mail.gmail.com>
 
-On Tue, Dec 10, 2024 at 11:27:06PM +0900, Masahiro Yamada wrote:
-> On Tue, Dec 10, 2024 at 9:42 PM Neal Gompa <neal@gompa.dev> wrote:
-> >
-> > On Mon, Nov 25, 2024 at 10:34 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> > >
-> > > On Mon, Nov 25, 2024 at 4:41 PM Miguel Ojeda
-> > > <miguel.ojeda.sandonis@gmail.com> wrote:
-> > > >
-> > > > On Mon, Nov 25, 2024 at 2:29 PM Neal Gompa <neal@gompa.dev> wrote:
-> > > > >
-> > > > > As my Acked-by was removed, I'm sorry to say that there is no point
-> > > > > for me to provide feedback since it is unwanted.
-> > > > >
-> > > > > I hope it lands soon, but I also hope the people here who decided that
-> > > > > a person's efforts aren't worth recording because they don't
-> > > > > personally know them should reflect on this too. It's a good way to
-> > > > > keep people from coming into the community for the long term.
-> > > >
-> > > > Hopefully this reply helps -- apologies to anyone if I am overstepping.
-> > > >
-> > > > On one side, it is true that Acked-by is typically used by people that
-> > > > is responsible for the code one way or another, because the tag is
-> > > > meant for them to acknowledge they are OK with the change going in,
-> > > > and so I can see the argument that restricting it for that purpose
-> > > > only may help avoid confusion later on reading the log.
-> > > >
-> > > > On the other hand, someone being willing to put their name on a patch
-> > > > is very valuable, whoever they are, and whatever the tag name is.
-> > > > Moreover, it is also true that, Acked-by may be used here in a "as a
-> > > > key user downstream, this looks reasonable and satisfies our needs"
-> > > > sense.
-> > > >
-> > > > Finally, sometimes new tags are invented on the fly because there is
-> > > > no good fit, too.
-> > > >
-> > > > Either way, I don't think anyone wanted to disregard your efforts or
-> > > > to be rude to you in particular, but rather wanted to keep tags usage
-> > > > aligned to how they view them or how they use them in their subsystem.
-> > > > The Tested-by was still wanted, so I doubt their goal was to remove
-> > > > you from the log or to make you feel unwelcomed.
-> > >
-> > > Thank you for putting this more eloquently than I could, Miguel. Neal,
-> > > I do appreciate your feedback, and I'm sorry if I didn't make it clear
-> > > enough in my previous emails. I would very much welcome your
-> > > Tested-by, or another suitable tag that's acceptable to both you and
-> > > Masahiro.
-> > >
-> >
-> > Honestly, I don't think it's worth it if my tag is going to be
-> > stripped simply because someone thinks I'm "unqualified". If you want
-> > more people participating in these things, doing stuff like that is
-> > definitely not the way to do it. It's not like people haven't had a
-> > chance to know me or even just look me up to know I'm not just blowing
-> > smoke. I definitely feel like I'm being disregarded. :(
-> >
-> > The sole reason I didn't give a Reviewed-by or Tested-by is that I
-> > didn't want to do any integration work to validate it beyond the
-> > basics, which would have meant dipping into the Red Hat kernel symbol
-> > tracking infrastructure. I don't have time for that right now. If
-> > someone else does, they can be my guest. I just don't feel comfortable
-> > giving either without *actually* going that far.
-> 
-> 
-> If you provided a Reviewed-by and/or Tested-by tag, they would not be stripped.
-> 
-> I would not say you are unqualified in terms of skills or abilities.
-> However, this is not how the Acked-by tag is typically used.
-> As Miguel mentioned, "Acked-by-User" or "Acked-by: # As primary user"
-> could be an option, but I am not sure if they would gain
-> sufficient consensus.
-> 
-> Code reviews and tests are always appreciated.
-> The Reviewed-by and Tested-by tags are open to everyone.
-> 
-> If you are uncomfortable with a Reviewed-by or Tested-by tag,
-> I cannot think of any other alternatives.
+This series add driver support for cpufreq Apple A7-A11, T2 SoCs.
+Device Tree nodes will be included in another series.
 
-I think we just need to update docs that Acked-by is a *tool* mechanism
-to help maintainers in their quest to find sanity in determining if a
-patch is ready.
+Nick Chan
 
-Clearly, if I don't know a contributor and they send an Acked-by, it
-does not matter if was Donald Knuth (CS algorithmic lord), or John
-Grisham (author of intense legal drama books), what really is of value
-to the maintainer is the the qualitative appreciation over the
-maintainer's own perception of the value of that Acked-by is going to
-help the maintainer own's dreadful quest to find sanity in a review
-process in answering if a patch series is ready.
+---
 
-An unknown developer to a maintainer, as qualified as they may be, could
-provide an Acked-by, but the utlitiarian value is completely subjective
-to the domain of review and so up to the maintainer's own critique. The
-value in Acked-by is in helping the maintainer. There is a hidden
-context of trust of behind the appreciation of maintainer's value of
-a simple Acked-by.
+Hector Martin (1):
+  cpufreq: apple-soc: Drop setting the PS2 field on M2+
 
-A series of Reviewed-by tags over time on a subsystem can help a
-maintainer appreciate the value of a future Acked-by by the same
-developer. In fact the *more utilitrarian appreciation* for a maintainer
-will be how often said reviewer is helping find *bugs* in previous patch
-series, not how many Reviewed-by tags or Acked-by tags they use. The act
-of finding real issues and thinking critically about the big picture
-over and over of on different patchsets can help a maintainer garner
-confidence in future Reviewed-by tags from the developer. Helping a
-maintainer review patchsets and get authors to fix issues until it is
-mind numbingly clear the patchset is ready is a way to help a maintainer
-appreciate future Reviewed-by or Acked-by tags from that developer.
+Nick Chan (6):
+  dt-bindings: cpufreq: apple,cluster-cpufreq: Add A7-A11, T2
+    compatibles
+  cpufreq: apple-soc: Allow per-SoC configuration of APPLE_DVFS_CMD_PS1
+  cpufreq: apple-soc: Use 32-bit read for status register
+  cpufreq: apple-soc: Increase cluster switch timeout to 400us
+  cpufreq: apple-soc: Set fallback transition latency to
+    APPLE_DVFS_TRANSITION_TIMEOUT
+  cpufreq: apple-soc: Add Apple A7-A8X SoC cpufreq support
 
-Since anyone can also provide a Tested-by, it does not mean that there
-cannot also be subjective association to it as well. A Tested-by a reporter
-of a complex regression is of most value. A Tested-by a random new developer
-for the same complex regression may be meaningless to that same maintainer
-unless the same original reporter also conirms the issues of a
-regression are fixed.
+ .../cpufreq/apple,cluster-cpufreq.yaml        | 10 +++-
+ drivers/cpufreq/apple-soc-cpufreq.c           | 56 +++++++++++++++----
+ 2 files changed, 54 insertions(+), 12 deletions(-)
 
-Keeping a tag is not too important as well, we sometimes loose them even
-for developers engaging daily, what is more important is *helping the
-maintainer* on their quest to ensure proper state of affairs of the
-patchset and to remain sane.
 
-  Luis
+base-commit: fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+-- 
+2.47.1
+
