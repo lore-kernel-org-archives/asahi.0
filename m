@@ -1,61 +1,61 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C902F205E1B
-	for <asahi@lists.linux.dev>; Thu, 12 Dec 2024 07:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B4C20626A
+	for <asahi@lists.linux.dev>; Thu, 12 Dec 2024 07:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733987098; cv=none; b=nGobPPsXlg3MjSyrXHUGq3VqNZkqrFGNl/qPlN7TMSdx8nGlUPiYvYqZqFglmtNhX9MWR07c2FthsbpwvtRAOCuBczgRT2VfJoMvPYWu2ldCKTg5trcG2uQkon7NeOdm5vyMh79rsq9Aw+CMhsLj+3G1I5JNRFPLByWsokoQiF0=
+	t=1733987101; cv=none; b=qb2bibxhzgKxSxt4kTIQSPx53sGxAvVdmNbT0IiZFFD8x+8r9+uZ/8vGr4CUSyZ4g4DiqRfhiJGodDIdh/2qdp7U3vgsEc17jjxuGRo9MyNpdE9famb/+qq/6pItXAB/eJxwrywpk+1K4mIZZF0GDaIslXe+yAhk2VK/UFrYgZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733987098; c=relaxed/simple;
-	bh=lSmc5lpStkRdh6T2UaHkJlaMrEahYyD8GNIRGOk35wk=;
+	s=arc-20240116; t=1733987101; c=relaxed/simple;
+	bh=yE0aQpLH/1FOUdWsRUbN03Tzw84skMe8N0rw7qw0z1U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Johk3d1fYYmuZ5blQS+wLdmS7lfIyenzIGKeF8alUpYZlnpwWfdyVAJuPOqlnpV/gOpT58314gxgAoFFtmtSJrkprR1uzGhwxw01VQfybYDbcyA33qMJBiFqTvNb5ER2mZhfSoO5EcWKg8eQW1Yuscdpc5KweV4nX2qOXaQ0iBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HoTHXU/3; arc=none smtp.client-ip=209.85.210.172
+	 MIME-Version; b=nk2zs+9qxf0PAC5klaBZEXPkOoJ6ew8AOo75rDVUaiBAjWd7a+FeLCkS0tk970Prmy4xKBeOwGP5zghdIw7PITOI35HjUL1NXFymCEayfMnMBKsIpH9HcKXgGdBD5yodlGV4ADfzpdykF2XETOLhbNtnsN5MbbpCjRItuF/37dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ns6+b/+S; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HoTHXU/3"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-728eedfca37so290315b3a.2
-        for <asahi@lists.linux.dev>; Wed, 11 Dec 2024 23:04:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ns6+b/+S"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-728e3826211so213043b3a.0
+        for <asahi@lists.linux.dev>; Wed, 11 Dec 2024 23:04:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733987096; x=1734591896; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1733987099; x=1734591899; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=11W4ToO5h1HZTorB4p+IfX/arkj3h4R3MbzsYg+yGqg=;
-        b=HoTHXU/3lseaj2lX/NWllU32/kB5KsXj8mre4AULXhPwA4z00yY7TkpdyVRcEHIrtb
-         g9/4pW2O71GW7VAw2CAoLdE8/+1RYTfpHR/I+CU/ydG3f4uyflW34pFIQ84+3lUx5XaK
-         AZuZGBU5reXmGYIR86rMb0nTfeiVqN3YG4iIXq6WDykqTv2x0qnGUani6ELoGkjvCK6n
-         QZPSdsPuyQpMnPTWhZlUDO7GeG18xrmukUUyl4JmITpt46RNiWygWoy2MB2jjKf6ZRVq
-         44lKL4w3xc+3EM+3fF++di8vk9HgzNtqMdF40bfxkMjkm8DMSJ7L+uQLpRrGMEHPtneK
-         ibHw==
+        bh=f+xNT9o8scJSCGD7/hX9myZPXhoesiiISnOX8ftRSxw=;
+        b=Ns6+b/+Sb86ttS3hG0QjcNo02bOKfTR2pcAolFyNeZ6mDfu+l6+BdE8biAAGZ9yKWK
+         TN5yCACC7XDLIR+oijYuk8soQ+5dEx53aFZU28uAt3WVQvdE3FAE2SDenGLg9I0SbGJY
+         FwTY2SW9O4nbXHBPnT8D1q5d5soqO4aJVUk16rUxiNTxKBOgtzoAm9PqSbIZGjRKqYVv
+         zrKRUDKDn0RB3py/04UB1rufQdkng9fFQIfVMimEvw3mZiXmt/YMYkoIvFIdZp8NMbj6
+         5xrjUxS0SQgk0BK/T4jrDkXIe2O06/9P3misA1vHEP3WqQzQbCMbxs9SZgwNjL5YF8dx
+         8b7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733987096; x=1734591896;
+        d=1e100.net; s=20230601; t=1733987099; x=1734591899;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=11W4ToO5h1HZTorB4p+IfX/arkj3h4R3MbzsYg+yGqg=;
-        b=eIwOL6djtRlonH1Ffd88FR/HgZEHACaj+khwXp/n8qVwJKJ8Yr6TZv+y444ycrwreB
-         0QbWZumhhVoYhC4b5qb+enBuWMtxnNbsz/4DAMhaQo3dRMRKjLTtbA5Xc6vCb+oG7RsY
-         EZF76ClDG0zs2B+VxKuUYLjcG7BiMLKUSWze/C32k4/HQlN6LSsiVcTMV9fcBWwQxj4Y
-         OyU8a7qCqywfQbNyxCzfx3n7zJSU1Yyf5Pc/4u7vleVUw7le6UMV5erVaNZtdCITAnzy
-         /X+sVp80DPJlFr6bYz1AwjLpw4f+QOQEF566qxld4kqU7TpFP1d1w9HCf/6tl3TxHXx1
-         Z1cw==
-X-Forwarded-Encrypted: i=1; AJvYcCX5bqi9XUdCmh0EOgRKStWG1jCTK4S65SLkxmZHX1VNkQgc4hnBXj9MG+70cLKFWB+gz0dxZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDWSmC0W8KakRn79lWr4U4ylXii34/exkulEztGqZhZKvkJOHC
-	oGJm6SIQpE6eBGOP1ZJdnx8YhrpBuSlzAEJjhbxkwwxnOCUOOHrZ
-X-Gm-Gg: ASbGncsPOTHybo3LuCYqmoIAT87qVomzVUD/uygmakWRaP8Y6Vhsp3+0r+miCB/Bm/B
-	BbUw52WzY7U/GSQLtqR5KTE5tqGlG5o4xikVVMPao8aNUjlXsTDvKOs/BkP0H5vZ2Rp2cd/c/5R
-	nCLEz1YroDDwmB16GEYwSLpjQM4Ls54QGCEHB1kpJK+IH792Y+6Tdqg3rMoDlDS4Ms7K2X9M80x
-	ZtX5SFV8CEfDfESo5wKPLCBS3vJYFK/UEt18OETw0sWpwrQRXhzLzhaeW7ejAy4cijBeVKR
-X-Google-Smtp-Source: AGHT+IHKPAp1Y9VHLYOP5k5Lmr6P41gM42/smjErSsBmXsfXGl8fcB/4q3SDqlWrJH5E2MTneTUBEw==
-X-Received: by 2002:a05:6a00:230a:b0:725:eacf:cfdb with SMTP id d2e1a72fcca58-728faad3a55mr3591696b3a.24.1733987096031;
-        Wed, 11 Dec 2024 23:04:56 -0800 (PST)
+        bh=f+xNT9o8scJSCGD7/hX9myZPXhoesiiISnOX8ftRSxw=;
+        b=DGiroU5WHDsXD2LBBPkfiGGjlrR/8FNRLNBmagtLHTRxMcS1U36tLGXgFXElqOVly5
+         QbNGWVuLkw+h9l9dCl3RN0Hp9J0enD1cfzVwN1k8VEpFkpLmpgqysCulEDeKVC8Y/o9Z
+         cQABR9/Vk1YJr5N47HRiIcSdPZu0Yd5/gtVD8sV8a0yrnp6ECP4WJS6x2pRo9R6mlXKa
+         nXDH1tA54ziq3fBM/r25XIDVLdpO9dCcBdSuAXaYgiZDnR4iEIgmkphsUwxN8wj4W2JQ
+         WkTuXz3TMpQI+PeiZTJ4DsO3WEpZtzHLnqZwvGFhJDyKVo1rufdUGcr/nyBfYGaxeXSs
+         yUCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiNxBSvwrYoHcJQWm/zlM98dXwINyP9cubrkGkQ0ENv+8/HqGN0CrTMW0mbiifUL7cx9h8Gw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy86ums0OXXioicZyLewRcgRtJ2xRRzehE+dj5CjgG3JUL0OX2e
+	SrbL9N7LirbHfCthQ6BHGHYBvatatv2d167qre3dvXiwgMrrGY5I
+X-Gm-Gg: ASbGncvTtWvAPji5jmwSP3zAYJDPfGSj97NovKk/fa5Y512z/OaXt0HpDbI8pU4WykC
+	6KFzn7N4wsGYiM26OfUOZsc+KBwm7l/IotgZsQ0FUSKcw/YP25OpZxJSfYacd55fNcFlPf2o7qC
+	49ynIEOrPYxZgVBuI/64fyRxj79PBOxgPYaVBX5Yo+VScKQYMoa5Nm3Zg7jUeBXsyjzdtZNmpY9
+	rXWhWrqCXB9lxBdk4tp7HABCZhkwdrECi2H2sygjwTNgBaKMaIHcWkKmL9SzxnB660cCKQ2
+X-Google-Smtp-Source: AGHT+IEWZFABNU2cmsx9g4Vfkxtd5tDRV33KNAhW9o7B+oCf+G6xKL0qxxHdO05yjrF+abxzB9dUcw==
+X-Received: by 2002:a05:6a21:398f:b0:1e1:b12e:edb8 with SMTP id adf61e73a8af0-1e1cebb7f15mr3582956637.30.1733987099042;
+        Wed, 11 Dec 2024 23:04:59 -0800 (PST)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-725ee10f928sm6519386b3a.32.2024.12.11.23.04.53
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-725ee10f928sm6519386b3a.32.2024.12.11.23.04.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 23:04:55 -0800 (PST)
+        Wed, 11 Dec 2024 23:04:58 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -71,9 +71,9 @@ To: Hector Martin <marcan@marcan.st>,
 	Devicetree <devicetree@vger.kernel.org>,
 	LKML <linux-kernel@vger.kernel.org>
 Cc: Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v2 5/7] cpufreq: apple-soc: Increase cluster switch timeout to 400us
-Date: Thu, 12 Dec 2024 15:03:04 +0800
-Message-ID: <20241212070344.3858-6-towinchenmi@gmail.com>
+Subject: [PATCH v2 6/7] cpufreq: apple-soc: Set fallback transition latency to APPLE_DVFS_TRANSITION_TIMEOUT
+Date: Thu, 12 Dec 2024 15:03:05 +0800
+Message-ID: <20241212070344.3858-7-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241212070344.3858-1-towinchenmi@gmail.com>
 References: <20241212070344.3858-1-towinchenmi@gmail.com>
@@ -85,9 +85,10 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Apple A11 SoC takes a long time to switch. Maximum switch time
-observed is 345us, so increase the cluster switch timeout to 400us
-to be safe.
+The driver already assumes transitions will not take longer than
+APPLE_DVFS_TRANSITION_TIMEOUT in apple_soc_cpufreq_set_target(), so it
+makes little sense to set CPUFREQ_ETERNAL as the transition latency
+when the transistion latency is not given by the opp-table.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
@@ -95,18 +96,18 @@ Signed-off-by: Nick Chan <towinchenmi@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
-index b27d261fe5a6..94e57f055a5f 100644
+index 94e57f055a5f..c9f31a3653e2 100644
 --- a/drivers/cpufreq/apple-soc-cpufreq.c
 +++ b/drivers/cpufreq/apple-soc-cpufreq.c
-@@ -53,7 +53,7 @@
- #define APPLE_DVFS_PLL_FACTOR_MULT	GENMASK(31, 16)
- #define APPLE_DVFS_PLL_FACTOR_DIV	GENMASK(15, 0)
+@@ -291,7 +291,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
  
--#define APPLE_DVFS_TRANSITION_TIMEOUT 100
-+#define APPLE_DVFS_TRANSITION_TIMEOUT 400
+ 	transition_latency = dev_pm_opp_get_max_transition_latency(cpu_dev);
+ 	if (!transition_latency)
+-		transition_latency = CPUFREQ_ETERNAL;
++		transition_latency = APPLE_DVFS_TRANSITION_TIMEOUT * 1000;
  
- struct apple_soc_cpufreq_info {
- 	bool has_ps2;
+ 	policy->cpuinfo.transition_latency = transition_latency;
+ 	policy->dvfs_possible_from_any_cpu = true;
 -- 
 2.47.1
 
