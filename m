@@ -1,160 +1,67 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7532063CA
-	for <asahi@lists.linux.dev>; Thu, 12 Dec 2024 07:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98C41FECD6;
+	Thu, 12 Dec 2024 08:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733987104; cv=none; b=cxbgBSrTOvTmlwuUv72zVXLgrJQKNBWi5EPfTmlfKXMtaD/vnY2EyZgwSpWQmwVB/GzszBw18J49jYC/vS73KJecjHM2pReQ9vzu/8TvNF31lumuNqDKv+UW3TJfCdXToJpblKE+VC+2SFYHqX+exr8gMNVg68Ia4zfVvnwg0dc=
+	t=1733991211; cv=none; b=pZh5Pl6xc3bAcSHF+n72za6sOIsgJtl1AlGXCtEu/cNQNRk5tGV/GiE1R4+oxIpl3Z4yK31/+avBbKaV5KlDx+UwV45tZhMSrvevcWWinSxVOIMLq4gzCV8Fg0/0dDhcbuo0//9zPkG/bqyGvDkTREypdUlGW4uWzlaokXP7Qok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733987104; c=relaxed/simple;
-	bh=HOAKg6b0eEPy/zF2EuAgJ4CV33fx/jUkVtp0FziM0gI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j/9jcHd0DL8bGMI7qUEqmbDgks4DmjfUDjv36Ob+zONTsjyt9QvwQJqgbcaFQD3y6RktwRf+KoHV3SHBUOCgcVkwuxx9g6oTo/cvOrSpXhop0J5lG89MmJd71wqz8ZTA1Dvfh93AngObr9dazwYcXOwLvh5lWOHpb1K4eH20cvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VygAMcLm; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733991211; c=relaxed/simple;
+	bh=yFRZ+IH3VruDCKluh2Mfy3YvjHuvC7u/oBOqXdHG/UQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c0EZ0B2z+G374Ruu9F8LDjESLLDnyYBTC8GYoo0fSX1DuUcH9PWR8rCCwnwSeQ2bx+D4u8qr4nWv1TrUU4WdtqAIe50s3wR6qnmVVpnhXwtmjKnvNEwpOp6nEATdlL6+Bap6BsZ7PNshx9eSsPToK+4sbFkBkFBJBzB4QoM30k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X403YC3n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VygAMcLm"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-725ee27e905so370058b3a.2
-        for <asahi@lists.linux.dev>; Wed, 11 Dec 2024 23:05:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733987103; x=1734591903; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R6P537stxvMQqeF6f3roncNxbUVv366ZADaeaxeRSNY=;
-        b=VygAMcLmVO5ETE2WTyuSehhBAxIzUh5m7+eNgZA+bQ95K1E41AFGMyh9CJ5H+6MFrM
-         o0tbCjxqcc4xi/JaVyCUl0TK9YV1lWsuLyqrPFk8SWbsme015CXgQz2A5ppTsmIe8TK4
-         VUMIol60fukGGXeKejIS1bdIOGn9tpik0SQ6zQIWitv2bWPsfTjWDuF4XtAq/qUPVvOn
-         yYy4sIMInQTVz9UQI33vrCj+bQzfcX9V5U/rLpjG6NmT020IyucrQ/rlWq5oeO/VrSfp
-         Ujd/rvk9P3CzWPHICynSh8whrgkzEHfiCzsTAraz8ZNIOoJ1MVvCI9J8lstwsULxeqHH
-         i+aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733987103; x=1734591903;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R6P537stxvMQqeF6f3roncNxbUVv366ZADaeaxeRSNY=;
-        b=ODvFwjZUBtZYUDzcTv1JyyEb2FYfQtfljZe4B/R3eRDSPQ95n/i7a3K60vWnw2H0Pk
-         TsSAvAHpIQ91ClT66cbk9v6ukOeE+/JS0RNBtlvENAjNrNmNnQZeHENM9WmvTAV2/Xgs
-         /0RdeFaL+sdY107HHb2yys4fo4Hgm54u+xitRFRPi1SvwJEwbZR0OsrX5TASseScSRpq
-         fX1f8gXug/2QyvEGDd3HTXf+GiRc9McZB8NjExQca38g5Y8kT6VaMVh39yOT79v3on0Z
-         MyZ19NkC9Is5SgO2h5vTWT326m/84mxxyXyOENk7KTPHVELnJ/0p+cmXv/4TC5oUzAYu
-         fLgA==
-X-Forwarded-Encrypted: i=1; AJvYcCXuwOeCVDyj8o91qrIPRic45CxceVc4WaptxaLBQPSM0DMCyKt9w3/Sxwz+rF1WQQbUHKz23w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcV/Yk5Ph4M3tqbI3YaV2t6XqzFNxCFe2v6Kt/wHsmzFnmKpB4
-	XwDLOfktSZ3qUQrFQ4zUbB2U2dE4nx6U9NwNDOcv1zyLHwB3wLLU
-X-Gm-Gg: ASbGncvyyBpJhFuKWkLJ2oxoLuaiBjvCpDaCrPQ0LeNN8JQkGLqGwEAmY/+T7IqARdH
-	XI7KMN6P+6hjmsCLdMpAguvM6uxuRmbEtw0sr1VpnxcVAzxSXR2RLdS3R/ilZllOQxxhbLZ8dZG
-	6OzAbO2lBE+nDCtSYdxfkoOhKoravf4D/s0w2x84XnS4QJ6/8uD9kgjjXAKhK1fohdJKtpDm4VM
-	L632+ZVLjO2hWzn5AqIeTEwvDyNxj2xqkN2l6fQNa+/jS7kTg+QVin2WKoOOk16lRFEFknR
-X-Google-Smtp-Source: AGHT+IGrdOYxBGn8CzjzAjnMQjSdYYWqQKbTysuxC6esT4QB5BXv4xEumBLxne4E9WmA5a4aAN8WoA==
-X-Received: by 2002:a05:6a00:1803:b0:725:eb85:f7ef with SMTP id d2e1a72fcca58-728faa62ae1mr3631124b3a.14.1733987102674;
-        Wed, 11 Dec 2024 23:05:02 -0800 (PST)
-Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-725ee10f928sm6519386b3a.32.2024.12.11.23.04.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 23:05:02 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Linux ARM Kernel Architecture <linux-arm-kernel@lists.infradead.org>,
-	Linux power management <linux-pm@vger.kernel.org>,
-	Devicetree <devicetree@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Cc: Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v2 7/7] cpufreq: apple-soc: Add Apple A7-A8X SoC cpufreq support
-Date: Thu, 12 Dec 2024 15:03:06 +0800
-Message-ID: <20241212070344.3858-8-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241212070344.3858-1-towinchenmi@gmail.com>
-References: <20241212070344.3858-1-towinchenmi@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X403YC3n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0DBBC4CECE;
+	Thu, 12 Dec 2024 08:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733991210;
+	bh=yFRZ+IH3VruDCKluh2Mfy3YvjHuvC7u/oBOqXdHG/UQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X403YC3nzX85sUU0gMsuEEhNCgIEXOUpGQE5pbSXbWlnTW9NCHbM8Q3f9cGjpt+hA
+	 6Y0s/H8FcFTkbkCLs3YHflvhtK8mzxgctedejqkte9rAG9l195yutRCvrB07H/1szj
+	 MzwgVw8v+V34GvVlDRYINKQRhxlICRxQ/LPaCE19SlwBah4IFu/Dvp3ceFu4tVsTYk
+	 IsyjI5WujSg7PLnlEPJVoZDu33oE6xjyVdqhXbFdKzpb8PS4LZmhktymYDJPtgF/3a
+	 DFSFEWTPpsPCAH2wrAFpSFXRgFSjQeTuVIUunj7PaQ4qY1R/9VNZPoRkx0yWHb67Fc
+	 X86sGlmel0fiA==
+Date: Thu, 12 Dec 2024 09:13:27 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 1/3] dt-bindings: leds: backlight: apple,dwi-bl: Add
+ Apple DWI backlight
+Message-ID: <6fazyksxkcbhugivwgozuyjdig37vnshbwtdmzjcbrqywgszvd@sm27uhqgsma4>
+References: <20241211113512.19009-1-towinchenmi@gmail.com>
+ <20241211113512.19009-2-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241211113512.19009-2-towinchenmi@gmail.com>
 
-These SoCs only use 3 bits for p-states, and have a different
-APPLE_DVFS_CMD_PS1 mask value.
+On Wed, Dec 11, 2024 at 07:34:37PM +0800, Nick Chan wrote:
+> Add backlight controllers attached via Apple DWI 2-wire interface.
+> 
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> ---
+>  .../bindings/leds/backlight/apple,dwi-bl.yaml | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- drivers/cpufreq/apple-soc-cpufreq.c | 30 +++++++++++++++++++++++------
- 1 file changed, 24 insertions(+), 6 deletions(-)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
-index c9f31a3653e2..c3a6dd8ae22a 100644
---- a/drivers/cpufreq/apple-soc-cpufreq.c
-+++ b/drivers/cpufreq/apple-soc-cpufreq.c
-@@ -22,12 +22,14 @@
- #include <linux/pm_opp.h>
- #include <linux/slab.h>
- 
--#define APPLE_DVFS_CMD			0x20
--#define APPLE_DVFS_CMD_BUSY		BIT(31)
--#define APPLE_DVFS_CMD_SET		BIT(25)
--#define APPLE_DVFS_CMD_PS2		GENMASK(15, 12)
--#define APPLE_DVFS_CMD_PS1		GENMASK(4, 0)
--#define APPLE_DVFS_CMD_PS1_SHIFT	0
-+#define APPLE_DVFS_CMD				0x20
-+#define APPLE_DVFS_CMD_BUSY			BIT(31)
-+#define APPLE_DVFS_CMD_SET			BIT(25)
-+#define APPLE_DVFS_CMD_PS1_S5L8960X		GENMASK(24, 22)
-+#define APPLE_DVFS_CMD_PS1_S5L8960X_SHIFT	22
-+#define APPLE_DVFS_CMD_PS2			GENMASK(15, 12)
-+#define APPLE_DVFS_CMD_PS1			GENMASK(4, 0)
-+#define APPLE_DVFS_CMD_PS1_SHIFT		0
- 
- /* Same timebase as CPU counter (24MHz) */
- #define APPLE_DVFS_LAST_CHG_TIME	0x38
-@@ -36,6 +38,9 @@
-  * Apple ran out of bits and had to shift this in T8112...
-  */
- #define APPLE_DVFS_STATUS			0x50
-+#define APPLE_DVFS_STATUS_CUR_PS_S5L8960X	GENMASK(5, 3)
-+#define APPLE_DVFS_STATUS_CUR_PS_SHIFT_S5L8960X	3
-+#define APPLE_DVFS_STATUS_TGT_PS_S5L8960X	GENMASK(2, 0)
- #define APPLE_DVFS_STATUS_CUR_PS_T8103		GENMASK(7, 4)
- #define APPLE_DVFS_STATUS_CUR_PS_SHIFT_T8103	4
- #define APPLE_DVFS_STATUS_TGT_PS_T8103		GENMASK(3, 0)
-@@ -72,6 +77,15 @@ struct apple_cpu_priv {
- 
- static struct cpufreq_driver apple_soc_cpufreq_driver;
- 
-+static const struct apple_soc_cpufreq_info soc_s5l8960x_info = {
-+	.has_ps2 = false,
-+	.max_pstate = 7,
-+	.cur_pstate_mask = APPLE_DVFS_STATUS_CUR_PS_S5L8960X,
-+	.cur_pstate_shift = APPLE_DVFS_STATUS_CUR_PS_SHIFT_S5L8960X,
-+	.ps1_mask = APPLE_DVFS_CMD_PS1_S5L8960X,
-+	.ps1_shift = APPLE_DVFS_CMD_PS1_S5L8960X_SHIFT,
-+};
-+
- static const struct apple_soc_cpufreq_info soc_t8103_info = {
- 	.has_ps2 = true,
- 	.max_pstate = 15,
-@@ -99,6 +113,10 @@ static const struct apple_soc_cpufreq_info soc_default_info = {
- };
- 
- static const struct of_device_id apple_soc_cpufreq_of_match[] __maybe_unused = {
-+	{
-+		.compatible = "apple,s5l8960x-cluster-cpufreq",
-+		.data = &soc_s5l8960x_info,
-+	},
- 	{
- 		.compatible = "apple,t8103-cluster-cpufreq",
- 		.data = &soc_t8103_info,
--- 
-2.47.1
+Best regards,
+Krzysztof
 
