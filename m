@@ -1,61 +1,61 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B4C20626A
-	for <asahi@lists.linux.dev>; Thu, 12 Dec 2024 07:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7532063CA
+	for <asahi@lists.linux.dev>; Thu, 12 Dec 2024 07:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733987101; cv=none; b=qb2bibxhzgKxSxt4kTIQSPx53sGxAvVdmNbT0IiZFFD8x+8r9+uZ/8vGr4CUSyZ4g4DiqRfhiJGodDIdh/2qdp7U3vgsEc17jjxuGRo9MyNpdE9famb/+qq/6pItXAB/eJxwrywpk+1K4mIZZF0GDaIslXe+yAhk2VK/UFrYgZo=
+	t=1733987104; cv=none; b=cxbgBSrTOvTmlwuUv72zVXLgrJQKNBWi5EPfTmlfKXMtaD/vnY2EyZgwSpWQmwVB/GzszBw18J49jYC/vS73KJecjHM2pReQ9vzu/8TvNF31lumuNqDKv+UW3TJfCdXToJpblKE+VC+2SFYHqX+exr8gMNVg68Ia4zfVvnwg0dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733987101; c=relaxed/simple;
-	bh=yE0aQpLH/1FOUdWsRUbN03Tzw84skMe8N0rw7qw0z1U=;
+	s=arc-20240116; t=1733987104; c=relaxed/simple;
+	bh=HOAKg6b0eEPy/zF2EuAgJ4CV33fx/jUkVtp0FziM0gI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nk2zs+9qxf0PAC5klaBZEXPkOoJ6ew8AOo75rDVUaiBAjWd7a+FeLCkS0tk970Prmy4xKBeOwGP5zghdIw7PITOI35HjUL1NXFymCEayfMnMBKsIpH9HcKXgGdBD5yodlGV4ADfzpdykF2XETOLhbNtnsN5MbbpCjRItuF/37dU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ns6+b/+S; arc=none smtp.client-ip=209.85.210.178
+	 MIME-Version; b=j/9jcHd0DL8bGMI7qUEqmbDgks4DmjfUDjv36Ob+zONTsjyt9QvwQJqgbcaFQD3y6RktwRf+KoHV3SHBUOCgcVkwuxx9g6oTo/cvOrSpXhop0J5lG89MmJd71wqz8ZTA1Dvfh93AngObr9dazwYcXOwLvh5lWOHpb1K4eH20cvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VygAMcLm; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ns6+b/+S"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-728e3826211so213043b3a.0
-        for <asahi@lists.linux.dev>; Wed, 11 Dec 2024 23:04:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VygAMcLm"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-725ee27e905so370058b3a.2
+        for <asahi@lists.linux.dev>; Wed, 11 Dec 2024 23:05:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733987099; x=1734591899; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1733987103; x=1734591903; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f+xNT9o8scJSCGD7/hX9myZPXhoesiiISnOX8ftRSxw=;
-        b=Ns6+b/+Sb86ttS3hG0QjcNo02bOKfTR2pcAolFyNeZ6mDfu+l6+BdE8biAAGZ9yKWK
-         TN5yCACC7XDLIR+oijYuk8soQ+5dEx53aFZU28uAt3WVQvdE3FAE2SDenGLg9I0SbGJY
-         FwTY2SW9O4nbXHBPnT8D1q5d5soqO4aJVUk16rUxiNTxKBOgtzoAm9PqSbIZGjRKqYVv
-         zrKRUDKDn0RB3py/04UB1rufQdkng9fFQIfVMimEvw3mZiXmt/YMYkoIvFIdZp8NMbj6
-         5xrjUxS0SQgk0BK/T4jrDkXIe2O06/9P3misA1vHEP3WqQzQbCMbxs9SZgwNjL5YF8dx
-         8b7Q==
+        bh=R6P537stxvMQqeF6f3roncNxbUVv366ZADaeaxeRSNY=;
+        b=VygAMcLmVO5ETE2WTyuSehhBAxIzUh5m7+eNgZA+bQ95K1E41AFGMyh9CJ5H+6MFrM
+         o0tbCjxqcc4xi/JaVyCUl0TK9YV1lWsuLyqrPFk8SWbsme015CXgQz2A5ppTsmIe8TK4
+         VUMIol60fukGGXeKejIS1bdIOGn9tpik0SQ6zQIWitv2bWPsfTjWDuF4XtAq/qUPVvOn
+         yYy4sIMInQTVz9UQI33vrCj+bQzfcX9V5U/rLpjG6NmT020IyucrQ/rlWq5oeO/VrSfp
+         Ujd/rvk9P3CzWPHICynSh8whrgkzEHfiCzsTAraz8ZNIOoJ1MVvCI9J8lstwsULxeqHH
+         i+aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733987099; x=1734591899;
+        d=1e100.net; s=20230601; t=1733987103; x=1734591903;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f+xNT9o8scJSCGD7/hX9myZPXhoesiiISnOX8ftRSxw=;
-        b=DGiroU5WHDsXD2LBBPkfiGGjlrR/8FNRLNBmagtLHTRxMcS1U36tLGXgFXElqOVly5
-         QbNGWVuLkw+h9l9dCl3RN0Hp9J0enD1cfzVwN1k8VEpFkpLmpgqysCulEDeKVC8Y/o9Z
-         cQABR9/Vk1YJr5N47HRiIcSdPZu0Yd5/gtVD8sV8a0yrnp6ECP4WJS6x2pRo9R6mlXKa
-         nXDH1tA54ziq3fBM/r25XIDVLdpO9dCcBdSuAXaYgiZDnR4iEIgmkphsUwxN8wj4W2JQ
-         WkTuXz3TMpQI+PeiZTJ4DsO3WEpZtzHLnqZwvGFhJDyKVo1rufdUGcr/nyBfYGaxeXSs
-         yUCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXiNxBSvwrYoHcJQWm/zlM98dXwINyP9cubrkGkQ0ENv+8/HqGN0CrTMW0mbiifUL7cx9h8Gw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy86ums0OXXioicZyLewRcgRtJ2xRRzehE+dj5CjgG3JUL0OX2e
-	SrbL9N7LirbHfCthQ6BHGHYBvatatv2d167qre3dvXiwgMrrGY5I
-X-Gm-Gg: ASbGncvTtWvAPji5jmwSP3zAYJDPfGSj97NovKk/fa5Y512z/OaXt0HpDbI8pU4WykC
-	6KFzn7N4wsGYiM26OfUOZsc+KBwm7l/IotgZsQ0FUSKcw/YP25OpZxJSfYacd55fNcFlPf2o7qC
-	49ynIEOrPYxZgVBuI/64fyRxj79PBOxgPYaVBX5Yo+VScKQYMoa5Nm3Zg7jUeBXsyjzdtZNmpY9
-	rXWhWrqCXB9lxBdk4tp7HABCZhkwdrECi2H2sygjwTNgBaKMaIHcWkKmL9SzxnB660cCKQ2
-X-Google-Smtp-Source: AGHT+IEWZFABNU2cmsx9g4Vfkxtd5tDRV33KNAhW9o7B+oCf+G6xKL0qxxHdO05yjrF+abxzB9dUcw==
-X-Received: by 2002:a05:6a21:398f:b0:1e1:b12e:edb8 with SMTP id adf61e73a8af0-1e1cebb7f15mr3582956637.30.1733987099042;
-        Wed, 11 Dec 2024 23:04:59 -0800 (PST)
+        bh=R6P537stxvMQqeF6f3roncNxbUVv366ZADaeaxeRSNY=;
+        b=ODvFwjZUBtZYUDzcTv1JyyEb2FYfQtfljZe4B/R3eRDSPQ95n/i7a3K60vWnw2H0Pk
+         TsSAvAHpIQ91ClT66cbk9v6ukOeE+/JS0RNBtlvENAjNrNmNnQZeHENM9WmvTAV2/Xgs
+         /0RdeFaL+sdY107HHb2yys4fo4Hgm54u+xitRFRPi1SvwJEwbZR0OsrX5TASseScSRpq
+         fX1f8gXug/2QyvEGDd3HTXf+GiRc9McZB8NjExQca38g5Y8kT6VaMVh39yOT79v3on0Z
+         MyZ19NkC9Is5SgO2h5vTWT326m/84mxxyXyOENk7KTPHVELnJ/0p+cmXv/4TC5oUzAYu
+         fLgA==
+X-Forwarded-Encrypted: i=1; AJvYcCXuwOeCVDyj8o91qrIPRic45CxceVc4WaptxaLBQPSM0DMCyKt9w3/Sxwz+rF1WQQbUHKz23w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcV/Yk5Ph4M3tqbI3YaV2t6XqzFNxCFe2v6Kt/wHsmzFnmKpB4
+	XwDLOfktSZ3qUQrFQ4zUbB2U2dE4nx6U9NwNDOcv1zyLHwB3wLLU
+X-Gm-Gg: ASbGncvyyBpJhFuKWkLJ2oxoLuaiBjvCpDaCrPQ0LeNN8JQkGLqGwEAmY/+T7IqARdH
+	XI7KMN6P+6hjmsCLdMpAguvM6uxuRmbEtw0sr1VpnxcVAzxSXR2RLdS3R/ilZllOQxxhbLZ8dZG
+	6OzAbO2lBE+nDCtSYdxfkoOhKoravf4D/s0w2x84XnS4QJ6/8uD9kgjjXAKhK1fohdJKtpDm4VM
+	L632+ZVLjO2hWzn5AqIeTEwvDyNxj2xqkN2l6fQNa+/jS7kTg+QVin2WKoOOk16lRFEFknR
+X-Google-Smtp-Source: AGHT+IGrdOYxBGn8CzjzAjnMQjSdYYWqQKbTysuxC6esT4QB5BXv4xEumBLxne4E9WmA5a4aAN8WoA==
+X-Received: by 2002:a05:6a00:1803:b0:725:eb85:f7ef with SMTP id d2e1a72fcca58-728faa62ae1mr3631124b3a.14.1733987102674;
+        Wed, 11 Dec 2024 23:05:02 -0800 (PST)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-725ee10f928sm6519386b3a.32.2024.12.11.23.04.56
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-725ee10f928sm6519386b3a.32.2024.12.11.23.04.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 23:04:58 -0800 (PST)
+        Wed, 11 Dec 2024 23:05:02 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -71,9 +71,9 @@ To: Hector Martin <marcan@marcan.st>,
 	Devicetree <devicetree@vger.kernel.org>,
 	LKML <linux-kernel@vger.kernel.org>
 Cc: Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v2 6/7] cpufreq: apple-soc: Set fallback transition latency to APPLE_DVFS_TRANSITION_TIMEOUT
-Date: Thu, 12 Dec 2024 15:03:05 +0800
-Message-ID: <20241212070344.3858-7-towinchenmi@gmail.com>
+Subject: [PATCH v2 7/7] cpufreq: apple-soc: Add Apple A7-A8X SoC cpufreq support
+Date: Thu, 12 Dec 2024 15:03:06 +0800
+Message-ID: <20241212070344.3858-8-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241212070344.3858-1-towinchenmi@gmail.com>
 References: <20241212070344.3858-1-towinchenmi@gmail.com>
@@ -85,29 +85,76 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver already assumes transitions will not take longer than
-APPLE_DVFS_TRANSITION_TIMEOUT in apple_soc_cpufreq_set_target(), so it
-makes little sense to set CPUFREQ_ETERNAL as the transition latency
-when the transistion latency is not given by the opp-table.
+These SoCs only use 3 bits for p-states, and have a different
+APPLE_DVFS_CMD_PS1 mask value.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- drivers/cpufreq/apple-soc-cpufreq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/cpufreq/apple-soc-cpufreq.c | 30 +++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
-index 94e57f055a5f..c9f31a3653e2 100644
+index c9f31a3653e2..c3a6dd8ae22a 100644
 --- a/drivers/cpufreq/apple-soc-cpufreq.c
 +++ b/drivers/cpufreq/apple-soc-cpufreq.c
-@@ -291,7 +291,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
+@@ -22,12 +22,14 @@
+ #include <linux/pm_opp.h>
+ #include <linux/slab.h>
  
- 	transition_latency = dev_pm_opp_get_max_transition_latency(cpu_dev);
- 	if (!transition_latency)
--		transition_latency = CPUFREQ_ETERNAL;
-+		transition_latency = APPLE_DVFS_TRANSITION_TIMEOUT * 1000;
+-#define APPLE_DVFS_CMD			0x20
+-#define APPLE_DVFS_CMD_BUSY		BIT(31)
+-#define APPLE_DVFS_CMD_SET		BIT(25)
+-#define APPLE_DVFS_CMD_PS2		GENMASK(15, 12)
+-#define APPLE_DVFS_CMD_PS1		GENMASK(4, 0)
+-#define APPLE_DVFS_CMD_PS1_SHIFT	0
++#define APPLE_DVFS_CMD				0x20
++#define APPLE_DVFS_CMD_BUSY			BIT(31)
++#define APPLE_DVFS_CMD_SET			BIT(25)
++#define APPLE_DVFS_CMD_PS1_S5L8960X		GENMASK(24, 22)
++#define APPLE_DVFS_CMD_PS1_S5L8960X_SHIFT	22
++#define APPLE_DVFS_CMD_PS2			GENMASK(15, 12)
++#define APPLE_DVFS_CMD_PS1			GENMASK(4, 0)
++#define APPLE_DVFS_CMD_PS1_SHIFT		0
  
- 	policy->cpuinfo.transition_latency = transition_latency;
- 	policy->dvfs_possible_from_any_cpu = true;
+ /* Same timebase as CPU counter (24MHz) */
+ #define APPLE_DVFS_LAST_CHG_TIME	0x38
+@@ -36,6 +38,9 @@
+  * Apple ran out of bits and had to shift this in T8112...
+  */
+ #define APPLE_DVFS_STATUS			0x50
++#define APPLE_DVFS_STATUS_CUR_PS_S5L8960X	GENMASK(5, 3)
++#define APPLE_DVFS_STATUS_CUR_PS_SHIFT_S5L8960X	3
++#define APPLE_DVFS_STATUS_TGT_PS_S5L8960X	GENMASK(2, 0)
+ #define APPLE_DVFS_STATUS_CUR_PS_T8103		GENMASK(7, 4)
+ #define APPLE_DVFS_STATUS_CUR_PS_SHIFT_T8103	4
+ #define APPLE_DVFS_STATUS_TGT_PS_T8103		GENMASK(3, 0)
+@@ -72,6 +77,15 @@ struct apple_cpu_priv {
+ 
+ static struct cpufreq_driver apple_soc_cpufreq_driver;
+ 
++static const struct apple_soc_cpufreq_info soc_s5l8960x_info = {
++	.has_ps2 = false,
++	.max_pstate = 7,
++	.cur_pstate_mask = APPLE_DVFS_STATUS_CUR_PS_S5L8960X,
++	.cur_pstate_shift = APPLE_DVFS_STATUS_CUR_PS_SHIFT_S5L8960X,
++	.ps1_mask = APPLE_DVFS_CMD_PS1_S5L8960X,
++	.ps1_shift = APPLE_DVFS_CMD_PS1_S5L8960X_SHIFT,
++};
++
+ static const struct apple_soc_cpufreq_info soc_t8103_info = {
+ 	.has_ps2 = true,
+ 	.max_pstate = 15,
+@@ -99,6 +113,10 @@ static const struct apple_soc_cpufreq_info soc_default_info = {
+ };
+ 
+ static const struct of_device_id apple_soc_cpufreq_of_match[] __maybe_unused = {
++	{
++		.compatible = "apple,s5l8960x-cluster-cpufreq",
++		.data = &soc_s5l8960x_info,
++	},
+ 	{
+ 		.compatible = "apple,t8103-cluster-cpufreq",
+ 		.data = &soc_t8103_info,
 -- 
 2.47.1
 
