@@ -1,70 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0A820D4F1;
-	Thu, 12 Dec 2024 08:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F321F0E3E
+	for <asahi@lists.linux.dev>; Thu, 12 Dec 2024 11:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733991911; cv=none; b=EpBnONYJ+WiYIxOtnWPKQDkCnVb7NnDuS5GRolGRJaoQzCfju/QvculgQDF6yCP+JtB/vpGwG9cOGbrtQGIoNSl4/eNWLUYkVlw97kC0B3wOBb75P+3CUkt+FPovoowQewzzqVxXv7PLGFEvGaVNF3U1CYGZESW7KK2BLzn+OgM=
+	t=1734001576; cv=none; b=V9FZb2eEbYAW4w9FoQ04A964eNiOV5UImWioSGrIZQX2s+rabPz5z3plRPyjjd+Vfgj/gj1EgYY53VapZ238cJExL0sfedWxsv9yRQejdlqvhmGglH5WZhZFa31EVa+VDdDZd5AUeRBqk6od9C8wQ85WY4CtjQOT7JU0mIBZZ5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733991911; c=relaxed/simple;
-	bh=ugwQc1RwWiUB2k1DlePOXPHk9EZtb/h2RNYw3kRvsz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fznb+QKFtDtk3oUWmeb9Pj0ixH78fbeanLTj23mJjmCmcyx7NuF68Qa3tBFbWIWGcHfBF1KIM2wPzfDfzAwf+9mAteRpuAhwYHs6cjchBTR+Ipm9ywUmqTbl8qHjC8NaMFFxfHQFcjrgTqPJLlDrkpf8a3xUCzgKGJEmysAIDlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bJK6subi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJK6subi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B25D2C4CECE;
-	Thu, 12 Dec 2024 08:25:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733991911;
-	bh=ugwQc1RwWiUB2k1DlePOXPHk9EZtb/h2RNYw3kRvsz8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bJK6subic4H5yc5DmT1goNA5KHVw5ury6O4813bvE2j0JvE8Vuom5vACfYmvBVLQP
-	 F7ek6FLf9b6OoD+RJo/Bj8WdeLccMoDuLyj0EESGHdilYZLBGJBEwQADnM0PNMLJ+E
-	 kHgvJjE/YK9oBKoYbYCxbmCUPbyC46Te+BA1lWLEnYcTRa7JiwuOGyaYF/KiddaFVK
-	 vqTUPGJ6H/eMwJDK0HQzgwNZW9MqGogacLB8s2b73DT14qyOqd39jQwrvAGGbDttd5
-	 rdw58Buife0wajhKDnZ3NqTtHfvHukbSP5vg4u1PCxW/Vtpllbl/sHbwoZibSnddQZ
-	 q7ZZzSABa4bdw==
-Date: Thu, 12 Dec 2024 09:25:08 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Asahi Linux <asahi@lists.linux.dev>, 
-	Linux ARM Kernel Architecture <linux-arm-kernel@lists.infradead.org>, Linux power management <linux-pm@vger.kernel.org>, 
-	Devicetree <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/7] dt-bindings: cpufreq: apple,cluster-cpufreq: Add
- A7-A11, T2 compatibles
-Message-ID: <f7whbncdt3yud3loe6xane4gwzpvyygfdju6e55gf6s2s3k75k@n7ehtngsrqxp>
-References: <20241212070344.3858-1-towinchenmi@gmail.com>
- <20241212070344.3858-2-towinchenmi@gmail.com>
+	s=arc-20240116; t=1734001576; c=relaxed/simple;
+	bh=oML95mrGXOC77mLMvinkJsFpvbyZj1YKqWGARW5kZ1g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=b3rHOjtH0H3hhQHhWvJxF5sgqaNssCIqoYjin0ZV/LKi54mYPi/j9UDnOMQ/DTzOK0EVumLZYC1/rVYl/OfDWZKRY4Rsl7dJjt/xHyPIJ3hnncshWXE2xzzwiUDKFYDh3QdepSJ1aPBCzaFn6Psf4guNr3V5iHNkEMlrAz61+QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7BBC4153B;
+	Thu, 12 Dec 2024 03:06:42 -0800 (PST)
+Received: from [10.1.37.59] (e127648.arm.com [10.1.37.59])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 883B53F720;
+	Thu, 12 Dec 2024 03:06:11 -0800 (PST)
+Message-ID: <df140f26-496d-44ce-8363-ffc908f2effa@arm.com>
+Date: Thu, 12 Dec 2024 11:06:09 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241212070344.3858-2-towinchenmi@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/7] cpufreq: apple-soc: Set fallback transition
+ latency to APPLE_DVFS_TRANSITION_TIMEOUT
+To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Asahi Linux <asahi@lists.linux.dev>,
+ Linux ARM Kernel Architecture <linux-arm-kernel@lists.infradead.org>,
+ Linux power management <linux-pm@vger.kernel.org>,
+ Devicetree <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20241212070344.3858-1-towinchenmi@gmail.com>
+ <20241212070344.3858-7-towinchenmi@gmail.com>
+Content-Language: en-US
+From: Christian Loehle <christian.loehle@arm.com>
+In-Reply-To: <20241212070344.3858-7-towinchenmi@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 12, 2024 at 03:03:00PM +0800, Nick Chan wrote:
-> Add compatibles for Apple A7-A11, T2 SoCs.
-> 
-> Apple A7, A8, A8X gets the per-SoC compatible and the A7
-> "apple,s5l8960x-cluster-cpufreq" compatible.
-> 
-> Apple A9, A9X, A10, A10X, T2, A11 gets the per-SoC compatible, M1
-> "apple,t8103-cluster-cpufreq" compatible, then the
-> "apple,cluster-cpufreq" fallback compatible.
+On 12/12/24 07:03, Nick Chan wrote:
+> The driver already assumes transitions will not take longer than
+> APPLE_DVFS_TRANSITION_TIMEOUT in apple_soc_cpufreq_set_target(), so it
+> makes little sense to set CPUFREQ_ETERNAL as the transition latency
+> when the transistion latency is not given by the opp-table.
 > 
 > Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Christian Loehle <christian.loehle@arm.com>
 
-Best regards,
-Krzysztof
+> ---
+>  drivers/cpufreq/apple-soc-cpufreq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
+> index 94e57f055a5f..c9f31a3653e2 100644
+> --- a/drivers/cpufreq/apple-soc-cpufreq.c
+> +++ b/drivers/cpufreq/apple-soc-cpufreq.c
+> @@ -291,7 +291,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
+>  
+>  	transition_latency = dev_pm_opp_get_max_transition_latency(cpu_dev);
+>  	if (!transition_latency)
+> -		transition_latency = CPUFREQ_ETERNAL;
+> +		transition_latency = APPLE_DVFS_TRANSITION_TIMEOUT * 1000;
+>  
+>  	policy->cpuinfo.transition_latency = transition_latency;
+>  	policy->dvfs_possible_from_any_cpu = true;
 
