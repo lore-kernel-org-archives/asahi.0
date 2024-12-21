@@ -1,98 +1,156 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE5D1531C8
-	for <asahi@lists.linux.dev>; Fri, 20 Dec 2024 06:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065BF25949B;
+	Sat, 21 Dec 2024 13:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734676753; cv=none; b=Hy1g2EOt8vd3aFegBj1i1ETMso0ctAS8ZqiTOtPrR6L4YU5Ei14p9dAbJMVPNaMcWW258vS7tyVNI3amQGFOutcLtE5BMat6amOCJFbCs8j79S+84uCDZHndM99vC4q+qeRUvL2W+mIazi3X5aAbMnrOCGLQjEAN7WL4P3ByOec=
+	t=1734788756; cv=none; b=fHzOm7q2FTwVa5e4pndbQRU7B4BEmjl6chG2Z4a0jdOvl+PC0r0rugPHKEhFqc0Nza2aMK/v4hkPic9JslJ1rBxVQny9k6eBcSBnokfp+3++H7sjug5u1491EcfhnPLky5whJ5N9Trj8YclfQ4WnRk4b/qfjWozvQ6jz4WcJlDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734676753; c=relaxed/simple;
-	bh=lYjTLSqGh6cFIpHRIQDXikLVUXa318JWO4n5ZhUJuBY=;
+	s=arc-20240116; t=1734788756; c=relaxed/simple;
+	bh=vc17nBTECp2i/rSapbYdWNJZtzHMd3CmJ4JxYM4hQPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eA0qPbLNN0BdGPwEormaM7vHYl3YXackoDWKJbXDDg51lJQZl6KqnJydQNsKiC22Fc1ns9HhMpegDaeHEwphA8NZWbNt0AYC44rF58ARx9gUop0v51241OGuwISN3640uyXiFHVVC6K88/obvAiwpsjaw7iClEXT2B9h0nlMlg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cAQrG9us; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kb+ehG8ssJTujwue8jY94DOADddyBW0w4jjMCnIL8V64ZhHyktr7GDSpUrDPOhzqud9frBXX/kWGrFojrNovIsz6RVO1emjebmxBngugHMiGKveqSQ4xQOwqfsJZGuO/Q63pRC9miZPEhwVKUoDuE8GaE6FWkzWxltCjYpmwsXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=TvV1Pzxa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hVK09Ri5; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cAQrG9us"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7fd5248d663so1135903a12.0
-        for <asahi@lists.linux.dev>; Thu, 19 Dec 2024 22:39:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734676752; x=1735281552; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DX+s8SYjoLyT8V5e9PoQro4jGwH4zJksKdm1dnt49Ms=;
-        b=cAQrG9usiB0UTcRmJPWBdBtyzL7hf4ei5ewX5tUM6CAjLRA9kyplcC19sbaZQZrrss
-         OW9F77AGO1yUQj52ENGMDoXGosYHJ/k4jvP7Ssf5J3OJYBLy1C/Q9zLbRr0u1mxL4K0H
-         RFJtUxMmMZ+C5jVpYGjk3aS9BkC4AEBtJr1+mHYhYA+6uqR/ikXhqrnl+sV/AMT1TCj9
-         4pCofPGJENI6mPLXZTLXLD1boMyeqNz3yIiWFPShGm6DiIXd4+e+JftYXNTowhbjdUMe
-         +YFVPhaX3FOto/cQsucKMoNNcfI9oFzObiYwAY7vkcEmJrSd2Lx7RuL82HB2SW5XqApM
-         Xvew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734676752; x=1735281552;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DX+s8SYjoLyT8V5e9PoQro4jGwH4zJksKdm1dnt49Ms=;
-        b=YNVkTTUxhkF60FbVpv8QYaLHzrmDV75N6FvXAN7ugC3cjiE19+89DrlwVUUXrOld3r
-         D3AqRZrduwJ72o7vjKhKXUktgTZ+HY2eT7t9RL0JMEerEy7/jkqLK9GiiEfIT63Uur4z
-         cboo+tZafgMa204qc5Yky8eCktRq019fHJGVof/p9+b2QAWW+26hD4yHnaUWQlvdBaS0
-         goW0biqY0onI6FpjfruEPwpyjJusc3JAEoFT3iIG4o+67YbjGLNAt67AY/+8MgXzOyA0
-         kOFjGa1wsb5AytP45kVr5PG9f7G+8Gib3TSc9+oChWU4Sr94xx75M8Rrav0KkYl34a7E
-         K8Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCXg/7ytLx/CFvndiiLNyNs+PWXe/UBCXpb29QlOjMe4n49CAKXEdVSA80k7KEiUIC1tQdiBng==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2yb+O9TninJ+HvMM+qjfwUPPtnpogKdea/AO7oBDtg/ev4rPg
-	dsyF7TaNVeWKpvX+gk9D4xv7FMtHOkGZS2br69l3R6QedTf+l8Aynf8armerFzYqX0em4MQBHTa
-	c
-X-Gm-Gg: ASbGncswRdTNA7KHM2yXrOrlG76CJGapD1Pj2rgeRYM7DBgSB0ZA3N+1MBXFkHkxc6I
-	SNQo1ud/VtdfGHtz0Q1QiWa/VJGl9ZJh99aeE3papwK5E1PqG48+U3cy6Ew8XskXekZF/gw0eFK
-	kOJH8aMVouz7uvB6lpGYIHZxo1bocw7m2xZEsvlLGZxvMwjl1KrNYcP7Z/bmRez3w6TUXNDjlIB
-	ND5UYnfT4VvI2h+8BfNms6bWh8DnpHcWfz10t7laGiuvpiuzXTCIXFB4Mk=
-X-Google-Smtp-Source: AGHT+IHmdLCLVNBWI5BWwKKNhNvlrQ7mUVMYbsTuM9iwdeWGmXMlPqQG8bCfHySO5m70NUB4661tpQ==
-X-Received: by 2002:a17:90b:4ec6:b0:2ee:cdea:ad91 with SMTP id 98e67ed59e1d1-2f452e2e460mr3213467a91.15.1734676751857;
-        Thu, 19 Dec 2024 22:39:11 -0800 (PST)
-Received: from localhost ([122.172.83.132])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f2ed52cf35sm4432536a91.11.2024.12.19.22.39.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2024 22:39:11 -0800 (PST)
-Date: Fri, 20 Dec 2024 12:09:09 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Linux ARM Kernel Architecture <linux-arm-kernel@lists.infradead.org>,
-	Linux power management <linux-pm@vger.kernel.org>,
-	Devicetree <devicetree@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 0/7] Apple A7-A11, T2 SoC cpufreq support
-Message-ID: <20241220063909.hrqrch5fy44nywl2@vireshk-i7>
-References: <20241218182834.22334-1-towinchenmi@gmail.com>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="TvV1Pzxa";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hVK09Ri5"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id B6291114012E;
+	Sat, 21 Dec 2024 08:45:52 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Sat, 21 Dec 2024 08:45:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1734788752; x=1734875152; bh=bE3VuT8nsu
+	8wH/NcmNLwmjpan81n5nZM7l2ihsD7w6k=; b=TvV1PzxadDVx9nYjiOTs//1BE/
+	91OUtYCme66eCNJMVeHli36Cp4mjztFxK35EYIP1h1yotAe3IMR2HV/pzSjbBPzT
+	TljCmUoI1rb7F/XJIgEZMotUiGjXVawAkJa6TveNE9EH1oe5/Dc8jsFSyYYgROCA
+	NMoMqZANmNMCr6M6yVot1fjWz/8hnH10F5p+QQiwfYCVaeE2ZRbXR6unXl66HdBg
+	dKwVgQV4LZfRFO/IndmYjodwz3JkMZ2RC+nNhCcHhtCttQmp9TheIUvPjUKE/jZS
+	zEQHJYt6t6RfIVtyTEgN55Ra6vyzIH/domYmAGShEsAcVBdLYcr80NkhG9iA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1734788752; x=1734875152; bh=bE3VuT8nsu8wH/NcmNLwmjpan81n5nZM7l2
+	ihsD7w6k=; b=hVK09Ri5p6Ljy+rKNuBqAOXt1Fc5+nseFQzvvYiqfMUZrIUkgad
+	wjVdksFQIcZzjE4L1DNHh1vxylO/M1nBXHThzDX8eIOkjVHuFHeXI8Zcrvf9q740
+	Xw5+nnGXhe4vE4ZgABlD8IozDFzAMMSLgCLdOjo3CVXLLCRKfm5qiqKlkoOzvTL4
+	VhoCX6hAKPXyJPvD5eNcgK2DqkJXmPZVyfOIHP4v2FDIni3qsLMMr4O+uSQzHuqO
+	Pk6Kme8K3zaJF5JwV2JMxCW+VD2WknIvaaPcRPWzSM0HohNfmeMpaZvqiLJYKjfZ
+	UZzu2vrIx4haGOIolv+pbGAAkRXtBSv/bow==
+X-ME-Sender: <xms:kMZmZwsFywgE024mlAgvbsa2SNYyKT7m2AXFdzkgPvBXCEHTMQdtIw>
+    <xme:kMZmZ9cjE52ahsur5INrHwRrBLnXj2PTs6vIpVFD61xpozOxEjNkvuKBi8lWvdeWJ
+    4-B8OHtNePj4b1VXtY>
+X-ME-Received: <xmr:kMZmZ7zE7YYe53J0H6RKMQ0A7ol8XKYFlvu3zXHx6zeRpUIj3v3vb5hOrCrPWLzjuxGwMy9gdhuRpZSxtc727f2DSCzaKEoZaQs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddthedgfedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeen
+    ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenuc
+    ggtffrrghtthgvrhhnpefgvdffveelgedujeeffeehheekheelheefgfejffeftedugeet
+    hfeuudefheefteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepudehpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopeholhhivhgvrhdruhhpthhonheslhhinhhugidrug
+    gvvhdprhgtphhtthhopehkvhhmrghrmheslhhishhtshdrlhhinhhugidruggvvhdprhgt
+    phhtthhopehmrgiisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohgvhidrghhouh
+    hlhiesrghrmhdrtghomhdprhgtphhtthhopehsuhiiuhhkihdrphhouhhlohhsvgesrghr
+    mhdrtghomhdprhgtphhtthhopeihuhiivghnghhhuhhisehhuhgrfigvihdrtghomhdprh
+    gtphhtthhopehmihiihhgrnhhgsehgohhoghhlvgdrtghomhdprhgtphhtthhopegtohhl
+    thhonhhlvgifihhssehgohhoghhlvgdrtghomhdprhgtphhtthhopehrrghnrghnthgrse
+    hgohhoghhlvgdrtghomh
+X-ME-Proxy: <xmx:kMZmZzMYMbxNKDZTU30BJEzm4UB0sfPOEUQa9a3PSeXpqw7v-HD68w>
+    <xmx:kMZmZw_k7AEaAotwDy1RIjctUIt69gtq0qHA4pHxrux8_K_kqb-EsQ>
+    <xmx:kMZmZ7UwfWcPnpfyvTB03Z6MX-D3yDMRbDIq7NlLhUSxc7gDIW8pAA>
+    <xmx:kMZmZ5fsidmnKnYtRFGAMB-AOoreA7Z9kaQ69Ahbw7T8hcy_a2Eggw>
+    <xmx:kMZmZzelUpnZqgmVXitvSoXGTBsS5q0zjgqNP_10BFDLRzIsgw_vYrkY>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 21 Dec 2024 08:45:51 -0500 (EST)
+Date: Sat, 21 Dec 2024 14:45:49 +0100
+From: Janne Grunau <j@jannau.net>
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: kvmarm@lists.linux.dev, Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mingwei Zhang <mizhang@google.com>,
+	Colton Lewis <coltonlewis@google.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH 00/18] KVM: arm64: Support FEAT_PMUv3 on Apple hardware
+Message-ID: <20241221134549.GA2917938@robin.jannau.net>
+References: <20241217212048.3709204-1-oliver.upton@linux.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241218182834.22334-1-towinchenmi@gmail.com>
+In-Reply-To: <20241217212048.3709204-1-oliver.upton@linux.dev>
 
-On 19-12-24, 02:25, Nick Chan wrote:
-> This series add driver support for cpufreq Apple A7-A11, T2 SoCs.
-> Device Tree nodes will be included in another series.
+On Tue, Dec 17, 2024 at 01:20:30PM -0800, Oliver Upton wrote:
+> One of the interesting features of some Apple M* parts is an IMPDEF trap
+> that routes EL1/EL0 accesses of the PMUv3 registers to EL2. This allows
+> a hypervisor to emulate an architectural PMUv3 on top of the IMPDEF PMU
+> hardware present in the CPU.
 > 
-> Changes since v2:
-> - Use NSEC_PER_USEC instead of 1000 as multplier.
+> And if you squint, this _might_ look like a CPU erratum :-)
 > 
-> v2: https://lore.kernel.org/asahi/20241212070344.3858-1-towinchenmi@gmail.com/T
+> This series takes advantage of these IMPDEF traps to provide PMUv3 to
+> KVM guests. As a starting point, only expose the fixed CPU cycle counter
+> and no event counters. Conveniently, this is enough to get Windows
+> running as a KVM guest on Apple hardware.
+> 
+> I've tried to keep the deviation to a minimum by refactoring some of the
+> flows used for PMUv3, e.g. computing PMCEID from the arm_pmu bitmap
+> instead of reading hardware directly.
+> 
+> RFC -> v1:
+>  - Rebase to 6.13-rc3
+>  - Add support for 1 event counter in addition to CPU cycle counter
+>  - Don't sneak past the PMU event filter (Marc)
+>  - Have the PMU driver provide a PMUv3 -> HW event ID mapping (Marc)
+> 
+> Tested on my M2 with Linux and Windows guests. If possible, I'd
+> appreciate someone testing on an M1 as I haven't added those MIDRs to
+> the erratum yet.
 
-Applied. Thanks.
+Tested on M1 (t8103) with perf in a Linux guest and the patch below
 
--- 
-viresh
+Tested-by: Janne Grunau <j@jannau.net>
+
+I'll import this into the downstream asahi kernel as there was a request
+for performance counters to aid FEX-Emu development recently.
+
+Janne
+
+--- 
+
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 441ee4ffc7709..45ef67ec970f5 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -195,6 +195,12 @@ has_neoverse_n1_erratum_1542419(const struct arm64_cpu_capabilities *entry,
+ }
+
+ static const struct midr_range impdef_pmuv3_cpus[] = {
++	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_ICESTORM),
++	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_FIRESTORM),
++	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_ICESTORM_PRO),
++	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_FIRESTORM_PRO),
++	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_ICESTORM_MAX),
++	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_FIRESTORM_MAX),
+ 	MIDR_ALL_VERSIONS(MIDR_APPLE_M2_BLIZZARD),
+ 	MIDR_ALL_VERSIONS(MIDR_APPLE_M2_AVALANCHE),
+ 	MIDR_ALL_VERSIONS(MIDR_APPLE_M2_BLIZZARD_PRO),
