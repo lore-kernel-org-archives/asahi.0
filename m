@@ -1,61 +1,61 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFED1A0AF0
-	for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 17:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DE01A76BC
+	for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 17:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734890025; cv=none; b=oIT/Uw6peNQ3bzvrMGQvBpOO3WeynSDOYNrdLKvuRYglJPPDJ/6SQVjKAsbP9NdpWiYeqNL9RwRDD0+nlfvGspFiwPLJOZn2QJMdsWQUOKhKWQCJOxaZ7DIuLWrm4Kke57IOdbMaNKyU4jske8U9rofLJ4leXFURmwlnBJiDOEo=
+	t=1734890027; cv=none; b=te4RCquKh5utEOZf5pRuTWSbnoOIsKwJ7J6cP6Cw8hBwi0zfcg8WqXHc/he/Kq0BMFhIp9MWAvILO0YIOCe7a+Fzm59j2eUHihqKGn7aXdcu8rFnYbpSRU/gMv1BU6Hrbd30qRN+8vjSSOEvl7a5n77ehwpEtUqj49yv2Ocd7Z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734890025; c=relaxed/simple;
-	bh=aNVyNhmufGOOGpP5E/L6Pio6VeurXSd1E61mRhniR2k=;
+	s=arc-20240116; t=1734890027; c=relaxed/simple;
+	bh=+yIUnaFzABCSNsWu+QLrwfrQQ765t78wpX/Bo983hVg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NBZa/0QBDsl4hjeIevtYnFKfgiYgtsVd4biS3IM6q2/RJEPKGmJSqhUa7JSYJ+bm3pLVkRIBaH21h2U4hClDGGUbga+nh3B/3exj5gAf+x3wVE66Xj9X2q1y0IK+UHwbeLWN1hg8dTA3r4gOonldwKGZ8TjGALt5AvaW3RJsIJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VDQ8rlli; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=D/MPOO/BODFjlf0hG4WRPsMdJgc03JdPUZvkQDV77/UFmLhZ4ALIn8SNmOApDmkO2c++4bHocWzAcU5Qh+VW3H9S6LZYfzzaSxhsoeDuuj+pEOSwiyvav/YhCl0baVO7Sz4PQfwe7XQQY0Xz7XbwUhPpiFhC1VjWrn5BJtzYsVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A6JaPymu; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VDQ8rlli"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2167141dfa1so30782425ad.1
-        for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 09:53:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A6JaPymu"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ef72924e53so3133651a91.3
+        for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 09:53:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734890023; x=1735494823; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1734890026; x=1735494826; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M8quqDbvIzDjRV3soAXIobPs9f6LGdQx6F8kthQIS+s=;
-        b=VDQ8rlli+ImaTvH5SsHDBI2yjBkl0U3TYa9AED+7YrvPzVXKjjUwi2bQSAqlUmaS4B
-         fv8MmbPDPvrulL+ptpuitUc6wjNgXvZ6joXRNvFTdr+ViGs+/lntrsPKMAkT0eKWXMZQ
-         Y/Y2V14IE7cF/oaIP/8aYZdETNYRS8r5XVv6gzrtM6NF2N1IBDmaTRtwDnFXUW5GpdNi
-         NNn3ePOz9iZ3O9FTGEaS7kkfngwOiYah2njxCB3RcH5Zy0MHchTB8zioiCOBRlowqPUa
-         P5WEw8tELJSrt3CTJBmNm28PtroifwyZjsl3LCxLC7MS7jocF5JCZYW3NTDlCajO98/Z
-         Ct/A==
+        bh=z/KAd6ZG61rvLfDgYI7Mlxb/svbdRtzyfwFEiO6AV1E=;
+        b=A6JaPymuiOa2NK/N9bTIetfoIaAn7sD4pkpqb9MDJTYPhCoMFdxa0CWrlcVMwSKkoz
+         XPLN+BUP+heHmIqOgL8epO+pm86qH+uTpS0t/lkPfhh6b5un6ttXDTqMaGeF8Lf1OZZX
+         qY7cHxbZ7x84fXuZyJxCewFLxRGcQcQVvpJEJiC+EksMV8jPefecoSXEbO3iNTzSlFkF
+         oR0gD1cmtZkR6uD3Tzg2FGI0qX+dCyhZW5inhY+aKmRU7Xjp7RZXlY91Iw85rAsHIKbm
+         zZ7kNlD1K9BEd7cXM9dxab4p/1zqwPo+NZ+gLf+rtphLkHzg4IXEfJQ47Y95BxbwLy/v
+         j7JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734890023; x=1735494823;
+        d=1e100.net; s=20230601; t=1734890026; x=1735494826;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M8quqDbvIzDjRV3soAXIobPs9f6LGdQx6F8kthQIS+s=;
-        b=AJVzpGdoSCJojogb+QSMgEzg9ZlznPkEUOn3tPrTmsH0EprbrjGalTxD4pATPS+0Gf
-         n5TArNFA36Gl4h6CHpKmkQSzpESXjUn93rp58x5/ozy7JTGA0iBhRCWEVvEdBR+LCL3b
-         n58GSkF+b0mLjnXfECMYnjGeHxaaeUa79nwMWtCbkbt0s7ohkWRs+lQ/pElRa5Tda2/u
-         zlUVUYE8Eu7T8t3pxbp8e+MvcD65OJYFsASXNFdaXmC1QsD4cuVLdGTdarptnI4BxsNC
-         yttgMa4eaGR8RfK+ePkpf+fyq25QR/AQrmr4GGDVNXTjvxeTWYa2s/ZUtJ/IohsDkM4e
-         OUqw==
-X-Forwarded-Encrypted: i=1; AJvYcCUz6IsfS7ApovaXEOvjzhaM29BJMwZCWGf9JPzSB/yXwb0UbUj8i4rqDDgGf29YsEMEaDuybA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+JsI5WpKP3c2vOs3KHsn4sTzhRMXjJB4l3ytuaJcev7DW2EyO
-	QhOmGFaJ5ofSIr7RoVcSWi7+zsDplnaXZUPeIdqaWaQXbeKOW78o
-X-Gm-Gg: ASbGncsw4urkCaWanOoJA/QxvFsoTHKGvsdxsQNCJNnge4aKvOqOhh8sM0CbafpEooQ
-	gav5IPjliK1Lob4pQf6rzTlYyggiewe2lXFi0SxZaNtbVxyURF0eEGDiHXAoXOeikWGBEqocJCz
-	+Cp+uIHfj75e6OTsPxYI5WzDvfwMhsDDC1unPko+TdKOO88gvTKOx4DIRo4molMp5yb1V920xp9
-	X5vqkXCiCdif55gvhrOkWWd82XGSrF9e5tmOvI5gq7Xh5CfDtdkUBngvQ==
-X-Google-Smtp-Source: AGHT+IGpgvTOHhq2hImZ/rSPNRXBsdgUbRBZyxdR2JAx10GDpZz4KoEJX4OK0tyh8MQs0GsB982i4g==
-X-Received: by 2002:a17:902:d50c:b0:215:9c06:272a with SMTP id d9443c01a7336-219da7ff40bmr204906785ad.24.1734890023267;
-        Sun, 22 Dec 2024 09:53:43 -0800 (PST)
+        bh=z/KAd6ZG61rvLfDgYI7Mlxb/svbdRtzyfwFEiO6AV1E=;
+        b=qiAkfv6LF4SxR2CCUNR92zsl5P6DHGraa1dQfrrEqCUvfD5y5PmpMVrdT8t8hJKV5t
+         5TYhJEkhPwhdZpYLjsl/UVTqXtPZi6UieMpozpNQ2azxIMnfOHVsnkXqh912Axebjq0s
+         EYJxnPndSYmugDqTG6N37K3Ci6dzY/37Ni500IvZtHYyVU/DogQXXqCbj6BqvkFWxmOu
+         RyUtBFKB1y+1pV/HjqFdUnyWMfq1QVPXLLS776Gbm4PGi8ckFbhEwZ5rGwd0gMofFl5Y
+         mJZyzeHnWR3NT+ayLRKQrpJmq0IEaN5GNbiNzAcMF8KzvgK4IzSoCHf/ExQYOVX/J4MA
+         TXEA==
+X-Forwarded-Encrypted: i=1; AJvYcCVl3rNtchC4rVqRSl6ij09wrgxbyifWDoF6hP9pygnOqckeCn40Rce7PyQOgmDpkrSPrvidNA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNd78oWfbf5fwZPXJv/rQ+95TD3R5FiWJusrvgay/tyRhBWWm9
+	G5Oa4AD1A7RUW/TByzE8sKL9AdwyHN1IcIrloJej6VPZZ5s9KcU6rSeWCGM7
+X-Gm-Gg: ASbGncvz/S+TkOGdT6kFMbapLc/boqLoU9N9wvKLyIbXdFbBIek11ZOybGXUEB8w1mB
+	dbTuLF7Rj28QszoTJMnU8tVPfO1izHhN+PxFk6A1D2VSJYtz9KIsxIqeiuqoOaLUg6dGlBW6BJs
+	MXxWGrxfaqR73mCnmnD3GVDyumgKhZaBgxhJeimX+g7mvP+dlmsq+th7/7JkO1CsUHybZgBNwNd
+	V5JQYdMmOOTIravvVn9W25uMrfipOyslx4aLuMXXv/AVItrPTpk00LoSg==
+X-Google-Smtp-Source: AGHT+IH9tlB/rmfezrDSl76YkabU54LtEQtOU5kl6hHg06X9hhNLuJNfsi6jeaPgR5oNfIdZXyn2Bg==
+X-Received: by 2002:a17:90a:f94d:b0:2ea:4a6b:79d1 with SMTP id 98e67ed59e1d1-2f452e149bbmr15214572a91.11.1734890025758;
+        Sun, 22 Dec 2024 09:53:45 -0800 (PST)
 Received: from nick-mbp.. ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-219dca04c33sm59503685ad.247.2024.12.22.09.53.41
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-219dca04c33sm59503685ad.247.2024.12.22.09.53.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Dec 2024 09:53:42 -0800 (PST)
+        Sun, 22 Dec 2024 09:53:45 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -68,9 +68,9 @@ To: Hector Martin <marcan@marcan.st>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH 6/9] arm64: dts: apple: t8010: Add cpufreq nodes
-Date: Mon, 23 Dec 2024 01:52:06 +0800
-Message-ID: <20241222175314.151437-7-towinchenmi@gmail.com>
+Subject: [PATCH 7/9] arm64: dts: apple: t8011: Add cpufreq nodes
+Date: Mon, 23 Dec 2024 01:52:07 +0800
+Message-ID: <20241222175314.151437-8-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241222175314.151437-1-towinchenmi@gmail.com>
 References: <20241222175314.151437-1-towinchenmi@gmail.com>
@@ -89,47 +89,13 @@ types.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- arch/arm64/boot/dts/apple/t8010-7.dtsi     |  8 ++
- arch/arm64/boot/dts/apple/t8010-ipad6.dtsi |  8 ++
- arch/arm64/boot/dts/apple/t8010.dtsi       | 86 ++++++++++++++++++++++
- 3 files changed, 102 insertions(+)
+ arch/arm64/boot/dts/apple/t8011.dtsi | 79 ++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8010-7.dtsi b/arch/arm64/boot/dts/apple/t8010-7.dtsi
-index 1332fd73f50f..919e067ef073 100644
---- a/arch/arm64/boot/dts/apple/t8010-7.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8010-7.dtsi
-@@ -41,3 +41,11 @@ switch-mute {
- 		};
- 	};
- };
-+
-+&hurricane_opp09 {
-+	status = "okay";
-+};
-+
-+&hurricane_opp10 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8010-ipad6.dtsi b/arch/arm64/boot/dts/apple/t8010-ipad6.dtsi
-index 81696c6e302c..4ea8cf12e430 100644
---- a/arch/arm64/boot/dts/apple/t8010-ipad6.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8010-ipad6.dtsi
-@@ -42,3 +42,11 @@ button-volup {
- 		};
- 	};
- };
-+
-+&hurricane_opp09 {
-+	status = "okay";
-+};
-+
-+&hurricane_opp10 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8010.dtsi b/arch/arm64/boot/dts/apple/t8010.dtsi
-index e3d6a8354103..2547e8c60cad 100644
---- a/arch/arm64/boot/dts/apple/t8010.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8010.dtsi
+diff --git a/arch/arm64/boot/dts/apple/t8011.dtsi b/arch/arm64/boot/dts/apple/t8011.dtsi
+index 6c4ed9dc4a50..3a3d5b615a6a 100644
+--- a/arch/arm64/boot/dts/apple/t8011.dtsi
++++ b/arch/arm64/boot/dts/apple/t8011.dtsi
 @@ -32,6 +32,8 @@ cpu0: cpu@0 {
  			compatible = "apple,hurricane-zephyr";
  			reg = <0x0 0x0>;
@@ -139,9 +105,18 @@ index e3d6a8354103..2547e8c60cad 100644
  			enable-method = "spin-table";
  			device_type = "cpu";
  		};
-@@ -40,11 +42,89 @@ cpu1: cpu@1 {
+@@ -40,6 +42,8 @@ cpu1: cpu@1 {
  			compatible = "apple,hurricane-zephyr";
  			reg = <0x0 0x1>;
+ 			cpu-release-addr = <0 0>; /* To be filled by loader */
++			operating-points-v2 = <&fusion_opp>;
++			performance-domains = <&cpufreq>;
+ 			enable-method = "spin-table";
+ 			device_type = "cpu";
+ 		};
+@@ -48,11 +52,80 @@ cpu2: cpu@2 {
+ 			compatible = "apple,hurricane-zephyr";
+ 			reg = <0x0 0x2>;
  			cpu-release-addr = <0 0>; /* To be filled by loader */
 +			operating-points-v2 = <&fusion_opp>;
 +			performance-domains = <&cpufreq>;
@@ -154,9 +129,8 @@ index e3d6a8354103..2547e8c60cad 100644
 +		compatible = "operating-points-v2";
 +
 +		/*
-+		 * Apple Fusion Architecture: Hardware big.LITTLE switcher
++		 * Apple Fusion Architecture: Hardwired big.LITTLE switcher
 +		 * that use p-state transitions to switch between cores.
-+		 * Only one type of core can be active at a given time.
 +		 *
 +		 * The E-core frequencies are adjusted so performance scales
 +		 * linearly with reported clock speed.
@@ -165,63 +139,55 @@ index e3d6a8354103..2547e8c60cad 100644
 +		opp01 {
 +			opp-hz = /bits/ 64 <172000000>; /* 300 MHz, E-core */
 +			opp-level = <1>;
-+			clock-latency-ns = <11000>;
++			clock-latency-ns = <12000>;
 +		};
 +		opp02 {
 +			opp-hz = /bits/ 64 <230000000>; /* 396 MHz, E-core */
 +			opp-level = <2>;
-+			clock-latency-ns = <49000>;
++			clock-latency-ns = <135000>;
 +		};
 +		opp03 {
-+			opp-hz = /bits/ 64 <425000000>; /* 732 MHz, E-core */
++			opp-hz = /bits/ 64 <448000000>; /* 768 MHz, E-core */
 +			opp-level = <3>;
-+			clock-latency-ns = <13000>;
++			clock-latency-ns = <105000>;
 +		};
 +		opp04 {
-+			opp-hz = /bits/ 64 <637000000>; /* 1092 MHz, E-core */
++			opp-hz = /bits/ 64 <662000000>; /* 1152 MHz, E-core */
 +			opp-level = <4>;
-+			clock-latency-ns = <18000>;
++			clock-latency-ns = <115000>;
 +		};
 +		opp05 {
-+			opp-hz = /bits/ 64 <756000000>;
++			opp-hz = /bits/ 64 <804000000>;
 +			opp-level = <5>;
-+			clock-latency-ns = <35000>;
++			clock-latency-ns = <122000>;
 +		};
 +		opp06 {
-+			opp-hz = /bits/ 64 <1056000000>;
++			opp-hz = /bits/ 64 <1140000000>;
 +			opp-level = <6>;
-+			clock-latency-ns = <31000>;
++			clock-latency-ns = <120000>;
 +		};
 +		opp07 {
-+			opp-hz = /bits/ 64 <1356000000>;
++			opp-hz = /bits/ 64 <1548000000>;
 +			opp-level = <7>;
-+			clock-latency-ns = <37000>;
++			clock-latency-ns = <125000>;
 +		};
 +		opp08 {
-+			opp-hz = /bits/ 64 <1644000000>;
++			opp-hz = /bits/ 64 <1956000000>;
 +			opp-level = <8>;
-+			clock-latency-ns = <39500>;
++			clock-latency-ns = <135000>;
 +		};
-+		hurricane_opp09: opp09 {
-+			opp-hz = /bits/ 64 <1944000000>;
++		opp09 {
++			opp-hz = /bits/ 64 <2316000000>;
 +			opp-level = <9>;
-+			clock-latency-ns = <46000>;
-+			status = "disabled"; /* Not available on N112 */
-+		};
-+		hurricane_opp10: opp10 {
-+			opp-hz = /bits/ 64 <2244000000>;
-+			opp-level = <10>;
-+			clock-latency-ns = <56000>;
-+			status = "disabled"; /* Not available on N112 */
++			clock-latency-ns = <140000>;
 +		};
 +#if 0
 +		/* Not available until CPU deep sleep is implemented */
-+		hurricane_opp11: opp11 {
-+			opp-hz = /bits/ 64 <2340000000>;
-+			opp-level = <11>;
-+			clock-latency-ns = <56000>;
++		opp10 {
++			opp-hz = /bits/ 64 <2400000000>;
++			opp-level = <10>;
++			clock-latency-ns = <140000>;
 +			turbo-mode;
-+			status = "disabled"; /* Not available on N112 */
 +		};
 +#endif
 +	};
@@ -229,7 +195,7 @@ index e3d6a8354103..2547e8c60cad 100644
  	soc {
  		compatible = "simple-bus";
  		#address-cells = <2>;
-@@ -52,6 +132,12 @@ soc {
+@@ -60,6 +133,12 @@ soc {
  		nonposted-mmio;
  		ranges;
  
