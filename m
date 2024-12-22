@@ -1,109 +1,92 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4C563B9
-	for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 12:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0687188CA9
+	for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 15:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734869136; cv=none; b=MMjEGYEbLietGXwspQfI7IRWnV5sBaVxyKF/B4NAVqQ6IOqB/JH0uv9ey8PxvBrLQ6NcMvWRyfypg5GEZRwJnMOuVXK1Qnlh6cl6yev3CBe7FnuubOWfbukSIg7FI05yiWCsGmD3tZ03bYvsWsPLs46zFCP5i48TEfM7DwnxReo=
+	t=1734881719; cv=none; b=WZzvJ5MWuRVaQOu1pntcANh66Du4bNzRrp4LF1PljjKt9vmzcvT5vvl393roM09gz6z370eLTvbXbvHfc6KM6zVIB+4LTT9msNm7uaZW28X/E3kP2K494R1oEHR4t8pP+9mtWa4q0H3vDZAxMrNrQ5+p9fWExBAsRFF8bDtnOSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734869136; c=relaxed/simple;
-	bh=aNruRtG7ExtKqjONbi1Izo/oVVw8zfwdgUQQOkwjX5U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RLqcUhfP6mJLfjKv5wdArXzlGpny9q24RvSOA1L874pZDGseRQLJx7AXuL1ReUyJNsPO4lk4SlpscgwIRlMZ8bhCXdATSncYb3zW9wls0G3vd1llxLeOa9HxslOKeqr/X+p+reErp3dlyK7u+6K8FkyYMyUlcmWERm7xIAEtgNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLW2o9n4; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734881719; c=relaxed/simple;
+	bh=9GjqyJMg09DCuYPoAHgqnPAHj4DLiCTnwq4yWavSIlA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=utL/Vi6igdIBLZVn2Z7QHMC9B6vHKo1++fcF7HNEP+djIakcRATi0hrwjwoKxanURnf2maspk5t/sQJEY17iaQDBnJzRkjkOyEYH5NrXWwjEoqfJ/7pSR+cdfvAV5Vz79qga8JUd667fxpxgkaNu6f8Msh5/dqhFPsZIHqXqRZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LNW03+ZM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLW2o9n4"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2163bd70069so30894575ad.0
-        for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 04:05:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734869133; x=1735473933; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SDnS8QQfts8PNiRxxgrPusASUBk1U9XVmydpKZ+IB84=;
-        b=OLW2o9n4LYPOTplKOZq75fJIBV6VrOYI1GyHsHCRSYm9KWzmP26g0RYVDu94RmYfQt
-         D20r9ItdByOkbapAQYPaZQjQq1a0yJG8WEzbijPrlyPDKiZTg0JxGqfF04VRfdDtLjCs
-         C2II6M7gp19NW/EfOBa/y7l8S1Q1gLVYVzW18gv4UbIOrWud88CqxhTKLIPgTI3bLnsp
-         Q4nJD4ZBeYCZkazWNyfu5c+x7C5vCuMtneXpNmhhzykHbh6MJXi4Tl+OluQgqKY4FbeF
-         1ZbN7AMoTL80vAcQCXivtSY3l/nhb8sC5So30JXWIA27i93ydVVgp8/T8BElyNsq1xEI
-         HD1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734869133; x=1735473933;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SDnS8QQfts8PNiRxxgrPusASUBk1U9XVmydpKZ+IB84=;
-        b=oqSY+/2JMPxoBQyGXEiwnq95T5lxBWChzr27E8veCyAgDVjHKKvh1xSrLoNtVGrf2q
-         MdKUSY9Uj+TR+j72K+E3/R5kJNM/IveBO1/AVUXdisaOT6+rJdmnGnhXZRsNcLcytk82
-         XswqQc9TMpsX0d9RiN6KCCh8Pf2A9LuN/ySbB5P01GMeLHHzDxL6PyofcyZCm+tVz++l
-         FOh+L+PXJz3ADhnPi1rrfD9wiEZFRYcU29Bmq0wslf8htoCTIuC5rZyL95zeTUSg9qNL
-         GR+kJHwcKBOWFgAnFcxxU8j0A+reTnyW1C308orAtJCsu5/sv/W64hucumUiQ2l2y5+W
-         iRPg==
-X-Forwarded-Encrypted: i=1; AJvYcCVgu/Q2zYPfrRsgtMAaR7v88RJUGyqgbobA5PF7KYiZXRo3RavFjoxGBLaVjW3WgnsuH3y7lw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw/HEJ2jGXJ1GCXErnLpNSXG8wn/Kntxkp60/PBJb6hb2d6FR2z
-	yY0E4HBj/mDboEd2xnbmVqlCpNrIzhxMTcV+1RVL/js+zEU2O/Ud
-X-Gm-Gg: ASbGncvEO8meWJvGmrzrGg48e1ibJKRubZEVog5mpWhJ+h7w9SpHnCpFFfKx3ajRLlb
-	NHmfgL8mmsjuceYvLB3GdIv2HxLriyvCEeP9m9fw3KWrKwV5PEHrizN/rriwsebsy20RcIEMoPl
-	aFfoy/XzBQYsYYwN1vMK7DKm5LNNYiDyveDQ3lrxLGSjY7eeRAI4lLM96wUr7x+DmF5eophqqwI
-	H/Bz6Dnn6h+C6fTiwg97KpakAiKq2ZPk/ZPIDXoEU4bQ8BB/TNyYj1KVOw0E2Mj
-X-Google-Smtp-Source: AGHT+IEOZVxAStgALtxwinLC8Odtu5ORiNvC9dCI78Mv1+c6vIuwDTv9FbdrmlFh0HXJYmlMCFWMnw==
-X-Received: by 2002:a17:902:d4c4:b0:211:ce91:63ea with SMTP id d9443c01a7336-219e6ea1accmr99240495ad.15.1734869133310;
-        Sun, 22 Dec 2024 04:05:33 -0800 (PST)
-Received: from [192.168.0.109] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9716b3sm56358175ad.90.2024.12.22.04.05.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Dec 2024 04:05:32 -0800 (PST)
-Message-ID: <bf93c563-f331-43c0-a145-1abf143bd0eb@gmail.com>
-Date: Sun, 22 Dec 2024 20:05:28 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LNW03+ZM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3915EC4CEDC
+	for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 15:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734881719;
+	bh=9GjqyJMg09DCuYPoAHgqnPAHj4DLiCTnwq4yWavSIlA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=LNW03+ZMpvcE0AQBTB3thE14MW0eFCAdRakozESjslppOZQMEd9uDwydvmqf6y8G1
+	 Zr4+kOW4eIPiq3aCYbGQKVReHmbgMT36omu393jsyMiLom1CsY+VYbgoPVNxL/iM4w
+	 zQDcMYiyo6/BzQ42E8BcodXQlmI7dRUESYRkve6LgIm4+inet2TnLzLYONYwLhWO0l
+	 2v/kaCMukFIh6LIOuh7Q8eIPdq6jp0GeepbIxiR8S4rtAJr40FBqLq2gMYHkbYbvXL
+	 9lbNkIK4vSdGCppuBKtKyiAIRCa/V9DnG/ZRxI1EPL27UvzmD6IyNjlSvNzrTWzDBi
+	 xFk6QNDchoisQ==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53e3a37ae07so3594317e87.3
+        for <asahi@lists.linux.dev>; Sun, 22 Dec 2024 07:35:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVKoyusebqhd2wtHsrirH0B4Lu8soKdB3H/hk+nW64KY62lomz8j4nsCC+ZQ6mFm0LiTNvTXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDPYMNlK6/kNudQDp1zvVToqaQJpquxIpbyik/17HO2/NyxzhX
+	P3wz5KEVgEMliXnoXht636oKM9qIC3Fr9OidDKaobwFnoaXfgIBqhO8ih7jH9mCOOZx0Vx3eVnt
+	c83wkzDhDUfriQp57TH1tUP3fSFo=
+X-Google-Smtp-Source: AGHT+IGX0ge+oIG+OVUU9qdGOK5bBf8+T98POZAqy0/yqeJA7FZF28K0qTWuu83caIz3ApeSC9IJtu4UY0yOQ4BjUNY=
+X-Received: by 2002:a05:6512:4007:b0:540:5253:966a with SMTP id
+ 2adb3069b0e04-5422954b39fmr3358159e87.34.1734881717617; Sun, 22 Dec 2024
+ 07:35:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20241212081841.2168124-8-ardb+git@google.com> <20241212081841.2168124-14-ardb+git@google.com>
+ <bf93c563-f331-43c0-a145-1abf143bd0eb@gmail.com>
+In-Reply-To: <bf93c563-f331-43c0-a145-1abf143bd0eb@gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Sun, 22 Dec 2024 16:35:06 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXH8W=o7yqZjL1QHud8sfA5=-aJ9HGO1opPhwihdi_28pw@mail.gmail.com>
+Message-ID: <CAMj1kXH8W=o7yqZjL1QHud8sfA5=-aJ9HGO1opPhwihdi_28pw@mail.gmail.com>
 Subject: Re: [PATCH v3 6/6] arm64/mm: Drop configurable 48-bit physical
  address space limit
-Content-Language: en-MW
-To: Ard Biesheuvel <ardb+git@google.com>, linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Ryan Roberts <ryan.roberts@arm.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Kees Cook <keescook@chromium.org>, Quentin Perret <qperret@google.com>,
- asahi@lists.linux.dev
-References: <20241212081841.2168124-8-ardb+git@google.com>
- <20241212081841.2168124-14-ardb+git@google.com>
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20241212081841.2168124-14-ardb+git@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Anshuman Khandual <anshuman.khandual@arm.com>, 
+	Kees Cook <keescook@chromium.org>, Quentin Perret <qperret@google.com>, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ard,
+On Sun, 22 Dec 2024 at 13:05, Nick Chan <towinchenmi@gmail.com> wrote:
+>
+> Hi Ard,
+>
+> On 12/12/2024 16:18, Ard Biesheuvel wrote:
+> > From: Ard Biesheuvel <ardb@kernel.org>
+> >
+> > Currently, the maximum supported physical address space can be
+> > configured as either 48 bits or 52 bits. The only remaining difference
+> > between these in practice is that the former omits the masking and
+> > shifting required to construct TTBR and PTE values, which carry bits #48
+> > and higher disjoint from the rest of the physical address.
+> >
+> > The overhead of performing these additional calculations is negligible,
+> > and so there is little reason to retain support for two different
+> > configurations, and we can simply support whatever the hardware
+> > supports.
+>
+> I am seeing a boot failure on Apple iPad 7 which uses
+> CONFIG_ARM64_16K=y after this change in linux-next as commit
+> 32d053d6f5e9, with nothing appearing on serial console with
+> earlycon enabled unless I set CONFIG_ARM64_VA_BITS_52=y. Reverting
+> this patch makes the kernel work again.
+>
 
-On 12/12/2024 16:18, Ard Biesheuvel wrote:
-> From: Ard Biesheuvel <ardb@kernel.org>
-> 
-> Currently, the maximum supported physical address space can be
-> configured as either 48 bits or 52 bits. The only remaining difference
-> between these in practice is that the former omits the masking and
-> shifting required to construct TTBR and PTE values, which carry bits #48
-> and higher disjoint from the rest of the physical address.
-> 
-> The overhead of performing these additional calculations is negligible,
-> and so there is little reason to retain support for two different
-> configurations, and we can simply support whatever the hardware
-> supports.
+Thanks for the report.
 
-I am seeing a boot failure on Apple iPad 7 which uses 
-CONFIG_ARM64_16K=y after this change in linux-next as commit
-32d053d6f5e9, with nothing appearing on serial console with
-earlycon enabled unless I set CONFIG_ARM64_VA_BITS_52=y. Reverting
-this patch makes the kernel work again.
+This is a known issue and has been fixed already in the arm64 tree a
+couple of days ago.
 
-Nick Chan
-
+Once linux-next is regenerated, things should start working again.
