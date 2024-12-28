@@ -1,54 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F2FC8DF
-	for <asahi@lists.linux.dev>; Fri, 27 Dec 2024 06:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4383191F75
+	for <asahi@lists.linux.dev>; Sat, 28 Dec 2024 16:29:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735279323; cv=none; b=GVQLR5tEyAszjCsaQL7We3F+fSrbDqvJQg2x6CzFb4p5IdVkAGlsVY6m9H8HasAxf79eq+oBGeDCcvX6VKyI34xaK6P4r3MNeIOy2NLL6wmy4bSH0RSPueOPtUZg3lSevwRowkUwze/e+N6rLUCs6SfLBAC/rFW0+PA/wWO3MY8=
+	t=1735403343; cv=none; b=KLdXQJwdLL2pDsISlYrqjRd3qFDQ+2OWzWKBFbazpdZVK8arqUitheNYyxDVFAWhnfgstk0SLNvIXUMJssKP7B5wXDWtoA6PBzZCy7KkTgWmGbabfuQCdl3DOeKuAuLfR2PUyevkwLGDIxIYiUIixYu7Ey2o/j0J9dgzSyE4MYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735279323; c=relaxed/simple;
-	bh=NkBdeXYIisGibTG/XndeP7+j7m45JE0yIS+OIQAILx0=;
+	s=arc-20240116; t=1735403343; c=relaxed/simple;
+	bh=fELjdXfci/f3oqFrTANTWQpQItWmCHjVaGRvt5XorsA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nlb+mzR8X48LM4gxczNgKP3f8LBIIWxPKJB/bjyTOJVuMJSAQrdcyHLEiuDZtSqp1/FM7+5DVnl6glsXBGOCv+IuoSyuPmBWrr3NZXTy1h3n+9r6FuWat7tomqHNvqnh8gXgtTc/0CC7Gs7TUUW9h7mlbdpyYCssp8824P/GsJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sSv7jY2c; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=agYKu+yTz4Zkq8BicQbZtnaqxylBumnj52KhfvCky6XvBP67J0cIgeR2G+ijzpuwcWEcgl16r/dZ3X80gJZbhrrToitvxkn8XPndSkcRS6+jrpvA68nzdRwJo+PEv/TXirxwGxHnLT4o1yTUl3Ry/i+poQjWjDM6hNMAzm/TnhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FYKfeVE5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sSv7jY2c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2984CC4CEDE
-	for <asahi@lists.linux.dev>; Fri, 27 Dec 2024 06:02:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FYKfeVE5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EEECC4CEDC
+	for <asahi@lists.linux.dev>; Sat, 28 Dec 2024 16:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735279323;
-	bh=NkBdeXYIisGibTG/XndeP7+j7m45JE0yIS+OIQAILx0=;
+	s=k20201202; t=1735403343;
+	bh=fELjdXfci/f3oqFrTANTWQpQItWmCHjVaGRvt5XorsA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sSv7jY2cqL2Awn4qJfqrvmvpj8DcEtgpfihV2UTQVetG6t8H2F4xWCpMERPI86NhH
-	 1RL8Z2mLH9L/1rgipzBDuvICrMnd0GHozovwPTB4x2wblez89hKEnxnsTMfadlbewM
-	 8hjnsi/h9n40VTWlTgg8KkpZXJyA9iihJjhUrxoe4lYcNcpE9DrfSV/kTCQbT75cY/
-	 m/IJAvSSCoEcrqcI8IWMI8lJtJNRjJzE4G06FrLc3HdqixvI2cbKt7nLR4kERltgmq
-	 6/I4I/hvFs1sOBG4jQ1A8mjladnQGOIAWyZp4K3sBstCH5AuOykQldFGW09n6tSJ7v
-	 hfCB3NH0GgRJw==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53e3a5fa6aaso9062532e87.0
-        for <asahi@lists.linux.dev>; Thu, 26 Dec 2024 22:02:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU8/FpHAR3T77DEOkkacvxPljCpTLKk+Zz7ed55G+vIfWm+aJUpjYakVH6gX8p8PyqSjALgXQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzS2+Jfw1UTmEKEVmS2vSYYgPApgKg/Zt7tlGRU6qDW1JRN/4QL
-	6uOXCBl2nmQtlXwGjgPf9clgSfQGCkKjSkRv7c9q2RG7uTO8+JilBDODVzXdM3m9As15pb/Bbz1
-	QaCM2mFTyurPT3EF2JB9bhDzvDPY=
-X-Google-Smtp-Source: AGHT+IGrOOkh3bjmJb/aOioYah2DQAcGe1Q58Qjbg5w+Olw07p5F6lGwqX6+Ho5XIWZ/+tNoYVVPBmRxtDYSw3gzrxU=
-X-Received: by 2002:a05:6512:3510:b0:542:2952:8848 with SMTP id
- 2adb3069b0e04-54229529bb5mr4791448e87.3.1735279321817; Thu, 26 Dec 2024
- 22:02:01 -0800 (PST)
+	b=FYKfeVE5x7tNYxnPhaxlTGE36Um9i9E1v6TLyncVlcHWkBHUXAJD1B+uOsOCcJmi0
+	 cigBLqOuvcDVFAoTSqas2sQ26jD/zTdOs7xtrLMzEdhCNDjut4Os70NrHlPtx+E4tC
+	 BCaF8ru+0of7NjX7IJYMhEHhsz4rpCfuSlCJ/nHEdLJIyuzjkT940QZecyD5q3ngho
+	 p/CukpXyfWidJdm324Ud0jViTcqiI5yccPDxaGINVMnEelXDJxS8AOGAj1AtMVQCcS
+	 +EmjcfflKwGNSSqgceCWMPqMCP6Dr6sn/aIUUsqcNMMixrULqB/CQ+jxAc2eCMGCS3
+	 qgixf9rNxtjnQ==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3022598e213so12074561fa.0
+        for <asahi@lists.linux.dev>; Sat, 28 Dec 2024 08:29:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX8g5AE9KSMX7PiKukoILz9tyy19SqAFCsJw85alhGj685/sTXWmslBuGk2PPLtYP4rU8cG6A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQjVYPdZGgb7iA8lNCshVAGrgVixYFprRVxLNoLV87C0J6MltO
+	r3epGLIwKM4kWgSrQPXGiVVRydLzyLKFmn+2L+GC74GcpfxbOfS4FMkQkA7ovscxws8U+d0pwAs
+	ReMLyFCJDwf2759WUyCrd57o6BNo=
+X-Google-Smtp-Source: AGHT+IHRQ1+8BgTqaH4EqEuyozTsZbSR8wnAt/ZYNGhZ0LwS0KidYtqAFAaBQ66v0Y70jKqULyfNGocHlh3tOhXVsJw=
+X-Received: by 2002:a05:6512:ba9:b0:542:232c:d3eb with SMTP id
+ 2adb3069b0e04-54229530111mr7302108e87.19.1735403341601; Sat, 28 Dec 2024
+ 08:29:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241219210736.2990838-20-samitolvanen@google.com> <20241219210736.2990838-21-samitolvanen@google.com>
-In-Reply-To: <20241219210736.2990838-21-samitolvanen@google.com>
+References: <20241219210736.2990838-20-samitolvanen@google.com> <20241219210736.2990838-22-samitolvanen@google.com>
+In-Reply-To: <20241219210736.2990838-22-samitolvanen@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 27 Dec 2024 15:01:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATRGzGjLLcv+aD3KdgkZXzwMsCSud116rzEThNXRQC0rw@mail.gmail.com>
-Message-ID: <CAK7LNATRGzGjLLcv+aD3KdgkZXzwMsCSud116rzEThNXRQC0rw@mail.gmail.com>
-Subject: Re: [PATCH v7 01/18] tools: Add gendwarfksyms
+Date: Sun, 29 Dec 2024 01:28:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR=kBi_LN7UkO_qzUQh8fMd1BMf=ZZMQMPph5smZRzSSQ@mail.gmail.com>
+Message-ID: <CAK7LNAR=kBi_LN7UkO_qzUQh8fMd1BMf=ZZMQMPph5smZRzSSQ@mail.gmail.com>
+Subject: Re: [PATCH v7 02/18] gendwarfksyms: Add address matching
 To: Sami Tolvanen <samitolvanen@google.com>
 Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
@@ -63,36 +63,30 @@ Content-Transfer-Encoding: quoted-printable
 
 On Fri, Dec 20, 2024 at 6:07=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
 com> wrote:
-
-> +int main(int argc, char **argv)
-> +{
-> +       unsigned int n;
-> +       int opt;
+>
+> diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symb=
+ols.c
+> index 7adf2ed9b89b..98febb524dd5 100644
+> --- a/scripts/gendwarfksyms/symbols.c
+> +++ b/scripts/gendwarfksyms/symbols.c
+> @@ -6,8 +6,39 @@
+>  #include "gendwarfksyms.h"
+>
+>  #define SYMBOL_HASH_BITS 12
 > +
-> +       struct option opts[] =3D { { "debug", 0, NULL, 'd' },
+> +/* struct symbol_addr -> struct symbol */
+> +static HASHTABLE_DEFINE(symbol_addrs, 1 << SYMBOL_HASH_BITS);
+> +/* name -> struct symbol */
 
-You can add "static const" to opts[] here.
+I think this comment addition should belong to 01/18 instead of 02/18.
 
-I like the array initializer formatted like follows:
 
-static const struct option opts[] =3D {
-        { "debug", 0, NULL, 'd' },
-        { "dump-dies", 0, &dump_dies, 1 },
-        { "help", 0, NULL, 'h' },
-        { 0, 0, NULL, 0 }
-};
+>  static HASHTABLE_DEFINE(symbol_names, 1 << SYMBOL_HASH_BITS);
 
 
 
 
 
-> +                                { "dump-dies", 0, &dump_dies, 1 },
-> +                                { "help", 0, NULL, 'h' },
-> +                                { 0, 0, NULL, 0 } };
-> +
-
-
-
---
+--=20
 Best Regards
 Masahiro Yamada
