@@ -1,95 +1,86 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F52E8F4A;
-	Mon, 30 Dec 2024 07:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA902F50;
+	Mon, 30 Dec 2024 09:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735543607; cv=none; b=fZh7iHt40KL/Lqfi5Lkj8DdHOFVrMrM+5DL9aVRZ8RFFXJtZxIaVyDy8mv9A8tWFYTkiO32yGBTXxqMOfiF9ahM+Ih0nWH9YdrTxv0PaagjMafQSQ9BaFNaSoLcNxWS6FnQzBtWdgKSqU3VvlnHeDGanq+8qTDJUYdREEasOJ+E=
+	t=1735551057; cv=none; b=M+iOn2AF6gD0DMPNhFp+5dAUDLLlZG7NaJPRTl6iB9WNsf5QYjNbRi7jSBj/CI1FzaeNBGTyUeQ3qL1Wr6ivdMJujuoAYbJ1u1PI9yr9pQHxhRdfBAnv8dcUv/ARuOE/lkwloK5y+pwQjV4fMnvMvNznX736uGf4z3Bqo412q44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735543607; c=relaxed/simple;
-	bh=L/SEBdgyZ1rmxBo3u2OzC6TzuWbBUNHksId3IQWff1s=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=rQqFNTLZepEbUgjZKbRyyGrqF2VdcJhUSNRbP7vBPzM+Y5v1UmaaPYV47C2s660WVksiFwt/E1TitEfkl5sp+rHWIDkPUIR78NXl0WGc4rRarudm2E7bTq+R9zzyiECsyKC8LyiBS4OmUImMIyCyudK0Myz+bwTHMPOJn1TjZfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=haWzLIcn; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1735551057; c=relaxed/simple;
+	bh=OIUGQo/iIZMOB5N1vqzsOTaqkLjkGwgB8YS8iwbc2v0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u1mJwAChxAdEsZaxhNreSPH9J/mHhPlWNOh04sWt3gsG+hdDZOhkn4YOtmiEkezDBBZKRLkaUjZOj31xMGcYP09TMpRKeU7i4wCA/2TGY0eg7xH9FSIvSaCPlpyh2REybSAM5QE5olOLhlxt+iJb2Dzvlp+vrteI6sIxlDtvr7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qckX+al/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="haWzLIcn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1735543557; x=1736148357; i=markus.elfring@web.de;
-	bh=RLxL5SjnatJ2CxT1Dyhq1eTZZV9BxGEXkjm5mWdsrJA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=haWzLIcnFACCyzx+YFoV6uP9nDKZFXbJyFz7jHeLYjh6iGiQRC2IAK9mRC8fSEzw
-	 FtQS/p5eamr8N9QsfM3D3HGXm3GMD8NPue4aQD2ztAzQJpe8TNSzQXNRk8VabRhjt
-	 WSeghY+mk1l1ig2Z5+u+gVQyifdl/V4N6U5Gl2UXEyOhtnQ2iuRN4tPMwvaHljPOz
-	 8pKXnrr38F2GM6aqBEWbs4GWNmHVMBFBLOJv2sRNweTwjsk/jWmPZJLUeA8vPmkrK
-	 lLkz4RSCV7ihQ0V1RmwYEFQoOBg7xgS2OG+JjMeTqlBFkThC0uIb3V8GOqc8aMqm6
-	 es3dA0sLkGwbwcBTkg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.93.2]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MA4fW-1tL2Mh24Ta-00EiaN; Mon, 30
- Dec 2024 08:25:57 +0100
-Message-ID: <5a984b5c-7994-4671-8397-df7780e40c0c@web.de>
-Date: Mon, 30 Dec 2024 08:25:39 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qckX+al/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E15BC4CED4;
+	Mon, 30 Dec 2024 09:30:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735551056;
+	bh=OIUGQo/iIZMOB5N1vqzsOTaqkLjkGwgB8YS8iwbc2v0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qckX+al/1vXglOD9P9vSAmfYmA19uYRolQf0JXidvL5u+I4or77p1FuPQjE74xMpH
+	 dCW3SbBOqjDb5Bn0Cfjn03NI4bLOC3UjHplyHO20287zKjnZQNXcVK7lVDOFUJt2lZ
+	 k4qI9aYak73bUKa+UUfznGAPCuDghFIw56b+NZOtNONsoeoQgFias5F8YWdqta4uza
+	 nywB1elkCyw52nK8pchAETGcVsVbsu1g+UVeeLtsw3lz8RiirlEiuruYqXVpC+EYZC
+	 5Lu9tq62ZJugQNxFw3scsFyqC6tu6s6dmLs2DcKtWSt8yufDWe7PVvk3M5hJtp9GJA
+	 za7ko0aObsx6A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tSC6w-007mVR-0P;
+	Mon, 30 Dec 2024 09:30:54 +0000
+Date: Mon, 30 Dec 2024 09:30:53 +0000
+Message-ID: <86ikr1plf6.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Charles Han <hanchunchao@inspur.com>
+Cc: <marcan@marcan.st>,
+	<sven@svenpeter.dev>,
+	<alyssa@rosenzweig.io>,
+	<rafael@kernel.org>,
+	<viresh.kumar@linaro.org>,
+	<asahi@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<linux-pm@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] cpufreq: apple-soc: Fix possible null-ptr-deref for cpufreq_cpu_get_raw()
+In-Reply-To: <20241230035714.72780-1-hanchunchao@inspur.com>
+References: <20241230035714.72780-1-hanchunchao@inspur.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Charles Han <hanchunchao@inspur.com>, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Hector Martin <marcan@marcan.st>,
- Marc Zyngier <maz@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Sven Peter <sven@svenpeter.dev>, Viresh Kumar <viresh.kumar@linaro.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, asahi@lists.linux.dev
-References: <20241230035714.72780-1-hanchunchao@inspur.com>
-Subject: Re: [PATCH] cpufreq: apple-soc: Fix possible null-ptr-deref for
- cpufreq_cpu_get_raw()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241230035714.72780-1-hanchunchao@inspur.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ipNNiP3gGa6cA3yNI4L6LC3uAhq5wmQy+agdhYD/7/4Sh2Ki1zH
- dA6fS5vKwr3nBWFCkcBNr/FAJ50POG1UOP94+HJoq9P1utw13jxVKs1s3LwG5beIoZFpOkT
- KFMpF3xprqBiQVh1tig2kPV6UBaUSZLe8vK6YoL7zNtjk70oJHRyhkI23ECsWpI906MBTRy
- Mhd3CCLHtvVNr8Ef1/zbQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:xVd1DOexdgY=;4ngZNABOAt+6sHne9eTLjk0tPoG
- LCvwpOw5qdPQ4CA6Xq870NpAzs85VoiFlw9IO5/0TbHscIaqYAG/Qjz8bDjj5Bbe3Q9ySblti
- ZPwVu5OerWcJmHCkcnH+Xpux/BXbXETo3uIOKAV+amwVK1AGr3B6imIhNc4pqkkwImcutAeWm
- RMDNJ9TndQVqH+ri6HDJ++TKY2IabekCk6VFvUpP7ibTl5D0gt3AXBGcCeZ3uJRTSk+lGhGjf
- RjyMNhF/fXWHlq1BAXBvtCM0XekRxYFO5CpsVhGpWhjDe5VqUHQ7152WZYIF0RIU8JXwbcqIo
- bToja1/VcsxR5M0jSwXkjRpKtMeFYul/85RrgDYDjUuKZcv0hPZ1kq1KyETYl4tguneIISHhL
- wNAdsFDdRdK0UalZ3jVWMEK/SYt/j/B/x/eX9n4bBJFh7XYbsrYEU49YSYxE8Q64HXQR+ePbm
- 1gIoL4nzTpeoYj8eOEws10gVs5mtOHP4e5NOyoMRyoi34jelLLgdJvh9TF8TWWLw3GvdgtPr7
- 5CWO8J6T70n9RjXTD4qMg5YtzQSt2lA3YsfoZ6v5K0C7DCcwUMt3vPlRHFf2Tl0g68hIXP0js
- nhR0x35aFokPzcVE/vyFvlmNcwUYeLqPdIZjPyjYZVDwpR6HWVUGvWtegltfRjN0uQUo/oo1i
- 2g4HAcxmma1aW9Ct1jN0xjAByk2M7vGNKeAUuPjJTelrjeFUCLubAPfo08c57fWnojqUiOOY5
- XqcgyIspnffBcNaISTvg8bWWQLJcjEIZPaIWU18B2c2yfGxvMXr2xP1Z/KBD5zv+9rof6xTo8
- 4iULaTfTnDlu48yQsTTuL/UhKU1/E8kZ+QZO9O0wuY2NlF0W+d28pE/XqK+hgKiNi+UbhrWYN
- vJuLJIdTbhgWjGsvMcy684dsy3mPuoMWyR//UTFJosCulUktdm5k3ZQXLCu41AM9trCJOv4xp
- kbp7m2RsMqMW6kY6eGpbmJ7zUp5YqGs3ML0pxxernJAeCxwXLGVWkoS0PQ0b/mEUfdK3x12e7
- IqUmVwdVwnD4Cxva8i9M3nUsnrJ9WLUTYU6iww+T3B/9edrYhYeLiWINfj/CsiS2u0g2BUpzw
- oCHcj5J3Y=
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: hanchunchao@inspur.com, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, rafael@kernel.org, viresh.kumar@linaro.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
+On Mon, 30 Dec 2024 03:57:14 +0000,
+Charles Han <hanchunchao@inspur.com> wrote:
+> 
 > cpufreq_cpu_get_raw() may return NULL if the cpu is not in
-
-                                               CPU?
-
-
 > policy->cpus cpu mask and it will cause null pointer dereference.
-=E2=80=A6
+> But this returned value in apple_soc_cpufreq_get_rate() is not
+> checked. Add NULL check in apple_soc_cpufreq_get_rate(), to handle
+> kernel NULL pointer dereference error.
 
-Would the summary phrase =E2=80=9CPrevent null pointer dereference in appl=
-e_soc_cpufreq_get_rate()=E2=80=9D
-be a bit nicer here?
+The only way I can see a CPU not having an assigned policy is when the
+DT is incomplete. And even then, reaching this code path doesn't look
+obvious to me.
 
-Regards,
-Markus
+Can you describe how you get into this situation?
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
