@@ -1,86 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA902F50;
-	Mon, 30 Dec 2024 09:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3631A9B53
+	for <asahi@lists.linux.dev>; Thu,  2 Jan 2025 21:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735551057; cv=none; b=M+iOn2AF6gD0DMPNhFp+5dAUDLLlZG7NaJPRTl6iB9WNsf5QYjNbRi7jSBj/CI1FzaeNBGTyUeQ3qL1Wr6ivdMJujuoAYbJ1u1PI9yr9pQHxhRdfBAnv8dcUv/ARuOE/lkwloK5y+pwQjV4fMnvMvNznX736uGf4z3Bqo412q44=
+	t=1735852399; cv=none; b=avru9FI1D/c6wc8R/xGMDvgj5ajg39j8y/65zOVEmrOHyda+TXTsi1R7tYomfI2Q/5yEnd3rHQdSwvKKV8G358IFhgf1XUYj/Llcge7E1kGgUUeVLc8PFXLhiyczcjXGzH1v6lvMISfBq/xoRBY8a97ElHrYHt8p97ne0/JQ/pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735551057; c=relaxed/simple;
-	bh=OIUGQo/iIZMOB5N1vqzsOTaqkLjkGwgB8YS8iwbc2v0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u1mJwAChxAdEsZaxhNreSPH9J/mHhPlWNOh04sWt3gsG+hdDZOhkn4YOtmiEkezDBBZKRLkaUjZOj31xMGcYP09TMpRKeU7i4wCA/2TGY0eg7xH9FSIvSaCPlpyh2REybSAM5QE5olOLhlxt+iJb2Dzvlp+vrteI6sIxlDtvr7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qckX+al/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735852399; c=relaxed/simple;
+	bh=ZCPjk1VSEOoj9qcGvr9INHgp3+iPxgC7iRxlFjdwm1g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S/c4a7dG19yPoIRAxiRxwLkUskFpgX1C81h+SPbMmh4HICr9LAw8mkrC5C08AP7/PZI/W+42S01IX9yUJsH9Hh/Sd9VzGxr6ZukYNAsMmr7xd5fiVy3NUmRpbIOgthBF+VzSskhw1E3bAShHnK0HyHOIZWlD9YRS1beQQXPiYsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=US47Gn2x; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qckX+al/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E15BC4CED4;
-	Mon, 30 Dec 2024 09:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735551056;
-	bh=OIUGQo/iIZMOB5N1vqzsOTaqkLjkGwgB8YS8iwbc2v0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qckX+al/1vXglOD9P9vSAmfYmA19uYRolQf0JXidvL5u+I4or77p1FuPQjE74xMpH
-	 dCW3SbBOqjDb5Bn0Cfjn03NI4bLOC3UjHplyHO20287zKjnZQNXcVK7lVDOFUJt2lZ
-	 k4qI9aYak73bUKa+UUfznGAPCuDghFIw56b+NZOtNONsoeoQgFias5F8YWdqta4uza
-	 nywB1elkCyw52nK8pchAETGcVsVbsu1g+UVeeLtsw3lz8RiirlEiuruYqXVpC+EYZC
-	 5Lu9tq62ZJugQNxFw3scsFyqC6tu6s6dmLs2DcKtWSt8yufDWe7PVvk3M5hJtp9GJA
-	 za7ko0aObsx6A==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tSC6w-007mVR-0P;
-	Mon, 30 Dec 2024 09:30:54 +0000
-Date: Mon, 30 Dec 2024 09:30:53 +0000
-Message-ID: <86ikr1plf6.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Charles Han <hanchunchao@inspur.com>
-Cc: <marcan@marcan.st>,
-	<sven@svenpeter.dev>,
-	<alyssa@rosenzweig.io>,
-	<rafael@kernel.org>,
-	<viresh.kumar@linaro.org>,
-	<asahi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-pm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] cpufreq: apple-soc: Fix possible null-ptr-deref for cpufreq_cpu_get_raw()
-In-Reply-To: <20241230035714.72780-1-hanchunchao@inspur.com>
-References: <20241230035714.72780-1-hanchunchao@inspur.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="US47Gn2x"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d3cfdc7e4fso2247a12.0
+        for <asahi@lists.linux.dev>; Thu, 02 Jan 2025 13:13:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1735852395; x=1736457195; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vvUkrZDHA2r06RrENG6eOLFTdRhJU/aQsdXibpnme2U=;
+        b=US47Gn2xXp76HUzK4IUGvJTZaWLLnoYmi5p8mqkf4Q2bK6fvnTQVIrXgsnYe4v7riT
+         ye7mQIzUX/r4F7gPMhh9HUxvgYU9tQMAqmAR1z80ZHgw9uRscOeldGX4n+XL6U1KauQE
+         JiCkm3Pn5MmD5qV6Rexk8z8ZdRlQU4iZhdP2p9Lr94lB80nnm2ntxKwnqAMeSIFa6LYU
+         4Nktzl5tB2/di4h7m2xCWAgWwUQja4AnXI5n1m1/ELRHfBYOOP/AZS/MkvjT4HLXhiBw
+         RKBjJ2cXPFIXWGBVf4Np4C7p/ARJpqIFq8dl7vHsXQ47f9jXQkYki6ToIAtaxpXf1wbK
+         HhfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735852395; x=1736457195;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vvUkrZDHA2r06RrENG6eOLFTdRhJU/aQsdXibpnme2U=;
+        b=iukQdwXdenf98A8yM0b/+Q0tUpBXpbNyXafTayfAzGUNtMWLjOdfp6K+z06//6HIja
+         k1f9jmko2vx0mlCIjRx643jHafnfSE6EljbxygOfLI6FNTI6hPhl5LqQshz+VMi1YTt9
+         1eUVlX/EEnRP9aIYUxcgTop7A6IFEkDop0ZOkwEWkghW0ioWYThfV7r5N+dDZg9249Pk
+         IzLOdTaIUNaW5DfLY/bqFCL7deQHz9rcOd/H7iO3Eyv94lFQN1R0DDPjKmVXtAFrzPN8
+         ZeP73+Kg5k27+rE1EHE+H893VGNgF+6DZXMmBPxu3LKCrm34btkmkJOB4GN0In57AjRZ
+         0Nnw==
+X-Forwarded-Encrypted: i=1; AJvYcCXiWH0SZNOuQN0J3qCBWYwTqls/n9BT+k5n2AtClPm8pL+Wr72AUiCb5Z7FqL1G/WWPZM55gw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwdlxFg5u/HcPvCMsEQvbL7r3+EpLt8D82qec4PakKZlXdsx7hB
+	Vh5nbhvtfIeIRcm+GLAbOeaULFC0/O4o5+3h99GnPAmieg/P80m56TQxtOw5MCGvQHUG0lyPoZd
+	V3zQBma9wGSJFOZtouj4zoHbm8PmEVxraUopv
+X-Gm-Gg: ASbGncupQuGsziVw80aY5GbaXKiTyP9tLwMAkKoj8o0cyZAyR7vFddIm6W3+ny3o31a
+	PyOwdQaM8iFneYyaGagv79YRzSOFRGJqZgo/WQnHNmNRLDUBkTJheIf97cWynW3PW9g==
+X-Google-Smtp-Source: AGHT+IEtlAdtAQF0lMpNHSAEsc7gKMjqxf9IMXqHQKnDEMEIOF1Cil022qn1qEqxWg1zVwXIF3GwRL8uUgt3sTNN0l0=
+X-Received: by 2002:a05:6402:538b:b0:5d0:d7ca:7bf4 with SMTP id
+ 4fb4d7f45d1cf-5d9156e2c80mr22824a12.0.1735852395426; Thu, 02 Jan 2025
+ 13:13:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: hanchunchao@inspur.com, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, rafael@kernel.org, viresh.kumar@linaro.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+References: <20241219210736.2990838-20-samitolvanen@google.com>
+ <20241219210736.2990838-21-samitolvanen@google.com> <CAK7LNATRGzGjLLcv+aD3KdgkZXzwMsCSud116rzEThNXRQC0rw@mail.gmail.com>
+In-Reply-To: <CAK7LNATRGzGjLLcv+aD3KdgkZXzwMsCSud116rzEThNXRQC0rw@mail.gmail.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Thu, 2 Jan 2025 21:12:38 +0000
+X-Gm-Features: AbW1kva22k7lR6mC6lLzzh3eFbyjqTfNlFADg35Eb_8EP8gJ3kl6j3JlF1zhr0c
+Message-ID: <CABCJKufXd+JZBm6WPZG8e+41DSTVC3-t33CbuOC-L4poTRQfpg@mail.gmail.com>
+Subject: Re: [PATCH v7 01/18] tools: Add gendwarfksyms
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 30 Dec 2024 03:57:14 +0000,
-Charles Han <hanchunchao@inspur.com> wrote:
-> 
-> cpufreq_cpu_get_raw() may return NULL if the cpu is not in
-> policy->cpus cpu mask and it will cause null pointer dereference.
-> But this returned value in apple_soc_cpufreq_get_rate() is not
-> checked. Add NULL check in apple_soc_cpufreq_get_rate(), to handle
-> kernel NULL pointer dereference error.
+Hi Masahiro,
 
-The only way I can see a CPU not having an assigned policy is when the
-DT is incomplete. And even then, reaching this code path doesn't look
-obvious to me.
+On Fri, Dec 27, 2024 at 6:02=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Fri, Dec 20, 2024 at 6:07=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
+e.com> wrote:
+>
+> > +int main(int argc, char **argv)
+> > +{
+> > +       unsigned int n;
+> > +       int opt;
+> > +
+> > +       struct option opts[] =3D { { "debug", 0, NULL, 'd' },
+>
+> You can add "static const" to opts[] here.
+>
+> I like the array initializer formatted like follows:
+>
+> static const struct option opts[] =3D {
+>         { "debug", 0, NULL, 'd' },
+>         { "dump-dies", 0, &dump_dies, 1 },
+>         { "help", 0, NULL, 'h' },
+>         { 0, 0, NULL, 0 }
+> };
 
-Can you describe how you get into this situation?
+Sure, I'll change this.
 
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Sami
