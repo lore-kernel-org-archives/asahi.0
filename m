@@ -1,55 +1,55 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D1B1C5F0D
-	for <asahi@lists.linux.dev>; Fri,  3 Jan 2025 20:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BBF1C54AC
+	for <asahi@lists.linux.dev>; Fri,  3 Jan 2025 20:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735937172; cv=none; b=jr3moAAMwbaOTEQharADQk4ssQOrRF6KI6Jds2GSon19Uuj1/5XXI+0JjBbI/y1T5mXoxWr7jqcFyINNNRv6Ba+1jYpCqbKu9qWryRonp4orIrdjKsppFeXikYYK4i8JFlsjbucwdT7xUwFlby0q1Ip51lXIniXbJi7AQphi51w=
+	t=1735937172; cv=none; b=jPeJIBQAvPN6q/9MFTSZbbbIRxGYwcXNfjr5C1xKQnp47s1u8XbkjA8xuRAahLwl3cJmXODe53tkiwTtc1IzZ7k2VkjcfPnW7/Hapyn8885UDWjak5FckNyuHW7aacW/nCphSQp3+ak5C35nndYJIAYfJO1nFCOwStrfzIxerws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1735937172; c=relaxed/simple;
-	bh=p7WWEhhYSoB9EsyiZb7zkPmioP1Ghg8VnlGqhauZXHQ=;
+	bh=G8T+NnXPkjDtKGjHLSfjrDpCNmmPfEyUeqSk1ZhBztg=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XJvh/7QlRogSJan0e9ATsI9TFNLaBjIViTn50fl6eYx9igO6VpoDkks7v1y9yeFGysI2iQUJ7JBkKIgRA1wE64dvR/fhDr4iLa7VoPjIfBHt3LqjgAS4V6RRSLBpMwV/uIW8K8hWu9J8ideFZA8oTzYOzse7/MkdiOoP1O9Vvy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mdEtd7W2; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=Oc1tIgss4n/MIja4YK4ihnWrKfXd1VtA1/6DMAVWdpivSD+0W90k1NfoQAzqSgCIrLyxIhkcCTN0lzRkP43TGcqdJjHdJv64k9BR6Xiki8K+WovS7ruNKomAYZMbQbcclZ/w3v9xHmyBkpNflmpyN5gVhMIymAUJU+gyvhu4tQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HfUvDVV3; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mdEtd7W2"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2f46b7851fcso22251317a91.1
-        for <asahi@lists.linux.dev>; Fri, 03 Jan 2025 12:46:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HfUvDVV3"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-218cf85639eso3709175ad.3
+        for <asahi@lists.linux.dev>; Fri, 03 Jan 2025 12:46:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1735937160; x=1736541960; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1735937159; x=1736541959; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K9QWQProj0DRDekjJKvkceMs2crMPK7X9JqHuvPddMI=;
-        b=mdEtd7W2t0rI8FIOkK0PNgxUYfFzK5N9sU+vl3+GUfhhCmO3jbwwi23wyLerU1l0TN
-         f4V/EbtdCoZG/2oumeFQa7OMEm985+QULwzkOQluwHrfNwJLWaxcJRTiI9Ud7UZAMj4S
-         Oa0U1TAwenVUxg5ccJ5kvuAPt/4oAXKZcepVXx8VrsMJgwoa4Y0hIqcWmAH1oAu8ao4J
-         EPqufNAb95+f8+dgIGvPfiRnG561DPRzvqofRC71blQOHEZ6NRSkD42P9/wj4eXcf9oS
-         bzGoCPbxfj0QOwxeqDWT+LjN7a15dtkHp71olx5ERDd7nltr8ZhcTEb8zbOGtN0y0oX6
-         Az+Q==
+        bh=XhebaHvwRpIK3ajuqUsaMJY6c1H8vjbSZoFxdXzqCTY=;
+        b=HfUvDVV3p2jXL03aAo0ZVCd7TXsHyXqZCQ8R+yNtUzf8URX3cQ9VxtL7QIL6w2pv49
+         WKyQa5Pd8m8Ou7POaHiZLRTDY0y8R75ilheU8kQl0KtxDG3Mltye2hmMTTtRRDC/x/cb
+         e8WV8EpDD0cwtwKSsopx86P63jcyxCR7KG517rRhwCN76QI5iunjdQWcQzjdnVILXYbu
+         nQrlyDwN0W/EVAr1LJSrNq/LsptQhiNRykS/EwMRTx3kWkDJECy5/WgXOHW1pcx7FLrV
+         sI7l8OiiVAzK7o7dzAaKk3AGJccxT3r7L4zHgUqUyyuEPqidTlgi/rfNMBQrQSKTvBc9
+         fIXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735937160; x=1736541960;
+        d=1e100.net; s=20230601; t=1735937159; x=1736541959;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K9QWQProj0DRDekjJKvkceMs2crMPK7X9JqHuvPddMI=;
-        b=gC04j5aapGYnPF48R8XeWNT0vrGapz9w9oBAj263x3fQUtItE2a4z2lRaEMIGvVvRi
-         3eVjtJ4NIheBRSffK5864Qw3WuZdi0V7dlV93BJ56DWvVb1CoHe//NMZk6dqb9HutpQ4
-         8BDBmRd/98ctHrDRCktfs1Us1PqLZHa+HCFo75eKLTQQ3eh9ZEgUo7fiLTv5N2mObG2g
-         0RxBt0JlZKcbjlD7ObWvnfRv2icbszCR4YSWQfQiaYWOLCjWV0fZkyB7LTwoIommuH/H
-         SUyuaXar24n4phFLFwSFXVuOrILpUay0tYGn+CLW55jhG4EzAwShIcIyZRyaHHW766Uk
-         k8vg==
-X-Forwarded-Encrypted: i=1; AJvYcCVERc5lNy0TM8WmvA+kBrRLMfSCdE6Zi7N8dVFrngJSmRXCQxNmsIML5AJ4xSfCqBqdd68RCQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyY3JHBlYn3ApsBq6ZxIR7ijgM0ghWwgY+WaRS9XfJ1TS7jKBjk
-	uILFrg04FVqz2Wlr6fwnacfm3hMM2OxWldnQXAZSkIKanaDz7XmlAdtac8vxOgtuyFum+d+EGb0
-	kBwcd1x7AP5YZL43r5xUyry3YaA==
-X-Google-Smtp-Source: AGHT+IFEm8J+gsElnrGpl5/AfgJpxNbFJkyqHTQwSLP5FrL6G8Q/PWRkkGpoYWof6TTcLrgCKS59Y0YKNt96tu+LRgo=
-X-Received: from pfwz5.prod.google.com ([2002:a05:6a00:1d85:b0:725:3321:1f0c])
+        bh=XhebaHvwRpIK3ajuqUsaMJY6c1H8vjbSZoFxdXzqCTY=;
+        b=jK3XBks5QQv4qMJNMB2nllO6myW+/SMCAYOpHuRfzMfYfBqwTJ0pCEkKxn1r7Hibrd
+         mxH3adYe4oWcL7OVzfy5oOelb8eeCCTa3IwBFBt7BdUyh454SaD2ATqOclZQOUiZLu4F
+         7EeYkgKSWwNvP+9PA1Jq2aGdLjqIB2Sr4/qOAEuOBgGK22KCA17t94q6Uu+UEVfZwWX+
+         SdH6A3sDDOIzDlNqVx0JeBqZKwffmsTn898symhWkxHQFy549JZg6anaOVHzI/dfchWg
+         K4felmQkSPH7B7GuOI8lBcloSbw6Por2wRhhagkHkGl3tY3T9pDqvAHJG3F6YNfXvQyh
+         BJ/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVYHpm+ESHLqnt3k+uDyW0D0MRioSfVQpUrsPoYhApdRfnh97Ie9bLUFWy1sGEdufFX7qiJ7w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIBHOL4psQ0GWZ0ywM6B15Reo2yandrjNM8hOSKsQywFKgvQ+E
+	NMmjFRoJArvxaFeIsE/MWELj+wT43SgexfZKPaBIxruAzeGPFRf6bX/dm+2uoXY7Wy/KqUzzZvB
+	nVh6804s2aDk2bYeK27GaUER0mw==
+X-Google-Smtp-Source: AGHT+IGhZCDaaYksOIbpNVPs2wy3kSc00OhYl5hw2lZvHS4sfDgLT2MlJ4U3veWoFkNQC2kYCfhaseTGKmrUILPler0=
+X-Received: from pfwy41.prod.google.com ([2002:a05:6a00:1ca9:b0:724:f17d:ebd7])
  (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:1944:b0:71d:f4ef:6b3a with SMTP id d2e1a72fcca58-72abdeb6e80mr73707162b3a.21.1735937160342;
- Fri, 03 Jan 2025 12:46:00 -0800 (PST)
-Date: Fri,  3 Jan 2025 20:45:39 +0000
+ 2002:a05:6a21:2d05:b0:1e1:a647:8a54 with SMTP id adf61e73a8af0-1e5e05ac4cbmr77933560637.20.1735937159097;
+ Fri, 03 Jan 2025 12:45:59 -0800 (PST)
+Date: Fri,  3 Jan 2025 20:45:38 +0000
 In-Reply-To: <20250103204521.1885406-20-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -59,14 +59,15 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20250103204521.1885406-20-samitolvanen@google.com>
 X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4688; i=samitolvanen@google.com;
- h=from:subject; bh=p7WWEhhYSoB9EsyiZb7zkPmioP1Ghg8VnlGqhauZXHQ=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDOkVPlnpVpoOXc0C/cZ2+8v1jIQnyB/b0b27ZNIizpV2c
- 8q4BUI6SlkYxDgYZMUUWVq+rt66+7tT6qvPRRIwc1iZQIYwcHEKwEQqvBj+5y+O2LRUL8JY+r/t
- xMVdZVz762/Fz5ZabbyIUy1upvTvS4wMSzkbOCsj0t9dYRBYoVylenrSmt8Ghvtv/WitDmsMcM5 mBgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2005; i=samitolvanen@google.com;
+ h=from:subject; bh=G8T+NnXPkjDtKGjHLSfjrDpCNmmPfEyUeqSk1ZhBztg=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDOkVPpndtVHhySouOkF7m0o/qbT80J9sEuBUNadufYapv
+ 7naryUdpSwMYhwMsmKKLC1fV2/d/d0p9dXnIgmYOaxMIEMYuDgFYCL9Sgz/NJRfG36M5fp0JiQ3
+ umHOV6/4eYc7K2atPJj5nyHMgYkjjZHhzZSv0i/nXvCaozlV7qXcjZuvTv19WFYWseDklISGE2I lnAA=
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20250103204521.1885406-37-samitolvanen@google.com>
-Subject: [PATCH v8 17/18] kbuild: Add gendwarfksyms as an alternative to genksyms
+Message-ID: <20250103204521.1885406-36-samitolvanen@google.com>
+Subject: [PATCH v8 16/18] export: Add __gendwarfksyms_ptr_ references to
+ exported symbols
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -79,131 +80,57 @@ Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
 	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When MODVERSIONS is enabled, allow selecting gendwarfksyms as the
-implementation, but default to genksyms.
+With gendwarfksyms, we need each TU where the EXPORT_SYMBOL() macro
+is used to also contain DWARF type information for the symbols it
+exports.  However, as a TU can also export external symbols and
+compilers may choose not to emit debugging information for symbols not
+defined in the current TU, the missing types will result in missing
+symbol versions. Stand-alone assembly code also doesn't contain type
+information for exported symbols, so we need to compile a temporary
+object file with asm-prototypes.h instead, and similarly need to
+ensure the DWARF in the temporary object file contains the necessary
+types.
+
+To always emit type information for external exports, add explicit
+__gendwarfksyms_ptr_<symbol> references to them in EXPORT_SYMBOL().
+gendwarfksyms will use the type information for __gendwarfksyms_ptr_*
+if needed. Discard the pointers from the final binary to avoid further
+bloat.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 ---
- kernel/module/Kconfig  | 22 ++++++++++++++++++++++
- scripts/Makefile       |  2 +-
- scripts/Makefile.build | 35 +++++++++++++++++++++++++++++------
- 3 files changed, 52 insertions(+), 7 deletions(-)
+ include/linux/export.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-index 4637f063d0fc..d443fc504ffc 100644
---- a/kernel/module/Kconfig
-+++ b/kernel/module/Kconfig
-@@ -169,6 +169,22 @@ config MODVERSIONS
- 	  make them incompatible with the kernel you are running.  If
- 	  unsure, say N.
+diff --git a/include/linux/export.h b/include/linux/export.h
+index 2633df4d31e6..a8c23d945634 100644
+--- a/include/linux/export.h
++++ b/include/linux/export.h
+@@ -52,9 +52,24 @@
  
-+choice
-+	prompt "Module versioning implementation"
-+	depends on MODVERSIONS
-+	help
-+	  Select the tool used to calculate symbol versions for modules.
-+
-+	  If unsure, select GENKSYMS.
-+
-+config GENKSYMS
-+	bool "genksyms (from source code)"
-+	help
-+	  Calculate symbol versions from pre-processed source code using
-+	  genksyms.
-+
-+	  If unsure, say Y.
-+
- config GENDWARFKSYMS
- 	bool "gendwarfksyms (from debugging information)"
- 	depends on DEBUG_INFO
-@@ -176,6 +192,12 @@ config GENDWARFKSYMS
- 	depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
- 	# Requires ELF object files.
- 	depends on !LTO
-+	help
-+	  Calculate symbol versions from DWARF debugging information using
-+	  gendwarfksyms. Requires DEBUG_INFO to be enabled.
-+
-+	  If unsure, say N.
-+endchoice
+ #else
  
- config ASM_MODVERSIONS
- 	bool
-diff --git a/scripts/Makefile b/scripts/Makefile
-index d7fec46d38c0..8533f4498885 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -53,7 +53,7 @@ hostprogs += unifdef
- targets += module.lds
- 
- subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
--subdir-$(CONFIG_MODVERSIONS) += genksyms
-+subdir-$(CONFIG_GENKSYMS) += genksyms
- subdir-$(CONFIG_GENDWARFKSYMS) += gendwarfksyms
- subdir-$(CONFIG_SECURITY_SELINUX) += selinux
- subdir-$(CONFIG_SECURITY_IPE) += ipe
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index c16e4cf54d77..81d9dacad03c 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -107,13 +107,24 @@ cmd_cpp_i_c       = $(CPP) $(c_flags) -o $@ $<
- $(obj)/%.i: $(obj)/%.c FORCE
- 	$(call if_changed_dep,cpp_i_c)
- 
-+getexportsymbols = $(NM) $@ | sed -n 's/.* __export_symbol_\(.*\)/$(1)/p'
++#ifdef CONFIG_GENDWARFKSYMS
++/*
++ * With CONFIG_GENDWARFKSYMS, ensure the compiler emits debugging
++ * information for all exported symbols, including those defined in
++ * different TUs, by adding a __gendwarfksyms_ptr_<symbol> pointer
++ * that's discarded during the final link.
++ */
++#define __GENDWARFKSYMS_EXPORT(sym)				\
++	static typeof(sym) *__gendwarfksyms_ptr_##sym __used	\
++		__section(".discard.gendwarfksyms") = &sym;
++#else
++#define __GENDWARFKSYMS_EXPORT(sym)
++#endif
 +
-+gendwarfksyms = $(objtree)/scripts/gendwarfksyms/gendwarfksyms	\
-+	$(if $(KBUILD_SYMTYPES), --symtypes $(@:.o=.symtypes))	\
-+	$(if $(KBUILD_GENDWARFKSYMS_STABLE), --stable)
-+
- genksyms = $(objtree)/scripts/genksyms/genksyms		\
- 	$(if $(KBUILD_SYMTYPES), -T $(@:.o=.symtypes))	\
- 	$(if $(KBUILD_PRESERVE), -p)			\
- 	$(addprefix -r , $(wildcard $(@:.o=.symref)))
+ #define __EXPORT_SYMBOL(sym, license, ns)			\
+ 	extern typeof(sym) sym;					\
+ 	__ADDRESSABLE(sym)					\
++	__GENDWARFKSYMS_EXPORT(sym)				\
+ 	asm(__stringify(___EXPORT_SYMBOL(sym, license, ns)))
  
- # These mirror gensymtypes_S and co below, keep them in synch.
-+ifdef CONFIG_GENDWARFKSYMS
-+cmd_gensymtypes_c = $(if $(skip_gendwarfksyms),,	\
-+	$(call getexportsymbols,\1) | $(gendwarfksyms) $@)
-+else
- cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
-+endif # CONFIG_GENDWARFKSYMS
- 
- # LLVM assembly
- # Generate .ll files from .c
-@@ -286,14 +297,26 @@ $(obj)/%.rs: $(obj)/%.rs.S FORCE
- # This is convoluted. The .S file must first be preprocessed to run guards and
- # expand names, then the resulting exports must be constructed into plain
- # EXPORT_SYMBOL(symbol); to build our dummy C file, and that gets preprocessed
--# to make the genksyms input.
-+# to make the genksyms input or compiled into an object for gendwarfksyms.
- #
- # These mirror gensymtypes_c and co above, keep them in synch.
--cmd_gensymtypes_S =                                                         \
--   { echo "\#include <linux/kernel.h>" ;                                    \
--     echo "\#include <asm/asm-prototypes.h>" ;                              \
--     $(NM) $@ | sed -n 's/.* __export_symbol_\(.*\)/EXPORT_SYMBOL(\1);/p' ; } | \
--    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
-+getasmexports =								\
-+   { echo "\#include <linux/kernel.h>" ;				\
-+     echo "\#include <linux/string.h>" ;				\
-+     echo "\#include <asm/asm-prototypes.h>" ;				\
-+     $(call getexportsymbols,EXPORT_SYMBOL(\1);) ; }
-+
-+ifdef CONFIG_GENDWARFKSYMS
-+cmd_gensymtypes_S =							\
-+	$(getasmexports) |						\
-+	$(CC) $(c_flags) -c -o $(@:.o=.gendwarfksyms.o) -xc -;		\
-+	$(call getexportsymbols,\1) |					\
-+	$(gendwarfksyms) $(@:.o=.gendwarfksyms.o)
-+else
-+cmd_gensymtypes_S =							\
-+	$(getasmexports) |						\
-+	$(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
-+endif # CONFIG_GENDWARFKSYMS
- 
- quiet_cmd_cpp_s_S = CPP $(quiet_modtag) $@
- cmd_cpp_s_S       = $(CPP) $(a_flags) -o $@ $<
+ #endif
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
