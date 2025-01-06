@@ -1,319 +1,205 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D311C462C
-	for <asahi@lists.linux.dev>; Fri,  3 Jan 2025 20:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2BE1DACA1
+	for <asahi@lists.linux.dev>; Mon,  6 Jan 2025 12:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735937178; cv=none; b=McYa/DCi6Z4xFbRwIRflzBJwwbyqshwEpEKozbv/p8/ji8ZnkPaOI9G/ooB+KEcngsglB8snys00IFyewv7RxCnf/SpajP/i3kxvWsbM0KI3llG5DXESM4qaqyzcmbXcUiqcoOo5hjs47E3ROSM58iET1A5JlC3eH16mKE6DpF4=
+	t=1736166505; cv=none; b=InliAuzKI1vXYfaAqkmbx1VhVsuYf2vKqNstS+Jl35hjhbA+PYmKCLMw9SV96zmHXpsN6mbS9eHQ/59TRNcvND5ePcYxXpsIN6o3DC3j1lN0oKhdwrT7XKh3D0kWp7LQCv21c19cIuTaelsDQfmNmmutDHdYTeAmu5RM/JPP/2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735937178; c=relaxed/simple;
-	bh=meWJOhPVkswEJEUPXpRMtDuGyzKKL9cF0sOOnTujhIQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=K994ySxMB50cYdAf4ATA+lx7o1PXYLF0gyLic+PDUu0vV/6TuVPCwdf5kCIMEeAfZLZRreChVMqaQDuBbK1RbUWWWMLt6F22wCocTm/sDFI/7TPN/wDl/us8ndYdDqRHDvs1cuYaCqMbqFxS+/6m2/1jOJGXl5r+ZCyBNchXm/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uCqD+32H; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
+	s=arc-20240116; t=1736166505; c=relaxed/simple;
+	bh=KGvWSWl9uk2ed0ekxB7H3nn7K1sUUMXaQXVtDpYPick=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HryjsvOcXd5g6DfwOuWSGktce36ODkCDXjFPbAvi18fqarRWxoMyurqbsOaOCMdHpl90PLp/g3kiG4lEzHSddmJfcK71t/08J3C4ItBlEh9Qri5JQsH6CYtK58o5aBSVVyP6Pd+zT6OTriyFQKo9S6KaV6lPWlnyqLKQDVpd60U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iAKr25A3; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uCqD+32H"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2166a1a5cc4so161196705ad.3
-        for <asahi@lists.linux.dev>; Fri, 03 Jan 2025 12:46:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iAKr25A3"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21649a7bcdcso198043195ad.1
+        for <asahi@lists.linux.dev>; Mon, 06 Jan 2025 04:28:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1735937157; x=1736541957; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BJ+bQtpgXwuh9TDVVL7KrLC8CdDggoJteu7mzxqQJxM=;
-        b=uCqD+32HoYABkGtd8rgK2OQgQGKzPIeeT/M6Uo20RpCMoDGcl7wG8AU+KApzt0ilcV
-         yt6GPi9cNcWPV43IIQ4G/9mBWVg1ddhE3PD71hapNbuaYi2yyG31rgjeqgbjDs89NoyM
-         yUIXqFji+PLTIFoJgHqtK+DdLxwqzdiGuQi+J21A15ZwQY424+AWxpArsnhbn2sNKhCD
-         R6MgYtEA9MU3Ht8AwmwwPXtnjiU/t/d71iuvbesbonxbiTd+z1M5reCoZwcYdayXK3t8
-         SwL2sDTuDurORF6yCvGRWSSJKXtFyCTJnH+ZWU/e7LgblPu1zgnpRpaN7BPFzYSDOy32
-         eiqQ==
+        d=gmail.com; s=20230601; t=1736166503; x=1736771303; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FaE6jA7/9ttNgKRSpfqIqxN/gQu26rH/PYdcqquPoas=;
+        b=iAKr25A3f0IJ4Nh25xRa7PvsiPjmmWGG3m1I6Q1epjI3rKirEgrS61sYiEcEuaEZ+X
+         aX86Ff+XwMEKMea6gI3g/Hc3LOjiMHrS+uS+9IYtAE7CPMfSZ/3GIFqbqAR2q7bntWMp
+         S5VVjypjhZHkr7hO3Hnwk3oexB/XHriw3FTA/awaeRlQm26ZY6qqBwGbFqLY0LK3suKP
+         7Wdr/UAuPaitsqCXgPDEtUCUYk7jNRNXoRv289BWh2PFjZaKCeK9OKDZ+8v8JPMpD3oB
+         Rb0xu3IoOabX8OysK4jRDnxnBWp4crTPDtET7JgBud5jkqlPPerRtFfZcnzeSoI54Fmd
+         KfNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735937157; x=1736541957;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BJ+bQtpgXwuh9TDVVL7KrLC8CdDggoJteu7mzxqQJxM=;
-        b=js06jp0o3tudhuRQNbluOhXZAwk6s119NmzMtr/uPvGCyG1M/6+/OA80hLguD3GTGr
-         yPAlVbGnAwNBbIvM8KQ8jC5fOMWvqZHXCQcWb6ER7TFLN7NHyOWukoVF3vdgEivzfKGI
-         J2tqu12hZib6jT4NX4GJBRIhxkrVFAPERAh0Hu1pZBko3eHeFhJSBYMrgTpY2UKs9/rW
-         oqonIguAMlJON5Xij4cWy1pQpbfED25fHwCB2TJm5KG/FC+lmRZW+zcJuaMVnCO8dvQO
-         1I96Gg7sZEX3WLI0aGHc+6vpb04LknBGwaawUFcLDYuBzmal8f6oLKhWgPODGCPXpMeH
-         iXKA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfVEaNxY20J2O/TxmRGyZiVb5dRnHSzBziPqDkXrDD1TFnDFyQ9vk6OBh1VJtL2TrwiaI33g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyw80CyWkEJRsBwaYXhUtXiKcrlcAr6gRPqT/rOHw0dg8/tDbsy
-	RSnTPCf1C/+TPhLR7mLxbDXPtwI9s1AjTtsDG3uGX5pgFntuG5LoR8vLkN8f72T5lMd3g89AbQe
-	4md6RlYhARKofpTA5J6i2pKwRjg==
-X-Google-Smtp-Source: AGHT+IG6RCnmkZ7qTcCx7H4ePCaqMlHKEOJKEafW0+i5QszOMcrXkb1a+y0wXYSwVtz2CbGxomR2G/LYOmuxGPIKfhM=
-X-Received: from pfwz3.prod.google.com ([2002:a05:6a00:1d83:b0:72a:83ec:b170])
- (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:6da9:b0:1db:d738:f2ff with SMTP id adf61e73a8af0-1e5e04503femr81302631637.2.1735937157557;
- Fri, 03 Jan 2025 12:45:57 -0800 (PST)
-Date: Fri,  3 Jan 2025 20:45:37 +0000
-In-Reply-To: <20250103204521.1885406-20-samitolvanen@google.com>
+        d=1e100.net; s=20230601; t=1736166503; x=1736771303;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FaE6jA7/9ttNgKRSpfqIqxN/gQu26rH/PYdcqquPoas=;
+        b=skrDRPbpZKfKSqdaGXG+HPYapUF6xLS6WCKA71FSvnam3eBibdXPxYf/u4c1QQMORw
+         BplA69wPbGih62nPbs7xnyl8g/IF8OZT6/xIwRRinA5vZ8DexhACezUbBnQdS8Vpc470
+         PoCrlJDTuOASp8IUQ+beJeUItBeolonkVuoZ5cbY04HGa+jHX0tb8w9C6EKHGVRDaHqA
+         5bbX7mhd4FW6o1uMjhMuKau2CHJUwO21xEVPkXwi+427MTlsbFgksDYwyHxax8WVRI3/
+         7D+42IIcTNrm4sk5DfhsHkyF/JkzwlLMRmIbeAt6DVqTYCUTMsdkM8Nhzdih/7ZxCbfl
+         9XYA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3ALSAJeeSkPLg+d0oZ6fGqNmSBhwEKWMc2i9zSJmkLSo8EG0/apTrbW4g7z+1nZ4tHlAMcg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzooJPlsvdXmCeI7nvJGqzKoImYguQVFN9uxg1xqKMpep/bBnFm
+	+I0Jx8kGHQCiygdobmP3qInKYpB99+KX4jQ4WvQ3FX1jLDtGKYzF
+X-Gm-Gg: ASbGncsFQHnUa7VwhOKSSD1hE83qduSrZvIGwixKpoLsAxd9kWPFaxpVedPtiztz/kc
+	xWeSGSWK19fJJ7q+9Fi0BOJ9Gs9YOcSEJtzZPQFqEH98YxWRAolIwZbkdIUtZBi1XoWnwS6eEA2
+	doQEo7mPUyvTxi4nau7P33BVYDwl+bYF3WZA5V77cNUNe7HwATEl0ku26XHjnENO6k/YBvD3bBw
+	Od9Z2fho3c8ogF2ewtezJuRPClEuo+gMr6KkDH74dkVAh9NYc8/+juoEA==
+X-Google-Smtp-Source: AGHT+IEtmv/rpXen4PxhtrgIHjNBw796XJqJRJF2YmhT/CZwKLvKOi2KzJX4cOgtxTYNo+/18MSJDw==
+X-Received: by 2002:a17:903:2345:b0:216:4e8d:4803 with SMTP id d9443c01a7336-219e70bf2e8mr696777205ad.42.1736166502616;
+        Mon, 06 Jan 2025 04:28:22 -0800 (PST)
+Received: from nick-mbp.. ([59.188.211.160])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-219dc9650bcsm292678655ad.39.2025.01.06.04.28.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jan 2025 04:28:22 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH v7 00/11] Add PMGR nodes for Apple A7-A11, T2 SoCs
+Date: Mon,  6 Jan 2025 20:26:17 +0800
+Message-ID: <20250106122805.31688-1-towinchenmi@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20250103204521.1885406-20-samitolvanen@google.com>
-X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7893; i=samitolvanen@google.com;
- h=from:subject; bh=meWJOhPVkswEJEUPXpRMtDuGyzKKL9cF0sOOnTujhIQ=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDOkVPplrJt5xy297p+c4h5v117ka+5XB987+nDhz06mHm
- dN25DyW6ChlYRDjYJAVU2Rp+bp66+7vTqmvPhdJwMxhZQIZwsDFKQATeXWL4Z/+zY03Aj5vebH8
- B5tJPc/7l63Lbgr9yLcO9O6sO2AlKFjPyHBD7NFRMZuVT+b98/6WsLns9L3VgfoT7s6eteslg4z ft52sAA==
-X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20250103204521.1885406-35-samitolvanen@google.com>
-Subject: [PATCH v8 15/18] gendwarfksyms: Add support for symbol type pointers
-From: Sami Tolvanen <samitolvanen@google.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
-	Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>, 
-	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The compiler may choose not to emit type information in DWARF for
-external symbols. Clang, for example, does this for symbols not
-defined in the current TU.
+This series adds the PMGR nodes and all known power state subnodes for
+Apple A7-A11 SoCs, along with the associated dt-bindings.
 
-To provide a way to work around this issue, add support for
-__gendwarfksyms_ptr_<symbol> pointers that force the compiler to emit
-the necessary type information in DWARF also for the missing symbols.
+Dependencies:
+- Split s8000/s8003 SoC DTS files
+https://lore.kernel.org/asahi/20241222172735.145764-1-towinchenmi@gmail.com/T
 
-Example usage:
+- Device Tree for Apple T2 (T8012) devices.
+https://lore.kernel.org/asahi/20241222173240.147675-2-towinchenmi@gmail.com/T
 
-  #define GENDWARFKSYMS_PTR(sym) \
-      static typeof(sym) *__gendwarfksyms_ptr_##sym __used  \
-          __section(".discard.gendwarfksyms") = &sym;
+Changes since v6:
+- Now arch/arm64/boot/dts/apple/s800-0-3.dtsi builds, somehow this went
+under the radar this whole time... a bad merge after the bad rebase
+made this not noticed earlier.
 
-  extern int external_symbol(void);
-  GENDWARFKSYMS_PTR(external_symbol);
+Link to v6: https://lore.kernel.org/asahi/20241222173750.148071-2-towinchenmi@gmail.com/T
 
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+Changes since v5:
+- Rebase the series such that splitting s8000/s8003 device trees is the
+first patch to be applied. Now this series depends on Apple A9 device
+tree being split, and the T2 SoC PMGR nodes are added in this series.
+
+Link to v5: https://lore.kernel.org/asahi/20241203050640.109378-1-towinchenmi@gmail.com/T
+
+Changes since v4:
+- Use imperative mood in commit messages.
+
+Link to v4: https://lore.kernel.org/asahi/20241201161942.36027-1-towinchenmi@gmail.com/T
+
+Changes since v3:
+- Add "apple,always-on" property to "ps_spmi" in t8015 power domains.
+This is required for cpufreq to function correctly which will be added
+in a later series.
+
+Link to v3: https://lore.kernel.org/asahi/20241122095136.35046-1-towinchenmi@gmail.com/T
+
+Changes since v2:
+- Removed "apple,always-on" property from "ps_pmp" from s8001, t8011,
+t8015 power domains. It is not on at boot. (Mixed up with ps_pms which
+is required to be on)
+- Add asahi-soc/dt back into the subject prefix, missing from v2.
+
+Link to v2: https://lore.kernel.org/asahi/20241102011004.59339-1-towinchenmi@gmail.com/T
+
+Changes since v1:
+- Removed "framebuffer0" dt aliases. It is not standard and not needed.
+
+Link to v1: https://lore.kernel.org/asahi/20241029010526.42052-1-towinchenmi@gmail.com/T
+
+Nick Chan
 ---
- scripts/gendwarfksyms/dwarf.c              | 55 +++++++++++++++++++++-
- scripts/gendwarfksyms/examples/symbolptr.c | 33 +++++++++++++
- scripts/gendwarfksyms/gendwarfksyms.h      |  7 +++
- scripts/gendwarfksyms/symbols.c            | 27 +++++++++++
- 4 files changed, 121 insertions(+), 1 deletion(-)
- create mode 100644 scripts/gendwarfksyms/examples/symbolptr.c
 
-diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
-index 746a89d9e3d4..534d9aa7c114 100644
---- a/scripts/gendwarfksyms/dwarf.c
-+++ b/scripts/gendwarfksyms/dwarf.c
-@@ -1061,6 +1061,31 @@ static void process_variable(struct state *state, Dwarf_Die *die)
- 	process_symbol(state, die, __process_variable);
- }
- 
-+static void save_symbol_ptr(struct state *state)
-+{
-+	Dwarf_Die ptr_type;
-+	Dwarf_Die type;
-+
-+	if (!get_ref_die_attr(&state->die, DW_AT_type, &ptr_type) ||
-+	    dwarf_tag(&ptr_type) != DW_TAG_pointer_type)
-+		error("%s must be a pointer type!",
-+		      get_symbol_name(&state->die));
-+
-+	if (!get_ref_die_attr(&ptr_type, DW_AT_type, &type))
-+		error("%s pointer missing a type attribute?",
-+		      get_symbol_name(&state->die));
-+
-+	/*
-+	 * Save the symbol pointer DIE in case the actual symbol is
-+	 * missing from the DWARF. Clang, for example, intentionally
-+	 * omits external symbols from the debugging information.
-+	 */
-+	if (dwarf_tag(&type) == DW_TAG_subroutine_type)
-+		symbol_set_ptr(state->sym, &type);
-+	else
-+		symbol_set_ptr(state->sym, &ptr_type);
-+}
-+
- static int process_exported_symbols(struct state *unused, struct die *cache,
- 				    Dwarf_Die *die)
- {
-@@ -1084,7 +1109,9 @@ static int process_exported_symbols(struct state *unused, struct die *cache,
- 
- 		state_init(&state);
- 
--		if (tag == DW_TAG_subprogram)
-+		if (is_symbol_ptr(get_symbol_name(&state.die)))
-+			save_symbol_ptr(&state);
-+		else if (tag == DW_TAG_subprogram)
- 			process_subprogram(&state, &state.die);
- 		else
- 			process_variable(&state, &state.die);
-@@ -1097,10 +1124,36 @@ static int process_exported_symbols(struct state *unused, struct die *cache,
- 	}
- }
- 
-+static void process_symbol_ptr(struct symbol *sym, void *arg)
-+{
-+	struct state state;
-+	Dwarf *dwarf = arg;
-+
-+	if (sym->state != SYMBOL_UNPROCESSED || !sym->ptr_die_addr)
-+		return;
-+
-+	debug("%s", sym->name);
-+	state_init(&state);
-+	state.sym = sym;
-+
-+	if (!dwarf_die_addr_die(dwarf, (void *)sym->ptr_die_addr, &state.die))
-+		error("dwarf_die_addr_die failed for symbol ptr: '%s'",
-+		      sym->name);
-+
-+	if (dwarf_tag(&state.die) == DW_TAG_subroutine_type)
-+		process_subprogram(&state, &state.die);
-+	else
-+		process_variable(&state, &state.die);
-+
-+	cache_free(&state.expansion_cache);
-+}
-+
- void process_cu(Dwarf_Die *cudie)
- {
- 	check(process_die_container(NULL, NULL, cudie, process_exported_symbols,
- 				    match_all));
- 
-+	symbol_for_each(process_symbol_ptr, dwarf_cu_getdwarf(cudie->cu));
-+
- 	cache_free(&srcfile_cache);
- }
-diff --git a/scripts/gendwarfksyms/examples/symbolptr.c b/scripts/gendwarfksyms/examples/symbolptr.c
-new file mode 100644
-index 000000000000..88bc1bd60da8
---- /dev/null
-+++ b/scripts/gendwarfksyms/examples/symbolptr.c
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2024 Google LLC
-+ *
-+ * Example for symbol pointers. When compiled with Clang, gendwarfkyms
-+ * uses a symbol pointer for `f`.
-+ *
-+ * $ clang -g -c examples/symbolptr.c -o examples/symbolptr.o
-+ * $ echo -e "f\ng\np" | ./gendwarfksyms -d examples/symbolptr.o
-+ */
-+
-+/* Kernel macros for userspace testing. */
-+#ifndef __used
-+#define __used __attribute__((__used__))
-+#endif
-+#ifndef __section
-+#define __section(section) __attribute__((__section__(section)))
-+#endif
-+
-+#define __GENDWARFKSYMS_EXPORT(sym)				\
-+	static typeof(sym) *__gendwarfksyms_ptr_##sym __used	\
-+		__section(".discard.gendwarfksyms") = &sym;
-+
-+extern void f(unsigned int arg);
-+void g(int *arg);
-+void g(int *arg) {}
-+
-+struct s;
-+extern struct s *p;
-+
-+__GENDWARFKSYMS_EXPORT(f);
-+__GENDWARFKSYMS_EXPORT(g);
-+__GENDWARFKSYMS_EXPORT(p);
-diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
-index fe49730fe623..197a1a8123c6 100644
---- a/scripts/gendwarfksyms/gendwarfksyms.h
-+++ b/scripts/gendwarfksyms/gendwarfksyms.h
-@@ -89,6 +89,10 @@ extern int symtypes;
-  * symbols.c
-  */
- 
-+/* See symbols.c:is_symbol_ptr */
-+#define SYMBOL_PTR_PREFIX "__gendwarfksyms_ptr_"
-+#define SYMBOL_PTR_PREFIX_LEN (sizeof(SYMBOL_PTR_PREFIX) - 1)
-+
- static inline unsigned int addr_hash(uintptr_t addr)
- {
- 	return hash_ptr((const void *)addr);
-@@ -112,14 +116,17 @@ struct symbol {
- 	struct hlist_node name_hash;
- 	enum symbol_state state;
- 	uintptr_t die_addr;
-+	uintptr_t ptr_die_addr;
- 	unsigned long crc;
- };
- 
- typedef void (*symbol_callback_t)(struct symbol *, void *arg);
- 
-+bool is_symbol_ptr(const char *name);
- void symbol_read_exports(FILE *file);
- void symbol_read_symtab(int fd);
- struct symbol *symbol_get(const char *name);
-+void symbol_set_ptr(struct symbol *sym, Dwarf_Die *ptr);
- void symbol_set_die(struct symbol *sym, Dwarf_Die *die);
- void symbol_set_crc(struct symbol *sym, unsigned long crc);
- void symbol_for_each(symbol_callback_t func, void *arg);
-diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symbols.c
-index 4c499ba6c86d..327f87389c34 100644
---- a/scripts/gendwarfksyms/symbols.c
-+++ b/scripts/gendwarfksyms/symbols.c
-@@ -39,6 +39,20 @@ static unsigned int __for_each_addr(struct symbol *sym, symbol_callback_t func,
- 	return processed;
- }
- 
-+/*
-+ * For symbols without debugging information (e.g. symbols defined in other
-+ * TUs), we also match __gendwarfksyms_ptr_<symbol_name> symbols, which the
-+ * kernel uses to ensure type information is present in the TU that exports
-+ * the symbol. A __gendwarfksyms_ptr pointer must have the same type as the
-+ * exported symbol, e.g.:
-+ *
-+ *   typeof(symname) *__gendwarf_ptr_symname = &symname;
-+ */
-+bool is_symbol_ptr(const char *name)
-+{
-+	return name && !strncmp(name, SYMBOL_PTR_PREFIX, SYMBOL_PTR_PREFIX_LEN);
-+}
-+
- static unsigned int for_each(const char *name, symbol_callback_t func,
- 			     void *data)
- {
-@@ -47,6 +61,8 @@ static unsigned int for_each(const char *name, symbol_callback_t func,
- 
- 	if (!name || !*name)
- 		return 0;
-+	if (is_symbol_ptr(name))
-+		name += SYMBOL_PTR_PREFIX_LEN;
- 
- 	hash_for_each_possible_safe(symbol_names, match, tmp, name_hash,
- 				    hash_str(name)) {
-@@ -84,6 +100,17 @@ void symbol_set_crc(struct symbol *sym, unsigned long crc)
- 		error("no matching symbols: '%s'", sym->name);
- }
- 
-+static void set_ptr(struct symbol *sym, void *data)
-+{
-+	sym->ptr_die_addr = (uintptr_t)((Dwarf_Die *)data)->addr;
-+}
-+
-+void symbol_set_ptr(struct symbol *sym, Dwarf_Die *ptr)
-+{
-+	if (for_each(sym->name, set_ptr, ptr) == 0)
-+		error("no matching symbols: '%s'", sym->name);
-+}
-+
- static void set_die(struct symbol *sym, void *data)
- {
- 	sym->die_addr = (uintptr_t)((Dwarf_Die *)data)->addr;
+Nick Chan (11):
+  dt-bindings: arm: apple: apple,pmgr: Add A7-A11, T2 compatibles
+  dt-bindings: arm: apple: apple,pmgr-pwrstate: Add A7-A11, T2
+    compatibles
+  arm64: dts: apple: s5l8960x: Add PMGR node
+  arm64: dts: apple: t7000: Add PMGR node
+  arm64: dts: apple: t7001: Add PMGR node
+  arm64: dts: apple: s800-0-3: Add PMGR nodes
+  arm64: dts: apple: s8001: Add PMGR nodes
+  arm64: dts: apple: t8010: Add PMGR nodes
+  arm64: dts: apple: t8011: Add PMGR nodes
+  arm64: dts: apple: t8012: Add PMGR nodes
+  arm64: dts: apple: t8015: Add PMGR nodes
+
+ .../bindings/arm/apple/apple,pmgr.yaml        |   5 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml   |   5 +
+ arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi  |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi  | 610 ++++++++++++
+ arch/arm64/boot/dts/apple/s5l8960x.dtsi       |  13 +
+ arch/arm64/boot/dts/apple/s800-0-3-pmgr.dtsi  | 757 ++++++++++++++
+ arch/arm64/boot/dts/apple/s800-0-3.dtsi       |  22 +
+ arch/arm64/boot/dts/apple/s8001-common.dtsi   |   1 +
+ .../arm64/boot/dts/apple/s8001-j98a-j99a.dtsi |  26 +
+ arch/arm64/boot/dts/apple/s8001-j98a.dts      |   1 +
+ arch/arm64/boot/dts/apple/s8001-j99a.dts      |   1 +
+ arch/arm64/boot/dts/apple/s8001-pmgr.dtsi     | 822 ++++++++++++++++
+ arch/arm64/boot/dts/apple/s8001.dtsi          |  22 +
+ arch/arm64/boot/dts/apple/s800x-6s.dtsi       |   4 +
+ arch/arm64/boot/dts/apple/s800x-ipad5.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/s800x-se.dtsi       |   4 +
+ arch/arm64/boot/dts/apple/t7000-6.dtsi        |   4 +
+ arch/arm64/boot/dts/apple/t7000-j42d.dts      |   1 +
+ arch/arm64/boot/dts/apple/t7000-mini4.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/t7000-n102.dts      |   4 +
+ arch/arm64/boot/dts/apple/t7000-pmgr.dtsi     | 641 ++++++++++++
+ arch/arm64/boot/dts/apple/t7000.dtsi          |  14 +
+ arch/arm64/boot/dts/apple/t7001-air2.dtsi     |   1 +
+ arch/arm64/boot/dts/apple/t7001-pmgr.dtsi     | 650 ++++++++++++
+ arch/arm64/boot/dts/apple/t7001.dtsi          |  13 +
+ arch/arm64/boot/dts/apple/t8010-7.dtsi        |   4 +
+ arch/arm64/boot/dts/apple/t8010-ipad6.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/t8010-n112.dts      |   4 +
+ arch/arm64/boot/dts/apple/t8010-pmgr.dtsi     | 772 +++++++++++++++
+ arch/arm64/boot/dts/apple/t8010.dtsi          |  22 +
+ arch/arm64/boot/dts/apple/t8011-common.dtsi   |   1 +
+ arch/arm64/boot/dts/apple/t8011-pmgr.dtsi     | 806 +++++++++++++++
+ arch/arm64/boot/dts/apple/t8011-pro2.dtsi     |   8 +
+ arch/arm64/boot/dts/apple/t8011.dtsi          |  22 +
+ arch/arm64/boot/dts/apple/t8012-pmgr.dtsi     | 837 ++++++++++++++++
+ arch/arm64/boot/dts/apple/t8012-touchbar.dtsi |   1 +
+ arch/arm64/boot/dts/apple/t8012.dtsi          |  22 +
+ arch/arm64/boot/dts/apple/t8015-common.dtsi   |   1 +
+ arch/arm64/boot/dts/apple/t8015-pmgr.dtsi     | 931 ++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8015.dtsi          |  21 +
+ 42 files changed, 7097 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/s800-0-3-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-j98a-j99a.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t7000-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t7001-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8010-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8011-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8012-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-pmgr.dtsi
+
+
+base-commit: 657dda2ef61e9b9e7107b672a0c49d2c594508c9
 -- 
-2.47.1.613.gc27f4b7a9f-goog
+2.47.1
 
