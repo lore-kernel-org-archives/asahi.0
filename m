@@ -1,92 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A2916FF4E;
-	Thu,  9 Jan 2025 17:15:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B1223C9;
+	Thu,  9 Jan 2025 21:45:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736442930; cv=none; b=Qm4cGHlTcpHBJX+b9cyCcRQ6k2tuZHbnHbe5xkql/Odnev9Oo3YMpFPcOzfLttjE7DH5q4dsq8w91t3E5LL/u5kfj88kAAXcNpPBRJoesUqynpG+eLA+1qPwIwe2pfYuvfMjyuxqKjvr114n3Q4wrFMyh2ZQohSAtnQssBX8gNA=
+	t=1736459148; cv=none; b=Zto0kf1L7Zl88jfGJ8m3i83Rw1mrfdaySVxBu7ZQAq8nxJ7lX6F7MpLIFrhYktUDLwbcFE/HqqABuPlaw1DSYYuL1NfHTab+7D35G5Mcf5UMetyxwHDsXQzSM36g0RIin8JS991lp6gy9slv/Te1D8kaomuuRSUSHsu4Hrgf0Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736442930; c=relaxed/simple;
-	bh=3HlqvF1gFu/ouXfon4HTvBR/I+5OhI7gGNbobwdgUWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FPtM8pCng6CBZr1s8UL5Q8iEwc9fJ83XMFBDcsPXNI7/rEa45olvhzj3lf7RMoCPDzu2Al55XB5estOr3dlE2UoGDnSL6+NlrsEtqdP2P97ft1GChyo0KW+OOaNyiugIXqAvsgtscH7Ti0NrjcaSwmz827dW182lyGSCkVN525E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NDNegEXI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736459148; c=relaxed/simple;
+	bh=x1Etwqy25T2cCi3wQmsU8C/+30NvCYSgEUW/RuFb1GE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=g5PabrRbrVrRCKpyD4yrERJU49f2WFPjDz/sNTecMfI1q8HS8UODO5UVuE08++1G+zmcY/+tvUG4X9OxFFqGImPdL2gMa7BXNO4cxC5+5CBr/AIzQLojz2XgprqeatKENsBwq2YoUFlfqcBIhzMOGaFnrWbtjYepx6J4eQt9PuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W+881NUz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NDNegEXI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC03FC4CEE1;
-	Thu,  9 Jan 2025 17:15:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W+881NUz"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D83E4C4CED2;
+	Thu,  9 Jan 2025 21:45:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736442930;
-	bh=3HlqvF1gFu/ouXfon4HTvBR/I+5OhI7gGNbobwdgUWk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NDNegEXI702D2udL3wNx6CfldwqoekpJ2rRwAlWiJZl095k7XoTxDBhSQXF17ZTp6
-	 h65IjeIkUPFLVw9bmIgOPGTd3qwxMvJjOi0g8Rwuy/M2AkspSsalZQ6huOJ+pu2ceF
-	 q2ElZ2DKDYYMVBhWCGepZq0fwbrfbymYQAxWCwvh5cXtxRVgQF4baSl0uOiH6yrQ9m
-	 UMAyDai6PXmC9YGgjFVqLE4C60uVGnysbpYQtn+4vBI+f6tvfx+rJ0Jbw+dU2t/Tdd
-	 5DwvMFWZjsIGf9avahbyqhKU/md38tyBY77AvAI41PmcPZtXJYF7aI+3wsNvWHh166
-	 n8LZa9iQx7+aQ==
-Date: Thu, 9 Jan 2025 17:15:23 +0000
-From: Daniel Thompson <danielt@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Lee Jones <lee@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
-Message-ID: <Z4AEK1LzFeR1DnPk@aspen.lan>
-References: <20241211113512.19009-1-towinchenmi@gmail.com>
- <20241211113512.19009-3-towinchenmi@gmail.com>
- <Z35Y9rzS6tLVgsRo@aspen.lan>
- <ad3cbf5a-6322-4256-9284-f739d4c3aa45@gmail.com>
+	s=k20201202; t=1736459147;
+	bh=x1Etwqy25T2cCi3wQmsU8C/+30NvCYSgEUW/RuFb1GE=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=W+881NUzEB1Sjz413b7vJxit7iDCuZGxGhKLN9I8VgLQBVx3Gg0J6bobscHPLphRS
+	 TIk5s2iXc1FIqCQ6GKNyNUCHqLTiOKyLrxQPkNNyd8B3U4vUlSwkIgbWtFmewZ90YN
+	 1jn2lt/0k7/VKDTDAenQBqEmcaKJ664gci36kl3payTay+clwsRVSzXTAXf876o1f9
+	 08ZqOdeE7k+13DM6mxBXDoBwJscr8kwJ8e3xoJUGsJsOX1H+prRb3wr6lFC/FB3Sdm
+	 qmTsEfNrktjinIhYuyLreArFOhoCNx+b+Fly3o6w0ktgCj5PXgsl8Ge4x3Pe4F2KmN
+	 kCqT5PE/BKy6w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDDBBE7719A;
+	Thu,  9 Jan 2025 21:45:47 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Date: Thu, 09 Jan 2025 22:45:46 +0100
+Subject: [PATCH] drm/virtio: Support partial maps of GEM objects
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ad3cbf5a-6322-4256-9284-f739d4c3aa45@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250109-virtgpu-gem-partial-map-v1-1-a914b48776bd@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAIlDgGcC/x3MTQqAIBBA4avErBvQSqGuEi2kJhvoR8aKILx70
+ vJbvPdCJGGK0BUvCN0c+dgzdFnAuLjdE/KUDZWqjNKqxZvl9OFCTxsGJye7FTcXsK4NjY2yxk4
+ ach2EZn7+cz+k9AG7IPqtaQAAAA==
+X-Change-ID: 20250109-virtgpu-gem-partial-map-335ec40656d1
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736459146; l=1210;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=6LaFAVHHmrz+1IfVs72P1kiVYM0D1mQ7zg4Ht9kbRhU=;
+ b=a9a4yi1JLL93u7BZpaJzIF6IITCFbBFAUMuKnh7fGXMrwgkF7Il9gEb5VBIkbOhjguOZiL1zz
+ 12Ar6JMxxb5AnfUsdFILyBjAOjDb96QbUMLStBIL0vBG1sNmoeNR72p
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On Thu, Jan 09, 2025 at 11:52:56PM +0800, Nick Chan wrote:
->
-> Daniel Thompson 於 2025/1/8 下晝6:52 寫道:
-> > On Wed, Dec 11, 2024 at 07:34:38PM +0800, Nick Chan wrote:
-> >> Add driver for backlight controllers attached via Apple DWI 2-wire
-> >> interface, which is found on some Apple iPhones, iPads and iPod touches
-> >> with a LCD display.
-> >>
-> >> Although there is an existing apple_bl driver, it is for backlight
-> >> controllers on Intel Macs attached via PCI, which is completely different
-> >> from the Samsung-derived DWI block.
-> >>
-> >> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> >> ---
-> >>  drivers/video/backlight/Kconfig  |  12 +++
-> >>  drivers/video/backlight/Makefile |   1 +
-> >>  drivers/video/backlight/dwi_bl.c | 122 +++++++++++++++++++++++++++++++
-> > I'd rather this was called apple_dwi_bl.c to match that config options,
-> > etc.
-> Still trying to determine the type of the backlight control, I think
-> it is linear however and I will send a new version when I am more
-> certain.
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-If you've got an physicalinstance of the backlight then you can get a
-general idea by comparing levels: 512, 1024, 1536 and 2047.
+Those are useful to implement coherent cross-vm mmap.
 
-A linear backlight will feel make the gaps feel uneven (e.g. the
-difference between 1536 and 2047 will look very different to the
-difference difference between 512 and 1024). A logarithmic backligt
-will make the perceived brightness intervals between the above all
-feel pretty similar.
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_vram.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
+index 25df81c027837c248a746e41856b5aa7e216b8d5..64e2c6dbdd678ac4c0da89fdd4c9dbf937c2c335 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vram.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
+@@ -56,12 +56,11 @@ static int virtio_gpu_vram_mmap(struct drm_gem_object *obj,
+ 	else if (vram->map_info == VIRTIO_GPU_MAP_CACHE_UNCACHED)
+ 		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+ 
+-	/* Partial mappings of GEM buffers don't happen much in practice. */
+-	if (vm_size != vram->vram_node.size)
++	if (vm_size > vram->vram_node.size)
+ 		return -EINVAL;
+ 
+ 	ret = io_remap_pfn_range(vma, vma->vm_start,
+-				 vram->vram_node.start >> PAGE_SHIFT,
++				 (vram->vram_node.start >> PAGE_SHIFT) + vma->vm_pgoff,
+ 				 vm_size, vma->vm_page_prot);
+ 	return ret;
+ }
+
+---
+base-commit: 643e2e259c2b25a2af0ae4c23c6e16586d9fd19c
+change-id: 20250109-virtgpu-gem-partial-map-335ec40656d1
 
 
-Daniel.
