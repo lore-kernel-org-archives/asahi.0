@@ -1,123 +1,124 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E009E20B81B
-	for <asahi@lists.linux.dev>; Fri, 10 Jan 2025 10:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4FE212B17
+	for <asahi@lists.linux.dev>; Fri, 10 Jan 2025 17:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736506425; cv=none; b=ci4fqL390K6qXlUoL9Dftrspizbcmc0fE+iWx1YkskK/F19zwg3H6gfIrHNliosGlwX5IyOzGD1BpXsW8rr2D5b89pjuMr+ohkUUP8otE+/riz99cLOxdrpyknABLaSG/H3vSaLwGmh15BM+VP+p/M4UmLRCLdXvOVYGeZq3ebQ=
+	t=1736530649; cv=none; b=TYWP1/6PN8QuqFgVoKFBkvMI7dcn3qapUQaXjiS5SKp+5fCRPyFJTbDN7g7c5JP1FuIo3Ke5wfJuZhqmHXaitLYp8OEIZe/oRxeetHyctyr7t23W1VhXcGjze+hGB5WWyTiAJeHDs0eUIdusw4UzGzHw4u5/tT8FOBfvNpDaMEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736506425; c=relaxed/simple;
-	bh=K8dfshyj3v7VHM8Mlq3EcNpIciIC+CxZDJ9dS3SUv6Y=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p0nzY0SQXbvT3YUPvOWklJr4WDFEVLfsOoui3YUEJ/f/K+qaRDP4WpD9+fNQiwoE/Kqv4VnqjF0pn42gyOwfdz34+cddjhtiMfP3KYRhi45eEM10nXJx2fxi5aku95T1SZ51ER1VY1xWpQsNAmNEb8OrYL5iGoHnV1UbGwOhUrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bbtepw1g; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736530649; c=relaxed/simple;
+	bh=IRPwSRHuH81YJdNFzl1Pg7yOjJzF2yJEzlfjaQpesVU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YXOB0eMORB0/JGToMlDyPy7jS2OiKP2VJ6rGXjidcoVqNKMp5RUxZwrAo/whH1L4ps26lfRQmhao4svy/77DKI8OxqtScvwwqmyEGDz7u15GcfQXZ01BHm6WTbGT8UAHZretBZHj41N2Dble9i82zHxdJ1bAhG2SMVvzvEOgKmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4W/cGED; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bbtepw1g"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-215770613dbso23236145ad.2
-        for <asahi@lists.linux.dev>; Fri, 10 Jan 2025 02:53:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736506423; x=1737111223; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V6D+Duy2KSB23Y0Rvwa3w0ojen1q7SpzhhAe7Fua6DI=;
-        b=bbtepw1gJ4i6B1VjhnC6nNlINPx4OQs0Uxg+Mx9a5Ooj0E+RneaRg7czYresj3JkhT
-         +WNpwqsc6eeyTtY9efRqkCwqYl/YfnK7KcpIgVEAzArd1Y7W+0N8HquK1U0hGvL4m6j7
-         l9xMJKEn4lIsqmQHB+8Py15XnERc442Zi9OrBBAmaFfDiCH0QNwKWObHuJxDCJsIlE2l
-         Kp3tKI0LX7U7wqlcSTbaXN/flFm674YMgkMlJVk5T9vxl38HDVQYe0mpGAp0vReL/F+4
-         uWWttLdei+rYODLr3gQ3bS04ADWfHMqLfz+j5lfURLr6IUx5bmQZHQCLnHjoLkclYPT/
-         YvEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736506423; x=1737111223;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V6D+Duy2KSB23Y0Rvwa3w0ojen1q7SpzhhAe7Fua6DI=;
-        b=R6wLom9PC/HPIFAo1P2W7qCj/pUFsjxAZeg+ilqo4zKLLZ+52hE/fcTe/HoJwfgsN+
-         FYQ4Wh2BiMMFVI/Gtrt5l90SM3vjUDhR+SP2UYvGshtIcq0tdznWBWbWlyxSViY9iUNx
-         qngJy7Ubyybj79QogkLxfwCs4wuoNXbPu3f6Dx4Mydd2nF0SdtJt7bg8Pn1e2CGL5MPd
-         tMF8S/Qrxcf8J4MUUlLaN8byvVkt1A3s0DjvwuV7srn5bSyhI8YwpRjQhU8xMbDkh7bh
-         9rFIOWWlp3VlZa1iuwTeMepy8N8DwHlYcd/8rdcqn831XvH83LOVEqwH7uA4Q3LTmT0p
-         gSuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUsIct2vfw/iTFJWX6fNF6HoXLIwSbJo/0F9vsgKtNlMYZc/jDTgNg1qQW5h4humuqoxsKxgQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxSOrEc2hI6LkI/y1asvQDrwWJtPUrd4BH0gMT9OmIdm3oovdLx
-	UnptFEDcA9fsolHFmMnYMh8MI5HE134xOr6mFgt4R6sGd2MW4+zZ
-X-Gm-Gg: ASbGncuHWqo/bPtChj5JZEbHldyqNHGZJSPmkoZOIb7hDFysCaTw+h38B9MtrkDp42n
-	SBQ53kNa2PrCKTTEWjk5Jow00CBU8tUIOVQg/nD/3flwhCVSrhBUcwyBf9gvZ/z6536tGmxawJy
-	avzqPdZGwAZiPPwMja0o9zyKTS8Kg/0ypHi/IZ2ZF7GYa5QpMd6bdDj4nZ2xCqFOhHksr9glqcn
-	FrJNnzZLAtJC51RBlWSeGhYPS5G5t573zRPtW3X+/mHCMKa2P5HeCtGoA==
-X-Google-Smtp-Source: AGHT+IEXc3zedWc5CeLrQUkadcVEzJk8eqcEuyttO1WR8DTZLahGcQx2U529vW48eyEGuwRsZNX9tw==
-X-Received: by 2002:a05:6a00:2c86:b0:71e:e4f:3e58 with SMTP id d2e1a72fcca58-72d21fbcf06mr14713527b3a.17.1736506423154;
-        Fri, 10 Jan 2025 02:53:43 -0800 (PST)
-Received: from nick-mbp.. ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-72d406a57dcsm1333403b3a.170.2025.01.10.02.53.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 02:53:42 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Lee Jones <lee@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Nick Chan <towinchenmi@gmail.com>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: [PATCH v5 3/3] MAINTAINERS: Add entries for Apple DWI backlight controller
-Date: Fri, 10 Jan 2025 18:52:06 +0800
-Message-ID: <20250110105304.71142-4-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250110105304.71142-1-towinchenmi@gmail.com>
-References: <20250110105304.71142-1-towinchenmi@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4W/cGED"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC373C4CEE6
+	for <asahi@lists.linux.dev>; Fri, 10 Jan 2025 17:37:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736530649;
+	bh=IRPwSRHuH81YJdNFzl1Pg7yOjJzF2yJEzlfjaQpesVU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=l4W/cGEDZ8qNdGBkeWPFTDlr9S6krniSBjsnOCrZPGztuLVU/Aa1S3GOv5KcNs8Bn
+	 QCcFTXrcSaZ4erJ51Lvn18fz7s32nElxlggKsgSzh0BUD3Ulb8pxzdudhMgcuHg99c
+	 ymnVm7U5ofXviTQO9CRf+3JqDETbqyQxJYY26J+bi/OcyxNNbKicWbxccDnSB3rI5p
+	 GMbKOcOGleeAM3gO4amKHJu66ojJZ88IdFnP6LG102BJaVuCzckzrvEtp6ZEpR8B2c
+	 e5hlPuvpV0ovHe5MfY35t4rcZhq6hOWgFvSdieBgmLjK1lx5NwY3W2nEycfXT7yY/Q
+	 /22RAgaqG5KzA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5401ab97206so2376676e87.3
+        for <asahi@lists.linux.dev>; Fri, 10 Jan 2025 09:37:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX/dWZpW7+gOqFnaO6V3B5/KXH9vRkUf4Q34+zZzaZEIk5nzxRuQxgmtBxlzPNgfimWlCW8Kw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzruGB7thRgYZjNk11zzsIVOdKTWHYe3yH7zDIGJDTGkEGPECP
+	f6ZGsN+BzLIw0OFCNJMpwtHuP2MCttlxB2wwiOi4Ca37cv406cmkPh44nXs3+yWDsz+g7Srs5jG
+	b2dUqCXTrNeQpebgzHshsT4qY0Dk=
+X-Google-Smtp-Source: AGHT+IEDuwtPJTKi5T6rab8LMrZJbFdXj2hrj2sIJdU825SeM4490F0nx/OYIkDpXtKefTMH4AV0P+dPqO6Oj9m2YkM=
+X-Received: by 2002:a05:6512:3c82:b0:542:622f:124 with SMTP id
+ 2adb3069b0e04-5428444d202mr4033935e87.0.1736530647497; Fri, 10 Jan 2025
+ 09:37:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250103204521.1885406-20-samitolvanen@google.com>
+In-Reply-To: <20250103204521.1885406-20-samitolvanen@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 11 Jan 2025 02:36:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT6QcJokDPS2gcuFJwTRRpTeUrr4Px9Pex=JaG0E3AGzg@mail.gmail.com>
+X-Gm-Features: AbW1kvbi-2LAf1o1DzIktor0yXiu1NnaMx78ysuyBZ-qV1TNRUfpTR_JzEcve54
+Message-ID: <CAK7LNAT6QcJokDPS2gcuFJwTRRpTeUrr4Px9Pex=JaG0E3AGzg@mail.gmail.com>
+Subject: Re: [PATCH v8 00/18] Implement DWARF modversions
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add MAINTAINERS entries for the driver.
+On Sat, Jan 4, 2025 at 5:45=E2=80=AFAM Sami Tolvanen <samitolvanen@google.c=
+om> wrote:
+>
+> Hi,
+>
+> Here's v8 of the DWARF modversions series. The main motivation is
+> modversions support for Rust, which is important for distributions
+> like Android that are about to ship Rust kernel modules. Per Luis'
+> request [1], v2 dropped the Rust specific bits from the series and
+> instead added the feature as an option for the entire kernel to
+> make it easier to evaluate the benefits of this approach, and to
+> get better test coverage. Matt is addressing Rust modversion_info
+> compatibility issues in a separate patch set [2] that depends on
+> this series, and actually allows modversions to be enabled with
+> Rust.
+>
+> Short background: Unlike C, Rust source code doesn't have sufficient
+> information about the final ABI, as the compiler has considerable
+> freedom in adjusting structure layout, for example, which makes
+> using a source code parser like genksyms a non-starter. Based on
+> earlier feedback, this series uses DWARF debugging information for
+> computing versions. DWARF is an established and a relatively stable
+> format, which includes all the necessary ABI details, and adding a
+> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
+> reasonable trade-off as most distributions already enable it.
+>
+> The first 15 patches add gendwarfksyms, a tool for computing symbol
+> versions from DWARF. When passed a list of exported symbols and
+> object files, the tool generates an expanded type string for each
+> symbol and computes symbol versions. gendwarfksyms is written in C,
+> uses libdw to process DWARF, and zlib for CRC32. Patch 16 ensures
+> that debugging information is present where we need it, patch 17
+> adds gendwarfksyms as an alternative to genksyms, and the last patch
+> adds documentation.
+>
+> v8 is based on 6.13-rc5, and for your convenience, the series is
+> also available here:
+>
+> https://github.com/samitolvanen/linux/commits/gendwarfksyms-v8
+>
+> If you also want to test the series with actual Rust modules, this
+> branch adds v13 of Matt's modversion_info series:
+>
+> https://github.com/samitolvanen/linux/commits/rustmodversions-v8
+>
+> Sami
+>
+>
+> [1] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
+> [2] https://lore.kernel.org/lkml/20250103-extended-modversions-v13-0-35d8=
+7c65ee04@google.com/
+>
 
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+Applied to linux-kbuild.
+Thanks.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 910305c11e8a..67ad74f987c8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2196,6 +2196,7 @@ F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
- F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
-+F:	Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
- F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
- F:	Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
- F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-@@ -2221,6 +2222,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/video/backlight/apple_dwi_bl.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
--- 
-2.47.1
 
+--=20
+Best Regards
+Masahiro Yamada
