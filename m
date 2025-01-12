@@ -1,124 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4FE212B17
-	for <asahi@lists.linux.dev>; Fri, 10 Jan 2025 17:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAF53232;
+	Sun, 12 Jan 2025 18:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736530649; cv=none; b=TYWP1/6PN8QuqFgVoKFBkvMI7dcn3qapUQaXjiS5SKp+5fCRPyFJTbDN7g7c5JP1FuIo3Ke5wfJuZhqmHXaitLYp8OEIZe/oRxeetHyctyr7t23W1VhXcGjze+hGB5WWyTiAJeHDs0eUIdusw4UzGzHw4u5/tT8FOBfvNpDaMEQ=
+	t=1736707302; cv=none; b=QMkXG0Q3HaUglt/OZH+CPPy2ENhGlgiTpQQq4Kw2b+6YlH4R0LTpYUaUhPwtfKzHNn/PJVHFv7/6/zN+z2xjpEfV7mmulJBVsQTHwbO1BJq4+afzK15ZUds8CkhMqI1LXVPgw31J5i5ZPJPWfPzU4myjzj+f4sQzemGLCMMfV8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736530649; c=relaxed/simple;
-	bh=IRPwSRHuH81YJdNFzl1Pg7yOjJzF2yJEzlfjaQpesVU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YXOB0eMORB0/JGToMlDyPy7jS2OiKP2VJ6rGXjidcoVqNKMp5RUxZwrAo/whH1L4ps26lfRQmhao4svy/77DKI8OxqtScvwwqmyEGDz7u15GcfQXZ01BHm6WTbGT8UAHZretBZHj41N2Dble9i82zHxdJ1bAhG2SMVvzvEOgKmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4W/cGED; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736707302; c=relaxed/simple;
+	bh=wdB68K3PeDbVcgvoTbIYxQc+n0FBFJF0guSndtGbyFQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Y7+syVa5gr07c8g780dp/jgkmIoQAakfSHXbNUAm6GcbH7b2txLjni7Et6rGC9H8SYPTMnQA2aOANcO8jN+8Bpr/KuVqP7b/08HcCSo877b5x3ZOFUQb1CWU9tapkcYWV1xNdtq2Or2tRdhQErQMoDwH/TlzyYEldZ3I0+qBbUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mnzWlF9t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4W/cGED"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC373C4CEE6
-	for <asahi@lists.linux.dev>; Fri, 10 Jan 2025 17:37:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mnzWlF9t"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1089AC4CEDF;
+	Sun, 12 Jan 2025 18:41:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736530649;
-	bh=IRPwSRHuH81YJdNFzl1Pg7yOjJzF2yJEzlfjaQpesVU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=l4W/cGEDZ8qNdGBkeWPFTDlr9S6krniSBjsnOCrZPGztuLVU/Aa1S3GOv5KcNs8Bn
-	 QCcFTXrcSaZ4erJ51Lvn18fz7s32nElxlggKsgSzh0BUD3Ulb8pxzdudhMgcuHg99c
-	 ymnVm7U5ofXviTQO9CRf+3JqDETbqyQxJYY26J+bi/OcyxNNbKicWbxccDnSB3rI5p
-	 GMbKOcOGleeAM3gO4amKHJu66ojJZ88IdFnP6LG102BJaVuCzckzrvEtp6ZEpR8B2c
-	 e5hlPuvpV0ovHe5MfY35t4rcZhq6hOWgFvSdieBgmLjK1lx5NwY3W2nEycfXT7yY/Q
-	 /22RAgaqG5KzA==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5401ab97206so2376676e87.3
-        for <asahi@lists.linux.dev>; Fri, 10 Jan 2025 09:37:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX/dWZpW7+gOqFnaO6V3B5/KXH9vRkUf4Q34+zZzaZEIk5nzxRuQxgmtBxlzPNgfimWlCW8Kw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzruGB7thRgYZjNk11zzsIVOdKTWHYe3yH7zDIGJDTGkEGPECP
-	f6ZGsN+BzLIw0OFCNJMpwtHuP2MCttlxB2wwiOi4Ca37cv406cmkPh44nXs3+yWDsz+g7Srs5jG
-	b2dUqCXTrNeQpebgzHshsT4qY0Dk=
-X-Google-Smtp-Source: AGHT+IEDuwtPJTKi5T6rab8LMrZJbFdXj2hrj2sIJdU825SeM4490F0nx/OYIkDpXtKefTMH4AV0P+dPqO6Oj9m2YkM=
-X-Received: by 2002:a05:6512:3c82:b0:542:622f:124 with SMTP id
- 2adb3069b0e04-5428444d202mr4033935e87.0.1736530647497; Fri, 10 Jan 2025
- 09:37:27 -0800 (PST)
+	s=k20201202; t=1736707302;
+	bh=wdB68K3PeDbVcgvoTbIYxQc+n0FBFJF0guSndtGbyFQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=mnzWlF9th1vklk/l3qj/a5bxD0PGwevQrvdX9A115AVFzwHvegQTzQAyVB9tUz1So
+	 dRHePJ7f7V9PP/5HoYsBWZIDpN8ryAYLgDO0yELKnvPCEgK9gT2FVSxq2gFfmjh1HO
+	 NRdiXd9MNBYdt5mObMWcxJvlp6yk7BKXDqjaMayEWlRSQbCPpTfTZGIlT27i9qG7p4
+	 d+ibhEcgdRNvkJzzaDhI3An1OMPFyh40JS5KWxM/mrNcvRXNN/MhN9OTNRAf2mxdyr
+	 zsqH46vKhypOgKi0SlbTR3JzZsk/VtbCfqYmbUMIShK0BIMTPlo9JEbyT3jpY4KtOL
+	 5MfCdL3I46xbA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2B9E77188;
+	Sun, 12 Jan 2025 18:41:41 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v3 0/4] Driver for Apple Z2 touchscreens.
+Date: Sun, 12 Jan 2025 19:41:31 +0100
+Message-Id: <20250112-z2-v3-0-5c0e555d3df1@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250103204521.1885406-20-samitolvanen@google.com>
-In-Reply-To: <20250103204521.1885406-20-samitolvanen@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 11 Jan 2025 02:36:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT6QcJokDPS2gcuFJwTRRpTeUrr4Px9Pex=JaG0E3AGzg@mail.gmail.com>
-X-Gm-Features: AbW1kvbi-2LAf1o1DzIktor0yXiu1NnaMx78ysuyBZ-qV1TNRUfpTR_JzEcve54
-Message-ID: <CAK7LNAT6QcJokDPS2gcuFJwTRRpTeUrr4Px9Pex=JaG0E3AGzg@mail.gmail.com>
-Subject: Re: [PATCH v8 00/18] Implement DWARF modversions
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANsMhGcC/03Myw6CMBCF4Vchs7amM5SLrnwP4wKGApPIJa1pV
+ MK7W0hMWP6T+c4C3jqxHq7JAs4G8TKNMdJTAtxXY2eVNLGBNBlEMupLijVSnVFpK91AfJydbeW
+ 9j9wfsXvxr8l99s2A2/XP840HVFqxSdkw56R1c+uGSp5nngbYeKAjKXdCkRQ5c3ap6xaxOJJ1X
+ X+r/8sNxwAAAA==
+X-Change-ID: 20241124-z2-c012b528ea0d
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736707300; l=2125;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=wdB68K3PeDbVcgvoTbIYxQc+n0FBFJF0guSndtGbyFQ=;
+ b=dEUdX/RvzmYoZfDfumTur7xk31yF9c5dQuFoa97mpRXNIUQ6r1Ov8oBqjYqTlJWATxkTvu3PO
+ G6uXmoYVayQBkeAR8QVXnMn96yA0Cf7a+InmBZ91xpIPJzr+/UB7oU6
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On Sat, Jan 4, 2025 at 5:45=E2=80=AFAM Sami Tolvanen <samitolvanen@google.c=
-om> wrote:
->
-> Hi,
->
-> Here's v8 of the DWARF modversions series. The main motivation is
-> modversions support for Rust, which is important for distributions
-> like Android that are about to ship Rust kernel modules. Per Luis'
-> request [1], v2 dropped the Rust specific bits from the series and
-> instead added the feature as an option for the entire kernel to
-> make it easier to evaluate the benefits of this approach, and to
-> get better test coverage. Matt is addressing Rust modversion_info
-> compatibility issues in a separate patch set [2] that depends on
-> this series, and actually allows modversions to be enabled with
-> Rust.
->
-> Short background: Unlike C, Rust source code doesn't have sufficient
-> information about the final ABI, as the compiler has considerable
-> freedom in adjusting structure layout, for example, which makes
-> using a source code parser like genksyms a non-starter. Based on
-> earlier feedback, this series uses DWARF debugging information for
-> computing versions. DWARF is an established and a relatively stable
-> format, which includes all the necessary ABI details, and adding a
-> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-> reasonable trade-off as most distributions already enable it.
->
-> The first 15 patches add gendwarfksyms, a tool for computing symbol
-> versions from DWARF. When passed a list of exported symbols and
-> object files, the tool generates an expanded type string for each
-> symbol and computes symbol versions. gendwarfksyms is written in C,
-> uses libdw to process DWARF, and zlib for CRC32. Patch 16 ensures
-> that debugging information is present where we need it, patch 17
-> adds gendwarfksyms as an alternative to genksyms, and the last patch
-> adds documentation.
->
-> v8 is based on 6.13-rc5, and for your convenience, the series is
-> also available here:
->
-> https://github.com/samitolvanen/linux/commits/gendwarfksyms-v8
->
-> If you also want to test the series with actual Rust modules, this
-> branch adds v13 of Matt's modversion_info series:
->
-> https://github.com/samitolvanen/linux/commits/rustmodversions-v8
->
-> Sami
->
->
-> [1] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
-> [2] https://lore.kernel.org/lkml/20250103-extended-modversions-v13-0-35d8=
-7c65ee04@google.com/
->
+Hi.
 
-Applied to linux-kbuild.
-Thanks.
+This series adds support for Apple touchscreens using the Z2 protocol.
+Those are used as the primary touchscreen on mobile Apple devices, and for the
+touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+in charge of speaking Z2 to the touchbar).
+
+Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
+The changes since then mostly address the review feedback, but also
+add another machine that has this specific controller.
+
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v3:
+- Tx/Rx buffers used in interrupt handler are now allocated in probe and reused
+- Other various style fixes
+- Link to v2: https://lore.kernel.org/r/20241128-z2-v2-0-76cc59bbf117@gmail.com
+
+Changes in v2:
+- In a separate patch, fixed an issue that prevented the SPI controller
+  from using GPIO CS, and as such, moved the hardware quirk to there
+- Went back to uploading the firmware in probe() instad of open()
+- Other changes addressing the review feedback
+- Link to v1: https://lore.kernel.org/r/20241126-z2-v1-0-c43c4cc6200d@gmail.com
+
+---
+Sasha Finkelstein (4):
+      dt-bindings: input: touchscreen: Add Z2 controller
+      input: apple_z2: Add a driver for Apple Z2 touchscreens
+      arm64: dts: apple: Add touchbar digitizer nodes
+      MAINTAINERS: Add entries for Apple Z2 touchscreen driver
+
+ .../input/touchscreen/apple,z2-multitouch.yaml     |  70 ++++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  27 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  19 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |  23 +
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  14 +
+ drivers/input/touchscreen/Kconfig                  |  13 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/apple_z2.c               | 463 +++++++++++++++++++++
+ 9 files changed, 632 insertions(+)
+---
+base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
+change-id: 20241124-z2-c012b528ea0d
 
 
---=20
-Best Regards
-Masahiro Yamada
