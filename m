@@ -1,108 +1,168 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADA41BFE10;
-	Sun, 12 Jan 2025 20:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A15233D69;
+	Mon, 13 Jan 2025 08:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736714640; cv=none; b=ApQOXB4jTH/GT5p51V9aPbl1fNdNmHgMdvTfVdVFr9kUsCHQpACOykP1IsOF593t2bk5AaRp6BZkf/xhHNqfGij83/1nCaKFAInH8V9YpuU6gAbR7zp1Q0vPWmLPb1bQXyCTih171TUCSJZf8VDg46tZBCPde9SYnQjAOcNCqcs=
+	t=1736758743; cv=none; b=rC55G8hGRbPr2SJzNXZ2yiiU1br+dinLGRWhhFHAFKh/fXT62WU92feTgEC6YbudcaEL2nNeTRNDmKmDGlm8SGBEijFyEbiNUoFT+HktvZF5R9WYG3wiGfsedllome5o6+gwXFAUXXy1/M4MlMLkCyQLN5Xkx5ypM6xJzgc1HAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736714640; c=relaxed/simple;
-	bh=y7I3ysTNSviVxSY83s+mUanX/HzCwqOMU6EU00x1sxM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=igKh35AuJRR0+DPAyj6+EAZ3EETpTbsPJsJomBC9fvGBAovJy3cKCvDfnPgNuy9wTAQ00G0gEatsF/PFGO8ZDeq4jK1hkAJaa1TSVzG3LQ2ksjB5848i6jc33PvtPAjGEe97Dn+cLq1GXSwofSB+RrDspgWiZxymqlS3JJWKvwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MD4pcNA0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736758743; c=relaxed/simple;
+	bh=2wJJM13zlSd944RH/1F0Bz3tql/OxPThH7169R04jPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fUuIQ0IODsyElxHsm9glXFc2eNo8s75BJ5LirbgxzeBnLVkGrTO+gVxRzRcqQzcnJSxVDbp/F2m4UsUSrSVp/SxwSrPzmkmtcqNgsPIwfawzR+rdqchDrZ+fej5Jx1GhtQ+hc618VrpqLRll63axGuqsUkN/nWOTPBLzXva10qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iF3rsECn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MD4pcNA0"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8397DC4AF0E;
-	Sun, 12 Jan 2025 20:43:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iF3rsECn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7ABC4CED6;
+	Mon, 13 Jan 2025 08:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736714639;
-	bh=y7I3ysTNSviVxSY83s+mUanX/HzCwqOMU6EU00x1sxM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=MD4pcNA01r6U1fmamjLGLEXIRRQd8U62BN/TYBr4yzIVRApJEJPR7vnL11O88pn/M
-	 f2+p+sWioN4NRCyI5kizdqRmqODomeUS9VDdRgbIK7SKUOeVhVyqezm+5TECIe3pWj
-	 NdSgTQOa8YqELOhpkMWDwxyNAojYf07IpYa/skrEiyVZ4kYXPb3ffuq05AGbpo0Ra8
-	 qSJifrnFnbsJtfDjZohiLPN7iSIN8oLdhsDnfrL4tnHO4obHiuNKrYOcB7rKKkBG3d
-	 iFDn2w3EmpPT2a9gl95YFnDfPiCHT5l44xj0f28TZ+ad7/xKFTkYYVGsndf2xs5Zsg
-	 GX8BcWh6t3XYg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D09E7719F;
-	Sun, 12 Jan 2025 20:43:59 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Sun, 12 Jan 2025 21:43:52 +0100
-Subject: [PATCH v3 5/5] MAINTAINERS: Add entries for touchbar display
- driver
+	s=k20201202; t=1736758742;
+	bh=2wJJM13zlSd944RH/1F0Bz3tql/OxPThH7169R04jPw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iF3rsECnnNXnLPj/o91djAfP13GvTUDHa2aK3jynTdpWUxaFsoHt+YYpkPFr2bKhE
+	 paaaxfqSUYRyNmmn5DgXeZlS7H1ClTLKP+oyDF+5GGDc2WsJ1et8+uLlDwJA6dc8Yh
+	 iBKHhWS8W7njrgoB4rmdN/Dy6jnx/scMlCusFopJtOhRwT7LIC432I46q+uA2e4VTT
+	 IygCnhmFDWjW+tC5D5GmeULFnqs4qDnkJIkQqQYXJQsOvzLw5ublYsF1jTSODgkwbC
+	 9BDvIfgqmUwktgiixLRMuCPn3STy19yGn/+3RanXIrVLiaNUHa+N7JZ6x5ru221kEl
+	 e3ah5b52n3SCg==
+Date: Mon, 13 Jan 2025 09:58:59 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>
+Subject: Re: [PATCH v3 1/5] dt-bindings: display: Add Apple pre-DCP display
+ controller
+Message-ID: <7rr3fja4rxjbdmgpdqaid5fybiu6uctpbvp24ujv5drfmeiowf@u4pkhzyhy3pd>
+References: <20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com>
+ <20250112-adpdrm-v3-1-c674dc19fa7f@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250112-adpdrm-v3-5-c674dc19fa7f@gmail.com>
-References: <20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com>
-In-Reply-To: <20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alyssa Ross <hi@alyssa.is>, Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736714637; l=1377;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=KEf80SVHicxgRXKAdu52Cd2dNEz+kgXSg0wZwqOZ7j0=;
- b=Z6vQ9xWGPgienAp28uq2+kCpuQpCu6k/45FtO0pxfnHFT/eJDa83aXt0knen4AeoNyHpA9yia
- 2wsfvQYhsnIDUSugsd+fcOv8bNSbL4PRa7zUR7LIMw6YpEH98MoN04o
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250112-adpdrm-v3-1-c674dc19fa7f@gmail.com>
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Sun, Jan 12, 2025 at 09:43:48PM +0100, Sasha Finkelstein wrote:
+ +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input port. Always connected to the primary controller
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output MIPI DSI port to the panel
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - ports
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    dsi@228200000 {
+> +        compatible = "apple,t8103-display-pipe-mipi", "apple,h7-display-pipe-mipi";
+> +        reg = <0x28200000 0xc000>;
 
-Add the MAINTAINERS entries for the driver
+This looks not matching unit address.
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- MAINTAINERS | 5 +++++
- 1 file changed, 5 insertions(+)
+> +        power-domains = <&ps_dispdfr_mipi>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a87ddad78e26f28ffd0f3433560d6db1518f9f95..4ce0d3bcf67910d909ba41261535dcb14a24a7b7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2189,6 +2189,9 @@ F:	Documentation/devicetree/bindings/arm/apple.yaml
- F:	Documentation/devicetree/bindings/arm/apple/*
- F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
- F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
-+F:	Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
-+F:	Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-+F:	Documentation/devicetree/bindings/display/panel/apple,summit.yaml
- F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
- F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
-@@ -2208,6 +2211,8 @@ F:	drivers/bluetooth/hci_bcm4377.c
- F:	drivers/clk/clk-apple-nco.c
- F:	drivers/cpufreq/apple-soc-cpufreq.c
- F:	drivers/dma/apple-admac.c
-+F:	drivers/gpu/drm/adp/
-+F:	drivers/gpu/drm/panel/panel-summit.c
- F:	drivers/pmdomain/apple/
- F:	drivers/i2c/busses/i2c-pasemi-core.c
- F:	drivers/i2c/busses/i2c-pasemi-platform.c
+Make the example complete, so you will see that address/size cells are
+unnecessary here or, if you really have more than one endpoint, they are
+supposed to be here.
 
--- 
-2.48.0
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +            };
+> +        };
+> +    };
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..dc07edccb437b221ea9772b9356e1896326aa7da
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
+> @@ -0,0 +1,88 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/apple,h7-display-pipe.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple pre-DCP display controller
+> +
+> +maintainers:
+> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
+> +
+> +description:
+> +  A secondary display controller used to drive the "touchbar" on
+> +  certain Apple laptops.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - apple,t8112-display-pipe
+> +          - apple,t8103-display-pipe
+> +      - const: apple,h7-display-pipe
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: be
+> +        description: Primary register block, controls planes and blendinga
 
+Description goes to 'reg:' field, just like I asked last time.
+
+> +      - const: fe
+> +        description:
+> +          Contains other configuration registers like interrupt
+> +          and FIFO control
+> +
+> +  power-domains:
+> +    description:
+> +      Phandles to pmgr entries that are needed for this controller to turn on.
+> +      Aside from that, their specific functions are unknown
+> +    maxItems: 2
+> +
+> +  interrupts:
+
+Same comments as before - list and describe the items.
+
+Best regards,
+Krzysztof
 
