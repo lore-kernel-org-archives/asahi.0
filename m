@@ -1,101 +1,288 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-70.smtpout.orange.fr [80.12.242.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5961D8A0D;
-	Thu, 16 Jan 2025 16:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC4B22BAD5
+	for <asahi@lists.linux.dev>; Thu, 16 Jan 2025 18:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737043268; cv=none; b=ihJ9BuD5GwAWRv1DjlnUMpHNw+eWOSW/vSJXqFHw/D8KJAC4fQpFvvECyxnZiyAbk7j2dIwLcu9ad4ncBSg/dVdueg/brexTAZhrBjuvHTyPLADDVMVaXkE3AxOZXjXfWUWoI9c3jtd7XUrYbT/GuwrXDc8vHDiVrN8VPa0Rbg8=
+	t=1737051181; cv=none; b=DJp5uVqdqrLYfN8B0HTIM+pT9vypMrrVSlGL5vPWo4YXbLrZqO5LYet5Y6l0iXBcbx+0AvEJePOXAVtw6kSvlZk1iWWZe6IkBVk6shLnaPHXDrzEBGTO27FoofQhdb/EyeylxzsS86NvJi6rLnAZWnOd5Wa+FT2MTNgjhDgFZ7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737043268; c=relaxed/simple;
-	bh=K+O30vGF8jNEYQFXsYQnn3DPQMXPqVS7VsD/r8QKN1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kV2FbwzOgjBqwoti+e/xIEXY0bO04B3NJSXq+2KA+1Lh1WbzHJ0u70HZWh1e1Y5xUGpTlc6/ZeHDepE4Uc/YQO1Qi+7y4uXzE4KOXfUWl6lDNHPuArphIoyvcGDI6JcCxWmvJeY98ehVSt8ide4V7xRyTQFevJboIwY5O07aStw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lo485IKb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737051181; c=relaxed/simple;
+	bh=ppiI+QASY1pr+MjUAQtgT8kc7SF/kerF34kujYaxCkU=;
+	h=Message-ID:Date:MIME-Version:Subject:References:From:To:Cc:
+	 In-Reply-To:Content-Type; b=XtD5Y0Dvc8qfFM4Z2W6RazmjrBhZez3uA7UobV2TL4WuQRMgs3m378sOng06UuM7a7i44hfMj2bye8M2Ig8L+cHZFvB6ScW0+CmTNctFwQtVDVOitkD9D7X8keeenUVEv12D18EPRa1GN+4TZNQODF/DI6o9n89cvOzwqiu05l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=FB4JL7P/; arc=none smtp.client-ip=80.12.242.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lo485IKb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 948C1C4CEE1;
-	Thu, 16 Jan 2025 16:01:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737043267;
-	bh=K+O30vGF8jNEYQFXsYQnn3DPQMXPqVS7VsD/r8QKN1c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Lo485IKbw+eOWH9CJfq3RxyLfSDwWzOIGOafK7LwYcIRglHUpSCfZvcnHDLvL+bQU
-	 Ctt7NMCC3MWl1glyldYnSoiMv4t2A5+v1ywa1rij0TAywGP9TW6PGyt6PFXQ1KjYov
-	 030Uiod4Z38mycvYsM+gwH9khJD3uis5jLoe2JBuYQc3vEyVuJHAGThUCZ5bKW/o24
-	 5IJfg2Ut+8i75uH4exc7cWhkyoLhA93mTkgg4eALg62ezEVdEFEowc8/nSq4zC6Q6p
-	 c1cnO0D58K2bcWaGGQc3Cwi7NzW1e6+c2NvnQRKad0cWfR0HCQYYR9cyzCXBY3J77k
-	 ceWOp3UOMzPjQ==
-Date: Thu, 16 Jan 2025 17:01:03 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v4 2/5] drm: adp: Add Apple Display Pipe driver
-Message-ID: <20250116-vivacious-congenial-nightingale-cb2f6d@houat>
-References: <20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com>
- <20250114-adpdrm-v4-2-e9b5260a39f1@gmail.com>
- <mu7qiybhj7tu5hauk7izfxqlookc3awpknhjk74zwpkbznei4m@kewap6vivzoa>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="FB4JL7P/"
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id YUD3tq3Ijhk1BYUD6t9tt8; Thu, 16 Jan 2025 19:03:26 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1737050606;
+	bh=C8lyvdil+OAHd9BneEih8vko6Ln4alGLZIq1J3kePtk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To;
+	b=FB4JL7P/BdyTXG7TvkfEKwzz7VWZNzs5aATrG78Z1bEvy2qDJ7Vmi8xiD9/A8YCXR
+	 4G38/XoW3PILjyG2BfmODtiWAX0Rhoos+uaOIskD4FxQK8ktHOfUxoJIz+eDhYhM6S
+	 Oanp0BLTzLNm4zJhPcbKXTs8MT5hO+2bM/m9D+9Sh2EBsnodjCTd1ILjcKlG4I0Kgg
+	 KGyVCR5tHhR3y9I+5qu+wlbtkjYVxEUYX/6PpzVRnRsjjuT6hroFCFG3n6EjT4LFku
+	 4AI3+i6MpBq8orXqR93xIJlGBiXsUtCTRfzaIkLt4qh3z6YD7IWK/E4R8NNfw/WYfv
+	 9+EPrTWXo0rBQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Thu, 16 Jan 2025 19:03:26 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <3991ab78-d1a2-4cae-bea5-fb4dfa58aba3@wanadoo.fr>
+Date: Thu, 16 Jan 2025 19:03:13 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="rgvkyocpvfnurspd"
-Content-Disposition: inline
-In-Reply-To: <mu7qiybhj7tu5hauk7izfxqlookc3awpknhjk74zwpkbznei4m@kewap6vivzoa>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] input: apple_z2: Add a driver for Apple Z2
+ touchscreens
+References: <20250115-z2-v4-0-d7361ab16ba0@gmail.com>
+ <20250115-z2-v4-2-d7361ab16ba0@gmail.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: devnull+fnkl.kernel.gmail.com@kernel.org
+Cc: alyssa@rosenzweig.io, asahi@lists.linux.dev, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, dmitry.torokhov@gmail.com,
+ fnkl.kernel@gmail.com, j@jannau.net, krzk+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, marcan@marcan.st, neal@gompa.dev,
+ robh@kernel.org, rydberg@bitmath.org, sven@svenpeter.dev
+In-Reply-To: <20250115-z2-v4-2-d7361ab16ba0@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Le 15/01/2025 à 23:46, Sasha Finkelstein via B4 Relay a écrit :
+> From: Sasha Finkelstein <fnkl.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> 
+> Adds a driver for Apple touchscreens using the Z2 protocol.
+> 
+...
+
+> +static int apple_z2_upload_firmware(struct apple_z2 *z2)
+> +{
+> +	const struct apple_z2_fw_hdr *fw_hdr;
+> +	size_t fw_idx = sizeof(struct apple_z2_fw_hdr);
+> +	int error;
+> +	u32 load_cmd;
+> +	u32 size;
+> +	u32 address;
+> +	char *data;
+> +	bool init;
+> +	size_t cal_size;
+> +
+> +	const struct firmware *fw __free(firmware) = NULL;
+> +	error = request_firmware(&fw, z2->fw_name, &z2->spidev->dev);
+> +	if (error) {
+> +		dev_err(&z2->spidev->dev, "unable to load firmware");
+> +		return error;
+> +	}
+> +
+> +	fw_hdr = (const struct apple_z2_fw_hdr *)fw->data;
+> +	if (le32_to_cpu(fw_hdr->magic) != APPLE_Z2_FW_MAGIC || le32_to_cpu(fw_hdr->version) != 1) {
+> +		dev_err(&z2->spidev->dev, "invalid firmware header");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * This will interrupt the upload half-way if the file is malformed
+> +	 * As the device has no non-volatile storage to corrupt, and gets reset
+> +	 * on boot anyway, this is fine.
+> +	 */
+> +	while (fw_idx < fw->size) {
+> +		if (fw->size - fw_idx < 8) {
+> +			dev_err(&z2->spidev->dev, "firmware malformed");
+> +			return -EINVAL;
+> +		}
+> +
+> +		load_cmd = le32_to_cpu(*(__le32 *)(fw->data + fw_idx));
+> +		fw_idx += sizeof(u32);
+> +		if (load_cmd == LOAD_COMMAND_INIT_PAYLOAD || load_cmd == LOAD_COMMAND_SEND_BLOB) {
+> +			size = le32_to_cpu(*(__le32 *)(fw->data + fw_idx));
+> +			fw_idx += sizeof(u32);
+> +			if (fw->size - fw_idx < size) {
+> +				dev_err(&z2->spidev->dev, "firmware malformed");
+> +				return -EINVAL;
+> +			}
+> +			init = load_cmd == LOAD_COMMAND_INIT_PAYLOAD;
+> +			error = apple_z2_send_firmware_blob(z2, fw->data + fw_idx,
+> +							    size, init);
+> +			if (error)
+> +				return error;
+> +			fw_idx += size;
+> +		} else if (load_cmd == LOAD_COMMAND_SEND_CALIBRATION) {
+> +			address = le32_to_cpu(*(u32 *)(fw->data + fw_idx));
+> +			fw_idx += sizeof(u32);
+> +			cal_size = device_property_count_u8(&z2->spidev->dev, CAL_PROP_NAME);
+> +			if (cal_size != 0) {
+> +				size = cal_size + sizeof(struct apple_z2_hbpp_blob_hdr) + 4;
+> +				data = kzalloc(size, GFP_KERNEL);
+> +				error = apple_z2_build_cal_blob(z2, address, cal_size, data);
+> +				if (!error)
+> +					error = apple_z2_send_firmware_blob(z2, data, size, 16);
+> +				kfree(data);
+> +				if (error)
+> +					return error;
+> +			}
+> +		} else {
+> +			dev_err(&z2->spidev->dev, "firmware malformed");
+
+Missing \n.
+
+> +			return -EINVAL;
+> +		}
+> +		if (fw_idx % 4 != 0)
+> +			fw_idx += 4 - (fw_idx % 4);
+> +	}
+> +
+> +
+> +	z2->booted = true;
+> +	apple_z2_read_packet(z2);
+> +	return 0;
+> +}
+
+...
+
+> +static int apple_z2_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev = &spi->dev;
+> +	struct apple_z2 *z2;
+> +	int error;
+> +
+> +	z2 = devm_kzalloc(dev, sizeof(*z2), GFP_KERNEL);
+> +	if (!z2)
+> +		return -ENOMEM;
+> +
+> +	z2->tx_buf = devm_kzalloc(dev, sizeof(struct apple_z2_read_interrupt_cmd), GFP_KERNEL);
+> +	z2->rx_buf = devm_kzalloc(dev, 4096, GFP_KERNEL);
+
+This will allocate 8192 bytes because of the way the allocator works.
+It needs around 40 bytes for the devm stuff + 4096 requested. So 
+rounding rules will allocate 8192 bytes.
+
+So either you could allocate "for free" much more space, or you could 
+allocate (and document...)
+	z2->rx_buf = devm_kzalloc(dev, 4096 - sizeof(struct devres), GFP_KERNEL);
+
+or have an explicit devm_add_action_or_reset() that would require less 
+memory, but would add some LoC.
 
 
---rgvkyocpvfnurspd
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 2/5] drm: adp: Add Apple Display Pipe driver
-MIME-Version: 1.0
+See 
+https://elixir.bootlin.com/linux/v6.13-rc3/source/drivers/base/devres.c#L97
 
-Hi Dmitry,
+> +	if (!z2->tx_buf || !z2->rx_buf)
+> +		return -ENOMEM;
+> +
+> +	z2->spidev = spi;
+> +	init_completion(&z2->boot_irq);
+> +	spi_set_drvdata(spi, z2);
+> +
+> +	/* Reset the device on boot */
+> +	z2->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(z2->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(z2->reset_gpio), "unable to get reset");
+> +
+> +	error = devm_request_threaded_irq(dev, z2->spidev->irq, NULL,
+> +					apple_z2_irq, IRQF_ONESHOT | IRQF_NO_AUTOEN,
+> +					"apple-z2-irq", spi);
+> +	if (error)
+> +		return dev_err_probe(dev, z2->spidev->irq, "unable to request irq");
 
-On Wed, Jan 15, 2025 at 12:21:39PM +0200, Dmitry Baryshkov wrote:
-> On Tue, Jan 14, 2025 at 10:38:53PM +0100, Sasha Finkelstein via B4 Relay =
-wrote:
-> > +static int adp_dsi_host_attach(struct mipi_dsi_host *host,
-> > +			       struct mipi_dsi_device *dev)
-> > +{
-> > +	struct adp_mipi_drv_private *adp =3D mipi_to_adp(host);
-> > +	struct drm_bridge *next;
-> > +
-> > +	next =3D devm_drm_of_get_bridge(adp->dsi.dev, adp->dsi.dev->of_node, =
-1, 0);
->=20
-> select DRM_PANEL_BRIDGE for this API to be available.
-> Also there is an issue of lifetimes. The bridge will be destroyed only
-> when MIPI driver is unbound, however the panel can be attached and
-> detached several times.
+Missing \n.
 
-Can you expand on that one a bit more? AFAIK, it's always been unsafe
-and we don't have a good mitigation at the moment, so it's unclear to me
-what change you want here.
+s/z2->spidev->irq/error/ ?
 
-Maxime
+or maybe:
+	return dev_err_probe(dev, error, "unable to request irq %d\n", 
+z2->spidev->irq);
 
---rgvkyocpvfnurspd
-Content-Type: application/pgp-signature; name="signature.asc"
+> +
+> +	error = device_property_read_string(dev, "firmware-name", &z2->fw_name);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "unable to get firmware name");
 
------BEGIN PGP SIGNATURE-----
+Missing \n.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4ktOAAKCRAnX84Zoj2+
-diYEAX9X9nkT02sFf01ulFeGvCcG9S4zbIOBRhh3YUXpaH4JAbu+6x4S7Ioq+nx1
-cybYy0ABf2QLNDKRv+5B3Kyk0nHtU/Qae+ucdanC6Nw7Qqf6R/77ktfolomf8Oc4
-t/GdZdJufA==
-=siI1
------END PGP SIGNATURE-----
+> +
+> +	z2->input_dev = devm_input_allocate_device(dev);
+> +	if (!z2->input_dev)
+> +		return -ENOMEM;
+> +	z2->input_dev->name = (char *)spi_get_device_id(spi)->driver_data;
+> +	z2->input_dev->phys = "apple_z2";
+> +	z2->input_dev->id.bustype = BUS_SPI;
+> +
+> +	/* Allocate the axes before setting from DT */
+> +	input_set_abs_params(z2->input_dev, ABS_MT_POSITION_X, 0, 0, 0, 0);
+> +	input_set_abs_params(z2->input_dev, ABS_MT_POSITION_Y, 0, 0, 0, 0);
+> +	touchscreen_parse_properties(z2->input_dev, true, &z2->props);
+> +	input_abs_set_res(z2->input_dev, ABS_MT_POSITION_X, 100);
+> +	input_abs_set_res(z2->input_dev, ABS_MT_POSITION_Y, 100);
+> +	input_set_abs_params(z2->input_dev, ABS_MT_WIDTH_MAJOR, 0, 65535, 0, 0);
+> +	input_set_abs_params(z2->input_dev, ABS_MT_WIDTH_MINOR, 0, 65535, 0, 0);
+> +	input_set_abs_params(z2->input_dev, ABS_MT_TOUCH_MAJOR, 0, 65535, 0, 0);
+> +	input_set_abs_params(z2->input_dev, ABS_MT_TOUCH_MINOR, 0, 65535, 0, 0);
+> +	input_set_abs_params(z2->input_dev, ABS_MT_ORIENTATION, -32768, 32767, 0, 0);
+> +
+> +	input_set_drvdata(z2->input_dev, z2);
 
---rgvkyocpvfnurspd--
+Is it needed? (there is no input_get_drvdata())
+
+> +
+> +	error = input_mt_init_slots(z2->input_dev, 256, INPUT_MT_DIRECT);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "unable to initialize multitouch slots");
+
+Missing \n.
+
+> +
+> +	error = input_register_device(z2->input_dev);
+> +	if (error)
+> +		return dev_err_probe(dev, error, "unable to register input device");
+
+Missing \n.
+
+> +
+> +	/* Wait for device reset to finish */
+> +	usleep_range(5000, 10000);
+> +	error = apple_z2_boot(z2);
+> +	if (error)
+> +		return error;
+> +	return 0;
+
+Nitpick: These 4 lines could be just:
+	return apple_z2_boot(z2);
+
+> +}
+
+...
+
+> +static DEFINE_SIMPLE_DEV_PM_OPS(apple_z2_pm, apple_z2_suspend, apple_z2_resume);
+> +
+> +static const struct of_device_id apple_z2_of_match[] = {
+> +	{ .compatible = "apple,j293-touchbar" },
+> +	{ .compatible = "apple,j493-touchbar" },
+> +	{},
+
+Nitpick: Ending comma is not needed after a terminator.
+
+> +};
+> +MODULE_DEVICE_TABLE(of, apple_z2_of_match);
+> +
+> +static struct spi_device_id apple_z2_of_id[] = {
+> +	{ .name = "j293-touchbar", .driver_data = (kernel_ulong_t)"MacBookPro17,1 Touch Bar" },
+> +	{ .name = "j493-touchbar", .driver_data = (kernel_ulong_t)"Mac14,7 Touch Bar" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(spi, apple_z2_of_id);
+
+...
+
+CJ
