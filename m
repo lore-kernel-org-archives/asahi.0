@@ -1,113 +1,124 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1C71F63D3
-	for <asahi@lists.linux.dev>; Fri, 17 Jan 2025 03:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE691D9694;
+	Fri, 17 Jan 2025 10:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737085445; cv=none; b=NZKSXh4kU2YrJm4Hq6rDB28whEudlFAQihp5c/IMJMg9Oy6YbwYvVZmzwYhyxufbTfW9fAWc4yBP4OG1a1zRh5N4MeoGB+zpF8QErP2aIoPZs3Nx5TJSJGsIDgp3JrAGlz/1z/DsxO54mjFNC4EaqMh4UzWvLr4cd6UMK5n0Gws=
+	t=1737109422; cv=none; b=ehe7M2SiRU/d2OoG7lI92sszwKz0ldMmA7RQyQGtV+/sGIcJqWXeQ1jRyex10Gu8ipQA9QCk5VQEgOdoQuv8L3PK4rn2dRdMedJc43/Kh3KcNI90/pD8hJfZ36DJbA73mFmkL7pqlSB7s/4CEcl79xdF4CWw0ub3oNQeDapNddE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737085445; c=relaxed/simple;
-	bh=0dhKv0gLi70+Mn3lfhGBPsydEadYqDGEWN7e/WJvs18=;
+	s=arc-20240116; t=1737109422; c=relaxed/simple;
+	bh=jSwb2wZFFYhuuFvDBoxLHK554RSrZreFZDxgoQ2J7R8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lEbbkOsECYixbhs1YPfEQsB4dp0LvBu2In5dLPUOSZpbgDhSZC+Czf3S+YzYQSBg+3K7JReTvaJMwZoNQZfVK1g0cwggHSNJab+1NqC8GxxIj0k3JSxrSk4UvCPpTLAMSX1hDYZtS1ZAQhYBYZzUl7XMWgeEEvBMBgnUc0H896M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RcjppI0N; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=lHKGhFvj1Pr1dJIRIh7W7RcI3UKuM2f+M0yeLXuLZPZSNdqERdrYSJQUJtobo1hdc4J6anrIJaTt7DUav3GQno8b9U2RE4+T9HcgrXafAnqcNMLu4G3kOcJScug/7PI/JELyhfsqNHgXdkw25zmrIR7uUUOcWnFyc24ylL0Mxu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ujh/o19S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RcjppI0N"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-540215984f0so1821081e87.1
-        for <asahi@lists.linux.dev>; Thu, 16 Jan 2025 19:44:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737085441; x=1737690241; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i4+rc7zr12NkY8+R4W4XzHgtWfwIjKXfUvC4zjsYnME=;
-        b=RcjppI0Nb7BlcvMKCsSUgePX3uqsM2pMnmjsPvSwAMo2Vn2N8R3Z5bRL5ZkzBUTGmV
-         8K9j69jb139S85pQU82yBu6Vqf3t0ajJlJ7IJBByHI4S965DtfSTegDOHyN89PHAd5YB
-         ORbKLMRYBWeN5RVl/Q3UvLeDzD3gjUI3f4Qmhv56fZ+yBBYwpqNsUDhHcMrs8p8JNA1b
-         52VxZOcD5gJpT2NKRrdhx8YF+AKY15xJXA/NCV8PjRAdFXfVviCArt9iXNlxZIEeT96N
-         NZUvswALEUHkBqOqxV2H3EKk1rG+geOLFKk9J/h1YwSZFqLIEiBf/3L0pdTmwAPGVWsd
-         m/HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737085441; x=1737690241;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i4+rc7zr12NkY8+R4W4XzHgtWfwIjKXfUvC4zjsYnME=;
-        b=hS+Jh+sCjgrDyD2E9L6BV5ZwwG3YoV7X2bVGIRUZmT8+HQuzEOV24zhW2luWxARbNK
-         3OpOe/zSmXZw50ueWfRHIXYWOLXyvwc1HOZYXzQyZ6pw4Awwh51N0gQ+HGACSwINMg9C
-         1C86XNVkIFnFj1oGXrxBXAPaR8pQdOTyDqHOAAIpy964qo85EqA43/0hqugsPJAY1gPi
-         FWpdC+ZdDJMNlZVRJTZJePX19BgLM5TQKGlAalmP7CADUAqbVdvtDnJbVSvZYWyVUIDC
-         RzPj7K1Iw+TKhXty6EWA3HNUcleY9xtLGibPNAk719/4kjF528EK/BZX3gxViBfXTq4N
-         0EAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXuOw4JsXVMRBCrlO57H/86Vff5yuHcMngoOi91OveH9WCpfnEDymrxmkQMlfbqDmzfzSKEeA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6kalGGGnYCrhjFmkTxS9QlaTmrVDRV7U1GpYLc6dSpGnM1MUs
-	1H22Vcfi5N54GWlCfKir5AGD2YNsJbvcESf+bNrqpJjQDQjKOOHKNSXg5OQscuo=
-X-Gm-Gg: ASbGncssZnJUydRNIbGUzWvSPGNAmARRVQGi2ZLeCvgn+VK1QR9AbihisJrmSK1bU0M
-	HR36F5b2ZW+nE3KwcKDFZArkk8EE6XBGts+xEjvTi5Skqj7qMLvt6BhnlDcr5nTBtnWEp4/zZLO
-	TuY+oVDOH/rRw9MyVNl4u5Jk6VvWyS4LKwm3s6U+ajZEdODJjS0k4UlBZ0oOPms+0L5DfaJ7tQ7
-	8eA2yP2oZODXzjVyM8Th6OEq0X7ZRfp00DTB/fYfz82md3Mh50LRSHseqSjHE+sTBHuOqA66wq6
-	18IEFwMfFBOI/lAogub54iKCmVKSoZnunhj0
-X-Google-Smtp-Source: AGHT+IGz5ay7LtZ6+rSD2XP9rxWv/jABbs6ebwXD/MzQJbyjd0oZnFaAjrC0FEJz70e5w3SHfSay0A==
-X-Received: by 2002:a19:5518:0:b0:53f:231e:6fa2 with SMTP id 2adb3069b0e04-5439c253a05mr197064e87.26.1737085441361;
-        Thu, 16 Jan 2025 19:44:01 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af78d57sm190046e87.232.2025.01.16.19.43.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2025 19:43:59 -0800 (PST)
-Date: Fri, 17 Jan 2025 05:43:57 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ujh/o19S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D95DC4CEDF;
+	Fri, 17 Jan 2025 10:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737109421;
+	bh=jSwb2wZFFYhuuFvDBoxLHK554RSrZreFZDxgoQ2J7R8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ujh/o19S6Vqu1kuMTO8hRnxKfWHi4+Xct04NzVhA2lyP8EBYpayiCnvepWWIIzt5N
+	 XqBYEop5QaigJC4ZfkfwgIuvUi4i7JrUR7AY+1ZwHpXJeiypf0o1vHCr/4G3Vu+m3m
+	 08q8EY6HSrsuqj5hZjGHsLZHfVHOY4b43+04aliZldi2eyjB+vnhNMaumEd8B/0cZO
+	 Fu739I247+6CnJMcp8fjXJs9DlZ5HEEt08tgKqBJ0amk1Zqq4aslWWIkAumO7NaM1R
+	 htvBgb3IgzW7E0P2ebA3gk9MZv85IzCElOoKc27DR4+uFybMQQJvc9IVwXdP+nyijO
+	 dyij3wJUF0/qw==
+Date: Fri, 17 Jan 2025 11:23:38 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>, Janne Grunau <j@jannau.net>
 Subject: Re: [PATCH v4 2/5] drm: adp: Add Apple Display Pipe driver
-Message-ID: <2alm7gds4k2lnbk36gjdw6yhzhpls3ce5baycdiv7lsigxsbzn@rhwdgnphwwp6>
+Message-ID: <20250117-bright-passionate-ibis-804a8a@houat>
 References: <20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com>
  <20250114-adpdrm-v4-2-e9b5260a39f1@gmail.com>
  <mu7qiybhj7tu5hauk7izfxqlookc3awpknhjk74zwpkbznei4m@kewap6vivzoa>
- <20250116-vivacious-congenial-nightingale-cb2f6d@houat>
+ <CAMT+MTT+_ER+mFP1yUY+L-47-sZfNmtHUp09rqpPG174OKMJKA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="zxxlu2wrbjxf7qrg"
 Content-Disposition: inline
-In-Reply-To: <20250116-vivacious-congenial-nightingale-cb2f6d@houat>
+In-Reply-To: <CAMT+MTT+_ER+mFP1yUY+L-47-sZfNmtHUp09rqpPG174OKMJKA@mail.gmail.com>
 
-On Thu, Jan 16, 2025 at 05:01:03PM +0100, Maxime Ripard wrote:
-> Hi Dmitry,
-> 
-> On Wed, Jan 15, 2025 at 12:21:39PM +0200, Dmitry Baryshkov wrote:
-> > On Tue, Jan 14, 2025 at 10:38:53PM +0100, Sasha Finkelstein via B4 Relay wrote:
-> > > +static int adp_dsi_host_attach(struct mipi_dsi_host *host,
-> > > +			       struct mipi_dsi_device *dev)
+
+--zxxlu2wrbjxf7qrg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 2/5] drm: adp: Add Apple Display Pipe driver
+MIME-Version: 1.0
+
+Hi,
+
+On Thu, Jan 16, 2025 at 07:52:30PM +0100, Sasha Finkelstein wrote:
+> On Wed, 15 Jan 2025 at 11:21, Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> > > +     ret =3D drm_simple_encoder_init(drm, &adp->encoder, DRM_MODE_EN=
+CODER_DSI);
+> >
+> > This is being deprecated, please use drm_encoder_init() /
+> > drmm_encoder_init() instead.
+>=20
+> I seem to be unable to find any documentation or a mailing list post
+> to this effect. If you are referring to this patchset:
+> https://patchwork.kernel.org/project/linux-samsung-soc/patch/202003132017=
+44.19773-3-sam@ravnborg.org/
+> according to my understanding, it has not been applied.
+> In this case, the simple encoder api provides all functionality i need,
+> and a replacement would just be a simple encoder, except copied and pasted
+> into this driver.
+
+a drmm_encoder_(alloc|init)'d encoder with a NULL funcs pointer is
+strictly equivalent and doesn't require any extra infrastructure or work
+on your side compared to what you have here.
+
+> > > +static void adp_remove(struct platform_device *pdev)
 > > > +{
-> > > +	struct adp_mipi_drv_private *adp = mipi_to_adp(host);
-> > > +	struct drm_bridge *next;
+> > > +     struct device *dev =3D &pdev->dev;
+> > > +     struct drm_device *drm =3D dev_get_drvdata(dev);
+> > > +     struct adp_drv_private *adp =3D to_adp(drm);
 > > > +
-> > > +	next = devm_drm_of_get_bridge(adp->dsi.dev, adp->dsi.dev->of_node, 1, 0);
-> > 
-> > select DRM_PANEL_BRIDGE for this API to be available.
-> > Also there is an issue of lifetimes. The bridge will be destroyed only
-> > when MIPI driver is unbound, however the panel can be attached and
-> > detached several times.
-> 
-> Can you expand on that one a bit more? AFAIK, it's always been unsafe
-> and we don't have a good mitigation at the moment, so it's unclear to me
-> what change you want here.
+> > > +     adp_disable_vblank(adp);
+> >
+> > Isn't it being helped by the DRM itself? Anyway, I'd suggest moving it
+> > after DRM device unregistration and shutdown.
+>=20
+> Not sure i follow, as this call disables generation of vblank interrupts,
+> shouldn't it be done before all drm structures are torn down, to prevent
+> the interrupt handler from potentially operating on objects that are in
+> an invalid state?
 
-I was thinking about using drmm_ here, as the DRM device is also created
-and destroyed each time. But I might be mistaken here.
+Your adp_crtc_atomic_disable() function calls drm_crtc_vblank_off()
+already. drm_atomic_helper_shutdown() will call the CRTC disable hook if
+relevant, so you're effectively disabling vblank twice here.
 
--- 
-With best wishes
-Dmitry
+Maxime
+
+--zxxlu2wrbjxf7qrg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4ovpgAKCRAnX84Zoj2+
+dl/PAYCi6eiO7nJHixv6cIn7PybRAsm1pSznLtuB/wQE6J2GK7apdsfDdL8u9qWw
+Mda3RRsBgIBwNFvsUc+ukeNozHhxEQcjinnckbPigAQcK0ltVOYGaD+kpoiteW0y
+yiwJc/mqQg==
+=Uyb0
+-----END PGP SIGNATURE-----
+
+--zxxlu2wrbjxf7qrg--
