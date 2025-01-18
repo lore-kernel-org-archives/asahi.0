@@ -1,122 +1,132 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7295580B
-	for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 12:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5888F18DF73
+	for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 14:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737203335; cv=none; b=Ax4/RVti6bKAcXKKdLCewpBNzPNIML8/ZI/OQjujFPLSTSUY7Bv00spyildOKlsPmDIrbKBYW9xGE7IcP6hVqv7CfWQ3xOB9AHYWGsAOn/utvdAsInsCEkdxnJamcGO133J+9KfMYKZhIz/Bt8fqdPlKjVs1FMaSLYs8VUN/j20=
+	t=1737211731; cv=none; b=HwmZAo8rI8ZeWQZMULgv/zkurP1dxaq3dxqW8FBKdu+wgfmSGJTkHboNu836yQ/LoP++iVTrp3r1f4P7TabRlcEFi78pO9H626DtVDxkoLqIYiiQwwQR3OsmpCDpm6l8s1P/SNLT5ZBGMffOYZiJU3Ou1klw4/P6pbNh8GsLK3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737203335; c=relaxed/simple;
-	bh=zcU3bh0Td9K939Ujta2kcP5qxUMjJXNGzp+UHMOQHJA=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=owGz7FEW7MDOZaPtkOW4SeyKlM6J7Uc6Vy96wElLSNDHAu9v6bVgzcTtoaXzhiXnDgR74+/QZ9v90zZlwnwr9Ymg2md1AqY3ln9+RnEq50rfWIsiE+xDF0OsDCv4KjrjTJNjzBMx/mET+IA2qBw/ilitFEo0+8upzA5mmGsRSQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=PpIhHRwt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=b16TOA6w; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1737211731; c=relaxed/simple;
+	bh=WXStXyFZaWcEiVZmhppARBN00/359dcGtrrkG7tTYHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PSv60HySj1JFeLUMTzLtYUWRAdD9UNu1TDYM9MVTZQclQdQRuNVNi8fa8X8+LeI6Kh7T653wU4XbdeHzng/f9vzVbdJPHuPoEPrTZD8tb1MOOGyaI1H5ClHsDlZjC0Zu0LIw2bEQB1J3mtdsuonBe/OMoT1yAJ03IXhM/65CHSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A9ZoJqH4; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="PpIhHRwt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="b16TOA6w"
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 89C3213801CB;
-	Sat, 18 Jan 2025 07:28:52 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-07.internal (MEProxy); Sat, 18 Jan 2025 07:28:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1737203332; x=1737289732; bh=zcU3bh0Td9K939Ujta2kcP5qxUMjJXNG
-	zp+UHMOQHJA=; b=PpIhHRwtIV1ldVpeF8k2nEeAWepXyEtSMghRgH/3AU1OLQDS
-	J2dALAs2RCETq0MieEiKQde9YL/rQLqn1q+Uo5KcvVWB5kmrNh+xETf8i5SknumF
-	hGxmDGEHDIp7Er9yCDpbszIaISE5wv7I5hYYAuUIhkFKKWFIhnfaVK0tnpykpVzG
-	xHlCYg6ESrorij6VnZYAXO+6PDocSixOPvKyLRkrW15P/ORmPmr3jKCVYnezFv7M
-	I5vAEL9qOyBr/lEe0K1Cfy8ARdzF7VEVNTGrVOzlGqWhvdzA2TxTyxL0K5PciV3y
-	S4WdbrGLWu9cBM9qLX6cZA/f209wRW8srR4RRQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1737203332; x=
-	1737289732; bh=zcU3bh0Td9K939Ujta2kcP5qxUMjJXNGzp+UHMOQHJA=; b=b
-	16TOA6wuGADPx6lSClZZ/jLEZvKuZiBA4YbxCaFf6RN0eu2EcdPjhX0GhrTBQsFA
-	W7H3ZlanUnBJu0KZkbywJhmLZTsN70LsLndUR2XcLuc5PnQtgQPAltteyZCRbUav
-	Fv7v0Is+34Jm3+cjWStjm06fd6nxS9h/54lylavZc2WEk5otktkoXMrhQBmqgO9T
-	XkiiAz9/w3s8hIcuCVKC2cw1QgPFGna50wmx839MJJ7lHGyAxf1CzsRfb0fRpqah
-	0TtUW8uWtbmEp7enmnhdPC+Uf4+TSnHV4VwZhMR3ab8tREB+XicFX7t+TAF4hVoD
-	Bv15uJB34r3V8KOD+tKbw==
-X-ME-Sender: <xms:g56LZ5cjVxqkHRBfoDR_1g4qyDsveSxMcYOIBLOj0xV656RkWKgeGQ>
-    <xme:g56LZ3PtPYo-eKFJ-b8l2k3yZm5AhBbBsUUOO9e6qKQzWR3fbcqUud1ehXMLI4K4c
-    0tCsXZMTXOgMSpSYG8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudeihedggedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrh
-    druggvvheqnecuggftrfgrthhtvghrnhepleefteeugeduudeuudeuhfefheegveekueef
-    ffdvffektdffffelveffvddvueffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrg
-    hmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgt
-    phhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohephhhisegrlhihsh
-    hsrgdrihhspdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthho
-    pegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhnkhhlrdhkvghrnh
-    gvlhesghhmrghilhdrtghomhdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinh
-    grrhhordhorhhg
-X-ME-Proxy: <xmx:g56LZyjEFxeZe2qYhJ3oU5wZQHDTDzczvDxfHhrDqDelWHdpdHtrjA>
-    <xmx:g56LZy_hHfl_QLoD6sIrpCAykPiohLmfVEJ0WMJI3vAVAWuQYEGsoQ>
-    <xmx:g56LZ1vfoH9NZQO3DYRZw3nJYO76Aj722dKQ_lkYptShwifUWE7Bbw>
-    <xmx:g56LZxF49TLfXmDKVUZbhDSvCJh2ZyLGiqpNrZ3UkE_f-GdL94P0xA>
-    <xmx:hJ6LZwn0bti_1Z1O7mj0PbM0JyGYdgISjzrqGBIRUkTBxbMhQOe5tvcX>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 8E1AABA0070; Sat, 18 Jan 2025 07:28:51 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A9ZoJqH4"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2163b0c09afso59341705ad.0
+        for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 06:48:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737211729; x=1737816529; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZZ5Pm7uJSWgiHbsmoxlvZ3LbzzSHeTzbUZ13dlbartc=;
+        b=A9ZoJqH4tnfrjsm9eFtBiK9N4YTqDdP/MaUWlhpsTOyAQJRqgNMqotaOj3N5wgZMmK
+         D/86PRj4d5PpL1lr0Qt2oTM6ZLaUon8xR2MSalVo9cKnt4zSV4mV4AjSC7kZDmPXF1Jc
+         V0Z93jsz2URgdGCXn8QYf6JNKXsAtVURAbUXMxBjj3jGaFzpfRlHwpYizVqwmrl5ChJB
+         YsiSvOVz/5/zMFL3pW6YiX0N/kAkigi/64F/XP0BwU6BG0ku06Oh7CcNQAhtD30YBx9W
+         J6jXweeGJgsFmKSE29+KBP21RgTM2tOf3NJNqIykbii5dG4/s7uTOv9569XawSLt5L4s
+         ZIgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737211729; x=1737816529;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZZ5Pm7uJSWgiHbsmoxlvZ3LbzzSHeTzbUZ13dlbartc=;
+        b=nC86MbwPLr01ipEwjACJ+Ic+Wyvnt4rbGS7dZdf9lDAJWSEzX/kIvMTdt07QpcRrLe
+         uq9i6fMKuRVcYyIedIIGqApIl5z5Nz/tznzYa4ac4kQ4IaRni1gxDFK1Mb1rBc21AjZf
+         0yLme60EkXUDZbqHOzSgFKFCFaLdIrqRdO1IvVwpSvzKrk1mTvyXJhKdFozMNfoqSKSo
+         2+4xnXu1CJ18GT6cb/JlWBGXSwfDtzFQlTWTZ7tVTpXjRiCCLwJ/Dg+q+ySZBDk5J/gs
+         xaCb0a8HrdXfhtkJH8EAd/2BDB24/dQ5BUIrYI5doBFO6lgPOs3O+AYvqSLhEkqOn1JR
+         cpgw==
+X-Forwarded-Encrypted: i=1; AJvYcCWdpqbotMS2M+cV/k4mGsdgVMZ21NAAHaRoWL4Te93XVjNVffhmRS6VUCa30VREECNk9VRB+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxeku7nzEk1DKl3Ja8AP3cNmkXC4XMInx7tvbNpT3zQ64ot1p5C
+	jBa27XAZNbtdCdiOXcUue2QevRhdxWUtjvZP6DZ1H6/t07PPetJu
+X-Gm-Gg: ASbGncuwzaejdfOKz8h7if78GRWUcQL4fDkZHd2I/f8+JKbyfkgx9CVfKR6zxgFg5Hw
+	ZXJd2bO8wO3Jxh/Ecktg3tHQCx+vMhbBjLN+t3ptxWWcPTK9FPoJw2Naz4TIcQL7KJRk66s1mrg
+	H2mzeLz/DAqhwcBfsdT3Nf93C8QZ2EcEPzf933xDbRzQTDROD+v/1eZyyAmpCXTrwoXJU9q9MLv
+	yQklT9f6cdz7W8jldmf567Uie6e2uexlMBF7hCYYZj8Ccpw30iLgqSpWUb14/4RTyYFe1mR7c2n
+	AdEeL2QM8eMcuuZ7Tw==
+X-Google-Smtp-Source: AGHT+IFnrsNOUiSzk4s4t7y52klnwjzMxfS985Z5YG9DDee9EIIJ78Nl4bVqPlnBpD32vnlbMarWvw==
+X-Received: by 2002:a05:6a00:4fcb:b0:727:99a8:cd31 with SMTP id d2e1a72fcca58-72daf97b5d3mr10770196b3a.14.1737211729445;
+        Sat, 18 Jan 2025 06:48:49 -0800 (PST)
+Received: from [192.168.0.101] ([59.188.211.160])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72daba48bc5sm3922488b3a.133.2025.01.18.06.48.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Jan 2025 06:48:48 -0800 (PST)
+Message-ID: <89307020-cc96-41e5-b0c9-998958b9844c@gmail.com>
+Date: Sat, 18 Jan 2025 22:48:44 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 18 Jan 2025 13:28:31 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
- "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Jessica Zhang" <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Alyssa Ross" <hi@alyssa.is>
-Message-Id: <e78f5268-f0a9-44d5-8dbc-7ef7f26278d5@app.fastmail.com>
-In-Reply-To: <20250114-adpdrm-v4-5-e9b5260a39f1@gmail.com>
-References: <20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com>
- <20250114-adpdrm-v4-5-e9b5260a39f1@gmail.com>
-Subject: Re: [PATCH v4 5/5] MAINTAINERS: Add entries for touchbar display driver
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] irqchip/apple-aic: Only handle PMC interrupt as FIQ when
+ configured to fire FIQ
+To: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+References: <20250117170227.45243-1-towinchenmi@gmail.com>
+ <aef452c6-1e12-4510-8fb9-1dc597cf69bf@app.fastmail.com>
+Content-Language: en-US
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <aef452c6-1e12-4510-8fb9-1dc597cf69bf@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
 
-On Tue, Jan 14, 2025, at 22:38, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Sven Peter 於 2025/1/18 夜晚8:24 寫道:
+> Hi,
 >
-> Add the MAINTAINERS entries for the driver
 >
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
+> On Fri, Jan 17, 2025, at 18:02, Nick Chan wrote:
+>> The CPU PMU in Apple SoCs can be configured to fire its interrupt in one
+>> of several ways, and since Apple A11 one of the method is FIQ. Only handle
+>> the PMC interrupt as a FIQ when the CPU PMU has been configured to fire
+>> FIQs.
+>>
+>> Cc: stable@vger.kernel.org
+>> Fixes: c7708816c944 ("irqchip/apple-aic: Wire PMU interrupts")
+>> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+>> ---
+>>  drivers/irqchip/irq-apple-aic.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/irqchip/irq-apple-aic.c 
+>> b/drivers/irqchip/irq-apple-aic.c
+>> index da5250f0155c..c3d435103d6d 100644
+>> --- a/drivers/irqchip/irq-apple-aic.c
+>> +++ b/drivers/irqchip/irq-apple-aic.c
+>> @@ -577,7 +577,8 @@ static void __exception_irq_entry 
+>> aic_handle_fiq(struct pt_regs *regs)
+>>  						  AIC_FIQ_HWIRQ(AIC_TMR_EL02_VIRT));
+>>  	}
+>>
+>> -	if (read_sysreg_s(SYS_IMP_APL_PMCR0_EL1) & PMCR0_IACT) {
+>> +	if (read_sysreg_s(SYS_IMP_APL_PMCR0_EL1) &
+>> +	    (FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_FIQ) | PMCR0_IACT)) {
+> That's a somewhat unusual way to use FIELD_PREP and I'm not sure the
+> expression even does what you want. It's true when only PMCR0_IACT is set and
+> your commit description mentions that you only when to handle these when
+> FIQ have been configured. Am I missing something here?
+On a closer look the condition will evaluate to true when imode is between 7 and 4 inclusive and
+PMCR0_IACT  is set. The intended behavior is to have it evaluate to true when imode is 4 and
+PMCR0_IACT is set. Will send a v2.
+>
+>
+> Best,
+>
+>
+> Sven
 
-Acked-by: Sven Peter <sven@svenpeter.dev>
 
+Nick Chan
 
-Thanks,
-
-Sven
