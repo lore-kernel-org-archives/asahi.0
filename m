@@ -1,121 +1,110 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA9C273F9
-	for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 16:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8604D16EB54
+	for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 21:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737218181; cv=none; b=rzJEhueV3gS1bQ7Fu0zgY8dBKBf2B0tt93U9ooWH6ObxITYdmnkBKFno69Pkode9hEPoGzgf0LSDskb7gLT9AuiXjgnZFdDZjiF5xV8UZaNRJeiejzg1nFYCdj7UqHl1lz0WpeRdNgANIUBf6uIVZkF96O7tte4Ya23ZSXN1XWQ=
+	t=1737236126; cv=none; b=TxDzXWfKWky16GTfMDq4bUTGlcvIEbSkMGguYQp473FaV/bYa0TY9l/6yaA1Qeb21120NLIfjuLERCEmD75asJMicy4fHjKqJu4QfeQL3sI4+bm7Rke+FCHAs8l+NUSVP1KC0oRIkooOMLf9050SgKERAGfL2KKkKGVzk1f8g78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737218181; c=relaxed/simple;
-	bh=eh1SfXx9U8ZBjcOmI+c31uIuIYkcVWt69AWwx4rbptc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NrqCUZEtiep+Su/K4mMUUoxMWm0EEVUa0QlC1FisHfCLVRGzgYTBge6jVmX8zGyjPI3o+96FhjFcdx+soU5YCe6DpmkQ1dAent80jXSHCLh6cms780hdhaOieWikF7mKu5vKmoSFwlaYYjAN4CHYvnBaG9AQOpKJVgZCq1jW0UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HwokpD66; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737236126; c=relaxed/simple;
+	bh=qQOqPpSi7XIsmrHuVlGOVgHW6wGmVfV38Jt6+pI0tAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VOPqrufzszjxr15uVuHcdmoK5e/96MYFf2ldcq5fiM3i0AkHpsIFUFwya1gUB4fdW0RVXOWFumijgp01zX4bAIV7PUgoK4Jv+RK0Hm3Tt65d3Y3NLlj9KkaCYQ1NaoUIJED96MAicLk+3Cln0PziBUrJel6w3OVwVYzw7hIBsJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XH2fkVe2; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HwokpD66"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2ef8c012913so4140809a91.3
-        for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 08:36:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XH2fkVe2"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-303548a933aso28427611fa.3
+        for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 13:35:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737218179; x=1737822979; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lBcCkYZGqUKu3cSA3W2Zh/4n8iTPp48ifQZWMJrBSVA=;
-        b=HwokpD66Eaebo4a8yMhBBqP5B9rXFbGWP6SQ9FV+Y4GiHL7FQ5h/muA68MQFHyeE69
-         16lS4/1NFl90GB82CH3upNSkIdCgxnlrpWZp9RbbHHFaExpdAGQ+3A4Ly5w61NVBhaQf
-         0UE4zo5DNOgjNCMWC/RKzcs86EmLAH0LkI/lRyghKNvWdxoSKMMkDz6NhcMi65m1i8Bw
-         q8CPSwiSCf0kgt8jRbcRIJTcxzw16SXun8mh5hzJWQM2q5jbASTPHOkSdG7oTEu4Zwb+
-         QnJAF5stL4UJP0KhBwY6neNsUVH8KVQNyOU7C/KOzzvMPvzN85zUpfwFGN5gTTcsd3hd
-         2+5Q==
+        d=linaro.org; s=google; t=1737236122; x=1737840922; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4pAHJkXoFZdgHisVUkzvL4I/Edqgv9mE3mnJ+Lw62oI=;
+        b=XH2fkVe2rn67/AxEHX6V4NAk8/Xq3d/8HL03alvavLA+bTBg7ZAolziV+ezd0PngBN
+         M1ccuad4lufTzJTNpJVMRM3pyrllO9zVaSfmC6gSRXRHvkLO3DETHhTZZZYa8YHHwvNa
+         n2+7NCR8/vqf/tad9lTQKnYM4Agfh2whPytVwKRAIY6T9p2CjsR2fVaOiOGNlSG/uHAP
+         3Hbrm+Q9yozYMefvPJvr/rG7ECiMZFrRzZ03SuCSTb/xW/Cj/dV/esC4FtgwAMpibtdM
+         YKnB29abcix+2B7OtjmU2hftDkXXziV2f1gVtQAGH09r2EP74zlDMenQ9IyHC47AWTHB
+         Trug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737218179; x=1737822979;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lBcCkYZGqUKu3cSA3W2Zh/4n8iTPp48ifQZWMJrBSVA=;
-        b=TQD7MCXdKFCV1exNm8xYCXT8U0m/GU/SKKs/CXk/7iJswF8Qip6lDN/M+Br/U8Y46j
-         pIBuH/g6VP7l8Vc1q29003F59VFBqmPhUc+PP0P43CdoYQSfP1BXGJ9058/r5ipTMUnJ
-         W9U6HNd1fkRcUYylS7ZapFBNRDAQTwJ7TOGUqU4/vg6dHvDQqxs/Jh2cv5JRqQ1ryM06
-         tnufX3k5H2eaOfCa7ApQgb85M6wcu/Aiy59Lsu1+ubm2nJm9ioCJ1izXRy+XrFiYRtUx
-         8yPQXdZr+RACIoK0Gh1NibJH0hnEjnrq3gRSevEvgXLq0QtYoQdYs6bGcF3YYmybmr+g
-         PqUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW6NL11JrLV7Y9Xf9L4oeEKqot4D1+oJ3RgasVWjpNRqPJhe5TK25aSL1yA0nV1MFDOqoL1/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy09Z5u05drl9laGeh4uj1ehLTS4BXVZZUX05Tx0jv/G4ayhZe4
-	DBHWxhni4tBzMXlWUttlfeg3dRlL9lD94X83iSYHnqjtYsNJyU5P
-X-Gm-Gg: ASbGnctxWQZI+2lZRUPddQhVSEpLPY5WgfSCDyA/7saiR/u8d+4WDHZj8CS4jnQi8X0
-	yLPRi0NcZWocMd8AZgyEtbMsPtxptMJKVoI8+F8dP/6FfnXfqtG7LwttHxw1MXrhplcd15/t8jW
-	obX16CmmOxNumwBetD4j8ku11LTkQeLHLBtCBRw7f4XRtrE7VpyzJ6l/gJuSlEgZKy6oRZYcrPr
-	PK5thhiN7fQX/jpI4znwxfZx4D1Db+5vTmpUTHXCdIPLJZ1iEnE3Ra4rfBxKeKFKRtzM4w=
-X-Google-Smtp-Source: AGHT+IFIC6xQyN0czHlq14fUPCGSYmLyGoA8mjgv2tG6wO4ESEzTfyUD4RwRKSlW4dbm9htceT7Hgw==
-X-Received: by 2002:a17:90b:270c:b0:2ee:8031:cdbc with SMTP id 98e67ed59e1d1-2f782d2c9a1mr8501141a91.23.1737218179378;
-        Sat, 18 Jan 2025 08:36:19 -0800 (PST)
-Received: from nick-mbp.. ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2f72c2bae59sm8156962a91.30.2025.01.18.08.36.16
+        d=1e100.net; s=20230601; t=1737236122; x=1737840922;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4pAHJkXoFZdgHisVUkzvL4I/Edqgv9mE3mnJ+Lw62oI=;
+        b=Zs2ChQaCOseKvSGe7lfiIci8xiXp0HudzKIOb8lfUBmp3jMIkCUjsKtnOmj7QqZhz7
+         fjv3GrJvGEI5fnJX8bNIOoZp8jQzOSnTRaNcUGSd8XavVgrleMtoLUCZlwcCStoyGEzR
+         MUK1dUC55dusiYMR/V05U8AycG5DypstCF7NClJ1nV5NeTKmAUy7M6dzJHYAYJ/FH0Rj
+         EdhJTuShUH600DQHLYpsDSN94Al/ot2cNxeaL6IRNqNaPQv7xcLabVRjy8Xg5v56Eiiz
+         inE/6yzleOT/ZBT0za0+qUCFdUCw1gb+OCV4rAJwjdM9d41yeREU5NpG8HAMQzsQQ9+s
+         4W+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWoznKsg3HXBV5O9qh1tE1pxscy6Cf+1WFJy/kOqrfkV3XYkb6dFwINqM+0oZJ5Gw23ESKshQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyl0rJOtQAVz2Qi9jbee77GhSZqr5HGm7dhozREV5ppdTi4P2ir
+	gW+Hi9X2qPwXu+CK6lvYSMt+W6O7kvl88fpJthlvfa2Ef78KQnx3M/ypb/sATgo=
+X-Gm-Gg: ASbGncuSEFUpGEuBLTlkf9BXYX9xGkx+JlAYsNS3egn7AA1cOURreoITYcf3BrUhPC0
+	XfmEeIZKxlPxR657AktFAK/Di3j/gRWmx+sdNJ0eUsqBLMzhcyD6iAhYk6MS3OEy0MKeOSXqCFN
+	aNPMV8onpL1m09Qf5/BOKSxaeBSZpzfavGI1BNDfhMUk9JDFMdXV+tXI0/RCPcsas7HdwRF7JLO
+	ZPe6AfHsae4oSu/tYeKiR4ZdwMNmQ/mF9DldRIcqhwr5yEB4BGziSGi0OlR0axLbFP8t+BVPwwu
+	YohL2oe43lG8Q/3wEBfD1wUvelOft4cvwn5iInxmifyhTZJ8ug==
+X-Google-Smtp-Source: AGHT+IEe70NKsSNS6vODeZanfRqTTZhK/r5j+Z3Dmevq5/rL+i3YM7BD6wYBdurTwDfOej9kcBleRw==
+X-Received: by 2002:a05:651c:896:b0:300:1d45:871f with SMTP id 38308e7fff4ca-3072ca5bce5mr25037041fa.5.1737236122551;
+        Sat, 18 Jan 2025 13:35:22 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3072a3308edsm9034701fa.4.2025.01.18.13.35.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jan 2025 08:36:18 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Nick Chan <towinchenmi@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] irqchip/apple-aic: Only handle PMC interrupt as FIQ when configured to fire FIQ
-Date: Sun, 19 Jan 2025 00:31:42 +0800
-Message-ID: <20250118163554.16733-1-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.48.1
+        Sat, 18 Jan 2025 13:35:21 -0800 (PST)
+Date: Sat, 18 Jan 2025 23:35:18 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Hector Martin <marcan@marcan.st>, 
+	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v4 2/5] drm: adp: Add Apple Display Pipe driver
+Message-ID: <r56ycfx6eeampdduxy65v7tczwyfzgh6z64wmvivlxzt6ww2nk@6y7otqj5hoy5>
+References: <20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com>
+ <20250114-adpdrm-v4-2-e9b5260a39f1@gmail.com>
+ <mu7qiybhj7tu5hauk7izfxqlookc3awpknhjk74zwpkbznei4m@kewap6vivzoa>
+ <20250116-vivacious-congenial-nightingale-cb2f6d@houat>
+ <2alm7gds4k2lnbk36gjdw6yhzhpls3ce5baycdiv7lsigxsbzn@rhwdgnphwwp6>
+ <20250117-neon-unicorn-of-plenty-bbe639@houat>
+ <CAMT+MTTrvXsYONQj0V5U+dPJtCBOAQ-Lfg7NONMB6onMvJ+3QA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMT+MTTrvXsYONQj0V5U+dPJtCBOAQ-Lfg7NONMB6onMvJ+3QA@mail.gmail.com>
 
-The CPU PMU in Apple SoCs can be configured to fire its interrupt in one
-of several ways, and since Apple A11 one of the method is FIQ. Only handle
-the PMC interrupt as a FIQ when the CPU PMU has been configured to fire
-FIQs.
+On Fri, Jan 17, 2025 at 03:17:32PM +0100, Sasha Finkelstein wrote:
+> On Fri, 17 Jan 2025 at 11:24, Maxime Ripard <mripard@kernel.org> wrote:
+> > >
+> > > I was thinking about using drmm_ here, as the DRM device is also created
+> > > and destroyed each time. But I might be mistaken here.
+> >
+> > Ah, right, it makes sense then, thanks!
+> > Maxime
+> 
+> Not sure i understand. The drm device is created in probe(), and is
+> destroyed by devm.
 
-Cc: stable@vger.kernel.org
-Fixes: c7708816c944 ("irqchip/apple-aic: Wire PMU interrupts")
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
+devm on which device? The bridge's lifecycle is tied to the mipi-dsi
+host lifecycle, while the drm device is managed by the display device.
 
-Changes in v2:
-Fix the conditional to have the intented behavior of evaluating to true
-only when both PMCR0_IMODE is PMCR0_IMODE_FIQ and PMCR0_IACT is set by
-reverting the conditional to how it is before c7708816c944.
+> I do not see a path where it can be created/destroyed without a trip
+> via probe/remove,
+> and so tying the lifetime of the bridge in question to devm seems correct?
 
-Link to v1: https://lore.kernel.org/asahi/20250117170227.45243-1-towinchenmi@gmail.com/T
-
-- Nick Chan
-
-
- drivers/irqchip/irq-apple-aic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
-index da5250f0155c..2b1684c60e3c 100644
---- a/drivers/irqchip/irq-apple-aic.c
-+++ b/drivers/irqchip/irq-apple-aic.c
-@@ -577,7 +577,8 @@ static void __exception_irq_entry aic_handle_fiq(struct pt_regs *regs)
- 						  AIC_FIQ_HWIRQ(AIC_TMR_EL02_VIRT));
- 	}
- 
--	if (read_sysreg_s(SYS_IMP_APL_PMCR0_EL1) & PMCR0_IACT) {
-+	if ((read_sysreg_s(SYS_IMP_APL_PMCR0_EL1) & (PMCR0_IMODE | PMCR0_IACT)) ==
-+			(FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_FIQ) | PMCR0_IACT)) {
- 		int irq;
- 		if (cpumask_test_cpu(smp_processor_id(),
- 				     &aic_irqc->fiq_aff[AIC_CPU_PMU_P]->aff))
-
-base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
 -- 
-2.48.1
-
+With best wishes
+Dmitry
