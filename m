@@ -1,110 +1,125 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8604D16EB54
-	for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 21:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C051B0416;
+	Sat, 18 Jan 2025 22:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737236126; cv=none; b=TxDzXWfKWky16GTfMDq4bUTGlcvIEbSkMGguYQp473FaV/bYa0TY9l/6yaA1Qeb21120NLIfjuLERCEmD75asJMicy4fHjKqJu4QfeQL3sI4+bm7Rke+FCHAs8l+NUSVP1KC0oRIkooOMLf9050SgKERAGfL2KKkKGVzk1f8g78=
+	t=1737240233; cv=none; b=Nn2LzNWJY6anpghA3wjyybUlUQLUAVt/oQaTlq1aVi8fqrkRZrtMJVZzkdiEJUdSFwyrneGZtoryPZ9K7SUI4dpNjHF/F5aocOQ0iZ8LGf8Nx+5wiNrSfl/Yv+tGsl2waa/n8qiBNlffvLnETnoHh8fxRrc8eYFc7kO7PFcOHzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737236126; c=relaxed/simple;
-	bh=qQOqPpSi7XIsmrHuVlGOVgHW6wGmVfV38Jt6+pI0tAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VOPqrufzszjxr15uVuHcdmoK5e/96MYFf2ldcq5fiM3i0AkHpsIFUFwya1gUB4fdW0RVXOWFumijgp01zX4bAIV7PUgoK4Jv+RK0Hm3Tt65d3Y3NLlj9KkaCYQ1NaoUIJED96MAicLk+3Cln0PziBUrJel6w3OVwVYzw7hIBsJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XH2fkVe2; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1737240233; c=relaxed/simple;
+	bh=jtDQgJ5TMUog4z+ig7qpmfLNG/e1jX7Y27yVt6nn77Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VlpyRYSfGjOnnILrg5XU2aC+pAAr60SYkd8BnPqUItY8WJojyA2FBY7Hf6lwZQ9wL0nGZXDDttfDirgofKW8JU75CfP5bUEEGzuZO+qiazCal/ngskQ5uZxWFca1tO7nvOjCXMFU227UaInVhoz2jkZzZQEoDaZLcBjXshgO33c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X2+AHIqA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XH2fkVe2"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-303548a933aso28427611fa.3
-        for <asahi@lists.linux.dev>; Sat, 18 Jan 2025 13:35:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737236122; x=1737840922; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4pAHJkXoFZdgHisVUkzvL4I/Edqgv9mE3mnJ+Lw62oI=;
-        b=XH2fkVe2rn67/AxEHX6V4NAk8/Xq3d/8HL03alvavLA+bTBg7ZAolziV+ezd0PngBN
-         M1ccuad4lufTzJTNpJVMRM3pyrllO9zVaSfmC6gSRXRHvkLO3DETHhTZZZYa8YHHwvNa
-         n2+7NCR8/vqf/tad9lTQKnYM4Agfh2whPytVwKRAIY6T9p2CjsR2fVaOiOGNlSG/uHAP
-         3Hbrm+Q9yozYMefvPJvr/rG7ECiMZFrRzZ03SuCSTb/xW/Cj/dV/esC4FtgwAMpibtdM
-         YKnB29abcix+2B7OtjmU2hftDkXXziV2f1gVtQAGH09r2EP74zlDMenQ9IyHC47AWTHB
-         Trug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737236122; x=1737840922;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4pAHJkXoFZdgHisVUkzvL4I/Edqgv9mE3mnJ+Lw62oI=;
-        b=Zs2ChQaCOseKvSGe7lfiIci8xiXp0HudzKIOb8lfUBmp3jMIkCUjsKtnOmj7QqZhz7
-         fjv3GrJvGEI5fnJX8bNIOoZp8jQzOSnTRaNcUGSd8XavVgrleMtoLUCZlwcCStoyGEzR
-         MUK1dUC55dusiYMR/V05U8AycG5DypstCF7NClJ1nV5NeTKmAUy7M6dzJHYAYJ/FH0Rj
-         EdhJTuShUH600DQHLYpsDSN94Al/ot2cNxeaL6IRNqNaPQv7xcLabVRjy8Xg5v56Eiiz
-         inE/6yzleOT/ZBT0za0+qUCFdUCw1gb+OCV4rAJwjdM9d41yeREU5NpG8HAMQzsQQ9+s
-         4W+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWoznKsg3HXBV5O9qh1tE1pxscy6Cf+1WFJy/kOqrfkV3XYkb6dFwINqM+0oZJ5Gw23ESKshQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyl0rJOtQAVz2Qi9jbee77GhSZqr5HGm7dhozREV5ppdTi4P2ir
-	gW+Hi9X2qPwXu+CK6lvYSMt+W6O7kvl88fpJthlvfa2Ef78KQnx3M/ypb/sATgo=
-X-Gm-Gg: ASbGncuSEFUpGEuBLTlkf9BXYX9xGkx+JlAYsNS3egn7AA1cOURreoITYcf3BrUhPC0
-	XfmEeIZKxlPxR657AktFAK/Di3j/gRWmx+sdNJ0eUsqBLMzhcyD6iAhYk6MS3OEy0MKeOSXqCFN
-	aNPMV8onpL1m09Qf5/BOKSxaeBSZpzfavGI1BNDfhMUk9JDFMdXV+tXI0/RCPcsas7HdwRF7JLO
-	ZPe6AfHsae4oSu/tYeKiR4ZdwMNmQ/mF9DldRIcqhwr5yEB4BGziSGi0OlR0axLbFP8t+BVPwwu
-	YohL2oe43lG8Q/3wEBfD1wUvelOft4cvwn5iInxmifyhTZJ8ug==
-X-Google-Smtp-Source: AGHT+IEe70NKsSNS6vODeZanfRqTTZhK/r5j+Z3Dmevq5/rL+i3YM7BD6wYBdurTwDfOej9kcBleRw==
-X-Received: by 2002:a05:651c:896:b0:300:1d45:871f with SMTP id 38308e7fff4ca-3072ca5bce5mr25037041fa.5.1737236122551;
-        Sat, 18 Jan 2025 13:35:22 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3072a3308edsm9034701fa.4.2025.01.18.13.35.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jan 2025 13:35:21 -0800 (PST)
-Date: Sat, 18 Jan 2025 23:35:18 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v4 2/5] drm: adp: Add Apple Display Pipe driver
-Message-ID: <r56ycfx6eeampdduxy65v7tczwyfzgh6z64wmvivlxzt6ww2nk@6y7otqj5hoy5>
-References: <20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com>
- <20250114-adpdrm-v4-2-e9b5260a39f1@gmail.com>
- <mu7qiybhj7tu5hauk7izfxqlookc3awpknhjk74zwpkbznei4m@kewap6vivzoa>
- <20250116-vivacious-congenial-nightingale-cb2f6d@houat>
- <2alm7gds4k2lnbk36gjdw6yhzhpls3ce5baycdiv7lsigxsbzn@rhwdgnphwwp6>
- <20250117-neon-unicorn-of-plenty-bbe639@houat>
- <CAMT+MTTrvXsYONQj0V5U+dPJtCBOAQ-Lfg7NONMB6onMvJ+3QA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X2+AHIqA"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 97BDBC4CED1;
+	Sat, 18 Jan 2025 22:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737240232;
+	bh=jtDQgJ5TMUog4z+ig7qpmfLNG/e1jX7Y27yVt6nn77Q=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=X2+AHIqAIUl9aH/438WpvCtjvIymg4e+u2A/s8Ep7VuaUdQ3jb/a15UEVz/PoqkZW
+	 L3ZstjtqVk0+Epy20X9EAyE8jJLhFKcl1q8qTUcay/oZBRX399mfvTAAGW1MHWiRk4
+	 00CSGn+oWpQ39W40Lber6ONDU9/LMHUnD1vrycOx1YiZbK03eHHVucROlb3S6RAl9r
+	 QKEdF5cOrQLN0zr7GwHkZGeLOm2Sy0ERRhEc2RfbBPGEzFqqRQOCKlzSqvWBMjWj6z
+	 AIPQCz48HDrYAfBl7Wvb+B2oHFrWtOI2H01iJej/YhornZyCFfDLYkLQVbFQQBYLHo
+	 p3gnbKcYND9Qg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF86C02185;
+	Sat, 18 Jan 2025 22:43:52 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v5 0/4] Driver for Apple Z2 touchscreens.
+Date: Sat, 18 Jan 2025 23:42:21 +0100
+Message-Id: <20250118-z2-v5-0-6d38b2582169@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMT+MTTrvXsYONQj0V5U+dPJtCBOAQ-Lfg7NONMB6onMvJ+3QA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE0ujGcC/13MwYrCMBDG8VeRnI3MTDKpetr3kD0kk1QDaqVdi
+ mvpu5sGhOLxP8zvm9SQ+pwGddxMqk9jHnJ3L8HbjZKLv5+TzrG0IiCLSFa/SAsgBaZ98hBVeXz
+ 0qc3POnL6LX3Jw1/X/9fNEZfrh7uFj6hBizViRRwBxJ/zzefrTrqbWvhIa7KvhAppnAgfQmgRm
+ 29iPoShmEpMISyQmDma2OI3sWvCldhCYmMc+oAueFiTeZ7fn1i9Py0BAAA=
+X-Change-ID: 20241124-z2-c012b528ea0d
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737240231; l=2420;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=jtDQgJ5TMUog4z+ig7qpmfLNG/e1jX7Y27yVt6nn77Q=;
+ b=p8J9xoOLyfzSthaCkOiGJsgHqONtjwG0HEvv0Z+jBE2awomYf00IkK67eejWTz5/ccu6VvySk
+ cwuSBI+mlk5A9/L3mZKi8S8+oMdLFsK7ZfY8k1NJ0KdaXI4dhSp//NK
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On Fri, Jan 17, 2025 at 03:17:32PM +0100, Sasha Finkelstein wrote:
-> On Fri, 17 Jan 2025 at 11:24, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > I was thinking about using drmm_ here, as the DRM device is also created
-> > > and destroyed each time. But I might be mistaken here.
-> >
-> > Ah, right, it makes sense then, thanks!
-> > Maxime
-> 
-> Not sure i understand. The drm device is created in probe(), and is
-> destroyed by devm.
+Hi.
 
-devm on which device? The bridge's lifecycle is tied to the mipi-dsi
-host lifecycle, while the drm device is managed by the display device.
+This series adds support for Apple touchscreens using the Z2 protocol.
+Those are used as the primary touchscreen on mobile Apple devices, and for the
+touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+in charge of speaking Z2 to the touchbar).
 
-> I do not see a path where it can be created/destroyed without a trip
-> via probe/remove,
-> and so tying the lifetime of the bridge in question to devm seems correct?
+Originally sent as a RFC at https://lore.kernel.org/all/20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com/
+The changes since then mostly address the review feedback, but also
+add another machine that has this specific controller.
 
--- 
-With best wishes
-Dmitry
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v5:
+- Added missing \ns, removed 4kb-ish of wasted ram
+- Link to v4: https://lore.kernel.org/r/20250115-z2-v4-0-d7361ab16ba0@gmail.com
+
+Changes in v4:
+- Dropped another allocation, other fixes.
+- Link to v3: https://lore.kernel.org/r/20250112-z2-v3-0-5c0e555d3df1@gmail.com
+
+Changes in v3:
+- Tx/Rx buffers used in interrupt handler are now allocated in probe and reused
+- Other various style fixes
+- Link to v2: https://lore.kernel.org/r/20241128-z2-v2-0-76cc59bbf117@gmail.com
+
+Changes in v2:
+- In a separate patch, fixed an issue that prevented the SPI controller
+  from using GPIO CS, and as such, moved the hardware quirk to there
+- Went back to uploading the firmware in probe() instad of open()
+- Other changes addressing the review feedback
+- Link to v1: https://lore.kernel.org/r/20241126-z2-v1-0-c43c4cc6200d@gmail.com
+
+---
+Sasha Finkelstein (4):
+      dt-bindings: input: touchscreen: Add Z2 controller
+      input: apple_z2: Add a driver for Apple Z2 touchscreens
+      arm64: dts: apple: Add touchbar digitizer nodes
+      MAINTAINERS: Add entries for Apple Z2 touchscreen driver
+
+ .../input/touchscreen/apple,z2-multitouch.yaml     |  70 ++++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  27 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  19 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |  23 ++
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  14 +
+ drivers/input/touchscreen/Kconfig                  |  13 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/apple_z2.c               | 453 +++++++++++++++++++++
+ 9 files changed, 622 insertions(+)
+---
+base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
+change-id: 20241124-z2-c012b528ea0d
+
+
