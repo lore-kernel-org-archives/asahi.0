@@ -1,104 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BD21D8A16;
-	Sat, 18 Jan 2025 22:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737240233; cv=none; b=Pg8zx+ybf9ym4CU3IUp7RokG1TpSu4iTJhytO4Oo8m4nJykHHK6KC3h5c96PKW6yzipxC3cHcICgS0xRaE2lijTLjxFhTEsQc13dEEwQdOjC9Dzr1l5bdUY2Qd/2zJjs/caSWO863fI4Gtq3YgG5lT07r1tpuG++TqgbeLuFlq4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737240233; c=relaxed/simple;
-	bh=g+nNM1CQpEBfji6ZdtcCqKnlC4NQhcF+T4MvH7ajkro=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OsN5XZBc4mlRyLg5JJixu90txmsx5Ga/qP6ZJsC/cujClh5dMkLGFN79CJP/NGsg+xnQIUIyDa76H4L+SZefkL6qNCiD+7L75DRcOo1iwHqPKZIH9gkvTylUVM1MiUrrAw6Fa7P/uvTegO9sBVU8s+0DrYCE+Or+ZpWR174/4cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sf1/Q24y; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF6D1F941;
+	Sun, 19 Jan 2025 11:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737287424; cv=pass; b=UFHpDeauc1gPxdTIH1P/IRh0UQWIaAQk0eXDEbh+Jy+wJmReekPJprqeXmvrmrSc11ZDjphFYBX89WWQfj5PZSt2Y+kT4AfqzJcoCjRP7bZfqqOdFw6b1U13rCEOg6dlrkGwsj9bv+/iEM0boNriGtJcZRNcjCIc6VbET9HWloQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737287424; c=relaxed/simple;
+	bh=/yXE+gln6X+vRVAoJ2zpXCCs+a1FmRlkPZClz0jTXME=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iFkH8JoO9gcPu7BW12H/ysEaz0q/KTOLYH0gaT3M5Hu8w75LXMAkAYhPHEFSIzYK9Zq5U2KF9F7QKB2Vl36XLJ0GovoVKi0dCOvEUhxKtLOYVsNqE3cBucuqm9yJ2rJnLxh6RhYUEiQ7MIkvOV8xsMVBCZne2Q8pPLQu/2wL2ho=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=V6J9IOss; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sf1/Q24y"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E1B25C4CEE9;
-	Sat, 18 Jan 2025 22:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737240233;
-	bh=g+nNM1CQpEBfji6ZdtcCqKnlC4NQhcF+T4MvH7ajkro=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=sf1/Q24y/K/PZNv8C0DwZIg9Qp5WSPq0U+SFSJh+x5vbUEZuV++S7A8VW1SPzHkGR
-	 a6aJcSWhg0j9w3OsRZ+jCl/Ydo+vReatzJqqpjIj6Z7w/U9roQc79WdH70NALOc3Ut
-	 nutnvQGyjKgxefLPszljyYu5t5lvAj7lgybgzX1ExzOrGdSNzLEBzgWS0UZoFxfcCW
-	 X54uF2ztjkj1ptqvQF9OCtUW/i52kbacCIp9waN+t0PvqflBfOM6csH1VIKTiYDgAo
-	 //cMLh6N+vk/WJZmCKamo7D7XTfZ8Y6zQXs0o9sHeavY/FDlDbNoD7rbO6jIkyDgWB
-	 RUYvScUvoq/UQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC32C02187;
-	Sat, 18 Jan 2025 22:43:52 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Sat, 18 Jan 2025 23:42:25 +0100
-Subject: [PATCH v5 4/4] MAINTAINERS: Add entries for Apple Z2 touchscreen
- driver
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="V6J9IOss"
+ARC-Seal: i=1; a=rsa-sha256; t=1737287415; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=bi7Y0DJIuxhsfuxA8Nj8+4gXie9/EDv6whpLe5Ul7JHG8aEwuiWJAGwsOdZojWpI56TXjwi0yDuJD7/Gn6xPXv1C0ZhAnQW2exNjl4rERvV5jOwzzftDTbGETSlzG2BkaXg7zLzuQNrxV1KZMvEo/jUcWhvHOhNo3zKMIgFOF60=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1737287415; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=NX14ZjnOfcW9Ml3QJ940u0wzQc8hfZoz4ZMPmB9xgXE=; 
+	b=aH/PZ4Y5t4blNxCSbDkPvWdVWizsFbDgpVkzYicl+11EGaUOIwFUgssQpNQzi8ktWkOkCEM/SvuYvcXR+vXMrO76SpfFv+f2Vej9HSqpxbwpr3bHWQiNbHiqpXFdelTb6NCKdRqrdUwWHdAHm0UVKhym6/U3V8fQi1vP3+TXC8Q=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737287414;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=NX14ZjnOfcW9Ml3QJ940u0wzQc8hfZoz4ZMPmB9xgXE=;
+	b=V6J9IOssEG5THySGrmk8fOdw89rfPVO18SSRRwZy4PhQvuyUM3vWuX0EuDQVWNis
+	M6dlnTw7Qn0YQf+zabBGyXPHq+d+LAae+5LXFsio6qiEjyKjk7Q4AB6swjy35BQdUZt
+	J04ixhgXVka0HOzwtkzuvUCtcCZomqfdGpks3CY8=
+Received: by mx.zohomail.com with SMTPS id 1737287411991335.1037660613164;
+	Sun, 19 Jan 2025 03:50:11 -0800 (PST)
+Message-ID: <2f51584c-0590-432b-a4db-7a2af99cde15@collabora.com>
+Date: Sun, 19 Jan 2025 14:50:07 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/virtio: Support partial maps of GEM objects
+To: fnkl.kernel@gmail.com, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+References: <20250109-virtgpu-gem-partial-map-v1-1-a914b48776bd@gmail.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20250109-virtgpu-gem-partial-map-v1-1-a914b48776bd@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250118-z2-v5-4-6d38b2582169@gmail.com>
-References: <20250118-z2-v5-0-6d38b2582169@gmail.com>
-In-Reply-To: <20250118-z2-v5-0-6d38b2582169@gmail.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Neal Gompa <neal@gompa.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737240231; l=1303;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=ldnhN4cLWZdaSAnK+nFhxc/agLls9azNZ2cuvQL5DLw=;
- b=7oTK1inJvgaKlZiB3z0DYljz4VXOOpM6tbf2NMMV3SQ9BBiKcq9sPdl8a0bkZPYBVhxZKl3mD
- Qhu+CuXSWU/BNK7eaS7rJWmztCoRJ0BZxci2CMo+DsqsXqVLTxRTAQc
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+X-ZohoMailClient: External
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Hi,
 
-Add the MAINTAINERS entries for the driver
+On 1/10/25 00:45, Sasha Finkelstein via B4 Relay wrote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> 
+> Those are useful to implement coherent cross-vm mmap.
+> 
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_vram.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
+> index 25df81c027837c248a746e41856b5aa7e216b8d5..64e2c6dbdd678ac4c0da89fdd4c9dbf937c2c335 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vram.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
+> @@ -56,12 +56,11 @@ static int virtio_gpu_vram_mmap(struct drm_gem_object *obj,
+>  	else if (vram->map_info == VIRTIO_GPU_MAP_CACHE_UNCACHED)
+>  		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+>  
+> -	/* Partial mappings of GEM buffers don't happen much in practice. */
+> -	if (vm_size != vram->vram_node.size)
+> +	if (vm_size > vram->vram_node.size)
+>  		return -EINVAL;
+>  
+>  	ret = io_remap_pfn_range(vma, vma->vm_start,
+> -				 vram->vram_node.start >> PAGE_SHIFT,
+> +				 (vram->vram_node.start >> PAGE_SHIFT) + vma->vm_pgoff,
+>  				 vm_size, vma->vm_page_prot);
+>  	return ret;
+>  }
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Acked-by: Sven Peter <sven@svenpeter.dev>
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+The vma->vm_pgoff is fake in DRM, it's used for looking up DRM GEM
+object based on the vma->vm_pgoff value when mmap is invoked. The
+vma->vm_pgoff should be treated as zero here. Hence we can map a part of
+GEM, but only from its start. See drm_gem_mmap().
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a87ddad78e26f28ffd0f3433560d6db1518f9f95..8b3776eb748e128f87c44886b117e0652447fb37 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2191,6 +2191,7 @@ F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
- F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
- F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
- F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
-+F:	Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
- F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
-@@ -2211,6 +2212,7 @@ F:	drivers/dma/apple-admac.c
- F:	drivers/pmdomain/apple/
- F:	drivers/i2c/busses/i2c-pasemi-core.c
- F:	drivers/i2c/busses/i2c-pasemi-platform.c
-+F:	drivers/input/touchscreen/apple_z2.c
- F:	drivers/iommu/apple-dart.c
- F:	drivers/iommu/io-pgtable-dart.c
- F:	drivers/irqchip/irq-apple-aic.c
+BTW, partial mapping is wanted by Intel native context that I work on.
+The intent of this patch is correct. There are practical uses for
+partial mappings.
+
+Please correct vma->vm_pgoff in v2.
 
 -- 
-2.48.0
-
+Best regards,
+Dmitry
 
