@@ -1,82 +1,191 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0FB212D9C
-	for <asahi@lists.linux.dev>; Thu, 23 Jan 2025 15:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E21153BF8;
+	Thu, 23 Jan 2025 19:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737646178; cv=none; b=nsYM0yJbpky+nozfdkJCA0VLcwuQiL+/kjWLNdTnlo4OVDzwrHvHhiYgSwuEX3RV9vYFoEePZHPGDe7s+OZtvzQSSj9EZcC8wXz5gZL9fmTz18evDjejQh4Ie0vXtvXGzsBlbjMtLGnTxwN25gCu3PApsisx35GpBUh1GkAsTr8=
+	t=1737661268; cv=none; b=CPyl1xjhZ8cmjQm08UUuT8atB2puCqPvlY7KgHwDLkBQAWrlOnDU5SYf+wUPU2GRzJAfEAEbKuZ+gFAIdlWAWsjXttd2mNgUVg5pd3ktSD6X4FLSF3HIBsOkVm2IeIaKWXYxAuqqSxQ4MmmSzoI6u8H0Bzew3CZqU9ThYPvUo54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737646178; c=relaxed/simple;
-	bh=NrD9tohMn9+0XqNxtx5bn8n/sseawkF6bGYnJGkw4Qs=;
+	s=arc-20240116; t=1737661268; c=relaxed/simple;
+	bh=FzgMlZoMTVJxW0DtNfnaS6A9Ohe9wUCQbfRzCAOE11Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZMkoR/DEOVae/x6thQYlaqxhd8uSxKRdg6QKVZOAM4OnytQz86SgRpfWj0ovlXEpgyyUuu7ZqsT3r3nX6mOm3sf4Yz46lCRaygnWcAtbRvsrIkLzWJW0adLj8wLATK1Iq+UFdxzC4/VgGB31lkVV1HureWwoclrCjHbRTZMXpOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CYLqKXs6; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=d5yJkdbMzFBUwiURHwk7H15e7CcavO9ccgEtONlvHTpgX5OF+wmkTKw3jbhpUdf31yie+grKV4kqZrDeVtRlDBmAa7Oo60UNBt/4vdX1DDs4R65hHvCDOLL4YuyVuZE1yZO3BIbodlV/9xy1Eijn+HI5LoOEoU1Cr8wB5FG4nMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GE9Gsa7i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CYLqKXs6"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e39779a268bso1676793276.1
-        for <asahi@lists.linux.dev>; Thu, 23 Jan 2025 07:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737646176; x=1738250976; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NrD9tohMn9+0XqNxtx5bn8n/sseawkF6bGYnJGkw4Qs=;
-        b=CYLqKXs6hpbi33j2eoeGBw+bIAYl5/HfSV1Z9pg0p4CB/n6a6JgEUMZ6dEIV/ab/yE
-         CGaGwQkDNNHX0nDJoJ5R15+WAm+IrfJUXyok6oNnsc9Q4FVHlyWgFY91rnYegFl28TSS
-         snphwHa7Pss4Ot56wOkol0Gn34vSD/Vp8oAqHaJ0xG0osWONGMMBsBG0eEaEo2UzEULt
-         PcTyomsxkaxX00CW55ciseM07ot0JL8etxBpmpT/Jck8IG2xgYsnj2BVH9Vote17W6rv
-         5efDqngS/LvsMY/fwxu4sG9aTg084Qhk6yjyPmkyKo2D/BmeyJcpwOMra198hWabxOJZ
-         8sgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737646176; x=1738250976;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NrD9tohMn9+0XqNxtx5bn8n/sseawkF6bGYnJGkw4Qs=;
-        b=S4QDr9R9vZOce8einAE6tq5k/VE7stM9yQLwLJfx3i/4jIavORfk0ZdhJLlWN5H8EY
-         xRf+LHJJzpzOoyslOi0hDijfH018SmlvjNI3l/zliSRD7jJWlWVx7G73wYEVbmIcM9zF
-         ZSmGTuvRitREPrF+ZQ4l9N44AlXOT8PlNkz+xCVlzdfPW46fsnDCx5mEiNGd9KpPKl2y
-         kAL/2r0m7D+svN2e/t0P+gKuQ9z+0QzFZBZ/+NxnGYqRJKgJ1pV8Qmsca1bIdY+LvnuT
-         js4r3qZdkdxh6Pop4ndNfDoIg6PW5i24NPGZf4Cnl1dQ2sQLiUZwjQdnP/xYc8l1OK85
-         bZsw==
-X-Forwarded-Encrypted: i=1; AJvYcCUNhRBiCCwBxnM5BVMZ2txarvx3eUlnLEmmAMiLBQ+5fe2B2lTXff8xw9ExTUi/PJhCOgtbjA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZUb3pNDsXAbqikUL0bI31oxD8jGtKbZr11Ip0lxJ5EP90z6xE
-	tM2GJRbkHcaiFZGmqjOXEiAT1fERoAiQd7XxHNnKE8DQz3NLtvGaidbI54BJPGkSl2HtS/0ywyK
-	vYxsT/WtyZDdsW317swQmP2U9kHk=
-X-Gm-Gg: ASbGncsE7o7lFTto7eMxaCLe4OT47BEs73Fdvmu7k9sf4ya1r8591Acl0dEBMBg/Vfz
-	VLomcPNuDG4fOQ/Q/AVL+zbIK/FcLE0535LGedWkgYBkFjRWNCN+PUswABYzt3P4=
-X-Google-Smtp-Source: AGHT+IEcgaNEMT/nz9felDBiOOxXNv6kz7jxv8iPIixkQPXeXQj/Qcp8sEMC4T0kInZ7xTeKCClB4Fx7CAupT9sEVhs=
-X-Received: by 2002:a05:6902:2a8d:b0:e38:9227:befa with SMTP id
- 3f1490d57ef6-e5825780b02mr3125345276.1.1737646176006; Thu, 23 Jan 2025
- 07:29:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GE9Gsa7i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30591C4CEE7;
+	Thu, 23 Jan 2025 19:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737661268;
+	bh=FzgMlZoMTVJxW0DtNfnaS6A9Ohe9wUCQbfRzCAOE11Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GE9Gsa7iiU444KpkYxrogoBdZowGSjkyO0k7laPoPcoq6g3XxCe0poALteq4R4Zph
+	 tZ3ytakM0acv90IqA3t/Tq+HIhgvttRHrxIMc4+ftcYx59CQekJex95lkIBya9MuSj
+	 e8hgK78Mvi+bBQYrsrlD41mZ7vaA3+PkczkIp5mOMTvpFuEkiNLQOfTC7I53w3Jpp9
+	 jdf7sxICX3pGKHys55ON+N8sg3msEwZ1hAbYoGP7MqRskWyhGBaMTolzt8pF6nm7po
+	 ccEaxXFbs1MchzhtSnnv0PMPk6yc1GTQLhaCumG8Mkicq84A+N5GxqwlpPfo2bFwbT
+	 FHvlAO5Y9gebg==
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3eb790888c6so345990b6e.2;
+        Thu, 23 Jan 2025 11:41:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUws7qk+gamYDrkHinoGNl4FEgJGvtL6PA5C53PZacimftrk3GKzoux014Ma52rRpPxxeq8ta2yyd5Z@lists.linux.dev, AJvYcCWw6yDRGEsAtgeUG3GcYdkUeiXgLAkdUhcxBDWkM0LDShd2thrYQdjLQgoFBInd3dNi2hMS@lists.linux.dev, AJvYcCXYkBQ3Hu49kknZJqOH2EBsqLz2Mx7T93zuZGa6MkBuD3/vv/XEENuMRixLTuliCXgqMjO0eA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHY3jYxhPbGi/6qciOc1Y/+R5t0ZPuojUWDI3HskNVFRb+1R3Q
+	2Lwi2S98eQjpNuFMHzuI/Qvuc9dpMRFxbuhBD8NgbeAlhYq/1CdjTIJ9Vsi/eLzRyeC071OnM9s
+	p5w7yGDos9chggPflqDvFqRaAxHI=
+X-Google-Smtp-Source: AGHT+IFEZLpokzQrSZWtE1aUlhzheSpv16W1XbXdM7wOE5P8c+MPFR4VPEp6oVT06Ebj/5DfcgalM7sIG87OhMAknWU=
+X-Received: by 2002:a05:6808:309c:b0:3ea:519e:cc71 with SMTP id
+ 5614622812f47-3f19fd7beb4mr15987065b6e.39.1737661267410; Thu, 23 Jan 2025
+ 11:41:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250118-z2-v5-0-6d38b2582169@gmail.com> <20250118-z2-v5-2-6d38b2582169@gmail.com>
- <Z5CNx9natNYmJ5il@google.com>
-In-Reply-To: <Z5CNx9natNYmJ5il@google.com>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Thu, 23 Jan 2025 16:29:25 +0100
-X-Gm-Features: AbW1kvYrTQzvZ3DNs13coOwZ-EGWuTfhUMiTchLAOX9rz6NmJ2BSwg_pqYaH0XY
-Message-ID: <CAMT+MTQudKdUs5we_UCqN0WPJn+T0pyY+NrbaBFKBM2Rkuacmg@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] input: apple_z2: Add a driver for Apple Z2 touchscreens
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Henrik Rydberg <rydberg@bitmath.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
+References: <cover.1737631669.git.viresh.kumar@linaro.org>
+In-Reply-To: <cover.1737631669.git.viresh.kumar@linaro.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 23 Jan 2025 20:40:56 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0gQDxb0-a5HiEa0vyWCGz01esQBy1fJ4vNXDZJ=GW1W+Q@mail.gmail.com>
+X-Gm-Features: AWEUYZmJBrMCqL-riW-i0DlJyFI1cRh2mxShaIBztS2B8ipvq-I9aavy-zqQjVc
+Message-ID: <CAJZ5v0gQDxb0-a5HiEa0vyWCGz01esQBy1fJ4vNXDZJ=GW1W+Q@mail.gmail.com>
+Subject: Re: [PATCH 00/33] cpufreq: manage common sysfs attributes from core
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Fabio Estevam <festevam@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Hector Martin <marcan@marcan.st>, Huacai Chen <chenhuacai@kernel.org>, 
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Kevin Hilman <khilman@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Markus Mayer <mmayer@broadcom.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Naveen N Rao <naveen@kernel.org>, 
+	Nicholas Piggin <npiggin@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Sven Peter <sven@svenpeter.dev>, 
+	Thierry Reding <thierry.reding@gmail.com>, WANG Xuerui <kernel@xen0n.name>, linux-pm@vger.kernel.org, 
+	Vincent Guittot <vincent.guittot@linaro.org>, arm-scmi@vger.kernel.org, 
+	asahi@lists.linux.dev, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, 
+	loongarch@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 22 Jan 2025 at 07:18, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> diff --git a/drivers/input/touchscreen/apple_z2.c b/drivers/input/touchscreen/apple_z2.c
-> index 4a5ea252961a..a1bd2f3147ab 100644
+On Thu, Jan 23, 2025 at 12:38=E2=80=AFPM Viresh Kumar <viresh.kumar@linaro.=
+org> wrote:
+>
+> Hello,
+>
+> Most of the drivers add available and boost frequencies related attribute=
+s. This
+> patch series tries to avoid duplication and simplify driver's code by man=
+aging
+> these from core code.
+>
+> A quick search revealed that only the drivers that set the
+> policy->freq_table field, enable these attributes. Which makes sense as
+> well, since the show_available_freqs() helper works only if the
+> freq_table is present.
+>
+> In order to simplify drivers, create the relevant sysfs files forcefully
+> from cpufreq core.
+>
+> Pushed here:
+>
+> git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpufreq/core=
+-attr
 
-Since i will be incorporating this into my patch, do you want a co-developed-by?
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+
+for the series.
+
+Thanks!
+
+> --
+> Viresh
+>
+> Viresh Kumar (33):
+>   cpufreq: Always create freq-table related sysfs file
+>   cpufreq: dt: Stop setting cpufreq_driver->attr field
+>   cpufreq: acpi: Stop setting common freq attributes
+>   cpufreq: apple: Stop setting cpufreq_driver->attr field
+>   cpufreq: bmips: Stop setting cpufreq_driver->attr field
+>   cpufreq: brcmstb: Stop setting common freq attributes
+>   cpufreq: davinci: Stop setting cpufreq_driver->attr field
+>   cpufreq: e_powersaver: Stop setting cpufreq_driver->attr field
+>   cpufreq: elanfreq: Stop setting cpufreq_driver->attr field
+>   cpufreq: imx6q: Stop setting cpufreq_driver->attr field
+>   cpufreq: kirkwood: Stop setting cpufreq_driver->attr field
+>   cpufreq: longhaul: Stop setting cpufreq_driver->attr field
+>   cpufreq: loongson: Stop setting cpufreq_driver->attr field
+>   cpufreq: mediatek: Stop setting cpufreq_driver->attr field
+>   cpufreq: omap: Stop setting cpufreq_driver->attr field
+>   cpufreq: p4: Stop setting cpufreq_driver->attr field
+>   cpufreq: pasemi: Stop setting cpufreq_driver->attr field
+>   cpufreq: pmac: Stop setting cpufreq_driver->attr field
+>   cpufreq: powernow: Stop setting cpufreq_driver->attr field
+>   cpufreq: powernv: Stop setting common freq attributes
+>   cpufreq: qcom: Stop setting cpufreq_driver->attr field
+>   cpufreq: qoriq: Stop setting cpufreq_driver->attr field
+>   cpufreq: sc520_freq: Stop setting cpufreq_driver->attr field
+>   cpufreq: scmi: Stop setting cpufreq_driver->attr field
+>   cpufreq: scpi: Stop setting cpufreq_driver->attr field
+>   cpufreq: sh: Stop setting cpufreq_driver->attr field
+>   cpufreq: spear: Stop setting cpufreq_driver->attr field
+>   cpufreq: speedstep: Stop setting cpufreq_driver->attr field
+>   cpufreq: tegra: Stop setting cpufreq_driver->attr field
+>   cpufreq: vexpress: Stop setting cpufreq_driver->attr field
+>   cpufreq: virtual: Stop setting cpufreq_driver->attr field
+>   cpufreq: Remove cpufreq_generic_attrs
+>   cpufreq: Stop checking for duplicate available/boost freq attributes
+>
+>  drivers/cpufreq/acpi-cpufreq.c         |  1 -
+>  drivers/cpufreq/apple-soc-cpufreq.c    |  8 --------
+>  drivers/cpufreq/bmips-cpufreq.c        |  1 -
+>  drivers/cpufreq/brcmstb-avs-cpufreq.c  |  1 -
+>  drivers/cpufreq/cpufreq-dt.c           |  8 --------
+>  drivers/cpufreq/cpufreq.c              | 15 +++++++++++++++
+>  drivers/cpufreq/davinci-cpufreq.c      |  1 -
+>  drivers/cpufreq/e_powersaver.c         |  1 -
+>  drivers/cpufreq/elanfreq.c             |  1 -
+>  drivers/cpufreq/freq_table.c           |  8 --------
+>  drivers/cpufreq/imx6q-cpufreq.c        |  1 -
+>  drivers/cpufreq/kirkwood-cpufreq.c     |  1 -
+>  drivers/cpufreq/longhaul.c             |  1 -
+>  drivers/cpufreq/loongson2_cpufreq.c    |  1 -
+>  drivers/cpufreq/loongson3_cpufreq.c    |  1 -
+>  drivers/cpufreq/mediatek-cpufreq-hw.c  |  1 -
+>  drivers/cpufreq/mediatek-cpufreq.c     |  1 -
+>  drivers/cpufreq/omap-cpufreq.c         |  1 -
+>  drivers/cpufreq/p4-clockmod.c          |  1 -
+>  drivers/cpufreq/pasemi-cpufreq.c       |  1 -
+>  drivers/cpufreq/pmac32-cpufreq.c       |  1 -
+>  drivers/cpufreq/pmac64-cpufreq.c       |  1 -
+>  drivers/cpufreq/powernow-k6.c          |  1 -
+>  drivers/cpufreq/powernow-k7.c          |  1 -
+>  drivers/cpufreq/powernow-k8.c          |  1 -
+>  drivers/cpufreq/powernv-cpufreq.c      |  2 --
+>  drivers/cpufreq/qcom-cpufreq-hw.c      |  7 -------
+>  drivers/cpufreq/qoriq-cpufreq.c        |  1 -
+>  drivers/cpufreq/sc520_freq.c           |  1 -
+>  drivers/cpufreq/scmi-cpufreq.c         |  8 --------
+>  drivers/cpufreq/scpi-cpufreq.c         |  1 -
+>  drivers/cpufreq/sh-cpufreq.c           |  1 -
+>  drivers/cpufreq/spear-cpufreq.c        |  1 -
+>  drivers/cpufreq/speedstep-centrino.c   |  1 -
+>  drivers/cpufreq/speedstep-ich.c        |  1 -
+>  drivers/cpufreq/speedstep-smi.c        |  1 -
+>  drivers/cpufreq/tegra186-cpufreq.c     |  1 -
+>  drivers/cpufreq/tegra194-cpufreq.c     |  1 -
+>  drivers/cpufreq/vexpress-spc-cpufreq.c |  1 -
+>  drivers/cpufreq/virtual-cpufreq.c      |  1 -
+>  include/linux/cpufreq.h                |  1 -
+>  41 files changed, 15 insertions(+), 75 deletions(-)
+>
+> --
+> 2.31.1.272.g89b43f80a514
+>
