@@ -1,191 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E21153BF8;
-	Thu, 23 Jan 2025 19:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94E3219A78
+	for <asahi@lists.linux.dev>; Fri, 24 Jan 2025 08:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737661268; cv=none; b=CPyl1xjhZ8cmjQm08UUuT8atB2puCqPvlY7KgHwDLkBQAWrlOnDU5SYf+wUPU2GRzJAfEAEbKuZ+gFAIdlWAWsjXttd2mNgUVg5pd3ktSD6X4FLSF3HIBsOkVm2IeIaKWXYxAuqqSxQ4MmmSzoI6u8H0Bzew3CZqU9ThYPvUo54=
+	t=1737709114; cv=none; b=Bmjd0si8dTRf/TdlGAcIQNQ06XGFcUQ8LGLiT4dx2FbuNKI8AvrItmI0Sl/YxrYmQrRaWpwI+BdHia9eaV64w8CKKoCX9jlNFAW9qxa2GWNgGXFft52Wfyo1lr0/ANdbMC3QR8KkMfwkMO7MXJFqBs0tjBlFrGH5uACGH1D/KkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737661268; c=relaxed/simple;
-	bh=FzgMlZoMTVJxW0DtNfnaS6A9Ohe9wUCQbfRzCAOE11Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d5yJkdbMzFBUwiURHwk7H15e7CcavO9ccgEtONlvHTpgX5OF+wmkTKw3jbhpUdf31yie+grKV4kqZrDeVtRlDBmAa7Oo60UNBt/4vdX1DDs4R65hHvCDOLL4YuyVuZE1yZO3BIbodlV/9xy1Eijn+HI5LoOEoU1Cr8wB5FG4nMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GE9Gsa7i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737709114; c=relaxed/simple;
+	bh=fNI4UdDtZI4AVcTD8TnjHEnynSXd6Y+lcwnBOlUgb0k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H4c82N00ojWQYSFpD3YJatCZenR3vlhkvjXBmgRi0XyfvIRGsX+QLmf0kNhNbFZDxm0miEitfnjkkhgqFZVAgScJso1r8XBkFVlTyJEjpT0NnjubMg1zioyucV8Q9CCUGol70pH3Wo2YRLHwX3Vtk6sx9U4Uqb+rwLmH9SmlpD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fl8KJaLS; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GE9Gsa7i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30591C4CEE7;
-	Thu, 23 Jan 2025 19:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737661268;
-	bh=FzgMlZoMTVJxW0DtNfnaS6A9Ohe9wUCQbfRzCAOE11Y=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GE9Gsa7iiU444KpkYxrogoBdZowGSjkyO0k7laPoPcoq6g3XxCe0poALteq4R4Zph
-	 tZ3ytakM0acv90IqA3t/Tq+HIhgvttRHrxIMc4+ftcYx59CQekJex95lkIBya9MuSj
-	 e8hgK78Mvi+bBQYrsrlD41mZ7vaA3+PkczkIp5mOMTvpFuEkiNLQOfTC7I53w3Jpp9
-	 jdf7sxICX3pGKHys55ON+N8sg3msEwZ1hAbYoGP7MqRskWyhGBaMTolzt8pF6nm7po
-	 ccEaxXFbs1MchzhtSnnv0PMPk6yc1GTQLhaCumG8Mkicq84A+N5GxqwlpPfo2bFwbT
-	 FHvlAO5Y9gebg==
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3eb790888c6so345990b6e.2;
-        Thu, 23 Jan 2025 11:41:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUws7qk+gamYDrkHinoGNl4FEgJGvtL6PA5C53PZacimftrk3GKzoux014Ma52rRpPxxeq8ta2yyd5Z@lists.linux.dev, AJvYcCWw6yDRGEsAtgeUG3GcYdkUeiXgLAkdUhcxBDWkM0LDShd2thrYQdjLQgoFBInd3dNi2hMS@lists.linux.dev, AJvYcCXYkBQ3Hu49kknZJqOH2EBsqLz2Mx7T93zuZGa6MkBuD3/vv/XEENuMRixLTuliCXgqMjO0eA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxHY3jYxhPbGi/6qciOc1Y/+R5t0ZPuojUWDI3HskNVFRb+1R3Q
-	2Lwi2S98eQjpNuFMHzuI/Qvuc9dpMRFxbuhBD8NgbeAlhYq/1CdjTIJ9Vsi/eLzRyeC071OnM9s
-	p5w7yGDos9chggPflqDvFqRaAxHI=
-X-Google-Smtp-Source: AGHT+IFEZLpokzQrSZWtE1aUlhzheSpv16W1XbXdM7wOE5P8c+MPFR4VPEp6oVT06Ebj/5DfcgalM7sIG87OhMAknWU=
-X-Received: by 2002:a05:6808:309c:b0:3ea:519e:cc71 with SMTP id
- 5614622812f47-3f19fd7beb4mr15987065b6e.39.1737661267410; Thu, 23 Jan 2025
- 11:41:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fl8KJaLS"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2164b662090so35949295ad.1
+        for <asahi@lists.linux.dev>; Fri, 24 Jan 2025 00:58:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737709110; x=1738313910; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a4AqRX4jgpQUQupuoQFqpmYTbRVzBhfX6O9GAy7aKKQ=;
+        b=fl8KJaLSkukCZWh8Lbwpcw9AhU+hg5HeRWFD+Oq+HKwFRjb03fkdJ75TJP5VBqyy0V
+         7f4uhxbmFmajSJiyaryDLlfb4yIWR08WE4zAGD/q3VhDz5Z1gVrw8LXPnC4nSeudtcc9
+         j9LYSXSxwBJ1g3fyF+/KS7aUfoDF0b5iBPJapnfRXBrJ+VbyehVIInH4Ke/c/s27DTgl
+         yaR9/EfjWu9AagB40/NlpkqsZh1tHbHRqylEdzx7Y5N36EAwYakj8lxwyiojdMhImTWt
+         01UF1weCSyzKRXJyPNoIzPk9vU5h/IbNcfTl1FQOUHJdIiqBONuzQZTsxwM99SzwfVto
+         MrkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737709110; x=1738313910;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a4AqRX4jgpQUQupuoQFqpmYTbRVzBhfX6O9GAy7aKKQ=;
+        b=DUhw3ZsbNkWSUmI0yHk/HFxZQ3/oa2fj+JnOjI9jHoVrm/3KHP3zkoHVXGZEOaKb5N
+         IdnigFx11fAo/fYlsS6TbeK/BTymt0wlss0VF9GQa2HK4jyWxHNI7U/0VPC0oGSOq0Ui
+         g/9Z1LBQ7p3W6AMtd1Lo4De0cFJEGDuCY47h2pyesBJAfxjaS+6rTyKb/3V7VouTtUEp
+         +v9UgUsqzJOIauQy9QM+68hC6ZthfCIZP8MRLZ8bz5QmZqJI5tsgcGi+iiUI9msxBBYA
+         qQ/lSxKqq7NCt3SU5/TpaHCM+tg0IBGyoKjfmFnpAV6yQpMHPJvmaPlIxApslFbo6Ae1
+         amTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTXESxkcS9xKopVH0gCYeYs6i6EsesE07FMr4/1wqMriUrQj0Dwvlz0OOIDEqAOugABNTVAQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHrPZU7grKbgbSYbHae/m4/107j0uqRlrqhqRoIEgcJ0bHpFwE
+	gVuebfsErbC2QhutVQJgFrCaFYRQB+vJsg6B8KXbbX+d0qIxeWjYhe40vT0KnSI=
+X-Gm-Gg: ASbGncv/Q9iBsDzyrg3+tGcwVGj0/MVj3qx+LVLMYyxMExv+/K9tmoV6R2CVW+E7X8O
+	fsfybRUJkUBeN3IEscQPTNiRjAz++63VJgP/ssmE34aog/t5f9CFuxrDQ6Wnm3DnWFNaalwHGoM
+	g9Xk8wsX/VIefRoCbjce63L+HxiJjn3rL0Wk1gVhfiy5bpv8XnLbjy/TRbA4pPRURjet8ubcuL4
+	Vx0AClH6VZR+ib1UbCK9kz3j0XSJphNcI6zO3xKGIMxtphOlMByszVR2xPbrFvkqpHgy4uWyha3
+	cpbDlfg=
+X-Google-Smtp-Source: AGHT+IGaLv3P86dnfhfsz8clY+KvPxRH7m/1Pd0NzNkAaLxjGYIDOwn76y4qMRrSSuP3v13w1OIdqA==
+X-Received: by 2002:a17:903:320e:b0:217:9172:2ce1 with SMTP id d9443c01a7336-21c35544407mr480084755ad.22.1737709110054;
+        Fri, 24 Jan 2025 00:58:30 -0800 (PST)
+Received: from localhost ([122.172.84.139])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da3d9e1b2sm11621015ad.17.2025.01.24.00.58.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 00:58:29 -0800 (PST)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+	Hector Martin <marcan@marcan.st>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Huang Rui <ray.huang@amd.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Naveen N Rao <naveen@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	WANG Xuerui <kernel@xen0n.name>
+Cc: linux-pm@vger.kernel.org,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Lifeng Zheng <zhenglifeng1@huawei.com>,
+	arm-scmi@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev
+Subject: [PATCH 00/15] cpufreq: simplify boost handling
+Date: Fri, 24 Jan 2025 14:28:04 +0530
+Message-Id: <cover.1737707712.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1737631669.git.viresh.kumar@linaro.org>
-In-Reply-To: <cover.1737631669.git.viresh.kumar@linaro.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 23 Jan 2025 20:40:56 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gQDxb0-a5HiEa0vyWCGz01esQBy1fJ4vNXDZJ=GW1W+Q@mail.gmail.com>
-X-Gm-Features: AWEUYZmJBrMCqL-riW-i0DlJyFI1cRh2mxShaIBztS2B8ipvq-I9aavy-zqQjVc
-Message-ID: <CAJZ5v0gQDxb0-a5HiEa0vyWCGz01esQBy1fJ4vNXDZJ=GW1W+Q@mail.gmail.com>
-Subject: Re: [PATCH 00/33] cpufreq: manage common sysfs attributes from core
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Fabio Estevam <festevam@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Hector Martin <marcan@marcan.st>, Huacai Chen <chenhuacai@kernel.org>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Kevin Hilman <khilman@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Markus Mayer <mmayer@broadcom.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Naveen N Rao <naveen@kernel.org>, 
-	Nicholas Piggin <npiggin@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Sven Peter <sven@svenpeter.dev>, 
-	Thierry Reding <thierry.reding@gmail.com>, WANG Xuerui <kernel@xen0n.name>, linux-pm@vger.kernel.org, 
-	Vincent Guittot <vincent.guittot@linaro.org>, arm-scmi@vger.kernel.org, 
-	asahi@lists.linux.dev, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-tegra@vger.kernel.org, 
-	loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 23, 2025 at 12:38=E2=80=AFPM Viresh Kumar <viresh.kumar@linaro.=
-org> wrote:
->
-> Hello,
->
-> Most of the drivers add available and boost frequencies related attribute=
-s. This
-> patch series tries to avoid duplication and simplify driver's code by man=
-aging
-> these from core code.
->
-> A quick search revealed that only the drivers that set the
-> policy->freq_table field, enable these attributes. Which makes sense as
-> well, since the show_available_freqs() helper works only if the
-> freq_table is present.
->
-> In order to simplify drivers, create the relevant sysfs files forcefully
-> from cpufreq core.
->
-> Pushed here:
->
-> git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpufreq/core=
--attr
+Hello,
 
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+The boost feature can be controlled at two levels currently, driver
+level (applies to all policies) and per-policy.
 
-for the series.
+Currently most of the drivers enables driver level boost support from the
+per-policy ->init() callback, which isn't really efficient as that gets called
+for each policy and then there is online/offline path too where this gets done
+unnecessarily.
 
-Thanks!
+Also it is possible to have a scenario where not all cpufreq policies support
+boost frequencies. And letting sysfs (or other parts of the kernel) enable boost
+feature for that policy isn't correct.
 
-> --
-> Viresh
->
-> Viresh Kumar (33):
->   cpufreq: Always create freq-table related sysfs file
->   cpufreq: dt: Stop setting cpufreq_driver->attr field
->   cpufreq: acpi: Stop setting common freq attributes
->   cpufreq: apple: Stop setting cpufreq_driver->attr field
->   cpufreq: bmips: Stop setting cpufreq_driver->attr field
->   cpufreq: brcmstb: Stop setting common freq attributes
->   cpufreq: davinci: Stop setting cpufreq_driver->attr field
->   cpufreq: e_powersaver: Stop setting cpufreq_driver->attr field
->   cpufreq: elanfreq: Stop setting cpufreq_driver->attr field
->   cpufreq: imx6q: Stop setting cpufreq_driver->attr field
->   cpufreq: kirkwood: Stop setting cpufreq_driver->attr field
->   cpufreq: longhaul: Stop setting cpufreq_driver->attr field
->   cpufreq: loongson: Stop setting cpufreq_driver->attr field
->   cpufreq: mediatek: Stop setting cpufreq_driver->attr field
->   cpufreq: omap: Stop setting cpufreq_driver->attr field
->   cpufreq: p4: Stop setting cpufreq_driver->attr field
->   cpufreq: pasemi: Stop setting cpufreq_driver->attr field
->   cpufreq: pmac: Stop setting cpufreq_driver->attr field
->   cpufreq: powernow: Stop setting cpufreq_driver->attr field
->   cpufreq: powernv: Stop setting common freq attributes
->   cpufreq: qcom: Stop setting cpufreq_driver->attr field
->   cpufreq: qoriq: Stop setting cpufreq_driver->attr field
->   cpufreq: sc520_freq: Stop setting cpufreq_driver->attr field
->   cpufreq: scmi: Stop setting cpufreq_driver->attr field
->   cpufreq: scpi: Stop setting cpufreq_driver->attr field
->   cpufreq: sh: Stop setting cpufreq_driver->attr field
->   cpufreq: spear: Stop setting cpufreq_driver->attr field
->   cpufreq: speedstep: Stop setting cpufreq_driver->attr field
->   cpufreq: tegra: Stop setting cpufreq_driver->attr field
->   cpufreq: vexpress: Stop setting cpufreq_driver->attr field
->   cpufreq: virtual: Stop setting cpufreq_driver->attr field
->   cpufreq: Remove cpufreq_generic_attrs
->   cpufreq: Stop checking for duplicate available/boost freq attributes
->
->  drivers/cpufreq/acpi-cpufreq.c         |  1 -
->  drivers/cpufreq/apple-soc-cpufreq.c    |  8 --------
->  drivers/cpufreq/bmips-cpufreq.c        |  1 -
->  drivers/cpufreq/brcmstb-avs-cpufreq.c  |  1 -
->  drivers/cpufreq/cpufreq-dt.c           |  8 --------
->  drivers/cpufreq/cpufreq.c              | 15 +++++++++++++++
->  drivers/cpufreq/davinci-cpufreq.c      |  1 -
->  drivers/cpufreq/e_powersaver.c         |  1 -
->  drivers/cpufreq/elanfreq.c             |  1 -
->  drivers/cpufreq/freq_table.c           |  8 --------
->  drivers/cpufreq/imx6q-cpufreq.c        |  1 -
->  drivers/cpufreq/kirkwood-cpufreq.c     |  1 -
->  drivers/cpufreq/longhaul.c             |  1 -
->  drivers/cpufreq/loongson2_cpufreq.c    |  1 -
->  drivers/cpufreq/loongson3_cpufreq.c    |  1 -
->  drivers/cpufreq/mediatek-cpufreq-hw.c  |  1 -
->  drivers/cpufreq/mediatek-cpufreq.c     |  1 -
->  drivers/cpufreq/omap-cpufreq.c         |  1 -
->  drivers/cpufreq/p4-clockmod.c          |  1 -
->  drivers/cpufreq/pasemi-cpufreq.c       |  1 -
->  drivers/cpufreq/pmac32-cpufreq.c       |  1 -
->  drivers/cpufreq/pmac64-cpufreq.c       |  1 -
->  drivers/cpufreq/powernow-k6.c          |  1 -
->  drivers/cpufreq/powernow-k7.c          |  1 -
->  drivers/cpufreq/powernow-k8.c          |  1 -
->  drivers/cpufreq/powernv-cpufreq.c      |  2 --
->  drivers/cpufreq/qcom-cpufreq-hw.c      |  7 -------
->  drivers/cpufreq/qoriq-cpufreq.c        |  1 -
->  drivers/cpufreq/sc520_freq.c           |  1 -
->  drivers/cpufreq/scmi-cpufreq.c         |  8 --------
->  drivers/cpufreq/scpi-cpufreq.c         |  1 -
->  drivers/cpufreq/sh-cpufreq.c           |  1 -
->  drivers/cpufreq/spear-cpufreq.c        |  1 -
->  drivers/cpufreq/speedstep-centrino.c   |  1 -
->  drivers/cpufreq/speedstep-ich.c        |  1 -
->  drivers/cpufreq/speedstep-smi.c        |  1 -
->  drivers/cpufreq/tegra186-cpufreq.c     |  1 -
->  drivers/cpufreq/tegra194-cpufreq.c     |  1 -
->  drivers/cpufreq/vexpress-spc-cpufreq.c |  1 -
->  drivers/cpufreq/virtual-cpufreq.c      |  1 -
->  include/linux/cpufreq.h                |  1 -
->  41 files changed, 15 insertions(+), 75 deletions(-)
->
-> --
-> 2.31.1.272.g89b43f80a514
->
+Simplify and cleanup handling of boost to solve these issues.
+
+Pushed here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git cpufreq/boost
+
+Rebased over few dependencies from PM tree, will push to the arm-cpufreq tree
+after merge window is closed.
+
+Viresh Kumar (15):
+  cpufreq: staticize cpufreq_boost_trigger_state()
+  cpufreq: Export cpufreq_boost_set_sw()
+  cpufreq: Introduce policy->boost_supported flag
+  cpufreq: acpi: Set policy->boost_supported
+  cpufreq: amd: Set policy->boost_supported
+  cpufreq: cppc: Set policy->boost_supported
+  cpufreq: Restrict enabling boost on policies with no boost frequencies
+  cpufreq: apple: Set .set_boost directly
+  cpufreq: loongson: Set .set_boost directly
+  cpufreq: powernv: Set .set_boost directly
+  cpufreq: scmi: Set .set_boost directly
+  cpufreq: dt: Set .set_boost directly
+  cpufreq: qcom: Set .set_boost directly
+  cpufreq: staticize policy_has_boost_freq()
+  cpufreq: Remove cpufreq_enable_boost_support()
+
+ drivers/cpufreq/acpi-cpufreq.c      |  3 +++
+ drivers/cpufreq/amd-pstate.c        |  4 ++--
+ drivers/cpufreq/apple-soc-cpufreq.c | 10 +---------
+ drivers/cpufreq/cppc_cpufreq.c      |  9 +--------
+ drivers/cpufreq/cpufreq-dt.c        | 14 +-------------
+ drivers/cpufreq/cpufreq.c           | 30 ++++++++++++-----------------
+ drivers/cpufreq/freq_table.c        |  7 +++++--
+ drivers/cpufreq/loongson3_cpufreq.c | 10 +---------
+ drivers/cpufreq/powernv-cpufreq.c   |  5 +----
+ drivers/cpufreq/qcom-cpufreq-hw.c   |  7 +------
+ drivers/cpufreq/scmi-cpufreq.c      | 11 +----------
+ include/linux/cpufreq.h             | 20 ++++++-------------
+ 12 files changed, 35 insertions(+), 95 deletions(-)
+
+-- 
+2.31.1.272.g89b43f80a514
+
