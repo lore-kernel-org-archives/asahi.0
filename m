@@ -1,91 +1,165 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB562B9BC;
-	Fri, 24 Jan 2025 23:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737761688; cv=pass; b=lx8cLKCKtAFvN4ubkEFUouSXmX2S0pAusT0fVK80IfogOJibEVQyCmoncmaieoDcXw1ugeUMR71QkcxcnDjio56KqMdVOw54aQwDkWAm5Cts+ah8Uzg/NzuHGfHNJrRxJhiYTQAoy01EfSV0n7j8GeXjcOVD4b+ziCf/BCcEwiw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737761688; c=relaxed/simple;
-	bh=342u/g6UlRf/JfMygBMrVVXYE3nO+ym1nwKrWu/YzQM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EJVG5DjjAzv+/H+A1dZhDXhedqdCkaAHLHgeWT0QEoLNfg+tJQsPQQbmHGnN2E197e0pZdZtaiO6LcjBszuNWCnjTNp+Bo1OS5/WKJbGlqhLik5uVXynPCkePD/RPB1jE37n30izuvq/IiFrqyM2KeuuPAZBHzFEbD4w0aDaxRo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=GjDtjGlI; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB51201261;
+	Sat, 25 Jan 2025 21:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737839302; cv=none; b=nbboZqNIzVe2GJrMST0W/yHWg/v0wxXGt3SfGqJzvl4ErghG/yi65vfQy77qnwyuK06Yp/FGxBP1H6u8xym2zj1Szu8hERU4ETETrRQ2Urkjgb1PDQE3+FWih+XPpL+l73CF72fZwbfcAX9zxh7g6vOAyycaGv6o0it3gcrcC/w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737839302; c=relaxed/simple;
+	bh=YkJyOTErAt2tRZlqHy8myxEMmo2cnaskYaKMplVFxaA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GUmIatWM572ZzrKQFsxcdJjzUyzzNTurWQpTsDid30QeeMxRqst6MIbHk4nE+eCGRYzBaArGuvBcydIgud8vhOcIqc/qZg7rnm0PLBXKAdA1LJUEyoNY6NraVaDOLqrCBiWZIhiwVyv92bkFVNv68At4aH6D5d5eZeMSfpJ6Rn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MsQyWJrJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="GjDtjGlI"
-ARC-Seal: i=1; a=rsa-sha256; t=1737761679; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=HC8laApkiQIv9c5nn8RyDLpTuNgM9uUk1V5ELoYvFi4noJW/HH8+hpWi0ZqtWNHI9tYlmzQORFXIioRkksY8GSQR7QVVErXCfDuhbMQbO5+9PscmzDkTH8jSeq/w8DCvJzRR2NpRJXrKXgDMHY1JFdHdCZ0vDdWTjTpL6pQEvk4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1737761679; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=lmgx5CgLHXPGRAIUPh1HNEJgkKltCBb8w5mud1sWVZY=; 
-	b=cZrGnkqwe8VUoWxeX5ILq/D2qC5Mf2ZqUPEgmDQkyRbiHqPFiRT2GcVV2FmqZpvetyFyu/zsAaJ/03AGOYJx7i9NTrjAscgXYpTpzuXkn4CoTa94R671Ptfh3XEPOTBgi8vozYrMpSFpg3O5EJfUkKvb8gfirywZOqer4tfaTGQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737761679;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=lmgx5CgLHXPGRAIUPh1HNEJgkKltCBb8w5mud1sWVZY=;
-	b=GjDtjGlIjKMVHtswNtpynb7jNALUleYrZcMsn7XceGNywO//AqSWYFRI5yxERGIa
-	4VLS8+qUriyhaSlB7Q5VlxpjAAUlkMTERoauBXQeDZbixj+Axxn1cH5nhgGP9EGt8Bj
-	bMEuV1a8kYs2pxE/IsANrieB/eH8iK8oNKSiuM5Q=
-Received: by mx.zohomail.com with SMTPS id 1737761674301215.19811850842348;
-	Fri, 24 Jan 2025 15:34:34 -0800 (PST)
-Message-ID: <60b0bd4e-fcc3-470e-8294-4000731d6b6a@collabora.com>
-Date: Sat, 25 Jan 2025 02:34:28 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsQyWJrJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 73DEBC4CED6;
+	Sat, 25 Jan 2025 21:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737839301;
+	bh=YkJyOTErAt2tRZlqHy8myxEMmo2cnaskYaKMplVFxaA=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=MsQyWJrJ9raaAtPtUbfjGRFFm1lholUMotclQ+t1ew9LzO/W1W5cMWTziYU6YV34Y
+	 LhoYzN5eTSPyWE5PgrFWePKcJrvNlTccpnR62xUHtm/1QnCJiq7kMgZF6b2Hhx5aHN
+	 VYH/LcqerNHk4aaBtnxVFoikcyWtE7ELZADoIHNIXPImD/JtAij7WdjvURv6U7zq+i
+	 acUUbSNe1kZMhRh8TjsuABF0YgCPMFkZRY7X9ROXPoLY6SIscWELLwCoRyOwULVVIw
+	 OsLw6+lZxxRvN6J4ojCA7qr4beFakvu5YsQwKIId23UcNzZEE+7sYJw7OvIEb44nFT
+	 XqD/BrxG6RiMw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CAB4C0218C;
+	Sat, 25 Jan 2025 21:08:21 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Date: Sat, 25 Jan 2025 22:08:14 +0100
+Subject: [PATCH v2] drm/virtio: Align host mapping request to maximum
+ platform page size
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] drm/virtio: Align host mapping request to maximum
- platform page size
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Sergio Lopez <slp@redhat.com>,
- Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20250124-virtgpu-mixed-page-size-v1-1-480403790bac@gmail.com>
- <a55eecdc-76cc-432e-a4b3-90e8753088ac@collabora.com>
- <CAMT+MTSHi26NduO4+2hc-CPwRXQ6qJ0=DwZq=4Tt1vNd7RKyvQ@mail.gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <CAMT+MTSHi26NduO4+2hc-CPwRXQ6qJ0=DwZq=4Tt1vNd7RKyvQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Message-Id: <20250125-virtgpu-mixed-page-size-v2-1-c40c555cf276@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAL1SlWcC/4WNQQ7CIBBFr9LM2jGANqGuvIfpAulAJ5G2gUrUh
+ rtLvYDL9/P/+xskikwJLs0GkTInnqcK6tCAHc3kCXmoDEqoVkjRYea4+uWJgV804GJqI/GHUGl
+ 11+5shHIW6nqJ5GplN9/6yiOndY7v31GWe/rfmSVKtNqRJKnbzp2uPhh+HO0coC+lfAGwCfYzv
+ gAAAA==
+X-Change-ID: 20250109-virtgpu-mixed-page-size-282b8f4a02fc
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737839300; l=4035;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=3zZcDtrmzU80dSYarHh3Szvvoc/9VAfbk8eEmWVbJzo=;
+ b=PPOumAdOAWKk1KG70bsAN/MNWYF7huqyDMnowaOgSyhe3GoaSGFvCKE86DPb9z2bZyswFuWGp
+ eDpxEj8Gh1QAn5irhJPGXzXU6BjymQjFyeXXWW5cJ0pqkJsCzR4PffE
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On 1/25/25 01:58, Sasha Finkelstein wrote:
-> On Fri, 24 Jan 2025 at 23:52, Dmitry Osipenko
-> <dmitry.osipenko@collabora.com> wrote:
->>> -     ret = drm_mm_insert_node(&vgdev->host_visible_mm, &vram->vram_node,
->>> -                              bo->base.base.size);
->>> +     ret = drm_mm_insert_node_generic(&vgdev->host_visible_mm, &vram->vram_node,
->>> +                                      bo->base.base.size, MAX_PAGE_SIZE, 0, 0);
->>
->> This change only reserves extra space in the memory allocator, but
->> doesn't change actual size of allocated BO. Instead, you likely need to
->> replace all ALIGN(size, PAGE_SIZE) occurrences in the driver code with
->> ALIGN(args->size, MAX_PAGE_SIZE)
-> 
-> This approach is good enough for my usecase, where the vmm can
-> cope with sub-page gpu allocations (by rounding up to full page),
-> but can't deal with non page aligned ones.
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-Driver should work properly with any VMM. Aligning BO size will work
-universally, but then you could do it too in a userspace.
+This allows running different page sizes between host and guest on
+platforms that support mixed page sizes.
 
--- 
-Best regards,
-Dmitry
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v2:
+- Aligned all object sizes to MAX_PAGE_SIZE too.
+- Link to v1: https://lore.kernel.org/r/20250109-virtgpu-mixed-page-size-v1-1-c8fe1e1859f3@gmail.com
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h    | 6 ++++++
+ drivers/gpu/drm/virtio/virtgpu_gem.c    | 2 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 2 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c | 2 +-
+ drivers/gpu/drm/virtio/virtgpu_vram.c   | 4 ++--
+ 5 files changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 64c236169db88acd6ba9afd20a1ab16c667490c4..b73844d6535e45402dc46898035eaa7492de935d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -61,6 +61,12 @@
+ /* See virtio_gpu_ctx_create. One additional character for NULL terminator. */
+ #define DEBUG_NAME_MAX_LEN 65
+ 
++#if defined(__powerpc64__) || defined(__aarch64__) || defined(__mips__) || defined(__loongarch__)
++#define MAX_PAGE_SIZE SZ_64K
++#else
++#define MAX_PAGE_SIZE PAGE_SIZE
++#endif
++
+ struct virtio_gpu_object_params {
+ 	unsigned long size;
+ 	bool dumb;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 7db48d17ee3a8a9c638a8c6f9e58f35bd004b453..8e625ccae308f46b11a390a0987fd5ea55ccbf8d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -73,7 +73,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
+ 
+ 	pitch = args->width * 4;
+ 	args->size = pitch * args->height;
+-	args->size = ALIGN(args->size, PAGE_SIZE);
++	args->size = ALIGN(args->size, MAX_PAGE_SIZE);
+ 
+ 	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
+ 	params.width = args->width;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index e4f76f31555049369000a50c0cb1d5edab68536b..e39ae008ac5f734ec52e9703413958b4ea4be7d6 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -167,7 +167,7 @@ static int virtio_gpu_resource_create_ioctl(struct drm_device *dev, void *data,
+ 	params.size = rc->size;
+ 	/* allocate a single page size object */
+ 	if (params.size == 0)
+-		params.size = PAGE_SIZE;
++		params.size = MAX_PAGE_SIZE;
+ 
+ 	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
+ 	if (!fence)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index c7e74cf130221bbed3aa447e416065b03bf3e2b4..5aab82028293b7d73bcc4e686e7e2ecba6108b7b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -190,7 +190,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 
+ 	*bo_ptr = NULL;
+ 
+-	params->size = roundup(params->size, PAGE_SIZE);
++	params->size = roundup(params->size, MAX_PAGE_SIZE);
+ 	shmem_obj = drm_gem_shmem_create(vgdev->ddev, params->size);
+ 	if (IS_ERR(shmem_obj))
+ 		return PTR_ERR(shmem_obj);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
+index 25df81c027837c248a746e41856b5aa7e216b8d5..18e773b036f7c8190d4e20ad3f2c85c36e7e295c 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vram.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
+@@ -150,8 +150,8 @@ static int virtio_gpu_vram_map(struct virtio_gpu_object *bo)
+ 		return -EINVAL;
+ 
+ 	spin_lock(&vgdev->host_visible_lock);
+-	ret = drm_mm_insert_node(&vgdev->host_visible_mm, &vram->vram_node,
+-				 bo->base.base.size);
++	ret = drm_mm_insert_node_generic(&vgdev->host_visible_mm, &vram->vram_node,
++					 bo->base.base.size, MAX_PAGE_SIZE, 0, 0);
+ 	spin_unlock(&vgdev->host_visible_lock);
+ 
+ 	if (ret)
+
+---
+base-commit: 643e2e259c2b25a2af0ae4c23c6e16586d9fd19c
+change-id: 20250109-virtgpu-mixed-page-size-282b8f4a02fc
+
+
