@@ -1,165 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB51201261;
-	Sat, 25 Jan 2025 21:08:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE50347CC
+	for <asahi@lists.linux.dev>; Mon, 27 Jan 2025 03:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737839302; cv=none; b=nbboZqNIzVe2GJrMST0W/yHWg/v0wxXGt3SfGqJzvl4ErghG/yi65vfQy77qnwyuK06Yp/FGxBP1H6u8xym2zj1Szu8hERU4ETETrRQ2Urkjgb1PDQE3+FWih+XPpL+l73CF72fZwbfcAX9zxh7g6vOAyycaGv6o0it3gcrcC/w=
+	t=1737948762; cv=none; b=V2yQzWwuhi5jjxctHbuu3kQJOCxOe6SOyAF/z95+o3wJc5jjvv7NjPzmvMvwOUrO+6NvbTY9hilqCZOjlIR0Qnhy+1+r4gufVS+YK+NdeQWVHSbI1R68EH155WhmazYAfEBQ2qPJlvOdOPCUTMy4y3jkmZXhAUOS6aIZXZYzZn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737839302; c=relaxed/simple;
-	bh=YkJyOTErAt2tRZlqHy8myxEMmo2cnaskYaKMplVFxaA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GUmIatWM572ZzrKQFsxcdJjzUyzzNTurWQpTsDid30QeeMxRqst6MIbHk4nE+eCGRYzBaArGuvBcydIgud8vhOcIqc/qZg7rnm0PLBXKAdA1LJUEyoNY6NraVaDOLqrCBiWZIhiwVyv92bkFVNv68At4aH6D5d5eZeMSfpJ6Rn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MsQyWJrJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737948762; c=relaxed/simple;
+	bh=YiJT9WQLqKtxa/sdK0/rOM1AOUebCQeiyhpJpoFR/Tc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=joAiM2xQI89VlCoIdkHdSPwiB1E56EhwaQd7Uuy8vGrrse6/7JhZcr24XOZ4H1lOkJVcn/t1sKSjly7YhxUZndJ4bOiWsHHogkrqaZufJqXa1G5EwBkmMYtEmhUJA3VMxz+wUTsCQsVlMiP3VNcePjsDgl3nTkRCOQNHYPF1cpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vjLRcybh; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsQyWJrJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 73DEBC4CED6;
-	Sat, 25 Jan 2025 21:08:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737839301;
-	bh=YkJyOTErAt2tRZlqHy8myxEMmo2cnaskYaKMplVFxaA=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=MsQyWJrJ9raaAtPtUbfjGRFFm1lholUMotclQ+t1ew9LzO/W1W5cMWTziYU6YV34Y
-	 LhoYzN5eTSPyWE5PgrFWePKcJrvNlTccpnR62xUHtm/1QnCJiq7kMgZF6b2Hhx5aHN
-	 VYH/LcqerNHk4aaBtnxVFoikcyWtE7ELZADoIHNIXPImD/JtAij7WdjvURv6U7zq+i
-	 acUUbSNe1kZMhRh8TjsuABF0YgCPMFkZRY7X9ROXPoLY6SIscWELLwCoRyOwULVVIw
-	 OsLw6+lZxxRvN6J4ojCA7qr4beFakvu5YsQwKIId23UcNzZEE+7sYJw7OvIEb44nFT
-	 XqD/BrxG6RiMw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CAB4C0218C;
-	Sat, 25 Jan 2025 21:08:21 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Sat, 25 Jan 2025 22:08:14 +0100
-Subject: [PATCH v2] drm/virtio: Align host mapping request to maximum
- platform page size
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vjLRcybh"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21636268e43so85269405ad.2
+        for <asahi@lists.linux.dev>; Sun, 26 Jan 2025 19:32:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737948759; x=1738553559; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HSKBdkcHUpmfLPk161Kn0rx+ur3BhotIfl5VOt/amok=;
+        b=vjLRcybheqG1gwhGHdiTHFBE2aeqyak881iHYwFwac3GNs8z3wNAHSm02GyamkJ0om
+         QjWnMboTk8F/0anTAIqP4zAmRmEtLB/CN1NiVhyb+vNHOO7Mr0wAudXTE3I04/2ez0Cf
+         3nwchHTVHcb/A2fqQ4BfzzL9BAAVc76Q5unK5+KVFYeiXU6dromPtbjwGbXnNL9J3LmA
+         RYWoII4disrKte/bjvg8p0tCYp+hV3YTsU/+BvgzilPkNtbT1lSo9BNidMt8hTm7BQLx
+         8aBjgl7XbeLi8daS+Fdt5tdj5DIBxb7ws5CHJ5KloDpYmqNip4T7GGDfdbjBnLReH6Bz
+         vxWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737948759; x=1738553559;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HSKBdkcHUpmfLPk161Kn0rx+ur3BhotIfl5VOt/amok=;
+        b=QJn40WoYvGE46bWi8tgqKS443x57S4cbfd52geGaqmQ6eOFdWXtDuJT4dmgin8fjvD
+         HVZD2pSnVlnpJSHXbEowQbua2On8C1aenYNjQDmaSxj1IFQ9MegvXF1ggaMKuFs/LYjU
+         4UiNUEHYD3XGsOJpVCfdXRFxoCj595L7Qp/634H0tAY/ojXclHA4BAc9do9AVYt3CpNC
+         4/8ZSrkpzEW9noe8uYKqU1GAjdSRQ0TJ8pEvbq8w4RIc6d4h2mWTcwVYi5DozIw/Nd5v
+         3mYNNB2bwKo3B99ij0yfESa3loQAOlo+SB5xLPVPMZ8kGOaMM15F5I/HNUO4TI2q0LMY
+         NBng==
+X-Forwarded-Encrypted: i=1; AJvYcCUKsE4uAmNsWF87aZas1JG8ZiBMoeGabVbb8YhRsvSfyXWQVApsI8okneA/4LjJVO8vMCHBEQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcJKGTcGfY6jawKjKizqeX1ZLAj0mtuKLRRzcFmXp9hGGYplXG
+	5Ez3uJrFuiQxaKYK+z+Nw8R+jVjVnszSE92qkBo/uHqOAowPX/z5TpVooM2/xx8=
+X-Gm-Gg: ASbGnctCfz9UqZQAkOv3j6ixduB2yMeYn+3CZM33NM02o9D720t93SBcNxsepH34tIi
+	8vhqO5bL8bF+dLKSzZULtcA9oe5E0WSMn+tgXHPzdiGoLHaimMRvwOXPXob8aLvx+6yWq4FmB/m
+	53v+SABxAc6dS24SrDeD1sfZfk+6EBXKTF6E4iiwdKP0eZ2XLxGafSK2KylLzqbXvaEvQlRnrHH
+	7FEKYcWg1jgpgjd6/mdHarNp3GlUrwybZTqDQn+Z4SLcC75a6vEbXnpfCYdKgU/209fR+TCjzyw
+	GooMWv0=
+X-Google-Smtp-Source: AGHT+IHvgBNK3NhwKI9n5fMBriq7FLdQFhDFQyHQaZNGZxzhpW+eaG60WMmG2z8DBaIbsP1G1cn9Zg==
+X-Received: by 2002:a05:6a20:728d:b0:1db:eead:c588 with SMTP id adf61e73a8af0-1eb215ec4b9mr65731325637.29.1737948759394;
+        Sun, 26 Jan 2025 19:32:39 -0800 (PST)
+Received: from localhost ([122.172.84.139])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ac496bbd01esm5342591a12.71.2025.01.26.19.32.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jan 2025 19:32:38 -0800 (PST)
+Date: Mon, 27 Jan 2025 09:02:28 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+	Hector Martin <marcan@marcan.st>,
+	Huacai Chen <chenhuacai@kernel.org>, Huang Rui <ray.huang@amd.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Naveen N Rao <naveen@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Sven Peter <sven@svenpeter.dev>, WANG Xuerui <kernel@xen0n.name>,
+	linux-pm@vger.kernel.org,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Lifeng Zheng <zhenglifeng1@huawei.com>, arm-scmi@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev
+Subject: Re: [PATCH 00/15] cpufreq: simplify boost handling
+Message-ID: <20250127033228.abeqhrxoprqw5b4e@vireshk-i7>
+References: <cover.1737707712.git.viresh.kumar@linaro.org>
+ <CAJZ5v0jYSZQKkLN-TO_h0AazhHZtHgpavTnnAscLPYLmjX3LaA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250125-virtgpu-mixed-page-size-v2-1-c40c555cf276@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAL1SlWcC/4WNQQ7CIBBFr9LM2jGANqGuvIfpAulAJ5G2gUrUh
- rtLvYDL9/P/+xskikwJLs0GkTInnqcK6tCAHc3kCXmoDEqoVkjRYea4+uWJgV804GJqI/GHUGl
- 11+5shHIW6nqJ5GplN9/6yiOndY7v31GWe/rfmSVKtNqRJKnbzp2uPhh+HO0coC+lfAGwCfYzv
- gAAAA==
-X-Change-ID: 20250109-virtgpu-mixed-page-size-282b8f4a02fc
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737839300; l=4035;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=3zZcDtrmzU80dSYarHh3Szvvoc/9VAfbk8eEmWVbJzo=;
- b=PPOumAdOAWKk1KG70bsAN/MNWYF7huqyDMnowaOgSyhe3GoaSGFvCKE86DPb9z2bZyswFuWGp
- eDpxEj8Gh1QAn5irhJPGXzXU6BjymQjFyeXXWW5cJ0pqkJsCzR4PffE
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0jYSZQKkLN-TO_h0AazhHZtHgpavTnnAscLPYLmjX3LaA@mail.gmail.com>
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On 24-01-25, 12:05, Rafael J. Wysocki wrote:
+> On Fri, Jan 24, 2025 at 9:58 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> >
+> > Hello,
+> >
+> > The boost feature can be controlled at two levels currently, driver
+> > level (applies to all policies) and per-policy.
+> >
+> > Currently most of the drivers enables driver level boost support from the
+> > per-policy ->init() callback, which isn't really efficient as that gets called
+> > for each policy and then there is online/offline path too where this gets done
+> > unnecessarily.
+> >
+> > Also it is possible to have a scenario where not all cpufreq policies support
+> > boost frequencies. And letting sysfs (or other parts of the kernel) enable boost
+> > feature for that policy isn't correct.
+> >
+> > Simplify and cleanup handling of boost to solve these issues.
+> 
+> I guess this depends on the previous series?
 
-This allows running different page sizes between host and guest on
-platforms that support mixed page sizes.
+Yes my series and the boost related patches in your tree.
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
-Changes in v2:
-- Aligned all object sizes to MAX_PAGE_SIZE too.
-- Link to v1: https://lore.kernel.org/r/20250109-virtgpu-mixed-page-size-v1-1-c8fe1e1859f3@gmail.com
----
- drivers/gpu/drm/virtio/virtgpu_drv.h    | 6 ++++++
- drivers/gpu/drm/virtio/virtgpu_gem.c    | 2 +-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 2 +-
- drivers/gpu/drm/virtio/virtgpu_object.c | 2 +-
- drivers/gpu/drm/virtio/virtgpu_vram.c   | 4 ++--
- 5 files changed, 11 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 64c236169db88acd6ba9afd20a1ab16c667490c4..b73844d6535e45402dc46898035eaa7492de935d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -61,6 +61,12 @@
- /* See virtio_gpu_ctx_create. One additional character for NULL terminator. */
- #define DEBUG_NAME_MAX_LEN 65
- 
-+#if defined(__powerpc64__) || defined(__aarch64__) || defined(__mips__) || defined(__loongarch__)
-+#define MAX_PAGE_SIZE SZ_64K
-+#else
-+#define MAX_PAGE_SIZE PAGE_SIZE
-+#endif
-+
- struct virtio_gpu_object_params {
- 	unsigned long size;
- 	bool dumb;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 7db48d17ee3a8a9c638a8c6f9e58f35bd004b453..8e625ccae308f46b11a390a0987fd5ea55ccbf8d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-@@ -73,7 +73,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
- 
- 	pitch = args->width * 4;
- 	args->size = pitch * args->height;
--	args->size = ALIGN(args->size, PAGE_SIZE);
-+	args->size = ALIGN(args->size, MAX_PAGE_SIZE);
- 
- 	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
- 	params.width = args->width;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index e4f76f31555049369000a50c0cb1d5edab68536b..e39ae008ac5f734ec52e9703413958b4ea4be7d6 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -167,7 +167,7 @@ static int virtio_gpu_resource_create_ioctl(struct drm_device *dev, void *data,
- 	params.size = rc->size;
- 	/* allocate a single page size object */
- 	if (params.size == 0)
--		params.size = PAGE_SIZE;
-+		params.size = MAX_PAGE_SIZE;
- 
- 	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
- 	if (!fence)
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index c7e74cf130221bbed3aa447e416065b03bf3e2b4..5aab82028293b7d73bcc4e686e7e2ecba6108b7b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -190,7 +190,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 
- 	*bo_ptr = NULL;
- 
--	params->size = roundup(params->size, PAGE_SIZE);
-+	params->size = roundup(params->size, MAX_PAGE_SIZE);
- 	shmem_obj = drm_gem_shmem_create(vgdev->ddev, params->size);
- 	if (IS_ERR(shmem_obj))
- 		return PTR_ERR(shmem_obj);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
-index 25df81c027837c248a746e41856b5aa7e216b8d5..18e773b036f7c8190d4e20ad3f2c85c36e7e295c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vram.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
-@@ -150,8 +150,8 @@ static int virtio_gpu_vram_map(struct virtio_gpu_object *bo)
- 		return -EINVAL;
- 
- 	spin_lock(&vgdev->host_visible_lock);
--	ret = drm_mm_insert_node(&vgdev->host_visible_mm, &vram->vram_node,
--				 bo->base.base.size);
-+	ret = drm_mm_insert_node_generic(&vgdev->host_visible_mm, &vram->vram_node,
-+					 bo->base.base.size, MAX_PAGE_SIZE, 0, 0);
- 	spin_unlock(&vgdev->host_visible_lock);
- 
- 	if (ret)
-
----
-base-commit: 643e2e259c2b25a2af0ae4c23c6e16586d9fd19c
-change-id: 20250109-virtgpu-mixed-page-size-282b8f4a02fc
-
-
+-- 
+viresh
