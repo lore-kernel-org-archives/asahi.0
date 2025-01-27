@@ -1,122 +1,278 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE50347CC
-	for <asahi@lists.linux.dev>; Mon, 27 Jan 2025 03:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7473D1FCCEF;
+	Mon, 27 Jan 2025 07:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737948762; cv=none; b=V2yQzWwuhi5jjxctHbuu3kQJOCxOe6SOyAF/z95+o3wJc5jjvv7NjPzmvMvwOUrO+6NvbTY9hilqCZOjlIR0Qnhy+1+r4gufVS+YK+NdeQWVHSbI1R68EH155WhmazYAfEBQ2qPJlvOdOPCUTMy4y3jkmZXhAUOS6aIZXZYzZn4=
+	t=1737963078; cv=none; b=sYPlO5vCeAGIVFQmugxVzP60XvGnuFABjgYiGKx3u67eueXU0Utjz/NtnHAhP6fa/BR53SwyzRPBGnzd4n7DTVRWlsY5daJVuVSDHo7+tw6CaLlUJn96OAun0Oha9hAIqmuy+4PjsXMgFT2yiiZpqx3v0tnZR9xwZfrO3pJoYt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737948762; c=relaxed/simple;
-	bh=YiJT9WQLqKtxa/sdK0/rOM1AOUebCQeiyhpJpoFR/Tc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=joAiM2xQI89VlCoIdkHdSPwiB1E56EhwaQd7Uuy8vGrrse6/7JhZcr24XOZ4H1lOkJVcn/t1sKSjly7YhxUZndJ4bOiWsHHogkrqaZufJqXa1G5EwBkmMYtEmhUJA3VMxz+wUTsCQsVlMiP3VNcePjsDgl3nTkRCOQNHYPF1cpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vjLRcybh; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1737963078; c=relaxed/simple;
+	bh=1+TQ2PM71CF8SXu1hsfhK4fmIT0/a7AtM9fEu/4E56s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IO+0s3M++6jP4lt5vnT4xhuRNMGX/hzbuwUfIhRuPlRIKzvE6rb5dVB58IYbBCm9ntuAOYwZd6Fb9BVEtnOzbAGN8auYXdlK7HFf1Qon5Z0qHgALKsxdRBtPt8s32wx+3CNAaFxcYoz+VLFltUbDcbWdlgSiNY67rM/oykvYylI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1PbuWr2O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vmEV+QYj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FoU8vOBB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bjc1CoH7; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vjLRcybh"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21636268e43so85269405ad.2
-        for <asahi@lists.linux.dev>; Sun, 26 Jan 2025 19:32:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737948759; x=1738553559; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HSKBdkcHUpmfLPk161Kn0rx+ur3BhotIfl5VOt/amok=;
-        b=vjLRcybheqG1gwhGHdiTHFBE2aeqyak881iHYwFwac3GNs8z3wNAHSm02GyamkJ0om
-         QjWnMboTk8F/0anTAIqP4zAmRmEtLB/CN1NiVhyb+vNHOO7Mr0wAudXTE3I04/2ez0Cf
-         3nwchHTVHcb/A2fqQ4BfzzL9BAAVc76Q5unK5+KVFYeiXU6dromPtbjwGbXnNL9J3LmA
-         RYWoII4disrKte/bjvg8p0tCYp+hV3YTsU/+BvgzilPkNtbT1lSo9BNidMt8hTm7BQLx
-         8aBjgl7XbeLi8daS+Fdt5tdj5DIBxb7ws5CHJ5KloDpYmqNip4T7GGDfdbjBnLReH6Bz
-         vxWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737948759; x=1738553559;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HSKBdkcHUpmfLPk161Kn0rx+ur3BhotIfl5VOt/amok=;
-        b=QJn40WoYvGE46bWi8tgqKS443x57S4cbfd52geGaqmQ6eOFdWXtDuJT4dmgin8fjvD
-         HVZD2pSnVlnpJSHXbEowQbua2On8C1aenYNjQDmaSxj1IFQ9MegvXF1ggaMKuFs/LYjU
-         4UiNUEHYD3XGsOJpVCfdXRFxoCj595L7Qp/634H0tAY/ojXclHA4BAc9do9AVYt3CpNC
-         4/8ZSrkpzEW9noe8uYKqU1GAjdSRQ0TJ8pEvbq8w4RIc6d4h2mWTcwVYi5DozIw/Nd5v
-         3mYNNB2bwKo3B99ij0yfESa3loQAOlo+SB5xLPVPMZ8kGOaMM15F5I/HNUO4TI2q0LMY
-         NBng==
-X-Forwarded-Encrypted: i=1; AJvYcCUKsE4uAmNsWF87aZas1JG8ZiBMoeGabVbb8YhRsvSfyXWQVApsI8okneA/4LjJVO8vMCHBEQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcJKGTcGfY6jawKjKizqeX1ZLAj0mtuKLRRzcFmXp9hGGYplXG
-	5Ez3uJrFuiQxaKYK+z+Nw8R+jVjVnszSE92qkBo/uHqOAowPX/z5TpVooM2/xx8=
-X-Gm-Gg: ASbGnctCfz9UqZQAkOv3j6ixduB2yMeYn+3CZM33NM02o9D720t93SBcNxsepH34tIi
-	8vhqO5bL8bF+dLKSzZULtcA9oe5E0WSMn+tgXHPzdiGoLHaimMRvwOXPXob8aLvx+6yWq4FmB/m
-	53v+SABxAc6dS24SrDeD1sfZfk+6EBXKTF6E4iiwdKP0eZ2XLxGafSK2KylLzqbXvaEvQlRnrHH
-	7FEKYcWg1jgpgjd6/mdHarNp3GlUrwybZTqDQn+Z4SLcC75a6vEbXnpfCYdKgU/209fR+TCjzyw
-	GooMWv0=
-X-Google-Smtp-Source: AGHT+IHvgBNK3NhwKI9n5fMBriq7FLdQFhDFQyHQaZNGZxzhpW+eaG60WMmG2z8DBaIbsP1G1cn9Zg==
-X-Received: by 2002:a05:6a20:728d:b0:1db:eead:c588 with SMTP id adf61e73a8af0-1eb215ec4b9mr65731325637.29.1737948759394;
-        Sun, 26 Jan 2025 19:32:39 -0800 (PST)
-Received: from localhost ([122.172.84.139])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ac496bbd01esm5342591a12.71.2025.01.26.19.32.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jan 2025 19:32:38 -0800 (PST)
-Date: Mon, 27 Jan 2025 09:02:28 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Hector Martin <marcan@marcan.st>,
-	Huacai Chen <chenhuacai@kernel.org>, Huang Rui <ray.huang@amd.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Naveen N Rao <naveen@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Sven Peter <sven@svenpeter.dev>, WANG Xuerui <kernel@xen0n.name>,
-	linux-pm@vger.kernel.org,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Lifeng Zheng <zhenglifeng1@huawei.com>, arm-scmi@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev
-Subject: Re: [PATCH 00/15] cpufreq: simplify boost handling
-Message-ID: <20250127033228.abeqhrxoprqw5b4e@vireshk-i7>
-References: <cover.1737707712.git.viresh.kumar@linaro.org>
- <CAJZ5v0jYSZQKkLN-TO_h0AazhHZtHgpavTnnAscLPYLmjX3LaA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1PbuWr2O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vmEV+QYj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FoU8vOBB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bjc1CoH7"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4E46E21151;
+	Mon, 27 Jan 2025 07:31:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737963073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=IrjE7Md0yLO+y3LEKxDOvKOZsXpSU/ntoaUMfI9RqYw=;
+	b=1PbuWr2OSp32uKi+VGAls9q5MUM+dnM6CbfTpc6SeFmih89rMuENSrn4qS3weLXhK7ZDTN
+	XeT1RK6/+OgQE8gPT37bPol3lzoSZ2Rld7JYbvUGwZ/GJ0qwuBend5Vtq0lr5lrIvHoxqS
+	wYsMqPDptkGt6q5CkgN/Dfa0QpKDOu0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737963073;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=IrjE7Md0yLO+y3LEKxDOvKOZsXpSU/ntoaUMfI9RqYw=;
+	b=vmEV+QYjSDAPx9TIENV2/os0QSAL1CFRNBtlBvFmOQOmbiTFwfXSv4xBFAgdSf4T9r2IiI
+	Gwjzfl2AX0L+TICg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FoU8vOBB;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Bjc1CoH7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1737963071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=IrjE7Md0yLO+y3LEKxDOvKOZsXpSU/ntoaUMfI9RqYw=;
+	b=FoU8vOBBpjtTEdEAZTq6f/Ldi7fYVyh6GGAzvLSii2lLGSBD6bI9yNkLk/9kUIkWKdlU+f
+	lP4A9spC9aD8UE9Vql6xmlETSOrN17TMF1FTVpH886YSckxVknk2yV4l1pkIwr3Uye6ZzI
+	OInVdHFj8w9C+wYuV5K6FIMVvch/Rfg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1737963071;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=IrjE7Md0yLO+y3LEKxDOvKOZsXpSU/ntoaUMfI9RqYw=;
+	b=Bjc1CoH7MtEi4oMNDwhQsBOrcWoQdlmvsSGs48yzjRNkB4ucyK0ZGSZ8K1nPNrufFzrCtt
+	SgHm9VrcIz7T+WCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7C48137C0;
+	Mon, 27 Jan 2025 07:31:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id i+WWNj42l2ctKQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 27 Jan 2025 07:31:10 +0000
+Message-ID: <4a1c7ab2-66b8-49ec-9662-6827c811ab69@suse.de>
+Date: Mon, 27 Jan 2025 08:31:10 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0jYSZQKkLN-TO_h0AazhHZtHgpavTnnAscLPYLmjX3LaA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/virtio: Align host mapping request to maximum
+ platform page size
+To: fnkl.kernel@gmail.com, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ "arnd@arndb.de" <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ Linux-Arch <linux-arch@vger.kernel.org>
+References: <20250125-virtgpu-mixed-page-size-v2-1-c40c555cf276@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250125-virtgpu-mixed-page-size-v2-1-c40c555cf276@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 4E46E21151
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com,redhat.com,chromium.org,linux.intel.com,kernel.org,ffwll.ch,arndb.de];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 24-01-25, 12:05, Rafael J. Wysocki wrote:
-> On Fri, Jan 24, 2025 at 9:58 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> >
-> > Hello,
-> >
-> > The boost feature can be controlled at two levels currently, driver
-> > level (applies to all policies) and per-policy.
-> >
-> > Currently most of the drivers enables driver level boost support from the
-> > per-policy ->init() callback, which isn't really efficient as that gets called
-> > for each policy and then there is online/offline path too where this gets done
-> > unnecessarily.
-> >
-> > Also it is possible to have a scenario where not all cpufreq policies support
-> > boost frequencies. And letting sysfs (or other parts of the kernel) enable boost
-> > feature for that policy isn't correct.
-> >
-> > Simplify and cleanup handling of boost to solve these issues.
-> 
-> I guess this depends on the previous series?
+Hi
 
-Yes my series and the boost related patches in your tree.
+
+Am 25.01.25 um 22:08 schrieb Sasha Finkelstein via B4 Relay:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+>
+> This allows running different page sizes between host and guest on
+> platforms that support mixed page sizes.
+>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+> Changes in v2:
+> - Aligned all object sizes to MAX_PAGE_SIZE too.
+> - Link to v1: https://lore.kernel.org/r/20250109-virtgpu-mixed-page-size-v1-1-c8fe1e1859f3@gmail.com
+> ---
+>   drivers/gpu/drm/virtio/virtgpu_drv.h    | 6 ++++++
+>   drivers/gpu/drm/virtio/virtgpu_gem.c    | 2 +-
+>   drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 2 +-
+>   drivers/gpu/drm/virtio/virtgpu_object.c | 2 +-
+>   drivers/gpu/drm/virtio/virtgpu_vram.c   | 4 ++--
+>   5 files changed, 11 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index 64c236169db88acd6ba9afd20a1ab16c667490c4..b73844d6535e45402dc46898035eaa7492de935d 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -61,6 +61,12 @@
+>   /* See virtio_gpu_ctx_create. One additional character for NULL terminator. */
+>   #define DEBUG_NAME_MAX_LEN 65
+>   
+> +#if defined(__powerpc64__) || defined(__aarch64__) || defined(__mips__) || defined(__loongarch__)
+> +#define MAX_PAGE_SIZE SZ_64K
+> +#else
+> +#define MAX_PAGE_SIZE PAGE_SIZE
+> +#endif
+
+This is per-architecture code and does not belong in a DRM driver.
+
+Best regards
+Thomas
+
+> +
+>   struct virtio_gpu_object_params {
+>   	unsigned long size;
+>   	bool dumb;
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> index 7db48d17ee3a8a9c638a8c6f9e58f35bd004b453..8e625ccae308f46b11a390a0987fd5ea55ccbf8d 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> @@ -73,7 +73,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
+>   
+>   	pitch = args->width * 4;
+>   	args->size = pitch * args->height;
+> -	args->size = ALIGN(args->size, PAGE_SIZE);
+> +	args->size = ALIGN(args->size, MAX_PAGE_SIZE);
+>   
+>   	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
+>   	params.width = args->width;
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> index e4f76f31555049369000a50c0cb1d5edab68536b..e39ae008ac5f734ec52e9703413958b4ea4be7d6 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -167,7 +167,7 @@ static int virtio_gpu_resource_create_ioctl(struct drm_device *dev, void *data,
+>   	params.size = rc->size;
+>   	/* allocate a single page size object */
+>   	if (params.size == 0)
+> -		params.size = PAGE_SIZE;
+> +		params.size = MAX_PAGE_SIZE;
+>   
+>   	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
+>   	if (!fence)
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index c7e74cf130221bbed3aa447e416065b03bf3e2b4..5aab82028293b7d73bcc4e686e7e2ecba6108b7b 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -190,7 +190,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+>   
+>   	*bo_ptr = NULL;
+>   
+> -	params->size = roundup(params->size, PAGE_SIZE);
+> +	params->size = roundup(params->size, MAX_PAGE_SIZE);
+>   	shmem_obj = drm_gem_shmem_create(vgdev->ddev, params->size);
+>   	if (IS_ERR(shmem_obj))
+>   		return PTR_ERR(shmem_obj);
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
+> index 25df81c027837c248a746e41856b5aa7e216b8d5..18e773b036f7c8190d4e20ad3f2c85c36e7e295c 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vram.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
+> @@ -150,8 +150,8 @@ static int virtio_gpu_vram_map(struct virtio_gpu_object *bo)
+>   		return -EINVAL;
+>   
+>   	spin_lock(&vgdev->host_visible_lock);
+> -	ret = drm_mm_insert_node(&vgdev->host_visible_mm, &vram->vram_node,
+> -				 bo->base.base.size);
+> +	ret = drm_mm_insert_node_generic(&vgdev->host_visible_mm, &vram->vram_node,
+> +					 bo->base.base.size, MAX_PAGE_SIZE, 0, 0);
+>   	spin_unlock(&vgdev->host_visible_lock);
+>   
+>   	if (ret)
+>
+> ---
+> base-commit: 643e2e259c2b25a2af0ae4c23c6e16586d9fd19c
+> change-id: 20250109-virtgpu-mixed-page-size-282b8f4a02fc
+>
+>
 
 -- 
-viresh
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
