@@ -1,41 +1,42 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7131D90A7
-	for <asahi@lists.linux.dev>; Sun,  2 Feb 2025 13:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A581D79A0
+	for <asahi@lists.linux.dev>; Sun,  2 Feb 2025 13:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738501614; cv=none; b=joWeqwpU3/cZSrZj5G4gQJSWsurTaDk3IndkzaclbBpWpdgBZkwCVx+76XWbVaf8HsPGq9kAtzHjbWrnHbuOV3mUoi5B5j7zo7pqmBDmgofpPPNYNNFRHs275kUo865cAc03K6pUiYFnjXXZFOgx7dxsYuzzCuwKnBzrGA5cqHM=
+	t=1738501944; cv=none; b=jBdl+NlvE7aLgoQNeCZeQUDyzB1h9zZoEkoxqyWQIByBGzaFv2JHL7Z/9McaIsD40ruLiocwIMLyyzHsXpglIo+9pyGyB21QqwkXKncl+p/tbQZO770Wp/diGp8QUERbn8Gccfw1EqNz8ZNDrZctZkJk+yA7wVRSdSzP8pcv5hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738501614; c=relaxed/simple;
-	bh=jAxlx0oKPYhbCLOndVQegKI/zkoqLO2seAFvco9COAE=;
+	s=arc-20240116; t=1738501944; c=relaxed/simple;
+	bh=wOJkjoDFrNnJZtmpG6nyyGH0hn+2uCbf5uZhqGJfbOE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jx4yiOMT1M51QLxYMcWBizOpJpEYJiVyOtFwiUH2gyfrM2wnmPAowIZpsjFrxChZcZtvldKUNRBIhJ+ZkSivL48fNYiWCVR3uBQENDiCf2vst1m6DwkMc3+Uyelh4ORmMRIqpD7/bgXgeLYtuad542dKQRW/bDWyUxTfbJQngOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=W68hCmAT; arc=none smtp.client-ip=212.63.210.85
+	 In-Reply-To:To:Cc; b=K734oBR2uueo8IQdLHPeNBSXErLB8lfuc0F9OsEdSVmUz3S6Ye6lWXpaD8pby3kzxT+aqvqrIGXbOYiOo3QnntfhM46iyt4YNieI34iRmiSbzgAlPrGCVoWeyAmkP8Clo7WPENtMWr5zzH74l+uD2+GRvpxEHdFHMNpPTFvCIwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=Fvp6scyW; arc=none smtp.client-ip=212.63.210.85
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="W68hCmAT"
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="Fvp6scyW"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 0E6D142CF1;
-	Sun,  2 Feb 2025 13:06:47 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 4777C426EE;
+	Sun,  2 Feb 2025 13:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1738501610;
-	bh=jAxlx0oKPYhbCLOndVQegKI/zkoqLO2seAFvco9COAE=;
+	s=default; t=1738501603;
+	bh=wOJkjoDFrNnJZtmpG6nyyGH0hn+2uCbf5uZhqGJfbOE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=W68hCmATDKo9EiH/xMtAcdph4x+tpmPmNtxtu+tx82fwJBpSxeMQbd/aWh5QzcOKr
-	 G0ENO9GNbN8fsm1e0DDj/5x8+TN5kGJOiYdCd69beGzF/I1BDJ6P7Jq86/lwzga3cP
-	 Dujgi22bP8LU8ZB+fDML04o3s7g4Y+AHNSFxOosjo/msGdpUFqAtZypGs7yghtqruD
-	 TALKh0aV8LdMcXODde+LkiY6rV637Jn9uvFqd2LhpV135qKBe1dUi5H0eFWmpa+yIK
-	 JI2eDyF5njHMDptbSKSnURDe34XUmvYbXU/u0qe+0ttIPTE3LlL6M0rgArHX61eeX4
-	 sf2dw0y2kuKzw==
+	b=Fvp6scyWPHGaA2V+QtyuriDLEbcXsPS3f5VQzFRpnxbamCxSPxBedHEen0IFXWxI3
+	 YpG4MxVaHryxse2Zqd/1ZE5kfg99dK0flO2MBOZwVwfLEIa8aIY9t/BtajndBSbJKP
+	 vXpovHQtURT/97O6uaWV91LU/u2gQkiSCOdP+mlZ16N76lYLszA9uFuuB3NSJMcoR3
+	 eBc0Pwz76K/7PDiK61AjtwRc6LVbD6Zfxe7H2fG/uUEMNx401uBjatAwdXSc9FhxlB
+	 u35iD2Iy3pgteYWwwyJC5K0Am0M6ZTqwH9j72pgRPDMuWGuEyUswkTqgTPOnu+iml2
+	 PmrctezEUpDEg==
 From: Asahi Lina <lina@asahilina.net>
-Date: Sun, 02 Feb 2025 22:05:48 +0900
-Subject: [PATCH 6/6] rust: page: Make Page::as_ptr() pub(crate)
+Date: Sun, 02 Feb 2025 22:05:45 +0900
+Subject: [PATCH 3/6] rust: page: Make with_page_mapped() and
+ with_pointer_into_page() public
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -44,7 +45,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250202-rust-page-v1-6-e3170d7fe55e@asahilina.net>
+Message-Id: <20250202-rust-page-v1-3-e3170d7fe55e@asahilina.net>
 References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
 In-Reply-To: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -62,36 +63,49 @@ Cc: Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738501594; l=869;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738501594; l=1782;
  i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
- bh=jAxlx0oKPYhbCLOndVQegKI/zkoqLO2seAFvco9COAE=;
- b=Yx1gVXvO3w0R4qdGomFIq+0RwKj460R5wvIbngoMuX6wHDoesKQMqRxKU0o3unMwKL69zlqrR
- En16s28Jr/vB388LQY8FUK1/cVO+HCe4enKe0BKjctozf6HJnt9HVbf
+ bh=wOJkjoDFrNnJZtmpG6nyyGH0hn+2uCbf5uZhqGJfbOE=;
+ b=VjxsvTln6z9TApE7nyNtlOcBYymzTzlwnEi76qRMUo4C7bukspMosskksBKgJRb59MWQFy45P
+ mX7u6UyqsyPA8vfivipTf0JTGImVnVxXhDriizPvUyNcNyrkbI4lmXC
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
 
-There's no good reason for drivers to need access to the raw `struct
-page` pointer, since that should be handled by Rust abstractions. Make
-this method pub(crate) so it is only visible to the kernel crate.
+Lets users do (unsafe) complex page read/write operations without having
+to repeatedly call into read_raw()/write_raw() (which may be expensive
+in some cases).
+
+The functions themselves are not unsafe, but they do take a closure that
+receives a raw pointer, so actually making the access requires unsafe
+code.
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- rust/kernel/page.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ rust/kernel/page.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/rust/kernel/page.rs b/rust/kernel/page.rs
-index 67cd7006fa63ab5aed4c4de2be639ed8e1fbc2ba..b7bce033b53682eca6e61f47e4fd3aa902da7900 100644
+index 0b6cbe02522ab6e6e1810288ad23af4e4aa587d8..fe5f879f9d1a86083fd55c682fad9d52466f79a2 100644
 --- a/rust/kernel/page.rs
 +++ b/rust/kernel/page.rs
-@@ -83,7 +83,7 @@ pub fn alloc_page(flags: Flags) -> Result<Owned<Self>, AllocError> {
-     }
+@@ -101,7 +101,7 @@ pub fn as_ptr(&self) -> *mut bindings::page {
+     /// different addresses. However, even if the addresses are different, the underlying memory is
+     /// still the same for these purposes (e.g., it's still a data race if they both write to the
+     /// same underlying byte at the same time).
+-    fn with_page_mapped<T>(&self, f: impl FnOnce(*mut u8) -> T) -> T {
++    pub fn with_page_mapped<T>(&self, f: impl FnOnce(*mut u8) -> T) -> T {
+         // SAFETY: `page` is valid due to the type invariants on `Page`.
+         let mapped_addr = unsafe { bindings::kmap_local_page(self.as_ptr()) };
  
-     /// Returns a raw pointer to the page.
--    pub fn as_ptr(&self) -> *mut bindings::page {
-+    pub(crate) fn as_ptr(&self) -> *mut bindings::page {
-         Opaque::raw_get(&self.page)
-     }
- 
+@@ -142,7 +142,7 @@ fn with_page_mapped<T>(&self, f: impl FnOnce(*mut u8) -> T) -> T {
+     /// different addresses. However, even if the addresses are different, the underlying memory is
+     /// still the same for these purposes (e.g., it's still a data race if they both write to the
+     /// same underlying byte at the same time).
+-    fn with_pointer_into_page<T>(
++    pub fn with_pointer_into_page<T>(
+         &self,
+         off: usize,
+         len: usize,
 
 -- 
 2.47.1
