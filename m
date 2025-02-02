@@ -1,127 +1,94 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0F11EB9F8
-	for <asahi@lists.linux.dev>; Sun,  2 Feb 2025 13:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B0B1F542A
+	for <asahi@lists.linux.dev>; Sun,  2 Feb 2025 15:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738504142; cv=none; b=DDA0b92y0ZH1jCOoi/ERDD0BZF+x7hp6CNh/BKOJBQBRBaHk3AMk02az056lcIH5rQY/hUNvuRI/SpWOOATftyOvbvlO50dS/QhU6pGTfklAZVl1i0R3NIIPkwXoZxAz1AzczEdb1yrKT7a59P4sj1mCAPE/+7FFHQDz2yF1USc=
+	t=1738508741; cv=none; b=gI9uyg/ldp0IVYuovYZanpQdZsnWXI+f1/AOIEXWOha4ZxA2ZlKSvSCrhUFqB2uTrM7xV14GgQngdkIlFlGecmIHHt5ekAVVOnLbaAGNlNe3fkwk3i9AKPnQpkH6qkpZrzpc//xIDVUuxk9k4+y4yRBHWXD1A/FH195tX8CBZSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738504142; c=relaxed/simple;
-	bh=8/oqLprNeg7EVnuTTsaaXog3vpr2RsRu8CJidMsfdTg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hPNhr967WE4/ZTq1OjQo9cjO5iHmTBynwfD/NxnX/l0KcHvw2tv4KmQwrIjtxzFdiMNMiSC/wrdpuo88igzhVJHXr/U5KDaHX995A/8VSpxzl9SeeP6wSG7RBlp+tZMhxGNFcg6zQQyjLLT04Ug1HfGgEsS5m7yWvPxPZF+L6pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=PzXFQMCE; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	s=arc-20240116; t=1738508741; c=relaxed/simple;
+	bh=tEZLqYG5g2vAHQTRfubUjbbA4RIaMNwVte2RpuiwVqk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B4P8h6EfomYJ/F9ztR4ldFQiWPHWkPMf/3ybpUmKD055JYc2rBgBssMfn9et1mEo9vrvld4/ycWOpwQyRrsgaQRT0nt1UNu15v4Ahzz3teeWDhbzhyARkqKMb1MEQC00O3fTwF8IZSnlqeRFb6qc2KBJDLIwDBpX0tjFXNh1b8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=eOlm9Rjx; arc=none smtp.client-ip=209.85.166.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="PzXFQMCE"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id B3156425EB;
-	Sun,  2 Feb 2025 13:48:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1738504139;
-	bh=8/oqLprNeg7EVnuTTsaaXog3vpr2RsRu8CJidMsfdTg=;
-	h=From:Date:Subject:To:Cc;
-	b=PzXFQMCE+PGJcmCW1IEEvsEBBYo/Gjae1csNzvFBnRcfao2ps/mh+lJ76FgNmGADA
-	 1OZfcDCnXJI+eUxSYyN2jJ67Idd8KjfvWNb/jUuzfFNdIxRTXcqicL5fmupKMovL6l
-	 cDv/DtsIDaPLBKAU0q1kGgizg7nytY8pXDgHSMZ+4bEwONQT3Pu+8KK9quRu6SuAhd
-	 jk7GFxpaou4Wp6pfG5LoldOontGlqoNWpSAQE1qTEcBRyTAvFtQq8ToMPl4IFhpNVZ
-	 ymuKQjahy0C+DwkXI1D+2l8HAVmV4EdyWrPX2vZHAZAnOnjgJpiknpqJeQVIuGY6Kn
-	 Q2U7u1qG9wZYw==
-From: Asahi Lina <lina@asahilina.net>
-Date: Sun, 02 Feb 2025 22:48:47 +0900
-Subject: [PATCH] soc: apple: rtkit: Pass the crashlog to the crashed()
- callback
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="eOlm9Rjx"
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-844ce6d0716so263310239f.1
+        for <asahi@lists.linux.dev>; Sun, 02 Feb 2025 07:05:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1738508738; x=1739113538; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lsPzncwIigCJWeSgsuG0FXasnz96a9gzn6HqogWWQug=;
+        b=eOlm9Rjxn6OfKDKre+cpz5mXSmpNVUTa75UTyg+uRP65/z4VyYsejRf36LMgJbBK6V
+         aXx0fcHjHD+d6WYXXKzaErD8Z/b1PVfQHYIqNWZhkGu8T+aEpLo2N0cdfnreBpYT9P/c
+         S9c44Dy5dACPjoEoxSbTUI8Kr949w5ABL0GZL1hsO1S+dWiVptpSPtXE4VGdq6GGLvne
+         /R2/e8ShN09xLsxYpHM4mcmaHRvpFIKCVlaLr0KEJRVuBKuCmnBuks5nOCi10YwC8w6M
+         nrmcxxY/4E8p/kU8Mf5l94UEVgfB+x1J7cFUT+NOzwNG/0/qi2x0ljOn4JMXyNOEBbSh
+         5Xiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738508738; x=1739113538;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lsPzncwIigCJWeSgsuG0FXasnz96a9gzn6HqogWWQug=;
+        b=ZA/9qxA8FscCHh+NGe3UV1iH0gUN1NhAeydkJY2WD+rKdE+LDzwf/+M/Uf/RlVjhdu
+         ymnzLHpC/rj3zwkGNhG6OEl5wSiy6X6DQKHTWcpB+23Vc9BVn/8JAQ6rLfW7ujXQTdPJ
+         QTH5b4wa6+hvruo8cCsjvqaxv1uN7f0RWBKRhf1u6PSavIUhKvRsdpCs8Ag+2pXB6NkL
+         bJr55wHhg4twKJVXXV16oXb7y/l+nzSZfgIQ+rSBv2qwIclOZgXKVzcjEbTxZ8xQQqur
+         M+2qKlo/DEvQZTT8RU//MxjA1zlk0MtA7RPWqCPuNEjnv2rGQUVp+hGC1foGXqCrmM1X
+         m8zQ==
+X-Gm-Message-State: AOJu0YzLfBbtcPJwggCVL6ALpofTI12a9TEbYZ9z/ZSld1cuL5icaafh
+	1LZszSyR82O2BZmadhkHXgiXEhjQFbyp2JOHbm4pS/WZDKEB0QC5ptp2ftZHyR4=
+X-Gm-Gg: ASbGncsQcyfw4XHtjlOmgzuPBxdDZ6TZogg7jV6r63RTd+DjC0fSr+G93/u1n8pNFvo
+	gBu8Int+fegE5ryKU4YiXKDzowdCVTyFlKCGAzWVp+f7QWXnRKIvrIM42ihHyy2w+rps8hDRvht
+	lWKOSKcUAxwnsyEP0cju2Olhd6KLZodAhQRpM2W5xhvNdkauWF0JcFxYc6ZiwaDu0CvIZYqo9V1
+	U2OoZe9YDlCC8hw6BfnzhqQKjP1pebdpVrvuIeI7BgmDFSqee86aVdyHXNHQkP/54CfvSqlSJDt
+	xB2S/xOB9suy
+X-Google-Smtp-Source: AGHT+IGtE/JLqI8S9p7eRdsRPG6dC9TP58pGT88bNKePz2C1yiBYPfCn5bRWwQVviJy5GovjAgOURg==
+X-Received: by 2002:a05:6602:380b:b0:847:22a7:240e with SMTP id ca18e2360f4ac-85439fa6279mr1766967239f.13.1738508738494;
+        Sun, 02 Feb 2025 07:05:38 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-854a15f8394sm204030039f.11.2025.02.02.07.05.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Feb 2025 07:05:37 -0800 (PST)
+Message-ID: <8f039c53-a35a-460c-a0ff-43f592caddf5@kernel.dk>
+Date: Sun, 2 Feb 2025 08:05:36 -0700
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250202-rtkit-crashdump-v1-1-9d38615b4e12@asahilina.net>
-X-B4-Tracking: v=1; b=H4sIAL53n2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDIKFbVJKdWaKbXJRYnJFSmlugm2phYmFqYp6SmGJmrgTUVVCUmpZZATY
- xOra2FgCV2c5SYQAAAA==
-X-Change-ID: 20250202-rtkit-crashdump-e848547dad67
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] soc: apple: rtkit: Pass the crashlog to the crashed()
+ callback
+To: Asahi Lina <lina@asahilina.net>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, Janne Grunau <j@jannau.net>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Asahi Lina <lina@asahilina.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738504138; l=2448;
- i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
- bh=8/oqLprNeg7EVnuTTsaaXog3vpr2RsRu8CJidMsfdTg=;
- b=07z3hDB8bILFgXEkR6JO0Is8fvSGRwvSiXVhEAahHzizx7GNkNDd1YuAqpcRxgr7DPDHhBBp2
- fPrYpp690uXARJdHCFdhDxeYLCPPJybrk6tW3QS1ajUR03Koqql9R+O
-X-Developer-Key: i=lina@asahilina.net; a=ed25519;
- pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250202-rtkit-crashdump-v1-1-9d38615b4e12@asahilina.net>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20250202-rtkit-crashdump-v1-1-9d38615b4e12@asahilina.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Client drivers might want a copy of the crashlog to stash into a
-devcoredump blob. Since device memory management can be very variable,
-the actual devcoredump implementation is left to client drivers. Pass
-the raw crashlog buffer to the client callback so it can use it if
-desired.
+On 2/2/25 6:48 AM, Asahi Lina wrote:
+> Client drivers might want a copy of the crashlog to stash into a
+> devcoredump blob. Since device memory management can be very variable,
+> the actual devcoredump implementation is left to client drivers. Pass
+> the raw crashlog buffer to the client callback so it can use it if
+> desired.
 
-Signed-off-by: Asahi Lina <lina@asahilina.net>
----
- drivers/nvme/host/apple.c       | 2 +-
- drivers/soc/apple/rtkit.c       | 2 +-
- include/linux/soc/apple/rtkit.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index 4319ab50c10d11ed81dcc002275f190e053c1be6..f46b3f179a00dad054c24ccaa0c578d64ca75ec9 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -221,7 +221,7 @@ static unsigned int apple_nvme_queue_depth(struct apple_nvme_queue *q)
- 	return APPLE_ANS_MAX_QUEUE_DEPTH;
- }
- 
--static void apple_nvme_rtkit_crashed(void *cookie)
-+static void apple_nvme_rtkit_crashed(void *cookie, const void *crashlog, size_t crashlog_size)
- {
- 	struct apple_nvme *anv = cookie;
- 
-diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-index e6d940292c9fbdfc4cd42020e89aca2662c5cdce..4b0783091a92324a707a0e1cd16d36dd6d984678 100644
---- a/drivers/soc/apple/rtkit.c
-+++ b/drivers/soc/apple/rtkit.c
-@@ -368,7 +368,7 @@ static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
- 
- 	rtk->crashed = true;
- 	if (rtk->ops->crashed)
--		rtk->ops->crashed(rtk->cookie);
-+		rtk->ops->crashed(rtk->cookie, bfr, rtk->crashlog_buffer.size);
- }
- 
- static void apple_rtkit_ioreport_rx(struct apple_rtkit *rtk, u64 msg)
-diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
-index c06d17599ae7e3d37d99495e4296932b1de3a3c7..736f530180179bd144cf85eb0f0bd93844d7188a 100644
---- a/include/linux/soc/apple/rtkit.h
-+++ b/include/linux/soc/apple/rtkit.h
-@@ -56,7 +56,7 @@ struct apple_rtkit_shmem {
-  *                 context.
-  */
- struct apple_rtkit_ops {
--	void (*crashed)(void *cookie);
-+	void (*crashed)(void *cookie, const void *crashlog, size_t crashlog_size);
- 	void (*recv_message)(void *cookie, u8 endpoint, u64 message);
- 	bool (*recv_message_early)(void *cookie, u8 endpoint, u64 message);
- 	int (*shmem_setup)(void *cookie, struct apple_rtkit_shmem *bfr);
-
----
-base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
-change-id: 20250202-rtkit-crashdump-e848547dad67
-
-Cheers,
-~~ Lina
+-- 
+Jens Axboe
 
