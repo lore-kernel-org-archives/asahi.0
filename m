@@ -1,91 +1,118 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268A542049;
-	Wed, 29 Jan 2025 14:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738161618; cv=pass; b=r7DLv360jkDdXro4L9k/rRqLAUBJT9109s82/ODCYdHXqq4+DV0p8MB1eZeCJCXNDZ9Nf9wJAy3hI2Iz3Jg5y7ZU09RqqKpSp/PIRITF89GIhJn0sDNbdPIryXXlsY+s7WDn0ERObJ0Bi5+LiEY7td7Iur2w7aTOP+erVPR+s6E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738161618; c=relaxed/simple;
-	bh=nbhfGTGu+ZaxGxvts9+4JLgwkQsebKfP9phCqjLRmUA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dRbGBYHRVp+KgOU38OaaVdBV6bpze5gy6UHmm7XF2jpTcbi60CAu/XXmm4RnZI31XMmU4FeA0jMg4ZIIFpBWDvXqWMcnIIFf2yKCUP/Rua4SJwTjdLJPmXXedOyPn5sbJSYa3SSKIQp3A2tj4dCSlxIanxiJ1mjEJ3T8qiFnCKE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=DGfwX0nO; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753621CAA80
+	for <asahi@lists.linux.dev>; Sun,  2 Feb 2025 13:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738501610; cv=none; b=M9RIOk7a0RU5bkn0I2qFXvzLNoFHZQqT/jxAmpDF80A4kCMYqlbT69mfkcPpq1ngi73Nw52NR81RblZYhOsqse3tmI3c/ChUGXLle6xhVKPmGDR/KkrQVXswvXW88bxDcoVxJWpMzgnhosqFlw+jrTTfzwuY2LKVrcGa4ob6wXs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738501610; c=relaxed/simple;
+	bh=0hDjuQHDG3NyTLjzY3YRf98j+prtIAJUg+wcnreGVnU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=XrRlus5aMbgbTM4ISZemvY6vfuCtAuXK8Jz3B0j8+5uPkgnuIUs07VoTFmTCy2t6WzrCwGlTJI0/NaiJ8UgzgJT7C1JMh799iyD1ioZSIdbX9V0Lb7hu7FcV80zKz/t/j4lc41XK2MyiDDZadpSBaBkvuA+eI6hKKly+BJyuB58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=T2h4y9OU; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="DGfwX0nO"
-ARC-Seal: i=1; a=rsa-sha256; t=1738161606; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=DfbcYJ5AR+R8DsGvqmcb+/2BWUAKv8DnfNQzqyla9hmVme5gBFj4gfbGRJp9OW0N+PvAYxNlUOC49Q9zeesnNrBgRrpzsy687JigqHVPENfj9Z/pZmuChFgMCTg9mkPesWEOvfiRvkxLc5mvUSDaaaRGeqrHxoupnm8NDNMQlDg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1738161606; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PoONWoZjAfKHvZcII9BT/PJegJNZ5m/T3eW5vIBqcYw=; 
-	b=Bmmy9FDwFhlJp3622EBINBRcPwqOUZ2NWcijtiyP2e53LdSA8I5GHIoKBPrm/wkcv4gwgbdcfpkRtY77p4FD9kTEFbh8jgpGOOAjuPo33hoLdtoUIgMnEX2CMNKxaVcvw/lK0OTDfmQyWIVPw/tdNNV2Z3PSemWF5AjT4To5GZw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738161606;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=PoONWoZjAfKHvZcII9BT/PJegJNZ5m/T3eW5vIBqcYw=;
-	b=DGfwX0nOYwu5rhfFE+Binp3fTXeWAIuqEtGuP25N2CKiT/bx2R2K5KTZqdaIibNV
-	/+wyJCWhy9BWGlKnTYqglka44eSX7oRooH1xlY3kkldkuKbbQeBu+yzTAJqOAP+iO8P
-	8XPOqOnMnZOtiaBN4gJn+PZ0/RkAWVg36EERXTSI=
-Received: by mx.zohomail.com with SMTPS id 17381615971231003.7746563217795;
-	Wed, 29 Jan 2025 06:39:57 -0800 (PST)
-Message-ID: <2f3394a5-0c63-49bf-bc85-f43388050ab8@collabora.com>
-Date: Wed, 29 Jan 2025 17:39:51 +0300
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="T2h4y9OU"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 8453742769;
+	Sun,  2 Feb 2025 13:06:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1738501605;
+	bh=0hDjuQHDG3NyTLjzY3YRf98j+prtIAJUg+wcnreGVnU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=T2h4y9OUV23hl0E27AGlIKbSuOI9FSr/Qfou1x4vaF+kpMEWyoB7lE2oXSt2ZC4W/
+	 Vcaf5Jwqm3JTOsI85ryMwJoWD1yS1mJqti15Dezaeahhg22IbqOwd+iujr4UKk7aug
+	 H0lVZemGdZg71svn3NaFnIvjah5m2azg1qcWNwNdaXJ218VVIrliNcN6rfxeqOp7Tb
+	 iZ+YGqU0Kkrc1su5UsafpzWEtc9JWSeHMoheGQTvGzVkSc/LQ9cP/wuQkcoS6bp/2g
+	 XCjB9AVWWdiP50DvfftpFU+nBZXXL22EjJ36ptc8mlCu81Dg3K0r/izBMeiNI5rVMi
+	 8ehO67zamuuvQ==
+From: Asahi Lina <lina@asahilina.net>
+Date: Sun, 02 Feb 2025 22:05:46 +0900
+Subject: [PATCH 4/6] rust: addr: Add a module to declare core address types
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/virtio: Align host mapping request to maximum
- platform page size
-To: fnkl.kernel@gmail.com, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-References: <20250125-virtgpu-mixed-page-size-v2-1-c40c555cf276@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250125-virtgpu-mixed-page-size-v2-1-c40c555cf276@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Message-Id: <20250202-rust-page-v1-4-e3170d7fe55e@asahilina.net>
+References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
+In-Reply-To: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>
+Cc: Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>, 
+ Valentin Obst <kernel@valentinobst.de>, 
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+ airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738501594; l=1443;
+ i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
+ bh=0hDjuQHDG3NyTLjzY3YRf98j+prtIAJUg+wcnreGVnU=;
+ b=StouHNNdGl6LXXun36/Ktt4NhZHoitHEaj40BWBfZvKzmLuZ2Y4LDldrYuJmpt3jJeuKqqIwg
+ B+kPBJA/qaKDiEavoI6E1b0JF0yulanuwYHgzUwBeL6uQl0npRPVkny
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
 
-On 1/26/25 00:08, Sasha Finkelstein via B4 Relay wrote:
-> --- a/drivers/gpu/drm/virtio/virtgpu_vram.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
-> @@ -150,8 +150,8 @@ static int virtio_gpu_vram_map(struct virtio_gpu_object *bo)
->  		return -EINVAL;
->  
->  	spin_lock(&vgdev->host_visible_lock);
-> -	ret = drm_mm_insert_node(&vgdev->host_visible_mm, &vram->vram_node,
-> -				 bo->base.base.size);
-> +	ret = drm_mm_insert_node_generic(&vgdev->host_visible_mm, &vram->vram_node,
-> +					 bo->base.base.size, MAX_PAGE_SIZE, 0, 0);
->  	spin_unlock(&vgdev->host_visible_lock);
+Encapsulates the core physical/DMA address types, so they can be used by
+Rust abstractions.
 
-The BO size is already aligned, no need to align it second time.
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+ rust/kernel/addr.rs | 15 +++++++++++++++
+ rust/kernel/lib.rs  |  1 +
+ 2 files changed, 16 insertions(+)
 
-Anyways, we first should wait for a reply from Rob RE potential impact
-of this change on Freedreno and other non-x86 drivers and non-nctx contexts.
-
-Otherwise, the proper solution would be to pass info about host's page
-size to guest using extended virtio protocol. This is very doable if you
-have time to work on this useful feature and want to contribute/learn more.
+diff --git a/rust/kernel/addr.rs b/rust/kernel/addr.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..06aff10a0332355597060c5518d7fd6e114cf630
+--- /dev/null
++++ b/rust/kernel/addr.rs
+@@ -0,0 +1,15 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Kernel core address types.
++
++use bindings;
++use core::ffi;
++
++/// A physical memory address (which may be wider than the CPU pointer size)
++pub type PhysicalAddr = bindings::phys_addr_t;
++/// A DMA memory address (which may be narrower than `PhysicalAddr` on some systems)
++pub type DmaAddr = bindings::dma_addr_t;
++/// A physical resource size, typically the same width as `PhysicalAddr`
++pub type ResourceSize = bindings::resource_size_t;
++/// A raw page frame number, not to be confused with the C `pfn_t` which also encodes flags.
++pub type Pfn = ffi::c_ulong;
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index e1065a7551a39e68d6379031d80d4be336e652a3..eb1a80ba8ff83ab2d1b3b1d11fed4fb704c7a4f5 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -29,6 +29,7 @@
+ 
+ pub use ffi;
+ 
++pub mod addr;
+ pub mod alloc;
+ #[cfg(CONFIG_BLOCK)]
+ pub mod block;
 
 -- 
-Best regards,
-Dmitry
+2.47.1
 
