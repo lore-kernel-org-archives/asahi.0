@@ -1,145 +1,96 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30D21CAA7F
-	for <asahi@lists.linux.dev>; Sun,  2 Feb 2025 23:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77051D5176
+	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 09:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738540572; cv=none; b=Mw13Hk/2IplZghSrNR6FV8wctphRbteTiCPCal82txROyXEwjNye3fx+JICPVtVocU7DNZmGVhF2KNu0TfRGr3lWug2PYMTSSZJVQ/OvqgI/xXmFT9RIKkEe0utLllSh2zWQJj1xOQmzd3+6IFueKWX7uRrig7syHWVFfnA56+k=
+	t=1738573740; cv=none; b=WhNsulRAZmx+8r8BRAhpCCVwudS6va7KSMBH4k6so/DW/anEqwxZqE4hWvEGC9unJl4n5beXxaK0nMe3TRUcjrLWhSPzX6COEwjr5MCPUBolCThXGXtNyRa21qNF08FQLMOjNpgRNsHr0EKjRdWIs5Nl2MNFGv5qMgvfbO92YAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738540572; c=relaxed/simple;
-	bh=XxSMXL+/QTvPenPoEdFCaxa+GXolURGhYNxTlnUOi/w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KmpLKo+Z0bTha4/WdpUEI5iB8P5SzA2HcD5hEq4GksuQ8Mlp6xHoBvTG6GiSqvH7itLHb5aivugkwEb9oCTn8s7Wtn9OfcmjtsZkr1LSHVqsmAEF5BnAhaVRCwgh4PkluExj5Evaj/R6tfKYJhuOs89T4/APL7I6FsPAjsfuzIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=aObAO7Gf; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	s=arc-20240116; t=1738573740; c=relaxed/simple;
+	bh=RtOwM5RxJfd+VfcKZGXtlLQFSXd03HQ8e4rhtGXZjtM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Qli9b3YxCMx+Kf/D8YseMT0W8STxPjTZyPzCcSsFhV09NYlh+RdD++Dz+aix+iHFsuiz5eYrc3BpE/Ba9TqKBhBSf+bJUyjzIZo2l1UMfUQKniLn6LQuhbV518verOipVqp1wo+pyy1V4c8FTTZYU7ygCkBx70Q6asng7jJSvxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gsQ6oSOe; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="aObAO7Gf"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id B7858425F5;
-	Sun,  2 Feb 2025 23:56:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1738540566;
-	bh=XxSMXL+/QTvPenPoEdFCaxa+GXolURGhYNxTlnUOi/w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=aObAO7GfWqEeA7trzJ86f/XnseVBckks3Wp4/oXznHSilYgYVoqZIWDOvj71xgkib
-	 lgmCn4V/J95HXPuWr/BC9UezFlKNi7fChuM++IKjdHyEnniFWEdcFH3P80QjT4GKT8
-	 7FXJpcyV5rxXbJB/o77o3DyY6W0ZxXjoEFTCGaMdjI9Qu614oQ9ehN29qeFz5nc71y
-	 n6Vb2X9YqAd8aVCrFAhZkk9YlgsEa1fvwSHKLjn9QIyM149G8f40pXF85PmeGbCrRC
-	 CDm8c7tFbkfvpwTOQgds27hLzVDN6ZHCf/i3csfpUeE+/V/ONQ2WElOVQKGkCcKlui
-	 L9Utcl2DNDEPA==
-Message-ID: <4a431b98-cccc-495e-b72e-02362828c96b@asahilina.net>
-Date: Mon, 3 Feb 2025 08:56:03 +0900
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gsQ6oSOe"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4363ae65100so47451295e9.0
+        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 01:08:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1738573736; x=1739178536; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RtOwM5RxJfd+VfcKZGXtlLQFSXd03HQ8e4rhtGXZjtM=;
+        b=gsQ6oSOeCBPPPaa0BvdGIIJ02jLqpE5ZimYLQ3g14Vd1h6Tx8qLsndyQodpx/v8+Vp
+         saH3eWmHY0lB99CqmYACr0kEDqWqDxDWFHSGC7K0ljHA9QW0JrRhpWPj/Z9eyi7yhc7I
+         NMTUpvsxBlN/6kExmZqGRPnZfp6TUDrlgbi7meGupf2Jx4X9iqS+AkMC9WJ4c1nQrxXp
+         xJu9U/RN6ddvOpjGOO+M6P8FW8sGRw0TZUZOF4QgzylGyCDrRN/wkwykHgOekjZUNe95
+         OJet9rZqodOvb0yj6mx+QyWwnIyvUysXKHUaPeH1YuLYpmkL+HPaHZN7hsf0BFD3X0dg
+         hHJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738573736; x=1739178536;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RtOwM5RxJfd+VfcKZGXtlLQFSXd03HQ8e4rhtGXZjtM=;
+        b=lXBiJopaFSD62lTLfN9hXa7mQTqeHafcWJcHgKlqSd24BbcArzvPYNG49udaRJioka
+         J9S15fdWAw+IeLlA8QxThlAW4J7k5ktZ1zBhITnPT/c78pMuOGB1BETL8TuijWre09wq
+         jmUVoiRj6a7bDcUEmN9+RdF4TTS+V3DbkQUQdhF0mMkVuftp4hjsrHCb73mbTtcaqsch
+         kHx2sKdPqUxAP9CybFBY8r6B2N4j9eAKuSEQMgJkTUGEdCp5ZXKnR/YnqUCwNEhobswc
+         l4ATtxluboi0JCXgG+BhH0qOydUNSMtUWryUsZGImdBIaapLRaCY65sGK72ls9TbApOd
+         NmhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnaTco0qHBUVv+mi7BePFTOVNa/GU1zig4lbM+EGKnaVeJ5Qg/Ig4KV916fSm5HSoLA95ImQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMspXbs8Q2Jxw9cPYHRDjxH/LC7un/s8dFAmCV4lYKJPnMNQto
+	KFfnbrUCuq6jiPhzLC/hXaF1WBleayd7k0xKAXz+jYLOMH485fx/1jnihrrd1Sv/30IE5TvmeX4
+	EXkPXmMCx/RZBssMS0QOL5yT90RiSW14UU7nk
+X-Gm-Gg: ASbGncscw/Np9890SgACV50ln0M3CfFha9NhqfegnxNfnypG5zBO1/E3+lhq763I8oZ
+	CxlZzSeywRgxxIU7MioPbpRjJN8jBQRIMFwocEUsMvgjZN84XgRIL6vq8aGSINyLY/I9KSnceKp
+	866jrTPBhfDduqygILQ00X0J+1
+X-Google-Smtp-Source: AGHT+IFbq1pWVjjFTT5eK9hOL6FRx5b2gIclK01nWaF+0UuNV0XQVQD1CBTLjwH7htojNlMdbttCQobb6NaNzGYfeNk=
+X-Received: by 2002:a5d:588f:0:b0:386:375a:8322 with SMTP id
+ ffacd0b85a97d-38c519506eamr20704188f8f.13.1738573736075; Mon, 03 Feb 2025
+ 01:08:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] drm/gpuvm: Add support for single-page-filled
- mappings
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, asahi@lists.linux.dev
-References: <20250202-gpuvm-single-page-v1-0-8cbd44fdcbd4@asahilina.net>
- <Z5-_O8vkCO0LXcl7@pollux.localdomain>
-Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <Z5-_O8vkCO0LXcl7@pollux.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net> <20250202-rust-page-v1-6-e3170d7fe55e@asahilina.net>
+In-Reply-To: <20250202-rust-page-v1-6-e3170d7fe55e@asahilina.net>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 3 Feb 2025 10:08:44 +0100
+X-Gm-Features: AWEUYZlZbKxfLpJhhJPVmBfowDaLOLNb2zkL0fALAziRhJs2A8Tey8gfRdFIvFA
+Message-ID: <CAH5fLgjtwcd6heHST2DCrmKWRp4w6KAEOHEoSm7t02J58LSQSA@mail.gmail.com>
+Subject: Re: [PATCH 6/6] rust: page: Make Page::as_ptr() pub(crate)
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>, 
+	Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Valentin Obst <kernel@valentinobst.de>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Feb 2, 2025 at 2:06=E2=80=AFPM Asahi Lina <lina@asahilina.net> wrot=
+e:
+>
+> There's no good reason for drivers to need access to the raw `struct
+> page` pointer, since that should be handled by Rust abstractions. Make
+> this method pub(crate) so it is only visible to the kernel crate.
+>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
+The Rust Binder driver has a C component, so it needs various as_ptr()
+methods to be public.
 
-On 2/3/25 3:53 AM, Danilo Krummrich wrote:
-> Hi Lina,
-> 
-> On Sun, Feb 02, 2025 at 10:34:49PM +0900, Asahi Lina wrote:
->> Some hardware requires dummy page mappings to efficiently implement
->> Vulkan sparse features. These mappings consist of the same physical
->> memory page, repeated for a large range of address space (e.g. 16GiB).
->>
->> Add support for this to drm_gpuvm. Currently, drm_gpuvm expects BO
->> ranges to correspond 1:1 to virtual memory ranges that are mapped, and
->> does math on the BO offset accordingly. To make single page mappings
->> work, we need a way to turn off that math, keeping the BO offset always
->> constant and pointing to the same page (typically BO offset 0).
->>
->> To make this work, we need to handle all the corner cases when these
->> mappings intersect with regular mappings. The rules are simply to never
->> mix or merge a "regular" mapping with a single page mapping.
->>
->> drm_gpuvm has support for a flags field in drm_gpuva objects. This is
->> normally managed by drivers directly. We can introduce a
->> DRM_GPUVA_SINGLE_PAGE flag to handle this. However, to make it work,
->> sm_map and friends need to know ahead of time whether the new mapping is
->> a single page mapping or not. Therefore, we need to add an argument to
->> these functions so drivers can provide the flags to be filled into
->> drm_gpuva.flags.
->>
->> These changes should not affect any existing drivers that use drm_gpuvm
->> other than the API change:
->>
->> - imagination: Does not use flags at all
->> - nouveau: Only uses drm_gpuva_invalidate(), which is only called on
->>   existing drm_gpuva objects (after the map steps)
->> - panthor: Does not use flags at all
->> - xe: Does not use drm_gpuva_init_from_op() or
->>   drm_gpuva_remap()/drm_gpuva_map() (which call it). This means that the
->> flags field of the gpuva object is managed by the driver only, so these
->> changes cannot clobber it.
->>
->> Note that the way this is implemented, drm_gpuvm does not need to know
->> the GPU page size. It only has to never do math on the BO offset to meet
->> the requirements.
->>
->> I suspect that after this change there could be some cleanup possible in
->> the xe driver (which right now passes flags around in various
->> driver-specific ways from the map step through to drm_gpuva objects),
->> but I'll leave that to the Xe folks.
->>
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> ---
->> Asahi Lina (4):
->>       drm/gpuvm: Add a flags argument to drm_gpuvm_sm_map[_*]
->>       drm/gpuvm: Plumb through flags into drm_gpuva_op_map
->>       drm/gpuvm: Add DRM_GPUVA_SINGLE_PAGE flag and logic
->>       drm/gpuvm: Plumb through flags into drm_gpuva_init
-> 
-> Without looking into any details yet:
-> 
-> This is a bit of tricky one, since we're not even close to having a user for
-> this new feature upstream yet, are we?
-
-I'd hope we're at least somewhere "this year" close to upstreaming
-drm/asahi!
-
-> 
-> I wonder if we could do an exception by adding some KUnit tests (which
-> admittedly I never got to) validating things with and without this new feature.
-> 
-> Speaking of tests, how did you validate this change to validate the behavior
-> without DRM_GPUVA_SINGLE_PAGE?
-
-Mostly just making sure our driver passes GL/Vulkan CTS including sparse
-after this change. I do want to put together some low-level tests in
-igt-gpu-tools, but I haven't gotten around to it yet...
-
-~~ Lina
-
+Alice
