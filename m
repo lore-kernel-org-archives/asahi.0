@@ -1,71 +1,72 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F6B35966
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 09:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF4135966
+	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 09:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738573792; cv=none; b=G0FGxlXSMeufp/Ad/dtmhnJJMRE9ddL4ANJgh2st5nCYjV/jg8pMEthNsZ25GWyP3Pfa9NLrHYmTEHMCqiHfz7jnUJyRd0u57ScIEl1WByjpJHjV19ewPx40NXBBZvXRmEG+iRrKZtFc2TP0nvek69iwhVzAfVmbLeyOQg7uhj4=
+	t=1738573838; cv=none; b=RAPRldVE7VtM1DfA/BszVLoWSDYhDP4wlQpXVOmxUH2D0ytg4ZRRMvw6fvsEaKJWLq2GZhC/MknleuYB9DOh5WMHwWRulK4+cK9ayoTtnKgRPfod9Q8fnhKb38WvU6Siot28ljgKOADeEWaypO/hnfY7PCUEMMiuuJ99oYpbDdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738573792; c=relaxed/simple;
-	bh=UTDN9Mplud83THmiGowq87k8MSyDKm3YgJpc64T4AGw=;
+	s=arc-20240116; t=1738573838; c=relaxed/simple;
+	bh=0GqnJ1PTVxaimi6jzAEHxm4Rj0qeyB29leOa6XPWAB8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D0m9/In7NH/0X7UR7O5buolzze2a7rT13/bsK9QQUpjpN4hZLtE8W8qXwQFxYirvDtHGSekI7n7B7hRwYAjiyuyVysk5/1D0HSw4pYxQNJ9U7epE9EkHAhxHGJu0LqljBJ0OmBaeqCMbDTp7KrHi3HuNRrA0b97TlTU9+9DU4RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JFPbutz3; arc=none smtp.client-ip=209.85.221.43
+	 To:Cc:Content-Type; b=nNYn7lTn+XMgTJoARd2hoMubxXFhxWneu58yMIWmLc4+A9Y8S2S9TPsf+BoPVcjqYYG1wxRrWEYw9vCsLsKdlEUQzyIdyf3W7Bon6/egKUy5+I8J/GzyZntYhHc1ICp0j0wtkdsQleljMh9L7wds/xt0CymfCJ/DgsdKKeaSdrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FsiPM2wk; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JFPbutz3"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-386329da1d9so1926098f8f.1
-        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 01:09:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FsiPM2wk"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43624b2d453so47313265e9.2
+        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 01:10:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738573789; x=1739178589; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1738573835; x=1739178635; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UTDN9Mplud83THmiGowq87k8MSyDKm3YgJpc64T4AGw=;
-        b=JFPbutz3mC4YChNbQ1/A+8y8KkGfasVtBEfM//gtv1mqmkJyaTiMf8NKzSFLN/AVTw
-         K4OkPgCGVwD/oKwb2bmhB9KBnvAXAHZ5Rf37YDCWfvSZ+M7B1AKg9eU4pZSle8HYO8c4
-         n50t0047IDeykpVi7UxEJmt6MOivzBC5JoQQMX+FPCjZxksdc7FT3omMdjs1b+g2gmJ2
-         pqVbGVybDJb2r05H3Q3zRaOqUM0k++W3vqwk1cypKUXgxdLYpFZIc4D5+k9ZuhpJcOV6
-         F4pLIIinAS4QblCx6yixWZPBgWz8vxpqGB85vzEgYdn1Bl9tv6l1/AvYYgeiWmUmUjUm
-         ob7Q==
+        bh=0GqnJ1PTVxaimi6jzAEHxm4Rj0qeyB29leOa6XPWAB8=;
+        b=FsiPM2wkO8wExcdm83sedgIxXtS4sQFQXCn7WaaJmIrkbXMQHcFUbw/DMHXWIS8wqL
+         2vNXUS9oYJxL0Wn+8aYvpiQIXH/i9HSG4J3CPvPiYjvjcIVMjUnLJUhKdt75ttGIg76p
+         o/GTicKJ6DKSv+7HpeM9SjuSn2gADI60eCLml84e2CES1/DhvBSftENPe+wM02CAZjpk
+         VpKZ71LXPDqW1lOdIQJBWBM+plx0Jay4XPDlJiARIY+bP7wen1k0Xx/KI98x44lb+yE5
+         cPu9HC8dNHt/DoS/w4P59/04LpgsTAYHK+nYVykhRADebJ/0KgbTpqgbZz8/5ej76Smi
+         lmnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738573789; x=1739178589;
+        d=1e100.net; s=20230601; t=1738573835; x=1739178635;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UTDN9Mplud83THmiGowq87k8MSyDKm3YgJpc64T4AGw=;
-        b=AqI33xxlJdhi7qca/YSYH2zjxn5ckXlUyUN3tU2PW47Oe/XfOECIpfIvsNbahoix5w
-         WK+Gf4hO7T82Qq5LW2raySVuD1UQAB/cHk18TLpnTmOHaqO+TYuwme3nTs3VtjeSjZ1K
-         BYxXK6ChLs5+hjO/OQBEaTxgsVDF+QsujkL0uSEjEw1Y447E+lAL+1lfBwMIceQj3Jzu
-         2qrhnhgbzpCm218ev8ZaV+vxNRy6v5cSeqIWBA7Ycspac54jcdfeEYexe5QRNvF5c8QL
-         wEIQ4Qm0S7q2uWIJsSAtSZ2MmKd+90liqh7zQ0F/UzQH14czeQm7jt951XypB970EtdJ
-         18Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCXkSWOFbA03VHYvg3Ckqn2kocfhygQ++tP7CONJoBSBhiJ05m78DtCZNx1ouwAFplJsv3GA1A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/JTUsa825zqv+UwzyCcrSfutiitbkcCjM19AhkS7tWAOyA5rS
-	A+APGwMdTCWrEv+DkG/G4oPZpkWsnDoD2wdAdAhWsH3kluUrmNMZrurDZM0qoZGwdwUu/to1dx7
-	9AUFJHOmA/THJxihK7T6jDodFPGYeskOyaXRX
-X-Gm-Gg: ASbGnct3SS6RfS6ZwJjHx6Ds33kZH/ud6/cSQ7Z2yhGlDwLxVB9RVFG91kLEJbzyz0F
-	d3/40lP19F1QK3BOfMAhUei61io8GV22wJ4JtwDpvnWFRsdHHHPNWkXSl6lL5NKZwiw8wbeD2rw
-	rii19APf6Svn/XiXqM6XDov4PX
-X-Google-Smtp-Source: AGHT+IFM9GLHlZ+BFxVNkIvlyblXVykvccxfE1y//nQwS7sYZaGnQmkNGwSODA3KxKIAr7oe/IbIRqDfpnehi+25lNA=
-X-Received: by 2002:a05:6000:1569:b0:38c:60c0:40d6 with SMTP id
- ffacd0b85a97d-38c60c041c4mr10325117f8f.51.1738573788916; Mon, 03 Feb 2025
- 01:09:48 -0800 (PST)
+        bh=0GqnJ1PTVxaimi6jzAEHxm4Rj0qeyB29leOa6XPWAB8=;
+        b=f9xs0ssy/Re5Qi8xW1o+a8snUoOKvGj8nQX1wQpo/mwHEIFBZWkn3Svg1jz4FPC/KP
+         sU6vtWGnn7BlQcBK2Dy+DZ/Jfg678V9sXn5SVCnD2hE1LYkjg1gtAoXx8NVu6QItlmjz
+         Jb0mKI/d4dicgQwbd7kWYLBtWST0wXirl5Z7dJZMSQ4QtcChdcTTB7Hscp5Wxzq0iyGR
+         yNZ8kHtEOVWRdKcPL3zBajXHzfuWfLUSbTJs5hXA33fufLuHy78bhEEnS0mqNmaBYuEg
+         04YrA2yhQg+OVTBXVGSJl5zJLm+ERY2aLuZY7khqybOWrhdGYxauTDB3/XjD0AZYxRqI
+         jjVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVV7dCr/munbt3GAh0/DgChXxYigBgqCy6BoZroOCccbZSGE0NiaIHu1mplL/WLfit3/8GkcQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0X6LL8kZl/C+Qer1FZ0Qpfsl4P1TEHj/KvBiVfMw3iI7O48kF
+	QqSxmD7R8FDQPqg/huRvH9gjTF/aHeRZbwiJEWVsc/nGY93/Nnpu8Y00sETOPfICMYbK3Je1LA/
+	Pl6DmCbuN0CaVmmyWnePb3Aql4DFMYAEYtkyA
+X-Gm-Gg: ASbGncsRS4MDZtVzFgAXBvtylms8Hk+7vgtgpOG/zs1736TAliveC/+4mg+i1XRateU
+	ZYo/x3ott1NeQS1w7RW77Q8Yx6vV0b/++z6JbM1wOeYgklgJ31eVTpU3X6PNzDbOhSeLiHVAMO8
+	9KZI+EgmMhJ4HI7H0CIXBJKoYc
+X-Google-Smtp-Source: AGHT+IGI34eyHu3/GfGg9biDfXT3JxIzFtbQN5HJwuQantgQ/sjTmTZbXZuSP/k9Tb3AezYeg5j0EE13+HmrChg4UzM=
+X-Received: by 2002:a05:6000:1a86:b0:38a:888c:7df0 with SMTP id
+ ffacd0b85a97d-38c519380demr18290202f8f.1.1738573835006; Mon, 03 Feb 2025
+ 01:10:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net> <20250202-rust-page-v1-4-e3170d7fe55e@asahilina.net>
-In-Reply-To: <20250202-rust-page-v1-4-e3170d7fe55e@asahilina.net>
+References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net> <20250202-rust-page-v1-3-e3170d7fe55e@asahilina.net>
+In-Reply-To: <20250202-rust-page-v1-3-e3170d7fe55e@asahilina.net>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 3 Feb 2025 10:09:37 +0100
-X-Gm-Features: AWEUYZkjSqWe0d3JupRvmEZPFDwaoLn2z0gdviTtv2-Qd0BxBC4FdBGMXj4WLug
-Message-ID: <CAH5fLgj+5KZcNRZiNfj7wg_t+QU7ki_=Pw5-whBLx9K0BcBbCw@mail.gmail.com>
-Subject: Re: [PATCH 4/6] rust: addr: Add a module to declare core address types
+Date: Mon, 3 Feb 2025 10:10:23 +0100
+X-Gm-Features: AWEUYZl6WceXbooRxBlvUcO8bpNH6XYBFh342mQJjM7qz2TGDzIyB0PjWSJCckU
+Message-ID: <CAH5fLggrgd5fX1vDGKjfqiZ+cjYK6p+q8XaCfCa_KwsTT4L+Qg@mail.gmail.com>
+Subject: Re: [PATCH 3/6] rust: page: Make with_page_mapped() and
+ with_pointer_into_page() public
 To: Asahi Lina <lina@asahilina.net>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
 	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
@@ -84,8 +85,13 @@ Content-Transfer-Encoding: quoted-printable
 On Sun, Feb 2, 2025 at 2:06=E2=80=AFPM Asahi Lina <lina@asahilina.net> wrot=
 e:
 >
-> Encapsulates the core physical/DMA address types, so they can be used by
-> Rust abstractions.
+> Lets users do (unsafe) complex page read/write operations without having
+> to repeatedly call into read_raw()/write_raw() (which may be expensive
+> in some cases).
+>
+> The functions themselves are not unsafe, but they do take a closure that
+> receives a raw pointer, so actually making the access requires unsafe
+> code.
 >
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
 
