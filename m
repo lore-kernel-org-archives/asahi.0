@@ -1,276 +1,302 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C77F20898C
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 12:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A436205512
+	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 13:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738586941; cv=none; b=LjMBmzmuI8azMBNIVzskb4+IDIZIonPFEjs2Td0T5Hm0yJPK2rPB6DzGdPDY+Rq/9J0rs9p4wAB4fSDwFpCbtN1e76Jp8fYVjp5Q8xYvFIHYYJaFZGnPI3gPLmHy21eAKpfeIrnMqlf/jENgQOopOiUHLzkyxwbjeuLVR8DPq+E=
+	t=1738590392; cv=none; b=ONgT4SD7+XJanVQTeGx20/5xndJgsXeuUgyLUbdOutuUc50yCEnSgyH7Moj/CqVqFb7LTAJbB/cwcsnOKT1d6LKT6aqGyY8uYvmOQSOB1Yc23TKrbMPK2T7j53K0L1TNiKOsoBiuKbR4txYshWG46Vk90k/UNnGJa4EfMc1YvBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738586941; c=relaxed/simple;
-	bh=VwogZdnPvxjvw4Pe6gN0bLmVoEtz9/Qo7ziG/XQPnfA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CGJXZ+jiw1SMiw4T5TFNSBXWicoxnaTmCXuEbzYcMqZmZ/SzK3XLVLz7beuMOJhuUFdaf0ZaETDrZJKdcEBs+bV2gZxsaq/8uNLea4oeJXFB67RGdCcGfBFWllGdiTp/pI+PDfel2Mwr8T9X3tRoFvM94Jci3yrguqrEipLK9tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3MeZ/G9; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738590392; c=relaxed/simple;
+	bh=FkYJgcwBTd7j7y1jIRC/Fd5cR+gWvCsgmp/VeKuIqLk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MEj+gkH2RwA+3MTySUqUxc54iuGNi/qzcAckaNxfiZDocDbXfRb+L5zUZj3BPLxOSFcr4aQaL8LXbNoyJjFySbrq9GNsexcR3a6Yh6JGkCFsZI9o2yhRlZxz9368ZsTi/+jo6lioyCUo5PvOLL5+7FCn6m5Q4InJLu7zR/LptKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=AgsSq08p; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3MeZ/G9"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21628b3fe7dso76581035ad.3
-        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 04:48:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738586939; x=1739191739; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ByLWdj9po7I8QCmIxQThyezzisERxr+NIkivv2+pP3U=;
-        b=I3MeZ/G97eZfmlRqFIbVgYIo9I1C11I7xsB4tKqV/fFeB6H4/FprcTYxh5X1XVvWDR
-         yqxqwfmCJhMcGEwjfanCbhcJ/NA2unEZUjLc3TgLcskMb3ilX9jm2xV78GOzb8RL97oZ
-         T8fwBQxKuZHW0om4UKFJQvsBNaE3LpUxdVFenXGJ6SqQ0+wMHleTyIjFDt1Xzai0rw1+
-         T8nWYfHH7FamwYx/SP2N/rcz5k2JJmzcaeRtry59ulIwyin8dvefrv3otuQqj7WT55XL
-         Mp3cm+k7aH7zd6NakY8QdL6ZIrNyMkMP725m0DAMAKbUWZLDPZVAlBtkeVqudtY8ByL2
-         4/vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738586939; x=1739191739;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ByLWdj9po7I8QCmIxQThyezzisERxr+NIkivv2+pP3U=;
-        b=JnrV235dU+HE868j/FAR+S1GpGe79eb0yFIY0Di4V7Qsy2terizi9DEriAzgM37DyI
-         qeD9wHXoTrgOHhoPPNTYoQ7AOApzKFGC9M7jD6zPZroQq5FMlTqzF6oad4sP96mhQBGD
-         VmYH0Q0zZB5FbMJPN6igyj5+TmhL7mc1KjJjZ8ttyg+eWYIYwLOV61Py9oHDoEUG7svu
-         iPEVHf4dWPaig5AoIdqIbwjZxJMpDw7EEBW0Zkp44AsNb3oN1VPRpvpNX0cGF9xXsuX/
-         8eI/Uji9WnuW4YMb3LUJqDiwfjIYubkj/gLuLDJKe94+rVczv/qqvIk0cJqVHtwetLEv
-         cjoA==
-X-Forwarded-Encrypted: i=1; AJvYcCU4+sFVhlf7rxkd8hwK+Eab53v9sW1lVIULshB33RATI2UI81UVQAVhYmopQ0J9kfFDNIfUZw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPfc3hjcZ2HiLbD+GNbKDfQd+b0eSEMnTgjJG448UGc+3w5Ijt
-	staFSkaXJc0UsOPDSSEWueh3wgE0uUf3vIZS07bPyJZEW98PnQmE
-X-Gm-Gg: ASbGncuC/mo6NrGO3Sytg7+GMXSZoohTRgcBpcAbs0hzt07HQdAChtyAzbIuGV6PD+o
-	iO0D+xRblx/U1u3aT+vCP5ZzbvHEK62V/o/rvTi4msNjbVJPfYclWs8e4jOw1f6e3A68E9O/tAe
-	A+KT5JRNpywIlLkj4ft8VddC5NB0DrN0W3Vm+PueDpMeiR1yAeyg3Tg+1ex3sw8YD8EKYihShPI
-	8ewUZJLgMOCVqyuJRmuiHtzsuY+6ssWmNWbicAbsCzDE8hP8xj+oUtO9ih4rARVhcMQ7M4QXQAq
-	y7IzXxRDPhUvEPSa
-X-Google-Smtp-Source: AGHT+IE+t0KDXYMwTSpBWi+pdAH/0ma6AXc8iXrbj2Cn/KnYaFBskDaPtkynAvbjwmSIRdQbgXHSCg==
-X-Received: by 2002:a05:6a20:6a1a:b0:1e3:e6f3:6372 with SMTP id adf61e73a8af0-1ed7a6b78a2mr35007064637.27.1738586938754;
-        Mon, 03 Feb 2025 04:48:58 -0800 (PST)
-Received: from nick-mbp.. ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-acebddbb0d4sm7835225a12.10.2025.02.03.04.48.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 04:48:58 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH RESEND 9/9] arm64: dts: apple: t8015: Add cpufreq nodes
-Date: Mon,  3 Feb 2025 20:43:48 +0800
-Message-ID: <20250203124747.41541-10-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250203124747.41541-1-towinchenmi@gmail.com>
-References: <20250203124747.41541-1-towinchenmi@gmail.com>
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="AgsSq08p"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 2156342618;
+	Mon,  3 Feb 2025 13:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1738590379;
+	bh=FkYJgcwBTd7j7y1jIRC/Fd5cR+gWvCsgmp/VeKuIqLk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=AgsSq08pyl7EduZ6jUnRfVz0S2J8MZtIjeB00TJa/XpKXAElZ250lzlcCWTdll3Ww
+	 o1OkVdkdUSPoYc7o8PaXfKw8JYrSgtofeNeDxRUwjlMP58H8bjXc6048Fj+KhtAVQy
+	 A6sTHeXSZ0WkuKxAqNvzrpjQSXiRUJeYYkq8Vs61Ng6Q5WJRfGh/TUEOaBlHeKhbNz
+	 ZkrxYoEfzWbd6HLlDvkuH8khnsmSMTRAWcHFWRjmEXhCIgOn9KVVCKfhd68bCLkQQI
+	 xHY5k4XMIqxDhCRd4Me2zAKsmuPUNB0QLyQPWaFyOPQpuZH9ZPdpVQ1EWFP506XzBs
+	 ogKpkfxYwbm8g==
+Message-ID: <8659ac1f-3bb0-4891-b4ea-958a1a308c01@asahilina.net>
+Date: Mon, 3 Feb 2025 22:46:15 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] drm/gpuvm: Add support for single-page-filled
+ mappings
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Danilo Krummrich <dakr@kernel.org>, asahi@lists.linux.dev
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, akash.goel@arm.com
+References: <20250202-gpuvm-single-page-v1-0-8cbd44fdcbd4@asahilina.net>
+ <Z5-_O8vkCO0LXcl7@pollux.localdomain> <20250203102153.145229e0@collabora.com>
+Content-Language: en-US
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <20250203102153.145229e0@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add cpufreq nodes for Apple A11 SoC.
+Hi,
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- arch/arm64/boot/dts/apple/t8015.dtsi | 123 +++++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+On 2/3/25 6:21 PM, Boris Brezillon wrote:
+> +Akash with whom we've been discussing adding a 'REPEAT' mode to
+> drm_gpuvm/panthor.
+> 
+> On Sun, 2 Feb 2025 19:53:47 +0100
+> Danilo Krummrich <dakr@kernel.org> wrote:
+> 
+>> Hi Lina,
+>>
+>> On Sun, Feb 02, 2025 at 10:34:49PM +0900, Asahi Lina wrote:
+>>> Some hardware requires dummy page mappings to efficiently implement
+>>> Vulkan sparse features. These mappings consist of the same physical
+>>> memory page, repeated for a large range of address space (e.g. 16GiB).
+>>>
+>>> Add support for this to drm_gpuvm. Currently, drm_gpuvm expects BO
+>>> ranges to correspond 1:1 to virtual memory ranges that are mapped, and
+>>> does math on the BO offset accordingly. To make single page mappings
+>>> work, we need a way to turn off that math, keeping the BO offset always
+>>> constant and pointing to the same page (typically BO offset 0).
+>>>
+>>> To make this work, we need to handle all the corner cases when these
+>>> mappings intersect with regular mappings. The rules are simply to never
+>>> mix or merge a "regular" mapping with a single page mapping.
+>>>
+>>> drm_gpuvm has support for a flags field in drm_gpuva objects. This is
+>>> normally managed by drivers directly. We can introduce a
+>>> DRM_GPUVA_SINGLE_PAGE flag to handle this. However, to make it work,
+>>> sm_map and friends need to know ahead of time whether the new mapping is
+>>> a single page mapping or not. Therefore, we need to add an argument to
+>>> these functions so drivers can provide the flags to be filled into
+>>> drm_gpuva.flags.
+>>>
+>>> These changes should not affect any existing drivers that use drm_gpuvm
+>>> other than the API change:
+>>>
+>>> - imagination: Does not use flags at all
+>>> - nouveau: Only uses drm_gpuva_invalidate(), which is only called on
+>>>   existing drm_gpuva objects (after the map steps)
+>>> - panthor: Does not use flags at all
+>>> - xe: Does not use drm_gpuva_init_from_op() or
+>>>   drm_gpuva_remap()/drm_gpuva_map() (which call it). This means that the
+>>> flags field of the gpuva object is managed by the driver only, so these
+>>> changes cannot clobber it.
+>>>
+>>> Note that the way this is implemented, drm_gpuvm does not need to know
+>>> the GPU page size. It only has to never do math on the BO offset to meet
+>>> the requirements.
+>>>
+>>> I suspect that after this change there could be some cleanup possible in
+>>> the xe driver (which right now passes flags around in various
+>>> driver-specific ways from the map step through to drm_gpuva objects),
+>>> but I'll leave that to the Xe folks.
+>>>
+>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>> ---
+>>> Asahi Lina (4):
+>>>       drm/gpuvm: Add a flags argument to drm_gpuvm_sm_map[_*]
+>>>       drm/gpuvm: Plumb through flags into drm_gpuva_op_map
+>>>       drm/gpuvm: Add DRM_GPUVA_SINGLE_PAGE flag and logic
+>>>       drm/gpuvm: Plumb through flags into drm_gpuva_init  
+>>
+>> Without looking into any details yet:
+>>
+>> This is a bit of tricky one, since we're not even close to having a user for
+>> this new feature upstream yet, are we?
+> 
+> Actually, we would be interesting in having this feature hooked up in
+> panthor. One use case we have is Vulkan sparse bindings, of course. But
+> we also have cases where we need to map a dummy page repeatedly on the
+> FW side. The approach we've been considering is slightly different:
+> pass a DRM_GPUVA_REPEAT_FLAG along with GEM range, so we can repeat a
+> range of the GEM (see the below diff, which is completely untested by
+> the way), but I think we'd be fine with this SINGLE_PAGE flag.
 
-diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
-index 8828d830e5be..f93ce2c8b251 100644
---- a/arch/arm64/boot/dts/apple/t8015.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015.dtsi
-@@ -58,6 +58,9 @@ cpu_e0: cpu@0 {
- 			compatible = "apple,mistral";
- 			reg = <0x0 0x0>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			performance-domains = <&cpufreq_e>;
-+			operating-points-v2 = <&mistral_opp>;
-+			capacity-dmips-mhz = <633>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
-@@ -66,6 +69,9 @@ cpu_e1: cpu@1 {
- 			compatible = "apple,mistral";
- 			reg = <0x0 0x1>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			performance-domains = <&cpufreq_e>;
-+			operating-points-v2 = <&mistral_opp>;
-+			capacity-dmips-mhz = <633>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
-@@ -74,6 +80,9 @@ cpu_e2: cpu@2 {
- 			compatible = "apple,mistral";
- 			reg = <0x0 0x2>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			performance-domains = <&cpufreq_e>;
-+			operating-points-v2 = <&mistral_opp>;
-+			capacity-dmips-mhz = <633>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
-@@ -82,6 +91,9 @@ cpu_e3: cpu@3 {
- 			compatible = "apple,mistral";
- 			reg = <0x0 0x3>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			performance-domains = <&cpufreq_e>;
-+			operating-points-v2 = <&mistral_opp>;
-+			capacity-dmips-mhz = <633>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
-@@ -90,6 +102,9 @@ cpu_p0: cpu@10004 {
- 			compatible = "apple,monsoon";
- 			reg = <0x0 0x10004>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			performance-domains = <&cpufreq_p>;
-+			operating-points-v2 = <&monsoon_opp>;
-+			capacity-dmips-mhz = <1024>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
-@@ -98,11 +113,107 @@ cpu_p1: cpu@10005 {
- 			compatible = "apple,monsoon";
- 			reg = <0x0 0x10005>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			performance-domains = <&cpufreq_p>;
-+			operating-points-v2 = <&monsoon_opp>;
-+			capacity-dmips-mhz = <1024>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
- 	};
- 
-+	mistral_opp: opp-table-0 {
-+		compatible = "operating-points-v2";
-+
-+		opp01 {
-+			opp-hz = /bits/ 64 <300000000>;
-+			opp-level = <1>;
-+			clock-latency-ns = <1800>;
-+		};
-+		opp02 {
-+			opp-hz = /bits/ 64 <453000000>;
-+			opp-level = <2>;
-+			clock-latency-ns = <140000>;
-+		};
-+		opp03 {
-+			opp-hz = /bits/ 64 <672000000>;
-+			opp-level = <3>;
-+			clock-latency-ns = <105000>;
-+		};
-+		opp04 {
-+			opp-hz = /bits/ 64 <972000000>;
-+			opp-level = <4>;
-+			clock-latency-ns = <115000>;
-+		};
-+		opp05 {
-+			opp-hz = /bits/ 64 <1272000000>;
-+			opp-level = <5>;
-+			clock-latency-ns = <125000>;
-+		};
-+		opp06 {
-+			opp-hz = /bits/ 64 <1572000000>;
-+			opp-level = <6>;
-+			clock-latency-ns = <135000>;
-+		};
-+#if 0
-+		/* Not available until CPU deep sleep is implemented */
-+		opp07 {
-+			opp-hz = /bits/ 64 <1680000000>;
-+			opp-level = <7>;
-+			clock-latency-ns = <135000>;
-+			turbo-mode;
-+		};
-+#endif
-+	};
-+
-+	monsoon_opp: opp-table-1 {
-+		compatible = "operating-points-v2";
-+
-+		opp01 {
-+			opp-hz = /bits/ 64 <300000000>;
-+			opp-level = <1>;
-+			clock-latency-ns = <1400>;
-+		};
-+		opp02 {
-+			opp-hz = /bits/ 64 <453000000>;
-+			opp-level = <2>;
-+			clock-latency-ns = <140000>;
-+		};
-+		opp03 {
-+			opp-hz = /bits/ 64 <853000000>;
-+			opp-level = <3>;
-+			clock-latency-ns = <110000>;
-+		};
-+		opp04 {
-+			opp-hz = /bits/ 64 <1332000000>;
-+			opp-level = <4>;
-+			clock-latency-ns = <110000>;
-+		};
-+		opp05 {
-+			opp-hz = /bits/ 64 <1812000000>;
-+			opp-level = <5>;
-+			clock-latency-ns = <125000>;
-+		};
-+		opp06 {
-+			opp-hz = /bits/ 64 <2064000000>;
-+			opp-level = <6>;
-+			clock-latency-ns = <130000>;
-+		};
-+		opp07 {
-+			opp-hz = /bits/ 64 <2304000000>;
-+			opp-level = <7>;
-+			clock-latency-ns = <140000>;
-+		};
-+#if 0
-+		/* Not available until CPU deep sleep is implemented */
-+		opp08 {
-+			opp-hz = /bits/ 64 <2376000000>;
-+			opp-level = <8>;
-+			clock-latency-ns = <140000>;
-+			turbo-mode;
-+		};
-+#endif
-+	};
-+
- 	soc {
- 		compatible = "simple-bus";
- 		#address-cells = <2>;
-@@ -110,6 +221,18 @@ soc {
- 		nonposted-mmio;
- 		ranges;
- 
-+		cpufreq_e: performance-controller@208e20000 {
-+			compatible = "apple,t8015-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
-+			reg = <0x2 0x08e20000 0 0x1000>;
-+			#performance-domain-cells = <0>;
-+		};
-+
-+		cpufreq_p: performance-controller@208ea0000 {
-+			compatible = "apple,t8015-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
-+			reg = <0x2 0x08ea0000 0 0x1000>;
-+			#performance-domain-cells = <0>;
-+		};
-+
- 		serial0: serial@22e600000 {
- 			compatible = "apple,s5l-uart";
- 			reg = <0x2 0x2e600000 0x0 0x4000>;
--- 
-2.48.1
+That sounds similar, though your patch does not handle gpuva
+splitting/remapping and all the other corner cases. I think you'll find
+that once you handle those, the logic will become significantly more
+complicated, since you need to start storing the start offset within the
+repeat range on GPUVAs to be able to split them while keeping the
+mappings identical, and do modular arithmetic to keep it all consistent
+across all the corner cases.
+
+If SINGLE_PAGE works for you then I would advocate for that. It keeps
+complexity down to a minimum in drm_gpuvm. You can still have a range
+that's greater than one page in practice, you'd just have to handle it
+driver-internal and pass the desired range out of band as a flag or
+other field. For example, you could decide that the mapping is always
+congruent to the VA (GEM page offset = start offset + VA % range) and
+always treat SINGLE_PAGE mappings like that when you actually set up the
+page tables, or pass in an extra offset to be able to shift the phase of
+the mapping to whatever you want. You just need to ensure that, if you
+mix range sizes or other configuration, you don't do that for the same
+GEM BO at the same offset, so that the drm_gpuvm core does not wrongly
+consider them equivalent.
+
+Maybe I should rename SINGLE_PAGE to something else, since it isn't
+technically limited to that as far as gpuvm is concerned. Something like
+FIXED_OFFSET?
+
+> 
+> --->8---
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index f9eb56f24bef..ea61f3ffaddf 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -2053,16 +2053,17 @@ EXPORT_SYMBOL_GPL(drm_gpuva_unmap);
+>  
+>  static int
+>  op_map_cb(const struct drm_gpuvm_ops *fn, void *priv,
+> -      u64 addr, u64 range,
+> -      struct drm_gem_object *obj, u64 offset)
+> +      u64 addr, u64 va_range,
+> +      struct drm_gem_object *obj, u64 offset, u64 gem_range)
+>  {
+>      struct drm_gpuva_op op = {};
+>  
+>      op.op = DRM_GPUVA_OP_MAP;
+>      op.map.va.addr = addr;
+> -    op.map.va.range = range;
+> +    op.map.va.range = va_range;
+>      op.map.gem.obj = obj;
+>      op.map.gem.offset = offset;
+> +    op.map.gem.range = gem_range;
+>  
+>      return fn->sm_step_map(&op, priv);
+>  }
+> @@ -2102,7 +2103,8 @@ static int
+>  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>             const struct drm_gpuvm_ops *ops, void *priv,
+>             u64 req_addr, u64 req_range,
+> -           struct drm_gem_object *req_obj, u64 req_offset)
+> +           struct drm_gem_object *req_obj,
+> +           u64 req_offset, u64 req_gem_range)
+>  {
+>      struct drm_gpuva *va, *next;
+>      u64 req_end = req_addr + req_range;
+> @@ -2237,7 +2239,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  
+>      return op_map_cb(ops, priv,
+>               req_addr, req_range,
+> -             req_obj, req_offset);
+> +             req_obj, req_offset, req_gem_range);
+>  }
+>  
+>  static int
+> @@ -2344,10 +2346,43 @@ drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
+>  
+>      return __drm_gpuvm_sm_map(gpuvm, ops, priv,
+>                    req_addr, req_range,
+> -                  req_obj, req_offset);
+> +                  req_obj, req_offset, 0);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map);
+>  
+> +/**
+> + * drm_gpuvm_sm_map_repeat() - repeatedly maps a GEM range over a VA range
+> + * @gpuvm: the &drm_gpuvm representing the GPU VA space
+> + * @priv: pointer to a driver private data structure
+> + * @req_addr: the start address of the new mapping
+> + * @req_range: the range of the new mapping
+> + * @req_obj: the &drm_gem_object to map
+> + * @req_offset: the offset within the &drm_gem_object
+> + * @req_gem_range: the offset within the &drm_gem_object
+> + *
+> + * Same as drm_gpuvm_sm_map() except it repeats a GEM range over a VA range
+> + *
+> + * Returns: 0 on success or a negative error code
+> + */
+> +int
+> +drm_gpuvm_sm_map_repeat(struct drm_gpuvm *gpuvm, void *priv,
+> +            u64 req_addr, u64 req_range,
+> +            struct drm_gem_object *req_obj,
+> +            u64 req_offset, u64 req_gem_range)
+> +{
+> +    const struct drm_gpuvm_ops *ops = gpuvm->ops;
+> +
+> +    if (unlikely(!(ops && ops->sm_step_map &&
+> +               ops->sm_step_remap &&
+> +               ops->sm_step_unmap)))
+> +        return -EINVAL;
+> +
+> +    return __drm_gpuvm_sm_map(gpuvm, ops, priv,
+> +                  req_addr, req_range,
+> +                  req_obj, req_offset, req_gem_range);
+> +}
+> +EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map_repeat);
+> +
+>  /**
+>   * drm_gpuvm_sm_unmap() - creates the &drm_gpuva_ops to split on unmap
+>   * @gpuvm: the &drm_gpuvm representing the GPU VA space
+> @@ -2536,7 +2571,7 @@ drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
+>  
+>      ret = __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args,
+>                   req_addr, req_range,
+> -                 req_obj, req_offset);
+> +                 req_obj, req_offset, 0);
+>      if (ret)
+>          goto err_free_ops;
+>  
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index 00d4e43b76b6..8157ede365d1 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -846,6 +846,14 @@ struct drm_gpuva_op_map {
+>           */
+>          u64 offset;
+>  
+> +        /**
+> +         * @gem.range: the range of the GEM to map
+> +         *
+> +         * If smaller than va.range, the GEM range should be mapped
+> +         * multiple times over the VA range.
+> +         */
+> +        u64 range;
+> +
+>          /**
+>           * @gem.obj: the &drm_gem_object to map
+>           */
+> @@ -1203,6 +1211,11 @@ int drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
+>               u64 addr, u64 range,
+>               struct drm_gem_object *obj, u64 offset);
+>  
+> +int drm_gpuvm_sm_map_repeat(struct drm_gpuvm *gpuvm, void *priv,
+> +                u64 addr, u64 range,
+> +                struct drm_gem_object *obj,
+> +                u64 offset, u64 gem_range);
+> +
+>  int drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm, void *priv,
+>                 u64 addr, u64 range);
+> 
+
+~~ Lina
 
