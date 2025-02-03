@@ -1,278 +1,424 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78BCC202C45
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 11:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AC32036FA
+	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 11:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738581839; cv=none; b=bB7QDM1RTFu/T0/BYbzXWFTaFJ5YuAnQ8WeOmlzBpIRo8FDA3MQQOg1eizEpiotsQjSKcUL1jEzblIQghqUy2+QNxspEHj/N0s8g1qoWMWcWg9rpMK4vUhAsQS9LJpiYtUUVo82aafKpVBCjPcB7gpUwtB1aTtcP2/1l37TmfpU=
+	t=1738582818; cv=none; b=nMVGucESWfjm3oCNpEXWis53kT81ROugH1hulu7fBLcgeda8oQBIgYaNg7lMcPdhhjgmn//TZ4DRk9NIlIS6P6ifp77yb+QKXGbb8SDJAOgdbT8Eqbrex1gXKRqagku4bnIanWWpj+7uoMxqRNJV6tht3QBsS8MV7iEUn1wa7JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738581839; c=relaxed/simple;
-	bh=OG2AwNXDl7tYdGKHDW1LqrFkFhDlg5w3f4+kjYs72aI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kXOPoLjSDhHgv0Vp2cVRm6IdKbjWmfIfq0okFpzKk9h6WzTVKGjfTsI0+5THgKtgvUU4+9UtNUEEl49Kv0Y4S3WDeG13FSAdCKyQhrPrWEJCnE7T+yv5YV76kJal30Q61kZBtTUFXkelVOWiJK+655rQ42i6ICYxAAinYDRrs1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 295371476
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 03:24:21 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 836A53F58B
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 03:23:56 -0800 (PST)
-Date: Mon, 3 Feb 2025 11:23:53 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, asahi@lists.linux.dev,
-	Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Steven Price <steven.price@arm.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	akash.goel@arm.com
-Subject: Re: [PATCH 0/4] drm/gpuvm: Add support for single-page-filled
- mappings
-Message-ID: <Z6CnSZz_Dm3YpZbx@e110455-lin.cambridge.arm.com>
-References: <20250202-gpuvm-single-page-v1-0-8cbd44fdcbd4@asahilina.net>
- <Z5-_O8vkCO0LXcl7@pollux.localdomain>
- <20250203102153.145229e0@collabora.com>
+	s=arc-20240116; t=1738582818; c=relaxed/simple;
+	bh=Pznr0Bts4D0FtUDtSu2Wtdp7OSNmccFCgV9QhrjQAow=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dGfBqy+8fHCsYgcQoSFHsyM5YcRJUJk9snTQcM0Rd4YXwSkfpidtmgMyrTyloG5Cu44meKHFnjGpxYVL6VRMTf+4snxAJog9PUTPedpMcG/iiLpFJmAoau9vnNsqWvCmOVopebQoLMFjIsqW+GX9GwBgzKz1EI2n1YCaNce78jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gk3N7MPX; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gk3N7MPX"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21680814d42so68996845ad.2
+        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 03:40:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738582815; x=1739187615; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4gduqE5+XkKRgfOuTSHYpyohOphdvP2oewiQ8WxF2r4=;
+        b=gk3N7MPX0bmZFx1ppUOY36BbFeFBShOfxzTkuo0AKsMh1kFkklf+40la/A2XBqnu92
+         jmwOzt/axNeNBBHgcZoeDAVbVJcjShrZkwPYqBR4YXdw+uJpExi75BmBS2/hONgcdMV+
+         7C+vw9pB5PwjkjNstlB8NXzR40xFVMan/U4LlhkMekcjB7HZhsu1kiXfKNdpyKX83rDg
+         0BqCwybfNCqFseokPhR32raNd7koRZx9Vf3rXqC7dC/EdxF0jg0eBAP6IDVygPF0e6+P
+         l0oZS8aCeUIeuBKQ0VV9MKMNChY8LPv6Vj7wHRzn54XPiAEO7exv6yvTF5y+8EExX/Vg
+         XgcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738582815; x=1739187615;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4gduqE5+XkKRgfOuTSHYpyohOphdvP2oewiQ8WxF2r4=;
+        b=Ip07EmY+/pU41y2QvAGAnjlCKw1neBzcxgcn0ipJiGCvaHll8njrflu1FnBE6mwKTN
+         +tzcgJmrYY3M2r4Mv0aIj6S9rknVSfS1szCt/1zncHO/xIUeDj7Oj5qJ+N1PPYvuot4g
+         OP/FMkSJCf0s8qAlwE99wwlhK1HOkTrWfKZsTtiIShaqwydqywvtnv+bqmLUdAQFpm5m
+         eUqW2o00rvezkT2rsCMjYGqcEBMsBB1x9RmxU2SgTvuBqRm3SkRNYm5GSaahbGfAPme4
+         WDhUkckKUENFqu2l9mZ3SIt7RyDyutyNCH2+E9gMN2M70QlG32KtUYXirn6Zvx6DymQe
+         lCxw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+aN0a1mz7Oc5SuMsbGWI9gvAjQ9q0zupqW8eMDSqrqhrKu8c7iTUikrgBR3QYozS4Bbsqcw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwejwE7ux8milfenqDlJsNt8sP2O1RzhT7RVP20rozwckSVFo0/
+	CPm3yQzSJiAgCag9zW+Mf/NUz7auDblNPPBy6SFn/KtkWG1vKg7y
+X-Gm-Gg: ASbGncsZ2uOdUCZ5pBoQ2RpR2czFUjmXwOTSVwwuqIcznyyTZUsNs363UVPDSXPciQA
+	I8itbGSNWOuCuOqkHrOhDVf4jYM7bsorl6b35WPMmWup8ZENkHZXR1Beim+qEhxzZHuSGn7JxEq
+	g5RMsPWDT2VFHiTdjDrVVhd1jriUd4LX1DSxqVkg5TySGFAENNwxMO12uYbOdajbMBxZNtDMS53
+	T8FNy0Pd/9el1gmbMgFJA57Pr2He9ItW7Cxtr5qEU+Bro/G5wYol2iPJ2lvoixbuNCu5s9Tslvb
+	qs/YIPZnJhRNjz19
+X-Google-Smtp-Source: AGHT+IG/voCx4BoOF7MZR1nPTGgCOf7e1n+k46BNNiWJ1p0YoUYHkwqU6ASyPIUVLd/56kA/7gIkAA==
+X-Received: by 2002:a05:6a20:d809:b0:1e0:df27:10b5 with SMTP id adf61e73a8af0-1ed7a6e0e6bmr38809210637.29.1738582814998;
+        Mon, 03 Feb 2025 03:40:14 -0800 (PST)
+Received: from nick-mbp.. ([59.188.211.160])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-acec04796d6sm7721614a12.55.2025.02.03.03.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 03:40:14 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH v2 RESEND] arm64: dts: apple: Split s8000/s8003 SoC DTS files
+Date: Mon,  3 Feb 2025 19:38:31 +0800
+Message-ID: <20250203113949.14760-1-towinchenmi@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250203102153.145229e0@collabora.com>
 
-On Mon, Feb 03, 2025 at 10:21:53AM +0100, Boris Brezillon wrote:
-> +Akash with whom we've been discussing adding a 'REPEAT' mode to
-> drm_gpuvm/panthor.
-> 
-> On Sun, 2 Feb 2025 19:53:47 +0100
-> Danilo Krummrich <dakr@kernel.org> wrote:
-> 
-> > Hi Lina,
-> > 
-> > On Sun, Feb 02, 2025 at 10:34:49PM +0900, Asahi Lina wrote:
-> > > Some hardware requires dummy page mappings to efficiently implement
-> > > Vulkan sparse features. These mappings consist of the same physical
-> > > memory page, repeated for a large range of address space (e.g. 16GiB).
-> > > 
-> > > Add support for this to drm_gpuvm. Currently, drm_gpuvm expects BO
-> > > ranges to correspond 1:1 to virtual memory ranges that are mapped, and
-> > > does math on the BO offset accordingly. To make single page mappings
-> > > work, we need a way to turn off that math, keeping the BO offset always
-> > > constant and pointing to the same page (typically BO offset 0).
-> > > 
-> > > To make this work, we need to handle all the corner cases when these
-> > > mappings intersect with regular mappings. The rules are simply to never
-> > > mix or merge a "regular" mapping with a single page mapping.
-> > > 
-> > > drm_gpuvm has support for a flags field in drm_gpuva objects. This is
-> > > normally managed by drivers directly. We can introduce a
-> > > DRM_GPUVA_SINGLE_PAGE flag to handle this. However, to make it work,
-> > > sm_map and friends need to know ahead of time whether the new mapping is
-> > > a single page mapping or not. Therefore, we need to add an argument to
-> > > these functions so drivers can provide the flags to be filled into
-> > > drm_gpuva.flags.
-> > > 
-> > > These changes should not affect any existing drivers that use drm_gpuvm
-> > > other than the API change:
-> > > 
-> > > - imagination: Does not use flags at all
-> > > - nouveau: Only uses drm_gpuva_invalidate(), which is only called on
-> > >   existing drm_gpuva objects (after the map steps)
-> > > - panthor: Does not use flags at all
-> > > - xe: Does not use drm_gpuva_init_from_op() or
-> > >   drm_gpuva_remap()/drm_gpuva_map() (which call it). This means that the
-> > > flags field of the gpuva object is managed by the driver only, so these
-> > > changes cannot clobber it.
-> > > 
-> > > Note that the way this is implemented, drm_gpuvm does not need to know
-> > > the GPU page size. It only has to never do math on the BO offset to meet
-> > > the requirements.
-> > > 
-> > > I suspect that after this change there could be some cleanup possible in
-> > > the xe driver (which right now passes flags around in various
-> > > driver-specific ways from the map step through to drm_gpuva objects),
-> > > but I'll leave that to the Xe folks.
-> > > 
-> > > Signed-off-by: Asahi Lina <lina@asahilina.net>
-> > > ---
-> > > Asahi Lina (4):
-> > >       drm/gpuvm: Add a flags argument to drm_gpuvm_sm_map[_*]
-> > >       drm/gpuvm: Plumb through flags into drm_gpuva_op_map
-> > >       drm/gpuvm: Add DRM_GPUVA_SINGLE_PAGE flag and logic
-> > >       drm/gpuvm: Plumb through flags into drm_gpuva_init  
-> > 
-> > Without looking into any details yet:
-> > 
-> > This is a bit of tricky one, since we're not even close to having a user for
-> > this new feature upstream yet, are we?
-> 
-> Actually, we would be interesting in having this feature hooked up in
-> panthor. One use case we have is Vulkan sparse bindings, of course. But
-> we also have cases where we need to map a dummy page repeatedly on the
-> FW side. The approach we've been considering is slightly different:
-> pass a DRM_GPUVA_REPEAT_FLAG along with GEM range, so we can repeat a
-> range of the GEM (see the below diff, which is completely untested by
-> the way), but I think we'd be fine with this SINGLE_PAGE flag.
+Despite what the code comments said, the DTS files were not split properly.
+Since these two SoCs are now known to have minor differences like in
+latencies for cpufreq state transistions, split the DTS files now.
 
-Unless I've misunderstood the intent completely, it looks like Xe also wants
-something similar although they call it CPU_ADDR_MIRROR for some reason:
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+---
 
-https://lore.kernel.org/r/20250129195212.745731-9-matthew.brost@intel.com
+Changes since v1:
+- Drop PMGR nodes file rename. This is now the first patch and other series
+that modifies Apple A9 DTS files now depend on this series. This avoids
+less than ideal situations like adding a file only for it to be renamed
+immediately.
 
-Best regards,
-Liviu
+Link to v1: https://lore.kernel.org/asahi/20241206135051.56049-1-towinchenmi@gmail.com/T
 
-> 
-> --->8---
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index f9eb56f24bef..ea61f3ffaddf 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -2053,16 +2053,17 @@ EXPORT_SYMBOL_GPL(drm_gpuva_unmap);
->  
->  static int
->  op_map_cb(const struct drm_gpuvm_ops *fn, void *priv,
-> -      u64 addr, u64 range,
-> -      struct drm_gem_object *obj, u64 offset)
-> +      u64 addr, u64 va_range,
-> +      struct drm_gem_object *obj, u64 offset, u64 gem_range)
->  {
->      struct drm_gpuva_op op = {};
->  
->      op.op = DRM_GPUVA_OP_MAP;
->      op.map.va.addr = addr;
-> -    op.map.va.range = range;
-> +    op.map.va.range = va_range;
->      op.map.gem.obj = obj;
->      op.map.gem.offset = offset;
-> +    op.map.gem.range = gem_range;
->  
->      return fn->sm_step_map(&op, priv);
->  }
-> @@ -2102,7 +2103,8 @@ static int
->  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->             const struct drm_gpuvm_ops *ops, void *priv,
->             u64 req_addr, u64 req_range,
-> -           struct drm_gem_object *req_obj, u64 req_offset)
-> +           struct drm_gem_object *req_obj,
-> +           u64 req_offset, u64 req_gem_range)
->  {
->      struct drm_gpuva *va, *next;
->      u64 req_end = req_addr + req_range;
-> @@ -2237,7 +2239,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  
->      return op_map_cb(ops, priv,
->               req_addr, req_range,
-> -             req_obj, req_offset);
-> +             req_obj, req_offset, req_gem_range);
->  }
->  
->  static int
-> @@ -2344,10 +2346,43 @@ drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
->  
->      return __drm_gpuvm_sm_map(gpuvm, ops, priv,
->                    req_addr, req_range,
-> -                  req_obj, req_offset);
-> +                  req_obj, req_offset, 0);
->  }
->  EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map);
->  
-> +/**
-> + * drm_gpuvm_sm_map_repeat() - repeatedly maps a GEM range over a VA range
-> + * @gpuvm: the &drm_gpuvm representing the GPU VA space
-> + * @priv: pointer to a driver private data structure
-> + * @req_addr: the start address of the new mapping
-> + * @req_range: the range of the new mapping
-> + * @req_obj: the &drm_gem_object to map
-> + * @req_offset: the offset within the &drm_gem_object
-> + * @req_gem_range: the offset within the &drm_gem_object
-> + *
-> + * Same as drm_gpuvm_sm_map() except it repeats a GEM range over a VA range
-> + *
-> + * Returns: 0 on success or a negative error code
-> + */
-> +int
-> +drm_gpuvm_sm_map_repeat(struct drm_gpuvm *gpuvm, void *priv,
-> +            u64 req_addr, u64 req_range,
-> +            struct drm_gem_object *req_obj,
-> +            u64 req_offset, u64 req_gem_range)
-> +{
-> +    const struct drm_gpuvm_ops *ops = gpuvm->ops;
-> +
-> +    if (unlikely(!(ops && ops->sm_step_map &&
-> +               ops->sm_step_remap &&
-> +               ops->sm_step_unmap)))
-> +        return -EINVAL;
-> +
-> +    return __drm_gpuvm_sm_map(gpuvm, ops, priv,
-> +                  req_addr, req_range,
-> +                  req_obj, req_offset, req_gem_range);
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map_repeat);
-> +
->  /**
->   * drm_gpuvm_sm_unmap() - creates the &drm_gpuva_ops to split on unmap
->   * @gpuvm: the &drm_gpuvm representing the GPU VA space
-> @@ -2536,7 +2571,7 @@ drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
->  
->      ret = __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args,
->                   req_addr, req_range,
-> -                 req_obj, req_offset);
-> +                 req_obj, req_offset, 0);
->      if (ret)
->          goto err_free_ops;
->  
-> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> index 00d4e43b76b6..8157ede365d1 100644
-> --- a/include/drm/drm_gpuvm.h
-> +++ b/include/drm/drm_gpuvm.h
-> @@ -846,6 +846,14 @@ struct drm_gpuva_op_map {
->           */
->          u64 offset;
->  
-> +        /**
-> +         * @gem.range: the range of the GEM to map
-> +         *
-> +         * If smaller than va.range, the GEM range should be mapped
-> +         * multiple times over the VA range.
-> +         */
-> +        u64 range;
-> +
->          /**
->           * @gem.obj: the &drm_gem_object to map
->           */
-> @@ -1203,6 +1211,11 @@ int drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
->               u64 addr, u64 range,
->               struct drm_gem_object *obj, u64 offset);
->  
-> +int drm_gpuvm_sm_map_repeat(struct drm_gpuvm *gpuvm, void *priv,
-> +                u64 addr, u64 range,
-> +                struct drm_gem_object *obj,
-> +                u64 offset, u64 gem_range);
-> +
->  int drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm, void *priv,
->                 u64 addr, u64 range);
+Nick Chan
 
+ arch/arm64/boot/dts/apple/s800-0-3.dtsi | 140 ++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/s8000.dtsi    | 133 +---------------------
+ arch/arm64/boot/dts/apple/s8003.dtsi    |  10 +-
+ 3 files changed, 146 insertions(+), 137 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/apple/s800-0-3.dtsi
+
+diff --git a/arch/arm64/boot/dts/apple/s800-0-3.dtsi b/arch/arm64/boot/dts/apple/s800-0-3.dtsi
+new file mode 100644
+index 000000000000..082e5b1733d0
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/s800-0-3.dtsi
+@@ -0,0 +1,140 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Apple S8000/S8003 "A9" SoC
++ *
++ * This file contains parts common to both variants of A9
++ *
++ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
++ */
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interrupt-controller/apple-aic.h>
++#include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/pinctrl/apple.h>
++
++/ {
++	interrupt-parent = <&aic>;
++	#address-cells = <2>;
++	#size-cells = <2>;
++
++	clkref: clock-ref {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <24000000>;
++		clock-output-names = "clkref";
++	};
++
++	cpus {
++		#address-cells = <2>;
++		#size-cells = <0>;
++
++		cpu0: cpu@0 {
++			compatible = "apple,twister";
++			reg = <0x0 0x0>;
++			cpu-release-addr = <0 0>; /* To be filled in by loader */
++			enable-method = "spin-table";
++			device_type = "cpu";
++		};
++
++		cpu1: cpu@1 {
++			compatible = "apple,twister";
++			reg = <0x0 0x1>;
++			cpu-release-addr = <0 0>; /* To be filled in by loader */
++			enable-method = "spin-table";
++			device_type = "cpu";
++		};
++	};
++
++	soc {
++		compatible = "simple-bus";
++		#address-cells = <2>;
++		#size-cells = <2>;
++		nonposted-mmio;
++		ranges;
++
++		serial0: serial@20a0c0000 {
++			compatible = "apple,s5l-uart";
++			reg = <0x2 0x0a0c0000 0x0 0x4000>;
++			reg-io-width = <4>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 192 IRQ_TYPE_LEVEL_HIGH>;
++			/* Use the bootloader-enabled clocks for now. */
++			clocks = <&clkref>, <&clkref>;
++			clock-names = "uart", "clk_uart_baud0";
++			status = "disabled";
++		};
++
++		aic: interrupt-controller@20e100000 {
++			compatible = "apple,s8000-aic", "apple,aic";
++			reg = <0x2 0x0e100000 0x0 0x100000>;
++			#interrupt-cells = <3>;
++			interrupt-controller;
++		};
++
++		pinctrl_ap: pinctrl@20f100000 {
++			compatible = "apple,s8000-pinctrl", "apple,pinctrl";
++			reg = <0x2 0x0f100000 0x0 0x100000>;
++
++			gpio-controller;
++			#gpio-cells = <2>;
++			gpio-ranges = <&pinctrl_ap 0 0 208>;
++			apple,npins = <208>;
++
++			interrupt-controller;
++			#interrupt-cells = <2>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 42 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 43 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 44 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 45 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 46 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 47 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 48 IRQ_TYPE_LEVEL_HIGH>;
++		};
++
++		pinctrl_aop: pinctrl@2100f0000 {
++			compatible = "apple,s8000-pinctrl", "apple,pinctrl";
++			reg = <0x2 0x100f0000 0x0 0x100000>;
++
++			gpio-controller;
++			#gpio-cells = <2>;
++			gpio-ranges = <&pinctrl_aop 0 0 42>;
++			apple,npins = <42>;
++
++			interrupt-controller;
++			#interrupt-cells = <2>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 113 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 114 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 115 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 116 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 117 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 118 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 119 IRQ_TYPE_LEVEL_HIGH>;
++		};
++
++		wdt: watchdog@2102b0000 {
++			compatible = "apple,s8000-wdt", "apple,wdt";
++			reg = <0x2 0x102b0000 0x0 0x4000>;
++			clocks = <&clkref>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 4 IRQ_TYPE_LEVEL_HIGH>;
++		};
++	};
++
++	timer {
++		compatible = "arm,armv8-timer";
++		interrupt-parent = <&aic>;
++		interrupt-names = "phys", "virt";
++		/* Note that A9 doesn't actually have a hypervisor (EL2 is not implemented). */
++		interrupts = <AIC_FIQ AIC_TMR_GUEST_PHYS IRQ_TYPE_LEVEL_HIGH>,
++			     <AIC_FIQ AIC_TMR_GUEST_VIRT IRQ_TYPE_LEVEL_HIGH>;
++	};
++};
++
++/*
++ * The A9 was made by two separate fabs on two different process
++ * nodes: Samsung made the S8000 (APL0898) on 14nm and TSMC made
++ * the S8003 (APL1022) on 16nm. There are some minor differences
++ * such as timing in cpufreq state transistions.
++ */
+diff --git a/arch/arm64/boot/dts/apple/s8000.dtsi b/arch/arm64/boot/dts/apple/s8000.dtsi
+index 6e9046ea106c..c7e39abda7e1 100644
+--- a/arch/arm64/boot/dts/apple/s8000.dtsi
++++ b/arch/arm64/boot/dts/apple/s8000.dtsi
+@@ -7,138 +7,11 @@
+  * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
+  */
+ 
+-#include <dt-bindings/gpio/gpio.h>
+-#include <dt-bindings/interrupt-controller/apple-aic.h>
+-#include <dt-bindings/interrupt-controller/irq.h>
+-#include <dt-bindings/pinctrl/apple.h>
+-
+-/ {
+-	interrupt-parent = <&aic>;
+-	#address-cells = <2>;
+-	#size-cells = <2>;
+-
+-	clkref: clock-ref {
+-		compatible = "fixed-clock";
+-		#clock-cells = <0>;
+-		clock-frequency = <24000000>;
+-		clock-output-names = "clkref";
+-	};
+-
+-	cpus {
+-		#address-cells = <2>;
+-		#size-cells = <0>;
+-
+-		cpu0: cpu@0 {
+-			compatible = "apple,twister";
+-			reg = <0x0 0x0>;
+-			cpu-release-addr = <0 0>; /* To be filled in by loader */
+-			enable-method = "spin-table";
+-			device_type = "cpu";
+-		};
+-
+-		cpu1: cpu@1 {
+-			compatible = "apple,twister";
+-			reg = <0x0 0x1>;
+-			cpu-release-addr = <0 0>; /* To be filled in by loader */
+-			enable-method = "spin-table";
+-			device_type = "cpu";
+-		};
+-	};
+-
+-	soc {
+-		compatible = "simple-bus";
+-		#address-cells = <2>;
+-		#size-cells = <2>;
+-		nonposted-mmio;
+-		ranges;
+-
+-		serial0: serial@20a0c0000 {
+-			compatible = "apple,s5l-uart";
+-			reg = <0x2 0x0a0c0000 0x0 0x4000>;
+-			reg-io-width = <4>;
+-			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 192 IRQ_TYPE_LEVEL_HIGH>;
+-			/* Use the bootloader-enabled clocks for now. */
+-			clocks = <&clkref>, <&clkref>;
+-			clock-names = "uart", "clk_uart_baud0";
+-			status = "disabled";
+-		};
+-
+-		aic: interrupt-controller@20e100000 {
+-			compatible = "apple,s8000-aic", "apple,aic";
+-			reg = <0x2 0x0e100000 0x0 0x100000>;
+-			#interrupt-cells = <3>;
+-			interrupt-controller;
+-		};
+-
+-		pinctrl_ap: pinctrl@20f100000 {
+-			compatible = "apple,s8000-pinctrl", "apple,pinctrl";
+-			reg = <0x2 0x0f100000 0x0 0x100000>;
+-
+-			gpio-controller;
+-			#gpio-cells = <2>;
+-			gpio-ranges = <&pinctrl_ap 0 0 208>;
+-			apple,npins = <208>;
+-
+-			interrupt-controller;
+-			#interrupt-cells = <2>;
+-			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 42 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 43 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 44 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 45 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 46 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 47 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 48 IRQ_TYPE_LEVEL_HIGH>;
+-		};
+-
+-		pinctrl_aop: pinctrl@2100f0000 {
+-			compatible = "apple,s8000-pinctrl", "apple,pinctrl";
+-			reg = <0x2 0x100f0000 0x0 0x100000>;
+-
+-			gpio-controller;
+-			#gpio-cells = <2>;
+-			gpio-ranges = <&pinctrl_aop 0 0 42>;
+-			apple,npins = <42>;
+-
+-			interrupt-controller;
+-			#interrupt-cells = <2>;
+-			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 113 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 114 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 115 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 116 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 117 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 118 IRQ_TYPE_LEVEL_HIGH>,
+-				     <AIC_IRQ 119 IRQ_TYPE_LEVEL_HIGH>;
+-		};
+-
+-		wdt: watchdog@2102b0000 {
+-			compatible = "apple,s8000-wdt", "apple,wdt";
+-			reg = <0x2 0x102b0000 0x0 0x4000>;
+-			clocks = <&clkref>;
+-			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 4 IRQ_TYPE_LEVEL_HIGH>;
+-		};
+-	};
+-
+-	timer {
+-		compatible = "arm,armv8-timer";
+-		interrupt-parent = <&aic>;
+-		interrupt-names = "phys", "virt";
+-		/* Note that A9 doesn't actually have a hypervisor (EL2 is not implemented). */
+-		interrupts = <AIC_FIQ AIC_TMR_GUEST_PHYS IRQ_TYPE_LEVEL_HIGH>,
+-			     <AIC_FIQ AIC_TMR_GUEST_VIRT IRQ_TYPE_LEVEL_HIGH>;
+-	};
+-};
++#include "s800-0-3.dtsi"
+ 
+ /*
+  * The A9 was made by two separate fabs on two different process
+  * nodes: Samsung made the S8000 (APL0898) on 14nm and TSMC made
+- * the S8003 (APL1022) on 16nm. While they are seemingly the same,
+- * they do have distinct part numbers and devices using them have
+- * distinct model names. There are currently no known differences
+- * between these as far as Linux is concerned, but let's keep things
+- * structured properly to make it easier to alter the behaviour of
+- * one of the chips if need be.
++ * the S8003 (APL1022) on 16nm. There are some minor differences
++ * such as timing in cpufreq state transistions.
+  */
+diff --git a/arch/arm64/boot/dts/apple/s8003.dtsi b/arch/arm64/boot/dts/apple/s8003.dtsi
+index 7e4ad4f7e499..807e3452f8a7 100644
+--- a/arch/arm64/boot/dts/apple/s8003.dtsi
++++ b/arch/arm64/boot/dts/apple/s8003.dtsi
+@@ -7,15 +7,11 @@
+  * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
+  */
+ 
+-#include "s8000.dtsi"
++#include "s800-0-3.dtsi"
+ 
+ /*
+  * The A9 was made by two separate fabs on two different process
+  * nodes: Samsung made the S8000 (APL0898) on 14nm and TSMC made
+- * the S8003 (APL1022) on 16nm. While they are seemingly the same,
+- * they do have distinct part numbers and devices using them have
+- * distinct model names. There are currently no known differences
+- * between these as far as Linux is concerned, but let's keep things
+- * structured properly to make it easier to alter the behaviour of
+- * one of the chips if need be.
++ * the S8003 (APL1022) on 16nm. There are some minor differences
++ * such as timing in cpufreq state transistions.
+  */
+
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+2.48.1
+
