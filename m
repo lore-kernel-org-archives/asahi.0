@@ -1,28 +1,28 @@
 Received: from gimli.kloenk.de (gimli.kloenk.de [49.12.72.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B0C1FF615
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 09:39:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2421FF619
+	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 09:43:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.72.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738575562; cv=none; b=mOuHLy70rAi/ciNmXzh3cGZRyl6S0Skl5257yMkFPr3UW6JhTldolWepStCeQ1OE7Tf1+aNRPG7daEQBeC/IJblOks/Lvs+p2S+JXrmsv1U0Kfq3DzA6eE1YL66xCZjEQJBvP+cGQlp26HFYi5FiUUGs1JFl2h5XI1n9P1PiKd4=
+	t=1738575810; cv=none; b=TKy9jQwnHmqcIYKDjmZfp9Ux3tJRYfRI+/nGCt5r4/5dNNh6u5D7ljudrSIV4m9gzUNa5aOuTi7PbogndV3VpHhxO+ZZgwBQsShGzy30KJNxjqaGkmG9MVZhLJ6m4Hr99NPSgLSupvCnYVy+nXVYF1bJ6A0u+HemSVBnCIGpSlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738575562; c=relaxed/simple;
-	bh=d9KrmqcjKygeXQKFY1B1tTd5Y3bnHyn+8V+W97V7Xow=;
+	s=arc-20240116; t=1738575810; c=relaxed/simple;
+	bh=Y1uIgiiQZjAkJzXlMdcK4VAwcz40yiS5tgbnlC/v1/Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sQeWY1f3T3K6wykXhvIZf54ZuIG08Nsk85qRybFI5VwnXyAJThm4PHedLIA0b4XI1X0WHQenEBDdA4CJs27p80RkldjL5/zbl+wiujhn3LUcrLDfmP/cESZ5uDtTS86446evKHSrD93IrHlQRkd1VGy68ao94QQtW93KlFMdwaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=oEiIp5aL; arc=none smtp.client-ip=49.12.72.200
+	 MIME-Version:Content-Type; b=I5OT4VBS127S3TdN4p3juDkq31uTEa6rKe/IMIWHwfU1UaOsWmWGzV8j4D/b1EO27U73bUfytDnoMImxpBzg9u0u7Taf3CzaAgzA8zR+LT0VsjjIptwM8UBA9ES1KVZxjXghbf2u6HiaHuAXYVvTZWqbm1lE8YC2pIVLr/cIyIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=ZvFnqdJB; arc=none smtp.client-ip=49.12.72.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kloenk.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="oEiIp5aL"
+	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="ZvFnqdJB"
 From: Fiona Behrens <me@kloenk.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kloenk.dev; s=mail;
-	t=1738575550; bh=d9KrmqcjKygeXQKFY1B1tTd5Y3bnHyn+8V+W97V7Xow=;
+	t=1738575805; bh=Y1uIgiiQZjAkJzXlMdcK4VAwcz40yiS5tgbnlC/v1/Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=oEiIp5aLfXpHVrybmpQ3+9QtLZ0K1/8WMnaSm+xCJe3RyvUOIHS5woAOAMAa8FmKN
-	 6bhl3+W8kqj/TSGV/thWoGhfHa78ZEwTAGV/lSAS63Y5/icTSKr2hDow0upRkH6Fq5
-	 zI6BJOKw7Lp8xuLnGEpYT1pJUk5z0ikLePrCp2ak=
+	b=ZvFnqdJB/wm8Z0xPyJOwN9acxrHhAGHD5tARiay27HQb10MFxGjroqspp1Xn1Uk6Q
+	 5ABj0TTebN2DIczeZI9T3c1TBOwfrsUOQl3vZAUY+AgbhjqefXWZPQaskKu/w0We+V
+	 qRaN826tkMjZgl+Qbm7ElDXHAHHenlIhGDzMXhEc=
 To: Asahi Lina <lina@asahilina.net>
 Cc: Miguel Ojeda <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,
   Boqun Feng <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,
@@ -37,13 +37,14 @@ Cc: Miguel Ojeda <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,
   linux-mm@kvack.org,  airlied@redhat.com,  Abdiel Janulgue
  <abdiel.janulgue@gmail.com>,  rust-for-linux@vger.kernel.org,
   linux-kernel@vger.kernel.org,  asahi@lists.linux.dev
-Subject: Re: [PATCH 2/6] rust: page: Convert to Ownable
-In-Reply-To: <20250202-rust-page-v1-2-e3170d7fe55e@asahilina.net> (Asahi
-	Lina's message of "Sun, 02 Feb 2025 22:05:44 +0900")
+Subject: Re: [PATCH 3/6] rust: page: Make with_page_mapped() and
+ with_pointer_into_page() public
+In-Reply-To: <20250202-rust-page-v1-3-e3170d7fe55e@asahilina.net> (Asahi
+	Lina's message of "Sun, 02 Feb 2025 22:05:45 +0900")
 References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
-	<20250202-rust-page-v1-2-e3170d7fe55e@asahilina.net>
-Date: Mon, 03 Feb 2025 10:39:09 +0100
-Message-ID: <87v7tr4bb6.fsf@kloenk.dev>
+	<20250202-rust-page-v1-3-e3170d7fe55e@asahilina.net>
+Date: Mon, 03 Feb 2025 10:43:25 +0100
+Message-ID: <87pljz4b42.fsf@kloenk.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -54,9 +55,15 @@ Content-Type: text/plain
 
 Asahi Lina <lina@asahilina.net> writes:
 
-> This allows Page references to be returned as borrowed references,
-> without necessarily owning the struct page.
+> Lets users do (unsafe) complex page read/write operations without having
+> to repeatedly call into read_raw()/write_raw() (which may be expensive
+> in some cases).
+>
+> The functions themselves are not unsafe, but they do take a closure that
+> receives a raw pointer, so actually making the access requires unsafe
+> code.
 >
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
 
 Reviewed-by: Fiona Behrens <me@kloenk.dev>
+
