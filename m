@@ -1,193 +1,187 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EA1208962
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 15:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93871D5159
+	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 17:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738595047; cv=none; b=hgFhAMS+blRgNaeAJ+5hAga3xFIWRpxYva+jZc/rh6H56geMMr4Dz/MhgtsK+rP/WCY600QbmaAOR5uf1VNfbayc0/bl1/xvX7QgrQTy0RjqO7Nsv03uqWM+3a6NPDZkEQjEAScmsHEksNNelsAW6+on7j/DOdvfVqP06F6P984=
+	t=1738602814; cv=none; b=FnYQHHoom/GmJid3S/lHeWMMOiFaLQhL90JsOLUnmxXwqGY+Whpt1LTeIz5RE9bVSeBvz5XqEX/3odEbsJ9YIKbRsJ4Dsj+R/6IwZkdguDBSjX3qwNTJpdYUpIcTJDBYC8c9v2lvKThyNIqvOvzywSGP0cJVBgUwoTj40s8HUoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738595047; c=relaxed/simple;
-	bh=I0hGYVr+iXwhCvfG2kaXgx9DaPhR3rGJTXJPlr0Jpwo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IRoVqyXExbM3PcQhjaaRQ+SsYO1I+82JwLEUE+cLENBYPA7uhr7PuB6M2EuRygbJt5TVhx3S26oQV+vmPJ0qTiGFVoTG4aqpzOkCeZg70+MUqq0Xx6MnJKWbUvcMmTakVwnn2904uDNbMfDywtNtxDJv2loeMh6nJcLFYW13YZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JKzbN0fI; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738602814; c=relaxed/simple;
+	bh=ndkb6szgntNxZ1m9AzaW8Vv16UmmpDx4y5UikG7Io34=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JMkFY/DflAwpsWBtCQw/p2V63VqfMoepxHG5Ev3WhfQFyNGVuQOJpkVULxJabgU36xtY5kgPzHIkz96wBIXQehs/HbHzUr7pyPoaaDx6H+jGeAx50rcqDbwbaDPXU9CxzQP4BH8sk/LZwMDvVWN6XLfSl3RxnKeKqZ5SyQxbUNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TYpzovAX; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JKzbN0fI"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7b6e9586b82so400262885a.1
-        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 07:04:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738595044; x=1739199844; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mfs45TBGa9cOMjq+1YHkVGnJDn3Ark/UOv4RQa6undA=;
-        b=JKzbN0fIt5gqF4sDcO/NeWpl9+CDYYDaik8NlS3efsSuDXgyLhzd46axifb0LaQKex
-         /Q77UsTREJZAbnxmXOcmvfU7i6fZo+1rwIg5YLwEdtAhuDElbu234nnHGTzx4fQoEBA/
-         jLuXfGvU5yD1tFm6jIkH8oGDobOZ2v07Orf6xRmtZHldpe9vk8rm0f8rafU5biAAJL09
-         U+TiMJgjBXw/kPkk1s1y5ps1vLgEbPxlgvpeS2y0vtQHPkM0D4oCs5gdY934t/m6frQ5
-         audT+gSyGmj4JgWxsPn07XYBmH6cTYTnt1WcaMG7h3NakeSmuDRKgUDNAWMM+kDxO/d8
-         QjvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738595044; x=1739199844;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mfs45TBGa9cOMjq+1YHkVGnJDn3Ark/UOv4RQa6undA=;
-        b=vpZULhmCHSlLnehdJKSHzv1fFdD3FhaNdywZCYvVKgKJyGsf3rO8jr/Fn2fhqk16RX
-         IyLO1GDCZ72Y5y8ceMm8sCWJ9s3ccTYR2J/cek3Yi1pMw8LiWO1fxpApihJlrK7WzwbT
-         D+6CbA2qklgSof8ejqBO/la7FsisCMxqLWQlRYKnftWDH3pgz3aWZtI7rsr0jOYrv50u
-         WGuavy+IibqCxO65f7WYK23Wti7Dzh/8DmsshjhIPd8Pjd4NmNGramoOZTVzRHOJB0PL
-         9guoSm0OM7bs5eoNX6HSQyecRbISZs354ERJ0KAhKFXmvfXaQBxiGMvezfQPS2dt4cF+
-         rnpA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgAmEBHzozIijRMFrcLxfG9DmamlGPBo+54BmTvoH+LldP9shJAgMib6YcbA8hLyqTIc1pcA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJiPh713wyEfRPMnSmGDvMYtAi/FxXnrwFoHes+ytyp7j+uOje
-	aqICMigiE05oQHh5BTymtpLdQZgbJ8M1pOeyQIiewz896FE0/Vc+
-X-Gm-Gg: ASbGnctOpnp1Q6GcSO3FwLXCTV7qMBHr61KsKNTlr2idyp7/QO2NVrClJBJYhozelm2
-	VrITEqCF8TMVlvy9o+Qa7HH4qLsruQlvlSYftL0Ph2SMLAXBc37Ui5J4QNAcOuQPX/KwB7dz7cq
-	jKWXTrBiP0sN+DP+H6nuQ1oazhT6WugxZy38q8O/Qx7VGzk4N5liVRiMenN+4tARao8p5X0YK12
-	d0g0/OOCA74zY0Pirlnz50+xp/doDra1tzHIyhkMt/PWXZWOmfEijR6dp2aQNJEKI5x8Kpwh5ob
-	17xnFWwK0VYfAPVTNOc6kPbuqTswKRmbYKslZeJcMQnd1+Ye2T1ZFya+hCPdMQKz3Nx9p4qLYEX
-	pka4vTA==
-X-Google-Smtp-Source: AGHT+IEcSkEvwfTpeA1pv4/nxSgMr4TNNL/PIqYjwCQvL7oYKhCCodXASw4imJoTjH5+ZyEo67Tebw==
-X-Received: by 2002:a05:620a:4486:b0:7b6:d241:d4ae with SMTP id af79cd13be357-7bffcda58e5mr3118721285a.42.1738595044348;
-        Mon, 03 Feb 2025 07:04:04 -0800 (PST)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c00a8bba3csm537156985a.3.2025.02.03.07.04.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 07:04:03 -0800 (PST)
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 347401200068;
-	Mon,  3 Feb 2025 10:04:03 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 03 Feb 2025 10:04:03 -0500
-X-ME-Sender: <xms:4tqgZw27RDo2DWSwkX8QQvipsS3jSSOO1nu_VR6kY02nNDGS1ixaNA>
-    <xme:4tqgZ7FuQ41RqdFUlEdoPcjew5tC543mpJ_pOjIRdcdeRotGiJE0DqIa7cDs1gSJk
-    5KF8_PiLzu4LAq2cA>
-X-ME-Received: <xmr:4tqgZ45_tTvMXR1mis-JOzslWC_koh8jA2iIJYwrWjCBV8SBeN0LH06xFA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeelvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
-    necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
-    drtghomheqnecuggftrfgrthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleel
-    ieevtdeguefhgeeuveeiudffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
-    ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
-    hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopedvfedpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhgrsegrshgrhhhilhhinhgrrdhnvg
-    htpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghl
-    vgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopehgrghrhiesghgrrh
-    ihghhuohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegpghhhsehprhhothhonhhmrghi
-    lhdrtghomhdprhgtphhtthhopegsvghnnhhordhlohhsshhinhesphhrohhtohhnrdhmvg
-    dprhgtphhtthhopegrrdhhihhnuggsohhrgheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepthhmghhroh
-    hsshesuhhmihgthhdrvgguuh
-X-ME-Proxy: <xmx:49qgZ51PrHy9Iz19D4BiOKGbl3PHy-_rPSVfFMTwTCB-ly4nd1TceA>
-    <xmx:49qgZzG45Kvf0Jm23diF2rjaraoGHQEAob2V6acNif13MrHxIWU8Ow>
-    <xmx:49qgZy8P8Xla66m6Gy-Nr0d-V45U0zx9T2jl-pVBzucvl1Qxb7wdnw>
-    <xmx:49qgZ4lCObMElZPJmnfP6dQ0bCT6EMyF-PRZ6JcyaI8CkT6uAyf-Wg>
-    <xmx:49qgZzE3Je794DxDTsNjZ7QPG62SFAyZD7ePuOfIVwajry1U_aSHXOvP>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Feb 2025 10:04:02 -0500 (EST)
-Date: Mon, 3 Feb 2025 07:04:01 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TYpzovAX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1738602809;
+	bh=ndkb6szgntNxZ1m9AzaW8Vv16UmmpDx4y5UikG7Io34=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TYpzovAXni3oTIHKsbrXT52QeFbQ7JCzdlo4ZsE2L5ilPPt4pB4EJWIITFgZ0YDxI
+	 IU4cXOLO/cXPJb66JIWHWWHyVvwFVbsPs7oZUyCFUfTocxiv69pOdgZiVft+txaK1B
+	 LG49HiPaP/XGPwv+U5G9OSCnUbX32q7XXyU8W99afOSXXjA7YIv+GMmeton0BX6r1Z
+	 jyG6YmoU3ofsMz5kFzB0zmA2DqD9yJVTcuSwPTHg8tLmstNPVQsw4yUKXlzvmJ4BUw
+	 50iagQBD3YP4+b34D9cB3L3UtMFP95qENaAsRahy7kffzhKO9ybRwwGaZ6lZthg4Jn
+	 hC4Us2/1hLO5A==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B1B9617E10C2;
+	Mon,  3 Feb 2025 18:13:28 +0100 (CET)
+Date: Mon, 3 Feb 2025 18:13:21 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Asahi Lina <lina@asahilina.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Valentin Obst <kernel@valentinobst.de>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH 4/6] rust: addr: Add a module to declare core address
- types
-Message-ID: <Z6Da4XV5hcTfBiNH@tardis.local>
-References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
- <20250202-rust-page-v1-4-e3170d7fe55e@asahilina.net>
+Cc: Danilo Krummrich <dakr@kernel.org>, asahi@lists.linux.dev, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Frank Binns
+ <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, Karol
+ Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ akash.goel@arm.com
+Subject: Re: [PATCH 0/4] drm/gpuvm: Add support for single-page-filled
+ mappings
+Message-ID: <20250203181321.3d8a0f8c@collabora.com>
+In-Reply-To: <8659ac1f-3bb0-4891-b4ea-958a1a308c01@asahilina.net>
+References: <20250202-gpuvm-single-page-v1-0-8cbd44fdcbd4@asahilina.net>
+	<Z5-_O8vkCO0LXcl7@pollux.localdomain>
+	<20250203102153.145229e0@collabora.com>
+	<8659ac1f-3bb0-4891-b4ea-958a1a308c01@asahilina.net>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250202-rust-page-v1-4-e3170d7fe55e@asahilina.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Feb 02, 2025 at 10:05:46PM +0900, Asahi Lina wrote:
-> Encapsulates the core physical/DMA address types, so they can be used by
-> Rust abstractions.
+On Mon, 3 Feb 2025 22:46:15 +0900
+Asahi Lina <lina@asahilina.net> wrote:
+
+> Hi,
 > 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->  rust/kernel/addr.rs | 15 +++++++++++++++
->  rust/kernel/lib.rs  |  1 +
->  2 files changed, 16 insertions(+)
+> On 2/3/25 6:21 PM, Boris Brezillon wrote:
+> > +Akash with whom we've been discussing adding a 'REPEAT' mode to
+> > drm_gpuvm/panthor.
+> > 
+> > On Sun, 2 Feb 2025 19:53:47 +0100
+> > Danilo Krummrich <dakr@kernel.org> wrote:
+> >   
+> >> Hi Lina,
+> >>
+> >> On Sun, Feb 02, 2025 at 10:34:49PM +0900, Asahi Lina wrote:  
+> >>> Some hardware requires dummy page mappings to efficiently implement
+> >>> Vulkan sparse features. These mappings consist of the same physical
+> >>> memory page, repeated for a large range of address space (e.g. 16GiB).
+> >>>
+> >>> Add support for this to drm_gpuvm. Currently, drm_gpuvm expects BO
+> >>> ranges to correspond 1:1 to virtual memory ranges that are mapped, and
+> >>> does math on the BO offset accordingly. To make single page mappings
+> >>> work, we need a way to turn off that math, keeping the BO offset always
+> >>> constant and pointing to the same page (typically BO offset 0).
+> >>>
+> >>> To make this work, we need to handle all the corner cases when these
+> >>> mappings intersect with regular mappings. The rules are simply to never
+> >>> mix or merge a "regular" mapping with a single page mapping.
+> >>>
+> >>> drm_gpuvm has support for a flags field in drm_gpuva objects. This is
+> >>> normally managed by drivers directly. We can introduce a
+> >>> DRM_GPUVA_SINGLE_PAGE flag to handle this. However, to make it work,
+> >>> sm_map and friends need to know ahead of time whether the new mapping is
+> >>> a single page mapping or not. Therefore, we need to add an argument to
+> >>> these functions so drivers can provide the flags to be filled into
+> >>> drm_gpuva.flags.
+> >>>
+> >>> These changes should not affect any existing drivers that use drm_gpuvm
+> >>> other than the API change:
+> >>>
+> >>> - imagination: Does not use flags at all
+> >>> - nouveau: Only uses drm_gpuva_invalidate(), which is only called on
+> >>>   existing drm_gpuva objects (after the map steps)
+> >>> - panthor: Does not use flags at all
+> >>> - xe: Does not use drm_gpuva_init_from_op() or
+> >>>   drm_gpuva_remap()/drm_gpuva_map() (which call it). This means that the
+> >>> flags field of the gpuva object is managed by the driver only, so these
+> >>> changes cannot clobber it.
+> >>>
+> >>> Note that the way this is implemented, drm_gpuvm does not need to know
+> >>> the GPU page size. It only has to never do math on the BO offset to meet
+> >>> the requirements.
+> >>>
+> >>> I suspect that after this change there could be some cleanup possible in
+> >>> the xe driver (which right now passes flags around in various
+> >>> driver-specific ways from the map step through to drm_gpuva objects),
+> >>> but I'll leave that to the Xe folks.
+> >>>
+> >>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> >>> ---
+> >>> Asahi Lina (4):
+> >>>       drm/gpuvm: Add a flags argument to drm_gpuvm_sm_map[_*]
+> >>>       drm/gpuvm: Plumb through flags into drm_gpuva_op_map
+> >>>       drm/gpuvm: Add DRM_GPUVA_SINGLE_PAGE flag and logic
+> >>>       drm/gpuvm: Plumb through flags into drm_gpuva_init    
+> >>
+> >> Without looking into any details yet:
+> >>
+> >> This is a bit of tricky one, since we're not even close to having a user for
+> >> this new feature upstream yet, are we?  
+> > 
+> > Actually, we would be interesting in having this feature hooked up in
+> > panthor. One use case we have is Vulkan sparse bindings, of course. But
+> > we also have cases where we need to map a dummy page repeatedly on the
+> > FW side. The approach we've been considering is slightly different:
+> > pass a DRM_GPUVA_REPEAT_FLAG along with GEM range, so we can repeat a
+> > range of the GEM (see the below diff, which is completely untested by
+> > the way), but I think we'd be fine with this SINGLE_PAGE flag.  
 > 
-> diff --git a/rust/kernel/addr.rs b/rust/kernel/addr.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..06aff10a0332355597060c5518d7fd6e114cf630
-> --- /dev/null
-> +++ b/rust/kernel/addr.rs
-> @@ -0,0 +1,15 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! Kernel core address types.
-> +
-> +use bindings;
-> +use core::ffi;
+> That sounds similar, though your patch does not handle gpuva
+> splitting/remapping and all the other corner cases.
 
-I think we should use crate::ffi here. See:
+Indeed, I didn't really consider the remapping could be in the middle
+of a repeated region, and I see how it complicates things.
 
-	d072acda4862 "rust: use custom FFI integer types"
-
-> +
-> +/// A physical memory address (which may be wider than the CPU pointer size)
-> +pub type PhysicalAddr = bindings::phys_addr_t;
-> +/// A DMA memory address (which may be narrower than `PhysicalAddr` on some systems)
-> +pub type DmaAddr = bindings::dma_addr_t;
-> +/// A physical resource size, typically the same width as `PhysicalAddr`
-> +pub type ResourceSize = bindings::resource_size_t;
-> +/// A raw page frame number, not to be confused with the C `pfn_t` which also encodes flags.
-> +pub type Pfn = ffi::c_ulong;
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index e1065a7551a39e68d6379031d80d4be336e652a3..eb1a80ba8ff83ab2d1b3b1d11fed4fb704c7a4f5 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -29,6 +29,7 @@
->  
->  pub use ffi;
->  
-> +pub mod addr;
-
-I want to share my worry on this `pub mod` list in kernel/lib.rs may get
-too long ;-)
-
-I was about to suggest putting `addr` and `page` into `mm` after Alice's
-patchset merged, however, seems that `mm` mod only cover userspace
-memory management (which is not my impression of what "mm" in kernel
-development), thoughts? Alice, do you think we should extend `mm` mod to
-contain all memory management mods?
-
-Regards,
-Boqun
-
->  pub mod alloc;
->  #[cfg(CONFIG_BLOCK)]
->  pub mod block;
+> I think you'll find
+> that once you handle those, the logic will become significantly more
+> complicated, since you need to start storing the start offset within the
+> repeat range on GPUVAs to be able to split them while keeping the
+> mappings identical, and do modular arithmetic to keep it all consistent
+> across all the corner cases.
 > 
-> -- 
-> 2.47.1
+> If SINGLE_PAGE works for you then I would advocate for that.
+
+I'm perfectly fine with that.
+
+> It keeps
+> complexity down to a minimum in drm_gpuvm. You can still have a range
+> that's greater than one page in practice, you'd just have to handle it
+> driver-internal and pass the desired range out of band as a flag or
+> other field. For example, you could decide that the mapping is always
+> congruent to the VA (GEM page offset = start offset + VA % range) and
+> always treat SINGLE_PAGE mappings like that when you actually set up the
+> page tables, or pass in an extra offset to be able to shift the phase of
+> the mapping to whatever you want. You just need to ensure that, if you
+> mix range sizes or other configuration, you don't do that for the same
+> GEM BO at the same offset, so that the drm_gpuvm core does not wrongly
+> consider them equivalent.
 > 
+> Maybe I should rename SINGLE_PAGE to something else, since it isn't
+> technically limited to that as far as gpuvm is concerned. Something like
+> FIXED_OFFSET?
+
+FWIW, I think I prefer SINGLE_PAGE or REPEAT over FIXED_OFFSET. I mean,
+the documentation should clear any confusion, but I like when names are
+obvious enough that people can guess their purpose without having to go
+read the doc, and I don't think FIXED_OFFSET is clear enough in this
+regard.
