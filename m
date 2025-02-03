@@ -1,62 +1,62 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C36A204C04
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 12:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCA5206F3E
+	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 12:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738586918; cv=none; b=uQWaY1fqsfsYzL5GO2tnrJq66/dEFd1dRkRIZ41E0EagJ4Aoy9rkkuyeE98Oecs2VpT4dHZiSjasn87iRWgIj7633tcYZghafwiM+EpGST8oAvNDFIJLX8wZOw7og77XTscZrxhZhhRmR2HoGQCXXjU223TLmWcijnJV1TKaZLk=
+	t=1738586921; cv=none; b=oHDalLaLBtPCBhvaaVWN4QfY8h4iW/M/m+rTwGIZDbtQNg/hqi24Bhwekgfyt+FVBCc3r0ss4AT07SM1NxFlXf9QQyQkxiEtPWXWokVabAnQLOW6di1q4Jmin1ijNNf7l4hg0KSbgqdra3AQYq6lVSFECrrjpuvD/C3wzRhHNIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738586918; c=relaxed/simple;
-	bh=b5a7UBfm663gGgi+WEHqwl5zzCYQ62VmKeNGLDej6FE=;
+	s=arc-20240116; t=1738586921; c=relaxed/simple;
+	bh=M+WYmF0ge9bzhcaDLjDbvd7/acmmwqW/IaJZEhzdWFw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SxePzbnyREjAkcS7ZztVI9e7yumrlLO2JW8bjVst5A1dhtw4qeBP+c2WFydcirKUTr8k5YHyBvU/iwHHxBnQADOM8rbgUjo0/NeYsq6tMyVAy61kDPal0g4pR3fnu0z4ljzladg0N2qtYhZIooha5jBWblchToe6TSlA+GeMccg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bfO9IOep; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=i6RDNc+bBE4vGvHGE00bhcu5Z+dnnueQY0dbXd652lNYg+igDiY4xMOt7BZigU8I1WY9nXh29BPS8/hsQSX6wD21dF+7hBemVehYBayJ+KHcYM4pdr/KkNx5mwQmtkB/dsDVfO3umNB/loN3ICwWDmZFMvs2CIQyNPQm9Umrvd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H74uj+X/; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bfO9IOep"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21628b3fe7dso76574025ad.3
-        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 04:48:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H74uj+X/"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21661be2c2dso70935695ad.1
+        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 04:48:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738586916; x=1739191716; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738586919; x=1739191719; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PYOobTdeVvBQEcklmUZtQ/nTyy5cKNm1JGVJ6HGQd8s=;
-        b=bfO9IOepZsCc51P5bGMnD+Hypkgp36H4kOeaTbQVqcWX59cZBRE+ooYgZ3fmRlXldv
-         xUdYmNBovhGGHqPgiAkgMsp1uKJ2jULiAB1cGpyd57DKnz9rOKPQrZeIFOd5bSJh88FB
-         AeIu2rNxL/S1ZcyoUmf4T44JHBGK958VM3/4O+RPqIsUDscWTbRUBmieNMCf9nRabdDx
-         ISU+R5KG3ohRe8Rr4reL7bXF3W0wKbeHcZClNPbhRzymg8L0r9fmUsCih+L3oEBmETc2
-         Br6SwErwLvJpegR4O89gF76fHybcarVLQq7TFh0RLPMgKRqu4DlQEBcdkCC93/xFAUqv
-         k8uA==
+        bh=OxMhVB4BuFZ5ApySWrQAxUEWGEe0HLRSWM8qzETXyfg=;
+        b=H74uj+X/bfc+PM+4MrHxMQMibHubLkNLwPm5dINmI9AI97ZGCgDKTTh483mKMODs9Z
+         r1eYcaHmY4d8cqgeo/rLLtTobm3hNqbCdijbjQ6ZaYJOpDhBYC6ItyCEr6KmqcO4gUky
+         ZrfLm5uyakRMNC52FupF7SU2hB/iehLu+9GJ63+lvkztjo99kKfUKLncqXFSIsrkmlyY
+         acX0MhhAu9W31H6AZmKUP9JGiBKz4WNbo78PxZw1Q0dXfLi3mZ0hJa9HV/fzYmx5gqOX
+         4cAHBl3haVWA1SoDxn6NbtnsroIvufs6dfofqzWP1bMwMs7h22dQMMlm3MUZSYcXRVz+
+         VAyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738586916; x=1739191716;
+        d=1e100.net; s=20230601; t=1738586919; x=1739191719;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PYOobTdeVvBQEcklmUZtQ/nTyy5cKNm1JGVJ6HGQd8s=;
-        b=e/huw8XLKhZ0TCtlhsagOynjnOUSeE7vSFc75hgNkRcBBe/YKQrGThUSXeveAR5QyS
-         NmNvN3am+4Oap6dMDYHr3C0BM8vx+MOdJP7LuUyb6DS+nLDgGmJ9oEVx/D6PxMskgy2W
-         3OWREbXvXVcVtkKGP/LEKwtRUDWWfTVtEOacJOp2bNi8+mPB1DyK+QB0G58FOE5xuhbT
-         kbP/3VHgC4fJAPVriI/A38QO4612fdUHfsR6DtaOIPQN8y+HADRugSJ1gMm/VBZdGhRt
-         is4A2yHaUiFevO54IPK0gbL3XrOsBs9GrFiLIpembFmDDYl5FuEhIV0gYpRHEl9NfXtQ
-         YN5A==
-X-Forwarded-Encrypted: i=1; AJvYcCW6jqVHBkct6fDq3uuhM0oRDmEmo+V+86Wea9qJ5bfQkvsu2R67TsSEFzjgBd/oU+lN9mtusw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/nMsMB+ZEN9i52l8dhSYlxPKD5065vqiavjKRnQ3RxqYoopTH
-	ChvmFkKO3PCzEAxNq7to+W6aJstwEDFQ9OXr6IibrGpEAvpRU5tR
-X-Gm-Gg: ASbGnctRJGOg6AifHwlbVT6YXbm+sRjwX7EXYvhiY/6WMKDhIf3LWR95EQBT/jCz2rj
-	Eflyj5VkC2q735OXMpfLQHKYFU1kPtuyYDgQzHt5QlhmOI+fjqe+qO9qF6GeCS5IPUNK5z7wg5n
-	CePd5qEeiLvThNYc0MbD52448DLx1rZfB8xNP7ltkul/cU3bPHgJkafkKj5o0h+Unr0iqkFebWY
-	zLgjtCJnVUZjC+ccIDdpTBQ+sEIixwN1hI0L7xkbdkY81SccTox8SjfoBfr5UUeo8CgTRpM4stF
-	rivJo4BVjFJ6w/ET
-X-Google-Smtp-Source: AGHT+IHNxiz6QozzdjMZnbxINSYc1bgjbCbDWy4u2OcKc7sDsAQ2D/vBYRoNRl5irV8KJMRowGeBUw==
-X-Received: by 2002:a05:6a20:748c:b0:1ea:e81c:60fa with SMTP id adf61e73a8af0-1ed7a638a2dmr35595806637.20.1738586916570;
-        Mon, 03 Feb 2025 04:48:36 -0800 (PST)
+        bh=OxMhVB4BuFZ5ApySWrQAxUEWGEe0HLRSWM8qzETXyfg=;
+        b=J+IQaztkuJly7AlNLdzqxEQb/Ez3373xyD3NaFcD+R2zLd8c5CE0vt9dOovsL22rN+
+         yKUVkCocYbOF132LitOGDpVK7QwJqd/SGW+qosuTuWxEFODpwaoxFp+f8A1ISw8SVLEk
+         BHRUcrVYiJWRSAWQJB47CUc807Ehb/aghVsW4PV8pgsZNz5z0tzjBptU9tp3zttpBIyT
+         bVg5k43O7iwhYAaV1zfMzD8Ep10nRc9SNxYiz/sYB+iXAPirYCXnoCBJOSfpafS2DgbD
+         hW2/z7iT6W63aDLGYpYPa0nZ96ujvfxSEb6QYkD3tdbVI1BWP3ur07GN5h9tutkILK6C
+         oMtg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0xebZmEqZxC7QMHTngvvvQSaeMbPDq7Vig42ijzTj7Ev4vJNugazmyIKZ4SGHeRv9rzPeAg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjL0cq1EYBKEM4vymocR917bTBhytt7PYcAaJ7I5QEGQq+5g46
+	r80h2120i1S56/6sKag+Eko09JaLZZC8MhJg6qnofoVd4rzRHY4S
+X-Gm-Gg: ASbGncvNosWeZ8rzDf0yqptm2Cqndq2fPPizM7A1dYBCJ4Z1wT3E+jUT+NzNHLCuD1j
+	HA9hlLUUVtdixAAzvwk+FSQh0EmTiWbSyOROdyukGO3QCMiWX+CtbyGhP8OcAo51xM3pcjqMfZc
+	yNc/B9FIfLmwk5EXXK+dnvyAuh7DSM8rx64k5lurwPKNEERbYPR9AdYZM+XLiRULBP92iWCJh4K
+	sdDQ/eSAAIbU3+km61yH28f0wLC6ARB0De45fTC65yroBu5yD1FPWGgCsba5OVgNACPfV4aFdSn
+	Ljf8liszEjmtb8ax
+X-Google-Smtp-Source: AGHT+IG51KC16Wbu1ERa4z+u0QYHDh0bJ/mjT2XKV4JUnCIVovlm0uf2m3P6dBWpNe7Neb6QdRPlxw==
+X-Received: by 2002:a05:6a00:9a6:b0:72f:c513:a5fc with SMTP id d2e1a72fcca58-72fd0c7c731mr32930105b3a.23.1738586919357;
+        Mon, 03 Feb 2025 04:48:39 -0800 (PST)
 Received: from nick-mbp.. ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-acebddbb0d4sm7835225a12.10.2025.02.03.04.48.34
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-acebddbb0d4sm7835225a12.10.2025.02.03.04.48.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 04:48:36 -0800 (PST)
+        Mon, 03 Feb 2025 04:48:39 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -69,9 +69,9 @@ To: Hector Martin <marcan@marcan.st>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH RESEND 1/9] arm64: dts: apple: s5l8960x: Add cpufreq nodes
-Date: Mon,  3 Feb 2025 20:43:40 +0800
-Message-ID: <20250203124747.41541-2-towinchenmi@gmail.com>
+Subject: [PATCH RESEND 2/9] arm64: dts: apple: t7000: Add cpufreq nodes
+Date: Mon,  3 Feb 2025 20:43:41 +0800
+Message-ID: <20250203124747.41541-3-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250203124747.41541-1-towinchenmi@gmail.com>
 References: <20250203124747.41541-1-towinchenmi@gmail.com>
@@ -83,193 +83,128 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add cpufreq nodes for Apple A7 SoC.
+Add cpufreq nodes for Apple A8 SoC.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi    |  1 +
- arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi  |  1 +
- arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi |  1 +
- arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi   | 45 +++++++++++++++++++
- arch/arm64/boot/dts/apple/s5l8960x.dtsi       | 10 +++++
- arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi   | 45 +++++++++++++++++++
- 6 files changed, 103 insertions(+)
- create mode 100644 arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi
+ arch/arm64/boot/dts/apple/t7000-6.dtsi     |  4 ++
+ arch/arm64/boot/dts/apple/t7000-j42d.dts   |  4 ++
+ arch/arm64/boot/dts/apple/t7000-mini4.dtsi |  4 ++
+ arch/arm64/boot/dts/apple/t7000.dtsi       | 46 ++++++++++++++++++++++
+ 4 files changed, 58 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi b/arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi
-index 0b16adf07f79..83c0a4deb5ba 100644
---- a/arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi
-+++ b/arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi
-@@ -8,6 +8,7 @@
- 
- #include "s5l8960x.dtsi"
- #include "s5l8960x-common.dtsi"
-+#include "s5l8960x-opp.dtsi"
- #include <dt-bindings/input/input.h>
- 
- / {
-diff --git a/arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi b/arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi
-index 741c5a9f21dd..d88894e0fce7 100644
---- a/arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi
-+++ b/arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi
-@@ -8,6 +8,7 @@
- 
- #include "s5l8960x.dtsi"
- #include "s5l8960x-common.dtsi"
-+#include "s5l8965x-opp.dtsi"
- #include <dt-bindings/input/input.h>
- 
- / {
-diff --git a/arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi b/arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi
-index b27ef5680626..261b5008a6b4 100644
---- a/arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi
-+++ b/arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi
-@@ -8,6 +8,7 @@
- 
- #include "s5l8960x.dtsi"
- #include "s5l8960x-common.dtsi"
-+#include "s5l8960x-opp.dtsi"
- #include <dt-bindings/input/input.h>
- 
- / {
-diff --git a/arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi b/arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi
-new file mode 100644
-index 000000000000..e4d568c4a119
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi
-@@ -0,0 +1,45 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Operating points for Apple S5L8960X "A7" SoC, Up to 1296 MHz
-+ *
-+ * target-type: N51, N53, J85, J86. J87, J85m, J86m, J87m
-+ *
-+ * Copyright (c) 2024, Nick Chan <towinchenmi@gmail.com>
-+ */
+diff --git a/arch/arm64/boot/dts/apple/t7000-6.dtsi b/arch/arm64/boot/dts/apple/t7000-6.dtsi
+index f60ea4a4a387..0d08e2589449 100644
+--- a/arch/arm64/boot/dts/apple/t7000-6.dtsi
++++ b/arch/arm64/boot/dts/apple/t7000-6.dtsi
+@@ -48,3 +48,7 @@ switch-mute {
+ 		};
+ 	};
+ };
 +
-+/ {
-+	cyclone_opp: opp-table {
++&typhoon_opp06 {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/apple/t7000-j42d.dts b/arch/arm64/boot/dts/apple/t7000-j42d.dts
+index 2231db6a739d..24fe5a99f3ab 100644
+--- a/arch/arm64/boot/dts/apple/t7000-j42d.dts
++++ b/arch/arm64/boot/dts/apple/t7000-j42d.dts
+@@ -29,3 +29,7 @@ framebuffer0: framebuffer@0 {
+ &serial6 {
+ 	status = "okay";
+ };
++
++&typhoon_opp06 {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/apple/t7000-mini4.dtsi b/arch/arm64/boot/dts/apple/t7000-mini4.dtsi
+index c64ddc402fda..773c69449902 100644
+--- a/arch/arm64/boot/dts/apple/t7000-mini4.dtsi
++++ b/arch/arm64/boot/dts/apple/t7000-mini4.dtsi
+@@ -49,3 +49,7 @@ switch-mute {
+ 		};
+ 	};
+ };
++
++&typhoon_opp06 {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/apple/t7000.dtsi b/arch/arm64/boot/dts/apple/t7000.dtsi
+index a7cc29e84c84..4105cf70391b 100644
+--- a/arch/arm64/boot/dts/apple/t7000.dtsi
++++ b/arch/arm64/boot/dts/apple/t7000.dtsi
+@@ -33,6 +33,8 @@ cpu0: cpu@0 {
+ 			compatible = "apple,typhoon";
+ 			reg = <0x0 0x0>;
+ 			cpu-release-addr = <0 0>; /* To be filled in by loader */
++			performance-domains = <&cpufreq>;
++			operating-points-v2 = <&typhoon_opp>;
+ 			enable-method = "spin-table";
+ 			device_type = "cpu";
+ 		};
+@@ -41,11 +43,49 @@ cpu1: cpu@1 {
+ 			compatible = "apple,typhoon";
+ 			reg = <0x0 0x1>;
+ 			cpu-release-addr = <0 0>; /* To be filled in by loader */
++			performance-domains = <&cpufreq>;
++			operating-points-v2 = <&typhoon_opp>;
+ 			enable-method = "spin-table";
+ 			device_type = "cpu";
+ 		};
+ 	};
+ 
++	typhoon_opp: opp-table {
 +		compatible = "operating-points-v2";
 +
 +		opp01 {
 +			opp-hz = /bits/ 64 <300000000>;
 +			opp-level = <1>;
-+			clock-latency-ns = <15500>;
++			clock-latency-ns = <300>;
 +		};
 +		opp02 {
 +			opp-hz = /bits/ 64 <396000000>;
 +			opp-level = <2>;
-+			clock-latency-ns = <43000>;
++			clock-latency-ns = <50000>;
 +		};
 +		opp03 {
 +			opp-hz = /bits/ 64 <600000000>;
 +			opp-level = <3>;
-+			clock-latency-ns = <26000>;
++			clock-latency-ns = <29000>;
 +		};
 +		opp04 {
 +			opp-hz = /bits/ 64 <840000000>;
 +			opp-level = <4>;
-+			clock-latency-ns = <30000>;
++			clock-latency-ns = <29000>;
 +		};
 +		opp05 {
 +			opp-hz = /bits/ 64 <1128000000>;
 +			opp-level = <5>;
-+			clock-latency-ns = <39500>;
++			clock-latency-ns = <36000>;
 +		};
-+		opp06 {
-+			opp-hz = /bits/ 64 <1296000000>;
++		typhoon_opp06: opp06 {
++			opp-hz = /bits/ 64 <1392000000>;
 +			opp-level = <6>;
-+			clock-latency-ns = <45500>;
++			clock-latency-ns = <42000>;
++			status = "disabled"; /* Not available on N102 */
 +		};
 +	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/s5l8960x.dtsi b/arch/arm64/boot/dts/apple/s5l8960x.dtsi
-index 0218ecac1d83..449c69d0d92f 100644
---- a/arch/arm64/boot/dts/apple/s5l8960x.dtsi
-+++ b/arch/arm64/boot/dts/apple/s5l8960x.dtsi
-@@ -33,6 +33,8 @@ cpu0: cpu@0 {
- 			compatible = "apple,cyclone";
- 			reg = <0x0 0x0>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&cyclone_opp>;
-+			performance-domains = <&cpufreq>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
-@@ -41,6 +43,8 @@ cpu1: cpu@1 {
- 			compatible = "apple,cyclone";
- 			reg = <0x0 0x1>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&cyclone_opp>;
-+			performance-domains = <&cpufreq>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
-@@ -53,6 +57,12 @@ soc {
++
+ 	soc {
+ 		compatible = "simple-bus";
+ 		#address-cells = <2>;
+@@ -53,6 +93,12 @@ soc {
  		nonposted-mmio;
  		ranges;
  
 +		cpufreq: performance-controller@202220000 {
-+			compatible = "apple,s5l8960x-cluster-cpufreq";
++			compatible = "apple,t7000-cluster-cpufreq", "apple,s5l8960x-cluster-cpufreq";
 +			reg = <0x2 0x02220000 0 0x1000>;
 +			#performance-domain-cells = <0>;
 +		};
 +
- 		serial0: serial@20a0a0000 {
+ 		serial0: serial@20a0c0000 {
  			compatible = "apple,s5l-uart";
- 			reg = <0x2 0x0a0a0000 0x0 0x4000>;
-diff --git a/arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi b/arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi
-new file mode 100644
-index 000000000000..d34dae74a90c
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi
-@@ -0,0 +1,45 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Operating points for Apple S5L8965X "A7" Rev A SoC, Up to 1392 MHz
-+ *
-+ * target-type: J71, J72, J73
-+ *
-+ * Copyright (c) 2024, Nick Chan <towinchenmi@gmail.com>
-+ */
-+
-+/ {
-+	cyclone_opp: opp-table {
-+		compatible = "operating-points-v2";
-+
-+		opp01 {
-+			opp-hz = /bits/ 64 <300000000>;
-+			opp-level = <1>;
-+			clock-latency-ns = <10000>;
-+		};
-+		opp02 {
-+			opp-hz = /bits/ 64 <600000000>;
-+			opp-level = <2>;
-+			clock-latency-ns = <49000>;
-+		};
-+		opp03 {
-+			opp-hz = /bits/ 64 <840000000>;
-+			opp-level = <3>;
-+			clock-latency-ns = <30000>;
-+		};
-+		opp04 {
-+			opp-hz = /bits/ 64 <1128000000>;
-+			opp-level = <4>;
-+			clock-latency-ns = <39500>;
-+		};
-+		opp05 {
-+			opp-hz = /bits/ 64 <1296000000>;
-+			opp-level = <5>;
-+			clock-latency-ns = <45500>;
-+		};
-+		opp06 {
-+			opp-hz = /bits/ 64 <1392000000>;
-+			opp-level = <6>;
-+			clock-latency-ns = <46500>;
-+		};
-+	};
-+};
+ 			reg = <0x2 0x0a0c0000 0x0 0x4000>;
 -- 
 2.48.1
 
