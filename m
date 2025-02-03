@@ -1,124 +1,155 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7592045A3
-	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 11:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7311FA15E
+	for <asahi@lists.linux.dev>; Mon,  3 Feb 2025 12:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738583559; cv=none; b=dugFtrH9koKBuR4XQSyWD2J4NXx9NXvE2aCPsJTmtzDo/prssL6e1n8ofamZE9aXVOFwKTsgWPfOxeD+jEnZfxcaALeG6EeHIneeTwnXmpn4w0GTHITnGjV6a+NJ8lQL/SBxzELuO966MIyyrRv5Yk/jdl5L3xzxJjNrw89Wt1g=
+	t=1738584784; cv=none; b=irkd6hrRH++F9w7W0dYQzKB3Wi+vRML5oEnkE2zDdT1NSS/6dvnvy7qlljG92vVhBAG02WOdaAUKIImIkSmytV5+YwXBejfPSFL5mSxFhmxuPAtAjo1xt8Sgoax74o6pmyaxAwRHTjaGsGzGcaeLO9z2qk/uGRz8N2JevECBJbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738583559; c=relaxed/simple;
-	bh=mtPz4s+4egQ0jOh3GQAGAPwNPBPu0BZnd8qj+UMcZso=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X8xj1O1d5JkEzlDoiDvM2uFDLCTydrGcwYwmcktf/5g3BoYYo/fXog1QwaFUHpdqVsumcPdaC9zrRoWwIpSbtn+jVEe35M3WHg9xQso5vylX7tXGxhdLhiptrBVI4pEv6gmRM36j0fmRkGOy2ryZIpagH3he3Vv8V/UIjuRMEQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AHJhjqt1; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738584784; c=relaxed/simple;
+	bh=jNibjm7Z5BWSQUu8aoxS9exwEy1QnRNA66PqXhHW/n0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=htavn98fFR+nDHOPEE1/21Yxt8Ys+jARlfcZxBR2eGu/S4kEuMhGQcZHzrB+DmMzgxxAFSp/5R+GfbzSBjbjQCDjl5ViLdqCkYw6qvrVv6x7Xc1dtigHF3H2HhkqYhCQDnjptLaVmbMmS5cMf+Mxo5eMrLT60bIBIAx+SxAG/p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=W2mK9rsi; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AHJhjqt1"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2163dc5155fso73704985ad.0
-        for <asahi@lists.linux.dev>; Mon, 03 Feb 2025 03:52:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738583557; x=1739188357; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Uc4uCqsleGcCsKVC2kCtafnEyIcpxj+3QblkARK4r2c=;
-        b=AHJhjqt19T4yup4Ki2UjyOb8tWecBYtg9pzc+zKSdQ95CDBoBvs3GT91UVPNiujhwQ
-         8BaszxU/rvbtf8Miv78FakOj0rFFBzkxanxoa8MtIVrV3pe4xnQW8/ClLF/GBzAYsZ8/
-         2K1o4kJrFKGatQIFXV9SH3WlHjyCehDDHaHIVz/2Q2h979AUSUfK+ggftSIqqtIKFrDD
-         jXc/qNTXWJYTekL9kV7X/gt8wj/Hg4i71q58vi+6/o3LatgnE3sh6xCYhDVQ2GBLaYeM
-         4lLd7X0sg1DyBzAhxgnHymcHyTmymYa1v3KpXoVcBKYAOl+/Obuu6HkM8jdoGaQQURRI
-         rIKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738583557; x=1739188357;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Uc4uCqsleGcCsKVC2kCtafnEyIcpxj+3QblkARK4r2c=;
-        b=Y0a+UuEAkoWE91stIPmjy2qtUXMEpNGl3t+BysfcfQR3ltcjZeAVlsA4MGTpnlu1IC
-         v5z3MPZJ3wk0LRxY3eEB10WXmZJlnCkvY+4AsGWdnX7eMakoSuw5LWlC62D3Aqg917xp
-         e38Sb+aj8c/zdct8SxsykzjNnfq6dtYRrNpHGOR6Mr2+1pbkumhe/wfrz6onkPyfvlAu
-         a7Qq4toRsLC7Ig4UQr7Rb74j214IRxEzGBeK4Yjtqi+4I5WoU8jHLNmUyOENJnhodEqY
-         ZmGWBpCyAWJlVeflnr6Dy7WY7FzN+035KZDmw9KHk+KJjULvf8xrs4dweCsh2s6iSlv/
-         xYrA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAs/qwjZfazU964H/uTcRXSQb14ZgrFHAGtZkBeK+4Zv33e7WZRyhQ7e6sKkY9xdO0DG7vmw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywzc0rf4YZ0PVyA1blxg9Jq9NxdxEJBbr9fQ/iK/1PxLJut/RjX
-	hpFJHxIKJK+VfSpU/tCR66p+WXCDrm/TgmUVqF2++tpqZgBQSUCE
-X-Gm-Gg: ASbGncth8mY+w6QtLNhvGfBGEi5UnbolgxcJKFquer7OHTtoXVBT5u5D1oQyKSTni4e
-	MRvAsNiaw++av4W+HU/QJ0ZAplgbShsW0gTTj0M+dPi1UJZf0anpZuVout9ef1XTxyOkvZ862IJ
-	UksJ5rcBlWgghE9BqyEtcqKhmFqLk3MDjSK8HzyP2+KuEUVeFVK0cp4OylEVaeucDYSQlSdUdTv
-	9JjKEUjKYKtB4icVC5HaCzE24OoRARBGFapy0I1oJQcTxyrAVvAxp1ARRUNN+QpwmDScSd/VfLJ
-	8t+DocMnayLNg/iM
-X-Google-Smtp-Source: AGHT+IG9OzjbgkvCS8tq7nwliRQ7D0GE7eIK1YFb7OgjbU/H0UhSsEr4jVXSBegVQdOpNlym0wtPBw==
-X-Received: by 2002:a05:6a00:4642:b0:725:f1b1:cbc5 with SMTP id d2e1a72fcca58-72fd0bc26c1mr38178820b3a.3.1738583557299;
-        Mon, 03 Feb 2025 03:52:37 -0800 (PST)
-Received: from nick-mbp.. ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-72fe631c039sm8262408b3a.25.2025.02.03.03.52.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 03:52:36 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Lee Jones <lee@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Nick Chan <towinchenmi@gmail.com>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: [PATCH v5 RESEND 3/3] MAINTAINERS: Add entries for Apple DWI backlight controller
-Date: Mon,  3 Feb 2025 19:50:34 +0800
-Message-ID: <20250203115156.28174-4-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250203115156.28174-1-towinchenmi@gmail.com>
-References: <20250203115156.28174-1-towinchenmi@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="W2mK9rsi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1738584780;
+	bh=jNibjm7Z5BWSQUu8aoxS9exwEy1QnRNA66PqXhHW/n0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=W2mK9rsiqT96jETmYB4MAss0AmacvbxIZEkiLTswofWhb/orWPJMG+zInUFphQbL1
+	 G+4dBpC7krikDrUmXyBhTwdstCY9SAXCRPmD727o9v8fdb5JcS/Nufrdy9X2ptQJ0t
+	 haibJYsQoApeqId1JON4SrW5Z5rBmnpKD4DDWIm38MrGDyKujFyMKGkeonYDDRbtys
+	 jWBRQkqZuz2mI/E5LpEWspiC8DMdXpxxupL86rkeKl3ufjnu+bg8KmrY5LbHq9rFbX
+	 aCLc9ppvUUiqiXVwWnQxxX2g6AIgeR8PAM/zYdjCN2jwwYA+InPVikFtJwE2dRhaay
+	 69LgVvcos9x0w==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 76EA717E0239;
+	Mon,  3 Feb 2025 13:12:59 +0100 (CET)
+Date: Mon, 3 Feb 2025 13:12:52 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, asahi@lists.linux.dev, Asahi Lina
+ <lina@asahilina.net>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Steven Price <steven.price@arm.com>, Lucas De
+ Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ akash.goel@arm.com
+Subject: Re: [PATCH 0/4] drm/gpuvm: Add support for single-page-filled
+ mappings
+Message-ID: <20250203131252.71a180ea@collabora.com>
+In-Reply-To: <Z6CnSZz_Dm3YpZbx@e110455-lin.cambridge.arm.com>
+References: <20250202-gpuvm-single-page-v1-0-8cbd44fdcbd4@asahilina.net>
+	<Z5-_O8vkCO0LXcl7@pollux.localdomain>
+	<20250203102153.145229e0@collabora.com>
+	<Z6CnSZz_Dm3YpZbx@e110455-lin.cambridge.arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add MAINTAINERS entries for the driver.
+On Mon, 3 Feb 2025 11:23:53 +0000
+Liviu Dudau <liviu.dudau@arm.com> wrote:
 
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+> On Mon, Feb 03, 2025 at 10:21:53AM +0100, Boris Brezillon wrote:
+> > +Akash with whom we've been discussing adding a 'REPEAT' mode to
+> > drm_gpuvm/panthor.
+> > 
+> > On Sun, 2 Feb 2025 19:53:47 +0100
+> > Danilo Krummrich <dakr@kernel.org> wrote:
+> >   
+> > > Hi Lina,
+> > > 
+> > > On Sun, Feb 02, 2025 at 10:34:49PM +0900, Asahi Lina wrote:  
+> > > > Some hardware requires dummy page mappings to efficiently implement
+> > > > Vulkan sparse features. These mappings consist of the same physical
+> > > > memory page, repeated for a large range of address space (e.g. 16GiB).
+> > > > 
+> > > > Add support for this to drm_gpuvm. Currently, drm_gpuvm expects BO
+> > > > ranges to correspond 1:1 to virtual memory ranges that are mapped, and
+> > > > does math on the BO offset accordingly. To make single page mappings
+> > > > work, we need a way to turn off that math, keeping the BO offset always
+> > > > constant and pointing to the same page (typically BO offset 0).
+> > > > 
+> > > > To make this work, we need to handle all the corner cases when these
+> > > > mappings intersect with regular mappings. The rules are simply to never
+> > > > mix or merge a "regular" mapping with a single page mapping.
+> > > > 
+> > > > drm_gpuvm has support for a flags field in drm_gpuva objects. This is
+> > > > normally managed by drivers directly. We can introduce a
+> > > > DRM_GPUVA_SINGLE_PAGE flag to handle this. However, to make it work,
+> > > > sm_map and friends need to know ahead of time whether the new mapping is
+> > > > a single page mapping or not. Therefore, we need to add an argument to
+> > > > these functions so drivers can provide the flags to be filled into
+> > > > drm_gpuva.flags.
+> > > > 
+> > > > These changes should not affect any existing drivers that use drm_gpuvm
+> > > > other than the API change:
+> > > > 
+> > > > - imagination: Does not use flags at all
+> > > > - nouveau: Only uses drm_gpuva_invalidate(), which is only called on
+> > > >   existing drm_gpuva objects (after the map steps)
+> > > > - panthor: Does not use flags at all
+> > > > - xe: Does not use drm_gpuva_init_from_op() or
+> > > >   drm_gpuva_remap()/drm_gpuva_map() (which call it). This means that the
+> > > > flags field of the gpuva object is managed by the driver only, so these
+> > > > changes cannot clobber it.
+> > > > 
+> > > > Note that the way this is implemented, drm_gpuvm does not need to know
+> > > > the GPU page size. It only has to never do math on the BO offset to meet
+> > > > the requirements.
+> > > > 
+> > > > I suspect that after this change there could be some cleanup possible in
+> > > > the xe driver (which right now passes flags around in various
+> > > > driver-specific ways from the map step through to drm_gpuva objects),
+> > > > but I'll leave that to the Xe folks.
+> > > > 
+> > > > Signed-off-by: Asahi Lina <lina@asahilina.net>
+> > > > ---
+> > > > Asahi Lina (4):
+> > > >       drm/gpuvm: Add a flags argument to drm_gpuvm_sm_map[_*]
+> > > >       drm/gpuvm: Plumb through flags into drm_gpuva_op_map
+> > > >       drm/gpuvm: Add DRM_GPUVA_SINGLE_PAGE flag and logic
+> > > >       drm/gpuvm: Plumb through flags into drm_gpuva_init    
+> > > 
+> > > Without looking into any details yet:
+> > > 
+> > > This is a bit of tricky one, since we're not even close to having a user for
+> > > this new feature upstream yet, are we?  
+> > 
+> > Actually, we would be interesting in having this feature hooked up in
+> > panthor. One use case we have is Vulkan sparse bindings, of course. But
+> > we also have cases where we need to map a dummy page repeatedly on the
+> > FW side. The approach we've been considering is slightly different:
+> > pass a DRM_GPUVA_REPEAT_FLAG along with GEM range, so we can repeat a
+> > range of the GEM (see the below diff, which is completely untested by
+> > the way), but I think we'd be fine with this SINGLE_PAGE flag.  
+> 
+> Unless I've misunderstood the intent completely, it looks like Xe also wants
+> something similar although they call it CPU_ADDR_MIRROR for some reason:
+> 
+> https://lore.kernel.org/r/20250129195212.745731-9-matthew.brost@intel.com
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 896a307fa065..a576324807f5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2228,6 +2228,7 @@ F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
- F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
-+F:	Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
- F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
- F:	Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
- F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-@@ -2253,6 +2254,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/video/backlight/apple_dwi_bl.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
--- 
-2.48.1
-
+At first glance, it doesn't seem related. The Xe stuff looks more like
+an alloc-on-fault mechanism. SINGLE_PAGE is about mapping a dummy page
+repeatedly over a virtual address range so that sparse Vulkan images
+never get a fault when an unbound image region is accessed.
