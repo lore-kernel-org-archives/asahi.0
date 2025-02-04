@@ -1,252 +1,118 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A80F2185A8
-	for <asahi@lists.linux.dev>; Tue,  4 Feb 2025 20:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E34E219A67
+	for <asahi@lists.linux.dev>; Tue,  4 Feb 2025 20:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738699833; cv=none; b=aw2KE4X6YrjZHUSNLpyTTOCMix/niM2saJE5klgWe5HRAlLHe5tXsDn1gViBMvbrP/ZGs3gEvfqhr8hQ8zyy0iMMUeezmOoy8FVrJvbCGR6osL5hTZ5pWJ8v361GIj+6oSRUEu7qsd7cS+LC3ur80/xbLTMC5V7qyz0PZ8ZZ6B4=
+	t=1738700820; cv=none; b=KpammifsrmHnpKCIIFnfGf9+19ESLLYR+/O4zdDnmeZ5Zxx5Z5L5Ch/9LJxhrh9ZkKlkue5ghJsU1xnGd0ValxNKFGZmmxq0q0VGQvSdLnRXxzilobeUiM2sG0WoMPFeSF9Uqf3oRSStHUvUKkYuRasNDDlcvIrvqRDr0K+Igow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738699833; c=relaxed/simple;
-	bh=rf80j6lp1Z3DGrOAkvvJCGIz6wLkvy94AxZZMOnZxvU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Md78n8eZE2wURmyJ5vbPdByKV8GXHKRBDEHLiI2JHVLLG82ztbPHt+TfRVI7wv5E36lZWMu2+V66oXQG2OJANqF3eBx0m6MVtJP8c94eDABYtaBGmd8y/mVn3TfNH8Nr2uWGJOtDNekBDME63pPAvyF+IY2j+XKySkyTui1gD0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XfO+0X43; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738700820; c=relaxed/simple;
+	bh=4OVHg9lS9y7hgZNNmxGr15YLES80pi29+1rMKHfcSfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bVknUATvaxkvS7gvuQGWs+FcA5DD/TnK6pubwmdM0eK/YWZ2J5Ojt5cm1Vfzw1GtWgZkdn8zG14+awTGCAxFHDJBHVOLkXte5UGJq8XNeUPB0i0F9bTKCwbTWTevuhOFttmvxYw5JQzjy1Kqa1gy3MxcGuMeXKDi0FGen+T5zF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=XdTwQG76; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XfO+0X43"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738699830;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9KGn7TZ9Qy9WvkVJ0t6ZHAlutNTr5hGqmA01DIHm+is=;
-	b=XfO+0X43K5F93HwOnHK5mDF/Kjt0ztIALM4P17wdNYjvyFSqoVNnLIvQUH2I4HBZvl+UeI
-	ZuVc7+W++ATTezE1hWe24h0y3IujtcSnHJaviWrWbjSZOR/tlYsZeS8DVqmJHc9OpD+QiS
-	yCUhv3GUxx4e5tQyMjhUIOS6lcF9Cn0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-617-O2ADKWo9Nn2SjNMtlrAbfQ-1; Tue, 04 Feb 2025 15:10:27 -0500
-X-MC-Unique: O2ADKWo9Nn2SjNMtlrAbfQ-1
-X-Mimecast-MFC-AGG-ID: O2ADKWo9Nn2SjNMtlrAbfQ
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-43626224274so31505645e9.0
-        for <asahi@lists.linux.dev>; Tue, 04 Feb 2025 12:10:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="XdTwQG76"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-467a37a2a53so70161291cf.2
+        for <asahi@lists.linux.dev>; Tue, 04 Feb 2025 12:26:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1738700817; x=1739305617; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XKfHXyy6Lxo2g0AOAumrKv9sTaQK4qw2WswIObaTPeM=;
+        b=XdTwQG76MN92icpFuO4O1laGIJWZjFn+jOkyG7ANiR6aj5Yyd7owAjeKkrsCzyxpGk
+         eE8N69+rl2thZyzTByceVSbzWYKYka0ndWXOahr2d58P8aNkRcwpZBacesTPZBV7myEp
+         VX2/0dBQK23Xilon087cqx774WTz3kjo6KSmEOdK+nMsDoCEKi2bnjZy7whankqAI8y4
+         4XRpiKJkpbyCCY2+BJFyUTuXHCOgJ8B8WzbiaUPSr15G88x4yZbunCbMs+xfdhkKeA3P
+         sBncRc72HrNCHtVGlPHFwwKoTaG3KiJim7g/oOwTsbXZsmRBpAZR3d3QgnFdvNdTRlkQ
+         0VqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738699826; x=1739304626;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9KGn7TZ9Qy9WvkVJ0t6ZHAlutNTr5hGqmA01DIHm+is=;
-        b=xRtYTt4ladqPobSiuql7jJet2lFzMxkhPfaiGnXz4tMGGCukou2kfsuhpJ8hvpl1T0
-         Y3XplUBxrdPD6B7Ffe9yj9PDpVNkipscTASUPVSvx6BJSIoTb1NdwJU7hVQYt/lbUysC
-         xEDVfKVf+okZvE2K5G9Vra0onADzz7BLa7sTb3/38mwikBybdZdIm+TydvD2VibeJ3dz
-         xlG45ZBxKVd0PGLElNU9p/342AEXNnF5WmPu5E8M2q9kZKgjL2FWg0Zdo3lpn754TBVD
-         5in/O/EB/ItuO7SvhTe6yBH6fpFE5OIyGxTfu0zAwiqGaVEnCIcmL50bna8U2Mq6PziV
-         z4CA==
-X-Forwarded-Encrypted: i=1; AJvYcCVLc/9FsjzgqPaqJlJ9gb+BUXJPwIuGulqZQo81FKLi0rKmbd++7EMza/bnoOTuuNN7PH241Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxbr4W4CG5YwQlpDH/fxaEEGOyKJPORY1qzdy0GcGpjASPKHLUN
-	+SCcAGeqXJQWTzo9UdfbcC8iNV4WhmlxVoWCl8L+PxIH2J5QbBj09UqrGZwzYKtE32F2eqK7mjQ
-	u0Rm737C7uyrGSZcrf+fga/vcYBBMgOweMJ0wwZnQDFyillX6JmD+
-X-Gm-Gg: ASbGncsU5NXhf7TjrAUExQeSMbsr17nA352AoXsXIkDwXCkA350kBcvNCjDNUBacogp
-	GSxYegSL80xuFsY4aSrqxoTvfbt6/EbOFyE5DlUhP+yQjbtcRXsbavW2VVVfXEqNWDANWT5Y49J
-	zZSYJQy3tF/io8sABkC/gcE6thOzUq6UNA+MxE9SD0b43Vn+8y4afX+gi6V3OLdWM+Xx8B46BwE
-	RxV0uiP0Ku4ULIgcXoah631ulzxdHAfyPS3On+NddK+IkS/8ZgloThKdBVHYGpub6XSPedJnBPA
-	QnRWWqOZsmGH8f/i5GtJSrK5ao37IUxjo/iiwH17Vc0RGj7Euan9bovsw9T81qdGzCyacfe2Qh5
-	zUvHUH81Sq464GCHGhGsczpLjVv4=
-X-Received: by 2002:a05:600c:468d:b0:436:5165:f21f with SMTP id 5b1f17b1804b1-438dc42933cmr207140275e9.26.1738699825889;
-        Tue, 04 Feb 2025 12:10:25 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IELPsfjrnbJWk3d/bgKH4wLXZSA/5kUiQqXHSypUCLqIEHICpcwCm/HVai1+PGPOYdwWfOgzQ==
-X-Received: by 2002:a05:600c:468d:b0:436:5165:f21f with SMTP id 5b1f17b1804b1-438dc42933cmr207140085e9.26.1738699825427;
-        Tue, 04 Feb 2025 12:10:25 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70a:300:3ae1:c3c0:cef:8413? (p200300cbc70a03003ae1c3c00cef8413.dip0.t-ipconnect.de. [2003:cb:c70a:300:3ae1:c3c0:cef:8413])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38daf758dbcsm2116447f8f.10.2025.02.04.12.10.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 12:10:24 -0800 (PST)
-Message-ID: <6bcd3315-a0f9-463c-ab97-a43736f9b4f4@redhat.com>
-Date: Tue, 4 Feb 2025 21:10:21 +0100
+        d=1e100.net; s=20230601; t=1738700817; x=1739305617;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XKfHXyy6Lxo2g0AOAumrKv9sTaQK4qw2WswIObaTPeM=;
+        b=pM6RLm64LJfmwIifE5Y3PwEEm5OavTK82mJjchFhwDGeMOdxvsXNH92PpVb1ytjKk0
+         9GBYj1E4ToCYGhiKzVyumGBM7B7Ptq1wXR3AD7qTwSSxuvY/Fmcqzm7aQIIppzy17eTU
+         1S079ZQ3/rGv9ezH55cMNGrDsDTdeaMBblf2qREhOJOynZDPMQmq84Nwz/rgy+3ZpIbK
+         iKYcrvalr26hW1CAIOslJgNQ6YTlKplcsDUg5jXBVEBFT+vEnyDnX30zmlxFX1cEk0oU
+         VEP4rnJ4L2Z1GWW6Ttge+NMtDpdQ4kFgP1GBqz5ZaEvPcbPexsTiwrLQscJbaKZmLY9i
+         4Pdg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4S/HyuvNy50N7X1qzKYG0337gOE3QqRrXitlehudFM/kBWtE36LO/8xbQkxFfaz4NctsAAg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJx41A3KOzCu6KHc5PsHq4FIJyIOec2zOVrnUMcF8xbnqDIS3p
+	u3CmINQIsBAsn5JIqDzS/1YKtLEXkADX4fSkpWBhPo4rqNylygcZk0BJ6OU/3RE=
+X-Gm-Gg: ASbGncsACTOhYLZRXIqUKPyRrz/e/2ilWy5pHpWdDvZdc8WTFiqXeGFjvU3lSgPeOHN
+	mNEHwan5xDGYeCudGOqb+Ohije0Ru/7phhJSUs8OGTdxUo5F+/jilHRyxNfVPubUnMpyid79Nfu
+	Yz8JYUdrcyMSJh5WNRFaxXBpc12G43q+zDbPQ9hSTZhMCo4VfqgFkwGzJKtA8zPYIXuPX1wTF6+
+	tCw0OYlJvjYspOm3YOAHs2uaaSCr18DrJTMsvAZ2PRENDmsoVWlIW1VkjuSodZTPoYQfPcFTjnW
+	dZH3MDuNTI0M4meuxT03ls3ISaKRVc2T/PwCLZa1BOrQtCYTfPsen5J29wOMbqHN
+X-Google-Smtp-Source: AGHT+IEsHxW8JLcluvuP8S+KAnuCNS+p1UBsZQIkGSJDtHpddXcm+6eR6EfbSxlm/LewurR5/XZ3Xg==
+X-Received: by 2002:ad4:5c46:0:b0:6d8:af2d:2a44 with SMTP id 6a1803df08f44-6e42fc54742mr2065826d6.32.1738700817497;
+        Tue, 04 Feb 2025 12:26:57 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e254922538sm65650296d6.84.2025.02.04.12.26.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 12:26:56 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1tfPVY-0000000CYY9-1RWN;
+	Tue, 04 Feb 2025 16:26:56 -0400
+Date: Tue, 4 Feb 2025 16:26:56 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: David Hildenbrand <david@redhat.com>
+Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Valentin Obst <kernel@valentinobst.de>,
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
+ physaddr conversion
+Message-ID: <20250204202656.GL2296753@ziepe.ca>
+References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
+ <Z6CTLB2NggwYafi9@phenom.ffwll.local>
+ <1eaf66ba-b2d3-448f-938b-913f17ca98a4@redhat.com>
+ <20250204183933.GJ2296753@ziepe.ca>
+ <1d379007-97c3-4bb9-93da-1a828f955fc4@redhat.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
- physaddr conversion
-To: Asahi Lina <lina@asahilina.net>, Zi Yan <ziy@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>,
- Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, Wedson Almeida Filho
- <wedsonaf@gmail.com>, Valentin Obst <kernel@valentinobst.de>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
- Muchun Song <muchun.song@linux.dev>
-References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
- <Z6CTLB2NggwYafi9@phenom.ffwll.local>
- <41ca3445-80cd-43c1-8f9e-634c195c9187@asahilina.net>
- <37A0729B-A711-4D45-B9F0-328FDB9ADD28@nvidia.com>
- <0e19e1c3-293b-4740-93f3-2c410893288b@redhat.com>
- <82047858-480a-45e3-b826-3a46fbebe842@asahilina.net>
- <f1498b22-0bc1-489a-8c2c-35aa48c7fe7d@redhat.com>
- <1e9ae833-4293-4e48-83b2-c0af36cb3fdc@asahilina.net>
- <026c1a0c-e53a-4a5e-92da-6e4f18ce0fee@redhat.com>
- <cc1cd991-1871-4929-851e-d9672a45dcf0@asahilina.net>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
- 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
- rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
- wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
- 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
- pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
- KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
- BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
- 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
- 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
- M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
- boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
- 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
- XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
- a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
- Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
- 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
- kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
- th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
- jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <cc1cd991-1871-4929-851e-d9672a45dcf0@asahilina.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: S9_-f2LfGEGZvklBftvActVB9ZKlHA9fRPqHK-hIrhA_1738699826
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d379007-97c3-4bb9-93da-1a828f955fc4@redhat.com>
 
-On 04.02.25 18:59, Asahi Lina wrote:
-> On 2/4/25 11:38 PM, David Hildenbrand wrote:
->>>>> If the answer is "no" then that's fine. It's still an unsafe function
->>>>> and we need to document in the safety section that it should only be
->>>>> used for memory that is either known to be allocated and pinned and
->>>>> will
->>>>> not be freed while the `struct page` is borrowed, or memory that is
->>>>> reserved and not owned by the buddy allocator, so in practice correct
->>>>> use would not be racy with memory hot-remove anyway.
->>>>>
->>>>> This is already the case for the drm/asahi use case, where the pfns
->>>>> looked up will only ever be one of:
->>>>>
->>>>> - GEM objects that are mapped to the GPU and whose physical pages are
->>>>> therefore pinned (and the VM is locked while this happens so the
->>>>> objects
->>>>> cannot become unpinned out from under the running code),
->>>>
->>>> How exactly are these pages pinned/obtained?
->>>
->>> Under the hood it's shmem. For pinning, it winds up at
->>> `drm_gem_get_pages()`, which I think does a `shmem_read_folio_gfp()` on
->>> a mapping set as unevictable.
->>
->> Thanks. So we grab another folio reference via shmem_read_folio_gfp()-
->>> shmem_get_folio_gfp().
->>
->> Hm, I wonder if we might end up holding folios residing in ZONE_MOVABLE/
->> MIGRATE_CMA longer than we should.
->>
->> Compared to memfd_pin_folios(), which simulates FOLL_LONGTERM and makes
->> sure to migrate pages out of ZONE_MOVABLE/MIGRATE_CMA.
->>
->> But that's a different discussion, just pointing it out, maybe I'm
->> missing something :)
-> 
-> I think this is a little over my head. Though I only just realized that
-> we seem to be keeping the GEM objects pinned forever, even after unmap,
-> in the drm-shmem core API (I see no drm-shmem entry point that would
-> allow the sgt to be freed and its corresponding pages ref to be dropped,
-> other than a purge of purgeable objects or final destruction of the
-> object). I'll poke around since this feels wrong, I thought we were
-> supposed to be able to have shrinker support for swapping out whole GPU
-> VMs in the modern GPU MM model, but I guess there's no implementation of
-> that for gem-shmem drivers yet...?
+On Tue, Feb 04, 2025 at 09:05:47PM +0100, David Hildenbrand wrote:
+> Fully agreed, this is going into the right direction. Dumping what's mapped
+> is a different story. Maybe that dumping logic could simply be written in C
+> for the time being?
 
-I recall that shrinker as well, ... or at least a discussion around it.
+?
 
-[...]
+Isn't dumping just a
+  decode pte -> phys_to_virt() -> for_each_u64(virt) -> printk?
 
->>
->> If it's only for crash dumps etc. that might even be opt-in, it makes
->> the whole thing a lot less scary. Maybe this could be opt-in somewhere,
->> to "unlock" this interface? Just an idea.
-> 
-> Just to make sure we're on the same page, I don't think there's anything
-> to unlock in the Rust abstraction side (this series). At the end of the
-> day, if nothing else, the unchecked interface (which the regular
-> non-crash page table management code uses for performance) will let you
-> use any pfn you want, it's up to documentation and human review to
-> specify how it should be used by drivers. What Rust gives us here is the
-> mandatory `unsafe {}`, so any attempts to use this API will necessarily
-> stick out during review as potentially dangerous code that needs extra
-> scrutiny.
-> 
-> For the client driver itself, I could gate the devcoredump stuff behind
-> a module parameter or something... but I don't think it's really worth
-> it. We don't have a way to reboot the firmware or recover from this
-> condition (platform limitations), so end users are stuck rebooting to
-> get back a usable machine anyway. If something goes wrong in the
-> crashdump code and the machine oopses or locks up worse... it doesn't
-> really make much of a difference for normal end users. I don't think
-> this will ever really happen given the constraints I described, but if
-> somehow it does (some other bug somewhere?), well... the machine was
-> already in an unrecoverable state anyway.
-> 
-> It would be nice to have userspace tooling deployed by default that
-> saves off the devcoredump somewhere, so we can have a chance at
-> debugging hard-to-hit firmware crashes... if it's opt-in, it would only
-> really be useful for developers and CI machines.
+If you can populate the page table in rust you have to be able to dump
+it, surely.
 
-Is this something that possibly kdump can save or analyze? Because that 
-is our default "oops, kernel crashed, let's dump the old content so we 
-can dump it" mechanism on production systems.
+Or do you mean trying to decode the leaf entires into some struct page
+detail? Does a GPU need to do that? Agree that would be better as some
+C function to take in a KVA instead of a struct page and populate a
+string with details about that KVA from the struct page.
 
-but ... I am not familiar with devcoredump. So I don't know when/how it 
-runs, and if the source system is still alive (and remains alive --  in 
-contrast to a kernel crash).
-
--- 
-Cheers,
-
-David / dhildenb
-
+Jason
