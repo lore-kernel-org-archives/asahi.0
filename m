@@ -1,40 +1,73 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8C92010F5
-	for <asahi@lists.linux.dev>; Tue,  4 Feb 2025 19:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E722219A74
+	for <asahi@lists.linux.dev>; Tue,  4 Feb 2025 20:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738695672; cv=none; b=anEoxBHoPeAd/KGLPTedrYBu3ENEToF8qDx9i95L9ZuuhuNjVRh/MbAY6bfSQPo0SnczdgE8flSvFsmZYUBtU4b/jGNRbM7sYS+5n5W2fRBOU8gazj225wHOBuKDsXadGidus5SxBdYvPKhmCCW7sA3xhD/u590WWrIkKvfcPyQ=
+	t=1738699559; cv=none; b=b2k3TwfkwB3kdvfZ02evHoLFVLXVkQnQLwCYCEtIJJPBAs2G5hv8dJHsWtuhtZmRnFRi+oLw4Vxkr+DeLDJ1LM98cefaERslU/ylmSE0mz/k1KvgvhokOHgihgYjGPoouRBGVF+b4aenZGOcBcd1hwM9ObgNeyqWuxlUJOOwBEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738695672; c=relaxed/simple;
-	bh=j1HluQu+SfdI+WQgxoy9vEPWh80MpLWIZgMzLSmRvYY=;
+	s=arc-20240116; t=1738699559; c=relaxed/simple;
+	bh=/olLaUo61/eZQsJ3+p1Up6SF1K9ByqVJ2cIpCv1f7rk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s057l2SopMksfT0nBDyasFHPVb/v6HE5h/dkGzHvnRmLI+uLDjDmtLMRCeYvmAyLFq3hqM6nMHkxBLrBqekjiRqAgDZgFz85h6dc9JPWKYWp11WMIRSAH/8VpEd/FpgzAGBvdXmaYrsSOfFls8Ky6vtzqxjeJ4aOOVJeAtdiYY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=D+MPcFU6; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	 In-Reply-To:Content-Type; b=bKb0HCsj5CHPYU1u9+2pDKkjHyoFO5KC3NNM+jiilnWxtuarXveXyd5t4olqFV4MSaMB7p1pYBHe97K9pV60K04XjrMxLEIvBrnR8b3yHbBKAZeYe0jOMJlEe+eK1/xfGG23j0sRBeBoF5FkYsuJrBn2nUUIxBSdT5Srnvd4ys0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DAW2F0zj; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="D+MPcFU6"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 74ACC4331F;
-	Tue,  4 Feb 2025 19:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1738695664;
-	bh=j1HluQu+SfdI+WQgxoy9vEPWh80MpLWIZgMzLSmRvYY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=D+MPcFU6p7Oo9Mj2A5QSdzn1y0txF2ESXFgZr9fCpXslAfcOiJWqRv4V4SEEJVOdp
-	 Snd0CK4TdO1U/Hi8JyMT6pzpxto8YIbGDbZAcbXUCbkw9afGkdU45x8wx5vm3iK/yA
-	 p2KQISHYMO4KSpY/Vihk5csasR741Txi+1AlcYIEyvZ+qcF7Ka7qgGylGx2ElaliIs
-	 jSbP8IGjGuMCH3uzs5PCfmZra3uMXrBCF2QG5JwJ7EWwnajzRnXsNBVSWsK/uKUqMb
-	 hYDSZdgqjaSr9ggJhpZqsbcYaE3P7EBg8lJQpClqAGvZTZ7RIC6+16BktEzYyXw6Co
-	 otXaMNP5KhvQA==
-Message-ID: <7253bfc0-9a49-4d0e-a7de-43069e6b2e5f@asahilina.net>
-Date: Wed, 5 Feb 2025 04:01:00 +0900
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DAW2F0zj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738699556;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=TG0VBOjtwhIY69XdWI0075eMKEZV/1x1lm+RtT6Fsec=;
+	b=DAW2F0zj42wM6g5f2x5pcK5YgUEo1ZK7zyiND8CXNyyOVUZysZR2pTNxFv7gCZyMZigwTQ
+	QG3VA3IziXlF7nk7SR0q8oW/oi6oQyQBJ5Dvh02xhn/oHEc9RUQWZA8zmn8oV5gZ4J7S9E
+	HZRMaC1F1olE6K2CSIXb96CdRkx7eJQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-173-SXzgD-2tNjuRfrIDR_DPsA-1; Tue, 04 Feb 2025 15:05:51 -0500
+X-MC-Unique: SXzgD-2tNjuRfrIDR_DPsA-1
+X-Mimecast-MFC-AGG-ID: SXzgD-2tNjuRfrIDR_DPsA
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-438e4e9a53fso45376955e9.1
+        for <asahi@lists.linux.dev>; Tue, 04 Feb 2025 12:05:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738699550; x=1739304350;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TG0VBOjtwhIY69XdWI0075eMKEZV/1x1lm+RtT6Fsec=;
+        b=ddkTn/gVThIr2JPat+ZN+lRPBmdRmxQjsQ2x0F4nnBfzeFhPBhG4yb5MMgKYLWyb3R
+         2ddA9eOIoBYmS7qjTAwO6g9UWfPLrBd5LQLELQQJmD6+h48khiX0y4ekp6+ICy5nsWrC
+         LpL6RU1e2/559eOcxsiD1S/jlY2o1QxMqMLi5XuNL6hp4RGWIx1nZGFlYI7Cjz8HWGYf
+         KG3P8uOFmkJABOyB512bPa5C0qVaxyQhGdyKLJTtiDCYWLdeiSXuR6Mq7Vb+e2bLmeYW
+         mJMTQ9tresD38rjFYqb991sF6ffEN3zPI3mKnvvE/vmloyCZMblBTWnB1HoAxCw1SJSy
+         xgDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWbDSniAh27tMd8nzd9lFFsJx2VvrLmlsGAl3/4jnSNCpFTkJq4YZGqJXf/GwSSEgPrXzqQgg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIzhDozMOQEUBIeUFUR5Oi3eCpb6AimVstvxiwCldSiYM+XxE7
+	WhVJi+7BS6SesWds/d75eMBilGjrkr4p8ntP7lGyuZFBqjAk7zoXDDyaof+9qRZwTDkS8sEfHwJ
+	zlJc4c+aTkycY/msiVi2/cWE6vDUpbQGhwozO8AIdXvyjQudTpCuK
+X-Gm-Gg: ASbGncsiIUwI4wylC9NTLGnprdeAdZRlM+Uj+UwHkUQ3kugdFtGiATZ93QC9Fg9ojdq
+	zY8rXNyJmz/kMskg+koKtFBGfHaSO3E0rfZmtwb3l4XNjxzymkjgMyL7IfD6nr6tH1dWyg95KtL
+	A7aCkXh+vMpoQ+2PLkmlKJPbSCG8Xup4LPJ7JGUbJwIpCqSfyegU5rYTk/XQbRv1BaCjq8zAfjf
+	Vr0NSKLZYZstg4xlBeDM6dYf8QgISZxMFM2ogPDDAOEF+JU2luraZ32ouJFrL7cwqz0an2EXj5g
+	Sg8JVnXHWO4OnpD3SLo/AUOVGYDCtYn2PD7YZW2GFTe5SvJ+meBWYS1FFSCm8ai9ONHJYpUJFei
+	qbu0wc1zEWObmVlfdqPgylkx5EzM=
+X-Received: by 2002:a05:600c:1c1e:b0:432:7c08:d0ff with SMTP id 5b1f17b1804b1-438dc40b8e6mr219447615e9.23.1738699550204;
+        Tue, 04 Feb 2025 12:05:50 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHl0e1PfrO/acX8KQ8HrvISVvYQxN7zWLjFZBtvwxXbc2Stz1EA3DpEu6vsB8sdtfjDtXs5tw==
+X-Received: by 2002:a05:600c:1c1e:b0:432:7c08:d0ff with SMTP id 5b1f17b1804b1-438dc40b8e6mr219447295e9.23.1738699549830;
+        Tue, 04 Feb 2025 12:05:49 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70a:300:3ae1:c3c0:cef:8413? (p200300cbc70a03003ae1c3c00cef8413.dip0.t-ipconnect.de. [2003:cb:c70a:300:3ae1:c3c0:cef:8413])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc80e61sm239135565e9.34.2025.02.04.12.05.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Feb 2025 12:05:49 -0800 (PST)
+Message-ID: <1d379007-97c3-4bb9-93da-1a828f955fc4@redhat.com>
+Date: Tue, 4 Feb 2025 21:05:47 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -44,11 +77,11 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
  physaddr conversion
-To: Jason Gunthorpe <jgg@ziepe.ca>, David Hildenbrand <david@redhat.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
  Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
  Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>,
  Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -62,15 +95,61 @@ References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
  <Z6CTLB2NggwYafi9@phenom.ffwll.local>
  <1eaf66ba-b2d3-448f-938b-913f17ca98a4@redhat.com>
  <20250204183933.GJ2296753@ziepe.ca>
-Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
 In-Reply-To: <20250204183933.GJ2296753@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: CBhyC7dakWxJ_H0K90y_EBiEq4jOY7xd3C5N3FztD18_1738699550
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 2/5/25 3:39 AM, Jason Gunthorpe wrote:
+On 04.02.25 19:39, Jason Gunthorpe wrote:
 > On Tue, Feb 04, 2025 at 11:33:24AM +0100, David Hildenbrand wrote:
 >> On 03.02.25 10:58, Simona Vetter wrote:
 >>> On Sun, Feb 02, 2025 at 10:05:42PM +0900, Asahi Lina wrote:
@@ -125,35 +204,12 @@ On 2/5/25 3:39 AM, Jason Gunthorpe wrote:
 > Drivers should not be exposing or touching struct page just to
 > implement a page table.
 
-iommu-pages.h looks like a private API internal to drivers/iommu. Is
-there a plan to move that out so it can be used by non-iommu drivers?
+Fully agreed, this is going into the right direction. Dumping what's 
+mapped is a different story. Maybe that dumping logic could simply be 
+written in C for the time being?
 
-If you think I should just use kmalloc, then I guess I could literally
-just use KBox<PageTable> where PageTable is just a wrapper around [u64;
-PTES_PER_PAGE] with an alignment attribute, or something like that. I
-guess then just virt_to_phys() and back for the PTEs? So we still need
-to add at least trivial wrappers to export those for Rust drivers to use.
+-- 
+Cheers,
 
-I still need to be able to grab pointers to leaf pages for the crashdump
-page table walker code though, and I want to keep the pfn and memory
-type checks to make sure it won't crash trying to dereference the page
-contents. So we also still need those too.
-
-I'm not entirely sure what a higher-level Rust abstraction for this
-looks like at this point, or whether it makes sense at all instead of
-just trivially wrapping the C helpers... I don't particularly mind just
-writing this part of the driver code "like C" (it's pretty much the
-lowest-level bit of code in the driver anyway) but I guess we have to do
-some thinking here.
-
-Maybe this is one of those cases where we just do it ad-hoc for now, and
-wait until a second driver that needs to implement page tables comes
-around and we figure out what can be shared then, and what the API
-should look like.
-
-Hmm, starting to think maybe these should literally be impls on the
-address types (PhysicalAddr::to_pfn(), PhysicalAddr::to_virt(), etc.).
-Though that won't work without newtyping everything, but maybe we should?
-
-~~ Lina
+David / dhildenb
 
