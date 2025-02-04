@@ -1,40 +1,40 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A69F202C39
-	for <asahi@lists.linux.dev>; Tue,  4 Feb 2025 11:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304B720B1EC
+	for <asahi@lists.linux.dev>; Tue,  4 Feb 2025 11:50:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738669444; cv=none; b=LcBA3FIXkQEGLvSNvkebF1cW5guwdOTLEaXmegHL0GjZvmIQlVyn1UWO6yrm4ZB1xqzQMf+puyOJmKMOzINYnG+V/3Qd34UBd16sXV5zu94D6DqEGbkO2f7wv+s6uvxQmDoaS8ahBnpxmKDbV2odfrN9bx7aiv73ZOhenku4chY=
+	t=1738669824; cv=none; b=FFXZYXilPPeg4XF06HpOxMqM7e8+KHRgTHJ/iNL1TE9wC5DXl/tbyE92od2vwrNKIBkp8KFI63TRtUB+ulyK2ye+A5x+pKWcIXFfWFxsgW/8SEDKgUT9ivP/5RxZAME0J2qDaAh6ZWj78Ynpk3atzN6GBVTqaoVvU365ruQgTlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738669444; c=relaxed/simple;
-	bh=/F/9xibC0lRtfjQqqtMiCSlXX6j4n6Vdw/S7nmMVlaA=;
+	s=arc-20240116; t=1738669824; c=relaxed/simple;
+	bh=mQbQ2uNB03ZheDQ+0nud+bkQdw5vLiAPIUojJBlYWn0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kTaTW5lefJjcshjPyBEJslkpZnQBc4dX+8/KkuzYbHRWXSK4GAkdpRVMuCe7MVZvqadK/VUu2oLLzp6q0OQ8/gjW08qVutAa3WnIrkhwnygtLmkl3DKRw/CkjlnirPU8lK3DDsAz7kKjLgKFDjdCqBJIyatKICqkxX+dzRjCFf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=XxCoVoGC; arc=none smtp.client-ip=212.63.210.85
+	 In-Reply-To:Content-Type; b=u+b+csh6/tijIUsRYxyWbciYO4GBfi+S+ygY1qb3wl6BhDc79YlUxjNgZFt092xQ3893hkmj/l5/o93g6InkJWbjJGm8L4V0hk8j2S5mNL3ns/KR/1hJ98k6ERV99BcX3n6lE4CKcwEcG1ZrScLtknAiYKR+uK2MeRQWwFSkqAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=UpP6qAhQ; arc=none smtp.client-ip=212.63.210.85
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="XxCoVoGC"
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="UpP6qAhQ"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 274C8431CA;
-	Tue,  4 Feb 2025 11:43:58 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 20C0E42E70;
+	Tue,  4 Feb 2025 11:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1738669440;
-	bh=/F/9xibC0lRtfjQqqtMiCSlXX6j4n6Vdw/S7nmMVlaA=;
+	s=default; t=1738669820;
+	bh=mQbQ2uNB03ZheDQ+0nud+bkQdw5vLiAPIUojJBlYWn0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XxCoVoGC8Rb0Dpe/lvOUlgAlE4LvivGAMAazZeHLZWkg5irGrpVKJ/sKTJmIXpkiM
-	 ARYrTMYtea0lOb/VLDkjfjN82tR9TZhZrZBPSVaNlzEKleIPCkyj7nXCHCr7xxT7hx
-	 y0+lFcg4xVfcwmMDOzC8QBXwy3DYL/gvKiUBzF8TZOqXGlKYMtze1H4lPFSrUd6kJG
-	 SqR3tR/9Q5l4K0TGHbWey0KJes5tTrxMbE4UVSqmtpXE572tqSBTuoWT5e6JlUv41r
-	 f2BCi8QC/FvaIY4v2ooZDiMcjMV06UGLRazRVhFMC1u/8jiogEsc4Fx8p2/mUVfnXh
-	 fzSUoXdHyhajQ==
-Message-ID: <c30d12dd-4489-4f6a-b40f-4afa9e0c807f@asahilina.net>
-Date: Tue, 4 Feb 2025 20:43:57 +0900
+	b=UpP6qAhQLqeveWyfHJ0rOPqELWItz2HA4hFMYJibz0g/QJhx8wbZOlJ5ihfGclVnP
+	 +EeEW5rI/CAzWCxk+GG8Yli/Ut0qfq0yj7BYWw5sciHFyAvpBmPxJPHVUx00fQBu7a
+	 z09X+pSv/fR17qJRdhbgzkuX3ZSR9MC8IYnMSIfxtFWHda1olUTMh9b+DXQxmm1IfT
+	 PUZd+tWwwhQb/kZs2oDuEv+Mq69+SBQEYBko/kdbRgM+fz3eSHd1dNKs7c/7DDdT/L
+	 imx5k3GDl4p1dau1w7pTP6LlJ575tvzZpjngUWvB4c5cIRNzRgcFvEfJ4SsJDYaF0R
+	 1+V9lEkAvZKeg==
+Message-ID: <8f098064-d2d5-4a02-8306-0a3d31557bab@asahilina.net>
+Date: Tue, 4 Feb 2025 20:50:17 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -42,213 +42,107 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] rust: page: Add physical address conversion functions
-To: Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [PATCH 4/6] rust: addr: Add a module to declare core address
+ types
+To: Boqun Feng <boqun.feng@gmail.com>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Valentin Obst <kernel@valentinobst.de>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, Wedson Almeida Filho
+ <wedsonaf@gmail.com>, Valentin Obst <kernel@valentinobst.de>,
  Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
  airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev
 References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
- <20250202-rust-page-v1-5-e3170d7fe55e@asahilina.net>
- <CAH5fLgiRC3RHfF+2xH+7Ek+FkXDDDpZopqo-Q20VhkWhTk16Wg@mail.gmail.com>
+ <20250202-rust-page-v1-4-e3170d7fe55e@asahilina.net>
+ <Z6Da4XV5hcTfBiNH@tardis.local>
 Content-Language: en-US
 From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <CAH5fLgiRC3RHfF+2xH+7Ek+FkXDDDpZopqo-Q20VhkWhTk16Wg@mail.gmail.com>
+In-Reply-To: <Z6Da4XV5hcTfBiNH@tardis.local>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 2/3/25 6:35 PM, Alice Ryhl wrote:
-> On Sun, Feb 2, 2025 at 2:06 PM Asahi Lina <lina@asahilina.net> wrote:
->>
->> Add methods to allow code using the Page type to obtain the physical
->> address of a page, convert to and from an (owned) physical address, and
->> borrow a Page from a physical address. Most of these operations are, as
->> you might expect, unsafe.
->>
->> These primitives are useful to implement page table structures in Rust,
->> and to implement arbitrary physical memory access (as needed to walk
->> arbitrary page tables and dereference through them). These mechanisms
->> are, of course, fraught with danger, and are only expected to be used
->> for core memory management code (in e.g. drivers with their own device
->> page table implementations) and for debug features such as crash dumps
->> of device memory.
+On 2/4/25 12:04 AM, Boqun Feng wrote:
+> On Sun, Feb 02, 2025 at 10:05:46PM +0900, Asahi Lina wrote:
+>> Encapsulates the core physical/DMA address types, so they can be used by
+>> Rust abstractions.
 >>
 >> Signed-off-by: Asahi Lina <lina@asahilina.net>
 >> ---
->>  rust/helpers/page.c | 26 +++++++++++++++++++++
->>  rust/kernel/page.rs | 65 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->>  2 files changed, 91 insertions(+)
+>>  rust/kernel/addr.rs | 15 +++++++++++++++
+>>  rust/kernel/lib.rs  |  1 +
+>>  2 files changed, 16 insertions(+)
 >>
->> diff --git a/rust/helpers/page.c b/rust/helpers/page.c
->> index b3f2b8fbf87fc9aa89cb1636736c52be16411301..1c3bd68818d77f7ce7806329b8f040a7d4205bb3 100644
->> --- a/rust/helpers/page.c
->> +++ b/rust/helpers/page.c
->> @@ -1,5 +1,6 @@
->>  // SPDX-License-Identifier: GPL-2.0
->>
->> +#include <linux/io.h>
->>  #include <linux/gfp.h>
->>  #include <linux/highmem.h>
->>
->> @@ -17,3 +18,28 @@ void rust_helper_kunmap_local(const void *addr)
->>  {
->>         kunmap_local(addr);
->>  }
+>> diff --git a/rust/kernel/addr.rs b/rust/kernel/addr.rs
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..06aff10a0332355597060c5518d7fd6e114cf630
+>> --- /dev/null
+>> +++ b/rust/kernel/addr.rs
+>> @@ -0,0 +1,15 @@
+>> +// SPDX-License-Identifier: GPL-2.0
 >> +
->> +struct page *rust_helper_phys_to_page(phys_addr_t phys)
->> +{
->> +       return phys_to_page(phys);
->> +}
+>> +//! Kernel core address types.
 >> +
->> +phys_addr_t rust_helper_page_to_phys(struct page *page)
->> +{
->> +       return page_to_phys(page);
->> +}
->> +
->> +unsigned long rust_helper_phys_to_pfn(phys_addr_t phys)
->> +{
->> +       return __phys_to_pfn(phys);
->> +}
->> +
->> +struct page *rust_helper_pfn_to_page(unsigned long pfn)
->> +{
->> +       return pfn_to_page(pfn);
->> +}
->> +
->> +bool rust_helper_pfn_valid(unsigned long pfn)
->> +{
->> +       return pfn_valid(pfn);
->> +}
->> diff --git a/rust/kernel/page.rs b/rust/kernel/page.rs
->> index fe5f879f9d1a86083fd55c682fad9d52466f79a2..67cd7006fa63ab5aed4c4de2be639ed8e1fbc2ba 100644
->> --- a/rust/kernel/page.rs
->> +++ b/rust/kernel/page.rs
->> @@ -3,6 +3,7 @@
->>  //! Kernel page allocation and management.
->>
->>  use crate::{
->> +    addr::*,
->>      alloc::{AllocError, Flags},
->>      bindings,
->>      error::code::*,
->> @@ -10,6 +11,7 @@
->>      types::{Opaque, Ownable, Owned},
->>      uaccess::UserSliceReader,
->>  };
->> +use core::mem::ManuallyDrop;
->>  use core::ptr::{self, NonNull};
->>
->>  /// A bitwise shift for the page size.
->> @@ -249,6 +251,69 @@ pub unsafe fn copy_from_user_slice_raw(
->>              reader.read_raw(unsafe { core::slice::from_raw_parts_mut(dst.cast(), len) })
->>          })
->>      }
->> +
->> +    /// Returns the physical address of this page.
->> +    pub fn phys(&self) -> PhysicalAddr {
->> +        // SAFETY: `page` is valid due to the type invariants on `Page`.
->> +        unsafe { bindings::page_to_phys(self.as_ptr()) }
->> +    }
->> +
->> +    /// Converts a Rust-owned Page into its physical address.
->> +    ///
->> +    /// The caller is responsible for calling [`Page::from_phys()`] to avoid leaking memory.
->> +    pub fn into_phys(this: Owned<Self>) -> PhysicalAddr {
->> +        ManuallyDrop::new(this).phys()
->> +    }
->> +
->> +    /// Converts a physical address to a Rust-owned Page.
->> +    ///
->> +    /// # Safety
->> +    /// The caller must ensure that the physical address was previously returned by a call to
->> +    /// [`Page::into_phys()`], and that the physical address is no longer used after this call,
->> +    /// nor is [`Page::from_phys()`] called again on it.
->> +    pub unsafe fn from_phys(phys: PhysicalAddr) -> Owned<Self> {
->> +        // SAFETY: By the safety requirements, the physical address must be valid and
->> +        // have come from `into_phys()`, so phys_to_page() cannot fail and
->> +        // must return the original struct page pointer.
->> +        unsafe { Owned::from_raw(NonNull::new_unchecked(bindings::phys_to_page(phys)).cast()) }
->> +    }
->> +
->> +    /// Borrows a Page from a physical address, without taking over ownership.
->> +    ///
->> +    /// If the physical address does not have a `struct page` entry or is not
->> +    /// part of a System RAM region, returns None.
->> +    ///
->> +    /// # Safety
->> +    /// The caller must ensure that the physical address, if it is backed by a `struct page`,
->> +    /// remains available for the duration of the borrowed lifetime.
->> +    pub unsafe fn borrow_phys(phys: &PhysicalAddr) -> Option<&Self> {
->> +        // SAFETY: This is always safe, as it is just arithmetic
->> +        let pfn = unsafe { bindings::phys_to_pfn(*phys) };
->> +        // SAFETY: This function is safe to call with any pfn
->> +        if !unsafe { bindings::pfn_valid(pfn) && bindings::page_is_ram(pfn) != 0 } {
->> +            None
->> +        } else {
->> +            // SAFETY: We have just checked that the pfn is valid above, so it must
->> +            // have a corresponding struct page. By the safety requirements, we can
->> +            // return a borrowed reference to it.
->> +            Some(unsafe { &*(bindings::pfn_to_page(pfn) as *mut Self as *const Self) })
->> +        }
->> +    }
->> +
->> +    /// Borrows a Page from a physical address, without taking over ownership
->> +    /// nor checking for validity.
->> +    ///
->> +    /// # Safety
->> +    /// The caller must ensure that the physical address is backed by a `struct page` and
->> +    /// corresponds to System RAM. This is true when the address was returned by
->> +    /// [`Page::into_phys()`].
->> +    pub unsafe fn borrow_phys_unchecked(phys: &PhysicalAddr) -> &Self {
+>> +use bindings;
+>> +use core::ffi;
 > 
-> Should this be
+> I think we should use crate::ffi here. See:
 > 
-> pub unsafe fn borrow_phys_unchecked<'a>(phys: PhysicalAddr) -> &'a Self
+> 	d072acda4862 "rust: use custom FFI integer types"
 > 
-> ? That's how the signature of these raw methods usually goes, and then
-> your safety requirements say that the requirements must hold for the
-> duration of 'a.
+>> +
+>> +/// A physical memory address (which may be wider than the CPU pointer size)
+>> +pub type PhysicalAddr = bindings::phys_addr_t;
+>> +/// A DMA memory address (which may be narrower than `PhysicalAddr` on some systems)
+>> +pub type DmaAddr = bindings::dma_addr_t;
+>> +/// A physical resource size, typically the same width as `PhysicalAddr`
+>> +pub type ResourceSize = bindings::resource_size_t;
+>> +/// A raw page frame number, not to be confused with the C `pfn_t` which also encodes flags.
+>> +pub type Pfn = ffi::c_ulong;
+>> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+>> index e1065a7551a39e68d6379031d80d4be336e652a3..eb1a80ba8ff83ab2d1b3b1d11fed4fb704c7a4f5 100644
+>> --- a/rust/kernel/lib.rs
+>> +++ b/rust/kernel/lib.rs
+>> @@ -29,6 +29,7 @@
+>>  
+>>  pub use ffi;
+>>  
+>> +pub mod addr;
+> 
+> I want to share my worry on this `pub mod` list in kernel/lib.rs may get
+> too long ;-)
+> 
+> I was about to suggest putting `addr` and `page` into `mm` after Alice's
+> patchset merged, however, seems that `mm` mod only cover userspace
+> memory management (which is not my impression of what "mm" in kernel
+> development), thoughts? Alice, do you think we should extend `mm` mod to
+> contain all memory management mods?
 
-The idea was to have *some* lifetime bound on an incoming variable
-instead of just being able to return any arbitrary lifetime, but I don't
-know if that's something worth doing / idiomatic in any way. Obviously
-we can't stop a caller from doing something wrong if they really want to.
+I think in kernel-speak "mm" is usually userspace memory management and
+kernel page allocation and memory management, but doesn't include device
+stuff (I/O ranges, DMA, etc.) or the low-level concepts of memory in an
+architecture. The types I declare here are more relevant to device/arch
+code, so I don't think they really belong under "mm", it's more general
+(mm deals with them and so do other parts of the kernel code).
+
+On the other hand, I think page.rs itself would fit under mm, since it
+deals with the kernel mm's idea of pages and their allocation.
 
 > 
->> +        // SAFETY: This is always safe, as it is just arithmetic
->> +        let pfn = unsafe { bindings::phys_to_pfn(*phys) };
->> +        // SAFETY: The caller guarantees that the pfn is valid. By the safety
->> +        // requirements, we can return a borrowed reference to it.
->> +        unsafe { &*(bindings::pfn_to_page(pfn) as *mut Self as *const Self) }
+> Regards,
+> Boqun
 > 
-> Can this just be
-> 
-> &*bindings::pfn_to_page(pfn).cast()
-
-Yeah, I'll fix it for v2!
-
-> 
-> ?
-> 
-> Alice
-> 
->> +    }
->>  }
+>>  pub mod alloc;
+>>  #[cfg(CONFIG_BLOCK)]
+>>  pub mod block;
 >>
->>  // SAFETY: `Owned<Page>` objects returned by Page::alloc_page() follow the requirements of
->>
->> --
+>> -- 
 >> 2.47.1
 >>
 > 
