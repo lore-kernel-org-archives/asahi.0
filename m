@@ -1,95 +1,161 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E7F81DC9AF;
-	Wed,  5 Feb 2025 16:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E6C19258B;
+	Wed,  5 Feb 2025 16:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738771871; cv=none; b=RvGFmaR9FP/xsm82zx/vRuibHdJedlDZOJ1X3r+knmS+ViLWHacmvK04+kxpGVJOzFYa72ywuWbAsjjUzilcr8an7yZB2VSngDEhz5zi67RGOIjMR01M9vByD50/4Ugq971RnXZOIl+NykBxq7YDdocFfAxGNCELdytUu1uL2bE=
+	t=1738772857; cv=none; b=ObcvdftuYTh3lDjEaYqXBx4HKCsUE5N3AE3DrWA0IDs2dY9qQMcN2gwUqjTu2XcBYCZPv129qQg3uhQWlQ5eUGumZEiQzbNUQtlt1CCP99ONFOdZQYa8KVtLtIins6C9IQMPaPq6W3Ag4Ij8K+ZuWtaLA3PMslUi7mL81NFFc8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738771871; c=relaxed/simple;
-	bh=d4LhsD3lA8sn51zkFNV/8GzLm09PHfYU4Wr+BwsY6hU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UH9NsC0rUhkOnm0Yzpu1ChreXV0DuiCVq+M+XgCNXzRGzmwPYPhJlRNtv6gC9lKs0IWQmkEKSnjTGjXjHwn0wP9FeiaLNPDyjmYiZOvHTSXl3/bURy7p+AMYVDGWdfGRp1bTZZBuqbICJV02NAn8F/8Pg4X5Fua2tUxO/srpJoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3605E1063;
-	Wed,  5 Feb 2025 08:11:31 -0800 (PST)
-Received: from [10.57.35.21] (unknown [10.57.35.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E6F3C3F58B;
-	Wed,  5 Feb 2025 08:11:01 -0800 (PST)
-Message-ID: <f8d73cd3-f85c-49c3-8b37-4eaad0255860@arm.com>
-Date: Wed, 5 Feb 2025 16:11:00 +0000
+	s=arc-20240116; t=1738772857; c=relaxed/simple;
+	bh=3WCeHKUquon5irHUJD4jzhZkUaSii5krx8N1K9lpJEs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=iL4IJRuDQ5X9rhjzlUtHnFrFFvEqI3ZHxTXvW2CNxqUipwszUmcG+KJfymdLW+SUlnhNubWxui4M7QpNMAgnJAQ33ne6vKJsLzgyZS4AkGOtE0A9BkJFDS5q3JU9DtMsqrpesv9j1E0o2ROusDZ6LhX44RWuqJEdikjwt+xjMRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MaKiVLR9; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MaKiVLR9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8D8DC4CED6;
+	Wed,  5 Feb 2025 16:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738772856;
+	bh=3WCeHKUquon5irHUJD4jzhZkUaSii5krx8N1K9lpJEs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=MaKiVLR9PJtglvsok8HHlCEQ/Jnjbm02RXX/B24BJszKAIPZwDu8Ud9y63AVE4IP0
+	 2uTBM+Q5JPJBqcs0FKeXg/wjdL5WMAhuJSmWk7+5Ywbj+AOgKWahLgTWKKu4t6rwKK
+	 43axh8nhSilU7w7de0UQr2eUwmbnm3Ji1MSHjwrZDBdVQattZOYovr52zz4wO0Qq9Y
+	 kRGPETu508cXiSPx5DJU3/WaWNGWXEnP6pk1GoRV3P92wvo69obSpL2wkvW1tPUAkQ
+	 G/zJEiPAB5J+1SiZ6tDL1tPFYfriPZUujLALrp8zHBn156ZQ1cWrEDCB48QAjPUkEh
+	 WRWsw04WJF7oQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96150C02192;
+	Wed,  5 Feb 2025 16:27:36 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Date: Wed, 05 Feb 2025 17:27:26 +0100
+Subject: [PATCH v6 1/4] dt-bindings: input: touchscreen: Add Z2 controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/19] iommu/amd: Use roundup_pow_two() instead of
- get_order()
-To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
- asahi@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>,
- iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Samuel Holland <samuel@sholland.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
- David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
-References: <16-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <16-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250205-z2-v6-1-cc60cbee1d5b@gmail.com>
+References: <20250205-z2-v6-0-cc60cbee1d5b@gmail.com>
+In-Reply-To: <20250205-z2-v6-0-cc60cbee1d5b@gmail.com>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Henrik Rydberg <rydberg@bitmath.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Neal Gompa <neal@gompa.dev>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738772855; l=2558;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=YsJBZIlUWueL847WfE8oTE2SBEqURcyodFewZWJ1ffc=;
+ b=P0nOwVrC2TEhvCSXsYluQLtg1ChRx6e4J/55HYolTaLijokWgUeudF/wkqncsKzx08uZ9+Ee8
+ Po7Rsn0zhnyD4vWdm4VMjQySuG+eYLX+6dno9UjoJPRyaGRSqpT1/Su
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On 2025-02-04 6:34 pm, Jason Gunthorpe wrote:
->    1 << (get_order(x) + PAGE_SHIFT) ==  roundup_pow_two()
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-...unless x < 2048, which does seem possible here if last_bdf is 
-sufficiently small. Not too significant in the cases where the result is 
-only rounded back up again for an allocation or remap anyway, but I do 
-wonder about the use of dev_table_size in iommu_set_device_table(), and 
-whether this change might break it, or whether it's already wrong for 
-that case and this might actually fix it...
+Add bindings for touchscreen controllers attached using the Z2 protocol.
+Those are present in most Apple devices.
 
-Thanks,
-Robin.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+ .../input/touchscreen/apple,z2-multitouch.yaml     | 70 ++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-> Use the shorter version.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   drivers/iommu/amd/init.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-> index f1c5041647173c..7d77929bc63af3 100644
-> --- a/drivers/iommu/amd/init.c
-> +++ b/drivers/iommu/amd/init.c
-> @@ -247,10 +247,7 @@ static void init_translation_status(struct amd_iommu *iommu)
->   
->   static inline unsigned long tbl_size(int entry_size, int last_bdf)
->   {
-> -	unsigned shift = PAGE_SHIFT +
-> -			 get_order((last_bdf + 1) * entry_size);
-> -
-> -	return 1UL << shift;
-> +	return roundup_pow_of_two((last_bdf + 1) * entry_size);
->   }
->   
->   int amd_iommu_get_num_iommus(void)
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..402ca6bffd3473a1a889ced7890e9836e6a76e45
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
+@@ -0,0 +1,70 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/apple,z2-multitouch.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple touchscreens attached using the Z2 protocol
++
++maintainers:
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description: A series of touschscreen controllers used in Apple products
++
++allOf:
++  - $ref: touchscreen.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - apple,j293-touchbar
++      - apple,j493-touchbar
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  firmware-name:
++    maxItems: 1
++
++  apple,z2-cal-blob:
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    maxItems: 4096
++    description:
++      Calibration blob supplied by the bootloader
++
++required:
++  - compatible
++  - interrupts
++  - reset-gpios
++  - firmware-name
++  - touchscreen-size-x
++  - touchscreen-size-y
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        touchscreen@0 {
++            compatible = "apple,j293-touchbar";
++            reg = <0>;
++            spi-max-frequency = <11500000>;
++            reset-gpios = <&pinctrl_ap 139 GPIO_ACTIVE_LOW>;
++            interrupts-extended = <&pinctrl_ap 194 IRQ_TYPE_EDGE_FALLING>;
++            firmware-name = "apple/dfrmtfw-j293.bin";
++            touchscreen-size-x = <23045>;
++            touchscreen-size-y = <640>;
++        };
++    };
++
++...
+
+-- 
+2.48.1
+
 
