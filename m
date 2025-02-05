@@ -1,133 +1,188 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FE42045B8
-	for <asahi@lists.linux.dev>; Tue,  4 Feb 2025 21:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E7125A649
+	for <asahi@lists.linux.dev>; Wed,  5 Feb 2025 07:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738703924; cv=none; b=UO56IiaAXlBFncp0gc8zcOeTdJRcmEERQ3L+mzdesJGW8tJ2S3mZuz7fmOJfDHvQ1arX4zaULjViqWFZzWI0FIdqUeDhBCvW6cUWSlHT2dHqQjFIh+VBdQCxnvwQc8/essQs9DMAqBoSELlZCa+zUVPO5F3i8OBAx2jeYWCeoM0=
+	t=1738741251; cv=none; b=UcY5olnMTG4/m4xu3avNG8Fb5ArSFY4KAOvuWVINGPId9rR341BpwLdXbK4be2D64kwhOnj04Ma0+RLvl240MC5RpFtLiNy9un1Y+FiouGROwsXLL5RE2o663KtD9l1fqjj7e/AiB1cRpGoVPjTgxua2Zf+esIqJ28ETPG9ha+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738703924; c=relaxed/simple;
-	bh=VfsLJGZBTaWPp/7dFr8cYv5uWLkZRbn9Nqa4s7PZ7Kg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u19Q+JsbnGan42u+2l+Man1qvQTjSkz8JwOBFkeja1K8RLlIGkAa3PKH0OBJbZkghX5W0onvoAJIdB79/KI3iEEJ89LYybm5RfalxVgeN0BsQAK90HJkiwboJkOiGB0VYWy5fWPJB4iQ92RSWTdbnmLbUGjgApfY0OxRawScRYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=VShY9U8B; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	s=arc-20240116; t=1738741251; c=relaxed/simple;
+	bh=dq8x78xFfxJcyFobGxSkBs6l3zBnCmYDFlTlCt5dNhc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ey+yXVtshSWse+tuIhEDZkNF9dfhCqoQGQ0GxTXhXFk7jQe7mo/qQKX4OP1xKlVnluYKF9+rpzOeRA7kvnBRVF8BPCzbibksoNO9mpf9EFTTSKxxOMdzTX4dzstA84njgi0PFu0jipTvZPLh/Wevl8153omO2g6tY1KM/57EjEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=FOS2/hms; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="VShY9U8B"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 157A243321;
-	Tue,  4 Feb 2025 21:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1738703920;
-	bh=VfsLJGZBTaWPp/7dFr8cYv5uWLkZRbn9Nqa4s7PZ7Kg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VShY9U8BYjAWJERpxnFG57enS9OV5Ua6HOQJ5bWQyzJU7y1o5BeNhoLQOjt4T6F31
-	 ySpglPhH0pMM5TF3j+sbo1H8CS9rRDUu/mv1wrZ65uhVbsY7fodlNTohTVj+0xDHF+
-	 GAAVq6q3RsTXn2Dgat1jrcQQJgllQEECzKcLAAiAItqgjpktGk6g9ap9R77JE2w0pc
-	 UDBTFE0O16E822vzc/vsO5AIhLvP52CuMShTOIJtVKK0O7uFPLNLDBPJG0bvhOEctB
-	 QDQOr34u0/12knjU93FSdp9aB3W47Pi2zeQWphvsFtNlZ1Qx7W3GcAaHWO2E//Q8mu
-	 FIrc0Ay7kO7sA==
-Message-ID: <f8d06a49-4154-42d2-99c9-f8d59d39ab9f@asahilina.net>
-Date: Wed, 5 Feb 2025 06:18:37 +0900
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="FOS2/hms"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361815b96cso44564875e9.1
+        for <asahi@lists.linux.dev>; Tue, 04 Feb 2025 23:40:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1738741248; x=1739346048; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ckp9FvO1OYcctyJmH0f9RK1zPC2wKkspGKnecKorEdQ=;
+        b=FOS2/hms6cUNwmJNGNgNxu6Z0bVzzzM5XwoXysgWr6G5G7cnJpIk+FCDvsu3DVCC+7
+         8/as5QdOaeRLXkFH3YHOW7FCp9GDahVVh2/nxLSPr9nBRWLtkb5lKw5vWIAAj1O+1A+U
+         CVDodnC+7RcnQXcWDNpfpnOWbq6Cp9MLaRdss=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738741248; x=1739346048;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ckp9FvO1OYcctyJmH0f9RK1zPC2wKkspGKnecKorEdQ=;
+        b=X/HlZ+a3/8s+56GhZbCspF0PFbZg88qXI6e0M45Lutpgf+btbqQclwPGY/tHQ00uyu
+         57FX0ErtQ69XIpkaQ/w8ZMcjU4e24aw594c5zqBzvVHzu1hJ7QAXfu27Y/a2sCnRyYqP
+         IZfK1fV+WtrA3+xJixWQ0NAS+NFE6/gUYIawvEYBgCNK6mdDjzxTp/nlF3aPKIhaDfDf
+         bmuiSEgwYcGK/LZ7QPPkfH69jSJUCtBHCvOFudk2lhVnQwjJW19viQQRH56C3x2oeqgM
+         SVUlK/gSTHFmdjnf5vkIGtNDXyHaEl3leJRPFy1DZRpx9TQe8uTTwafb13cQcSV6ENNl
+         AMyw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9xTfZobO8sXBRI+O3fxQnxFECcGz1+BBEv8haJ1NLoa9uuvWWcDj6eER9bG27zjq6Q4/KuQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxi0R3ICgUFnEF5B0RV28coDoGAclnrsPem7VCKXIkwNj70UFiu
+	Ab7OJZnZ2UroE2Nbev74WcrZBUxEEcH7MghCEr9PmXSofhGHTkyWtXomMX82EMw=
+X-Gm-Gg: ASbGnctwujMUTwqmnI06v4teR9pQuJ/2eP3LcqpV+cmNwJpSCTPwj90bMCxC0aui9kJ
+	6QSStedZgtQVVyYDgC7ecIxyemFm6Y7r7KiYXU5IvXF9ey35d804QxKpnMugEwoYy0eOBSMxVg4
+	zSuM7L1CvxhMk6HOYckP31m4J0WnG1kN0XbHYhEZLFR1mr1EkcByaFWcYsnKCWuDL+qskCjidAi
+	uuqI1sNFIQjjTsSeAyDRi3ggbRFhV++nX2ppKGOdZ4/hYAt/XNGQmP8FiZsuOOfqv+Nz85qodjs
+	0kxCpn/6HswxNATaxlNVYpp/Oeo=
+X-Google-Smtp-Source: AGHT+IG9wKRslTcLxM9q7tpMRQI/mhbwKzUGyEOxhppyXztbkL0YRlXLXEUw54yO2pT5NLjqWPcDZQ==
+X-Received: by 2002:a05:600c:1d1e:b0:436:faeb:2a1b with SMTP id 5b1f17b1804b1-4390d43e579mr9940605e9.13.1738741247972;
+        Tue, 04 Feb 2025 23:40:47 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390d933a4bsm12876465e9.6.2025.02.04.23.40.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 23:40:47 -0800 (PST)
+Date: Wed, 5 Feb 2025 08:40:45 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: David Hildenbrand <david@redhat.com>
+Cc: Asahi Lina <lina@asahilina.net>, Zi Yan <ziy@nvidia.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Valentin Obst <kernel@valentinobst.de>,
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
+	Muchun Song <muchun.song@linux.dev>
+Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
+ physaddr conversion
+Message-ID: <Z6MV_Y9WRdlBYeRs@phenom.ffwll.local>
+Mail-Followup-To: David Hildenbrand <david@redhat.com>,
+	Asahi Lina <lina@asahilina.net>, Zi Yan <ziy@nvidia.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Valentin Obst <kernel@valentinobst.de>,
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
+	Muchun Song <muchun.song@linux.dev>
+References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
+ <Z6CTLB2NggwYafi9@phenom.ffwll.local>
+ <41ca3445-80cd-43c1-8f9e-634c195c9187@asahilina.net>
+ <37A0729B-A711-4D45-B9F0-328FDB9ADD28@nvidia.com>
+ <0e19e1c3-293b-4740-93f3-2c410893288b@redhat.com>
+ <82047858-480a-45e3-b826-3a46fbebe842@asahilina.net>
+ <f1498b22-0bc1-489a-8c2c-35aa48c7fe7d@redhat.com>
+ <1e9ae833-4293-4e48-83b2-c0af36cb3fdc@asahilina.net>
+ <026c1a0c-e53a-4a5e-92da-6e4f18ce0fee@redhat.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
- physaddr conversion
-To: David Hildenbrand <david@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>,
- Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, Wedson Almeida Filho
- <wedsonaf@gmail.com>, Valentin Obst <kernel@valentinobst.de>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
- <Z6CTLB2NggwYafi9@phenom.ffwll.local>
- <1eaf66ba-b2d3-448f-938b-913f17ca98a4@redhat.com>
- <20250204183933.GJ2296753@ziepe.ca>
- <1d379007-97c3-4bb9-93da-1a828f955fc4@redhat.com>
- <20250204202656.GL2296753@ziepe.ca>
- <08ce9562-9ded-4d95-a495-b60f90d75490@redhat.com>
- <c4c39ea5-3602-4b92-9ffd-af33e122538d@redhat.com>
-Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <c4c39ea5-3602-4b92-9ffd-af33e122538d@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <026c1a0c-e53a-4a5e-92da-6e4f18ce0fee@redhat.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 
-
-
-On 2/5/25 5:47 AM, David Hildenbrand wrote:
-> On 04.02.25 21:41, David Hildenbrand wrote:
->> On 04.02.25 21:26, Jason Gunthorpe wrote:
->>> On Tue, Feb 04, 2025 at 09:05:47PM +0100, David Hildenbrand wrote:
->>>> Fully agreed, this is going into the right direction. Dumping what's
->>>> mapped
->>>> is a different story. Maybe that dumping logic could simply be
->>>> written in C
->>>> for the time being?
->>>
->>> ?
->>>
->>> Isn't dumping just a
->>>     decode pte -> phys_to_virt() -> for_each_u64(virt) -> printk?
->>>
->>
->> IIUC, the problematic bit is that you might not have a directmap such
->> that phys_to_virt() would tell you the whole story.
+On Tue, Feb 04, 2025 at 03:38:17PM +0100, David Hildenbrand wrote:
+> > > It can still race with memory offlining, and it refuses ZONE_DEVICE
+> > > pages. For the latter, we have a different way to check validity. See
+> > > memory_failure() that first calls pfn_to_online_page() to then check
+> > > get_dev_pagemap().
+> > 
+> > I'll give it a shot with these functions. If they work for my use case,
+> > then it's good to have extra checks and I'll add them for v2. Thanks!
 > 
-> ... but it's late and I am confused. For dumping the *page table* that
-> would not be required, only when dumping mapped page content (and at
-> this point I am not sure if that is a requirement).
+> Let me know if you run into any issues.
 > 
-> So hopefully Asahi Lina can clarify what the issue was (if there is
-> any :) ).
+> > 
+> > > 
+> > > > 
+> > > > If the answer is "no" then that's fine. It's still an unsafe function
+> > > > and we need to document in the safety section that it should only be
+> > > > used for memory that is either known to be allocated and pinned and will
+> > > > not be freed while the `struct page` is borrowed, or memory that is
+> > > > reserved and not owned by the buddy allocator, so in practice correct
+> > > > use would not be racy with memory hot-remove anyway.
+> > > > 
+> > > > This is already the case for the drm/asahi use case, where the pfns
+> > > > looked up will only ever be one of:
+> > > > 
+> > > > - GEM objects that are mapped to the GPU and whose physical pages are
+> > > > therefore pinned (and the VM is locked while this happens so the objects
+> > > > cannot become unpinned out from under the running code),
+> > > 
+> > > How exactly are these pages pinned/obtained?
+> > 
+> > Under the hood it's shmem. For pinning, it winds up at
+> > `drm_gem_get_pages()`, which I think does a `shmem_read_folio_gfp()` on
+> > a mapping set as unevictable.
+> 
+> Thanks. So we grab another folio reference via
+> shmem_read_folio_gfp()->shmem_get_folio_gfp().
+> 
+> Hm, I wonder if we might end up holding folios residing in
+> ZONE_MOVABLE/MIGRATE_CMA longer than we should.
+> 
+> Compared to memfd_pin_folios(), which simulates FOLL_LONGTERM and makes sure
+> to migrate pages out of ZONE_MOVABLE/MIGRATE_CMA.
+> 
+> But that's a different discussion, just pointing it out, maybe I'm missing
+> something :)
 
-Yes, the crash dumper has to dump the mapped page content. In fact, I
-don't care about the page tables themselves other than PTE permission
-bits, and the page tables alone are not useful for debugging firmware
-crashes (and aren't even included in the dump verbatim, at least not the
-kernel-allocated ones). The goal of the crash dumper is to take a
-complete dump of firmware virtual memory address space (which includes
-the kinds of memory I mentioned in [1]). The output is an ELF format
-core dump with all memory that the GPU firmware can access, that the
-kernel was able to successfully dump (which should be everything except
-for MMIO if the bootloader/DT have the right reserved-memory setup).
+Good GPU Drivers (tm) are supposed to have a shrinker so we can at least
+nuke some of them again. Some folks even looked into hooking up a migrate
+callback through the address_space (or wherever that hook was, this is
+from memory) so we can make this somewhat reliable. So yeah we're hogging
+ZONE_MOVEABLE unduly still.
 
-I *think* phys_to_virt should work just fine for *this* specific use
-case on this platform, but I'm not entirely sure. I still want to use
-the various pfn check functions before doing that, to exclude ranges
-that would definitely not work.
+The other side is that there's about 2-3 good drivers (msm, i915, xe
+should have a shrinker now too but I didn't check). The others all fall
+various levels of short, or still have 3 times cargo-culted versions of
+i915's pin-as-a-lock design and get it completely wrong.
 
-I don't really want to write any part of the driver in C, but whatever
-logic is required, I don't think there should be a good reason for that.
-We can export the C functions required to Rust code in some form, we
-just need to decide what form that should be. Worst case, Rust drivers
-can directly access C functions via the `bindings` crate, though that's
-something I want to avoid (even if there's only a very thin or trivial
-Rust abstraction layer, there should be *something* so at least we get
-Rust docs and the ability to make subtle improvements to the
-interface/types/etc).
+So yeah I'm aware this isn't great, and we're at least glacially slowly
+moving towards a common shrinker infrastructure that maybe in a glorious
+future gets all this right. I mean it took us 15+ years to get to a
+cgroups controller after all too, and that was also a well known issue of
+just being able to hog memory with no controls and potentially cause
+havoc.
 
-[1]
-https://lore.kernel.org/rust-for-linux/1e9ae833-4293-4e48-83b2-c0af36cb3fdc@asahilina.net/
-
-~~ Lina
-
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
