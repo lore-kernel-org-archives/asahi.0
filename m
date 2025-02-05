@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7228B215F42;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CB321579F;
 	Wed,  5 Feb 2025 22:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738793456; cv=none; b=pv2qLEaBqcu+/z/zRhZn9bzWqpceyTou0HI58PuimaP5helyvKSlTA21A+MzYrSmmLo9GdE0vqnoPDkNcz2NitGTkcBLY7CFFxYlH6Niw5ebJoGMsLVwXWltZFTsDNFsqMSCVuMgyAHuMGmteAe8OZQ666X3FLWZD3BT2nxYQXA=
+	t=1738793456; cv=none; b=bqi+io1KJEZN1vDPdeFUfeGAsGG4Sh9gIcMo5Z8Y4HKIQ3yt7QvI1x8HFXchVdfujMH3Ys94ZbCcbgV3BSgFngG2eQZXmWOX0Uy6XeV3ZlmQUdEizXWKbSKaNAaigP3fktQyYBBTNeBUXEyjp/xjg3AHFhuv5N0gwGXWMdHMe7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738793456; c=relaxed/simple;
-	bh=qammxtTCdNkajaOoaTby8FignidfrfHCpLjOqS0LcOg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Yw29zLn4akJoF3pwkQOstehmtQ2pjJOInA6J2cBLTT+5T2k72BfTHszwG56vF+M8VMSd6/HLm6zzvBH05bSB0bPTzdCeDCX7bJYC85MvkKaPw+C1sn+25jsxFZIra+jpQmrhoQoFnL4hYoQ9svl9PHMqKwt7vstu0XzCz2ZCuV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O43byfws; arc=none smtp.client-ip=10.30.226.201
+	bh=f+DglNqsF0GBhahZCan5DrNq0Oz15iuAvk2QpZMFvp4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=goV4NAyuQPcBTU/YnyX8dhWvk9zfG804+UgQ8iuWpnj7M7wd/BHst5q0mdy7OGoCTAxp4GH+E5kr7ejCHm7B1OtRmUItNwh3ubbV6bMhTAjR8ezTEzEzNgSoSCszUOAjbv8n8ctWqx0oft26HqQt/CC5xLcCOStL5OgfY3V9BnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DS+e9BtP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O43byfws"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A9785C4CEDD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DS+e9BtP"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C6178C4CEE2;
 	Wed,  5 Feb 2025 22:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1738793455;
-	bh=qammxtTCdNkajaOoaTby8FignidfrfHCpLjOqS0LcOg=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=O43byfws78Dz/JD8jvij0jUtM1OVNYit25pgFI5DsA6HUbYGMqlfM4AT/OWl2m9he
-	 Mm48CrijlgN6DQGtAEY0kWeHes6iT6ZbM5cOCF1FT6SBlmx8nb6BSYDOyyRv3OSoQU
-	 q7YyQ3usB+quCaKmu5KaLrpFfSmPqe5QIzRLu2dk759jzxjMeP65Kac62k24IMbcHl
-	 dYwPKQ5oTFhAuiFtQbluIhvu56DzJ9eSyeK0WwvB3AKwYA27xRRvWcwyLrO6YWFcFy
-	 1ARFjgst/rJQQ+y7dtGuzjLQvbEH28KLB8NbjN9pw6YKSdIqf8v3ouy+hpJDgRDc/Q
-	 tiAja83XO58tg==
+	bh=f+DglNqsF0GBhahZCan5DrNq0Oz15iuAvk2QpZMFvp4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=DS+e9BtP+e1Uv+ZQhIw5/laWaI3nog7paE3UvFzA9ATfnuUeGfnG192owal6AAU89
+	 fk4uS2FkMaUDHhttFaQurG+tqRT51BgTcETpolg2kRv3troIlNlTNeNN+SDM9ekGWC
+	 4Z95D41Ot21m7SmVjeElmGCrPNK4Y7LOZCcu8Lm5wl4SUhjXZ6cLaNvlE3F0jrlOw5
+	 Tzra8W/eLBKbbdHBGmrFvz1TZV+rqrhKIRzEfcL9FQ8cSeO3TFLG0UgrGY2Q569r98
+	 AJm1qD3rzey0Kov0ht+Ydsy74SVN3Je6mKRd0am9W2PL3fLHczWQWRw2+AMr4Usn8d
+	 QEMteIG7cL8Yw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D29DC02192;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8AA8C02194;
 	Wed,  5 Feb 2025 22:10:55 +0000 (UTC)
 From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Subject: [PATCH v5 0/5] Driver for pre-DCP apple display controller.
-Date: Wed, 05 Feb 2025 23:10:49 +0100
-Message-Id: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
+Date: Wed, 05 Feb 2025 23:10:50 +0100
+Subject: [PATCH v5 1/5] dt-bindings: display: Add Apple pre-DCP display
+ controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,11 +41,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOrho2cC/2XO3wrCIBTH8VcJrzM8/tvsqveILkyPJbQ2NEYx9
- u65QWvU5e/g54sDyZgiZrLfDCRhH3Ns72Wo7Ya4q71fkEZfNuGMSwAuqfWdTw3lKjgU3te2AlI
- edwlDfM6h46nsa8yPNr3mbg/T9S/RA2VUgAFfo0Zp7OHS2HjbubYhU6Lna6YXxgtzhslaCaEdM
- 79MfJhixS1MTExX0jswwVbhl8k1+35SFobmrLhmVpgAazaO4xu0nLKgQQEAAA==
-X-Change-ID: 20241124-adpdrm-25fce3dd8a71
+Message-Id: <20250205-adpdrm-v5-1-4e4ec979bbf2@gmail.com>
+References: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
+In-Reply-To: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -57,14 +56,13 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Alyssa Ross <hi@alyssa.is>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Janne Grunau <j@jannau.net>, Nick Chan <towinchenmi@gmail.com>
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738793453; l=2490;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738793453; l=7308;
  i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=qammxtTCdNkajaOoaTby8FignidfrfHCpLjOqS0LcOg=;
- b=QlzP/gahoMXJ+srUfiICxcFqw9YyEMXDvWytbHSBvludlItq7sYvQp5jF/nGBCsOW9XcelQnX
- OPtkiwMdv9qCe0pr0FlTLJffBj7aN6L54N+KOa3VsQok0SK3QO93p/j
+ bh=L+DtRl+AoX1NvwfwdsVyCcuYMOPBNtcxaSIUYvQWNFA=;
+ b=M4RNKMIbysYQ6+0XcJINDFba1hSNQAldoYFdL2jlmhoB1pgqqA7ryCH9Ft4Z6E/03Xi0fon5F
+ aavB8/T9w7DDS2YCBZawcAKMJYEJPgWjbLhZIYs+QdktoCq3uAGBPmH
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
@@ -72,61 +70,268 @@ X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
 X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Reply-To: fnkl.kernel@gmail.com
 
-Hi.
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-This patch series adds support for a secondary display controller
-present on Apple M1/M2 chips and used to drive the display of the
-"touchbar" touch panel present on those. 
+Add bindings for a secondary display controller present on certain
+Apple laptops.
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 ---
-Changes in v5:
-- Moved to using the component framework.
-- Other lifetime fixes
-- Link to v4: https://lore.kernel.org/r/20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com
+ .../display/apple,h7-display-pipe-mipi.yaml        | 83 ++++++++++++++++++++
+ .../bindings/display/apple,h7-display-pipe.yaml    | 88 ++++++++++++++++++++++
+ .../bindings/display/panel/apple,summit.yaml       | 58 ++++++++++++++
+ 3 files changed, 229 insertions(+)
 
-Changes in v4:
-- Fixed dt bindings.
-- Link to v3: https://lore.kernel.org/r/20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com
+diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..5e6da66499a508c001670f68fa00d6bab13591d6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/apple,h7-display-pipe-mipi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple pre-DCP display controller MIPI interface
++
++maintainers:
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description:
++  The MIPI controller part of the pre-DCP Apple display controller
++
++allOf:
++  - $ref: dsi-controller.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t8112-display-pipe-mipi
++          - apple,t8103-display-pipe-mipi
++      - const: apple,h7-display-pipe-mipi
++
++  reg:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input port. Always connected to the primary controller
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Output MIPI DSI port to the panel
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    dsi@28200000 {
++        compatible = "apple,t8103-display-pipe-mipi", "apple,h7-display-pipe-mipi";
++        reg = <0x28200000 0xc000>;
++        power-domains = <&ps_dispdfr_mipi>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++
++                dfr_adp_out_mipi: endpoint {
++                    remote-endpoint = <&dfr_adp_out_mipi>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++
++                dfr_panel_in: endpoint {
++                    remote-endpoint = <&dfr_mipi_out_panel>;
++                };
++            };
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..102fb1804c0c0b84f590e507ca2d526948e98f68
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
+@@ -0,0 +1,88 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/apple,h7-display-pipe.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple pre-DCP display controller
++
++maintainers:
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description:
++  A secondary display controller used to drive the "touchbar" on
++  certain Apple laptops.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t8112-display-pipe
++          - apple,t8103-display-pipe
++      - const: apple,h7-display-pipe
++
++  reg:
++    items:
++      - description: Primary register block, controls planes and blending
++      - description:
++          Contains other configuration registers like interrupt
++          and FIFO control
++
++  reg-names:
++    items:
++      - const: be
++      - const: fe
++
++  power-domains:
++    description:
++      Phandles to pmgr entries that are needed for this controller to turn on.
++      Aside from that, their specific functions are unknown
++    maxItems: 2
++
++  interrupts:
++    items:
++      - description: Unknown function
++      - description: Primary interrupt. Vsync events are reported via it
++
++  interrupt-names:
++    items:
++      - const: be
++      - const: fe
++
++  iommus:
++    maxItems: 1
++
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    description: Output port. Always connected to apple,h7-display-pipe-mipi
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/apple-aic.h>
++    display-pipe@28200000 {
++        compatible = "apple,t8103-display-pipe", "apple,h7-display-pipe";
++        reg = <0x28200000 0xc000>,
++              <0x28400000 0x4000>;
++        reg-names = "be", "fe";
++        power-domains = <&ps_dispdfr_fe>, <&ps_dispdfr_be>;
++        interrupt-parent = <&aic>;
++        interrupts = <AIC_IRQ 502 IRQ_TYPE_LEVEL_HIGH>,
++                     <AIC_IRQ 506 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "be", "fe";
++        iommus = <&displaydfr_dart 0>;
++
++        port {
++            dfr_adp_out_mipi: endpoint {
++                remote-endpoint = <&dfr_mipi_in_adp>;
++            };
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/display/panel/apple,summit.yaml b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..f081755325e97ad58b831893b84082cc10f8d5e3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/apple,summit.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple "Summit" display panel
++
++maintainers:
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description:
++  An OLED panel used as a touchbar on certain Apple laptops.
++  Contains a backlight device, which controls brightness of the panel itself.
++  The backlight common properties are included for this reason
++
++allOf:
++  - $ref: panel-common.yaml#
++  - $ref: /schemas/leds/backlight/common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,j293-summit
++          - apple,j493-summit
++      - const: apple,summit
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - max-brightness
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "apple,j293-summit", "apple,summit";
++            reg = <0>;
++            max-brightness = <255>;
++
++            port {
++                endpoint {
++                    remote-endpoint = <&dfr_bridge_out>;
++                };
++            };
++        };
++    };
++...
 
-Changes in v3:
-- Fixed building as module after splitting out mipi block
-- Addressing the review feedback.
-- Link to v2: https://lore.kernel.org/r/20241126-adpdrm-v2-0-c90485336c09@gmail.com
-
-Changes in v2:
-- Addressing the review feedback.
-- Split out the mipi part of the display controller into a separate device
-- Link to v1: https://lore.kernel.org/r/20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com
-
----
-Sasha Finkelstein (5):
-      dt-bindings: display: Add Apple pre-DCP display controller
-      drm: adp: Add Apple Display Pipe driver
-      drm: panel: Add a panel driver for the Summit display
-      arm64: dts: apple: Add touchbar screen nodes
-      MAINTAINERS: Add entries for touchbar display driver
-
- .../display/apple,h7-display-pipe-mipi.yaml        |  83 +++
- .../bindings/display/apple,h7-display-pipe.yaml    |  88 +++
- .../bindings/display/panel/apple,summit.yaml       |  58 ++
- MAINTAINERS                                        |   5 +
- arch/arm64/boot/dts/apple/t8103-j293.dts           |  31 ++
- arch/arm64/boot/dts/apple/t8103.dtsi               |  61 ++
- arch/arm64/boot/dts/apple/t8112-j493.dts           |  31 ++
- arch/arm64/boot/dts/apple/t8112.dtsi               |  61 ++
- drivers/gpu/drm/Kconfig                            |   2 +
- drivers/gpu/drm/Makefile                           |   1 +
- drivers/gpu/drm/adp/Kconfig                        |  17 +
- drivers/gpu/drm/adp/Makefile                       |   5 +
- drivers/gpu/drm/adp/adp-mipi.c                     | 276 +++++++++
- drivers/gpu/drm/adp/adp_drv.c                      | 617 +++++++++++++++++++++
- drivers/gpu/drm/panel/Kconfig                      |   9 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-summit.c               | 132 +++++
- 17 files changed, 1478 insertions(+)
----
-base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
-change-id: 20241124-adpdrm-25fce3dd8a71
+-- 
+2.48.1
 
 
