@@ -1,188 +1,184 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E7125A649
-	for <asahi@lists.linux.dev>; Wed,  5 Feb 2025 07:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 447651519B1;
+	Wed,  5 Feb 2025 15:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738741251; cv=none; b=UcY5olnMTG4/m4xu3avNG8Fb5ArSFY4KAOvuWVINGPId9rR341BpwLdXbK4be2D64kwhOnj04Ma0+RLvl240MC5RpFtLiNy9un1Y+FiouGROwsXLL5RE2o663KtD9l1fqjj7e/AiB1cRpGoVPjTgxua2Zf+esIqJ28ETPG9ha+c=
+	t=1738770437; cv=none; b=X6yzGuVm+PzXy4RQ/c0w83HOtzLM1gR7tYEykCNULHBN3R+UCFBN37tNxzN6cqBGBVLrR+iwSxmxwf4bBujw7WAgq/JM1bu4mEQbwwiX6DKoNOQIQcpx9ydIuYSCMFackegWNB2ykNSYpZy4B9zdnpUeOq4tcw5ByQ++U7Z5PsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738741251; c=relaxed/simple;
-	bh=dq8x78xFfxJcyFobGxSkBs6l3zBnCmYDFlTlCt5dNhc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ey+yXVtshSWse+tuIhEDZkNF9dfhCqoQGQ0GxTXhXFk7jQe7mo/qQKX4OP1xKlVnluYKF9+rpzOeRA7kvnBRVF8BPCzbibksoNO9mpf9EFTTSKxxOMdzTX4dzstA84njgi0PFu0jipTvZPLh/Wevl8153omO2g6tY1KM/57EjEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=FOS2/hms; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="FOS2/hms"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4361815b96cso44564875e9.1
-        for <asahi@lists.linux.dev>; Tue, 04 Feb 2025 23:40:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1738741248; x=1739346048; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ckp9FvO1OYcctyJmH0f9RK1zPC2wKkspGKnecKorEdQ=;
-        b=FOS2/hms6cUNwmJNGNgNxu6Z0bVzzzM5XwoXysgWr6G5G7cnJpIk+FCDvsu3DVCC+7
-         8/as5QdOaeRLXkFH3YHOW7FCp9GDahVVh2/nxLSPr9nBRWLtkb5lKw5vWIAAj1O+1A+U
-         CVDodnC+7RcnQXcWDNpfpnOWbq6Cp9MLaRdss=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738741248; x=1739346048;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ckp9FvO1OYcctyJmH0f9RK1zPC2wKkspGKnecKorEdQ=;
-        b=X/HlZ+a3/8s+56GhZbCspF0PFbZg88qXI6e0M45Lutpgf+btbqQclwPGY/tHQ00uyu
-         57FX0ErtQ69XIpkaQ/w8ZMcjU4e24aw594c5zqBzvVHzu1hJ7QAXfu27Y/a2sCnRyYqP
-         IZfK1fV+WtrA3+xJixWQ0NAS+NFE6/gUYIawvEYBgCNK6mdDjzxTp/nlF3aPKIhaDfDf
-         bmuiSEgwYcGK/LZ7QPPkfH69jSJUCtBHCvOFudk2lhVnQwjJW19viQQRH56C3x2oeqgM
-         SVUlK/gSTHFmdjnf5vkIGtNDXyHaEl3leJRPFy1DZRpx9TQe8uTTwafb13cQcSV6ENNl
-         AMyw==
-X-Forwarded-Encrypted: i=1; AJvYcCU9xTfZobO8sXBRI+O3fxQnxFECcGz1+BBEv8haJ1NLoa9uuvWWcDj6eER9bG27zjq6Q4/KuQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxi0R3ICgUFnEF5B0RV28coDoGAclnrsPem7VCKXIkwNj70UFiu
-	Ab7OJZnZ2UroE2Nbev74WcrZBUxEEcH7MghCEr9PmXSofhGHTkyWtXomMX82EMw=
-X-Gm-Gg: ASbGnctwujMUTwqmnI06v4teR9pQuJ/2eP3LcqpV+cmNwJpSCTPwj90bMCxC0aui9kJ
-	6QSStedZgtQVVyYDgC7ecIxyemFm6Y7r7KiYXU5IvXF9ey35d804QxKpnMugEwoYy0eOBSMxVg4
-	zSuM7L1CvxhMk6HOYckP31m4J0WnG1kN0XbHYhEZLFR1mr1EkcByaFWcYsnKCWuDL+qskCjidAi
-	uuqI1sNFIQjjTsSeAyDRi3ggbRFhV++nX2ppKGOdZ4/hYAt/XNGQmP8FiZsuOOfqv+Nz85qodjs
-	0kxCpn/6HswxNATaxlNVYpp/Oeo=
-X-Google-Smtp-Source: AGHT+IG9wKRslTcLxM9q7tpMRQI/mhbwKzUGyEOxhppyXztbkL0YRlXLXEUw54yO2pT5NLjqWPcDZQ==
-X-Received: by 2002:a05:600c:1d1e:b0:436:faeb:2a1b with SMTP id 5b1f17b1804b1-4390d43e579mr9940605e9.13.1738741247972;
-        Tue, 04 Feb 2025 23:40:47 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390d933a4bsm12876465e9.6.2025.02.04.23.40.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 23:40:47 -0800 (PST)
-Date: Wed, 5 Feb 2025 08:40:45 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: David Hildenbrand <david@redhat.com>
-Cc: Asahi Lina <lina@asahilina.net>, Zi Yan <ziy@nvidia.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Valentin Obst <kernel@valentinobst.de>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
-	Muchun Song <muchun.song@linux.dev>
-Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
- physaddr conversion
-Message-ID: <Z6MV_Y9WRdlBYeRs@phenom.ffwll.local>
-Mail-Followup-To: David Hildenbrand <david@redhat.com>,
-	Asahi Lina <lina@asahilina.net>, Zi Yan <ziy@nvidia.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Valentin Obst <kernel@valentinobst.de>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
-	Muchun Song <muchun.song@linux.dev>
-References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
- <Z6CTLB2NggwYafi9@phenom.ffwll.local>
- <41ca3445-80cd-43c1-8f9e-634c195c9187@asahilina.net>
- <37A0729B-A711-4D45-B9F0-328FDB9ADD28@nvidia.com>
- <0e19e1c3-293b-4740-93f3-2c410893288b@redhat.com>
- <82047858-480a-45e3-b826-3a46fbebe842@asahilina.net>
- <f1498b22-0bc1-489a-8c2c-35aa48c7fe7d@redhat.com>
- <1e9ae833-4293-4e48-83b2-c0af36cb3fdc@asahilina.net>
- <026c1a0c-e53a-4a5e-92da-6e4f18ce0fee@redhat.com>
+	s=arc-20240116; t=1738770437; c=relaxed/simple;
+	bh=ejHE1a8+aYs3y71VCzE1Ju3Quet9sFhTMD+pAmsBqF0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pyyhhPF79rPzVhoPKveia3kJZY+UlaPW+z0adiONGdhXS3bjfbWtAXjAH2WtJWGvzb3U3ZbsAWwJDayDiG4yhUPCFxvPwXOWqvLLmvHJ0r8eFjOQX/IQXQYrGC0Z6my8uSCuDFdXC9mRKlCJuuLnk/Rm6adzm46Po9kvlYKTWcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A8AF1063;
+	Wed,  5 Feb 2025 07:47:37 -0800 (PST)
+Received: from [10.57.35.21] (unknown [10.57.35.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03F493F5A1;
+	Wed,  5 Feb 2025 07:47:05 -0800 (PST)
+Message-ID: <23d4c47e-a00c-4f15-ab42-303bd2aca032@arm.com>
+Date: Wed, 5 Feb 2025 15:47:03 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <026c1a0c-e53a-4a5e-92da-6e4f18ce0fee@redhat.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 18/19] iommu: Update various drivers to pass in lg2sz
+ instead of order to iommu pages
+To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>,
+ David Woodhouse <dwmw2@infradead.org>, Heiko Stuebner <heiko@sntech.de>,
+ iommu@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
+References: <18-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <18-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 04, 2025 at 03:38:17PM +0100, David Hildenbrand wrote:
-> > > It can still race with memory offlining, and it refuses ZONE_DEVICE
-> > > pages. For the latter, we have a different way to check validity. See
-> > > memory_failure() that first calls pfn_to_online_page() to then check
-> > > get_dev_pagemap().
-> > 
-> > I'll give it a shot with these functions. If they work for my use case,
-> > then it's good to have extra checks and I'll add them for v2. Thanks!
+On 2025-02-04 6:34 pm, Jason Gunthorpe wrote:
+> Convert most of the places calling get_order() as an argument to the
+> iommu-pages allocator into order_base_2() or the _sz flavour
+> instead. These places already have an exact size, there is no particular
+> reason to use order here.
 > 
-> Let me know if you run into any issues.
-> 
-> > 
-> > > 
-> > > > 
-> > > > If the answer is "no" then that's fine. It's still an unsafe function
-> > > > and we need to document in the safety section that it should only be
-> > > > used for memory that is either known to be allocated and pinned and will
-> > > > not be freed while the `struct page` is borrowed, or memory that is
-> > > > reserved and not owned by the buddy allocator, so in practice correct
-> > > > use would not be racy with memory hot-remove anyway.
-> > > > 
-> > > > This is already the case for the drm/asahi use case, where the pfns
-> > > > looked up will only ever be one of:
-> > > > 
-> > > > - GEM objects that are mapped to the GPU and whose physical pages are
-> > > > therefore pinned (and the VM is locked while this happens so the objects
-> > > > cannot become unpinned out from under the running code),
-> > > 
-> > > How exactly are these pages pinned/obtained?
-> > 
-> > Under the hood it's shmem. For pinning, it winds up at
-> > `drm_gem_get_pages()`, which I think does a `shmem_read_folio_gfp()` on
-> > a mapping set as unevictable.
-> 
-> Thanks. So we grab another folio reference via
-> shmem_read_folio_gfp()->shmem_get_folio_gfp().
-> 
-> Hm, I wonder if we might end up holding folios residing in
-> ZONE_MOVABLE/MIGRATE_CMA longer than we should.
-> 
-> Compared to memfd_pin_folios(), which simulates FOLL_LONGTERM and makes sure
-> to migrate pages out of ZONE_MOVABLE/MIGRATE_CMA.
-> 
-> But that's a different discussion, just pointing it out, maybe I'm missing
-> something :)
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+[...]
+> @@ -826,7 +825,7 @@ void *__init iommu_alloc_4k_pages(struct amd_iommu *iommu, gfp_t gfp,
+>   				  size_t size)
+>   {
+>   	int order = get_order(size);
+> -	void *buf = iommu_alloc_pages(gfp, order);
+> +	void *buf = iommu_alloc_pages_lg2(gfp, order + PAGE_SHIFT);
 
-Good GPU Drivers (tm) are supposed to have a shrinker so we can at least
-nuke some of them again. Some folks even looked into hooking up a migrate
-callback through the address_space (or wherever that hook was, this is
-from memory) so we can make this somewhat reliable. So yeah we're hogging
-ZONE_MOVEABLE unduly still.
+This is a size, really - it's right there above.
 
-The other side is that there's about 2-3 good drivers (msm, i915, xe
-should have a shrinker now too but I didn't check). The others all fall
-various levels of short, or still have 3 times cargo-culted versions of
-i915's pin-as-a-lock design and get it completely wrong.
+(although alloc_cwwb_sem() passing 1 looks highly suspicious - judging 
+by other cmd_sem references that probably should be PAGE_SIZE...)
 
-So yeah I'm aware this isn't great, and we're at least glacially slowly
-moving towards a common shrinker infrastructure that maybe in a glorious
-future gets all this right. I mean it took us 15+ years to get to a
-cgroups controller after all too, and that was also a well known issue of
-just being able to hog memory with no controls and potentially cause
-havoc.
+Furthermore even the set_memory_4k() call doesn't really want an order 
+either, PAGE_ALIGN(size) >> PAGE_SHIFT would do.
 
-Cheers, Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>   
+>   	if (buf &&
+>   	    check_feature(FEATURE_SNP) &&
+[...]
+> @@ -1702,8 +1701,10 @@ int dmar_enable_qi(struct intel_iommu *iommu)
+>   	 * Need two pages to accommodate 256 descriptors of 256 bits each
+>   	 * if the remapping hardware supports scalable mode translation.
+>   	 */
+> -	order = ecap_smts(iommu->ecap) ? 1 : 0;
+> -	desc = iommu_alloc_pages_node(iommu->node, GFP_ATOMIC, order);
+> +	desc = iommu_alloc_pages_node_lg2(iommu->node, GFP_ATOMIC,
+> +					  ecap_smts(iommu->ecap) ?
+> +						  order_base_2(SZ_8K) :
+> +						  order_base_2(SZ_4K));
+
+These are also clearly sizes.
+
+>   	if (!desc) {
+>   		kfree(qi);
+>   		iommu->qi = NULL;
+> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> index 8727d8e1e02f45..0e1dd519c3b9b3 100644
+> --- a/drivers/iommu/io-pgtable-arm.c
+> +++ b/drivers/iommu/io-pgtable-arm.c
+> @@ -263,14 +263,14 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
+>   				    void *cookie)
+>   {
+>   	struct device *dev = cfg->iommu_dev;
+> -	int order = get_order(size);
+>   	dma_addr_t dma;
+>   	void *pages;
+>   
+>   	if (cfg->alloc)
+>   		pages = cfg->alloc(cookie, size, gfp);
+>   	else
+> -		pages = iommu_alloc_pages_node(dev_to_node(dev), gfp, order);
+> +		pages = iommu_alloc_pages_node_lg2(dev_to_node(dev), gfp,
+> +						   order_base_2(size));
+
+Another size. Same thing in patch #17 too. I don't see any need to have 
+the log2 stuff at all, I think we just switch iommu_alloc_pages{_node}() 
+to take a size and keep things simple.
+
+Thanks,
+Robin.
+
+>   
+>   	if (!pages)
+>   		return NULL;
+> diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
+> index a4cbd8a8a2976e..3b57d14baa9c1d 100644
+> --- a/drivers/iommu/io-pgtable-dart.c
+> +++ b/drivers/iommu/io-pgtable-dart.c
+> @@ -107,13 +107,6 @@ static phys_addr_t iopte_to_paddr(dart_iopte pte,
+>   	return paddr;
+>   }
+>   
+> -static void *__dart_alloc_pages(size_t size, gfp_t gfp)
+> -{
+> -	int order = get_order(size);
+> -
+> -	return iommu_alloc_pages(gfp, order);
+> -}
+> -
+>   static int dart_init_pte(struct dart_io_pgtable *data,
+>   			     unsigned long iova, phys_addr_t paddr,
+>   			     dart_iopte prot, int num_entries,
+> @@ -255,7 +248,7 @@ static int dart_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
+>   
+>   	/* no L2 table present */
+>   	if (!pte) {
+> -		cptep = __dart_alloc_pages(tblsz, gfp);
+> +		cptep = iommu_alloc_pages_sz(gfp, tblsz);
+>   		if (!cptep)
+>   			return -ENOMEM;
+>   
+> @@ -412,7 +405,8 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
+>   	cfg->apple_dart_cfg.n_ttbrs = 1 << data->tbl_bits;
+>   
+>   	for (i = 0; i < cfg->apple_dart_cfg.n_ttbrs; ++i) {
+> -		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL);
+> +		data->pgd[i] =
+> +			iommu_alloc_pages_sz(GFP_KERNEL, DART_GRANULE(data));
+>   		if (!data->pgd[i])
+>   			goto out_free_data;
+>   		cfg->apple_dart_cfg.ttbr[i] = virt_to_phys(data->pgd[i]);
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index 3d77aed8507373..d0e515bf5dd1f6 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -690,8 +690,8 @@ sun50i_iommu_domain_alloc_paging(struct device *dev)
+>   	if (!sun50i_domain)
+>   		return NULL;
+>   
+> -	sun50i_domain->dt = iommu_alloc_pages(GFP_KERNEL | GFP_DMA32,
+> -					      get_order(DT_SIZE));
+> +	sun50i_domain->dt =
+> +		iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32, DT_SIZE);
+>   	if (!sun50i_domain->dt)
+>   		goto err_free_domain;
+>   
+
