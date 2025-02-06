@@ -1,120 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550C8225A34;
-	Thu,  6 Feb 2025 09:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565301FCCE4
+	for <asahi@lists.linux.dev>; Thu,  6 Feb 2025 09:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738833454; cv=none; b=cPZq65qXFAh4IEnXkIZIPMXSGNXX+dWYt10R5BB056J6kwAfii2yf1x5VGm8Arul9hD6jNe2jurW6j0/h8v5SqPpnpdjijZZOwgMACa+ZxHqesPWRt3ZTQ2JPEaDAx0U4QRv1kPUPh0qwV1VamBEydYw/FbbtoeATvZ6nbDS7oU=
+	t=1738833898; cv=none; b=l+PjiZrG0kX7e6kTptQCrH0Y84Jorr6R4Ac0acaF/OZyLWaMBbGjkr9sXzX6b/UkOet4SaaTaTZIWE0xenff6YuXFomaV2UBIf7tuJA1iQYxTR9RekdwdrN0mdt0yqYCYC+FapZu8XSqUZb7W9LLjYvxHQGdTNhmqzjpwUyQKIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738833454; c=relaxed/simple;
-	bh=OprUX3sf+GllvjoTCMMHPEd9To8pLBDgBAKjQLuN4bk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZxdYPGZREZBgfQP3RiFHCXLdevmo9W6jwEpfIC4ngQZGDl8N20/orbAMlZY5my5hM24/GZF5pcL5EiGolS2WSQd1tBXVjHZclqNmfwk0oIh6KKYdEIrIy6bzaS198E+rOLd3oyQhIzQ1zhxJcgISR9KWprrnEPC22gCr6uqEVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mlMqEO9y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738833898; c=relaxed/simple;
+	bh=R0Aj8VkeJ1ljtNruUSkipfngsktgaMJyC1xm5s9bvks=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T4Dq+3u0z9zzoDaZiInfqDAPW16InSgnn49ZjIlYbOMtu/3XOIetYP+2RChUOd52D2Kqcw6vX3soQSUkeJ1B0dO4DE0PYrPK7q+Q/em872o5F+WGxDxtGpp0MDAvcJfR3gS3LZy7dwaOUdfoNxrMAyVQNtOJbTMhyq2QHMmROt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OBp5FG7b; arc=none smtp.client-ip=209.85.219.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mlMqEO9y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE27C4CEDD;
-	Thu,  6 Feb 2025 09:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738833453;
-	bh=OprUX3sf+GllvjoTCMMHPEd9To8pLBDgBAKjQLuN4bk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mlMqEO9yqjddagGvhpyIFTCCScBLoIgdQQqQMCaV3jJZ5roJ3Rafcskhyg91jS88z
-	 xc9fT2zVeuM5WPf+6livRm1gQCXzW7oGbxdNYQ+/KVEUGbD1WvseO/ekE4tGTWcY70
-	 GEQY5xeGHhTx7J7YCnhVjokZcMMV/BvL1/7awqvro9cQ8JbJ5amYNcG8pC86iSRMZY
-	 bHFhuNo0O27tmaNs/EMKJTeS3TlYwayG0ddQng4Y3Qk4pb+qIV565y2Dzk08wYHNwC
-	 MzreoZNOVi/InNqbtYb8gJRqJLiAJELAABvnWp43MQ4EFpu29Tzfm2glpZGhG7CDZK
-	 xQXdLzaDPiX4w==
-Date: Thu, 6 Feb 2025 10:17:30 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: fnkl.kernel@gmail.com
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>
-Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add entries for touchbar display
- driver
-Message-ID: <20250206-caped-premium-squid-595ecd@houat>
-References: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
- <20250205-adpdrm-v5-5-4e4ec979bbf2@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OBp5FG7b"
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e58a7e02514so587990276.1
+        for <asahi@lists.linux.dev>; Thu, 06 Feb 2025 01:24:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738833894; x=1739438694; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=R0Aj8VkeJ1ljtNruUSkipfngsktgaMJyC1xm5s9bvks=;
+        b=OBp5FG7bMOy2Rxi2/E4FSI60iakH5IBqLiRqISPwCtxYbMpfYBche8ApjFBRF8mICc
+         XdxBszl1W6uNImeiL8hBSGJug9zfmnlLKVJo8iQcat8Wq5HVa5RWjx2hmtoSlIO8Ritj
+         UXYOxVMpYI1cm0jPMtdHwR+XeVRiWk23scPVnDkm1BveLFKQZX5U4NWUL8qIhQrob1z4
+         DbO5zcrjFL8Vyv+yS7vVkfVxgAo1i31NI4AgageyN+lprF/AYgYVI84BwDbth+TsHs0D
+         55RTq80erIn0hAKNwnkPSKd8tHwv3g0MnAd7D/mZN0i0o3n1CzG09YdkfWw50WAZIIrr
+         W+Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738833894; x=1739438694;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R0Aj8VkeJ1ljtNruUSkipfngsktgaMJyC1xm5s9bvks=;
+        b=K97xjgFsI1oO8JWN4ifx78l6aWRBC5cdrOxR/1ZUB4gJhGbHO4CfQjrm6BFyr+T8sS
+         hcDM5xxqfHo7n/CP/6ujvUWLFQPOhKZVKp58EkU7/KDhQF/Z0ixom1YRAi+7/iTQQYBu
+         CAH4tR3Mxm6qiwyOEWNzNJ3a7j0S9yEWWTv1nYS6HMO18xjtD0pdM31K7LKoC6B0wv10
+         2pBgiOAQnt15R7N6fY5J+ybukcK5OeWX9BbSAnTrGcg9UuDOaGnNaRr2UO+gLbD2THrT
+         IqbpZHtNxLYPaezTTdSlotJju66ebk+e8lqFZVKAUuFuLXKjz/ixouDXvsCf1fGD0Mah
+         PAUA==
+X-Forwarded-Encrypted: i=1; AJvYcCWgO6AgdkLaJ6XZJmvMptwXV5J+AfLU9fqymrTHuMXgSHvMQ4RnSvXCDJSyvdbcoN3Ox21AJA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGpcJUFIJTHAmTwpR5/qkJQH4Yra9PJSRxUFBjgyFztgEVADTt
+	C73AgOkDCdEn4Zzxz04Pa5dJfCOgE/FIgTYSBrDBL2MG98J5+dY2ASaVsLK6S5MSOJV3Q/6XwM+
+	RoZmEJ+Q1IuFVAzfi+vkxHRR8hec=
+X-Gm-Gg: ASbGnctMNB6iCUq4jxqFRijL2huy8csldbdBOc4aK91KoVYcPXfnzJryX8qAYxqwEMR
+	7r6xpumC7g2UiwVIJ0SpTUyiB2pV2QulL3BzaDwa1UWI8sWWKYb3CqrVFzn8cQLxdR6LGdTr3Xg
+	==
+X-Google-Smtp-Source: AGHT+IFbC6DM3fJVG17MrSGBXdIfeROMfW7VK5TSEM0p/SsdBlf6NEx0KbnND2bApOZ90AM+CmqzpnxiCUvcGg1/hdc=
+X-Received: by 2002:a05:6902:2843:b0:e5a:e604:78df with SMTP id
+ 3f1490d57ef6-e5b25b95544mr4817982276.17.1738833894216; Thu, 06 Feb 2025
+ 01:24:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="s5i444uyid5tefem"
-Content-Disposition: inline
-In-Reply-To: <20250205-adpdrm-v5-5-4e4ec979bbf2@gmail.com>
+References: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com> <20250205-adpdrm-v5-5-4e4ec979bbf2@gmail.com>
+ <20250206-caped-premium-squid-595ecd@houat>
+In-Reply-To: <20250206-caped-premium-squid-595ecd@houat>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Thu, 6 Feb 2025 10:24:43 +0100
+X-Gm-Features: AWEUYZn9JAn4vxk91DxbpJulbYrsp1RnWuViBY7aesXFIweT5vWahzqXS6ccsNo
+Message-ID: <CAMT+MTQBSuWCz0T13RkhyJLwV7tuk4_BmVH6vACFOYx=msc09Q@mail.gmail.com>
+Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add entries for touchbar display driver
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, 6 Feb 2025 at 10:17, Maxime Ripard <mripard@kernel.org> wrote:
+> Sorry to figure it out that late, but how do you plan on maintaining it?
+> Where will the patches go through, and who will you send PR to?
 
---s5i444uyid5tefem
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add entries for touchbar display
- driver
-MIME-Version: 1.0
-
-On Wed, Feb 05, 2025 at 11:10:54PM +0100, Sasha Finkelstein via B4 Relay wr=
-ote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
->=20
-> Add the MAINTAINERS entries for the driver
->=20
-> Acked-by: Sven Peter <sven@svenpeter.dev>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  MAINTAINERS | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a87ddad78e26f28ffd0f3433560d6db1518f9f95..4ce0d3bcf67910d909ba41261=
-535dcb14a24a7b7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2189,6 +2189,9 @@ F:	Documentation/devicetree/bindings/arm/apple.yaml
->  F:	Documentation/devicetree/bindings/arm/apple/*
->  F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
->  F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
-> +F:	Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.=
-yaml
-> +F:	Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-> +F:	Documentation/devicetree/bindings/display/panel/apple,summit.yaml
->  F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
->  F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
->  F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
-> @@ -2208,6 +2211,8 @@ F:	drivers/bluetooth/hci_bcm4377.c
->  F:	drivers/clk/clk-apple-nco.c
->  F:	drivers/cpufreq/apple-soc-cpufreq.c
->  F:	drivers/dma/apple-admac.c
-> +F:	drivers/gpu/drm/adp/
-> +F:	drivers/gpu/drm/panel/panel-summit.c
->  F:	drivers/pmdomain/apple/
->  F:	drivers/i2c/busses/i2c-pasemi-core.c
->  F:	drivers/i2c/busses/i2c-pasemi-platform.c
-
-Sorry to figure it out that late, but how do you plan on maintaining it?
-Where will the patches go through, and who will you send PR to?
-
-Maxime
-
---s5i444uyid5tefem
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6R+KQAKCRAnX84Zoj2+
-dpFcAX9vWLHvXu193dJYEBiwU4fhNxzryOdXkTE4drAdUIoskcpd7us4hCIDO00j
-dW3IY38BfRaxBKVSxfcDLKpB5L6e3vgphx4Fp+ODyheOilHTZ2A2Heqy+uVVhSmE
-jpTyN5zhyA==
-=D+sS
------END PGP SIGNATURE-----
-
---s5i444uyid5tefem--
+Downstream development is done via the https://github.com/AsahiLinux/linux/
+repo, then send patches to ml. Not sure if i want to send PR personally,
+it will probably go via one of the drm trees or via asahi-soc.
