@@ -1,165 +1,304 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BD91FE45E
-	for <asahi@lists.linux.dev>; Thu,  6 Feb 2025 05:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC64A2248B5
+	for <asahi@lists.linux.dev>; Thu,  6 Feb 2025 07:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738821189; cv=none; b=nF6oqu4hTQGbaxoLAs9b3kY5tXDFq2lD/bjaVbYb3O8Pe6ef+wGDSnd6mZdu1Dg0lqC6yEqcaAb19E6q9/1CM2kOZ/CJ207F3ZVNNEdmYjw6H4NKRx0CVEQTPA5AaZQS+KK7V8eOnyVZOgNP2C2dQ59kSCMSPEOu8V4YS6YUpC8=
+	t=1738828388; cv=none; b=sXNa0ZrW0SwbHleA7Jda/XTZxKd9sdYOvgoVt3mQIFgh1Zy9LgWppv5uRo9IkVq3a12R4cNbLZef4BdiGiqiHTkRYe8dIP+D7oSWa1cQ9U+Q2opl/fbLyjI7rVLHYzj2Vy7h2eZErerZj3w8oiKBMIQiFt4xUqbOZBA3HMVQNYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738821189; c=relaxed/simple;
-	bh=AqBJlKICIlVN/KVB1S54nyOy92xf+Ecum9ESyS7lCGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yu0hmILwQezN0pWHVBDDk3Nq4X51CC4hyIYegCPlFIS8uRhkMggNFqgdppvJtCZeKZyU4hwR2FRy73juFK6ufDx7YhnRsCliyJupt6BcKeILAduEI8PT6cbpY9gRMLjyfnrw+MGerggYWTLwCIfdUbEKGI/4lxYyMaqGXQT0Vdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ecyr2ZrF; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1738828388; c=relaxed/simple;
+	bh=m3pqvKmJ/Z8qndxmifJJzHfJ8SakGeyV+JdUcnde8xc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=hgMpQ17S0DA30JTTEi9HL6/83MJKNuiBAtqrWybdmxepJRSZTXUlkNEOW9JU5n3HwDDR6/tTFYpn+Z332t55q96OH9jL+0tQxtrerFSwy9jrCdPz654hEr9uWODxWwl2B/0fFX6nlmAUW2KWoWrbLkR7iS0LaJYZsVij+w4HXJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=thg0WThE; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ecyr2ZrF"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21ddab8800bso8017255ad.3
-        for <asahi@lists.linux.dev>; Wed, 05 Feb 2025 21:53:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="thg0WThE"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4361f65ca01so5541535e9.1
+        for <asahi@lists.linux.dev>; Wed, 05 Feb 2025 23:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1738821186; x=1739425986; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U5ldcxqakXbm8AP3lHPyZs0Noc32OWjVSFhOYUYpAno=;
-        b=ecyr2ZrFrCG7N/W07JtZmj0+Zq1DI4kNy5vVkEKZp01oUTBsi8b1WG6yMPRz8RSfBy
-         i8C+t0jq7x80l9BG9Jq2zKKB5tGGWwXN6EvILfxeOyqpK3rJmxmEaOUcPfCTJ9ZlDoZ4
-         8JW1aq6z1fRuLWhx8iz/+UXFlsfX1Itruvxd6AqdVThFZxMdscIRq3Z/R3WSmopOOa5K
-         265Rq3ZfNQ2V1uaDOCEa5P2Jk+0G+0aoOWom+MAXmVLDDswfSjByljykJYBatC6mQzid
-         nTjTYLsYp46qHFeC15UAL8mea5syhpO0YTS4g2GDSe6EP2DEw2eRzTg+D2f4BGacZWwV
-         wo6Q==
+        d=linaro.org; s=google; t=1738828384; x=1739433184; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6m7TXnR8Yp1Zl6pcqMtLySEDyoW+PZY7jbi3ZwdEqTE=;
+        b=thg0WThE0a/EgJRJ032Fl94c0v191PN/5ImwhSh8J5HrxpSxv+8vGKsfocGbQQ8+CJ
+         kSWVweiRarMJoDUNkH+PO4hdedFtODWqxr9rE14fI/xPTHjT8rVgXRXyZxYmbo3Zkx9w
+         QmunXX21iQSAaUyv0xdC10Erxd+r6uXw3TEzAWrNmzDrV95/2HnsvFgCZNl54IAg8JkW
+         s/MvJiTYhJVc8C5HmPDAHL1qTNBXRTiUGB654G3XHK3bWZOSLPCDB/RSDycYpBu+DN3r
+         xmmQPHs9avUTUjoVHpsVUQg+Uh4L5GHjHmdbqLQrEHxr6O1WuqedB63aH116Pype7ffa
+         uLOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738821186; x=1739425986;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U5ldcxqakXbm8AP3lHPyZs0Noc32OWjVSFhOYUYpAno=;
-        b=VoZi3ytRm/3S21AKeE8Nfv7jUzPzL4pFtfTCQn41gx4/u91umQX0nQRAUjZbh+99QQ
-         TqN61ZPeLh5lzAuXEkOUkgvbYa+1ZfqsF5ecerVL8lxyWHuhQ1dzGQbujoIwTtYuuPjX
-         7BWhyLo8F8t5qztifa8FXDxmLAkEbuvDDXfSqa77GcAcZgXPUa1yemkbwWEqCwIcH3mZ
-         vPH4vTbD3RehG6FZOAATYPHIkJb4oAsQlvfNplkFiOf2vabR8XumX9oOAFtX4h3FcfUz
-         4y+UOjYx+HoWeoUHMfkjjWif3ELBZMTU8yXh/4iWFJO5ZKV0/aKEbcMJyUJxr1KqxOgX
-         ghEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXJDWlBi9jmlX+vJ4In8raUPu02TnOV1jdg7bgiNgh99v0yhbQ8hOGYvraRgYxvxZOQ+xJVdQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwP67pagSkcrinjjGLC+UgPLPHthcJb3ds/Wu1bGNIUPtile4jl
-	FuRzn6UzIE5XCtolbn4xnmeV0eIi/slIKEQn/Jf29acTumXIZZ4Vpjb9QQd2dFyYQhLrlQJWB/K
-	t
-X-Gm-Gg: ASbGncuKSdbQoFAYtPKndXGeIbx12Tnadhb/0894lhpqmXfSiaSEirS5RJ6K9U7fSQc
-	gu1XteHbQ8C3JL1MValW32gPwxoZzBPjrZdsRxsio1bsB858BDB9bfXNOGBApZULUuHZu3n/4F0
-	HF6I1yrtNmZhZ+/gZSMx9SWZ/qBKuNqVlKOHah7dgkMWm/b7mR6ciZd2FtkprCtpHN8TCgA+Kpu
-	PFo0ytFPmmMij3eBaaEc9WpPKoCn4ukWWNmN3Pk9VD4AJ+9VAjUbbnsko/uT1mdP0C89H+ODbc9
-	2et2kVCWA/vbt0Txt8DatqKjYww8tbR0TA==
-X-Google-Smtp-Source: AGHT+IGCr9xd2Dhw5KUTmjMsz2hIPxrdWNp4ze88e5FpvAsB5Znxk1UOOvf/vmpixanfPva87r8KEw==
-X-Received: by 2002:a17:902:c403:b0:21f:35fd:1b6a with SMTP id d9443c01a7336-21f35fd2116mr20176495ad.51.1738821185899;
-        Wed, 05 Feb 2025 21:53:05 -0800 (PST)
-Received: from tjeznach.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c746sm3841885ad.180.2025.02.05.21.53.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 21:53:05 -0800 (PST)
-Date: Wed, 5 Feb 2025 21:53:02 -0800
-From: Tomasz Jeznach <tjeznach@rivosinc.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Hector Martin <marcan@marcan.st>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	Joerg Roedel <jroedel@suse.de>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	David Rientjes <rientjes@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH 09/19] iommu/riscv: Convert to use struct iommu_pages_list
-Message-ID: <Z6ROPsbXHYlQ0TgF@tjeznach.ba.rivosinc.com>
-References: <0-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
- <9-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+        d=1e100.net; s=20230601; t=1738828384; x=1739433184;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6m7TXnR8Yp1Zl6pcqMtLySEDyoW+PZY7jbi3ZwdEqTE=;
+        b=uqC5E++NfemU2hG7Z076WfkTYAxRgfx2GTwiJXKP2T1Qz7A5/D7N/AHbU7gJ+PvJK8
+         fz7BLMxxg++KuZijMlHMeZrHY0PT6zFmwJssKnH1VcrBlT0vHfz0zCUDZim5vLB2Hue2
+         wP47W8N4qC01vBUoDUh6T+jQpW2QmFP0J899MBQMiHNnZniw6YNi4ymJan7XagAX82xG
+         /7YCNVBg5Wyk+fF9amdQblJZ/mGijQMEV3aCR3FZ85CbD3IdVrzsZgRSsR1nZpZAiDP2
+         wDQmDinIGEay4Llawt5/IFIUe2pdlDkTuX2vnPEKta7vu94B7R5XgV5OhSiXOaDmHFzC
+         aHiw==
+X-Forwarded-Encrypted: i=1; AJvYcCWA+hiWvcpq3AVfiILswNF6jcngLFWv9mE0LSGKBmTP1NnDR6uLpcpdY6JUB3sm6DN1n1qdAA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxN608JLMNGrAgJ/6so0P/dBwXxKGlurCUpiYGm0NkL4WRfCV4z
+	31WFx8MkDVK64Oj2Kt1hXy8BIrbXVUTaxebr2JeTrFBOI8f4V/2KvfS1OAtyhYE=
+X-Gm-Gg: ASbGncumjubHnvBGa9lPQ0T9QCMbiyyemJjBKgl7AtMNEzoKFSwkjGTyotlGk8sDQp3
+	kE6SEUQJQMYtAHQCTKaAXWjBMidZNUyhraQ1DNxHG2tt1wb/IRWw3ks0Fuud/CG37YsuN2mu00q
+	OjPeWX0b1LTpGcDZKXzmA05QgkQJV1IhW0VsQ097yTVNIJPe3VkWoOB0sXxS2WbM4tOWQj5pjAw
+	uZ+M7YkvyayxDH9mwl8gT1h4OyrMjBS2C85xcYiaJFjJPUobt/RxqszGJYXgwwqDN4weFuwb/iS
+	Ms6IvX7a8rdouzqbvZmJFqfiVI+fkQo0DhG9s3ja+mk9gAP2pMsYvNuU6p4G8b8h8h0M
+X-Google-Smtp-Source: AGHT+IH0RqYwjPbaACsjDyFw9S+aalsLTtgB2h+Skh1qS7c10wBFGD0+SWpJDenUFZCuNvQ5UxMfHQ==
+X-Received: by 2002:a05:600c:4ec8:b0:436:9227:915 with SMTP id 5b1f17b1804b1-4390d434838mr44861015e9.9.1738828384159;
+        Wed, 05 Feb 2025 23:53:04 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:4972:46a2:e0cb:c0a6? ([2a01:e0a:982:cbb0:4972:46a2:e0cb:c0a6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dcae5c7sm10442625e9.18.2025.02.05.23.53.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Feb 2025 23:53:03 -0800 (PST)
+Message-ID: <2a602642-7c18-4969-ae41-8d24bcacac45@linaro.org>
+Date: Thu, 6 Feb 2025 08:53:02 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v5 3/5] drm: panel: Add a panel driver for the Summit
+ display
+To: fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Alyssa Ross <hi@alyssa.is>, Nick Chan <towinchenmi@gmail.com>
+References: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
+ <20250205-adpdrm-v5-3-4e4ec979bbf2@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250205-adpdrm-v5-3-4e4ec979bbf2@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 04, 2025 at 02:34:50PM -0400, Jason Gunthorpe wrote:
-> Change the internal freelist to use struct iommu_pages_list.
+On 05/02/2025 23:10, Sasha Finkelstein via B4 Relay wrote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 > 
-> riscv uses this page list to free page table levels that are replaced
-> with leaf ptes.
+> This is the display panel used for the touchbar on laptops that have it.
 > 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> Co-developed-by: Nick Chan <towinchenmi@gmail.com>
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 > ---
->  drivers/iommu/riscv/iommu.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/panel/Kconfig        |   9 +++
+>   drivers/gpu/drm/panel/Makefile       |   1 +
+>   drivers/gpu/drm/panel/panel-summit.c | 132 +++++++++++++++++++++++++++++++++++
+>   3 files changed, 142 insertions(+)
 > 
-> diff --git a/drivers/iommu/riscv/iommu.c b/drivers/iommu/riscv/iommu.c
-> index 6e7df7273426da..549bd8d0615d75 100644
-> --- a/drivers/iommu/riscv/iommu.c
-> +++ b/drivers/iommu/riscv/iommu.c
-> @@ -1085,7 +1085,8 @@ static void riscv_iommu_iotlb_sync(struct iommu_domain *iommu_domain,
->  #define _io_pte_entry(pn, prot)	((_PAGE_PFN_MASK & ((pn) << _PAGE_PFN_SHIFT)) | (prot))
->  
->  static void riscv_iommu_pte_free(struct riscv_iommu_domain *domain,
-> -				 unsigned long pte, struct list_head *freelist)
-> +				 unsigned long pte,
-> +				 struct iommu_pages_list *freelist)
->  {
->  	unsigned long *ptr;
->  	int i;
-> @@ -1103,7 +1104,7 @@ static void riscv_iommu_pte_free(struct riscv_iommu_domain *domain,
->  	}
->  
->  	if (freelist)
-> -		list_add_tail(&virt_to_page(ptr)->lru, freelist);
-> +		iommu_pages_list_add(freelist, ptr);
->  	else
->  		iommu_free_page(ptr);
->  }
-> @@ -1192,7 +1193,7 @@ static int riscv_iommu_map_pages(struct iommu_domain *iommu_domain,
->  	unsigned long *ptr;
->  	unsigned long pte, old, pte_prot;
->  	int rc = 0;
-> -	LIST_HEAD(freelist);
-> +	struct iommu_pages_list freelist = IOMMU_PAGES_LIST_INIT(freelist);
->  
->  	if (!(prot & IOMMU_WRITE))
->  		pte_prot = _PAGE_BASE | _PAGE_READ;
-> @@ -1223,7 +1224,7 @@ static int riscv_iommu_map_pages(struct iommu_domain *iommu_domain,
->  
->  	*mapped = size;
->  
-> -	if (!list_empty(&freelist)) {
-> +	if (!iommu_pages_list_empty(&freelist)) {
->  		/*
->  		 * In 1.0 spec version, the smallest scope we can use to
->  		 * invalidate all levels of page table (i.e. leaf and non-leaf)
-> -- 
-> 2.43.0
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index d7469c565d1db8b8e974dd6c45d03d9352d99d63..5085a82e4bc695e85cabbc3200859bbe10cb0f91 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -925,6 +925,15 @@ config DRM_PANEL_SIMPLE
+>   	  that it can be automatically turned off when the panel goes into a
+>   	  low power state.
+>   
+> +config DRM_PANEL_SUMMIT
+> +	tristate "Apple Summit display panel"
+> +	depends on OF
+> +	depends on DRM_MIPI_DSI
+> +	depends on BACKLIGHT_CLASS_DEVICE
+> +	help
+> +	  Say Y if you want to enable support for the "Summit" display panel
+> +	  used as a touchbar on certain Apple laptops.
+> +
+>   config DRM_PANEL_SYNAPTICS_R63353
+>   	tristate "Synaptics R63353-based panels"
+>   	depends on OF
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index 7dcf72646cacff11bab90c78e3b8b1f357e5f14a..10ac2e850f5cd6d6546439de75483466e4015d1a 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -89,6 +89,7 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LS060T1SX01) += panel-sharp-ls060t1sx01.o
+>   obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
+>   obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
+>   obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
+> +obj-$(CONFIG_DRM_PANEL_SUMMIT) += panel-summit.o
+>   obj-$(CONFIG_DRM_PANEL_SYNAPTICS_R63353) += panel-synaptics-r63353.o
+>   obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
+>   obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
+> diff --git a/drivers/gpu/drm/panel/panel-summit.c b/drivers/gpu/drm/panel/panel-summit.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..fb084f280c6fa3197b64876edd03172dbdf962b3
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-summit.c
+> @@ -0,0 +1,132 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/backlight.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_mode.h>
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +#include <video/mipi_display.h>
+> +
+> +struct summit_data {
+> +	struct mipi_dsi_device *dsi;
+> +	struct backlight_device *bl;
+> +	struct drm_panel panel;
+> +};
+> +
+> +static int summit_set_brightness(struct device *dev)
+> +{
+> +	struct summit_data *s_data = dev_get_drvdata(dev);
+> +	int level = backlight_get_brightness(s_data->bl);
+> +
+> +	return mipi_dsi_dcs_set_display_brightness(s_data->dsi, level);
+> +}
+> +
+> +static int summit_bl_update_status(struct backlight_device *dev)
+> +{
+> +	return summit_set_brightness(&dev->dev);
+> +}
+> +
+> +static const struct backlight_ops summit_bl_ops = {
+> +	.update_status	= summit_bl_update_status,
+> +};
+> +
+> +static int summit_get_modes(struct drm_panel *panel,
+> +			    struct drm_connector *connector)
+> +{
+> +	struct drm_display_mode *mode = drm_mode_create(connector->dev);
+> +
+> +	connector->display_info.non_desktop = true;
+> +	drm_object_property_set_value(&connector->base,
+> +				      connector->dev->mode_config.non_desktop_property,
+> +				      connector->display_info.non_desktop);
+> +
+> +	mode->vdisplay = 2008;
+> +	mode->hdisplay = 60;
+> +	mode->hsync_start = mode->hdisplay + 8;
+> +	mode->hsync_end = mode->hsync_start + 80;
+> +	mode->htotal = mode->hsync_end + 40;
+> +	mode->vsync_start = mode->vdisplay + 1;
+> +	mode->vsync_end = mode->vsync_start + 15;
+> +	mode->vtotal = mode->vsync_end + 6;
+> +	mode->clock = (mode->vtotal * mode->htotal * 60) / 1000;
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+> +	mode->flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC;
+> +	drm_mode_set_name(mode);
+> +	drm_mode_probed_add(connector, mode);
+> +	return 1;
+> +}
+> +
+> +static const struct drm_panel_funcs summit_panel_funcs = {
+> +	.get_modes = summit_get_modes,
+> +};
+> +
+> +static int summit_probe(struct mipi_dsi_device *dsi)
+> +{
+> +	struct backlight_properties props = { 0 };
+> +	struct device *dev = &dsi->dev;
+> +	struct summit_data *s_data;
+> +	int ret;
+> +
+> +	s_data = devm_kzalloc(dev, sizeof(*s_data), GFP_KERNEL);
+> +	if (!s_data)
+> +		return -ENOMEM;
+> +
+> +	mipi_dsi_set_drvdata(dsi, s_data);
+> +	s_data->dsi = dsi;
+> +
+> +	ret = device_property_read_u32(dev, "max-brightness", &props.max_brightness);
+> +	if (ret)
+> +		return ret;
+> +	props.type = BACKLIGHT_RAW;
+> +
+> +	s_data->bl = devm_backlight_device_register(dev, dev_name(dev),
+> +						    dev, s_data, &summit_bl_ops, &props);
+> +	if (IS_ERR(s_data->bl))
+> +		return PTR_ERR(s_data->bl);
+> +
+> +	drm_panel_init(&s_data->panel, dev, &summit_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +	drm_panel_add(&s_data->panel);
+> +
+> +	return mipi_dsi_attach(dsi);
+> +}
+> +
+> +static void summit_remove(struct mipi_dsi_device *dsi)
+> +{
+> +	struct summit_data *s_data = mipi_dsi_get_drvdata(dsi);
+> +
+> +	mipi_dsi_detach(dsi);
+> +	drm_panel_remove(&s_data->panel);
+> +}
+> +
+> +static int summit_suspend(struct device *dev)
+> +{
+> +	struct summit_data *s_data = dev_get_drvdata(dev);
+> +
+> +	return mipi_dsi_dcs_set_display_brightness(s_data->dsi, 0);
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(summit_pm_ops, summit_suspend,
+> +				summit_set_brightness);
+> +
+> +static const struct of_device_id summit_of_match[] = {
+> +	{ .compatible = "apple,summit" },
+> +	{},
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, summit_of_match);
+> +
+> +static struct mipi_dsi_driver summit_driver = {
+> +	.probe = summit_probe,
+> +	.remove = summit_remove,
+> +	.driver = {
+> +		.name = "panel-summit",
+> +		.of_match_table = summit_of_match,
+> +		.pm = pm_sleep_ptr(&summit_pm_ops),
+> +	},
+> +};
+> +module_mipi_dsi_driver(summit_driver);
+> +
+> +MODULE_DESCRIPTION("Summit Display Panel Driver");
+> +MODULE_LICENSE("GPL");
 > 
 
-Reviewed-by: Tomasz Jeznach <tjeznach@rivosinc.com>
-
-Thanks,
-- Tomasz
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
