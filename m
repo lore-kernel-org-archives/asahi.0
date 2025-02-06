@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58687194091
-	for <asahi@lists.linux.dev>; Thu,  6 Feb 2025 17:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D83A189F39
+	for <asahi@lists.linux.dev>; Thu,  6 Feb 2025 18:02:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738864692; cv=none; b=K6QdPod0z8KL36JvYCuaK6rTSjSnZhtPwZfQaDzdpvyiEOVGN8n/0jWnL5Za2caU339JpovPCIUYcNG5xqcJTqnp0LOb+TektlFfKmCvITWRmNWPYwOXTI0UcYrKidkqi5edysAI6zQwnxoNqCpJ0oyJa97OkFZSroXCbNiAO70=
+	t=1738864948; cv=none; b=dMT/UDS3lOFlQSLNET0PFO19/+OS6b7ckhePewsiR+MV/aIdZrmYWQiPGTloY2D1stxLcWvoncJfOnqjdQnitE3/76wp6rJjwyzEMwU/3TY3DE3wG+9K5oVI5dO/KM/9vV2HmLtb3lwYFeJ4z3RxVxxWzOSSGgd0gTA4fwOciLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738864692; c=relaxed/simple;
-	bh=YmHapirqvk/ngdiGC6T/xxUFtO17FTPrBiw5vtm84Yg=;
+	s=arc-20240116; t=1738864948; c=relaxed/simple;
+	bh=fFX7WX7rESi57HzdupGRxeDT1ZOE6dLiv8gi7agAbqU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i9DIJYylGO+jxSGEzhxIQMA6IiSJr0bDXsoYuE2lSYPT5H4zh6HdQcHEKLfuJqUnYEbvP+ywGOdMlPcUASwHdTzjKDohIX0oCNxHsMhw8psq4CjnFnUw2YaBsNE5AjW9ut9hyFu/PKizIQJSwCfMelBw8pEPLAKUpde5zvvJ1rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MLa6Nu/5; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=qtVvkCym5bbzbYfYoNR6pNQp5sVNDPNlT5ej/NIAwghrOtBlwgvLkklKTa8wJ+ohILrtlUHQbasKUzUt2HSqyi9Sfv4B0oxwjyH/Sjc5EZ2j6GFBqUtwpD9EQq+6e2TbBuwb68QgKnszn9EwmA/aCYCYmqne2tBdUMEWORvGXtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NiutHiC4; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MLa6Nu/5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NiutHiC4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738864689;
+	s=mimecast20190719; t=1738864945;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SKbbANEF+87OBIL+65pN5q1lm52hJsu8mb9TW2ODNS4=;
-	b=MLa6Nu/5JHbvvxvtVAXHHvcUnEDma+8UQ0EnFPOs7pjCxfr8S9BWwdZAv8uuN3qrADC2xK
-	myE7ieJ+t403PtKtQq4QdNVR6t31MmoSJvAI/VR8uOkuZ0H+3vDHIaNCBfv7verFeTUGge
-	IuDrBKAyT0wVhLzbP8IiVHjS52+GtPY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=H/X7JAyslUMpcovSijR9H3y4JHmJ9YSE8ky354gYVF4=;
+	b=NiutHiC4Ckgg5nLWtpIlCYvsXbl8cpM4cInhH4BNVkeOnZEPGIpmE8IvExxqic2KOG0RhR
+	UFLUslzkRgR8DLxOPSUpouCGKaAPyCiyWGHg9JxD3pA2fgWfS8qe7gcMjolw6n5TDOf0+W
+	ZrrI5j/9ItCOdTo32Hv/wUTS6Mun+YI=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-571-h7vupEi-OtGy73hEcLqPrA-1; Thu, 06 Feb 2025 12:58:05 -0500
-X-MC-Unique: h7vupEi-OtGy73hEcLqPrA-1
-X-Mimecast-MFC-AGG-ID: h7vupEi-OtGy73hEcLqPrA
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-43625ceae52so7419225e9.0
-        for <asahi@lists.linux.dev>; Thu, 06 Feb 2025 09:58:05 -0800 (PST)
+ us-mta-617-kr1ssdV5Mr-qy6hygDXqjw-1; Thu, 06 Feb 2025 13:02:24 -0500
+X-MC-Unique: kr1ssdV5Mr-qy6hygDXqjw-1
+X-Mimecast-MFC-AGG-ID: kr1ssdV5Mr-qy6hygDXqjw
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ab773dd745fso117868466b.3
+        for <asahi@lists.linux.dev>; Thu, 06 Feb 2025 10:02:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738864685; x=1739469485;
+        d=1e100.net; s=20230601; t=1738864943; x=1739469743;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=SKbbANEF+87OBIL+65pN5q1lm52hJsu8mb9TW2ODNS4=;
-        b=dKp3qDeRFFKgn95r4jXON5ZAX+4QfU3xOrD3936T6WjfdtHCqSXgyVcR+Am1pDveEZ
-         R/7H30VHGMZXB4nXwo2VZO1Rp0ek4+o7ln3d3uUdrDRWRPQqA40dF/k8zRbRlwlS7vke
-         hD7BwBU6X8Jx7lLcjlathQ0H5rS+pI4zo3wdV8/lGMVL9Xj5aEmPTMUyg3x9fh3/7pJi
-         90OfwGfdP9GFBX9Xj4ZUmQyerqTVXx9MA8VHbe/qqAPJve5dVNJGdIPa5Tr5v/Kn6RFX
-         Pz7yY1SJHFsZOLgNwN8FPi8gpB1MbDnIP9YGcjRt3z14363kVXRCmaN5lScrnM2LsvFa
-         bRsw==
-X-Forwarded-Encrypted: i=1; AJvYcCXgL61DGtcLXRrQGhs8OHruvi49qTPP6+O++4Bmhg0jbAnPjCcTMJcLCkf9DWERCN8wHb0kIw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoVPGUDUKhnSoGT6wvH2VFrZeOOnNCPJUQhq9ZGZZTJqpCVFwv
-	jm9ipYZ3qN26G8tEdOGfxPAb6FfhQEs2l40y1afiiDxAFMiduEIp19UC+G4vDQpqG8j8CNmSeq8
-	8Abn/BmD5dPAaPxiHld/eY/HJJcyEHGmRCYuNMvdmWW1R6nkAHyfj
-X-Gm-Gg: ASbGncsG6lkmr6hIu2ab2aucXjAJZ1kBGr7TWEGhUsIm+ESUPqSGj6kdlB+mYXXDTlY
-	WEVQVRnWT17kxnk4SVC0uCltioDG1NGYrbozCYRN9gd5/W1ibSXrt1WgYPMzXXbFRD6AhnL/O6P
-	xYBEmi0IPEHbND9CZ5SYjsX44P85KrShyT047SxPDQWuw8J7WS9YMnTZbsR62unjvFZoifRTT6G
-	PEzsh+5ZJknrejtKtCyqd0bvebid0b9Y9kT/XTkbJQ2Iyh8pi38pAoZig+bn11jMdkfzJnl0eIV
-	vUSNghYo1SkVDpK3zzeJBgopJpcoRjuOuUFecfyYv5K6N8rhPUxKgkbDUdhzQrVkkUKRDWW67+V
-	SE57JqyIS9b1o//OJhtXyyJKwgoCmoN1G
-X-Received: by 2002:a05:600c:3ac7:b0:434:eb86:aeca with SMTP id 5b1f17b1804b1-43924988cc1mr3185275e9.10.1738864684749;
-        Thu, 06 Feb 2025 09:58:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IELRlMVRsMWOao9zzpz6Rufi04usTrvUtUoFfSASS5M5qjhhPoS146Q9D71cphcNkBb8xHqlQ==
-X-Received: by 2002:a05:600c:3ac7:b0:434:eb86:aeca with SMTP id 5b1f17b1804b1-43924988cc1mr3184855e9.10.1738864684304;
-        Thu, 06 Feb 2025 09:58:04 -0800 (PST)
+        bh=H/X7JAyslUMpcovSijR9H3y4JHmJ9YSE8ky354gYVF4=;
+        b=lAZMr0jZcBY6k81xgvAZY8Sy5xN6t3uHYrquKRVNGnLpj6KgrPdgQ3zYXEdml13iv7
+         sWA4XYK56xRRQkSPgJU8XnXKoclsAH6IklMIjSjNqX+6fpTeIrAZh7VbyGm/askKORAE
+         912sezuYmE+T2HIDiOrt5u10aghcS3BFSkc8bvnZ8xqQWGOh0QWaINc6ECR5hw/h8WOv
+         UTA2nb1i2SU7o6tbPUDRrSEoGjqS4bhw/UKAAHlhwM73uhqelg8Di88z8XU4z1FHYfA1
+         2DHyMlrzNUDU0ugXjGCtkkZwHAZfhAFO5x+kPJ5a7ZaNmRxgFHf+qlRHxbHjj8WCyF8t
+         EqFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUcfTEPBbRBpFvydX0Ac7jF6bQAZZpBzTsp2gmg0A6JBkeUktnBs7g6U3AV3pQEiMXX//HAvA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyAxVw2+VOCvx/dWScQKrg5t917LQmvod9rKjy8zNHpNnwkccUM
+	4Q7FtWovokrct9w51QfW9Z7YVjWwwDow98cDHqyAeHcSAtRL/LZjPoLUkeYx9LwF8NvZmGbCTVX
+	WKlqIw3ig+P/kIfqFNNIBlymoE9dogUBNbwpZ6zWbNxTAj2Sorsr6
+X-Gm-Gg: ASbGncvsE5T+3hXPI1YN2RO/tALVi0B7tsMwpe7J36hdtUtBgOQXIXT9XDpOvDArnui
+	1fk7ZT4rcl7QO/cnhw/XQmDIBzMq7zzKklBRhaRKs5ATyrOGJu+uC1gscmqRR1hz3N9MUqwmnUj
+	PPD72C6HYTG/HJWM1NIr2OHsZzqOJQkoexdDAv1tcBEQSfPUSmqMvW4nnYk1rlaTPgAq4KSAbt3
+	1dpRQQUO83jT+tJPuNNG7TLkwbgK/yUVYB8XW6IOPUohW3eV9IEAjGQeuxsBHIVGN9qGT5olgBD
+	rzSjmbePKxuZummlqlLrimuuTTNpgJuDWoQChZ5i9zT9Dejqn27492BKg/dcVduCY+qJAHOe5T/
+	5oeoiMqpwILQ6YpfPLPo13efCSJU9eTom
+X-Received: by 2002:a17:906:f59c:b0:ab6:fee1:60e0 with SMTP id a640c23a62f3a-ab75e0cde78mr953330466b.0.1738864942850;
+        Thu, 06 Feb 2025 10:02:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG1CRSDzu2YE392s9ny77vHMbFVHNidfotWm3TklIkUk0mLEzrAsbd8dkVb+LKOWwa7+Aobsw==
+X-Received: by 2002:a17:906:f59c:b0:ab6:fee1:60e0 with SMTP id a640c23a62f3a-ab75e0cde78mr953310066b.0.1738864940868;
+        Thu, 06 Feb 2025 10:02:20 -0800 (PST)
 Received: from ?IPV6:2003:cb:c707:3000:a06b:56f1:d152:db83? (p200300cbc7073000a06b56f1d152db83.dip0.t-ipconnect.de. [2003:cb:c707:3000:a06b:56f1:d152:db83])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dfd84b9sm25919955e9.39.2025.02.06.09.58.02
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab772f4870bsm134060366b.32.2025.02.06.10.02.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2025 09:58:03 -0800 (PST)
-Message-ID: <0dffaa7d-340f-4ce1-9a2e-54cfd9079266@redhat.com>
-Date: Thu, 6 Feb 2025 18:58:01 +0100
+        Thu, 06 Feb 2025 10:02:19 -0800 (PST)
+Message-ID: <38333d54-62e4-4d61-a49d-48489d6f977e@redhat.com>
+Date: Thu, 6 Feb 2025 19:02:17 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -77,7 +77,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
  physaddr conversion
-To: Asahi Lina <lina@asahilina.net>, Zi Yan <ziy@nvidia.com>
+To: Asahi Lina <lina@asahilina.net>, Jason Gunthorpe <jgg@ziepe.ca>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
@@ -90,20 +90,16 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
  airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
- Muchun Song <muchun.song@linux.dev>
+ asahi@lists.linux.dev
 References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
  <Z6CTLB2NggwYafi9@phenom.ffwll.local>
- <41ca3445-80cd-43c1-8f9e-634c195c9187@asahilina.net>
- <37A0729B-A711-4D45-B9F0-328FDB9ADD28@nvidia.com>
- <0e19e1c3-293b-4740-93f3-2c410893288b@redhat.com>
- <82047858-480a-45e3-b826-3a46fbebe842@asahilina.net>
- <f1498b22-0bc1-489a-8c2c-35aa48c7fe7d@redhat.com>
- <1e9ae833-4293-4e48-83b2-c0af36cb3fdc@asahilina.net>
- <026c1a0c-e53a-4a5e-92da-6e4f18ce0fee@redhat.com>
- <cc1cd991-1871-4929-851e-d9672a45dcf0@asahilina.net>
- <6bcd3315-a0f9-463c-ab97-a43736f9b4f4@redhat.com>
- <2a513c3e-818c-4040-b3d3-7835861bab4f@asahilina.net>
+ <1eaf66ba-b2d3-448f-938b-913f17ca98a4@redhat.com>
+ <20250204183933.GJ2296753@ziepe.ca>
+ <1d379007-97c3-4bb9-93da-1a828f955fc4@redhat.com>
+ <20250204202656.GL2296753@ziepe.ca>
+ <08ce9562-9ded-4d95-a495-b60f90d75490@redhat.com>
+ <c4c39ea5-3602-4b92-9ffd-af33e122538d@redhat.com>
+ <f8d06a49-4154-42d2-99c9-f8d59d39ab9f@asahilina.net>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -150,138 +146,65 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <2a513c3e-818c-4040-b3d3-7835861bab4f@asahilina.net>
+In-Reply-To: <f8d06a49-4154-42d2-99c9-f8d59d39ab9f@asahilina.net>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Gr4Yt12HMR-96D8caSI2ZNIPL1zLbbmRsgzX03vFkGs_1738864685
+X-Mimecast-MFC-PROC-ID: vt-t45gNA9o-YJmkhybaIsscg3GInwkh2tJjnFLI_Ko_1738864943
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 04.02.25 22:06, Asahi Lina wrote:
+On 04.02.25 22:18, Asahi Lina wrote:
 > 
 > 
-> On 2/5/25 5:10 AM, David Hildenbrand wrote:
->> On 04.02.25 18:59, Asahi Lina wrote:
->>> On 2/4/25 11:38 PM, David Hildenbrand wrote:
->>>>>>> If the answer is "no" then that's fine. It's still an unsafe function
->>>>>>> and we need to document in the safety section that it should only be
->>>>>>> used for memory that is either known to be allocated and pinned and
->>>>>>> will
->>>>>>> not be freed while the `struct page` is borrowed, or memory that is
->>>>>>> reserved and not owned by the buddy allocator, so in practice correct
->>>>>>> use would not be racy with memory hot-remove anyway.
->>>>>>>
->>>>>>> This is already the case for the drm/asahi use case, where the pfns
->>>>>>> looked up will only ever be one of:
->>>>>>>
->>>>>>> - GEM objects that are mapped to the GPU and whose physical pages are
->>>>>>> therefore pinned (and the VM is locked while this happens so the
->>>>>>> objects
->>>>>>> cannot become unpinned out from under the running code),
->>>>>>
->>>>>> How exactly are these pages pinned/obtained?
->>>>>
->>>>> Under the hood it's shmem. For pinning, it winds up at
->>>>> `drm_gem_get_pages()`, which I think does a `shmem_read_folio_gfp()` on
->>>>> a mapping set as unevictable.
+> On 2/5/25 5:47 AM, David Hildenbrand wrote:
+>> On 04.02.25 21:41, David Hildenbrand wrote:
+>>> On 04.02.25 21:26, Jason Gunthorpe wrote:
+>>>> On Tue, Feb 04, 2025 at 09:05:47PM +0100, David Hildenbrand wrote:
+>>>>> Fully agreed, this is going into the right direction. Dumping what's
+>>>>> mapped
+>>>>> is a different story. Maybe that dumping logic could simply be
+>>>>> written in C
+>>>>> for the time being?
 >>>>
->>>> Thanks. So we grab another folio reference via shmem_read_folio_gfp()-
->>>>> shmem_get_folio_gfp().
+>>>> ?
 >>>>
->>>> Hm, I wonder if we might end up holding folios residing in ZONE_MOVABLE/
->>>> MIGRATE_CMA longer than we should.
+>>>> Isn't dumping just a
+>>>>      decode pte -> phys_to_virt() -> for_each_u64(virt) -> printk?
 >>>>
->>>> Compared to memfd_pin_folios(), which simulates FOLL_LONGTERM and makes
->>>> sure to migrate pages out of ZONE_MOVABLE/MIGRATE_CMA.
->>>>
->>>> But that's a different discussion, just pointing it out, maybe I'm
->>>> missing something :)
 >>>
->>> I think this is a little over my head. Though I only just realized that
->>> we seem to be keeping the GEM objects pinned forever, even after unmap,
->>> in the drm-shmem core API (I see no drm-shmem entry point that would
->>> allow the sgt to be freed and its corresponding pages ref to be dropped,
->>> other than a purge of purgeable objects or final destruction of the
->>> object). I'll poke around since this feels wrong, I thought we were
->>> supposed to be able to have shrinker support for swapping out whole GPU
->>> VMs in the modern GPU MM model, but I guess there's no implementation of
->>> that for gem-shmem drivers yet...?
+>>> IIUC, the problematic bit is that you might not have a directmap such
+>>> that phys_to_virt() would tell you the whole story.
 >>
->> I recall that shrinker as well, ... or at least a discussion around it.
+>> ... but it's late and I am confused. For dumping the *page table* that
+>> would not be required, only when dumping mapped page content (and at
+>> this point I am not sure if that is a requirement).
 >>
->> [...]
->>
->>>>
->>>> If it's only for crash dumps etc. that might even be opt-in, it makes
->>>> the whole thing a lot less scary. Maybe this could be opt-in somewhere,
->>>> to "unlock" this interface? Just an idea.
->>>
->>> Just to make sure we're on the same page, I don't think there's anything
->>> to unlock in the Rust abstraction side (this series). At the end of the
->>> day, if nothing else, the unchecked interface (which the regular
->>> non-crash page table management code uses for performance) will let you
->>> use any pfn you want, it's up to documentation and human review to
->>> specify how it should be used by drivers. What Rust gives us here is the
->>> mandatory `unsafe {}`, so any attempts to use this API will necessarily
->>> stick out during review as potentially dangerous code that needs extra
->>> scrutiny.
->>>
->>> For the client driver itself, I could gate the devcoredump stuff behind
->>> a module parameter or something... but I don't think it's really worth
->>> it. We don't have a way to reboot the firmware or recover from this
->>> condition (platform limitations), so end users are stuck rebooting to
->>> get back a usable machine anyway. If something goes wrong in the
->>> crashdump code and the machine oopses or locks up worse... it doesn't
->>> really make much of a difference for normal end users. I don't think
->>> this will ever really happen given the constraints I described, but if
->>> somehow it does (some other bug somewhere?), well... the machine was
->>> already in an unrecoverable state anyway.
->>>
->>> It would be nice to have userspace tooling deployed by default that
->>> saves off the devcoredump somewhere, so we can have a chance at
->>> debugging hard-to-hit firmware crashes... if it's opt-in, it would only
->>> really be useful for developers and CI machines.
->>
->> Is this something that possibly kdump can save or analyze? Because that
->> is our default "oops, kernel crashed, let's dump the old content so we
->> can dump it" mechanism on production systems.
+>> So hopefully Asahi Lina can clarify what the issue was (if there is
+>> any :) ).
 > 
-> kdump does not work on Apple ARM systems because kexec is broken and
-> cannot be fully fixed, due to multiple platform/firmware limitations. A
-> very limited version of kexec might work well enough for kdump, but I
-> don't think anyone has looked into making that work yet...
+> Yes, the crash dumper has to dump the mapped page content. In fact, I
+> don't care about the page tables themselves other than PTE permission
+> bits, and the page tables alone are not useful for debugging firmware
+> crashes (and aren't even included in the dump verbatim, at least not the
+> kernel-allocated ones). The goal of the crash dumper is to take a
+> complete dump of firmware virtual memory address space (which includes
+> the kinds of memory I mentioned in [1]). The output is an ELF format
+> core dump with all memory that the GPU firmware can access, that the
+> kernel was able to successfully dump (which should be everything except
+> for MMIO if the bootloader/DT have the right reserved-memory setup).
 > 
->> but ... I am not familiar with devcoredump. So I don't know when/how it
->> runs, and if the source system is still alive (and remains alive --  in
->> contrast to a kernel crash).
-> 
-> Devcoredump just makes the dump available via /sys so it can be
-> collected by the user. The system is still alive, the GPU is just dead
-> and all future GPU job submissions fail. You can still SSH in or (at
-> least in theory, if enough moving parts are graceful about it) VT-switch
-> to a TTY. The display controller is not part of the GPU, it is separate
-> hardware.
+> I *think* phys_to_virt should work just fine for *this* specific use
+> case on this platform, but I'm not entirely sure. I still want to use
+> the various pfn check functions before doing that, to exclude ranges
+> that would definitely not work.
 
+See my other mail, in /proc/kcore we do exactly that. See 
+fs/proc/kcore.c, especially the KCORE_RAM case in read_kcore_iter().
 
-Thanks for all the details (and sorry for the delay, I'm on PTO until 
-Monday ... :)
-
-(regarding the other mail) Adding that stuff to rust just so we have a 
-devcoredump that ideally wouldn't exist is a bit unfortunate.
-
-So I'm curious: we do have /proc/kcore, where we do all of the required 
-filtering, only allowing for reading memory that is online, not 
-hwpoisoned etc.
-
-makedumpfile already supports /proc/kcore.
-
-Would it be possible to avoid Devcoredump completely either by dumping 
-/proc/kcore directly or by having a user-space script that walks the 
-page tables to dump the content purely based on /proc/kcore?
-
-If relevant memory ranges are inaccessible from /proc/kcore, we could 
-look into exposing them.
+So I would hope that at least for the Devcoredump we can find an 
+alternative that does not require rust bindings, and maybe not even new 
+c code at all (in a perfect world where you could just reuse  /proc/kcore).
 
 -- 
 Cheers,
