@@ -1,76 +1,98 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4A070838
-	for <asahi@lists.linux.dev>; Thu,  6 Feb 2025 03:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE3022370D
+	for <asahi@lists.linux.dev>; Thu,  6 Feb 2025 05:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738812414; cv=none; b=FD/hWKpv+dVufV8kVY95yH32CIDt1WVL5gAivwXjVDHj5PjVRZEzqWbHYg6b/v/WVg2JI1a/4q3LORNEFGpJPu/pn1IHIX45SO9vmzgI5O57J6dKseGkhkXrY/8qu2LsdrZOceIwNB4fuRruGVSJhLechbgUJy5CBfMmhKHmzt8=
+	t=1738819812; cv=none; b=sTTnnfxCYnDRWRe/mmynw3MHbKAeS37EoVcVuJqM1WTRvcfABL2Seh95crc1QRBj1rl7+nKGv/bwxrEa/zRmaygkHguORSKjOkAAXHgX3JVOhGHjIAUO58eKGI45ZkGckX5i7sgxIZNU2mb5nTZDyvzd7LNunjMRUn0irZYhdc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738812414; c=relaxed/simple;
-	bh=jpu9uDNeDBdC6VtS2p5oWuNJTeUlGlui3vXVeWRSCEc=;
+	s=arc-20240116; t=1738819812; c=relaxed/simple;
+	bh=tNOsQ8XTPAWYz9ImmrEJwRpNQeju67/8X20L+ujIqzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kEBUT1lLOTqGWsk4e8l4YSyicC5Uhy6Ve5uFX0KFNXN5FH+qCI5IqeXXj0y+5SmiTm9BCqP/b2iWdos1PeigwJYHDcJArsiZV9kuDOkc6q1IYDjZqiQKPe7JoXQAu2gzXG435uXs6F93pJOYbElaexnvl5kcKknZmpDq+BnJuVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LwTJF4KB; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hu+xGiIRaj6mJ51ZKPknPw9EXRrvkOdPH0gKIDHwxmBhTA6P6xDgBNgbB3hW5wXtA7YUfjeSxphzwz+JHblQTfszInLiyVhEc0Zsbr8w3i2XW/dBznYscDxLezWcJ3Ccum7/rmUkszAtRyfGJLqmjxoDFOqKpJybpEvU0QcNPgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=q5MsBWCV; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LwTJF4KB"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30613802a04so4764071fa.2
-        for <asahi@lists.linux.dev>; Wed, 05 Feb 2025 19:26:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="q5MsBWCV"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2163dc5155fso10121185ad.0
+        for <asahi@lists.linux.dev>; Wed, 05 Feb 2025 21:30:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738812410; x=1739417210; darn=lists.linux.dev;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1738819809; x=1739424609; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5DdG5Jn1MW15Wn8u30uTGjRTJ9vbOt12LrxRPZobjB0=;
-        b=LwTJF4KBD/9yUjUkQwgnw6xp5C+TmxPblGLauSSBM8vBqNk6jWJymxQF7MjAN04K0H
-         1rM0yv2pyDyN/a5/6H3uUOyoSht9GeKe4tslQe1ijsIg2Hc9yvQnzjhTuLXwabQraY7j
-         2d5GSCNE0JgqTCcP7lnSxx2hEpOjv9GYBIBxjgK6/jpRA+W9pu+cBnsn/UFIVcfHG0xI
-         66BMWB6Iy/YQrnVm4XW+5gfOqNBG+m+Y//ittCZo9gNyxspDnG2tUB9fZUMs/xeWHtQN
-         h3smKGHmq7t3to6xPKGhfNdiqyOYyvOYbpfhkcdEFLeNM9ZZehBZ7zQTqgxnuGr8nhvi
-         xJoA==
+        bh=pRoJEJRUPVObRh6bcpNHZcCJSeUoo6qbmkVpHeNteUs=;
+        b=q5MsBWCVuNC2F3hHvNX2toyzdzN7weOFg9ToelHKL9D+M46XGiWQ5XNJP8TZygo/2l
+         /VMaRugfGhGMjFZ11jr5lpc8xbiffVjrUG9UuDirKIosba0GyRvc35TZOtFyAekc2kpD
+         hkwUwp3prQsqP62LeAeeKlBgQkWbM8Hm5/37sUCLmboL2iyjX85QTdX/PlXw7ZBTGijG
+         kctxyjz+dWKNVW8lc0dDM3m3U+EuYAPwAp5sjKEetlI33t4h6eIY3wL+zkFiXex8lvjV
+         o8W5wVJfEjHcKOrVxVZuENQLV5/YYvGW2V5E7xLy/VDk4ERqnx5OMUORDVuF+t3JSwFn
+         6NpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738812410; x=1739417210;
+        d=1e100.net; s=20230601; t=1738819809; x=1739424609;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5DdG5Jn1MW15Wn8u30uTGjRTJ9vbOt12LrxRPZobjB0=;
-        b=pVFk9XP6OEx88SDuA9yDqRsXtU+9OUOgaM6bEeUYZdYF5NmC9/xteu7akzsV553rIH
-         r7FrHipzDSIoObNUsW6rE2kcjlD0/TvR3OtTWec8uQnIEkIyUCffETGGhxxupNJ2T+87
-         9ff1SSSPibm059z7DvdU744qRZnTFu6jyHIIerPLgVuAYJ95Ww2w7MLUWzstqUMuZfKs
-         etF9mLceHB+LQX0wrsM7aoshDNyseRR9tjLuP39fQuPo7apAMNpXSN2Rc7Ja3GYdmzuY
-         C1o5ipBru6fCnG9J32GdkqZdldIZQjPofQnG0tryuFcbcylyqeiJ4Bry7mYOOumDXJ42
-         3NGg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrVg5kQoeLpo7656/y690HB+OJLepz9Xb+7KFwkH4wKaJk43w4PM/CDA5E1hB1/txKFoZrrA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdhI4uoidHbWd+CyC9WamZypyi+5CTURj0X0tgDHf4vwE+Nr2N
-	QyrwlJ/NwiY4u3n4A5Ky54/IrGzdB78/nwKRpcM4dc7hMok5u34RmgLN67qQL2E=
-X-Gm-Gg: ASbGncvHk8b2WAOsUfQfZkqSWRNUl80ceJwrWL8ZtZJ/H2+vSyKLZHV+J0SoKZ7rYMh
-	qgz8hIijiLWKdMLfvDAH9mBqOyPIXXo2rFkoRmTbf2l4IRGcgJOTx0aEQ1IMHSciER6nJQKnDFU
-	4ribmi2cYVZTEXdPA0s6JUczM8ifnmNlk9/dYH3QQAZ4wgspCrp9L9q42Le8r4hX3mN22udNB9s
-	E/bmgCGn3tgDnW/weS9xgk9VlvpCefNb5pyXuzxxB0cnCvtU+uSV/hFy5/vfdWpa5pUZv9K2Hla
-	czdm4Ru1TTYTkkRVOW+PAQ/+Gx3IZEGWXkOWuPx8wcaW8l3CqR6nWWFXExMm2RirDRiGU8k=
-X-Google-Smtp-Source: AGHT+IHW1jb3KW8x6tt/qBgkvjmxR3wnyBKxeKsQxRREB62A0u+WNaONlVtge6tXCMFRwKna1G8X8A==
-X-Received: by 2002:a2e:a54f:0:b0:300:33b1:f0e1 with SMTP id 38308e7fff4ca-307cf23dbd9mr17475791fa.0.1738812410424;
-        Wed, 05 Feb 2025 19:26:50 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de1c797csm236761fa.63.2025.02.05.19.26.48
+        bh=pRoJEJRUPVObRh6bcpNHZcCJSeUoo6qbmkVpHeNteUs=;
+        b=DUfT9RdOLn+VM+ShUavQuCiuAqE9iwdrMyBrCNuPVTf1bChVlJtGrQl9a8mQW9GkzC
+         YOkv93ywq6fOkMgFo48KSgPOd0J1JVYqG4giKq/43domOCh4gy5a+pFy0eB0l5/wCh3U
+         jLalRLg/gPyh27K0H18Cf6Z4t+NBoWwTDVwffH6Le60MH5BsavIHs56Puoocz5PKjJok
+         WI7r0WEAE6yWf8M/fdfaxBNMJy3B0fXFmBQ0Omd4ANc+M6aUHqzMZDvBIQY6WCn6NX7N
+         nWxwJFXDtgOEJBBgNFilIcaSC6pcMMdf4JkWtzOGGejmP+IAGP3h2qOX7Of2NgP13oqk
+         Jm+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWYA7v4LFNC1TTUPfCDTkCazCuxse7FHQlXnxu5wnB2MAJRruWqFxn72awnHgds5/BuDG8N6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOtQxrRYAJkBl1hfykuOmfTwjzjDS1GVWxAxfOh9EUiWYtnaXD
+	Ai/w/CusNxjUB0XmQrjuposVo6vwWzIiSJQBAbHCCg1KXKp18p34hAD8JvKyfC8=
+X-Gm-Gg: ASbGncswPfj9T8ULt44PZmFQ5tJ0iqjqx9fq/zC53tlaXSNB23zidPufxTDYqD4RMD9
+	4FPgbKEIf/GpzYuJWMVJ5glbgt2haxOF86hPWCkec+d+/nOnVm9NTzux6Kndh289dogai4R5d/3
+	mlTsyGL5dFgnCH+Ck4A9o4Nae0hlEjQMoYXQzjcRvY+g7dehRW0s1GVLp2Lnn743gePDoG6QTXo
+	H/IhCAWLXsZl/TC84nZHEJKASOdlz+iNKVFPCHFd3SCPaP4XytwOlKh69QjpT+SUHtDSKhbG7iJ
+	t0lk7nTwIIHcjQI82nxdV0lRANgxlSwzHA==
+X-Google-Smtp-Source: AGHT+IE1tNZkBLKVThcpOUcjJPjEE6LeUB5SuPAtY9c/ZHJbnXa2ZNVKpzCci8Lb0vwwFKWpOtSe+Q==
+X-Received: by 2002:a17:902:d28b:b0:216:410d:4c53 with SMTP id d9443c01a7336-21f17ebba71mr74788475ad.41.1738819809035;
+        Wed, 05 Feb 2025 21:30:09 -0800 (PST)
+Received: from tjeznach.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3653c997sm3459215ad.78.2025.02.05.21.30.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 19:26:49 -0800 (PST)
-Date: Thu, 6 Feb 2025 05:26:46 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: fnkl.kernel@gmail.com
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v5 2/5] drm: adp: Add Apple Display Pipe driver
-Message-ID: <lnsv5o2uln3bvwryxybx7xb4w3j4e3rr2h5inj7t6cat5zord5@lgohn6yrygrt>
-References: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
- <20250205-adpdrm-v5-2-4e4ec979bbf2@gmail.com>
+        Wed, 05 Feb 2025 21:30:08 -0800 (PST)
+Date: Wed, 5 Feb 2025 21:30:05 -0800
+From: Tomasz Jeznach <tjeznach@rivosinc.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Hector Martin <marcan@marcan.st>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+	Joerg Roedel <jroedel@suse.de>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	David Rientjes <rientjes@google.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH 17/19] iommu/riscv: Update to use
+ iommu_alloc_pages_node_lg2()
+Message-ID: <Z6RI3ftJTrm3UxoO@tjeznach.ba.rivosinc.com>
+References: <0-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
+ <17-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -79,28 +101,82 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250205-adpdrm-v5-2-4e4ec979bbf2@gmail.com>
+In-Reply-To: <17-v1-416f64558c7c+2a5-iommu_pages_jgg@nvidia.com>
 
-On Wed, Feb 05, 2025 at 11:10:51PM +0100, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Tue, Feb 04, 2025 at 02:34:58PM -0400, Jason Gunthorpe wrote:
+> One part of RISCV already has a computed size, the other part seems to use
+> PAGE_SIZE (which is probably SZ_4K?). Convert the call.
 > 
-> This display controller is present on M-series chips and is used
-> to drive the touchbar display.
-> 
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  drivers/gpu/drm/Kconfig        |   2 +
->  drivers/gpu/drm/Makefile       |   1 +
->  drivers/gpu/drm/adp/Kconfig    |  17 ++
->  drivers/gpu/drm/adp/Makefile   |   5 +
->  drivers/gpu/drm/adp/adp-mipi.c | 276 ++++++++++++++++++
->  drivers/gpu/drm/adp/adp_drv.c  | 617 +++++++++++++++++++++++++++++++++++++++++
->  6 files changed, 918 insertions(+)
+>  drivers/iommu/riscv/iommu.c | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/iommu/riscv/iommu.c b/drivers/iommu/riscv/iommu.c
+> index 549bd8d0615d75..b7cee3d651b179 100644
+> --- a/drivers/iommu/riscv/iommu.c
+> +++ b/drivers/iommu/riscv/iommu.c
+> @@ -65,13 +65,15 @@ static int riscv_iommu_devres_pages_match(struct device *dev, void *res, void *p
+>  	return devres->addr == target->addr;
+>  }
+>  
+> -static void *riscv_iommu_get_pages(struct riscv_iommu_device *iommu, int order)
+> +static void *riscv_iommu_get_pages(struct riscv_iommu_device *iommu,
+> +				   unsigned int size)
+>  {
+>  	struct riscv_iommu_devres *devres;
+>  	void *addr;
+>  
+> -	addr = iommu_alloc_pages_node(dev_to_node(iommu->dev),
+> -				      GFP_KERNEL_ACCOUNT, order);
+> +	addr = iommu_alloc_pages_node_lg2(dev_to_node(iommu->dev),
+> +					  GFP_KERNEL_ACCOUNT,
+> +					  order_base_2(size));
+>  	if (unlikely(!addr))
+>  		return NULL;
+>  
+> @@ -161,9 +163,8 @@ static int riscv_iommu_queue_alloc(struct riscv_iommu_device *iommu,
+>  	} else {
+>  		do {
+>  			const size_t queue_size = entry_size << (logsz + 1);
+> -			const int order = get_order(queue_size);
+>  
+> -			queue->base = riscv_iommu_get_pages(iommu, order);
+> +			queue->base = riscv_iommu_get_pages(iommu, queue_size);
+>  			queue->phys = __pa(queue->base);
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+All allocations must be 4k aligned, including sub-page allocs.
 
--- 
-With best wishes
-Dmitry
+Note from IOMMU/RISC-V spec:
+
+"If the command-queue has 256 or fewer entries then the base address of the
+queue is always aligned to 4-KiB."
+
+I can't find this to be guaranteed with new allocation API.
+
+>  		} while (!queue->base && logsz-- > 0);
+>  	}
+> @@ -618,7 +619,7 @@ static struct riscv_iommu_dc *riscv_iommu_get_dc(struct riscv_iommu_device *iomm
+>  				break;
+>  			}
+>  
+> -			ptr = riscv_iommu_get_pages(iommu, 0);
+> +			ptr = riscv_iommu_get_pages(iommu, PAGE_SIZE);
+>  			if (!ptr)
+>  				return NULL;
+>  
+> @@ -698,7 +699,7 @@ static int riscv_iommu_iodir_alloc(struct riscv_iommu_device *iommu)
+>  	}
+>  
+>  	if (!iommu->ddt_root) {
+> -		iommu->ddt_root = riscv_iommu_get_pages(iommu, 0);
+> +		iommu->ddt_root = riscv_iommu_get_pages(iommu, PAGE_SIZE);
+>  		iommu->ddt_phys = __pa(iommu->ddt_root);
+>  	}
+>  
+> -- 
+> 2.43.0
+> 
+
+best,
+- Tomasz
