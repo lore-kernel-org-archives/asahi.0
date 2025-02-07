@@ -1,100 +1,133 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8CC176FB0;
-	Fri,  7 Feb 2025 06:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F3E1A2385;
+	Fri,  7 Feb 2025 07:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738908824; cv=none; b=rTqrUQxNQ1r41c+DeU+5t+R5CXGCZxidl4BXMj8pFLS9/57vSvEMxxuv7Ifb7f9xDvOS4V9/DArItL/B+huTCBEzToaQqjBh6Dgw6EiPDQbC+GA4uXf//+EvdWS6BiN0pCVvXRbdWVF2RPIYhKyCHGz1+9lDry6oqJCN8Mp6Gt0=
+	t=1738912792; cv=none; b=p68mPY1AkGewdtuG+InqzI/HTPXhtHLOiKoi/ubAoyHDxCB96k2s2ae1h78EAVfd4x2qCqCyl/GqWS9UxFFznzemh4LAVzFUQuLhYLMAwn4qNtXHYi8yeij+NHgjPimFVFdFitzx1947jITsnSU9VLzePehRV8kb1EbeVue28zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738908824; c=relaxed/simple;
-	bh=dpaZXi6Uy/hcH7ftkBr+q4yRqWSwSq17UhJiP9K/hvw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KTNuGjsTlI74n5x7I8sZsqzSRfEXZVH7fj7uYox9tmipBDLdKQFE3T+DqA/vVYWnABRxhm6AmzgPd+00xAQqUVpXV6HvRJZm57ouPNLkJ/yX7TzVQkLyjzM+staswuZmR43klRUKfJkBKtzxyhI/Gg+0jWbC5+unxilwKs7HwcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EbjQDeK0; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738912792; c=relaxed/simple;
+	bh=xQXlQ4WSBU3KQIIWpFc1oMW6o15OIZFdSlwJ3ea5d04=;
+	h=Content-Type:From:Mime-Version:Subject:Message-Id:Date:Cc:To; b=Ft6IwXWVaWhnFxi4+IXnx7h97Pdh4oYGU61K0D9oXYE5t1Zhu3sNaszRYL2tEPcwI95mQKBoCIPrnD/Xcd6tUaD+FmrW7MZkRo2neOl2pJ8RXFE9+2WSO9d4nuyEerLVNBtLykvkYAp+SPwkQGb8eisTUy1Zpg7BHs/FH1nHH2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=koENBGzn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hKDnfIs/; arc=none smtp.client-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EbjQDeK0"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21f50895565so5196255ad.2;
-        Thu, 06 Feb 2025 22:13:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738908823; x=1739513623; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dpaZXi6Uy/hcH7ftkBr+q4yRqWSwSq17UhJiP9K/hvw=;
-        b=EbjQDeK0yP2tZBpiU1nYXYLi0xoyvthc1X5d6iKbptxebOiPCVuhw33Op8jnI7utMR
-         eb3h60S9bNponu1Gkgx3crW1RqRCAWs7TwaezXHkrGg/GwrWOjvIMk5OGAGoDVZvTAzW
-         +baUMFnSQh8k/ADhAMUcwHq3kmS6KfR47P5qJrMl8Gs2Bawn6G9B+ZSKDLKaBw4OgKBD
-         UIuOYe0u6GhGTSuS2mjTOjZuUZsPFewT+nb1I+r2UyaJQ/zWydnFTTeIWfnbLVONli8N
-         JrCILocLLsS0nL1fi7WS+TRIrScg2qdWQN9Ean4bmor+cLlyAFi95KEGH+tf7qd4gIWK
-         Ug5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738908823; x=1739513623;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dpaZXi6Uy/hcH7ftkBr+q4yRqWSwSq17UhJiP9K/hvw=;
-        b=gRpwADx/TG2g650/nIUEyMqpAj+4BQy83H7doDlD2bOyeEa/E99z+ewvJoK9I8n1Dn
-         ARq9ekE2AUZI7oz2UZQuNrhVJmSE3G+zCSBcGpHQvd34qdU1qjrPDArKvgiLE2aW5Phv
-         ES/uY75DnVDC0UMkSurYCigyxwxIyueVPkIIlg45Xd7szMbst7ZuuwonXxnoRWQvcv/w
-         Fq5VZ3wcIdttVnHECiq+Tcj5+4V/YusIkWt9a+1yIfmAV3z6zg5Li3CnxZLv9eSnju9k
-         w/iFI2vU1RhOcppDYGBvWBJ3BWaMO1akRFjr2ZUcJSMih5I9iRS9JhrxLWlfLtAJwbfx
-         zFQw==
-X-Forwarded-Encrypted: i=1; AJvYcCU9zAjJtVNtphrg/yOi2F810YKyWVv8CG3F5ttKmr4uj5KxWrETAXLZ2OsgqpFcmXy/xjlx@lists.linux.dev, AJvYcCWKUb5zrG7UuUdIZy9VOwKLp6cGCDUI8gJzZgrB75Mt7IfGhVzDKkKddc0O51PftNpBOOqClw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywm7a2l/iVsmmo8R63vagGK/jMIC+hYIV838VFOZZFV38NWJUT2
-	0Sc1xVCutcVcThUHax+AJ4Kh7Y6+/ATHzx1K2uc+wbB/P1A25Ats
-X-Gm-Gg: ASbGncsS85H+8UbaHpkLwztq+ZoZf9/fgZ0U1JTE98vl09+VKQBJhDW7gHWkv/sLEcq
-	qs2mo9xeIGzmkzf+OJcK3pvPH6DTRVmH0w65cnrfL27r9SQW7mP/wPNmcLne7IJYQ8ilW5rkzdp
-	PwAhSh0f+8oAy+Wrs6jRnsXw4MZDCtL/VTBz91aoub6p1bTDcKrhWqzFEhMH4gGMnobLtRyanm6
-	MmwK6Ij2xmpCxn9HM1eUgh2zzrUgguD5sAG/fim6dpsuOYJdR/iHlsggO+exSVjjMnRJvg7eH+w
-	tc7Oa3aoxNdczIH7n6DGgoX5KorNGOQ=
-X-Google-Smtp-Source: AGHT+IF4EkR2ivum3VmCCnQST1j5wS2JtDBDxrrrHIhvikkKNyJhNf7xmvHNcQK8Y7WFxmLFlh6IAg==
-X-Received: by 2002:a05:6a21:170f:b0:1e0:c56f:7daf with SMTP id adf61e73a8af0-1ee03a21dddmr4313077637.6.1738908822661;
-        Thu, 06 Feb 2025 22:13:42 -0800 (PST)
-Received: from [172.20.10.11] ([49.130.99.55])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73048bf13absm2255060b3a.114.2025.02.06.22.13.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2025 22:13:42 -0800 (PST)
-Message-ID: <f48c3c74-5693-40b9-a869-577e2fbb5069@gmail.com>
-Date: Fri, 7 Feb 2025 14:13:32 +0800
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="koENBGzn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hKDnfIs/"
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 6FBDE11400E4;
+	Fri,  7 Feb 2025 02:19:49 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Fri, 07 Feb 2025 02:19:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm1; t=1738912789; x=
+	1738999189; bh=IGJ8/iyL+ahdVPpahwegMir9dYYvEoDAou0Ag7AFvSc=; b=k
+	oENBGznNkVSFzeATVe1dD2MOR+2ksXjgLzECplFdNpWvz1aZxOGuniGgJxEfYitr
+	RTbmgk/aS2bL0BxE7niSefhJqq3ASOFIoRUaSkF+zUavElHrdv97XvekO34wA4gG
+	qcgaqeoLs1weRRVP+lEdVWF0sadp3Y4+CLrwyX5bNAng8NK3NIYehBZdIEXYUGgL
+	QGM1FDgF6cB3UHvsJIAMLmcp0CBvUtKMKeQhoDw46VARQeKMlcE/KaNj7DlxDhLo
+	Dnb4JTQvjm3ca5XxN/YdClWHj+rLMH+TsI4wVHHK4DE9PKHjDf4r1VMrGhYOv0r4
+	ueJKCYgp2r/UI+tKIysfA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1738912789; x=1738999189; bh=IGJ8/iyL+ahdVPpahwegMir9dYYv
+	EoDAou0Ag7AFvSc=; b=hKDnfIs/ckHAJzD3Mn79cByrQe+t1B9B+8eMrGt9SdrG
+	NSaBLlCuHR/t/eCWnq2wv4Asp1PNyCMyBhkfUorXBFH6j+J0X+E31Ay/Xp2aObUa
+	Y9B9FNTKUrMpm2ly5Y5au/x7I0DPiuwKCPltA7YZ3kc9tU0dGXY/dVb6L5sADIS/
+	xPXfMXEGQJVApMwvAPHEo7w/CXpyMWo4T3ovQG60/15CgtFngNjyoGoi+oUvMg8k
+	JRrRAxD7BQvfTcW/vPA0soFJuC6urB+D3dwXMV0VgIAVA50ELRAEDWyQutsD/RrD
+	UFVBM0AHd5y4ASDdUopyqEXmjUTbOgjnzuLnfhDFnA==
+X-ME-Sender: <xms:FLSlZ0Ii9ayzt20YRpskGZNFes7LMkHTEsRh_FavHo-_2yRLFGBNCA>
+    <xme:FLSlZ0L-9PlxasfDlOuOt6Or8eF5sN_iTRMpl1HO0g79wBV3EeX-Qy9CKFEMnI1tt
+    OjR2xZRbFcS5we1kvc>
+X-ME-Received: <xmr:FLSlZ0vm9yHqmt3ezwQlDEPckI0BM9SIF3ESPswdacB51d9Ilr-OtJNjRUuu8tNB618>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeiiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpegtgffhggfukfffvefvofesthhqmhdthhdtjeen
+    ucfhrhhomhepufhvvghnucfrvghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrdguvg
+    hvqeenucggtffrrghtthgvrhhnpefgjeetudefveeludevuedvgfetteevhfffjeduveeg
+    fefgueeuteevfffgueetveenucffohhmrghinheprghpphhrohgrtghhrdgrphhplhgvpd
+    hgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghrtghpthhtoh
+    epkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdgu
+    vgdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpth
+    htohepshhotgeslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehtohifihhn
+    tghhvghnmhhisehgmhgrihhlrdgtohhmpdhrtghpthhtohepohhlohhfsehlihigohhmrd
+    hnvghtpdhrtghpthhtohepthhorhhvrghlughssehlihhnuhigqdhfohhunhgurghtihho
+    nhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsth
+X-ME-Proxy: <xmx:FLSlZxbce8uxeNc2IQU6pW97eTB5iEcamxkShGYNTL3Fl7yNq5ud8g>
+    <xmx:FLSlZ7Y9BCBahyQyNHBrrgFrG7F8dXTJGoX0TVN401DhknGccczncw>
+    <xmx:FLSlZ9Bm7qkZ1rwA6y8HC-nkfpOTTMTx1ZJW18T6GF6sTnE5CKeojw>
+    <xmx:FLSlZxY4PiXuRYD6RAhnshnsPLUDaBty-oXlu9pRi2hx2rGzsYGMbg>
+    <xmx:FbSlZ5P3aEGC83w50F_alNTmU9TG4lbnQc1aaQSLKGVFqXwr6xPERhzu>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 7 Feb 2025 02:19:47 -0500 (EST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Sven Peter <sven@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH] MAINTAINERS: Remove myself
-To: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
+Message-Id: <2D08D1CF-B03C-479B-8BCE-17082402DE58@svenpeter.dev>
+Date: Fri, 7 Feb 2025 08:19:26 +0100
+Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
  Olof Johansson <olof@lixom.net>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, soc@lists.linux.dev
-References: <20250207-rm-maint-v1-1-10f069a24f3d@marcan.st>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250207-rm-maint-v1-1-10f069a24f3d@marcan.st>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, soc@lists.linux.dev
+To: Nick Chan <towinchenmi@gmail.com>
+X-Mailer: iPhone Mail (22D63)
 
-Hector Martin 於 2025/2/7 凌晨2:21 寫道:
+=EF=BB=BF
+>=20
+> On 7. Feb 2025, at 07:15, Nick Chan <towinchenmi@gmail.com> wrote:
+>=20
+>> =EF=BB=BFHector Martin =E6=96=BC 2025/2/7 =E5=87=8C=E6=99=A82:21 =E5=AF=AB=
+=E9=81=93:
+>> I no longer have any faith left in the kernel development process or
+>> community management approach.
+>> Apple/ARM platform development will continue downstream. If I feel like
+>> sending some patches upstream in the future myself for whatever subtree
+>> I may, or I may not. Anyone who feels like fighting the upstreaming
+>> fight themselves is welcome to do so.
+>=20
+> Hi marcan,
+>=20
+> It is sad to see you go, I believe there are issues in the kernel developm=
+ent process as well.
+> Aside from Apple Silicon Macs, your work has greatly simplified the work
+> required for booting Linux on iPhones and iPads. However, Sven Peter is st=
+ill listed as
+> maintainer, so for upstream purposes, will the https://github.com/asahilin=
+ux/linux tree be used
+> in the future,  or perhaps the tree should be removed from the MAINTAINERS=
+ file as well?
+>=20
+> Nick Chan
 
-> I no longer have any faith left in the kernel development process or
-> community management approach.
->
-> Apple/ARM platform development will continue downstream. If I feel like
-> sending some patches upstream in the future myself for whatever subtree
-> I may, or I may not. Anyone who feels like fighting the upstreaming
-> fight themselves is welcome to do so.
+Hi,
 
-Hi marcan,
+Give me a few days to figure out what we=E2=80=99ll do.  I think we can keep=
+ tree going forward.
 
-It is sad to see you go, I believe there are issues in the kernel development process as well.
-Aside from Apple Silicon Macs, your work has greatly simplified the work
-required for booting Linux on iPhones and iPads. However, Sven Peter is still listed as
-maintainer, so for upstream purposes, will the https://github.com/asahilinux/linux tree be used
-in the future,  or perhaps the tree should be removed from the MAINTAINERS file as well?
 
-Nick Chan
+
+Best
+
+
+Sven
+
 
