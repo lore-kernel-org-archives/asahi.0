@@ -1,39 +1,64 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA5C22FF59;
-	Thu,  6 Feb 2025 23:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8CC176FB0;
+	Fri,  7 Feb 2025 06:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738884483; cv=none; b=W2VSmP8szfFdiIUMTaNJvaa5npupamMztW36lV1Men6DW0CtXaDgWuh55PSku0YOlw5E2xm5gcnknyeMsVW1nG4gK4TkDY3DzpE+ykmkCwI/pP7Ld3LHMFtISViXVokGcX3m1F027zQBooFUHDHmNmCraDk4sfVER6Ik2tSZx/8=
+	t=1738908824; cv=none; b=rTqrUQxNQ1r41c+DeU+5t+R5CXGCZxidl4BXMj8pFLS9/57vSvEMxxuv7Ifb7f9xDvOS4V9/DArItL/B+huTCBEzToaQqjBh6Dgw6EiPDQbC+GA4uXf//+EvdWS6BiN0pCVvXRbdWVF2RPIYhKyCHGz1+9lDry6oqJCN8Mp6Gt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738884483; c=relaxed/simple;
-	bh=QlOTyoQRutUhDbYeblAFtLa22VXCRSrxf7eaRid7ykc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=MnH3G2VE3myKkzZvOTKAn15Ioh38iHttxPUuxpyP82YHSClaFA0HqHErartTv0KZYvT1VKt7FhEZPT7xzdVb2PzbdQF40g+yVmyQYSQwwTCKqLUe/66LBGd/sXzPC5yMvIiUmerEO6wa3XeMK1af9WorNFYLbJqedU/E0FFBnJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=GhBU9aw8; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+	s=arc-20240116; t=1738908824; c=relaxed/simple;
+	bh=dpaZXi6Uy/hcH7ftkBr+q4yRqWSwSq17UhJiP9K/hvw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KTNuGjsTlI74n5x7I8sZsqzSRfEXZVH7fj7uYox9tmipBDLdKQFE3T+DqA/vVYWnABRxhm6AmzgPd+00xAQqUVpXV6HvRJZm57ouPNLkJ/yX7TzVQkLyjzM+staswuZmR43klRUKfJkBKtzxyhI/Gg+0jWbC5+unxilwKs7HwcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EbjQDeK0; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="GhBU9aw8"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 7D3F54459F;
-	Thu,  6 Feb 2025 23:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1738884478; bh=QlOTyoQRutUhDbYeblAFtLa22VXCRSrxf7eaRid7ykc=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=GhBU9aw8TGPLHWJwo9N0ckjDZgW1uwyuWtksqgpUtCx8KQNNOsZejU9RC9RabqwyN
-	 ETkVWPzO698bkB6blKlA2VidgfiBi5QfGYrYx1j3cjFbvy5lP7O47IC3m/szYHWsH2
-	 7EzcLroSI+bVqFwk+hJWCZdBnyi8sCa51pAnU6D/957oyXyI9G5ujq3SoAnCwP6inr
-	 2BImm1PmeSWvnM8sJolcqzYd9woCsW1IbKosJ06rIJjCvfqYeFbiEv+0teZANlnuQE
-	 H3ZS8Vc5V4K/AijhK0HIrsXR1fSE7UGEdhbOHCeeLz1ahX80pFD+U4I9o0RGCYu8Ys
-	 8FtbzunZ3tjiA==
-Message-ID: <ecd655ca-61e7-4ef1-81ad-606c9ce95df4@marcan.st>
-Date: Fri, 7 Feb 2025 08:27:54 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EbjQDeK0"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21f50895565so5196255ad.2;
+        Thu, 06 Feb 2025 22:13:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738908823; x=1739513623; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dpaZXi6Uy/hcH7ftkBr+q4yRqWSwSq17UhJiP9K/hvw=;
+        b=EbjQDeK0yP2tZBpiU1nYXYLi0xoyvthc1X5d6iKbptxebOiPCVuhw33Op8jnI7utMR
+         eb3h60S9bNponu1Gkgx3crW1RqRCAWs7TwaezXHkrGg/GwrWOjvIMk5OGAGoDVZvTAzW
+         +baUMFnSQh8k/ADhAMUcwHq3kmS6KfR47P5qJrMl8Gs2Bawn6G9B+ZSKDLKaBw4OgKBD
+         UIuOYe0u6GhGTSuS2mjTOjZuUZsPFewT+nb1I+r2UyaJQ/zWydnFTTeIWfnbLVONli8N
+         JrCILocLLsS0nL1fi7WS+TRIrScg2qdWQN9Ean4bmor+cLlyAFi95KEGH+tf7qd4gIWK
+         Ug5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738908823; x=1739513623;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dpaZXi6Uy/hcH7ftkBr+q4yRqWSwSq17UhJiP9K/hvw=;
+        b=gRpwADx/TG2g650/nIUEyMqpAj+4BQy83H7doDlD2bOyeEa/E99z+ewvJoK9I8n1Dn
+         ARq9ekE2AUZI7oz2UZQuNrhVJmSE3G+zCSBcGpHQvd34qdU1qjrPDArKvgiLE2aW5Phv
+         ES/uY75DnVDC0UMkSurYCigyxwxIyueVPkIIlg45Xd7szMbst7ZuuwonXxnoRWQvcv/w
+         Fq5VZ3wcIdttVnHECiq+Tcj5+4V/YusIkWt9a+1yIfmAV3z6zg5Li3CnxZLv9eSnju9k
+         w/iFI2vU1RhOcppDYGBvWBJ3BWaMO1akRFjr2ZUcJSMih5I9iRS9JhrxLWlfLtAJwbfx
+         zFQw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9zAjJtVNtphrg/yOi2F810YKyWVv8CG3F5ttKmr4uj5KxWrETAXLZ2OsgqpFcmXy/xjlx@lists.linux.dev, AJvYcCWKUb5zrG7UuUdIZy9VOwKLp6cGCDUI8gJzZgrB75Mt7IfGhVzDKkKddc0O51PftNpBOOqClw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywm7a2l/iVsmmo8R63vagGK/jMIC+hYIV838VFOZZFV38NWJUT2
+	0Sc1xVCutcVcThUHax+AJ4Kh7Y6+/ATHzx1K2uc+wbB/P1A25Ats
+X-Gm-Gg: ASbGncsS85H+8UbaHpkLwztq+ZoZf9/fgZ0U1JTE98vl09+VKQBJhDW7gHWkv/sLEcq
+	qs2mo9xeIGzmkzf+OJcK3pvPH6DTRVmH0w65cnrfL27r9SQW7mP/wPNmcLne7IJYQ8ilW5rkzdp
+	PwAhSh0f+8oAy+Wrs6jRnsXw4MZDCtL/VTBz91aoub6p1bTDcKrhWqzFEhMH4gGMnobLtRyanm6
+	MmwK6Ij2xmpCxn9HM1eUgh2zzrUgguD5sAG/fim6dpsuOYJdR/iHlsggO+exSVjjMnRJvg7eH+w
+	tc7Oa3aoxNdczIH7n6DGgoX5KorNGOQ=
+X-Google-Smtp-Source: AGHT+IF4EkR2ivum3VmCCnQST1j5wS2JtDBDxrrrHIhvikkKNyJhNf7xmvHNcQK8Y7WFxmLFlh6IAg==
+X-Received: by 2002:a05:6a21:170f:b0:1e0:c56f:7daf with SMTP id adf61e73a8af0-1ee03a21dddmr4313077637.6.1738908822661;
+        Thu, 06 Feb 2025 22:13:42 -0800 (PST)
+Received: from [172.20.10.11] ([49.130.99.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73048bf13absm2255060b3a.114.2025.02.06.22.13.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Feb 2025 22:13:42 -0800 (PST)
+Message-ID: <f48c3c74-5693-40b9-a869-577e2fbb5069@gmail.com>
+Date: Fri, 7 Feb 2025 14:13:32 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,90 +66,35 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 0/9] Add Apple A7-A11, T2 SoC cpufreq nodes
-To: Nick Chan <towinchenmi@gmail.com>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, soc@lists.linux.dev,
- Arnd Bergmann <arnd@arndb.de>
-References: <20250203124747.41541-1-towinchenmi@gmail.com>
-From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH] MAINTAINERS: Remove myself
+To: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
+ Olof Johansson <olof@lixom.net>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, soc@lists.linux.dev
+References: <20250207-rm-maint-v1-1-10f069a24f3d@marcan.st>
 Content-Language: en-US
-In-Reply-To: <20250203124747.41541-1-towinchenmi@gmail.com>
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20250207-rm-maint-v1-1-10f069a24f3d@marcan.st>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hey Nick,
+Hector Martin 於 2025/2/7 凌晨2:21 寫道:
 
-I'm not sure if we're still waiting for DT reviews for these, but either
-way, please send DT and drivers/soc/apple changes to soc@lists.linux.dev
-going forward (or perhaps they should go through ARM64?), as I am no
-longer a maintainer for Apple DTs/SoC stuff myself. [1]
+> I no longer have any faith left in the kernel development process or
+> community management approach.
+>
+> Apple/ARM platform development will continue downstream. If I feel like
+> sending some patches upstream in the future myself for whatever subtree
+> I may, or I may not. Anyone who feels like fighting the upstreaming
+> fight themselves is welcome to do so.
 
-[1]
-https://lore.kernel.org/asahi/CAEg-Je_SSTiiq5R9hce-7j5W02GaQqNUj=bFH+FwgjjxWugFqQ@mail.gmail.com/T/#t
+Hi marcan,
 
-On 2025/02/03 21:43, Nick Chan wrote:
-> This series adds performance-controller and operating-points-v2 cpufreq
-> nodes for Apple A7-A11, T2 SoCs.
-> 
-> Dependencies:
-> 
-> - arm64: dts: apple: Split s8000/s8003 SoC DTS files
-> https://lore.kernel.org/asahi/20250203113949.14760-1-towinchenmi@gmail.com/T
-> 
-> - Device Tree for Apple T2 (T8012) SoC devices
-> https://lore.kernel.org/asahi/20250203114417.16453-1-towinchenmi@gmail.com/T
-> 
-> Note, this will have conflicts with Apple A7-A11, T2 PMGR nodes [1] due to
-> both of the series adding things to the same part of the .dts files, they are
-> unrelated, so keep both of additions.
-> 
-> 1: https://lore.kernel.org/asahi/20250203121831.36053-1-towinchenmi@gmail.com/T
-> 
-> Nick Chan
-> 
-> ---
-> Nick Chan (9):
->   arm64: dts: apple: s5l8960x: Add cpufreq nodes
->   arm64: dts: apple: t7000: Add cpufreq nodes
->   arm64: dts: apple: t7001: Add cpufreq nodes
->   arm64: dts: apple: Add cpufreq nodes for S8000/S8003
->   arm64: dts: apple: s8001: Add cpufreq nodes
->   arm64: dts: apple: t8010: Add cpufreq nodes
->   arm64: dts: apple: t8011: Add cpufreq nodes
->   arm64: dts: apple: t8012: Add cpufreq nodes
->   arm64: dts: apple: t8015: Add cpufreq nodes
-> 
->  arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi    |   1 +
->  arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi  |   1 +
->  arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi |   1 +
->  arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi   |  45 +++++++
->  arch/arm64/boot/dts/apple/s5l8960x.dtsi       |  10 ++
->  arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi   |  45 +++++++
->  arch/arm64/boot/dts/apple/s800-0-3.dtsi       |  10 ++
->  arch/arm64/boot/dts/apple/s8000.dtsi          |  53 +++++++-
->  arch/arm64/boot/dts/apple/s8001.dtsi          |  59 +++++++++
->  arch/arm64/boot/dts/apple/s8003.dtsi          |  53 +++++++-
->  arch/arm64/boot/dts/apple/t7000-6.dtsi        |   4 +
->  arch/arm64/boot/dts/apple/t7000-j42d.dts      |   4 +
->  arch/arm64/boot/dts/apple/t7000-mini4.dtsi    |   4 +
->  arch/arm64/boot/dts/apple/t7000.dtsi          |  46 +++++++
->  arch/arm64/boot/dts/apple/t7001.dtsi          |  52 ++++++++
->  arch/arm64/boot/dts/apple/t8010-7.dtsi        |   8 ++
->  arch/arm64/boot/dts/apple/t8010-ipad6.dtsi    |   8 ++
->  arch/arm64/boot/dts/apple/t8010.dtsi          |  86 ++++++++++++
->  arch/arm64/boot/dts/apple/t8011.dtsi          |  79 +++++++++++
->  arch/arm64/boot/dts/apple/t8012.dtsi          |  83 ++++++++++++
->  arch/arm64/boot/dts/apple/t8015.dtsi          | 123 ++++++++++++++++++
->  21 files changed, 773 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi
->  create mode 100644 arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi
-> 
-> 
-> base-commit: a14d9039c2aea103eeedc5602ebab731ef3eb73e
+It is sad to see you go, I believe there are issues in the kernel development process as well.
+Aside from Apple Silicon Macs, your work has greatly simplified the work
+required for booting Linux on iPhones and iPads. However, Sven Peter is still listed as
+maintainer, so for upstream purposes, will the https://github.com/asahilinux/linux tree be used
+in the future,  or perhaps the tree should be removed from the MAINTAINERS file as well?
 
-- Hector
+Nick Chan
 
