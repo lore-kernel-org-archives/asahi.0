@@ -1,98 +1,135 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F50248195;
-	Fri,  7 Feb 2025 15:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738942758; cv=pass; b=R3QWTPtXl8hvqSKPzSMvAd2QRX1csR//B8rUseCUsH7gyo1iK2xFdx1DeXQejyMwyXFG2np8rZF0fByof5K8LrN96brRy+p79k0qMbOsDLcmGKy2iTzXLVhgmez6MmalbxsuB7+ZQbYTD3y4DluVpXI01DvLNc7xONRCKr3XIrk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738942758; c=relaxed/simple;
-	bh=6RQeM9UFiKX7M2WZjpjBl6bJt20T/4ZHFThUbCWilHw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ILjT+F6VLUu6avEm+FN3H+0yPwmEM6chZyTjVooU5IRfDGMFJkGhRTtV2OB5cwKh8CSLT2e1qchyzQN2T3dopBA8LiVAdghUOi558yPjnWaCQp2kzZjQBNYsiIoIZWbLRHwl70XRPn69XXdL6xtVoMqh82LufGX2/USUb4UCOq4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=VW9SUXNZ; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6ED1A2C29;
+	Sat,  8 Feb 2025 09:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739006540; cv=none; b=BxWFi7khBfIaMcEqgUqhp7lz5hlojoW53fa2JTtQdx9kLTsGGQNBZzBurWmD5C45d8Uj28kwQ7DCZbXOLJeVlNLZZHqlBViBRcyT9j2I2FXaRoD6S8KSLtBmVKL2Sux9YV0RDLjDZ0gugENt7nrgvZQBCQzqpvGCLl9SB6DRnqs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739006540; c=relaxed/simple;
+	bh=09E+YDSJd3RVkM3i4xdO+qX2JBf2hmL4PefKvXMN+bY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=uHlYSF3uGJbSEqyb18RgiEPoDTEe4obmjBLp/orXdstXt0M0PiDEp0NCENWSdB8QrMHoHdCVAmJHO/AGkwWCw6hDdT8rmYQmlgDAHCfV2puvmt6kEjcS3wPvNmR9q8+aVXY0QOIlsEp6ckC69eob7PgLpgMPXu2CEDiYnMgz2R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=ZnfZg2Tr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NqYcxKZG; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="VW9SUXNZ"
-ARC-Seal: i=1; a=rsa-sha256; t=1738942746; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=b0nAViDGp1RGwFyxhncmKRPc2tWAdI7b6eKm0N1Jk/7HtkD+XU9kuMROvBrsjMVuALfMQSZozjEdEgem7NQ+qkEPQj6IueI9yUaBmaBxtWo44LFYcafxj0Foe+v46OEC7RuLdhHMDx9O88TLQvjuY17pOzmS7hImcX5P2DLpZIY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1738942746; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=noPKdAGMhKnySUeZCxaTVh70QpxObYms/g1w1qWYI6c=; 
-	b=i6Wh5VwJS9AusmV8gFFNqBU9H5/+Kpb5ePJLSWG5Xb044MFAoJ1MlsvTADadzT9p9AhtkP5WQGL5Wh+MBew/Adn7YAIr9ITxgSL49JRdaWMq88xnwZWJWT+ax0LwQDCRKsBtsCtsBHrpxKgr7I64UtOcuTU54iMTbdbemKk5mMw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738942746;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=noPKdAGMhKnySUeZCxaTVh70QpxObYms/g1w1qWYI6c=;
-	b=VW9SUXNZxCSpawzAgc7nxTJ7o/klcGzTUqYt9idyYt1Zyb/ujIdFywfSZ1fYZR3u
-	SsySLn7680u+xgvFEuGSbWvOCcgR/EcjRP1RsyI1M2PfvXuCwwZY0PJgPxeUvjTkN/T
-	yaG1J4YQMv9lccKVob15PHVPOLujYhnSS1uiugpU=
-Received: by mx.zohomail.com with SMTPS id 1738942744008697.8303695987066;
-	Fri, 7 Feb 2025 07:39:04 -0800 (PST)
-Message-ID: <b7eb131d-1ca6-44f1-aea1-ace991912c3e@collabora.com>
-Date: Fri, 7 Feb 2025 18:38:59 +0300
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="ZnfZg2Tr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NqYcxKZG"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id EA61925400A5;
+	Sat,  8 Feb 2025 04:22:16 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Sat, 08 Feb 2025 04:22:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1739006536; x=1739092936; bh=dP
+	ZZnkskXbPAPc6n5CBtOWmQ0ZFIJFtBCuL+vKUPlj8=; b=ZnfZg2TrZrWUuXUx2D
+	zZU2OUUZJyl0o0j5xHL+TbWJ9gQOFJIE2mZuf/KHijOZ9KyUtTeEj2D4f5cnMBlk
+	o5YyHHS5qq9dvovoJ1v8QuotF1zvlITbMsjAeVLlclp32eCur/rZuDiqsmqfgB0N
+	4JCf5Gbfa6awBIfJtZSaNI49X2GVc/odxMovne1vhXoq4JjX/ie3CJeINOJHQ2gt
+	CHAsO4DpR/E591+n7zu6sR9feKEVicTFRLBBCHGeGpQgtboBoKy/E6QdIENuoLoL
+	jCY5eiVvO+4EER7DtcaD70N/pxA84PMTnjA36ujq/Fy2P6YmlmqTXWrqlzOTmwhb
+	PKng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1739006536; x=1739092936; bh=dPZZnkskXbPAPc6n5CBtOWmQ0ZFI
+	JFtBCuL+vKUPlj8=; b=NqYcxKZGrtZFQpikHAHi0/di8h3/S2iFjPr2hRcbg3XW
+	ULxbUMrm9TYvZiCHzO+FMsLFv8NsObytvtEGhJFd3eVjefIP7ZpojAsPAUNjzVf1
+	1VkNYY0gVHK4IGmikIo87IY0UwjDVU2xifMQf6yTeVmK7pjxqEBlZBWuLQFvfqJe
+	IsMV6l59mrQIQ3LYR/tDiZV1Vud9bDzkPYFn04OCzv206gVAeYMAdbDtNh8wfVyP
+	Ehpzfhck9OYE6JTHMJmGO39dEAKknIrR3n0FZkkT3GB3sgxQunTlt+5Dndtf0yBm
+	uPOpJ68rFwMm0XxCK1HGzWjgKUDcR3PKmYvggSi6CQ==
+X-ME-Sender: <xms:SCKnZ0-dMXSbPqbEG1P2PiEtSoFiVh4gIPqOMufJcqG8hmvgUf-iqg>
+    <xme:SCKnZ8sQP9v0IYmQSXbwdGMhG7buuNqthkZgDG8m17m8qFr75FmWHDjRP7CDyTzdZ
+    nJMaGK3lByifotNPwc>
+X-ME-Received: <xmr:SCKnZ6DgdH86ySwxemEBewR7LDG-ulr1z-nDGjViQR10UF26RQrsWZHmuix1hRGlsGLE2t5UV-1FJVHkyO5ZDHKiPtMAzKO-994>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudekfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeen
+    ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenuc
+    ggtffrrghtthgvrhhnpefgffeiffetueffteeugfeghffghedthfekgfdtjeeuuedvveek
+    teevvedvffekheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepkedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpth
+    htohepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhrtghpthhtohepjhesjhgrnhhn
+    rghurdhnvghtpdhrtghpthhtohepshhotgeslhhishhtshdrlhhinhhugidruggvvhdprh
+    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopegrrhhnugesrghrnhgusgdruggvpdhrtghpthhtoheprghsrghhiheslh
+    hishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghr
+    nhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:SCKnZ0fQ9l46XKJ8pjLS9dgpy5DlaOunuQ21bsuRx7mIk1zM1MXUtA>
+    <xmx:SCKnZ5M87v1sMdusGqMTDdEjpzlt5C62EXqszSqkyZQzAINH1WsrEg>
+    <xmx:SCKnZ-l4Rvvb-CXmsMCDSpYMNwsfdhKE-7_bZsS2RhpIcR-RrWiO_Q>
+    <xmx:SCKnZ7tiDEU61F91_0x3ZxG8E1p59xushGCQ2YP7WwrSyv2SgNHGjw>
+    <xmx:SCKnZygxnUZhpbk-_lSR_BTHNLarhxIe4LHoBknaK4l-HCT15r13LCXM>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 8 Feb 2025 04:22:15 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Sat, 08 Feb 2025 10:22:01 +0100
+Subject: [PATCH] MAINTAINERS: arm: apple: Add myself as maintainer
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/virtio: Align host mapping request to maximum
- platform page size
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20250125-virtgpu-mixed-page-size-v2-1-c40c555cf276@gmail.com>
- <2f3394a5-0c63-49bf-bc85-f43388050ab8@collabora.com>
- <CAMT+MTQrKWzNfsUqiDawCv=s84XOvUGwsrv34aqmZ6rR482OqA@mail.gmail.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CAMT+MTQrKWzNfsUqiDawCv=s84XOvUGwsrv34aqmZ6rR482OqA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Message-Id: <20250208-maint-soc-apple-v1-1-a7f7337baec0@jannau.net>
+X-B4-Tracking: v=1; b=H4sIADgip2cC/x3MQQqAIBBA0avErBuwIcm6SrQQnWqgTDQiiO6et
+ HyL/x/InIQzDNUDiS/JcoSCpq7ArTYsjOKLgRRpRcrgbiWcmA+HNsaN0Xhqe8Od1qqHUsXEs9z
+ /cZze9wPxnr/AYQAAAA==
+X-Change-ID: 20250208-maint-soc-apple-8d2498e75509
+To: Arnd Bergmann <arnd@arndb.de>, Hector Martin <marcan@marcan.st>, 
+ Sven Peter <sven@svenpeter.dev>
+Cc: soc@lists.linux.dev, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=972; i=j@jannau.net;
+ h=from:subject:message-id; bh=09E+YDSJd3RVkM3i4xdO+qX2JBf2hmL4PefKvXMN+bY=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhvTlSi79PZM2rVOu7bHwZ5zFzvbSpvLVd+OdcYr5XnWbu
+ L7mZF/oKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJGA14wMszeVpFyIEb7wdLV5
+ Ipf5we8l98U4gzkrz6fsu1Tz5eqMD4wMXXffz3sc/ifW+dMLtfqQizN2H7oc/eGIrPIe//spH3w
+ TeAA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-On 2/6/25 18:17, Sasha Finkelstein wrote:
-> On Wed, 29 Jan 2025 at 15:40, Dmitry Osipenko
-> <dmitry.osipenko@collabora.com> wrote:
->> Otherwise, the proper solution would be to pass info about host's page
->> size to guest using extended virtio protocol.
-> 
-> It is not fully clear to me, as to what exactly is meant by that.
-> IIUC, virtio is a spec managed externally, so does that mean
-> that i should write to the virtio people to add the relevant bits
-> to the specification?
+Sven and I have agreed to share the maintainership for the ARM/APPLE
+platform after Marcan's step down. I'm handling the downstream Asahi
+Linux tree since April 2024 and worked on or wrote several drivers for
+the platform.
 
-Virtio people will only approve the new bits. You who will have to
-research how to add new virtio feature, propose and discuss the virtio
-spec change with virtio people till the change is accepted, implement
-new feature in the code. Anyone can propose spec changes, the process is
-documented and you may look up ML archives to find what other people did
-for upstreaming new features.
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Virtio spec is managed externally, but in reality is tightly coupled
-with Linux, all virtio people are also Linux devs. For the first step
-you may write a quick *kernel* RFC patches to spark the discussion. Cc
-all relevant people, see how much interest will be in the new feature,
-ask how to properly add the new property if unsure.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f2594c2300f9b054a6d57ce069120df0bb451d88..9987cbc4d14b2d2be43f259688c7791ecfd10423 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2210,6 +2210,7 @@ F:	sound/soc/codecs/ssm3515.c
+ 
+ ARM/APPLE MACHINE SUPPORT
+ M:	Sven Peter <sven@svenpeter.dev>
++M:	Janne Grunau <j@jannau.net>
+ R:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+ L:	asahi@lists.linux.dev
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
 
-Could be that virtio crowd will reject the idea of having a common
-generic property and then we may try to make it private to the
-virtio-gpu device.
+---
+base-commit: 7635a78a95dc3bff39e9c49b34108f81a9bb62db
+change-id: 20250208-maint-soc-apple-8d2498e75509
 
--- 
 Best regards,
-Dmitry
+-- 
+Janne Grunau <j@jannau.net>
+
