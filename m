@@ -1,142 +1,95 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9011A2C29;
-	Sat,  8 Feb 2025 09:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5539A1A83FF;
+	Sat,  8 Feb 2025 09:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739006679; cv=none; b=I3J7RCBrvJqSFQRUR6q1l33rZx/nmO2ggVbiHr9wQpt6MsPJrLaFd5c6ME1i706RRoyGM5p09IqtXE0q7FEc4LN1sRiL+EhPX3RiwHef3xafzXMF2stDnfe+u5Ev6BmN8EvK00BkKyrhRRLRAY7yUF/87ygrWC/11DbF6IT0R7g=
+	t=1739008691; cv=none; b=g44dMynO9SDx6KTq4g/OMgCJ1LoeDB/495IuF9qPJqeKs2qO9V3D1NQZ+hbO1vOCBXwQN2pLAxQAgH+2Yg4uOKrO1dKd2mLU2XZgjplNux4Jjbev7lc6YJAtxL+gclPq7VxpT79bNIFe9nfoEbQA4BYK0mu7UWOyOKXYSllDKn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739006679; c=relaxed/simple;
-	bh=HCWULguJiC9/a/7cNPp63AS7VFBctan+9zWoEoE5eIM=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=ophBhqZA0jVJj+tc6Ry0OSXjCb+14jeE7bTm7Cexl3vJVrVd5oqTM6qBCGqKgxy+RC8pV9fa0X+pCA4DjWVJNnotkch2gUTwDDYXeUmHrMf91PDq+WAO9PsAAlYtSYzF2T62ha+BtKv6R4FK9rvhcKoyslVgVjYFTizgCFkkeDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=i+l+F/HK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=X32nboae; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1739008691; c=relaxed/simple;
+	bh=Da5PceD4nSNuB1c7slA9pli6PCIvqpP7MItx3meXMT4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SCpLlJfg+9JivSp9ETNs4UdO0H/9VG8+3Gt6O6FUq2NVdYi2IzGSOMZV00JRTGBN973lOHVdh2JPzeMvpUuVcbFxyCloIP3NPnDiJMIm0KAVvWNYpMSrw6aIr+6Gf9bfjna0Ubz2wMaBFwjdhDti0E+m7uWpF7qre/JmTWFWEKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=FX7FzS64; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="i+l+F/HK";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="X32nboae"
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 5FE0511401A4;
-	Sat,  8 Feb 2025 04:24:35 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-07.internal (MEProxy); Sat, 08 Feb 2025 04:24:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1739006675; x=1739093075; bh=s1EPUafcPNXclCuOINSGMBbvgYoKzy3O
-	rMOtTqPofOA=; b=i+l+F/HKXkOI+dOcO7SERfcCh5zvIRPXLyWvkvFIuq2A+AmI
-	WsEbbq+uOihQYUbpfJ3+yMhm+6Qgk6K+Hv4CWgR1fII67079FBhGB+KGGB3xkvI0
-	MEnG2FL1DE3n1uexmgrSv9yco9iZhdksHsD+kJ0mp5L3F5HgnQt4Zl1KFbmcXvmv
-	gAn9XmCLahMM0weCkguahaWwkbwXySSv8VWmAjsgJ0wOFH4kyYAPGa88lVCUk4q4
-	ZvQLYxQwB9nedWTYkFuvyR1O6D0PNfHoiGEFokLcuGD9eir7NbDFH8+C7jyKfw6h
-	CxclvJeeXG7U3nZzQloZEYCbp+CZ8xFNSgEN/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739006675; x=
-	1739093075; bh=s1EPUafcPNXclCuOINSGMBbvgYoKzy3OrMOtTqPofOA=; b=X
-	32nboaeUxieqtbzFci69zBqqUd7+Z3dFHp437mJC99DwxAufWD36oklpnagdRinD
-	F7y0kGwYG0gjWOgyS6NyaSZdFKi76D9F/5q+WJF7u529GY/gifLwQrLeQe6q0/YA
-	Y4T3bNuqN83Bx1i/3i2XGSL/QeKX48Hkjzjq1/tJ9dT1V1xGgdk7qNIH+8+38FzZ
-	5PgnrCLPGs+2u7su4jirv+FYux7vewj1gCWQnk0G5zLQtJgejSj8ttjNgXpro6Yn
-	YHDlmfRr03WqJU4vc1XvglUgkB8agpfQatdb12rt36kaahPSa4eFt/W6gnGR168W
-	PmDwxwwBxss8okBqirFsw==
-X-ME-Sender: <xms:0yKnZ0d6ZrRGzCuWG3C9603r4_7vzW1tssn6zTsraKXD4hGF90-XXw>
-    <xme:0yKnZ2P253RzUGW6Iv_Uzq21wz0nahDwRx4mGgwMVvOhSHouAJK1LL5aHyPaagvNa
-    9KSMfdqryBp7xECNxI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudekfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
-    hrrdguvghvqeenucggtffrrghtthgvrhhnpeelfeetueegudduueduuefhfeehgeevkeeu
-    feffvdffkedtffffleevffdvvdeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghr
-    tghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghrnhgusegrrh
-    hnuggsrdguvgdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopehl
-    ihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
-    dprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthht
-    ohepshhotgeslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehmrghrtggrnh
-    esmhgrrhgtrghnrdhsthdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
-    rdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:0yKnZ1gyxSJ7Mohm0PXEZH_KvdQSiVH-1qRoxtcscRLNnDoT7sXtPw>
-    <xmx:0yKnZ5_rNPcq_KQM_eQf4WUmaYR42QNJf_6mjVeF7-VAapdsYUNqLA>
-    <xmx:0yKnZwvxECInv3BL_lETSSrYLKIyyF2fQMnRvOtAa6lDHX8c3Odxwg>
-    <xmx:0yKnZwEg0foIAyvKeMWTtz1Mh8jcUs23KedX3N2W3UhPbBzCckgWKA>
-    <xmx:0yKnZ0j_kk4NlFtaMdALGL0atrebfknnAMpExSuHSBKioRJ83han9DVV>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1F2BDBA006F; Sat,  8 Feb 2025 04:24:35 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="FX7FzS64"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 5ED213FB5D;
+	Sat,  8 Feb 2025 09:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1739008679; bh=Da5PceD4nSNuB1c7slA9pli6PCIvqpP7MItx3meXMT4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=FX7FzS64oOVPoNnOVFB1wLz/NNDiVn3OnhUKSyiWURYyh8TxPQ18nRdzlJQQmyU+B
+	 O4L6XRU0OWuNPXV5H4BymyPNXe+KWZKF3Zc+JylhFgHiCqwlzdDcy917Nr8x9X6WM6
+	 Uv1HUtzJ1CnIz3u//H0qdAmSya/MxGuQhSH3pzCYZ7MTJfqdODd2zW9yLE6Wpq5CF5
+	 Z817GuJlmx1NfzEJFtkDXLx/IK3Xjf2sAjZi1yur42q1Cn0npxSvkWRPp96ZYadzuV
+	 hkD99gVstKN8mIu2wZKI98kAWKSfTh7ik/n3NnyYAoIC2kEEgtcf2n3i7FpKIGKzKH
+	 WAV8YKPwrRKPA==
+Message-ID: <cf367a36-88fb-4999-a5ab-d34c4ded718e@marcan.st>
+Date: Sat, 8 Feb 2025 18:57:57 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 08 Feb 2025 10:23:40 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Janne Grunau" <j@jannau.net>, "Arnd Bergmann" <arnd@arndb.de>,
- "Hector Martin" <marcan@marcan.st>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: arm: apple: Add myself as maintainer
+To: Janne Grunau <j@jannau.net>, Arnd Bergmann <arnd@arndb.de>,
+ Sven Peter <sven@svenpeter.dev>
 Cc: soc@lists.linux.dev, asahi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Message-Id: <4121b7d7-1f5b-4fae-b076-5c29fcab0c3e@app.fastmail.com>
-In-Reply-To: <20250208-maint-soc-apple-v1-1-a7f7337baec0@jannau.net>
 References: <20250208-maint-soc-apple-v1-1-a7f7337baec0@jannau.net>
-Subject: Re: [PATCH] MAINTAINERS: arm: apple: Add myself as maintainer
-Content-Type: text/plain
+Content-Language: en-US
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20250208-maint-soc-apple-v1-1-a7f7337baec0@jannau.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-
-On Sat, Feb 8, 2025, at 10:22, Janne Grunau wrote:
+On 2025/02/08 18:22, Janne Grunau wrote:
 > Sven and I have agreed to share the maintainership for the ARM/APPLE
 > platform after Marcan's step down. I'm handling the downstream Asahi
 > Linux tree since April 2024 and worked on or wrote several drivers for
 > the platform.
->
+> 
 > Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
-
-Acked-by: Sven Peter <sven@svenpeter.dev>
-
-
-thanks again for stepping up :)
-
-
-Best,
-
-
-Sven
-
 >  MAINTAINERS | 1 +
 >  1 file changed, 1 insertion(+)
->
+> 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 
-> f2594c2300f9b054a6d57ce069120df0bb451d88..9987cbc4d14b2d2be43f259688c7791ecfd10423 
-> 100644
+> index f2594c2300f9b054a6d57ce069120df0bb451d88..9987cbc4d14b2d2be43f259688c7791ecfd10423 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
 > @@ -2210,6 +2210,7 @@ F:	sound/soc/codecs/ssm3515.c
-> 
+>  
 >  ARM/APPLE MACHINE SUPPORT
 >  M:	Sven Peter <sven@svenpeter.dev>
 > +M:	Janne Grunau <j@jannau.net>
 >  R:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
 >  L:	asahi@lists.linux.dev
 >  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->
+> 
 > ---
 > base-commit: 7635a78a95dc3bff39e9c49b34108f81a9bb62db
 > change-id: 20250208-maint-soc-apple-8d2498e75509
->
+> 
 > Best regards,
-> -- 
-> Janne Grunau <j@jannau.net>
+
+Acked-by: Hector Martin <marcan@marcan.st>
+
+Janne's proactive leadership on the maintenance of the downstream tree
+has been invaluable, especially as life got in my way last year and I
+couldn't do it myself.
+
+Thank you.
+
+- Hector
+
