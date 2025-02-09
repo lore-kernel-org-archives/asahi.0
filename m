@@ -1,155 +1,160 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932FA14F115
-	for <asahi@lists.linux.dev>; Sun,  9 Feb 2025 10:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01CC156230
+	for <asahi@lists.linux.dev>; Sun,  9 Feb 2025 11:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739098350; cv=none; b=qpcau8RIXD44ORFbvYHC5xHCaLiaxcPHx6NNOE5taUYKqqu7//XBTSo7yc3JA6R7hvQwfPGyWJ5w2/0cJrvxN5d7+8TTQppfCo5KIrRRj6ni4oc/fk8SxS71+etlIy1RTUpbf2r9nKnnyl3fiy/JiZrw+8TBaF5ynIKxS6MBk94=
+	t=1739099332; cv=none; b=ERrxt6XT0ci6E8aJMeXMOejl03x5D1rSCPRyIak6XsRySIprpvFVoswa9pIv0xSvrMxyJKPwuGfuIRBGYqfhOIZ9fNjOU0qC48t2aB7PVcYHOPTq9Y5K29wH0DItCZkSyOLZjm1zzHp5zBmzZpHH2KUZp5EpLs5eAI4yhcTHpDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739098350; c=relaxed/simple;
-	bh=99Q0XUTzbpO0aXxB9c7lAHvm67OUL659f0fUrxhbdvI=;
+	s=arc-20240116; t=1739099332; c=relaxed/simple;
+	bh=g6Z5E/J7Lu/e4cN4IuJx4avEmz/Rrp3PpRqkyElWLnY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HVJISb3yT6+X7iUPAeHvoujvg6j5zgfdkZstx7Rxd/XxDvBAMCRD1j/1vpHOka3Q28KvZ36UTldgMcy7htPNs1zQYIwFHpH7DOtyvoPsOoC2DdO9F+w0C7lXZC/+Cox1j0+iRS/A4X7l08YTgxsyvZKVDZ6gfVhaBYyVjb+o/lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
+	 To:Cc:Content-Type; b=c7XRCuzUrpBHwfKyVlkUWEiwyp874cJdFb6lplKm6fQOvpznNUapkLzJGv/F9HCGWP3eD07AvrWx3pnGvsjXXfpfzaIArpUnCIfWAA0ZDhMWCk/Ty28hTN78pXYx2W7FdnMIK0b3CNSOSvgWFlfDSPAC6Sh/L4rmZhrAqmXvhk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ab794ae3cf2so189810166b.2
-        for <asahi@lists.linux.dev>; Sun, 09 Feb 2025 02:52:28 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5de64873d18so1312913a12.2
+        for <asahi@lists.linux.dev>; Sun, 09 Feb 2025 03:08:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739098347; x=1739703147;
+        d=1e100.net; s=20230601; t=1739099329; x=1739704129;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Au6zQLeh68QVpuJTfw781W0Z1sj2OEff0MPZwPdF+qs=;
-        b=A/kZm4q/8egHqQyBOqqJM1wr0rYgiXxzW5zliZQ3ytD38X9xlHefe1xNQV080KsqBc
-         BlwGoW59kXoQQbLGmM4JmKK8f3bjbjVJmLNZfjrpIyAyXSYu2tPapsrLARs7gLke/+md
-         i8ZklozE2VHvRfeJAw70b/6A2jhbNyqzI+bU9WOS+dmuHmp0zb+6b4xwu0vMfsce6MDb
-         2tJkKux7dahPgEl2F91geVdn2TViVDepkcDLZGjIB0LxWaTU26N6om67qa1IfnNUy5Ot
-         Zky3wnMpt/cPlHZTgy+xwNr30yVz0KJXsS3BSd+ULJE0lYV99Gu5MoR22h0h3KRnQKkE
-         stcA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVZP7HF6gu+/lCSidL8xwtFjNYSA70AbWIkStrOVBkagckfPjMmiVf6i40ZIdbA81GWcvEgg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9Ng3YGAzt9aUn2y4owS8XNwhVXzwMA3P0oh0XkEn20kspkho1
-	rBUpilBefsaTYuQ8Bl4an4HzJ0sQAU6lZe/4u7dvNsH83QhlhGQe/2SfrbluWlM=
-X-Gm-Gg: ASbGncs8It4ZfDFnr0XnQswehbp4WFW3Q7XICWcdA+tw70SUtz3n9B3JPauHWCv7PsP
-	4ulnJpna2WMKjtyhSecN66XDK+6NkP4a4VPxHZXHFQpqYrMGsIR43X4HaCTqyLFHw9N27SU6kPj
-	ZPYxmgMZMJ/HuG9j7fa00I/CTUyCAvCddIX/TasG7cgLUHsSf6YuM+fnlPomf37Yz3gAQMZVEYL
-	6vJIJT6Wt0x/ucqAvLnUmIexeRVs2eee5/Ln0/c1DEY5xxUm0/GEpCDiJDlp+vaNznBQb2ujWbY
-	3YLV40s+BptmoXN8Dis/cedmGTCAJ3qGr1MoN1nuzfXWLA==
-X-Google-Smtp-Source: AGHT+IEs18mcbBMtJBXCpWyRlJ4y1evSNnkkjSmQ5JYEMQASp5myPukQ++D5NVWRo/j9L/Idpz81qg==
-X-Received: by 2002:a17:907:2d27:b0:aa6:89b9:e9c6 with SMTP id a640c23a62f3a-ab789ac0dcdmr919642366b.21.1739098346511;
-        Sun, 09 Feb 2025 02:52:26 -0800 (PST)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab773339e82sm655448266b.143.2025.02.09.02.52.26
+        bh=EZtSlMlkn5zHaXo0WZfyndZctK7R7et8V22vFKv8IdM=;
+        b=cejmIbN1pEEIwH49B08k+QJ5VezoDIVhHtyKUIO9Po4t7WnO3nUcQDkmu6APJ0k9/z
+         5J5yLo/alZdQx/firfsQnq5mvAZQ2/q/QOXvnYTNHeZouizXEQzTD9RfVjCK8V8o8iPC
+         FKzqgS+tlXlfqc5mdN3sOg86k8rYIVeDsf2R5Wi3eLJtyV4K1sIv/+VFu+fne6yaDja0
+         wMzjzjrJeDIo0BJv6zPlwIZpxhbuIRBsg0FzE7Nimbbj30kGg/EXxdNdZIh0+seRrhcg
+         JlbOg/peCAgIBFC7MKysNTAwiSAUhQruKyRTTrk+Zur/aWoKkmkQzzAMOR7zSD4XA4cw
+         R3IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXfW1l50Dg3yLzFsYa09YbGjozDFte5LLEWBL9dV7/6zhLS0AvjTw2SPfQkRKU0owlotXSk7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0ujFTFz15Bgp+OA4w38Bv1jn8WlWO9Bc0i+fItnefH4YgsNkI
+	9Bvqiy4jTM1xst1uA7CKaQzYC8V2/YCLpyWutYoTbivYM0AGPE1THoxB3KKvXc4=
+X-Gm-Gg: ASbGnctHEuymuPCyTk8km0dkDzsnzV0nAx34iPv/eD37TXDRMrW9pn3/9aaSCOnGtRY
+	CnLqDKZRKmRZlJv80f7DAOkzoYmYkUMnTZh47O2Mpn8nQdtXAOYfK3d1nxJMnXG44e/qysaW02n
+	O5lswyJHVhoYNmevdGs/dDj7vnl2ouZkBjMJAhgDV1VfPqPT4kHuPoJQj39yD2aayvS76YQoP8I
+	2/m7tMUcX0TdSxZAGqPAHu/WrB5rcx2L2IbqZEgh/zsqtZ8NhGvtnxLceADhFCVJN34enzN6RaQ
+	BpcPdhm3lc00GbrUeFlZKDE2usDT/V+Fg9rxEkdX6gQfiA==
+X-Google-Smtp-Source: AGHT+IHxzyqVa6MclbU8cV+FG3X72AuSn/8YMMpRPLKOTQGovIYa/bm3AUQaO7EzCN3Jq1jWskvjCQ==
+X-Received: by 2002:a17:907:1c23:b0:aa6:9198:75a6 with SMTP id a640c23a62f3a-ab789ae237fmr901547566b.21.1739099328730;
+        Sun, 09 Feb 2025 03:08:48 -0800 (PST)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab79668f32esm389881866b.176.2025.02.09.03.08.48
         for <asahi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Feb 2025 02:52:26 -0800 (PST)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5de7519e5a7so271360a12.2
-        for <asahi@lists.linux.dev>; Sun, 09 Feb 2025 02:52:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVni6H2NAd57PqvPqvL5mKtYdclo2HNRR3O+RzrZgt+ngNH6Ji4yF0C0cQbrO+HUqPkl+Ur8w==@lists.linux.dev
-X-Received: by 2002:a05:6402:e8a:b0:5d9:f9b8:e7e5 with SMTP id
- 4fb4d7f45d1cf-5de45019c14mr12109880a12.15.1739098346131; Sun, 09 Feb 2025
- 02:52:26 -0800 (PST)
+        Sun, 09 Feb 2025 03:08:48 -0800 (PST)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ab795ebaa02so293435366b.1
+        for <asahi@lists.linux.dev>; Sun, 09 Feb 2025 03:08:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUYEUpnzXh6xPSIetPLSQdy3Vg7b0iOFil5WycbHykYw9LapmQmcYxXkJ52u9pCWKrBLQunXw==@lists.linux.dev
+X-Received: by 2002:a05:6402:4608:b0:5de:42f5:817b with SMTP id
+ 4fb4d7f45d1cf-5de450b1c5dmr9937857a12.31.1739098947851; Sun, 09 Feb 2025
+ 03:02:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250203124747.41541-1-towinchenmi@gmail.com>
-In-Reply-To: <20250203124747.41541-1-towinchenmi@gmail.com>
+References: <20250206-adpdrm-v6-0-c8ab9348b853@gmail.com>
+In-Reply-To: <20250206-adpdrm-v6-0-c8ab9348b853@gmail.com>
 From: Neal Gompa <neal@gompa.dev>
-Date: Sun, 9 Feb 2025 05:51:49 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je88vu26f_c5oE+MfedOw-bvmAO_v7YYhbaEiX-p3oivYA@mail.gmail.com>
-X-Gm-Features: AWEUYZkreSJI3JUypO3Y6OVLfPm7TpTxsqhTmgRkrr1SmVO3qusxGLiZ7hKNs1I
-Message-ID: <CAEg-Je88vu26f_c5oE+MfedOw-bvmAO_v7YYhbaEiX-p3oivYA@mail.gmail.com>
-Subject: Re: [PATCH RESEND 0/9] Add Apple A7-A11, T2 SoC cpufreq nodes
-To: Nick Chan <towinchenmi@gmail.com>
+Date: Sun, 9 Feb 2025 06:01:51 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je_1Qe_q0Vt1ReX0HG83gNP3Ph37E+d_prDiMXSWtum5vQ@mail.gmail.com>
+X-Gm-Features: AWEUYZlNJz2VbuDrDkNmceAgZ0ETGFMAFQeCJbSKwBdyoI2QQNmlLF0UVoGPB5w
+Message-ID: <CAEg-Je_1Qe_q0Vt1ReX0HG83gNP3Ph37E+d_prDiMXSWtum5vQ@mail.gmail.com>
+Subject: Re: [PATCH v6 0/5] Driver for pre-DCP apple display controller.
+To: fnkl.kernel@gmail.com
 Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	asahi@lists.linux.dev, Janne Grunau <j@jannau.net>, linux-arm-kernel@lists.infradead.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Nick Chan <towinchenmi@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 3, 2025 at 7:51=E2=80=AFAM Nick Chan <towinchenmi@gmail.com> wr=
-ote:
+On Thu, Feb 6, 2025 at 9:02=E2=80=AFAM Sasha Finkelstein via B4 Relay
+<devnull+fnkl.kernel.gmail.com@kernel.org> wrote:
 >
-> This series adds performance-controller and operating-points-v2 cpufreq
-> nodes for Apple A7-A11, T2 SoCs.
+> Hi.
 >
-> Dependencies:
+> This patch series adds support for a secondary display controller
+> present on Apple M1/M2 chips and used to drive the display of the
+> "touchbar" touch panel present on those.
 >
-> - arm64: dts: apple: Split s8000/s8003 SoC DTS files
-> https://lore.kernel.org/asahi/20250203113949.14760-1-towinchenmi@gmail.co=
-m/T
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+> Changes in v6:
+> - Use the drm_connector_helper_get_modes_fixed helper.
+> - Split out into a separate MAINTAINERS entry
+> - Link to v5: https://lore.kernel.org/r/20250205-adpdrm-v5-0-4e4ec979bbf2=
+@gmail.com
 >
-> - Device Tree for Apple T2 (T8012) SoC devices
-> https://lore.kernel.org/asahi/20250203114417.16453-1-towinchenmi@gmail.co=
-m/T
+> Changes in v5:
+> - Moved to using the component framework.
+> - Other lifetime fixes
+> - Link to v4: https://lore.kernel.org/r/20250114-adpdrm-v4-0-e9b5260a39f1=
+@gmail.com
 >
-> Note, this will have conflicts with Apple A7-A11, T2 PMGR nodes [1] due t=
-o
-> both of the series adding things to the same part of the .dts files, they=
- are
-> unrelated, so keep both of additions.
+> Changes in v4:
+> - Fixed dt bindings.
+> - Link to v3: https://lore.kernel.org/r/20250112-adpdrm-v3-0-c674dc19fa7f=
+@gmail.com
 >
-> 1: https://lore.kernel.org/asahi/20250203121831.36053-1-towinchenmi@gmail=
-.com/T
+> Changes in v3:
+> - Fixed building as module after splitting out mipi block
+> - Addressing the review feedback.
+> - Link to v2: https://lore.kernel.org/r/20241126-adpdrm-v2-0-c90485336c09=
+@gmail.com
 >
-> Nick Chan
+> Changes in v2:
+> - Addressing the review feedback.
+> - Split out the mipi part of the display controller into a separate devic=
+e
+> - Link to v1: https://lore.kernel.org/r/20241124-adpdrm-v1-0-3191d8e6e49a=
+@gmail.com
 >
 > ---
-> Nick Chan (9):
->   arm64: dts: apple: s5l8960x: Add cpufreq nodes
->   arm64: dts: apple: t7000: Add cpufreq nodes
->   arm64: dts: apple: t7001: Add cpufreq nodes
->   arm64: dts: apple: Add cpufreq nodes for S8000/S8003
->   arm64: dts: apple: s8001: Add cpufreq nodes
->   arm64: dts: apple: t8010: Add cpufreq nodes
->   arm64: dts: apple: t8011: Add cpufreq nodes
->   arm64: dts: apple: t8012: Add cpufreq nodes
->   arm64: dts: apple: t8015: Add cpufreq nodes
+> Sasha Finkelstein (5):
+>       dt-bindings: display: Add Apple pre-DCP display controller
+>       drm: adp: Add Apple Display Pipe driver
+>       drm: panel: Add a panel driver for the Summit display
+>       arm64: dts: apple: Add touchbar screen nodes
+>       MAINTAINERS: Add entries for touchbar display driver
 >
->  arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi    |   1 +
->  arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi  |   1 +
->  arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi |   1 +
->  arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi   |  45 +++++++
->  arch/arm64/boot/dts/apple/s5l8960x.dtsi       |  10 ++
->  arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi   |  45 +++++++
->  arch/arm64/boot/dts/apple/s800-0-3.dtsi       |  10 ++
->  arch/arm64/boot/dts/apple/s8000.dtsi          |  53 +++++++-
->  arch/arm64/boot/dts/apple/s8001.dtsi          |  59 +++++++++
->  arch/arm64/boot/dts/apple/s8003.dtsi          |  53 +++++++-
->  arch/arm64/boot/dts/apple/t7000-6.dtsi        |   4 +
->  arch/arm64/boot/dts/apple/t7000-j42d.dts      |   4 +
->  arch/arm64/boot/dts/apple/t7000-mini4.dtsi    |   4 +
->  arch/arm64/boot/dts/apple/t7000.dtsi          |  46 +++++++
->  arch/arm64/boot/dts/apple/t7001.dtsi          |  52 ++++++++
->  arch/arm64/boot/dts/apple/t8010-7.dtsi        |   8 ++
->  arch/arm64/boot/dts/apple/t8010-ipad6.dtsi    |   8 ++
->  arch/arm64/boot/dts/apple/t8010.dtsi          |  86 ++++++++++++
->  arch/arm64/boot/dts/apple/t8011.dtsi          |  79 +++++++++++
->  arch/arm64/boot/dts/apple/t8012.dtsi          |  83 ++++++++++++
->  arch/arm64/boot/dts/apple/t8015.dtsi          | 123 ++++++++++++++++++
->  21 files changed, 773 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm64/boot/dts/apple/s5l8960x-opp.dtsi
->  create mode 100644 arch/arm64/boot/dts/apple/s5l8965x-opp.dtsi
->
->
-> base-commit: a14d9039c2aea103eeedc5602ebab731ef3eb73e
-> --
-> 2.48.1
->
+>  .../display/apple,h7-display-pipe-mipi.yaml        |  83 +++
+>  .../bindings/display/apple,h7-display-pipe.yaml    |  88 +++
+>  .../bindings/display/panel/apple,summit.yaml       |  58 ++
+>  MAINTAINERS                                        |  16 +
+>  arch/arm64/boot/dts/apple/t8103-j293.dts           |  31 ++
+>  arch/arm64/boot/dts/apple/t8103.dtsi               |  61 ++
+>  arch/arm64/boot/dts/apple/t8112-j493.dts           |  31 ++
+>  arch/arm64/boot/dts/apple/t8112.dtsi               |  61 ++
+>  drivers/gpu/drm/Kconfig                            |   2 +
+>  drivers/gpu/drm/Makefile                           |   1 +
+>  drivers/gpu/drm/adp/Kconfig                        |  17 +
+>  drivers/gpu/drm/adp/Makefile                       |   5 +
+>  drivers/gpu/drm/adp/adp-mipi.c                     | 276 +++++++++
+>  drivers/gpu/drm/adp/adp_drv.c                      | 617 +++++++++++++++=
+++++++
+>  drivers/gpu/drm/panel/Kconfig                      |   9 +
+>  drivers/gpu/drm/panel/Makefile                     |   1 +
+>  drivers/gpu/drm/panel/panel-summit.c               | 132 +++++
+>  17 files changed, 1489 insertions(+)
+> ---
+> base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
+> change-id: 20241124-adpdrm-25fce3dd8a71
 >
 
-This series looks good to me.
+Series LGTM.
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
-
-I've also CC'd in the new tree maintainer Janne so they can see this series=
-.
 
 
 --=20
