@@ -1,123 +1,66 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290193BB54;
-	Tue, 11 Feb 2025 18:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEB51E5018;
+	Tue, 11 Feb 2025 18:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739298875; cv=none; b=ABSBjhBGWILc3avuKuniBif+mZ4crR4POdB0l1HV5Kg4kph8hY2eZ3znNijFk3nexlkIu5lTHt/dq82CYiMlZZfBsrd1S1aPQiY9kCNBZzwd99wpFafW5mnHUOdaCNiX9E9z5s0HCJFgd40zCKIm1P8ng9gFhSUnzvTdvZpaozQ=
+	t=1739299103; cv=none; b=NLM0YtzK0lG2QbMWr2WqABo6Eyu1BKFotaBgJbgy78q8F7LFvZrQVe8q2D921v+hxbM/XmNtpNGtuMVhqeREr0nI9bW9npt8EVimzKe0DN5G8DOBmCUlZlDFZFgd+6k38SNre/TRx33jY3/DC7ACgf0gH68PZ2+Ctc+ssAxAAPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739298875; c=relaxed/simple;
-	bh=TvhfNc3I07qiTd32YHIKmw3g9aChxrMBZe65U1A7VhQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IsNOc84CSn5Yxx7snGMZfK+H8NMVJqIdFiw30HaNKspPAw3dC8RfMSiqu4hOaH9LsxcuZZNQRlfly4nhWs9cmV3GcSNqUUeBczotXjT6gOv4HTiI5QEgjqfWJTvZlLUVFsnKi5ywoJE1roQQRykga/z1skPsPbF+UW1IGjr8H0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDA0E13D5;
-	Tue, 11 Feb 2025 10:34:53 -0800 (PST)
-Received: from [10.57.35.63] (unknown [10.57.35.63])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C11D3F58B;
-	Tue, 11 Feb 2025 10:34:30 -0800 (PST)
-Message-ID: <98af5c02-5006-4272-aaf0-a0e30c312059@arm.com>
-Date: Tue, 11 Feb 2025 18:34:27 +0000
+	s=arc-20240116; t=1739299103; c=relaxed/simple;
+	bh=9d6jju/AIBaHpo4CcHOAS0x1UR/bdfVSyRx15+juWkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T5u1eu3ecVyZLklugh7PNSq9g50WtQidGYkt3kpPW52SMC8ivm5Nq5UFBRqwXbkNu7Znti8jX9jAS3++qaPSQaXS8nHkvHfuw0uoQTnHr4Vu/a7iCfnL7Idr02Hqgzx2JH2OqWTp/dSx4gl/ZoYFzrg9vcoc6TOMtMDGMDXfrfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KM4EUBoM; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KM4EUBoM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79CCFC4CEDD;
+	Tue, 11 Feb 2025 18:38:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739299103;
+	bh=9d6jju/AIBaHpo4CcHOAS0x1UR/bdfVSyRx15+juWkY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KM4EUBoMjRN48xcaieQjd0BFqnOJuWcuSbQtEJHC5hn90/M9bzWaCsy+NfatKadD5
+	 wzYebE/Daz96X02ZYwZO/u7UA4Isg1XE8pzUej0EpmicEW9MSn2gMzR83dOlOXLcJy
+	 jPOZ9OIahCPBkd2d1KDBubdKO8twfNjmRdEDCEhgFtxI69ad9Ea3KTzxSlFmMjlpaQ
+	 kDrL8M5vH5HJwy0kQRYDH8KUIvntS7ecZNLjcdd6AfWNc+ROBuLTIBeYJbccI9ym/z
+	 4T1hXfsOtpEP6QOMa1EsLNq5QoYiZohM1tlVvKkW70jVhc7kOx0PqYSWsstrLu4bTz
+	 58+lRzskHQbDA==
+Date: Tue, 11 Feb 2025 11:38:20 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] apple-nvme: bug and perf fixes
+Message-ID: <Z6uZHKwyMCWgM1a4@kbusch-mbp>
+References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] iommu/dart: Skip reset for locked DARTs
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Sven Peter
- <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- Hector Martin <marcan@marcan.st>
-References: <20250210-locked-dart-v1-0-5d97fe247f35@rosenzweig.io>
- <20250210-locked-dart-v1-2-5d97fe247f35@rosenzweig.io>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250210-locked-dart-v1-2-5d97fe247f35@rosenzweig.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
 
-On 2025-02-10 7:39 pm, Alyssa Rosenzweig wrote:
-> Locked DARTs cannot be reconfigured, therefore the reset/restore
-> procedure can't work and should not be needed. Skip it, allowing locked
-> DARTs to probe.
+On Tue, Feb 11, 2025 at 01:25:56PM -0500, Alyssa Rosenzweig wrote:
+> This small series fixes three unrelated issues with the Apple NVMe
+> driver.
 > 
-> Co-developed-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> ---
->   drivers/iommu/apple-dart.c | 24 ++++++++++++------------
->   1 file changed, 12 insertions(+), 12 deletions(-)
+> * fix NVMe on firmware/machine
+> * fix a power domain leak
+> * fix pathological driver performance with random writes
 > 
-> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-> index 460cf96bc8001e051916f356d5d175b35e36c608..9c74a95eb7e819e94ab2fb47ed0d411a1eba8bf7 100644
-> --- a/drivers/iommu/apple-dart.c
-> +++ b/drivers/iommu/apple-dart.c
-> @@ -452,17 +452,9 @@ apple_dart_t8110_hw_invalidate_tlb(struct apple_dart_stream_map *stream_map)
->   
->   static int apple_dart_hw_reset(struct apple_dart *dart)
->   {
-> -	u32 config;
->   	struct apple_dart_stream_map stream_map;
->   	int i;
->   
-> -	config = readl(dart->regs + dart->hw->lock);
-> -	if (config & dart->hw->lock_bit) {
-> -		dev_err(dart->dev, "DART is locked down until reboot: %08x\n",
-> -			config);
-> -		return -EINVAL;
-> -	}
-> -
->   	stream_map.dart = dart;
->   	bitmap_zero(stream_map.sidmap, DART_MAX_STREAMS);
->   	bitmap_set(stream_map.sidmap, 0, dart->num_streams);
-> @@ -1151,9 +1143,11 @@ static int apple_dart_probe(struct platform_device *pdev)
->   	}
->   
->   	dart->locked = apple_dart_is_locked(dart);
-> -	ret = apple_dart_hw_reset(dart);
-> -	if (ret)
-> -		goto err_clk_disable;
-> +	if (!dart->locked) {
-> +		ret = apple_dart_hw_reset(dart);
-> +		if (ret)
-> +			goto err_clk_disable;
-> +	}
->   
->   	ret = request_irq(dart->irq, dart->hw->irq_handler, IRQF_SHARED,
->   			  "apple-dart fault handler", dart);
-> @@ -1192,7 +1186,9 @@ static void apple_dart_remove(struct platform_device *pdev)
->   {
->   	struct apple_dart *dart = platform_get_drvdata(pdev);
->   
-> -	apple_dart_hw_reset(dart);
-> +	if (!dart->locked)
-> +		apple_dart_hw_reset(dart);
+> The first two are strict bug fixes, the last is technically an
+> optimization but given the measured 200x performance difference I do
+> consider to be a fix ;-)
 
-Not much point saving anything on suspend either, in that case.
+The last two patches look good to me.
 
-Thanks,
-Robin.
-
-> +
->   	free_irq(dart->irq, dart);
->   
->   	iommu_device_unregister(&dart->iommu);
-> @@ -1325,6 +1321,10 @@ static __maybe_unused int apple_dart_resume(struct device *dev)
->   	unsigned int sid, idx;
->   	int ret;
->   
-> +	/* Locked DARTs can't be restored, and they should not need it */
-> +	if (dart->locked)
-> +		return 0;
-> +
->   	ret = apple_dart_hw_reset(dart);
->   	if (ret) {
->   		dev_err(dev, "Failed to reset DART on resume\n");
-> 
-
+I don't know anyone qualified to review the first patch, so I'll take
+your word for it if no one replies in the next few days. :)
