@@ -1,110 +1,106 @@
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95970265CB2
-	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 19:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55B9265602
+	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 19:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739303409; cv=none; b=d6ol51KclYu9rUdwxbW26uwe5Cw6iFCyB/oiS8T8+f39aj+TSSWoMlSWbiOtv9m5ESLs3rSG5bsKNJyc4PyDueP/Zuoxq6WmZ0Vq2RHxIABlOCTqJYlIohoJ8gW0Ct6yh96ZjSIo+3TTAbTfU6MJEznwAhV8hVyPkES9BAABX2I=
+	t=1739303678; cv=none; b=FWgmkx/N3oYEiXfhlQ4cDtCZDEjjLKJQP6X8FHk2OaPuJrH2QqkdZmaREpQlmLiU/l7xioMTVgQMvLlD3jC4DPeC/PO4JHm7CuM4YLo4ra/dYVdnOUikEQBEHzjXvFFnoOrePcBf1CTYKMqxhAlCx+Evyj7KVyktckADNoVxa8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739303409; c=relaxed/simple;
-	bh=4Y+wde6FTequXKMit8DFeMHtsKviytt4h9vl35TgHZo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H30UgXyvX8xSCDafih4qYr241VtBluQJ1MhLh/k/wONmX4l2sgPGhJy++de9IQutIRR7vKGTY2yWnBw5Xkk+6Ua5N5qEBOjNlZMfgf6fot03JFEkvoNwVoDGi3Q2PlmeeSfybL6vADeT8aBEa/l3OJ0nUrp2++KZHilFSJy6fI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=UKq2abKX; arc=none smtp.client-ip=209.85.166.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1739303678; c=relaxed/simple;
+	bh=vLPYepmCn4mhfGlDn5smbuR/5pRrA54KLcq81jDIMU0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KIx1u9nQNQKcTdVqgKis257sdX2ZrM1QGHnPQGG2nxnGyCyCldFE9KQPGPbvVHhbL2sX6h0eBPasXumepYwul2LtaKSr/Svp44mgmRcWMWxCzZDyfLxt033gAOnATT24cmte4JBx1odlFssjG2DzeMnkfurWSGibNnjOPHNM4iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=a5DtbJVv; arc=none smtp.client-ip=91.218.175.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="UKq2abKX"
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-854a68f5afcso136562539f.0
-        for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 11:50:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1739303404; x=1739908204; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OsIvwEcUTBMStw2MMLLuDVcTGQeCcLwOBqA9S/j+YXs=;
-        b=UKq2abKXhPOOLqGUXZlTI0ZcAN7VrYSAoyQOCc8gitNYbhSIPa6M3VtcOct7EIhnzb
-         bUcB/I8I2szTK/NJYUsRxbvbkmXjwsAk2y5Nboe0BXmH+HXt4gnTwwm06N3w36pBFhyj
-         hlkmBoP6UG6zTfFfJDpCnaKyayiH50tajkj1Tq04SzEbhiHKrGndwEzwz49JfTafBozD
-         cjWM/PQiOazHYBmW2t28ePCmGvzdJAEEquIilZqmpD3y2/HK5K5MakQyfboIuy08rkPv
-         do2kId8ml+l78fPmwimaXWzoYsRWkZORtU5gFNE/CNtXwcsosSYiD/ad7T68aOMNeLK3
-         E08A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739303404; x=1739908204;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OsIvwEcUTBMStw2MMLLuDVcTGQeCcLwOBqA9S/j+YXs=;
-        b=kEUYR+EDFXD0Oe9dIeoIvV8xvdZYp2BmnTJw45OyrsJ5iCLJwp4z+FYp+QL/3CO7b/
-         8FdpM2wE8FfD4xvA1YSGg/Abp4aITEZSwMlize+B+/erJTpfwODsFZvV9+K7EzBcsWdB
-         BZbuM2L8Vj3oAAmyf0MySK7T4VdLBSMJgfvUBz45Nu+P9PuczX5CId4DEo/LRPWcUTLu
-         dcOI4Va+Ye0TnENDSPsLqvuacGlDnXRH2UYrSsmObZM3ZhXG8m1T9YlN1cmjj8WSNdOQ
-         kEEkHQ8cw1ZrWvCLDpT6s6g26G+5STKehbUYbVC4glVtQL5sN8FoTv7eqHGKNIwnhXhk
-         3M3g==
-X-Gm-Message-State: AOJu0YwQbclZOcqpryYD+uKdE/Nsmtiy8umuUQAC5CdEiJaJeSp/4/d1
-	UiPIntZZC0N47Xyhu3uqtwJVq4QuD8GBMRY7I3fsTO8f0AiCQMdX6Uqrzs/X8ek=
-X-Gm-Gg: ASbGnct04mjttgvJuLhE+J8I6uGDXDTXK+pTxBE37wYYnvKKAqvA0ikVGeeqfdeXg0L
-	RVXAiQ9YNWv40ixM0mY2paJkZi4/VRuIE0w8ZKuzZsK2H0XCKArhSlCUI5sSdTXfs+eh2faGuKZ
-	H5M2VGkejQYrUp2Vq539vI3/NvGj8BEdYBUbHpLh6Wbbucq5dyT9/szstXNCmT4flHfXxuANBht
-	6ldNsqrhMBEaUgA3FGHHVt9Jo/xQehbcVIeorgV4NjHVeUWt/80vfoTphV5j5CjtlWMxpftNKIM
-	g8VU5Cl4HWo=
-X-Google-Smtp-Source: AGHT+IFrTVAEGiw2EoTh/b9YW5R/KtzW2+Oh2EsbSrKLQH+zV7TjtxzGKsJ/H8T6kpwj7fxcn/baxg==
-X-Received: by 2002:a05:6602:14c3:b0:843:e667:f196 with SMTP id ca18e2360f4ac-85555c8c4eemr91680639f.4.1739303404598;
-        Tue, 11 Feb 2025 11:50:04 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ed1885b085sm77104173.69.2025.02.11.11.50.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Feb 2025 11:50:03 -0800 (PST)
-Message-ID: <84447986-6cd7-499c-834e-9aa01fad98da@kernel.dk>
-Date: Tue, 11 Feb 2025 12:50:02 -0700
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="a5DtbJVv"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1739303673;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=bjtWxBs83BeuDmTbDt+EHDOyKdhyT00WLwVNCX8IS6s=;
+	b=a5DtbJVvwtvk4xeAZlHBtFv9PNrT5Ibudy9tbKBSrDOeYgmOY/LhvzgXaqIKmHU1rVRGR1
+	lNMhh4/6bI/At3zCJVrIrDttdqUXM8Sl9oQL+fAs5hgs/DJIkWZJ76RfQixqvNhHeJrzIN
+	4wsV1Eomj/5177fqUXxiQLl63Q731+b5Jvc0k/ZlQ1SkYIWlOIfO73OCNIfX7CS8K20mzM
+	+Vyha15mA1vpWiOVmPaRTS9XBhDmYUP0gqtfPGgu93Z6ghvXIx51Jxt0GbE/06f+4/rLE5
+	x2NxelrrE4Ibh4JhDXqXi5kHM1FINGakkaulLE6b9SKPuBfKEu9jsjxdlmdQ0g==
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Subject: [PATCH 0/7] PCI: apple: support t6020
+Date: Tue, 11 Feb 2025 14:54:25 -0500
+Message-Id: <20250211-pcie-t6-v1-0-b60e6d2501bb@rosenzweig.io>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] apple-nvme: defer cache flushes by a specified amount
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Hector Martin
- <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
- <20250211-nvme-fixes-v1-3-6958b3aa49fe@rosenzweig.io>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20250211-nvme-fixes-v1-3-6958b3aa49fe@rosenzweig.io>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPGqq2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDI0ND3YLkzFTdEjNd4zQTC0uL5FTLJMMUJaDqgqLUtMwKsEnRsbW1AIz
+ yLv1ZAAAA
+X-Change-ID: 20250211-pcie-t6-3f4898ce9b1d
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
+ Marc Zyngier <maz@kernel.org>, Stan Skowronek <stan@corellium.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Janne Grunau <j@jannau.net>, stable@vger.kernel.org
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1159; i=alyssa@rosenzweig.io;
+ h=from:subject:message-id; bh=vLPYepmCn4mhfGlDn5smbuR/5pRrA54KLcq81jDIMU0=;
+ b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnq6r1hX/zYTOcr8IsxIdT6f8LIeprpn21i7hFi
+ FMMsjhwAHmJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ6uq9QAKCRD+/lBaCvVY
+ DQBfD/9Vrm3zDhNnwWZJlv0XHhz5dXaXNFpop4FmbBwlOS1GI18cZWC6vaX65sUOGm2pLgG4i6F
+ Tf9Vo6DRIEdQYPMkzZMg6AvsXjLrPO2CypPLGd8TOkmk9VowXTedeU+ub2KgUJXmOY7LQEO6VtY
+ T+JF8DkiGLjvlxHrjkhRm0R7seTPpMfIP5Z+lSeJ3bS+LhkxSfC24d+CcX+1A02MZNAudHhiqWm
+ SkxTDbiHRvJm5mjkXfnoIg0Q+2c4re8xd5TC0pk6wnTN+5XvZbZC3DirRGxAcEAN02OUddXVpVC
+ Ong9Db+NV9xXoaRUhEiinE+emBlAabt1lIAdJOXe5pCWvP+8LZmtaeCofozy5ztqIWU+C1YjDY/
+ Hrt9EZFGQUpypV0USyXLl/LAepePjC9SVaBhCcI2iSVV66RW4VBNyn3TZkQOlEneA/PzmG0jIHt
+ sSgxbr19Yz0IHLZURp12jlSXDHojbbWknY1uPrrmL/llw8YoQQacVI5s6mfCYEiXDfwXv6w4WwK
+ bwP5XF7iiqm8ZToXwAAhfzHfro6D/Ep6r0f6RuyNxJ2SHKJYavuyaDY8yQs0k6lhiorhWIOR1wg
+ ykDz6mRLBMLq2oXcp9Jpvb1/VJH4/+wznxYsYZahNfiSVGPu8Sh4MP5unjkI5x5Y3WY4m+CkqA6
+ iwEjEi2dojl2iGA==
+X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
+ fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
+X-Migadu-Flow: FLOW_OUT
 
-On 2/11/25 11:25 AM, Alyssa Rosenzweig wrote:
-> From: Jens Axboe <axboe@kernel.dk>
-> 
-> Cache flushes on the M1 nvme are really slow, taking 17-18 msec to
-> complete. This can slow down workloads considerably, pure random writes
-> end up being bound by the flush latency and hence run at 55-60 IOPS.
-> 
-> Add a deferred flush work around to provide better performance, at a
-> minimal risk. By default, flushes are delayed at most 1 second, but this
-> is configurable.
-> 
-> With this work-around, a pure random write workload runs at ~12K IOPS
-> rather than 56 IOPS.
+This series adds T6020 support to the Apple PCIe controller. Mostly
+Apple shuffled registers around (presumably to accommodate the larger
+configurations on those machines). So there's a bit of churn here but
+not too much in the way of functional changes.
 
-I knew this one would bite in the ass at some point down the line ;-)
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+---
+Alyssa Rosenzweig (1):
+      dt-bindings: pci: apple,pcie: Add t6020 support
 
-I do think the feature is sane, and to my knowledge we haven't had any
-issues with it since I originally wrote it 3 years ago. But I also
-think it should probably go in the block layer proper, as other
-devices might benefit from it.
+Hector Martin (5):
+      PCI: apple: Fix missing OF node reference in apple_pcie_setup_port
+      PCI: apple: Move port PHY registers to their own reg items
+      PCI: apple: Drop poll for CORE_RC_PHYIF_STAT_REFCLK
+      PCI: apple: Use gpiod_set_value_cansleep in probe flow
+      PCI: apple: Add T602x PCIe support
 
-That said, I'm fine with parking this in the apple nvme driver for
-now, as we don't have to deal with multiple namespaces etc. Can
-always get migrated to a core feature later, if desired.
+Janne Grunau (1):
+      PCI: apple: Set only available ports up
 
+ .../devicetree/bindings/pci/apple,pcie.yaml        |   1 +
+ drivers/pci/controller/pcie-apple.c                | 189 ++++++++++++++++-----
+ 2 files changed, 146 insertions(+), 44 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250211-pcie-t6-3f4898ce9b1d
+
+Best regards,
 -- 
-Jens Axboe
+Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
