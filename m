@@ -1,37 +1,37 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com [91.218.175.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CC324CEFB
-	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 18:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D5C25A323
+	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 18:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739298370; cv=none; b=oUoCAoLNPQicO7TFf17UjtDwKctjsJtKxQ7N1ua6rPTuzvf+g8LOEG7wWOScRRv8obPVJVCxzleXILNMg5An1nctb+jLc7roINHQPuZoKrleQJSUDDq/HKgjXm2j+YBfPxe+PBsYuO9TemtgkebqO3mpAsw4pQOONFJa86hDXt0=
+	t=1739298372; cv=none; b=WYHO3rXNET/rCAe0ogiovdXQtLES/bnm6XGR6CjwyEc73XpGW4nn0/35auu8/znsPpJim0N0LxvnyPhJMHlqX7AnqRhQZ0yx+Ynpq0KTfckzpgFfmTdHYYAjgtj9eduQULkTYh0yU5sfzgQrQTAf2+VSB9/h3B3nhvDuPivlMhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739298370; c=relaxed/simple;
-	bh=NSGgPq6UgTsRvzKTqQNyBPCEWnd0eQhaS60nJJ4jD1w=;
+	s=arc-20240116; t=1739298372; c=relaxed/simple;
+	bh=gALJf/aZN+OFGmzdamG43Z/c3e9zCysH8NbpvnFkMqo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DK+WZT+AoIjYjy6wJSKZOHaQDoGziW/L5r7HOHDHJ1Ipam19NE/ndaZ107NeDZBkkwjSb8I2gIbChy0EFmkIdsrjs0bklLJnEDMZePrsobr0UJ5fvx64q7X19B8DO2drSBRhNdOchFIwJ26sPKCxNzEPHSD+wk3JzzHUoFWO6/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=vDjaf+wW; arc=none smtp.client-ip=91.218.175.173
+	 In-Reply-To:To:Cc; b=h5Ac8g0c9ksQOb6r1TAaXviYaD1NDhuWKCrG0ut6re8KEg7+OYC3KG5YDQSxFwylmu+KTw6yAdRamxLGuhV3HF1yWVI3DiYLH/iCedATtLQJX2ruJ0y5mWO13fQM+mA7AYvdpI29KB/d/CwHfFjmFlmbZ4k28yDygxV2rMJMCxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=Ybmo94hD; arc=none smtp.client-ip=91.218.175.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="vDjaf+wW"
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="Ybmo94hD"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1739298363;
+	s=key1; t=1739298367;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Nh4p/vkoe1IUhU0kNW+lsCY3zF9KIL8HN2NY6NLEHFk=;
-	b=vDjaf+wWvTT2dtZEaGODEDZJsVIgTvnYQtaKIxJn4GbTbjrBijwoB5qQfbUhf2sPI1tUY5
-	GEKhxSP7SKvU8XEhHO8eXPdBYHmh+mZ2UYkRBUuSavkNdWWt1xIveiqsX7sv/qpMFJ9kxm
-	CRuH/IsOXeRGw+YbDpCKPqI7I0SAOFAQX67nmtjaS8xN2mFdNquWtS7/fTyfSa53OYdBB/
-	/+pM+JIhiFlMxrKTWKHesQprp2ubjhUSymlIoQd/8XaMo4bujL6POhG5d82uhMbYwLHt8M
-	X4WrEt7365IO9iz9GRRuEXx24PDVtKP4fnSq+XJjb7Sm3BxrX7gjsjdSEUclNA==
+	bh=Ge0IZaVhj6bYPb7IYImWFci1To9h0GU7LfN7WXAzDQg=;
+	b=Ybmo94hD5UHHt5O9IVJN0SV8pvCtcE0ivNp3/n1zhklYBqNjltkMOMPFHyeJx5KMlCElq6
+	E4kQU2TxImK8S2dl/koS4OlfG2yvr1MNzTylIpBcfIFx87VuQ6QfngqCUqtA5SuYb5drXi
+	cQjoZWnVadk4ndtTaQ5eJ61exw5vEA2w2+aOjegisGHupEq8T+UvqjexQgfXfvN//uguy9
+	8fIzc7A66BIF2Mk8NeqrPmY0tx+V4v+iObyK9n4CawAT2TIvCHD3kekscg7lHo6IumTVLy
+	6Tww43KxYN1itL4og2plMDX+2NldcDAY4Ezcqmur0VZJ2bor+yqtupo0aZaQYQ==
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Date: Tue, 11 Feb 2025 13:25:57 -0500
-Subject: [PATCH 1/3] apple-nvme: Support coprocessors left idle
+Date: Tue, 11 Feb 2025 13:25:59 -0500
+Subject: [PATCH 3/3] apple-nvme: defer cache flushes by a specified amount
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250211-nvme-fixes-v1-1-6958b3aa49fe@rosenzweig.io>
+Message-Id: <20250211-nvme-fixes-v1-3-6958b3aa49fe@rosenzweig.io>
 References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
 In-Reply-To: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
@@ -50,163 +50,160 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3914; i=alyssa@rosenzweig.io;
- h=from:subject:message-id; bh=mqPCDjV0fSRn/nhoe3qxtBUGiudls3umAeMV7A1xI+w=;
- b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnq5Y3MY4msd3EKNRZnQIhChthfJmteSkdbuijp
- khUKHo+m8qJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ6uWNwAKCRD+/lBaCvVY
- DUj8EACAF38TFG6b+7PMcQoaejAgCZiZcTG/DnrV7ydUZ4i8628bjueZahLtieUOM8b3U/lYgek
- DChUb++lo0EhEuTx0jTFATxLtg4dGT7ibBZRNwwZIvLC+BXKxRPaCUqhKTO7eA5YGPVUUAf8ORO
- ErcnDdc8WsFluYzoB1vUbaf0YRywB7qOlV/f8iIgZdcWEH5uUuh2I8qNi3adfo7igJMjXr5CMNl
- fhf858j5VdOD0Up3KtXYOwqfQRWUNK1vQGv0gc+ipp933FCKbEG65w5A5MeUp+q96xsTkw8FEqf
- DIhWnCzjPlA/tJDEvTd9wF4tCywFN7Q6HijhzgOhZAnFExhH/dJmqREB/sTWdgdnHnE0QIf0lpW
- ULgeAbozpB/+1vHHmzQQxUkbxByFPvKg40Jp1LwyZ2qSayHTOXjCInICSfIWSnJNrNF6eKJyqka
- oIVTS0MhQPi4UQfl7v3gAqcU1U3kG/qag1QQL65G97aVK5J/Cx25WNkXICzjd1plk2WO5fP6IFX
- roHzxcZPgODAMJ1GjYaHF+dz9rGgLx8tVfN6sT8PjlahEHQIIIu1eM/BwIJiwAKEqP6EL3BgMy8
- y2sPU/g+iUEizOIK97GrcwqBFyZxwsrnVsqb0ydOUC2JlF96pq1LU/rEyn6z2ebx5n3F5Bf/KVq
- 2ukcrsMB8YB8L4Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4209; i=alyssa@rosenzweig.io;
+ h=from:subject:message-id; bh=XdAPgabJp3Th1VF3dW5IHPK3KhszAX1ZDwJh3vdU+rs=;
+ b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnq5Y3LVwFvjEt/Oee7LPZ30kNPyq8CqXKwpOxw
+ cgxkAAh8ICJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ6uWNwAKCRD+/lBaCvVY
+ Df8pD/41JdixnbjBPDORaqiQEXeFWOiGuKrkuQnkmT4IDcLlme7arNTYhFy4qlp1QSVcgeWHLsI
+ Hed2NG2jpq0DD5uWlXx5fe1asg4+KvdwJ9EBGBHz29MLxM/PMBSa2k9RYvGfQlcFvAfdRUHQE5T
+ d/PnE+t0vHutgLo5Ba9/rNuyvIaq+qkle/OwXSsjeq0q/L8vOtlJBvoYWuod0C1G2+EV21KkGhq
+ XL98CYSgN5uPiA4WBt3x3NoWRFzXUK23fXQ/jE2EkxAFHX9k1VUUJC1OV4DwOaCCHLSCywLq/qX
+ 4aYYECjAAQlgjq/oBH3vyTc05BaWoQceQzceLVYR+U+vtH0iC6354OdeeEz6lld9JzMnkSZaKQI
+ qAuxX07xFR8osmSkWSFb8+/IzmO9mHjuqS0+/qXZ6hJ1C3wGlpWYjx3xSsBkJiKFbSnV6zRyfFy
+ e+owMrQ27m4YV4NoqcE6rSR/aqrQAEBh9meE0O0aWOwM8ShJolQPM+WerbUN63G0XwWNIrP0X/Z
+ 4hZKEfqnhDbS3yuhr7bIzEc4ZZDCBUvBIeIPr2YsyMjRfhWinT0hiw4KVOT580lPyknu3zeFod9
+ 4+v0hP4Tuj42OaPcMc/HtBdLHL7jUOfb/ZzLVy/fMFZS0WECDRCJJ3NuddFW4G7WeKyOO+87dC7
+ WFM2C460AzrUvLw==
 X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
  fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
 X-Migadu-Flow: FLOW_OUT
 
-From: Hector Martin <marcan@marcan.st>
+From: Jens Axboe <axboe@kernel.dk>
 
-iBoot on at least some firmwares/machines leaves ANS2 running, requiring
-a wake command instead of a CPU boot (and if we reset ANS2 in that
-state, everything breaks).
+Cache flushes on the M1 nvme are really slow, taking 17-18 msec to
+complete. This can slow down workloads considerably, pure random writes
+end up being bound by the flush latency and hence run at 55-60 IOPS.
 
-Only stop the CPU if RTKit was running, and only do the reset dance if
-the CPU is stopped.
+Add a deferred flush work around to provide better performance, at a
+minimal risk. By default, flushes are delayed at most 1 second, but this
+is configurable.
 
-Normal shutdown handoff:
-- RTKit not yet running
-- CPU detected not running
-- Reset
-- CPU powerup
-- RTKit boot wait
+With this work-around, a pure random write workload runs at ~12K IOPS
+rather than 56 IOPS.
 
-ANS2 left running/idle:
-- RTKit not yet running
-- CPU detected running
-- RTKit wake message
-
-Sleep/resume cycle:
-- RTKit shutdown
-- CPU stopped
-- (sleep here)
-- CPU detected not running
-- Reset
-- CPU powerup
-- RTKit boot wait
-
-Shutdown or device removal:
-- RTKit shutdown
-- CPU stopped
-
-Therefore, the CPU running bit serves as a consistent flag of whether
-the coprocessor is fully stopped or just idle.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 ---
- drivers/nvme/host/apple.c | 53 ++++++++++++++++++++++++++++++++---------------
- 1 file changed, 36 insertions(+), 17 deletions(-)
+ drivers/nvme/host/apple.c | 69 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
 diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index 1de11b722f049abbc96a6bb62b072ac973b8c4aa..5e1c01a67ee81a36faa3da2f86a3a24fefcdfd6f 100644
+index a060f69558e76970bfba046cca5127243e8a51b7..2dfb0442d56195756df91e0fbc913b751c74d0ea 100644
 --- a/drivers/nvme/host/apple.c
 +++ b/drivers/nvme/host/apple.c
-@@ -1011,25 +1011,37 @@ static void apple_nvme_reset_work(struct work_struct *work)
- 		ret = apple_rtkit_shutdown(anv->rtk);
- 		if (ret)
- 			goto out;
+@@ -195,8 +195,20 @@ struct apple_nvme {
+ 
+ 	int irq;
+ 	spinlock_t lock;
 +
-+		writel(0, anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL);
++	/*
++	 * Delayed cache flush handling state
++	 */
++	struct nvme_ns *flush_ns;
++	unsigned long flush_interval;
++	unsigned long last_flush;
++	struct delayed_work flush_dwork;
+ };
+ 
++unsigned int flush_interval = 1000;
++module_param(flush_interval, uint, 0644);
++MODULE_PARM_DESC(flush_interval, "Grace period in msecs between flushes");
++
+ static_assert(sizeof(struct nvme_command) == 64);
+ static_assert(sizeof(struct apple_nvmmu_tcb) == 128);
+ 
+@@ -729,6 +741,26 @@ static int apple_nvme_remove_sq(struct apple_nvme *anv)
+ 	return nvme_submit_sync_cmd(anv->ctrl.admin_q, &c, NULL, 0);
+ }
+ 
++static bool apple_nvme_delayed_flush(struct apple_nvme *anv, struct nvme_ns *ns,
++				     struct request *req)
++{
++	if (!anv->flush_interval || req_op(req) != REQ_OP_FLUSH)
++		return false;
++	if (delayed_work_pending(&anv->flush_dwork))
++		return true;
++	if (time_before(jiffies, anv->last_flush + anv->flush_interval)) {
++		kblockd_mod_delayed_work_on(WORK_CPU_UNBOUND, &anv->flush_dwork,
++						anv->flush_interval);
++		if (WARN_ON_ONCE(anv->flush_ns && anv->flush_ns != ns))
++			goto out;
++		anv->flush_ns = ns;
++		return true;
++	}
++out:
++	anv->last_flush = jiffies;
++	return false;
++}
++
+ static blk_status_t apple_nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 					const struct blk_mq_queue_data *bd)
+ {
+@@ -764,6 +796,12 @@ static blk_status_t apple_nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
  	}
  
--	writel(0, anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL);
-+	/*
-+	 * Only do the soft-reset if the CPU is not running, which means either we
-+	 * or the previous stage shut it down cleanly.
-+	 */
-+	if (!(readl(anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL) &
-+		APPLE_ANS_COPROC_CPU_CONTROL_RUN)) {
- 
--	ret = reset_control_assert(anv->reset);
--	if (ret)
--		goto out;
-+		ret = reset_control_assert(anv->reset);
-+		if (ret)
-+			goto out;
- 
--	ret = apple_rtkit_reinit(anv->rtk);
--	if (ret)
--		goto out;
-+		ret = apple_rtkit_reinit(anv->rtk);
-+		if (ret)
-+			goto out;
- 
--	ret = reset_control_deassert(anv->reset);
--	if (ret)
--		goto out;
-+		ret = reset_control_deassert(anv->reset);
-+		if (ret)
-+			goto out;
+ 	nvme_start_request(req);
 +
-+		writel(APPLE_ANS_COPROC_CPU_CONTROL_RUN,
-+		       anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL);
-+
-+		ret = apple_rtkit_boot(anv->rtk);
-+	} else {
-+		ret = apple_rtkit_wake(anv->rtk);
-+	}
- 
--	writel(APPLE_ANS_COPROC_CPU_CONTROL_RUN,
--	       anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL);
--	ret = apple_rtkit_boot(anv->rtk);
- 	if (ret) {
- 		dev_err(anv->dev, "ANS did not boot");
- 		goto out;
-@@ -1563,9 +1575,12 @@ static void apple_nvme_remove(struct platform_device *pdev)
- 	apple_nvme_disable(anv, true);
- 	nvme_uninit_ctrl(&anv->ctrl);
- 
--	if (apple_rtkit_is_running(anv->rtk))
-+	if (apple_rtkit_is_running(anv->rtk)) {
- 		apple_rtkit_shutdown(anv->rtk);
- 
-+		writel(0, anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL);
++	if (apple_nvme_delayed_flush(anv, ns, req)) {
++		blk_mq_complete_request(req);
++		return BLK_STS_OK;
 +	}
 +
- 	apple_nvme_detach_genpd(anv);
+ 	apple_nvme_submit_cmd(q, cmnd);
+ 	return BLK_STS_OK;
+ 
+@@ -1398,6 +1436,28 @@ static void devm_apple_nvme_mempool_destroy(void *data)
+ 	mempool_destroy(data);
  }
  
-@@ -1574,8 +1589,11 @@ static void apple_nvme_shutdown(struct platform_device *pdev)
++static void apple_nvme_flush_work(struct work_struct *work)
++{
++	struct nvme_command c = { };
++	struct apple_nvme *anv;
++	struct nvme_ns *ns;
++	int err;
++
++	anv = container_of(work, struct apple_nvme, flush_dwork.work);
++	ns = anv->flush_ns;
++	if (WARN_ON_ONCE(!ns))
++		return;
++
++	c.common.opcode = nvme_cmd_flush;
++	c.common.nsid = cpu_to_le32(anv->flush_ns->head->ns_id);
++	err = nvme_submit_sync_cmd(ns->queue, &c, NULL, 0);
++	if (err) {
++		dev_err(anv->dev, "Deferred flush failed: %d\n", err);
++	} else {
++		anv->last_flush = jiffies;
++	}
++}
++
+ static struct apple_nvme *apple_nvme_alloc(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -1553,6 +1613,14 @@ static int apple_nvme_probe(struct platform_device *pdev)
+ 		goto out_uninit_ctrl;
+ 	}
+ 
++	if (flush_interval) {
++		anv->flush_interval = msecs_to_jiffies(flush_interval);
++		anv->flush_ns = NULL;
++		anv->last_flush = jiffies - anv->flush_interval;
++	}
++
++	INIT_DELAYED_WORK(&anv->flush_dwork, apple_nvme_flush_work);
++
+ 	nvme_reset_ctrl(&anv->ctrl);
+ 	async_schedule(apple_nvme_async_probe, anv);
+ 
+@@ -1590,6 +1658,7 @@ static void apple_nvme_shutdown(struct platform_device *pdev)
+ {
  	struct apple_nvme *anv = platform_get_drvdata(pdev);
  
++	flush_delayed_work(&anv->flush_dwork);
  	apple_nvme_disable(anv, true);
--	if (apple_rtkit_is_running(anv->rtk))
-+	if (apple_rtkit_is_running(anv->rtk)) {
+ 	if (apple_rtkit_is_running(anv->rtk)) {
  		apple_rtkit_shutdown(anv->rtk);
-+
-+		writel(0, anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL);
-+	}
- }
- 
- static int apple_nvme_resume(struct device *dev)
-@@ -1592,10 +1610,11 @@ static int apple_nvme_suspend(struct device *dev)
- 
- 	apple_nvme_disable(anv, true);
- 
--	if (apple_rtkit_is_running(anv->rtk))
-+	if (apple_rtkit_is_running(anv->rtk)) {
- 		ret = apple_rtkit_shutdown(anv->rtk);
- 
--	writel(0, anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL);
-+		writel(0, anv->mmio_coproc + APPLE_ANS_COPROC_CPU_CONTROL);
-+	}
- 
- 	return ret;
- }
 
 -- 
 2.48.1
