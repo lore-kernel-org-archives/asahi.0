@@ -1,66 +1,66 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD43254AE0
-	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 16:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972CE255E32
+	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 16:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739290096; cv=none; b=dRetl6evnl3rvW2DNrdJ8daIq0TokM+F61Q/wRuRN5VmAcyvyQT6M3RzlOujtP82MgJ7YdJDBvkyFZ/KkOFsfBaxi+ej61lOB0wQJnQ8PqzpyJUo8EeJETsFzCMvUUIUPDqaonlX2/wfLOcv+Wb8lfJ0pku6uo4t4T4sYngO40I=
+	t=1739290100; cv=none; b=p18bhrVxnjARpC5KU90MRzsUfw2VOlekpEHR2MyH3rWjxIJluo8tUKq2EAmA+aUf66kFC15yyfjvN1J7B99nHycf+8wXjWDaSSddm1gdccmSJygNqz0v1925kQ4dp2hy+47UzZaac9w+7ZGgQxnzWimVROL59fzoOZ64BwODiWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739290096; c=relaxed/simple;
-	bh=xKNBKHADoFe0D0/YamWRency2Eic4YhwlS1J3poCzGo=;
+	s=arc-20240116; t=1739290100; c=relaxed/simple;
+	bh=YQao7sB+3fLgHzETqufpNL42LDNNV6Hr1igoTgjUD9U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RVnmLofqFVLuiqjhMB1xABCjlbofQ19RmHxM8F5ZGzgr1oU/9ZWBJRTsQrazdI6pH83+myk5JyeoOxdIIYFR3c/5EiabC6zTG7ZKdn3pje4BoAu5t33fnlVsuhxBIxTmY/xrmfnOvRRi1op+Av8DwKwEm/qFN+KbpIxXqZi9xaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D/QRVpjW; arc=none smtp.client-ip=209.85.216.53
+	 In-Reply-To:To:Cc; b=lEDxu/A6tNfNxUegqK/slsmwVHaDrt9TavxglcaVaTLSi1NZlnchdd7QbFOYFdT6wzrvpnGx/x/ByTFemT6UBhju283pj+ZqchIbqSFUTGhx9Cs3AizbvqtR2YTfRpI9LlIYoq43K7+0VbBK7adwajfUtzLei8pzO10Yv5RFyd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/L+Y5uE; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D/QRVpjW"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2f9f5caa37cso9893007a91.0
-        for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 08:08:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/L+Y5uE"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2fa40c0bab2so6539857a91.0
+        for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 08:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739290095; x=1739894895; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739290098; x=1739894898; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CCgOaShG88KaX9ZrY+HfMI5Bon6pKtYLqZUjsI6n6g4=;
-        b=D/QRVpjWA56L23nyaDd6b1TslKxz4dOOvhCdx0ktJWLwOSgyvsZM1N5H//1ltIpOv8
-         NywYSzExMWcFFHhSm6Q9Kat9nCkfUrXpguxc54IfZNq9aLtk3ttVclfILJddNMSSTuXM
-         U4XFnIUk+aV3cu69Ir9dcLO5Z6gD1GCXN2I13qUNyslF6Htd3Lhf831e6QNsJE+Wp2Jc
-         52vwmhqxUssLnXzzaDXcJujIFvhI/bnzlGd0qFY96RL/ZJCpQMoRhdoPfo3Tjgz1k+Bh
-         32Kof2rCwNfUojzC+YM249U3nzGs90spIGyf6Ika7xLdbGbFwA4eRT9hG5pOss00D4v5
-         j5sQ==
+        bh=nmvoan1YqE/yKtA+UIeo5+2Y3tZ+vsFg5mxf89/sp0U=;
+        b=H/L+Y5uE7wjZRKx+1e6ztPydcCVf66ptolr3cbt/d1xUbp20GMQVYkIHzxyXEbp4sn
+         Mt+5DKv9rwdG4HA+wzi8cVlb64BolOpKHM3zoCjcEynlw0vEL484TH6RNVoTOlhaRERd
+         8nxk+1BepX4fHggUZj8eZ5X9rAsHXy5pSP/Nb1dIikPIEMEeJcrUz/vqjiJK0BtchuQK
+         zsEvG23X52nXm/vnr35oh0LHEM3r2CR6V38AgIPgMmbzmhguE7diqcmbZscOOkyUpL44
+         +a50MXhnVIZFMSo0FSQZlekaBGNJJai698itD1onokch5Nw8if2HRAwOM93pXfnHCBnj
+         TTfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739290095; x=1739894895;
+        d=1e100.net; s=20230601; t=1739290098; x=1739894898;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CCgOaShG88KaX9ZrY+HfMI5Bon6pKtYLqZUjsI6n6g4=;
-        b=RZI8ZcVrCgr3o+qmqOHzzj6GxZ0s0r060L3uk6UTGZWEWgOyXToxsdOwdeCfKrzILh
-         x5U0Uw9/eSD9ZAqbN5M8zk+MePys9okA9f4CbOeNXdMgrq2rupMAuKjEyfKFz6sJHAwg
-         IAP/83AkcRdaMOgwgHj06aqJwBVwEjziX68esiIvndKWkn2+42Y3IBCsaibsWfBxcnW9
-         5tUch8qu+CtgaEV/hH8hrqUKLUIqdNAempqfea97z0w5/yxo//19FxImS+2oaeShT84y
-         20tlDu+op9qsdl4O+6rRFjTyT3HlFWFqzQt2kOqlLRIs2e7VR+VSvgPiVBy/yvNng/TH
-         oNMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUesYAMNCjwwraczP/H8twHc5TgwctEgmUdtRXG7R683tb6esnhmZa4xEDqq1MZltxrMhEt8g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YziUC23mPB2HWb1ITyUfVmfQpdDR1N3QWyjXWMVcEewLsMSFfmR
-	gChPGOZk7gsz8/F95KyMPT86KJ2FGErhUN/OUoyavgM8JFcW86J26168Kg==
-X-Gm-Gg: ASbGncsjtmLSEnLjq7d0lbBM242s7V+Q5YWhPTv0xqjAEQPT/+WC1JK8Ah5n+cUl5lz
-	AcvLLhW2E4yCgvsaksZCXcSD+q3aml/AtpzzjKKczosPfA59UKE7M3QyJphRlFhbC9iAG4ouPfU
-	Nx6Rdl7PYc+mrKBreKZIiSNGqlELbAqu21lwdmKk5ce26xJTi+jdOHl6tiW6MPxDpepp8HSpQbD
-	UNCNq020xLAjkbpPZufLdQtpMDCW4b481byUpN3zJj/SwT3YVhb7yFBoqDJ+sTN/qjz4aZEL+q8
-	ojwJMb/9XT3iPHzjZw==
-X-Google-Smtp-Source: AGHT+IGWiLhpcJsKWzNqi2HT6SRSgJ6VjVADK4Ws7JsDG48oB8ZOyWOashXxpxghrQJ8PTMsnPtFyg==
-X-Received: by 2002:a17:90b:2dd0:b0:2fa:603e:905c with SMTP id 98e67ed59e1d1-2faa05deea4mr6190188a91.2.1739290094626;
-        Tue, 11 Feb 2025 08:08:14 -0800 (PST)
+        bh=nmvoan1YqE/yKtA+UIeo5+2Y3tZ+vsFg5mxf89/sp0U=;
+        b=s1v45MeP2lLqL3avQpyM7NOCPnNYMooAmGOezWAmCSecPDi+XEoLFtVb0GhkjrKcnj
+         ki3CC2Hzj5sQuhnxBDD/0I8LdWh5j4sb9NbaVLRmg/8cd94QRy4hzTeFNBt1S4meLHCo
+         JJ/3eaOSn+DN0B9xz0iJ1ep8Ox5tx8LO2s0JmzunjlAZVvMMFwN+P3jbVxSsT0/Hob41
+         cfUmcwyXGWjO/GU+0o4E9LlEHtpvb7+tFq57aB0/MxCkJf+C6ZT7yvUEuyHKiY8oIMMf
+         1yeqktZHRqxP/zHDlMHTarSop7BXDlzc7VQRxnNdorTaDZUnuLbuLt0dIVt6Viwjh9HH
+         GqlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWUeTVx0zywug7VIBBAqYD1WL29loS4ZeYeqlqgEuB+E5NzC2VYadtH/UZNrPoyluraGh9PYg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YycCPU6v+NdYSbmQOd2I5vOsRuzkdEiMULxI9tYQUBClKYKUJ5T
+	3aNqOaP7p4pUfaSaVUx1pAI67XPJvPaEgH/1ayCejFNLQGC2KwVZ+QDgkg==
+X-Gm-Gg: ASbGncvFZvfmX18po7BKet7W5/HIQ948ZZS3GrmGevw7XKbusOPp5uhvlvmafk52DGA
+	6Gm9m/DkNQw62CzGTi0TJD+rHrK9JVIyNHvzgaMdsCgP6njDsEitTXOVTu2ZH5i20KDonaEaANM
+	NUWHmGLHuaXjndiAbb/GM5whOBMy6giS9Un5o0WDQx/qlskXuNnCQsxg6YmsRNbsD9kYJE7K5BG
+	bwnoszC1UNExFMQajecNXLNFldK4hpeng00NppOmTk5X3wMRKMQg2QQ2Uy/06lpYiSzaq6I5RvY
+	SP39evm91vpeRGupnA==
+X-Google-Smtp-Source: AGHT+IFEV+8GtRr4zcR1axgnJ8X+fQckqOO5KYT71vYUJNwCtdK0cLMJYzMXIm72XlvyZN+zJANN6Q==
+X-Received: by 2002:a17:90b:4a41:b0:2ee:b0b0:8e02 with SMTP id 98e67ed59e1d1-2fb7e8bb5e7mr437325a91.28.1739290097691;
+        Tue, 11 Feb 2025 08:08:17 -0800 (PST)
 Received: from [127.0.1.1] ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2fa618e5e18sm6040478a91.41.2025.02.11.08.08.11
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2fa618e5e18sm6040478a91.41.2025.02.11.08.08.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 08:08:14 -0800 (PST)
+        Tue, 11 Feb 2025 08:08:17 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
-Date: Wed, 12 Feb 2025 00:07:22 +0800
-Subject: [PATCH 01/10] dt-bindings: arm: pmu: Add Apple A7-A11 SoC CPU PMU
- compatibles
+Date: Wed, 12 Feb 2025 00:07:23 +0800
+Subject: [PATCH 02/10] drivers/perf: apple_m1: Support per-implementation
+ event tables
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250212-apple-cpmu-v1-1-f8c7f2ac1743@gmail.com>
+Message-Id: <20250212-apple-cpmu-v1-2-f8c7f2ac1743@gmail.com>
 References: <20250212-apple-cpmu-v1-0-f8c7f2ac1743@gmail.com>
 In-Reply-To: <20250212-apple-cpmu-v1-0-f8c7f2ac1743@gmail.com>
 To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
@@ -81,49 +81,183 @@ Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
  asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1038; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=xKNBKHADoFe0D0/YamWRency2Eic4YhwlS1J3poCzGo=;
- b=owEBbQKS/ZANAwAIAQHKCLemxQgkAcsmYgBnq3Xm0Xt2CbsT+7H9gathEZr4OYeo7c3d66hR5
- s1nW1F9h82JAjMEAAEIAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCZ6t15gAKCRABygi3psUI
- JHDFD/sFR4NMAnHjLFGq8QNGyYh5/aQCC9Enpo3Iz/tjM8EDsqgYuXbz9aZel6EhLouX0knyeQ7
- sis7l8A2O8rZx7taElUW4Boug7FV1SW/KlPQMABCELFy9GDPsv+p3eg/a0QEBEeWdcHphCGv7G7
- pApeqSKyqISAtLDWndy7nGNba+9bSWClFzH/iKyTER7LMChBOsJECU1r6ewEOZ/7tNogJYNXd5g
- OOX94RR8KqhXLiHUMS2ZMHPHnaInZDDN+6UCt4sDvpmgTKAKnb/k7X/EDMFedxdUykgr05BLJdR
- lT0FkJ6GG9gdDpaHRaxUnKAR6ZyG6ejHAA8/+KxoaYCn+4cLsKjf8gH9WpiHvDQuvstknOxEz6r
- yhgkqXxJHtmN5IAwwLXQ7i/pujEUDCTmqod40yRbpG6qVYDVIP9ilkijBHLKRMxLTY4V2f4JdFg
- om7ebmIpo+dTk9TK1j804AGY2zYZ7FTSnVimz/EjIMxujpjrGeLF6SZTyaZ6aF10mnfKQP46bvn
- Dhvn1xKiLhiVLlLWx/63ELv5LwI9/SW1LRs+yWRg1dpn6KDY/85/EpGuZdtBmvo3xZbXbav09wt
- 7Ip+KjkPetmWR9RdcU59kxHz2OMOaqkqdB3cGQ+jNLfGL4mSIVrUpoPoyy+svDq93W+OocJr9rQ
- RXcs9RWNF3GaH9Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5883; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=YQao7sB+3fLgHzETqufpNL42LDNNV6Hr1igoTgjUD9U=;
+ b=owEBbQKS/ZANAwAIAQHKCLemxQgkAcsmYgBnq3XnXLndYLpfjny34FvZYPhDDrIyS03cHytYC
+ w79sFECftuJAjMEAAEIAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCZ6t15wAKCRABygi3psUI
+ JHX7EAC1d8N+62+DY2PhhY4Q/8ox2U5uCGEglmpwkDWrE6t2mLPCYW/YW12eppFASRfvvYO6gtI
+ lAVQruGvRRPrxs2QSEf9fgA4onFWwZrmsgMlWeS/y+l/k547j2mOMYwk5c777qbU3EgsYvqcE/u
+ 92nEdifj+nCj/grlNyT/Ru9rkUfGzCr+D7dhBJbjRYB5TIc/Z6lR5/E7bkODzQaa0w7hp8dyer2
+ IihseH6TMaJvV9iOw66GvYwblU6JIDkaNfFpIncyXTo1ip6ZpbUyD6icClAYdRxOgEXTK+Tc7DR
+ hhIcbqper4NrD6Ozi+h5fGdyNoHChvSIqpJ5T0N/PLBZVSuaepUyk68VNiAW9qBcq2C1h46fO+L
+ o7LfJapMN37fyRRbj76ZW2puOvM9DylsWfyks6Te1MctNZ8vRcU3cE+0Jbc/Fw1Sui7sXUINwf0
+ HQJzmFfYR2T2VMEJZZw/+FboENkklbPIKV3DEl38Hw8fqsIpHUbjglWimxqWSGP8PZcWmXCGEBx
+ f7XXnB+9e+aH5KugMC1W23uCgTHuD7qqSmp/r1mKxFukELLlIUG5w4M52//nyeZiTnEGvoR5SMw
+ Lv7jmJW032cZvbCyf/vtRnsDKKo6mPTOYygn4bi2GOoMol+UJUJrffVHOg+QnLCaGJiUZcApTFn
+ /yLtwQl6DJvfb0A==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-Document the compatibles for Apple A7-A11 SoC CPU PMU.
+Use per-implementation event tables to allow supporting implementations
+with a different list of events and event affinities.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- Documentation/devicetree/bindings/arm/pmu.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/perf/apple_m1_cpu_pmu.c | 65 +++++++++++++++++++++++++----------------
+ 1 file changed, 40 insertions(+), 25 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/pmu.yaml b/Documentation/devicetree/bindings/arm/pmu.yaml
-index a148ff54f2b8a92fa3fcfa78c1bcc525dba1c6dd..d2e7f19cf6a2d7d2348d163d37c2787c7a36bbd4 100644
---- a/Documentation/devicetree/bindings/arm/pmu.yaml
-+++ b/Documentation/devicetree/bindings/arm/pmu.yaml
-@@ -22,8 +22,14 @@ properties:
-           - apm,potenza-pmu
-           - apple,avalanche-pmu
-           - apple,blizzard-pmu
-+          - apple,cyclone-pmu
-           - apple,firestorm-pmu
-+          - apple,fusion-pmu
-           - apple,icestorm-pmu
-+          - apple,monsoon-pmu
-+          - apple,mistral-pmu
-+          - apple,twister-pmu
-+          - apple,typhoon-pmu
-           - arm,armv8-pmuv3 # Only for s/w models
-           - arm,arm1136-pmu
-           - arm,arm1176-pmu
+diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
+index 06fd317529fcbab0f1485228efe8470be565407c..1bf7ce5c09846c699d66bdfcca129f418a9dad9e 100644
+--- a/drivers/perf/apple_m1_cpu_pmu.c
++++ b/drivers/perf/apple_m1_cpu_pmu.c
+@@ -42,9 +42,6 @@
+  * moment, we don't really need to distinguish between the two because we
+  * know next to nothing about the events themselves, and we already have
+  * per cpu-type PMU abstractions.
+- *
+- * If we eventually find out that the events are different across
+- * implementations, we'll have to introduce per cpu-type tables.
+  */
+ enum m1_pmu_events {
+ 	M1_PMU_PERFCTR_RETIRE_UOP				= 0x1,
+@@ -466,11 +463,12 @@ static void m1_pmu_write_counter(struct perf_event *event, u64 value)
+ 	isb();
+ }
+ 
+-static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
+-				struct perf_event *event)
++static int apple_pmu_get_event_idx(struct pmu_hw_events *cpuc,
++				struct perf_event *event,
++				const u16 event_affinities[M1_PMU_CFG_EVENT])
+ {
+ 	unsigned long evtype = event->hw.config_base & M1_PMU_CFG_EVENT;
+-	unsigned long affinity = m1_pmu_event_affinity[evtype];
++	unsigned long affinity = event_affinities[evtype];
+ 	int idx;
+ 
+ 	/*
+@@ -489,6 +487,12 @@ static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
+ 	return -EAGAIN;
+ }
+ 
++static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
++				struct perf_event *event)
++{
++	return apple_pmu_get_event_idx(cpuc, event, m1_pmu_event_affinity);
++}
++
+ static void m1_pmu_clear_event_idx(struct pmu_hw_events *cpuc,
+ 				   struct perf_event *event)
+ {
+@@ -516,7 +520,8 @@ static void m1_pmu_stop(struct arm_pmu *cpu_pmu)
+ 	__m1_pmu_set_mode(PMCR0_IMODE_OFF);
+ }
+ 
+-static int m1_pmu_map_event(struct perf_event *event)
++static int apple_pmu_map_event_47(struct perf_event *event,
++				  const unsigned int (*perf_map)[])
+ {
+ 	/*
+ 	 * Although the counters are 48bit wide, bit 47 is what
+@@ -524,18 +529,29 @@ static int m1_pmu_map_event(struct perf_event *event)
+ 	 * being 47bit wide to mimick the behaviour of the ARM PMU.
+ 	 */
+ 	event->hw.flags |= ARMPMU_EVT_47BIT;
+-	return armpmu_map_event(event, &m1_pmu_perf_map, NULL, M1_PMU_CFG_EVENT);
++	return armpmu_map_event(event, perf_map, NULL, M1_PMU_CFG_EVENT);
+ }
+ 
+-static int m2_pmu_map_event(struct perf_event *event)
++static int apple_pmu_map_event_63(struct perf_event *event,
++				  const unsigned int (*perf_map)[])
+ {
+ 	/*
+-	 * Same deal as the above, except that M2 has 64bit counters.
++	 * Same deal as the above, except with 64bit counters.
+ 	 * Which, as far as we're concerned, actually means 63 bits.
+ 	 * Yes, this is getting awkward.
+ 	 */
+ 	event->hw.flags |= ARMPMU_EVT_63BIT;
+-	return armpmu_map_event(event, &m1_pmu_perf_map, NULL, M1_PMU_CFG_EVENT);
++	return armpmu_map_event(event, perf_map, NULL, M1_PMU_CFG_EVENT);
++}
++
++static int m1_pmu_map_event(struct perf_event *event)
++{
++	return apple_pmu_map_event_47(event, &m1_pmu_perf_map);
++}
++
++static int m2_pmu_map_event(struct perf_event *event)
++{
++	return apple_pmu_map_event_63(event, &m1_pmu_perf_map);
+ }
+ 
+ static void m1_pmu_reset(void *info)
+@@ -572,25 +588,16 @@ static int m1_pmu_set_event_filter(struct hw_perf_event *event,
+ 	return 0;
+ }
+ 
+-static int m1_pmu_init(struct arm_pmu *cpu_pmu, u32 flags)
++static int apple_pmu_init_common(struct arm_pmu *cpu_pmu, u32 flags)
+ {
+ 	cpu_pmu->handle_irq	  = m1_pmu_handle_irq;
+ 	cpu_pmu->enable		  = m1_pmu_enable_event;
+ 	cpu_pmu->disable	  = m1_pmu_disable_event;
+ 	cpu_pmu->read_counter	  = m1_pmu_read_counter;
+ 	cpu_pmu->write_counter	  = m1_pmu_write_counter;
+-	cpu_pmu->get_event_idx	  = m1_pmu_get_event_idx;
+ 	cpu_pmu->clear_event_idx  = m1_pmu_clear_event_idx;
+ 	cpu_pmu->start		  = m1_pmu_start;
+ 	cpu_pmu->stop		  = m1_pmu_stop;
+-
+-	if (flags & ARMPMU_EVT_47BIT)
+-		cpu_pmu->map_event = m1_pmu_map_event;
+-	else if (flags & ARMPMU_EVT_63BIT)
+-		cpu_pmu->map_event = m2_pmu_map_event;
+-	else
+-		return WARN_ON(-EINVAL);
+-
+ 	cpu_pmu->reset		  = m1_pmu_reset;
+ 	cpu_pmu->set_event_filter = m1_pmu_set_event_filter;
+ 
+@@ -604,25 +611,33 @@ static int m1_pmu_init(struct arm_pmu *cpu_pmu, u32 flags)
+ static int m1_pmu_ice_init(struct arm_pmu *cpu_pmu)
+ {
+ 	cpu_pmu->name = "apple_icestorm_pmu";
+-	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_47BIT);
++	cpu_pmu->get_event_idx	  = m1_pmu_get_event_idx;
++	cpu_pmu->map_event	  = m1_pmu_map_event;
++	return apple_pmu_init_common(cpu_pmu, ARMPMU_EVT_47BIT);
+ }
+ 
+ static int m1_pmu_fire_init(struct arm_pmu *cpu_pmu)
+ {
+ 	cpu_pmu->name = "apple_firestorm_pmu";
+-	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_47BIT);
++	cpu_pmu->get_event_idx	  = m1_pmu_get_event_idx;
++	cpu_pmu->map_event	  = m1_pmu_map_event;
++	return apple_pmu_init_common(cpu_pmu, ARMPMU_EVT_47BIT);
+ }
+ 
+ static int m2_pmu_avalanche_init(struct arm_pmu *cpu_pmu)
+ {
+ 	cpu_pmu->name = "apple_avalanche_pmu";
+-	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_63BIT);
++	cpu_pmu->get_event_idx	  = m1_pmu_get_event_idx;
++	cpu_pmu->map_event	  = m2_pmu_map_event;
++	return apple_pmu_init_common(cpu_pmu, ARMPMU_EVT_63BIT);
+ }
+ 
+ static int m2_pmu_blizzard_init(struct arm_pmu *cpu_pmu)
+ {
+ 	cpu_pmu->name = "apple_blizzard_pmu";
+-	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_63BIT);
++	cpu_pmu->get_event_idx	  = m1_pmu_get_event_idx;
++	cpu_pmu->map_event	  = m2_pmu_map_event;
++	return apple_pmu_init_common(cpu_pmu, ARMPMU_EVT_63BIT);
+ }
+ 
+ static const struct of_device_id m1_pmu_of_device_ids[] = {
 
 -- 
 2.48.1
