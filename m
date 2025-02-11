@@ -1,117 +1,95 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F9C25C6E6;
-	Mon, 10 Feb 2025 19:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F94F1E500C;
+	Tue, 11 Feb 2025 06:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739216957; cv=none; b=bLRX62C5npQFSjbDmFHNnTtzb/xQo4uWPvYq/+a59S2hWsr1RYd8IlqKW3gbr4sIZyWhj/vVF8T4L3NCN05dZedZzzp2J8mmEXofpINevmptyzFOpBfA76tTo8J8xjMbGwUz+CSj0k/2+asxb14KjbQJmCjHAOCXKCYHTcjRXDU=
+	t=1739254064; cv=none; b=BGy0+a/MUzENQU1MDqytha8kGo4GbCWjuKKmMv6LFj/+/TCVviB9pnxMtbBtds3PzYxePfV+ZPi0Rx96RCIjaWP8Jfw233hQ2poKPIdSRmCR1ijkY6mslxX2nOmvE0l8KKk8Zqr8rX2iO6dtvxfuoo9ADP/mRZqegEJ8zUaej0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739216957; c=relaxed/simple;
-	bh=Ty6k5I1/hnJTjgA0qZmIAImp0Z7XZeXOKWP8irziz4s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EDrlpN/kUcahxr413cr1GNbBYXbvqxi0Bt0G89cU8ubXMBuK5r1QPQn/lHn5AUwmONL58xY4FOHgeaq23te1HUem9gnilkMeKIg3yQHx9GmGi+HMKFjRTDk5QIcqDnnYr7MAqOBoxy0zk9P7sUbsL8xAosy3CvvxoV3tds6zHX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+	s=arc-20240116; t=1739254064; c=relaxed/simple;
+	bh=eZCYBoaijxw4u7sSmxmhwO3Ew2yN/pa2fTKBphMnoEU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R2GGZ9vePH1wnxGjUWbwBFbajkWua6SqhX3be+clpLFWwfZ+i9XEUDgGgYHlJrXbacD4s+nzE6NqjoXEIydLOfoMlavWFsV2VMuVpG68s+Li46qr/IX8uKaJ2F7cfFCPqDvXQR+rVP50yxc5G2hTjNuq1dyEc2CTGYadRyeL2aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YCcKrxki; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5de594e2555so4912725a12.2;
-        Mon, 10 Feb 2025 11:49:15 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YCcKrxki"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21f3e2b4eceso97362255ad.2;
+        Mon, 10 Feb 2025 22:07:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739254061; x=1739858861; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eZCYBoaijxw4u7sSmxmhwO3Ew2yN/pa2fTKBphMnoEU=;
+        b=YCcKrxkiMFH9set6SEtp0zUQDse1EMS/fwu6G0/q0Dv5dZy4lUImFhY3z8/0Qpvo4m
+         aciVU5V63/vN8QpsYrJfbKMU0nu4dTxGGS8UftzpIUljgcmofUqTf1lH6MkaXCYZGjKU
+         8OwAfg5in42ECZk96YYruZx86UDP9IG3Xcvw4oaB7BW1mUxiYqQH2ZJaKIoA32/mHZDt
+         NAMYh5+1iCtBbZotEvHhmS/bVGPNEBdHkmnGG9p9zIPPZxMsjPwAkA7ucACuNRxW5Puy
+         3vkDpTfxIF7I4D4S6U/PBhoGZM/0oOeCsFntQfETYrc+jFdqiMHNVlvv1F5mJ0Yw2Ois
+         om2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739216953; x=1739821753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=95fC/C95p1+hJwvVm5h6wvO5Q4omEjar82baF+zynPs=;
-        b=Hc2Lb5XxwXfOXBNVFeLafcZH4fxKO5cd8rrFMvtFFGh2mQs5OCcVVxW3wHvzzH1lwl
-         MDeggNApY5MTtYhms9oZtzw0W4b7cnCZK9mCsyZf9kszw6K/ygAcRn4Aij6RKJo7WDE9
-         h84+oVQjTaGhmvrRUWpmdeaId6u5H/wYigH5hxL9lbWAsGrEI0F1Y/4Nvn6EYR85e7fH
-         EnLVmDHvLj4f8kS/UW3g40RYwLoPC6dwWalGvZKvR7nmRxI0hVQMMEvO/wu8R5BwCrYY
-         q3UarGEB6lhZdEXywNzdTTN+l2MEzr3dCaXGLLWv1wyud6428Lw8omG3Sc6RpagXsdTO
-         kUog==
-X-Forwarded-Encrypted: i=1; AJvYcCVgA9zHN8s2G4MifsPUrni/AX+9S/Fd9HOF6DECDpAFQCtrkrJq224gaLuy1yb+IJ66a57gzxE=@lists.linux.dev, AJvYcCVnYuUPDsTrz5PphaNSOtOJl4Gkhmv+WaD6cXxH4a/u4ZJE2k5oZzCpOGKGajIZgiz/dawN2A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJjJiQuCKA7CWN9lJe31kY595rpy5TFtYnc5x+k/xL9SidmxA8
-	O/nIkn3n7AloYGN8vUw5xVy7binzW3YgPX62FLxf8EreSTaNqlEBXjSc1wOsb/E=
-X-Gm-Gg: ASbGncuemoqOmEJ9sQGUCz7V3xV4PHmDEyQGN9Tm851hmUJxRzNffuIQ1WqyygER3Zd
-	yXc1cKp6Xnu0n3r0KZ7LIsv6RoQNKoXjtsJYmluX058/p3Wq/BtyDzdXY5GH61lMYbBrVmVoef+
-	DxTebh8rKGNXRBJ44Ro1IAgiahmC/MUS9nfbi/ZdVLh3SP6zbCA1oRg2aEeR4KO3PCUGa/FnZmm
-	q1UQjhInXjd/VrJfmAykL0f/eNFHVUq5AxC2sHieCWWxvHsW8Rfwaipk1KAzNTkJxdldT/M0SmP
-	7lUYBdj2ihdaIRJlI9uF8mOW6sIOGHASObR5ZUyPtPsOww==
-X-Google-Smtp-Source: AGHT+IHoX/uYw3YN4dYm6jpyyi9dl6DRA0TaT3bpL3AWIxwXOWvPjFWq/uIqGutRYm7nomVjvHZF+A==
-X-Received: by 2002:a05:6402:5290:b0:5dc:ebb8:fe64 with SMTP id 4fb4d7f45d1cf-5de45019313mr16194293a12.14.1739216952988;
-        Mon, 10 Feb 2025 11:49:12 -0800 (PST)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5de59f893ebsm5723258a12.45.2025.02.10.11.49.11
+        d=1e100.net; s=20230601; t=1739254061; x=1739858861;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eZCYBoaijxw4u7sSmxmhwO3Ew2yN/pa2fTKBphMnoEU=;
+        b=I3t4RuSZMJFpgwRrK0AjiDwveg05n/V7/2+k0ORcAJcbC/8VwrZ+IZKjNgIJ7XYZgx
+         0qiaIbRxVn8Y4Pji2K9XY4Xfqg1Vh47gb9CMygIAOQjL0BRcqpONnSX3yUmvIOAwmP56
+         tkz4ynhNAg7wTPuTRuDs3I+k5TvB7daupndQ4tdwg2O9IyqoT1KrqylCcuOZZDh50AMx
+         gs+oClQNlUQugSc0wTlpKL9NwKpJwKb0LMfoLtHDD7JLNZatPc9Bq7Rxn1LP/NgY7Bsf
+         W1KcioQ2zE23Mi6dgb3Ep3xE+7+OpEYvNhVKe2kR1psyyzQ/kmlUz+R9adzFjOS1ZRlD
+         eX8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXeeTz9A6XAsktYNYTxU4sFPWlEvAOn3JkB5uDT1GuJRg7tzm7BWec/ERdLAJUQi/YS8PO74g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw+91lH8Cj0Rysl+6bS3s/+HMMXRmsnVQOwW6Js3Torsq90Yw6o
+	mfRwsLDzty73rojFC+K/BfexhwZnbISzGtG3VcyXVfZdENkNoRd2
+X-Gm-Gg: ASbGncvqWfu1okYsf49ofYj5hJBBs8941L/MA5NkxaHXS+WXSJSdmtxiKy2Vf7i+Va9
+	klFs/npiPKvQxeZkZGIPuB5VbstsjzJhMgNea1yVYg5OT3c26bTwAMJ/qM6W9bcSBKKy4+qe6S4
+	TwIIperK8FtCmD9MlfTDgsJUu4bDAQqKvpujBBgN1gfAIabXgaRX4/padSVNCFzi5uMB1bPP+Bp
+	zqRGzQDdHaJ14Ua8ADGK9fr28DPZGnKuk6AFq5zuyBVU7EpIR7EPrj4alrZ9zEnw5+Pf74AoUiP
+	GsNctbmWgX6HcxA2jqAoyYJGNsgTttCVJf1f1Xwly4Tg1g==
+X-Google-Smtp-Source: AGHT+IEXZbVvFHUebNOQTZZuCtmrL4QARTAUGAoCZ0Io2NendW61xrPGBTihSLTOMP+6ldmhBpF1jA==
+X-Received: by 2002:a17:902:f60a:b0:212:63db:bb15 with SMTP id d9443c01a7336-21f4e75e5famr272057935ad.38.1739254060656;
+        Mon, 10 Feb 2025 22:07:40 -0800 (PST)
+Received: from [10.89.236.32] (wf126-032.ust.hk. [175.159.126.32])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3683dc35sm87436575ad.126.2025.02.10.22.07.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 11:49:12 -0800 (PST)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5de77a5d2a2so2777993a12.0;
-        Mon, 10 Feb 2025 11:49:11 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVPHK8PdQUXv6JsF2LSCJVDPSKNuxBJ889Jj1cHk6P57ofqxhMI1wYe8zFNItYawxuDXPHDz54=@lists.linux.dev, AJvYcCVgwdzn0C6yCHmJVGAz/sySM4Uk7OAUNwCo+p+9sPjidJGbO99yza0UwH+QWfLfhX3FGjFCfg==@lists.linux.dev
-X-Received: by 2002:a05:6402:2106:b0:5dc:a44d:36bd with SMTP id
- 4fb4d7f45d1cf-5de4500274cmr13498767a12.8.1739216951504; Mon, 10 Feb 2025
- 11:49:11 -0800 (PST)
+        Mon, 10 Feb 2025 22:07:40 -0800 (PST)
+Message-ID: <5d82d549-663f-4438-922a-6831e57e80b5@gmail.com>
+Date: Tue, 11 Feb 2025 14:07:36 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] iommu/dart: Reject identity domain for locked DARTs
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Sven Peter
+ <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20250210-locked-dart-v1-0-5d97fe247f35@rosenzweig.io>
-In-Reply-To: <20250210-locked-dart-v1-0-5d97fe247f35@rosenzweig.io>
-From: Neal Gompa <neal@gompa.dev>
-Date: Mon, 10 Feb 2025 14:48:35 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je9BskhHuehHLES=5WNPk2jjd=38207XsfEmFDMiF=b0bA@mail.gmail.com>
-X-Gm-Features: AWEUYZnvFQWMfElhV3JVfcrxv5vOkguawqzwZra2J81VWXgm4X-CWu02f7-pmbw
-Message-ID: <CAEg-Je9BskhHuehHLES=5WNPk2jjd=38207XsfEmFDMiF=b0bA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] iommu: apple-dart: Support locked DARTs
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, Joerg Roedel <joro@8bytes.org>, 
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20250210-locked-dart-v1-4-5d97fe247f35@rosenzweig.io>
+Content-Language: en-US
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20250210-locked-dart-v1-4-5d97fe247f35@rosenzweig.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 10, 2025 at 2:44=E2=80=AFPM Alyssa Rosenzweig <alyssa@rosenzwei=
-g.io> wrote:
->
-> Some DARTs on Apple SoCs are "locked" at boot time, meaning we cannot
-> write most of their configuration registers. Currently, we refuse to
-> probe locked DARTs and do not include any in the upstream device trees.
-> However, the DARTs used for the display controller are locked, so we
-> need to handle locked DARTs as a prerequisite for a KMS driver.
->
-> This series teaches the iommu/apple-dart driver about locked DARTs,
-> preparing for a future upstream display driver. It has been extensively
-> tested downstream with our work-in-progress display driver.
+
+Alyssa Rosenzweig 於 2025/2/11 凌晨3:39 寫道:
+> This cannot work.
 >
 > Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> ---
-> Alyssa Rosenzweig (5):
->       iommu/dart: Track if the DART is locked
->       iommu/dart: Skip reset for locked DARTs
->       iommu/dart: Set DMA domain for locked DARTs
->       iommu/dart: Reject identity domain for locked DARTs
->       iommu/dart: Assert !locked when configuring
->
->  drivers/iommu/apple-dart.c | 47 +++++++++++++++++++++++++++++++---------=
-------
->  1 file changed, 32 insertions(+), 15 deletions(-)
-> ---
-> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-> change-id: 20250210-locked-dart-d7ece05f19a8
->
-> Best regards,
-> --
-> Alyssa Rosenzweig <alyssa@rosenzweig.io>
->
->
+> Signed-off-by: Janne Grunau <j@jannau.net>
+The submitter's sign-off must be the last sign-off. It appears that you are the author
+of this patch, so drop Janne's sign-off.
+[...]
 
-Series LGTM, having looked over this many times as part of kernel
-maintenance for Fedora Asahi Remix.
+Nick Chan
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
