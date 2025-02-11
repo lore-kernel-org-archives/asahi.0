@@ -1,43 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEB51E5018;
-	Tue, 11 Feb 2025 18:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D518250C01
+	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 18:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739299103; cv=none; b=NLM0YtzK0lG2QbMWr2WqABo6Eyu1BKFotaBgJbgy78q8F7LFvZrQVe8q2D921v+hxbM/XmNtpNGtuMVhqeREr0nI9bW9npt8EVimzKe0DN5G8DOBmCUlZlDFZFgd+6k38SNre/TRx33jY3/DC7ACgf0gH68PZ2+Ctc+ssAxAAPM=
+	t=1739299224; cv=none; b=KwVW2MHlZWN6dbPMxLxIWFcVZLKxfNqV+JaIn76sL1Tpz8TPvJwm61x7i6HeHNdg4F1wJowA1FHLPAP/hiMm1eYAR0w8ef9Jjx58J7Ds8U7ZbRYf/vxeB7sPSAOCS8gE0QSUMNxex18dn0ML4A2LXM9pUHao1V/tm4GtfmoTa1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739299103; c=relaxed/simple;
-	bh=9d6jju/AIBaHpo4CcHOAS0x1UR/bdfVSyRx15+juWkY=;
+	s=arc-20240116; t=1739299224; c=relaxed/simple;
+	bh=douAAtq1juT4etZFymJAHKVVxPzVgwUUhJUWCYFwR9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T5u1eu3ecVyZLklugh7PNSq9g50WtQidGYkt3kpPW52SMC8ivm5Nq5UFBRqwXbkNu7Znti8jX9jAS3++qaPSQaXS8nHkvHfuw0uoQTnHr4Vu/a7iCfnL7Idr02Hqgzx2JH2OqWTp/dSx4gl/ZoYFzrg9vcoc6TOMtMDGMDXfrfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KM4EUBoM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=N2BJwnw8aoQlQiGBCqfi2C4IDdhSCZYokvOOoZQNup/apVw8PnnZyShPanClqJCSfBPw+g8mCh4bgvL7pOMAPNdQdNgOM3DZhD0smhFScW2TIQxLjnl7RAGIjGdSijMns5YSLaovwdaFJiIX+6SyVak4lBANBtK9Y5NFSbqmAF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=DEP9DTdO; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KM4EUBoM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79CCFC4CEDD;
-	Tue, 11 Feb 2025 18:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739299103;
-	bh=9d6jju/AIBaHpo4CcHOAS0x1UR/bdfVSyRx15+juWkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KM4EUBoMjRN48xcaieQjd0BFqnOJuWcuSbQtEJHC5hn90/M9bzWaCsy+NfatKadD5
-	 wzYebE/Daz96X02ZYwZO/u7UA4Isg1XE8pzUej0EpmicEW9MSn2gMzR83dOlOXLcJy
-	 jPOZ9OIahCPBkd2d1KDBubdKO8twfNjmRdEDCEhgFtxI69ad9Ea3KTzxSlFmMjlpaQ
-	 kDrL8M5vH5HJwy0kQRYDH8KUIvntS7ecZNLjcdd6AfWNc+ROBuLTIBeYJbccI9ym/z
-	 4T1hXfsOtpEP6QOMa1EsLNq5QoYiZohM1tlVvKkW70jVhc7kOx0PqYSWsstrLu4bTz
-	 58+lRzskHQbDA==
-Date: Tue, 11 Feb 2025 11:38:20 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] apple-nvme: bug and perf fixes
-Message-ID: <Z6uZHKwyMCWgM1a4@kbusch-mbp>
-References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="DEP9DTdO"
+Date: Tue, 11 Feb 2025 13:40:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1739299210;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TAqhdEJIac1nBI7ghVhE2bBif5ol3c9AIgGMBRie10Y=;
+	b=DEP9DTdOL7rgm9GNUJd6f3Y15SCXoMpg/zGbtOV3YCnDxmMHyOfbamgMAEtFnkbQ9XNUm+
+	MNw1pcp/LWTC1B+uJMKjcG5+3N9OeKlZWSoTbJmYBVdgrHLjOgskY7ZE3decNuTCUvHyRp
+	3CeV3xiGX1VHrxkMU/bGgEmKJUVhQmG1xMP65Tp37UsFCMdNMSIQmOjPsLLuyhFseo7qsj
+	PgOPDlaCfAqLkkGGguWC+wdPYj41eZWPEOnASbTHsZ4/5C7ZwpoFKKL67dASGx1ETp00q4
+	wdXWp+4qmJqoLYHAKoplMwVk+bsNqAe35ttAdXPXTwiVpv4hlnJQmT/ndXtstg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] iommu/dart: Set DMA domain for locked DARTs
+Message-ID: <Z6uZhQtPAE8Ck_b0@blossom>
+References: <20250210-locked-dart-v1-0-5d97fe247f35@rosenzweig.io>
+ <20250210-locked-dart-v1-3-5d97fe247f35@rosenzweig.io>
+ <1d6b3fe7-9376-422b-a2e6-ebaed7b6cd75@arm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -46,21 +48,33 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+In-Reply-To: <1d6b3fe7-9376-422b-a2e6-ebaed7b6cd75@arm.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Feb 11, 2025 at 01:25:56PM -0500, Alyssa Rosenzweig wrote:
-> This small series fixes three unrelated issues with the Apple NVMe
-> driver.
+Hi Robin,
+
+> > This is required.
 > 
-> * fix NVMe on firmware/machine
-> * fix a power domain leak
-> * fix pathological driver performance with random writes
+> Now that we can, I'd really rather do this properly and not offer an
+> identity domain in the first place when it's not available.
+
+I'm reading through iommu.c but I don't see a way to avoid offering an
+identity domain without the DMA override here, just reading through the
+logic of iommu_get_default_domain_type. Could you point me to what you
+have in mind?
+
+Thanks,
+Alyssa
+
+> > --- a/drivers/iommu/apple-dart.c
+> > +++ b/drivers/iommu/apple-dart.c
+> > @@ -941,6 +941,8 @@ static int apple_dart_def_domain_type(struct device *dev)
+> >   		return IOMMU_DOMAIN_IDENTITY;
+> >   	if (!cfg->stream_maps[0].dart->supports_bypass)
+> >   		return IOMMU_DOMAIN_DMA;
+> > +	if (cfg->stream_maps[0].dart->locked)
+> > +		return IOMMU_DOMAIN_DMA;
+> >   	return 0;
+> >   }
+> > 
 > 
-> The first two are strict bug fixes, the last is technically an
-> optimization but given the measured 200x performance difference I do
-> consider to be a fix ;-)
-
-The last two patches look good to me.
-
-I don't know anyone qualified to review the first patch, so I'll take
-your word for it if no one replies in the next few days. :)
