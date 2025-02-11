@@ -1,36 +1,37 @@
 Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4972500CC
-	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 18:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53141E5B6D
+	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 18:26:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739298368; cv=none; b=GzDhwzcudMWZQbP7R+4bgWfl3hi/yFJkh/Nvp9wTv2Wvtpa4/k/LhmP29JVXaGExSxQbO51aJrY8a8qJr9/nVKTJg4h0hOq9b2d9c7MD2XXb/9rFf/z87nFWkPTWulc+ZbEArfLSghUB2IDdoU/M/rrRXV3s+6PLtrsI8WmGeSY=
+	t=1739298369; cv=none; b=oQS2hP4Slhh4EPkOF723CM5d4PMOS53vl8ZTqgINznPx4JjJIWBbploxwiD0KhJQjla/XUW2LF5vzklov9m6CA/Oihmfa+OGte6RgtLnSuiWuXDHtMbXKJBse90PUOABtULlEVRrprRfHM3HJngtUegN1p3MZEOC/S6CuNErpQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739298368; c=relaxed/simple;
-	bh=0gCZGHfdGU8//8Avd545jbaLhxjsJY7QoZdswjXKd9U=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nI4pQIw7+upI/4LATH6xCtN8Z4Cy46Y3HSbRk31F9/1vG2s2phBc0dT8sHeHo7XddK+A/gqHjhTBb79aV38X/YIWOdIXh6bxIzO2uXSh45uvHCINV1KUH9Z5yrQdZmfJYtzgsMJeV7ndHBjyNa0+EuFnTJBvJzREPGsNBdXR0QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=l2XwgcrE; arc=none smtp.client-ip=91.218.175.179
+	s=arc-20240116; t=1739298369; c=relaxed/simple;
+	bh=elkhOqhLP5D1kUfFgIKYEIuUu3bYbpwt1x5C43X1MUY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Hz2Z2AazZuoNIhnTIBu8D2vtqApS+LGrVDaOi6dKlx2ZnMM/rZ1RgIe63FgXjBzRS1fF8Hpa3e8kvkbESvkPBWbsjaijVQC5C9okw4q0BH9jM4PhXHOG1xNOXDlA5VHHk2RLgUQ/ZgkBbMaK0pfcAaWjoX1LiAWMRxt9D5sSRnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=q+ID/jn3; arc=none smtp.client-ip=91.218.175.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="l2XwgcrE"
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="q+ID/jn3"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1739298361;
+	s=key1; t=1739298365;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=1AiaIP//M8WqD4dxy7fDutkXfjVTrFqsAP5JrCGoW9k=;
-	b=l2XwgcrEvmmJ1ZWNybXTH+EtietGpZihBPDDaeJW6YKeYZ3JyEg8suYzPDWXcB4L2Z1LOb
-	s/gA+VpQli2gp7Yxt2QZksOdvOcBFjbTb2fvya4l+Vv+aQOjjr+9+k5cPtOiavou98L2Mq
-	piVTocwwAuwxjpG3Sz6/Ug/1TXVWer0WqfIogn4tt10LjoAoEenwOc8FBm6utEYEeaANBs
-	R8A+3K0JY7BTtnwgMHkdRozYirf6SFU0lAbrDKBHnbDqpDny2T1cMZnD+DUp2K9MHnvBpG
-	mOnnZiV4Mz1F6AsZrv53EGlhygBUZr5wlAuv7iblugB0OV6zWscMLi5wZ+fctA==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=idU4M1eBTyORkzLLKsL5gMIZbBkj9wGw9TueyObtiRQ=;
+	b=q+ID/jn3SpGNrR3SUWLvrQ/iBKesO0BAR+scpPxJHyo9U/bLZNkvoR2wiqgrU+mdMJ59Na
+	ZUmbuwm6PpcvJpQiobs9PpT+ICpa/ekPnGCRK4cZR1ZTM/cAWkGJtZM5/XDrY+xTv7067X
+	p394CHAcjdF+ANORjQqm2ezYVyDNpDFeWjcdAB222DbzxUURiXEfNTN1R0wKqkK6Thitz0
+	eAlSRpJgJFmlXOFLhIq1rdOE/ePv0ASsLZQJ0cQ/JkqXWXoB4BlH3HmbLgFYNw/BXiD9g1
+	MIFYBBCpKuXtXfOxGpSpuEIocoAUvjIpgFZWaGHuaWleU7pCkeinxcGtGmmNxA==
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: [PATCH 0/3] apple-nvme: bug and perf fixes
-Date: Tue, 11 Feb 2025 13:25:56 -0500
-Message-Id: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+Date: Tue, 11 Feb 2025 13:25:58 -0500
+Subject: [PATCH 2/3] apple-nvme: Release power domains when probe fails
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -39,10 +40,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADSWq2cC/x2LQQqAIBAAvyJ7bkG3PNhXokPYWnvIQkEC8e9Jx
- 2FmKmROwhlmVSFxkSx37GAGBf7c4sEoe2cgTVaTMRjLxRjk5Yzk/KSdJ2vHAH14Ev+i98va2gc
- xJRZhXAAAAA==
-X-Change-ID: 20250211-nvme-fixes-29c409c2553f
+Message-Id: <20250211-nvme-fixes-v1-2-6958b3aa49fe@rosenzweig.io>
+References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+In-Reply-To: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
@@ -50,54 +50,53 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1028; i=alyssa@rosenzweig.io;
- h=from:subject:message-id; bh=0gCZGHfdGU8//8Avd545jbaLhxjsJY7QoZdswjXKd9U=;
- b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnq5Y3Bvk569yv+q2HP9FrS/HTrAyd5yOIbC2m8
- F8dvl+ikM+JAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ6uWNwAKCRD+/lBaCvVY
- DXtVEACHXlU9HvWPNeRFrQx56yTXHAmyS65cSe9sGDD2aZ3id4sg4mUfVrMCIADNXrniTC9ikhU
- DPx6dGns77YE8Jbp/EGsfju+3smsarCaaBHKgqZrKZNe0ZqMa3J+3hVp70sSL2TSwlZayl0uA8U
- joelBYnFTtsJy/0RXRFQpHXl66ipJEXnUg4EA6eb4yfrHuwNL4Ujcd1cs8kKxKdU9ZgiNIWgp2F
- eZXHv/MViEAG6/Ev7StkmVeKq09GcK1VQ7dDGd014s8t48L2ib3OQIomsk1UP8IJOkP0KtxtzDh
- +SEs9dmlee4rdwd076gLlLqDgdrPeA9vLyfPWKVs9ewUCM9zse6cxMYL2gCiMYEmrZBMPNPjjp0
- 54r9mwDgaQK43Ws1ecjdivftoKBPqHcY6K7Y5dloDdQy7eIKp98dKmUbhrrfOgPloBVwY+6uySB
- QHJhCLvzaks9Rhiw3jPV422KnJUjo3PY6kkTFjdtyqByoZfRd6J+Mrf92MAAHrQSoLlIMJa3HwV
- RZRe1SXYDKQhb73L++J4dxU62ZsydgXJApThOaZm6UGJLHeadjT5iN8eI7LJcWuUOi6CtiaFRhU
- D41qjUFBPzw12RGREkoKYpx41lm7a0YeNmD4bBT/k1BzK2PjCp+Q3jiB9OcBxe9bV8s2dsRalpP
- U5mfwOU7wFHSn8Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=854; i=alyssa@rosenzweig.io;
+ h=from:subject:message-id; bh=8vBQ/v44cM9RurlOEJqS9G0+SOpYh3VTVvP62muKOs8=;
+ b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnq5Y3JoRTpZggfiWVdYcP0iyVHDJ//MLZ5GLPN
+ 83hIsPuBMeJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ6uWNwAKCRD+/lBaCvVY
+ DUD4D/0Sx7sJnd8ickbkui6NuiZpuL2EOI7nalgwVj2PqptKMNPmymjt6QlI0ip1HudADNTfCHW
+ dIyn21enlKeH2lViS94Gb+1EjYNnPGJp96OUvz7ub2LIeNG/SMwfbTSd9Gt1hBXI4CvRk36xk3g
+ FQemoR5vedw+A4sgDRv1Q5j0x397vsGBcHvJcU/jRD6In3AUXAP7buEaUFYQ9ZB69JILR2oUk1/
+ rc7vMmQLascmkAXlMR7OhCGbpLpR2o3F9FnUf6H6nJ7oi8QaGWe1o8LEd3m4qP5yEoOGzGEq4oK
+ W6b02fzoeE793G73RvH07TZJpAzMxYCJO923p1hD3RSjmsdTmyjtubBKi5eYWPZRGezx+tm7nhm
+ 0ULV7N7OZPrk20ZkiFktC8QPl5Lwz/Jwm0qoYSW7XY9OXiWkprnvcinsP122X9KTXmsEaqOpoG2
+ vxYCzsr5FK08P97nSpdRIX0vvPTSCrETIOmV7YH6VyCp/5atF80JB2ioeRLDOHLrJyJRqc0RkFi
+ 1J5237GfZdT1fZgLx5dQi+eha80Tqw9lm5P9ctCyfLA8ERvz/Yhh2Qct6wc2rqrTl5pIKt0oo/E
+ Z68lO22qqvvp94ftRBHIIcbMMVj03htBaRcJnRFMYeAGlX3/Z9pmWQM5EYRG2H2BvP04jy1afFa
+ sMW2SrdBa7ltplA==
 X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
  fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
 X-Migadu-Flow: FLOW_OUT
 
-This small series fixes three unrelated issues with the Apple NVMe
-driver.
+From: Hector Martin <marcan@marcan.st>
 
-* fix NVMe on firmware/machine
-* fix a power domain leak
-* fix pathological driver performance with random writes
-
-The first two are strict bug fixes, the last is technically an
-optimization but given the measured 200x performance difference I do
-consider to be a fix ;-)
-
-Given the early stage of mainlining for these SoCs, none of this needs
-to be backported.
-
+Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 ---
-Hector Martin (2):
-      apple-nvme: Support coprocessors left idle
-      apple-nvme: Release power domains when probe fails
+ drivers/nvme/host/apple.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Jens Axboe (1):
-      apple-nvme: defer cache flushes by a specified amount
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 5e1c01a67ee81a36faa3da2f86a3a24fefcdfd6f..a060f69558e76970bfba046cca5127243e8a51b7 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1528,6 +1528,7 @@ static struct apple_nvme *apple_nvme_alloc(struct platform_device *pdev)
+ 
+ 	return anv;
+ put_dev:
++	apple_nvme_detach_genpd(anv);
+ 	put_device(anv->dev);
+ 	return ERR_PTR(ret);
+ }
+@@ -1561,6 +1562,7 @@ static int apple_nvme_probe(struct platform_device *pdev)
+ 	nvme_uninit_ctrl(&anv->ctrl);
+ out_put_ctrl:
+ 	nvme_put_ctrl(&anv->ctrl);
++	apple_nvme_detach_genpd(anv);
+ 	return ret;
+ }
+ 
 
- drivers/nvme/host/apple.c | 124 +++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 107 insertions(+), 17 deletions(-)
----
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-change-id: 20250211-nvme-fixes-29c409c2553f
-
-Best regards,
 -- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
+2.48.1
 
