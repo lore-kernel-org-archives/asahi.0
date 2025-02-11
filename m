@@ -1,127 +1,110 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170A5264609;
-	Tue, 11 Feb 2025 19:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95970265CB2
+	for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 19:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739301720; cv=none; b=gSjfn592Ye/Prmq5qz5pUqNn9d/KI4d73CwFfHj2Huc9voFxpBq7Wbqa3kLIkI994ifczMN5xha9vT8VrLWlxdaITcf2dtrg6fhKhQZoWJcp+xlz5XXDcRCzISnHwJmJPmZp1GY25OkuXdH+cD5uyM4r0fst3v9lrDiQ/at1dBI=
+	t=1739303409; cv=none; b=d6ol51KclYu9rUdwxbW26uwe5Cw6iFCyB/oiS8T8+f39aj+TSSWoMlSWbiOtv9m5ESLs3rSG5bsKNJyc4PyDueP/Zuoxq6WmZ0Vq2RHxIABlOCTqJYlIohoJ8gW0Ct6yh96ZjSIo+3TTAbTfU6MJEznwAhV8hVyPkES9BAABX2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739301720; c=relaxed/simple;
-	bh=i0rjrv5Hw6uQyXJ5j8UYn+6uNdJPs4y5WflA+/CxlGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eBNYYNficY1x1JfbgovZLV8QGi6QJ2tH7LPvj7WQJE7rgqw+uGyLsz5fx79SIGKurrPkRUm5g8h8elroCustfH24/X0qbiuxb8cIHVSAfpRU9I7O0FbIaDTmboobAB/9NBuKnrCMWlXLjh7SJzZx3IqqztFBAXjWMYDt+GbRDvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=p6Lng5ZC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=M95Iwyi6; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1739303409; c=relaxed/simple;
+	bh=4Y+wde6FTequXKMit8DFeMHtsKviytt4h9vl35TgHZo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H30UgXyvX8xSCDafih4qYr241VtBluQJ1MhLh/k/wONmX4l2sgPGhJy++de9IQutIRR7vKGTY2yWnBw5Xkk+6Ua5N5qEBOjNlZMfgf6fot03JFEkvoNwVoDGi3Q2PlmeeSfybL6vADeT8aBEa/l3OJ0nUrp2++KZHilFSJy6fI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=UKq2abKX; arc=none smtp.client-ip=209.85.166.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="p6Lng5ZC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="M95Iwyi6"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 082C92540113;
-	Tue, 11 Feb 2025 14:21:56 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 11 Feb 2025 14:21:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1739301715; x=1739388115; bh=4CMMII7gg+
-	S8ZOua/g5opUsXHaf674ZZLjjOpdOjwqM=; b=p6Lng5ZCX20mDzQNjqo+bbgI9M
-	npPT8FklqciXwLGjqcT8Au3W5BJI/lfFBHCsx3UZ41Fkp6M5gU2f9WIZIOO4IfLz
-	eHNEABYblCeOEjtnbpydn8zc0VTyiRzm9iQ4qofAp9wVD8UAk3agXPiOwekZJrXz
-	MvT6b8fJXFN5kyiXff4fO4L/oHCGySvOGR/gddZU1pOPYxzRRSNvKtrgjJmac6Td
-	ciFEHYYJojcv/0BNV1Lzde7dicQ6r/SYjMTRI0BGvYeZ77lwA535KlomsZaNVfc2
-	TA/wK7WxQlNtSm2jKC9nklyzpSeG4seTsb7N858T0Got3o/pU/SijgS9TWmg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1739301715; x=1739388115; bh=4CMMII7gg+S8ZOua/g5opUsXHaf674ZZLjj
-	OpdOjwqM=; b=M95Iwyi6FtMUh7KPJgK56Wce/ol4WOjqun99tTLR3eZjBJ1KvCG
-	/iqKQsfU7sGOuerb6/qDJg6j88pFxwSRG+GHAQ8B0iaFyA9pxM0mq8yMgdak5C4k
-	SpQsVAx4GQ3yXT918CeeU4ozH4WjhUOoEM/1XYz/mh8sdKhF+Ns6Tibrko24g9Gj
-	KEw/7ugiEuAacIkqxI+UOgkgrRKKjYH4bWSK4bgeZpc1B+xEjxe8Bkx91gXHV/cj
-	5KVs76A9L37pziRP7TOmg0QTKfvBn/GcvxifPVkChPosFMPl4jfFYcYokxxjfn5f
-	lBvsAdaZ4DIXEs6yAo63CXTjpgXYorJnSPQ==
-X-ME-Sender: <xms:U6OrZ59UBYN-cFuUVAg1HUTC2A-KvdIGR5abqEbWIcEDnO70U8Vunw>
-    <xme:U6OrZ9v91b_sCtxu66wg1qC57Prxo9R2ELtqAbe8Si0fkcxSNUQCSBoZ_sTWfQJnV
-    mya6vod980qYXA-xkE>
-X-ME-Received: <xmr:U6OrZ3AwdNfjAI-szRwK1zvGJ4MkQaoMkDJ_lRNg9DR2R34TVispYQ0gqlJsbN0_mVmRGJylH5NuUtAxgDH8338W6syNm-8Y5hs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegudekvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
-    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
-    cuggftrfgrthhtvghrnhepudefhfehudetjeeutdfhvefhtdeltdfgheefkeefleegveev
-    tedtveelfffhiedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgv
-    thdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprh
-    hosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthhtoheprghlhihsshgrsehr
-    ohhsvghniiifvghighdrihhopdhrtghpthhtohepshhvvghnsehsvhgvnhhpvghtvghrrd
-    guvghvpdhrtghpthhtohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopeif
-    ihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlh
-    hinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhi
-    shhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehiohhmmhhusehlihhsth
-    hsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgv
-    rhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:U6OrZ9erICxeLKtv6LRcbSWf_u5GLNZ9i4lTMgfqxre8ndwsGs8jTQ>
-    <xmx:U6OrZ-MYxDweROPJ9p79fDIf7AD8irrFJGtIkDHdI8ztD3q1iIzbiA>
-    <xmx:U6OrZ_kmBVpDMbmoe4CARgdr7aXORa4zf45F6JPMOeAw3CuYclXYqA>
-    <xmx:U6OrZ4vfXkODZch2zGpMRRxixhJGTtKwlqSfNW8UflKv_hk17rYx3g>
-    <xmx:U6OrZ1pwJBCZX0WeuuCRjO1xQVKskjEe_pnW_ebS2OFBRQqfVc4qhonm>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 11 Feb 2025 14:21:54 -0500 (EST)
-Date: Tue, 11 Feb 2025 20:21:52 +0100
-From: Janne Grunau <j@jannau.net>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Sven Peter <sven@svenpeter.dev>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] iommu/dart: Assert !locked when configuring
-Message-ID: <20250211192152.GA810942@robin.jannau.net>
-References: <20250210-locked-dart-v1-0-5d97fe247f35@rosenzweig.io>
- <20250210-locked-dart-v1-5-5d97fe247f35@rosenzweig.io>
- <756ba6d7-b18e-4139-851b-496b1820117a@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="UKq2abKX"
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-854a68f5afcso136562539f.0
+        for <asahi@lists.linux.dev>; Tue, 11 Feb 2025 11:50:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1739303404; x=1739908204; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OsIvwEcUTBMStw2MMLLuDVcTGQeCcLwOBqA9S/j+YXs=;
+        b=UKq2abKXhPOOLqGUXZlTI0ZcAN7VrYSAoyQOCc8gitNYbhSIPa6M3VtcOct7EIhnzb
+         bUcB/I8I2szTK/NJYUsRxbvbkmXjwsAk2y5Nboe0BXmH+HXt4gnTwwm06N3w36pBFhyj
+         hlkmBoP6UG6zTfFfJDpCnaKyayiH50tajkj1Tq04SzEbhiHKrGndwEzwz49JfTafBozD
+         cjWM/PQiOazHYBmW2t28ePCmGvzdJAEEquIilZqmpD3y2/HK5K5MakQyfboIuy08rkPv
+         do2kId8ml+l78fPmwimaXWzoYsRWkZORtU5gFNE/CNtXwcsosSYiD/ad7T68aOMNeLK3
+         E08A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739303404; x=1739908204;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OsIvwEcUTBMStw2MMLLuDVcTGQeCcLwOBqA9S/j+YXs=;
+        b=kEUYR+EDFXD0Oe9dIeoIvV8xvdZYp2BmnTJw45OyrsJ5iCLJwp4z+FYp+QL/3CO7b/
+         8FdpM2wE8FfD4xvA1YSGg/Abp4aITEZSwMlize+B+/erJTpfwODsFZvV9+K7EzBcsWdB
+         BZbuM2L8Vj3oAAmyf0MySK7T4VdLBSMJgfvUBz45Nu+P9PuczX5CId4DEo/LRPWcUTLu
+         dcOI4Va+Ye0TnENDSPsLqvuacGlDnXRH2UYrSsmObZM3ZhXG8m1T9YlN1cmjj8WSNdOQ
+         kEEkHQ8cw1ZrWvCLDpT6s6g26G+5STKehbUYbVC4glVtQL5sN8FoTv7eqHGKNIwnhXhk
+         3M3g==
+X-Gm-Message-State: AOJu0YwQbclZOcqpryYD+uKdE/Nsmtiy8umuUQAC5CdEiJaJeSp/4/d1
+	UiPIntZZC0N47Xyhu3uqtwJVq4QuD8GBMRY7I3fsTO8f0AiCQMdX6Uqrzs/X8ek=
+X-Gm-Gg: ASbGnct04mjttgvJuLhE+J8I6uGDXDTXK+pTxBE37wYYnvKKAqvA0ikVGeeqfdeXg0L
+	RVXAiQ9YNWv40ixM0mY2paJkZi4/VRuIE0w8ZKuzZsK2H0XCKArhSlCUI5sSdTXfs+eh2faGuKZ
+	H5M2VGkejQYrUp2Vq539vI3/NvGj8BEdYBUbHpLh6Wbbucq5dyT9/szstXNCmT4flHfXxuANBht
+	6ldNsqrhMBEaUgA3FGHHVt9Jo/xQehbcVIeorgV4NjHVeUWt/80vfoTphV5j5CjtlWMxpftNKIM
+	g8VU5Cl4HWo=
+X-Google-Smtp-Source: AGHT+IFrTVAEGiw2EoTh/b9YW5R/KtzW2+Oh2EsbSrKLQH+zV7TjtxzGKsJ/H8T6kpwj7fxcn/baxg==
+X-Received: by 2002:a05:6602:14c3:b0:843:e667:f196 with SMTP id ca18e2360f4ac-85555c8c4eemr91680639f.4.1739303404598;
+        Tue, 11 Feb 2025 11:50:04 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ed1885b085sm77104173.69.2025.02.11.11.50.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Feb 2025 11:50:03 -0800 (PST)
+Message-ID: <84447986-6cd7-499c-834e-9aa01fad98da@kernel.dk>
+Date: Tue, 11 Feb 2025 12:50:02 -0700
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <756ba6d7-b18e-4139-851b-496b1820117a@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] apple-nvme: defer cache flushes by a specified amount
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+ <20250211-nvme-fixes-v1-3-6958b3aa49fe@rosenzweig.io>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20250211-nvme-fixes-v1-3-6958b3aa49fe@rosenzweig.io>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 11, 2025 at 06:41:00PM +0000, Robin Murphy wrote:
-> On 2025-02-10 7:39 pm, Alyssa Rosenzweig wrote:
-> > Configuration is only possible and needed for non-locked DARTs and will
-> > fail for locked DARTs. We cannot try -- assert that we do not.
+On 2/11/25 11:25 AM, Alyssa Rosenzweig wrote:
+> From: Jens Axboe <axboe@kernel.dk>
 > 
-> Except now we absolutely will - if a locked DART and its client device 
-> are advertised to Linux, instead of gracefully refusing to touch it, 
-> we'll now attach the client to a DMA domain, firing a barrage of 
-> multiple WARNs in the process, and give it DMA ops which still cannot 
-> work. I'm not really convinced this series on its own leaves us in a 
-> better position than we're already in now... :/
+> Cache flushes on the M1 nvme are really slow, taking 17-18 msec to
+> complete. This can slow down workloads considerably, pure random writes
+> end up being bound by the flush latency and hence run at 55-60 IOPS.
 > 
-> How hideous is the rest of what's required to actually make this usable?
+> Add a deferred flush work around to provide better performance, at a
+> minimal risk. By default, flushes are delayed at most 1 second, but this
+> is configurable.
+> 
+> With this work-around, a pure random write workload runs at ~12K IOPS
+> rather than 56 IOPS.
 
-The TTBR can not be changed but the preset first level table can
-modified at will. The driver keeps a shadow first label table and syncs
-that to the preset 1st level table on flush_tbl().
-It gets more complicated by the fact that the iommu for the display
-coprocessor is locked and mappings for its firmware and boot framebuffer
-are preinstalled and have to be maintained or restored on
-initialization.
-This is handled via reserved memory with translation.
+I knew this one would bite in the ass at some point down the line ;-)
 
-Downstream change to handle this is in
-https://github.com/AsahiLinux/linux/commit/d90cc3590ea460e1c574b4b7c47fdafb2794af6a
-not including the change to parse / handle reserved memory with
-translation in iommu core.
+I do think the feature is sane, and to my knowledge we haven't had any
+issues with it since I originally wrote it 3 years ago. But I also
+think it should probably go in the block layer proper, as other
+devices might benefit from it.
 
-Janne
+That said, I'm fine with parking this in the apple nvme driver for
+now, as we don't have to deal with multiple namespaces etc. Can
+always get migrated to a core feature later, if desired.
+
+-- 
+Jens Axboe
+
