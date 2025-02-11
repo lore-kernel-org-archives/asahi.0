@@ -1,77 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DE0265626;
-	Tue, 11 Feb 2025 20:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44AE126158B;
+	Tue, 11 Feb 2025 20:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739306006; cv=none; b=XjUarAgWLuEHH5E3NSjmty+ZqpaMnQsH+1ew0ccMFvpmcY2duv+RVrEPH/HZjEigxlaTMFlykILWDGbCY/cSR40Fstt5j32p0zPnI+xrw8gquujiDRma6hcSslmATh2LClFpt8G7lXmfUUBHmV7Z+2kMtDufHDiz5d5890pFqVE=
+	t=1739306236; cv=none; b=UYmVgL/GPLYSg2GQNB2k8jvw9VAZsXI721WrD7Y/7L86leMwr+RXsKZlyHKciAyFPVdB34jDITtduFwfqoBltpyMWftSPm02UiajPZUHrGXf2ae1K3BZReml8Pnr972FfDuwfrR/YDiVbnf+qPJoj57G4Ejap+bVjQSfVRnP1yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739306006; c=relaxed/simple;
-	bh=m6uW5LI+RTAP6gZ7LY7Y5BSyq7TILP8ZnWmH47ViD2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Mx60pV2h1saoDuigKbhDj4yr0MzUZaZt71OM8DHDyLA74bHQGXpaNQj9MLCHP3o2qxLPe72fhW7HVThRXJ8+lpRsr3NNNtDol1gFCt1d+egiyrDU92ras1I6SqgI3ewpH2TzxWz61l6BFFdjOyH+n1fWhE84aMb+LCEiE9fGZnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YTdX6qiu; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YTdX6qiu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87328C4CEDD;
-	Tue, 11 Feb 2025 20:33:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739306005;
-	bh=m6uW5LI+RTAP6gZ7LY7Y5BSyq7TILP8ZnWmH47ViD2g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=YTdX6qiu5L9Qs3vdGhuZHTeLKJ+uNTRPgU7exdn7QBMmY3Qpg5Pj1ddbM9Yc2QIRJ
-	 PwbclK47wvCBblffZ5zBpGhqUUioRkitHcw6goGkSoaw0sz/H9VZcARqQns8tp4KT/
-	 CCGIfMqiWN4KcwxADPpWeq9mi0/qXZx+KzkMIH/dspacbbgiKf7GurrDfexv6J73ol
-	 VOVyqq/3Z4R/lOzgm/YVjAGq7S2tjEPZ10GrQniJ6CW8y0y0eW7DSzHfgyQmZUanyy
-	 QQUiqgz6FkHptDJ8xe72SvxEWaJml+MotLbMRYLEtMre02yjeoKjmwd/7LrorrRflZ
-	 Bdy5xqiS4MTrg==
-Date: Tue, 11 Feb 2025 14:33:24 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mark Kettenis <kettenis@openbsd.org>, Marc Zyngier <maz@kernel.org>,
-	Stan Skowronek <stan@corellium.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Janne Grunau <j@jannau.net>, stable@vger.kernel.org
-Subject: Re: [PATCH 3/7] PCI: apple: Set only available ports up
-Message-ID: <20250211203324.GA54082@bhelgaas>
+	s=arc-20240116; t=1739306236; c=relaxed/simple;
+	bh=EGMrDk2bhCdtV8HADA1cGzyp9kGWh2DKKQLh8djgqMw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hK7Ru4/OWiFWnGVSFo3yeHeLu4tFg4N6wcTqgk6CO4TMZCC6yVMThmYyou0pfuTqR0F2jivdUMj5VtC18XOtqYCqIEyMs3TlBlCz8QHKMR/seBc9jzYk/NHh7RYE7AWkORlV848EKuIVMRpmItNhxLBYgRDTbO0NSRaMr4pbw3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DAEEF1D14;
+	Tue, 11 Feb 2025 12:37:34 -0800 (PST)
+Received: from [10.57.35.63] (unknown [10.57.35.63])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27A223F5A1;
+	Tue, 11 Feb 2025 12:37:10 -0800 (PST)
+Message-ID: <c4c54243-d25b-45d7-97d5-837d02cfa2dd@arm.com>
+Date: Tue, 11 Feb 2025 20:37:08 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211-pcie-t6-v1-3-b60e6d2501bb@rosenzweig.io>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] iommu/dart: Set DMA domain for locked DARTs
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250210-locked-dart-v1-0-5d97fe247f35@rosenzweig.io>
+ <20250210-locked-dart-v1-3-5d97fe247f35@rosenzweig.io>
+ <1d6b3fe7-9376-422b-a2e6-ebaed7b6cd75@arm.com> <Z6uZhQtPAE8Ck_b0@blossom>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <Z6uZhQtPAE8Ck_b0@blossom>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 11, 2025 at 02:54:28PM -0500, Alyssa Rosenzweig wrote:
-> From: Janne Grunau <j@jannau.net>
+On 2025-02-11 6:40 pm, Alyssa Rosenzweig wrote:
+> Hi Robin,
 > 
-> Fixes "interrupt-map" parsing in of_irq_parse_raw() which takes the
-> node's availability into account.
+>>> This is required.
+>>
+>> Now that we can, I'd really rather do this properly and not offer an
+>> identity domain in the first place when it's not available.
 > 
-> This became apparent after disabling unused PCIe ports in the Apple
-> silicon device trees instead of disabling them.
+> I'm reading through iommu.c but I don't see a way to avoid offering an
+> identity domain without the DMA override here, just reading through the
+> logic of iommu_get_default_domain_type. Could you point me to what you
+> have in mind?
 
-Is there something missing from this sentence?  "... after disabling
-unused ports instead of disabling them" doesn't sound quite complete.
+Since we finished cleaning up the domain allocation paths, it's finally 
+safe to have per-instance ops, so you can mix and match some with an 
+identity domain and some without, as s390 will be doing[1].
 
-> Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
-> Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
-> Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
-> Cc: stable@vger.kernel.org
+Cheers,
+Robin.
 
-Can we have a hint about what makes this "stable" material?  I can't
-tell from the commit log what the impact of this change is.
+[1] 
+https://lore.kernel.org/linux-iommu/20250207205335.473946-5-mjrosato@linux.ibm.com/
 
-Bjorn
+> Thanks,
+> Alyssa
+> 
+>>> --- a/drivers/iommu/apple-dart.c
+>>> +++ b/drivers/iommu/apple-dart.c
+>>> @@ -941,6 +941,8 @@ static int apple_dart_def_domain_type(struct device *dev)
+>>>    		return IOMMU_DOMAIN_IDENTITY;
+>>>    	if (!cfg->stream_maps[0].dart->supports_bypass)
+>>>    		return IOMMU_DOMAIN_DMA;
+>>> +	if (cfg->stream_maps[0].dart->locked)
+>>> +		return IOMMU_DOMAIN_DMA;
+>>>    	return 0;
+>>>    }
+>>>
+>>
+
