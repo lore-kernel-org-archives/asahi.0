@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F34253B4B
-	for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 19:01:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F771FC0FD
+	for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 19:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739386898; cv=none; b=vBUt70YOsuMcyGGc7+6CAGIBwEpDiE/rKffwOzbE5QooR86FolTaPsAbyuyA2v5JbynM7RXJNVlqW8UrBPecJB4LKBjyYFyOWG7T+3NU9RofXegqGFQpAPyrrYY6OEYlrWzJfZ4aBK549FUMPfTpShU7jiw9SF5XE6YgW0kKL+k=
+	t=1739387178; cv=none; b=a3izMhTOTa+6yCvPgBztp/3RRkh00tZCwFk16zho0KyiYraMRZv9ODVp6FG9PSONp/QAHPUL3OPlqRzdKt6KUUbwl7pHkfbDbd2Krl8/j1qEg7VgKg5j9/7g2jOc1q7jB8ftLLpxWabOqsQQnHiHDxhmZC9ZhsXzd9yVG5SahBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739386898; c=relaxed/simple;
-	bh=LqMoC5utCrT4bUaFZZWRG9lEJQPLZdCaPqVj0HZKTJs=;
+	s=arc-20240116; t=1739387178; c=relaxed/simple;
+	bh=p/9jVwl7NFE+xx1gO96tYVvkq9+MYGGDZzF1rfbtWsM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PKN7MXUCdJmJoJ3JEoHEMZ4ue7DKUm6abfeOYvVcTE9egKAQch8Ov1ZOITjCzdSaaSs3hSXI9PVuLcb6sh/PeT4FeKPXxTSH/TXvMDJd0EGFlq4q1fdAGxKQSxUaQkF1mIYibjuQlHrnIHrKJdgzVg4C5Mkk3voeuAVqkOUyNMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CiYRGANa; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=dUHkRGiR7ol6rw9kLQn4zsHQa1Ys83M8MMS0jKhdwuVPauUJWLt0i3/uGQyVpPGTYeRt0FIC6T0SEMCbWxNo+MI8Y5WZ3AnaeIDO0IKknWgVVs3zjQA2iORMoyXSxWPNxkXobO0yUqaOAbhkPy0TptI6R+y1X8OA5XJ80gyh02A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JeZjubbI; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CiYRGANa"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JeZjubbI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739386895;
+	s=mimecast20190719; t=1739387175;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VnpKOCL9F8DbCzuG0WiiawmSIQd7cJlByrW6DA7MXYI=;
-	b=CiYRGANax96Z8sKmwbOgsYGjxIb9VRSYInXyKj/X7NTbPo6jN9gPZBWcr2jMOcpo9JI84O
-	cGZw00Xv02CK9BQtgnygrE9Im/EAVR6K1RpZc34/XlBJ8O3p+FTq9mn22+fUfi+Nb1uA3t
-	cZhd2GC0YGWGFqvjQXCNmA26eq/gprs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=pZqhwESqCcdEHW5lNopFcaR8tQ/a65RYXVOVgLdYBZA=;
+	b=JeZjubbI6y+3OinI1n33P7x9l8TmEtrdPfLNTfMylayrEYrwfOqrbZOKaPKGQO/KcHg5FE
+	h6HfL554GHnzhtHlzMc4/7TE70ULBzYlSYO/p4k2UfZnSnj80OSHcIn9uvZcy+3gOS8bVI
+	krdXpAnfUI+O2SY+a3/vWdgtDs7tnx4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-424-41nCzO2JN4OqJcl_1fvDcA-1; Wed, 12 Feb 2025 14:01:32 -0500
-X-MC-Unique: 41nCzO2JN4OqJcl_1fvDcA-1
-X-Mimecast-MFC-AGG-ID: 41nCzO2JN4OqJcl_1fvDcA
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-38de11a0002so12014f8f.3
-        for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 11:01:32 -0800 (PST)
+ us-mta-466-zs5DErzWPBK5jzUQCqUX6Q-1; Wed, 12 Feb 2025 14:06:13 -0500
+X-MC-Unique: zs5DErzWPBK5jzUQCqUX6Q-1
+X-Mimecast-MFC-AGG-ID: zs5DErzWPBK5jzUQCqUX6Q
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-38dd6edef72so34342f8f.0
+        for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 11:06:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739386891; x=1739991691;
+        d=1e100.net; s=20230601; t=1739387172; x=1739991972;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=VnpKOCL9F8DbCzuG0WiiawmSIQd7cJlByrW6DA7MXYI=;
-        b=RnUsavt9x7t6xDdW7iXy7l21C95su54Mvt8pHSwPgWij6Yaa8isdxsB8QVP4Mo1ucC
-         12jDHFKw3oGCroFRhc0S6Kpv7eqUS9sOzW9e3D9vLN3BPVrhVX3Fyy2oYwl4cSO3hgRx
-         V42+SEN+O5OcjX/OH4D3XTl6E2DcdRgOAp+6fJ8ojnQFv9PGcNNodyGZvXwNputqgQMj
-         J+eOcJDnOMDXESCFbPLZWpcgpYx/taDy1AWj/ymZHsDGCkCF8NEO6LY7WYEz2stDI9qm
-         HKVomv59HCLy8NCcJ6fFMIKZHPPmAbnGipeuQhqbYpQHVCcC66KjrLiz7NKgAxF0IjhX
-         4gjw==
-X-Forwarded-Encrypted: i=1; AJvYcCUR+mjq21b0CtGWnO22p7gfgKEaq8B46n4hKyUf+E7ImHwHHNYZCg8jkr96PA4LUqz93pU0KA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0jU0Sib81IONjBxnknWSBt3pAtfWomnjddJoXFinCyoLlNEAA
-	Sm2hhbeH6fmJEnP08VwfWwwXBc0KUA8+HA5qc3QlyxYCPKSPUncl2Q82SgF6uz8iKYjbX9n6d6Q
-	5z8qrYkRJ8paxezbsVMcQJ7jm1GWUVWpDv+WfZg0ssRI5aT8ZmjfR
-X-Gm-Gg: ASbGncuXYB1RkI1ZOZm0vdyZKxoAK0eVtxYD1OBv0lMmhH3qtHuJwQfpiL9gRLPStM8
-	1UmGzNmPxqewHzR9x6Lk9JX7tzqMhg/v5xkf6zMXQtPq/NpgXpktXNrgMOXXWjxe8B+nOy7Jod8
-	lyRjntOO7uw+0R3bagJRMSldjCMmiFyP2fGa4IP6TxdUf16eQ3pKpkakxDo7JEfYOnbzLfuOMEw
-	XWOMiLl44w1iOOkJKFxgzpSYQqiLwUYsKWUXX1GSRYgkoiJwH3CS+hSEbNlHOxq/B3lgYIdoDAk
-	nTuxBff52kfK/nSpPZolCYL6uIVEdBzGXAz1neNMxSsOj/gzJr3ajYzZ0fVNHnWWk368eS4bNFE
-	JjFwkg6VOzBE0Ixi464BNu8ty7mphgw==
-X-Received: by 2002:a05:6000:1fac:b0:38d:e584:81ea with SMTP id ffacd0b85a97d-38dea2f9ab6mr3331357f8f.45.1739386890861;
-        Wed, 12 Feb 2025 11:01:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGMQEuHs2ARaifFarl1hlb7XuIU2Uf3rWR3SR85DWiFYlcoHcyJgYvPwxFa9XALu3tB9xPEVQ==
-X-Received: by 2002:a05:6000:1fac:b0:38d:e584:81ea with SMTP id ffacd0b85a97d-38dea2f9ab6mr3331310f8f.45.1739386890296;
-        Wed, 12 Feb 2025 11:01:30 -0800 (PST)
+        bh=pZqhwESqCcdEHW5lNopFcaR8tQ/a65RYXVOVgLdYBZA=;
+        b=jj9pMM+e1BtL32ESlnFXHcfDgPn+t8AbjxvSW7sETdTr0VQoI7MllxubPlZ7WnBs30
+         sIoJDGZEaVJ2FaJ3edauwUSdHyRm4ynJUhj8fWjb4R+/IE8ZPNJiHqhTqLZi1S40ZCyN
+         g7SIsDxn2CohSGaNbkO4cgpzjT+8+PZlImjMDKX3c/ilaDW2jSexz5sh1R0Pp1m1I4uY
+         XQkqD0wDGur8h2cL15wymYRg9gI2ZjlplcIj/uzYWzSgBvCY9D1cuSLKonUU7eRGSByG
+         y+XGe76sqDXDRGs2yXEomoDk2ndZ3NvFx6nMP/69V9kGCUtFm6KLTQjrfyzAKdTXl94v
+         Q9jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzQZbsXtLNhJaTHb5Pb1/fJqLwNttD0MGU4/7dPH0NQv+zQzvCZIkKFyoY5CKaQZ2Cz6kwJw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTGAznWIgtS+ZRvdyGM5iaYBj19jczVLif8bAWYw52Uy804hXI
+	lhGqh9zeVP5rJzOi0YMGQygMk1RUxkmAblF31dPFLnGqVg069eBxk/N+uZaat9VtXGP5sIjZJsQ
+	GwOgZF4dgTgXS7NYKLRwwEmWXSZjsS1Y0oiQd1Ao2sfuTGdQE4T7e
+X-Gm-Gg: ASbGncvxcJMi3t2xRabORuyBLU/FvIv4UBt6FhfaWXWIv7CYpAn9bHzK+H5xNYQAWkX
+	tkzzrJZjzk6SmL5yhQDWAwO94HPMpehmzGYyRCmEvcsYeG2drccEZgE5GMlHV2DMdiszEHVQWIO
+	T/jXnmB/Kg+ALcSfyU6+jwl4XR1JbIOiaSlcZqq6CippYber1HNjh6ZG4ZBXWS7ASkxTRK0YLA6
+	gOxVr75z6+KexjPdIYcVG4ZiDrNAqaV5ATtT5c2moTrFcnDHtDPB0MRjYlXeE8hE0bdN8gIs0br
+	qBugeKnv2F8VOrxaGOWsWMCFYRaYPgH9ckAGLsSnAlQSoJzj0XWP2UcETRvakPhMUYkVUerSaGg
+	ywI4qJXP9/529LpRLc1D/gxqPsrsFtw==
+X-Received: by 2002:a05:6000:2ac:b0:38d:d5bf:5189 with SMTP id ffacd0b85a97d-38f24d11d24mr85553f8f.16.1739387172055;
+        Wed, 12 Feb 2025 11:06:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEA8/Xz1fcATs1tFbwBP/tz2GEi6pNABEYNlkCbyWivN96o0SYEeVqyP5SRiZestqifKz2OpA==
+X-Received: by 2002:a05:6000:2ac:b0:38d:d5bf:5189 with SMTP id ffacd0b85a97d-38f24d11d24mr85516f8f.16.1739387171613;
+        Wed, 12 Feb 2025 11:06:11 -0800 (PST)
 Received: from ?IPV6:2003:cb:c70c:a600:1e3e:c75:d269:867a? (p200300cbc70ca6001e3e0c75d269867a.dip0.t-ipconnect.de. [2003:cb:c70c:a600:1e3e:c75:d269:867a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dc2f6aeafsm17010526f8f.20.2025.02.12.11.01.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dd6548b25sm12290131f8f.32.2025.02.12.11.06.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 11:01:29 -0800 (PST)
-Message-ID: <c0373279-a257-454f-98d6-9825700831f6@redhat.com>
-Date: Wed, 12 Feb 2025 20:01:26 +0100
+        Wed, 12 Feb 2025 11:06:10 -0800 (PST)
+Message-ID: <d809a46d-0bb2-4e78-8810-24e374131dcd@redhat.com>
+Date: Wed, 12 Feb 2025 20:06:08 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -106,6 +106,7 @@ References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
  <2a513c3e-818c-4040-b3d3-7835861bab4f@asahilina.net>
  <0dffaa7d-340f-4ce1-9a2e-54cfd9079266@redhat.com>
  <bfc81fb0-917a-4518-851b-c7fcf3a91c5b@asahilina.net>
+ <f042dcf3-10b9-4b58-9c98-5b83910ab188@asahilina.net>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -152,179 +153,199 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <bfc81fb0-917a-4518-851b-c7fcf3a91c5b@asahilina.net>
+In-Reply-To: <f042dcf3-10b9-4b58-9c98-5b83910ab188@asahilina.net>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: YpLe6SV9EqaOCyEVqDYgRpHJr44sEQu-0qusPpvvRz8_1739386891
+X-Mimecast-MFC-PROC-ID: E0vbGkwfF-KdAlOPTfNr37Ws-aXALgS5O7ciXbqJXIs_1739387172
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 06.02.25 20:18, Asahi Lina wrote:
+On 06.02.25 20:27, Asahi Lina wrote:
 > 
 > 
-> On 2/7/25 2:58 AM, David Hildenbrand wrote:
->> On 04.02.25 22:06, Asahi Lina wrote:
->>>
->>>
->>> On 2/5/25 5:10 AM, David Hildenbrand wrote:
->>>> On 04.02.25 18:59, Asahi Lina wrote:
->>>>> On 2/4/25 11:38 PM, David Hildenbrand wrote:
->>>>>>>>> If the answer is "no" then that's fine. It's still an unsafe
->>>>>>>>> function
->>>>>>>>> and we need to document in the safety section that it should
->>>>>>>>> only be
->>>>>>>>> used for memory that is either known to be allocated and pinned and
->>>>>>>>> will
->>>>>>>>> not be freed while the `struct page` is borrowed, or memory that is
->>>>>>>>> reserved and not owned by the buddy allocator, so in practice
->>>>>>>>> correct
->>>>>>>>> use would not be racy with memory hot-remove anyway.
+> On 2/7/25 4:18 AM, Asahi Lina wrote:
+>>
+>>
+>> On 2/7/25 2:58 AM, David Hildenbrand wrote:
+>>> On 04.02.25 22:06, Asahi Lina wrote:
+>>>>
+>>>>
+>>>> On 2/5/25 5:10 AM, David Hildenbrand wrote:
+>>>>> On 04.02.25 18:59, Asahi Lina wrote:
+>>>>>> On 2/4/25 11:38 PM, David Hildenbrand wrote:
+>>>>>>>>>> If the answer is "no" then that's fine. It's still an unsafe
+>>>>>>>>>> function
+>>>>>>>>>> and we need to document in the safety section that it should
+>>>>>>>>>> only be
+>>>>>>>>>> used for memory that is either known to be allocated and pinned and
+>>>>>>>>>> will
+>>>>>>>>>> not be freed while the `struct page` is borrowed, or memory that is
+>>>>>>>>>> reserved and not owned by the buddy allocator, so in practice
+>>>>>>>>>> correct
+>>>>>>>>>> use would not be racy with memory hot-remove anyway.
+>>>>>>>>>>
+>>>>>>>>>> This is already the case for the drm/asahi use case, where the pfns
+>>>>>>>>>> looked up will only ever be one of:
+>>>>>>>>>>
+>>>>>>>>>> - GEM objects that are mapped to the GPU and whose physical
+>>>>>>>>>> pages are
+>>>>>>>>>> therefore pinned (and the VM is locked while this happens so the
+>>>>>>>>>> objects
+>>>>>>>>>> cannot become unpinned out from under the running code),
 >>>>>>>>>
->>>>>>>>> This is already the case for the drm/asahi use case, where the pfns
->>>>>>>>> looked up will only ever be one of:
->>>>>>>>>
->>>>>>>>> - GEM objects that are mapped to the GPU and whose physical
->>>>>>>>> pages are
->>>>>>>>> therefore pinned (and the VM is locked while this happens so the
->>>>>>>>> objects
->>>>>>>>> cannot become unpinned out from under the running code),
+>>>>>>>>> How exactly are these pages pinned/obtained?
 >>>>>>>>
->>>>>>>> How exactly are these pages pinned/obtained?
+>>>>>>>> Under the hood it's shmem. For pinning, it winds up at
+>>>>>>>> `drm_gem_get_pages()`, which I think does a
+>>>>>>>> `shmem_read_folio_gfp()` on
+>>>>>>>> a mapping set as unevictable.
 >>>>>>>
->>>>>>> Under the hood it's shmem. For pinning, it winds up at
->>>>>>> `drm_gem_get_pages()`, which I think does a
->>>>>>> `shmem_read_folio_gfp()` on
->>>>>>> a mapping set as unevictable.
+>>>>>>> Thanks. So we grab another folio reference via shmem_read_folio_gfp()-
+>>>>>>>> shmem_get_folio_gfp().
+>>>>>>>
+>>>>>>> Hm, I wonder if we might end up holding folios residing in
+>>>>>>> ZONE_MOVABLE/
+>>>>>>> MIGRATE_CMA longer than we should.
+>>>>>>>
+>>>>>>> Compared to memfd_pin_folios(), which simulates FOLL_LONGTERM and
+>>>>>>> makes
+>>>>>>> sure to migrate pages out of ZONE_MOVABLE/MIGRATE_CMA.
+>>>>>>>
+>>>>>>> But that's a different discussion, just pointing it out, maybe I'm
+>>>>>>> missing something :)
 >>>>>>
->>>>>> Thanks. So we grab another folio reference via shmem_read_folio_gfp()-
->>>>>>> shmem_get_folio_gfp().
->>>>>>
->>>>>> Hm, I wonder if we might end up holding folios residing in
->>>>>> ZONE_MOVABLE/
->>>>>> MIGRATE_CMA longer than we should.
->>>>>>
->>>>>> Compared to memfd_pin_folios(), which simulates FOLL_LONGTERM and
->>>>>> makes
->>>>>> sure to migrate pages out of ZONE_MOVABLE/MIGRATE_CMA.
->>>>>>
->>>>>> But that's a different discussion, just pointing it out, maybe I'm
->>>>>> missing something :)
+>>>>>> I think this is a little over my head. Though I only just realized that
+>>>>>> we seem to be keeping the GEM objects pinned forever, even after unmap,
+>>>>>> in the drm-shmem core API (I see no drm-shmem entry point that would
+>>>>>> allow the sgt to be freed and its corresponding pages ref to be
+>>>>>> dropped,
+>>>>>> other than a purge of purgeable objects or final destruction of the
+>>>>>> object). I'll poke around since this feels wrong, I thought we were
+>>>>>> supposed to be able to have shrinker support for swapping out whole GPU
+>>>>>> VMs in the modern GPU MM model, but I guess there's no
+>>>>>> implementation of
+>>>>>> that for gem-shmem drivers yet...?
 >>>>>
->>>>> I think this is a little over my head. Though I only just realized that
->>>>> we seem to be keeping the GEM objects pinned forever, even after unmap,
->>>>> in the drm-shmem core API (I see no drm-shmem entry point that would
->>>>> allow the sgt to be freed and its corresponding pages ref to be
->>>>> dropped,
->>>>> other than a purge of purgeable objects or final destruction of the
->>>>> object). I'll poke around since this feels wrong, I thought we were
->>>>> supposed to be able to have shrinker support for swapping out whole GPU
->>>>> VMs in the modern GPU MM model, but I guess there's no
->>>>> implementation of
->>>>> that for gem-shmem drivers yet...?
->>>>
->>>> I recall that shrinker as well, ... or at least a discussion around it.
->>>>
->>>> [...]
->>>>
+>>>>> I recall that shrinker as well, ... or at least a discussion around it.
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>>>
+>>>>>>> If it's only for crash dumps etc. that might even be opt-in, it makes
+>>>>>>> the whole thing a lot less scary. Maybe this could be opt-in
+>>>>>>> somewhere,
+>>>>>>> to "unlock" this interface? Just an idea.
 >>>>>>
->>>>>> If it's only for crash dumps etc. that might even be opt-in, it makes
->>>>>> the whole thing a lot less scary. Maybe this could be opt-in
->>>>>> somewhere,
->>>>>> to "unlock" this interface? Just an idea.
+>>>>>> Just to make sure we're on the same page, I don't think there's
+>>>>>> anything
+>>>>>> to unlock in the Rust abstraction side (this series). At the end of the
+>>>>>> day, if nothing else, the unchecked interface (which the regular
+>>>>>> non-crash page table management code uses for performance) will let you
+>>>>>> use any pfn you want, it's up to documentation and human review to
+>>>>>> specify how it should be used by drivers. What Rust gives us here is
+>>>>>> the
+>>>>>> mandatory `unsafe {}`, so any attempts to use this API will necessarily
+>>>>>> stick out during review as potentially dangerous code that needs extra
+>>>>>> scrutiny.
+>>>>>>
+>>>>>> For the client driver itself, I could gate the devcoredump stuff behind
+>>>>>> a module parameter or something... but I don't think it's really worth
+>>>>>> it. We don't have a way to reboot the firmware or recover from this
+>>>>>> condition (platform limitations), so end users are stuck rebooting to
+>>>>>> get back a usable machine anyway. If something goes wrong in the
+>>>>>> crashdump code and the machine oopses or locks up worse... it doesn't
+>>>>>> really make much of a difference for normal end users. I don't think
+>>>>>> this will ever really happen given the constraints I described, but if
+>>>>>> somehow it does (some other bug somewhere?), well... the machine was
+>>>>>> already in an unrecoverable state anyway.
+>>>>>>
+>>>>>> It would be nice to have userspace tooling deployed by default that
+>>>>>> saves off the devcoredump somewhere, so we can have a chance at
+>>>>>> debugging hard-to-hit firmware crashes... if it's opt-in, it would only
+>>>>>> really be useful for developers and CI machines.
 >>>>>
->>>>> Just to make sure we're on the same page, I don't think there's
->>>>> anything
->>>>> to unlock in the Rust abstraction side (this series). At the end of the
->>>>> day, if nothing else, the unchecked interface (which the regular
->>>>> non-crash page table management code uses for performance) will let you
->>>>> use any pfn you want, it's up to documentation and human review to
->>>>> specify how it should be used by drivers. What Rust gives us here is
->>>>> the
->>>>> mandatory `unsafe {}`, so any attempts to use this API will necessarily
->>>>> stick out during review as potentially dangerous code that needs extra
->>>>> scrutiny.
->>>>>
->>>>> For the client driver itself, I could gate the devcoredump stuff behind
->>>>> a module parameter or something... but I don't think it's really worth
->>>>> it. We don't have a way to reboot the firmware or recover from this
->>>>> condition (platform limitations), so end users are stuck rebooting to
->>>>> get back a usable machine anyway. If something goes wrong in the
->>>>> crashdump code and the machine oopses or locks up worse... it doesn't
->>>>> really make much of a difference for normal end users. I don't think
->>>>> this will ever really happen given the constraints I described, but if
->>>>> somehow it does (some other bug somewhere?), well... the machine was
->>>>> already in an unrecoverable state anyway.
->>>>>
->>>>> It would be nice to have userspace tooling deployed by default that
->>>>> saves off the devcoredump somewhere, so we can have a chance at
->>>>> debugging hard-to-hit firmware crashes... if it's opt-in, it would only
->>>>> really be useful for developers and CI machines.
+>>>>> Is this something that possibly kdump can save or analyze? Because that
+>>>>> is our default "oops, kernel crashed, let's dump the old content so we
+>>>>> can dump it" mechanism on production systems.
 >>>>
->>>> Is this something that possibly kdump can save or analyze? Because that
->>>> is our default "oops, kernel crashed, let's dump the old content so we
->>>> can dump it" mechanism on production systems.
+>>>> kdump does not work on Apple ARM systems because kexec is broken and
+>>>> cannot be fully fixed, due to multiple platform/firmware limitations. A
+>>>> very limited version of kexec might work well enough for kdump, but I
+>>>> don't think anyone has looked into making that work yet...
+>>>>
+>>>>> but ... I am not familiar with devcoredump. So I don't know when/how it
+>>>>> runs, and if the source system is still alive (and remains alive --  in
+>>>>> contrast to a kernel crash).
+>>>>
+>>>> Devcoredump just makes the dump available via /sys so it can be
+>>>> collected by the user. The system is still alive, the GPU is just dead
+>>>> and all future GPU job submissions fail. You can still SSH in or (at
+>>>> least in theory, if enough moving parts are graceful about it) VT-switch
+>>>> to a TTY. The display controller is not part of the GPU, it is separate
+>>>> hardware.
 >>>
->>> kdump does not work on Apple ARM systems because kexec is broken and
->>> cannot be fully fixed, due to multiple platform/firmware limitations. A
->>> very limited version of kexec might work well enough for kdump, but I
->>> don't think anyone has looked into making that work yet...
 >>>
->>>> but ... I am not familiar with devcoredump. So I don't know when/how it
->>>> runs, and if the source system is still alive (and remains alive --  in
->>>> contrast to a kernel crash).
+>>> Thanks for all the details (and sorry for the delay, I'm on PTO until
+>>> Monday ... :)
 >>>
->>> Devcoredump just makes the dump available via /sys so it can be
->>> collected by the user. The system is still alive, the GPU is just dead
->>> and all future GPU job submissions fail. You can still SSH in or (at
->>> least in theory, if enough moving parts are graceful about it) VT-switch
->>> to a TTY. The display controller is not part of the GPU, it is separate
->>> hardware.
+>>> (regarding the other mail) Adding that stuff to rust just so we have a
+>>> devcoredump that ideally wouldn't exist is a bit unfortunate.
+>>>
+>>> So I'm curious: we do have /proc/kcore, where we do all of the required
+>>> filtering, only allowing for reading memory that is online, not
+>>> hwpoisoned etc.
+>>>
+>>> makedumpfile already supports /proc/kcore.
+>>>
+>>> Would it be possible to avoid Devcoredump completely either by dumping /
+>>> proc/kcore directly or by having a user-space script that walks the page
+>>> tables to dump the content purely based on /proc/kcore?
+>>>
+>>> If relevant memory ranges are inaccessible from /proc/kcore, we could
+>>> look into exposing them.
 >>
+>> I'm not sure that's a good idea... the dump code runs when the GPU
+>> crashes, and makes copies of all the memory pages into newly allocated
+>> pages (this is around 16MB for a typical dump, and if allocation fails
+>> we just bail and clean up). Then userspace can read the coredump at its
+>> leisure. AIUI, this is exactly the intended use case of devcoredump. It
+>> also means that anyone can grab a core dump with just a `cp`, without
+>> needing any bespoke tools.
 >>
->> Thanks for all the details (and sorry for the delay, I'm on PTO until
->> Monday ... :)
+>> After the snapshot is taken, the kernel will complete (fail) all GPU
+>> jobs, which means much of the shared memory will be freed and some
+>> structures will change contents. If we defer the coredump to userspace,
+>> then it would not be able to capture the state of all relevant memory
+>> exactly at the crash time, which could be very confusing.
 >>
->> (regarding the other mail) Adding that stuff to rust just so we have a
->> devcoredump that ideally wouldn't exist is a bit unfortunate.
+>> In theory I could change the allocators to not free or touch anything
+>> after a crash, and add guards to any mutations in the driver to avoid
+>> any changes after a crash... but that feels a lot more brittle and
+>> error-prone than just taking the core dump at the right time.
 >>
->> So I'm curious: we do have /proc/kcore, where we do all of the required
->> filtering, only allowing for reading memory that is online, not
->> hwpoisoned etc.
->>
->> makedumpfile already supports /proc/kcore.
->>
->> Would it be possible to avoid Devcoredump completely either by dumping /
->> proc/kcore directly or by having a user-space script that walks the page
->> tables to dump the content purely based on /proc/kcore?
->>
->> If relevant memory ranges are inaccessible from /proc/kcore, we could
->> look into exposing them.
 > 
-> I'm not sure that's a good idea... the dump code runs when the GPU
-> crashes, and makes copies of all the memory pages into newly allocated
-> pages (this is around 16MB for a typical dump, and if allocation fails
-> we just bail and clean up). Then userspace can read the coredump at its
-> leisure. AIUI, this is exactly the intended use case of devcoredump. It
-> also means that anyone can grab a core dump with just a `cp`, without
-> needing any bespoke tools.
-> 
-> After the snapshot is taken, the kernel will complete (fail) all GPU
-> jobs, which means much of the shared memory will be freed and some
-> structures will change contents.
+> If the arbitrary page lookups are that big a problem, I think I would
+> rather just memremap the all the bootloader-mapped firmware areas, hook
+> into all the allocators to provide a backdoor into the backing objects,
+> and just piece everything together by mapping page addresses to those.
+> It would be a bunch of extra code and scaffolding in the driver, and
+> require device tree and bootloader changes to link up the GPU node to
+> its firmware nodes, but it's still better than trying to do it all from
+> userspace IMO...
 
-Ah, okay, that's an issue.
+Yes. Ideally, we'd not open up the can of worms of arbitrary pfn -> page 
+conversions (including the pfn_to_online_page() etc nastiness) if it can 
+be avoided in rust. Once there is an interface do do it, it's likely 
+that new users will pop up that are not just "create a simple dump, I 
+know what I am doing and only want sanity checks".
 
-> If we defer the coredump to userspace,
-> then it would not be able to capture the state of all relevant memory
-> exactly at the crash time, which could be very confusing.
-> 
-> In theory I could change the allocators to not free or touch anything
-> after a crash, and add guards to any mutations in the driver to avoid
-> any changes after a crash... but that feels a lot more brittle and
-> error-prone than just taking the core dump at the right time.
+So best if we could prevent new pfn walkers in rust somehow; they are 
+already a pain to maintain+fix in C (including the upcoming more severe 
+folio/memdesc work), that would be good.
 
-Agreed.
+But if it's too hard to avoid, then it also doesn't make sense to 
+overcomplicate things to work around it.
 
 -- 
 Cheers,
