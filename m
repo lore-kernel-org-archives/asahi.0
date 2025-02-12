@@ -1,238 +1,175 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA261FC0FD
-	for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 19:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE74C202C48;
+	Wed, 12 Feb 2025 21:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739387273; cv=none; b=kvXfwBVG3LdrhwlnWbjHat8uXdGTsI3o41HF1H4EKCkaczuU9OBZopxG8aT/7IA0DsNRXskcHD5rknWG7wJSXsp0zQulZu6E0/RkP0b6TBDyCP+djhlhz6eat4BTvl0QvlC4pMp5xAf5MM/o5wWBX5i9bUm1sEHKV1D0cDJqHGI=
+	t=1739394444; cv=none; b=nayFAdprubI3U1f8eqL1ao/BCT6gOQydoP2GU814inyH1PRwGdqiwlGkxkOPrbUBDfHsSFNp5eFT3MgMH3srHcMKxAtefwtwybQe5tmItxxc3vs1uuiuGzyravbQSZDU1La4J2pMLhxeRb3WfM3CtSOTQbJJMgU8BH//GWIynfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739387273; c=relaxed/simple;
-	bh=uHysvwfy0YOcXr4Xow8BhFVHFTTibAfWz89EgwgT+6o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=gsV+Q+TMN/Bry4z11rotTTlzWcAvih5ttsuw8bdG5Pkihk3Zch8QaG+bEEfzgmaZhnRxqR0IQAYbSp5SHHT6/SQ64IFR+3s6I2cdjHdg7zgb4f7CVnjW9/PMelQ/SO7YUzJABmNa0q+df0fXXMiON4mv72YFWZl+aSQVdrO2Qn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZZP9s4RH; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739394444; c=relaxed/simple;
+	bh=kRaMIVwqGc8Xd49sSQZRLuGh6bNy3XlVKUPtAyzoRVE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YNHDd89bQYl8LVdGjr5926IkOtRY8jhjJS/Nazl22WepKRusR/SD8EVct08wnHCcgctfKUe7wOs71nqCucDhDLa8TXLOIe4qMgHRmsfwNgNKz7P96dKMc4ew1xD6cNbF44gR5RKTM3F4xz9TtVLkneeuYFuLtDTN/TXtsaYJG20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TAnAKepO; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZZP9s4RH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739387271;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kjYE41T9eH6sBeVON8mdbKg+vcLjv+QgGNIcmpOCleo=;
-	b=ZZP9s4RHaCsFvEB5OkYYwdTBRTZg9iArxCQENk7fE0D9fNJFvyscpGCOLmzU7virsTfvWu
-	xuzl2GUxpJYyX4tkeuaAabaNjlyk0rq9QGRai3xf1YabsEpmjAMtEKIRDjynwQP6EoAShN
-	C+DctCSPUZEa8UjBagURMMMvJ0eJRYQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-491-HCBprFGzO4-jQAC1oyKpOQ-1; Wed, 12 Feb 2025 14:07:50 -0500
-X-MC-Unique: HCBprFGzO4-jQAC1oyKpOQ-1
-X-Mimecast-MFC-AGG-ID: HCBprFGzO4-jQAC1oyKpOQ
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43947979ce8so420735e9.0
-        for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 11:07:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739387269; x=1739992069;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TAnAKepO"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3d149f4c64aso377635ab.0;
+        Wed, 12 Feb 2025 13:07:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739394442; x=1739999242; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kjYE41T9eH6sBeVON8mdbKg+vcLjv+QgGNIcmpOCleo=;
-        b=Znxib94Xp5FZc8abBD3md1geuNhtm7qC38MiHg32oEkQz2X7yBfrETL+tEn3GA3Jcn
-         5T/xTDvTzMltgy7BJm5O0pjPpL/Mkxbq9S3zeLYCc3sWAPYmcWHBs+AWVP2bjU0PCtKA
-         eXhxLc3TThvJFN/N+0w5QNgMicLEF9Bcxpj+kfrFYvrq3585jx1uj6mLE7iWGKoZUN+7
-         SwExg2KS1Yy+2m0v12coXmnm2X6UPvXsOLn0SMPAHEd2pTwt2i+qqDtjt6qHX4ppannS
-         X6venHVEyi9fjKuob+I8FlESTN+fzI7r4EWGoUXgZvkIgEsrYvEZPur8rOGlPCeRdAfY
-         uH0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVPA9oB2pTtDmCxrnrAZsTzx6+n6aFzF6MhfOTq0pQutusrRLzZGmwXaA9a5sVNBoBUNFILDQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YziQqEZLTdQQ93we8B2fZAsNWo5gZuKMeTVvtgIxiH+n+QXpmH8
-	LWovQsw9VtQrJ6/9Nis+VaMcB0PJRn5hP18PUvhHdxEwkohp86SjeIxCsV7ydKg1z3qncI+F7Yb
-	9odT0bCCPrwFOxBhcSwlMw7FFVAXsrC6uA7fiIvOzAAtJTbEwHEzg
-X-Gm-Gg: ASbGncuO4mTFiUAgkBx0b3UMfoRqx3diDNrAEYodmAk3senIcO4fgdp5ERMN514OF8k
-	U8J153jhwWp2OYiiMVZ5CKGh9kmGqer7iZYPGEbRo+qkHnr6rokG2eP9d9paybGM6k+rCoOrB8C
-	dOy6PNxAONwHmNtohY9OV+S290LEjTHrqeLWQEwmcibrpOAOm3tMB6siKFwbgU9A2qOeAYpIWbU
-	+RC5Z0Y7r+P4mMoWM5pMSE4cOGAtBpinyJlWoMH6zFDvfbb2cVBzMYp/Dxq2p1HR03g3+iYTI6A
-	1woUchDrJ0k4wsY4NtftI5pqTLz0BTC6h0d15C/uJFpwRukJkPZJKpQeGgxHayrJpA4tN73f40d
-	xaLARmkUCnA/rnP5L0R6MZst3XNF4UA==
-X-Received: by 2002:a05:600c:3ba7:b0:439:4696:c063 with SMTP id 5b1f17b1804b1-43959a8401cmr34041435e9.19.1739387268731;
-        Wed, 12 Feb 2025 11:07:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHqTIsCjYY4j8RDJFO1zTxybX0Qjo8xFUOB2V/U5twoI9Bd2ixKNNFZ9vuxKiE+nOJ2cIpEMA==
-X-Received: by 2002:a05:600c:3ba7:b0:439:4696:c063 with SMTP id 5b1f17b1804b1-43959a8401cmr34041135e9.19.1739387268298;
-        Wed, 12 Feb 2025 11:07:48 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70c:a600:1e3e:c75:d269:867a? (p200300cbc70ca6001e3e0c75d269867a.dip0.t-ipconnect.de. [2003:cb:c70c:a600:1e3e:c75:d269:867a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a06e309sm28144855e9.24.2025.02.12.11.07.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 11:07:47 -0800 (PST)
-Message-ID: <e7f45603-17f4-4ff7-9d84-1331f0f1b447@redhat.com>
-Date: Wed, 12 Feb 2025 20:07:44 +0100
+        bh=7m2BC0PlpLZ3PvBNk1lJNnbfheS8gB4DKKdxAHYzcP4=;
+        b=TAnAKepO7jdMHs0wYHl3O5BpQ+Hdyq0V2d+3hc72UqBM3cujvrO6qxDkm8KGO+wnWz
+         u1vbxBnUxH7H45pgGKMYx9r9NEw7uFTeCIc+7quRyppmo1zbFYFiwJD0vTCQEuBbKzIr
+         JpURfwwcgbdAdVE3nCOUZHnEem204ygdZdt2J0CuEybXZbxHkQv7dRVnMiXdx4Me/d/x
+         7H0HaP4V0fzn2G0FfyP9BDZizMjUxuIAX9A1h/l8iiuaHVfK1leb0FXsvGxAdm7YsJRb
+         NNG/YxMu9oVdw7wcqYVfd3rYH9SpXowmJYpJymyMFL80Y1I0WtNozDee7+1SLeCiEd7y
+         p2Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739394442; x=1739999242;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7m2BC0PlpLZ3PvBNk1lJNnbfheS8gB4DKKdxAHYzcP4=;
+        b=nF4Q2cT+Bg0SDuCOVoqdXAWA7XOVvG0oqOjpj9bblJSUlFAEkqBFYwi7gGrBYIN16O
+         g5AuNwqy6A5wotw6uofFkptrW2JZfFxqs9bhrs3pUmI6Jwd9XkTTLMz+iJ/Mig5XDiIx
+         ZqKQxwtSJD2ApdmlD2m/qDLM52le8B3n4NHHmw6ZCK7n1OW/l0fqeJXHz0l2SExCWHY0
+         2D8mxQtjMk3rRkRNAV+LxP2sVfH5XBgwnIAZrXbmWJY5otiqekUZIEo3h98iFzHcFeNB
+         Yhrt2kzlr3Wx23RLHH3L7uq+hpvka1tiMo9bIQ3GrT/ypCi3vyivVSzH0LicWYUxySbO
+         Rm5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVaj+k4h0nIUyHP0IjLNVU8OQKB8gRVm7YEg/r99Gb40in+TCXZvrMRCA86zLwYAX9Ogn55gCdy7iePcUWG/1o=@lists.linux.dev, AJvYcCWOFSBduF70nhX7o8Ju9sQlpIprpxiQ3f4i6SvjhNoAbqU2G0T1EuE+Mhbkc9dVZ/1TVU3g+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx28Org1IJoQeGePr6NWXBA+Q6mECl8g4/WyTvq6m2El6ON4i/D
+	PBXxxYwWA/DhoTYzcR2OOCNHHNPds9ePbOgxTfwRqZnT4xRTfTAnwErTS+ieJ07Jqy0prtm8LhK
+	W11EShK9H5kt3/EK3oOCx8/2nSQg=
+X-Gm-Gg: ASbGncsJNobfUv4MRN92o096nycUbPxIn0O6E8vsPbRd5ct+P2phW67KFnG8mgNLXSe
+	TqbKfb6Chw6TIK0cwaPE5+NkaqRsP5HDgrcp6yZu3f9ua5rUJxbgwMCK/osULY0WQVs3LzfBw2G
+	zoIo+PDUbAwe4aWbxWiKtOu0PoOJI=
+X-Google-Smtp-Source: AGHT+IEto3QwYzrpOOb39TT9wusT7oiYBviqDLiw7Xnxk0Go+s385w1whVmNsbgrd9myoMThLMp+uZwQjNnH/c18b1A=
+X-Received: by 2002:a05:6e02:338a:b0:3d0:4a82:3f40 with SMTP id
+ e9e14a558f8ab-3d17be2216fmr45576995ab.7.1739394441825; Wed, 12 Feb 2025
+ 13:07:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
- physaddr conversion
-To: Asahi Lina <lina@asahilina.net>, Zi Yan <ziy@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>,
- Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, Wedson Almeida Filho
- <wedsonaf@gmail.com>, Valentin Obst <kernel@valentinobst.de>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
- Muchun Song <muchun.song@linux.dev>
-References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
- <Z6CTLB2NggwYafi9@phenom.ffwll.local>
- <41ca3445-80cd-43c1-8f9e-634c195c9187@asahilina.net>
- <37A0729B-A711-4D45-B9F0-328FDB9ADD28@nvidia.com>
- <0e19e1c3-293b-4740-93f3-2c410893288b@redhat.com>
- <82047858-480a-45e3-b826-3a46fbebe842@asahilina.net>
- <f1498b22-0bc1-489a-8c2c-35aa48c7fe7d@redhat.com>
- <1e9ae833-4293-4e48-83b2-c0af36cb3fdc@asahilina.net>
- <026c1a0c-e53a-4a5e-92da-6e4f18ce0fee@redhat.com>
- <Z6MV_Y9WRdlBYeRs@phenom.ffwll.local>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
- 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
- rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
- wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
- 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
- pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
- KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
- BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
- 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
- 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
- M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
- boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
- 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
- XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
- a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
- Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
- 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
- kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
- th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
- jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <Z6MV_Y9WRdlBYeRs@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: At5FogRK8tZKEfxauMdIP_btYk63vs1QbcfkcWmUWZI_1739387269
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250124-virtgpu-mixed-page-size-v1-1-480403790bac@gmail.com> <a55eecdc-76cc-432e-a4b3-90e8753088ac@collabora.com>
+In-Reply-To: <a55eecdc-76cc-432e-a4b3-90e8753088ac@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 12 Feb 2025 13:07:10 -0800
+X-Gm-Features: AWEUYZlK-LtIBTV8i2bVwjobA09sMmKqOYCs2aSwHvvwvdiGzeqpfq-QqFvpdEU
+Message-ID: <CAF6AEGuGWNj7dcC4DouWckaP9fOKgLyqw8iPBwKxrnr9GYXpPg@mail.gmail.com>
+Subject: Re: [PATCH RESEND] drm/virtio: Align host mapping request to maximum
+ platform page size
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: fnkl.kernel@gmail.com, David Airlie <airlied@redhat.com>, 
+	Gerd Hoffmann <kraxel@redhat.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
+	Chia-I Wu <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Simona Vetter <simona@ffwll.ch>, Sergio Lopez <slp@redhat.com>, dri-devel@lists.freedesktop.org, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, Rob Clark <robdclark@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 05.02.25 08:40, Simona Vetter wrote:
-> On Tue, Feb 04, 2025 at 03:38:17PM +0100, David Hildenbrand wrote:
->>>> It can still race with memory offlining, and it refuses ZONE_DEVICE
->>>> pages. For the latter, we have a different way to check validity. See
->>>> memory_failure() that first calls pfn_to_online_page() to then check
->>>> get_dev_pagemap().
->>>
->>> I'll give it a shot with these functions. If they work for my use case,
->>> then it's good to have extra checks and I'll add them for v2. Thanks!
->>
->> Let me know if you run into any issues.
->>
->>>
->>>>
->>>>>
->>>>> If the answer is "no" then that's fine. It's still an unsafe function
->>>>> and we need to document in the safety section that it should only be
->>>>> used for memory that is either known to be allocated and pinned and will
->>>>> not be freed while the `struct page` is borrowed, or memory that is
->>>>> reserved and not owned by the buddy allocator, so in practice correct
->>>>> use would not be racy with memory hot-remove anyway.
->>>>>
->>>>> This is already the case for the drm/asahi use case, where the pfns
->>>>> looked up will only ever be one of:
->>>>>
->>>>> - GEM objects that are mapped to the GPU and whose physical pages are
->>>>> therefore pinned (and the VM is locked while this happens so the objects
->>>>> cannot become unpinned out from under the running code),
->>>>
->>>> How exactly are these pages pinned/obtained?
->>>
->>> Under the hood it's shmem. For pinning, it winds up at
->>> `drm_gem_get_pages()`, which I think does a `shmem_read_folio_gfp()` on
->>> a mapping set as unevictable.
->>
->> Thanks. So we grab another folio reference via
->> shmem_read_folio_gfp()->shmem_get_folio_gfp().
->>
->> Hm, I wonder if we might end up holding folios residing in
->> ZONE_MOVABLE/MIGRATE_CMA longer than we should.
->>
->> Compared to memfd_pin_folios(), which simulates FOLL_LONGTERM and makes sure
->> to migrate pages out of ZONE_MOVABLE/MIGRATE_CMA.
->>
->> But that's a different discussion, just pointing it out, maybe I'm missing
->> something :)
-> 
-> Good GPU Drivers (tm) are supposed to have a shrinker so we can at least
-> nuke some of them again. Some folks even looked into hooking up a migrate
-> callback through the address_space (or wherever that hook was, this is
-> from memory) so we can make this somewhat reliable. So yeah we're hogging
-> ZONE_MOVEABLE unduly still.
+On Fri, Jan 24, 2025 at 2:52=E2=80=AFPM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> On 1/25/25 01:01, Sasha Finkelstein via B4 Relay wrote:
+> > From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> >
+> > This allows running different page sizes between host and guest on
+> > platforms that support mixed page sizes.
+> >
+> > Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> > ---
+> >  drivers/gpu/drm/virtio/virtgpu_vram.c | 10 ++++++++--
+> >  1 file changed, 8 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/vi=
+rtio/virtgpu_vram.c
+> > index 25df81c027837c248a746e41856b5aa7e216b8d5..8a0577c2170ec9c12cad12b=
+e57f9a41c14f04660 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_vram.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
+> > @@ -138,6 +138,12 @@ bool virtio_gpu_is_vram(struct virtio_gpu_object *=
+bo)
+> >       return bo->base.base.funcs =3D=3D &virtio_gpu_vram_funcs;
+> >  }
+> >
+> > +#if defined(__powerpc64__) || defined(__aarch64__) || defined(__mips__=
+) || defined(__loongarch__)
+> > +#define MAX_PAGE_SIZE 65536
+>
+> #define MAX_PAGE_SIZE SZ_64K
+>
+> for improved readability
+>
+> > +#else
+> > +#define MAX_PAGE_SIZE PAGE_SIZE
+> > +#endif
+> > +
+> >  static int virtio_gpu_vram_map(struct virtio_gpu_object *bo)
+> >  {
+> >       int ret;
+> > @@ -150,8 +156,8 @@ static int virtio_gpu_vram_map(struct virtio_gpu_ob=
+ject *bo)
+> >               return -EINVAL;
+> >
+> >       spin_lock(&vgdev->host_visible_lock);
+> > -     ret =3D drm_mm_insert_node(&vgdev->host_visible_mm, &vram->vram_n=
+ode,
+> > -                              bo->base.base.size);
+> > +     ret =3D drm_mm_insert_node_generic(&vgdev->host_visible_mm, &vram=
+->vram_node,
+> > +                                      bo->base.base.size, MAX_PAGE_SIZ=
+E, 0, 0);
+>
+> This change only reserves extra space in the memory allocator, but
+> doesn't change actual size of allocated BO. Instead, you likely need to
+> replace all ALIGN(size, PAGE_SIZE) occurrences in the driver code with
+> ALIGN(args->size, MAX_PAGE_SIZE)
+>
+> >       spin_unlock(&vgdev->host_visible_lock);
+> >
+> >       if (ret)
+>
+> Note, previously a new virtio-gpu parameter was proposed to expose
+> host's page size to guest [1], if you haven't seen it.
+>
+> [1] https://lore.kernel.org/dri-devel/20240723114914.53677-1-slp@redhat.c=
+om/
+>
+> Aligning GEM's size to 64K indeed could be a good enough immediate
+> solution. Don't see any obvious problems with that, other than the
+> potential size overhead for a small BOs.
+>
+> We have been running into cases where a DXVK game allocates enormous
+> amounts of small BOs to the point that amount reaches max number of
+> mappings on QEMU with amdgpu native context. On the other hand, it
+> showed that adding internal sub-allocator to RADV might be a worthwhile
+> effort. We won't change alignment on x86 with this patch and on non-x86
+> likely the increased size won't be noticeable, hence the proposed change
+> might be acceptable.
+>
+> Curious what Rob Clark thinks about it. Rob, WDYT?
 
-Hmmm, so we should really be migrating pages out of 
-ZONE_MOVABLE/MIGRATE_CMA here, just like we now properly do in 
-memfd_pin_folios().
+I think userspace needs to know the minimum "gpu" page size (ie. the
+host page size) for other reasons, such as sparse binding.  As Sergio
+proposes, we should add this to the virtgpu protocol
 
-> 
-> The other side is that there's about 2-3 good drivers (msm, i915, xe
-> should have a shrinker now too but I didn't check). The others all fall
-> various levels of short, or still have 3 times cargo-culted versions of
-> i915's pin-as-a-lock design and get it completely wrong.
+BR,
+-R
 
-:(
 
-> 
-> So yeah I'm aware this isn't great, and we're at least glacially slowly
-> moving towards a common shrinker infrastructure that maybe in a glorious
-> future gets all this right. I mean it took us 15+ years to get to a
-> cgroups controller after all too, and that was also a well known issue of
-> just being able to hog memory with no controls and potentially cause
-> havoc.
-
-I guess that means job security for us, haha :)
-
--- 
-Cheers,
-
-David / dhildenb
-
+>
+> --
+> Best regards,
+> Dmitry
+>
