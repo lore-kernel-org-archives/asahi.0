@@ -1,113 +1,340 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9542054FC
-	for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 08:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7080D1F03C1;
+	Wed, 12 Feb 2025 09:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739350781; cv=none; b=Q7o3QmGdcV9kZPBAy3ikflRlu+10SiiB/V81TTyo7r41lO5V4XdY63/DaL1y+nQV8I9VixZguhefepAICPU7tOYTXVAKxDgKau1CzMbATvF2+CwKOU+QHyaqwF9AegaUTB8NPexQfy6Y1PpmB0EXLGWPnLP9fdEs15p7H2NTJ5Q=
+	t=1739354151; cv=none; b=Q1x1nxLPZXs5XB0BaQ/493z51np5iHzivKB7MhbtVLfsQEwD+FwXo5lmF4e4j5e8YMnIbtOtQf8FPUqZ37BXfg/kwZgAFx6aA9erzWuAA94hbYtaA8EwIsWh9o3i+4p3G5e/4H3luGGGV0ronO0fF7y1MBNPKivRHfDWdf7whXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739350781; c=relaxed/simple;
-	bh=tkIbzF/VE87FfH08HryaQAxJKBpLdyOgoDpYoolYttY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WRVr+4ZwcztdhmvTCGaJphm/ZI1U/Y91NvCttaRCPFrT2dPvACHY7ovkUhc6niKHOzBX5llTa7siS7jDhPV7uuLBLTwBj6I9fyg8RqNaA9Grb/7ysjAiAr80cMo0o0YaIBI0ohrBnBSRShZ7X/k/hV1LySm36NA9f1+XEHQCcR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=dTDteLxw; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1739354151; c=relaxed/simple;
+	bh=Pk83kn2teBZ2nUxjqj95H4XUWAy6A4z+5DkiuCCdLbs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WsBttVy/gXu2DV9zBdEEDczAsycdodO41tH88D5jDfuTDk+j67ablc665l70Zo5ZTQdMz5D5HF1qTIvw2ldnfkWge9JFC58QiZbk9y1E/JA/T9XmIYy7kfnOLw8NAEQiE2Bcu2W3u0SvPGT1Emj1EGzB00mO0LSiuzV9CRnPgFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcn0QIVh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="dTDteLxw"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C1BbX1002423;
-	Wed, 12 Feb 2025 08:59:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2023-11-20; bh=3jEbAOIXwseuskCe2/0uhyXK88iKw
-	0GjqWtoWGzO/G0=; b=dTDteLxwcdxQRB1WSy79NwbwFn/pPTXd90xVwhkqKh1Sg
-	32wpI8qPd8061dcjfDZyVceSsdKiSEzyVm6rqyET2JwxDhy43/Dfax+MUn0SvWxl
-	FYFy02posUzAfTjpdjC6SkjLgbq8302Y5nXl0XjTdoLmxWrdS6JeD7M5b8bIdZ8L
-	pPeugtc1OAxqLCOQk6LkRHRsKptwk7J/ESpEVhSp5TX4eLKjjhozls4BkZ2fICZv
-	oiZAGFf9cM43Y3GtO35ZOCKKTZbJcmyH0VvysvQW5joYmrSgMVqeNkVwr41mkIap
-	PBuyaiesOieKaxWHSMGvsq8yMtlY2182n3viTSYdg==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44p0tn6vku-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Feb 2025 08:59:22 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51C82Lrs002313;
-	Wed, 12 Feb 2025 08:59:21 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44nwqggfpf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Feb 2025 08:59:21 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 51C8xHoS035041;
-	Wed, 12 Feb 2025 08:59:17 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 44nwqggfc1-1;
-	Wed, 12 Feb 2025 08:59:17 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Janne Grunau <j@jannau.net>, Asahi Lina <lina@asahilina.net>,
-        Jens Axboe <axboe@kernel.dk>, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com, harshit.m.mogalapalli@oracle.com
-Subject: [PATCH] soc: apple: rtkit: Fix use-after-free in apple_rtkit_crashlog_rx()
-Date: Wed, 12 Feb 2025 00:58:53 -0800
-Message-ID: <20250212085853.1357906-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcn0QIVh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4CAC4CEDF;
+	Wed, 12 Feb 2025 09:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739354150;
+	bh=Pk83kn2teBZ2nUxjqj95H4XUWAy6A4z+5DkiuCCdLbs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kcn0QIVhhG3T1NsM5GsfXjkCfGuI7mmr0ATo3z5ewxbQ2aBuEjTdjk1rl+8IVQPBC
+	 iLJhRmwJtcrBm+sY5GQijwlQkQrArKqXaSSMf8i96kr5GeQDINOUjltLP9ShxlNbj/
+	 +O14llRPdM2h4aLhjN1dpI2pCVLePzLB5SoYNluec9N9fQuv39x8cTPl3Y6hr/zqnD
+	 vOHErwKNiFJaR6A1JKH/Gpvl1yk9aAUzOvZ5afQ1Stak4wpMjI7RzZQRBBFWeUqhnb
+	 QNWWMOGCLMInrsm8U2IAhsRysKuVJcqSsZvJt9sv1ZUYkeFPtZ7JB6eTV9CTKCicA1
+	 pr95Q45AjYsvw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1ti9TA-003IJh-04;
+	Wed, 12 Feb 2025 09:55:48 +0000
+Date: Wed, 12 Feb 2025 09:55:46 +0000
+Message-ID: <86y0ybsd0d.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Hector Martin <marcan@marcan.st>,	Sven Peter <sven@svenpeter.dev>,	Bjorn
+ Helgaas <bhelgaas@google.com>,	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,	Manivannan
+ Sadhasivam <manivannan.sadhasivam@linaro.org>,	Rob Herring
+ <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,	Conor Dooley
+ <conor+dt@kernel.org>,	Mark Kettenis <kettenis@openbsd.org>,	Stan Skowronek
+ <stan@corellium.com>,	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,	linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org,	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 7/7] PCI: apple: Add T602x PCIe support
+In-Reply-To: <20250211-pcie-t6-v1-7-b60e6d2501bb@rosenzweig.io>
+References: <20250211-pcie-t6-v1-0-b60e6d2501bb@rosenzweig.io>
+	<20250211-pcie-t6-v1-7-b60e6d2501bb@rosenzweig.io>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_03,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
- phishscore=0 malwarescore=0 mlxscore=0 spamscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2501170000 definitions=main-2502120069
-X-Proofpoint-GUID: oXk8rO_FymSKpMyuwOW0i7zrRQoM96WV
-X-Proofpoint-ORIG-GUID: oXk8rO_FymSKpMyuwOW0i7zrRQoM96WV
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: alyssa@rosenzweig.io, marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com, manivannan.sadhasivam@linaro.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, kettenis@openbsd.org, stan@corellium.com, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-This code calls kfree(bfr); and then passes "bfr" to rtk->ops->crashed()
-which is a use after free.  The ->crashed function pointer is implemented
-by apple_nvme_rtkit_crashed() and it doesn't use the "bfr" pointer so
-this doesn't cause a problem.  But it still looks sketchy as can be.
+On Tue, 11 Feb 2025 19:54:32 +0000,
+Alyssa Rosenzweig <alyssa@rosenzweig.io> wrote:
+> 
+> From: Hector Martin <marcan@marcan.st>
+> 
+> This version of the hardware moved around a bunch of registers, so we
+> drop the old compatible for these and introduce register offset
+> structures to handle the differences.
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> ---
+>  drivers/pci/controller/pcie-apple.c | 125 ++++++++++++++++++++++++++++++------
+>  1 file changed, 105 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+> index 7f4839fb0a5b15a9ca87337f53c14a1ce08301fc..7c598334427cb56ca066890ac61143ae1d3ed744 100644
+> --- a/drivers/pci/controller/pcie-apple.c
+> +++ b/drivers/pci/controller/pcie-apple.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/msi.h>
+> +#include <linux/of_device.h>
+>  #include <linux/of_irq.h>
+>  #include <linux/pci-ecam.h>
+>  
+> @@ -104,7 +105,7 @@
+>  #define   PORT_REFCLK_CGDIS		BIT(8)
+>  #define PORT_PERST			0x00814
+>  #define   PORT_PERST_OFF		BIT(0)
+> -#define PORT_RID2SID(i16)		(0x00828 + 4 * (i16))
+> +#define PORT_RID2SID			0x00828
+>  #define   PORT_RID2SID_VALID		BIT(31)
+>  #define   PORT_RID2SID_SID_SHIFT	16
+>  #define   PORT_RID2SID_BUS_SHIFT	8
+> @@ -122,7 +123,7 @@
+>  #define   PORT_TUNSTAT_PERST_ACK_PEND	BIT(1)
+>  #define PORT_PREFMEM_ENABLE		0x00994
+>  
+> -#define MAX_RID2SID			64
+> +#define MAX_RID2SID			512
+>  
+>  /*
+>   * The doorbell address is set to 0xfffff000, which by convention
+> @@ -133,6 +134,57 @@
+>   */
+>  #define DOORBELL_ADDR		CONFIG_PCIE_APPLE_MSI_DOORBELL_ADDR
+>  
+> +struct reg_info {
+> +	u32 phy_lane_ctl;
+> +	u32 port_msiaddr;
+> +	u32 port_msiaddr_hi;
+> +	u32 port_refclk;
+> +	u32 port_perst;
+> +	u32 port_rid2sid;
+> +	u32 port_msimap;
+> +	u32 max_rid2sid;
+> +	u32 max_msimap;
+> +};
+> +
+> +const struct reg_info t8103_hw = {
+> +	.phy_lane_ctl = PHY_LANE_CTL,
+> +	.port_msiaddr = PORT_MSIADDR,
+> +	.port_msiaddr_hi = 0,
+> +	.port_refclk = PORT_REFCLK,
+> +	.port_perst = PORT_PERST,
+> +	.port_rid2sid = PORT_RID2SID,
+> +	.port_msimap = 0,
+> +	.max_rid2sid = 64,
+> +	.max_msimap = 0,
+> +};
+> +
+> +#define PORT_T602X_MSIADDR		0x016c
+> +#define PORT_T602X_MSIADDR_HI		0x0170
+> +#define PORT_T602X_PERST		0x082c
+> +#define PORT_T602X_RID2SID		0x3000
+> +#define PORT_T602X_MSIMAP		0x3800
+> +
+> +#define PORT_MSIMAP_ENABLE		BIT(31)
+> +#define PORT_MSIMAP_TARGET		GENMASK(7, 0)
+> +
+> +const struct reg_info t602x_hw = {
+> +	.phy_lane_ctl = 0,
+> +	.port_msiaddr = PORT_T602X_MSIADDR,
+> +	.port_msiaddr_hi = PORT_T602X_MSIADDR_HI,
+> +	.port_refclk = 0,
+> +	.port_perst = PORT_T602X_PERST,
+> +	.port_rid2sid = PORT_T602X_RID2SID,
+> +	.port_msimap = PORT_T602X_MSIMAP,
+> +	.max_rid2sid = 512, /* 16 on t602x, guess for autodetect on future HW */
+> +	.max_msimap = 512, /* 96 on t602x, guess for autodetect on future HW */
 
-Fix this by moving kfree() after the last usage of bfr.
+What is max_msimap for? It is never used.
 
-Fixes: c559645f343a ("soc: apple: rtkit: Pass the crashlog to the crashed() callback")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-This is based on static analysis with smatch, only compile tested.
----
- drivers/soc/apple/rtkit.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> +};
+> +
+> +static const struct of_device_id apple_pcie_of_match_hw[] = {
+> +	{ .compatible = "apple,t6020-pcie", .data = &t602x_hw },
+> +	{ .compatible = "apple,pcie", .data = &t8103_hw },
+> +	{ }
+> +};
+> +
+>  struct apple_pcie {
+>  	struct mutex		lock;
+>  	struct device		*dev;
+> @@ -143,6 +195,7 @@ struct apple_pcie {
+>  	struct completion	event;
+>  	struct irq_fwspec	fwspec;
+>  	u32			nvecs;
+> +	const struct reg_info	*hw;
+>  };
+>  
+>  struct apple_pcie_port {
+> @@ -266,14 +319,14 @@ static void apple_port_irq_mask(struct irq_data *data)
+>  {
+>  	struct apple_pcie_port *port = irq_data_get_irq_chip_data(data);
+>  
+> -	writel_relaxed(BIT(data->hwirq), port->base + PORT_INTMSKSET);
+> +	rmw_set(BIT(data->hwirq), port->base + PORT_INTMSK);
+>  }
+>  
+>  static void apple_port_irq_unmask(struct irq_data *data)
+>  {
+>  	struct apple_pcie_port *port = irq_data_get_irq_chip_data(data);
+>  
+> -	writel_relaxed(BIT(data->hwirq), port->base + PORT_INTMSKCLR);
+> +	rmw_clear(BIT(data->hwirq), port->base + PORT_INTMSK);
+>  }
+>  
+>  static bool hwirq_is_intx(unsigned int hwirq)
+> @@ -377,6 +430,7 @@ static void apple_port_irq_handler(struct irq_desc *desc)
+>  static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
+>  {
+>  	struct fwnode_handle *fwnode = &port->np->fwnode;
+> +	struct apple_pcie *pcie = port->pcie;
+>  	unsigned int irq;
+>  
+>  	/* FIXME: consider moving each interrupt under each port */
+> @@ -392,19 +446,35 @@ static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
+>  		return -ENOMEM;
+>  
+>  	/* Disable all interrupts */
+> -	writel_relaxed(~0, port->base + PORT_INTMSKSET);
+> +	writel_relaxed(~0, port->base + PORT_INTMSK);
+>  	writel_relaxed(~0, port->base + PORT_INTSTAT);
+> +	writel_relaxed(~0, port->base + PORT_LINKCMDSTS);
 
-diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-index 4b0783091a92..1ccec7ba640c 100644
---- a/drivers/soc/apple/rtkit.c
-+++ b/drivers/soc/apple/rtkit.c
-@@ -360,7 +360,6 @@ static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
- 		apple_rtkit_memcpy(rtk, bfr, &rtk->crashlog_buffer, 0,
- 				   rtk->crashlog_buffer.size);
- 		apple_rtkit_crashlog_dump(rtk, bfr, rtk->crashlog_buffer.size);
--		kfree(bfr);
- 	} else {
- 		dev_err(rtk->dev,
- 			"RTKit: Couldn't allocate crashlog shadow buffer\n");
-@@ -369,6 +368,8 @@ static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
- 	rtk->crashed = true;
- 	if (rtk->ops->crashed)
- 		rtk->ops->crashed(rtk->cookie, bfr, rtk->crashlog_buffer.size);
-+
-+	kfree(bfr);
- }
- 
- static void apple_rtkit_ioreport_rx(struct apple_rtkit *rtk, u64 msg)
+Can you elaborate on this change?
+
+>  
+>  	irq_set_chained_handler_and_data(irq, apple_port_irq_handler, port);
+>  
+>  	/* Configure MSI base address */
+>  	BUILD_BUG_ON(upper_32_bits(DOORBELL_ADDR));
+> -	writel_relaxed(lower_32_bits(DOORBELL_ADDR), port->base + PORT_MSIADDR);
+> +	writel_relaxed(lower_32_bits(DOORBELL_ADDR),
+> +		       port->base + pcie->hw->port_msiaddr);
+> +	if (pcie->hw->port_msiaddr_hi)
+> +		writel_relaxed(0, port->base + pcie->hw->port_msiaddr_hi);
+>  
+>  	/* Enable MSIs, shared between all ports */
+> -	writel_relaxed(0, port->base + PORT_MSIBASE);
+> -	writel_relaxed((ilog2(port->pcie->nvecs) << PORT_MSICFG_L2MSINUM_SHIFT) |
+> -		       PORT_MSICFG_EN, port->base + PORT_MSICFG);
+> +	if (pcie->hw->port_msimap) {
+> +		int i;
+> +
+> +		for (i = 0; i < pcie->nvecs; i++) {
+> +			writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
+> +				       PORT_MSIMAP_ENABLE,
+> +				       port->base + pcie->hw->port_msimap + 4 * i);
+> +		}
+> +
+> +		writel_relaxed(PORT_MSICFG_EN, port->base + PORT_MSICFG);
+> +	} else {
+> +		writel_relaxed(0, port->base + PORT_MSIBASE);
+> +		writel_relaxed((ilog2(pcie->nvecs) << PORT_MSICFG_L2MSINUM_SHIFT) |
+> +			PORT_MSICFG_EN, port->base + PORT_MSICFG);
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -472,7 +542,9 @@ static int apple_pcie_setup_refclk(struct apple_pcie *pcie,
+>  	u32 stat;
+>  	int res;
+>  
+> -	rmw_set(PHY_LANE_CTL_CFGACC, port->phy + PHY_LANE_CTL);
+> +	if (pcie->hw->phy_lane_ctl)
+> +		rmw_set(PHY_LANE_CTL_CFGACC, port->phy + pcie->hw->phy_lane_ctl);
+> +
+>  	rmw_set(PHY_LANE_CFG_REFCLK0REQ, port->phy + PHY_LANE_CFG);
+>  
+>  	res = readl_relaxed_poll_timeout(port->phy + PHY_LANE_CFG,
+> @@ -489,10 +561,13 @@ static int apple_pcie_setup_refclk(struct apple_pcie *pcie,
+>  	if (res < 0)
+>  		return res;
+>  
+> -	rmw_clear(PHY_LANE_CTL_CFGACC, port->phy + PHY_LANE_CTL);
+> +	if (pcie->hw->phy_lane_ctl)
+> +		rmw_clear(PHY_LANE_CTL_CFGACC, port->phy + pcie->hw->phy_lane_ctl);
+>  
+>  	rmw_set(PHY_LANE_CFG_REFCLKEN, port->phy + PHY_LANE_CFG);
+> -	rmw_set(PORT_REFCLK_EN, port->base + PORT_REFCLK);
+> +
+> +	if (pcie->hw->port_refclk)
+> +		rmw_set(PORT_REFCLK_EN, port->base + pcie->hw->port_refclk);
+>  
+>  	return 0;
+>  }
+> @@ -500,9 +575,9 @@ static int apple_pcie_setup_refclk(struct apple_pcie *pcie,
+>  static u32 apple_pcie_rid2sid_write(struct apple_pcie_port *port,
+>  				    int idx, u32 val)
+>  {
+> -	writel_relaxed(val, port->base + PORT_RID2SID(idx));
+> +	writel_relaxed(val, port->base + port->pcie->hw->port_rid2sid + 4 * idx);
+>  	/* Read back to ensure completion of the write */
+> -	return readl_relaxed(port->base + PORT_RID2SID(idx));
+> +	return readl_relaxed(port->base + port->pcie->hw->port_rid2sid + 4 * idx);
+>  }
+>  
+>  static int apple_pcie_setup_port(struct apple_pcie *pcie,
+> @@ -563,7 +638,7 @@ static int apple_pcie_setup_port(struct apple_pcie *pcie,
+>  	usleep_range(100, 200);
+>  
+>  	/* Deassert PERST# */
+> -	rmw_set(PORT_PERST_OFF, port->base + PORT_PERST);
+> +	rmw_set(PORT_PERST_OFF, port->base + pcie->hw->port_perst);
+>  	gpiod_set_value_cansleep(reset, 0);
+>  
+>  	/* Wait for 100ms after PERST# deassertion (PCIe r5.0, 6.6.1) */
+> @@ -576,15 +651,12 @@ static int apple_pcie_setup_port(struct apple_pcie *pcie,
+>  		return ret;
+>  	}
+>  
+> -	rmw_clear(PORT_REFCLK_CGDIS, port->base + PORT_REFCLK);
+> -	rmw_clear(PORT_APPCLK_CGDIS, port->base + PORT_APPCLK);
+> -
+>  	ret = apple_pcie_port_setup_irq(port);
+>  	if (ret)
+>  		return ret;
+>  
+>  	/* Reset all RID/SID mappings, and check for RAZ/WI registers */
+> -	for (i = 0; i < MAX_RID2SID; i++) {
+> +	for (i = 0; i < pcie->hw->max_rid2sid; i++) {
+>  		if (apple_pcie_rid2sid_write(port, i, 0xbad1d) != 0xbad1d)
+>  			break;
+>  		apple_pcie_rid2sid_write(port, i, 0);
+> @@ -608,6 +680,12 @@ static int apple_pcie_setup_port(struct apple_pcie *pcie,
+>  	if (!wait_for_completion_timeout(&pcie->event, HZ / 10))
+>  		dev_warn(pcie->dev, "%pOF link didn't come up\n", np);
+>  
+> +	if (pcie->hw->port_refclk)
+> +		rmw_clear(PORT_REFCLK_CGDIS, port->base + PORT_REFCLK);
+
+Shouldn't this be using the actual value for port_refclk?
+
+> +	else
+> +		rmw_set(PHY_LANE_CFG_REFCLKCGEN, port->phy + PHY_LANE_CFG);
+> +	rmw_clear(PORT_APPCLK_CGDIS, port->base + PORT_APPCLK);
+> +
+
+Can you elaborate on this particular change?
+
+I always assumed this was some clock-gating that needed to occur
+*before* the link training was started. This is now taking place after
+training, and the commit message doesn't say anything about it.
+
+Thanks,
+
+	M.
+
 -- 
-2.39.3
-
+Without deviation from the norm, progress is not possible.
