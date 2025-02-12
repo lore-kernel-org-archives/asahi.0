@@ -1,142 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BCF209671
-	for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 10:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6DE20E027
+	for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 15:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739354479; cv=none; b=sasKMhOLACzOeewTLu9BM7GJU/QTgDyEzvX2b7t1TgNvHd1zSlU7QTV+LWS7bGXmuoSd6BZMnEuMFqTTZlvDz8T2mSJ5omFUsMKbmvqJM/PYUCtGI9uwrCFLDKjCjOdU7WgXQgnz6+jxrtIR8CbDFcxqG4cFJrJU/f/gARfzJds=
+	t=1739374948; cv=none; b=MoQLANpwSEcDAZtY3R/h1cJcc3Jit9q922q44A91sTuda4AJ48rWOSIyc+e7Kl0DDGfebbnNPmisn4qeJkrLMzV9v0JliWEIVZyVYScylzc0D/DjmxIOHSYJ75JTMQLt5Em758XvUO4E+JO6UdpXnq04mhfQGkUgZq9zfo6Wl8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739354479; c=relaxed/simple;
-	bh=sLtMNl2PIK/GBgnQIKx/qPFCh0ea5y3KjwR+JGxQbxo=;
+	s=arc-20240116; t=1739374948; c=relaxed/simple;
+	bh=CVqII1S4rZjar1numyYt6ePWthTCjPSKc/XcmKsEYpQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JtQdEcTM/O1IAw7qZsdpOVy+psFvjEF9fBbVQGNYvkMy1bT5qxg8WkdfKHZ5iHuTFtFunYVDjAfUpw+r98FQrhqxbjpsFAX+UOsM4qOIh3n80jsmXV9bOgNqJznvQpR5DRNFNx55QashVRJ9FwyrgS0VQjaRy7vafbKQdIgskw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ag+g7u1q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ag+g7u1q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739354476;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k10/aEW9kI4Fw7g7ICooPKDGPu1yctxg0l9c8ZseCIM=;
-	b=ag+g7u1qDtYw/QcwbCDCqqQ2lfEpfwLaab9xlmie5m+S8UTLb6pOvlZL//kQIwfKDAsq41
-	hQF8WUT9Y+3wRTNLBtPrAHgUTavzMtOQQvNnsWxor1X71VeZrrLKqKLoZxEp0BlwVzuuPd
-	BeV97o+4a1mGPPmBLrNX3nIVvTYb7uY=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-480-VGO4xcm5NeG3oVJjgHRojg-1; Wed, 12 Feb 2025 05:01:15 -0500
-X-MC-Unique: VGO4xcm5NeG3oVJjgHRojg-1
-X-Mimecast-MFC-AGG-ID: VGO4xcm5NeG3oVJjgHRojg
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2fa228b4151so10837619a91.1
-        for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 02:01:13 -0800 (PST)
+	 To:Cc:Content-Type; b=DiUb5HA36uWXLo5aG7t+c82ljSxdrAT3xS7DdT0Knd9UrA/Ll8QmsbO9HIFXE6BznRp8bl6dWNy5+ttXqGXW+eYElxrfu4FYuQTH/tGAYSPsc5TpZaF3RqOspBM9AwpUZgD+oQVYQCGX7GcO29wA2NR27aojn2fyoOIu4NVc4+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ab7b80326cdso666492166b.3
+        for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 07:42:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739354473; x=1739959273;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k10/aEW9kI4Fw7g7ICooPKDGPu1yctxg0l9c8ZseCIM=;
-        b=Xroi1dy2FGEn6J0pw6Xe2oIk6xrcQlwt0xXulA5hl8lZBSkBe+wgaJYJn3Kk5An7zw
-         IJlLVGfP2IQVwmg0PTc2PNVU7PCB775A66JlY2+e0ociJJEZek6dhzDrLjcK2SnmJepe
-         WesyjY2w2K0RLXoGverxPG/+knBYo/6vaM+joq7B9aMGuQwTpCe3RDJxbbJduhu7bAD4
-         cY1HyASCyolB9d8S3/gp/xYbnoaBvsjoKjuGZpPtlkK/LIRwz+nC52KSaJZpjvse7U/J
-         07oXTBEey76GB/2QoDrlvCV5Gpk1eFiqZtEkNQNYI8+XmYxzMFSUQD4hISC1854thmax
-         DfJw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZbgElDEdSdelli6dnhkmDsopd4A2XV8DYtKsBHVYvEais5Pj4TulArbQpUZ5KZEvlpFGyBA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywligf9ZpH8i+04MHBuCqS6z9/7f2MuCRaaR62WpzbXtmd44zxQ
-	KsRaAHYPjUYqLDulGHRSm5BHr7ZfouVZojI599TYbkOWzn4KlvqO1HO+zq51k377sROJLBSxYgY
-	3ureu/fEAN+DADYPVxW805OLdPXFtiYDWMoYdIUvXxzMJ35gH4Oig6HZbOTVMlHIniaexomQ2Zf
-	7K2sEivdUMxkXIiGMs8iDqoSHmRPg=
-X-Gm-Gg: ASbGncvJLHjIfD7hcEJn0dULmO/8akaywEMd+pX0o/wm6H105/XqyimWcPUmwqC7tS1
-	3AfUdodwl6WyQTT5v5LvYWsZpxDOJZbvTDF3FchF0r1eLBAhDeEowrJEvl8f4bVJ6HpbQMJiShm
-	dfkldLgGF8AYnY/GbKS7M=
-X-Received: by 2002:a17:90b:3a08:b0:2ee:db8a:2a01 with SMTP id 98e67ed59e1d1-2fbf5c6a05amr3885264a91.30.1739354473034;
-        Wed, 12 Feb 2025 02:01:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHapn9jYWGyKoK8rERdyukBRLyP6apd4I5Sp/cSU8BhLWDuyyGc2UAEQe4Lq75zmYbK/CB6jhRtH7HcRUIhM4Q=
-X-Received: by 2002:a17:90b:3a08:b0:2ee:db8a:2a01 with SMTP id
- 98e67ed59e1d1-2fbf5c6a05amr3885222a91.30.1739354472720; Wed, 12 Feb 2025
- 02:01:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739374943; x=1739979743;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l9Gpp6exxOAKgR4+qfssuhnpHihI75y6MvQ08e29riQ=;
+        b=KLAIs8oay61tE0XwOJwbStMDlLwY084hfN4PCIQ8GLn6wPDOvanRL7HBijWSJSxXjx
+         9gwxGqYBZgHQvyjkPDWRrYG1Y/2XCnkbGps8j7tyMS7aNDr8uP3u419c2C76JY6rEb3U
+         RJRQ9U4+UIkfKYScE/PeLMQk05vMYUjdLBWdOsDIJKZjfCQxxooTP4vv6Hjs95YWAvsP
+         m1RlOydLLIy4RIQ9D+aTtetI2zH3BFQ236uxMQvc+eUVbTx41/sDeBbvRLQpac3ZH1cw
+         hfOXKqJxLzAtqy6hHfj1gC7xSm6HPYG4dq8xD+c5M0biDtwQ0l60mxCY/vMxOQ66Do8B
+         QC8A==
+X-Forwarded-Encrypted: i=1; AJvYcCV9CBTvyZ/CUVmqExG54JUi1sPuX6MTOJqgoKMWfSwx0DvVOKhSOkwarqB1+OR3OEdqsmQwMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywm3D5M4oPJqUGnZAIvKGYzarO/7OQKJ1AzcKL6XmiHB3PsdddF
+	zq51lzza9s2XC+vuGSd/r1+yVyJg289/U/rwLcP7RMjAueS/71S1vRlG4ySh
+X-Gm-Gg: ASbGncs2N7mOApRe7illET8jRYof+AnsuPI8M6Z2jItW5CzPOnJfN2mt4Cgdj8awfuA
+	bFNL+Z//Uhf7+unmZ7wwO5n+fHFdwCV6UpFb7kXXyl46CBVNZ9LojCBFdiN04CyLO0uvmedR5yw
+	Ugg+MoCyR7uDPZhxfSX3wWgLY09kS6HrRZEH6n8DGUHwEkcYiaqtjgGlpKmVHTMZJCLvqbNpCuv
+	xI4T5lMa9j2y69uWvSQA2U+7yQtyaMpcU9yhk3vRHsSNgIikCTGBfMq5besu3AqgsUdLIyeD1uG
+	t7z8bgqyhHimhU2d5hcbe3elVNy52wCsDjv/fN2swYif1w==
+X-Google-Smtp-Source: AGHT+IE1CEhflEuQET/kG7kLA8qVOkFn2lDuYWnmhx3Bs0rrfZSR7bGMxSWlullTBEb2ux8jD25D6g==
+X-Received: by 2002:a17:906:c112:b0:aa6:8d51:8fdb with SMTP id a640c23a62f3a-ab7f33a1595mr342998866b.19.1739374943057;
+        Wed, 12 Feb 2025 07:42:23 -0800 (PST)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7c6d40b94sm579430866b.6.2025.02.12.07.42.22
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Feb 2025 07:42:22 -0800 (PST)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ab7b80326cdso666487966b.3
+        for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 07:42:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXTQh+OQBIcXXsJAgOCoicaypYbmY+yo5UB0GwQAKun9ka2creTBuBOmHTNEKQOCjnCHCEiEQ==@lists.linux.dev
+X-Received: by 2002:a17:907:d8f:b0:ab7:be81:8940 with SMTP id
+ a640c23a62f3a-ab7f3365c62mr272181066b.10.1739374942419; Wed, 12 Feb 2025
+ 07:42:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250212085853.1357906-1-harshit.m.mogalapalli@oracle.com>
-In-Reply-To: <20250212085853.1357906-1-harshit.m.mogalapalli@oracle.com>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Wed, 12 Feb 2025 10:00:36 +0000
-X-Gm-Features: AWEUYZn-hP_kxTTtLow8M16VioOce2ZF8-IggRFFQ_uJOeNCeNsgfNjbEVocXew
-Message-ID: <CAOgh=FzNk089VSrLbuAS=UA45dpY3mVFoebE2xg5ZGvTrtmVWg@mail.gmail.com>
-Subject: Re: [PATCH] soc: apple: rtkit: Fix use-after-free in apple_rtkit_crashlog_rx()
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Janne Grunau <j@jannau.net>, Asahi Lina <lina@asahilina.net>, Jens Axboe <axboe@kernel.dk>, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org, 
-	kernel-janitors@vger.kernel.org, error27@gmail.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Erv_t0-3rrTAlG5yo3UxuAyuHAlkbQbSwsQ-StUolaU_1739354473
-X-Mimecast-Originator: redhat.com
+References: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+In-Reply-To: <20250211-nvme-fixes-v1-0-6958b3aa49fe@rosenzweig.io>
+From: Neal Gompa <neal@gompa.dev>
+Date: Wed, 12 Feb 2025 10:41:45 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je9cagWShwMbSqdrW9iqV+kiwJMdJBfjUru6kjXvoZ9rmg@mail.gmail.com>
+X-Gm-Features: AWEUYZmWQeHLZ0J8NFYXZ_GuzgNgnx9jWhxS5Mn1NK7iDLLdbRqxrj4qVt0xYjc
+Message-ID: <CAEg-Je9cagWShwMbSqdrW9iqV+kiwJMdJBfjUru6kjXvoZ9rmg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] apple-nvme: bug and perf fixes
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 12 Feb 2025 at 09:08, Harshit Mogalapalli
-<harshit.m.mogalapalli@oracle.com> wrote:
+On Tue, Feb 11, 2025 at 1:26=E2=80=AFPM Alyssa Rosenzweig <alyssa@rosenzwei=
+g.io> wrote:
 >
-> This code calls kfree(bfr); and then passes "bfr" to rtk->ops->crashed()
-> which is a use after free.  The ->crashed function pointer is implemented
-> by apple_nvme_rtkit_crashed() and it doesn't use the "bfr" pointer so
-> this doesn't cause a problem.  But it still looks sketchy as can be.
+> This small series fixes three unrelated issues with the Apple NVMe
+> driver.
 >
-> Fix this by moving kfree() after the last usage of bfr.
+> * fix NVMe on firmware/machine
+> * fix a power domain leak
+> * fix pathological driver performance with random writes
 >
-> Fixes: c559645f343a ("soc: apple: rtkit: Pass the crashlog to the crashed() callback")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
-
-I wish we used the attribute cleanup stuff by default more in the
-kernel, it would prevent a lot of things like this, it does what we
-want it to do, most of the time.
-
-Although I'm not sure it was introduced yet when the code was written.
-
-Is mise le meas/Regards,
-
-Eric Curtin
-
+> The first two are strict bug fixes, the last is technically an
+> optimization but given the measured 200x performance difference I do
+> consider to be a fix ;-)
+>
+> Given the early stage of mainlining for these SoCs, none of this needs
+> to be backported.
+>
+> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 > ---
-> This is based on static analysis with smatch, only compile tested.
+> Hector Martin (2):
+>       apple-nvme: Support coprocessors left idle
+>       apple-nvme: Release power domains when probe fails
+>
+> Jens Axboe (1):
+>       apple-nvme: defer cache flushes by a specified amount
+>
+>  drivers/nvme/host/apple.c | 124 +++++++++++++++++++++++++++++++++++++++-=
+------
+>  1 file changed, 107 insertions(+), 17 deletions(-)
 > ---
->  drivers/soc/apple/rtkit.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> change-id: 20250211-nvme-fixes-29c409c2553f
 >
-> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-> index 4b0783091a92..1ccec7ba640c 100644
-> --- a/drivers/soc/apple/rtkit.c
-> +++ b/drivers/soc/apple/rtkit.c
-> @@ -360,7 +360,6 @@ static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
->                 apple_rtkit_memcpy(rtk, bfr, &rtk->crashlog_buffer, 0,
->                                    rtk->crashlog_buffer.size);
->                 apple_rtkit_crashlog_dump(rtk, bfr, rtk->crashlog_buffer.size);
-> -               kfree(bfr);
->         } else {
->                 dev_err(rtk->dev,
->                         "RTKit: Couldn't allocate crashlog shadow buffer\n");
-> @@ -369,6 +368,8 @@ static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
->         rtk->crashed = true;
->         if (rtk->ops->crashed)
->                 rtk->ops->crashed(rtk->cookie, bfr, rtk->crashlog_buffer.size);
-> +
-> +       kfree(bfr);
->  }
->
->  static void apple_rtkit_ioreport_rx(struct apple_rtkit *rtk, u64 msg)
+> Best regards,
 > --
-> 2.39.3
+> Alyssa Rosenzweig <alyssa@rosenzweig.io>
 >
 >
 
+Series LGTM.
+
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+
+
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
