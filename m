@@ -1,279 +1,333 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71CC26217E
-	for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 17:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F34253B4B
+	for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 19:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739381012; cv=none; b=jNRyZekMdgku7nDlDRGOtY7BORFqwm0f4lrg1GCC1zBK0MAS8h1hYTLVXG5IRH/HnMgf/VZt19nTHglklVLb3yrexTtIQ/X2yvNexg2fwPbcgrDjmZBX3jvrHgz74HUDNcXbbEQtJsyjR3midRSlYcqlhABjxvYrSHgMhGA7J00=
+	t=1739386898; cv=none; b=vBUt70YOsuMcyGGc7+6CAGIBwEpDiE/rKffwOzbE5QooR86FolTaPsAbyuyA2v5JbynM7RXJNVlqW8UrBPecJB4LKBjyYFyOWG7T+3NU9RofXegqGFQpAPyrrYY6OEYlrWzJfZ4aBK549FUMPfTpShU7jiw9SF5XE6YgW0kKL+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739381012; c=relaxed/simple;
-	bh=X1FjYP6mBke/3D24Hai2ue885wXpUkAZdmez50aXc0I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=U/uZ0baM7VvZ7EewbHzX1V1/EZlstWKG97+Pm3EwD09541Dry4jOv0ZGvYg+niAzvGVu0guEzHI77XVDSpBI7IoPzDHYVj83IrJ+hrRwEzncZdpEu1R26N+H+JTHe9WSOf6D10XaiDK1ZzzobVonrh0qoPTUIYt2bsAM8fad24c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QvggxcBt; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739386898; c=relaxed/simple;
+	bh=LqMoC5utCrT4bUaFZZWRG9lEJQPLZdCaPqVj0HZKTJs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PKN7MXUCdJmJoJ3JEoHEMZ4ue7DKUm6abfeOYvVcTE9egKAQch8Ov1ZOITjCzdSaaSs3hSXI9PVuLcb6sh/PeT4FeKPXxTSH/TXvMDJd0EGFlq4q1fdAGxKQSxUaQkF1mIYibjuQlHrnIHrKJdgzVg4C5Mkk3voeuAVqkOUyNMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CiYRGANa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QvggxcBt"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21f6022c2c3so19775585ad.0
-        for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 09:23:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739381010; x=1739985810; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z0q3sDAF4oQzGjpTE5UFq4pISwyfntsajHJYAfkfV5U=;
-        b=QvggxcBtkSmcDbRVbrDOASLHyVgsLFVNwGbWZwFFV5xXu3XSmPPgl9jH7pzNRF+orc
-         7zyaAWVWlFiX0HSvK3BwhGTfEppjNUxMHxkQbAbUf/1jsNu1wAR+PmnqK8giYyvLKax1
-         /CV48mBclAMVZ7tu3nQaMUxVUvzi78seK3LOz/8mjJGqJdH3OAj/5G8gNo+Pg1mWQfVP
-         shgkHVVbV5gnxysc06/f4uA1Cb53oOflkgalMhVMliFW/8KbPEH1v1L5GTuSLD5y06jM
-         uOrV2MZ9L0AvBDUisURrLPu7GtM9ipVeiTea/OlLR1nioBbgjLWERe82zBk51OoZu8rW
-         2icg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CiYRGANa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739386895;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VnpKOCL9F8DbCzuG0WiiawmSIQd7cJlByrW6DA7MXYI=;
+	b=CiYRGANax96Z8sKmwbOgsYGjxIb9VRSYInXyKj/X7NTbPo6jN9gPZBWcr2jMOcpo9JI84O
+	cGZw00Xv02CK9BQtgnygrE9Im/EAVR6K1RpZc34/XlBJ8O3p+FTq9mn22+fUfi+Nb1uA3t
+	cZhd2GC0YGWGFqvjQXCNmA26eq/gprs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-424-41nCzO2JN4OqJcl_1fvDcA-1; Wed, 12 Feb 2025 14:01:32 -0500
+X-MC-Unique: 41nCzO2JN4OqJcl_1fvDcA-1
+X-Mimecast-MFC-AGG-ID: 41nCzO2JN4OqJcl_1fvDcA
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-38de11a0002so12014f8f.3
+        for <asahi@lists.linux.dev>; Wed, 12 Feb 2025 11:01:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739381010; x=1739985810;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z0q3sDAF4oQzGjpTE5UFq4pISwyfntsajHJYAfkfV5U=;
-        b=H/APu5DD15q89Rz7b9vtN43Y5sbRA22FjvsQa1xRCJ+AQrIOMzIjttwk0ASInXMEwP
-         I5cJsB4pOML28d8U1EyRXcyrgx4kpVl2HiZjlCNaGYljPsLWZX7PlEyMg4PNQ2IQRO1i
-         BlgXA0YhsuKeGGEiPkCcWoM7Ij7pxS4hC2/hjTCMWi2Ji4/AvA9NQrNH0o2cJQArtLAo
-         bX7Rh9+tg+Ryn6r8n6Jbl3b2ij7Xks2D2SoyvV+c2ViirB4jXkj8l2DbN3RfGIroLkzu
-         m2c+AeRsjEzDa33iRNNTY7LUftWXu/5Ftr7naQnOsRae94+9PTbAqO94l+CpCDo3WYYa
-         LZ4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVt3gIR6uv8qeFFkA+Q/1WivXWE4k55YHplLSBkfYxyzufRgIs7tidyCpfqeNJ2laLzUJ3bjQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8tKbv/6W4wJZkjgMNrhHejUQypNH2n6D+enNligHD7gbI5gXp
-	VOhvJpcVjGJynaJnxW8uIgn9ON1qxbn551tcYrucIxVZoAZs+sjM
-X-Gm-Gg: ASbGnctPg/079SJi7O7OuoONmO/uDMiaCb46EhzVdjg9DTuEbwwDZlBES1WPEP97ga1
-	OhXKLVb46nVQi0vOHeLlzXXrakDioZB218cgy2cPv4sw9yIBopTfKKctghmy/LI97wEvguVKtyw
-	ZHjodoTR1x18Z9uJjrtup9PmGkLQ2A7pz1COa8JbqY5w5v2RLkEopb1xJborUOn3VlHxFHni+tH
-	9843AbjS8qxaRwTRHKKubpHwz1M/hrAprMiPedDyITz9kvjbjCnckwfFXZh6PxAGlwHU3g1FPru
-	YsPMMeyFo/c7dx9EaQ==
-X-Google-Smtp-Source: AGHT+IGVSSdvwzosWg1IZcwS8BMskgkU07C3H1XRsLu+vnpTLU7/3ScWN2qrDfl3HyrUXyfJua/Nlg==
-X-Received: by 2002:a05:6a20:734a:b0:1ee:64c0:aa85 with SMTP id adf61e73a8af0-1ee6bae9454mr154934637.6.1739381010171;
-        Wed, 12 Feb 2025 09:23:30 -0800 (PST)
-Received: from [127.0.1.1] ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-ad54f1691ddsm6001705a12.61.2025.02.12.09.23.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 09:23:29 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-Date: Thu, 13 Feb 2025 01:22:33 +0800
-Subject: [PATCH v2 10/10] drivers/perf: apple_m1: Add Apple A11 Support
+        d=1e100.net; s=20230601; t=1739386891; x=1739991691;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VnpKOCL9F8DbCzuG0WiiawmSIQd7cJlByrW6DA7MXYI=;
+        b=RnUsavt9x7t6xDdW7iXy7l21C95su54Mvt8pHSwPgWij6Yaa8isdxsB8QVP4Mo1ucC
+         12jDHFKw3oGCroFRhc0S6Kpv7eqUS9sOzW9e3D9vLN3BPVrhVX3Fyy2oYwl4cSO3hgRx
+         V42+SEN+O5OcjX/OH4D3XTl6E2DcdRgOAp+6fJ8ojnQFv9PGcNNodyGZvXwNputqgQMj
+         J+eOcJDnOMDXESCFbPLZWpcgpYx/taDy1AWj/ymZHsDGCkCF8NEO6LY7WYEz2stDI9qm
+         HKVomv59HCLy8NCcJ6fFMIKZHPPmAbnGipeuQhqbYpQHVCcC66KjrLiz7NKgAxF0IjhX
+         4gjw==
+X-Forwarded-Encrypted: i=1; AJvYcCUR+mjq21b0CtGWnO22p7gfgKEaq8B46n4hKyUf+E7ImHwHHNYZCg8jkr96PA4LUqz93pU0KA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0jU0Sib81IONjBxnknWSBt3pAtfWomnjddJoXFinCyoLlNEAA
+	Sm2hhbeH6fmJEnP08VwfWwwXBc0KUA8+HA5qc3QlyxYCPKSPUncl2Q82SgF6uz8iKYjbX9n6d6Q
+	5z8qrYkRJ8paxezbsVMcQJ7jm1GWUVWpDv+WfZg0ssRI5aT8ZmjfR
+X-Gm-Gg: ASbGncuXYB1RkI1ZOZm0vdyZKxoAK0eVtxYD1OBv0lMmhH3qtHuJwQfpiL9gRLPStM8
+	1UmGzNmPxqewHzR9x6Lk9JX7tzqMhg/v5xkf6zMXQtPq/NpgXpktXNrgMOXXWjxe8B+nOy7Jod8
+	lyRjntOO7uw+0R3bagJRMSldjCMmiFyP2fGa4IP6TxdUf16eQ3pKpkakxDo7JEfYOnbzLfuOMEw
+	XWOMiLl44w1iOOkJKFxgzpSYQqiLwUYsKWUXX1GSRYgkoiJwH3CS+hSEbNlHOxq/B3lgYIdoDAk
+	nTuxBff52kfK/nSpPZolCYL6uIVEdBzGXAz1neNMxSsOj/gzJr3ajYzZ0fVNHnWWk368eS4bNFE
+	JjFwkg6VOzBE0Ixi464BNu8ty7mphgw==
+X-Received: by 2002:a05:6000:1fac:b0:38d:e584:81ea with SMTP id ffacd0b85a97d-38dea2f9ab6mr3331357f8f.45.1739386890861;
+        Wed, 12 Feb 2025 11:01:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGMQEuHs2ARaifFarl1hlb7XuIU2Uf3rWR3SR85DWiFYlcoHcyJgYvPwxFa9XALu3tB9xPEVQ==
+X-Received: by 2002:a05:6000:1fac:b0:38d:e584:81ea with SMTP id ffacd0b85a97d-38dea2f9ab6mr3331310f8f.45.1739386890296;
+        Wed, 12 Feb 2025 11:01:30 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70c:a600:1e3e:c75:d269:867a? (p200300cbc70ca6001e3e0c75d269867a.dip0.t-ipconnect.de. [2003:cb:c70c:a600:1e3e:c75:d269:867a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dc2f6aeafsm17010526f8f.20.2025.02.12.11.01.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Feb 2025 11:01:29 -0800 (PST)
+Message-ID: <c0373279-a257-454f-98d6-9825700831f6@redhat.com>
+Date: Wed, 12 Feb 2025 20:01:26 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-apple-cpmu-v2-10-87b361932e88@gmail.com>
-References: <20250213-apple-cpmu-v2-0-87b361932e88@gmail.com>
-In-Reply-To: <20250213-apple-cpmu-v2-0-87b361932e88@gmail.com>
-To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>
-Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org, 
- linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Nick Chan <towinchenmi@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7847; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=X1FjYP6mBke/3D24Hai2ue885wXpUkAZdmez50aXc0I=;
- b=owEBbQKS/ZANAwAIAQHKCLemxQgkAcsmYgBnrNjwOHiCdDt45QwCr4G1/VlK0JHGnfJwb+zrn
- 8eBBKHLFJ2JAjMEAAEIAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCZ6zY8AAKCRABygi3psUI
- JM1pEACLmL4+xOpOZg85I4Nh44mq3mvJfCduwshN8rdiT5luta//DE7QcG0XtgtpMxFlP8B3ARQ
- aIpTgRS4e5h6pfYpwHPlet69I0siHVFNzKv+Kxk82eJT0vDGg9cLJeVlwwOKVI9ofrpSTvmh68/
- wFIvvn1CFmwtCyVIe++NljUXFapT+MmezijyvcER2///viHi/BZjHH6UybjaW0yFjJEY3LJsAWr
- BF8PDxUFg1OBEYd+wyR4Rsm2Yv87qrGucpcywdFqsblUDxjc9yd3FpDOYAcMAhzmVZNAq2iSVin
- Fg+b/l/zM63lSI5TOE0v4lUsVqGORLWmHLbt2a1GNOvwg+bdlNZvbcy0AhOrmA10xj+w9n1uZeG
- 5waq3DV9Zs1xZCCp8gYEtRHKU0xNKM3eWxTcAE9mpJLXksa5Orhf/5ff/m50eIqXUtqJt2VK696
- k9p9UscCcXpeSMOIS7IVWqBfqgUrn+ix2rLtO9EL1dTWRB+vVUo29geit57m/ljibzW0y5OopK1
- 3woxTgkBPr5tRA9sHK+pAj4pF9XuPI9St0uCTyLzoFSr5ACIIMC2BXt/P54rrvIfzKQqIEYFmtd
- 0DDr/wGjvf5FhOrrJgQwy5KSdPvHrg2ontXOTgrvTGpCzkAlouDlXq+ofJJDmvRBb8YV87e4+Hi
- 6jo03XxLmzd4eTw==
-X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
- fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
+ physaddr conversion
+To: Asahi Lina <lina@asahilina.net>, Zi Yan <ziy@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>,
+ Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, Wedson Almeida Filho
+ <wedsonaf@gmail.com>, Valentin Obst <kernel@valentinobst.de>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ airlied@redhat.com, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
+ Muchun Song <muchun.song@linux.dev>
+References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
+ <Z6CTLB2NggwYafi9@phenom.ffwll.local>
+ <41ca3445-80cd-43c1-8f9e-634c195c9187@asahilina.net>
+ <37A0729B-A711-4D45-B9F0-328FDB9ADD28@nvidia.com>
+ <0e19e1c3-293b-4740-93f3-2c410893288b@redhat.com>
+ <82047858-480a-45e3-b826-3a46fbebe842@asahilina.net>
+ <f1498b22-0bc1-489a-8c2c-35aa48c7fe7d@redhat.com>
+ <1e9ae833-4293-4e48-83b2-c0af36cb3fdc@asahilina.net>
+ <026c1a0c-e53a-4a5e-92da-6e4f18ce0fee@redhat.com>
+ <cc1cd991-1871-4929-851e-d9672a45dcf0@asahilina.net>
+ <6bcd3315-a0f9-463c-ab97-a43736f9b4f4@redhat.com>
+ <2a513c3e-818c-4040-b3d3-7835861bab4f@asahilina.net>
+ <0dffaa7d-340f-4ce1-9a2e-54cfd9079266@redhat.com>
+ <bfc81fb0-917a-4518-851b-c7fcf3a91c5b@asahilina.net>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <bfc81fb0-917a-4518-851b-c7fcf3a91c5b@asahilina.net>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: YpLe6SV9EqaOCyEVqDYgRpHJr44sEQu-0qusPpvvRz8_1739386891
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Add support for the CPU PMU found attached to the performance and
-efficiency cores of the Apple A11 SoCs. This PMU can deliver its
-interrupt via IRQ or FIQ. Use FIQ as that is faster.
+On 06.02.25 20:18, Asahi Lina wrote:
+> 
+> 
+> On 2/7/25 2:58 AM, David Hildenbrand wrote:
+>> On 04.02.25 22:06, Asahi Lina wrote:
+>>>
+>>>
+>>> On 2/5/25 5:10 AM, David Hildenbrand wrote:
+>>>> On 04.02.25 18:59, Asahi Lina wrote:
+>>>>> On 2/4/25 11:38 PM, David Hildenbrand wrote:
+>>>>>>>>> If the answer is "no" then that's fine. It's still an unsafe
+>>>>>>>>> function
+>>>>>>>>> and we need to document in the safety section that it should
+>>>>>>>>> only be
+>>>>>>>>> used for memory that is either known to be allocated and pinned and
+>>>>>>>>> will
+>>>>>>>>> not be freed while the `struct page` is borrowed, or memory that is
+>>>>>>>>> reserved and not owned by the buddy allocator, so in practice
+>>>>>>>>> correct
+>>>>>>>>> use would not be racy with memory hot-remove anyway.
+>>>>>>>>>
+>>>>>>>>> This is already the case for the drm/asahi use case, where the pfns
+>>>>>>>>> looked up will only ever be one of:
+>>>>>>>>>
+>>>>>>>>> - GEM objects that are mapped to the GPU and whose physical
+>>>>>>>>> pages are
+>>>>>>>>> therefore pinned (and the VM is locked while this happens so the
+>>>>>>>>> objects
+>>>>>>>>> cannot become unpinned out from under the running code),
+>>>>>>>>
+>>>>>>>> How exactly are these pages pinned/obtained?
+>>>>>>>
+>>>>>>> Under the hood it's shmem. For pinning, it winds up at
+>>>>>>> `drm_gem_get_pages()`, which I think does a
+>>>>>>> `shmem_read_folio_gfp()` on
+>>>>>>> a mapping set as unevictable.
+>>>>>>
+>>>>>> Thanks. So we grab another folio reference via shmem_read_folio_gfp()-
+>>>>>>> shmem_get_folio_gfp().
+>>>>>>
+>>>>>> Hm, I wonder if we might end up holding folios residing in
+>>>>>> ZONE_MOVABLE/
+>>>>>> MIGRATE_CMA longer than we should.
+>>>>>>
+>>>>>> Compared to memfd_pin_folios(), which simulates FOLL_LONGTERM and
+>>>>>> makes
+>>>>>> sure to migrate pages out of ZONE_MOVABLE/MIGRATE_CMA.
+>>>>>>
+>>>>>> But that's a different discussion, just pointing it out, maybe I'm
+>>>>>> missing something :)
+>>>>>
+>>>>> I think this is a little over my head. Though I only just realized that
+>>>>> we seem to be keeping the GEM objects pinned forever, even after unmap,
+>>>>> in the drm-shmem core API (I see no drm-shmem entry point that would
+>>>>> allow the sgt to be freed and its corresponding pages ref to be
+>>>>> dropped,
+>>>>> other than a purge of purgeable objects or final destruction of the
+>>>>> object). I'll poke around since this feels wrong, I thought we were
+>>>>> supposed to be able to have shrinker support for swapping out whole GPU
+>>>>> VMs in the modern GPU MM model, but I guess there's no
+>>>>> implementation of
+>>>>> that for gem-shmem drivers yet...?
+>>>>
+>>>> I recall that shrinker as well, ... or at least a discussion around it.
+>>>>
+>>>> [...]
+>>>>
+>>>>>>
+>>>>>> If it's only for crash dumps etc. that might even be opt-in, it makes
+>>>>>> the whole thing a lot less scary. Maybe this could be opt-in
+>>>>>> somewhere,
+>>>>>> to "unlock" this interface? Just an idea.
+>>>>>
+>>>>> Just to make sure we're on the same page, I don't think there's
+>>>>> anything
+>>>>> to unlock in the Rust abstraction side (this series). At the end of the
+>>>>> day, if nothing else, the unchecked interface (which the regular
+>>>>> non-crash page table management code uses for performance) will let you
+>>>>> use any pfn you want, it's up to documentation and human review to
+>>>>> specify how it should be used by drivers. What Rust gives us here is
+>>>>> the
+>>>>> mandatory `unsafe {}`, so any attempts to use this API will necessarily
+>>>>> stick out during review as potentially dangerous code that needs extra
+>>>>> scrutiny.
+>>>>>
+>>>>> For the client driver itself, I could gate the devcoredump stuff behind
+>>>>> a module parameter or something... but I don't think it's really worth
+>>>>> it. We don't have a way to reboot the firmware or recover from this
+>>>>> condition (platform limitations), so end users are stuck rebooting to
+>>>>> get back a usable machine anyway. If something goes wrong in the
+>>>>> crashdump code and the machine oopses or locks up worse... it doesn't
+>>>>> really make much of a difference for normal end users. I don't think
+>>>>> this will ever really happen given the constraints I described, but if
+>>>>> somehow it does (some other bug somewhere?), well... the machine was
+>>>>> already in an unrecoverable state anyway.
+>>>>>
+>>>>> It would be nice to have userspace tooling deployed by default that
+>>>>> saves off the devcoredump somewhere, so we can have a chance at
+>>>>> debugging hard-to-hit firmware crashes... if it's opt-in, it would only
+>>>>> really be useful for developers and CI machines.
+>>>>
+>>>> Is this something that possibly kdump can save or analyze? Because that
+>>>> is our default "oops, kernel crashed, let's dump the old content so we
+>>>> can dump it" mechanism on production systems.
+>>>
+>>> kdump does not work on Apple ARM systems because kexec is broken and
+>>> cannot be fully fixed, due to multiple platform/firmware limitations. A
+>>> very limited version of kexec might work well enough for kdump, but I
+>>> don't think anyone has looked into making that work yet...
+>>>
+>>>> but ... I am not familiar with devcoredump. So I don't know when/how it
+>>>> runs, and if the source system is still alive (and remains alive --  in
+>>>> contrast to a kernel crash).
+>>>
+>>> Devcoredump just makes the dump available via /sys so it can be
+>>> collected by the user. The system is still alive, the GPU is just dead
+>>> and all future GPU job submissions fail. You can still SSH in or (at
+>>> least in theory, if enough moving parts are graceful about it) VT-switch
+>>> to a TTY. The display controller is not part of the GPU, it is separate
+>>> hardware.
+>>
+>>
+>> Thanks for all the details (and sorry for the delay, I'm on PTO until
+>> Monday ... :)
+>>
+>> (regarding the other mail) Adding that stuff to rust just so we have a
+>> devcoredump that ideally wouldn't exist is a bit unfortunate.
+>>
+>> So I'm curious: we do have /proc/kcore, where we do all of the required
+>> filtering, only allowing for reading memory that is online, not
+>> hwpoisoned etc.
+>>
+>> makedumpfile already supports /proc/kcore.
+>>
+>> Would it be possible to avoid Devcoredump completely either by dumping /
+>> proc/kcore directly or by having a user-space script that walks the page
+>> tables to dump the content purely based on /proc/kcore?
+>>
+>> If relevant memory ranges are inaccessible from /proc/kcore, we could
+>> look into exposing them.
+> 
+> I'm not sure that's a good idea... the dump code runs when the GPU
+> crashes, and makes copies of all the memory pages into newly allocated
+> pages (this is around 16MB for a typical dump, and if allocation fails
+> we just bail and clean up). Then userspace can read the coredump at its
+> leisure. AIUI, this is exactly the intended use case of devcoredump. It
+> also means that anyone can grab a core dump with just a `cp`, without
+> needing any bespoke tools.
+> 
+> After the snapshot is taken, the kernel will complete (fail) all GPU
+> jobs, which means much of the shared memory will be freed and some
+> structures will change contents.
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- drivers/perf/apple_m1_cpu_pmu.c | 135 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 135 insertions(+)
+Ah, okay, that's an issue.
 
-diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-index c084c25f69d29756ea7a2e542e33888c1142d80a..d4e7436d0edfe785211ad700e4b0be4e1475e8c4 100644
---- a/drivers/perf/apple_m1_cpu_pmu.c
-+++ b/drivers/perf/apple_m1_cpu_pmu.c
-@@ -500,6 +500,113 @@ static const u16 a10_pmu_event_affinity[A10_PMU_PERFCTR_LAST + 1] = {
- 	[A10_PMU_PERFCTR_UNKNOWN_fd]				= ONLY_2_4_6,
- };
- 
-+enum a11_pmu_events {
-+	A11_PMU_PERFCTR_RETIRE_UOP				= 0x1,
-+	A11_PMU_PERFCTR_CORE_ACTIVE_CYCLE			= 0x2,
-+	A11_PMU_PERFCTR_L2_TLB_MISS_INSTRUCTION			= 0xa,
-+	A11_PMU_PERFCTR_L2_TLB_MISS_DATA			= 0xb,
-+	A11_PMU_PERFCTR_SCHEDULE_UOP				= 0x52,
-+	A11_PMU_PERFCTR_MAP_REWIND				= 0x75,
-+	A11_PMU_PERFCTR_MAP_STALL				= 0x76,
-+	A11_PMU_PERFCTR_MAP_INT_UOP				= 0x7c,
-+	A11_PMU_PERFCTR_MAP_LDST_UOP				= 0x7d,
-+	A11_PMU_PERFCTR_MAP_SIMD_UOP				= 0x7e,
-+	A11_PMU_PERFCTR_FLUSH_RESTART_OTHER_NONSPEC		= 0x84,
-+	A11_PMU_PERFCTR_INST_A32				= 0x8a,
-+	A11_PMU_PERFCTR_INST_T32				= 0x8b,
-+	A11_PMU_PERFCTR_INST_ALL				= 0x8c,
-+	A11_PMU_PERFCTR_INST_BRANCH				= 0x8d,
-+	A11_PMU_PERFCTR_INST_BRANCH_CALL			= 0x8e,
-+	A11_PMU_PERFCTR_INST_BRANCH_RET				= 0x8f,
-+	A11_PMU_PERFCTR_INST_BRANCH_TAKEN			= 0x90,
-+	A11_PMU_PERFCTR_INST_BRANCH_INDIR			= 0x93,
-+	A11_PMU_PERFCTR_INST_BRANCH_COND			= 0x94,
-+	A11_PMU_PERFCTR_INST_INT_LD				= 0x95,
-+	A11_PMU_PERFCTR_INST_INT_ST				= 0x96,
-+	A11_PMU_PERFCTR_INST_INT_ALU				= 0x97,
-+	A11_PMU_PERFCTR_INST_SIMD_LD				= 0x98,
-+	A11_PMU_PERFCTR_INST_SIMD_ST				= 0x99,
-+	A11_PMU_PERFCTR_INST_SIMD_ALU				= 0x9a,
-+	A11_PMU_PERFCTR_INST_LDST				= 0x9b,
-+	A11_PMU_PERFCTR_INST_BARRIER				= 0x9c,
-+	A11_PMU_PERFCTR_UNKNOWN_9f				= 0x9f,
-+	A11_PMU_PERFCTR_L1D_TLB_ACCESS				= 0xa0,
-+	A11_PMU_PERFCTR_L1D_TLB_MISS				= 0xa1,
-+	A11_PMU_PERFCTR_L1D_CACHE_MISS_ST			= 0xa2,
-+	A11_PMU_PERFCTR_L1D_CACHE_MISS_LD			= 0xa3,
-+	A11_PMU_PERFCTR_LD_UNIT_UOP				= 0xa6,
-+	A11_PMU_PERFCTR_ST_UNIT_UOP				= 0xa7,
-+	A11_PMU_PERFCTR_L1D_CACHE_WRITEBACK			= 0xa8,
-+	A11_PMU_PERFCTR_LDST_X64_UOP				= 0xb1,
-+	A11_PMU_PERFCTR_ATOMIC_OR_EXCLUSIVE_SUCC		= 0xb3,
-+	A11_PMU_PERFCTR_ATOMIC_OR_EXCLUSIVE_FAIL		= 0xb4,
-+	A11_PMU_PERFCTR_L1D_CACHE_MISS_LD_NONSPEC		= 0xbf,
-+	A11_PMU_PERFCTR_L1D_CACHE_MISS_ST_NONSPEC		= 0xc0,
-+	A11_PMU_PERFCTR_L1D_TLB_MISS_NONSPEC			= 0xc1,
-+	A11_PMU_PERFCTR_ST_MEMORY_ORDER_VIOLATION_NONSPEC	= 0xc4,
-+	A11_PMU_PERFCTR_BRANCH_COND_MISPRED_NONSPEC		= 0xc5,
-+	A11_PMU_PERFCTR_BRANCH_INDIR_MISPRED_NONSPEC		= 0xc6,
-+	A11_PMU_PERFCTR_BRANCH_RET_INDIR_MISPRED_NONSPEC	= 0xc8,
-+	A11_PMU_PERFCTR_BRANCH_CALL_INDIR_MISPRED_NONSPEC	= 0xca,
-+	A11_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC			= 0xcb,
-+	A11_PMU_PERFCTR_FED_IC_MISS_DEMAND			= 0xd3,
-+	A11_PMU_PERFCTR_L1I_TLB_MISS_DEMAND			= 0xd4,
-+	A11_PMU_PERFCTR_MAP_DISPATCH_BUBBLE			= 0xd6,
-+	A11_PMU_PERFCTR_L1I_CACHE_MISS_DEMAND			= 0xdb,
-+	A11_PMU_PERFCTR_FETCH_RESTART				= 0xde,
-+	A11_PMU_PERFCTR_ST_NT_UOP				= 0xe5,
-+	A11_PMU_PERFCTR_LD_NT_UOP				= 0xe6,
-+	A11_PMU_PERFCTR_UNKNOWN_f5				= 0xf5,
-+	A11_PMU_PERFCTR_UNKNOWN_f6				= 0xf6,
-+	A11_PMU_PERFCTR_UNKNOWN_f7				= 0xf7,
-+	A11_PMU_PERFCTR_UNKNOWN_f8				= 0xf8,
-+	A11_PMU_PERFCTR_UNKNOWN_fd				= 0xfd,
-+	A11_PMU_PERFCTR_LAST					= M1_PMU_CFG_EVENT,
-+
-+	/*
-+	 * From this point onwards, these are not actual HW events,
-+	 * but attributes that get stored in hw->config_base.
-+	 */
-+	A11_PMU_CFG_COUNT_USER					= BIT(8),
-+	A11_PMU_CFG_COUNT_KERNEL				= BIT(9),
-+};
-+
-+static const u16 a11_pmu_event_affinity[A11_PMU_PERFCTR_LAST + 1] = {
-+	[0 ... A11_PMU_PERFCTR_LAST]				= ANY_BUT_0_1,
-+	[A11_PMU_PERFCTR_RETIRE_UOP]				= BIT(7),
-+	[A11_PMU_PERFCTR_CORE_ACTIVE_CYCLE]			= ANY_BUT_0_1 | BIT(0),
-+	[A11_PMU_PERFCTR_INST_ALL]				= BIT(7) | BIT(1),
-+	[A11_PMU_PERFCTR_INST_BRANCH]				= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_BRANCH_CALL]			= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_BRANCH_RET]			= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_BRANCH_TAKEN]			= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_BRANCH_INDIR]			= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_BRANCH_COND]			= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_INT_LD]				= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_INT_ST]				= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_INT_ALU]				= BIT(7),
-+	[A11_PMU_PERFCTR_INST_SIMD_LD]				= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_SIMD_ST]				= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_SIMD_ALU]				= BIT(7),
-+	[A11_PMU_PERFCTR_INST_LDST]				= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_INST_BARRIER]				= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_UNKNOWN_9f]				= BIT(7),
-+	[A11_PMU_PERFCTR_L1D_CACHE_MISS_LD_NONSPEC]		= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_L1D_CACHE_MISS_ST_NONSPEC]		= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_L1D_TLB_MISS_NONSPEC]			= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_ST_MEMORY_ORDER_VIOLATION_NONSPEC]	= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_BRANCH_COND_MISPRED_NONSPEC]		= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_BRANCH_INDIR_MISPRED_NONSPEC]		= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_BRANCH_RET_INDIR_MISPRED_NONSPEC]	= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_BRANCH_CALL_INDIR_MISPRED_NONSPEC]	= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC]		= ONLY_5_6_7,
-+	[A11_PMU_PERFCTR_UNKNOWN_f5]				= ONLY_2_4_6,
-+	[A11_PMU_PERFCTR_UNKNOWN_f6]				= ONLY_2_4_6,
-+	[A11_PMU_PERFCTR_UNKNOWN_f7]				= ONLY_2_4_6,
-+	[A11_PMU_PERFCTR_UNKNOWN_f8]				= ONLY_2_TO_7,
-+	[A11_PMU_PERFCTR_UNKNOWN_fd]				= ONLY_2_4_6,
-+};
-+
- enum m1_pmu_events {
- 	M1_PMU_PERFCTR_RETIRE_UOP				= 0x1,
- 	M1_PMU_PERFCTR_CORE_ACTIVE_CYCLE			= 0x2,
-@@ -979,6 +1086,12 @@ static int a10_pmu_get_event_idx(struct pmu_hw_events *cpuc,
- 	return apple_pmu_get_event_idx(cpuc, event, a10_pmu_event_affinity);
- }
- 
-+static int a11_pmu_get_event_idx(struct pmu_hw_events *cpuc,
-+	struct perf_event *event)
-+{
-+	return apple_pmu_get_event_idx(cpuc, event, a11_pmu_event_affinity);
-+}
-+
- static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
- 				struct perf_event *event)
- {
-@@ -1158,6 +1271,26 @@ static int a10_pmu_fusion_init(struct arm_pmu *cpu_pmu)
- 	return apple_pmu_init_common(cpu_pmu, M1_PMU_NR_COUNTERS);
- }
- 
-+static int a11_pmu_monsoon_init(struct arm_pmu *cpu_pmu)
-+{
-+	cpu_pmu->name = "apple_monsoon_pmu";
-+	cpu_pmu->get_event_idx	  = a11_pmu_get_event_idx;
-+	cpu_pmu->map_event	  = m1_pmu_map_event;
-+	cpu_pmu->reset		  = m1_pmu_reset;
-+	cpu_pmu->start		  = m1_pmu_start;
-+	return apple_pmu_init_common(cpu_pmu, M1_PMU_NR_COUNTERS);
-+}
-+
-+static int a11_pmu_mistral_init(struct arm_pmu *cpu_pmu)
-+{
-+	cpu_pmu->name = "apple_mistral_pmu";
-+	cpu_pmu->get_event_idx	  = a11_pmu_get_event_idx;
-+	cpu_pmu->map_event	  = m1_pmu_map_event;
-+	cpu_pmu->reset		  = m1_pmu_reset;
-+	cpu_pmu->start		  = m1_pmu_start;
-+	return apple_pmu_init_common(cpu_pmu, M1_PMU_NR_COUNTERS);
-+}
-+
- static int m1_pmu_ice_init(struct arm_pmu *cpu_pmu)
- {
- 	cpu_pmu->name = "apple_icestorm_pmu";
-@@ -1204,6 +1337,8 @@ static const struct of_device_id m1_pmu_of_device_ids[] = {
- 	{ .compatible = "apple,icestorm-pmu",	.data = m1_pmu_ice_init, },
- 	{ .compatible = "apple,firestorm-pmu",	.data = m1_pmu_fire_init, },
- 	{ .compatible = "apple,fusion-pmu",	.data = a10_pmu_fusion_init, },
-+	{ .compatible = "apple,monsoon-pmu",	.data = a11_pmu_monsoon_init, },
-+	{ .compatible = "apple,mistral-pmu",	.data = a11_pmu_mistral_init, },
- 	{ .compatible = "apple,twister-pmu",	.data = a9_pmu_twister_init, },
- 	{ .compatible = "apple,typhoon-pmu",	.data = a8_pmu_typhoon_init, },
- 	{ .compatible = "apple,cyclone-pmu",	.data = a7_pmu_cyclone_init, },
+> If we defer the coredump to userspace,
+> then it would not be able to capture the state of all relevant memory
+> exactly at the crash time, which could be very confusing.
+> 
+> In theory I could change the allocators to not free or touch anything
+> after a crash, and add guards to any mutations in the driver to avoid
+> any changes after a crash... but that feels a lot more brittle and
+> error-prone than just taking the core dump at the right time.
+
+Agreed.
 
 -- 
-2.48.1
+Cheers,
+
+David / dhildenb
 
