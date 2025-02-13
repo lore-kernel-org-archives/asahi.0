@@ -1,153 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E685723A9A6
-	for <asahi@lists.linux.dev>; Thu, 13 Feb 2025 17:56:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3C928A2AE;
+	Thu, 13 Feb 2025 18:01:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739469393; cv=none; b=j0xwBA79IopgiOLzYX3ddJiSUWlG26nJ6EOfX8yGbgNhVMwY31telahMeBEn+1ECGZ8NugBNz4+Gv1CVe/VuOSUMMCDpf99yblyMZWXYbssjZsXZnUdIVtPPOJdPSa51gy60DM9bSG/v7nLKTV15iU7X8x/kZGJ8TIw1Vbc4KN4=
+	t=1739469698; cv=none; b=gbid2NpzVzdT6yB/73i2uE7xVKpKKPyNQpLoZ1C4DyABYS74+eHFTWyIADE4WkKCU0nkiCGK+tna6rfafyMdb1qeccBO9WJ+/E0FIKX97zIEP7+R7chmbPuj/Bt10W7meM0CHwlatcRDrogAcGJNyoV2Jrzrq7eO7lqnpnuCp00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739469393; c=relaxed/simple;
-	bh=zu6XwvxRWfLZhbU+NQRFBvpihnBJdGqYI23riG2Rn94=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PJ98NOwgqDr7LMkjKwJcBYoMvGJ1kwZr7Z7YG+RzfOESA+k5eWN9YC3hGk1izSaQik7r0/AYKy8w2PpZfYUJ07p27cTaEEZkQUnIdP9/qrnGeWwPcbB2HefzI9AtcqKNmIr3OlawSnXxYmK/uvMy/p+O8i1/4WFw+FL6yqHl2vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DQSCv8KV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739469698; c=relaxed/simple;
+	bh=NW1OYpe2mVwwte24KvqPb9pRL5isVReq3c3DtOOBBMA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bfHK71XE+ZeO9pXVHwCccTxoo2bA6241SbkPLdtqBAupemSKXoD0t7Dgye8oV+Cdck94jh/0tepfPTNfYjKKPMV45FBNgF5xqZtLQcElUdowIEdW0mWcgig24KCJcEqnApB0HJH8U9/91DpTXf68TRyefgITvLPBFZd2ArbZmLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lKkAptOe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DQSCv8KV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AB83C4CEEF
-	for <asahi@lists.linux.dev>; Thu, 13 Feb 2025 17:56:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lKkAptOe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFC4BC4CED1;
+	Thu, 13 Feb 2025 18:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739469392;
-	bh=zu6XwvxRWfLZhbU+NQRFBvpihnBJdGqYI23riG2Rn94=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DQSCv8KVcTJfUl5QCqlb1aPWdpHME3qfxr2BivoYk1VpoYEyZwZG/Pk73Czq+skEu
-	 oKKCCD/YJjrItngdSK0146kMNHvpo0YkaPBs2GSQF3YY6jsjbUj1Qmd70VJ6dqs9vx
-	 GnfnwHfUjdQv3ruq2pVdRmm4oX3pqAjgUizmTb1TfQrk/IxgTI5462HQQ/XYudg5mb
-	 VCo1ECe0H2RaG8JXOcuWkm5I9C6hXAOnFQT2ZcXtvOPnPWmZjv3wiqBa2zd6tVfEYI
-	 d9oguZ7nRm0jEJEWZSDpj+xYvjAVtW1lSsY6CbbfbEt+iq73hNwrnGSNtLsgDGZlj+
-	 FOUMn/2lxIQfA==
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5de6069ceb5so4033793a12.1
-        for <asahi@lists.linux.dev>; Thu, 13 Feb 2025 09:56:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWlC59lS/4umfOZ8kfhJCVa7YxjqLDDAJ6ldPWjiKxLDzc8SXzuIcbXkR8AFu/dl3pDvO70Og==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxcQonxETT0vCFMXvYgdHswNxTaE5HtTEfyGXIcIf7m5Si1zn1N
-	KgMhej8HEh8VKnfuQ6DwQDSePOnD5ewov4v+HxkNacEli9uuFDDFxjZnNwNmGrcJAeMEiYUTLwW
-	7Jsn9s7ZV32bgb3hAXZlXvPuDag==
-X-Google-Smtp-Source: AGHT+IHTeCe7WowntB6fs9UcxQzrutTfaoimXk6oistVCJvHwS4uUZuMCGZVr/Sa699J0jyvKNfSQ6RXSzn0q5mmsec=
-X-Received: by 2002:a05:6402:2755:b0:5de:a972:8c7 with SMTP id
- 4fb4d7f45d1cf-5decba4bf54mr3906685a12.5.1739469390719; Thu, 13 Feb 2025
- 09:56:30 -0800 (PST)
+	s=k20201202; t=1739469697;
+	bh=NW1OYpe2mVwwte24KvqPb9pRL5isVReq3c3DtOOBBMA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lKkAptOe5ZG6vP8rPEis0AlEiA/1jNEChi09tTGq67mYGQvoYjq2QsQirFo+qzZgb
+	 lQ+hWQtnhgTT5QDZIgLE0LLK/qzdHBxEs1u3jP1jbVy94VndeSRhUaa42fTPoXmUqj
+	 pivxwi3j9oPp4knqLBaU597hhT9pV1fhknls8UaWBTrKic1gyFlvuxDovPaJkjkHow
+	 fOkRlYpLpYgd8zNL2X4qtYZnDaLpQS5UPyQudbGm2tBsFUeanF/x7OySGyxItxrZ2K
+	 CIQ52uBM+57WBFOnOJvGIdA3m2yKZ4t4E+ybCY5Pd/bwH1tUj0GrrJZymNHMOSdvEg
+	 JRwnbdjsJbEOQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tidWn-003nTm-Sy;
+	Thu, 13 Feb 2025 18:01:35 +0000
+Date: Thu, 13 Feb 2025 18:01:33 +0000
+Message-ID: <86r041sozm.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,	Hector Martin
+ <marcan@marcan.st>,	Sven Peter <sven@svenpeter.dev>,	Bjorn Helgaas
+ <bhelgaas@google.com>,	Lorenzo Pieralisi <lpieralisi@kernel.org>,	Krzysztof
+ =?UTF-8?B?V2lsY3p5xYRza2k=?= <kw@linux.com>,	Manivannan Sadhasivam
+ <manivannan.sadhasivam@linaro.org>,	Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,	Conor Dooley <conor+dt@kernel.org>,	Mark Kettenis
+ <kettenis@openbsd.org>,	Stan Skowronek <stan@corellium.com>,
+	asahi@lists.linux.dev,	linux-arm-kernel@lists.infradead.org,
+	linux-pci@vger.kernel.org,	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 7/7] PCI: apple: Add T602x PCIe support
+In-Reply-To: <CAL_JsqJ-sYsy-11_UiEKrKok49-a-VJUvm3vBGbpu9vY3TKLUw@mail.gmail.com>
+References: <20250211-pcie-t6-v1-0-b60e6d2501bb@rosenzweig.io>
+	<20250211-pcie-t6-v1-7-b60e6d2501bb@rosenzweig.io>
+	<CAL_JsqJ-sYsy-11_UiEKrKok49-a-VJUvm3vBGbpu9vY3TKLUw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250211-pcie-t6-v1-0-b60e6d2501bb@rosenzweig.io> <20250211-pcie-t6-v1-7-b60e6d2501bb@rosenzweig.io>
-In-Reply-To: <20250211-pcie-t6-v1-7-b60e6d2501bb@rosenzweig.io>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 13 Feb 2025 11:56:19 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ-sYsy-11_UiEKrKok49-a-VJUvm3vBGbpu9vY3TKLUw@mail.gmail.com>
-X-Gm-Features: AWEUYZnNrV6AeqfriIoD2NAW7TvpHv4rdwKYJwl0y8ybKwiiM0n7mQqePyuXunc
-Message-ID: <CAL_JsqJ-sYsy-11_UiEKrKok49-a-VJUvm3vBGbpu9vY3TKLUw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] PCI: apple: Add T602x PCIe support
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
-	Marc Zyngier <maz@kernel.org>, Stan Skowronek <stan@corellium.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: robh@kernel.org, alyssa@rosenzweig.io, marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com, manivannan.sadhasivam@linaro.org, krzk+dt@kernel.org, conor+dt@kernel.org, kettenis@openbsd.org, stan@corellium.com, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Tue, Feb 11, 2025 at 1:54=E2=80=AFPM Alyssa Rosenzweig <alyssa@rosenzwei=
-g.io> wrote:
->
-> From: Hector Martin <marcan@marcan.st>
->
-> This version of the hardware moved around a bunch of registers, so we
-> drop the old compatible for these and introduce register offset
-> structures to handle the differences.
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> ---
->  drivers/pci/controller/pcie-apple.c | 125 ++++++++++++++++++++++++++++++=
-------
->  1 file changed, 105 insertions(+), 20 deletions(-)
->
-> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller=
-/pcie-apple.c
-> index 7f4839fb0a5b15a9ca87337f53c14a1ce08301fc..7c598334427cb56ca066890ac=
-61143ae1d3ed744 100644
-> --- a/drivers/pci/controller/pcie-apple.c
-> +++ b/drivers/pci/controller/pcie-apple.c
-> @@ -26,6 +26,7 @@
->  #include <linux/list.h>
->  #include <linux/module.h>
->  #include <linux/msi.h>
-> +#include <linux/of_device.h>
+On Thu, 13 Feb 2025 17:56:19 +0000,
+Rob Herring <robh@kernel.org> wrote:
+>=20
+> On Tue, Feb 11, 2025 at 1:54=E2=80=AFPM Alyssa Rosenzweig <alyssa@rosenzw=
+eig.io> wrote:
+> >
+> > From: Hector Martin <marcan@marcan.st>
+> >
+> > This version of the hardware moved around a bunch of registers, so we
+> > drop the old compatible for these and introduce register offset
+> > structures to handle the differences.
+> >
+> > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> > ---
+> >  drivers/pci/controller/pcie-apple.c | 125 ++++++++++++++++++++++++++++=
+++------
+> >  1 file changed, 105 insertions(+), 20 deletions(-)
+> >
+> > diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controll=
+er/pcie-apple.c
+> > index 7f4839fb0a5b15a9ca87337f53c14a1ce08301fc..7c598334427cb56ca066890=
+ac61143ae1d3ed744 100644
+> > --- a/drivers/pci/controller/pcie-apple.c
+> > +++ b/drivers/pci/controller/pcie-apple.c
+> > @@ -26,6 +26,7 @@
+> >  #include <linux/list.h>
+> >  #include <linux/module.h>
+> >  #include <linux/msi.h>
+> > +#include <linux/of_device.h>
+>=20
+> Drivers should not need this...
+>=20
+> > +const struct reg_info t602x_hw =3D {
+> > +       .phy_lane_ctl =3D 0,
+> > +       .port_msiaddr =3D PORT_T602X_MSIADDR,
+> > +       .port_msiaddr_hi =3D PORT_T602X_MSIADDR_HI,
+> > +       .port_refclk =3D 0,
+> > +       .port_perst =3D PORT_T602X_PERST,
+> > +       .port_rid2sid =3D PORT_T602X_RID2SID,
+> > +       .port_msimap =3D PORT_T602X_MSIMAP,
+> > +       .max_rid2sid =3D 512, /* 16 on t602x, guess for autodetect on f=
+uture HW */
+> > +       .max_msimap =3D 512, /* 96 on t602x, guess for autodetect on fu=
+ture HW */
+> > +};
+> > +
+> > +static const struct of_device_id apple_pcie_of_match_hw[] =3D {
+> > +       { .compatible =3D "apple,t6020-pcie", .data =3D &t602x_hw },
+> > +       { .compatible =3D "apple,pcie", .data =3D &t8103_hw },
+> > +       { }
+> > +};
+>=20
+> You should not have 2 match tables.
+>=20
+> > @@ -750,13 +828,19 @@ static int apple_pcie_init(struct pci_config_wind=
+ow *cfg)
+> >         struct platform_device *platform =3D to_platform_device(dev);
+> >         struct device_node *of_port;
+> >         struct apple_pcie *pcie;
+> > +       const struct of_device_id *match;
+> >         int ret;
+> >
+> > +       match =3D of_match_device(apple_pcie_of_match_hw, dev);
+> > +       if (!match)
+> > +               return -ENODEV;
+> > +
+> >         pcie =3D devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
+> >         if (!pcie)
+> >                 return -ENOMEM;
+> >
+> >         pcie->dev =3D dev;
+> > +       pcie->hw =3D match->data;
+> >
+> >         mutex_init(&pcie->lock);
+> >
+> > @@ -795,6 +879,7 @@ static const struct pci_ecam_ops apple_pcie_cfg_eca=
+m_ops =3D {
+> >  };
+> >
+> >  static const struct of_device_id apple_pcie_of_match[] =3D {
+> > +       { .compatible =3D "apple,t6020-pcie", .data =3D &apple_pcie_cfg=
+_ecam_ops },
+> >         { .compatible =3D "apple,pcie", .data =3D &apple_pcie_cfg_ecam_=
+ops },
+> >         { }
+>=20
+> You are going to need to merge the data to 1 struct.
+>=20
+> And then use (of_)?device_get_match_data() in probe().
 
-Drivers should not need this...
+No, that will break the driver. This isn't a standalone driver, but
+only an ECAM shim (as you can tell from the actual probe function).
 
-> +const struct reg_info t602x_hw =3D {
-> +       .phy_lane_ctl =3D 0,
-> +       .port_msiaddr =3D PORT_T602X_MSIADDR,
-> +       .port_msiaddr_hi =3D PORT_T602X_MSIADDR_HI,
-> +       .port_refclk =3D 0,
-> +       .port_perst =3D PORT_T602X_PERST,
-> +       .port_rid2sid =3D PORT_T602X_RID2SID,
-> +       .port_msimap =3D PORT_T602X_MSIMAP,
-> +       .max_rid2sid =3D 512, /* 16 on t602x, guess for autodetect on fut=
-ure HW */
-> +       .max_msimap =3D 512, /* 96 on t602x, guess for autodetect on futu=
-re HW */
-> +};
-> +
-> +static const struct of_device_id apple_pcie_of_match_hw[] =3D {
-> +       { .compatible =3D "apple,t6020-pcie", .data =3D &t602x_hw },
-> +       { .compatible =3D "apple,pcie", .data =3D &t8103_hw },
-> +       { }
-> +};
+	M.
 
-You should not have 2 match tables.
-
-> @@ -750,13 +828,19 @@ static int apple_pcie_init(struct pci_config_window=
- *cfg)
->         struct platform_device *platform =3D to_platform_device(dev);
->         struct device_node *of_port;
->         struct apple_pcie *pcie;
-> +       const struct of_device_id *match;
->         int ret;
->
-> +       match =3D of_match_device(apple_pcie_of_match_hw, dev);
-> +       if (!match)
-> +               return -ENODEV;
-> +
->         pcie =3D devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
->         if (!pcie)
->                 return -ENOMEM;
->
->         pcie->dev =3D dev;
-> +       pcie->hw =3D match->data;
->
->         mutex_init(&pcie->lock);
->
-> @@ -795,6 +879,7 @@ static const struct pci_ecam_ops apple_pcie_cfg_ecam_=
-ops =3D {
->  };
->
->  static const struct of_device_id apple_pcie_of_match[] =3D {
-> +       { .compatible =3D "apple,t6020-pcie", .data =3D &apple_pcie_cfg_e=
-cam_ops },
->         { .compatible =3D "apple,pcie", .data =3D &apple_pcie_cfg_ecam_op=
-s },
->         { }
-
-You are going to need to merge the data to 1 struct.
-
-And then use (of_)?device_get_match_data() in probe().
-
-Rob
+--=20
+Without deviation from the norm, progress is not possible.
