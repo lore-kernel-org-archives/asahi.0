@@ -1,135 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA6925D539;
-	Fri, 14 Feb 2025 11:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283BF264A9F
+	for <asahi@lists.linux.dev>; Fri, 14 Feb 2025 14:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739531631; cv=none; b=Oyqh5Yg4/EVu4yxTJziNy1VHFP8DP2cw1gCVYadSYLtNvb8nOtoi9rxhipwj8heHqTnTzpiyCdLm95In7ukEuEfkw/eUzYS49hx+2juXr06CUWt/5n6E7aJVAelZDrGS0yiJvT+Qfwh3afmLiBy3dCyhjurWham4m0E0aMmr5mg=
+	t=1739543431; cv=none; b=RHcJelRjK15qorEeNS6bvaqP1M/vHCpUU3cHyODPPgAG5u2rBmK2kuQT0Mdlz+7HARRGE6/0zDffq6Ir/kXGWQ9y/G6Qp/G//NAWyYXsvuAQeXPLEiM/qUg+1kZpy5QD5kKihfeJcK+kmyXJLk8pP3Hy83v9LwhEO1H0z5pUzUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739531631; c=relaxed/simple;
-	bh=Ghs6jbYLNaRf8/9wC8oW8++BeIr/vpU43iyEmcHTTM8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D0FJUGlmtdlTJQXiAoSDoc/RxQH3VUgP9alO3ZfvURXYkk773VXRt2qI1IK06FblGNlVE9PLfCqleJMOM/plVK+MdHD59I1Drh8WV02m3cT9a3JQHoyZPYRF1KMh1oDV6aPnaaTbMaqifrJjLh2163gecwDFtng8lE/nqCMGlAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RPjAke+D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739543431; c=relaxed/simple;
+	bh=gtQMWCY0nW0A18HtWxRoKoFtQ4tFPKmIdXgTS2ef1gY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nKUM8u1+ybyqe89weQ1AfUuq+QWaR6BCefUruSrb18nTpknVqjeo5dsgcWxY61pvJ9Eb+49NCJaPU132Ql/rbgXg8iBXMO81Vnpy2pkE2+FaLlch/WWso1+IVtWTmfU/MqOGqplg/SGtwsAdnJXe43aznGuNd0DSxMtOtMzSKJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZXbDMmcE; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RPjAke+D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AD86C4CEDF;
-	Fri, 14 Feb 2025 11:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739531630;
-	bh=Ghs6jbYLNaRf8/9wC8oW8++BeIr/vpU43iyEmcHTTM8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RPjAke+DeIttbRlfFrrglJj5OoCQ/CZXX5ysuHMIJm9asBk83sDkJAhk/V/D7clQk
-	 lfH0OWsItmQCPmEo+2W62MKWfSwyJa9PNaBiSvnls3mVeJw8HVkRuXTjpGx30zv3T1
-	 WvqB6eDSr3D7Cr7FScO1/2FXrh/JLQTZZSj31ahgMjr4bNN9XszGAwjgos2/RgeKVK
-	 ljfuZk8V4JfQGj6qvClnerF4Fpzj8b9Pi0hxVexdd7hqYvXYclsHs7zLL0tg8TRfnN
-	 OnBPKX6LZ3TGkli5tchQFUdTyRhfMQt+VSNmPjhC4S/r2CXFoeWq0zs6vg6oelaICV
-	 0Im+JInrKqwlg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1titdk-0042lN-3F;
-	Fri, 14 Feb 2025 11:13:48 +0000
-Date: Fri, 14 Feb 2025 11:13:47 +0000
-Message-ID: <86o6z4srro.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Sven Peter" <sven@svenpeter.dev>
-Cc: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,	"Hector Martin"
- <marcan@marcan.st>,	"Bjorn Helgaas" <bhelgaas@google.com>,
-	"Lorenzo Pieralisi" <lpieralisi@kernel.org>,	Krzysztof =?UTF-8?B?V2lsY3p5?=
- =?UTF-8?B?xYRza2k=?= <kw@linux.com>,	"Manivannan Sadhasivam"
- <manivannan.sadhasivam@linaro.org>,	"Rob Herring" <robh@kernel.org>,
-	"Krzysztof Kozlowski" <krzk+dt@kernel.org>,	"Conor Dooley"
- <conor+dt@kernel.org>,	"Mark Kettenis" <kettenis@openbsd.org>,
-	"Stan Skowronek" <stan@corellium.com>,	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,	linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/7] PCI: apple: Add T602x PCIe support
-In-Reply-To: <ae7bdc0c-c691-43a7-8cd7-b1c22c7623c0@app.fastmail.com>
-References: <20250211-pcie-t6-v1-0-b60e6d2501bb@rosenzweig.io>
-	<20250211-pcie-t6-v1-7-b60e6d2501bb@rosenzweig.io>
-	<86y0ybsd0d.wl-maz@kernel.org>
-	<ae7bdc0c-c691-43a7-8cd7-b1c22c7623c0@app.fastmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZXbDMmcE"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2fa4493a695so3181522a91.0
+        for <asahi@lists.linux.dev>; Fri, 14 Feb 2025 06:30:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739543428; x=1740148228; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=35aTfl9eEGV17VrFB86CmV/usP3FQo76VFTBz22tACk=;
+        b=ZXbDMmcE7U6M211rLH+Ao1Sowc8C6LWDgSzEY04GPVK90PY5XLZLEjOFlcGgXS+JXj
+         5R083USvelYZ04MGoO0PaEFlcdRorYLxgi0YPan8XuHF2t+PxWbMmMk/0cMBWhCIDMow
+         pEwQTnoM35qspL5uETfb+aqsIwb0p/SPyLBXheFhr3Vzk6AVvbhkPEV5kr5a4VYN6Kvg
+         58w2FENmOVkk99jBul6bUyULYxBTB7CRpKUvYe9I6hku8e9AzqKTzH0zqbRh3I8GtmyH
+         FllF2774Cgok/gNNdOoUF9jK3okw4LrnRW8zAxG0tGVQ1LKwbhvGjXRx+s2w2HoX18Na
+         57Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739543428; x=1740148228;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=35aTfl9eEGV17VrFB86CmV/usP3FQo76VFTBz22tACk=;
+        b=Z3El1Pcl8NpyreWTnXV4H+fdMqVB+l9I85TAROsPbYK51zF5GFEMT0fsEMEwA6dIfh
+         8Rw0a6C9U+bUKtxh9a8YBaO7PCVbJXDBB8X5p3oedfXjtUonKAHEKIHw2p7lHSi0O0Jg
+         5VDBLj83LVR0D8w3WuGEqNI8jAiom44EZCZO96LzY7VAef1HL0UeQlDvev+kKlmqXU3x
+         lV1ke8AAzOVy+DmznClKkeeePYSMcC28/axbmJ4Zc6ffjW1Obsr6eiwFkq8vk64gviov
+         yCHFe2AfZkKvF8X7ukrU3Gkj8RbTJusPtH3CqhohNTQ5HZ+eqtZHCSe39KWprcRErOeU
+         fSqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXfbLlXH73hjkJTlB8S/1007VhJ9FegMJKSClLa1nCQoXNfjzY6a5W0+c1zUxno17cJXtJauQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXOu8NSbOlJgofDK5jv4nMftX9RFVALt5v1PenFfeovsok60T1
+	IOjLr71xBscs9Tkbuzwep8dJ5GlBr31Y+BnoG6kG4kv4vWPmXnwqhiWCqA==
+X-Gm-Gg: ASbGncvt9721ZlnpOgDLPfi4dmTQ7eZober7ktsGiAC46CM+yayMyXqE0lpwmQF+ceT
+	vDbfX4N++guwC+mRcO32GsEVO7SD9BDzgZhJ2p0Lt0fHz2vXTsnKZKi9Q0RjFoxuUXewg91fs8I
+	cJcuK4Hi3XhCwRfktEIljhRk3phLXpOkCw9xx+UBFD5PhZmYyPS1XUy8/yZuzdvg+bK74o1+wwm
+	vCjiXiEiEP51CXA8itla4f6geWxbz+sgjhmxKnEo+64sRAZ3v4GvvSFg9iWZdaSXPcl/WnzvyHo
+	csuLP4ixbrDaZNmCCg==
+X-Google-Smtp-Source: AGHT+IGs2oJbWsBd2mmLA46RkL5aQhsZza/epKIJ6zzfwAjcLXEGBDxv7SMnURG3VhsbOrnsni1MWg==
+X-Received: by 2002:a17:90b:3904:b0:2f9:cf97:56ac with SMTP id 98e67ed59e1d1-2fc0dbbcdbfmr13243789a91.0.1739543428566;
+        Fri, 14 Feb 2025 06:30:28 -0800 (PST)
+Received: from [127.0.1.1] ([59.188.211.160])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-220d545c8d1sm29490315ad.113.2025.02.14.06.30.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 06:30:28 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH v4 00/11] drivers/perf: apple_m1: Add Apple A7-A11, T2 SoC
+ support
+Date: Fri, 14 Feb 2025 22:28:26 +0800
+Message-Id: <20250214-apple-cpmu-v4-0-ffca0e45147e@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: sven@svenpeter.dev, alyssa@rosenzweig.io, marcan@marcan.st, bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com, manivannan.sadhasivam@linaro.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, kettenis@openbsd.org, stan@corellium.com, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAApTr2cC/3XM3QrCIBjG8VsZHmdM3625jrqP6MDp6ybsQ7SkG
+ Lv33CBYQYfPA7//TAJ6i4Gcs5l4jDbYaUyjOGREdXJskVqdNuE5L3POGJXO9UiVGx60lKUELaE
+ uBJAEnEdjn1vseku7s+E++dfWjmx9Pxm+z0RGc2qEqgyXilUFXNpB2v6opoGsmcj3FL4oT1RUD
+ ZxYDRyF+KXwn0KiDVZGSI1aMLOny7K8AfzAuRoaAQAA
+X-Change-ID: 20250211-apple-cpmu-5a5a3da39483
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>
+Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nick Chan <towinchenmi@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2253; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=gtQMWCY0nW0A18HtWxRoKoFtQ4tFPKmIdXgTS2ef1gY=;
+ b=owEBbQKS/ZANAwAIAQHKCLemxQgkAcsmYgBnr1N7RBkPZAp85QlcDJZT0ti1VtbqLJHg+lrbB
+ gcL1iCD6yyJAjMEAAEIAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCZ69TewAKCRABygi3psUI
+ JHZaD/4ydiNHvX1RevtAsKyPrnxMj4JKddZn5+JxVXazvY3+KP9r8pJOqofBxsasQb7jSUqyRRY
+ MrC784SMe8P123v4vCmDG5/ODIBVWrXZdAq+08Pu0luK6K8FJF8bBLItkkeGSTjyS1e5ifGdGvX
+ /PHxGeTI4/temzJKL9GcnxE7f4vAf9qMDqglc8vuDoX4I6zHb2KnbbcHkrnNXwNkSB/wHO4l95d
+ Ly5ltUSUXNusvz/EmijnAZWFq3O9XiVd72hvGMHhFjNPxtIsbMPOOY4jiWHmrAPWQTgaK/1dJLL
+ 4/W3fBB8EgAMEcWFJrB6cFEn8fsuCaWZJcIHQgD6UlInDmV2xn0tMbVpvCPH9rdpXDsMwwdoEZ7
+ IU8BV48qsuI+YHwATC8UGwxJd6GOI3bKGMIyqXEvKCH4wm+vapFJZV43cYmxoJW1HqmzqgEcrBr
+ hLEBAu3v39zQS7JLx3XZv1Vf6ikmO9d1neUJFN0XJjItRx2OMGM8W1madyswXX34dWtQBenkHh4
+ zHyYtkM+DWO9MMhAKjHItA9UZrmA8HfiF5r+lQcZ8q5PiEE43dXOc0ydKb9zR8fPJ86r2iRBB5t
+ aSV11KZKbnHBqhsuN43t0j3L4t31QzdrMs0FZiii9nXLZqyO8+Ac/ggcKKmntMI1QAOBU8TPJA8
+ LndGEHDir7iZk/A==
+X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
+ fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-On Thu, 13 Feb 2025 19:51:31 +0000,
-"Sven Peter" <sven@svenpeter.dev> wrote:
-> 
-> Hi,
-> 
-> On Wed, Feb 12, 2025, at 10:55, Marc Zyngier wrote:
-> > On Tue, 11 Feb 2025 19:54:32 +0000,
-> > Alyssa Rosenzweig <alyssa@rosenzweig.io> wrote:
-> >> 
-> >> From: Hector Martin <marcan@marcan.st>
-> >> 
-> >> This version of the hardware moved around a bunch of registers, so we
-> >> drop the old compatible for these and introduce register offset
-> >> structures to handle the differences.
-> >> 
-> >> Signed-off-by: Hector Martin <marcan@marcan.st>
-> >> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> >> ---
-> >>  drivers/pci/controller/pcie-apple.c | 125 ++++++++++++++++++++++++++++++------
-> >>  1 file changed, 105 insertions(+), 20 deletions(-)
-> >> 
-> >> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-> >> index 7f4839fb0a5b15a9ca87337f53c14a1ce08301fc..7c598334427cb56ca066890ac61143ae1d3ed744 100644
-> ...
-> >
-> >> +	else
-> >> +		rmw_set(PHY_LANE_CFG_REFCLKCGEN, port->phy + PHY_LANE_CFG);
-> >> +	rmw_clear(PORT_APPCLK_CGDIS, port->base + PORT_APPCLK);
-> >> +
-> >
-> > Can you elaborate on this particular change?
-> >
-> > I always assumed this was some clock-gating that needed to occur
-> > *before* the link training was started. This is now taking place after
-> > training, and the commit message doesn't say anything about it.
-> 
-> It's been a while but as far as I can tell APPCLK seems to be related
-> to the IOMMUs attached to this controller. If it's disabled all reads
-> from the respective IOMMU MMIO either came back as 0xffff.. or SError
-> (don't remember which one it was) but pcie itself worked just fine
-> (until any device tried DMA ofc).
-> 
-> At least on M1 this entire sequence only works because we already
-> setup PORT_APPCLK_EN inside m1n1. If we didn't do this (like e.g
-> for the thunderbolt pcie/dart) the DART probe would already fail.
+This series adds support for the CPU PMU in the older Apple A7-A11, T2
+SoCs. These PMUs may have a different event layout, less counters, or
+deliver their interrupts via IRQ instead of a FIQ. Since some of those
+older SoCs support 32-bit EL0, counting for 32-bit EL0 also need to
+be enabled by the driver where applicable.
 
-OK, so the exact location of this particular write doesn't matter as
-long as it happens before we start enabling a device on that port.
+Patch 1 adds the DT bindings.
+Patch 2-6 prepares the driver to allow adding support for those 
+older SoCs.
+Patch 7-11 adds support for the older SoCs.
 
-I'm still perplexed by this one though:
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+---
+Changes in v4:
+- Support per-implementation event attr group
+- Fix Apple A7 event attr groups
+- Link to v3: https://lore.kernel.org/r/20250213-apple-cpmu-v3-0-be7f8aded81f@gmail.com
 
-+	if (pcie->hw->port_refclk)
-+		rmw_clear(PORT_REFCLK_CGDIS, port->base + PORT_REFCLK);
-+	else
-+		rmw_set(PHY_LANE_CFG_REFCLKCGEN, port->phy + PHY_LANE_CFG);
+Changes in v3:
+- Configure PMC8 and PMC9 for 32-bit EL0
+- Remove redundant _common suffix from shared functions
+- Link to v2: https://lore.kernel.org/r/20250213-apple-cpmu-v2-0-87b361932e88@gmail.com
 
-which looks like it switches on the reference clock for the port. I
-have a very vague recollection that it was required early before
-m1n1/u-boot grew some PCI initialisation (yes, a long while ago).
+Changes in v2:
+- Remove unused flags parameter from apple_pmu_init_common()
+- Link to v1: https://lore.kernel.org/r/20250212-apple-cpmu-v1-0-f8c7f2ac1743@gmail.com
 
-Thanks,
+---
+Nick Chan (11):
+      dt-bindings: arm: pmu: Add Apple A7-A11 SoC CPU PMU compatibles
+      drivers/perf: apple_m1: Support per-implementation event tables
+      drivers/perf: apple_m1: Support a per-implementation number of counters
+      drivers/perf: apple_m1: Support configuring counters for 32-bit EL0
+      drivers/perf: apple_m1: Support per-implementation PMU startup
+      drivers/perf: apple_m1: Support per-implementation event attr group
+      drivers/perf: apple_m1: Add Apple A7 support
+      drivers/perf: apple_m1: Add Apple A8/A8X support
+      drivers/perf: apple_m1: Add A9/A9X support
+      drivers/perf: apple_m1: Add Apple A10/A10X/T2 Support
+      drivers/perf: apple_m1: Add Apple A11 Support
 
-	M.
+ Documentation/devicetree/bindings/arm/pmu.yaml |   6 +
+ arch/arm64/include/asm/apple_m1_pmu.h          |   3 +
+ drivers/perf/apple_m1_cpu_pmu.c                | 801 ++++++++++++++++++++++++-
+ 3 files changed, 777 insertions(+), 33 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250211-apple-cpmu-5a5a3da39483
 
+Best regards,
 -- 
-Without deviation from the norm, progress is not possible.
+Nick Chan <towinchenmi@gmail.com>
+
