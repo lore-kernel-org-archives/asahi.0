@@ -1,66 +1,66 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB7424B29
-	for <asahi@lists.linux.dev>; Sat, 15 Feb 2025 00:06:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675A61A83EB
+	for <asahi@lists.linux.dev>; Sat, 15 Feb 2025 00:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739577977; cv=none; b=ufBltkIph05kKyjBHR7K5pPpZ5BRTuaTf8OnoIfLfH6jdIRQjOao+dGxjpYto0uLRG+pqIdYW8sx/oPbLbwWXUbha7K4FsZSlo4D7yDq8/eNJWl9SrFypPJXNeQe+H3hCQBtx/kOo3iHWzngMUC6sZzLvCOD6dh+GMnbq+PGUcE=
+	t=1739577981; cv=none; b=IGG7CAEdt7QomRaxXZy8HSJuj4z1FZnBXH4AprClkGPEvzkMyMIxo8SmrwhaTMRSbnQLcGYqiLGZ5KxKHxivHrDexvA2py0q8hJrkEo4OQCdQyV8CsRCaF8TKK2s2tIHd7Id/y/B6mEkcD486TKj5O4o2J3dAxIL6xdii2skeaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739577977; c=relaxed/simple;
-	bh=eo0FgT54k97mDSR8rz6Pu8NwpXky/0riRsqEIavkVRo=;
+	s=arc-20240116; t=1739577981; c=relaxed/simple;
+	bh=YGx9PSaUXVNDPo2cH+rNjw2DIvjtU+dlXI+O382Ewmw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EdRBSmIWf9sah2KhIuHsSqcWw3KOK1hTPRvR10SucalE/P7aYnPi8s6pwtLgOSiSEBKgr9AOpUixRlwRlgAlrbe63dBr2hQEKk//8lr96SJxa+ItIzpdLe5oxlpWV8NsxzlM/araI08QqHVidtuQSwacK+5NHge61HZK4I88JFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jA198Yi/; arc=none smtp.client-ip=209.85.216.44
+	 In-Reply-To:To:Cc; b=JaPgwfGpJRNoULIQvybuRvXas0v4hfwsCCQXSnprNR1jyhmvXHigpHFnCyyXTBv6ZgvnIJHLMjKJAtxM0pQDNliI+8gARgxcRKDuRuxR/SzVlCwvHu07ppcCD9HycN8Zh/BOwjpLqLBW8VImR7bnZ+QcGfw/JSjL+ywYZXsE528=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J65XEDSh; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jA198Yi/"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2fc20e0f0ceso3039822a91.3
-        for <asahi@lists.linux.dev>; Fri, 14 Feb 2025 16:06:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J65XEDSh"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21f6a47d617so46147475ad.2
+        for <asahi@lists.linux.dev>; Fri, 14 Feb 2025 16:06:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739577973; x=1740182773; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739577979; x=1740182779; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CRen9lz0iA3eKqSin+5VNNTShffgRxZVjvG8oHS7fzY=;
-        b=jA198Yi/EYDcsP/7qlfqNa+43sT9WDZQFEyn4ne2bkmMOf3kaqFbN3h61UZx/S7gcZ
-         kBznNaYRJzIfdA7vpTWVx11wMHcLT2bBhRpCEYHkd4tU0cy62cqvk75rCsv6tgw0swg0
-         pcek4VWuI985+MJ4LgfG1WYWjV9Xq9S1/oE5K9qYAGOdBqfcDQ2NxappJ1TAYLlp1pE/
-         0ZCivDrHMfvwZ/WcKcHr0OdglnIof+8N+/ddpxRq0RJWBQYmQMONX4Tjmr+071CxNKbH
-         rgQEzqB2LTDh+OoYE/gf4P+RbQZLcUFJU1h5L9WOSdP8t+6ej1qkL3/j/9A2tE7yQ31j
-         /9iA==
+        bh=PZ84+yPdbVuhz7ak3Hw1Cb8Gf7TrNSS/4QEXDz4j3UI=;
+        b=J65XEDShQRJVIzU5CCoRX1wv1Z9EScFoodkYqqbnrWscO6ouiCL2m3N1PEs7xvxt6g
+         2tr3DnMXmHA7mCNzkj/SdggBrqK0LUYuiFaQy57Rv3KM0w3BFy92BnvfnCTZinNptGbV
+         2FgI45UaBbd1beh3T8y4hqz50Kwq6oPZHP2zOa7sOT0PULCUm1OyxxnrodmkpyCqOHFV
+         +y4PWAZ0qUPP0x8b3NvyX6CcyaaQA0gETMzpQaZCQ5IJuTS41xioAFXRqIuKZGjWqIBf
+         EZcugYqsR3h9SQtgC+gUwhXIyArr+aNqHuvCVnP1iXxJeeXc9Mqgz51xGt6b9aBScwb8
+         +E8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739577973; x=1740182773;
+        d=1e100.net; s=20230601; t=1739577979; x=1740182779;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CRen9lz0iA3eKqSin+5VNNTShffgRxZVjvG8oHS7fzY=;
-        b=TAjxFkM6XlmR6yAix3oVrHYZRq9rMhYJrVo2b8seyUAj3LUy9XsGUhB+/Uu+VpQjWb
-         rrSon63IlKtVHRdqO7nXALPbHfdF9L6gyFCt3PWnu/35Zceph87nmXvOlI7OQXGEOwPA
-         fZ6cexDJJSYei6YSzU0jZdCUGSrGYTxeYZ8ULlrPqdVJdCpBPUaE3ujTvGNEhIDIbILy
-         PobIdVZGtQ93ZvRxyyMDogiCQcQ6OqpKIoc7c0XaIE3wGopITc6rVyaItJ1Dy1wk/04x
-         Jv2n3xaZgLe/GkInysdMjQmBBuJ2aWm92FVV3H/BlbgSNf9DI229hhyGL4soDQaeCm2W
-         yKgg==
-X-Forwarded-Encrypted: i=1; AJvYcCX8vCDhF0rUzmPZSrsQoRRn9AOk9NdUhNdSspqmrFcXXbcCGaI+zO3g15cDnRtT2VwYX3ZasQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8k+9MBCSAzCxJPqe1eURGkO2tHu51eg0Pa/HRFyYs9iSnzFb0
-	F1MldMaOvylQEvSkcGtkqksrnbXaYq3wAHd+DqDD0DG9BvDpXJ8E
-X-Gm-Gg: ASbGnctwFXO3xnBEtW7cSco26sorQT4tdocFN/6pE4BK7zhLFJGaQCvOes4XezU4l7D
-	8BS5j2aqbJYl+EPDtwxrj45UeOHg4wGszRGo35W/Y4WAvvru6SNVugZbxM+ycfKctaQVL/E+vtW
-	9v/krbBX1rApdSek4/Y9wUtOnom9HZMWRWFcLy+u8NPContGwbURzciy6kD17WwR5C+aAFZZKFv
-	pggXVvFJrBnTB15m+jpAJ51bRlpwadPix5O6pwUzjqlLiGICcHL9LZLiZlkkaOG8vqaD7R20aDK
-	IJk5j9XwFL5j8/hRshgAK1lLuelMbqrFmZl26aiuuRHJQK2aqkVRgzeUq/S3VbPGoTtHLoYwMLO
-	wK/QEbzJQgw==
-X-Google-Smtp-Source: AGHT+IFHQB6Hi75lq+IHVc2EFRmqZFJg6IszUCPchCSlNMP6cT4k1DouRGvCzCmAtaa7EuyBYHLM8g==
-X-Received: by 2002:a17:90a:df11:b0:2ee:d63f:d8f with SMTP id 98e67ed59e1d1-2fc40f105e6mr1703877a91.13.1739577972631;
-        Fri, 14 Feb 2025 16:06:12 -0800 (PST)
+        bh=PZ84+yPdbVuhz7ak3Hw1Cb8Gf7TrNSS/4QEXDz4j3UI=;
+        b=a+YPyoNLB0O2l82ANwzgtqpScbBN1Ifvq8gXnZ5WVJgSyY8TJ7LouTBzGGfqv1d4vZ
+         ojEBYcrhy9DHmMBykiwz2Jz0bpLkwB27d4qqqOsnL/y2zy1aB7E1or6Nn9dxAjv5OAn5
+         En4e1CasE5l7exoWWD6iJPm5adGAQdRzWKu9zb+XOeArSwz6X0HVJMNl6q8G3f+AxGRZ
+         1u+hfSGCn6egIpcrxJEp04k3dmFrBUQiYOLfKLp58YyqErfjep/O8FxJwOJPKw+SFoZZ
+         Ja7Lcf2HhAm5I5bm86mHMXXmSAzsnyeCPVAtTYN0xMfFbxOg/L8XazyxRfRY8hWRFdEt
+         7Tqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVM9zOADoA3Rv5+nExK/Pwf+J4qPCU02TPJvkSVWoJWGyRbQzRQQElo8sW93ikv957cbkXr4w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxWcrWXdLafuBTkIgGEEMLO1BkHl75boEHfrr4/vELXuAT039kA
+	2STd2pMpTlbyXhFWtH2lMAJg1HBnMjsPzx+0XbnrYOcwjhFeWunb
+X-Gm-Gg: ASbGncsGlBpleuLw0HT5WruqviwXUbxT5WNsciZqbgoW7HuspLWfe++r/MsSzM+IXfb
+	jucQzWiYhsUKLjR/UpPA1tid2uK5ZmnMUno/G3BwRr5LXKeL/86NPx7TVEvo5cR1/+3jJ1PuTJ9
+	Vo1cTaGFdMQUJATX6Ql10OxQhOSUoci51/w9yLhhAmycd9Wax4921WJ/hRn17VmPAadVK6b8Bvs
+	MmUMIpCiwasCJ1925iiAQn9mzr5AiiiiG9itMk+RU7NF4GXt9vjpPgsTRz5uo6WMPxNcJPGyXtN
+	AXxkrHH/6zdENtVo3/m1Uo3/E5pbKK+OITvA3tyGRTYx0agl3BJ6N+7Q7/jqrjDPvzUsyB3qvEe
+	RaNTsuvsE2g==
+X-Google-Smtp-Source: AGHT+IG6Hm9pNI6VvtCGvN8M2e0uv4buL4nr2DpT31d3QO2bC+lTvrwW2S2SN9aTyfVa/+xOt06boA==
+X-Received: by 2002:a17:902:d50d:b0:220:f91a:4650 with SMTP id d9443c01a7336-2210402bfb5mr20473085ad.19.1739577979635;
+        Fri, 14 Feb 2025 16:06:19 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220f26ea127sm15071155ad.96.2025.02.14.16.06.06
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220f26ea127sm15071155ad.96.2025.02.14.16.06.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 16:06:12 -0800 (PST)
+        Fri, 14 Feb 2025 16:06:19 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 15 Feb 2025 10:02:59 +1000
-Subject: [PATCH 26/27] ASoC: tas2764: Set the SDOUT polarity correctly
+Date: Sat, 15 Feb 2025 10:03:00 +1000
+Subject: [PATCH 27/27] ASoC: tas2770: Set the SDOUT polarity correctly
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250215-apple-codec-changes-v1-26-723569b21b19@gmail.com>
+Message-Id: <20250215-apple-codec-changes-v1-27-723569b21b19@gmail.com>
 References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
 In-Reply-To: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -84,13 +84,13 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  asahi@lists.linux.dev, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2605;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1752;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=JUEJyKGKi/edxIy+wXLBYHgRqMQ6HGn+xp2GKuXciig=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOnrb+7g7a02Zrw3+W/E9bv1iwQVhabuv82/LEf/8nLuJ
- H+zCG6ujlIWBjEuBlkxRZYNTUIes43YbvaLVO6FmcPKBDKEgYtTACYy+Tcjw6opz99Hf7+24N17
- 22kGAfXf1X34v9VOjZhgfVbqGMPGqU4M/4MUPrvNlFz/t3VWzivNpS63vnzXaS5zzzgZXCi1y2B
- mMTcA
+ bh=t7b1dvsnhFRkTomOlVk7jphWt6a+ItGg7B4nOBgPrGs=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOnrb+54zPRzi9h80w331v155OGz4v3mBdahNcVm3Z9Vw
+ nbL5W/Y31HKwiDGxSArpsiyoUnIY7YR281+kcq9MHNYmUCGMHBxCsBEdhgx/NPaa8J6NsC2Y9aK
+ RV63t9iuXGixfo+cxJW+Sb9K/liqnN/GyHDBZFPP34qt1uL7bsUVZEorrp7E3SrLs+apoRZvc8G
+ Kn4wA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
@@ -102,68 +102,43 @@ generate the right bit slot alignment.
 Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2764.c | 10 +++++++++-
- sound/soc/codecs/tas2764.h |  6 ++++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ sound/soc/codecs/tas2770.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index bdbc210ea8306ecebf704fe33fbe41083867e1ca..0cae0e8819d890f0818b531a40094f22e4e18fcb 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -426,7 +426,7 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- {
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index a9e65f95ec8600d905c45db4e013d3c2602fa8dc..793a0df499a631d8e4670d4a452572b2dae0c477 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -358,7 +358,7 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
  	struct snd_soc_component *component = dai->component;
- 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
--	u8 tdm_rx_start_slot = 0, asi_cfg_0 = 0, asi_cfg_1 = 0;
-+	u8 tdm_rx_start_slot = 0, asi_cfg_0 = 0, asi_cfg_1 = 0, asi_cfg_4 = 0;
+ 	struct tas2770_priv *tas2770 =
+ 			snd_soc_component_get_drvdata(component);
+-	u8 tdm_rx_start_slot = 0, invert_fpol = 0, fpol_preinv = 0, asi_cfg_1 = 0;
++	u8 tdm_rx_start_slot = 0, invert_fpol = 0, fpol_preinv = 0, asi_cfg_1 = 0, asi_cfg_4 = 0;
  	int ret;
  
- 	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
-@@ -435,12 +435,14 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+@@ -375,6 +375,7 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
  		fallthrough;
  	case SND_SOC_DAIFMT_NB_NF:
- 		asi_cfg_1 = TAS2764_TDM_CFG1_RX_RISING;
-+		asi_cfg_4 = TAS2764_TDM_CFG4_TX_FALLING;
+ 		asi_cfg_1 |= TAS2770_TDM_CFG_REG1_RX_RSING;
++		asi_cfg_4 |= TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING;
  		break;
  	case SND_SOC_DAIFMT_IB_IF:
- 		asi_cfg_0 ^= TAS2764_TDM_CFG0_FRAME_START;
- 		fallthrough;
- 	case SND_SOC_DAIFMT_IB_NF:
- 		asi_cfg_1 = TAS2764_TDM_CFG1_RX_FALLING;
-+		asi_cfg_4 = TAS2764_TDM_CFG4_TX_RISING;
- 		break;
- 	}
- 
-@@ -450,6 +452,12 @@ static int tas2764_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 		invert_fpol = 1;
+@@ -393,6 +394,12 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
  	if (ret < 0)
  		return ret;
  
-+	ret = snd_soc_component_update_bits(component, TAS2764_TDM_CFG4,
-+					    TAS2764_TDM_CFG4_TX_MASK,
++	ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
++					    TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING,
 +					    asi_cfg_4);
 +	if (ret < 0)
 +		return ret;
 +
  	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
  	case SND_SOC_DAIFMT_I2S:
- 		asi_cfg_0 ^= TAS2764_TDM_CFG0_FRAME_START;
-diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index 786d81eb5b1e71bad094ef94e4b56e8f7c910285..4a419c11d4b08eebb915762db00af5c06ff3dd42 100644
---- a/sound/soc/codecs/tas2764.h
-+++ b/sound/soc/codecs/tas2764.h
-@@ -84,6 +84,12 @@
- #define TAS2764_TDM_CFG3_RXS_SHIFT	0x4
- #define TAS2764_TDM_CFG3_MASK		GENMASK(3, 0)
- 
-+/* TDM Configuration Reg4 */
-+#define TAS2764_TDM_CFG4		TAS2764_REG(0X0, 0x0d)
-+#define TAS2764_TDM_CFG4_TX_MASK	BIT(0)
-+#define TAS2764_TDM_CFG4_TX_RISING	0x0
-+#define TAS2764_TDM_CFG4_TX_FALLING	BIT(0)
-+
- /* TDM Configuration Reg5 */
- #define TAS2764_TDM_CFG5		TAS2764_REG(0X0, 0x0e)
- #define TAS2764_TDM_CFG5_VSNS_MASK	BIT(6)
+ 		tdm_rx_start_slot = 1;
 
 -- 
 2.48.1
