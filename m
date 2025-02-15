@@ -1,169 +1,183 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2972101F2
-	for <asahi@lists.linux.dev>; Sat, 15 Feb 2025 00:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF19018C01E;
+	Sat, 15 Feb 2025 08:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739580003; cv=none; b=o/U0Eg6Zi58P1EMNmyDzi+yaqdAXSC51rJqURh1a4KRU6vDWbjXoPkuBqEiWL3/KNBYk7eq/1/JnAhdT4194L+FIlOAAF+8/lHC08+XW5lpCXpGXRylCXqrr7C9aRmY5ECSbvPn971LBQtKmvTMn7aa2zBA5K4DEPHw1Yn4en0o=
+	t=1739609475; cv=none; b=ThNZdG7XA+juV6q++96wwdXUeTbHcQIoZI42xupJEkui6pdEUv8dcxP9jiIDfLyLAjbNJNX0+1avAQGV1Vg1i7k6NykwpomrBUHz1Yy5gzlyST2rts8M5g7lZlczYRIqjzrHMVnSf4v9AxmqDns5xgEVfdFEbaCRyxsXzuFI2MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739580003; c=relaxed/simple;
-	bh=0lb+XuejwQ6WJ/rlS82FD9QDxDHkpczO99KyIdSRZVI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p9nn76HOqAJSvsE3IUvA18hsol9tVPR3YGPp2FU3fNTrAhjtHTvbNItA0zCKrZnMhHslX7mHsUvAbhgqUWLPCl6q3rHDIV+l59b8QQnlT7WJxpnsB5hSU9atRkGAHIzWdzy+qZgQG2XWccfeKghyV8C1OW/9wUigE5SPq3JckzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ab7cc0c1a37so485750066b.0
-        for <asahi@lists.linux.dev>; Fri, 14 Feb 2025 16:40:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739579999; x=1740184799;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3luXOCFKIPpMmtbHHxucGGaojmh3uFOnTbaxnuKr2fo=;
-        b=Cq4UmsNogwoHv79rL2rBEwIYvNJCK0Q2tpY/SwADmjohZVkW2VyNIQ95X1MOakgLfG
-         YxWngAh/Rkq4cfVrQQkouMrxlJGgPvnvVBoxNx1qd8ehpN/NgYYjO07MtJXyEqKkuLHc
-         sb4/cipZ1G3e0V3MYK8zvcLk+7fMf1sMqbPDX2w329kKu4eG/X0gN9kMiVyGnlaQHLKZ
-         hd6N/yVGDMmVVu0kB7zwNjo/6VZNL+eysTC1oM8PmYWXieFUEqaoBni9ddSyq+2BNWzN
-         36+cVsT4JbDF2AdkIhWn0q6cEPDxxv+h7aaF8zaS96FgIM/azm7LQwH0a5UuNFztKMdB
-         KV4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVUoTJUbrfW9lU32VsUAXghaWWhZqnSM6LXnAC+G6YAmgp/nKM/chIN80khJqcQGGKUzX8ojw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxj694g8I3j9SM+k5ahEXs+qwE2GeoV779l+Ww2oRe8KDdaKNtO
-	4wBvV4qX9GB9YBmPDi94HDIdyOSQVxWrIgqlwCwg+7aClxqgmi28pQ3ESuSDxIw=
-X-Gm-Gg: ASbGncu7mLdY/zthAr15xlV8NuzBQnnzTeNXY6ydZs/nfsr57a1gYmhYdfN2mOqBz9o
-	MNI6cVoMuhEJ7NPvJP2ZPKd78/HHW8oTS5RUMmWZGGOETOsrIHTJ6ERAVCwlh1LrztdNDa/S9un
-	7Q9qKDLCvtKdEtxRxK5Mny6O+35TAYmn2idDCqNQV6FVbLa+3lPRK8E3Na4mje3UbKTBC62i689
-	HnSoJCVsrl51/cr+QUrNk0kdxDpCLtXhemsX3xlCniUMTnLtY0Arld/CbEsFzoO5TgigRIN49jP
-	xBbu67Dnbj17PMAQ2PGn8zqU0PL9cjoJRqa8qBSCy4E9hw==
-X-Google-Smtp-Source: AGHT+IEbpskB1jG7eJUyamRb7jIPynfMAnpbkbnfS/EYqv7Kag6chdXfpWd+aUsEO36y+RG0tonIqA==
-X-Received: by 2002:a17:906:31d6:b0:ab7:e943:4c1 with SMTP id a640c23a62f3a-abb7091ab36mr94516966b.11.1739579999175;
-        Fri, 14 Feb 2025 16:39:59 -0800 (PST)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb72b519c5sm40668166b.173.2025.02.14.16.39.57
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2025 16:39:58 -0800 (PST)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5de3c29ebaeso3359334a12.3
-        for <asahi@lists.linux.dev>; Fri, 14 Feb 2025 16:39:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW87Flk5aKwuUFViRIwcjWQhNP8TVQr94zjwVOC1peuVyzrxwqNCb9hpq7BXXfJ/gCP7kn7kQ==@lists.linux.dev
-X-Received: by 2002:a17:906:3118:b0:ab2:faed:f180 with SMTP id
- a640c23a62f3a-abb70b81377mr107070966b.33.1739579997503; Fri, 14 Feb 2025
- 16:39:57 -0800 (PST)
+	s=arc-20240116; t=1739609475; c=relaxed/simple;
+	bh=bOL7hyxwdyA5NZF7YWFX1w7MgDLf45Pn8T+oWqiAy80=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VWFkOiLzZdOeeh9V07ek5D9T+aYkN3JumAu00vDDi/jVOCCRJSCUEJrPl/WdVbPPYxSxg9nO/IH8Pr14MtFGHdbg/PwZoYrY1UxbQjfc+kfTFOZp5l+ywNyCEDq+f5wGqAEqiNDRzIc8ike4QbkzxMzDsN6tNPyFuX0v1JGAxQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/luwkOS; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/luwkOS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739609473; x=1771145473;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=bOL7hyxwdyA5NZF7YWFX1w7MgDLf45Pn8T+oWqiAy80=;
+  b=j/luwkOSeWKokaacvlHoaKSz3XIbxKaT6KNpBc5knprsH0FtP37rKKL1
+   XFWJvygAVK6VUJ2te4RxpxNsNc6G1WWDld4wInPhbiKa1COPqs18F8FvX
+   LRV9suf+ry+Zr8HrGUJgckqbO9m9T7i1zVEUVnNTLC3yRedkW2SR52zs9
+   X2MQQg6hfIQKllFzNbWOAuz8wd8Cog7vzgqOLYCjn5DkNYUBZ5D0jh6UI
+   N0U/T9gOBRgqcoQQqv/5M/Sd2kh5fL8ZcW7H0cilsUsBoJBkBay9VuyJ7
+   JPu0zJjZ28oWX0pW5mLmV1eR2cGwmUy/gEY8wDlibnSEsQS8+yiV8dK9Q
+   g==;
+X-CSE-ConnectionGUID: /T8rA8YWQqyccbl4TeTSTQ==
+X-CSE-MsgGUID: WIZCxhhiQmq76y1oTS3M8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="57764818"
+X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
+   d="scan'208";a="57764818"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 00:51:12 -0800
+X-CSE-ConnectionGUID: /r+F0jx4RVKMBSVF09lU6w==
+X-CSE-MsgGUID: r0L1deRvR9Cz9JN551mbGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
+   d="scan'208";a="114287640"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 00:51:04 -0800
+Message-ID: <84fd4500-a12c-40d6-a532-e2956ed1c35e@linux.intel.com>
+Date: Sat, 15 Feb 2025 16:48:04 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
-In-Reply-To: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
-From: Neal Gompa <neal@gompa.dev>
-Date: Fri, 14 Feb 2025 19:39:21 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je9az=jLZSLg+4V0XYFzaxW02827+koSBkDd=RoUaiTFFA@mail.gmail.com>
-X-Gm-Features: AWEUYZkDDgpalGANAbSSWSDtuS7jiEiBkOjRIsOJW9cVI5i9ylu35HYX48Q62mU
-Message-ID: <CAEg-Je9az=jLZSLg+4V0XYFzaxW02827+koSBkDd=RoUaiTFFA@mail.gmail.com>
-Subject: Re: [PATCH 00/27] ASoC: tas27{64,70}: improve support for Apple codec variants
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shi Fu <shifu0704@thundersoft.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	asahi@lists.linux.dev, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik@protonmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/23] iommu/pages: De-inline the substantial functions
+To: Jason Gunthorpe <jgg@nvidia.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Robin Murphy
+ <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
+References: <7-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <7-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 14, 2025 at 7:04=E2=80=AFPM James Calligeros
-<jcalligeros99@gmail.com> wrote:
->
-> Hi all,
->
-> This series introduces a number of changes to the drivers for
-> the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
-> introduce (and improve in the case of TAS2770) support for the
-> variants of these amps found in Apple Silicon Macs.
->
-> Apple's variant of TAS2764 is known as SN012776, and as always with
-> Apple is a subtly incompatible variant with a number of quirks. It
-> is not publicly available. The TAS2770 variant is known as TAS5770L,
-> and does not require incompatible handling.
->
-> Much as with the Cirrus codec patches, I do not
-> expect that we will get any official acknowledgement that these parts
-> exist from TI, however I would be delighted to be proven wrong.
->
-> This series has been living in the downstream Asahi kernel tree[1]
-> for over two years, and has been tested by many thousands of users
-> by this point[2].
->
-> Regards,
-> James
->
-> [1] https://github.com/AsahiLinux/linux/tree/asahi-wip
-> [2] https://stats.asahilinux.org/
->
+On 2/15/25 01:07, Jason Gunthorpe wrote:
+> These are called in a lot of places and are not trivial. Move them to the
+> core module.
+> 
+> Tidy some of the comments and function arguments, fold
+> __iommu_alloc_account() into its only caller, change
+> __iommu_free_account() into __iommu_free_page() to remove some
+> duplication.
+> 
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
 > ---
-> Hector Martin (14):
->       ASoC: tas2764: Enable main IRQs
->       ASoC: tas2764: Power up/down amp on mute ops
->       ASoC: tas2764: Add SDZ regulator
->       ASoC: tas2764: Add reg defaults for TAS2764_INT_CLK_CFG
->       ASoC: tas2764: Mark SW_RESET as volatile
->       ASoC: tas2764: Fix power control mask
->       ASoC: tas2764: Wait for ramp-down after shutdown
->       ASoC: tas2770: Add SDZ regulator
->       ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
->       ASoC: tas2770: Add zero-fill and pull-down controls
->       ASoC: tas2770: Support setting the PDM TX slot
->       ASoC: tas2770: Fix volume scale
->       ASoC: tas2764: Set the SDOUT polarity correctly
->       ASoC: tas2770: Set the SDOUT polarity correctly
->
-> James Calligeros (2):
->       ASoC: dt-bindings: tas27xx: add compatible for SN012776
->       ASoC: dt-bindings: tas2770: add compatible for TAS5770L
->
-> Martin Povi=C5=A1er (11):
->       ASoC: tas2764: Extend driver to SN012776
->       ASoC: tas2764: Add control concerning overcurrent events
->       ASoC: tas2770: Factor out set_ivsense_slots
->       ASoC: tas2770: Fix and redo I/V sense TDM slot setting logic
->       ASoC: tas2764: Reinit cache on part reset
->       ASoC: tas2764: Configure zeroing of SDOUT slots
->       ASoC: tas2764: Apply Apple quirks
->       ASoC: tas2764: Raise regmap range maximum
->       ASoC: tas2770: Export 'die_temp' to sysfs
->       ASoC: tas2764: Export 'die_temp' to sysfs
->       ASoC: tas2764: Crop SDOUT zero-out mask based on BCLK ratio
->
->  .../bindings/sound/ti,tas2770.yaml       |   1 +
->  .../bindings/sound/ti,tas27xx.yaml       |   1 +
->  sound/soc/codecs/Kconfig                 |   1 +
->  sound/soc/codecs/tas2764-quirks.h        | 188 +++++++++++++++
->  sound/soc/codecs/tas2764.c               | 302 +++++++++++++++++++++----
->  sound/soc/codecs/tas2764.h               |  29 ++-
->  sound/soc/codecs/tas2770.c               | 264 +++++++++++++++++----
->  sound/soc/codecs/tas2770.h               |  20 ++
->  8 files changed, 711 insertions(+), 95 deletions(-)
-> ---
-> base-commit: cc7708ae5e2aab296203fcec774695fc9d995f48
-> change-id: 20250214-apple-codec-changes-6e656dc1e24d
->
-> Best regards,
-> --
-> James Calligeros <jcalligeros99@gmail.com>
->
->
+>   drivers/iommu/Makefile      |   1 +
+>   drivers/iommu/iommu-pages.c |  84 +++++++++++++++++++++++++++++
+>   drivers/iommu/iommu-pages.h | 103 ++----------------------------------
+>   3 files changed, 90 insertions(+), 98 deletions(-)
+>   create mode 100644 drivers/iommu/iommu-pages.c
+> 
+> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
+> index 5e5a83c6c2aae2..fe91d770abe16c 100644
+> --- a/drivers/iommu/Makefile
+> +++ b/drivers/iommu/Makefile
+> @@ -1,6 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   obj-y += amd/ intel/ arm/ iommufd/ riscv/
+>   obj-$(CONFIG_IOMMU_API) += iommu.o
+> +obj-$(CONFIG_IOMMU_SUPPORT) += iommu-pages.o
+>   obj-$(CONFIG_IOMMU_API) += iommu-traces.o
+>   obj-$(CONFIG_IOMMU_API) += iommu-sysfs.o
+>   obj-$(CONFIG_IOMMU_DEBUGFS) += iommu-debugfs.o
+> diff --git a/drivers/iommu/iommu-pages.c b/drivers/iommu/iommu-pages.c
+> new file mode 100644
+> index 00000000000000..dbf7205bb23dcc
+> --- /dev/null
+> +++ b/drivers/iommu/iommu-pages.c
+> @@ -0,0 +1,84 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2024, Google LLC.
+> + * Pasha Tatashin<pasha.tatashin@soleen.com>
+> + */
+> +#include "iommu-pages.h"
+> +#include <linux/gfp.h>
+> +#include <linux/mm.h>
+> +
+> +/**
+> + * iommu_alloc_pages_node - Allocate a zeroed page of a given order from
+> + *                          specific NUMA node
+> + * @nid: memory NUMA node id
+> + * @gfp: buddy allocator flags
+> + * @order: page order
+> + *
+> + * Returns the virtual address of the allocated page. The page must be
+> + * freed either by calling iommu_free_page() or via iommu_put_pages_list().
 
-After years of iterations, I think this series looks good to me. :)
+nit: ... by calling iommu_free_pages() ...
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+and
 
+  s/page/pages/g in above comments?
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+> + */
+> +void *iommu_alloc_pages_node(int nid, gfp_t gfp, unsigned int order)
+> +{
+> +	const unsigned long pgcnt = 1UL << order;
+> +	struct page *page;
+> +
+> +	page = alloc_pages_node(nid, gfp | __GFP_ZERO | __GFP_COMP, order);
+> +	if (unlikely(!page))
+> +		return NULL;
+> +
+> +	/*
+> +	 * All page allocations that should be reported to as "iommu-pagetables"
+> +	 * to userspace must use one of the functions below. This includes
+> +	 * allocations of page-tables and other per-iommu_domain configuration
+> +	 * structures.
+> +	 *
+> +	 * This is necessary for the proper accounting as IOMMU state can be
+> +	 * rather large, i.e. multiple gigabytes in size.
+> +	 */
+> +	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
+> +	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
+> +
+> +	return page_address(page);
+> +}
+> +EXPORT_SYMBOL_GPL(iommu_alloc_pages_node);
+> +
+> +static void __iommu_free_page(struct page *page)
+
+It's more readable if renaming it to __iommu_free_pages()?
+
+> +{
+> +	unsigned int order = folio_order(page_folio(page));
+> +	const unsigned long pgcnt = 1UL << order;
+> +
+> +	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
+> +	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, -pgcnt);
+> +	put_page(page);
+> +}
+
+Thanks,
+baolu
