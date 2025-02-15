@@ -1,66 +1,66 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FB7B672
-	for <asahi@lists.linux.dev>; Sat, 15 Feb 2025 00:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E14117548
+	for <asahi@lists.linux.dev>; Sat, 15 Feb 2025 00:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739577926; cv=none; b=Vxqxmg0KigL7hrYNFWbj6NHF05puy6gRKuLaRf3SoAwJjZVa4Kkm8EL1BluRApmoR7Hn2a8x5cCbG2CDZcCVbGmrklPV2ZmGOFRxaZfJgQcVU4lOm3Bpmia0xzRkeOZVl8bg4l26XxxpEop/pBY5DsCamKlnuYHk/KSmCbShlDw=
+	t=1739577933; cv=none; b=BYYxoIYMwiwXpnzsfEV7mhhcu9XHBzWk+btHW0FZWgMUgR5eCOrRcyg2ra8CVEp2FV7fyjFnQ0Mk3CZKrV0FLkLeO4EmIApUG2kMLrbgeQkNaW7rXpfF4rMtr6o6biBjftWoqLtJeA1WOvDQxSsL/9HfpFsSNVLTGtdT/ufctoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739577926; c=relaxed/simple;
-	bh=PgPFLwwP8g98bJUED+moaf3Y8c9mYSFzQVbyN/AZze4=;
+	s=arc-20240116; t=1739577933; c=relaxed/simple;
+	bh=mhjYn8hCW2F2c4h2yo8pS7w11bq/v5wUZPBY7cvt+H0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EMpvBLnhlooNK3WXWIkQznsexoKdY6XW5o1NgXU3GEbB2N+IBK+savGXs7krt18zZGkKbxdPwphJ95Vqe7E2vAmVe7iTTMRF+G0UfBA2byKuIdWUJ4/lePcUAMTRMLMR0Ihv+mn1cOkzqa25rkTYsjMTcZwPviy9wc1leP6Ji00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BE4DT/4A; arc=none smtp.client-ip=209.85.214.174
+	 In-Reply-To:To:Cc; b=drpcysEFy6785+so5mkzgjEC9HkhoMGV1dDG6AE7oyQNhlWZRZOQWw/2PaB6q6YZJNbNKlyLkvBGkw+q882xYtfdT/JP24M2pZcuJCjYRY67MsYGcEsMDN8RJd4NymQ4oNv5WwsTYOt+bz9h+StH29ot47ACvodYB0cHsE0L7hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NOa+yPOz; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BE4DT/4A"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-220bff984a0so46107045ad.3
-        for <asahi@lists.linux.dev>; Fri, 14 Feb 2025 16:05:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NOa+yPOz"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f2339dcfdso40795445ad.1
+        for <asahi@lists.linux.dev>; Fri, 14 Feb 2025 16:05:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739577924; x=1740182724; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739577931; x=1740182731; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GPAvKhgJ+unXUmEQvWMbvYBDHLwzjFI865XBH7Bpkw0=;
-        b=BE4DT/4AYqOsFJ8+sPpH+XdZfSYviH0I3oKU0pIQGDskMBpMNHLKoWSOXMDuGpkFPH
-         iq5ilm4cmUhA7+auReKg1VTGIOFVdPg+W+R0b93P+ZuS2FhPRHFVWh703W7DDrqlekKG
-         7y875C1CdmNv7OGj7sui+/e9wGGH5/DaJmIMp24IT+ercZiAvODYj+fBzQLrgdnNaWow
-         fDPnSUNnAeUl/hCZZZxEgDphs0JjVXbGHoop2S0/R9JDdZr+Lvs/D2iVHZi/gWdX1xr6
-         M7RLUW4dJV90FM6C1C+cPIp8jdBrii0G1WkBu3cb6Yqw9fkDXkzO5h0ofZYYk3k0XbHC
-         BmuA==
+        bh=JRvw5w+5NxuvIevv4OWKoiATV4ce1E+DcjU2wneQoIk=;
+        b=NOa+yPOzfUq3gbDvw1YLQTovrpBQtAxBbjavwU2xg/hSmy4/j8AQwikHTD8B16hjnl
+         nCjJ1dD7SeUWbzze5oODgDbi6LQ/DR5XnA1cPN20aWyvpuz/RKcj0lo0ugUSyeu2cnBP
+         hxlqz1glIgz9gvtj4ps5tHRMW17Ij9K7ittW4ic3VJtSA7NxG6KvDlfZZAkehoo+LFC3
+         fSZ/xs/ixK/1LH4z+NTWnesarztG6LE6cNaZfQgCkwOicfCT6cWnPM4vRFQ4P0ORXPux
+         AlmjpvMBOZgLnPuoruaUOzrV+q09OBOr/8jtntx7Gsv+WRvb6+R3Ofig3/wH1kb6dabZ
+         Vwbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739577924; x=1740182724;
+        d=1e100.net; s=20230601; t=1739577931; x=1740182731;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GPAvKhgJ+unXUmEQvWMbvYBDHLwzjFI865XBH7Bpkw0=;
-        b=CjC1Uy9NgVb1dtoxjS4S28SBjlwa7+DUp5ucnpx/YdQWocYiMBTu5bWJljPFWEFRHk
-         goHB2FRe7/cHV66pM6d87V4IYt8VzG2RzSL5hk8uo/P+TM0+0mNiD0XSe0yK0xLCfXC8
-         54NAAErbuT7HB7nna/hDhOdBe1HN5pap6Mr+sJilYu0q2O2qev/e1mVNEaVuPUJWR4+f
-         SKeVoaAHVd8XxjHf7KSTWjFpNtfuq+HAtZde5mWuV3bphP8Dh1PbmWefDPDJ1f0cuWAx
-         NJzwnABGyv6KS9DaJNkvVL3ROWXhA1IC3G3sEs+VMHxEZYLkUfOvLYyDNJ3nkJnHf8FO
-         WbWw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgu8iwUIVvEFEFAQXYPbqEG5WkPZW/Lm0jEJ5gPE8SiaAiYEiWeeYZTfITHjyFzvvbKOf+BQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2RUipJsubeXPeGHS42wSl+IY1C2DSSJ3qws1gSjMcOXvEIVzi
-	wedxtKCKfsQHFG6LXerMsN8e3ovhuhrvbAHBhwLMQwX28QmMCOfY
-X-Gm-Gg: ASbGncuHjRzSxuQj8PU9KeHUpO/gn+gBVsRtrqaDwKwyD13jwiwsuK2cDw2bMxKip41
-	m8Luxyn4Zi3pa2n2VT8vF89TS//DjiqQYYSSRGSCaTUELWa00FLljDJR6nqMg6PoalbG3ipmXt3
-	9jQsjwIzd+b7moff7i0nGI/qOTZjLavIcP6QlDT68jbukQiH+AeNN+BUJ8u5F2VjG+9sQD6maT+
-	YCufv58LjQbve2yzrNLRGCWYwcr0+Vq1nZ8TP9RPMnII3ItnQZM0U40LaV//4R+QGHmXgdyKz3q
-	SgIpbUWET3L4YBl/tg7CTgVRCw8qGfq5oCFj+v1KS1EvQBQ8ala27Kmp5sKaJlUrmh+A9b6vpzq
-	VRkwibXBuqg==
-X-Google-Smtp-Source: AGHT+IE2U5MfC5cyLipBN6ucmrk0jb7ckRvkKlZt2Xu8sC+b1Rf5rhMYgR2LfKt6UQ8SB3C9VHTyMw==
-X-Received: by 2002:a17:903:230f:b0:220:efc8:60b1 with SMTP id d9443c01a7336-221040a9a41mr17749045ad.39.1739577924131;
-        Fri, 14 Feb 2025 16:05:24 -0800 (PST)
+        bh=JRvw5w+5NxuvIevv4OWKoiATV4ce1E+DcjU2wneQoIk=;
+        b=mCW2OmvAPyMnXmDEMRVMGzD7MB8G0pUhWyHBZqJNfhyg0YSbxNmInJ0UnwTW96z8bI
+         yuhEFe96GvQPQQhkSpfpwcQPnRGURlaK9TAbZ8KiioOC695UEmf9pjEF6Chc6vl+lVZj
+         e4MXqb9HC+CcbOl38h5mqhdjAz7D/OWHKAdarAe91TDCOLHRmhyIwvJBmnkIQh4XAouG
+         IZbYDC3S4a5+NompOVoOzyMXbS+NIKPQBGooPxMGGoKJee3NYbUM1DvUBdFzR8peI4Na
+         /Dzn9+U+ELHvO4YCHAtOoRdSyLOOKozRTxi+Nqd3hskqPGaeJHhikJL37e9rdNMD5Xts
+         JZNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFXP0hE3v93oQfIeAh5dLuV4qYPZoFdQnKaJbS7zj/mAxaq9aGHMbM4r936y2rAXRNHPDFmA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMCciwusWrwMG/H5veE+BhODPEr5ESzDXUKN0s9hWuCeQlJcHp
+	QCiqu4JH6gh6N9xNKw4Tcg335hKmc0At6NWgqJ/8JT/21Sl3R0Im
+X-Gm-Gg: ASbGnctewhBLEV7jW2Dj/GByhux1xaxPk74WTobeoEOOMjPYLMpMCWeO/FEdGmry4OX
+	VfiqXpxSsPiS4MU7VBGhBc7z9r0kDlaKTEVS4pMzfBS+Gj5+BK8wM1nz4844OFD1iUZr3XLMbFU
+	9CPsgIE1wZdz5WuMle+B1Pu/PXFgyyBDhfAj6f6dn2vXFRqNRCsslSeYUqAs7T7GPd9KydngZX+
+	lJ8S/9Mqfcvz8u60IVs2Q/FmXXz+j8ezwfrpwKonsrrn5PylD/47Vmj0dtPKZXzvOmqBGqiG5Ss
+	YDD9aA4J5FLO8LuoYNl/kjTxQX55rCrVLEPsBg9swd79+Kk4MOedV+13ZsEs7abSaVWIuY/x9BG
+	Mceb8K8Qzrw==
+X-Google-Smtp-Source: AGHT+IFAlt37KrLp3aaCLabAYdTxN0gQLkRnHn3SeV4YCP7JDSRDr0QDjrDCqOwzEb4fOtQ9UuqhVA==
+X-Received: by 2002:a17:902:ccd1:b0:21f:97c3:f885 with SMTP id d9443c01a7336-220d357a8d2mr155643235ad.18.1739577930896;
+        Fri, 14 Feb 2025 16:05:30 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220f26ea127sm15071155ad.96.2025.02.14.16.05.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220f26ea127sm15071155ad.96.2025.02.14.16.05.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 16:05:23 -0800 (PST)
+        Fri, 14 Feb 2025 16:05:30 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 15 Feb 2025 10:02:52 +1000
-Subject: [PATCH 19/27] ASoC: tas2764: Fix power control mask
+Date: Sat, 15 Feb 2025 10:02:53 +1000
+Subject: [PATCH 20/27] ASoC: tas2764: Wait for ramp-down after shutdown
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250215-apple-codec-changes-v1-19-723569b21b19@gmail.com>
+Message-Id: <20250215-apple-codec-changes-v1-20-723569b21b19@gmail.com>
 References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
 In-Reply-To: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -84,37 +84,61 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  asahi@lists.linux.dev, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=760;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1488;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=D+chifTYrDMRWra/nhQ1ySkrrKfrOuvxSuOgUrZtH+M=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOnrb26/M7t88aVFTBWv8u7+E7/A6S+z6XzCUuvUTR8tt
- 65lYr+m3FHKwiDGxSArpsiyoUnIY7YR281+kcq9MHNYmUCGMHBxCsBECg0Y/lntnvflUwy72oGD
- 57dILDv8SWG2pMq6o8vZmOJXsv5Z8SuF4a/ExblF+tKJV2TiP31lq6i/NeVbps257ik73786vc1
- 37TwmAA==
+ bh=7QEQPTza50FPvZwaOcwfVBkqbL5W80ScXX3sqRtjBJw=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOnrb26vdXX9/4Zh5cdt/XWz+fy1pSa/nbFPTk138aWMK
+ 5eMtn992lHKwiDGxSArpsiyoUnIY7YR281+kcq9MHNYmUCGMHBxCsBEnuYw/E/J197F+mq9bHkt
+ 4979U69ZKwQzdi2bqWcpvXk9Z4DMf1+Gf+avdIX+Vj0IkpE4dmfGhE+LGPr77vLafnRf3bps5pr
+ Dm9gB
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Hector Martin <marcan@marcan.st>
 
+When we shut down the amp, we need to wait for the built-in ramp-down
+before we can remove the TDM clocks. There is no documented status
+regiter to poll, so the best we can do is a delay. Datasheet says 5.9ms
+for ramp-down and 1.5ms between shutdown and next startup, so let's do
+6ms after mute and 2ms after shutdown. That gives us a cumulative 8ms
+for ramp-down and guaratees the required minimum shutdown time.
+
 Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2764.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/codecs/tas2764.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index dbe3f7fa90187919b017eb2d59a67cfffc222735..786d81eb5b1e71bad094ef94e4b56e8f7c910285 100644
---- a/sound/soc/codecs/tas2764.h
-+++ b/sound/soc/codecs/tas2764.h
-@@ -25,7 +25,7 @@
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 409c54b41dda41d33e8501fff9de421c98f2541f..bdbc210ea8306ecebf704fe33fbe41083867e1ca 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -159,6 +159,8 @@ static int tas2764_codec_suspend(struct snd_soc_component *component)
+ 	regcache_cache_only(tas2764->regmap, true);
+ 	regcache_mark_dirty(tas2764->regmap);
  
- /* Power Control */
- #define TAS2764_PWR_CTRL		TAS2764_REG(0X0, 0x02)
--#define TAS2764_PWR_CTRL_MASK		GENMASK(1, 0)
-+#define TAS2764_PWR_CTRL_MASK		GENMASK(2, 0)
- #define TAS2764_PWR_CTRL_ACTIVE		0x0
- #define TAS2764_PWR_CTRL_MUTE		BIT(0)
- #define TAS2764_PWR_CTRL_SHUTDOWN	BIT(1)
++	usleep_range(6000, 7000);
++
+ 	return 0;
+ }
+ 
+@@ -252,10 +254,16 @@ static int tas2764_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 		return ret;
+ 
+ 	if (mute) {
++		/* Wait for ramp-down */
++		usleep_range(6000, 7000);
++
+ 		tas2764->dac_powered = false;
+ 		ret = tas2764_update_pwr_ctrl(tas2764);
+ 		if (ret)
+ 			return ret;
++
++		/* Wait a bit after shutdown */
++		usleep_range(2000, 3000);
+ 	}
+ 
+ 	return 0;
 
 -- 
 2.48.1
