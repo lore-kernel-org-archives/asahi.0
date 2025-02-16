@@ -1,108 +1,67 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7851DB346
-	for <asahi@lists.linux.dev>; Sat, 15 Feb 2025 19:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8F919755B
+	for <asahi@lists.linux.dev>; Sun, 16 Feb 2025 22:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739648858; cv=none; b=tEehhH1fRS6QBVFRKLRobQihe190b4JGWczV6rq9MwlD5XWosW/kRI9OcyOCddXItAbtKlxcjDBkbFVCMwjeNGhjn8iSccH+jAVm4fWNb347tgR2LUJiurLItt+Mz8Ttr5ETbj8ZL51FQGlBdAvdXZX+w60E02y9og3M3ipB3EU=
+	t=1739746732; cv=none; b=ht+WnVlPSGGnlnDw9wOHtufkFgmFRUnqCfYa7wCHUdoX5HFp/mnY/vg1vPWuDh1KEhdDc2Uva0dbZgjKWBqSge3k67pjUKLPnN9cks6oQpmDREBKICbqynascbBfs+UuGsLWvSOUOcm2hYGiJ88y6BJA0DhXdltrVd2Z619PFeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739648858; c=relaxed/simple;
-	bh=DYfp2i2SZiuctQ0MVI7rHStW6AJQXkGlw/Iul/pfxqo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=URtZ3GwGtlVVepP/BS56z4rp7EYd8VbAyvg2XqhmBDs9jLCkxqkLtohQDR+j0/Hgc598ypMzakrAdRvVB05S6V2zovmSRoMVkPWvwX7WG3MdA4mdZlsYVTQXftcmyhtIJCB925W6JxVQmBUbMdFUWm7KmlhRjg9Wp7gG3kodNXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=VzjQqb3l; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	s=arc-20240116; t=1739746732; c=relaxed/simple;
+	bh=igPFcIAqETZ+TgmghW+VIvY/P4E+wul801/Cgld7s3A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u7rQLMioslxoL4ehfaJC8fOb1Oj/ASY/vcVdUdRd1rsWdnyLXVIcdjeAjpg0FSBDfGBrTRtZdMCw/ku9N8bBjMeA+aannh19z52e/W39EYylCplRLtUYPL6c5WJy5hUzR7Ky1pw9DU2icl4/tFjm/dyEtExXgEpwoCcs1S7+r5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=be0TvN1E; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="VzjQqb3l"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 2413F43462;
-	Sat, 15 Feb 2025 19:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1739648846;
-	bh=DYfp2i2SZiuctQ0MVI7rHStW6AJQXkGlw/Iul/pfxqo=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=VzjQqb3lWyOI32y3Ub3ByjcWQ7tonopRGCAfxXkvg/tHufVK14a9wT45GXJjmnt4s
-	 7WHg+mZsdhIbnXGi8C68mDxNR2ln5yIiUNK4TKZS/XYu1+vLi17da7m/7f4MaXpS+K
-	 iodVJ1WIdfb/9l6IAi4C2tpRDADwEOpwu53Zoqk9rp3etvLGuoCl9PsFDPaTCvWnlM
-	 BI4YtlK9iutNXU1D5RYZ376iKoa6XdogtrnfXpfiJXzgnWViDl6o91jK1c1dksKc/G
-	 8jUxzPuIJEmWIo57Q6bEJpMChpKkZKUSRGzrt9BTturSagEDKfubrPqmbVuVMhcgUX
-	 as8bLSk56o3fA==
-Message-ID: <cae5503e-4330-4c44-8a50-1ebf63ea5a24@asahilina.net>
-Date: Sun, 16 Feb 2025 04:47:22 +0900
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="be0TvN1E"
+Date: Sun, 16 Feb 2025 17:58:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1739746726;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C/FXzmX2dHrZoHi4o+NcVuNP8PcXZi9MiUagI2/vqQU=;
+	b=be0TvN1EmVBtW2YkSgKuZ/yiYLovqVqiUaVEoJkZ4fTO9CKWzFGE0YqEkTYDZ4xSYHTepl
+	NK1JSjLwP8PDAA1H86rV49gfeX6n7n0IT6XDuz4G1Qwg0CYpsE7iufk1GnIpfdz2aVFIOz
+	48q3d9NBuP9c4tUI5f2OL7pdWVTXLYUIlgucQfGW9OEf8mTKsgC2cp3A++8r1akcPGz7eA
+	/xJ6/yCljddO7Q2Yhy0hGaAtgAKAPsrnNs47Tth94hZA/N57VgjrrH9bKr3jtnlYazbQnN
+	Aof6kaFHS+mo7NrHlwQXUVjnau7WyRyT12EFf9qgniLRQ9iN+qtj5fWCZ/J8tw==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shi Fu <shifu0704@thundersoft.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH 03/27] ASoC: tas2764: Extend driver to SN012776
+Message-ID: <Z7JtoIOECq-BjT9V@blossom>
+References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
+ <20250215-apple-codec-changes-v1-3-723569b21b19@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
- physaddr conversion
-From: Asahi Lina <lina@asahilina.net>
-To: Abdiel Janulgue <abdiel.janulgue@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>,
- Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Valentin Obst <kernel@valentinobst.de>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- airlied@redhat.com, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- Danilo Krummrich <dakr@kernel.org>
-References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
- <Z6CY4TvZwLkWmB3I@pollux>
- <a3551d7d-14c7-40a0-90ff-1fcce93be62a@asahilina.net>
-Content-Language: en-US
-In-Reply-To: <a3551d7d-14c7-40a0-90ff-1fcce93be62a@asahilina.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250215-apple-codec-changes-v1-3-723569b21b19@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 2/3/25 11:41 PM, Asahi Lina wrote:
-> 
-> 
-> On 2/3/25 7:22 PM, Danilo Krummrich wrote:
->> Hi Lina,
->>
->> On Sun, Feb 02, 2025 at 10:05:42PM +0900, Asahi Lina wrote:
->>> This series refactors the existing Page wrapper to support borrowing
->>> `struct page` objects without ownership on the Rust side, and converting
->>> page references to/from physical memory addresses.
->>
->> Thanks for picking this up!
->>
->> As you know, this has been previously worked on by Abdiel. Kindly drop a note
->> if you intend to pick up something up next time, such that we don't end up doing
->> duplicated work.
-> 
-> Sorry! I wasn't sure if this was going to end up submitted over the
-> holidays so I wasn't in a rush, but I ended up switching gears in the
-> past couple of weeks and I really needed this feature now (for crashdump
-> support to debug a really annoying firmware crash).
-> 
-> I actually only just noticed that the previous v2 already had
-> Owned/Ownable... I only saw the v3 which didn't, so I didn't realize
-> there was already a version of that approach in the past.
-> 
-> ~~ Lina
+>  config SND_SOC_TAS2764
+>  	tristate "Texas Instruments TAS2764 Mono Audio amplifier"
+>  	depends on I2C
+> +	depends on OF
 
-Given the discussion in the other subthreads, it looks like this is not
-the best approach for page table management and using it for crash dumps
-of arbitrary physical memory pages raises some eyebrows, so I'm going to
-abandon this series.
-
-Abdiel, if the first two patches are helpful to your work, please feel
-free to incorporate them into a v4. Otherwise, just go ahead with
-whatever works for you!
-
-~~ Lina
-
+Do we want to drop support for !OF configurations? The alternative would
+be extra #ifdef soup. I don't know if this is a useful build configuration but we should be deliberate about adding the depends.
