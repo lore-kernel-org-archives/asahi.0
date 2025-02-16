@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F1742070;
-	Sun, 16 Feb 2025 23:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA0D1A38E1;
+	Sun, 16 Feb 2025 23:58:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739750187; cv=none; b=BAqIuYrRtwgvdIr5CnJdYas46A8ofVXZgp6sAKklpskcXuJVBMqMdKrenm7TzdyxcqkBPun13fk/U9kiSkmfRZq3GVi5GE08TEvMON9j8cClu8TbqeymXRr+qSTWQEpm/EUWDUWsZ78A+huSbh3U2y50w8eZ4UAkqwZjzLNZwsM=
+	t=1739750303; cv=none; b=W/5CqSAdh98kIIuCIRK/jY4JxFNj2sOES/rjPgfWKmDxqcAfgoS6Kuy+jK80/i38WfSoPp53O1PV6Jl5dBAvzpJ/eIedQGcqsCQjdPRe3juISv+BPZNKXlgRi7jWgXAOhPRM0Kl5dytPOQN+8isVI3ri8GcCyMpwyXh8ckDFaFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739750187; c=relaxed/simple;
-	bh=j6Gn+HMB6SopZbs1Rg2ehZv/3D386/1lLfPTTt36S5Q=;
+	s=arc-20240116; t=1739750303; c=relaxed/simple;
+	bh=NW8y5IgtWJOIbWJ6+WKvwXaEUgAUvbyrTPPzLSFtQS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hr/gn+5g6+GjIy94u1TjMU/q8rvKg/DtA0pzkCSc+qLNwluxjWCbU2UBJOn87ITIA3mmlV+pR9m2jJYxSI06VOG4pigyg47+K18Zi/2NuzQliTH2zsvzTfXeXQBrQHpfU1cCoHSPmUpQ1vO7P0DAXdSvfsfj5bPCS6024YY29mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uFpoj70M; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TqELcvAe+IlHs0evdgVwvRSzqs3B72yKL55P/hMJpM9V79hhTvFstwJubkN2N1O20WQK3RCorvJ9v5hLNQlUS8BByw4b+KqVvZgD499tGmogxMF4tv8N1CXoVv+fM705ealdnKYGxadhSBkKDFulYwb6xIMlVSDAAqsBUFCKaSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dACoSNaX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uFpoj70M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87D5C4CEE7;
-	Sun, 16 Feb 2025 23:56:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dACoSNaX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A8FC4CEDD;
+	Sun, 16 Feb 2025 23:58:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739750186;
-	bh=j6Gn+HMB6SopZbs1Rg2ehZv/3D386/1lLfPTTt36S5Q=;
+	s=k20201202; t=1739750303;
+	bh=NW8y5IgtWJOIbWJ6+WKvwXaEUgAUvbyrTPPzLSFtQS0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uFpoj70MmzIdRjLlmXyjeMgnSlPUdnKm6CDdyDuFqVNYAPtZXTXdBCkRIvYUuHjGx
-	 8MwLcJszK5qyiRliGArDiLLCxq7Bh2xZ2CHw6Cwd9gmj9g58X2or02lGwGW8bMDgTe
-	 /jyxXW1d6qCdeiJElajHel/LF+XFVzdXmUPN4EdJliLQZkGjueto01l+UxvGuZ4foR
-	 DtUA4dNCHrrvnPpt4jei5KNLwJ9ptTwxyuV+2uocY7zoAOs41WSJF3R0kIfpAPIk56
-	 JWFTdYcwphi32QA4QDMXyczkbsPlhC5/ubHABoOCWwc5K2KKz8Gk+GAkxCnzSYtqu9
-	 A7PBRBhsbmT5Q==
-Date: Sun, 16 Feb 2025 23:56:19 +0000
+	b=dACoSNaXP1tnUuY/1D08IkyLPK59GfyoqOQD6DeVVqPpjLKzHthmQDSB9H/CDk0wZ
+	 tc20E5q8JdrlK9TnaftVkxprduiIo7ucittZOqYe0DGyvEBFmfZaDxcHwHrRyrLrk5
+	 3WnkXIPnM7HRUAeOnQw+XRwmFDEj+G+lKkCHDpCqO3j0jowK4sQ6g+HRjbDxLQPseb
+	 nIqtXgi/SMIV38+B5PUwRzW3xp6kASDJtG0qJOWfnIJevmYdrT4d46RIO395J9QJpw
+	 rlxng0Wb0FSv4Ld0EQB1a4ah0s+5EWr2PEpalk9JEdXuS/uTi/tFFhKsPWfm2zikoT
+	 Co2+Fp3qXMlDA==
+Date: Sun, 16 Feb 2025 23:58:15 +0000
 From: Mark Brown <broonie@kernel.org>
 To: James Calligeros <jcalligeros99@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -41,10 +41,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
 	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
 	asahi@lists.linux.dev
-Subject: Re: [PATCH 11/27] ASoC: tas2770: Export 'die_temp' to sysfs
-Message-ID: <7b4adf37-fdbd-4245-973c-5f923414b131@sirena.org.uk>
+Subject: Re: [PATCH 19/27] ASoC: tas2764: Fix power control mask
+Message-ID: <4b665578-7da7-4a94-a4b8-bbb3196927a1@sirena.org.uk>
 References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
- <20250215-apple-codec-changes-v1-11-723569b21b19@gmail.com>
+ <20250215-apple-codec-changes-v1-19-723569b21b19@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -52,40 +52,41 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PXshCQ8lgf8ndIg+"
+	protocol="application/pgp-signature"; boundary="3g2f+/Kxo5qlC/ux"
 Content-Disposition: inline
-In-Reply-To: <20250215-apple-codec-changes-v1-11-723569b21b19@gmail.com>
+In-Reply-To: <20250215-apple-codec-changes-v1-19-723569b21b19@gmail.com>
 X-Cookie: This is a good time to punt work.
 
 
---PXshCQ8lgf8ndIg+
-Content-Type: text/plain; charset=utf-8
+--3g2f+/Kxo5qlC/ux
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 15, 2025 at 10:02:44AM +1000, James Calligeros wrote:
-> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+On Sat, Feb 15, 2025 at 10:02:52AM +1000, James Calligeros wrote:
+> From: Hector Martin <marcan@marcan.st>
 >=20
-> Export a file for the readout of die temperature measurements.
-> As per the datasheet, the temperature can be calculated by
-> dividing the register value by 16 and then subtracting 93.
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 
-Should this be registered with hwmon - it appears to be exactly the sort
-of thing that gets exported through there?
+Fixes should go at the start of the series so that they don't end up
+with spurious dependencies on other non-fix patches.  I did pull some
+random fixes out of the Asahi tree the other week which are in CI now,
+I can't remember off hand if this was one of them.
 
---PXshCQ8lgf8ndIg+
+--3g2f+/Kxo5qlC/ux
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeyeyMACgkQJNaLcl1U
-h9CkUAf+OlvePkmuGFAOUofSjCQ2n99p0ULLt0fZMHvj7hUNIXjnGzTO0Po8FRkz
-2nvCgko1DkFadWb6HKMyoaJMHCSF/tkWKDJHs2YeGbRvNkW93eWano1G05Q7OWK1
-XIy8NkwZk54Dy7+/Ahz85TULty7IcvbjTizwwqncuK6rVIJ3YWw1tHKg84KPWz77
-4KlLayI1Iq/U+AXEd/qEOoMy6j+nbfWfgWDL/ee7a8bmX9T4GkhPWS+bcnOP06Yv
-3YcS0CIxT0LSGyu0IhJAguZSfQpcl2LKtFH1nIsFV5CH9G27yzBeZYRYwFGJlihI
-+YGmpmbBXq7Y1bXfk1eXLpBzhlOAqw==
-=d09O
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeye5YACgkQJNaLcl1U
+h9CjEQf/YDoJJkwN67MI2NSsLjIamXB0d+897tBjYsBbH6UAa9IR9fyEXuzJ+XcR
+MxG8DSp6/niCIUpdfz0JLlfVjjthp89L/Q2UOCxRaW3CUwA29BQtJTfFARZpsy4w
+/IsJ+XWRhq98GZ2+lDGLWzJ+OX8A/9ea6k8B3chQZjw62qzf/9XDFVKKkt38ElQn
+eL+wW1td6LTEtI6G3s54BzLvNUSfc8ddUGyPk+GF9QM+9wgUuPxXi+1jVYVZ/lSK
+ZFX2HH8lyYX/aUYCxiU2ODtvKbhpsQlzmhTgSqmh28+ErRGDhmNZ2z8ROxGKyzRL
+cmbHtlO4TM2jp3ktemvX7bCVLIZC1Q==
+=1sjf
 -----END PGP SIGNATURE-----
 
---PXshCQ8lgf8ndIg+--
+--3g2f+/Kxo5qlC/ux--
