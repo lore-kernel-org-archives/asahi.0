@@ -1,52 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CAB42070;
-	Sun, 16 Feb 2025 23:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F1742070;
+	Sun, 16 Feb 2025 23:56:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739750074; cv=none; b=KBrt+9JTsfR+Vl9tYryUJXfMSyr2j2WIV1laHP1I0l5huDtt3hQ3JDsyHh8K/NI2z1zmqL/HRl/hZoxr6ir1J5LBRjWbZyCW0nmisHIdm01WlFUX03Ch4iCEWn+aUT8/Jo0Gd7n9TcnA7txSikGbMC29pK3hges+is/aTJYOozk=
+	t=1739750187; cv=none; b=BAqIuYrRtwgvdIr5CnJdYas46A8ofVXZgp6sAKklpskcXuJVBMqMdKrenm7TzdyxcqkBPun13fk/U9kiSkmfRZq3GVi5GE08TEvMON9j8cClu8TbqeymXRr+qSTWQEpm/EUWDUWsZ78A+huSbh3U2y50w8eZ4UAkqwZjzLNZwsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739750074; c=relaxed/simple;
-	bh=dRbOoNPDAav7vOon2bl1IWC4PYB584wp3fauzmyTL10=;
+	s=arc-20240116; t=1739750187; c=relaxed/simple;
+	bh=j6Gn+HMB6SopZbs1Rg2ehZv/3D386/1lLfPTTt36S5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=icw9wZaGk9/MNyGQ50QIbynuCvNigv6srsjV0cZgN/pR7mSPdSA7yVvqPPQe0zXgh91J0In36ngPdRZNcZpAwtAy5OXXlPuQznCD1rA4+4EknRgFHQ2UyL8Hivmr91zcldUIckx0mTQRMhxK835viU2ekXbGKMdAvms2lOHLTkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVNbZTBJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hr/gn+5g6+GjIy94u1TjMU/q8rvKg/DtA0pzkCSc+qLNwluxjWCbU2UBJOn87ITIA3mmlV+pR9m2jJYxSI06VOG4pigyg47+K18Zi/2NuzQliTH2zsvzTfXeXQBrQHpfU1cCoHSPmUpQ1vO7P0DAXdSvfsfj5bPCS6024YY29mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uFpoj70M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVNbZTBJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BACD0C4CEDD;
-	Sun, 16 Feb 2025 23:54:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uFpoj70M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87D5C4CEE7;
+	Sun, 16 Feb 2025 23:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739750073;
-	bh=dRbOoNPDAav7vOon2bl1IWC4PYB584wp3fauzmyTL10=;
+	s=k20201202; t=1739750186;
+	bh=j6Gn+HMB6SopZbs1Rg2ehZv/3D386/1lLfPTTt36S5Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eVNbZTBJYP00hVBmRgPdsaVj9nN1CQ5ZC7NBZp4+8tRK6NDu+dytcq3CTwLuuYk9x
-	 439TR1HYSDyPB98VHZi9M7Wk3IgyX8J8yhXXKiNn2Gm399mA1z/QFUbbg5KSdCS8Y7
-	 0h1VYTDnIgAXoDrQW/tuvRChTjJ4tMHL8XIv3wvm3pOHI9S+8rGj0pF/BQ1ahM1sZu
-	 paVUhfdiIEMWxRdZ2l49e74Sk8zqQyERNIQ+d5ScZfIZYfzzgRE9Got8xGb4R0C5ze
-	 4IzqGyqm+lRKx7SQjZ+WyI9G2winxVAw4PBWi5MD33qADqc+dT7hsK50ie355kYWGL
-	 uEId50/Ul3djw==
-Date: Sun, 16 Feb 2025 23:54:26 +0000
+	b=uFpoj70MmzIdRjLlmXyjeMgnSlPUdnKm6CDdyDuFqVNYAPtZXTXdBCkRIvYUuHjGx
+	 8MwLcJszK5qyiRliGArDiLLCxq7Bh2xZ2CHw6Cwd9gmj9g58X2or02lGwGW8bMDgTe
+	 /jyxXW1d6qCdeiJElajHel/LF+XFVzdXmUPN4EdJliLQZkGjueto01l+UxvGuZ4foR
+	 DtUA4dNCHrrvnPpt4jei5KNLwJ9ptTwxyuV+2uocY7zoAOs41WSJF3R0kIfpAPIk56
+	 JWFTdYcwphi32QA4QDMXyczkbsPlhC5/ubHABoOCWwc5K2KKz8Gk+GAkxCnzSYtqu9
+	 A7PBRBhsbmT5Q==
+Date: Sun, 16 Feb 2025 23:56:19 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: James Calligeros <jcalligeros99@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
-	Rob Herring <robh@kernel.org>,
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Shi Fu <shifu0704@thundersoft.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
 	asahi@lists.linux.dev
-Subject: Re: [PATCH 03/27] ASoC: tas2764: Extend driver to SN012776
-Message-ID: <72674ddb-6b5f-40b1-bed8-edaf4547b27b@sirena.org.uk>
+Subject: Re: [PATCH 11/27] ASoC: tas2770: Export 'die_temp' to sysfs
+Message-ID: <7b4adf37-fdbd-4245-973c-5f923414b131@sirena.org.uk>
 References: <20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com>
- <20250215-apple-codec-changes-v1-3-723569b21b19@gmail.com>
- <Z7JtoIOECq-BjT9V@blossom>
+ <20250215-apple-codec-changes-v1-11-723569b21b19@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -54,46 +52,40 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6X4NoWFeMpCzPIN9"
+	protocol="application/pgp-signature"; boundary="PXshCQ8lgf8ndIg+"
 Content-Disposition: inline
-In-Reply-To: <Z7JtoIOECq-BjT9V@blossom>
+In-Reply-To: <20250215-apple-codec-changes-v1-11-723569b21b19@gmail.com>
 X-Cookie: This is a good time to punt work.
 
 
---6X4NoWFeMpCzPIN9
-Content-Type: text/plain; charset=us-ascii
+--PXshCQ8lgf8ndIg+
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 16, 2025 at 05:58:40PM -0500, Alyssa Rosenzweig wrote:
-> >  config SND_SOC_TAS2764
-> >  	tristate "Texas Instruments TAS2764 Mono Audio amplifier"
-> >  	depends on I2C
-> > +	depends on OF
+On Sat, Feb 15, 2025 at 10:02:44AM +1000, James Calligeros wrote:
+> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+>=20
+> Export a file for the readout of die temperature measurements.
+> As per the datasheet, the temperature can be calculated by
+> dividing the register value by 16 and then subtracting 93.
 
-> Do we want to drop support for !OF configurations? The alternative would
-> be extra #ifdef soup. I don't know if this is a useful build configuration but we should be deliberate about adding the depends.
+Should this be registered with hwmon - it appears to be exactly the sort
+of thing that gets exported through there?
 
-If the Apple variants of these chips are making their way into laptops
-I'd not be surprised if the other variants might appear in x86 laptops
-too.  What's the specific reason for dropping the build coverage, is it
-actually getting in the way at all?  We have lots of drivers which build
-happily with !OF even if practically speaking they'll never appear on
-such systems since it helps improve build coverage which makes life
-easier for people doing general coverage.
-
---6X4NoWFeMpCzPIN9
+--PXshCQ8lgf8ndIg+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeyerEACgkQJNaLcl1U
-h9CURAf+Ndu7lZbQOyYpeCgjFeV/eBVg/L33ogoUSCpxmlR7xM9XxYVkDr1XQ1JZ
-HveuFs38BCFXqubRUN5fIZKZq9RWV6B30V4j1rDNEKFtZ8BwuerFVV6b+zD2Ncjo
-tyKSvRq/EGGSh7yhVPwEgZkZbgwhe6lH05uG3/x8Q2eBKfF3qT0GITu0sxp+AIf7
-VL7hJyHjYxmxUL/JkXWQMxw8XTx3W3RpKvdOG0aexeDe9CFYjlNukg/2RwGEwebU
-dyCSkKX/iKi5weJ1k6952E0BZG6rr4sOQyNMX6gWSY/8joQcKY1YCgCzX3FcX3uI
-AayVFhpaMGpqhi1RorPXCTQ7Hr4eEw==
-=pNZo
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeyeyMACgkQJNaLcl1U
+h9CkUAf+OlvePkmuGFAOUofSjCQ2n99p0ULLt0fZMHvj7hUNIXjnGzTO0Po8FRkz
+2nvCgko1DkFadWb6HKMyoaJMHCSF/tkWKDJHs2YeGbRvNkW93eWano1G05Q7OWK1
+XIy8NkwZk54Dy7+/Ahz85TULty7IcvbjTizwwqncuK6rVIJ3YWw1tHKg84KPWz77
+4KlLayI1Iq/U+AXEd/qEOoMy6j+nbfWfgWDL/ee7a8bmX9T4GkhPWS+bcnOP06Yv
+3YcS0CIxT0LSGyu0IhJAguZSfQpcl2LKtFH1nIsFV5CH9G27yzBeZYRYwFGJlihI
++YGmpmbBXq7Y1bXfk1eXLpBzhlOAqw==
+=d09O
 -----END PGP SIGNATURE-----
 
---6X4NoWFeMpCzPIN9--
+--PXshCQ8lgf8ndIg+--
