@@ -1,66 +1,67 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F098922B8C7
-	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 08:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC511DD0D6
+	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 08:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739867796; cv=none; b=KgRkYg1jd1SmrHkP7BwYogY4PMzvZJQiai+TGrFu9DOfsz1PeNxXfN3EE/C8nc+48XY81tMxUSF3c8kMSFr60szK1TWiBJtrzQNyBc+MTRZ6dncf+DfLMiZ5Zh81WrDS7t1KNYI7neUDsKJxtQok42YzxPPZOEGA83C68Z9R8PQ=
+	t=1739867804; cv=none; b=VZdl5sqLHInBvpzEumAgN6RSMKWNJuF+OHZQnBuCZ/Rx7EUu2DnjF144rO6Pc4R+G2jGnQ3J+Gj/MDgTfuhfBmHd4sO4Lj9TXsrhZ6OrIdjrzuuovt0qGxE8UcaVMHiZetRLl1mch1GItGfcQT8ZXuqPYvoV1yMSKSQSjAfkkWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739867796; c=relaxed/simple;
-	bh=ibUQWT0CBsGobzHnhQBolv7HNIIYAkN7Qt+Kz+xkT7c=;
+	s=arc-20240116; t=1739867804; c=relaxed/simple;
+	bh=ZLfqHGEmmRxWDvQqbGo0nvLtr+jQRIPyVh/jCgvqHm8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iUxZ+kl0+9N461k/iyp5D5aaap2cOk9gKnqhMKWbJ+o0idqyd4PLq0cDiY/ePvIo00olJvaqz9GtYaTUd9xg9ZjS+aSjkZWwmgJBdi4pEVYNYp7mwTASw2bEYWQw30mjzUeQEQroimCJB7OPLp7OERyI/YH6VTofNSrfkjlqgCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mZ6BIf4t; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:To:Cc; b=DuxHuxX1tBlJv4EDvoGUiSniGxr7p4Lo8LWTRLgSPx4T0HmVliRsuZTVqlnpsOkw/J7jzAT1Dnvt+k3iu7Hg/7rKnReZAcjRLBNWg/49OVRTNMhKOK4cRmWK6sZeGWid5weZc8a6Ci9YeUxN5mIxku9AvSHV1MwFRBKr7nx+pj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hxd6D5FO; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZ6BIf4t"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2212a930001so47178765ad.0
-        for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 00:36:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hxd6D5FO"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2fc0026eb79so9705637a91.0
+        for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 00:36:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739867794; x=1740472594; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739867802; x=1740472602; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T/JJHVuhOmU2flaa9vpPAAtoFcuf4Ywj04vQWrR/12g=;
-        b=mZ6BIf4tXgLLwz28BWo8nNlAkDjdNP2LcQjMdZ+ZVmWAcVfsNuf4oy67vNrgmfZ/9/
-         oVYdxemBVBLvZNk4Le9MNIXo7yOwDml7wXK8FsFKa4AFB4a9YvuKYMGU2EAuxM878OGO
-         ftBnITAd8tEMD22cg9XlDbZeil3ipNOe8WX/YAzEq9kiS6/zWEsS+pTSF16PMHsjz20x
-         CMPS7PgYbj2I9iSKis9tuWWCvm9oqllnWrtNFA1s/6P4u0U8aHeANnj8dHLiKbUs6mR2
-         XDxPJRfYtYSZfiWSFqmmIkbuwztBwqq54M9+cHlcOHDqNDs7etRV7pfTaMD0ZIrTJhPs
-         ef+Q==
+        bh=ln6BBxQvoa3BwbYmzNm0cxjw8OAeHcLG9Mi/U3fzc+8=;
+        b=hxd6D5FOKes9xZYy4ZFxv5c3sUF4jmzfo4wXNxgFK0+fzHHzRL6Dq+jPNZQ5pcOW3t
+         biNrYHxV1czEllZEb/KP8n3UNpATQPWx4Dbi3IiubA9s2MczdNlR/Ob5L38oiUDumurY
+         Q+kTkXzVxRV9MK2X3/AaTZuYxZsmBiARELAlbBXi91Rx0B7+wY1qriiPXl78/n4yv6uv
+         kAkqUxzIgwlMQ/A9itOnjzar7WAZn/LV3On7D7B9bnHkoNuWTwnE045J6+R58hYhi3jR
+         AdYatBrNxgHW7auN1q5DVpZbFq+6Df3S8eRsOigIoELsIUsctQRz8OikYpTjflxI9/I0
+         jIYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739867794; x=1740472594;
+        d=1e100.net; s=20230601; t=1739867802; x=1740472602;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T/JJHVuhOmU2flaa9vpPAAtoFcuf4Ywj04vQWrR/12g=;
-        b=M2nCAmOVG5Vrn2Q9VrHCw9jdxQQ6vm7PrVeiqY1kJB0XOHIBjUbnwUwXz5y5NNang4
-         Pu9r0782lzktw6U85zbaz1VG/J9iuJ2XqRFpioAX5c765OcbkX6I2lujFUb6EBHgl0TL
-         XJgcYJYZXTBm/7U5aZml2ZZphCCrR1zkvob0dVjuBDluyB/cMWZ2TrDmzImlT76XtFbn
-         msmxkXvjdUJjHwCG85m0VM11kTHXq2qhCvNw9PnzPdNnXgAA9lpjvY25EMaSh+ujD3pt
-         N2SleTfDodrJwI5fh1LOLcZqpgPp7e/BdwAf0SpBvQ186tOHXTbyntbSVVxupIBh7RT+
-         wfnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXSTwpaaYU5ChjwMAlJ4QbPc8yb78BWsjRK1hIFlGLJ0RAnpjrKvwDTWIkuPflAtRGjPxh6PA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4caCifgMCFwh94Ylk5xoGFexIIdPC4DUaxaaxOiDYT0K1iyz3
-	+clVS53TYe4dg6O4gnQ3v5Vyw0OdAOalX2rcpn9Hbh+aK+4TnoPf
-X-Gm-Gg: ASbGncuq7te1jKmqSPE+757b+7aX1xWAf5FFyIUld5ab5FlPgM2XZrCWoydAIdnvTdd
-	SdFzoXx6LiVuUYlFz47+8642eMuuE5TR6m2K9FM8hLDfR2UvTlr/dLUuYMrhu1vqYMuGwMdomtV
-	ZUkechaN5MhkLGDM5TWYASf0ujj0k+vCb8oEhLZRaNnvbKHkpbAsmKJvLz9NBYXQvm86R+56xY+
-	tJ6v8Qyi8LAD1JMxY/091T8fOpJoqbBs2ItnuqigJvmr9pjhsW3r/V4ubZwjwh05qIZusUkx5vy
-	kbgOORGHwYPWkJC/lEaJ61eHkYCxS52nJJP8Gn9iEQViRelwkQKPTssPYJnlPsOxLN9Kug8s2ot
-	wY/wnysIKmQ==
-X-Google-Smtp-Source: AGHT+IHcWo5xUjZQAMy9H5EeCHYZu+Ch7Btpe9yzB7SSeoHfzR+37KEI17lVH6KxzdQAjB5O8rh2DQ==
-X-Received: by 2002:a05:6a21:898c:b0:1ee:aa06:1a47 with SMTP id adf61e73a8af0-1eeaa06a294mr12315448637.2.1739867794138;
-        Tue, 18 Feb 2025 00:36:34 -0800 (PST)
+        bh=ln6BBxQvoa3BwbYmzNm0cxjw8OAeHcLG9Mi/U3fzc+8=;
+        b=IuNq2I9DgdwObZELwMGrxksNNjqIDQrt+0kO40KcWh9arJ9KCExOXRkVJ8DOXpHZ/w
+         xYVwtXelYPimxN66B5g4p3cpCNvByLnRI8ZUMhRoFhW5td1rOC1Ipp9yvNA7RWyU6444
+         W2P7jX2rr2XU4rHFYf75GtFSgtfsgI0GRj00T+PPoeEMKEW4aAeRpNA4PcAfAynDg9jg
+         3QzqmEuY6pv/NoBfGMd4Ss89JE0OrwRUDZ/NxfgOxNKs3sMFfIqq86tWe74BkzgsEDRT
+         2NGyHXXDTFQQ1vk68uib0XGW7SBbJh7JB6kkUou7Z71LpNmaOONiflF9x22t4fsHUiKV
+         XdoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWOvPOGF1+Er37rAZHNcXhxZc2xemAQT3HGHA9Mk2V/nzkG7hpmKeqFzzoZcPg47IZ6cTMhEQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzR3HH2pilvMgFnCtSF1nSAO51Y/HbWbHMtLQvR/FZkYMXGurjG
+	E5LzgGfb7EDI+hKR1cDGNxB9nT5cXZNJdxVJ7VJilI2iwdD7J22k
+X-Gm-Gg: ASbGncvyANAWMUbCW7bzPyi8wtBTn4ew0lC3q1p3rxdJdXANIbVvKGA0/XVFp5DR7vP
+	/Yf1Z3mcI2lzwByILw4JbFM2Y0ZyjZryvepX8VLZFChYo04/nAEXWXv8SftP1PSwduyK5lH8FRK
+	gppzN5GRE2C9qPxmGlkiiKaiNO9B+RbZb/7mYfHoG5r5/4YV25SK70ov3n1nIAEwXgn68qWh5NM
+	QmrpGhkH/v2U58R1AjPya8i4JDNMHoM1Ume/gnu9KNHpBOvop83LC3Pdk18Vko6wlmibz3H0ycx
+	8jElAZJYc//BSdmS/gg+SlrheN4BRoinYGqToFK6FkB1F+caeRZefwKEX/KRBQx/QGBSft6yeGu
+	RXjrsLLgeKQ==
+X-Google-Smtp-Source: AGHT+IGMRtRZg0Gc9H3HwG54sh1h0dYs9F/qv3aNYDQGeqt+afKytli0IykEtcy4SHr1bGklOsV/0A==
+X-Received: by 2002:a05:6a00:198c:b0:732:1840:8382 with SMTP id d2e1a72fcca58-7326144b0b3mr21937466b3a.0.1739867801963;
+        Tue, 18 Feb 2025 00:36:41 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ae1ee4febb2sm787325a12.51.2025.02.18.00.36.26
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ae1ee4febb2sm787325a12.51.2025.02.18.00.36.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 00:36:33 -0800 (PST)
+        Tue, 18 Feb 2025 00:36:41 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 18 Feb 2025 18:35:39 +1000
-Subject: [PATCH v2 05/29] ASoC: tas2764: Extend driver to SN012776
+Date: Tue, 18 Feb 2025 18:35:40 +1000
+Subject: [PATCH v2 06/29] ASoC: tas2764: Add control concerning overcurrent
+ events
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +70,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250218-apple-codec-changes-v2-5-932760fd7e07@gmail.com>
+Message-Id: <20250218-apple-codec-changes-v2-6-932760fd7e07@gmail.com>
 References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
 In-Reply-To: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -86,148 +87,70 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
  Neal Gompa <neal@gompa.dev>, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3943;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2014;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=6sstN5QNTZo6/ITwAmCbNhHYlrr8szvxp01qrMCZpUw=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOlb3OIdT87vvTGhNbqz/4jklsq+E6pLmNZbtD7/xZ/DY
- MH+9snkjlIWBjEuBlkxRZYNTUIes43YbvaLVO6FmcPKBDKEgYtTACYy4z0jw+Ka/Wf2FvV9LrTl
- rlg+zVepq2qCpF8i736J/3N108Qr+hgZ2tU9Nuit/Ctqz32982KiZ4jcW4NpWe/kP6nfuh3TsfQ
- KOwA=
+ bh=x9ToLkkem0IkKdzxIQq2uXS0i2qLVjJ6tDhcGqRC18k=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOlb3OLnPKg68/OoqOP7V1+6X9Y8OHyEf3ew30KduqsvL
+ iecOz1vQkcpC4MYF4OsmCLLhiYhj9lGbDf7RSr3wsxhZQIZwsDFKQAT+T2f4Z9R4aEjDoLhqaym
+ //J0nnj7xfSc2WhkczqhK3/ym0M3GCwZ/hfPDi7RZ9107PsspQkqGnfLJa9xasy6+Vubu/vwjKz
+ UYm4A
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Martin Povišer <povik+lin@cutebit.org>
 
-SN012776 is a speaker amp chip found in Apple's 2021 laptops. It appears
-similar and more-or-less compatible to TAS2764. Extend the TAS2764
-driver with some SN012776 specifics and configure the chip assuming
-it's in one of the Apple machines.
+Add control to expose the option of autoretry behavior on overcurrent
+events in the codec.
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2764.c | 42 +++++++++++++++++++++++--
- sound/soc/codecs/tas2764.h |  3 ++
- 2 files changed, 42 insertions(+), 3 deletions(-)
+ sound/soc/codecs/tas2764.c | 9 +++++++++
+ sound/soc/codecs/tas2764.h | 4 ++++
+ 2 files changed, 13 insertions(+)
 
 diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index d482cd194c08c5c443b82c665de7a6d96531ef2e..cda75b7f270377dd7af1b163d38fe2f28e1f7484 100644
+index cda75b7f270377dd7af1b163d38fe2f28e1f7484..05d025ffc567fac25110fbde2ca19337b8ee329d 100644
 --- a/sound/soc/codecs/tas2764.c
 +++ b/sound/soc/codecs/tas2764.c
-@@ -14,6 +14,7 @@
- #include <linux/regulator/consumer.h>
- #include <linux/regmap.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/slab.h>
- #include <sound/soc.h>
- #include <sound/pcm.h>
-@@ -23,6 +24,11 @@
+@@ -623,12 +623,21 @@ static SOC_ENUM_SINGLE_DECL(
+ 	tas2764_hpf_enum, TAS2764_DC_BLK0,
+ 	TAS2764_DC_BLK0_HPF_FREQ_PB_SHIFT, tas2764_hpf_texts);
  
- #include "tas2764.h"
- 
-+enum tas2764_devid {
-+	DEVID_TAS2764  = 0,
-+	DEVID_SN012776 = 1
++static const char * const tas2764_oce_texts[] = {
++	"Disable", "Retry",
 +};
 +
- struct tas2764_priv {
- 	struct snd_soc_component *component;
- 	struct gpio_desc *reset_gpio;
-@@ -30,7 +36,8 @@ struct tas2764_priv {
- 	struct regmap *regmap;
- 	struct device *dev;
- 	int irq;
--	
-+	enum tas2764_devid devid;
++static SOC_ENUM_SINGLE_DECL(
++	tas2764_oce_enum, TAS2764_MISC_CFG1,
++	TAS2764_MISC_CFG1_OCE_RETRY_SHIFT, tas2764_oce_texts);
 +
- 	int v_sense_slot;
- 	int i_sense_slot;
- 
-@@ -526,10 +533,16 @@ static struct snd_soc_dai_driver tas2764_dai_driver[] = {
- 	},
+ static const struct snd_kcontrol_new tas2764_snd_controls[] = {
+ 	SOC_SINGLE_TLV("Speaker Volume", TAS2764_DVC, 0,
+ 		       TAS2764_DVC_MAX, 1, tas2764_playback_volume),
+ 	SOC_SINGLE_TLV("Amp Gain Volume", TAS2764_CHNL_0, 1, 0x14, 0,
+ 		       tas2764_digital_tlv),
+ 	SOC_ENUM("HPF Corner Frequency", tas2764_hpf_enum),
++	SOC_ENUM("OCE Handling", tas2764_oce_enum),
  };
  
-+static uint8_t sn012776_bop_presets[] = {
-+	0x01, 0x32, 0x02, 0x22, 0x83, 0x2d, 0x80, 0x02, 0x06,
-+	0x32, 0x46, 0x30, 0x02, 0x06, 0x38, 0x40, 0x30, 0x02,
-+	0x06, 0x3e, 0x37, 0x30, 0xff, 0xe6
-+};
-+
- static int tas2764_codec_probe(struct snd_soc_component *component)
- {
- 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
--	int ret;
-+	int ret, i;
- 
- 	tas2764->component = component;
- 
-@@ -578,6 +591,23 @@ static int tas2764_codec_probe(struct snd_soc_component *component)
- 	if (ret < 0)
- 		return ret;
- 
-+	if (tas2764->devid == DEVID_SN012776) {
-+		ret = snd_soc_component_update_bits(component, TAS2764_PWR_CTRL,
-+					TAS2764_PWR_CTRL_BOP_SRC,
-+					TAS2764_PWR_CTRL_BOP_SRC);
-+		if (ret < 0)
-+			return ret;
-+
-+		for (i = 0; i < ARRAY_SIZE(sn012776_bop_presets); i++) {
-+			ret = snd_soc_component_write(component,
-+						TAS2764_BOP_CFG0 + i,
-+						sn012776_bop_presets[i]);
-+
-+			if (ret < 0)
-+				return ret;
-+		}
-+	}
-+
- 	return 0;
- }
- 
-@@ -707,6 +737,11 @@ static int tas2764_i2c_probe(struct i2c_client *client)
- 	if (!tas2764)
- 		return -ENOMEM;
- 
-+	if (device_is_compatible(&client->dev, "ti,sn012776"))
-+		tas2764->devid = DEVID_SN012776;
-+	else
-+		tas2764->devid = DEVID_TAS2764;
-+
- 	tas2764->dev = &client->dev;
- 	tas2764->irq = client->irq;
- 	i2c_set_clientdata(client, tas2764);
-@@ -743,7 +778,8 @@ MODULE_DEVICE_TABLE(i2c, tas2764_i2c_id);
- 
- #if defined(CONFIG_OF)
- static const struct of_device_id tas2764_of_match[] = {
--	{ .compatible = "ti,tas2764" },
-+	{ .compatible = "ti,tas2764",  },
-+	{ .compatible = "ti,sn012776", },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, tas2764_of_match);
+ static const struct snd_soc_component_driver soc_component_driver_tas2764 = {
 diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index d13ecae9c9c2f57853db70bb1eef2380f6fec45c..fa2ac38de78b457263be2e72e02a9a3c47c2762f 100644
+index fa2ac38de78b457263be2e72e02a9a3c47c2762f..b814715b41ff6e9a714c30ae204e7792351428b6 100644
 --- a/sound/soc/codecs/tas2764.h
 +++ b/sound/soc/codecs/tas2764.h
-@@ -29,6 +29,7 @@
- #define TAS2764_PWR_CTRL_ACTIVE		0x0
- #define TAS2764_PWR_CTRL_MUTE		BIT(0)
- #define TAS2764_PWR_CTRL_SHUTDOWN	BIT(1)
-+#define TAS2764_PWR_CTRL_BOP_SRC	BIT(7)
+@@ -44,6 +44,10 @@
  
- #define TAS2764_VSENSE_POWER_EN		3
- #define TAS2764_ISENSE_POWER_EN		4
-@@ -110,4 +111,6 @@
- #define TAS2764_INT_CLK_CFG             TAS2764_REG(0x0, 0x5c)
- #define TAS2764_INT_CLK_CFG_IRQZ_CLR    BIT(2)
+ #define TAS2764_CHNL_0  TAS2764_REG(0X0, 0x03)
  
-+#define TAS2764_BOP_CFG0                TAS2764_REG(0X0, 0x1d)
++/* Miscellaneous */
++#define TAS2764_MISC_CFG1		TAS2764_REG(0x0, 0x06)
++#define TAS2764_MISC_CFG1_OCE_RETRY_SHIFT  5
 +
- #endif /* __TAS2764__ */
+ /* TDM Configuration Reg0 */
+ #define TAS2764_TDM_CFG0		TAS2764_REG(0X0, 0x08)
+ #define TAS2764_TDM_CFG0_SMP_MASK	BIT(5)
 
 -- 
 2.48.1
