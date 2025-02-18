@@ -1,66 +1,67 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11BCD22F3BE
-	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 08:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2C722D4E6
+	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 08:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739867912; cv=none; b=i+eDmApj3Gnov0i7RWb/4dDvdCCynwQ23CRuHLqesiAfx1jaducoYOEyHarh6jWPSbMvComIfcawx+bWAeuGIqDo4ouPbxMdE9k/4F9ajYlOoZkqlqOGJYJoLW3q5l9QxmTLA6v6fyY/MT7Dn303ha2QFBTt9Zc5KleXMXx9Ci4=
+	t=1739867920; cv=none; b=sd3J9zZdOssI4vHA+gcLV3v2k6TAhk90iePCdYZvrx3uRLydCTx5nfqhsmjDU8lyShrfaGL5A0jtJLkbWLMvUK3d/QaSi6CwnjKALrvxg5LcImzKhruOH27KSWuo5UAH1Ngl6zCx4oUPzHIR4d2CaL1G5UBbsXj8dYiE1MxD4e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739867912; c=relaxed/simple;
-	bh=A48sQENUp2ByJkXfl8NgeRBNfDPrK42u/ckclupyak0=;
+	s=arc-20240116; t=1739867920; c=relaxed/simple;
+	bh=kJTFUNaJvHb40kFLT4FXflK4GFWczcgIpzfS/OJgv8s=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eVKpSaO52fFPHwRk9yJfypYrWvKWNxx048iiZSvYnRSZ7vcxKb6lvXKtcNWu5ao0aCCgGNonnaQjH0g5sA/w1QsM8lvuUyX/nMZxmv779edxlRhathiLOoUjdeKg69jDs62lB8YKqHKStzVpFJrGTdFlpQnIPtv+i5wvZUBCCbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCQTPvHJ; arc=none smtp.client-ip=209.85.214.182
+	 In-Reply-To:To:Cc; b=hztCOvReWVdX8zacwHlO6v5e/lDvtZgyPiSp2kQTre195qPQKJUb3QR5SE0Y8WwFXCPXDktao2a8xkFVN3f8jILN51Cl27In69IaZrznwRFQ7ICYn7Gh47BbTzSqySrIYZyYm1eoBTo0AOXRlx0WapcmQsQjZWU7L3kceNhqQc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bnuPHlD4; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCQTPvHJ"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2211acda7f6so44061415ad.3
-        for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 00:38:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnuPHlD4"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-220e6028214so85496195ad.0
+        for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 00:38:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739867910; x=1740472710; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739867918; x=1740472718; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IQtBu9vnY7YUuYtSr4xuzwpvCGHHh4MxAf44AyPw29Y=;
-        b=gCQTPvHJe6rbq2Bdud6Vh2bkvvT8ldopQSeNMkL8mZJPrTl8qt9qWc4QxxHkstH0k8
-         uu8jmnB/FChyr994mvHZDqNUoQMEjwJe+J261/pf6kR0t5HSRylnJ90E2Bw0Fcn4Rt9m
-         8UNpKgHubmF3AvP5EyQck+H855mgxruE2+dIsuGbo/ji2/LEf6rTq5AUbR5kuDElR7y4
-         z6zGWzq0lmkhdpt9u9qvJKv1xsxzBeRiZwRAqKOJ8YTDWN+J87v6JTF1NBwIfXQVeM8q
-         iqVmeyeoBfpzSJS4ve5b9xVZ+XVuhcebq7CnDAQrLkjBlJzQy42QJGQ7XUW5JkT5VH1P
-         ScKw==
+        bh=/0xnSZoULp+tJndSbsnTe4b8bjzfxIgtXuAx9KCZHhY=;
+        b=bnuPHlD4XnB+oeiU6ASdmHAodcDsWY/yQM7/CQ7F5qtSgS1jC3O8EE12+R3WpAp3UH
+         8m4LL/ka7y30wmqTirhcgTL89+inp0xlqHExWTgi5wbDJ9N5ljKk9kgqUIEiAZz9LAdm
+         /A8Xjr4EmMXn6JBgba7mlD8PlWWFNrfbPkX4pmz869jrxBbKyxO+t95WcVYMz5Cjovz2
+         KVwzV1zaeevsZ/IRSSKkC29sWFNWEZokj/SJCeq2N33ip16VPFdZbk++v8tgGKhRRV2f
+         BibBi+VBwlVDXl2iUXmxcA1dnLYdJHkvmlUD4bdYoZo500jVPw6emn4u+xF3t6X2rwHG
+         13fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739867910; x=1740472710;
+        d=1e100.net; s=20230601; t=1739867918; x=1740472718;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IQtBu9vnY7YUuYtSr4xuzwpvCGHHh4MxAf44AyPw29Y=;
-        b=wXu2QoV1buhmq6jbW//KDzeNpLyYE6hbH49OGWhhIFEjio8YeiZPC9AntaY9ir+53m
-         LSZvultr6EbA3C6WJkIHH8CLKdvVbZ0OVsEHZoLP+dQdHvWUIExozv2+7u7HXY9MvQ57
-         2m/9O1Se6t+BeVNAMzNLzvPw/zG4qsr/lAPsb34F+L0qAOSJHtvJzSgD15+ZJ05xjWk2
-         27qTUkmUM0nGJTSDZmarMmlYXd4/pZZYSasi7eIVEVAuBrn4k57qmOmKMQD4pNofa0xI
-         vu83Z1b991UI4628GQaiHeyK9wdrb1lJf+hmu6bahvbBqIjBHAq+BpVTOPXhDlgI8HMs
-         R3Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCWlDa2NLte05IRGF8uUaKh+Ci26LOQYPl8TqefKpYJgQOX5O8VqYhSULthGJKLnE90nZVMmRw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxqSkfwvFXHwkAtJmn3yH2uyhhsVjpSupn9JLHSm6VutDDdSQaR
-	bUgxsOsDLxs3vqJeEvprGX8lNIrTec5C2ayp00QXtpoS70tLEpoW
-X-Gm-Gg: ASbGncvVA00nCzlYkDmGrAbDY9L8Xdfibr9B3H3XPlOD+QtTj8leoYLzb8MzCrWX8Uk
-	5Xvga62nVrxL96mn3mawCp9SoFYB+njJOyqD49l3zt30wwGt4fA9/1jIwwrN8is1bdtlSNMAeKH
-	apEANB0hXL42FWksGjGnOBIFku1TaSChDcm0ANoUsqOsRhukYas11oPTqt/HNkAjEoFBXHZdSes
-	EkqSIAVcQSLECt/xxpwmZRNLKN5GsNrrHlZUdziZK0j3iJ0e43agHrSqWYGNxzCP7MgO3pGawVk
-	8/oq+QeP4MiowRfOIaXD6WIzC3UjNk+rdRA8CwWOlVHpDQj3ajehrXYtDB6faD8TE6qITUzS0ny
-	Kc/joxJ3wfQ==
-X-Google-Smtp-Source: AGHT+IH34vYLjX19UvXU10ZXbfhoEcvPc03iB/RyswRJADMdBeXClw2Dv9JqG783BId5B7H/v93pvQ==
-X-Received: by 2002:a05:6a20:6a22:b0:1ee:7f20:e44a with SMTP id adf61e73a8af0-1ee8cb15559mr20371390637.9.1739867910127;
-        Tue, 18 Feb 2025 00:38:30 -0800 (PST)
+        bh=/0xnSZoULp+tJndSbsnTe4b8bjzfxIgtXuAx9KCZHhY=;
+        b=f7hhlODzrhDEj8HIrA6MKkNKtedKYfA3jJUePQ8ScLV1GyoyhGgkzhIwzE1aSuaoXc
+         nwp1ZJ/jXe6F8TxDwZOwyLM+xK9/C70U+kfj+PHtI5UPqYT698U96gc2JNWhSQ/Kn2ME
+         jMJ2IzKE38ChLBscvt7UdaJbhZzEbXvIjhxTxpgFxFW8QxpA2taffgSlKY+M5WU5O5nf
+         hLbXSWsjZuvg27Pg9XeRbOLHPHivId6Uyuokc8D59e9WWsp64y9js6c4PBz7JcRKdRZ0
+         7axOl8LuVr0p3h+BbXnXwZVpTUJKV5nxIvjW2vQ7pu7A0/EhRnFdBbPA1WHYmUGrUAAk
+         3fkA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYVep3CEtROXndIryLZ8P8kXY1N6ZxAPus3DoJOqx3mgAUQ+4OJmFF4D5ZZ30ON60oWDbEaw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxt34YdNdL6QD5sn18XWAi6TdGOvodrXjowiNClpYmYBTeFxeSc
+	+gQN6yv/JW9io7DzXEvzOS8efcxAR0+wPj9DKcpugmoSvIByvb0e
+X-Gm-Gg: ASbGncsFVAeGhZHWPAR0JrJ6ogZ6OMrdqygHVRI2Pg3IgZSluR5qPNbknCvBD+ZAO1P
+	vUuE8xFyABIGkcQyjXR1qhxeMY8199fwAQDT/evfavh0iYW8GnikbNBpD0stIgXeWYqCzhhpQjq
+	ps9SymK/m/kIQzvu8cmXqDjIU/7fAzQZIUtucnnsiW3014n3BHCoMPteRFeF4+57TMHBuZT+g0h
+	4gtxwLGP8v8xXhko/3EkBeYDNHHkKmqkl8M9p7lTZLQpnnZ75iUadWviUymOJAtfQxjLAKeuv8m
+	h/s10DxoAIk+nFeiaDnw/n5tcNwrcdQtEoFU/tZWFG0Wle7OLavzJq5iCvXuG36ycVfLgnJ4cfv
+	ZtJj3bkeKSA==
+X-Google-Smtp-Source: AGHT+IFDrRp31PJvU6mzhR2mwgz+DW/BV7o0dC65MC+BF3NgEj/m25LCivVIpTeTBYyEDntfFRI9SQ==
+X-Received: by 2002:a05:6a00:198c:b0:730:4598:ddb5 with SMTP id d2e1a72fcca58-7326177622emr22154290b3a.2.1739867917918;
+        Tue, 18 Feb 2025 00:38:37 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ae1ee4febb2sm787325a12.51.2025.02.18.00.38.22
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ae1ee4febb2sm787325a12.51.2025.02.18.00.38.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 00:38:29 -0800 (PST)
+        Tue, 18 Feb 2025 00:38:37 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 18 Feb 2025 18:35:54 +1000
-Subject: [PATCH v2 20/29] ASoC: tas2764: Add SDZ regulator
+Date: Tue, 18 Feb 2025 18:35:55 +1000
+Subject: [PATCH v2 21/29] ASoC: tas2764: Add reg defaults for
+ TAS2764_INT_CLK_CFG
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +70,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250218-apple-codec-changes-v2-20-932760fd7e07@gmail.com>
+Message-Id: <20250218-apple-codec-changes-v2-21-932760fd7e07@gmail.com>
 References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
 In-Reply-To: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -86,137 +87,37 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
  Neal Gompa <neal@gompa.dev>, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4016;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=757;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=kp+o9JoudGtfB13mggEYl995BI1+wbuw/SRFF1jLny4=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOlb3JK2KLDnVgs0yatOjOn87f5VYmPDzY7WjXszJ0W8/
- hlmFmvbUcrCIMbFICumyLKhSchjthHbzX6Ryr0wc1iZQIYwcHEKwERyfBj+aVeGMjyKr9zEt9mF
- b1Kr/hL9r7V8rf2rl/E8e/r6V8/RJEaGc/+6gm+9OLzRKsZqXezcEsW99ioX9jvJf0lVVDZNe+3
- FAAA=
+ bh=Mbk5j67i1cV333wWEgS3bKTpMGxWCx//aUmM6Ej9rq8=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOlb3JJMf8fq7cwz1nK6eUmu6VR7o5J77lqlVbWOdYWX5
+ j/WN+ruKGVhEONikBVTZNnQJOQx24jtZr9I5V6YOaxMIEMYuDgFYCKBtxj+SuuHbJB9sEzlnErE
+ 1s+yf1ZyaWwQ2+4v9ORAyLGKtMRdNxgZfu3W89T30+pyeHA91F3+pMOs36kr2JuNZPOYT0aLqnB
+ xAwA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Hector Martin <marcan@marcan.st>
 
-Multiple amps can be connected to the same SDZ GPIO. Using raw GPIOs for
-this breaks, as there is no concept of refcounting/sharing. In order to
-model these platforms, introduce support for an SDZ "regulator". This
-allows us to represent the SDZ GPIO as a simple regulator-fixed, and
-then the regulator core takes care of refcounting so that all codecs are
-only powered down once all the driver instances are in the suspend
-state.
-
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2764.c | 39 ++++++++++++++++++++-----
- 1 file changed, 32 insertions(+), 7 deletions(-)
+ sound/soc/codecs/tas2764.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index 7b69ab94c4bbd5f074d57a42f71b32f5fd63d560..5d89d47c1667c1067f88169575b7b76e9a25bda4 100644
+index 5d89d47c1667c1067f88169575b7b76e9a25bda4..d316a369c43002e6a8a8160b85384b8824667bb1 100644
 --- a/sound/soc/codecs/tas2764.c
 +++ b/sound/soc/codecs/tas2764.c
-@@ -35,6 +35,7 @@ struct tas2764_priv {
- 	struct snd_soc_component *component;
- 	struct gpio_desc *reset_gpio;
- 	struct gpio_desc *sdz_gpio;
-+	struct regulator *sdz_reg;
- 	struct regmap *regmap;
- 	struct device *dev;
- 	int irq;
-@@ -154,6 +155,8 @@ static int tas2764_codec_suspend(struct snd_soc_component *component)
- 	if (tas2764->sdz_gpio)
- 		gpiod_set_value_cansleep(tas2764->sdz_gpio, 0);
- 
-+	regulator_disable(tas2764->sdz_reg);
-+
- 	regcache_cache_only(tas2764->regmap, true);
- 	regcache_mark_dirty(tas2764->regmap);
- 
-@@ -165,19 +168,26 @@ static int tas2764_codec_resume(struct snd_soc_component *component)
- 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
- 	int ret;
- 
-+	ret = regulator_enable(tas2764->sdz_reg);
-+
-+	if (ret) {
-+		dev_err(tas2764->dev, "Failed to enable regulator\n");
-+		return ret;
-+	}
-+
- 	if (tas2764->sdz_gpio) {
- 		gpiod_set_value_cansleep(tas2764->sdz_gpio, 1);
--		usleep_range(1000, 2000);
- 	}
- 
--	ret = tas2764_update_pwr_ctrl(tas2764);
-+	usleep_range(1000, 2000);
- 
-+	regcache_cache_only(tas2764->regmap, false);
-+
-+	ret = regcache_sync(tas2764->regmap);
- 	if (ret < 0)
- 		return ret;
- 
--	regcache_cache_only(tas2764->regmap, false);
--
--	return regcache_sync(tas2764->regmap);
-+	return tas2764_update_pwr_ctrl(tas2764);
- }
- #else
- #define tas2764_codec_suspend NULL
-@@ -210,7 +220,7 @@ static const struct snd_soc_dapm_widget tas2764_dapm_widgets[] = {
- 	SND_SOC_DAPM_DAC("DAC", NULL, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_OUTPUT("OUT"),
- 	SND_SOC_DAPM_SIGGEN("VMON"),
--	SND_SOC_DAPM_SIGGEN("IMON")
-+	SND_SOC_DAPM_SIGGEN("IMON"),
+@@ -855,6 +855,7 @@ static const struct reg_default tas2764_reg_defaults[] = {
+ 	{ TAS2764_TDM_CFG2, 0x0a },
+ 	{ TAS2764_TDM_CFG3, 0x10 },
+ 	{ TAS2764_TDM_CFG5, 0x42 },
++	{ TAS2764_INT_CLK_CFG, 0x19 },
  };
  
- static const struct snd_soc_dapm_route tas2764_audio_map[] = {
-@@ -698,11 +708,18 @@ static int tas2764_codec_probe(struct snd_soc_component *component)
- 
- 	tas2764->component = component;
- 
-+	ret = regulator_enable(tas2764->sdz_reg);
-+	if (ret != 0) {
-+		dev_err(tas2764->dev, "Failed to enable regulator: %d\n", ret);
-+		return ret;
-+	}
-+
- 	if (tas2764->sdz_gpio) {
- 		gpiod_set_value_cansleep(tas2764->sdz_gpio, 1);
--		usleep_range(1000, 2000);
- 	}
- 
-+	usleep_range(1000, 2000);
-+
- 	tas2764_reset(tas2764);
- 	regmap_reinit_cache(tas2764->regmap, &tas2764_i2c_regmap);
- 
-@@ -777,6 +794,9 @@ static int tas2764_codec_probe(struct snd_soc_component *component)
- 
- static void tas2764_codec_remove(struct snd_soc_component *component)
- {
-+	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
-+
-+	regulator_disable(tas2764->sdz_reg);
- 	sysfs_remove_groups(&component->dev->kobj, tas2764_sysfs_groups);
- }
- 
-@@ -879,6 +899,11 @@ static int tas2764_parse_dt(struct device *dev, struct tas2764_priv *tas2764)
- {
- 	int ret = 0;
- 
-+	tas2764->sdz_reg = devm_regulator_get(dev, "SDZ");
-+	if (IS_ERR(tas2764->sdz_reg))
-+		return dev_err_probe(dev, PTR_ERR(tas2764->sdz_reg),
-+				"Failed to get SDZ supply\n");
-+
- 	tas2764->reset_gpio = devm_gpiod_get_optional(tas2764->dev, "reset",
- 						      GPIOD_OUT_HIGH);
- 	if (IS_ERR(tas2764->reset_gpio)) {
+ static const struct regmap_range_cfg tas2764_regmap_ranges[] = {
 
 -- 
 2.48.1
