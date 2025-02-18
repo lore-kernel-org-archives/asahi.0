@@ -1,118 +1,137 @@
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E9026FA47
-	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 16:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F6926E17D
+	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 17:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739897791; cv=none; b=aXetw+GUkORCtXchJCr3wOHqEcUgt5SWVagwPDIoJfTjH+vglR084XMdwe4G7Fdui9cMOVQrP0tvDqyPrflGz8pGgqQklM5+sc+OT3rs0X6QGJcRijQ6TrSuzBuKpuRA70qyni1wdufK6hnbGEApoGOZDicuSON+nYgFQnVkOak=
+	t=1739898194; cv=none; b=lCLNYGBptJkaWIg0KIVxzLf/B36LGPoePv7StM9VSxUToDKkxB0y84bG+PCGi0krakpgl2Lp7oFZTHm7XGmc6GRjcNsDXOb4dsgYP/TJPpiiQVvYoOlSCrL6nvfnyoEjuIXmADkQra66Q2E+DADTzITZyVrtEHdCUJYgEldypQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739897791; c=relaxed/simple;
-	bh=wN/cRRoggZu1aXP+k05mu+rVjlUugGWW4wdqZg5XzlU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XD4xTuoIl56ByO91G6++Z3YV8jARXER9PMtkJqOlWOlMxFJlyqwv479Sz7f3Z6KGE7kpIsMNrsp4m89zQnyZfIfFGxonRtT5StxjpWzUh4imAJQ8ZODVxITg7J6HyUe+d/QCEhn2dfCEausvhqaNNTKB6XQQLvTXNDnP3c8O0ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=icvSl3Xn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=A5je+2XK; arc=none smtp.client-ip=202.12.124.152
+	s=arc-20240116; t=1739898194; c=relaxed/simple;
+	bh=JLetBBqpgl27EHjJTyI9RtdYxjxiqr2Sn/xzroU+T2Q=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=DmyuWllTWZjqs06wQVBzkVSmlK67CWD2mZJMJ+bC7sGh9DvHuk3wM1OPo2DV6U8HgnRwEOvyloqpS0v7A63K1Fly6U2l7R2l8WYRYO4nzHkgoLySRj9Cysu4rWwtkh22ubJW0nfQpeDSzXPpquycekCFnPB2aWJZpwKAP3vcLF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=K+UCww/N; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=sVNgKfAK; arc=none smtp.client-ip=202.12.124.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="icvSl3Xn";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="A5je+2XK"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1D0B12540135;
-	Tue, 18 Feb 2025 11:56:29 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Tue, 18 Feb 2025 11:56:29 -0500
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="K+UCww/N";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sVNgKfAK"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id 2D72111401C0;
+	Tue, 18 Feb 2025 12:03:12 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-10.internal (MEProxy); Tue, 18 Feb 2025 12:03:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
 	 h=cc:cc:content-transfer-encoding:content-type:content-type
 	:date:date:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1739897788; x=1739984188; bh=kcVd4OhBl6QFD1xyeheTB76pxiiwWJs9
-	iW8l8/CM7SI=; b=icvSl3XnvftL/NNUY29qomne5qMgfkYZt8wMlD9gq058w9ld
-	c4uhTBeL4edDmaZYFbdunBT1pL7FY0RKVvfM10Or3w89c6NBhIIKK+mh8Fj0tqYG
-	giUawLFi99hEE+JOwUm6RFF1KHYYZzZqf+3r5js9T9myH5A3mfHz6uFz72NAaROA
-	xNIvyTTccIFTVJ+xk4e9e1i99nmjvpXSUe+gi1Nt+a8lowKGqfF2Em4F4eyZcsKS
-	GNTa5ZxkefnP/XCfYy+JdQqd1Ex1Z/BAzGiAgw7szu6/j2NdLZohNceNFoPmQZFH
-	T8vNwFuk5ACCAOHbSzMzaoySza2MQl6iRwWG2A==
+	 t=1739898192; x=1739984592; bh=0BPHDdMFCbMZ0idV3mt5hV/uCpN8cnHh
+	5jYvtwtgN9A=; b=K+UCww/NIrIrEP8qQiHyMIWxT2XidsJwASKOZ6KQAJdOfuDa
+	Q72lSs+o0nLTN6n/tZNOtTxff8LabyFY2K+Y12Ld6d8zjTKSWhqcHqxLsxexIzSW
+	u6wccgmFl18vcAO475+b6x7EW0WkM2FdWHSeoV8+uVfhdqaq+BRLTv2xWLN1LuNh
+	YKWEjCWZHLPa3oVAq3zQyuP34K7+UBWzCpZpKvGhyIDWslGHmx/g4HfqoMTr3jB9
+	5oDMg0rqqnuylseoitz9we/B1oasOgrRzADJCtYCUQhzORcMSG4nhtCUXBedyf+m
+	LOZmCkogDDW45O2hq45SG2hZT2qeLlokO1dF/w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739897788; x=
-	1739984188; bh=kcVd4OhBl6QFD1xyeheTB76pxiiwWJs9iW8l8/CM7SI=; b=A
-	5je+2XKOUDg1axCm7tUPQBAQyadz0TWCOdEzfFVg4pLYWkLFrc97C/SHYP4AUcpG
-	5FUoVzMGLkYFWeNab+8slJ4ND59IhriLhmQz1ivgTOv0w2PO1omifWHf92hQmQok
-	qGhCwFOxtc3AUrpihsAzsDI3IEv8FT0CQ6ZDb1X+Hz9KYSBqIhANRlSKyIq4cHcL
-	91LargTyQDt21Uu+HbkCJvlkWWMyTDfurazynLN/3IWOKIRAmTRVfkWIS8xPNdq+
-	Feak0Sz0Va4hyoHvk7J4A0b2s0KSXIaQf2AJRXbnrPbLYM1cwsrRYkmEXRm/VIer
-	K7LyfO104Z4g4/pj78k6w==
-X-ME-Sender: <xms:vLu0Z0fYI7c_7aguukxwy7hmui40Q4LVPUrcDXGc2M7Nb83A73no8g>
-    <xme:vLu0Z2P8_Gk-TUHZdjXMSr2R9mnw6F8hyl2kQOSr_871cxphVf6ARDsdqXFmukftj
-    O91ETVJmQbBv-AMimA>
-X-ME-Received: <xmr:vLu0Z1jAHOgDHuvghuUuGrJeRUm_625kgaDTzl9cnabqBhkaT6CAY0CtNQcuh4TcMJe818grpCAg8jMfKWVa2Bv7nh4uK1QgTUdEA9HKcRUT0B1MyM2xR7iS_knzEHQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiudekhecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739898192; x=
+	1739984592; bh=0BPHDdMFCbMZ0idV3mt5hV/uCpN8cnHh5jYvtwtgN9A=; b=s
+	VNgKfAKtyNlRKtWh3giQ/F6gXvKUDtvLi38mpUiu9rKBpF78xyl/dfbEgsMmPEx6
+	2KSbJLPxXJgdM4h0B8/6LyqdZKHzbqq5ILWZB7hX7fJgM1MecXTSoGu3utBMhogf
+	qGQjKDF/yoxyoFornmKvm8GgHWcs1FFFteDOVcQEFEpPR3dUQWtp272/qoApkSBz
+	vb4oJQs8tL4mHmnIcIo+i2zhu8cmYCW90a1U6WFQr83Jw4ytHWaTqCRU4A/ftI7G
+	R5+T6dXfv23dEbNvhj5cift2ta2sl+j9LUjaejYRj3L1m+6x3QoyqXadRD7BbUQi
+	8xaFbHzNZ9m9KL2PloQGg==
+X-ME-Sender: <xms:T720Z6gKhRoTTVPysiTW7Ew64BVgySoT16Xku7m0VJF4L5xRny_uTg>
+    <xme:T720Z7CVDp1Q5BvUePpzJDOhELNKcuXUyxrZGX2JKMrrnGMkc737xGUhXATZbPFGZ
+    35KwPDmaaxPfdqJNoI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiudekiecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
-    jeenucfhrhhomhepufhvvghnucfrvghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrd
-    guvghvqeenucggtffrrghtthgvrhhnpeegieehffethffhffefhfehkeevleevieetfeeg
-    keehhfeifffgheehieejheeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghrtghp
-    thhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjsehjrghnnhgruh
-    drnhgvthdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgt
-    phhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodguth
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehtoh
-    ifihhntghhvghnmhhisehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhvvghnsehsvhgv
-    nhhpvghtvghrrdguvghvpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugi
-    druggvvh
-X-ME-Proxy: <xmx:vLu0Z59hEI9YKaEODgQN5vtSiKpqMGA9YIXHA4jm7JFtp_QNTZ1-GQ>
-    <xmx:vLu0Zwsvhr6XUY9yrP9yQFEhRczd7X-Gqzs6cpOXOFHLDLKgWqjzqQ>
-    <xmx:vLu0ZwGGcBbVHgLg8KcEOvLSxWS3RjCATnjeaDIew666c1Z59je5rw>
-    <xmx:vLu0Z_OF1386C00OpnT-Q3KlHuUYRYDe4vrAvwk2Eo2cF_X2OWuyLw>
-    <xmx:vLu0ZxHpjJ2XmT1Yd1zt4xFymjIAf7FhBDaHe-q5d7ZifjDmxHggIzMW>
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
+    hrrdguvghvqeenucggtffrrghtthgvrhhnpeelfeetueegudduueduuefhfeehgeevkeeu
+    feffvdffkedtffffleevffdvvdeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghr
+    tghpthhtohepuddupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnrgesrg
+    hsrghhihhlihhnrgdrnhgvthdprhgtphhtthhopegvrhhrohhrvdejsehgmhgrihhlrdgt
+    ohhmpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtghpthhtoheprgigsghovg
+    eskhgvrhhnvghlrdgukhdprhgtphhtthhopegurghnrdgtrghrphgvnhhtvghrsehlihhn
+    rghrohdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhish
+    htshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhs
+    rdhlihhnuhigrdguvghvpdhrtghpthhtohephhgrrhhshhhithdrmhdrmhhoghgrlhgrph
+    grlhhlihesohhrrggtlhgvrdgtohhmpdhrtghpthhtoheprghlhihsshgrsehrohhsvghn
+    iiifvghighdrihho
+X-ME-Proxy: <xmx:T720ZyE0Uo_RL4L9oANkNAaUZlRh00KHTaWthsC-Z-B_i8UdhvcmGg>
+    <xmx:T720ZzREJdK2z8O2YRRSO-qR_zQvqGsVEgDoSBRSjx5Rx_mDrmj9nw>
+    <xmx:T720Z3yGWCmRZMyB425hdtFL71FJtHMxtTbFz6FRhX0UQkotnwMD0g>
+    <xmx:T720Zx5HuyadFMAiE-GH05qWA-d_rhmPai-REEyshc5d0VpYuGROVg>
+    <xmx:T720Z8qvHTGNOVPcKX0nakfQEY7M9ziF0EllL3FEx_n2OpdA5SRyiJfS>
 Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Feb 2025 11:56:26 -0500 (EST)
-From: Sven Peter <sven@svenpeter.dev>
-To: Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH asahi-soc/dt] arm64: dts: apple: t7000: Add missing CPU p-state 7 for J96 and J97
-Date: Tue, 18 Feb 2025 17:56:15 +0100
-Message-Id: <173989773060.49326.7671492051197942178.b4-ty@svenpeter.dev>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20250217-mini4-cpufreq-v1-1-8974e90dd806@gmail.com>
-References: <20250217-mini4-cpufreq-v1-1-8974e90dd806@gmail.com>
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 11872BA006F; Tue, 18 Feb 2025 12:03:11 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Date: Tue, 18 Feb 2025 18:02:50 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Harshit Mogalapalli" <harshit.m.mogalapalli@oracle.com>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Janne Grunau" <j@jannau.net>,
+ "Asahi Lina" <lina@asahilina.net>, "Jens Axboe" <axboe@kernel.dk>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
+ "Dan Carpenter" <error27@gmail.com>
+Message-Id: <312a397a-ab54-4128-8f90-184ed719a9ac@app.fastmail.com>
+In-Reply-To: <6c965dbc-9f01-414a-b218-2fa88155eb52@oracle.com>
+References: <20250212085853.1357906-1-harshit.m.mogalapalli@oracle.com>
+ <0e609fea-48b0-4b39-aae4-90395a782ed8@app.fastmail.com>
+ <6c965dbc-9f01-414a-b218-2fa88155eb52@oracle.com>
+Subject: Re: [PATCH] soc: apple: rtkit: Fix use-after-free in apple_rtkit_crashlog_rx()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+
+Hi,
 
 
-On Mon, 17 Feb 2025 14:10:05 +0800, Nick Chan wrote:
-> Add missing CPU p-state 7 @ 1512 MHz for iPad mini 4.
-> 
-> 
+On Tue, Feb 18, 2025, at 17:01, Harshit Mogalapalli wrote:
+> Hi,
+>
+> On 18/02/25 21:04, Sven Peter wrote:
+>> Hi,
+>> 
+>> 
+>> On Wed, Feb 12, 2025, at 09:58, Harshit Mogalapalli wrote:
+>>> This code calls kfree(bfr); and then passes "bfr" to rtk->ops->crashed()
+>>> which is a use after free.  The ->crashed function pointer is implemented
+>>> by apple_nvme_rtkit_crashed() and it doesn't use the "bfr" pointer so
+>>> this doesn't cause a problem.  But it still looks sketchy as can be.
+>>>
+>>> Fix this by moving kfree() after the last usage of bfr.
+>>>
+>>> Fixes: c559645f343a ("soc: apple: rtkit: Pass the crashlog to the
+>>> crashed() callback")
+>> 
+>> This commit isn't upstream yet afaict, did you mean to post a review comment
+>> to [1] instead?
+>> 
+>
+> I made the patch based on linux-next, linux-next has the patch merged.
 
-Applied, thanks!
+Whoops, I guess we accidentally already pushed that one to for-next without merging it.
+I'll merge both and adjust the commit hash in your Fixes tag.
 
-[1/1] arm64: dts: apple: t7000: Add missing CPU p-state 7 for J96 and J97
-      commit: 97aeb6507356c72d87fd93f45705d3f4b1a05d14
 
-Best regards,
--- 
-Sven Peter <sven@svenpeter.dev>
+Thanks,
+
+
+Sven
+
