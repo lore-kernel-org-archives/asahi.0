@@ -1,66 +1,67 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21AC23026F
-	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 08:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF95D22E00E
+	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 08:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739867944; cv=none; b=JFiliEaqBS/QIM4L/WbeST7yDLW1tEIgXMuEaouTv/kluoRMWIh+cSBVBZUHRzjntLeCT7inGwiMG6tOuBd8E63c2vI3WWFmAxBz5MzkwmYr+YdwuimZ9MMIukuSMus9gKtoXz8ZHGUM8TTsrrYkLHjh3c9hokeI3hHuK7+YeVs=
+	t=1739867952; cv=none; b=bLWWsADgbzlbQMD1kLwbje5yrgLx4XFWsSVirF67HRnufk+qZ1iHIMj8rc1aIhS+qeJleeqkZfUhA1O4ZXOfcabqUfFv9TpRFHN5v5nlVt7K1FPlOhCyW89HzyuspMWNPAUXmZyvl3nGzNzr6CciNTm7s/wmAFVLOHH+FehNpIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739867944; c=relaxed/simple;
-	bh=rfSKe5mZ28D4d/wpG3708ppy30x1Dk7ewBzxd+E8h08=;
+	s=arc-20240116; t=1739867952; c=relaxed/simple;
+	bh=X2NC1nq9Jr2CWV2sHejLqmJzvcXpyv7PewGMJfaLDGk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hE5z327UZOWSCeeSzx56ZAgUVjCgztHyGnFZxrtBfS6N5Rh4/zpRZvA72t3g45aEEerlaym7E7f2pYR/cnj+olpMKtb/wh9UDroMkXM3oTmd/wvglvpjj0qLVqBR2j2vbHjbLAIVtiGPpjiejZs2cLcjFsH/gb40pWHDDRgZybM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dX7lPm9f; arc=none smtp.client-ip=209.85.214.182
+	 In-Reply-To:To:Cc; b=ZjOn9oARzE3U5IONnv2i9WA/Pt97M+nYgecxl+Q3ebEPqcVooMvaC27aS5R/Veis8GNrcpidlguuBZA2j8hUsA8ZiZG87eCw6oN8O0mZVX7VMpXnQn5SUtcQSssHOmlU/Xu9A9qQ9dejy4IMcgcZqz4eDoB9PJMZ/c0l90v2AOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D0AflbmL; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dX7lPm9f"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-220c4159f87so67793195ad.0
-        for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 00:39:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D0AflbmL"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-220f048c038so63354675ad.2
+        for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 00:39:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739867942; x=1740472742; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739867950; x=1740472750; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ogdzAXtsfl3vLsucowF8jbn32dNSIkJRvbsQxdRncfg=;
-        b=dX7lPm9flyT3V18t7duDqKtPOU4lOjZKmzz4gBG4DKt6KuYri/x+L0O9rXLE7dZgxK
-         fpawWWHK4E0ggT3BDaKUr/1OYj/HPHZWjjd/uPKUerTjGilqeousUblsHqD4FmsTU63C
-         Q1XM8cZeVwdFXAXGr+o6nZp4CtG+GAcGKHfwVVdOC9OPNuJOHnKhKZ1kRMODKMPtv8Uv
-         H3UyjgbjA2xTTbpWrTepNa/ocagpnaPneEBUzbbMzjE36nSNqmTVDVS/V9i5+xenq5xv
-         hPJflbOzIijdHOpa7Qc+ERo6aujCOuiXgua/zCGSs/oGmFxlZprBUWcbxfv+EhhTa+nY
-         nmXw==
+        bh=H3klWhPvV5GUbiPplkmf5p0VOnIAHNQHeW5yF0WhLQg=;
+        b=D0AflbmLDND/XPhSPlMKMDPAcmGVKLcEdMWtryGPp69U2/T5M+fINOZPxoNSUMAOrW
+         nkHWATR+JDz8M7MQbZrP3SlVh/g2WwrEVAujm4x5gYAXFEVcB9TvpjccoyfE5BMFLCUN
+         RH+INu5hup5sFqiIvzeT8/DK46UbsThdDgxJdjL64GShNzHoWbI01+9+UDA/8NF/1iT1
+         eBOHnUEka5BMPdbegTo/Zx6e3TFMhcPmIxVED+tt1ZTnxJ0NbBn81pz/yhYlAHfkEQlE
+         Vu7dLn0mhojc1iY2RGx+6UMUPbGNOY03yoR/rttp5CcBQI9S4dfpF6SV/W8kBZiOp8+O
+         NlRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739867942; x=1740472742;
+        d=1e100.net; s=20230601; t=1739867950; x=1740472750;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ogdzAXtsfl3vLsucowF8jbn32dNSIkJRvbsQxdRncfg=;
-        b=piI4kg+4NTynlCyCdzO5UoEKoD+dfz+ouet5qkUEkzOlpTGgZcsB3scJIWdJDVah1U
-         ZPiLIqYs48iIduCQN/nBivKJOgYOfEYyNicQDUuensJGNvtiq+W9hgN/vTpGJhLXUeZV
-         U9GjJx7GkwAjxbHhcmXxj0au++agoOz0/6ehhKhOPBgzwclbduG98WD9kxb4bR778NH+
-         LWA7xpI6CCV1e64VUoKx6F88OZ/vQDzgj0OyXY9LTy8e4XG3IfEqfxtwS2qUODLXal1h
-         VYS3D6/4r97MUwvyAF+v3G5+BuzgxccJH0J86INuRUZ5+POnIlbJcq3uKGvfnBainqfn
-         gvwg==
-X-Forwarded-Encrypted: i=1; AJvYcCWu/oF/ikiXKjaCJd+iPf2IgLwMRO95qIhSJrNGjGwLcm6Jc13bM7Vop5B32nFfFj2WVVAjmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxr3dHlQtXBeKVCmwN62qRS1iyNr/XGMZ+vRev2xYskUerI0452
-	rLn7G9H1F69Xdn0vanxS9IZvCmpYUaGlJgJEjPPDIiopjARIJJLo
-X-Gm-Gg: ASbGnct5nxaC8CbCtoRZbyNjWR7vfy4/9KSRzIGRkNmULk7G7/sF27AZuUuF+HbtrmB
-	i2FkY37eHXzLq2XIGhy6cN8JnCMjYbNgce/xkD2VKf8uCT5z0eDsHJdS7EhZwX3itgK9l66HlBG
-	sixSSONEygYfe5zH31pjsiYqBBUWwa70Z4hvHGi/Ef41WzOJzcoszFqY8QUDWZFOHmNKQLyRWaK
-	gv28o7t9gFQ61DOTvgiRuiNYzprUievRTxKk4aJoGWL9Yqs/sH8UnB1uCCAmGhkS4SPSGBqEfZ4
-	JtST/toZIKnw3lESeBusbtYAZw26/pDfdVYX35oMs4CdrjVaVl9TVCRhBmCDUdmfw62M9TmhpIi
-	UYrfnKzgGPg==
-X-Google-Smtp-Source: AGHT+IHanfwIgxnK+GSgc9xAFapLO97DcmqVFwllMpPjle8zRchZcy+lMRf9zQdA+z6x8TwzFrX7Yw==
-X-Received: by 2002:a05:6a20:2591:b0:1ee:69db:b0b7 with SMTP id adf61e73a8af0-1ee8cbf9ce8mr26104509637.32.1739867942036;
-        Tue, 18 Feb 2025 00:39:02 -0800 (PST)
+        bh=H3klWhPvV5GUbiPplkmf5p0VOnIAHNQHeW5yF0WhLQg=;
+        b=MU0dHpjICvVKhzMGkpT2zs6K23gwYKsmX5Z5jZcXHMSAhwE/eS810Ms3KvxaNC1Dh4
+         RO0Dn7xO1NnIp5AXVLU6ZPoNcKK0CSz8VK/ohevohgtl9VhlFZPXM9xKe/RkG5nNerW9
+         /W1gj7OheK9Pmip0OzRajXZ3K2mIKbPlLqq2PirkElHKb4MoaSwIg66XTlM+SXNg87IZ
+         Fx5qeCXT8m5y1iniDwMwGVDzqPR+nJ4HmoU7IpfjY6tDpx7yCsuzyEeU/OwqQO+RYF2K
+         BOO9VMR5qsmUbtTEuv+s+xQJmq5xe6wdYDTANrhs1b0AQsxz82+cwogkKULkiNxx3jyr
+         wGPA==
+X-Forwarded-Encrypted: i=1; AJvYcCXX4hWSwvLSDxCKVHAROm1D4CpNjAGJJ9kzkzw5wXWectbcZKsiaMjYhpFWuxpcoL1D6MH9uw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyxPx+F7b5sXOuK+Ss8MI9bnidD7oCWijOMAEpQ1PMBZSeMeWZ/
+	qrFON1i/YFBbZ56WFDYjXQdtmwP1S/dUHUcjBWjd1nMehu0SvDr6
+X-Gm-Gg: ASbGncsYe8IRxrsLlmDg75Pz7CZ0Mdgw35Ep6ZGZAyqiVGqsvVbKm52XY2guQsNkIls
+	TGP695Y1h9ZQvTyprTaambtDkIjLdIa1dwW/cyv6mcR0XxYtglZjuc69gMmRbmGjS4hxRP1fo8f
+	1e5mob1yhxoumnWl3IgW1HjPgcAvz2iUBYKNRF6GNHpbYmQhSzg5mq4pIt619YHaZ2RAVXCXZLQ
+	Z91mHEzeaAyRf1RJs6tCGLH/Em1ClFCzRM0fgkHcu4RtTKhZpw3si1ZAP9bU3snl46E5nITcyXw
+	psYnjyw1aNhhuqpJ7+4R5Fj3aa0CtvoLaxhIaXLBDUJ8GC2qj2jTOU+B8ptDMR5Lf+Tmge/h3dE
+	Tw4oHJgc0yQ==
+X-Google-Smtp-Source: AGHT+IFGVhxYw93mip/VYB42/aQk71fmFVbzVmISkib3+MSZgbWbsjSbcqRc1ID658YZQTeUw9eENg==
+X-Received: by 2002:a05:6a20:9148:b0:1ee:ceb7:2b54 with SMTP id adf61e73a8af0-1eeceb72d97mr352523637.5.1739867949793;
+        Tue, 18 Feb 2025 00:39:09 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ae1ee4febb2sm787325a12.51.2025.02.18.00.38.54
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ae1ee4febb2sm787325a12.51.2025.02.18.00.39.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 00:39:01 -0800 (PST)
+        Tue, 18 Feb 2025 00:39:09 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 18 Feb 2025 18:35:58 +1000
-Subject: [PATCH v2 24/29] ASoC: tas2770: Add SDZ regulator
+Date: Tue, 18 Feb 2025 18:35:59 +1000
+Subject: [PATCH v2 25/29] ASoC: tas2770: Power cycle amp on ISENSE/VSENSE
+ change
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +70,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250218-apple-codec-changes-v2-24-932760fd7e07@gmail.com>
+Message-Id: <20250218-apple-codec-changes-v2-25-932760fd7e07@gmail.com>
 References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
 In-Reply-To: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -86,167 +87,76 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
  Neal Gompa <neal@gompa.dev>, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4983;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2687;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=31ZxtlNvaMyuUtkGM3THLQ+tO/J0r+H3zZSixDq9Hh4=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOlb3JKkpP6pnemN/XBnZoi34AEN12eJp/f084b7d2X/3
- M+Re/lPRykLgxgXg6yYIsuGJiGP2UZsN/tFKvfCzGFlAhnCwMUpABPZacPwz8jdcMEsjpWLwh5E
- bFacM2/P7hP9wVvqd8y88eV9+8z03V0M/7Pmz8h3WFz58OdD1zkTRZ03606d4W/19K/cdff17h4
- NQmwA
+ bh=5FscgszU7aN109tj/tiH9/gQFD8FoCu58ZEIeFBUt+s=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOlb3JImyZ/O2FuqYWVtp3bLpUH8lsjbErWA4+f+vc3Pn
+ a+mbZHSUcrCIMbFICumyLKhSchjthHbzX6Ryr0wc1iZQIYwcHEKwETWOzL8FbvbPkNtcu9f8dv5
+ T6p/ODoHfgjY4BqRav/+oM5Ms3Ps8xgZJu1c/LOy3CH7n5zD9loXWw7Pk59+P1pqmWSivJw991E
+ iHwA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Hector Martin <marcan@marcan.st>
 
-Multiple amps can be connected to the same SDZ GPIO. Using raw GPIOs for
-this breaks, as there is no concept of refcounting/sharing. In order to
-model these platforms, introduce support for an SDZ "regulator". This
-allows us to represent the SDZ GPIO as a simple regulator-fixed, and
-then the regulator core takes care of refcounting so that all codecs are
-only powered down once all the driver instances are in the suspend
-state.
+The ISENSE/VSENSE blocks are only powered up when the amplifier
+transitions from shutdown to active. This means that if those controls
+are flipped on while the amplifier is already playing back audio, they
+will have no effect.
 
-This also reworks the sleep/resume logic to copy what tas2764 does,
-which makes more sense.
+Fix this by forcing a power cycle around transitions in those controls.
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2770.c | 67 ++++++++++++++++---------
- sound/soc/codecs/tas2770.h |  1 +
- 2 files changed, 45 insertions(+), 23 deletions(-)
+ sound/soc/codecs/tas2770.c | 30 +++++++++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index fee99db904a5885d740c1cfe8ce2645a963c6e1d..6f9e56f02f7ca95d7878c68465d7016213ae417a 100644
+index 6f9e56f02f7ca95d7878c68465d7016213ae417a..cf038f55453737b2173b986d90fd57d4cc14acfb 100644
 --- a/sound/soc/codecs/tas2770.c
 +++ b/sound/soc/codecs/tas2770.c
-@@ -72,23 +72,21 @@ static int tas2770_codec_suspend(struct snd_soc_component *component)
- 	struct tas2770_priv *tas2770 = snd_soc_component_get_drvdata(component);
- 	int ret = 0;
+@@ -164,11 +164,37 @@ static const struct snd_kcontrol_new isense_switch =
+ static const struct snd_kcontrol_new vsense_switch =
+ 	SOC_DAPM_SINGLE("Switch", TAS2770_PWR_CTRL, 2, 1, 1);
  
--	regcache_cache_only(tas2770->regmap, true);
--	regcache_mark_dirty(tas2770->regmap);
-+	ret = snd_soc_component_update_bits(component, TAS2770_PWR_CTRL,
-+					    TAS2770_PWR_CTRL_MASK,
-+					    TAS2770_PWR_CTRL_SHUTDOWN);
-+	if (ret < 0)
-+		return ret;
- 
--	if (tas2770->sdz_gpio) {
-+	if (tas2770->sdz_gpio)
- 		gpiod_set_value_cansleep(tas2770->sdz_gpio, 0);
--	} else {
--		ret = snd_soc_component_update_bits(component, TAS2770_PWR_CTRL,
--						    TAS2770_PWR_CTRL_MASK,
--						    TAS2770_PWR_CTRL_SHUTDOWN);
--		if (ret < 0) {
--			regcache_cache_only(tas2770->regmap, false);
--			regcache_sync(tas2770->regmap);
--			return ret;
--		}
- 
--		ret = 0;
--	}
-+	regulator_disable(tas2770->sdz_reg);
-+
-+	regcache_cache_only(tas2770->regmap, true);
-+	regcache_mark_dirty(tas2770->regmap);
-+
-+	usleep_range(6000, 7000);
- 
- 	return ret;
- }
-@@ -98,18 +96,26 @@ static int tas2770_codec_resume(struct snd_soc_component *component)
- 	struct tas2770_priv *tas2770 = snd_soc_component_get_drvdata(component);
- 	int ret;
- 
--	if (tas2770->sdz_gpio) {
--		gpiod_set_value_cansleep(tas2770->sdz_gpio, 1);
--		usleep_range(1000, 2000);
--	} else {
--		ret = tas2770_update_pwr_ctrl(tas2770);
--		if (ret < 0)
--			return ret;
-+	ret = regulator_enable(tas2770->sdz_reg);
-+
-+	if (ret) {
-+		dev_err(tas2770->dev, "Failed to enable regulator\n");
-+		return ret;
- 	}
- 
-+	if (tas2770->sdz_gpio)
-+		gpiod_set_value_cansleep(tas2770->sdz_gpio, 1);
-+
-+
-+	usleep_range(1000, 2000);
-+
- 	regcache_cache_only(tas2770->regmap, false);
- 
--	return regcache_sync(tas2770->regmap);
-+	ret = regcache_sync(tas2770->regmap);
-+	if (ret < 0)
-+		return ret;
-+
-+	return tas2770_update_pwr_ctrl(tas2770);
- }
- #else
- #define tas2770_codec_suspend NULL
-@@ -603,11 +609,18 @@ static int tas2770_codec_probe(struct snd_soc_component *component)
- 
- 	tas2770->component = component;
- 
-+	ret = regulator_enable(tas2770->sdz_reg);
-+	if (ret != 0) {
-+		dev_err(tas2770->dev, "Failed to enable regulator: %d\n", ret);
-+		return ret;
-+	}
-+
- 	if (tas2770->sdz_gpio) {
- 		gpiod_set_value_cansleep(tas2770->sdz_gpio, 1);
--		usleep_range(1000, 2000);
- 	}
- 
-+	usleep_range(1000, 2000);
-+
- 	tas2770_reset(tas2770);
- 	regmap_reinit_cache(tas2770->regmap, &tas2770_i2c_regmap);
- 
-@@ -629,7 +642,10 @@ static int tas2770_codec_probe(struct snd_soc_component *component)
- 
- static void tas2770_codec_remove(struct snd_soc_component *component)
- {
++static int sense_event(struct snd_soc_dapm_widget *w,
++			struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
 +	struct tas2770_priv *tas2770 = snd_soc_component_get_drvdata(component);
 +
- 	sysfs_remove_groups(&component->dev->kobj, tas2770_sysfs_groups);
-+	regulator_disable(tas2770->sdz_reg);
- }
- 
- static DECLARE_TLV_DB_SCALE(tas2770_digital_tlv, 1100, 50, 0);
-@@ -769,6 +785,11 @@ static int tas2770_parse_dt(struct device *dev, struct tas2770_priv *tas2770)
- 		tas2770->v_sense_slot = -1;
- 	}
- 
-+	tas2770->sdz_reg = devm_regulator_get(dev, "SDZ");
-+	if (IS_ERR(tas2770->sdz_reg))
-+		return dev_err_probe(dev, PTR_ERR(tas2770->sdz_reg),
-+				     "Failed to get SDZ supply\n");
++	/*
++	 * Powering up ISENSE/VSENSE requires a trip through the shutdown state.
++	 * Do that here to ensure that our changes are applied properly, otherwise
++	 * we might end up with non-functional IVSENSE if playback started earlier,
++	 * which would break software speaker protection.
++	 */
++	switch (event) {
++	case SND_SOC_DAPM_PRE_REG:
++		return snd_soc_component_update_bits(component, TAS2770_PWR_CTRL,
++						    TAS2770_PWR_CTRL_MASK,
++						    TAS2770_PWR_CTRL_SHUTDOWN);
++	case SND_SOC_DAPM_POST_REG:
++		return tas2770_update_pwr_ctrl(tas2770);
++	default:
++		return 0;
++	}
++}
 +
- 	tas2770->sdz_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
- 	if (IS_ERR(tas2770->sdz_gpio)) {
- 		if (PTR_ERR(tas2770->sdz_gpio) == -EPROBE_DEFER)
-diff --git a/sound/soc/codecs/tas2770.h b/sound/soc/codecs/tas2770.h
-index f75f40781ab136cccbe1c272f7129ddd3e4a22a3..f75baf23caf3a194a040474a7484a3d44f673435 100644
---- a/sound/soc/codecs/tas2770.h
-+++ b/sound/soc/codecs/tas2770.h
-@@ -134,6 +134,7 @@ struct tas2770_priv {
- 	struct snd_soc_component *component;
- 	struct gpio_desc *reset_gpio;
- 	struct gpio_desc *sdz_gpio;
-+	struct regulator *sdz_reg;
- 	struct regmap *regmap;
- 	struct device *dev;
- 	int v_sense_slot;
+ static const struct snd_soc_dapm_widget tas2770_dapm_widgets[] = {
+ 	SND_SOC_DAPM_AIF_IN("ASI1", "ASI1 Playback", 0, SND_SOC_NOPM, 0, 0),
+ 	SND_SOC_DAPM_MUX("ASI1 Sel", SND_SOC_NOPM, 0, 0, &tas2770_asi1_mux),
+-	SND_SOC_DAPM_SWITCH("ISENSE", TAS2770_PWR_CTRL, 3, 1, &isense_switch),
+-	SND_SOC_DAPM_SWITCH("VSENSE", TAS2770_PWR_CTRL, 2, 1, &vsense_switch),
++	SND_SOC_DAPM_SWITCH_E("ISENSE", TAS2770_PWR_CTRL, 3, 1, &isense_switch,
++		sense_event, SND_SOC_DAPM_PRE_REG | SND_SOC_DAPM_POST_REG),
++	SND_SOC_DAPM_SWITCH_E("VSENSE", TAS2770_PWR_CTRL, 2, 1, &vsense_switch,
++		sense_event, SND_SOC_DAPM_PRE_REG | SND_SOC_DAPM_POST_REG),
+ 	SND_SOC_DAPM_DAC_E("DAC", NULL, SND_SOC_NOPM, 0, 0, tas2770_dac_event,
+ 			   SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
+ 	SND_SOC_DAPM_OUTPUT("OUT"),
 
 -- 
 2.48.1
