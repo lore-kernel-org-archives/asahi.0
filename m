@@ -1,113 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E50526B977;
-	Tue, 18 Feb 2025 15:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D2F2309B5
+	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 15:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739892788; cv=none; b=E5BocJp4fu5wrrNHhNld6ZzuTzHlDQ6W7s4kNXgiCWazXeUTg7GwiVvTBgY5p+jazLHLcSwotv+XYTzbxv9HhAdc5ZyGAjOpwxIMCvkRkZG7G+uQGfa/kEHhbVuye5Y8Ht7IokAJ7L1RPbwXRwI64F2Q7vuQsL4OREErBTFyakw=
+	t=1739892883; cv=none; b=RbvB2758BmGJM6AQ1TTZUlMKVYoC0a+pi5dmuI5/IVTMWtM/IXH7R1Ym9jSzw4o83S4cs3S5VWiw3KmHx8ASmwUcOQRs7t86e1zNjnLgQE+YALCxr3y1vw9JPHgcVQYoGZY8/YT3ngLDGi3Nis3VFoRTXtG97xElTRmgN2WP7V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739892788; c=relaxed/simple;
-	bh=SEcSvGqFeJ11Iq08rF601HaLImuJ1qHcDIFRTq6KKsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HkeKezPkv8kAGfoAw47g+mMZFnxGYX6NyiO1vDpHQI/QrKv8lu/8JA/EbXbn6yr+s9sxJ7Rh4l9253vDFGGoLxGPCSnFgDqYJ2nGLij0FHwe8zChfHiq5PfwN23EqDKr9h2LcIpc8fgIbqUBqi64am9Cy3mIDCUgdfL8uiziGDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9u4tCHt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739892883; c=relaxed/simple;
+	bh=GXMTpvkPCJ7m5KbW5KvE3Nphli4h5mo+kNooPAwQgpU=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=n2PpJkq6PHDmQMePKOiPg8AxfMcMgD0xKIz/TjpE/9SgpttjRQvtRG5Fz7VlsCBD4R7u/o4ExZeLidObhkGC/y4iZUJyb1kZqnO1hvZUV73EMm9K7K/NjIIhckiPDMBZW7G7mytbuHtEoG2AFOtuH0hJK1HkvauceRqKFGEcgV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=tDb+G7QI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TSMrSP2f; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9u4tCHt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A493C4CEE7;
-	Tue, 18 Feb 2025 15:33:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739892787;
-	bh=SEcSvGqFeJ11Iq08rF601HaLImuJ1qHcDIFRTq6KKsA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A9u4tCHtAnA1yRYSYs5MGup5zXlFZF2N0RKjFuJWt3+zhjmN/mH3MpqzYXwcXyld7
-	 tDt5MQOM8m4GTC8cibArGv43BFdgt9KoZTJeDxGXxMBEUJeay8fYOKwYDzIg/BoHhi
-	 rdo02+pJKEz5p1f1sc6IDy4rG9SkgxzCXFlEXTJQ+YFeMzXBvX2IEv4iqR7Eo2DahP
-	 E/KJJ7LGbjAcxwCcvC2+dIo4oym6jUrUwnnJI81+VU6/BecYaV4lZBc3esaUOSiews
-	 B7D8A+1pChNWaQlQpwIoreLHOTfG5uNg1MeGhcX7N7zNI6zfGZE1yKXGoO7SkaCif9
-	 /m7o62wiaTkiQ==
-Date: Tue, 18 Feb 2025 15:33:03 +0000
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shi Fu <shifu0704@thundersoft.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH v2 20/29] ASoC: tas2764: Add SDZ regulator
-Message-ID: <Z7SoL3HN7Xb3HUTm@finisterre.sirena.org.uk>
-References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
- <20250218-apple-codec-changes-v2-20-932760fd7e07@gmail.com>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="tDb+G7QI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TSMrSP2f"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 7A88825401E6;
+	Tue, 18 Feb 2025 10:34:40 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-10.internal (MEProxy); Tue, 18 Feb 2025 10:34:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1739892880; x=1739979280; bh=vNqt5U9GOUsRRqGjKu27jmxa6soUqk9Y
+	UPA7tKq4cmQ=; b=tDb+G7QIGPYi+Fs+28MJiKIZFjovpT+nbWDuHk9SCVY7vG8B
+	FDE+Oj3ct6izKaBhS8TTZrdJJF2zcGypfbY7eMaR5EUknH27Q4+oIJltEVQNI1LG
+	zdoAcncw3B16d7+EK9rmqfxp1E09wLJrxiANy9g8ck6YCzzpJvg9O57HZlGPkvCE
+	BxPLSYql2SuHy41fvIv8dbvYHX73gMAKTn9MPvqoT7031TVIewipcPZFI17XdFwJ
+	Tm3UX86otR7V1GjxL6faowXM+ABjsGAN6iNvJFg+PHW0+2FvnQauPunSYsSJhvKy
+	X2Ivblu9sHz2k2oNJTEJF142RIe+7pQ7wP8bqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739892880; x=
+	1739979280; bh=vNqt5U9GOUsRRqGjKu27jmxa6soUqk9YUPA7tKq4cmQ=; b=T
+	SMrSP2fsBeXreOuMb300Z2us+GwogmneAy6jSBBlMkE2DpFiIeNShZCJixCWBmsj
+	N9N2ek/z+T99ppO8D+MBSelQu46TrnLyf4VmyGQl1uhKkbYK/NN6BhWHL9UA4r/i
+	AFcFsb+7/TYPv9RFDaYLhQ3W9ocB4iwq/G9rDJ/f7CddKDZyYHKPkJbbWxUhqTwk
+	p7FtlSBmWbLwzyLmf1hSmAr+mcoQq2Tli+Jfq3rcvr6PqHtvex5NxnfB+6dGzozw
+	+MEQT8PcmbHYZSZu+x17VnLVXmJIrRus7vNZ1S8NJIcFpPfkoPczFLs6yELzlREq
+	78IhWrDxwBcvnHMzmIlvQ==
+X-ME-Sender: <xms:jqi0Z4nMHOJMaKq8uG_NlDxLPaw4n-vggnNKA9xjP5O_bl8OWzpscQ>
+    <xme:jqi0Z31ISMrHY9hMU5YrjERGwn_v5tQSLO3CnnPAkOab1N-ZgOpyuE8JzHg6qzc__
+    7Cc6WtJf4x-TMsTdP8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiudeikecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
+    hrrdguvghvqeenucggtffrrghtthgvrhhnpeeutedtleeiuefgjedvgfejvefftdekleei
+    gefgfffhheehkeetleehgfetgedtvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghn
+    sehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmh
+    htphhouhhtpdhrtghpthhtoheplhhinhgrsegrshgrhhhilhhinhgrrdhnvghtpdhrtghp
+    thhtohepvghrrhhorhdvjeesghhmrghilhdrtghomhdprhgtphhtthhopehjsehjrghnnh
+    gruhdrnhgvthdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrughkpdhrtghpthht
+    ohepuggrnhdrtggrrhhpvghnthgvrheslhhinhgrrhhordhorhhgpdhrtghpthhtoheplh
+    hinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+    pdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtth
+    hopehhrghrshhhihhtrdhmrdhmohhgrghlrghprghllhhisehorhgrtghlvgdrtghomhdp
+    rhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhioh
+X-ME-Proxy: <xmx:jqi0Z2qDg0I7zAF77FbLuIaV1_8_wROYP2UYLMvCln1_tUcZQgGytg>
+    <xmx:jqi0Z0mcq9CMwg__3FKOFptFKMlafcmGjCb3mchG7931NM9T4rmRNg>
+    <xmx:jqi0Z23lCqX-FAKEjK0lSMxxuJj8DFyJMGJDDOCStSLrbnSsfBnskQ>
+    <xmx:jqi0Z7s5JpdjaV9TyuvDZ5uPko3ClOed0aWVbeyL6WyXaX2WzH-Cng>
+    <xmx:kKi0Z_usWWPE6CYtwzc8mZU67wVkMuPUMnI7L_RTvOCU9obF1tlfrnA_>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 6AEEDBA0072; Tue, 18 Feb 2025 10:34:38 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pWAmxsziw6n29cMf"
-Content-Disposition: inline
-In-Reply-To: <20250218-apple-codec-changes-v2-20-932760fd7e07@gmail.com>
-X-Cookie: Editing is a rewording activity.
+Date: Tue, 18 Feb 2025 16:34:17 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Harshit Mogalapalli" <harshit.m.mogalapalli@oracle.com>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Janne Grunau" <j@jannau.net>,
+ "Asahi Lina" <lina@asahilina.net>, "Jens Axboe" <axboe@kernel.dk>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
+ "Dan Carpenter" <error27@gmail.com>
+Message-Id: <0e609fea-48b0-4b39-aae4-90395a782ed8@app.fastmail.com>
+In-Reply-To: <20250212085853.1357906-1-harshit.m.mogalapalli@oracle.com>
+References: <20250212085853.1357906-1-harshit.m.mogalapalli@oracle.com>
+Subject: Re: [PATCH] soc: apple: rtkit: Fix use-after-free in apple_rtkit_crashlog_rx()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+
+Hi,
 
 
---pWAmxsziw6n29cMf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Feb 12, 2025, at 09:58, Harshit Mogalapalli wrote:
+> This code calls kfree(bfr); and then passes "bfr" to rtk->ops->crashed()
+> which is a use after free.  The ->crashed function pointer is implemented
+> by apple_nvme_rtkit_crashed() and it doesn't use the "bfr" pointer so
+> this doesn't cause a problem.  But it still looks sketchy as can be.
+>
+> Fix this by moving kfree() after the last usage of bfr.
+>
+> Fixes: c559645f343a ("soc: apple: rtkit: Pass the crashlog to the 
+> crashed() callback")
 
-On Tue, Feb 18, 2025 at 06:35:54PM +1000, James Calligeros wrote:
-
-> Multiple amps can be connected to the same SDZ GPIO. Using raw GPIOs for
-> this breaks, as there is no concept of refcounting/sharing. In order to
-> model these platforms, introduce support for an SDZ "regulator". This
-> allows us to represent the SDZ GPIO as a simple regulator-fixed, and
-> then the regulator core takes care of refcounting so that all codecs are
-> only powered down once all the driver instances are in the suspend
-> state.
-
-I get that the reference counting that the regulator API does is useful
-here but this isn't a regulator so shouldn't be exposed as such,
-particularly since this winds up being visible in the DT ABI.  I
-could've sworn that someone did some helpers for this case but now I go
-looking I can't find them, we certainly don't use any in the regulator
-core.
-
-> @@ -210,7 +220,7 @@ static const struct snd_soc_dapm_widget tas2764_dapm_=
-widgets[] =3D {
->  	SND_SOC_DAPM_DAC("DAC", NULL, SND_SOC_NOPM, 0, 0),
->  	SND_SOC_DAPM_OUTPUT("OUT"),
->  	SND_SOC_DAPM_SIGGEN("VMON"),
-> -	SND_SOC_DAPM_SIGGEN("IMON")
-> +	SND_SOC_DAPM_SIGGEN("IMON"),
->  };
-> =20
-Spurious unrelated change.
+This commit isn't upstream yet afaict, did you mean to post a review comment
+to [1] instead?
 
 
---pWAmxsziw6n29cMf
-Content-Type: application/pgp-signature; name="signature.asc"
+[1] https://lore.kernel.org/asahi/20250202-rtkit-crashdump-v1-1-9d38615b4e12@asahilina.net/
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme0qC8ACgkQJNaLcl1U
-h9D0zgf5AQykdBizrukXzPnimCpFL/x4jnIllW3wFPfrmEQhfMMZwNMCSS7Vjq/5
-BBAYZry7PEXAVMGVnv2DthOvUrAH7LxyDiZ2p/RGmTSp4+0pujUznfB49hIl3oVQ
-t47FKBghaQKV23zIyzLqRRL/DkP33/jcH2cXg1DKGIuaXtocGvHgAzB7GUEXnKM2
-0X5hYFntNU19CmrW5Z9469/bLwVQMJb16MeoLRhxh0/5Wz3ZF88ReujhUdyVZZMs
-3R9Dxrw4Bfp0V541KOwy6S0Cz/M2XYS1DqA2eIRPE3AmjftI+mnW9xpLXZqglW+D
-D9yoJcQZCmlka3jnqIAdKXjBqe6xqg==
-=IM1z
------END PGP SIGNATURE-----
+Best,
 
---pWAmxsziw6n29cMf--
+
+Sven
