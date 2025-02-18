@@ -1,35 +1,90 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F46B26E63D
-	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 16:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1000226B2BB
+	for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 16:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739895363; cv=none; b=cu+fdiJdFvO27yq2tcdtfVizh8Y+dlDy1BVxYgumUSxD+4uynImzMM2TW2y6JSi2mh946YvL4TT4LcUyAQd8oTYGW1ddf1IWE8EuCPqNKHxz9Mf78iIxjERALgbTtN4Kvuj8rx+Bn1YYNpruXj2dMBnq02ZPhu6D38BsPV6N9HM=
+	t=1739895730; cv=none; b=E89JFRtWxRxBXNSMlp/Hf+KhxRlIG7qKnQVncS9QmEzUAq+MqSJ0MUoGsXCeDFAqD5o75OT1e/INPiyGRdW35VGDwRHigmZiIH+wdlBwVC5+9oUUZdSez0IL68zal5z3cgUB91jxdZNm3HCfRBoK92W7zwgCSeSV5DrwfEPBF1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739895363; c=relaxed/simple;
-	bh=SrrHl35kose8Uo9GxNf/Ij5PATQZEPvWJEFn6FxpRko=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=s/IKzjyrxThFbThcGeCPLncUr6LgkOrxDc/FakDn128xv22HkSAXflZSA8o2MjXl60ehJTScTJ68ErEO/T6E0/GQTqi/FhDJt6fVbDOfrISrkRd5cAFyymqr6c6nFyq2hXw05zf42dvZ+vMNKLNOlj4zttyYTxAo21L22uXjj9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=Z/XFcAxu; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1739895730; c=relaxed/simple;
+	bh=biUlUlxZMJkGydyuLzSEg1Jwb0wB5GqYN+/bv8sFWBQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KgRJc8LcJai1zCNTmEeUcL0gYeUlT5I2OqrgDSSuMw+mlDPDFOG+OUamccVn3/enriJhRtfO70rA31/5pwZ//9zRoquQZLCQJ6/VChrOF8hBfUxZow4EZMFnNejxsA9CeTahpuJubBXIxJ2TReJkgcatpqCqh6S/TH8sUOGmaGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=FUVqeMJB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tvubKYaC; arc=none smtp.client-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="Z/XFcAxu"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1739895359;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=pZ7ABL2SNUiOCskWAI6jo53q67GpeDFRnPk2vd5ITGA=;
-	b=Z/XFcAxuyGuvWQEvH3RtQFP9yao9pfJWp8JnTTU7cO9xUyY2vtZ2xuyZFifK2B2Rr03hsY
-	cMDG4DQwMcS4f03Yto0FYi1AaIjG7QdYvNDSd79QvpeALNv4WWtOO2hhKjYirCJrGH5+2F
-	Oox/AzWSi9Fx/TMMnMWBXpIEnjU6F39q73Yo3gWuciOFn2RKVWNZ4+gINGVGPUyB5pgh/0
-	ip8jM1u/57pJuofDGiYpWUItaLg4YfXJj72zlrDM0kDx7paKOFYR7P9CjIWb/etX8NP/Ck
-	PHplFuEOGc8K4r7j+eELpM3psfhohfqHzafZq/37MvYYAyu0OtoEg2k2fQKauQ==
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Date: Tue, 18 Feb 2025 11:15:54 -0500
-Subject: [PATCH] drm: add modifiers for Apple twiddled layouts
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="FUVqeMJB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tvubKYaC"
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
+	by mailfout.stl.internal (Postfix) with ESMTP id D3DD7114017D;
+	Tue, 18 Feb 2025 11:22:06 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-13.internal (MEProxy); Tue, 18 Feb 2025 11:22:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1739895726; x=1739982126; bh=omBAmhhC137AZmIbep4GVQID5KGL5caL
+	+CaVGpd9kgI=; b=FUVqeMJB8ChlxsR+VUv9GAmH6Q/cL3bz3g0BU6L7uMYtZO9s
+	ok/goazpzqbGhrvekllmd2iqOjzYve3O7zyHb6//j1anQ1Zp+/37q8aPHhhFnqBn
+	1wOkN6lenbziWm2Z6A9PvR9JZvy3j7K2sJ0QnY9dsI3WE5AO8zhd4br6qsmlYqXO
+	M8HKP92iDbpNpt7hirt/MxclF2qTRevBiXgY3Pj4wsgqtOpOj7KWjdwtCSNRpcsx
+	T1M6MuIxIwCK7MgAWWpEbItIUZa2Ku7oZr+vBKVDn5QTpSiGVvphCqilhSP8IdBy
+	1T7NeBCJViPzmp7cIena1tj519wv/tCsmdFITA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739895726; x=
+	1739982126; bh=omBAmhhC137AZmIbep4GVQID5KGL5caL+CaVGpd9kgI=; b=t
+	vubKYaCZvno9YYA7RZg/eW6r9GDBKJAc0dPYQqIEcgTvMkGT/XaWhwDYE5KzRc5Z
+	eoMS4Fk0crFD4RXvokGxSlfq/e1QrCpijbEkDEeWV5Y8UMDbjc/6JPyMPWW9LNY8
+	R0bP91c01yXaJ2Buml0GjPT8UY+tznvu5OEFAg6PA73lpNCmgN8+atKm7m3Yp62s
+	WA1+OAnU5MjK95CU9DPTMa6X5lxsF803rVqccax5lZXLwyC3EKVGuy+3Jibl29iQ
+	AjvQU/2XGEAujjXQoopVtrEblKrhXxcUNGjwsBwD6riom9CtwWrLerCbjSLjt7iy
+	6TfZ4ilxU/taVHaqCOfeQ==
+X-ME-Sender: <xms:rrO0Z0uj6d7YquOQbnm2CtIKuZSPy2j8kHVq0anzX0kAx71R4r8YMQ>
+    <xme:rrO0ZxcFSq0Boj1GpMVnF5kTbqBbJvDyhERtyBmVBcOBoIe-nhH7weSuCUtDUPdj0
+    4hvKxnC5gAkz7b2Kj4>
+X-ME-Received: <xmr:rrO0Z_wsq-MjfWdsQe8PpJkr7jkcJanLoNvwGTmxNFGWaEyn3YBnqGlmIXNJOjBgM3jLq4qxK7gfIhLPeU_XjfxMUwN20_ivBHGZLDJM8MXoMcxHjQYQwoq-vDY5HzU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiudejkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
+    jeenucfhrhhomhepufhvvghnucfrvghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrd
+    guvghvqeenucggtffrrghtthgvrhhnpeegieehffethffhffefhfehkeevleevieetfeeg
+    keehhfeifffgheehieejheeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghrtghp
+    thhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlhihsshgrsehroh
+    hsvghniiifvghighdrihhopdhrtghpthhtohepshhvvghnsehsvhgvnhhpvghtvghrrdgu
+    vghvpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
+    htthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggr
+    ugdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehlihhnrgesrghsrghhihhlihhnrgdrnhgvth
+X-ME-Proxy: <xmx:rrO0Z3P7f_9ftdfTbDKZ07pUJhU2BRRsyEvywxiR-UlOefDZjdzOjw>
+    <xmx:rrO0Z08mr4m-n2fXt7xKGj_Q-x3ye6x9u61waJ0p7Ff8UtOPf06jjw>
+    <xmx:rrO0Z_XluE_J3LhlePFn3hpX0DslxVD87qOP1pa0sNUwXXIDkbvGuQ>
+    <xmx:rrO0Z9eYzfYKuIqaGXhlldOyXwKc1E9Xw2apNneoqfKtiCI4LeRQQQ>
+    <xmx:rrO0Z0xxAjaL_sI9A8NG5J3J3LMxKNzzHQxd0xqfwCdFydFGmWTWyA-b>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 18 Feb 2025 11:22:04 -0500 (EST)
+From: Sven Peter <sven@svenpeter.dev>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Asahi Lina <lina@asahilina.net>
+Subject: Re: [PATCH] soc: apple: rtkit: Check & log more failures
+Date: Tue, 18 Feb 2025 17:21:55 +0100
+Message-Id: <173989559064.48099.256452329848917938.b4-ty@svenpeter.dev>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <20250211-rtkit-more-logging-v1-1-93334e9c1c77@rosenzweig.io>
+References: <20250211-rtkit-more-logging-v1-1-93334e9c1c77@rosenzweig.io>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,106 +92,25 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io>
-X-B4-Tracking: v=1; b=H4sIADmytGcC/x3MywqDMBBG4VeRWTuQpFZKX0VcBOePHfASEtGC+
- O4Gl9/inJMykiLTtzopYdes61Jg64qGn19GsEoxOePextkP+xgn8HaoyATheRUNipQ5CKxvQ/M
- yZqCSx4Sg/2fd9dd1A6GTTK9qAAAA
-X-Change-ID: 20250218-apple-twiddled-modifiers-fde1a6f4300c
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2801; i=alyssa@rosenzweig.io;
- h=from:subject:message-id; bh=SrrHl35kose8Uo9GxNf/Ij5PATQZEPvWJEFn6FxpRko=;
- b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBntLI9x9v5oGkUkxK4VSfK+AsF5c9UiDp6aY/AB
- v5U1QvOm9qJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ7SyPQAKCRD+/lBaCvVY
- DVeJD/9dSefpR/l7B4fG9didQ/l563IPyYlgcVGgklM6f8nlUnDbmH70wu6VgV5tc4ixtG+ze9g
- zU1LSWnge6iSb9QhcOb7Z4NsYq0oqvi7XloUICfwJk8cIwtOM7MhHRVg7rOA7Zxu+wD9gIPFD/I
- UBfXRMFmMYZkorqCGGg85xd0jXi7MsbwVAUfJB/417IC8DD3uawSNUD1nrEgzWCkNNWJ7WXDeEN
- CpE4kmp+WE9FjsrDLs2klHNZ0i4aqGRh7GfTHTElg2h9L2LEiHC6FjFWS1fRyjyAaxJXtUGICBA
- JUq6DOzwecZhX1U6qwLpUg/zRLt6wSWRWCu8YVBr0d+sAOk6Bq/gRTAc4tx0cYEmmZPxfBKHMPk
- 6289LKKFbsiFaZR5N56hJuBHzuF88jBFbxdamlhMfpgR86oi85sJYkXSExMO4cHnWKBIPBBXPBq
- 5u1wvmCGeFW47e8ONF8ROF8o8nsHMNF2LWksg8Ljo/AWSA1HpL476CEgM27MmQoHJIOWW0KwVV8
- fLkEL8evpFniPxgv91qNz/RK14VDp/vTOFCyR6U6coBfGmhnwSXr+Sf8be8NSQRIz9DpxjhYNj7
- rIRDceyWQxF9eOdffLpsWWbbQhNMRiwGKpkQdFpfWie+cykRba3ZTwy+uniM6QvDGA+6m46ILkc
- l/SU5ZJA+W69aiw==
-X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
- fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-Apple supports a few image layouts across the SoC. To begin, add
-modifiers for the "twiddled" and "twiddled + compressed" layouts. These
-are the two "standard" layouts used on the GPU. Mesa requires these
-modifiers to share non-linear buffers across processes, but no other
-userspace or kernel support is required/expected.
 
-These layouts are notably not used for interchange across hardware
-blocks (e.g. with the display controller). There are other layouts for
-those but we don't support them either in userspace or kernelspace yet
-(even downstream), so we're not adding them here.
+On Tue, 11 Feb 2025 12:59:44 -0500, Alyssa Rosenzweig wrote:
+> Check and log the following failures:
+> 
+> * regular messages
+> * management messages
+> * failed buffer requests
+> 
+> This helps debugging.
+> 
+> [...]
 
-Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
----
- include/uapi/drm/drm_fourcc.h | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+Applied, thanks!
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index e41a3cec6a9ed18760f3b0c88ba437c9aba3dd4f..6c289fc172c099ab32bf539a1698dabb93f9a0d2 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -422,6 +422,7 @@ extern "C" {
- #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
- #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
- #define DRM_FORMAT_MOD_VENDOR_MTK     0x0b
-+#define DRM_FORMAT_MOD_VENDOR_APPLE   0x0c
- 
- /* add more to the end as needed */
- 
-@@ -1494,6 +1495,36 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
- /* alias for the most common tiling format */
- #define DRM_FORMAT_MOD_MTK_16L_32S_TILE  DRM_FORMAT_MOD_MTK(MTK_FMT_MOD_TILE_16L32S)
- 
-+/*
-+ * Apple twiddled layout.
-+ *
-+ * This is the most "general" image layout supported on Apple GPUs.
-+ *
-+ * Twiddled images are divided into tiles. Tiles are always 16KiB, with
-+ * dimensions depending on the base-format. Within a tile, pixels are fully
-+ * interleaved (Morton order). Tiles themselves are raster-order.
-+ *
-+ * Images must be 16-byte aligned.
-+ *
-+ * For more information see
-+ * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
-+ */
-+#define DRM_FORMAT_MOD_APPLE_TWIDDLED fourcc_mod_code(APPLE, 1)
-+
-+/*
-+ * Apple twiddled and compressed layout.
-+ *
-+ * This is the main lossless image compression layout supported by Apple GPUs.
-+ *
-+ * The image is divided into tiles that are internally twiddled.  In addition to
-+ * the body, there is also a metadata section containing 8 bytes for each 16x16
-+ * compression subtile. By convention, the metadata immediately follows the
-+ * body, after padding to 128-bytes.
-+ *
-+ * Images must be 16-byte aligned.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_TWIDDLED_COMPRESSED fourcc_mod_code(APPLE, 2)
-+
- /*
-  * AMD modifiers
-  *
-
----
-base-commit: 0ed1356af8f629ae807963b7db4e501e3b580bc2
-change-id: 20250218-apple-twiddled-modifiers-fde1a6f4300c
+[1/1] soc: apple: rtkit: Check & log more failures
+      commit: ca0272d8638a4c50ecc2c63719f81e022d3450f1
 
 Best regards,
 -- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
+Sven Peter <sven@svenpeter.dev>
