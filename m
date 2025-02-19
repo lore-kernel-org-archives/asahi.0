@@ -1,54 +1,54 @@
 Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968AD1C6FFD;
-	Wed, 19 Feb 2025 11:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E4C2862AB;
+	Wed, 19 Feb 2025 11:57:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739964869; cv=none; b=XdXEjV8SDa3zvlodGYu1LmbmNw+B7idil7WTpOPxjoYK1Z0R5sfkMb//KRmS2wicIuwN0xYVLA5e9SDHEYgEA3mMrd7sZ8Fx/XRIJJZ+DVvvFXIYWpQTDhG7cUCo2jtUEXhfJG5PYiMCAOR1ZjJ9w3eZd3SNemStvEiqCjNtNq8=
+	t=1739966262; cv=none; b=M8zIOGHX90uouIIZOWgmFEBpFvRvOpVYUivtdod9LScqnCXXAYRK3lIuanZytEwnexy/8uXIVuEejwya045/DOGIa7j8m20EYTbzQ7owmgYCha2As2AErbJn5qg2pg7Nh22VwQayiONlR7HW4IUAlBSiCAr5QkD2VifyF/8i6bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739964869; c=relaxed/simple;
-	bh=ZKFJCSUhaRPnsN8qScYBCMA8IrkgHkfPq42YAQBpoCA=;
+	s=arc-20240116; t=1739966262; c=relaxed/simple;
+	bh=4k1po3JFC/xg27AWImd+emnF0oRfoeOXjB0dtgrtVAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FbdxjdL8j/G/d2KzozyEuwC918DLOM0g6uULw2bl9yr3KAUbJkaoqJuCSorXqOaySbbgLM3sps9L8m+69Qc2OCBIykIgMQkWd9OokyopGxjBko7VrZa+YbdrErJhBOyg+Rl4DGlqGrzuODeD5WYWgOVs7hFENMjmdZj/9T+3ka4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=qOOdExDL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oN02PbD1; arc=none smtp.client-ip=103.168.172.140
+	 Content-Type:Content-Disposition:In-Reply-To; b=XiJewbfEZxMMlilkAJvk8Tmx1w06Nv607H7+1pZKuwWUz514NTgIPb+Py30akw4Dxxoqz21u/eCsVkUgzuOek3Zaw+NLt5A7ivgXjmkzBqbMx3r3lMLnSbnoMUAPPJLDjnLFPeNlqvsP5Ghtpkaq9KcTavcDOiJUmzTkcgwYMAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=ZnGEtjMO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IzobVLZJ; arc=none smtp.client-ip=103.168.172.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="qOOdExDL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oN02PbD1"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailflow.phl.internal (Postfix) with ESMTP id 7C624201775;
-	Wed, 19 Feb 2025 06:34:26 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 19 Feb 2025 06:34:26 -0500
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="ZnGEtjMO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IzobVLZJ"
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id 16F85201789;
+	Wed, 19 Feb 2025 06:57:40 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 19 Feb 2025 06:57:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1739964866; x=1739972066; bh=4Nqfbpvtsx
-	rCpCAe9ieHrcp2u9odpK5GUYTz6e9Gvcw=; b=qOOdExDLXjjPMISghsMmokH//H
-	pKMd4eMzxrx0ZyY9vtzoTtByFkET7JXrDWbYDO1oK30VKmu59aQj4aGg3YUvDEuA
-	9YUhZAe+3IgZz9yeE1P+JhA/RctHgTXCHL2f/G/vg8euOlTf6iQBfPOgksaaNwW9
-	ZKzAKzkQ6D6oZKl1gPiOWaKeedYWpHJNRQuL1Frrs36NoYbPTA8u/6IwnugxjWyt
-	RBJcgiSiwkRbis/sq/GbmKGN35f5CdiQ2L7OieaTqPWqXOfMgHANVEBFaeWyXnrA
-	tKH5ggRelCim2M+WuAuvnF22o3ENaw+is0G7wCP1mEZ1GfkjmF0euIh0lh0g==
+	:subject:to:to; s=fm2; t=1739966260; x=1739973460; bh=I0Vr7zjYe+
+	LzROidf2KdAM0FeJYDrHAhTGLGwi7YtgU=; b=ZnGEtjMO7AINmHlgXsViick38g
+	sED8BBGIc4vzI41aYcZkvTv7tMmAl2CYypqi/XpBgIOnw4FeODoyNg6k/Nwozko6
+	FG1C9nOXlX0m7D/o+o+W5E7qYe8GZUiThYWscNV56K5BEsjhrgg4vLd1bafjQacS
+	HyFLGOCBOnCPUVRs/3YHXR1CmSfZCNHiSswIzMN+kl9ksfrq6QVL3nRi5UUztm4N
+	vf4nTRNkGlb4c46UEZShn+nUkeTKRR1ZL3bagN91houWTDWm6pF5AVBvqYV2BvYA
+	EH+B2ru4qHb9l1SjjB8fPHes6nJdDEp5P6v/uLHQdQKMiCshRC6JA4MIR2NA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1739964866; x=1739972066; bh=4NqfbpvtsxrCpCAe9ieHrcp2u9odpK5GUYT
-	z6e9Gvcw=; b=oN02PbD1tshBdOaahZD3IZQHyU/P2zULLig6Xe6xg3mCwRBwAqT
-	4uoHxs+F4Tu1TNRf6GI4fa5mbiekOg+95YkaHxUi2Aq3cOZnHGOXVUM4Cf/zMg03
-	k+MZpjiCMED/sPwXMgQYqf7WsLGn2ViB7av7ZnE2LfAikXdjLQeAef7LrbNLp8en
-	F4G3x8IEEO4y6ko9syjeMiy3PLPWj7bKI+fO6UNYzt9DH9ZQfQMwTWWUE0kStlKH
-	PLU4wwrE6RzZAknyGgOwP/+v7LrkUJHG5X0YAc140VWErOY8BjDxy41ieMdiEWUX
-	rcR+p+tbqlkUG7HklvfNJKx+G2Cji3mkbHw==
-X-ME-Sender: <xms:wMG1Z1x1BEozbmwDrSZZpuNwd5qkTqSqWXy9b4GoBI8G8U9cur3m5Q>
-    <xme:wMG1Z1S8HMZDIizVqpZsQaqSlDCgD5IMOy9dQbNC-WQJKi8hmJz7GVvPocro4pcPj
-    STDKX8ux_daKLz5IUA>
-X-ME-Received: <xmr:wMG1Z_X_P5jXN9xGnJ7iFDfsyUxScsOHA-VRKExjY9iQHYeTve_g0hfzOCdx3gnaSRuLDtm5AKVvC-89LgtQD67uXYQyqaSlHFo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigedugecutefuodetggdotefrod
+	1739966260; x=1739973460; bh=I0Vr7zjYe+LzROidf2KdAM0FeJYDrHAhTGL
+	Gwi7YtgU=; b=IzobVLZJfukFykt4i6eVYyGagYUSdLzrJ+kKgK1Myd6dRmFXfUE
+	YA+IeAxWbmpKjDFOihiqLar4F+Be478YgB9W8Wn9sGt3nSNpuQXAiDk35OuntrbP
+	WJqmHKBbx2YNN96srbSNwih0n02nvIs8oho4ZOOFwfh5/ot4ZVEc6BPygetHlkfV
+	5UaKeDhUeaSkXBKcs2mpXUynscIBmhwnCmXy6LlECjHYN9qoPd+VzeQTRy1FG4JO
+	0jSeggenWwrBLkldkYL5Hg+9Gu31FG4kMOAFrMhw/d3y+x36QV+2UO6ckEGf4PmW
+	N8m1RdbNcjl95Tp0/FTxBXNQemWNZYwMYGA==
+X-ME-Sender: <xms:M8e1Zxc4nEkIU6aRDFmOLJEnMwle1yw3vBQokwHqBww3xJX-FLtoiQ>
+    <xme:M8e1Z_OnEqGXRTGc7gJV2j_IKi5pFbtScK2_pHqmtWbprCq_rz9LYJndYi1PWTQPl
+    sMlBM-8LXj90ANfRqc>
+X-ME-Received: <xmr:M8e1Z6gsOt17SienMM3DX3KO-YnyORDYQlR6NaUsKnVEWjNAKA6aAjvroxOA-vLR6Bap90M129j1yS7EvkdVM61jb56rNs71--0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigedujecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
@@ -56,26 +56,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigedugecutefuodetgg
     cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
     tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
     hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedvvddpmhhouggv
-    pehsmhhtphhouhhtpdhrtghpthhtohepfhhnkhhlrdhkvghrnhgvlhesghhmrghilhdrtg
-    homhdprhgtphhtthhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdprhgtphhtthho
-    pegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehrohgshheskh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtthhopehulhhfrdhhrghnshhsohhn
-    sehlihhnrghrohdrohhrghdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdroh
-    hrgh
-X-ME-Proxy: <xmx:wMG1Z3iF9QNbhjo-8PX3LKCQwuAF6-JBImBeIIG-PzD5YPrA6eLnXg>
-    <xmx:wMG1Z3BoV5xeMZoy3kxKRf-pez8JyeaqatcOxJ_uuiiD7K_GnJrJDQ>
-    <xmx:wMG1ZwK0MgHxmIWva-dMZ8fuT7rXwWLyLL_H2o7pFd9TaB7HrfHeXw>
-    <xmx:wMG1Z2ACxjCWiBGuIS0A3JIqY-BRzRIA9SNMZjIJ6EDayyFKDT3exA>
-    <xmx:wsG1Z-UCoOJaVt1XhwvLDMi3csvUhUXsVBcUYf5_CQBTD-6EMfwPTspR>
+    pehsmhhtphhouhhtpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiug
+    gvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehg
+    mhgrihhlrdgtohhmpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdprhgtphhtthhopegrlhihshhs
+    rgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehrohgshheskhgvrhhnvghlrd
+    horhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    oheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrghrtggrnh
+    esmhgrrhgtrghnrdhsth
+X-ME-Proxy: <xmx:M8e1Z69fp5UtCDSgtdHbRJOaO6ofWHA2pUkPtu7-mXVd_uPZq9m01g>
+    <xmx:M8e1Z9u70kv0LcFER15ThwwD-6Leqc-OUjgUeztpCvcFeRjPRXN89A>
+    <xmx:M8e1Z5FaSzYMQq6TOOLDR414dl66AOYDTbo4t-79vgvVpzp10ilNBw>
+    <xmx:M8e1Z0NnvX9Z8_L15P1RSf9-_AVkLw7jf1ETZNCsoqK7vgkwZhbNvw>
+    <xmx:NMe1ZxSGnD2ua2i_owXFtXWucBE25DO8kebyhgs0H0RDLv74zlzz5HC2>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Feb 2025 06:34:24 -0500 (EST)
-Date: Wed, 19 Feb 2025 12:34:22 +0100
+ 19 Feb 2025 06:57:38 -0500 (EST)
+Date: Wed, 19 Feb 2025 12:57:37 +0100
 From: Janne Grunau <j@jannau.net>
-To: fnkl.kernel@gmail.com
-Cc: Sven Peter <sven@svenpeter.dev>,
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -89,12 +91,14 @@ Cc: Sven Peter <sven@svenpeter.dev>,
 	Fabio Estevam <festevam@gmail.com>, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-media@vger.kernel.org, imx@lists.linux.dev,
-	Eileen Yoon <eyn@gmx.com>, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH 4/5] media: apple: Add Apple ISP driver
-Message-ID: <20250219113422.GA26386@robin.jannau.net>
+	linux-media@vger.kernel.org, imx@lists.linux.dev
+Subject: Re: [PATCH 3/5] media: dt-bindings: Add Apple ISP
+Message-ID: <20250219115737.GB26386@robin.jannau.net>
 References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com>
- <20250219-isp-v1-4-6d3e89b67c31@gmail.com>
+ <20250219-isp-v1-3-6d3e89b67c31@gmail.com>
+ <16f6d4a2-2102-48b9-a0ae-b8c6595975b8@kernel.org>
+ <CAMT+MTR7dhtt3SOMg0K3UakJQftqnc2S-rV41HdHtA+o9aSPug@mail.gmail.com>
+ <20250219105326.GA31383@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -103,239 +107,115 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250219-isp-v1-4-6d3e89b67c31@gmail.com>
+In-Reply-To: <20250219105326.GA31383@pendragon.ideasonboard.com>
 
-Hej,
-
-On Wed, Feb 19, 2025 at 10:27:00AM +0100, Sasha Finkelstein via B4 Relay wrote:
-> From: Eileen Yoon <eyn@gmx.com>
+On Wed, Feb 19, 2025 at 12:53:26PM +0200, Laurent Pinchart wrote:
+> On Wed, Feb 19, 2025 at 10:54:31AM +0100, Sasha Finkelstein wrote:
+> > On Wed, 19 Feb 2025 at 10:37, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > > > +
+> > > > +  apple,platform-id:
+> > > > +    description: Platform id for firmware
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > >
+> > >
+> > > No, use firmware-name.
+> > 
+> > Not sure how is firmware-name an appropriate field, fw-name is a string
+> > that references a firmware file, while this field is an id that is sent to the
+> > coprocessor firmware in order to identify the platform.
+> > 
+> > > > +  apple,temporal-filter:
+> > > > +    description: Whether temporal filter should be enabled in firmware
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > >
+> > > And why is this not enabled always? Why this is board specific?
+> > 
+> > Not every board has support for this feature.
+> > 
+> > > You miss here ports or port. ISP usually gets signal from some camera or
+> > > other block.
+> > 
+> > For complex cameras - yes, but this is closer to a UVC camera connected
+> > via a bespoke protocol. We do not need to deal with the sensor access,
+> > all of it is managed by the coprocessor firmware.
+> > 
+> > > > +        properties:
+> > > > +          apple,config-index:
+> > > > +            description: Firmware config index
+> > > > +            $ref: /schemas/types.yaml#/definitions/uint32
+> > >
+> > >
+> > > No duplicated indices. You have reg for this, assuming this is index.
+> > 
+> > There are duplicated indices, see isp-imx248.dtsi in patch 5 for an example.
+> > 
+> > > All these do not look like hardware properties but rather configuration
+> > > of sensor which should be done runtime by OS, not by DT.
+> > 
+> > Those are board-specific and not discoverable via the ISP protocol.
 > 
-> This is the ISP and camera module present on certain Apple laptops
+> But they are settable through the ISP protocol, aren't they ? For
+> instance, looking at isp-imx248.dtsi, the first four entries are
 > 
-> Signed-off-by: Eileen Yoon <eyn@gmx.com>
-> Co-developed-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Co-developed-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Co-developed-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  MAINTAINERS                                  |   1 +
->  drivers/media/platform/Kconfig               |   1 +
->  drivers/media/platform/Makefile              |   1 +
->  drivers/media/platform/apple/Kconfig         |   5 +
->  drivers/media/platform/apple/Makefile        |   3 +
->  drivers/media/platform/apple/isp/Kconfig     |  16 +
->  drivers/media/platform/apple/isp/Makefile    |   3 +
->  drivers/media/platform/apple/isp/isp-cam.c   | 414 ++++++++++++
->  drivers/media/platform/apple/isp/isp-cam.h   |  21 +
->  drivers/media/platform/apple/isp/isp-cmd.c   | 635 +++++++++++++++++++
->  drivers/media/platform/apple/isp/isp-cmd.h   | 692 ++++++++++++++++++++
->  drivers/media/platform/apple/isp/isp-drv.c   | 586 +++++++++++++++++
->  drivers/media/platform/apple/isp/isp-drv.h   | 284 +++++++++
->  drivers/media/platform/apple/isp/isp-fw.c    | 770 +++++++++++++++++++++++
->  drivers/media/platform/apple/isp/isp-fw.h    |  24 +
->  drivers/media/platform/apple/isp/isp-iommu.c | 251 ++++++++
->  drivers/media/platform/apple/isp/isp-iommu.h |  20 +
->  drivers/media/platform/apple/isp/isp-ipc.c   | 258 ++++++++
->  drivers/media/platform/apple/isp/isp-ipc.h   |  25 +
->  drivers/media/platform/apple/isp/isp-regs.h  |  56 ++
->  drivers/media/platform/apple/isp/isp-v4l2.c  | 900 +++++++++++++++++++++++++++
->  drivers/media/platform/apple/isp/isp-v4l2.h  |  16 +
->  22 files changed, 4982 insertions(+)
+> 	/* 1280x720 */
+> 	preset0 {
+> 		apple,config-index = <0>;
+> 		apple,input-size = <1296 736>;
+> 		apple,output-size = <1280 720>;
+> 		apple,crop = <8 8 1280 720>;
+> 	};
+> 
+> 	/* 960x720 (4:3) */
+> 	preset1 {
+> 		apple,config-index = <0>;
+> 		apple,input-size = <1296 736>;
+> 		apple,output-size = <960 720>;
+> 		apple,crop = <168 8 960 720>;
+> 	};
+> 
+> 	/* 960x540 (16:9) */
+> 	preset2 {
+> 		apple,config-index = <0>;
+> 		apple,input-size = <1296 736>;
+> 		apple,output-size = <960 540>;
+> 		apple,crop = <8 8 1280 720>;
+> 	};
+> 
+> 	/* 640x480 (4:3) */
+> 	preset3 {
+> 		apple,config-index = <0>;
+> 		apple,input-size = <1296 736>;
+> 		apple,output-size = <640 480>;
+> 		apple,crop = <168 8 960 720>;
+> 	};
+> 
+> But I may be interested in capturing a 640x480 frame with cropping only
+> and without scaling, with
+> 
+> input-size = 1296x736
+> output-size = 640x480
+> crop = (328,128)/640x480
+> 
+> Or I may want my cropped frame to be located in the upper-left corner:
+> 
+> input-size = 1296x736
+> output-size = 640x480
+> crop = (8,8)/640x480
+> 
+> If I set those parameters through the ISP protocol, won't it work ?
 
-quick partial review
+If my memory serves me right the presets wre added as workaround for
+userspace not handling V4L2_FRMSIZE_TYPE_STEPWISE well (or at all) and
+the added complexity of handling the qadratic sensor with partially
+occluded or outside of the usable lens diameter corners.
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index dea7239ee0f5464b31efed5a2e0e5e602bcb6439..60517f7dcee14fc942dd3f77ed5d58eae394f7fa 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2248,6 +2248,7 @@ F:	drivers/i2c/busses/i2c-pasemi-platform.c
->  F:	drivers/iommu/apple-dart.c
->  F:	drivers/iommu/io-pgtable-dart.c
->  F:	drivers/irqchip/irq-apple-aic.c
-> +F:	drivers/media/platform/apple/*
->  F:	drivers/nvme/host/apple.c
->  F:	drivers/nvmem/apple-efuses.c
->  F:	drivers/pinctrl/pinctrl-apple-gpio.c
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 85d2627776b6a424fbd392187669535c4159ec97..ba75cfdb57f710cca086136e4524d3e1bc1910ac 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -65,6 +65,7 @@ config VIDEO_MUX
->  source "drivers/media/platform/allegro-dvt/Kconfig"
->  source "drivers/media/platform/amlogic/Kconfig"
->  source "drivers/media/platform/amphion/Kconfig"
-> +source "drivers/media/platform/apple/Kconfig"
->  source "drivers/media/platform/aspeed/Kconfig"
->  source "drivers/media/platform/atmel/Kconfig"
->  source "drivers/media/platform/broadcom/Kconfig"
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index ace4e34483ddce6c3361479989086145dd495f29..e59e4259064bf04b718ea8d128031af859a13d2e 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -8,6 +8,7 @@
->  obj-y += allegro-dvt/
->  obj-y += amlogic/
->  obj-y += amphion/
-> +obj-y += apple/
->  obj-y += aspeed/
->  obj-y += atmel/
->  obj-y += broadcom/
-> diff --git a/drivers/media/platform/apple/Kconfig b/drivers/media/platform/apple/Kconfig
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..f16508bff5242a0bc433bf8a1d8e3f29737d20d1
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/Kconfig
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +comment "Apple media platform drivers"
-> +
-> +source "drivers/media/platform/apple/isp/Kconfig"
-> diff --git a/drivers/media/platform/apple/Makefile b/drivers/media/platform/apple/Makefile
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d8fe985b0e6c377de6c77d30a3a796c40f3da116
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-y += isp/
-> diff --git a/drivers/media/platform/apple/isp/Kconfig b/drivers/media/platform/apple/isp/Kconfig
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..8e94962990031304d51cdd7cd6190b05b05b40bb
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/isp/Kconfig
-> @@ -0,0 +1,16 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config VIDEO_APPLE_ISP
-> +	tristate "Apple Silicon Image Signal Processor driver"
-> +	select VIDEOBUF2_CORE
-> +	select VIDEOBUF2_V4L2
-> +	select VIDEOBUF2_DMA_SG
-> +	depends on ARCH_APPLE || COMPILE_TEST
-> +	depends on V4L_PLATFORM_DRIVERS
-> +	depends on VIDEO_DEV
+It is a simplified description of the hardware to make it useable for
+most software which is expected simple uvc cameras.
 
-missing dependency on DRM for drm_mm. I don't remember why iova's top
-down allocation was a problem but if we can avoid drm_mm that would be
-an option as well.
-
-> +	help
-> +	  Say Y here to enable support for the ISP and cameras persent
-> +	  in Apple ARM laptops.
-> +
-> +	  To compile this driver as a module, choose M here. The module will be
-> +	  called apple_isp
-> diff --git a/drivers/media/platform/apple/isp/Makefile b/drivers/media/platform/apple/isp/Makefile
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..4649f32987f025a639945a37d774d4ecdc83b02a
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/isp/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +apple-isp-y := isp-cam.o isp-cmd.o isp-drv.o isp-fw.o isp-iommu.o isp-ipc.o isp-v4l2.o
-> +obj-$(CONFIG_VIDEO_APPLE_ISP) += apple-isp.o
-
-...
-
-> diff --git a/drivers/media/platform/apple/isp/isp-drv.c b/drivers/media/platform/apple/isp/isp-drv.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b0c73b4f43d73f4ee29093fe62ed1d39ccfa33dd
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/isp/isp-drv.c
-> @@ -0,0 +1,586 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Apple Image Signal Processor driver
-> + *
-> + * Copyright (C) 2023 The Asahi Linux Contributors
-> + */
-> +
-> +#include <linux/iommu.h>
-> +#include <linux/module.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/workqueue.h>
-> +
-> +#include "isp-cam.h"
-> +#include "isp-fw.h"
-> +#include "isp-iommu.h"
-> +#include "isp-v4l2.h"
-> +
-
-...
-
-> +static int apple_isp_init_iommu(struct apple_isp *isp)
-> +{
-> +	struct device *dev = isp->dev;
-> +	phys_addr_t heap_base;
-> +	size_t heap_size;
-> +	u64 vm_size;
-> +	int err;
-> +	int size;
-> +	struct device_node *mem_node;
-> +	const __be32 *maps, *end;
-> +
-> +	isp->domain = iommu_get_domain_for_dev(isp->dev);
-> +	if (!isp->domain)
-> +		return -ENODEV;
-> +	isp->shift = __ffs(isp->domain->pgsize_bitmap);
-> +
-> +	mem_node = of_parse_phandle(dev->of_node, "memory-region", 0);
-> +	if (!mem_node) {
-> +		dev_err(dev, "No memory-region found for heap\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	maps = of_get_property(mem_node, "iommu-addresses", &size);
-> +	if (!maps || !size) {
-> +		dev_err(dev, "No valid iommu-addresses found for heap\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	end = maps + size / sizeof(__be32);
-> +
-> +	while (maps < end) {
-> +		maps++;
-> +		maps = of_translate_dma_region(dev->of_node, maps, &heap_base,
-> +					       &heap_size);
-> +	}
-
-The hand-rolled reserved memory parsing looks like it can be replaced
-with of_iommu_get_resv_region();
-> +
-
-> +	isp->fw.heap_top = heap_base + heap_size;
-> +
-> +	err = of_property_read_u64(dev->of_node, "apple,dart-vm-size",
-> +				   &vm_size);
-
-This is not necessary and can be inferred from
-isp->domain->geometry.aperture_{start,end}.
-
-> +	if (err) {
-> +		dev_err(dev, "failed to read 'apple,dart-vm-size': %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	drm_mm_init(&isp->iovad, isp->fw.heap_top,
-> +		    vm_size - (heap_base & 0xffffffff));
-
-drm_mm probably should be replaced with something else. As I wrote above
-I don't understand / remember what the problem was with relying on the
-DMA api and iova. I can't imagine that the firmware cares about top-down
-vs. bottom-up allocation. I could image it was related to
-"apple,dart-vm-size" and iova's top down allocation only allocated
-outside of the device's aperture. That should be solved by our current
-downstream handling of the "vm-base" and "vm-size" properties from
-Apple's devicetree.
+There are still two common issues in user space software related to this
+driver:
+- software expects width == linesize
+- resolution selection is based frame height, i.e. it prefers 1080x1920
+  over 1920x1080 on devices with quadratic sensor.
 
 ciao Janne
