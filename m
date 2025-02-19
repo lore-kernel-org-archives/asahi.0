@@ -1,137 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72ED1156228;
-	Wed, 19 Feb 2025 02:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089A333E7
+	for <asahi@lists.linux.dev>; Wed, 19 Feb 2025 04:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739933971; cv=none; b=K+tZMECwXi6t/d8RBgf3JBMcNDQOBF+9AtoE6JwpmT7bUq4mc2e0RMOuUDC84yorIHnqOBXlJC16nGnmKiRxeT9PfXWjmb5SmEacMvuNE9VU2cGEkjvTjqkk68YES0tNbo+lXvuGw7WRMCLNHB94oI/BzfqisHtkOiYnNi8xbvo=
+	t=1739940458; cv=none; b=PWubvnwx24t5Y/F160gOVvA10Nt9Ey/z6ZyKMUn8oJGp7b12KuhB7bpLzyyp05fuZTES+Le8hRtt4e+YvpYvv7aAsuyg8XbikCBFEs03j7HuASjjQwPXXWor+Kg+MFNgP94Z3xGei7qmQjdFSigx24lZadujAL3HYLcyzw8fmBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739933971; c=relaxed/simple;
-	bh=rOMFbl3z2EdNZq26KKAZFNR9PZtZbOBVCWnC4y2z5Us=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tdNwk3zyvXqkoVti0+MgvO1LWuF0OmEdKofwZc3AIRIKoPLcvVVlKhBn8H7uFRQpfsXGiyoJRJ6JZNaiw1DoeNd1wOrRtKuse2kKzThMbEBAFVBuqnZUXwaOiJkrYcXVXr+L5ygpUfn4oPVo8kj7x8hpR4aDqjmgaKOaAIYIGpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cWb89XwX; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1739940458; c=relaxed/simple;
+	bh=j/FGScFKYIvNF8gNYGwyaBT7JxKCpP+A94CkyRWi/Uk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m5Ro8Y7TWmG92nWIB0gg9yBlCeIOBJURsjBKubuNgHJKycvnNTVi13cf5nVHY7PPfC2pkJXdDeAmw6PI8s6Qe4vLKaAi1VhINbp8NOLA7A1ualj5TwR/aTZGwuiYmTXIkhaS+3gfWoYI3NMh7XhM/u9QKc1DMrIPBzwtz2Nv824=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i5AQx5L4; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWb89XwX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739933970; x=1771469970;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=rOMFbl3z2EdNZq26KKAZFNR9PZtZbOBVCWnC4y2z5Us=;
-  b=cWb89XwX4WiW/Us0lQSQ1A+3h65LQyfmSFc9HBhtKBfAM1m1bkICR3ud
-   Xe7PIASmjUvU2m2WXeLMYT1GQY0X4wFeWm4Pd+GKJTC/XPaAzWIja9upY
-   cBy75tzZZ2PUam3Jai92J2IrRhYxiVJaDEONAl38tqmlhIO3vQ2O0F+/Z
-   3DggkAyknIg+rFywqZLnafDGV8qwlOSId2bxpu91qcmeBscareg5oBFRZ
-   l+aujq9mdFrzVrmRPQm9tK3ZtBX4jqN0EBueQ66ieZug5rKaz9lwbhLrL
-   364+kopLosg9MlloqnbQIhYLEekNweDOlwBm3BysRr44a0rz60TO10VlX
-   g==;
-X-CSE-ConnectionGUID: NfPJi3MBQWWOBJSamckOqg==
-X-CSE-MsgGUID: bCxO3ZFhSxC0z3HvkVvANw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40515891"
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="40515891"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 18:59:29 -0800
-X-CSE-ConnectionGUID: TBYZGMlXQXKSyTkYi9M/6A==
-X-CSE-MsgGUID: 7HleMqibRqa4OaCc6SPD+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="114437430"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 18:59:21 -0800
-Message-ID: <25d9f6de-5cc0-41ec-bdbc-0cf5f66743cf@linux.intel.com>
-Date: Wed, 19 Feb 2025 10:56:18 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i5AQx5L4"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-471d1af90a0so47105201cf.0
+        for <asahi@lists.linux.dev>; Tue, 18 Feb 2025 20:47:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739940456; x=1740545256; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QS3nGYs5YKxyOBVxJ1oYq+XkO0+0BktASGS0GSAFnog=;
+        b=i5AQx5L4ezO6KapAcgsDaMEgwG0geDP6+fuot2tYSHFLLv/XKnE/upjwPYrQvBRpwI
+         MVb9E+VtVpe1DN37rwiyMqPrB14ITWvfZ4HrOxHn3uhXfjgeY+gg93zFOHiu+i93zGq5
+         i0TsiZjgWY6sfFgtpM4DKL65Qlt8BQSnAUSQM1HOTS2mxXfB+5c2At9b1cZd621JVBId
+         8LqkXKj8GM8CfYuGKBU0eAw/mNPJ1xGofw/1M88fXWsq6V84B+MXQaRsE6NjhULQ5IP+
+         kdBsWeQ/mgY1UhRWDB+pi3CnC3dv0S7Qm50vk2Ai6H8VPKGzVaGyKyDlgCB+pj6Ubfb4
+         t/MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739940456; x=1740545256;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QS3nGYs5YKxyOBVxJ1oYq+XkO0+0BktASGS0GSAFnog=;
+        b=ZfbVtUtjXAmmp2GhkvTIrgwjfdMsdNuz+DuftIF7gykmYP0kADvdZAULs8wpvShEHv
+         Xr8sylIKfD6xFtiKlvkukjdtVg5SEdIHGhPhzpng4yIIiKHEK2xngcFy56iO5k5StWaf
+         ki6Cfgm7o348rl0QNl++a4PTjSSEM1gI0N9Bcze3KmB+EPeyDuYR2Tdfe5/929mIMihI
+         lri5r+dSb3yOj/Fi/+AR1wceoztniG9WN9C70XTecWa4qu6f5azpXuU6o693uTw3AhYM
+         VFU8KCCcx64DdqLv0WLG7tnPLipJHhnv/F0cuTnZVy6g5BuibbeX73LHcWEF/PBGatbD
+         OKBw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+14+VO38Oa6S1BHGibmlIsanuK6P6zj5cxFRJgAB8Oz1+iEvnOWZxHXWbuSynZnydrj+kxw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxnra9jPCl51RJRPdAV3LZa9ZG6WqjzPKpOI110Ksjiumvwci/K
+	4E95d2tqTgmwr8kq4Ab7uBGuzkjuDlMsiO75KBTnuju7V13bXxht0d499g2L0vzwATnv1qkwg7O
+	gm41Q3DR3uRnMGoLYXsrFhYie8Hs=
+X-Gm-Gg: ASbGncsZ/EoXKND9rVdE3ylhtCCNACbDXwr271WDLH5z+dCNly+r8Y9/Eoj6H9sGP3U
+	Ew1s/XiVpUjCPHrpJICOo3xRGn9Nj5fHH6JBBRj2vvd3kGAy+NuOudIUxNZVZBP6+mQmdgLs=
+X-Google-Smtp-Source: AGHT+IGrYhj6Gx1SpOFsGXGJgvmhAlAoqQFszNmC5NEGHxmqY4dRbJCZ6QFbIRC7yBQuaRyXOgmzghwDfIcQ4wY8hFA=
+X-Received: by 2002:ac8:5e4e:0:b0:471:bd14:a77c with SMTP id
+ d75a77b69052e-472082a97c3mr30546691cf.44.1739940455934; Tue, 18 Feb 2025
+ 20:47:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/23] iommu/pages: De-inline the substantial functions
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
- asahi@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>,
- Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
- Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Robin Murphy
- <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Joerg Roedel <jroedel@suse.de>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
- David Rientjes <rientjes@google.com>, Matthew Wilcox <willy@infradead.org>
-References: <7-v2-545d29711869+a76b5-iommu_pages_jgg@nvidia.com>
- <84fd4500-a12c-40d6-a532-e2956ed1c35e@linux.intel.com>
- <20250218201924.GJ4183890@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20250218201924.GJ4183890@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
+ <20250218-apple-codec-changes-v2-20-932760fd7e07@gmail.com> <Z7SoL3HN7Xb3HUTm@finisterre.sirena.org.uk>
+In-Reply-To: <Z7SoL3HN7Xb3HUTm@finisterre.sirena.org.uk>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Wed, 19 Feb 2025 14:47:04 +1000
+X-Gm-Features: AWEUYZnqxv5OtWJXczEOpJ1iX6Kd6zGGSMM0m7kJKbH_xe86Di0nRmqCnpc3oHU
+Message-ID: <CAHgNfTwmR57GyiMk+-_x3jVNjxCpgLvS4dY2wbZkJN68PgSdjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 20/29] ASoC: tas2764: Add SDZ regulator
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+	Neal Gompa <neal@gompa.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/19/25 04:19, Jason Gunthorpe wrote:
-> On Sat, Feb 15, 2025 at 04:48:04PM +0800, Baolu Lu wrote:
-> 
->>> +#include <linux/gfp.h>
->>> +#include <linux/mm.h>
->>> +
->>> +/**
->>> + * iommu_alloc_pages_node - Allocate a zeroed page of a given order from
->>> + *                          specific NUMA node
->>> + * @nid: memory NUMA node id
->>> + * @gfp: buddy allocator flags
->>> + * @order: page order
->>> + *
->>> + * Returns the virtual address of the allocated page. The page must be
->>> + * freed either by calling iommu_free_page() or via iommu_put_pages_list().
->> nit: ... by calling iommu_free_pages() ...
-> Got it
-> 
->> and
->>
->>   s/page/pages/g in above comments?
-> There is alot of historical confusion here because it was all designed
-> around alloc_pages() which allocated a list of contiguous pages that
-> could be subdivided. When this moved to GFP_COMP and later to
-> folio_alloc() the subdivision is no longer possible. So it is not
-> "pages" at all anymore, but a single "[compound] page".
-> 
-> So the module name is called "iommu-pages" but aside from the free
-> list functions everything else acts on a single [compound] page only.
-> 
-> If you think about it too much it makes no sense but I didn't want to
-> rename every function. I tried to keep it so that "iommu pages" was
-> part of othe module name, and function designators, but the comments
-> talk about a singular [compound] page
-> 
->>> +static void __iommu_free_page(struct page *page)
->> It's more readable if renaming it to __iommu_free_pages()?
-> Ah.. Well, it captures the module name but nothing it does acts on
-> multiple things, since it is internal I used the other name
-> 
-> How about I rename it later on to:
-> 
-> static void __iommu_free_desc(struct ioptdesc *iopt)
-> 
-> ?
+Hi Mark,
 
-No problem. It actually depends on you. Since this is only used locally,
-the iommu drivers won't use it. So, anything that helps understand what
-it does is okay. :-)
+On Wed, Feb 19, 2025 at 1:33=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Tue, Feb 18, 2025 at 06:35:54PM +1000, James Calligeros wrote:
+>
+> > Multiple amps can be connected to the same SDZ GPIO. Using raw GPIOs fo=
+r
+> > this breaks, as there is no concept of refcounting/sharing. In order to
+> > model these platforms, introduce support for an SDZ "regulator". This
+> > allows us to represent the SDZ GPIO as a simple regulator-fixed, and
+> > then the regulator core takes care of refcounting so that all codecs ar=
+e
+> > only powered down once all the driver instances are in the suspend
+> > state.
+>
+> I get that the reference counting that the regulator API does is useful
+> here but this isn't a regulator so shouldn't be exposed as such,
+> particularly since this winds up being visible in the DT ABI.  I
+> could've sworn that someone did some helpers for this case but now I go
+> looking I can't find them, we certainly don't use any in the regulator
+> core.
 
-Thanks,
-baolu
+From what I recall, no attempt at shared GPIO infrastructure has actually
+landed. The multiple {de}assertions of SDZ put each chip on the same line
+into an unusable state that requires a full power cycle to clear, so
+we can't live without
+handling the shared GPIO somewhat sensibly.
+
+One alternative off the top of my head is adding a dummy reset controller
+to the DTs and integrating it into the ASoC machine driver (which we have
+downstream). We could then put the GPIO behind a shared reset line, and hit
+that instead of the GPIO. This does seem a little complex/odd, and IIRC we
+considered this at some point and decided against it.
+
+Is there any other option that may work here? I'm open to ideas.
+
+Regards,
+James
