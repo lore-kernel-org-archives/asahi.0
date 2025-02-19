@@ -1,145 +1,121 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9452C1F8BCD;
-	Wed, 19 Feb 2025 15:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6F8200B9F;
+	Wed, 19 Feb 2025 15:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739979408; cv=none; b=NTe7cv9LhLu5zH8Cv6BWFFxgYVl+BLmVGURhPg556/aU44sQ+dIi4r1FkmnyehDBUbMMxFUpqv7hl6Brv9g3Q8txRJ2tlYqKv7sQY8sgDi4VavUW2HW5O3/VbYV2q8a9PVABWVAUaBsAGII+t3NDJ4ghcuRd3B3ezySYlYjQYdo=
+	t=1739979599; cv=none; b=Fv9fKizyF6gMus3iBxBf+SqAT3YQQULtHkTj1putqSFASUh8QsNTDYm2AvKGfk/qvADA9CPnPCAKJU+kfRx2mMuOoHObLarBJ03Tyj2AUsQqTszDVFlJVqmImlVYxUbKgLUsDgFXCwK4CrQ8nCdgJILjUjGh8znC00oR0R7v3Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739979408; c=relaxed/simple;
-	bh=oWWajixtlHPEE9PFDS//yTG8eD00WLGc+jcUF5caSKk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=rMIXHHWWpuAv8mxZR19R1dUBc5TsxywlPflzw53VtlK/twX7YtVnsnhyDl1iuQirrmEsD8UYNKaoGfM9wzWP4tDf9wfOLt4JrmgQaWKKq0OCcN1HhnQo2IqO/g8vhwCILFhiZrKthTNkGB1XQMlXxd2CVe8WrS+4mGODsRZAo/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=i76W0ndt; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	s=arc-20240116; t=1739979599; c=relaxed/simple;
+	bh=yM8i5FvIFIlmOfv14Kb5YSEjxQ5hZ6nkxPnVmlMU1Wg=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=nEX75ajHTe1nlx2jwVsXqNbcpDg+0qjTbq/v5Q+BpIgEH4xeLiTJPaosVk3mWmrufziWozaOoXupfr/3QyJ3fIpyJh0aLBaPTFAvHkCqNlKHAa1m0D6kvrup2+lNVVxPeqKkjqvKxAG6f7kt4KfCrGJR9Hp8a9f7y9mIQXL6IXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=TQvtLg8D; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PLBxrmDm; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="i76W0ndt"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A4A5B41EF0;
-	Wed, 19 Feb 2025 15:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1739979403;
-	bh=oWWajixtlHPEE9PFDS//yTG8eD00WLGc+jcUF5caSKk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References;
-	b=i76W0ndt7R0fdW2YCSE3r1spun1yeZRuV/w3I70GnJAOje6cLjmNW98433Lsp1ksv
-	 PAzTB8VxQj9/UYbbJc04urECHsRIzu18/+mS9ea81cpuso9T1XEAFKFDUmOa8RRcc7
-	 E/dmjZLb2LPZYwu07I52yh99eojtZAEEzy9qPzna1Qrka2hkJPQ4mcvWimQpDSEoHp
-	 qg8I0sLMoCN6L/8uggRmes0lGUFgHgdZIERLJcE5y+1bbNnIgYWe9Hko4mx2i/f61X
-	 RN0zOC5s8GPEBveJDrEkIpMEVxBALGdchdJaNtzcfOlXr3+Uem4DL0rMV8+/t0hQVv
-	 p7wouJCPeJv5Q==
-Date: Wed, 19 Feb 2025 16:36:41 +0100
-From: Asahi Lina <lina@asahilina.net>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Hector Martin <marcan@marcan.st>, Ulf Hansson <ulf.hansson@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-media@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH 3/5] media: dt-bindings: Add Apple ISP
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAMT+MTToVdm72ovNZ8ySySYe5fT99a0Y6bv02NKxADCBCe+pMQ@mail.gmail.com>
-References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com> <20250219-isp-v1-3-6d3e89b67c31@gmail.com> <16f6d4a2-2102-48b9-a0ae-b8c6595975b8@kernel.org> <CAMT+MTR7dhtt3SOMg0K3UakJQftqnc2S-rV41HdHtA+o9aSPug@mail.gmail.com> <20250219105326.GA31383@pendragon.ideasonboard.com> <CAMT+MTToVdm72ovNZ8ySySYe5fT99a0Y6bv02NKxADCBCe+pMQ@mail.gmail.com>
-Message-ID: <252808F9-D1DA-4233-A878-5C47595302A6@asahilina.net>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="TQvtLg8D";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PLBxrmDm"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id AE183138099A;
+	Wed, 19 Feb 2025 10:39:55 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-10.internal (MEProxy); Wed, 19 Feb 2025 10:39:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1739979595; x=1740065995; bh=yM8i5FvIFIlmOfv14Kb5YSEjxQ5hZ6nk
+	xPnVmlMU1Wg=; b=TQvtLg8DSzJSEQUXeOqOIDlcnH9qkH0bSZyu7i7UdvzbIlgl
+	TL1f1XqGWUSPD2B0OMJczkCLj7yObX5qlym/C1qDOcPaLUaJJdisU6DWyd3qQiCW
+	WbyWd0Kwlzzx1LRcktUvztHOKd3kwgDqzZzGLnSEBtmPybEsOyxLuSzheJla1fc6
+	P3iG06UelS0uvjlkUSZc+NRqrWN1d4QgzHzxJnzu3xAu+Co3djHoC0JLlvptszAv
+	3pccvsVNf0ND4iveqrHnRklhO16/DST+HuGBAkmRHMjCg6AWTU0N5NkOiSd+c+bo
+	CvNQOJ583gEJthBuY4+aPk8Ga+OvE0rZIDruiQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739979595; x=
+	1740065995; bh=yM8i5FvIFIlmOfv14Kb5YSEjxQ5hZ6nkxPnVmlMU1Wg=; b=P
+	LBxrmDmWKXdq5Q95t82qxGvq8dPQ3F3xQorIhnQnh9UqPEVwj0sugo8gRNsFvXdl
+	WAONl11zXFmuQUXscbMNkplIQ4/EvB3ljbf7A16XzGruCykLkoYqcS6QnYDZCX1V
+	w+is2BVlaAhz93L+/0wgtYoKEb8va7xmmFt5TmcvwbhjnnbMG3szJo0lzUL45/yy
+	IpziIiSplzjJXdmOVIuFT0hG4JeD1ucpqCGFYJ8+seK0WyOkcTgQnrRTmc3JDfuT
+	zPFQ/EoKuZHZIywOu58o7yR5diVXk2Trm625bXwDiX/36mP4JTbBmmmUcqedR3Mr
+	3I7X/u+idOjPVKHCNURtw==
+X-ME-Sender: <xms:Svu1ZzJLfe0cVjoF9LdBJtgfXAKqp7C2poRQx-1g-TUCJq8U0PhVig>
+    <xme:Svu1Z3IM9qVJkCNDiYPD2Kmf7JtRJX2ObB_-yX4mfDmmNFsujTaK1c2PM6bI8FbZP
+    xQ0ucokGzKykZmzMKA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigeeifecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
+    hrrdguvghvqeenucggtffrrghtthgvrhhnpeelfeetueegudduueduuefhfeehgeevkeeu
+    feffvdffkedtffffleevffdvvdeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghr
+    tghpthhtohepudegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjohhroheske
+    gshihtvghsrdhorhhgpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgt
+    ohhmpdhrtghpthhtoheplhhinhgrsegrshgrhhhilhhinhgrrdhnvghtpdhrtghpthhtoh
+    epfhhnkhhlrdhkvghrnhgvlhesghhmrghilhdrtghomhdprhgtphhtthhopehjsehjrghn
+    nhgruhdrnhgvthdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhm
+    qdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhope
+    grshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:Svu1Z7sQagXCXImMH_hnqANaHEBR4ZfrQ8jM-MuSFz8jvG0d3O-FKA>
+    <xmx:Svu1Z8aNeHRscB1mqVgv9NvRU6e-SbuLDDsnCSbI9hA2Ya7aJkpRhA>
+    <xmx:Svu1Z6YFgIm3EL2_H3oH3SuUGc3w7h1aW9ioyyFo-9bX98s6o1Yh_A>
+    <xmx:Svu1ZwAohDpAkzRn2IiemR9ieb6u7ER4JTQvIdSeawV6yy5_PijJmQ>
+    <xmx:S_u1Zyp5COJntRW17ipM7Ayu_QstX7Z7hBh8yjM7wZAlsRgHUv_hhhHU>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9B8C6BA0070; Wed, 19 Feb 2025 10:39:54 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 Feb 2025 16:39:34 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Joerg Roedel" <joro@8bytes.org>,
+ "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Hector Martin" <marcan@marcan.st>, "Rob Herring" <robh@kernel.org>,
+ "Janne Grunau" <j@jannau.net>
+Cc: "Joerg Roedel" <jroedel@suse.de>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ linux-kernel@vger.kernel.org, "Asahi Lina" <lina@asahilina.net>
+Message-Id: <d6f24197-7f2b-4c12-9014-94e31a9aa6aa@app.fastmail.com>
+In-Reply-To: <20250219-dart2-no-sp-disable-v1-1-9f324cfa4e70@gmail.com>
+References: <20250219-dart2-no-sp-disable-v1-1-9f324cfa4e70@gmail.com>
+Subject: Re: [PATCH] iommu/io-pgtable-dart: Only set subpage protection disable for
+ DART 1
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On February 19, 2025 12:05:29 PM GMT+01:00, Sasha Finkelstein <fnkl=2Ekerne=
-l@gmail=2Ecom> wrote:
->On Wed, 19 Feb 2025 at 11:53, Laurent Pinchart
-><laurent=2Epinchart@ideasonboard=2Ecom> wrote:
->> >
->> > Those are board-specific and not discoverable via the ISP protocol=2E
->>
->> But they are settable through the ISP protocol, aren't they ? For
->> instance, looking at isp-imx248=2Edtsi, the first four entries are
->>
->>         /* 1280x720 */
->>         preset0 {
->>                 apple,config-index =3D <0>;
->>                 apple,input-size =3D <1296 736>;
->>                 apple,output-size =3D <1280 720>;
->>                 apple,crop =3D <8 8 1280 720>;
->>         };
->>
->>         /* 960x720 (4:3) */
->>         preset1 {
->>                 apple,config-index =3D <0>;
->>                 apple,input-size =3D <1296 736>;
->>                 apple,output-size =3D <960 720>;
->>                 apple,crop =3D <168 8 960 720>;
->>         };
->>
->>         /* 960x540 (16:9) */
->>         preset2 {
->>                 apple,config-index =3D <0>;
->>                 apple,input-size =3D <1296 736>;
->>                 apple,output-size =3D <960 540>;
->>                 apple,crop =3D <8 8 1280 720>;
->>         };
->>
->>         /* 640x480 (4:3) */
->>         preset3 {
->>                 apple,config-index =3D <0>;
->>                 apple,input-size =3D <1296 736>;
->>                 apple,output-size =3D <640 480>;
->>                 apple,crop =3D <168 8 960 720>;
->>         };
->>
->> But I may be interested in capturing a 640x480 frame with cropping only
->> and without scaling, with
->>
->> input-size =3D 1296x736
->> output-size =3D 640x480
->> crop =3D (328,128)/640x480
->>
->> Or I may want my cropped frame to be located in the upper-left corner:
->>
->> input-size =3D 1296x736
->> output-size =3D 640x480
->> crop =3D (8,8)/640x480
->>
->> If I set those parameters through the ISP protocol, won't it work ?
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
+
+
+On Wed, Feb 19, 2025, at 10:13, Sasha Finkelstein via B4 Relay wrote:
+> From: Asahi Lina <lina@asahilina.net>
 >
->For cropping - you do not want to change those parameters, the sensor
->is partially occluded, and the crop area is specified in such a way
->to not expose those pixels=2E As for scaling - we can expose only the 1:1
->scale and let userspace deal with it, but it appears that it expects
->the other common output sizes to exist=2E
+> Subpage protection can't be disabled on t6000-style darts,
+> as such the disable flag no longer applies, and probably
+> even affects something else.
 >
->
+> Fixes: dc09fe1c5edd ("iommu/io-pgtable-dart: Add DART PTE support for t6000")
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
 
-The square sensor with the hack is the IMX558=2E The configs there are act=
-ually a workaround for missing ANE support=2E
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
-What the driver is supposed to be doing is using the higher numbered prese=
-ts, which crop internally and exclude the occluded area=2E But those on mac=
-hines with that sensor end up requiring ANE integration for denoising and I=
-SP crashes without it=2E
 
-Config #0 doesn't use ANE, so the crops are re-creations of the other conf=
-igs so it behaves the same minus the denoising=2E
+Thanks,
+
+
+Sven
