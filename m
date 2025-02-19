@@ -1,95 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36091D63E8;
-	Wed, 19 Feb 2025 09:24:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0971CAA6C;
+	Wed, 19 Feb 2025 09:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739957060; cv=none; b=ojx7/1vmDs8NtirMhSJCjc2QwcEUMdSlLm+Ot4qHq3nQ8M1No8jVWS1COKzxgqfO+iRlSNetZpHbUW6jNDEhnkjKBpLh9HXIRM9EOulSvNyuKdbqZiYPW/p4R8wq6xQPFsPrXaiV9Y3FySbd4izhuyrT+RgatK0kQfFOvXN95Fs=
+	t=1739957225; cv=none; b=tKQs0jSHB7z96EdF4gKp35yYJ+3koO07kQXZ7WQApXS6aFTjkdn6AwtJp7PnhD49ShGdBPm/ZX1+yQzU9v3peHkB5GS/DXwfwZA0eqctXV3l/l5vsKA5Pn5kNMXcT1XyMghaIxH4PbLUNdolvNuIx7jyBL+31iRpVq18VodoHfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739957060; c=relaxed/simple;
-	bh=jiEWU0rM/r0YOGnhMn0CTqavsshglptprIK688rzVEE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=YLXLTTE0ZlGVwZm168/YozjlNd16GC6LsjX3IfNrVd2CMtpXaOPB3SCY2ayPvgNHN3VFmpX5IpRtLGlJUHfvk1dKzk5hiIPpvRX1g8H8fzl2E/L4pwLkdvlYlP71YJKlfb6N7MIKSb1pdnHs7mUNm4xFmfz7agM4z8whu3J16AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=StVso1oo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739957225; c=relaxed/simple;
+	bh=/8BENyPma1E57fsseTa1ytYOdy6D1/EypBQxBbUeYB0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=hUS5jCGhu+RnzSUKwxDaEw655WPUVQTIbW68CazKNZWNxIAqKOZ/YUh2dcsOqxTqCEs4e6FnkiY8POTaWaK8bJD8B6gU1ISDY0uHI1GUQVfcK0BMZ/QzKEQ+7n2r8te+8D5fc3o97Sn5duXUf7ES+e/zrg3+esK7BWxnLorF0Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7oZp1GP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="StVso1oo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B822AC4CEE6;
-	Wed, 19 Feb 2025 09:24:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7oZp1GP"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 923A9C4CED1;
+	Wed, 19 Feb 2025 09:27:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739957060;
-	bh=jiEWU0rM/r0YOGnhMn0CTqavsshglptprIK688rzVEE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=StVso1ooh0uccS8QdlDZ5wLzVWRjloPAlErH08LDb7nFHd0LDQmN5as22l/KdZ5V1
-	 hW+YQgzXhxiBff1tiHpVktYRH+51YEwBYIx0YJn6OCsQuo1bDfqY7aTIe3WNIZmvvf
-	 lG74mEe01eHleaZASmKI0s/5WQefDgrqfHyTYv+KQd9NqoO2TOrwwjRsoFh0p2ZYc0
-	 yUuGkSRo9l9Jz+GDkwloHSM9pZCTa1JRhrOnNkRATQF5lCDXl5Aaw4IIRt5pa84Cny
-	 cvIu33FWL5BlW+Mv2SjH/sylMT+VzRT3w8CVZziw/uFjotjR1xHs+eJkTpVewACaQh
-	 ulZfIxO5VieuA==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: "Abdiel Janulgue" <abdiel.janulgue@gmail.com>
-Cc: "Asahi Lina" <lina@asahilina.net>,  "Miguel Ojeda" <ojeda@kernel.org>,
-  "Alex Gaynor" <alex.gaynor@gmail.com>,  "Boqun Feng"
- <boqun.feng@gmail.com>,  "Gary Guo" <gary@garyguo.net>,  =?utf-8?Q?Bj?=
- =?utf-8?Q?=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  "Benno Lossin" <benno.lossin@proton.me>,
-  "Alice Ryhl" <aliceryhl@google.com>,  "Trevor Gross" <tmgross@umich.edu>,
-  "Jann Horn" <jannh@google.com>,  "Matthew Wilcox" <willy@infradead.org>,
-  "Paolo Bonzini" <pbonzini@redhat.com>,  "Wedson Almeida Filho"
- <wedsonaf@gmail.com>,  "Valentin Obst" <kernel@valentinobst.de>,  "Andrew
- Morton" <akpm@linux-foundation.org>,  <linux-mm@kvack.org>,
-  <airlied@redhat.com>,  <rust-for-linux@vger.kernel.org>,
-  <linux-kernel@vger.kernel.org>,  <asahi@lists.linux.dev>,  "Danilo
- Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
- physaddr conversion
-In-Reply-To: <a204824d-2280-4402-b870-9db3e2e15aba@gmail.com> (Abdiel
-	Janulgue's message of "Mon, 17 Feb 2025 10:50:28 +0200")
-References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
-	<Z6CY4TvZwLkWmB3I@pollux>
-	<a3551d7d-14c7-40a0-90ff-1fcce93be62a@asahilina.net>
-	<cae5503e-4330-4c44-8a50-1ebf63ea5a24@asahilina.net>
-	<XG7vFvm1LjZiRjXm55DgLGvzsoFsJsk1s6-1T2uKilk9MghGYKSsf5-vcDnbpDMfuePjbxm3u8fQBhFnJhRKfw==@protonmail.internalid>
-	<a204824d-2280-4402-b870-9db3e2e15aba@gmail.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Wed, 19 Feb 2025 10:24:07 +0100
-Message-ID: <87frkacmo8.fsf@kernel.org>
+	s=k20201202; t=1739957225;
+	bh=/8BENyPma1E57fsseTa1ytYOdy6D1/EypBQxBbUeYB0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=m7oZp1GPHV4yDMeriWYC05zFcs6bEymz+i3F8bjTa232EVq3UgDWTBepdWBMyGSsS
+	 hJLkXPgT7j/3x4jdFZ5wCGsNKbT/6R6h9mbj9BaLX/9TZWguk8oKpgZ3F+I7irUDcU
+	 mkmst4mCs4ieJlidpXPsrcI1LVZtHzjTBS8uft3bDkb7EORbmUDwGjf3bsawGQ6E2d
+	 w7oB6iu/qM3XjxMVXYlwYIUuf6rSis39tZgHxwoYnUyinrixg0qeHmd2C0wP0OB66q
+	 YGE1vlD7r7DitV0yHB6JiAYDwi6Qk931CxnzMuhH5+ctnh1CBD3skzzQ1BwEa4HDhg
+	 aOtzWIP2JOrzQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CBDC021B1;
+	Wed, 19 Feb 2025 09:27:05 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Date: Wed, 19 Feb 2025 10:26:57 +0100
+Subject: [PATCH 1/5] dt-bindings: power: apple,pmgr-pwrstate: Add
+ force-{disable,reset} properties
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250219-isp-v1-1-6d3e89b67c31@gmail.com>
+References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com>
+In-Reply-To: <20250219-isp-v1-0-6d3e89b67c31@gmail.com>
+To: Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739957223; l=1111;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=q1+AY+SX/HidyXOKL452yUY1CfrAy107+rMUbBBYmrY=;
+ b=tIUgSAQ20H8Sh73LCctDDWcqZ8+098KXHQs/GdR+9F+SgFTynX3VPt5fV3fDgjtWC9w3AB7LA
+ 21v8x5BdfKECnc6GVZLlsALOJuRzMvKveogRObUVqDQNDLNsBpm9mC+
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-"Abdiel Janulgue" <abdiel.janulgue@gmail.com> writes:
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-> Hi,
->
-> On 15/02/2025 21:47, Asahi Lina wrote:
->>
->> Given the discussion in the other subthreads, it looks like this is not
->> the best approach for page table management and using it for crash dumps
->> of arbitrary physical memory pages raises some eyebrows, so I'm going to
->> abandon this series.
->>
->> Abdiel, if the first two patches are helpful to your work, please feel
->> free to incorporate them into a v4. Otherwise, just go ahead with
->> whatever works for you!
->>
->
-> Thanks you for improving the series, much appreciated! I will try to
-> incorporate your improvements.
->
-> Btw, I'll most probably pick this up again once I'm finished with the
-> rust dma coherent allocator bindings.
+Add properties to set disable/reset bits when powering down
+certain domains
 
-The series has application in `rnull` as well and I will probably add it
-as a dependency for next version.
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+ .../devicetree/bindings/power/apple,pmgr-pwrstate.yaml         | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+index 59a6af735a2167b7edd9e0491da238f21effe316..9c8f5385bee5aa1bac8c3e44963713299160521e 100644
+--- a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
++++ b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+@@ -62,6 +62,16 @@ properties:
+       Forces this power domain to always be powered up.
+     type: boolean
+ 
++  apple,force-disable:
++    description:
++      Use the disable bit when turning the power off
++    type: boolean
++
++  apple,force-reset:
++    description:
++      Use the reset bit when turning the power off
++    type: boolean
++
+   apple,min-state:
+     description:
+       Specifies the minimum power state for auto-PM.
 
-Best regards,
-Andreas Hindborg
-
+-- 
+2.48.1
 
 
