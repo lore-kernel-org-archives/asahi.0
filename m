@@ -1,72 +1,71 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F91415B971;
-	Wed, 19 Feb 2025 09:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767221C5F1F;
+	Wed, 19 Feb 2025 09:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739958211; cv=none; b=qWKVYhnqYwMA+lQhfDEMs2xbOaftVCpW6i5nnVGj7OD5MxuwxV8gZCX5Af2DpTT2aDoO4LxpMat5TlHlyvwfMX0Ullk1XloSaZf5ZqV46Tkp4DkpQXPnGl8rcsAS52EBv+GJ6K4zQ2pnIS2lHtswIuSqkkqoZ20Ne2qkj2WhSV4=
+	t=1739958885; cv=none; b=Ld4WpSbXGZQ5vl4SBOFJxwY2ubbegmnJeoBfTpb/iYDI7dlzrCuuDHW/6u3P1FDl1ivfYfKqC60ZY/UkAYrW8d8iR3oDYgw1VelmcWwHhTPvxgc9gXuXV7SUtmAPTKHsmPRSi6a3tSWnDGhM0OAfJUra0VwGn6eyqfG5whbQvZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739958211; c=relaxed/simple;
-	bh=JbQfZE+vLsay+m41W/xExMvsph46lPBJtYHfkRyAxdw=;
+	s=arc-20240116; t=1739958885; c=relaxed/simple;
+	bh=Ud5ArEVeWEhgplooqFyTa9NH4iriGbo3oERuVmwEI0Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hh3pcf5buM7CrvEftLPQQIWHoNlkEAXBnIGBWGsKd6/VdIHHHKREpLBApm4YHP31BTEKX6+Ke1FzVFXH60CEdgGUFUzGQ2FzYpuAjOZo4GMKx5kCO1vfzNKBVv8PdTiFLIYBbrtCQMjljkt544F4Q08Ie+pqyWVLRSCd1flz8mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RAflyevK; arc=none smtp.client-ip=209.85.219.177
+	 To:Cc:Content-Type; b=Go+4zIL1cTiFfn1PFPmLALmwIoc1+CzBzVuyg8E9GjkIVfK6rx9VeeVDSezMDZ4KtL6O3Fop3QewKcqVT5rND4iDXZrPXXSak5GmbNYZ89fYmlSBKII2R25X6gHazTQVNLM7YEsmcArNC1Bd59JljuQDXxO6aSUrm6FzK9Y+0hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=is0OjQ08; arc=none smtp.client-ip=209.85.219.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RAflyevK"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e5dc39ede40so4089183276.1;
-        Wed, 19 Feb 2025 01:43:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="is0OjQ08"
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e5dcc3b0c77so3389372276.0;
+        Wed, 19 Feb 2025 01:54:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739958209; x=1740563009; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739958882; x=1740563682; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JbQfZE+vLsay+m41W/xExMvsph46lPBJtYHfkRyAxdw=;
-        b=RAflyevK1nh/Pzq2FS94vm0nYCgcET6dt/BXdZz74W9RjnZWx7CJdOV3Wq/X1PiUiD
-         Q3Bds08WjOvr2jdUQCzgclMPk/BrgX+xsFSLXSm6tAfxzUHPBiY2WJtZhKqD7D8eA0ak
-         xtgwyQZZRm7g0Kjyzh1xa/Y87h+8D3zlXDiHlS5KcsxrU3BJx/GIbRX2zWpSGkaMwKVS
-         Ja2Glul/SnYKwsp4edNyUaEC/Nd2MEDS/qhQ/ae10U54ZQaPE5LTpJ2H0fYkZbaUHWqv
-         1nnJ9O3wtJZfUr/bsoFGD/AYs9uHtvzh0FGIByP3Uugf7kwZP1oYlX0UPP4EKuXidqXZ
-         zKzQ==
+        bh=BCav4SHfE7EQJCkWf7DvjjeXn6VgMu12EYuLJnvgv48=;
+        b=is0OjQ08EvYx0CemXGwA6HfbpiRaaNczNrjckhGGulF01BS7lCgYgPpjnFrCGZYnvp
+         mN1PI09S/7QiL5KGyog1RSAmw4W5W+ox6X+hESConCbwZ0u5bdaeaLUivnecJY1pMv1O
+         Es71Y/iUN5QAhsemMd681e0FTy/WSZmnpYaphheBoGP3bY8Qegje5pmiCSf6Q0vR+SE4
+         k9FU0KpLvYvVrlhgKQRk29a8HtghDnwm4VwYx15Xuadmehl9B5VyKa2rrFNwhttRw07u
+         ntRD0Zdi7c2rK5i3K5mQsTulaas6+w8G5Mr5hR4oBckK8zpObYXwnRt4MJriIL/gxXg2
+         GLpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739958209; x=1740563009;
+        d=1e100.net; s=20230601; t=1739958882; x=1740563682;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JbQfZE+vLsay+m41W/xExMvsph46lPBJtYHfkRyAxdw=;
-        b=QPJ3x/fS7wWhOloX6F3Ghuc4y4C2hmtbjxHBEZumfEMOdoUBcBKC8JwX3Kwf/lHJX+
-         ABjPRt2bGdbwnqT11yRaiNevcVtk6JeknFJ9/DO3CllTSyjWq03wNxKdIcWUQ/QdNH5s
-         IBKPNR/uAcewEJH1vBjGVeN33xfnXn/5EXn98pOp2oOjk7GIryyQtvWoyWEfSQHbGfYu
-         E4umGartrDO2cAPo4UPvZzsAndwXvTXOHLaqNQkD4s4nUtTUNilZS3A1s93uIlcoWYQ/
-         qb2Y/O8Oredq4h3OWEUekEL81127dQR/vYrkBR7sZuERBThuiCTkPP2M0JyGcrXxj9Al
-         wMJA==
-X-Forwarded-Encrypted: i=1; AJvYcCUXVGJ9hiYGWaGbIzPz4ejgzWjFn1grL+8Pzdm7IfTRs7BmnzhT2whbR2G3AfC15326PJ06rQ==@lists.linux.dev, AJvYcCXrUIDakRZJlZDtYSYtOA2hue6oxpkrCiGpxQGpdidfhj7D/Xr7k13L7WhR38dFrsC3dk0j@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3l9NK50LL+Fg63f80bUkyB8SMc9pCtkoNVfMzIdsOzYCSUW8A
-	hGWqwcjwpM9rWZEFn/+7+Mrf6SAy6Mfu+EBmufy0+T2UfenMcol2levlIaZh/edgnnpJO3kIHCg
-	IwrlPcdaAJl78I6uW18+ISIx/ETY=
-X-Gm-Gg: ASbGncvsLxw4smJOBYVe3eohZMfb+hoBeoeEiDMUiIlKXlt6Ms9aasB1XjccB/IdUdH
-	N+mFqNicuCy1Aa9j/MK1q/dbWCWz0Wp7xsUTY6YfdHV+yOVreCtb/o7aAwbcIyQPmTmvbAfi+Nw
+        bh=BCav4SHfE7EQJCkWf7DvjjeXn6VgMu12EYuLJnvgv48=;
+        b=m27/kOZBMb1xulsOudHMPGvWiblL9ICpioDxjE2KSFzwVK9VjB7iW8Eg/iNbCCLiY+
+         40DWLEOe06egURbUCoyJvRUQMdWLXdZpIU3kDt2NRxeEHyy8vsFNhKXAzTvE3kCPO5qW
+         52y4YEgixamAGO5BA2nxNc8KHYwQp/Aa2hOPFmm/R8kGIJJ+v3lvd9FWM85tFkC7GVPe
+         svaCA54204z/Xh42hn/uov/LAC+QE9M/XBrosJ1dnIYXQbz176tTV56+lOyo4/DlgyXj
+         O0dQQBGY7q7E6pKAn+8ATGyAPtzHkrxMzVUjwhUsW64MKTKn6+u2ND1kku/Nab3IoeoB
+         f8UA==
+X-Forwarded-Encrypted: i=1; AJvYcCWqYh/Poq8lBpBNuCi5DqUGiS2asnMCaMRVvYKk4+/MdNel2aRGVRsbb5l9nerNm9F9sjbwvg==@lists.linux.dev, AJvYcCXxruZl543EqSKO7AaAFgNEM8DeQjZj2LJ5OxdXUdz8wD+Sox1TZ6di0z0H9wJJGYEPyP+6@lists.linux.dev
+X-Gm-Message-State: AOJu0YyREKfdsQIN4axePyKnCM/VhV7yCDYzquEEl8Xzm00OpvBiwohi
+	AoVNaV1733TRvfQQVKW5V0ymMMegAT72BICIE0sR1111/AOYVQFs/FiHkmIS8VUA6LVJJrqUDwD
+	4+5rw/HcpQ63ZjOoXkx+hes/r8Vo=
+X-Gm-Gg: ASbGnctVxCFT7RaFyZcqxrEnVeUnJA9Lw8XrsuWbT8FKGGD7Jz56z61m49lz9zqDpAf
+	nT4rXqEqU9bbxff4PBeOxilJKVKcugtlLZl2fMxwJwUGHtYZCQD7eqE5W/SPOgJwbTEt3xlRtPQ
 	==
-X-Google-Smtp-Source: AGHT+IF4fhS5ToYgiyprNptli3rl/YWe/Sr8AbYoBe7Xa+PURKeBJb7TRkFTdB3HeJfB6d1BuGRjs+ziA08+lfNk/74=
-X-Received: by 2002:a05:6902:1509:b0:e5b:1453:d2e4 with SMTP id
- 3f1490d57ef6-e5e0a09dcb1mr2433065276.11.1739958208906; Wed, 19 Feb 2025
- 01:43:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFAsRovKqEPyfeA7p4gUvXbV4eJrMlwT7pqKN/+12P/FiSevR15M7Mr7rEzXhQloaQvHIzmg0pHyi/KhmeP6Fs=
+X-Received: by 2002:a05:6902:108e:b0:e5d:d6b8:2317 with SMTP id
+ 3f1490d57ef6-e5e0a1400admr2490172276.44.1739958882412; Wed, 19 Feb 2025
+ 01:54:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com> <20250219-isp-v1-1-6d3e89b67c31@gmail.com>
- <400d64ed-670a-4297-b43b-cdf4e8599c7b@kernel.org>
-In-Reply-To: <400d64ed-670a-4297-b43b-cdf4e8599c7b@kernel.org>
+References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com> <20250219-isp-v1-3-6d3e89b67c31@gmail.com>
+ <16f6d4a2-2102-48b9-a0ae-b8c6595975b8@kernel.org>
+In-Reply-To: <16f6d4a2-2102-48b9-a0ae-b8c6595975b8@kernel.org>
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 19 Feb 2025 10:43:17 +0100
-X-Gm-Features: AWEUYZngFT_TlGtzAp7eDIc5jUmixD2xinxUmQy_lSABzD_u61AwBZNq6Cj2sCI
-Message-ID: <CAMT+MTSb2gdkfCZE3i+0ah8AgE_G8mH2MFTms=QgFwd-nbA8Ag@mail.gmail.com>
-Subject: Re: [PATCH 1/5] dt-bindings: power: apple,pmgr-pwrstate: Add
- force-{disable,reset} properties
+Date: Wed, 19 Feb 2025 10:54:31 +0100
+X-Gm-Features: AWEUYZmesv9PAJrRnsNQHdoWoBNxlIk4Jp5agMR2Ng1Yo83bsxbQ8IUxBouljGI
+Message-ID: <CAMT+MTR7dhtt3SOMg0K3UakJQftqnc2S-rV41HdHtA+o9aSPug@mail.gmail.com>
+Subject: Re: [PATCH 3/5] media: dt-bindings: Add Apple ISP
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -79,17 +78,45 @@ Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	linux-media@vger.kernel.org, imx@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 19 Feb 2025 at 10:34, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On 19/02/2025 10:26, Sasha Finkelstein via B4 Relay wrote:
-> > From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> >
-> > Add properties to set disable/reset bits when powering down
-> > certain domains
+On Wed, 19 Feb 2025 at 10:37, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > +
+> > +  apple,platform-id:
+> > +    description: Platform id for firmware
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
 >
 >
-> Please explain why and what problem are you solving. This looks too
-> close to SW policy or really arbitrary choice. Background would be useful.
+> No, use firmware-name.
 
-The ISP block has some weird requirements where some of it's power domains
-will not power down correctly without using the "force disable" or "force reset"
-pmgr feature. Basically a hardware quirk.
+Not sure how is firmware-name an appropriate field, fw-name is a string
+that references a firmware file, while this field is an id that is sent to the
+coprocessor firmware in order to identify the platform.
+
+> > +  apple,temporal-filter:
+> > +    description: Whether temporal filter should be enabled in firmware
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+>
+> And why is this not enabled always? Why this is board specific?
+
+Not every board has support for this feature.
+
+> You miss here ports or port. ISP usually gets signal from some camera or
+> other block.
+
+For complex cameras - yes, but this is closer to a UVC camera connected
+via a bespoke protocol. We do not need to deal with the sensor access,
+all of it is managed by the coprocessor firmware.
+
+> > +        properties:
+> > +          apple,config-index:
+> > +            description: Firmware config index
+> > +            $ref: /schemas/types.yaml#/definitions/uint32
+>
+>
+> No duplicated indices. You have reg for this, assuming this is index.
+
+There are duplicated indices, see isp-imx248.dtsi in patch 5 for an example.
+
+> All these do not look like hardware properties but rather configuration
+> of sensor which should be done runtime by OS, not by DT.
+
+Those are board-specific and not discoverable via the ISP protocol.
