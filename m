@@ -1,108 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDCE1DE8A9;
-	Wed, 19 Feb 2025 09:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36091D63E8;
+	Wed, 19 Feb 2025 09:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739956438; cv=none; b=OoJH4v7XKjWrr/ymTowE5qjvrHvKYXBCzNkPNtuesdoESQUxF+54N8/R+o0nHbr9pQi6a0i4lW1eh14/QA7iHlwHb7yXKMXoeNoRxjhYv1Qc5o4ntojhIcjY5jXUzr0Z7CMoaeBjT6T0Q5ACd13LIxhmld1Mm6eiSXFfWxxBPz0=
+	t=1739957060; cv=none; b=ojx7/1vmDs8NtirMhSJCjc2QwcEUMdSlLm+Ot4qHq3nQ8M1No8jVWS1COKzxgqfO+iRlSNetZpHbUW6jNDEhnkjKBpLh9HXIRM9EOulSvNyuKdbqZiYPW/p4R8wq6xQPFsPrXaiV9Y3FySbd4izhuyrT+RgatK0kQfFOvXN95Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739956438; c=relaxed/simple;
-	bh=XTPomKjOfo5fAZ/BQxA/LrGkWT2afQunCwLoYv6XiKI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=vEbuEXRDnpOsnDKgWGO3QPYb8qZrxO3L2Xn9/EUUUKzJiJZ8rNYZCICrjpBbipYrNVY24ThddjiY4ydU1HnsZDXMUv9V2iHcxoZrPhC+3XawBWHRRoltbSXDc7SnVkSRiI3vz27P7XQ6x2xXY/0dgfv2Hdt6g1ACgN13hfArZD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dsBx5Lty; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739957060; c=relaxed/simple;
+	bh=jiEWU0rM/r0YOGnhMn0CTqavsshglptprIK688rzVEE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YLXLTTE0ZlGVwZm168/YozjlNd16GC6LsjX3IfNrVd2CMtpXaOPB3SCY2ayPvgNHN3VFmpX5IpRtLGlJUHfvk1dKzk5hiIPpvRX1g8H8fzl2E/L4pwLkdvlYlP71YJKlfb6N7MIKSb1pdnHs7mUNm4xFmfz7agM4z8whu3J16AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=StVso1oo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dsBx5Lty"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C268BC4CEE7;
-	Wed, 19 Feb 2025 09:13:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="StVso1oo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B822AC4CEE6;
+	Wed, 19 Feb 2025 09:24:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739956437;
-	bh=XTPomKjOfo5fAZ/BQxA/LrGkWT2afQunCwLoYv6XiKI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=dsBx5LtyRMxy0v6pW1s1GfSsluBHyxc2OhwGoiOeYJ5GMVOWsFGDUDEWPExjzfIYR
-	 xIgHJptMDAW6LzBGhbcirhXVghCFTE7KcJZ4etQWjUTb/z6UDSC5STNPlrB8ek4ghC
-	 kBGWacCy7oeRkMnEHyky7BrxPtNzINqNqKKlS8GCUhQbPwKSZa7ONZT7b19d8WW1zf
-	 o2gpGMDo8DR3+L/S1k9m6C6AFzgj4cxpSilGtWzk9OiuScB7WYCsOTD5etBtZKze+Z
-	 JUhtXX3Pk7RqOkYCI4dhyEvId6lF2lz1Jl+FKCdLx54m5x9p833O0NnR0dF0gg7qMe
-	 0FgLjyAlfQbmg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE1BAC021AA;
-	Wed, 19 Feb 2025 09:13:57 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Wed, 19 Feb 2025 10:13:53 +0100
-Subject: [PATCH] iommu/io-pgtable-dart: Only set subpage protection disable
- for DART 1
+	s=k20201202; t=1739957060;
+	bh=jiEWU0rM/r0YOGnhMn0CTqavsshglptprIK688rzVEE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=StVso1ooh0uccS8QdlDZ5wLzVWRjloPAlErH08LDb7nFHd0LDQmN5as22l/KdZ5V1
+	 hW+YQgzXhxiBff1tiHpVktYRH+51YEwBYIx0YJn6OCsQuo1bDfqY7aTIe3WNIZmvvf
+	 lG74mEe01eHleaZASmKI0s/5WQefDgrqfHyTYv+KQd9NqoO2TOrwwjRsoFh0p2ZYc0
+	 yUuGkSRo9l9Jz+GDkwloHSM9pZCTa1JRhrOnNkRATQF5lCDXl5Aaw4IIRt5pa84Cny
+	 cvIu33FWL5BlW+Mv2SjH/sylMT+VzRT3w8CVZziw/uFjotjR1xHs+eJkTpVewACaQh
+	 ulZfIxO5VieuA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Abdiel Janulgue" <abdiel.janulgue@gmail.com>
+Cc: "Asahi Lina" <lina@asahilina.net>,  "Miguel Ojeda" <ojeda@kernel.org>,
+  "Alex Gaynor" <alex.gaynor@gmail.com>,  "Boqun Feng"
+ <boqun.feng@gmail.com>,  "Gary Guo" <gary@garyguo.net>,  =?utf-8?Q?Bj?=
+ =?utf-8?Q?=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Benno Lossin" <benno.lossin@proton.me>,
+  "Alice Ryhl" <aliceryhl@google.com>,  "Trevor Gross" <tmgross@umich.edu>,
+  "Jann Horn" <jannh@google.com>,  "Matthew Wilcox" <willy@infradead.org>,
+  "Paolo Bonzini" <pbonzini@redhat.com>,  "Wedson Almeida Filho"
+ <wedsonaf@gmail.com>,  "Valentin Obst" <kernel@valentinobst.de>,  "Andrew
+ Morton" <akpm@linux-foundation.org>,  <linux-mm@kvack.org>,
+  <airlied@redhat.com>,  <rust-for-linux@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <asahi@lists.linux.dev>,  "Danilo
+ Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and
+ physaddr conversion
+In-Reply-To: <a204824d-2280-4402-b870-9db3e2e15aba@gmail.com> (Abdiel
+	Janulgue's message of "Mon, 17 Feb 2025 10:50:28 +0200")
+References: <20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net>
+	<Z6CY4TvZwLkWmB3I@pollux>
+	<a3551d7d-14c7-40a0-90ff-1fcce93be62a@asahilina.net>
+	<cae5503e-4330-4c44-8a50-1ebf63ea5a24@asahilina.net>
+	<XG7vFvm1LjZiRjXm55DgLGvzsoFsJsk1s6-1T2uKilk9MghGYKSsf5-vcDnbpDMfuePjbxm3u8fQBhFnJhRKfw==@protonmail.internalid>
+	<a204824d-2280-4402-b870-9db3e2e15aba@gmail.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Wed, 19 Feb 2025 10:24:07 +0100
+Message-ID: <87frkacmo8.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250219-dart2-no-sp-disable-v1-1-9f324cfa4e70@gmail.com>
-X-B4-Tracking: v=1; b=H4sIANCgtWcC/x3MMQqAMAxA0atIZgM1oqJXEYfWRg1IlUZEkN7d4
- viG/19QjsIKQ/FC5FtUjpBRlQXMmw0ro/hsIEONoapHb+NFGA7UE72odTvjUjemo9k537eQyzP
- yIs9/HaeUPitxVDtlAAAA
-X-Change-ID: 20250219-dart2-no-sp-disable-f35072cbbd96
-To: Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Hector Martin <marcan@marcan.st>, Rob Herring <robh@kernel.org>, 
- Janne Grunau <j@jannau.net>
-Cc: Joerg Roedel <jroedel@suse.de>, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Asahi Lina <lina@asahilina.net>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739956436; l=1398;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=4vIOKtPg+OtkD6k1fuo7D/3yWj1rRgyOMiGeGabXJoQ=;
- b=2XvYZiLPQ55QTshLqUD4aTt/pUSerHvszW6QhuxyTNjK/hq2NYquR+5dssye/dFu6aJEtq/su
- c/ZlgVVyC4ICgNDsQpVVlQtMaUH4ApO55G9hM21HQQvekVzMzpLohQw
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+Content-Type: text/plain
 
-From: Asahi Lina <lina@asahilina.net>
+"Abdiel Janulgue" <abdiel.janulgue@gmail.com> writes:
 
-Subpage protection can't be disabled on t6000-style darts,
-as such the disable flag no longer applies, and probably
-even affects something else.
+> Hi,
+>
+> On 15/02/2025 21:47, Asahi Lina wrote:
+>>
+>> Given the discussion in the other subthreads, it looks like this is not
+>> the best approach for page table management and using it for crash dumps
+>> of arbitrary physical memory pages raises some eyebrows, so I'm going to
+>> abandon this series.
+>>
+>> Abdiel, if the first two patches are helpful to your work, please feel
+>> free to incorporate them into a v4. Otherwise, just go ahead with
+>> whatever works for you!
+>>
+>
+> Thanks you for improving the series, much appreciated! I will try to
+> incorporate your improvements.
+>
+> Btw, I'll most probably pick this up again once I'm finished with the
+> rust dma coherent allocator bindings.
 
-Fixes: dc09fe1c5edd ("iommu/io-pgtable-dart: Add DART PTE support for t6000")
-Signed-off-by: Asahi Lina <lina@asahilina.net>
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- drivers/iommu/io-pgtable-dart.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The series has application in `rnull` as well and I will probably add it
+as a dependency for next version.
 
-diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
-index c004640640ee50d01dd54c38e89162c0fcb1988f..06aca9ab52f9a811a2608ae75155a36919799c74 100644
---- a/drivers/iommu/io-pgtable-dart.c
-+++ b/drivers/iommu/io-pgtable-dart.c
-@@ -135,7 +135,6 @@ static int dart_init_pte(struct dart_io_pgtable *data,
- 	pte |= FIELD_PREP(APPLE_DART_PTE_SUBPAGE_START, 0);
- 	pte |= FIELD_PREP(APPLE_DART_PTE_SUBPAGE_END, 0xfff);
- 
--	pte |= APPLE_DART1_PTE_PROT_SP_DIS;
- 	pte |= APPLE_DART_PTE_VALID;
- 
- 	for (i = 0; i < num_entries; i++)
-@@ -211,6 +210,7 @@ static dart_iopte dart_prot_to_pte(struct dart_io_pgtable *data,
- 	dart_iopte pte = 0;
- 
- 	if (data->iop.fmt == APPLE_DART) {
-+		pte |= APPLE_DART1_PTE_PROT_SP_DIS;
- 		if (!(prot & IOMMU_WRITE))
- 			pte |= APPLE_DART1_PTE_PROT_NO_WRITE;
- 		if (!(prot & IOMMU_READ))
 
----
-base-commit: 2408a807bfc3f738850ef5ad5e3fd59d66168996
-change-id: 20250219-dart2-no-sp-disable-f35072cbbd96
+Best regards,
+Andreas Hindborg
+
 
 
