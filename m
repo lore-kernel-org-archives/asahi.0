@@ -1,64 +1,64 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768881F5430
-	for <asahi@lists.linux.dev>; Thu, 20 Feb 2025 12:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510171F75A6
+	for <asahi@lists.linux.dev>; Thu, 20 Feb 2025 12:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740054153; cv=none; b=dIGwj+RGkfwP2ioRrDiyaMKx+Q9rz7gaRkes9jU2/ioZDb2sOkUfEfT52itnZPJoTVe8gKDPL8zHXqG+Rbdr+/jpDpAHAPJk2d2DMiWr5ZQg4t2ivMv6plPR42DZ3ZxYCHIEPJzMSPZmhOp3gf7uxtNFJUzmiv9kWQoYl7UN2nU=
+	t=1740054156; cv=none; b=smiMWgCFa/LTwK/gRIAoKQIxBw209ooLwnEmLcqFM2MgxSvIKhI1YrZc44C/+Rv4doQIwUuz+Tq8MQW2+5Ok759MCvRI08jl3KVGIYGfJE7BiGfgPUNSa80W198yFfYzj9NSXWhbzAuKaAIx3JO9wRDUIai0BMcuMGUK2aIQ7cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740054153; c=relaxed/simple;
-	bh=ZoFAboTTORCIiwfMRZBtk/4gIxbXbV5LowBP1mj/Ne0=;
+	s=arc-20240116; t=1740054156; c=relaxed/simple;
+	bh=3dP0oDAIN/InBoJgIEEqaYRol8BwNynu3ip0BA5Xbxw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lJYRfmzeORav1GQNh+0C1yJICVIQGpcliIzpSx+OzO5FqAuoA0Mays0EJZTyol5rKMACTixKA250oKYebgRp8FrS8BniCsTGGEurQV1osiz5CCw+qpuNTW9uK4RHIjACtk5E8XgE//oeN6WBxh9H67t2Ch7yfGpl5WSasSt0vck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TgVA6iKI; arc=none smtp.client-ip=209.85.214.174
+	 In-Reply-To:To:Cc; b=B3XcmLOGU2gPGLaYegqIViXqOsEldZwlO+Ura43Amf7+U0CO8QrczC1Y9d+hemn7RdqiJ99D6uf5K/2lofLlA4IygLT/eQh1vPbEXdtR6pSb96hDrDWXJ7jDaGlJxE3rjgStikMTP4aYGRgIWg1d+FjFEB8//veJg0ceH8/m2WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jq/CfjtU; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TgVA6iKI"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2210d92292eso22456055ad.1
-        for <asahi@lists.linux.dev>; Thu, 20 Feb 2025 04:22:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jq/CfjtU"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-220c4159f87so10940525ad.0
+        for <asahi@lists.linux.dev>; Thu, 20 Feb 2025 04:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740054152; x=1740658952; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1740054154; x=1740658954; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yTteZauPNy6vSlRahT0l3anygq+qMXyNmxkONLZYlOk=;
-        b=TgVA6iKIndegnhzD3lcguJhNLZUILBPZCuN3CEipgbQrNnB2SBTUmqvzJtdABY0P8x
-         W+wEO3KWpBz4SiYQsQzD16IM2FIj185fWVPrfltSoMjjKPw7gUZXUFh7K9PIYzqKyIvf
-         o7okBl1D+RNU59eV05rrHvLMiS2+0jRL4brmdO7P7OLlEo2UV/+93wjA0qQ878FKR9Zi
-         1No+q7BWFYN4sSczdi5kQJCHnW8kPqidCA7BwzMdU0R6XpUXWQIEL1FdVCrIhwPCosNz
-         lM3A/FeZXgn+RdXu1msSf7w8tXyvEw3vSBqSfIiEf0eujaS1ZpIiyocHbHn9TbmbchYH
-         7vuA==
+        bh=UBuJnAWVhO28mlOCOrO1xk7g+eWQaeRbOJaWHDeNHoM=;
+        b=Jq/CfjtUFGQDzmE/sBogmLaZLj5oht4MIxb/hZtzoY7C0Q9zcIIIbwbWk0r3n2sirY
+         vQeJt9Do1AxFZdZAvlKrcZtBnYWKFWFWo+d8jT5XDsgy6dLsBn6EsbZ4lUdEkAPGRXZ1
+         7wYAOod5fU2VYPZXqHODgo+QxteASC8kYyCbxIPyhEPUH19vAGNowZUits6/xd752t2G
+         hTQrXDNqXuGriRVKakcnSlyOIvVFycPlJ3ax9f9StT6LyuwJKt0FtllwJY6txaILWKd7
+         xi3RFAI8J7EQIGS3tLXRueDKG+A51eqCR4NyBu7B8SEe3m+7w/89m8QpXAbiVev0znpP
+         Oafw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740054152; x=1740658952;
+        d=1e100.net; s=20230601; t=1740054154; x=1740658954;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yTteZauPNy6vSlRahT0l3anygq+qMXyNmxkONLZYlOk=;
-        b=kMSRx22zW5mxbQ/59+0jq1MjL2qcd+gc+wKUfpaTFArN5XNsOLxNgf3TWrgURXTQuw
-         TrPjAIk+mRDIf5+TpSq+/U/T+RWQJlQNu2YPA52E3C6/8waQzn2ppXopmiuC8PacuWUM
-         kNdE20CpyMcEvPkqe3wqFFWVQkkOoFXCEgtvoFkdZZ6QNwt+zrZXZPYAt2kO1iqW6drG
-         ASqw8kItYbtYB0QLDXRvUwIPniF6NRYFi0sLi2LanCvPmb24AMh29WstLgImz9EnaGMY
-         DTgPWAKMD/lgQ5I0lDZG4SUXOECQuR+VjkyhL5ZmbA5fOV/yiPfgeRDjvprCJQOnjmMK
-         YlLQ==
-X-Gm-Message-State: AOJu0YwSD77PIMD4+CUDKQGX6e3yymZYRxMzYEqir4QgjxZo4n4A/gCH
-	IngA02o8w4KWIYe7T6xeyQGMtIGxVwligW1TI3+C5azWUz4rx0E8
-X-Gm-Gg: ASbGncvqbyVf09NAwYGFK3DHUGcElTPn7pvUidHl+RopgbhZXlBNor8ZmEITPtdFcS3
-	UJKtJGPCd0cgUNsVpTX/sIidulWhAKVt+gaMZE6zC+g2RPESIXasBoWFk5EtSher1QBYshX0VJf
-	9vsMt9pShCLQ6jC+hQb9o1YdXu7Od13r+IxKWBc+xZc02W8o4DGyksjstFaBBwr3okge+A1xktb
-	YFd4EflhHF82G/hWsS2joIOdLa+mYF3fxNSlAKi7KrKixhQNMiJlqRLw51+KaYIA9YPMlnUtT9o
-	/VFqsGbjVBysyD2J4Q==
-X-Google-Smtp-Source: AGHT+IHbidj5ZO18Td1QTyEmiRAdi45GlrXUu2QGtSYq+K2SCUDB/E/xSTypUJeAm5+h+BQ1uKj1Zg==
-X-Received: by 2002:a05:6a00:3d0d:b0:730:9a85:c940 with SMTP id d2e1a72fcca58-7329df59b5fmr13027683b3a.20.1740054151736;
-        Thu, 20 Feb 2025 04:22:31 -0800 (PST)
+        bh=UBuJnAWVhO28mlOCOrO1xk7g+eWQaeRbOJaWHDeNHoM=;
+        b=f+5mEGcx0LRukJ7doM/z1TBUqrYUk6J0yFflNyf/p1vlSGB74Uf/htG5w3zyWnQa/p
+         SZVu/Al+4aHtVx2WVRhZCxND+o6z9lu3EvnbHJABfanQfqweQSLs7tysX0Z04z51IeIa
+         y1nZCplFuQD3lMxIKjTEgStz4eXupfh8Ne2KFb+TVOK3LWDZV7NIO6tZHHtlq/xCAhAL
+         OB8z4vki8o7/okVSviaw+ZVsOFgK2Y2D/rFw+5EimoQ7lchAx452YCtxEbb9KqjzfzGX
+         +JtK3J7lrAX0m4Lnr8YKxQvv2AA/JwHMdzOmmbs9UfPou5qGyyKP3IZXnls6ZXK8hfUU
+         6OnA==
+X-Gm-Message-State: AOJu0Yzqvuwe//BM3kAdZK8uguSKSF5WqfaX5z+s2rK/ju4EM4bS1RR7
+	sbemKjB1x8d7ZpnbgT26GCnWbZX3G7bLAqS+QcR/iB2iAIzcdBgqVIzp3g==
+X-Gm-Gg: ASbGncuRfsUWe1nS+FJY08ofnDNJeIN4xuPcC3OZAF8y1NRJ7vzHH3T988ZyZefXLVQ
+	z3LGmfV0kFiT4yFc6wk78h34rWBJlPPrUlMbJgpMpsPilGsYa971NJ2dYNmBkggpsCkn1gwnsGF
+	c5OrVu/ZELzBZo4m1KHq4IM7VLbZPgum4hZKx5b+n5DpEcO+qJkVb2tIl7HYZO2HeZTrEVeTxVC
+	nzswLhO/+oyXpmcL+LqK2mXdxIJN4wanGg5g/L9sWb1CSeVPJZfegxG0TUGtmG6yYmXCVDfgvEb
+	9Fkh3+aDUhQBHUGh+g==
+X-Google-Smtp-Source: AGHT+IH65NfsjOzwTpqmb7nGlYrkljWx2zuSmpAI4ns0SFN1VCagsWWVvimBp2kuvzzwPZxNgSongA==
+X-Received: by 2002:a05:6a00:3e0c:b0:730:75b1:7218 with SMTP id d2e1a72fcca58-732618c1ec6mr35494739b3a.16.1740054154443;
+        Thu, 20 Feb 2025 04:22:34 -0800 (PST)
 Received: from [127.0.1.1] ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-73242568146sm13653149b3a.47.2025.02.20.04.22.29
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-73242568146sm13653149b3a.47.2025.02.20.04.22.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 04:22:31 -0800 (PST)
+        Thu, 20 Feb 2025 04:22:34 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
-Date: Thu, 20 Feb 2025 20:21:43 +0800
-Subject: [PATCH 2/9] arm64: dts: apple: t7000: Add CPU caches
+Date: Thu, 20 Feb 2025 20:21:44 +0800
+Subject: [PATCH 3/9] arm64: dts: apple: t7001: Add CPU caches
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250220-caches-v1-2-2c7011097768@gmail.com>
+Message-Id: <20250220-caches-v1-3-2c7011097768@gmail.com>
 References: <20250220-caches-v1-0-2c7011097768@gmail.com>
 In-Reply-To: <20250220-caches-v1-0-2c7011097768@gmail.com>
 To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
@@ -78,35 +78,35 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=ZoFAboTTORCIiwfMRZBtk/4gIxbXbV5LowBP1mj/Ne0=;
- b=owEBbQKS/ZANAwAIAQHKCLemxQgkAcsmYgBntx5+LCgvVTDgoUd0iBlRyUgpGAbBux2045I4f
- yesRBGCmreJAjMEAAEIAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCZ7cefgAKCRABygi3psUI
- JEF9D/kBf5LvSkslGuNWkshtevt+gtvr6PpA6VRTGq61xc8YW2hC1gZJ+Rn4wjN2tLU0eCAFZpz
- WO98sKNPxSTADYzQFT14pDlMM9lx50sXJcmES2LUOJQ6UOkE9daYhheIS1kC5L++RNy6E6IUZB2
- /JqxIUtYiJGjneJU4c2jrViqdEzIG2sgctmLjGoxoIjsh59sW3ZO5Q4Tawn92HakkLIW+rYOuE2
- sqWCs9IQlDssCcZ6LCAWKQbGo0CajB/axd4mfDrax7vwM6bZD8H9p6oIjEL9GgZv8bO98O9Z3bd
- /dmqLiDZzYxRDqvifYw596GiSPbo8T8bqkO/mkwIUmwGlx3rzDV3p8kjQzi2MeANS3dYF0jatR4
- BmCepz1bTt1gjVq+v2AZW8xx/OgpeoWlDRV1R+7azeqdqMZhc9ICHaYWepQKqDVGfvxJhN3BFMK
- I53O8lpFOf29VsO70pKUZLDhTAZrWjeQBqqxoRQL6QDBmIHnLXkopzos9VczWwLTFpgGezRturI
- k5l3fPHGzbm6aa71sIQIW3m+EbylfAtqO14xw2c+PH5S38fI5BWi9NOqgqh3vwIR0bbcmOBPnB9
- rm8oecdlwZ96L8wpnm4M+4RXVI7guU0mX2L1YjkEzyd0wiFSLCD1LklfeeOvWAnNfO8Tm/MtLuC
- 6eRDePdEEAEhWRA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1414; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=3dP0oDAIN/InBoJgIEEqaYRol8BwNynu3ip0BA5Xbxw=;
+ b=owEBbQKS/ZANAwAIAQHKCLemxQgkAcsmYgBntx5+6R8kl4XjwXno6F3R1YST47PDcS75fBq9D
+ rJWwg4NDTyJAjMEAAEIAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCZ7cefgAKCRABygi3psUI
+ JH6bD/4+Uuk91oX9dOv7aKSCauwvonXydDd98FtccI7OIe68dRR3+FUfJTG8uyXR+pYU/mNKFzR
+ ZZUoH0VGqFto509TYITNK/SpkOdFyiXL6HeAwk7qJOfsPMRc3sigral9s7lvLIbUdtUiz6HnDCf
+ fBBBbikZwjRa+DD+uJaQlRC1w1anizTEWrGL6t64YZfOSj2AbeJL7Zstv6NQPVhGPkcYfTZdtwL
+ 81ZYUXPCHpSPuqWPS4QOYAsJUQU42XHCq/bti9nI3Tck9VSZ1nKy+re7Qn6os6ONPaZB78/FNHS
+ 5e3wazbFon98qhpKB9zaR386r5uHoVcCidjHi2FW3s/zL/3XFOifV7QNwf0EpJRJFGrh7unBGsY
+ 21iPBE1hav7RAnWirgmnQJELJ2Wb0M54976wFqtSC/DLGK8+v4Ly//P7s2z8tWESSKshNVpqNzi
+ l6V1S2D3hp5E6xIh9l9Z3YuOPdqotRyTUZmjoAnJpl4zG97rdRDqpynbdwTyGmNncZGeo4ipggQ
+ COriGrhTb6WgOIDPzd2Uu+uesy0JCbkMnrTyc8npg7Xo86G/lCxfhS/8BT03so0KmwrYgr4OcSW
+ sKQGasFL7wwrZv3Ru2IDH9jP+tpRlD1CVdwZLJWbPXioIlq2obTiTytTwZ+4bG9TdjEYKMzoCva
+ HsyzDzgsE+iB+/Q==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-Add information about CPU caches in Apple A8 SoC.
+Add information about CPU caches in Apple A8X SoC.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- arch/arm64/boot/dts/apple/t7000.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ arch/arm64/boot/dts/apple/t7001.dtsi | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t7000.dtsi b/arch/arm64/boot/dts/apple/t7000.dtsi
-index 32cac8c30e62d657079dbf32aece8af0fd9cef38..229ebd78c9d14609c30cdd011d1ec59847c846f8 100644
---- a/arch/arm64/boot/dts/apple/t7000.dtsi
-+++ b/arch/arm64/boot/dts/apple/t7000.dtsi
-@@ -37,6 +37,9 @@ cpu0: cpu@0 {
+diff --git a/arch/arm64/boot/dts/apple/t7001.dtsi b/arch/arm64/boot/dts/apple/t7001.dtsi
+index 8e2c67e19c4167fc6639458ce79588e153336603..a2efa81305df47bdfea6bc2a4d6749719a6ee619 100644
+--- a/arch/arm64/boot/dts/apple/t7001.dtsi
++++ b/arch/arm64/boot/dts/apple/t7001.dtsi
+@@ -39,6 +39,9 @@ cpu0: cpu@0 {
  			operating-points-v2 = <&typhoon_opp>;
  			enable-method = "spin-table";
  			device_type = "cpu";
@@ -116,7 +116,17 @@ index 32cac8c30e62d657079dbf32aece8af0fd9cef38..229ebd78c9d14609c30cdd011d1ec598
  		};
  
  		cpu1: cpu@1 {
-@@ -47,6 +50,16 @@ cpu1: cpu@1 {
+@@ -49,6 +52,9 @@ cpu1: cpu@1 {
+ 			operating-points-v2 = <&typhoon_opp>;
+ 			enable-method = "spin-table";
+ 			device_type = "cpu";
++			next-level-cache = <&l2_cache>;
++			i-cache-size = <0x10000>;
++			d-cache-size = <0x10000>;
+ 		};
+ 
+ 		cpu2: cpu@2 {
+@@ -59,6 +65,16 @@ cpu2: cpu@2 {
  			operating-points-v2 = <&typhoon_opp>;
  			enable-method = "spin-table";
  			device_type = "cpu";
@@ -129,7 +139,7 @@ index 32cac8c30e62d657079dbf32aece8af0fd9cef38..229ebd78c9d14609c30cdd011d1ec598
 +			compatible = "cache";
 +			cache-level = <2>;
 +			cache-unified;
-+			cache-size = <0x100000>;
++			cache-size = <0x200000>;
  		};
  	};
  
