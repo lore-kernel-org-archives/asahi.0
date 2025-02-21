@@ -1,132 +1,187 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011037.outbound.protection.outlook.com [52.103.67.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A875D229B2F;
-	Fri, 21 Feb 2025 17:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740157574; cv=none; b=lHr43fDQ4icKyC0b8Ftm8d/0uoZpZx5jOJLiF+MUev2oBTbv4X7Q1GeG9rW5zrrgFPfKtOywSf0bzZGGxu0XiV9dfYFbTLHMGcU8bl8UfhbhV+xnUl8JihGMwqA/yWwUtATY8voOQ2UlpMe52IDhVE+TAVm+yTdh/Yvo6rTVdXY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740157574; c=relaxed/simple;
-	bh=6aTAG33GXbthnOFm9BMutu45WRm+bikg09wcb56nqGQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hGUmgkbLfy39QK1lTDtzWHnid5bERY8sdIKZrmzpCH2609nj/8RwrbSnDxVp8Y9B4jikNu7mOugrt3A/zdeTXu+I0m6xXMV1O/oQS01sw/8WNDsHlhUK1S4UxTKarYFfGVyMogUaqOs3HDpyfrLbu5F0HGzeBogVXFMvqEinyqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=yFd8hA1e; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75A924FC0D
+	for <asahi@lists.linux.dev>; Fri, 21 Feb 2025 17:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740158481; cv=fail; b=nlIpH63mhXRgMDF4u4d0LfCiu7JqOGJVnm5EWLUipRY5vw9o3KZsEWART4eb/b318+K8VQQNvXUl7YaUtcJBhV3ehqLbgjnxXj7I7IaDZMwcdNCSFSMTXrMSJQTfr2Hpx+PsKO3pQKbRW70dP/IkMH0dEfjx5yX2WTRawQz+fbw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740158481; c=relaxed/simple;
+	bh=PVA58dv8F5hhp4P2XQy0/98+eX4WUUmQyztE4a/vmhI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=MoqIFaUSOM53oi9Ld3wVvmYfllvWgWC7EL07kyHooB54XKkiolCzQRR7UC5XYr4qLBlp04/HKVtIm0+GzLvOuyWTpI77vGfk7DmILQXT4Ow1FhjSBOvjQQP6Jynrtf2NNesVUmtwKaEN4JR5Nxq1OonzuZ9sg6++uv20U2F+8jg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=JjthWdk2; arc=fail smtp.client-ip=52.103.67.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="yFd8hA1e"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id C9D854265F;
-	Fri, 21 Feb 2025 17:05:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1740157560; bh=6aTAG33GXbthnOFm9BMutu45WRm+bikg09wcb56nqGQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=yFd8hA1eSgRe4Ug0aYqGb7aycPGypHBBQk/E2E1VRzQLd6JVkGVyrAoP/YscN2mGc
-	 4hAQUZq8GpSFHGa9K+arnPQHbctCEgBL8ZAC0Epa2fFOYkTSXLP/U2KWYxY/qjDNPY
-	 Mg4x+MoSLAYrdd1GqRsCwF2iLC+EDOGkrJIXNhhlGDBAVgZte8p1bek9zMHy80ajE0
-	 HoTD8hDCN0x05ccySbXH5z9Q/Ti1jC0kv6XM6xetwWMgVzviSqWPa386XAu+593biT
-	 DOHi2820KsRXnN88gu+BGXSt2IzbzuyvDTyHHXobCZ9bJAF/C/zrFh+oiq6+zAmhHZ
-	 iVUsmCsljM2mg==
-Message-ID: <5f26b440-14ec-42f6-9d29-1657d88cf5a0@marcan.st>
-Date: Sat, 22 Feb 2025 02:05:58 +0900
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="JjthWdk2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tOtG3lC6DuQo2ZLrbSQSPIit9GYD1iTDH4xllSGAKKgXYOWjl+7PmVDAXW8/DEG3dW82YNts3z4dnrRsCkW6YwcLD73p3YSMPKzCz4slCmEFWy58CitulakE6h1bMgcbW9gX44QPwp4Cc90G5fJ1Dd4pNumrtIUgfM5wbGkWi7maf6xdeuAtoVweFC+nErcqfRdGYsVkAdep5+sdifX5M8Jf2vWABib4DhJfqpbPtHFaZMO1KJ2o/Yw6ET4D+MSWKZQVAmOsP8UY0hc4RBqQ/k6u0vfhu/wronAikOxW0Lg9RLMomJWj5ExeO5pEhtmEeNryzeqE8Tc9MGfXZmZ+sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PVA58dv8F5hhp4P2XQy0/98+eX4WUUmQyztE4a/vmhI=;
+ b=MoJ11nfwrLCJpu0VZAeoFhtvp/CA55MiC+dvanAiQeqiNXde6QEeKHBcrmfofhvYdzyr5dmu5JAf0GI8s56zV7xzi4iOLn57+oHL1PfFHnk3uYba/tcQTFAnj46MFYX8Zi4OHujDtwJd2xd5QrAQrue0PA9Hjybl2QnSzM5BUG8+e2gfaz1iPcIXkdYWFcVuwmRCn9wfPprl/12fhao3yxLdQcI9jUz5Cf4a7TwOzNCZuViehAJwUw9Rq9vj/9W6otHj+s978xrsmsIxE1MhnRRdkAkkcVAsawH9uVjlQ0YVNqR1Fpu6p77rB3umAki/2AfZywRqqW1EIdldTIa/Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PVA58dv8F5hhp4P2XQy0/98+eX4WUUmQyztE4a/vmhI=;
+ b=JjthWdk2FFnQ/dXJ5WFLoeIFsJgnsnhiBy41NypiXiaZnWYmgpASbQSvEhAQNmcSh04t4iYSSbEvcM5gDq+TNFcLCVwwuUudWLrWBkKe8nzoPMbBrD6MmvyDG0hoflVb7WooSVOyKHYDXlMusWM878vLPQDUtvEfuHn+tgRESjH92+Cu7pvCiFcqNgaQoL4boZQTZ3E4VxgrsPFI8QWyrvZBQYQYt2r//eMghH+NVRhjcCNd9nYbTr02BHZi7LpG9Ldj+oM7K7ID19dhMACTHY/N3uiazZUhpLvKRKl4yp+2/OUi0KJ4wrWpSFMtf0//BQR5TevD511qp58Lqm+CGQ==
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::9)
+ by PN3PR01MB6292.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:83::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Fri, 21 Feb
+ 2025 17:21:08 +0000
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1]) by PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1%3]) with mapi id 15.20.8466.016; Fri, 21 Feb 2025
+ 17:21:08 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+CC: "pmladek@suse.com" <pmladek@suse.com>, Steven Rostedt
+	<rostedt@goodmis.org>, "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>, Jonathan Corbet
+	<corbet@lwn.net>, "maarten.lankhorst@linux.intel.com"
+	<maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
+	<mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
+	Andrew Morton <akpm@linux-foundation.org>, "apw@canonical.com"
+	<apw@canonical.com>, "joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>, Kerem Karabay
+	<kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>, Orlando Chamberlain
+	<orlandoch.dev@gmail.com>, Atharva Tiwari <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Linux Kernel Mailing
+ List <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, Asahi Linux Mailing List
+	<asahi@lists.linux.dev>, Sven Peter <sven@svenpeter.dev>, Janne Grunau
+	<j@jannau.net>
+Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888 to
+ BGR888
+Thread-Topic: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
+ to BGR888
+Thread-Index: AQHbhFTIObWDiH99WU6+/IlqdSWkt7NR6DMAgAAZEgA=
+Date: Fri, 21 Feb 2025 17:21:08 +0000
+Message-ID: <6623056D-2107-48FB-B18D-2DB90D8F78A2@live.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
+In-Reply-To: <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PNZPR01MB4478:EE_|PN3PR01MB6292:EE_
+x-ms-office365-filtering-correlation-id: 551b1068-fb4e-42af-9a92-08dd529c2133
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8062599003|8060799006|19110799003|15080799006|461199028|7092599003|440099028|3412199025|10035399004|102099032;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?aFJQb1RnVGZ4RGY5QWZUcmRvRjl4WWh5S1lENWszYkl4WWpseU5tMUExWXBD?=
+ =?utf-8?B?ekxyd0JxM243a0VWblhBTVlVSkxrOUdnblZwdDIxTkFrWDJZeDB1N0JJMHRl?=
+ =?utf-8?B?YUxneGxQM09NN25UQTF2WGVWcFdpUU1VTjdlVWRBV3hiSXlHYjVuZ2xLbWlE?=
+ =?utf-8?B?WFlqb25rMUg4czlva09tRERwTzY1SWxTUHpGUW1taFVEaUhvVS8ydDhuN3Nw?=
+ =?utf-8?B?c1AzWFJkdFcvWVN5UlV3b1VQdVF6eU5CUDd3MEhKTmFucFV6bU5OUDJZQUdw?=
+ =?utf-8?B?ZGl3RkF2aDNidk5RZG5BdVZGNW1CeGhYZXpmR1FuQTdUTTdkdzJ5V0pXTEpV?=
+ =?utf-8?B?c0xkbFhVV0dTWG9Yd2JzYkFIM1ozaWI2RElCSms3bWZFcVpZTFdmbWZlYTRG?=
+ =?utf-8?B?Ym5oWGhmb2wySGR0bDY5QkJ0NUtCdUUwbElZcVRsYjNXcHp5R2Ftd1RkSmd4?=
+ =?utf-8?B?ZlpiQXZKNnFYekZnenhveWZkZloyNlpMN1BiWlEvb1RCbHZzc0FEQkNSV3Ri?=
+ =?utf-8?B?QkhPQkNXeEkzTzkwdG1DM0hJUFlVSmNmS1NGZmVmMTg1VkVxTE9DYXdvamlJ?=
+ =?utf-8?B?b0Z2K0l1bktvcjEzdWEzZTFWa3dQbWxXMUhuVGhGUGJqd3o1SDRwZVNTRGJG?=
+ =?utf-8?B?OWVNK1pSSkh0cnZFM2h2dXArUjRwM0FSaFpQUnNDRExxbXZTK3Z3dE9HOXpQ?=
+ =?utf-8?B?Q1krMG1USUJsMTlpWnhER0hUVnR6bjNNNklQY0lrSWdyUE50TWhiWWZKa1E2?=
+ =?utf-8?B?Y1Y4QlBHcXRNbUM5Mnd6a3dpMFFOS00yd3pJMEdDVzVxSFg3WW9IRndWbnFv?=
+ =?utf-8?B?bjJ4dmxlL0N6dEovZG5iNjJyMVJrNG1lRzRDb2ZyNmZ4anFxT05KOGNKd3lU?=
+ =?utf-8?B?czA4bGROb29oMzJUWkVEcFIwM1VQaVAyRWkyOHRaWnVZWlhsT0tES0tTK3BG?=
+ =?utf-8?B?bHYxYVRKdnlqUlRGQVlZTzJZN3diQWorR0diUEtXd3RqVldxWTZQWUllaE1k?=
+ =?utf-8?B?dElVdWM1QXhmSjc3d3ZlNTN6Sno4WU1KVHlCYUJjam5UM0t4d3VsSzRWUXlW?=
+ =?utf-8?B?SE9VeERWZDlLRTQ4SGRnNmYvT0k2V1FJb0NRRm55a05OY1hEa1ZYZFFIZDhQ?=
+ =?utf-8?B?MkRXYWF5T0gwQ2ZTbXlZRW96dVpST0tKKzhuSGJUZzVtV0NXU1JadDJML2pl?=
+ =?utf-8?B?ZEozcnNHTzljQVpsdUs3R1FHc0NtUDNlLzNicjdrSEs3aEw0WjllM1FDanY5?=
+ =?utf-8?B?MFRIQW5Dc1JjVlpPUFVHR1IwdWFCVFAxYUpjZC9tck5yOHNzc2xZcWw4eDhm?=
+ =?utf-8?B?cDBVb3BRQUk3V3pwcWRXMjhFVUx6Q2xVWHA3WmZJamZkWjNNcERMT21aUmhi?=
+ =?utf-8?B?dEk4UEtwNHJPbm5aeHNwU0ZsVFVlRnd2c2Fodks5WS9yM0EyUHdpYWgvRTN3?=
+ =?utf-8?B?N1gwdWJENnlIZjhsUzRheTdDbWZKclNpV1BaSGl0NXM0ZmJ0aDBZUnloV0tL?=
+ =?utf-8?B?M3NORHNxTjJ4dnJCY0NIK243cHRUa0NWU0hrWEFUV3MwajN3SWQ0bjRoaVBW?=
+ =?utf-8?Q?71+iTFZ4oNX6OMHq/0ZRWd/LY8kh32fo6nAYzrDWQJz7AL?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Q3ZrUUo3UnRUbWIxSTlJVDFwYlgrZHg3NkYremZqbXl4cnpGYWt4MkpZL2wz?=
+ =?utf-8?B?NktKVXQwalhxaXc2WFV0T1V1c1pGNUg3Nm11V3NVVkN4NGNpU2JZZGRmSFls?=
+ =?utf-8?B?K2F6dkdQNGRrVVV1ZEpDdHN5OXRQSCs0Z1FOVUpFQlBsdW04Y3dwSUFOazJj?=
+ =?utf-8?B?Zi9QWDh5dmpnVUhJcm9aQ2VXMlVBdS9Kc2V6czhpS2ZOcXBpb3ZKVWZFVnVM?=
+ =?utf-8?B?ckJGQVNEZXdibk9pZmUvWnBmYmRBaG1iSmplYjFsTklnWGIrb3ZyM2tXenRU?=
+ =?utf-8?B?YjV1R3E2KzF0cm0zckg5QjdxMzdQVlYxQk02LzVLdDA2NHZ5UzZFSllRZlRw?=
+ =?utf-8?B?bVA0ZlFuc0RRVVhyaDRSbGdPdzZndWM4Z2V4ZUl2NWM0dVdXMGF3Mm5aMFRK?=
+ =?utf-8?B?d0duRVZ3RlBLOGdZS3JVazNqNEN0RmZRS0NtWi84Qm9iZWVybFJIT1hsTElB?=
+ =?utf-8?B?MmFSTVpMVVpVUVhsU3JkWG5DWjZ1aVVYSXFJUk9KanVYTXczanBHVW5MWFNr?=
+ =?utf-8?B?Q1RrV29VUTdCMlM4MzNjeDR2b2tGalJkOUV2SGtvV21jTjlQNzlvQzNMdmRi?=
+ =?utf-8?B?RWJsKzdUWldGY2RPYnU2ZmtjNThjN1BRWWd2UTBQWXN1TjVtb3BpQjdsRHFj?=
+ =?utf-8?B?Q1pjNE03aVpwVjA0cXJXeTdSY2NkT1NwcmhVN0pjU3laay83eGIzRGkzN0NS?=
+ =?utf-8?B?aGR4aGtCYVY1MGhhSERGM05OTzJqRVRxWm5zNWgwekxhYzJtY3E2UWxLaDJh?=
+ =?utf-8?B?ZkYzNElxUi9WYm5vZUdES09oNU12L2diVUZKMUV1eVVTbjhzSEFhaHFXQXdr?=
+ =?utf-8?B?d1ZqU1NTa0IvQ2NqWldEUCtzbUxrTTJ2UisxWUQwUFlZb1hrL09Jc1VycHRa?=
+ =?utf-8?B?TEhWTC9kQVRqNDFFRTJyaXU5YWk1aE02eDBidHhxYzZZNU0zbk5UZXpjTjNi?=
+ =?utf-8?B?clphY1RYdzZWWEhMOGh3NzRsZnM3Yk5aTzJpSkJpcFdVZEJvQy9RdUM1ZjZJ?=
+ =?utf-8?B?MjNzaEw2YnlwVGV3Qm5yaXF1VDRlYXNIRlhoTHJKdnlrcE5QNk15RHVPdmRD?=
+ =?utf-8?B?NDNGYXk3c0tZa3RmUFBEYi9PYVozSlBvcTA2aDdlRGQ3YWRicXJJNGplMmw3?=
+ =?utf-8?B?QXprTXBBWVpHQWFKRzhRR2daNWZiOEtFL2Q0b1ZOMTJBcFh5dEZCbjdnd0Rp?=
+ =?utf-8?B?bzlwQmxyR2JWOWNoYmludDVOU2JXTml1aWRaUlB6ZXVlZDA2MU1URzdtQTFG?=
+ =?utf-8?B?NVBoUE5yNllsU0xSMU5sVU1OV2JSeWt4a00vMG1Ta0xwRXlvOUFRRXJSRzJ0?=
+ =?utf-8?B?eWNYRnV5V0RlUlU1Mzd2R1lIUmR4SlZRTUowNzkrTTN4VWVnSEFuaWxyYUMr?=
+ =?utf-8?B?Q1Q1c2EvTUE2YTFqT28yYmozYlQrcG9xeXNwaTZHbHVmdzNsQWwwMXVtMzJh?=
+ =?utf-8?B?NjRiUjZ1MXk4aEFENXdiZ2VpT0hRd1lpUk9velAzNlovRithd1VTL1NWN3BY?=
+ =?utf-8?B?UWNpb1VjZHM1UkhtTHdKaElvcXU1eVJwaDlJdmlBajlXMUtCSE5QY2FLaWZu?=
+ =?utf-8?B?MTVIMzR2NGJFRUM4N3ZSR2Q4eU5uOElFbTFLVzlyZTNIc3lXSTdhR0pudzgv?=
+ =?utf-8?B?QmZhWUpoMXp1TkFWZWNaOHkyN1llVzBzc3lCaW9mRmtEUGliWDhwb016cUNr?=
+ =?utf-8?B?cjBrQmZ5d0gvVFhsMyt3RUlRNERuVEQ3aXNJWHFtVHZBYXZDckMycWVIckFC?=
+ =?utf-8?Q?C+X0BwMWzCksD+pkTfVfQE9GrlbXnFLKeHVsF53?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <954B3BDFC934DB46A001BF60D943D891@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: Remove myself
-To: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, soc@lists.linux.dev,
- David Airlie <airlied@redhat.com>, Simona Vetter <simona.vetter@ffwll.ch>
-References: <20250207-rm-maint-v1-1-10f069a24f3d@marcan.st>
-From: Hector Martin <marcan@marcan.st>
-Content-Language: en-US
-In-Reply-To: <20250207-rm-maint-v1-1-10f069a24f3d@marcan.st>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 551b1068-fb4e-42af-9a92-08dd529c2133
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2025 17:21:08.1789
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB6292
 
-On 2025/02/07 3:21, Hector Martin wrote:
-> I no longer have any faith left in the kernel development process or
-> community management approach.
-
-As I was rather brief in my commit message, I feel like I should expand
-on my reasons for leaving (particularly given a bunch of people [1]
-think everything is resolved after Linus' latest proclamation and we
-should just move on).
-
-Many of you are probably familiar with my frustrations [2] with the
-kernel process, which form the background motivation, and I'm unlikely
-to have any desire to participate in kernel upstreaming again until some
-of them are resolved. Similarly, the issue of kernel maintainers
-attempting to block project progress, doing the Linux kernel version of
-Elon performing the nazi salute [3] (make no mistake, Ted knew exactly
-what he was doing with that line, and that it would be plausibly
-deniable by the actual nazis and those unaware of the cultural context
-or eager to grasp at straws to defend him), or generally being assholes,
-certainly had an impact.
-
-However, I should clarify that what pushed me over the point of no
-return and to not only resign as a maintainer but also cease all
-commitments to work on kernel code [4] was, specifically:
-
-- A pile-on [5] initiated by a kernel maintainer, which was apparently
-motivated by what can only be described as a blatant, deliberate
-mischaracterization of my words [6]. I can only assume this was a
-convenient excuse to lash out pent-up grudges against me in public.
-- The hypocrisy of complaining about posting on social media while
-posting and flaming about it on social media.
-- The mischaracterization of my social media posts as "brigading" (by
-three kernel maintainers including Linus, no less), which is a loaded
-term [7]. I have been the victim of *real* brigading by the kind of
-internet trolls who work to drive people to suicide, including
-successfully doing so to one of my friends [8], and it's not funny.
-- The accusation that the alleged brigading was a way of generating
-attention for donations [9], which is quite frankly disgusting.
-- Some even more disgusting stuff that came out in private and I will
-not elaborate on here.
-- The fact that all this came from kernel maintainers who I *thought* I
-could work with, have had multiple discussions with in public and
-private, and did not expect to privately hold grudges on me for a long
-time while putting on a face, only to release them all in public without
-so much as an attempt to discuss them in private.
-
-I can deal with overt assholes, but I cannot deal with people who put on
-a friendly face in private only to do a 180° later in public and stab
-you in the back.
-
-Sima, I wish you the best in "derailing, sabotaging and maybe improving
-the Linux kernel from within" [10], but I have no hope left for your
-approach. If you truly believe you've spent more time "handling the
-fallout from my brigading" [11] (without ever communicating that to me;
-also you really seem attached to that word, perhaps it's time to learn
-what it means) than working on your approach lately, maybe it's time to
-reflect on whether I'm actually the problem, or the problem is that your
-approach also doesn't work.
-
-Best of luck to this community and everyone part of it. I'm going to
-take a long, long break myself.
-
-[1] https://fosstodon.org/@airlied/114039656644172292
-[2]
-https://lore.kernel.org/lkml/208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st/
-[3] https://lore.kernel.org/lkml/20250208204416.GL1130956@mit.edu/
-[4] https://marcan.st/2025/02/resigning-as-asahi-linux-project-lead/
-[5] https://lore.kernel.org/lkml/Z6OzgBYZNJPr_ZD1@phenom.ffwll.local/
-[6] https://lwn.net/Articles/1009671/
-[7] https://hachyderm.io/@chandlerc/114001000657957325
-[8]
-https://www.vice.com/en/article/what-i-learned-from-near-an-emulation-legend-and-real-person/
-[9] https://lore.kernel.org/lkml/Z6YPfsDSNdRUskvp@phenom.ffwll.local/
-[10] https://chaos.social/@sima/113942119012147959
-[11] https://chaos.social/@sima/113962228220035362
-
-- Hector
-
+SGkgQW5keQ0KDQo+IE9uIDIxIEZlYiAyMDI1LCBhdCA5OjIx4oCvUE0sIGFuZHJpeS5zaGV2Y2hl
+bmtvQGxpbnV4LmludGVsLmNvbSB3cm90ZToNCj4gDQo+IE9uIEZyaSwgRmViIDIxLCAyMDI1IGF0
+IDExOjM2OjAwQU0gKzAwMDAsIEFkaXR5YSBHYXJnIHdyb3RlOg0KPj4gRnJvbTogS2VyZW0gS2Fy
+YWJheSA8a2VrcmJ5QGdtYWlsLmNvbT4NCj4+IA0KPj4gQWRkIFhSR0I4ODg4IGVtdWxhdGlvbiBo
+ZWxwZXIgZm9yIGRldmljZXMgdGhhdCBvbmx5IHN1cHBvcnQgQkdSODg4Lg0KPiANCj4gLi4uDQo+
+IA0KPj4gKyBmb3IgKHggPSAwOyB4IDwgcGl4ZWxzOyB4KyspIHsNCj4+ICsgcGl4ID0gbGUzMl90
+b19jcHUoc2J1ZjMyW3hdKTsNCj4+ICsgLyogd3JpdGUgcmVkLWdyZWVuLWJsdWUgdG8gb3V0cHV0
+IGluIGxpdHRsZSBlbmRpYW5uZXNzICovDQo+PiArICpkYnVmOCsrID0gKHBpeCAmIDB4MDBmZjAw
+MDApID4+IDE2Ow0KPj4gKyAqZGJ1ZjgrKyA9IChwaXggJiAweDAwMDBmZjAwKSA+PiA4Ow0KPj4g
+KyAqZGJ1ZjgrKyA9IChwaXggJiAweDAwMDAwMGZmKSA+PiAwOw0KPiANCj4gcHV0X3VuYWxpZ25l
+ZF9iZTI0KCkNCj4gDQo+PiArIH0NCj4gDQo+IC4uLg0KPiANCj4+ICsgc3RhdGljIGNvbnN0IHU4
+IGRzdF9waXhzaXplW0RSTV9GT1JNQVRfTUFYX1BMQU5FU10gPSB7DQo+PiArIDMsDQo+PiArIH07
+DQo+IA0KPiBPbmUgbGluZT8NCj4gDQo+IHN0YXRpYyBjb25zdCB1OCBkc3RfcGl4c2l6ZVtEUk1f
+Rk9STUFUX01BWF9QTEFORVNdID0geyAzIH07DQoNCldydCBhbGwgdGhlIGFib3ZlIHJlc3BlY3Rp
+dmUgY2hhbmdlcywgdGhlIGZvcm1hdHRpbmcgaGFzIGJlZW4gZG9uZSBleGFjdGx5IGxpa2Ugd2hh
+dCBvdGhlciBlbXVsYXRpb24gaGVscHMgZG8gaW4gdGhlIHVwc3RyZWFtIHBhdGNoLg0KDQpJIGRv
+dWJ0IFRob21hcyB3b3VsZCB3YW50IHRoZXNlIGNoYW5nZXMgdG8gYmUgZG9uZSwgb3Igd291bGQg
+d2FudCB0aGVzZSBjaGFuZ2VzIHRvIGJlIGRvbmUgZm9yIHRoZSB1cHN0cmVhbSBlbXVsYXRpb24g
+aGVscGVycyBhcyB3ZWxsLg0KDQpGb3IgcmVmZXJlbmNlOiBodHRwczovL2dpdGh1Yi5jb20vdG9y
+dmFsZHMvbGludXgvYmxvYi9tYXN0ZXIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVy
+LmMNCg0KUmVnYXJkcw0KQWRpdHlh
