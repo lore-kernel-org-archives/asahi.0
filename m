@@ -1,73 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9DD253358;
-	Fri, 21 Feb 2025 20:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2B125333B
+	for <asahi@lists.linux.dev>; Fri, 21 Feb 2025 20:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740169478; cv=none; b=uvdhm895TjRyZ6uE9mLj8y1F6SXpUOFwg9UkvWWWKs5tl5Z3iNhusWV5lFVCo2XD1LcpdY8pI2jhsjS4q45khLbb1MFbjBbAOYlxJE7OyhSzKUsTt34oNJGOLzLX1XgOSxD1KvY/5V8bpFaQ6dMiK4tM5++LiGzY6TbvY2ZV6RM=
+	t=1740169569; cv=none; b=frk39f2KqtB+/0/Pe5UU1cOFn0tyryUafU7HT8cOeE47nuan6ujD1fpkybp83hhSZ8qQWg1T0/VRI9Jt4S24Fq5ItAXeEwNVcbjW2sEKITK/GHx5ezqdNT7RrgTUTulxfVdDNHtbWYdY4yCLMpwzCQcXtzxrQLIWNl/oBQ7FBM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740169478; c=relaxed/simple;
-	bh=mBxOob9mR9l0oBnEHnalaehXgK5zljRRPtdejwjytTE=;
+	s=arc-20240116; t=1740169569; c=relaxed/simple;
+	bh=7HlkPlv9RaA45j5wq1XrEU1jlnPDHZG/VbqOejfstqk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kA41tvExsfnBegD0CrWg9qEhuGM7hXhZFq+0KhqYD6HtE3k7M+byUbjNGyLNzYq/623Dwl20AmVnRqlp2ytqTY68LZv6VlaRI91jwtsxXBQHkqtk9nTvWwHsqLCFk1G9oC7mMT0vND7V/mUF9g2+g+jI/tams/r6B0ayuiO0tk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UsLfve8U; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rNNDDAluuK2T4BFM9XwLQDnCIJW0N8uVO5k8fOlZ0RoPTmAaW2rATdXgE+pRg7zpI+ikzU/r8e7/m9qK4Gx2Vk4WItqqhbxb8KJUSXzWU8P3kWIkN6VvTeGISrejUIwsYK1JAiGcs8WTxqTU+zkmJ2TqH5wAnKC/53bFCioWymo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3qBOCb2; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UsLfve8U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61DD3C4CED6;
-	Fri, 21 Feb 2025 20:24:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740169477;
-	bh=mBxOob9mR9l0oBnEHnalaehXgK5zljRRPtdejwjytTE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UsLfve8UhiJdIdS7O/I4w2L9xjbFX0/6hNAk1uZEDS6mMBTEKyC+W/vroPDxIYwWL
-	 ZFdMgFV3HA6gwJDD0ZrR1Wbedb0dMXIVGivmiHKYgVIj8J683EEkeUB+jUnLXuFCMw
-	 DwUqYeTbi7DfUdo1TErzfzy2qffpXB/YNeVrdMtvaRlsTOdupQ74A/FLpV1uC7Z08j
-	 ZXj5GqRSlWgoZK3j+n77/CznraznV4auFXe88siGFwGqo7WWyLndWJubrT7nRUChhk
-	 /8b2ueOCmfIOvyWeO6vDKRsjjTTUmgi2c1/JYP80cHEI6ULW6Mf9FC0o8yclGEuBqY
-	 Q4EjSXPgJuWSA==
-Date: Fri, 21 Feb 2025 14:24:35 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	linux-kernel@vger.kernel.org, Dan Murphy <dmurphy@ti.com>,
-	linux-hwmon@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Baojun Xu <baojun.xu@ti.com>, Mark Brown <broonie@kernel.org>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Shi Fu <shifu0704@thundersoft.com>, Kevin Lu <kevin-lu@ti.com>,
-	Hector Martin <marcan@marcan.st>, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Neal Gompa <neal@gompa.dev>, Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH v2 04/29] ASoC: dt-bindings: tas2770: add compatible for
- TAS5770L
-Message-ID: <174016947515.19125.7118711540459460393.robh@kernel.org>
-References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
- <20250218-apple-codec-changes-v2-4-932760fd7e07@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3qBOCb2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740169567; x=1771705567;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7HlkPlv9RaA45j5wq1XrEU1jlnPDHZG/VbqOejfstqk=;
+  b=W3qBOCb2MIy9zECofuDzM+S7PsI42wzeU6BO0Q+jyvrYXct2GxcRg02d
+   0bZZuHhnlaeISr2eDqDyts6sNWzmZAilsa7TzsmsUzVSIk4VSiA4pOWSp
+   4kJUMx56cM5BmDnI/NP1iPvxMyc7byGu2h8kCsyJU4Omg93Hjb1jr8xyq
+   RqJFQQksHtyIFC57OSVI07Q/1LPOs9Qc7kszF9Lqy7L8zwna0kxWAWq/H
+   H5TaJ4OMFw8TCoqooYmukS2XTSTEyw3u3YI34e4IJYHbac18mOVNwl2QL
+   VwFT097CNYA3xekshIQrBtt/XVYgA8bEohrFBmRU9EZg+xaHTTWaTWa4K
+   w==;
+X-CSE-ConnectionGUID: 0ddVQRqUTz6A5PEyVz3U1A==
+X-CSE-MsgGUID: Z4W8uUCcSxerQ6PSSN8t8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="41264380"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="41264380"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:26:06 -0800
+X-CSE-ConnectionGUID: 8DTLyFp1Tb6qPxlmd/pqwA==
+X-CSE-MsgGUID: Kj59BScTSAaTFhqhmO42zA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="146309571"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:25:59 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tlZar-0000000DjzO-2hnW;
+	Fri, 21 Feb 2025 22:25:53 +0200
+Date: Fri, 21 Feb 2025 22:25:53 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	Atharva Tiwari <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
+ to BGR888
+Message-ID: <Z7jhUb0J0yaM_ROI@smile.fi.intel.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
+ <6623056D-2107-48FB-B18D-2DB90D8F78A2@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250218-apple-codec-changes-v2-4-932760fd7e07@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6623056D-2107-48FB-B18D-2DB90D8F78A2@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
+On Fri, Feb 21, 2025 at 05:21:08PM +0000, Aditya Garg wrote:
+> > On 21 Feb 2025, at 9:21 PM, andriy.shevchenko@linux.intel.com wrote:
+> > On Fri, Feb 21, 2025 at 11:36:00AM +0000, Aditya Garg wrote:
 
-On Tue, 18 Feb 2025 18:35:38 +1000, James Calligeros wrote:
-> A variant of TAS2770 known as TAS5770L is found in Apple Silicon Macs.
+...
+
+> >> + for (x = 0; x < pixels; x++) {
+> >> + pix = le32_to_cpu(sbuf32[x]);
+> >> + /* write red-green-blue to output in little endianness */
+> >> + *dbuf8++ = (pix & 0x00ff0000) >> 16;
+> >> + *dbuf8++ = (pix & 0x0000ff00) >> 8;
+> >> + *dbuf8++ = (pix & 0x000000ff) >> 0;
+> > 
+> > put_unaligned_be24()
+
+(1)
+
+> >> + }
+
+...
+
+> >> + static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
+> >> + 3,
+> >> + };
+> > 
+> > One line?
+> > 
+> > static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = { 3 };
 > 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/sound/ti,tas2770.yaml       | 1 +
->  1 file changed, 1 insertion(+)
+> Wrt all the above respective changes, the formatting has been done exactly like what other emulation helps do in the upstream patch.
 > 
+> I doubt Thomas would want these changes to be done, or would want these changes to be done for the upstream emulation helpers as well.
+> 
+> For reference: https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_format_helper.c
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+I'm not sure how this is applicable to (1) above. Otherwise it's fine if there
+is a documented style or due to consistency with the existing style.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
