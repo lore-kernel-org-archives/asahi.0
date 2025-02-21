@@ -1,151 +1,72 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E22205E02
-	for <asahi@lists.linux.dev>; Fri, 21 Feb 2025 10:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BE0D1FBEA3;
+	Fri, 21 Feb 2025 11:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740133785; cv=none; b=WjB71tep6UiVON9JB98mIjvBthMfhsz4EjWk7D8vIbKHnuTrGRCSGDyOLfllYzZa3WIqlGjioMmAGIHbPFfKqNm9rXT0A+0HC8uiArMiJ2z/O/HCt0Sv2nqmGMublbzrnd2+f8R0ZEnwYCJ0irCmkY19K19Os+wKhMWr9dEdKLI=
+	t=1740136048; cv=none; b=BVE0CMqbuyjwe4PTeBYa3ukUjnMQ2Y5CtvhToIu7bs2vfOb7CIp8RXkwCg6IzaVtEOoWCByHlaVrwNhZy9hXxPK5Jw7zm9tBvht5w0M4qxlOtEnVcqjtB1ZQkS+kq2y+GVokTKZ5YoDl52moedyZ4Si+LE2ZiS2qCiLK+M3MMPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740133785; c=relaxed/simple;
-	bh=h3ApYvzKTccF1XnzB7gk+k2ClnVcJjmA56TFYSxYExU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NznXzaYESMip2CkixzYHo2zTTXIGiG2zX/rTC2hW4GL49l/cPfDwf20APUQjtc20xr4+Eo9QN6m67alhVGDVRyLU+m550OY1HZVYpUyLYHWA5J5shAZbgtBHHItY2Kkndec00goZZtd/OsnN0OKqRh1FEdWvNv+yGf7u1PCNVz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=AdJhW8cq; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
+	s=arc-20240116; t=1740136048; c=relaxed/simple;
+	bh=OrLEWszAt2g2+uaXn+6b7I4pNNFvvjaXQB2Xr3LTA2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iYfa5T9L6RKsiO47ou+3bT8b3s3/cpJ2qO3XdRM3mZklZDUEqHIdmDB8l4GBwDF2i9VD0DyAiWQzlObmX6ty2X4atHZj0Rb5xNMbhN5eB9VZbV2ZYFJEwfic+4ZhhKKDO0nyRD1JLasMxwb9xRTAr/Z3k70Jl7r2fHE9+HMIju4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=2M5E8KCT; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="AdJhW8cq"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30615661f98so18624241fa.2
-        for <asahi@lists.linux.dev>; Fri, 21 Feb 2025 02:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1740133781; x=1740738581; darn=lists.linux.dev;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XBgTd9yS8bHj2inA4KCI/wGm8uZFJ13xmrkCLQobpyg=;
-        b=AdJhW8cqLfZ6cItQ7P+nGVNSwq7yudD3jB6aUhqJnErqxj81v5vmgPOY+RmX/D4PfX
-         76s4dWhjAg+m2WbQkIaO2XCSFZ3nvdHiSsa8XnIKREIDkczckjEtufHIpAKHA6Y0nR+A
-         C9TZE402XyJFHwYtLPtYE1BuBiBca/XnRZdQQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740133781; x=1740738581;
-        h=mime-version:user-agent:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XBgTd9yS8bHj2inA4KCI/wGm8uZFJ13xmrkCLQobpyg=;
-        b=b/264wxVsO76spCFOJS/TVFX8XRruNRNZqpU27w5KfdmnB4XpxBRf+PieC8OjNL8Mg
-         2ZoKXEhIvDfUUmO93fjBNd5gsY4Ez05Cr8gAPe03d0FgDmLnVZjjcspb6E6VfsenWGk9
-         XPloM4pXTKZPYvu2IQTLk4RGLX4hyfNmJVh/jRT1Yb0eJdIUm7kudIlRYRtjCmCz5qL+
-         MioLz8p7wmJeDhjqYn9rwmibJMzqdp9AQ9X/ijj4v3ChDqhHP1jRD6kM7dcnYjysMJJX
-         FjnbaJLytXtsmKXPL7iDKqUiA+eeK6K7wyjmITKttw3TaCkR6ZIIEibgZnuMDN3jY7Lv
-         g5GA==
-X-Forwarded-Encrypted: i=1; AJvYcCUGSjVw6Ojkmh+QbpUfa+uShewwdbZ7KK0e8n6KXStqdgzCw43tPJvGPR6Kh13NX3JmAOqmjw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhwmiD+aygRjrOpkx9b4k2zBuEBULf9cnsAkr/suSwBrdD+rQG
-	L/OoDvOzasj+j9yK5yvlkgtcz9Aqrbk+F6dYK51beONsnKa1HpnB5kfaUdYIbjk=
-X-Gm-Gg: ASbGnctmnGKSDl9sDrIkBTOE1VQsb5xGQIWqzIW75vwbecoNtsTIq8EDZn0GRcMmqLq
-	GmuJ1rn3M5XNzJBkfFdVbLr7GkwUJLodiO0ew7gGrcO7N5HyCOA+WkOwA94zGPWeuWdhxPIn3hH
-	jJedx3h0u+X1cMfSz+16MQlCoO0JbpGKe9lrpniu5DFO34ZSVdzWAfii6TXBywEn1IxolEoDPc0
-	EqxmreAU2M5uFHX2PZy+54G+Qrr/Lr1bwwVAriI+v6HWt1KY8o3NG1iBii0YyGLt0d4Qk7OKneo
-	M6aNrQOsh1NBhufUJ0l3C2OSIug=
-X-Google-Smtp-Source: AGHT+IEUOdqdqFnuqPXA4cgWINcdgxUl8JQ3ygr09PQ43kzULiZT56Khi3z1J3sj7fkaU8oDV/YSHQ==
-X-Received: by 2002:a05:651c:2120:b0:309:1f98:2848 with SMTP id 38308e7fff4ca-30a598e2984mr10302661fa.19.1740133781115;
-        Fri, 21 Feb 2025 02:29:41 -0800 (PST)
-Received: from localhost ([81.216.59.226])
-        by smtp.gmail.com with UTF8SMTPSA id 38308e7fff4ca-30a449aa148sm8429891fa.109.2025.02.21.02.29.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2025 02:29:40 -0800 (PST)
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk> 
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,  "rostedt@goodmis.org"
- <rostedt@goodmis.org>,  "andriy.shevchenko@linux.intel.com"
- <andriy.shevchenko@linux.intel.com>,  "senozhatsky@chromium.org"
- <senozhatsky@chromium.org>,  "corbet@lwn.net" <corbet@lwn.net>,
-  "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-  "mripard@kernel.org" <mripard@kernel.org>,  "tzimmermann@suse.de"
- <tzimmermann@suse.de>,  "airlied@gmail.com" <airlied@gmail.com>,
-  "simona@ffwll.ch" <simona@ffwll.ch>,  "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>,  "apw@canonical.com" <apw@canonical.com>,
-  "joe@perches.com" <joe@perches.com>,  "dwaipayanray1@gmail.com"
- <dwaipayanray1@gmail.com>,  "lukas.bulwahn@gmail.com"
- <lukas.bulwahn@gmail.com>,  "sumit.semwal@linaro.org"
- <sumit.semwal@linaro.org>,  "christian.koenig@amd.com"
- <christian.koenig@amd.com>,  "kekrby@gmail.com" <kekrby@gmail.com>,
-  "admin@kodeit.net" <admin@kodeit.net>,  Orlando Chamberlain
- <orlandoch.dev@gmail.com>,  "evepolonium@gmail.com"
- <evepolonium@gmail.com>,  "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>,  "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>,  "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,  "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>,  "linaro-mm-sig@lists.linaro.org"
- <linaro-mm-sig@lists.linaro.org>,  Hector Martin <marcan@marcan.st>,
-  "linux@armlinux.org.uk" <linux@armlinux.org.uk>,  "asahi@lists.linux.dev"
- <asahi@lists.linux.dev>,  Sven Peter <sven@svenpeter.dev>,  Janne Grunau
- <j@jannau.net>
-Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-In-Reply-To: <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com> (Aditya Garg's
-	message of "Thu, 20 Feb 2025 16:39:23 +0000")
-References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
-	<C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
-Date: Fri, 21 Feb 2025 11:29:40 +0100
-Message-ID: <871pvrpp4b.fsf@prevas.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="2M5E8KCT"
+Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id D0A7843239;
+	Fri, 21 Feb 2025 12:07:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1740136045;
+	bh=OrLEWszAt2g2+uaXn+6b7I4pNNFvvjaXQB2Xr3LTA2k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=2M5E8KCTzPNGrxqs18aAYCoIl9eUVImV5UHpfOg207LBMzwJYHq1CoQ+EYEvq/9rO
+	 dpQSRoMk/9zo7qNj8B4FNOZQJNsqmeHj9AWt43J7ZExMLvvPAEQxoKyGzs+K8z9DEx
+	 Ir+VvoMd8L3YLXlACO0Y9QrbmM1CDMUDLzjcp10d18ABnhXJNaqwbabuCruA4iuBJS
+	 X//lPVrj7j8NvfhEOAHJZ367reL5bJfnWXqK19e1vAuErHMMZbkOtyelvTSbJFdyk1
+	 R/Lpd8AvFuDFWxE1g5kxqJ/tXLRBTFoyLqVlGDNlaciO+07SKvzk3FD8T1TTmdDCa7
+	 F/IjpeYoedklA==
+Date: Fri, 21 Feb 2025 12:07:23 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: fnkl.kernel@gmail.com
+Cc: Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Hector Martin <marcan@marcan.st>, Rob Herring <robh@kernel.org>,
+	Janne Grunau <j@jannau.net>, Joerg Roedel <jroedel@suse.de>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Asahi Lina <lina@asahilina.net>
+Subject: Re: [PATCH] iommu/io-pgtable-dart: Only set subpage protection
+ disable for DART 1
+Message-ID: <Z7hea_LY7u_7_jTw@8bytes.org>
+References: <20250219-dart2-no-sp-disable-v1-1-9f324cfa4e70@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250219-dart2-no-sp-disable-v1-1-9f324cfa4e70@gmail.com>
 
-On Thu, Feb 20 2025, Aditya Garg <gargaditya08@live.com> wrote:
+On Wed, Feb 19, 2025 at 10:13:53AM +0100, Sasha Finkelstein via B4 Relay wrote:
+> From: Asahi Lina <lina@asahilina.net>
+> 
+> Subpage protection can't be disabled on t6000-style darts,
+> as such the disable flag no longer applies, and probably
+> even affects something else.
+> 
+> Fixes: dc09fe1c5edd ("iommu/io-pgtable-dart: Add DART PTE support for t6000")
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>  drivers/iommu/io-pgtable-dart.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-> v2 -> Add this patch
->  Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++
->  lib/test_printf.c                         | 39 +++++++++++++++++++----
->  lib/vsprintf.c                            | 38 ++++++++++++++++++----
-
-Yay! Thanks for remembering to include test cases.
-
->  
-> diff --git a/lib/test_printf.c b/lib/test_printf.c
-> index 59dbe4f9a..ee860327e 100644
-> --- a/lib/test_printf.c
-> +++ b/lib/test_printf.c
-> @@ -776,21 +776,46 @@ static void __init fwnode_pointer(void)
->  	software_node_unregister_node_group(group);
->  }
->  
-> +struct fourcc_struct {
-> +	u32 code;
-> +	const char *str;
-> +};
-> +
-> +static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
-> +				       const char *fmt)
-> +{
-> +	size_t i;
-> +
-> +	for (i = 0; i < n; i++)
-> +		test(fc[i].str, fmt, &fc[i].code);
-> +}
-> +
->  static void __init fourcc_pointer(void)
->  {
-> -	struct {
-> -		u32 code;
-> -		char *str;
-> -	} const try[] = {
-> +	struct fourcc_struct const try_cc[] = {
-
-I know it matches the code it replaces, but kernel style seems to be
-"const struct foo" rather than "struct foo const" (at around 130:1) -
-just as you use in the new helper function.
-
-Also, please consider changing the array, and the newly added instances,
-to be static instead of automatic (our le32_to_cpu should be usable also
-for static initializers).
-
-This will conflict with the conversion-to-kunit which is in flight, but
-the conflict should be trivial to resolve.
-
-Rasmus
+Applied, thanks.
