@@ -1,129 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FE41D86E8
-	for <asahi@lists.linux.dev>; Fri, 21 Feb 2025 15:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A875D229B2F;
+	Fri, 21 Feb 2025 17:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740153086; cv=none; b=sWwTaeDPVncax5MQEO4RP1gqGYXwMWBYb0+S/Zc2iGkAXNMkt4RMqe9XNEAfs+Xjveqy2kQHR2BZul/TEHe6gN/+QRiS+p5jC9dx9PDgdPW3R+v9e0Vc/18JUhaapFI+89cNBtUkb0+5wBzoOTmhNJHtT3w7R6JpJv+oUIhfE8o=
+	t=1740157574; cv=none; b=lHr43fDQ4icKyC0b8Ftm8d/0uoZpZx5jOJLiF+MUev2oBTbv4X7Q1GeG9rW5zrrgFPfKtOywSf0bzZGGxu0XiV9dfYFbTLHMGcU8bl8UfhbhV+xnUl8JihGMwqA/yWwUtATY8voOQ2UlpMe52IDhVE+TAVm+yTdh/Yvo6rTVdXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740153086; c=relaxed/simple;
-	bh=vPnGBuoiFN+rapBDrtIDIJGXal1oiR/Y9ccwXwbtNnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGupb3bfVPh6ZtiX4q5i+auHdpehOHtk0tlPDRYpA9yKDsnXFvB2JyZYaOwVhZQMwSNJKMnOfb6Wr29UsHnOJ4n0eCOc38nSvvZkxKBowKqiLotE0Oi4VKTh5wgHKyvTsROltcAD76qO54C3/TKlQpmd/g2Fv5S8UbOtp/MCuRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFS/44Zp; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740157574; c=relaxed/simple;
+	bh=6aTAG33GXbthnOFm9BMutu45WRm+bikg09wcb56nqGQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hGUmgkbLfy39QK1lTDtzWHnid5bERY8sdIKZrmzpCH2609nj/8RwrbSnDxVp8Y9B4jikNu7mOugrt3A/zdeTXu+I0m6xXMV1O/oQS01sw/8WNDsHlhUK1S4UxTKarYFfGVyMogUaqOs3HDpyfrLbu5F0HGzeBogVXFMvqEinyqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=yFd8hA1e; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFS/44Zp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740153085; x=1771689085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vPnGBuoiFN+rapBDrtIDIJGXal1oiR/Y9ccwXwbtNnc=;
-  b=eFS/44Zpqw3oOcfzORjLqXHY37K3NbygPjv8Irrc0ti11PY/oViHKuEN
-   3cpynLX99/JL3gDI2T40VivyRyr+5PXKkgZosKj4K6wjvjbG6qSNulDKV
-   m2vSq6DjwnM7RhLCTIzvp4m3+5DMJuxs8VO5Fojxqau6Ju5mID5W5nSmj
-   HZXgp/JO7nPalB9eNW1t+DO6GH1j3IMJUo0OSSyI7fcHf7ivzC3XnWOOm
-   1gOzifUnu8f+dlbw3ltr8SDiP+J6TdXqscNCCj+gA7AuLCNFn24JkEAKJ
-   EWo220bMmtcbDJvH9tNc0LIjTC4z1q0ygQ/Obxks1nx4tFsdTVuL228p7
-   A==;
-X-CSE-ConnectionGUID: ZoyCF6JmT3G1CxLCUN7RgQ==
-X-CSE-MsgGUID: sebdSNt6Rum82NPxkjwvGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="66340966"
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="66340966"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:51:24 -0800
-X-CSE-ConnectionGUID: bP+ES1DSSYups3Xn+KJcoA==
-X-CSE-MsgGUID: CuNXA0VLQISSIv90x3lSew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119525320"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:51:17 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tlVJ2-0000000DgNg-1aMo;
-	Fri, 21 Feb 2025 17:51:12 +0200
-Date: Fri, 21 Feb 2025 17:51:12 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>,
-	"tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"airlied@gmail.com" <airlied@gmail.com>,
-	"simona@ffwll.ch" <simona@ffwll.ch>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
-	Orlando Chamberlain <orlandoch.dev@gmail.com>,
-	Atharva Tiwari <evepolonium@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	Hector Martin <marcan@marcan.st>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
- to BGR888
-Message-ID: <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
-References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="yFd8hA1e"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id C9D854265F;
+	Fri, 21 Feb 2025 17:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1740157560; bh=6aTAG33GXbthnOFm9BMutu45WRm+bikg09wcb56nqGQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=yFd8hA1eSgRe4Ug0aYqGb7aycPGypHBBQk/E2E1VRzQLd6JVkGVyrAoP/YscN2mGc
+	 4hAQUZq8GpSFHGa9K+arnPQHbctCEgBL8ZAC0Epa2fFOYkTSXLP/U2KWYxY/qjDNPY
+	 Mg4x+MoSLAYrdd1GqRsCwF2iLC+EDOGkrJIXNhhlGDBAVgZte8p1bek9zMHy80ajE0
+	 HoTD8hDCN0x05ccySbXH5z9Q/Ti1jC0kv6XM6xetwWMgVzviSqWPa386XAu+593biT
+	 DOHi2820KsRXnN88gu+BGXSt2IzbzuyvDTyHHXobCZ9bJAF/C/zrFh+oiq6+zAmhHZ
+	 iVUsmCsljM2mg==
+Message-ID: <5f26b440-14ec-42f6-9d29-1657d88cf5a0@marcan.st>
+Date: Sat, 22 Feb 2025 02:05:58 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: Remove myself
+To: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, soc@lists.linux.dev,
+ David Airlie <airlied@redhat.com>, Simona Vetter <simona.vetter@ffwll.ch>
+References: <20250207-rm-maint-v1-1-10f069a24f3d@marcan.st>
+From: Hector Martin <marcan@marcan.st>
+Content-Language: en-US
+In-Reply-To: <20250207-rm-maint-v1-1-10f069a24f3d@marcan.st>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 21, 2025 at 11:36:00AM +0000, Aditya Garg wrote:
-> From: Kerem Karabay <kekrby@gmail.com>
-> 
-> Add XRGB8888 emulation helper for devices that only support BGR888.
+On 2025/02/07 3:21, Hector Martin wrote:
+> I no longer have any faith left in the kernel development process or
+> community management approach.
 
-...
+As I was rather brief in my commit message, I feel like I should expand
+on my reasons for leaving (particularly given a bunch of people [1]
+think everything is resolved after Linus' latest proclamation and we
+should just move on).
 
-> +	for (x = 0; x < pixels; x++) {
-> +		pix = le32_to_cpu(sbuf32[x]);
-> +		/* write red-green-blue to output in little endianness */
-> +		*dbuf8++ = (pix & 0x00ff0000) >> 16;
-> +		*dbuf8++ = (pix & 0x0000ff00) >> 8;
-> +		*dbuf8++ = (pix & 0x000000ff) >> 0;
+Many of you are probably familiar with my frustrations [2] with the
+kernel process, which form the background motivation, and I'm unlikely
+to have any desire to participate in kernel upstreaming again until some
+of them are resolved. Similarly, the issue of kernel maintainers
+attempting to block project progress, doing the Linux kernel version of
+Elon performing the nazi salute [3] (make no mistake, Ted knew exactly
+what he was doing with that line, and that it would be plausibly
+deniable by the actual nazis and those unaware of the cultural context
+or eager to grasp at straws to defend him), or generally being assholes,
+certainly had an impact.
 
-put_unaligned_be24()
+However, I should clarify that what pushed me over the point of no
+return and to not only resign as a maintainer but also cease all
+commitments to work on kernel code [4] was, specifically:
 
-> +	}
+- A pile-on [5] initiated by a kernel maintainer, which was apparently
+motivated by what can only be described as a blatant, deliberate
+mischaracterization of my words [6]. I can only assume this was a
+convenient excuse to lash out pent-up grudges against me in public.
+- The hypocrisy of complaining about posting on social media while
+posting and flaming about it on social media.
+- The mischaracterization of my social media posts as "brigading" (by
+three kernel maintainers including Linus, no less), which is a loaded
+term [7]. I have been the victim of *real* brigading by the kind of
+internet trolls who work to drive people to suicide, including
+successfully doing so to one of my friends [8], and it's not funny.
+- The accusation that the alleged brigading was a way of generating
+attention for donations [9], which is quite frankly disgusting.
+- Some even more disgusting stuff that came out in private and I will
+not elaborate on here.
+- The fact that all this came from kernel maintainers who I *thought* I
+could work with, have had multiple discussions with in public and
+private, and did not expect to privately hold grudges on me for a long
+time while putting on a face, only to release them all in public without
+so much as an attempt to discuss them in private.
 
-...
+I can deal with overt assholes, but I cannot deal with people who put on
+a friendly face in private only to do a 180° later in public and stab
+you in the back.
 
-> +	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-> +		3,
-> +	};
+Sima, I wish you the best in "derailing, sabotaging and maybe improving
+the Linux kernel from within" [10], but I have no hope left for your
+approach. If you truly believe you've spent more time "handling the
+fallout from my brigading" [11] (without ever communicating that to me;
+also you really seem attached to that word, perhaps it's time to learn
+what it means) than working on your approach lately, maybe it's time to
+reflect on whether I'm actually the problem, or the problem is that your
+approach also doesn't work.
 
-One line?
+Best of luck to this community and everyone part of it. I'm going to
+take a long, long break myself.
 
-	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = { 3 };
+[1] https://fosstodon.org/@airlied/114039656644172292
+[2]
+https://lore.kernel.org/lkml/208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st/
+[3] https://lore.kernel.org/lkml/20250208204416.GL1130956@mit.edu/
+[4] https://marcan.st/2025/02/resigning-as-asahi-linux-project-lead/
+[5] https://lore.kernel.org/lkml/Z6OzgBYZNJPr_ZD1@phenom.ffwll.local/
+[6] https://lwn.net/Articles/1009671/
+[7] https://hachyderm.io/@chandlerc/114001000657957325
+[8]
+https://www.vice.com/en/article/what-i-learned-from-near-an-emulation-legend-and-real-person/
+[9] https://lore.kernel.org/lkml/Z6YPfsDSNdRUskvp@phenom.ffwll.local/
+[10] https://chaos.social/@sima/113942119012147959
+[11] https://chaos.social/@sima/113962228220035362
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+- Hector
 
