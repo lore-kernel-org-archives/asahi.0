@@ -1,186 +1,173 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FA181728
-	for <asahi@lists.linux.dev>; Fri, 21 Feb 2025 15:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41FB21129A
+	for <asahi@lists.linux.dev>; Fri, 21 Feb 2025 15:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740150223; cv=none; b=czy6s4OY7cLz0ur4VsI5mCi4r4qi/JiHLC4kd0gEWaG0m0SOQYjFFwdlZO4HvEnqe2CZRbjse/3r2V0cUJ/5mQrqrgGs7XLRu5jZCs0hkbxC6lN1+BIamktQbYRmuVDy0d5H6H+0JiBM5dwhll5EPaEGcfLJkn3T+g4iLT/QU4A=
+	t=1740151636; cv=none; b=qGMr3J/UXbBqhIBjZygiYI/J7k4S3YMiImjh9PUNQIMkwGzgcEd58opiUgBJdjcXuAhBoiCrQifu0iIG43kYUlM5dzlv5wA1KWclUmd1AFC8ce/lhcMjRA4gM0H+7kXf7zpvmlFun3LrKFT57jPxfW75DOgHW5G6QCxSXPUeq4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740150223; c=relaxed/simple;
-	bh=gsnNSPpy3H9i0wRjy+ytwpp2TYwWOrgCWOPkgSZooRQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XBk0Q79GICLEmXzrMCSvaBeD1Q/BfLXJQh8CUECZgqm2WEQyBmHOj39vywDEHC8i6PsC5iBXA8EPQ5Qm51Ii7SQ/UeLVKbVNAdl0B0A9HYnZZJn+ObkX6TpofHvIT/57dSUN/QEzl+OfvXdAKDk2PISuuP2mnDX6gxSOeSH5fyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OCVmvSKR; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740151636; c=relaxed/simple;
+	bh=Sfehn+vxaohcVVAqSihS41naG90uu0O3ieV6HHFFTfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ttuGl8Pn+ni7AyYi12PG5GTz9aUKcCiPBuv7l19joWXapYerbJTky4QgGJ1rMgkG3NHrCEK7+EeHOtDVEuuqR3RJ865YwEr7H418z01hPPDrQQzXK0JvjUB6+P2TwA/NnF4z9eF/Q38lK9VTsYZ4xu7KPJtUQKhBDMdBSt7vs2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYhVXM39; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OCVmvSKR"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-220f4dd756eso44444715ad.3
-        for <asahi@lists.linux.dev>; Fri, 21 Feb 2025 07:03:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740150221; x=1740755021; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=pXQvWn8yA4pYClIty3dZm8IPvbcGvvyTtfzoets52jY=;
-        b=OCVmvSKRPCfQFDI6cmEoeNh++TFcc6dcPRVyRke5rxF/NpQ1vRa39B+08zOY0nQYPc
-         f/lpP8uk0mmlWCrgsCCMDEsJ0NJQ2rQOLROF/MzKKMO0o33F/62rkFaKdx2BeO6APNnF
-         oRC1MkeiP6gfD6vWdtfe0HbxbOEDWVe30dmOc27l2NFYYPEtWG1DpkkMv4+cHvKSoqPI
-         S5+tGo5PfqDBDpbaTQmgoEHNh9j9KQYUvIunxcwD/rC0uYaFyYLqkIvRKCDeITQ8EUdG
-         CwI4hbth5gwGV7jYbQorjE3hLDj+FCVTd9rgAurxrA+a0NzSIKUPstMuEAbCI8umi7Y5
-         tPBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740150221; x=1740755021;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pXQvWn8yA4pYClIty3dZm8IPvbcGvvyTtfzoets52jY=;
-        b=M8sMkidsEzaYWbLCgQdul5u1bogBCT5uSGHBarLFi7azldcwFHD1uhfSXALf6pCx2P
-         W6vSQ2GJgc8jQWv9pd/YXxcgKvsh0Blbvgwz5KFLuFvpgwTre0YUW1xyCLOO/FzETOLH
-         1G2TVRTAqWzaqBFyj0NZ8XCMgb6t1VUwWptTb+990T4H7+eclxZIhtIgAlVSiDHDrYeT
-         r8kP/7QUkirE9wp47lEVRTe+CBhzhWjCXF6K3c2+9mo9NwnDVyBrndNUWO0dX6jzcpCL
-         rJrsymvmFmZst9qakpgnA4o92BtJDn1vJsot903iITX1vIEaLCT+/br+eyU6xr76sfhG
-         gdkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbX4y4KcNBvd8uaFjDQXgeNmxrDNvN2vDhXO1jAec1VaB/pi+rgHwpBFmNtYPzXoQa93aYyA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywb9zr6iUE7I9/xSOc1cvLxq4AhO79kHvhlz8F/CkzTy0oaShDU
-	WWdx8EEg4Vg1GRgpGCWwLP12yWEC/Tt3o8o9W9wPzFbRznz+5p9R
-X-Gm-Gg: ASbGncuWgkuPK5tQEQ5VgEY0/PWqyWem+kFe+zZ3TTcumpttnpNY/LquArlV1+m5FrQ
-	LRz2KUzHYyH7yVVrgrxpVOBrsiVQT1kaimRhgoWIk5iuVKykyiM1Fjgn2o7macAx5lTa8Qr+wRk
-	XmrXiLu5SRwHY9n4xDWQWD8JpjQg/Ib664ttqazpfGCqzJoj+UcRFglXu2SLF0t9GbG7p8vIlDb
-	NEZr645PjJ2HOuTaTyRJ3CZnF11dFRQp3d1z6AeWdPof6MEXpgtptgqwiNAnZ7HeZZtHPonhroS
-	jHxGeLzsRpVA6YNCxNlRkTiSY1yaeK4e3RmsXYxDzviDi/5qx5teteCC1JzTUMj8R4BqI0SrwEQ
-	=
-X-Google-Smtp-Source: AGHT+IFvvlSHmnEHZenrLxnU2xsQDizN0mIChQ6nonulNZbyqK538np0l4F2iSLpvjGVmqAux4YHnQ==
-X-Received: by 2002:a17:903:32c5:b0:21f:658b:8ed5 with SMTP id d9443c01a7336-2219ff30c91mr54740935ad.6.1740150221366;
-        Fri, 21 Feb 2025 07:03:41 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d536457esm137995665ad.85.2025.02.21.07.03.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Feb 2025 07:03:40 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <409e8873-5ebd-41af-8162-30668271be6a@roeck-us.net>
-Date: Fri, 21 Feb 2025 07:03:38 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYhVXM39"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740151635; x=1771687635;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Sfehn+vxaohcVVAqSihS41naG90uu0O3ieV6HHFFTfg=;
+  b=RYhVXM39dyzhnSJeFNQBw60v7BzEv4dRfQEzXAu1k9uVi9Qpkm/R6miE
+   UmdaSYX6iTjS5bNKCq+6pV7D/08FLEY+lV1xBNUz+iN9gsu+i4NiF0VQF
+   GR+OYJcQONx0EINE8jb4YvdWClKio5f19Lx9Xz7Mxm5UQaFqND81qOgrv
+   8KVAozF2SMzT5j3xlW/M2qojm11suQ69+cR5L4nGpyRyFP+IztnPxJ+/c
+   O/AvQMwna6qoHO2KfR1PBrLOzMFibXWBvmHmU3DcTTjyzLwVal91sqKp9
+   tTI2N53o98tupdDGGHksUbaiki9gYfSJF5TaciyRHGUFcpHdjXyNmG98s
+   g==;
+X-CSE-ConnectionGUID: uD0lnAQYSS2fvZMoRP1FnQ==
+X-CSE-MsgGUID: ixEUGfleTNqhdv8LoIa4gA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="51614269"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="51614269"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:27:14 -0800
+X-CSE-ConnectionGUID: LLjaei35SCi8ziZO34FEIg==
+X-CSE-MsgGUID: naEziUDpSTKMRNtO8rc0Vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="152589752"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:27:06 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tlUvd-0000000Dg3A-1782;
+	Fri, 21 Feb 2025 17:27:01 +0200
+Date: Fri, 21 Feb 2025 17:27:00 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"kekrby@gmail.com" <kekrby@gmail.com>,
+	"admin@kodeit.net" <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	"evepolonium@gmail.com" <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z7ibRHb2FS1cTx0O@smile.fi.intel.com>
+References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
+ <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/29] ASoC: tas2770: expose die temp to hwmon
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>,
- Jean Delvare <jdelvare@suse.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
-References: <20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com>
- <20250218-apple-codec-changes-v2-14-932760fd7e07@gmail.com>
- <4e0e2ae0-c53d-444c-9d8a-d465be690232@roeck-us.net>
- <CAHgNfTzfK4HnYs+LDH7kcR+pZqSxT9YBZYQ=c+Mcpva4Vx=D_w@mail.gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <CAHgNfTzfK4HnYs+LDH7kcR+pZqSxT9YBZYQ=c+Mcpva4Vx=D_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 2/21/25 03:31, James Calligeros wrote:
-> On Wed, Feb 19, 2025 at 1:20 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> On 2/18/25 00:35, James Calligeros wrote:
->>> +static int tas2770_hwmon_read(struct device *dev,
->>> +                           enum hwmon_sensor_types type,
->>> +                           u32 attr, int channel, long *val)
->>> +{
->>> +     struct tas2770_priv *tas2770 = i2c_get_clientdata(to_i2c_client(dev));
->>> +     int ret;
->>> +
->>> +     switch (attr) {
->>> +     case hwmon_temp_input:
->>> +             ret = tas2770_read_die_temp(tas2770, (int *)val);
->>
->> Type casting a pointer like this is never a good idea. This only works
->> if sizeof(int) == sizeof(long).
+On Thu, Feb 20, 2025 at 04:39:23PM +0000, Aditya Garg wrote:
+> From: Hector Martin <marcan@marcan.st>
 > 
-> I will rework this when dropping the die temp sysfs interface. This
-> was mostly so that
-> I didn't have to change any of the code there, but since we're going
-> to drop that
-> anyway it's redundant.
+> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FOURCCs with various endian semantics:
 > 
->>> +             if (!ret)
->>> +                     *val *= 1000;
->>
->> The calculations in the previous patch suggest that this is wrong.
->>
->> Either case, this is redundant. The temperature is already displayed
->> as device specific sysfs attribute. Displaying it twice does not make sense.
->> I would suggest to either drop the sysfs attribute in the previous patch
->> or to drop this patch.
+> %p4ch   Host-endian
+> %p4cl	Little-endian
+> %p4cb	Big-endian
+> %p4cr	Reverse-endian
 > 
-> The calculation in the datasheet yields the temperature in degrees Celsius.
-> hwmon consumers expect temperatures in "millidegrees" Celsius as per the
-> sysfs interface documentation[1]. Regardless, as above I will likely rework this
+> The endianness determines how bytes are interpreted as a u32, and the
+> FOURCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> allow printing LSByte-first FOURCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
 
-Yes, I am well aware of that.
+...
 
-> when dropping the die temp sysfs interface so that things are a little
-> more logical.
-> 
+>  	orig = get_unaligned(fourcc);
+> -	val = orig & ~BIT(31);
+> +	switch (fmt[2]) {
+> +	case 'h':
+> +		val = orig;
+> +		break;
+> +	case 'r':
+> +		orig = swab32(orig);
+> +		val = orig;
+> +		break;
+> +	case 'l':
 
-Unless I really misread the code, tas2770_read_die_temp() doesn't return
-the temperature in degrees C.
+> +		orig = le32_to_cpu(orig);
+> +		val = orig;
+> +		break;
+> +	case 'b':
+> +		orig = be32_to_cpu(orig);
 
-Guenter
+I do not see that orig is a union of different types. Have you run sparse?
+It will definitely complain on this code.
+
+> +		val = orig;
+> +		break;
+> +	case 'c':
+> +		/* Pixel formats are printed LSB-first */
+> +		val = swab32(orig & ~BIT(31));
+> +		pixel_fmt = true;
+> +		break;
+> +	default:
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +	}
+
+...
+
+> -	*p++ = ' ';
+> -	strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> -	p += strlen(p);
+
+> +	if (pixel_fmt) {
+
+Technically we can avoid a boolean by checking fmt[2] again here, but I'm okay
+with a temporary holder.
+
+> +		*p++ = ' ';
+> +		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> +		p += strlen(p);
+> +	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
