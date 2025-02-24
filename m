@@ -1,42 +1,43 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEC0265CC6
-	for <asahi@lists.linux.dev>; Mon, 24 Feb 2025 18:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C6425A65E
+	for <asahi@lists.linux.dev>; Mon, 24 Feb 2025 18:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740420234; cv=none; b=AoqIcGISpalX0KnnIK044AOnyVpQ5jcIITPEKIH07E1XoadRXnbH8ufl+Ib52bgIH8vaB1R20FmPYnr5Cr34UJ+372Rcm0cfeWoBuPZmmpcKjQT5eN8kMTxOlprkwT2ScfHe/W9llN7W4lpG0xGKWBa3mAzYRlMM5fURIlnvV84=
+	t=1740420585; cv=none; b=Q57RANeQPwOqEovzj/FvDE2il9+yaO843nUZavppBUP3VdRdI6f4dRNvyA6bBxD73v5jvoOg1q1K+gmdfLnYX8prZ8Z1BRY5a6inja9oEVRhu5djLnfqWw08i7Mzi689k3xl1k+bLTxaH4U0w37Ndcy3Z7PgvOaKY2t8l3hMObE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740420234; c=relaxed/simple;
-	bh=5RpMAGSZ0ZNkJ3JooIv7O3KzA0gyrRIWj2o3HUgtdfg=;
+	s=arc-20240116; t=1740420585; c=relaxed/simple;
+	bh=+biPdGM2m07+krLN6dM0bs5s598OWWMgYVsk4soqUBQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XKtPzBxybbjtNU2URr/yjE4mYUSXL0ylc2MkXQ8chn+J9s3za4WUw9/GFZOaZGPfxN3uau/FI8lalCSOwxtzcF94FzgPBB27EBZmeihKMtwXX5z5HCIv2yTF59R/C7aRhc9HZy0QJpv83MUjTwLH8qFQmeMjDgdHbpQq/gSpv9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=QHb7XYev; arc=none smtp.client-ip=95.215.58.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=SjeJLhiS5wzP2+wcGtBU0kvID4LDBwnBiK/8Ovig8dhfkURbmw8Hf7ZgT2eMASfX5UKN1T5zT5qrCKfszHmUXYgBhy1vatsHjshoA76ccI9OFmUwciO9b8mFhIhOgVC+8XwyFsUYm0ZBx9HG4y0OqLJppLkRtWn9ZepfyQLBj9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=KzGuzFwz; arc=none smtp.client-ip=91.218.175.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="QHb7XYev"
-Date: Mon, 24 Feb 2025 13:03:44 -0500
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="KzGuzFwz"
+Date: Mon, 24 Feb 2025 13:09:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1740420229;
+	s=key1; t=1740420581;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nXUDp/2MWc9Zgcs/aIwBZ8FKfaDetZqTuesjivcVPQ8=;
-	b=QHb7XYevWDc6ou8iTHrXYw/+/PbT7u/UCDAqUt4Tn6FKYAMSPA6Y/46u0eX61MreH05wUo
-	uY2BM/JQk9Vh0Bowihp/4zl/aJG125Ng7VSzpI+39GCUFca7PWIsZ0RaeSpneisBBHxcTL
-	mH+OVHdjqQ4BeGy+UQeYTp7kffSBJTqQ76vZ5xxDUWo6eo+U8CrK/eupappRZJ7YtMOGB3
-	1yolobGSZ/PFOdLr51o8d5JmUeM1Hg1QSI289vCAJ0mb/MTEhSav2/xKj1hDmOK9HawGsP
-	iBVZxtfOLHgedn1TDLJ1d1o51bSfunrymeCjqLjol7jVNBgbfznjGUIlAyr0xA==
+	bh=dCf5LqC48vAXtMhWrnY55abItj7vuNet4puF6xMEx1o=;
+	b=KzGuzFwzVUZA8z++JLJuMsaluarmUd4hi6J59xuNydwpnDCqShcI9fvjgPi3dBPIftFarm
+	ido4UpUcUdee+gp8FoXmS0sn9VgmaNTTncGPyStbyImI2fWI4I2CM2am7Nz+j8X606/ArX
+	LKnawVpZCDtJwvHKWf+2yU/SRTk/lzW31vusI0gdTnhrJdLMUqkymInU2NlIsNuo/nOp6x
+	QW/Y/n0VcEsHj2O2ZyJgeb2dVT5XzfGSLO98WznNTludm4wkUTFccBaIVb+0GOnbPz+gvw
+	uY3xBL+6bu70T4usVXNX2GtLDLSby/XsFVtZ25S5YzgJ3f4jwttqENA5ScbLag==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 To: sven@svenpeter.dev
 Cc: Janne Grunau <j@jannau.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] soc: apple: rtkit: Add APPLE_RTKIT_PWR_STATE_INIT
-Message-ID: <Z7y0gJPD5-OQvyog@blossom>
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 2/4] soc: apple: rtkit: Implement OSLog buffers properly
+Message-ID: <Z7y14Q3ifu7U1tHI@blossom>
 References: <20250222-apple-soc-misc-v1-0-1a3af494a48a@svenpeter.dev>
- <20250222-apple-soc-misc-v1-1-1a3af494a48a@svenpeter.dev>
+ <20250222-apple-soc-misc-v1-2-1a3af494a48a@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -45,12 +46,24 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250222-apple-soc-misc-v1-1-1a3af494a48a@svenpeter.dev>
+In-Reply-To: <20250222-apple-soc-misc-v1-2-1a3af494a48a@svenpeter.dev>
 X-Migadu-Flow: FLOW_OUT
 
-> -	msg = FIELD_PREP(APPLE_RTKIT_MGMT_PWR_STATE, APPLE_RTKIT_PWR_STATE_ON);
-> +	msg = FIELD_PREP(APPLE_RTKIT_MGMT_PWR_STATE, APPLE_RTKIT_PWR_STATE_INIT);
+> +	if (ep == APPLE_RTKIT_EP_OSLOG) {
+> +		buffer->size = FIELD_GET(APPLE_RTKIT_OSLOG_SIZE, msg);
+> +		buffer->iova = FIELD_GET(APPLE_RTKIT_OSLOG_IOVA, msg) << 12;
+> +	} else {
+> +		buffer->size = FIELD_GET(APPLE_RTKIT_BUFFER_REQUEST_SIZE, msg) << 12;
+> +		buffer->iova = FIELD_GET(APPLE_RTKIT_BUFFER_REQUEST_IOVA, msg);
+> +	}
 
-Commit message doesn't match the code. Just adding the state doesn't
-imply a behaviour change but the patch is one. How about "Use INIT state
-instead of ON" or something to make explicit the behaviour change?
+The shifts are suspiciously asymmetric. Are we really sure this is
+correct? My guess is that both size & iova for both oslog & buffer need
+to be page-aligned, so all 4 lines should be shifted, and the bit
+offsets should be adjusted in turn, and the lower 12-bits in oslog_size
+and buffer_iova are reserved. But that's just a guess.
+
+Anyway if this logic is really what we want it deserves a comment
+because it looks like a typo.
+
+(Likewise later in the patch)
