@@ -1,240 +1,168 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5534F2505A4
-	for <asahi@lists.linux.dev>; Mon, 24 Feb 2025 09:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA6017B505
+	for <asahi@lists.linux.dev>; Mon, 24 Feb 2025 09:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740388763; cv=none; b=u1rSnO1wcmiUkaMcN/t6oujkQU69O1bomcZvrG+mMxa3gW9zLd3VqilVSBmmot1fAXZIZTqJfcuVcYt4uqMWxcN2T4YOc9UoDHoeIuBbLD4GBr8pit3PDWEXtFPcGgmH5RBrLyjNnyXIuRwmnhBScQe2zPfk5Ez108taizbZkDw=
+	t=1740390447; cv=none; b=CUhOYthcThOznoPq2Silkphk/0UtNUp919m3/eiJ6CGuWPrBmz9945srW4aKEO2HE9Je8qX3uT87imFIhua7eZI6e+HtnPtCc9IDoiMUhGkfFuso3qMac9p8R5vrjgY5e3fFqsSc5AP0d77E5X+luCY8bn8R2t1OCqPnANz64TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740388763; c=relaxed/simple;
-	bh=WxhgB3DQSpm+Uthl1tv9QFdkCDA3TFPmOYfG9aWFpx4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VulrU+MNt5csW960nlenfjKbSeh+6QJT77zub7qKMqYbQixNghraqoXVMJbb/P+a32pzsKDe6TBIVgaUQauuandZcyjN/c1v8A+rgrVYzz4Caxi+ino670Ot1eRYTed8DWL0ZzBHqJBwaQv6dctOQOc92l4fyPD99o8jdz97rfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wb+Jsj7I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i0Y/1qRp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wb+Jsj7I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i0Y/1qRp; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1740390447; c=relaxed/simple;
+	bh=+WTxUZC6daTEmaagLEmds/XTc+7JQgGYHuO1yDEuspo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IrNgzpcouyPuu23Xc8Wl6VGX5x63JWgcMczKtElkKmCRe9uGr+mDvNeqLh1qF0sLU2+EsdP0v3xZ42J0Zbg0OABCOHhRnYWuTP9SuJKvCbNf9QiK2/otjQT80656oV4eC9Qn75pUVdnRPxJ1QraOJGOaCoWcklaV1ZAaW3ieT+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bT2ICR5Y; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wb+Jsj7I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i0Y/1qRp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wb+Jsj7I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i0Y/1qRp"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 750F51F385;
-	Mon, 24 Feb 2025 09:19:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740388754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MUeXC9SaHe9uAW31bjD0z69kHpCXWhJvPxRzfHd0sR8=;
-	b=wb+Jsj7IMNXW1CZJEt4t7S/GKxENUHqzp0JeCJZySY3VU2GV98OT4M/bFNkzwqLwzTWBCX
-	cq7t4YmblfblPwr9Kag2NEM8PT8a0XAiiBWdUBv/ZHm57WtTlx7Eq/9swvN/Ab2XAovrVk
-	fVsD8lM6w+bXQtzsz7pytV//3YFtzzQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740388754;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MUeXC9SaHe9uAW31bjD0z69kHpCXWhJvPxRzfHd0sR8=;
-	b=i0Y/1qRpVYApLiFsHyOjS/xbthlujWKj3CRYiVOMsLRyByrSw2lw81heG+0j+M155KA0tn
-	PbS7ymOkM4BFzUDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wb+Jsj7I;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="i0Y/1qRp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1740388754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MUeXC9SaHe9uAW31bjD0z69kHpCXWhJvPxRzfHd0sR8=;
-	b=wb+Jsj7IMNXW1CZJEt4t7S/GKxENUHqzp0JeCJZySY3VU2GV98OT4M/bFNkzwqLwzTWBCX
-	cq7t4YmblfblPwr9Kag2NEM8PT8a0XAiiBWdUBv/ZHm57WtTlx7Eq/9swvN/Ab2XAovrVk
-	fVsD8lM6w+bXQtzsz7pytV//3YFtzzQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1740388754;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MUeXC9SaHe9uAW31bjD0z69kHpCXWhJvPxRzfHd0sR8=;
-	b=i0Y/1qRpVYApLiFsHyOjS/xbthlujWKj3CRYiVOMsLRyByrSw2lw81heG+0j+M155KA0tn
-	PbS7ymOkM4BFzUDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ADAB013332;
-	Mon, 24 Feb 2025 09:19:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lSQYKZE5vGeMYQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 24 Feb 2025 09:19:13 +0000
-Message-ID: <27efffe1-6562-4612-a748-893475ba02fa@suse.de>
-Date: Mon, 24 Feb 2025 10:19:13 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bT2ICR5Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740390446; x=1771926446;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+WTxUZC6daTEmaagLEmds/XTc+7JQgGYHuO1yDEuspo=;
+  b=bT2ICR5YhKL7qLMRyyaG2mtQb0x9lXzASSTMq78q5g0QXxQEm000K7ZW
+   go4SZKEXCLQh5pcrzqR6nKECmwPs0vzf2QikoXtg4dNBkLCrc/7OafJA/
+   2/oUBPRNKnZ7sDwdw8Kk+kaUJqflX0YAoyNU5ksfcGm030AhEcI+sTlKV
+   QYrvnrPCS7zfHeOinzyDTe8PGtUX9eZ3jedwWwgTtN9fY5a8RY3xhCOg8
+   wVSRQ/FdA3mqC4haJrwMKX2WSVKc4Qdkov4hD99OvHTDQ8mmuS6vKVjPc
+   wfknpS3mkGkSqwx9AcDG51ZkdYVS8dfPAYrqjWVfMaEV7Y4u3Ic93XRf0
+   w==;
+X-CSE-ConnectionGUID: ev1/ND3vS2WXc1PHm2i1nQ==
+X-CSE-MsgGUID: JPf6h6qpS6et+6e9GA9mbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="44789670"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="44789670"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 01:47:26 -0800
+X-CSE-ConnectionGUID: vQmcoqNlR3C0fKUshxY8iA==
+X-CSE-MsgGUID: oCE9LlNOTnOO77JGa4IywQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="121097706"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 01:47:19 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tmV3R-0000000EXdv-14JO;
+	Mon, 24 Feb 2025 11:47:13 +0200
+Date: Mon, 24 Feb 2025 11:47:12 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Aditya Garg <gargaditya08@live.com>,
+	"pmladek@suse.com" <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	Atharva Tiwari <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Message-ID: <Z7xAINooeB7zpnhf@smile.fi.intel.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
+ <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
+ <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
+ <Z7jlORk0MiMFTmp6@smile.fi.intel.com>
+ <E8256A03-5D13-4B8B-932D-70E734E580FE@live.com>
+ <6f7b0886-5f31-4ba9-b82e-e9d3614b504f@suse.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888 to
- BGR888
-To: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
- "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- "apw@canonical.com" <apw@canonical.com>, "joe@perches.com"
- <joe@perches.com>, "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Atharva Tiwari <evepolonium@gmail.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Hector Martin <marcan@marcan.st>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
- <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 750F51F385
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[linux.intel.com,live.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
-	FREEMAIL_CC(0.00)[suse.com,goodmis.org,rasmusvillemoes.dk,chromium.org,lwn.net,linux.intel.com,kernel.org,gmail.com,ffwll.ch,linux-foundation.org,canonical.com,perches.com,linaro.org,amd.com,kodeit.net,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,marcan.st,armlinux.org.uk,lists.linux.dev,svenpeter.dev,jannau.net];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	R_RATELIMIT(0.00)[to_ip_from(RLau4tukfh38qp3nirdnk14qe9)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f7b0886-5f31-4ba9-b82e-e9d3614b504f@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi
+On Mon, Feb 24, 2025 at 09:41:43AM +0100, Thomas Zimmermann wrote:
+> Am 22.02.25 um 10:07 schrieb Aditya Garg:
 
-Am 21.02.25 um 16:51 schrieb andriy.shevchenko@linux.intel.com:
-> On Fri, Feb 21, 2025 at 11:36:00AM +0000, Aditya Garg wrote:
->> From: Kerem Karabay <kekrby@gmail.com>
->>
->> Add XRGB8888 emulation helper for devices that only support BGR888.
-> ...
->
->> +	for (x = 0; x < pixels; x++) {
->> +		pix = le32_to_cpu(sbuf32[x]);
->> +		/* write red-green-blue to output in little endianness */
->> +		*dbuf8++ = (pix & 0x00ff0000) >> 16;
->> +		*dbuf8++ = (pix & 0x0000ff00) >> 8;
->> +		*dbuf8++ = (pix & 0x000000ff) >> 0;
-> put_unaligned_be24()
+...
 
-I'm all for sharing helper code, but maybe not here.
+> > > What padding, please? Why TCP UAPI headers do not have these attributes?
+> > > Think about it, and think about what actually __packed does and how it affects
+> > > (badly) the code generation. Otherwise it looks like a cargo cult.
+> > > 
+> > > > I tried removing __packed btw and driver no longer works.
+> > > So, you need to find a justification why. But definitely not due to padding in
+> > > many of them. They can go without __packed as they are naturally aligned.
+> > Alright, I did some debugging, basically printk sizeof(struct). Did it for both packed and unpacked with the following results:
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_request_header is 16
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_request_header_unpacked is 16
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_response_header is 20
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_response_header_unpacked is 20
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_simple_request is 32
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_simple_request_unpacked is 32
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_information is 65
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_information_unpacked is 68
+> 
+> In the unpacked version, there is a 3-byte gap after the 'bits_per_pixel' to
+> align the next field. Using __packed removes those gaps at the expense of
+> runtime overhead.
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_frame is 12
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_frame_unpacked is 12
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_footer is 80
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_footer_unpacked is 80
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request is 48
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_unpacked is 48
+> > 
+> > Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_response is 40
+> > Feb 22 13:02:04 MacBook kernel: size of struct appletbdrm_fb_request_response_unpacked is 40
+> > 
+> > So, the difference in sizeof in unpacked and packed is only in appletbdrm_msg_information. So, I kept this packed, and removed it from others. The Touch Bar still works.
+> > 
+> > So maybe keep just this packed?
+> 
+> The fields in the TCP header are aligned by design.
 
-- DRM pixel formats are always little endian.
-- CPU encoding is LE or BE.
-- Pixel-component order can be anything: RGB/BGR/etc.
+> Unfortunately, this hardware's protocol is not. And there's no way of fixing
+> this now. Just keep all of them packed if you want.
 
-So the code has a comment to explain what happens here. Adding that call 
-with the _be24 postfix into the mix would make it more confusing.
+It would be nice to see the difference in the code generation for the all
+__packed vs. only those that require it.
 
+> At least it's clear then
+> what happens. And if your hardware requires this, you can't do much anyway.
 
->
->> +	}
-> ...
->
->> +	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
->> +		3,
->> +	};
-> One line?
->
-> 	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = { 3 };
-
-I'd be ok, if there's a string preference in the kernel to use thins 
-style. Most of DRM doesn't AFAIK.
-
-Best regards
-Thomas
-
->
+One aspect (member level alignment) is clear but the other is not
+(object level alignment). I dunno if it makes sense to be pedantic about this,
+but would like to see the binary outcome asked for.
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+With Best Regards,
+Andy Shevchenko
+
 
