@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4AD25D55C;
-	Mon, 24 Feb 2025 11:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9896326BD8B;
+	Mon, 24 Feb 2025 11:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740395947; cv=none; b=eiWxjGn/JxK+rVnA9N0Wv82Gdq0+3/f+rzsp535Df69CvmBGj0q5MjU7muzJtt/NQKtlAULiypESYmHspU3WyDw7vkJxcq44eAkM4wvqxqKV5XMjdHBiVrNET7FrpF2KTMpd4AIOFQ6jK6hhLSWklckbt5SN+6EPMmRHY7Gfgzw=
+	t=1740395994; cv=none; b=C5VopyquN3FM8tjWnynQ2mbBlfnWrlbNY8kHMc01mgyEu0Zv7kKJiSamEQ8B5ynatZYv7KZlqW1YBmoxWKJj+GKfd9+CO7QFpFa1TaRW86kE3jJ8EAyyop+1HT24c+w1qaKuXDl1IeL9BwHys3AzHVtVqNGXtAChJcICGQVNX90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740395947; c=relaxed/simple;
-	bh=G23AKcUUhcPBQNTXagmQkFOIFePG7LUUEUlJGCkB2o8=;
+	s=arc-20240116; t=1740395994; c=relaxed/simple;
+	bh=f7BaXmA/i6cjvHiTSfCrSYaivOytH1GHzL/ySrXPPnw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=u5vOa3eElpeUtgLqXR+iSIVq2x/3GWGL7mE3Kkdma6SNsW3BDwjYNOLkwx06qjaP28DniWN2APHv8Bh0mUHDfCk33LNB1jNGzLZYdi8Msf1La5eEA8ZUWxAJ1Z2AU2eK/+eCuTs/h2Q3ehU+iO8jPahG+K49XW5rwbYAHn+1q7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fmyDgwrE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=crl4Nm9BQ830c215pSCCnpppIPdQIrMeQm/8gX6q9cd3YE50r+5cYjvAvxI/m+mBo2xvrgfYajYizxg30Hzjz/3tFf73UlUhmZOsEuifwYEMEsWr5kU69px8HwGBFDMlbYahZ6QpZUB9GitB7Po0vlBIlSYz4biDqHbxXBk3W0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bphc5cVX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fmyDgwrE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 009FAC4CEE6;
-	Mon, 24 Feb 2025 11:19:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bphc5cVX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0EBBC4CEE8;
+	Mon, 24 Feb 2025 11:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740395947;
-	bh=G23AKcUUhcPBQNTXagmQkFOIFePG7LUUEUlJGCkB2o8=;
+	s=k20201202; t=1740395994;
+	bh=f7BaXmA/i6cjvHiTSfCrSYaivOytH1GHzL/ySrXPPnw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fmyDgwrEuN3wRoi/6j8fSlveG6yK5hqsF2xtXm40I1SejK5WqtCyXUzOo/VurLChY
-	 GYT7BmVXmriyrN6WiH+rBv5zH17lC4ojzrdZmNjZnkru0RflQrTpVB1N0yLKRyI0wG
-	 ZdMWqBKNG57stU/7RrOPAnc6vx3bKNBE9wOyYtVWNKLVOkrJqCh/ATsZWf22D2uwDB
-	 XIYKJKqSqjgsNZYVt96SkG0RtfG04HOtYu8gbrEjg/7kBEeXiuEzqS6ZDezuva2ZTF
-	 Qfai7sm7AR5BZOpE1/ccinEx5p5voF4fNq7M9UB0JHMd71qjfInur4RdJf9q+2ThXw
-	 NeBVQJCDxwgFA==
+	b=bphc5cVXpYOotoA7rF6mTvaYimjWjtWzTqNCwQ14guVd0Rf0rv+JsCLnKIq2RlMOq
+	 zfkppt4WB2IiYvecFUPWU1CILikbUt81gw4+CmRUPwV2qaGzjfGUMruEA17cx4G8ao
+	 cBKDh7wydhDgmGQawmwlj/YCZsAk6SQS4heSlFI1qDOPSHk6n49jdX7TisywwawtKL
+	 i/v5cpG5ADKLOv/JZS4bRryV9tbu0p3ecLk64S7zCZqxB5zkVL+VShNJRoARdjHtlN
+	 JJnnR8cIFradC3cpyB8OSITx3l765PhfeBdzlzIu/f7le41K6u77J8ZAPYDy04TBg4
+	 U+tCHZ4IwbVOQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,12 +40,12 @@ Cc: Hector Martin <marcan@marcan.st>,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.12 24/28] apple-nvme: Release power domains when probe fails
-Date: Mon, 24 Feb 2025 06:17:55 -0500
-Message-Id: <20250224111759.2213772-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 16/20] apple-nvme: Release power domains when probe fails
+Date: Mon, 24 Feb 2025 06:19:09 -0500
+Message-Id: <20250224111914.2214326-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250224111759.2213772-1-sashal@kernel.org>
-References: <20250224111759.2213772-1-sashal@kernel.org>
+In-Reply-To: <20250224111914.2214326-1-sashal@kernel.org>
+References: <20250224111914.2214326-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.16
+X-stable-base: Linux 6.6.79
 Content-Transfer-Encoding: 8bit
 
 From: Hector Martin <marcan@marcan.st>
@@ -72,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index b1387dc459a32..df054cd38c3e3 100644
+index 396eb94376597..9b1019ee74789 100644
 --- a/drivers/nvme/host/apple.c
 +++ b/drivers/nvme/host/apple.c
-@@ -1518,6 +1518,7 @@ static struct apple_nvme *apple_nvme_alloc(struct platform_device *pdev)
+@@ -1517,6 +1517,7 @@ static struct apple_nvme *apple_nvme_alloc(struct platform_device *pdev)
  
  	return anv;
  put_dev:
@@ -83,9 +83,9 @@ index b1387dc459a32..df054cd38c3e3 100644
  	put_device(anv->dev);
  	return ERR_PTR(ret);
  }
-@@ -1551,6 +1552,7 @@ static int apple_nvme_probe(struct platform_device *pdev)
+@@ -1545,6 +1546,7 @@ static int apple_nvme_probe(struct platform_device *pdev)
+ out_uninit_ctrl:
  	nvme_uninit_ctrl(&anv->ctrl);
- out_put_ctrl:
  	nvme_put_ctrl(&anv->ctrl);
 +	apple_nvme_detach_genpd(anv);
  	return ret;
