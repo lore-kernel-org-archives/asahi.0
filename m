@@ -1,44 +1,49 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80DE264FAA
-	for <asahi@lists.linux.dev>; Mon, 24 Feb 2025 18:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FB42661BF
+	for <asahi@lists.linux.dev>; Mon, 24 Feb 2025 18:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740420656; cv=none; b=uibDa/c8ZOvx7klJIoZIWC2RYA9FfxA+6cGyp3RFjW1i06fTrXU3VEdf+yALd2Lxd0kthcdmXY5T8qb2eld3UR5OpebNYCQf2Dn7b2yqRM7cX63BUkQRtMT93S4GZ59Ta4oME7Z0j4r5mp6AWFt1DCV59EUtj2/DY0oTa2TT4bs=
+	t=1740420855; cv=none; b=MqSidHAo6+Bc0+C2zmNnRvRTPcS81cRGLyTi9PLdaY5+oKAoNP7ANITFb/gUt1YuollhyjSr5c/myg5S6FF6oQ2tSjI7h/Y4z+n46zE27NTdo0G1i69gEZXOJQsR9HuhTdU75yYvaHnpSzqJor7wCUaiWzxXC8+7Cih9jJuAKkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740420656; c=relaxed/simple;
-	bh=IgHRIP28Yr331rvfAKunANLb05fctXf/yo4cvTXSn7A=;
+	s=arc-20240116; t=1740420855; c=relaxed/simple;
+	bh=ZN3Ihn6EsLUJTBURhLPF5P8bSUi7bCUUU5fDPoRxWfE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CuKrQK9aQYavAT1AbCOWvgQYKRPWILOArz7lDqMm8IYCFutXME050ZWlG1C9S69y70Tbm8wHMGmJSOrMauD0yK4rJUgVARp20h/M/pnW1wGD2CNoW7n4vq69wvm7QhTpMxhRz+qm4+pLVqiTT+FpU6KxnfiVodgjCgb4S+Eaq9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=JU8IdZ8Z; arc=none smtp.client-ip=95.215.58.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=QUPisUXGrlxaT6hse0M+dZmjWdSIqT/kiW51Pl6x44SXzRKZId2IhLMKkLv2acaQJK/iMZ8k95yR+WoB833uqRhM0V6Ax/xj7qdQ5ay6z+LAfpIRxvxVeg0i+xMMfcBhL3SW4cy9LepAwR1wEoPA9KQEePw/pFj1rn0PXAx/Ir0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=aduryPCe; arc=none smtp.client-ip=95.215.58.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="JU8IdZ8Z"
-Date: Mon, 24 Feb 2025 13:10:41 -0500
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="aduryPCe"
+Date: Mon, 24 Feb 2025 13:14:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1740420653;
+	s=key1; t=1740420849;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mjyHwCSZNLK4SVIWWoNCwaf/Co4pdr2aVmA/QrJzipg=;
-	b=JU8IdZ8ZDCt/ifhh1hA5Q6whezAiqU8735YHxd82xnDW3c4RBmNxkIUBsjkipWbfwvQQZ4
-	HbjbPDYa9AzrlyPUehZLxnEXRpWOdjV1J0dYqvuTBM9OAM2XKhRwMacnfczZR++xe0nlgy
-	aNIY9CgT7coDH3eINfF+kduJLrOQqoiYZ4bhGpEqOjEO6f1fyDABbbo/wqG4cinRE3b69A
-	YgLeg0qbmA0+tbfuUsOS8OUlZz84jj7W+fmWmjwpeHI0l5XLtvn85TBzXm0USVQe2MlEiY
-	b7VAHIVrd4BO8MPriYcuCvXBEbDByMPPc77bUBGaFFqIu4wSlkj7ByDsQm5fnQ==
+	bh=jyfu63sfgIIzRlQ97A+OgOAA0wyg2MUg45/jU8ca2fA=;
+	b=aduryPCeM4tYkhcg7JxYGA3aRnwlpUI1Cqzuy3sVeDAA0L48aQpcZ1bZwNGSlWhZ3w1dNr
+	M22gflzi1zaZGF+1ATAGhaYUrHhRiDO5bcWElFAMfvY6sYED66CiygBcpjtoQJCCierjoo
+	WHw3oT1zrv2m181ST4yvz2KBT7q4tAfHUCFo8tFyafzjfV1GBF9GF0V3XFFRifqDZQGF2L
+	MMt+13+CjKteS6y3hyeQRFtMDCjcYm/sjxyw1j59m5aZnMa9YQ+tbPkGsN/r46yRo1FXGg
+	wRPsPIBQzcKuVIX+3mn0W5aZFiFJYBSS6hqAvwg9t0xibzpOULojUQ9SDljZnQ==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 To: sven@svenpeter.dev
-Cc: Janne Grunau <j@jannau.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] soc: apple: rtkit: Cut syslog messages after the
- first '\0'
-Message-ID: <Z7y2IdBJbIWOpz8r@blossom>
-References: <20250222-apple-soc-misc-v1-0-1a3af494a48a@svenpeter.dev>
- <20250222-apple-soc-misc-v1-4-1a3af494a48a@svenpeter.dev>
+Cc: Janne Grunau <j@jannau.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 0/4] Apple/PASemi i2c error recovery fixes
+Message-ID: <Z7y26r88nrK2QKVN@blossom>
+References: <20250222-pasemi-fixes-v1-0-d7ea33d50c5e@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,40 +53,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250222-apple-soc-misc-v1-4-1a3af494a48a@svenpeter.dev>
+In-Reply-To: <20250222-pasemi-fixes-v1-0-d7ea33d50c5e@svenpeter.dev>
 X-Migadu-Flow: FLOW_OUT
 
 Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-Le Sat , Feb 22, 2025 at 04:56:49PM +0000, Sven Peter via B4 Relay a écrit :
-> From: Janne Grunau <j@jannau.net>
+Le Sat , Feb 22, 2025 at 01:38:32PM +0000, Sven Peter via B4 Relay a écrit :
+> Hi,
 > 
-> Certain messages from DCP contain NUL bytes in the random data after the
-> NUL terminated syslog message. Since the syslog message ends with '\n'
-> this results in a dev_info() message terminated with two newlines and an
-> empty printed line in the kernel log.
+> This series adds a few fixes/improvements to the error recovery for
+> Apple/PASemi i2c controllers.
+> The patches have been in our downstream tree and were originally used
+> to debug a rare glitch caused by clock strechting but are useful in
+> general. We haven't seen the controller misbehave since adding these.
 > 
-> Signed-off-by: Janne Grunau <j@jannau.net>
+> Best,
+> 
+> Sven
+> 
 > Signed-off-by: Sven Peter <sven@svenpeter.dev>
 > ---
->  drivers/soc/apple/rtkit.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Hector Martin (3):
+>       i2c: pasemi: Improve error recovery
+>       i2c: pasemi: Enable the unjam machine
+>       i2c: pasemi: Log bus reset causes
 > 
-> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-> index b7f4654c3341..595efce265ce 100644
-> --- a/drivers/soc/apple/rtkit.c
-> +++ b/drivers/soc/apple/rtkit.c
-> @@ -476,7 +476,7 @@ static void apple_rtkit_syslog_rx_log(struct apple_rtkit *rtk, u64 msg)
->  
->  	log_context[sizeof(log_context) - 1] = 0;
->  
-> -	msglen = rtk->syslog_msg_size - 1;
-> +	msglen = strnlen(rtk->syslog_msg_buffer, rtk->syslog_msg_size - 1);
->  	while (msglen > 0 &&
->  		   should_crop_syslog_char(rtk->syslog_msg_buffer[msglen - 1]))
->  		msglen--;
+> Sven Peter (1):
+>       i2c: pasemi: Add registers bits and switch to BIT()
 > 
+>  drivers/i2c/busses/i2c-pasemi-core.c | 121 ++++++++++++++++++++++++++---------
+>  1 file changed, 92 insertions(+), 29 deletions(-)
+> ---
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> change-id: 20250220-pasemi-fixes-916cb77404ba
+> 
+> Best regards,
 > -- 
-> 2.34.1
+> Sven Peter <sven@svenpeter.dev>
 > 
 > 
