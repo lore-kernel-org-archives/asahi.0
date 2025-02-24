@@ -1,340 +1,270 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F1725A34A;
-	Mon, 24 Feb 2025 11:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08535194A44
+	for <asahi@lists.linux.dev>; Mon, 24 Feb 2025 11:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740394939; cv=none; b=a/7wxchQHXQFchy99KXeZZT0rCTQm6fkxIPLJlo7H5RJfq6786intIFaoh2CpHftEXusUPgAvqgRNAPKIMSPa6RrZuISr2Q9zSYLUqVs2ikZJTUJzxYRqoFhmCJd+8EPP+mkFOUsHo7ZcXE4ycf3172X9te3Z6nNoTZEaenT6yc=
+	t=1740395298; cv=none; b=FukRsbNpL4EyqL0/7yfjujMs2Sq9USeU/or6BKI+LUkmCUYm34tkDhO7HEAdlQvNfzKGt5yDChDrTC0GMzlGLRRGg4EivhpwwXbj+t7UGSUQjrafSqGmcNWf64OYAbJKVsZYLmwfeA3IW1lsDt4K75HYAJ3zHt74s2p7UxWsvrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740394939; c=relaxed/simple;
-	bh=a+4TRnbDCqyLC8W0M0u+rtawQ83N83YT2yK4cftn09s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fEOZ2Ylb1segj7zFwoFQSLUqqbRkr3KCwRdG0UbtvT9+iIuFoYgO5WHIJcG4MYN1AzIg5qXPP+rE7JnVKNub4qlqNVGBEvXZQT25RO/+1CuXz8oRpTTv/p7kum2TG8cn6Gp5ZaUiukUwLRYwgfby8cr8qgCP7T3gYh4GUOeHQZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jtm1ipZs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740395298; c=relaxed/simple;
+	bh=+bj9TUWSVPgERJhVOUOhdnz5BUn+Nqce9y0/GnlRvhc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vdaz6jaZX+GTshDG1oaIlG7D6n95liAjvVcNbCY+gurVFvU/n1DZ4Unq5DcR8eXT1XA5/t1+hUTgb4Oxr8T11fc9spdmjIe3rlDF25nc/5bAlimDVQVO6rbxJ5rNtbJKyO62ro07I04kAQ3QW/6kg+pJaveQAKnIt1Y1VUNS3xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ND4Ysoie; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jtm1ipZs"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4F54CC4CED6;
-	Mon, 24 Feb 2025 11:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740394938;
-	bh=a+4TRnbDCqyLC8W0M0u+rtawQ83N83YT2yK4cftn09s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=jtm1ipZslTxrUxMXE4v+bY0l8Rd6NkmdaKa3sWo/vACxL0/naI7n70ocMhoCjeCVL
-	 c1luUWTOXJQIjD5GaLFPg2OBQlqAMhoDDBSGf9j/kgfsui1zwlKE5nORZ0Dy21ei+H
-	 2N4s4L3dDt2aC4dtuRl0c1j7g9piYK3sDiPo/PLgFB1ZfRFAeQP25/raRubga8lvVj
-	 rfaEKozSuXSPrMl0HNucEQaL9trGA4iBFvafL8/e6o9sQg/nR1EK8vzjC0EjML6Hp9
-	 Gy8C3zlatshyGZk5NeePAeZMWGF+jjQynw8ljybZ0fV1Nb2UfYATSbUyFfo3WU8nTG
-	 Ukk9lBTlPN0kA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44720C021A6;
-	Mon, 24 Feb 2025 11:02:18 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Mon, 24 Feb 2025 12:02:16 +0100
-Subject: [PATCH v8 1/5] dt-bindings: display: Add Apple pre-DCP display
- controller
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ND4Ysoie"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740395298; x=1771931298;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=+bj9TUWSVPgERJhVOUOhdnz5BUn+Nqce9y0/GnlRvhc=;
+  b=ND4YsoiesUoFwVDlZRHLX/VaIXrtJvHEvzuj/TLafTjM5Ghe1j3w1UKE
+   1qHT4q/uCPRWU33tYvOnq9vLaSxojMznJd7KT1DifQby4CZFGQe8FPaOl
+   1/xKTW+r9xJecfYNdRYZybEtV7x8W12BQxm1Xt3moP6/LtYxM3l9INcWO
+   T7EUBfKAfAVQz56wMLcuTsoqYn4DoA8hgDyZ8xnaLHvLeFBLcJWSbGEcX
+   Y1divfJRoTYM6rwmiNnZJtLcGFxhOLvOY/DDi1WCKb3c/CTdsZu6AD+kQ
+   v+mLjTFCtQpz4aspqzEz0mtpq52jQ/M2mRjizdLoorUfuoul2B8vydEtC
+   Q==;
+X-CSE-ConnectionGUID: C8QomihZS6a7R8XSB2EIQw==
+X-CSE-MsgGUID: EixLRNIcRDyu3PvMyGH9AQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="51360128"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="51360128"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 03:08:17 -0800
+X-CSE-ConnectionGUID: O4T5s7cXTIuKxm+0XBk71Q==
+X-CSE-MsgGUID: jZxjePmpRKCIIK96ijhV0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="115754660"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 03:08:08 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tmWJf-0000000Efx0-3Z7y;
+	Mon, 24 Feb 2025 13:08:03 +0200
+Date: Mon, 24 Feb 2025 13:08:03 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"kekrby@gmail.com" <kekrby@gmail.com>,
+	"admin@kodeit.net" <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	"evepolonium@gmail.com" <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z7xTE4jKsloFw2mq@smile.fi.intel.com>
+References: <PNZPR01MB4478E080F6EDAFC6C34A08A6B8C12@PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250224-adpdrm-v8-1-cccf96710f0f@gmail.com>
-References: <20250224-adpdrm-v8-0-cccf96710f0f@gmail.com>
-In-Reply-To: <20250224-adpdrm-v8-0-cccf96710f0f@gmail.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
- Janne Grunau <j@jannau.net>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alyssa Ross <hi@alyssa.is>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Neal Gompa <neal@gompa.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740394936; l=7350;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=WfWNX2qd2LMsuVRTJjIwpLZ5EHqBKnuNB1L8yU2L/wI=;
- b=wQ3uzk4xWgKwyxvbYM7jweeJiyet1/OMv9Luj6E20IjFh8MvKFJveUIzgDvx2XUjgaW/tjGC6
- zslYBVRx25CDajisT00+eCBbuN0vxsisY6VgU4jHC5yDOKzf/BmW/Cg
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PNZPR01MB4478E080F6EDAFC6C34A08A6B8C12@PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Sun, Feb 23, 2025 at 06:39:15AM +0000, Aditya Garg wrote:
+> > On 22 Feb 2025, at 5:41 PM, Aditya Garg <gargaditya08@live.com> wrote:
+> >> On 21 Feb 2025, at 8:57 PM, andriy.shevchenko@linux.intel.com wrote:
+> >>> On Thu, Feb 20, 2025 at 04:39:23PM +0000, Aditya Garg wrote:
 
-Add bindings for a secondary display controller present on certain
-Apple laptops.
+...
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- .../display/apple,h7-display-pipe-mipi.yaml        | 83 ++++++++++++++++++++
- .../bindings/display/apple,h7-display-pipe.yaml    | 88 ++++++++++++++++++++++
- .../bindings/display/panel/apple,summit.yaml       | 58 ++++++++++++++
- 3 files changed, 229 insertions(+)
+> >>> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> >>> it's useful to be able to print generic 4-character codes formatted as
+> >>> an integer. Extend it to add format specifiers for printing generic
+> >>> 32-bit FOURCCs with various endian semantics:
+> >>> %p4ch   Host-endian
+> >>> %p4cl Little-endian
+> >>> %p4cb Big-endian
+> >>> %p4cr Reverse-endian
+> >>> The endianness determines how bytes are interpreted as a u32, and the
+> >>> FOURCC is then always printed MSByte-first (this is the opposite of
+> >>> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> >>> allow printing LSByte-first FOURCCs stored in host endian order
+> >>> (other than the hex form being in character order, not the integer
+> >>> value).
+> >> ...
+> >>> orig = get_unaligned(fourcc);
+> >>> - val = orig & ~BIT(31);
+> >>> + switch (fmt[2]) {
+> >>> + case 'h':
+> >>> + val = orig;
+> >>> + break;
+> >>> + case 'r':
+> >>> + orig = swab32(orig);
+> >>> + val = orig;
+> >>> + break;
+> >>> + case 'l':
+> >>> + orig = le32_to_cpu(orig);
+> >>> + val = orig;
+> >>> + break;
+> >>> + case 'b':
+> >>> + orig = be32_to_cpu(orig);
+> >> I do not see that orig is a union of different types. Have you run sparse?
+> >> It will definitely complain on this code.
+> > 
+> > After messing around with this, what I’ve noticed is that orig and val used
+> > in this struct should be u32. Now in case of little endian and big endian,
+> > that things are messy. The original code by Hector was using le32_to_cpu on
+> > orig, which itself is declared as a u32 here (maybe was done with the
+> > intention to convert le32 orig to u32 orig?).
+> > 
+> > Anyways, what I have done is that:
+> > 
+> > 1. Declare new variable, orig_le which is __le32.
+> > 2. Instead of doing orig = le32_to_cpu(orig); , we can do orig_le =
+> > cpu_to_le32(orig). This fixes the sparse warning: cast to restricted __le32
+> > 3. Now the original code was intending to use val=orig=le32_to_cpu(orig) at
+> > the bottom part of this struct. Those parts also require val and orig to be
+> > u32. For that, we are now using le32_to_cpu(orig_le). Since val is same as
+> > orig, in case these cases, instead of making a val_le, I’ve simply used
+> > orig_le there as well.
+> > 
+> > Similar changes done for big endian.
+> > 
+> > So, the struct looks like this now:
+> > 
+> > static noinline_for_stack
+> > char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> >           struct printf_spec spec, const char *fmt)
+> > {
+> >   char output[sizeof("0123 little-endian (0x01234567)")];
+> >   char *p = output;
+> >   unsigned int i;
+> >   unsigned char c;
+> >   bool pixel_fmt = false;
+> >   u32 orig, val;
+> >   __le32 orig_le;
+> >   __be32 orig_be;
+> > 
+> >   if (fmt[1] != 'c')
+> >       return error_string(buf, end, "(%p4?)", spec);
+> > 
+> >   if (check_pointer(&buf, end, fourcc, spec))
+> >       return buf;
+> > 
+> >   orig = get_unaligned(fourcc);
+> >   switch (fmt[2]) {
+> >   case 'h':
+> >       val = orig;
+> >       break;
+> >   case 'r':
+> >       orig = swab32(orig);
+> >       val = orig;
+> >       break;
+> >   case 'l':
+> >       orig_le = cpu_to_le32(orig);
+> >       break;
+> >   case 'b':
+> >       orig_be = cpu_to_be32(orig);
+> >       break;
+> >   case 'c':
+> >       /* Pixel formats are printed LSB-first */
+> >       val = swab32(orig & ~BIT(31));
+> >       pixel_fmt = true;
+> >       break;
+> >   default:
+> >       return error_string(buf, end, "(%p4?)", spec);
+> >   }
+> > 
+> >   for (i = 0; i < sizeof(u32); i++) {
+> >       switch (fmt[2]) {
+> >       case 'h':
+> >       case 'r':
+> >       case 'c':
+> >           c = val >> ((3 - i) * 8);
+> >           break;
 
-diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..5e6da66499a508c001670f68fa00d6bab13591d6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
-@@ -0,0 +1,83 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/apple,h7-display-pipe-mipi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple pre-DCP display controller MIPI interface
-+
-+maintainers:
-+  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+
-+description:
-+  The MIPI controller part of the pre-DCP Apple display controller
-+
-+allOf:
-+  - $ref: dsi-controller.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,t8112-display-pipe-mipi
-+          - apple,t8103-display-pipe-mipi
-+      - const: apple,h7-display-pipe-mipi
-+
-+  reg:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Input port. Always connected to the primary controller
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Output MIPI DSI port to the panel
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+required:
-+  - compatible
-+  - reg
-+  - ports
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    dsi@28200000 {
-+        compatible = "apple,t8103-display-pipe-mipi", "apple,h7-display-pipe-mipi";
-+        reg = <0x28200000 0xc000>;
-+        power-domains = <&ps_dispdfr_mipi>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+
-+                dfr_adp_out_mipi: endpoint {
-+                    remote-endpoint = <&dfr_adp_out_mipi>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+
-+                dfr_panel_in: endpoint {
-+                    remote-endpoint = <&dfr_mipi_out_panel>;
-+                };
-+            };
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..102fb1804c0c0b84f590e507ca2d526948e98f68
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-@@ -0,0 +1,88 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/apple,h7-display-pipe.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple pre-DCP display controller
-+
-+maintainers:
-+  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+
-+description:
-+  A secondary display controller used to drive the "touchbar" on
-+  certain Apple laptops.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,t8112-display-pipe
-+          - apple,t8103-display-pipe
-+      - const: apple,h7-display-pipe
-+
-+  reg:
-+    items:
-+      - description: Primary register block, controls planes and blending
-+      - description:
-+          Contains other configuration registers like interrupt
-+          and FIFO control
-+
-+  reg-names:
-+    items:
-+      - const: be
-+      - const: fe
-+
-+  power-domains:
-+    description:
-+      Phandles to pmgr entries that are needed for this controller to turn on.
-+      Aside from that, their specific functions are unknown
-+    maxItems: 2
-+
-+  interrupts:
-+    items:
-+      - description: Unknown function
-+      - description: Primary interrupt. Vsync events are reported via it
-+
-+  interrupt-names:
-+    items:
-+      - const: be
-+      - const: fe
-+
-+  iommus:
-+    maxItems: 1
-+
-+  port:
-+    $ref: /schemas/graph.yaml#/properties/port
-+    description: Output port. Always connected to apple,h7-display-pipe-mipi
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/apple-aic.h>
-+    display-pipe@28200000 {
-+        compatible = "apple,t8103-display-pipe", "apple,h7-display-pipe";
-+        reg = <0x28200000 0xc000>,
-+              <0x28400000 0x4000>;
-+        reg-names = "be", "fe";
-+        power-domains = <&ps_dispdfr_fe>, <&ps_dispdfr_be>;
-+        interrupt-parent = <&aic>;
-+        interrupts = <AIC_IRQ 502 IRQ_TYPE_LEVEL_HIGH>,
-+                     <AIC_IRQ 506 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "be", "fe";
-+        iommus = <&displaydfr_dart 0>;
-+
-+        port {
-+            dfr_adp_out_mipi: endpoint {
-+                remote-endpoint = <&dfr_mipi_in_adp>;
-+            };
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/display/panel/apple,summit.yaml b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..f081755325e97ad58b831893b84082cc10f8d5e3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
-@@ -0,0 +1,58 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/apple,summit.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple "Summit" display panel
-+
-+maintainers:
-+  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+
-+description:
-+  An OLED panel used as a touchbar on certain Apple laptops.
-+  Contains a backlight device, which controls brightness of the panel itself.
-+  The backlight common properties are included for this reason
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - $ref: /schemas/leds/backlight/common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,j293-summit
-+          - apple,j493-summit
-+      - const: apple,summit
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - max-brightness
-+  - port
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        panel@0 {
-+            compatible = "apple,j293-summit", "apple,summit";
-+            reg = <0>;
-+            max-brightness = <255>;
-+
-+            port {
-+                endpoint {
-+                    remote-endpoint = <&dfr_bridge_out>;
-+                };
-+            };
-+        };
-+    };
-+...
+> >       case 'l':
+> >           c = le32_to_cpu(orig_le) >> ((3 - i) * 8);
+> >           break;
+> >       case 'b':
+> >           c = be32_to_cpu(orig_be) >> ((3 - i) * 8);
+> >           break;
+
+This doesn't look right. It's basically two conversions from and to orig,
+it's like using orig here, but that's wrong for the respective endianess,
+'l'/BE should be LE, same for 'b'/LE which should be BE.
+
+> >       }
+> > 
+> >       /* Print non-control ASCII characters as-is, dot otherwise */
+> >       *p++ = isascii(c) && isprint(c) ? c : '.';
+> >   }
+> > 
+> >   if (pixel_fmt) {
+> >       *p++ = ' ';
+> >       strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> >       p += strlen(p);
+> >   }
+> > 
+> >   *p++ = ' ';
+> >   *p++ = '(';
+> > 
+> >   switch (fmt[2]) {
+> >   case 'h':
+> >   case 'r':
+> >   case 'c':
+> >       p = special_hex_number(p, output + sizeof(output) - 2, orig, sizeof(u32));
+> >       break;
+> >   case 'l':
+> >       p = special_hex_number(p, output + sizeof(output) - 2, le32_to_cpu(orig_le), sizeof(u32));
+> >       break;
+> >   case 'b':
+> >       p = special_hex_number(p, output + sizeof(output) - 2, be32_to_cpu(orig_be), sizeof(u32));
+> >       break;
+> >   }
+> > 
+> >   *p++ = ')';
+> >   *p = '\0';
+> > 
+> >   return string(buf, end, output, spec);
+> > }
+> > 
+> > Andy, could you verify this?
+> 
+> Looking at the header files, it looks like doing cpu_to_le32 on that variable
+> and doing le32_to_cpu will actually reverse the order twice, on big endian
+> systems, thus technically all way would not swap the order at all.
+> 
+> I'm not really sure how to manage the sparse warnings here.
 
 -- 
-2.48.1
+With Best Regards,
+Andy Shevchenko
 
 
