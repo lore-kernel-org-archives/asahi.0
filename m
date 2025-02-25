@@ -1,141 +1,96 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7423620E703
-	for <asahi@lists.linux.dev>; Tue, 25 Feb 2025 22:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C96151991;
+	Tue, 25 Feb 2025 23:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740521933; cv=none; b=hxwYLsh3s978MB6lvZCby6MTrpt6sugZg9UHerlKGVW/AhxvDpmX1lcckmMLH2SUa/bH9Ps4f5rVhcES3TupkURC7wxP/trvKDKAI9+j8Tv8OqZPl1dE+iIWMrZJM9zUmT3WHGArtqJaHh1X476qUGYajK0wR68n69xjGR8UZqs=
+	t=1740525503; cv=none; b=jExhr6WsNNldrka1wrdREMKnH71hXEFiJY3eHhjBbg4RPaSlPCpWorSi9ErRB8rDLsp2BlTwQPpToX9u9YFQqH5/BA223gLElj6cgFrlPZEIcnkIIDAC4f8qLV+Xz6g9IexxPuSJdfxBGMxZ/Qdx6g1byM/1eRq9V13BPWVOhq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740521933; c=relaxed/simple;
-	bh=7WXjPFXolBqyPlRHbl2aOzCryeCE6lRBTS1Z5mOA1e8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ptg0TcuYZHJWP1E7ZLx/BxCfZuuCruKuFa5xB57FnRVf4/UrlhPxbax3GIZDN+lp/ZV3z206VuHz76eCRKaajvykhGe3w+hrh1lzjkNKDqVYoLET421i29Q/oUet5i7vjEvfZf8++c+FBhkUbQPH009pYCwBC8XpKbyl/P5Rj7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=HmIbJR+T; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1740525503; c=relaxed/simple;
+	bh=76Jhh4fUvVx9+AeTNo/sVtcgC9p+Mf69ylluqkqvljo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pwOk69ivn2WFg4QSiz1XfnQdRGSeJpb7ZsdAqmtTplzc/ZyrrUT3TCMxIM1FFFdprKYVnBAiJTGUKg8R9zTC8LYYSGnj7GWmmGwHGOVUh/kG/Zif1xpvRUwAO4rfl9PneYMbTaBFL/N2bSdIwpSH8hzC1rmms7n8mloz9k22Pn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=BdTVLRx2; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="HmIbJR+T"
-Date: Tue, 25 Feb 2025 17:18:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1740521927;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RzgOyhdKuLwcBRSLmcJJ0Jbuz6w06hvV2SnnIVn+zvE=;
-	b=HmIbJR+TaH7Wme6F4IPgbYtpzGHncrdCmBgNbeauOOAC7dPDo9n+83JhZyKZNWClyuOlQl
-	4Yd6Y5swrftBaTXfLZ9TqMEMumfngYObl51LG3XLlMGkk3nLBjg2wARO3s+7inOWpMfdz+
-	9BEjD65HMh9hRlIOn9GZhbw78eZ2p04pZFjupo1J238pOamFvvMrciBkX1/2num0Ki1TYh
-	fOcGw6WA01Qm5YZeXvQgPxYJZHCLkyzLYbzl0KwKZ9FdgdsdEC6m+YOm/ePvW01IzWFKsd
-	WEy23MZtEcougGgl1L1VyWuZovF6cjpx821nBtTsG/9yhVdMcht6FOW402plDg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH v2] drm: add modifiers for Apple GPU layouts
-Message-ID: <Z75BwWllrew-DIlS@blossom>
-References: <20250225-apple-twiddled-modifiers-v2-1-cf69729e87f6@rosenzweig.io>
- <CAPj87rO3N2=3mNQg8-CUF=-XTysJHLmgArRKuvDpdk3YZ2xMvQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BdTVLRx2"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51PMZ9QH005739;
+	Tue, 25 Feb 2025 23:17:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=corp-2023-11-20; bh=76Jhh
+	4fUvVx9+AeTNo/sVtcgC9p+Mf69ylluqkqvljo=; b=BdTVLRx21vS0X4QPrpmQP
+	gxjS/9u6fRZyE4Byg4vfc4YlNFidlfoumJZju1fkuHNLLO1iNYkhNTapIuB3JcVC
+	GZN2FE1YB22Hc23UTdd/dG47rPfuY63dJZCC/MdwcDraA5OJByued2JFhClzIA7X
+	3P3yeS68ikYiu72KvZOPVLT5WJJhbwMhTZbIXCD7FYTlg85nwpyp+1N09tE3w6zU
+	Gz63B0fW+JuC1Dk6yyikq1T5EzOkevrpRXRXA7RJnfN/W+SgwWC1YGNDE42HtdBG
+	Ictnn31S+NQnM/Y+yhjWFsUKT8/cl0DLh2J/jtJERBVvv/2Xsc588act3B6Tkdyc
+	A==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 451pse81tc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 25 Feb 2025 23:17:50 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51PLIQm2025216;
+	Tue, 25 Feb 2025 23:17:48 GMT
+Received: from alaljime-e5-test-20240903-1847.osdevelopmeniad.oraclevcn.com (alaljime-e5-test-20240903-1847.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.250.206])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 44y51gg9ht-1;
+	Tue, 25 Feb 2025 23:17:48 +0000
+From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+To: jgg@nvidia.com
+Cc: alim.akhtar@samsung.com, alyssa@rosenzweig.io, aou@eecs.berkeley.edu,
+        asahi@lists.linux.dev, bagasdotme@gmail.com, baolu.lu@linux.intel.com,
+        dwmw2@infradead.org, heiko@sntech.de, iommu@lists.linux.dev,
+        jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+        jroedel@suse.de, krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, m.szyprowski@samsung.com,
+        marcan@marcan.st, palmer@dabbelt.com, pasha.tatashin@soleen.com,
+        patches@lists.linux.dev, paul.walmsley@sifive.com, rientjes@google.com,
+        robin.murphy@arm.com, samuel@sholland.org,
+        suravee.suthikulpanit@amd.com, sven@svenpeter.dev,
+        thierry.reding@gmail.com, tjeznach@rivosinc.com, vdumpa@nvidia.com,
+        wens@csie.org, will@kernel.org, willy@infradead.org
+Subject: Re: [PATCH v3 00/23] iommu: Further abstract iommu-pages
+Date: Tue, 25 Feb 2025 23:17:47 +0000
+Message-ID: <20250225231747.15277-1-alejandro.j.jimenez@oracle.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+References: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPj87rO3N2=3mNQg8-CUF=-XTysJHLmgArRKuvDpdk3YZ2xMvQ@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-25_08,2025-02-25_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 mlxlogscore=987
+ phishscore=0 mlxscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502100000
+ definitions=main-2502250137
+X-Proofpoint-GUID: Xr02HcGTinEg17mYvbDuWPbxj8NLDu8q
+X-Proofpoint-ORIG-GUID: Xr02HcGTinEg17mYvbDuWPbxj8NLDu8q
 
-> > These layouts are notably not used for interchange across hardware
-> > blocks (e.g. with the display controller). There are other layouts for
-> > that but we don't support them either in userspace or kernelspace yet
-> > (even downstream), so we don't add modifiers here.
-> 
-> Yeah, when those have users with good definitions matching these, we
-> can add them here, even if they are downstream. Anything the GPU would
-> share out of context, or the codec, would be good for this.
+>Improve the API to work directly on sizes instead of order, the drivers
+> generally have HW specs and code paths that already have specific sizes.
+> Pass those sizes down into the allocator to remove some boiler plate
+> get_order() in drivers. This is cleanup to be ready for a possible sub
+> page allocator some day.
+>
+> This is on github: https://github.com/jgunthorpe/linux/commits/iommu_pages
+>
+> v3:
 
-Sure. The mentioned "other layouts" are for scanout (GPU->display), and
-apparently the GPU can render but not sample them... You can imagine
-about how well that would go without a vendor extension + compositor
-patches......
+Tested v3 on AMD Zen4 bare metal host, using v1/v2 page table formats. Ran host
+kernel with iommu.passthrough=0. Launched KVM guest with large memory (512+ G)
+and 16 VFs. No errors or warnings found.
 
-(Currently we use linear framebuffers for scanout and avoid that rat's
-nest.)
+Tested-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 
-> 
-> > +/*
-> > + * Apple GPU-tiled layout.
-> > + *
-> > + * GPU-tiled images are divided into tiles. Tiles are always 16KiB, with
-> > + * dimensions depending on the base-format. Within a tile, pixels are fully
-> > + * interleaved (Morton order). Tiles themselves are raster-order.
-> > + *
-> > + * Images must be 16-byte aligned.
-> > + *
-> > + * For more information see
-> > + * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
-> 
-> This writeup is really nice. I would prefer it was inlined here though
-> (similar to AFBC), with Mesa then referring to the kernel, but tbf
-> Vivante does have a similar external reference.
-
-Thanks :-) I wasn't sure which way would be better. Most of the
-complexity in that writeup relates to mipmapping and arrayed images,
-which I don't think WSI hits...? Also, the Mesa docs are easier for me
-to update, support tables and LaTeX, have other bits of hw writeups on
-the same page, etc... so they feel like a better home for the unabridged
-version.  And since Vivante did this, I figured it was ok.
-
-If people feel strongly I can of course inline it, it's just not clear
-to me that dumping all that info into the header here is actually
-desired. (And there's even more info Marge queued ...
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33743/diffs?commit_id=5ddb57ceb46d42096a34cbef1df6b4109ac2b511
-)
-
-> The one thing it's missing is an explicit description of how stride is
-> computed and used. I can see the 'obvious' way to do it for this and
-> compression, but it would be good to make it explicit, given some
-> misadventures in the past. CCS is probably the gold standard to refer
-> to here.
-
-Ah, right -- thanks for raising that! I'll add this for v3. Indeed, I
-picked the "obvious" way, given said misadventures with AFBC ;)
-
-This is the relevant Mesa code:
-
-   /*
-    * For WSI purposes, we need to associate a stride with all layouts.
-    * In the hardware, only strided linear images have an associated
-    * stride, there is no natural stride associated with twiddled
-    * images.  However, various clients assert that the stride is valid
-    * for the image if it were linear (even if it is in fact not
-    * linear). In those cases, by convention we use the minimum valid
-    * such stride.
-    */
-   static inline uint32_t
-   ail_get_wsi_stride_B(const struct ail_layout *layout, unsigned level)
-   {
-      assert(level == 0 && "Mipmaps cannot be shared as WSI");
-   
-      if (layout->tiling == AIL_TILING_LINEAR)
-         return ail_get_linear_stride_B(layout, level);
-      else
-         return util_format_get_stride(layout->format, layout->width_px);
-   }
-
-I can either copy that comment here, or to make that logic more explicit:
-
-    Producers must set the stride to the image width in
-    pixels times the bytes per pixel. This is a software convention, the
-    hardware does not use this stride.
-
-Thanks,
-
-Alyssa
