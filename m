@@ -1,176 +1,112 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90DE151991
-	for <asahi@lists.linux.dev>; Tue, 25 Feb 2025 21:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A21C213253
+	for <asahi@lists.linux.dev>; Tue, 25 Feb 2025 21:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740519345; cv=none; b=EF7V1prQ4UGFQSGBWTJzjlp1EFNK3w8mrf01ffpoFNReAJpMvTEvzMW5vTl1gDyv5neCFm5DRAImutHFVhbQRCKTpu71bWblHb3mY4e+JOwiZUmUod+NdbY7uxcJISRu/Sv8f4/r/DLD4ITmZGonN+jHoUuZx6fMPbEZM9XPWoc=
+	t=1740520760; cv=none; b=fSVQH+dfpqWKS8yuXlU7MRR2HcyeCdx27zdDbTYEHQV+SxC7S+R2ylvAD1K2gkb1vJTQyF9crPlpziwK1p0Ady7fXESiUXmARDUNYM1jla1fddZCiBmapowwqDIxac4b3iIVOY7A/3n6Yrn7g5hbDnRRQlV4pTNvlnwvLkho6qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740519345; c=relaxed/simple;
-	bh=FUaTnXw8Eh9mm3P9QBYvD2GKvGuQyztGJ7YcatN8jbg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=S+MAcPZy1eYZ+/H/jf9ANK4rebACOZsZjMMzOm9PCMFYnbQy0r/kxBGzQtkmdShuEz5ojkY6JjY8fAiYNoi6z5ZBy4BIYhzUKFVrczgLLOInP9rOyh46Y4azRrM8DlN2BvfKGehbv/arUfbKhFSS3qfvGbXGPhNdFk0rgQFvRbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=NXNBRF3c; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1740520760; c=relaxed/simple;
+	bh=lhlRVTyXQdUVVfNqKiQrllxx1N3vzrAL5haFxdHIUL8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=vDglES39QcJ8YkSirmJUuNswElA7y9O/ba81J9FmRzW8G+qUVjluWEaWUoK4VOPaGr1oHB3gjGvQzt7UoK14vbWvhIYS0G8mCV3L0ruQSNJ2UQ6+eOfU5u8r9m339daS2e78ZW0X97OksfwwWa/8EyKrgTvGqwj7y43oJzjvEO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=YjIPVnKf; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="NXNBRF3c"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1740519340;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SQB6S+lh0hzINQjumNTIEedaSDDvME+crToOT8AlV2s=;
-	b=NXNBRF3ciaiAgahfJskC2owN0RJ208InN9vyPrDN/99bHUMcg+F7Y18W+SSC8c3ymk8Wzq
-	HQNxApnYwinlC0ByDlAdjSx3nNHDnA28eDZYHGT1/uQa3grlk58C6luKBAoob7rJdYhTGg
-	PK3/5HuMSXHYKOHzCAmXv352eDFBAO1OLxTI7gXxYvMugMVJ5l8d6JxZUUxm6mVc/6ESrj
-	g08Rrf/rBBOEAc7+izEwLGOuu3rsnOE6ZcSlM917qbwnWC+lX/IJkNxiTGivyTJyEKkVhc
-	TTFhy6JXj/O9GYj/hWUh/lU/fHzwYVMKqn1dwz+Gc+I/zbaXCgBoL0EG3pgh8w==
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Date: Tue, 25 Feb 2025 16:35:36 -0500
-Subject: [PATCH v2] drm: add modifiers for Apple GPU layouts
+	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="YjIPVnKf"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7c0a4b030f2so794795185a.0
+        for <asahi@lists.linux.dev>; Tue, 25 Feb 2025 13:59:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar.org; s=google; t=1740520757; x=1741125557; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lhlRVTyXQdUVVfNqKiQrllxx1N3vzrAL5haFxdHIUL8=;
+        b=YjIPVnKfbGncfW9z4O8jpRa3bfm/1Czy70F78PwpKViNGYeIRYYKihjEctCiAd6aG7
+         ARoM2iit3tc2H5fy60Z/nMgkNPoqjiuJyzFXv8f0/3k/zC+MoYGuJXIqlwfCnqv9hqAv
+         FyDfVgCEu7VgLtYcS/kCeTO5x8wJ+ZJ0AsmvWNTuYjVdQ55MQ8c5IgIUHeufWRPHJ6zz
+         WbEuOF35kf5PHFFK+jYcwL19FKvB9YVe+AqVZ0DmRriMo3a35LbTH+VNNqxqOkyfvKmG
+         9rKW5+cSjOqNoPqOVd9mdTwvvw7YQliEvQs8pCD/OR+Pl0+kjZjvP/mo6TRcXFdOrkp8
+         38QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740520757; x=1741125557;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lhlRVTyXQdUVVfNqKiQrllxx1N3vzrAL5haFxdHIUL8=;
+        b=DQeIBVdr7579rc8UiwzJFBN1NdkJ341SBTFB2feFFOCBmY89hq9h0F7WbeIW4KBd7i
+         0tVPTsRJqVpSzkgm8JJc8u2kU+Kx0aggZu+3ERz/GTLlezMQWKbKKN5Q+0z5YWfo1J0+
+         2rI9QX2vqRnn13L+hUudViQlPCbo0omp7gDirDHXUSMXZ/LsYaQtSNq3K9SxRWPURjJx
+         sJ6dg3AnUUVekggrC81+8ohVZmdKlGf1pLW5BGt7BEoo327DT2UDeRYojihUqXQb6D6e
+         OeFLWcZbSZiChMKci/ybdENfySEn8/7QikT9AKkEtvaocfsspvhkFteNwdmsk/uB5Sag
+         IVqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWUFiXtpZQtmb/i8cOYyvvN8kNncY6HvRYso+4tNzkLr0C0flgTwNqtkahp9XNIASUZm5ZnEQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzpp3Wys3WH+iA/VCcsex+LiJKROpPA0fmrKoxDCFJiT+f+5ANR
+	3fV5BJwESgWVJkGPJGZnrRISLz51T1+OvOWfPtKggWFbHoN0iqR3h4joiA9FbyO9MD4DuLB1ek6
+	O7HUCRWujTY+k3pkBjZPGCpBPXT2sB1rdPX/muRqqiHor7yQ9
+X-Gm-Gg: ASbGncvJ1uIjaK2d8u9rW8hpuFf297bKv4T5TYRCdbQaLB9MO7uRzuuVARlVuXfMEcz
+	xP3YZ5WIbHomGpvMXRCOmrLk+usfeN58Ld4EUPcAWh8HMn5AP2QE1ueUsEvhAgi1HYHII19olQa
+	1hV8mqfw==
+X-Google-Smtp-Source: AGHT+IHayo9PtL6kjpIMX2v8YKQ15rB6H8J82Goph6no5zjxnEkePH22x+kK7BRT9XWlzl9eTGw2l4h92HsV0xvaCj8=
+X-Received: by 2002:a05:620a:4883:b0:7c0:c7aa:d829 with SMTP id
+ af79cd13be357-7c0cf9504a2mr2399399285a.42.1740520757416; Tue, 25 Feb 2025
+ 13:59:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-apple-twiddled-modifiers-v2-1-cf69729e87f6@rosenzweig.io>
-X-B4-Tracking: v=1; b=H4sIAKc3vmcC/42NQQ6CMBBFr0Jm7ZhOAUNceQ/CotApTIKUtARUw
- t2tnMDle8l/f4fIQTjCPdsh8CpR/JRAXzLoBjP1jGITg1a6VJoqNPM8Mi6bWDuyxae34oRDRGe
- ZzM0VuVIdpPkc2MnrTNdN4kHi4sP7fFrpZ/+IroSEVVlSa9oi1+QewUeePhtLfxUPzXEcXzcg6
- 3XEAAAA
-X-Change-ID: 20250218-apple-twiddled-modifiers-fde1a6f4300c
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3985; i=alyssa@rosenzweig.io;
- h=from:subject:message-id; bh=FUaTnXw8Eh9mm3P9QBYvD2GKvGuQyztGJ7YcatN8jbg=;
- b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnvjerxYTOPrAVSscpy1D7BqUFO3V2fZ1m7eL8g
- kPjZrBe/CGJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ743qwAKCRD+/lBaCvVY
- DTF5D/4osviRwizOiiPhiA2bg5pZ10GBDMFUCxokWl6xikeoD6uJT6LZYDm4Dou3M7xVdQ6iFl9
- HAY2H6r/CzPV0tkQ6nRAta/z6wu0YcUBV4RGYYOthIiWmfp7V8KZK9aCubUEW7lMEiWuntBeNo0
- kJNii0XMKO8J6DyDWw88IFtVUki3hPqv6WhQ0G/RLEbESNYRsk/oI4Z9W1r0kkDvg4aIOaPZUwF
- stbz+hVEZ+5IaY6JrUjciuLq2zMYGzrQjDf2ItZSRuKW1HCV7nSEs2VbiXE95fNE0C54NNZAV6Q
- zAWtIC1cuuFKpEJ3hGZpKU7fWeLSBBQ8wsZLCkFmQneT1wRC07dJChYSnEnR8WYMCUk3CUik/Z3
- HvBvIbnTXnKi3yaOLrlf55StzhdZbn3yzFOHj3+a5eTxrsogxiZUW8/oNJOfcIS2UShhR498WVY
- O8jhao7CE5A7+np03TZK+xMSqMDGE3CppY7OG7GVHp0PKsGn9nFCfo84aM84wXVNC26SNSlc1t4
- kpzRqS/lCoxKq+F6U7gwlKyCNrvyFBNa+K49T/YKuHOwzOLN6iHZWApBkN+8YAEpIHoQgHHhAMM
- cwKd5n0RMX/KgR1UV5A6P/gbWU7JBqgYd95Q2KofilFSl84HNJWV88rJc2xdDAE9cWEiTD04GIJ
- 7MmoebZFT0srwcA==
-X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
- fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
-X-Migadu-Flow: FLOW_OUT
+References: <20250225-apple-twiddled-modifiers-v2-1-cf69729e87f6@rosenzweig.io>
+In-Reply-To: <20250225-apple-twiddled-modifiers-v2-1-cf69729e87f6@rosenzweig.io>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 25 Feb 2025 21:59:06 +0000
+X-Gm-Features: AWEUYZmTADfb83tXUekSIDeFibRB5L8olGgSSUtW8nnT-NuSQ4JhGFcoTWxAp7E
+Message-ID: <CAPj87rO3N2=3mNQg8-CUF=-XTysJHLmgArRKuvDpdk3YZ2xMvQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: add modifiers for Apple GPU layouts
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Apple GPUs support various non-linear image layouts. Add modifiers for
-these layouts. Mesa requires these modifiers to share non-linear buffers
-across processes, but no other userspace or kernel support is
-required/expected.
+Hi,
 
-These layouts are notably not used for interchange across hardware
-blocks (e.g. with the display controller). There are other layouts for
-that but we don't support them either in userspace or kernelspace yet
-(even downstream), so we don't add modifiers here.
+On Tue, 25 Feb 2025 at 21:35, Alyssa Rosenzweig <alyssa@rosenzweig.io> wrote:
+> These layouts are notably not used for interchange across hardware
+> blocks (e.g. with the display controller). There are other layouts for
+> that but we don't support them either in userspace or kernelspace yet
+> (even downstream), so we don't add modifiers here.
 
-Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
----
-Changes in v2:
-- Rename "Twiddled" to "GPU-tiled" to match what I now believe is the canonical name.
-- Add modifiers for the actual "Twiddled" layouts.
-- Clarify that the body of compressed images are laid out like their
-  uncompressed counterparts.
-- Link to v1: https://lore.kernel.org/r/20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io
----
- include/uapi/drm/drm_fourcc.h | 58 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+Yeah, when those have users with good definitions matching these, we
+can add them here, even if they are downstream. Anything the GPU would
+share out of context, or the codec, would be good for this.
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index e41a3cec6a9ed18760f3b0c88ba437c9aba3dd4f..8668c0275677bbc0a82a1028f122bacfb44a867b 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -422,6 +422,7 @@ extern "C" {
- #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
- #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
- #define DRM_FORMAT_MOD_VENDOR_MTK     0x0b
-+#define DRM_FORMAT_MOD_VENDOR_APPLE   0x0c
- 
- /* add more to the end as needed */
- 
-@@ -1494,6 +1495,63 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
- /* alias for the most common tiling format */
- #define DRM_FORMAT_MOD_MTK_16L_32S_TILE  DRM_FORMAT_MOD_MTK(MTK_FMT_MOD_TILE_16L32S)
- 
-+/*
-+ * Apple GPU-tiled layout.
-+ *
-+ * GPU-tiled images are divided into tiles. Tiles are always 16KiB, with
-+ * dimensions depending on the base-format. Within a tile, pixels are fully
-+ * interleaved (Morton order). Tiles themselves are raster-order.
-+ *
-+ * Images must be 16-byte aligned.
-+ *
-+ * For more information see
-+ * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
-+ *
-+ * When lossless compression is impossible, this is the preferred layout.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_GPU_TILED fourcc_mod_code(APPLE, 1)
-+
-+/*
-+ * Apple compressed GPU-tiled layout.
-+ *
-+ * Compressed GPU-tiled images contain a body laid out like
-+ * DRM_FORMAT_MOD_APPLE_GPU_TILED followed by a metadata section.
-+ *
-+ * The metadata section contains 8 bytes for each 16x16 compression subtile. The
-+ * metadata section pads the image to power-of-two dimensions, and compression
-+ * subtiles are interleaved (Morton order). By convention, the metadata
-+ * immediately follows the body, after padding the body to 128-bytes.
-+ *
-+ * Images must be 16-byte aligned.
-+ *
-+ * This is the preferred layout.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_GPU_TILED_COMPRESSED fourcc_mod_code(APPLE, 2)
-+
-+/*
-+ * Apple twiddled layout.
-+ *
-+ * Twiddled images are padded to power-of-two dimensions, with pixels fully
-+ * interleaved (Morton order).
-+ *
-+ * Images must be 16-byte aligned.
-+ *
-+ * GPU-tiling is preferred to twiddling. Twiddled images are mainly useful for
-+ * sparse images, due to a limitation of the PBE unit.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_TWIDDLED fourcc_mod_code(APPLE, 3)
-+
-+/*
-+ * Apple compressed twiddled layout.
-+ *
-+ * Compressed twiddled images contain a body laid out like
-+ * DRM_FORMAT_MOD_APPLE_TWIDDLED layout followed by metadata laid out like
-+ * DRM_FORMAT_MOD_APPLE_GPU_TILED_COMPRESSED metadata.
-+ *
-+ * Images must be 16-byte aligned.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_TWIDDLED_COMPRESSED fourcc_mod_code(APPLE, 4)
-+
- /*
-  * AMD modifiers
-  *
+> +/*
+> + * Apple GPU-tiled layout.
+> + *
+> + * GPU-tiled images are divided into tiles. Tiles are always 16KiB, with
+> + * dimensions depending on the base-format. Within a tile, pixels are fully
+> + * interleaved (Morton order). Tiles themselves are raster-order.
+> + *
+> + * Images must be 16-byte aligned.
+> + *
+> + * For more information see
+> + * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
 
----
-base-commit: 0ed1356af8f629ae807963b7db4e501e3b580bc2
-change-id: 20250218-apple-twiddled-modifiers-fde1a6f4300c
+This writeup is really nice. I would prefer it was inlined here though
+(similar to AFBC), with Mesa then referring to the kernel, but tbf
+Vivante does have a similar external reference.
 
-Best regards,
--- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
+The one thing it's missing is an explicit description of how stride is
+computed and used. I can see the 'obvious' way to do it for this and
+compression, but it would be good to make it explicit, given some
+misadventures in the past. CCS is probably the gold standard to refer
+to here.
 
+I'd be very happy to merge it with that.
+
+Cheers,
+Daniel
