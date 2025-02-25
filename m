@@ -1,36 +1,35 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D9A2AEE4;
-	Tue, 25 Feb 2025 21:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90DE151991
+	for <asahi@lists.linux.dev>; Tue, 25 Feb 2025 21:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740518400; cv=none; b=a1Y55sFQmUtvXqFrgl7WN+LJBJByz+OHUsPwH/i7dgb0Lrn5PVz0eGQxYSOuaKa5WF8cSW9GS2CrLhc812++9W3w01Q/fsqdghZkU3DsMa5t3OteMemIKBDJXOiRqiEFEJiqvIjThUKXy84MxRxMIspeNQbJiLRwBOvMdzKz16A=
+	t=1740519345; cv=none; b=EF7V1prQ4UGFQSGBWTJzjlp1EFNK3w8mrf01ffpoFNReAJpMvTEvzMW5vTl1gDyv5neCFm5DRAImutHFVhbQRCKTpu71bWblHb3mY4e+JOwiZUmUod+NdbY7uxcJISRu/Sv8f4/r/DLD4ITmZGonN+jHoUuZx6fMPbEZM9XPWoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740518400; c=relaxed/simple;
-	bh=ghGqvv7GAFe1nH4x2u9vuYujrKPbpOccmWJvpRRHSB0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Q8ayB/pBHPjU6HAjrk0OJIEd64r3T/4aluFEVwRv1XQmz+kRPsarm2ysvBIJj1ngiLhdi4FgiO0+Y86bHuvNwkSUEsxxhpeqgaaEdX/IJnTwgxr6ju78AD6fnGFYB3QY8DRFoxFokphDIbt85jGUEefFBI1M+8emPnsGezLT0CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEfLsdZi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740519345; c=relaxed/simple;
+	bh=FUaTnXw8Eh9mm3P9QBYvD2GKvGuQyztGJ7YcatN8jbg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=S+MAcPZy1eYZ+/H/jf9ANK4rebACOZsZjMMzOm9PCMFYnbQy0r/kxBGzQtkmdShuEz5ojkY6JjY8fAiYNoi6z5ZBy4BIYhzUKFVrczgLLOInP9rOyh46Y4azRrM8DlN2BvfKGehbv/arUfbKhFSS3qfvGbXGPhNdFk0rgQFvRbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=NXNBRF3c; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEfLsdZi"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1CB9EC4CEDD;
-	Tue, 25 Feb 2025 21:20:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740518400;
-	bh=ghGqvv7GAFe1nH4x2u9vuYujrKPbpOccmWJvpRRHSB0=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=oEfLsdZidnIj7asGdSYT+SxvKF0L4dS9GdI91lLDxuTpfI9v9DUnVfXSE4Oz5ZPAd
-	 YB29VFmLy4Mz4ASTZqX0gYJ/OV3y7PzfEdXYNA0i9dxgk8P8Qy8/0w7Y0/XMrLY+vI
-	 JR7JiVxPJmGGxMhglc/tDiz1V5dB9Oexp/SvHn6aeRlJC7XvUGlwxcq5+sa/m9Z8Yd
-	 yc0vwG929D7/SIo90G+gOx7Jga1A2G584Tfeek0vUzr4sxXI/jq6L1RsoA6b+eyvTS
-	 YUNOrhAqeXT1DrCJmvCn3t8PWq3WHCo2enUNxP/L5OcnTsGQLFQLi5oYMVeAS5lYn3
-	 6XYT0dwRc0QDA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D316C021B2;
-	Tue, 25 Feb 2025 21:20:00 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Tue, 25 Feb 2025 22:19:54 +0100
-Subject: [PATCH] arm64: dts: apple: Add touchbar digitizer nodes
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="NXNBRF3c"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1740519340;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=SQB6S+lh0hzINQjumNTIEedaSDDvME+crToOT8AlV2s=;
+	b=NXNBRF3ciaiAgahfJskC2owN0RJ208InN9vyPrDN/99bHUMcg+F7Y18W+SSC8c3ymk8Wzq
+	HQNxApnYwinlC0ByDlAdjSx3nNHDnA28eDZYHGT1/uQa3grlk58C6luKBAoob7rJdYhTGg
+	PK3/5HuMSXHYKOHzCAmXv352eDFBAO1OLxTI7gXxYvMugMVJ5l8d6JxZUUxm6mVc/6ESrj
+	g08Rrf/rBBOEAc7+izEwLGOuu3rsnOE6ZcSlM917qbwnWC+lX/IJkNxiTGivyTJyEKkVhc
+	TTFhy6JXj/O9GYj/hWUh/lU/fHzwYVMKqn1dwz+Gc+I/zbaXCgBoL0EG3pgh8w==
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Date: Tue, 25 Feb 2025 16:35:36 -0500
+Subject: [PATCH v2] drm: add modifiers for Apple GPU layouts
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -39,145 +38,139 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-z2-dts-v1-1-df101a7c17c8@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAPkzvmcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDIyNT3Soj3ZSSYt3URBMjQ+OUVJNEIyMloOKCotS0zAqwQdGxtbUANAL
- YuFgAAAA=
-X-Change-ID: 20250225-z2-dts-ea4213de4a22
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740518398; l=3677;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=SeavfPLsBuaZJzKTxcJ2pMU97oNr50qsmltlLTUZBAI=;
- b=IUfKp0rV+n8SLeaZzuhEz2/BzCOvdP8DpjHRR8/QFLEjh1S/nritzhjqCFiwTm60uKcGoQUhS
- 9UVzH2t39tdApIBmwR7Ffe/bhkqbKOeo/4fAKbwTsfJ3q1LtGrjPK6y
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+Message-Id: <20250225-apple-twiddled-modifiers-v2-1-cf69729e87f6@rosenzweig.io>
+X-B4-Tracking: v=1; b=H4sIAKc3vmcC/42NQQ6CMBBFr0Jm7ZhOAUNceQ/CotApTIKUtARUw
+ t2tnMDle8l/f4fIQTjCPdsh8CpR/JRAXzLoBjP1jGITg1a6VJoqNPM8Mi6bWDuyxae34oRDRGe
+ ZzM0VuVIdpPkc2MnrTNdN4kHi4sP7fFrpZ/+IroSEVVlSa9oi1+QewUeePhtLfxUPzXEcXzcg6
+ 3XEAAAA
+X-Change-ID: 20250218-apple-twiddled-modifiers-fde1a6f4300c
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3985; i=alyssa@rosenzweig.io;
+ h=from:subject:message-id; bh=FUaTnXw8Eh9mm3P9QBYvD2GKvGuQyztGJ7YcatN8jbg=;
+ b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnvjerxYTOPrAVSscpy1D7BqUFO3V2fZ1m7eL8g
+ kPjZrBe/CGJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ743qwAKCRD+/lBaCvVY
+ DTF5D/4osviRwizOiiPhiA2bg5pZ10GBDMFUCxokWl6xikeoD6uJT6LZYDm4Dou3M7xVdQ6iFl9
+ HAY2H6r/CzPV0tkQ6nRAta/z6wu0YcUBV4RGYYOthIiWmfp7V8KZK9aCubUEW7lMEiWuntBeNo0
+ kJNii0XMKO8J6DyDWw88IFtVUki3hPqv6WhQ0G/RLEbESNYRsk/oI4Z9W1r0kkDvg4aIOaPZUwF
+ stbz+hVEZ+5IaY6JrUjciuLq2zMYGzrQjDf2ItZSRuKW1HCV7nSEs2VbiXE95fNE0C54NNZAV6Q
+ zAWtIC1cuuFKpEJ3hGZpKU7fWeLSBBQ8wsZLCkFmQneT1wRC07dJChYSnEnR8WYMCUk3CUik/Z3
+ HvBvIbnTXnKi3yaOLrlf55StzhdZbn3yzFOHj3+a5eTxrsogxiZUW8/oNJOfcIS2UShhR498WVY
+ O8jhao7CE5A7+np03TZK+xMSqMDGE3CppY7OG7GVHp0PKsGn9nFCfo84aM84wXVNC26SNSlc1t4
+ kpzRqS/lCoxKq+F6U7gwlKyCNrvyFBNa+K49T/YKuHOwzOLN6iHZWApBkN+8YAEpIHoQgHHhAMM
+ cwKd5n0RMX/KgR1UV5A6P/gbWU7JBqgYd95Q2KofilFSl84HNJWV88rJc2xdDAE9cWEiTD04GIJ
+ 7MmoebZFT0srwcA==
+X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
+ fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
+X-Migadu-Flow: FLOW_OUT
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Apple GPUs support various non-linear image layouts. Add modifiers for
+these layouts. Mesa requires these modifiers to share non-linear buffers
+across processes, but no other userspace or kernel support is
+required/expected.
 
-Adds device tree entries for the touchbar digitizer
+These layouts are notably not used for interchange across hardware
+blocks (e.g. with the display controller). There are other layouts for
+that but we don't support them either in userspace or kernelspace yet
+(even downstream), so we don't add modifiers here.
 
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Acked-by: Sven Peter <sven@svenpeter.dev>
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 ---
- arch/arm64/boot/dts/apple/t8103-j293.dts | 27 +++++++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8112-j493.dts | 23 +++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8112.dtsi     |  2 +-
- 3 files changed, 51 insertions(+), 1 deletion(-)
+Changes in v2:
+- Rename "Twiddled" to "GPU-tiled" to match what I now believe is the canonical name.
+- Add modifiers for the actual "Twiddled" layouts.
+- Clarify that the body of compressed images are laid out like their
+  uncompressed counterparts.
+- Link to v1: https://lore.kernel.org/r/20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io
+---
+ include/uapi/drm/drm_fourcc.h | 58 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 56b0c67bfcda321b60c621de092643017693ff91..0a93d3891c23da8b8c77dce64001caacb69ee140 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -17,6 +17,14 @@ / {
- 	compatible = "apple,j293", "apple,t8103", "apple,arm-platform";
- 	model = "Apple MacBook Pro (13-inch, M1, 2020)";
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index e41a3cec6a9ed18760f3b0c88ba437c9aba3dd4f..8668c0275677bbc0a82a1028f122bacfb44a867b 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -422,6 +422,7 @@ extern "C" {
+ #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+ #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+ #define DRM_FORMAT_MOD_VENDOR_MTK     0x0b
++#define DRM_FORMAT_MOD_VENDOR_APPLE   0x0c
  
-+	/*
-+	 * All of those are used by the bootloader to pass calibration
-+	 * blobs and other device-specific properties
-+	 */
-+	aliases {
-+		touchbar0 = &touchbar0;
-+	};
-+
- 	led-controller {
- 		compatible = "pwm-leds";
- 		led-0 {
-@@ -49,3 +57,22 @@ &i2c4 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+&spi0 {
-+	cs-gpios = <&pinctrl_ap 109 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+
-+	touchbar0: touchbar@0 {
-+		compatible = "apple,j293-touchbar";
-+		reg = <0>;
-+		spi-max-frequency = <11500000>;
-+		spi-cs-setup-delay-ns = <2000>;
-+		spi-cs-hold-delay-ns = <2000>;
-+		reset-gpios = <&pinctrl_ap 139 GPIO_ACTIVE_LOW>;
-+		interrupts-extended = <&pinctrl_ap 194 IRQ_TYPE_EDGE_FALLING>;
-+		firmware-name = "apple/dfrmtfw-j293.bin";
-+		touchscreen-size-x = <23045>;
-+		touchscreen-size-y = <640>;
-+		touchscreen-inverted-y;
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index 0ad908349f55406783942735a2e9dad54cda00ec..045bd0716cb7d20c1379ebc1e3ff7f4d0dddc179 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -17,8 +17,13 @@ / {
- 	compatible = "apple,j493", "apple,t8112", "apple,arm-platform";
- 	model = "Apple MacBook Pro (13-inch, M2, 2022)";
+ /* add more to the end as needed */
  
-+	/*
-+	 * All of those are used by the bootloader to pass calibration
-+	 * blobs and other device-specific properties
-+	 */
- 	aliases {
- 		bluetooth0 = &bluetooth0;
-+		touchbar0 = &touchbar0;
- 		wifi0 = &wifi0;
- 	};
+@@ -1494,6 +1495,63 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+ /* alias for the most common tiling format */
+ #define DRM_FORMAT_MOD_MTK_16L_32S_TILE  DRM_FORMAT_MOD_MTK(MTK_FMT_MOD_TILE_16L32S)
  
-@@ -67,3 +72,21 @@ &i2c4 {
- &fpwm1 {
- 	status = "okay";
- };
++/*
++ * Apple GPU-tiled layout.
++ *
++ * GPU-tiled images are divided into tiles. Tiles are always 16KiB, with
++ * dimensions depending on the base-format. Within a tile, pixels are fully
++ * interleaved (Morton order). Tiles themselves are raster-order.
++ *
++ * Images must be 16-byte aligned.
++ *
++ * For more information see
++ * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
++ *
++ * When lossless compression is impossible, this is the preferred layout.
++ */
++#define DRM_FORMAT_MOD_APPLE_GPU_TILED fourcc_mod_code(APPLE, 1)
 +
-+&spi3 {
-+	status = "okay";
++/*
++ * Apple compressed GPU-tiled layout.
++ *
++ * Compressed GPU-tiled images contain a body laid out like
++ * DRM_FORMAT_MOD_APPLE_GPU_TILED followed by a metadata section.
++ *
++ * The metadata section contains 8 bytes for each 16x16 compression subtile. The
++ * metadata section pads the image to power-of-two dimensions, and compression
++ * subtiles are interleaved (Morton order). By convention, the metadata
++ * immediately follows the body, after padding the body to 128-bytes.
++ *
++ * Images must be 16-byte aligned.
++ *
++ * This is the preferred layout.
++ */
++#define DRM_FORMAT_MOD_APPLE_GPU_TILED_COMPRESSED fourcc_mod_code(APPLE, 2)
 +
-+	touchbar0: touchbar@0 {
-+		compatible = "apple,j493-touchbar";
-+		reg = <0>;
-+		spi-max-frequency = <8000000>;
-+		spi-cs-setup-delay-ns = <2000>;
-+		spi-cs-hold-delay-ns = <2000>;
-+		reset-gpios = <&pinctrl_ap 170 GPIO_ACTIVE_LOW>;
-+		interrupts-extended = <&pinctrl_ap 174 IRQ_TYPE_EDGE_FALLING>;
-+		firmware-name = "apple/dfrmtfw-j493.bin";
-+		touchscreen-size-x = <23045>;
-+		touchscreen-size-y = <640>;
-+		touchscreen-inverted-y;
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 58d88f1ef92a32061765bd3b569fdae0255dcd7e..271986a7697f7033e96d11fb4ea6a50a467f0f2f 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -499,7 +499,7 @@ spi3: spi@23510c000 {
- 			power-domains = <&ps_spi3>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
--			status = "disabled";
-+			status = "disabled"; /* only used in J493 */
- 		};
- 
- 		serial0: serial@235200000 {
++/*
++ * Apple twiddled layout.
++ *
++ * Twiddled images are padded to power-of-two dimensions, with pixels fully
++ * interleaved (Morton order).
++ *
++ * Images must be 16-byte aligned.
++ *
++ * GPU-tiling is preferred to twiddling. Twiddled images are mainly useful for
++ * sparse images, due to a limitation of the PBE unit.
++ */
++#define DRM_FORMAT_MOD_APPLE_TWIDDLED fourcc_mod_code(APPLE, 3)
++
++/*
++ * Apple compressed twiddled layout.
++ *
++ * Compressed twiddled images contain a body laid out like
++ * DRM_FORMAT_MOD_APPLE_TWIDDLED layout followed by metadata laid out like
++ * DRM_FORMAT_MOD_APPLE_GPU_TILED_COMPRESSED metadata.
++ *
++ * Images must be 16-byte aligned.
++ */
++#define DRM_FORMAT_MOD_APPLE_TWIDDLED_COMPRESSED fourcc_mod_code(APPLE, 4)
++
+ /*
+  * AMD modifiers
+  *
 
 ---
-base-commit: 3febe9de5ca5267618675650871a626d0901f8cb
-change-id: 20250225-z2-dts-ea4213de4a22
+base-commit: 0ed1356af8f629ae807963b7db4e501e3b580bc2
+change-id: 20250218-apple-twiddled-modifiers-fde1a6f4300c
 
+Best regards,
+-- 
+Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
