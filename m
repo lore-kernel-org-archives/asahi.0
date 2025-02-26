@@ -1,159 +1,102 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9DE2236F0
-	for <asahi@lists.linux.dev>; Wed, 26 Feb 2025 17:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221AE238D43;
+	Wed, 26 Feb 2025 19:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740591097; cv=none; b=ADf73IAkbWaK/ZfPA8xYV0/idQVyVGYxCQRcyoy0aK0oKBHatH0+ZyvTMwr1FpU+o7EyDsUO33RIOVRPxNvO1mWQXv5j8/dqJNCEFa/cwJPiZhOgxRUdTJOQgpEgPUQ2EQ5qpWbEv7L5ceb5pdLWhYMYXgcKWOe1zicR1uopghc=
+	t=1740596417; cv=none; b=YqxZGgfwNSNeNISzRcaIpPTDKnpzshxYSVKp9W8DdcbVt7xmEcTDLyQhM2Qiz3LbcQC3BuR3r/9dgmyaR5yE1Y+SRa3cUZuhjfB0RSLs3h9kpqAzGrUR2D3c1tYob85q0X3MazBLb9Eed2MUHPdPbUWW6ZWzS4X4DI9vMMoH+Cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740591097; c=relaxed/simple;
-	bh=X3eyYVt4vGD0YkiOvQPOaR6KKn41whT8TQ6EBFqhtRI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=RBBXnp9Wf7LRJzxoYGiwAFHE6nCuiDrtje8lURm85UkUw7qRqINFFPFbqbCBdSrByPPRA2nWBAP+F/nWXfJqBnypERi0Aqu2qkldG5PIBNp2DrucDDV9FEA+TVQZRVDNBBrM3CzVUN5fVFSa8RZeNPFVbhsqCr4A2WZMxAqVZ/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=WM/0LC1U; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tV02rHzg; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1740596417; c=relaxed/simple;
+	bh=VHk6+dPKZF78pRrNidDKIzcA8Vd8WnrEysNDQjAv7p4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=StKSHC3nYayP+4mFju9RKPwqwHsFnsn4QPho+9D7IOm8QTMPR+0Wpk4ccxF8MDLv71H58pbJ6IPmqHMWAFa3YiahXiUmhGPSk7gcq6H2PQ/XJRNptx4fTheCTrwVXXGsBahdGnmiIuS5gXhFErEBRZiL94D/rcu2ec18Z42ve2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lmI9ua6C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="WM/0LC1U";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tV02rHzg"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id 43EF31380090;
-	Wed, 26 Feb 2025 12:31:34 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-10.internal (MEProxy); Wed, 26 Feb 2025 12:31:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1740591094; x=1740677494; bh=nUjbFqo2QU1rdCqx9p0fWtYPlF+MFrQB
-	YwjU1X0A1aU=; b=WM/0LC1UY6lCx1XQ3RQMgiC5qkWp3PQoHg/zMjPgz+8Gq8S0
-	FBenfcrQLGGoc5UF6zmDUP3l5ax0oHuMvWn4NraU7YrxngGwp2oOcZv2UOTxL6mb
-	O9wNmTpGS2PzhF32+3LKfli/5XAP3geTi4ZH6stjuRQMc5qeLCg/wuQuMwV2x8c3
-	aH4CsQa6Itghgtt93uX13spUhBejo1ZsVVsZZLdNhHOXy3TU2Y0wTmdYgXQ+bqZ2
-	JBefG1dr9UPz4Ig3DJGYFgKq4xqjcoCZz1vWwuyr62UyK58tMZMU8NMDyBw4JeS5
-	B7Eq9/dkO8h2qiWkNdUvPwaO47g38WHRdaJy/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740591094; x=
-	1740677494; bh=nUjbFqo2QU1rdCqx9p0fWtYPlF+MFrQBYwjU1X0A1aU=; b=t
-	V02rHzgC1pl8ZK+rDnzopS1aXDVwAw3HXJ313o9+R1x6Pz+0dcp6aEzlpRPWYBTD
-	EWyp5iG2UcTRJdF+C00/FzCdJx2+tc6Q9HwgB6SoIRylZqyuVf8LvdGJuERd20WB
-	9fpgaji04rE3N7+xwDAUKQpePeaLrJs2csHEt9/UCw0XPgQ+FORYeKGoi9ByLOdt
-	mCBuskbLWPeSWDzeNegT8kPp6itF+c46gZpz0aemAFuQWeBtqV1rSBiKWq3nbifd
-	LmCFC7FSwtMs8tw/Hl41SXgpt/hcC8pgDx0ZVzHqLPH6WeIXiyuVhJw96/tTOUZU
-	+JUTXr8s5v/L0GUmSDwCQ==
-X-ME-Sender: <xms:9U-_Z55QMmbaue7jPjXhTOPc2yJOxWxGcVdJtDRShFRS1JaB_8pNiw>
-    <xme:9U-_Z25jeFUVG2jM6psDfQiMtLOJbP-HhX1KBmJTmfIaPw-mbaxz7JZVTM67ccVtn
-    uKKftEi6v8ccc7LeGw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekhedulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
-    hrrdguvghvqeenucggtffrrghtthgvrhhnpeelfeetueegudduueduuefhfeehgeevkeeu
-    feffvdffkedtffffleevffdvvdeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghr
-    tghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhesjhgrnhhnrg
-    hurdhnvghtpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhs
-    rdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlh
-    hinhhugidruggvvhdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgt
-    phhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehlih
-    hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:9U-_ZweCX5KzNvhd_NpFBh_R4tdc8bGHGWS51T9n5Ct4tKBpTQiqMg>
-    <xmx:9U-_ZyIT1FZTvA0dG08CxtLhYmTRejfkzuVcFFTmUlnnCY-fbDA3yg>
-    <xmx:9U-_Z9J1GN3EYlpS2kbuxwhhEiIxLmsQ5z9DeMih4_F-cAgjffjR9g>
-    <xmx:9U-_Z7xyw1f3v0lL-nXRwO76DDO9t1sWzdQeD7tvALwEXH2AT_S8xA>
-    <xmx:9k-_Z7i6Koc12ngnRQwYUsJfAY3Ds7vuT0_vRi3o4B_Q3IEoHlXC_q6b>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A5F55BA006F; Wed, 26 Feb 2025 12:31:33 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lmI9ua6C"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9121C4CEE8;
+	Wed, 26 Feb 2025 19:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740596416;
+	bh=VHk6+dPKZF78pRrNidDKIzcA8Vd8WnrEysNDQjAv7p4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=lmI9ua6Ci+qh1KVirQDshLct2N6hauoIY8BAPYgX4hXNgKUiUAE0ZZcFt8yta7sj7
+	 nZLIhACUs7o9JPplNDjdhxxAOUmYM488AHK70BDi6/bfH5Ma4SDxU0NPsamQHU2FN5
+	 o6SQ20c6Nz0s8HpZ8WgeXDkPyrRqT8+AhnoN8ixAaf7+EmP8oUSH0WZj53H+1rVDU+
+	 5feQBxYGwkGRtgsF/j+fmcp3Aw8pZlI3k0/52cQpNRrUDzr3by+ive0FZD1sGhYU7W
+	 q0eAqBAK3RuohHoc3U61r26G4izkkjvxVuazNrkmcC1yFQzv0voPeht9yRQbaIE/Nv
+	 T9geiyNzFauYA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A80F4C19776;
+	Wed, 26 Feb 2025 19:00:16 +0000 (UTC)
+From: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
+Date: Wed, 26 Feb 2025 19:00:03 +0000
+Subject: [PATCH v2 1/4] soc: apple: rtkit: Add and use PWR_STATE_INIT
+ instead of _ON
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 26 Feb 2025 18:29:17 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>
-Cc: "Janne Grunau" <j@jannau.net>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- "Hector Martin" <marcan@marcan.st>
-Message-Id: <dfef22a5-1f36-403b-99c4-2d910a38f9ea@app.fastmail.com>
-In-Reply-To: <Z79JyhOQUI_LV4oV@blossom>
-References: <20250222-apple-soc-misc-v1-0-1a3af494a48a@svenpeter.dev>
- <20250222-apple-soc-misc-v1-2-1a3af494a48a@svenpeter.dev>
- <Z7y14Q3ifu7U1tHI@blossom>
- <63c5cbfe-4751-4409-9be7-2fda21b09503@app.fastmail.com>
- <Z79JyhOQUI_LV4oV@blossom>
-Subject: Re: [PATCH 2/4] soc: apple: rtkit: Implement OSLog buffers properly
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250226-apple-soc-misc-v2-1-c3ec37f9021b@svenpeter.dev>
+References: <20250226-apple-soc-misc-v2-0-c3ec37f9021b@svenpeter.dev>
+In-Reply-To: <20250226-apple-soc-misc-v2-0-c3ec37f9021b@svenpeter.dev>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Janne Grunau <j@jannau.net>, 
+ Sven Peter <sven@svenpeter.dev>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1269; i=sven@svenpeter.dev;
+ h=from:subject:message-id;
+ bh=7cIMb5W1B1VA4bj9uxkLGyPS9AbrGxHzx345cZFtAjE=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ/r+lD1Bh8qjJmd9L3nt8Wfjzf+VE6cxljdMYp51V4h1z
+ vIHkkldHaUsDGIcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJ2P5kZLgmfEC234zvaQHL
+ m+Umc17u7+aRLZvYOX3X/zuc2WEseraMDC8UpRU3M5w+m8wbFMrmMJk5MVT9T/cVw9a5b4/G77j
+ qwgkA
+X-Developer-Key: i=sven@svenpeter.dev; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@svenpeter.dev/default with
+ auth_id=167
+X-Original-From: Sven Peter <sven@svenpeter.dev>
+Reply-To: sven@svenpeter.dev
 
+From: Janne Grunau <j@jannau.net>
 
+This state is needed to wake the dcp IOP after m1n1 shut it down
+and works for all other co-processors as well.
 
-On Wed, Feb 26, 2025, at 18:05, Alyssa Rosenzweig wrote:
->> >> +	if (ep == APPLE_RTKIT_EP_OSLOG) {
->> >> +		buffer->size = FIELD_GET(APPLE_RTKIT_OSLOG_SIZE, msg);
->> >> +		buffer->iova = FIELD_GET(APPLE_RTKIT_OSLOG_IOVA, msg) << 12;
->> >> +	} else {
->> >> +		buffer->size = FIELD_GET(APPLE_RTKIT_BUFFER_REQUEST_SIZE, msg) << 12;
->> >> +		buffer->iova = FIELD_GET(APPLE_RTKIT_BUFFER_REQUEST_IOVA, msg);
->> >> +	}
->> >
->> > The shifts are suspiciously asymmetric. Are we really sure this is
->> > correct? My guess is that both size & iova for both oslog & buffer need
->> > to be page-aligned, so all 4 lines should be shifted, and the bit
->> > offsets should be adjusted in turn, and the lower 12-bits in oslog_size
->> > and buffer_iova are reserved. But that's just a guess.
->> >
->> > Anyway if this logic is really what we want it deserves a comment
->> > because it looks like a typo.
->> 
->> That guess can't be true for syslog since there's no change in behavior here
->> and the syslog endpoint has been working fine so far. This common code is
->> also used for other endpoints that request buffers and there haven't been
->> any issues there either. The size is just passed in "number of 4k chunks"
->> and the IOVA needs no additional fixups.
->> 
->> 
->> The entire reason for this commit is because this common logic just didn't
->> work for oslog. Our u-boot fork uses the same logic as used here [1]. We're stealing
->> a chunk of MTP's SRAM to make hand-off to Linux easier there. If either size or
->> IOVA was off by a factor 0x4000 this would've never worked in the first
->> place.
->
-> I'm not suggesting things are off by a factor of 4k. Rather I'm
-> questioning what the behaviour is when we're not 4k aligned. (I.e.
-> the syslog or oslog buffer does not both start and end at 4k
-> boundaries.)
->
-> If we're aligned, all our bottom bits are 0, and hypothetically we're
-> putting 0 into "reserved-must be zero" bits.
->
-> I guess it's inconsequential if everything is 4k aligned in practice.
-> But .. is it? I don't know.
+Signed-off-by: Janne Grunau <j@jannau.net>
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+ drivers/soc/apple/rtkit.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+index 2f5f878bf899..be0d08861168 100644
+--- a/drivers/soc/apple/rtkit.c
++++ b/drivers/soc/apple/rtkit.c
+@@ -12,6 +12,7 @@ enum {
+ 	APPLE_RTKIT_PWR_STATE_IDLE = 0x201, /* sleeping, retain state */
+ 	APPLE_RTKIT_PWR_STATE_QUIESCED = 0x10, /* running but no communication */
+ 	APPLE_RTKIT_PWR_STATE_ON = 0x20, /* normal operating state */
++	APPLE_RTKIT_PWR_STATE_INIT = 0x220, /* init after starting the coproc */
+ };
+ 
+ enum {
+@@ -898,7 +899,7 @@ int apple_rtkit_wake(struct apple_rtkit *rtk)
+ 	 * Use open-coded apple_rtkit_set_iop_power_state since apple_rtkit_boot
+ 	 * will wait for the completion anyway.
+ 	 */
+-	msg = FIELD_PREP(APPLE_RTKIT_MGMT_PWR_STATE, APPLE_RTKIT_PWR_STATE_ON);
++	msg = FIELD_PREP(APPLE_RTKIT_MGMT_PWR_STATE, APPLE_RTKIT_PWR_STATE_INIT);
+ 	ret = apple_rtkit_management_send(rtk, APPLE_RTKIT_MGMT_SET_IOP_PWR_STATE,
+ 					  msg);
+ 	if (ret)
 
-For the common buffers at least we sometimes _get_ the address from the
-co-processor when it e.g. points to its internal SRAM. We could access any
-buffer aligned to a 4 byte boundary in that case because it's just MMIO
-access then and I'm not even sure how strongly the buffer passed to us will be aligned.
-I'd rather not zero out bits there because we just cannot be sure those really
-are reserved.
-If the co-processor only asks for a buffer we'll grab it using dma_alloc_coherent
-and it's going to be aligned anyway then.
+-- 
+2.34.1
 
-
-For oslog there aren't even any "reserved lower bits" in the message. It really
-expects the down-shifted address on the wire starting at bit 0.
-
-
-
-Sven
 
