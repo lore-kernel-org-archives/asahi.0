@@ -1,97 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38786238D33;
-	Wed, 26 Feb 2025 19:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A565821E096
+	for <asahi@lists.linux.dev>; Wed, 26 Feb 2025 19:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740596417; cv=none; b=NdKJhmOieKBXrwjiMVUaffCogPbi7aVwZ98ot3nMDn+oeU8MQVJismuU+avz9sUsxDWcsQ7fIMQYoKB12U9YjVCj3v7Eqt/5KkqBr2iXL6dzTHOfVHxqfrttdx8m5+kBW1VEgJZqD4LaY+mrjlOjwPodRIfCpgbbVTOMJwR2aF4=
+	t=1740596814; cv=none; b=ES59fDzsFAur1j7D6/rNbypddpJrNigA7PY6T/5mNh1L8Alxv3BFzLRA8vpxA3usa4sFD7r4CviGqx3ThBGnWAcicik84yqfDBlcwQ+aa1pgckHNEVtxzepdXAZKPoC22W8GVsPg0eiyHXi2/RkwsIzq95KTAZDqUvqKgbm+f18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740596417; c=relaxed/simple;
-	bh=+42kuksOlhzcBQPYk3PSr8n66m0DZ2Ays+BbNMN38cY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tS7Z9JKphhirkxVtjkiUbUtQKinOAddABrntz50/u1Q85Of7Zmupt5O3r/79VL86ZtyJjROQgzIbXGQVb8bTCYEO/utd/ByiwE013q7GIzNLGnYptKuozTakeWbwZAAUoKJihZooUCAGTsk2UIpbPKHsCg9039GBIo8DiuHzsno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0Xm6pVm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740596814; c=relaxed/simple;
+	bh=PlUexOYImPj5tei0xk01zKpou5g/+w1rF72lF5C1g6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C03V00KWqI9qI77q2X+SFMxIyp+Vt9jyt3if6hQR33DlHwE5cL9+SFi/uoxOSzXGahV17E636a2qn1BuGGG2pdAqLz33avZy6gyZJCPzEAru3OiQy/C50vHT2XEX1tYqLOaFqGvOyNd0G4xoNkRN2o4K//Wp6TA2lelYOWc8ZTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=qVx7MQzd; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0Xm6pVm"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DAA9BC4CEEA;
-	Wed, 26 Feb 2025 19:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740596416;
-	bh=+42kuksOlhzcBQPYk3PSr8n66m0DZ2Ays+BbNMN38cY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=U0Xm6pVmkP2OlUb3J4Cv/yIEuucen0nc8VsYSW5vwJonhMr68Uiwqjo7mB+7ZHvQ9
-	 JrI8zTh8Spu3oNow/c9bIlP51XGoUHzmFv8d47gjq0+QR0U2tf90GmZOP7qFRFA5ch
-	 L7bPUaCYHr/6V5NV/pyMcP3cauMbIzwvzsaMOkBjlEqui0/pMHdd1A5QaUF83tgg9C
-	 iXGIW+fqc9ifLkGpHQ12yKobijT/oAxatH4sB9gEvJuuSgmKRKendZN6kB5JTKLIwo
-	 xo4WVnoNRKl64Uk85ALl9wWkoPjFW9HoeV+oPybyUyCEtLlV1ZOAxGkHD5a+rtQfla
-	 77CH70JYioL+g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D329BC021B8;
-	Wed, 26 Feb 2025 19:00:16 +0000 (UTC)
-From: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
-Date: Wed, 26 Feb 2025 19:00:06 +0000
-Subject: [PATCH v2 4/4] soc: apple: rtkit: Cut syslog messages after the
- first '\0'
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="qVx7MQzd"
+Date: Wed, 26 Feb 2025 14:06:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1740596808;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tw42xid+WUwsyTXO3dfqODQosn1SYPoGt8Yoqu9g61Y=;
+	b=qVx7MQzdPH944+qyXMOoDK5ZWsYeILr/Ab+IeBjUCMmdn7V8E82fLSi3f2zKvfsAMqW9a2
+	vmJZ8yINouV+QYKzS/5a7UoTY8xh3E2Lce6JiN0RyKEZ5wPQGkNxcbAnK/pso4QmeKIXKP
+	OOUdPOBznVg19MBbxRYhe7pPY7BFjSMZfpIguTK9LE3g/Q1gHYtul+9wN42VIF33nGzC/W
+	XZ6tg2jLzRQZO8nz32FC49Yl8EWv4DBp9C/YH0euIaGEi+NWDheeQcAyCWARRaVhQkr0A+
+	8PTQxj4z4mubk/OHsoj3zw9qCFq56k4rCvrs3UivpsffJU4zksmqGIKkvVBc/g==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: sven@svenpeter.dev
+Cc: Janne Grunau <j@jannau.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] soc: apple: rtkit: Add and use PWR_STATE_INIT
+ instead of _ON
+Message-ID: <Z79mQqfYQH_rituh@blossom>
+References: <20250226-apple-soc-misc-v2-0-c3ec37f9021b@svenpeter.dev>
+ <20250226-apple-soc-misc-v2-1-c3ec37f9021b@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250226-apple-soc-misc-v2-4-c3ec37f9021b@svenpeter.dev>
-References: <20250226-apple-soc-misc-v2-0-c3ec37f9021b@svenpeter.dev>
-In-Reply-To: <20250226-apple-soc-misc-v2-0-c3ec37f9021b@svenpeter.dev>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Janne Grunau <j@jannau.net>, 
- Sven Peter <sven@svenpeter.dev>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1047; i=sven@svenpeter.dev;
- h=from:subject:message-id;
- bh=J8uNhQd4K8sLsyiwKJwYYfLSFRN53J4ELGphw4z4HHQ=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ/r+lH1uAVs+eKaVxVdt0rz+94SbXkKDzbIZyQ1mUcv+a
- JxaF+DVUcrCIMbBICumyLJ9v73pk4dvBJduuvQeZg4rE8gQBi5OAZiIcR7D//TfGe0xl/Wt21bf
- Zdi9Lv2qgW5tVm7mim5lq2Lvki4PTkaG6W3nfsh4rJnOdmP2FS2WiU2Ha5LXhUpPLNM+Ntuoy1O
- FGwA=
-X-Developer-Key: i=sven@svenpeter.dev; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@svenpeter.dev/default with
- auth_id=167
-X-Original-From: Sven Peter <sven@svenpeter.dev>
-Reply-To: sven@svenpeter.dev
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250226-apple-soc-misc-v2-1-c3ec37f9021b@svenpeter.dev>
+X-Migadu-Flow: FLOW_OUT
 
-From: Janne Grunau <j@jannau.net>
-
-Certain messages from DCP contain NUL bytes in the random data after the
-NUL terminated syslog message. Since the syslog message ends with '\n'
-this results in a dev_info() message terminated with two newlines and an
-empty printed line in the kernel log.
-
-Signed-off-by: Janne Grunau <j@jannau.net>
 Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
----
- drivers/soc/apple/rtkit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-index 4b78463dd5a1..5fffd0f003dc 100644
---- a/drivers/soc/apple/rtkit.c
-+++ b/drivers/soc/apple/rtkit.c
-@@ -477,7 +477,7 @@ static void apple_rtkit_syslog_rx_log(struct apple_rtkit *rtk, u64 msg)
- 
- 	log_context[sizeof(log_context) - 1] = 0;
- 
--	msglen = rtk->syslog_msg_size - 1;
-+	msglen = strnlen(rtk->syslog_msg_buffer, rtk->syslog_msg_size - 1);
- 	while (msglen > 0 &&
- 		   should_crop_syslog_char(rtk->syslog_msg_buffer[msglen - 1]))
- 		msglen--;
-
--- 
-2.34.1
-
-
+Le Wed , Feb 26, 2025 at 07:00:03PM +0000, Sven Peter via B4 Relay a écrit :
+> From: Janne Grunau <j@jannau.net>
+> 
+> This state is needed to wake the dcp IOP after m1n1 shut it down
+> and works for all other co-processors as well.
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  drivers/soc/apple/rtkit.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+> index 2f5f878bf899..be0d08861168 100644
+> --- a/drivers/soc/apple/rtkit.c
+> +++ b/drivers/soc/apple/rtkit.c
+> @@ -12,6 +12,7 @@ enum {
+>  	APPLE_RTKIT_PWR_STATE_IDLE = 0x201, /* sleeping, retain state */
+>  	APPLE_RTKIT_PWR_STATE_QUIESCED = 0x10, /* running but no communication */
+>  	APPLE_RTKIT_PWR_STATE_ON = 0x20, /* normal operating state */
+> +	APPLE_RTKIT_PWR_STATE_INIT = 0x220, /* init after starting the coproc */
+>  };
+>  
+>  enum {
+> @@ -898,7 +899,7 @@ int apple_rtkit_wake(struct apple_rtkit *rtk)
+>  	 * Use open-coded apple_rtkit_set_iop_power_state since apple_rtkit_boot
+>  	 * will wait for the completion anyway.
+>  	 */
+> -	msg = FIELD_PREP(APPLE_RTKIT_MGMT_PWR_STATE, APPLE_RTKIT_PWR_STATE_ON);
+> +	msg = FIELD_PREP(APPLE_RTKIT_MGMT_PWR_STATE, APPLE_RTKIT_PWR_STATE_INIT);
+>  	ret = apple_rtkit_management_send(rtk, APPLE_RTKIT_MGMT_SET_IOP_PWR_STATE,
+>  					  msg);
+>  	if (ret)
+> 
+> -- 
+> 2.34.1
+> 
+> 
