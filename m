@@ -1,76 +1,77 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C0321C9F2
-	for <asahi@lists.linux.dev>; Wed, 26 Feb 2025 15:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31EF21E08D
+	for <asahi@lists.linux.dev>; Wed, 26 Feb 2025 16:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740584869; cv=none; b=K+Gzly/R0D5gMOlOiBEDo/CsotPLcTOcE6kJh72qEWuYAoWjPuUH7lJnk4GOIZMM1czRfiEXV6Sc51UvpU0WcCBDWTYjUd5nDQe0xWqxxLddTmqHF9nqohC4zfgh4o5rxI8TYMVTA3HMUEpSLzz9kQ8BzN/hRt2hWnd/9TZPRHQ=
+	t=1740588725; cv=none; b=DzDEtH6PG2/KR6GX4FimpimRI3Fproxn9Eoq123EgVD2d5zDMn2W2DLwb5meiNc6Mr7gtZdyXrwSYaKCEQ8hLT5NxTyNjwdwA+H0hA2Burbrx7kFm9PJBIZEGv1q8oeJ5lQqHee5inh8XzYtIXNxBFycNJ3cB6R+O/1ENyI/ToI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740584869; c=relaxed/simple;
-	bh=QVPeSoVcagmA8sHcPpQJt/J0aaFaxx6wVciUnRmE1Ng=;
+	s=arc-20240116; t=1740588725; c=relaxed/simple;
+	bh=jAnxxUBZkMArF5ezoFHTnzmqC7CXXOP/qNQnnrdNBns=;
 	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=LdP8jnLW8oGLUR2drGGzjrD4NcM5Pkxx4VzOs61BJaSCp+AEW8WytLGZOOZ18uddHYXDmw8wGTVfsXiOgPAbO/OBzpPh/plCu0J+/NPIwjd4Zs+2XYIfZMKXwmYInf5ZvEoWngT8zb/wAzZjWziCFSFjT1tjUKAgjHvB/qPuumM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=PYAy++DD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LitOKgpY; arc=none smtp.client-ip=103.168.172.146
+	 Subject:Content-Type; b=rTNEzSSQXiwONruBLTzK2HWGWvVgnqjKQcFzAtCRjurtctkk2QctqzHgy0WyHWo7msqRo2/vi5ViZVGOBbMl94IhVLJORc4QKMOlrQGH53AIG+sC2LDUEEcdbAuNjQyW+oko8F+oXAaET6Ry9ejIlJD2CuBhZ3BYSiv+vVsiaTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=g4ieDrVv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KBJbDOIZ; arc=none smtp.client-ip=103.168.172.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="PYAy++DD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LitOKgpY"
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="g4ieDrVv";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KBJbDOIZ"
 Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id DAA39138025C;
-	Wed, 26 Feb 2025 10:47:46 -0500 (EST)
+	by mailfhigh.phl.internal (Postfix) with ESMTP id AE8FB1140094;
+	Wed, 26 Feb 2025 11:52:02 -0500 (EST)
 Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-10.internal (MEProxy); Wed, 26 Feb 2025 10:47:46 -0500
+  by phl-compute-10.internal (MEProxy); Wed, 26 Feb 2025 11:52:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
 	 h=cc:cc:content-transfer-encoding:content-type:content-type
 	:date:date:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1740584866; x=1740671266; bh=Q6Vh6ok9v7vS3mdkra6rnIMarTJ4HEbp
-	vw5ta2XHGVU=; b=PYAy++DDH/OcqFRBTwfBJaauqSElCUNFYbjLAxHjluCeF3fB
-	gM5SmcDe0ZvUTRq2mrWajgxXJ1EJ+Q6+Nx/UN/GLSHDCxjHNogFyx/DJCE5B1NyF
-	aFk/RBOc1vv2Ody0SJcwB0mB7JHSclL5O/RfmKkicO5jVgaLfNd2na2kJKAYau/p
-	x2w0f2doOP2vj30XLJNvewDGU2pWf0/fW77GS9hxZddFqN5HCM0PJ5MN968ftjHW
-	5LdedPtsSdM4s0u9ANGD/B+IOWRb4dGw2hS/S9ah64RE7aXHE/OwpeWvARAeHbEI
-	FnooeccnRbLV7nYAR0gpI8SKBxp1R9e0lJjwvw==
+	 t=1740588722; x=1740675122; bh=5iYy0IpLCeQb1PHojS9KoM42iYxcOqMQ
+	sa9CMfL/p/c=; b=g4ieDrVv/phXnemR3ZsNThAk6E6AZbzLbXJAMV8sJ8sYq63f
+	C9l1L+KTzRWxZCTuoBAsnCkGKNjKdkaiXGvcW8V1yzw2JaeSBvPwfp1WnpQ00Aut
+	XcKK3uF858Mr3vwuu1sx1GEzscaCN4U1QoMUj9ardGnUJzM31t9wa155iHJjauzl
+	27yl0jUZlnvRVIhJctmudrk2Y5FMOKZtgZ+8hxkQieIA7iKojT7IvwZGhDh9BKQW
+	zwOYVE9KoMX6Jg9URnZ7mXjzGkkSh19GhNxEeeNDI/cuNB+LrVgNTaOb1AG87X53
+	JLZMWsIUc/sPraV1lRNGXYEzEmIzeNczIwPR6Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740584866; x=
-	1740671266; bh=Q6Vh6ok9v7vS3mdkra6rnIMarTJ4HEbpvw5ta2XHGVU=; b=L
-	itOKgpYd7s4W2vIpYDz5XFpeZbTH0OczmdjA+bii/mCOFgOQSyF0evE2WP3sNv+T
-	DyYUp9688OZtfJJFCdrIjcmn+4FNMptq1wOTPqqfSVYZNlnzW9ntN3o6XILOh2mb
-	NsHTiBqd3G4TRL9Kl3/u9CwX/nW03m9E+kHXJzAV7j5DMaaQAJWrdMRlZj1WEka0
-	+oKkgXEe+XGhBJQqUa140AX9soLztiQHoR7rWNfmMQAIngpJBGAkztxDqEKELAfn
-	4wEcNWfpahzxkjhZRxBcXiOyV4n1dHT8jar72QoiKpG30JRxgVQ9WEejdkIVOE7X
-	ivFwC9Ern6Is2pTm6YKRg==
-X-ME-Sender: <xms:oje_Z9QZMhxLpTqrf8Ncchj8O95vC2-yjJQpRdPWvO8D6lyhqvQ9fg>
-    <xme:oje_Z2yT7_NoFzKGyeR_VZjAdsw_zys1m7cNV4c4M4YITZfq1sKSqnBUe0bKH3aVP
-    ot5T7z5Ah602yvPcTM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekgeelkecutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740588722; x=
+	1740675122; bh=5iYy0IpLCeQb1PHojS9KoM42iYxcOqMQsa9CMfL/p/c=; b=K
+	BJbDOIZUmLK+w/0hXVbFDRphkfhDphV97il3nzweFbcxWAJEFDjU8Gqw2nFoBi0b
+	o6Av1GVysfMFWCuefVHOy+gjv9lAQGNwlHZ0cgGATLitdagCdzxv2o1zwgQGJdjg
+	OD4wZtqAUwI0OryKx/TDwrj2ZEcxKcvYD51ObUDPBMfg0lxVmDGnY2jp5KaHdKeA
+	hBzMHJRB9DH4vtbWij9TnQXMWtJCX9Br5OAGPf5mtX5CSUfB6ZGe4P1xmWJhS/sl
+	x2BPoNXdVQzAtxeoz9W6CqFswHcsAkNrKs56A8qeteHgSazbV/0EuaBLo6cJw6XP
+	QdosrjWtjktUSlZafCg8g==
+X-ME-Sender: <xms:sUa_Z4RY0KqV2cDjzbFvyZ_o0xAouYiCysSFrkIj_2NPaFiyWR1bnw>
+    <xme:sUa_Z1xk4kM9Jj9iW699vYSOR03jmfTc97a3GJ-ZLpZLijBgtf7SWtgsdLNy-7kPG
+    4x63_D32yAYzy662hI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekheduudcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
     tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
-    hrrdguvghvqeenucggtffrrghtthgvrhhnpeelfeetueegudduueduuefhfeehgeevkeeu
-    feffvdffkedtffffleevffdvvdeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghr
-    tghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhesjhgrnhhnrg
-    hurdhnvghtpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhs
-    rdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlh
-    hinhhugidruggvvhdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhi
-    ohdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdroh
-    hrgh
-X-ME-Proxy: <xmx:oje_Zy0lZaJVcsY8STYPuH9UqVc5UgiOXZQzVlprgaOWborWOhO6YQ>
-    <xmx:oje_Z1Cu1pSVK0HQwvSLnSj0bK1H-nTFN9-FpOKL6QLeUjG2Mp4k0Q>
-    <xmx:oje_Z2jcB4508kLkXV49iNS2PLbpIBff48T0Aq4FNSVNCi3hEELIUg>
-    <xmx:oje_Z5rkJGpO8WPvpdqxyoYcFox_D0k3PMM-7XH76f0p3ATq7z10XA>
-    <xmx:oje_Z-ccaxV6X53VNPqdlCJDNyFpbjGUnrDajBiBG_EAcEQT3IQYdZiJ>
+    hrrdguvghvqeenucggtffrrghtthgvrhhnpeegheduteffteeguefgteeugeffvdejgefg
+    gfegkedthffgudfhudduieelkeekkeenucffohhmrghinhepghhithhhuhgsrdgtohhmne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghn
+    sehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopehlihhn
+    uhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprh
+    gtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohep
+    mhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoheprghlhihsshgrsehrohhsvg
+    hniiifvghighdrihhopdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
+    khgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:sUa_Z127v5F1-tpz_DKAqecbUd9oZRtYLG4AJuxaWLIRoiaKOxaQFw>
+    <xmx:sUa_Z8DAl_UAdWwb2mIcj2iO8LqEc9RuvyJNj4d3i5B61o1RAhZqbA>
+    <xmx:sUa_ZxhWDVY2g5KByIq7c4dKW-uOc4w_ezxWdLEWpL8rw5rn2qKbRA>
+    <xmx:sUa_Z4rUDU6lA7RnFBhp6lG2kcbfeKFv3TrbtaM0DkoeIeQnC8V-nA>
+    <xmx:ska_Z_ZVP3Lm1_PJXM5UDde9viUfhnDEgXIdFDIYe7jvGiWoPzm8HmU9>
 Feedback-ID: i51094778:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 90C69BA006F; Wed, 26 Feb 2025 10:47:46 -0500 (EST)
+	id CA904BA006F; Wed, 26 Feb 2025 11:52:01 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -78,40 +79,59 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 26 Feb 2025 16:47:25 +0100
+Date: Wed, 26 Feb 2025 17:51:40 +0100
 From: "Sven Peter" <sven@svenpeter.dev>
 To: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>
 Cc: "Janne Grunau" <j@jannau.net>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Message-Id: <0b3db5a1-a57f-4ccb-9f7c-6df16d4319a5@app.fastmail.com>
-In-Reply-To: <Z7y0gJPD5-OQvyog@blossom>
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ "Hector Martin" <marcan@marcan.st>
+Message-Id: <63c5cbfe-4751-4409-9be7-2fda21b09503@app.fastmail.com>
+In-Reply-To: <Z7y14Q3ifu7U1tHI@blossom>
 References: <20250222-apple-soc-misc-v1-0-1a3af494a48a@svenpeter.dev>
- <20250222-apple-soc-misc-v1-1-1a3af494a48a@svenpeter.dev>
- <Z7y0gJPD5-OQvyog@blossom>
-Subject: Re: [PATCH 1/4] soc: apple: rtkit: Add APPLE_RTKIT_PWR_STATE_INIT
+ <20250222-apple-soc-misc-v1-2-1a3af494a48a@svenpeter.dev>
+ <Z7y14Q3ifu7U1tHI@blossom>
+Subject: Re: [PATCH 2/4] soc: apple: rtkit: Implement OSLog buffers properly
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
 
-On Mon, Feb 24, 2025, at 19:03, Alyssa Rosenzweig wrote:
->> -	msg = FIELD_PREP(APPLE_RTKIT_MGMT_PWR_STATE, APPLE_RTKIT_PWR_STATE_ON);
->> +	msg = FIELD_PREP(APPLE_RTKIT_MGMT_PWR_STATE, APPLE_RTKIT_PWR_STATE_INIT);
+On Mon, Feb 24, 2025, at 19:09, Alyssa Rosenzweig wrote:
+>> +	if (ep == APPLE_RTKIT_EP_OSLOG) {
+>> +		buffer->size = FIELD_GET(APPLE_RTKIT_OSLOG_SIZE, msg);
+>> +		buffer->iova = FIELD_GET(APPLE_RTKIT_OSLOG_IOVA, msg) << 12;
+>> +	} else {
+>> +		buffer->size = FIELD_GET(APPLE_RTKIT_BUFFER_REQUEST_SIZE, msg) << 12;
+>> +		buffer->iova = FIELD_GET(APPLE_RTKIT_BUFFER_REQUEST_IOVA, msg);
+>> +	}
 >
-> Commit message doesn't match the code. Just adding the state doesn't
-> imply a behaviour change but the patch is one. How about "Use INIT state
-> instead of ON" or something to make explicit the behaviour change?
+> The shifts are suspiciously asymmetric. Are we really sure this is
+> correct? My guess is that both size & iova for both oslog & buffer need
+> to be page-aligned, so all 4 lines should be shifted, and the bit
+> offsets should be adjusted in turn, and the lower 12-bits in oslog_size
+> and buffer_iova are reserved. But that's just a guess.
+>
+> Anyway if this logic is really what we want it deserves a comment
+> because it looks like a typo.
 
-Good point, will change the commit message to something like this for v2:
-
-    soc: apple: rtkit: Add and use PWR_STATE_INIT instead of _ON
-
-    This state is needed to wake the dcp IOP after m1n1 shut it down
-    and works for all other co-processors as well.
-
+That guess can't be true for syslog since there's no change in behavior here
+and the syslog endpoint has been working fine so far. This common code is
+also used for other endpoints that request buffers and there haven't been
+any issues there either. The size is just passed in "number of 4k chunks"
+and the IOVA needs no additional fixups.
 
 
-Thanks,
+The entire reason for this commit is because this common logic just didn't
+work for oslog. Our u-boot fork uses the same logic as used here [1]. We're stealing
+a chunk of MTP's SRAM to make hand-off to Linux easier there. If either size or
+IOVA was off by a factor 0x4000 this would've never worked in the first
+place.
+
+I'll add a comment that this is really what we want even though it looks odd.
 
 
 Sven
+
+
+[1] https://github.com/AsahiLinux/u-boot/blob/582f851413c3fd1fcd60d701ed54fff2e840b9cf/arch/arm/mach-apple/rtkit.c#L144
+
