@@ -1,94 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E401B041C;
-	Thu, 27 Feb 2025 16:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6E11B4F15;
+	Thu, 27 Feb 2025 16:56:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740673426; cv=none; b=gC+xhSHP621dN839C+RRc+VxC+YlYWP8G5pHUGbFmdiaqxtZOvqG/bkDTY5mTBZvIFfqWOFR46lm11PAwKqkR1BIJWSygZYzsuhf/ebVzGHXIZKa6wyjdMiIEYoDHjHGOsNKmeH/gGeN22k3IQGg64Kxpn8zoPP6q9S2KvDlBGw=
+	t=1740675368; cv=none; b=q4K+ypgMAES37orrn/zGonitBLBhWmXjR/tAwHd/00T5jKsojpDwd90pgRbkNtR0kPltqFplde3DDsdKGE9Zhxr1TIAaJF4+Hj7XX1/L+az+NwvwIFIgG3pp8vFK9/MGo/keUNcT2Alhs2s9eKwXX9YNZZWlp0eTTt1iMHgkX28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740673426; c=relaxed/simple;
-	bh=hRTLLI+V63ZTqfAe2Vku07MrmJYqxX3HszgPccCeGOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pmQFgwfuQhCq67b4d9GT+v7ZqKb/J6AfHYkAKLuPv0Gc34pjyN7ZvIX1HGdieka3VINhlnI4mr/CoeycKsApG717k2US2H7XwlqI/jQ4AhOD7l+Grm/iJKpda+H7AjWlgubzNM3Aj5YhoT3zUzoIgjYu64rQ682dFmWWQpLPLxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOKBAi98; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740675368; c=relaxed/simple;
+	bh=4UiMkKkA2k7XmYBH6m4C6kTI8TjWMvHDne3q7Wmshd8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Xm98MD+9JlW8MJA4YnXur+zMcEyPyJLOSt4a9u82vQ1vuoyYJJQtOT7anNy4fpHP2bRO5O9N+YkBdmLp7CPGz0KCEoEz6r03IvGHPxg3vj2JZ3NlNQQYF63WfyKJeB6PbqSv0QJB8eaodN71wipk6Em2k13RRaoHqZjjI9OHkm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r3WXj7Zf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOKBAi98"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04A91C4CEEA;
-	Thu, 27 Feb 2025 16:23:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r3WXj7Zf"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 039B5C4CEE7;
+	Thu, 27 Feb 2025 16:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740673425;
-	bh=hRTLLI+V63ZTqfAe2Vku07MrmJYqxX3HszgPccCeGOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VOKBAi98ARB2s4C+nQkth1QQmgpZpAeJmIoDnuzPYAwSqYKdRPiLglOJh8K0wJ2Tt
-	 RSiMHP/IG9omE9EJU1TckpKuoetbPqgaC7FkGj8rUa/LixV48XsdNRNAaZviudNXNc
-	 TV0sCWnh1ZPqVu8qdKJyRQR4HwLJZAEP5L1ZkBNSy0HqMWilDYwRr5Vs+/jq1EU86Q
-	 L7daRO6SIg4pyL+ht5dMplMTMrww8zGlyXFZNIkTROX3CoDBQ9YbMP8DcHnFZdiKKe
-	 WJkqLLBEqG+yioiIUltbt6FiOaCEMcEkYkLF7QfrtSzxHov2TBYuNZtPZRurTNPD1H
-	 7HRl3rBU8bTFw==
-Date: Thu, 27 Feb 2025 16:23:37 +0000
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shi Fu <shifu0704@thundersoft.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH v3 15/20] ASoC: tas2764: Enable main IRQs
-Message-ID: <f3eecce4-51d1-4414-af85-680d51e588fa@sirena.org.uk>
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <20250227-apple-codec-changes-v3-15-cbb130030acf@gmail.com>
+	s=k20201202; t=1740675368;
+	bh=4UiMkKkA2k7XmYBH6m4C6kTI8TjWMvHDne3q7Wmshd8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=r3WXj7Zf9qbAc4E44AOSlvzhMW8gE1wOPf+XLxyFDJfByYEYpiuwzAE3i65/G8kyO
+	 60YB0MdyzN95iADRDOKAJBg5Bx4hjlRKVjuLv+vL47fRZZPv0EyYVA4S03iwvcmCjv
+	 VpGWnW4zCpwHraa4KfdmZG+nScj3iOIDKf6qBBesR8FMshSSo8eHjoSu7yPCIXf3qC
+	 bfUXHYo42MPHIo1IUqoq4xSVmX9GUXeB9ewt8dVqp3Lw25lTRHoJ8x0+Nhag1WDe7y
+	 0z0pOQ2CeeL03jp38KB87WLdvAMNdBEkOjGOidaVDE+QTUJWrm8EsL+sTAYGtV1Wlq
+	 bNR85VXu28Qyw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2E65C282C1;
+	Thu, 27 Feb 2025 16:56:07 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Date: Thu, 27 Feb 2025 17:56:03 +0100
+Subject: [PATCH 1/2] iommu: apple-dart: Increase MAX_DARTS_PER_DEVICE to 3
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Xh/2KfVmmxBW7uMY"
-Content-Disposition: inline
-In-Reply-To: <20250227-apple-codec-changes-v3-15-cbb130030acf@gmail.com>
-X-Cookie: Swim at your own risk.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250227-isp-dart-v1-1-161e91ef4f46@gmail.com>
+References: <20250227-isp-dart-v1-0-161e91ef4f46@gmail.com>
+In-Reply-To: <20250227-isp-dart-v1-0-161e91ef4f46@gmail.com>
+To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740675366; l=643;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=VLb6ei5YDATwjI9GwTuWhThgZUr54hxXR+bLrvtteos=;
+ b=nGennlX6EccZFKEYMqV//HecoBeGHkhvWIENZ1kzeI1LmLGnOIbWsPLane7YabErGkJ94lnzi
+ EDuLvx5Cd4UCBm8e92qD8T/Q5beHjuc2U6wmjryWx2nGorcigYKmfbH
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
+
+From: Hector Martin <marcan@marcan.st>
+
+ISP needs this.
+
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+ drivers/iommu/apple-dart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index 95ba3caeb40177901086076416874b9905a1f40a..edb2fb22333506d7c64ad1b6321df00ebfd07747 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -36,7 +36,7 @@
+ 
+ #define DART_MAX_STREAMS 256
+ #define DART_MAX_TTBR 4
+-#define MAX_DARTS_PER_DEVICE 2
++#define MAX_DARTS_PER_DEVICE 3
+ 
+ /* Common registers */
+ 
+
+-- 
+2.48.1
 
 
---Xh/2KfVmmxBW7uMY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 27, 2025 at 10:07:42PM +1000, James Calligeros wrote:
-> From: Hector Martin <marcan@marcan.st>
->=20
-> IRQ handling was added in commit dae191fb957f ("ASoC: tas2764: Add IRQ
-> handling") however that same commit masks all interrupts coming from
-> the chip. Unmask the "main" interrupts so that we can see and
-> deal with a number of errors including clock, voltage, and current.
-
-Shouldn't this also be a fix?
-
---Xh/2KfVmmxBW7uMY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfAkYkACgkQJNaLcl1U
-h9C91Qf/W/xSSm2MphMfElXu776JaJ/c1ogrwQljVZCAXT9K+gX9xynwVnjtnhPA
-a+bPEHDxgCkxvLEcjdp7sbx4h1lNjPJ+bnrlymPPUdrg4GErmcU1+QVB9bRcm0ub
-hjhLx72qSHcKK/FSWn6AwFSy8a2nqWIhbbDvBFngHptBslxBs05eaqkQGyGIn6pT
-cj1U7BtFotULFKVvrLmV+jV1Lgy688Elo6eRif4Tfpk2/2Yo0VJ9vFe6LuajFZTO
-uZgYX7VKIcySWUGCoX2o2TYZFWRSlH8kPlQn9YO65qk/gh3KJERgnkHgGYgjREwv
-dSrBxeNszlSMQUHFe7IexiRxFp/yPw==
-=B8ch
------END PGP SIGNATURE-----
-
---Xh/2KfVmmxBW7uMY--
