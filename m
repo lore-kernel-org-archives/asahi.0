@@ -1,99 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A27235BF0;
-	Thu, 27 Feb 2025 14:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E20023BF99
+	for <asahi@lists.linux.dev>; Thu, 27 Feb 2025 14:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740665368; cv=none; b=g2ySpqaobw2omC2cyJA9tkT2ykTTi1IbjC65MYm1FME63NAe3ALaCHwl30GOuDoRt9q1s1KjdcQ7IX7h2L2EzwoowYTh+j0YFf/2N0Sj1T5AlZnTAl9ibKGahF/OJ8keDDt1xyJ+Zse3QdAWgz8pRrRgv2a2T+AHIx5/CtWS8NM=
+	t=1740667424; cv=none; b=lgqcXkTofPYQDN9266m4I4T8oPyIIbA/tLExO8A67HQFa/bhkbZP9dvJ4bgPE22AAvbaJob5i17+xNLeeEEjWtyulhOE/laon0RvotobwMbwhTadNmL6+1ghUlAr3ABR3EbOX9dvOPRyfv2A71mIA3oZlVhTiyhq633tGrF4J3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740665368; c=relaxed/simple;
-	bh=TDjlbYyga/Kdmo2q8cag6iyCiTb+t5ApmuDdADAdWMs=;
+	s=arc-20240116; t=1740667424; c=relaxed/simple;
+	bh=PKuqM641cYDMmskSgB/xhgz4dLSt0mry+F0+ufVbEKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W8Xg6AZM4lViOTvmKG0QNz/tKhuvBRF2lmeCag+hPgy/r3pqzJWXz620rMK0wZqPGRPbJrTlXtLmPg12pzpRTw85q2IlFr1JYkWi7izTTmKX+6vFRcYUTJnmqTLj1msjywguDq2+nAaB1HlwwiambT03VCOzN5LEKkMs3UOHb7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URDiW1WH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WKzdcVu376PyoLnsQ90rSkJ0mcSAKCF7DXdZkv16XQmSzrHj2LltdSQImdtCQuiDMnVbjDfty43+Wf4bqimBHLjk3gXhw7Qm9K/ecbmPXJNKWVRX8Dcj+GVD3FIzo5M7pGqY4DZVhipq+jdHYCykqAOIhfp9Mf6blDWabd6xqS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHRuQi8y; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URDiW1WH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05894C4CEE6;
-	Thu, 27 Feb 2025 14:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740665368;
-	bh=TDjlbYyga/Kdmo2q8cag6iyCiTb+t5ApmuDdADAdWMs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=URDiW1WH4pfZpqC3328Vw9HlHHU/hH8D3MPJ5NXo4Ls0Y8y+uGT8nz/daM0eLINq3
-	 5Q00kzv7aouUHw6HSIz26/diBjcn28LNvgRhL+NqCjzL5T6g8A5ykiK1WLVfqe6Dce
-	 RaBm35/ZJ51FJN+uuYgEqk7J4i+2DepW3v60HpBkzBX+ftGxhL66oYPtR9q/ThTu7w
-	 QbvfV7puDelxMxAVDPowovwwYiteU9iQ6sRQs9Xg5X5XjIdYyisXkpTC3ngFSByMNS
-	 lJ+OpDCcD3uqkX2PeAVntUJOa2Etz2MCKJ/O0XpdvDFsj4e0gcUWiZTMfxARLGUCw4
-	 pEa0HGG9WOpmQ==
-Date: Thu, 27 Feb 2025 14:09:19 +0000
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shi Fu <shifu0704@thundersoft.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH v3 07/20] ASoC: tas2764: Reinit cache on part reset
-Message-ID: <2bd2a75b-457e-447a-bfcf-549f17c05d12@sirena.org.uk>
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <20250227-apple-codec-changes-v3-7-cbb130030acf@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHRuQi8y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740667422; x=1772203422;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PKuqM641cYDMmskSgB/xhgz4dLSt0mry+F0+ufVbEKM=;
+  b=IHRuQi8yjDU5/HnMMB7WMUKabPu68IbOzH7f5m/qL96v2egKIphZfWQD
+   gn8Ng8c0+SMoRLPuGBEWCCS701et9K5tUy30GPxcsm6tfHonJGgmjXZTo
+   tGeAufYPub1ROJ/MuT6SmrQZ+lxew2laAAWGj9yy2T9nPXKSNpDRmw8X0
+   PW+pVRkxUl6GILSfHcIlC+YX92DxsR0WlH9WJgmeV9SbmB+af1XUV5E5w
+   oXbMZH9W0qecGC8FUwqzpNnXmo2Me4J0SmCxMyJO7f3U4AOxz4SMRiaJ6
+   Ryg2U33UOoS+GCuxY26rIgsJf24oTEhGLiNT/5nDdHXb48qJim5Pky1kl
+   Q==;
+X-CSE-ConnectionGUID: b0kQOv+ETwmR1HHAgjzxpA==
+X-CSE-MsgGUID: xzr/+UNcQKCKkrkzk94KYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="44384158"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="44384158"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:43:38 -0800
+X-CSE-ConnectionGUID: kzNVvKU3RTmfNsZxGFknug==
+X-CSE-MsgGUID: ImErlco9RJ6Ujqi/CBDfqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117558281"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:43:31 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tnf6l-0000000FcjH-3wGS;
+	Thu, 27 Feb 2025 16:43:27 +0200
+Date: Thu, 27 Feb 2025 16:43:27 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"sven@svenpeter.dev" <sven@svenpeter.dev>,
+	Janne Grunau <j@jannau.net>,
+	"alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v4] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z8B6DwcRbV-8D8GB@smile.fi.intel.com>
+References: <DB7F502D-1477-49C9-A36D-1DEE408ED23C@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4B6KGqyRTVYPzK2N"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227-apple-codec-changes-v3-7-cbb130030acf@gmail.com>
-X-Cookie: Swim at your own risk.
+In-Reply-To: <DB7F502D-1477-49C9-A36D-1DEE408ED23C@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+
+On Thu, Feb 27, 2025 at 06:30:48AM +0000, Aditya Garg wrote:
+> From: Hector Martin <marcan@marcan.st>
+> 
+> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+
+FourCC (as Four is not an acronym itself).
+
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FOURCCs with various endian semantics:
+> 
+> %p4ch   Host-endian
+
+Too many spaces :-)
+
+> %p4cl	Little-endian
+> %p4cb	Big-endian
+> %p4cr	Reverse-endian
+
+> The endianness determines how bytes are interpreted as a u32, and the
+> FOURCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> allow printing LSByte-first FOURCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
+
+...
+
+> +Generic FourCC code
+> +-------------------
+> +
+> +::
+> +	%p4c[hrbl]	gP00 (0x67503030)
+> +
+> +Print a generic FourCC code, as both ASCII characters and its numerical
+> +value as hexadecimal.
+> +
+> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
+> +host, reversed, big or little endian order data respectively. Host endian
+> +order means the data is interpreted as a 32-bit integer and the most
+> +significant byte is printed first; that is, the character code as printed
+> +matches the byte order stored in memory on big-endian systems, and is reversed
+> +on little-endian systems.
+
+Btw, this sounds to me that 'h' should be accompanied with 'n', otherwise it's
+confusing why BE is the host order out of the blue.
+so, it needs more information that this mimics htonl() / ntohl() for networking.
+
+Does 'r' actually should be 'n'?
+
+> +Passed by reference.
+> +
+> +Examples for a little-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cr	00Pg (0x30305067)
+> +	%p4cb	00Pg (0x30305067)
+> +	%p4cl	gP00 (0x67503030)
+> +
+> +Examples for a big-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cr	00Pg (0x30305067)
+> +	%p4cb	gP00 (0x67503030)
+> +	%p4cl	00Pg (0x30305067)
+> +
+
+...
+
+> +	switch (fmt[2]) {
+> +	case 'h':
+> +		val = orig;
+> +		break;
+> +	case 'r':
+> +		orig = swab32(orig);
+> +		val = orig;
+> +		break;
+> +	case 'l':
+> +		orig = (__force u32)cpu_to_le32(orig);
+> +		val = orig;
+> +		break;
+> +	case 'b':
+> +		orig = (__force u32)cpu_to_be32(orig);
+> +		val = orig;
+> +		break;
+> +	case 'c':
+> +		/* Pixel formats are printed LSB-first */
+> +		val = swab32(orig & ~BIT(31));
+> +		pixel_fmt = true;
+> +		break;
+> +	default:
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +	}
+
+Actually you can replace all these orig copies by introducing a new boolean, pixel_be.
+
+Will become
+
+	switch (fmt[2]) {
+	case 'h':
+		val = orig;
+		break;
+	case 'r': // or 'n' ?
+		val = swab32(orig);
+		break;
+	case 'l':
+		val = (__force u32)cpu_to_le32(orig);
+		break;
+	case 'b':
+		val = (__force u32)cpu_to_be32(orig);
+		break;
+	case 'c':
+		pixel_fmt = true;
+		pixel_be = orig & BIT(31);
+		/* Pixel formats are printed LSB-first */
+		val = swab32(orig & ~BIT(31));
+		break;
+	default:
+		return error_string(buf, end, "(%p4?)", spec);
+	}
+
+And with this the existence of 'val' now becomes doubtful, we may reuse 'orig',
+just name it 'val' everywhere, no?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---4B6KGqyRTVYPzK2N
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 27, 2025 at 10:07:34PM +1000, James Calligeros wrote:
-> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
->=20
-> When the part is reset in component_probe, do not forget to reinit the
-> regcache, otherwise the cache can get out of sync with the part's
-> actual state. This fix is similar to commit 0a0342ede303
-> ("ASoC: tas2770: Reinit regcache on reset") which concerned the
-> tas2770 driver.
->=20
-> Fixes: 827ed8a0fa50 ("ASoC: tas2764: Add the driver for the TAS2764")
-
-As previously and repeatedly mentioned please put fixes at the start of
-patch serieses so they don't end up with spurious dependencies on other
-non-fix patches.
-
---4B6KGqyRTVYPzK2N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfAcg4ACgkQJNaLcl1U
-h9BgKAf6AiGuXhc4Q9dbmhxACf/RVQiCCntr3O5Lw0MqtQZ/OzBtg/CmeZV+bVdq
-qzB3L5UQRhIl96AcMVVSQaBLzr+JPxbqTTUBAgmBWtENEarv3nbJJAcUd/MtgGYL
-VuOIQxcD8EMnQnHyd1il2C7M1EmI9No5RpuernSelphZHczPisYmP3acn38+RcfV
-aVVjngHNskuwRL5Y9Z96XhMrX+oJ3lS1XGIrCWwfaR0M9yc19pAnPwlEjyHvel6X
-dAMqPVT8EJMuPUHkXmshsT2TIcw1R7GkSEho8kfzamqVpO4ATs9fkPzLH0B/Q9Lx
-D4CMlEha5IFs29QcsrKl4rKdQE7ABg==
-=LrmF
------END PGP SIGNATURE-----
-
---4B6KGqyRTVYPzK2N--
