@@ -1,106 +1,86 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F207A26E968
-	for <asahi@lists.linux.dev>; Thu, 27 Feb 2025 21:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D162738FB0;
+	Fri, 28 Feb 2025 01:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740693534; cv=none; b=T6Fwrp1vlOmHr22UH720MnKl1p+KfkQ19g9HGca+JyiPleYcKk0B2mEZUKkN2+J0++GI9dCqJe0/TQvenV/BEB03epM+LtwiMPCTR0FmCN5INw4zzY7Nn4DEs6FMt6rpsUwftavQ+I1MR7qWhFi1nnnwpBCTNtZeuEeuIbPsrvQ=
+	t=1740707648; cv=none; b=alwwxMBVj6XGZHzljxfoKbrogbLVTrLYjQKoyYfC2G+4bQ/TyQAQbb5mx2TpwgrcE3OMiDa06FiId/XiaTsKmgv8sLsIV021URYTW9B9wifnr1hWIufN7WEQ90zbv3dxsG74R7bl3aUEGyspeIls76XKaxoOO6MKnnIhmljx5Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740693534; c=relaxed/simple;
-	bh=Dm3RxaB0CXAQe1z7lgXkILph+xq5j+lovtkROFEkZdE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XHivdrWziKojtDiIPYEMmNlhpW1jMs6i1mBdMSv0+q89bzV7ewuoFcA5jCNL/yUGp5tX3gUaQbyxZ4KYX3dIEwuttDC9odt+z0toXTEJ96YOIO05Xjg6MnQjj5j//oEEc1BIUjvmj4mfAw5dJZGQpi3t5hltd92FjID6eunV3nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=keNiisiU; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740707648; c=relaxed/simple;
+	bh=evrMTEDSuyIa1W0y6REU7nRQBwJltHcgM+KqsBzG52o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qF9+e44p3VL9HaLtexZODm8SnYWCALegroecGE3eH1Ky7jlqqiQ+39GFcwOb0t5wHUrMNQKLEJ8iDjdfg01q3W2td2Why0w0tvNKIEPoF6EKXKgNsQPWWX2VnH8SN9tgVz0PYmY61IRf0zFH0UQTCx/ylI3bgPe6GTp94mJGkEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=1GTD2Xup; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="keNiisiU"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-472180fec01so15284751cf.0
-        for <asahi@lists.linux.dev>; Thu, 27 Feb 2025 13:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740693532; x=1741298332; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dm3RxaB0CXAQe1z7lgXkILph+xq5j+lovtkROFEkZdE=;
-        b=keNiisiUn72n5vRtjxfhparT1VM4ne6KdUZF5tuA9RAuKTvf+mB4CDv5zPXNhri10S
-         58evzPiIHay5jEwcfKlHW4tfCQV6lW7TQ86L0A29qky/ZkLtbaOWrZSJNX4T6/2CtE43
-         rJbG/jzfB3hBrl1WvViQEBJKsHoF5/rw2jJy0zcwUTmIl3oYN+DuWT/sjM4dNBMkuAay
-         m1nSHTJy+1H1YhrSn7OeZeMjS4F7PJXTcKLcmT6NDwPxC+UHcyHnvtAJvvW49mkVZfW0
-         VsDjxT7AdR4JwZyfoxTwjOLBcWziQWQM1ZP4j6msDkK2vMs10xWeGskMvU9+p0YqKX7m
-         IXLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740693532; x=1741298332;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dm3RxaB0CXAQe1z7lgXkILph+xq5j+lovtkROFEkZdE=;
-        b=SjHYtBSSbWjA1Xdxs+IgtTBEbBQkTv5Ld3Av0qAlMCJgnN+WeGUrJyIksL0jKtPAEy
-         fBLbdzzeKFKrdmy+sFcB+fonBrTVC4C1l6iuR81+TB1J+TpDhHQExczfvicmkJDdhkwp
-         pHFjnHNZx7nxwODgtvPpuD5pQsxUyHlk5V7udByARkBQHPZJLdCdSZq93K0SdDgPxv3u
-         LGj49j1BAmlvizVLF8IY1/UdwnCt002uFe0ZeLL4ItOQUfjZyi7URZpYnU3H+k7UkzxF
-         CWtRUFfX4aFn81rsvCtwHZKWi5nQCEd/ZLrzisAqLKFgdMXQfT3b468kJhUfkFO5Hhlh
-         3AJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjy3+GLrOLpccAvB4BCQ6kCQvrqKA6+uu903ElcCvPHDinrrIL8Azl6Y63pN+aDkgHEs8ZYg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YypcafCI4p/26II1yRCfNIFS7yuJPQvBVj/IiR97sJ8t684qP7R
-	s9rv1T5eu1CDv2M+bMo2U6gB7mf9xgZyd+8gOGMTlx4HOpOxcVpH5LGlHZzKonHj4saLvNd2qa5
-	BPjYYTFYa64qCjGfqvy1lmqEzYr8=
-X-Gm-Gg: ASbGncvQBeHoKRfYQoHsTMt4DENXu3+RONkrmBT8VSxLF2CtJ67nFG40OBO6v+Q7C3J
-	PyUjuhS80TzkRw4+9uVhruvk/CiVfbxjrnruaUwXtnox7oCcJeFB+mAdw8u9BLlbddLOnl4naTy
-	1E5fR/xQ==
-X-Google-Smtp-Source: AGHT+IGZycxF9mK2j7Xgw/jf4P4PzwJkPkA+YQ8gNsvWst/YlqRF9ahH2kcIfaFTwicW7dgH/uB2VhA7H7UVn8sEOSQ=
-X-Received: by 2002:ac8:5ad0:0:b0:473:87fb:2ecf with SMTP id
- d75a77b69052e-474bc068615mr12002921cf.21.1740693531852; Thu, 27 Feb 2025
- 13:58:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="1GTD2Xup"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Z3rpv711hz9sRk;
+	Fri, 28 Feb 2025 02:53:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=MBO0001; t=1740707640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=27+nlWbol20EEU9VGn+hQa4trjf7i7iixdALr91E0Po=;
+	b=1GTD2XupHD3pmOuBMNbiAI9CRQ7NpWmMWttdol1n4lkPvWkniRnI5X15iMGUaHGRD7JaV6
+	J1nAdr8+svXAgvqoegydBSDNTixrrFPo2GweU6XSGBpKRLReUhfXrHWaREhzxyUcEB2jqM
+	pS5qiiFLs4Y9Qh5cqiIfvYX9vGvC3jLRHu3G2/MoLroMvQw8wX2QoSlJcyvCVhvc+EyP2u
+	wRO/AU5Jx8pjjE71bZ13CcwETHQgg4Vb7aGwKwnxuq+rt6VARtbEKUUpll+DmzTkxoHOTt
+	S5wjPn/h0/ukT5JhrgjgGSoT8vCL9+OtWkii2ywoJ31d3/DMb2NmDF4AOCXP0w==
+Date: Thu, 27 Feb 2025 20:53:56 -0500
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	asahi@lists.linux.dev
+Subject: [RFC] apfs: thoughts on upstreaming an out-of-tree module
+Message-ID: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <20250227-apple-codec-changes-v3-15-cbb130030acf@gmail.com> <f3eecce4-51d1-4414-af85-680d51e588fa@sirena.org.uk>
-In-Reply-To: <f3eecce4-51d1-4414-af85-680d51e588fa@sirena.org.uk>
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Fri, 28 Feb 2025 07:58:33 +1000
-X-Gm-Features: AQ5f1JqhIE5frhKKp88Yce4HcYqH0rbyxjCTlt3Y9iZPbu-hf4o4-EBYqcvAUCc
-Message-ID: <CAHgNfTx_kMj=rsd4nUCiX_PvgC4GX3DsPDwXHdEyEeLMbDFccw@mail.gmail.com>
-Subject: Re: [PATCH v3 15/20] ASoC: tas2764: Enable main IRQs
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
-	Neal Gompa <neal@gompa.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Feb 28, 2025 at 2:23=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Thu, Feb 27, 2025 at 10:07:42PM +1000, James Calligeros wrote:
-> > From: Hector Martin <marcan@marcan.st>
-> >
-> > IRQ handling was added in commit dae191fb957f ("ASoC: tas2764: Add IRQ
-> > handling") however that same commit masks all interrupts coming from
-> > the chip. Unmask the "main" interrupts so that we can see and
-> > deal with a number of errors including clock, voltage, and current.
->
-> Shouldn't this also be a fix?
+Lately, I have been thinking a lot about the lack of APFS support on
+Linux. I was wondering what I could do about that. APFS support is not 
+in-tree, but there is a proprietary module sold by Paragon software [0].
+Obviously, this could not be used in-tree. However, there is also an 
+open source driver that, from what I can tell, was once planned to be 
+upstreamed [1] with associated filesystem progs [2]. I think I would 
+base most of my work off of the existing FOSS tree.
 
-I don't think so. The referenced commit only says that it adds an IRQ handl=
-er.
-I don't think this commit is actually "fixing" anything - it's just
-enabling previously
-masked interrupts.
+The biggest barrier I see currently is the driver's use of bufferheads.
+I realize that there has been a lot of work to move existing filesystem
+implementations to iomap/folios, and adding a filesystem that uses
+bufferheads would be antithetical to the purpose of that effort.
+Additionally, there is a lot of ifndefs/C preprocessor magic littered
+throughout the codebase that fixes functionality with various different
+versions of Linux. 
 
-Happy to move things around if you disagree.
+The first step would be to move away from bufferheads and the
+versioning. I plan to start my work in the next few weeks, and hope to
+have a working driver to submit to staging by the end of June. From
+there, I will work to have it meet more kernel standards and hopefully
+move into fs/ by the end of the year.
 
-James
+Before I started, I was wondering if anyone had any thoughts. I am open
+to feedback. If you think this is a bad idea, let me know. I am very
+passionate about the Asahi Linux project. I think this would be a good
+way to indirectly give back and contribute to the project. While I
+recognize that it is not one of Asahi's project goals (those being
+mostly hardware support), I am confident many users would find it
+helpful. I sure would.
+
+Thanks,
+Ethan Carter Edwards <ethan@ethancedwards.com>
+
+[0]: https://www.paragon-software.com/us/home/apfs-linux/
+[1]: https://github.com/linux-apfs/linux-apfs-rw
+[2]: https://github.com/linux-apfs/apfsprogs
