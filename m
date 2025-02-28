@@ -1,143 +1,223 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21021ADC78
-	for <asahi@lists.linux.dev>; Fri, 28 Feb 2025 04:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE8025E443
+	for <asahi@lists.linux.dev>; Fri, 28 Feb 2025 12:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740717172; cv=none; b=Kuh3aB7OiU1Fc1AoTMIFk09svY1m7qmgfHjKVj1MbgyZtqXWUkYm1p26VJ0ECNTzOeMMX+jy3zUs6bKSK/ntobqkjSUWO0hscVDZjZ0G6uo77TOjcOMueooYzaoPqKW8L4z5RD1qfkeW9/542i88ChaGq1sUwl344Jdhpl5mXoY=
+	t=1740745006; cv=none; b=LASPF3LkVjj6Rke9HuiirWqA4ZmykhJJJqTjMSUmua716LKHWxc3dYXhnsFEQh1c0kscvK0/4zkAyf53/f/tGQM3RAgh8Bv95gI1k51EawqurKBIYSZcLvbsZ2taaNV6D5vbMCygk8POs12op0b98NcnMF7elmMCdvvT+FW0PbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740717172; c=relaxed/simple;
-	bh=qZhdXikI6UVY1zdlQzyoBJcvZeFaA39QMPy5jc+lJ4E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TcS03Bm6BAg37hvV7alCBEOdCoKXJmKzSR7/EtzF0plG8/OCQLh0tUZCrYDI7nFfgOoJcoRNiPrG2DDUxTb4gWo+aVvHvTMcOFQddeeXSbUdGme30ixtNOOFZzGLqmq1vnZ8nrqcytHvNHKb72gqdG8CA+xMfzhLhJl9qPBfsUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W27vyp95; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740745006; c=relaxed/simple;
+	bh=Imv45Fvq22xNgZhJykuszyMaW/DiQ2hopybitukhTTw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BqTYIf1Y5T70R6dVX1Vq0+ncr5xRgDFFUTrsCsk/8nV0z8RO5hFvPUktwIbm4hyUvgRWXbUDGCIJdUt/lVQZP0qI9afFpZr3ChyQ4B94QueifdtT4+qtamq45ZbmpUUfjmlcYm+82+MhCrixTtWKqH9m1yXKMXKZt14QgqvEeyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F2S4+9ai; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W27vyp95"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-220c8f38febso32942355ad.2
-        for <asahi@lists.linux.dev>; Thu, 27 Feb 2025 20:32:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740717170; x=1741321970; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mY1ZEHmtwa1GitLrlmJuselIoFJmZMHZa/Euu9FfPU0=;
-        b=W27vyp95X0Sbq+LPMgWGDn/6NqWjciNcAZyHyLABc5iRvffF//yahMTajKl+AOPZZo
-         I01kT/uYgT7Om96Z/ruBzpoGaJaglR4xEZRkCmYAgI0kGBpFPqZkikdf0Rd0xuSaLVMU
-         k9tHfDPGjeploWJonFQH8ukXx0oK6GzdDQa3kacie2jZJur7bxdWR6fjVIkF88DAz9I+
-         fW+8kfoTfWhZL+vOcu1tKG7ZSBmRCYmAt+A04lE0WrV+eve87DFzxF3VUQKfiDCM0Mmq
-         f+fhmVpMQvUtIuMtiMB5ZFN5yyunVVl6AzmoyZpi0LuUvSR76LrVAUq06ervE+bMMvIz
-         4P5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740717170; x=1741321970;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mY1ZEHmtwa1GitLrlmJuselIoFJmZMHZa/Euu9FfPU0=;
-        b=l+60j7Vba/WdwwgyyAvfAPDLQp0cnxVJZeNEYlpmf193kTKe26Tu06CZRRaiAAAMW3
-         USHpxF5JR8uhdXDC17G8SL+bTzGLvWz5/EsY0nk5vSVMaZ0uYubV3PYMA0K/yFh0StOE
-         XxW+6aCJOWdbL8nMjHoH2X9yA332vlWtUfkoiKqFf0BKNiTp3Slpv+6qzJ4qvp3DYjyL
-         hFUJ3obCDIxtVQjbW4JlgDf/wOvq2wfHnr69xQ+jLvvHvO4m4OUlegQbpUWY96rNt6ll
-         SGcMQSc2xNC6GVA7U64E8xsngWxZ77vfRb7m+gCw08CnsfbWstcJvJDt+mK5M14TvEJH
-         7uJQ==
-X-Gm-Message-State: AOJu0YwB2/GnaHfu4QzJLk34h1R556bcSkU98qc7f7nJk7AqmC6DeYwT
-	cfxLe8Ja0HvFHWN5VshvLm3jfjZfcBF4t2gMM03tB4pxTUOkDvHc
-X-Gm-Gg: ASbGncu/nBizAZOapfD4rGqZJb2c52/nWHUBBRgaDb9NLw4Tm2uOM2fOI+88HdqNiHi
-	jn9nz3qPBqHo//KOXgExIGpdZpE3SW3h0Df5PRfUtA4kJmOvm3w3lRMxXYOABWHAYVZhjL1/LQj
-	yMh0wN1Iv9g24SObS6P38nsDApozTMOAS0gGKagDWMvzT8BEAp7TV7anK4tkMlR1WsLzbDcyydo
-	vesRcU01t9oD/zz7qse0uMFnu5QP4mz3JxPGCiLETU/0Xx+Xkxd16VOovaSaIVHTTR6CzhgpNzL
-	yPI+jmwoTi6VTucWmlU3X/qQ9J+4
-X-Google-Smtp-Source: AGHT+IEd45BbRxuJcc/ODzZoJKKfv+EegnhVjoVMaQy8U6rbvnXBM+bXYqV4j3BtClJXhPFYagq+JA==
-X-Received: by 2002:a05:6a20:7283:b0:1ee:e16a:cfa8 with SMTP id adf61e73a8af0-1f2f4e01863mr2897050637.34.1740717169879;
-        Thu, 27 Feb 2025 20:32:49 -0800 (PST)
-Received: from [127.0.1.1] ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-734a003dcafsm2738204b3a.132.2025.02.27.20.32.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2025 20:32:49 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-Date: Fri, 28 Feb 2025 12:32:16 +0800
-Subject: [PATCH RESEND v2 5/5] arm64: dts: apple: t8015: Add backlight
- nodes
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F2S4+9ai"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740745004; x=1772281004;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Imv45Fvq22xNgZhJykuszyMaW/DiQ2hopybitukhTTw=;
+  b=F2S4+9aiBLQsTtpvWdNfvq/Rx5eI+WVP+ICccKHX6fJRwc7vFcyqzGCr
+   6kzEWib1csPKxZ7pR18FGzE+qo3Ivrvi9LZmghLyiQhxUptuWaW1bDob4
+   3nrgB/gttWgQyMNdJ1F0kSddM5yiJinmlApd3O2UoRQ0myo7Hp6Gj4I9/
+   NY+qX7htf33f4RtHq9JLvwncLZOOV6IknIsQb3KcI1ra0a6AXBDgIQhqJ
+   wiCx8ysROzv/siuW1aVx9Zn6JrPI04PSRcPo8JAecKR2gIGSivGwYAqBu
+   3qCQbOy/dARujyJiTDe3K5rAkFqc8B8745Vb52obGNHEnn2LQbeB0Rzwh
+   w==;
+X-CSE-ConnectionGUID: Yvp3/CNNRtawrTWQHLC1pg==
+X-CSE-MsgGUID: PZAbPq0ZRWWq1nlPE7Mvtg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="59209240"
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; 
+   d="scan'208";a="59209240"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 04:16:43 -0800
+X-CSE-ConnectionGUID: kYvVF8i1R3O7LxR6R+sejg==
+X-CSE-MsgGUID: kb9H8yrsTbKd+EIxCKSNeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; 
+   d="scan'208";a="121931592"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 04:16:40 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tnzIC-0000000FwOX-1qG2;
+	Fri, 28 Feb 2025 14:16:36 +0200
+Date: Fri, 28 Feb 2025 14:16:36 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"sven@svenpeter.dev" <sven@svenpeter.dev>,
+	Janne Grunau <j@jannau.net>,
+	"alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
+Subject: Re: [PATCH v4] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z8GpJDGeJVHbIy8X@smile.fi.intel.com>
+References: <DB7F502D-1477-49C9-A36D-1DEE408ED23C@live.com>
+ <Z8B6DwcRbV-8D8GB@smile.fi.intel.com>
+ <PN3PR01MB9597916417D398179C55BD98B8CD2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250228-dwi-dt-v2-5-69e450bc4bfb@gmail.com>
-References: <20250228-dwi-dt-v2-0-69e450bc4bfb@gmail.com>
-In-Reply-To: <20250228-dwi-dt-v2-0-69e450bc4bfb@gmail.com>
-To: Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Nick Chan <towinchenmi@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1410; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=qZhdXikI6UVY1zdlQzyoBJcvZeFaA39QMPy5jc+lJ4E=;
- b=owEBbQKS/ZANAwAIAQHKCLemxQgkAcsmYgBnwTxhj6M3NanBr5AvddymnbZR2d8cHPaGW4NzK
- 2jryU6pj5GJAjMEAAEIAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCZ8E8YQAKCRABygi3psUI
- JKWhD/9Kye4j0aRu2dTcTj19vBKZO44Ncolu40yJZDoGyjZ61paCAKdGVjuTcWY9c7tit399/J/
- A2uRCQNQFddsl6uIBMMMHvkZd1ldws1boplm2P90ltqOkQ9IsQVcUqia/WlcR3Tx2GG2IOI6ee+
- ypekvAXxcSeKhAvjl4Ds410iPec+ueF9PWWP3eFDHojA7ge+DH4ummzhnrtVscaECWM3zpd5/AD
- 2lb4/jDhCWWZuWfdeUhTdl46zakdZIiFImP5OOHHbvpFUf+RPhcrV91g3BI7CVhL12TEZtmBNzW
- 5T+0buNt166NeM90BHShWxPKH7fofypOIQFjrXydSF9XKchP27u8TClv3gBRS7cyUcmd18CbFm0
- SM2Y+pbIv3aNU5uf+B1ctiARPi4Gv0oAXhj8Agg+D3hMEb7fG5gfFHNoHJSqChlbEXqsr3GgKhm
- JLlA41rfnGvnZYt/SbXF5Qo57Jul7m7ikBXE7d6LYuzQuM4a5BJ3ZZDBiHOfDrprrQPKsTO914A
- hLEWFZ4wzSvzFatsslxPy999apbmmWTjmHtBNyqDphTDeL2eK9Vl7AN3zPuNpbmZrjbzisQzKze
- uUywQTswPe+5TkBYL0T+gWSnNDbFnGiyCp5iSnhoXlohNdDvl0KhN6RlxrjaZgX7MyyaR1pxQ9O
- 5QOv4NskCVgf18Q==
-X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
- fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3PR01MB9597916417D398179C55BD98B8CD2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Add DWI backlight controller nodes for Apple A11 SoC, and enable it for:
+On Thu, Feb 27, 2025 at 05:10:52PM +0000, Aditya Garg wrote:
+> > On 27 Feb 2025, at 8:13 PM, andriy.shevchenko@linux.intel.com wrote:
+> > On Thu, Feb 27, 2025 at 06:30:48AM +0000, Aditya Garg wrote:
 
-- iPhone 8
-- iPhone 8 Plus
+...
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- arch/arm64/boot/dts/apple/t8015-8.dtsi | 4 ++++
- arch/arm64/boot/dts/apple/t8015.dtsi   | 7 +++++++
- 2 files changed, 11 insertions(+)
+> >> +Generic FourCC code
+> >> +-------------------
+> >> +
+> >> +::
+> >> +    %p4c[hrbl]    gP00 (0x67503030)
+> >> +
+> >> +Print a generic FourCC code, as both ASCII characters and its numerical
+> >> +value as hexadecimal.
+> >> +
+> >> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
+> >> +host, reversed, big or little endian order data respectively. Host endian
+> >> +order means the data is interpreted as a 32-bit integer and the most
+> >> +significant byte is printed first; that is, the character code as printed
+> >> +matches the byte order stored in memory on big-endian systems, and is reversed
+> >> +on little-endian systems.
+> > 
+> > Btw, this sounds to me that 'h' should be accompanied with 'n', otherwise it's
+> > confusing why BE is the host order out of the blue.
+> > so, it needs more information that this mimics htonl() / ntohl() for networking.
+> > 
+> > Does 'r' actually should be 'n'?
+> 
+> I believe you mean negative endian? Can be done.
 
-diff --git a/arch/arm64/boot/dts/apple/t8015-8.dtsi b/arch/arm64/boot/dts/apple/t8015-8.dtsi
-index b6505b5185bdd728a7416efaa3dd53d1c6a5fab9..0300ee1a2ffb7d2bd0558f6cb6f86514f4b433a4 100644
---- a/arch/arm64/boot/dts/apple/t8015-8.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015-8.dtsi
-@@ -11,3 +11,7 @@
- / {
- 	chassis-type = "handset";
- };
-+
-+&dwi_bl {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
-index b68647bebd20782ba7a125e670b3264c184b62cd..4d54afcecd50b50ed1fd386ccfc46c373e190e6b 100644
---- a/arch/arm64/boot/dts/apple/t8015.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015.dtsi
-@@ -262,6 +262,13 @@ pmgr: power-management@232000000 {
- 			reg = <0x2 0x32000000 0 0x8c000>;
- 		};
- 
-+		dwi_bl: backlight@232200080 {
-+			compatible = "apple,t8015-dwi-bl", "apple,dwi-bl";
-+			reg = <0x2 0x32200080 0x0 0x8>;
-+			power-domains = <&ps_dwi>;
-+			status = "disabled";
-+		};
-+
- 		pinctrl_ap: pinctrl@233100000 {
- 			compatible = "apple,t8015-pinctrl", "apple,pinctrl";
- 			reg = <0x2 0x33100000 0x0 0x1000>;
+No, 'network order' / 'host order'. That's where BE comes from, but you may ask
+the original author about this. h/r pair makes little sense to me as it
+inconsistent.
+
+> >> +Passed by reference.
+> >> +
+> >> +Examples for a little-endian machine, given &(u32)0x67503030::
+> >> +
+> >> +    %p4ch    gP00 (0x67503030)
+> >> +    %p4cr    00Pg (0x30305067)
+> >> +    %p4cb    00Pg (0x30305067)
+> >> +    %p4cl    gP00 (0x67503030)
+> >> +
+> >> +Examples for a big-endian machine, given &(u32)0x67503030::
+> >> +
+> >> +    %p4ch    gP00 (0x67503030)
+> >> +    %p4cr    00Pg (0x30305067)
+> >> +    %p4cb    gP00 (0x67503030)
+> >> +    %p4cl    00Pg (0x30305067)
+> >> +
+
+...
+
+> >> +    switch (fmt[2]) {
+> >> +    case 'h':
+> >> +        val = orig;
+> >> +        break;
+> >> +    case 'r':
+> >> +        orig = swab32(orig);
+> >> +        val = orig;
+> >> +        break;
+> >> +    case 'l':
+> >> +        orig = (__force u32)cpu_to_le32(orig);
+> >> +        val = orig;
+> >> +        break;
+> >> +    case 'b':
+> >> +        orig = (__force u32)cpu_to_be32(orig);
+> >> +        val = orig;
+> >> +        break;
+> >> +    case 'c':
+> >> +        /* Pixel formats are printed LSB-first */
+> >> +        val = swab32(orig & ~BIT(31));
+> >> +        pixel_fmt = true;
+> >> +        break;
+> >> +    default:
+> >> +        return error_string(buf, end, "(%p4?)", spec);
+> >> +    }
+> > 
+> > Actually you can replace all these orig copies by introducing a new boolean, pixel_be.
+> > 
+> > Will become
+> > 
+> >    switch (fmt[2]) {
+> >    case 'h':
+> >        val = orig;
+> >        break;
+> >    case 'r': // or 'n' ?
+> >        val = swab32(orig);
+> >        break;
+> >    case 'l':
+> >        val = (__force u32)cpu_to_le32(orig);
+> >        break;
+> >    case 'b':
+> >        val = (__force u32)cpu_to_be32(orig);
+> >        break;
+> >    case 'c':
+> >        pixel_fmt = true;
+> >        pixel_be = orig & BIT(31);
+> >        /* Pixel formats are printed LSB-first */
+> >        val = swab32(orig & ~BIT(31));
+> >        break;
+> >    default:
+> >        return error_string(buf, end, "(%p4?)", spec);
+> >    }
+> > 
+> > And with this the existence of 'val' now becomes doubtful, we may reuse 'orig',
+> > just name it 'val' everywhere, no?
+> 
+> In case c, val != orig, in rest it is. We can just use pixel_fmt to check
+> this condition, but places where we use orig, and not val will need an if
+> statement or something similar. Tbh, it's an unecessary complication. You
+> might want to see this part of the code:
+
+Fair enough.
+
+> 	if (pixel_fmt) {
+> 		*p++ = ' ';
+> 		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> 		p += strlen(p);
+> 	}
+> 
+> 	*p++ = ' ';
+> 	*p++ = '(';
+> 	p = special_hex_number(p, output + sizeof(output) - 2, orig, sizeof(u32));
+> 	*p++ = ')';
+> 	*p = '\0';
+> 
+> Here, special_hex_number is common to all cases.
+
+I see, thanks for pointing this out.
 
 -- 
-2.48.1
+With Best Regards,
+Andy Shevchenko
+
 
