@@ -1,74 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F6B277004
-	for <asahi@lists.linux.dev>; Fri, 28 Feb 2025 18:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E494223F36E;
+	Fri, 28 Feb 2025 20:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740768483; cv=none; b=KQLO1I83LX41jiUhMzBLl3vuhMfWvQhODaDeknhR3wPm0Ej9hFs7JwVu8ZeBeHp5cXYx+MPC+MNfqz9baP/lDZ7+x1tLDKzhT9Ht/k25WmHwbIu9MCIBV4OghSFGSA5i1pPw7bdfBfxzKJjN5buboseaSmi9rb0iBRPGM7jakWc=
+	t=1740774163; cv=none; b=heE/BcM3LZ2nx+iz1yyl2VjrtDtJiZbCKqxurKdikH2KL5O0jSgGCztjLYDo6tsnkqJsxUb0+gs0aJ4fOSCQlYipl8RfNotK6CrenznoXaWircf3Fq5yxVdLVL1kURQcyO0JqYtpI72Pv9NnIghYTFFVDVuiO3lNZQrhZtLueJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740768483; c=relaxed/simple;
-	bh=sjccjNRDhW5cSMFd28Q8pm//au0XHsNKas9BxsXZWSk=;
+	s=arc-20240116; t=1740774163; c=relaxed/simple;
+	bh=wfzANROPsaWWkrbci7qA/4XmAh6NIwZYuO5mE+y69ts=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nkx0TClRbsKQcqiRxhi/ghScj1dr5wntXhIEZy2icXoYLkiFDdA7ZQgaa908ESCEF2j8vyEF+cjnGYsg50XAfn51NVlQO7I4zzYWGlfZ3AhsdutezmPSYhGc03yz9/a4r5j6OafgL70fkYyJiMZbPaXa+Z4HvNTLI9tY6lWD9mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIM4SHUF; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=X6LU2P9DxuLeqgWyApXEPn43YrQJZ4i6/7ULshZv2vbOH9+BSv+l1ksN8J3J5F20ngmJmevR5O/rv6YUF62qj/J3r0tQ8zFtz11ZVmi829/iNsfYBjhLf5ChHcWnaxAjZjWsKPHVGy3zc42b0cFtJicPX/w64xfol4E9TtyBnQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fo4RKDdZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIM4SHUF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740768480; x=1772304480;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sjccjNRDhW5cSMFd28Q8pm//au0XHsNKas9BxsXZWSk=;
-  b=AIM4SHUFh3kZciOi4zgsZOu/6B0GkxrtMXiBQRVPM2+lKvFPmzV34Kes
-   LzLJmL/6jIxcOEjV0qIawUyrIqgQ3ag+zFnCIHy4tuVDcTY64J8A+AIKS
-   iRCggY7TLTJPTuYOMmcGyHrlMMbIy0GlMJHpx/sTXtv1ZFJwCdRR80no5
-   VJw0XjB4ouDA5yO07TlNYbhi/6rTjbuknb078SedWmHckulrRoGenTYZm
-   kMk/azmeMiQUhxUBIftJsX9QNNW6I+peBgSkdYAzwYrmNH9fEIo5HRaGv
-   aWFrnXXIfA7JeN4PeGE7kkAJidClLOR7tE4tOFMogGW+kN+NcqGCwEq6M
-   Q==;
-X-CSE-ConnectionGUID: f0fb8LDNTHKkh5pLi01NoA==
-X-CSE-MsgGUID: PEUxH8rPRzuQbqla9Yro8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52349876"
-X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="52349876"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 10:47:59 -0800
-X-CSE-ConnectionGUID: jbTsohC5QoqbJW5f0yiN5Q==
-X-CSE-MsgGUID: Qg72W58CSCq/VdtSuV77hA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117934373"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 10:47:54 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1to5Oo-0000000G3kA-3NNX;
-	Fri, 28 Feb 2025 20:47:50 +0200
-Date: Fri, 28 Feb 2025 20:47:50 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Janne Grunau <j@jannau.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fo4RKDdZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9943C4CED6;
+	Fri, 28 Feb 2025 20:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740774162;
+	bh=wfzANROPsaWWkrbci7qA/4XmAh6NIwZYuO5mE+y69ts=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fo4RKDdZT8HC+g+RwI0lGMwqaLJlwh8rxhiTYyqw9KgjrDktXJYU1nwEPPAWC/fB8
+	 oePssIAPkDjkYUD+o9575KTvwaKVNbnFqHjBbKJNkkDIYgfI4n+alfz5W3nibHQTnH
+	 gbtElWOEjFGyby6xJyOgVzw4ljdvaq1UcSlqcFhoy9OHeb4XaBYl/Sde1hc+ffWwJK
+	 7Fa2AVXhEUhHg/sZbfESY1XLHMRGZyShZsFbmeB2epNmBODWRQ8EA6LWYM/HBIWNKA
+	 i8Wp4kbIjCSIUm8f2tcX7UfHklguDYUP+8Z1qVVA4UIBO8qotz6XfUys0PVVJKzaMR
+	 VY4b/UwQxI8Pw==
+Date: Fri, 28 Feb 2025 14:22:40 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Baojun Xu <baojun.xu@ti.com>, Takashi Iwai <tiwai@suse.com>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v5] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <Z8IE1jIni50OeKaE@smile.fi.intel.com>
-References: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
+	Shi Fu <shifu0704@thundersoft.com>, linux-hwmon@vger.kernel.org,
+	Jean Delvare <jdelvare@suse.com>, Kevin Lu <kevin-lu@ti.com>,
+	Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org,
+	Dan Murphy <dmurphy@ti.com>, devicetree@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>, Jaroslav Kysela <perex@perex.cz>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Shenghao Ding <shenghao-ding@ti.com>
+Subject: Re: [PATCH v3 08/20] ASoC: dt-bindings: tas27xx: document
+ ti,sdout-force-zero-mask property
+Message-ID: <174077415940.3647975.15902049404570656565.robh@kernel.org>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <20250227-apple-codec-changes-v3-8-cbb130030acf@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -77,81 +55,20 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250227-apple-codec-changes-v3-8-cbb130030acf@gmail.com>
 
-On Fri, Feb 28, 2025 at 04:29:12PM +0000, Aditya Garg wrote:
-> From: Hector Martin <marcan@marcan.st>
+
+On Thu, 27 Feb 2025 22:07:35 +1000, James Calligeros wrote:
+> TAS2764 can be programmed to zero-fill/ignore certain TDM slots on a
+> shared I2S bus. Since this is a per-chip setting that is a consequence
+> of how it is implemented on a specific board, express this as a Devicetree
+> property.
 > 
-> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
-> it's useful to be able to print generic 4-character codes formatted as
-> an integer. Extend it to add format specifiers for printing generic
-> 32-bit FourCCs with various endian semantics:
-
-> %p4ch	Host-endian
-> %p4cn	Reverse-endian
-
-Call them Host order, Network order as they are very established endianesses.
-
-
-> %p4cl   Little-endian
-
-You have extra spaces here
-
-> %p4cb	Big-endian
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  .../bindings/sound/ti,tas27xx.yaml       | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> The endianness determines how bytes are interpreted as a u32, and the
-> FourCC is then always printed MSByte-first (this is the opposite of
-> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
-> allow printing LSByte-first FourCCs stored in host endian order
-> (other than the hex form being in character order, not the integer
-> value).
 
-...
-
-> +Generic FourCC code
-> +-------------------
-> +
-> +::
-> +	%p4c[hnlb]	gP00 (0x67503030)
-> +
-> +Print a generic FourCC code, as both ASCII characters and its numerical
-> +value as hexadecimal.
-> +
-> +The generic FourCC code is always printed in the big-endian format,
-> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
-> +
-> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-> +endianness is used to load the stored bytes. The data might be interpreted
-> +using the host-endian, reverse-host-endian, little-endian, or big-endian.
-
-host order, network order
-
-> +Passed by reference.
-> +
-> +Examples for a little-endian machine, given &(u32)0x67503030::
-> +
-> +	%p4ch	gP00 (0x67503030)
-> +	%p4cn	00Pg (0x30305067)
-> +	%p4cl	gP00 (0x67503030)
-> +	%p4cb	00Pg (0x30305067)
-> +
-> +Examples for a big-endian machine, given &(u32)0x67503030::
-> +
-> +	%p4ch	gP00 (0x67503030)
-> +	%p4cn	00Pg (0x30305067)
-> +	%p4cl	00Pg (0x30305067)
-> +	%p4cb	gP00 (0x67503030)
-
-
-For the reference on the terms:
-https://www.ibm.com/docs/ja/zvm/7.2?topic=domains-network-byte-order-host-byte-order
-
-Otherwise LGTM. With the above addressed, FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
