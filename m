@@ -1,133 +1,157 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59BD1A5BA4
-	for <asahi@lists.linux.dev>; Fri, 28 Feb 2025 16:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F6B277004
+	for <asahi@lists.linux.dev>; Fri, 28 Feb 2025 18:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740760941; cv=none; b=ASk3yEFMe774a7LbmTH/Z0IOSRrv65HSJ+5EgK6tfhT8eDlkP9/6QIXKSaJV22hep5kVP/jgRDOdGEpKnyODfi9Z1WFn/8ConmjtiiPDx5PNftvtpvrltb0iM3WYyW+ZExQgN6M7wOul/X17FBKr+9rM4TKv+eQuJbjC1xmM320=
+	t=1740768483; cv=none; b=KQLO1I83LX41jiUhMzBLl3vuhMfWvQhODaDeknhR3wPm0Ej9hFs7JwVu8ZeBeHp5cXYx+MPC+MNfqz9baP/lDZ7+x1tLDKzhT9Ht/k25WmHwbIu9MCIBV4OghSFGSA5i1pPw7bdfBfxzKJjN5buboseaSmi9rb0iBRPGM7jakWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740760941; c=relaxed/simple;
-	bh=pn4KrWIyZwichxtIzcTnNK4W+4Y/6Co5uDlQdZSWWBE=;
+	s=arc-20240116; t=1740768483; c=relaxed/simple;
+	bh=sjccjNRDhW5cSMFd28Q8pm//au0XHsNKas9BxsXZWSk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D8zpjkqMz5H1I5Qa0wUMY9doDGH34FR8py91i5V6xUT8v00sZ38SExIU0Z4Sj1QHQhNVDzwGA5DLAdjSrQIWEypVJ3Iy5kLOkfPDwsCbG0KD5rzZRHpBx5ZKW3yXn0FJR9VS4abgX1tMLYMwW88bZik116ZZm9FEdNpTx4vqX1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=cFIiO50c; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nkx0TClRbsKQcqiRxhi/ghScj1dr5wntXhIEZy2icXoYLkiFDdA7ZQgaa908ESCEF2j8vyEF+cjnGYsg50XAfn51NVlQO7I4zzYWGlfZ3AhsdutezmPSYhGc03yz9/a4r5j6OafgL70fkYyJiMZbPaXa+Z4HvNTLI9tY6lWD9mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIM4SHUF; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="cFIiO50c"
-Date: Fri, 28 Feb 2025 11:42:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1740760926;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mFbK6atugzTD7yJD9m3zV6BCGNJwyUhEcjietF557HM=;
-	b=cFIiO50ccNdoysTiPbKL6pEs59H43/JNspVbtHpwph8CQ5GCWccO/7y0yPIisAmHTcotJf
-	KLUDDl/niDtXPGMEdKc49Oo4KijPpig9Ybn1NFHRv6sv9f2LxI/4bJTq9qMbGfl5mpZvi1
-	ZQRcGPY4vr+cq0YR2r8s/yqOtMs6+pIire8RJVO/VPA+LospNomase0ltI8NVWfojZsp73
-	+FeDCA5o2j45RdBg2caiwjdy71LY4IFpXS+42YfaXYtZVJUbEOF/GCCM3gOefGIrQrYWNP
-	RDSsn94yDKDPsVIybmcJNd2eIuc+C2ea/BOqwlxtjWIqi8nVW0pD023QdsBMDA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: fnkl.kernel@gmail.com
-Cc: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v2 2/2] iommu: apple-dart: Allow mismatched bypass support
-Message-ID: <Z8HnWdgPNMmCoXtX@blossom>
-References: <20250228-isp-dart-v2-0-0ead81a90e2d@gmail.com>
- <20250228-isp-dart-v2-2-0ead81a90e2d@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIM4SHUF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740768480; x=1772304480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sjccjNRDhW5cSMFd28Q8pm//au0XHsNKas9BxsXZWSk=;
+  b=AIM4SHUFh3kZciOi4zgsZOu/6B0GkxrtMXiBQRVPM2+lKvFPmzV34Kes
+   LzLJmL/6jIxcOEjV0qIawUyrIqgQ3ag+zFnCIHy4tuVDcTY64J8A+AIKS
+   iRCggY7TLTJPTuYOMmcGyHrlMMbIy0GlMJHpx/sTXtv1ZFJwCdRR80no5
+   VJw0XjB4ouDA5yO07TlNYbhi/6rTjbuknb078SedWmHckulrRoGenTYZm
+   kMk/azmeMiQUhxUBIftJsX9QNNW6I+peBgSkdYAzwYrmNH9fEIo5HRaGv
+   aWFrnXXIfA7JeN4PeGE7kkAJidClLOR7tE4tOFMogGW+kN+NcqGCwEq6M
+   Q==;
+X-CSE-ConnectionGUID: f0fb8LDNTHKkh5pLi01NoA==
+X-CSE-MsgGUID: PEUxH8rPRzuQbqla9Yro8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52349876"
+X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
+   d="scan'208";a="52349876"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 10:47:59 -0800
+X-CSE-ConnectionGUID: jbTsohC5QoqbJW5f0yiN5Q==
+X-CSE-MsgGUID: Qg72W58CSCq/VdtSuV77hA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117934373"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 10:47:54 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1to5Oo-0000000G3kA-3NNX;
+	Fri, 28 Feb 2025 20:47:50 +0200
+Date: Fri, 28 Feb 2025 20:47:50 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v5] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <Z8IE1jIni50OeKaE@smile.fi.intel.com>
+References: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250228-isp-dart-v2-2-0ead81a90e2d@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
-Le Fri , Feb 28, 2025 at 05:32:08PM +0100, Sasha Finkelstein via B4 Relay a écrit :
+On Fri, Feb 28, 2025 at 04:29:12PM +0000, Aditya Garg wrote:
 > From: Hector Martin <marcan@marcan.st>
 > 
-> This is needed by ISP, which has DART0 with bypass and DART1/2 without.
+> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FourCCs with various endian semantics:
+
+> %p4ch	Host-endian
+> %p4cn	Reverse-endian
+
+Call them Host order, Network order as they are very established endianesses.
+
+
+> %p4cl   Little-endian
+
+You have extra spaces here
+
+> %p4cb	Big-endian
 > 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  drivers/iommu/apple-dart.c | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-> index edb2fb22333506d7c64ad1b6321df00ebfd07747..13ccb801f52a4d34f6653f78e92787af7dfed1bc 100644
-> --- a/drivers/iommu/apple-dart.c
-> +++ b/drivers/iommu/apple-dart.c
-> @@ -277,6 +277,9 @@ struct apple_dart_domain {
->   * @streams: streams for this device
->   */
->  struct apple_dart_master_cfg {
-> +	/* Intersection of DART capabilitles */
-> +	u32 supports_bypass : 1;
+> The endianness determines how bytes are interpreted as a u32, and the
+> FourCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
+> allow printing LSByte-first FourCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
+
+...
+
+> +Generic FourCC code
+> +-------------------
 > +
->  	struct apple_dart_stream_map stream_maps[MAX_DARTS_PER_DEVICE];
->  };
->  
-> @@ -684,7 +687,7 @@ static int apple_dart_attach_dev_identity(struct iommu_domain *domain,
->  	struct apple_dart_stream_map *stream_map;
->  	int i;
->  
-> -	if (!cfg->stream_maps[0].dart->supports_bypass)
-> +	if (!cfg->supports_bypass)
->  		return -EINVAL;
->  
->  	for_each_stream_map(i, cfg, stream_map)
-> @@ -792,20 +795,24 @@ static int apple_dart_of_xlate(struct device *dev,
->  		return -EINVAL;
->  	sid = args->args[0];
->  
-> -	if (!cfg)
-> +	if (!cfg) {
->  		cfg = kzalloc(sizeof(*cfg), GFP_KERNEL);
+> +::
+> +	%p4c[hnlb]	gP00 (0x67503030)
 > +
-> +		/* Will be ANDed with DART capabilities */
-> +		cfg->supports_bypass = true;
-> +	}
->  	if (!cfg)
->  		return -ENOMEM;
->  	dev_iommu_priv_set(dev, cfg);
->  
->  	cfg_dart = cfg->stream_maps[0].dart;
->  	if (cfg_dart) {
-> -		if (cfg_dart->supports_bypass != dart->supports_bypass)
-> -			return -EINVAL;
->  		if (cfg_dart->pgsize != dart->pgsize)
->  			return -EINVAL;
->  	}
->  
-> +	cfg->supports_bypass &= dart->supports_bypass;
+> +Print a generic FourCC code, as both ASCII characters and its numerical
+> +value as hexadecimal.
 > +
->  	for (i = 0; i < MAX_DARTS_PER_DEVICE; ++i) {
->  		if (cfg->stream_maps[i].dart == dart) {
->  			set_bit(sid, cfg->stream_maps[i].sidmap);
-> @@ -945,7 +952,7 @@ static int apple_dart_def_domain_type(struct device *dev)
->  
->  	if (cfg->stream_maps[0].dart->pgsize > PAGE_SIZE)
->  		return IOMMU_DOMAIN_IDENTITY;
-> -	if (!cfg->stream_maps[0].dart->supports_bypass)
-> +	if (!cfg->supports_bypass)
->  		return IOMMU_DOMAIN_DMA;
->  
->  	return 0;
-> 
-> -- 
-> 2.48.1
-> 
-> 
+> +The generic FourCC code is always printed in the big-endian format,
+> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+> +
+> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+> +endianness is used to load the stored bytes. The data might be interpreted
+> +using the host-endian, reverse-host-endian, little-endian, or big-endian.
+
+host order, network order
+
+> +Passed by reference.
+> +
+> +Examples for a little-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cn	00Pg (0x30305067)
+> +	%p4cl	gP00 (0x67503030)
+> +	%p4cb	00Pg (0x30305067)
+> +
+> +Examples for a big-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cn	00Pg (0x30305067)
+> +	%p4cl	00Pg (0x30305067)
+> +	%p4cb	gP00 (0x67503030)
+
+
+For the reference on the terms:
+https://www.ibm.com/docs/ja/zvm/7.2?topic=domains-network-byte-order-host-byte-order
+
+Otherwise LGTM. With the above addressed, FWIW,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
