@@ -1,263 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BEF1E0DE8;
-	Sat,  1 Mar 2025 18:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D172B2DA
+	for <asahi@lists.linux.dev>; Sat,  1 Mar 2025 22:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740852496; cv=none; b=DViE6/F6Fbft47wRyuUbOky6Ile/TDG0z3LugBwAGtck4fOgVj/KaVVRas9DLN9DhqcWgMOIwKE+8SpG6nnZOkljjGnFVLMeoxAGga15SIqYtIGuvdFj2yfc1FidFzZXXm/OU/ZI/JPoL8JggVGIXHhJx42GxsanWnYMXvmG7pU=
+	t=1740866509; cv=none; b=C/N5Kc7JI8yP8Nuf56VOI6go/O8Puwdk8pmN76ejQoYb/eQ0kyhC0UCIsFk4myKtmoAks+PttAZbW1IYtuPMG0TNGwSCdFUSm3a095Z9YtAtdDi3+GM1Dzijj9xMeyfJeH2qbGn8B1vVLVPZTS0LRic4aJSFzrRVL0CDz6Ahcyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740852496; c=relaxed/simple;
-	bh=PiX1wu8b+6I7R3c0MeOnoxbnQpJhEI+8sVFbihVVVZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FAPYRRyQ0XrqOwVY5FpwHXmNysXklC96L/m2U+RZcH/IbiMubTz5OzCWJt5Aa9h0MI5pe7TQ0yKl7hE12VE7+D6mD3Xv87eZxF85LbG/0Kjv2L4paGt6HyiKKrG6/BJlWe3Bqi7SR4hsotnIpk24yKi6cH3c26UHVny7BQXDSUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QwKemzkL; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740866509; c=relaxed/simple;
+	bh=CNmPzzKSc1/mFhUIp7M01VBpwaXdcPou0HFNFhd3+9Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LLLS+5Y7Qa32ZPMuh5APAP3fVFjLQP9iYgRuNumt0Kx/De5e1qbITN+UhtA6OXlDI3cPhqnA3QqBilKiBZ+ltgsY2BuxuB2BB42DXYFZGnrbZP55lpBRgKWKPMsNR73kvOEl9o65KOlKaqygRxlv8jOBrfG5QyWVzZQjUNMzLZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=wwlElTJ/; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QwKemzkL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740852495; x=1772388495;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PiX1wu8b+6I7R3c0MeOnoxbnQpJhEI+8sVFbihVVVZs=;
-  b=QwKemzkL5hSTgZSq2j0V0w4OxBJlkb/1Jyrid2AlW5APQf+GtY7TFJvy
-   JOHO6Pmmz95moqwSdkQV/xIPqb3EMmmUwhEe2wKg4XItv3rpkYLz38mFS
-   uQBt15mdA8CG46dCdRcvwhzoKRz84FNrdIVPfEC00lL6vl6CBRIBUbOzz
-   B8U0TJAX9mr14dV7p0shfVtDCd2HQiUJeDtLsEdVPqrs+LY9x1C4FgdAr
-   k+OCD3tP+QjG3J7nznUkVolfUua0a+qcUXrAJl6xnh4WgQodmns7clz3D
-   o7hO0gYDEnlk2bAr6U7XJGUfe6Ove7WCgxEez8/F/gEy0mVCbmfZnjYdX
-   A==;
-X-CSE-ConnectionGUID: 726YIzLnR6udOSTHrbn4SA==
-X-CSE-MsgGUID: eSvzCD0gTw+iDkGdR/gOzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="59179225"
-X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
-   d="scan'208";a="59179225"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 10:08:14 -0800
-X-CSE-ConnectionGUID: 1XS6H88mTiK5hbuSJhngvA==
-X-CSE-MsgGUID: dbBruqprRpacg8LqLQgG9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
-   d="scan'208";a="117404407"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Mar 2025 10:08:09 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1toRFu-000GXg-2a;
-	Sat, 01 Mar 2025 18:08:06 +0000
-Date: Sun, 2 Mar 2025 02:07:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aditya Garg <gargaditya08@live.com>, Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v5] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <202503020112.24wZ1Wcs-lkp@intel.com>
-References: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="wwlElTJ/"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1740866503;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NzgP9Go8f8M9k87tjvCXZYqbhq/8HV1+vOpCDpxZLk8=;
+	b=wwlElTJ/WgWWArcHqdGT3eO7GxDglBTSwBFHI3sbu+Tr8PMtUsjfzvVHTOZGQj3XA+mw5f
+	RauGy+mjkdkYiypBIgCydNh3+Bfz4fm6TeMXXvoYTKn6lY4I+hmzrW6osl8jJMzy31J/FI
+	9PJukWt88K9ASJIh3v9nSj/k7ACvyiWm+J2YUF0uBPblQtOcWjYbJiZQnYd35zwIhz8Fvr
+	dblWzkzW1zgSMF8ZahKq6m/g5C4MQkR1VZyTsVdoMtEVJkMmmODpL7615l1GL8tRQvi7GX
+	dsB227gOfcuwWXDMWcNg4taLVVmxaNfBPOZKQYx/0D776xVZcx6t1ZgCYyMD0w==
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Date: Sat, 01 Mar 2025 17:01:30 -0500
+Subject: [PATCH v3] drm: add modifiers for Apple GPU layouts
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250301-apple-twiddled-modifiers-v3-1-4b9bb79825fe@rosenzweig.io>
+X-B4-Tracking: v=1; b=H4sIALmDw2cC/43NTQ6CMBCG4auYrq1ph39X3sO4KHQKkyAlLSkq4
+ e4WVsaFcfl+yTyzMI+O0LPzYWEOA3myQ4zkeGBNp4YWOenYDARkAmTJ1Tj2yKeZtO5R87vVZAi
+ d50ajVLlJEyEaFs9Hh4YeO329xe7IT9Y9909BbusfaJBc8jLLZK3qNAFpLs56HF4zUnsiyzY4w
+ AcG2Q8MItaYvCqgwrIw+Te2rusbMlbWmhEBAAA=
+X-Change-ID: 20250218-apple-twiddled-modifiers-fde1a6f4300c
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, Faith Ekstrand <faith.ekstrand@collabora.com>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4853; i=alyssa@rosenzweig.io;
+ h=from:subject:message-id; bh=CNmPzzKSc1/mFhUIp7M01VBpwaXdcPou0HFNFhd3+9Y=;
+ b=owEBbQKS/ZANAwAIAf7+UFoK9VgNAcsmYgBnw4PEq4UjR7nsEHxIRJuvr58MdwYdytNM9IyL/
+ IRFXF2WgamJAjMEAAEIAB0WIQRDXuCbsK8A0B2q9jj+/lBaCvVYDQUCZ8ODxAAKCRD+/lBaCvVY
+ DRZND/4gKkshoHPmOK939roaIwD2ai07mX/g+62B1U0O/4h9ZI0+Yt6VsY/j1FlZpbaJQJWfCsM
+ o9Oz4PahtH2FmMrDggqDxUm3v2NyiEo+hlr6R96pwPtsDIyTa65/Cd6kEWLnJskANcTT1eN+5EU
+ cVF2FA8+NRqTqO7wZXCDNG9Qy/WtujdShOB83tsqX0DGD7G1PinLAZKwMQc6/MME2LYxukgb2bR
+ SiBReyfkYzbQtKXUrzR4pMGJ1J5epB21I4jAPsFS0+HNkNVup7ofGHcqQsDE756S3Vl37nxS+Yk
+ pmtSzJ1gPfNFtz5lj/rn8uaJ3RrFg2kzfYx+SE8VBIxXvV0OvDzcAwoqM3VkAEzbfe5K7rBYe5m
+ z5BMFsvdLC7v4OXqk/Btl0U1muzH8Ne5LvLeq2P0zjzJ6LefrRauotqXnYATQbTN3HLMZWr97R1
+ PepLP5hUSXWefT4nfMWnbZN+KTmCWIVSB1SV4AFkwB0D7y86wQNErstfqm/u4JP7XMh/eqoiZNI
+ Ft7g3baZV4/8ta6+gt5JaJIWHjBsC10d0RmKw3wu8okr692ECDkxxHizG9DA8ADNS1AmDCS2wQn
+ MMb0UBsMbT21IIfe9GHq5P6x6vagS5OK+dSLeqhu/16xxgqGTisqzse6MVJ0AT83oNWsinp4+QF
+ EW4Cbzo1ADaKAMQ==
+X-Developer-Key: i=alyssa@rosenzweig.io; a=openpgp;
+ fpr=435EE09BB0AF00D01DAAF638FEFE505A0AF5580D
+X-Migadu-Flow: FLOW_OUT
 
-Hi Aditya,
+Apple GPUs support various non-linear image layouts. Add modifiers for
+these layouts. Mesa requires these modifiers to share non-linear buffers
+across processes, but no other userspace or kernel support is
+required/expected.
 
-kernel test robot noticed the following build errors:
+These layouts are notably not used for interchange across hardware
+blocks (e.g. with the display controller). There are other layouts for
+that but we don't support them either in userspace or kernelspace yet
+(even downstream), so we don't add modifiers here.
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on linus/master v6.14-rc4 next-20250228]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+---
+Changes in v3:
+- Condense comments for clarity and concision.
+- Add text explaining strides and planes with justification.
+- Add table giving tile sizes for GPU tiled images.
+- Tighten up wording.
+- Link to v2: https://lore.kernel.org/r/20250225-apple-twiddled-modifiers-v2-1-cf69729e87f6@rosenzweig.io
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Garg/lib-vsprintf-Add-support-for-generic-FourCCs-by-extending-p4cc/20250301-003018
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/2C9622E6-A2DB-4681-A971-604C79F9955E%40live.com
-patch subject: [PATCH v5] lib/vsprintf: Add support for generic FourCCs by extending %p4cc
-config: arm-randconfig-004-20250301 (https://download.01.org/0day-ci/archive/20250302/202503020112.24wZ1Wcs-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 14170b16028c087ca154878f5ed93d3089a965c6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020112.24wZ1Wcs-lkp@intel.com/reproduce)
+Changes in v2:
+- Rename "Twiddled" to "GPU-tiled" to match what I now believe is the canonical name.
+- Add modifiers for the actual "Twiddled" layouts.
+- Clarify that the body of compressed images are laid out like their
+  uncompressed counterparts.
+- Link to v1: https://lore.kernel.org/r/20250218-apple-twiddled-modifiers-v1-1-8551bab4321f@rosenzweig.io
+---
+ include/uapi/drm/drm_fourcc.h | 63 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020112.24wZ1Wcs-lkp@intel.com/
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index e41a3cec6a9ed18760f3b0c88ba437c9aba3dd4f..2e21f71c500ec96b55abb04967f20630963f59f8 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -422,6 +422,7 @@ extern "C" {
+ #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+ #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+ #define DRM_FORMAT_MOD_VENDOR_MTK     0x0b
++#define DRM_FORMAT_MOD_VENDOR_APPLE   0x0c
+ 
+ /* add more to the end as needed */
+ 
+@@ -1494,6 +1495,68 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+ /* alias for the most common tiling format */
+ #define DRM_FORMAT_MOD_MTK_16L_32S_TILE  DRM_FORMAT_MOD_MTK(MTK_FMT_MOD_TILE_16L32S)
+ 
++/*
++ * Apple GPU layouts.
++ *
++ * Apple GPUs support nonlinear tilings with optional lossless compression.
++ *
++ * Compressed images pad the body to 128-bytes and are immediately followed by a
++ * metadata section. The metadata section rounds the image dimensions to
++ * powers-of-two and contains 8 bytes for each 16x16 compression subtile.
++ * Subtiles are interleaved (Morton order).
++ *
++ * All images are 16-byte aligned.
++ *
++ * These layouts fundamentally do not have meaningful strides. No matter how we
++ * specify strides for these layouts, userspace unaware of Apple image layouts
++ * will be unable to use correctly the specified stride for any purpose.
++ * Userspace aware of the image layouts do not use strides. The most "correct"
++ * convention would be setting the image stride to 0. Unfortunately, some
++ * software assumes the stride is at least (width * bytes per pixel). We
++ * therefore require that stride equals (width * bytes per pixel). Since the
++ * stride is arbitrary here, we pick the simplest convention.
++ *
++ * Although containing two sections, compressed image layouts are treated in
++ * software as a single plane. This is modelled after AFBC, a similar
++ * scheme. Attempting to separate the sections to be "explicit" in DRM would
++ * only generate more confusion, as software does not treat the image this way.
++ *
++ * For detailed information on the hardware image layouts, see
++ * https://docs.mesa3d.org/drivers/asahi.html#image-layouts
++ */
++
++/*
++ * Apple GPU-tiled layouts.
++ *
++ * GPU-tiled images are divided into 16KiB tiles:
++ *
++ *     Bytes per pixel  Tile size
++ *     ---------------  ---------
++ *                   1  128x128
++ *                   2  128x64
++ *                   4  64x64
++ *                   8  64x32
++ *                  16  32x32
++ *
++ * Tiles are raster-order. Pixels within a tile are interleaved (Morton order).
++ *
++ * GPU-tiled is the preferred layout (compressed if possible).
++ */
++#define DRM_FORMAT_MOD_APPLE_GPU_TILED fourcc_mod_code(APPLE, 1)
++#define DRM_FORMAT_MOD_APPLE_GPU_TILED_COMPRESSED fourcc_mod_code(APPLE, 2)
++
++/*
++ * Apple twiddled layouts.
++ *
++ * Twiddled images are padded to power-of-two dimensions. Pixels are interleaved
++ * (Morton order).
++ *
++ * Twiddled layouts are useful for sparse images due to limitation of the
++ * hardware PBE unit.
++ */
++#define DRM_FORMAT_MOD_APPLE_TWIDDLED fourcc_mod_code(APPLE, 3)
++#define DRM_FORMAT_MOD_APPLE_TWIDDLED_COMPRESSED fourcc_mod_code(APPLE, 4)
++
+ /*
+  * AMD modifiers
+  *
 
-All errors (new ones prefixed by >>):
+---
+base-commit: 0ed1356af8f629ae807963b7db4e501e3b580bc2
+change-id: 20250218-apple-twiddled-modifiers-fde1a6f4300c
 
-   lib/test_printf.c:802:17: warning: excess elements in scalar initializer [-Wexcess-initializers]
-     802 |                 { 0x41424344, "ABCD (0x41424344)", },
-         |                               ^~~~~~~~~~~~~~~~~~~
-   lib/test_printf.c:805:17: warning: excess elements in scalar initializer [-Wexcess-initializers]
-     805 |                 { 0x41424344, "DCBA (0x44434241)", },
-         |                               ^~~~~~~~~~~~~~~~~~~
-   lib/test_printf.c:808:30: warning: excess elements in scalar initializer [-Wexcess-initializers]
-     808 |                 { le32_to_cpu(0x41424344), "ABCD (0x41424344)", },
-         |                                            ^~~~~~~~~~~~~~~~~~~
-   lib/test_printf.c:811:30: warning: excess elements in scalar initializer [-Wexcess-initializers]
-     811 |                 { be32_to_cpu(0x41424344), "ABCD (0x41424344)", },
-         |                                            ^~~~~~~~~~~~~~~~~~~
->> lib/test_printf.c:815:30: error: subscripted value is not an array, pointer, or vector
-     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:52: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                               ~~~~~^~
->> lib/test_printf.c:815:30: error: subscripted value is not an array, pointer, or vector
-     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:202:53: note: expanded from macro '__must_be_array'
-     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-     203 |                                                         "must be array")
-         |                                                         ~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:201:47: note: expanded from macro '__is_array'
-     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                                        ^~
-   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler.h:197:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                               ^
-   lib/test_printf.c:816:30: error: subscripted value is not an array, pointer, or vector
-     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:52: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                               ~~~~~^~
-   lib/test_printf.c:816:30: error: subscripted value is not an array, pointer, or vector
-     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:202:53: note: expanded from macro '__must_be_array'
-     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-     203 |                                                         "must be array")
-         |                                                         ~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:201:47: note: expanded from macro '__is_array'
-     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                                        ^~
-   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler.h:197:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                               ^
-   lib/test_printf.c:817:30: error: subscripted value is not an array, pointer, or vector
-     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:52: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                               ~~~~~^~
-   lib/test_printf.c:817:30: error: subscripted value is not an array, pointer, or vector
-     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:202:53: note: expanded from macro '__must_be_array'
-     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-     203 |                                                         "must be array")
-         |                                                         ~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:201:47: note: expanded from macro '__is_array'
-     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                                        ^~
-   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler.h:197:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                               ^
-   lib/test_printf.c:818:30: error: subscripted value is not an array, pointer, or vector
-     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:52: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                               ~~~~~^~
-   lib/test_printf.c:818:30: error: subscripted value is not an array, pointer, or vector
-     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:202:53: note: expanded from macro '__must_be_array'
-     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
-     203 |                                                         "must be array")
-         |                                                         ~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:201:47: note: expanded from macro '__is_array'
-     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
-         |                                                        ^~
-   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                          ^
-   include/linux/compiler.h:197:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
-     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                               ^
-   4 warnings and 8 errors generated.
-
-
-vim +815 lib/test_printf.c
-
-   792	
-   793	static void __init fourcc_pointer(void)
-   794	{
-   795		static const struct fourcc_struct try_cc[] = {
-   796			{ 0x3231564e, "NV12 little-endian (0x3231564e)", },
-   797			{ 0xb231564e, "NV12 big-endian (0xb231564e)", },
-   798			{ 0x10111213, ".... little-endian (0x10111213)", },
-   799			{ 0x20303159, "Y10  little-endian (0x20303159)", },
-   800		};
-   801		static const struct fourcc_struct try_ch = {
-   802			{ 0x41424344, "ABCD (0x41424344)", },
-   803		};
-   804		static const struct fourcc_struct try_cn = {
-   805			{ 0x41424344, "DCBA (0x44434241)", },
-   806		};
-   807		static const struct fourcc_struct try_cl = {
-   808			{ le32_to_cpu(0x41424344), "ABCD (0x41424344)", },
-   809		};
-   810		static const struct fourcc_struct try_cb = {
-   811			{ be32_to_cpu(0x41424344), "ABCD (0x41424344)", },
-   812		};
-   813	
-   814		fourcc_pointer_test(try_cc, ARRAY_SIZE(try_cc), "%p4cc");
- > 815		fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
-   816		fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
-   817		fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
-   818		fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
-   819	}
-   820	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alyssa Rosenzweig <alyssa@rosenzweig.io>
+
