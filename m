@@ -1,47 +1,77 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A4E1D8A0B;
-	Sat,  1 Mar 2025 16:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D531D5ACE;
+	Sat,  1 Mar 2025 17:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740847203; cv=none; b=E/OjNM0SlJMFI8+5pFkiR5G4CUqmoniyFf/GhOfrdDkMgkkj/U/eqXK6Xr9rKin7TNsvUW7a0Nn+c3A5W/Sp+gKhacpVJLbYsCGXWQvfK/ZSS2JafCLG6HRdNwTtggicPemxrQNQXMMz+qVgJUO3TXBOP1bKd3Qnv16xdSklaQ4=
+	t=1740850584; cv=none; b=YreRJdXtInQ9EuM/ybrnNedud6xDBliRLdXWr8JCyHrL/+vbwe5S/88YnM7hGWIKfjBARWbLYe5iKvjkNXnQZvzcuGNMwB4o4pQPTafYnZTifuOuiG0qh4mwqh9/607fSY4HUf5FJ8IRv6I0os/jFDP2HxKDZCDxSxJDZOhcNzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740847203; c=relaxed/simple;
-	bh=FVQpJz2NQLO72Ywv6QilmFahoejCINbXoE91tlE00/U=;
+	s=arc-20240116; t=1740850584; c=relaxed/simple;
+	bh=oIdagQIpwhkmdGuXgy1GsDqb6ilGQu3oH5QJWc0gBrA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bj0OzmdzBbRrSuVY/eCOOCHW6bcWCIdoXf9BZ5pnuP8CtaDcLu0F+eYW6OWVbPVZpQZXvNeAODyD6Z9q9kibaaoa+eQOfDHzVLTUh8rzAroiSAgzIqWIGqqquP53rhbkcCx3Mgnb5L8i/meei10hNtspaCZ4oUlBjzB14gLUQZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=A2jA9XJy; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FDx+rARXmGXQdizEvduyMj7PrJKtJAVBm7VyyHYK2lJtpqdjs1ZEFmgRKJ0x3YXz8cbjo+P5YDSK3Nw+pNy4WGNzhjWJr5ngKcQQ3bg+lchcyUGSdrMD2hoyYWMzPNGZ71hqNg3H6D5Ezeb2yMvTRx4SHghShk50JVKXbDtY8nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VvTqq/72; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="A2jA9XJy"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z4rQY4q0Hz9sl3;
-	Sat,  1 Mar 2025 17:39:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
-	s=MBO0001; t=1740847190;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2U/JC9Mkv2iTVLlyM6LmZFkoV9o6Q7G7toYDxFnoFrQ=;
-	b=A2jA9XJyjbGcbS47afkSTerq1syUKrXRObXYBL1JQNZrC9B/DDbXSdIryAkOlqWo0Z+CcU
-	8xZueFTRziHzn+JQQ0mHIpCtSJXI0td/jKn3u90tZ7HqG+fZgVPlsxZBKAn87ZE/KKtebY
-	r7oRypgas1aMscsLfRYmh/WFKhBS9tTaHTy0scPDsIhvCwYxaqpQT+cCnFpjhWG/B8FS7b
-	vJPZ7P9b1wG05AucfmNpakKsu+PjzD/S1R0I5kvbxXXxm8rH9PyZvaG61An3Os2yZmS42d
-	B/L5dzwYMUAmDdPDG+BJBjib0x8E2vfhJ8uh7yNeNTOY+97c95p1r7oZjDC0gg==
-Date: Sat, 1 Mar 2025 11:39:46 -0500
-From: Ethan Carter Edwards <ethan@ethancedwards.com>
-To: Sven Peter <sven@svenpeter.dev>, Theodore Ts'o <tytso@mit.edu>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, asahi@lists.linux.dev
-Subject: Re: [RFC] apfs: thoughts on upstreaming an out-of-tree module
-Message-ID: <upqd7zp2cwg2nzfuc7spttzf44yr3ylkmti46d5udutme4cpgv@nbi3tpjsbx5e>
-References: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
- <d0be518b-3abf-497a-b342-ff862dd985a7@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvTqq/72"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740850581; x=1772386581;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oIdagQIpwhkmdGuXgy1GsDqb6ilGQu3oH5QJWc0gBrA=;
+  b=VvTqq/721YgICulg0C0KGkPtOzrEeqGiXJo/xSsqqENL0019rdp6E/wp
+   du6m8Jh8DOG6S7AutHiwWo6N5I0ne8OpdmyxZV7wJQFj0BTFfmoc/8nNt
+   7l1RYR8TQhhMnJlGDfIo57puJAJXl5lxGJyqJcNrRqDdMPUCfhyxIgVJs
+   glsQNU7ez5i/S9e22pmZ++XchChB2AXDta/FiXH4pFs1fOvnox04SYjV/
+   t1aK54J+YC2oaHlOF1xkm/H1lN2WcJK/Jw3q0tYzG/CtUDYe7+crhdFhq
+   ksZoZGHVqJ8hxeJJ+/p56z0ycIYYkVYQ8gp6rmtz7vpvCvesQU8d54Yiw
+   g==;
+X-CSE-ConnectionGUID: 1f6eYe5FQUqrDzJ/H8OO8w==
+X-CSE-MsgGUID: DgJWCE3bSViaSnsDYiTM8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="44582816"
+X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
+   d="scan'208";a="44582816"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 09:36:20 -0800
+X-CSE-ConnectionGUID: o+w+vXi8TxKY+WZRFpz8kw==
+X-CSE-MsgGUID: aj1Srs8VQdql4BUnb1nc/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117482624"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 01 Mar 2025 09:36:15 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1toQl2-000GUs-06;
+	Sat, 01 Mar 2025 17:36:12 +0000
+Date: Sun, 2 Mar 2025 01:35:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aditya Garg <gargaditya08@live.com>, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v5] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <202503020121.qsiw3acQ-lkp@intel.com>
+References: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -50,82 +80,496 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d0be518b-3abf-497a-b342-ff862dd985a7@app.fastmail.com>
+In-Reply-To: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
 
-On 25/03/01 12:04AM, Sven Peter wrote:
-> Hi,
-> 
-> 
-> On Fri, Feb 28, 2025, at 02:53, Ethan Carter Edwards wrote:
-> > Lately, I have been thinking a lot about the lack of APFS support on
-> > Linux. I was wondering what I could do about that. APFS support is not 
-> > in-tree, but there is a proprietary module sold by Paragon software [0].
-> > Obviously, this could not be used in-tree. However, there is also an 
-> > open source driver that, from what I can tell, was once planned to be 
-> > upstreamed [1] with associated filesystem progs [2]. I think I would 
-> > base most of my work off of the existing FOSS tree.
-> >
-> > The biggest barrier I see currently is the driver's use of bufferheads.
-> > I realize that there has been a lot of work to move existing filesystem
-> > implementations to iomap/folios, and adding a filesystem that uses
-> > bufferheads would be antithetical to the purpose of that effort.
-> > Additionally, there is a lot of ifndefs/C preprocessor magic littered
-> > throughout the codebase that fixes functionality with various different
-> > versions of Linux. 
-> >
-> > The first step would be to move away from bufferheads and the
-> > versioning. I plan to start my work in the next few weeks, and hope to
-> > have a working driver to submit to staging by the end of June. From
-> > there, I will work to have it meet more kernel standards and hopefully
-> > move into fs/ by the end of the year.
-> >
-> > Before I started, I was wondering if anyone had any thoughts. I am open
-> > to feedback. If you think this is a bad idea, let me know. I am very
-> > passionate about the Asahi Linux project. I think this would be a good
-> > way to indirectly give back and contribute to the project. While I
-> > recognize that it is not one of Asahi's project goals (those being
-> > mostly hardware support), I am confident many users would find it
-> > helpful. I sure would.
-> 
-> Agreed, I think it would be helpful for many people (especially those
-> who still regularly dual boot between macOS and Linux) to have a working
-> APFS driver upstream.
-> This may also be useful once we fully bring up the Secure Enclave and need
-> to read/write to at least a single file on the xART partition which has
-> to be APFS because it's shared between all operating systems running on
-> a single machine.
-> 
-> 
-> It looks like there's still recent activity on that linux-apfs github
-> repository. Have you reached out to the people working on it to see
-> what their plans for upstreaming and/or future work are?
+Hi Aditya,
 
-I did ask the upstream maintainer and he said he did not see it
-happening. He specifically mentioned the use of bufferheads as a barrier
-to mainline merging, but I get the sense that he does not have the
-time/desire to commit to upstreaming it. [0]
+kernel test robot noticed the following build errors:
 
-I did have a question/concern over the inclusion of the LZFSE/LZVN [1]
-compression library included in the module. It is BSD3 licensed, which,
-as far as I know is GPL-compatible, but what is the kernel's policy on
-external algorithms being included? It was originally developed by Apple
-and as far as I can tell is pretty necessary to read (and write)
-compressed files on APFS. Also, the library does produce an objtool
-warning.
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+[also build test ERROR on linus/master v6.14-rc4 next-20250228]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Ted, looping you in here, your thoughts?
+url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Garg/lib-vsprintf-Add-support-for-generic-FourCCs-by-extending-p4cc/20250301-003018
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/2C9622E6-A2DB-4681-A971-604C79F9955E%40live.com
+patch subject: [PATCH v5] lib/vsprintf: Add support for generic FourCCs by extending %p4cc
+config: arc-randconfig-001-20250301 (https://download.01.org/0day-ci/archive/20250302/202503020121.qsiw3acQ-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020121.qsiw3acQ-lkp@intel.com/reproduce)
 
-> 
-> 
-> 
-> Best,
-> 
-> 
-> Sven
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020121.qsiw3acQ-lkp@intel.com/
 
-Thanks,
-Ethan
+All error/warnings (new ones prefixed by >>):
 
-[0]: https://github.com/linux-apfs/linux-apfs-rw/issues/68
-[1]: https://github.com/linux-apfs/linux-apfs-rw/tree/master/lzfse
+   lib/test_printf.c: In function 'fourcc_pointer':
+>> lib/test_printf.c:802:17: warning: braces around scalar initializer
+     802 |                 { 0x41424344, "ABCD (0x41424344)", },
+         |                 ^
+   lib/test_printf.c:802:17: note: (near initialization for 'try_ch.code')
+>> lib/test_printf.c:802:31: warning: excess elements in scalar initializer
+     802 |                 { 0x41424344, "ABCD (0x41424344)", },
+         |                               ^~~~~~~~~~~~~~~~~~~
+   lib/test_printf.c:802:31: note: (near initialization for 'try_ch.code')
+   lib/test_printf.c:805:17: warning: braces around scalar initializer
+     805 |                 { 0x41424344, "DCBA (0x44434241)", },
+         |                 ^
+   lib/test_printf.c:805:17: note: (near initialization for 'try_cn.code')
+   lib/test_printf.c:805:31: warning: excess elements in scalar initializer
+     805 |                 { 0x41424344, "DCBA (0x44434241)", },
+         |                               ^~~~~~~~~~~~~~~~~~~
+   lib/test_printf.c:805:31: note: (near initialization for 'try_cn.code')
+   lib/test_printf.c:808:17: warning: braces around scalar initializer
+     808 |                 { le32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+         |                 ^
+   lib/test_printf.c:808:17: note: (near initialization for 'try_cl.code')
+   lib/test_printf.c:808:44: warning: excess elements in scalar initializer
+     808 |                 { le32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+         |                                            ^~~~~~~~~~~~~~~~~~~
+   lib/test_printf.c:808:44: note: (near initialization for 'try_cl.code')
+   lib/test_printf.c:811:17: warning: braces around scalar initializer
+     811 |                 { be32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+         |                 ^
+   lib/test_printf.c:811:17: note: (near initialization for 'try_cb.code')
+   lib/test_printf.c:811:44: warning: excess elements in scalar initializer
+     811 |                 { be32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+         |                                            ^~~~~~~~~~~~~~~~~~~
+   lib/test_printf.c:811:44: note: (near initialization for 'try_cb.code')
+   In file included from include/linux/kernel.h:16,
+                    from lib/test_printf.c:9:
+>> include/linux/array_size.h:11:52: error: subscripted value is neither array nor pointer nor vector
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                    ^
+   lib/test_printf.c:815:37: note: in expansion of macro 'ARRAY_SIZE'
+     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+         |                                     ^~~~~~~~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/init.h:5,
+                    from lib/test_printf.c:8:
+>> include/linux/compiler.h:201:56: error: subscripted value is neither array nor pointer nor vector
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                        ^
+   include/linux/compiler.h:197:79: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/test_printf.c:815:37: note: in expansion of macro 'ARRAY_SIZE'
+     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/test_printf.c:815:37: note: in expansion of macro 'ARRAY_SIZE'
+     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+         |                                     ^~~~~~~~~~
+>> lib/test_printf.c:815:29: error: incompatible type for argument 1 of 'fourcc_pointer_test'
+     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+         |                             ^~~~~~
+         |                             |
+         |                             struct fourcc_struct
+   lib/test_printf.c:784:68: note: expected 'const struct fourcc_struct *' but argument is of type 'struct fourcc_struct'
+     784 | static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+>> include/linux/array_size.h:11:52: error: subscripted value is neither array nor pointer nor vector
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                    ^
+   lib/test_printf.c:816:37: note: in expansion of macro 'ARRAY_SIZE'
+     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:201:56: error: subscripted value is neither array nor pointer nor vector
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                        ^
+   include/linux/compiler.h:197:79: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/test_printf.c:816:37: note: in expansion of macro 'ARRAY_SIZE'
+     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/test_printf.c:816:37: note: in expansion of macro 'ARRAY_SIZE'
+     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+         |                                     ^~~~~~~~~~
+   lib/test_printf.c:816:29: error: incompatible type for argument 1 of 'fourcc_pointer_test'
+     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+         |                             ^~~~~~
+         |                             |
+         |                             struct fourcc_struct
+   lib/test_printf.c:784:68: note: expected 'const struct fourcc_struct *' but argument is of type 'struct fourcc_struct'
+     784 | static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+>> include/linux/array_size.h:11:52: error: subscripted value is neither array nor pointer nor vector
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                    ^
+   lib/test_printf.c:817:37: note: in expansion of macro 'ARRAY_SIZE'
+     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:201:56: error: subscripted value is neither array nor pointer nor vector
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                        ^
+   include/linux/compiler.h:197:79: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/test_printf.c:817:37: note: in expansion of macro 'ARRAY_SIZE'
+     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/test_printf.c:817:37: note: in expansion of macro 'ARRAY_SIZE'
+     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+         |                                     ^~~~~~~~~~
+   lib/test_printf.c:817:29: error: incompatible type for argument 1 of 'fourcc_pointer_test'
+     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+         |                             ^~~~~~
+         |                             |
+         |                             struct fourcc_struct
+   lib/test_printf.c:784:68: note: expected 'const struct fourcc_struct *' but argument is of type 'struct fourcc_struct'
+     784 | static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+>> include/linux/array_size.h:11:52: error: subscripted value is neither array nor pointer nor vector
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                    ^
+   lib/test_printf.c:818:37: note: in expansion of macro 'ARRAY_SIZE'
+     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:201:56: error: subscripted value is neither array nor pointer nor vector
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                        ^
+   include/linux/compiler.h:197:79: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/test_printf.c:818:37: note: in expansion of macro 'ARRAY_SIZE'
+     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/test_printf.c:818:37: note: in expansion of macro 'ARRAY_SIZE'
+     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+         |                                     ^~~~~~~~~~
+   lib/test_printf.c:818:29: error: incompatible type for argument 1 of 'fourcc_pointer_test'
+     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+         |                             ^~~~~~
+         |                             |
+         |                             struct fourcc_struct
+   lib/test_printf.c:784:68: note: expected 'const struct fourcc_struct *' but argument is of type 'struct fourcc_struct'
+     784 | static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+--
+   test_printf.c: In function 'fourcc_pointer':
+   test_printf.c:802:17: warning: braces around scalar initializer
+     802 |                 { 0x41424344, "ABCD (0x41424344)", },
+         |                 ^
+   test_printf.c:802:17: note: (near initialization for 'try_ch.code')
+   test_printf.c:802:31: warning: excess elements in scalar initializer
+     802 |                 { 0x41424344, "ABCD (0x41424344)", },
+         |                               ^~~~~~~~~~~~~~~~~~~
+   test_printf.c:802:31: note: (near initialization for 'try_ch.code')
+   test_printf.c:805:17: warning: braces around scalar initializer
+     805 |                 { 0x41424344, "DCBA (0x44434241)", },
+         |                 ^
+   test_printf.c:805:17: note: (near initialization for 'try_cn.code')
+   test_printf.c:805:31: warning: excess elements in scalar initializer
+     805 |                 { 0x41424344, "DCBA (0x44434241)", },
+         |                               ^~~~~~~~~~~~~~~~~~~
+   test_printf.c:805:31: note: (near initialization for 'try_cn.code')
+   test_printf.c:808:17: warning: braces around scalar initializer
+     808 |                 { le32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+         |                 ^
+   test_printf.c:808:17: note: (near initialization for 'try_cl.code')
+   test_printf.c:808:44: warning: excess elements in scalar initializer
+     808 |                 { le32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+         |                                            ^~~~~~~~~~~~~~~~~~~
+   test_printf.c:808:44: note: (near initialization for 'try_cl.code')
+   test_printf.c:811:17: warning: braces around scalar initializer
+     811 |                 { be32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+         |                 ^
+   test_printf.c:811:17: note: (near initialization for 'try_cb.code')
+   test_printf.c:811:44: warning: excess elements in scalar initializer
+     811 |                 { be32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+         |                                            ^~~~~~~~~~~~~~~~~~~
+   test_printf.c:811:44: note: (near initialization for 'try_cb.code')
+   In file included from include/linux/kernel.h:16,
+                    from test_printf.c:9:
+>> include/linux/array_size.h:11:52: error: subscripted value is neither array nor pointer nor vector
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                    ^
+   test_printf.c:815:37: note: in expansion of macro 'ARRAY_SIZE'
+     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+         |                                     ^~~~~~~~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/init.h:5,
+                    from test_printf.c:8:
+>> include/linux/compiler.h:201:56: error: subscripted value is neither array nor pointer nor vector
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                        ^
+   include/linux/compiler.h:197:79: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   test_printf.c:815:37: note: in expansion of macro 'ARRAY_SIZE'
+     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   test_printf.c:815:37: note: in expansion of macro 'ARRAY_SIZE'
+     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+         |                                     ^~~~~~~~~~
+   test_printf.c:815:29: error: incompatible type for argument 1 of 'fourcc_pointer_test'
+     815 |         fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+         |                             ^~~~~~
+         |                             |
+         |                             struct fourcc_struct
+   test_printf.c:784:68: note: expected 'const struct fourcc_struct *' but argument is of type 'struct fourcc_struct'
+     784 | static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+>> include/linux/array_size.h:11:52: error: subscripted value is neither array nor pointer nor vector
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                    ^
+   test_printf.c:816:37: note: in expansion of macro 'ARRAY_SIZE'
+     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:201:56: error: subscripted value is neither array nor pointer nor vector
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                        ^
+   include/linux/compiler.h:197:79: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   test_printf.c:816:37: note: in expansion of macro 'ARRAY_SIZE'
+     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   test_printf.c:816:37: note: in expansion of macro 'ARRAY_SIZE'
+     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+         |                                     ^~~~~~~~~~
+   test_printf.c:816:29: error: incompatible type for argument 1 of 'fourcc_pointer_test'
+     816 |         fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+         |                             ^~~~~~
+         |                             |
+         |                             struct fourcc_struct
+   test_printf.c:784:68: note: expected 'const struct fourcc_struct *' but argument is of type 'struct fourcc_struct'
+     784 | static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+>> include/linux/array_size.h:11:52: error: subscripted value is neither array nor pointer nor vector
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                    ^
+   test_printf.c:817:37: note: in expansion of macro 'ARRAY_SIZE'
+     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:201:56: error: subscripted value is neither array nor pointer nor vector
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                        ^
+   include/linux/compiler.h:197:79: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   test_printf.c:817:37: note: in expansion of macro 'ARRAY_SIZE'
+     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   test_printf.c:817:37: note: in expansion of macro 'ARRAY_SIZE'
+     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+         |                                     ^~~~~~~~~~
+   test_printf.c:817:29: error: incompatible type for argument 1 of 'fourcc_pointer_test'
+     817 |         fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+         |                             ^~~~~~
+         |                             |
+         |                             struct fourcc_struct
+   test_printf.c:784:68: note: expected 'const struct fourcc_struct *' but argument is of type 'struct fourcc_struct'
+     784 | static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+>> include/linux/array_size.h:11:52: error: subscripted value is neither array nor pointer nor vector
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                    ^
+   test_printf.c:818:37: note: in expansion of macro 'ARRAY_SIZE'
+     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:201:56: error: subscripted value is neither array nor pointer nor vector
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                                        ^
+   include/linux/compiler.h:197:79: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   test_printf.c:818:37: note: in expansion of macro 'ARRAY_SIZE'
+     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+         |                                     ^~~~~~~~~~
+>> include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   test_printf.c:818:37: note: in expansion of macro 'ARRAY_SIZE'
+     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+         |                                     ^~~~~~~~~~
+   test_printf.c:818:29: error: incompatible type for argument 1 of 'fourcc_pointer_test'
+     818 |         fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+         |                             ^~~~~~
+         |                             |
+         |                             struct fourcc_struct
+   test_printf.c:784:68: note: expected 'const struct fourcc_struct *' but argument is of type 'struct fourcc_struct'
+     784 | static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+         |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+
+
+vim +/fourcc_pointer_test +815 lib/test_printf.c
+
+   792	
+   793	static void __init fourcc_pointer(void)
+   794	{
+   795		static const struct fourcc_struct try_cc[] = {
+   796			{ 0x3231564e, "NV12 little-endian (0x3231564e)", },
+   797			{ 0xb231564e, "NV12 big-endian (0xb231564e)", },
+   798			{ 0x10111213, ".... little-endian (0x10111213)", },
+   799			{ 0x20303159, "Y10  little-endian (0x20303159)", },
+   800		};
+   801		static const struct fourcc_struct try_ch = {
+ > 802			{ 0x41424344, "ABCD (0x41424344)", },
+   803		};
+   804		static const struct fourcc_struct try_cn = {
+   805			{ 0x41424344, "DCBA (0x44434241)", },
+   806		};
+   807		static const struct fourcc_struct try_cl = {
+   808			{ le32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+   809		};
+   810		static const struct fourcc_struct try_cb = {
+   811			{ be32_to_cpu(0x41424344), "ABCD (0x41424344)", },
+   812		};
+   813	
+   814		fourcc_pointer_test(try_cc, ARRAY_SIZE(try_cc), "%p4cc");
+ > 815		fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+   816		fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+   817		fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+   818		fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+   819	}
+   820	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
