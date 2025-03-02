@@ -1,81 +1,81 @@
 Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B79A1CAA90;
-	Sun,  2 Mar 2025 11:38:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FF31DE8A8;
+	Sun,  2 Mar 2025 11:58:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740915535; cv=none; b=An/kmM7ISinZ+8fY0K8IY+gJErjbtv98C4JImNlsHPvw9ICHx/BlS36AX+cQHAgvq1BV95Mmb760qtGH9Ln+9CIbyM2HWbnWFwO9ttN3c6TC7Kz3T/YUxiPOShtQxsFF0G+HCKKqLq7ptmcfseNiiTlBUavY2nM5Wt6daL0Hhtg=
+	t=1740916696; cv=none; b=KDcQoqBlbTyuIRpoqBQp+Gh1uX0XjXNEOUfLs1tfJ2hM+BiJBbKQdkR+E/gIzH5fUid2LzycEkuR0zxHJscmBZcxba7MRXgZToK5j5x3OdA9wiVFFSc5og9T37nvxyNb8tn/kSB+r7fe0sE0Rp3wga29rX7+wuNhiV1B9oEjQu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740915535; c=relaxed/simple;
-	bh=AKKUuqE+qvGHOcveL7+kNvIIz2UbbpPTXNWMm9P1Xik=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b32HhM+LGkZ2IWSFF8NQudV8jo/vXaGPgtRwB1xoEnEJOtIUJ4q02Ln6wCj22aoq1zZgYK9jTW1ZBFAYX2oWr5ZlAtVwCbN/HJqcQ1PfsgTcwXuGwS+GU/i3TewnO03AK2PZ+Fsj/iuW+gDpWVn9phiHSFp4m1ZeOZF7EI5K/X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=ijsAh4yD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Thwnl+G1; arc=none smtp.client-ip=202.12.124.150
+	s=arc-20240116; t=1740916696; c=relaxed/simple;
+	bh=nWGi7cfqhp9mA4Uz0WOPpEi/Lcd5mG7GIiDgPrI/IsM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BIr2d+Vw8NIwJFkruQMiB/6jvrMyfH/DHYH4aNUIWVIL4EX4MPffQL2RVanynSKTrD9HiTJ7Tkkpt0uyj8fzSJjb2Guvs/3H2YyndiOdFJZSQHZuVP3bguLxTnUGM8PlFS2GR39ltO4QcMtIQVqIigIJJpB2+TXqou6guc/7Mxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=EpekGFJv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=H36YEWhv; arc=none smtp.client-ip=202.12.124.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="ijsAh4yD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Thwnl+G1"
-Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
-	by mailfout.stl.internal (Postfix) with ESMTP id 0A33C1140132;
-	Sun,  2 Mar 2025 06:38:52 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="EpekGFJv";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="H36YEWhv"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 2BE6211400D3;
+	Sun,  2 Mar 2025 06:58:13 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Sun, 02 Mar 2025 06:38:52 -0500
+  by phl-compute-05.internal (MEProxy); Sun, 02 Mar 2025 06:58:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1740915531; x=1741001931; bh=Z7Y/TKSfcK
-	jLz+8BY7qiShSlDpuTu6NU1rFgchBJCvQ=; b=ijsAh4yDeENoiS+vJz+z5+exXs
-	FT3TIu9GqgbOBXZRb73E4TcQb2FaEnRnT30r1t5J8TRg2xNk7Lk7he3HsL1IvX8E
-	mANGlNaQHKpHmervHmqafCY3AdiNwS2lSk43baVh/XzczvQ2o/5LL2Y/GoGI8kg1
-	S6p9Qm1UzE0dUPDAwX2GtsRWXufhZk1W8E7Cxkoey/K5Rb/jnRiyFYuFfCoq99OZ
-	5mOQJ+khSrIyDKzFUxXhwwfAxucD40rbyXeiHckkOq6UwOevduaQ0c+ZhVV7WOLm
-	zaThmwkc2kT54/C/EerCOmVBC6wuEJbWfl249QRwRbzlFYHbfEPCC+NBBs5g==
+	:subject:to:to; s=fm2; t=1740916693; x=1741003093; bh=Y3u4DWgtOR
+	alPu24x88ZUnj6vgWYBg8l4GEw4QA6sbA=; b=EpekGFJvrLGE+03/WtqX5UWDM+
+	6X3NJ8AdTKF8ZsLhrw7FL3yzJ6OHBGezB4ihLraOYyYK0wcmlVRVPj3uXCCDsk0e
+	YjHpoHp+BpM3ThdHq8RwYkfD1ULr6svs/llcbUKVLkTEZSKbqRU4T8hmkt3icZtY
+	/8k+JamQtyyAmGRiwX5tynoDdo67Qh7Jmxg0fbPFNckFUQ97T0a7/2Xpc0bzT+VY
+	efaiZxY+1vS4USYcNHJeUCw+PV92EnnyFaRTVJX6VL5qi4M7LBAXKUM/33nzWkr7
+	RcJKrNVoC/n2gm81sEIx7bCsLi3UCFQFmJa4apyaLatkImmpRgQVhQn83NZA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1740915531; x=1741001931; bh=Z7Y/TKSfcKjLz+8BY7qiShSlDpuTu6NU1rF
-	gchBJCvQ=; b=Thwnl+G1wJ/fJM/Fx1BsZ25YSJGThHZa1pT03BGuEpPW5a40qzy
-	He1KBq/xDmBXtq5hwHrSTSYK3J8k1lCJCJ3bggctBvq/+2WLy36dYvpHrCNCUt3b
-	eycPB+vYjcFgvKuIIPM0vkKHWfMv5t5zouG2z9zuACm3fGywKZSZ16K0TN0wLI1s
-	2LAuftua4Zm2/TPyIa9PKExM52pXu9nty60NaJPsFfRV37tHe7M25sq+boClscAI
-	5IHMBvugl+xPn/QjpyWOzLtkB59OdW2P6TURlEpRMG1ZiS1pQH2L3WfeyMtsWdcD
-	lB5UlNYCip/4ndnjQBaFM4gaPHFfr0njrRA==
-X-ME-Sender: <xms:S0PEZyHLFxfCdY8wN8-nu41tgFU3C4wFlxBtvivA7EqcfEmpr_tZCg>
-    <xme:S0PEZzU_A15PH_ta0tbr_WRnZCwBCJPo5vPHPlZbOegBPO6mWmSCkZoecDh9L5ZQw
-    aNQ6np296170oORoRU>
-X-ME-Received: <xmr:S0PEZ8LfZyS478PA4J4OCbaz3M4ndGGlpby7rtYE0-jH9bNDcQqr99ssQnGyaZcylIlT5GpgrUEkv6VDs2tYrqYGLDmf0MYKDsT_qVna6vQaOB-Uzz7XtC6lFuMAdJs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelieduvdcutefuodetggdotefrod
+	1740916693; x=1741003093; bh=Y3u4DWgtORalPu24x88ZUnj6vgWYBg8l4GE
+	w4QA6sbA=; b=H36YEWhvfvvslR5HJbOH7bTx18EJhND4/C3v+1Hl0c9W3AmJUlH
+	IetkbzI6sILc2h0SB7EV/90ZaDYQHPmyrYyy6+bQHaNPWZoL7NAOTAI1/HdFyB1p
+	spegx9cqIQTo9OV1jg5XEf/scOO+Aib6ZdGXmcz22Yyws7yn/jf2a1SCtf5+L+WV
+	L5x9BmF2jw+jK0PYuiEfTwC5P1HjSPU9jMTKrJ0LwPEkpo3aoNVtcISjHIu+fmvA
+	JFcezBjQOEIXY2GldMdyJrVmmF/pyPGFgZULk1ROfs3nkHOOQ8K1G8YN4h4HOO2i
+	o9FhjXKmwm77gGx6hK1Mi0OZ4N7rRvNNzuQ==
+X-ME-Sender: <xms:1EfEZ-3e0_h6TTVnwpNGplagjkyd8iKqQ5DC5ItdHMwEpIr8_AZxQw>
+    <xme:1EfEZxH18JxFq296P4Stq60EdMR5LaFw9kTfmov2xOFVouiaGRzcU0erN1LeGNhim
+    N80gF-yzTQhujta_oQ>
+X-ME-Received: <xmr:1EfEZ2720e9C3IIvC6rYvpN9lxuM8kExdW5dyd8l6ak0tOjK5YoM3Z-1stM9jBvFX3_nwmCsXWNkU8xiDWkzUKeEN3N1-4Oqf7egZTdQoryBWIiC-_NOYc1b59imz5w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelieduhecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvve
     fufffkofgggfestdekredtredttdenucfhrhhomhepufhvvghnucfrvghtvghruceoshhv
-    vghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtthgvrhhnpeduieeihfegte
-    fgkedtieffkefhjeegieekffdtgffhgeevgeekgeejteeuffdvieenucffohhmrghinhep
-    ghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgtphhtthho
-    peegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsohgtsehlihhsthhsrdhlih
-    hnuhigrdguvghvpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggv
-    vhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfh
-    hrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
-    rdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:S0PEZ8H9_ZqYgeGp__YKoPT_aiX2gi4ga2cJe79FR64V2L54l7g7og>
-    <xmx:S0PEZ4U1ULgt9SaJPW4O3j0KDik3IYjQh8URDSO_iCgPAmpfupeHCw>
-    <xmx:S0PEZ_Pjvrf0sLpbu2zLoF-AsWV2UL_g463u2E8OFGClcQ5T23MmXQ>
-    <xmx:S0PEZ_3xtA1gDzJD_CFlchcgM1Ni_Nve8l8DCZfG7lALpJsZ960eCQ>
-    <xmx:S0PEZ2zjIZjNbN_UqBpiXntYgfHxkMctUo2js0cbu_bbqjge51_SsAU3>
+    vghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtthgvrhhnpeejleevffdvfe
+    egueetfeeuteeggefhleevveehueegffdtleeluedufeevhfeileenucffohhmrghinhep
+    khgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggv
+    vhdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsh
+    hotgeslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegrshgrhhhisehlihhs
+    thhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvg
+    hlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidq
+    khgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:1EfEZ_0sGJZhlPKZ67zooJnFfl8O0hZz24Va5r-pgXW6qc797FK2Ow>
+    <xmx:1EfEZxE6NrxmExxnqYi-Ok4zlpkAva3xHq2z0oocNGS9CR0PRWevhA>
+    <xmx:1EfEZ4-b1KF07u4Y_1ewjxECA6sSprdGXepPNa8ru5x3DIz4RCHKxw>
+    <xmx:1EfEZ2lHuseW8anZf92RBHmIH3VYyhNTuC-IcYKClsMW23y_5VcfKw>
+    <xmx:1UfEZ1j6e09AJOwlb1054JA8DWo55C8YRH3BN5hE4RDjahzXvEkcJpd_>
 Feedback-ID: i51094778:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 2 Mar 2025 06:38:50 -0500 (EST)
+ 2 Mar 2025 06:58:11 -0500 (EST)
 From: Sven Peter <sven@svenpeter.dev>
 To: soc@lists.linux.dev
 Cc: asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [GIT PULL] Apple SoC RTKit IPC library updates for v6.15
-Date: Sun,  2 Mar 2025 12:38:42 +0100
-Message-Id: <20250302113842.58092-1-sven@svenpeter.dev>
+Subject: [GIT PULL] Second batch of Apple SoC DT updates for v6.15
+Date: Sun,  2 Mar 2025 12:58:08 +0100
+Message-Id: <20250302115808.59172-1-sven@svenpeter.dev>
 X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -87,56 +87,73 @@ Content-Transfer-Encoding: 8bit
 
 Hi,
 
-Please merge these Apple SoC RTKit IPC library updates for v6.15.
-This batch includes a bunch of minor improvements and bugfixes mostly
-required for our downstream drivers (e.g. DCP) which we are planning to
-upstream in the next months.
-There's one API change which requires a single line adjustment to our
-NVMe driver as well which has been reviewed by a NVMe maintainer.
+this is the second batch of device tree updates for Apple SoCs based
+on the first PR sent earlier [1].
+This one adds nodes for SPI controller, SPI NOR flash and NVRAM partitions
+for M1 and M2 devices. The SPI controller driver has been merged for a while
+already and we just forgot to pick the device tree changes up.
+It also adds the touchbar digitizer nodes. The corresponding driver and
+dt-bindings are already in -next and should be part of the 6.15 merge window
+as well.
 
 
 Best,
 
-
 Sven
 
-The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
 
-  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
+[1] https://lore.kernel.org/soc/20250209135558.8243-1-sven@svenpeter.dev/
+
+The following changes since commit ca96d759d8d24d90b1726c2cc7c568ff4728bb42:
+
+  arm64: dts: apple: t8015: Add cpufreq nodes (2025-02-09 11:50:13 +0000)
 
 are available in the Git repository at:
 
-  https://github.com/AsahiLinux/linux.git tags/asahi-soc-rtkit-6.15
+  https://github.com/AsahiLinux/linux.git tags/asahi-soc-dt-6.15-v2
 
-for you to fetch changes up to e210227f0259d2666cc41b28ed1b7b0b0a99ed4d:
+for you to fetch changes up to 44db68dee1f77260d7037319e911e9883a6ffe0e:
 
-  soc: apple: rtkit: Cut syslog messages after the first '\0' (2025-02-28 21:36:45 +0000)
-
-----------------------------------------------------------------
-Apple SoC RTKit IPC library updates for 6.15:
-
-- Additional logging for errors
-- A few minor improvements and bugfixes required for drivers that are
-  yet to be upstreamed
+  arm64: dts: apple: Add touchbar digitizer nodes (2025-02-26 15:33:46 +0000)
 
 ----------------------------------------------------------------
-Asahi Lina (2):
-      soc: apple: rtkit: Check & log more failures
-      soc: apple: rtkit: Pass the crashlog to the crashed() callback
+Apple SoC DT updates for 6.15, second batch:
 
-Harshit Mogalapalli (1):
-      soc: apple: rtkit: Fix use-after-free in apple_rtkit_crashlog_rx()
+- Added a missing p-state for iPad mini 4
+- Added SPI controller nodes for M1 and M2 devices
+- Added SPI NOR flash nodes and NVRAM partitions
+- Added touchbar digitizer nodes for M1 and M2 devices
 
+----------------------------------------------------------------
 Hector Martin (1):
-      soc: apple: rtkit: Implement OSLog buffers properly
+      arm64: dts: apple: t8103: Fix spi4 power domain sort order
 
-Janne Grunau (3):
-      soc: apple: rtkit: Add and use PWR_STATE_INIT instead of _ON
-      soc: apple: rtkit: Use high prio work queue
-      soc: apple: rtkit: Cut syslog messages after the first '\0'
+Janne Grunau (4):
+      arm64: dts: apple: t8103: Add spi controller nodes
+      arm64: dts: apple: t8112: Add spi controller nodes
+      arm64: dts: apple: t600x: Add spi controller nodes
+      arm64: dts: apple: Add SPI NOR nvram partition to all devices
 
- drivers/nvme/host/apple.c          |   2 +-
- drivers/soc/apple/rtkit-internal.h |   1 +
- drivers/soc/apple/rtkit.c          | 112 +++++++++++++++++++++++++------------
- include/linux/soc/apple/rtkit.h    |   2 +-
- 4 files changed, 78 insertions(+), 39 deletions(-)
+Nick Chan (1):
+      arm64: dts: apple: t7000: Add missing CPU p-state 7 for J96 and J97
+
+Sasha Finkelstein (1):
+      arm64: dts: apple: Add touchbar digitizer nodes
+
+ arch/arm64/boot/dts/apple/spi1-nvram.dtsi      | 39 +++++++++++++
+ arch/arm64/boot/dts/apple/t600x-common.dtsi    |  7 +++
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi      | 28 ++++++++++
+ arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi | 14 +++++
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi |  2 +
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi      |  2 +
+ arch/arm64/boot/dts/apple/t7000-mini4.dtsi     |  4 ++
+ arch/arm64/boot/dts/apple/t7000.dtsi           |  6 ++
+ arch/arm64/boot/dts/apple/t8103-j293.dts       | 27 +++++++++
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi      |  2 +
+ arch/arm64/boot/dts/apple/t8103-pmgr.dtsi      | 18 +++---
+ arch/arm64/boot/dts/apple/t8103.dtsi           | 76 ++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112-j493.dts       | 23 ++++++++
+ arch/arm64/boot/dts/apple/t8112-jxxx.dtsi      |  2 +
+ arch/arm64/boot/dts/apple/t8112.dtsi           | 44 ++++++++++++++-
+ 15 files changed, 284 insertions(+), 10 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/apple/spi1-nvram.dtsi
