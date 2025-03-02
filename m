@@ -1,85 +1,142 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5814C9D
-	for <asahi@lists.linux.dev>; Sun,  2 Mar 2025 10:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B79A1CAA90;
+	Sun,  2 Mar 2025 11:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740912925; cv=none; b=d4dfLtrtL4tjerxwdjDeBpKbh5wsReeKqYTwr+7SycupN2w02UoHFSSz8OqG/Wnn4sdts2nHGyFZ40WZb3YzbG36z3Ka09S+9VItoMyuUzcepAOpyPJrxmAWHAFjhhhIhPei7evBLtpGcxT127PuFH0CePgLw4QMVvguUXjetqo=
+	t=1740915535; cv=none; b=An/kmM7ISinZ+8fY0K8IY+gJErjbtv98C4JImNlsHPvw9ICHx/BlS36AX+cQHAgvq1BV95Mmb760qtGH9Ln+9CIbyM2HWbnWFwO9ttN3c6TC7Kz3T/YUxiPOShtQxsFF0G+HCKKqLq7ptmcfseNiiTlBUavY2nM5Wt6daL0Hhtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740912925; c=relaxed/simple;
-	bh=YP9vFesE7FOkWTsjQeuOzqlZhTxpNdth3TwzKIctpts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YBGtFXpqpcH2BM+JOc/143GBMDMikPbSFSs4d/CPyyhRf89XT2OuvmnYzg3kVxgNxH2ejRb576JATyb0O4rnN/yxY3YiK0x/jW5Ara96X+r9oEHkmeXI7wVTjo5NWZb6aNQ+41QJDANv4CYlUlI5doN8HRe5Xm8rdhmjeexYp2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qg/OrGqK; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740915535; c=relaxed/simple;
+	bh=AKKUuqE+qvGHOcveL7+kNvIIz2UbbpPTXNWMm9P1Xik=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b32HhM+LGkZ2IWSFF8NQudV8jo/vXaGPgtRwB1xoEnEJOtIUJ4q02Ln6wCj22aoq1zZgYK9jTW1ZBFAYX2oWr5ZlAtVwCbN/HJqcQ1PfsgTcwXuGwS+GU/i3TewnO03AK2PZ+Fsj/iuW+gDpWVn9phiHSFp4m1ZeOZF7EI5K/X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=ijsAh4yD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Thwnl+G1; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qg/OrGqK"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e53b3fa7daso530610a12.2
-        for <asahi@lists.linux.dev>; Sun, 02 Mar 2025 02:55:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740912922; x=1741517722; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yVNL0sPyTN/JB4JKueVcudW2dTNqPhTdzuxyAD7JqBI=;
-        b=qg/OrGqK4EA4jHnm1WDt35ARvH11Ol9bkLq0yT8F/GkAeqJIEP7paVkr9vd4soa3pn
-         bvyW8h/0DrtsLvQyjTAtCu78bq9SWbmrczOXPeFGqKDNLwvF8KQt5pPGX0nAEMIHqj5l
-         HQF6+kKSMJPKbFJX9joqNFR11Ku9fXythGy1kydzI35mUvCc0R2lxK6GWpTQYZ7LHeI9
-         F3LjcTZVdgFyqMlIcgyC6yrTZQRnDZm6eDnmGRKJqBgDHvR3LV2IHc9UGjTwkc3BeKl0
-         I6+ry2x7vzh9V12qDBCgP788bfABCqPybgkOme6deTQLGOA51mxN87hW2vrtPuwWwaqB
-         ua6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740912922; x=1741517722;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yVNL0sPyTN/JB4JKueVcudW2dTNqPhTdzuxyAD7JqBI=;
-        b=UhSY3W7/YdMxbglJXhoPQBZthw4tkqwGQMi978MeXECBn924WPKjsY98HHn12iaCnF
-         d/AA6me4UU15CzRZKgNSvDoASIdbKMpRwcFsp0cuJqMFrNOkPk0jXokvDa5PpOjmiylq
-         oUZ1Ul00iZiU0bLRun4vHPEdUWe2DCVSP8NZsfK5cgRPVuh2dMXN4c/t3VmdlEssZRnq
-         4vH06EXB+ANJekwV4hliInr7u3i9B1mxgZgSvs0IBAG+X6u7mKCjkmNoaArajnXuQIBk
-         ObKtVQKmLYavr7O/C+9sKkqsZyRq02XRVbI3dhDcN/xvYNHBRJr/chfXmm4+KoAP5iEl
-         nkkA==
-X-Forwarded-Encrypted: i=1; AJvYcCVrq+SB+8hrHmbYgnw3ng1HpzKpGR0K9NLs6BwCHRob8NCpFmw83c+9vbT56tMACH6oVUYd4Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywsd5+z8Qd7y4SqkUwHp9F041cXI7Ukn8BsvXrrZs9BJogPSRhV
-	knDDyRHF/BKLIoOhSwhh5bztj2/D/avxH3yYMK0CUrJm4pdwVpnXecpTSh7bNVM=
-X-Gm-Gg: ASbGncvpystyRPkKRUMVhUvXNsif/M+DX4F+HLy3Ye8WljtRlNVkKoYZuz10kvDNiCK
-	utoteFHicPwKzq2gr125i0g2agRzAaBjiv+NStJHo5iEDVtPDnBB+G5kOA0utActJ0RMa3KiIzt
-	w5mc0sA/gv+fjJTca7yYSKhuYDFFiTYxm3VQPbctUJcoSPUqrfc3IuE06FiCRRiS+b+Jw5shLx2
-	RtVCw1CU4QeBfDjSiQGKJ9dymsMPZYAnNIQroaxMgFKyAx2U5x8RYEbL9Imt7Hqc1NXTZ+cYnhK
-	SxREbtWV3ncNjFD2VcMLp1p061pqvb7/s4q5+CyNNV/1zEXSkw==
-X-Google-Smtp-Source: AGHT+IF5u6hOznuueVO45DvOr3tnpJV+3iyHP7nKiHIBEz75iKNJU9mKeQvZWjwJzKMqMC7qM6j60Q==
-X-Received: by 2002:a05:6402:3512:b0:5e4:d13b:e65 with SMTP id 4fb4d7f45d1cf-5e4d6af15damr10563438a12.9.1740912921716;
-        Sun, 02 Mar 2025 02:55:21 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5e4c3b4aa46sm5309846a12.1.2025.03.02.02.55.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Mar 2025 02:55:21 -0800 (PST)
-Date: Sun, 2 Mar 2025 13:55:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-staging@lists.linux.dev, asahi@lists.linux.dev
-Subject: Re: [RFC] apfs: thoughts on upstreaming an out-of-tree module
-Message-ID: <b9c2ce02-dab6-4b4d-b8ca-ac1e7769e0c3@stanley.mountain>
-References: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="ijsAh4yD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Thwnl+G1"
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfout.stl.internal (Postfix) with ESMTP id 0A33C1140132;
+	Sun,  2 Mar 2025 06:38:52 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Sun, 02 Mar 2025 06:38:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1740915531; x=1741001931; bh=Z7Y/TKSfcK
+	jLz+8BY7qiShSlDpuTu6NU1rFgchBJCvQ=; b=ijsAh4yDeENoiS+vJz+z5+exXs
+	FT3TIu9GqgbOBXZRb73E4TcQb2FaEnRnT30r1t5J8TRg2xNk7Lk7he3HsL1IvX8E
+	mANGlNaQHKpHmervHmqafCY3AdiNwS2lSk43baVh/XzczvQ2o/5LL2Y/GoGI8kg1
+	S6p9Qm1UzE0dUPDAwX2GtsRWXufhZk1W8E7Cxkoey/K5Rb/jnRiyFYuFfCoq99OZ
+	5mOQJ+khSrIyDKzFUxXhwwfAxucD40rbyXeiHckkOq6UwOevduaQ0c+ZhVV7WOLm
+	zaThmwkc2kT54/C/EerCOmVBC6wuEJbWfl249QRwRbzlFYHbfEPCC+NBBs5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1740915531; x=1741001931; bh=Z7Y/TKSfcKjLz+8BY7qiShSlDpuTu6NU1rF
+	gchBJCvQ=; b=Thwnl+G1wJ/fJM/Fx1BsZ25YSJGThHZa1pT03BGuEpPW5a40qzy
+	He1KBq/xDmBXtq5hwHrSTSYK3J8k1lCJCJ3bggctBvq/+2WLy36dYvpHrCNCUt3b
+	eycPB+vYjcFgvKuIIPM0vkKHWfMv5t5zouG2z9zuACm3fGywKZSZ16K0TN0wLI1s
+	2LAuftua4Zm2/TPyIa9PKExM52pXu9nty60NaJPsFfRV37tHe7M25sq+boClscAI
+	5IHMBvugl+xPn/QjpyWOzLtkB59OdW2P6TURlEpRMG1ZiS1pQH2L3WfeyMtsWdcD
+	lB5UlNYCip/4ndnjQBaFM4gaPHFfr0njrRA==
+X-ME-Sender: <xms:S0PEZyHLFxfCdY8wN8-nu41tgFU3C4wFlxBtvivA7EqcfEmpr_tZCg>
+    <xme:S0PEZzU_A15PH_ta0tbr_WRnZCwBCJPo5vPHPlZbOegBPO6mWmSCkZoecDh9L5ZQw
+    aNQ6np296170oORoRU>
+X-ME-Received: <xmr:S0PEZ8LfZyS478PA4J4OCbaz3M4ndGGlpby7rtYE0-jH9bNDcQqr99ssQnGyaZcylIlT5GpgrUEkv6VDs2tYrqYGLDmf0MYKDsT_qVna6vQaOB-Uzz7XtC6lFuMAdJs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelieduvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvve
+    fufffkofgggfestdekredtredttdenucfhrhhomhepufhvvghnucfrvghtvghruceoshhv
+    vghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtthgvrhhnpeduieeihfegte
+    fgkedtieffkefhjeegieekffdtgffhgeevgeekgeejteeuffdvieenucffohhmrghinhep
+    ghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgtphhtthho
+    peegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsohgtsehlihhsthhsrdhlih
+    hnuhigrdguvghvpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggv
+    vhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfh
+    hrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
+    rdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:S0PEZ8H9_ZqYgeGp__YKoPT_aiX2gi4ga2cJe79FR64V2L54l7g7og>
+    <xmx:S0PEZ4U1ULgt9SaJPW4O3j0KDik3IYjQh8URDSO_iCgPAmpfupeHCw>
+    <xmx:S0PEZ_Pjvrf0sLpbu2zLoF-AsWV2UL_g463u2E8OFGClcQ5T23MmXQ>
+    <xmx:S0PEZ_3xtA1gDzJD_CFlchcgM1Ni_Nve8l8DCZfG7lALpJsZ960eCQ>
+    <xmx:S0PEZ2zjIZjNbN_UqBpiXntYgfHxkMctUo2js0cbu_bbqjge51_SsAU3>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 2 Mar 2025 06:38:50 -0500 (EST)
+From: Sven Peter <sven@svenpeter.dev>
+To: soc@lists.linux.dev
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Apple SoC RTKit IPC library updates for v6.15
+Date: Sun,  2 Mar 2025 12:38:42 +0100
+Message-Id: <20250302113842.58092-1-sven@svenpeter.dev>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+Content-Transfer-Encoding: 8bit
 
-If you're going to do a major re-work it might be easier to do that first
-before you upstream it.  Once it's in the kernel then you have to follow
-all the rules like breaking your commits up into reviewable patches and
-not breaking git bisect.  The rules are good for quality control but they
-can be burdensome for people who want to move fast and break things.
+Hi,
 
-regards,
-dan carpenter
+Please merge these Apple SoC RTKit IPC library updates for v6.15.
+This batch includes a bunch of minor improvements and bugfixes mostly
+required for our downstream drivers (e.g. DCP) which we are planning to
+upstream in the next months.
+There's one API change which requires a single line adjustment to our
+NVMe driver as well which has been reviewed by a NVMe maintainer.
 
+
+Best,
+
+
+Sven
+
+The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
+
+  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
+
+are available in the Git repository at:
+
+  https://github.com/AsahiLinux/linux.git tags/asahi-soc-rtkit-6.15
+
+for you to fetch changes up to e210227f0259d2666cc41b28ed1b7b0b0a99ed4d:
+
+  soc: apple: rtkit: Cut syslog messages after the first '\0' (2025-02-28 21:36:45 +0000)
+
+----------------------------------------------------------------
+Apple SoC RTKit IPC library updates for 6.15:
+
+- Additional logging for errors
+- A few minor improvements and bugfixes required for drivers that are
+  yet to be upstreamed
+
+----------------------------------------------------------------
+Asahi Lina (2):
+      soc: apple: rtkit: Check & log more failures
+      soc: apple: rtkit: Pass the crashlog to the crashed() callback
+
+Harshit Mogalapalli (1):
+      soc: apple: rtkit: Fix use-after-free in apple_rtkit_crashlog_rx()
+
+Hector Martin (1):
+      soc: apple: rtkit: Implement OSLog buffers properly
+
+Janne Grunau (3):
+      soc: apple: rtkit: Add and use PWR_STATE_INIT instead of _ON
+      soc: apple: rtkit: Use high prio work queue
+      soc: apple: rtkit: Cut syslog messages after the first '\0'
+
+ drivers/nvme/host/apple.c          |   2 +-
+ drivers/soc/apple/rtkit-internal.h |   1 +
+ drivers/soc/apple/rtkit.c          | 112 +++++++++++++++++++++++++------------
+ include/linux/soc/apple/rtkit.h    |   2 +-
+ 4 files changed, 78 insertions(+), 39 deletions(-)
