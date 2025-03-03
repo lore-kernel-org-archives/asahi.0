@@ -1,83 +1,123 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC692135BB
-	for <asahi@lists.linux.dev>; Mon,  3 Mar 2025 15:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85998215169
+	for <asahi@lists.linux.dev>; Mon,  3 Mar 2025 16:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741016606; cv=none; b=JmPUW0reiYMZzyXqj5CH5knC7Q/ionlogUv9ALaW3tuSuwzFvMZfsDqSwwMyvuEK0XHgTEppD9YqAZONZl9P/goFysLxeobxx4ME08zYIj4bZ9GFjEQzJdIZqnhPAmCVykwlol+KxFtPxx2ZSQLWUL4CCs4yIq73KNP6CjbIOb4=
+	t=1741018103; cv=none; b=W3IvOsKYvjEN7sugNiilY03VzdEWhZ3pmZsdaIgAQaJCDh0xf1PMZ25hYJDjfb26nGnjgVx9jqS9vYjOMOObYZ74g1zgDf/96rEMvpvXXgCBEEStE6MUxg6nY/7CPn+BRpMUU/OrbIqTykNuc8IfSNrebhAEVtLwBbi+lkZ82q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741016606; c=relaxed/simple;
-	bh=GF4nkeF7KSiSXrWzXWnDBoMn1B2bg16Grh3w7rcsf8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tXZ3xPqHFAkg5IHEqspapau5ZujTj22qRq+UU0bdFVYBS9jhk9PHZMEZ/xSQtMIXzuFLK9xweaTcjkH2bWo7wh/iRPUI/FXTrl1Sz5N2FpuFlBKJ6FSSPwMrsR/26UkcW5a25jmXOWNizt72GAoV2iv3XqvJtInZa7E0N9Hkehw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=C9b4AFVy; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1741018103; c=relaxed/simple;
+	bh=6BR4u24CndhoIfJBpcQq/sKMFSqWxEklL6+36Y45z0A=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=HA84YvjrYNXrfOcTnbHbKQotga2k76Djd4fYVjW4KvDwS9W85kuePwl9J9MZ2P8gEV6MhK06GMST8avelnTI8L7p51o4DSQpi6tUjqyeQK9uZ4cn5yX6LeDwhJPgGOdNdmeFuvmPhmFneq3BSsVf+ktMCIW2RUdiD5Pp+w1XfH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=Zi1qTlKj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=4OcJ7WqU; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="C9b4AFVy"
-Date: Mon, 3 Mar 2025 10:43:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1741016601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=seEoy9RCdjq5gQ6u5K7vAkwJraDrjevBUwdT9habU9w=;
-	b=C9b4AFVy0sa2gaLc+VViC/urt5RncL82pVN2bUddo2Pm6GmNm4k4zSL16v11jS8d/6fOC7
-	g55aOKjHpoR8yR0NKmwOybhsR48aj94GXLU7qzRoiwMK2sRNdHhvG5AxAsOB9yX0vCrgvo
-	e6M4l0C4OSF4zy1I47k/DZExaosFGhcgJs43l5o0fPCsxL7yhdL5uTb/6jLYAwgvbJXJew
-	Mok98SgC+aDRdCTh39oIFM7AvwQAw18oXitpelTLxByxDJ87KXkDjzb9MuC45ZFOTFuPF8
-	NwBh2rSERnx4gzBOMcaQVwU4BCpP4mAwgED3X/seOjMbPaQOMSje6997bOz3KQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Neal Gompa <neal@gompa.dev>
-Cc: asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH] MAINTAINERS: Add myself (Neal Gompa) as a reviewer for
- ARM Apple support
-Message-ID: <Z8XOFTclPeZwBKld@blossom>
-References: <20250303154012.1417088-1-neal@gompa.dev>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="Zi1qTlKj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="4OcJ7WqU"
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 8CB6711401D5;
+	Mon,  3 Mar 2025 11:08:20 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-03.internal (MEProxy); Mon, 03 Mar 2025 11:08:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1741018100; x=1741104500; bh=6BR4u24CndhoIfJBpcQq/sKMFSqWxEkl
+	L6+36Y45z0A=; b=Zi1qTlKj9Y6OldLM6lz620Az1C0Fh5UofcGoDQujGmDhXhnP
+	gXTOWmBHhpSElCWfXqpyJOC3Mp08aQ4Zdn/rlms0a1DkANA9jvaArJ6sQrMp9OP0
+	iTfumkBSDgj/43BigCCOEKsXLSLonfPgB4/TSY5YIQx88UdB6g6vVxjXoTkaqapU
+	+aKgR/pBjT63bqh9xWeUD+/S9S6csjFWoHi/YqXrdppvFdj3wC+9jcFEhgl3ppJM
+	mhOlXFCWGEz0f4Gxz4M7GF7C6QSqUFLd2TxKjbIQ6NtgYRtMY/Uv7YfvRx1kEaBq
+	sJY9rJk/RyE8Dy6/hNUvBFO2jmxpenGPOqgbnw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741018100; x=
+	1741104500; bh=6BR4u24CndhoIfJBpcQq/sKMFSqWxEklL6+36Y45z0A=; b=4
+	OcJ7WqUxMK0GCYXS5cCNJGVilnqLDiAO2sT1CZbDnF42DjxvfjyaVRxz5y2FjjEN
+	91qdDDw0Y+DE+C00rHL212ryC5JNnBe5Wkl7u6DqFxzhWwsIL7cuH/PwCId+Eh8i
+	BjWLmP/wLexMPe3fPYkLAE+s8b6YaqtD4HYcBjL+WDjP6ftYwaU3o6vlZKakBz/W
+	9jWQvuQ6jI2wXslDU/wimmMyohIwkuXnmmO4BvpRLeLXLR7iLRDrIqMDC7m4sPOj
+	SxSgpyZsqSf+rCJPeWR/uBjLhgyoTdvF3incKkO9mhIIAAU82ihYBfcDkJnNNiUd
+	lABY+SlyAHXPWjwQ0Qy/Q==
+X-ME-Sender: <xms:9NPFZ8sTUp1mbgzU5tk1eQzld_NYFRcwxeuZnZPZNEGi8gNK6VFDsA>
+    <xme:9NPFZ5fr1EobKMMKm_mOBWKH4Y2xtO_Akv4eeOWSf9n2d0B-YfMv47uIQgWQj_Jau
+    l1qrIG4i_lw1-7uzcg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelleehjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
+    hrrdguvghvqeenucggtffrrghtthgvrhhnpeeutedtleeiuefgjedvgfejvefftdekleei
+    gefgfffhheehkeetleehgfetgedtvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghn
+    sehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehj
+    sehjrghnnhgruhdrnhgvthdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlh
+    eslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegrshgrhhhisehl
+    ihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprghlhihsshgrsehrohhsvghnii
+    ifvghighdrihhopdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:9NPFZ3xR5kCZvrT6DI_V52eG2N3aSdTiCIJQlkiykupWVvBn0WLr-Q>
+    <xmx:9NPFZ_OFeXr7SUqy90EjZW-ab4I8wO50H-gQGd8vZQiYmMJwC9ErEA>
+    <xmx:9NPFZ88eXsZkgkXD89JAhuBR9lXriDFCyEgschTqBCmP3q67J67PLg>
+    <xmx:9NPFZ3W0e29h2GHGOCUX9qX5D--dnCJKyWfMiQogBwGYsqGDm2eHTQ>
+    <xmx:9NPFZ7mE15yIdZmTLNsEoPcZec4Sgi0x4SHGs65j5JGkj8hA3ses8Npk>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 00982BA006F; Mon,  3 Mar 2025 11:08:19 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Date: Mon, 03 Mar 2025 17:07:59 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Neal Gompa" <neal@gompa.dev>, asahi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Janne Grunau" <j@jannau.net>
+Message-Id: <634502ea-6389-43c8-8236-7f90f864f73a@app.fastmail.com>
 In-Reply-To: <20250303154012.1417088-1-neal@gompa.dev>
-X-Migadu-Flow: FLOW_OUT
+References: <20250303154012.1417088-1-neal@gompa.dev>
+Subject: Re: [PATCH] MAINTAINERS: Add myself (Neal Gompa) as a reviewer for ARM Apple
+ support
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
-Le Mon , Mar 03, 2025 at 10:40:10AM -0500, Neal Gompa a écrit :
+On Mon, Mar 3, 2025, at 16:40, Neal Gompa wrote:
 > As a member of the Asahi Linux project, I (Neal) have been involved in
 > reviewing the patches downstream as part of enabling the Fedora Asahi Remix
 > distribution for years and have recently been reviewing patches for upstream
 > submission as well.
-> 
+>
 > This formalizes my role as a reviewer for ARM Apple system support patches.
-> 
+>
 > Signed-off-by: Neal Gompa <neal@gompa.dev>
 > ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8e0736dc2ee0..052e6e997817 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2212,6 +2212,7 @@ ARM/APPLE MACHINE SUPPORT
->  M:	Sven Peter <sven@svenpeter.dev>
->  M:	Janne Grunau <j@jannau.net>
->  R:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> +R:	Neal Gompa <neal@gompa.dev>
->  L:	asahi@lists.linux.dev
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
-> -- 
-> 2.48.1
-> 
+
+Acked-by: Sven Peter <sven@svenpeter.dev>
+
+Nothing much to add to that. You've been reviewing all of our downstream
+patches when preparing Fedora Asahi Remix kernels for quite a while now
+and provided good feedback so it makes sense to make this official.
+
+I'll pick this up in a few days together with an update to MAINTAINERS
+that includes our SPI driver files which I think we missed last year [1].
+
+
+
+Best,
+
+
+Sven
+
+
+[1] https://lore.kernel.org/asahi/20241106-asahi-spi-v5-3-e81a4f3a8e19@jannau.net/
