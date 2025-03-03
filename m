@@ -1,124 +1,90 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A841E3DCF
-	for <asahi@lists.linux.dev>; Sun,  2 Mar 2025 16:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186061F428C
+	for <asahi@lists.linux.dev>; Mon,  3 Mar 2025 15:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740931396; cv=none; b=DNL45ul/SQar1PHzkPiafXKQeET01IIapDzMUlhNZpRuHmHMFFyVb3BPfnI48QcEm9IttwGXWcEEKOHJkvtbhoPbRTFY5SYZRmxF20n92JzCybaOP5DNTrJzzyB6o+/6JyKJP3j5e7ih+jErsn8v1ouELGmTBF3Qtwq1EwE62sI=
+	t=1741016462; cv=none; b=nyqoG/b0rvurbMxPBmfVjq/ZuZxFQbVJkjSKSinGpcBP0C47GM/ItfBQdEQ4v8Swgv0Cko/hBYF7SY018CxNKUtCmxp6tvJAKvQuZqjyJKUd21UxKHp5PXpI86rSJ8jJQrR5Ahj71jABatb1e8ygY4f0LI751H0rj7jU2jS6Dyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740931396; c=relaxed/simple;
-	bh=thNHmiSH9lOAN4/tLKeVEhGP0Bb23KHy19mDsCcWSTg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=D32emxNS+zbs2YgRJA0nt9jU/fkEJIYvC3AE6WdBiMgJzA2qfr6BzspAKVX4QzyLN4PsOE1fMsGG+izljlx50o2OXLYsm2FuwDKS2BiIgqeoa2euN0ArOS/TXzPdJXI0n96oRaYqDtbL6SchQfWG16TbpKNrlw4VOpvgoM44EQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=IVLFCY1G; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=yIJqDKWv; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="IVLFCY1G";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="yIJqDKWv"
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 43CA911400CE;
-	Sun,  2 Mar 2025 11:03:13 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-03.internal (MEProxy); Sun, 02 Mar 2025 11:03:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1740931393; x=1741017793; bh=thNHmiSH9lOAN4/tLKeVEhGP0Bb23KHy
-	19mDsCcWSTg=; b=IVLFCY1G/xsblzXzUy2/v2Kb7vuyiA2nr40zwe2Z/OsIdrc6
-	qHauS2ALh8zX3P/nIP2seV3RXdPXqiX3fV6AmhJkCpZaHLqY/QtLU8ZrQ6kNr0wK
-	qdb4mjwhC2A0g+iJ0hMTAnhr59SQXbZkXVzuH8Cq5DpytOM2i8uwJo/RX75cKRHA
-	sLx93nxs2vfnmBdgyztlKRgkYIChX0HW7gLqYqn821pOgVHIB3Uab6cjxkSJo64W
-	nV75FyJBCRJlo1N5TiXINfLQEg2JAnsWki4wmUZ/o/FQTGJHRhJs7tFAg6n+woa4
-	gkH8NADvEjYWIttKgGUjrcHIeXp0LKZPo2GdaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740931393; x=
-	1741017793; bh=thNHmiSH9lOAN4/tLKeVEhGP0Bb23KHy19mDsCcWSTg=; b=y
-	IJqDKWvigtwF1a2znq7lujVcD2q3u5cGq+7InAMEVJ6L8QVrVVKGqn5i960ZJhwM
-	bbh9fk4+by25IYUa5SVgKV7pzYvHfap71ytCpmZzdx27uXKK+jTddhJY6wrtenWJ
-	i7xTNBCJOhTZsvUQqY+4ckkAuZPX/Su5xMcNI75nncNZseoE3hAkcl1Pko5i4o1t
-	qxnjJKx0xtk8RX25xSdcxpRjEPs4tLxug40wsAO/uHaukhSG4u2JrswNgVgzEDYv
-	giLNi4Vyp6QyTvW/CocaQw0mKkSTosCB/df+BVaXpuKfl3zs6c2SqIQ3iREhbZeO
-	bZp2xUNUeaRZoq4era2XA==
-X-ME-Sender: <xms:P4HEZ3pP3ImPHfArXRawB3WpOLJaws0FOixegN5jGytL4Us9reeOHw>
-    <xme:P4HEZxqPo_qzHrX2A3rEWvJYwKG01K0_QJKYyxhAToRPtozzaZKv8D-_4LVx-FuHG
-    zYFlrBh-b7t6PjVWWg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelieeigecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
-    hrrdguvghvqeenucggtffrrghtthgvrhhnpeelfeetueegudduueduuefhfeehgeevkeeu
-    feffvdffkedtffffleevffdvvdeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghr
-    tghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehfrghithhhrd
-    gvkhhsthhrrghnugestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopehsihhmohhn
-    rgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
-    dprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehm
-    rggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtg
-    hpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhr
-    ghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpth
-    htoheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtohepthiiihhm
-    mhgvrhhmrghnnhesshhushgvrdguvg
-X-ME-Proxy: <xmx:P4HEZ0OijRnMMx1GAxE0ztt0u43gknFQZZcWyfLQgS_TSQXJexFcRA>
-    <xmx:P4HEZ660vRX94AI_yJR2WtI4bN9v3nEaD_ubxw8PxrLwXffeuVUsYw>
-    <xmx:P4HEZ24GxmKqJGihORpIUiu0LrM4nNRXEdPzr6QbtxlhAaD9sgbbfg>
-    <xmx:P4HEZygtZsr-y18jBti2mikR2WPf-XLQMuPpEmtBf0QF22f0uKvDsg>
-    <xmx:QYHEZ_FcgTwIiDlILWchsQ_ApNybee3AuLzNTpQZGmHu8PgvWdPWC79->
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9E84ABA0070; Sun,  2 Mar 2025 11:03:11 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1741016462; c=relaxed/simple;
+	bh=C1voShr7QZBAZN+zbd70EoBJvqupFDaWLGBECIThba4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fcbam2qugAy3wePsF7JYHuSwhZ8TMr8R4G2ARxnXgb1sUTD3IQjbyGjLDHd4sC3lqA6sWvHe53w7QXsYU78ql0eYboZw7a83psE95Rp2PvkByyk6d/xWPJzIa06PaQdUTR6vSr59WuzJIS3q9Ud5GbqQ9XEF64rO30d3vuH54hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c081915cf3so612713085a.1
+        for <asahi@lists.linux.dev>; Mon, 03 Mar 2025 07:41:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741016459; x=1741621259;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x9Q1CGP4dTc4ReWFNLDCwkt5znmDQGNIDebPCmoEtHE=;
+        b=PiguwryENOlh2cOsF/uhq/t8iKTW1TbjMfBVUWc9lnUZ51K5b73nwBSdo8q07lWrqr
+         vULZpjfnP2vaJ62jXyyuePWafOR5wglzfcElZSrV7IZy3nVBmBifSYRWuYkMluK1wh6f
+         OFi2QvWICFDYqkeg0lQ7cnW+Ii3oi67x013eCMFDngR4BoHh0uv8aD0ackjmY1edDplC
+         qarBbxP2E8ROfBCWdskKemPIRfSMLkn/z+SxQUEMy2bbxIpZVQwFzzTNaHDhX/nbGC31
+         +FhaaRCyuPthaKRRu96x+aBzisPTNRf3We0YUL6NWca2HpGVWIfJDYvNUJOiVbkD8wAP
+         W1Iw==
+X-Gm-Message-State: AOJu0YxbxHyoIj523CjZTaeKl8rPmM+Ix+AsL/feSjPumRdd0Of9XPPC
+	0d0CXNRnY6sJ39mEIaesNZ3SrFDvJuJAnQs/i0thjCJp1cZw461zqE05c88+L/4=
+X-Gm-Gg: ASbGnctKSOsN2/8durRgU2eUOw2jwRxsskXUqRGQcH5nt9eSl32aUF0EUnzpCKfvInE
+	jRWvzS9YGLx8IIrDoLPnRK8iGmK5lTQlqMVEv0SXTX1jEVuMPetIVZFwe4UO1YcSJ3mege/kxeX
+	9lNkT2kzF3/K9bLfEL9bG9yecOY8JlNRMqMZcTwAQCJobIjUMPit5PiR97dCZC/TTwKUSnbFPnH
+	bN1EKagWhT40O7Yoa4NVBM73qp7WBdhUoNATk68ajx0RIwQ5SADnvrTwz7z9JNOPRFX4TUPyD0V
+	l47S1Pj3MAMrUk8PJaVPxNok1NxWnp+jaIz6EW0JrTXs5e9uP2S5cN0=
+X-Google-Smtp-Source: AGHT+IGMYW21aDwHdBh2fatxOmmOzXnLq+QcGm1yyhgrEjUujkrtZp4lmeRrA3XkLXCqUwF33zdaag==
+X-Received: by 2002:a05:620a:5641:b0:7c3:9d35:2c91 with SMTP id af79cd13be357-7c39d353655mr1526898185a.5.1741016459115;
+        Mon, 03 Mar 2025 07:40:59 -0800 (PST)
+Received: from Skuld-Framework.gompa.lan ([32.221.37.233])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c36fee9d22sm613629685a.21.2025.03.03.07.40.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Mar 2025 07:40:58 -0800 (PST)
+From: Neal Gompa <neal@gompa.dev>
+To: asahi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>
+Subject: [PATCH] MAINTAINERS: Add myself (Neal Gompa) as a reviewer for ARM Apple support
+Date: Mon,  3 Mar 2025 10:40:10 -0500
+Message-ID: <20250303154012.1417088-1-neal@gompa.dev>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sun, 02 Mar 2025 17:02:51 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, "Faith Ekstrand" <faith.ekstrand@collabora.com>
-Message-Id: <5a4b80f3-c121-4d5e-ae88-442a8480d285@app.fastmail.com>
-In-Reply-To: 
- <20250301-apple-twiddled-modifiers-v3-1-4b9bb79825fe@rosenzweig.io>
-References: 
- <20250301-apple-twiddled-modifiers-v3-1-4b9bb79825fe@rosenzweig.io>
-Subject: Re: [PATCH v3] drm: add modifiers for Apple GPU layouts
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 1, 2025, at 23:01, Alyssa Rosenzweig wrote:
-> Apple GPUs support various non-linear image layouts. Add modifiers for
-> these layouts. Mesa requires these modifiers to share non-linear buffers
-> across processes, but no other userspace or kernel support is
-> required/expected.
->
-> These layouts are notably not used for interchange across hardware
-> blocks (e.g. with the display controller). There are other layouts for
-> that but we don't support them either in userspace or kernelspace yet
-> (even downstream), so we don't add modifiers here.
->
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> ---
+As a member of the Asahi Linux project, I (Neal) have been involved in
+reviewing the patches downstream as part of enabling the Fedora Asahi Remix
+distribution for years and have recently been reviewing patches for upstream
+submission as well.
 
-I don't understand much about GPUs but the explanation here is clear enough even for me.
+This formalizes my role as a reviewer for ARM Apple system support patches.
 
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
+Signed-off-by: Neal Gompa <neal@gompa.dev>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8e0736dc2ee0..052e6e997817 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2212,6 +2212,7 @@ ARM/APPLE MACHINE SUPPORT
+ M:	Sven Peter <sven@svenpeter.dev>
+ M:	Janne Grunau <j@jannau.net>
+ R:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
++R:	Neal Gompa <neal@gompa.dev>
+ L:	asahi@lists.linux.dev
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+-- 
+2.48.1
 
-Best,
-
-
-Sven
