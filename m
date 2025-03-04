@@ -1,134 +1,131 @@
-Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1A822FDEF
-	for <asahi@lists.linux.dev>; Mon,  3 Mar 2025 20:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D830B3FFD
+	for <asahi@lists.linux.dev>; Tue,  4 Mar 2025 00:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741032252; cv=none; b=ZDW/ghArfZu1N74ahr2Ado5krR3KCqE30TZD5WnmE2QJcl3BMp+1Fj3nSp1FBr2s6HSiWWWymPXMoMqMaLgMzNwt6MvPsEwPCXl5p9lqpv0WwvR+wbT57NrlwwSyNpzIgnj1aDmCyG12Z74xojPH9cxaFaEJi+5FUd6Pm5R17oE=
+	t=1741046476; cv=none; b=une8jbzpwybXZoxMGQ/OHqubl5sw646PfGbwok6soGpQt6BebIerFuxQQnY9gscRRa3IP8p/aAujdFQ7ylc/ay31VBJ80QY2bTl3c42hihO1SpBbob52v2N+peKCCgeySlZYCCewZujG0+oV0JzDtXPhCvGqGVFIpDFdKIL7iZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741032252; c=relaxed/simple;
-	bh=WmwwteaKVSEELRkso5aFwtcgNpCVXuic6iStoQWMryE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Je9nNoJVFh8WuZ5yatPhx8geCn8WO9SN29h3fMCJXbv5OjIdt50Kk8qMvki2dedt5xjSEMDz2Vj5OlHnXdzZRb2/QS7XtJyxStdkUHLVjOjE4+LHG5+dxkChFQLlJJO/9zBvn1Jx8NzdqXr+KoGQJ8Vdau7NseQgeoZFOBAppmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=WXjVaEnB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PmI0BGAp; arc=none smtp.client-ip=202.12.124.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1741046476; c=relaxed/simple;
+	bh=9+pEkwg2vuoEzMhL5Cl/B8uzhCiG5riWIsKZ/O2ZmG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p5sgLYbQxJKVJpKCB89PmNJlRw4lvzxeKb5U9mZmN3Z0V9mv7CPDHcuyRobgCJm8xpRwPI1CE7sWcvJJueq4WYDABBMWHsE9/VK32jaazVuqWxpShQ0L3LAUYMg4+8azpI359MPykkksfYn3V2veJBNapzcQqodHpYABZ8uIRFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fqyXUs0J; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="WXjVaEnB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PmI0BGAp"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailflow.stl.internal (Postfix) with ESMTP id D2E521D411E3;
-	Mon,  3 Mar 2025 15:04:08 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 03 Mar 2025 15:04:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1741032248; x=1741039448; bh=pD70oFS3M4Bnr8rEfLIbi5W0ZWGc/ux+
-	HB8INioexGU=; b=WXjVaEnBX6IOGqXQHJ2m4dPzu0BGbHs8jAYcklH1EsVXpUXA
-	pqUGVJJnJcqmW2tTkd4SDwFl+vvxlTF/9Ex485SAzkL1LsuEbavHI51bhrSvn8Eb
-	RDcHwgX5RV+Kt9bkX3l/3hjBzOluvkVazeqmK+JI7ZSJD3DRSUDjlA+r0ksurTS0
-	3656EgNb/UC60rxKFY+ixNTfUc2J/5WFwFsJqRRJrNmzj3u1iAE74pZt9hRbNjh0
-	7nxYSB9jXXbu6lOrkqSr8ybvaNgCXvvEbIiLrE3IIgieadqaHJ0EHPHQlkvYtDg/
-	5HEfzNx4Ez0bZFuB4GbprEUpWLPiLgDs2tWYLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741032248; x=
-	1741039448; bh=pD70oFS3M4Bnr8rEfLIbi5W0ZWGc/ux+HB8INioexGU=; b=P
-	mI0BGApw4lGroXEvS3GMBBbu5wz/SwprNLdFIrFs0JrYT28a9rwrj93ED2MJ6rXZ
-	tlnb+yZ1spjol6GrqGnYmBBlUXo0O7kmxnnnNFAxX3aU31zCHckx9w+H2IGdOWPr
-	HA6r/VQjvIB0qFk8RtYr+tFgl4hUKkoppEd9lcGyE5PWGWZTLscqW1ZfP/4GdMAV
-	52QnrFhcfj6GpanBBMdXN3ZSGS+3CwifkzIJrDWo8DMji//3+0Zy0yCqvn6q+dgx
-	n2fGiHGWxbYkjOJYa0CwC9m5r5bQXgmINdLrl9Pqc093V9e53oeClFjOZyhvTLv1
-	a/7JSQ5SMgSbAui/6En/g==
-X-ME-Sender: <xms:NQvGZ_VMM3RtP1DKODTRwtlwJzNkwcbcmPn1s-O22DbPhk3WmR7GpA>
-    <xme:NQvGZ3n-zUADSrIYQbPCxcyd8SqQa4YWv9dAYP3FcuTmo2XJtGXQw5z1hJwUfI4V8
-    rigKHwTmTvjJQIJSuo>
-X-ME-Received: <xmr:NQvGZ7ZnQiedxDTR5CEajnguSPyYFsheJa4MtuRHvJ-RqCiqbUarzWHEAtzZxiH6XIqs3UmrI3X1k47UsDdmQcLdSbAzyKliGlVA24Hk3WCOkEfRux8vCJvExEkI8SU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutddttdegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
-    tdejnecuhfhrohhmpefuvhgvnhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrh
-    druggvvheqnecuggftrfgrthhtvghrnhepgeeihefftefhhffffefhheekveelveeiteef
-    geekhefhieffgfehheeijeehiefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgt
-    phhtthhopedvhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepfhhnkhhlrdhkvg
-    hrnhgvlhesghhmrghilhdrtghomhdprhgtphhtthhopehsvhgvnhesshhvvghnphgvthgv
-    rhdruggvvhdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtth
-    hopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehmrggrrhht
-    vghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoh
-    epmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhm
-    rghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
-X-ME-Proxy: <xmx:NQvGZ6UYHxVWkZf7UtPX9TwDArprBk0BWSBdpveHMJd4CkkzrHt6kw>
-    <xmx:NQvGZ5mAwfjIDz1C18jwijwve-ADRksOJRo2PDpzeZQ6xiOeQaWbDA>
-    <xmx:NQvGZ3fT339mfLcSW5qQfav0c8o47LLgQ5fG1WVOxCQQ8dkF_dD1EA>
-    <xmx:NQvGZzGFmyC2hu3N7Vq5zjNkUx1dHg92NTiwpEThN4TPfcGOgk03-Q>
-    <xmx:OAvGZ7UFo6yl2jRQYv7xu9S__Twf17INMbiJr6VmJP1Hhx5oxAy2M1kN>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Mar 2025 15:04:02 -0500 (EST)
-From: Sven Peter <sven@svenpeter.dev>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Hector Martin <marcan@marcan.st>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	asahi@lists.linux.dev,
-	Janne Grunau <j@jannau.net>,
-	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alyssa Ross <hi@alyssa.is>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Nick Chan <towinchenmi@gmail.com>
-Subject: Re: (subset) [PATCH v7 0/5] Driver for pre-DCP apple display controller.
-Date: Mon,  3 Mar 2025 21:03:58 +0100
-Message-Id: <174103187680.75921.8965235926191911132.b4-ty@svenpeter.dev>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20250217-adpdrm-v7-0-ca2e44b3c7d8@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fqyXUs0J"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-547bcef2f96so5678456e87.1
+        for <asahi@lists.linux.dev>; Mon, 03 Mar 2025 16:01:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741046472; x=1741651272; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nkqxBKG8Qf6FiNEdeYYpYgDqec2n3GJdXjk7zy/AcfA=;
+        b=fqyXUs0JlDg/cmsfaRv/VVx+rXfYZ1T0PEKMpSSn6SAgCW+Shac1bL14PFZMtVuuED
+         0He3lS/AZ5JiTwAV1EndReGQds2PfbZQaekoyMvAlxY23UM81GHuD1i1WKdW3UBXdywj
+         sbeB0pbS4Er8nqBC6aa8A8fF/m06IH15nYUZo1ebsYfhwXtl3it3HZ02UZC/MG/7ItS7
+         QU833i3YMLFgoJg+/7NxigUMG5WRKTOb320aW/gXxKpSfbHcIgtPAkfBWGnjR8Zybwen
+         1Cwrz4pn5rGg9uLfu7FHX8hAbH8z27zRZ+kKy3ehZyQkUO68DayRcgIDc5ak+7fJpz5A
+         N72A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741046472; x=1741651272;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nkqxBKG8Qf6FiNEdeYYpYgDqec2n3GJdXjk7zy/AcfA=;
+        b=ZdRcz4O0q/kfffCKX2EWA6G6oeQunzxW+9dNYhzAwTYQ8DtL7XdtaB9jrZQuajuhvB
+         66+u7xRRG3TSHb+AwwQAGqRlyaQS8tw1ZmgJY9EhPd4nT5LsVjYrQkhyBoJkU9yNcoeI
+         DkhpS7Hni2LrUv3dCDaZeEDV7vUvMyoJmbzTvLZ1UIYltjsBsrpdaBRNkJ6YGXTEVz/2
+         78b5biePCNQ1OlGfol5jY6NhWkS6GDMGmtJUefhaXpvvd6lC9ixUAqY3SHqmvn5oUtBd
+         TJGUd/gkHWLrKC5m+wwL1lFFBxCzeVkR7ml2uMZdpjpoTDP/t2kpygJAN2hEe3ip+9a2
+         65GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5fei9KVfrar62VEAGtqG9zI8wttzGThCuoR3WR4WobqsFegw6dgsSTJnWKKMevIDWtTjBng==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywz40CfkLvkmNx8FRA6LR5iY95sOybi3Qogv7RtyIAPlw0XDvDg
+	X4IHHWWTrpnZjvFIncykmkpvWv9081Nw2O3dakvE20q/rgcTWak/o4TE8LcqvwI=
+X-Gm-Gg: ASbGnctVC6KxUf3qk5yiUtwtsaq4wqlqQjrl3RVz8mase/xTSfCzfBed1R4KuxCX62W
+	o/8fYovBfPA0a5esZsvEJ5cH6ZH6z8h4ydxkmLknaEClG6KKrHBLMaYl+/NEhhJB3z9UYCvf5JJ
+	3qy+4HEi3de2E7nqWDjKO5n4MkZOc957BWSTM30izrP1CBuUA15typPDp0kzddSDtcTFIrFCdK4
+	lvc5fWS7zKcd6TJHfGANGDhUnwIQAARRNLq93kWB4Z5MAi4E4sdl7fmKDT1dX3i/fivWZtx0l5E
+	iIXdn+8xI4d5kygPE+0jj8UqN7dClitkvaCw6/fTqqpmt9F/XRNJztxyKfEgfy6s01zBQkWG01r
+	TG1najCeRxLR2sg6r5ztLRHk/
+X-Google-Smtp-Source: AGHT+IGAn6gM1TyoFfcxy1mqC0F4XhADSkCvoUeeALC8/A3I1KfzwKl6LMwy2iUWuocM+y/26k7tHw==
+X-Received: by 2002:a05:6512:234f:b0:549:6451:7ea0 with SMTP id 2adb3069b0e04-54964517fb8mr2749118e87.19.1741046471766;
+        Mon, 03 Mar 2025 16:01:11 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549443cd03dsm1427182e87.244.2025.03.03.16.01.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Mar 2025 16:01:10 -0800 (PST)
+Date: Tue, 4 Mar 2025 02:01:07 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+	Maxime Ripard <mripard@kernel.org>, fnkl.kernel@gmail.com, Hector Martin <marcan@marcan.st>, 
+	Sven Peter <sven@svenpeter.dev>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, Janne Grunau <j@jannau.net>, 
+	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Neal Gompa <neal@gompa.dev>, Nick Chan <towinchenmi@gmail.com>
+Subject: Re: [PATCH v7 0/5] Driver for pre-DCP apple display controller.
+Message-ID: <dn7zskhxgdgr25nvbnsjyn5brc3yoc446dxz3vqgbiwoccvlcr@5l6f4byj53fo>
 References: <20250217-adpdrm-v7-0-ca2e44b3c7d8@gmail.com>
+ <c3927b51-55ef-4a38-8931-18ff00caa8d8@linaro.org>
+ <Z8XcH7xoDC7TA7ZC@blossom>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8XcH7xoDC7TA7ZC@blossom>
 
-
-On Mon, 17 Feb 2025 12:39:30 +0100, Sasha Finkelstein wrote:
-> This patch series adds support for a secondary display controller
-> present on Apple M1/M2 chips and used to drive the display of the
-> "touchbar" touch panel present on those.
+On Mon, Mar 03, 2025 at 11:43:11AM -0500, Alyssa Rosenzweig wrote:
+> > > Sasha Finkelstein (5):
+> > >        dt-bindings: display: Add Apple pre-DCP display controller
+> > >        drm: adp: Add Apple Display Pipe driver
+> > >        drm: panel: Add a panel driver for the Summit display
+> > >        arm64: dts: apple: Add touchbar screen nodes
+> > >        MAINTAINERS: Add entries for touchbar display driver
+> > > 
+> > >   .../display/apple,h7-display-pipe-mipi.yaml        |  83 +++
+> > >   .../bindings/display/apple,h7-display-pipe.yaml    |  88 +++
+> > >   .../bindings/display/panel/apple,summit.yaml       |  58 ++
+> > >   MAINTAINERS                                        |  16 +
+> > >   arch/arm64/boot/dts/apple/t8103-j293.dts           |  31 ++
+> > >   arch/arm64/boot/dts/apple/t8103.dtsi               |  61 ++
+> > >   arch/arm64/boot/dts/apple/t8112-j493.dts           |  31 ++
+> > >   arch/arm64/boot/dts/apple/t8112.dtsi               |  61 ++
+> > >   drivers/gpu/drm/Kconfig                            |   2 +
+> > >   drivers/gpu/drm/Makefile                           |   1 +
+> > >   drivers/gpu/drm/adp/Kconfig                        |  17 +
+> > >   drivers/gpu/drm/adp/Makefile                       |   5 +
+> > >   drivers/gpu/drm/adp/adp-mipi.c                     | 276 +++++++++
+> > >   drivers/gpu/drm/adp/adp_drv.c                      | 617 +++++++++++++++++++++
+> > >   drivers/gpu/drm/panel/Kconfig                      |   9 +
+> > >   drivers/gpu/drm/panel/Makefile                     |   1 +
+> > >   drivers/gpu/drm/panel/panel-summit.c               | 132 +++++
+> > >   17 files changed, 1489 insertions(+)
+> > > ---
+> > > base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
+> > > change-id: 20241124-adpdrm-25fce3dd8a71
+> > > 
+> > > 
+> > 
+> > All patches are reviewed, can we funnel patches 1, 2 & 5 via drm-misc-next now ?
 > 
-> 
+> I'm planning to do so today, just need to get dim setup first :)
 
-Since the dt-bindings are now part of drm-misc-next I've also applied
-the dts change, thanks!
+Nice! As a heads up, it would be really-really nice if you can send any
+kind of 'applied' message. If you are using 'dim b4-shazam', then
+'b4 ty -a' might do that for you. Otherwise just a simple 'hey, applied'
+email is useful enough.
 
-[4/5] arm64: dts: apple: Add touchbar screen nodes
-      commit: 7275e795e520c7064af52ba67c74d7bac27eea4f
-
-Best regards,
 -- 
-Sven Peter <sven@svenpeter.dev>
+With best wishes
+Dmitry
