@@ -1,87 +1,82 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF7B24FC0D
-	for <asahi@lists.linux.dev>; Wed,  5 Mar 2025 13:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6E21D540
+	for <asahi@lists.linux.dev>; Wed,  5 Mar 2025 13:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741182239; cv=none; b=PtQ8WvUqAVHrejk2IGB7vrDRMnmc1n3QmqtEgRIWA3vJtBQNyPO31rNXCZVSJMYiiQrIA/P6WF9Fv+5RVP9Ah296rSP0Z9uBqCx+Y/AOOXUqRDRz8CRFDl12KOUvxFxVVfxJo6dvFkfBWjGAOQhN7sj+lRY9BAmy9xmvWvDdQ7c=
+	t=1741182532; cv=none; b=KVYnEJETrLK3GuWUWWWjb2HC1DLDYV8Pfh8VOh9fyGBK6lymbBeSKjT0hqkxD9xcj1FcfQqiSx/Kjn6GPk6RNzXmLnTkCypEo7YV+7tVN3PYxdco1OjKUCSvoeWlUIUS4JrRls9kCfhKqr6VzvK86+sczyoz8/jQfXhHO8X3CS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741182239; c=relaxed/simple;
-	bh=jDpqwgqRS0Pm7vrRuf7qtk38rTRX1aLJvoi4v2uLx4k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EK1O7aP/gfGbKtIDjCv72TiPx2xvz3bwbVbyNsnt8sb6tsrnP3omWj5kMI+VGk02lXcwd3SNBfhh2jGfcfwO/AZhfDHpAR7CVu2TL7rPAr/5kx5Gfc6UP/VCuvj94B8L/Jo11mPdcggp/oQKadS0ukRqqyxywJu9eCvqfIPar6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=mQFr02Xf; arc=none smtp.client-ip=95.215.58.174
+	s=arc-20240116; t=1741182532; c=relaxed/simple;
+	bh=uR5T1D3QxAJlJ1Grdi1qVI/wsoVx9nCe/kXwEE6UJyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P98VbTFclyqbfOfuy3Q7wBQURpLaCrgkB0+5j9nF+noh4JUhMg1xy45v4XNxqdRi82iYqJQQFMSaMStfOI44FSXIjIUPYWncvIpfSSZ6sevG4rU2QZwOfoi2LAIVY4fGiQVKf27/Ka8tjU69LQy0ScwN3P7ShO8tMoxUFXqLAeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=MQmaoyaK; arc=none smtp.client-ip=91.218.175.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="mQFr02Xf"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="MQmaoyaK"
+Date: Wed, 5 Mar 2025 08:48:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1741182235;
+	s=key1; t=1741182528;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QO9qKoULzoYWBABgf51NjYdGSNxXU0EMfpVjVSk9Mzc=;
-	b=mQFr02Xf/PCIkBtVH8ROPNcA1j26gf1sXqPL3epIxfHi3UC8BpWHrc0qm5fGbxC8Lt0gG8
-	GI4jfqo5mTnEFtPDiKPxgu8apCWZdIjwKidneo36lLjI6HV6/BTGBTK7fzMjA3E7yISf6T
-	NPpeqG3Fruhu2vc2vx1977bIZA863Mptjma1YcjBPPyZbAWm+EL2FoEu8nYdn0D5IYDcRw
-	i0Ijl0xPRfwQcG68W0K3b8j477UEcxEtQr8X9hzUfeWrLToGPkjY15Ii0OZtNaH6VM7Qjw
-	OotUMUUDicGWrvuiygnZd/pmxp64+g3AI36H0egvb1zWG0a9Ze3Ee/MOX/q68Q==
+	bh=wb6rcGnysdOjkFCR0OaNCjFIgpAYP0AzENVy2fFqyCo=;
+	b=MQmaoyaKEFYFydhvZcXatALOg9G6+iaxRo27Zubxen26s7vvqy9imItga79vuEh+y5w00V
+	tWEGEMppaREoQugpDnYbR5rrnCLUkDGmLLXekj3bTCnlWwTKfATTL2VFzCOFk1cLKVJjl3
+	p2kUCg7Ss/0BrMFApcKJ8HkyKZP2dO+qOJRJEzR8ulRPNUYrkZLwVTtdiLl0Noe+JTodZZ
+	HGfHLMvlMb8Rt7OjveDAPN+L1D2ryDxl6T2V446BWwiJG5HV0n3U6QjnH0+BW1VCDk4hzb
+	oVWXF1wOH8083b0o/tpp1i4RASMkr5/vjDO8iMglqx5P3dgHv/QerJ8pJkwLfA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
- Janne Grunau <j@jannau.net>, Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alyssa Ross <hi@alyssa.is>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250224-adpdrm-v8-0-cccf96710f0f@gmail.com>
-References: <20250224-adpdrm-v8-0-cccf96710f0f@gmail.com>
-Subject: Re: [PATCH v8 0/5] Driver for pre-DCP apple display controller.
-Message-Id: <174118223158.156873.6982508045942987984.b4-ty@rosenzweig.io>
-Date: Wed, 05 Mar 2025 08:43:51 -0500
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>, fnkl.kernel@gmail.com,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
+	Janne Grunau <j@jannau.net>, linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Neal Gompa <neal@gompa.dev>, Nick Chan <towinchenmi@gmail.com>
+Subject: Re: [PATCH v7 0/5] Driver for pre-DCP apple display controller.
+Message-ID: <Z8hWN4DpNyTHQf7I@blossom>
+References: <20250217-adpdrm-v7-0-ca2e44b3c7d8@gmail.com>
+ <c3927b51-55ef-4a38-8931-18ff00caa8d8@linaro.org>
+ <Z8XcH7xoDC7TA7ZC@blossom>
+ <dn7zskhxgdgr25nvbnsjyn5brc3yoc446dxz3vqgbiwoccvlcr@5l6f4byj53fo>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dn7zskhxgdgr25nvbnsjyn5brc3yoc446dxz3vqgbiwoccvlcr@5l6f4byj53fo>
 X-Migadu-Flow: FLOW_OUT
 
-
-On Mon, 24 Feb 2025 12:02:15 +0100, Sasha Finkelstein wrote:
-> This patch series adds support for a secondary display controller
-> present on Apple M1/M2 chips and used to drive the display of the
-> "touchbar" touch panel present on those.
+> > > All patches are reviewed, can we funnel patches 1, 2 & 5 via drm-misc-next now ?
+> > 
+> > I'm planning to do so today, just need to get dim setup first :)
 > 
-> 
+> Nice! As a heads up, it would be really-really nice if you can send any
+> kind of 'applied' message. If you are using 'dim b4-shazam', then
+> 'b4 ty -a' might do that for you. Otherwise just a simple 'hey, applied'
+> email is useful enough.
 
-Applied, thanks!
+Oh cool, it didn't occur to me that `b4 ty` would compose with `dim
+b4-shazam`. Sent a very belated message and will try to make a habit of
+it going forward.
 
-[1/5] dt-bindings: display: Add Apple pre-DCP display controller
-      commit: 7a108b930a84e71be71c3370eef6dd96fbb8f618
-[2/5] drm: adp: Add Apple Display Pipe driver
-      commit: 332122eba628d537a1b7b96b976079753fd03039
-[3/5] drm: panel: Add a panel driver for the Summit display
-      (no commit info)
-[4/5] arm64: dts: apple: Add touchbar screen nodes
-      (no commit info)
-[5/5] MAINTAINERS: Add entries for touchbar display driver
-      commit: 4d2a877cc0efefa815648f1ed5f5b2b796f55bab
+Thanks for the tip!
 
-Best regards,
--- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
+Cheers,
+Alyssa
