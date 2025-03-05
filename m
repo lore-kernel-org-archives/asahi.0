@@ -1,81 +1,178 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010007.outbound.protection.outlook.com [52.103.67.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FE71C6FE2
-	for <asahi@lists.linux.dev>; Wed,  5 Mar 2025 08:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741162662; cv=none; b=Dtc3x41Q6A2MHRcS9S35RJx9PVmPlRgyZO6INe4+0oo+TzxkeUvMaNbBWbVe7s7gKL+EmqE4+J4TgtDuIbj9tmA32Eoj1sej3HSDaYxEj4LUjSnY5iGu6bO1ENuHzzMahZHRK/XqJPXNQe+riOpGCfoOBDOk0S1AGFvBpsNIs80=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741162662; c=relaxed/simple;
-	bh=unUXlRhpi9sFgYovBXVYDRg89FpRhkYUYq8VvpQ6o9I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D5f9X7ZOneX9u+CvOpODpbJ+HqaboC/YguLVKaq793KXXXGo4aLr1rlr/eLTufRUXvLu+1Vyb2/ejVkOhXyVQ4mEdvs1UqWx7yI1RWjLG53LtI/nvoLdzWrMD5wRPvKArXIsNOygS6938O80Hbz9QuWVloy1chcEviIlcer6SSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIVrAS25; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102A9233737
+	for <asahi@lists.linux.dev>; Wed,  5 Mar 2025 11:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741175833; cv=fail; b=Nt8w9S1sJ6COCZp4JseVeKdy3gbMngvET8yU9nN2NyBw9TmatMTBB1/46bW2iIT3i6sBDYVuZSOYLGERCLEe5usf82vxl+iHbMHT+DvEZ4U3DfLUS5SkEoVpTWF8/V4Ht0GUbGn4v+d3LKHRqtg+V5ZX3q91Y60Y6Srh7D+SOv4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741175833; c=relaxed/simple;
+	bh=rKzSgNF5SOVNjQc3i0WzM4dt3ddgxnUWv+9bSvexRsg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PV75YZegmFxJsh6CvSauR2sfN0N9X/7Zp3TGab02wYggOJRIhlPMCOXYvUyb/HA2JzM917H/iknQDmfv+Qj33c3xicnVeZ/HT1R/MFgrv/FIS/xfG/J164VDBqBtcDHkB1tMRq9sFm0FbOqRnU+sD1sHUOUmr9YIP6UWWFP8OT8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=TtEf+UPQ; arc=fail smtp.client-ip=52.103.67.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIVrAS25"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6f4bc408e49so59042907b3.1
-        for <asahi@lists.linux.dev>; Wed, 05 Mar 2025 00:17:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741162659; x=1741767459; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=unUXlRhpi9sFgYovBXVYDRg89FpRhkYUYq8VvpQ6o9I=;
-        b=GIVrAS25Dp32pLnHnGnPOffULhUqLtQr0xpi31C3iDGnwA7+EJJonJrRSKL3rZYurE
-         AcBRCdFAyxSJpXQzeALNjD58puqa3nq8r4eqYUp5Sw0vnqLmlcGwlNo5oEUoyTMeSwli
-         WRsQ4L3yU4kn4z+0x/GegUj5VNnHIeYkSk5QY71xXPdO385+5IpDf9uXjejrze7pOnMN
-         D6MIPdj8pW0zSnBShn4tGXGPVJ0wA43RuRHTXKC0ZeauiwekeZlRV3R5LtxQJ9jX7lcj
-         uh3GDNlXID13iQJ7lu//WBB0UfJcHBRcAHq0LLIjB9yhdwZ3ljgLUVx4v/OEi3289i4b
-         tk3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741162659; x=1741767459;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=unUXlRhpi9sFgYovBXVYDRg89FpRhkYUYq8VvpQ6o9I=;
-        b=sxCRu6/YHZsGaQOQer/bRvgYZuF1tjn09sHu83lyIFAPhMBViBD3Y4IdIkQtn1qHi+
-         ve/R5HvdMj20c56obkFIU3cFsjOpcEdtVSa+HCDKxJeN4Aamb9fnZK9KgrJlS6NkmvF4
-         UMYJkRjhgztSkeVmyVopT/iCyFTbhbNJhwI5AZJtbR1YlbBznwnp3APnp3/7DSrK11um
-         tvvqArUyBVAOd/Z6Wz083q813fpheltzU5EhaIBFvRE8miTx4+q7bGpSsAex7RkmpIb5
-         RyXsVz++dJK25cG4hHG4nIIvS1oAjUD1fJUE8be3BrVn8Ryjj8Y6IWhbyR5Ux1cTHasu
-         3L/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUQW+50a7/tZbNtI/QoV5CUcYcGG2cr8dInIwAMQepEE8wneKmHjZBL8gFDBi30YHyKkI/VvQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YweeBYu7olzy2ey8rsuyIyqGNkXaVPoOgg/N4pD1MVf5+ZqWfTQ
-	xaK6Ra+Zh6LKC81qWfrfsYAN9aT3PSptzrhYj43anGxHc/rVEn5isff8qS3Ib9wICZ6Khx0AlPA
-	A9cwo+bUpDZ64vZlw1qfUKOAApvU=
-X-Gm-Gg: ASbGncufgbv9TpU+KhIlDv8BNWb30DXgvVFK7wh8ZFMS+xfhYss/4pgAg0MdaAchSVp
-	XMqN8Q4KuC3nLHU/5OZCD3Y1UUt4d/vpVeieAwoyXQ/vZataonDO/SLvwLCOMg9EISIbhtRHso9
-	mtA9G0gIgvFbAnuXESVIvdTWLD+b8=
-X-Google-Smtp-Source: AGHT+IFH8tbkdolKMFQTBXwdPnhgEhIHcppznLYb0q6wu6PUrmMI5mnzlfbW6CZYpCojAT11BsO0ndoY1bNLhWNtILw=
-X-Received: by 2002:a05:690c:7307:b0:6fd:4670:80c6 with SMTP id
- 00721157ae682-6fda30fa282mr29688317b3.37.1741162659401; Wed, 05 Mar 2025
- 00:17:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="TtEf+UPQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YCw0Szx8VFV3GeiwD1/YPUCRcSSS5kq+HRFU1eN7SltZwH8HCInHJhlRgYW1R2UxSE3wIlRiqOK3nDNW+53pNByN62nYvVltfO8h3qvUwv3aPuVnaScMjZmcZq4VtcdZ1OvBnd9G4jJEvgOB1JcmPMUhMmV+zwicV4OZHQYw7POoSSYgj4yarUTkeHzzw0TBqgQZzmUtsKrhAi24iINozoK6tegt/awZJw0I2EAey71i6LZxYnrSom8TdCpQ7O+NPH6Z1Ya2Rw6hB1AZDQPcKB2J+DJp8Z9tPpwsmb68ywbDGeG+kfyQyYXC6j5nm17V5KRSZ+6/8yvqOsKXmM1N9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rKzSgNF5SOVNjQc3i0WzM4dt3ddgxnUWv+9bSvexRsg=;
+ b=DeJ+LpOeJuFgkM3cOMeTd1WXyT+wkFcLpORHWnKV7+RLOO91xYGEBPXB5uosM4tC/WNwzpXNecVLS3SimSsA6mYCHT2oRrtsFBuJD6ANgTlcwQuzGN4YI++2TmZV0ri1ZCfL+rqHtGhI0Zb8vNwphTBuH6Rs3XV/YqOIPXJnrCUgHcXFddjQf5Mq+hHSprDlNRHeTtgr9P5bUJXVz6rqZFXTk2PM/NXKisGOBYmSF7xn6btHUBbS1WHy6lgXw7WY7txGAuWcVXtB7M+cf+ydMbPdT/A4aN9sYRubexoCwPDQUf1A7nxqWMA7o+VJuCy1STPMfJPdpwzzLaygqYQmJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rKzSgNF5SOVNjQc3i0WzM4dt3ddgxnUWv+9bSvexRsg=;
+ b=TtEf+UPQcv022pHKJaAkMnucAdYLm3R3cv84IKeiZg5bj5ZhNth1c2Dzrh7yVja/O9AYGeahHXOmgosH75kg0MnHfCbSSTkjeNsLNiT63oAu47Mmw5mmzzZfKfiOSlRPREfqzZEKUzkcyTVh4O76uwbuYxqngPxW4fYsjYwF2W/nRfKM8faNl1SswHiflPpYH5IoLLX1LJMJCY6u2SCJ5CS2BXzqvpB2L1U/nkgxYucuY0TuTQOqgUixHdv2DwRzc3e8OB9VfE600kyWCc5aBCtftx2j2KGesNxX82OrG2sDxzx9VbIkmZ34Q3ILxTw4zOYFVtbelBPoNsUCW4sKVg==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by PNXPR01MB6947.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:c2::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Wed, 5 Mar
+ 2025 11:57:04 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8489.028; Wed, 5 Mar 2025
+ 11:57:04 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
+	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
+	<akpm@linux-foundation.org>, "apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>, "dwaipayanray1@gmail.com"
+	<dwaipayanray1@gmail.com>, "lukas.bulwahn@gmail.com"
+	<lukas.bulwahn@gmail.com>
+CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>, Hector Martin
+	<marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Janne Grunau
+	<j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Asahi Linux Mailing
+ List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v6] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Thread-Topic: [PATCH v6] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Thread-Index: AQHbixRzcsdGsxY6vkuy3v4oKgAXcrNkdTQA
+Date: Wed, 5 Mar 2025 11:57:04 +0000
+Message-ID: <11F973B4-D5B5-48F8-B53B-693C8DED5DA1@live.com>
+References: <1A03A5B4-93AC-4307-AE6A-4A4C4B7E9472@live.com>
+In-Reply-To: <1A03A5B4-93AC-4307-AE6A-4A4C4B7E9472@live.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|PNXPR01MB6947:EE_
+x-ms-office365-filtering-correlation-id: 08fb27e7-f46c-44c5-a58b-08dd5bdcd8a3
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|19110799003|8062599003|461199028|7092599003|8060799006|15080799006|10035399004|102099032|3412199025|440099028|4302099013|1602099012;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?NE5COGpPaUVsMDlXUVFSY2ROcE9WQTZMYUFBam15anZDc3VtN1lIWVV6TnA1?=
+ =?utf-8?B?KzFjaUFDaE4vTlZpT2dRTElxZU5yVHhsS2VDTjBmRGM4UFpwSERUTzRtaFNQ?=
+ =?utf-8?B?dXBDUkprVEIxQkhkSU8vcktPS05GWG9RWDN4WTdLWG5rRTlBN2x2VkpHYys2?=
+ =?utf-8?B?QktlOUFaTTVwV0J1OEJMdnZYbTJKaEtURXlTQUlqclAxK3U5OUpiZzJGZ2Uz?=
+ =?utf-8?B?Y2NUanNwSk9aUzYzVFM3K01aTDg3RlJHN3U0eXlMbHhhOFl4eFRYcitQMEha?=
+ =?utf-8?B?bXZlbDZ3VURKa3o1d0plQ1A2dkI2UCszT2pTQWEzVG5IeW0yZlVtUkNmQnZK?=
+ =?utf-8?B?NzA0T2tFb2Z2cEdHMEtFbmVmTVkrUGpZMDFpYnJHVHArZC8ranp2VVpRVWZH?=
+ =?utf-8?B?bkE5QUtaZlhLV0hvUElRZ1dsNXFSQWNDSGlhYmVOTlhlbjhPUE1RcXNkSEZD?=
+ =?utf-8?B?Q25RRDBXTk1SVy9zblVhRnVzcS9YL1RFOFdKa0tLdjBTbWRVQTVDbEk3bFc4?=
+ =?utf-8?B?TXZRUG5lREFrY2oyaWVtclBHVS90bkt4R3NtYkhaUEJQdmtkdVlHbDZ5UGp0?=
+ =?utf-8?B?WDZrZ1k3Zit2UlNoaWppY0hqU0duSHlBRk12cWNvaVNhZEpUb1hTU2lKMXdM?=
+ =?utf-8?B?OFpzY2cwZGZaRXRQbUNRbklRQTcxTk1GT1hLNE5adFRJcjBVOHJyZ1ZCQnZ4?=
+ =?utf-8?B?VjVMaWE1Z0wrVllNUFFvZ2tZTGo3VU41QW9qYlpFc0h0SUdBK1ZKbW1pbFo4?=
+ =?utf-8?B?L0N1YmNjNXF5QmkzMk5wMk0zR2grN1A0NkVsUUZvQXA4YzQxTVRrUHdCT1pQ?=
+ =?utf-8?B?aHZOMnViWlFRM2VTd2htZWNQdGNDeUVRM1piK096NG9HSUMvWVZTMzRlTXBl?=
+ =?utf-8?B?eThxS093SlhSMWdUVW16TWhpQXA0WGphd1JMVWZ1U0kvNVJYSTZqb1FFWkU0?=
+ =?utf-8?B?cnFRQStCbDdzUnloV0l0azBvNHVYOEFmd2hobHZ5MlJkTTc3R095L1pHSWtK?=
+ =?utf-8?B?UFBjZ2RSQmRQVnFHUWtEeU10VjZVOHV2V0g2bExUcHZiOUdjNVJscFd4ZHhj?=
+ =?utf-8?B?MVVMc3EybDhPcGgxTnlsaGduYStpN0FCVGJQRmExT0dXblFSdU4yTkhWSkFt?=
+ =?utf-8?B?cjBEWGNEd2lacXI0UkovZ0FLWkVaTVFUODZzQXZMeEM3US96VnZ6RWtTTkxU?=
+ =?utf-8?B?UzRKWjNDSXdqYXhKVHdvWmVHZjFIZ0txQkM1bi9Dck1iNng5SnFxeUZ0TFdB?=
+ =?utf-8?B?Tk4vZDdwak9LK1ZCVHZsVHRsU09UT05ZcjMzSllnME9tbCtkRFNhMlZUdmgz?=
+ =?utf-8?B?VVNiT2Jtd0NVZVM2RUdxUms1YlFjYm8wNnR0QmF2TkxCZFJaK2t6YXJETm9Y?=
+ =?utf-8?B?cUthWUlkdnY4TUNzZkVPeTU5SW1CYXUrdEJ2RHRKR3hhYUR3S2xRZnRHREw4?=
+ =?utf-8?B?cGErNWd0NGFjaG9YZFduMVJhYUlneFdxK2dvRVBvZkdYV2xsNDRuM3VFbHhG?=
+ =?utf-8?B?SHg1MjNqRlhiYWgyVFM2dWs1NGpEOEJpYjVBV3MxQk9abzhTT2pqcXM1eGYw?=
+ =?utf-8?B?OGNmdWlodTZyNWJpbWxvdDJDa1VSRkpXWHE5UmNzakN2Vi9MSHcwbmprT1E1?=
+ =?utf-8?Q?g8X2wfSoTFNZkT3CTaH7PPachJPpdp47sUcovT3djh38=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?R0lKbVgrWFNldSt4N1JLUzN0SGpEd3hsMWhIRkhDZFFvUFFiVUtocWxoVEor?=
+ =?utf-8?B?OFFjL2JOc3VuV2lneGFNdVlmNFlJa3BEb0FNWW5RRlRHMGZKZDFaNVdDZk56?=
+ =?utf-8?B?d1ZxZmNMQUFOWkRoK0ZweFM0d0VMV093V1J5U3l3eGdrVjdHRjU0dVJiZnB0?=
+ =?utf-8?B?aC82OEZGdnZ1WFpmWk4xaTB1a1FVZ0NQY09GcFZ3ZkU3aXJESVBwb05vUG5Z?=
+ =?utf-8?B?aWE3ZCt4Q2lCZEQyaG9IL2lZK2drZ0JuaytFVVpXUXIxUTBZRXpzWHRWZlYx?=
+ =?utf-8?B?SHhIRXFwckJDRi9RZ0lYV1IvbXBLdUs2S3k1bUlWOUVrMVpISnk0bnVMczYy?=
+ =?utf-8?B?TXNmeXdEbmVLU2Fic3RhV1d5MVVxVStRRWNIYzJHYjZ1T29wR21ONlU5M3Bw?=
+ =?utf-8?B?TW1BWHNNdUI0UGlLaVpaMlpSc3dpL3Z2YWRZdk9zREZkcklnMFFxUElQYSs5?=
+ =?utf-8?B?aGFwQ1dRNWZ2YS9QeXVXc0xQWkR1dExBU3BwbUhEcnB6TTQzYWk3cGFsb1BH?=
+ =?utf-8?B?dTF2bzVKcWZUMi9PTkhqTFFvenB3bHdqZXVDRm1Lb2dGOWhPU0F6Nko4TGo3?=
+ =?utf-8?B?eURFTm1FQmlIT3g3ODNxbEtaL1JCcm9haHVkWHZSR0J3VGRseGhmVjNBR0dL?=
+ =?utf-8?B?L1RrZjZqT2FSV2ltUjloWU0xbFZ0UW5EY2xOclphZ3dnSThVNVdRSk5Eb0Nl?=
+ =?utf-8?B?V0RIUS9ka0oySnFGbEVDU2FkSjRCN0Fhc1AxQk9NTzY5cEV0cHFCMWtJc1g3?=
+ =?utf-8?B?eks3MHlMbEJTc1FQWTBxUHFMeFNDMHFJbjYzUWl0VWlSdE1NQ3JxNXZZYXpy?=
+ =?utf-8?B?K3NRbDR6Mk9UWGxYTUFaRnN0S0JVM3BhVzk0a0ovZ2ZPVVJaZmxkTkZFRDBw?=
+ =?utf-8?B?RHdZelNpZTltQ09Zb285MWFOYVQ5ZHVyR1NVUnBoaU9aUlVyRk03NXZ1R0xr?=
+ =?utf-8?B?RGJBbVZTa1ErS3ZQbllIQTVGSXdkTnBHMU1qbkJmc21aTDNHRUFjUWRaRyto?=
+ =?utf-8?B?aWwxQWt3OHFDemFpM1lhUXBZc1duRHIrWkx2NWhkZElGcVRyTEIwN2grN2NZ?=
+ =?utf-8?B?QlU5U2dnUjE2aXora3hydERVUGt5ZVY4WlJOS2ljL3ZzOHlQZ0lTOEh0dk5j?=
+ =?utf-8?B?dCt0c0RsVVI5TXQwRTJaWXlNV09qTXgreFJ3VU9QR3VSak9pSXNzOGFMa0Y2?=
+ =?utf-8?B?SHhDRWJtMW9oWEI2Y2MxTk8rMEEvZ1dtVnVyWmhTVERjTGFMM2I5aStpUWto?=
+ =?utf-8?B?emRrQnIyeUtKK0dJajdrNmZjdlBtd2Q5U2dJOVB5WVRGMHdsM1N3TzVYSVFC?=
+ =?utf-8?B?ay96Z0s0V2RLMjJvYkdYcmRrSEVKeTZ3czlSUUZEY2p1Z1h0Z29BTEE3VHRj?=
+ =?utf-8?B?aXZRRXQwNlI1RkJ6VGxranFtUjZrUWhQdEM1WjdJWkd2cEozSHhVSCtVVSts?=
+ =?utf-8?B?UmR6VTlneUN4VXJkVnRDSVltM1J0WFFrQ05SclJ2b2YxMjFFVEFSTzY5RzVZ?=
+ =?utf-8?B?amVhVm5rZXFGT294Z1RTVEVwd01iTEVKN1VIRW9Fb3o4Y0lqdW5DWlFiRU5J?=
+ =?utf-8?B?djE4SHdDUDliN0hXdlZKTE9xN1VlcFFKdFZSYnRkaU1vWVJqRllGbmROODB0?=
+ =?utf-8?B?WEpUU3ZtTWNOTnpBZlZwd0pJdzhpZGZBVGZSQUNrbVVGU0JLa0t1RkxIbld6?=
+ =?utf-8?B?WWJRd3dEYURIUmZxQzV0Tk5IamU1SWV0anNwMWxST3dzc3FsL1Y3L2lrV2Zz?=
+ =?utf-8?Q?WH96dqmD+7A01Gt3NEHH1qLBEjI6PnFUMbPvnzR?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <02A51343AB57DF4888F729CA91023480@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250305020546.96564-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20250305020546.96564-1-jiapeng.chong@linux.alibaba.com>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 5 Mar 2025 09:17:28 +0100
-X-Gm-Features: AQ5f1JpOTyDvXY3v1-JU3GbIR7BXMVjAHB0DwpN4ZcbevKt7RS7qwVJSQh96pnE
-Message-ID: <CAMT+MTRvuYGqfNEO-uHK7zcDWR1z=iMJ2kmK_-cQ+i3i1=7jaA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm: adp: Remove unnecessary print function dev_err()
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: j@jannau.net, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08fb27e7-f46c-44c5-a58b-08dd5bdcd8a3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2025 11:57:04.1426
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNXPR01MB6947
 
-On Wed, 5 Mar 2025 at 03:06, Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> The print function dev_err() is redundant because platform_get_irq_byname()
-> already prints an error.
-
-Acked-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+DQoNCj4gT24gMiBNYXIgMjAyNSwgYXQgNzoxMuKAr0FNLCBBZGl0eWEgR2FyZyA8Z2FyZ2FkaXR5
+YTA4QGxpdmUuY29tPiB3cm90ZToNCj4gDQo+IEZyb206IEhlY3RvciBNYXJ0aW4gPG1hcmNhbkBt
+YXJjYW4uc3Q+DQo+IA0KPiAlcDRjYyBpcyBkZXNpZ25lZCBmb3IgRFJNL1Y0TDIgRm91ckNDcyB3
+aXRoIHRoZWlyIHNwZWNpZmljIHF1aXJrcywgYnV0DQo+IGl0J3MgdXNlZnVsIHRvIGJlIGFibGUg
+dG8gcHJpbnQgZ2VuZXJpYyA0LWNoYXJhY3RlciBjb2RlcyBmb3JtYXR0ZWQgYXMNCj4gYW4gaW50
+ZWdlci4gRXh0ZW5kIGl0IHRvIGFkZCBmb3JtYXQgc3BlY2lmaWVycyBmb3IgcHJpbnRpbmcgZ2Vu
+ZXJpYw0KPiAzMi1iaXQgRm91ckNDcyB3aXRoIHZhcmlvdXMgZW5kaWFuIHNlbWFudGljczoNCj4g
+DQo+ICVwNGNoIEhvc3QgYnl0ZSBvcmRlcg0KPiAlcDRjbiBOZXR3b3JrIGJ5dGUgb3JkZXINCj4g
+JXA0Y2wgTGl0dGxlLWVuZGlhbg0KPiAlcDRjYiBCaWctZW5kaWFuDQo+IA0KPiBUaGUgZW5kaWFu
+bmVzcyBkZXRlcm1pbmVzIGhvdyBieXRlcyBhcmUgaW50ZXJwcmV0ZWQgYXMgYSB1MzIsIGFuZCB0
+aGUNCj4gRm91ckNDIGlzIHRoZW4gYWx3YXlzIHByaW50ZWQgTVNCeXRlLWZpcnN0ICh0aGlzIGlz
+IHRoZSBvcHBvc2l0ZSBvZg0KPiBWNEwvRFJNIEZvdXJDQ3MpLiBUaGlzIGNvdmVycyBtb3N0IHBy
+YWN0aWNhbCBjYXNlcywgZS5nLiAlcDRjbiB3b3VsZA0KPiBhbGxvdyBwcmludGluZyBMU0J5dGUt
+Zmlyc3QgRm91ckNDcyBzdG9yZWQgaW4gaG9zdCBlbmRpYW4gb3JkZXINCj4gKG90aGVyIHRoYW4g
+dGhlIGhleCBmb3JtIGJlaW5nIGluIGNoYXJhY3RlciBvcmRlciwgbm90IHRoZSBpbnRlZ2VyDQo+
+IHZhbHVlKS4NCj4gDQo+IFJldmlld2VkLWJ5OiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2
+Y2hlbmtvQGxpbnV4LmludGVsLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogSGVjdG9yIE1hcnRpbiA8
+bWFyY2FuQG1hcmNhbi5zdD4NCj4gU2lnbmVkLW9mZi1ieTogQWRpdHlhIEdhcmcgPGdhcmdhZGl0
+eWEwOEBsaXZlLmNvbT4NCj4g4oCUDQoNCkZXSVcsIFJhc211cyBoYWQgYWNrZWQgdGhpcyBwYXRj
+aCBpbiBteSB2MyBzdWJtaXNzaW9uIFsxXSAsIEkgZm9yZ290IHRvIHB1dCBpdC4gU28sDQoNCkFj
+a2VkLWJ5OiBSYXNtdXMgVmlsbGVtb2VzIDxsaW51eEByYXNtdXN2aWxsZW1vZXMuZGs+DQoNClsx
+XSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hc2FoaS9DQUt3aUhGaV9ubmd0aHRoMHdaa2FQdmlW
+ZVMrOFNXRHRUdzZnSmNEQUhDcWl3WEFHMkFAbWFpbC5nbWFpbC5jb20vDQoNCg0K
