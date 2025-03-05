@@ -1,94 +1,363 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97B6201267;
-	Tue,  4 Mar 2025 13:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDDF13AA2D
+	for <asahi@lists.linux.dev>; Wed,  5 Mar 2025 00:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741096252; cv=none; b=Dh8rl2JCog5seH969iAt4ktXnFRw3GhX7b/qvUJdIPEqSPBObuE216Ez+uQ+n1Ri6Rtz1xmD0bvtRt0XFp1yeFndEeZx247GDdswMYM7WSKzknJ4OalLivDmd01/ymZlTaSdcUhNukPFfDq1ZkX8TFfXTuAGOh+fK2BtwfHf1+4=
+	t=1741136164; cv=none; b=i4rx7xqab2u3MWzqNdj4RmFxQA0/Ej35+synSLS/anb4NLjE7oDuY/djacbcP4RgvnL8USFCzDKfgtLg8kxezZynDr0SXyYhDvDw5RL0TgdYAAaKdBG99qWW3QjXCPiyK3fU99OCFSxmRmCxg8VhcBUrpxZ9IfPil4AqvAVlz04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741096252; c=relaxed/simple;
-	bh=tOj7AtNPRfQWYBosY3NviNmaypYwZ/wUeMOO2JNyg5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jTxw8EuEgy5Bdpf51KykB8pIUvNdKwibQyRX8gG2ZlYHw0J+oPMtDwPnxE7sPvGthCW0W6VyUmmnnCMrdwIGN0/gKqHPXzRXpFAw49UwKaaWgtIHLjmTaaz9S02p6QpgHCF5TpxKGVkRiLQx6l/orpC990i7lY6D/fMrEaXNzhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fU8Ayn/A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741136164; c=relaxed/simple;
+	bh=JTn6GzPNPqqm9bsg0T92D8cwuGo3C+SZjKiKXwoacIs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QroqxgDjscmlgVEEOyIjETAX8FlCvBuXx1nFfk9nJVfftwWi6L4WBv9YZMG0sJTth0s5amv7HJOkWr5HK+PdAeRnOM/U5l9953TKO0W9Eo9jTtpXcmvYTaBWpHa1vaaALCLtd422wnF1juCG1QS6ea4Kqg4yV30YCACXvIH6uXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GS+5XC3I; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fU8Ayn/A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BF61C4CEE5;
-	Tue,  4 Mar 2025 13:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741096252;
-	bh=tOj7AtNPRfQWYBosY3NviNmaypYwZ/wUeMOO2JNyg5Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fU8Ayn/AKNIlGDHqMSFuAJyIucigEhr73FNjp2lGjmC96/cB6z8BU17dRf1Qn8MLG
-	 p5RgVkUge8WNR5eo2jV+2OZFxJpZ6eTADCvl5K3xR6m3PXgWSymazsmkSH4z/Y1zqD
-	 ulv8nw36XGkwj9ptRof/bmkNJJEiBVsOXItUrDOCk0egK02VpsoMewq64/rms1BMII
-	 UOM5eNG0EYDn662bU/7ZVA13RFg90br60/zw5cr5Ls4taUEyByE4AegS07R/KPZViT
-	 w6yG4NEWhgOJlxt0oEiSxDygBNS0/yJ2CfOUAsQ/P9pGsaPTcX/cNKgJDNKrDvwtg0
-	 PxZaxEXlK1Gew==
-Date: Tue, 4 Mar 2025 07:50:50 -0600
-From: Rob Herring <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shi Fu <shifu0704@thundersoft.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
- pulldown and zero-fill
-Message-ID: <20250304135050.GA2485358-robh@kernel.org>
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GS+5XC3I"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-abf628d653eso522418166b.0
+        for <asahi@lists.linux.dev>; Tue, 04 Mar 2025 16:56:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741136161; x=1741740961; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OY2x4gnjLqoTDFi3EfoqcVKZo6xoBR0yZoxan8KFIxg=;
+        b=GS+5XC3IBYnA8d1NvA9qqec2UhVIHKFvqh47YrREmI3p53TdTpGoH9cJlqfXMCk+dx
+         p9NtV/h9bJ6xYGXqZQsBTdgr1ivF7qht6/OiVoMbOJ1rIl74O9sykfKGSbXHPDDlX0hd
+         kVNkW5P1rGAR7yl0gFoktovLf96H80Tr/2loRbBqoYbchA9crcK2iLgCbsAPWf9qIQ20
+         sEyMGnbZQVVtZorg9qBrNVZfM9gm5zEUKe3KhSuSCu6/fkCX0LFcxM8ZRvwuRVYDmzD7
+         0eqmLCeOQhdnfwUUVSRFIAT+Ow9A5HkAiu33HmUq6i1PHRGquU+Olj+VvkiNmX3zPot2
+         gLjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741136161; x=1741740961;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OY2x4gnjLqoTDFi3EfoqcVKZo6xoBR0yZoxan8KFIxg=;
+        b=G3EQ29aKvYeM8YodDujfqGiqJHv4xr21PwZ1gxRaSK5h3JeilL7E0voweuMg2vOMox
+         m5Holn7SR1pmxPzseu4qO+rEEimZdMqyf6lntCrSiDNTQq3VGwxAVrcoIVT46xc5Rxta
+         EqQwP7H9qEQp8jmlSFRkWcBZtXzPRudv4+GdTumhMnRroiJUFBz/28V2sShvK2Rggtu2
+         ThodsInLhHZBVdfo3/+m/6ix8uHcVWigtvjOSP9YKQF0WQiodc2tCUWdMHY2qWf1asgg
+         Tm7j2mCcB2q+Ke3TgabQusXENSqjUvD+gVfnkh3B6jfO0HFnz5NKTYL16J+62FQiybzN
+         EbeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZGGpvvpDJbo4sv61QLnP9ByohuWCowYPTXwK09ewHjPF+cWeSQ4DXtW3XVwZEzysVc/9fRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvxTO34DZO7l9v2GMovtEe+5wDPBlrUfjcgorJHvqNEmrnMUMV
+	+oDTTTEdUVmLdnnfqMLChGlRofp07TsXq/t3q0ro4peYf5SI/g4bSasTGE/xu97Zo33BZz9Jknm
+	vAQ0tfIwLjUcWjH7MlPc3o4QVnLs=
+X-Gm-Gg: ASbGncsLOpXYLhIOX3PCXp0hJ2BbG9xp/ear6dP8MaWQKiVfB/ZIKzSFBzTk8faKka9
+	ZQVqO3khOg+UbIf7dtqTs158qUF0s9+y/+oYolEedBiIr1FpH0YNpENQKy3ss5Klgh5GGqFQfGl
+	8feg5dsLIAdZTaKThkGO8T1HgI9w==
+X-Google-Smtp-Source: AGHT+IGQzRduDfZFmBJyaj4Z7SOysnLQsRrUO5HDaJ018JPlEHCqsqp7XujrtSitg9FNgWCQt4ly41NTZdNISfR/iPo=
+X-Received: by 2002:a17:907:1c1e:b0:abf:215b:4ac6 with SMTP id
+ a640c23a62f3a-ac20db689e7mr123775866b.53.1741136160531; Tue, 04 Mar 2025
+ 16:56:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
+References: <20241018105333.4569-1-victorshihgli@gmail.com>
+ <20241018105333.4569-16-victorshihgli@gmail.com> <20250219213224.GA57799@robin.jannau.net>
+In-Reply-To: <20250219213224.GA57799@robin.jannau.net>
+From: Ben Chuang <benchuanggli@gmail.com>
+Date: Wed, 5 Mar 2025 08:56:09 +0800
+X-Gm-Features: AQ5f1JoWYl7jq37wqR0tO3MuppCzy7Hw8hyzC8DbxRyc-DB-AjUUnpPyAGyQrAY
+Message-ID: <CACT4zj9Xgah3Gp-=Ujp-z7hRCmHt_aGnLEchurN00M1LtbjSzQ@mail.gmail.com>
+Subject: Re: [PATCH V23 15/16] mmc: sdhci-pci-gli: enable UHS-II mode for GL9755
+To: Janne Grunau <j@jannau.net>
+Cc: Victor Shih <victorshihgli@gmail.com>, ulf.hansson@linaro.org, 
+	adrian.hunter@intel.com, linux-mmc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Lucas.Lai@genesyslogic.com.tw, 
+	HL.Liu@genesyslogic.com.tw, Greg.tu@genesyslogic.com.tw, dlunev@chromium.org, 
+	Ben Chuang <ben.chuang@genesyslogic.com.tw>, 
+	AKASHI Takahiro <takahiro.akashi@linaro.org>, Victor Shih <victor.shih@genesyslogic.com.tw>, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 27, 2025 at 10:07:44PM +1000, James Calligeros wrote:
-> TAS2770 can pull down and zero-fill SDOUT when not actively transmitting
-> TDM slot data. Zero-fill is useful when there are no other amps on the
-> bus. Pulldown is useful when the chip is attached to a shared bus.
-> 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/sound/ti,tas2770.yaml       | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/ti,tas2770.yaml b/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
-> index 8eab98a0f7a25a9c87d2c56fd0635ff8ecee17d0..3eba9bb34a581526f68b6bf2e8437e1f1e03d26f 100644
-> --- a/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
-> +++ b/Documentation/devicetree/bindings/sound/ti,tas2770.yaml
-> @@ -57,6 +57,18 @@ properties:
->        - 0 # Rising edge
->        - 1 # Falling edge
->  
-> +  ti,sdout-pull-down:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      If present, SDOUT will be pulled low when not
-> +      transmitting.
-> +
-> +  ti,sdout-zero-fill:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      If present, SDOUT will be zero-filled when not
-> +      transmitting.
+Hi Janne,
 
-Can't you align this with the other property you added? Or extend the 
-existing TDM properties we have.
+On Thu, Feb 20, 2025 at 5:32=E2=80=AFAM Janne Grunau <j@jannau.net> wrote:
+>
+> Hej,
+>
+> On Fri, Oct 18, 2024 at 06:53:32PM +0800, Victor Shih wrote:
+> > From: Victor Shih <victor.shih@genesyslogic.com.tw>
+> >
+> > Changes are:
+> >  * Disable GL9755 overcurrent interrupt when power on/off on UHS-II.
+> >  * Enable the internal clock when do reset on UHS-II mode.
+> >  * Increase timeout value before detecting UHS-II interface.
+> >  * Add vendor settings fro UHS-II mode.
+> >  * Remove sdhci_gli_enable_internal_clock functon unused clk_ctrl varia=
+ble.
+> >  * Make a function sdhci_gli_wait_software_reset_done() for gl9755 rese=
+t.
+> >  * Remove unnecessary code from sdhci_gl9755_reset().
+> >
+> > Signed-off-by: Ben Chuang <ben.chuang@genesyslogic.com.tw>
+> > Signed-off-by: AKASHI Takahiro <takahiro.akashi@linaro.org>
+> > Signed-off-by: Victor Shih <victor.shih@genesyslogic.com.tw>
+> > Signed-off-by: Lucas Lai <lucas.lai@genesyslogic.com.tw>
+> > ---
+> >
+> >  drivers/mmc/host/sdhci-pci-gli.c | 235 ++++++++++++++++++++++++++++++-
+> >  1 file changed, 234 insertions(+), 1 deletion(-)
+>
+> This change results in error messages / timeout about UHS2 followed by
+> register dumps with the GL9755 integrated in Apple silicon Macbook Pros
+> and Mac Studio systems. Non UHS-II function of controller does not seem
+> to be affected. Apple advertises the the SDXC slot as UHS-II capable.
+>
+> The only quirk we've experienced with gl9755 on this platform is that 8
+> and 16 bit MMIO reads do not work. Workaround added in commit
+> c064bb5c78c1b ("mmc: sdhci-pci-gli: GL975[50]: Issue 8/16-bit MMIO reads
+> as 32-bit reads.").
+>
+> If you have ideas or patches to try I'm happy to do that. If not we can
+> look into what MacOS does.
+>
+> See kernel log and lspci output below
+>
+> Thanks,
+> Janne
+>
+> [   38.130033] kernel: sdhci: Secure Digital Host Controller Interface dr=
+iver
+> [   38.130141] kernel: sdhci: Copyright(c) Pierre Ossman
+> [   38.133352] kernel: sdhci-pci 0000:02:00.0: Adding to iommu group 13
+> [   38.160551] kernel: sdhci-pci 0000:02:00.0: SDHCI controller found [17=
+a0:9755] (rev 1)
+> [   38.160655] kernel: sdhci-pci 0000:02:00.0: enabling device (0000 -> 0=
+002)
+> [   38.160750] kernel: mmc0: SDHCI controller on PCI [0000:02:00.0] using=
+ ADMA 64-bit
+> [   38.274617] kernel: mmc0: not detect UHS2 interface in 100ms.
+> [   38.274717] kernel: mmc0: sdhci: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+SDHCI REGISTER DUMP =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> [   38.274782] kernel: mmc0: sdhci: Sys addr:  0x00000000 | Version:  0x0=
+0000005
+> [   38.277391] kernel: mmc0: sdhci: Blk size:  0x00000000 | Blk cnt:  0x0=
+0000000
+> [   38.277475] kernel: mmc0: sdhci: Argument:  0x00000000 | Trn mode: 0x0=
+0000000
+> [   38.280125] kernel: mmc0: sdhci: Present:   0x20070000 | Host ctl: 0x0=
+0000000
+> [   38.280206] kernel: mmc0: sdhci: Power:     0x000000bf | Blk gap:  0x0=
+0000000
+> [   38.284511] kernel: mmc0: sdhci: Wake-up:   0x00000000 | Clock:    0x0=
+000032f
+> [   38.284592] kernel: mmc0: sdhci: Timeout:   0x00000007 | Int stat: 0x0=
+0000000
+> [   38.284636] kernel: mmc0: sdhci: Int enab:  0x00ff0083 | Sig enab: 0x0=
+0ff0083
+> [   38.287200] kernel: mmc0: sdhci: ACmd stat: 0x00000000 | Slot int: 0x0=
+0000000
+> [   38.287281] kernel: mmc0: sdhci: Caps:      0x396a3281 | Caps_1:   0x1=
+803057f
+> [   38.291212] kernel: mmc0: sdhci: Cmd:       0x00000000 | Max curr: 0x0=
+00000c8
+> [   38.291292] kernel: mmc0: sdhci: Resp[0]:   0x00000000 | Resp[1]:  0x0=
+0000000
+> [   38.291335] kernel: mmc0: sdhci: Resp[2]:   0x00000000 | Resp[3]:  0x0=
+0000000
+> [   38.293513] kernel: mmc0: sdhci: Host ctl2: 0x00009107
+> [   38.293604] kernel: mmc0: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0x0=
+000000000000000
+> [   38.297842] kernel: mmc0: sdhci_uhs2: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D UHS2 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> [   38.297923] kernel: mmc0: sdhci_uhs2: Blk Size:  0x00000000 | Blk Cnt:=
+  0x00000000
+> [   38.297968] kernel: mmc0: sdhci_uhs2: Cmd:       0x00000000 | Trn mode=
+: 0x00000000
+> [   38.300773] kernel: mmc0: sdhci_uhs2: Int Stat:  0x00000000 | Dev Sel =
+: 0x00000000
+> [   38.300853] kernel: mmc0: sdhci_uhs2: Dev Int Code:  0x00000000
+> [   38.304739] kernel: mmc0: sdhci_uhs2: Reset:     0x00000000 | Timer:  =
+  0x000000a7
+> [   38.304811] kernel: mmc0: sdhci_uhs2: ErrInt:    0x00000000 | ErrIntEn=
+: 0x00030000
+> [   38.304856] kernel: mmc0: sdhci_uhs2: ErrSigEn:  0x00030000
+> [   38.307110] kernel: mmc0: sdhci: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> [   38.307201] kernel: mmc0: cannot detect UHS2 interface.
+> [   38.310110] kernel: mmc0: failed to initial phy for UHS-II!
+> [   38.424645] kernel: mmc0: not detect UHS2 interface in 100ms.
+> [   38.424731] kernel: mmc0: sdhci: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+SDHCI REGISTER DUMP =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> [   38.424758] kernel: mmc0: sdhci: Sys addr:  0x00000000 | Version:  0x0=
+0000005
+> [   38.424782] kernel: mmc0: sdhci: Blk size:  0x00000000 | Blk cnt:  0x0=
+0000000
+> [   38.424840] kernel: mmc0: sdhci: Argument:  0x00000000 | Trn mode: 0x0=
+0000000
+> [   38.427603] kernel: mmc0: sdhci: Present:   0x20070000 | Host ctl: 0x0=
+0000000
+> [   38.427659] kernel: mmc0: sdhci: Power:     0x000000bf | Blk gap:  0x0=
+0000000
+> [   38.430579] kernel: mmc0: sdhci: Wake-up:   0x00000000 | Clock:    0x0=
+000032f
+> [   38.430626] kernel: mmc0: sdhci: Timeout:   0x00000007 | Int stat: 0x0=
+0000000
+> [   38.433504] kernel: mmc0: sdhci: Int enab:  0x00ff0083 | Sig enab: 0x0=
+0ff0083
+> [   38.433550] kernel: mmc0: sdhci: ACmd stat: 0x00000000 | Slot int: 0x0=
+0000000
+> [   38.437596] kernel: mmc0: sdhci: Caps:      0x396a3281 | Caps_1:   0x1=
+803057f
+> [   38.437641] kernel: mmc0: sdhci: Cmd:       0x00000000 | Max curr: 0x0=
+00000c8
+> [   38.437677] kernel: mmc0: sdhci: Resp[0]:   0x00000000 | Resp[1]:  0x0=
+0000000
+> [   38.440318] kernel: mmc0: sdhci: Resp[2]:   0x00000000 | Resp[3]:  0x0=
+0000000
+> [   38.440345] kernel: mmc0: sdhci: Host ctl2: 0x00009107
+> [   38.444119] kernel: mmc0: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0x0=
+000000000000000
+> [   38.444161] kernel: mmc0: sdhci_uhs2: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D UHS2 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> [   38.444184] kernel: mmc0: sdhci_uhs2: Blk Size:  0x00000000 | Blk Cnt:=
+  0x00000000
+> [   38.446918] kernel: mmc0: sdhci_uhs2: Cmd:       0x00000000 | Trn mode=
+: 0x00000000
+> [   38.446958] kernel: mmc0: sdhci_uhs2: Int Stat:  0x00000000 | Dev Sel =
+: 0x00000000
+> [   38.450833] kernel: mmc0: sdhci_uhs2: Dev Int Code:  0x00000000
+> [   38.450874] kernel: mmc0: sdhci_uhs2: Reset:     0x00000000 | Timer:  =
+  0x000000a7
+> [   38.450907] kernel: mmc0: sdhci_uhs2: ErrInt:    0x00000000 | ErrIntEn=
+: 0x00030000
+> [   38.454625] kernel: mmc0: sdhci_uhs2: ErrSigEn:  0x00030000
+> [   38.454665] kernel: mmc0: sdhci: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> [   38.454699] kernel: mmc0: cannot detect UHS2 interface.
+> [   38.456705] kernel: mmc0: failed to initial phy for UHS-II!
+>
 
-Rob
+On which UHS-II card does this message appear? Please share the card
+information.
+If it is a UHS-I card, this message is normal.
+
+Best regards,
+Ben Chuang
+
+>
+> `lspci -vvvnn -d 17a0:9755` output:
+> 02:00.0 SD Host controller [0805]: Genesys Logic, Inc GL9755 SD Host Cont=
+roller [17a0:9755] (rev 01) (prog-if 01)
+>         Subsystem: Genesys Logic, Inc GL9755 SD Host Controller [17a0:975=
+5]
+>         Device tree node: /sys/firmware/devicetree/base/soc@200000000/pci=
+e@590000000/pci@1,0/mmc@0,0
+>         Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParEr=
+r- Stepping- SERR- FastB2B- DisINTx+
+>         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- =
+<TAbort- <MAbort- >SERR- <PERR- INTx-
+>         Latency: 0
+>         Interrupt: pin A routed to IRQ 168
+>         IOMMU group: 13
+>         Region 0: Memory at 5c1e00000 (32-bit, non-prefetchable) [size=3D=
+4K]
+>         Capabilities: [80] Express (v2) Endpoint, IntMsgNum 0
+>                 DevCap: MaxPayload 256 bytes, PhantFunc 0, Latency L0s <4=
+us, L1 unlimited
+>                         ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset- S=
+lotPowerLimit 0W TEE-IO-
+>                 DevCtl: CorrErr+ NonFatalErr+ FatalErr+ UnsupReq+
+>                         RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+
+>                         MaxPayload 128 bytes, MaxReadReq 512 bytes
+>                 DevSta: CorrErr- NonFatalErr- FatalErr- UnsupReq- AuxPwr+=
+ TransPend-
+>                 LnkCap: Port #85, Speed 5GT/s, Width x1, ASPM L0s L1, Exi=
+t Latency L0s <4us, L1 unlimited
+>                         ClockPM+ Surprise- LLActRep- BwNot- ASPMOptComp+
+>                 LnkCtl: ASPM Disabled; RCB 64 bytes, LnkDisable- CommClk+
+>                         ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+>                 LnkSta: Speed 5GT/s, Width x1
+>                         TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
+>                 DevCap2: Completion Timeout: Range ABCD, TimeoutDis+ NROP=
+rPrP- LTR+
+>                          10BitTagComp- 10BitTagReq- OBFF Via message/WAKE=
+#, ExtFmt- EETLPPrefix-
+>                          EmergencyPowerReduction Not Supported, Emergency=
+PowerReductionInit-
+>                          FRS- TPHComp- ExtTPHComp-
+>                          AtomicOpsCap: 32bit- 64bit- 128bitCAS-
+>                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-
+>                          AtomicOpsCtl: ReqEn-
+>                          IDOReq- IDOCompl- LTR+ EmergencyPowerReductionRe=
+q-
+>                          10BitTagReq- OBFF Disabled, EETLPPrefixBlk-
+>                 LnkCap2: Supported Link Speeds: 2.5-5GT/s, Crosslink- Ret=
+imer- 2Retimers- DRS-
+>                 LnkCtl2: Target Link Speed: 5GT/s, EnterCompliance- Speed=
+Dis-
+>                          Transmit Margin: Normal Operating Range, EnterMo=
+difiedCompliance- ComplianceSOS-
+>                          Compliance Preset/De-emphasis: -6dB de-emphasis,=
+ 0dB preshoot
+>                 LnkSta2: Current De-emphasis Level: -6dB, EqualizationCom=
+plete- EqualizationPhase1-
+>                          EqualizationPhase2- EqualizationPhase3- LinkEqua=
+lizationRequest-
+>                          Retimer- 2Retimers- CrosslinkRes: unsupported
+>         Capabilities: [e0] MSI: Enable+ Count=3D1/1 Maskable- 64bit+
+>                 Address: 00000000fffff000  Data: 0018
+>         Capabilities: [f8] Power Management version 3
+>                 Flags: PMEClk- DSI- D1+ D2+ AuxCurrent=3D375mA PME(D0-,D1=
++,D2+,D3hot+,D3cold+)
+>                 Status: D0 NoSoftRst+ PME-Enable- DSel=3D0 DScale=3D0 PME=
++
+>         Capabilities: [100 v1] Vendor Specific Information: ID=3D17a0 Rev=
+=3D1 Len=3D008 <?>
+>         Capabilities: [108 v1] Latency Tolerance Reporting
+>                 Max snoop latency: 0ns
+>                 Max no snoop latency: 0ns
+>         Capabilities: [110 v1] L1 PM Substates
+>                 L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ ASPM_L1.1+=
+ L1_PM_Substates+
+>                           PortCommonModeRestoreTime=3D255us PortTPowerOnT=
+ime=3D3100us
+>                 L1SubCtl1: PCI-PM_L1.2- PCI-PM_L1.1- ASPM_L1.2- ASPM_L1.1=
+-
+>                            T_CommonMode=3D0us LTR1.2_Threshold=3D3375104n=
+s
+>                 L1SubCtl2: T_PwrOn=3D3100us
+>         Capabilities: [200 v1] Advanced Error Reporting
+>                 UESta:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt=
+- RxOF- MalfTLP-
+>                         ECRC- UnsupReq- ACSViol- UncorrIntErr- BlockedTLP=
+- AtomicOpBlocked- TLPBlockedErr-
+>                         PoisonTLPBlocked- DMWrReqBlocked- IDECheck- MisID=
+ETLP- PCRC_CHECK- TLPXlatBlocked-
+>                 UEMsk:  DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt=
+- RxOF- MalfTLP-
+>                         ECRC- UnsupReq- ACSViol- UncorrIntErr- BlockedTLP=
+- AtomicOpBlocked- TLPBlockedErr-
+>                         PoisonTLPBlocked- DMWrReqBlocked- IDECheck- MisID=
+ETLP- PCRC_CHECK- TLPXlatBlocked-
+>                 UESvrt: DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt=
+- RxOF+ MalfTLP+
+>                         ECRC- UnsupReq- ACSViol- UncorrIntErr- BlockedTLP=
+- AtomicOpBlocked- TLPBlockedErr-
+>                         PoisonTLPBlocked- DMWrReqBlocked- IDECheck- MisID=
+ETLP- PCRC_CHECK- TLPXlatBlocked-
+>                 CESta:  RxErr- BadTLP- BadDLLP- Rollover- Timeout- AdvNon=
+FatalErr- CorrIntErr- HeaderOF-
+>                 CEMsk:  RxErr- BadTLP- BadDLLP- Rollover- Timeout+ AdvNon=
+FatalErr+ CorrIntErr- HeaderOF-
+>                 AERCap: First Error Pointer: 00, ECRCGenCap+ ECRCGenEn- E=
+CRCChkCap+ ECRCChkEn-
+>                         MultHdrRecCap- MultHdrRecEn- TLPPfxPres- HdrLogCa=
+p-
+>                 HeaderLog: 00000000 00000000 00000000 00000000
+>         Kernel driver in use: sdhci-pci
+>         Kernel modules: sdhci_pci
+>
