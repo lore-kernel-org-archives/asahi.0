@@ -1,43 +1,40 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2DC272925
-	for <asahi@lists.linux.dev>; Thu,  6 Mar 2025 18:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C181A262D
+	for <asahi@lists.linux.dev>; Thu,  6 Mar 2025 19:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741284294; cv=none; b=GUWcd79uMbeavq7hKauWQga7CdGyxb3t6aWBTz1MSsKleg5rT6xabYG4tS6OTyk9rVb+/nucDdnyQ+GvATnGN/zFIqbCLqcysSPdarHVibZj7HBlRRplysIU1LzjOwlJLEcEK4BcM1nkpxVAkEyFU3x0MMKhcyz3n/qEeALdHjs=
+	t=1741288895; cv=none; b=EWsg5yG32xbNEKrW7EN4fgkUasWnmqDXBOxsgyslYb3upBVm1tnWNEJyPUSyiXllnFAb07NG7Ju6gOfcsTBob9w5wngPj8YHsIXWqGscPu3wiu0xQDgZSlkEn4QiMcMHI4KAzqE1Lj4KZ4uvkfARwQYuF48HjcIcWPKrgpebG+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741284294; c=relaxed/simple;
-	bh=HnOiXdIEGgi0ajA46Ao4q0OHXUgw4cbdKL3Zt6BVsoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jfoGG6hJq8QXOwIjqHutQTNwHP36RAQshIUe4rsAoaGa4cuvE4ZABDh0e6teI4j/fVO6AmPx25CrWKjZgd8w/RcB8G5UtvBOeaCnvl+PVwX/4FGLrqF4zxm0ByWfoLGxWkko04NNImfs4ZUAuIev6xHRWnmGR7KXbWjYfo1rQCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
-Received: from trampoline.thunk.org (pool-173-48-112-92.bstnma.fios.verizon.net [173.48.112.92])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 526I4Rql015568
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 6 Mar 2025 13:04:27 -0500
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 419262E010B; Thu, 06 Mar 2025 13:04:27 -0500 (EST)
-Date: Thu, 6 Mar 2025 13:04:27 -0500
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Ethan Carter Edwards <ethan@ethancedwards.com>,
-        Sven Peter <sven@svenpeter.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-        "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-        "ernesto@corellium.com" <ernesto@corellium.com>
-Subject: Re: [RFC] apfs: thoughts on upstreaming an out-of-tree module
-Message-ID: <20250306180427.GB279274@mit.edu>
-References: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
- <d0be518b-3abf-497a-b342-ff862dd985a7@app.fastmail.com>
- <upqd7zp2cwg2nzfuc7spttzf44yr3ylkmti46d5udutme4cpgv@nbi3tpjsbx5e>
- <795A00D4-503C-4DCB-A84F-FACFB28FA159@live.com>
+	s=arc-20240116; t=1741288895; c=relaxed/simple;
+	bh=y1h2/h2GChr+rD6C56xfIFr9pjUo89anu+AmczJknlI=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AFWyAIX2GyOqiuUXQzoBInRDLJ7otaLnGfn+bSvJTRVlbs25vDV7xymL3JssTD2XJOUizyPDA+VubwuRAEef4t4XkZJMuAnG6Xvhgnsr+khWnQPzPUdM5LigAoHKuX/Y+7uUHpB2UPTbp2v9dmR+nidNSGmsC9KgsQU2RDGVE3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=cPy1nk39; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="cPy1nk39"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1741288891; x=1741548091;
+	bh=y1h2/h2GChr+rD6C56xfIFr9pjUo89anu+AmczJknlI=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=cPy1nk39V5GtnOUCkgl1DgrKEpQM0Z82p1sprsSTktQVAAwzxLn+TacJz/5udWDh3
+	 dZ+UzxebTarA/PIV/EKYDiG26VhLtHwVBp8b4BFIrZyEKiHz9SC+S0VYIskaRJJAkT
+	 I0fKYuIWckpcrgBpTg0vfTkctzwArdLs6KpSALFYk+Ixz529Ud7swE3HOnzodNKnnS
+	 wkWGlo1rugPxgmfJxSeUwhaBnGkR1B0+PhKgMLWLQyEy6dYv5f1ww/7hBepVx830+Y
+	 xzaWvRMBkJlCLIKYFSE3h0rQ4ux3Nja7I8fbKFnFYkyO36+FVwhGvIvUDeRDef0gxj
+	 yV0UfVnH5HrUg==
+Date: Thu, 06 Mar 2025 19:21:24 +0000
+To: Andreas Hindborg <a.hindborg@kernel.org>
+From: Oliver Mangold <oliver.mangold@pm.me>
+Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>, Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Valentin Obst <kernel@valentinobst.de>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, airlied@redhat.com, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH 0/6] rust: page: Support borrowing `struct page` and physaddr conversion
+Message-ID: <Z8n1qTP1Oysgxe-S@laptop>
+Feedback-ID: 31808448:user:proton
+X-Pm-Message-ID: 03685db8da271e4a00bb4176d470333a2544eec3
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -45,34 +42,24 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <795A00D4-503C-4DCB-A84F-FACFB28FA159@live.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 05, 2025 at 07:23:55AM +0000, Aditya Garg wrote:
-> 
-> This driver tbh will not ‘really’ be helpful as far as T2 Macs are
-> concerned.
-> 
-> On these Macs, the T2 Security Chip encrypts all the APFS partitions
-> on the internal SSD, and the key is in the T2 Chip. Even proprietary
-> APFS drivers cannot read these partitions.  I dunno how it works in
-> Apple Silicon Macs.
+On 250219 1024, Andreas Hindborg wrote:
+>=20
+>=20
+> The series has application in `rnull` as well and I will probably add it
+> as a dependency for next version.
+>=20
+>=20
 
-How this workings on Apple Silicon Macs is described in this article:
+Hi,
 
-   https://eclecticlight.co/2022/04/23/explainer-filevault/
+would anyone mind if I pick this up? I'm working on that patch:
 
-It appears such a driver will also be useful if there are external
-SSD's using APFS.  (Although I suspect many external SSD's would end
-up using some other file system that might be more portable like VFS.)
+https://lore.kernel.org/all/20250305-unique-ref-v4-1-a8fdef7b1c2c@pm.me/
 
-In terms of making it work with the internal SSD, it sounds like Linux
-would need to talk to the secure enclave on the T2 Security Chip and
-convince it to upload the encryption key into the hardware in-line
-encryption engine.  I don't know if presenting the user's password is
-sufficient, or if there is a requirement that the OS prove that it is
-"approved" software that was loaded via a certified boot chain, which
-various secure enclaves (such as TPM) are wont to do.
+There is a lot of overlap, so it would make sense, I think, to base
+it on this one.
 
-	       		      	      - Ted
+Oliver
+
