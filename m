@@ -1,84 +1,102 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E192566DA
-	for <asahi@lists.linux.dev>; Fri,  7 Mar 2025 20:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C722561BD;
+	Fri,  7 Mar 2025 20:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741378301; cv=none; b=KuZi+vzS5aTjO4YvSUirWjVimqW3byL5/SAvzq9rlfY6fnnIQlOlvgn1LlEM+PctUU3p9a85KM4z5ydd3oMkXnMIO2M6ExL6yolHiiF5n/d+wehtr9XmDnPqkxiXnQigwOqL8X7gRWvJ02jfd22nYnqseFCfVrXD6nceqBJH6fE=
+	t=1741380719; cv=none; b=Aj5hce5YNIuLXeCLL5QHF5aKDHk7gMs1UFJLi3kJoCZee4nzIkpIK0Q6pv1j6MglzFn77F9iKKa70/7XvKHVxN+Kl4bOdO/+rAI4mQNVDurjbBaBwqoPASANxim5+CDJ8ja5HS/bG6cn9SoQ64j/tqrNFTHjKjVxbTaAhx+xl1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741378301; c=relaxed/simple;
-	bh=kvUDm8am0hSMA2w3XwH8qyN8rQp+p+otQyAY+cG40dU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qXYeGZ74eSkWYpL+zCAbK8kA+MkMZ2N3D4cvz9TUdlMilU4sXKtFFB2hZueA6Ru2RGzPPWfSWkeMW3cWABLB3EMOxxZ5oSpiOEv9cU/fF8FG2ihTneqEyaDxh8B47LHc20aJeROByTNmupYM0PaL1R/lt8/dZpmjE5r2M6eEnpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kw6ndRIV; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741380719; c=relaxed/simple;
+	bh=GGNUHmMxcy6R0lwyYXAWHuq9IENeuZCWMCuYICMOCkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fzvItq3NIjFH5Teb9Q5CNcBPy/hkgi4fh+LRbxD5KWJ6qYqiFltRvzI5W6ggrvqRYESvp0y5M1BQTxCpXdrfq4jcY19tHV3i2+HMBup7YVOMnXwDThJzAr79QTMNb5ko8KKCWucorIP7qJF2DmkhGRiWbMmVpUZ1lqK1PV/BofU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rx3UG0nl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kw6ndRIV"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6f74b78df93so22865927b3.0
-        for <asahi@lists.linux.dev>; Fri, 07 Mar 2025 12:11:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741378299; x=1741983099; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fl996EB/BPN5hEnQtgwscpPDmaZ06UU290EobaQCcK4=;
-        b=Kw6ndRIVzoRHSURLqlbe3j8Wpvidx+gP0qQU3xInPEjUV36wsOoMBcKuPctB/yzr95
-         6G+HMecXAupKDsmxyUu4kuIN10b28zKrsLFzOvJohcB0i3DfB6c4HxdhYjU7pdj3lFFO
-         zMh1TxP8QIIp95LNLbIe6VfTIODsG5hrorszYQFZERILSovDmmgFnBFLwBHANDotEfHb
-         gAXGNqJEqjhVoT4AjPkhDokkbETday7klSU6TbMUU5mfBHL3ghdmjiCV/yzMpxcmIPc0
-         3ai6MYwtbgLXHLjXRG2rqOJEsaJEPCRAIGxE8srYQ6GTF9JmzvoiUB7d3U3VADxiJeg5
-         CYiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741378299; x=1741983099;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fl996EB/BPN5hEnQtgwscpPDmaZ06UU290EobaQCcK4=;
-        b=YoxqbO14wHO0svkMNa1qrq2s2OyBPahn85wnTbBrSmfoqEpKYPXpJFlLYbJ0mZ3OAB
-         WK3WBRjVaVrhjgo+MnDHVQreAfRLAQl+nitZxE+c6EVmyH3bBegXePKsdyspKwYdHYDS
-         jXAUOr1SCXq2Dwhu2OSbR3hrsrhl8ozbgCEPK0Sx+B+nDHeV9oziuwETaxPGmhtvkQkM
-         /FWi6GZxJPCuvgAKVzDaWAsvIA+mBMmyQQkEJl9885F3jXcpyxq+tyd0RPv8oEx5ogR+
-         rRGS56yFVveEOuspSIdvMEleFHK4ZOAJ7kPN861AjSfNqOdAgmxFxfisxYzrIUpGgU3o
-         5QkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWy1x84Ll0r0a70Er9dASH6eD/bedqlFfJwy+r7oOj3gIYR0SpZmvI0+B5o1QnZHIEH1XID4w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLMs/5SWia+7JoE7DXIb1xcbFitXsGScL2AxtCyPvxmJ9LjioQ
-	DSIAI6XONF6obfJAjToDOd+/c0DbJJAt6iuXH9JLVLEXKY+0CXauoSwXjd7wlQKhZbhktOnoWrJ
-	R2nISqb/BNHm2+xZc9ry/8XzLOcw=
-X-Gm-Gg: ASbGnctCmd1cObzQ2R1/ixVCBVC15Z0CW/3rRMOLfUEyg9/l+1qxxa+Z6AJIk09Vrj/
-	K2043K9hxf+q1de7yyD6oPl/ka8QMnBJypIDdcEXplHE+arLYWHEs91V35rmyFKpWOyvdHjD7qM
-	6i7jhJXjxDqUuwi/ngP5OznUjruzQ=
-X-Google-Smtp-Source: AGHT+IG4pG20Yrepe041wDSG8GJC3NZSymhx3boOCHZlIMGASclrEFPEzLQZrlRc2a50xWaYhD2crUw3xuwpdrKBiYM=
-X-Received: by 2002:a05:690c:67c7:b0:6f9:b12b:8943 with SMTP id
- 00721157ae682-6febf2f3a9bmr72669737b3.19.1741378299319; Fri, 07 Mar 2025
- 12:11:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rx3UG0nl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5359CC4CED1;
+	Fri,  7 Mar 2025 20:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741380718;
+	bh=GGNUHmMxcy6R0lwyYXAWHuq9IENeuZCWMCuYICMOCkI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rx3UG0nlOjx2wRLfI/VRDwIiaxqaXwSPwrIiXjzY/IMj28NcF+NdHw7yBo5QUatvc
+	 ET5KAUPkdBK8ZQn5tDanolEjB8FkpVFAtTUFjgxDzhZFDBaqiyl1fK23EFDFDnkKsw
+	 npSNfgAqT52sZ0YsemlTbGO9ZJCJrKwYx0hpDc/Ltqv6WnG7FER/qAmEZiNk+R+eTj
+	 r9sbQ7tOLdj7WUXpvoKM6NEYOBYm7t+WslJp6McQ9ihfbpVoWfiMDBRxuuCv92NkET
+	 BPJZc1fgiDRsxzswxSxXqTehRj8YYBh2avtj1SMcjMHJ+tPfYDxWXr2i3PpSQeOsP5
+	 yJ71XFg7vh2Vw==
+Date: Fri, 7 Mar 2025 14:51:56 -0600
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shi Fu <shifu0704@thundersoft.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
+ pulldown and zero-fill
+Message-ID: <20250307205156.GA583954-robh@kernel.org>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <20250227-apple-codec-changes-v3-17-cbb130030acf@gmail.com>
+ <20250304135050.GA2485358-robh@kernel.org>
+ <CAHgNfTyVKFuT0fZ3Qj=MdcXs67KscwkSepAH95xkAAKWM1g8Xg@mail.gmail.com>
+ <20250305132239.GA1415729-robh@kernel.org>
+ <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <14a845e8-54d0-45f8-b8b9-927609d92ede@stanley.mountain>
-In-Reply-To: <14a845e8-54d0-45f8-b8b9-927609d92ede@stanley.mountain>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Fri, 7 Mar 2025 21:11:28 +0100
-X-Gm-Features: AQ5f1JpZohgGftYZeUPmd7mjaK_v2MjyriIGwTdsUOZcHqxqIzREXd76VJK0afk
-Message-ID: <CAMT+MTSHT92Q=Xm62zfDgTnR0MEw5gKEk1rmvmrQSbXgQbww_w@mail.gmail.com>
-Subject: Re: [PATCH next] drm: adp: Fix NULL vs IS_ERR() check in adp_plane_new()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Janne Grunau <j@jannau.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Neal Gompa <neal@gompa.dev>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
 
-On Fri, 7 Mar 2025 at 10:31, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->
-> The __drmm_universal_plane_alloc() function doesn't return NULL, it
-> returns error pointers.  Update the check to match.
->
-> Fixes: 332122eba628 ("drm: adp: Add Apple Display Pipe driver")
+On Fri, Mar 07, 2025 at 04:18:31PM +1000, James Calligeros wrote:
+> On Wed, Mar 5, 2025 at 11:22 PM Rob Herring <robh@kernel.org> wrote:
+> > This just feels like something common because any TDM interface may need
+> > to control this. It's not really a property of the chip, but requirement
+> > of the TDM interface.
+> 
+> What I'm imagining then is something like:
+> 
+> dai-link@0 {
+>     cpu {
+>         sound-dai = <&some_cpu>;
+>     };
+>     codec {
+>         sound-dai = <&some_codec>;
+>         dai-tdm-tx-zerofill;
+>         dai-tdm-tx-pulldown; /* either or, having both makes no sense */
 
-Acked-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+If they are mutually exclusive, it's best to design the properties that 
+way. So something like:
+
+dai-tdm-tx-idle = "zerofill";
+dai-tdm-tx-idle = "pulldown";
+
+>     };
+> };
+> 
+> Codec drivers would then provide a function to set TDM TX behaviour if they
+> support it, and export that as a dai op for use by machine drivers
+> when they parse
+> the dai link similar to dai-tdm-tx-slot and friends. Is that close to
+> what you have
+> in mind?
+
+How would it work when you need a mask? "dai-tdm-slot-tx-mask" is 
+enough?
+
+Rob
