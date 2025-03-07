@@ -1,314 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0293E2561A3;
-	Fri,  7 Mar 2025 20:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E192566DA
+	for <asahi@lists.linux.dev>; Fri,  7 Mar 2025 20:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741378142; cv=none; b=axdBApKNYlYW18lpOLHx9KBLrQekR/YokJuMqMOuuzlREIsB5Im7JJlc7O9RnWczQ9Tg3RmUZu4z92lLGKzzy6be0dFfzOH1yJANZT9vtEWl2ZmRWcAolvX82ooVxyGkzdLQQcXi1JWZm7A/KuKuq+LbPSW2ZZGJnHnCminGPSw=
+	t=1741378301; cv=none; b=KuZi+vzS5aTjO4YvSUirWjVimqW3byL5/SAvzq9rlfY6fnnIQlOlvgn1LlEM+PctUU3p9a85KM4z5ydd3oMkXnMIO2M6ExL6yolHiiF5n/d+wehtr9XmDnPqkxiXnQigwOqL8X7gRWvJ02jfd22nYnqseFCfVrXD6nceqBJH6fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741378142; c=relaxed/simple;
-	bh=Q0+/+bjTPdauMvcnKBvlnJPvC7Jel9d1pEk7DtAmxE4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FPeP+Yd3wJFtHpNRXMUcgEy0KMcz11CpVRRH9lAZ96cvRfpyV7cy5RkfC3Nm9+m6V4xFoGw18HNaTKxrIwXls4kG8TMOglkahiKTlun4YQBCtT7IfDqtHR+iir3OI3lHNf/QG5aTITy1oYb9oLFLVSl+GX6YT7k0TTHpuKgJtmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1XY2f8q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741378301; c=relaxed/simple;
+	bh=kvUDm8am0hSMA2w3XwH8qyN8rQp+p+otQyAY+cG40dU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qXYeGZ74eSkWYpL+zCAbK8kA+MkMZ2N3D4cvz9TUdlMilU4sXKtFFB2hZueA6Ru2RGzPPWfSWkeMW3cWABLB3EMOxxZ5oSpiOEv9cU/fF8FG2ihTneqEyaDxh8B47LHc20aJeROByTNmupYM0PaL1R/lt8/dZpmjE5r2M6eEnpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kw6ndRIV; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1XY2f8q"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 711B1C4CEEA;
-	Fri,  7 Mar 2025 20:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741378141;
-	bh=Q0+/+bjTPdauMvcnKBvlnJPvC7Jel9d1pEk7DtAmxE4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=A1XY2f8qjUUR4TiyO3W2b994eoD4vQFprhpJR/5/WgdYAJdVlaT3Ip3AFxcbZev5y
-	 6xycCPIdWcuf/Uepe8ZTV1g08HziSKM/mF54lIoy4S//rjHZ59SUW2LUHxh9TEiYqb
-	 RwLAgxe9qTATswxOsAzCuP9RTByw+V2v75TeBH7Ojo9PYSWo1W39tNU5pVyRtQCHg0
-	 leO/eN3gEkHCU+45UqmCwTeyBrdVkMZfW9WqcI06NUpegWCxvokOY3qsaWnb00SjnI
-	 KA0eo8Gyn9zT9cR/nCt6LHe3ifWuli7Do9F9GLLLs8rr7wNY3HHBqVvY4XR8o6+6D3
-	 br+ITCyW4Zekg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63B0AC19F32;
-	Fri,  7 Mar 2025 20:09:01 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Fri, 07 Mar 2025 21:09:00 +0100
-Subject: [PATCH v2 2/3] spmi: add a spmi driver for Apple SoC
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kw6ndRIV"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6f74b78df93so22865927b3.0
+        for <asahi@lists.linux.dev>; Fri, 07 Mar 2025 12:11:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741378299; x=1741983099; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fl996EB/BPN5hEnQtgwscpPDmaZ06UU290EobaQCcK4=;
+        b=Kw6ndRIVzoRHSURLqlbe3j8Wpvidx+gP0qQU3xInPEjUV36wsOoMBcKuPctB/yzr95
+         6G+HMecXAupKDsmxyUu4kuIN10b28zKrsLFzOvJohcB0i3DfB6c4HxdhYjU7pdj3lFFO
+         zMh1TxP8QIIp95LNLbIe6VfTIODsG5hrorszYQFZERILSovDmmgFnBFLwBHANDotEfHb
+         gAXGNqJEqjhVoT4AjPkhDokkbETday7klSU6TbMUU5mfBHL3ghdmjiCV/yzMpxcmIPc0
+         3ai6MYwtbgLXHLjXRG2rqOJEsaJEPCRAIGxE8srYQ6GTF9JmzvoiUB7d3U3VADxiJeg5
+         CYiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741378299; x=1741983099;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fl996EB/BPN5hEnQtgwscpPDmaZ06UU290EobaQCcK4=;
+        b=YoxqbO14wHO0svkMNa1qrq2s2OyBPahn85wnTbBrSmfoqEpKYPXpJFlLYbJ0mZ3OAB
+         WK3WBRjVaVrhjgo+MnDHVQreAfRLAQl+nitZxE+c6EVmyH3bBegXePKsdyspKwYdHYDS
+         jXAUOr1SCXq2Dwhu2OSbR3hrsrhl8ozbgCEPK0Sx+B+nDHeV9oziuwETaxPGmhtvkQkM
+         /FWi6GZxJPCuvgAKVzDaWAsvIA+mBMmyQQkEJl9885F3jXcpyxq+tyd0RPv8oEx5ogR+
+         rRGS56yFVveEOuspSIdvMEleFHK4ZOAJ7kPN861AjSfNqOdAgmxFxfisxYzrIUpGgU3o
+         5QkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWy1x84Ll0r0a70Er9dASH6eD/bedqlFfJwy+r7oOj3gIYR0SpZmvI0+B5o1QnZHIEH1XID4w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLMs/5SWia+7JoE7DXIb1xcbFitXsGScL2AxtCyPvxmJ9LjioQ
+	DSIAI6XONF6obfJAjToDOd+/c0DbJJAt6iuXH9JLVLEXKY+0CXauoSwXjd7wlQKhZbhktOnoWrJ
+	R2nISqb/BNHm2+xZc9ry/8XzLOcw=
+X-Gm-Gg: ASbGnctCmd1cObzQ2R1/ixVCBVC15Z0CW/3rRMOLfUEyg9/l+1qxxa+Z6AJIk09Vrj/
+	K2043K9hxf+q1de7yyD6oPl/ka8QMnBJypIDdcEXplHE+arLYWHEs91V35rmyFKpWOyvdHjD7qM
+	6i7jhJXjxDqUuwi/ngP5OznUjruzQ=
+X-Google-Smtp-Source: AGHT+IG4pG20Yrepe041wDSG8GJC3NZSymhx3boOCHZlIMGASclrEFPEzLQZrlRc2a50xWaYhD2crUw3xuwpdrKBiYM=
+X-Received: by 2002:a05:690c:67c7:b0:6f9:b12b:8943 with SMTP id
+ 00721157ae682-6febf2f3a9bmr72669737b3.19.1741378299319; Fri, 07 Mar 2025
+ 12:11:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250307-spmi-v2-2-eccdb06afb99@gmail.com>
-References: <20250307-spmi-v2-0-eccdb06afb99@gmail.com>
-In-Reply-To: <20250307-spmi-v2-0-eccdb06afb99@gmail.com>
-To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Stephen Boyd <sboyd@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Jean-Francois Bortolotti <jeff@borto.fr>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741378140; l=7125;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=ijXMaFCOmKcRdNz2Iu4Ta5HuPA6nUGhAm2fK832PyKc=;
- b=xy2/edX38GXnIw4DW8fIc0IaiRkHvkUzvB0TLB875jUkBWPFcSu8vKevksFyR57meRCse7SVH
- Y1+RMggGmzZAJCt3S5WdCfFF8L0bk190CoK6ho/RnHc5JWVU5U3Fdbk
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+References: <14a845e8-54d0-45f8-b8b9-927609d92ede@stanley.mountain>
+In-Reply-To: <14a845e8-54d0-45f8-b8b9-927609d92ede@stanley.mountain>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Fri, 7 Mar 2025 21:11:28 +0100
+X-Gm-Features: AQ5f1JpZohgGftYZeUPmd7mjaK_v2MjyriIGwTdsUOZcHqxqIzREXd76VJK0afk
+Message-ID: <CAMT+MTSHT92Q=Xm62zfDgTnR0MEw5gKEk1rmvmrQSbXgQbww_w@mail.gmail.com>
+Subject: Re: [PATCH next] drm: adp: Fix NULL vs IS_ERR() check in adp_plane_new()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Janne Grunau <j@jannau.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Neal Gompa <neal@gompa.dev>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jean-Francois Bortolotti <jeff@borto.fr>
+On Fri, 7 Mar 2025 at 10:31, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> The __drmm_universal_plane_alloc() function doesn't return NULL, it
+> returns error pointers.  Update the check to match.
+>
+> Fixes: 332122eba628 ("drm: adp: Add Apple Display Pipe driver")
 
-The connected PMU contains several useful nvmem cells such as RTC offset,
-boot failure counters, reboot/shutdown selector, and a few others.
-In addition M3+ machines have their USB-PD controller connected via SPMI.
-
-Signed-off-by: Jean-Francois Bortolotti <jeff@borto.fr>
-Co-developed-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- MAINTAINERS                          |   1 +
- drivers/spmi/Kconfig                 |   8 ++
- drivers/spmi/Makefile                |   1 +
- drivers/spmi/spmi-apple-controller.c | 178 +++++++++++++++++++++++++++++++++++
- 4 files changed, 188 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 271ff8110df83c2d4fe7fbbfffc0a72259460bc5..9006695261d29fbc1e15659c2b43d7afeee0b656 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2254,6 +2254,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/spmi/spmi-apple-controller.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
-diff --git a/drivers/spmi/Kconfig b/drivers/spmi/Kconfig
-index 73780204631463631cabcbad5bf83e8dbbee94ce..9005fa91d9f4e541403ccc7bf84e0592402ac41e 100644
---- a/drivers/spmi/Kconfig
-+++ b/drivers/spmi/Kconfig
-@@ -11,6 +11,14 @@ menuconfig SPMI
- 
- if SPMI
- 
-+config SPMI_APPLE
-+	tristate "Apple SoC SPMI Controller platform driver"
-+	depends on ARCH_APPLE || COMPILE_TEST
-+	help
-+	  If you say yes to this option, support will be included for the
-+	  SPMI controller present on many Apple SoCs, including the
-+	  t8103 (M1) and t600x (M1 Pro/Max).
-+
- config SPMI_HISI3670
- 	tristate "Hisilicon 3670 SPMI Controller"
- 	select IRQ_DOMAIN_HIERARCHY
-diff --git a/drivers/spmi/Makefile b/drivers/spmi/Makefile
-index 7f152167bb05b2c24a0f9669f60278152898eebb..38ac635645ba65aa46cb5e8a50072ed9771e229b 100644
---- a/drivers/spmi/Makefile
-+++ b/drivers/spmi/Makefile
-@@ -4,6 +4,7 @@
- #
- obj-$(CONFIG_SPMI)	+= spmi.o spmi-devres.o
- 
-+obj-$(CONFIG_SPMI_APPLE)	+= spmi-apple-controller.o
- obj-$(CONFIG_SPMI_HISI3670)	+= hisi-spmi-controller.o
- obj-$(CONFIG_SPMI_MSM_PMIC_ARB)	+= spmi-pmic-arb.o
- obj-$(CONFIG_SPMI_MTK_PMIF)	+= spmi-mtk-pmif.o
-diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..2d4a677aaff6b10fce80f7eacc330605674ea495
---- /dev/null
-+++ b/drivers/spmi/spmi-apple-controller.c
-@@ -0,0 +1,178 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Apple SoC SPMI device driver
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ *
-+ * Inspired by:
-+ *		OpenBSD support Copyright (c) 2021 Mark Kettenis <kettenis@openbsd.org>
-+ *		Correllium support Copyright (C) 2021 Corellium LLC
-+ *		hisi-spmi-controller.c
-+ *		spmi-pmic-arb.c Copyright (c) 2021, The Linux Foundation.
-+ */
-+
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/platform_device.h>
-+#include <linux/spmi.h>
-+
-+/* SPMI Controller Registers */
-+#define SPMI_STATUS_REG 0
-+#define SPMI_CMD_REG 0x4
-+#define SPMI_RSP_REG 0x8
-+
-+#define SPMI_RX_FIFO_EMPTY BIT(24)
-+
-+#define REG_POLL_INTERVAL 10000
-+#define REG_POLL_TIMEOUT (REG_POLL_INTERVAL * 5)
-+
-+struct apple_spmi {
-+	void __iomem *regs;
-+};
-+
-+#define poll_reg(spmi, reg, val, cond) \
-+	readl_poll_timeout((spmi)->regs + (reg), (val), (cond), \
-+			   REG_POLL_INTERVAL, REG_POLL_TIMEOUT)
-+
-+static inline u32 read_reg(struct apple_spmi *spmi, int offset)
-+{
-+	return readl(spmi->regs + offset);
-+}
-+
-+static inline void write_reg(u32 value, struct apple_spmi *spmi, int offset)
-+{
-+	writel(value, spmi->regs + offset);
-+}
-+
-+static inline u32 apple_spmi_pack_cmd(u8 opc, u8 sid, u16 saddr, size_t len)
-+{
-+	return opc | sid << 8 | saddr << 16 | (len - 1) | (1 << 15);
-+}
-+
-+/* Wait for Rx FIFO to have something */
-+static int apple_spmi_wait_rx_not_empty(struct spmi_controller *ctrl)
-+{
-+	struct apple_spmi *spmi = spmi_controller_get_drvdata(ctrl);
-+	int ret;
-+	u32 status;
-+
-+	ret = poll_reg(spmi, SPMI_STATUS_REG, status, !(status & SPMI_RX_FIFO_EMPTY));
-+	if (ret) {
-+		dev_err(&ctrl->dev,
-+			"%s: Failed to wait for RX FIFO not empty\n", __func__);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
-+			 u16 saddr, u8 *buf, size_t len)
-+{
-+	struct apple_spmi *spmi = spmi_controller_get_drvdata(ctrl);
-+	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, saddr, len);
-+	u32 rsp;
-+	size_t len_read = 0;
-+	u8 i;
-+	int ret;
-+
-+	write_reg(spmi_cmd, spmi, SPMI_CMD_REG);
-+
-+	ret = apple_spmi_wait_rx_not_empty(ctrl);
-+	if (ret)
-+		return ret;
-+
-+	/* Discard SPMI reply status */
-+	read_reg(spmi, SPMI_RSP_REG);
-+
-+	/* Read SPMI data reply */
-+	while (len_read < len) {
-+		rsp = read_reg(spmi, SPMI_RSP_REG);
-+		i = 0;
-+		while ((len_read < len) && (i < 4)) {
-+			buf[len_read++] = ((0xff << (8 * i)) & rsp) >> (8 * i);
-+			i += 1;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
-+			  u16 saddr, const u8 *buf, size_t len)
-+{
-+	struct apple_spmi *spmi = spmi_controller_get_drvdata(ctrl);
-+	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, saddr, len);
-+	size_t i = 0, j;
-+	int ret;
-+
-+	write_reg(spmi_cmd, spmi, SPMI_CMD_REG);
-+
-+	while (i < len) {
-+		j = 0;
-+		spmi_cmd = 0;
-+		while ((j < 4) & (i < len))
-+			spmi_cmd |= buf[i++] << (j++ * 8);
-+
-+		write_reg(spmi_cmd, spmi, SPMI_CMD_REG);
-+	}
-+
-+	ret = apple_spmi_wait_rx_not_empty(ctrl);
-+	if (ret)
-+		return ret;
-+
-+	/* Discard */
-+	read_reg(spmi, SPMI_RSP_REG);
-+
-+	return 0;
-+}
-+
-+static int apple_spmi_probe(struct platform_device *pdev)
-+{
-+	struct apple_spmi *spmi;
-+	struct spmi_controller *ctrl;
-+	int ret;
-+
-+	ctrl = devm_spmi_controller_alloc(&pdev->dev, sizeof(*spmi));
-+	if (IS_ERR(ctrl))
-+		return -ENOMEM;
-+
-+	spmi = spmi_controller_get_drvdata(ctrl);
-+
-+	spmi->regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(spmi->regs))
-+		return PTR_ERR(spmi->regs);
-+
-+	ctrl->dev.of_node = pdev->dev.of_node;
-+
-+	ctrl->read_cmd = spmi_read_cmd;
-+	ctrl->write_cmd = spmi_write_cmd;
-+
-+	ret = devm_spmi_controller_add(&pdev->dev, ctrl);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "spmi_controller_add failed\n");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id apple_spmi_match_table[] = {
-+	{ .compatible = "apple,spmi", },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, apple_spmi_match_table);
-+
-+static struct platform_driver apple_spmi_driver = {
-+	.probe		= apple_spmi_probe,
-+	.driver		= {
-+		.name	= "apple-spmi",
-+		.of_match_table = apple_spmi_match_table,
-+	},
-+};
-+module_platform_driver(apple_spmi_driver);
-+
-+MODULE_AUTHOR("Jean-Francois Bortolotti <jeff@borto.fr>");
-+MODULE_DESCRIPTION("Apple SoC SPMI driver");
-+MODULE_LICENSE("GPL");
-
--- 
-2.48.1
-
-
+Acked-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
