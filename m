@@ -1,150 +1,117 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0A12F28;
-	Sun,  9 Mar 2025 11:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E9517A2E4
+	for <asahi@lists.linux.dev>; Sun,  9 Mar 2025 19:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741519950; cv=none; b=bQQ/hssfYfK+sJiWFTaW+UdpRB14FidJ/8hYsoEUpyPl9NH42C62bmRaRaNWeFtd9lG0l2s/aVh2bkpVJZE9sGcSSVuqGRUTaNPI5QR04NAWZWMJfPh7RiCe3n0wWJniyq7vTlZWyTzPTmz6YdQMWlD5Cu3E7orhGN0Mf8alPq0=
+	t=1741549561; cv=none; b=hPAeoAZozv7IQL5Y018Qgqc2amNzd0xlMhuGOia9hLRiNrkrlGGw6MqRQo4uEtJm02iAtZRf8D3wqQgBQQ0chzRykHaMsX2UCkU/QEnqApU2HIELe3VlzcPcZvQjEYCs7+Hb7/nH6+dvlxZJL7eps2hNYLZ5eKw+p/1qR2ymcGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741519950; c=relaxed/simple;
-	bh=KRY3h/y6Mm8gGXlg5rX8HYhOitbw1P/955MyYYkxzMo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MAVQStXGjbhY4FEfIoLI1zYLmfHyfmRIelyjNtbtKWLbIaUObKFC2xmb228DURQzmXRGU1SILxUJNxvXjSYAdJqAPSqlDKWMpIuaKLVAIdYbL/Kbu8mZGn93FgSewaY2IJj3hgu27VLLuySvH56KZ0sA5ZaS5IpsMk9Jj4usm3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=PQU72ehj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u9EwQZBU; arc=none smtp.client-ip=103.168.172.146
+	s=arc-20240116; t=1741549561; c=relaxed/simple;
+	bh=Lf4BrFENd05hmG5PESKDZoLIDgO6K4nLrF/qfMOjtAM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P0AcYUJsl4R4cRRPod8hUVsnnN6ZW6klnudyxoZitZ3BtHM8cSEtJOZJB/QQoFBMh0xAUkpvtVALk5fREdP002oBnErzSQRX5DgTbKfbN9QfAOrKViOtap0vJgCazwPNqNABgCFoxgi7hr5ENbK1CgDLOOfcteqQkcGyP1vR69M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=R8fx0Ehx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rieZVbq5; arc=none smtp.client-ip=103.168.172.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="PQU72ehj";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u9EwQZBU"
-Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
-	by mailfout.phl.internal (Postfix) with ESMTP id 6E2A9138277C;
-	Sun,  9 Mar 2025 07:32:26 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-13.internal (MEProxy); Sun, 09 Mar 2025 07:32:26 -0400
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="R8fx0Ehx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rieZVbq5"
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.phl.internal (Postfix) with ESMTP id 31D8613809A6;
+	Sun,  9 Mar 2025 15:45:58 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Sun, 09 Mar 2025 15:45:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1741519946; x=1741606346; bh=Cp91pbB5DN
-	2RZua8Qzi2EZ3MeEoU2r2L7P3lFPNnfBY=; b=PQU72ehjmMOLtRay+y0HSuFSMg
-	CJsQjmj6Xxn6dAsD2MFECU4nHG3PRAqH33ktLvgp+dmlQ/GP0K/4jDbL6Z4Lk4y9
-	ZWSD0oWQPitmZjueSe4B6BcuN7qHQwNfqLUxwrcUKv3NGqEtg50EIj2l3hxb+9Qn
-	gDd+3UEyeq2hFr/J2GhWBjwuxpvAF+7KAlKKTBwiPfA8XHy5xxsQ8zOTWPVmAmhv
-	b8qpo4UiCGJGkCs7a6cZ2pgogE7myPTBIa+06uwRqQTO1NknO4DqVK83pUK60nPN
-	a3jIobf1fNhkLjfSSQ0gSMWdXt11eRpEGn9cCtuXzsK94FXzhUk6zba7ti5A==
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1741549558; x=1741635958; bh=BD/hVb2SemsVg0IwRyhTyxsbti4JCV6r
+	s55j397BRYc=; b=R8fx0EhxTGtmyhm6cWzfF1GspBdj1wxiSW5GdBGmdrCiZnu+
+	w4CW+FHGoRzITUUyHGSAnJyouxsD/NOVR0jUStoJinj5CchjlrsvJMimVto8gdV2
+	ONTYV2xpqNis6tLgWwghCUXeSvx85uw9jYq+qY8Qmw5fCYTsdK2dkex2Dfj71pQI
+	KMb5Vv/HV0xPHmOMU6xgCQlheUlwjRV6/l9sUcFq8JwiI4UeEvNg7niGRtGhmnRx
+	47iNBGNxB47H0M5hbZq25MWDktkn835uaYqyqny44B43i7oCHITJwi6oP4Pab4bz
+	tr5HkbtL9xWf/TkbXKAXUsH7js0v1N4TQmU7Cg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1741519946; x=1741606346; bh=Cp91pbB5DN2RZua8Qzi2EZ3MeEoU2r2L7P3
-	lFPNnfBY=; b=u9EwQZBU2ecARqRlwjNuXFotaZQIfFKVF7Eve4ypZ9BjdIUJaqA
-	a90V7dnjKUAStnU3atPwt1EvftBMCJqYpHufat0JVN/bZZ0ZwgKCL2MYq+Z+FSXf
-	cfa8bIgtc6KooCCoW30Rt8BrPmuAiN5vM/Lmk//qW7cEjcCKqb+4cqR67EDbn6s8
-	v8dug2SMkcimAmg7Fl9qVkNtBQbjZnl3zgFmNWyyzrB2cWKxcBlOx9FrV8jI/kvh
-	caxMTxA3Xf4XG6tRXJRVVr1nPorjW1DNedzyp88+ySdqtCd+IoXydxG1t+4/A9qT
-	yDh7KpPCxy8XZJi92JWXHFwFgonMHcffoAA==
-X-ME-Sender: <xms:SXzNZ25iLS_exPE_cN1I1JaG2f1JDlX9osjrHo3wonjzmRjksf32kQ>
-    <xme:SXzNZ_7YH0baFb4_jYaWuseCv0oQ1vvaTcnZ7kVRxKpTmQJSsWpIcTJ6579IXp27T
-    FGxL6yyXwOrVDNkZWg>
-X-ME-Received: <xmr:SXzNZ1fwC76ILiwN1yjLQJDR50RsJ-GhwvrWZZPfVK1wq_lMa_T2iYpJ47cFPJvPHK7hAoSV8UHIfYWXlm_md4frNjs28M7RplHrxpQDozOE7BiQNwmKAEWguVJMscw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudeifeegucetufdoteggodetrf
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741549558; x=
+	1741635958; bh=BD/hVb2SemsVg0IwRyhTyxsbti4JCV6rs55j397BRYc=; b=r
+	ieZVbq5WLZ3V83sy3ehz/nNCYdmEdvEkpaLLgPTLNaTyK8vXJAdG6GsshAEajYwn
+	s9Go8Rcuz4bCh+7sSIfIShcT4m/hYLVxQfxj+PFJNHgOP4681eB5xFIyKJ76feIr
+	2KFLIt/mKqxVg37sh1FbW2f47rBlXhFLLKAoVIWU6RUx9Ml4JOO1MqcvXFpcW4TQ
+	OEcgjHe3/cybSILNx9R+7b3h1ycNOW0RtR6o9x43zluu/Llkhy3sdU8TpJaiAvLg
+	d7Dwij0wqvyOY4wK5rE9Hs8D5oA0zShzquEGIl3Lk80AWSD6ZHqY5MlScrngJVe7
+	SsimBU3TMiJamlnI5fNbA==
+X-ME-Sender: <xms:9e_NZxaqqzP0H4OAYQW8s1JVgkBo3gK882ts2NE8tKKIBoGrt-Y-Tg>
+    <xme:9e_NZ4ZLJWP1Nd68TroZZVHxYp8C14YU88KJsGvPvYFP97xgU3jntL2w-cwXPuRCL
+    YoEzwh4kgETcolSKpo>
+X-ME-Received: <xmr:9e_NZz_ko4M7nnuugkVqtZAitqC6nD_o2FcT-KVQ6KUrjCsb6zqNvHlTL7Skg7B29mEMPAw8qYr6BKXEooJugb88O4XFxfDtsxutTRAxiUDWJtBnU09hiCG4oFPG30Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudejfedvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
-    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcurfgvthgvrhcuoehs
-    vhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvghrnhepjeelveffvd
-    efgeeuteefueetgeeghfelveevheeugefftdelleeuudefvefhieelnecuffhomhgrihhn
-    pehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdgu
-    vghvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
-    hsohgtsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprghsrghhiheslhhi
-    shhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnh
-    gvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhig
-    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:SnzNZzLrGuwSnzZhhua0RIYir2QSycKhL4Nr0VfLVJi0kRiRSciAmQ>
-    <xmx:SnzNZ6LUICEe7rI2mDX8zXiVGzm3kOFOU2awiOoGMZQgYT7OZvScHA>
-    <xmx:SnzNZ0yxQpzmG6s-jypPAZftYb7FnRZjZRVgwKMfQCQV705_fjcRmg>
-    <xmx:SnzNZ-JWXUCxzguKEGVoLSGTM7WlBUrGX1zMSR2-SAWCV5b6VnwCqQ>
-    <xmx:SnzNZ_EfmoYfk3PkPkvj65VP3uGWSz83iIRnyv4w5J502ZWNWMMF9BG4>
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
+    tdejnecuhfhrohhmpefuvhgvnhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrh
+    druggvvheqnecuggftrfgrthhtvghrnhepleetudehlefgteduffeijeehfeduudekhffg
+    fedvueekvedvveeuhefgieetgfegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhes
+    shhvvghnphgvthgvrhdruggvvhdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtph
+    houhhtpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgt
+    phhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehsvhgvnhesshhvvg
+    hnphgvthgvrhdruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlh
+    eslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegrlhihshhsrges
+    rhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvth
+X-ME-Proxy: <xmx:9e_NZ_o00JzXlX8jUt6GhiNnwqNLUxb0Q7K1iAEw0L_nBYs7hCHXEg>
+    <xmx:9e_NZ8ru-rLdq4ln2RGvsFsheUqmOkp6FaXy_rine-H4Ttb3lvcEMQ>
+    <xmx:9e_NZ1TEf3anjlevF0X-vhDQ6v8XhC1VG0IYylf9uDLpo-rjm2-S4g>
+    <xmx:9e_NZ0qh14YLQk9TF4oJfbHxhy8aHHzhuRVVNBbK7gP9rkdVm1wdWg>
+    <xmx:9u_NZ0LDMOJkdXaXtsV8PqUtxDkcQLcO0_dAQ5NdONbutNGu9OiKm4lX>
 Feedback-ID: i51094778:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 9 Mar 2025 07:32:24 -0400 (EDT)
+ 9 Mar 2025 15:45:55 -0400 (EDT)
 From: Sven Peter <sven@svenpeter.dev>
-To: soc@lists.linux.dev
-Cc: asahi@lists.linux.dev,
+To: asahi@lists.linux.dev,
+	Neal Gompa <neal@gompa.dev>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL] Third and final batch of Apple SoC DT updates for v6.15
-Date: Sun,  9 Mar 2025 12:32:12 +0100
-Message-Id: <20250309113212.48137-1-sven@svenpeter.dev>
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH] MAINTAINERS: Add myself (Neal Gompa) as a reviewer for ARM Apple support
+Date: Sun,  9 Mar 2025 20:45:47 +0100
+Message-Id: <174154951957.51578.1010090388720574063.b4-ty@svenpeter.dev>
 X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <20250303154012.1417088-1-neal@gompa.dev>
+References: <20250303154012.1417088-1-neal@gompa.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Hi,
+On Mon, 03 Mar 2025 10:40:10 -0500, Neal Gompa wrote:
+> As a member of the Asahi Linux project, I (Neal) have been involved in
+> reviewing the patches downstream as part of enabling the Fedora Asahi Remix
+> distribution for years and have recently been reviewing patches for upstream
+> submission as well.
+> 
+> This formalizes my role as a reviewer for ARM Apple system support patches.
+> 
+> [...]
 
-This is our final pull request for Apple SoC device tree updates for v6.15
-based on the previous one [1].
-Drivers for the M1/M2 touchbar screen and pre-M1 (iPhone, etc.) backlight
-have been merged since then and this batch includes the required device tree
-nodes. Both drivers and these commits have been part of -next for at least a
-few days. The corresponding drivers are scheduled to be included in the 6.15
-merge window as well.
+Applied to git@github.com:AsahiLinux/linux.git (asahi-soc/maintainers), thanks!
 
+[1/1] MAINTAINERS: Add myself (Neal Gompa) as a reviewer for ARM Apple support
+      https://github.com/AsahiLinux/linux/commit/3a0d2facfa64
 
+Best regards,
+-- 
+Sven Peter <sven@svenpeter.dev>
 
-Best,
-
-Sven
-
-
-[1] https://lore.kernel.org/soc/20250302115808.59172-1-sven@svenpeter.dev/
-
-The following changes since commit 44db68dee1f77260d7037319e911e9883a6ffe0e:
-
-  arm64: dts: apple: Add touchbar digitizer nodes (2025-02-26 15:33:46 +0000)
-
-are available in the Git repository at:
-
-  https://github.com/AsahiLinux/linux.git tags/asahi-soc-dt-6.15-v3
-
-for you to fetch changes up to e1bc21d8f8fde47173073a2d6233f5faa4864cfc:
-
-  arm64: dts: apple: t8015: Add backlight nodes (2025-03-06 20:54:28 +0100)
-
-----------------------------------------------------------------
-Apple SoC DT updates for 6.15, final batch:
-
-- Added touchbar screen nodes for M1/M2 platforms
-- Added backlight nodes for iPhone, iPad and iPod touch
-
-----------------------------------------------------------------
-Nick Chan (5):
-      arm64: dts: apple: s5l8960x: Add backlight nodes
-      arm64: dts: apple: t7000: Add backlight nodes
-      arm64: dts: apple: s800-0-3: Add backlight nodes
-      arm64: dts: apple: t8010: Add backlight nodes
-      arm64: dts: apple: t8015: Add backlight nodes
-
-Sasha Finkelstein (1):
-      arm64: dts: apple: Add touchbar screen nodes
-
- arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi     |  4 ++
- arch/arm64/boot/dts/apple/s5l8960x.dtsi        |  7 +++
- arch/arm64/boot/dts/apple/s800-0-3-common.dtsi |  4 ++
- arch/arm64/boot/dts/apple/s800-0-3.dtsi        |  7 +++
- arch/arm64/boot/dts/apple/t7000-handheld.dtsi  |  4 ++
- arch/arm64/boot/dts/apple/t7000.dtsi           |  7 +++
- arch/arm64/boot/dts/apple/t8010-common.dtsi    |  4 ++
- arch/arm64/boot/dts/apple/t8010.dtsi           |  7 +++
- arch/arm64/boot/dts/apple/t8015-8.dtsi         |  4 ++
- arch/arm64/boot/dts/apple/t8015.dtsi           |  7 +++
- arch/arm64/boot/dts/apple/t8103-j293.dts       | 31 +++++++++++++
- arch/arm64/boot/dts/apple/t8103.dtsi           | 61 ++++++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8112-j493.dts       | 31 +++++++++++++
- arch/arm64/boot/dts/apple/t8112.dtsi           | 61 ++++++++++++++++++++++++++
- 14 files changed, 239 insertions(+)
