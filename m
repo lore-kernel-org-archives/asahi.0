@@ -1,120 +1,150 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BF6BE4F;
-	Sat,  8 Mar 2025 09:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0A12F28;
+	Sun,  9 Mar 2025 11:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741427693; cv=none; b=G18wZb6tf5aNH5G7xdcEKjiK7/NLXePbcICR66Vye545+WXJPxkf/cTaVFJUPeyggRxTP0FVNulh1ZUOWYXeGd6SLWo4Uwu/ELIchqAnOcWpyHvYpyjyxCZARXM/9QvOEWI/vKt0QtDbhnFzU1xHYFvfm2EIZZU8QGc9toJLZ+c=
+	t=1741519950; cv=none; b=bQQ/hssfYfK+sJiWFTaW+UdpRB14FidJ/8hYsoEUpyPl9NH42C62bmRaRaNWeFtd9lG0l2s/aVh2bkpVJZE9sGcSSVuqGRUTaNPI5QR04NAWZWMJfPh7RiCe3n0wWJniyq7vTlZWyTzPTmz6YdQMWlD5Cu3E7orhGN0Mf8alPq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741427693; c=relaxed/simple;
-	bh=hzhNcRtCfxWSACKC/UtPCa8G/XdJxqGyTmH3V+EynZw=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=WQ3Kn4g3867hbZOG5YGTtLQMZR3MkovTl/vpyn7GQrZdc7TSCDfK4I2p9nWUY2p4ZpPaqT6G8dwZlBmg8+1GzJ4tnpXZ+jbiYUy+79IarZzfMFGDsHe74cuEuPkD2lvgX9zAqhHbPd+GfKAP44HPo1h1r4pql2JkcAfLgO7nGnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=GY34UcPa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QlmGl2AW; arc=none smtp.client-ip=103.168.172.157
+	s=arc-20240116; t=1741519950; c=relaxed/simple;
+	bh=KRY3h/y6Mm8gGXlg5rX8HYhOitbw1P/955MyYYkxzMo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MAVQStXGjbhY4FEfIoLI1zYLmfHyfmRIelyjNtbtKWLbIaUObKFC2xmb228DURQzmXRGU1SILxUJNxvXjSYAdJqAPSqlDKWMpIuaKLVAIdYbL/Kbu8mZGn93FgSewaY2IJj3hgu27VLLuySvH56KZ0sA5ZaS5IpsMk9Jj4usm3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=PQU72ehj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u9EwQZBU; arc=none smtp.client-ip=103.168.172.146
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="GY34UcPa";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QlmGl2AW"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 70CA811400E9;
-	Sat,  8 Mar 2025 04:54:50 -0500 (EST)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-12.internal (MEProxy); Sat, 08 Mar 2025 04:54:50 -0500
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="PQU72ehj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u9EwQZBU"
+Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6E2A9138277C;
+	Sun,  9 Mar 2025 07:32:26 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-13.internal (MEProxy); Sun, 09 Mar 2025 07:32:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1741427690; x=1741514090; bh=hzhNcRtCfxWSACKC/UtPCa8G/XdJxqGy
-	TmH3V+EynZw=; b=GY34UcPab4q4u3ZgyuiiGOEBSe3ZPRyWzfdIxpiwvo5BS173
-	ir5jRDTAaColjSQLgxNwYuDzg4xh7xq2AejMaJGYhIGfMxwvvALMmbKnUioFuMCo
-	UY58TxowS1hLBvYL9wX320hQW18ab2OeyA2T2kqKUMXMIJ2lYiy8JTnxZBi83Tea
-	mqD89GA6oSgLJmiCJtu4r0+CwAZTlw2xcmM0UCAhs504zZ7qn8YDkjEcXwdqEncQ
-	r380D5nXlMHCWO6uVCyfjxaZvvqa31FHpDgWPAR3fbgXEicZDpUGKnygwEYRq2w9
-	cdyI4HoaXrCFKhfvKfsSkYHqw9iKLrALwIe1CA==
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1741519946; x=1741606346; bh=Cp91pbB5DN
+	2RZua8Qzi2EZ3MeEoU2r2L7P3lFPNnfBY=; b=PQU72ehjmMOLtRay+y0HSuFSMg
+	CJsQjmj6Xxn6dAsD2MFECU4nHG3PRAqH33ktLvgp+dmlQ/GP0K/4jDbL6Z4Lk4y9
+	ZWSD0oWQPitmZjueSe4B6BcuN7qHQwNfqLUxwrcUKv3NGqEtg50EIj2l3hxb+9Qn
+	gDd+3UEyeq2hFr/J2GhWBjwuxpvAF+7KAlKKTBwiPfA8XHy5xxsQ8zOTWPVmAmhv
+	b8qpo4UiCGJGkCs7a6cZ2pgogE7myPTBIa+06uwRqQTO1NknO4DqVK83pUK60nPN
+	a3jIobf1fNhkLjfSSQ0gSMWdXt11eRpEGn9cCtuXzsK94FXzhUk6zba7ti5A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741427690; x=
-	1741514090; bh=hzhNcRtCfxWSACKC/UtPCa8G/XdJxqGyTmH3V+EynZw=; b=Q
-	lmGl2AWfK3CdyaBWVbRyKwtEcE7mhb/dqOjAbSBGiWo0GOTspQwWM8YapI4UhapM
-	82D9ac4aTO/vZMlVCScjxBKl+JjqN53LxovpTOo0Sn+lTicVIB/0yecHV/fnBHoA
-	QYyi+pwOxA75THCqSb6iYeuPoNAmCVPxeku+v2F422SeK58NAh1kSrV94MW/jH29
-	fugfc9GVfzCkn2EzIiuGDqM8aHyF03LWm2UyzE+EyOP8LEQ3MCMwq3qjJpXHDyJL
-	8gN1MDM+lm6G6GmPeiEnoBbi1qKHvep4fkPNg3sxMcUwMU063tEvz5MzXvXRfu2x
-	Eb0pO1Mq04PV34D0Ffr6A==
-X-ME-Sender: <xms:6RPMZw4BfUqZC77eEAGwtL2yvomJMkDMYVLEeR4W0Bgo0akQtAqZxA>
-    <xme:6RPMZx4jCmuQlxFJL0VGNNjhSPYiw5Ywrwkk5vPdRsWBu5xw3sR2vBvDn_8f48bVF
-    Q_3OxldQym_QqFvXO8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudefvdegucetufdoteggodetrf
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1741519946; x=1741606346; bh=Cp91pbB5DN2RZua8Qzi2EZ3MeEoU2r2L7P3
+	lFPNnfBY=; b=u9EwQZBU2ecARqRlwjNuXFotaZQIfFKVF7Eve4ypZ9BjdIUJaqA
+	a90V7dnjKUAStnU3atPwt1EvftBMCJqYpHufat0JVN/bZZ0ZwgKCL2MYq+Z+FSXf
+	cfa8bIgtc6KooCCoW30Rt8BrPmuAiN5vM/Lmk//qW7cEjcCKqb+4cqR67EDbn6s8
+	v8dug2SMkcimAmg7Fl9qVkNtBQbjZnl3zgFmNWyyzrB2cWKxcBlOx9FrV8jI/kvh
+	caxMTxA3Xf4XG6tRXJRVVr1nPorjW1DNedzyp88+ySdqtCd+IoXydxG1t+4/A9qT
+	yDh7KpPCxy8XZJi92JWXHFwFgonMHcffoAA==
+X-ME-Sender: <xms:SXzNZ25iLS_exPE_cN1I1JaG2f1JDlX9osjrHo3wonjzmRjksf32kQ>
+    <xme:SXzNZ_7YH0baFb4_jYaWuseCv0oQ1vvaTcnZ7kVRxKpTmQJSsWpIcTJ6579IXp27T
+    FGxL6yyXwOrVDNkZWg>
+X-ME-Received: <xmr:SXzNZ1fwC76ILiwN1yjLQJDR50RsJ-GhwvrWZZPfVK1wq_lMa_T2iYpJ47cFPJvPHK7hAoSV8UHIfYWXlm_md4frNjs28M7RplHrxpQDozOE7BiQNwmKAEWguVJMscw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudeifeegucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvth
-    gvrhdruggvvheqnecuggftrfgrthhtvghrnhepueettdelieeugfejvdfgjeevffdtkeel
-    ieeggfffhfehheekteelhefgteegtddvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrgh
-    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgv
-    nhesshhvvghnphgvthgvrhdruggvvhdpnhgspghrtghpthhtohepuddupdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopehjohhroheskegshihtvghsrdhorhhgpdhrtghpthht
-    oheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthhtohepfhhnkhhlrd
-    hkvghrnhgvlhesghhmrghilhdrtghomhdprhgtphhtthhopehjsehjrghnnhgruhdrnhgv
-    thdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhr
-    tghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhope
-    hiohhmmhhusehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrrhgtrghn
-    sehmrghrtggrnhdrshht
-X-ME-Proxy: <xmx:6RPMZ_c_5gmt1HFlshi0xWf9s2bh3HDRNENfG9l9jj5bZYh6rJ46kQ>
-    <xmx:6RPMZ1KSGIOo2_lpOS4FDWX0eoKJHLOy1mR6QSO00BPjzTWBlra-7Q>
-    <xmx:6RPMZ0K9xyDF6pFF2XHGO3psVn4SI4dXT2KT3C7UXEAqIvCyPF8U4g>
-    <xmx:6RPMZ2x9057KKDUqC78QsVxDJA-UQcq4_qeyBEgdgUEd3Ki102EoYQ>
-    <xmx:6hPMZxAkgPTxMSm3WFjAdmZdQYMZ4EnQjFSGZ7PO4cb6ZMV0S0tepZD4>
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvf
+    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcurfgvthgvrhcuoehs
+    vhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvghrnhepjeelveffvd
+    efgeeuteefueetgeeghfelveevheeugefftdelleeuudefvefhieelnecuffhomhgrihhn
+    pehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdgu
+    vghvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
+    hsohgtsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprghsrghhiheslhhi
+    shhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnh
+    gvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhig
+    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:SnzNZzLrGuwSnzZhhua0RIYir2QSycKhL4Nr0VfLVJi0kRiRSciAmQ>
+    <xmx:SnzNZ6LUICEe7rI2mDX8zXiVGzm3kOFOU2awiOoGMZQgYT7OZvScHA>
+    <xmx:SnzNZ0yxQpzmG6s-jypPAZftYb7FnRZjZRVgwKMfQCQV705_fjcRmg>
+    <xmx:SnzNZ-JWXUCxzguKEGVoLSGTM7WlBUrGX1zMSR2-SAWCV5b6VnwCqQ>
+    <xmx:SnzNZ_EfmoYfk3PkPkvj65VP3uGWSz83iIRnyv4w5J502ZWNWMMF9BG4>
 Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 83546BA006F; Sat,  8 Mar 2025 04:54:49 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 9 Mar 2025 07:32:24 -0400 (EDT)
+From: Sven Peter <sven@svenpeter.dev>
+To: soc@lists.linux.dev
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Third and final batch of Apple SoC DT updates for v6.15
+Date: Sun,  9 Mar 2025 12:32:12 +0100
+Message-Id: <20250309113212.48137-1-sven@svenpeter.dev>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 08 Mar 2025 10:54:26 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
- "Janne Grunau" <j@jannau.net>, "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Joerg Roedel" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>,
- "Robin Murphy" <robin.murphy@arm.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Hector Martin" <marcan@marcan.st>
-Message-Id: <baaf111d-78ff-445a-bad0-277895b34144@app.fastmail.com>
-In-Reply-To: <20250307-isp-dart-v3-0-684fe4489591@gmail.com>
-References: <20250307-isp-dart-v3-0-684fe4489591@gmail.com>
-Subject: Re: [PATCH v3 0/2] iommu: apple-dart: Support the ISP DART
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 Hi,
 
-
-On Fri, Mar 7, 2025, at 21:07, Sasha Finkelstein via B4 Relay wrote:
-> The ISP block has 3 linked DARTs with mismatched bypass support.
-> This series adds support for this setup.
->
-> (The ISP driver itself is sent as a separate series
-> https://lore.kernel.org/asahi/20250219-isp-v1-0-6d3e89b67c31@gmail.com/T/ )
->
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
-
-For the entire series:
-
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
+This is our final pull request for Apple SoC device tree updates for v6.15
+based on the previous one [1].
+Drivers for the M1/M2 touchbar screen and pre-M1 (iPhone, etc.) backlight
+have been merged since then and this batch includes the required device tree
+nodes. Both drivers and these commits have been part of -next for at least a
+few days. The corresponding drivers are scheduled to be included in the 6.15
+merge window as well.
 
 
-Thanks,
+
+Best,
 
 Sven
+
+
+[1] https://lore.kernel.org/soc/20250302115808.59172-1-sven@svenpeter.dev/
+
+The following changes since commit 44db68dee1f77260d7037319e911e9883a6ffe0e:
+
+  arm64: dts: apple: Add touchbar digitizer nodes (2025-02-26 15:33:46 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/AsahiLinux/linux.git tags/asahi-soc-dt-6.15-v3
+
+for you to fetch changes up to e1bc21d8f8fde47173073a2d6233f5faa4864cfc:
+
+  arm64: dts: apple: t8015: Add backlight nodes (2025-03-06 20:54:28 +0100)
+
+----------------------------------------------------------------
+Apple SoC DT updates for 6.15, final batch:
+
+- Added touchbar screen nodes for M1/M2 platforms
+- Added backlight nodes for iPhone, iPad and iPod touch
+
+----------------------------------------------------------------
+Nick Chan (5):
+      arm64: dts: apple: s5l8960x: Add backlight nodes
+      arm64: dts: apple: t7000: Add backlight nodes
+      arm64: dts: apple: s800-0-3: Add backlight nodes
+      arm64: dts: apple: t8010: Add backlight nodes
+      arm64: dts: apple: t8015: Add backlight nodes
+
+Sasha Finkelstein (1):
+      arm64: dts: apple: Add touchbar screen nodes
+
+ arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi     |  4 ++
+ arch/arm64/boot/dts/apple/s5l8960x.dtsi        |  7 +++
+ arch/arm64/boot/dts/apple/s800-0-3-common.dtsi |  4 ++
+ arch/arm64/boot/dts/apple/s800-0-3.dtsi        |  7 +++
+ arch/arm64/boot/dts/apple/t7000-handheld.dtsi  |  4 ++
+ arch/arm64/boot/dts/apple/t7000.dtsi           |  7 +++
+ arch/arm64/boot/dts/apple/t8010-common.dtsi    |  4 ++
+ arch/arm64/boot/dts/apple/t8010.dtsi           |  7 +++
+ arch/arm64/boot/dts/apple/t8015-8.dtsi         |  4 ++
+ arch/arm64/boot/dts/apple/t8015.dtsi           |  7 +++
+ arch/arm64/boot/dts/apple/t8103-j293.dts       | 31 +++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi           | 61 ++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112-j493.dts       | 31 +++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi           | 61 ++++++++++++++++++++++++++
+ 14 files changed, 239 insertions(+)
