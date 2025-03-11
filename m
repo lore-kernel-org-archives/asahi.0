@@ -1,91 +1,92 @@
 Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3E41487E9
-	for <asahi@lists.linux.dev>; Tue, 11 Mar 2025 13:49:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2A52AF06
+	for <asahi@lists.linux.dev>; Tue, 11 Mar 2025 13:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741700970; cv=none; b=NvDTkmDRF1nfAv3yuxsj5f5rukpCb5wFtr1NOWRSOORVIEFKDVgVHM+1e/irWsJt+OVpbF22hAXLb087TlQwkAZk6PCIFPrIBZOeQHN8edIzC6kqSXVC2lUxr2k9Ph3n2dPRIEZZMnsa39mQkZSgXdvNLTVmkf/gHc+olUP295c=
+	t=1741701031; cv=none; b=Mg++xqYOGj7xH7uY3cOg2UIh3Ph/6gNkryN3XrplgEEBsdwtGKL0OFRngnBRWF10XINSJa3XG0PF/qE6sMhkPqsary//3cIP+SKwOmSjGKTMigM4MuKPb7AOtkZsrEA6bnzvyz68GvV+dV7DHR+EXo+Y7Vy7agUqdWXHsgc8qwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741700970; c=relaxed/simple;
-	bh=szBVGBATHmAoxSvkaJnA2k09xrdAhYDfUBkWPhXAyTk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RV6SH1GmwNytRhYspzVQIcxc8CQlmmJZqICoxNos5Y6imNa/liY1BKf5tw5vhckPmg4WF2zLPBw2H31FZyr7KlrFFo4qxa328ctm8+ynwYf2ymce0lnXgfZMHfPoRqirDPJOD0v26J4rWZQ4M1aYF2Mtg/3bJdV7Sr23QA4hI9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=lIlgsK+R; arc=none smtp.client-ip=209.85.166.172
+	s=arc-20240116; t=1741701031; c=relaxed/simple;
+	bh=TF1EGeovnW6B5Fki5wnGhvAhhpu8DdqNVf1ne8WgrYk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nEpgEb3LuQJRs0CViTvrH2oFjFaOb7GgUd6+NMKv1v2NSMuhNbIlkqoYYHjfo04r4xHX3nawa1Ae/UQSItoyqonhYabTUUQ+uTS2A/BAKjV9N5JF3z3AVhXx/xBCMFdMcrFvMF8SPDjKwFKuMsROxNJCOGMCIv1vltS32r8VNTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=ZiKy4TVY; arc=none smtp.client-ip=209.85.166.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="lIlgsK+R"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3cfc79a8a95so14486815ab.2
-        for <asahi@lists.linux.dev>; Tue, 11 Mar 2025 06:49:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="ZiKy4TVY"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3d439f01698so17679035ab.1
+        for <asahi@lists.linux.dev>; Tue, 11 Mar 2025 06:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1741700967; x=1742305767; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=15FhpTy16DxiOxuCUjxYZ7HE8WR5eqNgpOkZavgiv/I=;
-        b=lIlgsK+RwbXxeWdHXTEzf9PiPHb78GcjaXUQgc9+ghXO5WxUAZIO+FlzZZLzYdea4r
-         FrCGHtl3u2O/HSEBb7gObXAhk4NuVUDTkUxMqBPDFBmQXm9KqBXjgCku8R3WamxXlwaC
-         6cn2ggPpJ+0iUPBpGR0V/eixa2tn7s5erMW9T6/WtHtFadmd+ZpO0bDblcie1Q0NM+wO
-         bQ1hyuRkmiRNTpejQ49qCX1PlVS7rjP4OB4dBG1yNSFr/191FotO2GVUJPFrn3NqGmH3
-         eljFqzyAWAnL+LnrdI5P0MbIfbOq3f3ImzgFViZAV2LLeSnDqW9zrfCY4WvKovhsxbxR
-         OWfw==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1741701029; x=1742305829; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YsrXv0bf4SwYPCzHdWKazz89+OtA3vJ8ZRt7BAG3VbU=;
+        b=ZiKy4TVYCid7OykmEdRgECzpXebTLyRWyUfx5JFabrfxfpYcoEwvoPyCIhHtamwhyY
+         zxMo+rTviGp6InCdhsIpOyNlKue59NMHXPffwo67A1lS2VlABlr6qluuSB1MTcPXRmQg
+         +vbmnh5sJxeWEvMjCzFwr/Jy96VuTzMQhIROFa7GatsB3GKMAMimvkvI0exuAucs3dgT
+         AGWMT3BuceI5vVfMrNxSnWhThz1ETbVeWxNh9+brXy/ASQQxhPBRx4YrirKFeTTMNDy+
+         dLXTFfgu1uX4iuBQ1oHI0ISBvwAvMJt8kr5EE1eZe68sngOtWqA4wc8IIQqoWsFH6AAy
+         TK3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741700967; x=1742305767;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=15FhpTy16DxiOxuCUjxYZ7HE8WR5eqNgpOkZavgiv/I=;
-        b=LPiOqLSd0UB5CYNYkQQ7lsZIOE8uq+PMWEF2K0/NUBbJUJt/tHvV9iDQVByip1z1vb
-         Y61JCBf2KWEINEV7VqaxDFvV2ce30N8HmkjPEHQrKw1kzmt/Pr7h3Rvkk553990Zad77
-         zWpucVyZFkyzurYfp+RDFkUXZ20dMjfsxruYUPDABUfOHqpx80ae630ZF/dQrrYeuZdy
-         SNNDu5gwuJpgUAxZqU94KIzTHCmy7l3Skehtzb/yfoCgKDJuXV39c/CrhrQr+YlMBrm/
-         ElXRi9+g3jkKh4UoHf+JqnVayXvRanFkQKoRDsbRuHo/C8JjiHLtc4nDrBkfUtoE22Oa
-         F31g==
-X-Forwarded-Encrypted: i=1; AJvYcCXBy3qGN1LwmysdncPwz/a9pVdLozsw/oChHIisSBVuu7FQFnVuWlvwzA4JRJhNSUunPOlvVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKHHcd+zH2oJVuJfsNgQckVQWVF/3W1RA3AkqdCvgfIGRiJz6l
-	cpacgpuiie5PUM7VFz5k71N5LjwSi8IloYv35vO7yGfHPC8hBJqONdylRa7StIk=
-X-Gm-Gg: ASbGncsIXegjpqnLEPLqf7ScxQC5Prt/hPFFLc/GKTFMvxzX/KcmGBs0MW764xFbhlT
-	WbYnBtZWDRMdNNFM7EKTySZ+gt9mm7Od/L6CwJIS2vNYf677EQkT9spdj9QWZMS4wiFMcNolSGx
-	67uG7MbDISv2uM6lxd6SiZ7Lbsq9CuA1im9koL/Yr3flF9X36iwa4QIuqGHU87d4Ry1b9wEjmnQ
-	AYUrhCdiNfDLR+YY9R7bm3eM5sVxlWlgvEOQntJ+/YOVd2ApDSPYrQlEkdmkm7xKcRKS+Zp+VDw
-	afKuW9r0s1s1H5aTdG+QGZqrZNhINwxhm/Hn4Ezh
-X-Google-Smtp-Source: AGHT+IF9VOkMgxNVu1F60lVcFqCfcpKy9OE2LoUEIM37eUdSf+tjRuA17mWqs6+fEo7uJIQmp36ZSA==
-X-Received: by 2002:a05:6e02:174b:b0:3d4:2a4e:1272 with SMTP id e9e14a558f8ab-3d441a46c62mr203305475ab.19.1741700967289;
-        Tue, 11 Mar 2025 06:49:27 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f2221c1d6dsm1925186173.95.2025.03.11.06.49.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Mar 2025 06:49:26 -0700 (PDT)
-Message-ID: <3369329c-13ac-4b18-9923-1a24e1243035@kernel.dk>
-Date: Tue, 11 Mar 2025 07:49:25 -0600
+        d=1e100.net; s=20230601; t=1741701029; x=1742305829;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YsrXv0bf4SwYPCzHdWKazz89+OtA3vJ8ZRt7BAG3VbU=;
+        b=A7l9p+FPpsIf2Id6Fasr2aHG2rFS0Vd3e8P2gdoSQhyT+GF3sH6cg8/6c3alBMPp7Z
+         xnSsQdRSvdUYXtJnDlO7V5jpb/jNtoUSDcTHslicKMXvmxPOSWx3hgul8pyNuTMjsNmo
+         LSsaquW/WCPTJ7PiFganPqZkxqqp+mQawlPjVeJ0tJx4KJ5R3JNPWeDIXdXIGTtb+m0c
+         fu4Gu/+bHj5LcSy8fGGoKwexKQHvW9X4uykJKJDoiHvORAMxBl95LIVGU3HQQwqhju3J
+         oIeE3EFyAwHVa9Llki8i1lfq27g5CSwsH0ONWRq3GvGoc+EbT+TrLWgLL2sYwVczCDaR
+         6+YQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ6EERT+vTvcMh2ot1vreFUIudJyUUG7qfjM1H3kGQWSe3iES5CxaDKcC/8adlESLKyFuUeA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVuXLjw/4/jiP4s6tUiYqnmbMm3JjpuD9VfWFB9s9DtPtNmtvp
+	AVp46By/St3UrLtG38I3F1oUtk1utjZmzqcAOeJSdBE3zkt3H/JzcRFxp18nXvg=
+X-Gm-Gg: ASbGnctqJA0h3fbE6MGgnQWHJMiR2cyEOF1+GplQxQ2aMHRfhnBXApTclhskSXqMqhx
+	1BTZXOIKZZPehoP93xi794rQHa9VS4FeCXgPSXD91Zot8t7TwjvRW8GiUXIqdSCLSn0zd7LLDo7
+	aLTwvh98qSWjCJ4tMZimkQXi3cC3ozAwqxjThg62A+q5I+em1qAbQZP3+B8qcHFCPc/een14v4m
+	ZlXW6OKDiqD661+jAGD5epkvd+rIdhcYIMyYVpg71SuufBuRDkR2x9wBwRD94gak/JIFVLBYXtb
+	g5SJXKkzK8JgO1NEAJ0T/IgCqehbL5XKzfkM8TNB2YELmQ==
+X-Google-Smtp-Source: AGHT+IEJpumqHggfcCQNZSUxuoyo1e+nAm1OVkr94r5e5qCv6EQWmunFqyrvyE3JGQqty289x1CA7g==
+X-Received: by 2002:a05:6e02:3389:b0:3d4:346e:8d49 with SMTP id e9e14a558f8ab-3d4692159fbmr36048055ab.9.1741701028951;
+        Tue, 11 Mar 2025 06:50:28 -0700 (PDT)
+Received: from [127.0.0.1] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f24ca8602bsm275068173.145.2025.03.11.06.50.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Mar 2025 06:50:28 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@infradead.org>, 
+ Sagi Grimberg <sagi@grimberg.me>, Alan Adamson <alan.adamson@oracle.com>, 
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: virtualization@lists.linux.dev, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, Hannes Reinecke <hare@suse.de>, 
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+In-Reply-To: <20250311104359.1767728-1-shinichiro.kawasaki@wdc.com>
+References: <20250311104359.1767728-1-shinichiro.kawasaki@wdc.com>
+Subject: Re: [PATCH v2 0/2] block: nvme: fix blktests nvme/039 failure
+Message-Id: <174170102773.320314.5830688529132236537.b4-ty@kernel.dk>
+Date: Tue, 11 Mar 2025 07:50:27 -0600
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] block: nvme: fix blktests nvme/039 failure
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@infradead.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alan Adamson <alan.adamson@oracle.com>
-Cc: virtualization@lists.linux.dev, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Sven Peter <sven@svenpeter.dev>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-References: <20250311104359.1767728-1-shinichiro.kawasaki@wdc.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20250311104359.1767728-1-shinichiro.kawasaki@wdc.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3-dev-7b9b9
 
-On 3/11/25 4:43 AM, Shin'ichiro Kawasaki wrote:
+
+On Tue, 11 Mar 2025 19:43:57 +0900, Shin'ichiro Kawasaki wrote:
 > Commit 1f47ed294a2b ("block: cleanup and fix batch completion adding
 > conditions") in the kernel tag v6.14-rc3 triggered blktests nvme/039
 > failure [1].
@@ -95,13 +96,18 @@ On 3/11/25 4:43 AM, Shin'ichiro Kawasaki wrote:
 > requests, and the second half checks for passthrough requests. The
 > commit made both halves fail.
 > 
-> This series addresses the test case failure. The first patch covers the
-> passthrough requests, and the second patch covers the non-passthrough
-> requests.
+> [...]
 
-Looks good to me, and better than the quick fix-up for the problem.
-Thanks for taking the time to do it right!
+Applied, thanks!
 
+[1/2] nvme: move error logging from nvme_end_req() to __nvme_end_req()
+      commit: e5c2bcc0cd47321d78bb4e865d7857304139f95d
+[2/2] block: change blk_mq_add_to_batch() third argument type to bool
+      commit: f00baf2eac785bba837e5ed79d489f16520e7a6d
+
+Best regards,
 -- 
 Jens Axboe
+
+
 
