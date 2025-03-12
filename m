@@ -1,113 +1,81 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2A52AF06
-	for <asahi@lists.linux.dev>; Tue, 11 Mar 2025 13:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB741E1C09;
+	Wed, 12 Mar 2025 05:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741701031; cv=none; b=Mg++xqYOGj7xH7uY3cOg2UIh3Ph/6gNkryN3XrplgEEBsdwtGKL0OFRngnBRWF10XINSJa3XG0PF/qE6sMhkPqsary//3cIP+SKwOmSjGKTMigM4MuKPb7AOtkZsrEA6bnzvyz68GvV+dV7DHR+EXo+Y7Vy7agUqdWXHsgc8qwE=
+	t=1741759201; cv=none; b=pu2MiYpvlxGERQgoDSh8kZeKe4g7C4nwUIMJcNVpMJDRlP4AVpsaL7Q5bKNeTBBfH2xzSIAloEiYfOySO545KDuDtKOfJ97odN7JdAwDJ1zrr97eLTZsv1MOtxKFpCwAjn7OHqgS+kTrCFkN19n++FRpv6goA83UN4S2HKHBKGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741701031; c=relaxed/simple;
-	bh=TF1EGeovnW6B5Fki5wnGhvAhhpu8DdqNVf1ne8WgrYk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nEpgEb3LuQJRs0CViTvrH2oFjFaOb7GgUd6+NMKv1v2NSMuhNbIlkqoYYHjfo04r4xHX3nawa1Ae/UQSItoyqonhYabTUUQ+uTS2A/BAKjV9N5JF3z3AVhXx/xBCMFdMcrFvMF8SPDjKwFKuMsROxNJCOGMCIv1vltS32r8VNTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=ZiKy4TVY; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1741759201; c=relaxed/simple;
+	bh=w2bWWcvUWJL51NtS1GMZcwVGuTpZ9zHBGMLxwaUwCZc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KJ8ij6fUWcspCqGd/pRl+yF9Uf39IJFeeXFRWTcUWe0KyLK8ttOQbvFRxcZgtT68F+nDksWtCYZZe6VosZ0VKYQVzfaTNLOPV/psFL8Ur++Jz+WYHT9/yUNZOIrHgs71Ib7H9rT0QUtyaquY7hhRR8lrJ1EsLZelH2dQdEo0KMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=U/1nE9hn; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="ZiKy4TVY"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3d439f01698so17679035ab.1
-        for <asahi@lists.linux.dev>; Tue, 11 Mar 2025 06:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1741701029; x=1742305829; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YsrXv0bf4SwYPCzHdWKazz89+OtA3vJ8ZRt7BAG3VbU=;
-        b=ZiKy4TVYCid7OykmEdRgECzpXebTLyRWyUfx5JFabrfxfpYcoEwvoPyCIhHtamwhyY
-         zxMo+rTviGp6InCdhsIpOyNlKue59NMHXPffwo67A1lS2VlABlr6qluuSB1MTcPXRmQg
-         +vbmnh5sJxeWEvMjCzFwr/Jy96VuTzMQhIROFa7GatsB3GKMAMimvkvI0exuAucs3dgT
-         AGWMT3BuceI5vVfMrNxSnWhThz1ETbVeWxNh9+brXy/ASQQxhPBRx4YrirKFeTTMNDy+
-         dLXTFfgu1uX4iuBQ1oHI0ISBvwAvMJt8kr5EE1eZe68sngOtWqA4wc8IIQqoWsFH6AAy
-         TK3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741701029; x=1742305829;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YsrXv0bf4SwYPCzHdWKazz89+OtA3vJ8ZRt7BAG3VbU=;
-        b=A7l9p+FPpsIf2Id6Fasr2aHG2rFS0Vd3e8P2gdoSQhyT+GF3sH6cg8/6c3alBMPp7Z
-         xnSsQdRSvdUYXtJnDlO7V5jpb/jNtoUSDcTHslicKMXvmxPOSWx3hgul8pyNuTMjsNmo
-         LSsaquW/WCPTJ7PiFganPqZkxqqp+mQawlPjVeJ0tJx4KJ5R3JNPWeDIXdXIGTtb+m0c
-         fu4Gu/+bHj5LcSy8fGGoKwexKQHvW9X4uykJKJDoiHvORAMxBl95LIVGU3HQQwqhju3J
-         oIeE3EFyAwHVa9Llki8i1lfq27g5CSwsH0ONWRq3GvGoc+EbT+TrLWgLL2sYwVczCDaR
-         6+YQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ6EERT+vTvcMh2ot1vreFUIudJyUUG7qfjM1H3kGQWSe3iES5CxaDKcC/8adlESLKyFuUeA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVuXLjw/4/jiP4s6tUiYqnmbMm3JjpuD9VfWFB9s9DtPtNmtvp
-	AVp46By/St3UrLtG38I3F1oUtk1utjZmzqcAOeJSdBE3zkt3H/JzcRFxp18nXvg=
-X-Gm-Gg: ASbGnctqJA0h3fbE6MGgnQWHJMiR2cyEOF1+GplQxQ2aMHRfhnBXApTclhskSXqMqhx
-	1BTZXOIKZZPehoP93xi794rQHa9VS4FeCXgPSXD91Zot8t7TwjvRW8GiUXIqdSCLSn0zd7LLDo7
-	aLTwvh98qSWjCJ4tMZimkQXi3cC3ozAwqxjThg62A+q5I+em1qAbQZP3+B8qcHFCPc/een14v4m
-	ZlXW6OKDiqD661+jAGD5epkvd+rIdhcYIMyYVpg71SuufBuRDkR2x9wBwRD94gak/JIFVLBYXtb
-	g5SJXKkzK8JgO1NEAJ0T/IgCqehbL5XKzfkM8TNB2YELmQ==
-X-Google-Smtp-Source: AGHT+IEJpumqHggfcCQNZSUxuoyo1e+nAm1OVkr94r5e5qCv6EQWmunFqyrvyE3JGQqty289x1CA7g==
-X-Received: by 2002:a05:6e02:3389:b0:3d4:346e:8d49 with SMTP id e9e14a558f8ab-3d4692159fbmr36048055ab.9.1741701028951;
-        Tue, 11 Mar 2025 06:50:28 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f24ca8602bsm275068173.145.2025.03.11.06.50.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 06:50:28 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@infradead.org>, 
- Sagi Grimberg <sagi@grimberg.me>, Alan Adamson <alan.adamson@oracle.com>, 
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: virtualization@lists.linux.dev, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, Hannes Reinecke <hare@suse.de>, 
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-In-Reply-To: <20250311104359.1767728-1-shinichiro.kawasaki@wdc.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U/1nE9hn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=QcXOYRCH0+rzrtF5eKJ9mNGNA8kBZEbH+ucO4R4KXyE=; b=U/1nE9hnYPBulm4i10QfSh0WL+
+	Q33SCEtiLE/AuUap1bJrCFr9azMjGbdVTgK2EsHSQnnwVD+CqINw3ncjoIP7TMbi7Eg28PbxgSNzj
+	8S5tvAVeCLPbgLe2yQhJK7mXRNejQmHhrftJd7g83LQpbRYva2KoOu/CwnZEv63K1rAqWkiitg0oh
+	dAWhSuDF+Zt0rop+r9wOOc3Qjb6ewyeg9CSH4073KS9jXBLOFxkX4iAXSR7coZuI4k9nODUEOffc8
+	nRttjjhWwc80c/H73E5lTpcwG4V8/4DT1NnoS2QOj6iVy/xwWza/AUSip+ujFCjN7goF26oTYJPTN
+	Umc6FxOQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tsF8E-00000007YHO-3CIm;
+	Wed, 12 Mar 2025 05:59:54 +0000
+Date: Tue, 11 Mar 2025 22:59:54 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alan Adamson <alan.adamson@oracle.com>,
+	virtualization@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Hannes Reinecke <hare@suse.de>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Subject: Re: [PATCH v2 2/2] block: change blk_mq_add_to_batch() third
+ argument type to bool
+Message-ID: <Z9Ei2t7z_7QbEWXW@infradead.org>
 References: <20250311104359.1767728-1-shinichiro.kawasaki@wdc.com>
-Subject: Re: [PATCH v2 0/2] block: nvme: fix blktests nvme/039 failure
-Message-Id: <174170102773.320314.5830688529132236537.b4-ty@kernel.dk>
-Date: Tue, 11 Mar 2025 07:50:27 -0600
+ <20250311104359.1767728-3-shinichiro.kawasaki@wdc.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-7b9b9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250311104359.1767728-3-shinichiro.kawasaki@wdc.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Tue, Mar 11, 2025 at 07:43:59PM +0900, Shin'ichiro Kawasaki wrote:
+>  /*
+>   * Batched completions only work when there is no I/O error and no special
+>   * ->end_io handler.
+> + *
+> + * @req: The request to add to batch
+> + * @iob: The batch to add the request
+> + * @is_error: Specify true if the request failed with an error
+> + * @io_comp_batch: The completaion handler for the request
+>   */
 
-On Tue, 11 Mar 2025 19:43:57 +0900, Shin'ichiro Kawasaki wrote:
-> Commit 1f47ed294a2b ("block: cleanup and fix batch completion adding
-> conditions") in the kernel tag v6.14-rc3 triggered blktests nvme/039
-> failure [1].
-> 
-> The test case injects errors to the NVMe driver and confirms the errors
-> are logged. The first half of the test checks it for non-passthrough
-> requests, and the second half checks for passthrough requests. The
-> commit made both halves fail.
-> 
-> [...]
+This needs more work to be a proper kerneldoc comment, i.e. start with
+"/*8", mention the function name, etc.
 
-Applied, thanks!
-
-[1/2] nvme: move error logging from nvme_end_req() to __nvme_end_req()
-      commit: e5c2bcc0cd47321d78bb4e865d7857304139f95d
-[2/2] block: change blk_mq_add_to_batch() third argument type to bool
-      commit: f00baf2eac785bba837e5ed79d489f16520e7a6d
-
-Best regards,
--- 
-Jens Axboe
-
-
-
+The logic changes themselves look good.
