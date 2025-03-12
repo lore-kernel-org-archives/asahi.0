@@ -1,164 +1,105 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5D4245002
-	for <asahi@lists.linux.dev>; Wed, 12 Mar 2025 12:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F5324292B;
+	Wed, 12 Mar 2025 12:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741783549; cv=none; b=m2ImurQi2stICfzYG1wmKPrlxqf/ra2dv46V0t+qgrPteEWjHC3tsnmU+P3XXBJAxIde/V2BuvDKkLLRuVeVdzImiAssfvh/cXqOn3wYiFhScV7uESvrDwFhKxZR39rszzSpJ85WzGc6Csxjj8b/sW+aLeHGUzYmup8af8u1d8I=
+	t=1741784314; cv=none; b=YsW58+OJghSDkBUWE/s9zmvIfADfSkvTRbK5wknCSCrAiTHbKzfkJesh86WHkB5Ii6D/T0W4pAg+TDW4TvvM0ZxkX/UL5mU0JGY1kE6sk0dyUKRR77QH+PfUHjfvmSjVerSHd7/bs2QDKtWr/6EfbXYTx5038YAv8WHEGTHH9EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741783549; c=relaxed/simple;
-	bh=w7qxWcK6Y+lr9flaT5izlqxkohZLAMbvmvIVsbTBCwo=;
+	s=arc-20240116; t=1741784314; c=relaxed/simple;
+	bh=wKnXEfj46C5JCUUeX24Q1CC3iBZKwBrzqxVRa0EWDNA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovsHC2MnKci86rqyD2HgFqPVCsyzqbCMiRp/pIrCSRIYci458U5DwrrM2ENxX9fimdVVAOwym+vPbYkothzWa47wedPONvJCbSsiwuziCr5Vq7A0QYnnYP940Ry4ZuvVvButxpPvC7TBPww11cfjhgvGV8byHcsdfqszkEppCwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sQ0KLx9a; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=noyRqW1Fpe43VOQUFVz2AkoiiUPDDYSMa7cmyl12ou/AgIxfW+DOTtyFmHOdV4ka8f/f7SQhGJUV+tnBIwOmzuX45hk/oiyw0by9Nsy3/F8d1HkQ8l166UaNrbl+v4XO5erh9PTjmRFsoMYFW0Tv+/4olWuVtbfqrgUJ93C4Yxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iUFClxaC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sQ0KLx9a"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cf3192d8bso42615e9.1
-        for <asahi@lists.linux.dev>; Wed, 12 Mar 2025 05:45:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741783545; x=1742388345; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O7nXrf8enrrb8z3uABVuZMTlrSLNofRDk6iKufuqXac=;
-        b=sQ0KLx9axjSqYZ21A7AsgAa2NRLb5oRlWbylx4wUq+RYI9jE4anYSuxuc1BAQmWdT5
-         glGBtD78kJHgEEJUUIHAxZr7EOFQ6GZr1dpz1fjyI+LdeiSWtgMJa1iPJ664tkiBxaJW
-         G5pmdzW2/WpV+Y2fNXM3jZJAD4Q7Dp8jChwlIRc2VF0sbayTObo8Pzx/OfYY+Cx7ZNRC
-         7iVwVHB3cwT7rd4wPnfJgqEBw1rIY32xuF7New1n/3FzlsONW6LLam2QG0YA651gS5MP
-         8Rpo9UgNkERh1uqRXb8myY/ZvOrCvCGEvOvkGOtORB+nBSwUxJEFouqZ60LRCNwrJFgu
-         6qtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741783545; x=1742388345;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O7nXrf8enrrb8z3uABVuZMTlrSLNofRDk6iKufuqXac=;
-        b=XauWJs3R0yfrkp3qugXKm5dNUuURve1d8s+frHufdkzb2Q8lmNGAdL7vWQJOWwelRz
-         ykFK2AS7hd3n8kHAgm7lgBNiVlLB7G8V1NlmgYPHLPeyae8V2uT1BiIOGI17Jf5F3ab7
-         KdtoqrcVit6YU1OJuy2+pYFxILEx9/XV8gJEEJDh5ZCFgGMQWNbvfu9dq+hLXxQdStq2
-         +TYv6P+/R6N8AE9TD4s1VS1iMbZzHjLgtbxE7k9qFaohMJ3gQ+lQQ+9dRkzSGkGCRHtq
-         lMcmXkp1Q3kdYVp1EaeUOK/ld9cGp7uA1qczu02jtK1E+T3KuxURUETzmEUnQ8CrZdpP
-         dirg==
-X-Forwarded-Encrypted: i=1; AJvYcCUoJpkCsQQCgSnPJJijiV1Dz/1+u+xydp6PpUkWmKUcPbclCI2dlZHkWFCgNRsmXq8EjqzUiw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyPJxYS3CmR+nSu1JH7r8moblFJEtdS170iErlMzERhmhsMSRa
-	1fnQBPKDKA5i+4Z6JBgEq15svXSPWuwYUk83GimdzaC8Og+EtTF20dWDdlvWJA==
-X-Gm-Gg: ASbGncsMcL6yd6nk7QvH7oFg9HjvEjQWHdf/4I9IRa50VfnTjwwKmqmTihbU+4K77S9
-	8AUsFJeMGCaf3ZS0lNvalHcKHfIxw6Ywhs+1Llg/njL73ZZoZvqwvcemP1Xoo1nPGs8G7M1ZrcV
-	xmssCTD5g9A1uljsaRuUtKyHBebIXcgkbudwAFUW6MdL6ux4c7scCsMklT0P8zHytdp/o6EIE8o
-	fYBSBj3udsf8RnKuPtlIQDD+MtJ0vsWDovuZAUGVKuRsHowPm43LRSZ8OpVJNvTp3baKkPhNtn4
-	a9LjdYdSgynjg6Q9P26SoCYjs9picrxDFfxomq9bdwCO2TK1w6OPh78DCGmWfiVtJdpGdZDwazQ
-	ilU2lD6PSgxz3+x0=
-X-Google-Smtp-Source: AGHT+IGl6ij5XGs/qN6P6iUkVVrm0h4AAzKswiqP0QsBVlB9onr8dRHcRoIgJqJfm8N1ML/DsO9qAQ==
-X-Received: by 2002:a05:600c:5801:b0:43b:bfe9:8b43 with SMTP id 5b1f17b1804b1-43d09ea3748mr1245205e9.4.1741783544916;
-        Wed, 12 Mar 2025 05:45:44 -0700 (PDT)
-Received: from google.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a8c5d0fsm20697625e9.32.2025.03.12.05.45.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 05:45:44 -0700 (PDT)
-Date: Wed, 12 Mar 2025 12:45:39 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iUFClxaC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F1F1C4CEE3;
+	Wed, 12 Mar 2025 12:58:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741784313;
+	bh=wKnXEfj46C5JCUUeX24Q1CC3iBZKwBrzqxVRa0EWDNA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iUFClxaC9gCg4LEeM1MRRO6F5PHlrsBIZOoWiN5hbwK6rKr1wKPB9KcKai2iqWdQ5
+	 /WXW/ZGPO64SVFiZwg6NUQBJoVVUyHMBArTXQOORlLOuRhTLuWQfXdCLBsLlvSdZx7
+	 kFADtJkPStuW0RCdP8ENLg0xkQUzUV1Qs35XhX+SL2EtfDhZZoZMnXIjPKWyQNFjst
+	 jB5UFrSwfZwjHo6jXW31QBBc7IbbsFnfdlCrma9mfADz3HPqxcomlO9keYgYl5o5Oi
+	 8ZvcdhC+5GOrXMPIFHIWDNgsQLb/JM/1Jrz2IdVgHK+9aQXfkYmKV3F1feviJmuEfT
+	 kgwB4lSt4rENw==
+Date: Wed, 12 Mar 2025 07:58:32 -0500
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shi Fu <shifu0704@thundersoft.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Hector Martin <marcan@marcan.st>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	Joerg Roedel <jroedel@suse.de>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	David Rientjes <rientjes@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v3 15/23] iommu/pages: Move the __GFP_HIGHMEM checks into
- the common code
-Message-ID: <Z9GB8_j_8a4xCTsT@google.com>
-References: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
- <15-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
+ pulldown and zero-fill
+Message-ID: <20250312125832.GA359842-robh@kernel.org>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
+ <20250307205156.GA583954-robh@kernel.org>
+ <5996925.DvuYhMxLoT@setsuna>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <15-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5996925.DvuYhMxLoT@setsuna>
 
-On Tue, Feb 25, 2025 at 03:39:32PM -0400, Jason Gunthorpe wrote:
-> The entire allocator API is built around using the kernel virtual address,
-> it is illegal to pass GFP_HIGHMEM in as a GFP flag. Block it in the common
-> code. Remove the duplicated checks from drivers.
+On Mon, Mar 10, 2025 at 07:30:07PM +1000, James Calligeros wrote:
+> On Sat, Mar 8, 2025 at 6:51 AM Rob Herring <robh@kernel.org> wrote:
+> > How would it work when you need a mask? "dai-tdm-slot-tx-mask" is
+> > enough?
 > 
-> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Mostafa Saleh <smostafa@google.com>
-> ---
->  drivers/iommu/io-pgtable-arm.c  | 2 --
->  drivers/iommu/io-pgtable-dart.c | 1 -
->  drivers/iommu/iommu-pages.c     | 4 ++++
->  3 files changed, 4 insertions(+), 3 deletions(-)
+> The existing TX/RX slot masks are used to control which slots the codec
+> is operating on, AIUI. I don't know if it makes sense to alter how codecs
+> deal with this. Could we combine the suggested dai-tdm-slot-tx-idle
+> with an optional dai-tdm-slot-tx-idle-mask property? From the machine
+> driver's perspective, the API would then be similar to the existing
+> set_tdm_slot ops. The current downstream macaudio machine driver builds
+> its links by allowing multiple codecs and CPUs to be linked to a DAI,
+> like so:
+
+Wouldn't the NOT of dai-tdm-slot-tx-mask be the idle mask?
+
+Don't think about the Linux APIs here. The DT is separate. So think in 
+terms of what you need to describe the TDM timing/waveform.
+
 > 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index 62df2528d020b2..08d0f62abe8a09 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -267,8 +267,6 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
->  	dma_addr_t dma;
->  	void *pages;
->  
-> -	VM_BUG_ON((gfp & __GFP_HIGHMEM));
-> -
->  	if (cfg->alloc)
->  		pages = cfg->alloc(cookie, size, gfp);
->  	else
-> diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
-> index 7efcaea0bd5c86..ebf330e67bfa30 100644
-> --- a/drivers/iommu/io-pgtable-dart.c
-> +++ b/drivers/iommu/io-pgtable-dart.c
-> @@ -111,7 +111,6 @@ static void *__dart_alloc_pages(size_t size, gfp_t gfp)
->  {
->  	int order = get_order(size);
->  
-> -	VM_BUG_ON((gfp & __GFP_HIGHMEM));
->  	return iommu_alloc_pages(gfp, order);
->  }
->  
-> diff --git a/drivers/iommu/iommu-pages.c b/drivers/iommu/iommu-pages.c
-> index 3077df642adb1f..a7eed09420a231 100644
-> --- a/drivers/iommu/iommu-pages.c
-> +++ b/drivers/iommu/iommu-pages.c
-> @@ -37,6 +37,10 @@ void *iommu_alloc_pages_node(int nid, gfp_t gfp, unsigned int order)
->  	const unsigned long pgcnt = 1UL << order;
->  	struct folio *folio;
->  
-> +	/* This uses page_address() on the memory. */
-> +	if (WARN_ON(gfp & __GFP_HIGHMEM))
-> +		return NULL;
-> +
->  	/*
->  	 * __folio_alloc_node() does not handle NUMA_NO_NODE like
->  	 * alloc_pages_node() did.
-> -- 
-> 2.43.0
+> dai-link@0 {
+> 	cpu {
+> 		sound-dai = <&cpu0>, <&cpu1>;
+> 	};
+> 	codec {
+> 		sound-dai = <&speaker0>,
+> 			  ...,
+> 			  <&speaker6>;
+> 	};
+> };
 > 
+> In this case, the codec-specific mask property was added so that a mask
+> could be applied to a specific codec rather than the whole dai, however
+> from upstream drivers tt looks like the way this should be handled is to
+> have "dai-tdm-slot-tx-idle-mask-n" properties at the dai level, then have
+> the machine driver set the mask for the appropriate codec during setup. So
+> for macaudio, assuming speaker5 requires this zerofill mask, we would
+> have something like this:
+
+I'm now confused why you need n masks and what does n represent?
+
+Rob
