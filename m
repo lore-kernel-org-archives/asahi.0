@@ -1,63 +1,63 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF7B24E001
-	for <asahi@lists.linux.dev>; Wed, 12 Mar 2025 12:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5D4245002
+	for <asahi@lists.linux.dev>; Wed, 12 Mar 2025 12:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741783514; cv=none; b=Meqh4UlReoWJAsAW2LH17Xo1yk1EK3cV9W5StEghK0coD2tiMhgvm/jbBQReYPcP5pzuFe9vlD1NoR1ulshL/fRRFxOu6mWkK7da4YTAaNNVyJ6QkHX7hiRWaPedEGHL0DEbFlpMs4MJC+tlLzy1qRWQGuO+4SMlSwxSLAQRAxI=
+	t=1741783549; cv=none; b=m2ImurQi2stICfzYG1wmKPrlxqf/ra2dv46V0t+qgrPteEWjHC3tsnmU+P3XXBJAxIde/V2BuvDKkLLRuVeVdzImiAssfvh/cXqOn3wYiFhScV7uESvrDwFhKxZR39rszzSpJ85WzGc6Csxjj8b/sW+aLeHGUzYmup8af8u1d8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741783514; c=relaxed/simple;
-	bh=W1wDN+9s1jhdPV61L/v4Imov4WNCE17+44iAJg1ZMVg=;
+	s=arc-20240116; t=1741783549; c=relaxed/simple;
+	bh=w7qxWcK6Y+lr9flaT5izlqxkohZLAMbvmvIVsbTBCwo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lUjeBq6c5BH/8FXDq7235auoeuHdwJ0nZAzjFHNLmXW+57ZBIQBXBdZQHXnSU8lkLorTCfrQsk4a449PJbxpZyaYcvnHvw7uhjTQKbybRMdCg0bJIL6+JCx9AcrX2pWNaueSYgIWGHKV6UFs4OfvKaMrhGz6/cVg1r8jo5JGRi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DJqYqOb5; arc=none smtp.client-ip=209.85.128.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=ovsHC2MnKci86rqyD2HgFqPVCsyzqbCMiRp/pIrCSRIYci458U5DwrrM2ENxX9fimdVVAOwym+vPbYkothzWa47wedPONvJCbSsiwuziCr5Vq7A0QYnnYP940Ry4ZuvVvButxpPvC7TBPww11cfjhgvGV8byHcsdfqszkEppCwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sQ0KLx9a; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DJqYqOb5"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4393ee912e1so43885e9.1
-        for <asahi@lists.linux.dev>; Wed, 12 Mar 2025 05:45:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sQ0KLx9a"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cf3192d8bso42615e9.1
+        for <asahi@lists.linux.dev>; Wed, 12 Mar 2025 05:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741783509; x=1742388309; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1741783545; x=1742388345; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J6XsRAVYS5vvkiYq6htp9xtxjYL0Ohzn7Mzm+Pk000s=;
-        b=DJqYqOb5iseq7oECJN3QMFyN5rNoHwgOR3kIAZmClPy45j1DBOOVp2M/gX5PdbXYfk
-         ou6dmpLYc30fw45Dhi30l3Ele82IWIPjxziLH3IRDXMwnvLS8t9WtFvcyxbIn1NS4pMm
-         QbcouysSXVLftPmdIzdhA66cAnrZ/Qimg9/gP7v4dvZxd8HWRa4I+aOAnsG5xds16XRV
-         61Kqa1E/HAh6s3Jt9SifRMpctCNH8xq1YPILktlD8mXI6ZogLfghcWJmgNYmmKx+4Tau
-         mTfPPK6/hOY35nR3QqV6FLUca6N3hA8hzsLj/6L89nFVrJohrpPgtNGVlWTZVXUUesaK
-         rpGw==
+        bh=O7nXrf8enrrb8z3uABVuZMTlrSLNofRDk6iKufuqXac=;
+        b=sQ0KLx9axjSqYZ21A7AsgAa2NRLb5oRlWbylx4wUq+RYI9jE4anYSuxuc1BAQmWdT5
+         glGBtD78kJHgEEJUUIHAxZr7EOFQ6GZr1dpz1fjyI+LdeiSWtgMJa1iPJ664tkiBxaJW
+         G5pmdzW2/WpV+Y2fNXM3jZJAD4Q7Dp8jChwlIRc2VF0sbayTObo8Pzx/OfYY+Cx7ZNRC
+         7iVwVHB3cwT7rd4wPnfJgqEBw1rIY32xuF7New1n/3FzlsONW6LLam2QG0YA651gS5MP
+         8Rpo9UgNkERh1uqRXb8myY/ZvOrCvCGEvOvkGOtORB+nBSwUxJEFouqZ60LRCNwrJFgu
+         6qtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741783509; x=1742388309;
+        d=1e100.net; s=20230601; t=1741783545; x=1742388345;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J6XsRAVYS5vvkiYq6htp9xtxjYL0Ohzn7Mzm+Pk000s=;
-        b=Sb7sps38goV0Z11cA1x1r9pW7rQvbgpFiB5bFcGqNwzUzsLjmXy3EixrlcqtkOICD2
-         cYmTcTiWUZUER9zFB3YjRTK1HYS/zW0KxEMorDTw4U54kMMe8MJP6MhQu9rYVYUSeVCH
-         FTA1yJ9u7uSyjvVfIHwQgXX+tMOlic4dBh6KvsTF+nmDX7sAcg2ak4+ZOlbQ/GmZjEln
-         KRGHbAbEO7NunwWg8g3ueZswDuw0Ly7PPd/eJms431PM35jRbjT1fIzNSRi+EbLxBfdx
-         MDPqptEtDX39bVx7LzvwLfMWQG7nm7UuQkXcM5e7+kXJNKln+0ZnwjyJJMFFp6PjZjF+
-         8PRw==
-X-Forwarded-Encrypted: i=1; AJvYcCXICJfxX9/9Yb5mNcBydDgkdk4oXlPtCJigkI6AUKsXFnmlQ998kyP8nmLrmgkMnw6fx3eqQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz5/OIi4zbbU3ot/3IuHkqg5aMyDy2R+f603v7p6S+ZcnpAhJ5G
-	3rYlgyWCMvGMhYYWVKwXRN8EPyNrNfNj8DivqRAhyHprF4haa7AT8htLmmjDMQ==
-X-Gm-Gg: ASbGncuCw8lV03ltvihk7a2SQhMy5mjZuzdMK5JJV//ovE3GtDExFKNc/iAs18NAOAe
-	UBlqejTW/Hh0eCCYIWcfg7RsneqTshhjgz6SQcCLTBdY+pgqh0pL7H4bgM7Vi18saM8eMhODyIE
-	henDFRO8AaP6WyJyB5qwSAAGgeo/36h31fgGcHF/vKQpgmozIRbcJ94qD4RnG9Z9OOzMyUUnoAE
-	+42fwEFzzwJm20y3f0/2NXsRi8lcCpvzkR+3pPbB4ocjYwM4R4CXNUb79vzOQOHmgNR/dn/ZC5r
-	lP+iVk/t+D+T6bEH8bBRBjw8cX4C9dD2Zq2SDxkSburZ8gyPEvXF5r1biMDkhV1nRgq7SwgM0Gc
-	OlmRK
-X-Google-Smtp-Source: AGHT+IG4l6i7zsE0j06PLqFsFcdloNEjDbS1APZki97f74wF9+Bk20Rls5AlNCF5S5eWzRhlYo0ndA==
-X-Received: by 2002:a05:600c:2d56:b0:439:7fc2:c7ad with SMTP id 5b1f17b1804b1-43d0a5fd65emr1090335e9.7.1741783509129;
-        Wed, 12 Mar 2025 05:45:09 -0700 (PDT)
+        bh=O7nXrf8enrrb8z3uABVuZMTlrSLNofRDk6iKufuqXac=;
+        b=XauWJs3R0yfrkp3qugXKm5dNUuURve1d8s+frHufdkzb2Q8lmNGAdL7vWQJOWwelRz
+         ykFK2AS7hd3n8kHAgm7lgBNiVlLB7G8V1NlmgYPHLPeyae8V2uT1BiIOGI17Jf5F3ab7
+         KdtoqrcVit6YU1OJuy2+pYFxILEx9/XV8gJEEJDh5ZCFgGMQWNbvfu9dq+hLXxQdStq2
+         +TYv6P+/R6N8AE9TD4s1VS1iMbZzHjLgtbxE7k9qFaohMJ3gQ+lQQ+9dRkzSGkGCRHtq
+         lMcmXkp1Q3kdYVp1EaeUOK/ld9cGp7uA1qczu02jtK1E+T3KuxURUETzmEUnQ8CrZdpP
+         dirg==
+X-Forwarded-Encrypted: i=1; AJvYcCUoJpkCsQQCgSnPJJijiV1Dz/1+u+xydp6PpUkWmKUcPbclCI2dlZHkWFCgNRsmXq8EjqzUiw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzyPJxYS3CmR+nSu1JH7r8moblFJEtdS170iErlMzERhmhsMSRa
+	1fnQBPKDKA5i+4Z6JBgEq15svXSPWuwYUk83GimdzaC8Og+EtTF20dWDdlvWJA==
+X-Gm-Gg: ASbGncsMcL6yd6nk7QvH7oFg9HjvEjQWHdf/4I9IRa50VfnTjwwKmqmTihbU+4K77S9
+	8AUsFJeMGCaf3ZS0lNvalHcKHfIxw6Ywhs+1Llg/njL73ZZoZvqwvcemP1Xoo1nPGs8G7M1ZrcV
+	xmssCTD5g9A1uljsaRuUtKyHBebIXcgkbudwAFUW6MdL6ux4c7scCsMklT0P8zHytdp/o6EIE8o
+	fYBSBj3udsf8RnKuPtlIQDD+MtJ0vsWDovuZAUGVKuRsHowPm43LRSZ8OpVJNvTp3baKkPhNtn4
+	a9LjdYdSgynjg6Q9P26SoCYjs9picrxDFfxomq9bdwCO2TK1w6OPh78DCGmWfiVtJdpGdZDwazQ
+	ilU2lD6PSgxz3+x0=
+X-Google-Smtp-Source: AGHT+IGl6ij5XGs/qN6P6iUkVVrm0h4AAzKswiqP0QsBVlB9onr8dRHcRoIgJqJfm8N1ML/DsO9qAQ==
+X-Received: by 2002:a05:600c:5801:b0:43b:bfe9:8b43 with SMTP id 5b1f17b1804b1-43d09ea3748mr1245205e9.4.1741783544916;
+        Wed, 12 Mar 2025 05:45:44 -0700 (PDT)
 Received: from google.com (88.140.78.34.bc.googleusercontent.com. [34.78.140.88])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912bfb7ae4sm20402347f8f.5.2025.03.12.05.45.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a8c5d0fsm20697625e9.32.2025.03.12.05.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 05:45:08 -0700 (PDT)
-Date: Wed, 12 Mar 2025 12:45:04 +0000
+        Wed, 12 Mar 2025 05:45:44 -0700 (PDT)
+Date: Wed, 12 Mar 2025 12:45:39 +0000
 From: Mostafa Saleh <smostafa@google.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Alim Akhtar <alim.akhtar@samsung.com>,
@@ -90,10 +90,11 @@ Cc: Alim Akhtar <alim.akhtar@samsung.com>,
 	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
 	David Rientjes <rientjes@google.com>,
 	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v3 07/23] iommu/pages: De-inline the substantial functions
-Message-ID: <Z9GB0IcNc2432dki@google.com>
+Subject: Re: [PATCH v3 15/23] iommu/pages: Move the __GFP_HIGHMEM checks into
+ the common code
+Message-ID: <Z9GB8_j_8a4xCTsT@google.com>
 References: <0-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
- <7-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+ <15-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -102,249 +103,62 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
+In-Reply-To: <15-v3-e797f4dc6918+93057-iommu_pages_jgg@nvidia.com>
 
-On Tue, Feb 25, 2025 at 03:39:24PM -0400, Jason Gunthorpe wrote:
-> These are called in a lot of places and are not trivial. Move them to the
-> core module.
+On Tue, Feb 25, 2025 at 03:39:32PM -0400, Jason Gunthorpe wrote:
+> The entire allocator API is built around using the kernel virtual address,
+> it is illegal to pass GFP_HIGHMEM in as a GFP flag. Block it in the common
+> code. Remove the duplicated checks from drivers.
 > 
-> Tidy some of the comments and function arguments, fold
-> __iommu_alloc_account() into its only caller, change
-> __iommu_free_account() into __iommu_free_page() to remove some
-> duplication.
-> 
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 Reviewed-by: Mostafa Saleh <smostafa@google.com>
-
 > ---
->  drivers/iommu/Makefile      |   1 +
->  drivers/iommu/iommu-pages.c |  84 +++++++++++++++++++++++++++++
->  drivers/iommu/iommu-pages.h | 103 ++----------------------------------
->  3 files changed, 90 insertions(+), 98 deletions(-)
->  create mode 100644 drivers/iommu/iommu-pages.c
+>  drivers/iommu/io-pgtable-arm.c  | 2 --
+>  drivers/iommu/io-pgtable-dart.c | 1 -
+>  drivers/iommu/iommu-pages.c     | 4 ++++
+>  3 files changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-> index 5e5a83c6c2aae2..fe91d770abe16c 100644
-> --- a/drivers/iommu/Makefile
-> +++ b/drivers/iommu/Makefile
-> @@ -1,6 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-y += amd/ intel/ arm/ iommufd/ riscv/
->  obj-$(CONFIG_IOMMU_API) += iommu.o
-> +obj-$(CONFIG_IOMMU_SUPPORT) += iommu-pages.o
->  obj-$(CONFIG_IOMMU_API) += iommu-traces.o
->  obj-$(CONFIG_IOMMU_API) += iommu-sysfs.o
->  obj-$(CONFIG_IOMMU_DEBUGFS) += iommu-debugfs.o
-> diff --git a/drivers/iommu/iommu-pages.c b/drivers/iommu/iommu-pages.c
-> new file mode 100644
-> index 00000000000000..31ff83ffaf0106
-> --- /dev/null
-> +++ b/drivers/iommu/iommu-pages.c
-> @@ -0,0 +1,84 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2024, Google LLC.
-> + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> + */
-> +#include "iommu-pages.h"
-> +#include <linux/gfp.h>
-> +#include <linux/mm.h>
-> +
-> +/**
-> + * iommu_alloc_pages_node - Allocate a zeroed page of a given order from
-> + *                          specific NUMA node
-> + * @nid: memory NUMA node id
-> + * @gfp: buddy allocator flags
-> + * @order: page order
-> + *
-> + * Returns the virtual address of the allocated page. The page must be
-> + * freed either by calling iommu_free_pages() or via iommu_put_pages_list().
-> + */
-> +void *iommu_alloc_pages_node(int nid, gfp_t gfp, unsigned int order)
-> +{
-> +	const unsigned long pgcnt = 1UL << order;
-> +	struct page *page;
-> +
-> +	page = alloc_pages_node(nid, gfp | __GFP_ZERO | __GFP_COMP, order);
-> +	if (unlikely(!page))
-> +		return NULL;
-> +
-> +	/*
-> +	 * All page allocations that should be reported to as "iommu-pagetables"
-> +	 * to userspace must use one of the functions below. This includes
-> +	 * allocations of page-tables and other per-iommu_domain configuration
-> +	 * structures.
-> +	 *
-> +	 * This is necessary for the proper accounting as IOMMU state can be
-> +	 * rather large, i.e. multiple gigabytes in size.
-> +	 */
-> +	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-> +	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
-> +
-> +	return page_address(page);
-> +}
-> +EXPORT_SYMBOL_GPL(iommu_alloc_pages_node);
-> +
-> +static void __iommu_free_page(struct page *page)
-> +{
-> +	unsigned int order = folio_order(page_folio(page));
-> +	const unsigned long pgcnt = 1UL << order;
-> +
-> +	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
-> +	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, -pgcnt);
-> +	put_page(page);
-> +}
-> +
-> +/**
-> + * iommu_free_pages - free pages
-> + * @virt: virtual address of the page to be freed.
-> + *
-> + * The page must have have been allocated by iommu_alloc_pages_node()
-> + */
-> +void iommu_free_pages(void *virt)
-> +{
-> +	if (!virt)
-> +		return;
-> +	__iommu_free_page(virt_to_page(virt));
-> +}
-> +EXPORT_SYMBOL_GPL(iommu_free_pages);
-> +
-> +/**
-> + * iommu_put_pages_list - free a list of pages.
-> + * @head: the head of the lru list to be freed.
-> + *
-> + * Frees a list of pages allocated by iommu_alloc_pages_node().
-> + */
-> +void iommu_put_pages_list(struct list_head *head)
-> +{
-> +	while (!list_empty(head)) {
-> +		struct page *p = list_entry(head->prev, struct page, lru);
-> +
-> +		list_del(&p->lru);
-> +		__iommu_free_page(p);
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(iommu_put_pages_list);
-> diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
-> index fcd17b94f7b830..e3c35aa14ad716 100644
-> --- a/drivers/iommu/iommu-pages.h
-> +++ b/drivers/iommu/iommu-pages.h
-> @@ -7,67 +7,12 @@
->  #ifndef __IOMMU_PAGES_H
->  #define __IOMMU_PAGES_H
+> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> index 62df2528d020b2..08d0f62abe8a09 100644
+> --- a/drivers/iommu/io-pgtable-arm.c
+> +++ b/drivers/iommu/io-pgtable-arm.c
+> @@ -267,8 +267,6 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
+>  	dma_addr_t dma;
+>  	void *pages;
 >  
-> -#include <linux/vmstat.h>
-> -#include <linux/gfp.h>
-> -#include <linux/mm.h>
-> +#include <linux/types.h>
-> +#include <linux/topology.h>
+> -	VM_BUG_ON((gfp & __GFP_HIGHMEM));
+> -
+>  	if (cfg->alloc)
+>  		pages = cfg->alloc(cookie, size, gfp);
+>  	else
+> diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
+> index 7efcaea0bd5c86..ebf330e67bfa30 100644
+> --- a/drivers/iommu/io-pgtable-dart.c
+> +++ b/drivers/iommu/io-pgtable-dart.c
+> @@ -111,7 +111,6 @@ static void *__dart_alloc_pages(size_t size, gfp_t gfp)
+>  {
+>  	int order = get_order(size);
 >  
-> -/*
-> - * All page allocations that should be reported to as "iommu-pagetables" to
-> - * userspace must use one of the functions below.  This includes allocations of
-> - * page-tables and other per-iommu_domain configuration structures.
-> - *
-> - * This is necessary for the proper accounting as IOMMU state can be rather
-> - * large, i.e. multiple gigabytes in size.
-> - */
-> -
-> -/**
-> - * __iommu_alloc_account - account for newly allocated page.
-> - * @page: head struct page of the page.
-> - * @order: order of the page
-> - */
-> -static inline void __iommu_alloc_account(struct page *page, int order)
-> -{
-> -	const long pgcnt = 1l << order;
-> -
-> -	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-> -	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
-> -}
-> -
-> -/**
-> - * __iommu_free_account - account a page that is about to be freed.
-> - * @page: head struct page of the page.
-> - * @order: order of the page
-> - */
-> -static inline void __iommu_free_account(struct page *page)
-> -{
-> -	unsigned int order = folio_order(page_folio(page));
-> -	const long pgcnt = 1l << order;
-> -
-> -	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
-> -	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, -pgcnt);
-> -}
-> -
-> -/**
-> - * iommu_alloc_pages_node - allocate a zeroed page of a given order from
-> - * specific NUMA node.
-> - * @nid: memory NUMA node id
-> - * @gfp: buddy allocator flags
-> - * @order: page order
-> - *
-> - * returns the virtual address of the allocated page
-> - */
-> -static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp, int order)
-> -{
-> -	struct page *page =
-> -		alloc_pages_node(nid, gfp | __GFP_ZERO | __GFP_COMP, order);
-> -
-> -	if (unlikely(!page))
-> -		return NULL;
-> -
-> -	__iommu_alloc_account(page, order);
-> -
-> -	return page_address(page);
-> -}
-> +void *iommu_alloc_pages_node(int nid, gfp_t gfp, unsigned int order);
-> +void iommu_free_pages(void *virt);
-> +void iommu_put_pages_list(struct list_head *head);
->  
->  /**
->   * iommu_alloc_pages - allocate a zeroed page of a given order
-> @@ -104,42 +49,4 @@ static inline void *iommu_alloc_page(gfp_t gfp)
->  	return iommu_alloc_pages_node(numa_node_id(), gfp, 0);
+> -	VM_BUG_ON((gfp & __GFP_HIGHMEM));
+>  	return iommu_alloc_pages(gfp, order);
 >  }
 >  
-> -/**
-> - * iommu_free_pages - free pages
-> - * @virt: virtual address of the page to be freed.
-> - *
-> - * The page must have have been allocated by iommu_alloc_pages_node()
-> - */
-> -static inline void iommu_free_pages(void *virt)
-> -{
-> -	struct page *page;
-> -
-> -	if (!virt)
-> -		return;
-> -
-> -	page = virt_to_page(virt);
-> -	__iommu_free_account(page);
-> -	put_page(page);
-> -}
-> -
-> -/**
-> - * iommu_put_pages_list - free a list of pages.
-> - * @page: the head of the lru list to be freed.
-> - *
-> - * There are no locking requirement for these pages, as they are going to be
-> - * put on a free list as soon as refcount reaches 0. Pages are put on this LRU
-> - * list once they are removed from the IOMMU page tables. However, they can
-> - * still be access through debugfs.
-> - */
-> -static inline void iommu_put_pages_list(struct list_head *page)
-> -{
-> -	while (!list_empty(page)) {
-> -		struct page *p = list_entry(page->prev, struct page, lru);
-> -
-> -		list_del(&p->lru);
-> -		__iommu_free_account(p);
-> -		put_page(p);
-> -	}
-> -}
-> -
->  #endif	/* __IOMMU_PAGES_H */
+> diff --git a/drivers/iommu/iommu-pages.c b/drivers/iommu/iommu-pages.c
+> index 3077df642adb1f..a7eed09420a231 100644
+> --- a/drivers/iommu/iommu-pages.c
+> +++ b/drivers/iommu/iommu-pages.c
+> @@ -37,6 +37,10 @@ void *iommu_alloc_pages_node(int nid, gfp_t gfp, unsigned int order)
+>  	const unsigned long pgcnt = 1UL << order;
+>  	struct folio *folio;
+>  
+> +	/* This uses page_address() on the memory. */
+> +	if (WARN_ON(gfp & __GFP_HIGHMEM))
+> +		return NULL;
+> +
+>  	/*
+>  	 * __folio_alloc_node() does not handle NUMA_NO_NODE like
+>  	 * alloc_pages_node() did.
 > -- 
 > 2.43.0
 > 
