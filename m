@@ -1,148 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD9E1E8346
-	for <asahi@lists.linux.dev>; Wed, 12 Mar 2025 19:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D633E610C
+	for <asahi@lists.linux.dev>; Thu, 13 Mar 2025 00:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741809077; cv=none; b=hRJAsCHtdcf4KJK3C+a1FpdUKui0gf8l5/PbPzd4dbp6DVxSf/cP9+h3IVsqk3vfEMM52zElkpMmmKXWmqLOdEICDFZ7Mg/DDwwUP2I3XfZrK4m+4TTLFVI/SfIOUX7okandZsWfgFnL0q6e3W31akQyDnHMAxuLOf6mjRfA5pw=
+	t=1741826999; cv=none; b=T36gXLcT2kvtrilvyjjHbOLGlTTtH2YC+tw7PXKgrR7wEryk9sLQRYDzBAELAz4W0Cj5WiRGg4psa0qBRXMbzu5Li8fWpCD8D455aoxKYmmL5cnVM1aof2LahYR303Q8fIvwWTHFS6F0UyY9BvhP50EvYLho4QAd+YyU1o9K2kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741809077; c=relaxed/simple;
-	bh=SRoUV3eMk6edbVaDQv5PueMlnjvLSGvEzLVeIeX4V/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rU9tcE4YyKWHc10AQeItnw1XbDO+PHYXyFCJVDzHv8qM4/oaOcnCGUp2Owfa9721MKCZ/l3Efk5BKw5k2tZKoHbtrW/MtFtFDb5DcsdNa6zBJgT+vKyANAs7fyA62GlHylrnixu0GB6rf0FIYlsbWPQ3t/jfJSXlLZd/13vEiyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBJFa6O0; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1741826999; c=relaxed/simple;
+	bh=Z49HXwaxexdDXy7kOpCh40mnlaoCuxB1V0yAtiPZZAo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WpM3gDIR0jtSEzApwqavOEN/civjuXGMCCXNZgBI1D6t8CxOLGIm0cvJ227Jp0EyLu6wZr8kApu+x3kT/MhwgLarWgCrTdl4S4kxyUqLpjew/sg29IR5Hr8rF+wLRJIR3f9/WK5rEBnu8QVsbgEk8Vyp3TXiPotrugqwEG138Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EM8Ts2/M; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBJFa6O0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741809076; x=1773345076;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=SRoUV3eMk6edbVaDQv5PueMlnjvLSGvEzLVeIeX4V/Q=;
-  b=LBJFa6O0Gq94pnFFdaC6Xx0MPiGbABjmgQQmNlj6THt+bDeRwhFuPojv
-   kOIh8bQhsMLACeViSVxHg1urWWbnpsbZlrNu3DIhFzVaF7MrGvMPke6qh
-   GWJ88/Q3jgxhpwJU0Sbm9iIZEGsaCG5Ezpsmn3gRvFhCHUWaJeGOKrVXM
-   2s6xtoelTunjV3gOfZchm9eAHqjbwMet8suIlvMONyvGRqx0YuDWtj//c
-   PRqG4VmQzt/5gbFzHFWl6lBqK4+CvmN4t01D7GSY1seXReFvAkkzBDlMZ
-   jEKiJNrLv6S6v3MpQDgu2ZWQB0mLBDsDc5H9juQjYO/5P01s1vNybaPaL
-   w==;
-X-CSE-ConnectionGUID: 9GquL3yFSZ+xXcUIJgSaCA==
-X-CSE-MsgGUID: MJV7b8iFShmY7wktxfTILw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="42815597"
-X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
-   d="scan'208";a="42815597"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 12:51:15 -0700
-X-CSE-ConnectionGUID: mAuhRIanQJCNL6HZOC82OA==
-X-CSE-MsgGUID: 6kKyUx38RoKGvr2m8InV2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
-   d="scan'208";a="125804140"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 12:51:10 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tsS6d-00000001yNT-0W8I;
-	Wed, 12 Mar 2025 21:51:07 +0200
-Date: Wed, 12 Mar 2025 21:51:06 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>,
-	"airlied@redhat.com" <airlied@redhat.com>,
-	Simona Vetter <simona@ffwll.ch>, Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
-Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <Z9Hlqh7opZHvkSX0@smile.fi.intel.com>
-References: <ABAEA9D0-97CB-4ADD-9606-A12D5815335A@live.com>
- <376C9BD3-2F41-4511-BE52-1B8468FE2CB3@live.com>
- <b74df4b5-ecda-45ba-a98a-c84b0a29e380@suse.de>
- <PN3PR01MB9597AC6A02B0BF873920D94CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <9092a9ed-aecf-40bd-9d15-b53d60d035b5@suse.de>
- <PN3PR01MB959715C19BCEA54426D24934B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <ff3a9c58-5c7a-4c48-8a9e-cc828a43baed@app.fastmail.com>
- <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z9HgVn-XELC065w0@smile.fi.intel.com>
- <PN3PR01MB959786A68923B2D471C129E6B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EM8Ts2/M"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-47664364628so5677621cf.1
+        for <asahi@lists.linux.dev>; Wed, 12 Mar 2025 17:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741826997; x=1742431797; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HkeNyflx08eBwoXdOrj+id9tFS6hOSl0Scgwwso0Pdc=;
+        b=EM8Ts2/MKHb6CpPsce2ctODTQIRAQyHGOH8g1HFJdACqTffYHxUVwkro+A50wkuCa9
+         hk9klpdpkoYsPqrUKwN/zjS7o2UnpBBJGGH8oLNG8mLzqHag66w8Nz++2X748PUaodws
+         zKai5kPCQ0DTXmQ/dEZxI5rVNY4/BfIT1uHy8Xph7y7F0IcN6lkTT2icETamZB8qMhzs
+         +TnLmN6+cUV8hPFNW019kQpWV6YHA8WcZEAnxKdNDZkjaLznoTyMnQ6LDllAH3if7GY3
+         7lR+bufcHoDVABu/tVC6t1T2E6BN+e8kSMV32jytQ6v2stEwbRRJEXD5+Kcnt8EdWTxa
+         9EPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741826997; x=1742431797;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HkeNyflx08eBwoXdOrj+id9tFS6hOSl0Scgwwso0Pdc=;
+        b=Wgj/B6BHpwVEBO5+w5Z3vkrgr0G7Jam7KH7iwfxIGz51C9/na7a+z6ep23EH9Q0TOh
+         zHeHG60uGe10hBkWI6xuLJ7wrJCOYp66JLq7jUEe1+aqx6pZAwbruH6wD9F/YMXIZ5BL
+         DUAcPo/OPpCB2k9RjafFttxdqVGdkuaPFu4VQUqjtLpxtfkYyLeBEZHTdXT4YO2wx8rW
+         3JWHnuXdIjzAbguou6SL7IZE7/wNWALjx8zuzO4SkRujr2zM/Aftzf+ddixTRctJqWru
+         ppVRnch8Hjpf33p0znmGytPeGdA/yUUA4j+Seo9soZ4n4DmsgcoSP/MeHbJ37qMpo5Ew
+         l/Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCVykHl3LWQZvquSFWWSOLS6IbQ+wLX+S2liUWhH6Z5SzXTTgkrwYjFpT8R+gC5HZV9Ge7rROQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/kP+kcGK3yPf3nWAgncsbYKqaTxWHlUYr1hurji67E4JHchNp
+	prWy67LTUoW7RLk8m2PlWcIbfziCbgyH9pHywcafbQUgMtRDrzXtsrjWHE6xWaFWAodRQyuctLW
+	lzOxd6e57do/BjAw45fn0+emqtl0=
+X-Gm-Gg: ASbGncvYXyGleDMyJD50DdS33jUxu86TBXPiDEQ/qyVW+6D4vg60ydX4w8Db7u2ygnZ
+	GzzJJxQgpZUKBIwe1HjzcA5wsWzAYSgVQwkmNceEzUg8rU9RjWtHkn5Lw8OLJgFbXwEbEQJYi9V
+	CQoMbMrOjLvANrUsPsSrGCzqYMLlfyVxxnRlU=
+X-Google-Smtp-Source: AGHT+IE4UMHREzgkQUDlb9f76ML3et+Bb02b5+av1fLvRw1YGIeJDBdw7dFMjSxPahafRrC3GwwrWULZTUZ927Q/Ez0=
+X-Received: by 2002:a05:622a:438a:b0:476:652f:4db4 with SMTP id
+ d75a77b69052e-476ba8b2f27mr8949481cf.5.1741826996633; Wed, 12 Mar 2025
+ 17:49:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB959786A68923B2D471C129E6B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+ <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
+ <20250307205156.GA583954-robh@kernel.org> <5996925.DvuYhMxLoT@setsuna> <20250312125832.GA359842-robh@kernel.org>
+In-Reply-To: <20250312125832.GA359842-robh@kernel.org>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Thu, 13 Mar 2025 10:49:40 +1000
+X-Gm-Features: AQ5f1JpviH4ysHbqATC6ly_Fa9fyvcQzoJXH7f6pMF6qeXNeHE906TPegzKdRB0
+Message-ID: <CAHgNfTwLfqCP-TL_pdqxs0AC+1z845Ca1zU6dUS=xwNMgaz+5Q@mail.gmail.com>
+Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
+ pulldown and zero-fill
+To: Rob Herring <robh@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shi Fu <shifu0704@thundersoft.com>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-hwmon@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 12, 2025 at 07:35:54PM +0000, Aditya Garg wrote:
-> > On 13 Mar 2025, at 12:58 AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > On Wed, Mar 12, 2025 at 07:14:36PM +0000, Aditya Garg wrote:
-> >>>> On 12 Mar 2025, at 9:05 PM, Sven Peter <sven@svenpeter.dev> wrote:
-> >>> On Wed, Mar 12, 2025, at 13:03, Aditya Garg wrote:
+On Wed, Mar 12, 2025 at 10:58=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+> On Mon, Mar 10, 2025 at 07:30:07PM +1000, James Calligeros wrote:
+> > On Sat, Mar 8, 2025 at 6:51=E2=80=AFAM Rob Herring <robh@kernel.org> wr=
+ote:
+> > > How would it work when you need a mask? "dai-tdm-slot-tx-mask" is
+> > > enough?
+> >
+> > The existing TX/RX slot masks are used to control which slots the codec
+> > is operating on, AIUI. I don't know if it makes sense to alter how code=
+cs
+> > deal with this. Could we combine the suggested dai-tdm-slot-tx-idle
+> > with an optional dai-tdm-slot-tx-idle-mask property? From the machine
+> > driver's perspective, the API would then be similar to the existing
+> > set_tdm_slot ops. The current downstream macaudio machine driver builds
+> > its links by allowing multiple codecs and CPUs to be linked to a DAI,
+> > like so:
+>
+> Wouldn't the NOT of dai-tdm-slot-tx-mask be the idle mask?
 
-...
+Theoretically it should be, and that's probably just what we should do.
+We would then just have the dai-tdm-slot-tx-idle-mode property to worry
+about. There may be a reason a unique property was added however, as only
+some codecs have it set in our downstream DTs. Perhaps Martin can shed
+some light on this?
 
-> >>> I don't have a strong opinion either way: for SMC I just need to print
-> >>> FourCC keys for debugging / information in a few places.
-> >>> 
-> >>> I'm preparing the SMC driver for upstreaming again (after a two year delay :-()
-> >>> and was just going to use macros to print the SMC FourCC keys similar to
-> >>> DRM_MODE_FMT/DRM_MODE_ARG for now to keep the series smaller and revisit
-> >>> the topic later.
-> >>> 
-> >>> Right now I have these in my local tree (only compile tested so far):
-> >>> 
-> >>> #define SMC_KEY_FMT "%c%c%c%c (0x%08x)"
-> >>> #define SMC_KEY_ARG(k) (k)>>24, (k)>>16, (k)>>8, (k), (k)
-> >> 
-> >> That seems to be a nice alternative, which I guess Thomas was also suggesting.
-> > 
-> > I don't think it's "nice". Each of the approaches has pros and cons.
-> 
-> I would prefer vsprintf, but if it's not there, that remains as nice right?
+> >
+> > dai-link@0 {
+> >       cpu {
+> >               sound-dai =3D <&cpu0>, <&cpu1>;
+> >       };
+> >       codec {
+> >               sound-dai =3D <&speaker0>,
+> >                         ...,
+> >                         <&speaker6>;
+> >       };
+> > };
+> >
+> > In this case, the codec-specific mask property was added so that a mask
+> > could be applied to a specific codec rather than the whole dai, however
+> > from upstream drivers tt looks like the way this should be handled is t=
+o
+> > have "dai-tdm-slot-tx-idle-mask-n" properties at the dai level, then ha=
+ve
+> > the machine driver set the mask for the appropriate codec during setup.=
+ So
+> > for macaudio, assuming speaker5 requires this zerofill mask, we would
+> > have something like this:
+>
+> I'm now confused why you need n masks and what does n represent?
 
-Nope, it remains us with the only approach (besides copy'n'paste everywhere
-which is error prone).
+We can have n cpus linked to m codecs in macaudio, and we need to specify
+the TDM properties for each codec individually . There seem to be a couple
+of ways upstream drivers deal with this, but the "nicest" way I've seen is
+what amlogic[1] does, which is extend the dai-tdm-slot-* properties with
+an index (-n) representing the specific codec it's for.
 
-> > You can start from bloat-o-meter here and compare it with your %p extension.
-> > 
-> > Also, can you show the bloat-o-meter output for the vsprintf.c?
-> 
-> vsprintf isn't a kernel module, is it? I'll have to compile a new kernel I guess.
+Regards,
+James
 
-You can just compile one file. We need an object out of it, we don't it to be
-linked.
-
-> >>> which are then used like this:
-> >>> 
-> >>>   dev_info(dev,
-> >>>       "Initialized (%d keys " SMC_KEY_FMT " .. " SMC_KEY_FMT ")\n",
-> >>>        smc->key_count, SMC_KEY_ARG(smc->first_key),
-> >>>        SMC_KEY_ARG(smc->last_key));
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+[1] https://github.com/torvalds/linux/blob/master/Documentation/devicetree/=
+bindings/sound/amlogic%2Caxg-sound-card.yaml
