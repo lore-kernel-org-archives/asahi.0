@@ -1,184 +1,371 @@
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010011.outbound.protection.outlook.com [52.103.67.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693EC1F03E4
-	for <asahi@lists.linux.dev>; Thu, 13 Mar 2025 11:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741864835; cv=fail; b=CpqyiqQjwWr/3ewFYSf+4Xjiylv9GqkrjmaRGH6WHA1F0mBcE+1xHegxe5Wh+LJzA2s/Y7TW8QfpvvT0bCHCte/wQoeXBfPcpzMYMSA1Ieb6ADjo4IqCOBYM9p3z+uFKSql4YrIUH8nU3ZhhlhnOUpgB4Pbm6iLOFgVODWVtHxo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741864835; c=relaxed/simple;
-	bh=FzD4ilIILSrUotbDSNcjfZZbPdA2al85CGsyBL1j2XY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=hsFefHuP6bkx1A1fwgTKBDRaJUSrJMM5d7Ge+0F5xAVxiHT97Xpr5iy/6YlEJ8XqhSOo+bGrsODFyzvehhrOz4iYmLY4tWLrgmwkMqCbjBb2rvHTCDZJxFfB3sT3gBBMpnVrCXlmaguiXv2j7rD09b/GcnRmWqnAa1/BHwi6TYQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=LVOB1pKp; arc=fail smtp.client-ip=52.103.67.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7A0266F00
+	for <asahi@lists.linux.dev>; Thu, 13 Mar 2025 12:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741868159; cv=none; b=FHxMdvGxVRA+T1mnLlQtvOsz69p3VQmyVI3AB7zOUum2s9NXnKsr/i2upNlimJd/fM3B4EpfEblXckglqFPgu9dbQW83LHy1Ti1UkLldxEpjAocWYGzcHElIr9w9M0qpBET/eLg0296bFAldX8mmca3islovGp27+/a2y+sf/M8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741868159; c=relaxed/simple;
+	bh=vp5MZTmroiuBdvR0ttdRG0jnr2uZNkSNRW9eKcTZPEo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iLCSwcM2KHqbG9QaPRZQAElyyhVdE28CNugMvrYo1XRY5BATjcqnedtwrsVyV6jejY6NAoUfDQm70nj0Vy+wlyGGS2dO2Q9EZ+w0tX5/+CNMmr6UDG4C9a2sHramSo8SVJgyKQZdRGZ1cW5qvYU8WZOoYeDbVgDId3bjVy0Pa5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SMWhcQrn; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="LVOB1pKp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VAFCExGC/L9pUYGqtrYrGw0senoBiT+hCBmpdYXmbWEjmzKy8oXGalDs5qE3EG06DLJqqwtKjUEdDeQjxdBj30sFRr5SaTNnQVPhzk/UZt62q4xh6eXGWQFjQsgsM3gscY5sTlaDY00vSx14XXSrTuU4ocbfECXnEhSRuFBU8qLZXrCdO7a0nVqlxhxHWH67jH9wNioNpfUPpPYZPVlgOQ/L2hnFdJP9gfI5QV6Ze4oXJv6PO23zMuY+nSI01TCMYNI+Li/JkRL74SfFML5P+exrHkYAWWwlWd2vxE/i7n7IP6vdSyE1Sz5xGPQaIeB4e3DJcZ802Tyr59OlKKbGNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PWytK++w7efVge2S3HCDfNc7xFUv7xIt7O1G0q5iL4I=;
- b=pcwbR2hNILu4dSgSvHIkTd6eDmh2umPLwl3OJpGWIH6wzmUbLOpMisrs7KGEytLwtXEKmG+xoeps4qB+0RYI7AtPNT9W+bUOULhIzMGiGhxNoQTHfjRE6NVUGZy0iP9CejmZIyK+D/tXzEPTYIA7KOv2Iwp5cCw/GCTnaqg8At8IaugKQ2HtyVI3nf2ZDgzNPOleJV9s1yAEyULz1l3blYNo/VL8kR2NBH1Is8gNRLTrmC11yLwn0TYbgeX93EufW9BRBlQb0nTMMRxnQJWEJe40Asa8y2NzkloD3qr3KvNMau6EVPKo+8Ylrze976BbD19zcLnCZP7vNoufJ0edeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWytK++w7efVge2S3HCDfNc7xFUv7xIt7O1G0q5iL4I=;
- b=LVOB1pKpK51+nYgMCPLF/iVQ9ptQ0/3n/710E3scm1+XbX0DUbLdJ8c0oI7rYACg6IY+u/83Uj+RG1RVkYnK0s6OpG6t61nE3Kjwu5n5BQY1pscuNuijMyCGqh0ZjCWMi9ezxwHf7vk7AkGNzuMCXn4sod9kswwWHaJG9MLB8k9zzS3drJi5IEw0RKFlWopyex3XMRfoHNyxqublyFa3dapQohIs+Wxs3JBA5+hjBKpKQ8pMTGSwuGuOxAp0XcvU8Z6uir0Z6h27duwWdNisy+Anke2sA/gRvFzuVwPqnIZAkeIAKkfx98+V4D1BO8Ezqxl4WbU4PYDjcwchhyQjbg==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by MA1PPFE52A1FAE5.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a04::331) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.25; Thu, 13 Mar
- 2025 11:20:24 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8534.025; Thu, 13 Mar 2025
- 11:20:24 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Petr Mladek <pmladek@suse.com>, "keescook@chromium.org"
-	<keescook@chromium.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
-	"airlied@redhat.com" <airlied@redhat.com>, Simona Vetter <simona@ffwll.ch>,
-	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>, "joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>
-CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Hector Martin
-	<marcan@marcan.st>, Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: [PATCH v2 2/2] drm/appletbdrm: use %p4cl instead of %p4cc
-Thread-Topic: [PATCH v2 2/2] drm/appletbdrm: use %p4cl instead of %p4cc
-Thread-Index: AQHblAnqlC9D7gQL3UuCo+FWtohJUg==
-Date: Thu, 13 Mar 2025 11:20:24 +0000
-Message-ID: <C1C027E5-8B59-4F76-9894-98F385B16F17@live.com>
-References: <F61E0F31-980B-4855-9AA8-D594BEEFEC6F@live.com>
-In-Reply-To: <F61E0F31-980B-4855-9AA8-D594BEEFEC6F@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|MA1PPFE52A1FAE5:EE_
-x-ms-office365-filtering-correlation-id: 1aeb4397-93e0-4eeb-e6db-08dd62210c91
-x-microsoft-antispam:
- BCL:0;ARA:14566002|461199028|19110799003|8062599003|8060799006|15080799006|7092599003|440099028|3412199025|12091999003|41001999003|102099032;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?S+kcc90AozqBl2GOKBgtHnY8nYtP5bw3hmgIRz7RgiG2dAPROkolF9n92tK8?=
- =?us-ascii?Q?gu19mcJDsymDvWTyhRnsCLYuH6HoTUrN5QHE14Gud3sADRfqU1jF9TKf990x?=
- =?us-ascii?Q?3AT7dt63TSXyw4RMB9VxcJGHUJOkIpFHSygEGa6bjK10xsvqkXEg6xvE/g3A?=
- =?us-ascii?Q?aHTykuvjEtNxIabz62dNUaK/EZoAMV6G3zmh0upJBUUtyz9WUSJkdJRnye7t?=
- =?us-ascii?Q?2Z6IGTV0gPQZLjwQTXxrwtV8/wCQBUltdQZywcqqqtajFkQY7ruRfvcaqNkK?=
- =?us-ascii?Q?tJXhp9vwXk2FmF3fSa7mQI17z786uPTnxhsX9tW5igqq5aSuc+UF4PhBqVxQ?=
- =?us-ascii?Q?lxAaY0DHtMXNwukadJToljm2j3orl6EYMn796ZkSgfrid/uXc/gd5vEllAYW?=
- =?us-ascii?Q?jlxVNiegjXY58qr7TV3ne6DAuGupHDicJOYWvtoOob7laK4I68jFrNo79g2S?=
- =?us-ascii?Q?+wVowmKZPk5qIYXEINpYdH8nWhMJZYPmBs47VMh/0RFbg1gZfzdxXUcTbQCx?=
- =?us-ascii?Q?V5yd+azcK4xAnF5sMR7mg8MPh+BjIRZcg+1Qn9wOnsuh20WFLJ/XdKTlgGeL?=
- =?us-ascii?Q?eMOz+yBWqXRMXEFj3XLFS66HRt38TCPEKbz0Z90o/O4jT1rZtQRW4yEppJ4u?=
- =?us-ascii?Q?IA+Hgmg4HUtXY5pW85B5+60h8eHnShy9XiSviQpsberSuNRRWFDDTeWOuMhU?=
- =?us-ascii?Q?1Kby1Cr43q/HGoeLZMULYbzJfAHtpVwxUlAEBRp94uRlRmIDZSxh1dKY1qjE?=
- =?us-ascii?Q?nFn50YoLUENXCRGgZBjKCe+ilpqEBhJi83Pi+1TLi5caHZQd3hJ6/pkWtEW3?=
- =?us-ascii?Q?VTzha4ZGB5oSiKNINq89WfrEyodi2z8u9kDtdLMNbF7EBh2UaBOyqMi1JhNw?=
- =?us-ascii?Q?IV2UXQn5LhItex7POmH6pkzjEyGCtLUhn8kn4BBsvdJO9JfHivfJZebFEeKP?=
- =?us-ascii?Q?KnRA0RoI7oQjn6j9Pr6eAXWYuBXmq9cWFw7ENqkR72k/D9nK6eN2xGF7myvH?=
- =?us-ascii?Q?i6VnRVaJixo97IDniTDtSqfI+zdOd97fAPvm75KQyJvR7ci5UrBguQ0fbxrt?=
- =?us-ascii?Q?+vpsbjE/nkPehi/vc/aA680K6vqfb69xevRold9Zq/WKyWBZTRtNVPylBfye?=
- =?us-ascii?Q?syVj/2CvnGqU?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?zfxSafilkAcBAjJXpsK9yAT/y5PwjRz/EeIs8rhfRyCYMvGJa1H570EHu509?=
- =?us-ascii?Q?WWhR+b/gFL7Rob8U3nE7tEIcYupV5rj3BtQ916ukmJrpJALD+LYPK2+lHu6W?=
- =?us-ascii?Q?6z+Md6UqTQHFdW45fsFUrYxwBk1vqJYRWswvvxx5c35nYcKEGpVAOHWDD0nO?=
- =?us-ascii?Q?DdrsYB6AAtW7GlchnAh0vYSVB+15y5d9VTTZbkfo9gfyx3GKGHtIoMguCKU6?=
- =?us-ascii?Q?p1IenbeX1o/FHDkLxBz2CqdkIeG6y9+sDXMUAePJMqoZBdgowNWD97qDBzbZ?=
- =?us-ascii?Q?wSkPjdpZm1GekZw4OVcqFsSUG0ViqudTBup6EFlvv+ZfQFjHdDqCXHfTow8G?=
- =?us-ascii?Q?ZfMFm361jBZsaIYe5HHAoMvvTWQL/oFtDzEtSAmXxlFWurt15YbTcNeeD8lY?=
- =?us-ascii?Q?2GY6slbkn4AN+4lIWiCEoRSLmNvRKysoCMi50W7bCusB0XvT2e1lNdSaDKkt?=
- =?us-ascii?Q?98+5Npf6ELdpt5lKCh53oc6hn7xhlhbTWGQeXYe7Nlx0+3dZO2q11MbApvmr?=
- =?us-ascii?Q?Hfa2AbfaevoT3MHO3c143GteYIth3sqPx5MQVFElB6Ovc6Gc5Wu4qWVwe96T?=
- =?us-ascii?Q?eEkfqY1NBhraNx+fMm7iE2nwG0NHOZPBtt+jEBlUGPxCmjRafVZsrzGys0zH?=
- =?us-ascii?Q?9Gnib5z5EsqWHqLA4Tyc0OcgVpAVJejdIDr2/QqKw2oxnvTOwnlBjG/Twp5/?=
- =?us-ascii?Q?Z5yW/qbUMKMFQz6D2x7gJDNVZBqXjidEgo6nX2icqpwB2YraQhRAnekL/6PI?=
- =?us-ascii?Q?TY6QZP1ha/HIoVYOkn55VEWXp8OCyHmHSGSCEtwWQqfFzXh7ME4IzL5oqIpe?=
- =?us-ascii?Q?GUa0h0egQvHAjsMIc2GIE4D86bZDGoy0xgBE7udumV2xZsHVbwzf9xecsS5Y?=
- =?us-ascii?Q?h2xEr+nTlVHdP704gQKEn5xpOouz6v+wlFQihDQ5lDb15iS/p4Is8rklrYN2?=
- =?us-ascii?Q?9Az1A2sY9fVCGQfZezHSztic/ZDjoK9UHVtODwBxvVj849y5UTwx/tw8WyFq?=
- =?us-ascii?Q?eyN2hlBi11LZadwhJCn/ehk7wXHfvLweyeDewrRnmJ0ea4KIiaMnn6GNmlg9?=
- =?us-ascii?Q?t6r3FVIfK36LiHA/9iv5Z/hSKJWz/bRmMRPeMGo1fPBm2x97mp71OMn5PxI/?=
- =?us-ascii?Q?1OxOqSUA5dF9n9SagK5d/WAFpX9yk9Yvs9/ToN05S+S+KIbpGg6iRA/G5aVk?=
- =?us-ascii?Q?qLHTUxtLS1i7dvgQH5+QPzbzuKWewuKvaqgrszrkjrsWlkAmrReLbiQSq+DQ?=
- =?us-ascii?Q?go1olEOk2ybCooxtKCxVyiIN5gxh7+3env8B/LOYOhojQUboRjh+m/Esoj3P?=
- =?us-ascii?Q?Ws3bItPrbvjs4lb4MHrCumaV?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <68094B59B1007749B5316D61992F3EB1@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SMWhcQrn"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6f768e9be1aso20426367b3.0
+        for <asahi@lists.linux.dev>; Thu, 13 Mar 2025 05:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741868151; x=1742472951; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Oxo4nRaNKlTff6Ix3Ee9t1VjmVf7/i10eQiNoUZabVo=;
+        b=SMWhcQrnLdmuOux7JINUXW2lQ4g6+VnsrfgChinTc8UqfZLRnt5cXUBem8FXAFw9kD
+         xdPrjs5XGGiYp9vWKBjwvCF5g0u3qCAUeHbN46Sa9isq7NFEc9oqoEongd1SNwsl12lX
+         uC5yKfLvWJzm3jfThn9i4aG3wBtNnAe6b53OgpOz/O25ULV4Ing13RaW3zTtwCDrxRxm
+         e7bUs1SJfqzVK5djUJAexvwZW7zD7Xsy0dErOevvtgHupvKFpb4hHwrRXU+OTAEXYj4R
+         7EhALmE3Dw8AFiEYpSOvgdowUcXaNr6ibE1Cv4GMqiT3KgSPOnWCKtkc7Uln1fcwd5TL
+         9hdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741868151; x=1742472951;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Oxo4nRaNKlTff6Ix3Ee9t1VjmVf7/i10eQiNoUZabVo=;
+        b=No+3Az248rFE4+kJyqB8mLSTtZUCGWeE7Smzdm9bnZKioJ4wH9qvz1yJoB1qGdRv80
+         pNANYqIW2NevJeulC3jZz/mv1IZs8gz4tTEeLfvhStr4aoI0AxpwcLrge/mqyigusT3w
+         zrd4kUQ6EsI2IPioLM3bSWY6xQpvBKP01jAVytwp4k86h3r74VOihkeWa8h5264I7B1C
+         WrnG1LHBwbRUq84DNpqusj0xI/95+FZwX4INW/qyjRjI/bvvGvu2e3ctzkGhKpwi5mmD
+         IQ/hA9Y8QRScicZ1jsibwJzN+37ljFJUEt2J1xFSrUIkA1MdZR//VQzAWQXKyeSRs1/q
+         RFDw==
+X-Forwarded-Encrypted: i=1; AJvYcCUvfufij/1R+LueP183QQWQEXLCZZXMhlMD0NOi3tjbiwnCq+iReuASUVEOC9W5jlsVBIARRQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuhluAgxnfdC6/CESm7GpJI/fF4meI39TgupuGuNsr7CvML7OX
+	PU9SOd70Hkf9MncIWu6yjwMBKcBNM/MucRO0iiGehdKJ3gHLVcNsDARkaSad9w0U64mCLgrriTx
+	L0TdadK8/YAQPDUx2l6fx13mrSVTRqRR3G0zXCA==
+X-Gm-Gg: ASbGncuqfG6CYzhROUdY8Aft6IcsTV2J8lo0AcZdszw/4DlqUpkM4rl+4sYChGVMo+K
+	6yCtuRKcLvNMZg9fSbODCS7EtR3yzSP+Eyx7Aq/oFJ1MWEd5fq4ORD2+SEtnhjweYpdLGhheYmk
+	Jv+R0RD6Xm/Y9Hb7+pF7gCIAq5qXc=
+X-Google-Smtp-Source: AGHT+IH+g4YhUvJzDDM8IF19825mFy84oTJJNtvmLZ+edTkcRlAfOhjQ33xlQord/MYk0nTfcCGUgTiOxucg/kuf8R8=
+X-Received: by 2002:a05:690c:6389:b0:6fe:c4bd:e2ca with SMTP id
+ 00721157ae682-6ff2f80f6f8mr30294897b3.14.1741868151300; Thu, 13 Mar 2025
+ 05:15:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1aeb4397-93e0-4eeb-e6db-08dd62210c91
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2025 11:20:24.0603
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PPFE52A1FAE5
+References: <CGME20250313040150epcas5p347f94dac34fd2946dea51049559ee1de@epcas5p3.samsung.com>
+ <20250313035322.243239-1-anuj20.g@samsung.com>
+In-Reply-To: <20250313035322.243239-1-anuj20.g@samsung.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 13 Mar 2025 13:15:15 +0100
+X-Gm-Features: AQ5f1JqMiJUg0zYIlcoPjPPIUUYi7aY9XoeZibdDJNGexKsNoy8AEu5lVvN-wm8
+Message-ID: <CAPDyKFqdK0OPKkTK5C5b1_9kXNSkXJKBvBSa80eXj+GpNfEKBg@mail.gmail.com>
+Subject: Re: [PATCH] block: remove unused parameter
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>, "Md. Haris Iqbal" <haris.iqbal@ionos.com>, 
+	Jack Wang <jinpu.wang@ionos.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
+	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, 
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Maxim Levitsky <maximlevitsky@gmail.com>, 
+	Alex Dubov <oakad@yahoo.com>, Richard Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-mmc@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Aditya Garg <gargaditya08@live.com>
+On Thu, 13 Mar 2025 at 06:13, Anuj Gupta <anuj20.g@samsung.com> wrote:
+>
+> request_queue param is not used by blk_rq_map_sg and __blk_rq_map_sg.
+> remove it.
+>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 
-Due to lack of a proper printk format, %p4cc was being used instead of
-%p4cl for the purpose of printing FourCCs. But the disadvange was that
-they were being printed in a reverse order. %p4cl should correct this
-issue.
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # For MMC/MEMSTICK
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/gpu/drm/tiny/appletbdrm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/apple=
-tbdrm.c
-index 703b9a41a..751b05753 100644
---- a/drivers/gpu/drm/tiny/appletbdrm.c
-+++ b/drivers/gpu/drm/tiny/appletbdrm.c
-@@ -212,7 +212,7 @@ static int appletbdrm_read_response(struct appletbdrm_d=
-evice *adev,
- 	}
-=20
- 	if (response->msg !=3D expected_response) {
--		drm_err(drm, "Unexpected response from device (expected %p4cc found %p4c=
-c)\n",
-+		drm_err(drm, "Unexpected response from device (expected %p4cl found %p4c=
-l)\n",
- 			&expected_response, &response->msg);
- 		return -EIO;
- 	}
-@@ -286,7 +286,7 @@ static int appletbdrm_get_information(struct appletbdrm=
-_device *adev)
- 	}
-=20
- 	if (pixel_format !=3D APPLETBDRM_PIXEL_FORMAT) {
--		drm_err(drm, "Encountered unknown pixel format (%p4cc)\n", &pixel_format=
-);
-+		drm_err(drm, "Encountered unknown pixel format (%p4cl)\n", &pixel_format=
-);
- 		ret =3D -EINVAL;
- 		goto free_info;
- 	}
---=20
-2.47.1
-
+> ---
+>  block/blk-merge.c                   | 4 ++--
+>  block/bsg-lib.c                     | 2 +-
+>  drivers/block/mtip32xx/mtip32xx.c   | 2 +-
+>  drivers/block/rnbd/rnbd-clt.c       | 2 +-
+>  drivers/block/sunvdc.c              | 2 +-
+>  drivers/block/virtio_blk.c          | 2 +-
+>  drivers/block/xen-blkfront.c        | 2 +-
+>  drivers/memstick/core/ms_block.c    | 2 +-
+>  drivers/memstick/core/mspro_block.c | 4 +---
+>  drivers/mmc/core/queue.c            | 2 +-
+>  drivers/mtd/ubi/block.c             | 2 +-
+>  drivers/nvme/host/apple.c           | 2 +-
+>  drivers/nvme/host/fc.c              | 2 +-
+>  drivers/nvme/host/pci.c             | 2 +-
+>  drivers/nvme/host/rdma.c            | 3 +--
+>  drivers/nvme/target/loop.c          | 2 +-
+>  drivers/scsi/scsi_lib.c             | 2 +-
+>  include/linux/blk-mq.h              | 9 ++++-----
+>  18 files changed, 22 insertions(+), 26 deletions(-)
+>
+> diff --git a/block/blk-merge.c b/block/blk-merge.c
+> index 1d1589c35297..fdd4efb54c6c 100644
+> --- a/block/blk-merge.c
+> +++ b/block/blk-merge.c
+> @@ -551,8 +551,8 @@ static inline struct scatterlist *blk_next_sg(struct scatterlist **sg,
+>   * Map a request to scatterlist, return number of sg entries setup. Caller
+>   * must make sure sg can hold rq->nr_phys_segments entries.
+>   */
+> -int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
+> -               struct scatterlist *sglist, struct scatterlist **last_sg)
+> +int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
+> +                   struct scatterlist **last_sg)
+>  {
+>         struct req_iterator iter = {
+>                 .bio    = rq->bio,
+> diff --git a/block/bsg-lib.c b/block/bsg-lib.c
+> index 93523d8f8195..9ceb5d0832f5 100644
+> --- a/block/bsg-lib.c
+> +++ b/block/bsg-lib.c
+> @@ -219,7 +219,7 @@ static int bsg_map_buffer(struct bsg_buffer *buf, struct request *req)
+>         if (!buf->sg_list)
+>                 return -ENOMEM;
+>         sg_init_table(buf->sg_list, req->nr_phys_segments);
+> -       buf->sg_cnt = blk_rq_map_sg(req->q, req, buf->sg_list);
+> +       buf->sg_cnt = blk_rq_map_sg(req, buf->sg_list);
+>         buf->payload_len = blk_rq_bytes(req);
+>         return 0;
+>  }
+> diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+> index 95361099a2dc..0d619df03fa9 100644
+> --- a/drivers/block/mtip32xx/mtip32xx.c
+> +++ b/drivers/block/mtip32xx/mtip32xx.c
+> @@ -2056,7 +2056,7 @@ static void mtip_hw_submit_io(struct driver_data *dd, struct request *rq,
+>         unsigned int nents;
+>
+>         /* Map the scatter list for DMA access */
+> -       nents = blk_rq_map_sg(hctx->queue, rq, command->sg);
+> +       nents = blk_rq_map_sg(rq, command->sg);
+>         nents = dma_map_sg(&dd->pdev->dev, command->sg, nents, dma_dir);
+>
+>         prefetch(&port->flags);
+> diff --git a/drivers/block/rnbd/rnbd-clt.c b/drivers/block/rnbd/rnbd-clt.c
+> index 82467ecde7ec..15627417f12e 100644
+> --- a/drivers/block/rnbd/rnbd-clt.c
+> +++ b/drivers/block/rnbd/rnbd-clt.c
+> @@ -1010,7 +1010,7 @@ static int rnbd_client_xfer_request(struct rnbd_clt_dev *dev,
+>          * See queue limits.
+>          */
+>         if ((req_op(rq) != REQ_OP_DISCARD) && (req_op(rq) != REQ_OP_WRITE_ZEROES))
+> -               sg_cnt = blk_rq_map_sg(dev->queue, rq, iu->sgt.sgl);
+> +               sg_cnt = blk_rq_map_sg(rq, iu->sgt.sgl);
+>
+>         if (sg_cnt == 0)
+>                 sg_mark_end(&iu->sgt.sgl[0]);
+> diff --git a/drivers/block/sunvdc.c b/drivers/block/sunvdc.c
+> index 282f81616a78..2b33fb5b949b 100644
+> --- a/drivers/block/sunvdc.c
+> +++ b/drivers/block/sunvdc.c
+> @@ -485,7 +485,7 @@ static int __send_request(struct request *req)
+>         }
+>
+>         sg_init_table(sg, port->ring_cookies);
+> -       nsg = blk_rq_map_sg(req->q, req, sg);
+> +       nsg = blk_rq_map_sg(req, sg);
+>
+>         len = 0;
+>         for (i = 0; i < nsg; i++)
+> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+> index 6a61ec35f426..a3df4d49bd46 100644
+> --- a/drivers/block/virtio_blk.c
+> +++ b/drivers/block/virtio_blk.c
+> @@ -226,7 +226,7 @@ static int virtblk_map_data(struct blk_mq_hw_ctx *hctx, struct request *req,
+>         if (unlikely(err))
+>                 return -ENOMEM;
+>
+> -       return blk_rq_map_sg(hctx->queue, req, vbr->sg_table.sgl);
+> +       return blk_rq_map_sg(req, vbr->sg_table.sgl);
+>  }
+>
+>  static void virtblk_cleanup_cmd(struct request *req)
+> diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+> index edcd08a9dcef..5babe575c288 100644
+> --- a/drivers/block/xen-blkfront.c
+> +++ b/drivers/block/xen-blkfront.c
+> @@ -751,7 +751,7 @@ static int blkif_queue_rw_req(struct request *req, struct blkfront_ring_info *ri
+>         id = blkif_ring_get_request(rinfo, req, &final_ring_req);
+>         ring_req = &rinfo->shadow[id].req;
+>
+> -       num_sg = blk_rq_map_sg(req->q, req, rinfo->shadow[id].sg);
+> +       num_sg = blk_rq_map_sg(req, rinfo->shadow[id].sg);
+>         num_grant = 0;
+>         /* Calculate the number of grant used */
+>         for_each_sg(rinfo->shadow[id].sg, sg, num_sg, i)
+> diff --git a/drivers/memstick/core/ms_block.c b/drivers/memstick/core/ms_block.c
+> index 5b617c1f6789..f4398383ae06 100644
+> --- a/drivers/memstick/core/ms_block.c
+> +++ b/drivers/memstick/core/ms_block.c
+> @@ -1904,7 +1904,7 @@ static void msb_io_work(struct work_struct *work)
+>
+>                 /* process the request */
+>                 dbg_verbose("IO: processing new request");
+> -               blk_rq_map_sg(msb->queue, req, sg);
+> +               blk_rq_map_sg(req, sg);
+>
+>                 lba = blk_rq_pos(req);
+>
+> diff --git a/drivers/memstick/core/mspro_block.c b/drivers/memstick/core/mspro_block.c
+> index 634d343b6bdb..c9853d887d28 100644
+> --- a/drivers/memstick/core/mspro_block.c
+> +++ b/drivers/memstick/core/mspro_block.c
+> @@ -627,9 +627,7 @@ static int mspro_block_issue_req(struct memstick_dev *card)
+>         while (true) {
+>                 msb->current_page = 0;
+>                 msb->current_seg = 0;
+> -               msb->seg_count = blk_rq_map_sg(msb->block_req->q,
+> -                                              msb->block_req,
+> -                                              msb->req_sg);
+> +               msb->seg_count = blk_rq_map_sg(msb->block_req, msb->req_sg);
+>
+>                 if (!msb->seg_count) {
+>                         unsigned int bytes = blk_rq_cur_bytes(msb->block_req);
+> diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
+> index ab662f502fe7..3ba62f825b84 100644
+> --- a/drivers/mmc/core/queue.c
+> +++ b/drivers/mmc/core/queue.c
+> @@ -523,5 +523,5 @@ unsigned int mmc_queue_map_sg(struct mmc_queue *mq, struct mmc_queue_req *mqrq)
+>  {
+>         struct request *req = mmc_queue_req_to_req(mqrq);
+>
+> -       return blk_rq_map_sg(mq->queue, req, mqrq->sg);
+> +       return blk_rq_map_sg(req, mqrq->sg);
+>  }
+> diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
+> index 2836905f0152..39cc0a6a4d37 100644
+> --- a/drivers/mtd/ubi/block.c
+> +++ b/drivers/mtd/ubi/block.c
+> @@ -199,7 +199,7 @@ static blk_status_t ubiblock_read(struct request *req)
+>          * and ubi_read_sg() will check that limit.
+>          */
+>         ubi_sgl_init(&pdu->usgl);
+> -       blk_rq_map_sg(req->q, req, pdu->usgl.sg);
+> +       blk_rq_map_sg(req, pdu->usgl.sg);
+>
+>         while (bytes_left) {
+>                 /*
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index a060f69558e7..a437eee741e1 100644
+> --- a/drivers/nvme/host/apple.c
+> +++ b/drivers/nvme/host/apple.c
+> @@ -525,7 +525,7 @@ static blk_status_t apple_nvme_map_data(struct apple_nvme *anv,
+>         if (!iod->sg)
+>                 return BLK_STS_RESOURCE;
+>         sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
+> -       iod->nents = blk_rq_map_sg(req->q, req, iod->sg);
+> +       iod->nents = blk_rq_map_sg(req, iod->sg);
+>         if (!iod->nents)
+>                 goto out_free_sg;
+>
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index b9929a5a7f4e..1b5ad1173bc7 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2571,7 +2571,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
+>         if (ret)
+>                 return -ENOMEM;
+>
+> -       op->nents = blk_rq_map_sg(rq->q, rq, freq->sg_table.sgl);
+> +       op->nents = blk_rq_map_sg(rq, freq->sg_table.sgl);
+>         WARN_ON(op->nents > blk_rq_nr_phys_segments(rq));
+>         freq->sg_cnt = fc_dma_map_sg(ctrl->lport->dev, freq->sg_table.sgl,
+>                                 op->nents, rq_dma_dir(rq));
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 950289405ef2..a0b1c57067aa 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -812,7 +812,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+>         if (!iod->sgt.sgl)
+>                 return BLK_STS_RESOURCE;
+>         sg_init_table(iod->sgt.sgl, blk_rq_nr_phys_segments(req));
+> -       iod->sgt.orig_nents = blk_rq_map_sg(req->q, req, iod->sgt.sgl);
+> +       iod->sgt.orig_nents = blk_rq_map_sg(req, iod->sgt.sgl);
+>         if (!iod->sgt.orig_nents)
+>                 goto out_free_sg;
+>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 86a2891d9bcc..b5a0295b5bf4 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1476,8 +1476,7 @@ static int nvme_rdma_dma_map_req(struct ib_device *ibdev, struct request *rq,
+>         if (ret)
+>                 return -ENOMEM;
+>
+> -       req->data_sgl.nents = blk_rq_map_sg(rq->q, rq,
+> -                                           req->data_sgl.sg_table.sgl);
+> +       req->data_sgl.nents = blk_rq_map_sg(rq, req->data_sgl.sg_table.sgl);
+>
+>         *count = ib_dma_map_sg(ibdev, req->data_sgl.sg_table.sgl,
+>                                req->data_sgl.nents, rq_dma_dir(rq));
+> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> index a9d112d34d4f..a5c41144667c 100644
+> --- a/drivers/nvme/target/loop.c
+> +++ b/drivers/nvme/target/loop.c
+> @@ -162,7 +162,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+>                 }
+>
+>                 iod->req.sg = iod->sg_table.sgl;
+> -               iod->req.sg_cnt = blk_rq_map_sg(req->q, req, iod->sg_table.sgl);
+> +               iod->req.sg_cnt = blk_rq_map_sg(req, iod->sg_table.sgl);
+>                 iod->req.transfer_len = blk_rq_payload_bytes(req);
+>         }
+>
+> diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+> index f1cfe0bb89b2..0d29470e86b0 100644
+> --- a/drivers/scsi/scsi_lib.c
+> +++ b/drivers/scsi/scsi_lib.c
+> @@ -1149,7 +1149,7 @@ blk_status_t scsi_alloc_sgtables(struct scsi_cmnd *cmd)
+>          * Next, walk the list, and fill in the addresses and sizes of
+>          * each segment.
+>          */
+> -       count = __blk_rq_map_sg(rq->q, rq, cmd->sdb.table.sgl, &last_sg);
+> +       count = __blk_rq_map_sg(rq, cmd->sdb.table.sgl, &last_sg);
+>
+>         if (blk_rq_bytes(rq) & rq->q->limits.dma_pad_mask) {
+>                 unsigned int pad_len =
+> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> index fa2a76cc2f73..f2eff998913d 100644
+> --- a/include/linux/blk-mq.h
+> +++ b/include/linux/blk-mq.h
+> @@ -1165,14 +1165,13 @@ static inline unsigned short blk_rq_nr_discard_segments(struct request *rq)
+>         return max_t(unsigned short, rq->nr_phys_segments, 1);
+>  }
+>
+> -int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
+> -               struct scatterlist *sglist, struct scatterlist **last_sg);
+> -static inline int blk_rq_map_sg(struct request_queue *q, struct request *rq,
+> -               struct scatterlist *sglist)
+> +int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
+> +               struct scatterlist **last_sg);
+> +static inline int blk_rq_map_sg(struct request *rq, struct scatterlist *sglist)
+>  {
+>         struct scatterlist *last_sg = NULL;
+>
+> -       return __blk_rq_map_sg(q, rq, sglist, &last_sg);
+> +       return __blk_rq_map_sg(rq, sglist, &last_sg);
+>  }
+>  void blk_dump_rq_flags(struct request *, char *);
+>
+> --
+> 2.25.1
+>
