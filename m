@@ -1,407 +1,234 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC55266B45
-	for <asahi@lists.linux.dev>; Thu, 13 Mar 2025 12:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BDC264FBB
+	for <asahi@lists.linux.dev>; Thu, 13 Mar 2025 13:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741868245; cv=none; b=Jpngb4eNrTCkG5FqvGE8lClrkTr9hQeYnVANB+4AYK9ElB3sA74htkxrFtktroKzkj6vcEjpMXrcfVtkkpIP8YANluq5FPxZgHdSSoKFalsvzOpCvBWTwfZlpCpRXkQ+Fvhkq9gRr0kvKWmywcYjPkJzUn7TXR5DDWGGI7+zx74=
+	t=1741872265; cv=none; b=BTy/ojfl2Tz6R4/4sfTg4Fu1YbRbjWWQUYxK3WX/FMS1xR461bzuJryyEzuYNm1RoNxfchpQ9Qwp4SMY+xdg6i6BsR6GiSrxqPJ64cleXlKe1Inp5MP5A6/55GstIsCtMtaZUFaeb41y8EaJU8k1zSXI+nta1EOcnFcU2n3hdss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741868245; c=relaxed/simple;
-	bh=0BOVQPkQNJ/oB3aMimokHLKS8Q4S6n+GKmzwxtrc5nM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B7lJdfFSnOXKfCu55qcSqVPJFs19STUP9cyMrBmreJTdqyGzPc3G4C1e0dGjZYk+Vx9VbVIqOJMNL+WLzSfGmw5/qfc6tb9MpH9WbzY5LY7BhNXw/TjZVsMbuksabbi4YWKFWt9nytRxahhj1RUwblbOGzjZ81WBDBuTdQflNAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=ezPNyrG2; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ionos.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
+	s=arc-20240116; t=1741872265; c=relaxed/simple;
+	bh=jCDe7Wc94ba6aJ/MFQbCu86uV8l1MOm2WI7qny2btIY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EDcmzqRYtVdM3ZgPozocbFr/IpK79ANwdSmh64QCiyD8sGyl3AyIdGNq1c0r5lPUU1L7j4T4+yLXMlSntkC19jo2+aQuRMQ8kNQ5Y/k9r2rKNJPW7LBmQ0hGjkOwQCqHIbAQiLCLE3Qv29bgc/u5Hmd1hrQqW8n6giTKS8PWXwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dz+Vjr8P; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="ezPNyrG2"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e4d18a2c51so159796a12.0
-        for <asahi@lists.linux.dev>; Thu, 13 Mar 2025 05:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1741868237; x=1742473037; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T3KUfUTE42sadcrEtnViL50Ze8Ig+BwN074prKXepkA=;
-        b=ezPNyrG2j3wLMRLct3P5PeLwiDijw6MGpfCsyOL5UmdzAs7nhFhicyRrtOnOtrAVT9
-         5E/d6z0w+rDHar3qipKdUiTzgkvdiB5ObcNNsgE8editijVrA2i6f4SSTipcuGK8Hnbp
-         UGMz/3vaQFVXIdIRUCYi/zHfucN9VznmMgRDrlszJW4w9p6oFbSYYPhU1ApZ/4UWabc7
-         +o7jP12VCg+z77fdjGWmF0ONLlHeV5cEohB4yY8yAlY7cploqsZcIPqFeKzxTjwZuANP
-         bN6aEENR0QW176xiW6oRnoS1XCvrbs5jFZb21pqjLwKc4YtMm+HR0Tkd7v+JVci+qk8o
-         /cLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741868237; x=1742473037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T3KUfUTE42sadcrEtnViL50Ze8Ig+BwN074prKXepkA=;
-        b=rbsgoSSpfVqBqpLprAgM2zbFqG+5T0mAM5WjMC0GXPkb3yv/FICw9keIcNc2r+RHWS
-         WqI2TIko2kQ5Y7YNIY6w9ikN27+EDr9wArV+zbne+CDtD43PSk4FAlnoaB3ho9FoYxhX
-         thgyYWvhAU6rtb9xfWSAkdcODtIKH56VD9/X4gheT0CWaoXlYuLMy/iXUNOuOXxbWhjL
-         fi52eyma137WgGNHGjGZNcMmBX4xg/TeKEJFIjFLDVWQ8aN2tDzXkqF5+egTFb3EybCv
-         usUT5NyqtDHYGqlZ5ZBDlKEKr0Usp0z0Pc+XLBJWnd+Khm25fAfxGDIDYeBhtZlnvB86
-         f5ng==
-X-Forwarded-Encrypted: i=1; AJvYcCXWWi22nHMOqTwWE0W72iVMReWeJHRgU8L5D/ixY6w/tzWRwNqGktO6kwla/6mQznCDIvXAzw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+h5/sU+Idfje70t0rVufY/JGJALhleAHaaJ1wJebCuPvgVQtx
-	av79quIXskDLLFB6N/01aRZP4TrLd43F73+D1yFt2ulZYH0NLbBEMtyKSaQo0uqeISDRIhmkD9F
-	LJ+LAITIATBBNjuBdOFJOoCPFYX7Ao9+8XLDXaA==
-X-Gm-Gg: ASbGnct9RlnoTr4wuuoiGUem014NS3fXVqE+9U6cX/ycAzPBya6uDRIu2lqbJMRklJs
-	5sytGpxIP6WQIQpOwE+p6eiAVO8U5pjsRIOnLWatMadkVV//LsJ/8e2ivY6Q+nKHzCIEVi40F3W
-	na85K75kkBoOby7eA9g2HDLAPrdgD7NeMm6RwlNtzoFrUNCeOqk+Xz0m3ylyq4BcGZs1dzPA==
-X-Google-Smtp-Source: AGHT+IFzK99kHSj5d/FDwifiVSaoCoqlhKVXWIJ6/aG6k3xd47S1yV8uOe7tE9DCf5TStXwjFqv+FuI28Gyvh18i5ws=
-X-Received: by 2002:a05:6402:268f:b0:5e0:36fa:ac1c with SMTP id
- 4fb4d7f45d1cf-5e75f983d16mr5279244a12.9.1741868236757; Thu, 13 Mar 2025
- 05:17:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dz+Vjr8P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741872263; x=1773408263;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jCDe7Wc94ba6aJ/MFQbCu86uV8l1MOm2WI7qny2btIY=;
+  b=dz+Vjr8Pivx9Y9nQrD3GImA/al6j1qkNuqv6IN4+fSUOYN5asyJsVJTs
+   RexsZbuSqHR7JIBM2eEjTNVhUuF2Nfv7QxBeD19LHA6JJEAJiSy5QlV98
+   7LXq6cAG/29audJVmC/VFyBlADh/I5NAxGn1rrqQZGFUrqT/8hWd+skwZ
+   H0YaqRQtPN0dGEbMibUxfwhEu/3xRckWr50NOPeHxsno6yO3L+zkdmNtO
+   jOx+sPzf7QLbiRDq2ip3DDqq3HG2GpKrPokUFwbo3ItGawHaUG/MlIF4C
+   aABH5deocTQU1VO+ZgnYeJ1M9ylXJee5DiYy87gwCQ4mSrBdPcomsmNDg
+   w==;
+X-CSE-ConnectionGUID: bId3ViAVRXqLndZwJLeI1g==
+X-CSE-MsgGUID: ta+pLKSSQlS0hLmED6Su+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="60387885"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="60387885"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:24:22 -0700
+X-CSE-ConnectionGUID: P2b3MLySQXqccd5C+UEwdw==
+X-CSE-MsgGUID: 6BtBIRMqRfu7WFaTVmO00g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="125833934"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:24:17 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tsiXl-00000002BIs-16K9;
+	Thu, 13 Mar 2025 15:24:13 +0200
+Date: Thu, 13 Mar 2025 15:24:13 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Petr Mladek <pmladek@suse.com>, Kees Cook <kees@kernel.org>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>,
+	"airlied@redhat.com" <airlied@redhat.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
+Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <Z9LcfW8H_0YudtdC@smile.fi.intel.com>
+References: <ff3a9c58-5c7a-4c48-8a9e-cc828a43baed@app.fastmail.com>
+ <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9HgVn-XELC065w0@smile.fi.intel.com>
+ <47AE7FCD-0F30-4379-ADE9-090A15ACD58F@live.com>
+ <Z9Kb8zMJgmSP-rgD@smile.fi.intel.com>
+ <PN3PR01MB959780176C0B16C36FBD59C3B8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9KdzZUxs3vlwp0Z@smile.fi.intel.com>
+ <PN3PR01MB9597A8F02423B9E4C585F5EBB8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9K36SRz7Ja_AyQb@pathway.suse.cz>
+ <D1A20E79-554E-4E91-BE47-B6493BDC3823@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CGME20250313040150epcas5p347f94dac34fd2946dea51049559ee1de@epcas5p3.samsung.com>
- <20250313035322.243239-1-anuj20.g@samsung.com>
-In-Reply-To: <20250313035322.243239-1-anuj20.g@samsung.com>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Thu, 13 Mar 2025 13:17:05 +0100
-X-Gm-Features: AQ5f1JrIJ_abLv2o7eKaSVbKIXVsbvKxK9F6-3hJ2TBEx-9sNptiPJkEypoOpyY
-Message-ID: <CAMGffEkm5zkBM7QPbfd7+qiMA92VBfyoRUdb+3CMzqe3ZCs7rg@mail.gmail.com>
-Subject: Re: [PATCH] block: remove unused parameter
-To: Anuj Gupta <anuj20.g@samsung.com>
-Cc: Jens Axboe <axboe@kernel.dk>, "Md. Haris Iqbal" <haris.iqbal@ionos.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
-	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, 
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Maxim Levitsky <maximlevitsky@gmail.com>, 
-	Alex Dubov <oakad@yahoo.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Richard Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
-	xen-devel@lists.xenproject.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <D1A20E79-554E-4E91-BE47-B6493BDC3823@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Mar 13, 2025 at 6:14=E2=80=AFAM Anuj Gupta <anuj20.g@samsung.com> w=
-rote:
->
-> request_queue param is not used by blk_rq_map_sg and __blk_rq_map_sg.
-> remove it.
->
-> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-> ---
->  block/blk-merge.c                   | 4 ++--
->  block/bsg-lib.c                     | 2 +-
->  drivers/block/mtip32xx/mtip32xx.c   | 2 +-
->  drivers/block/rnbd/rnbd-clt.c       | 2 +-
-lgtm.
-Acked-by: Jack Wang <jinpu.wang@ionos.com> #rnbd
->  drivers/block/sunvdc.c              | 2 +-
->  drivers/block/virtio_blk.c          | 2 +-
->  drivers/block/xen-blkfront.c        | 2 +-
->  drivers/memstick/core/ms_block.c    | 2 +-
->  drivers/memstick/core/mspro_block.c | 4 +---
->  drivers/mmc/core/queue.c            | 2 +-
->  drivers/mtd/ubi/block.c             | 2 +-
->  drivers/nvme/host/apple.c           | 2 +-
->  drivers/nvme/host/fc.c              | 2 +-
->  drivers/nvme/host/pci.c             | 2 +-
->  drivers/nvme/host/rdma.c            | 3 +--
->  drivers/nvme/target/loop.c          | 2 +-
->  drivers/scsi/scsi_lib.c             | 2 +-
->  include/linux/blk-mq.h              | 9 ++++-----
->  18 files changed, 22 insertions(+), 26 deletions(-)
->
-> diff --git a/block/blk-merge.c b/block/blk-merge.c
-> index 1d1589c35297..fdd4efb54c6c 100644
-> --- a/block/blk-merge.c
-> +++ b/block/blk-merge.c
-> @@ -551,8 +551,8 @@ static inline struct scatterlist *blk_next_sg(struct =
-scatterlist **sg,
->   * Map a request to scatterlist, return number of sg entries setup. Call=
-er
->   * must make sure sg can hold rq->nr_phys_segments entries.
->   */
-> -int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
-> -               struct scatterlist *sglist, struct scatterlist **last_sg)
-> +int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
-> +                   struct scatterlist **last_sg)
->  {
->         struct req_iterator iter =3D {
->                 .bio    =3D rq->bio,
-> diff --git a/block/bsg-lib.c b/block/bsg-lib.c
-> index 93523d8f8195..9ceb5d0832f5 100644
-> --- a/block/bsg-lib.c
-> +++ b/block/bsg-lib.c
-> @@ -219,7 +219,7 @@ static int bsg_map_buffer(struct bsg_buffer *buf, str=
-uct request *req)
->         if (!buf->sg_list)
->                 return -ENOMEM;
->         sg_init_table(buf->sg_list, req->nr_phys_segments);
-> -       buf->sg_cnt =3D blk_rq_map_sg(req->q, req, buf->sg_list);
-> +       buf->sg_cnt =3D blk_rq_map_sg(req, buf->sg_list);
->         buf->payload_len =3D blk_rq_bytes(req);
->         return 0;
->  }
-> diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/m=
-tip32xx.c
-> index 95361099a2dc..0d619df03fa9 100644
-> --- a/drivers/block/mtip32xx/mtip32xx.c
-> +++ b/drivers/block/mtip32xx/mtip32xx.c
-> @@ -2056,7 +2056,7 @@ static void mtip_hw_submit_io(struct driver_data *d=
-d, struct request *rq,
->         unsigned int nents;
->
->         /* Map the scatter list for DMA access */
-> -       nents =3D blk_rq_map_sg(hctx->queue, rq, command->sg);
-> +       nents =3D blk_rq_map_sg(rq, command->sg);
->         nents =3D dma_map_sg(&dd->pdev->dev, command->sg, nents, dma_dir)=
-;
->
->         prefetch(&port->flags);
-> diff --git a/drivers/block/rnbd/rnbd-clt.c b/drivers/block/rnbd/rnbd-clt.=
-c
-> index 82467ecde7ec..15627417f12e 100644
-> --- a/drivers/block/rnbd/rnbd-clt.c
-> +++ b/drivers/block/rnbd/rnbd-clt.c
-> @@ -1010,7 +1010,7 @@ static int rnbd_client_xfer_request(struct rnbd_clt=
-_dev *dev,
->          * See queue limits.
->          */
->         if ((req_op(rq) !=3D REQ_OP_DISCARD) && (req_op(rq) !=3D REQ_OP_W=
-RITE_ZEROES))
-> -               sg_cnt =3D blk_rq_map_sg(dev->queue, rq, iu->sgt.sgl);
-> +               sg_cnt =3D blk_rq_map_sg(rq, iu->sgt.sgl);
->
->         if (sg_cnt =3D=3D 0)
->                 sg_mark_end(&iu->sgt.sgl[0]);
-> diff --git a/drivers/block/sunvdc.c b/drivers/block/sunvdc.c
-> index 282f81616a78..2b33fb5b949b 100644
-> --- a/drivers/block/sunvdc.c
-> +++ b/drivers/block/sunvdc.c
-> @@ -485,7 +485,7 @@ static int __send_request(struct request *req)
->         }
->
->         sg_init_table(sg, port->ring_cookies);
-> -       nsg =3D blk_rq_map_sg(req->q, req, sg);
-> +       nsg =3D blk_rq_map_sg(req, sg);
->
->         len =3D 0;
->         for (i =3D 0; i < nsg; i++)
-> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-> index 6a61ec35f426..a3df4d49bd46 100644
-> --- a/drivers/block/virtio_blk.c
-> +++ b/drivers/block/virtio_blk.c
-> @@ -226,7 +226,7 @@ static int virtblk_map_data(struct blk_mq_hw_ctx *hct=
-x, struct request *req,
->         if (unlikely(err))
->                 return -ENOMEM;
->
-> -       return blk_rq_map_sg(hctx->queue, req, vbr->sg_table.sgl);
-> +       return blk_rq_map_sg(req, vbr->sg_table.sgl);
->  }
->
->  static void virtblk_cleanup_cmd(struct request *req)
-> diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
-> index edcd08a9dcef..5babe575c288 100644
-> --- a/drivers/block/xen-blkfront.c
-> +++ b/drivers/block/xen-blkfront.c
-> @@ -751,7 +751,7 @@ static int blkif_queue_rw_req(struct request *req, st=
-ruct blkfront_ring_info *ri
->         id =3D blkif_ring_get_request(rinfo, req, &final_ring_req);
->         ring_req =3D &rinfo->shadow[id].req;
->
-> -       num_sg =3D blk_rq_map_sg(req->q, req, rinfo->shadow[id].sg);
-> +       num_sg =3D blk_rq_map_sg(req, rinfo->shadow[id].sg);
->         num_grant =3D 0;
->         /* Calculate the number of grant used */
->         for_each_sg(rinfo->shadow[id].sg, sg, num_sg, i)
-> diff --git a/drivers/memstick/core/ms_block.c b/drivers/memstick/core/ms_=
-block.c
-> index 5b617c1f6789..f4398383ae06 100644
-> --- a/drivers/memstick/core/ms_block.c
-> +++ b/drivers/memstick/core/ms_block.c
-> @@ -1904,7 +1904,7 @@ static void msb_io_work(struct work_struct *work)
->
->                 /* process the request */
->                 dbg_verbose("IO: processing new request");
-> -               blk_rq_map_sg(msb->queue, req, sg);
-> +               blk_rq_map_sg(req, sg);
->
->                 lba =3D blk_rq_pos(req);
->
-> diff --git a/drivers/memstick/core/mspro_block.c b/drivers/memstick/core/=
-mspro_block.c
-> index 634d343b6bdb..c9853d887d28 100644
-> --- a/drivers/memstick/core/mspro_block.c
-> +++ b/drivers/memstick/core/mspro_block.c
-> @@ -627,9 +627,7 @@ static int mspro_block_issue_req(struct memstick_dev =
-*card)
->         while (true) {
->                 msb->current_page =3D 0;
->                 msb->current_seg =3D 0;
-> -               msb->seg_count =3D blk_rq_map_sg(msb->block_req->q,
-> -                                              msb->block_req,
-> -                                              msb->req_sg);
-> +               msb->seg_count =3D blk_rq_map_sg(msb->block_req, msb->req=
-_sg);
->
->                 if (!msb->seg_count) {
->                         unsigned int bytes =3D blk_rq_cur_bytes(msb->bloc=
-k_req);
-> diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
-> index ab662f502fe7..3ba62f825b84 100644
-> --- a/drivers/mmc/core/queue.c
-> +++ b/drivers/mmc/core/queue.c
-> @@ -523,5 +523,5 @@ unsigned int mmc_queue_map_sg(struct mmc_queue *mq, s=
-truct mmc_queue_req *mqrq)
->  {
->         struct request *req =3D mmc_queue_req_to_req(mqrq);
->
-> -       return blk_rq_map_sg(mq->queue, req, mqrq->sg);
-> +       return blk_rq_map_sg(req, mqrq->sg);
->  }
-> diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
-> index 2836905f0152..39cc0a6a4d37 100644
-> --- a/drivers/mtd/ubi/block.c
-> +++ b/drivers/mtd/ubi/block.c
-> @@ -199,7 +199,7 @@ static blk_status_t ubiblock_read(struct request *req=
-)
->          * and ubi_read_sg() will check that limit.
->          */
->         ubi_sgl_init(&pdu->usgl);
-> -       blk_rq_map_sg(req->q, req, pdu->usgl.sg);
-> +       blk_rq_map_sg(req, pdu->usgl.sg);
->
->         while (bytes_left) {
->                 /*
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index a060f69558e7..a437eee741e1 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -525,7 +525,7 @@ static blk_status_t apple_nvme_map_data(struct apple_=
-nvme *anv,
->         if (!iod->sg)
->                 return BLK_STS_RESOURCE;
->         sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
-> -       iod->nents =3D blk_rq_map_sg(req->q, req, iod->sg);
-> +       iod->nents =3D blk_rq_map_sg(req, iod->sg);
->         if (!iod->nents)
->                 goto out_free_sg;
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index b9929a5a7f4e..1b5ad1173bc7 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2571,7 +2571,7 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct =
-request *rq,
->         if (ret)
->                 return -ENOMEM;
->
-> -       op->nents =3D blk_rq_map_sg(rq->q, rq, freq->sg_table.sgl);
-> +       op->nents =3D blk_rq_map_sg(rq, freq->sg_table.sgl);
->         WARN_ON(op->nents > blk_rq_nr_phys_segments(rq));
->         freq->sg_cnt =3D fc_dma_map_sg(ctrl->lport->dev, freq->sg_table.s=
-gl,
->                                 op->nents, rq_dma_dir(rq));
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 950289405ef2..a0b1c57067aa 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -812,7 +812,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *de=
-v, struct request *req,
->         if (!iod->sgt.sgl)
->                 return BLK_STS_RESOURCE;
->         sg_init_table(iod->sgt.sgl, blk_rq_nr_phys_segments(req));
-> -       iod->sgt.orig_nents =3D blk_rq_map_sg(req->q, req, iod->sgt.sgl);
-> +       iod->sgt.orig_nents =3D blk_rq_map_sg(req, iod->sgt.sgl);
->         if (!iod->sgt.orig_nents)
->                 goto out_free_sg;
->
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 86a2891d9bcc..b5a0295b5bf4 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1476,8 +1476,7 @@ static int nvme_rdma_dma_map_req(struct ib_device *=
-ibdev, struct request *rq,
->         if (ret)
->                 return -ENOMEM;
->
-> -       req->data_sgl.nents =3D blk_rq_map_sg(rq->q, rq,
-> -                                           req->data_sgl.sg_table.sgl);
-> +       req->data_sgl.nents =3D blk_rq_map_sg(rq, req->data_sgl.sg_table.=
-sgl);
->
->         *count =3D ib_dma_map_sg(ibdev, req->data_sgl.sg_table.sgl,
->                                req->data_sgl.nents, rq_dma_dir(rq));
-> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-> index a9d112d34d4f..a5c41144667c 100644
-> --- a/drivers/nvme/target/loop.c
-> +++ b/drivers/nvme/target/loop.c
-> @@ -162,7 +162,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_=
-hw_ctx *hctx,
->                 }
->
->                 iod->req.sg =3D iod->sg_table.sgl;
-> -               iod->req.sg_cnt =3D blk_rq_map_sg(req->q, req, iod->sg_ta=
-ble.sgl);
-> +               iod->req.sg_cnt =3D blk_rq_map_sg(req, iod->sg_table.sgl)=
-;
->                 iod->req.transfer_len =3D blk_rq_payload_bytes(req);
->         }
->
-> diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-> index f1cfe0bb89b2..0d29470e86b0 100644
-> --- a/drivers/scsi/scsi_lib.c
-> +++ b/drivers/scsi/scsi_lib.c
-> @@ -1149,7 +1149,7 @@ blk_status_t scsi_alloc_sgtables(struct scsi_cmnd *=
-cmd)
->          * Next, walk the list, and fill in the addresses and sizes of
->          * each segment.
->          */
-> -       count =3D __blk_rq_map_sg(rq->q, rq, cmd->sdb.table.sgl, &last_sg=
-);
-> +       count =3D __blk_rq_map_sg(rq, cmd->sdb.table.sgl, &last_sg);
->
->         if (blk_rq_bytes(rq) & rq->q->limits.dma_pad_mask) {
->                 unsigned int pad_len =3D
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index fa2a76cc2f73..f2eff998913d 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -1165,14 +1165,13 @@ static inline unsigned short blk_rq_nr_discard_se=
-gments(struct request *rq)
->         return max_t(unsigned short, rq->nr_phys_segments, 1);
->  }
->
-> -int __blk_rq_map_sg(struct request_queue *q, struct request *rq,
-> -               struct scatterlist *sglist, struct scatterlist **last_sg)=
-;
-> -static inline int blk_rq_map_sg(struct request_queue *q, struct request =
-*rq,
-> -               struct scatterlist *sglist)
-> +int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
-> +               struct scatterlist **last_sg);
-> +static inline int blk_rq_map_sg(struct request *rq, struct scatterlist *=
-sglist)
->  {
->         struct scatterlist *last_sg =3D NULL;
->
-> -       return __blk_rq_map_sg(q, rq, sglist, &last_sg);
-> +       return __blk_rq_map_sg(rq, sglist, &last_sg);
->  }
->  void blk_dump_rq_flags(struct request *, char *);
->
-> --
-> 2.25.1
->
+On Thu, Mar 13, 2025 at 11:06:54AM +0000, Aditya Garg wrote:
+> > On 13 Mar 2025, at 4:18 PM, Petr Mladek <pmladek@suse.com> wrote:
+> > On Thu 2025-03-13 09:13:23, Aditya Garg wrote:
+> >>> On 13 Mar 2025, at 2:27 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >>> On Thu, Mar 13, 2025 at 08:53:28AM +0000, Aditya Garg wrote:
+> >>>>>> On 13 Mar 2025, at 2:19 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >>>>> On Thu, Mar 13, 2025 at 07:26:05AM +0000, Aditya Garg wrote:
+> >>>>>>>> On 13 Mar 2025, at 12:58 AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >>>>>>> On Wed, Mar 12, 2025 at 07:14:36PM +0000, Aditya Garg wrote:
+> >>>>>>>>> On 12 Mar 2025, at 9:05 PM, Sven Peter <sven@svenpeter.dev> wrote:
+> >>>>>>>>> On Wed, Mar 12, 2025, at 13:03, Aditya Garg wrote:
+
+...
+
+> >>>>>>>>> I don't have a strong opinion either way: for SMC I just need to print
+> >>>>>>>>> FourCC keys for debugging / information in a few places.
+> >>>>>>>>> 
+> >>>>>>>>> I'm preparing the SMC driver for upstreaming again (after a two year delay :-()
+> >>>>>>>>> and was just going to use macros to print the SMC FourCC keys similar to
+> >>>>>>>>> DRM_MODE_FMT/DRM_MODE_ARG for now to keep the series smaller and revisit
+> >>>>>>>>> the topic later.
+> >>>>>>>>> 
+> >>>>>>>>> Right now I have these in my local tree (only compile tested so far):
+> >>>>>>>>> 
+> >>>>>>>>> #define SMC_KEY_FMT "%c%c%c%c (0x%08x)"
+> >>>>>>>>> #define SMC_KEY_ARG(k) (k)>>24, (k)>>16, (k)>>8, (k), (k)
+> >>>>>>>> 
+> >>>>>>>> That seems to be a nice alternative, which I guess Thomas was also suggesting.
+> >>>>>>> 
+> >>>>>>> I don't think it's "nice". Each of the approaches has pros and cons.
+> >>>>>>> You can start from bloat-o-meter here and compare it with your %p extension.
+> >>>>>>> 
+> >>>>>>> Also, can you show the bloat-o-meter output for the vsprintf.c?
+> >>>>>> 
+> >>>>>> Here are your outputs:
+> >>>>> 
+> >>>>> Thank you!
+> >>>>> 
+> >>>>>> ---------------------------------------------------------------------
+> >>>>>> For appletbdrm:
+> >>>>>> 
+> >>>>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $P4 $MACRO
+> >>>>>> add/remove: 0/0 grow/shrink: 1/1 up/down: 64/-19 (45)
+> >>>>>> Function                                     old     new   delta
+> >>>>>> appletbdrm_read_response                     395     459     +64
+> >>>>>> appletbdrm_probe                            1786    1767     -19
+> >>>>>> Total: Before=13418, After=13463, chg +0.34%
+> >>>>> 
+> >>>>> This is enough, no need to repeat this for every parameter.
+> >>>>> 
+> >>>>>> ---------------------------------------------------------------------
+> >>>>>> For vsprintf:
+> >>>>>> 
+> >>>>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $OLD $NEW
+> >>>>>> add/remove: 0/0 grow/shrink: 1/0 up/down: 220/0 (220)
+> >>>>>> Function                                     old     new   delta
+> >>>>>> fourcc_string                                479     699    +220
+> >>>>>> Total: Before=26454, After=26674, chg +0.83%
+> >>>>> 
+> >>>>> So, we get +220 bytes vs +43 bytes. It means if we found 5+ users, it worth
+> >>>>> doing.
+> >>>> 
+> >>>> Will it also depend upon the number of times it's being used? In appletbdrm,
+> >>>> it is being used 3 times. Probably more in Asahi SMC.
+> >>> 
+> >>> Right, it depends on the usage count. Also on different architectures it may
+> >>> give different results. On 32-bit it probably gives better statistics.
+> >> 
+> >> Best to go ahead with vsprintf then. Petr, are you still there?
+> > 
+> > I am here but there were many other things in the queue ;-)
+> > 
+> > I do not have strong opinion. I am not familiar with the FourCC
+> > format and it looks like a magic to me. But it seems that it makes
+> > sense for the users.
+> > 
+> > I personally find the %pcX modifiers a bit less hacky than
+> > the two macros SMC_KEY_FMT/SMC_KEY_ARG.
+> > 
+> > So I am fine with this patch:
+> > 
+> > Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > Tested-by: Petr Mladek <pmladek@suse.com>
+> > 
+> > 
+> > Now, the question is how to get this patch into the mainline.
+> > 
+> > Normally, it would make perfect sense to queue it via the DRM tree
+> > because drivers/gpu/drm/tiny/appletbdrm.c is a new driver...
+> > 
+> > But this time there is a conflicting patchset which is reworking
+> > the entire lib/test_printf.c file, see
+> > 20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com
+> 
+> Link seems to be broken
+
+It works fine. Because it's not a link, it's Message-ID, you need to add
+https://lore.kernel.org/r/ in front of it.
+
+> > And it will likely be ready for the next merge window as well.
+> > I am going to review it right away.
+> > 
+> > It is even more complicated because the patchset converting
+> > the printf test module to KUNIT depends on another changes
+> > in Kees' tree (moving kunit test modules to lib/tests/).
+> > So it might be easier when it goes via Kees' tree.
+> > 
+> > And it might be easier when even this patch goes via Kees' tree.
+> > 
+> > My proposal:
+> > 
+> > I suggest to separate the fourcc_pointer() test update
+> > to a separate patch and add it later after the merge window
+> > when things settle down.
+> > 
+> > I mean to send the vsprintf.c, checkpatch.pl, and doc update
+> > via DRM tree together with the new appletbdrm.c driver.
+> 
+> Sounds good. At least we can get it working. I’ll make sure the self
+> tests get updated once 6.15-rc1 gets released, or Kees can share
+> his tree, where I can add the tests as well.
+> 
+> I’ll send a v2 so that Thomas can take them up.
+> > 
+> > And update the selftest later when both DRM tree and KUNIT
+> > update reaches mainline.
+> > 
+> > How does that sound, please?
+
+To me sounds good, but I'm not a maintainer involved in all this :-)
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
