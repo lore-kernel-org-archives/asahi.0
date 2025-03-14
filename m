@@ -1,52 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8FC78F2E;
-	Fri, 14 Mar 2025 15:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D60418A6C5;
+	Fri, 14 Mar 2025 21:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741967568; cv=none; b=FGPPLldsLwMph5HjznJtYS8xAgD8LVytmGg9VkvzxhYse15yuuSBk1jdYwiz84QluLUMrsqoKpppE6Tz8y8JiWQAkS5Pd3LuZMObecFcifH7rzJriWtT6oBoDsoCI38GYkbLaKbf6q+Ny7RfnjoWXqA1KfriaGSqZNcgB5OFdBc=
+	t=1741989514; cv=none; b=SA5v7PKLOnOatIUukjfurE/NtQJ+9FsO6i+stBsDYwpO0u7qIgrEpDa9UuIHuWKnRZHO9d7QV/Cdn5iyG7zKpb+/NZ+rwFNJLfQ8OrPfTCaMgT4WMq17FOB1Q7vp4jRvYD9BRcYqFTYVXljVCQlUhZUlivtSASJEEpt3tQFvr3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741967568; c=relaxed/simple;
-	bh=/uS4Ng/WL4Jcl0Ypz9LMLA+hr2onBnAyckmY9Xp0WYE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=m0IyQeBQgtBqrNyNKp1BwguHHEPZ1SHWsZOGACsdZLj1XCTv+YjPVRdLBFnBFMcXNbomfzMAlpGpX7erlL4qIJftIt63Ycs7kY2rTnGBTdN7x6ewjOG4y2z2iuchYyiQV/S8We8e5lOoiUY/Xcl0aEy2qWeA/hvxPD51r5pDXUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPejpvPI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741989514; c=relaxed/simple;
+	bh=UNPNnzvCRlfNLT/98cuL4dZmsHS+ig3ASnt5aAEm1jI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mUt/p3gDsXL+LUGziblj+tqRpEGzd0jg39hsNmYp9SkwOjVqmiO2GgTsr0XW72yRiPXDP6X26rNTkhMo7dwMWAA0l5uWSNBttwhkZEFixfzmRLs+4h4SamUgVidIFhM6N3dP5d0lPgV9GOxXCO9+U9oHJkfh2rDOyZht6VzkQrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=tIRZiUN6; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPejpvPI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3215C4CEE9;
-	Fri, 14 Mar 2025 15:52:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741967568;
-	bh=/uS4Ng/WL4Jcl0Ypz9LMLA+hr2onBnAyckmY9Xp0WYE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SPejpvPIxJ3EItLLujVnFxouIcFjY4+owwjJUmcJD+19EVLugbpxI4TkF/eBm0w3J
-	 mTTlsL2Q+IbECocAChsyEtVhMEHSFbx/X2rzanjpN3AAmnnmPLdxzUwPRRhGr0Gakt
-	 QiTWToAQcWp+EgeVYDDHzxM65Jm/b4NWAna+wWSwZJBhpPLHT/HJoBg40BERmFRXBH
-	 cxO2pXqNQlOvkn9yReqYMnokyk1EcUYv1ET09Q+aI43rReDO5O66teSETXQGQZ6VKW
-	 lqUYsmshwNU9k5BevBTe0J9FHzPD8j7Y2NINAsFgilmBNC/DJE6MXS4uHzPz7slHo6
-	 VtWusLum1IuGQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
- Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
- Neal Gompa <neal@gompa.dev>
-In-Reply-To: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
-Subject: Re: (subset) [PATCH v3 00/20] ASoC: tas27{64,70}: improve support
- for Apple codec variants
-Message-Id: <174196756357.19728.11723701852037310950.b4-ty@kernel.org>
-Date: Fri, 14 Mar 2025 15:52:43 +0000
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="tIRZiUN6"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ZDyt62qYFz9shx;
+	Fri, 14 Mar 2025 22:58:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=MBO0001; t=1741989502;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=eljWF6A2+LoZJ/GR+lrqWY3/PFt8v76bPw+JAiEtG54=;
+	b=tIRZiUN63e/0e2WHQl0W7qE6bXHTU+1EhlxvnaF1hITzyc7NaeVNpKLQ8AZdYE8wV+NKck
+	yIfugmpz+jCIDCdNbOoAgj65vL3nrkgVckTaZuBB/7mBf4wAdA0QnraOnbdGiPph1YZ1v3
+	P//V75+pXdVUgWfWkfH8I4vMx0UXBcAqpp8wc2HBHng//EkIbJ47MXFb7NukgrMbaWb4Xz
+	l2sxRoFOD/+iC7g56+V8qNzZKgLai1nS05vgfvWznhWCLgotQ/I1+WUIIVzie/p7XlgyG1
+	OaT74AkW4bpaAkGW3MnNUW8TmP170DAtZ+Yu/w1j09GGvmmb3LWu+HaeOc0y2A==
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+Subject: [RFC PATCH 0/8] staging: apfs: init APFS module
+Date: Fri, 14 Mar 2025 17:57:46 -0400
+Message-Id: <20250314-apfs-v1-0-ddfaa6836b5c@ethancedwards.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -55,56 +44,114 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+X-B4-Tracking: v=1; b=H4sIAFqm1GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDI0MD3cSCtGJdyxQTE3MLcwvTNAsDJaDSgqLUtMwKsDHRsbW1AHbVvw5
+ WAAAA
+X-Change-ID: 20250210-apfs-9d4478785f80
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, tytso@mit.edu
+Cc: ernesto.mnd.fernandez@gmail.com, dan.carpenter@linaro.org, 
+ sven@svenpeter.dev, ernesto@corellium.com, gargaditya08@live.com, 
+ willy@infradead.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-staging@lists.linux.dev, 
+ Ethan Carter Edwards <ethan@ethancedwards.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4698;
+ i=ethan@ethancedwards.com; h=from:subject:message-id;
+ bh=UNPNnzvCRlfNLT/98cuL4dZmsHS+ig3ASnt5aAEm1jI=;
+ b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0o0bkp2QXk4ekFKWGJEOXFoNThlVGp6e
+ GhQcXlVeHBGOVpWaDVoMWZCdTc3c3pYLzhlWDdYSGNxWkt3cTZYClJZSFN6WkZyTTRxbXEwcGQv
+ TS9kVWNyQ0lNYkZJQ3VteVBJL1J6bnRvZVlNaFoxL1hacGc1ckF5Z1F4aDRPSVUKZ0ltY25zREk
+ 4S1JrMVRKWjNmdE44K3ErK1Y4Nzh2WGFYUFdBQmIvRWN6UHVTS3hZSjdqZWhZSGhyeHk3VXJmRw
+ pvNGlHdmtUUjNZYWIzNzdpVWlqZndXSm0wWmQrL3RRcG9Rby9UZ0FCSEU3ego9R1pMNQotLS0tL
+ UVORCBQR1AgTUVTU0FHRS0tLS0tCg==
+X-Developer-Key: i=ethan@ethancedwards.com; a=openpgp;
+ fpr=2E51F61839D1FA947A7300C234C04305D581DBFE
 
-On Thu, 27 Feb 2025 22:07:27 +1000, James Calligeros wrote:
-> This series introduces a number of changes to the drivers for
-> the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
-> introduce (and improve in the case of TAS2770) support for the
-> variants of these amps found in Apple Silicon Macs.
-> 
-> Apple's variant of TAS2764 is known as SN012776, and as always with
-> Apple is a subtly incompatible variant with a number of quirks. It
-> is not publicly available. The TAS2770 variant is known as TAS5770L,
-> and does not require incompatible handling.
-> 
-> [...]
+Hello everyone,
 
-Applied to
+This is a follow up patchset to the driver I sent an email about a few
+weeks ago [0]. I understand this patchset will probably get rejected, 
+but I wanted to report on what I have done thus far. I have got the 
+upstream module imported and building, and it passes some basic tests 
+so far (I have not tried getting XFS/FStests running yet). 
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Like mentioned earlier, some of the files have been moved to folios, but
+a large majority of them still use bufferheads. I would like to have
+them completely removed before moved from staging/ into fs/.
 
-Thanks!
+I have split everything up into separate commits as best as I could.
+Most of the C files rely in functions from other C files, so I included
+them all in one patch/commit.
 
-[01/20] ASoC: dt-bindings: tas27xx: add compatible for SN012776
-        commit: 25a83f870b8a25a4b10bf5ba474a017ed5a72e7d
-[02/20] ASoC: dt-bindings: tas2770: add compatible for TAS5770L
-        commit: ce9233937f3233e277ff23395e61ea690c769bef
-[03/20] ASoC: tas2764: Extend driver to SN012776
-        commit: ad18392962df46a858432839cc6bcaf2ede7cc86
-[04/20] ASoC: tas2764: Add control concerning overcurrent events
-        commit: f8d5f28e3f2ece5a1392205022afe30c87107a9b
-[05/20] ASoC: tas2770: Factor out set_ivsense_slots
-        commit: 6553ee024b4452ef861de10605156c9d79e208ab
-[06/20] ASoC: tas2770: Fix and redo I/V sense TDM slot setting logic
-        commit: f0066c8d1d3298e9f9d136a365139bac733e84c5
+I am curious to hear everyone's thoughts on this and to start getting
+the ball rolling for the code-review process. Please feel free to
+include/CC anyone who may be interested in this driver/the review
+process. I have included a few people, but have certainly missed others.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+[0]: https://lore.kernel.org/lkml/20250307165054.GA9774@eaf/
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+---
+Ethan Carter Edwards (8):
+      staging: apfs: init lzfse compression library for APFS
+      staging: apfs: init unicode.{c,h}
+      staging: apfs: init apfs_raw.h to handle on-disk structures
+      staging: apfs: init libzbitmap.{c,h} for decompression
+      staging: apfs: init APFS
+      staging: apfs: init build support for APFS
+      staging: apfs: init TODO and README.rst
+      MAINTAINERS: apfs: add entry and relevant information
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ MAINTAINERS                                      |    6 +
+ drivers/staging/Kconfig                          |    2 +
+ drivers/staging/apfs/Kconfig                     |   13 +
+ drivers/staging/apfs/Makefile                    |   10 +
+ drivers/staging/apfs/README.rst                  |   87 +
+ drivers/staging/apfs/TODO                        |    7 +
+ drivers/staging/apfs/apfs.h                      | 1193 ++++++++
+ drivers/staging/apfs/apfs_raw.h                  | 1567 +++++++++++
+ drivers/staging/apfs/btree.c                     | 1174 ++++++++
+ drivers/staging/apfs/compress.c                  |  442 +++
+ drivers/staging/apfs/dir.c                       | 1440 ++++++++++
+ drivers/staging/apfs/extents.c                   | 2371 ++++++++++++++++
+ drivers/staging/apfs/file.c                      |  164 ++
+ drivers/staging/apfs/inode.c                     | 2235 +++++++++++++++
+ drivers/staging/apfs/key.c                       |  337 +++
+ drivers/staging/apfs/libzbitmap.c                |  442 +++
+ drivers/staging/apfs/libzbitmap.h                |   31 +
+ drivers/staging/apfs/lzfse/lzfse.h               |  136 +
+ drivers/staging/apfs/lzfse/lzfse_decode.c        |   74 +
+ drivers/staging/apfs/lzfse/lzfse_decode_base.c   |  652 +++++
+ drivers/staging/apfs/lzfse/lzfse_encode.c        |  163 ++
+ drivers/staging/apfs/lzfse/lzfse_encode_base.c   |  826 ++++++
+ drivers/staging/apfs/lzfse/lzfse_encode_tables.h |  218 ++
+ drivers/staging/apfs/lzfse/lzfse_fse.c           |  217 ++
+ drivers/staging/apfs/lzfse/lzfse_fse.h           |  606 +++++
+ drivers/staging/apfs/lzfse/lzfse_internal.h      |  612 +++++
+ drivers/staging/apfs/lzfse/lzfse_main.c          |  336 +++
+ drivers/staging/apfs/lzfse/lzfse_tunables.h      |   60 +
+ drivers/staging/apfs/lzfse/lzvn_decode_base.c    |  721 +++++
+ drivers/staging/apfs/lzfse/lzvn_decode_base.h    |   68 +
+ drivers/staging/apfs/lzfse/lzvn_encode_base.c    |  593 ++++
+ drivers/staging/apfs/lzfse/lzvn_encode_base.h    |  116 +
+ drivers/staging/apfs/message.c                   |   29 +
+ drivers/staging/apfs/namei.c                     |  133 +
+ drivers/staging/apfs/node.c                      | 2069 ++++++++++++++
+ drivers/staging/apfs/object.c                    |  315 +++
+ drivers/staging/apfs/snapshot.c                  |  684 +++++
+ drivers/staging/apfs/spaceman.c                  | 1433 ++++++++++
+ drivers/staging/apfs/super.c                     | 2099 ++++++++++++++
+ drivers/staging/apfs/symlink.c                   |   78 +
+ drivers/staging/apfs/transaction.c               |  959 +++++++
+ drivers/staging/apfs/unicode.c                   | 3156 ++++++++++++++++++++++
+ drivers/staging/apfs/unicode.h                   |   27 +
+ drivers/staging/apfs/xattr.c                     |  912 +++++++
+ drivers/staging/apfs/xfield.c                    |  171 ++
+ 45 files changed, 28984 insertions(+)
+---
+base-commit: 695caca9345a160ecd9645abab8e70cfe849e9ff
+change-id: 20250210-apfs-9d4478785f80
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Ethan Carter Edwards <ethan@ethancedwards.com>
 
