@@ -1,47 +1,52 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BA11FF7D0
-	for <asahi@lists.linux.dev>; Fri, 14 Mar 2025 13:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8FC78F2E;
+	Fri, 14 Mar 2025 15:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741960204; cv=none; b=sBhEBeexKRw3kGBNPMbVcZRfsFJWE1B9zWdghrufuac+rzm7OHjBJMyDnajdDVAW+O2jH/Im1YVzw9VwSagNdmPRFlJ8DGrVxaspaia8HWt2jio9bhZxVOpO7NGYbe4aps1XrwNxt8BSU0nTaS0Gt2i1+NVQ2AD35prq1K0qbLQ=
+	t=1741967568; cv=none; b=FGPPLldsLwMph5HjznJtYS8xAgD8LVytmGg9VkvzxhYse15yuuSBk1jdYwiz84QluLUMrsqoKpppE6Tz8y8JiWQAkS5Pd3LuZMObecFcifH7rzJriWtT6oBoDsoCI38GYkbLaKbf6q+Ny7RfnjoWXqA1KfriaGSqZNcgB5OFdBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741960204; c=relaxed/simple;
-	bh=0um3iODhdtSJSPx10NBW3eU/Ie7n0p9Y448asvFzY7k=;
+	s=arc-20240116; t=1741967568; c=relaxed/simple;
+	bh=/uS4Ng/WL4Jcl0Ypz9LMLA+hr2onBnAyckmY9Xp0WYE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BJKHHl8LfSsA6csPPcRREu7awYMF5qkHqpMph1XDS4ZB0lObfPUR0ZPKQiF2PxMIF0hykkLjBGutyYvgKEih1S5ccWejGd5BKgx1cX4XzgVqlBWq4g8DbvOnGrag9xA2hirgF7WoRKSnqeurpS3K5RXs/15XQSGicqrVEOktKzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=lOsXBqWe; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	 MIME-Version:Content-Type; b=m0IyQeBQgtBqrNyNKp1BwguHHEPZ1SHWsZOGACsdZLj1XCTv+YjPVRdLBFnBFMcXNbomfzMAlpGpX7erlL4qIJftIt63Ycs7kY2rTnGBTdN7x6ewjOG4y2z2iuchYyiQV/S8We8e5lOoiUY/Xcl0aEy2qWeA/hvxPD51r5pDXUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPejpvPI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="lOsXBqWe"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1741960199;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U/5knLVWhNBfFd9leGBuomV+x3A+6TFi+unjjwXKU9A=;
-	b=lOsXBqWeOxXWT0gOrCN3WOhGLcXDVZdCKgBO8Q1mGUvv40abQIWsL7ssDOv6qdWGheoAG9
-	ezTredyQIJiwhlwKbxo51HTlHrdI5wW7lz5f6ccBvlsEBS6wOV4upPfOI0lDCKwD3qLrlv
-	4iqOEr36zm0gf+YxEeruohTXmvW36Gmrug5lB/8m5uut7hkEWL9s/YfYNpfVhdtHhmhHrG
-	SpNj/CcSrvhHCRUd+M7IPWRTVjsXFixjl62cP1UrvQIpN7mOFelLDws0e1hGJ9AC7oWEbM
-	NppZ5wfWU00hKS7BKQ333bAqfizMSk+dNjWYANtOqQ1QEl+adFwoeyEOcYscgg==
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Faith Ekstrand <faith.ekstrand@collabora.com>, 
- Sven Peter <sven@svenpeter.dev>
-In-Reply-To: <20250310-apple-twiddled-modifiers-v4-1-1ccac9544808@rosenzweig.io>
-References: <20250310-apple-twiddled-modifiers-v4-1-1ccac9544808@rosenzweig.io>
-Subject: Re: [PATCH v4] drm: add modifiers for Apple GPU layouts
-Message-Id: <174196019716.15076.15894537454426268004.b4-ty@rosenzweig.io>
-Date: Fri, 14 Mar 2025 09:49:57 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPejpvPI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3215C4CEE9;
+	Fri, 14 Mar 2025 15:52:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741967568;
+	bh=/uS4Ng/WL4Jcl0Ypz9LMLA+hr2onBnAyckmY9Xp0WYE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SPejpvPIxJ3EItLLujVnFxouIcFjY4+owwjJUmcJD+19EVLugbpxI4TkF/eBm0w3J
+	 mTTlsL2Q+IbECocAChsyEtVhMEHSFbx/X2rzanjpN3AAmnnmPLdxzUwPRRhGr0Gakt
+	 QiTWToAQcWp+EgeVYDDHzxM65Jm/b4NWAna+wWSwZJBhpPLHT/HJoBg40BERmFRXBH
+	 cxO2pXqNQlOvkn9yReqYMnokyk1EcUYv1ET09Q+aI43rReDO5O66teSETXQGQZ6VKW
+	 lqUYsmshwNU9k5BevBTe0J9FHzPD8j7Y2NINAsFgilmBNC/DJE6MXS4uHzPz7slHo6
+	 VtWusLum1IuGQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Dan Murphy <dmurphy@ti.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ James Calligeros <jcalligeros99@gmail.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+ Neal Gompa <neal@gompa.dev>
+In-Reply-To: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
+Subject: Re: (subset) [PATCH v3 00/20] ASoC: tas27{64,70}: improve support
+ for Apple codec variants
+Message-Id: <174196756357.19728.11723701852037310950.b4-ty@kernel.org>
+Date: Fri, 14 Mar 2025 15:52:43 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -50,28 +55,56 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-Mailer: b4 0.15-dev-1b0d6
 
-
-On Mon, 10 Mar 2025 15:28:02 -0400, Alyssa Rosenzweig wrote:
-> Apple GPUs support non-linear "GPU-tiled" image layouts. Add modifiers
-> for these layouts. Mesa requires these modifiers to share non-linear
-> buffers across processes, but no other userspace or kernel support is
-> required/expected.
+On Thu, 27 Feb 2025 22:07:27 +1000, James Calligeros wrote:
+> This series introduces a number of changes to the drivers for
+> the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
+> introduce (and improve in the case of TAS2770) support for the
+> variants of these amps found in Apple Silicon Macs.
 > 
-> These layouts are notably not used for interchange across hardware
-> blocks (e.g. with the display controller). There are other layouts for
-> that but we don't support them either in userspace or kernelspace yet
-> (even downstream), so we don't add modifiers here.
+> Apple's variant of TAS2764 is known as SN012776, and as always with
+> Apple is a subtly incompatible variant with a number of quirks. It
+> is not publicly available. The TAS2770 variant is known as TAS5770L,
+> and does not require incompatible handling.
 > 
 > [...]
 
-Applied, thanks!
+Applied to
 
-[1/1] drm: add modifiers for Apple GPU layouts
-      commit: c8619f5402cbcccfe58151b53421029852473e4c
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Best regards,
--- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Thanks!
+
+[01/20] ASoC: dt-bindings: tas27xx: add compatible for SN012776
+        commit: 25a83f870b8a25a4b10bf5ba474a017ed5a72e7d
+[02/20] ASoC: dt-bindings: tas2770: add compatible for TAS5770L
+        commit: ce9233937f3233e277ff23395e61ea690c769bef
+[03/20] ASoC: tas2764: Extend driver to SN012776
+        commit: ad18392962df46a858432839cc6bcaf2ede7cc86
+[04/20] ASoC: tas2764: Add control concerning overcurrent events
+        commit: f8d5f28e3f2ece5a1392205022afe30c87107a9b
+[05/20] ASoC: tas2770: Factor out set_ivsense_slots
+        commit: 6553ee024b4452ef861de10605156c9d79e208ab
+[06/20] ASoC: tas2770: Fix and redo I/V sense TDM slot setting logic
+        commit: f0066c8d1d3298e9f9d136a365139bac733e84c5
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
