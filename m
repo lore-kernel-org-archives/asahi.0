@@ -1,162 +1,73 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C772E3372
-	for <asahi@lists.linux.dev>; Fri, 14 Mar 2025 13:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.8.165.127
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B88728DB3
+	for <asahi@lists.linux.dev>; Fri, 14 Mar 2025 13:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741959087; cv=none; b=UKxbZ9R8SCtvvUm66zgA5+SpwTNAP21LFoTQUp2t7UW0XsaB6lkNy4HRZ1OisueIKxdY6XSRHV3x9ZBGg3eMqucskbbtbmxJK3r+vKJrl8hgpE5hrI5oIsKpW5vURS9Nd9BUcyD5nlKIqy+DwBjhmn45Qn2w13ApmG5gg3dbRmo=
+	t=1741960202; cv=none; b=rJJ/P326NUlKQtGVV0AhuAmATAI2qqMqF2nnetv1+SDQCvlPHqmAIHhHKsjwhk+CAB417r8GzD9VHxSRJKjX2luWNkkxQOyVQzP5LV/nvDFig8mV89hNBe5V5mXz1hdrbvnf/iXuVaRhU8sP2//7/ZJ8mOOd9AEUcRw7ulZW11Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741959087; c=relaxed/simple;
-	bh=UATdpA7cgBWM5CfhL0BSNAFRMNZeQJf0RDSodrMiFm8=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=mw+qAguWniGKgaO/P5t64d3VaaJrzpmw4QXo3UerUHUgm1djM+CYJO1yANxxvSSStLC4XFB10m2lDyTXBJitmxYalMhXGeYCNk0oeNTShywG5uk3z4NOqILjx7pVBxx7TEo9345sN8Sa+8w1osfevO9u4BFSa8Ce4+wDyz6+8So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org; spf=pass smtp.mailfrom=cutebit.org; dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b=jKqTWJyd; arc=none smtp.client-ip=185.8.165.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cutebit.org
+	s=arc-20240116; t=1741960202; c=relaxed/simple;
+	bh=N27tQOxuW3SUk2tPx2DZBX/49OMRCP/DSgxSm/h7W1g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VjuvcGgC6skkNorAuogfrITB0pjl/HvaL0BtFb0y5yRkxuFv9YMGKtnoVTAKPJhQhBiJle0cgPiMSTZIA6FRWq2FuxU+3y4a7ykcH/1jpn4iYhcvkjIy0H5KZ3ecCIOf1Dp8me8ZtpMEDG68ysUjX5g1fDG7CYNWhZAu+Z/BC3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=jxlr/ChD; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b="jKqTWJyd"
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1741958603; bh=ZHlFpUcnqM8kwtMsWbJUG26ffc8HSmguvMRTzaq18qo=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=jKqTWJydfegfYVUU3CI43+xEXTTX0q0K+BAe7HdFbCdxYFM7FE9x0XVzalHsIuBd2
-	 ryokhFgSViug4ZiAremjxKHXTgDkao/2LXpqjFPGSzxRaEZ8iN/88ISYnRpLtnt3jt
-	 k3XKi7vuXCj9nqxTQIzpAAq5CyutQ4yrSJrz1SU0=
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="jxlr/ChD"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1741960196;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GjqPfczUqBdTMrtHlSDdRiCcbc6NaYyR8NlMI1cTcwQ=;
+	b=jxlr/ChDjPwqGapJiMF/He1YHfzKVUiMqMNv7H0p3M0UtfWCDRBd9cOEBhlPYSjyJFjV51
+	ZlCc3XNzHLVVOnwIFLCNgnmV70zKjv6ebaA0iJJiWqTl345NSINQ1mwMdO6xj0ZPaV2bPL
+	VtoKOG1CVteUhSfIk/qmGDgkq10X0meASCdkC2zwQifHio86wmXC6pjzFVkoogYcq/Q51m
+	hmAMOQEJ9644ZkIipQz/eES66hDvLzk6rx/UMBbF2+IJ9yjDVbTd0GSBltj24OaY8Lfzrb
+	i8u+aEGn0ESAUkfZlKsQawkaIUZt7GJA0GCsZNywA1u7IDGKexolbP2wnACD4Q==
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Janne Grunau <j@jannau.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+In-Reply-To: <14a845e8-54d0-45f8-b8b9-927609d92ede@stanley.mountain>
+References: <14a845e8-54d0-45f8-b8b9-927609d92ede@stanley.mountain>
+Subject: Re: [PATCH next] drm: adp: Fix NULL vs IS_ERR() check in
+ adp_plane_new()
+Message-Id: <174196019326.15076.17884484110903495475.b4-ty@rosenzweig.io>
+Date: Fri, 14 Mar 2025 09:49:53 -0400
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
-Subject: Re: [PATCH v3 17/20] ASoC: dt-bindings: tas2770: add flags for SDOUT
- pulldown and zero-fill
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <20250312125832.GA359842-robh@kernel.org>
-Date: Fri, 14 Mar 2025 14:23:11 +0100
-Cc: James Calligeros <jcalligeros99@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>,
- Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>,
- Dan Murphy <dmurphy@ti.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Shi Fu <shifu0704@thundersoft.com>,
- Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Hector Martin <marcan@marcan.st>,
- linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org,
- asahi@lists.linux.dev,
- linux-hwmon@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BDE96592-9DE8-407C-8FB9-B84B492D7951@cutebit.org>
-References: <20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com>
- <CAHgNfTxS1Q4PPsw520-J4Yn6xg+QZOYFkYhg5yv-uZFu5waN_g@mail.gmail.com>
- <20250307205156.GA583954-robh@kernel.org> <5996925.DvuYhMxLoT@setsuna>
- <20250312125832.GA359842-robh@kernel.org>
-To: Rob Herring <robh@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Rob, James,
 
-> On 12. 3. 2025, at 13:58, Rob Herring <robh@kernel.org> wrote:
->=20
-> On Mon, Mar 10, 2025 at 07:30:07PM +1000, James Calligeros wrote:
->> On Sat, Mar 8, 2025 at 6:51=E2=80=AFAM Rob Herring <robh@kernel.org> =
-wrote:
->>> How would it work when you need a mask? "dai-tdm-slot-tx-mask" is
->>> enough?
->>=20
->> The existing TX/RX slot masks are used to control which slots the =
-codec
->> is operating on, AIUI. I don't know if it makes sense to alter how =
-codecs
->> deal with this. Could we combine the suggested dai-tdm-slot-tx-idle
->> with an optional dai-tdm-slot-tx-idle-mask property? =46rom the =
-machine
->> driver's perspective, the API would then be similar to the existing
->> set_tdm_slot ops. The current downstream macaudio machine driver =
-builds
->> its links by allowing multiple codecs and CPUs to be linked to a DAI,
->> like so:
->=20
-> Wouldn't the NOT of dai-tdm-slot-tx-mask be the idle mask?
->=20
-> Don't think about the Linux APIs here. The DT is separate. So think in=20=
+On Fri, 07 Mar 2025 12:30:58 +0300, Dan Carpenter wrote:
+> The __drmm_universal_plane_alloc() function doesn't return NULL, it
+> returns error pointers.  Update the check to match.
+> 
+> 
 
-> terms of what you need to describe the TDM timing/waveform.
->=20
->>=20
->> dai-link@0 {
->> cpu {
->> sound-dai =3D <&cpu0>, <&cpu1>;
->> };
->> codec {
->> sound-dai =3D <&speaker0>,
->>  ...,
->>  <&speaker6>;
->> };
->> };
->>=20
->> In this case, the codec-specific mask property was added so that a =
-mask
->> could be applied to a specific codec rather than the whole dai, =
-however
->> from upstream drivers tt looks like the way this should be handled is =
-to
->> have "dai-tdm-slot-tx-idle-mask-n" properties at the dai level, then =
-have
->> the machine driver set the mask for the appropriate codec during =
-setup. So
->> for macaudio, assuming speaker5 requires this zerofill mask, we would
->> have something like this:
->=20
-> I'm now confused why you need n masks and what does n represent?
+Applied, thanks!
 
-For this setup there are 6 codecs on the same bus but 3 of those are on =
-one
-data line and the other 3 are on another data line. Within the SoC these =
-two
-data lines (both for codec->SoC direction) are ORed together in front of =
-the
-receiver peripheral.
+[1/1] drm: adp: Fix NULL vs IS_ERR() check in adp_plane_new()
+      (no commit info)
 
-This means we need at least one codec within each group of the three to =
-zero
-out the bus for the duration of the slots used by the other group of =
-three.
-
-I solved this by attaching
-
- ti,sdout-force-zero-mask =3D <0xf0f0f0>;
-
-on one codec from the first group, and
-
- ti,sdout-force-zero-mask =3D <0x0f0f0f>;
-
-on one from the other group.
-
-FWIW the right form of these masks is not an implementation detail of =
-the
-machine driver spilling into the device tree (so that the mask would =
-need
-to be different if the machine driver was implemented differently). This =
-is
-because the slots used by each codec are specified via a DT property =
-too, e.g.
-
-  ti,imon-slot-no =3D <8>;
-  ti,vmon-slot-no =3D <10>;
-
-Martin
-
-> Rob
->=20
+Best regards,
+-- 
+Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
