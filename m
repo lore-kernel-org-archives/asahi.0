@@ -1,90 +1,82 @@
-Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com [91.218.175.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB87F1ACEC6
-	for <asahi@lists.linux.dev>; Fri, 14 Mar 2025 23:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128CBEC0;
+	Sat, 15 Mar 2025 07:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741996314; cv=none; b=g5FkD+chW+aA4jsXaSMhpwzbjcvEMGpL5bLRAlqEdq0M0h6On+bzwaSEnQyqN/0K4ak0zvWCNausRe+MafsAsa2tA0jKIDcChTi+o6gzunc9RR/+3rBCWP6zkVZQJMzSt7nZI5e4Z4rShril0E6nx5Fxs7fjVVdj2RZej1xECf4=
+	t=1742022058; cv=none; b=LkfNRHJOO1uHQkkeC7GMlpQ48oJgIhRWggwne0cl/rD82MsfBgpKwXfggG3mQZMgYur0UclHFceK6IpD513IT3a4RZSWDRky8ODr4m7jSrLwgFSoBITz4jGyJmvH0PXWFKZC44NBwLgFUUtVixJ+WTDNH7Jyl2GtLnGiB9ZbZ9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741996314; c=relaxed/simple;
-	bh=p0Pj9tcQG6GfXZFp5IfdT5bVi4hWdGazLlS6zlwcJK0=;
+	s=arc-20240116; t=1742022058; c=relaxed/simple;
+	bh=OXgejY5JBAzMRJo+pZNPimlb3TBamxtnVr3yy3LxZBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C72YtEERvYXyCpP7UTpwKaWPe9X1qiC/zoD4bSqOU9ilY8PYj999NZDiK/xXPcsSLW3+0etUemByh5FCv3o/MyNVhEcFyB6Aj2rS4GAP2OdExAO2Bgxwn4/MPsjkQNW0iHssqxcpZKvBttm7cKOrxbwZ2fjfHhB81NxSY0uORpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=NFxeQgAk; arc=none smtp.client-ip=91.218.175.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	 Content-Type:Content-Disposition:In-Reply-To; b=Piu8jqOUjBlY7V9yvfEo4qp8MOKnebS0RA2191FE/HgoV+0+AydAv9BEQuQ7n7IOLV0Fg240Zt/MOuhEKLISuD2+E6um9gliuTrrEIzM7sMS8u38Rr0CPWq8ZUJ1l8U7ShI2ohZXP7QOBdMb9QetOO/8YX3t/iup9zG+kJWMBOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=opHzxOTU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="NFxeQgAk"
-Date: Fri, 14 Mar 2025 19:51:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1741996309;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P0BbUbAG3eg70hP8/1CroK/Kf34mgOD7Ll45eATb+8I=;
-	b=NFxeQgAk/R//VsAghYt8xhZSxiEQfPlmN19UgK3B030JQ8DgU2qLncAavMBApOJvK5h5lg
-	FUI5N99t4GbrKAlZJktXynUCkOGRuTdDJO+6pTR+vnBMnEg2gyTzcvSnu8Z6AeMVQhUdCe
-	G/CygyehVX9vYdfN1LvodihTLRmi16FtkLWVdvudJpaumAGt4A6HbhqFCQ0WA8bXBghD0a
-	FaY2zdPIg22BU+zEcb1/4T24fLmnLXnoNfEToknIWMRMU6gDUUQOti7EI4zXgs4O/Y7paf
-	zr+w5Yo/Fw2B8LmI1cejA0u0Erz9SM016vXwFJNqetok9RyACi6XuJE+f6ly1w==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Qasim Ijaz <qasdev00@gmail.com>
-Cc: marcan@marcan.st, fnkl.kernel@gmail.com,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iommu: apple-dart: fix potential null pointer deref
-Message-ID: <Z9TBEAJkOrHIWype@blossom>
-References: <20250314230102.11008-1-qasdev00@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="opHzxOTU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A8EBC4CEE5;
+	Sat, 15 Mar 2025 07:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1742022057;
+	bh=OXgejY5JBAzMRJo+pZNPimlb3TBamxtnVr3yy3LxZBU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=opHzxOTUzRsS7KJo73JxqDeTzxveLA07zrxsPHTTSPV92cd/hYgGWTuZU/c4HjPqn
+	 nIovyOCR+uB8G8Y0cobhH3EHaFnjOQf20vAVgA/VwGhLCVi/S9XYcYo0Dgtx64zvFK
+	 CMd+gmOfiAElA8mjApCPYbAbmHo7n1Q15TVg4uHk=
+Date: Sat, 15 Mar 2025 08:00:54 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ethan Carter Edwards <ethan@ethancedwards.com>
+Cc: tytso@mit.edu, ernesto.mnd.fernandez@gmail.com,
+	dan.carpenter@linaro.org, sven@svenpeter.dev, ernesto@corellium.com,
+	gargaditya08@live.com, willy@infradead.org, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [RFC PATCH 0/8] staging: apfs: init APFS module
+Message-ID: <2025031529-greedless-jingle-1f3b@gregkh>
+References: <20250314-apfs-v1-0-ddfaa6836b5c@ethancedwards.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250314230102.11008-1-qasdev00@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20250314-apfs-v1-0-ddfaa6836b5c@ethancedwards.com>
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+On Fri, Mar 14, 2025 at 05:57:46PM -0400, Ethan Carter Edwards wrote:
+> Hello everyone,
+> 
+> This is a follow up patchset to the driver I sent an email about a few
+> weeks ago [0]. I understand this patchset will probably get rejected, 
+> but I wanted to report on what I have done thus far. I have got the 
+> upstream module imported and building, and it passes some basic tests 
+> so far (I have not tried getting XFS/FStests running yet). 
+> 
+> Like mentioned earlier, some of the files have been moved to folios, but
+> a large majority of them still use bufferheads. I would like to have
+> them completely removed before moved from staging/ into fs/.
+> 
+> I have split everything up into separate commits as best as I could.
+> Most of the C files rely in functions from other C files, so I included
+> them all in one patch/commit.
+> 
+> I am curious to hear everyone's thoughts on this and to start getting
+> the ball rolling for the code-review process. Please feel free to
+> include/CC anyone who may be interested in this driver/the review
+> process. I have included a few people, but have certainly missed others.
+> 
+> [0]: https://lore.kernel.org/lkml/20250307165054.GA9774@eaf/
+> 
+> Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
 
-Le Fri , Mar 14, 2025 at 11:01:02PM +0000, Qasim Ijaz a écrit :
-> If kzalloc() fails, accessing cfg->supports_bypass causes a null pointer dereference. 
-> 
-> Fix by checking for NULL immediately after allocation and returning -ENOMEM.
-> 
-> Fixes: 3bc0102835f6 ("iommu: apple-dart: Allow mismatched bypass support")
-> Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
-> ---
->  drivers/iommu/apple-dart.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-> index 13ccb801f52a..e13501541fdd 100644
-> --- a/drivers/iommu/apple-dart.c
-> +++ b/drivers/iommu/apple-dart.c
-> @@ -797,12 +797,11 @@ static int apple_dart_of_xlate(struct device *dev,
->  
->  	if (!cfg) {
->  		cfg = kzalloc(sizeof(*cfg), GFP_KERNEL);
-> -
-> +		if (!cfg)
-> +			return -ENOMEM;
->  		/* Will be ANDed with DART capabilities */
->  		cfg->supports_bypass = true;
->  	}
-> -	if (!cfg)
-> -		return -ENOMEM;
->  	dev_iommu_priv_set(dev, cfg);
->  
->  	cfg_dart = cfg->stream_maps[0].dart;
-> -- 
-> 2.39.5
-> 
+I don't mind adding this to staging from this series, thanks for
+breaking it up!
+
+But I'll wait for an ACK from the filesystem developers before doing it
+as having filesystem code in drivers/staging/ feels odd, and they kind
+of need to know what's going on here for when they change api stuff.
+
+thanks,
+
+greg k-h
