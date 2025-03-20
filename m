@@ -1,70 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out199-3.us.a.mail.aliyun.com (out199-3.us.a.mail.aliyun.com [47.90.199.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35D7B65C;
-	Thu, 20 Mar 2025 00:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CDBA932;
+	Thu, 20 Mar 2025 00:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.199.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742430208; cv=none; b=aCXPdG7EqemSvN+fs2fsr4T2qCZYRuiBJAGcTUH30MobsJm0yRJ6FhRZnngmo8rz9sDJoRtnych4P3Z6fGrBlV/RTGSP5yeIuQ+y7cAEUOIlGUpYWTThi3rbuADBkJKNYHqrEIKX9bO3y5pFYTHr2R48nUHJeLwEhP4Zs6GlU6I=
+	t=1742431743; cv=none; b=bB63fYHLqBreADgciVNhsjs8Y0OZtBXqCsaP1BVzGYcjwnYVhaNCg0L/DgXM3tPFVEZETMyi+xB3EAINZyOXYCjfU9kJc0m1eYt1pwX7RhmJNXy6eQLwglLu5hqIEOfzuQW2bkOvmQ/hOoSsBm7JZll3hcaJWnvPfpPUbLTqq7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742430208; c=relaxed/simple;
-	bh=PLlGPu13lwUvjhab9LGjWlYnOdDLh4IYoJeW/dS/6H8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K4o9L6tX9Fa7p/T9+DbRMluiM4JAnR9qEfFgtxtieMG1ANGahuVRh6h5xM/aAa7roK3pqUs8mKzcmy7DoxZD3+vksx1RS1nNSNRrDBNcTU6jb8sHn0JkReMPv/HRbpXKrSCsPHyj9wPZ6DuqRceoGeucm9zYvG1xDqNPS6MH0U4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OwvDFVYe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742431743; c=relaxed/simple;
+	bh=N3JrfAe74zWYWntEAoMu3hgiVC7VPDt3/pmat94gSFg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ENREwCJxaf/H9vvufQEU+sbbqs6xAbD2X1m80rX2oTAp/j5wO0XVYuConTIG0aDUgvodZcMTMIDMPCLGhk2hgJDX41PX7Ufzj1fKA7jeF2pH0hX0Lnndezy37byLVp22mN3aBmGr0mrMcPuaDys9+ghhbYalYEPKVs168/zc3Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=C/Y2p05M; arc=none smtp.client-ip=47.90.199.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OwvDFVYe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A48C9C4CEE4;
-	Thu, 20 Mar 2025 00:23:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742430208;
-	bh=PLlGPu13lwUvjhab9LGjWlYnOdDLh4IYoJeW/dS/6H8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OwvDFVYeRWNt4Go1WWNiDAksolgD/KKL9rClnuDhtRjnwagIXpaa34ntS/3ezBdt0
-	 G90wIpvGRNU31jdHgMw6uqDScCnm3ptixfAnRMVRbVXd3wBVlxwRiMISO8h2nnLNMw
-	 H+WT0q5X7YaN+1oyrlrBFCFuUVZc0UpiE/kzm1m58ywZ0xONuF/3tEkCYKqOkS8QSw
-	 2xEStXdqjyZ0VqODkhM93DgOD0ueevOGWrU2ewNrUkJahusGrXO17Y4sqEYBch2P4I
-	 7rAy/W0uMURLicaK2gwD6Wqn54om6hu1507zYiKACDS+wXEeP7DtEXcIhQeomsCxOh
-	 FJvtfP3tQ+Ogg==
-Date: Thu, 20 Mar 2025 01:23:25 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: sven@svenpeter.dev
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Naveen N Rao <naveen@kernel.org>, linuxppc-dev@lists.ozlabs.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 1/4] i2c: pasemi: Add registers bits and switch to BIT()
-Message-ID: <rjvak3c2k5a64jw4ef23i5uptg4zzl3u7lqszqbg56l4hqms77@hrkn5eydxwiy>
-References: <20250222-pasemi-fixes-v1-0-d7ea33d50c5e@svenpeter.dev>
- <20250222-pasemi-fixes-v1-1-d7ea33d50c5e@svenpeter.dev>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="C/Y2p05M"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1742431721; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=d3PXrSZdoQRecHWJ8cdn3KiUu+yDTdxd+xT5ZNIbX74=;
+	b=C/Y2p05Mn7SMeoT7UMGFo34I0sc/chuTLz/0ykrNFNEoyHIOGBEZU6wWzjnJfqWoNwjikK2bwqC/Kzw6qfOrYbrHuwZrfJ15jZGnX8ewkdQfIrOit6f9gLOpLFnTNs5Th/gWVB9kMXPM1VTr9xD8uwgdRo1Oj9bvvBdbvvNwC+w=
+Received: from 30.134.66.95(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0WS6e9xm_1742431400 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 20 Mar 2025 08:43:21 +0800
+Message-ID: <51a347ce-84d4-4698-a492-61eac2f4318e@linux.alibaba.com>
+Date: Thu, 20 Mar 2025 08:43:20 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250222-pasemi-fixes-v1-1-d7ea33d50c5e@svenpeter.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem support
+To: Ethan Carter Edwards <ethan@ethancedwards.com>, brauner@kernel.org,
+ tytso@mit.edu, jack@suse.cz, viro@zeniv.linux.org.uk
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ ernesto.mnd.fernandez@gmail.com, dan.carpenter@linaro.org,
+ sven@svenpeter.dev, ernesto@corellium.com, gargaditya08@live.com,
+ willy@infradead.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sven,
 
-On Sat, Feb 22, 2025 at 01:38:33PM +0000, Sven Peter via B4 Relay wrote:
-> From: Sven Peter <sven@svenpeter.dev>
+
+On 2025/3/20 08:13, Ethan Carter Edwards wrote:
+> Hello everyone,
 > 
-> Add the missing register bits to the defines and also switch
-> those to use the BIT macro which is much more readable than
-> using hardcoded masks
+> In series 2, I have fixed the formatting with clang-format of the lzfse
+> library and fixed the comments to use linux kernel styles. I also
+> removed my Copyright from files where it was not appropriate.
+> Additionally, I removed the encode.c files as they were unused and
+> not compiled into the final module They should be easy enough to add
+> back if needed. I also rebased on Linus's tree, just in case.
+> Nothing broke! ;)
 > 
-> Co-developed-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> I am holding off on adding Ernesto's Co-developed-by and Signed-off-by
+> tags until I get a better grasp of where this module is headed. I hope
+> to here back from Christian and the LSFMMBPF folks sometime in the next
+> few weeks.
+> 
+> I understand the jury is still out on supporting both reading and
+> writing. As it stands, I have configured the code to support
+> reading/writing on mount, but upstream auto-rw is configurable via a
+> CONFIG option. Some people have expressed that they want the module
+> upstreamed even if only read is supported. I will stay tuned and make
+> changes as needed.
+> 
+> Additionally, I realize that staging/ may not be the correct location
+> for the driver. However, I am basing my upstream process off of the
+> erofs process. They started in staging. I understand that the correct
+> tree and dir will be discussed as next weeks LSFMMBPF summit,
+> so I will wait on their feedback before making any moves.
 
-Just this patch merged to i2c/i2c-host.
+I don't know why erofs is related to your case here:
 
-Patch 3 and 4 look good, just some comments on patch 2.
+  - erofs is not a project based on reserve engineering from the
+    beginning; it was a real productizied project initially designed
+    for Android and got wider adoption for various use cases now;
+
+  - It was a story 6 years ago (I've been actively working on this
+    project more than 7 years and it sacrificed my extra free time and
+    some other possibility), more recent fses instead directly land
+    into "fs/" and it seems the preferred way.  But, nevertheless,
+    there is also some fs like ntfs3 directly into "fs/" and got some
+    dispute;
+
+  - I have no idea if you have enough professional experience to
+    resolve apfs-specific issues properly and in time.  I think it's
+    a basic requirement for a kernel subsystem upstream maintainer now
+    that you introduced this;
+
+  - And you'd better to keep relatively active during the entire Linux
+    kernel lifetime even that is not related to your ongoing work
+    rather than dump and leave.
 
 Thanks,
-Andi
+Gao Xiang
