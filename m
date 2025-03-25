@@ -1,46 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F611DE8B4;
-	Tue, 25 Mar 2025 13:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B0E25A357
+	for <asahi@lists.linux.dev>; Tue, 25 Mar 2025 14:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742909497; cv=none; b=THF0C8qoaIrvRu7fjFYWISrP9UdHOUf/zlt9OEy56tezezigtQsjan7anpZy/FhmxVuABlmsSWpfAb0BGWpxiwqlj4qJ3qPqC9Cd1xaD8mEFPbNI0oB5KSgyae+NJX3laQ8hqEDfQwoGCqTUT8U3pTHfpg7kIyKAHdlHV3qjpi0=
+	t=1742914213; cv=none; b=gFNIB/34H7V7bsiHpY/SyKOqVS1Ke0AVlUN8I3rdN3RxTYrBa6gUm/4RuAD3HmCv9tGIz7srckJ+F+OF81cD1m/pLmBg1BhaT7BducMTfB4fyEGd3UnBB9JqqXalfUn97CwyRYlC8RY61uGDkizzcy/FPae+dX9twilRk6P/3oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742909497; c=relaxed/simple;
-	bh=GQ0OSrkpXzh86AWjzuws2IWSbtpMjCSYAmwHhrKpEKs=;
+	s=arc-20240116; t=1742914213; c=relaxed/simple;
+	bh=m7HQhF5BiFf2it3+1htvmzKPX6UTZZRd8NpKtEuonqY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U68vYp5o/k6MpHQ8A3caAwZ7mRadfEa1s3BmX/FVjPBKx1fedVvXmXcK9exLHTY3Q8p2VEzl9wvLwPZ445jU+iMi9WBASAZP8d0XSRX2Wyjh3ZDhSbQaBEW0l/Qo04MwKvuWKsF/51eFW6ZIcYZGsVJxcjmEtHObkjP5QywJJ10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C/hJF1Wq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bXmpSQWx9ReKp0TmfYuk42XYlBTz0PGhoh/pwerEeyTYGJHj9f2D2xNV0xHz8G5ymo7WVyu8/44l+OxFbJXq44ZhopUBVtlxNw5CD6H1eEYOk/8NXYELYsfH5BxtRK1ZC9IMai+KXG927HJB9NN0Yx1QHubucGneYLzCgvQ+o/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=zzqb1WC5; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C/hJF1Wq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C04CAC4CEE4;
-	Tue, 25 Mar 2025 13:31:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742909496;
-	bh=GQ0OSrkpXzh86AWjzuws2IWSbtpMjCSYAmwHhrKpEKs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C/hJF1Wq2qMQCh1xCP+ds2qNFt0FUdt8os2fzl9sKpawHLMgTMbrNJLqjnwsNiBBJ
-	 iT7ruZgeCbxf3H8k9+vXz/s8aF+zEufqtLseKxsgRHzBrpuVB70HA+Mhp9mZRGYB43
-	 ZOmVybQ4HbNrkexYjkkKWO4xqBkThLJ8sCVasLVRLkzW5Cmqt9jCza0wV2iOwccxjR
-	 nCN0p39F157IBcc69OySumhd+ysZuh9w4xIcQhr5M8n54Evbbt+Zlpy7SgUunFYnbF
-	 jnecHXidiRMZMKkWuBF+QKO9XKNYTo/9qo3CTk+XvPBOHyxLygtT26aduvdQCe9FjK
-	 NqVApGeTkJvww==
-Date: Tue, 25 Mar 2025 08:31:35 -0500
-From: Rob Herring <robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="zzqb1WC5"
+Date: Tue, 25 Mar 2025 10:50:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1742914208;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gxsCj8x2vFQrcLLWFmNKJpZcqjgp3XJqcW6qauCB4FA=;
+	b=zzqb1WC5mW/N93G+IA36ptJrmluUMrAolvskNckn8WdmMuDcfjMmOZ4s0L9uEMMgxny1Xi
+	Rs0VEUclMgOXGoF7NG6rbDVMQSixECvz7Gatq5IUPuzBPuEy1Fos2xgr+qKDCE/35XTMAY
+	/24eng98nUsPF/2WXuCjwjDY+1LTbIiADYzZr07aD+SOWFGEl+h43jWvZNBe6SwZcwEN2z
+	EOE/qP8sjVd0Y7ZZ7DLjr4nCZVgG1vcdpWR5Vt9VXD8sj9nvYFlxhqthGxZgZBJOBQObV8
+	aUgMD8Mo1hMeQVhBFYBlAN5BbTHVT3690SGmGjo3P97vWiQW34bJ8s+dlmOgGg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 To: Marc Zyngier <maz@kernel.org>
 Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Janne Grunau <j@jannau.net>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
+	asahi@lists.linux.dev, Janne Grunau <j@jannau.net>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
 	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>
 Subject: Re: [PATCH v2 00/13] PCI: apple: Add support for t6020
-Message-ID: <20250325133135.GB1717731-robh@kernel.org>
+Message-ID: <Z-LCm_XI22kNvFx9@blossom>
 References: <20250325102610.2073863-1-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -48,11 +51,20 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20250325102610.2073863-1-maz@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Mar 25, 2025 at 10:25:57AM +0000, Marc Zyngier wrote:
+Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+
+Thanks maz!
+
+Everything here looks good to me aside from the dt-bindings that I
+screwed up (sorry!). But I didn't do a thorough review.
+
+Le Tue , Mar 25, 2025 at 10:25:57AM +0000, Marc Zyngier a écrit :
 > As Alyssa didn't have the bandwidth to deal with this series, I have
 > taken it over. All bugs are therefore mine.
 > 
@@ -128,7 +140,7 @@ On Tue, Mar 25, 2025 at 10:25:57AM +0000, Marc Zyngier wrote:
 >  drivers/pci/ecam.c                            |   2 +
 >  include/linux/pci-ecam.h                      |   2 +
 >  5 files changed, 204 insertions(+), 76 deletions(-)
-
-For the series,
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+> -- 
+> 2.39.2
+> 
