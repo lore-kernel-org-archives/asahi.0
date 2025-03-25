@@ -1,146 +1,164 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B0E25A357
-	for <asahi@lists.linux.dev>; Tue, 25 Mar 2025 14:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0821F4180
+	for <asahi@lists.linux.dev>; Tue, 25 Mar 2025 15:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742914213; cv=none; b=gFNIB/34H7V7bsiHpY/SyKOqVS1Ke0AVlUN8I3rdN3RxTYrBa6gUm/4RuAD3HmCv9tGIz7srckJ+F+OF81cD1m/pLmBg1BhaT7BducMTfB4fyEGd3UnBB9JqqXalfUn97CwyRYlC8RY61uGDkizzcy/FPae+dX9twilRk6P/3oM=
+	t=1742917349; cv=none; b=iwUVwENxOma9isw+WUtCaIa693AGbEpYHHOXAxuQy830IdNkryCv0KNWIVSGg3nMaKlE2tiCghe5Wl7r7o+jmsNA8CGDhTdQ280Myw17YGCacBnApGKY1CeAnOEmhNGE7AiZ01VZV1FjA3ZVxJF+9gaFZIaRJEGhI0U5ryU00Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742914213; c=relaxed/simple;
-	bh=m7HQhF5BiFf2it3+1htvmzKPX6UTZZRd8NpKtEuonqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bXmpSQWx9ReKp0TmfYuk42XYlBTz0PGhoh/pwerEeyTYGJHj9f2D2xNV0xHz8G5ymo7WVyu8/44l+OxFbJXq44ZhopUBVtlxNw5CD6H1eEYOk/8NXYELYsfH5BxtRK1ZC9IMai+KXG927HJB9NN0Yx1QHubucGneYLzCgvQ+o/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=zzqb1WC5; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1742917349; c=relaxed/simple;
+	bh=Wjh9Paznu8NnzFmTrVdInS7lGF4OglVFJKeJ3NXhOBs=;
+	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=saBNFUJV0L/xmMxDqFBDa/LUUiBF2dWCGBoxRb+8Q95tVqI7eSJmGsUW1dMvOagGYmcPf4/nXrkk0yaBKREdvYodUHwDldE4iUO9AoTHtszcDUwXJ9ptJzkgRdWyuUjJEOM60vOpgrxi461CrHIWWscuEHx4wXbYsEOqWCw/RkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=CMynezLy; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="zzqb1WC5"
-Date: Tue, 25 Mar 2025 10:50:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1742914208;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gxsCj8x2vFQrcLLWFmNKJpZcqjgp3XJqcW6qauCB4FA=;
-	b=zzqb1WC5mW/N93G+IA36ptJrmluUMrAolvskNckn8WdmMuDcfjMmOZ4s0L9uEMMgxny1Xi
-	Rs0VEUclMgOXGoF7NG6rbDVMQSixECvz7Gatq5IUPuzBPuEy1Fos2xgr+qKDCE/35XTMAY
-	/24eng98nUsPF/2WXuCjwjDY+1LTbIiADYzZr07aD+SOWFGEl+h43jWvZNBe6SwZcwEN2z
-	EOE/qP8sjVd0Y7ZZ7DLjr4nCZVgG1vcdpWR5Vt9VXD8sj9nvYFlxhqthGxZgZBJOBQObV8
-	aUgMD8Mo1hMeQVhBFYBlAN5BbTHVT3690SGmGjo3P97vWiQW34bJ8s+dlmOgGg==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="CMynezLy"
+X-KPN-MessageId: 9bb3b1c3-098f-11f0-b8e6-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 9bb3b1c3-098f-11f0-b8e6-005056999439;
+	Tue, 25 Mar 2025 16:41:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=subject:to:from:message-id:date;
+	bh=/iyKBpZ/gMwDbddEXmZk60octJQNxxEQdaCmJAOFkuk=;
+	b=CMynezLyzHjdxNUe01pPVrV1lbaQ19c/IKefNy0VhdLrl33n8fZnUqe6Krjznw6wRfunerYNhzeCr
+	 ZBTi3XX6RrOmG48v9got9i7Yuun1otwlTTGJ5+atsSNodf+c5Nb81Wq8DYFHlEWj6C9ZMQUlkmxexC
+	 EhJDockh+DK7Mxvfy/KQtVfy+2enTr1ho6OzJcUqTAp4TyaLwlZAlKwbflOlUTYLeVzAqOKWC/4cAU
+	 i4ECWxIGFChcFlZ4B/cndB6aoIwbVEY8uyXp/rg5CQnQTSMtfjscnDLCmJ5H9W1QnNtparzzyREmJ0
+	 4Ti8yAP41aJdzZ06gc9kqLncQ8ySrtg==
+X-KPN-MID: 33|H4S3zKKDt/kSIctmlzwBbCj8TIujoseVgICSqUP1S8csdBVtOswMNX53d4JhC3b
+ J+D5VZcpacU2gX1KCl77mckmkrx5gxY3FO7WLbxtGj5A=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|qkclhlP8gXsHt11V+3wWMyEYiW5D9cl8yFDpUObYky/bnyXgCJbIksIxwb0kULm
+ R0HKCIMMJF4wdYpefApOzNg==
+Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 968f98cb-098f-11f0-af94-005056998788;
+	Tue, 25 Mar 2025 16:41:16 +0100 (CET)
+Date: Tue, 25 Mar 2025 16:41:15 +0100
+Message-Id: <87ecyl6rtw.fsf@bloch.sibelius.xs4all.nl>
+From: Mark Kettenis <mark.kettenis@xs4all.nl>
 To: Marc Zyngier <maz@kernel.org>
 Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, Janne Grunau <j@jannau.net>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v2 00/13] PCI: apple: Add support for t6020
-Message-ID: <Z-LCm_XI22kNvFx9@blossom>
+	asahi@lists.linux.dev, alyssa@rosenzweig.io, j@jannau.net,
+	marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com,
+	lpieralisi@kernel.org, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	krzk+dt@kernel.org
+In-Reply-To: <864izhmkzd.wl-maz@kernel.org> (message from Marc Zyngier on Tue,
+	25 Mar 2025 11:02:30 +0000)
+Subject: Re: [PATCH v2 01/13] dt-bindings: pci: apple,pcie: Add t6020 compatible string
 References: <20250325102610.2073863-1-maz@kernel.org>
+	<20250325102610.2073863-2-maz@kernel.org>
+	<87iknx75at.fsf@bloch.sibelius.xs4all.nl> <864izhmkzd.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250325102610.2073863-1-maz@kernel.org>
-X-Migadu-Flow: FLOW_OUT
 
-Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> Date: Tue, 25 Mar 2025 11:02:30 +0000
+> From: Marc Zyngier <maz@kernel.org>
 
-Thanks maz!
+Hi Marc,
 
-Everything here looks good to me aside from the dt-bindings that I
-screwed up (sorry!). But I didn't do a thorough review.
+> Hi Mark,
+> 
+> On Tue, 25 Mar 2025 10:50:18 +0000,
+> Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
+> > 
+> > > From: Marc Zyngier <maz@kernel.org>
+> > > Date: Tue, 25 Mar 2025 10:25:58 +0000
+> > 
+> > Hi Marc,
+> > 
+> > Sorry for not spotting this in the earlier versions, but:
+> 
+> No worries -- I expected issues in that department.
+> 
+> >
+> > > From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> > > 
+> > > t6020 adds some register ranges compared to t8103, so requires
+> > > a new compatible as well as the new PHY registers themselves.
+> > > 
+> > > Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> > > [maz: added PHY registers]
+> > > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > > ---
+> > >  Documentation/devicetree/bindings/pci/apple,pcie.yaml | 11 ++++++++++-
+> > >  1 file changed, 10 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/pci/apple,pcie.yaml b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> > > index c8775f9cb0713..77554899b9420 100644
+> > > --- a/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> > > +++ b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> > > @@ -17,6 +17,10 @@ description: |
+> > >    implements its root ports.  But the ATU found on most DesignWare
+> > >    PCIe host bridges is absent.
+> > >  
+> > > +  On systems derived from T602x, the PHY registers are in a region
+> > > +  separate from the port registers. In that case, there is one PHY
+> > > +  register range per port register range.
+> > > +
+> > >    All root ports share a single ECAM space, but separate GPIOs are
+> > >    used to take the PCI devices on those ports out of reset.  Therefore
+> > >    the standard "reset-gpios" and "max-link-speed" properties appear on
+> > > @@ -35,11 +39,12 @@ properties:
+> > >            - apple,t8103-pcie
+> > >            - apple,t8112-pcie
+> > >            - apple,t6000-pcie
+> > > +          - apple,t6020-pcie
+> > >        - const: apple,pcie
+> > 
+> > Since the T602x PCIe controller has a different register layout, it
+> > isn't compatible with the others, so it should not include the
+> > "apple,pcie" compatible.  The "downstream" device trees for
+> > T602x-based devices do indeed not list "apple,pcie" as a compatible.
+> > So I think this needs to be written as:
+> > 
+> >   compatible:
+> >     oneOf:
+> >       - items:
+> >           - enum:
+> >               - apple,t8103-pcie
+> >               - apple,t8112-pcie
+> >               - apple,t6000-pcie
+> >           - const: apple,pcie
+> >       - const: apple,t6020-pcie
+> 
+> Ah, indeed, that's a good point. Thanks for that.
+> 
+> Whilst I have your attention, how about my question below:
+> 
+> >
+> > >  
+> > >    reg:
+> > >      minItems: 3
+> > > -    maxItems: 6
+> > > +    maxItems: 10
+> > >  
+> > >    reg-names:
+> > >      minItems: 3
+> > > @@ -50,6 +55,10 @@ properties:
+> > >        - const: port1
+> > >        - const: port2
+> > >        - const: port3
+> > > +      - const: phy0
+> > > +      - const: phy1
+> > > +      - const: phy2
+> > > +      - const: phy3
+> 
+> Do we need to make this t6020 specific?
+> 
+> Obviously, separate PHY registers do not make much sense before t6020,
+> but I couldn't find a way to describe that. I don't even know if
+> that's a desirable outcome.
 
-Le Tue , Mar 25, 2025 at 10:25:57AM +0000, Marc Zyngier a écrit :
-> As Alyssa didn't have the bandwidth to deal with this series, I have
-> taken it over. All bugs are therefore mine.
-> 
-> The initial series [1] stated:
-> 
-> "This series adds T6020 support to the Apple PCIe controller. Mostly
->  Apple shuffled registers around (presumably to accommodate the larger
->  configurations on those machines). So there's a bit of churn here but
->  not too much in the way of functional changes."
-> 
-> The biggest change is affecting the ECAM layer, allowing an ECAM
-> driver to provide its own probe function instead of relying on the
-> .init() callback to do the work. The ECAM layer can therefore be used
-> as a library instead of a convoluted driver.
-> 
-> The rest is a mix of bug fixes, cleanups, and required abstraction.
-> 
-> This has been tested on T6020 (M2-Pro mini) and T8102 (M1 mini).
-> 
-> * From v1[1]:
-> 
->   - Described the PHY registers in the DT binding
-> 
->   - Extracted a ecam bridge creation helper from the host-common layer
-> 
->   - Moved probing into its own function instead of pci_host_common_probe()
->     
->   - Moved host-specific data to the of_device_id[] table
-> 
->   - Added dynamic allocation of the RID/SID bitmap
-> 
->   - Fixed latent bug in RC-generated interrupts
-> 
->   - Renamed reg_info to hw_info
-> 
->   - Dropped useless max_msimap
-> 
->   - Dropped code being moved around without justification
-> 
->   - Re-split some of the patches to follow a more logical progression
-> 
->   - General cleanup to fit my own taste
-> 
-> [1] https://lore.kernel.org/r/20250211-pcie-t6-v1-0-b60e6d2501bb@rosenzweig.io
-> 
-> Alyssa Rosenzweig (1):
->   dt-bindings: pci: apple,pcie: Add t6020 compatible string
-> 
-> Hector Martin (6):
->   PCI: apple: Fix missing OF node reference in apple_pcie_setup_port
->   PCI: apple: Move port PHY registers to their own reg items
->   PCI: apple: Drop poll for CORE_RC_PHYIF_STAT_REFCLK
->   PCI: apple: Use gpiod_set_value_cansleep in probe flow
->   PCI: apple: Abstract register offsets via a SoC-specific structure
->   PCI: apple: Add T602x PCIe support
-> 
-> Janne Grunau (1):
->   PCI: apple: Set only available ports up
-> 
-> Marc Zyngier (5):
->   PCI: host-generic: Extract an ecam bridge creation helper from
->     pci_host_common_probe()
->   PCI: ecam: Allow cfg->priv to be pre-populated from the root port
->     device
->   PCI: apple: Move over to standalone probing
->   PCI: apple: Dynamically allocate RID-to_SID bitmap
->   PCI: apple: Move away from INTMSK{SET,CLR} for INTx and private
->     interrupts
-> 
->  .../devicetree/bindings/pci/apple,pcie.yaml   |  11 +-
->  drivers/pci/controller/pci-host-common.c      |  24 +-
->  drivers/pci/controller/pcie-apple.c           | 241 +++++++++++++-----
->  drivers/pci/ecam.c                            |   2 +
->  include/linux/pci-ecam.h                      |   2 +
->  5 files changed, 204 insertions(+), 76 deletions(-)
-> 
-> -- 
-> 2.39.2
-> 
+I don't think there is a way to do that other than creating a separate
+binding for t6020.  But I'm far from a dt-schema expert.  Maybe robh
+has some advice here.
