@@ -1,137 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB5E256C8B;
-	Tue, 25 Mar 2025 10:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E991D1EFF87
+	for <asahi@lists.linux.dev>; Tue, 25 Mar 2025 10:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742898397; cv=none; b=E4ZJ1zYVqjdPgbFjDTg8RmcSqOR0+icmi6J9CRT7mrDqPFVs+uuryTC0aUxVcfx6x47PmFaCXIyW3r9LALmlpiPmd9XfSS1LZUlUeynqS1laB2Phr83KPGU7M8CFZEYldQGp1x/zAxBgDG21Ys5n0utsFjUE98cG0FTWdUzRmcY=
+	t=1742899890; cv=none; b=khrxaBnNhlNqAY94SWFKhfMrGlTJJEFKiMbWAZoU3BTtPk7R8UYw6xi7mRn1ptwT1xmoxB5UFlBUV9QragA+7/isb9o3nbT3a9bNHzeTyEkZAgC4LZOLKYW1osSgMnuqALp2FLq0n87oCHqf1wVWON9RGplOyidi0DvEcCVncFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742898397; c=relaxed/simple;
-	bh=uOXbXDjMKyukh5xpECmZxtWE5UOD4R8xzv4YEkmSeyY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kOg4FFIsWeqLBxZK2fO5qpHKB3DG54mb/rqzzdctOOzZrlU6Wy6MWWkPQE3FwKkrh+2tK0oRxqrdLQeWhZfbLqZVyerUt+sV+EelMDFVGek7bkwvB4rE+5iJQtjAMTue8oPRIU4MYTI4WWwxKfzZkEofVlE3hh+heQaoKkTP8Eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UYiVoL9N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742899890; c=relaxed/simple;
+	bh=xR6GirIfBrozq2AC8xJgD5xQeiggRPE3lvdwGa5aGWI=;
+	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=o1ZuQxbPssCYq/2FktE1O5nCrPDTiNEm6t64aiYusv2uv6M5q0BmqDxDSXlLiihE/MPc70rU6JAArdwFF7SpowHbhxoMPVr0LLO9jpzQLTWML7T7hMN7Y34/NwEl6m4eDY/SpihxPgzR1VSp2kPim7QaTBVnmHW3YxNg/ygJFnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Wc5JySZC; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UYiVoL9N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F37D0C4CEF5;
-	Tue, 25 Mar 2025 10:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742898397;
-	bh=uOXbXDjMKyukh5xpECmZxtWE5UOD4R8xzv4YEkmSeyY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UYiVoL9N357+qEbb9IOxWsE5qB9BDIPBoqI0767t9oxS3ib8dOoFPbHS/YqDaFWvn
-	 sE/+SIkMW/YnqCplkEkBsipBCx7DK8pnzaMWDqOSTK4b157DMAN12MtHcJGUwdy3oA
-	 35h10LDGxN11zlkuA1jAp8JXPzUYpOCnwbs3aLYoihstPDqrbTzgf8GaJAELyVjswf
-	 eV3koRwB6XdSbDsADtJKtMnrMEk8MhtqVj2eCcCzVvnwErBjGukO3fPLNDbPY/PHqD
-	 RriQ0+hOezOMPiWzhbuhhgAC9yyhglS5A6FWoV+VoAhZPEAzlgHm20Goivm8McZZ81
-	 eVAnEnkn97RAA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tx1UR-00GsRS-7G;
-	Tue, 25 Mar 2025 10:26:35 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Janne Grunau <j@jannau.net>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: [PATCH v2 13/13] PCI: apple: Add T602x PCIe support
-Date: Tue, 25 Mar 2025 10:26:10 +0000
-Message-Id: <20250325102610.2073863-14-maz@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20250325102610.2073863-1-maz@kernel.org>
-References: <20250325102610.2073863-1-maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Wc5JySZC"
+X-KPN-MessageId: 146499bc-0967-11f0-beb8-005056992ed3
+Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 146499bc-0967-11f0-beb8-005056992ed3;
+	Tue, 25 Mar 2025 11:51:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=subject:to:from:message-id:date;
+	bh=tODqhCRdwq1cXWRXmGhiNHHjhfHswwchnkKRsOhE6J0=;
+	b=Wc5JySZCXx1MoNhRPEol3otsbzxXiEBELwGp7X2PEUTfqxvTNxIPDD0sfLfyl0NeaUkIi7gzXy8FR
+	 KnQTZuTfL96nU0c44qXfitXB/O1Mx9xSjgwecqJuqpY51zRsPY4QggzHfAuWUjehyRbHm994X8yCN9
+	 zjiY6UzfMSIV7Tywf+AHZm2sg5/QULfmhVe6KegEJXm5SHT0UU9PHs0qB4ZJVfGHQ3R2Wvz1RHuc4+
+	 jM9qUCZKzxc/XXG5M7RspIsCw+1H9AU0p83poYAV0sBKIiZjdGu17zjZ+Kacqb0MTyRPFs5nnVG0HC
+	 ODy5JrZ1eOoVZy19zYJQ7ZqL6M2UHyQ==
+X-KPN-MID: 33|X3ePmqrigeow21+0/RPmUN0r8S697D3GBHNH5gAjYHVFKlylKuLbV/4XqHXfbBN
+ GYGKjtylp6D5XCh1zPvZARfdEblG5wmYxCvWkfqAaXEg=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|u5ACCmXoKrCtlfyO6JwQmRDfOR8RTr9QZHb3C3pFSCHXZmmCrngvMhskrSsADpq
+ Hn53REoUx9NWcVO7nuoMzvQ==
+Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id f0fd1fad-0966-11f0-99e4-00505699772e;
+	Tue, 25 Mar 2025 11:50:19 +0100 (CET)
+Date: Tue, 25 Mar 2025 11:50:18 +0100
+Message-Id: <87iknx75at.fsf@bloch.sibelius.xs4all.nl>
+From: Mark Kettenis <mark.kettenis@xs4all.nl>
+To: Marc Zyngier <maz@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, alyssa@rosenzweig.io, j@jannau.net,
+	marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com,
+	lpieralisi@kernel.org, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	krzk+dt@kernel.org
+In-Reply-To: <20250325102610.2073863-2-maz@kernel.org> (message from Marc
+	Zyngier on Tue, 25 Mar 2025 10:25:58 +0000)
+Subject: Re: [PATCH v2 01/13] dt-bindings: pci: apple,pcie: Add t6020 compatible string
+References: <20250325102610.2073863-1-maz@kernel.org> <20250325102610.2073863-2-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, alyssa@rosenzweig.io, j@jannau.net, marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com, manivannan.sadhasivam@linaro.org, robh@kernel.org, krzk+dt@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-From: Hector Martin <marcan@marcan.st>
+> From: Marc Zyngier <maz@kernel.org>
+> Date: Tue, 25 Mar 2025 10:25:58 +0000
 
-This version of the hardware moved around a bunch of registers, so we
-avoid the old compatible for these and introduce register offset
-structures to handle the differences.
+Hi Marc,
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- drivers/pci/controller/pcie-apple.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Sorry for not spotting this in the earlier versions, but:
 
-diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-index 847cba753d28d..5b85d9497070c 100644
---- a/drivers/pci/controller/pcie-apple.c
-+++ b/drivers/pci/controller/pcie-apple.c
-@@ -124,6 +124,13 @@
- #define   PORT_TUNSTAT_PERST_ACK_PEND	BIT(1)
- #define PORT_PREFMEM_ENABLE		0x00994
- 
-+/* T602x (M2-pro and co) */
-+#define PORT_T602X_MSIADDR	0x016c
-+#define PORT_T602X_MSIADDR_HI	0x0170
-+#define PORT_T602X_PERST	0x082c
-+#define PORT_T602X_RID2SID	0x3000
-+#define PORT_T602X_MSIMAP	0x3800
-+
- #define PORT_MSIMAP_ENABLE	BIT(31)
- #define PORT_MSIMAP_TARGET	GENMASK(7, 0)
- 
-@@ -158,6 +165,18 @@ static const struct hw_info t8103_hw = {
- 	.max_rid2sid		= 64,
- };
- 
-+static const struct hw_info t602x_hw = {
-+	.phy_lane_ctl		= 0,
-+	.port_msiaddr		= PORT_T602X_MSIADDR,
-+	.port_msiaddr_hi	= PORT_T602X_MSIADDR_HI,
-+	.port_refclk		= 0,
-+	.port_perst		= PORT_T602X_PERST,
-+	.port_rid2sid		= PORT_T602X_RID2SID,
-+	.port_msimap		= PORT_T602X_MSIMAP,
-+	/* 16 on t602x, guess for autodetect on future HW */
-+	.max_rid2sid		= 512,
-+};
-+
- struct apple_pcie {
- 	struct mutex		lock;
- 	struct device		*dev;
-@@ -425,6 +444,7 @@ static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
- 	/* Disable all interrupts */
- 	writel_relaxed(~0, port->base + PORT_INTMSK);
- 	writel_relaxed(~0, port->base + PORT_INTSTAT);
-+	writel_relaxed(~0, port->base + PORT_LINKCMDSTS);
- 
- 	irq_set_chained_handler_and_data(irq, apple_port_irq_handler, port);
- 
-@@ -865,6 +885,7 @@ static int apple_pcie_probe(struct platform_device *pdev)
- }
- 
- static const struct of_device_id apple_pcie_of_match[] = {
-+	{ .compatible = "apple,t6020-pcie",	.data = &t602x_hw },
- 	{ .compatible = "apple,pcie",		.data = &t8103_hw },
- 	{ }
- };
--- 
-2.39.2
+> From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> 
+> t6020 adds some register ranges compared to t8103, so requires
+> a new compatible as well as the new PHY registers themselves.
+> 
+> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> [maz: added PHY registers]
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/pci/apple,pcie.yaml | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/pci/apple,pcie.yaml b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> index c8775f9cb0713..77554899b9420 100644
+> --- a/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> +++ b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> @@ -17,6 +17,10 @@ description: |
+>    implements its root ports.  But the ATU found on most DesignWare
+>    PCIe host bridges is absent.
+>  
+> +  On systems derived from T602x, the PHY registers are in a region
+> +  separate from the port registers. In that case, there is one PHY
+> +  register range per port register range.
+> +
+>    All root ports share a single ECAM space, but separate GPIOs are
+>    used to take the PCI devices on those ports out of reset.  Therefore
+>    the standard "reset-gpios" and "max-link-speed" properties appear on
+> @@ -35,11 +39,12 @@ properties:
+>            - apple,t8103-pcie
+>            - apple,t8112-pcie
+>            - apple,t6000-pcie
+> +          - apple,t6020-pcie
+>        - const: apple,pcie
 
+Since the T602x PCIe controller has a different register layout, it
+isn't compatible with the others, so it should not include the
+"apple,pcie" compatible.  The "downstream" device trees for
+T602x-based devices do indeed not list "apple,pcie" as a compatible.
+So I think this needs to be written as:
+
+  compatible:
+    oneOf:
+      - items:
+          - enum:
+              - apple,t8103-pcie
+              - apple,t8112-pcie
+              - apple,t6000-pcie
+          - const: apple,pcie
+      - const: apple,t6020-pcie
+
+>  
+>    reg:
+>      minItems: 3
+> -    maxItems: 6
+> +    maxItems: 10
+>  
+>    reg-names:
+>      minItems: 3
+> @@ -50,6 +55,10 @@ properties:
+>        - const: port1
+>        - const: port2
+>        - const: port3
+> +      - const: phy0
+> +      - const: phy1
+> +      - const: phy2
+> +      - const: phy3
+>  
+>    ranges:
+>      minItems: 2
+> -- 
+> 2.39.2
+> 
+> 
+> 
