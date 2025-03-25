@@ -1,142 +1,172 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E991D1EFF87
-	for <asahi@lists.linux.dev>; Tue, 25 Mar 2025 10:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D005254B0D;
+	Tue, 25 Mar 2025 11:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742899890; cv=none; b=khrxaBnNhlNqAY94SWFKhfMrGlTJJEFKiMbWAZoU3BTtPk7R8UYw6xi7mRn1ptwT1xmoxB5UFlBUV9QragA+7/isb9o3nbT3a9bNHzeTyEkZAgC4LZOLKYW1osSgMnuqALp2FLq0n87oCHqf1wVWON9RGplOyidi0DvEcCVncFA=
+	t=1742900554; cv=none; b=nH/JuuOKUfnWzb5LzrHDxF493tm8IHhYXcB+jES+pBU+Es5ecIqvm5P86BxZ3xP/bQN+5FqHUlOTWg5ahwkp1lJahQ7eIpA0cAeAyMDAaQxf/zey6hFrNVBK811neHmhgpsuGnWj0fl1glj5F9YL2mZ3Uz4YWYjD01qz4jJYghE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742899890; c=relaxed/simple;
-	bh=xR6GirIfBrozq2AC8xJgD5xQeiggRPE3lvdwGa5aGWI=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=o1ZuQxbPssCYq/2FktE1O5nCrPDTiNEm6t64aiYusv2uv6M5q0BmqDxDSXlLiihE/MPc70rU6JAArdwFF7SpowHbhxoMPVr0LLO9jpzQLTWML7T7hMN7Y34/NwEl6m4eDY/SpihxPgzR1VSp2kPim7QaTBVnmHW3YxNg/ygJFnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Wc5JySZC; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1742900554; c=relaxed/simple;
+	bh=82PBDk1yiFJDvWrapv7fPLNTJc8KmRBR6OCSlAlVnvg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZBecaRQBDs06HEE5gWfOKXLhrIwjvcnOD7jeFclowqBOtVXuGyrG+fDzsR2/QIVQYfkEPIfQcil0thyyvbXOggVLXW4X8cFC8gpYeIc5c5LgPj30Z54hJgoBvxmXvUTGpAUpo5WL3grsd5YL1eh0o2SnJnRhFMKQcHbPiRZq6KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rSbVJsc+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Wc5JySZC"
-X-KPN-MessageId: 146499bc-0967-11f0-beb8-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 146499bc-0967-11f0-beb8-005056992ed3;
-	Tue, 25 Mar 2025 11:51:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=tODqhCRdwq1cXWRXmGhiNHHjhfHswwchnkKRsOhE6J0=;
-	b=Wc5JySZCXx1MoNhRPEol3otsbzxXiEBELwGp7X2PEUTfqxvTNxIPDD0sfLfyl0NeaUkIi7gzXy8FR
-	 KnQTZuTfL96nU0c44qXfitXB/O1Mx9xSjgwecqJuqpY51zRsPY4QggzHfAuWUjehyRbHm994X8yCN9
-	 zjiY6UzfMSIV7Tywf+AHZm2sg5/QULfmhVe6KegEJXm5SHT0UU9PHs0qB4ZJVfGHQ3R2Wvz1RHuc4+
-	 jM9qUCZKzxc/XXG5M7RspIsCw+1H9AU0p83poYAV0sBKIiZjdGu17zjZ+Kacqb0MTyRPFs5nnVG0HC
-	 ODy5JrZ1eOoVZy19zYJQ7ZqL6M2UHyQ==
-X-KPN-MID: 33|X3ePmqrigeow21+0/RPmUN0r8S697D3GBHNH5gAjYHVFKlylKuLbV/4XqHXfbBN
- GYGKjtylp6D5XCh1zPvZARfdEblG5wmYxCvWkfqAaXEg=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|u5ACCmXoKrCtlfyO6JwQmRDfOR8RTr9QZHb3C3pFSCHXZmmCrngvMhskrSsADpq
- Hn53REoUx9NWcVO7nuoMzvQ==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id f0fd1fad-0966-11f0-99e4-00505699772e;
-	Tue, 25 Mar 2025 11:50:19 +0100 (CET)
-Date: Tue, 25 Mar 2025 11:50:18 +0100
-Message-Id: <87iknx75at.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Marc Zyngier <maz@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, alyssa@rosenzweig.io, j@jannau.net,
-	marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com,
-	lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rSbVJsc+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 922ECC4CEE4;
+	Tue, 25 Mar 2025 11:02:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742900553;
+	bh=82PBDk1yiFJDvWrapv7fPLNTJc8KmRBR6OCSlAlVnvg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rSbVJsc+GL6lv2xUEvkmMYClr4BiE9asuFbIhOWTxxaTs1tG0Q+KN6REoH02rnooI
+	 OAgNfErYs+2G3nGMOZAJMzD+1iqergbb9ImDFAFBpOq+vpOMy4/LiR+ZylRBJRwXuC
+	 fb+1o7mFU0aMOYtKunH3eSkvaM1E1sY+8+w+oNgNKxT0mTgioll1qq8uXcBg3ZDOcD
+	 pbp1V/ytAHzzsG7A2AYLooNSLrHZsk1ezedBL8ikmWbDSo9+DgO/c6Z3DYqxAWslNe
+	 Jbo9bTUbQJVq9vCZOkrWJy3L7Q9XZRDATr6uPPpLTlFma39EmhDluCsCLYWyYNsrNf
+	 249nDn7rWyJxA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tx23C-00Gt6v-IK;
+	Tue, 25 Mar 2025 11:02:30 +0000
+Date: Tue, 25 Mar 2025 11:02:30 +0000
+Message-ID: <864izhmkzd.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Kettenis <mark.kettenis@xs4all.nl>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	alyssa@rosenzweig.io,
+	j@jannau.net,
+	marcan@marcan.st,
+	sven@svenpeter.dev,
+	bhelgaas@google.com,
+	lpieralisi@kernel.org,
+	kw@linux.com,
+	manivannan.sadhasivam@linaro.org,
+	robh@kernel.org,
 	krzk+dt@kernel.org
-In-Reply-To: <20250325102610.2073863-2-maz@kernel.org> (message from Marc
-	Zyngier on Tue, 25 Mar 2025 10:25:58 +0000)
 Subject: Re: [PATCH v2 01/13] dt-bindings: pci: apple,pcie: Add t6020 compatible string
-References: <20250325102610.2073863-1-maz@kernel.org> <20250325102610.2073863-2-maz@kernel.org>
+In-Reply-To: <87iknx75at.fsf@bloch.sibelius.xs4all.nl>
+References: <20250325102610.2073863-1-maz@kernel.org>
+	<20250325102610.2073863-2-maz@kernel.org>
+	<87iknx75at.fsf@bloch.sibelius.xs4all.nl>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: mark.kettenis@xs4all.nl, linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, alyssa@rosenzweig.io, j@jannau.net, marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com, manivannan.sadhasivam@linaro.org, robh@kernel.org, krzk+dt@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-> From: Marc Zyngier <maz@kernel.org>
-> Date: Tue, 25 Mar 2025 10:25:58 +0000
+Hi Mark,
 
-Hi Marc,
-
-Sorry for not spotting this in the earlier versions, but:
-
-> From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+On Tue, 25 Mar 2025 10:50:18 +0000,
+Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
 > 
-> t6020 adds some register ranges compared to t8103, so requires
-> a new compatible as well as the new PHY registers themselves.
+> > From: Marc Zyngier <maz@kernel.org>
+> > Date: Tue, 25 Mar 2025 10:25:58 +0000
 > 
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> [maz: added PHY registers]
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> ---
->  Documentation/devicetree/bindings/pci/apple,pcie.yaml | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+> Hi Marc,
 > 
-> diff --git a/Documentation/devicetree/bindings/pci/apple,pcie.yaml b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
-> index c8775f9cb0713..77554899b9420 100644
-> --- a/Documentation/devicetree/bindings/pci/apple,pcie.yaml
-> +++ b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
-> @@ -17,6 +17,10 @@ description: |
->    implements its root ports.  But the ATU found on most DesignWare
->    PCIe host bridges is absent.
->  
-> +  On systems derived from T602x, the PHY registers are in a region
-> +  separate from the port registers. In that case, there is one PHY
-> +  register range per port register range.
-> +
->    All root ports share a single ECAM space, but separate GPIOs are
->    used to take the PCI devices on those ports out of reset.  Therefore
->    the standard "reset-gpios" and "max-link-speed" properties appear on
-> @@ -35,11 +39,12 @@ properties:
->            - apple,t8103-pcie
->            - apple,t8112-pcie
->            - apple,t6000-pcie
-> +          - apple,t6020-pcie
->        - const: apple,pcie
+> Sorry for not spotting this in the earlier versions, but:
 
-Since the T602x PCIe controller has a different register layout, it
-isn't compatible with the others, so it should not include the
-"apple,pcie" compatible.  The "downstream" device trees for
-T602x-based devices do indeed not list "apple,pcie" as a compatible.
-So I think this needs to be written as:
+No worries -- I expected issues in that department.
 
-  compatible:
-    oneOf:
-      - items:
-          - enum:
-              - apple,t8103-pcie
-              - apple,t8112-pcie
-              - apple,t6000-pcie
-          - const: apple,pcie
-      - const: apple,t6020-pcie
+>
+> > From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> > 
+> > t6020 adds some register ranges compared to t8103, so requires
+> > a new compatible as well as the new PHY registers themselves.
+> > 
+> > Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> > [maz: added PHY registers]
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > ---
+> >  Documentation/devicetree/bindings/pci/apple,pcie.yaml | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/pci/apple,pcie.yaml b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> > index c8775f9cb0713..77554899b9420 100644
+> > --- a/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> > +++ b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> > @@ -17,6 +17,10 @@ description: |
+> >    implements its root ports.  But the ATU found on most DesignWare
+> >    PCIe host bridges is absent.
+> >  
+> > +  On systems derived from T602x, the PHY registers are in a region
+> > +  separate from the port registers. In that case, there is one PHY
+> > +  register range per port register range.
+> > +
+> >    All root ports share a single ECAM space, but separate GPIOs are
+> >    used to take the PCI devices on those ports out of reset.  Therefore
+> >    the standard "reset-gpios" and "max-link-speed" properties appear on
+> > @@ -35,11 +39,12 @@ properties:
+> >            - apple,t8103-pcie
+> >            - apple,t8112-pcie
+> >            - apple,t6000-pcie
+> > +          - apple,t6020-pcie
+> >        - const: apple,pcie
+> 
+> Since the T602x PCIe controller has a different register layout, it
+> isn't compatible with the others, so it should not include the
+> "apple,pcie" compatible.  The "downstream" device trees for
+> T602x-based devices do indeed not list "apple,pcie" as a compatible.
+> So I think this needs to be written as:
+> 
+>   compatible:
+>     oneOf:
+>       - items:
+>           - enum:
+>               - apple,t8103-pcie
+>               - apple,t8112-pcie
+>               - apple,t6000-pcie
+>           - const: apple,pcie
+>       - const: apple,t6020-pcie
 
->  
->    reg:
->      minItems: 3
-> -    maxItems: 6
-> +    maxItems: 10
->  
->    reg-names:
->      minItems: 3
-> @@ -50,6 +55,10 @@ properties:
->        - const: port1
->        - const: port2
->        - const: port3
-> +      - const: phy0
-> +      - const: phy1
-> +      - const: phy2
-> +      - const: phy3
->  
->    ranges:
->      minItems: 2
-> -- 
-> 2.39.2
-> 
-> 
-> 
+Ah, indeed, that's a good point. Thanks for that.
+
+Whilst I have your attention, how about my question below:
+
+>
+> >  
+> >    reg:
+> >      minItems: 3
+> > -    maxItems: 6
+> > +    maxItems: 10
+> >  
+> >    reg-names:
+> >      minItems: 3
+> > @@ -50,6 +55,10 @@ properties:
+> >        - const: port1
+> >        - const: port2
+> >        - const: port3
+> > +      - const: phy0
+> > +      - const: phy1
+> > +      - const: phy2
+> > +      - const: phy3
+
+Do we need to make this t6020 specific?
+
+Obviously, separate PHY registers do not make much sense before t6020,
+but I couldn't find a way to describe that. I don't even know if
+that's a desirable outcome.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
