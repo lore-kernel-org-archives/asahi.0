@@ -1,89 +1,75 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3278235964
-	for <asahi@lists.linux.dev>; Thu, 27 Mar 2025 15:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C26317A316
+	for <asahi@lists.linux.dev>; Fri, 28 Mar 2025 09:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743087685; cv=none; b=U+I7thxqhn3ekMRpHJcxqCFvahzWdE/lSHB+5cB2sj9/Xd4nCF1o3xAaogYvhdxSOpcDIDi08ipk7BcTtcPcS+w7LS2jEcFyLREPjFRKQrjKNHt6q5xyCJZPg1MiL+hP9zV04ffCnsnWD3m/UgBYn7Sa64M2e5X/qigbIZEQtZ0=
+	t=1743152843; cv=none; b=NTGGfb2hqe/0hkYmNwAt/l2tVxJBv/x6DUbUoeh1h1bZ5ktk2HmFQzlaCguZqmeO3e2qCdKtUy+weSmmxv1fLBqC3cq2L5Xk5UaI0e1brSNMV/hs9NnBezwVHPo6W1XFjQ3MA0zdwznidJPXzaIxBXBQP6KkMGv+53vtIqqzbF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743087685; c=relaxed/simple;
-	bh=nw4pv5R1jm6ML9J+yCdzCtUQffBtXQqAQI4BoDJp0UU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxcAi4Gc+u0REKDpXZ1WapBjjTiHopO+EOwJQVlGAclW46bY5aF8x3gSxbvcAI2SPW32gYUvxyVp2q//VcbDJJ5EwygLJJE6FyGwQn+JcSsAQ2qp5o8u7rkJAkoi5wrlEe1vrOYviAURxzU0TZz8A7pMFhDzxlNsq+A2VoqIBAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=PBKCEw+k; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="PBKCEw+k"
-Date: Thu, 27 Mar 2025 11:01:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1743087681;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IcvekZQH+j+p97YeB4/yEpAZzvs9KIEsKULl/WK/9vQ=;
-	b=PBKCEw+kRjk95sKh2ZN02rlprYFY1nx3B1WFeMmw7eLoMLXmyGrSSLAxXkStIsfagZ8zmt
-	T0udX4ZTrsEPWsOGQl/xc4tctgdpgepLyZMh4KsRJGGfbfNGtotW+VZAuorJzQRKIjTMky
-	GQ4SPU30Sh6aswM8Z8+OQya2j/4jo57b6G1LEc/9Ay2kuP0t0c9lluUYtYgCAvhMalgSUI
-	HHvev9srG7jpm8+sI+1kgVsJ96knrCfxNuQyGHO3kTVcCGx9BJt0XOPYxUr8EERyuaen9S
-	hKKn/BEI08vUpHLo7MJAJJmATNahJhpRf5mDypvOmC/qWx+5yc61WPwQX31eLw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Neal Gompa <neal@gompa.dev>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sergio Lopez Pascual <slp@sinrega.org>,
-	Ryan Houdek <sonicadvance1@gmail.com>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, Asahi Lina <lina@asahilina.net>,
-	Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v5] drm: Add UAPI for the Asahi driver
-Message-ID: <Z-VoO7l5xzuN5RUX@blossom>
-References: <20250326-agx-uapi-v5-1-04fccfc9e631@rosenzweig.io>
- <CAEg-Je9G23mXWTHbnuozsrRY8+03tfq7uT=St+KgLvq1RggzmA@mail.gmail.com>
+	s=arc-20240116; t=1743152843; c=relaxed/simple;
+	bh=c8ZgsyTb6U2OdVYTDjEyr+OpddFQF6vqVDDg/z1d2j0=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=pi+WpcDYIlP6sU2FwEKgf+Wnhm4C/CQtd0WPcs2j+j/dcijwvvVEQmTp4FBFAMXoT/TVvkRgUAZ1VpPiqMyBRNcLDF7SIGrqV4WzfpQz4wT9Z2PUT/PaGCXsvwdt9NKgJo2FLR7XwefaeVOBuKdlKoqW9+TMOMlIjXsBZUsjxTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZPF5z44Hsz5B1J4;
+	Fri, 28 Mar 2025 17:07:19 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl2.zte.com.cn with SMTP id 52S972DG013128;
+	Fri, 28 Mar 2025 17:07:03 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Fri, 28 Mar 2025 17:07:05 +0800 (CST)
+Date: Fri, 28 Mar 2025 17:07:05 +0800 (CST)
+X-Zmail-TransId: 2afc67e666b9ffffffffbd4-c782e
+X-Mailer: Zmail v1.0
+Message-ID: <20250328170705401AXCIsIhOYGoIu8LDn_lj6@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEg-Je9G23mXWTHbnuozsrRY8+03tfq7uT=St+KgLvq1RggzmA@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <fnkl.kernel@gmail.com>
+Cc: <j@jannau.net>, <dri-devel@lists.freedesktop.org>, <asahi@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>, <yang.yang29@zte.com.cn>,
+        <xu.xin16@zte.com.cn>, <ye.xingchen@zte.com.cn>,
+        <tang.dongxing@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm06IGFkcDogVXNlIGRldmljZV9tYXRjaF9vZl9ub2RlKCk=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 52S972DG013128
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67E666C7.00A/4ZPF5z44Hsz5B1J4
 
-> > https://github.com/alyssarosenzweig/linux/commits/agx-uapi-v5 contains
-> > the DRM driver implementing this proposed UAPI.
-> >
-> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33984 contains
-> > the Mesa patches to implement this proposed UAPI.
-> >
-> > That Linux and Mesa branch together give a complete graphics/compute
-> > stack on top of this UAPI.
-> 
-> Do we want these links to be present in the commit message? I doubt
-> they'll stick around permanently...
+From: Tang Dongxing <tang.dongxing@zte.com.cn>
 
-Permanently, no. But by the time they go dark, the relevant code will
-hopefully be upstream in both kernel & Mesa. So I'm not worried. Not
-really weirder than any other links in commit messages we have.
+Replace the open-code with device_match_of_node().
 
-> This looks good to me, and the referenced integration code also looks good.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
+Signed-off-by: Tang Dongxing <tang.dongxing@zte.com.cn>
+Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+---
+ drivers/gpu/drm/adp/adp_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
+diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
+index c98c647f981d..0abb56ce2c34 100644
+--- a/drivers/gpu/drm/adp/adp_drv.c
++++ b/drivers/gpu/drm/adp/adp_drv.c
+@@ -553,7 +553,7 @@ static const struct component_master_ops adp_master_ops = {
+
+ static int compare_dev(struct device *dev, void *data)
+ {
+-	return dev->of_node == data;
++	return device_match_of_node(dev, data);
+ }
+
+ static int adp_probe(struct platform_device *pdev)
+-- 
+2.25.1
