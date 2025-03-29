@@ -1,129 +1,198 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from 1.mo560.mail-out.ovh.net (1.mo560.mail-out.ovh.net [46.105.63.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3E521B8E1
-	for <asahi@lists.linux.dev>; Fri, 28 Mar 2025 11:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B74134B0
+	for <asahi@lists.linux.dev>; Sat, 29 Mar 2025 18:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.105.63.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743162289; cv=none; b=FwBCGOFyhl/5nIJc0AjJfVgD2IOa8HEKeNeYCUFZQC2RAfrb+LDf68I98CzUgdhiw5ZWl6iEbTfIyQ2SxJ53vR4zdUIV2udY+A4T9uNSx+gQ4ByzrWpDfb8qSgITyEDkhsSrAcUyFbNiiqXmlsWgq94n0+r1FpChQODd5BA4QKE=
+	t=1743272126; cv=none; b=hm4dcjnCdyPE+KShU5uf1Pr47X33FawqiiKOr4dq5FKTOy3S7ySuDHdh0ftIbNX3hA4P1eDznfmH+QBD+J/lObvJMWzZXuxbg3d8aBLAqGL1gC0IMkDmxBRod+YTcvGii4YmoPc5xRNwzm4mVjuRmIGj4NCiLnxjgNAXoFqbySg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743162289; c=relaxed/simple;
-	bh=8+zypw/efT/4jpn72fUsqv41/cqOS64PVegD7FuW2S4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AvE9t8cK5Cd2olgr0+kud5xs3tKvm1JL0l06E9GwLTsDD2JGumzyJBiBOT/ZULSKx8o3e+9tfMf99UIT8AUSbXqDRBEU4H0U+ydaRVsgmGjVyymeGC8TYdlLjgFyJ3JXK97QSMBD2pcF/dfgnj4nWnVF33HIhm5wQuxcgC4uPvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=P4WfsX0h; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J2mKnDhW; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1743272126; c=relaxed/simple;
+	bh=uGnuxLaPa9lafg8GL1vrIXjXYLga4eyTWR5Bm64gm6o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o3E4RWxjMsiCUyP2UZtJJmBGmEMThEX2Jo8BBnOZTWvSBP71MttDBoop32bA5rx81HkzI/uNLlaBMqOgh/IJwM36duqksHCA2ex7Nw3kr792EPzwNjiyOPbC5ecA39/b9WmdGrcQQ/hdCyq/kd0MII6O+vbUQ0/QgTwet8cU+aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labcsmart.com; spf=pass smtp.mailfrom=labcsmart.com; dkim=pass (2048-bit key) header.d=labcsmart.com header.i=@labcsmart.com header.b=T0Vm1s/V; arc=none smtp.client-ip=46.105.63.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labcsmart.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labcsmart.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="P4WfsX0h";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J2mKnDhW"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 717381382CF4;
-	Fri, 28 Mar 2025 07:44:46 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 28 Mar 2025 07:44:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1743162286; x=1743248686; bh=bgXswIbMjn
-	A/aMDEQsm4ZrPZ7vvhEhrgXQbINneJrC0=; b=P4WfsX0h8A4n3adLSi/2kD9Koc
-	wzhiG4cf3L1B468n6wlttySyNW0Ukzv93z6De4Q+VdCbnC7xljJA5OogUhPlWXIf
-	jzzC7bstIbmaGSdALz7W96Q9TPaV8GEqSOViDnAGS6fEA/xgJsVBgyFSPyo0KVtt
-	RvQM+nnQe5EsYRZpFjhw9hej6rqBBJyCKqhrmt/HfnLgQ5I6+m1Dhdovh4grR5aU
-	DfKYjinI//I5wG39t3etExZtj3eyZxSJTygyIJFKbv8lywzg0pmCluGjex+cm68Z
-	Et/H9A1yh1LF2HhkDXDSoGtMshC5O0Yc0wm6n6cNh7emBlpFrW1byI3YGcdw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1743162286; x=1743248686; bh=bgXswIbMjnA/aMDEQsm4ZrPZ7vvhEhrgXQb
-	INneJrC0=; b=J2mKnDhWT6mc8281idWRL3K5oMqQXn/kVZJt40RAh4wI8LbNzbe
-	AhrnQYU2dPGAeHCu4YMDJfbyUCrCrp2ovMfu0LWeB/Uhk06+BHuITS3OuF9LK24b
-	6UKO58LDZDv8WOJxGoLuNrtWfVVJiRpw3iiu/bodAqUU1dKO+QMy5WCQ9fhuNwFI
-	lnn9spCMmmJmj17t/SbC8OewzZ90ox935PTWXKdtrWCGsxfzVsIn/Cob4yfs8MUg
-	zZW72sEmiwu+X0Q5+4tVymDayyNx23urK4HqquRsU4zrJfVTbRdtN180YjhAo3R4
-	ZJaxy8WpY/BaAciQpKEcL7vDS7BxQeS5GBA==
-X-ME-Sender: <xms:rYvmZ04NQjNpCjZCemWRMaKJUDQPQCXOgr36DbV-SOMxxE-25KMyhA>
-    <xme:rYvmZ17a8Vo5ZbCt-RwJMHpFn5xuAxkG8Tw8qYb3Qgl0VJbeoVEQGUg4SMBSLWVBP
-    T5GruRSQA2T9IfQR3U>
-X-ME-Received: <xmr:rYvmZzfGMs0k07Jzh7UDCps4-U8RTXAabWkD75jzUZq3NLbvOkYv5f7lsuHTTXJyeEQ0eh8yx13GwOndi743bWfQpLguj1rAxA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeduvdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpeffhf
-    fvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfirhhunhgr
-    uhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvffevleegud
-    ejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhsthgvrhfu
-    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpd
-    hnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehshhgr
-    ohdrmhhinhhghihinhesiihtvgdrtghomhdrtghnpdhrtghpthhtohepfhhnkhhlrdhkvg
-    hrnhgvlhesghhmrghilhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhs
-    thhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghsrghhiheslhhish
-    htshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopeihrghnghdrhigrnhhgvdelseiith
-    gvrdgtohhmrdgtnhdprhgtphhtthhopeiguhdrgihinhduieesiihtvgdrtghomhdrtghn
-    pdhrtghpthhtohephigvrdigihhnghgthhgvnhesiihtvgdrtghomhdrtghnpdhrtghpth
-    htohepthgrnhhgrdguohhnghigihhnghesiihtvgdrtghomhdrtghn
-X-ME-Proxy: <xmx:rYvmZ5I7S65MjMkBPq8fRmm_CIFNFqNq8kjKgjDgAaJJHCp692T2Jg>
-    <xmx:rYvmZ4JNaZAHANSovkUFtoiwk4NBlWub8Ompm9CmAmFusevv7Sge8g>
-    <xmx:rYvmZ6xoN8lDdqEr3EQFgigCen7qYdE2U4vGxecy7MDT_PaibrLVjg>
-    <xmx:rYvmZ8Kqz40ff1C47gaiZqgqAEvbJRzP_plgrRuRlO_SCCUImNJwoQ>
-    <xmx:rovmZ9VkzrL-s7ymQgDaGvPISB-zXyx625B5ycTH1DYFcRGyBZ7VG-0O>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 28 Mar 2025 07:44:45 -0400 (EDT)
-Date: Fri, 28 Mar 2025 12:44:43 +0100
-From: Janne Grunau <j@jannau.net>
-To: shao.mingyin@zte.com.cn
-Cc: fnkl.kernel@gmail.com, dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	yang.yang29@zte.com.cn, xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn,
-	tang.dongxing@zte.com.cn
-Subject: Re: [PATCH] drm: adp: Use device_match_of_node()
-Message-ID: <20250328114443.GA597674@robin.jannau.net>
-References: <20250328170705401AXCIsIhOYGoIu8LDn_lj6@zte.com.cn>
+	dkim=pass (2048-bit key) header.d=labcsmart.com header.i=@labcsmart.com header.b="T0Vm1s/V"
+Received: from director11.ghost.mail-out.ovh.net (unknown [10.109.176.95])
+	by mo560.mail-out.ovh.net (Postfix) with ESMTP id 4ZQ5Cj34Jtz1dcQ
+	for <asahi@lists.linux.dev>; Sat, 29 Mar 2025 18:15:13 +0000 (UTC)
+Received: from ghost-submission-5b5ff79f4f-bnbm7 (unknown [10.111.182.49])
+	by director11.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 9C73E1FE64;
+	Sat, 29 Mar 2025 18:15:10 +0000 (UTC)
+Received: from labcsmart.com ([37.59.142.99])
+	by ghost-submission-5b5ff79f4f-bnbm7 with ESMTPSA
+	id lXD9Eq446GegAwAAx023iw
+	(envelope-from <john.madieu@labcsmart.com>); Sat, 29 Mar 2025 18:15:10 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-99G00370defa65-2e12-46e3-a76d-ab6dc0455f8d,
+                    1AA15D79FD1645C8296C06E669C502FD88205396) smtp.auth=john.madieu@labcsmart.com
+X-OVh-ClientIp:141.94.163.193
+From: John Madieu <john.madieu@labcsmart.com>
+To: sven@svenpeter.dev,
+	j@jannau.net,
+	linus.walleij@linaro.org
+Cc: alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	john.madieu@gmail.com,
+	John Madieu <john.madieu@labcsmart.com>
+Subject: [PATCH] pinctrl: apple: Make regmap_config static const and fix indentation
+Date: Sat, 29 Mar 2025 18:15:06 +0000
+Message-Id: <20250329181506.890043-1-john.madieu@labcsmart.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250328170705401AXCIsIhOYGoIu8LDn_lj6@zte.com.cn>
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 4085046338809924234
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeegkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflohhhnhcuofgrughivghuuceojhhohhhnrdhmrgguihgvuheslhgrsggtshhmrghrthdrtghomheqnecuggftrfgrthhtvghrnhepgeegteetieettdffleeludeliedvueeuuefhveffhfehtdehiefhfefflefguddvnecukfhppeduvdejrddtrddtrddupddugedurdelgedrudeifedrudelfedpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpehjohhhnhdrmhgrughivghusehlrggstghsmhgrrhhtrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheeitdgmpdhmohguvgepshhmthhpohhuth
+DKIM-Signature: a=rsa-sha256; bh=akVyMKQyCxWZ3yLiQHM8pT2PU+T/9mwnNjkwN1GvFNU=;
+ c=relaxed/relaxed; d=labcsmart.com; h=From; s=ovhmo4089092-selector1;
+ t=1743272113; v=1;
+ b=T0Vm1s/Vrkc1RsJQHrYki+Vr3ubVgaOhtDZs744k67Osex0cxMGi6iFlHHwWn/vqtIKTC93P
+ e1VZxhXuFjq2tNtU8IkyAFaJdFJqmVsbUEGGyq9CTzs03Pkkr+6CVnfiJd3EHQVvA3sJIiWQp8G
+ z3H/BNoJUOQ1Gq4qJcrHfL8gCaKqQJHnfybZLKx838mt49Bg+CXmbWEekOhzvM6HqxbKewphJAD
+ JbpI7fIyADsh+2pmzFirD+dT7wEj6CYcVwUymZ9XlRDevENOV7a5hZsVYxGPgdPZSGmCzgLLnwj
+ 42HRqU1sPKlyqcFxY20HYqEYS7B1wY+6abjC+mwJEB5sg==
 
-On Fri, Mar 28, 2025 at 05:07:05PM +0800, shao.mingyin@zte.com.cn wrote:
-> From: Tang Dongxing <tang.dongxing@zte.com.cn>
-> 
-> Replace the open-code with device_match_of_node().
-> 
-> Signed-off-by: Tang Dongxing <tang.dongxing@zte.com.cn>
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-> ---
->  drivers/gpu/drm/adp/adp_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-> index c98c647f981d..0abb56ce2c34 100644
-> --- a/drivers/gpu/drm/adp/adp_drv.c
-> +++ b/drivers/gpu/drm/adp/adp_drv.c
-> @@ -553,7 +553,7 @@ static const struct component_master_ops adp_master_ops = {
-> 
->  static int compare_dev(struct device *dev, void *data)
->  {
-> -	return dev->of_node == data;
-> +	return device_match_of_node(dev, data);
->  }
+Mark the regmap_config as static const since it is only used in this file
+and never modified, allowing the compiler to optimize it and enforce
+const-correctness.
 
-please remove compare_dev() completely and replace the argmunent in the
-drm_of_component_match_add() call directly. Commonly
-component_compare_of() is used but it is also just a wrapper around
-device_match_of_node().
+Also fix minor indentation inconsistencies in function parameter alignment
+to conform with kernel coding style.
 
-drivers/gpu/drm/arm/hdlcd_drv.c and drivers/gpu/drm/arm/malidp_drv.c
-follow the same pattern so please fix those as well. One of them was
-used as template for this driver.
+Signed-off-by: John Madieu <john.madieu@labcsmart.com>
+---
+Most changes replace space indentation with tabs.
 
-Thanks,
+ drivers/pinctrl/pinctrl-apple-gpio.c | 30 ++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-Janne
+diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
+index f861e63f4115..0f551d67d482 100644
+--- a/drivers/pinctrl/pinctrl-apple-gpio.c
++++ b/drivers/pinctrl/pinctrl-apple-gpio.c
+@@ -66,7 +66,7 @@ struct apple_gpio_pinctrl {
+ #define REG_GPIOx_DRIVE_STRENGTH1 GENMASK(23, 22)
+ #define REG_IRQ(g, x)        (0x800 + 0x40 * (g) + 4 * ((x) >> 5))
+ 
+-struct regmap_config regmap_config = {
++static const struct regmap_config regmap_config = {
+ 	.reg_bits = 32,
+ 	.val_bits = 32,
+ 	.reg_stride = 4,
+@@ -79,13 +79,13 @@ struct regmap_config regmap_config = {
+ 
+ /* No locking needed to mask/unmask IRQs as the interrupt mode is per pin-register. */
+ static void apple_gpio_set_reg(struct apple_gpio_pinctrl *pctl,
+-                               unsigned int pin, u32 mask, u32 value)
++			       unsigned int pin, u32 mask, u32 value)
+ {
+ 	regmap_update_bits(pctl->map, REG_GPIO(pin), mask, value);
+ }
+ 
+ static u32 apple_gpio_get_reg(struct apple_gpio_pinctrl *pctl,
+-                              unsigned int pin)
++			      unsigned int pin)
+ {
+ 	int ret;
+ 	u32 val;
+@@ -100,9 +100,9 @@ static u32 apple_gpio_get_reg(struct apple_gpio_pinctrl *pctl,
+ /* Pin controller functions */
+ 
+ static int apple_gpio_dt_node_to_map(struct pinctrl_dev *pctldev,
+-                                     struct device_node *node,
+-                                     struct pinctrl_map **map,
+-                                     unsigned *num_maps)
++				     struct device_node *node,
++				     struct pinctrl_map **map,
++				     unsigned *num_maps)
+ {
+ 	unsigned reserved_maps;
+ 	struct apple_gpio_pinctrl *pctl;
+@@ -147,8 +147,8 @@ static int apple_gpio_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 		group_name = pinctrl_generic_get_group_name(pctldev, pin);
+ 		function_name = pinmux_generic_get_function_name(pctl->pctldev, func);
+ 		ret = pinctrl_utils_add_map_mux(pctl->pctldev, map,
+-		                                &reserved_maps, num_maps,
+-		                                group_name, function_name);
++						&reserved_maps, num_maps,
++						group_name, function_name);
+ 		if (ret)
+ 			goto free_map;
+ 	}
+@@ -171,7 +171,7 @@ static const struct pinctrl_ops apple_gpio_pinctrl_ops = {
+ /* Pin multiplexer functions */
+ 
+ static int apple_gpio_pinmux_set(struct pinctrl_dev *pctldev, unsigned func,
+-                                 unsigned group)
++				 unsigned group)
+ {
+ 	struct apple_gpio_pinctrl *pctl = pinctrl_dev_get_drvdata(pctldev);
+ 
+@@ -237,7 +237,7 @@ static int apple_gpio_direction_input(struct gpio_chip *chip, unsigned int offse
+ }
+ 
+ static int apple_gpio_direction_output(struct gpio_chip *chip,
+-                                       unsigned int offset, int value)
++				       unsigned int offset, int value)
+ {
+ 	struct apple_gpio_pinctrl *pctl = gpiochip_get_data(chip);
+ 
+@@ -282,7 +282,7 @@ static void apple_gpio_irq_mask(struct irq_data *data)
+ 	struct apple_gpio_pinctrl *pctl = gpiochip_get_data(gc);
+ 
+ 	apple_gpio_set_reg(pctl, data->hwirq, REG_GPIOx_MODE,
+-	                   FIELD_PREP(REG_GPIOx_MODE, REG_GPIOx_IN_IRQ_OFF));
++			   FIELD_PREP(REG_GPIOx_MODE, REG_GPIOx_IN_IRQ_OFF));
+ 	gpiochip_disable_irq(gc, data->hwirq);
+ }
+ 
+@@ -294,7 +294,7 @@ static void apple_gpio_irq_unmask(struct irq_data *data)
+ 
+ 	gpiochip_enable_irq(gc, data->hwirq);
+ 	apple_gpio_set_reg(pctl, data->hwirq, REG_GPIOx_MODE,
+-	                   FIELD_PREP(REG_GPIOx_MODE, irqtype));
++			   FIELD_PREP(REG_GPIOx_MODE, irqtype));
+ }
+ 
+ static unsigned int apple_gpio_irq_startup(struct irq_data *data)
+@@ -303,7 +303,7 @@ static unsigned int apple_gpio_irq_startup(struct irq_data *data)
+ 	struct apple_gpio_pinctrl *pctl = gpiochip_get_data(chip);
+ 
+ 	apple_gpio_set_reg(pctl, data->hwirq, REG_GPIOx_GRP,
+-	                   FIELD_PREP(REG_GPIOx_GRP, 0));
++			   FIELD_PREP(REG_GPIOx_GRP, 0));
+ 
+ 	apple_gpio_direction_input(chip, data->hwirq);
+ 	apple_gpio_irq_unmask(data);
+@@ -320,7 +320,7 @@ static int apple_gpio_irq_set_type(struct irq_data *data, unsigned int type)
+ 		return -EINVAL;
+ 
+ 	apple_gpio_set_reg(pctl, data->hwirq, REG_GPIOx_MODE,
+-	                   FIELD_PREP(REG_GPIOx_MODE, irqtype));
++			   FIELD_PREP(REG_GPIOx_MODE, irqtype));
+ 
+ 	if (type & IRQ_TYPE_LEVEL_MASK)
+ 		irq_set_handler_locked(data, handle_level_irq);
+@@ -429,7 +429,7 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
+ 	unsigned int npins;
+ 	const char **pin_names;
+ 	unsigned int *pin_nums;
+-	static const char* pinmux_functions[] = {
++	static const char *pinmux_functions[] = {
+ 		"gpio", "periph1", "periph2", "periph3"
+ 	};
+ 	unsigned int i, nirqs = 0;
+-- 
+2.25.1
+
