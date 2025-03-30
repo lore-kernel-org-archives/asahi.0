@@ -1,198 +1,135 @@
-Received: from 1.mo560.mail-out.ovh.net (1.mo560.mail-out.ovh.net [46.105.63.121])
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B74134B0
-	for <asahi@lists.linux.dev>; Sat, 29 Mar 2025 18:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.105.63.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E07433A4
+	for <asahi@lists.linux.dev>; Sun, 30 Mar 2025 08:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743272126; cv=none; b=hm4dcjnCdyPE+KShU5uf1Pr47X33FawqiiKOr4dq5FKTOy3S7ySuDHdh0ftIbNX3hA4P1eDznfmH+QBD+J/lObvJMWzZXuxbg3d8aBLAqGL1gC0IMkDmxBRod+YTcvGii4YmoPc5xRNwzm4mVjuRmIGj4NCiLnxjgNAXoFqbySg=
+	t=1743324711; cv=none; b=DFfIKoExPY/qvHVi0vIU2aIp/BEMO17xuaor2nhxt68v7R1Y4jvk+Ly5TrqWZwmHMj30YU7M1CSLuFhuq0u0vExjHURZ6pjvqwVj1ro0vCXTZVQ6klE2g5T63SDNRPF7cxtUgXMoLOV1ASR0n7OUeE0ogeqy11VxG59t8MYI7UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743272126; c=relaxed/simple;
-	bh=uGnuxLaPa9lafg8GL1vrIXjXYLga4eyTWR5Bm64gm6o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o3E4RWxjMsiCUyP2UZtJJmBGmEMThEX2Jo8BBnOZTWvSBP71MttDBoop32bA5rx81HkzI/uNLlaBMqOgh/IJwM36duqksHCA2ex7Nw3kr792EPzwNjiyOPbC5ecA39/b9WmdGrcQQ/hdCyq/kd0MII6O+vbUQ0/QgTwet8cU+aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labcsmart.com; spf=pass smtp.mailfrom=labcsmart.com; dkim=pass (2048-bit key) header.d=labcsmart.com header.i=@labcsmart.com header.b=T0Vm1s/V; arc=none smtp.client-ip=46.105.63.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=labcsmart.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=labcsmart.com
+	s=arc-20240116; t=1743324711; c=relaxed/simple;
+	bh=xPhwWDI3vRjZ0m2k4v3KogrcS24YICsNymfB02MqAIE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=POpwvqPVNfLpAT2urXQkDuMz9T8Tw2qpC8tSAfgTgLr8GJOCbQCtHzaIbYyLw2P1bPeaCFS6yuF3JP1QyJY0FkJRz9d0SCZU5glHSFK4PVeOcJVufNW/xWttupSWpWwoLQ0YawM+PFPrFkp+J8qyNMfeObUnC/zWQ+gAA1LD3mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=DJnJtTkx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E1rLm3UZ; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=labcsmart.com header.i=@labcsmart.com header.b="T0Vm1s/V"
-Received: from director11.ghost.mail-out.ovh.net (unknown [10.109.176.95])
-	by mo560.mail-out.ovh.net (Postfix) with ESMTP id 4ZQ5Cj34Jtz1dcQ
-	for <asahi@lists.linux.dev>; Sat, 29 Mar 2025 18:15:13 +0000 (UTC)
-Received: from ghost-submission-5b5ff79f4f-bnbm7 (unknown [10.111.182.49])
-	by director11.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 9C73E1FE64;
-	Sat, 29 Mar 2025 18:15:10 +0000 (UTC)
-Received: from labcsmart.com ([37.59.142.99])
-	by ghost-submission-5b5ff79f4f-bnbm7 with ESMTPSA
-	id lXD9Eq446GegAwAAx023iw
-	(envelope-from <john.madieu@labcsmart.com>); Sat, 29 Mar 2025 18:15:10 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-99G00370defa65-2e12-46e3-a76d-ab6dc0455f8d,
-                    1AA15D79FD1645C8296C06E669C502FD88205396) smtp.auth=john.madieu@labcsmart.com
-X-OVh-ClientIp:141.94.163.193
-From: John Madieu <john.madieu@labcsmart.com>
-To: sven@svenpeter.dev,
-	j@jannau.net,
-	linus.walleij@linaro.org
-Cc: alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	john.madieu@gmail.com,
-	John Madieu <john.madieu@labcsmart.com>
-Subject: [PATCH] pinctrl: apple: Make regmap_config static const and fix indentation
-Date: Sat, 29 Mar 2025 18:15:06 +0000
-Message-Id: <20250329181506.890043-1-john.madieu@labcsmart.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="DJnJtTkx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E1rLm3UZ"
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfout.stl.internal (Postfix) with ESMTP id 42846114011B;
+	Sun, 30 Mar 2025 04:51:48 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-12.internal (MEProxy); Sun, 30 Mar 2025 04:51:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1743324708; x=1743411108; bh=dTqWupLjl7cdoWEq+RC/Hw7jFYiUJzqN
+	ImVvEUcMouk=; b=DJnJtTkx4FtwTGs+MCsrm43hFIkfqw4YaAN/iAf6TgpR0LbC
+	o+1eLQsYmMCqFU1GY8C+JR/xcq53SyuUQywH6k3f+PP1xqqCMv9G5aU89r5KCy7E
+	esU9ANb6BbU6oi4EDQAzKVSib3TPZUA7xmK25k/ZZsKjfKtCF6MoRwSqR4WaoGe8
+	O5OzmT+DbH6fhcpx1/IDh8wahLKCbFydU1W83a2yls0+1pkAqVzGrWsoPFPE5XyJ
+	Y/XUuouU25KflRa/Z0Ls1fDdWHp1E198ihXjdvNIjSRzMTLSmO6B00nsLqG++heE
+	fHBafwieQnBMeyIkmNAQbORXHzaf3WjS83JPyg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1743324708; x=
+	1743411108; bh=dTqWupLjl7cdoWEq+RC/Hw7jFYiUJzqNImVvEUcMouk=; b=E
+	1rLm3UZ5lxXQ2IfWIxo+qXUsKga+l/AU8skmGxFy4QX4/GQMa7NMcwYOkgewM8MM
+	Ck2QOI5duUsk+T0zZ73+5fRGnrHWUJpLxQfmTBxKHvLxZ37Bzst3f4/D9Aet4zPK
+	vOgJMbpaqGbLUZxVKfusy3ZI1dT+e+3LN1NpU4mmUtL35tL+byFt99Z6c/pV4ZSN
+	uUeqpQfeoHqKB5nu19xAOrAniDep7IG7sgoWkpNOmIRjPokDdFYgVM+pSzZrLWEv
+	GnTOHRPwGChr0agwfrfbJJy/ClTXEAOTmVJpcLQ8GfyQO2s3598YjeYrrFFrG+l/
+	rFhIHueaTk3zZB6vnEPsg==
+X-ME-Sender: <xms:IQbpZzmp2KoRE1ljRh7hr-SHuOTQ2BaiFqboNbdzG_3Q0dfu64n51w>
+    <xme:IQbpZ21fyxznLm7bF4IiUP9f_YTDHzitZJ2fyRbK0EmkF6a6No9IdIhjWcm98H6T1
+    A2xYMiPn647jbr-MX4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeeiieduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvth
+    gvrhdruggvvheqnecuggftrfgrthhtvghrnhepleefteeugeduudeuudeuhfefheegveek
+    ueefffdvffektdffffelveffvddvueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggp
+    rhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptghhrhhish
+    htohhphhgvrdhlvghrohihsegtshhgrhhouhhprdgvuhdprhgtphhtthhopehmphgvsegv
+    lhhlvghrmhgrnhdrihgurdgruhdprhgtphhtthhopegrnhguhidrshhhvghvtghhvghnkh
+    hosehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhpihhgghhinhesghhmrghilhdrtgho
+    mhdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopegrnhguihdrsh
+    hhhihtiheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrvhgvvghnsehkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopehmrgguugihsehlihhnuhigrdhisghmrdgtohhmpdhrtg
+    hpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggv
+    rggurdhorhhg
+X-ME-Proxy: <xmx:IQbpZ5rnL3CUphbOwpi10Itieqzl_zNrcEz9pXzntZMIsAR_r15lcA>
+    <xmx:IQbpZ7lkVSFcsxeK4r1GNWXI3qP-UoeTeih7LDrpKSLezZoXZ4wdPg>
+    <xmx:IQbpZx3dqW678wETZPJesy7jhheRYZyXtPWyvLhjpFCIv-K2IQuvLA>
+    <xmx:IQbpZ6vPnTiLL8VLuFuGSM6VQQv3--z4cZRdI-xpQHE9Lvz7z9kgOg>
+    <xmx:JAbpZ7MTq30YCxSfV2OaJOKEeOCcrUXIfDBhrimcqMIKp5boESOGqfpz>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B0DB1BA006F; Sun, 30 Mar 2025 04:51:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 4085046338809924234
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeegkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflohhhnhcuofgrughivghuuceojhhohhhnrdhmrgguihgvuheslhgrsggtshhmrghrthdrtghomheqnecuggftrfgrthhtvghrnhepgeegteetieettdffleeludeliedvueeuuefhveffhfehtdehiefhfefflefguddvnecukfhppeduvdejrddtrddtrddupddugedurdelgedrudeifedrudelfedpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpehjohhhnhdrmhgrughivghusehlrggstghsmhgrrhhtrdgtohhmpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheeitdgmpdhmohguvgepshhmthhpohhuth
-DKIM-Signature: a=rsa-sha256; bh=akVyMKQyCxWZ3yLiQHM8pT2PU+T/9mwnNjkwN1GvFNU=;
- c=relaxed/relaxed; d=labcsmart.com; h=From; s=ovhmo4089092-selector1;
- t=1743272113; v=1;
- b=T0Vm1s/Vrkc1RsJQHrYki+Vr3ubVgaOhtDZs744k67Osex0cxMGi6iFlHHwWn/vqtIKTC93P
- e1VZxhXuFjq2tNtU8IkyAFaJdFJqmVsbUEGGyq9CTzs03Pkkr+6CVnfiJd3EHQVvA3sJIiWQp8G
- z3H/BNoJUOQ1Gq4qJcrHfL8gCaKqQJHnfybZLKx838mt49Bg+CXmbWEekOhzvM6HqxbKewphJAD
- JbpI7fIyADsh+2pmzFirD+dT7wEj6CYcVwUymZ9XlRDevENOV7a5hZsVYxGPgdPZSGmCzgLLnwj
- 42HRqU1sPKlyqcFxY20HYqEYS7B1wY+6abjC+mwJEB5sg==
+X-ThreadId: T14a5dff03e1db70d
+Date: Sun, 30 Mar 2025 10:50:53 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Andy Shevchenko" <andy.shevchenko@gmail.com>,
+ "Andi Shyti" <andi.shyti@kernel.org>
+Cc: "Janne Grunau" <j@jannau.net>, "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Naveen N Rao" <naveen@kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Hector Martin" <marcan@marcan.st>
+Message-Id: <b647d45f-32e3-4864-8a94-2e0b819fba18@app.fastmail.com>
+In-Reply-To: <Z965tVhC5jxy1kqZ@surfacebook.localdomain>
+References: <20250222-pasemi-fixes-v1-0-d7ea33d50c5e@svenpeter.dev>
+ <20250222-pasemi-fixes-v1-1-d7ea33d50c5e@svenpeter.dev>
+ <rjvak3c2k5a64jw4ef23i5uptg4zzl3u7lqszqbg56l4hqms77@hrkn5eydxwiy>
+ <Z965tVhC5jxy1kqZ@surfacebook.localdomain>
+Subject: Re: [PATCH 1/4] i2c: pasemi: Add registers bits and switch to BIT()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Mark the regmap_config as static const since it is only used in this file
-and never modified, allowing the compiler to optimize it and enforce
-const-correctness.
+On Sat, Mar 22, 2025, at 14:23, Andy Shevchenko wrote:
+> Thu, Mar 20, 2025 at 01:23:25AM +0100, Andi Shyti kirjoitti:
+>> Hi Sven,
+>> 
+>> On Sat, Feb 22, 2025 at 01:38:33PM +0000, Sven Peter via B4 Relay wrote:
+>> > From: Sven Peter <sven@svenpeter.dev>
+>> > 
+>> > Add the missing register bits to the defines and also switch
+>> > those to use the BIT macro which is much more readable than
+>> > using hardcoded masks
+>> > 
+>> > Co-developed-by: Hector Martin <marcan@marcan.st>
+>> > Signed-off-by: Hector Martin <marcan@marcan.st>
+>> > Signed-off-by: Sven Peter <sven@svenpeter.dev>
+>> 
+>> Just this patch merged to i2c/i2c-host.
+>
+> This needs an update as well. The proper header for BIT() et al. is bits.h.
+> bitfield.h is for FIELD_*() et al.
 
-Also fix minor indentation inconsistencies in function parameter alignment
-to conform with kernel coding style.
+Ugh, good catch. Since this commit is already on the way upstream I'll send a fix
+(and another one to sort the headers alphabetically while I'm at it anyway).
 
-Signed-off-by: John Madieu <john.madieu@labcsmart.com>
----
-Most changes replace space indentation with tabs.
 
- drivers/pinctrl/pinctrl-apple-gpio.c | 30 ++++++++++++++--------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+Thanks,
 
-diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
-index f861e63f4115..0f551d67d482 100644
---- a/drivers/pinctrl/pinctrl-apple-gpio.c
-+++ b/drivers/pinctrl/pinctrl-apple-gpio.c
-@@ -66,7 +66,7 @@ struct apple_gpio_pinctrl {
- #define REG_GPIOx_DRIVE_STRENGTH1 GENMASK(23, 22)
- #define REG_IRQ(g, x)        (0x800 + 0x40 * (g) + 4 * ((x) >> 5))
- 
--struct regmap_config regmap_config = {
-+static const struct regmap_config regmap_config = {
- 	.reg_bits = 32,
- 	.val_bits = 32,
- 	.reg_stride = 4,
-@@ -79,13 +79,13 @@ struct regmap_config regmap_config = {
- 
- /* No locking needed to mask/unmask IRQs as the interrupt mode is per pin-register. */
- static void apple_gpio_set_reg(struct apple_gpio_pinctrl *pctl,
--                               unsigned int pin, u32 mask, u32 value)
-+			       unsigned int pin, u32 mask, u32 value)
- {
- 	regmap_update_bits(pctl->map, REG_GPIO(pin), mask, value);
- }
- 
- static u32 apple_gpio_get_reg(struct apple_gpio_pinctrl *pctl,
--                              unsigned int pin)
-+			      unsigned int pin)
- {
- 	int ret;
- 	u32 val;
-@@ -100,9 +100,9 @@ static u32 apple_gpio_get_reg(struct apple_gpio_pinctrl *pctl,
- /* Pin controller functions */
- 
- static int apple_gpio_dt_node_to_map(struct pinctrl_dev *pctldev,
--                                     struct device_node *node,
--                                     struct pinctrl_map **map,
--                                     unsigned *num_maps)
-+				     struct device_node *node,
-+				     struct pinctrl_map **map,
-+				     unsigned *num_maps)
- {
- 	unsigned reserved_maps;
- 	struct apple_gpio_pinctrl *pctl;
-@@ -147,8 +147,8 @@ static int apple_gpio_dt_node_to_map(struct pinctrl_dev *pctldev,
- 		group_name = pinctrl_generic_get_group_name(pctldev, pin);
- 		function_name = pinmux_generic_get_function_name(pctl->pctldev, func);
- 		ret = pinctrl_utils_add_map_mux(pctl->pctldev, map,
--		                                &reserved_maps, num_maps,
--		                                group_name, function_name);
-+						&reserved_maps, num_maps,
-+						group_name, function_name);
- 		if (ret)
- 			goto free_map;
- 	}
-@@ -171,7 +171,7 @@ static const struct pinctrl_ops apple_gpio_pinctrl_ops = {
- /* Pin multiplexer functions */
- 
- static int apple_gpio_pinmux_set(struct pinctrl_dev *pctldev, unsigned func,
--                                 unsigned group)
-+				 unsigned group)
- {
- 	struct apple_gpio_pinctrl *pctl = pinctrl_dev_get_drvdata(pctldev);
- 
-@@ -237,7 +237,7 @@ static int apple_gpio_direction_input(struct gpio_chip *chip, unsigned int offse
- }
- 
- static int apple_gpio_direction_output(struct gpio_chip *chip,
--                                       unsigned int offset, int value)
-+				       unsigned int offset, int value)
- {
- 	struct apple_gpio_pinctrl *pctl = gpiochip_get_data(chip);
- 
-@@ -282,7 +282,7 @@ static void apple_gpio_irq_mask(struct irq_data *data)
- 	struct apple_gpio_pinctrl *pctl = gpiochip_get_data(gc);
- 
- 	apple_gpio_set_reg(pctl, data->hwirq, REG_GPIOx_MODE,
--	                   FIELD_PREP(REG_GPIOx_MODE, REG_GPIOx_IN_IRQ_OFF));
-+			   FIELD_PREP(REG_GPIOx_MODE, REG_GPIOx_IN_IRQ_OFF));
- 	gpiochip_disable_irq(gc, data->hwirq);
- }
- 
-@@ -294,7 +294,7 @@ static void apple_gpio_irq_unmask(struct irq_data *data)
- 
- 	gpiochip_enable_irq(gc, data->hwirq);
- 	apple_gpio_set_reg(pctl, data->hwirq, REG_GPIOx_MODE,
--	                   FIELD_PREP(REG_GPIOx_MODE, irqtype));
-+			   FIELD_PREP(REG_GPIOx_MODE, irqtype));
- }
- 
- static unsigned int apple_gpio_irq_startup(struct irq_data *data)
-@@ -303,7 +303,7 @@ static unsigned int apple_gpio_irq_startup(struct irq_data *data)
- 	struct apple_gpio_pinctrl *pctl = gpiochip_get_data(chip);
- 
- 	apple_gpio_set_reg(pctl, data->hwirq, REG_GPIOx_GRP,
--	                   FIELD_PREP(REG_GPIOx_GRP, 0));
-+			   FIELD_PREP(REG_GPIOx_GRP, 0));
- 
- 	apple_gpio_direction_input(chip, data->hwirq);
- 	apple_gpio_irq_unmask(data);
-@@ -320,7 +320,7 @@ static int apple_gpio_irq_set_type(struct irq_data *data, unsigned int type)
- 		return -EINVAL;
- 
- 	apple_gpio_set_reg(pctl, data->hwirq, REG_GPIOx_MODE,
--	                   FIELD_PREP(REG_GPIOx_MODE, irqtype));
-+			   FIELD_PREP(REG_GPIOx_MODE, irqtype));
- 
- 	if (type & IRQ_TYPE_LEVEL_MASK)
- 		irq_set_handler_locked(data, handle_level_irq);
-@@ -429,7 +429,7 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
- 	unsigned int npins;
- 	const char **pin_names;
- 	unsigned int *pin_nums;
--	static const char* pinmux_functions[] = {
-+	static const char *pinmux_functions[] = {
- 		"gpio", "periph1", "periph2", "periph3"
- 	};
- 	unsigned int i, nirqs = 0;
--- 
-2.25.1
 
+Sven
