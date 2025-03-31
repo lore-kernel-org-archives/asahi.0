@@ -1,35 +1,35 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7EF19938D
-	for <asahi@lists.linux.dev>; Mon, 31 Mar 2025 09:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283D31DC98C
+	for <asahi@lists.linux.dev>; Mon, 31 Mar 2025 09:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743413518; cv=none; b=uxIK/2eC2Td6rlzMMlDUR1W44UEA1RDAkdycmDEgYlBGIMu65/wpnHqjyLyvuMxtE6dfWG6c3C3Xii/qc2pRC+mVHtpbhhibdus7/QyeCu+iAnzufLwT/dYe9bdUS2gIKwb+PDCDZfBpzZ/j9RP1Bm+VAbEx/0y95kCzh3Brg8k=
+	t=1743413553; cv=none; b=dZtcxgs8ZVenTm1tXHEJ6/kwvJiAFf3oE7EPWXjrxKZw71Ky+lPXFz+MFoXMxlGvdoQVNZ5Ld0eAwzoVNk9dr+vZCF2JXvQ1EVs/vPmg0RvoqC9qBXFw38eWopP6JuvMqzRyInq4MAZwn8HwqDTMdRxvsaZU24ty2hzwTVpEkdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743413518; c=relaxed/simple;
-	bh=RyPG6DNoQyui9i8TOcuEsWS85V5E+NliVow2NS+8SKY=;
+	s=arc-20240116; t=1743413553; c=relaxed/simple;
+	bh=1JcVTtiE2uNogmA1+RWUa4kQHorhjdGQfQUNoEk9eow=;
 	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=qreSsZtFdxkBPODRbOr1Z0BjpXoNQQOpbFQrrxips4LJX1DluomF8cYnqRt1hm0r2Ysdb5aazWklsXeCj92stjQWHjTtQMwQvCoHgiPFWufZNCfEvUW+ERDYY9GxLb1O338ywyJLaaEfFWEtfe90qTY8q8yzH7GSTtxNjjzu9FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
+	 Subject:Content-Type; b=SAadFdIjq7r00go+daC4t1f0LGFIrm9GxAmFENAwSX2gnUT2RcfYbypD6iDADXQP5CwFpTgEPpgu3WpP0uzgFa1XQcxyjy6tjYA3Dm4+aKhjygEfePfUmPHxEU9auT7gpPAfKZjjjCz7yAvY3CADWFlTIEz5z+n/dTBVLqY9ZSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZR5Vv1Hrfz51SXr;
-	Mon, 31 Mar 2025 17:31:51 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl1.zte.com.cn with SMTP id 52V9VLLh081624;
-	Mon, 31 Mar 2025 17:31:21 +0800 (+08)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZR5Wd0yMcz5B1J4;
+	Mon, 31 Mar 2025 17:32:29 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl2.zte.com.cn with SMTP id 52V9WGgO015083;
+	Mon, 31 Mar 2025 17:32:16 +0800 (+08)
 	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
+Received: from mapi (xaxapp05[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Mon, 31 Mar 2025 17:31:24 +0800 (CST)
-Date: Mon, 31 Mar 2025 17:31:24 +0800 (CST)
-X-Zmail-TransId: 2af967ea60ecffffffffa1c-480dd
+	Mon, 31 Mar 2025 17:32:19 +0800 (CST)
+Date: Mon, 31 Mar 2025 17:32:19 +0800 (CST)
+X-Zmail-TransId: 2afc67ea61234f6-46bb8
 X-Mailer: Zmail v1.0
-Message-ID: <20250331173124559aCNI8BfX0ay0U5wryryME@zte.com.cn>
+Message-ID: <20250331173219124r-M-68bU1iEuljZXmBeS8@zte.com.cn>
 In-Reply-To: <20250331172534353mkMR1nv-dsjFTZTXCPY0a@zte.com.cn>
 References: 20250331172534353mkMR1nv-dsjFTZTXCPY0a@zte.com.cn
 Precedence: bulk
@@ -50,12 +50,12 @@ Cc: <fnkl.kernel@gmail.com>, <maarten.lankhorst@linux.intel.com>,
         <linux-arm-kernel@lists.infradead.org>, <yang.yang29@zte.com.cn>,
         <xu.xin16@zte.com.cn>, <ye.xingchen@zte.com.cn>,
         <tang.dongxing@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIDMvNF0gZHJtOiBtYWxpZHA6IFJlcGxhY2UgY3VzdG9tIGNvbXBhcmVfZGV2IHdpdGjCoGNvbXBvbmVudF9jb21wYXJlX29m?=
+Subject: =?UTF-8?B?W1BBVENIIDQvNF0gZHJtOiBtZWRpYXRlazogUmVwbGFjZSBjdXN0b20gY29tcGFyZV9kZXYgd2l0aMKgY29tcG9uZW50X2NvbXBhcmVfb2Y=?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 52V9VLLh081624
+X-MAIL:mse-fl2.zte.com.cn 52V9WGgO015083
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 67EA6107.000/4ZR5Vv1Hrfz51SXr
+X-Fangmail-MID-QID: 67EA612D.001/4ZR5Wd0yMcz5B1J4
 
 From: Tang Dongxing <tang.dongxing@zte.com.cn>
 
@@ -65,35 +65,33 @@ with the existing kernel helper component_compare_of
 Signed-off-by: Tang Dongxing <tang.dongxing@zte.com.cn>
 Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
 ---
- drivers/gpu/drm/arm/malidp_drv.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index e083021e9e99..e2e6fd1f64b0 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -910,13 +910,6 @@ static const struct component_master_ops malidp_master_ops = {
- 	.unbind = malidp_unbind,
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 74158b9d6503..e1fbb0fe0597 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -627,11 +627,6 @@ static const struct drm_driver mtk_drm_driver = {
+ 	.minor = DRIVER_MINOR,
  };
 
--static int malidp_compare_dev(struct device *dev, void *data)
+-static int compare_dev(struct device *dev, void *data)
 -{
--	struct device_node *np = data;
--
--	return dev->of_node == np;
+-	return dev == (struct device *)data;
 -}
 -
- static int malidp_platform_probe(struct platform_device *pdev)
+ static int mtk_drm_bind(struct device *dev)
  {
- 	struct device_node *port;
-@@ -930,7 +923,7 @@ static int malidp_platform_probe(struct platform_device *pdev)
- 	if (!port)
- 		return -ENODEV;
+ 	struct mtk_drm_private *private = dev_get_drvdata(dev);
+@@ -1119,7 +1114,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
+ 		private->ddp_comp[DDP_COMPONENT_DRM_OVL_ADAPTOR].dev = &ovl_adaptor->dev;
+ 		mtk_ddp_comp_init(NULL, &private->ddp_comp[DDP_COMPONENT_DRM_OVL_ADAPTOR],
+ 				  DDP_COMPONENT_DRM_OVL_ADAPTOR);
+-		component_match_add(dev, &match, compare_dev, &ovl_adaptor->dev);
++		component_match_add(dev, &match, component_compare_of, &ovl_adaptor->dev);
+ 	}
 
--	drm_of_component_match_add(&pdev->dev, &match, malidp_compare_dev,
-+	drm_of_component_match_add(&pdev->dev, &match, component_compare_of,
- 				   port);
- 	of_node_put(port);
- 	return component_master_add_with_match(&pdev->dev, &malidp_master_ops,
+ 	/* Iterate over sibling DISP function blocks */
 -- 
 2.25.1
