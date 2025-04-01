@@ -1,163 +1,105 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831361EEA27
-	for <asahi@lists.linux.dev>; Tue,  1 Apr 2025 09:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41EC028E0F
+	for <asahi@lists.linux.dev>; Tue,  1 Apr 2025 21:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743500455; cv=none; b=pQkDJEFCuuN20Qu5CPkbxwXfDRtOAA0KJbXtGbvHezvmT54eCR8+MK6FIbIj1nMJAgk64LpZe38taS4mnOZwmIVPpdyLQRB0pdP+VjJZESY91S89Vn1DJ7aeX8rjZRg5sxUcwS2p0A7xVmKDTSF8w5S9LhKlk+J2EZR9FweWFl4=
+	t=1743541899; cv=none; b=GvLbY8mnMSkXzPPV4H43nMpFtEkln517eyfBetH+Mmedxqka8Y3JFH/Ocd8koMlgf+yQQ9D7wCqCos4hiZCKju7KDJhJ2+Ajq+bLsF/IZqbaQQLrtcwv4uutNaB4FqhykWuHkcYA3B09udhyh/IbkdxqOeNycNWji9gMsS2Yi5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743500455; c=relaxed/simple;
-	bh=gJlB4AeSDCKsRK8ivWcHTRoN7YcHomioN5Bj+ipSUpI=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=WRQ3JcDcKLoCPwae0VLr+j9M0lGaTZ9YZ8z2gaTRwBh44g+EQ504zC4RM188YVz5Lu/POvGwL+8mC+Fjd+drhegJzP3MpFXBcqbVgj35rxgF7kph43MQoqpI7T0Veu6GZjtZxy0cf4Yqk0PcCMWh0uskeNKJz6ts2ASYEpGVLn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=FqAE2REk; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="FqAE2REk"
-X-KPN-MessageId: 645a4459-0edd-11f0-b8e6-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 645a4459-0edd-11f0-b8e6-005056999439;
-	Tue, 01 Apr 2025 11:40:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=ey7yoOjV/lc5KcZj4q45sCx1nDoy4AmcmcNqfQe/iX8=;
-	b=FqAE2REkFgpO5l2/SNwlAFSrFOx/nu6RzHt2R1+ZsCDtBV69NLrvIrhuJGvE4fTGoK1ZmzxSNirSG
-	 ZwHLUY0PHF1CINuzACJAO/SfbfazgI03XZ+WhebvUE+J8i2x+VGt66VoqcEVIgDgnAgtFNOFzKujzs
-	 e3XICGWRWyabId09ZjxjE4SXaAKy/UrjoWYCmlGVs8xpAYan/LZSKBXRTbt/aSHuCqD6BmyFx4Yn4N
-	 J13gtkyWN7M3vcaqKuYGngCJFovRXrHFS8bvLvcN7tgXgQivboaPq3m4gxtTZaT2Zkx6DSE90Ljgd8
-	 rJkmMa+qi1t1I374U1YP5Y5vrb1gUxQ==
-X-KPN-MID: 33|Q3Biel+nTqoBd3E8Ejl4/blQ1eotWFPRsXPh84eyXyVG8o/qGN/zkB/xVlQuHaH
- VetITMcREbJ3DnFIWK3u0glWOq0lwEsC5oKzxzT1vxGk=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|W0d/KH2Hq4f/I/JXtohD/yi6JDISu5nftVLzXJnFRULuKq3Rc3Vn2VnYtkRYUy+
- oTF6eiBDYAmLq8KY2ELmrXA==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 617e7e6a-0edd-11f0-97bf-00505699d6e5;
-	Tue, 01 Apr 2025 11:40:44 +0200 (CEST)
-Date: Tue, 01 Apr 2025 11:40:43 +0200
-Message-Id: <87cydwxlr8.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Marc Zyngier <maz@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, alyssa@rosenzweig.io, j@jannau.net,
-	marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com,
-	lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org
-In-Reply-To: <20250401091713.2765724-3-maz@kernel.org> (message from Marc
-	Zyngier on Tue, 1 Apr 2025 10:17:02 +0100)
-Subject: Re: [PATCH v3 02/13] dt-bindings: pci: apple,pcie: Add t6020 compatible string
-References: <20250401091713.2765724-1-maz@kernel.org> <20250401091713.2765724-3-maz@kernel.org>
+	s=arc-20240116; t=1743541899; c=relaxed/simple;
+	bh=y3Hkn/iaLk1s44Pr2yUzphbW9gozDeH6sgCK9ponr08=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C1PNz7Zwclec83QDszv7+EjtAChGfviITlFId268+RXG3EZBrNrtptw+ladtVDOV3j10Rdd0F6PHCe3TY4aspeEvJbRoxgdEslYapw6KyQAzZEAOYq8pXKiMLWiDkW9yZEhekJIZP36nrSY1Qkd8LHD60OXRMY9ETRhVvM1yqF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B2591063
+	for <asahi@lists.linux.dev>; Tue,  1 Apr 2025 14:11:39 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 14CBB3F694
+	for <asahi@lists.linux.dev>; Tue,  1 Apr 2025 14:11:35 -0700 (PDT)
+Date: Tue, 1 Apr 2025 22:11:23 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: shao.mingyin@zte.com.cn
+Cc: j@jannau.net, chunkuang.hu@kernel.org, fnkl.kernel@gmail.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, p.zabel@pengutronix.de,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, yang.yang29@zte.com.cn,
+	xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn,
+	tang.dongxing@zte.com.cn
+Subject: Re: [PATCH 2/4] drm: arm: =?utf-8?Q?hdlcd?=
+ =?utf-8?Q?=3A_Replace_custom_compare=5Fdev_with=C2=A0component=5Fcompare?=
+ =?utf-8?B?X29m?=
+Message-ID: <Z-xWe6nHEvKHdvsd@e110455-lin.cambridge.arm.com>
+References: <20250331172534353mkMR1nv-dsjFTZTXCPY0a@zte.com.cn>
+ <20250331173018043nQB6z_xgZxuYx0AkGeixh@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250331173018043nQB6z_xgZxuYx0AkGeixh@zte.com.cn>
 
-> From: Marc Zyngier <maz@kernel.org>
-> Date: Tue,  1 Apr 2025 10:17:02 +0100
+On Mon, Mar 31, 2025 at 05:30:18PM +0800, shao.mingyin@zte.com.cn wrote:
+> From: Tang Dongxing <tang.dongxing@zte.com.cn>
 > 
-> From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> Remove the custom device comparison function compare_dev and replace it
+> with the existing kernel helper component_compare_of
 > 
-> t6020 adds some register ranges compared to t8103, so requires
-> a new compatible as well as the new PHY registers.
-> 
-> Thanks to Mark and Rob for their helpful suggestions in updating
-> the binding.
+> Signed-off-by: Tang Dongxing <tang.dongxing@zte.com.cn>
+> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-Ah, that's how you do it!  Thanks Rob.
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-This matches the binding already in use for U-Boot and OpenBSD, so:
+Best regards,
+Liviu Dudau
 
-Reviewed-by: Mark Kettenis <mark.kettenis@xs4all.nl>
-
-> Suggested-by: Mark Kettenis <mark.kettenis@xs4all.nl>
-> Suggested-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> Tested-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> [maz: added PHY registers, constraints]
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
 > ---
->  .../devicetree/bindings/pci/apple,pcie.yaml   | 33 +++++++++++++++----
->  1 file changed, 26 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/arm/hdlcd_drv.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/pci/apple,pcie.yaml b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
-> index c8775f9cb0713..c0852be04f6de 100644
-> --- a/Documentation/devicetree/bindings/pci/apple,pcie.yaml
-> +++ b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
-> @@ -17,6 +17,10 @@ description: |
->    implements its root ports.  But the ATU found on most DesignWare
->    PCIe host bridges is absent.
->  
-> +  On systems derived from T602x, the PHY registers are in a region
-> +  separate from the port registers. In that case, there is one PHY
-> +  register range per port register range.
-> +
->    All root ports share a single ECAM space, but separate GPIOs are
->    used to take the PCI devices on those ports out of reset.  Therefore
->    the standard "reset-gpios" and "max-link-speed" properties appear on
-> @@ -30,16 +34,18 @@ description: |
->  
->  properties:
->    compatible:
-> -    items:
-> -      - enum:
-> -          - apple,t8103-pcie
-> -          - apple,t8112-pcie
-> -          - apple,t6000-pcie
-> -      - const: apple,pcie
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - apple,t8103-pcie
-> +              - apple,t8112-pcie
-> +              - apple,t6000-pcie
-> +          - const: apple,pcie
-> +      - const: apple,t6020-pcie
->  
->    reg:
->      minItems: 3
-> -    maxItems: 6
-> +    maxItems: 10
->  
->    reg-names:
->      minItems: 3
-> @@ -50,6 +56,10 @@ properties:
->        - const: port1
->        - const: port2
->        - const: port3
-> +      - const: phy0
-> +      - const: phy1
-> +      - const: phy2
-> +      - const: phy3
->  
->    ranges:
->      minItems: 2
-> @@ -98,6 +108,15 @@ allOf:
->            maxItems: 5
->          interrupts:
->            maxItems: 3
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: apple,t6020-pcie
-> +    then:
-> +      properties:
-> +        reg-names:
-> +          minItems: 10
->  
->  examples:
->    - |
+> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+> index c3179d74f3f5..45b1dc5613bf 100644
+> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
+> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+> @@ -346,11 +346,6 @@ static const struct component_master_ops hdlcd_master_ops = {
+>  	.unbind		= hdlcd_drm_unbind,
+>  };
+> 
+> -static int compare_dev(struct device *dev, void *data)
+> -{
+> -	return dev->of_node == data;
+> -}
+> -
+>  static int hdlcd_probe(struct platform_device *pdev)
+>  {
+>  	struct device_node *port;
+> @@ -361,7 +356,7 @@ static int hdlcd_probe(struct platform_device *pdev)
+>  	if (!port)
+>  		return -ENODEV;
+> 
+> -	drm_of_component_match_add(&pdev->dev, &match, compare_dev, port);
+> +	drm_of_component_match_add(&pdev->dev, &match, component_compare_of, port);
+>  	of_node_put(port);
+> 
+>  	return component_master_add_with_match(&pdev->dev, &hdlcd_master_ops,
 > -- 
-> 2.39.2
-> 
-> 
-> 
+> 2.25.1
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
