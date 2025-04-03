@@ -1,106 +1,198 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B25C428E0F
-	for <asahi@lists.linux.dev>; Tue,  1 Apr 2025 21:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8422E62BF
+	for <asahi@lists.linux.dev>; Thu,  3 Apr 2025 21:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743541952; cv=none; b=Fs3otltZiYFOTZmarkc7RXjk0nfpaIxiTRecpULXkwRJ2TWqaFQsASQJE5j/vZrXNCWXsW8pSqtGJUW7rv9ig0Fo0sBIReYn3NDL/DzFPcqk7q3SkDUZaUsTy2MsYu36hvAyxion+CqdMabelo54aInL/T9b9KhfEa3jIpcx+9Q=
+	t=1743715341; cv=none; b=mfb1n29GvYmu/5GHY5gjZMw65UJFDgaP8loQN3DOhJBaQ1z6J8vDj+JL8qMHm8Vbig9MhMxt1jG2GFWK3c3MMo+3I26kBxh3O+iWM0WXZzrDlt0q6zo5IRxElfE22dkzDg+Iqm7vCu2tGKpiGZLj08imZRhQxRxIeB91WNpTR+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743541952; c=relaxed/simple;
-	bh=K6e3AccmE8erWl97dNEAbuU3Gn0/ty0wlEdj+V+RQMU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JkhYL4om4u/VxkMSdL7an4obKK5q9RQt3yy28mdmrffseERW+EdqbkvFkJNdo2k6e3rD7DmjMsbtXj5eqfA0n1ORYijsEwNWllsm3ZLN6RWW+7WA9FvDRga5K1pwj6Lzx3IVkNaJnXobx9fh7vIyjv6jlZLj45o83Abb3t72hpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2EDA212FC
-	for <asahi@lists.linux.dev>; Tue,  1 Apr 2025 14:12:33 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id ACEC23F694
-	for <asahi@lists.linux.dev>; Tue,  1 Apr 2025 14:12:29 -0700 (PDT)
-Date: Tue, 1 Apr 2025 22:12:17 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: shao.mingyin@zte.com.cn
-Cc: j@jannau.net, chunkuang.hu@kernel.org, fnkl.kernel@gmail.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, p.zabel@pengutronix.de,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, yang.yang29@zte.com.cn,
-	xu.xin16@zte.com.cn, ye.xingchen@zte.com.cn,
-	tang.dongxing@zte.com.cn
-Subject: Re: [PATCH 3/4] drm: malidp: =?utf-8?Q?Rep?=
- =?utf-8?Q?lace_custom_compare=5Fdev_with=C2=A0component=5Fcompare=5Fof?=
-Message-ID: <Z-xWsbM2fh8TPmhO@e110455-lin.cambridge.arm.com>
-References: <20250331172534353mkMR1nv-dsjFTZTXCPY0a@zte.com.cn>
- <20250331173124559aCNI8BfX0ay0U5wryryME@zte.com.cn>
+	s=arc-20240116; t=1743715341; c=relaxed/simple;
+	bh=nxbBRT12ubPCcHcWn8jhwg78oXqHGUafBZsXBBfh6kg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=X+vfeUZcj6iZA4sTUWxyPiKKD3rGkPOxNbF+lfeF2H/ikQ0+HCZzslgia3mkCJwnRZsTNJJMFDyJqkpFqrS974D6fkFw6EWMGDDDtyLRy8QPCiSoLQMoY4yUvra8H5m9ZNSke7ZA24ulegFgV9uDi5ZsP3SgpmiZHv4+WWG1ezk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H48JL9rQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H48JL9rQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1743715338;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=GacLvy8XG7EQzge/BxtwwoZsqHixK0lg5XLF2bgVpLo=;
+	b=H48JL9rQ7T7a9YP4HNqKrZ8sx3qmtLOzc11vjLNm5NRKh7nMedGZihA1jiJMk2jrnvCVxC
+	I/x5T45Txc7ojFPTFzcrramZmDDjZWSsCee7oCTZwt2oU8SCYaLnRKalquvAUKYMj7bmTH
+	eOpdAGxUWl+Yf8OsplB3MBlNogsL23E=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-184-NXTo1sdFMM22tnS8OcH8qQ-1; Thu,
+ 03 Apr 2025 17:22:13 -0400
+X-MC-Unique: NXTo1sdFMM22tnS8OcH8qQ-1
+X-Mimecast-MFC-AGG-ID: NXTo1sdFMM22tnS8OcH8qQ_1743715330
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 98AB3195608B;
+	Thu,  3 Apr 2025 21:22:08 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 55A67180B488;
+	Thu,  3 Apr 2025 21:22:02 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Subject: [PATCH 00/46] drm/panel: Use refcounted allocation in place of
+ devm_kzalloc() - Part3
+Date: Thu, 03 Apr 2025 16:20:31 -0400
+Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250331173124559aCNI8BfX0ay0U5wryryME@zte.com.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJDt7mcC/x2N0QqDMAxFf0XyvEIXneB+ZYzS2jgDs0oiIoj/b
+ vDpcDhw7wFKwqTwrg4Q2lh5LibPRwX9GMuPHGdzQI8v33h0qXFZprDEQv8wRdWQhTeS0M/FsFq
+ RtXZd8m0aulwnRLCxRWjg/T76fM/zAtFTY7F4AAAA
+X-Change-ID: 20250402-b4-drm_panel_mass_driver_convert_part3-9b06bf9d3b22
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Robert Chiras <robert.chiras@nxp.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Markuss Broks <markuss.broks@gmail.com>, 
+ Artur Weber <aweber.kernel@gmail.com>, 
+ Dzmitry Sankouski <dsankouski@gmail.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=7866;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=nxbBRT12ubPCcHcWn8jhwg78oXqHGUafBZsXBBfh6kg=;
+ b=QieW5IYj2Obi8ErfKmWqkEEJb/5FXPpSoa2rcn1CTryL957tTqhd0EEaWKbEHxf52GrJOFA1Y
+ G8gFhpEn3TvDElQYd6czlZVSXTHrpy2wQ1Ho4h0uMzkgCtYLGOS8jhx
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Mon, Mar 31, 2025 at 05:31:24PM +0800, shao.mingyin@zte.com.cn wrote:
-> From: Tang Dongxing <tang.dongxing@zte.com.cn>
-> 
-> Remove the custom device comparison function compare_dev and replace it
-> with the existing kernel helper component_compare_of
-> 
-> Signed-off-by: Tang Dongxing <tang.dongxing@zte.com.cn>
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+Start converting drivers to use the API - devm_drm_panel_alloc().
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Final set of drivers.
+
+Part 1 of the conversion : https://patchwork.freedesktop.org/series/147082/
+Part 2 of the conversion : https://patchwork.freedesktop.org/series/147157/
+
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+---
+Anusha Srivatsa (46):
+      panel/orisetech-otm8009a: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm67191: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm67200: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm68200: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm692e5: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm69380: Use refcounted allocation in place of devm_kzalloc()
+      panel/ronbo-rb070d30: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-ams581vf01: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-ams639rq08: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-atna33xc20: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-db7430: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-ld9040: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6d16d0: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6d27a1: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6d7aa0: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e3fa7: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e3ha2: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e3ha8: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e63j0x03: Use refcounted allocation in place of devm_kzalloc()
+      panel/s6e88a0-ams427ap24: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e8aa0: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-sofef00: Use refcounted allocation in place of devm_kzalloc()
+      panel/seiko-43wvf1g: Use refcounted allocation in place of devm_kzalloc()
+      panel/sharp-ls037v7dw01: Use refcounted allocation in place of devm_kzalloc()
+      panel/sharp-ls060t1sx01: Use refcounted allocation in place of devm_kzalloc()
+      panel/sitronix-st7701: Use refcounted allocation in place of devm_kzalloc()
+      panel/sitronix-st7703: Use refcounted allocation in place of devm_kzalloc()
+      panel/sitronix-st7789v: Use refcounted allocation in place of devm_kzalloc()
+      panel/sony-acx565akm: Use refcounted allocation in place of devm_kzalloc()
+      panel/sony-td4353-jdi: Use refcounted allocation in place of devm_kzalloc()
+      panel/truly-nt35521: Use refcounted allocation in place of devm_kzalloc()
+      panel/panel-summit: Use refcounted allocation in place of devm_kzalloc()
+      panel/synaptics-r63353: allocation in place of devm_kzalloc()
+      panel/tpo-td028ttec1: Use refcounted allocation in place of devm_kzalloc()
+      panel/tpo-td043mtea1: Use refcounted allocation in place of devm_kzalloc()
+      panel/tpo-tpg110: Use refcounted allocation in place of devm_kzalloc()
+      panel/visionox-r66451: Use refcounted allocation in place of devm_kzalloc()
+      panel/visionox-rm69299: Use refcounted allocation in place of devm_kzalloc()
+      panel/visionox-rm692e5.c: Use refcounted allocation in place of devm_kzalloc()
+      panel/visionox-vtdr6130: Use refcounted allocation in place of devm_kzalloc()
+      panel/widechips-ws2401: Use refcounted allocation in place of devm_kzalloc()
+      panel/xinpeng-xpp055c272: Use refcounted allocation in place of devm_kzalloc()
+      panel/s6e88a0-ams452ef01: Use refcounted allocation in place of devm_kzalloc()
+      panel/nec-nl8048hl11: Use refcounted allocation in place of devm_kzalloc()
+      panel/panel-lvds: Use refcounted allocation in place of devm_kzalloc()
+      panel/lg-lb035q02: Use refcounted allocation in place of devm_kzalloc()
+
+ drivers/gpu/drm/panel/panel-lg-lb035q02.c                | 10 ++++------
+ drivers/gpu/drm/panel/panel-lvds.c                       | 12 +++++-------
+ drivers/gpu/drm/panel/panel-nec-nl8048hl11.c             | 10 ++++------
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c         | 11 +++++------
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-raydium-rm67200.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-raydium-rm68200.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-raydium-rm692e5.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-raydium-rm69380.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c             | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-ams581vf01.c         | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-ams639rq08.c         | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-atna33xc20.c         | 11 ++++++-----
+ drivers/gpu/drm/panel/panel-samsung-db7430.c             | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c             | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-s6d16d0.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-s6d27a1.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c         | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c              | 11 +++++------
+ drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c          | 10 ++++------
+ drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c          | 11 +++++------
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c            |  8 ++++----
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-sitronix-st7789v.c           | 10 ++++------
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c             | 10 ++++------
+ drivers/gpu/drm/panel/panel-sony-td4353-jdi.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c   | 11 +++++------
+ drivers/gpu/drm/panel/panel-summit.c                     | 10 +++++-----
+ drivers/gpu/drm/panel/panel-synaptics-r63353.c           | 11 +++++------
+ drivers/gpu/drm/panel/panel-tpo-td028ttec1.c             | 11 +++++------
+ drivers/gpu/drm/panel/panel-tpo-td043mtea1.c             | 10 ++++------
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c                 | 11 +++++------
+ drivers/gpu/drm/panel/panel-visionox-r66451.c            |  9 +++++----
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c           | 10 +++++-----
+ drivers/gpu/drm/panel/panel-visionox-rm692e5.c           | 10 +++++-----
+ drivers/gpu/drm/panel/panel-visionox-vtdr6130.c          | 11 +++++------
+ drivers/gpu/drm/panel/panel-widechips-ws2401.c           | 11 +++++------
+ drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c         | 10 ++++------
+ 46 files changed, 223 insertions(+), 257 deletions(-)
+---
+base-commit: de04bb0089a96cc00d13b12cbf66a088befe3057
+change-id: 20250402-b4-drm_panel_mass_driver_convert_part3-9b06bf9d3b22
 
 Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/arm/malidp_drv.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-> index e083021e9e99..e2e6fd1f64b0 100644
-> --- a/drivers/gpu/drm/arm/malidp_drv.c
-> +++ b/drivers/gpu/drm/arm/malidp_drv.c
-> @@ -910,13 +910,6 @@ static const struct component_master_ops malidp_master_ops = {
->  	.unbind = malidp_unbind,
->  };
-> 
-> -static int malidp_compare_dev(struct device *dev, void *data)
-> -{
-> -	struct device_node *np = data;
-> -
-> -	return dev->of_node == np;
-> -}
-> -
->  static int malidp_platform_probe(struct platform_device *pdev)
->  {
->  	struct device_node *port;
-> @@ -930,7 +923,7 @@ static int malidp_platform_probe(struct platform_device *pdev)
->  	if (!port)
->  		return -ENODEV;
-> 
-> -	drm_of_component_match_add(&pdev->dev, &match, malidp_compare_dev,
-> +	drm_of_component_match_add(&pdev->dev, &match, component_compare_of,
->  				   port);
->  	of_node_put(port);
->  	return component_master_add_with_match(&pdev->dev, &malidp_master_ops,
-> -- 
-> 2.25.1
-
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Anusha Srivatsa <asrivats@redhat.com>
+
