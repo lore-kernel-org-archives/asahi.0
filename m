@@ -1,50 +1,50 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874E474059
-	for <asahi@lists.linux.dev>; Thu,  3 Apr 2025 21:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0912A1F8BC6
+	for <asahi@lists.linux.dev>; Thu,  3 Apr 2025 21:24:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743715456; cv=none; b=VjPBWNX1CWx9qPh6j6hSpQTd087GjHQXQj27sRaC1d15EZiDDXsojgGxtuzS9gr8lYzW2R6x2Lmv9tYDukxN0Mfz8LvcZ1CWgzaqzn4QsmULwkvGTXqjUCaBKCB/73EAseWQbqCeTLPnxceYcK870ZZThmFkpFRy2ImuQP/sgyE=
+	t=1743715459; cv=none; b=XkLTi3WZRtAWbAbzu84blhgCp0hoCIr90wMwgrVbWDz+9B0wlvbGuYwx3qPvBWggf544pmsBjtmYhowBZ7ZU8FvtD7nA4TDT3OIUT2YDQ1FrTvmzSMi3BBXfnG8LuXhW2UaeEtRsIaB2cpIE3A3gf3xbaXWnvvhZQ7InobrcTMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743715456; c=relaxed/simple;
-	bh=411veOxWng/a2qCtISDwlEtJD6Ojfcrgm/1lg6ccYDs=;
+	s=arc-20240116; t=1743715459; c=relaxed/simple;
+	bh=381SAmUCMGP/e44pYK1p67kkAoY8n9w1skfEbaR48sg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MjHE0a4MFUEm+ElUJ3J/yKuuQIiHVp3TwXZhLGW1jH1pp1eExmSDDSEonUOUZq3TQNZ90nSs0DcwZjVFyGuwXjC1PlfoHo9KAMke4zJSvX1FZ5Ei8XqQ8vC8z6SOOMIfkxPOdp/nXMYo7oA49BJo4+mJXGxWTRws+8WMM39EDgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WHsVpzVz; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:To:Cc; b=OQeClf/Rq41UtGhrfkuEI+4jpagAov6YhOHo1OuGdIXdQrDJ6sUjWG9wSmZUk+4PKLO78U26hVvxwvRRfoHUCNxYdQaVL49EqjjYeuvvpTFEXuyXEdn+rVK25YTy/5leFT+6WJ5DuuHvjK13iRiv8XQQn5kQUiyd0skCOTKuQJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fyl/yuNn; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WHsVpzVz"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fyl/yuNn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743715453;
+	s=mimecast20190719; t=1743715457;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/42GHsH37kyWmiCxdS93WUFYeCDl5bxZvtdQ5sXIZxw=;
-	b=WHsVpzVzAdrcrquZ+0UYeKjj0ywlcORix5KbKI2fXfMGhUR4O6+vbw84hZmXiCnPF2ZhSC
-	q0RYqmqhS5PBdRCvC1e7tnq3lB4MvpDfzFW+JlM6arl9FKYXWxmihn316Aa6bHAshiQxi9
-	3IeUVCcCGQYstcLAkYX7NHd29AuERCo=
+	bh=Ys5fKKa4vLR/6wnlA8cUdN63HvSH0HqdUHhfDWc+9Is=;
+	b=Fyl/yuNn126+hnbma5xqTLMxCqdg4jVJQtxreouOkFLFB1g6Ejcd0j3BP1gmsMaPv8zlGn
+	QG3U0nzz21AGjisl1yzBow7lV693y4BqgzbC7KVhJ+5/GKuEGQMY+cT5knT0RVtWy5QmC/
+	3tiVye4GYCzv8ea8zU1fI7XIM4Zmsnw=
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-494-fmAhTg5kOquE2NOCHxJH3Q-1; Thu,
- 03 Apr 2025 17:24:05 -0400
-X-MC-Unique: fmAhTg5kOquE2NOCHxJH3Q-1
-X-Mimecast-MFC-AGG-ID: fmAhTg5kOquE2NOCHxJH3Q_1743715440
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-316-BN-QmjsYPe-BmuKLiNuHow-1; Thu,
+ 03 Apr 2025 17:24:12 -0400
+X-MC-Unique: BN-QmjsYPe-BmuKLiNuHow-1
+X-Mimecast-MFC-AGG-ID: BN-QmjsYPe-BmuKLiNuHow_1743715448
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DA7321956089;
-	Thu,  3 Apr 2025 21:23:59 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F3E151954B23;
+	Thu,  3 Apr 2025 21:24:07 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 95A36180B488;
-	Thu,  3 Apr 2025 21:23:55 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 33FD7180A803;
+	Thu,  3 Apr 2025 21:24:00 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 03 Apr 2025 16:20:53 -0400
-Subject: [PATCH 22/46] panel/samsung-sofef00: Use refcounted allocation in
+Date: Thu, 03 Apr 2025 16:20:54 -0400
+Subject: [PATCH 23/46] panel/seiko-43wvf1g: Use refcounted allocation in
  place of devm_kzalloc()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-22-965b15ad5b8e@redhat.com>
+Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-23-965b15ad5b8e@redhat.com>
 References: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 In-Reply-To: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -75,11 +75,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1423;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1328;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=411veOxWng/a2qCtISDwlEtJD6Ojfcrgm/1lg6ccYDs=;
- b=BBg0fSgIBKV9x3Zq35AHSIlNNQVmYXZtAXh2JlPglNM3EiyV69/esw6REsKiRle/+tzurTj9I
- z3cy88K+JesDRfQ2jebAD+0bA7xKgEPf4TzOnUNWFgDSfCfNhIShts2
+ bh=381SAmUCMGP/e44pYK1p67kkAoY8n9w1skfEbaR48sg=;
+ b=Z/jHjL+AS6Ip2j/gaskM/uGSAPo4yHG7RC8XVJ5CaiSEG7AJjTIkg7jd2mfbNjdDKMlDYNcEw
+ sQft2mD5gQQCyUoA4orMLRqDjuZXVMZ0FafUWsolUNezJRbVt93GcyB
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -89,38 +89,38 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-samsung-sofef00.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index 04ce925b3d9dbd91841f4b4e4a12320eac8e03af..17dff5aa360cc4b9c25d63e3736ae1f6cd5326da 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -235,9 +235,11 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
- 	struct sofef00_panel *ctx;
- 	int ret;
+diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+index 7d1b421ea9ddfcf84850a2fc589f7a43e24fc167..fba63607adad390ad34442d2d754a95e42833a5f 100644
+--- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
++++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+@@ -204,9 +204,11 @@ static int seiko_panel_probe(struct device *dev,
+ 	struct seiko_panel *panel;
+ 	int err;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
+-	if (!panel)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct sofef00_panel, panel,
-+				   &sofef00_panel_panel_funcs,
-+				   DRM_MODE_CONNECTOR_DSI);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	panel = devm_drm_panel_alloc(dev, struct seiko_panel, base,
++				     &seiko_panel_funcs,
++				     DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(panel))
++		return PTR_ERR(panel);
  
- 	ctx->mode = of_device_get_match_data(dev);
+ 	panel->desc = desc;
  
-@@ -262,9 +264,6 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
+@@ -224,9 +226,6 @@ static int seiko_panel_probe(struct device *dev,
+ 		return dev_err_probe(dev, PTR_ERR(panel->enable_gpio),
+ 				     "failed to request GPIO\n");
  
--	drm_panel_init(&ctx->panel, dev, &sofef00_panel_panel_funcs,
--		       DRM_MODE_CONNECTOR_DSI);
+-	drm_panel_init(&panel->base, dev, &seiko_panel_funcs,
+-		       DRM_MODE_CONNECTOR_DPI);
 -
- 	ctx->panel.backlight = sofef00_create_backlight(dsi);
- 	if (IS_ERR(ctx->panel.backlight))
- 		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+ 	err = drm_panel_of_backlight(&panel->base);
+ 	if (err)
+ 		return err;
 
 -- 
 2.48.1
