@@ -1,50 +1,50 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E678918DB17
-	for <asahi@lists.linux.dev>; Thu,  3 Apr 2025 21:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5591FC100
+	for <asahi@lists.linux.dev>; Thu,  3 Apr 2025 21:24:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743715482; cv=none; b=SdoIidWf+irujcqNyNErR0kH4iq3pAT421pXI5qGj1RGP5ddisHxP//v3cCikPjd4/vU30ES2Gs77jA8X6OYgOhMvr1xXt2mFFPzNJosC50m9/cao3aet2fe52mNkb0pdTK1cyZ+bVVI8zOU4EaD7Kgz/ttpo4mnlU2PDq09q8c=
+	t=1743715487; cv=none; b=GXuEHgXadaSxhJ/gm7alv3BNMh+f3CneNmw42MqgMJUqHf+uSbTJdyqvFfuu+U86MtoDFyKuInMc8Rlu2+jonkGhI/oCZ8O4D0jy1LYRKk9Hlb00r+bzw4dLuMjA5+f7Y79T8CJsfWCPZouiQa/NVDWI8HRIZCd8pn1TIlVsTKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743715482; c=relaxed/simple;
-	bh=1UuWWu0C8PNgV/ecIwKuMrp4pAn3O5IAgXydIF9Odok=;
+	s=arc-20240116; t=1743715487; c=relaxed/simple;
+	bh=5HF7V2Ynx0YxMQIOx0Nh2UoWUB4ldApTe4qTVFONEqI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=d/qrB4/quLxrGWuZMX4p7++1GIMmse7C/syjN/Ug+CTmfb7PSzNfVOO6JfUUFQM060oaEWnBx9L1RowcSVyIZs7xoba9V/C+4a4SYpJjG4qVLC5fDLU4PSi0I16l/G3BpJayZGniueRLAhcumR/dfMddEgX9VolEBirJJXcBqGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fpIxSWg6; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:To:Cc; b=UmXp24LUYBFk/HXulFN3buyC4+wR1vQsT97pa4Nh2IAwG8ac4XONdDDe47rSpOS15Lfythmbyy79I09OCCEXhHQYNMjNWezg9KXvgeHAQestpIL4dwDjxXiONI1pRsmpav71WNyIrkDk5M7BKwqcMywvP3N4oPcVr3l7IvrA9p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=atr1s0D7; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fpIxSWg6"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="atr1s0D7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743715480;
+	s=mimecast20190719; t=1743715484;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WZx2Fn2Al8uOLSYD4QYzSd6pFDRIlqeJHJkHR5Bvh1A=;
-	b=fpIxSWg6S1wd8ZX6Y5tUlZfr8S+CWIFZ0vY9/HVyQvCDPDOx92GTO8c4BG68IU9Fdpb4r3
-	7NgSaVXJm8NXwvHhJeIHxS8h1J7BB97q+L8JtseGkiPjL8qg37uTaLS8jZ0w5IojHs8rF/
-	izs+NuWUZO/KTOmAttbyrEysBsogwYo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=T78FB7dvnX0BgLK7hP9hSE1L9ZbJkmZnc0hL6QTgquk=;
+	b=atr1s0D7wp7eScKymsjVj4ePtHRq/G8ZaeSld5m1o/iEnDxvLTu2sqSQ0TMnVBBiEUN5Cl
+	7KzVEHCh8xP8HVAx9S7jBcSHQ6rHSZsL2ZDgVqq6vPcTyndOtnHxVHzX49HNYFqikNxwfz
+	bNiapYVdTXbo6qnszwteVpgPrhirqA8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-460-CuSgaQJZObSHiF1PV2vAOw-1; Thu,
- 03 Apr 2025 17:24:35 -0400
-X-MC-Unique: CuSgaQJZObSHiF1PV2vAOw-1
-X-Mimecast-MFC-AGG-ID: CuSgaQJZObSHiF1PV2vAOw_1743715472
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-170-WEqA-JKYO1m7vfHuRGC-uw-1; Thu,
+ 03 Apr 2025 17:24:40 -0400
+X-MC-Unique: WEqA-JKYO1m7vfHuRGC-uw-1
+X-Mimecast-MFC-AGG-ID: WEqA-JKYO1m7vfHuRGC-uw_1743715476
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 36BC519560A2;
-	Thu,  3 Apr 2025 21:24:32 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C35A01800267;
+	Thu,  3 Apr 2025 21:24:36 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.30])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E8A671828AC0;
-	Thu,  3 Apr 2025 21:24:27 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 83925180A803;
+	Thu,  3 Apr 2025 21:24:32 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 03 Apr 2025 16:20:59 -0400
-Subject: [PATCH 28/46] panel/sitronix-st7789v: Use refcounted allocation in
+Date: Thu, 03 Apr 2025 16:21:00 -0400
+Subject: [PATCH 29/46] panel/sony-acx565akm: Use refcounted allocation in
  place of devm_kzalloc()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-28-965b15ad5b8e@redhat.com>
+Message-Id: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-29-965b15ad5b8e@redhat.com>
 References: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 In-Reply-To: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -75,11 +75,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1308;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743711639; l=1262;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=1UuWWu0C8PNgV/ecIwKuMrp4pAn3O5IAgXydIF9Odok=;
- b=dM36/VpXsuObAmAqKkmKnFI0p+jwrgCGR/433+ApWPSr4VG14WRXO1H/ycilwS5yW++oAD7dn
- jvVcbiRASbSCTT85UBTR2tByKDrojkV8TUK+JxEnvX+NZf4EEjdEtZM
+ bh=5HF7V2Ynx0YxMQIOx0Nh2UoWUB4ldApTe4qTVFONEqI=;
+ b=vHDfnpbZu8QqK29GXM1Zi0/MmqlfcRWLIjVMjEiBl4KCM0o9dHLLKEvc3GgOH+u/lorWIP1VX
+ a960bDlmjXnCVbHWVWdCacnlE3G573O22IpRcAboGGxAyAkOQchLU5H
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -89,37 +89,37 @@ panel.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7789v.c | 10 ++++------
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c | 10 ++++------
  1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index 28bfc48a91272901862dcaa309f51da4697d0a4a..04d91929eedda092b966b8cffdef5b267748f190 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -612,9 +612,10 @@ static int st7789v_probe(struct spi_device *spi)
- 	struct st7789v *ctx;
+diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+index d437f5c84f5f0915ec9a3b3a899cb8bd41209c77..cf1c4c81fae757dcd4740bacbcd6b8a7eb04d7c2 100644
+--- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
++++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+@@ -607,9 +607,10 @@ static int acx565akm_probe(struct spi_device *spi)
+ 	struct acx565akm_panel *lcd;
  	int ret;
  
--	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	lcd = devm_kzalloc(&spi->dev, sizeof(*lcd), GFP_KERNEL);
+-	if (!lcd)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, struct st7789v, panel,
-+				   &st7789v_drm_funcs, DRM_MODE_CONNECTOR_DPI);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	lcd = devm_drm_panel_alloc(&spi->dev, struct acx565akm_panel, panel,
++				   &acx565akm_funcs, DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(lcd))
++		return PTR_ERR(lcd);
  
- 	spi_set_drvdata(spi, ctx);
- 	ctx->spi = spi;
-@@ -626,9 +627,6 @@ static int st7789v_probe(struct spi_device *spi)
+ 	spi_set_drvdata(spi, lcd);
+ 	spi->mode = SPI_MODE_3;
+@@ -635,9 +636,6 @@ static int acx565akm_probe(struct spi_device *spi)
+ 			return ret;
+ 	}
  
- 	ctx->info = device_get_match_data(&spi->dev);
- 
--	drm_panel_init(&ctx->panel, dev, &st7789v_drm_funcs,
+-	drm_panel_init(&lcd->panel, &lcd->spi->dev, &acx565akm_funcs,
 -		       DRM_MODE_CONNECTOR_DPI);
 -
- 	ctx->power = devm_regulator_get(dev, "power");
- 	ret = PTR_ERR_OR_ZERO(ctx->power);
- 	if (ret)
+ 	drm_panel_add(&lcd->panel);
+ 
+ 	return 0;
 
 -- 
 2.48.1
