@@ -1,113 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6A53596A;
-	Sat,  5 Apr 2025 02:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC77DDC1
+	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 06:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743818559; cv=none; b=WVfBTMNYZsiVCsw0j8zAP0WRXrhjygZXCXNAbG/t9IXYkmKFyqUaqWmf9KZl3cZ+g+T4s31+5DR4xRTmarUOBCOxn2VM44kJAdNCZu2oXRZRmPt1sqYD58O37+fzA+phdT+0IBpqe55+TyclL/4wZIYrBN51qMii5FcyUd5rc8Y=
+	t=1743833992; cv=none; b=gUsyifcmUf3NwY6ZPl1H55pj1xRKS8j237qo+90l7QLPXwuNdGT1qI5isTgai1CE37M9vX6hkfmclzPfQxS6HG6UbM5tVYWNOViQFp5apLiuw45C3U1BuSMrQ8UAcn+Dp7hdnpNPRqyYNUnM1Kr/Wp0EsyuZEBkfdGBFuwi9hRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743818559; c=relaxed/simple;
-	bh=giulut+PrxF/O0P30CwxI5j9ksQr3ldBC5eDinXEP3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gBFzUeU1UiFSdgL5o8TVcQDpkO4e2CwWXNDVYHPKXPRaMirBAgB1IO255doOoH5koaLl8vs3Vzbrc9SqQ0HjakIxFIpdI7NM8GdC/YGEb71WoJWCEKvF6r8eVJ8Ympa5hNTmsEd8r+TIZStqWQt2gl6B4rB237ga1llQGzATCd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UiC+DuPF; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743833992; c=relaxed/simple;
+	bh=kOe2Z+PD8qy5TNtkdQdGx6znyJnRdjYOSo+/Z9ZAFW0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A4MvjzwY9jHJOvhp3wMgO3DvKe7VEAGEoAVmjSUL4MS9SwGskhJHmhzAgXHkbdAX/0rDNiTn6UT9PP4MQyY2XhlTWPYYP3n/uJUcVcHhH0hSwsE4TqBGwUy25NsorzkpKaHQFGzQtstW/31fy3QrTgZvX/aYfX5PH8zHwCtKzS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gO42xEdx; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UiC+DuPF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743818558; x=1775354558;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=giulut+PrxF/O0P30CwxI5j9ksQr3ldBC5eDinXEP3c=;
-  b=UiC+DuPFWfKd4pSrHV+OvawOjZH4S3VLLk098tmqwyZGYO6veV5Bdp38
-   LwSye41LSNzk4hrcnKY4jqtlFzFhHbNtcv0iPR+JVk6v2XPe8s0mxWTq2
-   e6lzhIVqMP6Zw3VK+bEVWUtest0VHxnOSnJHwl2rB79HThfC+KDVfRpr/
-   slXQ5ZtKmwCRmqDrxxOqWGZdqQx+T5cdSdQu+wM+hQRLV2QXvNWMkMlue
-   aT4QEumItShl6wehpdAGwBqyM/tW5zDeW0n8NJTrNhdZgElhIrWXkbkx3
-   x/HtPLOJhus+X5rOFKcEfeBcdkq3KuzTGWXfZaavi8aVi4nNbdxv9JKq3
-   g==;
-X-CSE-ConnectionGUID: 89F4yrA0S1CQ2eZ3qDYZvg==
-X-CSE-MsgGUID: CdIVfQK6Qf+WELa7qBtesw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="49064544"
-X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
-   d="scan'208";a="49064544"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 19:02:34 -0700
-X-CSE-ConnectionGUID: phdwfIJuQnmfaBYBelhYdw==
-X-CSE-MsgGUID: RtJF8pFtRCWo8Pibg7DFqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
-   d="scan'208";a="127954061"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Apr 2025 19:02:28 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0srZ-0001jY-2G;
-	Sat, 05 Apr 2025 02:02:25 +0000
-Date: Sat, 5 Apr 2025 10:01:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anusha Srivatsa <asrivats@redhat.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Robert Chiras <robert.chiras@nxp.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Markuss Broks <markuss.broks@gmail.com>,
-	Artur Weber <aweber.kernel@gmail.com>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-	Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Janne Grunau <j@jannau.net>,
-	Michael Trimarchi <michael@amarulasolutions.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-Subject: Re: [PATCH 41/46] panel/widechips-ws2401: Use refcounted allocation
- in place of devm_kzalloc()
-Message-ID: <202504050913.gq6yJY4f-lkp@intel.com>
-References: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-41-965b15ad5b8e@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gO42xEdx"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-736ee709c11so2366472b3a.1
+        for <asahi@lists.linux.dev>; Fri, 04 Apr 2025 23:19:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743833990; x=1744438790; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jvlWzim6YndqWu3ZQu0rSQefXK13/0JaECZ5f7JnfO4=;
+        b=gO42xEdxzMHGNw/nwgG9L2It0ScLIiRsvQxexMPiMU1TJPEFDa8GFUkj6hmJk1vD9X
+         H8PFWkcbuozY/jnz6DI/SAX+gvN2a8vJG0A8azTAW8fTAy9MZk5s4B7s0NYr9KQcHtnu
+         TNoOWnBF7wFaap9+uzzxdwypPqszcb7H+X0PqQlP5pHFqZ/BhfrbjCgbAw9C1Mmu+7rd
+         wD/SLhwms2cmQbBrbSPJVNWDVbmw5301NYAG1qJgsmlAsM0pn99Y3esVxJiB15Ldlm1Y
+         Zqf/7PAD1mSoXa2FExeEkVIOqO4aYU/dKZzov0qY9hVWgaCNTGzB7ksOQe0WvN48kvtf
+         KUjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743833990; x=1744438790;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jvlWzim6YndqWu3ZQu0rSQefXK13/0JaECZ5f7JnfO4=;
+        b=kacVcuc4jY0ADoTfZDIdCaO/gXRAFDqcsxTm5SMo0ZHrMdz+ZfIuIt66E2/e5g70vj
+         /jAY9x37gOe9s8TQpCjTl31fFxUYW0RQs3o/wQRD5ZM4QaVDXJk3wcEsRtleegwHQGKj
+         iC0+HeJySQM8jy60kxAFGsuszFgzZBmnW1/sCEyvwY4QaqgHg3j/itcpq0ij/qotTsId
+         jSfe/rnfQ3TvFK1Zm00WugSYHxiEPOilk6oqRBmkH8SUeBP/TntoRaiS6JFkXxCElzmh
+         MzKtGDo8RbYJY4QolHvZ3dtWjgazFJblrd6p7W+hwuT+p9UXCWQHET4/sA69+bBDqEeq
+         GZHg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/ncIGL/8ZGV+4r0RBive+FGTtjsVOKJHfr45r7A8Gj2d3nFZMjrW3t6g5guW1hbvnJoLqxQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvB9DoYd3jbmuBaOENLWM0HGSMkwLpcv+eqz+C00paDwSfGhe5
+	s0h9t5txakulLet+QbJzr/zIhb1ytsekBKR5TfAw28yQ+1kO0hCV
+X-Gm-Gg: ASbGnctZfhHqDJfy4PhlZAyzOlpiJ9pVpKN5yEmLuw0Ltv3vDnGGD51Ec5voNd1eaEf
+	YLfEPDYClUFIIQEZvGe7iK4VghiN5zFM9Mebv4w1171tS1xPlz3yqDTjVYcrCD6aCEHMN8IEnji
+	XfrStySIoYwrXlksTp9tY5FMtvA0uwdIR9IxJ2xoLeRzNt6g7x9B0VgljwkdqHzAQgJqY/ECI/r
+	KTSSJqLtCIqobRdt0aW/fMzE4/9twGVdtygxiN1KumzWMo05KuVB/XattKS+q9kv8RBjNn2snSs
+	ss6xY9lSvlbyJy8BL/LE12ggmisaI4cQ4NT+6qdFVIutsEEQvL0v2UQfJVDrDy8KQOxE2VgFfUW
+	u1yn3
+X-Google-Smtp-Source: AGHT+IFAtgmoL2nMv36spwTBvOI1Zop6q8ft1LpTEtdlGsfFq6JVDVDdNNkOWYXi+baTWF6/wwaPdQ==
+X-Received: by 2002:a05:6a21:900f:b0:1f5:75a9:526c with SMTP id adf61e73a8af0-20107efef3emr7651006637.13.1743833990025;
+        Fri, 04 Apr 2025 23:19:50 -0700 (PDT)
+Received: from henry.localdomain ([223.72.104.254])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af9bc41a65asm3830209a12.69.2025.04.04.23.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 23:19:49 -0700 (PDT)
+From: Henry Martin <bsdhenrymartin@gmail.com>
+To: sven@svenpeter.dev,
+	j@jannau.net,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org
+Cc: alyssa@rosenzweig.io,
+	neal@gompa.dev,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Henry Martin <bsdhenrymartin@gmail.com>
+Subject: [PATCH v1] cpufreq: apple-soc: Fix null-ptr-deref in apple_soc_cpufreq_get_rate()
+Date: Sat,  5 Apr 2025 14:19:27 +0800
+Message-Id: <20250405061927.75485-1-bsdhenrymartin@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-41-965b15ad5b8e@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Anusha,
+cpufreq_cpu_get_raw() can return NULL when the target CPU is not present
+in the policy->cpus mask. apple_soc_cpufreq_get_rate() does not check
+for this case, which results in a NULL pointer dereference.
 
-kernel test robot noticed the following build errors:
+Fixes: 6286bbb40576 ("cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states")
+Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+---
+ drivers/cpufreq/apple-soc-cpufreq.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-[auto build test ERROR on de04bb0089a96cc00d13b12cbf66a088befe3057]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anusha-Srivatsa/panel-orisetech-otm8009a-Use-refcounted-allocation-in-place-of-devm_kzalloc/20250404-052751
-base:   de04bb0089a96cc00d13b12cbf66a088befe3057
-patch link:    https://lore.kernel.org/r/20250403-b4-drm_panel_mass_driver_convert_part3-v1-41-965b15ad5b8e%40redhat.com
-patch subject: [PATCH 41/46] panel/widechips-ws2401: Use refcounted allocation in place of devm_kzalloc()
-config: x86_64-buildonly-randconfig-004-20250405 (https://download.01.org/0day-ci/archive/20250405/202504050913.gq6yJY4f-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250405/202504050913.gq6yJY4f-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504050913.gq6yJY4f-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "__devm_drm_panel_alloc" [drivers/gpu/drm/panel/panel-widechips-ws2401.ko] undefined!
-
+diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
+index 4994c86feb57..9156becfa367 100644
+--- a/drivers/cpufreq/apple-soc-cpufreq.c
++++ b/drivers/cpufreq/apple-soc-cpufreq.c
+@@ -134,11 +134,17 @@ static const struct of_device_id apple_soc_cpufreq_of_match[] __maybe_unused = {
+ 
+ static unsigned int apple_soc_cpufreq_get_rate(unsigned int cpu)
+ {
+-	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
+-	struct apple_cpu_priv *priv = policy->driver_data;
++	struct cpufreq_policy *policy;
++	struct apple_cpu_priv *priv;
+ 	struct cpufreq_frequency_table *p;
+ 	unsigned int pstate;
+ 
++	policy = cpufreq_cpu_get_raw(cpu);
++	if (!policy)
++		return 0;
++
++	priv = policy->driver_data;
++
+ 	if (priv->info->cur_pstate_mask) {
+ 		u32 reg = readl_relaxed(priv->reg_base + APPLE_DVFS_STATUS);
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
