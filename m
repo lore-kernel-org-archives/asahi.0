@@ -1,66 +1,66 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F83C1F419D
-	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 23:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA691F463C
+	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 23:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743894987; cv=none; b=uMmkVlTGsFMKaBA0CEmVdxMTqF7av3P1ojfhdkaGsiBEBLrYj/eo5/HWCpCUTPZkPBonoEl5bz3sHGbRX0XIo6X085e6OLkpOlrRsZeaGxlC64NPUdUm6ET59UgwnwrRLDVJW4v4HIVzZrbldN6vWUSB6YHKwwSEhbkSSJ8JUb4=
+	t=1743894994; cv=none; b=ulbVcLzDmLoa+a9GxXhn4kkQYhKGUsrwjSMfle7Buk4abaCsS8I6au3G6FyU7MtshIc2G+bO5qRN5Kz48HRk8LRzWaNMHXXN2skDr2E/Da007nFwGEN+nBolPC+c3rVcpjzWt0rmb82f+ySelDwFYPEGjIElf6wQ/9Wx/qElfds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743894987; c=relaxed/simple;
-	bh=HzPCNCOaGfHJ1SZafUSoMYOx1UbS0RK4HV+uhmMxEog=;
+	s=arc-20240116; t=1743894994; c=relaxed/simple;
+	bh=5Z9X682HZUgLJ1v6uu51TGEAsXE/8Sre+u8dfgEfwT0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EAEHsajNec+AhObmCybq4fDUpdivlv82ZE2k1CGnxUshYsNtRBtlpv63m+ZNXRWJZiY50VuVevN0YygkRqsFVaETZDqMBzDO/IPjd2uFJXZPrFmUI/Qooz8dFQ2MANJey3STIySrkZnX6gPAjaHECL4UMKH/wJNeaeTLaUG3dtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayZepiEj; arc=none smtp.client-ip=209.85.214.171
+	 In-Reply-To:To:Cc; b=bHfOjLiJWrkTGFF/QLUhgUe1GEN+gXxAiAnL5zmJvc+dNwoVvSNN5CCaJFSS0DsqVI5g1pDdrQvWmMmOlhTNgMDTuPz253wKMxnD6bwmpn98U+bLclofzX1oDLsAn2gk0JIcnd7JlI4kSeUbC1pj67VQU8/nGKWEFqqsLLp0s4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CzortvBh; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayZepiEj"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22403cbb47fso32889415ad.0
-        for <asahi@lists.linux.dev>; Sat, 05 Apr 2025 16:16:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CzortvBh"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-af6a315b491so2808039a12.1
+        for <asahi@lists.linux.dev>; Sat, 05 Apr 2025 16:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743894985; x=1744499785; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743894992; x=1744499792; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oJgUl+Lri83Oq+9zJGLqwIEzCS7Ndje3xSETbGABjZc=;
-        b=ayZepiEj8eontoLcdCGvnN5XXbs5Ii4UQ7URvMtNl9VmWzUvlAi5yhZPNscNrDbkCP
-         gajFrukFTzCbwH/Qy0KRNw+hpiC5QlSupmOx4oYnCADQpUmxuNUAwPecOtWwA+bGM/vt
-         bYbghW3rUBQkYlwSxv4jYu4TZEwaI3ETbRaP0iW8VoF/809/itEK7AnvSmHAokQQrWCC
-         U/HmTYlDivAjTWWdVh2Kz5muNAiC+zkW0VARI69JhTgYjz0i7qlyT6nESfmVHKC5LIh3
-         /7vJKaJp3HNzZtKgnlDNOSJZCkePQB52KITDMdtWnJfN8Iv898lV+6X42z1yDriq/I+m
-         KrXQ==
+        bh=rBN7lJc+bnC3l4ET99fupuYYeHLn5bLfe23gswQ1Cp8=;
+        b=CzortvBhueqE8BXXz6PoTLiiNT6QzO6opx+xS9/HJyE5UqfbPQ/dEE+LT59WDCpAhu
+         kNvUOoa+ylZlvGHNlPaEuB6epbr7XgUBpFSJC4ci5XQP4A2e4GTgnURnmHUDy2Hx1C5I
+         s2mvRGCT6d7nLrC2n0O+b75kpTNucbEky11udWMwg3GMh9k/e8gVOrJPgCUwQc5Cf0hh
+         J1Y1gsacFWhFMUESU8bf5uEPNRdL9Kgks63AFXf0js4cb1KQAFjtUWvLMlHdjGUDOvCA
+         LpzikXynAn8E0auJBalstFQF7WARP0YjlMqyUIA7Q/RW/aTtpLwLCyxkr+ky3urcPb+o
+         7lTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743894985; x=1744499785;
+        d=1e100.net; s=20230601; t=1743894992; x=1744499792;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oJgUl+Lri83Oq+9zJGLqwIEzCS7Ndje3xSETbGABjZc=;
-        b=auCUu6iJq1AwRro6yfynA8vuoSzjDVDIu/R8HNn+zAVjkxs0xE7CJq7+Qp9JJuY2Vk
-         054GLZ5t+puxPEFkgNuw1zy9J9KgeUtfPtvUavz8F+ijPvBuwfDQ3BdjlGJW0rSSxA6h
-         Pi+acKnhoaZ3fgBbzBg/xGHKIVsTAQf7wiLS6YVcWULhxAftvtTm9Uw0VgERBohDTx2V
-         u8SmYQpbZgZ6Lbk/ztZdQtLOSlKCG9bMvJLmkbe6HLWDMmcAaO4Xv+1wDX4BnHsDEM8V
-         JynOLVtwmf9MP03ndgPEPYgG6o1INk91Om2PU5nUrHWK75RPjr+bG3WlpXGjFwi647sX
-         6+FA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVe7R3ZxGKSCuWzUX7jjUl62zKnhLfL2tejqDQ8qxUrml1Qh0yu/nT+Ufa6w0sXWteX5zeTg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzrxIvlfWy0l8BftVfhHCPo/YkB+ZjFWoPUx5AwzQ5Jh2BE+7f3
-	hEAAJ2r5W81Do8ROGy1AjRsEwCxPqDmC42xGgm6+11tBXE0q7B+lfDXN1VOO
-X-Gm-Gg: ASbGnctjMeW3oLloxreeytK4YepYOdYAgIoMZcFbCMNrYLVuQs03VBpRPyDH8atZnnL
-	3mLppmLldlwsNtHgtPy+9J7aGu2bo13tdyHugGDPQjDSzS7EV31b0DEjvHLYoE18oxip8duX2i6
-	rqrrWDwKJ3EKhg/yDgPIHSt9Hpc5ifBQAhoKF6echquHxb6uBa8Oe3DfXWAcVPQkKQ3on5PEGoJ
-	eJEQyjTbQVQEZ3zEz2ub8WgEWfe8EwQbc666LDsJ4/mLWngLkR2+Xg8NqwQZACsJTf80anqsiqI
-	oLh9X9V0kAkxDNbpYo3CmiVlAQPPIQGLyRkkOFZKVB0jXAZE9eOEDIDcWGkEqh/3uJQgVq159PO
-	P2IFRk7Xa6p8VlG88BQh0O1ZWMPSbVZEXvJUAwuw=
-X-Google-Smtp-Source: AGHT+IEVN5VB9kZvBYQ0TjCkqo4Wt7GleWXD5XDgrsFGv91UONf5YKT42TApbq/Y0lwjk+7IjZk+Mg==
-X-Received: by 2002:a17:903:1cc:b0:224:1e7a:43fe with SMTP id d9443c01a7336-22a8a8ddc27mr89469255ad.46.1743894984690;
-        Sat, 05 Apr 2025 16:16:24 -0700 (PDT)
+        bh=rBN7lJc+bnC3l4ET99fupuYYeHLn5bLfe23gswQ1Cp8=;
+        b=ICQg8B0abIsSnYAU25FrCJX09SMs0US4U4Y3fBQg9w38/mE9kaRoodQQ+apICsQmag
+         MuJC6LA9H+2jwAJwTmB3u6dBbXcf+GU1FeGwQtc5BRfvwShcIob5xREFbx68FXt/DmLB
+         ryi6QtN1k3ENvXkf3WJxi81/Kf23ot9owqi1WgwRQvQM65TjkHMPqhILZ5ftzm0xbAj0
+         T6Uf69D4b5gQVlMWdJlHdwbSqoQz2G8V3df37K5nOj1Urvg2ttNvcP0mPzFZh4j4IWsH
+         yg7Q1OKm1CLkYqiESoNLw9HaMn4RUITAm02k7PtO+qo2Ri8eSBdLmgl9QenUTYLtTaHv
+         +cFw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1UWGgB6FaBU6C4PDveGoXMqJ0aAUPxFHQPnZWrZVAMWUlWUmX8FJKMsAEYknVuWCJXAmuHg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWxdTuNYEwkT8Wk7rzXhAvw1CpJWItKLoDZIW2/BEBl2l6FzTj
+	rMHgX/51AHja17zvtQ/dL3sYqmZSPL43d7uuN0RPXMotxW7RTEIGVXUvl/jA
+X-Gm-Gg: ASbGncvc5HwBYKnJoiUWgcL/AM7NwKeDFo60OC/SMGW9wepLNuzocxzZ5PDzWlW+oah
+	fbsriUtk/DO/BCrQ84MinEFNVAatFseRrIqlQCaHvC5IqXiVX7JyHpfVCly8fjjZTRBt1Sx2tD7
+	wCqV6iWlfUD9SW9ugQpI4Or2wSnPzDaScc1LlS+Z/BuFnmqcS0iHq8aUPphbdvlpkTEUTzPF1c5
+	EaxGdRwoq4OCW87IPgxu0bvPIf/JkPPrDpjrp3t9UhqwcFSCa3EFE+zg9qJmXva8b7dF2Q2/YrU
+	maxwFiX2/2IXsjXcR1do/8YDCr4g2RFJo+3R8PQypsaDNs7Xv5ghR8cAbr2w6UV7IMzUG79xATz
+	5UlKFNsKvzTcggNf7N3lzAg8uFceJg3U45dMEm3Ws4PEeio02lg==
+X-Google-Smtp-Source: AGHT+IGboQXup/sgtzEmkEwk8oMDufzhXkatqPuP1Cmf7+D+uVwma1W1OUqGKi2mrfi+tqTDKqnBBw==
+X-Received: by 2002:a17:90b:2e41:b0:2ee:b8ac:73b0 with SMTP id 98e67ed59e1d1-306a47c2d6amr11531890a91.2.1743894992161;
+        Sat, 05 Apr 2025 16:16:32 -0700 (PDT)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c994esm55048345ad.102.2025.04.05.16.16.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c994esm55048345ad.102.2025.04.05.16.16.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 16:16:24 -0700 (PDT)
+        Sat, 05 Apr 2025 16:16:31 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 06 Apr 2025 09:15:11 +1000
-Subject: [PATCH v5 7/8] ASoC: tas2770: expose die temp to hwmon
+Date: Sun, 06 Apr 2025 09:15:12 +1000
+Subject: [PATCH v5 8/8] ASoC: tas2764: expose die temp to hwmon
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250406-apple-codec-changes-v5-7-50a00ec850a3@gmail.com>
+Message-Id: <20250406-apple-codec-changes-v5-8-50a00ec850a3@gmail.com>
 References: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
 In-Reply-To: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -86,43 +86,42 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
  James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4412;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4733;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=HzPCNCOaGfHJ1SZafUSoMYOx1UbS0RK4HV+uhmMxEog=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfd3a9FRTbd79/3ka+ZWv6g3MjFB5rpcw8M+NjWMn13
- q8pTByJHaUsDGJcDLJiiiwbmoQ8Zhux3ewXqdwLM4eVCWQIAxenAEzk3VWG/z5Nr94WLd8RJsYe
- 6Nr5XPx44Ke9Kj43PflyDjSdiFho4MDw37+lImpP1j9h/rgP7+8s2LFbff2uhcyf70lPD/NftUx
- iNRMA
+ bh=5Z9X682HZUgLJ1v6uu51TGEAsXE/8Sre+u8dfgEfwT0=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfd3Ydffj9fdjhS7FJN4MP3lQONy7btTkkfquglGhlp
+ KdAlsaRjlIWBjEuBlkxRZYNTUIes43YbvaLVO6FmcPKBDKEgYtTACZys4HhF1OSiWzl0nUxlpJ9
+ wea9roGCa6+2byjY0Rrm5LN27fLiDYwMW6dJu2v3uVa/3yfL+Lp0Y9H9iL1lj54qVVZt2/SYhYW
+ NAwA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-TAS2770 includes an ADC which reports the chip's die temperature.
-As per the datasheet, the temperature in degrees Celsius is derived
-by taking the raw value stored in the ADC's registers, dividing by 16,
-then subtracting 93.
+TAS2764 contains an ADC that reports the chip's die temperature.
+The temperature in degrees Celsius is yielded by subtracting 93
+from the raw value reported by the ADC.
 
-Create and register a hwmon device to expose the chip's die temperature
-to the hwmon interface.
+Expose the codec die temperature to the hwmon interface.
 
-The ADC is shut down during software shutdown mode, and its registers
-are initialised to 0 on reset. This means that the die temperature will
-read -93 *C until the chip has been fully powered up at least once (e.g.
-the PCM its attached to is opened). Once the chip is put into software
-shutdown again, the ADC will also shut down. The last value sampled
-before this happens will persist in the ADC's registers.
+The chip will initialise the temperature register to 2.6 *C
+to avoid triggering over temp protection. As the ADC is powered
+down during software shutdown, this value will persist until the
+chip is fully powered up (e.g. when the PCM it's attached to is
+opened). When the chip is powered back down, the last value sampled
+will persist in the register.
 
 Co-developed-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2770.c | 96 +++++++++++++++++++++++++
- 1 file changed, 96 insertions(+)
+ sound/soc/codecs/tas2764.c | 89 +++++++++++++++++++++++++
+ sound/soc/codecs/tas2764.h |  3 +
+ 2 files changed, 92 insertions(+)
 
-diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index 55e4723044044338bd941763240d24ccfef6e8f3..6f878b01716f728724a00ba3e1ce7afe3a420eda 100644
---- a/sound/soc/codecs/tas2770.c
-+++ b/sound/soc/codecs/tas2770.c
-@@ -12,6 +12,7 @@
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 21c38b2394b71ef7d05b4c2e781fdf73926fec5b..97968ee3af42e8400b8cbcc23fe2184afc8c715c 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -8,6 +8,7 @@
  #include <linux/err.h>
  #include <linux/init.h>
  #include <linux/delay.h>
@@ -130,42 +129,34 @@ index 55e4723044044338bd941763240d24ccfef6e8f3..6f878b01716f728724a00ba3e1ce7afe
  #include <linux/pm.h>
  #include <linux/i2c.h>
  #include <linux/gpio/consumer.h>
-@@ -530,6 +531,88 @@ static struct snd_soc_dai_driver tas2770_dai_driver[] = {
- 	},
- };
+@@ -577,6 +578,80 @@ static int tas2764_apply_init_quirks(struct tas2764_priv *tas2764)
+ 	return 0;
+ }
  
-+static int tas2770_read_die_temp(struct tas2770_priv *tas2770, long *result)
++static int tas2764_read_die_temp(struct tas2764_priv *tas2764, long *result)
 +{
-+	int ret = 0;
-+	int reading, msb, lsb;
++	int ret, reg;
 +
-+	ret = regmap_read(tas2770->regmap, TAS2770_TEMP_MSB, &msb);
++	ret = regmap_read(tas2764->regmap, TAS2764_TEMP, &reg);
 +	if (ret)
 +		return ret;
-+
-+	ret = regmap_read(tas2770->regmap, TAS2770_TEMP_LSB, &lsb);
-+	if (ret)
-+		return ret;
-+
-+	reading = (msb << 4) | (lsb >> 4);
-+
 +	/*
-+	 * As per datasheet: divide register by 16 and subtract 93 to get
-+	 * degrees Celsius. hwmon requires millidegrees. Let's avoid rounding
-+	 * errors by subtracting 93 * 16 then multiplying by 1000 / 16.
++	 * As per datasheet, subtract 93 from raw value to get degrees
++	 * Celsius. hwmon wants millidegrees.
 +	 *
-+	 * NOTE: The ADC registers are initialised to 0 on reset. This means
-+	 * that the temperature will read -93 *C until the chip is brought out
-+	 * of software shutdown (e.g. the PCM it's attached to is opened). The
-+	 * ADC is also shut down in software shutdown/low-power mode, so the
-+	 * value read back from its registers will be the last value sampled
-+	 * before entering software shutdown.
++	 * NOTE: The chip will initialise the TAS2764_TEMP register to
++	 * 2.6 *C to avoid triggering temperature protection. Since the
++	 * ADC is powered down during software shutdown, this value will
++	 * persist until the chip is fully powered up (e.g. the PCM it's
++	 * attached to is opened). The ADC will power down again when
++	 * the chip is put back into software shutdown, with the last
++	 * value sampled persisting in the ADC's register.
 +	 */
-+	*result = (reading - (93 * 16)) * (1000 / 16);
++	*result = (reg - 93) * 1000;
 +	return 0;
 +}
 +
-+static umode_t tas2770_hwmon_is_visible(const void *data,
++static umode_t tas2764_hwmon_is_visible(const void *data,
 +					enum hwmon_sensor_types type, u32 attr,
 +					int channel)
 +{
@@ -182,16 +173,16 @@ index 55e4723044044338bd941763240d24ccfef6e8f3..6f878b01716f728724a00ba3e1ce7afe
 +	return 0;
 +}
 +
-+static int tas2770_hwmon_read(struct device *dev,
++static int tas2764_hwmon_read(struct device *dev,
 +			      enum hwmon_sensor_types type,
 +			      u32 attr, int channel, long *val)
 +{
-+	struct tas2770_priv *tas2770 = dev_get_drvdata(dev);
++	struct tas2764_priv *tas2764 = dev_get_drvdata(dev);
 +	int ret;
 +
 +	switch (attr) {
 +	case hwmon_temp_input:
-+		ret = tas2770_read_die_temp(tas2770, val);
++		ret = tas2764_read_die_temp(tas2764, val);
 +		break;
 +	default:
 +		ret = -EOPNOTSUPP;
@@ -201,34 +192,34 @@ index 55e4723044044338bd941763240d24ccfef6e8f3..6f878b01716f728724a00ba3e1ce7afe
 +	return ret;
 +}
 +
-+static const struct hwmon_channel_info *const tas2770_hwmon_info[] = {
++static const struct hwmon_channel_info *const tas2764_hwmon_info[] = {
 +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
 +	NULL
 +};
 +
-+static const struct hwmon_ops tas2770_hwmon_ops = {
-+	.is_visible	= tas2770_hwmon_is_visible,
-+	.read		= tas2770_hwmon_read,
++static const struct hwmon_ops tas2764_hwmon_ops = {
++	.is_visible	= tas2764_hwmon_is_visible,
++	.read		= tas2764_hwmon_read,
 +};
 +
-+static const struct hwmon_chip_info tas2770_hwmon_chip_info = {
-+	.ops	= &tas2770_hwmon_ops,
-+	.info	= tas2770_hwmon_info,
++static const struct hwmon_chip_info tas2764_hwmon_chip_info = {
++	.ops	= &tas2764_hwmon_ops,
++	.info	= tas2764_hwmon_info,
 +};
 +
- static const struct regmap_config tas2770_i2c_regmap;
- 
- static int tas2770_codec_probe(struct snd_soc_component *component)
-@@ -758,6 +841,19 @@ static int tas2770_i2c_probe(struct i2c_client *client)
+ static int tas2764_codec_probe(struct snd_soc_component *component)
+ {
+ 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
+@@ -825,6 +900,20 @@ static int tas2764_i2c_probe(struct i2c_client *client)
  		}
  	}
  
 +	if (IS_REACHABLE(CONFIG_HWMON)) {
 +		struct device *hwmon;
 +
-+		hwmon = devm_hwmon_device_register_with_info(&client->dev, "tas2770",
-+							tas2770,
-+							&tas2770_hwmon_chip_info,
++		hwmon = devm_hwmon_device_register_with_info(&client->dev, "tas2764",
++							tas2764,
++							&tas2764_hwmon_chip_info,
 +							NULL);
 +		if (IS_ERR(hwmon)) {
 +			return dev_err_probe(&client->dev, PTR_ERR(hwmon),
@@ -236,9 +227,24 @@ index 55e4723044044338bd941763240d24ccfef6e8f3..6f878b01716f728724a00ba3e1ce7afe
 +		}
 +	}
 +
- 	result = tas2770_register_codec(tas2770);
- 	if (result)
- 		dev_err(tas2770->dev, "Register codec failed.\n");
++
+ 	return devm_snd_soc_register_component(tas2764->dev,
+ 					       &soc_component_driver_tas2764,
+ 					       tas2764_dai_driver,
+diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
+index 3251dc0106e07862dd69efd69fa0e40c3858ecb7..538290ed3d92acea3322240a3bd09edd63694e50 100644
+--- a/sound/soc/codecs/tas2764.h
++++ b/sound/soc/codecs/tas2764.h
+@@ -117,6 +117,9 @@
+ #define TAS2764_INT_LTCH3               TAS2764_REG(0x0, 0x50)
+ #define TAS2764_INT_LTCH4               TAS2764_REG(0x0, 0x51)
+ 
++/* Readout Registers */
++#define TAS2764_TEMP                    TAS2764_REG(0x0, 0x56)
++
+ /* Clock/IRQ Settings */
+ #define TAS2764_INT_CLK_CFG             TAS2764_REG(0x0, 0x5c)
+ #define TAS2764_INT_CLK_CFG_IRQZ_CLR    BIT(2)
 
 -- 
 2.49.0
