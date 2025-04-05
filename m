@@ -1,66 +1,66 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2424C1E5B86
-	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 23:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39841EA7E2
+	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 23:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743894971; cv=none; b=FFWN68fKLQ9FtL3EaelrDAvlqg0JR296hpqIEAc9SHPgGDS80E6G6c3gWtZCQeyEkIRKCvR3nyO5/g9npEC4WTRZQQOy0FC3lf3hKl8pLMXtdxRNgEkUSmoOPiWRBpLetqHyd7uUmEWOAz+ZEwO+BVSnzhVtxJN3qSJAWZgA9XE=
+	t=1743894979; cv=none; b=GaVnRPLc8FBPZmcVAPiC9bqElPYO5iPIMspOU4tdX8RC0xK+n12ijxKZnqshVbXa7PcIyDx+pyOvaqOEcJUUnHKuW7wBr+I1tFn07BHnnCGTscp2YMX2CzedHMgWcW6gJYdDfyrAZcBfv1MHZm1i/laYNjaVb1zG/Oe/PckhSlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743894971; c=relaxed/simple;
-	bh=G51hIuSMcs69fsP3kxPgPSB+sadxSZFQ9IDE7EICSys=;
+	s=arc-20240116; t=1743894979; c=relaxed/simple;
+	bh=XXV0remiboIC8vT/YM3SXXEpSLWra8NHMrXB3bAOdSc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IeBTV4lw5wMg0cTdm8E98AFSrt1J9or6P97z8dfDNc0Kv/7vPg4EzVIjvY0KBp4ibKDYrEa/eBccAWTbZ7m1gZRfACYb7oxj9h1CVdSUGWqYlRZFv4Z3IgRlXY1vlazZhrk9QdYE2s2vBLccroN7FLVc7qj6wRIuwge1bBdvsVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SATP/HQD; arc=none smtp.client-ip=209.85.215.177
+	 In-Reply-To:To:Cc; b=N0NKoe9RsTM0+u9+yJKobMcgbVYk3yHEXa/cpk6k2vhVp85zefQksdsJgVJprUkDxv/qq8QrAdKotvFzXO5ERITbpiiIKItJ7iUFAZ8XI+AudLNXoUDIyEOhYsW69Gok3IO4QxZdO9S/P38CYiC3/j9/3/YGNoxICV1cV1aJw70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O9An2Gmu; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SATP/HQD"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-af51596da56so2628685a12.0
-        for <asahi@lists.linux.dev>; Sat, 05 Apr 2025 16:16:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O9An2Gmu"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22435603572so29799285ad.1
+        for <asahi@lists.linux.dev>; Sat, 05 Apr 2025 16:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743894969; x=1744499769; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743894977; x=1744499777; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xXyMsWo9eIJUoUgRuYRDp4l/Hr3tALUSH8In3QapG74=;
-        b=SATP/HQD4QvvH9s4E1zprjLEhO7o2iiMOxKbfFCjCPu+FjyTp2MJT4PLG2RprusCbh
-         pQRcsFHYtGiILZolDe/b9YaLgVfRzGlL55gbfxYRt/kuWONQmh4SE85FeqPbtnsIIhH/
-         6B1D6DyX84NRQ1gJ2nPGMb0+w/7bla0id1rqy1+EuMhb76YIhppWd3O+4yyssE3esCjj
-         jeBJ9Bjlv1XgEBdu2pm9F6qBlNIDlEopcMRhGJEDTjjr7IrouNpKlWS4I2A6G39ibVgh
-         Evf0+cVAWpVEGwvvEjqXeHUpfPqF47TFMMFdqPj5FABLLBrPXrqT4NcEAuJbFbfOM8kd
-         r+Eg==
+        bh=JHqAHfmXNcrBiUX48Wdw61sXBWXoE7oTU9Eeqw/vr3c=;
+        b=O9An2Gmue9zOA+STL+SWM7/n3m/YT/8didGpse2jsNz4H91Gq6f0fYp2dYRuzYmGqR
+         Q1srIVF/2y4dnl77l94dhapA5yJULMLs+afJAmw0+JC8fQVVdWPDVz4cOJ7IuNfwdvim
+         nbGJUZXc9ZAGJpPJQ983U8svFjK80h1TVVNnBvH8akboUDvs82EVZLU0vTp7hoJgBjWU
+         UG0M2RJQpimVVaTPOFO2HZihpjzHoQFfbKviVBFXmWRroa/dAcjmgBLZ1jqObrosj1TO
+         5LSegHyZNbM8jxYzTfxU6ObVEOxZBZzKH9PyqPotfinGr7Twl/U3wi3RhVBnaHuQHcQn
+         Z0dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743894969; x=1744499769;
+        d=1e100.net; s=20230601; t=1743894977; x=1744499777;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xXyMsWo9eIJUoUgRuYRDp4l/Hr3tALUSH8In3QapG74=;
-        b=FHZfgfKofPEks/1qwpv7KEozUcfUi/YnyjUeySxJs8RpjaFMSXuW9nwRbiBdw3UpOX
-         BvhVE4FTiSbTXS0d+EbwaDqnwQ04FrfWAsxzN+/x9H1jTPVKU/GyFHXydCUvW6yMUGpU
-         Znx79peHWLIN95sZtZeqOE85UzuoVCRZXmJCaSz6jAT9sNy24TG/qcvUpqUWt5TpByHk
-         4U53snpqJGX1vU50haKw/m430fiVx83DaptiCan29AZnemtsHSzZRjMtzsBvRyaVvPBA
-         Flk9nnr21iXM6TTAZO+p5ltjCDeR8Tq/UBl75JrRNylE5B76t6axUbmp330eR28/jS5J
-         B+9g==
-X-Forwarded-Encrypted: i=1; AJvYcCWDiRXcPIeATQ0f0by1TGHQkern8TwmiERYPNpeat1Edo785d5bvPBNYE3oT4GUQWucBYCpHA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9nuQOPxvt09YvxI94/U1Wk65eiJDTOGVK6dwB+UHmU1ThJ5PN
-	bG0YVWxYnwWv+sxHvOdrYhHfU4GA1VsewPwkwkAzNRnnJNoTImlWcrCZq45e
-X-Gm-Gg: ASbGnct8tlCv13H34XVsprP8hdWxBgS4rvBxi8Fb0y3fwBfnmSrEdVO76CEML9UyI9w
-	Z8adkS4HNyAG/wkba8l/+OTAOrMybRm0vowXmY7wET+aNY1Go51Z4iqcONOwf4pVyCwB4vKOV3t
-	zRMVwvCB07/nBWfqIpN+YTWl1ss030A4bOAbXDR56eNuuNyHQZ5ICq2RH28B7SywH8DDaHGX655
-	HC6vfKNUCwGK6b4Y9YkkI952rKU1rz70S2T1nSJi1NgZ8bpyFcq91zxO/12X5jO/55w/SyMQPdW
-	E1XZnb1aZZUIkSr5hQzs9FpxcxP8rE4AYLAiQJ4Coy93JUloFM107kxvUdqsOjzRFOeeBeNZRrK
-	zMm2avQwPIp5OFXUk38NILb42IWAUAhHY6OzfWD4=
-X-Google-Smtp-Source: AGHT+IGbdDbLX7GMJybw19Iq4WA9iEwsbs7vDxezKzZjWqipK1/2AdnNvQpSyC83p7AGfjOjuLJpLg==
-X-Received: by 2002:a17:902:f785:b0:220:e362:9b1a with SMTP id d9443c01a7336-22a8a8739d7mr119941375ad.25.1743894968944;
-        Sat, 05 Apr 2025 16:16:08 -0700 (PDT)
+        bh=JHqAHfmXNcrBiUX48Wdw61sXBWXoE7oTU9Eeqw/vr3c=;
+        b=nsi/o0kCkZLHVgtLT0TA2hSFV5uFLsgQV2GE5jZFnnEXJoDR/VEJVIc7HDzAVzqaoi
+         8ieBf2/E4S0+PXLXB6fRLnQ3Tn7FO6QGeat628jfB/C27ZJkDLaVXrY1zek/R8jSNBkz
+         N++dCd5NGc66GrNamjwW1YF9AAQ0dO6dq42uN9Z8eTcjrhzsWE+edhSLIPds+BK1j3pI
+         4gU8OfiOCVlzZvLc3tT5i+6KPnnHxbhSJsw6cwmNlFVJHPIeYTlKxPknn7GZUZ3+p2JN
+         HgknHu8GW5giqGxkH2ufQ19LeWAj8a9vDgPriDr2pLsnxRB3otVDzs22847OOwHb3EpV
+         hIaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUsHE6iREkXBT3crWQuK2AK/82FpodEMBE4G5B1VYXyPRKtruFSoT4odruv64mEwiSUGe0BBg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw+DLCZ1diaMunh9jSupGiUiDX7iGLjf/oQ8MGt2s1VJYa/4cUV
+	BcQPsVwX4IkZDc0XEPHeAwUs8r6dTjog3YZKJ+yILGRC0NupSJpswSz2hnsB
+X-Gm-Gg: ASbGncs6NQNEQbfPIpXSKSOYVwgYrv4pF+Cp9IxsRJtLZi1anpRLyHtaExvPb2wXAh5
+	vL6AFF0yWZlSmSdM+4RswkYJ9BWKIp0NsLBe9FgQ2Ebe9RtnKIn/3444CrSi1f1mdW/un1zoF1D
+	jVNTHBpg8OnMetLOtfI8B8PrWdiIU4Y0MZX1LDwuiDftSHtzdsUIinqEVoKq3jE/g8A6Yxc6y54
+	H9PU1050xz0vaWIjcBhuH9xdtD513cHPNPEM2l8mO/MdJDPDjp5vZNza2JjlIQv87MWm09wHEZj
+	e/k+X0FG9cXNaoPh5Juphs334uAOWwxpR+pJq75iP5+dmQtGWkb9Bach8U8H9SpI2yOXwhyJAA2
+	9+sDOSnny0KKb/ciqkvRhO6hDgyJbI2v09DNEG4c=
+X-Google-Smtp-Source: AGHT+IHzW/mEX3whjkwPsQueexYlvcirJnhXqeAaYH9+txAPgZ2hsFsVnFWAoyuWrrUtE4gQMK6Rdw==
+X-Received: by 2002:a17:902:f690:b0:220:c34c:5760 with SMTP id d9443c01a7336-22a8a8e4508mr99504385ad.51.1743894976729;
+        Sat, 05 Apr 2025 16:16:16 -0700 (PDT)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c994esm55048345ad.102.2025.04.05.16.16.01
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c994esm55048345ad.102.2025.04.05.16.16.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 16:16:08 -0700 (PDT)
+        Sat, 05 Apr 2025 16:16:16 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 06 Apr 2025 09:15:09 +1000
-Subject: [PATCH v5 5/8] ASoC: tas2764: Raise regmap range maximum
+Date: Sun, 06 Apr 2025 09:15:10 +1000
+Subject: [PATCH v5 6/8] ASoC: tas2764: Apply Apple quirks
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250406-apple-codec-changes-v5-5-50a00ec850a3@gmail.com>
+Message-Id: <20250406-apple-codec-changes-v5-6-50a00ec850a3@gmail.com>
 References: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
 In-Reply-To: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -86,54 +86,303 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
  Neal Gompa <neal@gompa.dev>, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1379;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9009;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=C804f2ztTqLQ4FxnFPpz1XJ4BtyjpL3h2sURrICRQ10=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfd3bWd2jotr13VtjPycPyxXG7/ZQ2wY+hPL0HWlr4N
- xWJpP7sKGVhEONikBVTZNnQJOQx24jtZr9I5V6YOaxMIEMYuDgFYCJzDzD8FT2wN8RzCuNOFaEJ
- Hx5n3H+ySGLK7T2vtzXsYj3u/6yO15iR4ZDNhbi1MtcvxVqrmMXWdAcZ3axgNcq2nK+ycMHp03o
- l/AA=
+ bh=qZEzaa+3EpSBuiO12afRrJd3nOAchCfoa8/x3EZzfv0=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfd3a5Hd5UlBPmKLMn9fjPK4Z7n51+90xG9OZKlYPnR
+ WMXHRFR7yhlYRDjYpAVU2TZ0CTkMduI7Wa/SOVemDmsTCBDGLg4BWAiEQKMDHcafj3l0+7w43ad
+ 67duuxbHtIwkmaVbX5bOWL3Q5PHph00Mf7jnLdgw9VS5ycIGibUJ1eFrGy72SZfnPLQ2cTvtW+7
+ sxwUA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Martin Povišer <povik+lin@cutebit.org>
 
-TAS2764 has a number of undocumented registers between
-page 0xf0 and 0xff. These are used to apply in-silicon
-quirks and workarounds at runtime.
+Apple's SN012776 driver has some peculiar aspects to its behavior that
+are suspected to work around issues in the codec part. Add a module
+parameter for enabling individual quirks that should be imitated after
+the Apple driver.
 
-Raise the regmap max register to 0xffff to cover any
-quirks registers.
+Setting some of these by default seems to be required. For example,
+setting 0xf fixes an issue with transient overcurrent errors which
+can crash the chip until the next system reboot. To be safe, let's
+enable all of them by default.
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
+Co-developed-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+Co-developed-by: James Calligeros <jcalligeros99@gmail.com>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2764.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/codecs/tas2764-quirks.h | 180 +++++++++++++++++++++++++
+ sound/soc/codecs/tas2764.c        |  39 ++++++
+ 2 files changed, 219 insertions(+)
 
+diff --git a/sound/soc/codecs/tas2764-quirks.h b/sound/soc/codecs/tas2764-quirks.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..7a62b3ba5b40b3f06fc1ebeb590d9c32b1b2c7d3
+--- /dev/null
++++ b/sound/soc/codecs/tas2764-quirks.h
+@@ -0,0 +1,180 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef __TAS2764_QUIRKS__
++#define __TAS2764_QUIRKS__
++
++#include <linux/regmap.h>
++
++#include "tas2764.h"
++
++/* Bitmask of enabled Apple quirks */
++#define ENABLED_APPLE_QUIRKS	0x3f
++
++/*
++ * Disable noise gate and flip down reserved bit in NS_CFG0
++ */
++#define TAS2764_NOISE_GATE_DISABLE	BIT(0)
++
++static const struct reg_sequence tas2764_noise_gate_dis_seq[] = {
++	REG_SEQ0(TAS2764_REG(0x0, 0x35), 0xb0)
++};
++
++/*
++ * CONV_VBAT_PVDD_MODE=1
++ */
++#define TAS2764_CONV_VBAT_PVDD_MODE	BIT(1)
++
++static const struct reg_sequence tas2764_conv_vbat_pvdd_mode_seq[] = {
++	REG_SEQ0(TAS2764_REG(0x0, 0x6b), 0x41)
++};
++
++/*
++ * Reset of DAC modulator when DSP is OFF
++ */
++#define TAS2764_DMOD_RST		BIT(2)
++
++static const struct reg_sequence tas2764_dmod_rst_seq[] = {
++	REG_SEQ0(TAS2764_REG(0x0, 0x76), 0x0)
++};
++
++/*
++ * Unknown 0x133/0x137 writes (maybe TDM related)
++ */
++#define TAS2764_UNK_SEQ0		BIT(3)
++
++static const struct reg_sequence tas2764_unk_seq0[] = {
++	REG_SEQ0(TAS2764_REG(0x1, 0x33), 0x80),
++	REG_SEQ0(TAS2764_REG(0x1, 0x37), 0x3a),
++};
++
++/*
++ * Unknown 0x614 - 0x61f writes
++ */
++#define TAS2764_APPLE_UNK_SEQ1		BIT(4)
++
++static const struct reg_sequence tas2764_unk_seq1[] = {
++	REG_SEQ0(TAS2764_REG(0x6, 0x14), 0x0),
++	REG_SEQ0(TAS2764_REG(0x6, 0x15), 0x13),
++	REG_SEQ0(TAS2764_REG(0x6, 0x16), 0x52),
++	REG_SEQ0(TAS2764_REG(0x6, 0x17), 0x0),
++	REG_SEQ0(TAS2764_REG(0x6, 0x18), 0xe4),
++	REG_SEQ0(TAS2764_REG(0x6, 0x19), 0xc),
++	REG_SEQ0(TAS2764_REG(0x6, 0x16), 0xaa),
++	REG_SEQ0(TAS2764_REG(0x6, 0x1b), 0x0),
++	REG_SEQ0(TAS2764_REG(0x6, 0x1c), 0x12),
++	REG_SEQ0(TAS2764_REG(0x6, 0x1d), 0xa0),
++	REG_SEQ0(TAS2764_REG(0x6, 0x1e), 0xd8),
++	REG_SEQ0(TAS2764_REG(0x6, 0x1f), 0x0),
++};
++
++/*
++ * Unknown writes in the 0xfd page (with secondary paging inside)
++ */
++#define TAS2764_APPLE_UNK_SEQ2		BIT(5)
++
++static const struct reg_sequence tas2764_unk_seq2[] = {
++	REG_SEQ0(TAS2764_REG(0xfd, 0x0d), 0xd),
++	REG_SEQ0(TAS2764_REG(0xfd, 0x6c), 0x2),
++	REG_SEQ0(TAS2764_REG(0xfd, 0x6d), 0xf),
++	REG_SEQ0(TAS2764_REG(0xfd, 0x0d), 0x0),
++};
++
++/*
++ * Disable 'Thermal Threshold 1'
++ */
++#define TAS2764_THERMAL_TH1_DISABLE	BIT(6)
++
++static const struct reg_sequence tas2764_thermal_th1_dis_seq[] = {
++	REG_SEQ0(TAS2764_REG(0x1, 0x47), 0x2),
++};
++
++/*
++ * Imitate Apple's shutdown dance
++ */
++#define TAS2764_SHUTDOWN_DANCE		BIT(7)
++
++static const struct reg_sequence tas2764_shutdown_dance_init_seq[] = {
++	/*
++	 * SDZ_MODE=01 (immediate)
++	 *
++	 * We want the shutdown to happen under the influence of
++	 * the magic writes in the 0xfdXX region, so make sure
++	 * the shutdown is immediate and there's no grace period
++	 * followed by the codec part.
++	 */
++	REG_SEQ0(TAS2764_REG(0x0, 0x7), 0x60),
++};
++
++static const struct reg_sequence tas2764_pre_shutdown_seq[] = {
++	REG_SEQ0(TAS2764_REG(0xfd, 0x0d), 0xd), /* switch hidden page */
++	REG_SEQ0(TAS2764_REG(0xfd, 0x64), 0x4), /* do write (unknown semantics) */
++	REG_SEQ0(TAS2764_REG(0xfd, 0x0d), 0x0), /* switch hidden page back */
++};
++
++static const struct reg_sequence tas2764_post_shutdown_seq[] = {
++	REG_SEQ0(TAS2764_REG(0xfd, 0x0d), 0xd),
++	REG_SEQ0(TAS2764_REG(0xfd, 0x64), 0x0), /* revert write from pre sequence */
++	REG_SEQ0(TAS2764_REG(0xfd, 0x0d), 0x0),
++};
++
++static int tas2764_do_quirky_pwr_ctrl_change(struct tas2764_priv *tas2764,
++					     unsigned int target)
++{
++	unsigned int curr;
++	int ret;
++
++	curr = snd_soc_component_read_field(tas2764->component,
++					       TAS2764_PWR_CTRL,
++					       TAS2764_PWR_CTRL_MASK);
++
++	if (target == curr)
++		return 0;
++
++	/* Handle power state transition to shutdown */
++	if (target == TAS2764_PWR_CTRL_SHUTDOWN &&
++	   (curr == TAS2764_PWR_CTRL_MUTE || curr == TAS2764_PWR_CTRL_ACTIVE)) {
++		ret = regmap_multi_reg_write(tas2764->regmap, tas2764_pre_shutdown_seq,
++					ARRAY_SIZE(tas2764_pre_shutdown_seq));
++		if (!ret)
++			ret = snd_soc_component_update_bits(tas2764->component,
++							TAS2764_PWR_CTRL,
++							TAS2764_PWR_CTRL_MASK,
++							TAS2764_PWR_CTRL_SHUTDOWN);
++		if (!ret)
++			ret = regmap_multi_reg_write(tas2764->regmap,
++						tas2764_post_shutdown_seq,
++						ARRAY_SIZE(tas2764_post_shutdown_seq));
++	}
++
++	ret = snd_soc_component_update_bits(tas2764->component, TAS2764_PWR_CTRL,
++						    TAS2764_PWR_CTRL_MASK, target);
++
++	return ret;
++}
++
++/*
++ * Via devicetree (TODO):
++ *  - switch from spread spectrum to class-D switching
++ *  - disable edge control
++ *  - set BOP settings (the BOP config bits *and* BOP_SRC)
++ */
++
++/*
++ * Other setup TODOs:
++ *  - DVC ramp rate
++ */
++
++static const struct tas2764_quirk_init_sequence {
++	const struct reg_sequence *seq;
++	int len;
++} tas2764_quirk_init_sequences[] = {
++	{ tas2764_noise_gate_dis_seq, ARRAY_SIZE(tas2764_noise_gate_dis_seq) },
++	{ tas2764_dmod_rst_seq, ARRAY_SIZE(tas2764_dmod_rst_seq) },
++	{ tas2764_conv_vbat_pvdd_mode_seq, ARRAY_SIZE(tas2764_conv_vbat_pvdd_mode_seq) },
++	{ tas2764_unk_seq0, ARRAY_SIZE(tas2764_unk_seq0) },
++	{ tas2764_unk_seq1, ARRAY_SIZE(tas2764_unk_seq1) },
++	{ tas2764_unk_seq2, ARRAY_SIZE(tas2764_unk_seq2) },
++	{ tas2764_thermal_th1_dis_seq, ARRAY_SIZE(tas2764_thermal_th1_dis_seq) },
++	{ tas2764_shutdown_dance_init_seq, ARRAY_SIZE(tas2764_shutdown_dance_init_seq) },
++};
++
++#endif /* __TAS2764_QUIRKS__ */
 diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index fbfe4d032df7b26b7db0f7c7dcb47661277006d0..718107fce3bcf6ef081f6fced7b89c708518b1a5 100644
+index 718107fce3bcf6ef081f6fced7b89c708518b1a5..21c38b2394b71ef7d05b4c2e781fdf73926fec5b 100644
 --- a/sound/soc/codecs/tas2764.c
 +++ b/sound/soc/codecs/tas2764.c
-@@ -685,7 +685,7 @@ static const struct reg_default tas2764_reg_defaults[] = {
- static const struct regmap_range_cfg tas2764_regmap_ranges[] = {
- 	{
- 		.range_min = 0,
--		.range_max = 1 * 128,
-+		.range_max = 0xffff,
- 		.selector_reg = TAS2764_PAGE,
- 		.selector_mask = 0xff,
- 		.selector_shift = 0,
-@@ -715,7 +715,7 @@ static const struct regmap_config tas2764_i2c_regmap = {
- 	.cache_type = REGCACHE_RBTREE,
- 	.ranges = tas2764_regmap_ranges,
- 	.num_ranges = ARRAY_SIZE(tas2764_regmap_ranges),
--	.max_register = 1 * 128,
-+	.max_register = 0xffff,
+@@ -45,6 +45,8 @@ struct tas2764_priv {
+ 	bool unmuted;
  };
  
- static int tas2764_parse_dt(struct device *dev, struct tas2764_priv *tas2764)
++#include "tas2764-quirks.h"
++
+ static const char *tas2764_int_ltch0_msgs[8] = {
+ 	"fault: over temperature", /* INT_LTCH0 & BIT(0) */
+ 	"fault: over current",
+@@ -122,6 +124,9 @@ static int tas2764_update_pwr_ctrl(struct tas2764_priv *tas2764)
+ 	else
+ 		val = TAS2764_PWR_CTRL_SHUTDOWN;
+ 
++	if (ENABLED_APPLE_QUIRKS & TAS2764_SHUTDOWN_DANCE)
++		return tas2764_do_quirky_pwr_ctrl_change(tas2764, val);
++
+ 	ret = snd_soc_component_update_bits(component, TAS2764_PWR_CTRL,
+ 					    TAS2764_PWR_CTRL_MASK, val);
+ 	if (ret < 0)
+@@ -548,6 +553,30 @@ static uint8_t sn012776_bop_presets[] = {
+ 
+ static const struct regmap_config tas2764_i2c_regmap;
+ 
++static int tas2764_apply_init_quirks(struct tas2764_priv *tas2764)
++{
++	int ret, i;
++
++	for (i = 0; i < ARRAY_SIZE(tas2764_quirk_init_sequences); i++) {
++		const struct tas2764_quirk_init_sequence *init_seq =
++						&tas2764_quirk_init_sequences[i];
++
++		if (!init_seq->seq)
++			continue;
++
++		if (!(BIT(i) & ENABLED_APPLE_QUIRKS))
++			continue;
++
++		ret = regmap_multi_reg_write(tas2764->regmap, init_seq->seq,
++					     init_seq->len);
++
++		if (ret < 0)
++			return ret;
++	}
++
++	return 0;
++}
++
+ static int tas2764_codec_probe(struct snd_soc_component *component)
+ {
+ 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
+@@ -617,6 +646,13 @@ static int tas2764_codec_probe(struct snd_soc_component *component)
+ 			if (ret < 0)
+ 				return ret;
+ 		}
++
++		/* Apply all enabled Apple quirks */
++		ret = tas2764_apply_init_quirks(tas2764);
++
++		if (ret < 0)
++			return ret;
++
+ 		break;
+ 	default:
+ 		break;
+@@ -701,6 +737,9 @@ static bool tas2764_volatile_register(struct device *dev, unsigned int reg)
+ 	case TAS2764_INT_LTCH0 ... TAS2764_INT_LTCH4:
+ 	case TAS2764_INT_CLK_CFG:
+ 		return true;
++	case TAS2764_REG(0xf0, 0x0) ... TAS2764_REG(0xff, 0x0):
++		/* TI's undocumented registers for the application of quirks */
++		return true;
+ 	default:
+ 		return false;
+ 	}
 
 -- 
 2.49.0
