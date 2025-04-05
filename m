@@ -1,66 +1,66 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1525BDDCD
-	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 00:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BD718027
+	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 00:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743812007; cv=none; b=vF/bsj4dFUOXI0YLPZFBH5xUYOC6zxTxx3lImaX5y+79IZeAohJDxNQ6ZtF9NWt65HxMNMMD+e9wAHnarbnNNYi+lJI4nHmvfwdAH1SwMmtNBGlGkutYCZQQ60cNNt/XGddSP4P0DLg81uGDNedbccF0R1eXNz6grPRl3/up+FQ=
+	t=1743812015; cv=none; b=Rg5rKcD/Pf+dsh3l+jcmKrQQ763pGp08FvqoIMvmV3CdNmtLnecMgySqcwnfw5S/AoLc1oF+Z8bVxld7cBnZQ/+Hiq1ivyxmme0znW7/eGtAT3k04v07PpxjqdPD+/bKJqeB0va2fhcc9xncLQZWm5rvOV8savVrNLOMU4Bhej0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743812007; c=relaxed/simple;
-	bh=f6jfQ/88AiYOjJM4FQA4xhqhbwINz9bzASTHENbgqmI=;
+	s=arc-20240116; t=1743812015; c=relaxed/simple;
+	bh=TCm6ICnn4hWfWQL4sbSAXGwOU0wyVtdYiBPxab6jEBM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WprrJnhwyIGl/dN9eaoIY4xOEZyuVC5Bi6fIsGSoqQDpXdK2kP1zmyZdclwKnw/BCIWz+uNBkB6Hi8+c0y/bH124S9t64mUdKEUH9AY1jDUNTcLG3v/jScQX5vVpDyCfkNjPDwag4yFaAdRRLtojlheb/fOslGJFdAq4IQHzZlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HSOTPav5; arc=none smtp.client-ip=209.85.215.174
+	 In-Reply-To:To:Cc; b=KRwoUQQgMlQ1TbTArkYQTLdhA+InFRsgYm2BgTQ7qme39RSh2WuKaj4QLySykc+AP5Rupn5iCWFlKEQZ/ozneGQ/XBn1/EgSTSyIq7RNPdOTyE0x1/PSe5o4P7MuPw2z7/ulNqk/WINJoql7DKdJMOUi31cPRKkPgkBYVG2ypJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DYCuBttp; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HSOTPav5"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-ad5236e6fd6so2336149a12.0
-        for <asahi@lists.linux.dev>; Fri, 04 Apr 2025 17:13:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DYCuBttp"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2ff615a114bso3394259a91.0
+        for <asahi@lists.linux.dev>; Fri, 04 Apr 2025 17:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743812005; x=1744416805; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743812013; x=1744416813; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3NodibefyrwcdYV12iHxzgF1tA6aiaYOYVIR+A6BXYk=;
-        b=HSOTPav5PGA/bc5CV1szXbBRpFfkRe6G7TE6XnSd0d+Uqo0j6Zhh0kNzNagTXnjuiH
-         CMyhrpHeq+6oVDy2kuVy2K4aIx6niDPJ9+e1ESFt/pqszfoRj9qFgH6KW5LPvZkPl2+1
-         cGwuXFU0kRdsQaEep4SkHNeyI14HwPcu2ZXRGCQAJ5fZwZch1eQBt76jj96sbu2v+yMv
-         PN3SSUWIumWipdNSDqupf4n0qFUBH/+B5iL1XuMLCNYoOnGXMdjO57xTQbsymwoq9lK2
-         e8ezUqk+nWds3AQgw6D7sN13Yb8rSyvkjNffMhs3OAJrGFKYRj2UNAVykPzKJikPhndz
-         DfMg==
+        bh=oK2/ZeW8ANllKk46FkJuUv+WaiUUGbjs5ATKiMs/AJs=;
+        b=DYCuBttpFjiUp9hQ+2k6NZBh+a8aqrDTf4SgjsiG/O/Pov33ZDDVeO+gvLN0JS0zl4
+         Fc4Chf3rsrLSr85WFOxXenump2xEPZrCTDByuReJsbeAFQ47L1TBmXOpIioo9NkR/v/X
+         nsJwcVaQmkZTHta/hJekeaT6L8buK1RoQsnuiSxaHzszYsv0GqM3w/uwn54JkF1pBE5t
+         tSsyRAnJHA0W3KGKn01mYXhIUxZ7Q+ro77pJlCHKuLRbvfaUeYZLBsXG03NZXlm24dM9
+         3fD+SCUOAjItUS98QnTUXf7qh2tjGEZdUAlqSRQbMF8Rwz7YtPacIhOiVWlmtDLg+EEX
+         jTcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743812005; x=1744416805;
+        d=1e100.net; s=20230601; t=1743812013; x=1744416813;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3NodibefyrwcdYV12iHxzgF1tA6aiaYOYVIR+A6BXYk=;
-        b=wpYuzy3Hw+U3Zk7uhlBy73bYdloJPWyHpmBE2C8X4CsL6KHD77Zu3+q8xSdx144igo
-         vMISrz15sv++espbQPiNH2UaLEEaTLjebarR+U+8Nu9jZ7ExkL9qdSgQNqbpKFgBMiI8
-         7AIheBDb7rxM1b7UiBDjPoR8XaAFQoXt+QcX7djYb7N7RT0csP3UgzAT3LnuuDc1g+TD
-         4jlDHHBzeUqgA1bX+q5mfXGqV3n5+SGrf/LOBrwQqSGC+oQB4uO19KB+g34Behr4JHWT
-         yyFpbKcMMBrXy+2jauXCOQ2w0TZEnjsuphOryfFYIF56OXv2S6PzGZjkLLJd8EH0xkOO
-         SQtA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2TE4tN45yqatHLxpZu82GTfiL+oUH0wlgZuXI8cLbPGiP+NTkHXkVPaHQ/gzEpj64ei3RZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDEnOtO6ADUYXzLLuOnrMo9rYku3VUslrENiCvdMLw4hEZJ7gb
-	R7pn/5t2QJ287P9AHbpNjSgtCYyXvEzbT2HFCAvVSTl7Lh7CVaWv
-X-Gm-Gg: ASbGncvtqgUxWF7V2UNHdWU/aO3XcLfDVn///WU3lZ7cM/O2LLzNlTYqRABLpziGKDa
-	i/lWwDyaB5dyXfmwRut70u/PWR8O75P9OYydCLAuk8s5AVyh8NAphbZTrNg6T3Mmjmdp1anipvP
-	yltKmldwBUug+XSd0WBi+qY0P//FfHJtlAVZYWhWCKXoWRNGwrQI16SSJ2mlYLFRE9obb3wHbr/
-	fJdwPBnsdsxFUDEfFLz2+jIzfnQmrDbaiUdGsXqb1gSvFFQwTmERqlk+1rkaIKnYTSG4LP15iG+
-	IX85oXGGnG5X0oS765ZrRmekQzROKdlxgztY1JqSggXQ7MKqwsy2yYzUZftN6Y2jnrAw48FbCQ2
-	mMFhNrwDqkst5c8KcVjb0dG7gNxtPb1bAOqV50lhU1HzE+AJZvg==
-X-Google-Smtp-Source: AGHT+IHhYRLWPbHit70b6szW6jPN57D9CZB9OEYkJ2U08WfRInETE/q6qPTaQ+Gi9IAC8oOPoD0FLg==
-X-Received: by 2002:a17:90b:5744:b0:2ee:ad18:b309 with SMTP id 98e67ed59e1d1-306a47c2e08mr6716477a91.3.1743812005436;
-        Fri, 04 Apr 2025 17:13:25 -0700 (PDT)
+        bh=oK2/ZeW8ANllKk46FkJuUv+WaiUUGbjs5ATKiMs/AJs=;
+        b=FBXIedhCPhPdQLlE0XTRIJZHqFsc9tyhBlGVpu2fC50hUK0iUdBYeCtK1mf1c735Yp
+         yJpyC5URyK2gG2Nh0ywR0tJ9Xw0wSgsnqJGDYGXMaYNe1PpxxUiG0C335ldJdPbzeP3d
+         yRXCINID9LmNsUIag2XcIWwqXcHBpmU/kyNihHW3Gf3L954n2T+mlKG//l765tL6HHDF
+         j13W0uSj6fqagtrL0FeQCXRKvFwdYFu4z/dvPILlaDn6UW4S5am8gK18QSflsPo7I8uU
+         2fH6+sKp8Go81tmKESoJMjCTjkgJRvl9Mp1iGaLj7sVD5tdr1LtF3sM/AfXub6puIZVY
+         5wjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWxrc4BPlfC3Dc9eDcFwR+0IlQSaC9trLxLxTWqRMYK/owkVSVe0tuYDgTPWsQP7uq57WZyQQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywhh69Pd+w5whxzRFee3Uewg93KAIc7nQqOzKhSPtwusJNIRVR7
+	JgYnxCh7YdDkKr+/gAa59G7HiHgSC4KpZl+LBYgy6/bZtqMWTjWy
+X-Gm-Gg: ASbGncvE7d6X0BzqjxYkX2/SsbWBgaGUJUOr/3TE9FwKbnR1i2CxEeXnLpDys04CEk/
+	QDX2P++HIYyruljiBZmBkpqR7GJhh6LLjO3ueBDFc0pzeBu17Nl7gt5oKPWbxVoA7RTxf6pDiqI
+	RhBZtmi7Qx97PPZR4i2s1KixWew2bPJ9SosVIVOLmS4MZpFylTPCD061JTj5TNhYI3tvWO4xk5K
+	DvpS6BlwB8qMZyb8HQ74wmIWloBnGtl/hW7RG5HGqhhNwgHMfwq5rwr483Vb74OVUiXJWOdnvUv
+	qIXEA9WLURnUWRJsxj0O1PkGhgT3vSEohDHwffZ3gY0VBpmI38ZbAvZY43gNlRPQCwRbR5MI7Mj
+	ALMw4YwuP6KEfmnBaV8h8WHufWaibTrS04WfbKdc=
+X-Google-Smtp-Source: AGHT+IESpLtNEq3Uo0UPWYlpNC6z8O+/rayp2Dz2+/rLbWE5vL9qfAGTlln4qpWuZ05eUr6DDThW/A==
+X-Received: by 2002:a17:90b:5247:b0:2ff:556f:bf9 with SMTP id 98e67ed59e1d1-306a4e62893mr6812003a91.4.1743812013150;
+        Fri, 04 Apr 2025 17:13:33 -0700 (PDT)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3057cb5d665sm4327855a91.30.2025.04.04.17.13.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3057cb5d665sm4327855a91.30.2025.04.04.17.13.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 17:13:25 -0700 (PDT)
+        Fri, 04 Apr 2025 17:13:32 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 05 Apr 2025 10:12:40 +1000
-Subject: [PATCH v4 03/10] ASoC: tas2770: Set the SDOUT polarity correctly
+Date: Sat, 05 Apr 2025 10:12:41 +1000
+Subject: [PATCH v4 04/10] ASoC: tas2764: Reinit cache on part reset
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250405-apple-codec-changes-v4-3-d007e46ce4a2@gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250405-apple-codec-changes-v4-4-d007e46ce4a2@gmail.com>
 References: <20250405-apple-codec-changes-v4-0-d007e46ce4a2@gmail.com>
 In-Reply-To: <20250405-apple-codec-changes-v4-0-d007e46ce4a2@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -86,62 +86,53 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
  Neal Gompa <neal@gompa.dev>, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1794;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1447;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=IV6wUgfUMxyD6pt+5eKhp5GW9w/s3PRc7V37XTxa8ZU=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfSluP+AQec+5hab1cU6a6OaDOOuGR9OOW70yGik/7f
- bMmpl3vKGVhEONikBVTZNnQJOQx24jtZr9I5V6YOaxMIEMYuDgFYCJPqxgZDlpkWvxoaP9oz+Fg
- Mc15xs4m0fofrgHWUof/e0ZMWzbdm5Fh5v1DCyp+Hdi8sEi75lHgpNkz+TRu2NTyPpr+I7rd9Ox
- OBgA=
+ bh=9m3wSRyoGMFtfeJA0LTHIxypfZ4C2ZJU7xKp8v385vM=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfSlunHLiqe0tZtlf++z4dFyFFnnON54u4Tu46KK29k
+ Ckj7UJARykLgxgXg6yYIsuGJiGP2UZsN/tFKvfCzGFlAhnCwMUpABORFGf47/pozQkH4du7NTkF
+ fk/336u33anQenHZ8Tf5v3TYVRJzFjL89/h+rv9VNfPMlOUsDLo3T0qqlmcJrGrWffZ0+9HMKwG
+ /+QA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-From: Hector Martin <marcan@marcan.st>
+From: Martin Povišer <povik+lin@cutebit.org>
 
-TX launch polarity needs to be the opposite of RX capture polarity, to
-generate the right bit slot alignment.
+When the part is reset in component_probe, do not forget to reinit the
+regcache, otherwise the cache can get out of sync with the part's
+actual state. This fix is similar to commit 0a0342ede303
+("ASoC: tas2770: Reinit regcache on reset") which concerned the
+tas2770 driver.
 
+Fixes: 827ed8a0fa50 ("ASoC: tas2764: Add the driver for the TAS2764")
 Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2770.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ sound/soc/codecs/tas2764.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index 55e4723044044338bd941763240d24ccfef6e8f3..806ad36397977c3fd350ba437b70f6bfcd814d29 100644
---- a/sound/soc/codecs/tas2770.c
-+++ b/sound/soc/codecs/tas2770.c
-@@ -351,7 +351,7 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	struct snd_soc_component *component = dai->component;
- 	struct tas2770_priv *tas2770 =
- 			snd_soc_component_get_drvdata(component);
--	u8 tdm_rx_start_slot = 0, invert_fpol = 0, fpol_preinv = 0, asi_cfg_1 = 0;
-+	u8 tdm_rx_start_slot = 0, invert_fpol = 0, fpol_preinv = 0, asi_cfg_1 = 0, asi_cfg_4 = 0;
- 	int ret;
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 08aa7ee34256896915f3ed6438b8b8827ce240c7..49b73b74b2d9dd6d09747cabc2b00519c549775d 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -546,6 +546,8 @@ static uint8_t sn012776_bop_presets[] = {
+ 	0x06, 0x3e, 0x37, 0x30, 0xff, 0xe6
+ };
  
- 	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-@@ -368,6 +368,7 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 		fallthrough;
- 	case SND_SOC_DAIFMT_NB_NF:
- 		asi_cfg_1 |= TAS2770_TDM_CFG_REG1_RX_RSING;
-+		asi_cfg_4 |= TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING;
- 		break;
- 	case SND_SOC_DAIFMT_IB_IF:
- 		invert_fpol = 1;
-@@ -386,6 +387,12 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
-+					    TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING,
-+					    asi_cfg_4);
-+	if (ret < 0)
-+		return ret;
++static const struct regmap_config tas2764_i2c_regmap;
 +
- 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
- 	case SND_SOC_DAIFMT_I2S:
- 		tdm_rx_start_slot = 1;
+ static int tas2764_codec_probe(struct snd_soc_component *component)
+ {
+ 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
+@@ -559,6 +561,7 @@ static int tas2764_codec_probe(struct snd_soc_component *component)
+ 	}
+ 
+ 	tas2764_reset(tas2764);
++	regmap_reinit_cache(tas2764->regmap, &tas2764_i2c_regmap);
+ 
+ 	if (tas2764->irq) {
+ 		ret = snd_soc_component_write(tas2764->component, TAS2764_INT_MASK0, 0xff);
 
 -- 
 2.49.0
