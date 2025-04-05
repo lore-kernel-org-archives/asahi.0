@@ -1,66 +1,66 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BE28BE8
-	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 00:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1525BDDCD
+	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 00:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743812000; cv=none; b=tCr1528yI86Ajh/nTGIIIjkf4OKAsAFZgvHGUQLwvN61Hqpaq8kZhcuO6deT/9zk1hH8nuM1hBvT6t1Nq7z+//F3aIYooIxKQ0qlKsH2Abk/l2SWLF6dJ/2l3C35t7PVqogDkgzBdCPfIZt1OZNsvby89HhiQjN19T3F3CL6arg=
+	t=1743812007; cv=none; b=vF/bsj4dFUOXI0YLPZFBH5xUYOC6zxTxx3lImaX5y+79IZeAohJDxNQ6ZtF9NWt65HxMNMMD+e9wAHnarbnNNYi+lJI4nHmvfwdAH1SwMmtNBGlGkutYCZQQ60cNNt/XGddSP4P0DLg81uGDNedbccF0R1eXNz6grPRl3/up+FQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743812000; c=relaxed/simple;
-	bh=/3vhqRp+rjiPGHeGrM8yyAU6vaDCJHkfWLO5hwwE4hA=;
+	s=arc-20240116; t=1743812007; c=relaxed/simple;
+	bh=f6jfQ/88AiYOjJM4FQA4xhqhbwINz9bzASTHENbgqmI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ccuhmYSuGbf2Q1McZKqgv7Tulws50AqFBi96rwuOLOnxha0jYh6DNQMzwrBO0uzfmNhG/utPUN8wOYDwi4ar6ckdRQLuhPyHFT7MayH7XiFnEr+T6r4RIuz9dwQiBS/5uSZBsvKpV06ZmDYoWLDAitnbzdqJ0gjdygjO/3FeGmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LSH0O4Xl; arc=none smtp.client-ip=209.85.216.41
+	 In-Reply-To:To:Cc; b=WprrJnhwyIGl/dN9eaoIY4xOEZyuVC5Bi6fIsGSoqQDpXdK2kP1zmyZdclwKnw/BCIWz+uNBkB6Hi8+c0y/bH124S9t64mUdKEUH9AY1jDUNTcLG3v/jScQX5vVpDyCfkNjPDwag4yFaAdRRLtojlheb/fOslGJFdAq4IQHzZlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HSOTPav5; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LSH0O4Xl"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-301493f461eso1901569a91.3
-        for <asahi@lists.linux.dev>; Fri, 04 Apr 2025 17:13:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HSOTPav5"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-ad5236e6fd6so2336149a12.0
+        for <asahi@lists.linux.dev>; Fri, 04 Apr 2025 17:13:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743811998; x=1744416798; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743812005; x=1744416805; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=j+61GEBl1ZKDXz7eqvknnogiq5/rNWdXiMpBWTCFhnU=;
-        b=LSH0O4XlDmPDF4SxQ2oBM6Ui0MXD8h+4mZLREecBtuWa+oBM9ZOqkpjn45scLcoccu
-         h1O+aKwemXtRlvn2hNTOYR1gvJpx6kftBquIakj/Cl0MOrumDv23Ko/ucw/oo6QNZBQ9
-         iMbM/13JPiYd7iU7ur302pddv27N/N6SqQrW02Y6dlbSDFM6oMI8hgFaOs96t5U24D70
-         YUUUORo1iQvyo4iQ+04p75LClJJn/ttdfQifdhC+e8Y5MWBrPk1OTD7CxfDxYnIFMlPY
-         Je4BYzBcB99xKzkedF7PQzzu3KjeyW9h7sIuBxQTkPDdF8UMefRrneeKJiJIcLoDZh/t
-         TV0g==
+        bh=3NodibefyrwcdYV12iHxzgF1tA6aiaYOYVIR+A6BXYk=;
+        b=HSOTPav5PGA/bc5CV1szXbBRpFfkRe6G7TE6XnSd0d+Uqo0j6Zhh0kNzNagTXnjuiH
+         CMyhrpHeq+6oVDy2kuVy2K4aIx6niDPJ9+e1ESFt/pqszfoRj9qFgH6KW5LPvZkPl2+1
+         cGwuXFU0kRdsQaEep4SkHNeyI14HwPcu2ZXRGCQAJ5fZwZch1eQBt76jj96sbu2v+yMv
+         PN3SSUWIumWipdNSDqupf4n0qFUBH/+B5iL1XuMLCNYoOnGXMdjO57xTQbsymwoq9lK2
+         e8ezUqk+nWds3AQgw6D7sN13Yb8rSyvkjNffMhs3OAJrGFKYRj2UNAVykPzKJikPhndz
+         DfMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743811998; x=1744416798;
+        d=1e100.net; s=20230601; t=1743812005; x=1744416805;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j+61GEBl1ZKDXz7eqvknnogiq5/rNWdXiMpBWTCFhnU=;
-        b=iddAXFPGw3c2EAXvApIihZeS5O764aMsF5GprNB+6Er79tzKhVbwTXbEUS4JvZBADx
-         SBLchhoIN0ORsYwHHoy9vnrbcKkOsURHwiOBMxJ0aAZkb5LIM4kjKqLmQZ8tTbVykceO
-         /TrZQ3pDeDRNn/I13Ep5CfSpvNnNjUs59l5oRg0bVBADUlRfqLa242PU1IDWJzF+Yi/2
-         m+NReWjEEarGjYwJ4P0RLc4ExzJqM/uHMESf333KCI+7rQyV0VElL7tPa9/go8rma4KS
-         Lm2hWu43qAdvns71RSh06bJU+nlw4NMp3Q6CK1pf39iiKbHWNuCjPBAJHSHTMrPxNdTp
-         ewrA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUJOa6xzmzJ8zpOGsUMrE02V/ZBwr3uzd7FsdUC9ARQgoIGYkQbboUuJ71vvGfuuN8acOFlw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzgZAmM8IQUQ3cNhIX8IbKDaNUnbn2xO7dRYoYKoMeo+vMR78+
-	BGtgPpnVdNbYCRK39bBA75fsKHQu9hX7Wnc9vU4dFLnSUG9Xo0JZ
-X-Gm-Gg: ASbGnctuyC+KblHf6ZLoL9oYlzyPSro/e4OeJIDqxC1RGcRpkl4SLkgE/Lmge47LeD2
-	nifSUrHXRCDAqxJywbDCv+/WXoIEBeaEogWmivrJwiozUit6mqIxh4hDGxef+DaLVIyjHlpdL+7
-	wgIFo3tdmdMifBX/+xhlOhbY5ETYa8Gtkdcf7g3s6yzgM9wN5b8Z57mTq9kW6kAi/ERr97RoEkl
-	+ILPv51VvIPKe33Cgcql/EVBlA+jnCTodTtTu8ovs30htB/W765Stvk0Sg1ABidWVHaxJbSqhss
-	tj7ayIpaOuIKa6w5OfRsnagWghafMbD+e8qeqEeNm3JEgi4JuhiGKQs7/r3Z8Yip0ERHVJdQ0xP
-	JybnHlGOw7SSyEgFGHDRVCzTtQMOnDGXJvPXocuQ=
-X-Google-Smtp-Source: AGHT+IFltsks+wmLZvFMiu/ddUG8l4Y0oDHlKEENo+2a90xv8YrDEZUOkh4gBHIkB/U1wYqoUFz3ow==
-X-Received: by 2002:a17:90b:5444:b0:2ff:618c:a1e0 with SMTP id 98e67ed59e1d1-306a6240e97mr6131067a91.29.1743811997725;
-        Fri, 04 Apr 2025 17:13:17 -0700 (PDT)
+        bh=3NodibefyrwcdYV12iHxzgF1tA6aiaYOYVIR+A6BXYk=;
+        b=wpYuzy3Hw+U3Zk7uhlBy73bYdloJPWyHpmBE2C8X4CsL6KHD77Zu3+q8xSdx144igo
+         vMISrz15sv++espbQPiNH2UaLEEaTLjebarR+U+8Nu9jZ7ExkL9qdSgQNqbpKFgBMiI8
+         7AIheBDb7rxM1b7UiBDjPoR8XaAFQoXt+QcX7djYb7N7RT0csP3UgzAT3LnuuDc1g+TD
+         4jlDHHBzeUqgA1bX+q5mfXGqV3n5+SGrf/LOBrwQqSGC+oQB4uO19KB+g34Behr4JHWT
+         yyFpbKcMMBrXy+2jauXCOQ2w0TZEnjsuphOryfFYIF56OXv2S6PzGZjkLLJd8EH0xkOO
+         SQtA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2TE4tN45yqatHLxpZu82GTfiL+oUH0wlgZuXI8cLbPGiP+NTkHXkVPaHQ/gzEpj64ei3RZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxDEnOtO6ADUYXzLLuOnrMo9rYku3VUslrENiCvdMLw4hEZJ7gb
+	R7pn/5t2QJ287P9AHbpNjSgtCYyXvEzbT2HFCAvVSTl7Lh7CVaWv
+X-Gm-Gg: ASbGncvtqgUxWF7V2UNHdWU/aO3XcLfDVn///WU3lZ7cM/O2LLzNlTYqRABLpziGKDa
+	i/lWwDyaB5dyXfmwRut70u/PWR8O75P9OYydCLAuk8s5AVyh8NAphbZTrNg6T3Mmjmdp1anipvP
+	yltKmldwBUug+XSd0WBi+qY0P//FfHJtlAVZYWhWCKXoWRNGwrQI16SSJ2mlYLFRE9obb3wHbr/
+	fJdwPBnsdsxFUDEfFLz2+jIzfnQmrDbaiUdGsXqb1gSvFFQwTmERqlk+1rkaIKnYTSG4LP15iG+
+	IX85oXGGnG5X0oS765ZrRmekQzROKdlxgztY1JqSggXQ7MKqwsy2yYzUZftN6Y2jnrAw48FbCQ2
+	mMFhNrwDqkst5c8KcVjb0dG7gNxtPb1bAOqV50lhU1HzE+AJZvg==
+X-Google-Smtp-Source: AGHT+IHhYRLWPbHit70b6szW6jPN57D9CZB9OEYkJ2U08WfRInETE/q6qPTaQ+Gi9IAC8oOPoD0FLg==
+X-Received: by 2002:a17:90b:5744:b0:2ee:ad18:b309 with SMTP id 98e67ed59e1d1-306a47c2e08mr6716477a91.3.1743812005436;
+        Fri, 04 Apr 2025 17:13:25 -0700 (PDT)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3057cb5d665sm4327855a91.30.2025.04.04.17.13.10
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3057cb5d665sm4327855a91.30.2025.04.04.17.13.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 17:13:17 -0700 (PDT)
+        Fri, 04 Apr 2025 17:13:25 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 05 Apr 2025 10:12:39 +1000
-Subject: [PATCH v4 02/10] ASoC: tas2770: Support setting the PDM TX slot
+Date: Sat, 05 Apr 2025 10:12:40 +1000
+Subject: [PATCH v4 03/10] ASoC: tas2770: Set the SDOUT polarity correctly
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250405-apple-codec-changes-v4-2-d007e46ce4a2@gmail.com>
+Message-Id: <20250405-apple-codec-changes-v4-3-d007e46ce4a2@gmail.com>
 References: <20250405-apple-codec-changes-v4-0-d007e46ce4a2@gmail.com>
 In-Reply-To: <20250405-apple-codec-changes-v4-0-d007e46ce4a2@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -86,145 +86,62 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
  Neal Gompa <neal@gompa.dev>, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4896;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1794;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=EUPivI1e5lG/Ctwi0iED8gK1+8hCsJ53czJp1dml81s=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfSlvvqex/uSw8Xbwjhu20Vs5lr66SZV4fY7r+BT6qN
- DrDPm1xRykLgxgXg6yYIsuGJiGP2UZsN/tFKvfCzGFlAhnCwMUpABNpKmdkWOwwaZoMU+XkI2X1
- QVNuH6778X6GxKNVX9Q3Gp7YK/bo8j9GhheZC2LO/V+1dO6pzVyRzQqLWvMSsl/8W+c9XShRKmB
- rORcA
+ bh=IV6wUgfUMxyD6pt+5eKhp5GW9w/s3PRc7V37XTxa8ZU=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfSluP+AQec+5hab1cU6a6OaDOOuGR9OOW70yGik/7f
+ bMmpl3vKGVhEONikBVTZNnQJOQx24jtZr9I5V6YOaxMIEMYuDgFYCJPqxgZDlpkWvxoaP9oz+Fg
+ Mc15xs4m0fofrgHWUof/e0ZMWzbdm5Fh5v1DCyp+Hdi8sEi75lHgpNkz+TRu2NTyPpr+I7rd9Ox
+ OBgA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Hector Martin <marcan@marcan.st>
 
-We don't actually support configuring the PDM input right now. Rather,
-this is useful as a hack.
-
-On Apple Silicon machines, amps are split between two I2S buses which
-are logically ANDed internally at the SoC. Odd and even slot groups are
-driven by amps on either bus respectively. Since the signals are ANDed,
-unused slot groups must be driven as zero to avoid corrupting the data
-from the other side.
-
-On most recent machines (TAS2764-based), this is accomplished using the
-"SDOUT zero mask" feature of that chip. Unfortunately, TAS2770 does not
-support this. It does support zeroing out *all* unused slots, which
-works well for machines with a single amp per I2S bus. That is all,
-except one.
-
-The 13" M1 MacBook Pro is the only machine using TAS2770 and two amps
-per I2S bus:
-
-L Bus: SPK0I SPK0V Hi-Z  Hi-Z  SPK2I SPK2V Hi-Z  Hi-Z
-R Bus: Hi-Z  Hi-Z  SPK1I SPK2V Hi-Z  Hi-Z  SPK3I SPK3V
-
-To ensure uncorrupted data, we need to force all the Hi-Z periods to
-zero. We cannot use the "force all zero" feature, as that would cause a
-bus conflict between both amps. We can use the pull-down feature, but
-that leaves a few bits of garbage on the trailing edge of the speaker
-data, since the pull-down is weak.
-
-This is where the PDM transmit feature comes in. With PDM grounded and
-disabled (the default state), the PDM slot is transmitted as all zeroes.
-We can use that to force a zero 16-bit slot after the voltage data for
-each speaker, cleaning it up. Then the pull-down ensures the line stays
-low for the subsequent slot:
-
-L Bus: SPK0I SPK0V PDM0  PulDn SPK2I SPK2V PDM0  PulDn
-R Bus: PDM0  PulDn SPK1I SPK2V PDM0  PulDn SPK3I SPK3V
-
-Yes, this is a horrible hack, but it beats adding dummy slots that would
-be visible to the userspace capture side. There may be some other way to
-fix the logical AND behavior on the MCA side... that would make this
-unnecessary.
-
-("How does Apple deal with this"? - they don't, macOS does not use
-IVSENSE on TAS2770 machines even though it's physically wired up,
-but we want to do so on Linux.)
+TX launch polarity needs to be the opposite of RX capture polarity, to
+generate the right bit slot alignment.
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/codecs/tas2770.c | 25 +++++++++++++++++++++++++
- sound/soc/codecs/tas2770.h |  6 ++++++
- 2 files changed, 31 insertions(+)
+ sound/soc/codecs/tas2770.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index 8de7e94d4ba478aa9b705a81e7276bd005c8a18e..55e4723044044338bd941763240d24ccfef6e8f3 100644
+index 55e4723044044338bd941763240d24ccfef6e8f3..806ad36397977c3fd350ba437b70f6bfcd814d29 100644
 --- a/sound/soc/codecs/tas2770.c
 +++ b/sound/soc/codecs/tas2770.c
-@@ -240,6 +240,19 @@ static int tas2770_set_ivsense_transmit(struct tas2770_priv *tas2770,
- 	return 0;
- }
- 
-+static int tas2770_set_pdm_transmit(struct tas2770_priv *tas2770, int slot)
-+{
-+	struct snd_soc_component *component = tas2770->component;
-+	int ret;
-+
-+	ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG7,
-+					    TAS2770_TDM_CFG_REG7_PDM_MASK |
-+					    TAS2770_TDM_CFG_REG7_50_MASK,
-+					    TAS2770_TDM_CFG_REG7_PDM_ENABLE |
-+					    slot);
-+	return ret;
-+}
-+
- static int tas2770_set_bitwidth(struct tas2770_priv *tas2770, int bitwidth)
- {
+@@ -351,7 +351,7 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 	struct snd_soc_component *component = dai->component;
+ 	struct tas2770_priv *tas2770 =
+ 			snd_soc_component_get_drvdata(component);
+-	u8 tdm_rx_start_slot = 0, invert_fpol = 0, fpol_preinv = 0, asi_cfg_1 = 0;
++	u8 tdm_rx_start_slot = 0, invert_fpol = 0, fpol_preinv = 0, asi_cfg_1 = 0, asi_cfg_4 = 0;
  	int ret;
-@@ -543,6 +556,13 @@ static int tas2770_codec_probe(struct snd_soc_component *component)
- 			return ret;
- 	}
  
-+	if (tas2770->pdm_slot != -1) {
-+		ret = tas2770_set_pdm_transmit(tas2770, tas2770->pdm_slot);
-+
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	return 0;
- }
+ 	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+@@ -368,6 +368,7 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 		fallthrough;
+ 	case SND_SOC_DAIFMT_NB_NF:
+ 		asi_cfg_1 |= TAS2770_TDM_CFG_REG1_RX_RSING;
++		asi_cfg_4 |= TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING;
+ 		break;
+ 	case SND_SOC_DAIFMT_IB_IF:
+ 		invert_fpol = 1;
+@@ -386,6 +387,12 @@ static int tas2770_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 	if (ret < 0)
+ 		return ret;
  
-@@ -682,6 +702,11 @@ static int tas2770_parse_dt(struct device *dev, struct tas2770_priv *tas2770)
- 		tas2770->v_sense_slot = -1;
- 	}
- 
-+	rc = fwnode_property_read_u32(dev->fwnode, "ti,pdm-slot-no",
-+				      &tas2770->pdm_slot);
-+	if (rc)
-+		tas2770->pdm_slot = -1;
++	ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
++					    TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING,
++					    asi_cfg_4);
++	if (ret < 0)
++		return ret;
 +
- 	tas2770->sdz_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
- 	if (IS_ERR(tas2770->sdz_gpio)) {
- 		if (PTR_ERR(tas2770->sdz_gpio) == -EPROBE_DEFER)
-diff --git a/sound/soc/codecs/tas2770.h b/sound/soc/codecs/tas2770.h
-index f75f40781ab136cccbe1c272f7129ddd3e4a22a3..3fd2e7003c50b6a4bae2d86681e9219b5a244a11 100644
---- a/sound/soc/codecs/tas2770.h
-+++ b/sound/soc/codecs/tas2770.h
-@@ -77,6 +77,11 @@
- #define TAS2770_TDM_CFG_REG6_ISNS_MASK  BIT(6)
- #define TAS2770_TDM_CFG_REG6_ISNS_ENABLE  BIT(6)
- #define TAS2770_TDM_CFG_REG6_50_MASK  GENMASK(5, 0)
-+    /* TDM Configuration Reg10 */
-+#define TAS2770_TDM_CFG_REG7  TAS2770_REG(0X0, 0x11)
-+#define TAS2770_TDM_CFG_REG7_PDM_MASK  BIT(6)
-+#define TAS2770_TDM_CFG_REG7_PDM_ENABLE  BIT(6)
-+#define TAS2770_TDM_CFG_REG7_50_MASK	GENMASK(5, 0)
-     /* Brown Out Prevention Reg0 */
- #define TAS2770_BO_PRV_REG0  TAS2770_REG(0X0, 0x1B)
-     /* Interrupt MASK Reg0 */
-@@ -138,6 +143,7 @@ struct tas2770_priv {
- 	struct device *dev;
- 	int v_sense_slot;
- 	int i_sense_slot;
-+	int pdm_slot;
- 	bool dac_powered;
- 	bool unmuted;
- };
+ 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+ 	case SND_SOC_DAIFMT_I2S:
+ 		tdm_rx_start_slot = 1;
 
 -- 
 2.49.0
