@@ -1,119 +1,194 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC77DDC1
-	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 06:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADDE18DB02
+	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 23:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743833992; cv=none; b=gUsyifcmUf3NwY6ZPl1H55pj1xRKS8j237qo+90l7QLPXwuNdGT1qI5isTgai1CE37M9vX6hkfmclzPfQxS6HG6UbM5tVYWNOViQFp5apLiuw45C3U1BuSMrQ8UAcn+Dp7hdnpNPRqyYNUnM1Kr/Wp0EsyuZEBkfdGBFuwi9hRA=
+	t=1743894932; cv=none; b=tetz3N4affiZkYKkQV8fqpKjzFFTlqHAw2tNT1iw7hR6UDbAzfpDnorg6cClucTb0+LyZcXUXaMwVf+Xy42MW3bW+ShOOC7Of4uTAmp7c1zPFQA1pgBDwyUec5PoT59W5xB7ez233r9P4SLB+Z+alO48kerVe7eXjJArmgjg/pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743833992; c=relaxed/simple;
-	bh=kOe2Z+PD8qy5TNtkdQdGx6znyJnRdjYOSo+/Z9ZAFW0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A4MvjzwY9jHJOvhp3wMgO3DvKe7VEAGEoAVmjSUL4MS9SwGskhJHmhzAgXHkbdAX/0rDNiTn6UT9PP4MQyY2XhlTWPYYP3n/uJUcVcHhH0hSwsE4TqBGwUy25NsorzkpKaHQFGzQtstW/31fy3QrTgZvX/aYfX5PH8zHwCtKzS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gO42xEdx; arc=none smtp.client-ip=209.85.210.196
+	s=arc-20240116; t=1743894932; c=relaxed/simple;
+	bh=+ihPfzH3562UQtCkvXWrZQHAlhmM8DF7Fjo0KjAuRP4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=AoXOlXrtoPnXHV0d1wtURSfw8YzSJEnnydIMBcLlBuvexe4nX2wDKt6g+OP9l4LsAxfUO5msbLCbWaT+1CMlqmhUnRnkLfay4lKeJmgD46NiCKTI9ggPt/3K85fAqwQqLTMlz9UVJFSEX1boH6LqBYckxCigaHk1vLfgVGVJRJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fg7UAmd9; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gO42xEdx"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-736ee709c11so2366472b3a.1
-        for <asahi@lists.linux.dev>; Fri, 04 Apr 2025 23:19:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fg7UAmd9"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22401f4d35aso33487425ad.2
+        for <asahi@lists.linux.dev>; Sat, 05 Apr 2025 16:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743833990; x=1744438790; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jvlWzim6YndqWu3ZQu0rSQefXK13/0JaECZ5f7JnfO4=;
-        b=gO42xEdxzMHGNw/nwgG9L2It0ScLIiRsvQxexMPiMU1TJPEFDa8GFUkj6hmJk1vD9X
-         H8PFWkcbuozY/jnz6DI/SAX+gvN2a8vJG0A8azTAW8fTAy9MZk5s4B7s0NYr9KQcHtnu
-         TNoOWnBF7wFaap9+uzzxdwypPqszcb7H+X0PqQlP5pHFqZ/BhfrbjCgbAw9C1Mmu+7rd
-         wD/SLhwms2cmQbBrbSPJVNWDVbmw5301NYAG1qJgsmlAsM0pn99Y3esVxJiB15Ldlm1Y
-         Zqf/7PAD1mSoXa2FExeEkVIOqO4aYU/dKZzov0qY9hVWgaCNTGzB7ksOQe0WvN48kvtf
-         KUjA==
+        d=gmail.com; s=20230601; t=1743894930; x=1744499730; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WRWHl1bFUEsL1BhGfTHMioZdh6c81qArx4e/ZrHW8Ks=;
+        b=Fg7UAmd9PqZV3M1C3/bFQySNHo4ammfyMQ1ifKLuipj1rP78M7MqUSdZgingim3MaN
+         3J65tSSTK7nkhFqjAbMDhMfmvQEekALVJ+YWsmzd3PUJViupQKFVG0MDinDNIkD+9MOB
+         8vL1cIodRsGU3HVuVTX1XxUpaMeyNto92PKQrgz9XeVS7BxZ0V3VCcKZGn+NOZAY6doX
+         rxloHPO73RxXl5FpWSyA+FFYnCXg1ElAe/h1yHHU+cF3JppLdDzZWQBMV4LI8yJ4naH4
+         F4YhS+M+DIMIOLUf6iHE9+8///LF//uFk3XfYWibNMEAtFQ+fgffmJYIbGk+Du8vh+tF
+         JISw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743833990; x=1744438790;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1743894930; x=1744499730;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jvlWzim6YndqWu3ZQu0rSQefXK13/0JaECZ5f7JnfO4=;
-        b=kacVcuc4jY0ADoTfZDIdCaO/gXRAFDqcsxTm5SMo0ZHrMdz+ZfIuIt66E2/e5g70vj
-         /jAY9x37gOe9s8TQpCjTl31fFxUYW0RQs3o/wQRD5ZM4QaVDXJk3wcEsRtleegwHQGKj
-         iC0+HeJySQM8jy60kxAFGsuszFgzZBmnW1/sCEyvwY4QaqgHg3j/itcpq0ij/qotTsId
-         jSfe/rnfQ3TvFK1Zm00WugSYHxiEPOilk6oqRBmkH8SUeBP/TntoRaiS6JFkXxCElzmh
-         MzKtGDo8RbYJY4QolHvZ3dtWjgazFJblrd6p7W+hwuT+p9UXCWQHET4/sA69+bBDqEeq
-         GZHg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/ncIGL/8ZGV+4r0RBive+FGTtjsVOKJHfr45r7A8Gj2d3nFZMjrW3t6g5guW1hbvnJoLqxQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvB9DoYd3jbmuBaOENLWM0HGSMkwLpcv+eqz+C00paDwSfGhe5
-	s0h9t5txakulLet+QbJzr/zIhb1ytsekBKR5TfAw28yQ+1kO0hCV
-X-Gm-Gg: ASbGnctZfhHqDJfy4PhlZAyzOlpiJ9pVpKN5yEmLuw0Ltv3vDnGGD51Ec5voNd1eaEf
-	YLfEPDYClUFIIQEZvGe7iK4VghiN5zFM9Mebv4w1171tS1xPlz3yqDTjVYcrCD6aCEHMN8IEnji
-	XfrStySIoYwrXlksTp9tY5FMtvA0uwdIR9IxJ2xoLeRzNt6g7x9B0VgljwkdqHzAQgJqY/ECI/r
-	KTSSJqLtCIqobRdt0aW/fMzE4/9twGVdtygxiN1KumzWMo05KuVB/XattKS+q9kv8RBjNn2snSs
-	ss6xY9lSvlbyJy8BL/LE12ggmisaI4cQ4NT+6qdFVIutsEEQvL0v2UQfJVDrDy8KQOxE2VgFfUW
-	u1yn3
-X-Google-Smtp-Source: AGHT+IFAtgmoL2nMv36spwTBvOI1Zop6q8ft1LpTEtdlGsfFq6JVDVDdNNkOWYXi+baTWF6/wwaPdQ==
-X-Received: by 2002:a05:6a21:900f:b0:1f5:75a9:526c with SMTP id adf61e73a8af0-20107efef3emr7651006637.13.1743833990025;
-        Fri, 04 Apr 2025 23:19:50 -0700 (PDT)
-Received: from henry.localdomain ([223.72.104.254])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af9bc41a65asm3830209a12.69.2025.04.04.23.19.43
+        bh=WRWHl1bFUEsL1BhGfTHMioZdh6c81qArx4e/ZrHW8Ks=;
+        b=jYdG2DNr6rAQNaMdK8rkn+fkCATy4lsQTQ+zTbizOPS0uvBr37TKbpK6DmogFwgf8M
+         FRZCdVq5RvQqwLqIK85QeeOW0aOaLabXYvRSadFuuonz5NYz2yOt6esY10J6BTUAreCO
+         tLbys6R2pn+Yp9dyZABA/iJfpPTnq8tEJeSMmwhGF0+3UQJCPLGfJe/C37XwqrCrRFq+
+         bqoSTn+Y4xeLW9FkMhKvKpP+3D+RbOFeCpG3mtoPi2ZvKH5LiXyNCTckPVlntOusBtLw
+         UFwrk32RcsrYmFy7pvpQ8nQtSxcU55KyH094C2pugn9UAZ3kK0JHi4HiwyO4Tx9HatxE
+         EWfA==
+X-Forwarded-Encrypted: i=1; AJvYcCWs+2kYI9b2GTrEDDMvCxpa9Zcw/jUmZi/wBDHY3xSGW0kdMWgcYhf88sqm9rCQ471jgVxLGA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSjexREE0ryruCoMT6Z0t3lBBMp869X6n4Y88GelnWF9a+fbUh
+	AOhk4fOcjZRp7UqmNVp2O8o5Bd1Ry+skI+xrNkiV0YBzr0qoCs2QVmkFuGBk
+X-Gm-Gg: ASbGncujZjqcCO51OmmG1nWqhgBC3rYF1bsku58CPHxx1WXXuv8wmmm40P2SBoIZlc8
+	t++5UcgNoXxvGgS5c1HdN97S5t5us0uwlAdwANOohYLyn4Q6JO+iR2JWxEKaM0ZOZuWposX49HC
+	1k19dHq0s8X2rrnPfK5iTc13hEN97B/70H5864eBF2wKb8Urjo200Dh3HpSStnyw/4CL+m2nORp
+	YZBtpH0vGySEIK1BLwppbQRcy698Pk9+2y/s3OJZZEyIK1Hedl/gkZhMOnXizwdHSgRVULbzdp5
+	DbjN1+gt7JF/HdEKwf+nrrwWCSaZTLwKLbCRcNhKtCSahQMj1iUoHKrhzJl+aj40TIG5q/yThUu
+	xPO/cv0MCInPJS1rqUZxWYNC2W6BqkjygUIwwPXI=
+X-Google-Smtp-Source: AGHT+IFJLoi+t1h6nfqNpimMSmHCghVaKYsuJd3xWLFkG11VixjKp/kboYhogtSKHpLi5Rt4egiZ/A==
+X-Received: by 2002:a17:903:19c6:b0:223:50f0:b97 with SMTP id d9443c01a7336-22a955a19a0mr58857915ad.52.1743894930124;
+        Sat, 05 Apr 2025 16:15:30 -0700 (PDT)
+Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c994esm55048345ad.102.2025.04.05.16.15.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 23:19:49 -0700 (PDT)
-From: Henry Martin <bsdhenrymartin@gmail.com>
-To: sven@svenpeter.dev,
-	j@jannau.net,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org
-Cc: alyssa@rosenzweig.io,
-	neal@gompa.dev,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Henry Martin <bsdhenrymartin@gmail.com>
-Subject: [PATCH v1] cpufreq: apple-soc: Fix null-ptr-deref in apple_soc_cpufreq_get_rate()
-Date: Sat,  5 Apr 2025 14:19:27 +0800
-Message-Id: <20250405061927.75485-1-bsdhenrymartin@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 05 Apr 2025 16:15:29 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH v5 0/8] ASoC: tas27{64,70}: improve support for Apple codec
+ variants
+Date: Sun, 06 Apr 2025 09:15:04 +1000
+Message-Id: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAHi58WcC/3XPTQrCMBAF4KtI1kYmkz/rynuIizSZ1oDa0khRS
+ u9uVMRS6vIN875hBpaoi5TYbjWwjvqYYnPNQa9XzJ/ctSYeQ84MATWgUNy17Zm4bwJ5/tlI3JD
+ RJnhBqALLzbajKt7f6uGY8ymmW9M93kd68Zp+Pb3o9YIDtyi1KUoUpSj29cXF88Y3F/byepwa2
+ 2UDs1FItAaqYAns3JATA+2yIbPhy1JIAAnOV3ND/QwFf35R2QgAlpTxpBxOjXEcn1dbIO+CAQA
+ A
+X-Change-ID: 20250214-apple-codec-changes-6e656dc1e24d
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
+ Neal Gompa <neal@gompa.dev>, James Calligeros <jcalligeros99@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3741;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=+ihPfzH3562UQtCkvXWrZQHAlhmM8DF7Fjo0KjAuRP4=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfd9bW+P9R/LDzSkdAcU3B687lKwLevJl3WO361IsSH
+ nt3bGkX7yhlYRDjYpAVU2TZ0CTkMduI7Wa/SOVemDmsTCBDGLg4BWAi04oY/jsvmvqh5rzXjJsf
+ +O1Fm5WmHbepia58e5j570T7o+u+arIx/K92mnVK8MS1ykkOMVNFjIT2Oz8VjtwWMen9spOKk89
+ oreEDAA==
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-cpufreq_cpu_get_raw() can return NULL when the target CPU is not present
-in the policy->cpus mask. apple_soc_cpufreq_get_rate() does not check
-for this case, which results in a NULL pointer dereference.
+Hi all,
 
-Fixes: 6286bbb40576 ("cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states")
-Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+This series introduces a number of changes to the drivers for
+the Texas Instruments TAS2764 and TAS2770 amplifiers in order to
+introduce (and improve in the case of TAS2770) support for the
+variants of these amps found in Apple Silicon Macs.
+
+Apple's variant of TAS2764 is known as SN012776, and as always with
+Apple is a subtly incompatible variant with a number of quirks. It
+is not publicly available. The TAS2770 variant is known as TAS5770L,
+and does not require incompatible handling.
+
+Much as with the Cirrus codec patches, I do not
+expect that we will get any official acknowledgement that these parts
+exist from TI, however I would be delighted to be proven wrong.
+
+This series has been living in the downstream Asahi kernel tree[1]
+for over two years, and has been tested by many thousands of users
+by this point[2].
+
+v4 drops the TDM idle TX slot behaviour patches. I experimented with
+the API discussed in v3, however this did not work on any of the machines
+I tested it with. More tweaking is probably needed.
+
+[1] https://github.com/AsahiLinux/linux/tree/asahi-wip
+[2] https://stats.asahilinux.org/
+
 ---
- drivers/cpufreq/apple-soc-cpufreq.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+Changes in v5:
+- Dropped two commits that depended on TX idle stuff (sorry)
+- Link to v4: https://lore.kernel.org/r/20250405-apple-codec-changes-v4-0-d007e46ce4a2@gmail.com
 
-diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
-index 4994c86feb57..9156becfa367 100644
---- a/drivers/cpufreq/apple-soc-cpufreq.c
-+++ b/drivers/cpufreq/apple-soc-cpufreq.c
-@@ -134,11 +134,17 @@ static const struct of_device_id apple_soc_cpufreq_of_match[] __maybe_unused = {
- 
- static unsigned int apple_soc_cpufreq_get_rate(unsigned int cpu)
- {
--	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
--	struct apple_cpu_priv *priv = policy->driver_data;
-+	struct cpufreq_policy *policy;
-+	struct apple_cpu_priv *priv;
- 	struct cpufreq_frequency_table *p;
- 	unsigned int pstate;
- 
-+	policy = cpufreq_cpu_get_raw(cpu);
-+	if (!policy)
-+		return 0;
-+
-+	priv = policy->driver_data;
-+
- 	if (priv->info->cur_pstate_mask) {
- 		u32 reg = readl_relaxed(priv->reg_base + APPLE_DVFS_STATUS);
- 
+Changes in v4:
+- Moved remaining changes to the top of the set
+- Dropped already merged commits
+- hwmon now reads temp from regmap
+- Bumped regmap max reg patch above Apple quirks patch
+- Dropped TDM idle slot TX behaviour patches
+- Link to v3: https://lore.kernel.org/r/20250227-apple-codec-changes-v3-0-cbb130030acf@gmail.com
+
+Changes in v3:
+- Add Rob's Acked-by to Devicetree compatible additions
+- Dropped cherry-picked patches
+- Droped abuse of regulator API
+- Droped bespoke sysfs interface
+- Rationalised temperature reading for hwmon interface
+- Set SN012776 device ID with OF match data
+- Changed probe ops reliant on device ID to case/switch statement
+- Added documentation for new Devicetree properties
+- Improved a number of poor quality commit messages
+- Documented behaviour of die temperature ADC
+- Link to v2: https://lore.kernel.org/r/20250218-apple-codec-changes-v2-0-932760fd7e07@gmail.com
+
+Changes in v2:
+- Changed author field of patch to match Martin's Signed-off-by
+- Added Neal's Reviewed-by to reviewed patches
+- Moved fixes to existing code to the top of the series
+- Removed tas2764's explicit dependency on OF
+- Removed complicated single-use tas2764 quirks macro and replaced with
+  if block
+- Added hwmon interface for codec die temp
+- Fixed a malformed commit message
+- Link to v1: https://lore.kernel.org/r/20250215-apple-codec-changes-v1-0-723569b21b19@gmail.com
+
+---
+Hector Martin (3):
+      ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
+      ASoC: tas2770: Support setting the PDM TX slot
+      ASoC: tas2764: Enable main IRQs
+
+James Calligeros (2):
+      ASoC: tas2770: expose die temp to hwmon
+      ASoC: tas2764: expose die temp to hwmon
+
+Martin Povišer (3):
+      ASoC: tas2764: Reinit cache on part reset
+      ASoC: tas2764: Raise regmap range maximum
+      ASoC: tas2764: Apply Apple quirks
+
+ sound/soc/codecs/tas2764-quirks.h | 180 +++++++++++++++++++++++++
+ sound/soc/codecs/tas2764.c        | 137 ++++++++++++++++++-
+ sound/soc/codecs/tas2764.h        |   3 +
+ sound/soc/codecs/tas2770.c        | 151 ++++++++++++++++++++-
+ sound/soc/codecs/tas2770.h        |   6 +
+ 5 files changed, 472 insertions(+), 5 deletions(-)
+---
+base-commit: 3a0f0a4355df0240485ed62b6bd6afa5b3e689c5
+change-id: 20250214-apple-codec-changes-6e656dc1e24d
+
+Best regards,
 -- 
-2.34.1
+James Calligeros <jcalligeros99@gmail.com>
 
