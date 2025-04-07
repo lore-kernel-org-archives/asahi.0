@@ -1,237 +1,184 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011025.outbound.protection.outlook.com [52.103.68.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39E2218584
-	for <asahi@lists.linux.dev>; Mon,  7 Apr 2025 10:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744020243; cv=none; b=m4mytPA4DhO50nz9E7evzPFS+nlM13OXWlk6SEGK+PvA7p+AbIm89QpPdW4r1XkTK4vt2k6r71wseg53BHLXLwLIcDoEjhXvYy7RR1ON8YFLoSkHYZ32pnDldihbHW3K8kNutXvFdI9qBYXYG6bjaKdmw14NQsUhOYpJVm6N96c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744020243; c=relaxed/simple;
-	bh=MKO3i47EvsJXrvop+IZv3Lpx4xleOvTa9kD4tyDCfLI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ZeMVqkBo6jdauZvnIxmE5gK2HPCeswb1/abjbC0da3V7SJimmN5cgTHC+Pzrd6wPfDRgqNvW2iz2Riv+9oRdueZ+2N9GuandfoNHx3WA7XtefB+fofXba8mg7c7LWIHpm9BFL4CtanTBNysp6SQApVasXJ9rMqMOfsanD5gq+hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=anxPfBpa; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E8A3F9D5
+	for <asahi@lists.linux.dev>; Mon,  7 Apr 2025 13:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744032936; cv=fail; b=HSpDu5Yvu16aWgDn2j8vh++2Iqd4NisoBVqUK82675qsa5vPhmSKNzYvkvY0bxGYIG44W6qVDg8k+jfyG8iTYRQcVpVUCAHeejbUoS/I2fzeBwQ7Gi8TncZdTbYoEkqWSGSMfU1wASw4RibF/D2jtNG9+OBu4Ub4tDx9P4wSG6g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744032936; c=relaxed/simple;
+	bh=h+jkBd3Gubewk2GJp2xwmVIOEW7krf1DqTQoq9jmdLM=;
+	h=Message-ID:Date:To:Cc:From:Subject:Content-Type:MIME-Version; b=a4lvJHA/zihyi6lvsVAmObFSgfNYVsKU4gG4ty8q950KSJqw4O6ab6ECcIJI5bGGjOv0vmdGsGeOQYvlGHRLcg+V6G4MXfPps75vaS91zP0HlDj8gkj2AIW6dWdqCeP0kWeXBAfp27gtw7L5s/IkekQgjV2zirWNkgc5CQMA8WA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=ZimtoX1S; arc=fail smtp.client-ip=52.103.68.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="anxPfBpa"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso27217135e9.1
-        for <asahi@lists.linux.dev>; Mon, 07 Apr 2025 03:04:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744020239; x=1744625039; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s9HinkExaT6RLhQRIBbCS/ciYHS6bDl1MnAwf7+W0T4=;
-        b=anxPfBpaUxMSNQxWTVLcfmHhRDRySoW4k9eNn82Nk5pG8LainQ5QfYUiPXyn9H5jEC
-         ExZDhGFwih2KRIKPzsIeUkrKaNEvotmCTujXcnidJUMDbsoHmTNqkV8g8g4jsbaGEUrI
-         UdYnsPbp9twbqBPgCWxJl4fTGjj570wLQti7os0pjdROhy6bVJxy8tP2avscxa+cGikf
-         l9R82I7UdlrSS4o1iGkxnvdb9SMM4qpcPBObmFOlWMECM2mmG1I1gIBfxLqc/7/AC1Q7
-         giYlOfhyfAu9fZKXsOM8P7Z+rDnZvZSalb6MQv9dzH9gmasaNVAjqwv/0jn1IqHUDHac
-         vi9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744020239; x=1744625039;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=s9HinkExaT6RLhQRIBbCS/ciYHS6bDl1MnAwf7+W0T4=;
-        b=OVX9322ajX1Xk+ftIKWTNEb74eYwxEfqWjKxzhW6OIkiWAzJHk/h8/8hyDIdEEkGjD
-         Z7GB0Qz+K9BX9M19917xGyhXzJytw+toujBRcE7VCkJxzpfkNJQY5HI65ET7H+knMlE1
-         CMuG9/E2dLqW/XuR2wRG6U8eqJQBeD2ohxDWitIPDSMZJ97df0PF7N1/WqokMntiY0RR
-         dsrx1ZYGM+F5cTewLiraW5w7Mgl4/4O5n0izxE1n3w4xYs6+eX3TQHMzDMkMLcOCd7E+
-         A43agoINSfq7SIYahx82Krs/u562clViYqN5uFZBKqKyFotZh3wzZCIXSTSIgCptOHiJ
-         tzLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWveokaK18ryEcoO+3tNJvOlxtFPCHejfBOx8etu8UeatEjy+OveMeP3msKFR4yWJwbdSs5pg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8ed4smVJh6R4cUdq6EFt1Y0CKxEEVz7qp4hV1U8iDhHGK97p0
-	xjCZg+par/eWFFSICvXdQ1uJMoBVaNLxYpNshnwiQn+XqUP1v8Jz08592TQex58=
-X-Gm-Gg: ASbGncsR6I196YTrmlWd3p3t7gRuhT7H6XnrWmZSXWUNnrWMroGdgSEynsdBoEIiWkY
-	qQp5FyeANl9FYrixrA34qBCgSjwB5xH3JlDaQW6PmIU8oo1e14kZ274/udlnWAI2WKcl25zD9C9
-	NoDrCTkVEzreWg43xd/+/YB5OcYSX56y0edJYL4I4DXu1FuE0QKAfr54rNUlaEh7xct7tiKnZq1
-	x2vsVdKoVAkQHH8SxamS+fSDEfKs1jOPA4SSkAjgb4N1uEFlCF7sc/c1SKHKnuENXK1qss4uVGt
-	Bn7BeVq50aa4t42NIDn9k5as4Xny2A+5cf7lLUZU4tJWz7Awk+g75/HSXk075EUKceLYWPOqbn3
-	N0AOVHyYvms0dP9hPj3Qi4w==
-X-Google-Smtp-Source: AGHT+IFEBXP8z3vBW8Gz6AOncAEfHt9xZOag+3XoHAxfL5+aQNCPhWcFTfnqF67fNk0u+70yvCBGWw==
-X-Received: by 2002:a05:600c:500c:b0:43d:bb9:ad00 with SMTP id 5b1f17b1804b1-43ecf8cf6b2mr133861595e9.15.1744020239130;
-        Mon, 07 Apr 2025 03:03:59 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:f2a4:b974:cba3:a605? ([2a01:e0a:3d9:2080:f2a4:b974:cba3:a605])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301ba17csm11679985f8f.58.2025.04.07.03.03.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Apr 2025 03:03:58 -0700 (PDT)
-Message-ID: <69543597-5e7e-454a-b83e-dd169a95baca@linaro.org>
-Date: Mon, 7 Apr 2025 12:03:56 +0200
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="ZimtoX1S"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aTaQFqwq3qQ5l+/keqQMrnaki+y6rE33Wv+4duI4XadZzG6YZ4GuUcMEj9jSbTTH7bSBk2mzTf0p/nqvpN888NMeXTJ2QIWXodkA+DfhQi32771Cp7lPoZQ4OQOMj35sjsNPVBpMH1IaAaOV7c+pvOUlvrJMiH13yZkiEyd4ZVcLtNCtOsKdvc4FxtrgyBN0N0OxkloR/NgoxFhkA/Lx4CZyeCNMrGJwRJpgLyP17C1VHYXGoQcK3PDHa7uxVanZv2PhJkMVMmjjRg/4a5qj8q9hhUVs2SvtVF+KAH0n+RFWrkQljOZRXxlrI2HYOKFVm4nKQTby5SxU3ios42z2xQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tn5Hkq9DpY4CPJ1wVetCS/X94XfeAa3DvU0Eb77IQHY=;
+ b=bRM2Fb+vw2TKyq7fdTEZol1V9O5id8ffPFbm8nXXDU23RVG5gmyyu2sj2BpJQj0x2XLuO7YHtCVqDsA5r/jR2yn8L1SEsgAfRKEQSqkKDSxTvRmzJcAX/DGYGoEkKb+xYJOeg7WOXqFkOX4ou4qPUcUSScbLKswrHc9l+exc3LzhaOefNoVE/8fW5/E1Lzt/cjpfo9fX9T9+YkhnNVOnkBg/n9jPKwPUtv6R6URiTBp//I7rCbBuGL1a9fprXzHHPSXKfM5kAeCHyB0t+1++i+vPJCCQ0aGMDfeGja/X5UPEJaJt7ibriKwenSqqr5rF3t8gL3PbFPD7p2RpTC3qAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tn5Hkq9DpY4CPJ1wVetCS/X94XfeAa3DvU0Eb77IQHY=;
+ b=ZimtoX1S5w40TQml0OegFkrcU2d8Vy+cmzKISHox/O4F/LgE+4tQv5/MobmQzVYI368WjPkhB01r3Z6zoJimTq5l0EWsHg5euQ72SUCrV4/+iLqGsvT/5oSIactKQH/VPE1mHypZckE+2NnD7OOq4EfHNUXhIXOZYd6Xb6jp6Ru+BwHGVQmKuJDrdgBq472L9jEAMUuUJRMzbGzJhZxJ5muac4oehNtxqg1Lx54hX9shQEZz/7Gyos7R0JaKbDscj+mK8EOHi7IeUi26aiA7iEoEN9IiaEA9pHnj+i+isqsjVpuRUlHioj6/WywyLeem5IF09Gqs9QC1DxpwukcdYA==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by PN3PR01MB6823.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:94::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Mon, 7 Apr
+ 2025 13:35:17 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8606.029; Mon, 7 Apr 2025
+ 13:35:17 +0000
+Message-ID:
+ <PN3PR01MB9597596DA5DA9FC02825CF0FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Date: Mon, 7 Apr 2025 19:05:13 +0530
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
+ airlied@redhat.com, Simona Vetter <simona@ffwll.ch>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Hector Martin <marcan@marcan.st>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>
+From: Aditya Garg <gargaditya08@live.com>
+Subject: [PATCH v3 0/3] Use proper printk format in appletbdrm
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0043.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:98::19) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:f7::14)
+X-Microsoft-Original-Message-ID:
+ <8153cb02-d8f1-4e59-b2d5-0dfdde7a832e@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 00/46] drm/panel: Use refcounted allocation in place of
- devm_kzalloc() - Part3
-To: Anusha Srivatsa <asrivats@redhat.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Robert Chiras <robert.chiras@nxp.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Markuss Broks <markuss.broks@gmail.com>,
- Artur Weber <aweber.kernel@gmail.com>,
- Dzmitry Sankouski <dsankouski@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, =?UTF-8?Q?Guido_G=C3=BCnther?=
- <agx@sigxcpu.org>, Purism Kernel Team <kernel@puri.sm>,
- Ondrej Jirman <megi@xff.cz>, Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Janne Grunau <j@jannau.net>, Michael Trimarchi
- <michael@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN3PR01MB6823:EE_
+X-MS-Office365-Filtering-Correlation-Id: 652ab8e2-dec1-4f5a-0ca6-08dd75d908d3
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|8060799006|7092599003|6090799003|5072599009|19110799003|5062599005|15080799006|461199028|1602099012|10035399004|4302099013|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Q2h2eHU5ejd4WXpDRzRlQmVMYm9xUzdsSzM4UmZDQUJqR2tCTDFETVpMTWdG?=
+ =?utf-8?B?dXB0bENCMWNlUTdtbUN2ZDRVVmlEeG8ybWdXamNSNjNydTRRM2pHYjlxNVhm?=
+ =?utf-8?B?Wk90dGdmcnJ0V0VBcHpVZ2JWNG5CYjZRbFVxUWZReGdxQis0czcrNFdIUWcy?=
+ =?utf-8?B?WCtvRGx0SzFqeDMvQWFlM2J3RXh5eXRiaTcwWUErRWNMQXhaS3FRKzNIY1Jp?=
+ =?utf-8?B?b3kvbjRldzNERGxXTFg5MzgyYjUyZ3JPaGZjSWF3K2FJN0xpNWRERXg2b0FU?=
+ =?utf-8?B?bU1JcGNHN051cTZyMUxQdU9XUVNoSVI5SGVoa2FsQVZDOWg5WVFuNktlUlc3?=
+ =?utf-8?B?UzI2bFVQYzRKL2gyVERQMWtzZnltdlg4STdvYTBGb0hOcEszblhac3lDaGhp?=
+ =?utf-8?B?bUdEU0NaQmxWVnVKc3ViTWZqbERLczRXdFVCOVBhNmtTQzFDUkw3L09LbHZl?=
+ =?utf-8?B?dFhpTFJ6V1huNHRVbm92amZNWm9oeWNwZXc3NHVKRmdZN1VsM0M5Mmtwb2c5?=
+ =?utf-8?B?WUMyT1FRR1ZSYXhIZUxFbUZRbk55SFNHazhpUW4vck15ZnhDRjRSMlpyR0c0?=
+ =?utf-8?B?bzJwdU8wWkllWDRxd2FJU0RTSWRFRVRVQ3N1dE5Ka3RkKzRJNm5XeXhtUlRw?=
+ =?utf-8?B?K282aldHL0w2d3JaNTlqZGN1WU5lT0pXbVVrTWpqSzRRUXd2TlRGK1JiaU84?=
+ =?utf-8?B?L2dYQU91bVI1ZkhiUEduYTNzRlRNc0dkWm9pQ0xMQkxmdGM0bkx0MXFmWWhm?=
+ =?utf-8?B?VkZlbnFIaWMvdGhmUFNua1ZvcWRYQnJLdjdTUG5RTU5ndHNrSnF2dWZjUEtl?=
+ =?utf-8?B?RVJsa1FqdG9nN2ZyN3Y0WHRrSGdZWkxCc0xxNENUcFN0bk5QQ2FXbEpiU0N1?=
+ =?utf-8?B?NkEzNUNSd1BqQk9wZVFNajBEc2g1UlRISWZBcU9acnlSUWh5aVpmYU52SE1K?=
+ =?utf-8?B?ajVpRlFzYlY2UW0zT1RZeEpWUytUM2M2aGlHbEJWeVFJMW9vMEdmaHRsdHdp?=
+ =?utf-8?B?TFJ4cEFSMUt2TmpiNkkyUXArUDdCOVBBYkwvcnRXTXpubXhUTGV2NGMrTi9h?=
+ =?utf-8?B?aXVsbnNCV0VFR0g1dnIzdUFjNUVaZGZUdHA3djFFODRFamYrcUZTdVgxaWFi?=
+ =?utf-8?B?NVRIM2d5VjYxOXVyeVI1RXlyRlkyNElpRnczNVlOUHRyZk1TRlZNOENieHpE?=
+ =?utf-8?B?ZWFNTk5XVGsxcHVRM3hqeEJwK3dGcjZZa2lvYk9IR2h3UXVIVW1pSEU4ZmIz?=
+ =?utf-8?B?b2tuam11MnZta29PRktVOWlJcFJmeGE2SHBoYTFVbWlZUGlYNENySXFCZFg4?=
+ =?utf-8?B?U25TUkJKMFlnbythTU5ZMWI0cEh2M1g2MmprTFVNdFZqNEhMbDFBeWNpanFG?=
+ =?utf-8?B?TTdSV1YzUmRXTUpSU2d0UzdPNFB2MTlHV3BHUGcyKzBHT2NCdDg4TkdRbUtw?=
+ =?utf-8?B?QThrYVJEeVRJZ2xveUwrQkgvL1J5c09iSWtBcHNLVDZ2TG5wdWtHdDlxaFRD?=
+ =?utf-8?B?d3Y1cFNyb0NCZDE2ckdyalpReDJoMERtTGd0eDVwZVJDa3ZkS0JVZnBnTWRq?=
+ =?utf-8?B?U3Fma3UvQytrNERBVWQrOTNVTkJPN2E2OWs3RGRCbEc2NGh6WjRmaHVxWkVq?=
+ =?utf-8?B?b3hmckRNdXBReHRCZnplMmNZRXBpMU9VbU9GMzhxQnNLTDkvSVdyKzZLQWkr?=
+ =?utf-8?B?WXdkRXFLYlEyemkzQVRKVnJSV2J5YmZoRXRESVdpTlhNVUFHeUI1VGg5dUVU?=
+ =?utf-8?B?WlR3Z2hER1ZHOEJMcXZLQU1HNzJpbU43RGZtNmdsTzVLMEl3ZnZXWXJtQzA2?=
+ =?utf-8?B?bmFJVnBHOEpzeVVINGZtQT09?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZVBCUit2d1BTR2h6bW11UE92U29pcGFMbW1lWmdWSDN1Nkt4alJPekQ0UkM0?=
+ =?utf-8?B?SGpYSDM0NXlLSUROL25pdVI5ZWQ0b1JWZ0FYamMxTnhZeVNaQTF6K01UYm1Z?=
+ =?utf-8?B?Ymw2UFFqZEJ5Z2FtWXQ5Y0ZHc2VDZTZVU3VOS2tFMy9PVnN0STZKKzA3TEVl?=
+ =?utf-8?B?SWFLSlpDYTNwRjNxTEhCbmNxWHN5SXFyRnVHaE1ibml0UURLcUFrTHpwMmNI?=
+ =?utf-8?B?OXZqczBwU0NDa2NuWDVmeHd6N0RRZ1J1NWQ4WHlqTjI2YjZRT0wrenMrckdQ?=
+ =?utf-8?B?R2NjeVhTZWhUN1lLL2c3TEJReHB4bStOWjlpZVhMc28vNDAzWHRJWUFVaEZa?=
+ =?utf-8?B?OXJhQ0tuYWYwelVPUGZsNGk1OGZjdG5USHJvNXFPUWZ5OERpa0oxYytjMlNO?=
+ =?utf-8?B?RE1PR0o1Ynp4QWxMSDczTlJVU3R2N0NTbU5VeGZaQ2ppY2FBVVp2MHdyR2FZ?=
+ =?utf-8?B?WDIxQjVpNXhQaFNXOEtTcFJJWVE0UnNBN1VJWDBYL2pvdWNCZmx6Wm9tQ0Zs?=
+ =?utf-8?B?bHFLTURHOE5tUk5VYVhiZGhsTmhKYW4xR0doa2lFenh0S080RUJVcFQ1MTJz?=
+ =?utf-8?B?TWp1MCtCMytZWi9nTTJmQ0VjQ29mSER2QzAvRjhzUi9EU3k0VHhBS21ZeHBX?=
+ =?utf-8?B?ZFk0Mk9FaTExWE9HZ1l6WFpweVJLaU1PblEwazVTaWtPV3U4S1JqbFc5VHZq?=
+ =?utf-8?B?UTBscnlnYmdEbDRJN0h1eWNGSFlwTVNFQ21pSlptTURCOG4rMkM3QndDVWVq?=
+ =?utf-8?B?NCtyK0ZSZUVvSDl6dTYxRXZWVlZzMmY2cVJ1Q1RkaFR5cHFGZC9UNWRQUWJF?=
+ =?utf-8?B?YjZkbytNNHk0UlluRDhtdlNER1VsWmlKRnFiVlhUVW1oVWhpd1cvcmFYNjNv?=
+ =?utf-8?B?aThBd0dnemZDcGNTTWgwWEp6bDdvWWt4aGRXOFFxWjg3RXlGb1NscUJaYmRM?=
+ =?utf-8?B?c2p3Ykl1QzFTeFJsQk1LU2N1ZTVyYllBMnkzTjlSUlJQUDMydkRRVmhBRVRK?=
+ =?utf-8?B?UzNneVRPUnVLQ0d4Skdtc3pIY3l6U2hqR29xZXpwUlkya3hSTEJPbmpyajJ4?=
+ =?utf-8?B?S0w1NW9XTlFiSUNXcHZrWEpUVHY0SnlXYVU1VTA2ZGlrMUZlb0k0blVCRWJp?=
+ =?utf-8?B?SVBtWmNpNHJZMFBUQzhWQWs5UHRSdG1Rb2d5OERWSnR5eHpRZ0M5KzJ1L3I3?=
+ =?utf-8?B?T0RGWlZ3aXlJRklVT3d1YlpsbUhYbTNaRGJYdkYzNUl3YVlXZW81YlVyYUV6?=
+ =?utf-8?B?VGdlZmFzRGxkUmVQeko0Ulk0dFR4d0ZiTGI1K3BEeFF4V041dHFaZnRVK2d3?=
+ =?utf-8?B?NEpxdklGbk83bGxPVzNCVExYUitNa29SZmc5L1FmYWtNSjNyNnZvN0lHVmpj?=
+ =?utf-8?B?bkt4TXZobXArd3ZDeVdCMWJtRlJOUlVsaFFpdWlFTkZMcFY1WEN3bFFpbEth?=
+ =?utf-8?B?bi85d0RWcG9qU2Rjd2JHQU1EVGVheG93WW5XN2xOWUpUN0lNdCt0SS9Wekdv?=
+ =?utf-8?B?eXBjUitwRjZ3N0c1SWhOcDljUHNlbk9aam55d2ZvdFNBMGtIaXVUcHVaamgx?=
+ =?utf-8?B?bUtaQXR1U1V2MTZoK1VvUkN1VURTUVpyVDFEV0g0OGZjQmJoN3NHZC8xQTBB?=
+ =?utf-8?B?VytIWVhPSCtTVXNzZWRramR6OWRPQnZ2dklDdnZ6N3NDeXFtaFdRSjRvSTc5?=
+ =?utf-8?B?YW5wNjhTQ3VZMU1kRk5ZMXBLRTdPNmUrSkZydE1xWEtyL0FxdFcySHR1Wkt2?=
+ =?utf-8?Q?AEASpf4ukfOLiOMJmaxdvObI1TdACOlNWclNdI+?=
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 652ab8e2-dec1-4f5a-0ca6-08dd75d908d3
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2025 13:35:17.4907
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB6823
 
-On 03/04/2025 22:20, Anusha Srivatsa wrote:
-> Start converting drivers to use the API - devm_drm_panel_alloc().
-> 
-> Final set of drivers.
-> 
-> Part 1 of the conversion : https://patchwork.freedesktop.org/series/147082/
-> Part 2 of the conversion : https://patchwork.freedesktop.org/series/147157/
-> 
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
-> Anusha Srivatsa (46):
->        panel/orisetech-otm8009a: Use refcounted allocation in place of devm_kzalloc()
->        panel/raydium-rm67191: Use refcounted allocation in place of devm_kzalloc()
->        panel/raydium-rm67200: Use refcounted allocation in place of devm_kzalloc()
->        panel/raydium-rm68200: Use refcounted allocation in place of devm_kzalloc()
->        panel/raydium-rm692e5: Use refcounted allocation in place of devm_kzalloc()
->        panel/raydium-rm69380: Use refcounted allocation in place of devm_kzalloc()
->        panel/ronbo-rb070d30: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-ams581vf01: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-ams639rq08: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-atna33xc20: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-db7430: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-ld9040: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-s6d16d0: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-s6d27a1: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-s6d7aa0: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-s6e3fa7: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-s6e3ha2: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-s6e3ha8: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-s6e63j0x03: Use refcounted allocation in place of devm_kzalloc()
->        panel/s6e88a0-ams427ap24: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-s6e8aa0: Use refcounted allocation in place of devm_kzalloc()
->        panel/samsung-sofef00: Use refcounted allocation in place of devm_kzalloc()
->        panel/seiko-43wvf1g: Use refcounted allocation in place of devm_kzalloc()
->        panel/sharp-ls037v7dw01: Use refcounted allocation in place of devm_kzalloc()
->        panel/sharp-ls060t1sx01: Use refcounted allocation in place of devm_kzalloc()
->        panel/sitronix-st7701: Use refcounted allocation in place of devm_kzalloc()
->        panel/sitronix-st7703: Use refcounted allocation in place of devm_kzalloc()
->        panel/sitronix-st7789v: Use refcounted allocation in place of devm_kzalloc()
->        panel/sony-acx565akm: Use refcounted allocation in place of devm_kzalloc()
->        panel/sony-td4353-jdi: Use refcounted allocation in place of devm_kzalloc()
->        panel/truly-nt35521: Use refcounted allocation in place of devm_kzalloc()
->        panel/panel-summit: Use refcounted allocation in place of devm_kzalloc()
->        panel/synaptics-r63353: allocation in place of devm_kzalloc()
->        panel/tpo-td028ttec1: Use refcounted allocation in place of devm_kzalloc()
->        panel/tpo-td043mtea1: Use refcounted allocation in place of devm_kzalloc()
->        panel/tpo-tpg110: Use refcounted allocation in place of devm_kzalloc()
->        panel/visionox-r66451: Use refcounted allocation in place of devm_kzalloc()
->        panel/visionox-rm69299: Use refcounted allocation in place of devm_kzalloc()
->        panel/visionox-rm692e5.c: Use refcounted allocation in place of devm_kzalloc()
->        panel/visionox-vtdr6130: Use refcounted allocation in place of devm_kzalloc()
->        panel/widechips-ws2401: Use refcounted allocation in place of devm_kzalloc()
->        panel/xinpeng-xpp055c272: Use refcounted allocation in place of devm_kzalloc()
->        panel/s6e88a0-ams452ef01: Use refcounted allocation in place of devm_kzalloc()
->        panel/nec-nl8048hl11: Use refcounted allocation in place of devm_kzalloc()
->        panel/panel-lvds: Use refcounted allocation in place of devm_kzalloc()
->        panel/lg-lb035q02: Use refcounted allocation in place of devm_kzalloc()
-> 
->   drivers/gpu/drm/panel/panel-lg-lb035q02.c                | 10 ++++------
->   drivers/gpu/drm/panel/panel-lvds.c                       | 12 +++++-------
->   drivers/gpu/drm/panel/panel-nec-nl8048hl11.c             | 10 ++++------
->   drivers/gpu/drm/panel/panel-orisetech-otm8009a.c         | 11 +++++------
->   drivers/gpu/drm/panel/panel-raydium-rm67191.c            | 10 +++++-----
->   drivers/gpu/drm/panel/panel-raydium-rm67200.c            | 11 +++++------
->   drivers/gpu/drm/panel/panel-raydium-rm68200.c            | 11 +++++------
->   drivers/gpu/drm/panel/panel-raydium-rm692e5.c            | 10 +++++-----
->   drivers/gpu/drm/panel/panel-raydium-rm69380.c            | 10 +++++-----
->   drivers/gpu/drm/panel/panel-ronbo-rb070d30.c             | 11 +++++------
->   drivers/gpu/drm/panel/panel-samsung-ams581vf01.c         | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-ams639rq08.c         | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-atna33xc20.c         | 11 ++++++-----
->   drivers/gpu/drm/panel/panel-samsung-db7430.c             | 11 +++++------
->   drivers/gpu/drm/panel/panel-samsung-ld9040.c             | 11 +++++------
->   drivers/gpu/drm/panel/panel-samsung-s6d16d0.c            | 11 +++++------
->   drivers/gpu/drm/panel/panel-samsung-s6d27a1.c            | 11 +++++------
->   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c            | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c            | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c            | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c            | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c         | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c | 11 +++++------
->   drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c            | 10 +++++-----
->   drivers/gpu/drm/panel/panel-samsung-sofef00.c            | 11 +++++------
->   drivers/gpu/drm/panel/panel-seiko-43wvf1g.c              | 11 +++++------
->   drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c          | 10 ++++------
->   drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c          | 11 +++++------
->   drivers/gpu/drm/panel/panel-sitronix-st7701.c            |  8 ++++----
->   drivers/gpu/drm/panel/panel-sitronix-st7703.c            | 11 +++++------
->   drivers/gpu/drm/panel/panel-sitronix-st7789v.c           | 10 ++++------
->   drivers/gpu/drm/panel/panel-sony-acx565akm.c             | 10 ++++------
->   drivers/gpu/drm/panel/panel-sony-td4353-jdi.c            | 11 +++++------
->   drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c   | 11 +++++------
->   drivers/gpu/drm/panel/panel-summit.c                     | 10 +++++-----
->   drivers/gpu/drm/panel/panel-synaptics-r63353.c           | 11 +++++------
->   drivers/gpu/drm/panel/panel-tpo-td028ttec1.c             | 11 +++++------
->   drivers/gpu/drm/panel/panel-tpo-td043mtea1.c             | 10 ++++------
->   drivers/gpu/drm/panel/panel-tpo-tpg110.c                 | 11 +++++------
->   drivers/gpu/drm/panel/panel-visionox-r66451.c            |  9 +++++----
->   drivers/gpu/drm/panel/panel-visionox-rm69299.c           | 10 +++++-----
->   drivers/gpu/drm/panel/panel-visionox-rm692e5.c           | 10 +++++-----
->   drivers/gpu/drm/panel/panel-visionox-vtdr6130.c          | 11 +++++------
->   drivers/gpu/drm/panel/panel-widechips-ws2401.c           | 11 +++++------
->   drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c         | 10 ++++------
->   46 files changed, 223 insertions(+), 257 deletions(-)
-> ---
-> base-commit: de04bb0089a96cc00d13b12cbf66a088befe3057
-> change-id: 20250402-b4-drm_panel_mass_driver_convert_part3-9b06bf9d3b22
-> 
-> Best regards,
+The vsprint patch was originally being sent as a seperate patch [1], and
+I was waiting it to be taken up. But as suggested by Petr, I'm sending
+them via DRM.
 
-With the patch 41 build failure fixed:
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+v2:
+Remove printf tests, will merge later through Kees' tree
+
+v3:
+Re-add printf tests, since 6.15-rc1 has the necessary commits merged now.
+
+[1]: https://lore.kernel.org/lkml/1A03A5B4-93AC-4307-AE6A-4A4C4B7E9472@live.com/
+
+Aditya Garg (2):
+  printf: add tests for generic FourCCs
+  drm/appletbdrm: use %p4cl instead of %p4cc
+
+Hector Martin (1):
+  lib/vsprintf: Add support for generic FourCCs by extending %p4cc
+
+ Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++
+ drivers/gpu/drm/tiny/appletbdrm.c         |  4 +--
+ lib/tests/printf_kunit.c                  | 39 +++++++++++++++++++----
+ lib/vsprintf.c                            | 35 ++++++++++++++++----
+ scripts/checkpatch.pl                     |  2 +-
+ 5 files changed, 96 insertions(+), 16 deletions(-)
+
+-- 
+2.43.0
