@@ -1,137 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7871F4610
-	for <asahi@lists.linux.dev>; Mon,  7 Apr 2025 14:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560F51F4C93
+	for <asahi@lists.linux.dev>; Mon,  7 Apr 2025 15:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744036683; cv=none; b=kY2uaq+0m+fy1VEmM21tKR8y1VO5kCm6HpycVElNx/o0YXx5D/UbtT1QegEUer8prNz4ugl5B0Vatuye/6ZlKNnalgyl/hLM0QBA39+3abUqW9p8wI6dDxFdk3JvWj5P40pmEeJGP0PVQe4sU04TB6pchlVNejdjEYFv0Xdq+zw=
+	t=1744038571; cv=none; b=F3aGqW79OObWkkczHDkuC4cOJ0j/LNH1ZmSMfMaR/3n2J139It9Cs42KmSm3/BtOqaJ/OASGDG62G/BOG0BRwr7uN39hvb7I+hqF4AeGoARHgpYmvbdnnClJuSom9i79ZYNx5w7K6ocENJ2F766k9UYe/lGWC45AgcI1hd5q+/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744036683; c=relaxed/simple;
-	bh=gaqCmPGyFFrl7wtrmHGJykIupKENxWSgvwIml4rhHuQ=;
+	s=arc-20240116; t=1744038571; c=relaxed/simple;
+	bh=QFbdEg3bdlWihK/atjI8KG/ClwBZaCMNkaOsxbUVO+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E5Ane94qdlCJ0OK2g6F+6U5f4l4YfatGVwM2sl3wX0lZsOdByLPPBKOZIahAmGdwkdeGQOMPKLXfpu68q4+3gbeCrunUq8goq4sfpuLj6ZZefS77W1/PtjmixQOL0kg/X6LjICNYGsVKr0fBiFNfcHl+5StQPd5PkTmI1ektzcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BBO9TyXZ; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QVT2LETAKd4X4hCzV02NKeHg/9KlICRH0MCxEvaU92F01pVElMLpaFIcOOv3VoYtZrqITZafR9kwF0o9jCC3C3HZN4pR5AzZhBHKEqbz0JW1nAuqP5L5mFGU5zscFZbeY59SP9rHt9MSemRrXs1qmAkilUNmkrRs6f+5amY6KYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GHWaM3jd; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BBO9TyXZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744036683; x=1775572683;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=gaqCmPGyFFrl7wtrmHGJykIupKENxWSgvwIml4rhHuQ=;
-  b=BBO9TyXZYHafo5iCC+aMMGYRUvjhoQ+p4VnBMIqcHfmVn6goOhuAFvbg
-   u2EKVugmeJlkdUgIq8vLeacJd1Y24+Yc7ycUqXHblsiEERXNxiQON8uxZ
-   Nm5+BuHYGzQRyPEd+vRvwEeFsfatycEc6Z9n92Hdzitm8i9d/nsntzLlz
-   f3pcEoB5aoFhTR876SDb131j1fmf0Z49TkBCx/2peurEywjTgHKciyAbe
-   A3tc2G3JjuflSkObN3OgZU8HwFBQ3U8cOZzKZKmI2jVlDQ7eIa+DoJWJs
-   +DIGgv5qZVtaKCzuvwsBZV8uR9m830m2LRRF7n+KXQBYXZ2Q61CRJESP9
-   A==;
-X-CSE-ConnectionGUID: 2zBwAjpERFuLt+7XiL4n/A==
-X-CSE-MsgGUID: 2sTxeMZgTcubZGMrPWyzUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="55616152"
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="55616152"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 07:38:02 -0700
-X-CSE-ConnectionGUID: IKY4xDJ9SPqBBwld+K/TWA==
-X-CSE-MsgGUID: 7+kZ3K5kQMO34kjDQq8XXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="128840982"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 07:37:56 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u1nbk-0000000A66o-0cqX;
-	Mon, 07 Apr 2025 17:37:52 +0300
-Date: Mon, 7 Apr 2025 17:37:51 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GHWaM3jd"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43cf257158fso31390505e9.2
+        for <asahi@lists.linux.dev>; Mon, 07 Apr 2025 08:09:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1744038567; x=1744643367; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bmsPW/IuCIMhHuegXao26Op7RdiU2z6+4rii+HhvEQg=;
+        b=GHWaM3jdCOsq0YkdZu10xj3rbhfG+PV0lZM8wKMTjuWeM+Qt9RD9wyonK6H+tlUAor
+         A4vYZ19rIXjC3KU/2fbD1qWDWIA8TppiXtrhHeVC731HxptVRZPFd1Ki+PHHjhAmzN+O
+         Cscw9nMUy3C3mU3oLJ6G8aadLz5JstfUIB6CaxV024K5gGqP4GiMgNS7INQsns/W154C
+         VrG08loqGD0q6V1PD7/7dROFSrr38bwVK+lxQtJ4JShWe9mUhbaAy+FJVurIHnkijee0
+         IjI3nXLjnbBuMnX0KwSAAFJgt9VMxgRY9OpG0ZwRsK8c3Lr2ECFBm1ANPqeqls2XPCwk
+         DsDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744038567; x=1744643367;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bmsPW/IuCIMhHuegXao26Op7RdiU2z6+4rii+HhvEQg=;
+        b=kZRZfDDvfmiN37eJyvj2uC+8M9j2nEVtmfL966FuUdus1lxz6i66yITFn7Tb/ptuWB
+         3aOYCFmOqVELUQKrmR2Gc4T5DVOd3/7KiaIYdiIwT0DT1IoDKG8VHmpZYSBPbO5Jluau
+         KHNT+qA8/lW8QnMdcPlGG2ShqSdYwo6YpZoO6Q9u7aFtX5oq3+ZC53cdjRyrly+GGdqG
+         E3Oa4W7gQAaHZwQ4mn9mO+I+l3kbIO+dR0HFxsMKTt627889r8qRktPhE7nfw4iBxAk5
+         l++ZvTfI8aW6XTfoNcQ/SNuoKCVCCXNfBYcr/zlZKF21fa/xOzxGMenUl+zQtqyaCSHE
+         A2sA==
+X-Forwarded-Encrypted: i=1; AJvYcCXORpfXhzS8cmnM2CYIXRHSWYF4BihuuNYP3GOVJ4GIPbEAeNCeG8vAnzTiKQuzF8+ew6Yg1g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YypD1Eob3XLhE/UvaNGOXKcZg6uK2Qc5oFph0HWQDnLhSKdkRff
+	fJX/FLpMImEKStH4PiEmx4GZ61LqGi3CVDA1pH/2tgfehIa8HPJmTB1t53+BcZc=
+X-Gm-Gg: ASbGncsmR4EuO1StZLFNaY7mmmuEaqlcZ5YWi/iCGdFuJABVQC0B5cz0C3zXgZOCi31
+	wjZgUmlJl7/kVh+gSi2KlVeye7gnNv/QGvgXLYIW/aHJcveJkA3AwsU3Q+NZYAsRPGpB3EqMv3Y
+	IY0M0JVC3nKtA2iPdjv78he5OT3ziCM/tRFPgZLDhv8+ExlCl8kEvCNk/tePKY28UFmcubpRVlk
+	ORfIXoFCQtkdzxBQ/yMAUBPwHUsDj5IwB9YyYxJv90vHA+qhaJXFJRA+fnUUsJZ1wKQcnLuVXNY
+	Gcisd2RvRUejTQea3p70gCHG8vTaX45r5sLzzbErTr794JQ=
+X-Google-Smtp-Source: AGHT+IFKtcPtXIriIebz2GLDNpcyLtI8/d7dTMWyJquEPgAhC6jN+Ozp3zBNOoKwt9alXNTrbKHNiA==
+X-Received: by 2002:a05:600c:4fc6:b0:43b:cd0d:9466 with SMTP id 5b1f17b1804b1-43ecf86ab8cmr107340865e9.9.1744038567238;
+        Mon, 07 Apr 2025 08:09:27 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec1660bcesm135136305e9.10.2025.04.07.08.09.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 08:09:26 -0700 (PDT)
+Date: Mon, 7 Apr 2025 17:09:24 +0200
+From: Petr Mladek <pmladek@suse.com>
 To: Aditya Garg <gargaditya08@live.com>
-Cc: "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
-	Petr Mladek <pmladek@suse.com>, Sven Peter <sven@svenpeter.dev>,
+Cc: alyssa@rosenzweig.io,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sven Peter <sven@svenpeter.dev>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>,
-	"airlied@redhat.com" <airlied@redhat.com>,
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
 	Simona Vetter <simona@ffwll.ch>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	Kees Cook <kees@kernel.org>, "tamird@gmail.com" <tamird@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+	Kees Cook <kees@kernel.org>, tamird@gmail.com,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
 	Hector Martin <marcan@marcan.st>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
-Subject: Re: [PATCH v3 0/3] Use proper printk format in appletbdrm
-Message-ID: <Z_PjP_fck57S1ACi@smile.fi.intel.com>
-References: <PN3PR01MB9597596DA5DA9FC02825CF0FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z_PZXPAklfkMlx6O@smile.fi.intel.com>
- <PN3PR01MB9597E19A55EAFC3E7B191F5FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z_PfwShQX95IyHWR@smile.fi.intel.com>
- <PN3PR01MB9597227004F9472689FA6395B8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v3 2/3] printf: add tests for generic FourCCs
+Message-ID: <Z_PqpEDTC0RPiPez@pathway.suse.cz>
+References: <8153cb02-d8f1-4e59-b2d5-0dfdde7a832e@live.com>
+ <PN3PR01MB9597E8833F0DCE0C7C360135B8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB959799C9C343A7F08E04158BB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB9597227004F9472689FA6395B8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <PN3PR01MB959799C9C343A7F08E04158BB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 
-On Mon, Apr 07, 2025 at 07:57:08PM +0530, Aditya Garg wrote:
-> On 07-04-2025 07:52 pm, Andy Shevchenko wrote:
-> > On Mon, Apr 07, 2025 at 02:17:00PM +0000, Aditya Garg wrote:
-> >>> On 7 Apr 2025, at 7:26 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >>> On Mon, Apr 07, 2025 at 07:05:13PM +0530, Aditya Garg wrote:
-
-> >>>> The vsprint patch was originally being sent as a seperate patch [1], and
-> >>>> I was waiting it to be taken up. But as suggested by Petr, I'm sending
-> >>>> them via DRM.
-> >>>
-> >>> Your message is detached from the thread, make sure you use proper tools, e.g.
-> >>
-> >> It's not a problem with tools, it's a problem with my email provider.
-> >>
-> >> Microsoft now supports only oauth2 for SMTP, which git send-email doesn't
-> >> support. I had done a few tests using msmtp with git send-email, but msmtp
-> >> also had this detached from thread bug, since it doesn't read the message id
-> >> specified by git send-email. I've been using macOS mail for a long time for
-> >> kernel patches, but since it was a pain to reboot to macOS every time for
-> >> this. So I just tried using thunderbird in Linux this time. Now this time, it
-> >> was a configuration issue in thunderbird, in which it was making a copy of
-> >> the sent email in my sent folder, resulting in 2 copies there. I replied to
-> >> the copied one by mistake. I've finally fixed this issue as well, so should
-> >> be good in future.
+On Mon 2025-04-07 19:12:39, Aditya Garg wrote:
+> 
+> 
+> On 07/04/25 7:07 pm, Aditya Garg wrote:
+> > From: Aditya Garg <gargaditya08@live.com>
 > > 
-> > There is a project called email-oauth2-proxy, which makes it transparent, so
-> > just take your time and configure your box or find another email provider.
+> > This patch adds support for kunit tests of generic 32-bit FourCCs added to
+> > vsprintf.
+> > 
+> > Acked-by: Tamir Duberstein <tamird@gmail.com>
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> > ---
 > 
-> I already have a way to get oauth2 tokens for Outlook, something similar to this.
-> 
-> > The above is not an excuse to break the process.
-> 
-> It was an honest mistake, and I just said I managed to fix it and should be
-> good in the future right?
+> Petr are you fine with this here?
 
-Sure!
+Yes, looks good:
 
-> >>> `git format-patch --thread --cover-letter -v3 ...` gives the correct result.
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+Tested-by: Petr Mladek <pmladek@suse.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+Best Regards,
+Petr
 
