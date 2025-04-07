@@ -1,66 +1,65 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA691F463C
-	for <asahi@lists.linux.dev>; Sat,  5 Apr 2025 23:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210221392
+	for <asahi@lists.linux.dev>; Mon,  7 Apr 2025 04:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743894994; cv=none; b=ulbVcLzDmLoa+a9GxXhn4kkQYhKGUsrwjSMfle7Buk4abaCsS8I6au3G6FyU7MtshIc2G+bO5qRN5Kz48HRk8LRzWaNMHXXN2skDr2E/Da007nFwGEN+nBolPC+c3rVcpjzWt0rmb82f+ySelDwFYPEGjIElf6wQ/9Wx/qElfds=
+	t=1744001166; cv=none; b=i5NhboYwkA56J+nwxNPglCFdGv5+JF2FEqqjj3Ro8DGHtQa3skHpUXb8IDkqJnHN3cIFcpTzDuwLGc6RY/JbcK7p2P4J4yVyt0oJfi+3lJw4Wh4mDqDWBxue1i6WJWetkg1f/KSGT2rWnzKsbLc7NzXn0zZLyXWgOHs3/zBLVTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743894994; c=relaxed/simple;
-	bh=5Z9X682HZUgLJ1v6uu51TGEAsXE/8Sre+u8dfgEfwT0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bHfOjLiJWrkTGFF/QLUhgUe1GEN+gXxAiAnL5zmJvc+dNwoVvSNN5CCaJFSS0DsqVI5g1pDdrQvWmMmOlhTNgMDTuPz253wKMxnD6bwmpn98U+bLclofzX1oDLsAn2gk0JIcnd7JlI4kSeUbC1pj67VQU8/nGKWEFqqsLLp0s4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CzortvBh; arc=none smtp.client-ip=209.85.215.170
+	s=arc-20240116; t=1744001166; c=relaxed/simple;
+	bh=A/h8OXs8Wekr7gbuWaO+81ojzwQgObVHH0lNAKAIdNU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FsJ+/mTE5llsa4PTv2U73bDD61tfaY+18jyS5V3RnNSB1WFn12TYVAt/73uyLOcfcYEH23LHJD1EkQaw/DAFf/xj6Cp4fF6UBNBJ2soN/M3AkqDgLYJC+7f0IfJZ3RNPJNrLSpkkBUckKZHmZz8G9RcYerB3C5GZLl2Fdu05S5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f5ZsHxPR; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CzortvBh"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-af6a315b491so2808039a12.1
-        for <asahi@lists.linux.dev>; Sat, 05 Apr 2025 16:16:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f5ZsHxPR"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff784dc055so3267685a91.1
+        for <asahi@lists.linux.dev>; Sun, 06 Apr 2025 21:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743894992; x=1744499792; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rBN7lJc+bnC3l4ET99fupuYYeHLn5bLfe23gswQ1Cp8=;
-        b=CzortvBhueqE8BXXz6PoTLiiNT6QzO6opx+xS9/HJyE5UqfbPQ/dEE+LT59WDCpAhu
-         kNvUOoa+ylZlvGHNlPaEuB6epbr7XgUBpFSJC4ci5XQP4A2e4GTgnURnmHUDy2Hx1C5I
-         s2mvRGCT6d7nLrC2n0O+b75kpTNucbEky11udWMwg3GMh9k/e8gVOrJPgCUwQc5Cf0hh
-         J1Y1gsacFWhFMUESU8bf5uEPNRdL9Kgks63AFXf0js4cb1KQAFjtUWvLMlHdjGUDOvCA
-         LpzikXynAn8E0auJBalstFQF7WARP0YjlMqyUIA7Q/RW/aTtpLwLCyxkr+ky3urcPb+o
-         7lTg==
+        d=gmail.com; s=20230601; t=1744001164; x=1744605964; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3EuDa5MdYzDvx9phCQyiyQIJ/EzyBR8j5u1DkbRAKbc=;
+        b=f5ZsHxPRZv9V1SSkw9uVMY4sTMJM4faO8NOThERre8DNdXdEwZSSOrjkebmyzlSghF
+         rLK0zs5DcpLEsgYpHKTOUZeQAvPViXcOGvWWi4Q+6BnT7O8BVBgRTqu9omY5o3jsVs5w
+         JCnKN0k+rNGK4JXqb92Ux/3QjWJeyhPHpReHh2aY4KOuYDXHCUFbJs3bF7fjtqPmBYl/
+         fyLbSd2hzsn7notghAqXxlHl5F/U/rz86Ai9mOkRGFTVbekK8gLDq1wsOZqCpZe4Tbsn
+         vJbvJUZ3wDk83fZfMqhlsfGc4xSVLjDr4DnrrdDhdPRrVxQA0s5fdaSqg60cDk2WsMEZ
+         8ZpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743894992; x=1744499792;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rBN7lJc+bnC3l4ET99fupuYYeHLn5bLfe23gswQ1Cp8=;
-        b=ICQg8B0abIsSnYAU25FrCJX09SMs0US4U4Y3fBQg9w38/mE9kaRoodQQ+apICsQmag
-         MuJC6LA9H+2jwAJwTmB3u6dBbXcf+GU1FeGwQtc5BRfvwShcIob5xREFbx68FXt/DmLB
-         ryi6QtN1k3ENvXkf3WJxi81/Kf23ot9owqi1WgwRQvQM65TjkHMPqhILZ5ftzm0xbAj0
-         T6Uf69D4b5gQVlMWdJlHdwbSqoQz2G8V3df37K5nOj1Urvg2ttNvcP0mPzFZh4j4IWsH
-         yg7Q1OKm1CLkYqiESoNLw9HaMn4RUITAm02k7PtO+qo2Ri8eSBdLmgl9QenUTYLtTaHv
-         +cFw==
-X-Forwarded-Encrypted: i=1; AJvYcCV1UWGgB6FaBU6C4PDveGoXMqJ0aAUPxFHQPnZWrZVAMWUlWUmX8FJKMsAEYknVuWCJXAmuHg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWxdTuNYEwkT8Wk7rzXhAvw1CpJWItKLoDZIW2/BEBl2l6FzTj
-	rMHgX/51AHja17zvtQ/dL3sYqmZSPL43d7uuN0RPXMotxW7RTEIGVXUvl/jA
-X-Gm-Gg: ASbGncvc5HwBYKnJoiUWgcL/AM7NwKeDFo60OC/SMGW9wepLNuzocxzZ5PDzWlW+oah
-	fbsriUtk/DO/BCrQ84MinEFNVAatFseRrIqlQCaHvC5IqXiVX7JyHpfVCly8fjjZTRBt1Sx2tD7
-	wCqV6iWlfUD9SW9ugQpI4Or2wSnPzDaScc1LlS+Z/BuFnmqcS0iHq8aUPphbdvlpkTEUTzPF1c5
-	EaxGdRwoq4OCW87IPgxu0bvPIf/JkPPrDpjrp3t9UhqwcFSCa3EFE+zg9qJmXva8b7dF2Q2/YrU
-	maxwFiX2/2IXsjXcR1do/8YDCr4g2RFJo+3R8PQypsaDNs7Xv5ghR8cAbr2w6UV7IMzUG79xATz
-	5UlKFNsKvzTcggNf7N3lzAg8uFceJg3U45dMEm3Ws4PEeio02lg==
-X-Google-Smtp-Source: AGHT+IGboQXup/sgtzEmkEwk8oMDufzhXkatqPuP1Cmf7+D+uVwma1W1OUqGKi2mrfi+tqTDKqnBBw==
-X-Received: by 2002:a17:90b:2e41:b0:2ee:b8ac:73b0 with SMTP id 98e67ed59e1d1-306a47c2d6amr11531890a91.2.1743894992161;
-        Sat, 05 Apr 2025 16:16:32 -0700 (PDT)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c994esm55048345ad.102.2025.04.05.16.16.25
+        d=1e100.net; s=20230601; t=1744001164; x=1744605964;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3EuDa5MdYzDvx9phCQyiyQIJ/EzyBR8j5u1DkbRAKbc=;
+        b=MyxscGlMPoBo7K4NmMXYDh10SD1o23pu+5Tj9f5TwR2HXh0xdM050jsDC7x0C40JY7
+         NQ1KLJ7aCtSUE/u/KOr5xlY/pmgRZPzIt4BQU7RHpc7se1ARvtXbrT09EddLpVMdqX8x
+         g4ARMr+CzOVw2GLrpkpvlbiIytqNcDcq4/WtITDjb4HTi4EfpusAXrPXU2Y5XgtognQi
+         1kET1KEXGZ3biLq/xUcC8HpqPbXyDLM0qU6mPDrCEs+HhCZTGX3sKKrpo4MPDX7qSQtC
+         qieL/tV/K1R77iSY16bvefXtfA1Cv0hLo3ZrupoxsoWZGNrtePCHfTdIiu44f52gDGV1
+         R42w==
+X-Forwarded-Encrypted: i=1; AJvYcCWqxzafLA6NviboK7vrAMtMerzJCLJykBV8NbZtw5YFMi52hz97st37m1PDeZkgHcYhQ04+sA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwaBadIOcxehMGmVZChm/9xRWdSAg+ymYDzVM8JWKOa4+VVxDI
+	2UzwZy5I1K/AZA/1z4CnhVCCSeqW79jeOmyDdA/W8hdKHtSn3N0b
+X-Gm-Gg: ASbGnctVdIuS+AgUTOoO2jIShyWRzeXWykNDxucsgfPwJSDFhB6Kx6nNYmE8s9lhyTC
+	CZf5Lct2epMWg1wweQ7pLlDUiZ6pdCvBXVnXas/1Jlfg24UNaOimxCLyPfktPiDetk721BFVzK5
+	8wNZ67WpgQk1r19m/knm9c/Mq6VAK3ynCGLnjlN7ea5FpVyIDhkEMt6GQJm5wYLPsnpKwukBYM8
+	0PgK1kDKgLd3tW7/fRqjj1UbOGD6HzNH/KNqP49OZqCVwtkosbd5bnSHsFAcYr68vPhvHRs479Z
+	QqHWkxnekIQB6UNVn+YwFHKql6XqBSXvzs9TKrNbaMiypXgKO5XmWk1FqA==
+X-Google-Smtp-Source: AGHT+IGnnwu3PoUM04kNoMa5q/pPcTApIutUUP6YpURP7hymSf7y+lisKuwk4Y0t7sbuK5dmWNv2yw==
+X-Received: by 2002:a17:90b:2d4e:b0:2fe:b77a:2eab with SMTP id 98e67ed59e1d1-306af7b37b5mr8196187a91.32.1744001164238;
+        Sun, 06 Apr 2025 21:46:04 -0700 (PDT)
+Received: from [127.0.1.1] ([59.188.211.160])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-305983b9954sm7765810a91.32.2025.04.06.21.46.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 16:16:31 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 06 Apr 2025 09:15:12 +1000
-Subject: [PATCH v5 8/8] ASoC: tas2764: expose die temp to hwmon
+        Sun, 06 Apr 2025 21:46:03 -0700 (PDT)
+From: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH v6 00/21] drivers/perf: apple_m1: Add Apple A7-A11, T2 SoC
+ support
+Date: Mon, 07 Apr 2025 12:45:09 +0800
+Message-Id: <20250407-apple-cpmu-v6-0-ae8c2f225c1f@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -68,184 +67,123 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250406-apple-codec-changes-v5-8-50a00ec850a3@gmail.com>
-References: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
-In-Reply-To: <20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Dan Murphy <dmurphy@ti.com>, 
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFVY82cC/3XOwWrDMAzG8VcpPs8jluRa6WnvMXZwbbk1NE1It
+ rBR8u5zCgMnsOMn+P3RQ00yZpnU6fBQo8x5yv29jOPLQYWrv19E51i2ggZsA8ZoPww30WHovrT
+ 11mP02BKjKmAYJeXvZ+z9o+xrnj778efZns16/ctAnZmNbnTi4BL4YBzh26Xz+fYa+k6tmRlqi
+ hsKhbI749G0CMK8p/g/xULP4hL7KJFN2lOqKW0orQ+n4Bsha8jJntqKAm+oLbQVAxQisESq6bI
+ sv1hkktWQAQAA
+X-Change-ID: 20250211-apple-cpmu-5a5a3da39483
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shi Fu <shifu0704@thundersoft.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Hector Martin <marcan@marcan.st>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-hwmon@vger.kernel.org, 
- James Calligeros <jcalligeros99@gmail.com>
+ Conor Dooley <conor+dt@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Sven Peter <sven@svenpeter.dev>, 
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>
+Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nick Chan <towinchenmi@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4733;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=5Z9X682HZUgLJ1v6uu51TGEAsXE/8Sre+u8dfgEfwT0=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDOkfd3Ydffj9fdjhS7FJN4MP3lQONy7btTkkfquglGhlp
- KdAlsaRjlIWBjEuBlkxRZYNTUIes43YbvaLVO6FmcPKBDKEgYtTACZys4HhF1OSiWzl0nUxlpJ9
- wea9roGCa6+2byjY0Rrm5LN27fLiDYwMW6dJu2v3uVa/3yfL+Lp0Y9H9iL1lj54qVVZt2/SYhYW
- NAwA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3865; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=A/h8OXs8Wekr7gbuWaO+81ojzwQgObVHH0lNAKAIdNU=;
+ b=owEBbQKS/ZANAwAIAQHKCLemxQgkAcsmYgBn81iAz4hLMliudNCLKDZSI8+c8gq5cO4dSJTrj
+ JFIwGCrcXWJAjMEAAEIAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCZ/NYgAAKCRABygi3psUI
+ JDkcD/9GRYoFGfptUaxyUh/OHaFxIDxYKvUhITxgKDs0lKXNXU6O4QG/aPDi+rBHqKlgfw+pv5G
+ 4JKAvs+uN4L1tBkI2q1v4dYPEzoNO3qODNIRRY6/5oavcmq8u0ADZdvg/as/W0cdeiSFqCrHaIT
+ O1WBwqwyBztXKw2IktrdwOeeeVnYdfbSUpX/0fQiBCBPmo6/p6Whg9isPpwUFYga+/BveBaPvvI
+ tXzDs9Pb2XbKiSBWcqMOqeS5KGEaiBPgxtIR5xrGpazJVM7FrkzDpAcd//+XYTHvpkvb9jBG0d4
+ Sncjv5mBK/ruyOB7UpE3VDKSvcFaTJlci3mIjAVCQLztuwbm9L8ukjEjD9DanUzwvokko0HfQxi
+ O+YlR69WiTUEVWK/USWOP2GHFtJ+GVXREztk1LbpjknwtY7D96IGHtrpZbE+S34ZrKKkfk9ETZo
+ g0dUflMQqVk8dx4nUUyfdZmnxno3cJWMlX8Rk/wM6WoS2B/RR9NbHWjyVUM2Mb/MCy+t/38EnAG
+ FDHVytWAunHr8k7H51yMp/hWPWRgGbm67QkMQGcRXSc3DMlIdiYXR3mvzy/S3XXYq5fGuCZNxM8
+ nP8Im3Bp43WHdCaqvqJXebZipW0WDhDzFvnlnumZsT8UeqNKr+GRrPUsANaw/fJRYj9haTvRuTn
+ rVjO4qNRP4w9eMg==
+X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
+ fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-TAS2764 contains an ADC that reports the chip's die temperature.
-The temperature in degrees Celsius is yielded by subtracting 93
-from the raw value reported by the ADC.
+This series adds support for the CPU PMU in the older Apple A7-A11, T2
+SoCs. These PMUs may have a different event layout, less counters, or
+deliver their interrupts via IRQ instead of a FIQ. Since some of those
+older SoCs support 32-bit EL0, counting for 32-bit EL0 also need to
+be enabled by the driver where applicable.
 
-Expose the codec die temperature to the hwmon interface.
+Patch 1 adds the DT bindings.
+Patch 2-7 prepares the driver to allow adding support for those
+older SoCs.
+Patch 8-12 adds support for the older SoCs.
+Patch 13-21 are the DT changes.
 
-The chip will initialise the temperature register to 2.6 *C
-to avoid triggering over temp protection. As the ADC is powered
-down during software shutdown, this value will persist until the
-chip is fully powered up (e.g. when the PCM it's attached to is
-opened). When the chip is powered back down, the last value sampled
-will persist in the register.
-
-Co-developed-by: Martin Povišer <povik+lin@cutebit.org>
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- sound/soc/codecs/tas2764.c | 89 +++++++++++++++++++++++++
- sound/soc/codecs/tas2764.h |  3 +
- 2 files changed, 92 insertions(+)
+Changes in v6:
+- Rebased on top of v6.15-rc1 (Conflict with FEAT_PMUv3 support for KVM on Apple Hardware)
+- Add patch to skip initialization of PMUv3 remap in EL1 even though not strictly needed
+- Include DT patches
+- Link to v5: https://lore.kernel.org/r/20250228-apple-cpmu-v5-0-9e124cd28ed4@gmail.com
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index 21c38b2394b71ef7d05b4c2e781fdf73926fec5b..97968ee3af42e8400b8cbcc23fe2184afc8c715c 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -8,6 +8,7 @@
- #include <linux/err.h>
- #include <linux/init.h>
- #include <linux/delay.h>
-+#include <linux/hwmon.h>
- #include <linux/pm.h>
- #include <linux/i2c.h>
- #include <linux/gpio/consumer.h>
-@@ -577,6 +578,80 @@ static int tas2764_apply_init_quirks(struct tas2764_priv *tas2764)
- 	return 0;
- }
- 
-+static int tas2764_read_die_temp(struct tas2764_priv *tas2764, long *result)
-+{
-+	int ret, reg;
-+
-+	ret = regmap_read(tas2764->regmap, TAS2764_TEMP, &reg);
-+	if (ret)
-+		return ret;
-+	/*
-+	 * As per datasheet, subtract 93 from raw value to get degrees
-+	 * Celsius. hwmon wants millidegrees.
-+	 *
-+	 * NOTE: The chip will initialise the TAS2764_TEMP register to
-+	 * 2.6 *C to avoid triggering temperature protection. Since the
-+	 * ADC is powered down during software shutdown, this value will
-+	 * persist until the chip is fully powered up (e.g. the PCM it's
-+	 * attached to is opened). The ADC will power down again when
-+	 * the chip is put back into software shutdown, with the last
-+	 * value sampled persisting in the ADC's register.
-+	 */
-+	*result = (reg - 93) * 1000;
-+	return 0;
-+}
-+
-+static umode_t tas2764_hwmon_is_visible(const void *data,
-+					enum hwmon_sensor_types type, u32 attr,
-+					int channel)
-+{
-+	if (type != hwmon_temp)
-+		return 0;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		return 0444;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int tas2764_hwmon_read(struct device *dev,
-+			      enum hwmon_sensor_types type,
-+			      u32 attr, int channel, long *val)
-+{
-+	struct tas2764_priv *tas2764 = dev_get_drvdata(dev);
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_temp_input:
-+		ret = tas2764_read_die_temp(tas2764, val);
-+		break;
-+	default:
-+		ret = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct hwmon_channel_info *const tas2764_hwmon_info[] = {
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_ops tas2764_hwmon_ops = {
-+	.is_visible	= tas2764_hwmon_is_visible,
-+	.read		= tas2764_hwmon_read,
-+};
-+
-+static const struct hwmon_chip_info tas2764_hwmon_chip_info = {
-+	.ops	= &tas2764_hwmon_ops,
-+	.info	= tas2764_hwmon_info,
-+};
-+
- static int tas2764_codec_probe(struct snd_soc_component *component)
- {
- 	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
-@@ -825,6 +900,20 @@ static int tas2764_i2c_probe(struct i2c_client *client)
- 		}
- 	}
- 
-+	if (IS_REACHABLE(CONFIG_HWMON)) {
-+		struct device *hwmon;
-+
-+		hwmon = devm_hwmon_device_register_with_info(&client->dev, "tas2764",
-+							tas2764,
-+							&tas2764_hwmon_chip_info,
-+							NULL);
-+		if (IS_ERR(hwmon)) {
-+			return dev_err_probe(&client->dev, PTR_ERR(hwmon),
-+					     "Failed to register temp sensor\n");
-+		}
-+	}
-+
-+
- 	return devm_snd_soc_register_component(tas2764->dev,
- 					       &soc_component_driver_tas2764,
- 					       tas2764_dai_driver,
-diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index 3251dc0106e07862dd69efd69fa0e40c3858ecb7..538290ed3d92acea3322240a3bd09edd63694e50 100644
---- a/sound/soc/codecs/tas2764.h
-+++ b/sound/soc/codecs/tas2764.h
-@@ -117,6 +117,9 @@
- #define TAS2764_INT_LTCH3               TAS2764_REG(0x0, 0x50)
- #define TAS2764_INT_LTCH4               TAS2764_REG(0x0, 0x51)
- 
-+/* Readout Registers */
-+#define TAS2764_TEMP                    TAS2764_REG(0x0, 0x56)
-+
- /* Clock/IRQ Settings */
- #define TAS2764_INT_CLK_CFG             TAS2764_REG(0x0, 0x5c)
- #define TAS2764_INT_CLK_CFG_IRQZ_CLR    BIT(2)
+Changes in v5:
+- Slightly change "drivers/perf: apple_m1: Add Apple A11 Support", to keep things in
+chronological order.
+- Link to v4: https://lore.kernel.org/r/20250214-apple-cpmu-v4-0-ffca0e45147e@gmail.com
 
+Changes in v4:
+- Support per-implementation event attr group
+- Fix Apple A7 event attr groups
+- Link to v3: https://lore.kernel.org/r/20250213-apple-cpmu-v3-0-be7f8aded81f@gmail.com
+
+Changes in v3:
+- Configure PMC8 and PMC9 for 32-bit EL0
+- Remove redundant _common suffix from shared functions
+- Link to v2: https://lore.kernel.org/r/20250213-apple-cpmu-v2-0-87b361932e88@gmail.com
+
+Changes in v2:
+- Remove unused flags parameter from apple_pmu_init_common()
+- Link to v1: https://lore.kernel.org/r/20250212-apple-cpmu-v1-0-f8c7f2ac1743@gmail.com
+
+---
+Nick Chan (21):
+      dt-bindings: arm: pmu: Add Apple A7-A11 SoC CPU PMU compatibles
+      drivers/perf: apple_m1: Only init PMUv3 remap when EL2 is available
+      drivers/perf: apple_m1: Support per-implementation event tables
+      drivers/perf: apple_m1: Support a per-implementation number of counters
+      drivers/perf: apple_m1: Support configuring counters for 32-bit EL0
+      drivers/perf: apple_m1: Support per-implementation PMU startup
+      drivers/perf: apple_m1: Support per-implementation event attr group
+      drivers/perf: apple_m1: Add Apple A7 support
+      drivers/perf: apple_m1: Add Apple A8/A8X support
+      drivers/perf: apple_m1: Add A9/A9X support
+      drivers/perf: apple_m1: Add Apple A10/A10X/T2 Support
+      drivers/perf: apple_m1: Add Apple A11 Support
+      arm64: dts: apple: s5l8960x: Add CPU PMU nodes
+      arm64: dts: apple: t7000: Add CPU PMU nodes
+      arm64: dts: apple: t7001: Add CPU PMU nodes
+      arm64: dts: apple: s800-0-3: Add CPU PMU nodes
+      arm64: dts: apple: s8001: Add CPU PMU nodes
+      arm64: dts: apple: t8010: Add CPU PMU nodes
+      arm64: dts: apple: t8011: Add CPU PMU nodes
+      arm64: dts: apple: t8012: Add CPU PMU nodes
+      arm64: dts: apple: t8015: Add CPU PMU nodes
+
+ Documentation/devicetree/bindings/arm/pmu.yaml |   6 +
+ arch/arm64/boot/dts/apple/s5l8960x.dtsi        |   8 +
+ arch/arm64/boot/dts/apple/s800-0-3.dtsi        |   8 +
+ arch/arm64/boot/dts/apple/s8001.dtsi           |   8 +
+ arch/arm64/boot/dts/apple/t7000.dtsi           |   8 +
+ arch/arm64/boot/dts/apple/t7001.dtsi           |   9 +
+ arch/arm64/boot/dts/apple/t8010.dtsi           |   8 +
+ arch/arm64/boot/dts/apple/t8011.dtsi           |   9 +
+ arch/arm64/boot/dts/apple/t8012.dtsi           |   8 +
+ arch/arm64/boot/dts/apple/t8015.dtsi           |  24 +
+ arch/arm64/include/asm/apple_m1_pmu.h          |   3 +
+ drivers/perf/apple_m1_cpu_pmu.c                | 807 +++++++++++++++++++++++--
+ 12 files changed, 871 insertions(+), 35 deletions(-)
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250211-apple-cpmu-5a5a3da39483
+
+Best regards,
 -- 
-2.49.0
+Nick Chan <towinchenmi@gmail.com>
 
