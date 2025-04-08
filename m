@@ -1,90 +1,79 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D421C3314
-	for <asahi@lists.linux.dev>; Tue,  8 Apr 2025 21:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7931E2843;
+	Tue,  8 Apr 2025 21:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744147579; cv=none; b=iZHW877fFmeK4HUfZ2RsQ8+XLZfau+NGlmnS5RsRDB3lPTlIGX4cq2RwlIKmWxddzRZKYofWNBBV6Mhd7HUJv8xmsv65+N+FZAUPxKaxp1XQp16sOofYRFdrpDnK8/iRRFHoUKMaxd60gqebY8Hlbeqcmn2gH2sIlY9gW5eTd6w=
+	t=1744149376; cv=none; b=eMDvfWAVhpeqXc45ZyvOunyCziqWjrNPOUEMs2QDhXtDFf9VLZT2U1OQiewBFmN93CivHY651TcN3vZPAar1bjgLbyeKtTsjlZQ9eVEu/uyqJ31muO+FXxwr5nYIiaCTDce9XXSc9Bsw+Jr5As8nIRPUa8QSWk2mzxvGlhkNH8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744147579; c=relaxed/simple;
-	bh=P7Lf0dj0hCXeXLmQVHB7DfGd8JKZuBwyDePUBEWe9Wc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FaFJX6svHTkIORpKQwWNkYqTNueYkoKui7/qJqkUXsHfOKZDkpMmSvyhCKWzbzRu7Q2iSNOcIqhln+14B+7BRYOPh7iIuUue44Wn7A9ooC0gq+V7TJfq6rcGi8KMl48c5feMkLTooTGBuZ9c3TPbVetUJ2IBJntuEZZkFCGtdWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=Lc6glUYr; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1744149376; c=relaxed/simple;
+	bh=OTZrr+zk1sHLCa1IYfnHV4rS71qGoOP4KYZHUFdAbco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s8ewyY9Vs5G+ZW/VyBo/qxBRB3ke2DdDC94xSMM5V+OuISYTCYie6Q62XilAg7V+PEfY39C1eD2RlcQmpIsUYG/AeBgDLOQziUZhZdJf9QyhLF3o72ijctPvmL+z5H9PMKu6AAVE5vjpaaDJgFJsGmuONpthvi1c46yd6RhZ4n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlQyI0FK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="Lc6glUYr"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1744147574;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j8EVmgn2Z4wK0oIRWCTYDXGo1chuiloeDCezR7/IMto=;
-	b=Lc6glUYriu6t8DRbnJjBKzUmx47WCtf0msz0Fz7bdoxmmIVYbPoTN4KBuaa1jE/Xc1OSul
-	+kE1ZXcH6Na28NdBGLO3zaEXkK8P7X5JspchKKo9DPdz8n6Fdpyad+J6p0PJ0uQpvTJAj+
-	O6xP+8Zuh2VioswhiSmeBk4qbuzCRJ3TIKigInxTPKO2g030yS0QVvN6UUpg8VhnGFSugs
-	jkkEtL3K45MKFK3b61d5Wxya7YvDiNuY3R5dcggCzTmikBGjSLgYmtfsghia6ivAjqgHQ0
-	RginvRMRKRJ0orS2X41Jg9RzbtAa+GR6obNYQIadRs7eFAJL3tHR4gkEKewJbg==
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, 
- Faith Ekstrand <faith.ekstrand@collabora.com>, Janne Grunau <j@jannau.net>, 
- Sven Peter <sven@svenpeter.dev>, Jonathan Corbet <corbet@lwn.net>, 
- Sergio Lopez Pascual <slp@sinrega.org>, 
- Ryan Houdek <sonicadvance1@gmail.com>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- Asahi Lina <lina@asahilina.net>, Simona Vetter <simona.vetter@ffwll.ch>, 
- Neal Gompa <neal@gompa.dev>
-In-Reply-To: <20250408-agx-uapi-v7-1-ad122d4f7324@rosenzweig.io>
-References: <20250408-agx-uapi-v7-1-ad122d4f7324@rosenzweig.io>
-Subject: Re: [PATCH v7] drm: Add UAPI for the Asahi driver
-Message-Id: <174414756927.683934.14858043560945639869.b4-ty@rosenzweig.io>
-Date: Tue, 08 Apr 2025 17:26:09 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlQyI0FK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7DE3C4CEE5;
+	Tue,  8 Apr 2025 21:56:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744149374;
+	bh=OTZrr+zk1sHLCa1IYfnHV4rS71qGoOP4KYZHUFdAbco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IlQyI0FKNPRPp7/aXA4fkERdNYSc+09TXkoLf1rg0P7MISrmluByVwaJi9wy04ErW
+	 A1iIeu3i6l5BKEodhDvt60zc0j1/YG/BZvCo597dGXM8bjnDDryM/ekjsmp5kI3/Ze
+	 TqOPEUJ3b1yB++So+1hlqDvprb6c8ceNjrvJfjqFHMg95RGyxBMOcAFtNC53TgoASD
+	 K/Tgd+bBBngSmX6CKgSI1HHl1Fzi6Zz1a4gwHfRoODKuvInAsjYLOXzYTp7W2/FZDq
+	 HntaMDvptwwmtSn3clnodsbBGG30a+5M/dqCS2322RlyY1yx/b3HHrKNyueVLM1n5P
+	 VPg7tQ1QQ6t1Q==
+Date: Tue, 8 Apr 2025 14:56:11 -0700
+From: Kees Cook <kees@kernel.org>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+	tamird@gmail.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v4 2/3] printf: add tests for generic FourCCs
+Message-ID: <202504081456.745ECB546@keescook>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB95973AF4F6262B2D1996FB25B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PN3PR01MB95973AF4F6262B2D1996FB25B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 
-
-On Tue, 08 Apr 2025 16:54:14 -0400, Alyssa Rosenzweig wrote:
-> This adds the UAPI for the Asahi driver targeting the GPU in the Apple
-> M1 and M2 series systems on chip. The UAPI design is based on other
-> modern Vulkan-capable drivers, including Xe and Panthor. Memory
-> management is based on explicit VM management. Synchronization is
-> exclusively explicit sync.
+On Tue, Apr 08, 2025 at 12:18:32PM +0530, Aditya Garg wrote:
+> From: Aditya Garg <gargaditya08@live.com>
 > 
-> This UAPI is validated against our open source Mesa stack, which is
-> fully conformant to the OpenGL 4.6, OpenGL ES 3.2, OpenCL 3.0, and
-> Vulkan 1.4 standards. The Vulkan driver supports sparse, exercising the
-> VM_BIND mechanism.
+> This patch adds support for kunit tests of generic 32-bit FourCCs added to
+> vsprintf.
 > 
-> [...]
+> Acked-by: Tamir Duberstein <tamird@gmail.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Tested-by: Petr Mladek <pmladek@suse.com>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
 
-Applied, thanks!
+Reviewed-by: Kees Cook <kees@kernel.org>
 
-[1/1] drm: Add UAPI for the Asahi driver
-      commit: 12a2bf6765c2a61eb7f20870452bb915eb28fdcc
-
-Best regards,
 -- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
+Kees Cook
