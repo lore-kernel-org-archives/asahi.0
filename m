@@ -1,194 +1,98 @@
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011032.outbound.protection.outlook.com [52.103.68.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFF720FAAD
-	for <asahi@lists.linux.dev>; Tue,  8 Apr 2025 06:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744094970; cv=fail; b=Z6YdhmobA/D8NLbXHKnp6vSh4TgMnMNfnMBtgZRXoDnDcH2uowJiKIX0G8U/XKCtxxbABJoOrPksivG6qRvQsKv7Hhh6wPHnKvtolp8wz0rFCEQKtvRkg21wanaU7G2IzLAk+t17ZBtvnWIzQmbndbXYkBypkM8QWOgFNsRCdgs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744094970; c=relaxed/simple;
-	bh=RbgDPJDCX0/AoNnCAxMp3nehUgINAn4ZXg6vFueglWA=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Zvd36RaaJ52zK299vp1UYir2z+j81McZjZDWZnOge91m1EVJ4o4vHkNWSwPQu/+S78UHc0yAR3RGBBwTWllWpuvQTo3EUzykvm9aHSbQ3ULq2vCg9hxgyiy3RAs97K6rZP0kxf3F7E7UkDoSjP7bX9XD0BkcAiLsF82rPwrNihA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=gb7eDIw4; arc=fail smtp.client-ip=52.103.68.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A758B263F2E
+	for <asahi@lists.linux.dev>; Tue,  8 Apr 2025 08:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744101705; cv=none; b=j8D4F22gYTcgnpaOljZnrezrDT3OX9EGS3YAbsGoluApUkbgkS+eZFmuIblgJibN8oUA7TuaDeeKtQto61BqdqxDw+Zvs2IQ8o20dwCAa16XnW60vimgy4/mDTZt+Spvge723xiKDWWi5IO1du0a7gAQy1oSh/8fq7nRzR9MKMM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744101705; c=relaxed/simple;
+	bh=5WteQ7YdNoFXvIEtbsDbq4fbGNek1M2TYmJsBLMEzgo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZFmaREbd9zUMA6rCgsGmzOQNrDfTVC0C8r732UBO/i4w92bv5mPWgK4b2nPFoKULVTqJFyD9524viMfXRMP5jw0CQkS8JYoJ+ivfVDEqyEsySzBZbW3v7oT29p6eNpJmI7TGzpbK2a7+IYhNmSHZpqu/MQM01SpOS/lkimgbC1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAWC0gEw; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="gb7eDIw4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DkFOpcQnQDhyJTsFzsNBCw62aJNt67cqROleDh+jfABeXFU90UqGhlkvtGVmns7zRM+0nMFldombHq2sdljeXVv9cCX8s6hUDrfcKWS8CZFIyAGbZfogefX0qGIdlOTGr8UFsippeM4RQ0vrdb3wCaAQRVOdsJ98s/9Km9yJ8mWMkFZ9uqD+6ksyBt12NdKRgGDBpRxsE+HzlR4xf471hG8mwhjDfTFqQwEs++U1wIEyjmJCf39biJ+RT9aUHpULpytX7DWG0831+cP8npyWgzc37VqnhrIMbx7uF9v+Ho+qPC5UQbOWG/2+lblKnk1znttHI9omyYJ+nmWZH3T/wA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PxCbrftVY4dmEBHU29MzLWAFfws2qVVZjTjU3bOQ4yU=;
- b=xcqpFyeNf2lwjz0k7D+xL78XTzFtNyXItM+QhZF5uP6Zzo2WK8LmekwW/LwX4YH2VB/fTjKliG8lVgTBmBDnSXvltaCvuO8vi7OPwSOE3lwfLihGrF5xvwYXlMdbU3mJyb1vEKgsqAbmb4bVn8p0tINfB31bzdgqoflZDefgaZSDqmlG1pcWmzmFD/KiLvfreySBI8QBJmQOydzVwV14dbTyT5umgyYcvvyMKoxkXUbp84NRK8LsLL3kkMsr0Vi0MA/sOpf7RiKm+OXfCgKZn4E2crWvUoUV/07W4nSjoZdjiBAAaOhjWMku/tGV65tOYDoBnRIYIIOUBylUrr1EqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PxCbrftVY4dmEBHU29MzLWAFfws2qVVZjTjU3bOQ4yU=;
- b=gb7eDIw4660Qh2CSzcoYWnxqfkFX+2AtAtT2hpqgEeIlAVl+GmVgWi3faWUOGS8HP8O4pg30M3BEkV8RzU+NCzoTlCT88kRT8nMXNMEjrtV6N6Du02+Uvm2DUvo1xdZoUGL8bbB9Fne3wSsXMU8w3IckvW9CikDkdJ+DUdALQA1hArEAyXSXOyvxKfWQDkEj8ABigqtR7cg+PdcGaHPPCC9bElmZWg1ey92Cz9ZABH5IPHEO1AUcSBF8tsQ77GUI5SNvT+OGgNw0a74/y/eLnHDMgmfhqCkBwF11+pASuJfrOs0pqJIzhG/Gea1fzq+o9gcM81b7rm0ATzCS/UfMcQ==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by MA0PR01MB7052.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:5e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.33; Tue, 8 Apr
- 2025 06:49:16 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8606.029; Tue, 8 Apr 2025
- 06:49:16 +0000
-Message-ID:
- <PN3PR01MB959783DC6377C4CAB203D7ADB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Tue, 8 Apr 2025 12:19:11 +0530
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v4 3/3] drm/appletbdrm: use %p4cl instead of %p4cc
-From: Aditya Garg <gargaditya08@live.com>
-To: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
- Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
- airlied@redhat.com, Simona Vetter <simona@ffwll.ch>,
- Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
- lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Hector Martin <marcan@marcan.st>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAWC0gEw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744101704; x=1775637704;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5WteQ7YdNoFXvIEtbsDbq4fbGNek1M2TYmJsBLMEzgo=;
+  b=dAWC0gEwTZ+fJAYbEC8LS4lwAleRlOdDZlWeQ1KNw0OJ1+tCHMlJgZyA
+   NJMwuGSHEw8OjbPfA1a/DKyVnvOS5KRb8gn9XwwfJfyq6ZU7zHAjGkPCB
+   YmCrQaFKpN3UlZTdoVpOsE6zbHJ4r+XucSHgMb9P5ikm8vwdRQQvRh6Jg
+   WVht82pzzMhXOSYx8/rEDg2a1vOQAqkOJAucfVZevpBu+FL7l2dp2qPJg
+   cI24zaHmerSIkiu1Yv2LiBBDXOZUCbXNwoUvAK4my/BW4UEJMkxzIm9Jn
+   xahNJJQImAd0r6X9Rb2ETFO9RlFoc10Eqx2fh8jMC9QbnvYoK1uXIbxJ8
+   g==;
+X-CSE-ConnectionGUID: ii+nQwihQvqk//dWJ1E6Vw==
+X-CSE-MsgGUID: XgCcd215ReueA+LK527S1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45410321"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="45410321"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 01:41:43 -0700
+X-CSE-ConnectionGUID: e4xa6mZKSgiZsPgdHaLFpw==
+X-CSE-MsgGUID: FbaDQkLOSt6Ln5P2KltInA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="129152257"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 01:41:37 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u24WS-0000000ALEM-3zpw;
+	Tue, 08 Apr 2025 11:41:32 +0300
+Date: Tue, 8 Apr 2025 11:41:32 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+	Kees Cook <kees@kernel.org>, tamird@gmail.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v4 0/3] Use proper printk format in appletbdrm
+Message-ID: <Z_ThPOOKXa3VwvmO@smile.fi.intel.com>
 References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Content-Language: en-US
-In-Reply-To: <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4PR01CA0034.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:273::7) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <cc6f812e-f1ac-4b0f-995c-f353bc444baa@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|MA0PR01MB7052:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4da374a2-c1a5-48e3-9464-08dd76697aba
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|6090799003|5072599009|15080799006|7092599003|8060799006|19110799003|461199028|440099028|3412199025|41001999003|12091999003;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WDNPMnlSRHBKQytybkRBd2VxU2NEdVpUdENVQW02SjZOVVAxeC9OTU54ZGpX?=
- =?utf-8?B?c0RpTEFpMCtkOW02eUVLMDhlbDlya3djUGpub2lBV0c5elpQWWpyRzg4M1dl?=
- =?utf-8?B?T1dzcmZPMXUzMUlXZy9EYkpMYjBucmZiek80NTJsa0d4TW8zSWtndng2R1lP?=
- =?utf-8?B?SkQybWt0cXZDa0picGh0c3BCNFc0aDR3WVpESm40ZU9rYTl0VXo4cWlKZ0VD?=
- =?utf-8?B?MmlHM3JkbkJDelVEMnF2VUdmZmtvakVKZHhrcEVDVUZnVUM1bzhRQ1dER1FW?=
- =?utf-8?B?NUxDaTh3YkxsMXJFS0lpdTluUGpVbTE4Ryt3bVUyT3A2QTRUT1hlTkYxcmls?=
- =?utf-8?B?U2ExMGxkU242akF2dHd4cmdGRFFrWWRmVjhuYUVDemJzV3V0Z1hCV1psUlZB?=
- =?utf-8?B?MUxHcm1BWUoyZFd4SkNTS0pheUxZbjg3ejVEY1lNdzBxWWRjNWF5MUVDRlpJ?=
- =?utf-8?B?TU9MMVFwbWdEYmkydTZhRFF1U0E5VytCa3VMZWV0OEg4QU5DNWdmZnpoTThL?=
- =?utf-8?B?WjgreVhLbEdpMjlyL0xvNVplWHRaRUxNSWErek9iYWQ4VVBKcko3YTc3VVhC?=
- =?utf-8?B?ZldJR0htN3FuU0lSYkJHWjJmc2dIcll3TjhTZE94NktlRWZQWW5nWktIYW1X?=
- =?utf-8?B?TXZVRXR4M3kxZVNVdTlJdW41MHZUQ05YSW13bXk1OW1zdHN2cXZSODhBb0ZR?=
- =?utf-8?B?dXRsdUFDOTdEc09TdlFKVDJXVEVnajROWlhwOC84Ukk1M1UrNmRmdDE5WEgx?=
- =?utf-8?B?NEJ4SVJxMzUxczJqOHh3TjRMblBpaUFURVcyUW5hUFBPZ3hFMTdEak5EZVdD?=
- =?utf-8?B?bHhuMmhRR1M4STlwZ0oxTEhXR2ZHZHREUHdqWVcyK1JRQ2plNzhuYzA4bU9Y?=
- =?utf-8?B?ZG0vck1LajVrdmwrc0lhM1JLTmRJMzJwamRBUEVqNmp4eHI3b2toY09WNGlK?=
- =?utf-8?B?RXlUTnBWeHB5aWxDRDBHbEJjUmVWaEdjL1BsekU0UGxSZTRWYmFUNmpPQ3Rm?=
- =?utf-8?B?NlNnMnV5b2pQRU5NYnYzTjZIR3cyenQrV3Exd3NQaUpSR0MxNnlmeDFFbnZz?=
- =?utf-8?B?U2xYKzhVcWhsaUVIUjBmWWtmU28vdjVqUTRMU00xRmZMSWpRb1YxU3IyTW9D?=
- =?utf-8?B?TzhmTjRoUUZDZjZ3aXBxNExrZ0tqdXVsSzFEWDFRNjZ3U2NVd1dESFEyR01S?=
- =?utf-8?B?bHJqaTkwQTd4TWtwRko1MUtMOU5DSGZHSGZtTXlHQWhZWUJPbm5pWEI4SnhD?=
- =?utf-8?B?YjlIbHRnYTRtMFpaTXNOUCtmY1ptZVMrMWxOYjZYMkJIcTFVbFRnYzZ4WkEv?=
- =?utf-8?B?dXZMdnY4dlhGQjlGS01Xemh2Nklac2x2eStiMVE4ckJTNWtrbEFCcjVWanlM?=
- =?utf-8?B?Y0FCV1Q5ZTVKT1NocWY5NDh2OTAydVNXaVR4RWFaS1U2NFBkM1oyMW81OGgz?=
- =?utf-8?B?T1JoTFNqYmllWTFiY3gva25NcFFxT2RuMXdYVWJwa1Axd2lZd005Tk0vcGxo?=
- =?utf-8?B?TlVOeHNSeEpRQnNsMk5wSUVHbGZZL1BxdmFPM0RTdCtua3A0NHA2YTFhYTdy?=
- =?utf-8?Q?hfuaaQObCmF0jf2cAnDH0PvZkVCIln7JlP/GSvV7Yfne9G?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SE9CdDNWV1BRMDBqZlJtU3REU09yU0IvaDliekJZZ0doRFZUcHhDd2VVVUwy?=
- =?utf-8?B?MjVVRHArZTNadU5GbzNUb2k1eHdMeExmZThFaUxPNHA2R2pQekFvaUZMZVJl?=
- =?utf-8?B?V2o3YUNiRmVRc2pIWlFGdms4S0MxaiswZFBiUmNvKzIwZXNudDdlYUZ5cGNO?=
- =?utf-8?B?eVhvTm9xVllSWU80TmNCZ0prcEpYK2EzcXA1OVZmRG9haUZCYldYMjVNM3hx?=
- =?utf-8?B?c2o5TGNmUml6SkNpZ2YyRU12YXFOdmM4QWpEMlp2cFowZWsya041ZjRXREFM?=
- =?utf-8?B?aFovYVdGZFFIZmhZdlVtdEc5b3B6VVEreTF0NUQvVWxzZTNlbEhNRzJZQlNP?=
- =?utf-8?B?bmFvZzZnUmpHRkdDTFlOV1lwc1pvV1pDZHhzL1F3c0NPMG1CckFjWGxEN0JE?=
- =?utf-8?B?WGVxUU5pTWYzOW5LQUw1b29FL0xLWmF0OVp0ZmlqMWJJY0tDQ042RDFMUWdZ?=
- =?utf-8?B?ZlFlUVVzcXZyTGxYVndPSXZrZklIbm5zbnUrdWlaMG5zd3BRQlUzZU1TODdG?=
- =?utf-8?B?L1Z6cUNIUVJpN0lsUFEwdnZhRWdoNXVuQkZuVDRvVk9xLzIwbUlNMzBiK0x6?=
- =?utf-8?B?MmwxME82QmllaDJwTnpJcVY3NXY4cTROREpxQ1RkdURlZ1FQMnNGZDBXdi9j?=
- =?utf-8?B?SjdMc1ErZ1VDTjdKQU5qZzdYTHRzM3dTQ1I4Vk5RTlIvQWtiNVNLQjZMNlZs?=
- =?utf-8?B?RzZMMDdwaDRyRmZ1MUp0Wk9JT0hwcVk2MkhSMnBPNEhyU2Y2UGZxZUVnWEVF?=
- =?utf-8?B?Yk11Vis4Y2tqSjVEdVhZU1pVNWpCSTRaS2JoaWJUK0MyVUU1ME9qTkRQUHVp?=
- =?utf-8?B?bXVCb3ArVGxsNGVKV091RVBsdk9RUityem02SmVENGUyeXMyb1c4Uk0raGJw?=
- =?utf-8?B?VThmZVJvUTlGeldGbExSbjUrSjQzQ3FzdDQvdlU4bnh4QUxsUDQwa25tdDNR?=
- =?utf-8?B?TnFWdE95VXRNUkpwbVd1RERlb0l3akJ0WndhRysxMlV4OHMybDBuSHN1dnJN?=
- =?utf-8?B?ek52WWVvNGtweU1PenBOeGQxeFYyUGVaNG5DZ2pycXd4SjIxY2Y0ckFNR2c5?=
- =?utf-8?B?NllYVHp5WXZwZ0UzdDhxRXpLa1BXMHhQWFQ1bFJJdVZacjhDMzRwd2grS0sx?=
- =?utf-8?B?SEFvcEloMDd3R0hGWTZWbUpUakV0VUg0NjJtSE84ajAxUTdPdGNXWmc2MTdm?=
- =?utf-8?B?c1RFMFB1RWVtNU5XWEFLbUZuSTM4aVdKckhDYTlSdTBXTHQyd0haNjM4bG01?=
- =?utf-8?B?c2FlSkMvbGYxbGJya3ltL1hsZ09VODcwaTdjV3lZU25wMFpsTFE3ZEpISUtJ?=
- =?utf-8?B?dTNtaVlqalU5ZU1VZUxkRFNzMlVGMkxheVJQbXUySHR3UnIxOURGN2JNbUxx?=
- =?utf-8?B?b3prR2lyOHJ5bzFsMVNoVkpNclVxdU9Jdmo1UWZyZUNaMVZBdGgvbkNlUkUw?=
- =?utf-8?B?dFlhVUo1U2Vnb3I5aFN5SDJiWW53MC80bzliUXFJTFU0bTZJMXgvWGM3enZv?=
- =?utf-8?B?R3hkWlF6UHU5SytEcWxOL0UvVXdVZVV2d2JUSm1Fd2duMmV4NWNWTDQ4end1?=
- =?utf-8?B?SFo2cWZkYmdXZXdzU0k1RXVBcUpTTDlNUTR5QXc2LzBUamZhbXVQL3hqZ29X?=
- =?utf-8?B?VUVGeFFuUE84SmcvUm9ITDVRSUJydzdyQ0JoS0xCVVBLU1J2YThhOFRYZlR5?=
- =?utf-8?B?Q3ZaRWp3bWhONVZQYnp3S3YrSkwydTBsaWl4MTA1NElVZy90OUlJa095N2dl?=
- =?utf-8?Q?XPnImQg51oXkGQnFaGLPgpTovgrMYD6Z4ARIyiE?=
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4da374a2-c1a5-48e3-9464-08dd76697aba
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 06:49:16.1201
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB7052
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Aditya Garg <gargaditya08@live.com>
+On Tue, Apr 08, 2025 at 12:17:13PM +0530, Aditya Garg wrote:
+> The vsprint patch was originally being sent as a seperate patch [1], and
+> I was waiting it to be taken up. But as suggested by Petr, I'm sending
+> them via DRM.
 
-Due to lack of a proper format specifier, %p4cc was being used instead
-of %p4cl for the purpose of printing FourCCs. But the disadvange was
-that they were being printed in a reverse order. %p4cl should correct
-this issue.
+You need to do something about your tools, really.
+Now it's patch 3 threaded to patch 1, while the rest, including cover letter,
+seems okay.
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/gpu/drm/tiny/appletbdrm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/appletbdrm.c
-index 703b9a41a..751b05753 100644
---- a/drivers/gpu/drm/tiny/appletbdrm.c
-+++ b/drivers/gpu/drm/tiny/appletbdrm.c
-@@ -212,7 +212,7 @@ static int appletbdrm_read_response(struct appletbdrm_device *adev,
- 	}
- 
- 	if (response->msg != expected_response) {
--		drm_err(drm, "Unexpected response from device (expected %p4cc found %p4cc)\n",
-+		drm_err(drm, "Unexpected response from device (expected %p4cl found %p4cl)\n",
- 			&expected_response, &response->msg);
- 		return -EIO;
- 	}
-@@ -286,7 +286,7 @@ static int appletbdrm_get_information(struct appletbdrm_device *adev)
- 	}
- 
- 	if (pixel_format != APPLETBDRM_PIXEL_FORMAT) {
--		drm_err(drm, "Encountered unknown pixel format (%p4cc)\n", &pixel_format);
-+		drm_err(drm, "Encountered unknown pixel format (%p4cl)\n", &pixel_format);
- 		ret = -EINVAL;
- 		goto free_info;
- 	}
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
