@@ -1,71 +1,71 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3E6268C51
-	for <asahi@lists.linux.dev>; Tue,  8 Apr 2025 11:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C5026A0E7
+	for <asahi@lists.linux.dev>; Tue,  8 Apr 2025 12:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744113593; cv=none; b=KM2rYu/Cy/693Dv4q3qjFVx/6srx4HXzXgrBZ/szVpKiDS2nWR+v53ajCrV0h69aqsgHhVdoAfT1YDML2x64vOjk8ZToiueO3gEEZa53Zgx7FRu3VJ825iygzzkr8LVp8H53UcXE4D/zznXfMSOZVaTzWkdCDoMioCM666vQRGg=
+	t=1744114026; cv=none; b=r7SakK/8H/1bt8rGPPv+jtTm/uiEFGXjj5upHRWSEzleND6E5A2otIA5s8ay5yDVnxZidKLLW2ZELvr5BNcyQ+xsFplrDCOtZ7+sqZfItQlVHDBeOKm9UF5jPCerGzEIHw3IauXwjRIGBIy6/yci0mGOXaiQbmpit5l1w9qtk8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744113593; c=relaxed/simple;
-	bh=O/+jAgGAxbyjXO4PAZC5MX8LL4I1nO1tb+Jf+oRpypY=;
+	s=arc-20240116; t=1744114026; c=relaxed/simple;
+	bh=wcqcXnqgwA/2UFVEPkOb/WW5TyibBYqvJ5HM/5PHHSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IG6MgVn6fjfgO5xu3iaHpmZ2zxLqiQaIQODj9Fw2KG6cA2hLEKh9T4/HQyyEYbyHrQMhVEZpCie6vIvAe1n25Fa2PElAb0x5Mk/hKARPe/f9NhhNHDGnru6Vx6PtRi9EQAJaME7XWThKnFm3Jd0Y+P3vIFu4HKELW2e8PSWxehM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kAsOPgkP; arc=none smtp.client-ip=205.220.168.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=SzElmXH5wRMVK73kgo0VrDsN4kHGdpyJaDD+tG0FWi5vAxzhcDcEsRmB5qe9x9lrjmGFjnG94xdUWk8qbfMMwNg0Wv9TVZ5BgEVnVeIG/jE5BpqzQrAy3N47pCO5ffExmTKNrNSIhAHjuoz70r/fTVq37UO9WXv9g4aiuNuEKdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UGSHs8Ie; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kAsOPgkP"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538BMWDp014972
-	for <asahi@lists.linux.dev>; Tue, 8 Apr 2025 11:59:51 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UGSHs8Ie"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538AxpnK000981
+	for <asahi@lists.linux.dev>; Tue, 8 Apr 2025 12:07:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=J5UKc7ae/UXmKHiunvfff8Ov
-	kaw6Ua5MEgH+S/e5ZyQ=; b=kAsOPgkPIbWTYpxxLnV2o/tiI/3bdehvaBEoCyZ0
-	dKGf+6HEMV+mOXtQg3TKew5ae8DTSn+qdcXvJtxK8ge+EnSr0tx+sCis1veuSQzg
-	3edDDEClKZRUG3Frlttq3EXW9eGg6Cq4X/qOzYcAUEzeYFIgmgXGz/jg2tCX0Qeh
-	VWNmF31+A/CHv5/qZ4QGp8dwZPB7U8WGPeLlfGkV1qCdeh+Pr9a3vvCkTGjqRHjf
-	xF2zmMvSqSQDEiIKdecpulOEdxi8iAwxtfFzVa7K2HvKyiTWyAFBTNH+DWP29d2W
-	vg8Y4qTFoI8b2c5ttNqjBRTpAkdNMdU6PF+BTUhr0+c3xA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twbufnug-1
+	:references:subject:to; s=qcppdkim1; bh=okr4ff8snDUBXMIQ3O2Kjam3
+	gElpjdiFVfB7cr7ArbI=; b=UGSHs8IecqIbnMxL8cE1GcJ8I8WeNKJR9JUc1AsP
+	p2wvlCfST4uFdb8kTot56MzlQCypCTyqcHkcu2J3Qmv04DDP3odCH20qUYjQ/iTS
+	kwXyL9wAxYAOKtbt689MAPkn7omIy0lc0PpDQJaXZgEyWtU8KXMEpVqisIDfCHRT
+	bnq8uH65plRDMMdvgxhTBO752R41Uy/u53ibTzjTFWiJQAxUePstp8LhNa0vLEOa
+	AbeGPbXj9HaHmT4/4Vm/khvxuTFXxbU9EUMvBR76FsXMDx9zvgfxxfbUUAd93t2U
+	SsRWUWH/PFGqGXW7N15KN9AEjSCq4Ll8kmt8vWaOufuYjA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twbe7q7e-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <asahi@lists.linux.dev>; Tue, 08 Apr 2025 11:59:50 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c5c82c6d72so983570585a.2
-        for <asahi@lists.linux.dev>; Tue, 08 Apr 2025 04:59:50 -0700 (PDT)
+	for <asahi@lists.linux.dev>; Tue, 08 Apr 2025 12:07:03 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6e8f64eb467so45961906d6.3
+        for <asahi@lists.linux.dev>; Tue, 08 Apr 2025 05:07:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744113589; x=1744718389;
+        d=1e100.net; s=20230601; t=1744114022; x=1744718822;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J5UKc7ae/UXmKHiunvfff8Ovkaw6Ua5MEgH+S/e5ZyQ=;
-        b=UYapbUI5+sxtk+lidnwriHHZbnz62oXQFQPMPw58259KHvE0s+kDMDZ57K+chVO15v
-         2/1/qGjfTHqfAclx/7R62edktM0EZygqRPb6DnGGKdVp6BNOzSsbByWtYyUhIV1i1zKK
-         aVfNoJ5ugA0baMtezg9TpeUdYN7ckXAzlpRJDKosQTu4Ke7pkQCytgIuvWHqoKlGE0Kt
-         CuIAsVA9XHOyolDLQQ5atsfxHZgA57VhYM/udJ6frEaw0OyIGyqE+Th3PYfRD55s/Ft+
-         WQ0Q9D9LwkT01jJtByzDOYQkhtMobhwfEZX5d35LUjS31Vglr7xxJpQxX5hcyx+VEWx6
-         RXBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUgjFMEo1IsufFdMBx4LTNKgj9wk6IMVbDTDsYPcUKM8oeEtEyafwTu3M46WCI28YMTnPBYOg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1FwcKtzVsTUAJPDhvtGf3TCVUZrJOEbG1OoTj85xMQUxAEpqO
-	NABr7jqvNFqfXLrydq5mZX8zk38JVsQqHnhPC/d8OgJkEOMs3P0z3B36ANzfGxB0EeD0FObG5eJ
-	AlrKD+rGo7zTJmM54QLfuIxMR0EaTRNAgb7KgBht8ikwxBPx4C9J/9g==
-X-Gm-Gg: ASbGnctmE8A/50XpXkaxOUi7+tfgQkJ3WkLmfuSTEcOqR2QkChUUByBGucp08der5L5
-	dEGrsLjF61L+5k8jP03JfJe4H6YxTvDBUFBHwe41eqIjpIT6NxRWGc94s3l+pAEJ9QljusFsm2s
-	rm58+nF8EyWnXT2dfnxpaJMsTGQv7vdiBJX6Q8nF7xKm71+VapHqGc8/fTLEUNj+eVaXM3k1y8I
-	yIlKaRnvGjrLvo79IfvcplkZrjIoxeK4ETxDvtyDXX2UuwJIuBB7KcSAmo8J1Qd5rRlz4y+CwVY
-	3aIeXKjLOsclALR5BBFrUwXiikrMMHSJx5Z4dYfOhEOY8R+AmAXHmHecW3iwbOY+Vb0IK3SvaF2
-	VRSU=
-X-Received: by 2002:a05:620a:3189:b0:7c5:a513:1fd2 with SMTP id af79cd13be357-7c7759e8788mr2682361885a.6.1744113589000;
-        Tue, 08 Apr 2025 04:59:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHLjG0AgWeS1WAQhJR3SCJI5Qh4YJ14xwCKURGmhWqtrP5XHH87RDOupWg+DezPfWGcaUO7og==
-X-Received: by 2002:a05:620a:3189:b0:7c5:a513:1fd2 with SMTP id af79cd13be357-7c7759e8788mr2682358785a.6.1744113588696;
-        Tue, 08 Apr 2025 04:59:48 -0700 (PDT)
+        bh=okr4ff8snDUBXMIQ3O2Kjam3gElpjdiFVfB7cr7ArbI=;
+        b=xDA/ua98Vc6IhxDVZwXuQvrT+Eh8yVigg9u+w2vp1JpPx4Fj7Z2kd4zEdi2Vmy71bR
+         TbWOZobIlVADWipZOhSuWf4Iih86RR0E1vaKeUgsiZRuR2QsiviPQOCzDZ3lf6MxAlD9
+         0Sa4/mkA78sPcJmmjRIrvBZyZpxsfnXNMkrnorYMwSJb/ix4XzFJKIDnGcVLhkteeEWW
+         6rNfZWqeftbUrEU5Qe+Ltux7S4y4r4C7uJ1uKcbiJR6VyGWVJDsUzKaYBadlB9+nsQ/r
+         JQwvGidToJmdpl7NSMrdJtkktteVD3U2Jq0FU/5+SPC8Lq/P76C870zMiXjdj6HxXNC/
+         rk5g==
+X-Forwarded-Encrypted: i=1; AJvYcCWtye9Tsy6nxYWSFKzl2J/Cf1y5aSrKUgwLKvkAE+p2MImmmjR9BjgbTawHFkYkjAEEaXN+1w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw7pKSY5s1tRAslpyJVRy5dYhtRpk8viR7EOo74DUalkrIK2ikW
+	30AyfBdqiQpSfjF+N1jilWeU1JkQ4//zx/9GyHU9/5xEBh4gpJMDWTGCFtvYUI2kTNcbodtcpYM
+	chGBYUk649mQXUaK9TBHelTohq4aasOFWtR2lPfRHVdLV5FEFLkHwRg==
+X-Gm-Gg: ASbGncvqJAayi5ZqoAq1FnydT/c6zGQubHxye3+TAaW7gyTEsfMTWYSnPo017T+9oJS
+	+CnxriYUIND75xlJMZIQ1BAa7WNqp+33kzjGwN1lymvfmQUAIL/ls9JmUyZMi6bPctcgnNmKyAQ
+	30DtG60gey2xZLzBqVfuoJ7RvHpFILm4VjPTQNF1CK2DT6LYa0cZpT9GHbeTsYuHELYuLgX1+9+
+	tPoLoXry6lrIpWJbbkSjzsW/ejXCFF92wA2GoxMzEa65y7PyWyQ4Z2mLa8yzFsOfYdCwhdYmr7w
+	1hUEIKaGFyue07zgdANknd8ACsxWK6C9ZCoCwRQEIiiiPEe/s39t4+YD5Lza7d7ir/VKiqM5oao
+	+5Hs=
+X-Received: by 2002:a05:6214:2588:b0:6e6:5d61:4f01 with SMTP id 6a1803df08f44-6f0584a4650mr222250606d6.8.1744114022418;
+        Tue, 08 Apr 2025 05:07:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF9w2RBz2reqBHaAnbyBnIgRXepoq+7WOMXuECx/UyL5hge9Ble8kyyEI6oTqzp8dfXIATI6A==
+X-Received: by 2002:a05:6214:2588:b0:6e6:5d61:4f01 with SMTP id 6a1803df08f44-6f0584a4650mr222250096d6.8.1744114022090;
+        Tue, 08 Apr 2025 05:07:02 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e6370ebsm1479003e87.130.2025.04.08.04.59.47
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e66377esm1493456e87.209.2025.04.08.05.06.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 04:59:47 -0700 (PDT)
-Date: Tue, 8 Apr 2025 14:59:46 +0300
+        Tue, 08 Apr 2025 05:07:00 -0700 (PDT)
+Date: Tue, 8 Apr 2025 15:06:57 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -99,15 +99,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         freedreno@lists.freedesktop.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH 16/34] drm/msm/dp: convert to devm_drm_bridge_alloc() API
-Message-ID: <s5uvbdcv7pqogwg7gyy42vfxv3ubffj4ww7nili6sd3y67kdf5@byctauuurvwe>
+        linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 06/34] drm/bridge: display-connector: convert to
+ devm_drm_bridge_alloc() API
+Message-ID: <o23cjtq5i6m5xwjj7ymknorjsv32e27anugbek42nao643kdct@6nghdmm746ij>
 References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
- <20250407-drm-bridge-convert-to-alloc-api-v1-16-42113ff8d9c0@bootlin.com>
+ <20250407-drm-bridge-convert-to-alloc-api-v1-6-42113ff8d9c0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -116,36 +113,28 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-16-42113ff8d9c0@bootlin.com>
-X-Proofpoint-GUID: tWw--He9Z2MopOoOrLJHIVVpLBZ9hjNR
-X-Proofpoint-ORIG-GUID: tWw--He9Z2MopOoOrLJHIVVpLBZ9hjNR
-X-Authority-Analysis: v=2.4 cv=dbeA3WXe c=1 sm=1 tr=0 ts=67f50fb6 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=COk6AnOGAAAA:8 a=tVI0ZWmoAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8
- a=Yq7wtpIrRiHUN6cIw-cA:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=d3PnA9EDa4IxuAV0gXij:22 a=TjNXssC_j7lpFel5tvFf:22 a=-BPWgnxRz2uhmvdm1NTO:22
+In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-6-42113ff8d9c0@bootlin.com>
+X-Proofpoint-GUID: L2A8DCS5824qDHm8bc4jwbk2hDzXmIDA
+X-Authority-Analysis: v=2.4 cv=T7OMT+KQ c=1 sm=1 tr=0 ts=67f51167 cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=EUspDBNiAAAA:8 a=IO8BAnyXGLrJ2ajCqTsA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22 a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-ORIG-GUID: L2A8DCS5824qDHm8bc4jwbk2hDzXmIDA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-08_04,2025-04-08_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 mlxlogscore=999 phishscore=0 mlxscore=0 spamscore=0
- malwarescore=0 clxscore=1015 adultscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2504080085
+ mlxlogscore=999 lowpriorityscore=0 adultscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 malwarescore=0 suspectscore=0 priorityscore=1501 spamscore=0
+ clxscore=1011 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504080086
 
-On Mon, Apr 07, 2025 at 04:23:31PM +0200, Luca Ceresoli wrote:
+On Mon, Apr 07, 2025 at 04:23:21PM +0200, Luca Ceresoli wrote:
 > This is the new API for allocating DRM bridges.
 > 
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
 > ---
-> 
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Bjorn Andersson <quic_bjorande@quicinc.com>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> ---
->  drivers/gpu/drm/msm/dp/dp_drm.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/bridge/display-connector.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
