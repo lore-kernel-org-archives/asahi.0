@@ -1,149 +1,202 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9BE269D0D
-	for <asahi@lists.linux.dev>; Tue,  8 Apr 2025 12:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA5B1E5219;
+	Tue,  8 Apr 2025 15:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744114075; cv=none; b=IQjpUw3Kj94rQmQi2RBmgZJrpOrscLceMG0c4MMcib3sE0OvdLKVgRsQqIgKo31FQY1FgHN31cxJ8RGjmGOgy9+VRltK6gs24pfk3MpNFZQCBkckDbL2AlzCVgOiVRGU2azYhFEPIUL2nPAN1AZ+8CRFcAhBcyI1Ov/+D2esgQ4=
+	t=1744127472; cv=none; b=nFH3vMmu01cwbAABQtAgI4xahg8N6ebHhSMe2KcAagVSND6UX29XQLcOt03A4kwvsJRHftjMYsAy0kH2patAZ142n7DWqq/XUEINEOUzukFDa0+NMbtP6ztWDkVyijqUQTtNQ8bkqo79lEMRTzy9PI0V3BmMdyF9kyuC7QIsUL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744114075; c=relaxed/simple;
-	bh=doIBbH06P5ovXkVq2McdyHPCl29PiqcG20/MYPUBpE4=;
+	s=arc-20240116; t=1744127472; c=relaxed/simple;
+	bh=fHyIFk+1JdVwh1YZHnuAzmhPYe/0ws1mktZxa7Zztis=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nTSJbM9mrQeHzfkzKNZHqYEyQT7fQxVQI6ARpsOXFJMTkgCoc9urvRnvsG+/rOyWKNijji5h1gZ0FV9m5xD7tJO9BYFhHW6q9j0SjDePFRDNDG5Y+dSI0DHBEE0UmBslR6zofEp2MZ/RRL89EzfMNsiA5hEX/UNgm9S3xCuXXBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XCnJ3igm; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hxybd2xcFCR6GlnHu8/aku8Au2t3MCVHG1Hz51eLFKTm0EunYJdkdAkQNPhj75Stq/Lxt4rKWy3MeTYals6oyz6gV7CJsy8QW0G5DhXQUqyzK4lw+kw6OE2wKv/+8vcuWMN5KF740hFzaTYKtehpnnS1oa8qEQRL0mP7a0K31Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U92RPZbz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XCnJ3igm"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538BFp4m024682
-	for <asahi@lists.linux.dev>; Tue, 8 Apr 2025 12:07:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=vFThqq7ILooH+RLGqVKM/XdZ
-	cU6OAYhPWLK/0HqsQ6M=; b=XCnJ3igmR+clyI6eG7KCsy4++SCt3rnvgEcoddjz
-	hb7g1vwListu13hpLmJk5ufeGmsBt0Qdu0SnQ/QRAtTZfdE5QShMPt8TbeY7A41l
-	VFsCbPyorFtJTrjqkySeyNxr8C8CHT5PZGvanfmxNv66Cvbl1PDci8yRDawVnuAd
-	Zc+YHj3bC/Vgx9sgZzbgdUB9JZPfXjP9ra1wzTgm9rPrPVNGFkET1SosGzdGwTbV
-	67RFqwbcoSc3ZUYaJ5uURcPI7zK7KMC/shGPG8BM8iXpre0Ofe5yGNZJ8QhOtwDN
-	ZO3Q//fI/7LjIqCriXeZ+MbfbK+sqhgGbmnKIv263WLRtQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twdgfq1b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <asahi@lists.linux.dev>; Tue, 08 Apr 2025 12:07:52 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c760637fe5so971195185a.0
-        for <asahi@lists.linux.dev>; Tue, 08 Apr 2025 05:07:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744114071; x=1744718871;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vFThqq7ILooH+RLGqVKM/XdZcU6OAYhPWLK/0HqsQ6M=;
-        b=kzzuoKfidVO4Ko5C6KyqsYZb2an2+ypcVhEnnuuIRkrG+elzDywmrRfhRba02i8lNo
-         gO7yySdA+dsDl98KZaJ6NwuKl374RBhJ65kxGySz8v0jgXt9gyOLQJZkDAaa6/azXWMl
-         ccVwjxJStuC50eXcBDroBAECrQCsVrZdWbr8BGbAv0Y6ZXOrA/NIK/dd1T+ORr28y/xT
-         Hc9iaVZTVMREkPIpzf/Szo3bIhBlUt3wsC7dWCv4Th6/KLA70APoZ5RrFiQ3aceLYLVh
-         6audDTiZQmBmvWHASQ+LxjCWWM6AbB9IniXOIWtSzrSGe5QEKdhSc09v/eT94J2zqsK4
-         G94A==
-X-Forwarded-Encrypted: i=1; AJvYcCXh7OI/5Vg8ThU9KndOcopLnCbpVB3wuomqkw9A1It4c1Nnc2bkOEJLDGiD7afUyQIgMzS6cw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzN5VG5vwMRi4pLx1vyH33IhGLBH5UZnFkhapvbDuy08+ZZAHby
-	fawb0efHAxHLqefkvGZDSaohBrsST150Br1Zkni5ksE/Fj5t1drkNrZzpQorOQl07qNThkuiOcu
-	iVesbAKGDOT3BTEbnbkm/xcnMxI/lf13VdFZHwB4r5aV4IYch8Ejzr3DzFkHiyg==
-X-Gm-Gg: ASbGncuiWICo3+9DtbzTL9Y4locn8Fjy2901wJpkPZyLqSZ+AhxJ7UyuUSr0A95En5V
-	Je8UhotjBgA86y0p1UFZ7aFjXUoCwzWiflKHrFE152WLBHodWNQnkgausFuuTenQizH1vZaquH4
-	UNOh5GvF0w3G6aDpXdgSj1psqMuKHiHj1Jmm+vBw/DyGUpsjQAsOFK8Zu9/hD2TXMkb8rrxmKOf
-	EadKRUo1R51GHJL8d5YqDPgoOklsN9zAbVHzNGUaKr8uHUD0GpuOJWi+QLjvgtt5e8sWTIqpd0X
-	5Qfqqb+RWEd7r8zPYnAqqkRMbVSv4eVUlBXjWqhDYFGQSi72svCV3EOfzTkxzOIp5gKGLlv9juX
-	uR9s=
-X-Received: by 2002:a05:620a:17a7:b0:7c0:bb3f:e285 with SMTP id af79cd13be357-7c77dd62725mr1589589285a.24.1744114071306;
-        Tue, 08 Apr 2025 05:07:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEi/xFz1Y/FUnJgwy2p/a82dsZcDfNqrlyFtWekzBv5M8uIRg3fMoN8KW/g0lGhJUXSQz8Eyg==
-X-Received: by 2002:a05:620a:17a7:b0:7c0:bb3f:e285 with SMTP id af79cd13be357-7c77dd62725mr1589584485a.24.1744114070904;
-        Tue, 08 Apr 2025 05:07:50 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e66377esm1493668e87.209.2025.04.08.05.07.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 05:07:50 -0700 (PDT)
-Date: Tue, 8 Apr 2025 15:07:48 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U92RPZbz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D55C4CEE5;
+	Tue,  8 Apr 2025 15:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744127472;
+	bh=fHyIFk+1JdVwh1YZHnuAzmhPYe/0ws1mktZxa7Zztis=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U92RPZbzB9fHNqMYcnKtrz/GqeAT94kOVr2zBKXfoy72b/TXH1UV1Pf1iKd+FF1Mt
+	 fEsn+06FNEilpE9JZe4Zlklge1+NhbTctVc202lqfcvEDxj3sfuL425JMNNKbAv8Zy
+	 3XZ06lfKlaKvFyseN7gHRyVtS+O6zfETbsBEAg0e1albQ4vcN7UBXLpfMV13u9PmCO
+	 VjMZ379EgPxs5yizezEA0IXimAOEARimykKOEUJudXEx1J1Bn/fiNpJrruF/5hvVXa
+	 WxLGHFI56wktIKiFGnLrOz+2A1PufwrmZcAevCgKRkjYZ5K2i1sRn3kLD8oPjvHubU
+	 vUx4RBSwAqNqQ==
+Date: Tue, 8 Apr 2025 17:51:08 +0200
+From: Maxime Ripard <mripard@kernel.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Anusha Srivatsa <asrivats@redhat.com>,
-        Paul Kocialkowski <paulk@sys-base.io>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
-        Hui Pu <Hui.Pu@gehealthcare.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH 12/34] drm/bridge: tda998x: convert to
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Douglas Anderson <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Dmitry Baryshkov <lumag@kernel.org>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH 34/34] drm/bridge: panel: convert to
  devm_drm_bridge_alloc() API
-Message-ID: <kgobwv6zldlyb7vxyy4fyhe73krnsjr6aczpwl6agompne3tiw@vyk4m65vaqul>
+Message-ID: <20250408-thankful-husky-of-weather-355cae@houat>
 References: <20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com>
- <20250407-drm-bridge-convert-to-alloc-api-v1-12-42113ff8d9c0@bootlin.com>
+ <20250407-drm-bridge-convert-to-alloc-api-v1-34-42113ff8d9c0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="whaxztwnulei2tij"
 Content-Disposition: inline
-In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-12-42113ff8d9c0@bootlin.com>
-X-Authority-Analysis: v=2.4 cv=PJgP+eqC c=1 sm=1 tr=0 ts=67f51198 cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=P-IC7800AAAA:8 a=PHq6YzTAAAAA:8 a=EUspDBNiAAAA:8 a=hcs5bi09U0a-O7-gtRoA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=d3PnA9EDa4IxuAV0gXij:22 a=ZKzU8r6zoKMcqsNulkmm:22
-X-Proofpoint-ORIG-GUID: k8bMcg4rCJnc6Y244n1x5LzP94gg6s3J
-X-Proofpoint-GUID: k8bMcg4rCJnc6Y244n1x5LzP94gg6s3J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-08_04,2025-04-08_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 clxscore=1011 adultscore=0 malwarescore=0 spamscore=0
- impostorscore=0 suspectscore=0 mlxlogscore=934 bulkscore=0 mlxscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504080086
+In-Reply-To: <20250407-drm-bridge-convert-to-alloc-api-v1-34-42113ff8d9c0@bootlin.com>
 
-On Mon, Apr 07, 2025 at 04:23:27PM +0200, Luca Ceresoli wrote:
+
+--whaxztwnulei2tij
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 34/34] drm/bridge: panel: convert to
+ devm_drm_bridge_alloc() API
+MIME-Version: 1.0
+
+Hi,
+
+On Mon, Apr 07, 2025 at 05:27:39PM +0200, Luca Ceresoli wrote:
 > This is the new API for allocating DRM bridges.
-> 
+>=20
+> The devm lifetime management of this driver is peculiar. The underlying
+> device for the panel_bridge is the panel, and the devm lifetime is tied t=
+he
+> panel device (panel->dev). However the panel_bridge allocation is not
+> performed by the panel driver, but rather by a separate entity (typically
+> the previous bridge in the encoder chain).
+>=20
+> Thus when that separate entoty is destroyed, the panel_bridge is not
+> removed automatically by devm, so it is rather done explicitly by calling
+> drm_panel_bridge_remove(). This is the function that does devm_kfree() the
+> panel_bridge in current code, so update it as well to put the bridge
+> reference instead.
+>=20
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
 > ---
-> 
-> Cc: Russell King <linux@armlinux.org.uk>
+>=20
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Simona Vetter <simona@ffwll.ch>
+> To: Andrzej Hajda <andrzej.hajda@intel.com>
+> To: Neil Armstrong <neil.armstrong@linaro.org>
+> To: Robert Foss <rfoss@kernel.org>
+> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> To: Jonas Karlman <jonas@kwiboo.se>
+> To: Jernej Skrabec <jernej.skrabec@gmail.com>
+> To: Jagan Teki <jagan@amarulasolutions.com>
+> To: Shawn Guo <shawnguo@kernel.org>
+> To: Sascha Hauer <s.hauer@pengutronix.de>
+> To: Pengutronix Kernel Team <kernel@pengutronix.de>
+> To: Fabio Estevam <festevam@gmail.com>
+> To: Douglas Anderson <dianders@chromium.org>
+> To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> To: Krzysztof Kozlowski <krzk@kernel.org>
+> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Anusha Srivatsa <asrivats@redhat.com>
+> Cc: Paul Kocialkowski <paulk@sys-base.io>
+> Cc: Dmitry Baryshkov <lumag@kernel.org>
+> Cc: Herv=E9 Codina <herve.codina@bootlin.com>
+> Cc: Hui Pu <Hui.Pu@gehealthcare.com>
+> Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: asahi@lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org
+> Cc: chrome-platform@lists.linux.dev
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: linux-amlogic@lists.infradead.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Cc: platform-driver-x86@vger.kernel.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
 > ---
->  drivers/gpu/drm/bridge/tda998x_drv.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
+>  drivers/gpu/drm/bridge/panel.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pane=
+l.c
+> index 79b009ab9396048eac57ad47631a902e949d77c6..ddd1e91970d09b93aa64f50cd=
+9155939a12a2c6f 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -287,15 +287,14 @@ struct drm_bridge *drm_panel_bridge_add_typed(struc=
+t drm_panel *panel,
+>  	if (!panel)
+>  		return ERR_PTR(-EINVAL);
+> =20
+> -	panel_bridge =3D devm_kzalloc(panel->dev, sizeof(*panel_bridge),
+> -				    GFP_KERNEL);
+> -	if (!panel_bridge)
+> -		return ERR_PTR(-ENOMEM);
+> +	panel_bridge =3D devm_drm_bridge_alloc(panel->dev, struct panel_bridge,=
+ bridge,
+> +					     &panel_bridge_bridge_funcs);
+> +	if (IS_ERR(panel_bridge))
+> +		return (void *)panel_bridge;
+> =20
+>  	panel_bridge->connector_type =3D connector_type;
+>  	panel_bridge->panel =3D panel;
+> =20
+> -	panel_bridge->bridge.funcs =3D &panel_bridge_bridge_funcs;
+>  	panel_bridge->bridge.of_node =3D panel->dev->of_node;
+>  	panel_bridge->bridge.ops =3D DRM_BRIDGE_OP_MODES;
+>  	panel_bridge->bridge.type =3D connector_type;
+> @@ -327,7 +326,7 @@ void drm_panel_bridge_remove(struct drm_bridge *bridg=
+e)
+>  	panel_bridge =3D drm_bridge_to_panel_bridge(bridge);
+> =20
+>  	drm_bridge_remove(bridge);
+> -	devm_kfree(panel_bridge->panel->dev, bridge);
+> +	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
+>  }
+>  EXPORT_SYMBOL(drm_panel_bridge_remove);
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+I'm fine with it on principle, but as a temporary measure.
 
--- 
-With best wishes
-Dmitry
+Now that we have the panel allocation function in place, we can just
+allocate a bridge for each panel and don't need drm_panel_bridge_add_*
+at all.
+
+As I was saying before, it doesn't need to happen right now, or before
+the rest of your work for hotplug goes in. But this needs to be tackled
+at some point.
+
+Maxime
+
+--whaxztwnulei2tij
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/VF6wAKCRDj7w1vZxhR
+xZU9AP9+Olq0gODzONr66OWy2JUMq3Zt+9qdaFGpPxZ/7/LDgAD+JNtu7g0v4KKA
+HdXhPPGzl2cAOI04En1cGAdCRKq6ZQw=
+=xkvL
+-----END PGP SIGNATURE-----
+
+--whaxztwnulei2tij--
