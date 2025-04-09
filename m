@@ -1,119 +1,119 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D0925E80F
-	for <asahi@lists.linux.dev>; Wed,  9 Apr 2025 12:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145DB264FB1
+	for <asahi@lists.linux.dev>; Wed,  9 Apr 2025 12:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744202905; cv=none; b=Giy4vDRE9Bc42rPycFUmk3qHTbLRsX5VxwIgBsDQOL8f/k0GHXC7zykxMZkyzVVFZ5G87U3zNl3NxTSdgFRP7tiwWC0nSOUEe7YEUBlomxzYEg7UTKByHlYPLMvXBzYpesqM+6gw79qmtby3TkoCk3fSKnJvxiJFi/gxoREhaaE=
+	t=1744203142; cv=none; b=Lcxbvgz4ocjlSzzsMe7QimcEXd6BXltgwmDNStjqnaJ01d5fzdw8QNAzBcXmvHp7kaDSlS2zh4thpvCF1B+PnJUMfZ5/pa8kbC0wO2d3rQQDt//vcp4hmm88Xpk/Vs7A/ctuqrLOVkUHQJzcEnBS16nOFh1bsqWsVMO+Eh0BO3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744202905; c=relaxed/simple;
-	bh=EY+MCYO6+/Do1rVBG7o49cZhvEu9A77dcSJzw6meaMY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IrcN9a33efFBtfw03nwi/t/cDvYIrQLS5RHHr5KqLe06+QEw4D02YzZZbUuAstzUxDgqvx/5Q0J9M4aZFa8MtQYT+2q8kPn+NjDDcdK3FL4V4XT8HHNvNX4vHuhdFlaOH2IZ7PxvT3FggSbNXpo5gIr55a7EDVay5jC3UZX/L5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HTpxMSEM; arc=none smtp.client-ip=209.85.215.193
+	s=arc-20240116; t=1744203142; c=relaxed/simple;
+	bh=9j3BQXuTcVLq021FDJpbkiN8Ic00H5PJHGa7XG4Be3o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uPa06Xfbm0PVUviEnam/Iq/BCOFBp+hdTw1+/co0yMeYreIjQmrSK0t22gAT6dyCqmkHl2PEAK0HqBkE5A3qM+chHE2GRB/lCdNCLiKMWu5SaIDNtnAZKoUbQ/+SdkrYoVuFLi7OvSLqpN7xm3QU6DFWMbqCO5CPRI+kpL7/BMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VGqxpTUK; arc=none smtp.client-ip=209.85.208.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HTpxMSEM"
-Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-af6b02d9e5eso4620450a12.0
-        for <asahi@lists.linux.dev>; Wed, 09 Apr 2025 05:48:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VGqxpTUK"
+Received: by mail-lj1-f196.google.com with SMTP id 38308e7fff4ca-30db1bd3bebso59253581fa.2
+        for <asahi@lists.linux.dev>; Wed, 09 Apr 2025 05:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744202903; x=1744807703; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3gcS051l6b/8O+Is0vrcSeaFJGvMI4gz5XJTgTf8jE8=;
-        b=HTpxMSEMMztOiV51alcd0iNj9l4WQ5iRygpWhIftAl6bCjli7lcBlt9wtX1RCpulG3
-         UaZy3VVSMTUPnPf+4K4s1BxOrD4jC0d/BQlg2xQDq7f3mw1sbjnqnwdHXj45oeWEe/Zd
-         SeXCR3sJ+MN9QAOqbI4/v2/Aa/BHfXC0ehYX/n1aQOiG8ogrRy7E5MgLHAExxJ14jd/+
-         ON5zftmsson1qgMobH8BDDurSj+DyBcKZur3Q8uAGKcAJv0bR9Evjt8zkcZKHTW8Nor/
-         Cdefx05qg5uJj+RQsO0iCi+cVmOP0HVrLg8Tey98vZ12Y6mE58M+B2KJxkGXPTJkECHj
-         9VTw==
+        d=gmail.com; s=20230601; t=1744203139; x=1744807939; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vnbe48AO71vHxLIqa6wKoIQjII3SgOedEce7jQxnB1c=;
+        b=VGqxpTUKA6CaAsM9QkW4DlNOTXvPpaqTecwWRI/j0DcqdV7lH3UURmFQo94RcMuQiS
+         fm1JwzJ+wh/AwCLJ7DVUNvamBa3jhg9PVkGhD/DvCpljzgBNqQBN00s19ngizC9DYkwd
+         bGuBqLqnu69p6NoS3+4YtC85r2y8LxpzEQVu3s1SyC33WQgYfcEeK5yYlW1XQcwloNVX
+         nRznZYSvdz3eDhvQ3WmPMPnsy+DksBW/22hwYAoqE3QBB3YD/1V9QHP1ns9VdOFTHxAF
+         LW8Ez/CD4NBLSBOKIvDTw6yqS2zFO4ENrD5ikohoBRu9n7EuVKmQrSP+609Pf955wLaM
+         LhQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744202903; x=1744807703;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3gcS051l6b/8O+Is0vrcSeaFJGvMI4gz5XJTgTf8jE8=;
-        b=HvdmbNcYv7CfDb9PRGRRGDK0dEEzcVxi3VTPykJwV66zPzZytZ3ywz6dL350zKSDG4
-         MAVRFzOcsVY5xR8tBhcYtRnt27FC7AxxpXRFLgtWHqp/bGc72NMSD9s+afNYz7vWkqCI
-         +fzB7g/q2cZQP+XwJM8EaMw5ObGDIwL0WVeCgRvY6pMnWao9biea1DoqZ1nOzc8aL13y
-         LeTZPc2NYvNAd4EPGCIZPHChubOHUUNwNj/3LHm0s1GTXAcBW9QyAPz2HKNQMJbxUl9I
-         KkDeaBEZMiqSWS64tAbHFvEJ9pzAAo2OuOnTpLzlcpLqT7Hfa3ZXE/pW40uyn9fn3VuJ
-         UOqg==
-X-Gm-Message-State: AOJu0YxTN+V/y8gQbDf3vKlNm4dEXWOlUBG9t2MQQ0/sieVnJDArPfB4
-	uKtcASRTgSlOyCS678R2cqXf5s75TP3CnM/bgAtkjFfB5i/vFTXD
-X-Gm-Gg: ASbGnctMhywNGgRux1USmldy9IptMgB1V+Bgz5RyCkrWdM+XVA8HWZjXGeqmIXcMW37
-	3ozEFoWSHJC8jRjZTcVKXMpWZJCkDwrgKJ6SxK4P07SqWCeDkjUYT/dUto4TBGKD8Z7DEDJSIoJ
-	53HrfuFaPzG9wCzPRNt6/uevlmX3r3aJkCU+bg+q5Zd3kYpf64I1HB1DD+FWzLROn6V0YUBuE7B
-	zcsVaoyQ2fYwHin4MGVEq8CX7HNQy60Gt1r2hGbdv0qZ15eH5lWEAlEAdFvG79cRqPamKY7R8IR
-	2+BZr4I8NK183hs+Ldn3JOiIlmVbTfGSiuY6fsK+5JELG2HU1cmc/BTSKBgkZQpnCYw=
-X-Google-Smtp-Source: AGHT+IFsp1KO7SpkI4Baqzu+PaivIakGq5Ke0rYEIizxnBYl7OLpEKVhaHzNjOfd00JduABwQS6jww==
-X-Received: by 2002:a05:6a20:d490:b0:1f0:e3df:fe1 with SMTP id adf61e73a8af0-2015ae8f37amr3086206637.4.1744202902625;
-        Wed, 09 Apr 2025 05:48:22 -0700 (PDT)
-Received: from henry.localdomain ([111.202.148.133])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b02a11d2654sm1103588a12.35.2025.04.09.05.48.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 05:48:22 -0700 (PDT)
-From: Henry Martin <bsdhenrymartin@gmail.com>
-To: sven@svenpeter.dev,
-	j@jannau.net,
-	alyssa@rosenzweig.io,
-	neal@gompa.dev,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Henry Martin <bsdhenrymartin@gmail.com>
-Subject: [PATCH v2] cpufreq: apple-soc: Fix null-ptr-deref in apple_soc_cpufreq_get_rate()
-Date: Wed,  9 Apr 2025 20:48:13 +0800
-Message-Id: <20250409124813.47193-1-bsdhenrymartin@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1744203139; x=1744807939;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vnbe48AO71vHxLIqa6wKoIQjII3SgOedEce7jQxnB1c=;
+        b=szxUOOo8tZ4GHuZ/giyVdP4qRmU9RhGsixMKypA1Hra9XtlE1QqF0G4ro7Ux08UQT+
+         HpJ49Q3Nxr7FgIQJbL6yZ1EbnE6hEB/wzDYwGQ5TeX6Sv0BQ0P2WGxu4EXsdlw0AEoXV
+         f0w7sWqknIN3rdMcNrJBmxx9yf9Lj9J/XvdUv+oxefIFw3pWDvjZJvL7R5MSLwhjmXan
+         b40ZHAZuDEY8BanOUqY/7j7/tZzFzcHUJdFY5jc7CoQuEjnlwDuAbtpTBX3PyjZLIAg6
+         4IuwHcfPvSrHJccuwbF5GkSWEbTLhb88pqfTanrueLpL6Rgz1wVygpKt+SQyva/hdoAD
+         0cHw==
+X-Gm-Message-State: AOJu0YyRpJEm7XSe/hBbgvFMpUsMQJI30n9U72CjQgi13KS/qPViE/iI
+	OgL/Yhp0nUzj6azWDXJoXmhD4y4FbN4HsP+84S+DhiO3P4osEmtGn2C+9Grr2SSf96EOvcKQ6Jv
+	ZXwzQ95ab6zUwpXv/5fmCzrqXeWk=
+X-Gm-Gg: ASbGncuwFNHP/4YtvrUFkGQwhstkn+6m2g2Rda3UdNJjdXTw5sODN24qipy+SZolaO3
+	sWWSWMonmkl80HWDy79jlAvO8NoQ0hLADsLayERb+0tpGIvqoiIUO9YcJ5NXSu7kDFPGfnoAD/n
+	rkziyX8S4tdALuuL31VvpOnQ==
+X-Google-Smtp-Source: AGHT+IGdHNOtvdCerY9pg8Q3eWXZ6Xsli0U3CirBEEFOA4oaaLZ/9WuOnbKqs9UCWS6SuAwXiGwGa9XbIxRoeJv+6i8=
+X-Received: by 2002:a05:651c:54f:b0:30d:e104:a942 with SMTP id
+ 38308e7fff4ca-30f45078046mr7055251fa.38.1744203138983; Wed, 09 Apr 2025
+ 05:52:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250409124542.47166-1-bsdhenrymartin@gmail.com>
+In-Reply-To: <20250409124542.47166-1-bsdhenrymartin@gmail.com>
+From: henry martin <bsdhenrymartin@gmail.com>
+Date: Wed, 9 Apr 2025 20:52:08 +0800
+X-Gm-Features: ATxdqUHAqov07ZrNPtI7qo4io2YYdsdoXQrB8Z46RMN6AaIBAh08vSDcMkMStwY
+Message-ID: <CAEnQdOoMBvm_T813t_1uuNsQxqro=zXwM6d2b=NOiihicUNHcg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] cpufreq: scpi: Fix null-ptr-deref in scpi_cpufreq_get_rate()
+To: sven@svenpeter.dev, j@jannau.net, alyssa@rosenzweig.io, neal@gompa.dev, 
+	rafael@kernel.org, viresh.kumar@linaro.org
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-cpufreq_cpu_get_raw() can return NULL when the target CPU is not present
-in the policy->cpus mask. apple_soc_cpufreq_get_rate() does not check
-for this case, which results in a NULL pointer dereference.
+Sorry for the noise - please disregard this patch as it was sent in error.
 
-Fixes: 6286bbb40576 ("cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states")
-Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
----
-V1 -> V2: Use `if (unlikely(!policy))` instead of `if (!policy)`
-
- drivers/cpufreq/apple-soc-cpufreq.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
-index 4994c86feb57..b1d29b7af232 100644
---- a/drivers/cpufreq/apple-soc-cpufreq.c
-+++ b/drivers/cpufreq/apple-soc-cpufreq.c
-@@ -134,11 +134,17 @@ static const struct of_device_id apple_soc_cpufreq_of_match[] __maybe_unused = {
- 
- static unsigned int apple_soc_cpufreq_get_rate(unsigned int cpu)
- {
--	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
--	struct apple_cpu_priv *priv = policy->driver_data;
-+	struct cpufreq_policy *policy;
-+	struct apple_cpu_priv *priv;
- 	struct cpufreq_frequency_table *p;
- 	unsigned int pstate;
- 
-+	policy = cpufreq_cpu_get_raw(cpu);
-+	if (unlikely(!policy))
-+		return 0;
-+
-+	priv = policy->driver_data;
-+
- 	if (priv->info->cur_pstate_mask) {
- 		u32 reg = readl_relaxed(priv->reg_base + APPLE_DVFS_STATUS);
- 
--- 
-2.34.1
-
+Henry Martin <bsdhenrymartin@gmail.com> =E4=BA=8E2025=E5=B9=B44=E6=9C=889=
+=E6=97=A5=E5=91=A8=E4=B8=89 20:45=E5=86=99=E9=81=93=EF=BC=9A
+>
+> cpufreq_cpu_get_raw() can return NULL when the target CPU is not present
+> in the policy->cpus mask. scpi_cpufreq_get_rate() does not check for
+> this case, which results in a NULL pointer dereference.
+>
+> Fixes: 343a8d17fa8d ("cpufreq: scpi: remove arm_big_little dependency")
+> Signed-off-by: Henry Martin <bsdhenrymartin@gmail.com>
+> ---
+> V1 -> V2: Use `if (unlikely(!policy))` instead of `if (!policy)`
+>
+>  drivers/cpufreq/scpi-cpufreq.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/cpufreq/scpi-cpufreq.c b/drivers/cpufreq/scpi-cpufre=
+q.c
+> index 17cda84f00df..dcbb0ae7dd47 100644
+> --- a/drivers/cpufreq/scpi-cpufreq.c
+> +++ b/drivers/cpufreq/scpi-cpufreq.c
+> @@ -29,9 +29,16 @@ static struct scpi_ops *scpi_ops;
+>
+>  static unsigned int scpi_cpufreq_get_rate(unsigned int cpu)
+>  {
+> -       struct cpufreq_policy *policy =3D cpufreq_cpu_get_raw(cpu);
+> -       struct scpi_data *priv =3D policy->driver_data;
+> -       unsigned long rate =3D clk_get_rate(priv->clk);
+> +       struct cpufreq_policy *policy;
+> +       struct scpi_data *priv;
+> +       unsigned long rate;
+> +
+> +       policy =3D cpufreq_cpu_get_raw(cpu);
+> +       if (unlikely(!policy))
+> +               return 0;
+> +
+> +       priv =3D policy->driver_data;
+> +       rate =3D clk_get_rate(priv->clk);
+>
+>         return rate / 1000;
+>  }
+> --
+> 2.34.1
+>
