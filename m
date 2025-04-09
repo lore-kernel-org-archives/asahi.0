@@ -1,94 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43C21E2843;
-	Tue,  8 Apr 2025 21:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5E825C71A
+	for <asahi@lists.linux.dev>; Wed,  9 Apr 2025 09:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744149387; cv=none; b=UlZ0ZNJvkK2LwEy9iQ3uBo/nHKRsJBmi/1whmjFusxh0UP3yy8RUly+TmFJUcajBBxTizigHg1JtLDwZyRCgQTPwMV0IO+68Xy5uaF+D3MVCB8CTdiNlQA7gn4uWX4encaoQAVbt3MO6BqCzDsDUpE3SQxtwpekw5weML9mPUfo=
+	t=1744189892; cv=none; b=TlRrpO3Vil61AJi56np92LnJfwrh51P/iqBBeMKOBCeImf6+UAb2k0BSM5k5GE4+9XX2xksN0PDIvbg+hzkVC10Z4d5k3DJXkas/I+zTop20IzeUQw4g9hkJPsDyfVEelAbCfpi0YqmEbKO23VwG8KUNQdyISp+tG5fiNls9rxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744149387; c=relaxed/simple;
-	bh=pFYXmZR6+jwBdXIM8IMf1ZM5f+SPt+A0Ob1udfXGNgo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CzNpyw9424ki34KJf/RgK2LjRUg2OI+9OmkN/Y9OTd284MB/JxlA9VeooxyxGTK4zVdVnMasOZ49oOb7Hx74JxaNEDo8lCczjT1O4VNVq/2qLQf0ecqN9QxNPEfAeSU+XCkrRxJF2pPFFqd/j9aBWBSVTxM8A/g4Hga6G6m8xRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e0Na17Ig; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744189892; c=relaxed/simple;
+	bh=ZHkYUtq+ZTCpwq0IH2s1bsran6xW4o5sjSqv/wukXdo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mLGA5aalmUSSOpfkhPuq1DoRxsabzEwNRVAKwSptmPWW451vbRO5F4rShukzteELB/wOmCRF84hZyyp2LROLpedh4WQAoQhLuRG51ygssRPKw8HkLN+N57x0Z1FIPrBWZ+xunWxvqCuYTCq4pVJlX21OIfJZ6OJ36UyMUYJvTr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=temperror (0-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=cOM5bYmq; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e0Na17Ig"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413A7C4CEE5;
-	Tue,  8 Apr 2025 21:56:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744149387;
-	bh=pFYXmZR6+jwBdXIM8IMf1ZM5f+SPt+A0Ob1udfXGNgo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e0Na17IgV55ORUx7uGu46oo8HnhMwXM27DrVZ6eQvYyDeWnzTw0kxDCu0V8df2oMb
-	 3//aBTOUv6zxKplp6Ch9BsDLQeciaDmGTG8rNRsbzzr5THFYW/cSx3TQ6EoxmkMNgY
-	 zsD6BWXFzLH3/ivv4Of4HbaNX2CBGfgcnvgbMcSN67Ux2fDiWARRzmKLkst3HvpK4W
-	 gDIEMdQ0G3RT/DRsFtvnRPY7XZHnM2kFPGneSM6uBFMXwHOVMJzf8yEmr+4EUgOf3C
-	 13GQxY7IldGbwPfvw4MZBpDhuYEhdr8ZHNe/QiufQmmJPXZ+Vico/GBq7iiF7uLz39
-	 B166q0vRRyUHg==
-Date: Tue, 8 Apr 2025 14:56:24 -0700
-From: Kees Cook <kees@kernel.org>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
-	Simona Vetter <simona@ffwll.ch>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
-	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
-	tamird@gmail.com,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <202504081456.31AF24D2F7@keescook>
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	dkim=temperror (0-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="cOM5bYmq"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 1424843587;
+	Wed,  9 Apr 2025 09:11:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1744189886;
+	bh=ZHkYUtq+ZTCpwq0IH2s1bsran6xW4o5sjSqv/wukXdo=;
+	h=From:Date:Subject:To:Cc;
+	b=cOM5bYmqWmgAskUPlVB+dmvImmb9mSfHuu+IB3BBCTV7Cj5bymfJVD8tK/El4YG8m
+	 3rRdM55QisQk3+day2odXgudyQh7oUhHTJri90hVLqRa1opJx0spVnGqwDJMtmDRzF
+	 LUXsP/muHT/zq+NKhOrg6IexrU8X7VtKXwK6c51mn0rD4q2LoBXAfq7eltk0z8Fivg
+	 DRjMYctZ2RJIP1M0ORjl6xBIOgKBWSusebRS9+mfPPCp5gbToepto17brW6LNj52eD
+	 1mIscjILXS89oj6mGSLkhcY5J9+A9U3U+0QSJxyYTSQDg4+vAbtRBVhvf0f5SaAHuP
+	 UdxgoO0lODK/g==
+From: Asahi Lina <lina@asahilina.net>
+Date: Wed, 09 Apr 2025 18:11:21 +0900
+Subject: [PATCH] mailmap: Update email for Asahi Lina
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250409-mailmap-lina-email-v1-1-265d05848ae3@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIALg59mcC/x3MTQqAIBBA4avErBvQ7Ie6SrQYaqwBtVCIILp71
+ vJbvHdD4iicYChuiHxKkj1k6LKAeaOwMsqSDZWqGlWrHj2J83Sgk0DIn9BqbYlMazq1QA6PyFa
+ ufzpOz/MCWrokrmQAAAA=
+X-Change-ID: 20250409-mailmap-lina-email-f11faa36370d
+To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ "open list:ARM/APPLE MACHINE SUPPORT" <asahi@lists.linux.dev>, 
+ Asahi Lina <lina+kernel@asahilina.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1744189885; l=986;
+ i=lina+kernel@asahilina.net; s=20240902; h=from:subject:message-id;
+ bh=NzCLSQigXTsgi0vL8KVztjjLxdP7cijDZoMvqvpqbBg=;
+ b=7407E684pwpfEf0jIVU+rWYnZeZQMSUF9fRizjxFb3u5inJS2yr5uwmVC/Hzf/VdQcQBWH1Vf
+ cLNnVKUueU8A+v64BOs2n3X5UuzsZRHoXxQn/CXecx2fvaT8zqKiuLg
+X-Developer-Key: i=lina+kernel@asahilina.net; a=ed25519;
+ pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
 
-On Tue, Apr 08, 2025 at 12:17:57PM +0530, Aditya Garg wrote:
-> From: Hector Martin <marcan@marcan.st>
-> 
-> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
-> it's useful to be able to print generic 4-character codes formatted as
-> an integer. Extend it to add format specifiers for printing generic
-> 32-bit FourCCs with various endian semantics:
-> 
-> %p4ch	Host byte order
-> %p4cn	Network byte order
-> %p4cl	Little-endian
-> %p4cb	Big-endian
-> 
-> The endianness determines how bytes are interpreted as a u32, and the
-> FourCC is then always printed MSByte-first (this is the opposite of
-> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
-> allow printing LSByte-first FourCCs stored in host endian order
-> (other than the hex form being in character order, not the integer
-> value).
-> 
-> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
-> Tested-by: Petr Mladek <pmladek@suse.com>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+From: Asahi Lina <lina+kernel@asahilina.net>
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+Add an alias so I can more easily filter kernel-related emails.
 
--- 
-Kees Cook
+Signed-off-by: Asahi Lina <lina+kernel@asahilina.net>
+---
+ .mailmap | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.mailmap b/.mailmap
+index 4f7cd8e231778cdf0ee45fe2d2cba1a554965685..8f0cc0b08ed0c841c6927d23cd9be6b1b4776962 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -102,6 +102,7 @@ Ard Biesheuvel <ardb@kernel.org> <ard.biesheuvel@linaro.org>
+ Arnaud Patard <arnaud.patard@rtp-net.org>
+ Arnd Bergmann <arnd@arndb.de>
+ Arun Kumar Neelakantam <quic_aneela@quicinc.com> <aneela@codeaurora.org>
++Asahi Lina <lina+kernel@asahilina.net> <lina@asahilina.net>
+ Ashok Raj Nagarajan <quic_arnagara@quicinc.com> <arnagara@codeaurora.org>
+ Ashwin Chaugule <quic_ashwinc@quicinc.com> <ashwinc@codeaurora.org>
+ Asutosh Das <quic_asutoshd@quicinc.com> <asutoshd@codeaurora.org>
+
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250409-mailmap-lina-email-f11faa36370d
+
+Cheers,
+~~ Lina
+
