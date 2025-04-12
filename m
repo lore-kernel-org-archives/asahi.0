@@ -1,135 +1,118 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DAF27932C
-	for <asahi@lists.linux.dev>; Fri, 11 Apr 2025 02:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D0F5339D
+	for <asahi@lists.linux.dev>; Sat, 12 Apr 2025 16:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744337080; cv=none; b=qD7stFfldPq20iMkaqp8eHbncybqejDoNQY6BfHVXKspKhPhyOHI8HjuWDPnEsD89AYBe45Gi+gTxObGJVDqogZAwoyctkRiKSkyjs58rxY79T/yb59bdPyH6WIbxJhcNDL2pu4nopy4wpVvnrdq7rXMw7lId6yIfRJzOghnAxo=
+	t=1744473923; cv=none; b=joWTV1ZgQLMRZSY/OKGS6AlzMiQVCbGmy+5hVmRw4qlv+99XQxRoGk3Vmp0MZLnK3W7/vrS5EnFPz1Cs3Z+3wf2ayyCXgtY0X927V1hGuy2jWE+jTjSD7xI7QiSLyMY08yAdMHwnb2NMsDkx1ch5lClZlfD56WrwO0KV6/1PA0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744337080; c=relaxed/simple;
-	bh=g9/x8XVo04TJwsErizKXE+KW7n7KBUBQb8/FWxPLymg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e1p+xnmbxj+LPrHhf9bZVvHVhFY4qa71TmImrSJ0d1EJj06R17bX3g3i4ldFkqwityV+Trx6wHZXVDjLlhT8FymstzzAebcV0uwgsCvfl5unGuc7Yc0V6kzG17dTSmo9VyXrktg1GQb39AmI+Aum6pg1u+KxXZc9iXVJoNCpH5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+	s=arc-20240116; t=1744473923; c=relaxed/simple;
+	bh=pmfOx0ByssuAb79V71tEtlJ1QVhMnmrwa7zyOqEos0Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JrHt8++nOnCXqDbGS+XLM2G2JA+85NaV86ZwHsHSZJozCPnB5b3LpdVQUVWg5VTOjTjggLzgeIDK5KwCtQ73lVBxmeAFYzH2QBD40hnxae7+r9MZlcJeC7cJQPMgJ41u6fo9JAOEtkkg2PD3mOzwknXAdfvmtu7mgbDovWQDIUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ix0i5AZe; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ac2963dc379so236665366b.2
-        for <asahi@lists.linux.dev>; Thu, 10 Apr 2025 19:04:37 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ix0i5AZe"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-47745b4b9aaso4769321cf.0
+        for <asahi@lists.linux.dev>; Sat, 12 Apr 2025 09:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744473921; x=1745078721; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=18rNRUozuuywP1tNu8idsUvf4lnx4Kb0IvyRGbZ6T3M=;
+        b=ix0i5AZev+qrGUarFHOxY8ax7+YRr9wqonCQBjtWytZjnMMSBdF8u/IODnS39GJJHI
+         DfvdhtPQx3K5r1FMyzdYy7rXrrk3ciOPdloMmf4iQUT1iaX+cjTQmS+2av96n7K24LYO
+         ncMLPnICmaCGg7aNsQfJEwKR55fBj/tlUvztPOgDu4bFB85nOw9ezNLohkx52i8jDQ3B
+         98yR4eKv8FVjJMYeC4Vy4qCgY2q+GrCsdXhUD4dn/3RacWbQ8NbqTsWJwxybvVyBqZ/G
+         kUJ/fa+BSZM1sflj2+yuaVOx8qjcmuKbgd5Hd3+NYeLi1nep073dwai0mTzwjLZzZ0Sg
+         XyAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744337076; x=1744941876;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g5z1I+Yl9dtmBZZ8N6P8UIj5dgbJQZua1H9d8D+bvII=;
-        b=l0sdqnfp9phmEZUb6UYi4C6NzFGwiAwOs8fC/Ddo4UdovC+FD1OMpedCssIOzauOVq
-         kLwZRQYRyro9vTmTLCBdQCp0cqbJTFsB/e0gRGc3Fg/QEuVuGXMWOD5/5v1lekJbLXrq
-         BAbMRQEZyLpzbUst6CxvpTcie6DiHgsR8dyhVOZeVaVN61qu7d8ApawQ2L/DaGr7+Ale
-         MTNL29AzV1kMfT6uVCi8ii7nqtS4EqhSxP6UlvzJSzQa8XqbEUa8Leyo90fOPheCls2h
-         zJwU39o8wf0z1Wg4nRyS+Avb9ItKBAPQ4mWkg1+SihWxyoSX7TUhBLQJdMSl7s1vwAag
-         DfVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWl7st6q34OodneVK6YkQuj/V873p++vIesX/GbvGDT/apDUv6Vbm1nwAWL9dZXUcrHJ8djQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdLO+NcofXU8s9Zwje6TxGdDMNO3Jss2JfKDWhCBOHaZFBiGQk
-	5wx+YZNGn34BETP8O/gpnggupeiRDzumY1oeNK+eCA+3EQCMXhRAxycwqgA2xHs=
-X-Gm-Gg: ASbGncvzwvhNNppNNb7WFShsjTKqiXq4o8WqaexYDrRvUi4PxNYqwy/8JewOQls6K6S
-	zEyE8gmeIBrSfG1lOlYehOwCJe0s3EAfByd/9j9MkLtFNzvB+d4aLDLVaObXV2OqeX6PCV0vW3L
-	t5XhMBwnt3mD8Fw74W7Ed9fJi1u1d0grwXL4fASm/qF6SsBAyNhocTd2O6qaoEPFr4VWTjCacK4
-	2V9NcDeRlyxFOtCV98G2LFi1/powau4uExuc9J63o02NSiU/8EdCTF0XsmvcGGYwPnqzaWl6o/C
-	BfjDzUKdHvNHDY9hK+1yd1CYO12K19Ax9HqqMll+lD/x48A/ZRzCvORBjaX8zuHogVxlTP8=
-X-Google-Smtp-Source: AGHT+IHE/zOTpTF40oMKH9WgvvwVRwimEg9zBjSc835btRlKx8a9d5QQVp0Q9KWrUM8u0Z6U90dc/Q==
-X-Received: by 2002:a17:907:3f8d:b0:ac7:970b:8ee5 with SMTP id a640c23a62f3a-acad34c45bfmr70342166b.27.1744337075705;
-        Thu, 10 Apr 2025 19:04:35 -0700 (PDT)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1c0227bsm361875466b.82.2025.04.10.19.04.34
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 19:04:34 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ac2963dc379so236662866b.2
-        for <asahi@lists.linux.dev>; Thu, 10 Apr 2025 19:04:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWMstQjo8PQ8YiZKWd7zPAFsuaLMKDWeCp0pbbKPX393yFbverBZ5syKYb/VwSYJJ/FaEW9tQ==@lists.linux.dev
-X-Received: by 2002:a17:907:7215:b0:ac7:805f:905a with SMTP id
- a640c23a62f3a-acad34c6e4fmr59887566b.28.1744337074794; Thu, 10 Apr 2025
- 19:04:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744473921; x=1745078721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=18rNRUozuuywP1tNu8idsUvf4lnx4Kb0IvyRGbZ6T3M=;
+        b=AeDzjwaMrG8nkpWClbSLWNKvpqqCixOZLosNBc7ygaAX9lOqGzm62GfXuF6zbCwQcp
+         EbsQS5yC5VjDz+M7G8KTS2XNHKbclnM6/bSJNedK9tAIzH+NzJqLqrKGbMCjkGgvksOh
+         7c6gvNyknDBeCsVx9PpaMX0RdoVCCIF6KaBvlokEQAWsa5eMHn4Xn4a5Kf67AcirFfAn
+         YvCRSlQTkeeBdYHGQLfgiDl9Z7/VNlRa5wdv7AeA7k8QstJWT/rXGrC/7zn7gB4s1Odv
+         qoSf4LpLwMa5OMlLVrDt6r6AOkdl1wltl1Xa4bqS3uqQ5nxQo4h+v0dLzUIw9lg3OqAY
+         XQhw==
+X-Gm-Message-State: AOJu0YzugDk8PmMlJDZ+bSri9XhPo9RzuSZnbhpKalem1VRwY8S3N1Yn
+	p9y5wXBxKmc7j6QNf7xmOX2TOmQ+MegmV8xf8xnGcOR4WkljYVo=
+X-Gm-Gg: ASbGncvdgkb+n4T3iOCSVoINCRbpIxOpk7MllYhnUfwDv43bUIRGJgOxUmSGXM3o0fF
+	6kboeTLXZiRFsGlWIbLQJP6n9kQ27Q215r7SBety3+68771LvkiicDJvVG4lgrqTMmbfaI9m3T3
+	lN01uGJiRcWch8iNYULBi5FocZBUOK23TjOFJPjDpNHD+IbKWuVE6joRKX6UXtdLxUG3AXhkf99
+	TKyB0OnYhBlMbE3fGWpkTG+FqHO6bxgkDToinYD6NLdIHpDQDMFjRDbaXCWqoLknNO+BNe9ZsrB
+	XbLyc4pBDcLH3ljc/rlIj51EM8W/8l7jgIH/JQ==
+X-Google-Smtp-Source: AGHT+IFiHWb94k652mgAZ/ZDuGpTVK6w5j1J2J86j0VwdFWpYKq46BdH1rfkKZVmctjSl9dXg/cPAw==
+X-Received: by 2002:a05:6214:e4a:b0:6ed:2289:6623 with SMTP id 6a1803df08f44-6f23f191ce8mr39928946d6.10.1744473921131;
+        Sat, 12 Apr 2025 09:05:21 -0700 (PDT)
+Received: from ise-alpha.. ([2620:0:e00:550a:642:1aff:fee8:511b])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f0dea07f3esm51541616d6.76.2025.04.12.09.05.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Apr 2025 09:05:20 -0700 (PDT)
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+To: sven@svenpeter.dev,
+	j@jannau.net,
+	alyssa@rosenzweig.io,
+	neal@gompa.dev,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	marcan@marcan.st,
+	maz@kernel.org
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chenyuan Yang <chenyuan0y@gmail.com>
+Subject: [PATCH] cpufreq: apple-soc: Fix possible null pointer dereference
+Date: Sat, 12 Apr 2025 11:05:18 -0500
+Message-Id: <20250412160518.1824538-1-chenyuan0y@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250409-spmi-v4-0-eb81ecfd1f64@gmail.com>
-In-Reply-To: <20250409-spmi-v4-0-eb81ecfd1f64@gmail.com>
-From: Neal Gompa <neal@gompa.dev>
-Date: Thu, 10 Apr 2025 22:03:57 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je9xarQK2jP=+7P_Ug5oM=HbBLsc-Sad_wp1tQkfSgXA=g@mail.gmail.com>
-X-Gm-Features: ATxdqUFptu85Pq5XS2Y77lz4M0bInU8AWjExnkfiEk-bZJ-0RHCXCTLUmPDmg_M
-Message-ID: <CAEg-Je9xarQK2jP=+7P_Ug5oM=HbBLsc-Sad_wp1tQkfSgXA=g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Driver for the Apple SPMI controller
-To: fnkl.kernel@gmail.com
-Cc: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Jean-Francois Bortolotti <jeff@borto.fr>, 
-	Nick Chan <towinchenmi@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 9, 2025 at 5:52=E2=80=AFPM Sasha Finkelstein via B4 Relay
-<devnull+fnkl.kernel.gmail.com@kernel.org> wrote:
->
-> Hi.
->
-> This patch series adds support for the SPMI controller persent in most
-> Apple SoCs. The drivers for the attached PMU and subdevices will be in
-> further patch series.
->
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
-> Changes in v4:
-> - Rebase on 6.14
-> - Link to v3: https://lore.kernel.org/r/20250310-spmi-v3-0-92a82e7d9f0d@g=
-mail.com
->
-> Changes in v3:
-> - Inlined helpers, dropped unneccesary error prefixes
-> - Link to v2: https://lore.kernel.org/r/20250307-spmi-v2-0-eccdb06afb99@g=
-mail.com
->
-> Changes in v2:
-> - Removed redundant error prints
-> - Various style fixes
-> - Better explanation of why the driver is needed
-> - Link to v1: https://lore.kernel.org/r/20250305-spmi-v1-0-c98f561fa99f@g=
-mail.com
->
-> ---
-> Jean-Francois Bortolotti (1):
->       spmi: add a spmi driver for Apple SoC
->
-> Sasha Finkelstein (2):
->       dt-bindings: spmi: Add Apple SPMI controller
->       arm64: dts: apple: Add SPMI controller nodes
->
->  .../devicetree/bindings/spmi/apple,spmi.yaml       |  49 ++++++
->  MAINTAINERS                                        |   2 +
->  arch/arm64/boot/dts/apple/t600x-die0.dtsi          |   7 +
->  arch/arm64/boot/dts/apple/t8103.dtsi               |   8 +
->  arch/arm64/boot/dts/apple/t8112.dtsi               |   7 +
->  drivers/spmi/Kconfig                               |   8 +
->  drivers/spmi/Makefile                              |   1 +
->  drivers/spmi/spmi-apple-controller.c               | 168 +++++++++++++++=
-++++++
->  8 files changed, 250 insertions(+)
-> ---
-> base-commit: a24588245776dafc227243a01bfbeb8a59bafba9
-> change-id: 20250304-spmi-6d3c24b9027a
->
+Check if policy is NULL before dereferencing it.
 
-Series LGTM.
+This is similar to the commit cf7de25878a1
+("cppc_cpufreq: Fix possible null pointer dereference").
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+This is found by our static analysis tool KNighter.
 
+Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+Fixes: 6286bbb40576 ("cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states")
+---
+ drivers/cpufreq/apple-soc-cpufreq.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
+index 4994c86feb57..3de9bb2b0f22 100644
+--- a/drivers/cpufreq/apple-soc-cpufreq.c
++++ b/drivers/cpufreq/apple-soc-cpufreq.c
+@@ -135,10 +135,14 @@ static const struct of_device_id apple_soc_cpufreq_of_match[] __maybe_unused = {
+ static unsigned int apple_soc_cpufreq_get_rate(unsigned int cpu)
+ {
+ 	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
+-	struct apple_cpu_priv *priv = policy->driver_data;
++	struct apple_cpu_priv *priv;
+ 	struct cpufreq_frequency_table *p;
+ 	unsigned int pstate;
+ 
++	if (!policy)
++		return 0;
++	priv = policy->driver_data;
++
+ 	if (priv->info->cur_pstate_mask) {
+ 		u32 reg = readl_relaxed(priv->reg_base + APPLE_DVFS_STATUS);
+ 
+-- 
+2.34.1
+
