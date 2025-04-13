@@ -1,63 +1,63 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418991E3DE5
-	for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 16:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663511D7E37
+	for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 16:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744563464; cv=none; b=dBoDm6FRsZEsa50Lr2YD5incVB8hXAVgnEztDtnj7tNNVpjjy4JzlK4Fnn4Z0ddDIN15m15RN1TtGziO6gse2bfnX3nPYd+QYI63JxUbe1yu2+CDF8hXY3NdvXr+qHx9IDic1V7zpIgnE9AczBpa1Xe+LGn06a3vxwGBeWMtcVw=
+	t=1744563556; cv=none; b=h/C5E/I5uZW7f9bKUvdXAqHKwkaNQGEYHi0tQEGpG/o66hX0gwm3oNrMry+hsLCm7WR2Eec4rCpMs6nNLnwT5+VTXX0+miiCiFEI50y9+7smoQ4zlF37vN75SiqhU6ey1ISerOkkpxyejshMtoWEa5cfl5o6rrJgSPCFUecpfnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744563464; c=relaxed/simple;
-	bh=/7OMVG3YDsHT7VSBN3w3/iys+Aoi2WqcdkbwOgqe87g=;
+	s=arc-20240116; t=1744563556; c=relaxed/simple;
+	bh=i17QWzXCS6ZCHtMbXDJ6n/FUUDwlQQ1PwIa3RJGSpqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=poNfIX+MMoPBiBs7tBqG8nzs1BJ5yPqjEEDc0DCTR80oO/fio0zEZWG9XQIpCFW84Rc5JfUxv0RAubPhoqkHLZxLysdwn9PIC4HgesEoRM5+yfap8ZR+TV4lISlwUheycwfoOrOB2Xn7N+bUBaZy7GF/dtn76CUbXZ7Nw+JMPX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ENtogBOY; arc=none smtp.client-ip=209.85.214.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=sanjWGQHC2bM8+vzmXA+T1cwDW8F8AoAgk/PCfgcreZKmn3J7yZzRpUi+2tRIYBjsnRWRuijXIFLhX5DjAaWr1PaDtyzC8OkZIDQkxsbAwZlt8tV258e0Tw1aoKCoIEfOIKfM3xXFOzF7M4a1n9eF0ElyqaRy3eBMGqgSkrS3VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H8ER0MQM; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ENtogBOY"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-225477548e1so33218995ad.0
-        for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 09:57:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H8ER0MQM"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-224341bbc1dso31344845ad.3
+        for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 09:59:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744563462; x=1745168262; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1744563553; x=1745168353; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=RBY58SxSSqyPJrcv2B/68pnLeAE4+ZGyiwdPmLMof5o=;
-        b=ENtogBOY4+2KBZ43ptsyBG57Q4phqFA/41pYJr505sTaJDP+P8e3fkNckzMoHA98VJ
-         Y3vOM1t6EwdkCDQ2AW2wjUPeKvWrmwfmACHZzCyewXJtVcLW1OuToonjFesn1cX8jEpu
-         Q9b7dkiARYQu9gWERYiHYyeumD4onWrfVTyXCFoiam02ujLrBglmRQeXB5ETAk80NRBX
-         04fzAKxL1mvIxp3zj6bwlBCsrC+5767pLMiskP7RziXmK1LV6zSulF9B9wmcdg49lB5q
-         1/xXIkhUAyU7O88fli2Baq46crJ6zsqDEbwuyG83XUT+wca3eDV92e/vmogrIRUAyIB+
-         fETA==
+        bh=noK0IP3zHzbpqWrnS3yDqlfS/Gp7WWrDNNCpSJyHX2w=;
+        b=H8ER0MQMlkS7hwXLwdwrV5/ROA/orWVhCv/B+prZtFJqu6JbLSHUfU9FVlfhQaqMWi
+         deIbXA8AbEMIQHXnOJqCCQqBi0AwiE8rfLWqZMjx1LsP8RBFmvditGuDQDT6iiJDE8S3
+         NqZ/o91youVz3+7SFEIA2LHPnwdccxfrCy0PNanTTviosPaqWMmXW9NFyz7alfy8qTaD
+         APyOriIelK7jT4usgXW+QDd/uXYlv58/w7asERrm3G7Wcp7Mw1x7+O5BqMH1m39UljuQ
+         wani4Hqd+t48TkUN8G0Vr3r++ae7E43J0CHy6V99rmfd/x3WA1uQDhXczGuYtHfRw8Q5
+         fAZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744563462; x=1745168262;
+        d=1e100.net; s=20230601; t=1744563553; x=1745168353;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RBY58SxSSqyPJrcv2B/68pnLeAE4+ZGyiwdPmLMof5o=;
-        b=bgdZNeCgTpjp1CSeAf+gGF4CvIaeJFH4Gp6v9whCO7wg9+Td1FD8dXEBDzoME3ICP2
-         w3+0CkMm3NAE2tAqOCTQcWc+fWDYEFos5vM1x8dAKPBorFVJrr5BDAKCNXGwtLXyX7Ke
-         BN5kK5wN77ssUTH4pA1oCDwo8fdIMxSIoEVSKhhhe2A0mAlIH75Gs9YEX9a1KcMHsRaE
-         Qpzz3HQDNQVjAlYyqn06eTYKVruHsj/5lEjwh8vXwfT0qGsk7trkMmT9nMAF4L9Xkw6S
-         GPsCHTK8WoKpWevqMdKluscVvjleDaPxrPXACvo2nnSrrWUvEUjoGnEQuEZafrLEg3Wd
-         kwog==
-X-Forwarded-Encrypted: i=1; AJvYcCXyyJA4IHOoAJ1aNuBETFHIkS6Q8qxvbDMIeZ0fQMGXhRK5rJxtPfleCEXqGDkEB6J5fwtLNQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyri12Qlja2pKgbRjrfJOFGwMo/KUS8wIiu+1w+K8vxiS+XkiwH
-	YBaOvY85Z6XLlq7symfrkavTNvhx1pO6kCERPnkgyrwaTvlWm2tRVYWPX/OwxQ==
-X-Gm-Gg: ASbGnctH2OCepergAz7FARnADK94HQl8cUL/nr6PKn8m9u40JMg38KgHjqnLQ9k5z1Z
-	Xc+hG1z9lEC0J6W9gkyeGDCfaezQDes5usNPEHNR3NlmE6MpBozODH23JckJpleMV23zfU/XWqN
-	JypjaRqgZn5P5Af3gK9x+Q6BIQLOxnrpFcevc7ObHUTbz/SP83Bz3ZsGXCh/yqmoh/2d5ihUXol
-	iaUtK7AYsrUgszl28r5R2i9KpX/BzQeobRADS87ZiqG/cYwALt+GeHbt2B3YDYy7AWatpmNszgH
-	bIvYj4FNDYgBV4imP3j6yIuCaWr5r2rkDVHQ+tB9CH19xVvptD/L
-X-Google-Smtp-Source: AGHT+IGJt4v7frYs5ZTIrelHv7KmYlMcRfj04mYpK3QHDu8yhzesA2ae/Fc6/h0nwJZRdeyltFrEww==
-X-Received: by 2002:a17:902:ebc2:b0:220:e63c:5b13 with SMTP id d9443c01a7336-22bea4fd043mr132747235ad.46.1744563462265;
-        Sun, 13 Apr 2025 09:57:42 -0700 (PDT)
+        bh=noK0IP3zHzbpqWrnS3yDqlfS/Gp7WWrDNNCpSJyHX2w=;
+        b=P5dG41NxPNhp29Cx5W7NQGoTeFxw2xWqe5ZojCOE4K1xFSAtqkA0Ld2tOE40usZ470
+         iokqhHojw6gWk72Ep7oIxlagjyk23ybaWDF7Ihy2nWyRFSihcBXjjslCNl8KTXTyA/kU
+         myatZ46sCJl54CfGZiJk2jHGSNhBbQaOp5bo1t7Po2E0HW67VJpDC5uKy+deZ3A6aMKJ
+         92OAD+rIS40LjOTIF6V24fHsZ7SM811QV8iUhQnIGwMD86+glkvxxYdLaI3ONaFQhbFX
+         wNUPWMK8PbJecII9XeFbC7ynXRjAzI8AKx+7Qc3Sl3Cj7fPdG32y3ydPhz7guyo+aisC
+         17NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHmvteDXlRAxXN6QoxYkU0OHiD4PYOjTn2Jk7BortTxqZp4HRlgQSBFXkqULfBJPRsaKdkRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpOmZ/iLyf2+MHPaLvSdPRKdZGLkMrBcWg2CMjRfLYCiuzSn3S
+	UE+5MV1PKR8PkSQUSomKBR8Hoe3iZZkXOsFzufJoPVZ6IhhZ73FOxHEu9Ev68Q==
+X-Gm-Gg: ASbGncsI8QLMMyIEJ3GFjADcL85vnCFQRq4gtW3dvfamPO1S0knfF3BWjFGbIoSlLPK
+	LCZEi+/1/pPvcehYGt14O4JsbM74fJqhBFhzA3u/sJ6YwCASeOGvGMwo6sMP44G95KPYPSJIwEI
+	pTiNCuF7jYy2vaDuF1eeNqMiIXXN/Wz4JNTew2m1bDCVK5OYKDQ/XSO+SIPBfGNQNoLdPSwRLq1
+	zl2lMOWCe1rmNDBA402GBCUVclroyKSo+NIogQ8zoaJuplyUv7qnEUpPAb0FYYxR3vxn+m8AX+7
+	LN0ZUBOPl7x1hYzZDoL2fI28deiKL0Jy06NiQysNfOwUAlX+MAVm
+X-Google-Smtp-Source: AGHT+IEuuztzcfI3tZMtG2ip7jalzWCYkQqUAle89wyt0wS3flTIjrnot513jepB3231SBdBpBbheQ==
+X-Received: by 2002:a17:903:19ed:b0:224:1eaa:5de1 with SMTP id d9443c01a7336-22bea4ade1fmr126350445ad.18.1744563553536;
+        Sun, 13 Apr 2025 09:59:13 -0700 (PDT)
 Received: from thinkpad ([120.60.137.231])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7ccb84bsm84013885ad.236.2025.04.13.09.57.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7b8aff9sm84440595ad.79.2025.04.13.09.59.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Apr 2025 09:57:41 -0700 (PDT)
-Date: Sun, 13 Apr 2025 22:27:35 +0530
+        Sun, 13 Apr 2025 09:59:13 -0700 (PDT)
+Date: Sun, 13 Apr 2025 22:29:06 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Marc Zyngier <maz@kernel.org>
 Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
@@ -67,10 +67,11 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Mark Kettenis <mark.kettenis@xs4all.nl>
-Subject: Re: [PATCH v3 01/13] PCI: apple: Set only available ports up
-Message-ID: <k3wj3wkk3cymyacboalkhe2fa7jvkpuehq4knpsouoyhvoavpl@bafg4oakp4lr>
+Subject: Re: [PATCH v3 02/13] dt-bindings: pci: apple,pcie: Add t6020
+ compatible string
+Message-ID: <754d74knq32vrefkukv4ec7id33d6rvhuf5boccynljfgmn6hz@bzxc7uiqdbos>
 References: <20250401091713.2765724-1-maz@kernel.org>
- <20250401091713.2765724-2-maz@kernel.org>
+ <20250401091713.2765724-3-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -80,57 +81,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250401091713.2765724-2-maz@kernel.org>
+In-Reply-To: <20250401091713.2765724-3-maz@kernel.org>
 
-On Tue, Apr 01, 2025 at 10:17:01AM +0100, Marc Zyngier wrote:
-> From: Janne Grunau <j@jannau.net>
+On Tue, Apr 01, 2025 at 10:17:02AM +0100, Marc Zyngier wrote:
+> From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 > 
-> Iterating over disabled ports results in of_irq_parse_raw() parsing
-> the wrong "interrupt-map" entries, as it takes the status of the node
-
-'as it doesn't take account'?
-
-> into account.
+> t6020 adds some register ranges compared to t8103, so requires
+> a new compatible as well as the new PHY registers.
 > 
-> This became apparent after disabling unused PCIe ports in the Apple
-> Silicon device trees instead of deleting them.
+> Thanks to Mark and Rob for their helpful suggestions in updating
+> the binding.
 > 
-> Switching from for_each_child_of_node() to for_each_available_child_of_node()
-> solves this issue.
-> 
-> Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
-> Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
-> Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
-> Fixes: a0189fdfb73d ("arm64: dts: apple: t8103: Disable unused PCIe ports")
-> Cc: stable@vger.kernel.org
+> Suggested-by: Mark Kettenis <mark.kettenis@xs4all.nl>
+> Suggested-by: Rob Herring <robh@kernel.org>
 > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 > Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 > Tested-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
 > Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> [maz: added PHY registers, constraints]
 > Signed-off-by: Marc Zyngier <maz@kernel.org>
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
 - Mani
 
 > ---
->  drivers/pci/controller/pcie-apple.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../devicetree/bindings/pci/apple,pcie.yaml   | 33 +++++++++++++++----
+>  1 file changed, 26 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-> index a7e51bc1c2fe8..842f8cee7c868 100644
-> --- a/drivers/pci/controller/pcie-apple.c
-> +++ b/drivers/pci/controller/pcie-apple.c
-> @@ -755,7 +755,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
->  	if (ret)
->  		return ret;
+> diff --git a/Documentation/devicetree/bindings/pci/apple,pcie.yaml b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> index c8775f9cb0713..c0852be04f6de 100644
+> --- a/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> +++ b/Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> @@ -17,6 +17,10 @@ description: |
+>    implements its root ports.  But the ATU found on most DesignWare
+>    PCIe host bridges is absent.
 >  
-> -	for_each_child_of_node(dev->of_node, of_port) {
-> +	for_each_available_child_of_node(dev->of_node, of_port) {
->  		ret = apple_pcie_setup_port(pcie, of_port);
->  		if (ret) {
->  			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
+> +  On systems derived from T602x, the PHY registers are in a region
+> +  separate from the port registers. In that case, there is one PHY
+> +  register range per port register range.
+> +
+>    All root ports share a single ECAM space, but separate GPIOs are
+>    used to take the PCI devices on those ports out of reset.  Therefore
+>    the standard "reset-gpios" and "max-link-speed" properties appear on
+> @@ -30,16 +34,18 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - apple,t8103-pcie
+> -          - apple,t8112-pcie
+> -          - apple,t6000-pcie
+> -      - const: apple,pcie
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - apple,t8103-pcie
+> +              - apple,t8112-pcie
+> +              - apple,t6000-pcie
+> +          - const: apple,pcie
+> +      - const: apple,t6020-pcie
+>  
+>    reg:
+>      minItems: 3
+> -    maxItems: 6
+> +    maxItems: 10
+>  
+>    reg-names:
+>      minItems: 3
+> @@ -50,6 +56,10 @@ properties:
+>        - const: port1
+>        - const: port2
+>        - const: port3
+> +      - const: phy0
+> +      - const: phy1
+> +      - const: phy2
+> +      - const: phy3
+>  
+>    ranges:
+>      minItems: 2
+> @@ -98,6 +108,15 @@ allOf:
+>            maxItems: 5
+>          interrupts:
+>            maxItems: 3
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: apple,t6020-pcie
+> +    then:
+> +      properties:
+> +        reg-names:
+> +          minItems: 10
+>  
+>  examples:
+>    - |
 > -- 
 > 2.39.2
 > 
