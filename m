@@ -1,91 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C904B1EEA39;
-	Sun, 13 Apr 2025 20:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F42141547EE
+	for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 21:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744574421; cv=none; b=gGsdImHwFSBWuC7bz0nNJx2ihrTtF0q7kLaess+IYJhH48pnDiZEYWfXadiNNhceZ8f1m2dn4oEdISLgRv260MpIR1WuR90bd/A4MRjdG1FIPmD52/SXBfENUrS/1GX1uHHnqJhEhwqS9EBvNNHyw3t8qi63vmyP9MR0kJkdv8w=
+	t=1744579900; cv=none; b=akNV4IU7bk7krb0qy+9Cf7NOOqECGFslMLVkBEhghivSYHeJU+HukJC0xuazAIf61/yCPE82TSX7tiHliPN6M68sAHNEbS8P7VSCmN+75P7W7ppoRn97RhEtzqMyhmnkX+ZJr6tJGT7O196tKulbuiCsxs53P3lSIL6fMLkzAHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744574421; c=relaxed/simple;
-	bh=+Fq0MhmsH1itLSjdDC0e0AQDvHDYfYtdZa0fZk4m4G8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UIBc5r6tPvPY245XbyXxfUnG3+AFRh1cUZuSuLexWmrLhX0pEuj9eVBjPl1/g/SJKMpaVUWHnXBxkKpE5xu/h80ZQzuMwCBrvBDRPS6I2OjYjCaqeJAWWtXCPD9/8N/HCGydSYYZHcHBIeq9j1qPZ6VpPplt3vq5JCZhPcy2u9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I7etbMb4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744579900; c=relaxed/simple;
+	bh=mgLxoK4EqdoZNRyJ7vtRt92RimlwlQcHoZsoh3I46Ng=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B4NG5QtdpI+D4SZD+9m16bjS6RCNEFTkWH3c7QY4LaBHE3VkVWoOt//eflXDb7U6L5y7axEWDDLKb66Oyy2TIRMHZU3QxU5gC2zi4FBzBqq3udgqR1SAVJ5+GJgmXAJodusixvgMunRRP7lsttcywNMwlfo7dh+nDM90KGAiSyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuckwhY8; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I7etbMb4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18373C4CEE7;
-	Sun, 13 Apr 2025 20:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744574421;
-	bh=+Fq0MhmsH1itLSjdDC0e0AQDvHDYfYtdZa0fZk4m4G8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=I7etbMb4XdA3KK4rodjXK+gs7WJKkTNURpYg1Dm3lmMi0djrpCanbW0EMa1nU7NgG
-	 2m9IMgPYgfqHVSx3hNRxMTiGSv596a7uN8rGHOVN4C2Y6+5refmXtRlnnNYx1t68WI
-	 ThOA3/zPpfS2ql5xJy7ecnRSV9lHnVMRbDbJW7qX/GlkALVy1Xyl8JfuN9V1NAZ7Fp
-	 VFjpzfocCRa1cc4gVTkn9hclofT6PEcML1iQJb1X4y4mGvpGdXlGssK20oAL4hI2py
-	 vFuYL+IiJOje9CSjjDInkdrDbO15+Giymo5Njey3/KkhpB48k0zKHvb2tTdb+uodP4
-	 0+q2UgFBlyqSg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1u43V4-0051hr-Fo;
-	Sun, 13 Apr 2025 21:00:18 +0100
-Date: Sun, 13 Apr 2025 21:00:23 +0100
-Message-ID: <87v7r7ygq0.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: linux-arm-kernel@lists.infradead.org,	linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org,	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev,	Alyssa Rosenzweig <alyssa@rosenzweig.io>,	Janne
- Grunau <j@jannau.net>,	Hector Martin <marcan@marcan.st>,	Sven Peter
- <sven@svenpeter.dev>,	Bjorn Helgaas <bhelgaas@google.com>,	Lorenzo
- Pieralisi <lpieralisi@kernel.org>,	Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?=
- <kw@linux.com>,	Rob Herring <robh@kernel.org>,	Krzysztof Kozlowski
- <krzk+dt@kernel.org>,	Mark Kettenis <mark.kettenis@xs4all.nl>
-Subject: Re: [PATCH v3 01/13] PCI: apple: Set only available ports up
-In-Reply-To: <k3wj3wkk3cymyacboalkhe2fa7jvkpuehq4knpsouoyhvoavpl@bafg4oakp4lr>
-References: <20250401091713.2765724-1-maz@kernel.org>
-	<20250401091713.2765724-2-maz@kernel.org>
-	<k3wj3wkk3cymyacboalkhe2fa7jvkpuehq4knpsouoyhvoavpl@bafg4oakp4lr>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuckwhY8"
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86ddd80bc00so224959241.2
+        for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 14:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744579898; x=1745184698; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rVx7pId+fo+v9AziRU2Xhwn4igyBgC1HT4sAj9Df4U0=;
+        b=fuckwhY8DOjpCfGq/MzIpQEHMXW+fGVZfFsewQQF42e6lwrZ9FfwbeBmyz9Guk1P1x
+         dQAYuxhq66g2MzGtO/AFvlAIwJYhKjTbmGsx3tx42E/uAv4EoD5Uv3BnegM2Rjo6hLmS
+         oQZPSVT6QYuLO2z8bDRx9q+jklOLskfHZi8Qb6K1GLwwZdVVjVMZ295PWZXE3cg7GBB1
+         riNZEPj0NYe8kF4YRswiqV6EFP2p/F5qle1kig7ktvBOwZnZ38SwLyH3KdqfjmvArGkY
+         RBTlfjWDHj9L1ASF0ZgZx6vG7HtOEuI5+/44STimFbZFATFLoVdTlFxIzX6dmJ2QbFNy
+         Dstg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744579898; x=1745184698;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rVx7pId+fo+v9AziRU2Xhwn4igyBgC1HT4sAj9Df4U0=;
+        b=lcgo2CNWSpDotj72MSx433XZOJmtUTbTSPLJlisNdWPnqlU7GzTTx71CmyR0r4qiGa
+         iNRPv1vZ0YZiobsoqXOZaP5WGjDdh+QcOcN5R8qtegd+xz4das9fPZlnxfPISKrS2RJf
+         kID1U8phpilFsV7/83HJ4ZqunVz6pExkMr26za0HE2r+sZQUNC0LEBsjvLML4SMDYCHX
+         wsBvOy1q3+FBsUbHzRDrShi6EYWwskglIIdIgGT7RvOhulmOj18iopEx4I3E6XLQdcXl
+         sHQ0EQGp/495m6LtZ5jOXXZ+bBkNp1r2VoOh+5h/sMgAMumQGkw9dpTcKV/szRUPStnt
+         Wl/A==
+X-Forwarded-Encrypted: i=1; AJvYcCWKajEtwEGqEhPJBdXNulhJQwW2MeCDYvaxckgpM6CbDjYvd4qhzItkHzrKT/49RUdTFdQvaA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzD0R4ZGNkou0BIsLeoOeLtmSRzLpEDiv3jRPXVIqIIWsVbEaV8
+	46PJPJWhMzwlNn1Gp4BGjKYZ5ZgwgM/ql+BodW150k3xx+R7Ul1r/S9hymlAw+gwQgAMkfqraYF
+	+LEwFvyrnIqXUAmWIVo54JuqaAA==
+X-Gm-Gg: ASbGncta3maDk9LyO5DDUdaoeHEBxIM7SiuxVvK8fVJNwnOp8fVOXhzD4sx1xc33C9n
+	7RXTk183SLZDIbxF7jCGNG+pX4ibrwLwuX8B3RO4o2za93VlTKC/A86fdFMGD+ov50xgpS4+Aop
+	vM7rRxLwhwucLtmZTRTgNzf9o=
+X-Google-Smtp-Source: AGHT+IFllKurmSafw9kTIxLu4ahAC8hkWzQYIgTlQSqJgaGokd0Bp/EPGcbx+9emTi0vCWUUQt+rhYiuzmyqBQu3x3o=
+X-Received: by 2002:a05:6102:511f:b0:4c1:966a:3c4e with SMTP id
+ ada2fe7eead31-4c9e50a7c13mr2151657137.9.1744579897520; Sun, 13 Apr 2025
+ 14:31:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: manivannan.sadhasivam@linaro.org, linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, alyssa@rosenzweig.io, j@jannau.net, marcan@marcan.st, sven@svenpeter.dev, bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com, robh@kernel.org, krzk+dt@kernel.org, mark.kettenis@xs4all.nl
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+References: <20250412160518.1824538-1-chenyuan0y@gmail.com> <86bjt0l6q4.wl-maz@kernel.org>
+In-Reply-To: <86bjt0l6q4.wl-maz@kernel.org>
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+Date: Sun, 13 Apr 2025 16:31:26 -0500
+X-Gm-Features: ATxdqUH1BeMQrQPrFwdsiZdU6msIr6wxehKc7O712r23xRkqjsP-yQUpqJTGusA
+Message-ID: <CALGdzurneK24t3AF2z5U6CoxrGYMEWUzmPn8-Qp0tToKwQV8RA@mail.gmail.com>
+Subject: Re: [PATCH] cpufreq: apple-soc: Fix possible null pointer dereference
+To: Marc Zyngier <maz@kernel.org>
+Cc: sven@svenpeter.dev, j@jannau.net, alyssa@rosenzweig.io, neal@gompa.dev, 
+	rafael@kernel.org, viresh.kumar@linaro.org, marcan@marcan.st, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 13 Apr 2025 17:57:35 +0100,
-Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org> wrote:
-> 
-> On Tue, Apr 01, 2025 at 10:17:01AM +0100, Marc Zyngier wrote:
-> > From: Janne Grunau <j@jannau.net>
-> > 
-> > Iterating over disabled ports results in of_irq_parse_raw() parsing
-> > the wrong "interrupt-map" entries, as it takes the status of the node
-> 
-> 'as it doesn't take account'?
-> 
-> > into account.
+On Sun, Apr 13, 2025 at 5:02=E2=80=AFAM Marc Zyngier <maz@kernel.org> wrote=
+:
+>
+> On Sat, 12 Apr 2025 17:05:18 +0100,
+> Chenyuan Yang <chenyuan0y@gmail.com> wrote:
+> >
+> > Check if policy is NULL before dereferencing it.
+> >
+> > This is similar to the commit cf7de25878a1
+> > ("cppc_cpufreq: Fix possible null pointer dereference").
+> >
+>
+> No, it's not similar. The patch you refer to actually introduces bugs
+> by returning -ENODEV in functions that have an unsigned return type.
+>
+> > This is found by our static analysis tool KNighter.
+>
+> I'm surprised that your tool hasn't found the above, because it should
+> be a pretty easy thing to do.
+>
+> Irrespective of this, it would be good to describe under which
+> circumstances this can occur, because I can't see *how* this can
+> trigger. The policy is directly provided by the core code and provide
+> its association with a cpu, and is never NULL at the point of init.
 
-No, I really mean it in the positive form. of_irq_parse_raw() checks
-of_device_is_available(), and gets really confused if walking from a
-disabled port. You end up with the interrupt for the next *available*
-port, and everything goes pear shaped from then onwards.
+Our tool currently identifies bug patterns by analyzing patches. For
+example, in the similar function cppc_cpufreq_get_rate(),
+a patch was applied to add a null check for the policy. Therefore, we
+assume that a similar check should be implemented here
 
-So IMO "as it takes into account" describes pretty accurately the
-situation.
+> And if it can trigger, why only fix this one particular case?
+> Dereferences of policy are all over the map, and would be just as
+> wrong.
 
-	M.
+It appears that similar checks are implemented in other areas=E2=80=94such =
+as
+in acpi-cpufreq.c, cppc_cpufreq.c, drivers/cpufreq/cpufreq_ondemand.c,
+and drivers/cpufreq/cpufreq.c.
+However, I'm not sure if apple_soc should adopt the same checking style.
 
--- 
-Jazz isn't dead. It just smells funny.
+> >
+> > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> > Fixes: 6286bbb40576 ("cpufreq: apple-soc: Add new driver to control App=
+le SoC CPU P-states")
+> > ---
+> >  drivers/cpufreq/apple-soc-cpufreq.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/appl=
+e-soc-cpufreq.c
+> > index 4994c86feb57..3de9bb2b0f22 100644
+> > --- a/drivers/cpufreq/apple-soc-cpufreq.c
+> > +++ b/drivers/cpufreq/apple-soc-cpufreq.c
+> > @@ -135,10 +135,14 @@ static const struct of_device_id apple_soc_cpufre=
+q_of_match[] __maybe_unused =3D {
+> >  static unsigned int apple_soc_cpufreq_get_rate(unsigned int cpu)
+> >  {
+> >       struct cpufreq_policy *policy =3D cpufreq_cpu_get_raw(cpu);
+> > -     struct apple_cpu_priv *priv =3D policy->driver_data;
+> > +     struct apple_cpu_priv *priv;
+> >       struct cpufreq_frequency_table *p;
+> >       unsigned int pstate;
+> >
+> > +     if (!policy)
+> > +             return 0;
+> > +     priv =3D policy->driver_data;
+> > +
+> >       if (priv->info->cur_pstate_mask) {
+> >               u32 reg =3D readl_relaxed(priv->reg_base + APPLE_DVFS_STA=
+TUS);
+> >
+>
+> So while this is not wrong, I don't think this serves any real
+> purpose.
+>
+> Thanks,
+>
+>         M.
+>
+> --
+
+Thanks so much for your reply and comments!
+
+-Chenyuan
