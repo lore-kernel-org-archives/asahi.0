@@ -1,63 +1,63 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97241917E7
-	for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 17:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D66414A0A8
+	for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 17:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744564025; cv=none; b=fsn+CJSeBtQkWo1lhZ3jdB92gegl8k76flUn5IW5H3tZ/0BxfcABZXn4ziOd6zaLCVyKRdj6sFyMcya4q0Znz4MAkufXPB9qbwx51MmQkVkVjKXMVHAD8NzmCoCkCHJfW5g+wXvMYlollLPR2z5CZlXiazDscf0DopAYzJCSIsw=
+	t=1744564070; cv=none; b=COn4NxaEM79B+7alVnom2DCvaJAAGAHLCGyUWLI2DjXracrYqTtWfLi4E+WohmePdfTq/VUmADwVHXKRD/VtC10x+iMI0svYQ/oKNtQV027qWqc3IVgmKf7WSrRitdVejyYNHWBs2g5VsJMhp4tUl942ZVC4PlPJtM3UWoQV9K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744564025; c=relaxed/simple;
-	bh=nXufBv2d9pq7C949AzMIVQxPJIQqZJ31lPxfJIooLrs=;
+	s=arc-20240116; t=1744564070; c=relaxed/simple;
+	bh=6VKODufV55CPHRL6gMi2vT4BTwQXo0hYnnyL4Ta01nY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pms1f7W4GTF0BgmpG2KOAuUuDz+ThZVsyrb9P7A+sIvIWxHPNcFXWYu3qtDv4O3J+zN+sl1tSPLbQ8imZaKEq0NdArh3VvV1rUttdVY3nv1XQQrX/MgQF7rqgmZipammzwFqGza6FN60U0y+aEdCWD/tMHCq4RzNC8EQJMeXjUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PHZCslBV; arc=none smtp.client-ip=209.85.215.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=GeavcvgHjgTTqJ2e1SyXi80/s484/uKqSBlO6mm8abfySfTcyxA3LHT3/nHxeyijx9dWQzRIGhXMfvyfvLf7jLRYx64Dqc8rINvKFs3XqgTqtc+pm6KwrEdp393PURZlS6kRSj82DOcDOE8vR2VjtKGsZ5W0tdFcyh3ITpmvnaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UIHY0mo6; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PHZCslBV"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b03bc416962so2426420a12.0
-        for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 10:07:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UIHY0mo6"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-227914acd20so36633635ad.1
+        for <asahi@lists.linux.dev>; Sun, 13 Apr 2025 10:07:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744564023; x=1745168823; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1744564067; x=1745168867; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=AEElue2tYW/hBjcRseiSqCB01x22XFA+AuPsh/D6E9s=;
-        b=PHZCslBVle1EumLX1zTcCelHwgtOSsiOrr4Aju1YaM18hs8EVR2GOQD2qmDqEKdW1F
-         w1HV8x087ECKcdy/E4xbnbMAPdaJpn/Ep1xOdENqsExD8r2R9y7kGl6vydqFcA9asjDZ
-         v8BudfvbCZXS9dsHorgXaazE1RYlCnAS/CICLAYCiynKq+92L5kN1fdINqsORy2amypR
-         DBb/LgPEFG+Y6miqqdEeNkDD1ZChv4jYANZYJGrtFXYHX8ycgObDP4pAJMOTe1e+uD6R
-         kUxkWV3M1PevppgN31cRred1NdOlXxWG6WI5MvrcnU7zMotS0Mw6zfXpV2uNgG5dIs38
-         9uIQ==
+        bh=+nVktb2oUewrSNZef7Xp2RVx4/SYPTQmZKEvKujre58=;
+        b=UIHY0mo6EEDLSqVaA+X0JTeA9U5czzz/1tsmFIV9Q9RzEciWLmwU2i9TjHWJ1dkfXB
+         +1DgvVxuqgmtN3b1H/kXhWWL6pZ+b+Dtprsko9Ysd0JRpZHW90puV9OSPC8kvuAgDP1n
+         /r7jrOyLvnnN1CbpiIvpfsbaZl4go1vvrRXq7y/mcg59ZjMmy8pdG4OSSfVWEZmxIOj2
+         AM4SFKNUU/dLA6rZvUE2ISgcg3NfsCKIcAMt4AsawT8NzTRpJDrl0qA8W08WsrFD+iS7
+         XaX3YUxcvzk+z5yaAEmtmvxyQo5/7bGVhUAzevZ6eIg9wGa8Twgb/QJqkyJT3AX2+r9g
+         rAFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744564023; x=1745168823;
+        d=1e100.net; s=20230601; t=1744564067; x=1745168867;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AEElue2tYW/hBjcRseiSqCB01x22XFA+AuPsh/D6E9s=;
-        b=Tek4OULCkt22CpkulQ7UP1NLczMCg4O5vLjaEDVg05iPK2DhSki+7a/6B/lhdEukCr
-         Il3JfX/RdKNRBpGFoCH8/A06xW/7uoxddpJDXFkBSzs3zgC71A0DOTBPkswWmLJxqa37
-         C4ejVRP+qa3Mr+1ezE4R43If2iobAgvHNcIQKfUvDqFsPlLWKOOFLmzynzc+Bq8wsL1d
-         1Jc2XuxBz9wdBv4wmeThZVtkCkoOxcbsuaSVRWwCFGDr2qBMx/w42Vf3FXQV7FNu5Rkh
-         OM05rFGDYZxWlpgk7XF18g/b4Bh2QSyMVJ2U1k/DyanEQoipea6RTikPI4qmcV5fXKrU
-         XIuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWXBspB1QFwVTMcvcIL9vVEhZm4rp2tGPcn8qfYf4P7cpe7kPGoxxF9a5WokfCgH99ePFPasA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyOmliCKleluXjYwok/bROD9ej9h8XPcG2R+MTZZocBC+p6krv3
-	nXK3mRTpePI7u3WMCYt1ffY2qrEGpBgbjDKwTVio5IEoCtcLJ30MGEwt1SXtdg==
-X-Gm-Gg: ASbGncveKmCuW22lBJHnfZgvDsb4RfavJBz78d2i7DHi3tIbSX+WHejYHDVjzXVCsHV
-	uXwxYs93DzJi9earKjjpS7B6uM0g+oWgt9wZDVi+wJIsM94yQyo61Xd0YRYmbPJb4D1X7oIxDud
-	ZBsjDzRQVX+iU/C8ckklYsHncRxFaSJ/yIfRwVv49S5ywNKF9wJIegDufI1EvHY+k6RpQ1wcStd
-	BiS4yKaAQCqZ0rgrL1H2/7aeKk7UIYukvIgQgOsvKP+6xHVa042okzMr8NzHq8A9UG126BYACF9
-	d3txAc/VLpg+uu9TB04/rXy48OTtd53DLy3hizXFI++H3MlVoFC2
-X-Google-Smtp-Source: AGHT+IFzcTIcJAVCdciwF5W12Gs6hhpKts4y4tqwIfl35r96ytiQ8WM9loQM2BZkZ8y249PrujZoeg==
-X-Received: by 2002:a17:90b:5245:b0:2ff:796b:4d05 with SMTP id 98e67ed59e1d1-308236640a9mr15187310a91.11.1744564022954;
-        Sun, 13 Apr 2025 10:07:02 -0700 (PDT)
+        bh=+nVktb2oUewrSNZef7Xp2RVx4/SYPTQmZKEvKujre58=;
+        b=rqJMCzPlSSbz12dUf3U31qzzjUUNup2epIJNqGNWumhC3UaoUSLcD8Xjg8m3vGY7On
+         POeA6qZBeh80djjwTAn1K07q4Vi69siZXx5dFBnvuqPZPrBdeNj/Nz5mBIxjM8VPWstY
+         DGTJRR73cQVEPbDPYlfqVAaWmdD/HYOgbIMhiVhKKNl+aRixVU2DemQEqDvMFQXGN5rM
+         WcvZenoUJfzB3UUVR6CX1UdvW6EkBI6xY6npj47BriMHwnSTE8yiIt+Qz1Ps5jZcDMeP
+         QSXNR8V8IFCecLuAd7Tyss8sZx7aLDZ7RhBtxZkDNYQZjPxPBGR5O1iVyTFVxkqSm8yP
+         LvLA==
+X-Forwarded-Encrypted: i=1; AJvYcCU61CRR/+v5Yb1gg7fnfpW1HYTstaYSMBHU4JVpAoSM8Gop1Z2iMEd/EeqSqj36oKeyvA0s9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw85GmN10FcaiamChuDAcMgd+Lxk/Kmzt/J4AV1aZsfOuDUdImF
+	ifmW9nFmbH5KrzWLbgp6+lD48L/WMqfDIjhzwfeZGjRubmiZkuiaThO/CaSvyg==
+X-Gm-Gg: ASbGncuYG78j2VpVhclMJ4JozWd6j4gv7gt0j8UJCG/vbiCrbXgH4di1bZ0hRw26UtJ
+	t9qiVpynJLS6va303n1VxNZGSMmbLVcgd9XRvujGxEu/Mx9VfuMvs2m3hBFfpbnyylkagnLb63F
+	41ovxUZrZDP+AdJzvt6X3cHezufo66vFS5A9BVvY85vOVSD2iPa83/xxLsrZ8TTrS5F1GulAt4M
+	nCDPPfWUfFeHzqzM8aVqQHmHlIhJButiEk8EiW4SoFAIWZOfkLZ+k+pI9EAqToTAQ9ZPKVltAih
+	AQ31KDxW8mRLOEf9bNqwODL8oSA4ChoZ7gmwllqQk4zZNviVVdNr
+X-Google-Smtp-Source: AGHT+IE+gbJeUC8MORyPLq+yv1/hRBnQsVunUtWyIkSWfGWZQvtHnS9GTR0o+MdzAbYHUke6iYn5sA==
+X-Received: by 2002:a17:903:1c9:b0:21f:5063:d3ca with SMTP id d9443c01a7336-22b7eaa3209mr205867575ad.16.1744564066784;
+        Sun, 13 Apr 2025 10:07:46 -0700 (PDT)
 Received: from thinkpad ([120.60.137.231])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7c95c35sm85022145ad.143.2025.04.13.10.06.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7c95cbasm84608565ad.133.2025.04.13.10.07.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Apr 2025 10:07:02 -0700 (PDT)
-Date: Sun, 13 Apr 2025 22:36:56 +0530
+        Sun, 13 Apr 2025 10:07:46 -0700 (PDT)
+Date: Sun, 13 Apr 2025 22:37:39 +0530
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To: Marc Zyngier <maz@kernel.org>
 Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
@@ -67,10 +67,11 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Mark Kettenis <mark.kettenis@xs4all.nl>
-Subject: Re: [PATCH v3 05/13] PCI: apple: Move over to standalone probing
-Message-ID: <mcb56cuupmguo3eeinj5b2bk67aki4optle5ht2hu7a5eskpxu@qmngxpm2lmrn>
+Subject: Re: [PATCH v3 06/13] PCI: apple: Dynamically allocate RID-to_SID
+ bitmap
+Message-ID: <vcoczq6foe3mikun3o5oqhawbu6ixfjfljnare32olmwxw63xj@zznl6iefhhxu>
 References: <20250401091713.2765724-1-maz@kernel.org>
- <20250401091713.2765724-6-maz@kernel.org>
+ <20250401091713.2765724-7-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -80,19 +81,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250401091713.2765724-6-maz@kernel.org>
+In-Reply-To: <20250401091713.2765724-7-maz@kernel.org>
 
-On Tue, Apr 01, 2025 at 10:17:05AM +0100, Marc Zyngier wrote:
-> Now that we have the required infrastructure, split the Apple PCIe
-> setup into two categories:
-> 
-> - stuff that has to do with PCI setup stays in the .init() callback
-> 
-> - stuff that is just driver gunk (such as MSI setup) goes into a
->   probe routine, which will eventually call into the host-common
->   code
-> 
-> The result is a far more logical setup process.
+On Tue, Apr 01, 2025 at 10:17:06AM +0100, Marc Zyngier wrote:
+> As we move towards supporting SoCs with varying RID-to-SID mapping
+> capabilities, turn the static SID tracking bitmap into a dynamically
+> allocated one. The current allocation size is still the same, but
+> that's about to change.
 > 
 > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 > Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
@@ -104,94 +99,33 @@ Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 - Mani
 
 > ---
->  drivers/pci/controller/pcie-apple.c | 54 ++++++++++++++++-------------
->  1 file changed, 30 insertions(+), 24 deletions(-)
+>  drivers/pci/controller/pcie-apple.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-> index 842f8cee7c868..d07e488051290 100644
+> index d07e488051290..6d3aa186d9c5f 100644
 > --- a/drivers/pci/controller/pcie-apple.c
 > +++ b/drivers/pci/controller/pcie-apple.c
-> @@ -730,35 +730,15 @@ static void apple_pcie_disable_device(struct pci_host_bridge *bridge, struct pci
->  
->  static int apple_pcie_init(struct pci_config_window *cfg)
->  {
-> +	struct apple_pcie *pcie = cfg->priv;
->  	struct device *dev = cfg->parent;
-> -	struct platform_device *platform = to_platform_device(dev);
->  	struct device_node *of_port;
-> -	struct apple_pcie *pcie;
->  	int ret;
->  
-> -	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
-> -	if (!pcie)
-> -		return -ENOMEM;
-> -
-> -	pcie->dev = dev;
-> -
-> -	mutex_init(&pcie->lock);
-> -
-> -	pcie->base = devm_platform_ioremap_resource(platform, 1);
-> -	if (IS_ERR(pcie->base))
-> -		return PTR_ERR(pcie->base);
-> -
-> -	cfg->priv = pcie;
-> -	INIT_LIST_HEAD(&pcie->ports);
-> -
-> -	ret = apple_msi_init(pcie);
-> -	if (ret)
-> -		return ret;
-> -
->  	for_each_available_child_of_node(dev->of_node, of_port) {
->  		ret = apple_pcie_setup_port(pcie, of_port);
->  		if (ret) {
-> -			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
-> +			dev_err(dev, "Port %pOF setup fail: %d\n", of_port, ret);
->  			of_node_put(of_port);
->  			return ret;
->  		}
-> @@ -778,14 +758,40 @@ static const struct pci_ecam_ops apple_pcie_cfg_ecam_ops = {
->  	}
+> @@ -147,7 +147,7 @@ struct apple_pcie_port {
+>  	void __iomem		*base;
+>  	struct irq_domain	*domain;
+>  	struct list_head	entry;
+> -	DECLARE_BITMAP(sid_map, MAX_RID2SID);
+> +	unsigned long		*sid_map;
+>  	int			sid_map_sz;
+>  	int			idx;
 >  };
+> @@ -524,6 +524,10 @@ static int apple_pcie_setup_port(struct apple_pcie *pcie,
+>  	if (!port)
+>  		return -ENOMEM;
 >  
-> +static int apple_pcie_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct apple_pcie *pcie;
-> +	int ret;
-> +
-> +	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
-> +	if (!pcie)
+> +	port->sid_map = devm_bitmap_zalloc(pcie->dev, MAX_RID2SID, GFP_KERNEL);
+> +	if (!port->sid_map)
 > +		return -ENOMEM;
 > +
-> +	pcie->dev = dev;
-> +	pcie->base = devm_platform_ioremap_resource(pdev, 1);
-> +	if (IS_ERR(pcie->base))
-> +		return PTR_ERR(pcie->base);
-> +
-> +	mutex_init(&pcie->lock);
-> +	INIT_LIST_HEAD(&pcie->ports);
-> +	dev_set_drvdata(dev, pcie);
-> +
-> +	ret = apple_msi_init(pcie);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return pci_host_common_init(pdev, &apple_pcie_cfg_ecam_ops);
-> +}
-> +
->  static const struct of_device_id apple_pcie_of_match[] = {
-> -	{ .compatible = "apple,pcie", .data = &apple_pcie_cfg_ecam_ops },
-> +	{ .compatible = "apple,pcie" },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, apple_pcie_of_match);
->  
->  static struct platform_driver apple_pcie_driver = {
-> -	.probe	= pci_host_common_probe,
-> +	.probe	= apple_pcie_probe,
->  	.driver	= {
->  		.name			= "pcie-apple",
->  		.of_match_table		= apple_pcie_of_match,
+>  	ret = of_property_read_u32_index(np, "reg", 0, &idx);
+>  	if (ret)
+>  		return ret;
 > -- 
 > 2.39.2
 > 
