@@ -1,126 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8C31ADFE4;
-	Mon, 14 Apr 2025 06:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2C62B9CF
+	for <asahi@lists.linux.dev>; Mon, 14 Apr 2025 10:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744613402; cv=none; b=Bx9upHuaHM5+C3Wa74PkSE5Xpm3UmxQxDHN7U/158qqDs5ZxYZVNmyrxxknodJQ5KDXmtxfSOj164aXBzi6cwLEcCVscKI51YMcv1yb96yo/B8PNF2QO2Vmv/nf+y9QBoN3f3di5RGV3tfMY562rdmv6RlLdoq7EEadi96wGiuQ=
+	t=1744625646; cv=none; b=FwEGdhNJYAfzXO/4HBnxLlTHEt7jaV6ONCZt7/U9guf/619KPbaDlPrJiLU/Q2Cv91+zMDlxYHa6yCKHSwwd9eENCQJHNJ7s5ljFUrHmE7abJqLfIzi6P9C3TINEV7RBedLmwu4KKbh5lCQR37fRj2RsYG9PoORtcqqzt/TgAxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744613402; c=relaxed/simple;
-	bh=Zb2I1FUbMuXCq7QyHRV4fVv0cmMyEywk1cCMFB34KMM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JPbyNeiD1aFU3W4VKETJcYU4ovI8MiTGCARUj5rAi/r2CU8f/bggrFFiaQn7skaXSuxffdx2IsnNci3xgEAcMeiRqdLjgfQpYG1rb5OezOoOG5ARtntnFOc6uEyuzaWenqBfJV4rhYn06taq9vIALLuY7LGv0B1cv5Mjxu6pDkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erMfOtTW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744625646; c=relaxed/simple;
+	bh=5NV1TH2xrxHb4IO9SixFXKNVM4OWlBJPXwuyr+sXUuQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ccOHSDDGMFMvgbOU8eFs6X1JpA/Gi7BhECEC4Ncv1hyDFMLwIiENEMFsOAYysEfF2FJVxBPGlmfBnMBHOPXIIaIa211geCukuOtLQSV8l2TJSGrQAA6WBI76Pz5peti+l+JlPgWCgMjxGfRAAp/7eWLNIpA8sgnztt3SrUwGAZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JXUXgQ14; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erMfOtTW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A15C4CEEA;
-	Mon, 14 Apr 2025 06:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744613401;
-	bh=Zb2I1FUbMuXCq7QyHRV4fVv0cmMyEywk1cCMFB34KMM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=erMfOtTWMNwwMWVFEc+ag6/7Qr80cI33yV2vA09xsbScoKBQT6P3CooCHbwSLE+5n
-	 lKMM1jcQdXkeMRWAqArSCTMSN9H9E5cO1ouDD2Nu6FZS/S89tU/sU7aXdJoDvlAACG
-	 lCMsYrCrRGXvgha2BZgVeU4o+5sS9WciVoAuxBeBzA0rwMOoTb2+9PNgzbvo7eKOcg
-	 mYTfNvrjYQR2ImpoT6jqXKsSUUtwaEZ34/giU3LW6SV2O9OY7gYnHAR0cHAqIfyy0K
-	 X0Du7pz7K7O+Udwy28Htm1RlD+74bMhebPOe4UKn+zCaYSMn4bbwpsybPCtxoS2xuL
-	 sbtZoDugi2zuw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1u4Ddm-00583T-PR;
-	Mon, 14 Apr 2025 07:49:58 +0100
-Date: Mon, 14 Apr 2025 07:49:58 +0100
-Message-ID: <868qo3kzjd.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Chenyuan Yang <chenyuan0y@gmail.com>
-Cc: sven@svenpeter.dev,
-	j@jannau.net,
-	alyssa@rosenzweig.io,
-	neal@gompa.dev,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org,
-	marcan@marcan.st,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: apple-soc: Fix possible null pointer dereference
-In-Reply-To: <CALGdzurneK24t3AF2z5U6CoxrGYMEWUzmPn8-Qp0tToKwQV8RA@mail.gmail.com>
-References: <20250412160518.1824538-1-chenyuan0y@gmail.com>
-	<86bjt0l6q4.wl-maz@kernel.org>
-	<CALGdzurneK24t3AF2z5U6CoxrGYMEWUzmPn8-Qp0tToKwQV8RA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JXUXgQ14"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2295d78b433so41089455ad.2
+        for <asahi@lists.linux.dev>; Mon, 14 Apr 2025 03:14:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744625643; x=1745230443; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Smsg72GcXkF+Ivv2bDXZHVMpQJJmZfbh7twUx1di6OI=;
+        b=JXUXgQ14h+LcEL557H6RxjA5hNd5B6wW8hwWCWnMexZzJ7gdQGmsUAUGe8ae+WJb2+
+         mDAlbdhGFZvHvt1z3J+XBqErdcL0QAeCJyzIV7YFAFMo/qpLtoEXOKW7Ig1kPylfWkrX
+         W5xdHzGgU6g7SWW5KIZGhuZp0kherHNP/l1M5yxqBRu6hJSNnrUqc6uqVQ47QMr/klcm
+         8AjzRzfIu+uGJcWkNxhobwDfBTtWE89zPKhFm2tGBTmH/GYpvqnx+9Qtpu90WuKB6oJW
+         TxoXeAhNZK0kbqQrNz2aU0cLxmOdUZzBQLUNMFrrRs37WjdqOpt550LmJw9ENJXgAOuH
+         83Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744625643; x=1745230443;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Smsg72GcXkF+Ivv2bDXZHVMpQJJmZfbh7twUx1di6OI=;
+        b=qUNqfwMiBAwVsWAGX9rBH0oYTN9e3QZxNdX34PBMXdoTCyXrLRqTsvD/x8l2TtTHoh
+         AV4aojwx413wu2SFJwq6IOshj7kHhwAeE6C0MomHl9MajwTntclRy5/aQErqQNU2nDMn
+         LEGeREvJYhR+YD7xev3wBe6MjdxY2G3+qM17aX4pFIEp4Kl7giaS8+8B54IIZbjZDI5s
+         PE7OP911f02NrUKb9PrLqv+e/aVBKzCzF0tLBHaV+Mer3TavjDo1rDaQ5RiQ1Ur8ZmMO
+         n+xPY8pdC48fZyAkENqvBNxnm3Git5sG8Z1C7yjUXLSAbJvjdja9orpa6sZ5rmODFOwx
+         hr7g==
+X-Forwarded-Encrypted: i=1; AJvYcCX8+5tjGA/tdXwkjILOCEsRdaUR2ad9jhrgVhis7+2Iu/6gfLAPxDdGrTyjJmEPpzvIfFncPQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxC0pyFJ92peqZ3SAsykdIVK69/43GugGIBRwNfpkNvAQKSZNm9
+	/t8rqB1IrgjLPpB75KvYJd2GMcUVF/mXY8/yiJttGjfIQU4CPC78HO96ci39kQ==
+X-Gm-Gg: ASbGncuEDRBvFD8FduhaqrH9IowHeRG8GTRUb4SpK2v5ZSirwwzhQQEhvDpO7dqao27
+	+X61yW+hHOCRw5HL/f1w0Fxuv9mHsVHOBxiODjmBBzha5rmO1YXbUbwpkXAxnU+sdNq+4eflZI4
+	PSiqd0FCvDGzMU9UskcUjILhtGIFv+16ZWm2Omo3izBoiJ+ujdIKC/Hz6JkFF/JxieN7GO8rhOf
+	Fvticu8JJOBPyv3XeN9Ln+LVi+8IdG5PpIaovSC3Wzz24BpCp+8CKnUkvxiW4AqSHjvnF6h+fi4
+	VGs4q/xVRyVNmLPAtRnlR6Fe1f7D3BEjwOIi9EwscQQ+AMn3xsfbaw0vrB/xbjg=
+X-Google-Smtp-Source: AGHT+IFP91KCL2ubggimJjnRS6FXpsDpAY6dmmHmoDGSKCTanmBivzBpL+STAELx6GokUH9JL1EV7Q==
+X-Received: by 2002:a17:903:244d:b0:224:93e:b5d7 with SMTP id d9443c01a7336-22bea4f6649mr164638455ad.34.1744625643547;
+        Mon, 14 Apr 2025 03:14:03 -0700 (PDT)
+Received: from thinkpad ([120.56.202.123])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7c93addsm95066555ad.152.2025.04.14.03.13.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Apr 2025 03:14:03 -0700 (PDT)
+Date: Mon, 14 Apr 2025 15:43:54 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Janne Grunau <j@jannau.net>, Hector Martin <marcan@marcan.st>, 
+	Sven Peter <sven@svenpeter.dev>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Mark Kettenis <mark.kettenis@xs4all.nl>
+Subject: Re: [PATCH v3 01/13] PCI: apple: Set only available ports up
+Message-ID: <egu73pd5m4ubr5ex26kw5vwtmekuto73x46lzzmc3gy2rkiv5m@wjat4ewfsud2>
+References: <20250401091713.2765724-1-maz@kernel.org>
+ <20250401091713.2765724-2-maz@kernel.org>
+ <k3wj3wkk3cymyacboalkhe2fa7jvkpuehq4knpsouoyhvoavpl@bafg4oakp4lr>
+ <87v7r7ygq0.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: chenyuan0y@gmail.com, sven@svenpeter.dev, j@jannau.net, alyssa@rosenzweig.io, neal@gompa.dev, rafael@kernel.org, viresh.kumar@linaro.org, marcan@marcan.st, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87v7r7ygq0.wl-maz@kernel.org>
 
-On Sun, 13 Apr 2025 22:31:26 +0100,
-Chenyuan Yang <chenyuan0y@gmail.com> wrote:
->=20
-> On Sun, Apr 13, 2025 at 5:02=E2=80=AFAM Marc Zyngier <maz@kernel.org> wro=
-te:
-> >
-> > On Sat, 12 Apr 2025 17:05:18 +0100,
-> > Chenyuan Yang <chenyuan0y@gmail.com> wrote:
-> > >
-> > > Check if policy is NULL before dereferencing it.
-> > >
-> > > This is similar to the commit cf7de25878a1
-> > > ("cppc_cpufreq: Fix possible null pointer dereference").
-> > >
-> >
-> > No, it's not similar. The patch you refer to actually introduces bugs
-> > by returning -ENODEV in functions that have an unsigned return type.
-> >
-> > > This is found by our static analysis tool KNighter.
-> >
-> > I'm surprised that your tool hasn't found the above, because it should
-> > be a pretty easy thing to do.
-> >
-> > Irrespective of this, it would be good to describe under which
-> > circumstances this can occur, because I can't see *how* this can
-> > trigger. The policy is directly provided by the core code and provide
-> > its association with a cpu, and is never NULL at the point of init.
->=20
-> Our tool currently identifies bug patterns by analyzing patches. For
-> example, in the similar function cppc_cpufreq_get_rate(),
-> a patch was applied to add a null check for the policy. Therefore, we
-> assume that a similar check should be implemented here
+On Sun, Apr 13, 2025 at 09:00:23PM +0100, Marc Zyngier wrote:
+> On Sun, 13 Apr 2025 17:57:35 +0100,
+> Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org> wrote:
+> > 
+> > On Tue, Apr 01, 2025 at 10:17:01AM +0100, Marc Zyngier wrote:
+> > > From: Janne Grunau <j@jannau.net>
+> > > 
+> > > Iterating over disabled ports results in of_irq_parse_raw() parsing
+> > > the wrong "interrupt-map" entries, as it takes the status of the node
+> > 
+> > 'as it doesn't take account'?
+> > 
+> > > into account.
+> 
+> No, I really mean it in the positive form. of_irq_parse_raw() checks
+> of_device_is_available(), and gets really confused if walking from a
+> disabled port. You end up with the interrupt for the next *available*
+> port, and everything goes pear shaped from then onwards.
+> 
 
-That's not static analysis, that's just an evolved form of pseudo-AI
-driven copy/paste patching. In other words, the worst sort of tool.
+Ah okay. 
 
->=20
-> > And if it can trigger, why only fix this one particular case?
-> > Dereferences of policy are all over the map, and would be just as
-> > wrong.
->=20
-> It appears that similar checks are implemented in other areas=E2=80=94suc=
-h as
-> in acpi-cpufreq.c, cppc_cpufreq.c, drivers/cpufreq/cpufreq_ondemand.c,
-> and drivers/cpufreq/cpufreq.c.
-> However, I'm not sure if apple_soc should adopt the same checking style.
+> So IMO "as it takes into account" describes pretty accurately the
+> situation.
+> 
 
-I don't think adding more crap without proper justification is the way
-to go. If this value can be NULL, you should be able to demonstrate an
-execution that leads to this behaviour. That's what an analysis tool
-would perform.
+Thanks for the clarification.
 
-	M.
+- Mani
 
---=20
-Without deviation from the norm, progress is not possible.
+-- 
+மணிவண்ணன் சதாசிவம்
