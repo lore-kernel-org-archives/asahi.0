@@ -1,101 +1,37 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94C31E51D
-	for <asahi@lists.linux.dev>; Tue, 15 Apr 2025 15:05:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA58B2951D0;
+	Tue, 15 Apr 2025 15:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744729542; cv=none; b=OnFyM1kVhSwYk52dnXgVbFwvuG51z2RS/xhbL9KZDoDUYB2SmvMqBmAEty0irLT5bpi0casDxwaXfRFMnLm9g29OQyTASjTrjfx2RdA13mKi1i0+sTQqPaW9arJp5cuV8MHBAtMNLzTP2cEgT0rGB+Hsdp28Oa0VUWyb2e6M9/U=
+	t=1744731437; cv=none; b=gLns0qljovWzneguRiZSJRE/XWGY+HA0uXqsEg+VUuH9nCP7Z480ywQe17C3lsuEaxRpknzoF24krReHZx1iLA7FPPhra12foCr5m3FCn97+xVwhUFlsVpg1jx0ZIPayfLnVFntQBOTKS09u6OEXuWfWTmndnFhVJBObtvR637w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744729542; c=relaxed/simple;
-	bh=fph/GqhjZhoz1tpBFFHpktak06Ykrl7Ng2ZZ9kGhlw0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rY9Q22mhzIPS1l72oepwy6y3BFZDT2SvXXsKECaLdvK+BZtdg7jrLhL2RVi0qzjYKn41LlnotDEZzrKsqq5ehgU2BGgkcGUbPUj1/BltMB2IdyekJG+5D0INEQ0Skr1OugDdf6G8pn7Nnws6LPW1sc0YrGn02tvOG1AsUzThzLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=e1i+aKoQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Iy9PUxIM; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1744731437; c=relaxed/simple;
+	bh=tKCZ1U57MVrN0lerBtOC7DMLUFHO1/PGHr6C3AN/kw8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=crS9bMegWwtxWbrUDLtQWKH2C27BAv12DCsosmd24yRXCMeUlfbqi+02VNUZGo5LI6Dz42yer1m7AvgcAl5zjDWcCBRcjNh6r1lkuUl8ix5XyZKbv/+4wjJThHge8kfYwutpDc8glSZkfHp6wu75IyiHw+6jMK3Ilqy+W8EAQp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rsTNqLfy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="e1i+aKoQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Iy9PUxIM"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id C669A1380212;
-	Tue, 15 Apr 2025 11:05:37 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 15 Apr 2025 11:05:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1744729537; x=1744815937; bh=kwjwUckSCSBSaxgPLzqJL3F5+m9BbFCd
-	aP0FISKu/pE=; b=e1i+aKoQTp/qG3a/AvuoqXJEKqEjGZ7Xu5i5UZWuFQEaqqxP
-	IRZJcFF0hh68y7U1qYJ716fePeYevZYuAddaNn8TDHPYcnL7KfmzFVaM38FRg3uR
-	t/2Yk0xwotoEZHmnBAMzXQRphDXhu/K7HDs0pHzOiASQ4q/smIoaioGGsGsIfB2G
-	kxEQXBF/0QIvL6SxZaGbSgaUUAQDQLBHgV2Vo38UpckMGYoL+IfXTBX2s9LA+Fwf
-	Mk+9c7sjpNFoVlpZ20yUCvadcKZel/uYI/lffgkUNBzN1guxQxfXxzv6eYu1xZvI
-	Fwd3f+SL2DMm70L01Np53vDYkyftqTVob/udOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744729537; x=
-	1744815937; bh=kwjwUckSCSBSaxgPLzqJL3F5+m9BbFCdaP0FISKu/pE=; b=I
-	y9PUxIMZKyx/wWiunAgFAXidgGRyW3HZxHbDbJhY2IV6uLhTAEMXOQOSujgoSmJ2
-	eyKMz73oEbPHArYwm/c1VpaRYA4LDK+UXG3wfCxMm017XFmxQHFmWUtB04+lcIt2
-	/BCafFPHApSWp9o94je/xTB9FHtt8oQr8Gj8AQ7JxRv1BNyVGOtgdJspuhlnNJbc
-	Z/pOp8dZkUB344j5pcTJldOcJmOTH/vdAexu5qGzPERkAQcm4TXnxxPKIsx8YTzE
-	8FsF5TuaUlKUyX1+A2OYMUk7rLxxB4gcOFEgwRU7UtqI0FkjmFfzq3XnjzciJ0WL
-	IqE3RM0Vsn/THhQIQlhcg==
-X-ME-Sender: <xms:wHX-Zz92DOTRw4C0ot-ejLCYTcM4v6Sb-YhKYL4dZmf9WIwun9Vspw>
-    <xme:wHX-Z_sOlTfWPuLGWyKcGZqj4KcLd44iTJaJVym86VT0dm7TVrqm3A_toN18NL98q
-    AG6-o5dOa9vgQhD-98>
-X-ME-Received: <xmr:wHX-ZxA7sQbMtGcVQ7ieDdVNxsB3nf5G-vtGiXEEnF3eDjfkChhEaj0d4cdxD-0edVPo6I_7Dy_IaNvaEm4rrUjXVSa0OJP3iBjMEJGBF-AudOvyWZAryRsgMX4Yh0o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefkedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
-    tdejnecuhfhrohhmpefuvhgvnhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrh
-    druggvvheqnecuggftrfgrthhtvghrnhepleetudehlefgteduffeijeehfeduudekhffg
-    fedvueekvedvveeuhefgieetgfegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenuc
-    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhes
-    shhvvghnphgvthgvrhdruggvvhdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmth
-    hpohhuthdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopegrlhih
-    shhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehssghohigusehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    ohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoug
-    htsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdp
-    rhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:wHX-Z_fxKazDrAyXj0GgdL1YHnnm5RWu9mzovfCRmhBuubKnKX5TyQ>
-    <xmx:wHX-Z4O0N3vNAHS2aI2UAEW1fbVOUJQ9GYJ-dp76zhfhncrUCI5nAw>
-    <xmx:wHX-ZxkqkAZM7BJJFZ7kaWbZDXfOTX3OaCV_14q50IMz_tFztaeaIw>
-    <xmx:wHX-Zyv03UDgmVQsjCgdhMqA9Xf42gf0x1q02Ac3WVcmaf5sMfOdhA>
-    <xmx:wXX-Z5cVCwJgp4WWzKe8YRLgEhp5rxtkwsx1Gf4smRcrQY1y9AutgjxR>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Apr 2025 11:05:34 -0400 (EDT)
-From: Sven Peter <sven@svenpeter.dev>
-To: Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Jean-Francois Bortolotti <jeff@borto.fr>,
-	Nick Chan <towinchenmi@gmail.com>
-Subject: Re: (subset) [PATCH v4 0/3] Driver for the Apple SPMI controller
-Date: Tue, 15 Apr 2025 17:05:22 +0200
-Message-Id: <174472945748.1150.17125023476658706352.b4-ty@svenpeter.dev>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250409-spmi-v4-0-eb81ecfd1f64@gmail.com>
-References: <20250409-spmi-v4-0-eb81ecfd1f64@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rsTNqLfy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 45DBBC4CEEC;
+	Tue, 15 Apr 2025 15:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744731437;
+	bh=tKCZ1U57MVrN0lerBtOC7DMLUFHO1/PGHr6C3AN/kw8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=rsTNqLfyi72SZ2jdirJeSjURBXX62aZ3L4pWjWLptiWpw2cfwZe/aRXiQoEaOh4g5
+	 RLBOosAfAdYQtJgmkQoTKYqqnhgD6zjHH2wtCPTV/YJltfh4aZs3h6P+ObW3x1zwWo
+	 CtLJFr08sd65Rrec7g9PTaXiGScXZa3ArJQla2WLBTVQTRskWfFcRoTTpACdHw0GZx
+	 /fbvokcvpvMPAZqSOZB9qn9hyf7MPRAYfpf92zozbk0aN42rIqjTfSw0J8WMc5sbjS
+	 GaICvSypnddmjlIYeLpm4LrLFSX44d7INNmiyQA1ngqw98f+TNdtdO5ZGweFn9rBIu
+	 qWr8fXD3ygmSA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B65C369C1;
+	Tue, 15 Apr 2025 15:37:17 +0000 (UTC)
+From: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
+Date: Tue, 15 Apr 2025 15:36:56 +0000
+Subject: [PATCH v2 2/6] i2c: pasemi: Sort includes alphabetically
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -103,21 +39,96 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250415-pasemi-fixes-v2-2-c543bf53151a@svenpeter.dev>
+References: <20250415-pasemi-fixes-v2-0-c543bf53151a@svenpeter.dev>
+In-Reply-To: <20250415-pasemi-fixes-v2-0-c543bf53151a@svenpeter.dev>
+To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>
+Cc: linuxppc-dev@lists.ozlabs.org, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sven Peter <sven@svenpeter.dev>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1747; i=sven@svenpeter.dev;
+ h=from:subject:message-id;
+ bh=d4SrViBETCvEIVGrCu813u0fCI79k8TBuEJCcmGpDI0=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ/q/WtWl7ddnLW1MubOp8d16cesWr2/7U2cXBHtceHk94
+ Xb343vXOkpZGMQ4GGTFFFm277c3ffLwjeDSTZfew8xhZQIZwsDFKQATyZrO8D+9Oq6hSL4vb+s3
+ aes9x67wXZ7ywlla4kKDZuwqy/eW7yMY/ik9+WNdy5A+zzfXXDRK0vDdoZPBj/T0lJ3n3axrt+s
+ uZwUA
+X-Developer-Key: i=sven@svenpeter.dev; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@svenpeter.dev/default with
+ auth_id=167
+X-Original-From: Sven Peter <sven@svenpeter.dev>
+Reply-To: sven@svenpeter.dev
 
-On Wed, 09 Apr 2025 23:52:11 +0200, Sasha Finkelstein wrote:
-> This patch series adds support for the SPMI controller persent in most
-> Apple SoCs. The drivers for the attached PMU and subdevices will be in
-> further patch series.
-> 
-> 
+From: Sven Peter <sven@svenpeter.dev>
 
-Applied to git@github.com:AsahiLinux/linux.git (asahi-soc/dt), thanks!
+No functional changes.
 
-[3/3] arm64: dts: apple: Add SPMI controller nodes
-      https://github.com/AsahiLinux/linux/commit/2e0e70c95077
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+ drivers/i2c/busses/i2c-pasemi-core.c | 10 +++++-----
+ drivers/i2c/busses/i2c-pasemi-pci.c  | 10 +++++-----
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-Best regards,
+diff --git a/drivers/i2c/busses/i2c-pasemi-core.c b/drivers/i2c/busses/i2c-pasemi-core.c
+index 71cc8cfc7c5cbf3924269f6217712d42008c03ff..df1b0087dcacb0a3b94196368137d5e20b0e6d7e 100644
+--- a/drivers/i2c/busses/i2c-pasemi-core.c
++++ b/drivers/i2c/busses/i2c-pasemi-core.c
+@@ -6,15 +6,15 @@
+  */
+ 
+ #include <linux/bits.h>
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
+-#include <linux/kernel.h>
+-#include <linux/stddef.h>
+ #include <linux/sched.h>
+-#include <linux/i2c.h>
+-#include <linux/delay.h>
+ #include <linux/slab.h>
+-#include <linux/io.h>
++#include <linux/stddef.h>
+ 
+ #include "i2c-pasemi-core.h"
+ 
+diff --git a/drivers/i2c/busses/i2c-pasemi-pci.c b/drivers/i2c/busses/i2c-pasemi-pci.c
+index 77f90c7436eda2df16afd7f1cac79355fb005bfd..b9ccb54ec77e22bb1b77848c858e2e0cc51db7e3 100644
+--- a/drivers/i2c/busses/i2c-pasemi-pci.c
++++ b/drivers/i2c/busses/i2c-pasemi-pci.c
+@@ -5,15 +5,15 @@
+  * SMBus host driver for PA Semi PWRficient
+  */
+ 
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
+-#include <linux/kernel.h>
+-#include <linux/stddef.h>
+ #include <linux/sched.h>
+-#include <linux/i2c.h>
+-#include <linux/delay.h>
+ #include <linux/slab.h>
+-#include <linux/io.h>
++#include <linux/stddef.h>
+ 
+ #include "i2c-pasemi-core.h"
+ 
+
 -- 
-Sven Peter <sven@svenpeter.dev>
+2.34.1
+
 
