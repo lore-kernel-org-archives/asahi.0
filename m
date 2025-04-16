@@ -1,37 +1,80 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F0223373F
-	for <asahi@lists.linux.dev>; Wed, 16 Apr 2025 20:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325F0224AE4
+	for <asahi@lists.linux.dev>; Wed, 16 Apr 2025 22:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744837192; cv=none; b=OoWVMEjFIFihEuJpFUj6G+3MmSSAXkD1n9P++3QI4JEIlPgzxPyTYugIYHg7mKVvJnODkuA3eZ7Po7C3+7pE7TO85haiNx6L7tEzKBgPSb5li5fKHHkhZhm/ZSj0O7By/+mUXgdUxfYcx6YitXw16q3RdW2OwWBjsv4b3QDOK9o=
+	t=1744841053; cv=none; b=imQB2y7BOCaRQzP1VXLNk6D11bz3oWnkDoPYK4dhk8JluVc4HBsl9KeUWP5TRoaKpb+bNlHAuOxv5DssBEd1GR5EW0fJuoTmyv9i/eaa71Frf6audo8fCKiHjSWnX4BUmOdAQ5ixrqqsVMS1ix8g9GCZObdDYghA76ViwWoF+yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744837192; c=relaxed/simple;
-	bh=deWvS/pCYdwXYcylIjax7bn7x+MjUR0Dszvf8HfUsCU=;
+	s=arc-20240116; t=1744841053; c=relaxed/simple;
+	bh=gSxlhszI66ERCI3nrFsLvE3Q6T6jmOFikPkhA+dNYhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tyHDYCK49m2GrTUZDBPkEq8EaDssSy0h94Sq/qZnv2HXn6b5KlI8z7yocrBOuX5Rgzc1fB4ucS+d9WwvngERnj0jSyeqKGhnEpcAKY4RTS35iG0N2f6IbzZYrfPNSIuaRMQKy8DGl2GoIF3uXI1CaQgmfNqc3qZ5L6kzvZmtrAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=CZ1BIkRc; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	 Content-Type:Content-Disposition:In-Reply-To; b=fw+3O6opONuiWamJcon+ZSKQ0ZxP4gSVsv5jl3NEzRJAopg7tR2oUJ3piIGTJhpSNx5EQTpu+tO6REtRL+l0clakb/H0indVhwIDO6VuTsykmdwK8LqXXbzUkleQH5ecfmBtbsb3eitvwX3AzvXPMi/y8Zi4g2RptAjcXfBZ/rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=YhNK+7/3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nDxjyZmn; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="CZ1BIkRc"
-Date: Wed, 16 Apr 2025 16:59:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1744837185;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a8Bbmvo4tKj5C4VL396l1mOEtkspO81djcj9UwqnEqU=;
-	b=CZ1BIkRcDtnE3ZAKKbqB/V18JWsOvqYkhrDQnt+JxuvW0vple7/+cH/3qOVV0pXw7/uH3k
-	qhJ8cgc3v+2Z3hulF0ARbwYJjt8QRAjk69ZWALAqefm/MOKoDRXxBaCgWjAQ8oArQKhdc8
-	wfoS7NUIBuz+BcX/k/Nb/A4bNRGC/xMYebUsbtj168V0Ho/hB96o89rl++/Houxh7LQoqk
-	8XxOT+O+qvM/uQbp3Ma9h/lhXOSxxN3j4AniP1jMh2S47mqw7jMDn/b3T6iXqg/G+696He
-	TGNcgFqZ9AVsHbsdyF+wXayVs1rv7WtPLhJC5J0zz+jjPci9SB5/tGWbc6dlbw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: j@jannau.net
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="YhNK+7/3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nDxjyZmn"
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 40B0D1380169;
+	Wed, 16 Apr 2025 18:04:10 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 16 Apr 2025 18:04:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1744841050; x=1744927450; bh=1TWmWr2OgZ
+	PZ1/Z1kcBe1cqlt8sQxsAJX/DKNvgHIF8=; b=YhNK+7/31jCPLpMwG2GPhSrkkX
+	UfB8TxtegRIX3QQeVu9a4WQ+MiwbizDcmOdQtJUBKq2NcQcfllj9hUB7yMPPkUb+
+	/fqnk8hpUVyvV7eX7ZmF8REU9Q3/JsGyp99MlE86YvjYWVHivVYnHIRXET5iKuKZ
+	X5FqN+mrc/7jydWlO5motCPyDLk+2q5cwcrDKPjk/klOqa1LmA1OkvLdDBuLXEya
+	EtuzieVkjftc1F6IL6dbgegjBHuGsgcbXcRMdjdTdZKrdxOYHwZvQGLcyxgBpUZ8
+	f5hlgPC0gHIIk8BWrLB/3RGQBw2HDE1iZP57WLaAAf8u16SjcPlAQoR+Ok6g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1744841050; x=1744927450; bh=1TWmWr2OgZPZ1/Z1kcBe1cqlt8sQxsAJX/D
+	KNvgHIF8=; b=nDxjyZmnMO5CYBcOVh8rGncN74JXK6Xvf49IG9CcLEp556WNr2d
+	0kRZsqlXv1RxALylXnxhssx3Vs4w1NQHGKeLHVbFTinUKZxhjmKmF65F7kqfWnwa
+	ZlyRaRjcL8xcMcrhsE8/upgK9F2sjVbjrSNc0wJrcFipTV+fJdk6Hb7qFtdWzCw7
+	x4BMhdq++aLn4Nsn0K7oKxJAdFh989Iaq99/zS8TAAJLQ+QkeMWYvSF/g184bWjD
+	grfR30COGOTMuFJT6SZzLbNlXir+A9KwpNU32T88uELVIsYvyfmKoKpZvfIBkk6K
+	i2IRX3/5L9VjY84J5IZWB+CtzhoWI4dzhbw==
+X-ME-Sender: <xms:WCkAaC_ZEUbYS6WnTfkGcrEO0u9Vv8W58_f8GbzvtJyEb4qcd41rZg>
+    <xme:WCkAaCvPAyDD7igpbqNRNB4uxs3X0KPcb3SQGFehoxSFrnk8x5lrARPIvAYxKZaYb
+    JslVdDn-HzsOT9EvgQ>
+X-ME-Received: <xmr:WCkAaIAvxEps5TmMBPq1pl1BhBEPvuNM_heRDwBPbElSU6jEGZbrmorACSmplBvDOcOHLI5vXqtgk0Dzd3oGhuy9T0ORlFNH3A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdejheefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
+    jeenucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqe
+    enucggtffrrghtthgvrhhnpefgvdffveelgedujeeffeehheekheelheefgfejffeftedu
+    geethfeuudefheefteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepuddvpdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrd
+    hiohdprhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghp
+    thhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtg
+    homhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvug
+    esghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhr
+    tghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheplhhumhgrgheskh
+    gvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:WCkAaKelGCfwGmKHNuC8sn3WnFTFJMlFRN57jrso-jefZE5Y9AHMaA>
+    <xmx:WCkAaHNWio4Bi0XBrc_YBrn6f-2qIMT43aTY3rlfFX8yUjrcRB4nSQ>
+    <xmx:WCkAaEm9fOdzHUNbdbKUdjRZOrs3qWhgkAo29KjB0qQH0Fr7E4B5cA>
+    <xmx:WCkAaJu_FeKFm4aNCikD0YFvriBJsoG_lsjeiyF95HXB4IT0dWycqA>
+    <xmx:WikAaB4YDyaaQmaw0W0C3qa7i7bV_bmsw1tPbkfedwe4m0JZHMMyyM2V>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 16 Apr 2025 18:04:08 -0400 (EDT)
+Date: Thu, 17 Apr 2025 00:04:06 +0200
+From: Janne Grunau <j@jannau.net>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -40,75 +83,36 @@ Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
 	Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <lumag@kernel.org>,
 	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] drm: adp: Remove pointless irq_lock spin lock
-Message-ID: <aAAaPO0lc6jCZE-m@blossom>
+Subject: Re: [PATCH 0/4] Apple Display Pipe driver fixes
+Message-ID: <20250416220406.GB8400@robin.jannau.net>
 References: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
- <20250416-drm_adp_fixes-v1-4-772699f13293@jannau.net>
+ <aAAZDuuj64iLJevQ@blossom>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250416-drm_adp_fixes-v1-4-772699f13293@jannau.net>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <aAAZDuuj64iLJevQ@blossom>
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+On Wed, Apr 16, 2025 at 04:54:38PM -0400, Alyssa Rosenzweig wrote:
+> > This is preferable to driver changes since keeps the device powered on
+> > if the adpdrm module is not available during boot.
+> 
+> Struggling to parse this sentence, do you mean to say:
+> 
+> > Driver changes are preferred, since that patch keeps the device
+> > powered on if the adpdrm module is not available during boot.
 
-Le Wed , Apr 16, 2025 at 10:25:30PM +0200, Janne Grunau via B4 Relay a écrit :
-> From: Janne Grunau <j@jannau.net>
-> 
-> Interrupt handlers run with interrupts disabled so it is not necessary
-> to protect them against reentrancy.
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
->  drivers/gpu/drm/adp/adp_drv.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-> index c6238fb059342eebafddd53650a499fea0079dea..abb42f57fe5984a8f0f4be7081fb6803866b5d5b 100644
-> --- a/drivers/gpu/drm/adp/adp_drv.c
-> +++ b/drivers/gpu/drm/adp/adp_drv.c
-> @@ -121,7 +121,6 @@ struct adp_drv_private {
->  	dma_addr_t mask_iova;
->  	int be_irq;
->  	int fe_irq;
-> -	spinlock_t irq_lock;
->  	struct drm_pending_vblank_event *event;
->  };
->  
-> @@ -488,8 +487,6 @@ static irqreturn_t adp_fe_irq(int irq, void *arg)
->  	u32 int_status;
->  	u32 int_ctl;
->  
-> -	spin_lock(&adp->irq_lock);
-> -
->  	int_status = readl(adp->fe + ADP_INT_STATUS);
->  	if (int_status & ADP_INT_STATUS_VBLANK) {
->  		drm_crtc_handle_vblank(&adp->crtc);
-> @@ -507,7 +504,6 @@ static irqreturn_t adp_fe_irq(int irq, void *arg)
->  
->  	writel(int_status, adp->fe + ADP_INT_STATUS);
->  
-> -	spin_unlock(&adp->irq_lock);
->  
->  	return IRQ_HANDLED;
->  }
-> @@ -572,8 +568,6 @@ static int adp_probe(struct platform_device *pdev)
->  	if (IS_ERR(adp))
->  		return PTR_ERR(adp);
->  
-> -	spin_lock_init(&adp->irq_lock);
-> -
->  	dev_set_drvdata(&pdev->dev, &adp->drm);
->  
->  	err = adp_parse_of(pdev, adp);
-> 
-> -- 
-> 2.49.0
-> 
-> 
+no. The sentence misses "it" between "since" and "keeps". I meant to say
+that the linked devicetree change is preferable. A hypothetical
+adp_drv.c change to keep the power-domain during s2idle only works if
+the driver is loaded.
+
+The changes in this series (especially Patch 1/4) just prevent the
+soft-locked CPU after resume. The touch bar display won't display
+anything.
+
+Janne
