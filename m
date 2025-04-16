@@ -1,33 +1,34 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF181F585A
-	for <asahi@lists.linux.dev>; Wed, 16 Apr 2025 20:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B481F585A
+	for <asahi@lists.linux.dev>; Wed, 16 Apr 2025 20:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744836898; cv=none; b=P3/EI5iGUTRNJKZ2nJQ0TndxxXf97V/qZcFTzVWe0raw+t4Mq8Hv7nexFoAuW2CgaYOGSpC98q4hSKqFBuKMiD9xuTNQpuQHU4P9SuiYFc4iUCZoWdkyIOkgxy0DpLXMjdf2YzBsarszQx4BE2m7Qi+IjUMXHxoQU6VfvQOcGcw=
+	t=1744836976; cv=none; b=gVHVL6cGoXe7+cdpoEpzCOztyJlyFV01Zd34Z5C7NrFyEBHHq/shSZY4L+O5w55MOafvt/d3kMTIkI/LtmVZ9gV51EZynW9CCG366wNRT2JRVXUl/2CYnepK9oTLtcuYt1gtd7b57maxt6Rh806WRVsltMCHXNMi8jt4OIjmB30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744836898; c=relaxed/simple;
-	bh=BdCAA4szi1rLY5SwDTelw4P+GCAkgmWINWKCkQGRqDk=;
+	s=arc-20240116; t=1744836976; c=relaxed/simple;
+	bh=JAIARXmR3Kz5ITv/Yj1nzC3PDT7n3WjRx/Stk3ybk4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sXuMoRqmqKlYcXqln333gc48j4xWHO0uSy3IM1aDYLZiyLyqcV0IATPaiPJMODbNPW5DDFBPB3FEkCai3LO5LqhJRaADUt7zC5vDuRgRQ9hK8hBkC4V47sF0ieQa3k0mnAqdtA/NqqaYhCC+P1ITIGnFGihiv3bkmEZUCuRlGxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=QjEN8QTy; arc=none smtp.client-ip=95.215.58.189
+	 Content-Type:Content-Disposition:In-Reply-To; b=iiLX2P8n7u++oJf6GGOPrQKfuRoyfj59cl8IzxC+LQzZaXs91nvzSI9ZDGRP1PKOiFbfsTYKgfbazQT4GjDXgWWQA+ml/nOyNlkKDKw19AirsWiL+gCBqZG1AW47zekPpeVS7I8QBQchKwv/EDqmw6/fT93HiQZBf6uM9XkrQNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=xL7afhCp; arc=none smtp.client-ip=95.215.58.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="QjEN8QTy"
-Date: Wed, 16 Apr 2025 16:54:38 -0400
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="xL7afhCp"
+Date: Wed, 16 Apr 2025 16:56:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1744836884;
+	s=key1; t=1744836970;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BdCAA4szi1rLY5SwDTelw4P+GCAkgmWINWKCkQGRqDk=;
-	b=QjEN8QTyP48jcL4UQEKChxD75utKPwS8ffWRPIGkozSSjm5Zrcm7lrV+ykCPpHxO6v2DA/
-	IKqpong1eLMRy6uaAkfJ7jJkHrr3ZGy+kpGMQui7JPEc9G4PVslib9WijiSuLnnh0ctCyV
-	JCjHNwhmsTB0sdiEbfMqAaTd3+Hv0bBserGu3ABrh3LjKxk/LQ1PZXO24/p3SQVcIORwp0
-	OOuH9RSEt+/JQ9KiErqjVyjXiRAyBPlJFaDnJVxp3RPXWtrGcq4z3FV2/vznHxKOngQ5mj
-	UlSawL3oCg2DrfRrdivrbX5EwWVZu/kDRbiMViBGQB7t491BMwU9csets/Qz6g==
+	bh=vhVnOH0k9VWx9UfNNrD0I3JDKG9V0vMTdWVPEm7S7DM=;
+	b=xL7afhCp98Q2ZuziuNCpCfub0SSIPQgn+hiZUhGyNtaUET3vccINgLsoVhqZE/5UqWuuQV
+	wwbQnH6xjqQNGC9fZbaIBc0EaHHe+1bUt8k5APdyRrho24I87n0/AP1cBwyzf8tvgQSSfd
+	SpR0KtR5jBfb9+KyTU7O0TtOrkjd8DbwAYCphygGaqGH6c+uHCL3eDeo7N5WGm5A1KTf60
+	+Zn8RWvJX7QCea7bHKuuPKBQ3Ty5rrwglhy8vGgUTmFKvVNuLVqZoMIPc7gJs1P8FRSynp
+	gtUxw40wx0H4VE18lXamqqcJQAIN1CQKqhPrHeA6oDMG7fMZg0skUp6kegHAHg==
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 To: j@jannau.net
@@ -39,25 +40,67 @@ Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
 	Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <lumag@kernel.org>,
 	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] Apple Display Pipe driver fixes
-Message-ID: <aAAZDuuj64iLJevQ@blossom>
+Subject: Re: [PATCH 1/4] drm: adp: Use spin_lock_irqsave for drm device
+ event_lock
+Message-ID: <aAAZZjM5rA1_ON0e@blossom>
 References: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
+ <20250416-drm_adp_fixes-v1-1-772699f13293@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250416-drm_adp_fixes-v1-1-772699f13293@jannau.net>
 X-Migadu-Flow: FLOW_OUT
 
-> This is preferable to driver changes since keeps the device powered on
-> if the adpdrm module is not available during boot.
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-Struggling to parse this sentence, do you mean to say:
-
-> Driver changes are preferred, since that patch keeps the device
-> powered on if the adpdrm module is not available during boot.
-
+Le Wed , Apr 16, 2025 at 10:25:27PM +0200, Janne Grunau via B4 Relay a écrit :
+> From: Janne Grunau <j@jannau.net>
+> 
+> The lock is used in the interrupt handler so use spin_lock_irqsave to
+> disable interrupts and avoid deadlocks with the irq handler.
+> 
+> Fixes: 332122eba628 ("drm: adp: Add Apple Display Pipe driver")
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  drivers/gpu/drm/adp/adp_drv.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
+> index c98c647f981d5383149647126762a5cdec8f4e4b..157298a8ff42b95275411dd4a7a0c70780fd86fd 100644
+> --- a/drivers/gpu/drm/adp/adp_drv.c
+> +++ b/drivers/gpu/drm/adp/adp_drv.c
+> @@ -310,6 +310,7 @@ static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
+>  				  struct drm_atomic_state *state)
+>  {
+>  	u32 frame_num = 1;
+> +	unsigned long flags;
+>  	struct adp_drv_private *adp = crtc_to_adp(crtc);
+>  	struct drm_crtc_state *new_state = drm_atomic_get_new_crtc_state(state, crtc);
+>  	u64 new_size = ALIGN(new_state->mode.hdisplay *
+> @@ -330,13 +331,13 @@ static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
+>  	}
+>  	writel(ADBE_FIFO_SYNC | frame_num, adp->be + ADBE_FIFO);
+>  	//FIXME: use adbe flush interrupt
+> -	spin_lock_irq(&crtc->dev->event_lock);
+> +	spin_lock_irqsave(&crtc->dev->event_lock, flags);
+>  	if (crtc->state->event) {
+>  		drm_crtc_vblank_get(crtc);
+>  		adp->event = crtc->state->event;
+>  	}
+>  	crtc->state->event = NULL;
+> -	spin_unlock_irq(&crtc->dev->event_lock);
+> +	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+>  }
+>  
+>  static const struct drm_crtc_funcs adp_crtc_funcs = {
+> 
+> -- 
+> 2.49.0
+> 
+> 
