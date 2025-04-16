@@ -1,135 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7555C217F35;
-	Wed, 16 Apr 2025 18:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42863217F35
+	for <asahi@lists.linux.dev>; Wed, 16 Apr 2025 18:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744826783; cv=none; b=UWGLc+ZbOdOz6UWKntaMW4NgMyDGcuBP0rVukV00Jcu7TFr2uPPHmHuLDMEAQPGMuBTIDsYrmvLUtstPobb3AQ1e79d9Kj1gASVdu/E9DwaOnOgkpSQXGwvTfGAlfDUn0si0TLFhZ3bgYJkfQMz73J5D5XvQG9JBrJ9fO99ckk4=
+	t=1744826854; cv=none; b=GIDrVzJabudXaoy5iPAuGF6sJGilnyI8g8ieJ6Sv6W5L81Wh3YIYP3UMR6R0fIsE+l5oRqZbGzjSwbSs0ByKoqxIWPF2oSEiiyRTiNnyPY6RDAiqzeTUvYE5sH6/WljzH2wnhvZqtunfuFXD375XWdYv7uKblZW8uf1c/LtQhKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744826783; c=relaxed/simple;
-	bh=PVkhubuFxAaW2HEyB3Yl5c1VtK6NW7DIrcdAG8enNZc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jg5TJXFyEoEf0RmmeAOOstcmaf/WAtOyMXRNx20PdpXvfDMipYuJ0kXg4vi+LcnlP9yWY1K5jaG/P1cmM3YXZDDOgRFixrUnz9V/UQ/uFunKkF7/AXoXnzOcptVXiHUC980aD6Za3zks8HUPppj8N87DksDKiyv2NNhsufH9Vhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Im2xwCnb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744826854; c=relaxed/simple;
+	bh=U4EMxuK/JQeHohBISmbAhjkWsiIwg5JmD7dj1begXQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sisqSAYEbMFnmxZVQdpM+ztSzNZKGdsNoyh0R4vFeMwe+vVqioBX0yWGFcScSPvmcX+3ygp31RbjN9ZopQ4nFx3hKVXsvJtZxVRXMlEVm1eMj/ss7MK/q9f9AtqhyjPWYffGeYCtnKg2B1vDZDuAdiUwkEy4MjTZNZGYT74+LvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=yxAJ+8cv; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Im2xwCnb"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CF97AC4CEE2;
-	Wed, 16 Apr 2025 18:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744826782;
-	bh=PVkhubuFxAaW2HEyB3Yl5c1VtK6NW7DIrcdAG8enNZc=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Im2xwCnbuWvXprxRMFN95uCNBl4XFTCLZC5G3/pNuuqiITId0KO4AYAhS49Bfljri
-	 U3+tG0xNx4jDl4XH/iM6UUCVlV/QE378Y4zhkcHMv0raFO6cVuOg1CAw8ZyaGYCYiU
-	 glfjWAcaNQt0/RdqWGH6PC22Y6LKk3c3uCUlUvVUzLQefupDJt8/5s0pb/Q0OFnLt9
-	 AhdNdrvB5fmJqlAQRGLgYuOqCk0uLsPrTxtKChK+MQd7cNN8W6gTCMejvWIDmsdzte
-	 NoLOAMUZE4jqdJlnyJNc0uQF2HAvaP4Wwao26xK1iBQbJkRThTR9CaRo/l8jmJYnCZ
-	 IrTQrCVfVhUTw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B75D7C369BA;
-	Wed, 16 Apr 2025 18:06:22 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Wed, 16 Apr 2025 20:06:18 +0200
-Subject: [PATCH] arm64: dts: apple: touchbar: Mark ps_dispdfr_be as
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="yxAJ+8cv"
+Date: Wed, 16 Apr 2025 14:07:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1744826847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gw7kA2q6zYR7yJYZmDFH2xX3JGW5ovJzPDT2W9t7uiw=;
+	b=yxAJ+8cvmevoryFERuQEeI9/0J70C//Cc3pfmwRnpOR1OHTh5yuWhPGCLuWa5V0IIgtPnM
+	mvS87vabxR+KGNJQx3cNmk6jtZY/BwpzAUPtoVGJs3J0VzNhJi3xtIEc6tyj8w43l1bvrV
+	EJPRHac3a6NueGjFsaFcY5qVVWWp18yixrmJ+Z99ywleuE9qbm7+RHO3J4qxznkVDjB+dm
+	sm9NxQ0noZJ/2gBLEmbHcktJqrWByVsZsR4YSdomV8J/VORMrfv1T+BAkk5lMRrn0GTl4O
+	Yeq//7xW1lpll0dj3G/k5SIfluHcKhXyeWSQVjOPyCoq28WlmZp+Lg4jTZRQYA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: j@jannau.net
+Cc: Sven Peter <sven@svenpeter.dev>, Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nick Chan <towinchenmi@gmail.com>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: apple: touchbar: Mark ps_dispdfr_be as
  always-on
+Message-ID: <Z__x2hboc3RQC6Je@blossom>
+References: <20250416-arm64_dts_apple_touchbar-v1-1-e1c0b53b9125@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250416-arm64_dts_apple_touchbar-v1-1-e1c0b53b9125@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAJnx/2cC/x3MywqAIBBA0V+JWSdUmD1+JUJMpxroIWNFEP170
- vIs7n0gIBMGaJMHGC8KtG8ReZqAnc02oSAXDUVWlJnMlTC8KqndEbTxfkF97KedB8NClbV1TSU
- dNhXE3DOOdP/rrn/fD/MfiopqAAAA
-X-Change-ID: 20250416-arm64_dts_apple_touchbar-658cd974de97
-To: Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Nick Chan <towinchenmi@gmail.com>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2090; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=vW+HnwVsI6HKFCWS8Ni6G5ezcLgPyLTobLTnqE3VCiY=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhvT/H+dWvp50jXemd5qQ38RFF3hTijMsYu7mde2Ydziu+
- KpFdK5BRykLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgIkY+zH8z965537Wq0sasRts
- wlRYNmew7NDQK/Cxvlme92LpL6YWXoY/PILfNx+xaZGRT/UpC81uWrzrNUvCNpd5TLmLLgRUvLj
- MAQA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250416-arm64_dts_apple_touchbar-v1-1-e1c0b53b9125@jannau.net>
+X-Migadu-Flow: FLOW_OUT
 
-From: Janne Grunau <j@jannau.net>
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-The driver depends on boot loader initialized state which resets when the
-ps_dispdfr_be power-domain is powered off. This happens on suspend or
-when the driver is missing during boot.
-Mark the domain as always on until the driver can handle this.
+Thanks for debugging this
 
-Fixes: 7275e795e520 ("arm64: dts: apple: Add touchbar screen nodes")
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- arch/arm64/boot/dts/apple/t8103-j293.dts | 10 ++++++++++
- arch/arm64/boot/dts/apple/t8112-j493.dts | 10 ++++++++++
- 2 files changed, 20 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 2dfe7b895b2bc0a913e73141e558fa5124a13b2e..e2d9439397f71a93c28b75a7eea589f4bcb3e374 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -77,6 +77,16 @@ touchbar0: touchbar@0 {
- 	};
- };
- 
-+/*
-+ * The driver depends on boot loader initialized state which resets when this
-+ * power-domain is powered off. This happens on suspend or when the driver is
-+ * missing during boot. Mark the domain as always on until the driver can
-+ * handle this.
-+ */
-+&ps_dispdfr_be {
-+	apple,always-on;
-+};
-+
- &display_dfr {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index 3d73f9ee2f46a35a3b23da5b233ef316c7372ef7..be86d34c6696cb47d31696541266e504cee8ce10 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -40,6 +40,16 @@ led-0 {
- 	};
- };
- 
-+/*
-+ * The driver depends on boot loader initialized state which resets when this
-+ * power-domain is powered off. This happens on suspend or when the driver is
-+ * missing during boot. Mark the domain as always on until the driver can
-+ * handle this.
-+ */
-+&ps_dispdfr_be {
-+	apple,always-on;
-+};
-+
- &display_dfr {
- 	status = "okay";
- };
-
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250416-arm64_dts_apple_touchbar-658cd974de97
-
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
-
-
+Le Wed , Apr 16, 2025 at 08:06:18PM +0200, Janne Grunau via B4 Relay a écrit :
+> From: Janne Grunau <j@jannau.net>
+> 
+> The driver depends on boot loader initialized state which resets when the
+> ps_dispdfr_be power-domain is powered off. This happens on suspend or
+> when the driver is missing during boot.
+> Mark the domain as always on until the driver can handle this.
+> 
+> Fixes: 7275e795e520 ("arm64: dts: apple: Add touchbar screen nodes")
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  arch/arm64/boot/dts/apple/t8103-j293.dts | 10 ++++++++++
+>  arch/arm64/boot/dts/apple/t8112-j493.dts | 10 ++++++++++
+>  2 files changed, 20 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
+> index 2dfe7b895b2bc0a913e73141e558fa5124a13b2e..e2d9439397f71a93c28b75a7eea589f4bcb3e374 100644
+> --- a/arch/arm64/boot/dts/apple/t8103-j293.dts
+> +++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
+> @@ -77,6 +77,16 @@ touchbar0: touchbar@0 {
+>  	};
+>  };
+>  
+> +/*
+> + * The driver depends on boot loader initialized state which resets when this
+> + * power-domain is powered off. This happens on suspend or when the driver is
+> + * missing during boot. Mark the domain as always on until the driver can
+> + * handle this.
+> + */
+> +&ps_dispdfr_be {
+> +	apple,always-on;
+> +};
+> +
+>  &display_dfr {
+>  	status = "okay";
+>  };
+> diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
+> index 3d73f9ee2f46a35a3b23da5b233ef316c7372ef7..be86d34c6696cb47d31696541266e504cee8ce10 100644
+> --- a/arch/arm64/boot/dts/apple/t8112-j493.dts
+> +++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
+> @@ -40,6 +40,16 @@ led-0 {
+>  	};
+>  };
+>  
+> +/*
+> + * The driver depends on boot loader initialized state which resets when this
+> + * power-domain is powered off. This happens on suspend or when the driver is
+> + * missing during boot. Mark the domain as always on until the driver can
+> + * handle this.
+> + */
+> +&ps_dispdfr_be {
+> +	apple,always-on;
+> +};
+> +
+>  &display_dfr {
+>  	status = "okay";
+>  };
+> 
+> ---
+> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+> change-id: 20250416-arm64_dts_apple_touchbar-658cd974de97
+> 
+> Best regards,
+> -- 
+> Janne Grunau <j@jannau.net>
+> 
+> 
