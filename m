@@ -1,108 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5460722A7ED;
-	Wed, 16 Apr 2025 20:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF181F585A
+	for <asahi@lists.linux.dev>; Wed, 16 Apr 2025 20:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744835139; cv=none; b=VoGVsyct1oZNxLV8wyIKkDosGLo63AUQNT+z4G7UdVQy9C69OWGVd0V6qLYd9mElg5p5LzWkCg8cwqbecbUQ7uuIvsS9VK69XJXtCpzQNrbf9u7fpl4l6DvbTNhbkWG0sLOvdF80AgoK7Eb3R1/jPqcDlAdhtaCpXKo63xcPUdQ=
+	t=1744836898; cv=none; b=P3/EI5iGUTRNJKZ2nJQ0TndxxXf97V/qZcFTzVWe0raw+t4Mq8Hv7nexFoAuW2CgaYOGSpC98q4hSKqFBuKMiD9xuTNQpuQHU4P9SuiYFc4iUCZoWdkyIOkgxy0DpLXMjdf2YzBsarszQx4BE2m7Qi+IjUMXHxoQU6VfvQOcGcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744835139; c=relaxed/simple;
-	bh=6hRj2O+0KN1c3Idg2C0lRIf9H5gKHWdz2x9po1m89Hg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ksf+Y5BfM87gKEsDbOgJaz/T2LL+gTgPMOW6ThmkoWsEf4rIuBAosVy0pCbAT2j2tcxf/0mfBscQ3R3DWzMgACLzDA5ZTn3Ka47t7ZaJLa9MXAff4fFofbkb2wsRwHDMulKiBQMjiPUg/hFVkZ8sgMY9uRUOQYsHGbSWz7SK/6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Csu9b+5R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744836898; c=relaxed/simple;
+	bh=BdCAA4szi1rLY5SwDTelw4P+GCAkgmWINWKCkQGRqDk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sXuMoRqmqKlYcXqln333gc48j4xWHO0uSy3IM1aDYLZiyLyqcV0IATPaiPJMODbNPW5DDFBPB3FEkCai3LO5LqhJRaADUt7zC5vDuRgRQ9hK8hBkC4V47sF0ieQa3k0mnAqdtA/NqqaYhCC+P1ITIGnFGihiv3bkmEZUCuRlGxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=QjEN8QTy; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Csu9b+5R"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C95ACC4CEF1;
-	Wed, 16 Apr 2025 20:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744835138;
-	bh=6hRj2O+0KN1c3Idg2C0lRIf9H5gKHWdz2x9po1m89Hg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Csu9b+5RRq+1OyRk3ULWQODF84fLIC77yRjs4yqVRgxgplU6eUS6VEYpl7XzVyCKB
-	 9lgpNF55+ZWK9QeYZzO71vzTLc779z3lKkVOc1uZDvb/NRH1NLcrrmX9dG1tfQguQO
-	 G3pZHHyRwybIWyxJIqTcsLJJHXWuZ97kCto/BJjna58nRXEuogEa49ZrP1JzxX7djQ
-	 r0Rk5A2NVd2MULV71baWpLtaxeeNf9+kNMBebcEQXrGPjdDk9I/oxevHVW4g1unAK9
-	 omzuM6bybPtyqzE7haLNQkYeiIVdyURnXPR6qyoWRBfau0D9qjLAZ5LS0fgD2GdAdp
-	 SN9LTrIjNz1Aw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0259C369C7;
-	Wed, 16 Apr 2025 20:25:38 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Wed, 16 Apr 2025 22:25:29 +0200
-Subject: [PATCH 3/4] drm: adp: Enable vblank interrupts in crtc's
- .atomic_enable
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="QjEN8QTy"
+Date: Wed, 16 Apr 2025 16:54:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1744836884;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BdCAA4szi1rLY5SwDTelw4P+GCAkgmWINWKCkQGRqDk=;
+	b=QjEN8QTyP48jcL4UQEKChxD75utKPwS8ffWRPIGkozSSjm5Zrcm7lrV+ykCPpHxO6v2DA/
+	IKqpong1eLMRy6uaAkfJ7jJkHrr3ZGy+kpGMQui7JPEc9G4PVslib9WijiSuLnnh0ctCyV
+	JCjHNwhmsTB0sdiEbfMqAaTd3+Hv0bBserGu3ABrh3LjKxk/LQ1PZXO24/p3SQVcIORwp0
+	OOuH9RSEt+/JQ9KiErqjVyjXiRAyBPlJFaDnJVxp3RPXWtrGcq4z3FV2/vznHxKOngQ5mj
+	UlSawL3oCg2DrfRrdivrbX5EwWVZu/kDRbiMViBGQB7t491BMwU9csets/Qz6g==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: j@jannau.net
+Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <lumag@kernel.org>,
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] Apple Display Pipe driver fixes
+Message-ID: <aAAZDuuj64iLJevQ@blossom>
+References: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250416-drm_adp_fixes-v1-3-772699f13293@jannau.net>
-References: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20250416-drm_adp_fixes-v1-0-772699f13293@jannau.net>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Neal Gompa <neal@gompa.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1438; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=pW28pOEDPYpc8Y+PSX2aP8mbBxQy8NYmJwRvSV8Dq58=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhgwGIftu+aeqeeauZoUb3a+pCbA2Lfl0f0XGE7/Djz95P
- dpR0VnXUcLCIMbFICumyJKk/bKDYXWNYkztgzCYOaxMIEMYuDgFYCInpjAyHAzZnv/x926zz2Ka
- 9XtzduW6HWtZ3uKydH6BeMjUu4/en2b4KqJuJve3vOqTSc9dmWPPxXkbJ7OlyMySTPhlLvmz2I8
- DAA==
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
+X-Migadu-Flow: FLOW_OUT
 
-From: Janne Grunau <j@jannau.net>
+> This is preferable to driver changes since keeps the device powered on
+> if the adpdrm module is not available during boot.
 
-Calling drm_crtc_vblank_on() drm_crtc_helper_funcs' atomic_enable is
-expected to enable vblank interrupts. It may have been avoided here to
-due to drm_crtc_vblank_get()'s error behavior after
-drm_crtc_vblank_reset(). With that fixed in the preceding change the
-driver can call drm_crtc_vblank_on() from adp_crtc_atomic_enable().
+Struggling to parse this sentence, do you mean to say:
 
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/gpu/drm/adp/adp_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-index 27119acac92238858d58a690eb4196dbb2ae0c1a..c6238fb059342eebafddd53650a499fea0079dea 100644
---- a/drivers/gpu/drm/adp/adp_drv.c
-+++ b/drivers/gpu/drm/adp/adp_drv.c
-@@ -288,6 +288,7 @@ static void adp_crtc_atomic_enable(struct drm_crtc *crtc,
- 	writel(BIT(0), adp->be + ADBE_BLEND_EN3);
- 	writel(BIT(0), adp->be + ADBE_BLEND_BYPASS);
- 	writel(BIT(0), adp->be + ADBE_BLEND_EN4);
-+	drm_crtc_vblank_on(crtc);
- }
- 
- static void adp_crtc_atomic_disable(struct drm_crtc *crtc,
-@@ -517,8 +518,7 @@ static int adp_drm_bind(struct device *dev)
- 	struct adp_drv_private *adp = to_adp(drm);
- 	int err;
- 
--	adp_disable_vblank(adp);
--	writel(ADP_CTRL_FIFO_ON | ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
-+	writel(ADP_CTRL_FIFO_ON, adp->fe + ADP_CTRL);
- 
- 	adp->next_bridge = drmm_of_get_bridge(&adp->drm, dev->of_node, 0, 0);
- 	if (IS_ERR(adp->next_bridge)) {
-
--- 
-2.49.0
-
+> Driver changes are preferred, since that patch keeps the device
+> powered on if the adpdrm module is not available during boot.
 
