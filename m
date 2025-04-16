@@ -1,128 +1,101 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD4721D595
-	for <asahi@lists.linux.dev>; Wed, 16 Apr 2025 01:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AB217BB21
+	for <asahi@lists.linux.dev>; Wed, 16 Apr 2025 01:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744767554; cv=none; b=pFcpXrRVwj7IWxPXon9I/cLonF4Jnq7MPqLIIevibxId7tQ1DIOqwiuZ+jRbtHctnmU59u5LqGjreJam5BD+W4dhSykmmEs94d/JkqBBqJTyRDJgox9Eh3SvGzwih684tqgK9NjdM1U3b+tztrQ7Ll18eiCEoZRuIq7iXyOhrcI=
+	t=1744767681; cv=none; b=jNzZOvrUXWheirTuLd2Y0QVzU3eVXxtTHe16jZXDCofpxu1NBZ3Gx7CZAGtzj29/hs6PLu2q8Fl1sk3YgIsOlkX1UJACJUF6mwhJsVLX+WYcLi9bswRTgxmht2QApn33pCDl1PD31Hya01ae+Ha+xSPn5gRB5X0N+iUp7ns30sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744767554; c=relaxed/simple;
-	bh=splohQJw8U1XANtyUsXhKKF8Cy9tRT9Bwe2SzN0BEbw=;
+	s=arc-20240116; t=1744767681; c=relaxed/simple;
+	bh=QZ2Ud1Y/3tEvAgsIgosukIl8HjPWFwS4NpOavajMkUw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EgmVPq+WL8jUYA3WF43ykde0mlUrhaFJ5jKX1JH/cF5plNXnpPKh+uYtqqVeFeS1oRmnaLj6KMfzxTvXuK/U/7+Cq7XPoSXOPIcDL3Zql78WFSXJEMKkBGyNEkLNg645ys2Kfd+2kRCxEWLwK1x1tlH290S32ZV1Jvgjp/r7xFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.53
+	 To:Cc:Content-Type; b=Uy8MGaQ5Zdp/aCuLEkzaQAUEelLNh81wGrbeBvpUjzJBvEsZTaxCYnFfwe+hSlTHWIdPldt37Riv+wtIcbp0y0Q4qQipvDMI4Q3/GFWAPLWKrD2Tq53bJ3OMdo+Nx1K8QC7z/jc8m47Hu6Q07IGII35du106J7vFLdS4OZl4CCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5e5cd420781so12240022a12.2
-        for <asahi@lists.linux.dev>; Tue, 15 Apr 2025 18:39:11 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac2bb7ca40bso1159027566b.3
+        for <asahi@lists.linux.dev>; Tue, 15 Apr 2025 18:41:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744767549; x=1745372349;
+        d=1e100.net; s=20230601; t=1744767678; x=1745372478;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V1HXQ+Xi113ayzUNabjj8NTshwQmo5mZvOv0N53Neb4=;
-        b=Tz/hpum4xh0Y6ShnD6q9eluHbexB2NRwqd7esyrWy4/c9cRR0DVr+2VsOIUv++aSKO
-         H6beaaFE9rwDUew47H0ItWy/xJJl0DrUvh/T60KBc2/icUsWb6LeQjhrGcSprZpNHE5e
-         BqbDqmItii3GrNuTZyKP1OEEIqK4RA/crK4R+fVdhRgk/BDknsGn2zH05RhzPQdcSC2e
-         hkYKHwgaDTMWT7/s7ZDAGzRzaLeSdmPEBa3cOtDe6kKN3OnJg44e1fT3nlkvaLRD+srG
-         E9p6CGm0oL4UJcFecgMoBBJVgYR3B1N2R0eK2nq61PAShgpBfd4PveYQ+3cjLROXd0Ro
-         hNnA==
-X-Forwarded-Encrypted: i=1; AJvYcCVz2EDONcdHynR11w12jlF30KwTQm4EmpFpvAvwSfayShfx2vv1sOGivEOdsrd7+H+l+zSdVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3PZc260VeAWMLKN0HIiyMWI6Hr/EiimgwfKEBYiReH2YyQ69Q
-	LlRCNYON5gU2ghucL0P3BlsPtrGch5ZbLDI+IqmCH4Wwv1kpXTtg32myGdopwI0=
-X-Gm-Gg: ASbGncuQHOHiqnfpSnP7kpaoMVlbTv9EpIkFolNe3Xkf+S3fk6FFzhiZw+5JpA1R/4R
-	uBD/p7L5gW3eYV5x2+gluDqqNeR7ugon+IZ/uX0dEUEsb2CeSb3gt4MKqnLuwNBlQVpnvzU0UCC
-	gl+g1sr/UJ0uN/VcVilQJUYGD5SINyu/EFM/m/qc+w76H7Ohu1PzSl3MjmrUyNF3MLxvzhVX5qs
-	cNDCI0bZ9huktwg5C6kcRWRbKj4ALdjibVA0ucGAFkEiNjoqC4xNAhDR2sK4MpW76+7kW/2N4E9
-	0qwKwjehYGKtFUprtdhkn5k3sjuncPOSrkZ6N/YUYkyJ4EoUhOCd31Wr5S5Lj0FOEvPauNA=
-X-Google-Smtp-Source: AGHT+IHGgYa8OT2zVEKEWlOwHtpisqn1pFF0ii5fgadku06LwqHINnoirVZMXCWJqGuNoNel4SRiqQ==
-X-Received: by 2002:a17:907:3f17:b0:ac3:991:a631 with SMTP id a640c23a62f3a-acb382bf3d4mr91921366b.34.1744767549174;
-        Tue, 15 Apr 2025 18:39:09 -0700 (PDT)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb3d1cea1fsm28270566b.139.2025.04.15.18.39.08
+        bh=twB0aG5oSy2aYBf8sj1I4DoY6eJcYgS5UGe7JOXKGEw=;
+        b=YtuFHZ+AOdveVErqm3cXpQtM3GvyY0tYcj9VjaBFxSQA3SVtI+k4iyvK4+QtKGH6vk
+         5HKLH3SiOepJAEM4EPpEHHgqoiVRxo+ICVQUCuCiSeZ09+gRLjGPCOOJU2XRtVsQm0A7
+         MyEuvXIMiAUJwCrSuteg+3Xqv86ZkFVCB8taNk9N4wSeHqg71Q/F6nk38mp8gpFhhe9y
+         898//RxFt16UNv0KEoZXJneYHux6chUkvAMc2S2vDoghGcGl9d5IdE/Bxi4oM3sb5b9l
+         CU6mP2ASw4l22xGs/39eEE4ZehTo2LmZ4XXAS6KB8m6hAW4KYrH/5cM13OkdVOscuHFA
+         KPUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVJIBsjHDx+17ITs9hREZCR1ZRGp7vNesOx3cGXeqnrUB+KU3eEa5p7ePWB/V59H635O/ffDQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZ1484+j3jOeoGkTjFzO6HDAt3s3WUUUAPJ/CBtzQeH1rn8c2M
+	4Kj66noZ0McOc73kFki4P5SRUmEyY64+Kxjznxga4RM4GLtjVYgog3TUUr1eJqU=
+X-Gm-Gg: ASbGnctgh1OligClH1CX5+OmD5tEgRfxolkxNiNCMpa86SD1TWHcUTVDzfK3LSf5CuR
+	jZCKfxQtJ0Qf6rZyJB9gPGYCh0C1MvtgQq7qdci6aGtUc/6qewPvdMhbU1QlHGo1Xwz6USYO5jI
+	Ks+R8E6zjwa5m1sE5P7BtZOUwH5/qO/HhoJBMiIcRpr5g0F9z56LC8YlX3LJaTG4K24pYl3n3yd
+	wbsIvRkUdPHT0C8oJ1jI2Dtyc0bzr91ATfBmwcFoFWWhcGq6iqCxKx9GOHQu7oa0nAAiq6NO4BU
+	JGELfh0HzCvsDWe5Qub39EkKk5IX5LGW5G7MlbeOkmxaKLfcjMq/oVVN9HMOQBEaHa7acA0=
+X-Google-Smtp-Source: AGHT+IGis/5a5nm4ymtan15SiVgMG2DlBpRXIK3+QC3GiDEpoFXNgdnSuiuBzHzHOebu4zUFShGRuw==
+X-Received: by 2002:a17:907:1c84:b0:ac6:f4c1:b797 with SMTP id a640c23a62f3a-acb38224568mr99337566b.19.1744767677952;
+        Tue, 15 Apr 2025 18:41:17 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb3cdddda0sm29719466b.63.2025.04.15.18.41.17
         for <asahi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Apr 2025 18:39:08 -0700 (PDT)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ac2a81e41e3so1087488366b.1
-        for <asahi@lists.linux.dev>; Tue, 15 Apr 2025 18:39:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVPSTUwn5iGLQrtAO44nnSJSiMUXTRmMb4+i0RYvyUmOw/rHN9oAOZLxljgNCmlPUP1b753wA==@lists.linux.dev
-X-Received: by 2002:a17:907:6ea1:b0:ac6:e327:8de7 with SMTP id
- a640c23a62f3a-acb3849df86mr88724666b.42.1744767548484; Tue, 15 Apr 2025
- 18:39:08 -0700 (PDT)
+        Tue, 15 Apr 2025 18:41:17 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ac6e8cf9132so1174719666b.2
+        for <asahi@lists.linux.dev>; Tue, 15 Apr 2025 18:41:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVr3B9/eTgA9Vjr9pSiu5866V69l4S6tCccVscOSvVFs7FxpDkWgSQQbRyIU37yIwaBmqcj5g==@lists.linux.dev
+X-Received: by 2002:a17:907:3d8f:b0:ac3:bd68:24f0 with SMTP id
+ a640c23a62f3a-acb381ab306mr100622966b.7.1744767677634; Tue, 15 Apr 2025
+ 18:41:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250415-pasemi-fixes-v2-0-c543bf53151a@svenpeter.dev>
-In-Reply-To: <20250415-pasemi-fixes-v2-0-c543bf53151a@svenpeter.dev>
+References: <20250415-spmi-nvmem-v1-0-22067be253cf@gmail.com> <20250415-spmi-nvmem-v1-2-22067be253cf@gmail.com>
+In-Reply-To: <20250415-spmi-nvmem-v1-2-22067be253cf@gmail.com>
 From: Neal Gompa <neal@gompa.dev>
-Date: Tue, 15 Apr 2025 21:38:32 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je9vfqKe8tThUNxy2hKGGMYR4F2RJaKXqaXJx8f856Oncg@mail.gmail.com>
-X-Gm-Features: ATxdqUGM2YL7UPwB2q8EHrpPvcO9cfPSM4k-2kB4UVuY2Jof3nZs232BzqVAc98
-Message-ID: <CAEg-Je9vfqKe8tThUNxy2hKGGMYR4F2RJaKXqaXJx8f856Oncg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] Apple/PASemi i2c error recovery fixes
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Naveen N Rao <naveen@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, linuxppc-dev@lists.ozlabs.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 15 Apr 2025 21:40:41 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je9YWME75EqPYNU6LuhUo0kgcWfOh2qoo3WwQx0K1vObyg@mail.gmail.com>
+X-Gm-Features: ATxdqUFONgVQ32LYCamWZQFAdqw-HYKzsclM2qfgVOPEPhemzTQ_TdOV1fFem4w
+Message-ID: <CAEg-Je9YWME75EqPYNU6LuhUo0kgcWfOh2qoo3WwQx0K1vObyg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] nvmem: Add spmi-nvmem driver
+To: fnkl.kernel@gmail.com
+Cc: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Hector Martin <marcan@marcan.st>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 15, 2025 at 11:37=E2=80=AFAM Sven Peter via B4 Relay
-<devnull+sven.svenpeter.dev@kernel.org> wrote:
+On Tue, Apr 15, 2025 at 5:52=E2=80=AFPM Sasha Finkelstein via B4 Relay
+<devnull+fnkl.kernel.gmail.com@kernel.org> wrote:
 >
-> Hi,
+> From: Hector Martin <marcan@marcan.st>
 >
-> This series adds a few fixes/improvements to the error recovery for
-> Apple/PASemi i2c controllers.
-> The patches have been in our downstream tree and were originally used
-> to debug a rare glitch caused by clock strechting but are useful in
-> general. We haven't seen the controller misbehave since adding these.
+> This driver exposes a SPMI device as an NVMEM device.
+> It is intended to be used with e.g. PMUs/PMICs that are used to
+> hold power management configuration, such as used on Apple Silicon
+> Macs.
 >
-> Best,
->
-> Sven
->
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 > ---
-> Changes in v2:
-> - Added commit to use the correct include (bits.h instead of bitfield.h)
-> - Added commit to sort includes
-> - Moved timeout explanations to code instead of just the commit log
-> - Made timeout recovery also work correctly in the interrupt case when
->   waiting for the condition failed
-> - Used readx_poll_timeout instead of open-coded alternative
-> - Link to v1: https://lore.kernel.org/r/20250222-pasemi-fixes-v1-0-d7ea33=
-d50c5e@svenpeter.dev
->
-> ---
-> Hector Martin (3):
->       i2c: pasemi: Improve error recovery
->       i2c: pasemi: Enable the unjam machine
->       i2c: pasemi: Log bus reset causes
->
-> Sven Peter (3):
->       i2c: pasemi: Use correct bits.h include
->       i2c: pasemi: Sort includes alphabetically
->       i2c: pasemi: Improve timeout handling
->
->  drivers/i2c/busses/i2c-pasemi-core.c | 114 ++++++++++++++++++++++++++++-=
-------
->  drivers/i2c/busses/i2c-pasemi-pci.c  |  10 +--
->  2 files changed, 96 insertions(+), 28 deletions(-)
-> ---
-> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-> change-id: 20250220-pasemi-fixes-916cb77404ba
+>  MAINTAINERS                |  1 +
+>  drivers/nvmem/Kconfig      | 14 +++++++++++
+>  drivers/nvmem/Makefile     |  2 ++
+>  drivers/nvmem/spmi-nvmem.c | 62 ++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  4 files changed, 79 insertions(+)
 >
 
-The series looks good to me, especially the new patches.
+This driver code looks reasonable to me.
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 
