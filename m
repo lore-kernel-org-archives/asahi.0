@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D6C202C36;
-	Thu, 17 Apr 2025 20:14:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44052205E2F;
+	Thu, 17 Apr 2025 20:14:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744920894; cv=none; b=oMEasi75HFkX2Bu0+2pJGDabJtUxE77uNmi7FJbzq15iL4jf1peN+m7P4pln5KscKLawzCGUPNlWFEwk/IwfA1WO/vQV/gPQDesawSeTzpH0echp7b8OnH3LFFlq5EfWDVAYF3kwZDhBblhlVFqQV5EjH7x4z9l6iw+XuWxeFC8=
+	t=1744920894; cv=none; b=lRJYHGto1IkwkjyBj8NnLI6WnFjoPugmGQE3SbJrf14B/v2mBX9/gP7mFOaMgQj7gXQGxKd0vqdaR+LPuEgsbroALRaBd99dr7oEt/NtP83cEUM++O9gQ9HRcdnO97H6yZNFpeQ7i681rVy5K35/qQypAw7UtZN4LpWfhVERFPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744920894; c=relaxed/simple;
-	bh=aMdEh0YzLhR0ClRxPLS5MigjInPEcB5sd9INEKNsS88=;
+	bh=cL0NbqoPrjxln+M7eg5VJqlhg4NHXso2/3QwkVlw3u4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Bgtid/YLNSsoT02aMRUEdIcIosvgEF7qSlbzOMpxdbtR6ehB/rsKLr59pXLNQSzLRXszCLcxFVysSWgu76+A8/2kZYmzxLWyPqRmSX6BU5rXbswSGEqSVTCeJ8HChS3UzP58IaHlt+5wfE4R+4FuQyHOYXmzVWd6910GR9Tvopw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EIx9Dsuh; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=EG/nrOBQoKXVgNhKEzcWZaoBNx9ndeiXgqhE8xUWHlI7UAfxShIS7rN6nxrtdxHxqncH7bIYsCZ27OSRLRd+5OfUdIcJNtDeApCQlHixbA5v7RoGnE+9A0bgd6Ce49TiGhTxnHNWIq64gQstQ6uMIjUqC0cUDSUoOvFjlh6wYT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbUWdE1K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EIx9Dsuh"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D49EC4CEEA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbUWdE1K"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BEFB1C4CEF1;
 	Thu, 17 Apr 2025 20:14:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1744920893;
-	bh=aMdEh0YzLhR0ClRxPLS5MigjInPEcB5sd9INEKNsS88=;
+	bh=cL0NbqoPrjxln+M7eg5VJqlhg4NHXso2/3QwkVlw3u4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=EIx9DsuhfuFuwmHju7KgUg3LgdojFfQ6201BXFB78CUJ3NVL1Mw0QxfQMq3tMPgUC
-	 aJXjFcGZhU5GQI71AcIVlJaEvCjX8Y87c/OkjrOfnvcy3DJ+EwlWuf/mSKeYPFuNzI
-	 q0jVrTPWG0K+GHHNKoiCqpSD0jMbK+uh3nVCFbmgDo14JzpIqM66U3nkFWpxxjYlGx
-	 tQcsDZs+8DTQo0d29sg41oterajbSFdplWu4KDStMoIn6XmR0Xg8HM80Q9PC+Qf8VG
-	 W4zj8MSlQgBQmhGdpCR2z4Gp3fBo0OcTTOElM8Q3LlI64Kg8Ypzw8LVf5bYnnAYVJ2
-	 7DcT2DdwNqL9Q==
+	b=RbUWdE1Kk3F0m64YGHn2DU3QVcsO45kku6DKPv3KNNBWvL2GqNjiSbK4P4rV8PXig
+	 700l5bF+9c+eu46lnGf7ZuZzD1KIqdBJqP1VpKKxF6cKYg544WS89IalcyknI89/Ci
+	 d7tylv6wAuKVnWZwL4jLPb+1eT9H/9ZB6Lz6udKvW3CbXuEmfoPjaohlR90kG9NaqX
+	 PFwC8wVzHrskfpP/PBgyJpj+93UUR66xb0puI4fHR3VmU7eX19Y2PTZg/eJegwlO8h
+	 m9KL+fxqo0j0JNWZ8tU3dck9rgeGpR59t9D7iZ6WZ2hIN6AD3U/1RmpAzS2FJUad36
+	 9xy0/L46wyOWQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CFCC369CA;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3397C369CB;
 	Thu, 17 Apr 2025 20:14:53 +0000 (UTC)
 From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Thu, 17 Apr 2025 22:14:49 +0200
-Subject: [PATCH v2 1/3] dt-bindings: spmi: Add generic SPMI NVMEM
+Date: Thu, 17 Apr 2025 22:14:51 +0200
+Subject: [PATCH v2 3/3] arm64: dts: apple: Add PMU NVMEM
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250417-spmi-nvmem-v2-1-b88851e34afb@gmail.com>
+Message-Id: <20250417-spmi-nvmem-v2-3-b88851e34afb@gmail.com>
 References: <20250417-spmi-nvmem-v2-0-b88851e34afb@gmail.com>
 In-Reply-To: <20250417-spmi-nvmem-v2-0-b88851e34afb@gmail.com>
 To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
@@ -50,13 +50,13 @@ To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744920892; l=2493;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1744920892; l=6119;
  i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=qFT9kwFfU2f7bD/dtTWCsGgokdHWxW+ICVtDXhupydE=;
- b=7IzgqtLCTQW165We2ILZabYySsAbC1WMcO6dkhnI7toHak+Agj/KAjWbRRLLMVuRpw6guwkRE
- oiqh8S7uXCKAe+ZjaHXP/rZjUDEKFY1nnujyaguKlLQa72zBDU45qgE
+ bh=r3FXIrQkL2BPaLQ9NPi9PQxQaHbfYnGD3KEb4Aoaexs=;
+ b=In7D/S1SqE8ML03r0v4/Q27rhkgpXJh+W6qeLcyT2U4yunqQzRLkOktYLajotf0lvnibKIzPk
+ mKpCH074UH4CAC0Rei2siOEs7n/dfIWsdyMQ6BG12Egf9EmuL80KQ6g
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
@@ -64,88 +64,228 @@ X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
 X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Reply-To: fnkl.kernel@gmail.com
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+From: Hector Martin <marcan@marcan.st>
 
-Add bindings for exposing SPMI registers as NVMEM cells
+Add device tree entries for NVMEM cells present on the PMU
 
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Co-developed-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 ---
- .../devicetree/bindings/nvmem/spmi-nvmem.yaml      | 54 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 55 insertions(+)
+ arch/arm64/boot/dts/apple/t6001.dtsi      |  1 +
+ arch/arm64/boot/dts/apple/t6002.dtsi      |  1 +
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi | 50 +++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi      | 50 +++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi      | 50 +++++++++++++++++++++++++++++++
+ 5 files changed, 152 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/nvmem/spmi-nvmem.yaml b/Documentation/devicetree/bindings/nvmem/spmi-nvmem.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..d16b27128f97b5d38fb6ddb5109c70cda5e2ee15
---- /dev/null
-+++ b/Documentation/devicetree/bindings/nvmem/spmi-nvmem.yaml
-@@ -0,0 +1,54 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/nvmem/spmi-nvmem.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm64/boot/dts/apple/t6001.dtsi b/arch/arm64/boot/dts/apple/t6001.dtsi
+index 620b17e4031f069874aaabadbf06b7b29ec4031e..d2cf81926f284ccf7627701cc82edff31d4d72d6 100644
+--- a/arch/arm64/boot/dts/apple/t6001.dtsi
++++ b/arch/arm64/boot/dts/apple/t6001.dtsi
+@@ -11,6 +11,7 @@
+ #include <dt-bindings/interrupt-controller/apple-aic.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
+ #include <dt-bindings/pinctrl/apple.h>
++#include <dt-bindings/spmi/spmi.h>
+ 
+ #include "multi-die-cpp.h"
+ 
+diff --git a/arch/arm64/boot/dts/apple/t6002.dtsi b/arch/arm64/boot/dts/apple/t6002.dtsi
+index a963a5011799a0480f88688fb4372a31f0bbf806..e36f422d257d8fe3a62bfa6e0f0e0dc6c34608a4 100644
+--- a/arch/arm64/boot/dts/apple/t6002.dtsi
++++ b/arch/arm64/boot/dts/apple/t6002.dtsi
+@@ -11,6 +11,7 @@
+ #include <dt-bindings/interrupt-controller/apple-aic.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
+ #include <dt-bindings/pinctrl/apple.h>
++#include <dt-bindings/spmi/spmi.h>
+ 
+ #include "multi-die-cpp.h"
+ 
+diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
+index 4c224e686ffe5602329f7f394d3354559c4130ab..fba01727ee8bd67990cb001a5727d5dd2d01e2ee 100644
+--- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
+@@ -50,6 +50,56 @@ nub_spmi0: spmi@2920a1300 {
+ 		reg = <0x2 0x920a1300 0x0 0x100>;
+ 		#address-cells = <2>;
+ 		#size-cells = <0>;
 +
-+title: Generic SPMI NVMEM
++		pmic1: pmic@f {
++			compatible = "apple,maverick-pmic", "spmi-nvmem";
++			reg = <0xf SPMI_USID>;
 +
-+description: Exports a series of SPMI registers as NVMEM cells
++			nvmem-layout {
++				compatible = "fixed-layout";
++				#address-cells = <1>;
++				#size-cells = <1>;
 +
-+maintainers:
-+  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++				pm_setting: pm-setting@1405 {
++					reg = <0x1405 0x1>;
++				};
 +
-+allOf:
-+  - $ref: nvmem.yaml#
++				rtc_offset: rtc-offset@1411 {
++					reg = <0x1411 0x6>;
++				};
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,maverick-pmic
-+          - apple,sera-pmic
-+          - apple,stowe-pmic
-+      - const: spmi-nvmem
++				boot_stage: boot-stage@6001 {
++					reg = <0x6001 0x1>;
++				};
 +
-+  reg:
-+    maxItems: 1
++				boot_error_count: boot-error-count@6002 {
++					reg = <0x6002 0x1>;
++					bits = <0 4>;
++				};
 +
-+required:
-+  - compatible
-+  - reg
++				panic_count: panic-count@6002 {
++					reg = <0x6002 0x1>;
++					bits = <4 4>;
++				};
 +
-+unevaluatedProperties: false
++				boot_error_stage: boot-error-stage@6003 {
++					reg = <0x6003 0x1>;
++				};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/spmi/spmi.h>
++				shutdown_flag: shutdown-flag@600f {
++					reg = <0x600f 0x1>;
++					bits = <3 1>;
++				};
 +
-+    pmic@f {
-+        compatible = "apple,maverick-pmic", "spmi-nvmem";
-+        reg = <0xf SPMI_USID>;
++				fault_shadow: fault-shadow@867b {
++					reg = <0x867b 0x10>;
++				};
 +
-+        nvmem-layout {
-+            compatible = "fixed-layout";
-+            #address-cells = <1>;
-+            #size-cells = <1>;
++				socd: socd@8b00 {
++					reg = <0x8b00 0x400>;
++				};
++			};
++		};
+ 	};
+ 
+ 	wdt: watchdog@2922b0000 {
+diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+index bdb1cb9e406a441e458b1c735359b0148146e91b..3892fbe6a955513cad2ae836acc3e83009ab7cc5 100644
+--- a/arch/arm64/boot/dts/apple/t8103.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+@@ -747,6 +747,56 @@ nub_spmi: spmi@23d0d9300 {
+ 			reg = <0x2 0x3d0d9300 0x0 0x100>;
+ 			#address-cells = <2>;
+ 			#size-cells = <0>;
 +
-+            boot_stage: boot-stage@6001 {
-+                reg = <0x6001 0x1>;
-+            };
-+        };
-+    };
++			pmic1: pmic@f {
++				compatible = "apple,sera-pmic", "spmi-nvmem";
++				reg = <0xf SPMI_USID>;
 +
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 96b82704950184bd71623ff41fc4df31e4c7fe87..e7b2d0df81b387ba5398957131971588dc7b89dc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2277,6 +2277,7 @@ F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
- F:	Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
- F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
- F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
-+F:	Documentation/devicetree/bindings/nvmem/spmi-nvmem.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
++				nvmem-layout {
++					compatible = "fixed-layout";
++					#address-cells = <1>;
++					#size-cells = <1>;
++
++					boot_stage: boot-stage@9f01 {
++						reg = <0x9f01 0x1>;
++					};
++
++					boot_error_count: boot-error-count@9f02 {
++						reg = <0x9f02 0x1>;
++						bits = <0 4>;
++					};
++
++					panic_count: panic-count@9f02 {
++						reg = <0x9f02 0x1>;
++						bits = <4 4>;
++					};
++
++					boot_error_stage: boot-error-stage@9f03 {
++						reg = <0x9f03 0x1>;
++					};
++
++					shutdown_flag: shutdown-flag@9f0f {
++						reg = <0x9f0f 0x1>;
++						bits = <3 1>;
++					};
++
++					fault_shadow: fault-shadow@a67b {
++						reg = <0xa67b 0x10>;
++					};
++
++					socd: socd@ab00 {
++						reg = <0xab00 0x400>;
++					};
++
++					pm_setting: pm-setting@d001 {
++						reg = <0xd001 0x1>;
++					};
++
++					rtc_offset: rtc-offset@d100 {
++						reg = <0xd100 0x6>;
++					};
++				};
++			};
+ 		};
+ 
+ 		pinctrl_nub: pinctrl@23d1f0000 {
+diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
+index 950d1f906ba3023c1d118179207a2099345aae94..325e2ac22b3c88d863b2270c39a0a05d625e3f10 100644
+--- a/arch/arm64/boot/dts/apple/t8112.dtsi
++++ b/arch/arm64/boot/dts/apple/t8112.dtsi
+@@ -787,6 +787,56 @@ nub_spmi: spmi@23d714000 {
+ 			reg = <0x2 0x3d714000 0x0 0x100>;
+ 			#address-cells = <2>;
+ 			#size-cells = <0>;
++
++			pmic1: pmic@e {
++				compatible = "apple,stowe-pmic", "spmi-nvmem";
++				reg = <0xe SPMI_USID>;
++
++				nvmem-layout {
++					compatible = "fixed-layout";
++					#address-cells = <1>;
++					#size-cells = <1>;
++
++					fault_shadow: fault-shadow@867b {
++						reg = <0x867b 0x10>;
++					};
++
++					socd: socd@8b00 {
++						reg = <0x8b00 0x400>;
++					};
++
++					boot_stage: boot-stage@f701 {
++						reg = <0xf701 0x1>;
++					};
++
++					boot_error_count: boot-error-count@f702 {
++						reg = <0xf702 0x1>;
++						bits = <0 4>;
++					};
++
++					panic_count: panic-count@f702 {
++						reg = <0xf702 0x1>;
++						bits = <4 4>;
++					};
++
++					boot_error_stage: boot-error-stage@f703 {
++						reg = <0xf703 0x1>;
++					};
++
++					shutdown_flag: shutdown-flag@f70f {
++						reg = <0xf70f 0x1>;
++						bits = <3 1>;
++					};
++
++					pm_setting: pm-setting@f801 {
++						reg = <0xf801 0x1>;
++					};
++
++					rtc_offset: rtc-offset@f900 {
++						reg = <0xf900 0x6>;
++					};
++				};
++			};
+ 		};
+ 
+ 		pinctrl_smc: pinctrl@23e820000 {
 
 -- 
 2.49.0
