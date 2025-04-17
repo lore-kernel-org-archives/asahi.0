@@ -1,159 +1,92 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D450D2522A0
-	for <asahi@lists.linux.dev>; Thu, 17 Apr 2025 14:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 963F72512D7;
+	Thu, 17 Apr 2025 14:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744900261; cv=none; b=m/VlccuE/cUeIfJkTJGqeH3CP0hNJz7aZrb8l0kubJd/hbGBqBhgrgsK0X3b37pLor4yKtlGjwqmhPX1PzXvqFbTGR0loUy//D3J6rBKkQ+49hOauW3pbNs0TIqk8FzRjDKOGXfi20fmXypyQPfvrOKxLm3qQ9TKsGc9xSwJo3Q=
+	t=1744900840; cv=none; b=ewRv94xBtNQQYWOYXxmN9eSQB2jIAqt2WfmMaPzKFbDWWYRaq6g+sSlmPNmVudSJTjC3EIeueOmO/mZJJEbgTGI83ouegBg4jmb1G4QCoHwiBiIwn8yCYJ/ZrkgrJhT72H9iIbcrO+4/Yajev7vbxRsbz+o0kzz0bSoBE69B7U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744900261; c=relaxed/simple;
-	bh=1ltn3613f7HEMi5ZWjZisneXP6W/zCl1thCIl/3UhVU=;
+	s=arc-20240116; t=1744900840; c=relaxed/simple;
+	bh=ZkCqmSbXt1v3PVfUXnyy4jP63qsdkBbj3FBpkdPeHH8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HS37+l2ileSTuRdvRBaKdatk3rcXFvUDbOPG3ix+geTmgweWfnwgzHW+uivwgv1ZJBWUjYzdUSIus/UaOaiPRtLIEZFkWxbqXQ9RnRaIG3IdmeJiRCicQqRzhAYyyWImwX34F0wNGaqNv+klUS8phAnSrJcPHhbjc4rtekl59yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=hi4+4DiJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PLcu5gbJ; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=F64vNd1VsTbNTIzFyKHEvHQr/8YMu96b7ZXsqg5W9rkng7N26ewbaxpHn5JWfayH0nw2ZMu/HvaAlJAA5w+8cJlnM+njhbd3wJieqn5Hn3/YchAQqLF7B00yI+OuSm+VPIVVyDLl95eyw2QHPSQSlCDbePAlXNHwALVCLmn0J/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=3uWpx2LX; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="hi4+4DiJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PLcu5gbJ"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id A42032540281;
-	Thu, 17 Apr 2025 10:30:56 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 17 Apr 2025 10:30:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1744900256; x=1744986656; bh=Y9UlWkrYrc
-	CSocQlqR1lz6nZLSVUBMh9qLl6PcNgpsI=; b=hi4+4DiJRcQdlfIcSoGdIlTUr4
-	r0B3bcJadKJ/Et3IE7kFcQiTBg4ihJX9Q/oAKawJKgJ2FC8TJF4B2YgkNzyVjIhN
-	1mUJZ4YQxF9jkoDK1yWTll8KZ22PMVdLy5QuCL5a3duoZ3u0AQ52fWOqOOzVIek+
-	MRB6T3pNvr18Kb5tF59a40n4pD3LqSVvrnAf3wTx2My7108l+2dwZHyDdQXJvZZg
-	9WF5Vc17M5avo4Eh70Wp7vaq9iCGSUp3As/5FBHetU1MlwnG4Gedpx8Ul/ZJaU57
-	FuCHyxw7+afB1jezZLKFjuOLS3+S1+x6qnpRqd1XqtR5ABKGvNsSIJNS+7Fw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1744900256; x=1744986656; bh=Y9UlWkrYrcCSocQlqR1lz6nZLSVUBMh9qLl
-	6PcNgpsI=; b=PLcu5gbJoV/5Np/VkgmPz4MSk5drfQ6BMLjlddB6xTEE7wsnR3j
-	3AUo6mMQ8wqCKP/3gp42U6yZcgv8bCcoICmRtR6A/Akigvdz1+ZLoTFXunUvXQag
-	QnprGD0gbd3xu0D0k5mHkj4W8346Ms9rm7SzLlPNzk/UNkUO7rM6kXAuSoIPUVR/
-	Sg+oyS7w9kIBwnhe+9rWGyjcqeeMwo3G6srMTtsQ5kP7oVaetnNtgTLab50esieu
-	PcwKEJQonKYptwyWHFwNDDvxQ1Roiw6bT9D47QTV3RAKnEN380pZwtju2kLrwyoF
-	3gago81rtLmKSEcdNmjMEP32vc+c3uzBcEg==
-X-ME-Sender: <xms:nxABaKR_eXYOIWQS1iJ9lsqAsoSQlwnRP_EQJzRZBBscAGABtFWsyQ>
-    <xme:nxABaPzMjsXEVDX9g2qvdTGjNNrXvvrAopE3HbVnYahIeL6TbpRpLGEIDrAtMB_TW
-    wCIHBaj5CmJ5A8HwoI>
-X-ME-Received: <xmr:nxABaH0HqOEU8oqsbdMp_mENT4UGl1ZhfAU02DhkOMWR_E91wl7O_IPpvlZjfez1sJJDOiCY08IgzIqIw234yvr-0XiEYHh9bg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdelheduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
-    jeenucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqe
-    enucggtffrrghtthgvrhhnpefgvdffveelgedujeeffeehheekheelheefgfejffeftedu
-    geethfeuudefheefteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepudefpdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopehsrhhinhhisehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    shhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhrtghpthhtoheprghlhihsshgrsehroh
-    hsvghniiifvghighdrihhopdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhr
-    tghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoug
-    htsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:nxABaGDqZJ30XV5JbHhh688GI4-8scwlx1lGHRsFhjTomCsCrvb2xg>
-    <xmx:nxABaDjPTTvGkctdQcNF_lk7oa8iM0qsD9Gd_FXJfRTG6nrip_0nbQ>
-    <xmx:nxABaCon1EDu-8B7H_pzMDyClPXSRTqWk1z7o-UiWwAFlkBCao7x3Q>
-    <xmx:nxABaGj62S79UIwKrzAs9ykvSo2pnWv7inU3-BtA7ha2RQj-zjt3PQ>
-    <xmx:oBABaDB0oWczrFrZYoUcGcyoenlO7_Z1PVBVb-6U5K3HLW-ZXAkb4Q2i>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Apr 2025 10:30:54 -0400 (EDT)
-Date: Thu, 17 Apr 2025 16:30:53 +0200
-From: Janne Grunau <j@jannau.net>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: fnkl.kernel@gmail.com, Sven Peter <sven@svenpeter.dev>,
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="3uWpx2LX"
+Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 06A4448658;
+	Thu, 17 Apr 2025 16:40:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1744900837;
+	bh=ZkCqmSbXt1v3PVfUXnyy4jP63qsdkBbj3FBpkdPeHH8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=3uWpx2LX4TTFi1PE/0XADmLNcMTSSgp6V32+y7Jg9w1nRQrdFpRAshKO/MlaYKmzl
+	 Kttyj0sv2jvWQoOp8zotVwqMMlAQCKmYCNbPML6UF1D5se9TmoU4CvIYYUB7WJ29Hh
+	 YCuyKsNnf2Mmo3OXZNrQmDlvgN/8GOUwV5PxfpzWW4NZ7ojBC28SJ+XuDZZa64pU9V
+	 LdeFxt+6nerOumveCriRC80bM6PcRXDa7RXPSV0aZTjN7pRdclEJwA0TMtL9zXx/XR
+	 PfZwVAfOpjAzu7vbS5fzJ8u/XVNitcdYRjWNcN+VNsc8QUkdsVvI5kkKABr62vC1De
+	 GOaeG/ITg6e7w==
+Date: Thu, 17 Apr 2025 16:40:35 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 2/3] nvmem: Add spmi-nvmem driver
-Message-ID: <20250417143053.GD8400@robin.jannau.net>
-References: <20250415-spmi-nvmem-v1-0-22067be253cf@gmail.com>
- <20250415-spmi-nvmem-v1-2-22067be253cf@gmail.com>
- <81fb1290-fb39-40b7-9d79-f147fae5b269@kernel.org>
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	David Woodhouse <dwmw2@infradead.org>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Janne Grunau <j@jannau.net>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Neal Gompa <neal@gompa.dev>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tomasz Jeznach <tjeznach@rivosinc.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	Will Deacon <will@kernel.org>,
+	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <jroedel@suse.de>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	David Rientjes <rientjes@google.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v4 00/23] iommu: Further abstract iommu-pages
+Message-ID: <aAES47w6yaRDFsLg@8bytes.org>
+References: <0-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
+ <aAEPWXaBocqgsvbR@8bytes.org>
+ <20250417142752.GH823903@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <81fb1290-fb39-40b7-9d79-f147fae5b269@kernel.org>
+In-Reply-To: <20250417142752.GH823903@nvidia.com>
 
-On Thu, Apr 17, 2025 at 02:34:37PM +0100, Srinivas Kandagatla wrote:
-> 
-> 
-> On 15/04/2025 22:52, Sasha Finkelstein via B4 Relay wrote:
-> > From: Hector Martin <marcan@marcan.st>
-> > 
-> > This driver exposes a SPMI device as an NVMEM device.
-> > It is intended to be used with e.g. PMUs/PMICs that are used to
-> > hold power management configuration, such as used on Apple Silicon
-> > Macs.
-> > 
-> > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> > ---
-> >   MAINTAINERS                |  1 +
-> >   drivers/nvmem/Kconfig      | 14 +++++++++++
-> >   drivers/nvmem/Makefile     |  2 ++
-> >   drivers/nvmem/spmi-nvmem.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++
-> >   4 files changed, 79 insertions(+)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index e7b2d0df81b387ba5398957131971588dc7b89dc..63c12f901aed1f3e6de8227d6db34af1bd046fe6 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -2298,6 +2298,7 @@ F:	drivers/iommu/io-pgtable-dart.c
-> >   F:	drivers/irqchip/irq-apple-aic.c
-> >   F:	drivers/nvme/host/apple.c
-> >   F:	drivers/nvmem/apple-efuses.c
-> > +F:	drivers/nvmem/spmi-nvmem.c
-> >   F:	drivers/pinctrl/pinctrl-apple-gpio.c
-> >   F:	drivers/pwm/pwm-apple.c
-> >   F:	drivers/soc/apple/*
-> > diff --git a/drivers/nvmem/Kconfig b/drivers/nvmem/Kconfig
-> > index 8671b7c974b933e147154bb40b5d41b5730518d2..9ec907d8aa6ef7df0ea45cc35e92d8239d2705ee 100644
-> > --- a/drivers/nvmem/Kconfig
-> > +++ b/drivers/nvmem/Kconfig
-> > @@ -310,6 +310,20 @@ config NVMEM_SNVS_LPGPR
-> >   	  This driver can also be built as a module. If so, the module
-> >   	  will be called nvmem-snvs-lpgpr.
-> >   
-> > +config NVMEM_SPMI
-> > +	tristate "Generic SPMI NVMEM"
-> > +	default ARCH_APPLE
-> Why default is set to ARCH_APPLE?
-> 
-> This will endup with y in arm64 defconfig, means increasing the size of 
-> kernel.
-> 
-> should it be:
-> 
-> depends on ARCH_APPLE || COMPILE_TEST
+On Thu, Apr 17, 2025 at 11:27:52AM -0300, Jason Gunthorpe wrote:
+> I haven't had much trouble rebasing it, so fingers crossed, thanks
 
-I don't think it should depend on ARCH_APPLE. There is nothing
-ARCH_APPLE specific in the driver or dt-bindings even apple platforms
-are currently only user.
+Forget the iommu-pages branch, this just makes it worse. I put it
+directly into the core branch now for everyone to rebase on in case of
+conflicts. This should avoid some of the potential trouble :)
 
-`default m if ARCH_APPLE` might an alternative but in this specific case
-the driver which will uses the nvmem cells should just select it. So I
-would remove the default.
+Regards,
 
-Janne
+	Joerg
