@@ -1,112 +1,84 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C475E74BED;
-	Thu, 17 Apr 2025 14:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744899935; cv=none; b=JZG3r/ux3vKQFjpUILNNWUgTXg21GPkrePJZ6b/fM9yJz/GJ4HPazc9t005KvaFzzSuQSgfRS8qkEQCGynAFsn96uHBBOgpa53q4aHyCe/rylqPw0rAg8xmUha2QEB9952aNq/JNAHo335Rea6f4NZvQzW8FiPzS7jbg2cVgipU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744899935; c=relaxed/simple;
-	bh=/HJPLJW7CBCK1J9D/Tt5sZhelJYUDsDIjSLUZbWv1OE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tMAmpL19lJ0uYNbNAdSjf8ah3jglHC7zM8ZOHNxNkFoH4G9j++8QuP2SrocplVKsEijf8Uub/mA3tCWTZxfEL4HNFXg3+Ylhn9uHZ82GHwZrlJxJFDl/ptOqn6Vhrl2DVJhgv3aHP/rW9NfXSCi3BtNNHzz0OZzP2QAWeUs80Sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=EuElz7+Q; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="EuElz7+Q"
-Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id E900D485FD;
-	Thu, 17 Apr 2025 16:25:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1744899931;
-	bh=/HJPLJW7CBCK1J9D/Tt5sZhelJYUDsDIjSLUZbWv1OE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EuElz7+Qx317T37R6Xk86MhTtQwxCkmp7UHTFVuhPJMl9k8WUHkrpkhEHjiIIU05a
-	 HAzRnmkgmL+RUvIuZioUKw7Vlp9fZaCDnvU3iA4vVdaEZsHSVM/0fMzv6HIRkOKA1H
-	 chS5VzHsAK7xJzIE/CfhOd0QMQq1TCQw4LQUF9XGapf525Y1ufDPhOH9Vvq34bzNc5
-	 NoIPQRHmnCzb7eL4G8h21D64hMj6oM4CkSXYLdrD78OqxWTP5I/Jl8OmL36GnsK76B
-	 +iNsSxMcEukAqjZx3Ur+ZnLAflFKwuDuR6GXgtRCL8p4ZN1N1sjzsv0I5KMogrNGV2
-	 EkNWoKRqfm8Eg==
-Date: Thu, 17 Apr 2025 16:25:29 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	David Woodhouse <dwmw2@infradead.org>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Janne Grunau <j@jannau.net>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Neal Gompa <neal@gompa.dev>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	Will Deacon <will@kernel.org>,
-	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <jroedel@suse.de>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	David Rientjes <rientjes@google.com>,
-	Mostafa Saleh <smostafa@google.com>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v4 00/23] iommu: Further abstract iommu-pages
-Message-ID: <aAEPWXaBocqgsvbR@8bytes.org>
-References: <0-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B8625178B
+	for <asahi@lists.linux.dev>; Thu, 17 Apr 2025 14:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744900034; cv=none; b=ehldYV2DFV3LgvVrSk/aElBrmwO6zWt1sC9JiFGsQMYKabAP/kx96SAoqNcxZtDVo0ttQQAsIE/Tg95/rmkzTTQnQdrflewaJ0kaP3Qls/bF8S5+3iwa12CR7V3FXOPVT5UEHQfCY/SorUdfPRwDP9Ln6tD6oCttUduTVH2CRJw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744900034; c=relaxed/simple;
+	bh=H5LcbxHIEsi6NfNXL48aB+b5/EUn547ceJU8rD/SnfA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YyYoydpjcRvla97a6feVEX7fTX5MRQ0lkoCFxRJhWa5s+bLdpF072zeak+kK+9/MrQKNOZzqV3FtMm7wstd8TCKxlEIM8otaI8BCf6ZewXAJqUQekYQNbGF4HDW55TV3p27o++ijzFZswMyOvShC/N6hYhSyYQmT0+SHcRZBmgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEvePeJ0; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEvePeJ0"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6fead015247so7543517b3.2
+        for <asahi@lists.linux.dev>; Thu, 17 Apr 2025 07:27:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744900031; x=1745504831; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=H5LcbxHIEsi6NfNXL48aB+b5/EUn547ceJU8rD/SnfA=;
+        b=kEvePeJ0R8eqHdD/EtKPdw129VBygQQVdy7GekCBz6hiwomBTKf7wwmlNVEV2piDFo
+         JdwpGwPWJ2Ui8T2fqzdVhqocCio6FgWBjHZ6F0mUPSs1S2Phr1LiPh2hEHsVUa8lFPtN
+         /Su7wrUTSvrXLYqFyxvhmu2zJ7xk1kUH8OOpvsMFazG56zlAmQ5X2y32aEVF1mxU5zhl
+         MnzHePWjvN2AQ8pFdPFajcEL0sGma4C/T8QBLbuCJniEgsf8sKj/Ng5K0DYMoUUgN56s
+         kfglq0Wn8cmfxKumzmTm6zqrXouUHDFoE1OdJKMUx80JR0xtCUGFlzCohuoMrlQMp18X
+         wz5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744900031; x=1745504831;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H5LcbxHIEsi6NfNXL48aB+b5/EUn547ceJU8rD/SnfA=;
+        b=HFznfh5kLnP5sNXaRBAfO0yImdc/N1O1NjSV962kahsmeQmIwPYWEBj3LtBC3DnUkY
+         xwfVJ1MBtgZakECv5x0UJNgaF0DFqpa2+I543XHUs9L0Fd8dcU6BdNBRpgKzP2JUxEGJ
+         s/iskCB5xT2HHxJ1AKuBBNj+2OmslZn8DXS3NFoEkN+GWc11uye+e5vi4b0Oqh9iAxYk
+         N/mGaD7qqtm1EYaJ5RwK63tNGLl0B42VA1XP1oFY9I3h+cZQ4bvYbDnZU52MqjfkX38x
+         +77l+3qzX7DoBqyFSzioG/CR+s/mys2y9rJCimZcK3RxHwdo9Xta26c09Lg4Efappebe
+         ryNw==
+X-Forwarded-Encrypted: i=1; AJvYcCXyafZoW2SvMIY/crWxr6QlwF3z/9wMlPVO66V5QDgpeoYzW4f/N+LCtEPOkXSNNaaxY3A+Ww==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4S6Nm1z0734y4yTentPOYKE/+nOv1uuI4qlVwVLGlMCwaQ5Ck
+	JY+n3sKe9cKp+x1tVzVooLgvUmYWu4Cd+fpIquM/nFjRjaoF0erbHB/vJmjX6jYB6Kbv69Al3Dd
+	AZ/T3nEY1GElT05lDIIxHZIKWA20=
+X-Gm-Gg: ASbGncu5XpOuOo0DneDnR6BLzmxzfRvdm2ljeoqoBLV88xhGdSF+8rWevmX5C1E6MNs
+	+VoV7DsgyKvFHLyyAi3otb08oGgE+Bhuyrx7Fjh6IGZ5K8S/6Xlmz7Ufkl+ooUYJywkNXS1eNlF
+	4SwOSI68Yr9Y+DFI1/XZNCd8g=
+X-Google-Smtp-Source: AGHT+IFlsRdoOPNKP+IgFk3s9dutZbcvjVOYZpKbxlSBuHkLsa+WbDm4tMUPjfUhVNf9zruI9fG719C6Puhpz/icXwI=
+X-Received: by 2002:a05:690c:6b83:b0:6fb:91a9:94d9 with SMTP id
+ 00721157ae682-706b3255c50mr92412037b3.2.1744900031538; Thu, 17 Apr 2025
+ 07:27:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0-v4-c8663abbb606+3f7-iommu_pages_jgg@nvidia.com>
+References: <20250415-spmi-nvmem-v1-0-22067be253cf@gmail.com>
+ <20250415-spmi-nvmem-v1-2-22067be253cf@gmail.com> <81fb1290-fb39-40b7-9d79-f147fae5b269@kernel.org>
+In-Reply-To: <81fb1290-fb39-40b7-9d79-f147fae5b269@kernel.org>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Thu, 17 Apr 2025 16:27:00 +0200
+X-Gm-Features: ATxdqUG-QdtnFm03q8e1kJSl7Bv2F6tlWh8pqcBflMsEFPTlm2gMwGAFKqTZq5A
+Message-ID: <CAMT+MTQ6gtQaMpH=5ATtJ_A7X6EjT2ra2UAe_1XiDAk1YGP2Zw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] nvmem: Add spmi-nvmem driver
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Content-Type: text/plain; charset="UTF-8"
 
-> Jason Gunthorpe (23):
->   iommu/terga: Do not use struct page as the handle for as->pd memory
->   iommu/tegra: Do not use struct page as the handle for pts
->   iommu/pages: Remove __iommu_alloc_pages()/__iommu_free_pages()
->   iommu/pages: Make iommu_put_pages_list() work with high order
->     allocations
->   iommu/pages: Remove the order argument to iommu_free_pages()
->   iommu/pages: Remove iommu_free_page()
->   iommu/pages: De-inline the substantial functions
->   iommu/pages: Formalize the freelist API
->   iommu/riscv: Convert to use struct iommu_pages_list
->   iommu/amd: Convert to use struct iommu_pages_list
->   iommu: Change iommu_iotlb_gather to use iommu_page_list
->   iommu/pages: Remove iommu_put_pages_list_old and the _Generic
->   iommu/pages: Move from struct page to struct ioptdesc and folio
->   iommu/pages: Move the __GFP_HIGHMEM checks into the common code
->   iommu/pages: Allow sub page sizes to be passed into the allocator
->   iommu/amd: Change rlookup, irq_lookup, and alias to use kvalloc()
->   iommu/amd: Use roundup_pow_two() instead of get_order()
->   iommu/riscv: Update to use iommu_alloc_pages_node_lg2()
->   iommu: Update various drivers to pass in lg2sz instead of order to
->     iommu pages
->   iommu/pages: Remove iommu_alloc_page/pages()
->   iommu/pages: Remove iommu_alloc_page_node()
->   iommu/amd: Use iommu_alloc_pages_node_sz() for the IRT
->   iommu/vtd: Remove iommu_alloc_pages_node()
+On Thu, 17 Apr 2025 at 15:34, Srinivas Kandagatla <srini@kernel.org> wrote:
+> should it be:
+>
+> depends on ARCH_APPLE || COMPILE_TEST
 
-Applied to the new iommu-pages branch. I think this has the potential to
-become a conflict nightmare, let's see how it goes in this cycle.
-
- 	Joerg
-
+No, this is not a driver for an apple-specific hw, but a generic thing
+for re-exporting
+a set of spmi registers as nvmem cells.
