@@ -1,96 +1,122 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F81625484F
-	for <asahi@lists.linux.dev>; Fri, 18 Apr 2025 04:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56073398A
+	for <asahi@lists.linux.dev>; Sat, 19 Apr 2025 06:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744952076; cv=none; b=bsAQult0G0nQ737fBCdj56vXuHOBjiDznxBH3v08bqi6xhgewBhrDXOGaS3OarS7B8TM7F5BAKiZwbsNvzvXgjaFuCEwq8nRXJZK7PeGT9vCX5mRT43sKpBewvtRYUexq+nYZcQwcg748AQAgdoMXu+OKeWweZZ5X116pSHIuG4=
+	t=1745044966; cv=none; b=HIqQ+aMOVuRSjQoymd2/Shde7UaX40CcuAsjGpbM4SC+Jq9YuSJHcyvyJk6HhG82L0tG1roZWn8w5ccKtskOvdax1p9u/fxEvthKw0ENmBFIEV3o5uyCc19wu80mX4pXCBDufM92QNKucTOc9yIdg21Oc+rVPtsfYY/BvmbWpbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744952076; c=relaxed/simple;
-	bh=miGWfcaPFFeXZKyL4q8RKZf6XsZtwS2QXeSpQEPB9j8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BhMcWjU8LTmA1qDcQOa3dYelhqWblGrkhxtKezLfEXwOrKs2d2/Xjm+gBp9jhLfi2pSGl7INfPR3XEYiKg2RFfB4s0zUYrdJM34bcMcQZ2obe+qZXtVG8JTkpnak/yjFTWzOlDtzDpwEhz1EAqf13j4ohmp/nrjjzXnKZ1OwV28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U5vpATjV; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745044966; c=relaxed/simple;
+	bh=RpDJN/CwCIEnkvfWDcWekSrBuACy5eLCDUNY+0W0a4g=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Z4RgwoggI8u/Bfd9mAZDjl81UDDpkCAkbPY44igkyNg+34IhD7IhOb/C60iTp5L57Ci5Mf1nT4e366vph6Hd2wYUHgJ1kg0UIZ4S6ASs1zYfsafrpm44MLsNAP5Aa2MMRZ2ZW2JJbS0fw6N+2pY8pmV/DmL5eK7+3Ve5017GhgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=Oh9mfdsp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UfrNYTHn; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U5vpATjV"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22435603572so17447865ad.1
-        for <asahi@lists.linux.dev>; Thu, 17 Apr 2025 21:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744952073; x=1745556873; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=miGWfcaPFFeXZKyL4q8RKZf6XsZtwS2QXeSpQEPB9j8=;
-        b=U5vpATjVjUmV6h72VLhiMwTm+SHMiM9lyGk6829vuvD1TErG5Rgd9dgLkocKKLB+2O
-         teslcNavx3TAw9Ha+1YtvC3TTp17ArYDxX1dxMuyPywg6Fme5mZjA8n+HhZcEnWxOhvo
-         5nhMp1y7uS741gfzvjK7CFOxnMzankPBR+PAjsEpbXkx2FSqaNefUoUnEIxJZvhKPmS1
-         xQzlauJGigWZz9ReLhVksbaUkA287aRidiJHPd2D+o7ZcHO9yRXgoKLKjGgV6nvI/EHo
-         c65wyh3IHU6KXWC9ZRtxf93DGxIcqi5Ry0swNx4biaJ8l6ZTLAY/QDbu2ElZQHPfJSrL
-         Dbug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744952073; x=1745556873;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=miGWfcaPFFeXZKyL4q8RKZf6XsZtwS2QXeSpQEPB9j8=;
-        b=VpoiNN+Rxcw7cqDXHgi8JIEbpO/X/2uIsP9DOeZ75/4H1VJZ41Sx/PRn65FFAt5Ap4
-         7sFQZMEOhQwo1iv/W3D//T2xyAIkz+6RfgYWGL9CqgjB9o5pO99EMDK5YVcK6fV6Is9W
-         VhTiuPQJMedqwdzCWW40QX1vQ9TzRR65H9BYhritad5yurPyOsvaRM74A/kQ8IjIGlFm
-         pElHHdwk2HngI8ND6G8gg7N+bSjJzXdnq0TiuQFioIBlH3TeTexDdQB9NncA7jNud8Rd
-         gg89exI3+ltkVpfxtaeVfXFtAFtXk8gzXi2IF22A/14lM4PbLpJs7uXuA178wH5cNLuq
-         IhEQ==
-X-Gm-Message-State: AOJu0YyerXa94WfG2n4liWgekRWod3vM5f5nC5gW1uEDZ+IrUsBij1jv
-	7owrpEQZGD4fbQGr0dZ9O95KfoDTYaoTBZoM0GUmUvC0+tNGKjw3
-X-Gm-Gg: ASbGncva9vXYwTT5B93giAtdxDDD2vt3uICIhA6rmiKJKr6XDUV0g6ajerbHdi8FUeP
-	K31Kn5oYE2Bnw3lzfRsXlpCEWQHzNI2ynn3J5WlZ392R9/SIK412ElHB6mdPOLLKnlXzmtUs0xB
-	U2Tmw0kwmkXwSyJqe/Bgtc26/8L7QPs0nvLgJZEy0Mc0CGIp6DBtrHXX4fZDAWpHfYTUibe4b2U
-	j2LcFTbgmdhDGvcu63r8IBazFx4jSpYTuq1aZbFVKBPJiYBTIF+IaffhzFpPZN5N0Fmfh5SOmyI
-	X5THsYA4c7plMK+nofHKEYuNQPwws3Yj6sob0adrsywTkAn+j1xZiv3pz4VHUP+rlXyaUw==
-X-Google-Smtp-Source: AGHT+IGV/fWbJMmWtA4WBhTr5NRFS7XNEqC6SndfF5cUfWSxSGh8GbNlHBkKJARuTfoFoRcRWxs5jw==
-X-Received: by 2002:a17:902:f708:b0:224:ab0:9b00 with SMTP id d9443c01a7336-22c535ac5d7mr21475505ad.27.1744952073304;
-        Thu, 17 Apr 2025 21:54:33 -0700 (PDT)
-Received: from [192.168.0.101] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50bf1424sm9178635ad.53.2025.04.17.21.54.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Apr 2025 21:54:32 -0700 (PDT)
-Message-ID: <06b513ac-1734-452c-a967-de3c178ce80c@gmail.com>
-Date: Fri, 18 Apr 2025 12:54:29 +0800
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="Oh9mfdsp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UfrNYTHn"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 417362540395;
+	Sat, 19 Apr 2025 02:42:42 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Sat, 19 Apr 2025 02:42:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1745044962; x=1745131362; bh=zjt7NfBTzseQQMbU4/Y8LSDbLij1PLqZ
+	aamI7Qx/jKQ=; b=Oh9mfdsplZ7i20GBTkOnAnIP3l43QK4SIe0Oew6G5Vn8rjDH
+	Jkzx6Xdgkqau6Tr9sg6fdh9RdZmVngGuaEtFU+s91KEFO1/Ty6LBUjLiSCsSTO+W
+	GZUMjhe0t0VDHHH4Furz/W2aUTkg7Noicw1E/u+ICm+7VtCRR2bSyTQo6D5KIxzv
+	5Gdaf/gtacF04VHSEJetuAZdz2DPbURnQqQY9l6yvu/anIX2QYfdJUkLJFHfvD9N
+	p2lS4e1nW0I5t1UEAXUW86f+FRXwslbZdodOAweJLz09CVm71WKWsfQal8RDNNaY
+	m9PboVUhZQ9IUGx7Mkhh9f6rfkJKDV8bFwRjkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1745044962; x=
+	1745131362; bh=zjt7NfBTzseQQMbU4/Y8LSDbLij1PLqZaamI7Qx/jKQ=; b=U
+	frNYTHneRJPrz+u2FZYVGWYEb/oJPDEkfkJmCemiKjDbphzYsj9to3yvXzqDuxND
+	tma2eP3q2rFbCngaSqNEd6mxezuQLYb004rM+y059La1SvmTz2fYdUAPv/cfOIMe
+	be/oRvTS9uSnHx4ievbR4ahwaPunb5Ok+ozS4/D+5seBOuGDwk8N373HI7xHfUEl
+	PJ+0Qbbt/XeG63phsDUHo9ewLubEpHlrgq0OkkksMMv4oz5xn14av/fCLhgEJ7Re
+	9b99upCdxMZS2xgcaSdNSS7eglKr8zz3wY5f0fSW2L7BchEEkPsYSUufwD/mjmhn
+	5V5b6/qyr376NoM1kmwhg==
+X-ME-Sender: <xms:4UUDaIs5Ny7GF38C8WnUn0nR48lDcMXrwqpGX9IZvw4kHNogcGPeCg>
+    <xme:4UUDaFd-UCklpb-X5bxoUNiEQd1yoiR1mFOE-qv1BXUD2Msvrk52lW0Va2AwT_WIQ
+    SSLTAS7LANOosagsDA>
+X-ME-Received: <xmr:4UUDaDxNXMpVP_b_QdrhZ0KjRd8enuK4YtIXq1wjQXK2gaAdwkm2dtBbLia8TL4IOoVX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvfeegfeefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
+    tdejnecuhfhrohhmpefuvhgvnhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrh
+    druggvvheqnecuggftrfgrthhtvghrnhepleetudehlefgteduffeijeehfeduudekhffg
+    fedvueekvedvveeuhefgieetgfegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhes
+    shhvvghnphgvthgvrhdruggvvhdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgt
+    phhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehrohgshheskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtoh
+    ifihhntghhvghnmhhisehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhnkhhlrdhkvghr
+    nhgvlhesghhmrghilhdrtghomhdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprh
+    gtphhtthhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:4UUDaLM25JbRuYmCuFzy8hpuXXbZDn8mw_IgxhT6pDJw7zQAJYqThA>
+    <xmx:4UUDaI_glysPJGPj2VfOhzjRGHrEa_5Fl9_Nfw8Ome00AyJKkUJYJQ>
+    <xmx:4UUDaDWzJYoLb2zfyJ7NEkkQxLixy39eC_5VqQ-DtSKcTfpushl5vQ>
+    <xmx:4UUDaBd9iE4KcB8v0v61cUf9HSWGj1B7fI-2B5x15ZE04mZsHfdHxQ>
+    <xmx:4kUDaILQRmgzG8Z9BoOLGaiybrwn3SiiHE4Ym-YYn-dMGZdocIVv0jJR>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 19 Apr 2025 02:42:39 -0400 (EDT)
+From: Sven Peter <sven@svenpeter.dev>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Nick Chan <towinchenmi@gmail.com>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: apple: touchbar: Mark ps_dispdfr_be as always-on
+Date: Sat, 19 Apr 2025 08:42:34 +0200
+Message-Id: <174504490666.63781.1711699267217097502.b4-ty@svenpeter.dev>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20250416-arm64_dts_apple_touchbar-v1-1-e1c0b53b9125@jannau.net>
+References: <20250416-arm64_dts_apple_touchbar-v1-1-e1c0b53b9125@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] arm64: dts: apple: Add PMU NVMEM
-To: fnkl.kernel@gmail.com, Sven Peter <sven@svenpeter.dev>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hector Martin <marcan@marcan.st>
-References: <20250417-spmi-nvmem-v2-0-b88851e34afb@gmail.com>
- <20250417-spmi-nvmem-v2-3-b88851e34afb@gmail.com>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250417-spmi-nvmem-v2-3-b88851e34afb@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+On Wed, 16 Apr 2025 20:06:18 +0200, Janne Grunau wrote:
+> The driver depends on boot loader initialized state which resets when the
+> ps_dispdfr_be power-domain is powered off. This happens on suspend or
+> when the driver is missing during boot.
+> Mark the domain as always on until the driver can handle this.
+> 
+> 
 
-Sasha Finkelstein via B4 Relay 於 2025/4/18 凌晨4:14 寫道:
-> From: Hector Martin <marcan@marcan.st>
->
-> Add device tree entries for NVMEM cells present on the PMU
-The commit message should say PMIC instead of PMU.
-With that in mind,
-Reviewed-by: Nick Chan <towinchenmi@gmail.com>
-[...]
+Applied to git@github.com:AsahiLinux/linux.git (asahi-soc/fixes), thanks!
 
-Nick Chan
+[1/1] arm64: dts: apple: touchbar: Mark ps_dispdfr_be as always-on
+      https://github.com/AsahiLinux/linux/commit/dc5befecbe26
+
+Best regards,
+-- 
+Sven Peter <sven@svenpeter.dev>
+
