@@ -1,87 +1,86 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1CB83A14
-	for <asahi@lists.linux.dev>; Mon, 21 Apr 2025 14:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB0323A995;
+	Tue, 22 Apr 2025 07:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745245848; cv=none; b=QjRbfjKDFaxwVxQLimTk3G5N5f9k/7nrXpThAw9qSTeYachrbb6B2hvJuEf3ZNforuXScO8UWSF2FvK52MB5eToBmT+NryY3Vg6YhmIfPQAsiVSsESkxSpodE/TCr6ClGN6MT42kVUft94KO5x4JnxGovROjR8l4EAJPmbGUrPo=
+	t=1745306768; cv=none; b=uXyvlg2Mjvx7MvH8EVx3ffmlyEWb7eoD/7X/bS9SRAgda9jqLGhMfW8D6e3wOuuwEWgXXt6G8cXyDRjKzla/vrqnfwtfuq64M+lEtaPbwF3Axtpm09z94DQJ7/95WxPD0FNVq57Fujc88dEFT4fP/0TlwQMjBqgVO6KZcyFYwqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745245848; c=relaxed/simple;
-	bh=GhE+7yJlZPXfDXcKbz8rIU+n/bOKRUbbW8k0nBGxPcY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ooi/AYlYI035NSyKUAgAvshzoPbXPDOZ72KiCJqhZ/iQcNipgbB4syhDNpRjt2AwAa44XQWpWQWF8dA+sr3Ites9c8xBVMsBwBB/WKruf37IhD6M6dRJ7ICr1cM49wd8uhQxFxe/DGRXJmN3+5nWKzezV/eNM6PEKlJX8e8yz04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=PVB98+6o; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="PVB98+6o"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1745245843;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qsv9H0ash+njBouLPA0/pRo+0GrFRby9AbDJsN0GOKE=;
-	b=PVB98+6oxX50Q9XW+Za3dp/6aoF6QIsk+GkQG+RhwgAuqCO/PRha/bOC32n/j4OBZ2Vp5l
-	fj5ukLpZ9H+rapRiCP5KjSosPe2nVRabrAJJSHJwKEIXCN4UK+uS8J+ghdAdvV4jg9S4e2
-	CxoRLNJNJm/OrHZWBTn0zEdDROUIwv06M8rN+lHSNNb0uwvhL9qM3lLyrKX3o/ryPZFwWT
-	8FT3DAjMxF7MrDxL8cFiXiDx1lrHCr8ZN9RnZsDc4eNxY6heu9v5jy6Yg7lMS8gof37QZ2
-	MzD1LcaBxhJid07mg0m6tHJLgIqQEKNj2tEMr3UFqGv1DiXsGU/ioB/KoLyOHA==
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Petr Mladek <pmladek@suse.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>, 
- airlied@redhat.com, Simona Vetter <simona@ffwll.ch>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
- apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com, 
- lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com, 
- Aditya Garg <gargaditya08@live.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- Hector Martin <marcan@marcan.st>, 
- Asahi Linux Mailing List <asahi@lists.linux.dev>
-In-Reply-To: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH v4 0/3] Use proper printk format in appletbdrm
-Message-Id: <174524583908.462870.16724111514713149267.b4-ty@rosenzweig.io>
-Date: Mon, 21 Apr 2025 10:30:39 -0400
+	s=arc-20240116; t=1745306768; c=relaxed/simple;
+	bh=mjbINT0KsAFvhuiRigryB3e0nhTCEbBFT15MJOvL+/c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MigzSf7ufl3++MC9Tz/0xklJVw7g5IfxfP+rcALk6syrdJk6A3KZjXL+A5OQgCoFPwEtam2DQxX6waKUqetKXS4jISXrXW3obhknQ0sKD/08S3wTmi2u1l9Xovknscb3MvJ0YrrjNUq13IbDWuhZBcWH84A4XMwpsqrHE7RUj5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-03 (Coremail) with SMTP id rQCowADXezh6RAdoZOAVCw--.18178S2;
+	Tue, 22 Apr 2025 15:25:47 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: sven@svenpeter.dev,
+	j@jannau.net,
+	alyssa@rosenzweig.io,
+	neal@gompa.dev,
+	joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] iommu: apple-dart: Remove unnecessary NULL check before free_io_pgtable_ops()
+Date: Tue, 22 Apr 2025 15:25:11 +0800
+Message-Id: <20250422072511.1334243-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowADXezh6RAdoZOAVCw--.18178S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw18ZF4DKw1xZry7ZrWfAFb_yoW3WwcEkr
+	18CFn3G3Wjyrs8Aw1jyF13Zryv9as8Zws2qa4DK343Jr95Zw18C3s5ZrWxZrs7J3yUCF17
+	Aas8Ar1fCrWfZjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI4
+	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
+	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
+	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20E
+	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU1eWlPUUUUU==
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
+free_io_pgtable_ops() checks for NULL pointers internally.
+Remove unneeded NULL check here.
 
-On Tue, 08 Apr 2025 12:17:13 +0530, Aditya Garg wrote:
-> The vsprint patch was originally being sent as a seperate patch [1], and
-> I was waiting it to be taken up. But as suggested by Petr, I'm sending
-> them via DRM.
-> 
-> v2:
-> Remove printf tests, will merge later through Kees' tree
-> 
-> [...]
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ drivers/iommu/apple-dart.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Applied, thanks!
-
-[1/3] lib/vsprintf: Add support for generic FourCCs by extending %p4cc
-      commit: 1938479b2720ebc05aab349c7dc0a53921ff7c87
-[2/3] printf: add tests for generic FourCCs
-      commit: 403ff8fd2dbf5066128af4d1fde76c35a800369d
-[3/3] drm/appletbdrm: use %p4cl instead of %p4cc
-      commit: a49ce9cc85a82d5c5d65186f5a8fda0ebfcff571
-
-Best regards,
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index e13501541fdd..757d24f67ad4 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -776,8 +776,7 @@ static void apple_dart_domain_free(struct iommu_domain *domain)
+ {
+ 	struct apple_dart_domain *dart_domain = to_dart_domain(domain);
+ 
+-	if (dart_domain->pgtbl_ops)
+-		free_io_pgtable_ops(dart_domain->pgtbl_ops);
++	free_io_pgtable_ops(dart_domain->pgtbl_ops);
+ 
+ 	kfree(dart_domain);
+ }
 -- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
+2.25.1
 
