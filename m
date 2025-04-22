@@ -1,56 +1,56 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022B3211711
-	for <asahi@lists.linux.dev>; Tue, 22 Apr 2025 10:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B79F1DDA1B
+	for <asahi@lists.linux.dev>; Tue, 22 Apr 2025 10:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745317257; cv=none; b=lGqZ3vmSxtccfe2dzG9PHpnBInbGNCstvLxiNP8OOF8AM9ogDWyjfB5ZB8Yb8kldO26M4GZt2YPJx4tKPVJiKRNlWYXrvt77iE3l5IoZKXpvBGQ7FIxgx0ie0iFCb5B0eADI/n7C6FHGrhqT/qx+kZ1A9MZ0/oc63daZOpvN8vw=
+	t=1745318465; cv=none; b=Esh8vijfDJyXS0HlceKaQezIxAh9gpkCNRxSs/TVbN5uTc0MqgSqBnQ7G/6E8sp++thuyEXBcfWyL0s0Wtt6EgHr/n+dvDwUdzXiH2/o3BxmVlYRKkMfqIHhVVzPEaG0kYmT2kKqTO1gdDYbagsaEVCRZjwXyq8WKTJ90z3rtTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745317257; c=relaxed/simple;
-	bh=Wxe5WY7G3RUU93PW+mJYq20A1zO1eLTby/47ySQYMsM=;
+	s=arc-20240116; t=1745318465; c=relaxed/simple;
+	bh=c74m9nJuaHqBhP0VHLohLK106T0cVKwkPnarj1bL+14=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i4gcgrM5uY8kY90IH96R9E9bcF/RlWxbZoN7JIPO+EnuMuzn/TKNRnioXqw353R2QAxy9jvp0P40Bv+hAoa5W1quCvUqIT1vahQ1is01/tsAmV3Ei9WsmG5Ao6j3N33Hbfhmm4ojYQNHBdix0/qfUFhHLO7pySLXNm7pDbLUiIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
+	 To:Cc:Content-Type; b=VIsiW50z/2+M3dg9dWEuxV+b++jyz05QTubsVKzqbXKSVbPHSMzfLFkfM+01XR7wE+TPV7WE/tssJoN049afP8DM08Q9WpWxVoUXlzPvCKjU2cKYQWIReZa6YTRv88NE/YxacRwofJGUDv3RLUZrehtFJ38aJJdmkc6bUQfv6cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5259331b31eso2173939e0c.0
-        for <asahi@lists.linux.dev>; Tue, 22 Apr 2025 03:20:55 -0700 (PDT)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6ecfbf8fa76so58587356d6.0
+        for <asahi@lists.linux.dev>; Tue, 22 Apr 2025 03:41:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745317252; x=1745922052;
+        d=1e100.net; s=20230601; t=1745318462; x=1745923262;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ohxPhiK6YcJP8Y4tA22q1xDQLWt1Qweo8WFh3HJlJLE=;
-        b=dYdr0YYpnA2hV9KkwT/AmsejeYTD+zcxLrbOWOf48S+pA0HMVRmP2Af12ocUVevpwg
-         QDK9mjwiQgeqQZvBG7QiE4s4H8KzAH+s7Oc7wcK3i/3cs3jmEHtg5hdb9/Pz+J6/vnxR
-         VlHRtYxH7QK/KX9Thnh9UAgu9vgpNdflfGmpQKXp6t3TlB9ee141rMZkH/inFeODOYOH
-         GUxoZWfXBPW1urcRf+zt9576Js9fUUce/A/AYMeSCHta7RnBAEJoGA2rDtbXGvBOJHMa
-         +r7xsPZQdRHhucHSOf9jVtHBa9LEUIk59/W1FuB1i2euWqiaF62wHwGP1xlo/of26n8H
-         GyOg==
-X-Forwarded-Encrypted: i=1; AJvYcCVbzBALFtk0jM1y4UFmOK6YpLEyHnkZe6jsNZ0JH6wWQ0bnROr7vtsHvRaJaxRnx6fIpw+7KQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXLY45zb4n9dU1abCCgRIz/j23FwGTJBGpy+6hDLTKpXhYNzzg
-	DC1ZgMY212T0lh/+8P94SMol/1I5tv9Ujn1QbKIxsdqv4nqZZxaU0O5gzMDY
-X-Gm-Gg: ASbGncux4JlWJfygrUvHqRAyECiR/i7CYPOIVFq191ZZQ3c/ek1+NcI45RntfWNlRsU
-	OXy4kKhXMnzzQQ1qpwird6GRGSBToRqOQ/TJh2jCJZmAK+1zgsE/b6kHqkS/PHgmrQF1qQ5q9d0
-	A7NGhW+KcV1bxMYQ7in+dQW6nokJXdXKe76DIVeV23HBMAmlx/H5NUJv9S/Z+Cm6k45gpQjtYms
-	Ob8U5b1x9NEmbcSPYyzETIe+FBzd4PXVHhgrkPedj5fBQVqcDc3C9/ptEro0KRDTvY8z0AWFv4J
-	YUVcrqHl4SeV6+1Q4tBylzO6v89mqMj2UX1mlp1ZgHb5UZ/mO8Ya9P7HlSds/0oIK2D52IdfCF8
-	oCK0=
-X-Google-Smtp-Source: AGHT+IF3fRPaKorPxPqOT5Xiv55CMC+zKWHHQxZuzoTZ5JVA7trwGmrYWj8pCAkEambbKf6CDUQXjQ==
-X-Received: by 2002:a05:6122:1692:b0:520:5185:1c31 with SMTP id 71dfb90a1353d-529254d5675mr11391356e0c.9.1745317251975;
-        Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-877647999c1sm2219419241.29.2025.04.22.03.20.51
+        bh=7vytO4TOm8gf3AQur2lnADNQtT+Rd1ucyY5nITKDwjU=;
+        b=wLPRfvHBY6Mj4qJ9HbI2wDoe8y5oNOxDgTicv0GcWOaGPD0fq0NFg+UaqiLMJDPpRJ
+         Xc0Gi9b5CvM5c8tIqE/knPngIfRcpYIoX7jf02uCN6fFHJh77qc8CBVQsGwdjusVokZU
+         QTiQE8h9fl+qhre+kefoWpC3PNlg3daB6b5RoUYd4Io5jelMy+xPiFTBrY+eaXXDFfBb
+         86JRayLzk3zoRAZ/p3d3ptZyv93ElygyC7jcoGi+l+OD2vfMDq7lZpO48qJ1h/8+A75r
+         HEOeKY4yHAzYGZtv8ZIblRXnOOF67cPp9gLy97OgiKphlTzg6eEQzrFOs95w4Y9GoPzl
+         j8Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCUstKsV+BpSEfN9p98ibwDNXyEEROwyrJSZzsrALDXkNNzAKhBQIClachUa/Elx1K2SkwTihA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxg6qGXW5VJRZTDCSulON1EjxyXmXUgIVj7IacS8pibC34kRNiA
+	Ozo5fP3zsAPV/jULe5y1uRY/rdVJJD/bqzHULsoAK5eKjDwqFtpb/vckvsZp
+X-Gm-Gg: ASbGnctU2el+lqxquBCpLwqfSWS7jNTpibVIocMbF+DJHS8eFO064DYHPGvh+sriTYL
+	bgg2viWwDDQwS7gdXD0xQmXpfL3CFeLjwUSgLATelWxxpRXl115wYAb7ZrzYqt1Cu1emrffpt/h
+	BOAX4fRoKPGswWMU/zCEr1qz2zSKQAseGlN/iVEs17CuCdAdHeTkbOfWCkBSQNfbsLz+nmh1i2o
+	dZQJoHI/GXDyGknevErqvjamnPPL+RsHj9LLHpfiX6bzptWH9bVaMLOtXcmBJDyzDlidXYkfNaG
+	O2iUen9WQ+Lo/xnhlhI6EgiWX9Ak/buSAJbfnVyYGbmcG9P0CBb6Mh41ZgdMGvIRo2tMOJuQncB
+	OY5A=
+X-Google-Smtp-Source: AGHT+IEGyT0G+6HtwM4lbQQ7akZGX/r6sSev7LstsQusSdjduRNMng05HnMTojI15Cv/QK3gG/9QpA==
+X-Received: by 2002:a05:6214:1cc3:b0:6d8:99cf:d2e3 with SMTP id 6a1803df08f44-6f2c45663d3mr234226086d6.22.1745318462092;
+        Tue, 22 Apr 2025 03:41:02 -0700 (PDT)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com. [209.85.219.46])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47ae9ce265esm53981211cf.61.2025.04.22.03.41.01
         for <asahi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-86feb848764so1497814241.0
-        for <asahi@lists.linux.dev>; Tue, 22 Apr 2025 03:20:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVZopEhECWoEf4FBg0f6GOBTbuOrnI6IejdzFpqznPmuppa0lGG5xJdfJjQ+iJxavOixTxAVw==@lists.linux.dev
-X-Received: by 2002:a05:6102:1173:b0:4c4:f128:3abb with SMTP id
- ada2fe7eead31-4cb8026372bmr8785686137.25.1745317250910; Tue, 22 Apr 2025
- 03:20:50 -0700 (PDT)
+        Tue, 22 Apr 2025 03:41:01 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6ecfbf8fa76so58587216d6.0
+        for <asahi@lists.linux.dev>; Tue, 22 Apr 2025 03:41:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXRzh5qMItC8h1eSk5YwwpwrySKPVzi7o9d6oEYtcoENprE7vJxWr8+uSVIRWuqgGWYyWB1EA==@lists.linux.dev
+X-Received: by 2002:a05:6102:3139:b0:4c1:c10d:cf65 with SMTP id
+ ada2fe7eead31-4cb80232571mr8147349137.25.1745317975059; Tue, 22 Apr 2025
+ 03:32:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -59,13 +59,15 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
  <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com> <aAdrkxhHaEpdl05d@smile.fi.intel.com>
-In-Reply-To: <aAdrkxhHaEpdl05d@smile.fi.intel.com>
+ <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
+ <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com> <aAdsbgx53ZbdvB6p@smile.fi.intel.com>
+In-Reply-To: <aAdsbgx53ZbdvB6p@smile.fi.intel.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 22 Apr 2025 12:20:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVu33wTjgAHUXdaLFvgnCqMzXGZkcc7i4iug0QP=-WkLA@mail.gmail.com>
-X-Gm-Features: ATxdqUENa0qwyfrGVHcZ3QDmHbGb5nSiuKchVuCF7S-gHUHHmDPBWDnwpEhdUFQ
-Message-ID: <CAMuHMdVu33wTjgAHUXdaLFvgnCqMzXGZkcc7i4iug0QP=-WkLA@mail.gmail.com>
+Date: Tue, 22 Apr 2025 12:32:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXuM5wBoAeJXK+rTp5Ok8U87NguVGm+dng5WOWaP3O54w@mail.gmail.com>
+X-Gm-Features: ATxdqUFtFyy2GYQo3KtAmKWE1aHynw34_2Dg7VBWf7uTMs4ERXRYeYaDF1kqp6E
+Message-ID: <CAMuHMdXuM5wBoAeJXK+rTp5Ok8U87NguVGm+dng5WOWaP3O54w@mail.gmail.com>
 Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
  extending %p4cc
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
@@ -79,58 +81,56 @@ Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>, alyss
 	dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, 
 	tamird@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
 	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
+	Asahi Linux Mailing List <asahi@lists.linux.dev>, netdev <netdev@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Andy,
 
-On Tue, 22 Apr 2025 at 12:12, Andy Shevchenko
+On Tue, 22 Apr 2025 at 12:16, Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
-> On Tue, Apr 22, 2025 at 10:07:33AM +0200, Geert Uytterhoeven wrote:
-> > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+> On Tue, Apr 22, 2025 at 10:43:59AM +0200, Geert Uytterhoeven wrote:
+> > On Tue, 22 Apr 2025 at 10:30, Aditya Garg <gargaditya08@live.com> wrote:
+> > > On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
+> > > > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
 >
 > ...
 >
-> > > +Generic FourCC code
-> > > +-------------------
-> > > +
-> > > +::
-> > > +       %p4c[hnlb]      gP00 (0x67503030)
-> > > +
-> > > +Print a generic FourCC code, as both ASCII characters and its numerical
-> > > +value as hexadecimal.
-> > > +
-> > > +The generic FourCC code is always printed in the big-endian format,
-> > > +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
-> > > +
-> > > +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-> > > +endianness is used to load the stored bytes. The data might be interpreted
-> > > +using the host byte order, network byte order, little-endian, or big-endian.
-> > > +
-> > > +Passed by reference.
-> > > +
-> > > +Examples for a little-endian machine, given &(u32)0x67503030::
-> > > +
-> > > +       %p4ch   gP00 (0x67503030)
-> > > +       %p4cn   00Pg (0x30305067)
-> > > +       %p4cl   gP00 (0x67503030)
-> > > +       %p4cb   00Pg (0x30305067)
-> > > +
-> > > +Examples for a big-endian machine, given &(u32)0x67503030::
-> > > +
-> > > +       %p4ch   gP00 (0x67503030)
-> > > +       %p4cn   00Pg (0x30305067)
+> > > Originally, it was %p4cr (reverse-endian), but on the request of the
+> > > maintainers, it was changed to %p4cn.
 > >
-> > This doesn't look right to me, as network byte order is big endian?
-> > Note that I didn't check the code.
+> > Ah, I found it[1]:
+> >
+> > | so, it needs more information that this mimics htonl() / ntohl() for
+> > networking.
+> >
+> > IMHO this does not mimic htonl(), as htonl() is a no-op on big-endian.
+> > while %p4ch and %p4cl yield different results on big-endian.
+> >
+> > > So here network means reverse of host, not strictly big-endian.
+> >
+> > Please don't call it "network byte order" if that does not have the same
+> > meaning as in the network subsystem.
+> >
+> > Personally, I like "%p4r" (reverse) more...
+> > (and "%p4ch" might mean human-readable ;-)
 >
-> Yes, network is big endian and this seems right to me. What is the confusion?
+> It will confuse the reader. h/r is not very established pair. If you really
+> wont see h/n, better to drop them completely for now then. Because I'm against
+> h/r pair.
 
-On a big-endian machine, it should print 0x67503030, like the host
-or explicit big-endian output.
+I am not against h/n in se, but I am against bad/confusing naming.
+The big question is: should it print
+  (A) the value in network byte order, or
+  (B) the reverse of host byte order?
 
-> > > +       %p4cl   00Pg (0x30305067)
-> > > +       %p4cb   gP00 (0x67503030)
+If the answer is (A), I see no real reason to have %p4n, as %p4b prints
+the exact same thing.  Moreover, it leaves us without a portable
+way to print values in reverse without the caller doing an explicit
+__swab32() (which is not compatible with the %p pass-by-pointer
+calling convention).
+
+If the answer is (B), "%p4n using network byte order" is bad/confusing
+naming.
 
 Gr{oetje,eeting}s,
 
