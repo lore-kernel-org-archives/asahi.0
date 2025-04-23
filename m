@@ -1,145 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3DA281357
-	for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 15:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A10C289360
+	for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 15:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745421601; cv=none; b=HYnhv6ck5Nbr4ij6O5MGgMzCWl25SXPHJ2v+elZVhyaWWSlUlzTBNwnaYO4meAjHr0sWh8fqtXv/7yHXFVNpKCMOEdOsRNF/uVKGMQ3MJrxWEglGwvdXxizH7UnPWzOWlMiUT4wgEzZUnjbrDdwkog4Zw4+GmcR8psm1Lb8g24k=
+	t=1745423214; cv=none; b=GS3Q+HEkIywZTHffITbK2s7RRRwOb4Jmzb/4+icxSBV9urIhBc/4AwGqtn6sWpIBXKQGAzfGPysbh+Tf6bxxOIn0P/PpGwCe+FAfaMRasDTDwtlxlx2usQ+uf0wutX5wZj/pdVBO5AxNFF++bajxhAZAERZjEjOLYyJcyGCLyGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745421601; c=relaxed/simple;
-	bh=tPOHjT1NkHow4VD7/8Appu7QUK/ZbjYVgaBPZCT9gmc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t46Pppta2+DfK8CsGMgs40H1aXXAVXMNvMOWYkbPMLrVvtcf8rp0HbWzlH8AXDEVZmEgD9Qgu9GwocvCuLSNTJTpT8U8dzbGgt+mXUfwuNkzs1xy7+HHy2zwUh+Uix94ao+zCqokHfVVUcO+dryzOYbcdly6UadJO6oH6G24gsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JHzR0ks9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745423214; c=relaxed/simple;
+	bh=Dlxtg6HfRMV30lx7TpyBWf0ABYivxrUw+hEbZcVQ55I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhPxLMzfd260907NoEfX4i/iaOaCi8LIlFPUFmSJfd/KKOpSuecGFuSev858TNNJNyU2jFWxAd7lEl4zkSYCUWCiq+C+hl529cu5YJ5oIwLHq8fYp5VbOBmjk1SAlhtM/wnP4OkJYtQpF4rnUqs0a2THHtcHtZXy2OXYQZCy1Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=g0He3GFF; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JHzR0ks9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5050EC4CEED
-	for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 15:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745421601;
-	bh=tPOHjT1NkHow4VD7/8Appu7QUK/ZbjYVgaBPZCT9gmc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JHzR0ks9mywL/Gjel+WVjGNaUfXggO7iK4HEKa99gt2Id+opEtlpyAb8UWdlIbd6p
-	 U2Tj8WVai1ielF1aDhyeSWaQTWsM3rDfzJguAsYZPeLwkaTv9t6RDw2IEHtfOc7od1
-	 k5WdJjh5bAw6PrOqF9uQdGwZ0j0VLleW1tYLSRKvzGD/c1EL5c9cyuMfXflKyibaVU
-	 bvGMikvu5P5gagV9/JpBvAWdIRz4+TCJChp7gJiEpAs8GBySeD54viEHq2SwBqq+9Z
-	 0+iZ6r9t0+CFj1T2UVjw5jTghN4cyVgjVZfBhmelLA6RHbPMnhMyxoa0UXWSvrdURa
-	 uvIaPSzaOF6Kw==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5f4ca707e31so9911724a12.2
-        for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 08:20:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXA7CvUiAgWGDnm488z8vOXThzw6Vp5Xmi4h2XyKfP/r2J7rrIEd9o4CJ5JRTTcUKvlsCHxoQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+3qmaDSksOQW1iONiNzbRGj79bcmeJX4j2/k6JUlMlIRP5Ha2
-	8fAaERTWd3bVKI45aLpsKQAVPa8oheNh6TVCqXRHrVpXGrM80q2KjzvZWRnyzkflOUKFKHriIQs
-	V9Qw3XOJ4Wmf2J6hU8I+c+3LX5A==
-X-Google-Smtp-Source: AGHT+IEV1CEtPoGDqGEwEZJrzR2YkV4IU/BYo041fFmlJGhMA6AFx/r6j4OVu1OhC2Y/tApvvElXwS4Rby6hFC65/iU=
-X-Received: by 2002:a05:6402:4408:b0:5f3:4197:9538 with SMTP id
- 4fb4d7f45d1cf-5f628525695mr18336301a12.13.1745421599923; Wed, 23 Apr 2025
- 08:19:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="g0He3GFF"
+Date: Wed, 23 Apr 2025 11:46:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1745423209;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0uTQ6p+V1jTDw30/bAcPN/7+p5TBcCgK8gHCjb8Oz0Q=;
+	b=g0He3GFFtIeA0y+TZSb8ZM5l4SKbGuwYGKGOYwdpzty/lxLNEiXCOv5K3IiaArEH3gZOvC
+	OUvGYNJpg0LXfJ2XzYkLKJon6mmOe1XmPjKBaULtWsbZsRORyC2xET6NZT8ygT4vr88qAa
+	XaBvJ9NiJK5TMMpTlEEhA1szOHKYyBWBZaRHg1MxwQ4RAzncmwmaGy31MtV4ZdlRi5WqtO
+	wuz+lTHuyiOOFi0dwmcpXei6JAzKQHxAJ2Ismpak5mxi5Z1Rb7YuFCAd9LRZPEvjsyW4W1
+	Vncv3A1dF010GrnpFagFy6liYg3iWr5UB4K8ypp6HLgTRZrK51KOvKVl75q/mQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Rob Herring <robh@kernel.org>
+Cc: Nick Chan <towinchenmi@gmail.com>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: spmi: Add generic SPMI NVMEM
+Message-ID: <aAkLY3TYIPG7ojwx@blossom>
+References: <20250417-spmi-nvmem-v2-0-b88851e34afb@gmail.com>
+ <20250417-spmi-nvmem-v2-1-b88851e34afb@gmail.com>
+ <20250422133619.GA1095169-robh@kernel.org>
+ <CAMT+MTTwY=z1-_94ws+Oi+wvE2PA_s57dPmpMABC26q=MPw1Mg@mail.gmail.com>
+ <e4159c2b-4081-4a4b-9a53-d6d559a3196c@gmail.com>
+ <CAL_JsqKwASbUtpO=wU-16v=y8S_wLyBxnFUmQqsE8GkzCz0hDg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250417-spmi-nvmem-v2-0-b88851e34afb@gmail.com>
- <20250417-spmi-nvmem-v2-1-b88851e34afb@gmail.com> <20250422133619.GA1095169-robh@kernel.org>
- <CAMT+MTTwY=z1-_94ws+Oi+wvE2PA_s57dPmpMABC26q=MPw1Mg@mail.gmail.com> <e4159c2b-4081-4a4b-9a53-d6d559a3196c@gmail.com>
-In-Reply-To: <e4159c2b-4081-4a4b-9a53-d6d559a3196c@gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 23 Apr 2025 10:19:48 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKwASbUtpO=wU-16v=y8S_wLyBxnFUmQqsE8GkzCz0hDg@mail.gmail.com>
-X-Gm-Features: ATxdqUFuWyHPWdbMp12KUQQV-d0rnw0lx2tasAZItdh99IKgPe_s_qddlmQl6uk
-Message-ID: <CAL_JsqKwASbUtpO=wU-16v=y8S_wLyBxnFUmQqsE8GkzCz0hDg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: spmi: Add generic SPMI NVMEM
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>, Sven Peter <sven@svenpeter.dev>, 
-	Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqKwASbUtpO=wU-16v=y8S_wLyBxnFUmQqsE8GkzCz0hDg@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Apr 22, 2025 at 11:59=E2=80=AFPM Nick Chan <towinchenmi@gmail.com> =
-wrote:
->
->
-> Sasha Finkelstein =E6=96=BC 2025/4/22 =E5=A4=9C=E6=99=9A9:44 =E5=AF=AB=E9=
-=81=93:
-> > On Tue, 22 Apr 2025 at 15:36, Rob Herring <robh@kernel.org> wrote:
-> >>> +title: Generic SPMI NVMEM
-> >> What makes this generic?
-> >>
-> >> A generic driver is great, but "generic" or "simple" bindings are
-> >> generally a mistake.
-> > There is nothing apple-specific in that driver, just re-exporting
-> > several registers as cells. If you think that it is a mistake, I can
-> > rename it to apple-pmic, or something similar.
+> > >> What makes this generic?
+> > >>
+> > >> A generic driver is great, but "generic" or "simple" bindings are
+> > >> generally a mistake.
+> > > There is nothing apple-specific in that driver, just re-exporting
+> > > several registers as cells. If you think that it is a mistake, I can
+> > > rename it to apple-pmic, or something similar.
+> 
+> Like I said, a generic *driver* is great! I'm all for them. We should
+> have more of them! Generic bindings on the other hand are generally a
+> mistake. The problem is whether a generic driver works for you or not
+> can evolve in either direction. You add more things like described
+> below and then a generic driver doesn't work.
 
-Like I said, a generic *driver* is great! I'm all for them. We should
-have more of them! Generic bindings on the other hand are generally a
-mistake. The problem is whether a generic driver works for you or not
-can evolve in either direction. You add more things like described
-below and then a generic driver doesn't work.
+It sounds like the path of least resistance here is then:
 
-> >>> +      - const: spmi-nvmem
-> >> What happens when there's some other feature of the PMIC exposed that'=
-s
-> >> not nvmem?
-> > If you have a PMIC that needs more features exposed, then you'd have to
-> > use a different driver. Or am i not understanding the question correctl=
-y?
-> I think the problem is what happens if more functionalities needed to be =
-exposed from the M1 SoC's
-> PMIC. (right now I do not believe anything else is needed from it)
+1. rename the bindings to be apple m1+ (at least for now)
+2. keep the driver as-is (no mfd, etc - at least for now)
+3. land just that (at least for now)
 
-Yes, and you can add to the binding then, but you are stuck with what
-you define now.
+Evolving the driver to share with not-Apple, or evolving the
+bindings+driver to share with pre-M1, can happen in future series
+if/when somebody wants to do that work.
 
-> It would be multiple drivers. A simple-mfd-spmi driver (like drivers/mfd/=
-simple-mfd-i2c.c
-> but SPMI) that exports a regmap and a generic driver that reexports regma=
-p (any regmap,
-> not necessarily SPMI) as nvmem cells, plus extra drivers that uses the re=
-gmap exposed by
-> the mfd driver for extra functionalities.
->
-> To make this submission more generic and extensible, what would be submit=
-ted should be a
-> simple-mfd-spmi driver and a generic regmap nvmem driver. For specific ex=
-amples, see below:
-
-It is not an MFD currently, so you don't need an MFD driver. As I
-said, that can evolve.
-
-Drivers are bus specific, so you can't have a generic regmap driver.
-There's only 4 nvmem drivers using regmap anyways. qcom-spmi-sdam is
-one of them, and maybe one driver could handle that and Apple.
-
-> The PMICs from dialog semiconductor on older Apple SoCs definitely needs =
-such functionalities.
->
-> On Apple A11 SoC there is a RTC clock device on the PMIC and the SMC on t=
-here does not have
-> RTC functionalities. To make the RTC clock work there a driver would read=
- a counter that could
-> count a maximum of 194 days from the SPMI PMIC, and then access the PMIC =
-nvmem cells that
-> held the rest of the time. In this case these drivers are needed:
->
-> (1) simple-mfd-spmi (2) rtc driver (3) generic regmap nvmem driver.
->
-> On Apple A7-A10X SoC a similar PMIC also exist, but is over I2C instead o=
-f SPMI, those devices do not
-> have a SMC. To make the rtc clock work there three drivers are needed:
->
-> (1) simple-mfd-i2c (already exists) (2) rtc driver (same one as above) (3=
-) generic regmap nvmem driver
-
-It all sounds a bit different from what's there on the M series, so
-perhaps better not to mix the 2 just because it is all apple. The A
-series stuff might have more in common with existing Dialog PMICs.
-
-Rob
+Is this a fair understanding of the situation?
