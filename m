@@ -1,130 +1,118 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8038254AE3
-	for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 17:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B90254AE3;
+	Wed, 23 Apr 2025 17:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745430866; cv=none; b=gQ1lpTsH5vJJxcVCpY0TU4KPwwi9Q30VKrouGLWAxmCwOyeMqJEw0CMd8G8hl95hVLozZlGOvfPwzx6oW+piuE84/qXxdsWRlLZvdmZTZnDknxvpW+PsDlVQm+VB5Y4ovq6C5MArITg3dabf361lz+vgBJccfVN11ABBgkbUJdY=
+	t=1745430930; cv=none; b=uEoX6XCFz8fHB0nuvercv24AMnVEu5o7XSUrefQWvxRl8nvR34GK9LUBjeXEFHEUqAVtgLIsJevLJy5ZqlK/f6XUZsfyQF1IZHLlQT/SS4gYCegygVyJQYQnklhhWzzPlsy4oVbkHijRLlJyy8iMgxQ4XCMIGhcdgny8WYxbAGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745430866; c=relaxed/simple;
-	bh=mUzTTN/4NXsdcyMh1iWWXDct71g5yfltXc88uy92cmI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RqTsRNkgWit2i3+qn5fKDwPR5roAQv4dDU+ZqUknqvEyDB129AiM7Q0mlUmWm/XP1JT85oNPsZQF++jV/6s6ERq6JZbpUMqvV7W9gipRNErUNo69vaTsWuNH0u/eqUr81MSlfN0zGxcY1xUZs/guucy9wyq+OmC9x/mvtcfcvaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-224019ad9edso1413385ad.1
-        for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 10:54:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745430863; x=1746035663;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wLqipjscszx2Mp0FY64qeFZMiD5TTEV8hZP6rO4hjpA=;
-        b=fmEI0dPnnTOYq6WrQIdbgpz0BWc75ewKhEWnK7dGZJ731PyBUrCAR8HZJ6EX7LBqWX
-         1BfYn3z8Sx+ThzGsa1/+82K4AL0caGdd8ur+Ujkes5AqFI6mpRI/yoi64zeyeXWVgIjZ
-         agSytM2vLT9gnEEAlA/Fv53eonDdwzR4wQwHU/3i13dBdHVMbOnllvDoWT2BOUVOpdEX
-         1gDEFKJI5ItmDu2LDQRcapmRZYqPc9W9RfSbTRGnLdBOH6fUHSqbRDJOES4KIGXB6oz9
-         ODJqP4fzY49XURegKG+Yqc0rCgsck4vB85MCxk5CV5a98/h7xFRIKqZP9lwS+gaRpNtu
-         pteg==
-X-Forwarded-Encrypted: i=1; AJvYcCVavy5ZyLqJc8B62lbY1thcZput3qY4HcuCxrhQHimJOSgJ4iz66Pivm6zE+HN5DTLtDroTuw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3HgCvM76uBvgSYCPs2DNTjCPxZ7g+9KG3o6tG3BNktlikP91S
-	elG2NpVDhBRKBJDE3At6+9/ibH/PasYb2Qfm5ijsoa3r5wVQrylqPbTuoUuniQ8=
-X-Gm-Gg: ASbGncuHv1SN5izhGY9Y/6zIqgSzvJEEnFCRpn+3Qi4bnSLDBOAvijokCeemc1HIORU
-	Sb+udCuw/FFy1nnv3YojVNy+Qu+U02/JxjOlMEJu6UkMS/9IeFP1wWy1FTaJ67Q4BBoO1RXHqCS
-	wjzvszqHnmxGW2l3czWEHc7aOLe+dLwWxe0Eu4wzDcuSS17iMxfPO/iZG5zHPkxW0oXmshTNjMa
-	cUa4cS7rPU6ETtXkFES6z+iWNzRjfeh6lUi+VEQvUs52zdeMKKljtwTy/JW14nUS6Mx93ouaL7A
-	snjXtYq3S/9lTpz8+f1SWoOpvO/ScybU7XDXUOEfJbA8+8g0/ElncY1HH0wPi77TOuqcCQLFEE1
-	k3EoPmtqOVgEigU4qrQ==
-X-Google-Smtp-Source: AGHT+IGH5QxDiqQV3847IRr/WOfcqtoqCzihXagjY3NRTdaDyMnL1U61Xq1pb9+IuwO8cUqxnUMoFQ==
-X-Received: by 2002:a17:902:ea03:b0:210:f706:dc4b with SMTP id d9443c01a7336-22db1a8d74emr3747095ad.13.1745430863556;
-        Wed, 23 Apr 2025 10:54:23 -0700 (PDT)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com. [209.85.215.182])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50bf30f3sm107814175ad.59.2025.04.23.10.54.23
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Apr 2025 10:54:23 -0700 (PDT)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b041afe0ee1so45108a12.1
-        for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 10:54:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUNKqDRbUT5A7HDnpAwQNRWkazNlKb0kwak7aMAXNwaUNfwRg2gN5cdN7CZBtz5WjliCrzuUg==@lists.linux.dev
-X-Received: by 2002:a05:6122:2a02:b0:529:f50:7904 with SMTP id
- 71dfb90a1353d-52a76b54183mr283580e0c.9.1745430411699; Wed, 23 Apr 2025
- 10:46:51 -0700 (PDT)
+	s=arc-20240116; t=1745430930; c=relaxed/simple;
+	bh=/LVwP2J7phmJo5xUbPuYBsq73NOkQB14cAElXzkBoks=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OpNZE5GaSFl1Uw6uIuDyuuP9n1jDNaH/t+emYVn8Tpgz8ReBO5OrHUk1QISrufKHhyD9mOYFca7+BDPd4l4UIZfVnP8qXwn8VVr+4SNQEU+ZehhTuKSoh9E56q+cwJahrl02CQgt0U4ptRfFiUoFH5IOWhtp5P57O1KMoJG8rU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phSeOFmN; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phSeOFmN"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EA74DC4CEE2;
+	Wed, 23 Apr 2025 17:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745430930;
+	bh=/LVwP2J7phmJo5xUbPuYBsq73NOkQB14cAElXzkBoks=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=phSeOFmNEoUyqaK9vn5Kfla9WgE6envapLq9rZ7dT7yWpDJRt10Hip4/mrnX1eYWt
+	 omajTVlNqQIi/7tkbUbkeJ5Hqsj2WBseHU+/duUvNSVw7nwtLuxkLqfs8sA63AqHy1
+	 5r1siANzs4M33++KsgKnzYcpyskCkJml2DAxHXsLIRdQNK78RKYFFjHR7Y/Zctn0SV
+	 5VlZDIj8oKswAyD+er/HA+Fzv8IF9Cg9/K9wTXapzp1g2xKuPd+aTmEV5dAudGoVSv
+	 f0KKcRLiuzjKh6r3y5BIUNuHa/ZmqVp/3350IKMZzwZHH4kRL8mlmZX3i8tTje0axx
+	 M5Jp8TTmJ877Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D86CFC369CB;
+	Wed, 23 Apr 2025 17:55:29 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v3 0/3] Apple PMIC NVMEM cell driver (Formerly: Generic
+ SPMI NVMEM cell driver)
+Date: Wed, 23 Apr 2025 19:55:12 +0200
+Message-Id: <20250423-spmi-nvmem-v3-0-2985aa722ddc@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
- <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
- <aAjthvTuIeUIO4CT@pathway.suse.cz> <CAMuHMdXuawN0eC0yO40-zrz70TH-3_Y-CFSy6=hHCCMLAPvU5w@mail.gmail.com>
- <aAkVcaRrMmqXRSFz@smile.fi.intel.com>
-In-Reply-To: <aAkVcaRrMmqXRSFz@smile.fi.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 23 Apr 2025 19:46:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUUkhJm++zitVRQdSHJUo9McjYGeVz4Frv2sct_Can+aw@mail.gmail.com>
-X-Gm-Features: ATxdqUEiZpgKy-OUmSil13Kt3gOTH1qjKd6FZI95GjTyFDCgENU6kR4WqaMubEM
-Message-ID: <CAMuHMdUUkhJm++zitVRQdSHJUo9McjYGeVz4Frv2sct_Can+aw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Petr Mladek <pmladek@suse.com>, Aditya Garg <gargaditya08@live.com>, 
-	Hector Martin <marcan@marcan.st>, alyssa@rosenzweig.io, Sven Peter <sven@svenpeter.dev>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>, 
-	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com, Simona Vetter <simona@ffwll.ch>, 
-	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com, joe@perches.com, 
-	dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, 
-	tamird@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Asahi Linux Mailing List <asahi@lists.linux.dev>, netdev <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIApCWgC/23MQQqDMBCF4avIrJuSTIyGrnqP0oWmow40KkkJL
+ eLdG11Z6PI9+P4FIgWmCJdigUCJI09jHvpUgBuasSfBj7wBJRpZKiPi7FmMyZMXJG2ljVaVqg1
+ kMAfq+L3Hbve8B46vKXz2dlLb+zeTlJACUVZ1S2i06669b/h5dpOHLZPwSOsfipm21lqjSJdN1
+ x7puq5fOHbWGN8AAAA=
+X-Change-ID: 20250415-spmi-nvmem-e08635316175
+To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Hector Martin <marcan@marcan.st>, 
+ Nick Chan <towinchenmi@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745430928; l=1822;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=/LVwP2J7phmJo5xUbPuYBsq73NOkQB14cAElXzkBoks=;
+ b=DYImOHdO3m2rCslcCrmKq+Ure36xtXDMfMi0nYTg6CXkPtjKnUVyEChYMW8gOT5qVYqXuThMd
+ Ci910bPQ5VpCr/YdCgRCnRTDLNFysECw1DxHkbLO6gFHVJK4qBZ/w7M
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-Hi Andy,
+Hi.
 
-On Wed, 23 Apr 2025 at 18:30, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> On Wed, Apr 23, 2025 at 04:50:02PM +0200, Geert Uytterhoeven wrote:
-> > On Wed, 23 Apr 2025 at 15:39, Petr Mladek <pmladek@suse.com> wrote:
-> > > On Tue 2025-04-22 10:43:59, Geert Uytterhoeven wrote:
->
-> ...
->
-> > > The problem is that the semantic is not the same. The modifiers affect
-> > > the output ordering of IPv4 addresses while they affect the reading order
-> > > in case of FourCC code.
-> >
-> > Note that for IPv4 addresses we have %pI4, which BTW also takes [hnbl]
-> > modifiers.
->
-> Ouch, now I think I understand your complain. You mean that the behaviour of
-> h/n here is different to what it is for IPv4 case?
+This patch series adds a driver for exposing a set of registers
+as NVMEM cells on a SPMI-attached PMIC on Apple ARM platforms.
+Those are used to store the RTC offset and to communicate platform
+power state between the OS and boot firmware.
 
-Indeed. "%pI4n" byte-swaps on little-endian, but not on big-endian
-(remember, network byte-order _is_ big-endian), while "%p4cn" swaps
-everywhere.
+The NVMEM cell consumer drivers will be sent in a further series.
 
-> > > Avoid the confusion by replacing the "n" modifier with "hR", aka
-> > > reverse host ordering.
->
-> Not ideal, but better than 'h'ost / 'r'everse pair. Not giving a tag and not
-> objecting either if there is a consensus.
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v3:
+- No longer try to make it generic, use for the 3 relevant PMICs only
+- Link to v2: https://lore.kernel.org/r/20250417-spmi-nvmem-v2-0-b88851e34afb@gmail.com
 
-That is worth as much as my LGTM ;-)
+Changes in v2:
+- s/pmu/pmic/
+- Sort dts in unit-order, instead of t600x-unit-order
+- Link to v1: https://lore.kernel.org/r/20250415-spmi-nvmem-v1-0-22067be253cf@gmail.com
 
-Gr{oetje,eeting}s,
+---
+Hector Martin (2):
+      nvmem: Add apple-spmi-nvmem driver
+      arm64: dts: apple: Add PMIC NVMEM
 
-                        Geert
+Sasha Finkelstein (1):
+      dt-bindings: spmi: Add Apple SPMI NVMEM
 
+ .../bindings/nvmem/apple,spmi-nvmem.yaml           | 54 +++++++++++++++++++
+ MAINTAINERS                                        |  2 +
+ arch/arm64/boot/dts/apple/t6001.dtsi               |  1 +
+ arch/arm64/boot/dts/apple/t6002.dtsi               |  1 +
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi          | 50 +++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi               | 50 +++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi               | 50 +++++++++++++++++
+ drivers/nvmem/Kconfig                              | 13 +++++
+ drivers/nvmem/Makefile                             |  2 +
+ drivers/nvmem/apple-spmi-nvmem.c                   | 62 ++++++++++++++++++++++
+ 10 files changed, 285 insertions(+)
+---
+base-commit: 2e0e70c95077172b29a5b13716c4b159d578e82c
+change-id: 20250415-spmi-nvmem-e08635316175
+
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
