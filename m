@@ -1,136 +1,331 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E00215F5D
-	for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 04:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25583195B1A
+	for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 13:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745384342; cv=none; b=e0cyUb/gkuBIjp6AiP/7OLjYb/knGQH64JvQme9LtV3H6vQSQYz7vSrTabtRbMIcgV6gmAVzA2qgM2Jh2hZASJKJZkCNaOSopEIweCKaDBmjNQ5HUrEuMMQsT4f+7OxByaUQoTctq4DxvovCdpUlAx1ABhf0DJzvodNDUQc5tmk=
+	t=1745415565; cv=none; b=bQLkCg0k14K5QQ9BIXdcMqPzjHvCrw8n/SY7RJSrAGtmWBmfG8pwWmdFPYuQEY0cyHo4fmYaUdu+wnWJ+M4XD1Ao5roCZet+bVCzuzKBnbKlh6ShqMNL9zdsVgI56XcEEGMoAai1AzzhDulU3CbwBJuhzYvs49Qn8phCbhUCxPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745384342; c=relaxed/simple;
-	bh=EY9ujoNfwKQ8qWkmSV56odIIKrNXJB79dFPjRW5I/X4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UDzmDUjgyMl7u9c366JlmDXxiV4hnd5NfKfHJXf4LccNi7iB4eSfL/San46gDtwIrFMp+r7y5IFDXfeUEgrATsDynpbYKv9TFIVCxJAFTHuYXagB4rsL3chwIRShvyQZ5n7607oCUod8nx4fh6NY37GN6BgUewZYSe5t3QhSHxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a0aN9f9S; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745415565; c=relaxed/simple;
+	bh=Iz/h+JAfIC+Q1WuoPV8jLTH7KxGCgg7v8vfv/nRpMwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZRjpAcbomMTjFdqyidmMcCdAAKfsdFaQNBJcc9GoRR0LtZKEkUCmd1iKQ3as6KVG2rH9i8zKGs+IrUPY/QZbjbOi6Mk7c2Jx/an6LX/w0fTPzucDJzeCr/ym48iyQpSml7TS1y3oSwEmaa9AFMKovrFIqYsp98aG06eNm/VdlQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NKZmGKql; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a0aN9f9S"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-736a7e126c7so5197598b3a.3
-        for <asahi@lists.linux.dev>; Tue, 22 Apr 2025 21:59:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NKZmGKql"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso54495085e9.2
+        for <asahi@lists.linux.dev>; Wed, 23 Apr 2025 06:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745384340; x=1745989140; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xyg383WQs++mdg+KNHFWZy7e9+DE/XMzzSgB2As2m/o=;
-        b=a0aN9f9SDxzlihkl6P5hqlMxuEw5HFQSoLjNzXPGATMdRwA7BLBprMNx7Pg5kVb/ep
-         MXnXyN4q63w0jbUB4PTipjawNGsC83Rjsej5GnfT5X6O28E+elZ2h+MoGj+rccVwgWEb
-         jYzP1ND+4msQ47Fuid4yKnv8stBdPnlBs1xCiVRXfD+fZgBBuUP4pEQvvp1afl83NFbS
-         DiQNnUuBvf7r5HHlM5XDVeKkhVP2uMnr0ysEj7YNYpb4Up9J9sQF5RaUXGe+JcKTNWyJ
-         zTyZUaqHuGElDH/uE1aidbyxxMSmoz3Una7nfw1PNq4AwmrHMZRA4fYU45q9yxCbrJoO
-         RUMw==
+        d=suse.com; s=google; t=1745415561; x=1746020361; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LQj0aWA0uhLFimVD63/qUQ7O934wTcmBz9rBbgLbZq4=;
+        b=NKZmGKqlr2DexcW0otkX55sN5N2WBoQVUbhFJHMtff6hjYA409SrJ5ZXC6dkeUj+Gv
+         9wHAVNyKfs5H9/17r2WxcRdnM7NOeQbTubv5+n3rvFk0sDo6W+IYIqF/8U7SVOvPkEt9
+         3Tx99FxSxwPDBgCMSryom0ujWbREyLI4k+MYQApr0m/U0S2JUGt/rEu+kbh4M5RUvOQz
+         yHhs4I0lTj24vs03Aj0FMa694OBp1QWvLdHD96D7g1dxMP6HVJqz3hzfQNT6MmcrpKXV
+         hIXthUKyafizDWRy3lLXnbqhzeX/MT+WT/bnsK+OEtm+sl4eCY0P0TQAbP68DI50XMBx
+         3kkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745384340; x=1745989140;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xyg383WQs++mdg+KNHFWZy7e9+DE/XMzzSgB2As2m/o=;
-        b=QUK6IRDC1NeKzJO/POiobqt4rakBq0FIY1Pu6RU8mNF9bAwabj2tnLyxs1ejl17PEj
-         I/Qd3fo0BqpFa9v00T9x58peF22gGClH87NLthK8uNnp489L5gVH1ZRMk7lL0qwSn0YC
-         GeLXe4qAxDsFK2MgcCnfr1SwKXLbP5VhqLyQC2OJ1+ixKA6izPSmcjM/c0y8QKta3kPn
-         wjCQ1lWDV/wTXPL8YdHb3AtR3gZnVCD9cIK3mpvgOUvwIkf5g7BQ0oDH1gkxseqAFEYY
-         DQrpRtxMUG3cfeVH9kQ0Ug93nALC57ZuixExN98YDN05dsjZSP7bZr8F2n+Hke1mFl93
-         SvGg==
-X-Forwarded-Encrypted: i=1; AJvYcCXp8kzG6PX5XAFZoDI5ZwMQwFKYkf81lYtjHTHk5xZ62tskXywyqDij/N2Fnd+jmII/dNlAtQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkNWvRACHSi3eUWX5fs1SWV0sorehiPAhzPFN7Brx7rDxWbK2d
-	SVszlsJFm+Yljvqr936UzF4iG/TdrJgaOUihqY2MmTsLnQq61QyN
-X-Gm-Gg: ASbGncvWjlDYH/GfxKf5uaq9X/46cpaTSjNHeeBj/92bYWdxskfo4XVY++eC9yyV4TZ
-	J8npZvH8uDvQMtUuyjEjECx3c/rEDgK+8um40whWMvxm9/uGBEWUTR3NR+NImfrsgVgXQdF8dbJ
-	rZ5kq8YxrKiWzFtiE30CDtnuy0NjUdoVfmfwggcSeBp7pmzLn6RDANE1xdP8rvSepUM6X/NAf0W
-	Z8yzsiyJA+UEHd4CvXJYgxeC2BFiQ5LeUNwD88P0ceaYTdMX61KNOXcymVu1g6CGTNFjy2Kzft1
-	e2fwcIJKU1Os/maK9CT1ZGEQxNARiDnNdsuQRLNXuNTPc1CMmX29IzgaL0KfgdxPSohaVfo=
-X-Google-Smtp-Source: AGHT+IGTIS5Xlm9+VhCnh58WLvEtwL4pxJkbeifvZpi31EsCMwvpE4ldGQssGqpK2dlu5H9jrh6Pxg==
-X-Received: by 2002:a05:6a21:7108:b0:1ee:d06c:cddc with SMTP id adf61e73a8af0-203cbd207b4mr30512585637.30.1745384340420;
-        Tue, 22 Apr 2025 21:59:00 -0700 (PDT)
-Received: from [10.89.236.32] (wf126-032.ust.hk. [175.159.126.32])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309d5d61f7asm2606442a91.0.2025.04.22.21.58.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 21:59:00 -0700 (PDT)
-Message-ID: <e4159c2b-4081-4a4b-9a53-d6d559a3196c@gmail.com>
-Date: Wed, 23 Apr 2025 12:58:55 +0800
+        d=1e100.net; s=20230601; t=1745415561; x=1746020361;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LQj0aWA0uhLFimVD63/qUQ7O934wTcmBz9rBbgLbZq4=;
+        b=v+a3VRumrRnE/5DqAs/zH0jEckrCdaIw0bdiyH2hg0k4z/AE2q8OUMzy3K9STobgPr
+         WQ3HJVSUuj5RpL55PPY0mpgkzS8H1p6o69poYLrKkbwPxIPwmZedmr2LXbD8aZVEEojf
+         73InJ+Vg3wxT+5deE+MmZfr/C92ZYosGBZ8JdXEuclgDNY/OdhhbXOCISYPvp3uJrbJ7
+         UW2h4fBYLlOSaxGg636on1976SGJ9DfOdyR7wZQmP8ChMHGSyGsmXj2ByvWIHLK/D945
+         4gn8LTr6PLeiiapGaTWKiFMhlVhpEe3DCKEM6MA2hFy+YGY8WdfCY+O4hqbndoJwgEh8
+         bWHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZy06Yc9us9RJii+fww6sOTraYr8rR2Om3SzjZPzNpxNZ5pLdYnBcC3ewX0qlESnoy3uyfAA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXx4Uf1Npx4eCaAGYN9GDLNJAj9hrQJtVvqaIR/xciPWv6RPDy
+	zsHgh8AIn0L+Hhs6V4klSjiZXCZC88uQOH+LmWTopRvrYrBG07S80ZcF34tH1T4=
+X-Gm-Gg: ASbGncvhzco7/DdltldSGooNf9IjRQOsU3PrFsmRHLhCmK0yTc3sF5i0CVZSz8hpZHN
+	JlEfNqnKEJ2PrIY+TeKD8Nm+4VQ6iIjjhpMST1Z/yHidASB9c2t4VR2jpqmG9hJeqepVge39ajC
+	wnQGHUAPx06PuzPSSfxlFtgFWtFoiQ8KqBcIZzh/I1wcYGqrKE7RGC8kftAkQSy9YoFZWg8d2G8
+	BZFa25S0iWbQQvb7ZCUmPotM78XvnfuprNliT9XnM3wfYf1SwKAnW1HigUYRQHS13kkvqNr6fcY
+	eQIblrJnyEkeU2mzfCcUAHRW4qJjF/A6wnf05KQHKwo=
+X-Google-Smtp-Source: AGHT+IFSUhI0GoSrqlt5Y3r/ho99jNi0Y05l/TGhtWyQ6IK4273s3NboVQgNwSsoCRz1OM2e9M8GYw==
+X-Received: by 2002:a05:600c:4e52:b0:43c:e6d1:efe7 with SMTP id 5b1f17b1804b1-4408efbaebemr42210395e9.26.1745415561308;
+        Wed, 23 Apr 2025 06:39:21 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44092b0a4b5sm26482605e9.0.2025.04.23.06.39.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 06:39:20 -0700 (PDT)
+Date: Wed, 23 Apr 2025 15:39:18 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
+	alyssa@rosenzweig.io,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+	Kees Cook <kees@kernel.org>, tamird@gmail.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	netdev <netdev@vger.kernel.org>
+Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <aAjthvTuIeUIO4CT@pathway.suse.cz>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
+ <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: spmi: Add generic SPMI NVMEM
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>, Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250417-spmi-nvmem-v2-0-b88851e34afb@gmail.com>
- <20250417-spmi-nvmem-v2-1-b88851e34afb@gmail.com>
- <20250422133619.GA1095169-robh@kernel.org>
- <CAMT+MTTwY=z1-_94ws+Oi+wvE2PA_s57dPmpMABC26q=MPw1Mg@mail.gmail.com>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <CAMT+MTTwY=z1-_94ws+Oi+wvE2PA_s57dPmpMABC26q=MPw1Mg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
 
+On Tue 2025-04-22 10:43:59, Geert Uytterhoeven wrote:
+> Hi Aditya,
+> 
+> CC netdev
+> 
+> On Tue, 22 Apr 2025 at 10:30, Aditya Garg <gargaditya08@live.com> wrote:
+> > On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
+> > > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+> > >> From: Hector Martin <marcan@marcan.st>
+> > >>
+> > >> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
+> > >> it's useful to be able to print generic 4-character codes formatted as
+> > >> an integer. Extend it to add format specifiers for printing generic
+> > >> 32-bit FourCCs with various endian semantics:
+> > >>
+> > >> %p4ch   Host byte order
+> > >> %p4cn   Network byte order
+> > >> %p4cl   Little-endian
+> > >> %p4cb   Big-endian
+> > >>
+> > >> The endianness determines how bytes are interpreted as a u32, and the
+> > >> FourCC is then always printed MSByte-first (this is the opposite of
+> > >> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
+> > >> allow printing LSByte-first FourCCs stored in host endian order
+> > >> (other than the hex form being in character order, not the integer
+> > >> value).
+> > >>
+> > >> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> > >> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > >> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > >> Tested-by: Petr Mladek <pmladek@suse.com>
+> > >> Signed-off-by: Hector Martin <marcan@marcan.st>
+> > >> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> > >
+> > > Thanks for your patch, which is now commit 1938479b2720ebc0
+> > > ("lib/vsprintf: Add support for generic FourCCs by extending %p4cc")
+> > > in drm-misc-next/
+> > >
+> > >> --- a/Documentation/core-api/printk-formats.rst
+> > >> +++ b/Documentation/core-api/printk-formats.rst
+> > >> @@ -648,6 +648,38 @@ Examples::
+> > >>         %p4cc   Y10  little-endian (0x20303159)
+> > >>         %p4cc   NV12 big-endian (0xb231564e)
+> > >>
+> > >> +Generic FourCC code
+> > >> +-------------------
+> > >> +
+> > >> +::
+> > >> +       %p4c[hnlb]      gP00 (0x67503030)
+> > >> +
+> > >> +Print a generic FourCC code, as both ASCII characters and its numerical
+> > >> +value as hexadecimal.
+> > >> +
+> > >> +The generic FourCC code is always printed in the big-endian format,
+> > >> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+> > >> +
+> > >> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+> > >> +endianness is used to load the stored bytes. The data might be interpreted
+> > >> +using the host byte order, network byte order, little-endian, or big-endian.
+> > >> +
+> > >> +Passed by reference.
+> > >> +
+> > >> +Examples for a little-endian machine, given &(u32)0x67503030::
+> > >> +
+> > >> +       %p4ch   gP00 (0x67503030)
+> > >> +       %p4cn   00Pg (0x30305067)
+> > >> +       %p4cl   gP00 (0x67503030)
+> > >> +       %p4cb   00Pg (0x30305067)
+> > >> +
+> > >> +Examples for a big-endian machine, given &(u32)0x67503030::
+> > >> +
+> > >> +       %p4ch   gP00 (0x67503030)
+> > >> +       %p4cn   00Pg (0x30305067)
+> > >
+> > > This doesn't look right to me, as network byte order is big endian?
+> > > Note that I didn't check the code.
+> >
+> > Originally, it was %p4cr (reverse-endian), but on the request of the maintainers, it was changed to %p4cn.
+> 
+> Ah, I found it[1]:
+> 
+> | so, it needs more information that this mimics htonl() / ntohl() for
+> networking.
+> 
+> IMHO this does not mimic htonl(), as htonl() is a no-op on big-endian.
+> while %p4ch and %p4cl yield different results on big-endian.
+> 
+> > So here network means reverse of host, not strictly big-endian.
+> 
+> Please don't call it "network byte order" if that does not have the same
+> meaning as in the network subsystem.
+> 
+> Personally, I like "%p4r" (reverse) more...
+> (and "%p4ch" might mean human-readable ;-)
+> 
+> [1] https://lore.kernel.org/all/Z8B6DwcRbV-8D8GB@smile.fi.intel.com
 
-Sasha Finkelstein 於 2025/4/22 夜晚9:44 寫道:
-> On Tue, 22 Apr 2025 at 15:36, Rob Herring <robh@kernel.org> wrote:
->>> +title: Generic SPMI NVMEM
->> What makes this generic?
->>
->> A generic driver is great, but "generic" or "simple" bindings are
->> generally a mistake.
-> There is nothing apple-specific in that driver, just re-exporting
-> several registers as cells. If you think that it is a mistake, I can
-> rename it to apple-pmic, or something similar.
->
->>> +      - const: spmi-nvmem
->> What happens when there's some other feature of the PMIC exposed that's
->> not nvmem?
-> If you have a PMIC that needs more features exposed, then you'd have to
-> use a different driver. Or am i not understanding the question correctly?
-I think the problem is what happens if more functionalities needed to be exposed from the M1 SoC's
-PMIC. (right now I do not believe anything else is needed from it)
+I have to admit that I was always a bit confused by the meaning of the
+new modifiers. And I did give up at some point and decided to do not
+block the patch when it made sense to others.
 
-It would be multiple drivers. A simple-mfd-spmi driver (like drivers/mfd/simple-mfd-i2c.c
-but SPMI) that exports a regmap and a generic driver that reexports regmap (any regmap,
-not necessarily SPMI) as nvmem cells, plus extra drivers that uses the regmap exposed by
-the mfd driver for extra functionalities.
+But I have to agree with Geert here. The current behavior of %p4ch
+is confusing on big endian system. I would expect that it does not
+revert the ordering.
 
-To make this submission more generic and extensible, what would be submitted should be a
-simple-mfd-spmi driver and a generic regmap nvmem driver. For specific examples, see below:
+Well, I still think that people might find all 4 variants useful.
+Andy does not like "r". What about "hR"? It is inspired by
+the existing %pmR.
 
-The PMICs from dialog semiconductor on older Apple SoCs definitely needs such functionalities.
+I tried to implement it and the complexity of the code is similar:
 
-On Apple A11 SoC there is a RTC clock device on the PMIC and the SMC on there does not have
-RTC functionalities. To make the RTC clock work there a driver would read a counter that could
-count a maximum of 194 days from the SPMI PMIC, and then access the PMIC nvmem cells that
-held the rest of the time. In this case these drivers are needed:
+From f6aa2213cec9b9d25c0506e3112f32e90a18aa7f Mon Sep 17 00:00:00 2001
+From: Petr Mladek <pmladek@suse.com>
+Date: Wed, 23 Apr 2025 15:02:10 +0200
+Subject: [PATCH] vsprintf: Use %p4chR instead of %p4cn for reading data in
+ reversed host ordering
 
-(1) simple-mfd-spmi (2) rtc driver (3) generic regmap nvmem driver.
+The generic FourCC format always prints the data using the big endian
+order. It is generic because it allows to read the data using a custom
+ordering.
 
-On Apple A7-A10X SoC a similar PMIC also exist, but is over I2C instead of SPMI, those devices do not
-have a SMC. To make the rtc clock work there three drivers are needed:
+The current code uses "n" for reading data in the reverse host ordering.
+It makes the 4 variants [hnbl] consistent with the generic printing
+of IPv4 addresses.
 
-(1) simple-mfd-i2c (already exists) (2) rtc driver (same one as above) (3) generic regmap nvmem driver
+Unfortunately, it creates confusion on big endian systems. For example,
+it shows the data &(u32)0x67503030 as
 
-The PMICs on A7-A10X SoCs are also known to have WLED output for backlight, shutdown controls and
-some sort of pinctrl needed for things like bluetooth.
+	%p4cn	00Pg (0x30305067)
 
-In both cases a combination of (1) and (3) is more generic and applies to more than one bus types, and
-allow extra functionalities other than nvmem to be added.
->
-Nick Chan
+But people expect that the ordering stays the same. The network ordering
+is a big-endian ordering.
+
+The problem is that the semantic is not the same. The modifiers affect
+the output ordering of IPv4 addresses while they affect the reading order
+in case of FourCC code.
+
+Avoid the confusion by replacing the "n" modifier with "hR", aka
+reverse host ordering.
+
+Signed-off-by: Petr Mladek <pmladek@suse.com>
+---
+ Documentation/core-api/printk-formats.rst | 10 +++++-----
+ lib/tests/printf_kunit.c                  |  2 +-
+ lib/vsprintf.c                            | 11 ++++++++---
+ 3 files changed, 14 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 125fd0397510..f531873bb3c9 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -652,7 +652,7 @@ Generic FourCC code
+ -------------------
+ 
+ ::
+-	%p4c[hnlb]	gP00 (0x67503030)
++	%p4c[h[R]lb]	gP00 (0x67503030)
+ 
+ Print a generic FourCC code, as both ASCII characters and its numerical
+ value as hexadecimal.
+@@ -660,23 +660,23 @@ value as hexadecimal.
+ The generic FourCC code is always printed in the big-endian format,
+ the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+ 
+-The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
++The additional ``h``, ``hR``, ``l``, and ``b`` specifiers define what
+ endianness is used to load the stored bytes. The data might be interpreted
+-using the host byte order, network byte order, little-endian, or big-endian.
++using the host, reversed host byte order, little-endian, or big-endian.
+ 
+ Passed by reference.
+ 
+ Examples for a little-endian machine, given &(u32)0x67503030::
+ 
+ 	%p4ch	gP00 (0x67503030)
+-	%p4cn	00Pg (0x30305067)
++	%p4chR	00Pg (0x30305067)
+ 	%p4cl	gP00 (0x67503030)
+ 	%p4cb	00Pg (0x30305067)
+ 
+ Examples for a big-endian machine, given &(u32)0x67503030::
+ 
+ 	%p4ch	gP00 (0x67503030)
+-	%p4cn	00Pg (0x30305067)
++	%p4chR	00Pg (0x30305067)
+ 	%p4cl	00Pg (0x30305067)
+ 	%p4cb	gP00 (0x67503030)
+ 
+diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
+index b1fa0dcea52f..b8a4b5006f9c 100644
+--- a/lib/tests/printf_kunit.c
++++ b/lib/tests/printf_kunit.c
+@@ -738,7 +738,7 @@ static void fourcc_pointer(struct kunit *kunittest)
+ 
+ 	fourcc_pointer_test(kunittest, try_cc, ARRAY_SIZE(try_cc), "%p4cc");
+ 	fourcc_pointer_test(kunittest, try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+-	fourcc_pointer_test(kunittest, try_cn, ARRAY_SIZE(try_cn), "%p4cn");
++	fourcc_pointer_test(kunittest, try_cn, ARRAY_SIZE(try_cn), "%p4chR");
+ 	fourcc_pointer_test(kunittest, try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+ 	fourcc_pointer_test(kunittest, try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+ }
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 2c5de4216415..34587b2dbdb1 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1804,9 +1804,8 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+ 	orig = get_unaligned(fourcc);
+ 	switch (fmt[2]) {
+ 	case 'h':
+-		break;
+-	case 'n':
+-		orig = swab32(orig);
++		if (fmt[3] == 'R')
++			orig = swab32(orig);
+ 		break;
+ 	case 'l':
+ 		orig = (__force u32)cpu_to_le32(orig);
+@@ -2396,6 +2395,12 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+  *       read the documentation (path below) first.
+  * - 'NF' For a netdev_features_t
+  * - '4cc' V4L2 or DRM FourCC code, with endianness and raw numerical value.
++ * - '4c[h[R]lb]' For generic FourCC code with raw numerical value. Both are
++ *	 displayed in the big-endian format. This is the opposite of V4L2 or
++ *	 DRM FourCCs.
++ *	 The additional specifiers define what endianness is used to load
++ *	 the stored bytes. The data might be interpreted using the host,
++ *	 reversed host byte order, little-endian, or big-endian.
+  * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
+  *            a certain separator (' ' by default):
+  *              C colon
+-- 
+2.49.0
+
