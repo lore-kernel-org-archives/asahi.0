@@ -1,38 +1,38 @@
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADC529116B;
-	Thu, 24 Apr 2025 19:00:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625CA296154;
+	Thu, 24 Apr 2025 19:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745521209; cv=none; b=uxKawq9MTJgF4aP3Tg9foZAkQeKttys7IxN4snnPNXxMd05XTxX1oDcb8apZsqAzj3ZqICbSnHBnfk7FVPlgJCefMO96mLiLh80UN/6lCTnP3HXMLE94B8j8nJ+VDcIXwK5puCdf6h53wRSoM2I7uniT4JnKX/Qq+R6VZ9jyOx0=
+	t=1745521218; cv=none; b=HRMj9C5kwK5Tb37K5jPVTCNU3lsFmS5a3Q2iNKLi0lAnNsrGDN2gSiaI24eCMkEI9mc7a/DA62e/fyTSOulfXsHztSeaUcf9J+hHj4Ig+t5o5fLf8bQ7T3I6+xa1o/0kF2RowRpR7i/bCKSuiaImP9m5CARd70abJICLgJ2Ok80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745521209; c=relaxed/simple;
-	bh=UwJ8o6Xvkw+m66g39+vjCaMIfxUzPWB4lXq2v7Qnc88=;
+	s=arc-20240116; t=1745521218; c=relaxed/simple;
+	bh=mMtPbRD9bUAtIkb1phoveyjiGsYZt/ZPpESrKp6ImLk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Snf1mqfPVeOQL2JG410ahjw++KCXCItEfRtQUHU/fKKdcvgjf2AnHaFjCFEFdqoP0RG3PylUQxL+jOTAlYelkGJGfFUuIrV8Jn2y+hwpA/s5Mu2EymKRX0sloh48nGCLuEMuZArKQw0cqBsAVfiIKOVa7/r36GLqccuK+FMoOuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ndaFA80Z; arc=none smtp.client-ip=217.70.183.196
+	 In-Reply-To:To:Cc; b=Dp04vYHQsF1I5/2HXXv0Qvu5A/5/gDaRaKZ2/rMhbLujHWyNTYPJ1xbYn4nQ1VSNTNrr3JceGPSUVTX49GLHFA5JFTDUPRYdH0SlkiJ4fOQo9rj/uHUXA+jH1bcMYdM+cHf23sa9xxaV5977VZ/HI14jZJ43Mpp4GWtfFRdV050=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UmCCMrMA; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ndaFA80Z"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DFAE343B79;
-	Thu, 24 Apr 2025 19:00:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UmCCMrMA"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D8D904438B;
+	Thu, 24 Apr 2025 19:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745521205;
+	t=1745521208;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ndJmiIIe2hI00mygvECVjAtcQNdAFZ6SHsSkCv9bjLc=;
-	b=ndaFA80ZJn5M1Gv09LOA1Tm53sqOcb0t0Ri7HScPdK8/amblHN6hKz1IaTgffvpfXSV9xN
-	6yl68P0XIfCAxw3chablpIkWeg1Wqi4OMsKVOVjDBZoDVAkLQS0vyABO6Oo7jMFITbqBta
-	GBzVVj4Lo7YLWURemH1DothVTI11GI0MVmsA5VqMwfEIej6Km77x8PwspZFcmiH2tkV64f
-	srugXiweTJAyiMm6HQgZ7cDziOhiDT8jDs+7xhZupEQCjiTavC1agBvobIvPwa6OSsZg9g
-	FaFbDuITzlDZpBUQCjCK02soTwdNFM8EbpzYMyX6bPh65IvoGH6zpGa3hFDdhw==
+	bh=cK2+iFsVCbhk0yUXLDMIToFwrlw5R+5W0kaxb7T/4M8=;
+	b=UmCCMrMA0aO+ZxNOt4IS9nZiCeEa2sw6HrOWPe8udS9htWVuTKW4cbFQP3K5hLcDTERmx2
+	oRRAoucBgncSxUfm1rBoqy5xkb2h2UoEW3sxTHQwm9s3w88F9MvV9n6MyLGCmPBp8jYstm
+	b2VZd43VJz1Pc/+adA70HEswiVmI7HMIN/bLXyYI4En6RCbYOJDFCuNTYUPwl6LjlDnCoK
+	tZeFPn0+Vk7UtyEN2y1NLxTYYiObTCIrQnuw1V8xxgkQ7V5dPu+iB8/R+xo4fv7ZoCPEhk
+	SQ7PKzgTgTec+fXzSP6RtS/FdpC3SzxsAqHj+mmMaKbH9z3TWUIXGQurWJgGfA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 24 Apr 2025 20:59:18 +0200
-Subject: [PATCH v2 11/34] drm/bridge: dw-hdmi: convert to
+Date: Thu, 24 Apr 2025 20:59:19 +0200
+Subject: [PATCH v2 12/34] drm/bridge: tda998x: convert to
  devm_drm_bridge_alloc() API
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-11-8f91a404d86b@bootlin.com>
+Message-Id: <20250424-drm-bridge-convert-to-alloc-api-v2-12-8f91a404d86b@bootlin.com>
 References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -71,50 +71,51 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Russell King <linux@armlinux.org.uk>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepjeenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegtddprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtp
- hhtthhopegtrhhishhtihgrnhdrtghiohgtrghlthgvrgestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirghtvghksehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgepleenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeguddprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtp
+ hhtthhopehimhigsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirghtvghksehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepfhhrvggvughrvghnoheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
 This is the new API for allocating DRM bridges.
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 ---
 
-Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Russell King <linux@armlinux.org.uk>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 +++----
+ drivers/gpu/drm/bridge/tda998x_drv.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index deaba3b6f99789067d14b76d228b58816a09b395..8791408dd1ff2d3c3b223b4f7f6f00edb275abf0 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3333,9 +3333,9 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 	u8 config0;
- 	u8 config3;
+diff --git a/drivers/gpu/drm/bridge/tda998x_drv.c b/drivers/gpu/drm/bridge/tda998x_drv.c
+index ac87033ba5372e32cb8dc3abafc8cf1ff8273103..850909f78a7bc0fab54a60880f9a0657e99056f3 100644
+--- a/drivers/gpu/drm/bridge/tda998x_drv.c
++++ b/drivers/gpu/drm/bridge/tda998x_drv.c
+@@ -1781,9 +1781,9 @@ static int tda998x_create(struct device *dev)
+ 	u32 video;
+ 	int rev_lo, rev_hi, ret;
  
--	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
--	if (!hdmi)
--		return ERR_PTR(-ENOMEM);
-+	hdmi = devm_drm_bridge_alloc(dev, struct dw_hdmi, bridge, &dw_hdmi_bridge_funcs);
-+	if (IS_ERR(hdmi))
-+		return hdmi;
+-	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+-	if (!priv)
+-		return -ENOMEM;
++	priv = devm_drm_bridge_alloc(dev, struct tda998x_priv, bridge, &tda998x_bridge_funcs);
++	if (IS_ERR(priv))
++		return PTR_ERR(priv);
  
- 	hdmi->plat_data = plat_data;
- 	hdmi->dev = dev;
-@@ -3495,7 +3495,6 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+ 	dev_set_drvdata(dev, priv);
+ 
+@@ -1948,7 +1948,6 @@ static int tda998x_create(struct device *dev)
+ 			tda998x_audio_codec_init(priv, &client->dev);
  	}
  
- 	hdmi->bridge.driver_private = hdmi;
--	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
- 	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
- 			 | DRM_BRIDGE_OP_HPD;
- 	hdmi->bridge.interlace_allowed = true;
+-	priv->bridge.funcs = &tda998x_bridge_funcs;
+ #ifdef CONFIG_OF
+ 	priv->bridge.of_node = dev->of_node;
+ #endif
 
 -- 
 2.49.0
