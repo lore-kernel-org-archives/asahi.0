@@ -1,149 +1,145 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129521F1506;
-	Thu, 24 Apr 2025 20:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31DD1FC114
+	for <asahi@lists.linux.dev>; Sun, 27 Apr 2025 11:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745525498; cv=none; b=MaQj+NO+zTru7SxjM6fzIgXEbHpjGnXRVtqUcbgvZwrNxrlu6VP3Su8ELN6Pld8aHgKdapGSBZbiQje1/aLOi1JcQddAoK6ZPji6FmQOs5FbOpgRG/bvtLBSJln6u4Z9IHh9wUOxLddxmqiBgiCFfHo58MJgx0aTNFqJWLxUDDc=
+	t=1745753385; cv=none; b=YKoHQJUh4V9EQSPT8zdhR0euDhiGI2tKHdyB0OjvE4ECOzLfXRBif4yjWH7ARvuM+wkhtq97SgRFLyu2EarVTbbNCpuoF4jxbg9OVBKHUtwycXwiiVMuPAc20BOZTtCEBu/dDAWKUp4L+HkzA7eMqmxURMvVxW7w3ZKclGlPHXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745525498; c=relaxed/simple;
-	bh=HCCurbCpdf2762GuvXifcOsixY7BzzcVytS+CUWVOyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hvoASzTcx4zmOtretvCTPXSCXmSD0vEl74APGp+uFqp50ITLfaRdgHCatOvIACDQl1wcPR06D5atbz5n+yxr2L21Zr4adSQe4alXmr+KuU2ibbr5zo9ammad9MxBebYmPZqxUorVtHKn3BjDQ46Cojd+HUi37F3PDhuS/f6AtdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MDQiMXwM; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1745753385; c=relaxed/simple;
+	bh=45/89ZHPY/WSXFJKW2Hcp01OMCm5pf9oonEl37HLkvo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=smrdaQbSEgLBvCwh7w9EivrRIqNvctyVxEeTl4bMjxnW0wCAgJ3fI3k8NKbtu+t1VTf08hOoDynxKx/0KoCA3zOwxIBBSP8MY6RRdtrLnR09Zr8eSHI58uuH4yxzUeumWhDXagI9it9MsP6KKc/WMYXKJe5GTd/mT/MyooqUZ5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=cHiGN+ZH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EjsUXopk; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MDQiMXwM"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8F2A043A53;
-	Thu, 24 Apr 2025 20:11:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745525494;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=09PG+fxuKesOM/kP22ajuEbhOQfehjAeduUbezP82Mg=;
-	b=MDQiMXwM5Q6Bw/oa/uvytc0mvtbv7DY7eO7AgzCRzcWizRHKKKcSnyc0iJLbNVTw3Wsr6J
-	lTOqEIBpBUTVqeWYByUkK9Vr4B1fufwPqZl7YxYRoWAyaBP1xMe1FKuin1fkR2amiI8dF0
-	g4m6ihEA5Sz5uKfTe90sT+P+hHpzDS0N1w8Eup2LzDQrQMZHVyRc/xdFInUSbca9eev8lk
-	S91hJDIYFe8zBrsqAHK0miPfASgOMYTye6Z7W6eIE6MEXvKIMHHApCEBVFDrzlDwCSVoJ3
-	qsOh05OZ4XanGRLXUXv1Kzadf2o8Wr2tXbrVszd0YlKh6k3OKd9EvxoaBkoDbQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Anusha Srivatsa <asrivats@redhat.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Hui Pu <Hui.Pu@gehealthcare.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v2 34/34] drm/bridge: panel: convert to devm_drm_bridge_alloc() API
-Date: Thu, 24 Apr 2025 22:05:49 +0200
-Message-ID: <20250424-drm-bridge-convert-to-alloc-api-v2-34-8f91a404d86b@bootlin.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="cHiGN+ZH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EjsUXopk"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 4F1702540219;
+	Sun, 27 Apr 2025 07:29:41 -0400 (EDT)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-04.internal (MEProxy); Sun, 27 Apr 2025 07:29:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1745753381; x=1745839781; bh=5AVnMYrfQqCKvIYMObZqGv0ycuhL3WyZ
+	hFo4zuHwRSU=; b=cHiGN+ZHVQvwAmWDVqx50p8JoFWULaccQJvoTA0aQQhbWoFj
+	6J7CETqWlKWiUxtKkRoO5VBEsJc6Am067bGJBPDJwas4PXB2FBqDdwB4cW40fhmj
+	wW7+AXxGlx5lVtBORqbrSngOYGPpMo0CvUWAa45O4OOu7+7wunwDjjoonqC7g/zW
+	Wdnh+EFjZyvK1jID1HhANCjNFi9iIEdoQ0r7P92cG721VszlAtd/czvo6+R8Hnxd
+	ucQR93PRE5ZxsRismq+JU6fyHS6HATK+azAFOjjrYuhZcxpk1Z0JCOm6aexDIxt9
+	fT5+7FT2550zPfT/Cm8SqfCMPnSLrPEoNfBqnA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1745753381; x=
+	1745839781; bh=5AVnMYrfQqCKvIYMObZqGv0ycuhL3WyZhFo4zuHwRSU=; b=E
+	jsUXopkgxavIZ1xItTb/bHcd5C9+Mg0mtnK92mV2vksvqWHpIuKCP+LQ9bu5hBCc
+	TZ2zPdMVV72GaMriRYLOEZTZN2BUlRteq/ZRE2Kz93PfwQOjIWE0wawVSOd54nKk
+	seKri/NZ/obQ3FAeZXO8dbcnPWXrcLAfqCvty8lppFSb5WdiwkR/0yTZYCUgLtRG
+	veElxm/j9xyyoVLMrHwkYYF7cSjcxkS79ZjK941CezfydKUJSLjMV4vODtI/wrcn
+	343CLszdcrK/IUnuzPChqz6yiHhvgSImt7VzQWkWukoosIkOqVrsgctzZcDflKy3
+	DsI3xeOBJqtDICJKGf9QA==
+X-ME-Sender: <xms:IxUOaJOdB7skIWg1gp5gI_f5bSLHlrtJ5DizHoMVXln4GRcU_grfCA>
+    <xme:IxUOaL9FSn8d4Om1QrpZrSgSwOPFF8UE367CRXKJQIUYLtao_KGS2rQ5caiW6IfgV
+    zZK3DICYOyduSjMrYo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvheejleehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvth
+    gvrhdruggvvheqnecuggftrfgrthhtvghrnhepleefteeugeduudeuudeuhfefheegveek
+    ueefffdvffektdffffelveffvddvueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggp
+    rhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptghhrhhish
+    htohhphhgvrdhlvghrohihsegtshhgrhhouhhprdgvuhdprhgtphhtthhopehmphgvsegv
+    lhhlvghrmhgrnhdrihgurdgruhdprhgtphhtthhopehnphhighhgihhnsehgmhgrihhlrd
+    gtohhmpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepjhes
+    jhgrnhhnrghurdhnvghtpdhrtghpthhtoheprghnughirdhshhihthhisehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehnrghvvggvnheskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    ohepmhgrugguhieslhhinhhugidrihgsmhdrtghomhdprhgtphhtthhopehlihhnuhigqd
+    grrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:IxUOaISkvdKNkauBTau3Yk86BBkDs_xaQlGa8g1PKqItwEO6sr7_Aw>
+    <xmx:IxUOaFsQIYPEGVcnbw5bn1-nmmufSyYvjad865GJP9x0WREMbgpV5g>
+    <xmx:IxUOaBd97cPa0WAqm8KOVrSh9n-zwiAuFqZ3Oln3jFSUdNAWa0GCEQ>
+    <xmx:IxUOaB2Jm45REZl8uOecpL_ceCAb7Zm9Jwx7F71mScOODKnIaRvMpQ>
+    <xmx:JRUOaB2nIin_JYaVvDIelqSp6Cg24ftqlZtTrULSUZnnWHPvRJfd7SeL>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3F050BA0070; Sun, 27 Apr 2025 07:29:39 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.14.2
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvhedtfeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtoffgsehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudffiefgvdfftdffkeejjefhffduleejleeuieetieetgeehtefhjedtgeegieegnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhdphhgvlhhopegsohhothihrdhfrhhithiirdgsohigpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeelpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdru
- ggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-ThreadId: T5434dab6164679dd
+Date: Sun, 27 Apr 2025 13:29:17 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Andi Shyti" <andi.shyti@kernel.org>
+Cc: "Janne Grunau" <j@jannau.net>, "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Naveen N Rao" <naveen@kernel.org>, "Neal Gompa" <neal@gompa.dev>,
+ "Hector Martin" <marcan@marcan.st>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <c6590a37-97b0-4497-8cc1-c4572897f0dc@app.fastmail.com>
+In-Reply-To: 
+ <dtjvj34q4ojbci67akkxfiskpiro24xupagr5rl4dn3idd6vxh@2emtiwbvpvra>
+References: <20250415-pasemi-fixes-v2-0-c543bf53151a@svenpeter.dev>
+ <20250415-pasemi-fixes-v2-4-c543bf53151a@svenpeter.dev>
+ <dtjvj34q4ojbci67akkxfiskpiro24xupagr5rl4dn3idd6vxh@2emtiwbvpvra>
+Subject: Re: [PATCH v2 4/6] i2c: pasemi: Improve error recovery
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-This is the new API for allocating DRM bridges.
+Hi,
 
-The devm lifetime management of this driver is peculiar. The underlying
-device for the panel_bridge is the panel, and the devm lifetime is tied the
-panel device (panel->dev). However the panel_bridge allocation is not
-performed by the panel driver, but rather by a separate entity (typically
-the previous bridge in the encoder chain).
 
-Thus when that separate entoty is destroyed, the panel_bridge is not
-removed automatically by devm, so it is rather done explicitly by calling
-drm_panel_bridge_remove(). This is the function that does devm_kfree() the
-panel_bridge in current code, so update it as well to put the bridge
-reference instead.
+On Thu, Apr 17, 2025, at 15:07, Andi Shyti wrote:
+> Hi Sven, Hector,
+>
+> ...
+>
+>> +/*
+>> + * The hardware (supposedly) has a 25ms timeout for clock stretching, thus
+>> + * use 100ms here which should be plenty.
+>> + */
+>> +#define TRANSFER_TIMEOUT_MS	100
+>
+> Please use the PASEMI prefix here. TRANSFER_TIMEOUT_MS it's not a
+> naming belonging to this driver.
+>
+> 100ms looks a bit too much to me, but if you say it works, then
+> it works.
+>
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/panel.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+The problem here is that we only have very outdated documentation for this
+hardware and no real idea what changed since Apple bought PASemi and continued
+using their i2c controller.
+We know that 10ms (which used to be the original timeout iirc) is not nearly
+enough and we also know that we need at least 25ms for clock strechting
+(assuming nothing changed in the past 10+ years).
+We just bumped it to 100ms to be safe after we very rarely got error
+reports which we tracked down to timeouts and haven't gotten any reports
+since.
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 79b009ab9396048eac57ad47631a902e949d77c6..ddd1e91970d09b93aa64f50cd9155939a12a2c6f 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -287,15 +287,14 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
- 	if (!panel)
- 		return ERR_PTR(-EINVAL);
- 
--	panel_bridge = devm_kzalloc(panel->dev, sizeof(*panel_bridge),
--				    GFP_KERNEL);
--	if (!panel_bridge)
--		return ERR_PTR(-ENOMEM);
-+	panel_bridge = devm_drm_bridge_alloc(panel->dev, struct panel_bridge, bridge,
-+					     &panel_bridge_bridge_funcs);
-+	if (IS_ERR(panel_bridge))
-+		return (void *)panel_bridge;
- 
- 	panel_bridge->connector_type = connector_type;
- 	panel_bridge->panel = panel;
- 
--	panel_bridge->bridge.funcs = &panel_bridge_bridge_funcs;
- 	panel_bridge->bridge.of_node = panel->dev->of_node;
- 	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
- 	panel_bridge->bridge.type = connector_type;
-@@ -327,7 +326,7 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
- 	panel_bridge = drm_bridge_to_panel_bridge(bridge);
- 
- 	drm_bridge_remove(bridge);
--	devm_kfree(panel_bridge->panel->dev, bridge);
-+	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
- }
- EXPORT_SYMBOL(drm_panel_bridge_remove);
- 
 
--- 
-2.49.0
+I've addressed all your other comments for v3 which I'll send out in a few minutes.
 
+
+Best,
+
+
+Sven
