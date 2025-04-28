@@ -1,212 +1,209 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011028.outbound.protection.outlook.com [52.103.67.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D72289368
-	for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 17:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745859646; cv=none; b=PE/JmjgdTUX5W1D4XxjG81Ib6VgFWqjLRYeOddUeEsQYrC9Qm7Ie46R4Ia/yj6j//96PCO0YtiCOJhuOJGS9ZhAqMmsRWTBQHgl1IJBQkfQKvLbH9cWgMPMGPNEIGwY8HpUO0+hX0AusepYSeNjl6RQ3w+SxZfC92ENjzCZO/E0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745859646; c=relaxed/simple;
-	bh=eFfuesw+QGXoKHVGiq+bk6Aq8mK7RpBspj51PR1Ik88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKx7ibB0OD8lDiKTXdFdKuCwYcaPN5jD36Dvz+EcLl6zXEZKyviEI3chFFmiiq9gaJgjY/8/sEnB8GdjiJAznVEZtwt7Rz2AGz1X/ZqN/JunClwgNljnDUCzmhH6e/EOgrPeamEDrsBYSFnEcF6ddcd6vzExQIJoBxrA/xyt10g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=XeSJpptC; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97FE1AA1E0
+	for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 17:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745860114; cv=fail; b=lckoys4th2yYvBwnX6Tx3cs7EWnW874p2AsGNUZMTC07NCg7wxV4R/Aw/KR/JhblkwQZqdnDbl0IujLPAMIwJE7lbw7ZLBY1KFAv/LRNQTwi+y+wDMtVgB8ZlM/qM1O/tZrXLLt6uR9twJUR0bicg0KQVy8dqOwnAY7SsaJvOrA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745860114; c=relaxed/simple;
+	bh=nvT4VZjXuRhCUJcOezI2CJChhLS81vZr5zBQ6rz/Kws=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=MUM3ezzmUtMHE19na7aom78AoaWvUKk7Q6+r2S8CxJvx7LuDRotsezI9Siu3lMjkCDTu4+udl11cxy36JgUwlri5cNPd4DEZmZB/gSop8fjXKxpVCI0O2A8GTScOCOGjvBWfBiY3qp3nqxL1yD9Jg20xBa6IAfuP2EsLKzon8Oo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=PnBod3Du; arc=fail smtp.client-ip=52.103.67.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="XeSJpptC"
-Date: Mon, 28 Apr 2025 13:00:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1745859640;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Sg8XZ9CR9qDeTIx+rDJpUhFGbbTBIqmoWO1me0C2EqA=;
-	b=XeSJpptCZOnw5pTqme5mUnDdWRKVctf29A4FYstbOqnwQb/DPLicYPTZh6e8kWhp9dv3LV
-	ma47SY4duzEpvJWlBFdznEqif9Vl9P2ZUX04kivJhyd9WvaFJL7jIcPr/9dUaNZc3ObzsW
-	qwir6XwNwskDGdQ/8be5tZIup1zELlwvLIIxbTY1Zk2KxHpube6N1RztL6lGwdYsxcjjue
-	bFu54pJEow5hveQW5vwnNOnUrO4KX2Pr9qSJtxzfVpN96bhY9dJoFWSJGKutzvhIq6A8b1
-	36lOqO8zdlTBL0VwxWiIE2N4dDyk02fUxPDQOOtgm5r3mfIzRWAu0Xqiw9Uhzw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Petr Mladek <pmladek@suse.com>
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="PnBod3Du"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mZyzgySQxgCQx5VkorQ3I/4h8W0ah4FR+u/PTCFkuFwp4lEqYDSJY8pORvoYHAJrw8XeaGSrUxjBZ3mwbfyq3lDl3AJTCsfKJJgYJEoA/QlbHQdsK9KA+XTD5aIwhGMYRAIX85F0TZzCEI7Sa/s1soznxbVVyUoQt8cwx2bT/S78xjvZAgg06Z5gvBvoDFJ23Bpy9PambiNtgOzInGaxbVC7CspIibBwGifgsPZWtZtFJKJJj0xAu68IiEjUbqyb4/Yu2uCahtlhWneyUS/Q1QJn/muIk2cO31473de57AONgGOQqEr+D1L8sfFaRdfoy4b208C15AwC08M6ZvwHrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eeWY6Av5aM/IDfux21j+h9bWvJjsx2epBDyxhpvA8mA=;
+ b=IuQTDec3OMk4WktGb7yiWr/MgJOBJLP3S7ffN+zflzllXYW2y78YlzJiGEEEALJb/iuZgn51qJAEX95qCL75zLTab51OcDnoKEiWs7+ZeS78vSX8uRMCrik05Sh1PhQp3wC8LzyYK30S33CEO+6wfG6pDQEidBWKL7JT1OqlFNJWhR8QsTrR8TDZ9cJxcOF4nOv9UAjupcHpvEn2Ey3D8G7RB85ijM8D1fQBku4+NTID/ntFZKvI+OAKHEtwuGuD6zJuxcfZP/5UScTnIh5R34mOegazF9PhEtytYS5Oa3jwaZCuGAWbEPZPbaC2djDMuLy7tgOcyRIyWFgmaqWA7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eeWY6Av5aM/IDfux21j+h9bWvJjsx2epBDyxhpvA8mA=;
+ b=PnBod3DuBh9hk37n8P/DQNDiTfhfNBLTM0srHK4YjtDqETdNhftDhbVTxrb9YJkyZnUEm6jDS4/6WRXaWT8g1ceOENe8pYGxnzy17KNK9I0sYoqESLuiWW5PgxciwIDTOeDllaU6fYqZCtiNbk56VO5VW4eV9ElGTsOrC3PwdpoNX9Fu0I3kuvuiKxe9Fsknzd95R4HmP6aBbt8QaA0tx5PZzR0ppack2Mw+cflMvrSlOmICFrB6rA/QXhFd7zRP1npS90TeNtKIgaCsb3buEFGCMJ4XQ5CZvzBaJdYfEqZ8XElilp9bPrfiIpsaXu+k9G4X/VbrdUI9cNbJ070JgQ==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by PN0PR01MB9528.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:109::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Mon, 28 Apr
+ 2025 17:08:21 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
+ 17:08:21 +0000
+Message-ID:
+ <PN3PR01MB959715E4B4C95911A60ED075B8812@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Date: Mon, 28 Apr 2025 22:38:13 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] vsprintf: Use %p4chR instead of %p4cn for reading data in
+ reversed host ordering
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Petr Mladek <pmladek@suse.com>
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
-	Simona Vetter <simona@ffwll.ch>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
-	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
-	Kees Cook <kees@kernel.org>, tamird@gmail.com,
-	Aditya Garg <gargaditya08@live.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] vsprintf: Use %p4chR instead of %p4cn for reading data
- in reversed host ordering
-Message-ID: <aA-0MuLxVTueDAhm@blossom>
+ Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
+ airlied@redhat.com, Simona Vetter <simona@ffwll.ch>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Hector Martin <marcan@marcan.st>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
 References: <20250428123132.578771-1-pmladek@suse.com>
+ <aA-0MuLxVTueDAhm@blossom>
+Content-Language: en-US
+From: Aditya Garg <gargaditya08@live.com>
+In-Reply-To: <aA-0MuLxVTueDAhm@blossom>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN3PEPF00000186.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c04::4c) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:f7::14)
+X-Microsoft-Original-Message-ID:
+ <cdfdb58b-4946-412e-ab9e-98ca82163184@live.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250428123132.578771-1-pmladek@suse.com>
-X-Migadu-Flow: FLOW_OUT
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN0PR01MB9528:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4af50e44-276f-427b-1e5a-08dd86774778
+X-MS-Exchange-SLBlob-MailProps:
+	/UmSaZDmfYAf5TnZFQyEFYQ62+HWCaboeO3Oz2wqxceGUn6yYxZtpAfOBCDk03waDttwx3P96NG63dAhvnlAIwkOXyugrNLf13+4JjLtHgUL2NuzDQ55pxkVS/l55Eg6yQ6hVwO8za8b+KtuAx6OBW4xu5XeMORwV1NQHDUYqYrCKNmNjIZp7qVDLBaGB1kNVtU9NXm+WaUDS6m6PsCzP/jAWDM+ww+Bi450MH5gYu9qTrd3dt3bZ7QC1uxR/J9YzmK+Y9nBd/yTSZibf8U6S4xOZ2GqtCiNcnL+wzUeGhuh2evJZUNA0uFCOPBUUyanPVif4I+HMdayfdq7heKbivimSSNv4NZUQLo8/z+NKsWD2A+a2zJ/YzqhI4TCao3dWvMSOZlwf9roLk8GWG/xkIh2/P+e+o9j7vLBqEoGjoxlUGxxFPKEsqCk5VvhU7slEvrR+teDmUGsdsX5p75/ebtZ1b0GwAQtkaSMPxuIFVVc6VuVjAgnR5oXqTsKWzkNgJ6jBSLaYIHt1gHS56PPzYPcvSGNVWnRCVq85Ew9isg8+t3qRn94rtobcZZ8cmiX6BeUYaMO3MBgsxZ3QzyOVVPLHXQJWpEOii3Wms02vRIJgJLuSgVkpz/Qet0fYkwYLYlSXfyDDcFEoMMQ1yeOdluUKd4VWKEisRRryhh/o5z4LQZCCJnNsswCNGehFcLzvlvgc6aPqy4h1opme6jt28GZeBBR0r02etEmifbUGSlLY6zNublAPU/zUY0sRvHhHbk9xhf4AErIoNvlgz6get4dagntnCfnVv0WnT+gYhjXdkZHd/JP0EDr6h+JeV3oS/r0Hedig3ftT2WSzZp/DQ==
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|8060799006|15080799006|19110799003|7092599003|6090799003|5072599009|461199028|1602099012|10035399004|4302099013|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MWtzb2s1a2RCbUI1dDMzYjJ6dHFmVm15bjJvTXBCTHFyMWlWZmFzZ3pLbkds?=
+ =?utf-8?B?em95enY2aFhSS2w3R1lYOUUxM2Y0QjJTK3VRTHNBRTgxWkFiZEFKek8vekkr?=
+ =?utf-8?B?QUhlbU9uZGJyS3V5bDNva295RmJ4S0Rjam4xRkdaTmt3ZnJrdTdvQ0dFQmUr?=
+ =?utf-8?B?M0tsbWx1ZFI2eVBma0FKRVpDVFo0UkhlSGVZV1R4M1lZUVlPWkJMUGJWK0t0?=
+ =?utf-8?B?dTlaTnlESUd6NWlLSEpRZWxNWHU1czB6WEtXNE1SSk44VzFkNm5qTjJFSWQx?=
+ =?utf-8?B?cFRYTXluTVdpU1lQaDhZWDZnSkx3b0hNZlNyUm14d2xrejZZby8yTzcxdW9C?=
+ =?utf-8?B?VmUvNlFNcWo3cmFTUTRnZHhpVzlnM2tvZ3pMbUJrcC9lVTJRck15SWlSazlp?=
+ =?utf-8?B?T0EzM3NBS2tPKzRWdnhoZW5pSFQzdWkxQjJTV3lWOVhHaWVha0huZ1pacUM1?=
+ =?utf-8?B?V0Eza0NxZ1QyT1FnQjNYOHluQ1ZjT0hNaW5qK2IxMkNKL1FxdFcveVZ2STdT?=
+ =?utf-8?B?bG9CS0Y2SlhxcTl0VmtmLytQS2RXcG9MZ0xiaVJTR1BPTDUvd1VrL0tNT0tD?=
+ =?utf-8?B?a3BaVVlUc3RFd2hqZmloenhJRjZXeWMxTFZzZnN1UmsrbkFkamJuRkxhaFdk?=
+ =?utf-8?B?eXZaMWpoUjdFMGs2My9RaFNWc25WaWU1Wk9DSnJxOFFSbFJWSnNVSDFPcUVn?=
+ =?utf-8?B?dDkzWFF4UUpIMExTZlB1TW1PRzBISjh6SHNBZTNsUnkvRnZnNEk1M3BueGxM?=
+ =?utf-8?B?dDRPVGZqeXMvLzFJeld4VjIzbGY3NHJKZm5uNjhybjdjRVdpbXFEVC9NUU05?=
+ =?utf-8?B?cURwa0NQTHEvU3pkaVpHZjFKZnZrazljZmNtOWNXVk1tTjdYTklVSEdRM29O?=
+ =?utf-8?B?b2xGZGU1VjRjV0g5QWJUQUJmZVQyaWkwcUdZckZ4bStBMFMydERtWmlWaHBX?=
+ =?utf-8?B?OWtGUmRndERQaXBIU01hQkFNazZmMEJZelJHOVFIVGhRS3RISUdteDVVQUJn?=
+ =?utf-8?B?cG5NTTFBN2lYR2RQUk9XbG5ja0t1R0EwcWxEYnNETlZ5N0FMU2YvTGt0N01E?=
+ =?utf-8?B?NlMvVXNQbW5XbXJzMzVMMU96UjgxMk9CdFNuY3o2TzYySFoxUisxNTRiQTA4?=
+ =?utf-8?B?b3pGektMZjR1UzJnNTMwd3JmZy9KcTh2TWlOeXVKRTRuQk1pZEZQVWxFWWdq?=
+ =?utf-8?B?aGdndTBZeVZNNlBxU3FHTDZvaG5RYndVUE5qc3oyRGJURk8wZDlUMCtOZE9B?=
+ =?utf-8?B?QTFWdFhGRW9QQ1BPSWp2KytWem51QWo0c1dWSHRESWhvNVp6ZTM3MHBRNjVz?=
+ =?utf-8?B?WFVsL3ZaaHhYQWJqbWwyeVNnVkRPaENRSndnck5KL1piTFU1dHJmcEFUQk44?=
+ =?utf-8?B?bTEvb2ZxNmRXUC9qbms2OHdieURjSU9vSW5pNlIxSlE4WFM2TERiWlJMM0lU?=
+ =?utf-8?B?WG9Vc3dkR0lmcUk4aElwUWxpK0oxQjNWSGo4cXRrZmRlWVp2YWNZcnd4cTZU?=
+ =?utf-8?B?VnUzTG9aM0RzaFFwR1N0OG14K0dqWkRYRHBoQ2xsMVhGRks2UDIzV3o4RkdY?=
+ =?utf-8?B?MWVNOGFaeVVrTThJZlFEUjJDbmRnR3RjOWRwY05aVVZHUGk2a2MzMmxHYTNk?=
+ =?utf-8?B?VnV4Z3hIcmZOTXNPNFRSVG0xa0tJQ3VvUDRNTzB2bFdxZ3o0TTh0VzcyaG9z?=
+ =?utf-8?B?bFJBczNCNDhYMndSSnBQRGRHemVLRnVzNXVLVjFxanVUNlY0WGFLREJ0R2hr?=
+ =?utf-8?Q?mE8Wm24899I/P8Q6oo=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Vy9vdS8rVER4N0pLOHJObTZTNytFNW9RQ0tUUXVrYUszeVRjZjhhaXBrWmNt?=
+ =?utf-8?B?QTFpaVZxdlRJR2ZPZXZ0RWJJN1ZSUlBzQWRkU0o4T1BqbDFkcThEc2l4dVZq?=
+ =?utf-8?B?L2ZaVy9GaENOYVEramNONWZCTmVkTlV6MmRFSS9IQW5WRVdSRXJJcDczeWJu?=
+ =?utf-8?B?TTMwa2JvUXFLT1ZQbzdJNHhWV2xRQ21pSmluUENRTGRBcGE3VlBuTVZhVE1G?=
+ =?utf-8?B?ck5MeDAxYUYvMzYza2pNREJtYWRQL0h1V3dKWk1td2QyNDdkaXF4K0h1T29x?=
+ =?utf-8?B?RTVMWmNWb05vY3NvQXZtaHlpR2JHRFlnZXJIWXBha05BN2NpSEg0YmZLVm9R?=
+ =?utf-8?B?UEpGbGxRQ2JESkJ6VmNMeE5pNG5uTVJDQi9VNEM2amlaNmp4K2NhV2NGdWJz?=
+ =?utf-8?B?STA2M3I1VHFENkFvZHl1V0hOWDNCcENGN01FSG5td1BMNVc5WDFzNXdGcGd5?=
+ =?utf-8?B?SUwwa2E5Yk5lTEJvZysvRWtZK0ppK0p2VkhvWURJakkyVXFnNXZZSkVqbFBi?=
+ =?utf-8?B?bW9wMHo4SFJSeGx6cDUxeUVSRmlVeWhLWGViRmRIY0xDcjYyUUpiQWdONEhB?=
+ =?utf-8?B?RXQ4SlhwY24yZ2ZHcERTR1hSb2hncDNpQ1Q1aVpKdjR1MVJiUEZacE0zRFpQ?=
+ =?utf-8?B?V0ZyTksyUUxGZUZ6VzBYejlJTzJVN1YrZlNINHJEWS9WMFJoYXNGZzFlTDZt?=
+ =?utf-8?B?ODJPYTlaRGtrVmgxbkVKeUpvRXhCTzZIMFJDcVpya2dYNUpzRWhwZ25ZUDNS?=
+ =?utf-8?B?bCs4RkpJcTNuQUR6cExjQmczcGVOL0tHcGVmQWJHejVSc3BQMVJrNlpPMkM3?=
+ =?utf-8?B?OXBxQlQ2TVNPSUI3U1c0VWlTai9kWEwxbzA1OXVrSmYyemRzNUthQWpNc1FE?=
+ =?utf-8?B?OTB3NEp5VkgvbEUvQjRQQ29wL2NYVG9teUxMMm5ZSlJQdCs4UjdXNDgrRHBr?=
+ =?utf-8?B?UzV5RUh5VUxwTmtYVkRheWVpQWZTNmhqd0d5cHh4RXFvdzEwQ2pZVjFaeHlK?=
+ =?utf-8?B?WmdIbVpMU2NQb05sS2o1NDkzeGZNWlY3YitENlBVYTdDMEkvY3hGTXhTTXhR?=
+ =?utf-8?B?clpmaGtSc0JqZm85Z0wyenFUM21mL3orbm55TEU0UXZtc3BOTWhOaVZmeWJx?=
+ =?utf-8?B?Kzg3N0Fjb1ZNQ0phRmF1YUowL2hEWVFsNTZSQm1vU2pDMnRrc3Z6VHRBWTdB?=
+ =?utf-8?B?VlJpbFJ5V2szcXJ2WlVSeWhFczVhVVV6VXVGU0lsdW9ZUXFvZmFtN1RWWFFw?=
+ =?utf-8?B?OGxicDZ2V2FzQnNid1pzaytJdkUvRXZXMS9NWW9WREJxM3RGbFMxems5UlQx?=
+ =?utf-8?B?dStTMUNwTEpDS24wajAwOHB2ZzhxQkViWW1oY1VMNE1ZSnlNdjQvZUp2NGpP?=
+ =?utf-8?B?TndNYWZFT3BqRmdsQU40Y3E1Y3JNMXVGYnN6cDk5cTJUYW1UeFhXMUdIK29N?=
+ =?utf-8?B?OVY0UTJNanBqVUNUN2tkam5DZ09CMUtUcFRnVWRPeWNnRkgzN01KOUt1d1Y1?=
+ =?utf-8?B?RWJZSXhzcDZOczBKVGV4bTVVQ2FYdG5Qb1cvOXRObkZOQWtwT0lTSGovcXl1?=
+ =?utf-8?B?cUo4Q2hBeWNWOU1OckRPc0twY0M3ZW50bDIwRTVzbTNtb09UeVZsQVoxemtF?=
+ =?utf-8?B?Wk9rcVoySmw5dnNGeDZNRS90M3BFL1BCbEJRQkFpOXd0L0FPWE1qclRwbTBi?=
+ =?utf-8?B?bUtKZitFM2tLQlNseGswMWcvNXU2M3UyYTloTlVveFpKaVhHeG1VWjlVY21E?=
+ =?utf-8?Q?yXiWKPZjyklId+RZQgM+3Mhm3mANCeVNLbWR/TT?=
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4af50e44-276f-427b-1e5a-08dd86774778
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 17:08:21.7353
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB9528
 
-Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
-Since the other patches went thru drm-misc-next, I guess this should
-too?
 
 
-Le Mon , Apr 28, 2025 at 02:31:32PM +0200, Petr Mladek a écrit :
-> The generic FourCC format always prints the data using the big endian
-> order. It is generic because it allows to read the data using a custom
-> ordering.
+On 28-04-2025 10:30 pm, Alyssa Rosenzweig wrote:
+> Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 > 
-> The current code uses "n" for reading data in the reverse host ordering.
-> It makes the 4 variants [hnbl] consistent with the generic printing
-> of IPv4 addresses.
+> Since the other patches went thru drm-misc-next, I guess this should
+> too?
+
+I think yes.
 > 
-> Unfortunately, it creates confusion on big endian systems. For example,
-> it shows the data &(u32)0x67503030 as
 > 
-> 	%p4cn	00Pg (0x30305067)
-> 
-> But people expect that the ordering stays the same. The network ordering
-> is a big-endian ordering.
-> 
-> The problem is that the semantic is not the same. The modifiers affect
-> the output ordering of IPv4 addresses while they affect the reading order
-> in case of FourCC code.
-> 
-> Avoid the confusion by replacing the "n" modifier with "hR", aka
-> reverse host ordering. It is inspired by the existing %p[mM]R printf
-> format.
-> 
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lore.kernel.org/r/CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
-> ---
-> Hi,
-> 
-> I am sending this as a proper patch. It would be nice to queue it
-> together with the other patches adding the generic printf modifiers.
-> 
-> Best Regards,
-> Petr
-> ---
-> Documentation/core-api/printk-formats.rst | 10 +++++-----
->  lib/tests/printf_kunit.c                  |  4 ++--
->  lib/vsprintf.c                            | 11 ++++++++---
->  3 files changed, 15 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 125fd0397510..f531873bb3c9 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -652,7 +652,7 @@ Generic FourCC code
->  -------------------
->  
->  ::
-> -	%p4c[hnlb]	gP00 (0x67503030)
-> +	%p4c[h[R]lb]	gP00 (0x67503030)
->  
->  Print a generic FourCC code, as both ASCII characters and its numerical
->  value as hexadecimal.
-> @@ -660,23 +660,23 @@ value as hexadecimal.
->  The generic FourCC code is always printed in the big-endian format,
->  the most significant byte first. This is the opposite of V4L/DRM FourCCs.
->  
-> -The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-> +The additional ``h``, ``hR``, ``l``, and ``b`` specifiers define what
->  endianness is used to load the stored bytes. The data might be interpreted
-> -using the host byte order, network byte order, little-endian, or big-endian.
-> +using the host, reversed host byte order, little-endian, or big-endian.
->  
->  Passed by reference.
->  
->  Examples for a little-endian machine, given &(u32)0x67503030::
->  
->  	%p4ch	gP00 (0x67503030)
-> -	%p4cn	00Pg (0x30305067)
-> +	%p4chR	00Pg (0x30305067)
->  	%p4cl	gP00 (0x67503030)
->  	%p4cb	00Pg (0x30305067)
->  
->  Examples for a big-endian machine, given &(u32)0x67503030::
->  
->  	%p4ch	gP00 (0x67503030)
-> -	%p4cn	00Pg (0x30305067)
-> +	%p4chR	00Pg (0x30305067)
->  	%p4cl	00Pg (0x30305067)
->  	%p4cb	gP00 (0x67503030)
->  
-> diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
-> index b1fa0dcea52f..bc54cca2d7a6 100644
-> --- a/lib/tests/printf_kunit.c
-> +++ b/lib/tests/printf_kunit.c
-> @@ -726,7 +726,7 @@ static void fourcc_pointer(struct kunit *kunittest)
->  	static const struct fourcc_struct try_ch[] = {
->  		{ 0x41424344, "ABCD (0x41424344)", },
->  	};
-> -	static const struct fourcc_struct try_cn[] = {
-> +	static const struct fourcc_struct try_chR[] = {
->  		{ 0x41424344, "DCBA (0x44434241)", },
->  	};
->  	static const struct fourcc_struct try_cl[] = {
-> @@ -738,7 +738,7 @@ static void fourcc_pointer(struct kunit *kunittest)
->  
->  	fourcc_pointer_test(kunittest, try_cc, ARRAY_SIZE(try_cc), "%p4cc");
->  	fourcc_pointer_test(kunittest, try_ch, ARRAY_SIZE(try_ch), "%p4ch");
-> -	fourcc_pointer_test(kunittest, try_cn, ARRAY_SIZE(try_cn), "%p4cn");
-> +	fourcc_pointer_test(kunittest, try_chR, ARRAY_SIZE(try_chR), "%p4chR");
->  	fourcc_pointer_test(kunittest, try_cl, ARRAY_SIZE(try_cl), "%p4cl");
->  	fourcc_pointer_test(kunittest, try_cb, ARRAY_SIZE(try_cb), "%p4cb");
->  }
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index 2c5de4216415..34587b2dbdb1 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -1804,9 +1804,8 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
->  	orig = get_unaligned(fourcc);
->  	switch (fmt[2]) {
->  	case 'h':
-> -		break;
-> -	case 'n':
-> -		orig = swab32(orig);
-> +		if (fmt[3] == 'R')
-> +			orig = swab32(orig);
->  		break;
->  	case 'l':
->  		orig = (__force u32)cpu_to_le32(orig);
-> @@ -2396,6 +2395,12 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
->   *       read the documentation (path below) first.
->   * - 'NF' For a netdev_features_t
->   * - '4cc' V4L2 or DRM FourCC code, with endianness and raw numerical value.
-> + * - '4c[h[R]lb]' For generic FourCC code with raw numerical value. Both are
-> + *	 displayed in the big-endian format. This is the opposite of V4L2 or
-> + *	 DRM FourCCs.
-> + *	 The additional specifiers define what endianness is used to load
-> + *	 the stored bytes. The data might be interpreted using the host,
-> + *	 reversed host byte order, little-endian, or big-endian.
->   * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
->   *            a certain separator (' ' by default):
->   *              C colon
-> -- 
-> 2.49.0
-> 
+> Le Mon , Apr 28, 2025 at 02:31:32PM +0200, Petr Mladek a Ã©crit :
+>> The generic FourCC format always prints the data using the big endian
+>> order. It is generic because it allows to read the data using a custom
+>> ordering.
+>>
+>> The current code uses "n" for reading data in the reverse host ordering.
+>> It makes the 4 variants [hnbl] consistent with the generic printing
+>> of IPv4 addresses.
+>>
+>> Unfortunately, it creates confusion on big endian systems. For example,
+>> it shows the data &(u32)0x67503030 as
+>>
+>> 	%p4cn	00Pg (0x30305067)
+>>
+>> But people expect that the ordering stays the same. The network ordering
+>> is a big-endian ordering.
+>>
+>> The problem is that the semantic is not the same. The modifiers affect
+>> the output ordering of IPv4 addresses while they affect the reading order
+>> in case of FourCC code.
+>>
+>> Avoid the confusion by replacing the "n" modifier with "hR", aka
+>> reverse host ordering. It is inspired by the existing %p[mM]R printf
+>> format.
+>>
+>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>> Closes: https://lore.kernel.org/r/CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com
+>> Signed-off-by: Petr Mladek <pmladek@suse.com>
+>> ---
+>> Hi,
+>>
+>> I am sending this as a proper patch. It would be nice to queue it
+>> together with the other patches adding the generic printf modifiers.
+
+Atleast thats what this says.
