@@ -1,215 +1,202 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E03190072
-	for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 15:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90B81D5176;
+	Mon, 28 Apr 2025 16:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745855127; cv=none; b=lNScuEZ+u+IMMz621iUHuqp8ZzlXhAcgllNKWDbZmAhnxUS3Y0Lzd/L0PJvhO2pN4aATsraot9ThaM7coywgeb4dMXQfu8eaGbBb2c7DSuUa8CpPN1z8AAKz/nMXbd67LQVJnX1ep2B4LWIO9ADfpnmwdi2j9/SNYXjoih7oh3o=
+	t=1745858064; cv=none; b=Mms5IfFIfarjxhqpJPgwaM9KUWso023a04/qlaDKOzzGuR5xAjuBIoMbwBfSWywhYcKX91ul1l+vJr1FOJqszWCQZDtJhvZNBYI5cYhUdig8qzLu+PCq7vYw/WquK6Q91Hvy7XzWiNWU3Xm9gr4Z/kWd4CTOL9xFfE5Fc/Wy32U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745855127; c=relaxed/simple;
-	bh=dwgYOym45oyNAdQ44afULSTNmEmOJnzMpDMS/yioqQY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Oq5GKkH2fga28zXU4UbJ0+Y8d/nu0RXxxITUcoUPIjJI1fEJ3w2CrmmIiJ9GTwi3axXrkxVIIXySy3KCoS2XvJIaoMpwUaiDKZnHrU635pKhH/EP6Lh2JEBlmZnzC6PBVJrkLrxl+9DetHD55obdRojF41J5PNp3KtbUpmyGTGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=tH0Dz3Jk; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+	s=arc-20240116; t=1745858064; c=relaxed/simple;
+	bh=XWL8UolMeNZmPHHotkwGV8h0TGYlW+ze8mtg/kLlngg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BN9+zEaAx4wJj9rvWGWrfCFvOt+uLygC6hjPTZvjfOP2sCD3mmKlyjBGFrKDWE5wYZy9vnDWLW7QvvHNR7yC9BBWWPjWLQ43H3mr0QcT7MiggKkGB6F0r+zndcedKRK8Bzl6B3ui+TddAtLOxQ4u8WMUXVTnOYy+D3mkbP5532M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=A5vI5CPA; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="tH0Dz3Jk"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-70565ccf3bcso52197997b3.0
-        for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 08:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1745855124; x=1746459924; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PU/sixtY71LvEi4Fz6DQo24QLlRpV93TUetQH3mfBu0=;
-        b=tH0Dz3JkkjBcFpdY2dl5NL+3PFzUH89G/5hFdQMfNdtkylJ7xmLZ1scM+G7n4JfDl6
-         LDxDylzK3bYhQSz/ZZiEhuq17UZoNAqohU9YZwsMN84FZnmwHicNNYzqfCkL0j3lRJAV
-         ufZZgGQqdpdRa6C1TZIDhZ+bfqI6wnvm3fjwFT5g6/MwYi8zFNSnQYWUXet1jOZmu7aa
-         h73gdnRaKGWdBB7R2JjYIpTS3JlNZ0HwXbGU64p3AxBzO+v9UYKO4a25DuLSbuiYfIBk
-         5yx+xvWbwXbwDAwr8rFYkvd/A/7ahNlgtN94kYfdJZgRfCr5EGaQ7MwD8Rsye2kFJHUd
-         4V8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745855124; x=1746459924;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PU/sixtY71LvEi4Fz6DQo24QLlRpV93TUetQH3mfBu0=;
-        b=mq1M7miv7UUtiAm9JazI0JxQ/9ECWNoQYEVsDLDEIz7W02Iupi8JOo/kAB4nE4pMeR
-         Nq3hKNKnBJOeIOB6V4PpitbNGuFA4zqrOOc8QKbtEIlCta3sXeujiSGK7t1NAkXPpCTv
-         VhDxxWCwe9o9d4uSE0nhXjrkvvSSzTbz+HypPrB/yCZNfgKEZGxvGwOn/Ood6BIFAyKc
-         ftX+iilPuG+2xMF+XBrgwOT0ztdnWioRryecmF6LKB44oCG78TF3ETpcss5c7GqzretK
-         bzhhKNfvhm6MXDU+3FJA+zknaxm06Fk3TyZe7yhM804aUy5cnvEF+BINaxAjsFkUBznc
-         r45A==
-X-Forwarded-Encrypted: i=1; AJvYcCU1uKbi4WZHI6kF1wOETM4J2TOALS8MnPs9bTOne/lOveb3yJ1cJfA6P91/NDxUA/Mp2M5gXg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdiDUbZRxUUouQPrmM+a3EfGkDOzzyByfn05D7h10mSDvPqphY
-	2dWVSXoljujEtI36AOczZYCwaCsRGz5i+USSq3YNrdVXXdmeFB2jPuAxx55H9Yb1PfQBltJytrV
-	yZcPoNANnfANIOtVDI7ZleUjsqGSDtUZePW10Fg==
-X-Gm-Gg: ASbGncsFY0iK0Yrool1Ae9sWGx/us8r2IkJdMR3508201MNDbVhQpCU4qweLZf8WrBp
-	Ylb5zYSrisThvpOOF5r5/azunuUdUmb6pITJ3beC5RUgZwROqFSLJ33ycBPcUM2SY02t7b4dTfw
-	mpJuYRIrjmFQFedYawDKLAUhM4Pjrk4B0eJwPJJnmkNvgngA9daqamneIwohRVUoo=
-X-Google-Smtp-Source: AGHT+IEF9MSlc844cuGTIRN/jaSQKExcmjeU1UeJwf54mw2x30vI+iBpqqWrdgOqbrjU+FD8mBfkUxmgGRAbgf2Y+6M=
-X-Received: by 2002:a05:6902:2701:b0:e72:d88e:7a9a with SMTP id
- 3f1490d57ef6-e73500e777emr136870276.45.1745855124717; Mon, 28 Apr 2025
- 08:45:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A5vI5CPA"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F39DA43962;
+	Mon, 28 Apr 2025 16:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1745858053;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0+W4uodyxoQUQ7gTcLqHUOqlDvIcEkj4yx+1gWHy3Mc=;
+	b=A5vI5CPAhG7Ec31vAslCrct99yDYQUT4yEVpjGag1L5A3ypdDOeM06X6a2NpNi4YWnE6mC
+	2NyQNklaS4GH5N+Y0O0KorENjPo6XmIKRUe43hr2bljZ9KcS30qPhwmXIPUFXXOTPm5XIu
+	n26mA6Au7+KoHn580KonEgnc/bZs1s5A97JkVcqC4ISpJzXNYjj+t+twS22sMPY2EzjhQZ
+	iio59hjvBN4KHAeTHadmXNHM9e/08/R+WKLujQCoy1O7rhd/OkZ8uYxTFLAP+7H0ewrqHT
+	6PMrAxpgk6up77rZyTiJAqPjC9S4tcckhsI1eEGu3LR+due+PAeNxJSMadl6Qw==
+Date: Mon, 28 Apr 2025 18:33:58 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
+ Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
+ Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, Adam Ford <aford173@gmail.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
+ <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
+ <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
+ Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, Dharma Balasubiramani
+ <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
+ Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
+ Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
+ Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Liu Ying
+ <victor.liu@nxp.com>, Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
+ <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
+ <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
+ Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
+ <mordan@ispras.ru>, Ilpo =?UTF-8?B?SsOkcnZpbmVu?=
+ <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Hans de Goede <hdegoede@redhat.com>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>, Dmitry
+ Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Rob Herring (Arm)"
+ <robh@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, Pin-yen Lin
+ <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>, Aradhya Bhatia
+ <a-bhatia1@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ian
+ Ray <ian.ray@ge.com>, Martyn Welch <martyn.welch@collabora.co.uk>, Peter
+ Senna Tschudin <peter.senna@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Herve Codina <herve.codina@bootlin.com>, Alim
+ Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, Kyungmin
+ Park <kyungmin.park@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Helge Deller
+ <deller@gmx.de>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Alexandre
+ Torgue <alexandre.torgue@foss.st.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Michal Simek <michal.simek@amd.com>
+Subject: Re: [PATCH v2 00/34] drm: convert all bridges to
+ devm_drm_bridge_alloc()
+Message-ID: <20250428183358.4d28ca6a@booty>
+In-Reply-To: <20250428-colossal-fiery-alpaca-8c5fee@houat>
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+	<20250428172457.23e23df5@booty>
+	<20250428-colossal-fiery-alpaca-8c5fee@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-27-8f91a404d86b@bootlin.com>
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-27-8f91a404d86b@bootlin.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 28 Apr 2025 16:45:08 +0100
-X-Gm-Features: ATxdqUF8zRJ18UCRRqpYogjOFDok1I-AvafpDPPJcxH-STXodhofR9H1CLM8tQg
-Message-ID: <CAPY8ntDwK0DZ6sThryDRBUgjTb+muNHtRNp+LohTs6+FWeB5TQ@mail.gmail.com>
-Subject: Re: [PATCH v2 27/34] drm/vc4: convert to devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddviedugeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfetudeugfehheeliefhjeejuddvledtuddttdevledthfehgeeugfetheekgfffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtkedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmr
+ ghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Thu, 24 Apr 2025 at 20:01, Luca Ceresoli <luca.ceresoli@bootlin.com> wro=
-te:
->
-> This is the new API for allocating DRM bridges.
->
-> This driver already implements refcounting of the struct vc4_dsi, which
-> embeds struct drm_bridge. Now this is a duplicate of the refcounting
-> implemented by the DRM bridge core, so convert the vc4_dsi_get/put() call=
-s
-> into drm_bridge_get/put() calls and get rid of the driver-specific
-> refcounting implementation.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Hi Maxime,
 
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On Mon, 28 Apr 2025 17:42:46 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Thanks.
+> On Mon, Apr 28, 2025 at 05:24:57PM +0200, Luca Ceresoli wrote:
+> > Hi Maxime, other DRM maintainers,
+> >=20
+> > On Thu, 24 Apr 2025 20:59:07 +0200
+> > Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> >  =20
+> > > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize=
+ a DRM
+> > > bridge, and the only one supported from now on. It is also necessary =
+for
+> > > implementing reference counting and thus needed to support removal of
+> > > bridges from a still existing DRM pipeline without use-after-free.
+> > >=20
+> > > This series converts all DRM bridges to the new API.
+> > >=20
+> > > Patch 1 uses a coccinelle semantic patch to mass-convert some of those
+> > > drivers -- thanks Maxime for having suggested the patch that served a=
+s a
+> > > starting point for me. I was unable to come up with a better patch
+> > > converting more drivers though, so I converted all others manually. M=
+ost of
+> > > them were trivial. I left the non-trivial ones at the end of the seri=
+es to
+> > > help reviewers know where to look at more carefully.
+> > >=20
+> > > Due to the large number of touched files, the list of recipients gene=
+rated
+> > > by get_maintainers (b4 actually) was huge, 60~70 people (not counting
+> > > mailing lists), so I took the liberty of trimming the list as reasona=
+bly as
+> > > I could to DRM maintainers and frequent contributors, and added all o=
+ther
+> > > recipients individually per-patch. I hope this is fine. Don't hesitat=
+e to
+> > > suggest more people which should be Cc-ed in a future series, or a be=
+tter
+> > > Cc policy.
+> > >=20
+> > > Current plan and status of the DRM bridge refcounting work:
+> > >=20
+> > >  A. =E2=9C=94 add new alloc API and refcounting -> (now in drm-misc-n=
+ext)
+> > >  B. =E2=9E=9C convert all bridge drivers to new API (this series)
+> > >  C. =E2=80=A6 documentation, kunit tests, debugfs improvements (v1 un=
+der discussion)
+> > >  D. after (B), add get/put to drm_bridge_add/remove() + attach/detech=
+()
+> > >  E. after (B), convert accessors; this is a large work and can be done
+> > >     in chunks =20
+> >
+> > Maintaining this long series is quite painful. Do you think at least
+> > patches with a R-by or T-by tag could be merged before I send v3, so
+> > we can relieve the maintenance effort, mail servers, and everybody's
+> > inboxes? =20
+>=20
+> Yes?
+>=20
+> What's stopping you though? You have at least a colleague that can apply
+> them, and you could just as well apply for commit rights yourself.
 
-> ---
->
-> Cc: "Ma=C3=ADra Canal" <mcanal@igalia.com>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
->
-> Changed in v2:
-> - fix error code checking
-> ---
->  drivers/gpu/drm/vc4/vc4_dsi.c | 34 +++++-----------------------------
->  1 file changed, 5 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.=
-c
-> index efc6f6078b026764c59cfb2a33b28a88b7018c3a..458e5d9879645f18bcbcaeeb7=
-1b5f1038f9581da 100644
-> --- a/drivers/gpu/drm/vc4/vc4_dsi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-> @@ -552,8 +552,6 @@ struct vc4_dsi {
->         struct vc4_encoder encoder;
->         struct mipi_dsi_host dsi_host;
->
-> -       struct kref kref;
-> -
->         struct platform_device *pdev;
->
->         struct drm_bridge *out_bridge;
-> @@ -1622,29 +1620,11 @@ static void vc4_dsi_dma_chan_release(void *ptr)
->         dsi->reg_dma_chan =3D NULL;
->  }
->
-> -static void vc4_dsi_release(struct kref *kref)
-> -{
-> -       struct vc4_dsi *dsi =3D
-> -               container_of(kref, struct vc4_dsi, kref);
-> -
-> -       kfree(dsi);
-> -}
-> -
-> -static void vc4_dsi_get(struct vc4_dsi *dsi)
-> -{
-> -       kref_get(&dsi->kref);
-> -}
-> -
-> -static void vc4_dsi_put(struct vc4_dsi *dsi)
-> -{
-> -       kref_put(&dsi->kref, &vc4_dsi_release);
-> -}
-> -
->  static void vc4_dsi_release_action(struct drm_device *drm, void *ptr)
->  {
->         struct vc4_dsi *dsi =3D ptr;
->
-> -       vc4_dsi_put(dsi);
-> +       drm_bridge_put(&dsi->bridge);
->  }
->
->  static int vc4_dsi_bind(struct device *dev, struct device *master, void =
-*data)
-> @@ -1655,7 +1635,7 @@ static int vc4_dsi_bind(struct device *dev, struct =
-device *master, void *data)
->         struct drm_encoder *encoder =3D &dsi->encoder.base;
->         int ret;
->
-> -       vc4_dsi_get(dsi);
-> +       drm_bridge_get(&dsi->bridge);
->
->         ret =3D drmm_add_action_or_reset(drm, vc4_dsi_release_action, dsi=
-);
->         if (ret)
-> @@ -1810,15 +1790,12 @@ static int vc4_dsi_dev_probe(struct platform_devi=
-ce *pdev)
->         struct device *dev =3D &pdev->dev;
->         struct vc4_dsi *dsi;
->
-> -       dsi =3D kzalloc(sizeof(*dsi), GFP_KERNEL);
-> -       if (!dsi)
-> -               return -ENOMEM;
-> +       dsi =3D devm_drm_bridge_alloc(&pdev->dev, struct vc4_dsi, bridge,=
- &vc4_dsi_bridge_funcs);
-> +       if (IS_ERR(dsi))
-> +               return PTR_ERR(dsi);
->         dev_set_drvdata(dev, dsi);
->
-> -       kref_init(&dsi->kref);
-> -
->         dsi->pdev =3D pdev;
-> -       dsi->bridge.funcs =3D &vc4_dsi_bridge_funcs;
->  #ifdef CONFIG_OF
->         dsi->bridge.of_node =3D dev->of_node;
->  #endif
-> @@ -1836,7 +1813,6 @@ static void vc4_dsi_dev_remove(struct platform_devi=
-ce *pdev)
->         struct vc4_dsi *dsi =3D dev_get_drvdata(dev);
->
->         mipi_dsi_host_unregister(&dsi->dsi_host);
-> -       vc4_dsi_put(dsi);
->  }
->
->  struct platform_driver vc4_dsi_driver =3D {
->
-> --
-> 2.49.0
->
+OK, thanks. Will do.
+
+The reason I haven't done it is this policy in DRM still appears a bit
+unusual to me, but if it works for DRM I'm OK with it. Only, in case of
+doubt, I didn't want to risk abusing of the commit rights.
+
+Best regards,
+Luca
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
