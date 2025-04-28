@@ -1,202 +1,149 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90B81D5176;
-	Mon, 28 Apr 2025 16:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7E025D1E0
+	for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 16:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745858064; cv=none; b=Mms5IfFIfarjxhqpJPgwaM9KUWso023a04/qlaDKOzzGuR5xAjuBIoMbwBfSWywhYcKX91ul1l+vJr1FOJqszWCQZDtJhvZNBYI5cYhUdig8qzLu+PCq7vYw/WquK6Q91Hvy7XzWiNWU3Xm9gr4Z/kWd4CTOL9xFfE5Fc/Wy32U=
+	t=1745859569; cv=none; b=UX4HJQcYfHVRHWyfUWIe2z/Yr0KvBGpDuO+UScvg3dqnAUWSqCMAD2MuoJyFRpWceyKjsL1hOkJt359aDnFtmd6hWSEWxTwoyzK7BvUkiThYtDcYgxNsnVH2JUOjHHTNyFnrCMA5tQZBQ8jR2wGFRdaUrf//5pkcZTuTXZCb63I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745858064; c=relaxed/simple;
-	bh=XWL8UolMeNZmPHHotkwGV8h0TGYlW+ze8mtg/kLlngg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BN9+zEaAx4wJj9rvWGWrfCFvOt+uLygC6hjPTZvjfOP2sCD3mmKlyjBGFrKDWE5wYZy9vnDWLW7QvvHNR7yC9BBWWPjWLQ43H3mr0QcT7MiggKkGB6F0r+zndcedKRK8Bzl6B3ui+TddAtLOxQ4u8WMUXVTnOYy+D3mkbP5532M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=A5vI5CPA; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1745859569; c=relaxed/simple;
+	bh=yVZQDai+bQxNRKGxYBXNhFxPP+6V67bB7QVCQMmNnHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TUQZ1ssjzgQPEZ+Vx7qtmo+esURXUzf4kYLKCFwBzV8N8tT2KsNlhAk+QJBxrYN0TwV6kI4kWEw82w4Nw+VAryndoZiBmi8Xu4A9cwWg59B5HKMPrbNo9buRlwrXBRvRpJgmId1m4rrAhxOD3TS/0QBHiNWnBTOIL6cino1uNdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=CI03rC4E; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A5vI5CPA"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F39DA43962;
-	Mon, 28 Apr 2025 16:33:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1745858053;
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="CI03rC4E"
+Date: Mon, 28 Apr 2025 12:59:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1745859563;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0+W4uodyxoQUQ7gTcLqHUOqlDvIcEkj4yx+1gWHy3Mc=;
-	b=A5vI5CPAhG7Ec31vAslCrct99yDYQUT4yEVpjGag1L5A3ypdDOeM06X6a2NpNi4YWnE6mC
-	2NyQNklaS4GH5N+Y0O0KorENjPo6XmIKRUe43hr2bljZ9KcS30qPhwmXIPUFXXOTPm5XIu
-	n26mA6Au7+KoHn580KonEgnc/bZs1s5A97JkVcqC4ISpJzXNYjj+t+twS22sMPY2EzjhQZ
-	iio59hjvBN4KHAeTHadmXNHM9e/08/R+WKLujQCoy1O7rhd/OkZ8uYxTFLAP+7H0ewrqHT
-	6PMrAxpgk6up77rZyTiJAqPjC9S4tcckhsI1eEGu3LR+due+PAeNxJSMadl6Qw==
-Date: Mon, 28 Apr 2025 18:33:58 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
- Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
- Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, Adam Ford <aford173@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
- <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
- <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
- Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Detlev Casanova
- <detlev.casanova@collabora.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
- Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
- Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
- Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>, Manikandan Muralidharan <manikandan.m@microchip.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
- <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
- <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
- Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
- <mordan@ispras.ru>, Ilpo =?UTF-8?B?SsOkcnZpbmVu?=
- <ilpo.jarvinen@linux.intel.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Hans de Goede <hdegoede@redhat.com>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>, Dmitry
- Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Rob Herring (Arm)"
- <robh@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, Pin-yen Lin
- <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>, Aradhya Bhatia
- <a-bhatia1@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ian
- Ray <ian.ray@ge.com>, Martyn Welch <martyn.welch@collabora.co.uk>, Peter
- Senna Tschudin <peter.senna@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Herve Codina <herve.codina@bootlin.com>, Alim
- Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, Kyungmin
- Park <kyungmin.park@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Linus Walleij <linus.walleij@linaro.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Bjorn Andersson <quic_bjorande@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Helge Deller
- <deller@gmx.de>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Michal Simek <michal.simek@amd.com>
-Subject: Re: [PATCH v2 00/34] drm: convert all bridges to
- devm_drm_bridge_alloc()
-Message-ID: <20250428183358.4d28ca6a@booty>
-In-Reply-To: <20250428-colossal-fiery-alpaca-8c5fee@houat>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-	<20250428172457.23e23df5@booty>
-	<20250428-colossal-fiery-alpaca-8c5fee@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	bh=B2C2yn8elBSXELDShaq1pAcO9k6vBEikFCz2S9SRVPY=;
+	b=CI03rC4EDCIrP5aneiBluOKbjXSXi1RqFeF9FdLjb0Tst5K2p1266hSx52AJpP/DEaFKh9
+	9f5c1TkCrODeWNWJPduCZcvLLs61tN7wZWyqIGCdMxMS22h9dEFcri6kKR2boq4dEkkfiJ
+	PhWBoSs+zvM4yDbehkCQ6ECZFocoZCwg7AkgbOKnfcykr2r9OocWPzTFfAe/hwk1dXofUA
+	u2HNMQn5LZDAkH188RAogLQwohAlwvaUB1yAKlhbixRoybFIpEaL5UcqypbqlBMnoGn6/S
+	GiSTdiTMcamk6HhU8wcc2b1KIWU6LEjQIpnDY7/uKi/2JJWbU70pKK1nqHZOSg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: j@jannau.net
+Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Neal Gompa <neal@gompa.dev>, Dmitry Baryshkov <lumag@kernel.org>,
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] drm: adp: Handle drm_crtc_vblank_get() errors
+Message-ID: <aA-z5mK4mmgPFNQP@blossom>
+References: <20250428-drm_adp_fixes-v2-0-912e081e55d8@jannau.net>
+ <20250428-drm_adp_fixes-v2-2-912e081e55d8@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddviedugeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfetudeugfehheeliefhjeejuddvledtuddttdevledthfehgeeugfetheekgfffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtkedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmr
- ghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250428-drm_adp_fixes-v2-2-912e081e55d8@jannau.net>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Maxime,
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-On Mon, 28 Apr 2025 17:42:46 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
-
-> On Mon, Apr 28, 2025 at 05:24:57PM +0200, Luca Ceresoli wrote:
-> > Hi Maxime, other DRM maintainers,
-> >=20
-> > On Thu, 24 Apr 2025 20:59:07 +0200
-> > Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> >  =20
-> > > devm_drm_bridge_alloc() [0] is the new API to allocate and initialize=
- a DRM
-> > > bridge, and the only one supported from now on. It is also necessary =
-for
-> > > implementing reference counting and thus needed to support removal of
-> > > bridges from a still existing DRM pipeline without use-after-free.
-> > >=20
-> > > This series converts all DRM bridges to the new API.
-> > >=20
-> > > Patch 1 uses a coccinelle semantic patch to mass-convert some of those
-> > > drivers -- thanks Maxime for having suggested the patch that served a=
-s a
-> > > starting point for me. I was unable to come up with a better patch
-> > > converting more drivers though, so I converted all others manually. M=
-ost of
-> > > them were trivial. I left the non-trivial ones at the end of the seri=
-es to
-> > > help reviewers know where to look at more carefully.
-> > >=20
-> > > Due to the large number of touched files, the list of recipients gene=
-rated
-> > > by get_maintainers (b4 actually) was huge, 60~70 people (not counting
-> > > mailing lists), so I took the liberty of trimming the list as reasona=
-bly as
-> > > I could to DRM maintainers and frequent contributors, and added all o=
-ther
-> > > recipients individually per-patch. I hope this is fine. Don't hesitat=
-e to
-> > > suggest more people which should be Cc-ed in a future series, or a be=
-tter
-> > > Cc policy.
-> > >=20
-> > > Current plan and status of the DRM bridge refcounting work:
-> > >=20
-> > >  A. =E2=9C=94 add new alloc API and refcounting -> (now in drm-misc-n=
-ext)
-> > >  B. =E2=9E=9C convert all bridge drivers to new API (this series)
-> > >  C. =E2=80=A6 documentation, kunit tests, debugfs improvements (v1 un=
-der discussion)
-> > >  D. after (B), add get/put to drm_bridge_add/remove() + attach/detech=
-()
-> > >  E. after (B), convert accessors; this is a large work and can be done
-> > >     in chunks =20
-> >
-> > Maintaining this long series is quite painful. Do you think at least
-> > patches with a R-by or T-by tag could be merged before I send v3, so
-> > we can relieve the maintenance effort, mail servers, and everybody's
-> > inboxes? =20
->=20
-> Yes?
->=20
-> What's stopping you though? You have at least a colleague that can apply
-> them, and you could just as well apply for commit rights yourself.
-
-OK, thanks. Will do.
-
-The reason I haven't done it is this policy in DRM still appears a bit
-unusual to me, but if it works for DRM I'm OK with it. Only, in case of
-doubt, I didn't want to risk abusing of the commit rights.
-
-Best regards,
-Luca
-
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Le Mon , Apr 28, 2025 at 01:37:14PM +0200, Janne Grunau via B4 Relay a écrit :
+> From: Janne Grunau <j@jannau.net>
+> 
+> drm_crtc_vblank_get() may fail when it's called before
+> drm_crtc_vblank_on() on a resetted CRTC. This occurs in
+> drm_crtc_helper_funcs' atomic_flush() calls after
+> drm_atomic_helper_crtc_reset() for example directly after probe.
+> Send the vblank event directly in such cases.
+> Avoids following warning in the subsequent drm_crtc_vblank_put() call
+> from the vblank irq handler as below:
+> 
+> adp 228200000.display-pipe: [drm] drm_WARN_ON(atomic_read(&vblank->refcount) == 0)
+> WARNING: CPU: 5 PID: 1206 at drivers/gpu/drm/drm_vblank.c:1247 drm_vblank_put+0x158/0x170
+> Modules linked in: uinput nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat videodev drm_dma_helper mc apple_soc_cpufreq drm_display_helper leds_pwm phram
+> CPU: 5 UID: 0 PID: 1206 Comm: systemctl Not tainted 6.14.2-asahi+ #asahi-dev
+> Hardware name: Apple MacBook Pro (13-inch, M2, 2022) (DT)
+> pstate: 614000c5 (nZCv daIF +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+> pc : drm_vblank_put+0x158/0x170
+> lr : drm_vblank_put+0x158/0x170
+> sp : ffffc00082aa7e70
+> x29: ffffc00082aa7e70 x28: ffff80003419e000 x27: ffff80003419e000
+> x26: 0000000000000001 x25: 0000000000012400 x24: 0000000000000066
+> x23: ffff800033fc8800 x22: 0000000000000000 x21: ffff800029688e70
+> x20: ffff800029688000 x19: ffff800029688000 x18: 0000000000000000
+> x17: ffffc0015c868000 x16: 0000000000000020 x15: 0000000000000004
+> x14: 0000000000000000 x13: 0000000000000001 x12: ffffc000825b3a90
+> x11: ffffc00082960e88 x10: ffffc00081b0ec88 x9 : ffffc0008017d0ec
+> x8 : 000000000002ffe8 x7 : fefefefefefefefe x6 : ffffc00081bbec88
+> x5 : ffff8001de237548 x4 : 0000000000000000 x3 : ffffc0015c868000
+> x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff80003419e000
+> Call trace:
+>  drm_vblank_put+0x158/0x170 (P)
+>  drm_crtc_vblank_put+0x24/0x38
+>  adp_fe_irq+0xd8/0xe8 [adpdrm]
+>  __handle_irq_event_percpu+0x94/0x318
+>  handle_irq_event+0x54/0xd0
+>  handle_fasteoi_irq+0xa8/0x240
+>  handle_irq_desc+0x3c/0x68
+>  generic_handle_domain_irq+0x24/0x40
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> 
+> ------------------------ >8 ------------------------
+> Changes in v2:
+> - clear `crtc->state->event` only if non-NULL
+> - use a temporary variable to clear `crtc->state->event` before sending
+>   it
+> 
+> Modifying `crtc->state->event` here is fine as crtc->mutex is locked by
+> the non-async atomic commit. In retrospect this looks so obvious that it
+> doesn't warrant a comment in the file.
+> ---
+>  drivers/gpu/drm/adp/adp_drv.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
+> index 157298a8ff42b95275411dd4a7a0c70780fd86fd..bdf27ee742ea01759b5d571a21b527687ffcada7 100644
+> --- a/drivers/gpu/drm/adp/adp_drv.c
+> +++ b/drivers/gpu/drm/adp/adp_drv.c
+> @@ -331,13 +331,19 @@ static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
+>  	}
+>  	writel(ADBE_FIFO_SYNC | frame_num, adp->be + ADBE_FIFO);
+>  	//FIXME: use adbe flush interrupt
+> -	spin_lock_irqsave(&crtc->dev->event_lock, flags);
+>  	if (crtc->state->event) {
+> -		drm_crtc_vblank_get(crtc);
+> -		adp->event = crtc->state->event;
+> +		struct drm_pending_vblank_event *event = crtc->state->event;
+> +
+> +		crtc->state->event = NULL;
+> +		spin_lock_irqsave(&crtc->dev->event_lock, flags);
+> +
+> +		if (drm_crtc_vblank_get(crtc) != 0)
+> +			drm_crtc_send_vblank_event(crtc, event);
+> +		else
+> +			adp->event = event;
+> +
+> +		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+>  	}
+> -	crtc->state->event = NULL;
+> -	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+>  }
+>  
+>  static const struct drm_crtc_funcs adp_crtc_funcs = {
+> 
+> -- 
+> 2.49.0
+> 
+> 
