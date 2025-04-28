@@ -1,123 +1,182 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0A81D5176
-	for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 13:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F0026A0DB;
+	Mon, 28 Apr 2025 15:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745847225; cv=none; b=rYN+eOFuoxUBM89Nm2e2NNFGV3v6KEOAv+YwJyH+HJKlLFgGMudeOgF5IXMLidigR7+nuPo82IdjOzPeFKyA9SJIaXM/aPXuCCE5RrYBGkySjf6jN8vnj7cS8JDSg3BByVO1KwYq56XWH+ku8Q2LZ7LGwkBJJ92xOpNs8/lCozE=
+	t=1745852460; cv=none; b=FgFoD4cfDmX6SEaN9EJl12afDvCe9Dg7imLeGmjJBUO1AjpL+0qqZynKxRTvNrZ5FsevKUgOmYvVPBpCnpbSCFf3lFoKwm75H1SpkKCRHoEThYgJiRmOwiuxdVoAPKi4DrGLf42Z18DHqNPgo0404/m9RonLv+gaTCzeUBZOSHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745847225; c=relaxed/simple;
-	bh=gpUxEEVy3sIsimESLtWHg+JgdxY1t3rGmbuJEiKpzNQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SrLo2L2K6j4u20ixw3fGIjyNxD8Lt6C3H+JBe+54uEPn07zl+S5wA6Xpfw5BYhmtvAQsn5Ny/UsLaf8nUST1kljSpm6mxlDw+ZbtDehPcwUqEdJ6nEgr7p4o2W4jRFlWy4IqxclXWWonM3CZYcTfQkKGWOn597CtvAmmLjl0BuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6ecfbf1c7cbso88109426d6.2
-        for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 06:33:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745847221; x=1746452021;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0BEsm26/ULBWvXKeKH9l2FyVqKv47K9xZOm0eiyll4M=;
-        b=Jf7TLHKpmIAXUjuaM+Fb3w/xFWl+uw2E3U5LWr1+BBGjJWLMl74mayEe6fWvS0aFuV
-         dnqrlk4xnXE+YbEhVTKNfoTRHqT1QQkghAWF+VRhamqGTqxr3nC2i4WovJB6YQFvLD5R
-         O5Sr2cGawhmVnp9NND6SVacaZdU8JYM9MZ2Ug+RuwSMWlSCrGPX6mqFlYdW2+wwwKa8o
-         yQc5vzp375MteZ1XL38jjT/K/NRSPiAKo6WT6+KxZ/oaM+4idDTXSC4OXT/IeF2THexw
-         jBMaBRWOotK3lDbpy7kz+8LxDFwOCtBvuayYNdZ21/mt9tIT4zVFyaKqRt2kDnAN0csl
-         rjfw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7OmBiZgxDIOLtkEFVPgCxGgYvsIZriY1qZrNvLcifF1D4vVyxC9+5wEGQG82fWTyF2qsEfw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTQx0LZFKxM6HfOs8mD2jKI3+X+zlW39nr9yFR2lkX0iHRi7Hb
-	bgGG+gsznwx5oXPPjAyk37Qi5NbYzcJakiOOcTl+5bWSAOUL7vRF/HU3VbhY
-X-Gm-Gg: ASbGncubVgIUzzqxFbL7WeL18GZsEIyCmXN/7KnR3B7kQ2qu/FyMlhHXZexL9J1EgWW
-	Mt/z5Udcigdd/ff4t/Rn/rhFT+pwQtOwaqINMRWuU2/1oGVqub8y00fEA93NtffGoi4qPH//3D+
-	xxoG4TnhszCZrbqjacKRsnFIz/4N9MTB12vQ4WVNNs3jjE8pK9DRBnON7UJbOmkw4/SCEbFmBTZ
-	RkB+aR2mKXWksNEVmPyS7wl7Jkqp02D3JgVI+vFYSs4QHJwAbIonbS8NlktUB5SBNUrMlFubny4
-	FaMkbROU4XIJBx0/6ZAoJGazoNJWnl2mWtYlRgIG6ryEXzM80u8b862s9zASilT6jYWTAUrUg3B
-	ex6rdPT8=
-X-Google-Smtp-Source: AGHT+IFM7Nhpvvb7WVLgXqMlRnFP1lXAlpfDE+AKHHtAhsdJ2NP2C/FLMhyDlB+YJRNBD2s08ouVnw==
-X-Received: by 2002:a05:6214:21cc:b0:6d8:9062:6616 with SMTP id 6a1803df08f44-6f4d1eef321mr169328476d6.7.1745847220266;
-        Mon, 28 Apr 2025 06:33:40 -0700 (PDT)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com. [209.85.222.179])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4c0aaf96csm61253606d6.116.2025.04.28.06.33.38
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Apr 2025 06:33:39 -0700 (PDT)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c5aecec8f3so866792985a.1
-        for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 06:33:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUzZfaM+ZWDqkRPj0Op0lFLaJ3mtk0Qy/VFI9CrCYsMzEMxbMShygLZgbhHAcC1WfxrbR49nw==@lists.linux.dev
-X-Received: by 2002:a05:620a:1787:b0:7c3:cde7:a685 with SMTP id
- af79cd13be357-7c96686a84bmr1764084385a.13.1745847218260; Mon, 28 Apr 2025
- 06:33:38 -0700 (PDT)
+	s=arc-20240116; t=1745852460; c=relaxed/simple;
+	bh=Jj0NuGJcZPP++kkBPoUGzVvz6UYG/ryJu2VBn3xv4s4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZoLvB8xf+zmNtsx3qz6ldfQQUnWiF4oAfSKPeMYStJaPNhgbCij4P5XKaxrczz2+1qNy9mFpK8oOuYVkPNhsyqNLB9/eI3tIQ8d3nqp3wuAPRCj/Aqnz8Rlsyc3H3chaaSWUHj09Rc3k3wtzQo3SztZdzXVwcqnmB7b7yIL2UsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cTAHqyDf; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cTAHqyDf"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4F84F4397F;
+	Mon, 28 Apr 2025 15:00:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1745852455;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l/KM50XoeWonitoxoMaOHFeoOtZjamWkVO4Sfztxz2s=;
+	b=cTAHqyDfWqZQRajnA0jCJJTRWgntMZ9qCGKU473NOxESwutCLvKkGP9L3GMlUIUf1TVfoJ
+	rSml0e13bS9W5xL7vpWnRG/Gf8DwWyNIkXZ07glmnEui2hZC2Xoq/8/xjrvJp5r3ePSFuU
+	njtoTq8LUpcrENa9NLXi3tWAr4COusan12TyNUvMZQZfaHrdfuVf/DcDoxsqC3HUZd6Oxa
+	xFrGUT/PhDw09LZJgn+fTcnrJMlbI4kHX39u8mbqL16gwmh6HE2DuFmuNLvVbhBpuVI1WK
+	hOs5l7kG8ZpIdaFhDwnEIRvdHjqsZaRpzN9lTpgipOlJKjv7cuiqF1qRk9Zf2g==
+Date: Mon, 28 Apr 2025 17:00:45 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Andy Yan" <andyshrk@163.com>
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Andrzej
+ Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Jagan
+ Teki" <jagan@amarulasolutions.com>, "Shawn Guo" <shawnguo@kernel.org>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Douglas
+ Anderson" <dianders@chromium.org>, "Chun-Kuang Hu"
+ <chunkuang.hu@kernel.org>, "Krzysztof Kozlowski" <krzk@kernel.org>, "Anusha
+ Srivatsa" <asrivats@redhat.com>, "Paul Kocialkowski" <paulk@sys-base.io>,
+ "Dmitry Baryshkov" <lumag@kernel.org>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
+ "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ "Adam Ford" <aford173@gmail.com>, "Adrien Grassein"
+ <adrien.grassein@gmail.com>, "Aleksandr Mishin" <amishin@t-argos.ru>, "Andy
+ Yan" <andy.yan@rock-chips.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Benson Leung"
+ <bleung@chromium.org>, "Biju Das" <biju.das.jz@bp.renesas.com>, "Christoph
+ Fritz" <chf.fritz@googlemail.com>, "Cristian Ciocaltea"
+ <cristian.ciocaltea@collabora.com>, "Detlev Casanova"
+ <detlev.casanova@collabora.com>, "Dharma Balasubiramani"
+ <dharma.b@microchip.com>, "Guenter Roeck" <groeck@chromium.org>, "Heiko
+ Stuebner" <heiko@sntech.de>, "Jani Nikula" <jani.nikula@intel.com>, "Janne
+ Grunau" <j@jannau.net>, "Jerome Brunet" <jbrunet@baylibre.com>, "Jesse Van
+ Gavere" <jesseevg@gmail.com>, "Kevin Hilman" <khilman@baylibre.com>,
+ "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>, "Liu Ying"
+ <victor.liu@nxp.com>, "Manikandan Muralidharan"
+ <manikandan.m@microchip.com>, "Martin Blumenstingl"
+ <martin.blumenstingl@googlemail.com>, "Matthias Brugger"
+ <matthias.bgg@gmail.com>, "Philipp Zabel" <p.zabel@pengutronix.de>, "Phong
+ LE" <ple@baylibre.com>, "Sasha Finkelstein" <fnkl.kernel@gmail.com>, "Sugar
+ Zhang" <sugar.zhang@rock-chips.com>, "Sui Jingfeng"
+ <sui.jingfeng@linux.dev>, "Tomi Valkeinen"
+ <tomi.valkeinen+renesas@ideasonboard.com>, "Vitalii Mordan"
+ <mordan@ispras.ru>
+Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
+ devm_kzalloc() to devm_drm_bridge_alloc() API
+Message-ID: <20250428170045.5ca315ce@booty>
+In-Reply-To: <656e493e.a551.1967c6d0c53.Coremail.andyshrk@163.com>
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+	<20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
+	<656e493e.a551.1967c6d0c53.Coremail.andyshrk@163.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250428123132.578771-1-pmladek@suse.com>
-In-Reply-To: <20250428123132.578771-1-pmladek@suse.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 28 Apr 2025 15:33:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX07EUSL2q5=jD17NX0gRMuLcWNec6i_18_vdnk5iC0bg@mail.gmail.com>
-X-Gm-Features: ATxdqUFmD3scy2HsHjle6vsPCd-N6jvnwhDUq0YXyuK0ax-ge1T-9jGSCM3VE7o
-Message-ID: <CAMuHMdX07EUSL2q5=jD17NX0gRMuLcWNec6i_18_vdnk5iC0bg@mail.gmail.com>
-Subject: Re: [PATCH] vsprintf: Use %p4chR instead of %p4cn for reading data in
- reversed host ordering
-To: Petr Mladek <pmladek@suse.com>
-Cc: alyssa@rosenzweig.io, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>, airlied@redhat.com, 
-	Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com, 
-	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
-	Kees Cook <kees@kernel.org>, tamird@gmail.com, Aditya Garg <gargaditya08@live.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieduvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepieelpdhrtghpthhtoheprghnugihshhhrhhkseduieefrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrn
+ hgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Mon, 28 Apr 2025 at 14:31, Petr Mladek <pmladek@suse.com> wrote:
-> The generic FourCC format always prints the data using the big endian
-> order. It is generic because it allows to read the data using a custom
-> ordering.
->
-> The current code uses "n" for reading data in the reverse host ordering.
-> It makes the 4 variants [hnbl] consistent with the generic printing
-> of IPv4 addresses.
->
-> Unfortunately, it creates confusion on big endian systems. For example,
-> it shows the data &(u32)0x67503030 as
->
->         %p4cn   00Pg (0x30305067)
->
-> But people expect that the ordering stays the same. The network ordering
-> is a big-endian ordering.
->
-> The problem is that the semantic is not the same. The modifiers affect
-> the output ordering of IPv4 addresses while they affect the reading order
-> in case of FourCC code.
->
-> Avoid the confusion by replacing the "n" modifier with "hR", aka
-> reverse host ordering. It is inspired by the existing %p[mM]R printf
-> format.
->
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lore.kernel.org/r/CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
+Hallo Andy,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, 28 Apr 2025 20:44:03 +0800 (CST)
+"Andy Yan" <andyshrk@163.com> wrote:
 
-Gr{oetje,eeting}s,
+> Hi ,
+> 
+> At 2025-04-25 02:59:08, "Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
+> >devm_drm_bridge_alloc() is the new API to be used for allocating (and
+> >partially initializing) a private driver struct embedding a struct
+> >drm_bridge.
+> >
+> >For many drivers having a simple code flow in the probe function, this
+> >commit does a mass conversion automatically with the following semantic
+> >patch. The changes have been reviewed manually for correctness as well as
+> >to find any false positives.
+> >
+> >  @@
+> >  type T;
+> >  identifier C;
+> >  identifier BR;
+> >  expression DEV;
+> >  expression FUNCS;
+> >  @@
+> >  -T *C;
+> >  +T *C;
+> >   ...
+> >  (
+> >  -C = devm_kzalloc(DEV, ...);
+> >  -if (!C)
+> >  -    return -ENOMEM;
+> >  +C = devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
+> >  +if (IS_ERR(C))
+> >  +     return PTR_ERR(C);
+> >  |
+> >  -C = devm_kzalloc(DEV, ...);
+> >  -if (!C)
+> >  -    return ERR_PTR(-ENOMEM);
+> >  +C = devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
+> >  +if (IS_ERR(C))
+> >  +     return PTR_ERR(C);
+> >  )
+> >   ...
+> >  -C->BR.funcs = FUNCS;
+> >
+> >Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-                        Geert
+[...]
+
+> >diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> >index 5e5f8c2f95be1f5c4633f1093b17a00f9425bb37..9b1dfdb5e7ee528c876c01916c9821d550cad679 100644
+> >--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> >+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> >@@ -1045,9 +1045,10 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
+> > 		return ERR_PTR(-ENODEV);
+> > 	}
+> > 
+> >-	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
+> >-	if (!hdmi)
+> >-		return ERR_PTR(-ENOMEM);
+> >+	hdmi = devm_drm_bridge_alloc(dev, struct dw_hdmi_qp, bridge,
+> >+				     &dw_hdmi_qp_bridge_funcs);
+> >+	if (IS_ERR(hdmi))
+> >+		return PTR_ERR(hdmi);  
+> 
+>            This should return hdmi or ERR_CAST(hdmi);
+
+Indeed, thanks!
+
+My coccinelle patch is clearly not clever enough. I'll see whether I
+can fix it, otherwise I'll handle these 3 special cases manually, along
+with another similar one (imx/imx-legacy-bridge.c) I just spotted after
+your report.
+
+Luca
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
