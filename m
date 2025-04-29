@@ -1,155 +1,147 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350B029E07E
-	for <asahi@lists.linux.dev>; Tue, 29 Apr 2025 03:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825961ACED2;
+	Tue, 29 Apr 2025 07:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745898290; cv=none; b=c2f2Jiu12lb+ISCvP+0E+7EU1d6AAy9XTP8NulLQW4ngHNZrRzs/+V4KyV4bOlsmSMHvyMlGsqoLVCVlIeG2cCeJ48d06hWfqE/rz7YqukhBXTf0c9OEayJ5QFEGifW6AGwL1ElhRtbBPYBsoOV6phUFsrqbW249tea8fkVT6BA=
+	t=1745910493; cv=none; b=Ws95Wfv/A4GRVOgVmizvUCHZ0RbMSa5pKpK1nEv+N6W8rtK98X4dUEE03vZRXvRfp1ysBzIQXfSSmyO+GnnXDl6HFcGdacQFgfT8fPwZWFwtmbhpf64/XIMGIhP3dJd1OJ3FDy3b6O05JF/f0T1GfcHOal+a9aDYSqjAFPvcDkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745898290; c=relaxed/simple;
-	bh=ZHoXysjC3tKjwBhupXya9t0tvevKJFeLclU2Q2P4acg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AC8Jw1nqG2/07/wGkeMk/2AhMOhpXydZbJkUde3rIOizZDY3N0Ia/BUZPHP7nMg7Rh4Y9l1I/b2cIHu+Vb/TJQXYOWDTZi7gdElP6+r16P16qQ3sbNTvnwy2bj3zfs1pGEfngSHRGpKzJz162nfghWp9Qj51xeIQ32E7R2R6LrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ltL4cQYM; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745910493; c=relaxed/simple;
+	bh=nPRyjDAU7mFweg6Qm2O719OR/K5IMD9kkVcM9g1g7tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LvSpEVerJSm6GccKjuV6xAAXUQIgtjzi/OaeJvedd8UiX3DtzuLmN67FdoF6xibuXG2WO9jv808qTmkywyeiTi1zkp9wWgvXtXrl2Hr1bxZ/W0W6ADEZz2h81oOLrJs0CGv+z5VdGK830POTM6Z8N5svdl2JJg/5821nFUJAWus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fcJKYscB; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ltL4cQYM"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2295d78b45cso79039065ad.0
-        for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 20:44:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745898288; x=1746503088; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YgYxG+vTxBAlApfr9OfPBfVTpSGem7njEO/S/STMqlg=;
-        b=ltL4cQYM5+3saT6fLnnJ+XUFuh4ieGYhiPjwBn00ED0X69PI7ss15TQG/nSzK7VQTR
-         FpzyWYqC3cANxNC9l4qrOoFAgveSYo6HC4vEdJH3GSjfgsWByjzlUYPhBjduDWeRpAaw
-         lHw+1tt5fzoE9l3nFzoQnfBxeH0FyDgjF8Qo0M11Umk6T/Uf3g8WBZIUuLjY/BDzbrht
-         KcrkpBJmPMDLyhFOEkvx7zT/NEdIlCyiswDQhxi1/ccRxCXGUN6ootIYzvrCbugWe6P4
-         zgeJEqLSOLan0x+TOXJ1EILNF8xJ1yjzzPUYBMUwJYWn//erTHuTImn08pqRTYwTv9ih
-         pvsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745898288; x=1746503088;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YgYxG+vTxBAlApfr9OfPBfVTpSGem7njEO/S/STMqlg=;
-        b=AKo8470mmSb6a5LZ9zrQMzalL7XeFb7BGC8gqnVvuWl0VxV7ubZra57BjizqLj8jVu
-         g4hm9b66PdKr97TuIf4pmV36QeKN+hvl+L8S/fXJ0MhSVSpysJd3m3wujyVX2jtna4vT
-         vz2hH0hrqiR22u6yw+A6eZE94NkFm1bShuKIi0TuszJrSqM73LtCIRsuVMSVkDykzxmS
-         3b6ZfCTECaxgBSYG6dC24xH3juyCcB2/MsHge89smCcUa5iPhuvj0cUPaxCk3LJ5zSvq
-         0tWoGwsW+f8+guEOR21xThwxOUe0gQZv6kSmrKH4gytMHBOtANNQnCco7SQkaqVTFPy8
-         6K4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUtiw8LT3531te2B9MC7GIXL3QqM5qclkvePv7ZKcfUkVxk6g10UK6SyDISxQdN17s4e9B0pA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywy0wSJhU5ofODL1tmyYiYCQhfAuGR9ShCO+Ojf6qrWThHuBPe0
-	ABJHp6DmYQBJQitO2KdQX4TE7S0EnfXDojpAKyFV+R+AJG0oBAvT
-X-Gm-Gg: ASbGncsLfE+Nd0C7jX34NBrGnH7CWUapenrjTtzoXQ7vUh1cbYu1gJJUOb2ZTxdL0x9
-	p3gs2daJ+dZHHU6IJ5RU1SE7ddT7c2yo0o8hTEWUcxyaDLkHATHZFRY5JRuF+ElPbWUeF/Ymt5y
-	QbqwWhW/6pVsePc/DWwB7sMrxdqWN+JpJ0zzRpiNBcya8MfiKym40X0XvK4tFk+/RNK6D/w+9ld
-	/a49dbyg3nD4iSScA9Vomum5i/efCiL9eGiOXNTjFdwvQdGxhpLwN1SCjfhtHBopFLzcYNLV6+e
-	TcUsiJo8DZgJmilJB3Tpk/t0vI3o1xbJsWaiPs/U18ZoNRvlxtuc2jQeHNnMKzkG4DpU
-X-Google-Smtp-Source: AGHT+IG+mbGfHby4oN4mif/0xWyzRBGUvzT/O7NjVxUxLjebSyALlk4r0nPv9AAtoDtPEV0kMXU5LA==
-X-Received: by 2002:a17:903:24e:b0:220:e023:8fa6 with SMTP id d9443c01a7336-22dc6a87a3bmr149376745ad.50.1745898288540;
-        Mon, 28 Apr 2025 20:44:48 -0700 (PDT)
-Received: from [127.0.1.1] (wf121-134.ust.hk. [175.159.121.134])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-309ef03bb7fsm9953249a91.9.2025.04.28.20.44.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 20:44:48 -0700 (PDT)
-From: Nick Chan <towinchenmi@gmail.com>
-Date: Tue, 29 Apr 2025 11:42:45 +0800
-Subject: [PATCH RESEND v6 21/21] arm64: dts: apple: t8015: Add CPU PMU
- nodes
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fcJKYscB"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 22CA543A5D;
+	Tue, 29 Apr 2025 07:08:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1745910488;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kd3lI03kG0Wm60ssPsZRZZBpZE8tAduMDQ2Hf34LlN8=;
+	b=fcJKYscBr/b/jTAU/vdTWM1YVAZaQiKZf9U4AtTZtpc5ho823NHoDeZMuLwHQVD5ogMz4d
+	l4pHVstABt7F5anu7rX+Is4pzCVclLJyVW2RUnk7sXHFitWtcyzJ1ZDZppcaYxqIMmzxD2
+	Sfc1sxFBGdTgBwDEHAPbC2rd0KV+kllYzYprQVDyppacSAp3Fkyy+/iDCZutuZh3ARu+US
+	34h4mqj6xj55AWEBMBTArFMS0lwr+TdUdaA1KbDVw07BZOaEQry3xl1MPhcnU/8hzfGqQG
+	6tTsndglheT+XJYQtJe0j1GjXXfJp3D7sz7UMZVYzpF8m9ZxqhKhClOsZxv+aQ==
+Date: Tue, 29 Apr 2025 09:07:59 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Douglas Anderson
+ <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
+ Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
+ Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, Adam Ford <aford173@gmail.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>, Aleksandr Mishin
+ <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung
+ <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
+ Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>, Dharma Balasubiramani
+ <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
+ Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
+ Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
+ Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Manikandan Muralidharan
+ <manikandan.m@microchip.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
+ <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
+ <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
+ Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
+ <mordan@ispras.ru>
+Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
+ devm_kzalloc() to devm_drm_bridge_alloc() API
+Message-ID: <20250429090759.3a6e87bc@booty>
+In-Reply-To: <810dc089-4789-4efb-a88f-4ab8da1519d4@nxp.com>
+References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
+	<20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
+	<810dc089-4789-4efb-a88f-4ab8da1519d4@nxp.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-apple-cpmu-v6-21-ed21815f0c3f@gmail.com>
-References: <20250429-apple-cpmu-v6-0-ed21815f0c3f@gmail.com>
-In-Reply-To: <20250429-apple-cpmu-v6-0-ed21815f0c3f@gmail.com>
-To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Sven Peter <sven@svenpeter.dev>, 
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>
-Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org, 
- linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Nick Chan <towinchenmi@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1462; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=ZHoXysjC3tKjwBhupXya9t0tvevKJFeLclU2Q2P4acg=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoEErmS1j7IbxLQZFLwnkOWnyGSToxunf+XJVbp
- 2Po03ztjQmJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaBBK5gAKCRABygi3psUI
- JEnzD/4oHcDES/A3PK30mbJojwRLni5u89YxyaUUXYibt356GrRUeaB9TaCO01jQtOCbCyLwdng
- YYLhyzjLX5WGz+LVCOpox/FejgYqaGmOs48zTsdrza7jrrcapf4Gm3y4u9LGy1oivwzW4eSvHqe
- BclP4UmTlBVeLCZgD5Lpdx1Y7gGcA/kE0oKbae+SCi23mdmVMa6uVCUd0YrwMGRwglDR/DNE33E
- v8Pk7JisxFreQLuncLRqBJXpYzB5lDbB3XxsnmuZqNuT1SDyjwK+EHMGuNIsXLBLF+FjFwQJ4dC
- NKmL4l+qJPyZJ2badP5lsPMumOQ4E882OtRIGWLojoc2W7DzjrPbPSrZ8FzILxZtDwxyLqHALf5
- rOlZ/n4kepyshmCA1terQLnhNH66s4MEPKSTRqIdbOmpaOJAmQr0q7xehYOTcQtkOxik80Dizob
- 5UAtpDS+m2hl3rgIk/L4thrBIfq5YVY+5kPuZ77KP9UEJoxKoopvnY8AedI6CZ8Kj4Vk496/r7k
- bIw0zf4Dv76CCEY/S9EJdSOe1UG0VMQEbYtoarAGR3tYr8skigSk++wEkiMdMIAddQ+ryWvepQS
- dNNrxD1hBKlDuXAs4WdEvD7FLxKx9p3JaA56Abb1PxNiE8S85h95aE0WQHyuIURre8/c7Wb3kcv
- wjboZ0P2NAD9FNg==
-X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
- fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieefudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepieekpdhrtghpthhtohepvhhitghtohhrrdhlihhusehngihprdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkv
+ ghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Add CPU PMU nodes for Apple A11 SoC.
+Hello Liu,
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- arch/arm64/boot/dts/apple/t8015.dtsi | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+On Tue, 29 Apr 2025 10:19:27 +0800
+Liu Ying <victor.liu@nxp.com> wrote:
 
-diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
-index 4d54afcecd50b50ed1fd386ccfc46c373e190e6b..e838b65ea63eef9c198032ee87e63dae282141dc 100644
---- a/arch/arm64/boot/dts/apple/t8015.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015.dtsi
-@@ -252,6 +252,18 @@ aic: interrupt-controller@232100000 {
- 			#interrupt-cells = <3>;
- 			interrupt-controller;
- 			power-domains = <&ps_aic>;
-+
-+			affinities {
-+				e-core-pmu-affinity {
-+					apple,fiq-index = <AIC_CPU_PMU_E>;
-+					cpus = <&cpu_e0 &cpu_e1 &cpu_e2 &cpu_e3>;
-+				};
-+
-+				p-core-pmu-affinity {
-+					apple,fiq-index = <AIC_CPU_PMU_P>;
-+					cpus = <&cpu_p0 &cpu_p1>;
-+				};
-+			};
- 		};
- 
- 		pmgr: power-management@232000000 {
-@@ -380,6 +392,18 @@ timer {
- 		interrupts = <AIC_FIQ AIC_TMR_GUEST_PHYS IRQ_TYPE_LEVEL_HIGH>,
- 			     <AIC_FIQ AIC_TMR_GUEST_VIRT IRQ_TYPE_LEVEL_HIGH>;
- 	};
-+
-+	pmu-e {
-+		compatible = "apple,mistral-pmu";
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_FIQ AIC_CPU_PMU_E IRQ_TYPE_LEVEL_HIGH>;
-+	};
-+
-+	pmu-p {
-+		compatible = "apple,monsoon-pmu";
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_FIQ AIC_CPU_PMU_P IRQ_TYPE_LEVEL_HIGH>;
-+	};
- };
- 
- #include "t8015-pmgr.dtsi"
+[...]
+
+> > diff --git a/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c b/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
+> > index f072c6ed39ef183b10518b43bd6d979bc89e36f9..8069c4881e9058f5462f99116799b589bd52b19e 100644
+> > --- a/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
+> > +++ b/drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c
+> > @@ -59,9 +59,10 @@ struct drm_bridge *devm_imx_drm_legacy_bridge(struct device *dev,
+> >  	struct imx_legacy_bridge *imx_bridge;
+> >  	int ret;
+> >  
+> > -	imx_bridge = devm_kzalloc(dev, sizeof(*imx_bridge), GFP_KERNEL);
+> > -	if (!imx_bridge)
+> > -		return ERR_PTR(-ENOMEM);
+> > +	imx_bridge = devm_drm_bridge_alloc(dev, struct imx_legacy_bridge,
+> > +					   base, &imx_legacy_bridge_funcs);
+> > +	if (IS_ERR(imx_bridge))
+> > +		return PTR_ERR(imx_bridge);
+> >  
+> >  	ret = of_get_drm_display_mode(np,
+> >  				      &imx_bridge->mode,
+> > @@ -71,8 +72,6 @@ struct drm_bridge *devm_imx_drm_legacy_bridge(struct device *dev,
+> >  		return ERR_PTR(ret);
+> >  
+> >  	imx_bridge->mode.type |= DRM_MODE_TYPE_DRIVER;
+> > -  
+> 
+> Nit: Can you please leave this blank line undeleted?  And I see similar
+> situations where lines are unnecessarily deleted by this patch, so this applies
+> to the entire patch.
+
+I agree some empty lines removals are not nice in this patch. However I
+have no idea how to avoid that with spatch, so I'd have to redo [a part
+of] the changes manually to avoid it. :-(
+
+Anyway, those I spotted look quite innocuous. So I'll assume it is "OK
+enough" as is, unless there are strong requests to do differently.
+
+Luca
 
 -- 
-2.49.0
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
