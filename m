@@ -1,215 +1,183 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C5429CB3B;
-	Tue, 29 Apr 2025 02:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745894051; cv=fail; b=kYLNBaY41pwr9jJ0xJKYacpI8RqwfU6elA4sbic5eqyJSv9seRmypOXM8NiMHYl8GIvznbQuu4SaONFK4LbFkpK914L3brVyO/PGUuoIqyK/aI7WiXgqt38Fot/K7EH2DRITwo+1boUqy1djeVb8MujQoIeQ0WkVdV0Vsy65KdQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745894051; c=relaxed/simple;
-	bh=6XwIK71bC0WE95VkU3uaRu8tDqDT1zldBpePSHASaeU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UcRUImVys2G49AkjdR05h05ASPo9hipHb7m6WSQMzSGFBip5+lYXaAWx46VEeOnLWSFCiCZ/Vv0Z+4ocz1NDxFEV4a3UWrixBzvRSU0uI9sl81t82slCoFmLnif3GOILCPEerJ10S05cY3oo2bD2w8FYiA8HeTtTSP5R+Ssiw/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=T6SCeNZ4; arc=fail smtp.client-ip=40.107.21.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF241C84D3
+	for <asahi@lists.linux.dev>; Tue, 29 Apr 2025 03:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745898220; cv=none; b=ZeXw1S6PjZKLb0kuvRF71sEE1Q7VuStNdsIksniwg/GDAo9dLRDhcq3iPHroEFU5ysuwCnmfHijBOMu1bOL0wDA6Ityk4X4XkArkSrE+Bf5OZrGOfkJLBbOKbiHseSMW9QVC750gJETAliW9PL2WS9Gk+b5uSchV38/WCinrFj4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745898220; c=relaxed/simple;
+	bh=A/h8OXs8Wekr7gbuWaO+81ojzwQgObVHH0lNAKAIdNU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pbLw9yM05P2UURbfKjNjtmByWztuk6cTFAEfqmOjxTeMiSHUjZ2PfApuwTowsaddqL1HpQzWpKU5vTtvia05RfTen2kKgDUjJ6BTwtuac2mr34RxEY+oNxOMbKGjUpsOJg3drdMjD6TRUmRykP+ftM7rDH71BWb56WApht1Qhxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OPJtd+j6; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="T6SCeNZ4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qvroP1ePL1eBOHbdevh6t97Pi2VaNgzB0ilXnuJ0mMsXA/QQiz429C53Ywrk9ASPP0puc9Exo3CbSqQ5bz4BZAUhNSeBl6E9LzNwYSyriYAX0beZOoUZGWTRHSYM5R9h9bxibBgnYmTR5g4qHHqqE8dQz0S5tCIeTO81kz0YebtvAzGPd5xvRbsqTUMbe3k7wQiuacZNLMaaPOjHuT0gH+mHBZxxSXlZZHciw8RsVMkqkbsuBhrWkC5J48De42tP0Yr1+bX3mpniZjsSed1LbZH5M+p9WB6WbaomZdO1KcXCmqHdP42jJY+bCj2NiJQo1dHJmQXfO/W28a+rs8lz0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H0aFO1DU+qVWVpVl2V2ZBIhpix9P8ocvhYVqNg/qweY=;
- b=MFmsIApkVtB9n8h3UzMDPBQh8RxkLpS2CLywxB4z9irH7W9FLzO8J8pgecay5R1R2Z2vTyybAlXTFqqBAirfpuqKqzYHofWPtnh6O3KQCzO3N3gyyNwdQbx3RzLr6wDIrQ6E9zS9/7ZcBf4GlBflEhyIiVIOiYbZ4NA+FQ9cbyM2gaiyeL1FqEJrfEtfpn3oJnWuOhmKM9x+T20XF7unmXkW2AxFnpBwoxSjmeouFVnmBeYl4uZDG3526Aym36J7P8Abmyo8DLDZbXZCPpGjnPaJdRxbYN7X1jGcaWwmPvUTCdQyWO9g8hSbJqHEDiC5H7T8vFZbI7tKCEEdRiXmtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H0aFO1DU+qVWVpVl2V2ZBIhpix9P8ocvhYVqNg/qweY=;
- b=T6SCeNZ4fVwd1Ig5OkM9aEv1KUm+PWV1DsCXgkkYliK2yep/S4yaV3xzAEOpwAJ8aZSxi5JeZPvxY/4rfWrmrXFiPoVkCuzR7SEdL2Jru5AsE3V+S0CPD9pDIl40wG6CusieS/wAvZI17Mlbdw8dWzqGNb6R9LcubtA7JXzp3zCAlNTBt0RjdIso0Pd28dAD+QplHA+OWKFylPG7MjilDGi9aiDOhBYtPq5S0TlxpsGZ83pRVf+OXB+zdfK37Qm8UWoRYRN4Wr4tDCpxUIGrPzodrkxac2ak0fJ/U29sO4gBF+BBQvyxMTZdJRtmGLNx1DOqPvwTPP2MXYjrDAddyA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AS8PR04MB8360.eurprd04.prod.outlook.com (2603:10a6:20b:3f4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.34; Tue, 29 Apr
- 2025 02:34:06 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%3]) with mapi id 15.20.8678.028; Tue, 29 Apr 2025
- 02:34:06 +0000
-Message-ID: <a5cdb20b-06ff-47ca-a0a4-593a4010016d@nxp.com>
-Date: Tue, 29 Apr 2025 10:35:30 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 31/34] drm/bridge: imx8*-ldb: convert to
- devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>,
- Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>,
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-31-8f91a404d86b@bootlin.com>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20250424-drm-bridge-convert-to-alloc-api-v2-31-8f91a404d86b@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR01CA0186.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::14) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OPJtd+j6"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b03bc416962so3909318a12.0
+        for <asahi@lists.linux.dev>; Mon, 28 Apr 2025 20:43:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745898218; x=1746503018; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3EuDa5MdYzDvx9phCQyiyQIJ/EzyBR8j5u1DkbRAKbc=;
+        b=OPJtd+j61RCeVtLPQyGILZgEIJ7MUsmZ+VeQEd5vp1JFGv/lj22SdF1Mc/81gJG1yd
+         Tel4ChqBtvqNQc2ZL8b6fy2jfbnr9hGN8M05MlMk5Fqeuisxu/OLdTlGzJCbJdHsyiwr
+         cliAN3ORaiZsF6oixUWXY5/z5FZla6BBaESDSmVKCJp9pSq2EX5ncMTofRnMnwCrtXC6
+         G5vq+mpk9YWmFpCH59wa1Ms76U8TmkkMMHghMbEQu+EkjTVwlirLfamN5Lfe3zZDBejQ
+         daQHqwiPpYV5X1iLqZkvTPu3EbpdWPOSfUWBJXqbE077cJ0zCI4l9jiRaAx1Gc505++/
+         leAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745898218; x=1746503018;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3EuDa5MdYzDvx9phCQyiyQIJ/EzyBR8j5u1DkbRAKbc=;
+        b=UuDfID1SdZ9tKJgQeyEq/8FrzIn4fOjjHZGgl6A5Sf3MRK8lheAxhoQ5/7fP9I5JDv
+         3c4w3+2jvm0GB11MfXae6U1HPK7YRLE0Y1hyWXM1FEmSXyb/JVsc3Mgry7HiH17CXN6Y
+         MhEd9oqewFZP9NaAAmlC/oTE0MCxbf3VZg6AywFLdjqW5fJwgseZLmcDsPYZCNk2PsS6
+         o1pSypVrskN0uPY/3qnP4Mi8PMRBDW0rMdm0QZGM3z68wegrEk4E8vKh3kwio+pSrMn9
+         EktNDz3VsQCCG2+qyWa+5zkBVR1X7tcxx47IA0naxj0yZrCsRBQyiSMNEmFfQlUWmA50
+         J4Zw==
+X-Forwarded-Encrypted: i=1; AJvYcCVftKXILBSXSlMnpb3BrkBnxfoe83+KIWs/IM+zq+gKQgYan2WgoKOTnhJSoxbENJmphpJwug==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjnKVYuJS3WOhvnHQ+AbzPYzYywpmP2kCKVwxHdCvvb3ku0/gW
+	YgoYoWyniFd17BGGgwZ0pmKhOCgKqCU/a6GG/NbwEGXlA0MoMNzgf93CQQ==
+X-Gm-Gg: ASbGncvVOME6rEor2WvIkyMy9UA5FE802hQUxlcE7OYFFywQmaeXYtDwp8I3uV/W30w
+	G3f4VikWK0sgO18IJji9RSBLzWmhbBYnjmIAyatAyWGYguNQtovH8+Nl9mDi/Z9bciI9SyJNama
+	9y9BjTfmO6dIPwcgXqIaw1wymmd0VNwEXrZMNv84S8t5x2mfiSTQsMK7nBd5jnKR6Oz0fUNJ15i
+	i0OqSjtUWyOsBSU2XRPZgI1Y1FM9nf+YrwYOoX+iA0Mfaw14CbvZgGuejYgzkR7Fiw9jgpU+SOk
+	HrxBVp5LQXKfPVFKErwABo4JmPhsLYELQ8/V1f7Wf2FBx43yZXvIA2ZZPg==
+X-Google-Smtp-Source: AGHT+IHDlfH5cI7f1OQklMi9xc6LaYpwXhhqvPBfBvQ0fZ4Ac0OERq6XWV3yO59OjjnYFowNpLs0xw==
+X-Received: by 2002:a17:90b:2f10:b0:2fa:1e3e:9be5 with SMTP id 98e67ed59e1d1-30a0102977fmr18745487a91.0.1745898217839;
+        Mon, 28 Apr 2025 20:43:37 -0700 (PDT)
+Received: from [127.0.1.1] (wf121-134.ust.hk. [175.159.121.134])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-309ef03bb7fsm9953249a91.9.2025.04.28.20.43.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 20:43:37 -0700 (PDT)
+From: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH RESEND v6 00/21] drivers/perf: apple_m1: Add Apple A7-A11,
+ T2 SoC support
+Date: Tue, 29 Apr 2025 11:42:24 +0800
+Message-Id: <20250429-apple-cpmu-v6-0-ed21815f0c3f@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB8360:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6595992f-a933-41b1-0946-08dd86c65005
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?TldqT2ZWQi9ZQWY5V3ZIT3B4NGszWGR6elVBOUpTb2h6aTN1d2xTTmtZN29t?=
- =?utf-8?B?ZGZMclVFYXZSOVE0R2c3YnJaMlRMTkNpSzQyZmZxbHVFZ3VFL1NYNVYrVUxM?=
- =?utf-8?B?eTRKTTBCMzdkMi9jYlZHaStYNTJsaWViWlp3OVVJWGYwNW0wN2gwSzFKVm9i?=
- =?utf-8?B?RklUYmNtWllzcisvYUJWWFBuTUFpVjRVbFZCNEMrS2I1aXh4TzVZMlRLT1BO?=
- =?utf-8?B?Qm4yZUxBd0FMZlJndWhIVVhVcHFCWXpWZ29FZUtUeDdENVg0YmtqSzhLZ1RZ?=
- =?utf-8?B?azFKVlROMmpjcno4N0pnWExKTnFENEdJa2hHVUJ2Rm5vRE9HZE1PT1VVN001?=
- =?utf-8?B?VXJIMEZHVnpnMlhmYmhjVTlWMWhCdTdYWk9lVjRLNnNPbjU4eVlzdG9DUUU1?=
- =?utf-8?B?djVJeGE1SWxMcTJEd3hlZys5N1AvWVRQUENKM2tVUXVpTUtOUkRtOWh1QkxG?=
- =?utf-8?B?akpsd3NSb1BEalNXL1VJVU5vdWx2aldwS2xXZ1BicUR3d0ZuQS8vYUZhdDVR?=
- =?utf-8?B?aFI2dnY1dkpOU3NCV3BFWFY0RGFEYlhkWU4rUGNqcVM5eW5yVTllTi9seFo1?=
- =?utf-8?B?dTd1cXRoeWdEaGxkVmZPTTlCc0R1MzlPN2hsWFdCK0p4c2ZDaVlMalpSaGkz?=
- =?utf-8?B?Q3M0SlhZekphZU0xNEpueGh1UFZYM2ViUGsvTHhsVUlMdUlXSUJkMkh2cVoy?=
- =?utf-8?B?R1VlUW9EU3FrT0psUDEyQUtUcW1HWjVPNnB6RkdxaXpqc1d1Yzhla0ZRdU5U?=
- =?utf-8?B?bFVJS1gyZVJXSnhOSHBMcjg2N0RzeG13Unp2ZzQ2Q2RyYUdud2V0N3c0VVR6?=
- =?utf-8?B?U2FDL2U0OEd2SS9hM1RBTnFzTStnQ3ZNcm1CS2dMMFRma3VlZWRaeVlyNHN6?=
- =?utf-8?B?V2krUjN1cDVDanhJZWl6aG9acDI2OVJMaVNBcHhCbFhRTkcxOTBIOFpza2Nq?=
- =?utf-8?B?aGI0NmNORjFpdEtXZ1Y4NEVsMXh5bFZmWE9qTHNkN1U5Y2VBZURacytwWnlz?=
- =?utf-8?B?Z3NtNkc1YjJDOGRMM0QyOTBhWXZrd01QNG9pV1duUTUyckt6QStxWEtUMm5p?=
- =?utf-8?B?QklDaGMzOVpUSXh5VVIya2tOb1JBbHpyRlFGZWVQMEdTREtaUmJRT0o1eVMy?=
- =?utf-8?B?ais3N2hYbFZWbUx2Y2pCTk8zTHpvYTdzREk4cUR3ZWpjNVN2WENGVXUyU2Jm?=
- =?utf-8?B?VXhudjlaZGpBQUhpeDJlZ3ZlSzg0T0RlaWVQMXVpaXZ1N1dDMHlsWmUvYVFZ?=
- =?utf-8?B?eUVJQ2crbldLaldhUXF5a3pQS0FjQ2xTNDFjMHJzUjFvRmJxeUhjZnpEWG04?=
- =?utf-8?B?RmUwZDBLeTdZQ2FUVlkrWnNnNHV2QnAwU0VuMnhkUTdDclUydUZRNkplMysr?=
- =?utf-8?B?NW05SXlZNnRrSFJDN3FRYVRNUWcvUnQ5WS9tSE5jaFo4S2gvbGRVeDlKY3JE?=
- =?utf-8?B?OWZ0ZUIxSm91TjRiTlV2RkNaNWF1ZkxvV1VSWHNjNENQYkQ4VWQ4ZG54ZjJW?=
- =?utf-8?B?TXJjSGRTWFE4MjlRcWhWdTNHa0xGK0RXbUZhZnNGMTk4SmVyK3EzTnBPb0cx?=
- =?utf-8?B?Ujk0OHNqaGlqN1Rsd1BqM05mbmRyamF0QWV2aE82UVJnY1cyOFF0eDBNam9H?=
- =?utf-8?B?c2dseEdicFdIUmZYSEJUb3pSUXZjRE1NVWUyWHhJeFAzeFY3MEJOc21FbUto?=
- =?utf-8?B?QzZpUnI4TXdlaUQ3ZC9aWFRMMnFRRHFwWHI4TVR4M1c0RTRVcXBFbjRIZ3ZD?=
- =?utf-8?B?V3FWZFZsSEJyZnMrM2YzRllnOG9YaWM0aS8wdis3Y3N5VndPd2g3d2w0UC9G?=
- =?utf-8?B?NG5mai8rMHVNT0RsWDlBaDErQm9uaGJXQURZSERacHZyQXZMVlFKZ1ZqMlNH?=
- =?utf-8?B?YXRHYngyMVZzaVE1UzZpN3N2TUtmb0ZSSjRWWW9lcG5mRVhsc2dqZk5rT1pB?=
- =?utf-8?B?bUVscWVOU2J1ZmMwTGpObU5RSzVIV25IZndkSGRrQ3lpY3JjU2V4cHJ1TTN3?=
- =?utf-8?B?Q2x4NG1iS3pnPT0=?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?NjJvZ1FWc3QrN0x2MWhCVGVwWG1QeWpkcWZhK2lXZ2dCV3ZXN0lqM201MWNr?=
- =?utf-8?B?UEVnajZReHV0M2RYNEJCbnk5R3NmaEdlZzFkMGovVll0QWRxK1BudXIxMi9w?=
- =?utf-8?B?SW1Dd0VzaWhycTJiNzF0Wk44MDNLMnJuUk1QcTB2bGFqSnZzVmFQNzNrQUhv?=
- =?utf-8?B?eUVVbDZDRjcvQ1VsVWFDdDRnTzgralAwbldvOEE3Y21sYmZCOEY1Tk9ubHFs?=
- =?utf-8?B?eE53YjN4clpVd3RoclNCSmgxQ0krSUxLR0NzK2xoNSt2dVpPL0lycGJsRVBQ?=
- =?utf-8?B?bnRySXNrQWY1b0xXWFZxUkdNUzdwRUtUNmtwMXFML3lQMGZEYkR0SGFGUGlQ?=
- =?utf-8?B?bnUyT0xZYjhvQjF3dGtidlFySzVvNVZuTUJWdXUrdWpPckRxeENmOUtWK3c2?=
- =?utf-8?B?OVorRFYyaGdLdHRMZ0g4VkV6bFNRZWowMUVUNTh3REEzanVtdGtqWmFZdXlD?=
- =?utf-8?B?UW9mUlBlTVdWemRacmxJQUVPdjFnNnZHb1Vvb1c3VGRqNldKVFlSek5GRm5B?=
- =?utf-8?B?ZXdjcUswdjZ4am42NXlrNlljZkE4MHpVSTV6QmUxRXg1V3RUODhydmI3YUQw?=
- =?utf-8?B?Z3A1QXR3Yk5nMGxTY05vQTdiZXBpM2p5ZTFDbnd3M0J4SXhreFgzMWpLQlpn?=
- =?utf-8?B?MEQ2ZW9FbSt2Vzc3UnNaaGNzeCtNSEMrOU05RVJ4MVFPOE01VXpXb1UvLzJ3?=
- =?utf-8?B?NXArbFdueXVjSEpaRm1BMkxLamlkWDk2MU5ST29IUmlQdzdDWnRSenJCelp5?=
- =?utf-8?B?UTJvekd4WTIvWjU2ZXVPWlJCdUczeTA5VmU3ZVdwR3FyVmxrK21DcVptL0hk?=
- =?utf-8?B?czRpSlRVZTVLYmJtalZyRUxBMnFsOHF0THQ3K2YyQnc0QXNtUDFCOVNLbDRP?=
- =?utf-8?B?UkN3SXl4akhKOUdjOXpWYkVmMTIzUEc4TlV6WXdvZFBLYStNNUhieVlIb01W?=
- =?utf-8?B?a2dkQWh4UVJsS0ZqTXcvY3VpaWUwc3IxS1JZc09SUXN0aE9GZG1QME5RYTZv?=
- =?utf-8?B?bXBoanFyY2E0SUs2Wkc4L2I4bktaOFNXV1FPUjRtQTF0OSs0ays5NndVQ1lh?=
- =?utf-8?B?TENZTVcwcW9BMHNCYUVnUEp1TTJvNzg2YUtWTkgxQjNxNkZZZGZ0TXNIK2wy?=
- =?utf-8?B?Q0dUNXhrLzBkTDB0V3lmL0c0cERMd1VqdGxoNFFTNE5RTys2U3BUTkZ1L0I1?=
- =?utf-8?B?T2lRZlNwY1hCd3ZQUVJMdjZEYjFySXhCaGpJYk5EVUFqYldrc0V1QzNpanNO?=
- =?utf-8?B?bzB3eXd2V3NUSmxaK2hrZmFZUkpTUXJmQnd6VDJTekw4ZVY5YWU5dTd0eHly?=
- =?utf-8?B?bnZoc2xKdWdTUkRCUldsNkUza1FnRVpaeVB2Mkl6YTdnQjM5bVJnWUVveUhJ?=
- =?utf-8?B?UG9aaktWNDZJUE81bVRPUEJDTCsvSEVYaC9QWE5JT0NoRllUTVBUb0xFWWVo?=
- =?utf-8?B?UjlQK1hzVGpCNFRSSXhKUzZTNkpUdXlxZCtUYkdFT2plcFZzVDQ5R2luclJt?=
- =?utf-8?B?b01JdVZvNnhHZzN4eUlwVU9Id2FJRm9qSjFhL3I3SWJkTnNiZFlDSzJTNGFG?=
- =?utf-8?B?ZTkrYmhJbnFGN0VUK0RzV29pcTlwUmt1RkZNT3VqS2s0UndBR2pGSGFLRnM0?=
- =?utf-8?B?ZDBLcmpJUVlDY3kyc0x0N0lGQUN5NTdLV2Q3VytEQkJqbjNsNzhRYmt3NUsz?=
- =?utf-8?B?a2l4MzM2czlHbnlpRGNBTG5oVkZYck14bTdla3dyZzQ3c1IvLzVQSk44VW1Y?=
- =?utf-8?B?TzI4bzZPUCtpZHo1SXRsS2RHUDMwMFBqV2lsMFVmOEE0cnBkVk9SM2U0TEZU?=
- =?utf-8?B?WDE0OGMvSjQrbFdMejA2M3V4K243MjRnbHJNRUtGTFZWZHBxa0ZjOTB0b3dx?=
- =?utf-8?B?N2tXY1NQU2NxYjBHcHFBVDVVQ1UyekNOWjlRSzVvMzFyYmN0ckVCZm12ZDUx?=
- =?utf-8?B?alFoTDJSdW5WME5IZjY4WWh0MkhodGdEYTJxS2o2Q01NYXJ3WFVDTlJhQnhr?=
- =?utf-8?B?eFE0Y0xTTEhmeDkvNU9CRU16a2VoR3d0OXFGU3JvNmpsY3piY0R1cFFVTUE1?=
- =?utf-8?B?aG9kU1JuV28rTGRpT1RXMGliOEV1a25PQndra3AwZWswU0RsNmt0ZlNOMzdK?=
- =?utf-8?Q?40T8JA96gQVsEmawYh/mgDPgK?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6595992f-a933-41b1-0946-08dd86c65005
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 02:34:06.2113
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dh5eMrzkC2kDuwPCGKgXR4r54IMY3YCHUldNpg4S2X8dzg9yCc9NGJbikDrP5kx6uuD6UV2YDmxRTxFYAlr3oA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8360
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Sven Peter <sven@svenpeter.dev>, 
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>
+Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nick Chan <towinchenmi@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3865; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=A/h8OXs8Wekr7gbuWaO+81ojzwQgObVHH0lNAKAIdNU=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoEErbsRiI2o9zO9yGgrIDiPGqiBCwQ/exVDgtU
+ yLxoDGk792JAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaBBK2wAKCRABygi3psUI
+ JOc6D/9YZLf+qLgGlcRIAvMjZ0bDXDsXrSD0YBt2SLzeB7VjTMMw+LFsxMbOZPgDmIHDx8i8AtJ
+ MkeCh/kYRZE4OGpvb9wiMGts7rjIRZZKL07IiMHHRlG12dRlSnlxWouS7ycpn8vom0TltxhHbIK
+ P0RByJ5zt9SFyUcU47cf5pCIo3Wx0grcqRB2ls0DtFbkVIvEd93UXUXMOA2Z0t/BI4eWR7IJMw3
+ 1ew95gkM+NuMb7G+thfluv7GLZb0SVt2d3KXtMAOrk5bgFsxzHH5XNYT+3tE7ljk0aVk3HkBkY7
+ do//A5q5xglJKvizGtz8NzRSmYojIVxBCRTHn2hQMZtfoXzZv7pnIqaI7zvtu8PX6f+g8uZK5HX
+ SfEucgyW9U6W6fJs308ifDSvZP62wFw4sfJ0ygw596PONfJhb/tRzGnJvo8DQ0mOYrM+4UBmBdO
+ EExVPj9br0dRY13U4c5Xrqc6SmM3ffQ7Vy4lVRQ3wOWxkUpxcNttI6r4kQO0XWkOKV6UvBW2+TW
+ fHK7BjsHgAr/G/nD7gSH9za6MOHULZFd9Js6idty98w//3uzXwwbnefcA9FdmL/RlsjPUec26iX
+ nkPrPAA3GVbF52t0uaG8++C4ca1w9b/0qWNJUbBgF3492W+/M1ucVj1pRB9JQScNkrPNuzHtcDa
+ FOrYz7yCtmIbOdA==
+X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
+ fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-On 04/25/2025, Luca Ceresoli wrote:
-> This is the new API for allocating DRM bridges.
-> 
-> These two drivers are tangled together by the ldb_add_bridge_helper(), so
-> they are converted at once.
-> 
-> They also have a similar design, each embedding an array of channels in
-> their main struct, and each channel embeds a drm_bridge. This prevents
-> dynamic, refcount-based deallocation of the bridges.
-> 
-> To make the new, dynamic bridge allocation possible:
-> 
->  * change the array of channels into an array of channel pointers
->  * allocate each channel using devm_drm_bridge_alloc()
->  * adapt ldb_add_bridge_helper() to not set the funcs pointer
->    (now done by devm_drm_bridge_alloc())
->  * adapt the code wherever using the channels
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> Cc: Liu Ying <victor.liu@nxp.com>
-> ---
->  drivers/gpu/drm/bridge/imx/imx-ldb-helper.c |  4 +---
->  drivers/gpu/drm/bridge/imx/imx-ldb-helper.h |  3 +--
->  drivers/gpu/drm/bridge/imx/imx8qm-ldb.c     | 32 ++++++++++++++++++-----------
->  drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c    | 20 ++++++++++++------
->  4 files changed, 36 insertions(+), 23 deletions(-)
+This series adds support for the CPU PMU in the older Apple A7-A11, T2
+SoCs. These PMUs may have a different event layout, less counters, or
+deliver their interrupts via IRQ instead of a FIQ. Since some of those
+older SoCs support 32-bit EL0, counting for 32-bit EL0 also need to
+be enabled by the driver where applicable.
 
-Acked-by: Liu Ying <victor.liu@nxp.com>
+Patch 1 adds the DT bindings.
+Patch 2-7 prepares the driver to allow adding support for those
+older SoCs.
+Patch 8-12 adds support for the older SoCs.
+Patch 13-21 are the DT changes.
+
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+---
+Changes in v6:
+- Rebased on top of v6.15-rc1 (Conflict with FEAT_PMUv3 support for KVM on Apple Hardware)
+- Add patch to skip initialization of PMUv3 remap in EL1 even though not strictly needed
+- Include DT patches
+- Link to v5: https://lore.kernel.org/r/20250228-apple-cpmu-v5-0-9e124cd28ed4@gmail.com
+
+Changes in v5:
+- Slightly change "drivers/perf: apple_m1: Add Apple A11 Support", to keep things in
+chronological order.
+- Link to v4: https://lore.kernel.org/r/20250214-apple-cpmu-v4-0-ffca0e45147e@gmail.com
+
+Changes in v4:
+- Support per-implementation event attr group
+- Fix Apple A7 event attr groups
+- Link to v3: https://lore.kernel.org/r/20250213-apple-cpmu-v3-0-be7f8aded81f@gmail.com
+
+Changes in v3:
+- Configure PMC8 and PMC9 for 32-bit EL0
+- Remove redundant _common suffix from shared functions
+- Link to v2: https://lore.kernel.org/r/20250213-apple-cpmu-v2-0-87b361932e88@gmail.com
+
+Changes in v2:
+- Remove unused flags parameter from apple_pmu_init_common()
+- Link to v1: https://lore.kernel.org/r/20250212-apple-cpmu-v1-0-f8c7f2ac1743@gmail.com
+
+---
+Nick Chan (21):
+      dt-bindings: arm: pmu: Add Apple A7-A11 SoC CPU PMU compatibles
+      drivers/perf: apple_m1: Only init PMUv3 remap when EL2 is available
+      drivers/perf: apple_m1: Support per-implementation event tables
+      drivers/perf: apple_m1: Support a per-implementation number of counters
+      drivers/perf: apple_m1: Support configuring counters for 32-bit EL0
+      drivers/perf: apple_m1: Support per-implementation PMU startup
+      drivers/perf: apple_m1: Support per-implementation event attr group
+      drivers/perf: apple_m1: Add Apple A7 support
+      drivers/perf: apple_m1: Add Apple A8/A8X support
+      drivers/perf: apple_m1: Add A9/A9X support
+      drivers/perf: apple_m1: Add Apple A10/A10X/T2 Support
+      drivers/perf: apple_m1: Add Apple A11 Support
+      arm64: dts: apple: s5l8960x: Add CPU PMU nodes
+      arm64: dts: apple: t7000: Add CPU PMU nodes
+      arm64: dts: apple: t7001: Add CPU PMU nodes
+      arm64: dts: apple: s800-0-3: Add CPU PMU nodes
+      arm64: dts: apple: s8001: Add CPU PMU nodes
+      arm64: dts: apple: t8010: Add CPU PMU nodes
+      arm64: dts: apple: t8011: Add CPU PMU nodes
+      arm64: dts: apple: t8012: Add CPU PMU nodes
+      arm64: dts: apple: t8015: Add CPU PMU nodes
+
+ Documentation/devicetree/bindings/arm/pmu.yaml |   6 +
+ arch/arm64/boot/dts/apple/s5l8960x.dtsi        |   8 +
+ arch/arm64/boot/dts/apple/s800-0-3.dtsi        |   8 +
+ arch/arm64/boot/dts/apple/s8001.dtsi           |   8 +
+ arch/arm64/boot/dts/apple/t7000.dtsi           |   8 +
+ arch/arm64/boot/dts/apple/t7001.dtsi           |   9 +
+ arch/arm64/boot/dts/apple/t8010.dtsi           |   8 +
+ arch/arm64/boot/dts/apple/t8011.dtsi           |   9 +
+ arch/arm64/boot/dts/apple/t8012.dtsi           |   8 +
+ arch/arm64/boot/dts/apple/t8015.dtsi           |  24 +
+ arch/arm64/include/asm/apple_m1_pmu.h          |   3 +
+ drivers/perf/apple_m1_cpu_pmu.c                | 807 +++++++++++++++++++++++--
+ 12 files changed, 871 insertions(+), 35 deletions(-)
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250211-apple-cpmu-5a5a3da39483
+
+Best regards,
+-- 
+Nick Chan <towinchenmi@gmail.com>
+
