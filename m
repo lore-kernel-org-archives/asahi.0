@@ -1,159 +1,75 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34550288DA;
-	Wed, 30 Apr 2025 16:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693871E570B;
+	Wed, 30 Apr 2025 19:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746031349; cv=none; b=owYyY60lMAfRpF/2UKN5jeFT8UQhz+GTdWaiQqWqPocE0i47n200QPFftGMgs7YA0Tvvk4EwnX37g9Odsbo53papKklEw1sQsGMrzDUTkGxFI3oufH01GuzHRl2yabqeyRi0NqU2EgkPgcZjeNM7xn/Fu3YysVVogfNOcIxbGvc=
+	t=1746042109; cv=none; b=NPbioKxdfM+MA5mWRwWbysa4o0hkgqb8Nb+vuIZ1sHfgOB2KkZUzOEUrXSdGf/6dfqRkfY3dfkUKX6eAGAnpdm7xfXE/pxq1LPRXSPisAallcA4VwX8ydWmXWpqI/uBzo4hAWAcWdnzjJrBDPerZ4gj37UWeU+cpig1bogST3is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746031349; c=relaxed/simple;
-	bh=bpjn8puFQ4rZGChqXBtSZDUYu+Gnq25CP/ziHwcqLbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K0/ndbeCsNA0dA7qfINGMKU+dha9ZrVXCalPZaqm+lK0whbjw27lZNW3chtWF3bVobzRa7tx/W+96U68pmtTSPDARnWU2vFE9GVRFgcuUSw7WttVf5yKpYtT71smWOjLNpb2O5mMl90MxC9nee9Sdtnvcp1YnV8qVnzTI5fxB5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=R78+NOp5; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1746042109; c=relaxed/simple;
+	bh=hpfAhy/7tVhagfc9z4JgybjSfRl2vTPI06TuCoChDUg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=LbivDyRJIc4nPQd15gbbGHuC0ecqHexeD1MT/rDeRgu48PF7UkphSgj45KWXsc9GYYE5TF3JCVcL0WssTpZ4iYUqb1+HcK/5JW9Hjfi1JhTnnuZ6x0iM1jVALCdrc1w0dtwAH9P61PhAKh+Hp+P16NcRMEmVRw7uCzvN4hUrVVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9UCymD/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="R78+NOp5"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4BA1E43B4C;
-	Wed, 30 Apr 2025 16:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746031343;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bpjn8puFQ4rZGChqXBtSZDUYu+Gnq25CP/ziHwcqLbg=;
-	b=R78+NOp5gZIYtuRu5VllzkmYwx7C4ExRP6oGMuj+y1Pous6ww+7Ql2UM7ZVR3eAlcgxjhe
-	EL8gclRNV+2dQKCHLAwdz+o8e56pdOmAiN7cV69NhlIZ1Qg0rsw+h7L9j1342ejfKdHVKD
-	uE60s+5+nsGoETsCeR1S1VmV/agvwj5nqxaJnNF7Lp4/7VVVRHJA5YBJi9V4npOFPIuj/Y
-	GYnhX6Vi++Zo8p3uGplK/jU12s6/vcqsRHpTUVKPOD8igRoMeiILoeJRB7IcyZ7wXP/otR
-	dWt4vNk84a/q5dbz7ZmTEiiyrfsjSALHZCtQKQ9krgHLd9WIsAwh58D1xVRdnQ==
-Date: Wed, 30 Apr 2025 18:42:14 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Anusha
- Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Dmitry Baryshkov <lumag@kernel.org>, Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Adam Ford <aford173@gmail.com>, Adrien Grassein
- <adrien.grassein@gmail.com>, Aleksandr Mishin <amishin@t-argos.ru>, Andy
- Yan <andy.yan@rock-chips.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benson Leung
- <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Christoph
- Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Detlev Casanova
- <detlev.casanova@collabora.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
- Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
- Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
- Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>, Manikandan Muralidharan <manikandan.m@microchip.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
- <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
- <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
- Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
- <mordan@ispras.ru>
-Subject: Re: [PATCH v2 01/34] drm: convert many bridge drivers from
- devm_kzalloc() to devm_drm_bridge_alloc() API
-Message-ID: <20250430184214.0b53dc6b@booty>
-In-Reply-To: <CAD=FV=UBFhCGOUuwtCtdT75nCu_7EzM-SVY-=6Xh6UxUuxKCMw@mail.gmail.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
-	<20250424-drm-bridge-convert-to-alloc-api-v2-1-8f91a404d86b@bootlin.com>
-	<CAD=FV=VmV5yb0HWWGTiKyyC8+WNPJpM7vE9PQGh5_=KPk6+HCg@mail.gmail.com>
-	<20250430123557.3d8b1de4@booty>
-	<CAD=FV=UBFhCGOUuwtCtdT75nCu_7EzM-SVY-=6Xh6UxUuxKCMw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9UCymD/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3D6C4CEE7;
+	Wed, 30 Apr 2025 19:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746042108;
+	bh=hpfAhy/7tVhagfc9z4JgybjSfRl2vTPI06TuCoChDUg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Y9UCymD/N2lgHtazdCALwEztIiO3B6AihkoBnLIQwX8jf5BouAMCk2GqQO+F2j17i
+	 LD1YLsmNsWc8n1bJWzdge2XYDrroxdW4jpDyx/0s5xuN79n+gMpVMxtQXk4R/x3PTD
+	 g25P8NedW9cmZohv1NMH2CHa9fKEpXnmvclK0s3oq+eewwqMhBuMxOaOCu8PVcEfRh
+	 JvO0YW06OXT8OvmFMTpmTv2N+3URcdcn8aJb7wMOboV8lSbOdBLJyky7PJSQo4mn8Z
+	 9wBEJhdKv6ozC3X8zlFQTnSxmokHy8FxBnmOkdWg9qWauZuHX3SnLLEXi/Tc04m7Kq
+	 mX30ayso6Irjg==
+From: Srinivas Kandagatla <srini@kernel.org>
+To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Hector Martin <marcan@marcan.st>, Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20250423-spmi-nvmem-v3-0-2985aa722ddc@gmail.com>
+References: <20250423-spmi-nvmem-v3-0-2985aa722ddc@gmail.com>
+Subject: Re: (subset) [PATCH v3 0/3] Apple PMIC NVMEM cell driver
+ (Formerly: Generic SPMI NVMEM cell driver)
+Message-Id: <174604210497.121736.17664603572137635486.b4-ty@kernel.org>
+Date: Wed, 30 Apr 2025 20:41:44 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieejvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfetudeugfehheeliefhjeejuddvledtuddttdevledthfehgeeugfetheekgfffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepieekpdhrtghpthhtohepughirghnuggvrhhssegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghru
- geskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Hello Doug,
 
-On Wed, 30 Apr 2025 08:51:52 -0700
-Doug Anderson <dianders@chromium.org> wrote:
+On Wed, 23 Apr 2025 19:55:12 +0200, Sasha Finkelstein wrote:
+> This patch series adds a driver for exposing a set of registers
+> as NVMEM cells on a SPMI-attached PMIC on Apple ARM platforms.
+> Those are used to store the RTC offset and to communicate platform
+> power state between the OS and boot firmware.
+> 
+> The NVMEM cell consumer drivers will be sent in a further series.
+> 
+> [...]
 
-> Hi,
->=20
-> On Wed, Apr 30, 2025 at 3:36=E2=80=AFAM Luca Ceresoli <luca.ceresoli@boot=
-lin.com> wrote:
-> >
-> > Hello Doug,
-> >
-> > On Mon, 28 Apr 2025 13:59:50 -0700
-> > Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > [...]
-> > =20
-> > > Reviewed-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
-> > > Tested-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640 =
-=20
-> >
-> > Thank you for your review!
-> >
-> > However I'll be sending v3 with some differences w.r.t. v2, in order to
-> > fix the 3 bugs reported by Andy Yan plus a similar one I spotted. The
-> > fix just is replacing PTR_ERR() with ERR_CAST() in the 4 cases where the
-> > involved function is returning a pointer instead of an int.
-> >
-> > Your review/test tags appear global to the whole patch, thus being the
-> > patch different I think I cannot include your tags in v3.
-> >
-> > Let me know if you think I should do differently.
-> >
-> > Sorry about that. =20
->=20
-> It's fine if you want to drop my tag. I didn't have time to review the
-> whole thing but I felt like I should at least review the drivers I'm
-> signed up as a reviewer for. That being said, I'm not counting tags or
-> anything so I'm not offended if they're dropped.
->=20
-> My understanding is that the hashtag at the end is at least a
-> semi-standard way to say that my tag only applies to a small part of
-> the patch, so it seems like it would be OK to carry it, though...
+Applied, thanks!
 
-Oh dear. I was so stupid. I had not seen the comment in your tag
-lines... :-|
+[1/3] dt-bindings: spmi: Add Apple SPMI NVMEM
+      commit: 342ad99689be22776c50ab5d82064b700e516a98
+[2/3] nvmem: Add apple-spmi-nvmem driver
+      commit: 8d2900cc141122ad3a754d6d86cd15a9a4bf0b74
 
-So it's fine, I'll keep your tags as the parade driver is not modified
-in v3.
+Best regards,
+-- 
+Srinivas Kandagatla <srini@kernel.org>
 
-Sorry about the noise.
-
-Luca
-
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
