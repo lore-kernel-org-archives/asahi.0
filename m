@@ -1,46 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693871E570B;
-	Wed, 30 Apr 2025 19:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442EE944F
+	for <asahi@lists.linux.dev>; Thu,  1 May 2025 10:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746042109; cv=none; b=NPbioKxdfM+MA5mWRwWbysa4o0hkgqb8Nb+vuIZ1sHfgOB2KkZUzOEUrXSdGf/6dfqRkfY3dfkUKX6eAGAnpdm7xfXE/pxq1LPRXSPisAallcA4VwX8ydWmXWpqI/uBzo4hAWAcWdnzjJrBDPerZ4gj37UWeU+cpig1bogST3is=
+	t=1746094207; cv=none; b=dz//fwjwoOnNY8Pht40asLwJWOCO3L2Ow4Nk34Rbj2i8aKyjqO82PCDV95EYZB9kql9CL1CAdEHbUwQl2fJdKwV+/XMRBaeZpo1iEekmGeb1xanqO020vEtgvZG1PxrCzE84eyqveLu1yYUJGwD4Y5B/1EYAv1BvQaFJWa/F3I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746042109; c=relaxed/simple;
-	bh=hpfAhy/7tVhagfc9z4JgybjSfRl2vTPI06TuCoChDUg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=LbivDyRJIc4nPQd15gbbGHuC0ecqHexeD1MT/rDeRgu48PF7UkphSgj45KWXsc9GYYE5TF3JCVcL0WssTpZ4iYUqb1+HcK/5JW9Hjfi1JhTnnuZ6x0iM1jVALCdrc1w0dtwAH9P61PhAKh+Hp+P16NcRMEmVRw7uCzvN4hUrVVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9UCymD/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746094207; c=relaxed/simple;
+	bh=HfWOv1pN0LOy9whxAaYfLv8RdayFgWJ7bVNEvRPuAeg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n7UrvCCp2+zmQAJ+Ui/nCuJ+1k7RV9Yr9luz9MEI4L66vNkCjlFdZRfAJRlncvy6G68s/YaEbJQbyYOj8quZPH5rkWu8aqbdQWqZC5as457V7OSeunpQsWniQiJrNrZKdOL1ECwEp/1/ze7Ceo5bE8PI09sQBMJFF6nMo1SVB64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=e0Fd4erX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=k8qGmVkM; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9UCymD/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3D6C4CEE7;
-	Wed, 30 Apr 2025 19:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746042108;
-	bh=hpfAhy/7tVhagfc9z4JgybjSfRl2vTPI06TuCoChDUg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Y9UCymD/N2lgHtazdCALwEztIiO3B6AihkoBnLIQwX8jf5BouAMCk2GqQO+F2j17i
-	 LD1YLsmNsWc8n1bJWzdge2XYDrroxdW4jpDyx/0s5xuN79n+gMpVMxtQXk4R/x3PTD
-	 g25P8NedW9cmZohv1NMH2CHa9fKEpXnmvclK0s3oq+eewwqMhBuMxOaOCu8PVcEfRh
-	 JvO0YW06OXT8OvmFMTpmTv2N+3URcdcn8aJb7wMOboV8lSbOdBLJyky7PJSQo4mn8Z
-	 9wBEJhdKv6ozC3X8zlFQTnSxmokHy8FxBnmOkdWg9qWauZuHX3SnLLEXi/Tc04m7Kq
-	 mX30ayso6Irjg==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Hector Martin <marcan@marcan.st>, Nick Chan <towinchenmi@gmail.com>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="e0Fd4erX";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="k8qGmVkM"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B01D525402A7;
+	Thu,  1 May 2025 06:10:03 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 01 May 2025 06:10:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1746094203; x=1746180603; bh=rSgcD6ZLjHSu9Hjz5ZIpaSW1p7NU8SDi
+	fL7N+PTVyEo=; b=e0Fd4erXhDz1mlWy5wYwG56lLX+hpnmRVdHvjZBR4OQfLGKD
+	NsvQ7p2gSfF/wZtR5y8RBw+6F3nDb9g3Vcp6OxkSUNW0embKpO4PVnAM802LEh/O
+	DzwCwbDrMRYUyqs5/+kGg17fc2JRzRNaSp608Wpv5qSr516zaXtid0MNFbR+Pks9
+	UrnEGZTX9JSZSvMU2LU6796XgDUNqGQcaCXvR7RbudnCLDpX8O2lyE+bUhd3Ccew
+	kdY81nAOanWcYgC8WUIyk8+DCXNBAQZhCt8p0rKXoVJvmzXCs2ysTvh2Rg4h7uOg
+	NCIg4feUtD45cHLla8Zmi6jV8djpbeBABAOAjw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746094203; x=
+	1746180603; bh=rSgcD6ZLjHSu9Hjz5ZIpaSW1p7NU8SDifL7N+PTVyEo=; b=k
+	8qGmVkMd/OQEwdZUYMe1W0l1Cnyk00WNmrNVZfIGmy5UV65FTJiHCu67K4qXwUZ/
+	G9ZtpE/c5d3airW/8wraUJXW1IKYyXCaHKl4H3oICSsHU8mZYLG0yQOrg7OLdeeX
+	dojrNxprPz2/e3Xss5ZjrJxWhPv3zDCUYYtaxwR+YHSwI9IcwHreCEZVHitUZaTm
+	LmeRQUyDjmX/ToKjPPBZnfhlYZa14F9kMQylOnlBdzR1FNKxGUjHfFN8n5uwRLLa
+	c7L/DerJuE0WbY5w5F4xne98bftT94YDrd3EQ8kKuzSdEJwlV8M4a6FZ9o+U/yzR
+	o0C7sNwtzgCDEMyVB+new==
+X-ME-Sender: <xms:ekgTaKLGmPkCCZpF1zzJs5raJpd2THhHpaHxUhKxnUEyEJbI-H1hVA>
+    <xme:ekgTaCI70GlI4oyix02sXix7GHvc37ktuhy5MeT36ip-dv8wh_CE2HQxPxw1-fUNi
+    IwNhZgZc2jEiaIUI20>
+X-ME-Received: <xmr:ekgTaKsRghlelS6ylnXqHkzqKjH3Oqem96mRKqPuZ0NYPtprA_0KPqAVuGIfyOL3UmFxJPoAR-WMXq6269eW_tM_UTPkisWLLodDquOE78eCpXrfdg64zdcNcSC4bwA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieelfedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
+    tdejnecuhfhrohhmpefuvhgvnhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrh
+    druggvvheqnecuggftrfgrthhtvghrnhepleetudehlefgteduffeijeehfeduudekhffg
+    fedvueekvedvveeuhefgieetgfegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhes
+    shhvvghnphgvthgvrhdruggvvhdpnhgspghrtghpthhtohepudehpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopegrlhih
+    shhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehnvggrlhesghhomhhprg
+    druggvvhdprhgtphhtthhopehsrhhinhhivhgrshdrkhgrnhgurghgrghtlhgrsehlihhn
+    rghrohdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdo
+    ughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehgmh
+    grihhlrdgtohhmpdhrtghpthhtohepshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:ekgTaPaTyJC-BVZaiND3BRyFFwTMhdJLd9wD5F0amvQtv5gfjKVvwQ>
+    <xmx:ekgTaBbIYdG3hNe7dMD3Q4MRfJ1dbE5y2ONIJwfS1VSdzFLAS_ktZQ>
+    <xmx:ekgTaLCRlAnWh3H6eKexKkm-exDJ29PAP8WHjeH93UypQlU8_Jv5Cw>
+    <xmx:ekgTaHa5A_BrWF1-QS4ZQ68JPkm8AsG7G_NIholT9cS5FTk2Tc6mhg>
+    <xmx:e0gTaISTGBFTZDu6y690LuX9--NKQkLocgt9l64useMdlN0GHfAHQwqx>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 1 May 2025 06:10:00 -0400 (EDT)
+From: Sven Peter <sven@svenpeter.dev>
+To: Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>,
+	Nick Chan <towinchenmi@gmail.com>
+Subject: Re: (subset) [PATCH v3 0/3] Apple PMIC NVMEM cell driver (Formerly: Generic SPMI NVMEM cell driver)
+Date: Thu,  1 May 2025 12:09:53 +0200
+Message-Id: <174609415563.2892.911410190691203446.b4-ty@svenpeter.dev>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20250423-spmi-nvmem-v3-0-2985aa722ddc@gmail.com>
 References: <20250423-spmi-nvmem-v3-0-2985aa722ddc@gmail.com>
-Subject: Re: (subset) [PATCH v3 0/3] Apple PMIC NVMEM cell driver
- (Formerly: Generic SPMI NVMEM cell driver)
-Message-Id: <174604210497.121736.17664603572137635486.b4-ty@kernel.org>
-Date: Wed, 30 Apr 2025 20:41:44 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,9 +103,7 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
-
+Content-Transfer-Encoding: 8bit
 
 On Wed, 23 Apr 2025 19:55:12 +0200, Sasha Finkelstein wrote:
 > This patch series adds a driver for exposing a set of registers
@@ -62,14 +115,12 @@ On Wed, 23 Apr 2025 19:55:12 +0200, Sasha Finkelstein wrote:
 > 
 > [...]
 
-Applied, thanks!
+Applied to git@github.com:AsahiLinux/linux.git (asahi-soc/dt), thanks!
 
-[1/3] dt-bindings: spmi: Add Apple SPMI NVMEM
-      commit: 342ad99689be22776c50ab5d82064b700e516a98
-[2/3] nvmem: Add apple-spmi-nvmem driver
-      commit: 8d2900cc141122ad3a754d6d86cd15a9a4bf0b74
+[3/3] arm64: dts: apple: Add PMIC NVMEM
+      https://github.com/AsahiLinux/linux/commit/d8bf82081c9e
 
 Best regards,
 -- 
-Srinivas Kandagatla <srini@kernel.org>
+Sven Peter <sven@svenpeter.dev>
 
