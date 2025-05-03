@@ -1,106 +1,180 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E37823E25A
-	for <asahi@lists.linux.dev>; Fri,  2 May 2025 13:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4677C1A8403;
+	Sat,  3 May 2025 10:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746192641; cv=none; b=Z6nAq9BNU/ujMIIgbaVzappNF7K8tNbCNDNR6xClLh0yhmLnwNUjSKBHHzaXbdMyBP27AfpQdqhR/qcMNk4iM3qwR2uXfr8cMmuKk157SShvj5++JvchWGEx87lHxK+cSL2EfppHosAivQTQAQYBQjVYybownSidNKXNs/US2Rk=
+	t=1746266836; cv=none; b=MAUUSVmC1O1greFSA4HRlwOKxkhWfAFDrZIKmv16wesTuUK4DWnMIiTE2qsmCNx5KkJ4LwFEKXzqWtbmpyZPRx4cf2hcyvQEaYiekhZnXdPkqA4/pttMQ65aOQf0GXp04Yx8k7ZpFRJJi6AmQjLoaoNOHeZibiXKp7QffFF2x5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746192641; c=relaxed/simple;
-	bh=dOnI3ojRPOwkGTlZxJz/bQcxtl8BiIZwiuZeVEQYa98=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IoWlXhGd53lRDUhbC3k1rcDlJIVUc4FjfMeYkmbzClSreTVJhccrTElnHtklPwL4xsxCsHCdtfg79Ed/myja76DkHSq3QzSr1Gg6MUJ5s/BY0ZIHZZtlLN1OOpUM9uUdyFVkZqNMjsXt5p67TUdgsV1XhsDf99GL4RF7mG1Em9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Nas6+4H+; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1746266836; c=relaxed/simple;
+	bh=FCj41YuS83lubvQ4sTVq20svbkJeutFtiBUdO/qgxJc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=m1Utqyv4ag5+ZfLxnMswNx8Y5COi2UYoWadMo9tSYuZFpmwHw8z1XLiTEV0jokzsxqtE5/IIshBhopBYN5jynt/l0v3Ma3j/wKsjA/wX7/2PO3agb7f3w2Yoczg1TuQklAKBh7WNy+zxmjGRtjctydzI8op3gcMegzKr9lIKN5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aYVtCN7W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Nas6+4H+"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-acacb8743a7so358253366b.1
-        for <asahi@lists.linux.dev>; Fri, 02 May 2025 06:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1746192637; x=1746797437; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oI2ULQh5v/7XJgNEVII7Ar9c5ShGuV2fSObmZKZHKeY=;
-        b=Nas6+4H+Yu0Gd9HkNDgQWRZrj2Vu6+F69LpSkEpB/9IQjrAk9H9nGxdTbxQ2QB9nNW
-         yb5cCSf4LKruuP79nH0XHowU5m6l8tPhsJkHW4nOGMdZXfu53q2zMiVMeZFsoO5pG5Bh
-         xVVqOyFXJKmhpIsU/V8ztRFWlx2iy+K1g+YO+TnLajpARDEOJGNh3Dh8u8RLEecJbRac
-         GTV5EyXP0ly1WyijcjD0VNcgF4h/W9TLuS+o1tfPVSSEBhKqrl4ezDlbHp8FlYuvEpP4
-         U/EgclUSHQH83jR0Mn2qwrsVT7ukLLbD0xTVULEpOaKkuYppmlsput1WagpKT6Fa/7FC
-         K7Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746192637; x=1746797437;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oI2ULQh5v/7XJgNEVII7Ar9c5ShGuV2fSObmZKZHKeY=;
-        b=E6qEL56WfYIrJi5kyXUH+lrrQH8AEfqf3IK8ZIW7D5h4pk8wXVzBRt6TGZk5d6DNKj
-         koaErs1i2iQIRg1qgIolJNTJhVECYSZxWDf6PRpcq7WDoLRxB3o8aBTE/aQ3wBO0vPLK
-         Ri8MjzFQVlBjAQROsoS/WatWt3xQYqM2RD9uwdcKID3IxDOm2zqLKa1SK7Y7lTIdrJ7l
-         OK6zdi2puHsODN9pwvBQE9/miQuHSs9hF4VZeOCrtz+oiJfvsdsI9GebQytCOjs+lDpF
-         2RL9rKY/F7Q0BFykPnfieSWci6TEKW5pmGgTk/duzYLJbrd/UnkV3CpAIXe1D7wfekbY
-         WWCw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjjeQARkNYIBazJ2THRw94giT1ncnBJpvjhEMLJ8yJXG/cx7Q/km3NTino5HKOMeJ1omynEA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YypQeiBWmI12CZU5WWkvxYTuJ4kSFZD7TzY/FXHkpmcgqSAH6Hm
-	rQ75R7yc1P/+rynWV2nsKtC66hSarCwi9UsZkNEWQCIuu0Fa24g0AiIfAwNtUaU=
-X-Gm-Gg: ASbGncv/1SZdM4G+h7tZPYyziHrzFflQWJeCqeLVj7jLTtCxkz6qe1Vo9JGh2J3kBB+
-	Rq0nBk0+3TH2WKSW7zn642q22D1RTqaqLu8kl8U/LRblo3TWed8qQNx5E/N3z07eOSLKy/HjP8q
-	PcCTLkggsW0y6DUgok/EvaM6WEUev4BYK3P1UE6SKH9Bb/n8QKRdN96/fa7Wz33SCaZq3P3f8Mo
-	R+3rJjSdHb0UJF9uQL71vNaaQqazJPsUCn3jIvnZGlKKdw8qXm7leodXoMeCXSMxjwhZ1Fd9r9W
-	xZ9CTdoF6Q0SAE+/dUQXNw94l9NY7HGazYQ3K6bMKR/6qN532ckMxqUpAz3lHQ==
-X-Google-Smtp-Source: AGHT+IGNjdWSsHUN82hvMxthq8y7vwBmvrJ6nrWhg8zsSPmK5nzcMmRdBKIMbJNC2QRWTDJHY7Fsug==
-X-Received: by 2002:a17:907:c298:b0:ace:8176:9870 with SMTP id a640c23a62f3a-ad17ad88dc8mr244745366b.9.1746192636538;
-        Fri, 02 May 2025 06:30:36 -0700 (PDT)
-Received: from localhost.localdomain ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad189540d5bsm50208966b.176.2025.05.02.06.30.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 06:30:36 -0700 (PDT)
-Date: Fri, 2 May 2025 15:30:34 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Aditya Garg <gargaditya08@live.com>, alyssa@rosenzweig.io
-Cc: admin@kodeit.net, airlied@redhat.com, akpm@linux-foundation.org,
-	andriy.shevchenko@linux.intel.com, apw@canonical.com,
-	asahi@lists.linux.dev, corbet@lwn.net,
-	dri-devel@lists.freedesktop.org, dwaipayanray1@gmail.com,
-	geert@linux-m68k.org, joe@perches.com, kees@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux@rasmusvillemoes.dk, lukas.bulwahn@gmail.com, marcan@marcan.st,
-	mripard@kernel.org, rostedt@goodmis.org, senozhatsky@chromium.org,
-	simona@ffwll.ch, sven@svenpeter.dev, tamird@gmail.com,
-	tzimmermann@suse.de
-Subject: Re: [PATCH v3] checkpatch: remove %p4cn
-Message-ID: <aBTI-v5-_JWDdge2@localhost.localdomain>
-References: <20250428123132.578771-1-pmladek@suse.com>
- <PN3PR01MB95971954FC5E026C59B6F8EDB8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB959760B89BF7E4B43852700CB8832@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aYVtCN7W"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D1EF5C4CEF2;
+	Sat,  3 May 2025 10:07:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746266835;
+	bh=FCj41YuS83lubvQ4sTVq20svbkJeutFtiBUdO/qgxJc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=aYVtCN7W4K++duwoGczZfIvcv4H17huF7MKXqW1kDVi9fJnbFYZ8w4bljXz1YPxY1
+	 OTBwYeHV27gprbXlS0gQHZzBx0Pat35veBQG0tyzq1OlfQOnm+pmxpyMt0Q7jB2FSk
+	 NS1j+yp1QP3wTdm+s2tQgJFHfjboxb+SiJXHgoZzpXrOB/C9+01e/q08j6b5Dk3RPX
+	 HZIcNaRl9bL2oIhPybTCUkJzUxSteFZKAX2sz7QnJSnv8VZJF6zY4ffVlZ1iolH/2h
+	 hNs8ebMj4xwDLCPX7cuCwgmw0Kl7s5IVChTQZHulYQ3BJa1z1+5EVOUxM/AcvCMAII
+	 PLLFj3tA8EVTQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C429BC3ABB8;
+	Sat,  3 May 2025 10:07:15 +0000 (UTC)
+From: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
+Date: Sat, 03 May 2025 10:06:50 +0000
+Subject: [PATCH v4 3/9] dt-bindings: mfd: Add Apple Mac System Management
+ Controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PN3PR01MB959760B89BF7E4B43852700CB8832@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250503-smc-6-15-v4-3-500b9b6546fc@svenpeter.dev>
+References: <20250503-smc-6-15-v4-0-500b9b6546fc@svenpeter.dev>
+In-Reply-To: <20250503-smc-6-15-v4-0-500b9b6546fc@svenpeter.dev>
+To: Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Hector Martin <marcan@marcan.st>, Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3091; i=sven@svenpeter.dev;
+ h=from:subject:message-id;
+ bh=g5ICObcHrqmqje6IzUss8WgmYFLH5P7pKOHUdmrLAhA=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ4boq+PztK3ON3yI529a18uZtTXwzw2+Mw6x5kFGX19Pe
+ PFun+TLjlIWBjEOBlkxRZbt++1Nnzx8I7h006X3MHNYmUCGMHBxCsBElDQZGR5/+8p24hhjemWO
+ 9ws5gxnaS5vnipilxe/ZwsBQ+Wz3z30M/5Pr9aU2bgx1WtEfdO5JwmOr+BN//y//pZK7LyBofea
+ 1BRwA
+X-Developer-Key: i=sven@svenpeter.dev; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@svenpeter.dev/default with
+ auth_id=167
+X-Original-From: Sven Peter <sven@svenpeter.dev>
+Reply-To: sven@svenpeter.dev
 
-On Wed 2025-04-30 19:19:08, Aditya Garg wrote:
-> %p4cn was recently removed and replaced by %p4chR in vsprintf. So,
-> remove the check for %p4cn from checkpatch.pl.
-> 
-> Fixes: 37eed892cc5f ("vsprintf: Use %p4chR instead of %p4cn for reading data in reversed host ordering")
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Looks and works well:
+Add a DT binding for the Apple Mac System Management Controller.
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-Tested-by: Petr Mladek <pmladek@suse.com>
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+ .../devicetree/bindings/mfd/apple,smc.yaml         | 71 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ 2 files changed, 72 insertions(+)
 
-Alyssa, could you please queue this one via drm-misc-next as well?
+diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..9f1058c15bbf62d84f8a72fdaa354909b02e2801
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple Mac System Management Controller
++
++maintainers:
++  - Sven Peter <sven@svenpeter.dev>
++
++description:
++  Apple Mac System Management Controller implements various functions
++  such as GPIO, RTC, power, reboot.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t6000-smc
++          - apple,t8103-smc
++          - apple,t8112-smc
++      - const: apple,smc
++
++  reg:
++    items:
++      - description: SMC area
++      - description: SRAM area
++
++  reg-names:
++    items:
++      - const: smc
++      - const: sram
++
++  mboxes:
++    maxItems: 1
++
++  gpio:
++    $ref: /schemas/gpio/apple,smc-gpio.yaml
++
++  reboot:
++    $ref: /schemas/power/reset/apple,smc-reboot.yaml
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - mboxes
++
++examples:
++  - |
++    soc {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      smc@23e400000 {
++        compatible = "apple,t8103-smc", "apple,smc";
++        reg = <0x2 0x3e400000 0x0 0x4000>,
++               <0x2 0x3fe00000 0x0 0x100000>;
++        reg-names = "smc", "sram";
++        mboxes = <&smc_mbox>;
++
++        smc_gpio: gpio {
++          compatible = "apple,smc-gpio";
++          gpio-controller;
++          #gpio-cells = <2>;
++        };
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d85d9d9065db4dc5869788f8a81d9d9a425d7ce3..2c16b2fc3fec76104967530f487123485af1e777 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2275,6 +2275,7 @@ F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
+ F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
+ F:	Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+ F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
++F:	Documentation/devicetree/bindings/mfd/apple,smc.yaml
+ F:	Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
+ F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
 
-Best Regards,
-Petr
+-- 
+2.34.1
 
-PS: Aditya, thanks a lot for stepping in and providing this patch. Also
-      thanks others for shaping in. I was not able to react quickly. I
-      had technical problems with my workstation and public holidays.
+
