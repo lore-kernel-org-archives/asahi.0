@@ -1,154 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F251B3F3D;
-	Mon,  5 May 2025 06:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7021A5BAE
+	for <asahi@lists.linux.dev>; Mon,  5 May 2025 09:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746426210; cv=none; b=j+8XNFp0Z+vFmOxQf+VXF9yJth1pSH5lzAdcIjm6xDFABa0e92QcysmbQ05Fufd4ysRnedSegK6bb1y3T4gdXADFsw+T/G+QF4k3nOUS5+bDIz43g/kdY5FrHzi4lUcUazt3pNp1Ls0WFkT0ileetQu18kapoF/sJ1Fjw+TLc+k=
+	t=1746435956; cv=none; b=CTjL3nt9/2TShsTCHW8z6p9DZ2PMHgMagFCu6lzPz/ayQHqmd/kNo/2aAqtdJpjh+k6WiacHEKiUL/uiZhQdVe2Et2AxEypYyuIsZMEjQmXQ4/eR6XxDv2VGJJU0qt7noQK1/wNmphavIG6hnDCgPg3L9JOvMkbzchJPzKBRFF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746426210; c=relaxed/simple;
-	bh=blz46dfKcTkqUU1mdHuxtQzWM8gPcsEOF9yJwSPZQjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WL6b36FCJTB8qWp9zY0SMsz9ioQJ3xEqxrfvskUQDBDbeLnV/qLcfFxVP4IN88WglI23yE3WLmsrgpkoEWGnGKBseA3NHBKmhDIfBodXOilxFQZZoEgK6//UDbfd8mnYsd3kH4B+ApIahIob46N+SW0VGSH83xhQ33uGRNzCZVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=koamshTJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746435956; c=relaxed/simple;
+	bh=jaVB3sx5ejThu8wEUg5nUqvMM3/yIkqZP4MpKH/Gvus=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DbUlOTYwiZLxm/PtVHz94KglojVfZeXxVjHCB83WTsdaW8zt6JsdJf9j75Ul3Xz2QjaOHkTjgWikiu/i08rRPKWmqi3I3kBAOavhsMzH5gbFeCkgmjFXdL+/EAL/cuWpVYu7wMDrncsVK2cpLADbZAJymCO/vfdUnuiG+PvdjPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A9rdbOyv; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="koamshTJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 076EFC4CEE4;
-	Mon,  5 May 2025 06:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746426209;
-	bh=blz46dfKcTkqUU1mdHuxtQzWM8gPcsEOF9yJwSPZQjo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=koamshTJSZ1WF/eCcwZGiyDpkwsaCADLfvS3QwjV5PotkB/YOwWC8XyuJVSsdLCIk
-	 /4Jtd7bMz2vmYsMNWmf/X4Sis4kqCPIcH2Wo9nzKbUDCdEWEjPm99kDdRKffgOIfVC
-	 GO8aK9v8GOt73LRnb9Tey6JAPxRlvzcCyhCmmdVLeIQZNUJGxNU4jtNLGVqIHj+dbm
-	 MEpwGnq7vCW5rHYuMgB1xOP/tAAjfa3OIH4mb6zlf/o2UpzxgLckv3VDuOX+zXChXs
-	 TEqMARo/LYFzdXeUg1+VrFmrPwI3ZjNDFpR2bMvYWKsJuqvZsxTYKkHx5l6dtCp9Kp
-	 s2eAL5PrUzyBg==
-Date: Mon, 5 May 2025 08:23:26 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Douglas Anderson <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 34/34] drm/bridge: panel: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250505-beneficial-fossa-of-weather-67c676@houat>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-34-8f91a404d86b@bootlin.com>
- <20250428-wild-condor-of-defiance-cadf60@houat>
- <20250428172516.79058e22@booty>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A9rdbOyv"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5499659e669so4881140e87.3
+        for <asahi@lists.linux.dev>; Mon, 05 May 2025 02:05:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746435951; x=1747040751; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jaVB3sx5ejThu8wEUg5nUqvMM3/yIkqZP4MpKH/Gvus=;
+        b=A9rdbOyvRw5xUIZGhRShw2KBaHmcdTou9AJCjxUnRTNaOwFe+AVvttVY6JZV7qJeYe
+         AM8VQHu4/d18HoDZJ7dvilosCRqXqXxHRqcNCa/+4C6XA20g/KHif/rwSEgF5f6gmzqx
+         2KaMyoAGsDvnKdsn9w7rg8C94L8up+CjMaQVd0Qz77P3gS25kz0qYJMhsjYWvIkwmzXh
+         +hPnXpXNy9BjtFY2YQ+LMJM4UI9XuvFLKnGIQi+uBACCC3PGm4PHfHWqbgjnVIUzw1MT
+         7IhJv289/FYjLAp4r0td9u9v0u4PmHD47/4a2o9KksaRw4M+02HpcFUQcmWS6UmS8OVS
+         i1fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746435951; x=1747040751;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jaVB3sx5ejThu8wEUg5nUqvMM3/yIkqZP4MpKH/Gvus=;
+        b=FEs2Lcen4uls/VwvnNVJUgBiNejHPr7aFn33hWCxP1newXxmXmBIIs7ukFG7EiueMF
+         7bkv9XdjmczgTEeyD7vwj4tgO6dg8MlcRfaGlYfOzUl4qym4Ls4AVZ9hr50G1Wr4NL9E
+         KOAu4JwsgyG47hfflil4YUFDn9euA4bNay5vc3qmX3rVws0Pj6D8I/YRd/sXHRN3MJ0n
+         iWg2waKzLZby4Si9kuiAHTa40PaEq5fgZXHPGZs/fk6vK7so5RBgc4+sQovHOKJyL3Hq
+         oE8ngIdpMbmVO9xcI7vSz1IMGctqh2hBnAzl01rfHTdErsN7dwa7INuVGNbiZFWAbIeA
+         5JMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCeT8vgB84rq8rlKlnHMdNjOI/BuBarF6M2ErkTcpefJlnNcs6jriv4VqhcwfRpDGyhulqew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxigV4Huaz3ARns65e0+0foIXSNHj2Ey+3NPjJrebyVQ0d/Ltkn
+	iYMofQgSnbUphLOxRN1uoW/765UWAo9KYrEItzU2iM0I1p7p0DYajO8zoBHD17guKh6m/fZcBeg
+	gXA5e8gzEqLlp3LWwfwgP4eG5hEZrNQbfTHca0Q==
+X-Gm-Gg: ASbGncv9udQ0GxWraDNj9oenjaiVuPgeZA07DUBXJNHl4Hs7oTHKn4xprBNfQJQETyc
+	OisfvuRObXDcLpTVoqVXWuI9URfTUmhxtTfznkHIpbNimlyGJrozUgGkdZ0/cFp5gQZiE69dXNS
+	piEtgVSPmGNDpu9RXVdloH3A==
+X-Google-Smtp-Source: AGHT+IG1Gg4cqaY2027Xkt9vszcojc1RUUWP69uzjNjCzPb0+lNxfxbfad5R/RgzScrc0f+PobFDAQA8A6a3BcrID1g=
+X-Received: by 2002:a05:6512:118d:b0:54a:f76a:6f83 with SMTP id
+ 2adb3069b0e04-54eac200d31mr3042013e87.13.1746435951218; Mon, 05 May 2025
+ 02:05:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="fxb23j2izsboyssh"
-Content-Disposition: inline
-In-Reply-To: <20250428172516.79058e22@booty>
-
-
---fxb23j2izsboyssh
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20250503-smc-6-15-v4-0-500b9b6546fc@svenpeter.dev> <20250503-smc-6-15-v4-1-500b9b6546fc@svenpeter.dev>
+In-Reply-To: <20250503-smc-6-15-v4-1-500b9b6546fc@svenpeter.dev>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 5 May 2025 11:05:40 +0200
+X-Gm-Features: ATxdqUG40K92Q6cLhA-jiK9adWrE64up9leFqXIiQtBvPLIG9_nqRk1Z9BFEJZw
+Message-ID: <CACRpkdbCfUEZd06yeZTNecGFPwBgJkpMH3hqkvJw4J+iSENG=Q@mail.gmail.com>
+Subject: Re: [PATCH v4 1/9] dt-bindings: gpio: Add Apple Mac SMC GPIO block
+To: sven@svenpeter.dev
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 34/34] drm/bridge: panel: convert to
- devm_drm_bridge_alloc() API
-MIME-Version: 1.0
 
-On Mon, Apr 28, 2025 at 05:25:16PM +0200, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Mon, 28 Apr 2025 13:39:23 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > On Thu, Apr 24, 2025 at 10:05:49PM +0200, Luca Ceresoli wrote:
-> > > This is the new API for allocating DRM bridges.
-> > >=20
-> > > The devm lifetime management of this driver is peculiar. The underlyi=
-ng
-> > > device for the panel_bridge is the panel, and the devm lifetime is ti=
-ed the
-> > > panel device (panel->dev). However the panel_bridge allocation is not
-> > > performed by the panel driver, but rather by a separate entity (typic=
-ally
-> > > the previous bridge in the encoder chain).
-> > >=20
-> > > Thus when that separate entoty is destroyed, the panel_bridge is not
-> > > removed automatically by devm, so it is rather done explicitly by cal=
-ling
-> > > drm_panel_bridge_remove(). This is the function that does devm_kfree(=
-) the
-> > > panel_bridge in current code, so update it as well to put the bridge
-> > > reference instead.
-> > >=20
-> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com> =20
-> >=20
-> > This looks fine, but we need a TODO entry to clean this up later on, and
-> > a comment on devm_drm_put_bridge that this is inherently unsafe and
-> > must not be used.
->=20
-> Ah, I see, OK.
->=20
-> Quick draft:
->=20
->  /**
->   * devm_drm_put_bridge - Release a bridge reference obtained via devm
->   * @dev: device that got the bridge via devm
->   * @bridge: pointer to a struct drm_bridge obtained via devm
->   *
->   * Same as drm_bridge_put() for bridge pointers obtained via devm functi=
-ons
->   * such as devm_drm_bridge_alloc().
-> + *
-> + * This function is a temporary workaround and MUST NOT be used. Manual
-> + * handling of bridge lifetime is inherently unsafe.
->   */
+On Sat, May 3, 2025 at 12:07=E2=80=AFPM Sven Peter via B4 Relay
+<devnull+sven.svenpeter.dev@kernel.org> wrote:
 
-That part looks good to me
+> From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+>
+> Add the DT binding for the Apple Mac System Management Controller GPIOs.
+>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
 
-> and:
->=20
-> -	devm_kfree(panel_bridge->panel->dev, bridge);
-> +       /* TODO remove this after reworking panel_bridge lifetime */
-> +	devm_drm_put_bridge(panel_bridge->panel->dev, bridge);
->  }
->=20
-> Does it look good enough?
+LGTM
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-That too, but I was talking about an entry in
-https://www.kernel.org/doc/html/latest/gpu/todo.html
-
-Maxime
-
---fxb23j2izsboyssh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaBhZWgAKCRAnX84Zoj2+
-dmbVAX4gMY0F9VXdFsIIKKBjn5Ev2tMwW+uv6doEaqoNJIEat9dVa/bvOYl9n6tm
-ZNZ29HABeQEtltAKrypsuFB4FFzNPiZADC9MB5moran2psvsF2a1chXqCjrK2xyp
-FQXpVqx4qw==
-=pRS+
------END PGP SIGNATURE-----
-
---fxb23j2izsboyssh--
+Yours,
+Linus Walleij
