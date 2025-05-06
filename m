@@ -1,94 +1,74 @@
-Received: from mail.flokli.de (mail.flokli.de [116.203.226.116])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B662797A5
-	for <asahi@lists.linux.dev>; Tue,  6 May 2025 14:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.226.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CB8502BE
+	for <asahi@lists.linux.dev>; Tue,  6 May 2025 15:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746541612; cv=none; b=uS0wvb57brw+bVDrbLvByzjS0CL9uTVsbPATLbpmaxf6nYQDISPF5OykEYOAYFbt3slbORDoledHc4H14KVgFEJdE6iYkGQGSiQRqRxSew9dWYnC2otVOgU7sEeskAWFtUs42wzpc4U09gZGMVy5LZG2PuImyhyHKkShLfUhLbs=
+	t=1746546051; cv=none; b=KhW7qMaASTgvAz1MK/Q5gQrJZtObngWj3O/4B6KmrkpOeHC9PdFKoZ7tOljxxhBtgyHDeJB9eifsY/goVcbTI7SstHgqIfuu100HGE4qIpTmxn9MNqbuleR3M47HUZNrjDNXDu/eb6L23IWtsmXf53rPm6owSHN8AndvMv+aLGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746541612; c=relaxed/simple;
-	bh=mgwZZqqwoDQXrMbsv3xygPwhLjoMgLr4h2T1coCg16M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SGX4N5NDSNJjDjzuWd2fdGTfvswlNmlqhVEezMhiNWHCqBIlg6R7iuOXd9Xxn2004knnna14jz1XtrauWdkufNsizVgFK5vuq308vk3yDRYWO1WY+t1SWYd11gpo7Dcfj/KhRlN+FW5e6UYbfRWzAv3CPeeRxRJ3a+PeRJmqwtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flokli.de; spf=pass smtp.mailfrom=flokli.de; dkim=pass (1024-bit key) header.d=flokli.de header.i=@flokli.de header.b=SgZW+Bsa; arc=none smtp.client-ip=116.203.226.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flokli.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flokli.de
+	s=arc-20240116; t=1746546051; c=relaxed/simple;
+	bh=082OGFd0YtRtIFtzua/WfoyrO3HoRqs1mD/Tio99ZG4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SySfelZQQg9Ouom6PFFsdeooDoLQb4YTmks1iU0XUyirkF57kVJ60L/WTYCnMDGomRaRRej36EDl8TkZPNDHvRgHulRs7+VJVWNlMvamgXgaLGnNynSG/GTi8ZMoWpIFTm6WaKpPO7kg1HfPLPmwkXT+KEMM4TEQGYW18/lTZrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=xQ+5fhAc; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=flokli.de header.i=@flokli.de header.b="SgZW+Bsa"
-From: Florian Klink <flokli@flokli.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flokli.de; s=mail;
-	t=1746541606; bh=ktlsXiTJhVtBSggz7bxl/DGCv7GATcsYZYs5ILJUTc0=;
-	h=From:To:Cc:Subject:Date;
-	b=SgZW+BsaRRR0lW9vW0eib8Qfo1CzRTqEMsXkb9hIHYZpIiRzwVA9A31lN7Cp7/XYX
-	 iTrKt92aryMr/R7bfUQsHx085T3mIddCpXOKnkwRs76fWwBfhgibFdM7mcvGFS+TeH
-	 8x7vLV6JGywUhUYvako7kddNhikY2WkAZTZ63clM=
-To: Sven Peter <sven@svenpeter.dev>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-watchdog@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Florian Klink <flokli@flokli.de>
-Subject: [PATCH v2] watchdog: apple: set max_hw_heartbeat_ms instead of max_timeout
-Date: Tue,  6 May 2025 17:26:22 +0300
-Message-ID: <20250506142621.11428-2-flokli@flokli.de>
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="xQ+5fhAc"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1746546036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gwv48sU9PJ4+7zMEwJ0xKCOMMLiUiKmC1HBLpcwOGag=;
+	b=xQ+5fhAcVue/iuF+8Br2AfJk+F2PNrGTIFtgtSGXlv969wK3d7A5JS8CAPN7x83oaZcj98
+	Fjgf/tD6zhi22M7GdSK5hnUi2xVCKYcjPxZ9TojP6acImQOMyTBHo8YWcOfSntpWUymZnx
+	/M0TCEFPng0lJNhGpqKSOG+t7oDZUkm4TiaLo7e/XUn9Kz9GV0oPL4oBrXuBCXMcFp8sQM
+	vpxhdMdu2zG+kzoe0fbODuMiQ2c1RX/8+DvKZ9N2c+hrT5IpQdKUUsdtnStDtV/Wp/ULPp
+	SQ1zrqlFWqLZi3jpaui/RZscTMVxLApJrYUeGsmfpHoFZ/yAFokQgICfO2k8NQ==
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: pmladek@suse.com, Aditya Garg <gargaditya08@live.com>
+Cc: admin@kodeit.net, airlied@redhat.com, akpm@linux-foundation.org, 
+ andriy.shevchenko@linux.intel.com, apw@canonical.com, asahi@lists.linux.dev, 
+ corbet@lwn.net, dri-devel@lists.freedesktop.org, dwaipayanray1@gmail.com, 
+ geert@linux-m68k.org, joe@perches.com, kees@kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux@rasmusvillemoes.dk, lukas.bulwahn@gmail.com, marcan@marcan.st, 
+ mripard@kernel.org, rostedt@goodmis.org, senozhatsky@chromium.org, 
+ simona@ffwll.ch, sven@svenpeter.dev, tamird@gmail.com, tzimmermann@suse.de
+In-Reply-To: <PN3PR01MB959760B89BF7E4B43852700CB8832@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+References: <20250428123132.578771-1-pmladek@suse.com>
+ <PN3PR01MB95971954FC5E026C59B6F8EDB8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB959760B89BF7E4B43852700CB8832@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH v3] checkpatch: remove %p4cn
+Message-Id: <174654603220.12228.11601081754262000250.b4-ty@rosenzweig.io>
+Date: Tue, 06 May 2025 11:40:32 -0400
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-The hardware only supports timeouts slightly below 3mins, but by using
-max_hw_heartbeat_ms we can let the kernel take care of supporting larger
-timeouts than that requested from userspace.
 
-Switching to max_hw_heartbeat_ms also means our set_timeout function now
-needs to configure the hardware to the minimum of either the requested
-timeout (in seconds) or the maximum supported by the user (in seconds).
+On Wed, 30 Apr 2025 19:19:08 +0530, Aditya Garg wrote:
+> %p4cn was recently removed and replaced by %p4chR in vsprintf. So,
+> remove the check for %p4cn from checkpatch.pl.
+> 
+> 
 
-Signed-off-by: Florian Klink <flokli@flokli.de>
----
-Changes in v2:
-- Use the minimum of wdd->max_hw_heartbeat_ms / 1000 and
-  userspace-requested timeout as documented in watchdog-kernel-api.rst
-- Link to v1: https://lore.kernel.org/asahi/20250506120111.5041-1-flokli@flokli.de/
----
- drivers/watchdog/apple_wdt.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Applied, thanks!
 
-diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
-index 95d9e37df41c..66a158f67a71 100644
---- a/drivers/watchdog/apple_wdt.c
-+++ b/drivers/watchdog/apple_wdt.c
-@@ -95,9 +95,12 @@ static int apple_wdt_ping(struct watchdog_device *wdd)
- static int apple_wdt_set_timeout(struct watchdog_device *wdd, unsigned int s)
- {
- 	struct apple_wdt *wdt = to_apple_wdt(wdd);
-+	u32 actual;
- 
- 	writel_relaxed(0, wdt->regs + APPLE_WDT_WD1_CUR_TIME);
--	writel_relaxed(wdt->clk_rate * s, wdt->regs + APPLE_WDT_WD1_BITE_TIME);
-+
-+	actual = min(s, wdd->max_hw_heartbeat_ms / 1000);
-+	writel_relaxed(wdt->clk_rate * actual, wdt->regs + APPLE_WDT_WD1_BITE_TIME);
- 
- 	wdd->timeout = s;
- 
-@@ -177,7 +180,7 @@ static int apple_wdt_probe(struct platform_device *pdev)
- 
- 	wdt->wdd.ops = &apple_wdt_ops;
- 	wdt->wdd.info = &apple_wdt_info;
--	wdt->wdd.max_timeout = U32_MAX / wdt->clk_rate;
-+	wdt->wdd.max_hw_heartbeat_ms = U32_MAX / wdt->clk_rate * 1000;
- 	wdt->wdd.timeout = APPLE_WDT_TIMEOUT_DEFAULT;
- 
- 	wdt_ctrl = readl_relaxed(wdt->regs + APPLE_WDT_WD1_CTRL);
+[1/1] checkpatch: remove %p4cn
+      commit: a6c0a91ccb257eaec2aee080df06863ce7601315
+
+Best regards,
 -- 
-2.49.0
+Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
