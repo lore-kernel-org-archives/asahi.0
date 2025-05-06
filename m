@@ -1,234 +1,94 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail.flokli.de (mail.flokli.de [116.203.226.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D2D278750;
-	Tue,  6 May 2025 13:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B662797A5
+	for <asahi@lists.linux.dev>; Tue,  6 May 2025 14:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.226.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746538921; cv=none; b=umoGpfWDybFM614BQRomTv5mzXJXvHu3x7B63XbuOENEKWjzgUNJjS8Ver+fC2g2NT/+A7XNtaYaZ3OnsgtO5hA+5wLEf81nxeI8aUWsjv8ZpPIjQQjhHTn6yfeCC/qzGXJldQtnDTG3m7fz9O3GTJPapOrPd5AodgTB1w6CArs=
+	t=1746541612; cv=none; b=uS0wvb57brw+bVDrbLvByzjS0CL9uTVsbPATLbpmaxf6nYQDISPF5OykEYOAYFbt3slbORDoledHc4H14KVgFEJdE6iYkGQGSiQRqRxSew9dWYnC2otVOgU7sEeskAWFtUs42wzpc4U09gZGMVy5LZG2PuImyhyHKkShLfUhLbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746538921; c=relaxed/simple;
-	bh=xid3ylr8PUedVja8ADfCHrXz8QvAkNFfRtSA6wAUKzs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=e9FZdluA3SZ8NSW968QN7iixXpBgNvoXWKTIx0fpaBVATwdHVeKOasdexMhzBki3gZCOOfAPvCq0ErDw5uAA575cQbpA45kjkn9p2EafF0OKZtIr6WnyQPEOV/R8YbSiVpJPW1Rbl0oqopY8DPMmUWz95HouutGMTWeDZCxqyH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Q2sp1Y2+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TpwMlv1G; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1746541612; c=relaxed/simple;
+	bh=mgwZZqqwoDQXrMbsv3xygPwhLjoMgLr4h2T1coCg16M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SGX4N5NDSNJjDjzuWd2fdGTfvswlNmlqhVEezMhiNWHCqBIlg6R7iuOXd9Xxn2004knnna14jz1XtrauWdkufNsizVgFK5vuq308vk3yDRYWO1WY+t1SWYd11gpo7Dcfj/KhRlN+FW5e6UYbfRWzAv3CPeeRxRJ3a+PeRJmqwtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flokli.de; spf=pass smtp.mailfrom=flokli.de; dkim=pass (1024-bit key) header.d=flokli.de header.i=@flokli.de header.b=SgZW+Bsa; arc=none smtp.client-ip=116.203.226.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flokli.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flokli.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Q2sp1Y2+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TpwMlv1G"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1746538917;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6KIDdrTanUmKEwxmKjGlY7d/jG09aY8AhXQLqxXMqzQ=;
-	b=Q2sp1Y2+Xq68ZzKhzYZogyTqNgLrdCaqNxaBagnWo870Q1OnSlOsgKyJiav900B6qyHdm1
-	L6CeSo6gv9d56bZGRLT6noxxbqxOZK3rDK5wNppbXvLTWKw8LMJtjCUcmlue78s7S3WeCj
-	cGaZhrh/vHnUIKTf7/VPznBk4rnSb/V1DiHLfKM6i+fPMllG+tdC9OSYa+o/gKOOOFIAd4
-	wKZgHD7rrMblwdpyngCi6FxefrHrxQAy1i0o64ef+KBg1TFRbwBYipPTxKQQWDHug5YkxA
-	jUghLPlkOdAMplVZEriWKt0NWtKPEESJceuOBHnYGkEwGNoBz8Bx7dGduCJddw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1746538917;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6KIDdrTanUmKEwxmKjGlY7d/jG09aY8AhXQLqxXMqzQ=;
-	b=TpwMlv1G6t0w5OOsJhlXfdhYR45rTjxnfzhQF2m3v1mOUEPfqGgpW9ah4wNI+4YXMTf9UM
-	JFzC30iieDB1dnAA==
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: maz@kernel.org, linux-kernel@vger.kernel.org, "Jiri Slaby (SUSE)"
- <jirislaby@kernel.org>, Aaro Koskinen <aaro.koskinen@iki.fi>, Abhinav
- Kumar <quic_abhinavk@quicinc.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Ghiti
- <alex@ghiti.fr>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Alex
- Deucher <alexander.deucher@amd.com>, Alex Shi <alexs@kernel.org>, Alim
- Akhtar <alim.akhtar@samsung.com>, Alvin =?utf-8?Q?=C5=A0ipraga?=
- <alsi@bang-olufsen.dk>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, amd-gfx@lists.freedesktop.org,
- Amit Kucheria <amitk@kernel.org>, Anatolij Gustschin <agust@denx.de>, Andi
- Shyti <andi.shyti@kernel.org>, Andreas =?utf-8?Q?F=C3=A4rber?=
- <afaerber@suse.de>, Andreas
- Kemnade <andreas@kemnade.info>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Andrew Lunn <andrew@lunn.ch>, Andy
- Shevchenko <andy@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Antoine Tenart
- <atenart@kernel.org>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, Anup
- Patel <anup@brainfault.org>, Arnd Bergmann <arnd@arndb.de>,
- asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>, Baruch Siach
- <baruch@tkos.co.il>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Bjorn Andersson
- <andersson@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Borislav
- Petkov <bp@alien8.de>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Corentin Chary <corentin.chary@gmail.com>,
- Daire McNamara <daire.mcnamara@microchip.com>, Daniel Golle
- <daniel@makrotopia.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Daniel Mack <daniel@zonque.org>, Daniel Palmer <daniel@thingy.jp>, Dave
- Hansen <dave.hansen@linux.intel.com>, David Airlie <airlied@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, DENG Qingfang <dqfext@gmail.com>,
- Dinh Nguyen <dinguyen@kernel.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Dongliang Mu <dzm91@hust.edu.cn>, Doug
- Berger <opendmb@gmail.com>, dri-devel@lists.freedesktop.org, Eddie James
- <eajames@linux.ibm.com>, Eric Dumazet <edumazet@google.com>, Fabio Estevam
- <festevam@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>,
- Geoff Levand <geoff@infradead.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Gregory Clement
- <gregory.clement@bootlin.com>, Guo Ren <guoren@kernel.org>, Hans de Goede
- <hdegoede@redhat.com>, Haojian Zhuang <haojian.zhuang@gmail.com>, Haojian
- Zhuang <haojian.zhuang@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Herve Codina <herve.codina@bootlin.com>, Hou Zhiqiang
- <Zhiqiang.Hou@nxp.com>, "H. Peter Anvin" <hpa@zytor.com>, Huacai Chen
- <chenhuacai@kernel.org>, Changhuang Liang
- <changhuang.liang@starfivetech.com>, Chen-Yu Tsai <wens@csie.org>,
- "Chester A. Unal" <chester.a.unal@arinc9.com>, Christian =?utf-8?Q?K?=
- =?utf-8?Q?=C3=B6nig?=
- <christian.koenig@amd.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Chris Zankel <chris@zankel.net>, Ilpo
- =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Imre Kaloz
- <kaloz@openwrt.org>,
- Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>, James
- Morse <james.morse@arm.com>, Janne Grunau <j@jannau.net>, Janusz
- Krzysztofik <jmkrzyszt@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Jassi
- Brar <jassisinghbrar@gmail.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>, Jianjun
- Wang <jianjun.wang@mediatek.com>, Jiawen Wu <jiawenwu@trustnetic.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Jim Quinlan <jim2101024@gmail.com>,
- Jingoo Han <jingoohan1@gmail.com>, Joel Stanley <joel@jms.id.au>, Johannes
- Berg <johannes@sipsolutions.net>, John Crispin <john@phrozen.org>, John
- Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Jonas Bonn
- <jonas@southpole.se>, Jonathan Cameron <jic23@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Jonathan Hunter <jonathanh@nvidia.com>, Jonathan
- =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Joyce Ooi
- <joyce.ooi@intel.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>, Keerthy
- <j-keerthy@ti.com>, Kevin Hilman <khilman@baylibre.com>, Konrad Dybcio
- <konradybcio@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Krzysztof
- =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, Lakshmi Sowjanya D
- <lakshmi.sowjanya.d@intel.com>, Lars-Peter Clausen <lars@metafoo.de>, Lee
- Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij
- <linus.walleij@linaro.org>, Linus Walleij <linusw@kernel.org>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-pci@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-remoteproc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-um@lists.infradead.org, linux-wireless@vger.kernel.org,
- loongarch@lists.linux.dev, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Ludovic Desroches <ludovic.desroches@microchip.com>, Lukasz Luba
- <lukasz.luba@arm.com>, "Luke D. Jones" <luke@ljones.dev>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Manivannan Sadhasivam
- <manivannan.sadhasivam@linaro.org>, Marek =?utf-8?Q?Beh=C3=BAn?=
- <kabel@kernel.org>, Marijn
- Suijten <marijn.suijten@somainline.org>, Mark Brown <broonie@kernel.org>,
- Mark-PK Tsai <mark-pk.tsai@mediatek.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Max Filippov <jcmvbkbc@gmail.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Mengyuan Lou <mengyuanlou@net-swift.com>,
- Michael Buesch <m@bues.ch>, Michael Ellerman <mpe@ellerman.id.au>, Michal
- Simek <michal.simek@amd.com>, Miodrag Dinic <miodrag.dinic@mips.com>,
- Naveen N Rao <naveen@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, netdev@vger.kernel.org, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>, Nikhil Agarwal
- <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>, Nishanth
- Menon <nm@ti.com>, Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>, Palmer
- Dabbelt
- <palmer@dabbelt.com>, Paolo Abeni <pabeni@redhat.com>, Paul Cercueil
- <paul@crapouillou.net>, Paul Walmsley <paul.walmsley@sifive.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Peter Rosin
- <peda@axentia.se>, Philipp Zabel <p.zabel@pengutronix.de>, Piotr
- Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- platform-driver-x86@vger.kernel.org, Prasad Kumpatla
- <quic_pkumpatl@quicinc.com>, Qiang Zhao <qiang.zhao@nxp.com>, Qin Jian
- <qinjian@cqplus1.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Ray Jui <rjui@broadcom.com>, Rengarajan
- Sundararajan <Rengarajan.S@microchip.com>, Richard Cochran
- <richardcochran@gmail.com>, Richard Weinberger <richard@nod.at>, Rich
- Felker <dalias@libc.org>, Rob Clark <robdclark@gmail.com>, Robert Jarzmik
- <robert.jarzmik@free.fr>, Robert Richter <rric@kernel.org>, Rob Herring
- <robh@kernel.org>, Roger Quadros <rogerq@kernel.org>, Russell King
- <linux@armlinux.org.uk>, Ryan Chen <ryan_chen@aspeedtech.com>, Ryder Lee
- <ryder.lee@mediatek.com>, Samuel Holland <samuel@sholland.org>, Santosh
- Shilimkar <ssantosh@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Scott Branden <sbranden@broadcom.com>, Scott Wood <oss@buserror.net>, Sean
- Paul <sean@poorly.run>, Sean Wang <sean.wang@kernel.org>, Sean Wang
- <sean.wang@mediatek.com>, Sebastian Hesselbarth
- <sebastian.hesselbarth@gmail.com>, Sergio Paracuellos
- <sergio.paracuellos@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Shawn Lin
- <shawn.lin@rock-chips.com>, Siddharth Vadapalli <s-vadapalli@ti.com>,
- Simona Vetter <simona@ffwll.ch>, Stafford Horne <shorne@gmail.com>, Stefan
- Kristiansson <stefan.kristiansson@saunalahti.fi>, Stephen Boyd
- <sboyd@kernel.org>, Sven Peter <sven@svenpeter.dev>, Takashi Iwai
- <tiwai@suse.com>, Talel Shenhar <talel@amazon.com>, Tero Kristo
- <kristo@kernel.org>, Thangaraj Samynathan <Thangaraj.S@microchip.com>,
- Thara Gopinath <thara.gopinath@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Toan Le <toan@os.amperecomputing.com>,
- Tony Lindgren <tony@atomide.com>, Tony Luck <tony.luck@intel.com>,
- UNGLinuxDriver@microchip.com, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Vineet Gupta <vgupta@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
- WANG Xuerui <kernel@xen0n.name>, Woojung Huh <woojung.huh@microchip.com>,
- x86@kernel.org, Yanteng Si <si.yanteng@linux.dev>, Yoshinori Sato
- <ysato@users.sourceforge.jp>, Zhang Rui <rui.zhang@intel.com>
-Subject: Re: [PATCH v2 00/57] irqdomain: Cleanups and Documentation
-In-Reply-To: <20250319092951.37667-1-jirislaby@kernel.org>
-References: <20250319092951.37667-1-jirislaby@kernel.org>
-Date: Tue, 06 May 2025 15:41:57 +0200
-Message-ID: <874ixxonyy.ffs@tglx>
+	dkim=pass (1024-bit key) header.d=flokli.de header.i=@flokli.de header.b="SgZW+Bsa"
+From: Florian Klink <flokli@flokli.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flokli.de; s=mail;
+	t=1746541606; bh=ktlsXiTJhVtBSggz7bxl/DGCv7GATcsYZYs5ILJUTc0=;
+	h=From:To:Cc:Subject:Date;
+	b=SgZW+BsaRRR0lW9vW0eib8Qfo1CzRTqEMsXkb9hIHYZpIiRzwVA9A31lN7Cp7/XYX
+	 iTrKt92aryMr/R7bfUQsHx085T3mIddCpXOKnkwRs76fWwBfhgibFdM7mcvGFS+TeH
+	 8x7vLV6JGywUhUYvako7kddNhikY2WkAZTZ63clM=
+To: Sven Peter <sven@svenpeter.dev>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Florian Klink <flokli@flokli.de>
+Subject: [PATCH v2] watchdog: apple: set max_hw_heartbeat_ms instead of max_timeout
+Date: Tue,  6 May 2025 17:26:22 +0300
+Message-ID: <20250506142621.11428-2-flokli@flokli.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 19 2025 at 10:28, Jiri Slaby wrote:
+The hardware only supports timeouts slightly below 3mins, but by using
+max_hw_heartbeat_ms we can let the kernel take care of supporting larger
+timeouts than that requested from userspace.
 
-> Hi,
->
-> tl;dr if patches are agreed upon, I ask subsys maintainers to take the
-> respective ones via their trees (as they are split per subsys), so that
-> the IRQ tree can take only the rest. That would minimize churn/conflicts
-> during merges.
+Switching to max_hw_heartbeat_ms also means our set_timeout function now
+needs to configure the hardware to the minimum of either the requested
+timeout (in seconds) or the maximum supported by the user (in seconds).
 
-So. It's rc5 by now and I picked up everything which did not show up in
-next yet. As there are some patches in next, I delayed the removal of
-functions for the merge window so that we don't end up with merge
-dependencies.
+Signed-off-by: Florian Klink <flokli@flokli.de>
+---
+Changes in v2:
+- Use the minimum of wdd->max_hw_heartbeat_ms / 1000 and
+  userspace-requested timeout as documented in watchdog-kernel-api.rst
+- Link to v1: https://lore.kernel.org/asahi/20250506120111.5041-1-flokli@flokli.de/
+---
+ drivers/watchdog/apple_wdt.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-To reducde conflicts, I grabbed the irq branch from the PCI tree under
-the assumption that this branch is stable.
+diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
+index 95d9e37df41c..66a158f67a71 100644
+--- a/drivers/watchdog/apple_wdt.c
++++ b/drivers/watchdog/apple_wdt.c
+@@ -95,9 +95,12 @@ static int apple_wdt_ping(struct watchdog_device *wdd)
+ static int apple_wdt_set_timeout(struct watchdog_device *wdd, unsigned int s)
+ {
+ 	struct apple_wdt *wdt = to_apple_wdt(wdd);
++	u32 actual;
+ 
+ 	writel_relaxed(0, wdt->regs + APPLE_WDT_WD1_CUR_TIME);
+-	writel_relaxed(wdt->clk_rate * s, wdt->regs + APPLE_WDT_WD1_BITE_TIME);
++
++	actual = min(s, wdd->max_hw_heartbeat_ms / 1000);
++	writel_relaxed(wdt->clk_rate * actual, wdt->regs + APPLE_WDT_WD1_BITE_TIME);
+ 
+ 	wdd->timeout = s;
+ 
+@@ -177,7 +180,7 @@ static int apple_wdt_probe(struct platform_device *pdev)
+ 
+ 	wdt->wdd.ops = &apple_wdt_ops;
+ 	wdt->wdd.info = &apple_wdt_info;
+-	wdt->wdd.max_timeout = U32_MAX / wdt->clk_rate;
++	wdt->wdd.max_hw_heartbeat_ms = U32_MAX / wdt->clk_rate * 1000;
+ 	wdt->wdd.timeout = APPLE_WDT_TIMEOUT_DEFAULT;
+ 
+ 	wdt_ctrl = readl_relaxed(wdt->regs + APPLE_WDT_WD1_CTRL);
+-- 
+2.49.0
 
-The series sits now in
-
-   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/cleanups
-
-and will be in next soon. If there are duplicates showing up in next,
-I'm going to remove them from my branch, so the branch is not for basing
-development on.
-
-@Jiri, I fixed up all your subject prefixes as
-
-  'irqdomain: subsys: Switch to foo()'
-
-does not make any sense at all. These subsystems have their regular
-prefixes and these changes do not justify made up irqdomain special
-prefixes at all.
-
-Thanks,
-
-        tglx
