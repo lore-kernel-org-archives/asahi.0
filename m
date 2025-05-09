@@ -1,38 +1,38 @@
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4DC29186F;
-	Fri,  9 May 2025 13:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665C52957B9;
+	Fri,  9 May 2025 13:56:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746799015; cv=none; b=IwyAMS01Nk3u576+JjhBgEt14b/Jw0p0hiEBq7LIwZKlcXUbRUtraVJ3090yQ8wMfQlMVgBQ79hVfAp3p2uqmEl7FBwazosNE9ZgEvRJ3VtfX8ZY2HVnqaMtR2D/j0cAeFdRrdGhtvSOi/9DOYJKo9t/qRfi46ab/Cn1Vhw8Sss=
+	t=1746799019; cv=none; b=ilN9HDxdnFnD16aNtJhFKmvGguP56KEMslnt5Nr5uC51/zDkWOEi5v2so6yik7zTsGfFL5KOzsRGoM/0hcml8ILbWbEm/N7WlhCj/cBvb7LMvJxZhuL44nudlN44ndzTypJS9wciOd/Sxc/NsTVm7klcmDjrAbQqB6Nw0fjflYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746799015; c=relaxed/simple;
-	bh=oUseUlDw0JDpesZtN/wwTnnCVHt0FrFQydJOF82XHc0=;
+	s=arc-20240116; t=1746799019; c=relaxed/simple;
+	bh=uW4iQOdfg6yxuzNxeT4j6N+iwFwXu1WXryh43KlkTWU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=p6d5YUYjg+PpP7hhSWWVmtfzFogfAtTD/rHUs4k6yV/h0m5i33s5prz353oLJU92ybH+lEaZZduVazjIfy6BEq81Tpx2k8SaSU87bGYpwAorYI4ujKppwhJ00T1vVaDHr1w1elgDVGe/vNmz184wr9lQp0a+jFxNP1kNoBkj0mU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eKOe/THF; arc=none smtp.client-ip=217.70.183.196
+	 In-Reply-To:To:Cc; b=nVcYonqNNthMC+0KwFO4Ey4ltYwmwr0Ul32PGWVHUIugL0kNErX7px9cg9OTp1SeH7/O+FL//KwPwhJTOJXfbj8Mc75tYSZAYDbkqUIQY5Q2xniRwwM1Na9U7E8X5a29IspHMNydLXS1DeH1MSC8IHvCV/xg11T7JDFJSH8G56o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CndV2qga; arc=none smtp.client-ip=217.70.183.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eKOe/THF"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 87F6143B50;
-	Fri,  9 May 2025 13:56:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CndV2qga"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C8D1743B63;
+	Fri,  9 May 2025 13:56:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1746799011;
+	t=1746799014;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Au0mQLhtD+SC9FQejYqXmeWmtMq3lmMU5k6WXMVlQsE=;
-	b=eKOe/THF3tySiZxIC7u+GHRH9QS4mq+wEw9h26QB/yJvhtxoTHTpxComngkGkJzDlhF/W8
-	B2URSGwjYbtbMO89f1CA60nnJYpVLSNVCq99xySDus+nRYHxayDid9z92gpAqXvdxKrgRI
-	6mUw3R3PJvzEpJfpqidZVmNjgGcpBW2Oay6JO5c8+wQ0r1d9tOyVuXVdhNV9k+ArLVOqGF
-	Zm45qnZg7LunoMKVMPpY5hhZIqJvJ4bSvv+1CwY0yPFU64YFIBdhV2FmwAmn4+vqgYYqP1
-	+dnekaySiB0wlQD0G8J8BTUST8FqMcDW/rIp4bI0JSSZ5cOiHoPJ+S7G3Loh2w==
+	bh=KOcho37MvrVhiA5dQkVJX8FlRBRSDHiJRf+zEmA1rlY=;
+	b=CndV2qgaPqO3LuApWCi1K2vmBzFmnB9puzhxZvWpn+taK86Eei7N1/UlnpOWvycXKcm3ei
+	OXJsDcIbdqC5pA3dFPg8A58jlTSmqYWRlMBc+2FtdYRHwysUfZibXtR/3yoxjZj3W+kmRP
+	Oaz8BhvT2/QeOUuRzgYpcvpljb31GBY8rxKQO6QG3aidrRFJWL+Qc4wwu2ToefYP0GWT2V
+	Duos+FswOXgHcaFjdeL/UsBg4qF+mVh63yAcG+V3t0cY88WvumDcdAYtClHKsHciG8qvrS
+	BbGt1cmgbE5BG3vhsmNZyUrxcTZHX3hAPwkbXSik46YKw0hUpKEeHXbB7rlLSw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 09 May 2025 15:53:38 +0200
-Subject: [PATCH v3 12/22] drm/omap: dss: sdi: convert to
+Date: Fri, 09 May 2025 15:53:39 +0200
+Subject: [PATCH v3 13/22] drm/omap: dss: venc: convert to
  devm_drm_bridge_alloc() API
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-12-b8bc1f16d7aa@bootlin.com>
+Message-Id: <20250509-drm-bridge-convert-to-alloc-api-v3-13-b8bc1f16d7aa@bootlin.com>
 References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
 In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -71,14 +71,12 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeduudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedvpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehimhigsehlihhst
- hhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqmhhsmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhm
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeduudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepgedtpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnu
+ higqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtoheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdprhgtphhtthhopegrshhrihhvrghtshesrhgvughhrghtrdgtohhm
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
 This is the new API for allocating DRM bridges.
@@ -91,81 +89,86 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Cc: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/sdi.c | 25 ++++++++-----------------
- 1 file changed, 8 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/venc.c | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/sdi.c b/drivers/gpu/drm/omapdrm/dss/sdi.c
-index e78826e4b560a2b9af2d8a5a38e181bd3e44d250..df4cbc683e2ca27ef5fc45f79b77dcdcd9ca529a 100644
---- a/drivers/gpu/drm/omapdrm/dss/sdi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/sdi.c
-@@ -284,7 +284,6 @@ static const struct drm_bridge_funcs sdi_bridge_funcs = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
+index 50349518eda1630400529caf27ca4469bb09fc82..9b5d53dc361e654a2e4009c3c81b726f9ef76ced 100644
+--- a/drivers/gpu/drm/omapdrm/dss/venc.c
++++ b/drivers/gpu/drm/omapdrm/dss/venc.c
+@@ -664,7 +664,6 @@ static const struct drm_bridge_funcs venc_bridge_funcs = {
  
- static void sdi_bridge_init(struct sdi_device *sdi)
+ static void venc_bridge_init(struct venc_device *venc)
  {
--	sdi->bridge.funcs = &sdi_bridge_funcs;
- 	sdi->bridge.of_node = sdi->pdev->dev.of_node;
- 	sdi->bridge.type = DRM_MODE_CONNECTOR_LVDS;
- 
-@@ -344,21 +343,19 @@ int sdi_init_port(struct dss_device *dss, struct platform_device *pdev,
- 	u32 datapairs;
+-	venc->bridge.funcs = &venc_bridge_funcs;
+ 	venc->bridge.of_node = venc->pdev->dev.of_node;
+ 	venc->bridge.ops = DRM_BRIDGE_OP_MODES;
+ 	venc->bridge.type = DRM_MODE_CONNECTOR_SVIDEO;
+@@ -809,9 +808,9 @@ static int venc_probe(struct platform_device *pdev)
+ 	struct venc_device *venc;
  	int r;
  
--	sdi = kzalloc(sizeof(*sdi), GFP_KERNEL);
--	if (!sdi)
+-	venc = kzalloc(sizeof(*venc), GFP_KERNEL);
+-	if (!venc)
 -		return -ENOMEM;
-+	sdi = devm_drm_bridge_alloc(&pdev->dev, struct sdi_device, bridge, &sdi_bridge_funcs);
-+	if (IS_ERR(sdi))
-+		return PTR_ERR(sdi);
++	venc = devm_drm_bridge_alloc(&pdev->dev, struct venc_device, bridge, &venc_bridge_funcs);
++	if (IS_ERR(venc))
++		return PTR_ERR(venc);
  
- 	ep = of_graph_get_next_port_endpoint(port, NULL);
--	if (!ep) {
--		r = 0;
+ 	venc->pdev = pdev;
+ 
+@@ -824,26 +823,24 @@ static int venc_probe(struct platform_device *pdev)
+ 	venc->config = &venc_config_pal_trm;
+ 
+ 	venc->base = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(venc->base)) {
+-		r = PTR_ERR(venc->base);
 -		goto err_free;
 -	}
-+	if (!ep)
-+		return 0;
++	if (IS_ERR(venc->base))
++		return PTR_ERR(venc->base);
  
- 	r = of_property_read_u32(ep, "datapairs", &datapairs);
- 	of_node_put(ep);
- 	if (r) {
- 		DSSERR("failed to parse datapairs\n");
--		goto err_free;
-+		return r;
- 	}
- 
- 	sdi->datapairs = datapairs;
-@@ -372,19 +369,14 @@ int sdi_init_port(struct dss_device *dss, struct platform_device *pdev,
- 		r = PTR_ERR(sdi->vdds_sdi_reg);
+ 	venc->vdda_dac_reg = devm_regulator_get(&pdev->dev, "vdda");
+ 	if (IS_ERR(venc->vdda_dac_reg)) {
+ 		r = PTR_ERR(venc->vdda_dac_reg);
  		if (r != -EPROBE_DEFER)
- 			DSSERR("can't get VDDS_SDI regulator\n");
+ 			DSSERR("can't get VDDA_DAC regulator\n");
 -		goto err_free;
 +		return r;
  	}
  
- 	r = sdi_init_output(sdi);
+ 	r = venc_get_clocks(venc);
  	if (r)
 -		goto err_free;
 +		return r;
  
- 	return 0;
--
+ 	r = venc_probe_of(venc);
+ 	if (r)
+-		goto err_free;
++		return r;
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 
+@@ -861,8 +858,6 @@ static int venc_probe(struct platform_device *pdev)
+ 	venc_uninit_output(venc);
+ err_pm_disable:
+ 	pm_runtime_disable(&pdev->dev);
 -err_free:
--	kfree(sdi);
+-	kfree(venc);
+ 	return r;
+ }
+ 
+@@ -875,8 +870,6 @@ static void venc_remove(struct platform_device *pdev)
+ 	venc_uninit_output(venc);
+ 
+ 	pm_runtime_disable(&pdev->dev);
 -
--	return r;
+-	kfree(venc);
  }
  
- void sdi_uninit_port(struct device_node *port)
-@@ -395,5 +387,4 @@ void sdi_uninit_port(struct device_node *port)
- 		return;
- 
- 	sdi_uninit_output(sdi);
--	kfree(sdi);
- }
+ static __maybe_unused int venc_runtime_suspend(struct device *dev)
 
 -- 
 2.49.0
