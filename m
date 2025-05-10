@@ -1,105 +1,120 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EA85103F;
-	Sat, 10 May 2025 05:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807B11E5B9C;
+	Sat, 10 May 2025 07:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746856729; cv=none; b=jw8GLb8n2AQvB+HTwDp6DAmFePdXuhx0R10k9j/J917cVpQm1CKyHJb3EpAIpZRgArVni6Dh4xCf/WpWkgWqlqXIno0Zgu8A9eeLeMgyo5dTG2hnJ8i2KRj0ArmJmesIEMP7+ARgS6mdENyc3Q+zm9EPGVdCvrt+teC6FlBgfLU=
+	t=1746863109; cv=none; b=d3LZilRjGB6v/fJ1Rcu25F0Fbc7j1EYp3nLr8jiMhKRCaFGSiW4tpJMIfh6gAt08sopeFiko5wup91q46XSdJLJvciAt13FGfLNiTFA/ghycGppdqk/jFrhOmJfhsHss1w/tP3DAmqTKOku5U+BkeahJYL7wUE81l0Y3J5HVIxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746856729; c=relaxed/simple;
-	bh=Ak/3kDW2H5mJRaqud3LnLTy7IPbuS4V++tfpvlmoDKk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lcuf29Vp0Lcn9Sp8Qb9y0WTIn1TyGQvbrtUiS+pN97pWKVCn7v7UOdfwlTxZWceBYjBttrHXIA8jLXe16kTDt1G+dfC6eT/Pf/j7k46U0kThEpoeWUpZv0gxV3RmvV2flv+Z+nIPtic0o+B1Q1OK2SV558nfn7krRkzqk8kJeDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I8XciLIH; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746863109; c=relaxed/simple;
+	bh=CUo/MimrCW1xHj5d7fHDtNMddbwaaGdTDWDyY+tLI84=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FE3O6fAqJNuMl/ZUusmHgOH/rMh2XX94LanYhCTljAu3AF6nCx5nrE7jYj+aht2ho0zr0v9S2v3S35Hcn34auuv841OiNYbXScWQCoTyRY28rkNyofqX9nKd/CcNTYcTBfDdNXewdKpwcWlo3ACA6T7MRJrfu64u+D7ZK+qw8uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYy0kgX5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I8XciLIH"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22e8e4423ecso26402155ad.0;
-        Fri, 09 May 2025 22:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746856727; x=1747461527; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZvSrH0m4IUpU+lJMf9GPrH6cvsJ1xHIQMLaVbqpMvdE=;
-        b=I8XciLIHQzewpnPGpHOzDK7tXr3hnYj9ouFg/4/jJrVgcvWPtCcv2leeKf6AeeOGTs
-         LGUZIpVlKfJcBA3RcN4404f3FIiJcF2GNK3HryBZ5596zAHwxDpOXBoEsq6yhJuZLKuO
-         tE9L5ShCc1pJfyQS1AehgoLByg8vzTz815O9VxhJf6lta3/GH0J2e9LKbV/QHdt0jdIb
-         preMgYgloETLt8Awb6KFNuH6DK5JHEedCie3JCaJhbLiPQdPSzU4hemC1p93IT9+Gxf6
-         fBEseSYtybreWyDPtJwfTasb2i8lfMZEAKsjbgIo0xES97VJyeRApjA4jVwjeZzYC6w1
-         gAUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746856727; x=1747461527;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZvSrH0m4IUpU+lJMf9GPrH6cvsJ1xHIQMLaVbqpMvdE=;
-        b=SKKxEYafnbWW4YwFNP8qAMnzR0PxGBxIVMuunVM4I7ZSBdX2Snxc2urwH25B1oRF2S
-         Wsr5AY4M3T8w+79Gqbyp8cyKkYlkXZJ9lIBMD7wTkcV29D3sHDv4lYTumqai6KMJPR8y
-         q8vGvd4C76WRyD4x8rcS4NlARCyefgPXxHCjS4CfXIKRPVpkOG6K6FCyvBsYhxbYYpBm
-         8Hx2aN7JgafS6CAOwnbDFPU3FSDTgTRhe60UJc5a6l/R4/SkB+ygqQXuAKx7TdABhYvB
-         1iuVjEhPWSwrZz9GhAH/3+S6V2MCmgeQksOpQl3mrlq4EMH2IVvpVHkdG0pqx7gmd9uM
-         We6w==
-X-Forwarded-Encrypted: i=1; AJvYcCX79rx5EiW4kbOdazcZkqzGUh5Nl7OVSw4GrdNiNCqhAskrING910xJrapuVYioh0Xb9v1WlQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0q4qiYtkJYLKYrsDi8XYcoJUdlPP9r6IAMx2o46WT+bL6s1Yp
-	IP1sGZFkIdF3pQOelVFZvjbehv5ewBRQsXbTFWcwjz0ecvII+6io
-X-Gm-Gg: ASbGncsKm7nuuIKrlMMSlGrTqfpu9aZzCuqFkaLFnwUVx1VVBmn13md6GuX6I5/upot
-	KLy0ea48zTsZ07AMbu9jN9pjm5LMl9f5UM9z/sFTKhU1JCsH6ndEnm7f/ocTieMc/ZWNmDE4iwx
-	QAT99joB6hlrmKh87OanxLpt7H6vLtAjCo0+AyMZK0bMffxKYEUUQpEZMvfxqUYx8d9Be9gt1FM
-	DmPRp2ZkuZQDFFTayLIB5wIVEXHcYSjDS/AGHnHTeJfbh1T5655yrPN8fVX05odCPNERbR/OuMG
-	wUe5FrR7qovu7HcV6nRNrXOuClGqLGZOw87LF9EDYDinzoHh8M92XBRoxReBB6o8mrkkBw==
-X-Google-Smtp-Source: AGHT+IHszysuOKe+BXliXC54u04RRE82xYLl5n3Hlqtc4Nnx4bwzHJoObH1iIIdfyb0NhtdrtlIVMg==
-X-Received: by 2002:a17:902:f612:b0:223:54aa:6d15 with SMTP id d9443c01a7336-22fc8b3b39fmr105809735ad.12.1746856726879;
-        Fri, 09 May 2025 22:58:46 -0700 (PDT)
-Received: from [192.168.0.121] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc77413besm26910865ad.84.2025.05.09.22.58.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 May 2025 22:58:46 -0700 (PDT)
-Message-ID: <fa4f46ef-0f86-41f8-afc2-afc8dd2704a1@gmail.com>
-Date: Sat, 10 May 2025 13:58:41 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYy0kgX5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E4BB3C4CEE2;
+	Sat, 10 May 2025 07:45:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746863109;
+	bh=CUo/MimrCW1xHj5d7fHDtNMddbwaaGdTDWDyY+tLI84=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=YYy0kgX5lVaXFTKrYRGliD8DTCl5jxlh4Nayz0Wb+66AFxLc20MuO/3+CziqiiX/x
+	 qk24j8sGwyjrh8CeEdEkoEefu9qPheo8X7iuxHUITn2Vw7hwyZ+FFBH4eIeiI+d+pP
+	 9tqajp4y7JgSFrn3BB89zd9YjsYRu4G2Uhm50EOTDRbBSlq8Egg0krIFauzT9XwQyn
+	 7Z5FKogs/CrHxr8MQX9+rKkvBq8v7xlbNMEQA+5CxoAfvuzhz8ttoZLNwjf0PYyaWG
+	 ij7O7LjRz0CU1n0K1u1LIqBqhPtE7yrqndTXcscYbZYEoFOjP4NyT5nNPFNRJQBFQr
+	 HfCNhkezxwIGw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2891C3ABC3;
+	Sat, 10 May 2025 07:45:08 +0000 (UTC)
+From: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
+Subject: [PATCH 0/7] Support exposing bits of any byte as NVMEM cells
+Date: Sat, 10 May 2025 07:44:40 +0000
+Message-Id: <20250510-nvmem-dt-v1-0-eccfa6e33f6a@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v6 03/21] drivers/perf: apple_m1: Support
- per-implementation event tables
-To: kernel test robot <lkp@intel.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Sven Peter <sven@svenpeter.dev>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>
-Cc: oe-kbuild-all@lists.linux.dev, Marc Zyngier <maz@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
- devicetree@vger.kernel.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250429-apple-cpmu-v6-3-ed21815f0c3f@gmail.com>
- <202505071747.2b2WEajY-lkp@intel.com>
-Content-Language: en-MW
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <202505071747.2b2WEajY-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOgDH2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDUwML3byy3NRc3ZQS3ZRUw0RDCxOjVAsLYyWg8oKi1LTMCrBR0bG1tQD
+ ysA7VWgAAAA==
+X-Change-ID: 20250508-nvmem-dt-de1a1842e883
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+ Sven Peter <sven@svenpeter.dev>, R <rqou@berkeley.edu>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1867; i=sven@svenpeter.dev;
+ h=from:subject:message-id;
+ bh=CUo/MimrCW1xHj5d7fHDtNMddbwaaGdTDWDyY+tLI84=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ4Y886+JhUwn/3XVWSgdXLxSLkhOtF73koo070H5hzV9l
+ sqLejk7SlkYxDgYZMUUWbbvtzd98vCN4NJNl97DzGFlAhnCwMUpABMpF2b4K/xC+RXPE+Plrf6O
+ 8U5L98/5yRi1snSb6Ukhv1e+M3wP+DMyzC4UmveQ9UfFm/Qf//fd1WmRubpx9tnEs/vKKqM4DW5
+ v4QMA
+X-Developer-Key: i=sven@svenpeter.dev; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@svenpeter.dev/default with
+ auth_id=167
+X-Original-From: Sven Peter <sven@svenpeter.dev>
+Reply-To: sven@svenpeter.dev
 
+Hi,
 
-#syz test
+I'm preparing USB3 support for Apple Silicon Macs for upstreaming right
+now and this series is the first dependency. The Type-C PHY requires
+configuration values encoded in fuses for which we already have a
+driver.
+Unfortunately, the fuses on these machines are only accessibly as 32bit
+words but the Type-C PHY configuration values are individual bits which
+are sometimes spread across multiple fuses.
+Right now this is not supported by the nvmem core which only allows a
+subset of bits within the first byte to be exposed as a nvmem cell. This
+small series adds support for exposing arbitrary bits as nvmem cells.
 
-diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-index 365b4ecaedb1..81443e5158b2 100644
---- a/drivers/perf/apple_m1_cpu_pmu.c
-+++ b/drivers/perf/apple_m1_cpu_pmu.c
-@@ -1082,7 +1082,7 @@ static void m1_pmu_write_counter(struct perf_event *event, u64 value)
- 
- static int apple_pmu_get_event_idx(struct pmu_hw_events *cpuc,
-                                struct perf_event *event,
--                               const u16 event_affinities[M1_PMU_CFG_EVENT])
-+                               const u16 event_affinities[])
- {
-        unsigned long evtype = event->hw.config_base & M1_PMU_CFG_EVENT;
-        unsigned long affinity = event_affinities[evtype];
+The second part of the series then adds the nvmem cells required for the
+Type-C PHY to our device trees. While it's technically independent I've
+included those changes in this series for context.
+
+Best,
+
+Sven
+
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+Janne Grunau (2):
+      Revert "nvmem: core: Print error on wrong bits DT property"
+      arm64: dts: apple: t8112: Add eFuses node
+
+R (1):
+      arm64: dts: apple: t600x: Add eFuses node
+
+Sven Peter (4):
+      nvmem: core: allow bit offset > 8
+      nvmem: core: round up to word_size
+      dt-bindings: nvmem: apple: Add T8112 compatible
+      arm64: dts: apple: t8103: Add eFuses node
+
+ .../devicetree/bindings/nvmem/apple,efuses.yaml    |   1 +
+ arch/arm64/boot/dts/apple/t600x-dieX.dtsi          | 187 +++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi               | 102 +++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  97 +++++++++++
+ drivers/nvmem/core.c                               |  24 +--
+ 5 files changed, 401 insertions(+), 10 deletions(-)
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250508-nvmem-dt-de1a1842e883
+
+Best regards,
+-- 
+Sven Peter <sven@svenpeter.dev>
+
 
