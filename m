@@ -1,83 +1,105 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E62C235BF1
-	for <asahi@lists.linux.dev>; Fri,  9 May 2025 16:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EA85103F;
+	Sat, 10 May 2025 05:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746807713; cv=none; b=a+oJL5/YUzZz6oKZbIWif0gTJiMXEyOxiVwLPm7nuiqiS8zRxtctB7z8Ot8MdHDkjbPa210sDyf1DPT0z+nJ48d1siK+KUlnC9q9PnoYgGB04vT/Jn65JH+Wwe9pDiINb+1I2CrwXtj0uJRfLBYK73xPfcx0SjOveV6nZWhjAiE=
+	t=1746856729; cv=none; b=jw8GLb8n2AQvB+HTwDp6DAmFePdXuhx0R10k9j/J917cVpQm1CKyHJb3EpAIpZRgArVni6Dh4xCf/WpWkgWqlqXIno0Zgu8A9eeLeMgyo5dTG2hnJ8i2KRj0ArmJmesIEMP7+ARgS6mdENyc3Q+zm9EPGVdCvrt+teC6FlBgfLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746807713; c=relaxed/simple;
-	bh=rEj6hWkcGPaha1zLvnzaxpRj8FK8vW30ghmy4w7SLfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AiIkvn/gTYBDifR+OqE4z4qDX8GtbvZ/SBF8QwJpmCll5ig7ktAMYtEDpa0SrZkCL6SNHwSHm4gkK/0/yLU17NlhNhtLQa4biJxyPhigbC00inE+ezqL7somU0vO2v1CnskzmOYH2zU3L/pbY59hf3h4p3MbBzE4jgD1uFTpX4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=yJbb5Pv2; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1746856729; c=relaxed/simple;
+	bh=Ak/3kDW2H5mJRaqud3LnLTy7IPbuS4V++tfpvlmoDKk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lcuf29Vp0Lcn9Sp8Qb9y0WTIn1TyGQvbrtUiS+pN97pWKVCn7v7UOdfwlTxZWceBYjBttrHXIA8jLXe16kTDt1G+dfC6eT/Pf/j7k46U0kThEpoeWUpZv0gxV3RmvV2flv+Z+nIPtic0o+B1Q1OK2SV558nfn7krRkzqk8kJeDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I8XciLIH; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="yJbb5Pv2"
-Date: Fri, 9 May 2025 12:21:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1746807707;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oCay4j7C41YPfPP4dRmjz27ecUbg9JIQQ0y/wWYi3Yk=;
-	b=yJbb5Pv23OL+WAcAvl05L189sakxNU2wSigqZjyKPBKo6TN/zVF3XYwjSGhv/nOUsiEjL/
-	Tp8tSHES30I1yjcQmteNELFrqGV/wMzPapMmE2mcb5VxV89kHpNkfAWq0W5a43dR7bQeR3
-	tj08z9iGNCbD3M+FVqOr5t9j3yQAw8MY5HnYsz+l2fxXFwkjNx4XLdsQjaR13NvfRce8d1
-	NmvMvyE+Cg/sJgIBOCWV6X1i6kZ5PwdUwMWq5Wr7lzoRGnFI38esKrtfgKKKRoJSgurIpD
-	ac11fOF5/1DfHQHvguwizyJTVaY0X11phlrinCUlPVjjthsGKDpUWi0jK4cwVw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	Hector Martin <marcan@marcan.st>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Russell King <rmk+kernel@armlinux.org.uk>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 6/9] power: reset: macsmc-reboot: Add driver for
- rebooting via Apple SMC
-Message-ID: <aB4rliBFrUWWuNQ2@blossom>
-References: <20250503-smc-6-15-v4-0-500b9b6546fc@svenpeter.dev>
- <20250503-smc-6-15-v4-6-500b9b6546fc@svenpeter.dev>
- <aB39iJm9759RYAKW@blossom>
- <196f84ea-6567-4fe3-9bee-743bb289223e@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I8XciLIH"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22e8e4423ecso26402155ad.0;
+        Fri, 09 May 2025 22:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746856727; x=1747461527; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZvSrH0m4IUpU+lJMf9GPrH6cvsJ1xHIQMLaVbqpMvdE=;
+        b=I8XciLIHQzewpnPGpHOzDK7tXr3hnYj9ouFg/4/jJrVgcvWPtCcv2leeKf6AeeOGTs
+         LGUZIpVlKfJcBA3RcN4404f3FIiJcF2GNK3HryBZ5596zAHwxDpOXBoEsq6yhJuZLKuO
+         tE9L5ShCc1pJfyQS1AehgoLByg8vzTz815O9VxhJf6lta3/GH0J2e9LKbV/QHdt0jdIb
+         preMgYgloETLt8Awb6KFNuH6DK5JHEedCie3JCaJhbLiPQdPSzU4hemC1p93IT9+Gxf6
+         fBEseSYtybreWyDPtJwfTasb2i8lfMZEAKsjbgIo0xES97VJyeRApjA4jVwjeZzYC6w1
+         gAUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746856727; x=1747461527;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZvSrH0m4IUpU+lJMf9GPrH6cvsJ1xHIQMLaVbqpMvdE=;
+        b=SKKxEYafnbWW4YwFNP8qAMnzR0PxGBxIVMuunVM4I7ZSBdX2Snxc2urwH25B1oRF2S
+         Wsr5AY4M3T8w+79Gqbyp8cyKkYlkXZJ9lIBMD7wTkcV29D3sHDv4lYTumqai6KMJPR8y
+         q8vGvd4C76WRyD4x8rcS4NlARCyefgPXxHCjS4CfXIKRPVpkOG6K6FCyvBsYhxbYYpBm
+         8Hx2aN7JgafS6CAOwnbDFPU3FSDTgTRhe60UJc5a6l/R4/SkB+ygqQXuAKx7TdABhYvB
+         1iuVjEhPWSwrZz9GhAH/3+S6V2MCmgeQksOpQl3mrlq4EMH2IVvpVHkdG0pqx7gmd9uM
+         We6w==
+X-Forwarded-Encrypted: i=1; AJvYcCX79rx5EiW4kbOdazcZkqzGUh5Nl7OVSw4GrdNiNCqhAskrING910xJrapuVYioh0Xb9v1WlQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0q4qiYtkJYLKYrsDi8XYcoJUdlPP9r6IAMx2o46WT+bL6s1Yp
+	IP1sGZFkIdF3pQOelVFZvjbehv5ewBRQsXbTFWcwjz0ecvII+6io
+X-Gm-Gg: ASbGncsKm7nuuIKrlMMSlGrTqfpu9aZzCuqFkaLFnwUVx1VVBmn13md6GuX6I5/upot
+	KLy0ea48zTsZ07AMbu9jN9pjm5LMl9f5UM9z/sFTKhU1JCsH6ndEnm7f/ocTieMc/ZWNmDE4iwx
+	QAT99joB6hlrmKh87OanxLpt7H6vLtAjCo0+AyMZK0bMffxKYEUUQpEZMvfxqUYx8d9Be9gt1FM
+	DmPRp2ZkuZQDFFTayLIB5wIVEXHcYSjDS/AGHnHTeJfbh1T5655yrPN8fVX05odCPNERbR/OuMG
+	wUe5FrR7qovu7HcV6nRNrXOuClGqLGZOw87LF9EDYDinzoHh8M92XBRoxReBB6o8mrkkBw==
+X-Google-Smtp-Source: AGHT+IHszysuOKe+BXliXC54u04RRE82xYLl5n3Hlqtc4Nnx4bwzHJoObH1iIIdfyb0NhtdrtlIVMg==
+X-Received: by 2002:a17:902:f612:b0:223:54aa:6d15 with SMTP id d9443c01a7336-22fc8b3b39fmr105809735ad.12.1746856726879;
+        Fri, 09 May 2025 22:58:46 -0700 (PDT)
+Received: from [192.168.0.121] ([59.188.211.160])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc77413besm26910865ad.84.2025.05.09.22.58.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 May 2025 22:58:46 -0700 (PDT)
+Message-ID: <fa4f46ef-0f86-41f8-afc2-afc8dd2704a1@gmail.com>
+Date: Sat, 10 May 2025 13:58:41 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <196f84ea-6567-4fe3-9bee-743bb289223e@app.fastmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v6 03/21] drivers/perf: apple_m1: Support
+ per-implementation event tables
+To: kernel test robot <lkp@intel.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Sven Peter <sven@svenpeter.dev>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>
+Cc: oe-kbuild-all@lists.linux.dev, Marc Zyngier <maz@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
+ devicetree@vger.kernel.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250429-apple-cpmu-v6-3-ed21815f0c3f@gmail.com>
+ <202505071747.2b2WEajY-lkp@intel.com>
+Content-Language: en-MW
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <202505071747.2b2WEajY-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> >
-> >> +		mdelay(100);
-> >> +		WARN_ON(1);
-> >
-> > ...What?
-> 
-> This is done in a few drivers in drivers/power/reboot. If we haven't
-> rebooted after 100ms something's wrong with SMC. I'll add a comment.
-> 
-> drivers/power/reset/tps65086-restart.c:	WARN_ON(1);
-> drivers/power/reset/atc260x-poweroff.c:	WARN_ONCE(1, "Unable to power off system\n");
-> drivers/power/reset/mt6323-poweroff.c:	WARN_ONCE(1, "Unable to power off system\n");
-> drivers/power/reset/gpio-restart.c:	WARN_ON(1);
-> drivers/power/reset/regulator-poweroff.c:	WARN_ON(1);
 
-Ohh, duh, ok. Cute.
+#syz test
 
-Can we do the WARN_ONCE(1, "Unable ...") pattern? Then we don't need a
-comment since the warn message makes it obvious.
+diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
+index 365b4ecaedb1..81443e5158b2 100644
+--- a/drivers/perf/apple_m1_cpu_pmu.c
++++ b/drivers/perf/apple_m1_cpu_pmu.c
+@@ -1082,7 +1082,7 @@ static void m1_pmu_write_counter(struct perf_event *event, u64 value)
+ 
+ static int apple_pmu_get_event_idx(struct pmu_hw_events *cpuc,
+                                struct perf_event *event,
+-                               const u16 event_affinities[M1_PMU_CFG_EVENT])
++                               const u16 event_affinities[])
+ {
+        unsigned long evtype = event->hw.config_base & M1_PMU_CFG_EVENT;
+        unsigned long affinity = event_affinities[evtype];
+
