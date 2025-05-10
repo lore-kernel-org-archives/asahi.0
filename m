@@ -1,192 +1,159 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1230C1EA7E6;
-	Sat, 10 May 2025 07:45:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8134838B;
+	Sat, 10 May 2025 08:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746863111; cv=none; b=ne0UJO8VW2SeHPAhpywx3g2IsVMwFHupI57jjJq7zOXoHR+MQfZTSpufWsbk1HxFU3hGxt3dICLNChwg+XN0zP52tNqFMis1CYxBzHOhv2mm0ACVFVFoxJPlUbOHAfYkdg+38h7jEBnA+bV41tICR4FS1ZcVd7qx5UWaFkcdOOU=
+	t=1746866591; cv=none; b=DEoeUS9MQ1FcZd+EWC15qrqr2W6w7CLgmCocqPLJySIWmobz+aL7Izqp3RzRbDD7nRPiBRqXxGLjqZ1UIXG0AvlKownuFxcZIIjqExGpxVrY/gCgbSAB2/Mi5+KtB5G6qloOgrTMFnBtAml2ivCWK4H2uYTeSNMQ/qoUT5jLqQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746863111; c=relaxed/simple;
-	bh=UDYWDg2Yz1nJiRbj7Z8QC9FBgMmCSf4p9oWrfm2p7xg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fjF+3ugIcpPGGeSeUmnRyY9kl/ZodySqUYz4u1cYcXX5csJo0oUdAq66evdaZtQL4+QLwC2gc6S6mQQ3VgW7VX6d4s9tClsmkhUIzGSpV/+qyyZ9S2tG4iXE0NIuL1EaBtfP/aIOHfXiHGlmRRe5iZCRhTrqaoJ9j66TaMzUDyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwhO4hHz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746866591; c=relaxed/simple;
+	bh=51h4v8E5HX2Z8DyPqAO8YziaTFLpGy++tmZ/wKkW2Gg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XuBS2DgSLxjxBl1FhFllFcPcNi6+qh7r31DJzMStAN/KircV1GPVav5cuDlLrySvU14C6x1KsX/JLX24kcZ9cGD2hto4rLj4ZRdA7ZfeLgeuq8cyld+14ma7SGJFQogZbG0umw9daIBpvwYOFd/w2AZDSuoAi+koxedMItH6A18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=prhhrjtH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwhO4hHz"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4FDEBC4CEEE;
-	Sat, 10 May 2025 07:45:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="prhhrjtH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D826C4CEE2;
+	Sat, 10 May 2025 08:43:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746863109;
-	bh=UDYWDg2Yz1nJiRbj7Z8QC9FBgMmCSf4p9oWrfm2p7xg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UwhO4hHzvTUyEUINoVyRSWnnIgJzC5hOQVCO9nDINmlMcBN3nuVHK3PkpmD5WQx3s
-	 qPcF5oa4erEFUPF5LGF6+AEKGjbrr74VxRSx/nJiNQ5MeFrolF5Xc4B0WRaYDxXVWy
-	 4nu1eqS1UAhHhmFoZsd40s8KiZp35qpYYQVAw10EFEpQpbXBrh5uBSvHsev0kAcr31
-	 5br9k4qZW3S1FCQxtCs1bxRLAH9/MDrX6CAPKnjh6kJbhFyCisQyxFw7ONNdyyLlFr
-	 w91QEUWn8KsN/1p2Ocyeg1f32koQM5Eq5mGj64VpDbxa6SHZb5Yz0Cm47/c1irjgVT
-	 9CbefdFbMZZuQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47295C3ABCE;
-	Sat, 10 May 2025 07:45:09 +0000 (UTC)
-From: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
-Date: Sat, 10 May 2025 07:44:47 +0000
-Subject: [PATCH 7/7] arm64: dts: apple: t8112: Add eFuses node
+	s=k20201202; t=1746866589;
+	bh=51h4v8E5HX2Z8DyPqAO8YziaTFLpGy++tmZ/wKkW2Gg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=prhhrjtHTVZYa3NMgzkMx+yFeyGv1Ej7LXkKMfvn1HLib+GZltXt9dN5b0c8pVobc
+	 l0CFWH7xTMtVvBfeDBFl4X6BDG0P/7zTIzoGnlc77ycReUUSv6f0NgRhI2cECWcVPf
+	 T8mI/UBfT7yHnl1ucVKnxSiaz6ZvgjeybFnw5F4W3uiWBHHbBRSJEWx28KADwICKEn
+	 lEwq9Bb3VNf0SMsbsChFhvDwm4efl+wZ9phFvexc78Mn+urduaxTdOaAv8FiLkhXKV
+	 7IEV46qEV2F2DgepGhgs7Iw1LgX/vj7RmbML/FBsbd3npas6/eVE8OvUk0VGHYZAY2
+	 FilpEGUzfwuqA==
+Date: Sat, 10 May 2025 10:43:04 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Douglas Anderson <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, 
+	Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	linux-stm32@st-md-mailman.stormreply.com, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
+	Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benson Leung <bleung@chromium.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Christoph Fritz <chf.fritz@googlemail.com>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Detlev Casanova <detlev.casanova@collabora.com>, 
+	Dharma Balasubiramani <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Liu Ying <victor.liu@nxp.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Phong LE <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+	Sugar Zhang <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan <mordan@ispras.ru>
+Subject: Re: [PATCH v3 02/22] drm: convert many bridge drivers from
+ devm_kzalloc() to devm_drm_bridge_alloc() API
+Message-ID: <4yeqvg3wnlr2bhb54zutgqpkehrodat5w5x4rr5qjlrc2ts3pz@gr2iosycclpl>
+References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
+ <20250509-drm-bridge-convert-to-alloc-api-v3-2-b8bc1f16d7aa@bootlin.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250510-nvmem-dt-v1-7-eccfa6e33f6a@svenpeter.dev>
-References: <20250510-nvmem-dt-v1-0-eccfa6e33f6a@svenpeter.dev>
-In-Reply-To: <20250510-nvmem-dt-v1-0-eccfa6e33f6a@svenpeter.dev>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
- Sven Peter <sven@svenpeter.dev>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2946; i=sven@svenpeter.dev;
- h=from:subject:message-id;
- bh=j8UAIvDfj4+sxfGUjSBnpN2Tc+COrCSgMqHTgCD6qaE=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ4Y8C5Pvvb3nd1S1va7TWWZrYM+v6bqTeS8fM9ssXjbtb
- PmbkmodpSwMYhwMsmKKLNv325s+efhGcOmmS+9h5rAygQxh4OIUgImEBjH8FXX64lD5sPT+0iwf
- owVXjNfdcTAz+rX278Qvz60knwV4ODEyrGq35UgWbrn35/0rpRd8fzw/vs7JcPXXSZl47aTtUvH
- fPAA=
-X-Developer-Key: i=sven@svenpeter.dev; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@svenpeter.dev/default with
- auth_id=167
-X-Original-From: Sven Peter <sven@svenpeter.dev>
-Reply-To: sven@svenpeter.dev
-
-From: Janne Grunau <j@jannau.net>
-
-Add the eFuse controller and the nvmem cells required for both Type-C
-PHYs
-
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
----
- arch/arm64/boot/dts/apple/t8112.dtsi | 97 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index d9b966d68e4fae2dfb21d6fb7a97ebba81643ae8..4dec6415ef73e922dd574997569ad0e6acbc9658 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -782,6 +782,103 @@ wdt: watchdog@23d2b0000 {
- 			interrupts = <AIC_IRQ 379 IRQ_TYPE_LEVEL_HIGH>;
- 		};
- 
-+		efuse@23d2c8000 {
-+			compatible = "apple,t8112-efuses", "apple,efuses";
-+			reg = <0x2 0x3d2c8000 0x0 0x1000>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			atcphy0_auspll_rodco_bias_adjust: efuse@480,20 {
-+				reg = <0x480 4>;
-+				bits = <20 3>;
-+			};
-+
-+			atcphy0_auspll_rodco_encap: efuse@480,23 {
-+				reg = <0x480 4>;
-+				bits = <23 2>;
-+			};
-+
-+			atcphy0_auspll_dtc_vreg_adjust: efuse@480,25 {
-+				reg = <0x480 4>;
-+				bits = <25 3>;
-+			};
-+
-+			atcphy0_auspll_fracn_dll_start_capcode: efuse@480,28 {
-+				reg = <0x480 4>;
-+				bits = <28 2>;
-+			};
-+
-+			atcphy0_aus_cmn_shm_vreg_trim: efuse@480,30 {
-+				reg = <0x480 8>;
-+				bits = <30 5>;
-+			};
-+
-+			atcphy0_cio3pll_dco_coarsebin0: efuse@484,3 {
-+				reg = <0x484 4>;
-+				bits = <3 6>;
-+			};
-+
-+			atcphy0_cio3pll_dco_coarsebin1: efuse@484,9 {
-+				reg = <0x484 4>;
-+				bits = <9 6>;
-+			};
-+
-+			atcphy0_cio3pll_dll_start_capcode: efuse@484,15 {
-+				reg = <0x484 4>;
-+				bits = <15 2>;
-+			};
-+
-+			atcphy0_cio3pll_dtc_vreg_adjust: efuse@484,17 {
-+				reg = <0x484 0x4>;
-+				bits = <17 3>;
-+			};
-+
-+			atcphy1_auspll_rodco_bias_adjust: efuse@484,30 {
-+				reg = <0x484 8>;
-+				bits = <30 3>;
-+			};
-+
-+			atcphy1_auspll_rodco_encap: efuse@488,1 {
-+				reg = <0x488 8>;
-+				bits = <1 2>;
-+			};
-+
-+			atcphy1_auspll_dtc_vreg_adjust: efuse@488,3 {
-+				reg = <0x488 4>;
-+				bits = <3 3>;
-+			};
-+
-+			atcphy1_auspll_fracn_dll_start_capcode: efuse@488,6 {
-+				reg = <0x488 4>;
-+				bits = <6 2>;
-+			};
-+
-+			atcphy1_aus_cmn_shm_vreg_trim: efuse@488,8 {
-+				reg = <0x488 4>;
-+				bits = <8 5>;
-+			};
-+
-+			atcphy1_cio3pll_dco_coarsebin0: efuse@488,13 {
-+				reg = <0x488 4>;
-+				bits = <13 6>;
-+			};
-+
-+			atcphy1_cio3pll_dco_coarsebin1: efuse@488,19 {
-+				reg = <0x488 4>;
-+				bits = <19 6>;
-+			};
-+
-+			atcphy1_cio3pll_dll_start_capcode: efuse@488,25 {
-+				reg = <0x488 4>;
-+				bits = <25 2>;
-+			};
-+
-+			atcphy1_cio3pll_dtc_vreg_adjust: efuse@488,27 {
-+				reg = <0x488 0x4>;
-+				bits = <27 3>;
-+			};
-+		};
-+
- 		pinctrl_smc: pinctrl@23e820000 {
- 			compatible = "apple,t8112-pinctrl", "apple,pinctrl";
- 			reg = <0x2 0x3e820000 0x0 0x4000>;
-
--- 
-2.34.1
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="mseix42f6fruwdv3"
+Content-Disposition: inline
+In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-2-b8bc1f16d7aa@bootlin.com>
 
 
+--mseix42f6fruwdv3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 02/22] drm: convert many bridge drivers from
+ devm_kzalloc() to devm_drm_bridge_alloc() API
+MIME-Version: 1.0
+
+On Fri, May 09, 2025 at 03:53:28PM +0200, Luca Ceresoli wrote:
+> devm_drm_bridge_alloc() is the new API to be used for allocating (and
+> partially initializing) a private driver struct embedding a struct
+> drm_bridge.
+>=20
+> For many drivers having a simple code flow in the probe function, this
+> commit does a mass conversion automatically with the following semantic
+> patch. The changes have been reviewed manually for correctness as well as
+> to find any false positives.
+>=20
+> The patch has been applied with the explicit exclusion of bridge/panel.c,
+> handled by a separate patch.
+>=20
+> After applying the semantic patch, manually fixed these issues:
+>=20
+>  - 4 drivers need ERR_CAST() instead of PTR_ERR() as the function calling
+>    devm_drm_bridge_alloc() returns a pointer
+>  - re-added empty lines and comments that the script had removed but that
+>    should stay
+>=20
+>   @@
+>   type T;
+>   identifier C;
+>   identifier BR;
+>   expression DEV;
+>   expression FUNCS;
+>   @@
+>   -T *C;
+>   +T *C;
+>    ...
+>   (
+>   -C =3D devm_kzalloc(DEV, ...);
+>   -if (!C)
+>   -    return -ENOMEM;
+>   +C =3D devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
+>   +if (IS_ERR(C))
+>   +     return PTR_ERR(C);
+>   |
+>   -C =3D devm_kzalloc(DEV, ...);
+>   -if (!C)
+>   -    return ERR_PTR(-ENOMEM);
+>   +C =3D devm_drm_bridge_alloc(DEV, T, BR, FUNCS);
+>   +if (IS_ERR(C))
+>   +     return PTR_ERR(C);
+>   )
+>    ...
+>   -C->BR.funcs =3D FUNCS;
+>=20
+> Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com> # micro=
+chip-lvds.c
+> Reviewed-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
+> Tested-by: Douglas Anderson <dianders@chromium.org> # parade-ps8640
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Maxime
+
+--mseix42f6fruwdv3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaB8RkwAKCRAnX84Zoj2+
+dqBFAX9RE+B2jnCUcuUtKcNCTEZ8xNW143YQNM29MIx0Gy045sZ9DXgGmQ1PKcXr
+ax3IB2MBgKY7iHiKzY5LSG5f4DqrX/bF/QZAFTTE5/6Clb0TVt4RVPOdxBLJPjrA
+ibmLC8e5mA==
+=lhGP
+-----END PGP SIGNATURE-----
+
+--mseix42f6fruwdv3--
