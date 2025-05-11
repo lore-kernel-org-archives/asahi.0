@@ -1,132 +1,94 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B731BE871
-	for <asahi@lists.linux.dev>; Sun, 11 May 2025 10:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E36258CE7
+	for <asahi@lists.linux.dev>; Sun, 11 May 2025 16:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746958513; cv=none; b=pZVNy2p/S4W+GUg4rZtN5l2iu7S2txmsg73HlOXYh79o0Mp84e4EVs6mK37IbeVzQ67y3vYnhrFlVhRRNrYNl3bwFijEuQVLLqU2KmdH96eeOdVPSyCV1VWyUUNta7n7YJV8sc0GsjhgJHiod9db/V/YRQ3L2aohWmCjjYy5qys=
+	t=1746981755; cv=none; b=L+9R+hqu+eBxh0smGdw7h/deJXHtvkkbAkBJJkDInrlZpAqdiY9cuUSvA9Xhg8cWubvSnYoO3mqrRxCTsBuxPgUrP8JINWGyS5rbjQEyUM2sbJh0mDkjX1gRZbKqWCe0v6k0Hee3pGHNEU+2x2qmyoucWfKeyHJJ+LejyDC4yZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746958513; c=relaxed/simple;
-	bh=tCmDfNwDsZk/3rZfK3h1oUOzUlRnrxuzRcHS6LPaiQ0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=fpOgo0uX6fC5i2K5mygKVwH6b4yRKjs1FRsTFa0DyHhA2C+Hj/jaSjmgVgkotUWtBhuKvB/g2BXhjSQgZvO9hSAbQsJd7r1LMX+Kx3Uzvkl2X8hUSRoxQStiyFS7bXrwVgBs5hYMzCAYHQ4Fn1UHluaA3bAtqtYdhyXtfV6Cbnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=dBVe67lX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eARh53/i; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1746981755; c=relaxed/simple;
+	bh=aX3J2izsyfR/oGAXvYeQpGXND8eWoNdYvrCA7zPEnHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=amyXpPpJOX6Lfy7Ca41i5barw/sAV9N37KyQumDNa7u45aIX+Bweu3cxbwvOhzqwm41eH0jOH+MDEn0PBCByyb0cfKVd3eaa3MVmg72MGONZPhUw8C3px7TCF/P2hoqSZJ6RiD/RxYlTwpwmH8yIyl4kp65HX+04NUFvrNOA+7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=icTaweuO; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="dBVe67lX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eARh53/i"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 0E41911400F6;
-	Sun, 11 May 2025 06:15:10 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-04.internal (MEProxy); Sun, 11 May 2025 06:15:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1746958509; x=1747044909; bh=cV+CqJ2sR58/2GW2HDcotcUwO0tRQwcr
-	M95nei+5RVc=; b=dBVe67lXrNSWSmfmKAbaBz4/sqEcMnCBISmSB32wPnaJBdj4
-	+G1pyzvsyCnhq10UP92fVtGmjM5ueVoNOmp+uu9utLnTTiYWlvFkZVdnwnTBIfkz
-	Ji+pUNNmgQK3OWgVD6DD3iuqWh7ftAi22kGaX4Yq4faOlglSSwvfHy3sI/DWP75j
-	0kgxc6feGAVxTVBPDNcCDjhB9ukrkzd6bYtRcfsj5jmx6IvNbvTgfJAu6pnkN+Rv
-	/mFB/UpIwJzK975Jhb71VMshgWMuJbw+q1vELE9Iv0UB9jCSk6Q3veU229zUwVte
-	XmkmTnbPJknwv85vaikliZ6tfWXYZEwumAVdtA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746958509; x=
-	1747044909; bh=cV+CqJ2sR58/2GW2HDcotcUwO0tRQwcrM95nei+5RVc=; b=e
-	ARh53/ipxqudoE7Kx5TComMShvZsuDuvuIpZkzKavyOXP4VFgRtuu8gQLZaiCRMc
-	8VxIQID21/kk/nJlTYkSmIDgAIYRnXNKe3VrMHftnhFEXSsOA2dF8w8Wnz48MHOw
-	JGe76DkS21VozvW1xTmDLUzXdjI5Q9iXdkkO9EtbInxemgifibhY3gCjItBSeYNx
-	rBVr12iTq2l6lcNmfZxzVM5H0RZpxsOSi5swvV+om/IpeuORqVpccY6xDTdUX3EH
-	MHFTJVJevXsO2mccsa6Nmif0u4WaFda3IKPA7CvRAjbTQC+uGZPlf0ZJ2urGA/PY
-	NgL2PGYT6THdVlJDzzMew==
-X-ME-Sender: <xms:q3ggaO0qrEf7AfPcxgAhV_4QTRZrwThYeSBOtnpoBPpOvAZ-djIx6w>
-    <xme:q3ggaBFRUZMDlh9ceevrv2RCzzXyDaO7FceMfX6QVhfKB5NF-WjiICVU1HuE7nmWe
-    VQByCJnWafxEhZdVt0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvleekudduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvth
-    gvrhdruggvvheqnecuggftrfgrthhtvghrnhepleefteeugeduudeuudeuhfefheegveek
-    ueefffdvffektdffffelveffvddvueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggp
-    rhgtphhtthhopedvtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhmkhdokh
-    gvrhhnvghlsegrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepsghrghhlsegs
-    ghguvghvrdhplhdprhgtphhtthhopeifrghhrhgvnhhsthesghhmgidrnhgvthdprhgtph
-    htthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehjsehjrghnnhgruhdr
-    nhgvthdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtohepmhgriieskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:q3ggaG4igTnPWHT2ytCAlkCxt2qsSTjbTCgVlWXLGA2Aap9ZBRFtQA>
-    <xmx:q3ggaP3oNedhlr9WMSbKBbbZoOQ-Zp7jU6WhxYL_XZLzcw3tRkv6gQ>
-    <xmx:q3ggaBFGx0ys088vMTLjsa5tvs94U616_aItSTuxW3lYg5tokEOYfw>
-    <xmx:q3ggaI-3XpB95lGxgwa76HNTTGouranUQEu9Qq6z9lPDtp7Ipmtq_Q>
-    <xmx:rXggaLfR6dFUBzPlbcQeP94Q1N4fjgXUnLJzjJef-Tf-n02itAHvXc7c>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B3EA41C20067; Sun, 11 May 2025 06:15:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="icTaweuO"
+Date: Sun, 11 May 2025 12:42:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1746981750;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=06G8DBL+yE+EwkMk4FIE8+EABcux+6ejNjNymvMveGU=;
+	b=icTaweuOgQ1MYUdG58b9VuBfGvM0S8yMcRDmLZNfqTcgsShr1ALVEsujoabf9j48819oFV
+	nRxcUiSrnTfpTrWykrRGl8Nb0vfh79/81Ykc/z/pKZ5SjMicf7SYdXkyRYtFrBuFAOag86
+	Pb39WH7IQFBoYYWXsr+g4Ijyy+WOjGn+q0zKgBAyTM7v5zLxuxHIYmeSQkof9LZUzz72ql
+	Tz4WpvzHXUa1Y26xBmKIljtKXAHxycR5qXXvSMSNKzcYrzxpzyzxeiDHIGTEY/zNxCfH9i
+	jDhKn7IJ9hfaGGFO9aXer1EINtXujvOOJfqq30AmWy0nhGGacNR915zvkt/QFQ==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: sven@svenpeter.dev
+Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	Hector Martin <marcan@marcan.st>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v5 04/10] soc: apple: rtkit: Make shmem_destroy optional
+Message-ID: <aCDTcUtxPkXKK3lg@blossom>
+References: <20250511-smc-6-15-v5-0-f5980bdb18bd@svenpeter.dev>
+ <20250511-smc-6-15-v5-4-f5980bdb18bd@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Tee5e6786d5fc82a3
-Date: Sun, 11 May 2025 12:14:46 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Stefan Wahren" <wahrenst@gmx.net>
-Cc: "Janne Grunau" <j@jannau.net>, "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Neal Gompa" <neal@gompa.dev>, "Hector Martin" <marcan@marcan.st>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
- "Lee Jones" <lee@kernel.org>, "Marc Zyngier" <maz@kernel.org>,
- "Russell King" <rmk+kernel@armlinux.org.uk>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org
-Message-Id: <5a0263f4-1073-45a8-a8aa-76028a2d0b6e@app.fastmail.com>
-In-Reply-To: <678528db-67bc-4bb7-a866-7b8aeb4f4510@gmx.net>
-References: <20250511-smc-6-15-v5-0-f5980bdb18bd@svenpeter.dev>
- <20250511-smc-6-15-v5-7-f5980bdb18bd@svenpeter.dev>
- <678528db-67bc-4bb7-a866-7b8aeb4f4510@gmx.net>
-Subject: Re: [PATCH v5 07/10] power: reset: macsmc-reboot: Add driver for rebooting via
- Apple SMC
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250511-smc-6-15-v5-4-f5980bdb18bd@svenpeter.dev>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Stefan,
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-On Sun, May 11, 2025, at 12:07, Stefan Wahren wrote:
-> Hi Sven,
->
-> Am 11.05.25 um 10:18 schrieb Sven Peter via B4 Relay:
-
-[...]
-
->> +/* Helpers to read/write a u8 given a struct nvmem_cell */
->> +static int nvmem_cell_get_u8(struct nvmem_cell *cell)
->> +{
->> +	size_t len;
->> +	u8 val;
->> +	void *ret = nvmem_cell_read(cell, &len);
-> in case this series needs a respin, please rename the pointer (e.g. 
-> buf). This is very unusual, because ret is usually of type int.
-
-That's indeed odd, I'll rename it.
-
-
-Thanks,
-
-
-Sven
+Le Sun , May 11, 2025 at 08:18:39AM +0000, Sven Peter via B4 Relay a écrit :
+> From: Sven Peter <sven@svenpeter.dev>
+> 
+> shmem_destroy isn't always required for coprocessor-managed buffers but we
+> still enforce that it exists. Just relax the check.
+> 
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  drivers/soc/apple/rtkit.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+> index 5fffd0f003dc2f4f377faf96cce0c1ce4ff0b788..b8d4da147d23f7e99e76eea314e4d976cddbd1c6 100644
+> --- a/drivers/soc/apple/rtkit.c
+> +++ b/drivers/soc/apple/rtkit.c
+> @@ -279,8 +279,7 @@ static int apple_rtkit_common_rx_get_buffer(struct apple_rtkit *rtk,
+>  	dev_dbg(rtk->dev, "RTKit: buffer request for 0x%zx bytes at %pad\n",
+>  		buffer->size, &buffer->iova);
+>  
+> -	if (buffer->iova &&
+> -	    (!rtk->ops->shmem_setup || !rtk->ops->shmem_destroy)) {
+> +	if (buffer->iova && !rtk->ops->shmem_setup) {
+>  		err = -EINVAL;
+>  		goto error;
+>  	}
+> 
+> -- 
+> 2.34.1
+> 
+> 
