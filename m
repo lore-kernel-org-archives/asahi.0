@@ -1,164 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1510A2957D7;
-	Mon, 12 May 2025 12:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A68823C4F5
+	for <asahi@lists.linux.dev>; Mon, 12 May 2025 15:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747054178; cv=none; b=A/qF7oYjFGxF0g2t0m/ESIFovvzSlKGKcSWrwqbfePz9sSkWjYG7S0PnNQ3uJIZYhER6GET7BBfd8mK+R3CYZ5Gla15piAHeKJ9aM87HlW5pSxqyfdLzXojglWVV7QlLkJryY71ieTqpvHefgMWzcDh+fyUcyB9L3E9CuWtRv+I=
+	t=1747064519; cv=none; b=QXpvn5FvUhMTCFldLCxe6fRf9gd4oEwgz+jAP4uycjqlBhqjulkJiUCn+WoNd6Za8eUFcXtrkSiksHIz+q/IZofPnZ7buFxlIj8hx/xHFLDp/P5uU0sWOjzUtd0UmiW+Vn7fpehElMQ1iILtZpDKmNjOcVh2KrP7mCnUdcHLFeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747054178; c=relaxed/simple;
-	bh=o1Ftsk8pL/ELU+aKC2nlKGbc/m58+uTJvARxDuGr90E=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=fRfFzEnzW8VW51rTc3cu6v3S366s4QxV0fiEo+bT5fk7JoHvZ/xfWRVg4sOpVdOBuftInufYm8ZhcdNf5+rsEvdTro64fmdwiqtWLP9oezKUrCsmCu9282zA2PsXffCN5jWWinitwXPK6oTm55xTBxwjOrgsiyLtfSZlhFrJnsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXzdVXtk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747064519; c=relaxed/simple;
+	bh=+4oLiO4GFHU12kRH/cBJ0soX/a+bXHdHYP8wcVfW7ZU=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=l+PEBVXQmkLJfLGUf24CsopV1+vaUVJ+I57XlgqASaeeXToURAYDwvYfYmbhE/qZuW+YYkYmOQ3FYscryCI0hMgP33re58d5v+yjZnpAJx/feY2NyWEoWuoR3hE2YRmVvJOjPuVNrTHffwWgzdONGopLyqS7jSp3nj3U7tT8ngU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=jL8JZhYU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pxC6oBya; arc=none smtp.client-ip=202.12.124.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXzdVXtk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C6A7C4CEE7;
-	Mon, 12 May 2025 12:49:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747054177;
-	bh=o1Ftsk8pL/ELU+aKC2nlKGbc/m58+uTJvARxDuGr90E=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=ZXzdVXtkuahx+QyOaEDWjKB19k7AJi6y1gN2ybZbouHUNSCBIuKFHxvM+DFXhK2Vq
-	 sKAotgMioy80FVwnBE3ckSV/fBaa9jHJgZUab/XoVdtQs584I6Y56EMhWI5BX7Stsa
-	 RrOnzApRaPZ3c3DoLde7Yj/0XgTqWzPSBg7ylOMe8NYbkLMBXu87xRNd2NjkoFO6Vs
-	 TT4NQzFqjidBQLCvhNP42wJ6bmpVFXRMS/q8XUPR4HNT/NgPCN6OgBJXugZQIRn2eh
-	 7wumfI/F0VONMJNhhjGXHAXj2VMGvHaXv1ck8uquPMFEzou9riy5MGoIVBUq/iHuKd
-	 7GUrOI4Q8m0KA==
-Date: Mon, 12 May 2025 07:49:36 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="jL8JZhYU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pxC6oBya"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 21A5925400D8;
+	Mon, 12 May 2025 11:41:54 -0400 (EDT)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-04.internal (MEProxy); Mon, 12 May 2025 11:41:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1747064513; x=1747150913; bh=A/ri/6ZjxW7RCFovjRl8X2bDl9rq/UBN
+	CApnh0pl15I=; b=jL8JZhYU/eNhS1Dbxm8P0HfZ5uJ0f9c89R1Xokb5AT19RPm5
+	+UMawNHN9e+gdyVjzbmeX0UKUI35c234NQmPyK/mQN1vlgMpkP+3fQ+z7WYvLzUG
+	sceVXAUgUxkf5tiVfvmbw4vMxinru9KcJcufIOr8wRBYK0VIpTg7cCnCpCXG63Oh
+	vRv1TLt6VN54bh03c1nN2wI8LocK8MRenPos2cZSlGgVs0sErjULY+GDJ7MKSHHr
+	MDBkG0xm/dhyS/UpDBDXBJbUcXF6tYYybOXiIpQERyDgr5NDKJVU6fdAOl8WkyH8
+	3uRz2iYtOXuvSg6H7fpRdeXvD8iDbLPr8R4dyQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747064513; x=
+	1747150913; bh=A/ri/6ZjxW7RCFovjRl8X2bDl9rq/UBNCApnh0pl15I=; b=p
+	xC6oByaTqzWJwlrUULPV7S5tdE3lUUlVajj+ozI2sdYQCKWMgpFqxhnNp6sQ/y3Y
+	p8bnDHQOwqQ/WqZdvo8+vkHIsA/pUzAxfOWQGRR/Q9tRWYXCfq/j+OiIDeBLGjhh
+	FMWtTGLYAZ7nbIeleqlohvHNw1IbFxAGLbJ3fIDKY8rUEoV1BOx2+vDkyBtq5QAM
+	O2wvUDSEmgPxFwTiea0QShiLok1j9VwG5slUFcddocxg18gYxzdxeDIiDJtd/lNa
+	KyTyG0FwUBWoJY3cwKOADqIRnwYgcZvdbmg3E3j2hGR7cK1GVhqQec4Ws4V2Zwk9
+	RT1cigP76djJ9Yz+g6hHg==
+X-ME-Sender: <xms:wBYiaFNvahD2L0uAISA-4GNPY-XHMqVkfJCBRUPL7Uvkv83DCo0tOA>
+    <xme:wBYiaH8U0H8aSWHE257TqtISn56uYU87w7rZURaBjDJPUK09AVw70q4qCmQh_L5Oj
+    b1V3uXVnZJoZL6QUHI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftdduieegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvth
+    gvrhdruggvvheqnecuggftrfgrthhtvghrnhepleefteeugeduudeuudeuhfefheegveek
+    ueefffdvffektdffffelveffvddvueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggp
+    rhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhmkhdokh
+    gvrhhnvghlsegrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepsghrghhlsegs
+    ghguvghvrdhplhdprhgtphhtthhopehsvggsrghsthhirghnrdhrvghitghhvghlsegtoh
+    hllhgrsghorhgrrdgtohhmpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhr
+    tghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtghpthhtoheptghonhhorhdoughtse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrgiise
+    hkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:wBYiaEQsd1xvdtdJJ1WfCDmYgfhkFuWZm0lxil1__WEgKGWQUR0-5A>
+    <xmx:wBYiaBtdFny8lKddpw7XUOJHW7bSUw9R_n012ooBLLVM6JlUq0Nj3A>
+    <xmx:wBYiaNeqU2j49KazqgorE4hyn67K84YsrCQN126k-JyVdi2Ck_kauQ>
+    <xmx:wBYiaN2DNwhMgAxOfYxgOmMN8aQfZCmK0CIhYyyTJgzfnV1YBPVl9A>
+    <xmx:wRYiaDO07QpmSUH25G9IVJMjlkEKU2glNIRaTFN6QHOUrCApyau3cbWu>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B65281C20067; Mon, 12 May 2025 11:41:52 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, asahi@lists.linux.dev, 
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, R <rqou@berkeley.edu>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- linux-kernel@vger.kernel.org
-To: Sven Peter <sven@svenpeter.dev>
-In-Reply-To: <20250510-nvmem-dt-v1-0-eccfa6e33f6a@svenpeter.dev>
-References: <20250510-nvmem-dt-v1-0-eccfa6e33f6a@svenpeter.dev>
-Message-Id: <174705404483.2941395.9971423828224597027.robh@kernel.org>
-Subject: Re: [PATCH 0/7] Support exposing bits of any byte as NVMEM cells
+X-ThreadId: Tee5e6786d5fc82a3
+Date: Mon, 12 May 2025 17:41:32 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Sebastian Reichel" <sebastian.reichel@collabora.com>
+Cc: "Janne Grunau" <j@jannau.net>, "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Neal Gompa" <neal@gompa.dev>, "Hector Martin" <marcan@marcan.st>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Lee Jones" <lee@kernel.org>,
+ "Marc Zyngier" <maz@kernel.org>, "Russell King" <rmk+kernel@armlinux.org.uk>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org
+Message-Id: <438dc401-a531-4b07-b77c-92748acadf85@app.fastmail.com>
+In-Reply-To: 
+ <2mhqiy6twurcidtwe7rhtobq5mivb2meoq6ik3dt45zwerkwrd@ebudw64trryq>
+References: <20250511-smc-6-15-v5-0-f5980bdb18bd@svenpeter.dev>
+ <20250511-smc-6-15-v5-7-f5980bdb18bd@svenpeter.dev>
+ <2mhqiy6twurcidtwe7rhtobq5mivb2meoq6ik3dt45zwerkwrd@ebudw64trryq>
+Subject: Re: [PATCH v5 07/10] power: reset: macsmc-reboot: Add driver for rebooting via
+ Apple SMC
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
+Hi Sebastian,
 
-On Sat, 10 May 2025 07:44:40 +0000, Sven Peter wrote:
+thanks for the review!
+
+On Mon, May 12, 2025, at 00:16, Sebastian Reichel wrote:
 > Hi,
-> 
-> I'm preparing USB3 support for Apple Silicon Macs for upstreaming right
-> now and this series is the first dependency. The Type-C PHY requires
-> configuration values encoded in fuses for which we already have a
-> driver.
-> Unfortunately, the fuses on these machines are only accessibly as 32bit
-> words but the Type-C PHY configuration values are individual bits which
-> are sometimes spread across multiple fuses.
-> Right now this is not supported by the nvmem core which only allows a
-> subset of bits within the first byte to be exposed as a nvmem cell. This
-> small series adds support for exposing arbitrary bits as nvmem cells.
-> 
-> The second part of the series then adds the nvmem cells required for the
-> Type-C PHY to our device trees. While it's technically independent I've
-> included those changes in this series for context.
-> 
-> Best,
-> 
-> Sven
-> 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
-> Janne Grunau (2):
->       Revert "nvmem: core: Print error on wrong bits DT property"
->       arm64: dts: apple: t8112: Add eFuses node
-> 
-> R (1):
->       arm64: dts: apple: t600x: Add eFuses node
-> 
-> Sven Peter (4):
->       nvmem: core: allow bit offset > 8
->       nvmem: core: round up to word_size
->       dt-bindings: nvmem: apple: Add T8112 compatible
->       arm64: dts: apple: t8103: Add eFuses node
-> 
->  .../devicetree/bindings/nvmem/apple,efuses.yaml    |   1 +
->  arch/arm64/boot/dts/apple/t600x-dieX.dtsi          | 187 +++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t8103.dtsi               | 102 +++++++++++
->  arch/arm64/boot/dts/apple/t8112.dtsi               |  97 +++++++++++
->  drivers/nvmem/core.c                               |  24 +--
->  5 files changed, 401 insertions(+), 10 deletions(-)
-> ---
-> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-> change-id: 20250508-nvmem-dt-de1a1842e883
-> 
-> Best regards,
-> --
-> Sven Peter <sven@svenpeter.dev>
-> 
-> 
-> 
+>
+> On Sun, May 11, 2025 at 08:18:42AM +0000, Sven Peter via B4 Relay wrote:
+>> From: Hector Martin <marcan@marcan.st>
+>> 
+>> This driver implements the reboot/shutdown support exposed by the SMC
+>> on Apple Silicon machines, such as Apple M1 Macs.
+>> 
+>> Signed-off-by: Hector Martin <marcan@marcan.st>
+>> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+>> ---
+>>  MAINTAINERS                         |   1 +
+>>  drivers/power/reset/Kconfig         |  11 ++
+>>  drivers/power/reset/Makefile        |   1 +
+>>  drivers/power/reset/macsmc-reboot.c | 363 ++++++++++++++++++++++++++++++++++++
+>>  4 files changed, 376 insertions(+)
+>> 
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index fa3a5f9ee40446bcc725c9eac2a36651e6bc7553..84f7a730eb2260b7c1e0487d18c8eb3de82f5206 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -2303,6 +2303,7 @@ F:	drivers/mfd/macsmc.c
+>>  F:	drivers/nvme/host/apple.c
+>>  F:	drivers/nvmem/apple-efuses.c
+>>  F:	drivers/pinctrl/pinctrl-apple-gpio.c
+>> +F:	drivers/power/reset/macsmc-reboot.c
+>>  F:	drivers/pwm/pwm-apple.c
+>>  F:	drivers/soc/apple/*
+>>  F:	drivers/spi/spi-apple.c
+>> diff --git a/drivers/power/reset/Kconfig b/drivers/power/reset/Kconfig
+>> index 60bf0ca64cf395cd18238fc626611c74d29844ee..6e8dfff64fdc001d09b6c00630cd8b7e2fafdd8e 100644
+>> --- a/drivers/power/reset/Kconfig
+>> +++ b/drivers/power/reset/Kconfig
+>> @@ -128,6 +128,17 @@ config POWER_RESET_LINKSTATION
+>>  
+>>  	  Say Y here if you have a Buffalo LinkStation LS421D/E.
+>>  
+>> +config POWER_RESET_MACSMC
+>> +	tristate "Apple SMC reset/power-off driver"
+>> +	depends on ARCH_APPLE || COMPILE_TEST
+>> +	depends on MFD_MACSMC
+>> +	depends on OF
+>
+> This can also be 'OF || COMPILE_TEST'. But I would expect this
+> driver to just have 'depends on MFD_MACSMC' and then manage the
+> checks for ARCH_APPLE and OF in the MFD Kconfig.
+
+Makes sense, it'll just depend on MFD_MACSMC then and I'll move the ARCH_APPLE,
+OF, etc. depends to the MFD Kconfig.
+
+>
+[...]
+>> +#include <linux/delay.h>
+>> +#include <linux/mfd/core.h>
+>> +#include <linux/mfd/macsmc.h>
+>> +#include <linux/module.h>
+>> +#include <linux/nvmem-consumer.h>
+>> +#include <linux/of.h>
+>
+> Once of_get_child_by_name() is no lnger used the correct include for
+> the remaining 'struct of_device_id' is <linux/mod_devicetable.h>
+> instead of <linux/of.h>.
+
+Fixed.
+
+>
+[...]
+>> +
+>> +	pdev->dev.of_node = of_get_child_by_name(pdev->dev.parent->of_node, "reboot");
+>
+> Why is this needed? The of_node should already be set correctly when
+> probed via the of_match_table.
+
+Leftovers from a previous version that didn't use of_match_table.
+I'll remove it.
+
+>
+[...]
+>> +
+>> +	if (device_create_file(&pdev->dev, &dev_attr_ac_power_mode))
+>> +		dev_warn(&pdev->dev, "could not create sysfs file\n");
+>
+> custom sysfs files must be documented in Documentation/ABI.
+
+This sysfs file allows to configure if the system reboots automatically after
+power loss. But now that I'm looking at this again I'm not sure this driver
+is even the proper place for this (the nvmem cell is kinda unrelated to SMC)
+or if we need this at all in the kernel since the nvmem cell is already
+exposed to sysfs just with a less convenient interface at 
+/sys/bus/nvmem/devices/spmi_nvmem0/cells/pm-setting@d001,0.
+
+I'm going to drop it for now and revisit this later.
 
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+>
+>> +
+[...]
+>> +MODULE_LICENSE("Dual MIT/GPL");
+>> +MODULE_DESCRIPTION("Apple SMC reboot/poweroff driver");
+>> +MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
+>> +MODULE_ALIAS("platform:macsmc-reboot");
+>
+> Why is the MODULE_ALIAS needed?
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: using specified base-commit 0af2f6be1b4281385b618cb86ad946eded089ac8
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/apple/' for 20250510-nvmem-dt-v1-0-eccfa6e33f6a@svenpeter.dev:
-
-arch/arm64/boot/dts/apple/t8103-j313.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t8112-j493.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t8112-j413.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t6000-j314s.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t6002-j375d.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t8103-j293.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t6002-j375d.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t8103-j457.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t8103-j456.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t8112-j473.dtb: efuse@23d2c8000 (apple,t8112-efuses): Unevaluated properties are not allowed ('efuse@480,20', 'efuse@480,23', 'efuse@480,25', 'efuse@480,28', 'efuse@480,30', 'efuse@484,15', 'efuse@484,17', 'efuse@484,30', 'efuse@484,9', 'efuse@488,13', 'efuse@488,19', 'efuse@488,25', 'efuse@488,27', 'efuse@488,8' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t6001-j314c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t6001-j375c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t6001-j316c.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t8103-j274.dtb: efuse@23d2bc000 (apple,t8103-efuses): Unevaluated properties are not allowed ('efuse@430,26', 'efuse@430,29', 'efuse@430,31', 'efuse@434,15', 'efuse@434,21', 'efuse@434,23', 'efuse@434,9', 'efuse@438,12', 'efuse@438,14', 'efuse@438,19', 'efuse@438,25', 'efuse@438,31', 'efuse@438,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
-arch/arm64/boot/dts/apple/t6000-j316s.dtb: efuse@2922bc000 (apple,t6000-efuses): Unevaluated properties are not allowed ('efuse@a10,22', 'efuse@a10,25', 'efuse@a10,27', 'efuse@a10,30', 'efuse@a14,11', 'efuse@a14,17', 'efuse@a14,19', 'efuse@a18,10', 'efuse@a18,15', 'efuse@a18,21', 'efuse@a18,27', 'efuse@a18,29', 'efuse@a18,8', 'efuse@a1c,10', 'efuse@a1c,13', 'efuse@a1c,15', 'efuse@a1c,18', 'efuse@a1c,20', 'efuse@a1c,25', 'efuse@a1c,31', 'efuse@a20,20', 'efuse@a20,23', 'efuse@a20,25', 'efuse@a20,28', 'efuse@a20,30', 'efuse@a24,15', 'efuse@a24,17', 'efuse@a24,9' were unexpected)
-	from schema $id: http://devicetree.org/schemas/nvmem/apple,efuses.yaml#
+No idea, my best guess is it was copy/pasted without a good reason.
+I'll drop it.
 
 
+Thanks,
 
 
-
+Sven
