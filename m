@@ -1,140 +1,121 @@
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555A146426;
-	Thu, 15 May 2025 16:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803A91E9B2F;
+	Thu, 15 May 2025 16:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747324839; cv=none; b=U5u/SqB53qvjvGWx9qfXXr3rNt8QmJK4PGqlR/8grP0wH7aH8HVFL5m3gwZ1eg3iOtS0WdKy8oTTUu9PqG1BnCE/lYT7w5cGEfRJBLQfVAVPG1GbNPW3q7wTdlOX5UAg0Oa/7O6KQN59Q1uL/BfEQB7CcfSbt/3M4Tjd/3ZXbd0=
+	t=1747326799; cv=none; b=hHgxwd6dAfhD/Xs8+obIQrhjBzIC/0bCK2pjPJiaYakrnTL84+AUUllCywHUrcXpeqDxJtzGf2icVqb3KafM/adoavA4JqFjQzzqbpWfCxX9U8Hppg6nsZcNxxxKjzlt71/ap/4CnsxBrhACokhdEym0P9d+QtPFgS1du4JYGjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747324839; c=relaxed/simple;
-	bh=Ht8GrC1/WhiK6Zak+5S5UJso+Ncn4Dqne8cOnc7np9c=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=j7LkVQYEpZNhPoswFE0lW61lUzNy85bmUGrt1yKuEbEcf/udMM/Ppkg5zkhtRvYg1QOzUmoeT/XWNQdKS/II3ae0f/eveLkT3fU5sMnLShkd2qFrkiMgVlhpYlBXt2g1EtG0/Q57WFb+7b0tGmTHQcvCwv+4LELF396xVXnOlqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=ZTaDJrWO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OGG4gtgv; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1747326799; c=relaxed/simple;
+	bh=kKPojMJd9kqH6u8NArAZ+Lui+uo9ndwDNquYyy93G0k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qFsyrOQMc3Okqe2XSTaMkfLCbg1F6RZfS1OT4At0Ain6h4SfcZ6AEeRx59lV/w4ku59wfRlNv+RCEmASCkB1O7z7fPs+dR2/u+xxlhuYDBjAkDkkPCFc+1ByT1eUv7Icnb2g4f8uKs6stDo34UaMe4VwYhSN4HZFi4qiN/W3LBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ESjhprCJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="ZTaDJrWO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OGG4gtgv"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 5F56C1380241;
-	Thu, 15 May 2025 12:00:36 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-04.internal (MEProxy); Thu, 15 May 2025 12:00:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1747324836; x=1747411236; bh=Ht8GrC1/WhiK6Zak+5S5UJso+Ncn4Dqn
-	e8cOnc7np9c=; b=ZTaDJrWO3GosTmJ4laSKWarSByuF+hIC183G9SiDMXMK5D01
-	TkpaalyNd/ifGOS392Mjk6FV92jCkEfjGQnS2wCAHouIdy9zs/CPhZlWuS2UeAZe
-	htioNGQJwKBHn7Z9biJEI89g39d7EDyqf541fakoygcecSi0TAZMBM9Z2tUCr1O8
-	KHguMbnMyMeSMgtlPNt6B1+byP67LtC/0t+treW5MWUNtMu/P2EicaMz4qUI+6QV
-	wOZhjHLoUlNveuS8R6R2ywM/21Da+PWrJKAmmXRg1r1VWk0YyCJXwLNqAlpZocBw
-	bICREuq9ZxfY208QeXkYuryNy3dhsEH9BERvjw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747324836; x=
-	1747411236; bh=Ht8GrC1/WhiK6Zak+5S5UJso+Ncn4Dqne8cOnc7np9c=; b=O
-	GG4gtgvsg8QMgNK/JeA/j+Et2OBN8bbuCYugP1djZ7y5kwcW8FgWkxLukTPoJIRI
-	SIdqo4eJRWXOuKQC+yhtY4qDVpecs/lEx3H67sthOxdk/lZVUrjvl78Kl49jU3cC
-	gKAO4pylbEQcizzVHXGjfWPkGiVAOBuz2d1Hzclzq5aMyrfiAPkWGEcJeIEMAijy
-	g1Wp8DHhgPVRZlb2Kd82VKIKjbW9PY6hld2eieABDa6WPR8TZpiRxNo/GXzzNKhJ
-	0ML+hDe+T9XZnCL0+Z8QNXfP+Fdmvi264Ibj9VAUAxkX/UGq5Xa/OOwILIeHs9f7
-	ItitJRlJIcF7Q+HY3dP2A==
-X-ME-Sender: <xms:og8maDZwXPJh0JEZZ4U9e08ktN0ZBsSIzL59WRsOY7Dp_NMKtAHgQQ>
-    <xme:og8maCZn6stAOVhD0ckx_JCO5fX3j80FQJcT94WdeEp2WmSzPuZuHraxN_QbTRMJ0
-    RYXCuUpdpApTLrcZeg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddtfedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertder
-    tdejnecuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvth
-    gvrhdruggvvheqnecuggftrfgrthhtvghrnhepgeegheelffdujeduffevfefhieekgeef
-    fedukedtvdduhfffjeehleekfeehhfdtnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggp
-    rhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvghrnhgvsh
-    htohestghorhgvlhhlihhumhdrtghomhdprhgtphhtthhopehslhgrvhgrseguuhgsvgih
-    khhordgtohhmpdhrtghpthhtohepvghthhgrnhesvghthhgrnhgtvggufigrrhgushdrtg
-    homhdprhgtphhtthhopegvrhhnvghsthhordhmnhgurdhfvghrnhgrnhguvgiisehgmhgr
-    ihhlrdgtohhmpdhrtghpthhtohepthhofihinhgthhgvnhhmihesghhmrghilhdrtghomh
-    dprhgtphhtthhopeifihhllhihsehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohep
-    sghrrghunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhdrtggrrhhpvg
-    hnthgvrheslhhinhgrrhhordhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhig
-    fhhouhhnuggrthhiohhnrdhorhhg
-X-ME-Proxy: <xmx:og8maF9n4m0XTvV5oBne8_Mlbelgg9HJg7713LGn_XjUWfxnidu5oA>
-    <xmx:og8maJrJvCRzR2oMTs27U5UhJORvxz2NXb1pGrGlcV51GvulupGhcg>
-    <xmx:og8maOr2veNZQTrBVoasOxlaSD0n076nlVfcEbAvpq1ScFvRI1EfFw>
-    <xmx:og8maPT5VrAYpd58WuUFjF3oG_P_EwNsHs7Khn9RllclgT_McPJU-w>
-    <xmx:pA8maKaQ0w7CPG4bPr-Hjww9ejNSnaHyYfBuLjxAQIEAroHfoAGxPS_U>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 65288106005E; Thu, 15 May 2025 12:00:34 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ESjhprCJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD5EC4CEE7;
+	Thu, 15 May 2025 16:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747326799;
+	bh=kKPojMJd9kqH6u8NArAZ+Lui+uo9ndwDNquYyy93G0k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ESjhprCJouXAhjQr0dZG6SyTXibttfDkEXUZ8Ep+z+gy7A2IEg74Pih3DzIhR92mQ
+	 Wg1fRLZ7AahHltL5KOdUISnA+OaOb/NOKa//4TXRGsVv+rtItX6BET9OvhMNCVjW8U
+	 De/WmZChNK1Me4d3LxDTawHPD0qDmGXiVYicOpf6dOYdfucJiAUxulmuYxUjdIzoNg
+	 rv5OilXcNBVStDgu4CYEBWfv8QrLAI7K0VbMfOL+gk/FQ5MrHdl540MrndCpVvuVnX
+	 7099wIC/Jq/PwBwkwpUYCjiluxA04ZhHxA2VwN2NdOyoYvtGtPBJorxsEY9l/w9orN
+	 6Z7TkSd+Kro/w==
+Date: Thu, 15 May 2025 17:33:07 +0100
+From: Will Deacon <will@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Janne Grunau <j@jannau.net>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Neal Gompa <neal@gompa.dev>, Orson Zhai <orsonzhai@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Clark <robdclark@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tomasz Jeznach <tjeznach@rivosinc.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, virtualization@lists.linux.dev,
+	Chen-Yu Tsai <wens@csie.org>, Yong Wu <yong.wu@mediatek.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, patches@lists.linux.dev
+Subject: Re: [PATCH 0/7] Remove ops.pgsize_bitmap
+Message-ID: <20250515163307.GA12396@willie-the-truck>
+References: <0-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Tf135b851f6ecbaa4
-Date: Thu, 15 May 2025 18:00:34 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Nick Chan" <towinchenmi@gmail.com>,
- =?UTF-8?Q?Ernesto_A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
-Cc: "Yangtao Li" <frank.li@vivo.com>,
- "Ethan Carter Edwards" <ethan@ethancedwards.com>, asahi@lists.linux.dev,
- brauner@kernel.org, dan.carpenter@linaro.org,
- "ernesto@corellium.com" <ernesto@corellium.com>,
- "Aditya Garg" <gargaditya08@live.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, jack@suse.cz,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, "Theodore Ts'o" <tytso@mit.edu>,
- viro@zeniv.linux.org.uk, willy@infradead.org, slava@dubeyko.com,
- glaubitz@physik.fu-berlin.de
-Message-Id: <47721ba1-2ffb-45df-aed0-ad0308f6d606@app.fastmail.com>
-In-Reply-To: <e6a5a737-ce64-4d31-aeea-2e6190da2ff5@gmail.com>
-References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
- <20250512101122.569476-1-frank.li@vivo.com> <20250512234024.GA19326@eaf>
- <63eb2228-dcec-40a6-ba02-b4f3a6e13809@gmail.com> <20250514201925.GA8597@eaf>
- <e6a5a737-ce64-4d31-aeea-2e6190da2ff5@gmail.com>
-Subject: Re: Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem support
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, May 15, 2025, at 07:08, Nick Chan wrote:
-> Ernesto A. Fern=C3=A1ndez =E6=96=BC 2025/5/15 =E5=87=8C=E6=99=A84:19 =E5=
-=AF=AB=E9=81=93:
->> Hi Nick,
->>
->> On Tue, May 13, 2025 at 12:13:23PM +0800, Nick Chan wrote:
->>> 2. When running Linux on iPhone, iPad, iPod touch, Apple TV (current=
-ly there are Apple A7-A11 SoC support in
->>> upstream), resizing the main APFS volume is not feasible especially =
-on A11 due to shenanigans with the encrypted
->>> data volume. So the safe ish way to store a file system on the disk =
-becomes a using linux-apfs-rw on a (possibly
->>> fixed size) volume that only has one file and that file is used as a=
- loopback device.
->> That's very interesting. Fragmentation will be brutal after a while t=
-hough.
->> Unless you are patching away the copy-on-write somehow?'
-> On a fixed size (preallocated size =3D=3D max size) volume with only a=20
-> single non-sparse file on it,
-> copy-on-write should not happen. I believe the xART volume is also the=20
-> same case with only
-> one non-sparse file.
+On Tue, Apr 29, 2025 at 11:34:10AM -0300, Jason Gunthorpe wrote:
+> Now that all drivers are using domain_alloc_paging() and dev is never
+> NULL, we can have all drivers correctly set domain.pgsize_bitmap during
+> their allocation function.
+> 
+> There are a few oddities that have accumulated here over past changes:
+> 
+>  - Some drivers always set domain.pgsize_bitmap during their
+>    domain_alloc_paging() call but still provide a value in ops. This is dead
+>    code, delete it.
+> 
+>  - Some drivers calculate a system global pgsize_bitmap in the ops, but
+>    it is now trivial to use the per-instance value instead. In several
+>    cases this is dead code, delete it. This also allows
+>    constifying the ops in these drivers as a hardening measure
+> 
+>  - Some drivers have a fixed pgsize_bitmap, put it next to setting up the
+>    geometry in their domain_alloc_paging() functions.
+> 
+>  - Finally a few drivers still use ops because they have a delayed
+>    finalize operation. Set the constant pgsize_bitmap in the
+>    domain_alloc_paging().
+> 
+> Then remove ops.pgsize_bitmap.
+> 
+> This is based on iommu next, and must go after the virtio
+> domain_alloc_paging() conversion.
+> 
+> Jason Gunthorpe (7):
+>   iommu/arm-smmu-v3: Remove iommu_ops pgsize_bitmap
+>   iommu/arm-smmu: Remove iommu_ops pgsize_bitmap
 
-Yeah, the gigalocker file on the xART volume (which is the only file we =
-care about
-for eventual Secure Enclave support on M1+ macs) is stored contiguously =
-without
-copy-on-write on the disk.
+These two SMMU changes look correct to me:
 
+Acked-by: Will Deacon <will@kernel.org>
 
+Please yell if you'd like me to pick them up separately from the rest
+of the series.
 
-Sven
+Will
