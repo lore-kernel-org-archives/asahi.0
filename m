@@ -1,93 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0674AE55B;
-	Wed, 14 May 2025 20:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2D01EFF9A;
+	Thu, 15 May 2025 05:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747256182; cv=none; b=lI+LP7OxvXbB43uQRERH+009bpk9KQR4x1hH5AUu6PrEkVncRVrtCT+yFHDPpbrACFD/ZBVSCLF/Y5kro/qyh/yyZry3nXz8M6bdV5ZZiuojleTqfAeWvsq5F7pqrIvuiRdCd3IKeW/7rkj1S33FXMkcGwabxxcammXDy9Hu9cY=
+	t=1747285707; cv=none; b=sWJcYAoywi8Tz87t5Z3F4aVPCnZHAI1OpfLo8LoB9GYHkEmH0Se69IEoLTz4/clAa6KcMVYo9OStYZpDh+cpVqRjuENQwxbcXwfulqtG39lZ8G6tCZi5m89448E5uf54Lnlgrw0sVX4cshs8IS0pZhAGcfjsAcZOsc544rbXhWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747256182; c=relaxed/simple;
-	bh=LzcztWerU4pmt8hh0TJh4jLsvk6/oUYWuswSfEQJhA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HAgjP9MKjYjEZcSxokYeUhEMwcilyzDnTRnB8JN1bHn1R355xk1mrVsVmgZXOArXqrc5owDAfUaJeojzXJSfdQGSIoB+O8604tPtZsbgoqyOFrFrvQpyxGTIQvvlusEg7a8I9Z5mKQb33kqI94LDKrhDr7zfiz784kl264wk/Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKjA/3US; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747285707; c=relaxed/simple;
+	bh=DfKzu/2uN/ZhVEJNr+7vI8iANsRzWUhlIsxjCoy7V9A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TxaXf5MLrbHIatLOwHy4Yzn161LKlwiPsgmm/ldpfKDoXt2WbrMnXU8vI324QixmclXPFIcgrugmoWCUolDvoFU/cvfFr58mEiE68/b4yuDN/wjAZ3E1kfNyC5qySFSbhRDL1y117VXSMCuoXMfgX6pGBULrVGraM4EwiClFJJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kMAT4aeR; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKjA/3US"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A225C4CEE3;
-	Wed, 14 May 2025 20:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747256179;
-	bh=LzcztWerU4pmt8hh0TJh4jLsvk6/oUYWuswSfEQJhA0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VKjA/3US6VvMiYWEFfxUTPcVRsgkq/fkEDd1FECDu3ML/8zXXjCtRGVqsgM8wCUH5
-	 +ly2bPAmH0DwK6dNZL892QlHnLHhFjDitrtw52TwhPFYhT+LUEv5yuC7EW/yskCSy2
-	 eNJNgCzxtKIuXEoYdQyC00fVdaiCxVlLuYEM1mvp5kXyJEcPNzlZJs92pnXqpwijHT
-	 MqAKCgjWf+09vWbdG9ViS23iPDY5zWJnOCJwri1XSKRIhmd23wvZWVmMQ/vyJPgI9L
-	 Sz6X2Oiqd7Iy9MO31pjPyE+UlaqzGmrWv5IASpHjm7eqrfGR6ceJ9sxNHOUTvroicT
-	 TSbs3g75uA6lg==
-Date: Wed, 14 May 2025 15:56:17 -0500
-From: Rob Herring <robh@kernel.org>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Lee Jones <lee@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v5 02/10] dt-bindings: power: reboot: Add Apple Mac SMC
- Reboot Controller
-Message-ID: <20250514205617.GA3020430-robh@kernel.org>
-References: <20250511-smc-6-15-v5-0-f5980bdb18bd@svenpeter.dev>
- <20250511-smc-6-15-v5-2-f5980bdb18bd@svenpeter.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kMAT4aeR"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso551063b3a.2;
+        Wed, 14 May 2025 22:08:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747285705; x=1747890505; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DfKzu/2uN/ZhVEJNr+7vI8iANsRzWUhlIsxjCoy7V9A=;
+        b=kMAT4aeRxlx7NzkOmHIZR1D3CU6tOokj5/Z0uBRsadV3y4l+pJOsWCzEMsSZCBF++1
+         qwzLl+VTvTGtOpHHN8QTMgR58cdYwXPk+P3xCmPdtISZfIb+4dGo4dGJPvBXzaI9lexT
+         pVjd0TmfTaN9LdkQfU1DCqawiO76IQeReh2TBfr5tUFQ3S+yGkYemg8/vxOV7Xx5dgzg
+         sjQA5eorrfT8ZxoUi5SHC9Ns1uF9AQWiPaSAyHPyyNBVXIVrrck/f18c+MTerPj0/Oru
+         J+DKyP6z0Fel4WWutrnsP+uE48WPIwu+n73LpPsaDGYpQaUy3s4ee+FzTvGtdEDe6uxz
+         shNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747285705; x=1747890505;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DfKzu/2uN/ZhVEJNr+7vI8iANsRzWUhlIsxjCoy7V9A=;
+        b=lZ10DGZw2UhjO3gEzT6KmGXRmnAnsL8W5TqzxAvFnAaNdu4u51VkSSYR82FmvHBVrb
+         Q0VaNWJ1KvAOV3ocsWFlpJQGnL0PGt7mkHCxQATvu9XGSvhqU0Vz2LYX1f1LHgs1zx9L
+         N6cUDeqknI06rKgFFYRAvXbBBMx11V0dr5awozJpmBUrf9jhb92LTeK4iWXtCtJuN9xQ
+         gSGDGc9wmal3Uz8qw1Wum5y2431sOIPmu3VHUKMIOXRU6rBz0sSILPcjDminx4UcHxF+
+         iBby7XYO8eh05s31CRfTANg93VXpLkWn6RbrPE9VRaCbifOOZg/XCK0oR3YwtqWNFZZu
+         tnOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUkEX+vutYod62P2ErI7axTmB+mPe/adcTS5UnuBHGduQyoRgNDTp1RG/5TZDSB3J3mCgDdKnZFCyiVZHhIQ==@lists.linux.dev, AJvYcCWpyWVPN0c5cq/Y+hH4lQK8w187Lbb8wd4hlPG3/mFZvKi+KS6nOnb+45FcvXql/fdGzMmBvg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJTaK537XGAZPRhySGlr/YRWZW9sROmWxNZTCGPG77NVKq3tAe
+	Sew9LEpbALuwmkAym17cTc1MBq+kR/nqVZ+Uji5r1gk/ZgRmgNgq
+X-Gm-Gg: ASbGncsgVftfdA5rvSMGoY+licftetrJ3wURLpQdbocdBmn7i+h4owvJz2XD09m9xjp
+	pCMvCDvQ+SyvKrf+B2BajYzpxeAMnjd5THSw49SslKy0hSui/WITE6bKfYm7IvwVxMwBDA7kzvf
+	opdUWmSPsGS10N/EYHA5kq3Lt8xCXz9di9knxpOkBTmo843xySsaceD7KxIghVZULXQgD9H/jIk
+	9FQgHWizvn+K5CrRfTjfJNGgeQt7BLstkLTUjieTvW2yDGvQ+xpOXXII89KZNgIwhSyMNULywfw
+	UmLIwCeWJyfxbKqp41fCv65hTE12En/dVb5R0vD/eVuv19Hw/Tm21KFrQjwNh5gRU8YwOaCBxIA
+	=
+X-Google-Smtp-Source: AGHT+IH+z9/gvNAIgVdBiQEFnvWLdzvjUXhJQoW/YC8WK0Cl0SXJkOGyFoyiodBt7ZVwXDHT1gBPow==
+X-Received: by 2002:a05:6a20:6a20:b0:1f5:55b7:1bb4 with SMTP id adf61e73a8af0-215ff0f95efmr9042786637.11.1747285705060;
+        Wed, 14 May 2025 22:08:25 -0700 (PDT)
+Received: from [192.168.0.120] ([59.188.211.160])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e128c5a9dsm4077853a91.1.2025.05.14.22.08.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 May 2025 22:08:24 -0700 (PDT)
+Message-ID: <e6a5a737-ce64-4d31-aeea-2e6190da2ff5@gmail.com>
+Date: Thu, 15 May 2025 13:08:19 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250511-smc-6-15-v5-2-f5980bdb18bd@svenpeter.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem
+ support
+To: =?UTF-8?Q?Ernesto_A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
+Cc: Yangtao Li <frank.li@vivo.com>, ethan@ethancedwards.com,
+ asahi@lists.linux.dev, brauner@kernel.org, dan.carpenter@linaro.org,
+ ernesto@corellium.com, gargaditya08@live.com, gregkh@linuxfoundation.org,
+ jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, sven@svenpeter.dev, tytso@mit.edu,
+ viro@zeniv.linux.org.uk, willy@infradead.org, slava@dubeyko.com,
+ glaubitz@physik.fu-berlin.de
+References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
+ <20250512101122.569476-1-frank.li@vivo.com> <20250512234024.GA19326@eaf>
+ <63eb2228-dcec-40a6-ba02-b4f3a6e13809@gmail.com> <20250514201925.GA8597@eaf>
+Content-Language: en-US
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20250514201925.GA8597@eaf>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 11, 2025 at 08:18:37AM +0000, Sven Peter wrote:
-> On Apple Silicon machines a clean shutdown or reboot requires
-> talking to SMC and writing to NVMEM cells. Add a binding for
-> this MFD sub-device.
-> 
-> Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
->  .../bindings/power/reset/apple,smc-reboot.yaml     | 52 ++++++++++++++++++++++
->  MAINTAINERS                                        |  1 +
->  2 files changed, 53 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml b/Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e55e524914c2f57f7acf239fdefcbdc7a993b69f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
-> @@ -0,0 +1,52 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/power/reset/apple,smc-reboot.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple SMC Reboot Controller
-> +
-> +description: |
 
-Don't need '|' here.
+Ernesto A. Fernández 於 2025/5/15 凌晨4:19 寫道:
+> Hi Nick,
+>
+> On Tue, May 13, 2025 at 12:13:23PM +0800, Nick Chan wrote:
+>> 2. When running Linux on iPhone, iPad, iPod touch, Apple TV (currently there are Apple A7-A11 SoC support in
+>> upstream), resizing the main APFS volume is not feasible especially on A11 due to shenanigans with the encrypted
+>> data volume. So the safe ish way to store a file system on the disk becomes a using linux-apfs-rw on a (possibly
+>> fixed size) volume that only has one file and that file is used as a loopback device.
+> That's very interesting. Fragmentation will be brutal after a while though.
+> Unless you are patching away the copy-on-write somehow?'
+On a fixed size (preallocated size == max size) volume with only a single non-sparse file on it,
+copy-on-write should not happen. I believe the xART volume is also the same case with only
+one non-sparse file.
 
-> +  The Apple System Management Controller (SMC) provides reboot functionality
-> +  on Apple Silicon SoCs. It uses NVMEM cells to store and track various
-> +  system state information related to boot, shutdown, and panic events.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+[...]
+> Ernesto
+Nick Chan
+
