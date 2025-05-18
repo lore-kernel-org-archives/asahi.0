@@ -1,65 +1,66 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272782135B8
-	for <asahi@lists.linux.dev>; Sun, 18 May 2025 10:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6DE218596
+	for <asahi@lists.linux.dev>; Sun, 18 May 2025 10:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747565472; cv=none; b=JryUYltXv6VYowCth/gp+bGlGg0NzSmy14dF3In0uIr2vUzI7SVWzrrP3eEfYUILAX+oAXj1kD51zsN7kXpFtPHhputQrItZ9zw1DEwHk6XD7e/qSvdVtB2Os9h/CAOm9GgrNwLiDK781On+s7/YhBhELCk1rdryr80e88XvmRA=
+	t=1747565474; cv=none; b=SCCF0sQJtpExruILSQnmoJo9Z87IxcJd+tCVT7XRXeHKSh7O1TYZNyaXZgAooEZIma1ayloRA03w5xBpL+A1zxZi6PBPT+ST2t+X34bMscsdao4L5bgxZLh3rYCDtHCRPh5NYD0agm/weB4Wu8jAP+j559ryKZwC7ZS1Ie1kUjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747565472; c=relaxed/simple;
-	bh=RT2iQ5brdMeC84IB6KveIUJpZkTRlSqN7u5CsAjxDm8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YRuelesM/ObB9G9E2T5o9LQGdKgRJ1UtDXzl5YjAYq4cXGZGWSz7eyz/VJ/Rx5wrqa1SFnq5rHR3f8zIbA+gqAJqAXILnuZ5MjsnakWHE0IWNjAQqYrD+UszMu4T4ewxTN36It3w++t/ar8YPrMdz2Qgdi1Z13fQWTzxT4jFuSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZTNkkXFB; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1747565474; c=relaxed/simple;
+	bh=bloo4GYc4JNZLyBh0ddLz0+AExIZk3IijzAUg1B6IzM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=LiMPDBX6jd0DxoEEb1uf4FRsG8PDRIFAsjYjXp8y/m2B/vNcklI9eqRyJpjwVVzxkYj/0v7udf6BdpoktKdoJ6OE2RvExtx4FA8URu5CxrzfPqYkb5112WSRKQLs2SvqJW8VhX9VVT9m8vQX1h6EqlsIx326YIw3s5i9NryHJyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nVzUE+QO; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZTNkkXFB"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22fcf9cf3c2so29264745ad.0
-        for <asahi@lists.linux.dev>; Sun, 18 May 2025 03:51:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nVzUE+QO"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b27015122c4so451674a12.3
+        for <asahi@lists.linux.dev>; Sun, 18 May 2025 03:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747565469; x=1748170269; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XKMc+c0+FW2CLyEi2+IaRcJT9E5ZB/68CPDxgtfVfbI=;
-        b=ZTNkkXFBjkwuXwH6tdbIiWS76Kdvo+pszGuzlW/Zhp6PBTEiMHboefqqcx86/dz81T
-         HcTgcNIaKuCh1fm6JWJNQfiR+2pLsXR64hyA6z7RU8lwdtNW4SdxW1znoRYAYFSOe5SA
-         UT278d2jy9RDce2zXsWUJQDSImSFJlsPp4GUejjTXK4nNhIj8wS3Jg64Q/PZHo6wxybf
-         h1CR5Xg/vSEtk5RplDlqu+vTPGVy+2O/wtWeYQbcsruXkAoEvfPSx8Q7te0NXoObluMg
-         qdIaHNoOBFjOVJ5ouVA7td0j76KWhSmIs4NAxHW1xAOtPWAOrBBOrW4u4g/zLY0xYu5a
-         eaFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747565469; x=1748170269;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1747565472; x=1748170272; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XKMc+c0+FW2CLyEi2+IaRcJT9E5ZB/68CPDxgtfVfbI=;
-        b=UaXzV2DK20a9X+9m0O+xT152pSyvV0i1DA8aHgx9NyIVTtT2M6n7ikrOUdnQUd8o+h
-         otyg21KorXu+p8xeiPgDIWcb47eO2Baf1Gjr8N4dePuOC2+ig8uZ85kMKTZmBZfRzy4d
-         Gus32A/SC8odvTD5ST39b//jB9spPIHw/OhUH4Alsj2q2CFDXptkEX++LYxGLO27eUyZ
-         Qr/fxJiIGSIZ6Gbm5RPPKllUQDNwgxG9c+Czrr/pASePHIGHKFudys4n7cf+QSU+5J/0
-         b3jjsLNMWXqgbUPgqsgWv0jKZhbQeSTaMtI68CAY/nwIjzfs6Fa9IDWgp8Nx8nZhwLzd
-         53iw==
-X-Gm-Message-State: AOJu0YwRVEnlK5Fizo9XLs519ScqTL40eykNJYmsvbmgSOBehXODGDuH
-	TvDWWB4s9SdGvZmpRrpws/XvxSEQKnhyw8cDCocuLKC85LiAXYNvoOa0
-X-Gm-Gg: ASbGncufTsmGM6cKLyOumTJZe7TzSikol06uv3rnIUZGHGne1VZBe5c3/sknmI4JlxW
-	qQuRg+6iHl9M4eBN8MUI5r3N+UYDDXiLzmwzcL8kxhme/4qaa+wfwFcZxlnThjaOrmuC1H9jPuH
-	SphEPT0F+nJpPW8A+qJ3/lcTSY+CRMCjhypQdZY7VXtibo0hHZlTv3aj41A+JzwoJYOfPeHb+BG
-	bYJ7YN0OYxT8G3o87rAHb7lVloNHLyTLDZbjs0ljqo04pFKqR7hrQUVWAPFGHahFI2hwpv69GsN
-	thrkgBAdIk806ahoPjMDZvnO8byIRdyUey07dOAJjoNI+QY7q0e//0sn85+NslhcKdIXL5v57Wk
-	wmeoG38S6BXGVPeTWg7/AUdRn4+85myPaWF3OOyUEZuwrlA==
-X-Google-Smtp-Source: AGHT+IEUkg1TUzp2BVrV+b8/Z3XW0MO1HoRrw61SVBQahL7dOmOnaaKx5W1Z6wx8ILbhquAihcK2AQ==
-X-Received: by 2002:a17:903:1ace:b0:225:ac99:ae0f with SMTP id d9443c01a7336-231d438b657mr131062835ad.1.1747565468838;
-        Sun, 18 May 2025 03:51:08 -0700 (PDT)
+        bh=xHrWXETLPmMWvh88Pu4z3EEmfTBTODVAwS8fcOeK584=;
+        b=nVzUE+QOomqRKWz2TPX+YS2/6g9jbwF+/l4SgDjUXvwhSilpYiADJRO4i+eD5LcgJN
+         maQcaV7PFrGyDV/Mm4PRIq9YEembbSCv0zAHR6MVZ2tqQbuzgHi/MLrtjAK9ZXYZoOjI
+         mxLPq98kdtH+vvgr13Tmye48htysgZlQrVKWmdwe7AYYB9HXAAgSColFirnAGMlhuqDM
+         0uElGe92qc8Mhx4Jl1uIpRiGqoegCaLys0v36eVy9amys3drAnOcLAB5qVQc6jPUnvEJ
+         tsMf4YIHRMoDHUktuUQn2EiObie28NdazZJQ4wLuhWn9DvhuQ+R6fcAhf1WW1Ox59S0b
+         kSFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747565472; x=1748170272;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xHrWXETLPmMWvh88Pu4z3EEmfTBTODVAwS8fcOeK584=;
+        b=vzDrzDHLiCjpukm8+/89XzBRYfCKJ8ugsdnbhMrPe9kMqtHHLbZUsj2O+UxtZ1jNDN
+         NkN7kasdiCP1Uc78Ni8vRWmR5lC6cgQkTXPncOfrGPYlbbGA3xEqn45tD18WmYgdXiFN
+         zBkaLU7FEae5LMDmDShDoXPIBh98zuTLCQlctNQ8vJ+FLHk7e96UXjfOCSRy221yWf0D
+         iRByhc/OGnSr7egRzwHDKVdNktPwGd07RKMNw1Bqc6uX92zIUSvT7GaVysqTM8J51wcZ
+         XSD3g+LN9MnNy4pFSBBlgPrYyw6tN3mS8mQ9JNC6PUXq5BIR50AhDqV/uy9PUM/N3uwn
+         1e3w==
+X-Gm-Message-State: AOJu0YyGQhHfSCXaQk5tix+8t1pNsHz6l2010HvFKdvCv3XKYseTw4yJ
+	b7RIz5vRixQyYGB8SNbqlmUXByKg7bBvVGUYc/R6L3wGUvWmPge22vKc
+X-Gm-Gg: ASbGncs9nv1ATaTBcEuyws/ajhsQzz49FbG9UfkLPz52UcqPb9bcfXdd6V99lrkeSar
+	pThHyLWv/AEWWYAMm7PxZN0gqowKwCsqYVwnEkUd0dWWMkJJbLQQj6uyUGYFlpSXWeEb6/VZ6NE
+	wFKIYpRgmo4tN9Zez7lD/jPtRoWmsvwBZFq/XpYzBAi5wJ+md0vsK5K3xx3h9vNIl9wHT4pEGv2
+	L5X8f3qzD8GlYTgPx6VqXk5nroklt4/L5AGgGGqx3BEr1KDn8r7wHUPxS63TTSrrwxwgaG3PD5e
+	rWgKyadMwDZ1Q2eOusycKClqbPy67WN33aBjmVHWVCtFx1kxXutB41QcwGKddozvL5cB5r0aDEE
+	NJM+uB8Maj7CZbd7waAcfGj4l24BIDh2Mqv4QtZuS+LnHHA==
+X-Google-Smtp-Source: AGHT+IHQKeN5K6oLu/Pr7bN73HTuOuOG1l8fm1K7G9wHj5VgQXjEmL3454BUhL6fVUoAR/0qXNb7SQ==
+X-Received: by 2002:a17:903:24e:b0:22e:4a6c:fef2 with SMTP id d9443c01a7336-231d45ae355mr145745125ad.53.1747565472550;
+        Sun, 18 May 2025 03:51:12 -0700 (PDT)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4edd259sm41956115ad.256.2025.05.18.03.51.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4edd259sm41956115ad.256.2025.05.18.03.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 03:51:08 -0700 (PDT)
+        Sun, 18 May 2025 03:51:12 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Subject: [PATCH 0/9] ASoC: apple: mca: support simultaneous I2S capture on
- the frontend
-Date: Sun, 18 May 2025 20:50:45 +1000
-Message-Id: <20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com>
+Date: Sun, 18 May 2025 20:50:46 +1000
+Subject: [PATCH 1/9] ASoC: apple: mca: Constrain channels according to TDM
+ mask
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -68,64 +69,80 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAIW7KWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDU0Nz3dzkRN20zIrUYl0zMzMDSxMgmZZooARUX1CUCpYAKo+Ora0FALd
- eCHtbAAAA
-X-Change-ID: 20250517-mca-fixes-666094666fa0
+Message-Id: <20250518-mca-fixes-v1-1-ee1015a695f6@gmail.com>
+References: <20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com>
+In-Reply-To: <20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>, 
- Hector Martin <marcan@marcan.st>
+ linux-kernel@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1591;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1768;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=RT2iQ5brdMeC84IB6KveIUJpZkTRlSqN7u5CsAjxDm8=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDBmau6ezv/ts+iQwxk93erbzrFdd627P/1xwbY9t2p/5c
- 1bwtm/P7ihlYRDjYpAVU2TZ0CTkMduI7Wa/SOVemDmsTCBDGLg4BWAitwIZ/vBwnDXpruRrPFR+
- 2uzGAvvJFS/PKi6ImFO8IvnT+erXSRGMDCdsNPbujVYPTJw96+NCQeZDdo2rq4ulbZbeY3ndd7P
- SiQUA
+ bh=ReyxWz52DKUtyFgDtnGw7HLoQFBnONuJgIIlcj1/Fzc=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDBmau6eL+D4tPLR0DrPSmfM3g5R/VZkpl0v0t/5forBWa
+ HUjp554RykLgxgXg6yYIsuGJiGP2UZsN/tFKvfCzGFlAhnCwMUpABORS2T4n/HnUUKcdvWb5F1X
+ tk3Mci5/zzxt3/Q+qY8LHzw93P5AayUjw3b9LGOfiX9dJe84/dAUa/8nkLSw4dmXvaHdUiZCl1K
+ e8QAA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi all,
+From: Martin Povišer <povik+lin@cutebit.org>
 
-This series introduces a number of changes to the ASoC driver
-for the Apple MCA peripheral to enable support for bidirectional
-I2S. This is achieved by allowing frontends to act as clock consumers
-and logically ORing data input lines when multiple backends are linked
-to a frontend.
+We don't (and can't) configure the hardware correctly if the number of
+channels exceeds the weight of the TDM mask. Report that constraint in
+startup of FE.
 
-This allows the Texas Instruments speaker amps used on Apple Silicon Macs
-(Apple-specific revisions of TAS2764 and TAS2770) to send their IVSENSE
-data back to the SoC. Since these amps do not have any sort of integrated
-speaker protection logic, we must use the IVSENSE data and the Thiele/Small
-Parameters of the attached speaker(s) to implement our own in software.
-
+Fixes: 3df5d0d97289 ("ASoC: apple: mca: Start new platform driver")
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
-Hector Martin (3):
-      ASoC: apple: mca: Move clock shutdown to backend shutdown
-      ASoC: apple: mca: Do not mark clocks in use for non-providers
-      ASoC: apple: mca: Add delay after configuring clock
+ sound/soc/apple/mca.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-James Calligeros (1):
-      ASoC: apple: mca: use readx_poll_timeout to check for cluster reset
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index b4f4696809dd231a64229114c5550bb5f237607f..5dd24ab90d0f052bb48f451cf009dc2e9128014d 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -464,6 +464,28 @@ static int mca_configure_serdes(struct mca_cluster *cl, int serdes_unit,
+ 	return -EINVAL;
+ }
+ 
++static int mca_fe_startup(struct snd_pcm_substream *substream,
++			  struct snd_soc_dai *dai)
++{
++	struct mca_cluster *cl = mca_dai_to_cluster(dai);
++	unsigned int mask, nchannels;
++
++	if (cl->tdm_slots) {
++		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++			mask = cl->tdm_tx_mask;
++		else
++			mask = cl->tdm_rx_mask;
++
++		nchannels = hweight32(mask);
++	} else {
++		nchannels = 2;
++	}
++
++	return snd_pcm_hw_constraint_minmax(substream->runtime,
++					    SNDRV_PCM_HW_PARAM_CHANNELS,
++					    1, nchannels);
++}
++
+ static int mca_fe_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask,
+ 			       unsigned int rx_mask, int slots, int slot_width)
+ {
+@@ -680,6 +702,7 @@ static int mca_fe_hw_params(struct snd_pcm_substream *substream,
+ }
+ 
+ static const struct snd_soc_dai_ops mca_fe_ops = {
++	.startup = mca_fe_startup,
+ 	.set_fmt = mca_fe_set_fmt,
+ 	.set_bclk_ratio = mca_set_bclk_ratio,
+ 	.set_tdm_slot = mca_fe_set_tdm_slot,
 
-Martin Povišer (5):
-      ASoC: apple: mca: Constrain channels according to TDM mask
-      ASoC: apple: mca: Separate data & clock port setup
-      ASoC: apple: mca: Factor out mca_be_get_fe
-      ASoC: apple: mca: Support FEs being clock consumers
-      ASoC: apple: mca: Support capture on multiples BEs
-
- sound/soc/apple/mca.c | 336 +++++++++++++++++--------
- 1 file changed, 234 insertions(+), 102 deletions(-)
----
-base-commit: 7163ff8cf6a2ee6b6861f0c521885e83a97145f9
-change-id: 20250517-mca-fixes-666094666fa0
-
-Best regards,
 -- 
-James Calligeros <jcalligeros99@gmail.com>
+2.49.0
 
