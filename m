@@ -1,121 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803A91E9B2F;
-	Thu, 15 May 2025 16:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272782135B8
+	for <asahi@lists.linux.dev>; Sun, 18 May 2025 10:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747326799; cv=none; b=hHgxwd6dAfhD/Xs8+obIQrhjBzIC/0bCK2pjPJiaYakrnTL84+AUUllCywHUrcXpeqDxJtzGf2icVqb3KafM/adoavA4JqFjQzzqbpWfCxX9U8Hppg6nsZcNxxxKjzlt71/ap/4CnsxBrhACokhdEym0P9d+QtPFgS1du4JYGjQ=
+	t=1747565472; cv=none; b=JryUYltXv6VYowCth/gp+bGlGg0NzSmy14dF3In0uIr2vUzI7SVWzrrP3eEfYUILAX+oAXj1kD51zsN7kXpFtPHhputQrItZ9zw1DEwHk6XD7e/qSvdVtB2Os9h/CAOm9GgrNwLiDK781On+s7/YhBhELCk1rdryr80e88XvmRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747326799; c=relaxed/simple;
-	bh=kKPojMJd9kqH6u8NArAZ+Lui+uo9ndwDNquYyy93G0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFsyrOQMc3Okqe2XSTaMkfLCbg1F6RZfS1OT4At0Ain6h4SfcZ6AEeRx59lV/w4ku59wfRlNv+RCEmASCkB1O7z7fPs+dR2/u+xxlhuYDBjAkDkkPCFc+1ByT1eUv7Icnb2g4f8uKs6stDo34UaMe4VwYhSN4HZFi4qiN/W3LBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ESjhprCJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747565472; c=relaxed/simple;
+	bh=RT2iQ5brdMeC84IB6KveIUJpZkTRlSqN7u5CsAjxDm8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YRuelesM/ObB9G9E2T5o9LQGdKgRJ1UtDXzl5YjAYq4cXGZGWSz7eyz/VJ/Rx5wrqa1SFnq5rHR3f8zIbA+gqAJqAXILnuZ5MjsnakWHE0IWNjAQqYrD+UszMu4T4ewxTN36It3w++t/ar8YPrMdz2Qgdi1Z13fQWTzxT4jFuSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZTNkkXFB; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ESjhprCJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD5EC4CEE7;
-	Thu, 15 May 2025 16:33:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747326799;
-	bh=kKPojMJd9kqH6u8NArAZ+Lui+uo9ndwDNquYyy93G0k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ESjhprCJouXAhjQr0dZG6SyTXibttfDkEXUZ8Ep+z+gy7A2IEg74Pih3DzIhR92mQ
-	 Wg1fRLZ7AahHltL5KOdUISnA+OaOb/NOKa//4TXRGsVv+rtItX6BET9OvhMNCVjW8U
-	 De/WmZChNK1Me4d3LxDTawHPD0qDmGXiVYicOpf6dOYdfucJiAUxulmuYxUjdIzoNg
-	 rv5OilXcNBVStDgu4CYEBWfv8QrLAI7K0VbMfOL+gk/FQ5MrHdl540MrndCpVvuVnX
-	 7099wIC/Jq/PwBwkwpUYCjiluxA04ZhHxA2VwN2NdOyoYvtGtPBJorxsEY9l/w9orN
-	 6Z7TkSd+Kro/w==
-Date: Thu, 15 May 2025 17:33:07 +0100
-From: Will Deacon <will@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Janne Grunau <j@jannau.net>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Matthew Rosato <mjrosato@linux.ibm.com>,
-	Neal Gompa <neal@gompa.dev>, Orson Zhai <orsonzhai@gmail.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Clark <robdclark@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, virtualization@lists.linux.dev,
-	Chen-Yu Tsai <wens@csie.org>, Yong Wu <yong.wu@mediatek.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, patches@lists.linux.dev
-Subject: Re: [PATCH 0/7] Remove ops.pgsize_bitmap
-Message-ID: <20250515163307.GA12396@willie-the-truck>
-References: <0-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZTNkkXFB"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22fcf9cf3c2so29264745ad.0
+        for <asahi@lists.linux.dev>; Sun, 18 May 2025 03:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747565469; x=1748170269; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XKMc+c0+FW2CLyEi2+IaRcJT9E5ZB/68CPDxgtfVfbI=;
+        b=ZTNkkXFBjkwuXwH6tdbIiWS76Kdvo+pszGuzlW/Zhp6PBTEiMHboefqqcx86/dz81T
+         HcTgcNIaKuCh1fm6JWJNQfiR+2pLsXR64hyA6z7RU8lwdtNW4SdxW1znoRYAYFSOe5SA
+         UT278d2jy9RDce2zXsWUJQDSImSFJlsPp4GUejjTXK4nNhIj8wS3Jg64Q/PZHo6wxybf
+         h1CR5Xg/vSEtk5RplDlqu+vTPGVy+2O/wtWeYQbcsruXkAoEvfPSx8Q7te0NXoObluMg
+         qdIaHNoOBFjOVJ5ouVA7td0j76KWhSmIs4NAxHW1xAOtPWAOrBBOrW4u4g/zLY0xYu5a
+         eaFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747565469; x=1748170269;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XKMc+c0+FW2CLyEi2+IaRcJT9E5ZB/68CPDxgtfVfbI=;
+        b=UaXzV2DK20a9X+9m0O+xT152pSyvV0i1DA8aHgx9NyIVTtT2M6n7ikrOUdnQUd8o+h
+         otyg21KorXu+p8xeiPgDIWcb47eO2Baf1Gjr8N4dePuOC2+ig8uZ85kMKTZmBZfRzy4d
+         Gus32A/SC8odvTD5ST39b//jB9spPIHw/OhUH4Alsj2q2CFDXptkEX++LYxGLO27eUyZ
+         Qr/fxJiIGSIZ6Gbm5RPPKllUQDNwgxG9c+Czrr/pASePHIGHKFudys4n7cf+QSU+5J/0
+         b3jjsLNMWXqgbUPgqsgWv0jKZhbQeSTaMtI68CAY/nwIjzfs6Fa9IDWgp8Nx8nZhwLzd
+         53iw==
+X-Gm-Message-State: AOJu0YwRVEnlK5Fizo9XLs519ScqTL40eykNJYmsvbmgSOBehXODGDuH
+	TvDWWB4s9SdGvZmpRrpws/XvxSEQKnhyw8cDCocuLKC85LiAXYNvoOa0
+X-Gm-Gg: ASbGncufTsmGM6cKLyOumTJZe7TzSikol06uv3rnIUZGHGne1VZBe5c3/sknmI4JlxW
+	qQuRg+6iHl9M4eBN8MUI5r3N+UYDDXiLzmwzcL8kxhme/4qaa+wfwFcZxlnThjaOrmuC1H9jPuH
+	SphEPT0F+nJpPW8A+qJ3/lcTSY+CRMCjhypQdZY7VXtibo0hHZlTv3aj41A+JzwoJYOfPeHb+BG
+	bYJ7YN0OYxT8G3o87rAHb7lVloNHLyTLDZbjs0ljqo04pFKqR7hrQUVWAPFGHahFI2hwpv69GsN
+	thrkgBAdIk806ahoPjMDZvnO8byIRdyUey07dOAJjoNI+QY7q0e//0sn85+NslhcKdIXL5v57Wk
+	wmeoG38S6BXGVPeTWg7/AUdRn4+85myPaWF3OOyUEZuwrlA==
+X-Google-Smtp-Source: AGHT+IEUkg1TUzp2BVrV+b8/Z3XW0MO1HoRrw61SVBQahL7dOmOnaaKx5W1Z6wx8ILbhquAihcK2AQ==
+X-Received: by 2002:a17:903:1ace:b0:225:ac99:ae0f with SMTP id d9443c01a7336-231d438b657mr131062835ad.1.1747565468838;
+        Sun, 18 May 2025 03:51:08 -0700 (PDT)
+Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4edd259sm41956115ad.256.2025.05.18.03.51.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 May 2025 03:51:08 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH 0/9] ASoC: apple: mca: support simultaneous I2S capture on
+ the frontend
+Date: Sun, 18 May 2025 20:50:45 +1000
+Message-Id: <20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIW7KWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDU0Nz3dzkRN20zIrUYl0zMzMDSxMgmZZooARUX1CUCpYAKo+Ora0FALd
+ eCHtbAAAA
+X-Change-ID: 20250517-mca-fixes-666094666fa0
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>, 
+ Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1591;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=RT2iQ5brdMeC84IB6KveIUJpZkTRlSqN7u5CsAjxDm8=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDBmau6ezv/ts+iQwxk93erbzrFdd627P/1xwbY9t2p/5c
+ 1bwtm/P7ihlYRDjYpAVU2TZ0CTkMduI7Wa/SOVemDmsTCBDGLg4BWAitwIZ/vBwnDXpruRrPFR+
+ 2uzGAvvJFS/PKi6ImFO8IvnT+erXSRGMDCdsNPbujVYPTJw96+NCQeZDdo2rq4ulbZbeY3ndd7P
+ SiQUA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-On Tue, Apr 29, 2025 at 11:34:10AM -0300, Jason Gunthorpe wrote:
-> Now that all drivers are using domain_alloc_paging() and dev is never
-> NULL, we can have all drivers correctly set domain.pgsize_bitmap during
-> their allocation function.
-> 
-> There are a few oddities that have accumulated here over past changes:
-> 
->  - Some drivers always set domain.pgsize_bitmap during their
->    domain_alloc_paging() call but still provide a value in ops. This is dead
->    code, delete it.
-> 
->  - Some drivers calculate a system global pgsize_bitmap in the ops, but
->    it is now trivial to use the per-instance value instead. In several
->    cases this is dead code, delete it. This also allows
->    constifying the ops in these drivers as a hardening measure
-> 
->  - Some drivers have a fixed pgsize_bitmap, put it next to setting up the
->    geometry in their domain_alloc_paging() functions.
-> 
->  - Finally a few drivers still use ops because they have a delayed
->    finalize operation. Set the constant pgsize_bitmap in the
->    domain_alloc_paging().
-> 
-> Then remove ops.pgsize_bitmap.
-> 
-> This is based on iommu next, and must go after the virtio
-> domain_alloc_paging() conversion.
-> 
-> Jason Gunthorpe (7):
->   iommu/arm-smmu-v3: Remove iommu_ops pgsize_bitmap
->   iommu/arm-smmu: Remove iommu_ops pgsize_bitmap
+Hi all,
 
-These two SMMU changes look correct to me:
+This series introduces a number of changes to the ASoC driver
+for the Apple MCA peripheral to enable support for bidirectional
+I2S. This is achieved by allowing frontends to act as clock consumers
+and logically ORing data input lines when multiple backends are linked
+to a frontend.
 
-Acked-by: Will Deacon <will@kernel.org>
+This allows the Texas Instruments speaker amps used on Apple Silicon Macs
+(Apple-specific revisions of TAS2764 and TAS2770) to send their IVSENSE
+data back to the SoC. Since these amps do not have any sort of integrated
+speaker protection logic, we must use the IVSENSE data and the Thiele/Small
+Parameters of the attached speaker(s) to implement our own in software.
 
-Please yell if you'd like me to pick them up separately from the rest
-of the series.
+---
+Hector Martin (3):
+      ASoC: apple: mca: Move clock shutdown to backend shutdown
+      ASoC: apple: mca: Do not mark clocks in use for non-providers
+      ASoC: apple: mca: Add delay after configuring clock
 
-Will
+James Calligeros (1):
+      ASoC: apple: mca: use readx_poll_timeout to check for cluster reset
+
+Martin Povišer (5):
+      ASoC: apple: mca: Constrain channels according to TDM mask
+      ASoC: apple: mca: Separate data & clock port setup
+      ASoC: apple: mca: Factor out mca_be_get_fe
+      ASoC: apple: mca: Support FEs being clock consumers
+      ASoC: apple: mca: Support capture on multiples BEs
+
+ sound/soc/apple/mca.c | 336 +++++++++++++++++--------
+ 1 file changed, 234 insertions(+), 102 deletions(-)
+---
+base-commit: 7163ff8cf6a2ee6b6861f0c521885e83a97145f9
+change-id: 20250517-mca-fixes-666094666fa0
+
+Best regards,
+-- 
+James Calligeros <jcalligeros99@gmail.com>
+
