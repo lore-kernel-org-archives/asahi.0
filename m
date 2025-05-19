@@ -1,123 +1,87 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6350521B9FD
-	for <asahi@lists.linux.dev>; Sun, 18 May 2025 10:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2658AFBF6;
+	Mon, 19 May 2025 10:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747565506; cv=none; b=daTdopTz+nZoLp+wsPvWQXkVr4TO1z7rRYI8uiw4RGfdH6aHJK7RarEKlW/FL650yv2YSSg8pJzQM1JZrLcMOWMk0fQa4MICnmQ/qvQxLcUgM300UAPcc52OJapsuBZQi/2+c4vhWCZrhWtdkAlmRLHmCRFpJUfCqo3HGzVH+8M=
+	t=1747651085; cv=none; b=DkcJnAtnJDRSbhmcQiZjSMKcxxT05gWb2X7z9pXI8wxOZ8RGUhHCN/UcBJ/FEOm4/z7UiwbELaKVqExAt/EYi6xvUMsSQjdIC5iz1WC0mBmTkw+iPFCViGAqfbhDU5QMpe/cRxZv3SbmJZGpLtlv3MwrKump8Fm+YmsgC585EnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747565506; c=relaxed/simple;
-	bh=4tneEjrLLbDxLH5yuVt5982xVp3BOh9Iew7CW9SasfA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rzk9fYKrPHxY9tL9gzdy4KzrqFwz3f+e5UWX/I0p2JEAoc1RDvm9yqIg1u42ZuPmRoNOyEvOUWGMs86pSWx2TP4nM5bYTXAPrxPHJHH0zBPbdYbofVpNnp4560YpQgoaZNeBCNhJgS9sI0dGj6csddWImT4EPmWzV+2V0JaG+44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=baYLqlBZ; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747651085; c=relaxed/simple;
+	bh=rZE8erx96JB97Sl1nprYcvzNzhyW/SJMOxi+lcu07TA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tSfqWLZ4VDRQfQE+FEfWILtajQglY4WQ3vIGXIKAA24CgNZxFcf4V9TTp0C94cDQXu6LkqRz4SuPIk6HqdLGZwfCwPDuQKSWRM2Gg4n6cm65aJdNM9WqRaRoSNZv+HH9dGoc2PhAhKhZVdQCfv0/EmyWRMSBNbgIVeO98BxeuyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmD04v18; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="baYLqlBZ"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22e331215dbso33342745ad.1
-        for <asahi@lists.linux.dev>; Sun, 18 May 2025 03:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747565503; x=1748170303; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=51qal+nEZuN8T7t3NgZ/LK0U2xqY70iM2If30xD70Os=;
-        b=baYLqlBZtr5QqXs/dfPxFT/Wa4GOIOEcAkmM0edvgJ4WaNupiJfbYHgC38JuSRhxvP
-         D4+6lIjCEC1I8T9xoj94t1Zxxck9ImqV8bjKremZ3q65A9S9CCGySrW1BmfuOF9dc409
-         tQRe8NfJymk4JZvCzL0jJsaT6H4SlEofou/ZxtdmMG6+mDMk/QdZPej1TAfPQ+L+Kzdg
-         qyxS/JEtkQuAqrmwAM071TJwTMTMFC//PnsBeioWDSh0G5opa4AOc+gZIm9Tcd4XmsU9
-         YfKDRW3L44+kU1F/8KKrmRpRN4Jz4rPuM5hPS8eGBaqGVab43tQdkEQcxrC3TZswjL7O
-         9YyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747565503; x=1748170303;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=51qal+nEZuN8T7t3NgZ/LK0U2xqY70iM2If30xD70Os=;
-        b=RAmhiPSjoJb9Y5Pi3F+Emwz527RHWr7R+EkMgpc6y+Zr3AJK/2/2gKVcW4dotOw1sP
-         xghVuZGGddfCHaAbHaJuPK/s6TyAruit5ZyT8+ichAEUZf15Uh3enRiA4AQPt1+2pTNn
-         /x330JFbJrQ+9AuSuiZ99eD8VHIU13Zgc7GJQi8eubyseA0g0LFcG/N8rXiJ2cf7+EDh
-         tdi8gfUS/AbRHqMecqbRB9cF6gFx2K7cY0fLcn1V1+RZmVClUC92kpE3DgBiW46apuCc
-         UZNhUhHy/vx0w/SWPMN9O6fuPHiwHu++2SVBgH7XSDAuHMa5LGT+fFR4DpUyL2/fxRaR
-         wmSA==
-X-Gm-Message-State: AOJu0YxTOjQIjxOPH11xztLQlIEsScuAkPSYeqrFBrhiyfnnpDSisITf
-	+DvQs3rZrr5CMBQReazRG1aVVMrcShZzRlJNBQXcXejpuWFZj3vyCpzy
-X-Gm-Gg: ASbGncvwmJ4f2VPw6wxFikyycWqFwTZdD6YL0MPHWLt4XFqljzYQip91nnrUTzqSFD0
-	gbHD99cVdY9JL4x/g1XebeZGXxw/cvHXfDH2ZNFEldv9PvWy6JpkACYnv73uqQB1nZXwS2a0NSA
-	7DY0OqI79Kpr465eLov0AaFixSGeDez3+HQ3oLF6ggHcawoC3SfBQaERoILh5XsmIV47KqvdXYu
-	ju7wfqDBbn4pt+cN3OwROC5vl6k8oL4CB0bHg/peF59TvLm+R6sWb8jyMkSCA23CG5H7sO6Q1f6
-	BbmRmXKiISMzbpz6I6QLaRxHKdNbBQB3fvw5eJHzfU8PjY5CTvTRmq83+bbRczJfFqeII2YMkD0
-	cGkbThRPLopp5+ydBleJsaaeXtHGSPVoA+h0NrVuv1ZaP2g==
-X-Google-Smtp-Source: AGHT+IF+Y+vQADQsRgWRpYhwHELIYu7P2b0zFe6oPKNRetGepWzTVG+EAL/37OwVnj5EeXLmSUM1SA==
-X-Received: by 2002:a17:903:1b48:b0:22e:4b74:5f68 with SMTP id d9443c01a7336-231b39acfbcmr214052775ad.19.1747565503634;
-        Sun, 18 May 2025 03:51:43 -0700 (PDT)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4edd259sm41956115ad.256.2025.05.18.03.51.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 03:51:42 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 18 May 2025 20:50:54 +1000
-Subject: [PATCH 9/9] ASoC: apple: mca: Add delay after configuring clock
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmD04v18"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C595BC4CEE4;
+	Mon, 19 May 2025 10:38:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747651084;
+	bh=rZE8erx96JB97Sl1nprYcvzNzhyW/SJMOxi+lcu07TA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LmD04v18oGsZgb4clnGSoDB21C7tK9SavpiieRyTKZivwF71U3jd/Q1Yc3m0nQru6
+	 QDtFaywV8DqWmQMov4bwC+CFPblgYLgzuPZNItEWCPib9yk47cUMOx66eDljLndxoE
+	 MbrPfFGoRg1OiXamZ429+xyL/pSnkN9i1mQD3nZM736A411FaxF0atDv1LoD84llF+
+	 u7ru2xZihpFG+zz5U7I4gKdG+FrEknKBxDCmP4L5Cjpbb2ZtlBMeXTACC2mTu821fB
+	 cYTdJnTanRC45TCoMGF3YpjKmjUc+VI+sqp2X9GVgEjmH1vB4SxgU6AT9AHhNT4aXL
+	 iBbTJCeOpTZ+w==
+Date: Mon, 19 May 2025 11:38:00 +0100
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 3/9] ASoC: apple: mca: Move clock shutdown to backend
+ shutdown
+Message-ID: <d590b26c-67b1-4fa9-8659-2665e73a6aae@sirena.org.uk>
+References: <20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com>
+ <20250518-mca-fixes-v1-3-ee1015a695f6@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250518-mca-fixes-v1-9-ee1015a695f6@gmail.com>
-References: <20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com>
-In-Reply-To: <20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com>
-To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1096;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=ekpJUrgwslgSSm//rnVrNbH1x1uOEDjoGU49rCtKwNc=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDBmau2dcNBfZyniLo7vUzoPHy1xpdcuznHhb69lLBLpuv
- vxX8jKmo5SFQYyLQVZMkWVDk5DHbCO2m/0ilXth5rAygQxh4OIUgImU7WL4n6NfVFyh1Zrcv8H9
- 2XSJGw4H/jy749UbaLyfJXrzBPGQFYwMHZr7Um2uGF5P9DrYfIOZxdJvxmwBg68eoqs+bd5s3Hi
- WBQA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5sSemejpnJug2TKh"
+Content-Disposition: inline
+In-Reply-To: <20250518-mca-fixes-v1-3-ee1015a695f6@gmail.com>
+X-Cookie: We have ears, earther...FOUR OF THEM!
 
-From: Hector Martin <marcan@marcan.st>
 
-Right after the early FE setup, ADMAC gets told to start the DMA. This
-can end up in a weird "slip" state with the channels transposed. Waiting
-a bit fixes this; presumably this allows the clock to stabilize.
+--5sSemejpnJug2TKh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- sound/soc/apple/mca.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Sun, May 18, 2025 at 08:50:48PM +1000, James Calligeros wrote:
+> From: Hector Martin <marcan@marcan.st>
+>=20
+> Codecs are set to mute after hw_free, so yanking the clock out from
+> under them in hw_free leads to breakage. Move the clock shutdown to the
+> shutdown op, which is late enough.
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index 25d04b3d8a57a8551f2ac1c0cd2dbf2997d907e8..1c664c204504174df1d0af3cafbe25235c678687 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -231,6 +231,12 @@ static void mca_fe_early_trigger(struct snd_pcm_substream *substream, int cmd,
- 			   FIELD_PREP(SERDES_CONF_SYNC_SEL, 0));
- 		mca_modify(cl, serdes_conf, SERDES_CONF_SYNC_SEL,
- 			   FIELD_PREP(SERDES_CONF_SYNC_SEL, cl->no + 1));
-+		/*
-+		 * ADMAC gets started right after this. This delay seems
-+		 * to be needed for that to be reliable, e.g. ensure the
-+		 * clock is stable?
-+		 */
-+		udelay(100);
- 		break;
- 	default:
- 		break;
+The mute should be the first thing that happens, before we do the DAPM
+stream stop event or hw_free() for precisely this reason?  See
+soc_pcm_hw_clean().  The reason we do the mute is to cover any glitches
+introduced into the stream during the teardown process.
 
--- 
-2.49.0
+--5sSemejpnJug2TKh
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgrCgcACgkQJNaLcl1U
+h9Aw7Af/W7WvCidzGoJbaNKUpzh2um4hlSwR8+3PyXRvqe6547f7R0prqIC1WGec
+V2utIYikPJBxv6LRuSU5UCV819jDSgrGwj4UJ6f1d77C5VnIjqho/Vzif48iKMKo
+VUtH8C3lMjsbTH7y5W5LMjWPCzcq5CGAKj+ICOzTrj4YBoXzSuWxMYPb6Twpk/6s
+uFMHwcvrBn1fOgtNT0lQXQtdv0oc2BkyitO616hBDHeXLIdBglm0VhWtMEiszb3g
+cocyu8OoUE5PIENQLxzY1/iVnUA3KbNhBKy+qohg52p3A2jF7uXTEpUhT/O7hdz0
+XB06g/9kPz/uAdt1Nzi2ZGExS/HgOw==
+=46aR
+-----END PGP SIGNATURE-----
+
+--5sSemejpnJug2TKh--
