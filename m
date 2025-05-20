@@ -1,139 +1,123 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01D0264A97;
-	Tue, 20 May 2025 11:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADE125A334;
+	Tue, 20 May 2025 18:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747741313; cv=none; b=EgxrXrCXVtOv37x/Nh3S88I9s32lsny9x4fqjuht7wYGrKFu4OGcSQaYGBR85tIW3NBxucXGV7QZTgMIytpfgNQZH73XDmVM4Auo0ro/CTkrEg1ffm+3zn9XOVKFqvTwrE/GiIoTn7lPPM2ZvqTwyRTDQj4gDgxja5QcCZhRFl4=
+	t=1747767592; cv=none; b=G0rffp+inlajYQ/L+nRb3L3SGF1An9T+3wNq9ftZAi4CKivH/JvKBHW1MvLtgvolKOQNDwvXiheMOy+UAF1iefK6YHMEciHZhLFSSXPV68ZnbfpxThlNlulL3mWr3nN+Es+yyE4kM/P8lCOkSd51bJSYLOHZw3HWoo2wUd/Cy/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747741313; c=relaxed/simple;
-	bh=UExusS9wGruu2jirSHupY+orQc1NwlzDHTp5gtaUL6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Aw5fk3qPcW42mzrTJ85VWH15Fb35AAa6p+ZjWXcz6zy7wdq/BZDEng5uoETLiweb+HvIUaMjHhY4kz/a0ADQ6E0cBbcqH9pdplkvYmP1vNzwsxQS3AWyYE/h5IuzjCETWYf7MV4geLbBB7dAWwYic2VRexmW5J9bJ/pAkMBNG+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=GzTXMwsi; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1747767592; c=relaxed/simple;
+	bh=lHhHH18Gvn/lfwPtUE2bbE5SUT2dnlX3N4jAWOw3v4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pP13dzLWYxSGEmxlOVyuJpCFmYCou/vza9a95z+2w5X30BRqcNwCHaDTHkufXR1b/H0IHq5GE0htBsdviJncId7retko/2uCzTn+jJBaKcJsZqOlnRyGVsZB5rJT96DtDB9n5sAX0hlKGuCwI7/7l/jCNCYhqTYqAAaAJu2ESlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8WRJfly; arc=none smtp.client-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="GzTXMwsi"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K9UC8E021011;
-	Tue, 20 May 2025 13:41:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	UExusS9wGruu2jirSHupY+orQc1NwlzDHTp5gtaUL6E=; b=GzTXMwsiZejt1O8H
-	HSMOo4JJMYdWKi4XLUZACmweuNUHMXMcoKBaBK4izDYF74vuwBPhTZk6IexHobg/
-	qK9I73asI1F+eYDQZiyzxP43hKUrX/gpKv/++Q/63O4zRbJXsKcyIXJRe8YtHdoV
-	RPwyyY04Tk6DjBcJZpMMLx0wfWgVldqOE1FvIgNQm9RI5S0gb+O/faMVPHN8vYO7
-	xVKBfv+hc1nAbKmBD0/cmEDphgVskJ4VOESdBzuwEbJOODz1O+/U82sx8FwgyLMU
-	7hCq2HGWxCcmbZsgQoNFKYIKbh+ZOklyV2oLZ5i1xQm8eShnTM2y/drHpPFlUzAG
-	h0IOcQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46pht1w43t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 May 2025 13:41:16 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1C0F740049;
-	Tue, 20 May 2025 13:38:29 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4B551AE2BFA;
-	Tue, 20 May 2025 13:37:16 +0200 (CEST)
-Received: from [10.252.29.31] (10.252.29.31) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 20 May
- 2025 13:37:13 +0200
-Message-ID: <b1d3f93b-8206-481b-bd8a-d7c0953e0ea5@foss.st.com>
-Date: Tue, 20 May 2025 13:37:12 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8WRJfly"
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-87bfc9ff795so903765241.2;
+        Tue, 20 May 2025 11:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747767589; x=1748372389; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lHhHH18Gvn/lfwPtUE2bbE5SUT2dnlX3N4jAWOw3v4w=;
+        b=h8WRJflyZUQE9PamC4J8IUYLat/0LmtcX43sTt0uaB59pdxHvLZAPU38ZS6HsNu48D
+         MYf8xIL3nfAtHDDFlijo9IA4tc+AAx73RrYBz3fV6ONe6jUPydLtk1KjXtSYEOXF9sRb
+         FxfmX7IDDUABhLDinTXXtbPRDHfBf/YeyU023TlnxYzWgF4klK9mNVYq7j0EMvFSf4w1
+         Mg8nfAkbQpSfA+WOOlrGvWjSGpTUXk9wsPvN2z3NHoB8oAsy5YmhXAxDl4canQSZvhF3
+         ikM2Q2300aoHHjYIMvnRISxqc71ZmZ97+5IwNi1x14M9ppkiFTYoPaKgukqixBnZHtKE
+         4qwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747767589; x=1748372389;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lHhHH18Gvn/lfwPtUE2bbE5SUT2dnlX3N4jAWOw3v4w=;
+        b=EwDQ8pxTyE7A8bPzrX0NgltL2/bDey3kYA4qlA4XWOgV1IRs3dpf65Rp7JcA/STmXM
+         9c5o9Hh7m9fJRpesyBJh9nW5m439ncVKgdw19Nz2vIWUakDauUxOEU2eGAbHUVZULel+
+         MOQ30i4DlzkvpWoNXG4b0CseLych7+oQ7VH+N4oVv9+nixVBhCJsZArK+y1oZNUIc7Wq
+         tEBmqJqNOX5U2d0EBnjkrQYMBQ9Zl47TiUjCw4WdNm3ffKgJkvNzwI8au3AxwN743UUQ
+         gCKVarIEJ6Nto2XnUtSQgOYLNhpFX83LX2OEC1wGoaw2lIWxqVTiS7WnLlaS9yd5Glqt
+         RwoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3r9R/CeXBkazRq/VxTqd7fOqb4jr1nVSBsV5q4phTfelh3k1CJnzHMAnuCqbU6IwD9+30w2jXWtigVjiTEw==@lists.linux.dev, AJvYcCXeXh5LCyCj8DJpu9WoNprx4kKw/lE1se2QNeJ/toYQY/bH+ozOOHXF7uNbEge2WIeK9ogIeQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsWnqFmRqhvakec3camVHLJOS3BGIlUIpwq2ClJ9Pttnbycu/L
+	Vz/C98e47PO8vVrmGKt0Ivyz3We+dg5/ve+etpXbesX7SlaDt/cKRWat
+X-Gm-Gg: ASbGncvkpXzfVyU+1krXz7iED0WqlBSWx0240+eNQkQUDEg9EnI2/LuuER3LVl2v4MX
+	BIVl3c7c68fZaI12kQvsUWGNxVpmw5bMC0ahdsdG9a7Wv9NrYZm4jXSTpRqBtFE5ubgj8AiBM0K
+	edD1Nn8z4HVJ3Tyq8yEeOo1gBLl+X9v3G0VOqMGNazGFgHvmiHBhJ7rZQYI8jWmmqSVHj/vB07R
+	9i9IfB6fi2VrOuWyzz0NDBC7KqI1+AmJeZhW6NUezqU64Fo6n1mzjGjB2ybY+6MBra0fhOZPsm8
+	xy4f8FHkMoun6GkkIDjtrUTKNYBZvLU3Pzz4M6tUFZ5sVl/v3VqyshuJ9qcY
+X-Google-Smtp-Source: AGHT+IEAVdxlUSvPb2pr9kvVXJmFvRdZ7wx7jIGnUDEAeCUNLvgNsDDib4yRXrfZ2wG+HOOKFJZ+2Q==
+X-Received: by 2002:a05:6102:2088:b0:4e2:86e6:3785 with SMTP id ada2fe7eead31-4e286e63831mr6007801137.5.1747767589373;
+        Tue, 20 May 2025 11:59:49 -0700 (PDT)
+Received: from eaf ([2802:8010:d580:c200:bf4a:f31b:7897:b2a9])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87bec22769asm7856197241.31.2025.05.20.11.59.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 May 2025 11:59:48 -0700 (PDT)
+Date: Tue, 20 May 2025 15:59:39 -0300
+From: Ernesto =?utf-8?Q?A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
+To: Yangtao Li <frank.li@vivo.com>
+Cc: ethan@ethancedwards.com, asahi@lists.linux.dev, brauner@kernel.org,
+	dan.carpenter@linaro.org, ernesto@corellium.com,
+	gargaditya08@live.com, gregkh@linuxfoundation.org, jack@suse.cz,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, sven@svenpeter.dev, tytso@mit.edu,
+	viro@zeniv.linux.org.uk, willy@infradead.org, slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de
+Subject: Re: Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem
+ support
+Message-ID: <20250520185939.GA7885@eaf>
+References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
+ <20250512101122.569476-1-frank.li@vivo.com>
+ <20250512234024.GA19326@eaf>
+ <226043d9-068c-496a-a72c-f3503da2f8f7@vivo.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 15/22] drm/bridge: stm_lvds: convert to
- devm_drm_bridge_alloc() API
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman
-	<jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jagan Teki
-	<jagan@amarulasolutions.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer
-	<s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk@kernel.org>
-CC: Anusha Srivatsa <asrivats@redhat.com>,
-        Paul Kocialkowski
-	<paulk@sys-base.io>,
-        Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
-	<Hui.Pu@gehealthcare.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        <dri-devel@lists.freedesktop.org>, <asahi@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>, <chrome-platform@lists.linux.dev>,
-        <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <platform-driver-x86@vger.kernel.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <freedreno@lists.freedesktop.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Philippe Cornu <philippe.cornu@foss.st.com>,
-        Yannick Fertre
-	<yannick.fertre@foss.st.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
- <20250509-drm-bridge-convert-to-alloc-api-v3-15-b8bc1f16d7aa@bootlin.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-15-b8bc1f16d7aa@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-20_04,2025-05-16_03,2025-03-28_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <226043d9-068c-496a-a72c-f3503da2f8f7@vivo.com>
 
-Hi Luca,
+Hi again,
 
-On 5/9/25 15:53, Luca Ceresoli wrote:
-> This is the new API for allocating DRM bridges.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> ---
->
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> ---
+On Tue, May 20, 2025 at 01:08:54PM +0800, Yangtao Li wrote:
+> Now that some current use cases have already been provided
 
-I went away from keyboard for some time.  Sorry for the delay :
+Some interesting use cases have been mentioned, yes, but I doubt they are
+common enough to convince upstream to pick up a whole new filesystem. I was
+also more curious about your own personal interest in the driver, because
+you are going to get some very hostile feedback if you try to get it merged.
+You won't get anywhere without strong conviction in the matter.
 
-Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> I'm curious about what the biggest obstacles are at present.
 
+I don't think there are any big technical problems, the driver is fairly
+usable at this point and it's been a while since xfstests found any
+corruption bugs. But it's still a reverse engineered filesystem, and there
+will always be risks. There's also the issue of the buffer heads, but Ted
+Ts'o has said before that it doesn't matter much.
 
-Regards,
-Raphaël
+The real obstacle is that I have no idea how to convince people that this is
+a good idea, and nobody else is going to do it for me. There were no replies
+to Jan Kara's obvious and fairly friendly objection; it's going to get much
+worse than that if you try to push this through.
 
+Personally, I just don't mind maintaining the driver out of tree.
+
+> APFS in the kernel should have better performance than a FUSE
+> implementation.
+
+Sure, but how much better? You could try running benchmarks against the two
+existing (read-only) fuse implementations. And if the driver is indeed much
+faster, does that matter to you for any particular reason? Keep in mind that
+you need to convince Jan Kara, not me.
+
+Anyway, it's nice when people get interested in your projects and I do
+appreciate that. But I just don't see it happening.
+
+Ernesto
