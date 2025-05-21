@@ -1,123 +1,186 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADE125A334;
-	Tue, 20 May 2025 18:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2138725B661
+	for <asahi@lists.linux.dev>; Wed, 21 May 2025 10:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747767592; cv=none; b=G0rffp+inlajYQ/L+nRb3L3SGF1An9T+3wNq9ftZAi4CKivH/JvKBHW1MvLtgvolKOQNDwvXiheMOy+UAF1iefK6YHMEciHZhLFSSXPV68ZnbfpxThlNlulL3mWr3nN+Es+yyE4kM/P8lCOkSd51bJSYLOHZw3HWoo2wUd/Cy/Y=
+	t=1747822502; cv=none; b=TvnGcV7OoGXHVDwxQTqlrhUY1WK6iDLU8CPNJ5n/Kf7VpftSqswOh32HBzCzSe9KYRVRujcnMa0Q4ZbLgBo4qo4vKCRmSdi5RB6DizoLAralYWSkVIL7RNTgknTCk1rTa7tw+WNHbms+Kw5GVjSsD+RcvtIGXwfKH/rShJGHPTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747767592; c=relaxed/simple;
-	bh=lHhHH18Gvn/lfwPtUE2bbE5SUT2dnlX3N4jAWOw3v4w=;
+	s=arc-20240116; t=1747822502; c=relaxed/simple;
+	bh=y5z+scst9L6WOsgv58e8D2KAkZzWs3X0bQLmazuf3xI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pP13dzLWYxSGEmxlOVyuJpCFmYCou/vza9a95z+2w5X30BRqcNwCHaDTHkufXR1b/H0IHq5GE0htBsdviJncId7retko/2uCzTn+jJBaKcJsZqOlnRyGVsZB5rJT96DtDB9n5sAX0hlKGuCwI7/7l/jCNCYhqTYqAAaAJu2ESlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8WRJfly; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qP0V7Zy8xVZtaT9MlFb9RfjeVw80WGMt4VPVYICglsaKwZZ6e44oi1dIPl/21p02uteTfAqj9jEMpa9wCWrx/QSsK1wYqkxiwpijpw3ngg4akJuTEbKbaekCRK9PNG9c0z9XgXOA6S2vTXc7taUqU0FcN7Sl8JVCqY2hp7ETORU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=w574xfpk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2JKzkc8c; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=w574xfpk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2JKzkc8c; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8WRJfly"
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-87bfc9ff795so903765241.2;
-        Tue, 20 May 2025 11:59:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747767589; x=1748372389; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lHhHH18Gvn/lfwPtUE2bbE5SUT2dnlX3N4jAWOw3v4w=;
-        b=h8WRJflyZUQE9PamC4J8IUYLat/0LmtcX43sTt0uaB59pdxHvLZAPU38ZS6HsNu48D
-         MYf8xIL3nfAtHDDFlijo9IA4tc+AAx73RrYBz3fV6ONe6jUPydLtk1KjXtSYEOXF9sRb
-         FxfmX7IDDUABhLDinTXXtbPRDHfBf/YeyU023TlnxYzWgF4klK9mNVYq7j0EMvFSf4w1
-         Mg8nfAkbQpSfA+WOOlrGvWjSGpTUXk9wsPvN2z3NHoB8oAsy5YmhXAxDl4canQSZvhF3
-         ikM2Q2300aoHHjYIMvnRISxqc71ZmZ97+5IwNi1x14M9ppkiFTYoPaKgukqixBnZHtKE
-         4qwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747767589; x=1748372389;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lHhHH18Gvn/lfwPtUE2bbE5SUT2dnlX3N4jAWOw3v4w=;
-        b=EwDQ8pxTyE7A8bPzrX0NgltL2/bDey3kYA4qlA4XWOgV1IRs3dpf65Rp7JcA/STmXM
-         9c5o9Hh7m9fJRpesyBJh9nW5m439ncVKgdw19Nz2vIWUakDauUxOEU2eGAbHUVZULel+
-         MOQ30i4DlzkvpWoNXG4b0CseLych7+oQ7VH+N4oVv9+nixVBhCJsZArK+y1oZNUIc7Wq
-         tEBmqJqNOX5U2d0EBnjkrQYMBQ9Zl47TiUjCw4WdNm3ffKgJkvNzwI8au3AxwN743UUQ
-         gCKVarIEJ6Nto2XnUtSQgOYLNhpFX83LX2OEC1wGoaw2lIWxqVTiS7WnLlaS9yd5Glqt
-         RwoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3r9R/CeXBkazRq/VxTqd7fOqb4jr1nVSBsV5q4phTfelh3k1CJnzHMAnuCqbU6IwD9+30w2jXWtigVjiTEw==@lists.linux.dev, AJvYcCXeXh5LCyCj8DJpu9WoNprx4kKw/lE1se2QNeJ/toYQY/bH+ozOOHXF7uNbEge2WIeK9ogIeQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsWnqFmRqhvakec3camVHLJOS3BGIlUIpwq2ClJ9Pttnbycu/L
-	Vz/C98e47PO8vVrmGKt0Ivyz3We+dg5/ve+etpXbesX7SlaDt/cKRWat
-X-Gm-Gg: ASbGncvkpXzfVyU+1krXz7iED0WqlBSWx0240+eNQkQUDEg9EnI2/LuuER3LVl2v4MX
-	BIVl3c7c68fZaI12kQvsUWGNxVpmw5bMC0ahdsdG9a7Wv9NrYZm4jXSTpRqBtFE5ubgj8AiBM0K
-	edD1Nn8z4HVJ3Tyq8yEeOo1gBLl+X9v3G0VOqMGNazGFgHvmiHBhJ7rZQYI8jWmmqSVHj/vB07R
-	9i9IfB6fi2VrOuWyzz0NDBC7KqI1+AmJeZhW6NUezqU64Fo6n1mzjGjB2ybY+6MBra0fhOZPsm8
-	xy4f8FHkMoun6GkkIDjtrUTKNYBZvLU3Pzz4M6tUFZ5sVl/v3VqyshuJ9qcY
-X-Google-Smtp-Source: AGHT+IEAVdxlUSvPb2pr9kvVXJmFvRdZ7wx7jIGnUDEAeCUNLvgNsDDib4yRXrfZ2wG+HOOKFJZ+2Q==
-X-Received: by 2002:a05:6102:2088:b0:4e2:86e6:3785 with SMTP id ada2fe7eead31-4e286e63831mr6007801137.5.1747767589373;
-        Tue, 20 May 2025 11:59:49 -0700 (PDT)
-Received: from eaf ([2802:8010:d580:c200:bf4a:f31b:7897:b2a9])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87bec22769asm7856197241.31.2025.05.20.11.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 11:59:48 -0700 (PDT)
-Date: Tue, 20 May 2025 15:59:39 -0300
-From: Ernesto =?utf-8?Q?A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
-To: Yangtao Li <frank.li@vivo.com>
-Cc: ethan@ethancedwards.com, asahi@lists.linux.dev, brauner@kernel.org,
-	dan.carpenter@linaro.org, ernesto@corellium.com,
-	gargaditya08@live.com, gregkh@linuxfoundation.org, jack@suse.cz,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, sven@svenpeter.dev, tytso@mit.edu,
-	viro@zeniv.linux.org.uk, willy@infradead.org, slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="w574xfpk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2JKzkc8c";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="w574xfpk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2JKzkc8c"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4D8B121D8E;
+	Wed, 21 May 2025 10:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1747822499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GynE6KdBO08qdxebfuojQtMAyhQGgYEbFQ7voy4xDSI=;
+	b=w574xfpkganpk1eb5Ie0ntMWtQ2Tt6xHfCbU7Qtqf+uQyJuTo63LdBWTxfWNo0PbvveHPo
+	tbI4rIHQ6MX7TnmbHhylHi/SC74V8dDbxdwdBTyHK/8KIFHh/gcE3p2Ue4W8+u+j2FLL92
+	b77OYTqDCHGObKJ1HiynBQk+v5Kb+3c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1747822499;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GynE6KdBO08qdxebfuojQtMAyhQGgYEbFQ7voy4xDSI=;
+	b=2JKzkc8ccR+pjZeCEnqly5WVGqJAHuoBteyXauQOPP8macINxYWNkN41EgYKyt8ZhbwFp9
+	8RClzC9nBnPeOcBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1747822499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GynE6KdBO08qdxebfuojQtMAyhQGgYEbFQ7voy4xDSI=;
+	b=w574xfpkganpk1eb5Ie0ntMWtQ2Tt6xHfCbU7Qtqf+uQyJuTo63LdBWTxfWNo0PbvveHPo
+	tbI4rIHQ6MX7TnmbHhylHi/SC74V8dDbxdwdBTyHK/8KIFHh/gcE3p2Ue4W8+u+j2FLL92
+	b77OYTqDCHGObKJ1HiynBQk+v5Kb+3c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1747822499;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GynE6KdBO08qdxebfuojQtMAyhQGgYEbFQ7voy4xDSI=;
+	b=2JKzkc8ccR+pjZeCEnqly5WVGqJAHuoBteyXauQOPP8macINxYWNkN41EgYKyt8ZhbwFp9
+	8RClzC9nBnPeOcBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 40E4213AA0;
+	Wed, 21 May 2025 10:14:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VgPSD6OnLWi6TAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 21 May 2025 10:14:59 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C7B17A09DE; Wed, 21 May 2025 12:14:53 +0200 (CEST)
+Date: Wed, 21 May 2025 12:14:53 +0200
+From: Jan Kara <jack@suse.cz>
+To: 
+	Ernesto =?utf-8?Q?A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
+Cc: Yangtao Li <frank.li@vivo.com>, ethan@ethancedwards.com, 
+	asahi@lists.linux.dev, brauner@kernel.org, dan.carpenter@linaro.org, 
+	ernesto@corellium.com, gargaditya08@live.com, gregkh@linuxfoundation.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	sven@svenpeter.dev, tytso@mit.edu, viro@zeniv.linux.org.uk, willy@infradead.org, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de
 Subject: Re: Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem
  support
-Message-ID: <20250520185939.GA7885@eaf>
+Message-ID: <n7kkoptktdvldadvymcfmnaw3yqbk6bfmzpxvgdkpsvvpc3p7i@ilqcgz7wur7i>
 References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
  <20250512101122.569476-1-frank.li@vivo.com>
  <20250512234024.GA19326@eaf>
  <226043d9-068c-496a-a72c-f3503da2f8f7@vivo.com>
+ <20250520185939.GA7885@eaf>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <226043d9-068c-496a-a72c-f3503da2f8f7@vivo.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250520185939.GA7885@eaf>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vivo.com,ethancedwards.com,lists.linux.dev,kernel.org,linaro.org,corellium.com,live.com,linuxfoundation.org,suse.cz,vger.kernel.org,svenpeter.dev,mit.edu,zeniv.linux.org.uk,infradead.org,dubeyko.com,physik.fu-berlin.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-Hi again,
+Hi!
 
-On Tue, May 20, 2025 at 01:08:54PM +0800, Yangtao Li wrote:
-> Now that some current use cases have already been provided
+On Tue 20-05-25 15:59:39, Ernesto A. Fernández wrote:
+> On Tue, May 20, 2025 at 01:08:54PM +0800, Yangtao Li wrote:
+> > Now that some current use cases have already been provided
+> 
+> Some interesting use cases have been mentioned, yes, but I doubt they are
+> common enough to convince upstream to pick up a whole new filesystem. I was
+> also more curious about your own personal interest in the driver, because
+> you are going to get some very hostile feedback if you try to get it merged.
+> You won't get anywhere without strong conviction in the matter.
 
-Some interesting use cases have been mentioned, yes, but I doubt they are
-common enough to convince upstream to pick up a whole new filesystem. I was
-also more curious about your own personal interest in the driver, because
-you are going to get some very hostile feedback if you try to get it merged.
-You won't get anywhere without strong conviction in the matter.
+Correct, this kind of matches my feelings from this discussion so far. Sure
+APFS support in the kernel would be more convenient for some users. But so
+far I didn't hear a reason why FUSE driver wouldn't cover 99% of the
+usecases (since I know close to nothing about Apple ecosystem, maybe I've
+missed some so please correct me in that case).
 
-> I'm curious about what the biggest obstacles are at present.
+Perhaps to explain the reasons of a pushback a bit: Once the filesystem
+driver is merged, it's very difficult to get rid of it as users may depend
+on it. Each filesystem driver adds certain maintenance burden - most
+notably for changes in VFS and other generic infrastructure that need to
+take into account what each and every filesystem is doing. We already carry
+quite a few filesystem drivers used by very few people and since few people
+are interested it them it's difficult to find people to get these drivers
+converted to new mount API, iomap infrastructure, new page cache APIs etc.
+which forces us to keep carring the old interfaces. This gets particularly
+painful for filesystems where we don't have full specification so usually
+the mkfs and fsck tooling is not as comprehensive which makes testing
+changes harder. So the bar (in terms of usecases) to get the new filesystem
+driver merged is relatively high.
 
-I don't think there are any big technical problems, the driver is fairly
-usable at this point and it's been a while since xfstests found any
-corruption bugs. But it's still a reverse engineered filesystem, and there
-will always be risks. There's also the issue of the buffer heads, but Ted
-Ts'o has said before that it doesn't matter much.
+> > APFS in the kernel should have better performance than a FUSE
+> > implementation.
+> 
+> Sure, but how much better? You could try running benchmarks against the two
+> existing (read-only) fuse implementations. And if the driver is indeed much
+> faster, does that matter to you for any particular reason? Keep in mind that
+> you need to convince Jan Kara, not me.
 
-The real obstacle is that I have no idea how to convince people that this is
-a good idea, and nobody else is going to do it for me. There were no replies
-to Jan Kara's obvious and fairly friendly objection; it's going to get much
-worse than that if you try to push this through.
+Using FUSE to access the filesystem certainly has it's overhead (although
+there is work in progress to heavily reduce that for data-intensive
+operations such as streaming IO). But I doubt your the usecase for APFS is
+to use it as a backend for a file server or a database. We have other
+filesystems in Linux for that. All the usecases I've heard are about being
+able to access you Mac files from Linux. And FUSE driver should have
+acceptable performance for that from my experience.
 
-Personally, I just don't mind maintaining the driver out of tree.
-
-> APFS in the kernel should have better performance than a FUSE
-> implementation.
-
-Sure, but how much better? You could try running benchmarks against the two
-existing (read-only) fuse implementations. And if the driver is indeed much
-faster, does that matter to you for any particular reason? Keep in mind that
-you need to convince Jan Kara, not me.
-
-Anyway, it's nice when people get interested in your projects and I do
-appreciate that. But I just don't see it happening.
-
-Ernesto
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
