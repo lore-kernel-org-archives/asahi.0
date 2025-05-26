@@ -1,73 +1,77 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43A0145323;
-	Mon, 26 May 2025 07:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92BB1F4CA0;
+	Mon, 26 May 2025 15:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748244041; cv=none; b=thq+XN7yLTFYgC428Kwkh6sAgQNV8izgH372vMlDoGf/8XSGbcCnhEcZ3E5XGNslPnOxIN3dJ74E1fWUBRDAritlZoZeGfmOQT1+79A+Dy4hps0omzEo3sen2yqHGeHhODTGS6xoo4W+vaaYjE8aop43m+ZrHj45kHnz6Vj2rE4=
+	t=1748271896; cv=none; b=k7eFDn4Z+XFRqk/sE3JpxZSktpRRHvNgS046YdwwjhBY5SXGL+aQ5UrHtoQb4mQ/ekQMbl8D46tn2xj9K4Qp8eVvOkNrZExN8rr0qLJ/K7hWA7aGl2nYw3hdbKFC0HWe7iLkrUDQPUl01Vj++T4z4pO06cyYb70qlAWIi6RTjHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748244041; c=relaxed/simple;
-	bh=E7nsl7EWs55+/uUhfc7iqd4zyB1Z1lv1eOZEgqQ0ZBI=;
+	s=arc-20240116; t=1748271896; c=relaxed/simple;
+	bh=tCbLRnD850Fw84D6O+/v5XHafNaaAGbfyOsK8To1nVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eD154JLeQPwa+KzKGaJc94uFlLAYtljoMRo4Nduvf+4tGjcJKlvw90nT4VxMlMdSAXhYEcyBWBA5HZ6Eb/k5HjKwtQnyEPwg7bTN++3SkB6sLhAOwKNosaqwp8x/mDiUMbkQH0P9ofTsxYOL9QoCfiP5OytR954dMh2g3aLtV5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ERsZFnNG; arc=none smtp.client-ip=217.70.183.199
+	 MIME-Version:Content-Type; b=gzquH82IuRecDcV7Kk2xD2bCI+kvyLYebmnXDJVDzZi0+Jjb7ncOKZxCaEbJJ2fMpP1gVStoAJtYnYpBM4p8XscEn2kdY4j1yYQzbKBTobrhKk6VKei8YxMKBcd6JpN7L5wTEvEHOKifHSOvB144lAxfh7wjq2GQN2jWuikzosE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=px3wU1eR; arc=none smtp.client-ip=217.70.183.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ERsZFnNG"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 16875442B5;
-	Mon, 26 May 2025 07:20:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="px3wU1eR"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AFB2444225;
+	Mon, 26 May 2025 15:04:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1748244030;
+	t=1748271892;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QLkd7DkuwItmUeCsro4GRU7KY1n+af+fkKCtRJvc72M=;
-	b=ERsZFnNGGx1taTjFML/F7g48As15TWrVqpm7AQM6ITdhjMQXPkfTl1YTY624dt2A61ojKn
-	C4GrIy3LvMnZuQ3f48MHbrAItO9yt2FMHAqBFQBNWnAd4H+GlbFkLp+0Q5jpHR5ME8BtSC
-	rLb2TykZsJeBxh/2UPnUC+byagvOBWEHs+mzz5buaw+VAmwRzWbNg55alaA49c/WX7dEK/
-	fsh2zNr1ZhqaGyMrCEJNSdr/QBQDpvqqwK5PYQ+P4KU7TlWYdbGXAPWQsVfUnDZH7GHJxL
-	bRcPS+1N1hdPuMOBL2LrEIz8HJMPOUVPD7+c3bsfVFBouRX3auSsw6Kbri6nhA==
-Date: Mon, 26 May 2025 09:20:24 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Anusha Srivatsa <asrivats@redhat.com>, Paul
- Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui
- Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
- chrome-platform@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2 30/34] drm/bridge: imx8qxp-pixel-combiner: convert to
- devm_drm_bridge_alloc() API
-Message-ID: <20250526092024.48cae4ae@booty>
-In-Reply-To: <67252c36-8b31-4c40-9d89-4f502da4a087@nxp.com>
-References: <20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com>
- <20250424-drm-bridge-convert-to-alloc-api-v2-30-8f91a404d86b@bootlin.com>
- <553d62ed-976a-4e17-9678-cdc3d40ce4a7@nxp.com>
- <20250430112944.1b39caab@booty>
- <f71d18d2-4271-4bb9-b54f-0e5a585778f3@nxp.com>
- <20250506224720.5cbcf3e1@booty>
- <67252c36-8b31-4c40-9d89-4f502da4a087@nxp.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	bh=tCbLRnD850Fw84D6O+/v5XHafNaaAGbfyOsK8To1nVE=;
+	b=px3wU1eRkJ/axr/5DuhnZySKrn823eNaAIJXbZcAmaqq4qeYcle/G8QC7ZsPXuBfqgUfA5
+	j9UtCvuxzUT5A1xXY1Po4PCIRoRj/UYUvff9JIXuTSFDpA7KBjR1wfOWeVD/7/YChB4k6k
+	OccO5Dc6ZOmBH1W60DJj3fdi7jALdeVeqR+U/9rbTTM1YBDMzgagRRa7zs6wL9Q2HF+Ggl
+	lZR8EQV0hFy/i3wUKXQGcb6+9G9tfBRSFOtl6/n8GoMSf0r2Iy6B5ejdMC9jPJn6kFCLCK
+	x5mkCnLV2MqtCm+ayiflRELaT0mOKkuuwcU+khwFj5kXsikeBoHem+BuFAnX/A==
+Date: Mon, 26 May 2025 17:04:46 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Hector Martin <marcan@marcan.st>, Sven Peter
+ <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Jerome
+ Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno        
+ <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson Zhai
+ <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Vincent Shih
+ <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Kunihiko
+ Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Michal Simek <michal.simek@xilinx.com>, Alessandro
+ Zummo <a.zummo@towertech.it>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Evgeniy Polyakov <zbr@ioremap.net>,
+ linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Romain Gantois
+ <romain.gantois@bootlin.com>
+Subject: Re: [PATCH V5] nvmem: add explicit config option to read old syntax
+ fixed OF cells
+Message-ID: <20250526170446.1190e046@kmaincent-XPS-13-7390>
+In-Reply-To: <20230927204446.4231-1-zajec5@gmail.com>
+References: <20230927204446.4231-1-zajec5@gmail.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -78,124 +82,118 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdduieeltdculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgfeetieeutdeifefggfegheelgeefiefgffeifeeujeehkeffgeehhfevfefhjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhfrhgvvgguvghskhhtohhprdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeelpdhrtghpthhtohepvhhitghtohhrrdhlihhusehngihprdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkh
- hhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddujeekfeculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefguddtfeevtddugeevgfevtdfgvdfhtdeuleetffefffffhffgteekvdefudeiieenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeehgedprhgtphhtthhopeiirghjvggtheesghhmrghilhdrtghomhdprhgtphhtthhopehsrhhinhhivhgrshdrkhgrnhgurghgrghtlhgrsehlihhnrghrohdrohhrghdprhgtphhtthhopehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheprhhit
+ ghhrghrugesnhhougdrrghtpdhrtghpthhtohepvhhighhnvghshhhrsehtihdrtghomhdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtthhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhioh
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hello Liu,
+Le Wed, 27 Sep 2023 22:44:46 +0200,
+Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com> a =C3=A9crit :
 
-On Thu, 22 May 2025 11:01:13 +0800
-Liu Ying <victor.liu@nxp.com> wrote:
-
-> On 05/07/2025, Luca Ceresoli wrote:
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
 >=20
-> [...]
+> Binding for fixed NVMEM cells defined directly as NVMEM device subnodes
+> has been deprecated. It has been replaced by the "fixed-layout" NVMEM
+> layout binding.
 >=20
-> >> After looking into this patch and patch 31(though I've already provide=
-d my A-b)
-> >> more closely, I think the imx8qxp_pc and imx8{qm,qxp}_ldb main structu=
-res
-> >> should have the same life time with the embedded DRM bridges, because =
-for
-> >> example the clk_apb clock in struct imx8qxp_pc would be accessed by the
-> >> imx8qxp_pc_bridge_mode_set DRM bridge callback.  But, IIUC, your patch=
-es extend
-> >> the life time for the embedded channel/bridge structures only, but not=
- for the
-> >> main structures.  What do you think ? =20
-> >=20
-> > I see you concern, but I'm sure the change I'm introducing is not
-> > creating the problem you are concerned about.
-> >=20
-> > The key aspect is that my patch is merely changing the lifetime of the
-> > _allocation_ of the drm_bridge, not its usage. On drm_bridge_remove()
-> > the bridge is removed from its encoder chain and it is completely not
-> > reachable, both before and after my patch. With my patch it is not =20
+> New syntax is meant to be clearer and should help avoiding imprecise
+> bindings.
 >=20
-> drm_bridge_remove() only removes a bridge from the global bridge_list def=
-ined
-> in drm_bridge.c.  drm_bridge_detach() is the one which removes a bridge f=
-rom
-> it's encoder chain.  It looks like you wrongly thought drm_bridge_remove()
-> is drm_bridge_detach().
+> NVMEM subsystem already supports the new binding. It should be a good
+> idea to limit support for old syntax to existing drivers that actually
+> support & use it (we can't break backward compatibility!). That way we
+> additionally encourage new bindings & drivers to ignore deprecated
+> binding.
+>=20
+> It wasn't clear (to me) if rtc and w1 code actually uses old syntax
+> fixed cells. I enabled them to don't risk any breakage.
 
-Indeed my sentence was inaccurate, sorry about that.
+Hello,
 
-> So, even if drm_bridge_remove() is called, the removed
-> bridge could still be in it's encoder chain, hence an atomic commit could=
- still
-> access the allocated bridge(with lifetime extended) and the clock_apb clo=
-ck
-> for example in struct imx8qxp_pc could also be accessed.  That's why I th=
-ink
-> the main structures should have the same lifetime with the allocated brid=
-ge.
+Was there a reason to not add the legacy flag to all the drivers that was
+supporting nvmem at the time nvmem fixed layout was supported?
 
-As the long-term goal is to allow bridges to be hot-removable,
-decoupling the lifetime of the various components is a necessary step.
-Definitely it will open other issues, and especially the removal during
-atomic updates. This has been discussed already, and there is a
-proposed plan to handle it.
+I just faced a nvmem layout regression on board with an at24 eeprom.
 
-First, here is the grand plan (mentioned in the v3 cover letter):
-
- 1. =E2=9E=9C add refcounting to DRM bridges (struct drm_bridge)
- 2. handle gracefully atomic updates during bridge removal
- 3. avoid DSI host drivers to have dangling pointers to DSI devices
- 4. finally, let bridges be removable (depends on 1+2+3)
-
-We are now at step 1. Your concern, as I understand it, will be
-addressed at step 2. Bridges won't be removable until step 4, so the
-current changes are not introducing a misbehavior but rather preparing
-the ground with all the necessary infrastructure changes.
-
-Step 2 was discussed in the past [0], and the idea proposed by Maxime
-is to introduce a "gone" or "unplugged" flag and drm_bridge_enter() /
-drm_bridge_exit() functions. The principle is the same as struct
-drm_device.unplugged and drm_dev_enter/exit().
-
-In a nutshell the idea is:
-
- - drm_bridge.unplugged is initialized to false
- - drm_bridge_enter() returns false if drm_bridge.unplugged =3D=3D true
- - any code holding a pointer to the bridge (including the bridge driver
-   itself) and operating on the bridge (including removal) needs to do:
-     if (drm_bridge_enter()) {
-         do something;
-         drm_bridge_exit();
-     }
- - when the bridge is removed, the driver removal function sets
-   dev_bridge.unplugged =3D true
-
-The "do something" above includes any access to device resources,
-including clocks (and clk_apb).
-
-In other words, two pieces of code can not access the bridge structure
-at the same time. This includes bridge removal VS any atomic operations.
-
-Do you think this addresses your concern?
-
-
-For you to have a better picture of the path, here's an additional
-clarification about drm_bridge_attach/detach() and
-drm_bridge_add/remove(). As part of step 1 of the grand plan, both of
-them will drm_bridge_get/put() the bridge, so that no bridge is freed
-if it is either in the global bridge_list or in any encoder chain.
-
-Patches for this are already approved by Maxime [1][2]. They cannot be
-applied until all bridge drivers have been converted to the new
-devm_drm_bridge_alloc() API, so they depend on this series to be
-completely applied. We are getting pretty close: as of now the entire
-series has been applied except for this and another driver.
-
-[0] https://lore.kernel.org/all/20250129125153.35d0487a@booty/t/#u
-[1] https://patchwork.freedesktop.org/patch/643095/
-[2] https://patchwork.freedesktop.org/patch/643096/
-
-Best regards,
-Luca
+Commit: 27f699e578b1 nvmem: core: add support for fixed cells *layout*
+$ git grep nvmem_config drivers/ | cut -d ':' -f 1 | sort -u
+drivers/hwmon/pmbus/adm1266.c
+drivers/iio/pressure/bmp280-core.c
+drivers/media/i2c/ov2740.c
+drivers/media/i2c/video-i2c.c
+drivers/misc/eeprom/at24.c
+drivers/misc/eeprom/at25.c
+drivers/misc/eeprom/eeprom_93xx46.c
+drivers/mtd/mtdcore.c
+drivers/nvmem/apple-efuses.c
+drivers/nvmem/bcm-ocotp.c
+drivers/nvmem/brcm_nvram.c
+drivers/nvmem/core.c
+drivers/nvmem/imx-iim.c
+drivers/nvmem/imx-ocotp.c
+drivers/nvmem/imx-ocotp-ele.c
+drivers/nvmem/imx-ocotp-scu.c
+drivers/nvmem/jz4780-efuse.c
+drivers/nvmem/lan9662-otpc.c
+drivers/nvmem/layerscape-sfp.c
+drivers/nvmem/lpc18xx_eeprom.c
+drivers/nvmem/lpc18xx_otp.c
+drivers/nvmem/meson-efuse.c
+drivers/nvmem/meson-mx-efuse.c
+drivers/nvmem/microchip-otpc.c
+drivers/nvmem/mtk-efuse.c
+drivers/nvmem/mxs-ocotp.c
+drivers/nvmem/nintendo-otp.c
+drivers/nvmem/qcom-spmi-sdam.c
+drivers/nvmem/qfprom.c
+drivers/nvmem/rave-sp-eeprom.c
+drivers/nvmem/rmem.c
+drivers/nvmem/rockchip-efuse.c
+drivers/nvmem/rockchip-otp.c
+drivers/nvmem/sc27xx-efuse.c
+drivers/nvmem/snvs_lpgpr.c
+drivers/nvmem/sprd-efuse.c
+drivers/nvmem/stm32-romem.c
+drivers/nvmem/sunplus-ocotp.c
+drivers/nvmem/sunxi_sid.c
+drivers/nvmem/u-boot-env.c
+drivers/nvmem/uniphier-efuse.c
+drivers/nvmem/vf610-ocotp.c
+drivers/nvmem/zynqmp_nvmem.c
+drivers/rtc/nvmem.c
+drivers/rtc/rtc-abx80x.c
+drivers/rtc/rtc-cmos.c
+drivers/rtc/rtc-ds1305.c
+drivers/rtc/rtc-ds1307.c
+drivers/rtc/rtc-ds1343.c
+drivers/rtc/rtc-ds1511.c
+drivers/rtc/rtc-ds1553.c
+drivers/rtc/rtc-ds1685.c
+drivers/rtc/rtc-ds1742.c
+drivers/rtc/rtc-ds3232.c
+drivers/rtc/rtc-isl12026.c
+drivers/rtc/rtc-isl1208.c
+drivers/rtc/rtc-m48t59.c
+drivers/rtc/rtc-m48t86.c
+drivers/rtc/rtc-meson.c
+drivers/rtc/rtc-omap.c
+drivers/rtc/rtc-pcf2127.c
+drivers/rtc/rtc-pcf85063.c
+drivers/rtc/rtc-pcf85363.c
+drivers/rtc/rtc-rp5c01.c
+drivers/rtc/rtc-rv3028.c
+drivers/rtc/rtc-rv3029c2.c
+drivers/rtc/rtc-rv3032.c
+drivers/rtc/rtc-rv8803.c
+drivers/rtc/rtc-rx8581.c
+drivers/rtc/rtc-stk17ta8.c
+drivers/rtc/rtc-sun6i.c
+drivers/rtc/rtc-ti-k3.c
+drivers/soc/atmel/sfr.c
+drivers/soc/tegra/fuse/fuse-tegra.c
+drivers/thunderbolt/nvm.c
+drivers/w1/slaves/w1_ds250x.c
 
 --=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
 https://bootlin.com
