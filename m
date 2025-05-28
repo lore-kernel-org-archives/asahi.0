@@ -1,36 +1,51 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EEB1F7098;
-	Tue, 27 May 2025 10:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C05275854;
+	Wed, 28 May 2025 09:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748341296; cv=none; b=fqophaXKyQA8bbm15JPmtgQ3eXxv6EkHuncM04c1MpXxp2lGMN99+dOjdTga7OieO7/pvPHM2OoLY71NxAXzRBnFu+Tgch7akaIBzJ/AyD8Gz1m6pCBWIDg2G7ZpPbXPj6yp5z14GM/DNrr7OP+7TqRYo/eQvL/5Pc7IwKriFgc=
+	t=1748424600; cv=none; b=ujffNpgDoj552fV5mKIJOHr7mLAIciScpEJ8lwUxdUUeIRYg3t7s/gPBTBCPbLuszV1zYLiQAtM0Zdnjx9k+5CnR7NtGk/cuw2+0UAfIyI1spsagFnlPxZG78cO6Q+YykcsmdAQwmuD7FlDXmIRpz2p9Dhnx6vTG7uLhF1vdNoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748341296; c=relaxed/simple;
-	bh=EDRRiU4vTiM1T/jpWctcrhZM0mui/juZ83Kfz6a4kvs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=i8vWTP62poBotgypJJZ3BWAhlBP6Ln+ZSe31IyRq+KbqXpV/fxlbsvrxhP9fqkO/93xvX808FACOyteeUsHkqfh4AlEJhAcEFmL01ydXhz972wjoXF8LAjKWAEKNFFM4k2b7V5w+lGaxztNe4DNb4s7PjJlm8JUZNE+sMFWnwSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=n2jg6VMF; arc=none smtp.client-ip=217.70.183.199
+	s=arc-20240116; t=1748424600; c=relaxed/simple;
+	bh=j00G/dwW97kfCExu0r+usuJ50t2BSRgmX+trGWNWHTk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EoCvMFMZANXLX9NNcUtSV7j99ZXiYfCvwCuUOit4MGXpcviCJj0EM+zSBnHGzeA2lscsOwFW/MooL+Nj6XnYvfSHNXcDL0GGzXpu0lEoEMyogNbkPq4wMq58isyeMXVPt4FSj6p3lvCTERCXE0KCOYQGeauFrVi6TBO5K6pUeqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=COYg7XrY; arc=none smtp.client-ip=217.70.183.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="n2jg6VMF"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 098A44397B;
-	Tue, 27 May 2025 10:21:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="COYg7XrY"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BB4C44341E;
+	Wed, 28 May 2025 09:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1748341293;
+	t=1748424590;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1qHxaZtwrlMsrfQyNNpJZT0YvaiMdkMix0Za1kMxuSc=;
-	b=n2jg6VMFAaZOLH1adDk8AISvMQoA1XxSYX/4BTsyXVWGiEdZ0Onwde8/STdc3dkaj5nX/G
-	LhU27t8OlPilol5tILhUUDlfhVs5JQaS9lakiZbjrbpMAtSJWARzt2LllxRCGOrxsW8Q2O
-	qD/LiFH11SzCCj0trEoye4sZGP/wVuqf3pcg6QjQtEc3qAPZGTlMbLDxSf3lnk6TMPjAtp
-	tvXs5xnUv9FnZbNU1i+P5KdioUp2EKUDMejDyuGKqW2G3o0TkWa0oVUwBwWO8h82FWyXNW
-	GmAzGHyxZPHpy7lk2hcVGNJABETorhbkBjr3gmqycG1aXN4tLJHKvhHS6d5Eeg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tcp+3qiZKrZ/yFS9++J4sy6UEvxx9WuKX4FnkxkfHz0=;
+	b=COYg7XrYSHalG4owcEpWOBAsjunxlDmdWc1VFAql1a5dnt3Eq4iRRkHe8TdRFLaIUq/lE3
+	BTjSw2u8n6EW5pI60SAdQE4OEAU2xDNFEYZ/ZXVOZQaEq/evnqR4GQQoLp+stts5l4Xzyh
+	9NxJ5SJLHMAM26XYxsE1dojYL0J8BIYSQmtkEzJac/3nCK8CkQ9z38zM4bvUqdq7jeKKPF
+	L+WvN5GVjQ+BsVjsVYFYgX2Buqlxrda9UW8piAoXYcs47WqLi42eXnFG3tT+UbeakSLn8t
+	pUSmxs5n/Rvf//Npg+HsS3oq5Cw33wds1WdawIaZGSjII/9sfUTORa7Zu0NSYw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Wed, 28 May 2025 11:29:36 +0200
+Subject: [PATCH v4] drm/bridge: tc358767: convert to
+ devm_drm_bridge_alloc() API
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250528-drm-bridge-convert-to-alloc-api-v4-1-f04e698c9a77@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAH/XNmgC/4WNywrCMBBFf6Vk7UgSY7Wu/A/pos3DDrSZkoSgl
+ Py7seDa5bkXztlYtAFtZLdmY8FmjEi+gjo0TE+Df1pAU5lJLs9ccQUmLDAGNPXR5LMNCRLBMM+
+ kYVgRWqFGq10rZadYtazBOnzthUdfecKYKLz3YBbf9ee+/HVnARyUFOLk3NV0mt9HojSjP2paW
+ F9K+QA4RBdR0AAAAA==
+X-Change-ID: 20250404-drm-bridge-convert-to-alloc-api-614becf62294
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -44,8 +59,7 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Fabio Estevam <festevam@gmail.com>, 
  Douglas Anderson <dianders@chromium.org>, 
  Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
+ Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Anusha Srivatsa <asrivats@redhat.com>, 
  Paul Kocialkowski <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, 
  Hui Pu <Hui.Pu@gehealthcare.com>, 
@@ -57,88 +71,242 @@ Cc: Anusha Srivatsa <asrivats@redhat.com>,
  linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
  linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Manikandan Muralidharan <manikandan.m@microchip.com>, 
- Adam Ford <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Christoph Fritz <chf.fritz@googlemail.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Dharma Balasubiramani <dharma.b@microchip.com>, 
- Guenter Roeck <groeck@chromium.org>, Heiko Stuebner <heiko@sntech.de>, 
- Jani Nikula <jani.nikula@intel.com>, Janne Grunau <j@jannau.net>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jesse Van Gavere <jesseevg@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Liu Ying <victor.liu@nxp.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Phong LE <ple@baylibre.com>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Sugar Zhang <sugar.zhang@rock-chips.com>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Vitalii Mordan <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, 
- Hsin-Te Yuan <yuanhsinte@chromium.org>, 
- Pin-yen Lin <treapking@chromium.org>, Xin Ji <xji@analogixsemi.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Ian Ray <ian.ray@gehealthcare.com>, 
- Martyn Welch <martyn.welch@collabora.co.uk>, 
- Peter Senna Tschudin <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Michal Simek <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-Subject: Re: (subset) [PATCH v3 00/22] drm: convert all bridges to
- devm_drm_bridge_alloc()
-Message-Id: <174834128290.138143.12049855352148769197.b4-ty@bootlin.com>
-Date: Tue, 27 May 2025 12:21:22 +0200
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvtddufeculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieefvdehvedvgeeftedugeetudevuedvffekhedvfeetkeduleelgeevudffieeinecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeeljedprhgtphhtthhopehmrghrthhinhdrsghluhhmvghnshhtihhnghhlsehgohhoghhlvghmrghilhdrtghomhdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhumhgrg
- heskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghfohhrugdujeefsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopegrughrihgvnhdrghhrrghsshgvihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghlvgigrghnughrvgdrthhorhhguhgvsehfohhsshdrshhtrdgtohhmpdhrtghpthhtoheprghnghgvlhhoghhiohgrtggthhhinhhordguvghlrhgvghhnohestgholhhlrggsohhrrgdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvvdeludculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkffvvefosehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepfeeitedtfeefjeeijeejveevleeijefgkefhjeeuffelveelieetleduveetieetnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdhkvghrnhgvlhdrohhrghenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeelpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidru
+ ggvpdhrtghpthhtoheplhhinhhugidqrghrmhdqmhhsmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepphgruhhlkhesshihshdqsggrshgvrdhiohdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhm
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
+This is the new API for allocating DRM bridges.
 
-On Fri, 09 May 2025 15:53:26 +0200, Luca Ceresoli wrote:
-> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
-> bridge, and the only one supported from now on. It is the first milestone
-> towards removal of bridges from a still existing DRM pipeline without
-> use-after-free.
-> 
-> The steps in the grand plan [1] are:
-> 
-> [...]
+Converting this driver is a bit complex because the drm_bridge funcs
+pointer differs based on the bridge mode. So the current code does:
 
-Applied, thanks!
+ * tc_probe()
+   * devm_kzalloc() private struct embedding drm_bridge
+   * call tc_probe_bridge_endpoint() which
+     * parses DT description into struct fields
+     * computes the mode
+     * calls different bridge init functions based on the mode
+       * each sets a different bridge.funcs pointer
 
-[18/22] drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_alloc() API
-        commit: 99764593528f9e0ee9509f9e4a4eb21db99d0681
+The new API expects the funcs pointer to be known at alloc time, which does
+not fit in the current code structure.
+
+Solve this by splitting tc_probe_bridge_endpoint() in two functions:
+
+ * tc_probe_get_mode(), computing the mode without needing the private
+   driver structure
+ * tc_probe_bridge_endpoint(), only initializing the endpoints
+
+So now the mode is known before allocation and so
+is the funcs pointer, while all other operations are still happening after
+allocation, directly into the private struct data, as they used to.
+
+The new code flow is:
+
+ * tc_probe()
+   * tc_probe_get_mode()
+     * parses DT description
+     * computes and returns the mode
+   * based onf the mode, pick the funcs pointer
+   * devm_drm_bridfge_alloc(..., funcs)
+   * call tc_probe_bridge_endpoint() which
+     * calls different bridge init functions based on the mode
+       * these don't set the funcs pointer, it was done by _alloc
+
+This solution is chosen to minimize the changes in the driver logical code
+flow. The drawback is we now iterate twice over the endpoints during probe.
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
+bridge, and the only one supported from now on. It is the first milestone
+towards removal of bridges from a still existing DRM pipeline without
+use-after-free.
+
+The steps in the grand plan [1] are:
+
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+ 2. handle gracefully atomic updates during bridge removal
+ 3. avoid DSI host drivers to have dangling pointers to DSI devices
+ 4. finish the hotplug bridge work, removing the "always-disconnected"
+    connector, moving code to the core and potentially removing the
+    hotplug-bridge itself (this needs to be clarified as points 1-3 are
+    developed)
+
+This series is part of step 1 of the grand plan.
+
+Current tasks in step 1 of the grand plan:
+
+ A. ✔ add new alloc API and refcounting -> (now in drm-misc-next)
+ B. ➜ convert all bridge drivers to new API (this series)
+ C. … documentation, kunit tests (v1 under discussion)
+ D. after (B), add get/put to drm_bridge_add/remove() + attach/detech()
+ E. after (B), convert accessors; this is a large work and can be done
+    in chunks
+ F. debugfs improvements
+
+More info about this series in the v2 cover [2].
+
+Luca
+
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
+[2] https://lore.kernel.org/lkml/20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com/
+---
+Changes in v4:
+- Removed patches already in drm-misc-next -> only 1 left
+- Improve commit message of patch 1
+- Link to v3: https://lore.kernel.org/all/20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com/
+
+Changes in v3:
+- Fixed issues reported for some patches
+- Added review tags
+- Removed patches that have been applied
+- Added revert for the exynos patch, applied by mistake
+- Update cover with grand plan info and trim some of it
+- Updated bouncing e-mail address in Cc list
+- Link to v2: https://lore.kernel.org/lkml/20250424-drm-bridge-convert-to-alloc-api-v2-0-8f91a404d86b@bootlin.com/
+
+Changes in v2:
+- Improved cover letter with link to commit adding devm_drm_bridge_alloc()
+- add review tags
+- fix bugs in zynqmp, vc4 patches
+- fix patch 1 error code checking
+- Link to v1: https://lore.kernel.org/r/20250407-drm-bridge-convert-to-alloc-api-v1-0-42113ff8d9c0@bootlin.com
+---
+
+changes in v4:
+- improved commit message
+---
+ drivers/gpu/drm/bridge/tc358767.c | 56 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 40 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+index 7e5449fb86a3fcdae8255bc490d12c543ef3f8ae..61559467e2d22b4b1b4223c97766ca3bf58908fd 100644
+--- a/drivers/gpu/drm/bridge/tc358767.c
++++ b/drivers/gpu/drm/bridge/tc358767.c
+@@ -344,6 +344,14 @@
+ #define COLOR_BAR_MODE_BARS	2
+ #define PLL_DBG			0x0a04
+ 
++enum tc_mode {
++	mode_dpi_to_edp = BIT(1) | BIT(2),
++	mode_dpi_to_dp  = BIT(1),
++	mode_dsi_to_edp = BIT(0) | BIT(2),
++	mode_dsi_to_dp  = BIT(0),
++	mode_dsi_to_dpi = BIT(0) | BIT(1),
++};
++
+ static bool tc_test_pattern;
+ module_param_named(test, tc_test_pattern, bool, 0644);
+ 
+@@ -2327,7 +2335,6 @@ static int tc_probe_dpi_bridge_endpoint(struct tc_data *tc)
+ 	if (bridge) {
+ 		tc->panel_bridge = bridge;
+ 		tc->bridge.type = DRM_MODE_CONNECTOR_DPI;
+-		tc->bridge.funcs = &tc_dpi_bridge_funcs;
+ 
+ 		return 0;
+ 	}
+@@ -2360,7 +2367,6 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
+ 		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+ 	}
+ 
+-	tc->bridge.funcs = &tc_edp_bridge_funcs;
+ 	if (tc->hpd_pin >= 0)
+ 		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+ 	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
+@@ -2368,17 +2374,11 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
+ 	return 0;
+ }
+ 
+-static int tc_probe_bridge_endpoint(struct tc_data *tc)
++static enum tc_mode tc_probe_get_mode(struct device *dev)
+ {
+-	struct device *dev = tc->dev;
+ 	struct of_endpoint endpoint;
+ 	struct device_node *node = NULL;
+-	const u8 mode_dpi_to_edp = BIT(1) | BIT(2);
+-	const u8 mode_dpi_to_dp = BIT(1);
+-	const u8 mode_dsi_to_edp = BIT(0) | BIT(2);
+-	const u8 mode_dsi_to_dp = BIT(0);
+-	const u8 mode_dsi_to_dpi = BIT(0) | BIT(1);
+-	u8 mode = 0;
++	enum tc_mode mode = 0;
+ 
+ 	/*
+ 	 * Determine bridge configuration.
+@@ -2401,7 +2401,27 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
+ 			return -EINVAL;
+ 		}
+ 		mode |= BIT(endpoint.port);
++	}
++
++	if (mode != mode_dpi_to_edp &&
++	    mode != mode_dpi_to_dp  &&
++	    mode != mode_dsi_to_dpi &&
++	    mode != mode_dsi_to_edp &&
++	    mode != mode_dsi_to_dp) {
++		dev_warn(dev, "Invalid mode (0x%x) is not supported!\n", mode);
++		return -EINVAL;
++	}
++
++	return mode;
++}
+ 
++static int tc_probe_bridge_endpoint(struct tc_data *tc, enum tc_mode mode)
++{
++	struct device *dev = tc->dev;
++	struct of_endpoint endpoint;
++	struct device_node *node = NULL;
++
++	for_each_endpoint_of_node(dev->of_node, node) {
+ 		if (endpoint.port == 2) {
+ 			of_property_read_u8_array(node, "toshiba,pre-emphasis",
+ 						  tc->pre_emphasis,
+@@ -2427,24 +2447,28 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc)
+ 		return tc_probe_edp_bridge_endpoint(tc);
+ 	}
+ 
+-	dev_warn(dev, "Invalid mode (0x%x) is not supported!\n", mode);
+-
++	/* Should never happen, mode was validated by tc_probe_get_mode() */
+ 	return -EINVAL;
+ }
+ 
+ static int tc_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
++	const struct drm_bridge_funcs *funcs;
+ 	struct tc_data *tc;
++	int mode;
+ 	int ret;
+ 
+-	tc = devm_kzalloc(dev, sizeof(*tc), GFP_KERNEL);
+-	if (!tc)
+-		return -ENOMEM;
++	mode = tc_probe_get_mode(dev);
++	funcs = (mode == mode_dsi_to_dpi) ? &tc_dpi_bridge_funcs : &tc_edp_bridge_funcs;
++
++	tc = devm_drm_bridge_alloc(dev, struct tc_data, bridge, funcs);
++	if (IS_ERR(tc))
++		return PTR_ERR(tc);
+ 
+ 	tc->dev = dev;
+ 
+-	ret = tc_probe_bridge_endpoint(tc);
++	ret = tc_probe_bridge_endpoint(tc, mode);
+ 	if (ret)
+ 		return ret;
+ 
+
+---
+base-commit: 18fb864d3afccf7ecdf13d0435464465d31ccf1d
+change-id: 20250404-drm-bridge-convert-to-alloc-api-614becf62294
 
 Best regards,
 -- 
