@@ -1,143 +1,265 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA26210FB
-	for <asahi@lists.linux.dev>; Thu, 29 May 2025 20:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0FB2DCBE6
+	for <asahi@lists.linux.dev>; Fri, 30 May 2025 02:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748551583; cv=none; b=FJcFRnz6HbZzR5NtH5jN5h4DCauE2KfPYQr56LcIQGPqsPfV+pGYDEXkheWePNwxdMSmLN4LiLD0+0Md7x7+qMO9du5drcPa8yvN7vwmS5A5e1oIoYQ4yGj+EyFU/umkwiaJauheF7+khO/Xr8iBMWrLVWS9H+WiQDNApEm5utA=
+	t=1748573402; cv=none; b=kkxTbdPT+D8p2vuW2CzP2S5Q3/WKj2JX8fCD+1xFn2ycebyClWyciSUCrjvlrsW4whebfL1pqzN41ZDU7BgNUG3bTk5MQ0kabRrCjWn7t0V9aFS2TN5kaIkW9I3F6GXp7vh6mkZo2TsqKJp0LdNPOnY/PE+q+QJAKtcKFlOtyJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748551583; c=relaxed/simple;
-	bh=/6z1v/qNBfUFOoxicD1V48QdZQfp4IVH4S3L1yiqKHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCRIfkc60LXcfdo0AQ5i2CDxZZCjCZF48bB7J6WHrhz9rIxbK+Tw4rNp4nzKy8nYe9LhXokIUyOYk6pvZJDAbJjaMcHDKK3sKAyON0yx7+4IzCm6ZvipVuGymbc5hOcIPXeOm5Ub4tTMFtzP8rkIkO0LH7Pwa5jIytws/UdS0fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=I0t6PiXS; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1748573402; c=relaxed/simple;
+	bh=n9YY7Ks+BsQhMLk8ELZDMHBzVjCqSp2b4F0mzbdlpYQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RnaCUWAHoLQHwAF/PxU/zE9ljcB1sMUfFBhGENvikGm4EhmglnBuawAHRL1+3PeqnjBnH1Ymw0F1KR66jb272rsTkQorFROkrrBvQkH+dAqRSpWuhziRGH5p5e5iw3k6N9+PKtyRrKSWjhXcF5Qk+4jojEUDFeVNzO+wBZKEkcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cMsGG/bh; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="I0t6PiXS"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3123eda2a1dso247779a91.1
-        for <asahi@lists.linux.dev>; Thu, 29 May 2025 13:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1748551581; x=1749156381; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6TtaMd1HywfsuyRcNH/42AXM3iz/qus8mLnXbozVUkA=;
-        b=I0t6PiXSoZrBF9J5KO5c/+TWwhbLPDqzCbnETq88BbHJPm/JDwrvmZ/8E/8s/2vcH7
-         ghjD5okdEGDLVyuLJxOJp4VGX+y7J0PyeqPWffzJWl92rDOnFCFoVs4tVNd/41Zqw25x
-         o57NpwVM74chDLx0+ulFXTGCKz23JhENKaFX/IKV98gYVzM0pq4aOT1jj5wXCM0OFShr
-         60bbKWMLDPMpCO0YTzObVuWqVuqxAQfYxw0/vH5B0lF8EOdavfcmaRhb/9Xh78ZdfaVF
-         1kaV9VTGps6KzYs55kZh0lPj/GmBF7ugYQjgukohSYZyElelLr1CTl4huFDqY+sDpdbv
-         hzqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748551581; x=1749156381;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6TtaMd1HywfsuyRcNH/42AXM3iz/qus8mLnXbozVUkA=;
-        b=YuEWVli16ULsQkHW6hSawj6GFybKgOa9C4DwIy1AX/aUmKW/cwbl9Nty8VYaiAGHzg
-         +dq9kRXIzP894sFpiAf1Kwvnb6sinQ3MnJV9r1QTi9YumKwf3qmD2tywgla8bqRTd2eB
-         jAA7CLZedgFHqI984r5scWCtRQ+0J6bBfa6T0MiEaXdMltOuDle4DxX4q9H0A1/xZU4a
-         e+1UHOL37AOwG7OblBdWsYPi66lzLZbRHIn0p2B5JuCCWMmlb/FyDM0jjp/1m8PsQTZs
-         cHQnvSZyoSn6UEYppW5Aup6VHbFRMO0GmrZIzn7Z9iUCcBcrkC8kRjJQmi0iLpU0Nvgc
-         npFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHQDfnMUvOGT7ple1iSnOn9YZ4Xlt6dh1iHPW/t6wrGdOk0wULfp8iZU6IfY06solF4yoR2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGHHPF4ea5J7qp22VA9k7kd0xrlmhkMaMxLwqOsgsywazZVcn8
-	As6ZBlWTgWczt0orvawds7nwplQvNpVYycapC2HHoZUxkDdJwrf4mAAvA6fbx+SFACw=
-X-Gm-Gg: ASbGncsH2THUmrUcCqQyGl4WKE7xf2cCIYqR2t7FmJb/J+h9X7jA5+ZsO0kymzGNqXz
-	XOou7E6CDLG3AIkfLUJym86MBOZKDLXHMMfNNVjVX9febU8SqN+NVlmThTOxsCdXjTk0ZBJhWDw
-	F4p3EgdNFY+2+OGbXB3WNTzEJ8P3x0iuHHRA0GRoepHOimKxe9ymvkNY9oKGO2uVSH+o0ZjIa4Q
-	6N4kd+3Negl8rM+2vCetyI+7CLcVeQzXwUDTyOWX3yUoAVI1uCLszijKCN5UhsG40eHYfa9u9Sk
-	N+p0EhCcTN+srtXRTo3HUTJLpUsXGNFbGEy7rdPOT+VYp5oG3Wv9wz5LYlTPCbUIcodk/A==
-X-Google-Smtp-Source: AGHT+IEO8HwssTrnrLL8DGNfi7UDT2JfkJIUURFRStahz0gCmflYidew8g3m8w3QvBPF+GZDsBP2sw==
-X-Received: by 2002:a17:90b:1d89:b0:311:f99e:7f51 with SMTP id 98e67ed59e1d1-312415329famr1432137a91.18.1748551581341;
-        Thu, 29 May 2025 13:46:21 -0700 (PDT)
-Received: from tjeznach.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506bd9486sm16245345ad.67.2025.05.29.13.46.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 13:46:20 -0700 (PDT)
-Date: Thu, 29 May 2025 13:46:17 -0700
-From: Tomasz Jeznach <tjeznach@rivosinc.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
-	Janne Grunau <j@jannau.net>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Matthew Rosato <mjrosato@linux.ibm.com>,
-	Neal Gompa <neal@gompa.dev>, Orson Zhai <orsonzhai@gmail.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Rob Clark <robdclark@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, virtualization@lists.linux.dev,
-	Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, patches@lists.linux.dev
-Subject: Re: [PATCH 3/7] iommu: Remove ops.pgsize_bitmap from drivers that
- don't use it
-Message-ID: <aDjHmR7ZVTbsSITO@tjeznach.ba.rivosinc.com>
-References: <0-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
- <3-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cMsGG/bh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1748573399;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Np3+JP9+IZ9e/OLAgG6uGAkpVocBLgLmLnRA5pQUsnQ=;
+	b=cMsGG/bhUIKBIZ5RcrgrxwY0xEguC5LWMBx4+RNiQsZoDdB2M/ZQDKh8bMI6Mp8/O2gx3q
+	0P8cJzJnNI+W0FczR5l4+7QOK5ClHVTxHE/BfegpN/bFx2o2YusUUU32aO9p50tGWKbS8l
+	GJtEpgPBUvyq2rXuWuLAUoGPY43KYJQ=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-650-zH4ZdSr-ML2Jd_p4faXBAA-1; Thu,
+ 29 May 2025 22:49:55 -0400
+X-MC-Unique: zH4ZdSr-ML2Jd_p4faXBAA-1
+X-Mimecast-MFC-AGG-ID: zH4ZdSr-ML2Jd_p4faXBAA_1748573392
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E6901956088;
+	Fri, 30 May 2025 02:49:51 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 53C281955D82;
+	Fri, 30 May 2025 02:49:44 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Subject: [PATCH v2 00/46] drm/panel: Use refcounted allocation in place of
+ devm_kzalloc() - Part3
+Date: Thu, 29 May 2025 21:46:02 -0500
+Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3-v1-7c5282b0c334+2db-iommu_rm_ops_pgsize_jgg@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOsbOWgC/42NQQqDMBREryJZNyVGI7Wr3qNISMy3fqiJ/ITQI
+ t69qdB9V8ObgXkbi0AIkV2rjRFkjBh8AXmq2Dgb/wCOrjCTQirRCsltyx0tejUennoxMWpHmIH
+ 0GHyJVBZKDe+t6OzUu8ZKycrZSjDh6xDdh8IzxhTofXhz/W1/iuZfRa654H2nbK2MU/YCNwI3m
+ 3Qew8KGfd8/vMrVa90AAAA=
+X-Change-ID: 20250402-b4-drm_panel_mass_driver_convert_part3-9b06bf9d3b22
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Robert Chiras <robert.chiras@nxp.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Markuss Broks <markuss.broks@gmail.com>, 
+ Artur Weber <aweber.kernel@gmail.com>, 
+ Dzmitry Sankouski <dsankouski@gmail.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=9402;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=n9YY7Ks+BsQhMLk8ELZDMHBzVjCqSp2b4F0mzbdlpYQ=;
+ b=urUoLqE+7N9HZju7OdqSeE+4maKM/2/MCPBTR8dV5Hq4CO88dOCV00rMdMC1AaqNX4TjsyuoO
+ kE9jxLDAcIbA8IeNbUMpCN5yqJfa9P28iKkXtjXxlPWjqXprgrTQCIR
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-On Tue, Apr 29, 2025 at 11:34:13AM -0300, Jason Gunthorpe wrote:
-> These drivers all set the domain->pgsize_bitmap in their
-> domain_alloc_paging() functions, so the ops value is never used. Delete
-> it.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/iommu/apple-dart.c       | 1 -
->  drivers/iommu/intel/iommu.c      | 1 -
->  drivers/iommu/iommufd/selftest.c | 1 -
->  drivers/iommu/riscv/iommu.c      | 1 -
->  drivers/iommu/virtio-iommu.c     | 6 ++----
->  5 files changed, 2 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/iommu/riscv/iommu.c b/drivers/iommu/riscv/iommu.c
-> index bb57092ca90110..2d0d31ba28860a 100644
-> --- a/drivers/iommu/riscv/iommu.c
-> +++ b/drivers/iommu/riscv/iommu.c
-> @@ -1533,7 +1533,6 @@ static void riscv_iommu_release_device(struct device *dev)
->  }
->  
->  static const struct iommu_ops riscv_iommu_ops = {
-> -	.pgsize_bitmap = SZ_4K,
->  	.of_xlate = riscv_iommu_of_xlate,
->  	.identity_domain = &riscv_iommu_identity_domain,
->  	.blocked_domain = &riscv_iommu_blocking_domain,
+Final set of drivers to use the new API - devm_drm_panel_alloc().
+There are a lot of occurences of the panel allocation across the
+subsystem. Much thanks to Maxime for the semanic patch which actually
+gives a list of panels allocated unsafely.
 
-Reviewed-by: Tomasz Jeznach <tjeznach@rivosinc.com> # for RISC-V
+virtual report
 
-Sorry for the delayed response.
-- Tomasz
+@ find_add @
+identifier add_f;
+identifier c;
+identifier b;
+expression d;
+position p;
+identifier r;
+type T;
+@@
+add_f(...)
+{
+...
+- T *c;
++ T *c;
+...
+(
+drm_panel_add(&c->b)@p;
+)
+...
+}
+@ find_allocation depends on find_add @
+identifier alloc_f;
+type find_add.T;
+identifier cal;
+position p;
+@@
+alloc_f(...)
+{
+...
+- T *cal;
++ T *cal;
+...
+(
+ cal = kzalloc(...)@p;
+|
+ cal = devm_kzalloc(...)@p;
+)
+...
+}
+@ script:python depends on report && (find_add && find_allocation) @
+add_f << find_add.add_f;
+alloc_f << find_allocation.alloc_f;
+add_p << find_add.p;
+alloc_p << find_allocation.p;
+@@
+coccilib.report.print_report(alloc_p[0], "ERROR: Panel Driver is unsafely allocated in %s and added in %s" % (alloc_f, add_f))
+
+The changes to the list of panels that this script gives is done manually.
+
+Very minor changes in this version - refactors, alignment fixes.
+
+With all drivers converted, next chunk of work is to add get() and put()
+to drm_panel_add() and drm_panel_remove().
+
+First 2 parts already merged.
+Part 1 of the conversion : https://patchwork.freedesktop.org/series/147082/
+Part 2 of the conversion : https://patchwork.freedesktop.org/series/147157/
+
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+---
+Changes in v2:
+- simple refactors, if dev is already dereferenced use it (patch 8, 9,
+  21, 32)
+- fix alignment in 2 patches (patch 40 and 41)
+- Use the right connector in patch 23
+- Link to v1: https://lore.kernel.org/r/20250403-b4-drm_panel_mass_driver_convert_part3-v1-0-965b15ad5b8e@redhat.com
+
+---
+Anusha Srivatsa (46):
+      panel/orisetech-otm8009a: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm67191: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm67200: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm68200: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm692e5: Use refcounted allocation in place of devm_kzalloc()
+      panel/raydium-rm69380: Use refcounted allocation in place of devm_kzalloc()
+      panel/ronbo-rb070d30: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-ams581vf01: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-ams639rq08: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-atna33xc20: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-db7430: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-ld9040: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6d16d0: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6d27a1: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6d7aa0: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e3fa7: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e3ha2: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e3ha8: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e63j0x03: Use refcounted allocation in place of devm_kzalloc()
+      panel/s6e88a0-ams427ap24: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-s6e8aa0: Use refcounted allocation in place of devm_kzalloc()
+      panel/samsung-sofef00: Use refcounted allocation in place of devm_kzalloc()
+      panel/seiko-43wvf1g: Use refcounted allocation in place of devm_kzalloc()
+      panel/sharp-ls037v7dw01: Use refcounted allocation in place of devm_kzalloc()
+      panel/sharp-ls060t1sx01: Use refcounted allocation in place of devm_kzalloc()
+      panel/sitronix-st7701: Use refcounted allocation in place of devm_kzalloc()
+      panel/sitronix-st7703: Use refcounted allocation in place of devm_kzalloc()
+      panel/sitronix-st7789v: Use refcounted allocation in place of devm_kzalloc()
+      panel/sony-acx565akm: Use refcounted allocation in place of devm_kzalloc()
+      panel/sony-td4353-jdi: Use refcounted allocation in place of devm_kzalloc()
+      panel/truly-nt35521: Use refcounted allocation in place of devm_kzalloc()
+      panel/panel-summit: Use refcounted allocation in place of devm_kzalloc()
+      panel/synaptics-r63353: allocation in place of devm_kzalloc()
+      panel/tpo-td028ttec1: Use refcounted allocation in place of devm_kzalloc()
+      panel/tpo-td043mtea1: Use refcounted allocation in place of devm_kzalloc()
+      panel/tpo-tpg110: Use refcounted allocation in place of devm_kzalloc()
+      panel/visionox-r66451: Use refcounted allocation in place of devm_kzalloc()
+      panel/visionox-rm69299: Use refcounted allocation in place of devm_kzalloc()
+      panel/visionox-rm692e5.c: Use refcounted allocation in place of devm_kzalloc()
+      panel/visionox-vtdr6130: Use refcounted allocation in place of devm_kzalloc()
+      panel/widechips-ws2401: Use refcounted allocation in place of devm_kzalloc()
+      panel/xinpeng-xpp055c272: Use refcounted allocation in place of devm_kzalloc()
+      panel/s6e88a0-ams452ef01: Use refcounted allocation in place of devm_kzalloc()
+      panel/nec-nl8048hl11: Use refcounted allocation in place of devm_kzalloc()
+      panel/panel-lvds: Use refcounted allocation in place of devm_kzalloc()
+      panel/lg-lb035q02: Use refcounted allocation in place of devm_kzalloc()
+
+ drivers/gpu/drm/panel/panel-lg-lb035q02.c                | 10 ++++------
+ drivers/gpu/drm/panel/panel-lvds.c                       | 12 +++++-------
+ drivers/gpu/drm/panel/panel-nec-nl8048hl11.c             | 10 ++++------
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c         | 11 +++++------
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-raydium-rm67200.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-raydium-rm68200.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-raydium-rm692e5.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-raydium-rm69380.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c             | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-ams581vf01.c         | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-ams639rq08.c         | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-atna33xc20.c         | 11 ++++++-----
+ drivers/gpu/drm/panel/panel-samsung-db7430.c             | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c             | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-s6d16d0.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-s6d27a1.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c         | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c | 11 +++++------
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c            | 10 +++++-----
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c              | 11 +++++------
+ drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c          | 10 ++++------
+ drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c          | 11 +++++------
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c            |  8 ++++----
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-sitronix-st7789v.c           | 10 ++++------
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c             | 10 ++++------
+ drivers/gpu/drm/panel/panel-sony-td4353-jdi.c            | 11 +++++------
+ drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c   | 11 +++++------
+ drivers/gpu/drm/panel/panel-summit.c                     | 10 +++++-----
+ drivers/gpu/drm/panel/panel-synaptics-r63353.c           | 11 +++++------
+ drivers/gpu/drm/panel/panel-tpo-td028ttec1.c             | 11 +++++------
+ drivers/gpu/drm/panel/panel-tpo-td043mtea1.c             | 10 ++++------
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c                 | 11 +++++------
+ drivers/gpu/drm/panel/panel-visionox-r66451.c            |  9 +++++----
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c           | 10 +++++-----
+ drivers/gpu/drm/panel/panel-visionox-rm692e5.c           | 10 +++++-----
+ drivers/gpu/drm/panel/panel-visionox-vtdr6130.c          | 11 +++++------
+ drivers/gpu/drm/panel/panel-widechips-ws2401.c           | 11 +++++------
+ drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c         | 10 ++++------
+ 46 files changed, 223 insertions(+), 257 deletions(-)
+---
+base-commit: ef818481d9fbaf3483dde0d1faa565a016810de3
+change-id: 20250402-b4-drm_panel_mass_driver_convert_part3-9b06bf9d3b22
+
+Best regards,
+-- 
+Anusha Srivatsa <asrivats@redhat.com>
+
