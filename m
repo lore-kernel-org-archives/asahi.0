@@ -1,129 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51848207A32
-	for <asahi@lists.linux.dev>; Fri, 30 May 2025 02:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB7418A6C1
+	for <asahi@lists.linux.dev>; Sun,  1 Jun 2025 18:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748573641; cv=none; b=NU7gm0Uew+9sGkv/lhU7MeeC6DwaYbgbi2caq+4fQiBGJ7tT1tHyD+HMhRF7uQAy91E9IF5iM4EwPlnyu3lQBJiGSL6tOXn7O0yl4SNcwCa9YuVMUPOGJsn7w+1MIzmhbVnwSQ2Hv3ugHzIukO4rlLYZO5GNpAtyiEZnzoO6ZjI=
+	t=1748804111; cv=none; b=nEAXg68uIU+nTXsL9FBn3BDtVZHpWXvKnirWuLJAcVcxJs28fjGUlPI62zm2WcI2AEmdsRomr48enWSq5kKm8zqFDLp12uGNkgeudWPEVF/BLXHvU8GvlS4faUkEXJc7m5e1hnGQIR8/qsBwI2BJMLaNllSgI7z60enfiuhqtNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748573641; c=relaxed/simple;
-	bh=CzP9r3jCWCbcUvZuL1u3diAgpxaJp/EVcHnUkNJng84=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KV8e2ZrKURSJ4MTisIgJdT5ZIShPXHZa4WSf1ENoSJMLLA7Wi1jOXSH8XyGQJP8DX+sqZ3z37uQnv5Y8I5ULR2Dnjs/MTwE2pWa4N2i6ojDfbHbr3gLKdeUz8h6J2AdQqkagTQKaFyU139MlRvozFF5fYkL1hhbey1zGnhbyzyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BBtDpRpS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1748804111; c=relaxed/simple;
+	bh=OX4yvUON3tISGUsgbOemPrVvgvCC4QWKwQAy9TZhFdo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CCy0nIUaiJEgRhTLH60PfvlQ34mBLXsAxDGjCT4gMFSZSgjgrRTSy5M+iZEfWEi+/KSm2S/W/0CNR9HdoDfJPXoH4htTjdR0fb0Z/VAnG9H5RK6WP8mpYtuqdCF8tIYXKSVaxZUeDj9hrc6F0yDdsV2xV5YWSxogT7ZqHSACguY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gA15GKrm; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BBtDpRpS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1748573639;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Nh5TPaCk6v/roe+1FSpnkR9MQSkLG4QyZVZ9B4eQTao=;
-	b=BBtDpRpSTJ0TN73+/YetIFSnWEzWboiGcQmTPRHtfPq0Hs34PkVHUvmG0P30rQVU6x2jaT
-	IZ7FJVsVzqKshZW7yBgtCuuL4YYxO+uvYq5IWfRkLFBK9D817+hu0+4CMcRNLFnv6Uh4t4
-	gAfshFtF0EHpbrzq3jhLowyOe7ZOHJA=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-511-VD2ttFSdM_Gj7uNMP5N1LA-1; Thu,
- 29 May 2025 22:53:55 -0400
-X-MC-Unique: VD2ttFSdM_Gj7uNMP5N1LA-1
-X-Mimecast-MFC-AGG-ID: VD2ttFSdM_Gj7uNMP5N1LA_1748573633
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5F8A71956080;
-	Fri, 30 May 2025 02:53:53 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.97])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 050F41955D82;
-	Fri, 30 May 2025 02:53:48 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 29 May 2025 21:46:48 -0500
-Subject: [PATCH v2 46/46] panel/lg-lb035q02: Use refcounted allocation in
- place of devm_kzalloc()
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gA15GKrm"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6055f106811so4773532a12.0
+        for <asahi@lists.linux.dev>; Sun, 01 Jun 2025 11:55:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748804108; x=1749408908; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g+rZXeg2h8FFJjzzSKXnu2tsAZmNScsbIa1AmfrMPH8=;
+        b=gA15GKrmW6xwlGz6iCXSMkdyeL9Y6BpltzNzO35VAqfGF/8wrJvgNhk/TXrP3LZjXb
+         q3IhfIC+1dOq1uANR9D2dyVO6pygPKgKZm1Yr9IilHC1Y0JbAC1fjJy5ZsRxJX9OfuHM
+         Kz5cHWbrO11rix8eR/L27WR/DPC1Xh35hUyor8rUByESsBCEGe2LIjUQ2cYRGdC3dn/J
+         gegziLZ/1GyB9K1kCA+9Vp18pbPiK0J8KgpMLtZwXbt8n1mUeDqf1zxJMajzzl6+6vJp
+         g4qp3ajQWJdTqKnYYAwZw2PGlDXGO85TSlni+y/MdudJ+wDNGZULqA+o3QYuTyww93fR
+         orHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748804108; x=1749408908;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g+rZXeg2h8FFJjzzSKXnu2tsAZmNScsbIa1AmfrMPH8=;
+        b=aL3jRg4Z3ZxD4TgVXv1zI1vHyjIVFgANc/Awp2W0b10U3UbKQhkzrzRbqF5bXU4Mh5
+         EjRTvfpNJDoArJwub4l1aAg+XrvBpJS6XqS/0l12jWY8/2aAvaH4DxM3qyjAuVI9LZTZ
+         8ypQuNHilkXjXiZjAxnlnmPwSetx2oorj80N2AQgQOV4soYG54zj+NSEJ495IRNPR1Ek
+         DD4oNMwWIFAsC774yN6CxJocJizbrDoN58CvBNisG9xpmRZEbxLL++ft6f3Jwuy6wbk/
+         OPIT6gKmhEOpU/wcREzqmMXlIOf29nlKFD0fqLxaWi9rjwmS7HeeFOaOC2nr13CCXbFx
+         MkQw==
+X-Forwarded-Encrypted: i=1; AJvYcCVQdKxJk30FMsfthSEzBAMyxlycdkA+hT9ypdL9bwGomGxc3thoRpScgvPpFv28tOLLGr4fXg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw7t3O9hSEmJ5WrXD1cy/wi51PSNj5zivVOF9uuVoFLx7Mu8jui
+	sZbFyn9nyVOyDYOTQ7vafvieovcxbrHfPbV5f6iJlgH3ss2Yf82F0W5d
+X-Gm-Gg: ASbGncsiwfgVWT5ZCUwnlglL0sN0fB1fMgvnE7GKGWrERKfgyPt2lQjMro6C9lqhflW
+	cbo5y3bgD+E7LOKXNQ5wPCGnY7KeHjydRCsEd7yUBUasnNnJA4OV94gYIlDfpra79NBVKJ7zG0H
+	GgwfU8PXH73yDfvzuaLW65q7A3Uhk8fufuS5MYtnCx60abhvZQLpP7cP0Wz5dEGMrioUMSD32Hi
+	qRvUFmeO/pxYvyZJnliQcbPxBG4q2exJsapi9+qDq8P4juft2yVrYLqOcqnBAgiPtu8EU975T1H
+	1c0JH7I8myfLKLH+1GNqGgHCFIWMO4EOw8uF7hp1t06BPZMOBOmzSggPQ0TAyxbRT5OIrfYDSCJ
+	j8eaqA0FQem59sZHWfOh1ySERV3hO2w==
+X-Google-Smtp-Source: AGHT+IFp/ARVXyjA6tzOC4tGnmBvidx5QlpVw7FOMafdXAdEPbHMfgPxKJm7amG7iCl+8q+ttzGUoQ==
+X-Received: by 2002:a17:907:7f93:b0:ad8:976e:533e with SMTP id a640c23a62f3a-adb494bd4demr514846066b.34.1748804107861;
+        Sun, 01 Jun 2025 11:55:07 -0700 (PDT)
+Received: from [192.168.1.105] (91-139-201-119.stz.ddns.bulsat.com. [91.139.201.119])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5d7fee1esm682786366b.25.2025.06.01.11.55.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Jun 2025 11:55:07 -0700 (PDT)
+Message-ID: <c27311d7-8fa3-4ee2-a751-154517cf7d68@gmail.com>
+Date: Sun, 1 Jun 2025 21:55:05 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 09/21] drivers/perf: apple_m1: Add Apple A8/A8X support
+Content-Language: en-US
+To: Nick Chan <towinchenmi@gmail.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>
+Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250510-apple-cpmu-v7-0-bd505cb6c520@gmail.com>
+ <20250510-apple-cpmu-v7-9-bd505cb6c520@gmail.com>
+From: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
+In-Reply-To: <20250510-apple-cpmu-v7-9-bd505cb6c520@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-46-5d75a3711e40@redhat.com>
-References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
-In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Robert Chiras <robert.chiras@nxp.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Markuss Broks <markuss.broks@gmail.com>, 
- Artur Weber <aweber.kernel@gmail.com>, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1748573168; l=1318;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=CzP9r3jCWCbcUvZuL1u3diAgpxaJp/EVcHnUkNJng84=;
- b=1EQhHUk9uQkNjRb2U0aanuAuGOJD8Xbq38Fu3bi4uZ2URwSrsVVHMb6UtLIiAhFSZdcP/qZcZ
- G9En+B2q2WTA7AOUlhUmCmdE8nb+qMlHGBhLXc+HN9JB3qY74XzFTdM
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-Move to using the new API devm_drm_panel_alloc() to allocate the
-panel.
+On 5/10/25 18:10, Nick Chan wrote:
+> Add support for the CPU PMU found on the Apple A8, A8X SoCs.
+>
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> ---
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
-v2: none.
----
- drivers/gpu/drm/panel/panel-lg-lb035q02.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Tested-by: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
 
-diff --git a/drivers/gpu/drm/panel/panel-lg-lb035q02.c b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-index 9d0d4faa3f58aa4950e48d082352e0013880ee30..b2be6727bf73d34c8a9fdc9ad2f52b11d22d3b28 100644
---- a/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-+++ b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-@@ -178,9 +178,10 @@ static int lb035q02_probe(struct spi_device *spi)
- 	struct lb035q02_device *lcd;
- 	int ret;
- 
--	lcd = devm_kzalloc(&spi->dev, sizeof(*lcd), GFP_KERNEL);
--	if (!lcd)
--		return -ENOMEM;
-+	lcd = devm_drm_panel_alloc(&spi->dev, struct lb035q02_device, panel,
-+				   &lb035q02_funcs, DRM_MODE_CONNECTOR_DPI);
-+	if (IS_ERR(lcd))
-+		return PTR_ERR(lcd);
- 
- 	spi_set_drvdata(spi, lcd);
- 	lcd->spi = spi;
-@@ -195,9 +196,6 @@ static int lb035q02_probe(struct spi_device *spi)
- 	if (ret < 0)
- 		return ret;
- 
--	drm_panel_init(&lcd->panel, &lcd->spi->dev, &lb035q02_funcs,
--		       DRM_MODE_CONNECTOR_DPI);
--
- 	drm_panel_add(&lcd->panel);
- 
- 	return 0;
-
--- 
-2.48.1
+>  drivers/perf/apple_m1_cpu_pmu.c | 124 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 124 insertions(+)
+>
+...
+> +
+>  static int m1_pmu_ice_init(struct arm_pmu *cpu_pmu)
+>  {
+>  	cpu_pmu->name = "apple_icestorm_pmu";
+> @@ -912,6 +1035,7 @@ static const struct of_device_id m1_pmu_of_device_ids[] = {
+>  	{ .compatible = "apple,blizzard-pmu",	.data = m2_pmu_blizzard_init, },
+>  	{ .compatible = "apple,icestorm-pmu",	.data = m1_pmu_ice_init, },
+>  	{ .compatible = "apple,firestorm-pmu",	.data = m1_pmu_fire_init, },
+> +	{ .compatible = "apple,typhoon-pmu",	.data = a8_pmu_typhoon_init, },
+>  	{ .compatible = "apple,cyclone-pmu",	.data = a7_pmu_cyclone_init, },
+>  	{ },
+>  };
+>
 
