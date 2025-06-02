@@ -1,112 +1,82 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B761E9915
-	for <asahi@lists.linux.dev>; Sun,  1 Jun 2025 18:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFFA2C3255;
+	Mon,  2 Jun 2025 07:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748804380; cv=none; b=A05f44SBrDgi4qcRHHbbIDMo1bfGBZQdLy+X2LRptwPCI1TtkRJcmuD4jmAmYrtmPe4RkQfnabKr6ddC6JAhGNpiFHxXz7Z+DnFmahht8bxAjmNrWPa1+hZCoLgTdx1AjTHTCcerZYTrGs3W7PJT72ir3/J05bVezzT+BwNh9Zg=
+	t=1748850981; cv=none; b=DGkqkzp4sjyB6DHLUTRzV3CCeLPuKmynLIweVTYwtv5tG3/An61mscXzJt7M1P62FUykzzjvvPhx+sECd9uroF7cHsen0AtXNp9Lrk9xURAgoR5IJJhvI6kFm/kEXwEVd8hKmprcF99nAaUIDlJSLu9tjAfivbZ1HZRXn7DWsto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748804380; c=relaxed/simple;
-	bh=CYLV8wcogXdtY6I8xKrSP6yV3kKGzgHfcr3A9i96Yx8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rzVPZWdAJgy+mkzzFEU9RdKYhZ6181RiGuuYoHP09Og9dBUSLiAaTNdSiBZyKhftihLYkGEL2rkNKgj63AVMGxFwF0qAiuxfw0QwrTtn4Unf+HOuUe6KiHhYInp9tIaD6AfhfVNRwQUiJmeKtM4phHpj+fHBRCRcuXzeT0KG1nQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fkfKBZps; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748850981; c=relaxed/simple;
+	bh=G8vHJ1oOdy/gXfGEd+HQJJV4bCKcrAcoq3qPx+pvPHs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LmRno2W01kn0haWjebzxYTa35ahcDKXvBLfc6H2vEnc9rfp2nKHub8Wm96XzsGFqJxnwO8MmAGJ8lmOLPUw4x+SvoLIVJISqujsTq3AyvUTzt3FSsuPt1OKDRTrGEbtbTa+/hTkfRlMgd3/5MrS2nCqMoPm9dDaExUsgNOO1ysk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rXRnYBa5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fkfKBZps"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-60461fc88d7so7310508a12.0
-        for <asahi@lists.linux.dev>; Sun, 01 Jun 2025 11:59:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748804377; x=1749409177; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OIzFU3oveHSb3b2sYKrjUAfhi3Wxf+qS7iSQYpFodfw=;
-        b=fkfKBZpsfRbMYTUrycnYVmvuVRhY9ehC7p72rwLO0UrgnNxPCiDmPVrIblmjPiQ5h5
-         qSaZNAtceQE17zU/cXSMbtaOLzGuJIFx/uL4mMso6A+Q3p2sXHSpSwpNhBBHOLgCoX2H
-         c26PZEPwDnH+mmhYT495kgCp3WzhOM1q582D1lvsGBS2Wecx5c8N8OgqPFPlHE2bL/SQ
-         LgGjxj8ivWZ+g+FlSQNl8l2iHZcqzZYU5pm7F0KzGMVVn2OHi1kW+kBVA2ucizbtLZ7F
-         qa1uw2EkYbgdHTvKFv9B9c7kCxT/NybUe2dXc/HhohjM2TL6e77EymzX81X771fnEDs9
-         7iZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748804377; x=1749409177;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OIzFU3oveHSb3b2sYKrjUAfhi3Wxf+qS7iSQYpFodfw=;
-        b=fj/3Ts3bRnc+v4pUSJDZ9Ua8Gz5zGkMhv2zO5IbPE8q1mHg8IPvUwEiiCU7vRIHkw1
-         4S9AwDBIP1C1NHg56f6F/++GGAkuooFZeFAN4C8cNJXyVMsGPXe04d/WcLRP3eikwZvO
-         I1DhQO8SlG26GHnIV5d2pm1diIH7UgDlsk9qQtXx3H8kUGQ5LPGRSv/IuQloYGonxY/9
-         yblEwvMNurLAH6cDhVHzzXlkHm85+VjGt7989cR+IyX+/Dx6vJ3Hg4dAEDHUwq0QH829
-         kfw8CtcR4ZHNVBfvBHJBYO1x1tAAu36BNLxqHu86rjlg6R18nKmzlXEW6jPU6ogIcMJ6
-         YWiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU7u4OUmqslaPQpC+zedRRWmaBpB5+XVX7G8dMNiXLkI8GtVz80xqI3CJwenvwUH+Oq9HpGOw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxIbj+ugh29cDZ6iMfaAKV9kWOkA8Mfozu6qgZvQKZJU4ID3BI2
-	w931lo2zF81WdAwPxj/PIhNu7I6Mbjk952Fmq5iy6xNEaHc6jMtL5goo
-X-Gm-Gg: ASbGnct6lNe37TLCzGCi2+qABRVdlVIlajjUrIWswQughxC1RvITAHo3sa4cYvcT2fx
-	pK+Qj0JUDD9BiiZg2kumynYd7ljUOL1Gwdj98f3RVgOqwxjD5z5pPqm3cF/S3H6ay6S6boe3uYv
-	XcRgeaZJo40RFTGknpkQX5/Uom7p9nPZSl7O3Vr8jCfLkriCSourbS0Imt1MQ9D+2QTTipDw7Jm
-	mqvAwe8eh+rKhnwf9MxQ03Mz5w3/xMbDskDAE2aaNgAgS3uupogO6tyIz8kH09fqd1uXOzA3PsL
-	EmWRBlcl1JJZVxfAXz6OtAvcwvNJqBAHbfwjDJik+inhYFr8Ilcp4nAe43Hfqea+VofmwbEM1a6
-	YnkoaGT8XAywyGoMyAirClGzjPyZNiA==
-X-Google-Smtp-Source: AGHT+IEP2x5ZAxqIc1gsA4YFDwl3131Qs5D19FYWLp46cTsFeKuOi08zZGcuKt6dA7kp1G6jlmOOpw==
-X-Received: by 2002:a05:6402:90e:b0:601:a35e:6dd1 with SMTP id 4fb4d7f45d1cf-6056ef00a9amr8866615a12.21.1748804377131;
-        Sun, 01 Jun 2025 11:59:37 -0700 (PDT)
-Received: from [192.168.1.105] (91-139-201-119.stz.ddns.bulsat.com. [91.139.201.119])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-605ae6eb0e2sm3059856a12.3.2025.06.01.11.59.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Jun 2025 11:59:36 -0700 (PDT)
-Message-ID: <8d14bc8d-6a29-4317-9ee6-143a2919d17b@gmail.com>
-Date: Sun, 1 Jun 2025 21:59:35 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rXRnYBa5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45A6CC4CEEB;
+	Mon,  2 Jun 2025 07:56:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748850980;
+	bh=G8vHJ1oOdy/gXfGEd+HQJJV4bCKcrAcoq3qPx+pvPHs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rXRnYBa5uTwqNg7HrQlBM9RVB+9sd72Lt7mMcN9ryVd+B0s2Q0ReGp4yR93VLwz9i
+	 0I9t1xDRdYG9fI6afAYVTQNFIAz6ZUrSnlPUO+ZnrAzTItf9WffI8HDlZcecfdxQA7
+	 ceRYtPBBm+dQpbK2f2ZzbMWQRg/VxcX75yIX4NcqDmaH7Cs8wnPOi2fH5G6P0JxugE
+	 MOXjngNwVOCO/NnkkyCgwM0lC+DujVdtbR8lgBAFaXFVqb6EXN4xlr//5ilBslQfEZ
+	 Sz8a/xPL/LZMw90LqfzMrMX2bXG0n/6FpqgZ7BK3pdL3cw4Di8LfafSkuXQypONmSK
+	 W9WFWkfaFwpjQ==
+From: Maxime Ripard <mripard@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Robert Chiras <robert.chiras@nxp.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Markuss Broks <markuss.broks@gmail.com>,
+	Artur Weber <aweber.kernel@gmail.com>,
+	Dzmitry Sankouski <dsankouski@gmail.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	=?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Ondrej Jirman <megi@xff.cz>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Janne Grunau <j@jannau.net>,
+	Michael Trimarchi <michael@amarulasolutions.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Anusha Srivatsa <asrivats@redhat.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH v2 00/46] drm/panel: Use refcounted allocation in place of devm_kzalloc() - Part3
+Date: Mon,  2 Jun 2025 09:56:15 +0200
+Message-ID: <174885096739.421739.9939855699808449174.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
+References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 11/21] drivers/perf: apple_m1: Add Apple A10/A10X/T2
- Support
-Content-Language: en-US
-To: Nick Chan <towinchenmi@gmail.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>
-Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250510-apple-cpmu-v7-0-bd505cb6c520@gmail.com>
- <20250510-apple-cpmu-v7-11-bd505cb6c520@gmail.com>
-From: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
-In-Reply-To: <20250510-apple-cpmu-v7-11-bd505cb6c520@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 5/10/25 18:10, Nick Chan wrote:
-> Add support for the CPU PMU found in the Apple A10, A10X, T2 SoCs.
->
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+On Thu, 29 May 2025 21:46:02 -0500, Anusha Srivatsa wrote:
+> Final set of drivers to use the new API - devm_drm_panel_alloc().
+> There are a lot of occurences of the panel allocation across the
+> subsystem. Much thanks to Maxime for the semanic patch which actually
+> gives a list of panels allocated unsafely.
+> 
+> virtual report
+> 
+> [...]
 
-Tested-by: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
+Applied to misc/kernel.git (drm-misc-next).
 
-> ---
->  drivers/perf/apple_m1_cpu_pmu.c | 127 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 127 insertions(+)
-...
->  static int m1_pmu_ice_init(struct arm_pmu *cpu_pmu)
->  {
->  	cpu_pmu->name = "apple_icestorm_pmu";
-> @@ -1155,6 +1281,7 @@ static const struct of_device_id m1_pmu_of_device_ids[] = {
->  	{ .compatible = "apple,blizzard-pmu",	.data = m2_pmu_blizzard_init, },
->  	{ .compatible = "apple,icestorm-pmu",	.data = m1_pmu_ice_init, },
->  	{ .compatible = "apple,firestorm-pmu",	.data = m1_pmu_fire_init, },
-> +	{ .compatible = "apple,fusion-pmu",	.data = a10_pmu_fusion_init, },
->  	{ .compatible = "apple,twister-pmu",	.data = a9_pmu_twister_init, },
->  	{ .compatible = "apple,typhoon-pmu",	.data = a8_pmu_typhoon_init, },
->  	{ .compatible = "apple,cyclone-pmu",	.data = a7_pmu_cyclone_init, },
->
-
+Thanks!
+Maxime
