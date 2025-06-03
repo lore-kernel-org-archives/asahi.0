@@ -1,147 +1,97 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50021182D2;
-	Tue,  3 Jun 2025 15:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B9A288532;
+	Tue,  3 Jun 2025 18:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748965764; cv=none; b=jR9olZqn6rdoraZcxDxd2JfM1fySld2GEapg8z02Xms4S3H9RS9nebnBDjd1wAOxL5J6CiSXWofmBqMFYxKMzlavZvMuVS2no0PfvYYRXi0PFtAeKZdGZxEecIFAwmTZa2COuR3zTmx9uqGgrGdFYunitN2kUdDzsXmeAeK3thw=
+	t=1748974608; cv=none; b=owlYiOt7o/IuofGCYyXYFGsxITNVq1tBRYLISlShD/bbf4chN+dcvu1SZtxrAR5EGFQDj/8r9OuNLXvuN5pjzP5ME7tD1MEqAz8dHwqZQI8ZXLygUW7ADRLkZlaxRjOL7KcwI0cOySaLwqLrQ7bpXHFSzz94k26cK6LJISOqzF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748965764; c=relaxed/simple;
-	bh=zRJhD7sF5YaVre9akGENc8NLed+Bjt5csNUjdKbF2tc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DoIQmFUQXYK2+ZrRUPXKJI1/fPghTbY70RnC65xIIgcg0Xr+7Q8FB5E/usvoialCo3Uy2/BCIUE+3Ack162WHSM5Xx+lorK+39TV7vOOSX7sV+n0nnQpCuedT1CwzW+3qQLY623i8xGdrDrH+W5H2jXe6c7RIqKuPGUCSNXcNQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=FPVbgXwM; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1748974608; c=relaxed/simple;
+	bh=p1oikR6A7CSugoR4HjSUuEWBgK7rKrZS/huPT73PKfU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M+ws9QJ/5A6SldDYUUs//LnnT8L1nsNitNDAhU1arqQb7lqqB/iMs/9HV5GkuRF3uFc6OvYxTQjDI2p7ZDKklbFrErG41i+4oJVG4muncq9YXo2nm2d5lchTwxiswJhh6+dwn6ym27MvekCyr5b6856zWl12tq3f2bZiv9tGeW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=eNBaPN+F; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FPVbgXwM"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 553Fn5bq556677;
-	Tue, 3 Jun 2025 10:49:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1748965745;
-	bh=Ar5D4zBSs/YUAUx/REy11enEaNMluqXtZe67Zl84UoY=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=FPVbgXwMAZE/ZsvtLocKXO3Y3kWf4ta5LsqRBF84wWrOSiq7MrQaGxAofMCJRvFag
-	 q534Ov6HTadamlsWXy5sNeqsNM2W3mbasRZBdG90ky87j88oF60ugwyhXorSRgw568
-	 YTexki4PRPNXAJAAw5YEFaaAC6IIdx3BF+R+Qp4E=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 553Fn4O53854379
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 3 Jun 2025 10:49:04 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 3
- Jun 2025 10:49:04 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 3 Jun 2025 10:49:04 -0500
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 553Fn4is569045;
-	Tue, 3 Jun 2025 10:49:04 -0500
-Date: Tue, 3 Jun 2025 10:49:04 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman
-	<khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Chen-Yu Tsai
-	<wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland
-	<samuel@sholland.org>, Sven Peter <sven@svenpeter.dev>,
-        Janne Grunau
-	<j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Neal Gompa
-	<neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
-        Thierry Reding
-	<thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>, Suman
- Anna <s-anna@ti.com>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-        <asahi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH 5/5] dt-bindings: mailbox: Drop consumers example DTS
-Message-ID: <20250603154904.oa5lx5loywmzoqhr@varmint>
-References: <20250603-dt-bindings-mailbox-cleanup-v1-0-724407563997@linaro.org>
- <20250603-dt-bindings-mailbox-cleanup-v1-5-724407563997@linaro.org>
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="eNBaPN+F"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2345c60507bso38014965ad.0;
+        Tue, 03 Jun 2025 11:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1748974606; x=1749579406; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=muedraecWG3k6sC4BkfWIIfP1Qhn6jm5riTVBMIqDbo=;
+        b=eNBaPN+FTrWxIzsLzKQGBAmVdZ2aBeHKdCB3s46tRnrJD3OW40QGhEuQ7hrH8uzinu
+         ldgpTeIF89jkNi9eLstReVkw+2NBaXY93VtTcvuU5dyTY09yXSxpxBKRclqYi73koitY
+         IXxU6g9xUJD4pyjCyAoYegouZLwYnThFBT/lxNx9cDgf0VxgSncUY8ptXh6yvN1K4m6a
+         XKcIccB1AVH9WEc8zJbnyqws91MsvfF0SWewFJGk/YC/QbxjQyhe/oBt3iFyRRIhUvwY
+         8sEJvWNQLRRafgwcC2MGh4mhu7Q2mUpB7NvTvL8z6WoMdXA7en1Bba7D514cgFQezG0D
+         Z+jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748974606; x=1749579406;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=muedraecWG3k6sC4BkfWIIfP1Qhn6jm5riTVBMIqDbo=;
+        b=msGd6pYb/if9waDgUeUhhY1LYrQ2T6QlmRlI85Ulcr2HP5qbI3HoGzNos4ytTpK1h3
+         tjOBOdfnGhSAfAa3OcvwmX+8MatQTKdOgowN2GxIgwT4bTVwFYZCJ32mpgS95QoRJr7p
+         2Ekc2puNuE/rUOnhCmqHPjvcUycMGBxHv0WtMwGLYpDu+mRhTwGLgyRJZIYHz/30vs10
+         Kh7Wo/W5qB1U62kOPxoHIAR2suhTD80o13/I0HVMCVcvN1diJDNoF84tJ5+ja5X1r/0+
+         CiZyNCaWHex/5obOiO7E4XVk8kB04ItMVnx7JrHXzAfAmNN9zLKQ370Nj6sT2lb04p0m
+         287g==
+X-Forwarded-Encrypted: i=1; AJvYcCULlIwTSWIBsoG/Vv5CSchZqpIDq8H+nIgTjSSG0R37lYyAeLWQr5NlY3D4/JTTZYrd0LC5Tg==@lists.linux.dev, AJvYcCVEwvL1ZbvSY+c+bZV1qB/QxyBA7PpEhc9iwojvq/Fm0wq4NuUsVNOcEMEUP9qZTIbFuhVv678eRODhL1M=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yws1+Nwba/7KDvjuVcbbGNb/qhW6hgMicR88YvQh6/Bm1zNOhUu
+	qir3dlHN85MTSvDMLMBaCqdNmhBTKDoZhYKwtFwwaM7z95tr4F/3/DTf3xkXEY5WTPD6rUVyrf8
+	HrUvWtoYfAzyoltnefRloAkyfBUB3ENI=
+X-Gm-Gg: ASbGncurlvxqY0EVsfXqK9SZna7D4H7Efk/Xv4j6B7KFhTYpiPsJzF5/Z1OnpCPCLYg
+	7BPtjE/diePPDGN3xhQsGDASm2aAkm8XMhGfLfRjwJyiPMomRXP82gVnXRguJIupRGgAkXhXJYe
+	XhW/g3rgObw7+EEo8wvPPZeQLAOi9J5tpE3a38iovw42k/7vZxWfmbNqIwXpzDPfaH41iJoQtHn
+	rgS
+X-Google-Smtp-Source: AGHT+IHr9J8+h+AZ8STPC1y2/qEM2ZZcXzahpAeXjwcKczY154NqfHQ6m3ty2wKy8w/H9uZv/VxmB7VQvs3K1RzoMLk=
+X-Received: by 2002:a17:903:234c:b0:235:779:edfd with SMTP id
+ d9443c01a7336-2355f76c215mr179533115ad.39.1748974606365; Tue, 03 Jun 2025
+ 11:16:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250603-dt-bindings-mailbox-cleanup-v1-5-724407563997@linaro.org>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250603-dt-bindings-mailbox-cleanup-v1-0-724407563997@linaro.org>
+ <20250603-dt-bindings-mailbox-cleanup-v1-1-724407563997@linaro.org>
+In-Reply-To: <20250603-dt-bindings-mailbox-cleanup-v1-1-724407563997@linaro.org>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Tue, 3 Jun 2025 20:16:35 +0200
+X-Gm-Features: AX0GCFsq34ioWPbcIqxTayHSRdJ5z4uSRbOfAewoz0GwtzdI-PxfH0Fpo31M6tA
+Message-ID: <CAFBinCBSyniWtR5T3XdgohG+n0Ae=6tgmdASSxsnsmoQV4yhQQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: mailbox: amlogic,meson-gxbb-mhu: Add
+ missing interrupts maxItems
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Nishanth Menon <nm@ti.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Suman Anna <s-anna@ti.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 13:57-20250603, Krzysztof Kozlowski wrote:
-> Providers DTS examples should not contain consumer nodes, because they
-> are completely redundant, obvious (defined in common schema) and add
-> unnecessary bloat.  Drop consumer examples and unneeded node labels.
-> 
+On Tue, Jun 3, 2025 at 1:57=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> Lists should have fixed constraint, so add missing maxItems to the
+> "interrupts" property.  Since minItems=3DmaxItems, the minItems is implie=
+d
+> by dtschema so can be dropped.
+>
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-
-[...]
-
-> diff --git a/Documentation/devicetree/bindings/mailbox/ti,omap-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/ti,omap-mailbox.yaml
-> index 1a2001e58880d2fc26954b26cff8ed53e7667f33..8504ceb64806bc7e25468597acdff99624571e9f 100644
-> --- a/Documentation/devicetree/bindings/mailbox/ti,omap-mailbox.yaml
-> +++ b/Documentation/devicetree/bindings/mailbox/ti,omap-mailbox.yaml
-> @@ -242,7 +242,7 @@ examples:
->    - |
->      /* OMAP4 */
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
-> -    mailbox: mailbox@4a0f4000 {
-> +    mailbox@4a0f4000 {
->          compatible = "ti,omap4-mailbox";
->          reg = <0x4a0f4000 0x200>;
->          interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-> @@ -260,13 +260,9 @@ examples:
->          };
->      };
->  
-> -    dsp {
-> -        mboxes = <&mailbox &mbox_dsp>;
-> -    };
-> -
->    - |
->      /* AM33xx */
-> -    mailbox1: mailbox@480c8000 {
-> +    mailbox@480c8000 {
->          compatible = "ti,omap4-mailbox";
->          reg = <0x480c8000 0x200>;
->          interrupts = <77>;
-> @@ -283,7 +279,7 @@ examples:
->  
->    - |
->      /* AM65x */
-> -    mailbox0_cluster0: mailbox@31f80000 {
-> +    mailbox@31f80000 {
->          compatible = "ti,am654-mailbox";
->          reg = <0x31f80000 0x200>;
->          #mbox-cells = <1>;
-> 
-
-Reviewed-by: Nishanth Menon <nm@ti.com>
-
-> -- 
-> 2.45.2
-> 
-
--- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
