@@ -1,131 +1,140 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FFF269AE6
-	for <asahi@lists.linux.dev>; Tue,  3 Jun 2025 07:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE66122CBD9
+	for <asahi@lists.linux.dev>; Tue,  3 Jun 2025 11:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748934685; cv=none; b=uZx9/Z/rdXScG4eiR5fCvXebdWagQ8lD/lvBmcepHlmurQJzgx2kArBoUqLtZXaYVw7KwDtvmbdutny987rwgwvrxzYP+7fOVbc52LMSsMZMgmyFU1Z8WrU3llG8YMya458+DeYOS9Km3L9EH0zYTJxFHWF2GAJTGiY+Z34Tduc=
+	t=1748951850; cv=none; b=mDnWgFHasL3MIN0BArTsket6lX6ubWtMPPz1HB6Jht016PEvSwaRfbEEoV3G1pP+g/qGDnkagjnwhTZ+ITmQsLIjePJD8kNxIX4MI95XoHw65FNnkjuZOGib+I+vwxKj7bn7vFYlw4GRDmFU3vnNVPnHVXvk8T1iLNWuKjKcV2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748934685; c=relaxed/simple;
-	bh=mL+MB9sT5jktnVzl73SbKdG0xZoa7DasqXdQr1/ZCr4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aTdFsHC9R/kLhWilI3RLFsDfGXGvJ8zMsgst1nmoTd8PxNFmanbNYOxOx5GvZzNPOWhOrEbgFxQB/bJRR5bzFkVuqGmcpMzEld4AoEQzQ2VFo8Eui1ShVfnOJ6aPHaABaI5+BbRA9GLq6GICKwvLLXSaOHEFRAsRGTykWAy6Qqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6fad3fdf3aaso38555126d6.1
-        for <asahi@lists.linux.dev>; Tue, 03 Jun 2025 00:11:23 -0700 (PDT)
+	s=arc-20240116; t=1748951850; c=relaxed/simple;
+	bh=8VGdoBQnsW1Y8fk4p9+RrKW9XWt9gACX/CPbdQ0dOb8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OzAs1ElG8yhfIcdi2RZC0aes2VPUfxdyuwZy63KYB++4A5KCTeXOJfX0qhCuoeoO8COvaltIdLwgKBBlsIrp3/jSe4ddGA2c8R7vh305uxqjHZa3ktAGjXHvX23I7OzCiuGBxbbugqFB0XbAy0GvK6zwz6YQA5cFY0gORAA7Nrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZhpNAaYb; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZhpNAaYb"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-450d15e2d25so1114325e9.2
+        for <asahi@lists.linux.dev>; Tue, 03 Jun 2025 04:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748951845; x=1749556645; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1IBFWQj94F31lf6usd6PCcvd2+aXV7FOAOa4N/LRiuA=;
+        b=ZhpNAaYbDRsy9wF7WkTopyKJBTfVU5ssMRICBy6HvgBJ5va2BysZ3jW1JB20FJuILs
+         lnrr2V11rGgmuBf7NoTfXNd9oNf7a8DjVqAAWcw24hjMQ75IzhFDntZDdpT74xEGVXUm
+         prdG/tUZXitLTyujWunEJ/SSBxjKHp0/ng0FsH/I/Ntv+uIXU2YoOfN9AiZAdMgppHMA
+         MVQeHTfzhKpkOICKl+/Mwu2f4MaLHYRh997kYZESGHy9vJjTI41RyRWyuxG42GYAS/DG
+         MBONMbEMcnj8+DarZcJaRbrT4yR/wBpvG1hx8OWaf/UfFHa3yKxTUV6MvxxVnP8yM5Px
+         xrnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748934682; x=1749539482;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1748951845; x=1749556645;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nLb8HhO98/51A3Sg1akRHkfjqC4wsBeHTx0qur+bJ6w=;
-        b=wbnRuGZinOaLjBil4yEpJNeNXBYeUjIr7t+Lpog2nAMBgqBXQQvGy56N2oVH133l8j
-         xgCNTt6p4nsX1zHDi3tTy8SJ2cCOZPWnjIoyfVjcRviF3r9+Fdbf1hyMUsT/4mkLRjk+
-         75HIc/1K7JCrEeM0GkQPjVN94vkFnWLiMabB9oJjSO3StTcmcXE+qeUXFVYLbe0tnNLa
-         YNcm9gq43VAkEd6DaXjsp5OKdMbAXpn9Ku0JRREwdQMxVj27QzICUkdrjT+pApE/Kl+c
-         pwtsuP9Fca07s2q8O24QUiw4iVNbDNvDNIbuGPcx4BgTsxIVrGOaQGANFqyCm82k1fvB
-         gWWg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMMiNJgLKdVjUNgzAGRBgqhc5YL4u2+tx6VKZZ6tBCGPjy2d3FSfIkcarSUHgwFCb9UIbnUg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCSJp/Q+rsf8Bvj4jm59BNmeMyNcUG/T73BhMDFG/pKVEvSbPV
-	6ZTgmHS58PxbblpV0oqczfYji+sYI0C6RZzEfQ3PDfWYBNs9ZgKAwhbb52q7lIJs
-X-Gm-Gg: ASbGnctVRE47hZ0Y68qZ0sUlA+doBneN2w4n0kWy9sAX7fN2Y5qlPX7n4PuClUxUdVa
-	w3Wc1HMNvj9nB1DaLiWOunhsqwKUTysF3GuQCukIDp66d9dmqUsbhlHeJi7bFYL0aQRjtZzxPOe
-	OAd8gD9iYLZMvV7xc0B4DdVgdivobZQPdABdJp2yiT+7BJk1C0sr+pKW1EKUlQHC4hzdrHI6W6u
-	VT3APjmWCDgEUdP4CIsslQ1I1ab40dfH8APqAiEQ0Pbh9+8ndP9OiE0xclSh/lr5+GsGiUws5Zw
-	sTYP75PK1onR9TV51zGqP9RjLCYgszPQL2tFAHXjQA/QIArhpqWCpDoJqbJlsJo8wW0iT7RoWGP
-	6EfSddPpdFoS2qg==
-X-Google-Smtp-Source: AGHT+IG1A96RjTVnUqV3ugm3nH+IbZ/8YJ9AO4/jmXqTon/OiDaSnTSyVG1P6c8hT4tMW1/QdE1o4A==
-X-Received: by 2002:a05:6214:1c4b:b0:6fa:b9e9:e799 with SMTP id 6a1803df08f44-6facebb7f7amr197287036d6.24.1748934681890;
-        Tue, 03 Jun 2025 00:11:21 -0700 (PDT)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com. [209.85.219.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fac6e0126csm76398926d6.80.2025.06.03.00.11.21
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jun 2025 00:11:21 -0700 (PDT)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6fad3fdf3aaso38554946d6.1
-        for <asahi@lists.linux.dev>; Tue, 03 Jun 2025 00:11:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUMXIxofOuNP1sWS+5UZ3szZsFWpy6UQgnkxy71RKepQBty/q9of66vSFxKpSUtN2M1m3SCyg==@lists.linux.dev
-X-Received: by 2002:a05:6102:3751:b0:4dd:b192:960f with SMTP id
- ada2fe7eead31-4e6e410d39amr14204348137.13.1748934671280; Tue, 03 Jun 2025
- 00:11:11 -0700 (PDT)
+        bh=1IBFWQj94F31lf6usd6PCcvd2+aXV7FOAOa4N/LRiuA=;
+        b=w5J5znb7buprW3eAlEIUPUL7tgcppier3MGcD2ULeC1TEuIv2QRl8Y+zBjGpry4Wkv
+         doH9XF9kklxZDfxZaqWypc6Sf2lZ2LOxOQIBjMdpSh5XZST/ReT3IDvSWhHlFjKsgkEV
+         ZPXOfcSurpZy0lEVR44tUyi5azx+SESevgbngqV+FqFlAFpRqZ+sUFDuIetlCeXN0gz1
+         IbDc5qGbvJWPr270q6lboMlIS8J63GIfpzODoLWO5K2XlFuCyo3AVXGcHLsogV1zBBpU
+         hgw/TRdf05EE097U71KxIaASo2yqIDea71sUuw+uX5thVut5XdNj2DclKDfNRuEztTKB
+         KiGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUvj99WZDlT36R8jtt5OmJPyxY/hLSPizN7UsIPuBBeHyVpGkbgCJPoS1b9LR5xw78Q4faHpg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzEUJf+D2u7q03Wv7ckqtpzBLQLbCnZ7aBYZGB7GjtFOJUTKKJQ
+	XwLFT7VUf1EpLr4aQ7jX22zyJyPYCpKN2kx5QHGnbQ6X8Kl9f5DAVrIjY3cf5bjRgro=
+X-Gm-Gg: ASbGncu15W0eUNbcYUqWr9DGurNOnnIAN7PYlyx84rf7XlSSn3evOf+o0vm91C5Pv6D
+	+SjvcrdJlXJV2VacTmDiszy6Mwhsw3IsUBCN+1l74Eu9qaAalA72fajgb2ugWV6EKXMFQ9TlxaH
+	r0i2eejw3+3t9TPO/9qSEhiGN90Td1bpNyKRbVqoocrqvr4+9PsYzZYREoC5kIE/EQHrfXSSmTs
+	fbo+GBPvLsvfxku/9HEh7acQvxLzpnXk2EluWr4D3e2Ca2xa/zraYj7OWS9ZWY7QMuLj/bwDFpo
+	IGmyZaQ1IDTTuhwWl3VIflFxST9M2HLJvhPjBZaIXTOK9wkRElPnPdTWcEvC+/HvWyq4/ojC07y
+	AGovXFuoVdI4qRMWLd/raBQ==
+X-Google-Smtp-Source: AGHT+IHcDKEnQI0iAe8KmJOAN+5AyRCThhejg+k63FaCsSnbGWGPgYCXX5i11cKOm0Js9aE/AZP8Og==
+X-Received: by 2002:a05:6000:2dc6:b0:3a4:e8c8:fb89 with SMTP id ffacd0b85a97d-3a4f892f306mr4455673f8f.0.1748951845084;
+        Tue, 03 Jun 2025 04:57:25 -0700 (PDT)
+Received: from [172.16.23.13] (adsl-84-227-104-5.adslplus.ch. [84.227.104.5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe6c7adsm17671666f8f.26.2025.06.03.04.57.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Jun 2025 04:57:24 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 0/5] dt-bindings: mailbox: Few cleanups
+Date: Tue, 03 Jun 2025 13:57:07 +0200
+Message-Id: <20250603-dt-bindings-mailbox-cleanup-v1-0-724407563997@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
- <20250529-b4-drm_panel_mass_driver_convert_part3-v2-1-5d75a3711e40@redhat.com>
-In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-1-5d75a3711e40@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 3 Jun 2025 09:10:59 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWsGVNsm_WdiZ2hNuErrUUaj49SN_ROr-_KfEWW63omTw@mail.gmail.com>
-X-Gm-Features: AX0GCFtcVOHqZD8BcFzZWMq6QGLbY93W1tbb2YLDvTYE6IWQhmuycmj54r1gmT0
-Message-ID: <CAMuHMdWsGVNsm_WdiZ2hNuErrUUaj49SN_ROr-_KfEWW63omTw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/46] panel/orisetech-otm8009a: Use refcounted
- allocation in place of devm_kzalloc()
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Robert Chiras <robert.chiras@nxp.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Markuss Broks <markuss.broks@gmail.com>, Artur Weber <aweber.kernel@gmail.com>, 
-	Dzmitry Sankouski <dsankouski@gmail.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	=?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
-	Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
-	Janne Grunau <j@jannau.net>, Michael Trimarchi <michael@amarulasolutions.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABPjPmgC/x3MSwqDMBAA0KvIrB1IU5OqV5Eu8hl1QEdJbBHEu
+ zd0+TbvgkyJKUNfXZDoy5k3KXjUFYTZyUTIsRi00kZZ9cR4oGeJLFPG1fHitxPDQk4+O4a2bUx
+ jtH1RB2XYE418/vfhfd8/Li2Ljm0AAAA=
+X-Change-ID: 20250603-dt-bindings-mailbox-cleanup-c884545267e9
+To: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Nishanth Menon <nm@ti.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Sven Peter <sven@svenpeter.dev>, 
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Suman Anna <s-anna@ti.com>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1218;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=8VGdoBQnsW1Y8fk4p9+RrKW9XWt9gACX/CPbdQ0dOb8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoPuMWnfe5utyaUx5gvALmsxmruk7JbV/krIhA4
+ j8qvLrJLFCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaD7jFgAKCRDBN2bmhouD
+ 15ILD/910b+r8xCBseUJF1YO+j/IHLYwnq2p99ZLKQrjJPODK2Hsa8PvABhsMOVX7NEhd45xauB
+ 1gokachMmddL3QTHvT2SwZxCkXOkbMCydACOrC/fTJt47ZMqSJVTQddnBcQSgLyjNGm4CeOEnp9
+ PNBoEYnzvybXEkQACPTe80hUYBPNMff0l9H1886se4gDoMTuKflotBkuNAKnzK+8kiDBgxNOH9h
+ bZsCvRJodQOSAPreMvq0IihcpWlEs34BWltovMVcvF9aAUp083WRW+KVQYmOhWlos+j/T4BRIbR
+ CwPlyHjcGOVLxKnlJKijLA9qGkIsezGqUQ2SPYxLPKlc2qzyajNrDlj84gdKweskDeOpiBvLN+B
+ KyqdmGfxbd7NpRwX3CTYh4w/0CtWItIAUr9Ys7jFtXr/VsuA0YOCgJjVX1uEFU1xkudoFs1rAth
+ RJ/8B3UMC55EENVrV4M2L4siLZlqy2RcczsoTJFZF2waT+o7rvR+fmeeJf0wybsj1f/u9znmagT
+ kQ8ZnJpha5iIwXpe+p1xsFf82A53nj0jMMo0yNx2V3WeXOWMo7LyjgxfIAQHTUVhIFc4TIZqJVB
+ +kMs1/3Ubq5gPtCQo6w7qymB7PfuxwdaWvtwnw2jPw7zgEtHYR+5EiDbtFhXsuuiB3VyuoxS3ez
+ N7pia2kgSwXPEsw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Hi Anusha,
+Few cleanups for Mailbox bindings.
 
-On Fri, 30 May 2025 at 20:28, Anusha Srivatsa <asrivats@redhat.com> wrote:
-> Move to using the new API devm_drm_panel_alloc() to allocate the
-> panel.
->
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+Best regards,
+Krzysztof
 
-Thanks for your patch!
+---
+Krzysztof Kozlowski (5):
+      dt-bindings: mailbox: amlogic,meson-gxbb-mhu: Add missing interrupts maxItems
+      dt-bindings: mailbox: ti,secure-proxy: Add missing reg maxItems
+      dt-bindings: mailbox: Correct example indentation
+      dt-bindings: mailbox: nvidia,tegra186-hsp: Use generic node name
+      dt-bindings: mailbox: Drop consumers example DTS
 
-I have a generic comment that applies to all patches in the series.
+ .../bindings/mailbox/allwinner,sun6i-a31-msgbox.yaml   | 14 +++++++-------
+ .../bindings/mailbox/amlogic,meson-gxbb-mhu.yaml       | 10 +++++-----
+ .../devicetree/bindings/mailbox/apple,mailbox.yaml     | 16 ++++++++--------
+ .../bindings/mailbox/nvidia,tegra186-hsp.yaml          |  9 +--------
+ .../bindings/mailbox/qcom,apcs-kpss-global.yaml        |  9 +--------
+ .../devicetree/bindings/mailbox/ti,omap-mailbox.yaml   | 10 +++-------
+ .../devicetree/bindings/mailbox/ti,secure-proxy.yaml   | 18 +++++++++---------
+ 7 files changed, 34 insertions(+), 52 deletions(-)
+---
+base-commit: 3be1a7a31fbda82f3604b6c31e4f390110de1b46
+change-id: 20250603-dt-bindings-mailbox-cleanup-c884545267e9
 
-> --- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> +++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> @@ -424,9 +424,11 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
->         struct otm8009a *ctx;
->         int ret;
->
-> -       ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-The old code used sizeof(*ctx) instead of an explicit type, for
-increased type-safety.
-
-> -       if (!ctx)
-> -               return -ENOMEM;
-> +       ctx = devm_drm_panel_alloc(dev, struct otm8009a, panel,
-
-Can't you use __typeof(*ctx) instead of the explicit type here, too?
-
-> +                                  &otm8009a_drm_funcs,
-> +                                  DRM_MODE_CONNECTOR_DSI);
-> +       if (IS_ERR(ctx))
-> +               return PTR_ERR(ctx);
->
->         ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
->         if (IS_ERR(ctx->reset_gpio)) {
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
