@@ -1,145 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp20.cstnet.cn [159.226.251.20])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB66E224CC;
-	Wed,  4 Jun 2025 00:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4198462
+	for <asahi@lists.linux.dev>; Thu,  5 Jun 2025 03:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748998299; cv=none; b=DXdRK2hwglnyeqRvRiD+bfbyh9YAJx+UrzqlcG2up6iPkb1PWlWK439iucL4jEwN5NISL+SLL4Fjpkfyzorlu2VGt8TaHW2JQoesaD1xEFnXEbrWbLTttyFB1/u1ZhtVvH8RqFBP4ANLC6WrqmLKKfJsLJfQHczWgJUxr6+HlmE=
+	t=1749092981; cv=none; b=gMe3M/ZQTVb0cgXLLXM41yF3tLuAi+mEuDxtwHrjS+/fztjwCFO4LTSgKFkPSIs+grm0QxuQSqt2W2cElfF/l3qNxBo8SBvATq+yKl3yUG0TxXdSy6/7SVHLG+CXl/PrVXNhskumI4k4vbiPkmySzmnC3UKCZ5VH30xE08XWBjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748998299; c=relaxed/simple;
-	bh=i2guXKq/zzHATlE+CQ8FXCickmwgBEE1jP63DXsldoM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hEhc8IHbm+Ac8OF4FTww0zyVTg2eap7rKkKPon1GDB071CgHp/xhvpCB9CMJ9ih6wyp3dqhGbhNaerenWM1o/Z5HwCx3p/3gRtLubmYxv+CxIMrlUhZ16cQ7zLkahVu1ZV1/uV+1WeRhFQ4yH68jGoAO2uXSXITwPFCIDGgt5J8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQVzTD85; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQVzTD85"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 983B3C4CEEF;
-	Wed,  4 Jun 2025 00:51:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748998299;
-	bh=i2guXKq/zzHATlE+CQ8FXCickmwgBEE1jP63DXsldoM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AQVzTD85R3zrqLUEBtuwoLPt3sLfaFkf4E4JD493Y8scQ4dlavKM0xbsuWwXgqvUQ
-	 zX1fxUCY0Ym1A/CHBS/KZEPe01OVlliHYl5zxB9YFZVJdrPiDhYRNB+ZXKhTGlXZhs
-	 43Ghr2QGrL4SRglSo89kUspDtaNZA0IdDg8VJx7j31YoeM8ZxrWm18ciaM/cqppYSl
-	 CnHuBQURdr7VfjMlrxJpf1m7abogAtpF+O/0dBemhHBteBIV8mEHT+3qyV5DpZGqfj
-	 78D2ZxbLmIz763WKOLzuowCXMtOM5Fszccdw10LVfpcfI3LmFzbmh1WZd/3ZMkyccL
-	 BT4JUbSpGZuUQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Hector Martin <marcan@marcan.st>,
-	Neal Gompa <neal@gompa.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Sven Peter <sven@svenpeter.dev>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	sven@kernel.org,
-	j@jannau.net,
-	linuxppc-dev@lists.ozlabs.org,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-i2c@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 024/118] i2c: pasemi: Enable the unjam machine
-Date: Tue,  3 Jun 2025 20:49:15 -0400
-Message-Id: <20250604005049.4147522-24-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250604005049.4147522-1-sashal@kernel.org>
-References: <20250604005049.4147522-1-sashal@kernel.org>
+	s=arc-20240116; t=1749092981; c=relaxed/simple;
+	bh=jg24Yo+Bw83kcQE5Zz+uHIe9HXkorbFQAvED/E/Ahmc=;
+	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=Yq6y+pkuj29KwHoHGgjl/mareuRvTnZcv+t6CY0EeZzD4QQ1bN1nHINUu7Rt2sMLWOZE8xhfnDOEg3PZH+S7HhdLrQHOtXNrQmo6CcVBe3twCHVrJw8neGdu7wLBzutSkD8866ixm6D20PjD9EG56JcF3KeDkS/6rFCTJemRORY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict.ac.cn; spf=pass smtp.mailfrom=ict.ac.cn; arc=none smtp.client-ip=159.226.251.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ict.ac.cn
+Received: from chenglingfei22s$ict.ac.cn ( [115.42.62.11] ) by
+ ajax-webmail-APP-10 (Coremail) ; Thu, 5 Jun 2025 11:02:51 +0800 (GMT+08:00)
+Date: Thu, 5 Jun 2025 11:02:51 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?56iL5YeM6aOe?= <chenglingfei22s@ict.ac.cn>
+To: sven@svenpeter.dev, j@jannau.net, alyssa@rosenzweig.io, neal@gompa.dev
+Cc: zhangzhenwei22b@ict.ac.cn, wangzhe12@ict.ac.cn, 
+	chenglingfei22s@ict.ac.cn, maddy@linux.ibm.com, mpe@ellerman.id.au, 
+	npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org, 
+	andi.shyti@kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [BUG] rmmod i2c-pasemi-platform causing kernel crash on Apple M1.
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.1-cmXT5 build
+ 20240627(e6c6db66) Copyright (c) 2002-2025 www.mailtech.cn cnic.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.15
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Message-ID: <5c598fea.3165d.1973e0a9a3a.Coremail.chenglingfei22s@ict.ac.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:tACowABnWYXcCEForT8GAA--.62932W
+X-CM-SenderInfo: xfkh0wpolqwwthlsj2g6lf3hldfou0/1tbiBgoEDmhA0QvjOgAAst
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW3Jw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-From: Hector Martin <marcan@marcan.st>
-
-[ Upstream commit 88fe3078b54c9efaea7d1adfcf295e37dfb0274f ]
-
-The I2C bus can get stuck under some conditions (desync between
-controller and device). The pasemi controllers include an unjam feature
-that is enabled on reset, but was being disabled by the driver. Keep it
-enabled by explicitly setting the UJM bit in the CTL register. This
-should help recover the bus from certain conditions, which would
-otherwise remain stuck forever.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
-Link: https://lore.kernel.org/r/20250427-pasemi-fixes-v3-1-af28568296c0@svenpeter.dev
-Signed-off-by: Andi Shyti <andi.shyti@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-Based on my thorough analysis of the commit and the surrounding
-codebase, I can now provide a comprehensive assessment. **YES** ##
-Extensive Analysis ### Nature of the Fix This commit addresses a **real
-hardware bug** where I2C buses can become permanently stuck under
-certain conditions. The analysis shows: 1. **Hardware Feature**: CTL_UJM
-is defined as `BIT(8)` in the control register and stands for "UnJaM
-mode" - a hardware feature specifically designed to automatically detect
-and recover from bus jam conditions. 2. **Real Problem**: The codebase
-reveals extensive jam detection mechanisms: - `SMSTA_JAM` (BIT(24)) and
-`SMSTA_JMD` (BIT(25)) status bits for detecting jams - Bus status
-polling that specifically waits for `!(status & SMSTA_JAM)` - Automatic
-resets triggered when `SMSTA_JMD` is detected 3. **User Impact**: The
-commit message states "The I2C bus can get stuck under some conditions
-(desync between controller and device)" and "would otherwise remain
-stuck forever" - indicating this causes **complete system functionality
-loss** for affected I2C peripherals. ### Code Change Analysis The fix is
-**minimal and surgical**: ```c -u32 val = (CTL_MTR | CTL_MRR |
-(smbus->clk_div & CTL_CLK_M)); +u32 val = (CTL_MTR | CTL_MRR | CTL_UJM |
-(smbus->clk_div & CTL_CLK_M)); ``` This single-line change adds
-`CTL_UJM` to the control register value during reset, enabling the
-hardware unjam feature that was previously being disabled. ### Stability
-Criteria Assessment ✅ **Fixes Important Bug**: Resolves permanent I2C
-bus lockups affecting system functionality ✅ **Small and Contained**:
-Single bit flip in one register during reset operation ✅ **Minimal
-Risk**: - Uses existing hardware feature (CTL_UJM already defined) -
-Only affects reset behavior - Hardware designed to handle this bit
-safely - No architectural changes ✅ **Clear Side Effects**: Only enables
-a hardware recovery mechanism - no negative side effects expected ✅
-**Critical Subsystem**: I2C is fundamental infrastructure used by many
-system components ### Platform Context This affects **production
-hardware**: - Apple Silicon (M1, M2, etc.) devices - Maintained by
-active Asahi Linux team - Real users depend on functional I2C for USB-
-PD, audio, and other critical peripherals ### Comparison to Similar
-Commits This aligns closely with **Similar Commit #2** (marked YES)
-which also addressed I2C bus recovery by improving lockup detection and
-triggering recovery mechanisms. Both commits: - Fix real I2C bus lockup
-issues - Make minimal, targeted changes - Improve hardware recovery
-capabilities - Have low regression risk ### Conclusion This commit
-represents an ideal stable backport candidate: it fixes a serious
-hardware issue that completely breaks I2C functionality with a minimal,
-low-risk change that enables an existing hardware recovery feature. The
-fix prevents permanent system failures on affected hardware platforms.
-
- drivers/i2c/busses/i2c-pasemi-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/i2c/busses/i2c-pasemi-core.c b/drivers/i2c/busses/i2c-pasemi-core.c
-index bd128ab2e2ebb..27ab09854c927 100644
---- a/drivers/i2c/busses/i2c-pasemi-core.c
-+++ b/drivers/i2c/busses/i2c-pasemi-core.c
-@@ -71,7 +71,7 @@ static inline int reg_read(struct pasemi_smbus *smbus, int reg)
- 
- static void pasemi_reset(struct pasemi_smbus *smbus)
- {
--	u32 val = (CTL_MTR | CTL_MRR | (smbus->clk_div & CTL_CLK_M));
-+	u32 val = (CTL_MTR | CTL_MRR | CTL_UJM | (smbus->clk_div & CTL_CLK_M));
- 
- 	if (smbus->hw_rev >= 6)
- 		val |= CTL_EN;
--- 
-2.39.5
-
+SGksIGFsbCEKCldl4oCZdmUgZW5jb3VudGVyZWQgYSBrZXJuZWwgY3Jhc2ggd2hlbiBydW5uaW5n
+IHJtbW9kIGkyYy1wYXNlbWktcGxhdGZvcm0gb24gYSBNYWMgTWluaSBNMSAoVDgxMDMpIHJ1bm5p
+bmcgQXNhaGkgQXJjaCBMaW51eC4gCgpUaGUgYnVnIHdhcyBmaXJzdCBmb3VuZCBvbiB0aGUgTGlu
+dXggdjYuNiwgd2hpY2ggaXMgYnVpbHQgbWFudWFsbHkgd2l0aCB0aGUgQXNhaGkgZ2l2ZW4gY29u
+ZmlnIHRvIHJ1biBvdXIgc2VydmljZXMuIApBdCB0aGF0IHRpbWUsIHRoZSBpMmMtcGFzZW1pLXBs
+YXRmb3JtIHdhcyBpMmMtYXBwbGUuCgpXZSBub3RpY2VkIGluIHRoZSBMaW51eCB2Ni43LCB0aGUg
+cGFzZW1pIGlzIHNwbGl0dGVkIGludG8gdHdvIHNlcGFyYXRlIG1vZHVsZXMsIG9uZSBvZiB3aGlj
+aCBpcyBpMmMtcGFzZW1pLXBsYXRmb3JtLgpUaGVyZWZvcmUsIHdlIGJ1aWx0IExpbnV4IHY2LjE0
+LjYgYW5kIHRyaWVkIHRvIHJtbW9kIGkyYy1wYXNlbWktcGxhdGZvcm0gYWdhaW4sIHRoZSBjcmFz
+aCBzdGlsbCBleGlzdHMuIE1vcmVvdmVyLCB3ZSBmZXRjaGVkIAp0aGUgbGF0ZXN0IGkyYy1wYXNl
+bWktcGxhdGZvcm0gb24gbGludXgtbmV4dCg5MTE0ODNiMjU2MTJjOGJjMzJhNzA2YmE5NDA3Mzhj
+YzQzMjk5NDk2KSBhbmQgYXNhaGksIGJ1aWx0IHRoZW0gYW5kIAp0ZXN0ZWQgYWdhaW4gd2l0aCBM
+aW51eCB2Ni4xNC42LCBidXQgdGhlIGNyYXNoIHJlbWFpbnMuCgpCZWNhdXNlIGtleGVjIGlzIG5v
+dCBzdXBwb3J0ZWQgYW5kIHdpbGwgbmV2ZXIgYmUgZnVsbHkgc3VwcG9ydGVkIG9uIEFwcGxlIFNp
+bGljb24gcGxhdGZvcm1zIGR1ZSB0byBoYXJkd2FyZSBhbmQgZmlybXdhcmUgCmRlc2lnbiBjb25z
+dHJhaW50cywgd2UgY2FuIG5vdCByZWNvcmQgdGhlIHBhbmljIGxvZ3MgdGhyb3VnaCBrZHVtcC4K
+ClRodXMgd2UgdHJpZWQgdG8gZmluZCB0aGUgcm9vdCBjYXVzZSBvZiB0aGUgaXNzdWUgbWFudWFs
+bHkuIFdoZW4gd2UgcGVyZm9ybSBybW1vZCwgdGhlIGtlcm5lbCBwZXJmb3JtcyBkZXZpY2UgcmVs
+ZWFzaW5nIG9uIAp0aGUgaTJjIGJ1cywgdGhlbiBjYWxscyB0aGUgcmVtb3ZlIGZ1bmN0aW9uIGlu
+IHNuZC1zb2MtY3M0Mmw4My1pMmMsIHdoaWNoIGNhbGxzIHRoZSBjczQybDQyX2NvbW1vbl9yZW1v
+dmUgaW4gY3M0Mmw0MiwgCmJlY2F1c2UgY3M0Mmw0Mi0mZ3Q7aW5pdF9kb25lIGlzIHRydWUsIGl0
+IHBlcmZvcm1zIHJlZ21hcF93cml0ZSwgYW5kIGZpbmFsbHkgY2FsbHMgaW50byBwYXNlbWlfc21i
+X3dhaXRyZWFkeSBpbiBpMmMtcGFzZW1pCi1jb3JlLmMuIFdlIG5vdGljZWQgdGhhdCBzbWJ1cy0m
+Z3Q7dXNlX2lycSBpcyB0cnVlLCBhbmQgYWZ0ZXIgaXQgY2FsbHMgaW50byB3YWl0X2Zvcl9jb21w
+bGV0aW9uX3RpbWVvdXQsIHRoZSBzeXN0ZW0gY3Jhc2hzIQoKV2UgZm91bmQgdGhhdCB3YWl0X2Zv
+cl9jb21wbGV0aW9uX3RpbWVvdXQgaXMgb25lIG9mIHRoZSBjb3JlIHNjaGVkdWxlciBBUElzIHVz
+ZWQgYnkgdGVucyBvZiB0aG91c2FuZHMgb2Ygb3RoZXIgZHJpdmVycywKaXQgaXMgdW5saWtlbHkg
+Y2F1c2luZyB0aGUgY3Jhc2guIFNvIHdlIHRyaWVkIHRvIHJlbW92ZSB0aGUgY2FsbCB0byB3YWl0
+X2Zvcl9jb21wbGV0aW9uX3RpbWVvdXQsIHRoZW4gdGhlIHN5c3RlbSBzZWVtcyB0bwpydW4gd2Vs
+bC4KCkhvd2V2ZXIsIGJlY2F1c2Ugd2UgaGF2ZSBsaXR0bGUga25vd2xlZGdlIGFib3V0IGkyYyBk
+ZXZpY2VzIGFuZCBzcGVjaWZpY2F0aW9ucywgd2UgYXJlIG5vdCBzdXJlIHdoZXRoZXIgdGhpcyBj
+aGFuZ2Ugd2lsbCAKY2F1c2Ugb3RoZXIgcG90ZW50aWFsIGhhcm1zIGZvciB0aGUgc3lzdGVtIGFu
+ZCBkZXZpY2UuIElzIHRoaXMgY2FsbCB0byB3YWl0IG5lY2VzYXJ5IGhlcmU/IE9yIGNhbiB5b3Ug
+Z2l2ZSBhIG1vcmUgCnNvcGhpc3RpY2F0ZWQgZml4PwoKV2XigJlyZSBoYXBweSB0byBwcm92aWRl
+IGFkZGl0aW9uYWwgbG9ncywgY29uZmlncywgb3IgdGVzdGluZyBhc3Npc3RhbmNlLiBBbnkgZ3Vp
+ZGFuY2Ugd291bGQgYmUgZ3JlYXRseSBhcHByZWNpYXRlZCEKCgo=
