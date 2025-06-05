@@ -1,127 +1,97 @@
-Received: from cstnet.cn (smtp87.cstnet.cn [159.226.251.87])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044ADF4F1
-	for <asahi@lists.linux.dev>; Thu,  5 Jun 2025 12:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC3D1EB5DB
+	for <asahi@lists.linux.dev>; Thu,  5 Jun 2025 13:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749124992; cv=none; b=hegx18sIi2V8GMeDNVwAJqdmf879Kx0B2P5rt1vqyFl3hr5DY6Tj9l0XwQ7FdL3qhsFnkDKqRfLq4ZBb/+wHiea9KeDSzK7rNW9OiQbwDbdDZwHQHfBNL3H2HYyRjC+GwxkN7qrD5szPA7soh4fxVT6GDbO9RB93dYcDFzeXn34=
+	t=1749129880; cv=none; b=V3Ac5wtfSuygSVhj7rd+f5dmv/8xIMt3ylqvLmuBielJ7WQh0C9PylDLyM6f8BQz2UIIDuQXDyfEsxbvwCXQxslND9DOn0TwbfNlNL3yDA67vihHkcloCadbDW6ifEfEXYsgGTuMkVSXppNMfT5wEuJ1bhtavxv5nMX2pWuCNug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749124992; c=relaxed/simple;
-	bh=rXlgnrnD2yeES9tC2kP2vDA8Z0bsnayASllAK5ZGhkc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=PNAKosbdGU8giQ1H/Dq+VwLA1u31kp+0Xp4fxwJrg22CUg1V7lgR+bOsFK/KXkHQuPnpR/Fs916afjBu/sSGljC+FR4XIgRYO547R7tBhiMaXkZrwBOC26zyuLq8ZWZDyKV9pHtTYPS20J2cbeOkxZgLwAsdQtBeMtkL1QoX5ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict.ac.cn; spf=pass smtp.mailfrom=ict.ac.cn; arc=none smtp.client-ip=159.226.251.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ict.ac.cn
-Received: from chenglingfei22s$ict.ac.cn ( [115.42.62.11] ) by
- ajax-webmail-APP-17 (Coremail) ; Thu, 5 Jun 2025 19:55:00 +0800 (GMT+08:00)
-Date: Thu, 5 Jun 2025 19:55:00 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: chenglingfei <chenglingfei22s@ict.ac.cn>
-To: "Sven Peter" <sven@kernel.org>
-Cc: j@jannau.net, alyssa@rosenzweig.io, neal@gompa.dev, 
-	zhangzhenwei22b@ict.ac.cn, wangzhe12@ict.ac.cn, maddy@linux.ibm.com, 
-	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu, 
-	naveen@kernel.org, andi.shyti@kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: [BUG] rmmod i2c-pasemi-platform causing kernel crash on
- Apple M1.
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.1-cmXT5 build
- 20240627(e6c6db66) Copyright (c) 2002-2025 www.mailtech.cn cnic.cn
-In-Reply-To: <dafd58ae-0a08-4fe6-b94d-c8c6c8c1fa97@kernel.org>
-References: <5c598fea.3165d.1973e0a9a3a.Coremail.chenglingfei22s@ict.ac.cn>
- <dafd58ae-0a08-4fe6-b94d-c8c6c8c1fa97@kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1749129880; c=relaxed/simple;
+	bh=ph8J09n5JKQD535azyDhvY/sp5bOQf//77AfpWmxs2Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gvxYyPrdPrPV4H9FGdWoAwLsGeBY+Uzg7+1Jn/oAf6Pg5mfFqrZ/aq2q+x7BEP0oIfdD7bSMW983Zc7J49giON6gu/KdT7Mv7a78h6JCPc1bLhHXX/BRRt5R/LBay3M7lOPfrIG1mGg3qUUx4quhbaopEgYX8TqNa1yKNx4yfig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ieWjVpwS; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ieWjVpwS"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55351af2fc6so1269377e87.0
+        for <asahi@lists.linux.dev>; Thu, 05 Jun 2025 06:24:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1749129876; x=1749734676; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ph8J09n5JKQD535azyDhvY/sp5bOQf//77AfpWmxs2Y=;
+        b=ieWjVpwSugX1UXb0nIWJQyG0m+JvBVo/aGrhBX818gakThBeD2omjoe/nLIwIqxcN5
+         5eBG19GwDQ5nOfGIE9yLP9a5bMoNVtmli8bElctAy8RX/yOoP/9A7cYndAyU9tttnb4T
+         VFJY7+vM9JkPd5gV8OesiJ0v230iDnfj6LzEbe5MFK1uPvNaGg3HyguvLr1adP+vIh6n
+         Dx+KMu/AuYxYFTSwN+z3kzu8N23aMXrJtDIi9z2hg8LeAxhKU7glJy8gtltELuDGi0yN
+         IJDIJPshOe28IY52kXZXimHV5lNExqOq1UFTWw+tQy5F6ArPyW9BMr2+7TQlQdrT2Kb1
+         yFNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749129876; x=1749734676;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ph8J09n5JKQD535azyDhvY/sp5bOQf//77AfpWmxs2Y=;
+        b=Dik3X/OPurUhyzL/ea8FqGU8aAxIYrV5943/H0w6HA2e6N09aTbXTeu5HfBJy5Ojdf
+         BefQ4PWYfjLFHnKO0hUeUMjo7S3vq0wNLFhswm/aBlAv5gHd8hdeT27LyMPlldHSX+CO
+         MIAh8X8N1E1fubDVvPsz7k2m8Mp+XwdTr2ktyH3UpdQRtULqruquMKBZBmeKM5VnDVVv
+         qLsVCvlHCBhlh1u5FI31HmWo/1KJSjYWb3gMfKBedkc+Z6hS6kRPX8tdhtIHAxdpgY/J
+         tCdOLcWl4lZ3IdP7FTdNvLrI5q0eFcAwJs7TgLH+fzFi58GS1UribBbiWD4DIS5AyZKl
+         nYJA==
+X-Forwarded-Encrypted: i=1; AJvYcCXtbdxjyR1S8cY4aHeJLcf+l7IgPbrtgKw1vrMlA9zSYmtyNqIbcmOZTIZaVxnrsqkBc9X/FA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYaB0R8fQraJJl7Rj2OE1UYjx8AVfd6Ko+6tr+dLCMcZeB//uL
+	J3DpDpBmUxlSGVVE2ODvz9syFf/GRs8k1LUsnJbV8Jb/RzMn9gcOxftlOy3e5klGl2t6CgvGoAN
+	rWjJ3DqUpA9gyW1TzSOXvllfPWgl+TMjsuv1TlESkeQ==
+X-Gm-Gg: ASbGncvGhYGTtnQbpuRWRUFqCN7V8sP4LAqxXUbxlXYTOHzoUin+SvQwxgysiIQ53Vg
+	/VI9zHbiGHB56hcXUmgpD/rFL98kWPOnnRDeOhkWRxaixbb7iEvYlOwxN10mFjV8b+FhjCAa1wo
+	n+XQJPz5GuflJ+W79iDtHy4Ayz8eBVRPsv
+X-Google-Smtp-Source: AGHT+IHcFKkR1DgTHybFc9+cXkjDfNRWO9Y5rsQ/Vs78BAkzeGllU9ZiczF0eVkbFtRkeWxN8XAgTwUOdn8ciwJ5GKY=
+X-Received: by 2002:a05:6512:4011:b0:553:26f6:bc01 with SMTP id
+ 2adb3069b0e04-55356e0492dmr1902010e87.53.1749129876416; Thu, 05 Jun 2025
+ 06:24:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <4cfe2276.2c0da.1973ff1cc40.Coremail.chenglingfei22s@ict.ac.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:qgCowAAn2AGUhUFonO0EAA--.19078W
-X-CM-SenderInfo: xfkh0wpolqwwthlsj2g6lf3hldfou0/1tbiBgoEDmhBUZjeHwAAsn
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW3Jw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+References: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-0-5d75a3711e40@redhat.com>
+ <20250529-b4-drm_panel_mass_driver_convert_part3-v2-29-5d75a3711e40@redhat.com>
+In-Reply-To: <20250529-b4-drm_panel_mass_driver_convert_part3-v2-29-5d75a3711e40@redhat.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 5 Jun 2025 15:24:24 +0200
+X-Gm-Features: AX0GCFv_P_oe8_LfoK0HrETyIz_pn_ODXYaiFB7vtLAilhJTNSsv4UaB2RLH_HU
+Message-ID: <CACRpkdaFYcvq+XsQ6FocXqW-gnoP+66CL4hTiSQ=w0fc1jckig@mail.gmail.com>
+Subject: Re: [PATCH v2 29/46] panel/sony-acx565akm: Use refcounted allocation
+ in place of devm_kzalloc()
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Robert Chiras <robert.chiras@nxp.com>, Markuss Broks <markuss.broks@gmail.com>, 
+	Artur Weber <aweber.kernel@gmail.com>, Dzmitry Sankouski <dsankouski@gmail.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+	Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megi@xff.cz>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+	Janne Grunau <j@jannau.net>, Michael Trimarchi <michael@amarulasolutions.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CgoKJmd0OyAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCiZndDsg5Y+R5Lu25Lq6OiAiU3ZlbiBQZXRl
-ciIgPHN2ZW5Aa2VybmVsLm9yZz4KJmd0OyDlj5HpgIHml7bpl7Q6IDIwMjUtMDYtMDUgMTg6MjU6
-MDkgKOaYn+acn+WbmykKJmd0OyDmlLbku7bkuro6IOeoi+WHjOmjniA8Y2hlbmdsaW5nZmVpMjJz
-QGljdC5hYy5jbj4sIGpAamFubmF1Lm5ldCwgYWx5c3NhQHJvc2VuendlaWcuaW8sIG5lYWxAZ29t
-cGEuZGV2CiZndDsg5oqE6YCBOiB6aGFuZ3poZW53ZWkyMmJAaWN0LmFjLmNuLCB3YW5nemhlMTJA
-aWN0LmFjLmNuLCBtYWRkeUBsaW51eC5pYm0uY29tLCBtcGVAZWxsZXJtYW4uaWQuYXUsIG5waWdn
-aW5AZ21haWwuY29tLCBjaHJpc3RvcGhlLmxlcm95QGNzZ3JvdXAuZXUsIG5hdmVlbkBrZXJuZWwu
-b3JnLCBhbmRpLnNoeXRpQGtlcm5lbC5vcmcsIGFzYWhpQGxpc3RzLmxpbnV4LmRldiwgbGludXgt
-YXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnLCBsaW51eHBwYy1kZXZAbGlzdHMub3psYWJz
-Lm9yZywgbGludXgtaTJjQHZnZXIua2VybmVsLm9yZywgbGludXgta2VybmVsQHZnZXIua2VybmVs
-Lm9yZwomZ3Q7IOS4u+mimDogUmU6IFtCVUddIHJtbW9kIGkyYy1wYXNlbWktcGxhdGZvcm0gY2F1
-c2luZyBrZXJuZWwgY3Jhc2ggb24gQXBwbGUgTTEuCiZndDsgCiZndDsgSGksCiZndDsgCiZndDsg
-T24gMDUuMDYuMjUgMDU6MDIsIOeoi+WHjOmjniB3cm90ZToKJmd0OyAmZ3Q7IEhpLCBhbGwhCiZn
-dDsgJmd0OyAKJmd0OyAmZ3Q7IFdl4oCZdmUgZW5jb3VudGVyZWQgYSBrZXJuZWwgY3Jhc2ggd2hl
-biBydW5uaW5nIHJtbW9kIGkyYy1wYXNlbWktcGxhdGZvcm0gb24gYSBNYWMgTWluaSBNMSAoVDgx
-MDMpIHJ1bm5pbmcgQXNhaGkgQXJjaCBMaW51eC4KJmd0OyAmZ3Q7IAomZ3Q7ICZndDsgVGhlIGJ1
-ZyB3YXMgZmlyc3QgZm91bmQgb24gdGhlIExpbnV4IHY2LjYsIHdoaWNoIGlzIGJ1aWx0IG1hbnVh
-bGx5IHdpdGggdGhlIEFzYWhpIGdpdmVuIGNvbmZpZyB0byBydW4gb3VyIHNlcnZpY2VzLgomZ3Q7
-ICZndDsgQXQgdGhhdCB0aW1lLCB0aGUgaTJjLXBhc2VtaS1wbGF0Zm9ybSB3YXMgaTJjLWFwcGxl
-LgomZ3Q7ICZndDsgCiZndDsgJmd0OyBXZSBub3RpY2VkIGluIHRoZSBMaW51eCB2Ni43LCB0aGUg
-cGFzZW1pIGlzIHNwbGl0dGVkIGludG8gdHdvIHNlcGFyYXRlIG1vZHVsZXMsIG9uZSBvZiB3aGlj
-aCBpcyBpMmMtcGFzZW1pLXBsYXRmb3JtLgomZ3Q7ICZndDsgVGhlcmVmb3JlLCB3ZSBidWlsdCBM
-aW51eCB2Ni4xNC42IGFuZCB0cmllZCB0byBybW1vZCBpMmMtcGFzZW1pLXBsYXRmb3JtIGFnYWlu
-LCB0aGUgY3Jhc2ggc3RpbGwgZXhpc3RzLiBNb3Jlb3Zlciwgd2UgZmV0Y2hlZAomZ3Q7ICZndDsg
-dGhlIGxhdGVzdCBpMmMtcGFzZW1pLXBsYXRmb3JtIG9uIGxpbnV4LW5leHQoOTExNDgzYjI1NjEy
-YzhiYzMyYTcwNmJhOTQwNzM4Y2M0MzI5OTQ5NikgYW5kIGFzYWhpLCBidWlsdCB0aGVtIGFuZAom
-Z3Q7ICZndDsgdGVzdGVkIGFnYWluIHdpdGggTGludXggdjYuMTQuNiwgYnV0IHRoZSBjcmFzaCBy
-ZW1haW5zLgomZ3Q7ICZndDsgCiZndDsgJmd0OyBCZWNhdXNlIGtleGVjIGlzIG5vdCBzdXBwb3J0
-ZWQgYW5kIHdpbGwgbmV2ZXIgYmUgZnVsbHkgc3VwcG9ydGVkIG9uIEFwcGxlIFNpbGljb24gcGxh
-dGZvcm1zIGR1ZSB0byBoYXJkd2FyZSBhbmQgZmlybXdhcmUKJmd0OyAmZ3Q7IGRlc2lnbiBjb25z
-dHJhaW50cywgd2UgY2FuIG5vdCByZWNvcmQgdGhlIHBhbmljIGxvZ3MgdGhyb3VnaCBrZHVtcC4K
-Jmd0OyAKJmd0OyBEbyB5b3UgaGF2ZSBVQVJUIGNvbm5lY3RlZCB0byBhIGRldmljZSB1bmRlciB0
-ZXN0IHdoaWNoIHlvdSBjb3VsZCB1c2UgdG8gCiZndDsgZ3JhYiB0aGUgcGFuaWMgbG9nIGZyb20g
-dGhlIGtlcm5lbD8gQWx0ZXJuYXRpdmVseSB5b3UgY2FuIGFsc28gcnVuIHRoZSAKJmd0OyBrZXJu
-ZWwgdW5kZXIgbTFuMSdzIGh5cGVydmlzb3IgYW5kIGdyYWIgdGhlIGxvZyB0aGF0IHdheS4gSXQn
-bGwgZW11bGF0ZSAKJmd0OyB0aGUgc2VyaWFsIHBvcnQgYW5kIHJlZGlyZWN0IGl0cyBvdXRwdXQg
-dmlhIFVTQi4KJmd0OyAKCkkgZG9uJ3QgaGF2ZSBVQVJULCBidXQgSSBoYXZlIHRyaWVkIHRvIHJ1
-biB0aGUga2VybmVsIHVuZGVyIG0xbjEncyBoeXBlcnZpc29yLiBIb3dldmVyLCBpdCBkb2VzIG5v
-dCB0cmlnZ2VyIHRoZSByZWxlYXNlIG9mIGNzNDJsODMuIApHaXZlbiB0aGF0IG0xbjEgcHJvdmlk
-ZXMgZnVsbCBwZXJpcGhlcmFsIGRldmljZSBlbXVsYXRpb24gY2FwYWJpbGl0eSwgdGhlIG1vc3Qg
-cGxhdXNpYmxlIGV4cGxhbmF0aW9uIHdvdWxkIGJlIGFuIGluY29ycmVjdCAKZmlybXdhcmUgbG9h
-ZGluZyBzZXF1ZW5jZS4gQnV0IHRoZSBkb2N1bWVudGF0aW9uIG9mIEFzYWhpIHByb3ZpZGVzIGxp
-dHRsZSBkZXRhaWxzIGFib3V0IGhvdyB0byBnZW5lcmF0ZSBhbiBpbml0cmFtZnMgd2l0aCAKZmly
-bXdhcmUgKEkgdGhpbmspLCBjYW4geW91IGdpdmUgbW9yZSBndWlkYW5jZSBhYm91dCBpdD8KCiZn
-dDsgJmd0OyAKJmd0OyAmZ3Q7IFRodXMgd2UgdHJpZWQgdG8gZmluZCB0aGUgcm9vdCBjYXVzZSBv
-ZiB0aGUgaXNzdWUgbWFudWFsbHkuIFdoZW4gd2UgcGVyZm9ybSBybW1vZCwgdGhlIGtlcm5lbCBw
-ZXJmb3JtcyBkZXZpY2UgcmVsZWFzaW5nIG9uCiZndDsgJmd0OyB0aGUgaTJjIGJ1cywgdGhlbiBj
-YWxscyB0aGUgcmVtb3ZlIGZ1bmN0aW9uIGluIHNuZC1zb2MtY3M0Mmw4My1pMmMsIHdoaWNoIGNh
-bGxzIHRoZSBjczQybDQyX2NvbW1vbl9yZW1vdmUgaW4gY3M0Mmw0MiwKJmd0OyAmZ3Q7IGJlY2F1
-c2UgY3M0Mmw0Mi0mZ3Q7aW5pdF9kb25lIGlzIHRydWUsIGl0IHBlcmZvcm1zIHJlZ21hcF93cml0
-ZSwgYW5kIGZpbmFsbHkgY2FsbHMgaW50byBwYXNlbWlfc21iX3dhaXRyZWFkeSBpbiBpMmMtcGFz
-ZW1pCiZndDsgJmd0OyAtY29yZS5jLiBXZSBub3RpY2VkIHRoYXQgc21idXMtJmd0O3VzZV9pcnEg
-aXMgdHJ1ZSwgYW5kIGFmdGVyIGl0IGNhbGxzIGludG8gd2FpdF9mb3JfY29tcGxldGlvbl90aW1l
-b3V0LCB0aGUgc3lzdGVtIGNyYXNocyEmZ3Q7CiZndDsgJmd0OyBXZSBmb3VuZCB0aGF0IHdhaXRf
-Zm9yX2NvbXBsZXRpb25fdGltZW91dCBpcyBvbmUgb2YgdGhlIGNvcmUgc2NoZWR1bGVyIEFQSXMg
-dXNlZCBieSB0ZW5zIG9mIHRob3VzYW5kcyBvZiBvdGhlciBkcml2ZXJzLAomZ3Q7ICZndDsgaXQg
-aXMgdW5saWtlbHkgY2F1c2luZyB0aGUgY3Jhc2guIFNvIHdlIHRyaWVkIHRvIHJlbW92ZSB0aGUg
-Y2FsbCB0byB3YWl0X2Zvcl9jb21wbGV0aW9uX3RpbWVvdXQsIHRoZW4gdGhlIHN5c3RlbSBzZWVt
-cyB0bwomZ3Q7ICZndDsgcnVuIHdlbGwuCiZndDsgJmd0OyAKJmd0OyAmZ3Q7IEhvd2V2ZXIsIGJl
-Y2F1c2Ugd2UgaGF2ZSBsaXR0bGUga25vd2xlZGdlIGFib3V0IGkyYyBkZXZpY2VzIGFuZCBzcGVj
-aWZpY2F0aW9ucywgd2UgYXJlIG5vdCBzdXJlIHdoZXRoZXIgdGhpcyBjaGFuZ2Ugd2lsbAomZ3Q7
-ICZndDsgY2F1c2Ugb3RoZXIgcG90ZW50aWFsIGhhcm1zIGZvciB0aGUgc3lzdGVtIGFuZCBkZXZp
-Y2UuIElzIHRoaXMgY2FsbCB0byB3YWl0IG5lY2VzYXJ5IGhlcmU/IE9yIGNhbiB5b3UgZ2l2ZSBh
-IG1vcmUKJmd0OyAmZ3Q7IHNvcGhpc3RpY2F0ZWQgZml4PwomZ3Q7IAomZ3Q7IFllcywgdGhhdCBj
-YWxsIGlzIG5lY2Vzc2FyeS4gSXQgd2FpdHMgZm9yIHRoZSAidHJhbnNmZXIgY29tcGxldGVkIiAK
-Jmd0OyBpbnRlcnJ1cHQgZnJvbSB0aGUgaGFyZHdhcmUuIFdpdGhvdXQgaXQgdGhlIGRyaXZlciB3
-aWxsIHRyeSB0byByZWFkIGRhdGEgCiZndDsgYmVmb3JlIGl0J3MgYXZhaWxhYmxlIGFuZCB5b3Un
-bGwgc2VlIGNvcnJ1cHRpb24uIEknbSBzdXJwcmlzZWQgaGFyZHdhcmUgCiZndDsgYXR0YWNoZWQg
-dG8gaTJjICh1c2IgcGQgY29udHJvbGxlciBhbmQgYXVkaW8gSSB0aGluaykgd29ya3MgYXQgYWxs
-IHdpdGggCiZndDsgdGhhdCBjaGFuZ2UuCiZndDsgCiZndDsgCiZndDsgU3ZlbgoKQXJlIHRoZXJl
-IGFueSBtZXRob2RzIG9yIHRvb2xzIHRvIHN5c3RlbWF0aWNhbGx5IHZlcmlmeSBpdHMgZnVuY3Rp
-b25hbGl0eT8gSSBhbSBub3Qgc3VyZSB3aGV0aGVyIHRoZSBkZXZpY2VzIGF0dGFjaGVkIHRvIGky
-YwpzaG91bGQgd29yayB3ZWxsIGV2ZW4gYWZ0ZXIgdGhlIGkyYy1wYXNlbWktcGxhdGZvcm0gaGFz
-IGJlZW4gcmVtb3ZlZC4KPC9jaGVuZ2xpbmdmZWkyMnNAaWN0LmFjLmNuPjwvc3ZlbkBrZXJuZWwu
-b3JnPg==
+On Fri, May 30, 2025 at 4:52=E2=80=AFAM Anusha Srivatsa <asrivats@redhat.co=
+m> wrote:
+
+> Move to using the new API devm_drm_panel_alloc() to allocate the
+> panel.
+>
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
