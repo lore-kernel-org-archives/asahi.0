@@ -1,64 +1,64 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93952153D8
-	for <asahi@lists.linux.dev>; Mon,  9 Jun 2025 15:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD6321FF25
+	for <asahi@lists.linux.dev>; Mon,  9 Jun 2025 15:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749481204; cv=none; b=eLYY10kYPc/JLwTeMGlYI55mTg4uhIT50ARU1b4zxE7DdNpX0fCYvynrUPmwA9Z72mBfFbirsqkj2rGl3EpK0C5bm6zVvLd1J5qjnehqC0Oa+xpclYu0aP+24u+t9FNNsDZ3GmqXx4iMQTokDH/E/yhUf/QkAyU/qUCkX4f22dk=
+	t=1749481207; cv=none; b=ZCRZWEHmVjrrbEp5Uu9zml6Or+CqcU1xBsqIBSzxJcd1fYSIZjoPgyM3QQosdem5qQa+nRCzpdfF1HbQXiIl/mvbE411hFmlczTsmcaJDiTUGgwsy870+2rfp7XPDHr6eX/hIuglpzccIlOhciHYv646V+YHOCzz0qCg++7PXCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749481204; c=relaxed/simple;
-	bh=PV7pE5dMBWkFx+09DLMIQbO1nXOreHSRyJXi4QVzwpg=;
+	s=arc-20240116; t=1749481207; c=relaxed/simple;
+	bh=eRCFJ8dvOjeUHBlZsV7soqFq1C8e016G7WXxzwjB5sU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OI+uKaV6yYB54Or6GevRzCsJ+4UtIIoN3kO6wG9w6S76T9CrM1wRwmKTm198le5Nvj966edtgqwxP8LZNQ2/bEFwCcmIUNtXyxdLtPAy8Ng1vUwIurpLBawDevgBhMHch2ligcm8eWTeOcw64LVAZO4upT0j83CbUw/hCgTdFIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P5NWkNBT; arc=none smtp.client-ip=209.85.210.182
+	 In-Reply-To:To:Cc; b=sWWUz2Ja+HvMZpUOD2V8KoD2QXmBYKGDyA2RimdrLJ6gWt8wqTZEVIJ6CL/85PlSwgkmkiTbGY6tGodg4/uFa8ZQSb10ANXkxVT68TEQtwxMmhEOysaNGB/yhDbL9jDJ8FeCuhYvpPMG0rIpzNv9fNHXuxWuC+PoXLM0p5N6Adk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ctc5qd+d; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P5NWkNBT"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7390d21bb1cso3495635b3a.2
-        for <asahi@lists.linux.dev>; Mon, 09 Jun 2025 08:00:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ctc5qd+d"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-748582445cfso370437b3a.2
+        for <asahi@lists.linux.dev>; Mon, 09 Jun 2025 08:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749481202; x=1750086002; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1749481205; x=1750086005; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=We79xSATZryd3PrxaJd1l/KZAbqX/U4R8F+x+ZK497k=;
-        b=P5NWkNBTghlzf+6HlvZCyC+1vxsMDtgz9GZpeZz9wFUVGANyjGkz5yVd54Uv6WSJMq
-         iC97TNrtJxANtpCSzGYyk9Y6vVhRYYK0DKaX7rBm29Hd/mt6vsTlLKC2eRJneTUJmyfd
-         6eRVKdRUMvQrzEIh+kJH4+RBzPaUULwhR+EW/ogsFsOXc1DHCY319XJgzfCmZsr5bUj+
-         SnLUtTr+eR9AIxxwL9qmi8FuFljraUKe+pWG6f2WzoYuslTyWlmvqdftFAc4X57I3ksf
-         My2vyF8LLNN4kkkXO3CoTjQNDumHvKVxRc4Z3U4diPuHN+2gfvsuJoPvIEyi+sgBJ3YE
-         s9OQ==
+        bh=6yVhZrBH2XJkvXeJPx485NaUg0f52uoxVNkAfcEPF1w=;
+        b=Ctc5qd+dy2+XdO47wayo2jCldNKAv7eSL+A8ceWEsZ+Pc1Qe2Esj4aSZJqz02VfMv2
+         6hZraUBFD2uRGeGg/4IUKwyXL/ntLJ57XXDi5iSPCK6DwoSSzrHhadNvhEl37l/7XlWR
+         C0Gw3i7TDjmKv04GZmxVRpKSHcf25I3Ufe6/TjbE3vTzk1zP3EQP34KpQcTTZOe+iRlA
+         5rtqc0fi6OEY6GKZa6f+JtGOSI+Erzxo4EwNAgECboJPhRZ+2yoonGqsawtEcNMuhvVN
+         NHI1dLF5rey9amNCTfom7ogCW6kraIx39FnUfSXP19Wg0rAoJbRicmVkVF0kKUIHK7EL
+         nNOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749481202; x=1750086002;
+        d=1e100.net; s=20230601; t=1749481205; x=1750086005;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=We79xSATZryd3PrxaJd1l/KZAbqX/U4R8F+x+ZK497k=;
-        b=XOuh8TAtUReeyohyb7w29EHVjfIAJRFo2BOhxTRWr2VogdiwC9M4rJWolxMVUOrcMs
-         lELZy4HzacRqNFrpTcDR+7vyq7tsozTjw7i+Coo1nrcz+hbrn2NhD3NptvkG9xedRDlZ
-         /y7P53kdhxOhysOEhGlp9c4kmmF2JGCWo15JEBmc57InxERjqxc0ZN/ViEYC1KGRI4l/
-         1GG0TAXLVmo59L/znBKXM+mwo5wBES2hu3v0kdWQ9dMhIDtBItGO7iC4bSpyHTrkgx6C
-         +XjoeOzcKhSJjglA8PhxhLeWkMCvl3APThmLo2tp0WHhHmrKLxclmWto+h/X30QOyMR9
-         5JYw==
-X-Gm-Message-State: AOJu0YwaoVE1Z+EKRKVUq+jNDTEGeBW6XpG5Elbvm5pqo12KuMOJj+iC
-	DbjmsPA+vNmNNwsg6g4bzdwJ2NjPVW0wBujsu8+GRkNgo61QB55Vl2wu
-X-Gm-Gg: ASbGnct5PH7Bc/pjaFXSPXkT9dt+w61PKtQ7DGkjgC1UIDMZyp8Uh71SGKRqMS840nO
-	HB3DfSspMVvP1hkWludlmvUGnDQDkr87L9bl6I1UqYeXnWuT7cVMfkABmN0HYmku2Ka1eeN0vJ3
-	41fIGdzAi9AbcwJFWaJMcjomlHFOdh+w0Bp/nJwFUFtV6/Rm0n7sPWO3RNZzQHw5CcWFmrNnRvZ
-	MryXaHVcZOFtLu5/oXo2FthuByGpFEurWcIuvC8fqzSyjbft/lyjbBPQBjWgkg9YwWIvgmcHNIz
-	8MUv/De1D/4pWK9yVxK6PZdMecIkGoOp/sMNMnUdIEh+B0uorthIhGunyHy3pjH7
-X-Google-Smtp-Source: AGHT+IGV2BGzzy6R/WMt4MsmQhW4tg+O2U+Kfqh52ETZGaR5pStKS0SKC3g3z0CgKS7hq4xQjozMAg==
-X-Received: by 2002:a05:6a00:4605:b0:748:3a1a:ba86 with SMTP id d2e1a72fcca58-7483a1ad217mr10125395b3a.11.1749481202023;
-        Mon, 09 Jun 2025 08:00:02 -0700 (PDT)
+        bh=6yVhZrBH2XJkvXeJPx485NaUg0f52uoxVNkAfcEPF1w=;
+        b=XDDf7QXxpnHvdARRnipnXzRmSAucLU7W4GLy1mgTMFJCc5Dsb+USiePGSExf/DFZlt
+         ATG4hLDoiQEqlLnepDYYPD2UmF4mMttvHuy8CfoJ0RFmGST1ZOz8p7ZsWPbNS9Bjranf
+         2uyTAx51ebC4VxryMUe5AaPIeVv6mVitDTrtlUBOC/gmogpjy2/5xj1JvesxjOzNJikc
+         i9YiGjyIVFXXDGPsl4myHBmjRBfZqNYXwyqndCmUuQNU/Xps0nF0P3Ul22lpq446x0/y
+         yUQpmUzWMnVAdKRsRftfOcy3u9GHJVeNR9duwndsKoW+bOKcul5upKvbaXuk7dUQAum0
+         VVOA==
+X-Gm-Message-State: AOJu0Yz7ccLZsaSXkyqjXeiRbPJiy3GhdyGXGkGoBI2V1Bzu2OlabDTv
+	IifMCeZovPD61SbwOQA1K+84mf5ySCDybFaNuLh2Hk8QqrOfCSTc+5Zq
+X-Gm-Gg: ASbGncuxspI7sFkqxOK7vsNUOhalIxqQCfycBzQsgCY2v+tyDtJhYqSXS6TGmNlQPQO
+	X8H33guX3cnEnKM7Ni5D+MVGV6XzKbpvn4yKW9kfX1koYx0oDKM7nlwECshnraQrEnVwBkdvEL1
+	6SWb9oYP6ZGMEAWAOojus5LLGwJdc2qzP0n/E6nDD/XP/GLXkG4L1drbw72zMFRgEdHvv1zmCzw
+	QlEEmp3y8MccsXoIpoGYybeGkhzElr+opMHBneA5Bk3RV7oPu7t3RYhGPrP9tLiCnH2VHMLiww8
+	hbXzKB1chg8NMztAboZlbbkdys8oPOF1J8FD0k/3UTayeHDSDj5qvUBBoBOxPlOd
+X-Google-Smtp-Source: AGHT+IH+dUGtERHb0SkAjeq/UtecPsWqtL6oN8jrr+gftw/s1gpay7JsfqSU5olPdi8j+/+btNGsQg==
+X-Received: by 2002:a05:6a21:5006:b0:21f:508b:1a19 with SMTP id adf61e73a8af0-21f508b265bmr6732985637.14.1749481204905;
+        Mon, 09 Jun 2025 08:00:04 -0700 (PDT)
 Received: from [127.0.1.1] ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-7482b0ec4aasm5988402b3a.171.2025.06.09.07.59.59
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-7482b0ec4aasm5988402b3a.171.2025.06.09.08.00.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 08:00:01 -0700 (PDT)
+        Mon, 09 Jun 2025 08:00:04 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-Date: Mon, 09 Jun 2025 22:59:40 +0800
-Subject: [PATCH 1/3] dt-bindings: spmi: Add Apple A11 and T2 compatible
+Date: Mon, 09 Jun 2025 22:59:41 +0800
+Subject: [PATCH 2/3] arm64: dts: apple: t8012: Add SPMI node
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250609-t8015-spmi-v1-1-b3c55ad01491@gmail.com>
+Message-Id: <20250609-t8015-spmi-v1-2-b3c55ad01491@gmail.com>
 References: <20250609-t8015-spmi-v1-0-b3c55ad01491@gmail.com>
 In-Reply-To: <20250609-t8015-spmi-v1-0-b3c55ad01491@gmail.com>
 To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
@@ -79,44 +79,56 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=862; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=PV7pE5dMBWkFx+09DLMIQbO1nXOreHSRyJXi4QVzwpg=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoRvbrSXzpPSc4U1Y/S7t3cPsOVs/amNx26hwSC
- 75fHAZry1mJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaEb26wAKCRABygi3psUI
- JIDMEACtoNdBzyO/GML08ZRArDDdSgEyneMLwlJDBB8tfUOL8HgSVn0uDhK8i2+T3FtlNaKLCr+
- 98Yevr4qNVc1xGwqjlbu08du5erfEiO8hPxiYob9zpbWr0RBekkKyGTj9ZHL1sd33xZKqEXGIJm
- oaV4B8L94MTsr2LHCqiY1yzY7EFjlLbgkfS9I3apVSst/9xdg9Y4+myUMPD00tO7Ca8NiM1XZ7W
- t35Z1vGSM2BsAlh/p6UJ3fQMqlE0+OnAEC1c4EGqo7oKYeQQDGqT7P8R65nQsVK5rt3yZJYnrmf
- 6SodzMx0yiTPYx6ag3Xzo6kEsS211aDSZbeUp5Xo3KBjKogz3jngtz9hs6ZJGcF+KHUscdvpwPJ
- tEPklT4+Xl6sfDE/VZMSnkGXjGzNmTp76NIBgcPmsUrI4P6u5XkgvtTe5RL3QwqgeFTkkS3VLVp
- pB6Ua5eDtEGc1V3Syj9w1F0qeIXg6sEEcVK6lEp1wlkIemlHE92zJAmcZwDLaytBAxxa/fe0O0B
- chCB+X9P9u9dCnXXH6wkVX8k2zDVOxbOuVZxZf79fdlBzWdGrnVgu6dsQFaPBqj/5ZY2pcQVrTX
- KbpL1Hzadb5WV7oNSt5O7z2NOvrHCCFDPEem5oIhDBOspPXvHitN6Cxmh0HB8+SPaWd1c8kAUh+
- 7QPNvOF3YH1z2cw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=eRCFJ8dvOjeUHBlZsV7soqFq1C8e016G7WXxzwjB5sU=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoRvbsiqjS73g0fmtM9YceCfWNGbT+a21zFkYMs
+ dMU+exBZz6JAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaEb27AAKCRABygi3psUI
+ JPDcEACXAPeKbolXqg03eEru1TW7lWCQ6RPi4XUsGtQP3Qlrwq6TIxfHsjD/eNXSi85/dJM6UpE
+ Ie7BDF8L4S6bVfsaZh8WLlGXe8/VpGEo0DK0aCdKUhg3yVYv5A+orpxheFgIEWS2cKs+/x4z4TR
+ FSRtT1ovLmxeAoF6JJLPRnoUr6l7LTSHrkPQao9YztEv+yQ6ZoHwtamzhplHEVuFLvWMKiblQbx
+ wLlDxQjEtcULk1pSUkfDIVaKWPmfoITGopUgumPwmEdZIO+5gNsuV1sKduLfjrs7wYGTePf1Ypo
+ uyNu2ry41rRo10qw1rCAMoolpgbrYYXOAOnXEY3faGiHRy1/3WLv9WP1ZHV9uPmtmb85hPKN5DE
+ hltsq9fErN+D7+nVrfXZst8JbNXfHkVTR78a5WP6wshssfqiorSS7tnkgKcoVSbsCtm7hpilhm2
+ i7iLNLo2U+5IZX8K03KTf6NuACNl7ydxvBtZdgqOdyIA1UOn0Y5lm6bR5LZhPv9Pca5FPlw3yCF
+ dDh58y1ejDI0tSzTE3weRFPT5CyjtQLbwV45+DoP7FNCOn6wLoNOk+PK3tM+pSTv300hdW7aMI6
+ iv/PmhpmgtzkEZbwRE+X6DS1vffslZF5Qih3tdT2eeQ4yEDI9EDg6XnBex6jRJOy7T0E2fmzAmG
+ 5dJwu+lkn8Agqdg==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-The SPMI bus found on Apple A11 and T2 SoCs are compatible with the
-existing driver so add their compatibles.
+Add SPMI node for Apple T2 SoC.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/apple/t8012.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-index 16bd7eb2b7af2c0b176f0e5b1970f4670af691da..e3aa248c0326c36bb0307e8aad4025b1bc05540a 100644
---- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-+++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-@@ -18,6 +18,8 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - apple,t8012-spmi
-+          - apple,t8015-spmi
-           - apple,t8103-spmi
-           - apple,t6000-spmi
-           - apple,t8112-spmi
+diff --git a/arch/arm64/boot/dts/apple/t8012.dtsi b/arch/arm64/boot/dts/apple/t8012.dtsi
+index a259e5735d938cfa5b29cee6c754c7a3c0aaae08..60e73a0401a80abd03f82d24845dfc12d8770ebf 100644
+--- a/arch/arm64/boot/dts/apple/t8012.dtsi
++++ b/arch/arm64/boot/dts/apple/t8012.dtsi
+@@ -10,6 +10,7 @@
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/apple-aic.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/spmi/spmi.h>
+ #include <dt-bindings/pinctrl/apple.h>
+ 
+ / {
+@@ -220,6 +221,13 @@ pinctrl_aop: pinctrl@2100f0000 {
+ 				     <AIC_IRQ 137 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
++		spmi: spmi@211180700 {
++			compatible = "apple,t8012-spmi", "apple,spmi";
++			reg = <0x2 0x11180700 0x0 0x100>;
++			#address-cells = <2>;
++			#size-cells = <0>;
++		};
++
+ 		pinctrl_nub: pinctrl@2111f0000 {
+ 			compatible = "apple,t8010-pinctrl", "apple,pinctrl";
+ 			reg = <0x2 0x111f0000 0x0 0x1000>;
 
 -- 
 2.49.0
