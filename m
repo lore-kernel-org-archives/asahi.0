@@ -1,136 +1,157 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE9C194A73
-	for <asahi@lists.linux.dev>; Tue, 10 Jun 2025 04:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CA028A71A;
+	Tue, 10 Jun 2025 09:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749530726; cv=none; b=Ah1BRrWg+o13v+D/fL1fouo6AHFVHz7S3iMiSEgeGCPm5ZzAjV6Xq917iaMjdKgl3iT+bIN3RXrUkPERz5Av4xk5BRFTBKVRCfbsioiFXhpL9BI83/rCQpM6gmd7GUkayQNMiplT1H0I93Ua5F+6BxXYZjoXg5SiYRJIrjlo3gY=
+	t=1749546700; cv=none; b=lx2Mx1k9zkIYNEtgyhaIsbbZZZZELDTkNQc2KR7JLKep5Ps2MvVWV8z2tAysljUXau9DwWIj0oonvjhTuflpiG8NZ/cSp2P0/Egew57IKCBNsP01S41RKxV1NxsAbFPZLdD9mMM5nSzj3IF9Sir3MYkw1Ye72oKBbiKGaaM9ZU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749530726; c=relaxed/simple;
-	bh=yltZ1Vl2x0dJiqzIghjPsKkjp790cirFxMQUzcnSh5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tSNsvoQfCayczDrYyGZlk9who7JlwBi6BNnpqUckbU+ZXey+33+6DBXXM2JK82+lHeB/AkvNijf98m1BJdRUOvcU97+Ga4SUXHWpa3ISnNzVgcMoha5MxbZWap2Lzz5Ycd0KgFBap8PVTQbKUbKxegWCy3eY2ZdfwfVhFCsa/ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJnriRMP; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1749546700; c=relaxed/simple;
+	bh=gtuGk4aRFSpL1zHBjW3pY01TZxS1XUNvzlXCe18x3zY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AokrcfttryTOMaWfu2htW0ySxGLfeWhYgg7xgi8XjbTF4n3dCw/huREmtdpzPytQtz+wSn1DnTdjF1RP5+oq51MivJbkr3J6v3TgseeOGj5APLNU4ZjlRWOfQn2uPRlQRw+JLQyasK2dcJfuTsZwcsRBrnFZ2u9tlWI8XlYXD8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/1hzaj7; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJnriRMP"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22c33677183so40646555ad.2
-        for <asahi@lists.linux.dev>; Mon, 09 Jun 2025 21:45:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/1hzaj7"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a53ee6fcd5so1565617f8f.1;
+        Tue, 10 Jun 2025 02:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749530724; x=1750135524; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r/Et+5TuD3+3/eVjp6CpBE4hmFK8ASCNFdhg+aniT+Y=;
-        b=fJnriRMPkmEdD/BaurfSq1xDhVy/0TeOFhqf/nxJ9/DAWn8J1AcLZp3PRzQcLJ0wK9
-         ljkQzTU2oiLGevy7JfXLpA0qZzaoGZVs84BS901Nm4OwoKB4qE9OOu6JeKKdtAYXLZ5S
-         ezQY6TtOAENOigQCZ1UKQ6b3aicgCBE+nnmhkX4TzM+hHE9O8FOu4r0bQlXZc30IxNeg
-         5q0RhHGHP8cmCKpZt+E32ml3wVKmOPhCTgtwnTbIEyU9V9z/3EPPkv8wszWr8Tn39R6S
-         U98Zt95fu1MH5PNTfRJ7UiHeowdHanrmYv8+hkE+sUe5IL0INa8xUR/+kQUjW+yDFHwF
-         KZgw==
+        d=gmail.com; s=20230601; t=1749546694; x=1750151494; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/J4JSHATnk9TCsjKFzEkFQy2OXqCakBAt2qzrcv/bCo=;
+        b=F/1hzaj7d6LszItlOPvGDPi6HbZ/kxblDGcnhFcbEXCU0+qmdiutcdi31IqoeUbW6o
+         DpsdReGJNoRNWBGNK5uT1Y/QxVpvqThIN9CH9qvNckchLb7Gza1c/Xx313WFn9+LwqkU
+         yisULe+Ex0iQwNJehfeQSxycfGWYjhKL339WPzHYPXXBcIj7Ynuhumoanf6vjSB3MN0S
+         iFIPW85egcD0o7yvjXOvbJMUSM9t0coGBDGusCasH37xGuzvH4644UpHstjBgIm3zQqn
+         M1TBmSCnLK6Qwv8x3esg+yncUn8+r/O6pShvCwQv53GFRirY0QR+dOnBBkWK5/6fobT0
+         M7TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749530724; x=1750135524;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r/Et+5TuD3+3/eVjp6CpBE4hmFK8ASCNFdhg+aniT+Y=;
-        b=uaK5AimdVJjXCUsE9t28WnqirjO8k1Twm7+Jwjparqq4H+pSaCDCSydsnmq2xk54vM
-         DkjTtRsqLhbShO90F2mcTlz2TlqBoek36pfaFq49LOvkLwssOJyMAzUDPFcx7bed96dI
-         Pf7n8ujFz5dCCcCNbE0vP47zalVSIXrRO7IPQgn70e/6Zls9Bmvy+vp77RkkGjVCAq2K
-         BLMFKee4I7jjAahGsF3G46lPDbXtny0lSVR18zMR94sa9IXAAB84Ypkz2DikDc7165S/
-         TOqB37FJczJgbGCXUk3JTne7DvRCrBCvYxOi52lQWV2+lZHWxomd1l3Kc2kwDgAV9LdA
-         lksQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVySbDtgG5UKwtPWOCl39HvqQN0s9SK4OEuQicagLZF1MCHm7wL0HGmHJamU6UoAHAS1fX9NA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YykM3NHwyvbjDWP2bhlrlJ1EPHQgAdYHBOQcbftWIRBwt2yNpNB
-	t4QuMXUxBEdbBNOm7k0imFoxE+5gDkshImmgzIV9ZjpXCzAhJRIliUzN
-X-Gm-Gg: ASbGncveDdNWZdWzrpZHC+AA9nXfI41RWh1wNk/wGYRAP47UlJY+0YPRLq14PcozPD6
-	i8vwgwz8IuBUYRdSsCOVJG5gTgPup4x6gY/m0WuWTUgTkIYHO0AVNRTeYLyxXzoPyRhwhVEDTPe
-	WMGwnikeyRLVjUHEKP5As3jUTPtjRPCWFWaJU6O9vgNutUxQj04bI7GZTrZFr4NR8PZyBLt0UCR
-	K+uEngU7Nv/44w/eAXgmT8PPm9dXjzUYxikM1V/FcuRqjxaaREoczIo8XdnPY9QYKuDZxpIHP1M
-	RkSSznh3BK1Xy1xuxs9D9rovmHCwui8e3LIbYgjs2cdU+c3GDJrAyW1aKJnFwg6XdoKdGTExvKh
-	IlcNicXKSrg==
-X-Google-Smtp-Source: AGHT+IHeRu19sm8U6zfByMrOVx2wCrnbnafwzEKk+Sxwil3JgYJqscTx70zWuYMZYSWgk7wrVdu93w==
-X-Received: by 2002:a17:903:22d0:b0:234:8a4a:adb4 with SMTP id d9443c01a7336-23601d247demr212907365ad.21.1749530723858;
-        Mon, 09 Jun 2025 21:45:23 -0700 (PDT)
-Received: from [192.168.0.119] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236034109c4sm62853365ad.210.2025.06.09.21.45.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jun 2025 21:45:23 -0700 (PDT)
-Message-ID: <81f03b76-abd5-4803-b8cd-679013aed359@gmail.com>
-Date: Tue, 10 Jun 2025 12:45:19 +0800
+        d=1e100.net; s=20230601; t=1749546694; x=1750151494;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/J4JSHATnk9TCsjKFzEkFQy2OXqCakBAt2qzrcv/bCo=;
+        b=quY4HFqqxQHTg5qg8W7v/XJ4ST+3iCHvaUtu8xvmzstyMsF5/ji4U/IQecfTs389mi
+         YCLxyJn1UFfj38ZVzUuN/QUoyN6xnvywyAv2ENxGGt8O4nblhISED4u8V5Q3PFmRipUr
+         u6gD/EiW9eswnYDlNGKbp3oPdMPj9tIvPKXhBSYJAfxf8P2h777qwE99sMPBdCD3jk/z
+         utwIW7ims/mASdEiLgnBQ0aPKkNOfVO7k8mokwVM1RhVPuBjqJVsPt2D1MaMXjI6CcZw
+         ZJ+6U3qznWEGFxO1RCvkK8GUZWHnkK565GGYs31QGV6ihLJG7eUhIVkeyf71VbldGVal
+         QyeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU2w7bVsM4Fa9BLv+pN8po1B3WzaWzblEezxIcY0HMi86CM+Rl1hdzrCmHB/DLx9MPtOii/NA==@lists.linux.dev, AJvYcCV4ulvcvQEt6TejaX0Xrx/iTio1VAkkNOKsd4Xy7diHlW9bFF5Zlzmwu6fIBjj9gkcXYSjsvxbqEdtTK+0=@lists.linux.dev, AJvYcCVes+JduTtbgDx4raBT8QBGXEAH6wHegt3YqkQIGa2l++qvGB5QjgdhSzMdPJ/LCcf1C2/5xLA7l88UpNTU25Y=@lists.linux.dev, AJvYcCW0/UDuwWEsrqjXBfwLk2NwclBXO7MfIqFXuZ1rOI/uCzef6XHiAadPp5gfVpdscyv6LCrNQT40Rg==@lists.linux.dev, AJvYcCXPPOQIez7tgTMCUhM4CxZ69kSQwipvy79HqxfMaEW48va+Q7C/LkhsQo7I2/Ls2pj1E/2dtZs=@lists.linux.dev
+X-Gm-Message-State: AOJu0YxT7DmOn3y3/giReXoFsZyB/YJOeofu8zKIo2hieVXaYQ4w13O5
+	JKK/vx9Rfz9y968YoEpDOJBFFNjEKNY2d8VEY8dI/DtseaynCa8X8pxt
+X-Gm-Gg: ASbGncsfSmPpKfG0M4bDmD0QXyMhiDCS5bDRuBY8G9Fyg/5ubtOJ0cBDANHFXu49Scb
+	4zChDiaNUgr695Sw/tPosbd9A/qLh7Ieni2Pr83SjVK4QrYVPhkPSWxIcH9QXijQ+oVEZCfm6WM
+	BSOP/b17ypVaCr3FedbIuX322jvFrO1HMiQbrKKHlmb+LEAwnjfHd7D6ON3yxyl7hB5vDJj9laY
+	PgwADgACHG2fH+AAxj0fJoBwU4VnzasSJVC9SOOMnfYlkAYL/5LuLGn5ziler7b4DwojExZNrBf
+	Ly1f1s4gpsJva5rmtgZnjh7Hy8xYMk6Y+8FsNcfhwHKzjnZoKJBYTJDtcLxBY298kjAbSj9SF20
+	pUKgU1+jZ+/1t2SSvlooTEzvojzsUM0+TR4wKsjuNDDEjWo/i
+X-Google-Smtp-Source: AGHT+IGiaud+NmiD3BNjNEkh0KdS8oAZ8TPOqcLbBsZsD4cCdkMv4OiwbthBO25zWdPhWgZ1rXZiAA==
+X-Received: by 2002:a5d:588a:0:b0:3a4:f936:7882 with SMTP id ffacd0b85a97d-3a531ced06fmr13875069f8f.55.1749546693846;
+        Tue, 10 Jun 2025 02:11:33 -0700 (PDT)
+Received: from orome (p200300e41f281b00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f28:1b00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45320580af6sm6174635e9.1.2025.06.10.02.11.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Jun 2025 02:11:32 -0700 (PDT)
+Date: Tue, 10 Jun 2025 11:11:30 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, David Woodhouse <dwmw2@infradead.org>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev, 
+	Janne Grunau <j@jannau.net>, Jean-Philippe Brucker <jean-philippe@linaro.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Joerg Roedel <joro@8bytes.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Matthew Rosato <mjrosato@linux.ibm.com>, Neal Gompa <neal@gompa.dev>, Orson Zhai <orsonzhai@gmail.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Samuel Holland <samuel@sholland.org>, Sven Peter <sven@kernel.org>, Krishna Reddy <vdumpa@nvidia.com>, 
+	virtualization@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>, 
+	Yong Wu <yong.wu@mediatek.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Lu Baolu <baolu.lu@linux.intel.com>, Kevin Tian <kevin.tian@intel.com>, patches@lists.linux.dev, 
+	Niklas Schnelle <schnelle@linux.ibm.com>, Sven Peter <sven@svenpeter.dev>, 
+	Tomasz Jeznach <tjeznach@rivosinc.com>
+Subject: Re: [PATCH v2 4/7] iommu: Remove iommu_ops pgsize_bitmap from simple
+ drivers
+Message-ID: <zkfsgkps6z5wyjxdl3wmn2piwgir7swgml4jomuhxxkedne22d@hwzwxvcwpu3h>
+References: <0-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
+ <4-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] I2C dt nodes and bindings for Apple A7-A11 SoCs
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-i2c@vger.kernel.org, asahi@lists.linux.dev,
- Sven Peter <sven@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Neal Gompa <neal@gompa.dev>,
- Andi Shyti <andi.shyti@kernel.org>, Janne Grunau <j@jannau.net>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org
-References: <20250609-i2c-no-t2-v1-0-789c4693106f@gmail.com>
- <174950228622.2915605.1412644681389156564.robh@kernel.org>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <174950228622.2915605.1412644681389156564.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="noll3rebw4hmh74s"
+Content-Disposition: inline
+In-Reply-To: <4-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
 
 
-Rob Herring (Arm) 於 2025/6/10 凌晨4:53 寫道:
-> On Mon, 09 Jun 2025 22:56:17 +0800, Nick Chan wrote:
->> Hi,
->>
->> This series adds the device tree nodes and bindings for I2C on Apple A7-A11
->> SoCs, since the existing driver appears to be compatible. The drivers for the
->> attached Dialog DA2xxx PMIC will be in a future patch series.
->>
->> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
->> ---
->> Nick Chan (8):
->>       arm64: dts: apple: s5l8960x: Add I2C nodes
->>       arm64: dts: apple: t7000: Add I2C nodes
->>       arm64: dts: apple: t7001: Add I2C nodes
->>       arm64: dts: apple: s800-0-3: Add I2C nodes
->>       arm64: dts: apple: s8001: Add I2C nodes
->>       arm64: dts: apple: t8010: Add I2C nodes
->>       arm64: dts: apple: t8011: Add I2C nodes
->>       arm64: dts: apple: t8015: Add I2C nodes
->>
->>  arch/arm64/boot/dts/apple/s5l8960x.dtsi | 76 +++++++++++++++++++++++++++++++++
->>  arch/arm64/boot/dts/apple/s800-0-3.dtsi | 57 +++++++++++++++++++++++++
->>  arch/arm64/boot/dts/apple/s8001.dtsi    | 76 +++++++++++++++++++++++++++++++++
->>  arch/arm64/boot/dts/apple/t7000.dtsi    | 76 +++++++++++++++++++++++++++++++++
->>  arch/arm64/boot/dts/apple/t7001.dtsi    | 76 +++++++++++++++++++++++++++++++++
->>  arch/arm64/boot/dts/apple/t8010.dtsi    | 76 +++++++++++++++++++++++++++++++++
->>  arch/arm64/boot/dts/apple/t8011.dtsi    | 76 +++++++++++++++++++++++++++++++++
->>  arch/arm64/boot/dts/apple/t8015.dtsi    | 76 +++++++++++++++++++++++++++++++++
->>  8 files changed, 589 insertions(+)
->> ---
->> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
->> change-id: 20250527-i2c-no-t2-2f3589996d14
->>
->> Best regards,
->> --
->> Nick Chan <towinchenmi@gmail.com>
->>
->>
->>
->
-> My bot found new DTB warnings on the .dts files added or changed in this
-> series.
+--noll3rebw4hmh74s
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 4/7] iommu: Remove iommu_ops pgsize_bitmap from simple
+ drivers
+MIME-Version: 1.0
 
-forgot to include patch with the actual bindings v2 should fix the issue
-
+On Mon, Jun 09, 2025 at 05:41:28PM -0300, Jason Gunthorpe wrote:
 [...]
+> diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+> index 61897d50162dd7..fa0913e9346c71 100644
+> --- a/drivers/iommu/tegra-smmu.c
+> +++ b/drivers/iommu/tegra-smmu.c
+> @@ -318,6 +318,8 @@ static struct iommu_domain *tegra_smmu_domain_alloc_p=
+aging(struct device *dev)
+> =20
+>  	spin_lock_init(&as->lock);
+> =20
+> +	as->domain.pgsize_bitmap =3D SZ_4K;
+> +
+>  	/* setup aperture */
+>  	as->domain.geometry.aperture_start =3D 0;
+>  	as->domain.geometry.aperture_end =3D 0xffffffff;
+> @@ -1002,7 +1004,6 @@ static const struct iommu_ops tegra_smmu_ops =3D {
+>  	.probe_device =3D tegra_smmu_probe_device,
+>  	.device_group =3D tegra_smmu_device_group,
+>  	.of_xlate =3D tegra_smmu_of_xlate,
+> -	.pgsize_bitmap =3D SZ_4K,
+>  	.default_domain_ops =3D &(const struct iommu_domain_ops) {
+>  		.attach_dev	=3D tegra_smmu_attach_dev,
+>  		.map_pages	=3D tegra_smmu_map,
 
->
-Nick Chan
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--noll3rebw4hmh74s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmhH9sIACgkQ3SOs138+
+s6HNrxAAo93PCboo986Da72XguJIozPLAKyIbWbaeG0mAjcZN8YUqcSh21C3Xp4m
+qkNL3FwIbtg55H/1upzln07ZErFxc56r95b+GjnH7G4+X4608YnbKmdlZMxzkhpk
+Hiqglce9T205CGZdT2oaZeO26+zHlTeh3LBiiR4o0eurhupQldQ9evEZ5qVseZDA
+FOHY9nWWRDf0/HkM/+MpPA/8cXnNUpME3+OMZIWf6E0Fk0YJnGKS/FIj/aoYPvJI
+9cHiJLi/xs2mxDGh9xUuYDXRcapqzGw6fpsFzJM4G1dEDbYctUR9IOgvdWJ/vzNk
+zYnCdPC4tMYkkOwW85wmXbkVUkbTplxVlLUrVBDVjsou2gKfhKOj/lXWBQjWXJ2w
+PWaIHU9l+OSWsvXB3qkUtROmoqFqrf4+XA/2kV9AlRJO7rrb0hK8yj42rtjec2ix
+y5aU/5/v0Hcr+d09jaikpqhAx1miE9mHEFObqRBtOVko2pZ4l/DD6OVWBNDJyqHM
+9fX438+BucatKIy11m72MpW4m9FdBxwhPEfpyQSc79NCDtoKzoxE0wGFzxqcKyys
+EMGegmdKh0OKQke0uP2Ieo02BIp7sCoCf4m98nTRTYfOGTgfXO4kmfccAUeki59x
+5ez2fDP654E1ESVH+Xn7bWfBKtFiuw6IlaPL+CPNnjcaAxxtDUk=
+=E5td
+-----END PGP SIGNATURE-----
+
+--noll3rebw4hmh74s--
