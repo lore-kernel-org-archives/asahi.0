@@ -1,63 +1,65 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5500D29DB79
-	for <asahi@lists.linux.dev>; Tue, 10 Jun 2025 13:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC77C29AB11
+	for <asahi@lists.linux.dev>; Tue, 10 Jun 2025 13:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749563154; cv=none; b=SioYqv2JYO5crfEPn5b04Su35AnSyWi/2GfuDeTUHpO9G7qPo0EVrLLQIO7WIWQZNmhy1FwnJ+buDC80OgXOV+rwuGqvrctzgfsJt0rg4EBRiv9vUsN6U6goeST/eqgVuW/3JNDRUnxEmli1gkymNez5htpw2AhTBU4ptyx0Qwk=
+	t=1749563160; cv=none; b=HflNQQhUHFQieQaUO5fd9BxrXN6t6dHrUIkrTR8ONOkQDevjPu89raoeeOVCNtbIjwuv2aspfYPdK7dMvfUAkKdM2bngUDAaRQGMUnQr2hqLmWJ73HA/xXd3voq4I3aBAUkZdxOmaGhvMyUlClVUxuxyJwOdYuHGQAOk631XcW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749563154; c=relaxed/simple;
-	bh=LgWOfIRrAa1vCwGdhDD6foU+2vSIX2068gA8U5LxxFM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MTvPCUvLnjWmF7DS9pYbC3jfZ1Fk1UBYk0ftPSi5K9fBFhPkDmWNUT2e+nGCMbf0rqSfz/y5DvkcqyOeRJBR5qj+wYhF+cvSsN+NtX88hFalM3fEqoj+LuHRwjDgdxZ9y8vmVx2vxJNa/3lWf0/t+o+2PD8tq7m8IH7M645TUIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EkePJrWW; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1749563160; c=relaxed/simple;
+	bh=/Aqo6eZT8yO3l/bSFL2DWbLRnUJ/G9BOeA6amkvZLD0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=p46csxwuG2qREx1Cc1MxhAOm7IBAgf+3QW4DDoSrE7fwDi2Lq4UteA75MIaY+u1JB3zpu91KQko6oCEK9z3cK5arw+j/b6UoKU2ymFmyW7fvWWIx2zNFYrlnGuWezZNiMYJ8d4/7ElqFKtFPn4o+4Hb6stqkP55dskQo2fT+c6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NKvAAZSS; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EkePJrWW"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2350b1b9129so35439705ad.0
-        for <asahi@lists.linux.dev>; Tue, 10 Jun 2025 06:45:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NKvAAZSS"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b2fa3957661so1941926a12.2
+        for <asahi@lists.linux.dev>; Tue, 10 Jun 2025 06:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749563152; x=1750167952; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WnfF8+Gzh65nxJvwI9tp8yZPPMTOkFO4Yf4rye8gFyM=;
-        b=EkePJrWWkuyfRCidnLma/+64Z0S54OwNHR7dckpoVEFVS9D8EqGuEpnKXU3D8vAqeh
-         AUV0xbNlv/fWneensaallYZEBoTFaULurJHsvqcGs1R77bYkIgoZ3JysAnUpOgsfOdH4
-         L6byVcxtp2fh2+QaKesP67XguUeJB9rFcK8MAFq3L1pSDpO1yfHToQB9mtQEzCVHge5h
-         9E02sQkWH53MqX0U7MduoljulIp5FYDiZhO8Q1HVrSQRE7wJ/FDMoxvPoUYv9+/Kk5dG
-         8dPa/CxlkyT4u2R3RXQ3PQ7iBhXEGNS5HUkCI0CEJ7+ijTArtacTQK7jzyIMi107/ZfX
-         unhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749563152; x=1750167952;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1749563158; x=1750167958; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WnfF8+Gzh65nxJvwI9tp8yZPPMTOkFO4Yf4rye8gFyM=;
-        b=CeFEVqVOKDmnT4bQfbexXTq2PzPfspusux2J4TZig6L2nQcxW6ChPTEkRXgXnJ74t1
-         HYXUO2Dl0UiaLT3ZMbDXdwTjWWaQ6h8Nb8ynncY2KkkEfL28NaH7+zyVEj2NMa8zVD9u
-         tUnqbFivH4k2aHXGP1IEyod6ZNGeRMH+HkP2Lk87cBE9uteB5Z8JTnvDW/ugHrybH0+A
-         IlPDxJjdLCkps/KX/De4j0Sm71y/RmI8rM3ivkYWj3YtHhKadzEuB8UQtd/pDP4yP4kc
-         FPuWKBV6jSw2Pk+JPmQFTvXCXBCgKlKTrcV4ZwX8Wt8IZ/P20Jh8STszH+IedIcWen+c
-         S+nA==
-X-Gm-Message-State: AOJu0Yyv1KIhXTSKqy2WO3CPGj3Xj2wJmxdxVnR9fAuw5Z1TxgJ46Hmf
-	6K3enwwenpWiPQOmYzZifKiNOA2fG9NSyARE4BKwANd6LeHGmDMPhWk0/zBq1g==
-X-Gm-Gg: ASbGncsvOqCX9Ld2g5/cEb6s1ph5ReT0/Hn5+jY11MPN0P9s3pt1Gl9kDve4q+r3k0N
-	CWsFkLWYP1Q5BpFJAqGnYKRdZTCW4GNYxQZRnlfWyLHHX5JxDJxREu72gn/bAz4WCBJwHgT67X0
-	TgjO9rbNAWzyDrn9tXJuZIoh34fGy4yudwv1QM/4kWYFHAvvSw1saLAxxtrLdZQ9scU5Nw18c9N
-	Pe9OBVF/hwhu130m2Gobn3qkmZqblodM6h0HnTAgkdm/CGyKtpEU5aew8qnaHiNMK8f3oXbQvn6
-	ZeIDhzrzGF8twxXoOSoLPVJSro351bI+//rBQ0pRBf6srTLvSmOYS9r8uzqzxAnG
-X-Google-Smtp-Source: AGHT+IFDGAVSPMuId25EXsH25RtuQw5OgumKF7/tJggZDL74R1fo/0EawYSTueGBI8URC4EWYzprHA==
-X-Received: by 2002:a17:90b:554d:b0:311:c5d9:2c79 with SMTP id 98e67ed59e1d1-31346c50561mr22059153a91.21.1749563152000;
-        Tue, 10 Jun 2025 06:45:52 -0700 (PDT)
+        bh=WiSre9WglDpmIK4O0YsNl0nRwFB834XrXov3VRpC0FA=;
+        b=NKvAAZSSQEYU6/VjYCs434UDCNwOoZ9qBz+P4kpkJ5T+1mO2x0KgmHM3nozP6BxM/C
+         oPD7FFsJ3B8SOrHV/7Jbe95stKcG7EgC2TJGXaTEGmZmJh65Jo5NTtRnAHw2cK7yoENq
+         UYCSs6fizJmka9b9OvrVR6mrmKKYF2JA/qTs6JzxV+zKVkWQcFSXTIevaL3RPbFh6l2b
+         X2szCFCbxPrwYZOFBW5C/3OVYboGGK2OsHA6HHkTa4Z7dwaLo6Ej5HmvD+c+Ed68N5V3
+         Tzx9JnbhduTRf/NjSHRsrM36m9G9+xtIw6azUaZkivm2xbvODht3n/OLrv5FY7pihSkn
+         Gk7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749563158; x=1750167958;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WiSre9WglDpmIK4O0YsNl0nRwFB834XrXov3VRpC0FA=;
+        b=EkLR1HARPgH4Pnl0Y2O2X0MIUDafT2z39YoutRxY8pi9cTWw5ittbkMWQL1vkjM/L4
+         p81XFRDFR3DzQ4z3VBIamKeIKRRQGWvvdlxDdXRI8o2rnyu5TzjX6JVyy/fDCRYLRoha
+         ralUo1WO74Wq02hLQwqtzdRUHiWqHimbe9Kvb3Dmv8Xy3YlMesKsFYrKJC8pXMOI73Uo
+         tpUTtOrxzSqPyfuN5rXotxk1tkbDG0XzAAVWi2wv2pNbl5LN2zZhCWTj71EnBkupeMPA
+         2+QgHAc8ShQkAfgdP7VtsI+kKh07z81JxMprgs3UfeG55mjOmVdrn4sh7Cj2o35Tn0vZ
+         ze5g==
+X-Gm-Message-State: AOJu0YzPKTKdPusPuzUtiBlE8+BXN9oW0BPvP1B1X8CAu5kj4HfnCMi2
+	PjKLJLlaPL7K7coBMIZlB1j1vsVb7uwKVbHFZPP9tmzB3Fos4WPnzWLMP7dbHg==
+X-Gm-Gg: ASbGncspTfMiBqFzm3Rh/EaBPNW9JQk0qao7eeAPrQi6RqoUZdpmVqyKmA3h4GCZfOW
+	2+mR+H4M67Z6/U9omfMDydGJcbVoT+OMblRjLcj5NfAxTCQpIHhdEPizIjq70lwbeH6fTfPVioN
+	v/kdbTvehnanGTmfiq29PLuiBpvwRM5E0IkF9xw2anXCzjHEcC5FheWQJhDxPd2ap2CGOZdANce
+	/TASs7JzS+abH22jnWPRTvx38oum7spMekKE0cxelH6nWD+QCG9DXigLNuOY6HhK4BeNEkDswEs
+	OXQAdQLoolsmqf3jZQd+9mSsqAE5MNEROgIiKQhIhSvzg+Nyybi5CE2xYcq7Z4mB
+X-Google-Smtp-Source: AGHT+IEPves9Z9ZVq/mhz6mgJlmIUE39OoniHpiNwnWv3yeacikEIo4HPGvzJFKEY0HfioUekMexVA==
+X-Received: by 2002:a17:90b:1dc1:b0:312:e9bd:5d37 with SMTP id 98e67ed59e1d1-313472b5a14mr24196363a91.6.1749563157475;
+        Tue, 10 Jun 2025 06:45:57 -0700 (PDT)
 Received: from [127.0.1.1] ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-31349f32df7sm7288522a91.15.2025.06.10.06.45.48
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-31349f32df7sm7288522a91.15.2025.06.10.06.45.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 06:45:51 -0700 (PDT)
+        Tue, 10 Jun 2025 06:45:57 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v2 0/9] I2C dt nodes and bindings for Apple A7-A11 SoCs
-Date: Tue, 10 Jun 2025 21:45:19 +0800
-Message-Id: <20250610-i2c-no-t2-v2-0-a5a71080fba9@gmail.com>
+Date: Tue, 10 Jun 2025 21:45:20 +0800
+Subject: [PATCH v2 1/9] dt-bindings: i2c: apple,i2c: Document Apple A7-A11,
+ T2 compatibles
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -66,10 +68,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAO82SGgC/03MQQqDMBCF4avIrDslGTWarnqP4kJiogPVSCLSI
- rl7U7vp8n88vgOiDWwj3IoDgt05sl9y0KUAM/XLaJGH3ECCalFTg0wGF48bIbmybrXWapAV5P8
- arOPXaT263BPHzYf3Se/yu/4UJfSfsksU2LTaVEqXUih3H+een1fjZ+hSSh90HYQhogAAAA==
-X-Change-ID: 20250527-i2c-no-t2-2f3589996d14
+Message-Id: <20250610-i2c-no-t2-v2-1-a5a71080fba9@gmail.com>
+References: <20250610-i2c-no-t2-v2-0-a5a71080fba9@gmail.com>
+In-Reply-To: <20250610-i2c-no-t2-v2-0-a5a71080fba9@gmail.com>
 To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
  Neal Gompa <neal@gompa.dev>, Andi Shyti <andi.shyti@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -78,62 +79,48 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1805; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=LgWOfIRrAa1vCwGdhDD6foU+2vSIX2068gA8U5LxxFM=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoSDcCJMvk3SHQXuEkKlxUtcTqx6wQiJlRzbvCb
- 1k/L3QeOySJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaEg3AgAKCRABygi3psUI
- JF9wD/4oTGhOFVoVqvvq1j/1gXrVnR4n6AQIPsTOultTcfH0UuLokbafdBvmOuh+LHbyNrIloOW
- EsbwTfoCxbRwHfwNK4hX6gV6s5xOzmIo9uIGDodKxvUY9CFjOhXjQoV+f6wYyvKzC2VwB3xIqtS
- vAqy9rI6eVqXnvZt+nerWtkyw2daE0YB9JdIEq8Fc7kxBeqEEdyOVC8QLfJXisZ7iQ0WV27Vkfv
- ha0QiRqiuskTve1RBkiVZycdE13EnvyExH56Eos+IOen8jEKxb/rmXg83iO01swEPK/tUvBk2IT
- lJnJNqLHYyEuy+mHZif6bOBrlABZtNFbu0NBNuvnqGmEc4DObkG/Rs0Ml/shZNEujN6h5ITJ3Vr
- sfFro7crRWPPpT/XVOa/ObeD8j6pO7KO0PGc5dNEJ6Et7FuOV0qKCo/970Wny2lfWapKRrbXE3C
- pRFcXdZPjyC2U7q52UWNSot/wZwpFMjg1ePXP1ap07t1XWLvDj8gpVhWU1MV7hmUB+ybEk/vK0r
- rMeA47cCEn+r2P7lx2ZYJgci9AWgsucMybxMGfPaeqDCRy+poAD51BVeo1z6LyLaIwyGqvrJqw/
- bzcfAHuksnzjC3HpJaXaoScK+8eb4hXsGKImzllXPpkmPHI459D9/Hrs88xdquOkrWbo6Gi8AD3
- CROwdhHgypgnsqQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=959; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=/Aqo6eZT8yO3l/bSFL2DWbLRnUJ/G9BOeA6amkvZLD0=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoSDcLMj5ZKRfP6FDNrg/uoHt0VE03NHDCCsm/L
+ tjy7gyFgTGJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaEg3CwAKCRABygi3psUI
+ JON+D/9mWe1wzDkLw5zxCc17gmi0oLsWgTp/gp4uIg7bRtRXS2I8RHG3l15Ne96FHKoIVpycAsS
+ Pm6XUB3Q4j7RgkL1X7IDSkzaJNK/nV67mFAuF7LtR6DQ/dqhniNCCzQt/3osg9oMYBPwBl400A9
+ hdYDWAneazlwNY0LU6UQYdE1y2a0wv5V8QEpib6iW8V5C1CpmCE/BC9X9o63x78K38UAnLIr2qR
+ 8NygF5muZixISiWMFY73C3UpfxH/4paxsnqGJ0SiexIucrhKfGV7oEvHPYL+UlBYKeRsHrxNJ7B
+ ooCaaDzNhzbKCcmTd6pMNrunOvoz+0OnA2OHT8F6im5h6Bz5hForG2hwBdi5jY29KE2wkBMJArX
+ gJDJ2Mr95ON9GJuRra5EwENT/zJVTHsyPzDr/fe1GLgyDHhGXv1j937k4lNKJXsWlWtQOigxNzR
+ c/Jjl5mgiUQA/x3nRh/jN8PGl47MAQvOvp3IVmgmSOl7yOO0K+6KSzIQny5dzs7HcNTik28NfwZ
+ hNLHp8fNGqEuXlGN5K2qds1wvnubCOM3tvrjFS02nbDJbc06ybYjXSHx4Ud0PUuYrMmdXPem8Fa
+ H7CDbAdAyxBaV4n4oHyWBTxIvfB2Nilu5711+drKFj8tUFhLkQ/HoqH3JtvuHZl3F1fdX8XpxB+
+ Fn+WFJk5dw9uSkQ==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-Hi,
-
-This series adds the device tree nodes and bindings for I2C on Apple A7-A11
-SoCs, since the existing driver appears to be compatible. The drivers for the
-attached Dialog DA2xxx PMIC will be in a future patch series.
+The I2C controllers found on Apple A7-A11, T2 SoCs are compatible with
+the existing driver so add their per-SoC compatibles.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
-Changes in v2:
-- Actually include the bindings...
-- Link to v1: https://lore.kernel.org/r/20250609-i2c-no-t2-v1-0-789c4693106f@gmail.com
+ Documentation/devicetree/bindings/i2c/apple,i2c.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
----
-Nick Chan (9):
-      dt-bindings: i2c: apple,i2c: Document Apple A7-A11, T2 compatibles
-      arm64: dts: apple: s5l8960x: Add I2C nodes
-      arm64: dts: apple: t7000: Add I2C nodes
-      arm64: dts: apple: t7001: Add I2C nodes
-      arm64: dts: apple: s800-0-3: Add I2C nodes
-      arm64: dts: apple: s8001: Add I2C nodes
-      arm64: dts: apple: t8010: Add I2C nodes
-      arm64: dts: apple: t8011: Add I2C nodes
-      arm64: dts: apple: t8015: Add I2C nodes
+diff --git a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+index 077d2a539c832ea8dbf28d2f9b436cbee6fb5d8c..fed3e1b8c43f67b8f5a19e5c1e046b0e17ab8017 100644
+--- a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
++++ b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+@@ -22,6 +22,11 @@ properties:
+   compatible:
+     items:
+       - enum:
++          - apple,s5l8960x-i2c
++          - apple,t7000-i2c
++          - apple,s8000-i2c
++          - apple,t8010-i2c
++          - apple,t8015-i2c
+           - apple,t8103-i2c
+           - apple,t8112-i2c
+           - apple,t6000-i2c
 
- .../devicetree/bindings/i2c/apple,i2c.yaml         |  5 ++
- arch/arm64/boot/dts/apple/s5l8960x.dtsi            | 76 ++++++++++++++++++++++
- arch/arm64/boot/dts/apple/s800-0-3.dtsi            | 57 ++++++++++++++++
- arch/arm64/boot/dts/apple/s8001.dtsi               | 76 ++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t7000.dtsi               | 76 ++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t7001.dtsi               | 76 ++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8010.dtsi               | 76 ++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8011.dtsi               | 76 ++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8015.dtsi               | 76 ++++++++++++++++++++++
- 9 files changed, 594 insertions(+)
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250527-i2c-no-t2-2f3589996d14
-
-Best regards,
 -- 
-Nick Chan <towinchenmi@gmail.com>
+2.49.0
 
