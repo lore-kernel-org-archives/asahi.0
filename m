@@ -1,90 +1,139 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73290225388
-	for <asahi@lists.linux.dev>; Wed, 11 Jun 2025 19:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D30199E8D;
+	Wed, 11 Jun 2025 19:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749668828; cv=none; b=nab7/VAH7mg/c1kDgk10+zai8hpqQTQ2y+/cakbkGZ4BRY93wOKOUzWfwtXB6ffc+Y6Dj+C8/XSHAUQ0MgWv6OBzhWh/gUmVdjWsevlDk0AwYdfVENhJsStYnmem2H0Yrr0nKPCLJxlPSftldJfpF59TIfoOi7eH8noL1GrUpwE=
+	t=1749669162; cv=none; b=C/+IfHS1KttjCexia2GJopxWkAHssGaRoqpSAxZYYSlAeRz5o8ipdI38ZNEHwlaDFEoDh25jfw77vzTT40H7UpCSpHlxBCTYuayS/uPm7fY974H38P7MH6GZXSNW+1sHXPDDYjafPCBbWU2cQMTgIkE3SV520y9vZGPNwidij+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749668828; c=relaxed/simple;
-	bh=pdnpO1YxkWzXV5U9M40ePTBWbqEr3apcyjJa/6o3ZT4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cOyEzD0TR+6lD818uHgdIsU3iJcxX8/QQCAERJ5WUeg0KjewSg3n5IyUu1RB+dcPau3wRgzRJKjhuN0du90/TS/dOXN4Qz1wFqwPKdg+DRgyjYlPjrcGSczsHP2ni86WLwbAtX1HULJVDA5YN3l2iRORoRkOcUGFu/iscFGU+aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dTItf8Ia; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749669162; c=relaxed/simple;
+	bh=MnB19TOfh+7ykleBocTv6CizHYIdFED5uoDIM0y6n9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lJTBExV6f2PGdIh4PwpWCPvLDAjzpWrvQZYVCIRjEe3E+1vrmk/8V6GgHmlHPpEoyptMF5McIbeA/2x+V2LmzUt/l0mhxqP36dQlEkl5NWpl5tkNFdJ1Et5fdWyFBc86GsD0nZVPB4YVuCzm2A75/aGNYrQIcE6TrX+441gyZi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XqIX/i3f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dTItf8Ia"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e818a572828so114988276.1
-        for <asahi@lists.linux.dev>; Wed, 11 Jun 2025 12:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749668826; x=1750273626; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1MF1dHTik4WYDT1dqFKnZOlAFt0Xaso+/EljV+ZdGk8=;
-        b=dTItf8IaR5Fkl/CFUnlpKIyHOppMdD1zKi+yQsbsOCNEYZCC4KuRnr203QylHwLlCb
-         3MpnP7RLjcC1OIomypX9NcxSqXpXgkq/OI+Kb48u1h1AM4bysdTKd8Q+NrCunKa4HpI6
-         v22kM9wQEX4V8VydZFi4DXJIDVhw8awtOPiczVF6YKrgK+41BxASyJrhrFdxGZfrtWxI
-         BKjNzjImRj22Ldg5nmRPhIqa/pk4uDHD06A2gDs3hn+Dym0/TXd7ErcdpGeCUfp//hKD
-         qubPaLNxqwLXQ258JlN5wgkCWGN9yzbcQDjzi+bbUCLK7VtcZ4d49YK5GFsxr2Vk1Xp7
-         8mOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749668826; x=1750273626;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1MF1dHTik4WYDT1dqFKnZOlAFt0Xaso+/EljV+ZdGk8=;
-        b=mlxCIwErJBIwe0Xk44WevA/RdXfVM23UedmJjOpUJdSBgtzGOxUPR3P+HEWVN01ZUt
-         QK7p5yKPdvkjGSbPNVnV9SQCNGSU1ZmgDhDMNQXisvTbBHlh6oILc1+4VC6yMeFv7+GJ
-         qLqoYIlgTfVv1DlwC+iJVc+fyKUNXyO8ZWe70RsF3yfYqHJ2GYXWIhFFQiEYy4iX1Vg/
-         AqXAADAJ577jywEQB5uRyttmWu6HA/8zehKrdc9xp29FmzFoex7oOwpL6GHe2NyW28Vk
-         wt1/XxtDechKQRMMWTHto6OZhW9yvO4XZQLsdaZlXLNhT8YDZHsP1k5GvXt77o+YEuA3
-         H8fw==
-X-Gm-Message-State: AOJu0Yx463BoF1ZaUTlY4bZFellWkNaSoOiz7xYuGPKoMDvgxxVM8Zk2
-	tov28d2f9ifSNqpnZ6tmHzmKJlqzH9ftNd8vRpyjmBRXiEAG12j7G3iXO6JqVeMb3o2MJwkb+zZ
-	7qV7cy9lwnYNzYIIt1YLJAzegUWSSK/w=
-X-Gm-Gg: ASbGncuh+jdEDbc6ssc+1LvYoHQLIr5XRj1P4dVoaarW9N4vELrkMEHoWEzuiiWXkqP
-	mQyofAp+JuYb98TRSFU8gQr89uWSqBTo4FHwvBPU6m8uF/a81gSul2qdDDip0OlRQTdIuGScuL+
-	fFszuGM9Haz2gQKZNdBo8ejQLFlWEfT/+RDLf+bq47bFXab4DjDq3mIII=
-X-Google-Smtp-Source: AGHT+IFsZ3UIOk9VseJbWKxt8KvtKbfGOyN+aFYnhFj7EA+lzwyye2nE75imMRB1Spn6prKv90Mi/kjbFVIWTts4th0=
-X-Received: by 2002:a05:6902:250b:b0:e81:99cd:9be with SMTP id
- 3f1490d57ef6-e820b64d1a3mr1175425276.14.1749668826227; Wed, 11 Jun 2025
- 12:07:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XqIX/i3f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 775F2C4CEEA;
+	Wed, 11 Jun 2025 19:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749669161;
+	bh=MnB19TOfh+7ykleBocTv6CizHYIdFED5uoDIM0y6n9k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XqIX/i3fZR55ETgbwAWPhI0j5uEDBeW4vjrvwLkM2E1Tge9X2zRXHpj0sAFMSHd3J
+	 Kkaz0/TEmOasYiFG6a4lG6VJsLZh4glznnYUrsgP7/in94ur0D9faWikDPXyDPOtZK
+	 6eLG0cWS1X9i1+v2+HAqVhQ0ihjAqK1UhfCwqqk1WlEAYkrUQ9eDx8f8cdO+KXqGis
+	 vghYhn3FjVleOrD4smgdM/CfM/Rjyx8WEMuFquUBQ+S+C+A6UlXlNB6u/lurJ7LUMF
+	 xPWVRUpsHPIvTm42xXMaue+X3TKer3G2M+8nbet7moPc/V3VqZ5mSJzSmrmenLVt+9
+	 LteSgWdVkHlqQ==
+Message-ID: <47bcce06-9c08-40ee-a22a-bc168952b74a@kernel.org>
+Date: Wed, 11 Jun 2025 21:12:35 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250611-sgx-dt-v1-0-7a11f3885c60@gmail.com> <20250611-sgx-dt-v1-1-7a11f3885c60@gmail.com>
- <edf14a64-decc-4392-a038-08b5dd942f8d@kernel.org>
-In-Reply-To: <edf14a64-decc-4392-a038-08b5dd942f8d@kernel.org>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 11 Jun 2025 21:06:55 +0200
-X-Gm-Features: AX0GCFvMeV5Ol-Irt1s6ubsKN_ZZGACBjoQJdDOoAp2hIzH0XLvrHdYRqZQPnT0
-Message-ID: <CAMT+MTRYybR=tFJrcUn43UK3iW-fqEH3rmCLUezq2eTrEK=nQw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: Add Apple SoC GPU
-To: Sven Peter <sven@kernel.org>
-Cc: asahi@lists.linux.dev, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Simona Vetter <simona@ffwll.ch>, 
-	David Airlie <airlied@gmail.com>, Neal Gompa <neal@gompa.dev>, Maxime Ripard <mripard@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Janne Grunau <j@jannau.net>, 
-	linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] arm64: dts: Add Apple SoC GPU
+To: fnkl.kernel@gmail.com
+Cc: asahi@lists.linux.dev,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Neal Gompa <neal@gompa.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Janne Grunau <j@jannau.net>, linux-arm-kernel@lists.infradead.org,
+ Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+References: <20250611-sgx-dt-v1-0-7a11f3885c60@gmail.com>
+ <20250611-sgx-dt-v1-2-7a11f3885c60@gmail.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20250611-sgx-dt-v1-2-7a11f3885c60@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 11 Jun 2025 at 20:44, Sven Peter <sven@kernel.org> wrote:
-> > +      - description: Driver-opaque calibration blob
-> > +      - description: Calibration blob
->
-> Like Alyssa mentioned, this description also raises more questions than
-> it answers for me. Do we know what these two blobs contain or why they
-> are two separate blobs?
+Hi,
 
-At some point in the gpu initialization process we give the firmware a bag
-of pointers to various stuff it needs. HwCalA and HwCalB are separate
-pointers, and they use separate gpu allocations. We do not fully know
-what is in there, but we know what some of the fields do and how to
-create the blobs based on data from apple device tree.
+On 11.06.25 19:32, Sasha Finkelstein via B4 Relay wrote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> 
+> Add device tree entries for GPUs in M-series SoCs
+> 
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>   arch/arm64/boot/dts/apple/t6000.dtsi        |  4 ++++
+>   arch/arm64/boot/dts/apple/t6001.dtsi        |  4 ++++
+>   arch/arm64/boot/dts/apple/t6002.dtsi        |  4 ++++
+>   arch/arm64/boot/dts/apple/t600x-common.dtsi | 34 ++++++++++++++++++++++++++++++++++
+>   arch/arm64/boot/dts/apple/t600x-die0.dtsi   | 28 ++++++++++++++++++++++++++++
+>   arch/arm64/boot/dts/apple/t8103.dtsi        | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   arch/arm64/boot/dts/apple/t8112.dtsi        | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   7 files changed, 198 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/apple/t6000.dtsi b/arch/arm64/boot/dts/apple/t6000.dtsi
+> index 89c3b211b116e96ee0a5ea0c923c3ab824008307..3b60842045d4c3277e9530a13ef2811774209697 100644
+> --- a/arch/arm64/boot/dts/apple/t6000.dtsi
+> +++ b/arch/arm64/boot/dts/apple/t6000.dtsi
+> @@ -16,3 +16,7 @@ / {
+>   };
+>   
+
+[....]
+
+>   	};
+> +
+> +	reserved-memory {
+> +		#address-cells = <2>;
+> +		#size-cells = <2>;
+> +		ranges;
+> +
+> +		gpu_globals: globals {
+> +			reg = <0x0 0 0 0>;
+> +		};
+> +
+> +		gpu_hw_cal_a: hw-cal-a {
+> +			reg = <0x0 0 0 0>;
+> +		};
+> +
+> +		gpu_hw_cal_b: hw-cal-b {
+> +			reg = <0x0 0 0 0>;
+> +		};
+> +
+> +		uat_handoff: uat-handoff {
+> +			reg = <0x0 0 0 0>;
+> +		};
+> +
+> +		uat_pagetables: uat-pagetables {
+> +			reg = <0x0 0 0 0>;
+> +		};
+> +
+> +		uat_ttbs: uat-ttbs {
+> +			reg = <0x0 0 0 0>;
+> +		};
+
+With W=1 this results in a bunch of new warnings like
+
+arch/arm64/boot/dts/apple/t600x-common.dtsi:391.24-394.5: Warning
+(unit_address_vs_reg): /reserved-memory/globals: node has a reg or
+ranges property, but no unit name
+
+but I'm not sure it's possible to fix that without making up fake
+addresses that then get overwritten here. Would be nice to fix this some
+other way but I'm not sure how and so far we don't enforce "no
+additional W=1 warnings", so:
+
+
+Reviewed-by: Sven Peter <sven@kernel.org>
+
+
+
+Best,
+
+
+Sven
+
+
+
