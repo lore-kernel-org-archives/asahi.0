@@ -1,100 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612F529D19;
-	Tue, 10 Jun 2025 19:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215502609DC;
+	Wed, 11 Jun 2025 09:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749583170; cv=none; b=dmypxZg9atX/SRhQY+0LhnLeGaEkadsSouBRTSriB+Vs6uXuxzzCN8WAJ4IeAQE7dYdlYwwgqah2ppEani+UASpwTKaubk5qZU7GQMjuqOIuEz6pvZ5IvYCkrO06Xo5pAqX29GVzLtEDXvxngMWa+V1wtEgQz2TNGt7l1A/ZFQ4=
+	t=1749634819; cv=none; b=cf0tBekk9n2CgXA50m+8J6HqWdaCvq4JEeeZBS0PCb44zkuNAO9Vt1evpwvnjH/r3BsC8DmsIf3O86ZbFVTjmkMTGVsLpxOUqAiptnF4THX4ZLWzD2bpV0Bnk4HcaPsIBlEu1z67hLDL2Ch7SI1pydqDgyIK1U5N8OIC++ckt+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749583170; c=relaxed/simple;
-	bh=I7LIFG9CUURK/xCFq/gHrynuB0+CqswX9qvQ7HEglvA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CK5GWIyhOzW0ao+TJRnLNwigTOWZbll9BIyEgMOCyIuYWRLYvUx+GUqeR6ji5Sjaq7679iqHz3meLIsbLjnm0p6J7/Jwxp/l+F4FoN/pbxWB6nWQUUGctIsjV0Vrx5ZZsUlNQMXJlTy/HsMC70WPPyoOWOvbFeVdpPk5rM8QD08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XJrNhMZq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749634819; c=relaxed/simple;
+	bh=EOF0wPKaDO4VgvfGSVrXCHsbhCfTQG4KN/6dg+9yv4s=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=hE9ZrSywuDAB8B9Ty7kfGOVbaR2FJCOidO4+xjCYa1RVdgx+leegRXmkErMX075rvqOBH2DJ5DXrBcQ+9esFl6JWEYgu91e6sYGvOV1iE2I13RVJq9uEvF41Echp0BSIrusz8o3J4vT5VWEC7ZoKep8oIQwU7kikLM+8wWgdQ+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=G1EFhqLh; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XJrNhMZq"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D914CC4CEED;
-	Tue, 10 Jun 2025 19:19:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749583169;
-	bh=I7LIFG9CUURK/xCFq/gHrynuB0+CqswX9qvQ7HEglvA=;
-	h=From:Date:Subject:To:Cc:From;
-	b=XJrNhMZqdrAhrqVbb9fCWpGKj8dYMEO2pZFyFCmSLKnaC9XCVpKkbkg0Ae9FQ/BUk
-	 MHSxaDFIDnr/d2Zw3qrAl72UadRR7RzA1Be9CMfDltvmv/moUw8r+XtH/KCihwB8Xz
-	 WKOHPFf1TyqgrgechlZ5RtaloETFEoLJlqJ/IsEjOY8RcYgRgTAXvfEVzZumsjmUG/
-	 MllxaIN/50zCxkrSl9ZdIJ7WPRxHCCK0y5JcX34ZuWQh9rMvzHrtLOchy2AFTGQFeV
-	 W6TgnF7HNIgQ3aQPHv2yYOq6H9criwB1LugLWIsbMqSNghHIRAJtcQiEG/Sa9T0VwK
-	 erG6UK/e9H4hQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C33A8C677C4;
-	Tue, 10 Jun 2025 19:19:29 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Tue, 10 Jun 2025 19:19:24 +0000
-Subject: [PATCH] arm64: dts: apple: Drop {address,size}-cells from SPI NOR
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="G1EFhqLh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749634815;
+	bh=EOF0wPKaDO4VgvfGSVrXCHsbhCfTQG4KN/6dg+9yv4s=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=G1EFhqLhpfUNHYRce2Shf7OUW7CiLa9zTxIYeMK9msSvQcpGRddVYbboJFxp09cTw
+	 pfCXxWcB111nao4H/6Un1OT5MRE1keyyNcCbWArEQxEoS4sKk6cKLDyN5wQmCcFRe0
+	 6ULMq4cpFtCfLIVeK1Vn1ahRyCQau3XZn5ofNA0qvwhRWHfYxuoovAr99sRCcgUx2z
+	 P6tlwpz/dHR3L5Keiq4qtZ7yTZES8vavuGGH4aTGckSgw/BhIDDk1c1a8p1aR852Yb
+	 iTSEbqL8vlmj9ANW56RRvQAKnFqOpvUFvx70VMhHzOFWrfwNI15zoQoSEU0wkePWUt
+	 D6rgOCsNCAr2A==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D4FA517E0FAD;
+	Wed, 11 Jun 2025 11:40:12 +0200 (CEST)
+Message-ID: <d5f0a339-11a4-42d1-82b6-807e6e45953b@collabora.com>
+Date: Wed, 11 Jun 2025 11:40:12 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 4/7] iommu: Remove iommu_ops pgsize_bitmap from simple
+ drivers
+To: Jason Gunthorpe <jgg@nvidia.com>, Alexandre Ghiti <alex@ghiti.fr>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+ Janne Grunau <j@jannau.net>, Jean-Philippe Brucker
+ <jean-philippe@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Neal Gompa <neal@gompa.dev>,
+ Orson Zhai <orsonzhai@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Robin Murphy
+ <robin.murphy@arm.com>, Samuel Holland <samuel@sholland.org>,
+ Sven Peter <sven@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krishna Reddy <vdumpa@nvidia.com>, virtualization@lists.linux.dev,
+ Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
+ Yong Wu <yong.wu@mediatek.com>, Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>, Kevin Tian <kevin.tian@intel.com>,
+ patches@lists.linux.dev, Niklas Schnelle <schnelle@linux.ibm.com>,
+ Sven Peter <sven@svenpeter.dev>, Tomasz Jeznach <tjeznach@rivosinc.com>
+References: <4-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <4-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250610-apple-dts-warnings-v1-1-70b53e8108a0@kernel.org>
-X-B4-Tracking: v=1; b=H4sIADuFSGgC/x3MQQ5AMBBA0avIrE1SqoiriEXLYBKppiNIxN01l
- m/x/wNCkUmgyx6IdLLw7hOKPINxtX4h5CkZSlUaZbRCG8JGOB2Cl42e/SLYOqcbrevGmQpSGCL
- NfP/TfnjfD0gomXdkAAAA
-X-Change-ID: 20250530-apple-dts-warnings-8bb373367b54
-To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sven Peter <sven@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1243; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=I7LIFG9CUURK/xCFq/gHrynuB0+CqswX9qvQ7HEglvA=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ4ZHq73vyvzpddl7Td89/J323EP/7satR+MffagOLGIOf
- jJHK21xRykLgxgHg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAiWVGMDGe4rxsafox+V3e5
- TNBZWf31hBIWH7fSc+c/vTaed+N7yW6GX0znghs1Xjwy+cx0J03vVqF8p0DsrLf1FQnLPJ3fXuC
- fwAEA
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
 
-Fix the following warning by dropping #{address,size}-cells from the SPI
-NOR node which only has a single child node without reg property:
+Il 09/06/25 22:41, Jason Gunthorpe ha scritto:
+> These drivers just have a constant value for their page size, move it
+> into their domain_alloc_paging function before setting up the geometry.
+> 
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Acked-by: Niklas Schnelle <schnelle@linux.ibm.com> # for s390-iommu.c
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+For MediaTek:
 
-Fixes: 3febe9de5ca5 ("arm64: dts: apple: Add SPI NOR nvram partition to all devices")
-Signed-off-by: Sven Peter <sven@kernel.org>
----
- arch/arm64/boot/dts/apple/spi1-nvram.dtsi | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/apple/spi1-nvram.dtsi b/arch/arm64/boot/dts/apple/spi1-nvram.dtsi
-index 3df2fd3993b52884d7c00b65099c88d830a7a4c3..9740fbf200f0bcd0e7d1b81885fe9d9ff8f04fdc 100644
---- a/arch/arm64/boot/dts/apple/spi1-nvram.dtsi
-+++ b/arch/arm64/boot/dts/apple/spi1-nvram.dtsi
-@@ -20,8 +20,6 @@ flash@0 {
- 		compatible = "jedec,spi-nor";
- 		reg = <0x0>;
- 		spi-max-frequency = <25000000>;
--		#address-cells = <1>;
--		#size-cells = <1>;
- 
- 		partitions {
- 			compatible = "fixed-partitions";
-
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250530-apple-dts-warnings-8bb373367b54
-
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
