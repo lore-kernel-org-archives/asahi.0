@@ -1,89 +1,91 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16F31D618A
-	for <asahi@lists.linux.dev>; Wed, 11 Jun 2025 20:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DE12494FE
+	for <asahi@lists.linux.dev>; Wed, 11 Jun 2025 21:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749674900; cv=none; b=hEvruoFjD5IEjzUS91xBCrb/x5BNW376AM7lGnCMmZgMRe5M4O57ga0Ph81wn4nDEfvWKOCSZ/T94A1shO2b7R6odVxWxT+eCXAh3rZ4rGmfYgUeCuq2RSTAdwTTjjn1BnPItT1xwvuI7ILjz3xz3GshZNqVcm15ZZTExM9QybE=
+	t=1749678585; cv=none; b=Y5lso5lSUjT7WN8DMUu0gSt6ecuzrYSnnjY1MjKB4p8pRpezdlRRmzqUuwgon+zSLDIlk+wW2nJWP27coiNPRdRpcEWEeowY+3MvNl7dDEa1LoyYPt8Hrr/DAHnWFZJLR5HBUzjM/gwWXQvgTQzJmlahqcI0w0z00ig0C9frFEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749674900; c=relaxed/simple;
-	bh=ZeSIxqRw+KDkZduoO9BBG4LMBdyh/NL6CX6I3GxMP+o=;
+	s=arc-20240116; t=1749678585; c=relaxed/simple;
+	bh=0Luy/GZTvOJxbPT9HRmWme4ywxjUebdc3U2uMURoMxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OhOBc9T0QO67Cxlt6ONvQLdxrzCPfE0kg3uTN5W8D6bvrTE3rFfHavUpBz4zkVrui/1bEQ4bI4ZPvTJj957ftzO01VVSUlDqfYqs0a1yJIpDIaerp9o4Pf7AZLRSe81gUvntf7DEwxU3FqjepjEWBIhwSoWsUd1yEtxSYCgf3Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=lccOqZ4z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gEiLVlyS; arc=none smtp.client-ip=103.168.172.152
+	 Content-Type:Content-Disposition:In-Reply-To; b=p9VEQt+ES7ySIvRohWocdHsFTiK9g6IZLn8qdKlt64lY4Q7WuThPxIs/kUK2yvtaEZUC16khoMlTqx3iBESS8yg23dyS/4IGjA5MF0uATKimY0yxHaLlBxUbmt2PdbP7vfjhconddnVtrdksom2wdyVD6u3JlmH3FvtOTg51C1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=CkNekZTx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ant+dIKY; arc=none smtp.client-ip=103.168.172.144
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="lccOqZ4z";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gEiLVlyS"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id D87C211401F7;
-	Wed, 11 Jun 2025 16:48:16 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Wed, 11 Jun 2025 16:48:16 -0400
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="CkNekZTx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ant+dIKY"
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 219C313804DF;
+	Wed, 11 Jun 2025 17:49:41 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Wed, 11 Jun 2025 17:49:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1749674896; x=1749761296; bh=cW5kHqGoMg
-	cJPCZRWrn/3XY+/PqK7bC2f+q7PxYZJmI=; b=lccOqZ4zDxD5QnxYqtuNw7kx61
-	UfSXSwslOKC1hlVyRlsCP/+2aU8f/QlFjHGFaXZcrSRXH3OZzJosB+u41yQ341G2
-	notTs7uCv74XxLa6yP+H5v0tnlLM0BFmYCekjHpbIFvNL+mSKds67ob40vG7nCwJ
-	CJUuqd8ubW8zgIu0sRpI7Qhck4v/+otxVGd99diTuzy/Yn6B/njdP20r8LNd0r4m
-	q/2QjCz0qHrKZWQffh9eNsqiDH8ljzro3KzD1hyKa7x03Y+npAJfuYTEa+hzBfj8
-	Cy55kfl00+QsYT5HFNIdqKDGo6tgrJ/1ZVX+ol7rwiStMx+SY/hi+VLdAlrw==
+	:subject:to:to; s=fm3; t=1749678581; x=1749764981; bh=y1uszv6YuO
+	g7iXkALbp8AWMQ97qKkEmgUUlVgFz7u14=; b=CkNekZTxGSrPDNFW85kwvoRH/0
+	SEUP/xNDPmAhXmFMr/Wpin5NGjzqcID9l3RwDKpgUwygn/08nF4CjT//PHs3DK+E
+	6peA+qscBI71W830jYYnioR2n4QC+iPKAKJtZB1KlAD0K46xktFsymu2zFofR9CA
+	SqrgVY1bVnupP8e/eab5kkY6GRzHzZPrBR7qcjkaQTQ/vD1BTvxIMmeWUC9U0ovl
+	v/nfpqm6pfzf31R8I4RokiOOXIF5eFY8G8p1rpiB2EUyp46nPbXPAgRjGup2dAxH
+	xpFpl2jcpm0dh9KPTtR1uFEAPQhzX7tHGoktozdwSDCyZFdAgTNhS5tm+hMw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1749674896; x=1749761296; bh=cW5kHqGoMgcJPCZRWrn/3XY+/PqK7bC2f+q
-	7PxYZJmI=; b=gEiLVlyS0LmftbzpaTBiNHWXFGAXALENeNIFVlxu5BbBJmIBQOy
-	6biybY2D/PcrA7qcunHQRIk0Lc7WO6BwVI2Vwr6UX1D2dnaKfebIhWC1Z/qs4auR
-	gBJ/xgaLTafA3GIV9vClFbd4vRcHV0dFA7PFAaQwZXGmNWNZ/koWUeSU92lVb3l8
-	HjJqTSS00nvAKczI1SQWNGBD7ypQ4C+9T0ueW3gQisPaUKyLeeY6azQbCkZpii8M
-	73ldWbhtUwVIVg/3NybE6S+Kx3k/n8bnLsUULHkLyfzlbgLXgIrLY4aXzmZbwVuD
-	ch313qsow9TD9gUh4Sq+xfsTLGUcvZ4kTTg==
-X-ME-Sender: <xms:kOtJaPGBJ8VxML_IFDAM5ojYhisoWLK_dLE_cSg_W0kFUD6pFPaWYQ>
-    <xme:kOtJaMX1soAQHQ6TLFzPL0Tafd6Rou3A4xiDRr39IwAagrc35JAkop911DY103BL-
-    8V6uTrUWnk5j7c4h4g>
-X-ME-Received: <xmr:kOtJaBL7_fPCWP-umOJvhjENK8D6xi_bjdXa8MMhmRuE3r1hmEp7XeTqRSKvuQ48CG4V61A-hpMRSTmJxk_AgL6giBxGKFoL-pc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddufedulecutefuodetggdotefrod
+	1749678581; x=1749764981; bh=y1uszv6YuOg7iXkALbp8AWMQ97qKkEmgUUl
+	VgFz7u14=; b=Ant+dIKYLfq0AD1oHGVibCDhOFd8mcpdEerSRQbaxBM32DHCefh
+	cR7aORIl3W6J8EoSK3OZmWoHksavhPQr9mpEiLoU32afs69OHOJpRA1Azj0snK+u
+	MUBOq8HIfkyN02BwxH7Q9KG71WCtG8cG7llc3IFUKEkiaPhfq5u0cgb8rkyatMXw
+	Dhy7S5Vb/5hsdNppjrxqzuYmyxjNu24HRKb4oZG9tZ4aoY+ujaDOI72/VU946pQy
+	ZMk9ctqTbmuQ1yMUbWthfAgdKxc2vv1pb/fEGPvCmQhMUVzlQ4sgcsbK+ZXxX0JX
+	77NFIrT3KpoxeyLHauIGzHuEabpgXowYSIw==
+X-ME-Sender: <xms:9PlJaKudVxquCH7_4r3Y1BeoIEJ49suMGftNvKEy8S4yJOcXHSIWvA>
+    <xme:9PlJaPffj9qQv1LLLA72rcmy2EHQLAME7CxZ26nWVxSP-xehrhL-OCGjhS5SPQ03v
+    ptfrhdfpubnowu8_ZU>
+X-ME-Received: <xmr:9PlJaFyejvOjoJxqPka68BOO7cBzp1H4y8dGka4wD_CJ_5OSoEDAO0_nuzhKGj_zVJmbkpAx5qslCTEbWFmJM-bDTyNUkMfROnQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddufeefudcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
     necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
     cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
     tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedutddpmhhouggv
+    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopeduvddpmhhouggv
     pehsmhhtphhouhhtpdhrtghpthhtohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtph
     htthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehnvggr
     lhesghhomhhprgdruggvvhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpd
     hrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptgho
-    nhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsth
-    hsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghl
-    sehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepuggvvhhitggvth
-    hrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:kOtJaNF-MWh_9aGOL3AXtXQwiIMLr0T-Num_Cz6QwEHVnVC4sDNXAQ>
-    <xmx:kOtJaFWJ8jcZCzOeD8Me2ZoAJC7GIDSOreY0thhO6Haq5rROJNxNRg>
-    <xmx:kOtJaINz6Yq6x3cT23Xr67urYegzm8UXXJ-sVrEV134fn1b4PP2sNw>
-    <xmx:kOtJaE1yj2w5sxV8CUxJ9CZqGMiZxobzyHRKXUdVcli9BxE_OMtafg>
-    <xmx:kOtJaK4tgj967JTcmaHAgZtX46seZ9XqRRELL3oU5M_5c5dZqVa6ZBHr>
+    nhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehfnhhklhdrkhgvrhhnvg
+    hlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthhofihinhgthhgvnhhmihesghhmrghi
+    lhdrtghomhdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:9PlJaFOBs99OoFiBNi-CXRmGeMsqDoGh4kJpz2Bg9bWmXFTZJqRX7A>
+    <xmx:9PlJaK9mZvTTmeT2mcoIq7OhhD4wGAiGi_kE30yjBinKj6Nb73T46Q>
+    <xmx:9PlJaNWOFfwDpHV85nZVncClUot-bl6mFPS6u-PDJPFc8NcBA0L8eQ>
+    <xmx:9PlJaDfAeohEKGZ5QihTgkr0uD4OGdko8_y45z-FRT8Y9evXrMdthA>
+    <xmx:9flJaD_0sbA4UmwT--1OstRHr2Mw_fbWWMwiex02gQrwMtPZTpFzEX8t>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Jun 2025 16:48:16 -0400 (EDT)
-Date: Wed, 11 Jun 2025 22:48:14 +0200
+ 11 Jun 2025 17:49:40 -0400 (EDT)
+Date: Wed, 11 Jun 2025 23:49:38 +0200
 From: Janne Grunau <j@jannau.net>
 To: Sven Peter <sven@kernel.org>
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Nick Chan <towinchenmi@gmail.com>, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: apple: Drop {address,size}-cells from SPI NOR
-Message-ID: <20250611204814.GC3141695@robin.jannau.net>
-References: <20250610-apple-dts-warnings-v1-1-70b53e8108a0@kernel.org>
+Subject: Re: [PATCH] arm64: dts: apple: Move touchbar mipi
+ {address,size}-cells from dtsi to dts
+Message-ID: <20250611214938.GD3141695@robin.jannau.net>
+References: <20250611-display-pipe-mipi-warning-v1-1-bd80ba2c0eea@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -92,34 +94,82 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250610-apple-dts-warnings-v1-1-70b53e8108a0@kernel.org>
+In-Reply-To: <20250611-display-pipe-mipi-warning-v1-1-bd80ba2c0eea@kernel.org>
 
-On Tue, Jun 10, 2025 at 07:19:24PM +0000, Sven Peter wrote:
-> Fix the following warning by dropping #{address,size}-cells from the SPI
-> NOR node which only has a single child node without reg property:
+On Wed, Jun 11, 2025 at 03:18:53PM +0000, Sven Peter wrote:
+> Move the {address,size}-cells property from the (disabled) touchbar screen
+> mipi node inside the dtsi file to the model-specific dts file where it's
+> enabled to fix the following W=1 warnings:
 > 
-> spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+> t8103.dtsi:404.34-433.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@228600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+> t8112.dtsi:419.34-448.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@228600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
 > 
-> Fixes: 3febe9de5ca5 ("arm64: dts: apple: Add SPI NOR nvram partition to all devices")
+> Fixes: 7275e795e520 ("arm64: dts: apple: Add touchbar screen nodes")
 > Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
->  arch/arm64/boot/dts/apple/spi1-nvram.dtsi | 2 --
->  1 file changed, 2 deletions(-)
+>  arch/arm64/boot/dts/apple/t8103-j293.dts | 2 ++
+>  arch/arm64/boot/dts/apple/t8103.dtsi     | 2 --
+>  arch/arm64/boot/dts/apple/t8112-j493.dts | 2 ++
+>  arch/arm64/boot/dts/apple/t8112.dtsi     | 2 --
+>  4 files changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/apple/spi1-nvram.dtsi b/arch/arm64/boot/dts/apple/spi1-nvram.dtsi
-> index 3df2fd3993b52884d7c00b65099c88d830a7a4c3..9740fbf200f0bcd0e7d1b81885fe9d9ff8f04fdc 100644
-> --- a/arch/arm64/boot/dts/apple/spi1-nvram.dtsi
-> +++ b/arch/arm64/boot/dts/apple/spi1-nvram.dtsi
-> @@ -20,8 +20,6 @@ flash@0 {
->  		compatible = "jedec,spi-nor";
->  		reg = <0x0>;
->  		spi-max-frequency = <25000000>;
-> -		#address-cells = <1>;
-> -		#size-cells = <1>;
+> diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
+> index e2d9439397f71a93c28b75a7eea589f4bcb3e374..5b3c42e9f0e6776241bf746d3458766e44e3639a 100644
+> --- a/arch/arm64/boot/dts/apple/t8103-j293.dts
+> +++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
+> @@ -100,6 +100,8 @@ dfr_mipi_out_panel: endpoint@0 {
 >  
->  		partitions {
->  			compatible = "fixed-partitions";
+>  &displaydfr_mipi {
+>  	status = "okay";
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+>  
+>  	dfr_panel: panel@0 {
+>  		compatible = "apple,j293-summit", "apple,summit";
+> diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+> index 20faf0c0d80927b2e18dd966a61b5507b322c72f..3a204845b85befb093dd470b4280e778c2894b09 100644
+> --- a/arch/arm64/boot/dts/apple/t8103.dtsi
+> +++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+> @@ -405,8 +405,6 @@ displaydfr_mipi: dsi@228600000 {
+>  			compatible = "apple,t8103-display-pipe-mipi", "apple,h7-display-pipe-mipi";
+>  			reg = <0x2 0x28600000 0x0 0x100000>;
+>  			power-domains = <&ps_mipi_dsi>;
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+>  			status = "disabled";
+>  
+>  			ports {
+> diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
+> index be86d34c6696cb47d31696541266e504cee8ce10..fb8ad7d4c65a8fe7966f5541f24f03a379143cfb 100644
+> --- a/arch/arm64/boot/dts/apple/t8112-j493.dts
+> +++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
+> @@ -63,6 +63,8 @@ dfr_mipi_out_panel: endpoint@0 {
+>  
+>  &displaydfr_mipi {
+>  	status = "okay";
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+>  
+>  	dfr_panel: panel@0 {
+>  		compatible = "apple,j493-summit", "apple,summit";
+> diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
+> index e95711d8337f6cea898e88a3d564caf2c4f94404..f68354194355807dae9b5922bb8aff74da3c29e6 100644
+> --- a/arch/arm64/boot/dts/apple/t8112.dtsi
+> +++ b/arch/arm64/boot/dts/apple/t8112.dtsi
+> @@ -420,8 +420,6 @@ displaydfr_mipi: dsi@228600000 {
+>  			compatible = "apple,t8112-display-pipe-mipi", "apple,h7-display-pipe-mipi";
+>  			reg = <0x2 0x28600000 0x0 0x100000>;
+>  			power-domains = <&ps_mipi_dsi>;
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+>  			status = "disabled";
+>  
+>  			ports {
 > 
+
+This looks a little odd and the two qcom devicetrees I've looked at have
+the same "issue". Fixing warnings is welcome and the resulting dtbs are
+unchanged.
 
 Reviewed-by: Janne Grunau <j@jannau.net>
 
