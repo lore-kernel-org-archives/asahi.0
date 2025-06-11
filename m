@@ -1,183 +1,106 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACA229B772
-	for <asahi@lists.linux.dev>; Wed, 11 Jun 2025 20:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B642BDC1D;
+	Wed, 11 Jun 2025 20:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749672619; cv=none; b=CBWIiFvPcYIa1ouwo1PmrTDLF/z/AuO7MaV3Pk5TQkmdJGOnDxDKvuj/aFsyGjadXPxpqnW9nYD2dGbci1fo/D9p/fN+FDCfX3ltrExq1vm7YNzgBvIQvTF0HFeGWjZB2Pf9579hjVKlboQRFjaRj3AwDCkZzkwpgzDYzghMMBc=
+	t=1749673839; cv=none; b=m4DsbVCLKu/r1eAkxSAjh80MIYR+nouvl3YnDtj7lwTV2vzGls20OcvNeyQH6jL4UX6P0xsdxJluGtWZde6yTxpX8WD4euIVVtLrRY2lYz2Fp+80AMmz4x4Okbo1JMHkE4ctWBtEomcuIY1oFD7TNaJBGAK4UjESt4LCq7/pQak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749672619; c=relaxed/simple;
-	bh=bEEaQfa0pcYxrZSCUh0iTKeIswton2UT//fdDCiKa5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fLAbYcORETEYlso5awTNHQlVvNewGEXCBYhEJORzIyvX0ZOC0d5XHcDfwBlJzdzlAt5aVzl6Y3vZew5qQctQzlN/wLOXb0/8hk1qD35ujNJWfhxhq9bwMx9TYaxAFRQXGUv2cRzIBR5nX/js7Rb49pU07pDy2uMj817SNNuoyXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=XF1bDW3v; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IGtPwG73; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1749673839; c=relaxed/simple;
+	bh=T6MQUq+5csmPuEPWpE+uUchnp4jTFEZuMy7pJ1JdciM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BY5QXFNv+B8uG2c0kkaMZD4h30vL4q0ZgfoqBncbsw6kDmChJYXzyYvVsc/UYTCTR9NrBRT9ByGGN+Nua7dxLlx0Ph9yvucLjuqrr995BOHZdidNwjA5UIGhp7ToiyclQ+QcdxOJpo06gObySvB3noxaRHSL7askDWMtr17cqho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S5GCgIDd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="XF1bDW3v";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IGtPwG73"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C58F31140089;
-	Wed, 11 Jun 2025 16:10:16 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 11 Jun 2025 16:10:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1749672616; x=1749759016; bh=dZbDOY3A42
-	gRinlRSx+qPEKp7iblwIBfqRBdkTzwifI=; b=XF1bDW3vBccJwENTlZpWn/Lwc1
-	fcc1+HVDNfHWNtEU5AF+O0mFnfUum57I2XE9kmVBe2RslEeuzRcIa/n9rmkFN6uV
-	LBoVOfZG1LzHLNC/fH1qc91c5OrCTmXdhl9abmFM0XBtPfEaDMdO/vVmo92V4ddM
-	laEowTRF2iviDDRywKnIAvTWYuFttTo8SNlqrT/anRbfQfHmhZsRp5mB4S2M8Cgw
-	Q6TA7tDtrq72PzNbQELD89ZoDbFfpbLXMlf+iIC/wHTRYzCjo9drSue+bdPgjB0G
-	//8zBPudgFUqZQW56OLaBPu3FpQng15ONuY6zjCJ6jWisxYW7MDRO26LXUCw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1749672616; x=1749759016; bh=dZbDOY3A42gRinlRSx+qPEKp7iblwIBfqRB
-	dkTzwifI=; b=IGtPwG73LEGW34r3sXxoaXHkLmo+jPEsatiQ3tQ15PvLRpBNaUd
-	4vZLB6YDWMPssFyHiszcSdJLyW7vT9CaNBHqC12l/I9XhI+QQK5zUxSU3liMTsmi
-	yKK7MFOEHBpJ7q2GudDrmchBhZxDVqv0q4GXeDpcrjCm0RHwPPH5LYX+wENUdKMv
-	cD5faTcsS4C7LjOJfqEUOXcjy84fGwKpGR1pDeRZRFYVmuXWiBLBw6ZzSafxLwO3
-	YcOIMLpcjlIXFQF48BeTMMD/XPhQUbjEH5x6dzeIuVKMB8k1wUGSUvdKFQXJZu3d
-	vyLtb2n/39Jfh/+5xGlvEDMtklPG7MEFovw==
-X-ME-Sender: <xms:p-JJaJSHBFa6LHZEi1rcFs3gtyWgaRgAmMxHaDQAgirkE-qAZkqm6A>
-    <xme:p-JJaCzOIk4p5aZEHLHvH-UgmDjZ3iXzV4Ay3IyO2VU9fdDQVzh66C4NIF0RWNsoF
-    h2NYk1LqDhK1FumQ0U>
-X-ME-Received: <xmr:p-JJaO2o_bmgmEgna3wDwUDSt2W_CIzRn_cKo5q4NRr6gC5UGoFcu4nf7pKyRvQAgUIg7KQd83SeodQmzNYBZkp-_d2EAmrBqk0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddufeduudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
-    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
-    cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
-    tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedujedpmhhouggv
-    pehsmhhtphhouhhtpdhrtghpthhtohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghs
-    rghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehmrggrrhhtvghnrd
-    hlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepnhgv
-    rghlsehgohhmphgrrdguvghvpdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiifvg
-    highdrihhopdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhs
-    rdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:p-JJaBBHJZw8M-agVQcr6OtDmJ55REB0eYxX4b7jzXljlGGpgRcBLQ>
-    <xmx:p-JJaChmu5id2-1eOgfO2ahMSjeHDal-3fD_v8jl7_Gi7QKnWI3k2w>
-    <xmx:p-JJaFoLWcMt0J8oDem2IIvXpLLzqtmSSpHDEYugKFseQH3BHmgNxg>
-    <xmx:p-JJaNhCsiLG_DVpcPcXRRO0MEB8oEyx__CO1WYXxKC6Aj3IQ1qi0A>
-    <xmx:qOJJaPaLGYxINreGkLUMRQaJAG8r0hOlaMW303golrWJybwnlh1Gegcc>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Jun 2025 16:10:14 -0400 (EDT)
-Date: Wed, 11 Jun 2025 22:10:13 +0200
-From: Janne Grunau <j@jannau.net>
-To: Sven Peter <sven@kernel.org>
-Cc: fnkl.kernel@gmail.com, asahi@lists.linux.dev,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Neal Gompa <neal@gompa.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
-	Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH 2/2] arm64: dts: Add Apple SoC GPU
-Message-ID: <20250611201013.GB3141695@robin.jannau.net>
-References: <20250611-sgx-dt-v1-0-7a11f3885c60@gmail.com>
- <20250611-sgx-dt-v1-2-7a11f3885c60@gmail.com>
- <47bcce06-9c08-40ee-a22a-bc168952b74a@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S5GCgIDd"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BF47C4CEF1;
+	Wed, 11 Jun 2025 20:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749673835;
+	bh=T6MQUq+5csmPuEPWpE+uUchnp4jTFEZuMy7pJ1JdciM=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=S5GCgIDdqwW5uQvwOOOGjyKNhlM4xrU3CjO6NpVsLLJEFaUU/LVQwWmgXGpQ4NCPb
+	 eQzXs45T4jXhXz/6TRTtnK61ELFNCMd5lLNkhwBlKpzXYeWmEflM1paUlzXujeqzFx
+	 BhrhzyQiOuQdAxwFmJHrI9FUXRk3HPSitfphnUoQexG83Js3tXMWYU+z8pFxDyHmt+
+	 Ev9cc1NSwlLRl+Hj6k6LClzwF9uhkVd7LbIpEO46Yvm9kweX9kXYk3q20IssQ0Y5FL
+	 46TzQJya+ay0U9NTUe5yuTrOwz6D0xOHbolrhtIR6DOmbJ9gsdEJNNooq+v/3SLrX4
+	 CQd0AUnzcu2iw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ECEEC7113E;
+	Wed, 11 Jun 2025 20:30:35 +0000 (UTC)
+From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Date: Wed, 11 Jun 2025 22:30:31 +0200
+Subject: [PATCH] arm64: dts: apple: t8103: Fix PCIe BCM4377 nodename
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <47bcce06-9c08-40ee-a22a-bc168952b74a@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250611-arm64_dts_apple_wifi-v1-1-fb959d8e1eb4@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAGbnSWgC/x3MTQqAIBBA4avErBMaM4OuEiGSUw30IxoVhHdPW
+ n6L916IFJgidMULgS6OfOwZWBYwLnafSbDLBlnJptKIwoZNK+POaKz3K5mbJxZOYSNRtbImDTn
+ 1gSZ+/m0/pPQBKqY7WGYAAAA=
+X-Change-ID: 20250611-arm64_dts_apple_wifi-d415214723e6
+To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
+ Marc Zyngier <maz@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1444; i=j@jannau.net;
+ s=yk2024; h=from:subject:message-id;
+ bh=wHLTjbA+ZQtpL0eNy1zcPArF/Oix96dlxYfH46ebBpY=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhgzP51kRH8Mu3v4jEB23riR0deCkgE6+c2cMvr65PcVSe
+ 0ccb9X0jlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABMJ2MzIcLts4jqju75O01+L
+ W7AzLZr3XaNW7reybOvtzn/v4/9UeDP8D1O7tNy9eNnCJpMtf/9daq65scqR77nMzOoP0rJxOVf
+ 4GQE=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: j@jannau.net
 
-On Wed, Jun 11, 2025 at 09:12:35PM +0200, Sven Peter wrote:
-> Hi,
-> 
-> On 11.06.25 19:32, Sasha Finkelstein via B4 Relay wrote:
-> > From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> > 
-> > Add device tree entries for GPUs in M-series SoCs
-> > 
-> > Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> > ---
-> >   arch/arm64/boot/dts/apple/t6000.dtsi        |  4 ++++
-> >   arch/arm64/boot/dts/apple/t6001.dtsi        |  4 ++++
-> >   arch/arm64/boot/dts/apple/t6002.dtsi        |  4 ++++
-> >   arch/arm64/boot/dts/apple/t600x-common.dtsi | 34 ++++++++++++++++++++++++++++++++++
-> >   arch/arm64/boot/dts/apple/t600x-die0.dtsi   | 28 ++++++++++++++++++++++++++++
-> >   arch/arm64/boot/dts/apple/t8103.dtsi        | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >   arch/arm64/boot/dts/apple/t8112.dtsi        | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >   7 files changed, 198 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/apple/t6000.dtsi b/arch/arm64/boot/dts/apple/t6000.dtsi
-> > index 89c3b211b116e96ee0a5ea0c923c3ab824008307..3b60842045d4c3277e9530a13ef2811774209697 100644
-> > --- a/arch/arm64/boot/dts/apple/t6000.dtsi
-> > +++ b/arch/arm64/boot/dts/apple/t6000.dtsi
-> > @@ -16,3 +16,7 @@ / {
-> >   };
-> >   
-> 
-> [....]
-> 
-> >   	};
-> > +
-> > +	reserved-memory {
-> > +		#address-cells = <2>;
-> > +		#size-cells = <2>;
-> > +		ranges;
-> > +
-> > +		gpu_globals: globals {
-> > +			reg = <0x0 0 0 0>;
-> > +		};
-> > +
-> > +		gpu_hw_cal_a: hw-cal-a {
-> > +			reg = <0x0 0 0 0>;
-> > +		};
-> > +
-> > +		gpu_hw_cal_b: hw-cal-b {
-> > +			reg = <0x0 0 0 0>;
-> > +		};
-> > +
-> > +		uat_handoff: uat-handoff {
-> > +			reg = <0x0 0 0 0>;
-> > +		};
-> > +
-> > +		uat_pagetables: uat-pagetables {
-> > +			reg = <0x0 0 0 0>;
-> > +		};
-> > +
-> > +		uat_ttbs: uat-ttbs {
-> > +			reg = <0x0 0 0 0>;
-> > +		};
-> 
-> With W=1 this results in a bunch of new warnings like
-> 
-> arch/arm64/boot/dts/apple/t600x-common.dtsi:391.24-394.5: Warning
-> (unit_address_vs_reg): /reserved-memory/globals: node has a reg or
-> ranges property, but no unit name
-> 
-> but I'm not sure it's possible to fix that without making up fake
-> addresses that then get overwritten here. Would be nice to fix this some
-> other way but I'm not sure how and so far we don't enforce "no
-> additional W=1 warnings", so:
+From: Janne Grunau <j@jannau.net>
 
-warnings go away if the "uninitialized" reg property is removed. Since
-it will be filled by the bootloader fills those anyway we could use:
+Fix the following `make dtbs_check` warnings for all t8103 based devices:
 
-|	gpu_globals: globals {
-|		/* bootloader static allocation */
-|		status = "disabled";
-|	}
+arch/arm64/boot/dts/apple/t8103-j274.dtb: network@0,0: $nodename:0: 'network@0,0' does not match '^wifi(@.*)?$'
+        from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+arch/arm64/boot/dts/apple/t8103-j274.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+        from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
 
-Janne
+Fixes: bf2c05b619ff ("arm64: dts: apple: t8103: Expose PCI node for the WiFi MAC address")
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+index 8e82231acab59ca0bffdcecfb6681f59661fcd96..0c8206156bfefda8a32c869787b2e0c8e67a9d17 100644
+--- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+@@ -71,7 +71,7 @@ hpm1: usb-pd@3f {
+  */
+ &port00 {
+ 	bus-range = <1 1>;
+-	wifi0: network@0,0 {
++	wifi0: wifi@0,0 {
+ 		compatible = "pci14e4,4425";
+ 		reg = <0x10000 0x0 0x0 0x0 0x0>;
+ 		/* To be filled by the loader */
+
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250611-arm64_dts_apple_wifi-d415214723e6
+
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
+
+
