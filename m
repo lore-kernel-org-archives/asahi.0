@@ -1,126 +1,129 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4BD26E158
-	for <asahi@lists.linux.dev>; Thu, 12 Jun 2025 15:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09112D8794;
+	Thu, 12 Jun 2025 21:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749740726; cv=none; b=DydeTH1rqEBdMdnP4zjk3eJ94jArzxxx7t8vczrsnH7lEZ8DPSwF6c5tftkgsUjuY0qdoh2seMR7LAaEceerq/sxqYcSkFzjSeyP1tcjNDF3qCuJFKFlflznm+qtkmW/Zj2f8YsVKkIElZMwTx7jNvpF/ZEN0M/cL/BgkqAmqB4=
+	t=1749762722; cv=none; b=bpMR33PdQNw9cc4puy3I+g99EKKJc6hKnsmVGTIh+XCg6/YE64sLrEEQ4t0vzJAFTwfrbERJeaGORxvT8nioWrnjW+E9lBIkjNcQ0H6VguS6KRoLfpsRg8pmpd9h88qGOnquVxsr/9iO3nYbNi2pX7DTP4hE7hVQmJgPhw68ZT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749740726; c=relaxed/simple;
-	bh=FrUyFoeakZ/6ELmKkHRpIQLhoYY54oaCXbP4semewDk=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=iIQ79moZ1bUujbIdSus7yO9DcXdOgjVOdEQblyz0SR3gkpkKdBVMkJRnG9rXeOdLQ3U+JZnNf3ajM8353x0EIKt5WFKQfFkOA/gKny5x//bxj/3fsfW+WASHFUL0OmHTIOqmFjk1/4rBpAo01lyKLNB0mxXoqpoZRJp2OrxC6x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Jm5Tqtx+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JVD8+Avq; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1749762722; c=relaxed/simple;
+	bh=NJlC89e85kPwnIrRRCWxs5BdJsq3vAE6W0Ymwg3gpew=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PvzzpjVZrOzwObPREVKQht5euquvJu3KqSuGWpD9aCD+DDxM83OSR6ATRMq10VClQDaxSkIwDakGFU3q5d2W4356f73dRCgNvVVVZ0i4OaXoL1akZ6Oz+rH4kRsJtm28Stpe+v9vHIWnUKoBv4krwyRw4Vxcrn/77aBX+Ohtteo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iiihbi9s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Jm5Tqtx+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JVD8+Avq"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id D44AA13805C6;
-	Thu, 12 Jun 2025 11:05:23 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Thu, 12 Jun 2025 11:05:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749740723;
-	 x=1749827123; bh=F2brnDyX2RdfWZaowl+U6ywciKsVMQieC6WvQHg1iV8=; b=
-	Jm5Tqtx+yk1k2lGRaFOeo2qQR4+VMyseQTEKG42iSTo9P6jMwKWKxgQ9Iwqk6iI8
-	lf4fGeCpzFFE+CgHlMxYSKP7zDq3J0XJU5nE3OnUbiUXlQNC9rb8DH2Oy3ZX5JcR
-	0NFR3yQVoi9d+qzJyiSgmqMxE8EJp5E1Rb2JejI7NSlWJ4Jrn18wiLF8okqYWsVa
-	RXMQrTG2ZS9n4vnc/LqLV5cp1n4H6Yyg4GQZ7HWrboQo3Vrsf94Q3IiSeDn1oFRQ
-	7yMjlxnr4iej+yMzGhOfwJY5T2QdSwL0ut1df66NsRC11gxZnzSi/3r+F7qa02ZJ
-	aRP74315z5Sz3fwtha7yUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749740723; x=
-	1749827123; bh=F2brnDyX2RdfWZaowl+U6ywciKsVMQieC6WvQHg1iV8=; b=J
-	VD8+AvqEq1VJvmoypW5EPfC3mFllRnFuJEfEg4zHvXlMukjVmaSZhryCTQbm3eaA
-	0Fh1XLNxOMOhIWizIcdPuTeoA4MktyLzHHdnlhpx3ostDMYmEocxybbp9dHl6qfN
-	DA0/06CZPn/GDkq6ZDNm0U4RxAnktIvU2GA9jXGAvfT8GzpW+w68gNtkQdz6D/Cd
-	KjI8ayYWSu9P+dHHezgD47utUXkDoEQQrAtvDw9xBzSJduPsz/6ppYVwz3VnrqC9
-	Cl2OoM/RSaslVa2HtpTZWoTlB/h1sFP9WkMSvOGdqjF3R0ehRw+l6iKc5c9xpvLb
-	UKcROEiF0juumr9gIrtug==
-X-ME-Sender: <xms:s-xKaH34P9m8uz7hV427SUVGaDNUksqr_CYe9SDRYAHlDcO9vnyodQ>
-    <xme:s-xKaGE3r7qLnHcKobFcB0f3aQZuhWhKHKLHHKEqFwDl28BUN8EpOcenxen5G2urQ
-    0Dm-xaUlEnI6fWY89Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduheefkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
-    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeel
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprh
-    gtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiihihsiihtohhfrdhkohiilhhofihskh
-    hisehlihhnrghrohdrohhrghdprhgtphhtthhopehgvggvrhhtsehlihhnuhigqdhmieek
-    khdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtsh
-    drihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhl
-    ihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshgrmhhsuhhnghdqshhotges
-    vhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:s-xKaH4SKAslg6GaVk3KwslqGGvlTgs9tgucsMNFsvLValYWOnOmlQ>
-    <xmx:s-xKaM1_uFV8rVSaGmZtdIio6EoSJJr8B3qXjtCAu64uAPCFj3L6TA>
-    <xmx:s-xKaKFcoBVn_K_jB5B61X_GRyU0rPYMVnwc0v4jMwnMUleLRlCsBQ>
-    <xmx:s-xKaN-y0st34moHmInI4RYu2-ubKc-ELP3A2tpmXDnj7iR1jrQnkA>
-    <xmx:s-xKaF9tXKePnpmYLrwW5E9xrOPmpcVk5d3Z3GQFRQ9tqykg9UqvMB_n>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 186A0700065; Thu, 12 Jun 2025 11:05:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iiihbi9s"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 66850C4CEEA;
+	Thu, 12 Jun 2025 21:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749762721;
+	bh=NJlC89e85kPwnIrRRCWxs5BdJsq3vAE6W0Ymwg3gpew=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Iiihbi9s+/pIYtVo3kda9DFbAQHj1W5wOvWbbRaeqNxsjpNokpWuj6L45S2eONyuJ
+	 z5ZjNdbX6l3tfFmftfHTp2/1teSRAWg/3EeiNYV+GJ4wmmedWnf5QH60wONxMU3lTy
+	 n/rRSvlzhpTklFRslxFI2jWl2fc1S88YMZTYYDX0/O7KMgVMucqRcyeOTKlzCOYcrp
+	 Dk80UcrIXXSOdPfmQmlfEosrkWM1jO1oLXrO60K6tLwQgjbUQW3Mx3aLF39efZBQWV
+	 giDzstIr1fU4T6X5SZIjlEt8qb9eLedQQAgFYRM9atModgeD+cb+g6RVGxbR4XjaGt
+	 kFfPnUccqezKQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB4DC61CE8;
+	Thu, 12 Jun 2025 21:12:01 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Subject: [PATCH 00/11] Drop default ARCH_APPLE from Kconfig and use
+ defconfig instead
+Date: Thu, 12 Jun 2025 21:11:24 +0000
+Message-Id: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: T0983471eb64d6916
-Date: Thu, 12 Jun 2025 17:05:02 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- "Krzysztof Kozlowski" <krzk@kernel.org>
-Cc: "Geert Uytterhoeven" <geert@linux-m68k.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- "Sven Peter" <sven@kernel.org>, "Janne Grunau" <j@jannau.net>,
- asahi@lists.linux.dev, linux-samsung-soc@vger.kernel.org
-Message-Id: <b8783289-6670-4254-9049-786ae7cdd6a1@app.fastmail.com>
-In-Reply-To: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
-References: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] arm64: defconfig: Switch SOUND to module
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHxCS2gC/y2MQQqAIBAAvxJ7biELw/pKdFBbaylMFCII/55Et
+ 5nDzAOJIlOCsXog0sWJT19E1BXYTfuVkJfi0DatbHohUIdwEO729I5XXMj9ZKRUqu+0smaAUod
+ Iju/vPM05vx3OGPppAAAA
+X-Change-ID: 20250611-apple-kconfig-defconfig-b558863a8cb9
+To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+ Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Arnd Bergmann <arnd@arndb.de>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-input@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Sven Peter <sven@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1992; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=NJlC89e85kPwnIrRRCWxs5BdJsq3vAE6W0Ymwg3gpew=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ4a3U6dZ4Ztcjq5zQonza32t3J9YGMQ0PjDSnbD/jIi18
+ ITHgQc6SlkYxDgYZMUUWbbvtzd98vCN4NJNl97DzGFlAhnCwMUpABN5Zs/wP5kp4uxT2Zp2YWsl
+ +cmOLgVCpo7J3D+thMpvP3pTXrp6IcP/nIMz18Rev6yRM+OVyuwn8YGHl875+rOvr9AyS+ldk5g
+ 6BwA=
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-On Thu, Jun 12, 2025, at 15:44, Krzysztof Kozlowski wrote:
-> Sound drivers are not essential to boot boards or mount rootfs,
-> therefore in effort to reduce the size of kernel image (and boot images)
-> switch the ASoC drivers to modules to decrease the size:
->
->   vmlinux: 152864 kB -> 154528 kB
->   Image: 39391 kB -> 39067 kB
->
-> No difference in resulting include/generated/autoconf.h, except making
-> modules: SND_SOC_SAMSUNG, SND_SOC_SDCA_OPTIONAL, SND_SOC_APPLE_MCA,
-> SND_TIMER, SND_COMPRESS_OFFLOAD, SND_PCM, SND_SOC_SOF_OF and
-> SND_DMAENGINE_PCM.
->
-> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> ---
->
-> If patches are fine, I will take them via Samsung SoC.
+Hi,
 
-Nice find!
+When support for Apple Silicon was originally upstreamed we somehow
+started using `default ARCH_APPLE` for most drivers. arm64 defconfig
+also contains ARCH_APPLE=y such that this will turn into `default y`
+there by default which is neither what we want nor how this is usually
+done.
+Let's fix all that by dropping the default everywhere and adding the
+drivers to defconfig as modules instead of built-ins.
+None of these patches depend on each other so we can just take them all
+independently through the respective subsystem trees.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Best,
 
-There are some nasty interactions between DRM drivers calling
-into sound drivers for HDMI audio, but I checked that this is fine
-here because of CONFIG_DRM=m.
+Sven
+
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+Sven Peter (11):
+      pmdomain: apple: Drop default ARCH_APPLE in Kconfig
+      soc: apple: Drop default ARCH_APPLE in Kconfig
+      clk: apple-nco: Drop default ARCH_APPLE in Kconfig
+      nvmem: apple: drop default ARCH_APPLE in Kconfig
+      i2c: apple: Drop default ARCH_APPLE in Kconfig
+      cpufreq: apple: drop default ARCH_APPLE in Kconfig
+      iommu/apple-dart: Drop default ARCH_APPLE in Kconfig
+      Input: apple_z2: Drop default ARCH_APPLE in Kconfig
+      dmaengine: apple-admac: Drop default ARCH_APPLE in Kconfig
+      ASoC: apple: mca: Drop default ARCH_APPLE in Kconfig
+      arm64: defconfig: Enable Apple Silicon drivers
+
+ arch/arm64/configs/defconfig      | 19 +++++++++++++++++++
+ drivers/clk/Kconfig               |  1 -
+ drivers/cpufreq/Kconfig.arm       |  1 -
+ drivers/dma/Kconfig               |  1 -
+ drivers/i2c/busses/Kconfig        |  1 -
+ drivers/input/touchscreen/Kconfig |  1 -
+ drivers/iommu/Kconfig             |  1 -
+ drivers/nvmem/Kconfig             |  1 -
+ drivers/pmdomain/apple/Kconfig    |  1 -
+ drivers/soc/apple/Kconfig         |  3 ---
+ sound/soc/apple/Kconfig           |  1 -
+ 11 files changed, 19 insertions(+), 12 deletions(-)
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250611-apple-kconfig-defconfig-b558863a8cb9
+
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
+
+
