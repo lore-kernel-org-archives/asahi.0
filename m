@@ -1,81 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC73A24EF88;
-	Thu, 12 Jun 2025 14:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4BD26E158
+	for <asahi@lists.linux.dev>; Thu, 12 Jun 2025 15:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749739430; cv=none; b=f9IRyimXCQnwKmMKxPii3BTwVYrp/uW/c3UrEbvAWsAX+c9i0RBHKe9Rh7hYIUICjiaTS10uYIPoi+EPQXZRTmvXI43Q1hlMqeawBuv7Cg1WL2K8BLcHLvxfo1op3fyF7tG41fSaoKr4cxkNt3QvI0D1DxL0wEx7ZkrMQUaWVfs=
+	t=1749740726; cv=none; b=DydeTH1rqEBdMdnP4zjk3eJ94jArzxxx7t8vczrsnH7lEZ8DPSwF6c5tftkgsUjuY0qdoh2seMR7LAaEceerq/sxqYcSkFzjSeyP1tcjNDF3qCuJFKFlflznm+qtkmW/Zj2f8YsVKkIElZMwTx7jNvpF/ZEN0M/cL/BgkqAmqB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749739430; c=relaxed/simple;
-	bh=lrhWjcC1p3vpAdzkTP5scpnrJVT2HqrYXcMoc7cDr2E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ivQ0da2gsf4AhBsjevyyiMjC9PnZQmH+xVz1yCA66cBzhfKPbNqn/KmMK4azHMOqlbJBKOGEQI83a8Nh3izq3H/4EDUhyq1VhXsUGXrpFFPyng4Erf0MK8gpiVuzpxbRs7poA4fZQtiE1nc/EccW7yXijauAI3OhcEXZn/YLswg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzTvcfiL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749740726; c=relaxed/simple;
+	bh=FrUyFoeakZ/6ELmKkHRpIQLhoYY54oaCXbP4semewDk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=iIQ79moZ1bUujbIdSus7yO9DcXdOgjVOdEQblyz0SR3gkpkKdBVMkJRnG9rXeOdLQ3U+JZnNf3ajM8353x0EIKt5WFKQfFkOA/gKny5x//bxj/3fsfW+WASHFUL0OmHTIOqmFjk1/4rBpAo01lyKLNB0mxXoqpoZRJp2OrxC6x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Jm5Tqtx+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JVD8+Avq; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzTvcfiL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A74DC4CEEA;
-	Thu, 12 Jun 2025 14:43:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749739429;
-	bh=lrhWjcC1p3vpAdzkTP5scpnrJVT2HqrYXcMoc7cDr2E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HzTvcfiLdY7e9RyrcfxKBcFXqy5kFNwZcuFmJvfP73bDt/3Mmdsi6oJJ5yLV/Q4xi
-	 VtYreZ0IVnD8yTQD81hKk5I1nfMdoXvPZD3Z2ETh+JMSw4Giv7XqCcKnAuoukyT/D9
-	 Jjt3qW6ZSJ+ZhGsr0cpYoSxB+688QvM01DqF+P78V3UqeQGDYfHT7uUTIfp3Re44Ok
-	 /Cx6sXGz1hHc9ryM9w4hf07lVps1CtbPfuNWAuX4FUNduU87jOOrXYvj3oQ2e3MEwu
-	 VrBkgRoLIqGPynkRbK6PHAFrTStNHdrH4pDeWTukvnOwNkMPTWXPB7mZtz4jzhjiWD
-	 lXNXQBVyN1XcQ==
-Message-ID: <023f1c08-f9bb-483f-89e8-2ff5206d1f19@kernel.org>
-Date: Thu, 12 Jun 2025 16:43:45 +0200
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Jm5Tqtx+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JVD8+Avq"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id D44AA13805C6;
+	Thu, 12 Jun 2025 11:05:23 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Thu, 12 Jun 2025 11:05:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749740723;
+	 x=1749827123; bh=F2brnDyX2RdfWZaowl+U6ywciKsVMQieC6WvQHg1iV8=; b=
+	Jm5Tqtx+yk1k2lGRaFOeo2qQR4+VMyseQTEKG42iSTo9P6jMwKWKxgQ9Iwqk6iI8
+	lf4fGeCpzFFE+CgHlMxYSKP7zDq3J0XJU5nE3OnUbiUXlQNC9rb8DH2Oy3ZX5JcR
+	0NFR3yQVoi9d+qzJyiSgmqMxE8EJp5E1Rb2JejI7NSlWJ4Jrn18wiLF8okqYWsVa
+	RXMQrTG2ZS9n4vnc/LqLV5cp1n4H6Yyg4GQZ7HWrboQo3Vrsf94Q3IiSeDn1oFRQ
+	7yMjlxnr4iej+yMzGhOfwJY5T2QdSwL0ut1df66NsRC11gxZnzSi/3r+F7qa02ZJ
+	aRP74315z5Sz3fwtha7yUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749740723; x=
+	1749827123; bh=F2brnDyX2RdfWZaowl+U6ywciKsVMQieC6WvQHg1iV8=; b=J
+	VD8+AvqEq1VJvmoypW5EPfC3mFllRnFuJEfEg4zHvXlMukjVmaSZhryCTQbm3eaA
+	0Fh1XLNxOMOhIWizIcdPuTeoA4MktyLzHHdnlhpx3ostDMYmEocxybbp9dHl6qfN
+	DA0/06CZPn/GDkq6ZDNm0U4RxAnktIvU2GA9jXGAvfT8GzpW+w68gNtkQdz6D/Cd
+	KjI8ayYWSu9P+dHHezgD47utUXkDoEQQrAtvDw9xBzSJduPsz/6ppYVwz3VnrqC9
+	Cl2OoM/RSaslVa2HtpTZWoTlB/h1sFP9WkMSvOGdqjF3R0ehRw+l6iKc5c9xpvLb
+	UKcROEiF0juumr9gIrtug==
+X-ME-Sender: <xms:s-xKaH34P9m8uz7hV427SUVGaDNUksqr_CYe9SDRYAHlDcO9vnyodQ>
+    <xme:s-xKaGE3r7qLnHcKobFcB0f3aQZuhWhKHKLHHKEqFwDl28BUN8EpOcenxen5G2urQ
+    0Dm-xaUlEnI6fWY89Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduheefkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
+    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeel
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprh
+    gtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiihihsiihtohhfrdhkohiilhhofihskh
+    hisehlihhnrghrohdrohhrghdprhgtphhtthhopehgvggvrhhtsehlihhnuhigqdhmieek
+    khdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtsh
+    drihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhl
+    ihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshgrmhhsuhhnghdqshhotges
+    vhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:s-xKaH4SKAslg6GaVk3KwslqGGvlTgs9tgucsMNFsvLValYWOnOmlQ>
+    <xmx:s-xKaM1_uFV8rVSaGmZtdIio6EoSJJr8B3qXjtCAu64uAPCFj3L6TA>
+    <xmx:s-xKaKFcoBVn_K_jB5B61X_GRyU0rPYMVnwc0v4jMwnMUleLRlCsBQ>
+    <xmx:s-xKaN-y0st34moHmInI4RYu2-ubKc-ELP3A2tpmXDnj7iR1jrQnkA>
+    <xmx:s-xKaF9tXKePnpmYLrwW5E9xrOPmpcVk5d3Z3GQFRQ9tqykg9UqvMB_n>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 186A0700065; Thu, 12 Jun 2025 11:05:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] arm64: defconfig: Switch SOUND to module
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, krzk@kernel.org
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@arndb.de>,
+X-ThreadId: T0983471eb64d6916
+Date: Thu, 12 Jun 2025 17:05:02 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>
+Cc: "Geert Uytterhoeven" <geert@linux-m68k.org>,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Janne Grunau <j@jannau.net>, asahi@lists.linux.dev,
- linux-samsung-soc@vger.kernel.org
-References: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
+ "Sven Peter" <sven@kernel.org>, "Janne Grunau" <j@jannau.net>,
+ asahi@lists.linux.dev, linux-samsung-soc@vger.kernel.org
+Message-Id: <b8783289-6670-4254-9049-786ae7cdd6a1@app.fastmail.com>
 In-Reply-To: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/2] arm64: defconfig: Switch SOUND to module
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 12.06.25 15:44, Krzysztof Kozlowski wrote:
+On Thu, Jun 12, 2025, at 15:44, Krzysztof Kozlowski wrote:
 > Sound drivers are not essential to boot boards or mount rootfs,
 > therefore in effort to reduce the size of kernel image (and boot images)
 > switch the ASoC drivers to modules to decrease the size:
-> 
->    vmlinux: 152864 kB -> 154528 kB
->    Image: 39391 kB -> 39067 kB
-> 
+>
+>   vmlinux: 152864 kB -> 154528 kB
+>   Image: 39391 kB -> 39067 kB
+>
 > No difference in resulting include/generated/autoconf.h, except making
 > modules: SND_SOC_SAMSUNG, SND_SOC_SDCA_OPTIONAL, SND_SOC_APPLE_MCA,
 > SND_TIMER, SND_COMPRESS_OFFLOAD, SND_PCM, SND_SOC_SOF_OF and
 > SND_DMAENGINE_PCM.
-> 
+>
 > Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+>
 > ---
-> 
+>
 > If patches are fine, I will take them via Samsung SoC.
-> 
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Sven Peter <sven@kernel.org>
-> Cc: Janne Grunau <j@jannau.net>
-> Cc: asahi@lists.linux.dev
-> Cc: linux-samsung-soc@vger.kernel.org
-> ---
 
-Acked-by: Sven Peter <sven@kernel.org>
+Nice find!
 
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+
+There are some nasty interactions between DRM drivers calling
+into sound drivers for HDMI audio, but I checked that this is fine
+here because of CONFIG_DRM=m.
