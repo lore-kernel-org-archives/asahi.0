@@ -1,103 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98432DFA29;
-	Thu, 12 Jun 2025 21:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5F520010A;
+	Fri, 13 Jun 2025 07:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749762722; cv=none; b=aBbRfZx3VVz0njGRjggnN7ndi53NGvpYQif0UThQqGAc2GLwXeLLsySpjazQfqMA5o9Ghm8Wvac0Aa1h9BotRUmiw2U232oe55NJ3wsNFUeVWIw3Lhw4HQRdJDQqJIDTW3xMIYx2U+sRSadgg7nn0dN/34N88zrOsHy2tqqASV0=
+	t=1749799233; cv=none; b=asDyV8b34XXG4KKwNfb4DX9wQRIHBPA/DqtNFyhVmu8GllJDyk1deNP7NsKcc+5lcPrBiiOKPtji5sKeJc7dArEpoQ032TdMhrG9LeKM2/15hc/2YJiQgYF2YRpkBsCIQzECcSLIH/DYIo4QajoXz/jGeJEpNuypMyeeVJy7yJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749762722; c=relaxed/simple;
-	bh=B+ULNUySL/tycF45z4MninBMMkdPrQZ7s9hDSWM0yxs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pVqg5lgQZ/qb5UnhRIU18hn804ba7F8YdsOC5orkRBfeLY5VDZFv6N5ENgfmWooHiAD9F8o4pUx33j7FboKh4Uq7ZpbfnzM7ST7lMbflQoisZLDyRYZ6BW/T/OhoWby0/iMarPO3wCipQjaa5KY+YPakly98rhymftLfXVDUmGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m35W7jBM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749799233; c=relaxed/simple;
+	bh=+YjpX3ehJBzFyIlBBXVZgihirAzVPRAt2FcAqpuOgFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m+1BxY0SQGmd9bP1hhzJ+Evjx9h3llVJCu/YXWLtVS0dIxBzzN3mg61bfojz3LvzaMo98R1WIzDfJva6TClzPPTt1rK5lFEN0+lL/AgmqN8D/NybbPTLs8+K85FUsMogZaRFv1+OmjbZczMYfWXnFucntopDYyD0Ii6ZjXiiMFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=P1vjmPIW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aJDF6bH9; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m35W7jBM"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 58A89C4CEF2;
-	Thu, 12 Jun 2025 21:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749762722;
-	bh=B+ULNUySL/tycF45z4MninBMMkdPrQZ7s9hDSWM0yxs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=m35W7jBMER4m6jU1aOYfYRGE65aZVPlqPralPHRh7vzQtkVF1PXTO0WdOCGKidAJt
-	 m5uPMOOPI8JI0PQpqqoCnpImSVurGu1WI48v7iSXPL8PbaCzDT71OmiqZXkiPUbMOp
-	 ukjvjXtK/P/1/krRa6H3DL1+ETLjQ4gsC1oCYqp07nkVbtbns1BGUGppQGenjAdJaI
-	 wBjizqsFaDz254MXAK0PfyOOmAlST0X4r2HmBsxqD7FC78TblUWuUXkAA9g/r2SDXf
-	 +zt/4oI6e0+XpFYxiV+Wy8cvW1be48RCNQ7vR5uPaX5rgbDFb7p2nlLR3ttuUhvfzX
-	 jIRUYvyhTXEjg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D429C61CE8;
-	Thu, 12 Jun 2025 21:12:02 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Thu, 12 Jun 2025 21:11:34 +0000
-Subject: [PATCH 10/11] ASoC: apple: mca: Drop default ARCH_APPLE in Kconfig
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="P1vjmPIW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aJDF6bH9"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 650B91140176;
+	Fri, 13 Jun 2025 03:20:29 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 13 Jun 2025 03:20:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1749799229; x=1749885629; bh=jG3O/Ud05M
+	Zx4jdqboGk4v0NA5OIKt/wUnoKzAyvNxg=; b=P1vjmPIW2/wAUEeA7U/tXdD8iO
+	X2gFnzTYmpSLkVbC09w7bT6bPL1TULq8W2sUytLHHqJJ4aI0qfqwkpBqqo7q6w+v
+	a4ZHk6WXcFmwc2WPo9lyZCkx+u8Y/b+3YOlz1U1JWnCYeqPK9rF5mGZ4mzJYVWiF
+	A1c0n+byiXnzx0u/cTlX4daS5hB61IqB5DzXn0pSZ0svhFE7jSCbiy1lYy0KsGI6
+	nMMcRQ/Pi3oq7K89ZwjgmxFbeMhEhTJArNSb04t9Rd0AJSAYpwRQ1tGQsvvBj18f
+	JS2eTa6EAZhrLgZ/mimYfOFD3ZLrXAEAtU/b1qiCUau14sMkRX9Xz+pp3StA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1749799229; x=1749885629; bh=jG3O/Ud05MZx4jdqboGk4v0NA5OIKt/wUno
+	KzAyvNxg=; b=aJDF6bH96UoECz7OWyAzTsE/qMXwjlqUqMqdgelSBR4u823P+lA
+	OuIyyyna2iMtA+W+U5lFIt7HQwyx2w14Ve+gORg6fMrT/3ngWMY9mTAgrv2qgmAZ
+	TmyPb2cFdF7DtNdUbvw8lnK2Kd5oQ38Czjg5XXt0ZbJxebF/yAXygAk6r/243gkv
+	PQq+3hfhnC98ELI/3H19HjbTUm6s5YVUvYzt6D0uBT9Hp819sEFnFUcMVrX70PZ4
+	HVO36Qv2TaL+S4uiExs0XvgWXgmHSS7mQcMHpfv0dREkGJDIC07yCJM5R4AWwTOj
+	hQlV0rjzXHZKIj6cGNgjNUb7+Sz0ThOR6TQ==
+X-ME-Sender: <xms:OtFLaFzKONTfZkXILH3XYzZEUfG55o5HOePR8cyOYqgjQEheeXElRA>
+    <xme:OtFLaFTtwv46-jgC8eQlBk675fBDJDGwFoAGiEn6nElhmiFF-pJZg4bjG7pCyUo7P
+    bifV4GMC71OkTG2vzs>
+X-ME-Received: <xmr:OtFLaPXcCDMRRp9eE7KY1wBc1Thy0_u1RF6WWc0Bu6CQaDc08Ls5Xz72R7GZJoSuGa2FEalZSMpX0L-OqRD2ZTaK_VLLYkpSIjk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddujeefgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
+    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
+    tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedvvddpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtth
+    hopeguvhhorhhkihhnsehtihgssghordgtohhmpdhrtghpthhtohepfigvlhhlshhluhht
+    fiesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlih
+    hnrghrohdrohhrghdprhgtphhtthhopehprghtrhhitggvrdgthhhothgrrhgusehfohhs
+    shdrshhtrdgtohhmpdhrtghpthhtohepshhuphhpohhrthdrohhpvghnshhouhhrtggvse
+    guihgrshgvmhhirdgtohhmpdhrtghpthhtohepsggrrhhutghhsehtkhhoshdrtghordhi
+    lhdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlhi
+    hsshgrsehrohhsvghniiifvghighdrihho
+X-ME-Proxy: <xmx:OtFLaHieCR7i3mjNcCHPqOC39MqmdSV6LhCiKBfiFb-q64TIIB5YUQ>
+    <xmx:OtFLaHANXNHonW-Il6-KF7ktKwZkTU5LCJT5a6FVkmtn9vomjsSZ3Q>
+    <xmx:OtFLaAL1atxc5kXngDg_VktyWDUvEDvh4xA-SzMkDl8AkEhtXk3jhw>
+    <xmx:OtFLaGCvH_4PXKngaqe3MEnUmB4JVoNxMqDElPwknNqXKyWeOim_ZA>
+    <xmx:PdFLaHUFclZvZJTCtf0C2rxGbtX2fEn1ZeQ73ehog305zlAuCf063FOc>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 Jun 2025 03:20:26 -0400 (EDT)
+Date: Fri, 13 Jun 2025 09:20:24 +0200
+From: Janne Grunau <j@jannau.net>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Baruch Siach <baruch@tkos.co.il>, Sven Peter <sven@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Viresh Kumar <vireshk@kernel.org>,
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	soc@lists.linux.dev, linux-sunxi@lists.linux.dev,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH 10/16] pinctrl: apple: use new GPIO line value setter
+ callbacks
+Message-ID: <20250613072024.GE3141695@robin.jannau.net>
+References: <20250612-gpiochip-set-rv-pinctrl-remaining-v1-0-556b0a530cd4@linaro.org>
+ <20250612-gpiochip-set-rv-pinctrl-remaining-v1-10-556b0a530cd4@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250612-apple-kconfig-defconfig-v1-10-0e6f9cb512c1@kernel.org>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
-To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Arnd Bergmann <arnd@arndb.de>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev, 
- linux-input@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-sound@vger.kernel.org, Sven Peter <sven@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=964; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=B+ULNUySL/tycF45z4MninBMMkdPrQZ7s9hDSWM0yxs=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ4a30xydBbpqq5VXvmSptO66k2MZp11785gtr2j91R8CB
- z+4Rst0lLIwiHEwyIopsmzfb2/65OEbwaWbLr2HmcPKBDKEgYtTACZy4A0jw98cpg0xd0T3ip64
- w7XKZO5Mrz1FD550BPhdlurgZ9hxqY+RYebbP+6/fRZ9VZJTvKSwN+B0xcNfM58VqXYtWZGu86s
- 9mhsA
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250612-gpiochip-set-rv-pinctrl-remaining-v1-10-556b0a530cd4@linaro.org>
 
-When the first driver for Apple Silicon was upstreamed we accidentally
-included `default ARCH_APPLE` in its Kconfig which then spread to almost
-every subsequent driver. As soon as ARCH_APPLE is set to y this will
-pull in many drivers as built-ins which is not what we want.
-Thus, drop `default ARCH_APPLE` from Kconfig.
+On Thu, Jun 12, 2025 at 03:15:19PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> struct gpio_chip now has callbacks for setting line values that return
+> an integer, allowing to indicate failures. Convert the driver to using
+> them.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> ---
+>  drivers/pinctrl/pinctrl-apple-gpio.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
+> index 0f551d67d482d96c7a1e4c28a6db580f0db6452e..dcf3a921b4df54250194403f06a3c1fb40110eaa 100644
+> --- a/drivers/pinctrl/pinctrl-apple-gpio.c
+> +++ b/drivers/pinctrl/pinctrl-apple-gpio.c
+> @@ -217,11 +217,13 @@ static int apple_gpio_get(struct gpio_chip *chip, unsigned offset)
+>  	return !!(reg & REG_GPIOx_DATA);
+>  }
+>  
+> -static void apple_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
+> +static int apple_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
+>  {
+>  	struct apple_gpio_pinctrl *pctl = gpiochip_get_data(chip);
+>  
+>  	apple_gpio_set_reg(pctl, offset, REG_GPIOx_DATA, value ? REG_GPIOx_DATA : 0);
+> +
+> +	return 0;
+>  }
+>  
+>  static int apple_gpio_direction_input(struct gpio_chip *chip, unsigned int offset)
+> @@ -376,7 +378,7 @@ static int apple_gpio_register(struct apple_gpio_pinctrl *pctl)
+>  	pctl->gpio_chip.direction_input = apple_gpio_direction_input;
+>  	pctl->gpio_chip.direction_output = apple_gpio_direction_output;
+>  	pctl->gpio_chip.get = apple_gpio_get;
+> -	pctl->gpio_chip.set = apple_gpio_set;
+> +	pctl->gpio_chip.set_rv = apple_gpio_set;
+>  	pctl->gpio_chip.base = -1;
+>  	pctl->gpio_chip.ngpio = pctl->pinctrl_desc.npins;
+>  	pctl->gpio_chip.parent = pctl->dev;
 
-Signed-off-by: Sven Peter <sven@kernel.org>
----
- sound/soc/apple/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+apple_gpio_set_reg() could pass the return value of regmap_update_bits()
+but I suppose this change to switch to the new callback is ok on its
+own.
 
-diff --git a/sound/soc/apple/Kconfig b/sound/soc/apple/Kconfig
-index 793f7782e0d721a1778a82e3515665c3f9f14ede..e9c777cdb6e39c5446f00faea0e617e51b318000 100644
---- a/sound/soc/apple/Kconfig
-+++ b/sound/soc/apple/Kconfig
-@@ -2,7 +2,6 @@ config SND_SOC_APPLE_MCA
- 	tristate "Apple Silicon MCA driver"
- 	depends on ARCH_APPLE || COMPILE_TEST
- 	select SND_DMAENGINE_PCM
--	default ARCH_APPLE
- 	help
- 	  This option enables an ASoC platform driver for MCA peripherals found
- 	  on Apple Silicon SoCs.
+Reviewed-by: Janne Grunau <j@jannau.net>
 
--- 
-2.34.1
-
-
+Janne 
