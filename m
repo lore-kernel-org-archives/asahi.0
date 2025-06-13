@@ -1,51 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82EB190679;
-	Fri, 13 Jun 2025 14:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2E42E11D6;
+	Fri, 13 Jun 2025 14:38:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749825449; cv=none; b=qYXVkc5h0orPGdLt73wa1eDyxfG304a1lBatoqYCxyjCON0KflZiBX4qKqlBUD4U4KKWdxOYYbkSy+1QlJDnMwnBu8RkRlRI/Ptc3gN8myh16hnSLy4ELpCumc9zL38x1vZt5t4KPXb9BO+7M2belBcCWwWEUhVVQbzYUsjVlG8=
+	t=1749825500; cv=none; b=YBDXW8y0X3Qt23sNc1Eq+GUvCNOZwzxua/xF09lB724Pt5w7lV8M6KcdbjQXnSAjfDJkr7ozJ2YhEkCPBFJnpaDrVxtGqgUkjXRisSH1nBH7saGmPC4HvHYx2anOqYyYJP3nRUE1+QCVQrWulofKgCC9bpqjFBTStdB+iSWJGsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749825449; c=relaxed/simple;
-	bh=i35Blln3gEa4SQHbL2VvB+ztpaiUcqNUVdy5ebPitJk=;
+	s=arc-20240116; t=1749825500; c=relaxed/simple;
+	bh=72UKJbZgygU3I/7FaNc+D1AwlBQQCsQR3FH9DEz2Bjw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gi8EHTBsmYSpNbJFEQWAkTPpZjqYnnMk20scv+2uE5FsPhpBo/BhC82UXC8UNVbnp+rDCWQB4RyuLjohHROtmupZjrud+CyLXWqX/4BoHSfRamlJRdU+p7vlmZ1uJBEpaomcoi6IcR88BfckzWk4tnJo+llUUouUh5av6VnZYJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EObp1vTw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BvPbDkBAjPFpSvuVZWyX2xaGcewkVX6ozskTMhjhL/X2BH8wmWDnvsVoBs0rOSErpwkyj91WxlN4nUOztwzboEQ68aVh/tKJnxq88qFjRj1q5ZlBV6B2Zd2Y491s8LuUnnHJmO2Kx+/Jo1Zqv6y+ZhjcQQRSeMwucTpVFLhX0fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u0NS+mN8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EObp1vTw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F96C4CEE3;
-	Fri, 13 Jun 2025 14:37:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u0NS+mN8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA6CEC4CEE3;
+	Fri, 13 Jun 2025 14:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749825447;
-	bh=i35Blln3gEa4SQHbL2VvB+ztpaiUcqNUVdy5ebPitJk=;
+	s=k20201202; t=1749825500;
+	bh=72UKJbZgygU3I/7FaNc+D1AwlBQQCsQR3FH9DEz2Bjw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EObp1vTwmIjdcn/t6ZGh1gZJC4KwqSfesjWJnZfRt8ARYLRrqALgK1azomN+h6WVI
-	 j5t2crKErpAUJ9tYg8dMfe7H9OORa2MvGrFTUsSm+nq+Kt8dnA8UWeVO7Srnhp+eIT
-	 3mKPnDt3ZY+gVqaeRCwZy4kcvtPp4O9iosGNELdqx9Ilp2r81m+EM0kNDBab6S7Oab
-	 LDXkijQNgiPuEitbm/OLqvTBY3Kb/ZkELC70doQ0ZyLyQCv20EntCvUudqtcPyECVr
-	 cItT4FkqPxYc4xbWUCuru9EUGI0sD6uxecIO9mNe5MCo+zBeVX3D/N6P1VAIJtnm2N
-	 Gz1DOJTnCT5Mg==
+	b=u0NS+mN8VCm4FKZwvLmvdn8xaDq9PJGtAn4HpElss4XdTXDrBW6bMr4C+yYQO0Lm0
+	 tBZrgumJJHZi/a0DYkLgTvGcBx/+B9FkVxNs6KKsQ7Z48YXuHQ1ELCrxDGT0n+ZfHZ
+	 f7q2ucRnB0fpTwiOnAn78gmPhc1zLH3kpUX7ghVhqmNm8AqW5D/wtxJV00AlNrMWCm
+	 DUMOm4eP7buiAYzEnoVLSUGMyi8cR1svDggvdzhmJiX2fGlLbFzhG2ztbd6lj/9QWC
+	 kbDCwB8Og/kulnim7UGJERtyTCmO7tVwGWSxLtDTZvwrz+70ZTX5SD8k7bXP9gpDMD
+	 JA0HaiKUfIALQ==
 From: Sven Peter <sven@kernel.org>
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+To: Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Neal Gompa <neal@gompa.dev>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>,
-	asahi@lists.linux.dev,
+	Sven Peter <sven@kernel.org>
+Cc: asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: apple: t8103: Fix PCIe BCM4377 nodename
-Date: Fri, 13 Jun 2025 16:37:13 +0200
-Message-Id: <174982533895.547352.6090659751733022479.b4-ty@kernel.org>
+Subject: Re: [PATCH] arm64: dts: apple: Drop {address,size}-cells from SPI NOR
+Date: Fri, 13 Jun 2025 16:38:11 +0200
+Message-Id: <174982533895.547352.10071865015714260186.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250611-arm64_dts_apple_wifi-v1-1-fb959d8e1eb4@jannau.net>
-References: <20250611-arm64_dts_apple_wifi-v1-1-fb959d8e1eb4@jannau.net>
+In-Reply-To: <20250610-apple-dts-warnings-v1-1-70b53e8108a0@kernel.org>
+References: <20250610-apple-dts-warnings-v1-1-70b53e8108a0@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -56,20 +54,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Wed, 11 Jun 2025 22:30:31 +0200, Janne Grunau wrote:
-> Fix the following `make dtbs_check` warnings for all t8103 based devices:
+On Tue, 10 Jun 2025 19:19:24 +0000, Sven Peter wrote:
+> Fix the following warning by dropping #{address,size}-cells from the SPI
+> NOR node which only has a single child node without reg property:
 > 
-> arch/arm64/boot/dts/apple/t8103-j274.dtb: network@0,0: $nodename:0: 'network@0,0' does not match '^wifi(@.*)?$'
->         from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
-> arch/arm64/boot/dts/apple/t8103-j274.dtb: network@0,0: Unevaluated properties are not allowed ('local-mac-address' was unexpected)
->         from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+> spi1-nvram.dtsi:19.10-38.4: Warning (avoid_unnecessary_addr_size): /soc/spi@235104000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
 > 
-> [...]
+> 
 
 Applied, thanks!
 
-[1/1] arm64: dts: apple: t8103: Fix PCIe BCM4377 nodename
-      commit: ac1daa91e9370e3b88ef7826a73d62a4d09e2717
+[1/1] arm64: dts: apple: Drop {address,size}-cells from SPI NOR
+      commit: 811a909978bf59caa25359e0aca4e30500dcff26
 
 Best regards,
 -- 
