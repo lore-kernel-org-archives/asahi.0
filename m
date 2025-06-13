@@ -1,84 +1,114 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698F320A5E1;
-	Fri, 13 Jun 2025 16:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B7E2853E0;
+	Fri, 13 Jun 2025 21:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749833762; cv=none; b=NdqmNuABeNNeFi4bVZGRHjTOIh+42nGoMYu+Fy90chayAuUoFy0J8Uj241/IeG32xiR/t7E21/ybCRknwjLKURA70yQ8DAKgmkvuKrVo/39l7yoD03sGqAx0jX8p7Aak4sOT+pUnfQGh2LyHM4Ejgfu2UnbjIE66m3Ad8MFFXYg=
+	t=1749849433; cv=none; b=TmoKz5embopPfXPKlKpHimsM3DIoW5ygrhuHPtA97IMRf3k8QjzIfGJJZ+yBYb464IVZiCromZ2nAQchJ3hVMTCde3WyfnPXr9e7r4gQkZSlU/VnnvtB0NH/ZXeRFaMXCJoUTuBA3gJO/ba9rd5UYUvsK7qYSqTb/LieAxlNwXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749833762; c=relaxed/simple;
-	bh=FOdKOxiJZ2/SG1w79e7BZqr7n17OwPwEdtWDqq4NXw8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lGQabDl0N/bOGxadA7/BXc+CUr0zVPLdvkHyClYE2aOUJKmu7wYYwDknqLVLTYEQEOdTPhVePdSNuEtZgblAV+t37+1OXKfi2odAn0zLGXg4Olj4S2TsMmfnDF9NlD4R8itqTM6KgJgIJafS/9//ngxBkraIpwSh+jO9V5Xd5PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B7C21C0A;
-	Fri, 13 Jun 2025 09:55:38 -0700 (PDT)
-Received: from [10.57.28.131] (unknown [10.57.28.131])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C1F523F66E;
-	Fri, 13 Jun 2025 09:55:53 -0700 (PDT)
-Message-ID: <7ffe2c8a-1433-4adf-9786-ee0a9d2f3867@arm.com>
-Date: Fri, 13 Jun 2025 17:55:52 +0100
+	s=arc-20240116; t=1749849433; c=relaxed/simple;
+	bh=NJadowudszLSgzKfdukMH5RpQ02v2soiEg2ACYH3B8o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=amYzXcAbZfUoXTPBv/L3+yb2SC1UjN17Cg8ifK4i7174zRXccF3IQqIJKJsNEeoqCH6H1nf8b/o8ilALyzZ3VoRYYHKsQoqVhT7VsRXiHITbZl6VPuC4DAqlFpotrEvV42KGNuHjM/uWXZ9b906dKxsO01w3r5/kFpiUIi+tqMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7ehtF6U; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7ehtF6U"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A1A36C4CEE3;
+	Fri, 13 Jun 2025 21:17:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749849432;
+	bh=NJadowudszLSgzKfdukMH5RpQ02v2soiEg2ACYH3B8o=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=u7ehtF6UflhpbqPHmPNwFeoIx0Sy8IkEerJmt9xeYP+1KlCvYnS1gieekTG6CZ0ow
+	 FLkK2N+KXosNJfuNbH8kRKWNBRxzwoEHDPixBIrGGsimftUTbKSOAOEF4bQZHAECUM
+	 k8RaXcpkVugHXC/POHmcCl3nn2R/frNoqU+dSgq54+XeYu/KizakCx6IPFf8M1ulxo
+	 AjgZljaKZ2CfRPcUL0pOdAEQgeSaCT1qndGYMSQ790IP405ADEcl6/n1s7frZtjCwF
+	 Yx59s3J35jlnD9F/u3Mepg5uPL+CBh3e/sCVzNf4jwoeo5zn3A2GoKDMALaa/rmwr9
+	 SpEYC4F3FLHPQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C5B6C71135;
+	Fri, 13 Jun 2025 21:17:12 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v2 0/2] Bindings and DTS for Apple SoC GPUs
+Date: Fri, 13 Jun 2025 23:17:06 +0200
+Message-Id: <20250613-sgx-dt-v2-0-fb2b7d1c3ff7@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/11] iommu/apple-dart: Drop default ARCH_APPLE in
- Kconfig
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Vinod Koul <vkoul@kernel.org>, =?UTF-8?Q?Martin_Povi=C5=A1er?=
- <povik+lin@cutebit.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev,
- linux-input@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-7-0e6f9cb512c1@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-7-0e6f9cb512c1@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFKVTGgC/z3MQQrDIBCF4auEWdfiaE1DV71HycIYNQNNLBokJ
+ Xj32hQKs/mHx7dDspFsgluzQ7SZEoWlhjg1YCa9eMtorA2CC8WVRJb8xsaVXTQO9eQguIM6fkX
+ raDugR197orSG+D7cjN/vj2jxT2RknF01opNdp0zL737W9DybMENfSvkANEBUnpwAAAA=
+X-Change-ID: 20250531-sgx-dt-4a1ba1b3b20f
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749849431; l=1962;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=NJadowudszLSgzKfdukMH5RpQ02v2soiEg2ACYH3B8o=;
+ b=BTZDJF7eeNf0BzPM75xJma9mqlxWyaQQsSwlvF5Tt36Spv4LD2sOPeAllFWYZf8xYScndDcBE
+ caKq7WcNHF+A9ESpuSB2Y9SlDEKmOUROX+iiiUMs9JXGiKyZjMPQ/Os
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On 2025-06-12 10:11 pm, Sven Peter wrote:
-> When the first driver for Apple Silicon was upstreamed we accidentally
-> included `default ARCH_APPLE` in its Kconfig which then spread to almost
-> every subsequent driver. As soon as ARCH_APPLE is set to y this will
-> pull in many drivers as built-ins which is not what we want.
-> Thus, drop `default ARCH_APPLE` from Kconfig.
+Hi.
 
-Acked-by: Robin Murphy <robin.murphy@arm.com>
+This patch series adds the DT bindings and tree entries for the GPU
+present in Apple M-series SoCs. The driver itself is in Rust and
+upstream is currently missing several prerequisite bindings, so will
+be sent later.
 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
->   drivers/iommu/Kconfig | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-> index 0a33d995d15dd759eb47705c00b411f1157b408a..91d0c871acc418ac5fede4f177ce3af97aef5560 100644
-> --- a/drivers/iommu/Kconfig
-> +++ b/drivers/iommu/Kconfig
-> @@ -305,7 +305,6 @@ config APPLE_DART
->   	depends on !GENERIC_ATOMIC64	# for IOMMU_IO_PGTABLE_DART
->   	select IOMMU_API
->   	select IOMMU_IO_PGTABLE_DART
-> -	default ARCH_APPLE
->   	help
->   	  Support for Apple DART (Device Address Resolution Table) IOMMUs
->   	  found in Apple ARM SoCs like the M1.
-> 
+The kernel and m1n1 (bootloader) that are using those bindings are
+available at the following branches:
+Kernel: https://github.com/WhatAmISupposedToPutHere/linux/tree/starlight
+m1n1: https://github.com/WhatAmISupposedToPutHere/m1n1/tree/bootloader-cal-blobs
+
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v2:
+- s/firmware-compat/firmware-abi/
+- drop the agx-g13x compatible
+- rework reserved regions
+- Improved memory region and register descriptions
+- Link to v1: https://lore.kernel.org/r/20250611-sgx-dt-v1-0-7a11f3885c60@gmail.com
+
+---
+Sasha Finkelstein (2):
+      dt-bindings: gpu: Add Apple SoC GPU
+      arm64: dts: Add Apple SoC GPU
+
+ Documentation/devicetree/bindings/gpu/apple,agx.yaml | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                                          |  1 +
+ arch/arm64/boot/dts/apple/t6000.dtsi                 |  4 ++++
+ arch/arm64/boot/dts/apple/t6001.dtsi                 |  4 ++++
+ arch/arm64/boot/dts/apple/t6002.dtsi                 |  4 ++++
+ arch/arm64/boot/dts/apple/t600x-common.dtsi          | 34 ++++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi            | 28 ++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi                 | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi                 | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 9 files changed, 293 insertions(+)
+---
+base-commit: aef17cb3d3c43854002956f24c24ec8e1a0e3546
+change-id: 20250531-sgx-dt-4a1ba1b3b20f
+
+Best regards,
+-- 
+Sasha Finkelstein <fnkl.kernel@gmail.com>
+
 
