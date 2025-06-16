@@ -1,126 +1,104 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444F7155C82
-	for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 04:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A5322F764
+	for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 09:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750047237; cv=none; b=I4dllHewMJWgU2E26uYIFWPx/o4+hnSohr2ox7LfwLGB40RQsjHMDfRiejwUHMVDVmyU+f0BqaFA66UrzC2mj/2tjpicGyLioX+nczZEC0Q4BkNHh8uDtremFzRcBiObv8No4+BZvT90b9Rl0iykYu0aF5e6zCipTdojBkXPrHA=
+	t=1750065093; cv=none; b=AqHJzdP9ln1iv4VxzmxylI/c7C0Pj7AlIRi9aqKXsVLeFGoLAe5mT3VFgOL2VZl2rOM9VDEFmgQiKLHkH4D+0HWFZskUCbW64lkhKT9lUOx3Zjz8UW8+f+VL/Jal+8rcxf2ilvicP+yPtEw5+YuPQx40XEp7A8aUd+W4Anfp77M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750047237; c=relaxed/simple;
-	bh=+q0guN9PwSiS5EAbareskBIti2BmPJU9JVXqOz/iUbk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vuyp6S2u3v3H5/PU2GDg6UFgZ5vZV/CfJxDIRodOq6tczErvWOj3MBOOZE+r/igLibwD4GuVZWcxMdRsLaYGJNMCQYT34P2rWa5fhxW4ChkS75RfSj5eDGLPtieeWul+pNzHut4cxna8a531wlmR+UyjJUSSWd79vvkZatDjqmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PpXCbEyt; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750065093; c=relaxed/simple;
+	bh=vEElryBNL7zZFeTJ1s4TPhoEWiGcSxvnISjWLIlQN9U=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JWfIP35CmJHH++0dn0ST0QUBcHiMblpvHD/EiQqQ3T24tpjjZ2QzECp1A5BLSNYdD96+/BF0J2XPNvQikx95udLr3xfo+SIDVTjd4W8Jip1P/TxLEd2NUX+WxJVAs6JFL6qWnn+iQepHDWY1G9m0ud+cvXqFwlTzrR0cY908AJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R20D3x5Q; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PpXCbEyt"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7489addd403so1118522b3a.1
-        for <asahi@lists.linux.dev>; Sun, 15 Jun 2025 21:13:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R20D3x5Q"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a5828d26e4so38814f8f.0
+        for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 02:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750047235; x=1750652035; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P80b7O3kBzCHZeyPaqEFw3rG2WMhfBLYf+jpLfD2cC0=;
-        b=PpXCbEytAwym1g35DMHmolWbrCbnf7WM9bhA7G9zLG66PtwOpOGkP69cmF2OWsit69
-         WFSH5/Ulv8B8DdK3C1cY8BL6G9P1MRdpzo2yiKJamiMzpWJc45JGAGrPKysWjXifEadr
-         UEHa+oEYErhZTDElKJmQMTMUxfZytx8ADancQiFM2pg7WJ3TSKDInNCHPnOYLiXHUvQc
-         +GNrxkBCT5kjwvrqDiz1glGCMDXEoQSW5lrt+3NSCWiL69MuanJAu5yeRN/pZMwVBjaf
-         xNp5ickNscD6t+ToQA4MM2eKQPhC5XiKInLawj9WUBeuSHKfgLt07E0MNcXm8tqveRt/
-         Z+LQ==
+        d=linaro.org; s=google; t=1750065089; x=1750669889; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GG2mpeuISDpXhdrt6iGw2KiNF6LC3P7QlYizdJ45M+c=;
+        b=R20D3x5QEaN6Ywvnx+9dEhP+KCo4od48kvff2cPkVo9QUU9QEwtdUcG2qfQiGJYwGp
+         b4oqTUKDBKzZ7zAfHPlYoldfXk/1bm2s1DKgxJvx8trz5tvb4QSLyRKAlpQaGCVU/8zW
+         +pmXIfJXgBzhMo9DPm+XTspKn2DU67CPYjtu6CCN3RbHL1+RTub6ZSa32zr7l/90SST7
+         x5hDT2nZ6OfUVLh4aDuStPO807hKEDcNYImjS7AxZX5e5d030+/Ewz8p8yST3rQ3Uh7m
+         oAT4vOpnhDypTvInW6VEwwskou7B4BKuBxlzdZdD9jnhicqLydVW5LODChho99Ipnu0z
+         nmAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750047235; x=1750652035;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P80b7O3kBzCHZeyPaqEFw3rG2WMhfBLYf+jpLfD2cC0=;
-        b=BsuxGC8yrYZNnNVFQW9dTEg1/hk90Eaj9SixfvgWUjurjD4JkYN7MwjzbN+PiBuRfu
-         nm6Jiu1HCwJKMdPAozSC9N+pZ6QLuiNYlD6hBIoJqqTyCzIoNjt1QkY56Gw6qfwuoIrO
-         ODJ1hln8omonHyRiMRYgh4fdj6XaNz1T6Kp+sNEUIAkkACmxLW7cG/Jzs1Ww+335yfEM
-         xD1K+cFBiZXnTOzMFD1pXb3N3UxsFIJGvXEs7Qfn4MFUi4kI9PgmDLSec47zweHQLMcJ
-         NsF0DtnCVtu7vX8yEe3clP4CR28BGmhEfDC3sL9LV6Yfg43SKpUSyH4ysIJFSfw+aJux
-         7rzQ==
-X-Gm-Message-State: AOJu0YxCg5+w9mWmK57uL2I43G8g8vlcTPwiYOlVCDt0hS60LVAOrGh5
-	r3hcQr59B1yNOtdNpOArUyqU10d/H+VOrz+RbC1MBiZAEk1Tkjvnpa/n
-X-Gm-Gg: ASbGncvAUFNNWwz7yfpH9itFPbOUYIkTD800xpsejw5CB7ieY39xzHK0Fo7ZQzE+x8W
-	N/DZJSVi2eSaFbDxkCYeok/c37+EgEnn/QupnhHS7lviNT5Yg3PBCIgCIjKb7gQU1GhL+j9upHf
-	ZPPwSBCrSp/Dko5etiz7+xi1Bnk4UeM3B/XRq/Kw2TfSuNTKwupymfNMms5KzRDg8uzTb3hDlNU
-	YJAe6kpCmn+NdONqYdX2OQlkUvFBDjpPqQc1cotiYV2I6R8eKzdJGglVuHXjx4UJfsI+ALxjLJ2
-	lXpokVz09QFEwbmt5Gnm4bSdBM8dtc3UqeZWaAjTHpBMCz7JbmWaBItqEmWWNTP0Szd9bRnRw1O
-	Fh1/JGIFB
-X-Google-Smtp-Source: AGHT+IGj8afwiQBWMnNFiO8CZX12Uzqm0farJp4iABQXPdiIhq7hSOMuLQDUrIeTYhq1s+E7XXHTwA==
-X-Received: by 2002:a05:6a00:21c1:b0:748:323f:ba21 with SMTP id d2e1a72fcca58-7489cf5c8c2mr11015493b3a.1.1750047235481;
-        Sun, 15 Jun 2025 21:13:55 -0700 (PDT)
-Received: from [10.89.152.134] (wf121-134.ust.hk. [175.159.121.134])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74890006059sm5937252b3a.55.2025.06.15.21.13.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Jun 2025 21:13:55 -0700 (PDT)
-Message-ID: <7297d4b1-84a2-4bb1-8a33-29c827247df7@gmail.com>
-Date: Mon, 16 Jun 2025 12:13:50 +0800
+        d=1e100.net; s=20230601; t=1750065089; x=1750669889;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GG2mpeuISDpXhdrt6iGw2KiNF6LC3P7QlYizdJ45M+c=;
+        b=YVzWmKh6eKiZQ8WQk3DqmrV+gruZdaDBttG8VVZLD9UNBdXuZ8D0OsQlJ4lJtZKfPj
+         BA1hbvia44tRZdUtQFBkLJy9+qk2ojOqf3be+G+dX7rdUeX4Vg66MfrMwXIkVi4+Bx80
+         v18k9VMpwEl3pECnMzz18ZJMmCDu5ZAi3khffV0oXwrBGLHQY1wRBxgur1EsuIwXX1v+
+         mHbzsF1Tg7EHpzmfCDM904PswuEI5Q4VhRVzeALjagDdsNRVeEcv23HRQk3/ii8nRly7
+         MTks618QdiXciKNqGV//2YELUtbtFcneQlm0PM8pD1GbYd5icO9y7kXPDekXw69yKHAZ
+         PZsA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZMb9IQ/8iPQAUHF/YmYLw/Rt1TA9HzN/PshW0JCJMOV1Cv86l9u2lFaqYCv/YJ7AlH+jN6w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwPY4QggAsTHvsbn42lHMdYFUu2tO+9SYbGhik2jC0ujrvr4wUS
+	JeN7PF6ClRs+734jQgrMvzWJCkPpuB/lPYj6fwwoMNyUBd+Gi7H4p2jyxjVkYqKakF4=
+X-Gm-Gg: ASbGncu5TyHkEA4V3mHCIbI+F8ad120LYdPB8oM+q/EeWJ7H2MbkcA1MOefv/Bsw9Nh
+	7+hwcAlvC1sjHYSp+Gv84Ad/KgTuzu3Op6wel1MFtHuykmUiLWg/+ZCkwlp+wnoWG/oJptgF1A0
+	GotXQnsfCCsPhs6+Cv6P3q6Q68OmozSOg73ykd1UE4izgALnGkI8Pk5YJrTI+6nsnq8eOYtAaCi
+	WZa6Soh7dfc1GUOMWPgtVuRSCigm8iTA/23VQGskkPcwfe6vnobU+u1KfaaCI2Zb4i+wghJCO27
+	3/mWsZVUsUBI8rOfDMo8OxQW34Vh+LyLZov4q4PXJ8toxRnYaIsn+tBXyLChywz7XYEHMbFJwjz
+	/T7zymZ8=
+X-Google-Smtp-Source: AGHT+IH1WB0/sw9sqaChH695gvNYuYsdGilhFE4QGQCFNv0A2lCd1A3eZdG1Rw5dHdNgAoDh7P85qw==
+X-Received: by 2002:a05:600c:3f9b:b0:442:fff5:5185 with SMTP id 5b1f17b1804b1-4533cab4477mr28464145e9.6.1750065089320;
+        Mon, 16 Jun 2025 02:11:29 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532dea1cc5sm142655045e9.16.2025.06.16.02.11.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 02:11:28 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: krzk@kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Arnd Bergmann <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, asahi@lists.linux.dev, 
+ linux-samsung-soc@vger.kernel.org
+In-Reply-To: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
+References: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/2] arm64: defconfig: Switch SOUND to module
+Message-Id: <175006508796.28664.548838572668518596.b4-ty@linaro.org>
+Date: Mon, 16 Jun 2025 11:11:27 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 07/10] power: reset: macsmc-reboot: Add driver for
- rebooting via Apple SMC
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Lee Jones <lee@kernel.org>, Marc Zyngier <maz@kernel.org>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-References: <20250610-smc-6-15-v7-0-556cafd771d3@kernel.org>
- <20250610-smc-6-15-v7-7-556cafd771d3@kernel.org>
-Content-Language: en-MW
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250610-smc-6-15-v7-7-556cafd771d3@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
 
-
-On 10/6/2025 23:29, Sven Peter wrote:
-> From: Hector Martin <marcan@marcan.st>
+On Thu, 12 Jun 2025 15:44:22 +0200, Krzysztof Kozlowski wrote:
+> Sound drivers are not essential to boot boards or mount rootfs,
+> therefore in effort to reduce the size of kernel image (and boot images)
+> switch the ASoC drivers to modules to decrease the size:
 > 
-> This driver implements the reboot/shutdown support exposed by the SMC
-> on Apple Silicon machines, such as Apple M1 Macs.
+>   vmlinux: 152864 kB -> 154528 kB
+>   Image: 39391 kB -> 39067 kB
 > 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
->  MAINTAINERS                         |   1 +
->  drivers/power/reset/Kconfig         |   9 ++
->  drivers/power/reset/Makefile        |   1 +
->  drivers/power/reset/macsmc-reboot.c | 290 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 301 insertions(+)
-[...]
+> [...]
 
-It seems that the reboot driver still probes even without the smc_reboot node in the smc node:
+Applied, thanks!
 
-[    0.994942] macsmc 236000100.smc: RTKit: Initializing (protocol version 12)
-[    1.002862] macsmc-gpio macsmc-gpio: First GPIO key: gP01 (0x67503031)
-[    1.013156] macsmc-reboot: Failed to locate of_node [id: -1]
-[    1.048188] macsmc-reboot macsmc-reboot: Missing NVMEM cell shutdown_flag (-2)
-[    1.055359] macsmc-reboot macsmc-reboot: Missing NVMEM cell boot_stage (-2)
-[    1.062332] macsmc-reboot macsmc-reboot: Missing NVMEM cell boot_error_count (-2)
-[    1.069799] macsmc-reboot macsmc-reboot: Missing NVMEM cell panic_count (-2)
-[    1.076902] macsmc-reboot macsmc-reboot: Handling reboot and poweroff requests via SMC
+[1/2] arm64: defconfig: Switch SOUND to module
+      https://git.kernel.org/krzk/linux/c/927f1259c517ec0dc589f5014c4edbdc87591cd8
+[2/2] arm64: defconfig: Drop unneeded unselectable sound drivers
+      https://git.kernel.org/krzk/linux/c/a8365bfb249907069fb584a535d03c291157ddbb
 
 Best regards,
-Nick Chan
-
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
