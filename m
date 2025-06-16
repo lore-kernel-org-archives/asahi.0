@@ -1,104 +1,197 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A5322F764
-	for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 09:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFD8270577
+	for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 09:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750065093; cv=none; b=AqHJzdP9ln1iv4VxzmxylI/c7C0Pj7AlIRi9aqKXsVLeFGoLAe5mT3VFgOL2VZl2rOM9VDEFmgQiKLHkH4D+0HWFZskUCbW64lkhKT9lUOx3Zjz8UW8+f+VL/Jal+8rcxf2ilvicP+yPtEw5+YuPQx40XEp7A8aUd+W4Anfp77M=
+	t=1750066592; cv=none; b=odhhce2GR3G8kTPS5SBdI7E7GIyd9XlYIhsDOcfKNyCeADkU9C1EdSB7XXZR9gOo9i5Pp19gtiqvnezo7BSWlAMn7H+Po2j9xCr6yGL+HzI/9ryuLjpmHGtklhN5qx0EPxXs4kiYq5vx2vAE14dtFEmkp7E8OAMdTe0N1hf3EEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750065093; c=relaxed/simple;
-	bh=vEElryBNL7zZFeTJ1s4TPhoEWiGcSxvnISjWLIlQN9U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JWfIP35CmJHH++0dn0ST0QUBcHiMblpvHD/EiQqQ3T24tpjjZ2QzECp1A5BLSNYdD96+/BF0J2XPNvQikx95udLr3xfo+SIDVTjd4W8Jip1P/TxLEd2NUX+WxJVAs6JFL6qWnn+iQepHDWY1G9m0ud+cvXqFwlTzrR0cY908AJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R20D3x5Q; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750066592; c=relaxed/simple;
+	bh=KrCADh/e0/WAi5hLjFQkisYAiS/EbVbwctSXmQc5IJU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=emg3mS9BE3bQSlrUjc2GFTBmTgBfh1K5Ck6YykI6lZLccI+rS4DVFspWuDEJj9vq16zuYR8+U1amDEi1aRLNiBq5xtvx0oPqP3/x0/sM9fin9fQE4OPZMTPTU4QedPzzePkg37WONEHSIQep8JIu5KA7bOX1wqQJ3DW5SUk+dH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HB4nZH0U; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R20D3x5Q"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a5828d26e4so38814f8f.0
-        for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 02:11:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HB4nZH0U"
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3da76aea6d5so277765ab.1
+        for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 02:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750065089; x=1750669889; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1750066590; x=1750671390; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GG2mpeuISDpXhdrt6iGw2KiNF6LC3P7QlYizdJ45M+c=;
-        b=R20D3x5QEaN6Ywvnx+9dEhP+KCo4od48kvff2cPkVo9QUU9QEwtdUcG2qfQiGJYwGp
-         b4oqTUKDBKzZ7zAfHPlYoldfXk/1bm2s1DKgxJvx8trz5tvb4QSLyRKAlpQaGCVU/8zW
-         +pmXIfJXgBzhMo9DPm+XTspKn2DU67CPYjtu6CCN3RbHL1+RTub6ZSa32zr7l/90SST7
-         x5hDT2nZ6OfUVLh4aDuStPO807hKEDcNYImjS7AxZX5e5d030+/Ewz8p8yST3rQ3Uh7m
-         oAT4vOpnhDypTvInW6VEwwskou7B4BKuBxlzdZdD9jnhicqLydVW5LODChho99Ipnu0z
-         nmAA==
+        bh=QyIJw42bLVYC1qcn4Rgc4aSobkAPjVXS0kJvM4KjVSE=;
+        b=HB4nZH0UErUf8RAp62fiF9NFN8gAQGz45utPXU5nU6qXdOSmzvft8CRDu2hClrKpEk
+         stvcyy0pF1FvVoHN+8tYJfJqiYIDvNCmr0cdAAcEFQtrgwS64TXkWeFZ+pX7dQ/SRtve
+         cMPqh+SYOWz+rmsX+gahmHx0A6EQjBKj/RQURVkZ2bBm4SoEXqn1OR4bPJe4N30bz2vu
+         MEe/jILaYKb0OOGeYaGC+3S2q2o8kHBDZB+loNdHTudp8th+B+1ffDgvAOeNvT4Sz4vd
+         nCNcjYqz4ZLYpWjbyJYPKjdIFQoUF2js0LLxJmpNEvRK2ia35eH6iOmAvP81cBLKqjPl
+         lR6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750065089; x=1750669889;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1750066590; x=1750671390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GG2mpeuISDpXhdrt6iGw2KiNF6LC3P7QlYizdJ45M+c=;
-        b=YVzWmKh6eKiZQ8WQk3DqmrV+gruZdaDBttG8VVZLD9UNBdXuZ8D0OsQlJ4lJtZKfPj
-         BA1hbvia44tRZdUtQFBkLJy9+qk2ojOqf3be+G+dX7rdUeX4Vg66MfrMwXIkVi4+Bx80
-         v18k9VMpwEl3pECnMzz18ZJMmCDu5ZAi3khffV0oXwrBGLHQY1wRBxgur1EsuIwXX1v+
-         mHbzsF1Tg7EHpzmfCDM904PswuEI5Q4VhRVzeALjagDdsNRVeEcv23HRQk3/ii8nRly7
-         MTks618QdiXciKNqGV//2YELUtbtFcneQlm0PM8pD1GbYd5icO9y7kXPDekXw69yKHAZ
-         PZsA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZMb9IQ/8iPQAUHF/YmYLw/Rt1TA9HzN/PshW0JCJMOV1Cv86l9u2lFaqYCv/YJ7AlH+jN6w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwPY4QggAsTHvsbn42lHMdYFUu2tO+9SYbGhik2jC0ujrvr4wUS
-	JeN7PF6ClRs+734jQgrMvzWJCkPpuB/lPYj6fwwoMNyUBd+Gi7H4p2jyxjVkYqKakF4=
-X-Gm-Gg: ASbGncu5TyHkEA4V3mHCIbI+F8ad120LYdPB8oM+q/EeWJ7H2MbkcA1MOefv/Bsw9Nh
-	7+hwcAlvC1sjHYSp+Gv84Ad/KgTuzu3Op6wel1MFtHuykmUiLWg/+ZCkwlp+wnoWG/oJptgF1A0
-	GotXQnsfCCsPhs6+Cv6P3q6Q68OmozSOg73ykd1UE4izgALnGkI8Pk5YJrTI+6nsnq8eOYtAaCi
-	WZa6Soh7dfc1GUOMWPgtVuRSCigm8iTA/23VQGskkPcwfe6vnobU+u1KfaaCI2Zb4i+wghJCO27
-	3/mWsZVUsUBI8rOfDMo8OxQW34Vh+LyLZov4q4PXJ8toxRnYaIsn+tBXyLChywz7XYEHMbFJwjz
-	/T7zymZ8=
-X-Google-Smtp-Source: AGHT+IH1WB0/sw9sqaChH695gvNYuYsdGilhFE4QGQCFNv0A2lCd1A3eZdG1Rw5dHdNgAoDh7P85qw==
-X-Received: by 2002:a05:600c:3f9b:b0:442:fff5:5185 with SMTP id 5b1f17b1804b1-4533cab4477mr28464145e9.6.1750065089320;
-        Mon, 16 Jun 2025 02:11:29 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4532dea1cc5sm142655045e9.16.2025.06.16.02.11.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 02:11:28 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: krzk@kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
- Arnd Bergmann <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>, 
- Janne Grunau <j@jannau.net>, asahi@lists.linux.dev, 
- linux-samsung-soc@vger.kernel.org
-In-Reply-To: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
-References: <20250612134421.95782-3-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] arm64: defconfig: Switch SOUND to module
-Message-Id: <175006508796.28664.548838572668518596.b4-ty@linaro.org>
-Date: Mon, 16 Jun 2025 11:11:27 +0200
+        bh=QyIJw42bLVYC1qcn4Rgc4aSobkAPjVXS0kJvM4KjVSE=;
+        b=wQXIQUmDiLOzwRs6iyj2Unvgp6Cd5pQdvZxY9iOEckrwfI07V3/L5q8x/3CME6Nwwb
+         koa1402bPt74r50BdVeKt+vJ0f5VT7VbetR17Iv7k952OxgwNEAmiE0oBGxrdjymrAcN
+         JaK7w4mk1Vu+nZVix0YtuxcMN1fYcmR9FnHPCHRcGvU+lWYEBese85XqT+8R0mXarM/4
+         k+DE7vF4YQNPWFNdDypxcJREC5yZNE77drjXG3M3NEiMuhROjUJO6k+S84wytvJ4J6Hy
+         GSGlgcrSR+AFwRgTkcoFLKXRDIuYL/ZuMTMnv1NY/N6IoTVNxB/bR+HLphQ0rmZwPJKa
+         r/Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnRfDztm4NpNHsVx8HTFi6xWiomyObXHZh22+1TKUr0KO2c86B7Tw/2/oBpp67GXfNKdZwTQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwpftN3yn4FechNfFRvEltzcyaNIaa9oFsGyoB1XHpm0JTSHbvp
+	i1/XR14sCF7w7Dp3qXYV/NO/vX1x/V5GaIhmxC1dMs4nDf01jNEqaYVb1cfDw5WNiamOXYhI+zB
+	a+E1QoPa8cscX/mcbjzjeLYm4Po9qe0djpjYUnBbQ
+X-Gm-Gg: ASbGncuis5TBjg8UNf79emRJPr5d+PacLWGmtUxCabJIz1XfOIjmlF+5xrAOtslBnQI
+	LeFCmnQjlPoCGi5hvuVBwqIx48GXASGgOiPpEPCIst4O+L/lCbtoFCMI8ZOYGnxQwPh+/3B6idJ
+	JFInuql9MkbKqOFInsLC68RXpn08vob5Lrq+OIFW6hNl/KZXZRoyRAUDM=
+X-Google-Smtp-Source: AGHT+IExfs1Lq6bAplJAKpnyknLozpvmj2f++NKi/uCJl7EYtWLFqXP60HhaEqVs4L7q3T5Sh2zeIsfSjUd+hwvQ/JE=
+X-Received: by 2002:a05:6e02:1d9b:b0:3dd:a4b7:c737 with SMTP id
+ e9e14a558f8ab-3de09fc2b9emr4321945ab.19.1750066589976; Mon, 16 Jun 2025
+ 02:36:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+References: <20250616-apple-cpmu-v7-0-df2778a44d5c@gmail.com>
+In-Reply-To: <20250616-apple-cpmu-v7-0-df2778a44d5c@gmail.com>
+From: Ian Rogers <irogers@google.com>
+Date: Mon, 16 Jun 2025 02:36:18 -0700
+X-Gm-Features: AX0GCFtd-Ymhas6vUanWJK_PcvegJqPI2_88M-JzDIHqHHA6qrjOwNHCJCZ3ZL4
+Message-ID: <CAP-5=fXSwgxMc+uh=PBAFh4Zm96tL5RDyKPOJ8Q40O4s=EaArA@mail.gmail.com>
+Subject: Re: [PATCH RESEND v7 00/21] drivers/perf: apple_m1: Add Apple A7-A11,
+ T2 SoC support
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Sven Peter <sven@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Jun 15, 2025 at 6:32=E2=80=AFPM Nick Chan <towinchenmi@gmail.com> w=
+rote:
+>
+> This series adds support for the CPU PMU in the older Apple A7-A11, T2
+> SoCs. These PMUs may have a different event layout, less counters, or
+> deliver their interrupts via IRQ instead of a FIQ. Since some of those
+> older SoCs support 32-bit EL0, counting for 32-bit EL0 also need to
+> be enabled by the driver where applicable.
+>
+> Patch 1 adds the DT bindings.
+> Patch 2-7 prepares the driver to allow adding support for those
+> older SoCs.
+> Patch 8-12 adds support for the older SoCs.
+> Patch 13-21 are the DT changes.
+>
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 
-On Thu, 12 Jun 2025 15:44:22 +0200, Krzysztof Kozlowski wrote:
-> Sound drivers are not essential to boot boards or mount rootfs,
-> therefore in effort to reduce the size of kernel image (and boot images)
-> switch the ASoC drivers to modules to decrease the size:
-> 
->   vmlinux: 152864 kB -> 154528 kB
->   Image: 39391 kB -> 39067 kB
-> 
-> [...]
+Hi Nick,
 
-Applied, thanks!
+This is substantial work and it looks good to me. Do you know why
+there's been little progress on landing these patches? Buggy Apple ARM
+PMU support in the kernel has led to reworking the perf tool. It seems
+best that we can have the best drivers possible.
 
-[1/2] arm64: defconfig: Switch SOUND to module
-      https://git.kernel.org/krzk/linux/c/927f1259c517ec0dc589f5014c4edbdc87591cd8
-[2/2] arm64: defconfig: Drop unneeded unselectable sound drivers
-      https://git.kernel.org/krzk/linux/c/a8365bfb249907069fb584a535d03c291157ddbb
+Thanks,
+Ian
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+> ---
+> Changes in v7:
+> - Fix a W=3D1 compile warning in apple_pmu_get_event_idx() as appearently=
+ using GENMASK()
+> in a function prototype causes a warning in GCC.
+> - Link to v6: https://lore.kernel.org/r/20250407-apple-cpmu-v6-0-ae8c2f22=
+5c1f@gmail.com
+>
+> Changes in v6:
+> - Rebased on top of v6.15-rc1 (Conflict with FEAT_PMUv3 support for KVM o=
+n Apple Hardware)
+> - Add patch to skip initialization of PMUv3 remap in EL1 even though not =
+strictly needed
+> - Include DT patches
+> - Link to v5: https://lore.kernel.org/r/20250228-apple-cpmu-v5-0-9e124cd2=
+8ed4@gmail.com
+>
+> Changes in v5:
+> - Slightly change "drivers/perf: apple_m1: Add Apple A11 Support", to kee=
+p things in
+> chronological order.
+> - Link to v4: https://lore.kernel.org/r/20250214-apple-cpmu-v4-0-ffca0e45=
+147e@gmail.com
+>
+> Changes in v4:
+> - Support per-implementation event attr group
+> - Fix Apple A7 event attr groups
+> - Link to v3: https://lore.kernel.org/r/20250213-apple-cpmu-v3-0-be7f8ade=
+d81f@gmail.com
+>
+> Changes in v3:
+> - Configure PMC8 and PMC9 for 32-bit EL0
+> - Remove redundant _common suffix from shared functions
+> - Link to v2: https://lore.kernel.org/r/20250213-apple-cpmu-v2-0-87b36193=
+2e88@gmail.com
+>
+> Changes in v2:
+> - Remove unused flags parameter from apple_pmu_init_common()
+> - Link to v1: https://lore.kernel.org/r/20250212-apple-cpmu-v1-0-f8c7f2ac=
+1743@gmail.com
+>
+> ---
+> Nick Chan (21):
+>       dt-bindings: arm: pmu: Add Apple A7-A11 SoC CPU PMU compatibles
+>       drivers/perf: apple_m1: Only init PMUv3 remap when EL2 is available
+>       drivers/perf: apple_m1: Support per-implementation event tables
+>       drivers/perf: apple_m1: Support a per-implementation number of coun=
+ters
+>       drivers/perf: apple_m1: Support configuring counters for 32-bit EL0
+>       drivers/perf: apple_m1: Support per-implementation PMU startup
+>       drivers/perf: apple_m1: Support per-implementation event attr group
+>       drivers/perf: apple_m1: Add Apple A7 support
+>       drivers/perf: apple_m1: Add Apple A8/A8X support
+>       drivers/perf: apple_m1: Add A9/A9X support
+>       drivers/perf: apple_m1: Add Apple A10/A10X/T2 Support
+>       drivers/perf: apple_m1: Add Apple A11 Support
+>       arm64: dts: apple: s5l8960x: Add CPU PMU nodes
+>       arm64: dts: apple: t7000: Add CPU PMU nodes
+>       arm64: dts: apple: t7001: Add CPU PMU nodes
+>       arm64: dts: apple: s800-0-3: Add CPU PMU nodes
+>       arm64: dts: apple: s8001: Add CPU PMU nodes
+>       arm64: dts: apple: t8010: Add CPU PMU nodes
+>       arm64: dts: apple: t8011: Add CPU PMU nodes
+>       arm64: dts: apple: t8012: Add CPU PMU nodes
+>       arm64: dts: apple: t8015: Add CPU PMU nodes
+>
+>  Documentation/devicetree/bindings/arm/pmu.yaml |   6 +
+>  arch/arm64/boot/dts/apple/s5l8960x.dtsi        |   8 +
+>  arch/arm64/boot/dts/apple/s800-0-3.dtsi        |   8 +
+>  arch/arm64/boot/dts/apple/s8001.dtsi           |   8 +
+>  arch/arm64/boot/dts/apple/t7000.dtsi           |   8 +
+>  arch/arm64/boot/dts/apple/t7001.dtsi           |   9 +
+>  arch/arm64/boot/dts/apple/t8010.dtsi           |   8 +
+>  arch/arm64/boot/dts/apple/t8011.dtsi           |   9 +
+>  arch/arm64/boot/dts/apple/t8012.dtsi           |   8 +
+>  arch/arm64/boot/dts/apple/t8015.dtsi           |  24 +
+>  arch/arm64/include/asm/apple_m1_pmu.h          |   3 +
+>  drivers/perf/apple_m1_cpu_pmu.c                | 807 +++++++++++++++++++=
+++++--
+>  12 files changed, 871 insertions(+), 35 deletions(-)
+> ---
+> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+> change-id: 20250211-apple-cpmu-5a5a3da39483
+>
+> Best regards,
+> --
+> Nick Chan <towinchenmi@gmail.com>
+>
+>
