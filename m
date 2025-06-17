@@ -1,180 +1,86 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935AF2FA622
-	for <asahi@lists.linux.dev>; Tue, 17 Jun 2025 16:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6172DF3C7;
+	Tue, 17 Jun 2025 17:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750179238; cv=none; b=UUrAnBQfk/FdH6KmXiJGVRx8vpG+MnChk5E5JSOtPF7y6nSW3EeUlV5sDwTK+JGp2yLxiLgNaTYRMDMtg4HyDqUokeWV9pkYfhCzlKO50UPQPIyvlew2s8fWhUSboSs1f1vQUIzzPOtE/cfHChtJdK3XAApujtJrJy5PcapBg6U=
+	t=1750181404; cv=none; b=HqEXPscOpwLnTRjceXjQTjoVULbVgzL7Aj3AqEjhXmfdZPOLdMzvzVtXlZT9BLvjgEttyQSC+fLPJ8rDuZB/g/+TO83DXKRYOOTgkQiklQxh78230c0uXD6VKHmxmKYZmghXcNDvTQ2NxRyCytiuHSkI8/76PgST3uXvuY3Yk2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750179238; c=relaxed/simple;
-	bh=sBlsNW8rrToWOrhajHMtR7bPZcZNRFXKCV4kuxSCtGo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R20FKNcrzu8Qd4IOdA50ldzLNTZAHKGQGUtI/Y5vSgLdRUZpKt0HHW2wqGDTtd7/585y9Yk/zscijFy9vryjWjVHrhXlBlL+lhcEqLg8K7JfwB+GgYzRDga6oy8tpBG/HAHDja9KlN1ztK9LNG3abtm3tWg2NXQ6ZtE54cX0MOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SfDJ4vRD; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1750181404; c=relaxed/simple;
+	bh=U4h9R/89hdydTd3pc3WgABdUk8c1TST162ATESWxjuI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gYGeha6T9AzKZ9h0/xs+MeqF4DDaI3+CRw0j+Zt3Ms/mdXGTLD3VT8fYAF2t42rPZrZyvD/AWAwHfnWqAnncBldugHBpHrDRUK+tfQlwkMnxdE5uPdPdH8k9u8JHWdoplj0TBFMJJZTOrq7ijzPb5tTNoDroFFwUtG8a4kdepdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pge60F26; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SfDJ4vRD"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-3ddc99e0b77so10735ab.0
-        for <asahi@lists.linux.dev>; Tue, 17 Jun 2025 09:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750179236; x=1750784036; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VYJnE0bLpXfGXAhOdoPj9sjJfon5avZzMzwtb4GEZQ8=;
-        b=SfDJ4vRDsP/kXCap5qTy0u7c7ERZBE42Kkqf8vllpa96YgOTD0hLNVXdZemoq/c++N
-         z4VSPlFO/oB48KlovPmgUqtAM8RlfrjUX8x7hEtNSGWodwyohwHWo5OyUQfBR+qwqccT
-         rZ/ywjlY2SeQnaGbpBh0m2ZLemCXtM/Z/dYD7hug+DnKwRu5VhGRHCVIrfQc/4W18tb8
-         GZ/x715q7QRRF796nExqEmPDieSwG3voZwEDFLzgX+e/awfcGEOYw600BbOOgObwU0Uf
-         i7PIH5PYz5TPf1lYR91Sw8bDy3creIwipMv+5YIkAVbExONKtO86G1eWjhMmLPo/CzYY
-         yK+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750179236; x=1750784036;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VYJnE0bLpXfGXAhOdoPj9sjJfon5avZzMzwtb4GEZQ8=;
-        b=BQq+twT3Jy+ztU9fsTG/0foCjtfHStD8e4LwjLZIJzJ0kLrQakxYpT2L5GaxSQ/ItH
-         4RTahKH7VI4IG2/AbTTVsd7UNgk6ScVJ15n93GzFzwVKyCRZOBQe94iJb0Mj4v8jdwOm
-         BM6MJfp78TnfkMCiA7QCaBbyIy/CyGzeVj/sE6da1S9iTlWQnEfKU4XoZ77PPX6tYYVF
-         eZUTORbdjg8peI0gMgs6o29aUaku0y+ldjCPthrRiAbRC/ikgyXVzdU7F6fP58gmohpl
-         vikeRnZR8ppqUv8dJsnfHLtPnwda+2LHzMEbBlPX2qTwEX1dm6JurkqY/pmB/bGur15x
-         2dQw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ2jp5Zwb3zDisU4xxyo2xTSqlMxtcFmL5W+URLwDVVIPrEGr0QPr5+iWTdQMiiovD8IdfHg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6Lf91rWfTzSZPic/VmU2O4c8JmgFsFpiffjeA2h21VkypcyYE
-	WCfiHHsKcKAlKRWMM6n9WrLr795SPBqVZogn/T5Z9Tl20fxJWNIPBDHPFKf5K5ONDu+PkYFCxa4
-	vRRL1bPsl5F1fwgd2DvuuATiPTf/Jd8XrVYy9IYZZ
-X-Gm-Gg: ASbGncsPuAxON+ZHQtN8YeKj86kSkBBiHdkNWCNrQ7FVcZM4tlGjFKcUqPT223H6fTV
-	YFSWAGrnnAYMgBx4GiElZ0Nt1mz01wLdexKpAEIEede9ZYKpwU66HgfDxyzKOgtuyWwgl0jgIWs
-	6shZi86Q9dGaybTDSvjrs1WnYAVOEBi3ytrVrfEOl1MTEk9Q+EzRNbVLW0UYDV9SoZPuKZVp6V
-X-Google-Smtp-Source: AGHT+IFxzIYnRwPkTPGsw15J0FvFqBPucLmLVdUh15Kwq1Q2Op1ssWJY8RG0XKYKAwujDL/N2ht0/4WAcdskUuxdyGc=
-X-Received: by 2002:a05:6e02:4819:b0:3de:20ec:5c71 with SMTP id
- e9e14a558f8ab-3de20ec5f19mr5234075ab.6.1750179235473; Tue, 17 Jun 2025
- 09:53:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pge60F26"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C9FC4CEF1;
+	Tue, 17 Jun 2025 17:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750181403;
+	bh=U4h9R/89hdydTd3pc3WgABdUk8c1TST162ATESWxjuI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Pge60F26PUoupxsVy8gGE2POWKr5Xz/YMH7bqFPTQtkSfAFsjHYYtQITlJz888suB
+	 qZJ7MC4dRz07KdtR05IQx17vnCVNLfaf6l4TTcRiPsaYBsz4abI+lBV5K7cR5Sr3SG
+	 N1xk1AlDfWz6k+jgZhoZUGAaqi+AZGwr+t9Y/vMRV/6erTXcc020Kcg/9rPME61n1i
+	 +V/jVm4k+ntO3P+Ln1IHrTh7a/tT2WUoOENO4hXlwTIL0ieiLVSKKKEQf69WDtFXD3
+	 2DGlRw3y5vpEjUGrlK5RQGDD8yoqMJ5wtgOdvutpiZfw8yDJMn18C3N2lmIYSYxGDW
+	 pmJpNP6o+6cTA==
+From: Vinod Koul <vkoul@kernel.org>
+To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+ Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Sven Peter <sven@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev, 
+ linux-input@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
+Subject: Re: (subset) [PATCH 00/11] Drop default ARCH_APPLE from Kconfig
+ and use defconfig instead
+Message-Id: <175018139522.182101.4917904244547728654.b4-ty@kernel.org>
+Date: Tue, 17 Jun 2025 22:59:55 +0530
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250616-apple-cpmu-v7-0-df2778a44d5c@gmail.com>
- <CAP-5=fXSwgxMc+uh=PBAFh4Zm96tL5RDyKPOJ8Q40O4s=EaArA@mail.gmail.com>
- <20250616102945.GA17431@willie-the-truck> <CAP-5=fVjJyV2eA1aDnk6cqAhJGc9FZVyHhP7-f=1OyWmzxjN8w@mail.gmail.com>
- <20250617141649.GA19021@willie-the-truck> <86msa6co21.wl-maz@kernel.org>
-In-Reply-To: <86msa6co21.wl-maz@kernel.org>
-From: Ian Rogers <irogers@google.com>
-Date: Tue, 17 Jun 2025 09:53:44 -0700
-X-Gm-Features: AX0GCFugvPzuB-Difn5EDUPVkKbvplUqcVBXc7z721G-mrMOHZ8e5lOvCFsdSTo
-Message-ID: <CAP-5=fW51G0Wc227K1o0T==wF_3DN-UhBrU1VzncwmfPcWP3fw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v7 00/21] drivers/perf: apple_m1: Add Apple A7-A11,
- T2 SoC support
-To: Marc Zyngier <maz@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Nick Chan <towinchenmi@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Sven Peter <sven@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
-	devicetree@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Tue, Jun 17, 2025 at 9:47=E2=80=AFAM Marc Zyngier <maz@kernel.org> wrote=
-:
->
-> On Tue, 17 Jun 2025 15:16:50 +0100,
-> Will Deacon <will@kernel.org> wrote:
-> >
-> > On Mon, Jun 16, 2025 at 03:44:49AM -0700, Ian Rogers wrote:
-> > > On Mon, Jun 16, 2025 at 3:29=E2=80=AFAM Will Deacon <will@kernel.org>=
- wrote:
-> > > >
-> > > > On Mon, Jun 16, 2025 at 02:36:18AM -0700, Ian Rogers wrote:
-> > > > > On Sun, Jun 15, 2025 at 6:32=E2=80=AFPM Nick Chan <towinchenmi@gm=
-ail.com> wrote:
-> > > > > >
-> > > > > > This series adds support for the CPU PMU in the older Apple A7-=
-A11, T2
-> > > > > > SoCs. These PMUs may have a different event layout, less counte=
-rs, or
-> > > > > > deliver their interrupts via IRQ instead of a FIQ. Since some o=
-f those
-> > > > > > older SoCs support 32-bit EL0, counting for 32-bit EL0 also nee=
-d to
-> > > > > > be enabled by the driver where applicable.
-> > > > > >
-> > > > > > Patch 1 adds the DT bindings.
-> > > > > > Patch 2-7 prepares the driver to allow adding support for those
-> > > > > > older SoCs.
-> > > > > > Patch 8-12 adds support for the older SoCs.
-> > > > > > Patch 13-21 are the DT changes.
-> > > > > >
-> > > > > > Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> > > > >
-> > > > > Hi Nick,
-> > > > >
-> > > > > This is substantial work and it looks good to me. Do you know why
-> > > > > there's been little progress on landing these patches? Buggy Appl=
-e ARM
-> > > > > PMU support in the kernel has led to reworking the perf tool. It =
-seems
-> > > > > best that we can have the best drivers possible.
-> > > >
-> > > > You reworked the perf tool to support these things? Why? These chan=
-ges
-> > > > are targetting chips in old iPhones afaict (as opposed to "Apple Si=
-licon").
-> > > > I think that (a) most people don't particularly care about them and=
- (b)
-> > > > they're not fully supported _anyway_ because of crazy stuff like [1=
-].
-> > >
-> > > I was meaning that we reworked the perf tool to work around the Apple
-> > > ARM PMU driver expecting to work as if it were an uncore rather than =
-a
-> > > core PMU driver. More context here:
-> > > "[REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.=
-5"
-> > > https://lore.kernel.org/lkml/08f1f185-e259-4014-9ca4-6411d5c1bc65@mar=
-can.st/
-> > > But in general it would be nice Apple ARM PMU support were well loved=
-.
-> > > I think we went 2 or 3 minor releases with the perf tool not working,
-> > > threats of substantial reverts to avoid the PMU driver bug being
-> > > exposed, etc.
-> >
-> > It's unfortunate that you've had a torrid time with the Apple PMU drive=
-r,
-> > but I think it's important to realise that it's both unmaintained (it
-> > ends up with me via the catch-all for drivers/perf/) and was written
-> > based off whatever reverse-engineering people could be bothered to do i=
-n
-> > their spare time. It's frankly remarkable that it works as well as it
-> > does.
->
-> Also, the "broken" driver actually works as expected. Ian blames the
-> userspace breakage on that driver, but that's only because the way we
-> deal with PMUs on ARM doesn't match his mental model. Oh well.
 
-I'm not sure what this is in reference to or what you mean by my
-mental model. The linked patch was that legacy events didn't support
-the extended type bits added by Intel for hybrid. Prior to this legacy
-events were broken on ARM BIG.little PMUs and would select an
-arbitrary PMU - not good by anybody's mental model.
+On Thu, 12 Jun 2025 21:11:24 +0000, Sven Peter wrote:
+> When support for Apple Silicon was originally upstreamed we somehow
+> started using `default ARCH_APPLE` for most drivers. arm64 defconfig
+> also contains ARCH_APPLE=y such that this will turn into `default y`
+> there by default which is neither what we want nor how this is usually
+> done.
+> Let's fix all that by dropping the default everywhere and adding the
+> drivers to defconfig as modules instead of built-ins.
+> None of these patches depend on each other so we can just take them all
+> independently through the respective subsystem trees.
+> 
+> [...]
 
-I'm happy to chat with whatever issues you think I'm creating. I think
-you are making reference to situations where I've cleaned up a mess
-with Intel hybrid and then cleaned up a mess on ARM. I continue to try
-to clean up a mess for RISC-V. Sorry this makes you think I'm a bad
-guy.
+Applied, thanks!
 
-Ian
+[09/11] dmaengine: apple-admac: Drop default ARCH_APPLE in Kconfig
+        commit: de266931dd996fc2cb8ee8b5d12e39ea463e3f36
 
->         M.
->
-> --
-> Without deviation from the norm, progress is not possible.
+Best regards,
+-- 
+~Vinod
+
+
