@@ -1,138 +1,121 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44822298CD1
-	for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 10:45:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8582EF640;
+	Tue, 17 Jun 2025 14:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750070703; cv=none; b=q3HvhasVOQ2gYAA4eIPCM263Z6OSHBBC+aMQQo/M0KcEYZ6r5bv2Lcd7/p0UuPPCZds9ysSYVg1ahMQt0zBOgRS20hAw52q6xigXr5SuD47+tCz7+B/9F/vosw5+/zO534fYlb5pdNy7XSgV28Lce1Y6MlThgbRC1G8XQifKOCo=
+	t=1750169817; cv=none; b=PzeepYFn1P6Gt4mk7Wsy3sEjOpzPkrIqjTvdartCKdb7rUr355j9XxBBtOnZM7uvV2IsIXtsDZuDBlbvQKBXzik//IdNPItOH5qIT+yctTwUzSK27uVEeYoX+orSfStP2AAB6tBkJQUjlVPO40mH+PDJn2QDDVPFCo/h/QFT9C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750070703; c=relaxed/simple;
-	bh=J6R6SWEsvDm+66dPzlD87SecGN7m0uU0XfqGXWlTaok=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TIKZSV5nOBDbwQSqHn9RxvRRC8n33UbzDpoeDZlnhGtkXspficjKlC1gXM1CDW+VuJFKpYh++HqshqkLctGR6DOhGS93rsIfRP3cO3MNhthMwgwaZT0VqmNAxYzV18odernoXNpMkXMKmjBfMma9k5plOGneuGYT299E8FEMoNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qdUmStay; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1750169817; c=relaxed/simple;
+	bh=iEyW4AnJa17J41ytX30hyC0XYY5ykVW3PixyY/HYRVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m4xQi+kBvfCL3oroVwUthcU5vkYyZcF3uZQGTQp5NNCoAVl3XxzgXPvhaaqwuSvaupBhdy1TdqOuYOHfr+vCPlXP1WC+rfs+QhMoPi/ioBnMQx4nvOuxkKKTZj9+K3qw04eFfAwXpnJre1M2Jh2mM82ecF/vRd8TE2/hJ/hoLvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ldedivNm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qdUmStay"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3da76aea6d5so284605ab.1
-        for <asahi@lists.linux.dev>; Mon, 16 Jun 2025 03:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750070701; x=1750675501; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J6R6SWEsvDm+66dPzlD87SecGN7m0uU0XfqGXWlTaok=;
-        b=qdUmStayRpKTEckFBle7dGJOOUEfXA8hgr/rA6/cgn+vCCZ9vlzumHfzDRghgEdpp4
-         hUvrBf7+oOCsvSKJGtyAMLuOMUxGpjL8D97kdwwlti874moPHjIFqRpWJXyR/QMT5nXV
-         m7p2+Sirgq4EccDTZkaCBqRZyrVSY2NhY7dwxqmk4aYrbOSm0XIMEn6drGPQ8TND8IdK
-         h2X7IgtB6kZVm5Vi9HcMuuWsJ+QISuSYiXzwkiGsHMzBzJdMois/wHPEwW0HRpxIkCyh
-         1d2EY9hW3RXLZd0JotTRGSCkoAcjIkPhigLunxHU/n5WR791vbR9fyFbrfrWndvyxEg2
-         EAOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750070701; x=1750675501;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J6R6SWEsvDm+66dPzlD87SecGN7m0uU0XfqGXWlTaok=;
-        b=dIPCoaeU6VAAA4atvR8SoLOY9yFtw7HmAj7GbZAS1IeDaM4tdgf11qPJd6Q8QJAfFZ
-         krWxjJh9MopfRQ5Y4w5H1K9KydUSe/Bmg791Jpzld02LkJJn/LhotQ6yd3EiNqe2zOI7
-         ZGtOedj8KOI0FAcv170WOu5t9BT3snpJqndVpCVO2YpXfGG8JEheSQ6jitXjyMN1SJxC
-         qtcvLOmZ5vfnf4x3v8oyMpkwm0LwGDn1vikVjvv7yPLs3kF56CwtfBht8AtM/wO9QpbY
-         zrrtMzAs2xqUt7SlyQ6qzSDDk+9usG+PaeyopPbC5F684K48kotLLkhQbFM8cgorIeNs
-         8yUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4q2MsSZHwA4f5m8E79UGeNuybik0E2Sinx/En7lik4QeIp9IKg2ozZC183Bdd3T88hrxK2g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxrS3l6E8GgkFry7JCk4d4hL+GQs/KCzNQo9JR7z6T3yTNvo3pV
-	iCD/YjqFPVuRw/v9vQqjyUPUTnPlv5hFm8VG861eOWE4sUMOyAeVrMMQ6SGuOV2aUxtT/lGXxt1
-	plNg0pcgiCKzY6N9bYkCkmSTM6sCAm7kjLAiaBvbU
-X-Gm-Gg: ASbGncstBoe2Kg0/jWTRqn8VO7QydYZdg76ra95WcwNBoFaXE6ly/MRlvXS5gWK6Cp2
-	4U4mlQE1b+CuJpW/5IgKmWBGgi/KMXldUGJlPl1QsOjbzixJjxitiYcZnCz5tBF9pViW3fmHgPX
-	pdOSvk2paWYWKjUGpqQUfcxDXvrzjdbTiWqyjf/mMdmbzl
-X-Google-Smtp-Source: AGHT+IGZ5j8v3Ocn8ObEJWFaqu0zHRUBhHJbRBl19pWYIGlLXaQ5CvYChKdFLMs6JM1wUgSUPI1j2DL9dy/hVkqNSNo=
-X-Received: by 2002:a05:6e02:1d9b:b0:3dd:a4b7:c737 with SMTP id
- e9e14a558f8ab-3de09fc2b9emr4525975ab.19.1750070701158; Mon, 16 Jun 2025
- 03:45:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ldedivNm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6580C4CEE3;
+	Tue, 17 Jun 2025 14:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750169816;
+	bh=iEyW4AnJa17J41ytX30hyC0XYY5ykVW3PixyY/HYRVg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ldedivNmC+Dx33QQGeX6YYlF02DbQyggnZlZuRrMnhpKdB7m1bLbV0x91X65tgwac
+	 DhEuntanyRA4hfLIfYdnBEIzAH2dIfyCAa4IsHU3H0GHhXU7KF/zboBQuB0soGRKoi
+	 YbvERIK3fGE6vQpsnVY9xhf7xFyliq1GygKDbTJ4tVuHWKhu1IqjAaQCw4B7q8Pmi9
+	 brbxZGzZK6k9/QuJKjZ5+0OWGqw9sNBjNWwKHWW+kiTLupotsRNj8UaXOHGMFufYCw
+	 Pqz29c87Ai6cQKfIWaQeHkfEWAa8AQQIwCAxPZPqdy9hUFq5vy27uDcWxvzMYVJTsl
+	 MRQ3Pg408arhg==
+Date: Tue, 17 Jun 2025 15:16:50 +0100
+From: Will Deacon <will@kernel.org>
+To: Ian Rogers <irogers@google.com>
+Cc: Nick Chan <towinchenmi@gmail.com>, Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Sven Peter <sven@kernel.org>,
+	Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH RESEND v7 00/21] drivers/perf: apple_m1: Add Apple
+ A7-A11, T2 SoC support
+Message-ID: <20250617141649.GA19021@willie-the-truck>
+References: <20250616-apple-cpmu-v7-0-df2778a44d5c@gmail.com>
+ <CAP-5=fXSwgxMc+uh=PBAFh4Zm96tL5RDyKPOJ8Q40O4s=EaArA@mail.gmail.com>
+ <20250616102945.GA17431@willie-the-truck>
+ <CAP-5=fVjJyV2eA1aDnk6cqAhJGc9FZVyHhP7-f=1OyWmzxjN8w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250616-apple-cpmu-v7-0-df2778a44d5c@gmail.com>
- <CAP-5=fXSwgxMc+uh=PBAFh4Zm96tL5RDyKPOJ8Q40O4s=EaArA@mail.gmail.com> <20250616102945.GA17431@willie-the-truck>
-In-Reply-To: <20250616102945.GA17431@willie-the-truck>
-From: Ian Rogers <irogers@google.com>
-Date: Mon, 16 Jun 2025 03:44:49 -0700
-X-Gm-Features: AX0GCFsxy4AselWH-HXbNdNUVS0F-38THElPX6b9gGbKXhJTBrfP3qqVF_lXcMI
-Message-ID: <CAP-5=fVjJyV2eA1aDnk6cqAhJGc9FZVyHhP7-f=1OyWmzxjN8w@mail.gmail.com>
-Subject: Re: [PATCH RESEND v7 00/21] drivers/perf: apple_m1: Add Apple A7-A11,
- T2 SoC support
-To: Will Deacon <will@kernel.org>
-Cc: Nick Chan <towinchenmi@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Sven Peter <sven@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP-5=fVjJyV2eA1aDnk6cqAhJGc9FZVyHhP7-f=1OyWmzxjN8w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Mon, Jun 16, 2025 at 3:29=E2=80=AFAM Will Deacon <will@kernel.org> wrote=
-:
->
-> On Mon, Jun 16, 2025 at 02:36:18AM -0700, Ian Rogers wrote:
-> > On Sun, Jun 15, 2025 at 6:32=E2=80=AFPM Nick Chan <towinchenmi@gmail.co=
-m> wrote:
-> > >
-> > > This series adds support for the CPU PMU in the older Apple A7-A11, T=
-2
-> > > SoCs. These PMUs may have a different event layout, less counters, or
-> > > deliver their interrupts via IRQ instead of a FIQ. Since some of thos=
-e
-> > > older SoCs support 32-bit EL0, counting for 32-bit EL0 also need to
-> > > be enabled by the driver where applicable.
-> > >
-> > > Patch 1 adds the DT bindings.
-> > > Patch 2-7 prepares the driver to allow adding support for those
-> > > older SoCs.
-> > > Patch 8-12 adds support for the older SoCs.
-> > > Patch 13-21 are the DT changes.
-> > >
-> > > Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+On Mon, Jun 16, 2025 at 03:44:49AM -0700, Ian Rogers wrote:
+> On Mon, Jun 16, 2025 at 3:29 AM Will Deacon <will@kernel.org> wrote:
 > >
-> > Hi Nick,
+> > On Mon, Jun 16, 2025 at 02:36:18AM -0700, Ian Rogers wrote:
+> > > On Sun, Jun 15, 2025 at 6:32 PM Nick Chan <towinchenmi@gmail.com> wrote:
+> > > >
+> > > > This series adds support for the CPU PMU in the older Apple A7-A11, T2
+> > > > SoCs. These PMUs may have a different event layout, less counters, or
+> > > > deliver their interrupts via IRQ instead of a FIQ. Since some of those
+> > > > older SoCs support 32-bit EL0, counting for 32-bit EL0 also need to
+> > > > be enabled by the driver where applicable.
+> > > >
+> > > > Patch 1 adds the DT bindings.
+> > > > Patch 2-7 prepares the driver to allow adding support for those
+> > > > older SoCs.
+> > > > Patch 8-12 adds support for the older SoCs.
+> > > > Patch 13-21 are the DT changes.
+> > > >
+> > > > Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> > >
+> > > Hi Nick,
+> > >
+> > > This is substantial work and it looks good to me. Do you know why
+> > > there's been little progress on landing these patches? Buggy Apple ARM
+> > > PMU support in the kernel has led to reworking the perf tool. It seems
+> > > best that we can have the best drivers possible.
 > >
-> > This is substantial work and it looks good to me. Do you know why
-> > there's been little progress on landing these patches? Buggy Apple ARM
-> > PMU support in the kernel has led to reworking the perf tool. It seems
-> > best that we can have the best drivers possible.
->
-> You reworked the perf tool to support these things? Why? These changes
-> are targetting chips in old iPhones afaict (as opposed to "Apple Silicon"=
-).
-> I think that (a) most people don't particularly care about them and (b)
-> they're not fully supported _anyway_ because of crazy stuff like [1].
+> > You reworked the perf tool to support these things? Why? These changes
+> > are targetting chips in old iPhones afaict (as opposed to "Apple Silicon").
+> > I think that (a) most people don't particularly care about them and (b)
+> > they're not fully supported _anyway_ because of crazy stuff like [1].
+> 
+> I was meaning that we reworked the perf tool to work around the Apple
+> ARM PMU driver expecting to work as if it were an uncore rather than a
+> core PMU driver. More context here:
+> "[REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5"
+> https://lore.kernel.org/lkml/08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st/
+> But in general it would be nice Apple ARM PMU support were well loved.
+> I think we went 2 or 3 minor releases with the perf tool not working,
+> threats of substantial reverts to avoid the PMU driver bug being
+> exposed, etc.
 
-I was meaning that we reworked the perf tool to work around the Apple
-ARM PMU driver expecting to work as if it were an uncore rather than a
-core PMU driver. More context here:
-"[REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5"
-https://lore.kernel.org/lkml/08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st=
-/
-But in general it would be nice Apple ARM PMU support were well loved.
-I think we went 2 or 3 minor releases with the perf tool not working,
-threats of substantial reverts to avoid the PMU driver bug being
-exposed, etc.
-As for which Apple ARM devices should have perf support, it seems the
-more the merrier.
+It's unfortunate that you've had a torrid time with the Apple PMU driver,
+but I think it's important to realise that it's both unmaintained (it
+ends up with me via the catch-all for drivers/perf/) and was written
+based off whatever reverse-engineering people could be bothered to do in
+their spare time. It's frankly remarkable that it works as well as it
+does.
 
-Thanks,
-Ian
+Despite all of that, I still don't think that your concerns apply to the
+patches in _this_ series, which is about adding support for older Apple
+chips.
 
-> Will
->
-> [1] https://lore.kernel.org/r/20240909091425.16258-1-towinchenmi@gmail.co=
-m
+> As for which Apple ARM devices should have perf support, it seems the
+> more the merrier.
+
+Easy to say when you don't have to maintain the driver!
+
+Will
