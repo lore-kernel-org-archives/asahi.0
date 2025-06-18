@@ -1,101 +1,98 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA35136A;
-	Tue, 17 Jun 2025 22:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF77F9CB
+	for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 12:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750198703; cv=none; b=YOJYLYo0OrPzxZnoZBjGNUnABPuUWPh6MmSBMapRkhWCuuCSFp3lLwSPh82bR8e50wJddesJLMls47jAfzfWEJG7HNoQH63egEe9bWMvlj/y9/S1GYaIzJyCSZiCthVmuh+0OzH2k/dQ/cQ9YSW0FAhxFqTQ8fJkwOcevWTRO2g=
+	t=1750248559; cv=none; b=YgnG0gKddILgf8g8FWoQgAmbs8PkBUcJXlpKczmqQYKjogGBCnz5P+QjvmRKZjmOiYjYGwg6z1JccVpvDlOtVy0WOX132CYopMs3uncq4RGk5wCOAyUl0eBQHaCQhN0H5mvBKloqd1N0u4F0Tx52jNRWKffRvbFD6gN6IhIEZSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750198703; c=relaxed/simple;
-	bh=JSQ8c3bRabnCayUlehYiu+uvSPqvMtoPuZgRoDGUHoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eeZTTT2+MJwtp1FoU7VZ5vt3laE3vEKTB7Pr4BwMtv7k73dr402CeGOkaVU5Dq8TJZggXngpmKsrdaTcSxT8UkEEcDZABEzujiIzj2e5JUvnh+XI7FTFalJHSqQiuNAkNgnefaZcbmkhf8j2Pb1VX/cb8MiuGpeX2MJRMvUnMEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fg524o0M; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750248559; c=relaxed/simple;
+	bh=eus1GwfPuFQtn6OQ9v3rF0J21GjEHtkdFtWAPZQVNsA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nT24GRBYwwDV8Q84AvStm0impVXpVp1EL5ZWPafJN7S96OMBi1BK2zGzCE7EN/t+kcC4seCaJ35EtJKvOEZd66KDFu8XJ1boV9ES/HKsVKodTis574x/N4cJvJuDM4HAFZBDrqVRW2MjoHgB3uzIbrctZi/XvY1uVnrB00QRUtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hbewhQG0; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fg524o0M"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2353a2bc210so55679155ad.2;
-        Tue, 17 Jun 2025 15:18:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hbewhQG0"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5533a86a134so5901516e87.3
+        for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 05:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750198702; x=1750803502; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9NIdWve1K1b8QzOBntihNhgvZs/2vkEK7FdH81C/3/I=;
-        b=Fg524o0MPJyyK5xNC7dPgSzOBGhzeoI02VlK1sUFmEaFR71kTOd4rcDLgKzXjvRBjZ
-         nwrbaNS4/YgV7kuO9VR4igwPioVDO34yjYALSZK6CrRUm2l/E1+gCdRCWcjEar2yeI/4
-         V6EEvMkAQtoLuMhwo3A10E6+OtC7yFNUeN721U34IU11toBwlrpKVN6Bd4zAIIym9hXR
-         Z3fHZi+ggb462WnMs9Lu8yb1BvW4tbMW6/XQ+G9Bf3kv8rHB2XCrlogYCqzz7DrFKShT
-         zCOkr2o9IfFic36fwtEWrTj5bhkmx3B1B9ZEEJuQxMSSEKPiRswkVuP2NIH1fLl0pA9E
-         aZGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750198702; x=1750803502;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1750248554; x=1750853354; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9NIdWve1K1b8QzOBntihNhgvZs/2vkEK7FdH81C/3/I=;
-        b=GebxG4AXHPnfQQ9D6Ksyk0d/NIt1yv11u6DLJNqUqGnfkafkh60ydtUXqeermswxKO
-         posi/EMEZng5AvrtQV6D/tV6P4zhOzYt8x8c3xx13lQqYtHa6P9KuG92ShfLqxGvZEmL
-         fIdhtO/G7DR4QMWw5rdmfeiyL2pPf365WQFJh3ij1NgCpRPrOe1s39g906GpmtwN15h2
-         eEGG4iHCGJuTRoqej8SpvVDN/zhYNMok8QEBDTNWbIEuYY+B6HTen+oRXjLbDQMmx5A2
-         wMEi3a0tcaGawBMU1sW9gEwZ1trRg7XH0DGC4v/uigaGSEJ+5aGHvFJOv9hGB78QZZxa
-         xf/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUtELkApynED1m5xQIBT+tzbbtcVg/rSDm9dz9+u+5ZG0b+byz18sD2zVVQCjyauUZVHikBmQ==@lists.linux.dev, AJvYcCVKf252dFwyIegzicDk58d+UfJoYB4LnbSwrc0leFhGWl1fHqrlGMIVz0j22bGo3yf93mU5wxI=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5ZBIhFvumjVsDq5G5KBrne2Y51vGdlz4kviHmpzhsWppHahA2
-	cdqlfh8LXzq16JmJzVWDaUESj+qSAxrTxkfy5or1W0NWCNJTiLBn/5HO
-X-Gm-Gg: ASbGncuRwllI51LXeC15c+skBpElz9/Afnv1Sa/UPcT5mhOPvDGhmEpPVQk7VDUxlkp
-	OjkdJpDAMNqyh2FBnbcUsrcR4KbHYpB1kn+/5DbkA0GyTNlpZ5rnbm+0igmsKoPrmViMOZt/Cmk
-	1t3Pta90jzlzvXwO8zkSkzlAOsnyuixEukn0GNJw2+GNxr2yu+ps8LK6EGf7PVuSdtYmtBbrudc
-	fZ05MvAz3RRQVRIiNdMqs25Mu1kHFZlNCRkRx4fk+QdP8wOeEHP+R6f+oHxj1fr97ZQ0/esHdzw
-	R1kbdsGU7QNuF+0YWhPrRkj1XLelLfFzRiqTr5WmwycTZX9ORo1aqWT7B2UcYgc=
-X-Google-Smtp-Source: AGHT+IF91BQZXlbd6uuMahbLtTEtN2tg3W8Od60D+rCGiIPm2Y3r9UQq92CpdM0V1gssQmyVDCfWGA==
-X-Received: by 2002:a17:902:8bc8:b0:234:a139:120d with SMTP id d9443c01a7336-2366b32e4ebmr135159835ad.7.1750198701630;
-        Tue, 17 Jun 2025 15:18:21 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:4cd9:8b8e:24cd:5a36])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365deca40fsm86178655ad.208.2025.06.17.15.18.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 15:18:20 -0700 (PDT)
-Date: Tue, 17 Jun 2025 15:18:17 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Vinod Koul <vkoul@kernel.org>, 
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Arnd Bergmann <arnd@arndb.de>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, linux-input@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 08/11] Input: apple_z2: Drop default ARCH_APPLE in Kconfig
-Message-ID: <oinzomct3qvhmlvulhsubckhtarrz2eedk4ymgnvfeebmiljtt@3wtkh3un7cdb>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-8-0e6f9cb512c1@kernel.org>
+        bh=eus1GwfPuFQtn6OQ9v3rF0J21GjEHtkdFtWAPZQVNsA=;
+        b=hbewhQG039c5DhiaXZDJ+3zgifzkZVBHTyXDLMPmDABAsyjpX7RnBbckFQeO2GWaZu
+         IMyXem/X1XTv0LSkSloVJeVe5vUS4shfPF98M/isyijMiQneo+AahNrODov6Un/t1i7D
+         xJw21hHGurSW2Xy/Cequ66DbSBWcH3ecfg9rtDaWdMURUyJJR2GHaH+lTOy+6SMxFmIF
+         6Ah1DJ/Dfs1pTKoCbvlqunSRCYxHQkatGnOj4I6F1R/HyOoi4O2xa2B2qhU/+rt3oFuX
+         j3W8v6+WHyov+2fIOP74NEdfI8tzk07AwlkhdjuXf+hb24vZTWeDNusjG6s+JF6dhFPi
+         q/BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750248554; x=1750853354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eus1GwfPuFQtn6OQ9v3rF0J21GjEHtkdFtWAPZQVNsA=;
+        b=Z4/+RYfi3MfIqJqoN6qfwb7qTT5SQadbd9MHI90FM/e1dmCfxHUWMaZKrlICvdTWxm
+         gK8hbgAIR0Vud0RdmF4MuaRLFRfSwqMXHgTHhBYoTY/BthBGvr9fNbzJmDeSs+WlJpSo
+         oLslCENUAcrRZK3t25pWUJuuZ38BCvPLc5n6IkYGdgE00iYVgsuKC2T2ynVle2b83cxc
+         7TyBgTyea1rpKCTmyhaZcZjKh9GzGVfsxf8k6BXCM+SCvSQ45Vij1Pd8gqTnHKP0wuBT
+         9kuvfcqGQx7ca8Ac0qsTgTF0mStL2B+JaOL9r8UA1ez8HAdvDOphAsE7QQ9xOubb0jum
+         0oFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVvua6hpLCDEuf7/4nuhQtvBNiLK8vkzr1hFxME7TLX3dg10JAZ8WpXKySqTsh4gi07BtpYjA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtnP0thU7sZkbqNQid19K1Aw4i0rzFLFWfEi7/uCejzEZ3M+xW
+	lSNnihwZgrYEFLjNOUc2pMHpI5mBElYTpFVT408kJYow/CrcEiyFlheNbIs1REH8BQNa5F5KlhZ
+	fkdMCoKgTl8mRcEFApcD/L6grhK2+WdwpV8eFC+gHpg==
+X-Gm-Gg: ASbGnculVy2E26a3wAQmQ/RLVIGTF7yCCiTXCnGYXqzHsoruoCXz29seYYx6Q65ghG/
+	flnY72HgZd3leJqMlNtU4uzAkGvbPT7TB4qVifE/BhV6xjV6vv5v0A65ebPtiy77teGXH3Dg6Dv
+	BU6wQlQbq7lOEdzyrRoYzAJN8lkU8Iaekegqx6S9T571I=
+X-Google-Smtp-Source: AGHT+IGC0m4FXYYQm+k0AXFCSy3bx6F7/2cTaiKhBBnuAbB+6N8ybTZnHZCukOOueaHxtyfLbUpPRBURy2oO4IVfhl0=
+X-Received: by 2002:a19:5f17:0:b0:553:ca33:46f with SMTP id
+ 2adb3069b0e04-553ca330808mr1234493e87.29.1750248554215; Wed, 18 Jun 2025
+ 05:09:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-8-0e6f9cb512c1@kernel.org>
+References: <20250612-gpiochip-set-rv-pinctrl-remaining-v1-0-556b0a530cd4@linaro.org>
+In-Reply-To: <20250612-gpiochip-set-rv-pinctrl-remaining-v1-0-556b0a530cd4@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 18 Jun 2025 14:09:03 +0200
+X-Gm-Features: AX0GCFtzAwHH-ht5UUznh81aEY-DCCdnUYFURG79_8pBHXv4vb2M7QItIyT5tQE
+Message-ID: <CACRpkdb3+uQ=PG+ne48hyvdTFeEQBxXtq3CwxpqEmd1m9o9fNA@mail.gmail.com>
+Subject: Re: [PATCH 00/16] pinctrl: use new GPIO line value setter callbacks
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Support Opensource <support.opensource@diasemi.com>, Baruch Siach <baruch@tkos.co.il>, 
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Neal Gompa <neal@gompa.dev>, Viresh Kumar <vireshk@kernel.org>, 
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, soc@lists.linux.dev, 
+	linux-sunxi@lists.linux.dev, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 12, 2025 at 09:11:32PM +0000, Sven Peter wrote:
-> When the first driver for Apple Silicon was upstreamed we accidentally
-> included `default ARCH_APPLE` in its Kconfig which then spread to almost
-> every subsequent driver. As soon as ARCH_APPLE is set to y this will
-> pull in many drivers as built-ins which is not what we want.
-> Thus, drop `default ARCH_APPLE` from Kconfig.
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
+On Thu, Jun 12, 2025 at 3:15=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
 
-Applied, thank you.
+> Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
+> values") added new line setter callbacks to struct gpio_chip. They allow
+> to indicate failures to callers. We're in the process of converting all
+> GPIO controllers to using them before removing the old ones. This series
+> converts remaining pinctrl drivers that still use old APIs.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
--- 
-Dmitry
+Patches applied!
+
+Yours,
+Linus Walleij
