@@ -1,167 +1,120 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E312EA466
-	for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 12:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C174B274FC2
+	for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 12:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750249699; cv=none; b=TjVwjKWdVO/WxW87k5Qbfo3Z2mDUWRboKWRURAsZwpCmHuLJDIVt8x7zO+uRI2sVkgKk4l6PmnpjwM6QC7EQ7nKccOGPfm1Urir6f3oXFTgYYKBEXQpMGziMjHZ68mC3Jrx//J4blGgXcIEQK1umDs0a/J7I9kksNXEObvaWubE=
+	t=1750251429; cv=none; b=kV0z2TtmnpxnDQxUAEs76pB/4BMwHpzKn1yCtsQMyro4n/0Dyg6LK5tvWW6MxQ0EBullop0pSCXuoCK82TCWoNpV5t+Djn+XtHzXCzDGjva6ZRmx3T1fwOkDlj/FC0QYuSXSrZZyEPOpx+VK4r2ubd9lgH4lqtV/cwjnmXNALiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750249699; c=relaxed/simple;
-	bh=1cJTDpbbtnp+GTJoYgRCWuoLspheAorU9U7X18ww0qM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mMpGwmeZ4P4sI1REiLPMacFcd/M5ASlan9HrGjlx81YcJ/K8JEIub2TBIDQYY5c0gm3ovHEzoa8gH49+RXmtgzCSje7f/0JxyN4iI41Oc/pF9y/lOu0jIIqxLtyJ3mrSq95t4mV2gkONLKBn+3e1y24FB7o48ckSCzwrlq9E2+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sD/pSipU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0ETZmOLA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sD/pSipU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0ETZmOLA; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1750251429; c=relaxed/simple;
+	bh=chU3ZzgX8ixQ80XuNsDpy9w595hkOFK6g+6/L8GwJwM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JJ/FoaeaEdgrqAV4+vU5mV76D4fB79D05Fe90z81zJXnSjIeUG6oQc07ucFsqIKwU/om0dfTeOz0vqkoR8FD0zCKOyvadFI0gXZAPF7oFSRQOeEcDwuBIXKFR3GjH3rJZLQ4CbC4AoXXY8iBtw8gjeKsxNNUzK2OZNrcm/BK2m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EGxY8U7w; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sD/pSipU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0ETZmOLA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sD/pSipU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0ETZmOLA"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0A6102124B;
-	Wed, 18 Jun 2025 12:27:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750249663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+drl0inLjXtz9AJLQZmGyLJY3uS7ZnEAuIvwL9A32V0=;
-	b=sD/pSipURoAjfZDtD17C/cE7Y/2Dop4p7+Db79McXuVWx/LA5MfAUwdjhrFeRzEGgvdtXp
-	0HXfebGNiVaElP/B++qsty22iiuNuNXZWxYNdQaPevXlgoSgIUpGAXGxRoNgwfYXIc2csX
-	udDIhGvrVvTN6ajjBIJmjuVnHHbGMmE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750249663;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+drl0inLjXtz9AJLQZmGyLJY3uS7ZnEAuIvwL9A32V0=;
-	b=0ETZmOLA1urJICvFcAmLaeAr3Lh14MSgG6vJ83mcoP9sZWA0E5poFxgAQJC3DflKnpUryp
-	VQaED3Lv+LR2k/DQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750249663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+drl0inLjXtz9AJLQZmGyLJY3uS7ZnEAuIvwL9A32V0=;
-	b=sD/pSipURoAjfZDtD17C/cE7Y/2Dop4p7+Db79McXuVWx/LA5MfAUwdjhrFeRzEGgvdtXp
-	0HXfebGNiVaElP/B++qsty22iiuNuNXZWxYNdQaPevXlgoSgIUpGAXGxRoNgwfYXIc2csX
-	udDIhGvrVvTN6ajjBIJmjuVnHHbGMmE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750249663;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+drl0inLjXtz9AJLQZmGyLJY3uS7ZnEAuIvwL9A32V0=;
-	b=0ETZmOLA1urJICvFcAmLaeAr3Lh14MSgG6vJ83mcoP9sZWA0E5poFxgAQJC3DflKnpUryp
-	VQaED3Lv+LR2k/DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5EA6513721;
-	Wed, 18 Jun 2025 12:27:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SOPmFb6wUmg4UgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 18 Jun 2025 12:27:42 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: lee@kernel.org,
-	danielt@kernel.org,
-	jingoohan1@gmail.com,
-	neil.armstrong@linaro.org,
-	jessica.zhang@oss.qualcomm.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	fnkl.kernel@gmail.com,
-	j@jannau.net,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	sven@kernel.org,
-	alyssa@rosenzweig.io,
-	neal@gompa.dev,
-	deller@gmx.de,
-	support.opensource@diasemi.com,
-	duje.mihanovic@skole.hr
-Cc: dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 12/12] backlight: Do not include <linux/fb.h> in header file
-Date: Wed, 18 Jun 2025 14:16:44 +0200
-Message-ID: <20250618122436.379013-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250618122436.379013-1-tzimmermann@suse.de>
-References: <20250618122436.379013-1-tzimmermann@suse.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EGxY8U7w"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e7569ccf04cso6013083276.0
+        for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 05:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750251427; x=1750856227; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
+        b=EGxY8U7wZfBIEWPBrsFsKtlxprnyoPK2ixvlZbN9wp/wSYmczbiKIGjwNXBSAMYe9H
+         SSS6wOn432GzI/SOm1gC4JmHGUVdMcruB5PKDOP+n8uBLqMbNT9VcsHw1QWfd5cPgbSf
+         Zt6ym8PHGoXoby9nlC8vXF4j/GX27KTl7JllSHyNqpNXz8xfp9g7ctHhXWWV4zIXVMx/
+         9h2cpVJLTfqDNNbRQ3CZNiSOCRCF7CMgUF5l9vl0OsoV8rXLlUdRpW7FTvHkGdg4ZlZh
+         i9HnF59jaUhbVcgwb8fbRP7vRZT/FuwDay88IvVgvkOdRC5wAoUhBF9fjYngSLWCF7ne
+         pc/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750251427; x=1750856227;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
+        b=US4j9gRxxIZg0VUZ5prp0XxxgA9a0+68Qyfy4Yoo9iclQawzmrNokEdIY4qak77hvZ
+         dRHAYQrUJDOeW5kZEK1GNQw/69FWT47ONgdmFWAiVdj68fVhZAwijTxYyMne6qEIA3kQ
+         gtLyMLVDTx7odOpAdmiMZfSZUR2iwhr3iYWLYV2QjTlHFHqRFUMLYB981toCqUoyTkwL
+         ei5hOO3WcowSYZkcdyHNqXGpgffWf7gDQTQkY+tgy0w0XEvCiODwrzTHpX/SwIfIR5V3
+         /6gSJv0Z6AsInD9JDRrD+k+l/3aPfHhR6vz2P2mkN+P0G6BpFJl9VyeQlVrY7w8Mw2A6
+         LLnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUR2WiK9KcYpod0INRdNHq6dkZqZiR+Mmu4NJCX97kY2xVCmd9CtoLASnRvS7Z+GSHmswC6zw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyM1W57wepxAAtFJpTCVRoWzKh7V/7M3y/eV1toWOOHPW6oq/YS
+	84CMXTuDWFQkgRa5/G7Pw/pBjPiO8LPxjFsNxFkHBa8SBPs7/Lnnzq4z9IWMqT2hFQ6VB9OPmKY
+	CNmXKQkhl4tRWpyprZkcLolh66D6B3O+UJ3O8E+y3IA==
+X-Gm-Gg: ASbGnctbxhOInLMwns8kD2dTBCbtxaHagvWA3jb0P+bHzfDzi/Zi+J6LFCAYsgMMwdW
+	n95rTPsRjIfiY1PFvWrgza8g8fs9nbMfpSD3LF1/BaRQgSTBcw1C/N+uwyPlaQ5ds0Ttxo0w+VW
+	HqrMvbKuLfKoSnsL87yWVxwhg5DrwH6SBxHFjkh0TWYcw=
+X-Google-Smtp-Source: AGHT+IEZlf2SkQ6pDtcOhhdvV3LmUw3iR0H22QpguHg1V4liWBddtmQy97+4HMMAxIbIevgaVnIrB0SHGsEYRyBVYzQ=
+X-Received: by 2002:a05:6902:6303:b0:e82:2b85:ea3a with SMTP id
+ 3f1490d57ef6-e822b85ee43mr16723424276.32.1750251426746; Wed, 18 Jun 2025
+ 05:57:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-5.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,linux.intel.com,ffwll.ch,jannau.net,redhat.com,rosenzweig.io,gompa.dev,gmx.de,diasemi.com,skole.hr];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_RATELIMIT(0.00)[to_ip_from(RLc48bcaq7qz9wekwjsx9fywoc)];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -5.30
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org> <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 18 Jun 2025 14:56:30 +0200
+X-Gm-Features: AX0GCFsnEI_9cu3U9fY7I_D0EnrNerJPcmhYfg39LAqv66uN774UfRLbAU6VCkM
+Message-ID: <CAPDyKFrQ3Uj+coa0WCG00_pyaxu-yEnH26qmS6tevZ_772oZVg@mail.gmail.com>
+Subject: Re: [PATCH 01/11] pmdomain: apple: Drop default ARCH_APPLE in Kconfig
+To: Sven Peter <sven@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, linux-input@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The backlight interfaces don't require anything from <linux/fb.h>, so
-don't include it.
+On Thu, 12 Jun 2025 at 23:12, Sven Peter <sven@kernel.org> wrote:
+>
+> When the first driver for Apple Silicon was upstreamed we accidentally
+> included `default ARCH_APPLE` in its Kconfig which then spread to almost
+> every subsequent driver. As soon as ARCH_APPLE is set to y this will
+> pull in many drivers as built-ins which is not what we want.
+> Thus, drop `default ARCH_APPLE` from Kconfig.
+>
+> Signed-off-by: Sven Peter <sven@kernel.org>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/linux/backlight.h | 1 -
- 1 file changed, 1 deletion(-)
+Applied for next, thanks!
 
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 10e626db7eee..f29a9ef1052e 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -10,7 +10,6 @@
- #define _LINUX_BACKLIGHT_H
- 
- #include <linux/device.h>
--#include <linux/fb.h>
- #include <linux/mutex.h>
- #include <linux/types.h>
- 
--- 
-2.49.0
+Kind regards
+Uffe
 
+
+> ---
+>  drivers/pmdomain/apple/Kconfig | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kconfig
+> index 12237cbcfaa983083367bad70b1b54ded9ac9824..a8973f8057fba74cd3e8c7d15cd2972081c6697d 100644
+> --- a/drivers/pmdomain/apple/Kconfig
+> +++ b/drivers/pmdomain/apple/Kconfig
+> @@ -9,7 +9,6 @@ config APPLE_PMGR_PWRSTATE
+>         select MFD_SYSCON
+>         select PM_GENERIC_DOMAINS
+>         select RESET_CONTROLLER
+> -       default ARCH_APPLE
+>         help
+>           The PMGR block in Apple SoCs provides high-level power state
+>           controls for SoC devices. This driver manages them through the
+>
+> --
+> 2.34.1
+>
+>
