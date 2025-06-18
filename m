@@ -1,98 +1,173 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF77F9CB
-	for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 12:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6729F285404
+	for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 12:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750248559; cv=none; b=YgnG0gKddILgf8g8FWoQgAmbs8PkBUcJXlpKczmqQYKjogGBCnz5P+QjvmRKZjmOiYjYGwg6z1JccVpvDlOtVy0WOX132CYopMs3uncq4RGk5wCOAyUl0eBQHaCQhN0H5mvBKloqd1N0u4F0Tx52jNRWKffRvbFD6gN6IhIEZSM=
+	t=1750249658; cv=none; b=Ch9/a45+HkZUvxE3GaQzLe5Ogszvd34nbGedW6sLv6He191u+w9SJ28cHxGUPVjrhs4alKx6xBgSy3rmHlL7uYiHd1VC/ZQEmtxR4oacFgBb+dcdl4L/PelTFxxkugcP2rn6XXLc1/A64lPB0oHmGGPDNkSlee+30csQaA9OAr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750248559; c=relaxed/simple;
-	bh=eus1GwfPuFQtn6OQ9v3rF0J21GjEHtkdFtWAPZQVNsA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nT24GRBYwwDV8Q84AvStm0impVXpVp1EL5ZWPafJN7S96OMBi1BK2zGzCE7EN/t+kcC4seCaJ35EtJKvOEZd66KDFu8XJ1boV9ES/HKsVKodTis574x/N4cJvJuDM4HAFZBDrqVRW2MjoHgB3uzIbrctZi/XvY1uVnrB00QRUtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hbewhQG0; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750249658; c=relaxed/simple;
+	bh=h+w/BK5bXld2lZwZrB/Usc8G0x1qx+OxapBqmFM0NWo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GC7F8OtOVwZM60tvlH9zIKVsB9jk8pUitrxfdifRGxbYxlYiT/TotosZ8YbagIigFX6uEH5JSjAZHjQ5tgYmWchZzMinc9yvxw20WL/8oHmu5Y86ifbTB3/1C1PygGit9rm6NsN1A4F80Uqtgi+guSxWtUT1r9txp6hvj9GL2z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v8kW+/Wh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yyqNFC86; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v8kW+/Wh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yyqNFC86; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hbewhQG0"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5533a86a134so5901516e87.3
-        for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 05:09:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750248554; x=1750853354; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eus1GwfPuFQtn6OQ9v3rF0J21GjEHtkdFtWAPZQVNsA=;
-        b=hbewhQG039c5DhiaXZDJ+3zgifzkZVBHTyXDLMPmDABAsyjpX7RnBbckFQeO2GWaZu
-         IMyXem/X1XTv0LSkSloVJeVe5vUS4shfPF98M/isyijMiQneo+AahNrODov6Un/t1i7D
-         xJw21hHGurSW2Xy/Cequ66DbSBWcH3ecfg9rtDaWdMURUyJJR2GHaH+lTOy+6SMxFmIF
-         6Ah1DJ/Dfs1pTKoCbvlqunSRCYxHQkatGnOj4I6F1R/HyOoi4O2xa2B2qhU/+rt3oFuX
-         j3W8v6+WHyov+2fIOP74NEdfI8tzk07AwlkhdjuXf+hb24vZTWeDNusjG6s+JF6dhFPi
-         q/BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750248554; x=1750853354;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eus1GwfPuFQtn6OQ9v3rF0J21GjEHtkdFtWAPZQVNsA=;
-        b=Z4/+RYfi3MfIqJqoN6qfwb7qTT5SQadbd9MHI90FM/e1dmCfxHUWMaZKrlICvdTWxm
-         gK8hbgAIR0Vud0RdmF4MuaRLFRfSwqMXHgTHhBYoTY/BthBGvr9fNbzJmDeSs+WlJpSo
-         oLslCENUAcrRZK3t25pWUJuuZ38BCvPLc5n6IkYGdgE00iYVgsuKC2T2ynVle2b83cxc
-         7TyBgTyea1rpKCTmyhaZcZjKh9GzGVfsxf8k6BXCM+SCvSQ45Vij1Pd8gqTnHKP0wuBT
-         9kuvfcqGQx7ca8Ac0qsTgTF0mStL2B+JaOL9r8UA1ez8HAdvDOphAsE7QQ9xOubb0jum
-         0oFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvua6hpLCDEuf7/4nuhQtvBNiLK8vkzr1hFxME7TLX3dg10JAZ8WpXKySqTsh4gi07BtpYjA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxtnP0thU7sZkbqNQid19K1Aw4i0rzFLFWfEi7/uCejzEZ3M+xW
-	lSNnihwZgrYEFLjNOUc2pMHpI5mBElYTpFVT408kJYow/CrcEiyFlheNbIs1REH8BQNa5F5KlhZ
-	fkdMCoKgTl8mRcEFApcD/L6grhK2+WdwpV8eFC+gHpg==
-X-Gm-Gg: ASbGnculVy2E26a3wAQmQ/RLVIGTF7yCCiTXCnGYXqzHsoruoCXz29seYYx6Q65ghG/
-	flnY72HgZd3leJqMlNtU4uzAkGvbPT7TB4qVifE/BhV6xjV6vv5v0A65ebPtiy77teGXH3Dg6Dv
-	BU6wQlQbq7lOEdzyrRoYzAJN8lkU8Iaekegqx6S9T571I=
-X-Google-Smtp-Source: AGHT+IGC0m4FXYYQm+k0AXFCSy3bx6F7/2cTaiKhBBnuAbB+6N8ybTZnHZCukOOueaHxtyfLbUpPRBURy2oO4IVfhl0=
-X-Received: by 2002:a19:5f17:0:b0:553:ca33:46f with SMTP id
- 2adb3069b0e04-553ca330808mr1234493e87.29.1750248554215; Wed, 18 Jun 2025
- 05:09:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v8kW+/Wh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yyqNFC86";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v8kW+/Wh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yyqNFC86"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 88F8E1F7C0;
+	Wed, 18 Jun 2025 12:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750249654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kpYueEtFBgcTo2VblGMdW3oPMA2MzFgTFdzQYaZrL0Q=;
+	b=v8kW+/Whte4SxfoSH7s4wz8zF9pYu/DtVMUitJ3lHbL9tcaq9bqp97fUoBGE1dgdKwDHZJ
+	+hWVdjbY32Rvd9ZNlsrlTDqGPFjiKSh8Sfu3aN5DQu0zqNrkP+aJORwjOiLxCCO6o+hViK
+	Dq/wuTLxyCEhckcdevWZjKVsx6X+BdM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750249654;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kpYueEtFBgcTo2VblGMdW3oPMA2MzFgTFdzQYaZrL0Q=;
+	b=yyqNFC86/O5vIsjbS00Q/L6NY74aiSeLTeYDp9dCdGMWnb5KPvUoTn3m7U/+eUby5iHXPQ
+	E/qO3GkiWfSuJqCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750249654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kpYueEtFBgcTo2VblGMdW3oPMA2MzFgTFdzQYaZrL0Q=;
+	b=v8kW+/Whte4SxfoSH7s4wz8zF9pYu/DtVMUitJ3lHbL9tcaq9bqp97fUoBGE1dgdKwDHZJ
+	+hWVdjbY32Rvd9ZNlsrlTDqGPFjiKSh8Sfu3aN5DQu0zqNrkP+aJORwjOiLxCCO6o+hViK
+	Dq/wuTLxyCEhckcdevWZjKVsx6X+BdM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750249654;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kpYueEtFBgcTo2VblGMdW3oPMA2MzFgTFdzQYaZrL0Q=;
+	b=yyqNFC86/O5vIsjbS00Q/L6NY74aiSeLTeYDp9dCdGMWnb5KPvUoTn3m7U/+eUby5iHXPQ
+	E/qO3GkiWfSuJqCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC0C713721;
+	Wed, 18 Jun 2025 12:27:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PM5nMLWwUmg4UgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 18 Jun 2025 12:27:33 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: lee@kernel.org,
+	danielt@kernel.org,
+	jingoohan1@gmail.com,
+	neil.armstrong@linaro.org,
+	jessica.zhang@oss.qualcomm.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	fnkl.kernel@gmail.com,
+	j@jannau.net,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	sven@kernel.org,
+	alyssa@rosenzweig.io,
+	neal@gompa.dev,
+	deller@gmx.de,
+	support.opensource@diasemi.com,
+	duje.mihanovic@skole.hr
+Cc: dri-devel@lists.freedesktop.org,
+	asahi@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/12] backlight: Do not include <linux/fb.h> in header file
+Date: Wed, 18 Jun 2025 14:16:32 +0200
+Message-ID: <20250618122436.379013-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250612-gpiochip-set-rv-pinctrl-remaining-v1-0-556b0a530cd4@linaro.org>
-In-Reply-To: <20250612-gpiochip-set-rv-pinctrl-remaining-v1-0-556b0a530cd4@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 18 Jun 2025 14:09:03 +0200
-X-Gm-Features: AX0GCFtzAwHH-ht5UUznh81aEY-DCCdnUYFURG79_8pBHXv4vb2M7QItIyT5tQE
-Message-ID: <CACRpkdb3+uQ=PG+ne48hyvdTFeEQBxXtq3CwxpqEmd1m9o9fNA@mail.gmail.com>
-Subject: Re: [PATCH 00/16] pinctrl: use new GPIO line value setter callbacks
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Baruch Siach <baruch@tkos.co.il>, 
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Neal Gompa <neal@gompa.dev>, Viresh Kumar <vireshk@kernel.org>, 
-	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, soc@lists.linux.dev, 
-	linux-sunxi@lists.linux.dev, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,linux.intel.com,ffwll.ch,jannau.net,redhat.com,rosenzweig.io,gompa.dev,gmx.de,diasemi.com,skole.hr];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -1.30
 
-On Thu, Jun 12, 2025 at 3:15=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
+Remove the final dependencies on fbdev from the backlight subsystem.
+This is really just the include of <linux/fb.h> in backlight, but it
+has some fallout in other code.
 
-> Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
-> values") added new line setter callbacks to struct gpio_chip. They allow
-> to indicate failures to callers. We're in the process of converting all
-> GPIO controllers to using them before removing the old ones. This series
-> converts remaining pinctrl drivers that still use old APIs.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Patches 1 to 11 fix all the implicit includes that come from fb.h
+throughout the kernel. It's all trivial, but touches various drivers.
+Maintainers are in CC. Patch 12 fixes the backlight header.
 
-Patches applied!
+With the series applied the backlight subsystem should be free from
+fbdev dependencies.
 
-Yours,
-Linus Walleij
+Thomas Zimmermann (12):
+  platform/x86: dell-uart-backlight: Use blacklight power constant
+  drm/panel: panel-samsung-s6e63m0: Include <linux/of.h>
+  drm/panel: panel-samsung-s6e88a0-ams427ap24: Include <linux/of.h>
+  drm/panel: panel-summit: Include <linux/of.h>
+  fbcon: Add necessary include statements and forward declarations
+  backlight: Include <linux/of.h>
+  backlight: apple_dwi_bl: Include <linux/mod_devicetable.h>
+  backlight: as3711_bl: Include <linux/of.h>
+  backlight: da9052_bl: Include <linux/mod_devicetable.h>
+  backlight: ktd2801: Include <linux/mod_devicetable.h>
+  backlight: led_bl: Include <linux/of.h>
+  backlight: Do not include <linux/fb.h> in header file
+
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c            | 1 +
+ drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 1 +
+ drivers/gpu/drm/panel/panel-summit.c                     | 1 +
+ drivers/platform/x86/dell/dell-uart-backlight.c          | 2 +-
+ drivers/video/backlight/apple_dwi_bl.c                   | 1 +
+ drivers/video/backlight/as3711_bl.c                      | 1 +
+ drivers/video/backlight/backlight.c                      | 1 +
+ drivers/video/backlight/da9052_bl.c                      | 1 +
+ drivers/video/backlight/ktd2801-backlight.c              | 1 +
+ drivers/video/backlight/led_bl.c                         | 1 +
+ include/linux/backlight.h                                | 1 -
+ include/linux/fbcon.h                                    | 7 +++++++
+ 12 files changed, 17 insertions(+), 2 deletions(-)
+
+-- 
+2.49.0
+
