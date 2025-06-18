@@ -1,64 +1,64 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A38B2E3B0D
-	for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 15:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2443A2EE985
+	for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 15:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750259081; cv=none; b=qR0tQ9CgBVTyTNH98GQuDUDK0JJ+1fFWhm7AjYlpMa+gGlmITBVfJjRFI5kiH+cWHEY3gPID8YW7ezbltFwxgn+ybGkDis4POhYM7Zy1tM2nTxZuK8uAakkpESu4AkG6C25vAA8gsE1dhFkIC5aK/Vp6Do7hazA+CgrM6PKFdcU=
+	t=1750259309; cv=none; b=gCg6S8DhgbC2W77qSQ7Zdei7j28h/TOT5exdn8oiQEu8npkz8tCsOxFmgxJZV+DupP/dyu7NMiZ54mw1ZUfK2hJ11/GbsRs/XYmY47Xa/GocFAscXYIXchTUfbNdAE5uKQhxiXhm/fRzDcOWXa13KvAUrzu1msxKD+HB4tKReSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750259081; c=relaxed/simple;
-	bh=3EspRMCyRBl7yfzuy73byfYxphN1/E3jRSITGcFJFA8=;
+	s=arc-20240116; t=1750259309; c=relaxed/simple;
+	bh=L8Ij7WI1ztqVYmG775JBVUJdflNviiHPGOnb2Mh/ppk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F3o0WefkCRSDiQ3/9dbZwoEPh2/EZjDmdAGDlyBuQ/MlSSN1qtVyqRJlAPBVbUzQwlaWmDbzJLdZlTeaXC1ZefIxEPMp//sofelT5IbTXYB9TMbz1au7cX2J+JgjgWwo2Ma8dc4gsBoC8DBkb5x/9S9vGsiY3f3w4QAFnZ8jWmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VK+uc3XK; arc=none smtp.client-ip=209.85.210.180
+	 In-Reply-To:Content-Type; b=n+nkwwtPOW+o/meTEn776Zq4Wq3OvFtW3oN8S+iVbWR1hWzeW3jrh36I1mtHJSr5x5RkgK/PzC9sOFM9nTFf9Im6u7emWZ0ZK5+vxDyELV3VvhcgeFlgev/h7ivCMboiGcbYi7m+ORU+yuI/MKtiF/5vZoZVOjNtX8kIdC86FQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f5p0IkHA; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VK+uc3XK"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-742c3d06de3so7949984b3a.0
-        for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 08:04:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f5p0IkHA"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b2d46760950so7532947a12.3
+        for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 08:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750259079; x=1750863879; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1750259307; x=1750864107; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7Hs2SUNklx2rXkCy6cYLf3Of+XZFsviDoNS0r49LYlo=;
-        b=VK+uc3XKOAT4wWqBsdUR4JtWkH+AngL2azi9vviVyhQAq34KX3pZbNgqUjr0NHg3PZ
-         V+9oojpkblnAeGTCb3LkfVZZeapS4bsUXFKaEewgcn0JdlCtDqT9m3jPl6GZIQSNkDBH
-         MxnCjD2No7ExGpCyOy3DG7BVMfH28vrccdHfkSMOjf6t6KJDJ3MEGT3hT/FE1IeSK0pD
-         7TaJGlO1KsXAcFJ1RlwMpHtPvjssv3lYjT6ZOjwKN3zwiby/MAM2seem9wf3QBri2aMW
-         ID/86xxDTDCVNnR0Sf56CoUpfz5VvtjI/9Kbua3wJqtJZJlIqHKSuJA0BQG/22WVUphq
-         A8QA==
+        bh=NlXLcdl0xMjJ43b63DNA4aQ9Nj5CoTCVpP0YbONQKfs=;
+        b=f5p0IkHAF8DRV9pcXKFvcmPO7WT/rZ7R8xhYs4QTxCz271WqzNPZrH7dP3gxNMI/EG
+         3YoR+lcDkw41m3GfehrX2ZEtJ9+FK4tKrE44UWEWVACraKt7eQaZI/rx0QAvIw8eN6MK
+         2zoZvlwfudnbA/7HIAGojBonBKZ504+TegDLmv5qVihCXN8lz/o+owEpw1rXhkVLRole
+         dSLA9Y2Ohte9rtkKjHlGSztQNHHsi01ujK826wYiS92CjyHmEJc0R5gdJFGhx9iPn1LM
+         ylWgxXzOtQz4lTn5X7PNjuLK+FCstWjywwRMiD65XlI1arb2nnxiZzlQw5GWZMBRHsak
+         NCrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750259079; x=1750863879;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1750259307; x=1750864107;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Hs2SUNklx2rXkCy6cYLf3Of+XZFsviDoNS0r49LYlo=;
-        b=DLiq4Qbdk/ifhAsvXqcJov9jbXnb3ohf9r8VrhUnobbstpl0mdQ0C9rRxwFMZ/8lmT
-         J9gq5hz4rRHAjPnnXNv5h92ddjdL5w3EoJYMB/oVx64pSgAwG31fPL4QUSLjpEfr3Rt5
-         5tT9u/xMGJ+YTNpC0nQlfrmHTDTjf6F4fQiZ72dOqpRscWRo1U0RDce2hW9i4Pqrli1x
-         zXGu7WfCrZob171okag/pngxmypMbMa+9BJClDppBLzej1uBkLBWOx0QouWRSmwGy8S/
-         pm38s+6lbU5Wtz9Or0r2G1nZ8UasjHvX0R5TkZNB4xkY6yh+tkAgQUOD2Iwn4nr+65mo
-         roCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV4udIToEpBD3+hqTHgv+UPdhjK1Ic0bNmA0zOVJcOc2kP33kBcdj+ZsGf/uMBuXWAMBonDRw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxjlufPn254G6uAj8rloR3ia2kaoi18AFMEKwiUO6zdf+KCHGLT
-	Y141LnDqLn+hvVwVk2o3Cyk1G41lHfV/WQC7VlCTIHjRIMbx6MRuTQ7f
-X-Gm-Gg: ASbGncvdI0V5Z8anWzTkEjl4xLBrTIEjyNc7+KBu71/jdu1vGoj4FbWaTz+t9GjQmsl
-	vBs+KfGD+MXLqun0Qwu1BoMp7kRZVR094Bm+lbaDmUnHgavzUgWNqQoZhcrHdYD/SgOJ6+DL7st
-	BuDGRDl+BbrYVN7nUjOiqdRWDL1DwFUpJDOTUMmItgxG8bTVRkQTPSrcKSlhny0Zo6TfWUtiXQv
-	+FlIcZ4/sRjn1LjwDsJYollavIcueOCH0PYzksBX6ZYnsjAb67EAIqwzgirIEDCVDWu8RlSC4oW
-	sY9L2yXMBD+VCP4dfJtzlzbxLbcHjc+RWMGNYgpMH9XOad1NTDus/8zSpcmwKahlbcyedg==
-X-Google-Smtp-Source: AGHT+IFbMcB+hSk5+yrphcoXGyxnzipWWHvp4gGJiBPM0m0zxo02a1BcE06EDvrBKZqeUdozbvm2Tw==
-X-Received: by 2002:a05:6a00:1790:b0:736:3d7c:236c with SMTP id d2e1a72fcca58-7489d062437mr23210895b3a.14.1750259079025;
-        Wed, 18 Jun 2025 08:04:39 -0700 (PDT)
+        bh=NlXLcdl0xMjJ43b63DNA4aQ9Nj5CoTCVpP0YbONQKfs=;
+        b=ql0WAKccI4gBYnybtCrS7lePbkJKAQj9jJQeF4PSRs39qAQdX2Gq8MWxKbzQf6ungM
+         3ZYXhn/SqIUFx7ka+M+pkqhDjolpuBuyqLMWdsCF5cxnNPCLbmhyPg7PhO/7BwHDF25X
+         alGJxmOHp3ZF+QEpc/8v67yTrdHRh452UohWd/6jTOB6JpXjAQTK3S6Lblrvs/pGkDNT
+         DNCjTXIjXo35niVWogxvd39Po6kV7v0WPQV9jRxT7OGfTgI/bbpWdt1S+DpBgIxuj9dR
+         7t3pDls9JXHYiLtv7MBcdjarQQncaXZytsdVoMXulTgwEsQ0yJK+T2iYwg44RuQQwukY
+         3ZJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUDGJQSf1q7nx2m7jkuc8CovznZrEKcoad5OCl0lnAHnZn9/7VLc6gXYfapoHoMm+Z0Me+tsw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzyKZhKiQ3Y1hqLFXrCoZi2/1vON/t8OOoo2wSQjkDlRxpoDNa5
+	ZYrdWiGGWqIiUuV257Dt0/340gzMWXYy9J1eoWT1bdcXRbXY8yiGgvyJ
+X-Gm-Gg: ASbGncu+NErFCJyOZV7ToupGwYgkzk5QUTGqVGogex8ZV9rwbL2bEZeiKCGpNh/3A3l
+	3uUd5f1+1WpG71/TVB02wydU4iGC1x3r/IWuhw8ZoFnqYCUbjB42+9A+mkNOmSiFW8HNJUkKQ8b
+	wl0CeO+ugRGEC6MFxXcEPS2bcI+AfYPlDdeq8TuLFN2DK7exIH3lfOUh7TSqTEcaB1QK1dOH7Kf
+	tSMZcHVA8k/bjQJkTKJ43YnH+XY7Y++92EDQkVx0QYiuJZNpro6GAtNd5TWUwIuVImQ3gHe+Tjs
+	CxhyM6wTxFMESSot9o0EeP0ul/pTSh5VluYraoGlZhQVzKjGnW7v48IA+v08ugEox0DQRQ==
+X-Google-Smtp-Source: AGHT+IGMfD1en+jAPfFZnyKfP/6fLNvoxSDJknXoysVlOSdS/kFg5+qkb2avdYMr18aUztSudZuFfA==
+X-Received: by 2002:a17:90b:528d:b0:314:2a2e:9da9 with SMTP id 98e67ed59e1d1-3142a2e9e1cmr8449811a91.25.1750259307379;
+        Wed, 18 Jun 2025 08:08:27 -0700 (PDT)
 Received: from [192.168.0.123] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffecd1esm11106156b3a.25.2025.06.18.08.04.34
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3158a22418dsm16968a91.9.2025.06.18.08.08.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 08:04:38 -0700 (PDT)
-Message-ID: <f5c7dcda-d67d-4da7-9b84-a9d5a760f452@gmail.com>
-Date: Wed, 18 Jun 2025 23:04:33 +0800
+        Wed, 18 Jun 2025 08:08:27 -0700 (PDT)
+Message-ID: <c7ff4ca4-da9c-4b86-893b-1ffd9fb0fb4f@gmail.com>
+Date: Wed, 18 Jun 2025 23:08:21 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -66,8 +66,9 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/12] backlight: ktd2801: Include
+Subject: Re: [PATCH 07/12] backlight: apple_dwi_bl: Include
  <linux/mod_devicetable.h>
+Content-Language: en-MW
 To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org,
  danielt@kernel.org, jingoohan1@gmail.com, neil.armstrong@linaro.org,
  jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
@@ -80,10 +81,9 @@ Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
  platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-fbdev@vger.kernel.org
 References: <20250618122436.379013-1-tzimmermann@suse.de>
- <20250618122436.379013-11-tzimmermann@suse.de>
-Content-Language: en-MW
+ <20250618122436.379013-8-tzimmermann@suse.de>
 From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250618122436.379013-11-tzimmermann@suse.de>
+In-Reply-To: <20250618122436.379013-8-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -95,21 +95,20 @@ On 18/6/2025 20:16, Thomas Zimmermann wrote:
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/video/backlight/ktd2801-backlight.c | 1 +
+>  drivers/video/backlight/apple_dwi_bl.c | 1 +
 >  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/video/backlight/ktd2801-backlight.c b/drivers/video/backlight/ktd2801-backlight.c
-> index 0489b0615ceb..17eac1b3bce4 100644
-> --- a/drivers/video/backlight/ktd2801-backlight.c
-> +++ b/drivers/video/backlight/ktd2801-backlight.c
-> @@ -6,6 +6,7 @@
->  #include <linux/backlight.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/leds-expresswire.h>
+> diff --git a/drivers/video/backlight/apple_dwi_bl.c b/drivers/video/backlight/apple_dwi_bl.c
+> index 93bd744972d6..ed8bf13d3f51 100644
+> --- a/drivers/video/backlight/apple_dwi_bl.c
+> +++ b/drivers/video/backlight/apple_dwi_bl.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/bitfield.h>
+>  #include <linux/device.h>
+>  #include <linux/io.h>
 > +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
 >  #include <linux/platform_device.h>
->  #include <linux/property.h>
 >  
 
 Reviewed-by: Nick Chan <towinchenmi@gmail.com>
-
