@@ -1,70 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EA554764;
-	Thu, 19 Jun 2025 05:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33144241696
+	for <asahi@lists.linux.dev>; Thu, 19 Jun 2025 05:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750310000; cv=none; b=pfbcNnokWrCaWQI8HAcpKMeOawdZ0K72z1BRLrXz3kLFcV45WpAILnn4RPTp9ibYJGWy6BMf04qTJxxqowaSefJcv9I/dbsmSrmrfdqy6DKMB6sj01RKdaJMHNoYO+ueTXBRbV31w1wERLbsUoou2H2vR4SLoKyX7w15d080pqw=
+	t=1750311356; cv=none; b=mi2nGFpKEfZPnjAqKLQmaTaGu7AGHdyScQ10REtMt2peehijtzt/d8D46V4HgkvlftlID5Rfrf2FthoceD8axbKuGhBu9mJOZdlv1+f0cW9XJ8iUP7YPtv/gSBjaIsRhIC86hmeFmLBoXsDQRoAUsvvDBTL0EAN6y4irOtD9t0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750310000; c=relaxed/simple;
-	bh=DaAeSgOKa5+ihHQK/CsgUn/s98z+5cTpCLLRShbyFBw=;
+	s=arc-20240116; t=1750311356; c=relaxed/simple;
+	bh=3T6kJuyoKBc2nft91aab5hLZW+0/3OZRvkSZlEz+xsA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EfWCzeuDjTM/gYvbdK2ynz2dyznm+cEoD3C1VTagcJRyzmkptNJlMOyo9Hpq4/hCKAAy2SVCG9/BdgPPIO9ykKhWsExiB0s/d/7rOi7d10evhNe4oVSC+sV6MkE9SQAKqFqYaT60e0LwYxK9pPL2ZvjUobaPj3sbIWcXFdV7Biw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISNCg5O0; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EpXBnKS9Gh++RrhX+4xAuUNcPDhfVB/cdepqJPD9+B2GUvsEugECb8o1z1xmCum0zQ+VcfD2pZYjgN5w9PRt6f3VpMuHK/w6GDfsJCazaBO71CVqTy1XYnI6QaYpEqt9+U9dCF5nYwiA/USpFJDhBzMcxV6tAH5Z6nWQVxaDkNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mP4D0dyi; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISNCg5O0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750309999; x=1781845999;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DaAeSgOKa5+ihHQK/CsgUn/s98z+5cTpCLLRShbyFBw=;
-  b=ISNCg5O03WbNijWXAXHru8LyRZJZGTPxW6o//sqEu2B+RDYRP2wprO5f
-   M7Fw9/eB6Lw7cLMDn8JkPngeN6CHY/olUVg5dWkU/42gAIdI+l3I44AQB
-   UiRzZFCoeU94RWiXr6xlGiAWqvtG0Ahxiw883NcYchj4WT6F+VEa1IVIZ
-   rivcHjPlsEAheLGb0ix4h3RdReuQN7d+kJN6wSk+k/RhpuhBcY8VfmQ0B
-   wEouITdyUO7NnCj41Ut8ou+8d8OxGooNi0Q++XTrHE53QLuCVHG917zlB
-   E0jneZrhI3iPx9qjUDndTbYD23g0Oggx+V/TDwSsoo81kqxSWiWk5KNAA
-   g==;
-X-CSE-ConnectionGUID: nLn1RzIgR0e6jIWxYRV9LQ==
-X-CSE-MsgGUID: Qj6s0sV5QMS3DtPUNMcwKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="51784190"
-X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="51784190"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:13:19 -0700
-X-CSE-ConnectionGUID: Iy8XfeYmQ6aW1bvPafNrJw==
-X-CSE-MsgGUID: cOabNmcPQp+yFRjQVpbmpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="151106260"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Jun 2025 22:13:13 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uS7aJ-000KQE-1E;
-	Thu, 19 Jun 2025 05:13:11 +0000
-Date: Thu, 19 Jun 2025 13:12:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org,
-	danielt@kernel.org, jingoohan1@gmail.com, neil.armstrong@linaro.org,
-	jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
-	fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, sven@kernel.org,
-	alyssa@rosenzweig.io, neal@gompa.dev, deller@gmx.de,
-	support.opensource@diasemi.com, duje.mihanovic@skole.hr
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 12/12] backlight: Do not include <linux/fb.h> in header
- file
-Message-ID: <202506191230.WMfb29QM-lkp@intel.com>
-References: <20250618122436.379013-13-tzimmermann@suse.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mP4D0dyi"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-23526264386so4792875ad.2
+        for <asahi@lists.linux.dev>; Wed, 18 Jun 2025 22:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750311353; x=1750916153; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MbKgKaSzJXcq3MoycGVCSzlp40V4lZ1OfWmFaWrV5lE=;
+        b=mP4D0dyiagouOfPU2UG+CNq9axlLn8PBYRtL86+PDIOwa4vn8VUnM1kcfarOtw4hvO
+         cAlN0lRrt7XmAK36PL0OlygQWqdsge/0n8r7wWewAYaaggknGep1l5DElUPMmF7dsC6b
+         rPPWGESG8X0shCtxqU6dH7zbER7zkPYLus8h3UfKvHG5Cpr4SNs7Ij5Bq0ziFOKIVM2n
+         VqTI/9xkG65oAsoGoATOU6DP/AAnlQ5dTbj9WcaO6Q29Bh75Opm1g019lkotLw6w+v0x
+         hXI4AoDmVqAHprPI20LAhakcb348mCC3eeakJuuMCjOiAiYQPAoIyHZiqodznHq/Q+ds
+         Oy+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750311353; x=1750916153;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MbKgKaSzJXcq3MoycGVCSzlp40V4lZ1OfWmFaWrV5lE=;
+        b=blS6sCI706KHse6B4o+rXEsL/XkV89nZLL7VCwleBFQjPkaD5CatHof/yG4nsczgUl
+         T1kG9PqcHmA0JdmhgOhRsBnUxJqkD1ctlgMKPr0jGht4kDn3lxj7IsyXgWt7LfXydh9b
+         Bj8OS5KVCjxYmkpKfQNo+WgasB30BKlb9CyHHN4oCrBJa5nxllbPQX/byji3AqJ5aY0Y
+         pSqHoL/uXPq0P3HWU+9Fi6isBYuUHHCEL6pvzCzy1JXMVmkIrvmfxAi050B0cdpjGRvp
+         SiQuw3+D4fa8/Au4oPvvx3t75vjA200N9+vlxfQRW8V3wSG2V+psfKpEwnaWZs8m41RK
+         qNpA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdrupKpRZgCr4lo8zgc5wun7aBPUlhEtCQVgxhUORmGhoStOAX/umSLpQotJhi0pw+VRZ2IQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywv+iXnTuO0wSewq+pnvyW8cY9pKHlmHK/j9CPIN3wCVJfHEGnr
+	tSKfbr+sVh0ZiFcZ+7HtTVaFX0/9qCA0IuSCDfMSDVEj7xvu/QLTYlMubb59fYzH0jI=
+X-Gm-Gg: ASbGncski3Ghu+rJW6hxh/Wm8lBa3bVUibv/c657/z0PvmC5oJYC7fmw5Py/iPLhRRx
+	hpupnIrVXozwP3ti6ggyphOhi919S27lDksqVtmB1y1ZdTsvY8zmVccrzZFubOjXiS6hpibb4B7
+	ptLeDA6nbGfxDKk5EkGybqqO82KyM1raHMHBxwo1u42pWpsQR3FF4HR0NBX/4pnDR4TuNfeo8e5
+	/A0Bbku1Gh/L2Ubzkj00HBGymTDghKyWRZbVq2T3CnLcYDZHvavIru0KBfekl2F3qWOi14IqFDT
+	oTg2leLrweb6br3NooagKL0gIAhEIm6xXjt5BHhVlbHzUfUegiCbqLfnAK+IitxC9HhWv3olRg=
+	=
+X-Google-Smtp-Source: AGHT+IF1Brl2Ml/RhPp1ZISh/ybbgy1I/Aosv1oeoYbA3EE1IVQw9sjB8PhoTnTOzWYQtjW2ZHuZqQ==
+X-Received: by 2002:a17:903:32c9:b0:235:a9b:21e7 with SMTP id d9443c01a7336-2366b3df793mr286985355ad.48.1750311353385;
+        Wed, 18 Jun 2025 22:35:53 -0700 (PDT)
+Received: from localhost ([122.172.81.72])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365d88c0c9sm112008655ad.20.2025.06.18.22.35.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 22:35:52 -0700 (PDT)
+Date: Thu, 19 Jun 2025 11:05:50 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Sven Peter <sven@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-input@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 06/11] cpufreq: apple: drop default ARCH_APPLE in Kconfig
+Message-ID: <20250619053550.hogoo7ic5igvex3c@vireshk-i7>
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
+ <20250612-apple-kconfig-defconfig-v1-6-0e6f9cb512c1@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -73,49 +92,21 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618122436.379013-13-tzimmermann@suse.de>
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-6-0e6f9cb512c1@kernel.org>
 
-Hi Thomas,
+On 12-06-25, 21:11, Sven Peter wrote:
+> When the first driver for Apple Silicon was upstreamed we accidentally
+> included `default ARCH_APPLE` in its Kconfig which then spread to almost
+> every subsequent driver. As soon as ARCH_APPLE is set to y this will
+> pull in many drivers as built-ins which is not what we want.
+> Thus, drop `default ARCH_APPLE` from Kconfig.
+> 
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  drivers/cpufreq/Kconfig.arm | 1 -
+>  1 file changed, 1 deletion(-)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on v6.16-rc2 next-20250618]
-[cannot apply to lee-backlight/for-backlight-next lee-leds/for-leds-next drm-exynos/exynos-drm-next linus/master lee-backlight/for-backlight-fixes drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/platform-x86-dell-uart-backlight-Use-blacklight-power-constant/20250618-203011
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250618122436.379013-13-tzimmermann%40suse.de
-patch subject: [PATCH 12/12] backlight: Do not include <linux/fb.h> in header file
-config: riscv-randconfig-001-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191230.WMfb29QM-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506191230.WMfb29QM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506191230.WMfb29QM-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/video/backlight/rt4831-backlight.c:215:49: error: array type has incomplete element type 'struct of_device_id'
-     215 | static const struct of_device_id __maybe_unused rt4831_bl_of_match[] = {
-         |                                                 ^~~~~~~~~~~~~~~~~~
-
-
-vim +215 drivers/video/backlight/rt4831-backlight.c
-
-190ccab3185eee ChiYuan Huang 2021-05-17  214  
-190ccab3185eee ChiYuan Huang 2021-05-17 @215  static const struct of_device_id __maybe_unused rt4831_bl_of_match[] = {
-190ccab3185eee ChiYuan Huang 2021-05-17  216  	{ .compatible = "richtek,rt4831-backlight", },
-190ccab3185eee ChiYuan Huang 2021-05-17  217  	{}
-190ccab3185eee ChiYuan Huang 2021-05-17  218  };
-190ccab3185eee ChiYuan Huang 2021-05-17  219  MODULE_DEVICE_TABLE(of, rt4831_bl_of_match);
-190ccab3185eee ChiYuan Huang 2021-05-17  220  
+Applied. Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+viresh
