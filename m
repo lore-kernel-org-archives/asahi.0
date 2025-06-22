@@ -1,158 +1,98 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC10CA29
-	for <asahi@lists.linux.dev>; Sun, 22 Jun 2025 00:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750553460; cv=pass; b=MbiLP1n8oRexrssMBppbF4GoJasTc4YUJJGkMeV/sJMPBN0ncyNngapgY1n+kxhmD+gwUmkbxD9xBPj7+lN8nJ2bU9dLwlbLRhoXjAKnRgT0Ulubqq+wmFKaC2EloJiNZ68cYent4t2tZcWywq+QTrA4JYK6DH1/WDYstSwtt0k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750553460; c=relaxed/simple;
-	bh=eP4cyAVzJysY20FB2yPSJBaBtIXAbyQKZqa8mZ2WuN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tLk0/xHJQ/k/b8yhMykZjEivL6tqfagAeSpY3PsXdFafIFCgRSMt4MOQrTeM+/NB1T7ysZOH5jz3gfSci4MMJPHfiT8Oo4qlP6KG+7hootTRVy2WnF20YcNTdgaP8KRV4r6HMl9xnH2LWcdrormAVU8O5BIidAZpVUiKOGxI/Vw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=f+3EfA9y; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC7318C03F;
+	Sun, 22 Jun 2025 09:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750583656; cv=none; b=Fo71aa2nSDZ7IPchaKwTYOjRNjbTAZVM0hhM2ag5uIurMq/dVDtv9guHGRW5YhKqGOzK4RTTTM0vBSLG9WMpXgEJNG1r4c5ib5t6LbGzUS4oiOCbG8uEZO/1EuoMwXScbRwF5aAUCKCMRx/uRGLiAyAKLVD8c5B8rV9eFe3MFJM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750583656; c=relaxed/simple;
+	bh=FR0kk1ZyP4ATa4YOUOaLsb7MR+jvx6ZZw5j0miDtcgM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f0tJM1GcP2pBHJ1xrkbGkgBkQx0b1bP4ZXEeGz32HwidR34StckRV2Jw37f/4CGgpgTSNiHdXovZKrP0gKD/4bphUHhIaCsmY82lOQhxRxIdHPu8sd1rhJspa2Ruqv764dqZnWUyBHG0PVzqk20UrjM+gznK+YYkhd47ovSh7qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sUG2TJzd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="f+3EfA9y"
-ARC-Seal: i=1; a=rsa-sha256; t=1750553434; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=nTaZPuxdEjw5EDw3tPF6Qy0HTEagp2m1aPmSyKRU2f+HJ4+u4ZC9f9ngF5plydcBC9kimI5uBnGvZW1ulzgKNnL3OTVtWFNbwWu5fIcuR2q571R50jIQsJVnfwvJRyo5awpB1R0KUQNeWe6IQABQCXGhl2E48HfHk3DK3Co/Mhg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1750553434; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=urvg2EBUVSXLilCyfEaHeQbpskk5FRYN4N/flVkvV78=; 
-	b=VMwG6vR1GWzzfCk+Cx29KkHCudiWzscFawcybcqqs6bzMGajtS1tj+BohE9OpogqjM4tnDrOnbkVmS/ssCvr4wn2nMO8ofiGtwuwVAOEyibWApOl3/OTLFoA8RT2+Bsy0iBJbPPGD0KhjBYciUTt84Qr4RPzxpaw6YzPak7nVfI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750553434;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=urvg2EBUVSXLilCyfEaHeQbpskk5FRYN4N/flVkvV78=;
-	b=f+3EfA9yIO3WRuPNshg8xFVyn5cJqqTmm+HuH6SYP2wxA8YbGSB9NVhIfxv1Srqu
-	g78eV9eGHUVlWk5ocPdAIe4R9O5qpDtklKq5fy+NKC4huRj++YXYgvw4q8DYOmHA2Vg
-	BsJH1d6xAxvoJ1mU3nqshGz+Ejf3jcaht79PvMpI=
-Received: by mx.zohomail.com with SMTPS id 1750553431554582.0728404463048;
-	Sat, 21 Jun 2025 17:50:31 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 15EE4180692; Sun, 22 Jun 2025 02:50:26 +0200 (CEST)
-Date: Sun, 22 Jun 2025 02:50:26 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sUG2TJzd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C90C6C4CEE3;
+	Sun, 22 Jun 2025 09:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750583655;
+	bh=FR0kk1ZyP4ATa4YOUOaLsb7MR+jvx6ZZw5j0miDtcgM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sUG2TJzdERrgA1aUMcnNuFM/6Qlm/KqJZq20pmR2XvNqiOZxo41fyBzgYecB8NmGi
+	 00nX4LvGveW7uZ7cIslW//6k5zfg/Iqwj89eytcAxkf8JkbGkpDZNOrsYSv/GRSnKz
+	 kYmio20WPm2fmsA5ka972FkEPkgcxZIf2SjoqknRu76WPPc2Jkw1FJq95w/rT9OgAB
+	 paAdmX2NoloQyHEAobczyCdWtntL5ZfZKhdxDiABT59xhJ+hk23EJngelVRLIr17aw
+	 aKmaraDnxDg5UT+u03Ry0TsOBPcfitx40+1VhZ6e2pV4sIei1+qg8GYOGRNc958D6U
+	 t/hH1Crz5y+dA==
+From: Sven Peter <sven@kernel.org>
 To: Sven Peter <sven@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Linus Walleij <linus.walleij@linaro.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v7 05/10] mfd: Add Apple Silicon System Management
- Controller
-Message-ID: <pqjz6jyfsoaf5matffwsly7ba6xwbw5fsumokmpow6eox7vjdx@fbuxkcjjyh6n>
-References: <20250610-smc-6-15-v7-0-556cafd771d3@kernel.org>
- <20250610-smc-6-15-v7-5-556cafd771d3@kernel.org>
- <20250619114958.GJ587864@google.com>
- <f30406ae-90ed-4f81-9519-e6ae2dcc9e03@kernel.org>
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-input@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: Re: (subset) [PATCH 00/11] Drop default ARCH_APPLE from Kconfig and use defconfig instead
+Date: Sun, 22 Jun 2025 11:13:55 +0200
+Message-Id: <175058357351.73238.16083953894785363103.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xcojizk7w6niahmw"
-Content-Disposition: inline
-In-Reply-To: <f30406ae-90ed-4f81-9519-e6ae2dcc9e03@kernel.org>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/250.540.22
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+On Thu, 12 Jun 2025 21:11:24 +0000, Sven Peter wrote:
+> When support for Apple Silicon was originally upstreamed we somehow
+> started using `default ARCH_APPLE` for most drivers. arm64 defconfig
+> also contains ARCH_APPLE=y such that this will turn into `default y`
+> there by default which is neither what we want nor how this is usually
+> done.
+> Let's fix all that by dropping the default everywhere and adding the
+> drivers to defconfig as modules instead of built-ins.
+> None of these patches depend on each other so we can just take them all
+> independently through the respective subsystem trees.
+> 
+> [...]
 
---xcojizk7w6niahmw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 05/10] mfd: Add Apple Silicon System Management
- Controller
-MIME-Version: 1.0
+Applied to git@github.com:AsahiLinux/linux.git (asahi-soc/drivers-6.17), thanks!
 
-Hi,
+[02/11] soc: apple: Drop default ARCH_APPLE in Kconfig
+        https://github.com/AsahiLinux/linux/commit/65293c3276de
 
-On Sat, Jun 21, 2025 at 05:51:33PM +0200, Sven Peter wrote:
-> On 19.06.25 13:49, Lee Jones wrote:
-> > On Tue, 10 Jun 2025, Sven Peter wrote:
-> >=20
-> > > The System Management Controller (SMC) on Apple Silicon machines is a
-> > > piece of hardware that exposes various functionalities such as
-> > > temperature sensors, voltage/power meters, shutdown/reboot handling,
-> > > GPIOs and more.
-> > >=20
-> > > Communication happens via a shared mailbox using the RTKit protocol
-> > > which is also used for other co-processors. The SMC protocol then all=
-ows
-> > > reading and writing many different keys which implement the various
-> > > features. The MFD core device handles this protocol and exposes it
-> > > to the sub-devices.
-> > >=20
-> > > Some of the sub-devices are potentially also useful on pre-M1 Apple
-> > > machines and support for SMCs on these machines can be added at a lat=
-er
-> > > time.
-> > >=20
-> > > Co-developed-by: Hector Martin <marcan@marcan.st>
-> > > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > > Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> > > Reviewed-by: Neal Gompa <neal@gompa.dev>
-> > > Signed-off-by: Sven Peter <sven@kernel.org>
-> > > ---
-> > >   MAINTAINERS                |   2 +
-> > >   drivers/mfd/Kconfig        |  18 ++
-> > >   drivers/mfd/Makefile       |   1 +
-> > >   drivers/mfd/macsmc.c       | 498 ++++++++++++++++++++++++++++++++++=
-+++++++++++
-> > >   include/linux/mfd/macsmc.h | 279 +++++++++++++++++++++++++
-> > >   5 files changed, 798 insertions(+)
-> >=20
-> > This is ready.  Let me know when you have all of the other driver/* Ack=
-s.
-> >=20
->=20
-> They've all been reviewed by the respective maintainers.
->=20
-> I assume you want to take this all through the mfd tree and we'll need ac=
-ks
-> from Sebastian for power/reset and either Linus or Bartosz for gpio then.
->=20
-> The one line change inside drivers/soc/apple would usually go through my
-> tree and I'm fine with taking that through mfd instead.
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
-I'm fine with the power/reset driver going through mfd once the
-recent probe discussion has been solved.
-
--- Sebastian
-
---xcojizk7w6niahmw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmhXU1EACgkQ2O7X88g7
-+pp5mBAAqeYtgkz3ot6SuhXbvwuOhMII4zpE8jhfW1y9qUm85/HabSF/PRrM8fTX
-mrOmos/ImxU32f83/mPZshVf0+mESLu/t8jEcfWUZp9OCDWwIP22zJ0BScizgWpg
-d6vfEd4K8zdCjpEwNTmghrqahi7gGfapSzfpOGoZ7yLnGSp19rWdfG8CvQ4BI6b6
-EIy+2XySeO6V2n+fGt/78Td4+LVQ8k6gm6B/9/grN5WP2OBC2KwTSAsmieBXXpCD
-GBT911zqqYpJ3wfaSndyeztq1sOfKH6feAYTbCKjlz2frvOG5A+0A2nRLD4UXvCW
-JQmbyzwj7d03GFgqOIa95RyYZL2C0H3gdw1ZV+KO5OCGKIHWcrbRGsUnU0gzSyQj
-sRP6gLNKPNXeIgcvTBVNAiuy+NA/UUTzovImxl47hAO1jfbqjMc4rGYZVGwqYevJ
-szl41k3EmNjCU+Wb7Wm3xoQLb7xhjPBd4CbZBBnxJ9Zq6aRSTgyHPV6Q09/X7npU
-SJG9k/V+dqhpRWtSyhJVsQ326oWDeNatp5iSKU+ZCaLN3QI+7ouH0pAi/MPlpeoq
-UuK9iVt2lITPAvuHZ07XKQUHjxa/5tir3DpJJP2WAVPQM/n7ejypyXh/SHolX8G8
-M5BUD7E9puP4hgXS8ETreeIi0UlYz/STD6ck27xMFk8yVIyyyik=
-=Yc2m
------END PGP SIGNATURE-----
-
---xcojizk7w6niahmw--
