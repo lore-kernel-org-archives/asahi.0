@@ -1,115 +1,109 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30DB917F7;
-	Mon, 23 Jun 2025 11:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C7822839A
+	for <asahi@lists.linux.dev>; Tue, 24 Jun 2025 11:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750678399; cv=none; b=OMSxc5Tg2QOCcDtMX+2TiltrRaAWKSl2jlMpzpiMcOhfsqsknkpb+Hv+eqaLSPYd9dlWB0ofEIR8C9nXKkbYr6Tksk0zF1CrWSxM+kXMSZBNO2uUIJovllWQEJ9aR0hoO4qkmQEQ74Jp2qR/1DeTyyYZzd93Tmgn6uTtXEc/KQY=
+	t=1750765005; cv=none; b=LwtyTMg75lPBTzVVbW4sDfdC1QiK44qztOU1N6wm5fVPqSetqjwJxmJFLyuXbNSZOrsqMe0/4hV6vFKdDPUvcVS3aJ+Q2tv+zZGq4GxaOT4QggnNGJr3rzKe2bsoFz4Ms4/p+o9jqc43pymJiJzGjcKAji2YQCugfSo2Ant5Hhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750678399; c=relaxed/simple;
-	bh=4Byfl6XKyk9PR8pgbpDrhICsoDtDHYLEMWWU/ZfABpQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=auHR+kGm+7JP2QY0g7IvT4YwOlV2+673CwGq15E82cr3js23L6HzEw5U8Jqk1ri8mJfb73KYhiAzsA9u3ag31cztjDwyE6ikmqAghmX+D+lCfWXkGcq9iAKqheKJpjo4zeHj4AuJj0/kJQJv4R4Y8BPdtIF6b4+hg4zR62fcLkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 43268113E;
-	Mon, 23 Jun 2025 04:32:58 -0700 (PDT)
-Received: from [10.57.29.116] (unknown [10.57.29.116])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3092E3F66E;
-	Mon, 23 Jun 2025 04:33:12 -0700 (PDT)
-Message-ID: <9f80f7c4-01a3-4a03-94dc-2a19136707f8@arm.com>
-Date: Mon, 23 Jun 2025 12:33:03 +0100
+	s=arc-20240116; t=1750765005; c=relaxed/simple;
+	bh=0QPLj8k1RfrRJykPno6tnMdX52dcMJxf3LHllaynLDw=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=SvWYkFm8t0wGTYDiPmwaHQgEdT2vhoCdTbV6bOmXvn+LBWmd8mpuj/d+kByVaDKl6CywrsEPejU172iacWpbi9COnK6yokFgg58k7aUShVOSvP8ht3p8AwYfCBkUVHCi29kS6HpaCT8f5k2GdER4r8hCz3Z1QzwQJfAAQI55h3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=by7cf22X; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="by7cf22X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750765005; x=1782301005;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=0QPLj8k1RfrRJykPno6tnMdX52dcMJxf3LHllaynLDw=;
+  b=by7cf22XaEy+fw2+Lrqw6U3dTmwCd2mAXOkp9GpcSiaUa92m1nlI8+co
+   kDFOygCGglG/c33BWFZpytdbwo5EzMLNqlcpG5epqpZ9UzEtf7FjuT0Vt
+   faPSXLb/97Nn0SPHMKyxjhnvgLmAZ2ssrseJYVw1vNrsi10BGCjgKZpxX
+   xjw3U3o512ns3DWiKSDrdh2t+WbgbhlcPOV1XV0oR6dw7+OoMsgWRxfp7
+   K+nY+LAKaIuve4w9t3Q1YrOnzeWEMGz8sn3KBonvaIFTQRl6KxnIoOoNm
+   S3ci+NU4eP6i3G/pNNtjWY2ZKKMCa0rKPVn2+SiXp9doGi7+4WwpCCJFu
+   g==;
+X-CSE-ConnectionGUID: zOpRppdOSJ2juvOc6oo7LQ==
+X-CSE-MsgGUID: 8Tts93bGQz6fyiIRcczx+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="75537668"
+X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
+   d="scan'208";a="75537668"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:36:44 -0700
+X-CSE-ConnectionGUID: ZHCD7C6DTR2lmQR8qI5exA==
+X-CSE-MsgGUID: 7CPkk997S2yicYNRtR1V4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
+   d="scan'208";a="156185875"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.16])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:36:37 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 24 Jun 2025 14:36:34 +0300 (EEST)
+To: Thomas Zimmermann <tzimmermann@suse.de>
+cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, 
+    neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
+    maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+    simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net, 
+    Hans de Goede <hdegoede@redhat.com>, sven@kernel.org, alyssa@rosenzweig.io, 
+    neal@gompa.dev, deller@gmx.de, support.opensource@diasemi.com, 
+    duje.mihanovic@skole.hr, dri-devel@lists.freedesktop.org, 
+    asahi@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+    linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 01/12] platform/x86: dell-uart-backlight: Use blacklight
+ power constant
+In-Reply-To: <20250618122436.379013-2-tzimmermann@suse.de>
+Message-ID: <63e0be02-f7b5-2b14-d858-6b66d0a51bd2@linux.intel.com>
+References: <20250618122436.379013-1-tzimmermann@suse.de> <20250618122436.379013-2-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] arm64: defconfig: Enable Apple Silicon drivers
-To: Sven Peter <sven@kernel.org>
-Cc: asahi@lists.linux.dev, Stephen Boyd <sboyd@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Janne Grunau <j@jannau.net>,
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
- Srinivas Kandagatla <srini@kernel.org>, linux-kernel@vger.kernel.org,
- Viresh Kumar <viresh.kumar@linaro.org>, Neal Gompa <neal@gompa.dev>,
- linux-clk@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-i2c@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, =?UTF-8?Q?Martin_Povi=C5=A1er?=
- <povik+lin@cutebit.org>, Joerg Roedel <joro@8bytes.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Mark Brown <broonie@kernel.org>, iommu@lists.linux.dev,
- linux-input@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Andi Shyti <andi.shyti@kernel.org>, Will Deacon <will@kernel.org>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-11-0e6f9cb512c1@kernel.org>
- <2e022f4e-4c87-4da1-9d02-f7a3ae7c5798@arm.com>
- <d5a616f3-67a3-4504-904e-6cec503ab157@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <d5a616f3-67a3-4504-904e-6cec503ab157@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323328-584399545-1750764994=:943"
 
-On 2025-06-21 5:01 pm, Sven Peter wrote:
-> On 13.06.25 18:50, Robin Murphy wrote:
->> On 2025-06-12 10:11 pm, Sven Peter wrote:
->>> Enable drivers for hardware present on Apple Silicon machines.
->>> The power domain and interrupt driver should be built-it since these are
->>> critical for the system to boot, the rest can be build as modules.
->>
->> Nit: I'd be tempted to put this patch first, just in case anyone 
->> bisecting with "make defconfig" in their process lands in the middle 
->> and suddenly loses some drivers (although arguably them going from 
->> "=y" to "=m" could still be a surprise, but at least a bit less so).
-> 
-> Ah, that's a good point that I hadn't even thought about.
-> Now that most of these have already been merged into different trees 
-> that ship has sailed though.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Yeah, like I say it's only minor and rather contrived anyway. Not a big 
-worry.
+--8323328-584399545-1750764994=:943
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
->> [...]
->>> @@ -1504,6 +1520,7 @@ CONFIG_ARCH_TEGRA_194_SOC=y
->>>   CONFIG_ARCH_TEGRA_234_SOC=y
->>>   CONFIG_TI_PRUSS=m
->>>   CONFIG_OWL_PM_DOMAINS=y
->>> +CONFIG_APPLE_PMGR_PWRSTATE=y
->>
->> If this is critical for any Apple platform to work then it would 
->> probably make sense to explicitly select it from ARCH_APPLE, as is 
->> done for APPLE_AIC...
-> 
-> 
-> Documentation/kbuild/kconfig-language.rst:
-> 
->    select should be used with care. select will force a symbol to a value
->    without visiting the dependencies. By abusing select you are able to
->    select a symbol FOO even if FOO depends on BAR that is not set. In
->    general use select only for non-visible symbols (no prompts anywhere)
->    and for symbols with no dependencies. That will limit the usefulness
->    but on the other hand avoid the illegal configurations all over.
-> 
-> 
-> That's probably fine for APPLE_AIC which only depends on ARM64 (and 
-> ARCH_APPLE) which is guaranteed to be set when ARCH_APPLE is set anyway.
-> APPLE_PMGR_PWRSTATE also has an additional dependency on PM so it should 
-> probably remain in defconfig and not use select.
+On Wed, 18 Jun 2025, Thomas Zimmermann wrote:
 
-Sorry if the implication wasn't clear, but I did mean "select it" in the 
-sense of "select it and all of its necessary dependencies in a manner 
-that works correctly". The same argument applies all the way down - if a 
-!PM config will not be able to boot on ARCH_APPLE platforms due to 
-forcibly deselecting APPLE_PMGR_PWRSTATE, then there is little point in 
-permitting that combination. Which of course the user would already have 
-to disable at least ARCH_MXC, ARCH_ROCKCHIP, ARCH_TEGRA and 
-ARCH_VEXPRESS to achieve in the first place ;)
+> The backlight subsystem has gotten its own power constants. Replace
+> FB_BLANK_UNBLANK with BACKLIGHT_POWER_ON.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/platform/x86/dell/dell-uart-backlight.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/platform/x86/dell/dell-uart-backlight.c b/drivers/pl=
+atform/x86/dell/dell-uart-backlight.c
+> index 8f868f845350..f323a667dc2d 100644
+> --- a/drivers/platform/x86/dell/dell-uart-backlight.c
+> +++ b/drivers/platform/x86/dell/dell-uart-backlight.c
+> @@ -305,7 +305,7 @@ static int dell_uart_bl_serdev_probe(struct serdev_de=
+vice *serdev)
+>  =09dev_dbg(dev, "Firmware version: %.*s\n", resp[RESP_LEN] - 3, resp + R=
+ESP_DATA);
+> =20
+>  =09/* Initialize bl_power to a known value */
+> -=09ret =3D dell_uart_set_bl_power(dell_bl, FB_BLANK_UNBLANK);
+> +=09ret =3D dell_uart_set_bl_power(dell_bl, BACKLIGHT_POWER_ON);
+>  =09if (ret)
+>  =09=09return ret;
 
-Thanks,
-Robin.
+Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+
+--=20
+ i.
+
+--8323328-584399545-1750764994=:943--
