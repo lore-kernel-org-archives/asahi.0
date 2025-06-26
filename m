@@ -1,48 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79053074AF;
-	Wed, 25 Jun 2025 19:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214D121CA08;
+	Thu, 26 Jun 2025 23:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750881235; cv=none; b=YWEaiIiGqCCK4mX1Z6CE5w7kUDb6f3xPF4cj6cAffpdBD/xEhG+Y/IQZ/rKAi5JARbAOQjS0qIIbD3dUzBucJojJ2xq/XNTjEvfwjwuTdFJVN28Dyut3Wd6GJQhVyIlnv22ZzwT4S+W4uV04AUsPs+fjQ032CAHO82SsDLNidQA=
+	t=1750980443; cv=none; b=Ms8zEs/exNWPy4+bSA6PkVOUx2KtAIu5xOURweLi8uY81AlK4IRmTlGymJwBj5Doerw5i3fyU+E1HW8gnJ/Kqw2ii5p1setmZTpvneR7COzOSbuzXjtZ0l6u/x09X9XjnFbmxPpk25LvCxRsnql/jMqCFTjaOz4wnc7FZwcNKhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750881235; c=relaxed/simple;
-	bh=oJtgrg2aA4uaKMpl0XbF1os0gOTS7tT5N0iR2jpFqpo=;
+	s=arc-20240116; t=1750980443; c=relaxed/simple;
+	bh=rGd8vHm/pPWBrQU2pyGvRYmV2BAuKK2EJhchFvW1jhI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=toe02KH79gzvatF6B7zGDYwbXI4H3ZJRItzoj2W3hvY4Vg8uZuiNArPwgFLGHFMpFEInKcYw8tf45828P7oTf7dgqNjC4LDDYW5E66vt5/wyFbQKxF2bXUVTBrqY73CyiBOhFnAExuwQr+PXWEOl1wEZPdEwIE8gpT+zGvyiKEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=my12Yse9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=A59/THExVsr1gc2di1Fw5EfjPyFWdVxPfOPKz66zmHnFxX5HcGbU0c0krzcRwnjs6uW+P6ArNUS3M4f/QFUFRM/riP9/j07HqSrB82HMOL3MKUXm9IYypx4AH7D3Fyo93XHbs2teIcAn0J4wtAJW+6SjbpHCU2UdDyuWFJEnNdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g7jYLF0t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="my12Yse9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EC77C4CEEA;
-	Wed, 25 Jun 2025 19:53:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g7jYLF0t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C547C4CEEB;
+	Thu, 26 Jun 2025 23:27:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750881234;
-	bh=oJtgrg2aA4uaKMpl0XbF1os0gOTS7tT5N0iR2jpFqpo=;
+	s=k20201202; t=1750980442;
+	bh=rGd8vHm/pPWBrQU2pyGvRYmV2BAuKK2EJhchFvW1jhI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=my12Yse9ZQ25NYuivmGajU2Pw04oJr1rqieUW14Uj4uFYeERWhkJFrJiSmRjfNcqb
-	 Mkbs9ACh34pjCAUjM4zCmQHTQKIdOrmVWTTyuJYiJ9XDusGQqueyai1nioJRqFWa1U
-	 Sk84oYwOzyROLg3LdvwnA5lUWm2W/5sc5YPVT1BvvNjkiYhHMNfDbz6jkWlaH4bXDg
-	 fl4tDyPCJholtV7u2vo+Maf9sa3nnQyPa/+wVhiD89t9m0pDQclO8ThbhK74OXdXq0
-	 EReaLAixXVs6l7q/1bvrOmkrGx+6oqmp12A3LWOcIB9vrLLpNaDVgvdkAShAxbHNHC
-	 MWOrvJUyoauRQ==
-Date: Wed, 25 Jun 2025 14:53:53 -0500
+	b=g7jYLF0tw2pR7Hfsb/eeM3tS6+x9BiYkO1MmXkp5lMY3wDl7vxrlGP+jyGJGcxP4C
+	 /un5N8u6PQXyfXvbbkWd5hIVeyO6Ci3gIqzfKWetXWhMmQodR3EaWB9HfKQMlfIdwu
+	 fYurMq9P0VUgvlK2EPtT1gj9nkaSIeZ+rfuC/eXMbQGS1n7vs4BxkIO87xb95mPqNQ
+	 g9yKKW/csMUMnElCSTVr6z45DixTZ84TSgC9as+/BG7Ml6athlIiVlWg6bUDyFqQl0
+	 4s4wPtKxunL0/ZR9QIXCXgCjNEZ3MzZXi5BlUTaFcF3Jz+W2nhBuyAvpdJ9plcGF+q
+	 4QmfjxWg/hpDg==
+Date: Thu, 26 Jun 2025 18:27:21 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Sven Peter <sven@kernel.org>
-Cc: devicetree@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH 1/2] dt-bindings: nvmem: fixed-layout: Allow optional bit
- positions
-Message-ID: <175088123275.2111151.12116802075746070552.robh@kernel.org>
-References: <20250610-nvmem-bit-pattern-v1-0-55ed5c1b369c@kernel.org>
- <20250610-nvmem-bit-pattern-v1-1-55ed5c1b369c@kernel.org>
+	Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: gpu: Add Apple SoC GPU
+Message-ID: <175098044101.1398221.2403754383485344517.robh@kernel.org>
+References: <20250613-sgx-dt-v2-0-fb2b7d1c3ff7@gmail.com>
+ <20250613-sgx-dt-v2-1-fb2b7d1c3ff7@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -51,35 +52,17 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250610-nvmem-bit-pattern-v1-1-55ed5c1b369c@kernel.org>
+In-Reply-To: <20250613-sgx-dt-v2-1-fb2b7d1c3ff7@gmail.com>
 
 
-On Tue, 10 Jun 2025 17:17:34 +0000, Sven Peter wrote:
-> NVMEM nodes can optionally include the bits property to specify the bit
-> position of the cell within a byte.
-> Extend patternProperties to allow adding the bit offset to the node
-> address to be able to distinguish nodes with the same address but
-> different bit positions, e.g.
+On Fri, 13 Jun 2025 23:17:07 +0200, Sasha Finkelstein wrote:
+> Add bindings for the GPU present in Apple SoCs
 > 
->    trim@54,4 {
->         reg = <0x54 1>;
->         bits = <4 2>;
->     };
->     trim@54,0 {
->         reg = <0x54 1>;
->         bits = <0 4>;
->     };
-> 
-> Before the conversion to NVMEM layouts in commit bd912c991d2e
-> ("dt-bindings: nvmem: layouts: add fixed-layout") this extension was
-> originally added with commit 4b2545dd19ed ("dt-bindings: nvmem: Extend
-> patternProperties to optionally indicate bit position") to the now
-> deprecated layout.
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 > ---
->  Documentation/devicetree/bindings/nvmem/layouts/fixed-layout.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/devicetree/bindings/gpu/apple,agx.yaml | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                                          |  1 +
+>  2 files changed, 95 insertions(+)
 > 
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
