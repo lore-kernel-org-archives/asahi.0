@@ -1,49 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214D121CA08;
-	Thu, 26 Jun 2025 23:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CAC1218ABA;
+	Fri, 27 Jun 2025 06:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750980443; cv=none; b=Ms8zEs/exNWPy4+bSA6PkVOUx2KtAIu5xOURweLi8uY81AlK4IRmTlGymJwBj5Doerw5i3fyU+E1HW8gnJ/Kqw2ii5p1setmZTpvneR7COzOSbuzXjtZ0l6u/x09X9XjnFbmxPpk25LvCxRsnql/jMqCFTjaOz4wnc7FZwcNKhk=
+	t=1751007400; cv=none; b=KR75RSduUkpNsUJxobrImWMeJSxAeXsHXMnLRYu1QbNscjhRkSjDah2zeODrZINspJ1vSHMaAwqxnNtlRdV8uIcCfQGgYHD0JTbUGXrdOrRjt6lKcKXTQf1q0YFgDXuB/bC7kLWt+Oe+8XTW/iye2wpGVR0pl0zabvPllQRKz7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750980443; c=relaxed/simple;
-	bh=rGd8vHm/pPWBrQU2pyGvRYmV2BAuKK2EJhchFvW1jhI=;
+	s=arc-20240116; t=1751007400; c=relaxed/simple;
+	bh=8cyCUVLrNKS6tVu4VEKnS5rU8EEbVvMM4YBN4njzgJc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A59/THExVsr1gc2di1Fw5EfjPyFWdVxPfOPKz66zmHnFxX5HcGbU0c0krzcRwnjs6uW+P6ArNUS3M4f/QFUFRM/riP9/j07HqSrB82HMOL3MKUXm9IYypx4AH7D3Fyo93XHbs2teIcAn0J4wtAJW+6SjbpHCU2UdDyuWFJEnNdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g7jYLF0t; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OcZRh5mJwlr6jXbEsMoKvyjZTpZJEFLpuIa+HYUTnctvxw0zcuIHvyQ9nqL6LT2y2AxlHlwWSt6nxrQ1/Mr2o5rhBksNLT+vkk4XCsGmdeK2Hbw8dWtZ5tn6s4hSbrAcd+UwAonWAko3YttadjhH6Si8muhheksMvpLSJx2eiJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=XU+Ec1H6; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g7jYLF0t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C547C4CEEB;
-	Thu, 26 Jun 2025 23:27:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750980442;
-	bh=rGd8vHm/pPWBrQU2pyGvRYmV2BAuKK2EJhchFvW1jhI=;
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="XU+Ec1H6"
+Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id B2DBE4D686;
+	Fri, 27 Jun 2025 08:56:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1751007397;
+	bh=8cyCUVLrNKS6tVu4VEKnS5rU8EEbVvMM4YBN4njzgJc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g7jYLF0tw2pR7Hfsb/eeM3tS6+x9BiYkO1MmXkp5lMY3wDl7vxrlGP+jyGJGcxP4C
-	 /un5N8u6PQXyfXvbbkWd5hIVeyO6Ci3gIqzfKWetXWhMmQodR3EaWB9HfKQMlfIdwu
-	 fYurMq9P0VUgvlK2EPtT1gj9nkaSIeZ+rfuC/eXMbQGS1n7vs4BxkIO87xb95mPqNQ
-	 g9yKKW/csMUMnElCSTVr6z45DixTZ84TSgC9as+/BG7Ml6athlIiVlWg6bUDyFqQl0
-	 4s4wPtKxunL0/ZR9QIXCXgCjNEZ3MzZXi5BlUTaFcF3Jz+W2nhBuyAvpdJ9plcGF+q
-	 4QmfjxWg/hpDg==
-Date: Thu, 26 Jun 2025 18:27:21 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+	b=XU+Ec1H6zYbpoJnBguJ7GDr9FEN9rGsre0pu8KqaKGy81Z4kSMmAWmsLnuh8C6DXX
+	 NNDbZaaw/8hi+SEmWsp5x3pevvQorZ/gnxPIioOfE8HvHGxwz1755SXHcf4LYAXtZ2
+	 4mCpj7FQzDFz6VXNwUJwKVqKYmzDv8PJ9OZQsqYZo+D5KCzC+3KXRAYaDgs30cvzbf
+	 b9rnpd2DjGQE4e7TFeqIpB49EWs2qUxIo370ZNhi4u0ii2sX+By78Bt9A5CzII9ZQu
+	 qAYA7JvY8BJ+VxyGicYP9L2BwXzRfRdSbcDYET1GuYoeHH7ug+hgwd2x2yUSyjfWiH
+	 g0r0oGD4DIalg==
+Date: Fri, 27 Jun 2025 08:56:35 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: gpu: Add Apple SoC GPU
-Message-ID: <175098044101.1398221.2403754383485344517.robh@kernel.org>
-References: <20250613-sgx-dt-v2-0-fb2b7d1c3ff7@gmail.com>
- <20250613-sgx-dt-v2-1-fb2b7d1c3ff7@gmail.com>
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev,
+	Janne Grunau <j@jannau.net>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Neal Gompa <neal@gompa.dev>, Orson Zhai <orsonzhai@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Holland <samuel@sholland.org>, Sven Peter <sven@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, virtualization@lists.linux.dev,
+	Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Kevin Tian <kevin.tian@intel.com>, patches@lists.linux.dev,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Tomasz Jeznach <tjeznach@rivosinc.com>
+Subject: Re: [PATCH v2 0/7] Remove ops.pgsize_bitmap
+Message-ID: <aF5Ao_yAbTGCPh3u@8bytes.org>
+References: <0-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -52,18 +81,15 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250613-sgx-dt-v2-1-fb2b7d1c3ff7@gmail.com>
+In-Reply-To: <0-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
 
+> Jason Gunthorpe (7):
+>   qiommu/arm-smmu-v3: Remove iommu_ops pgsize_bitmap
+>   iommu/arm-smmu: Remove iommu_ops pgsize_bitmap
+>   iommu: Remove ops.pgsize_bitmap from drivers that don't use it
+>   iommu: Remove iommu_ops pgsize_bitmap from simple drivers
+>   iommu/mtk: Remove iommu_ops pgsize_bitmap
+>   iommu/qcom: Remove iommu_ops pgsize_bitmap
+>   iommu: Remove ops->pgsize_bitmap
 
-On Fri, 13 Jun 2025 23:17:07 +0200, Sasha Finkelstein wrote:
-> Add bindings for the GPU present in Apple SoCs
-> 
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  Documentation/devicetree/bindings/gpu/apple,agx.yaml | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                                          |  1 +
->  2 files changed, 95 insertions(+)
-> 
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
+Applied, thanks Jason.
