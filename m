@@ -1,55 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AB1298CB1;
-	Fri, 27 Jun 2025 10:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFB041A8F;
+	Fri, 27 Jun 2025 10:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751021376; cv=none; b=R6NWo0LtJW4Esp5aegnmQXlG6pBEzOif+2xDDHPLIs+U39RnNGe6z2EhgLObp2HrJhBTpaxz/2D5fkUpKvW75NFxjn7WYqFTXSrgbjPNbFwH0HB7KYo0PX0Dm6jcQFyFhJiYxE0OXp4nUitj/dQBKH/R7BLPCj/iXRrFQ0P2FSE=
+	t=1751021612; cv=none; b=kmzlFnUZC8xfGoH3PRiI+ieXFqGPpllxw3cWpEfTDrm6mf4EG6d2X2icEniA3V8BVuye/ECZPiD2aYmSE4b607Xy8XgWX7e0xh+xOt0DiS/ozZe+wwkDFdHFkUxsy8qq/S0y1T/Xa5bzkb2BuKkRH5l31ZMLqIabfscWAXnpKgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751021376; c=relaxed/simple;
-	bh=OrBU5eBwBcoKQHllVdPOQ7ABzGCI1+juFwHu/MwINgI=;
+	s=arc-20240116; t=1751021612; c=relaxed/simple;
+	bh=VCjbvRdf6XSyodZZQyEnO3752BxeuOjhcMPqXymOMWU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BlJqKqHb6QdLMTvpsluWF0H4u3L95Qld6Js6MMdfEfg/dtw0M8DyrTaVfeH3p3xcF6DLJQNjEsSIv2OtHsIKOuKE5RERKIM+K5X27jp0Yve6k/JDcf4fHmoqDOa8OO8nl7IsfAgr7t1m5fO3x5q+wjfmURUsx5rciYn6IWcDNTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjT5UI7V; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=iXXxUTEj+Fnbd83LOpiFzeXh1G4fNWQBAs8IxwAjs5OJgenMkziknZuK6+uaKEaG0C9Er6eloLavYs/WZlliCVwr07ezu+RIzb2bTkW4BsPtmbIJqSHDXMYqkzPGV1lQFqOB1B1OYoiCEmcu+mpj+OLdUyIs7x3BP82GTsIQ3GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kwzJ9fZi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjT5UI7V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E951C4CEE3;
-	Fri, 27 Jun 2025 10:49:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwzJ9fZi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36CC2C4CEE3;
+	Fri, 27 Jun 2025 10:53:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751021375;
-	bh=OrBU5eBwBcoKQHllVdPOQ7ABzGCI1+juFwHu/MwINgI=;
+	s=k20201202; t=1751021611;
+	bh=VCjbvRdf6XSyodZZQyEnO3752BxeuOjhcMPqXymOMWU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jjT5UI7V0MN8cv7Kxou/19uR4bMLbukpmBDE6+Hvnj7C6DXS6KP8eb87VWD61mA/Y
-	 uF5D5Ct5K/Z/Mrf7cosGn/ZaRH55vKh9pgV0l27CFC1BjAimugSNJsYHaP6HKn38mj
-	 HcNcKd0L98nVNcQZyc43Vbx/6LTEUKSGNFfmkWyI3vay2c7yWc3aLakfmJD35TcU2H
-	 g5ZxBVSZ6JvEKZyRuGYVVLMhPvjBDALsYaTGrxu0d478gSF10PT/3nwtqyQQTzEOYl
-	 ieUPrTo4t1AujfFjdwRMS/egGfRxIozKJ30XKuvFCpr4zie36/nJDbhthJ8GcD5eN7
-	 3RnEyk3A+6UBA==
+	b=kwzJ9fZiZW0Z7dWIRbocLMuMAmCxPeBuzff8/2znikaRc1brjLdOwsYYf2XesGt1d
+	 duvcWDO8WMkc4zpbViTfwO/sg3qDNiOdTBOn1GFuvls0iP8rAu1Mz0RkaFkXx0Vvb2
+	 ge/2qRgFkb66/3uv4nwbwV9pDqZl0lakEs8KP0lQsAJEww0LVJ+vSNSC09pg4O1VXT
+	 cE/0Z6NocHUxvdPi8s1MfCCau6V+qftv/mVkKVCekNLTzR3ypRxUJPqSbOZBmTAxSK
+	 zVIFkX6ZroP0LjIUo88wDbNQDZtNeOdfBcGR3K1kpUmXP6qWIdIZDT2mT98EDZ8eKe
+	 FQ7MnywY0WvcQ==
 From: Srinivas Kandagatla <srini@kernel.org>
-To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Arnd Bergmann <arnd@arndb.de>, Sven Peter <sven@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev, 
- linux-input@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
-Subject: Re: (subset) [PATCH 00/11] Drop default ARCH_APPLE from Kconfig
- and use defconfig instead
-Message-Id: <175102136780.6245.11489454367138517610.b4-ty@kernel.org>
-Date: Fri, 27 Jun 2025 11:49:27 +0100
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20250610-nvmem-bit-pattern-v1-0-55ed5c1b369c@kernel.org>
+References: <20250610-nvmem-bit-pattern-v1-0-55ed5c1b369c@kernel.org>
+Subject: Re: (subset) [PATCH 0/2] Extend nvmem patternProperties and then
+ fix W=1 warnings in Apple dts
+Message-Id: <175102160789.6398.6252477701848323795.b4-ty@kernel.org>
+Date: Fri, 27 Jun 2025 11:53:27 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -61,23 +51,21 @@ Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
 
-On Thu, 12 Jun 2025 21:11:24 +0000, Sven Peter wrote:
-> When support for Apple Silicon was originally upstreamed we somehow
-> started using `default ARCH_APPLE` for most drivers. arm64 defconfig
-> also contains ARCH_APPLE=y such that this will turn into `default y`
-> there by default which is neither what we want nor how this is usually
-> done.
-> Let's fix all that by dropping the default everywhere and adding the
-> drivers to defconfig as modules instead of built-ins.
-> None of these patches depend on each other so we can just take them all
-> independently through the respective subsystem trees.
+On Tue, 10 Jun 2025 17:17:33 +0000, Sven Peter wrote:
+> This brief series fixes a W=1 warning recently introduced with the Apple
+> Silicon PMIC NVMEM nodes. We have cells that are the same bytes but a
+> different bit offset and these currently result in the same node name.
+> The legcy layout already allows to specify the bit offset in the name as
+> a suffix but this isn't possible in the new fixed-layout.
+> Thus first adjust the fixed-layout cell patternProperties to the same pattern
+> as the legacy one and then fix the node names in our device tree files.
 > 
 > [...]
 
 Applied, thanks!
 
-[04/11] nvmem: apple: drop default ARCH_APPLE in Kconfig
-        commit: e426953c193a2b51c8adcd3922fb8eef15790219
+[1/2] dt-bindings: nvmem: fixed-layout: Allow optional bit positions
+      commit: 6aa656ce94693c8712c004045375e2221b157659
 
 Best regards,
 -- 
