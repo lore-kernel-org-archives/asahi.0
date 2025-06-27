@@ -1,63 +1,64 @@
 Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84E2121ABBD;
-	Fri, 27 Jun 2025 07:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73B312A8D0;
+	Fri, 27 Jun 2025 08:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751007611; cv=none; b=uOSV/2BnbiZKjswA6lRMzidA5JLpk5qSzhTly+W4Qp1vrk3eGWy9pe17jrUX6I3JOesdkcNJxO1cYpBCc3GkRlTWbJseZsmX7pjY0SyeSqq5RICvjF+EhUg51TssQlwelwbFIf9tQ22Z4JenrfgYWUOcGtI08Ov6m0JsOc+GIbc=
+	t=1751012913; cv=none; b=jvJcpJEUMSu4Bta0txEUuYKCETGtrA1b6D/AvZNYEbakFMOhRewlrzn78MEdaO/zNy+6vGp7kjlMo3BJYi1PDgWZXO/6n5yyg848J05DVtswCD22OvtI9kCB+0DdGtclSF2GmirOg0kTyo7LRo29qYhvFDQ18JqP7rriX7FtmtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751007611; c=relaxed/simple;
-	bh=bDYAcTGKsVDb6IWccLRj1xVKwNT7RPiW70T7zFFjHYA=;
+	s=arc-20240116; t=1751012913; c=relaxed/simple;
+	bh=spP82C2j5HjhFI0G1+bra4EcZ2gIWe3Xap3JvO6Y+tY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=THgSGpctvL6ukRo3I4O+gjd2IqYz5/c6rw7GmaTcY71vp7SbVr38ZYSU252G+wuvyKmzMt2255qbZ+XprKF/hknnxGjBF1gCpeYtbftuIVNxHCM0HEeg8rwPfeX5WMour8999utUEWkiVJu0Oab4uKXeXkPKI8tAGALWlSwQGgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=Stm5HhYk; arc=none smtp.client-ip=85.214.250.239
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ugvhp0FkpKRopHS8nBH1OvaoeHUn2om7q/7taQTFpNBSkRZr3qTQdcCI1HuBNI/n4c7uDpqixOoPdwl/bq7B0ZVnoWZhgJ7WnpxOBApgxmYvb1/xyMSqoSFbGTO/+2CSOly0Os6h0bcE+zSXg6jUjGxryfKddMaSbOpwB7ZOyL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=ruBmO6pE; arc=none smtp.client-ip=85.214.250.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="Stm5HhYk"
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="ruBmO6pE"
 Received: from 8bytes.org (p4ffe03ae.dip0.t-ipconnect.de [79.254.3.174])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 382824EF92;
-	Fri, 27 Jun 2025 09:00:08 +0200 (CEST)
+	by mail.8bytes.org (Postfix) with ESMTPSA id AFEEC4CD24;
+	Fri, 27 Jun 2025 10:28:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1751007608;
-	bh=bDYAcTGKsVDb6IWccLRj1xVKwNT7RPiW70T7zFFjHYA=;
+	s=default; t=1751012910;
+	bh=spP82C2j5HjhFI0G1+bra4EcZ2gIWe3Xap3JvO6Y+tY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Stm5HhYkUu3h6SLUQiusZ3SjfNQAz1CfbfJUUJZ2Oj0lu3dfUOi42iU3ElQW57su2
-	 SQnGE9nJsxg4OuuM0Tj1trCZ7J23KRbeipebbfLsdGQcHeV00lmUvs1eOuDCz0ff5X
-	 yKXJZkDuxx7+I9hJOBlDlaKVR6EH5WAAch7bvuTLJIcWWICusFh48YSqOFLgjtqy0k
-	 tmPO3UDurTb0UUOpN+m7w1TfNJvAA1zT4y9A8qeICYGzybB9nlSGMsnZ3W6xMWljwf
-	 dfyt3ELUTaiTvKOH1p8OzjzVvV2FLT3pnKhhgYmcEWBE4JczYMRuX/7GETCdX+PZ7E
-	 0vW4syJXZl9yg==
-Date: Fri, 27 Jun 2025 09:00:07 +0200
+	b=ruBmO6pEKxHw+iozycJ13LII2JRcnlvNJbdkcSPtOvF+7GcYHHzQ8rIwQsDyGYdm4
+	 WJoGBf2xPamc7hgsjAF1E+f1v20tTwnCyok8JG8vLlQJJLSj4ROIDyejWb6Q5Gu157
+	 blQjCKlEmYkU5eFyu3Zr/8IYwouNWYpdl74bpyomnipeY0J6lDTGjOrT9p1pBhlPec
+	 eKZkDo2TECJdKfSKqfRMI8vxpVjNmEzyMlfWU2TLjQ/XuPehgEnYJHJNJtMEbqyKdH
+	 tQmL3gD1g1KD8+Sfs25b06SXqogj0/2g+e263Fp0JteVfDPr+VYn/CLyNUsnc+j+we
+	 MqcTPrBaNcFRg==
+Date: Fri, 27 Jun 2025 10:28:28 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-input@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 07/11] iommu/apple-dart: Drop default ARCH_APPLE in
- Kconfig
-Message-ID: <aF5Bdx-vmQeufdpk@8bytes.org>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-7-0e6f9cb512c1@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, David Woodhouse <dwmw2@infradead.org>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Stuebner <heiko@sntech.de>, iommu@lists.linux.dev, 
+	Janne Grunau <j@jannau.net>, Jean-Philippe Brucker <jean-philippe@linaro.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Matthew Rosato <mjrosato@linux.ibm.com>, Neal Gompa <neal@gompa.dev>, Orson Zhai <orsonzhai@gmail.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Samuel Holland <samuel@sholland.org>, Sven Peter <sven@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>, 
+	virtualization@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>, Will Deacon <will@kernel.org>, 
+	Yong Wu <yong.wu@mediatek.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Lu Baolu <baolu.lu@linux.intel.com>, Kevin Tian <kevin.tian@intel.com>, patches@lists.linux.dev, 
+	Niklas Schnelle <schnelle@linux.ibm.com>, Sven Peter <sven@svenpeter.dev>, 
+	Tomasz Jeznach <tjeznach@rivosinc.com>
+Subject: Re: [PATCH v2 7/7] iommu: Remove ops->pgsize_bitmap
+Message-ID: <r55jzziwjtb37qufil4zgj22zqbmu7gpjs7gciib66ix564baz@juuhk6bqoj2j>
+References: <0-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
+ <7-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -66,10 +67,17 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-7-0e6f9cb512c1@kernel.org>
+In-Reply-To: <7-v2-68a2e1ba507c+1fb-iommu_rm_ops_pgsize_jgg@nvidia.com>
 
-On Thu, Jun 12, 2025 at 09:11:31PM +0000, Sven Peter wrote:
->  drivers/iommu/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
+Hi Jason,
 
-Applied, thanks Sven.
+On Mon, Jun 09, 2025 at 05:41:31PM -0300, Jason Gunthorpe wrote:
+> No driver uses it now, remove the core code.
+
+That is actually not true, the MSM driver still uses it, and this patch breaks
+my arm32 compile tests. Please send a fix for this driver so that I can put it
+on-top.
+
+Regards,
+
+	Joerg
