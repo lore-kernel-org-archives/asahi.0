@@ -1,51 +1,66 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C888F28B7DB
-	for <asahi@lists.linux.dev>; Thu,  3 Jul 2025 17:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5E12F7CFB
+	for <asahi@lists.linux.dev>; Fri,  4 Jul 2025 07:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751563127; cv=none; b=rP6Kmwt/n6e0uxwvfRYzAqn+4K6fHFbeWvdbrNNJF9+chkZTyhnyvE4wilAtNpNsNOQbzK9B7Ar/CoRCNeLWo9JHWYsu7OdFcSfieA9D7uWrmmGFcRUQBVb8fZNIRiVhMm3S+SA05aCAXJ7j9gvFJxnaeoWeIozBnM1r53c41BE=
+	t=1751615715; cv=none; b=Ok2Kt3bbEvN3HKf4G28Y4gh5Yvg/P+aSZq4EzWB1fHxmjpSenQB3ql9BEUsd68CEOQaF7yNcLFsxPe5NZKkl1pmhn6EybykpUqavWKxNNltm1VYupFQmnyZH24lJl5asmvhUmZ/nvR25bDElQPLmbZq5eJ0GuWkYr3RyGhWOW0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751563127; c=relaxed/simple;
-	bh=J99JaJ4floWwfZaj+zZ6sO0yTygkK0zGjhShgkmfZFQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kirdJ75NZ4tAQQKSTgw4se2ywFTvR5a4K93KhoVLIm1uHuQ2emhTJCVRuv20DIZO9JPXlK8VdqhAMfjtr6AnwdVpu7r4U8oOQe0R/qyej6kHmyh+WRYpR/+chnLKY1kCsVM38pL7ZKyDQ0870BFcNMnIqHRaOeuyciUmMpsvi6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DD0E6442C9;
-	Thu,  3 Jul 2025 17:18:41 +0000 (UTC)
-From: Bastien Nocera <hadess@hadess.net>
-To: trivial@kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sven Peter <sven@kernel.org>,
+	s=arc-20240116; t=1751615715; c=relaxed/simple;
+	bh=EoYEpuIhjevRLmOMCR7f7TcajIGyH0zpZLQ+nin4C+I=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=IVnedX/KhxbDNI/csfoFAk+CpZgFnTr8IHoj3XbUTBoPjiJmZ4gbzelj8RawvbI+7S01YooHHvSx3k4lWfjfvsvnKP1l6e+lXu0tniwxsVhzlu9urkiER0lFjXUcxnjNvqmi/3oQcVJjKY5bIICxFhdFMn4DEBsycVIeh8MNczU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6DCiAmL; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6DCiAmL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751615713; x=1783151713;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=EoYEpuIhjevRLmOMCR7f7TcajIGyH0zpZLQ+nin4C+I=;
+  b=D6DCiAmLzgK7Fxui/8RnsC0NAWRPOADNyTIKMht1op6EkDrCs6gNwSuL
+   bWBPRQ3CPCss9VoC8VqfDd5tKYJ9BTmAeeZ2cICVnE3sVNtYa6cvcQVPU
+   uKrGNcRAnClHxTIy1AfEr5hhzCW1fjIrGsB/rP4nU1G9FHBkI66y1EOrn
+   At5QTc+i6JxJXMuZaw+U81bFKiezm1VH+FE/6QenTsCVFchJl26+i2zEM
+   giDg3aD7hicWuI+ohI6IOPGBV9JQ8cbDCjDhDbBr96TilsPMHO/+R7vru
+   +Ocj8Y87/4NclVnZGSl4ZZYS/KmiCEI0M0lTILH+1QCzI6mF4NPjt9JtF
+   A==;
+X-CSE-ConnectionGUID: jTSZU8fRQjevGHsAwT8LZQ==
+X-CSE-MsgGUID: /gx/JvagRnKSAuCCofvhUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194386"
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="64194386"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:55:05 -0700
+X-CSE-ConnectionGUID: vgQ8PaqkSnqJO8aISIvvhg==
+X-CSE-MsgGUID: vTwceVOmQzGj0D8RXANUPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="158616716"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:55:03 -0700
+Received: from svinhufvud.lan (localhost [IPv6:::1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id EDE1344BAC;
+	Fri,  4 Jul 2025 10:55:00 +0300 (EEST)
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Sven Peter <sven@kernel.org>,
 	Janne Grunau <j@jannau.net>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bastien Nocera <hadess@hadess.net>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Kees Cook <kees@kernel.org>,
-	Erick Archer <erick.archer@outlook.com>,
-	Chris Lu <chris.lu@mediatek.com>,
-	linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
+	Neal Gompa <neal@gompa.dev>
+Cc: asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	asahi@lists.linux.dev
-Subject: [PATCH v2 7/7] Bluetooth: Fix typos in comments
-Date: Thu,  3 Jul 2025 19:17:01 +0200
-Message-ID: <20250703171815.1011001-8-hadess@hadess.net>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250703171815.1011001-1-hadess@hadess.net>
-References: <20250703171815.1011001-1-hadess@hadess.net>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 76/80] soc: apple: mailbox: Remove redundant pm_runtime_mark_last_busy() calls
+Date: Fri,  4 Jul 2025 10:55:00 +0300
+Message-Id: <20250704075500.3223019-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -53,97 +68,39 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvtdekiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeeurghsthhivghnucfpohgtvghrrgcuoehhrgguvghssheshhgruggvshhsrdhnvghtqeenucggtffrrghtthgvrhhnpeekteetgeettdehieduiedttdetffelleehtdejkeeluedvgfffvdevteetudfhkeenucfkphepvdgrtddumegvfeegmegvtgejfeemtghfvddtmeejudgurgemfegsugemvddtrgelmedufeefnecuvehluhhsthgvrhfuihiivgepieenucfrrghrrghmpehinhgvthepvdgrtddumegvfeegmegvtgejfeemtghfvddtmeejudgurgemfegsugemvddtrgelmedufeefpdhhvghlohepohhlihhmphhitgdpmhgrihhlfhhrohhmpehhrgguvghssheshhgruggvshhsrdhnvghtpdhnsggprhgtphhtthhopedvfedprhgtphhtthhopehtrhhivhhirghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrghrtggvlheshhholhhtmhgrnhhnrdhorhhgpdhrtghpthhtoheplhhuihiirdguvghnthiisehgmhgrihhlrdgtohhmpdhrtghpthhtohepshgvrghnrdifrghnghesmhgvughirghtvghkrdgtohhmpdhrtghpthhtohepmhgrthhth
- hhirghsrdgsghhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnghgvlhhoghhiohgrtggthhhinhhordguvghlrhgvghhnohestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvght
-X-GND-Sasl: hadess@hadess.net
 
-Found by codespell.
+pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+pm_runtime_mark_last_busy().
 
-Signed-off-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- net/bluetooth/hci_conn.c  | 2 +-
- net/bluetooth/hci_event.c | 4 ++--
- net/bluetooth/hci_sync.c  | 2 +-
- net/bluetooth/lib.c       | 2 +-
- net/bluetooth/smp.c       | 2 +-
- 5 files changed, 6 insertions(+), 6 deletions(-)
+The cover letter of the set can be found here
+<URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
 
-diff --git a/net/bluetooth/hci_conn.c b/net/bluetooth/hci_conn.c
-index 4f379184df5b..cb360adbb6ec 100644
---- a/net/bluetooth/hci_conn.c
-+++ b/net/bluetooth/hci_conn.c
-@@ -814,7 +814,7 @@ static int hci_le_big_terminate(struct hci_dev *hdev, u8 big, struct hci_conn *c
-  *
-  * Detects if there any BIS left connected in a BIG
-  * broadcaster: Remove advertising instance and terminate BIG.
-- * broadcaster receiver: Teminate BIG sync and terminate PA sync.
-+ * broadcaster receiver: Terminate BIG sync and terminate PA sync.
-  */
- static void bis_cleanup(struct hci_conn *conn)
- {
-diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-index 66052d6aaa1d..a546cb058e8e 100644
---- a/net/bluetooth/hci_event.c
-+++ b/net/bluetooth/hci_event.c
-@@ -5754,7 +5754,7 @@ static void le_conn_complete_evt(struct hci_dev *hdev, u8 status,
- 	conn->state = BT_CONFIG;
+In brief, this patch depends on PM runtime patches adding marking the last
+busy timestamp in autosuspend related functions. The patches are here, on
+rc2:
+
+        git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+                pm-runtime-6.17-rc1
+
+ drivers/soc/apple/mailbox.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/soc/apple/mailbox.c b/drivers/soc/apple/mailbox.c
+index 49a0955e82d6..b56600229a7d 100644
+--- a/drivers/soc/apple/mailbox.c
++++ b/drivers/soc/apple/mailbox.c
+@@ -275,7 +275,6 @@ void apple_mbox_stop(struct apple_mbox *mbox)
  
- 	/* Store current advertising instance as connection advertising instance
--	 * when sotfware rotation is in use so it can be re-enabled when
-+	 * when software rotation is in use so it can be re-enabled when
- 	 * disconnected.
- 	 */
- 	if (!ext_adv_capable(hdev))
-@@ -7077,7 +7077,7 @@ static void hci_le_big_info_adv_report_evt(struct hci_dev *hdev, void *data,
- /* Entries in this table shall have their position according to the subevent
-  * opcode they handle so the use of the macros above is recommend since it does
-  * attempt to initialize at its proper index using Designated Initializers that
-- * way events without a callback function can be ommited.
-+ * way events without a callback function can be omitted.
-  */
- static const struct hci_le_ev {
- 	void (*func)(struct hci_dev *hdev, void *data, struct sk_buff *skb);
-diff --git a/net/bluetooth/hci_sync.c b/net/bluetooth/hci_sync.c
-index 6687f2a4d1eb..febad7922008 100644
---- a/net/bluetooth/hci_sync.c
-+++ b/net/bluetooth/hci_sync.c
-@@ -5633,7 +5633,7 @@ int hci_abort_conn_sync(struct hci_dev *hdev, struct hci_conn *conn, u8 reason)
- 	}
- 
- 	/* Cleanup hci_conn object if it cannot be cancelled as it
--	 * likelly means the controller and host stack are out of sync
-+	 * likely means the controller and host stack are out of sync
- 	 * or in case of LE it was still scanning so it can be cleanup
- 	 * safely.
- 	 */
-diff --git a/net/bluetooth/lib.c b/net/bluetooth/lib.c
-index 43aa01fd07b9..305044a84478 100644
---- a/net/bluetooth/lib.c
-+++ b/net/bluetooth/lib.c
-@@ -54,7 +54,7 @@ EXPORT_SYMBOL(baswap);
-  * bt_to_errno() - Bluetooth error codes to standard errno
-  * @code: Bluetooth error code to be converted
-  *
-- * This function takes a Bluetooth error code as input and convets
-+ * This function takes a Bluetooth error code as input and converts
-  * it to an equivalent Unix/standard errno value.
-  *
-  * Return:
-diff --git a/net/bluetooth/smp.c b/net/bluetooth/smp.c
-index 47f359f24d1f..5b4ade03bdcc 100644
---- a/net/bluetooth/smp.c
-+++ b/net/bluetooth/smp.c
-@@ -3172,7 +3172,7 @@ static void smp_ready_cb(struct l2cap_chan *chan)
- 	/* No need to call l2cap_chan_hold() here since we already own
- 	 * the reference taken in smp_new_conn_cb(). This is just the
- 	 * first time that we tie it to a specific pointer. The code in
--	 * l2cap_core.c ensures that there's no risk this function wont
-+	 * l2cap_core.c ensures that there's no risk this function won't
- 	 * get called if smp_new_conn_cb was previously called.
- 	 */
- 	conn->smp = chan;
+ 	mbox->active = false;
+ 	disable_irq(mbox->irq_recv_not_empty);
+-	pm_runtime_mark_last_busy(mbox->dev);
+ 	pm_runtime_put_autosuspend(mbox->dev);
+ }
+ EXPORT_SYMBOL(apple_mbox_stop);
 -- 
-2.50.0
+2.39.5
 
