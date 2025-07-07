@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93004262FF8;
-	Mon,  7 Jul 2025 18:41:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FED9265CCB;
+	Mon,  7 Jul 2025 18:44:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751913718; cv=none; b=Y/zlLl4T13uM7YO27bMnb/adTZQeo8KOYzghHd/XM9qEeraLxkmEmp0EgBsGZoLWaq26mKG428rWqWQQg52AuclZD8HmzlrVIkW7lRgAdGbjV6PF7rmpiI1UhOR85DkMtJgJq+kNyVsuQkMWpr+jZGJjlfoGyXCsEx28xZJ0/lM=
+	t=1751913896; cv=none; b=Af0yXZ1NYpKTE58SMPTBaoXA0dqeCGWxgatuzUhY83WJEU5F4Q1Tm2skoa2rVzjgta9/JoaOET+ci1R4QU9nQQeF3gNHZ0gJmereELKbc5JDFsQpczCwnpWWBMMCU96IqJSuMyGSUuD2aAon4bh8CIQ9UetbMPLZotDKeCwqQcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751913718; c=relaxed/simple;
-	bh=VyGs5PKx52yoiBVtgnovPQ07XxMfBUWsD+MHEUA48vU=;
+	s=arc-20240116; t=1751913896; c=relaxed/simple;
+	bh=IEs4sSynAoScWDVRSCa0ozaZpBNNh2MVii6T5gbzRTk=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=B765s+abcZ91zUvEbjUsCcb4PkNhvbJi7abdIcQ5ExTtCMeQrEtkoBah79nl0dkxiHqC1A4/zqWAzA7Vw4EQ5FRFSyt9V9osYh/4j54ia0ORotG1/C2HYree4+MHp8w7tMDHdFdquIhSLfBxu7O5zzwi27Evo1iKlRd9MEUElBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C6REVKvt; arc=none smtp.client-ip=10.30.226.201
+	 References:In-Reply-To; b=QG6zyKHVA8fdd2amrSx9EQ8ymntxm+yNlfsc7YwUbfbCF5Xbc/LZcFw6crl3wLhF/e2YzKzxH7wOlSkF+EejTmAZe+6qbomwwnVZSwpCgQiqPorul9/V8+gAbd+cFcdUwc0ABBb/2WHXRttKZRnMTuSZzww4PLL89iLRycAq5f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfNPh7c9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C6REVKvt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11E0CC4CEE3;
-	Mon,  7 Jul 2025 18:41:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfNPh7c9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAC67C4CEF8;
+	Mon,  7 Jul 2025 18:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751913718;
-	bh=VyGs5PKx52yoiBVtgnovPQ07XxMfBUWsD+MHEUA48vU=;
+	s=k20201202; t=1751913895;
+	bh=IEs4sSynAoScWDVRSCa0ozaZpBNNh2MVii6T5gbzRTk=;
 	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=C6REVKvtCYc7MWdRfIeluPdb/GOwgKpsiMcDFbZDmLAfD860z8iRtTy814Z/iAGPc
-	 DLaJmNcZnktYDXI4S2ZKzUP/knaF8HvyRehoxUGBeSlgDFG1C89JsQJcfCrNwERkUu
-	 4iwSWfm8m8ar7jE7B0MJXuaHrnD7GqDb1sxTMKkOHxSKTrcHZuiNfSJYoxx2+xIwA0
-	 8thR3svEA84jQ09mrNDGbuHpbyfSx3rSrNf2yRuCbyGvHxXE3Yph58CdARkEsjCdm2
-	 HO8paJBrX5C/4gEsO8Pp6vaEomFb46lPi54TBQR7VF1Mr3vwuRwGMD9CQQhueyle6b
-	 uo6THNVeB8Gxw==
+	b=cfNPh7c9YgEHCn2RNd3HvFOYnaxMXXqwoTkbnAJn2FrL5v4RnpLcP8Itb6ghE2DE5
+	 57lZEWlCnDngTsy4sM97ghVKBgcRKosVRrAg60UE5KQ0iZfzg2GENU7/bRYicgOQV3
+	 SCJFHJY+qYyRmO6xKJPxLBLZTxnxucTEVPCsb2BwtDPOBPz8TeydcRAjWdMtk8rQLr
+	 QWzSqoSvNMSdymEiEuei7PJtUTcuL3M9VReqmrQs+ZHmYM2xhNLB5DmLY2hyEopvWQ
+	 A+ox+XQqcJK5xp/91eTFzcIr9hEA0ml0TvMrY1T8tKlWVOtvkDD67Jh4AVm8Bvf8PO
+	 zvEliEp+cqPew==
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -34,9 +34,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 07 Jul 2025 20:41:52 +0200
-Message-Id: <DB61KWU2AA5I.1UJPI77S2BSFL@kernel.org>
-Subject: Re: [PATCH v4 2/7] drm/gpuvm: Kill drm_gpuva_init()
+Date: Mon, 07 Jul 2025 20:44:49 +0200
+Message-Id: <DB61N61AKIJ3.FG7GUJBG386P@kernel.org>
+Subject: Re: [PATCH v4 3/7] drm/gpuvm: Pass map arguments through a struct
 Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
  <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
  Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Frank
@@ -53,17 +53,44 @@ Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
 To: "Caterina Shablia" <caterina.shablia@collabora.com>
 From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
- <20250707170442.1437009-3-caterina.shablia@collabora.com>
-In-Reply-To: <20250707170442.1437009-3-caterina.shablia@collabora.com>
+ <20250707170442.1437009-4-caterina.shablia@collabora.com>
+In-Reply-To: <20250707170442.1437009-4-caterina.shablia@collabora.com>
 
 On Mon Jul 7, 2025 at 7:04 PM CEST, Caterina Shablia wrote:
-> From: Boris Brezillon <boris.brezillon@collabora.com>
->
-> drm_gpuva_init() only has one internal user, and given we are about to
-> add new optional fields, it only add maintenance burden for no real
-> benefit, so let's kill the thing now.
->
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
+> +/**
+> + * struct drm_gpuvm_map_req - arguments passed to drm_gpuvm_sm_map[_ops_=
+create]()
+> + */
+> +struct drm_gpuvm_map_req {
+> +	/** @va: virtual address related fields */
+> +	struct {
+> +		/** @va.addr: start of the virtual address range to map to */
+> +		u64 addr;
+> +
+> +		/** @va.size: size of the virtual address range to map to */
+> +		u64 range;
+> +	} va;
+> +
+> +	/** @gem: GEM related fields */
+> +	struct {
+> +		/**
+> +		 * @obj: GEM object to map.
+> +		 *
+> +		 * Can be NULL if the virtual range is not backed by a GEM object.
+> +		 */
+> +		struct drm_gem_object *obj;
+> +
+> +		/** @offset: offset in the GEM */
+> +		u64 offset;
+> +	} gem;
+> +};
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+Can't we just use struct drm_gpuva_op_map instead? The structure is identic=
+al
+and represents exactly what we want, a map operation.
+
+Let's use that instead of redefining an identical structure.
+
+With that,
+
+	Acked-by: Danilo Krummrich <dakr@kernel.org>
