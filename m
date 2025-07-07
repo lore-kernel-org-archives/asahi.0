@@ -1,66 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5E12F7CFB
-	for <asahi@lists.linux.dev>; Fri,  4 Jul 2025 07:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034532E7F21
+	for <asahi@lists.linux.dev>; Mon,  7 Jul 2025 17:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751615715; cv=none; b=Ok2Kt3bbEvN3HKf4G28Y4gh5Yvg/P+aSZq4EzWB1fHxmjpSenQB3ql9BEUsd68CEOQaF7yNcLFsxPe5NZKkl1pmhn6EybykpUqavWKxNNltm1VYupFQmnyZH24lJl5asmvhUmZ/nvR25bDElQPLmbZq5eJ0GuWkYr3RyGhWOW0A=
+	t=1751907901; cv=none; b=OuZkMa504+c0mvCxv3wGNH8tOMAzLWADU1HSrMaoysVkh8OPvcioo5eUKKPINh5Mjt0/JLzBLpajb4kdGG5UfNI86T6qlUhqYK/puBdellPPAUsWKjtbVkKDwzpoKTdl+h4XGyCKUpxBKFv+WdqNW1S4ijCazpP/Su+2vcBOhq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751615715; c=relaxed/simple;
-	bh=EoYEpuIhjevRLmOMCR7f7TcajIGyH0zpZLQ+nin4C+I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IVnedX/KhxbDNI/csfoFAk+CpZgFnTr8IHoj3XbUTBoPjiJmZ4gbzelj8RawvbI+7S01YooHHvSx3k4lWfjfvsvnKP1l6e+lXu0tniwxsVhzlu9urkiER0lFjXUcxnjNvqmi/3oQcVJjKY5bIICxFhdFMn4DEBsycVIeh8MNczU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6DCiAmL; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1751907901; c=relaxed/simple;
+	bh=FOaQz9yaCvy1/2Vwv0qrZqa1ge0RIimLRi6ujZFVbh0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MeNcskCF30ZWhMKw7PDU2jusTLvOYpsIbtXfNCCv9Jwy/iv/0hjnUVsMZ+ADc59jD6z9qdYiMRRs1ClXXSGVlvbstdpxZgcu1r5Acd7FFf53uR16TXvff7fe2Vy8gq26BgJicUGgVfCjiYuClfTkBuFcOzxyZquOcD6+NWhAlqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=cvCUG8ND; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6DCiAmL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751615713; x=1783151713;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EoYEpuIhjevRLmOMCR7f7TcajIGyH0zpZLQ+nin4C+I=;
-  b=D6DCiAmLzgK7Fxui/8RnsC0NAWRPOADNyTIKMht1op6EkDrCs6gNwSuL
-   bWBPRQ3CPCss9VoC8VqfDd5tKYJ9BTmAeeZ2cICVnE3sVNtYa6cvcQVPU
-   uKrGNcRAnClHxTIy1AfEr5hhzCW1fjIrGsB/rP4nU1G9FHBkI66y1EOrn
-   At5QTc+i6JxJXMuZaw+U81bFKiezm1VH+FE/6QenTsCVFchJl26+i2zEM
-   giDg3aD7hicWuI+ohI6IOPGBV9JQ8cbDCjDhDbBr96TilsPMHO/+R7vru
-   +Ocj8Y87/4NclVnZGSl4ZZYS/KmiCEI0M0lTILH+1QCzI6mF4NPjt9JtF
-   A==;
-X-CSE-ConnectionGUID: jTSZU8fRQjevGHsAwT8LZQ==
-X-CSE-MsgGUID: /gx/JvagRnKSAuCCofvhUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194386"
-X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="64194386"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:55:05 -0700
-X-CSE-ConnectionGUID: vgQ8PaqkSnqJO8aISIvvhg==
-X-CSE-MsgGUID: vTwceVOmQzGj0D8RXANUPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="158616716"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:55:03 -0700
-Received: from svinhufvud.lan (localhost [IPv6:::1])
-	by svinhufvud.fi.intel.com (Postfix) with ESMTP id EDE1344BAC;
-	Fri,  4 Jul 2025 10:55:00 +0300 (EEST)
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 76/80] soc: apple: mailbox: Remove redundant pm_runtime_mark_last_busy() calls
-Date: Fri,  4 Jul 2025 10:55:00 +0300
-Message-Id: <20250704075500.3223019-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
-References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cvCUG8ND"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1751907898;
+	bh=FOaQz9yaCvy1/2Vwv0qrZqa1ge0RIimLRi6ujZFVbh0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=cvCUG8NDdhfUrzy4R+HKnEle9E6kC6N9rw5zxQ9ozeSl6ZQeqCVLMfVSRPHRuAg4z
+	 wnhuMvLbjUBklwtZ8XYxS00uub1IAGW3D6Dv5aGwCeH/Fv7kbY3KjVHH9h4dT6NqV6
+	 vyXtb+h6fl5mse3+CYqfGBLfek963gyPamVid0zcddqnElQXQLRGmIgeM+aOjLft+6
+	 HSUJXwLFiSVhJGHmER0dF+tFLgDOnpT+LkeBygmpAhd3GbRICzYqeZDyrCuylFsY/r
+	 5xHkyudNoHO6kGajUSFcWqxTrDK65cEvpxWlKCBy7/GpX0x2H+0cdqmEnFWBOr8TLQ
+	 qkDqkuikdSzuA==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown [90.168.160.154])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nanokatze)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E70F717E04EE;
+	Mon,  7 Jul 2025 19:04:56 +0200 (CEST)
+From: Caterina Shablia <caterina.shablia@collabora.com>
+To: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+	"Maxime Ripard" <mripard@kernel.org>,
+	"Thomas Zimmermann" <tzimmermann@suse.de>,
+	"David Airlie" <airlied@gmail.com>,
+	"Simona Vetter" <simona@ffwll.ch>,
+	"Frank Binns" <frank.binns@imgtec.com>,
+	"Matt Coster" <matt.coster@imgtec.com>,
+	"Karol Herbst" <kherbst@redhat.com>,
+	"Lyude Paul" <lyude@redhat.com>,
+	"Danilo Krummrich" <dakr@kernel.org>,
+	"Boris Brezillon" <boris.brezillon@collabora.com>,
+	"Steven Price" <steven.price@arm.com>,
+	"Liviu Dudau" <liviu.dudau@arm.com>,
+	"Lucas De Marchi" <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	"Rodrigo Vivi" <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	asahi@lists.linux.dev,
+	Asahi Lina <lina@asahilina.net>,
+	Caterina Shablia <caterina.shablia@collabora.com>
+Subject: [PATCH v4 1/7] drm/panthor: Add support for atomic page table updates
+Date: Mon,  7 Jul 2025 17:04:27 +0000
+Message-ID: <20250707170442.1437009-2-caterina.shablia@collabora.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250707170442.1437009-1-caterina.shablia@collabora.com>
+References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,38 +71,160 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-pm_runtime_mark_last_busy().
+From: Boris Brezillon <boris.brezillon@collabora.com>
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Move the lock/flush_mem operations around the gpuvm_sm_map() calls so
+we can implement true atomic page updates, where any access in the
+locked range done by the GPU has to wait for the page table updates
+to land before proceeding.
+
+This is needed for vkQueueBindSparse(), so we can replace the dummy
+page mapped over the entire object by actual BO backed pages in an atomic
+way.
+
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
 ---
-The cover letter of the set can be found here
-<URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
+ drivers/gpu/drm/panthor/panthor_mmu.c | 65 +++++++++++++++++++++++++--
+ 1 file changed, 62 insertions(+), 3 deletions(-)
 
-In brief, this patch depends on PM runtime patches adding marking the last
-busy timestamp in autosuspend related functions. The patches are here, on
-rc2:
-
-        git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
-                pm-runtime-6.17-rc1
-
- drivers/soc/apple/mailbox.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/soc/apple/mailbox.c b/drivers/soc/apple/mailbox.c
-index 49a0955e82d6..b56600229a7d 100644
---- a/drivers/soc/apple/mailbox.c
-+++ b/drivers/soc/apple/mailbox.c
-@@ -275,7 +275,6 @@ void apple_mbox_stop(struct apple_mbox *mbox)
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index b39ea6acc6a9..9caaba03c5eb 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -387,6 +387,15 @@ struct panthor_vm {
+ 	 * flagged as faulty as a result.
+ 	 */
+ 	bool unhandled_fault;
++
++	/** @locked_region: Information about the currently locked region currently. */
++	struct {
++		/** @locked_region.start: Start of the locked region. */
++		u64 start;
++
++		/** @locked_region.size: Size of the locked region. */
++		u64 size;
++	} locked_region;
+ };
  
- 	mbox->active = false;
- 	disable_irq(mbox->irq_recv_not_empty);
--	pm_runtime_mark_last_busy(mbox->dev);
- 	pm_runtime_put_autosuspend(mbox->dev);
+ /**
+@@ -775,6 +784,10 @@ int panthor_vm_active(struct panthor_vm *vm)
+ 	}
+ 
+ 	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
++	if (!ret && vm->locked_region.size) {
++		lock_region(ptdev, vm->as.id, vm->locked_region.start, vm->locked_region.size);
++		ret = wait_ready(ptdev, vm->as.id);
++	}
+ 
+ out_make_active:
+ 	if (!ret) {
+@@ -902,6 +915,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+ 	struct io_pgtable_ops *ops = vm->pgtbl_ops;
+ 	u64 offset = 0;
+ 
++	drm_WARN_ON(&ptdev->base,
++		    (iova < vm->locked_region.start) ||
++		    (iova + size > vm->locked_region.start + vm->locked_region.size));
+ 	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm->as.id, iova, size);
+ 
+ 	while (offset < size) {
+@@ -915,13 +931,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+ 				iova + offset + unmapped_sz,
+ 				iova + offset + pgsize * pgcount,
+ 				iova, iova + size);
+-			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
+ 			return  -EINVAL;
+ 		}
+ 		offset += unmapped_sz;
+ 	}
+ 
+-	return panthor_vm_flush_range(vm, iova, size);
++	return 0;
  }
- EXPORT_SYMBOL(apple_mbox_stop);
+ 
+ static int
+@@ -938,6 +953,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+ 	if (!size)
+ 		return 0;
+ 
++	drm_WARN_ON(&ptdev->base,
++		    (iova < vm->locked_region.start) ||
++		    (iova + size > vm->locked_region.start + vm->locked_region.size));
++
+ 	for_each_sgtable_dma_sg(sgt, sgl, count) {
+ 		dma_addr_t paddr = sg_dma_address(sgl);
+ 		size_t len = sg_dma_len(sgl);
+@@ -985,7 +1004,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+ 		offset = 0;
+ 	}
+ 
+-	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
++	return 0;
+ }
+ 
+ static int flags_to_prot(u32 flags)
+@@ -1654,6 +1673,38 @@ static const char *access_type_name(struct panthor_device *ptdev,
+ 	}
+ }
+ 
++static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
++{
++	struct panthor_device *ptdev = vm->ptdev;
++	int ret = 0;
++
++	mutex_lock(&ptdev->mmu->as.slots_lock);
++	drm_WARN_ON(&ptdev->base, vm->locked_region.start || vm->locked_region.size);
++	vm->locked_region.start = start;
++	vm->locked_region.size = size;
++	if (vm->as.id >= 0) {
++		lock_region(ptdev, vm->as.id, start, size);
++		ret = wait_ready(ptdev, vm->as.id);
++	}
++	mutex_unlock(&ptdev->mmu->as.slots_lock);
++
++	return ret;
++}
++
++static void panthor_vm_unlock_region(struct panthor_vm *vm)
++{
++	struct panthor_device *ptdev = vm->ptdev;
++
++	mutex_lock(&ptdev->mmu->as.slots_lock);
++	if (vm->as.id >= 0) {
++		write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
++		drm_WARN_ON(&ptdev->base, wait_ready(ptdev, vm->as.id));
++	}
++	vm->locked_region.start = 0;
++	vm->locked_region.size = 0;
++	mutex_unlock(&ptdev->mmu->as.slots_lock);
++}
++
+ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+ {
+ 	bool has_unhandled_faults = false;
+@@ -2179,6 +2230,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+ 
+ 	mutex_lock(&vm->op_lock);
+ 	vm->op_ctx = op;
++
++	ret = panthor_vm_lock_region(vm, op->va.addr, op->va.range);
++	if (ret)
++		goto out;
++
+ 	switch (op_type) {
+ 	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
+ 		if (vm->unusable) {
+@@ -2199,6 +2255,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+ 		break;
+ 	}
+ 
++	panthor_vm_unlock_region(vm);
++
++out:
+ 	if (ret && flag_vm_unusable_on_failure)
+ 		vm->unusable = true;
+ 
 -- 
-2.39.5
+2.47.2
 
