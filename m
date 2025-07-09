@@ -1,245 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827D54D8CE;
-	Mon,  7 Jul 2025 19:33:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDE1238C3D;
+	Wed,  9 Jul 2025 22:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751916800; cv=none; b=BPQsw82vbGpLG7ilRzpyWCBaHyRbUWi1EfHMtZqp6KMV9PByGB3il/8ijzTlLSLOk4Xz6JA/k5Te8p0mGbjt8I9r/w+hzckL4GsCQuctcsUsZLNLg3ILMjlxltsyJV2q277WVAb8OJl/ZEpiN6crqnXCWDSUSHOxjuIBH9g4olM=
+	t=1752099710; cv=none; b=HcFguV4h5Uin9NEeXvn1fl+aLinITtp7XCLCtx0lpZGlLMsQjgiF8CoA7PQEW9QynjtSXT+2+O4nKWkNXwEowVREkceEGmYdvalHPA291OCre+HXj/cETmMNyk8oIHVT9FuaY/emWfIx8x+bEDwNhdGXWjT+yW81BOV+INk6/H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751916800; c=relaxed/simple;
-	bh=Ad/hUFpcQmlYY/wXGp1hG/uLdVyoJgpKS1O4Y1B7CvE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=JLRJsDiuLGVh55DyUwfJH5X+CSPtr1sJz6AKlb5YLlnBJcQzCDDSBAaANVGM1xDV23bVJtAI6yw6dypYtXorcDNKxf5ebunIpXYFXTW+li/LwNXw/FGllD11csBNnUMaSGlgrL/R0INexvD/svRu20Midh6sdcoLZWKuthHJl4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dJVThz81; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752099710; c=relaxed/simple;
+	bh=8Py4CsLgnmpWgZRh1uEJmzkqgvbjtzPIElp16HtIFTs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EqEBWgFgsUy4RFZ7ddUBRxKm79FXEnrF35aSChxJ1t+83fZawxpftYyLGrc0kaSYH2nzGLjnp6Wfzx3EpNRureDVZ/1qIRrened75D8V1IzYi7L7nHgHSVb+Ts9ofgSL1p74UQUUj3d6O8qVpvAr/eoFm1Il0+9u0w7CbdAXDhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBfvFcaZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dJVThz81"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C83E0C4CEE3;
-	Mon,  7 Jul 2025 19:33:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBfvFcaZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A46C2C4CEEF;
+	Wed,  9 Jul 2025 22:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751916800;
-	bh=Ad/hUFpcQmlYY/wXGp1hG/uLdVyoJgpKS1O4Y1B7CvE=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=dJVThz81N7pIMIQcL0j6SIr65KUomakbAQA90Jmi/lVWCyvtmS/CSBRwR/TF2+Rn/
-	 RO/ndZxdMjd1e56e7rKBtC4G7WKZ2JtiGDIFZjsPXK1ppNs/qLcqSLneJyzSf8IAWt
-	 78lbdtjJm8E1rpEMc/un3tQffTGJS2a21Es14Lyw0rUZKi8Lza4C61Twi0fYgnnZyF
-	 dRRJjR4mmNYnvBVs1P19JW166DJ0lID6fiWhLYtZqDXpVloxfS6W9ZdwezoUUz/kpz
-	 avOQKz0cES2FOzHKC/YIqcfI0alTTLe2psAuwX6oZ/HTmxVB1+RwjIdTHqjtB4k54D
-	 5LrtLQk742pMw==
+	s=k20201202; t=1752099709;
+	bh=8Py4CsLgnmpWgZRh1uEJmzkqgvbjtzPIElp16HtIFTs=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=HBfvFcaZ+8jcr+v7imsDJsg32eBayfg4OcN1N35Rb/2WdL3QWZ61xxmERhRqq4YoT
+	 zb45D1+W93gMKq0V862RxNUQXNwUotFEI3l/EokenOgRh1uklRlMJ/1gJV2z0OsbMW
+	 uQup/ezaDSDf10wOudk9RfnNP+D8xaueV+SjJ3imfb9A+FlTv+MjGCZmLACbSbyRTV
+	 VAhBh85qPsdfc/l4ZfBTW9Xis31W+f3fuwtCfmObZdhx5CmZy6ceg61B4TXBNG7wF1
+	 4NcRiWGyllrd/XjplJu4FD7gKIZYjuJmjRMCZyx85o+0IOfpTk1CU/5pLbCbqZdHfu
+	 gwc82rCxwFHig==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 912FFC83F10;
+	Wed,  9 Jul 2025 22:21:49 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v3 0/2] Bindings and DTS for Apple SoC GPUs
+Date: Thu, 10 Jul 2025 00:21:43 +0200
+Message-Id: <20250710-sgx-dt-v3-0-299bb3a65109@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 07 Jul 2025 21:33:13 +0200
-Message-Id: <DB62O8GQ2Y1C.11UY1XZV8OE3Q@kernel.org>
-Subject: Re: [PATCH v4 6/7] drm/gpuvm: Add DRM_GPUVA_REPEAT flag and logic
-Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Frank
- Binns" <frank.binns@imgtec.com>, "Matt Coster" <matt.coster@imgtec.com>,
- "Karol Herbst" <kherbst@redhat.com>, "Lyude Paul" <lyude@redhat.com>,
- "Boris Brezillon" <boris.brezillon@collabora.com>, "Steven Price"
- <steven.price@arm.com>, "Liviu Dudau" <liviu.dudau@arm.com>, "Lucas De
- Marchi" <lucas.demarchi@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <asahi@lists.linux.dev>, "Asahi Lina"
- <lina@asahilina.net>, "Asahi Lina" <lina+kernel@asahilina.net>
-To: "Caterina Shablia" <caterina.shablia@collabora.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
- <20250707170442.1437009-7-caterina.shablia@collabora.com>
-In-Reply-To: <20250707170442.1437009-7-caterina.shablia@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHfrbmgC/02MQQqDMBBFryKzbkomaVS66j1KF0lMdKBqSSRYx
+ Ls3WhBhNm/47y0QXSAX4V4sEFyiSOOQQV4KsJ0eWseoyQyCC8WVRBbbmTUTu2k0+aQR3EMef4L
+ zNO+h5ytzR3Eaw3fvJty+/0SJRyIh46zSiF7WtbIlf7S9pvfVjj1siSTOmjw0kTVvhKkatNL76
+ qyt6/oD8URQgdMAAAA=
+X-Change-ID: 20250531-sgx-dt-4a1ba1b3b20f
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752099708; l=2111;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=8Py4CsLgnmpWgZRh1uEJmzkqgvbjtzPIElp16HtIFTs=;
+ b=foDGSjtL1i/eBdaakPKFBpNpRz+4dnUGdroXFiKgmtpeTraJsuKgTFcqT14/2KXYfD8btZ29F
+ VgtSzPatqGjCLkIaADJVX81nV5WUK5aJBdeLBqmWQ1JDECJJphLr7mB
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On Mon Jul 7, 2025 at 7:04 PM CEST, Caterina Shablia wrote:
-> From: Asahi Lina <lina+kernel@asahilina.net>
->
-> To be able to support "fake sparse" mappings without relying on GPU page
-> fault handling, drivers may need to create large (e.g. 4GiB) mappings of
-> the same page repeatedly (or same range of pages). Doing this through
-> individual mappings would be very wasteful. This can be handled better
-> by using a flag on map creation, but to do it safely, drm_gpuvm needs to
-> be aware of this special case.
->
-> Add a flag that signals that a given mapping is a page mapping, which is
-> repeated all over the entire requested VA range. This tweaks the
-> sm_map() logic to treat the GEM offsets differently when mappings are
-> a repeated ones so they are not incremented as they would be with regular
-> mappings.
->
-> The size of the GEM portion to repeat is passed through
-> drm_gpuva::gem::range. Most of the time it will be a page size, but
-> it can be bigger as long as it's less that drm_gpuva::va::range, and
-> drm_gpuva::gem::range is a multiple of drm_gpuva::va::range.
+Hi.
 
-Should be "as long as it's less that drm_gpuva::va::range, and
-drm_gpuva::va::range is a multiple of  drm_gpuva::gem::range".
+This patch series adds the DT bindings and tree entries for the GPU
+present in Apple M-series SoCs. The driver itself is in Rust and
+upstream is currently missing several prerequisite bindings, so will
+be sent later.
 
-I also think this feature deserves its own section in the global GPUVM
-documentation -- please add a corresponding paragraph.
+The kernel and m1n1 (bootloader) that are using those bindings are
+available at the following branches:
+Kernel: https://github.com/WhatAmISupposedToPutHere/linux/tree/starlight
+m1n1: https://github.com/WhatAmISupposedToPutHere/m1n1/tree/bootloader-cal-blobs
 
-> +static int check_map_req(struct drm_gpuvm *gpuvm,
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+Changes in v3:
+- Just adding trailers, effectively a resend
+- Link to v2: https://lore.kernel.org/r/20250613-sgx-dt-v2-0-fb2b7d1c3ff7@gmail.com
 
-Let's call this validate_map_request().
+Changes in v2:
+- s/firmware-compat/firmware-abi/
+- drop the agx-g13x compatible
+- rework reserved regions
+- Improved memory region and register descriptions
+- Link to v1: https://lore.kernel.org/r/20250611-sgx-dt-v1-0-7a11f3885c60@gmail.com
 
-> +			 const struct drm_gpuvm_map_req *req)
-> +{
-> +	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req->va.addr, req->va.range)=
-))
-> +		return -EINVAL;
-> +
-> +	if (req->flags & DRM_GPUVA_REPEAT) {
-> +		u64 va_range =3D req->va.range;
-> +
-> +		/* For a repeated mapping, GEM range must be > 0
-> +		 * and a multiple of the VA range.
-> +		 */
-> +		if (unlikely(!req->gem.range ||
-> +			     va_range < req->gem.range ||
-> +			     do_div(va_range, req->gem.range)))
-> +			return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int
->  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  		   const struct drm_gpuvm_ops *ops, void *priv,
-> @@ -2137,6 +2179,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  	struct drm_gpuva reqva =3D {
->  		.va.addr =3D req->va.addr,
->  		.va.range =3D req->va.range,
-> +		.gem.range =3D req->gem.range,
->  		.gem.offset =3D req->gem.offset,
->  		.gem.obj =3D req->gem.obj,
->  		.flags =3D req->flags,
-> @@ -2144,7 +2187,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  	u64 req_end =3D req->va.addr + req->va.range;
->  	int ret;
-> =20
-> -	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req->va.addr, req->va.range)=
-))
-> +	ret =3D check_map_req(gpuvm, req);
-> +	if (unlikely(ret))
->  		return -EINVAL;
-> =20
->  	drm_gpuvm_for_each_va_range_safe(va, next, gpuvm, req->va.addr, req_end=
-) {
-> @@ -2175,7 +2219,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  					.va.addr =3D req_end,
->  					.va.range =3D range - req->va.range,
->  					.gem.obj =3D obj,
-> -					.gem.offset =3D offset + req->va.range,
-> +					.gem.range =3D va->gem.range,
-> +					.gem.offset =3D offset,
+---
+Sasha Finkelstein (2):
+      dt-bindings: gpu: Add Apple SoC GPU
+      arm64: dts: Add Apple SoC GPU
 
-Why change this from offset + req->va.range to just offset?
+ Documentation/devicetree/bindings/gpu/apple,agx.yaml | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                                          |  1 +
+ arch/arm64/boot/dts/apple/t6000.dtsi                 |  4 ++++
+ arch/arm64/boot/dts/apple/t6001.dtsi                 |  4 ++++
+ arch/arm64/boot/dts/apple/t6002.dtsi                 |  4 ++++
+ arch/arm64/boot/dts/apple/t600x-common.dtsi          | 34 ++++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi            | 28 ++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi                 | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi                 | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 9 files changed, 293 insertions(+)
+---
+base-commit: aef17cb3d3c43854002956f24c24ec8e1a0e3546
+change-id: 20250531-sgx-dt-4a1ba1b3b20f
 
-Same for similar other changes below.
+Best regards,
+-- 
+Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-Also it seems that we need to update the documentation which shows all pote=
-ntial
-cases when calling __drm_gpuvm_sm_map() [1].
 
-[1] https://docs.kernel.org/gpu/drm-mm.html#split-and-merge
-
->  					.flags =3D va->flags,
->  				};
->  				struct drm_gpuva_op_unmap u =3D {
-> @@ -2183,6 +2228,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  					.keep =3D merge,
->  				};
-> =20
-> +				if (!(va->flags & DRM_GPUVA_REPEAT))
-> +					n.gem.offset +=3D req->va.range;
-> +
->  				ret =3D op_remap_cb(ops, priv, NULL, &n, &u);
->  				if (ret)
->  					return ret;
-> @@ -2194,6 +2242,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  				.va.addr =3D addr,
->  				.va.range =3D ls_range,
->  				.gem.obj =3D obj,
-> +				.gem.range =3D va->gem.range,
->  				.gem.offset =3D offset,
->  				.flags =3D va->flags,
->  			};
-> @@ -2220,11 +2269,14 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  					.va.addr =3D req_end,
->  					.va.range =3D end - req_end,
->  					.gem.obj =3D obj,
-> -					.gem.offset =3D offset + ls_range +
-> -						      req->va.range,
-> +					.gem.range =3D va->gem.range,
-> +					.gem.offset =3D offset,
->  					.flags =3D va->flags,
->  				};
-> =20
-> +				if (!(va->flags & DRM_GPUVA_REPEAT))
-> +					n.gem.offset +=3D ls_range + req->va.range;
-> +
->  				ret =3D op_remap_cb(ops, priv, &p, &n, &u);
->  				if (ret)
->  					return ret;
-> @@ -2250,7 +2302,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  					.va.addr =3D req_end,
->  					.va.range =3D end - req_end,
->  					.gem.obj =3D obj,
-> -					.gem.offset =3D offset + req_end - addr,
-> +					.gem.range =3D va->gem.range,
-> +					.gem.offset =3D offset,
->  					.flags =3D va->flags,
->  				};
->  				struct drm_gpuva_op_unmap u =3D {
-> @@ -2258,6 +2311,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  					.keep =3D merge,
->  				};
-> =20
-> +				if (!(va->flags & DRM_GPUVA_REPEAT))
-> +					n.gem.offset +=3D req_end - addr;
-> +
->  				ret =3D op_remap_cb(ops, priv, NULL, &n, &u);
->  				if (ret)
->  					return ret;
-> @@ -2294,6 +2350,7 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
->  			prev.va.addr =3D addr;
->  			prev.va.range =3D req_addr - addr;
->  			prev.gem.obj =3D obj;
-> +			prev.gem.range =3D va->gem.range;
->  			prev.gem.offset =3D offset;
->  			prev.flags =3D va->flags;
-> =20
-> @@ -2304,7 +2361,10 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
->  			next.va.addr =3D req_end;
->  			next.va.range =3D end - req_end;
->  			next.gem.obj =3D obj;
-> -			next.gem.offset =3D offset + (req_end - addr);
-> +			prev.gem.range =3D va->gem.range;
-> +			next.gem.offset =3D offset;
-> +			if (!(va->flags & DRM_GPUVA_REPEAT))
-> +				next.gem.offset +=3D req_end - addr;
->  			next.flags =3D va->flags;
-> =20
->  			next_split =3D true;
-> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> index f77a89e791f1..629e8508f99f 100644
-> --- a/include/drm/drm_gpuvm.h
-> +++ b/include/drm/drm_gpuvm.h
-> @@ -56,10 +56,19 @@ enum drm_gpuva_flags {
->  	 */
->  	DRM_GPUVA_SPARSE =3D (1 << 1),
-> =20
-> +	/**
-> +	 * @DRM_GPUVA_REPEAT:
-> +	 *
-> +	 * Flag indicating that the &drm_gpuva is a mapping of a GEM
-> +	 * portion repeated multiple times to fill the virtual address
-
-"of a GEM object with a certain range that is repeated multiple times to ..=
-."
