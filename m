@@ -1,95 +1,313 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5382AD21;
-	Fri, 11 Jul 2025 13:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CB35B661
+	for <asahi@lists.linux.dev>; Fri, 11 Jul 2025 14:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752241786; cv=none; b=qLUHGZsAHG0QXrknaz7rM/BxqjyPjODPRsueLE+rpZ43BZ7oZ8gHNjyVXw4hnAORktMUDvhjx81Dl1BbbfxR0zRoRLkW4KJ6Ub4QcNUAqVQR4QAPEEIxD8/E8VcC5DXNMrLj1qYi7Hfn0iajGid5oVjLx+3TZvIpb/FY6l6LuRo=
+	t=1752242615; cv=none; b=jjA7RfMKokBD0qHfYaK9uNogllX0+E/5kTsj6YpZViHhscn6KpqduiqRpXD+waP1tgnsWXoXJgZK+PQt5vjkUJBndts6uOOrMPLo1t/QnVhYH1dixrj2SPcCJWkQkYQQgLMCsr4+Rk7uQ9aNFtOus0+JLjnvAAu53r9wHj8B2Gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752241786; c=relaxed/simple;
-	bh=UFDdrcPLJ6i3OpdTDDcWFXhe3Rcu0dfIq/WI277FTg8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=W8JDpHdK5bNuyhLaKs8q2/sBfHv4kEtJM3Onv2KtKXFEbxH229n7ET1FXUNb+KuYmYmqFHzFAczBC38//VXSOWzS+HimxKtJOKmRG5DM2KUIDpPqlCoRx5E/dvV5rlv6hBSR3/tSOq99huqHVZ+EnUIQOFMxS3sPNOqD+4ndI8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pYGeJrjW; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pYGeJrjW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7D79C4CEED;
-	Fri, 11 Jul 2025 13:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752241785;
-	bh=UFDdrcPLJ6i3OpdTDDcWFXhe3Rcu0dfIq/WI277FTg8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=pYGeJrjWQVIu+bKZ0c0vIUzaOvxTuILhU0KhapNdUtv1MTN6U13fHW/wuQiFhwD2I
-	 /Xjq7f6hES4/vGj4NHJmGsx01bLRWX5LsvDlhsWcDAzYavBEqcPhYfIka2rQWJdKTf
-	 Osf+b0isdeIEr2VuDC8alh9nTnawn0/72ZQfUmrD453me1m8QifPMGnmaG7PHet+PP
-	 0u6OjAUn2n9tv0ebc9B9YQQ8I0mA1pZvzyuxD8Cc3w9fUYjIcf3MUMJl8R2ruuboUz
-	 mP7AgJRu/80QHpzDTc7KQ0N76hGk/NsglE1jLpgtabdjAYREJcF/NSXzysJG1lKxWS
-	 N3k566Gvm9Ywg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id DD392383B275;
-	Fri, 11 Jul 2025 13:50:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1752242615; c=relaxed/simple;
+	bh=IJqWh8HSZBCYCQ/DVW0pZcdk4YdxVWXfWskl4WHeRXw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iUiJbSPVj09m0CS+B4yckjT1DDVHPoxYWnogSvRTxgMxPBfbBPRLAJIiiBHAWL0cDZUrhSpBQvYa6qG8KZoYCy7Q0tB4aCZFvwn6ahzaPsMz6z6Zfl+dF2FLP8UZoh7Kfg9SilqA7UN99PWazcWSSOPc5EmlFOj+ur9NhxMlw2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F21851007;
+	Fri, 11 Jul 2025 07:03:21 -0700 (PDT)
+Received: from [10.1.33.14] (e122027.cambridge.arm.com [10.1.33.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B1EB3F738;
+	Fri, 11 Jul 2025 07:03:28 -0700 (PDT)
+Message-ID: <414aabbe-763b-4786-a85c-a2670475ece5@arm.com>
+Date: Fri, 11 Jul 2025 15:03:26 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/7] Bluetooth: Fix typos
-From: patchwork-bot+bluetooth@kernel.org
-Message-Id: 
- <175224180783.2277896.14693656286247860875.git-patchwork-notify@kernel.org>
-Date: Fri, 11 Jul 2025 13:50:07 +0000
-References: <20250703171815.1011001-1-hadess@hadess.net>
-In-Reply-To: <20250703171815.1011001-1-hadess@hadess.net>
-To: Bastien Nocera <hadess@hadess.net>
-Cc: trivial@kernel.org, marcel@holtmann.org, luiz.dentz@gmail.com,
- sean.wang@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, sven@kernel.org, j@jannau.net,
- alyssa@rosenzweig.io, neal@gompa.dev, johan.hedberg@gmail.com,
- mingo@kernel.org, tglx@linutronix.de, viro@zeniv.linux.org.uk,
- kees@kernel.org, erick.archer@outlook.com, chris.lu@mediatek.com,
- linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- asahi@lists.linux.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 7/7] drm/panthor: Add support for repeated mappings
+To: Caterina Shablia <caterina.shablia@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
+ <20250707170442.1437009-8-caterina.shablia@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250707170442.1437009-8-caterina.shablia@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This series was applied to bluetooth/bluetooth-next.git (master)
-by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
-
-On Thu,  3 Jul 2025 19:16:54 +0200 you wrote:
-> Found using codespell.
+On 07/07/2025 18:04, Caterina Shablia wrote:
+> From: Boris Brezillon <boris.brezillon@collabora.com>
 > 
-> Probably best taken in through the Bluetooth tree.
+> This allows us to optimize mapping of a relatively small
+> portion of a BO over and over in a large VA range, which
+> is useful to support Vulkan sparse bindings in an efficient
+> way.
 > 
-> Changes since v1:
-> - Added whether typos were in comments or log strings
-> - Fix typo in typo fix ("btrtl: Fix typo")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Co-developed-by: Caterina Shablia <caterina.shablia@collabora.com>
+> Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
+
+This looks like the right sort of shape. From an uAPI perspective I'm
+not sure whether u32 is the right type for bo_repeat_range. While I
+can't immediately see a use for having a large repeat range it seems a
+little silly to close it off when we're going to have padding afterwards
+anyway. Obviously the kernel would reject large values because the
+internal APIs are only u32. But it would enable this to be fixed if we
+ever discover a usecase without a uAPI change.
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c |  3 +-
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 78 ++++++++++++++++++++++++---
+>  include/uapi/drm/panthor_drm.h        | 23 ++++++++
+>  3 files changed, 95 insertions(+), 9 deletions(-)
 > 
-> [...]
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 1116f2d2826e..585c07b07c42 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1608,6 +1608,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+>   * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
+>   * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
+> + * - 1.6 - adds DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT flag
+>   */
+>  static const struct drm_driver panthor_drm_driver = {
+>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> @@ -1621,7 +1622,7 @@ static const struct drm_driver panthor_drm_driver = {
+>  	.name = "panthor",
+>  	.desc = "Panthor DRM driver",
+>  	.major = 1,
+> -	.minor = 5,
+> +	.minor = 6,
+>  
+>  	.gem_create_object = panthor_gem_create_object,
+>  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index f0a22b775958..4ce9fff67d69 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -202,6 +202,9 @@ struct panthor_vm_op_ctx {
+>  		/** @map.bo_offset: Offset in the buffer object. */
+>  		u64 bo_offset;
+>  
+> +		/** @map.bo_repeat_range: Repeated BO range. */
+> +		u32 bo_repeat_range;
+> +
+>  		/**
+>  		 * @map.sgt: sg-table pointing to pages backing the GEM object.
+>  		 *
+> @@ -1007,6 +1010,26 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+>  	return 0;
+>  }
+>  
+> +static int
+> +panthor_vm_repeated_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+> +			      struct sg_table *sgt, u64 offset, u64 size,
+> +			      u64 count)
+> +{
+> +	/* FIXME: we really need to optimize this at the io_pgtable level. */
 
-Here is the summary with links:
-  - [v2,1/7] Bluetooth: btintel: Fix typo in comment
-    https://git.kernel.org/bluetooth/bluetooth-next/c/728beb9bb8b3
-  - [v2,2/7] Bluetooth: btmtk: Fix typo in log string
-    https://git.kernel.org/bluetooth/bluetooth-next/c/03b2d5bf4881
-  - [v2,3/7] Bluetooth: btrtl: Fix typo in comment
-    https://git.kernel.org/bluetooth/bluetooth-next/c/5d12ca753070
-  - [v2,4/7] Bluetooth: hci_bcm4377: Fix typo in comment
-    https://git.kernel.org/bluetooth/bluetooth-next/c/aa0d0b408a5a
-  - [v2,5/7] Bluetooth: aosp: Fix typo in comment
-    https://git.kernel.org/bluetooth/bluetooth-next/c/033ea129991b
-  - [v2,6/7] Bluetooth: RFCOMM: Fix typos in comments
-    https://git.kernel.org/bluetooth/bluetooth-next/c/b14c362ad112
-  - [v2,7/7] Bluetooth: Fix typos in comments
-    https://git.kernel.org/bluetooth/bluetooth-next/c/c819e415efb3
+Do you have plans for optimizing this? How bad is the performance
+without optimizing?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> +	for (u64 i = 0; i < count; i++) {
+> +		int ret;
+> +
+> +		ret = panthor_vm_map_pages(vm, iova + (size * i), prot,
+> +					   sgt, offset, size);
+> +		if (ret) {
+> +			panthor_vm_unmap_pages(vm, iova, size * (i - 1));
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int flags_to_prot(u32 flags)
+>  {
+>  	int prot = 0;
+> @@ -1203,12 +1226,14 @@ panthor_vm_op_ctx_prealloc_vmas(struct panthor_vm_op_ctx *op_ctx)
+>  	(DRM_PANTHOR_VM_BIND_OP_MAP_READONLY | \
+>  	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC | \
+>  	 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED | \
+> +	 DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT | \
+>  	 DRM_PANTHOR_VM_BIND_OP_TYPE_MASK)
+>  
+>  static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+>  					 struct panthor_vm *vm,
+>  					 struct panthor_gem_object *bo,
+>  					 u64 offset,
+> +					 u32 repeat_range,
+>  					 u64 size, u64 va,
+>  					 u32 flags)
+>  {
+> @@ -1224,9 +1249,22 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+>  	    (flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) != DRM_PANTHOR_VM_BIND_OP_TYPE_MAP)
+>  		return -EINVAL;
+>  
+> -	/* Make sure the VA and size are aligned and in-bounds. */
+> -	if (size > bo->base.base.size || offset > bo->base.base.size - size)
+> -		return -EINVAL;
+> +	if (!(flags & DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT)) {
+> +		/* Make sure the VA and size are in-bounds. */
+> +		if (size > bo->base.base.size || offset > bo->base.base.size - size)
+> +			return -EINVAL;
+> +	} else {
+> +		/* Make sure the repeat_range is in-bounds. */
+> +		if (repeat_range > bo->base.base.size || offset > bo->base.base.size - repeat_range)
+> +			return -EINVAL;
+> +
+> +		/* Make sure size is a multiple of repeat_range */
+> +
+> +		u64 repeat_count = size;
+> +
+> +		if (do_div(repeat_count, repeat_range))
+> +			return -EINVAL;
+> +	}
+>  
+>  	/* If the BO has an exclusive VM attached, it can't be mapped to other VMs. */
+>  	if (bo->exclusive_vm_root_gem &&
+> @@ -1295,6 +1333,7 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+>  		drm_gem_shmem_unpin(&bo->base);
+>  
+>  	op_ctx->map.bo_offset = offset;
+> +	op_ctx->map.bo_repeat_range = repeat_range;
+>  
+>  	/* L1, L2 and L3 page tables.
+>  	 * We could optimize L3 allocation by iterating over the sgt and merging
+> @@ -2112,9 +2151,22 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
+>  
+>  	panthor_vma_init(vma, op_ctx->flags & PANTHOR_VM_MAP_FLAGS);
+>  
+> -	ret = panthor_vm_map_pages(vm, op->map.va.addr, flags_to_prot(vma->flags),
+> -				   op_ctx->map.sgt, op->map.gem.offset,
+> -				   op->map.va.range);
+> +	if (op_ctx->flags & DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT) {
+> +		u64 repeat_count = op->map.va.range;
+> +
+> +		do_div(repeat_count, op->map.gem.range);
+> +		ret = panthor_vm_repeated_map_pages(vm, op->map.va.addr,
+> +						    flags_to_prot(vma->flags),
+> +						    op_ctx->map.sgt,
+> +						    op->map.gem.offset,
+> +						    op->map.gem.range,
+> +						    repeat_count);
+> +	} else {
+> +		ret = panthor_vm_map_pages(vm, op->map.va.addr,
+> +					   flags_to_prot(vma->flags),
+> +					   op_ctx->map.sgt, op->map.gem.offset,
+> +					   op->map.va.range);
+> +	}
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -2237,7 +2289,7 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+>  
+>  	switch (op_type) {
+>  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP: {
+> -		const struct drm_gpuvm_map_req map_req = {
+> +		struct drm_gpuvm_map_req map_req = {
+>  			.va.addr = op->va.addr,
+>  			.va.range = op->va.range,
+>  			.gem.obj = op->map.vm_bo->obj,
+> @@ -2249,6 +2301,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+>  			break;
+>  		}
+>  
+> +		if (op->flags & DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT) {
+> +			map_req.flags |= DRM_GPUVA_REPEAT;
+> +			map_req.gem.range = op->map.bo_repeat_range;
+> +		}
+> +
+>  		ret = drm_gpuvm_sm_map(&vm->base, vm, &map_req);
+>  		break;
+>  	}
+> @@ -2497,6 +2554,7 @@ panthor_vm_bind_prepare_op_ctx(struct drm_file *file,
+>  		ret = panthor_vm_prepare_map_op_ctx(op_ctx, vm,
+>  						    gem ? to_panthor_bo(gem) : NULL,
+>  						    op->bo_offset,
+> +						    op->bo_repeat_range,
+>  						    op->size,
+>  						    op->va,
+>  						    op->flags);
+> @@ -2698,7 +2756,11 @@ int panthor_vm_map_bo_range(struct panthor_vm *vm, struct panthor_gem_object *bo
+>  	struct panthor_vm_op_ctx op_ctx;
+>  	int ret;
+>  
+> -	ret = panthor_vm_prepare_map_op_ctx(&op_ctx, vm, bo, offset, size, va, flags);
+> +	/* TODO: would be nice to replace with assert instead */
 
+If you don't expect this to happen then this can be a "if (WARN_ON(...))".
+
+> +	if (flags & DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT)
+> +		return -EINVAL;
+> +
+> +	ret = panthor_vm_prepare_map_op_ctx(&op_ctx, vm, bo, offset, 0, size, va, flags);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index e1f43deb7eca..ad278bc234b0 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -496,6 +496,17 @@ enum drm_panthor_vm_bind_op_flags {
+>  	 */
+>  	DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED = 1 << 2,
+>  
+> +	/**
+> +	 * @DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT: Repeat a BO range
+> +	 *
+> +	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
+> +	 *
+> +	 * When this is set, a BO range is repeated over the VA range.
+> +	 * drm_panthor_vm_bind_op::bo_repeat_range defines the size of the
+> +	 * BO range to repeat.
+> +	 */
+> +	DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT = 1 << 3,
+> +
+>  	/**
+>  	 * @DRM_PANTHOR_VM_BIND_OP_TYPE_MASK: Mask used to determine the type of operation.
+>  	 */
+> @@ -560,6 +571,18 @@ struct drm_panthor_vm_bind_op {
+>  	 */
+>  	struct drm_panthor_obj_array syncs;
+>  
+> +	/**
+> +	 * @bo_repeat_range: The size of the range to be repeated.
+> +	 *
+> +	 * Must be zero if DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT is not set in
+> +	 * flags.
+> +	 *
+> +	 * Size must be a multiple of bo_repeat_range.
+> +	 */
+> +	__u32 bo_repeat_range;
+> +
+> +	/** @pad: Padding field. MBZ. */
+> +	__u32 pad;
+
+If we're going to have the padding then the kernel needs to check that
+this padding is zero, so that it can be available for future use.
+
+Steve
+
+>  };
+>  
+>  /**
 
