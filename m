@@ -1,174 +1,118 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFF81EDA09
-	for <asahi@lists.linux.dev>; Tue, 15 Jul 2025 12:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6EC2E2EF9
+	for <asahi@lists.linux.dev>; Tue, 15 Jul 2025 13:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752582649; cv=none; b=sYjRnpZJAqVjaYpoO6ravq65KjAS6anbIHbk4PfrELRMT4cMeBk98RMbH6rIzSwwXm4L6zJLtwQMwjqYJB9d2AuH+D7Qdi/EKI9debhgO5UrhMZ9bnObZPYdDNfSarhH5TGPpopoZWhtMjkgHNJz60thK48hhmxDIZZBRf2CeF4=
+	t=1752585603; cv=none; b=cJCS2C/pB+ofMPaPZATFJm2AHZucoUoqY9pMJ21cMruAwOL9rKlPmU0IprHkzKs/en17iHlRHG8y8rMNqyG6B4Ocli+S+xwZWVSpduLLMX6xL8DwgQWF4uh2r5+5kN7HoKOF08FvYJg1nFubrZI8AjYQw5bsp7eqAJ505uapC+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752582649; c=relaxed/simple;
-	bh=hGOHY5EqX24PHULoKaFcv7QLGg52McD4wj4R0vVCqTY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fqz5SCFcqhmhUuFqJqCqS1raO3ZjfIAV+gCEovH6GcukourBkS9rYOEHsBwsLsXaUJp+KCFUCL2vqRzQliVQ5iu8aF3ro1DJ5iT4yBhyInURTBnHw8cIIYHPk11j0NPVBWIvPxl/5WCp6Z9ZkBlaxWuLuGu7hnXKJDIqdRFj7O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GDxaNOaZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A5KgqXA3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KuI8GJks; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ynBfnVH9; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752585603; c=relaxed/simple;
+	bh=pw+cz07JtKjeBD7xSPONuGdwWJN1P3DPpVEUdiOZg4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s5S7sRdlyfcytTic9QbgMSmNYoCUFEcQ22/k2U28lwb9kjzZb155iCYixp0MUosgQpRDDM/O4Ye+I8RNyzq5ko/5HbWRCNCbnLLfhcCIaGEJqHs3bVzv7QzhZMlGm+dNtOSKyOHYa6XJEeJOy5EwSgMHisZ0oiO/s92Vc7AOjGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=Cy5Cu42B; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GDxaNOaZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A5KgqXA3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KuI8GJks";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ynBfnVH9"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0B2001F7A4;
-	Tue, 15 Jul 2025 12:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752582602; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YkJ5sVkqytjmUz49vrqyxdNv/7YfXsI8/YNAXEBvJic=;
-	b=GDxaNOaZqAGFlkzCJDe+JzEsaNKUmX1pxuAMWZ43n7B/3CPqoPS9VAx/bfAyIGFJ5Cae6Y
-	z6AS0d1pM1y7QRtSG4NA9mgyDp1bwGwERdIx+Kq8rxU61531mdjCYT0sCmMrF2tSLxYcIO
-	s85e925G7OZQpHXc7KX/InljsrZon+4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752582602;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YkJ5sVkqytjmUz49vrqyxdNv/7YfXsI8/YNAXEBvJic=;
-	b=A5KgqXA3cgstpR5H8MbCEvZ6GNzMQIqVXNge3bcbD7M020j8IzEEbB/lzhPEBqrOTae+tK
-	Hf7MeBY5b6JVdFCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KuI8GJks;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ynBfnVH9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752582601; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YkJ5sVkqytjmUz49vrqyxdNv/7YfXsI8/YNAXEBvJic=;
-	b=KuI8GJkspX4xamZxa5n9JtrrgRXqkzY90+Xu7R7giB75X/jWBJLrx0G1ZjbiL3uXmehWnl
-	EbA1+ds6AkxrDCn/8/mxG2yNsFElwEj0TOtpKoNTqacxua9VzZK+ChBikJPbqcGNWoUbW2
-	6+Pd8sKOM+MWKf5rZmen3KOVut2rVK0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752582601;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YkJ5sVkqytjmUz49vrqyxdNv/7YfXsI8/YNAXEBvJic=;
-	b=ynBfnVH9IeVNT2PvvTiq5RfFV+Rq88Y8ejdkE9NF8WX5xS3r3MER2D41qbFmExFWcVE2dH
-	5am5mjPcceZHdADg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F6C113306;
-	Tue, 15 Jul 2025 12:30:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IK7pFchJdmgaIwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 15 Jul 2025 12:30:00 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: lee@kernel.org,
-	danielt@kernel.org,
-	jingoohan1@gmail.com,
-	neil.armstrong@linaro.org,
-	jessica.zhang@oss.qualcomm.com,
-	deller@gmx.de,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	fnkl.kernel@gmail.com,
-	j@jannau.net,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	sven@kernel.org,
-	alyssa@rosenzweig.io,
-	neal@gompa.dev,
-	support.opensource@diasemi.com,
-	duje.mihanovic@skole.hr
-Cc: dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="Cy5Cu42B"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4ef2c2ef3so4073589f8f.2
+        for <asahi@lists.linux.dev>; Tue, 15 Jul 2025 06:20:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1752585600; x=1753190400; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RZNdJdvnKf8QKxgnS87V8b+rsQrk+0DHovoGkwxahd4=;
+        b=Cy5Cu42Buc1W8V/xUQrzCbCCjTEqXODH0Xsy0qzk4QE+4sUFVZ1I7vYMymZE8JIxuu
+         htSxUl6iHmRznUNWcjBqE4t4txHCNPAZ5S0pEI/7WYVaVpEnbSGLt9vp5KkM8S7eL4Lg
+         iym0gu7LayiJQRaln/ut4J7jLnWeEpFu5QpSA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752585600; x=1753190400;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RZNdJdvnKf8QKxgnS87V8b+rsQrk+0DHovoGkwxahd4=;
+        b=DKCzRPPbMsWleg3PV0B0OiEj2hMwJ8CxeddiNnBHZ9Flk021RZEv9vvAiQjfENXOAT
+         YXOz+XGYAb7dcqZH4CDznV6wdnenkytxhN1eLyEYmfDG/OjNISIjxZnY7dg5tad750ja
+         1P0Rh4funcbiQIWCglH4o6BzH46rh25obWYWL/nj23fVxXv4S6KNMe2+8/ruLh+vH1Z7
+         n+mvmvLczF0YS70au72nwOemQ9VebU6wag3anbUo4oNkyOWby7B0Ney81z9n85Oa+3Q4
+         u9iDg5cluldESzBoYcQYw/KP1r24nOa1pTd+W4mRIvO4D4F8REHn/HHQrLwSyMjmzeGg
+         n7zQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAc+LlbGvSuyWQMRWjcLE6XV+VXkZEfLr9ZI3FQJaLK2pOkFFayeBma7TzuRfC1NBrh9BSCg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQnvgQ6l/+63xzO2DKPHZhxHtn4z0c7EPyM3UUU5gmpVIIl0Ds
+	BadoR5nz8s6NIEj/gxqgfkBxR7ayvB2S3eg24ljUT4jzJz5b50qv66dQJAY4IO/5s3s=
+X-Gm-Gg: ASbGncvVLmdYr/PGCm6QiQ6H04w1H8lIoVOij9xWkZW34DBTOpyJ8urm2reN2D9NxDf
+	zh02+y6fv6v4i+OW5qb1LgnsZkBSFc/78maMAC3FyNMiEslIV1oUpxcQU79pth246rhW/1g8yZA
+	s2Ss13gpdv01AwUzWjYVWvn6otmmHW2Q8SN78LFP4nt/sTmyFUoc8KDi1/cawlPmB08tpvZ1qZd
+	Tea3U63jm6Ny36kXPMeDXgGd7G16Aw3LRrjzPU6mjfNu8dFon7PSZz4cZxChcceHMGIOljPiO1P
+	nNd5J1Gzy+9B/6qFBkfZBp2iUGXgubIaHJmcFuCNiHqrjmUf6D6KCeSUmxElwAVLJ7dzDGZJvYD
+	gOtW7iniek+Sepbo4c5yAYzffCBgByz7svg==
+X-Google-Smtp-Source: AGHT+IGgOrGKdM3z4rYXREjB5K13TQWQc9hzSbnGlRYyUFMTZTPMvyOf/txGJ4PS42ny0/qCStlXJg==
+X-Received: by 2002:a05:6000:290a:b0:3a4:f038:af74 with SMTP id ffacd0b85a97d-3b5f2e3ad53mr14816635f8f.51.1752585599669;
+        Tue, 15 Jul 2025 06:19:59 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e0d70csm15389832f8f.62.2025.07.15.06.19.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 06:19:58 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:19:56 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
+	neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+	deller@gmx.de, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+	fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, sven@kernel.org,
+	alyssa@rosenzweig.io, neal@gompa.dev,
+	support.opensource@diasemi.com, duje.mihanovic@skole.hr,
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
 	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 10/15] backlight: jornada720: Include <linux/io.h>
-Date: Tue, 15 Jul 2025 14:24:47 +0200
-Message-ID: <20250715122643.137027-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250715122643.137027-1-tzimmermann@suse.de>
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v2 02/15] drm/panel: panel-samsung-s6e63m0: Include
+ <linux/of.h>
+Message-ID: <aHZVfD9Koa-fi5CQ@phenom.ffwll.local>
 References: <20250715122643.137027-1-tzimmermann@suse.de>
+ <20250715122643.137027-3-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,gmx.de,linux.intel.com,ffwll.ch,jannau.net,redhat.com,rosenzweig.io,gompa.dev,diasemi.com,skole.hr];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
-	TAGGED_RCPT(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	R_RATELIMIT(0.00)[to(RLpx6hatunazuh7ud675imbh78),to_ip_from(RL95szse9eqfwu74ziohs8j73e)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 0B2001F7A4
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -1.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250715122643.137027-3-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 
-Include <linux/io.h> to declare IOMEM(). Avoids dependency on
-backlight header to include it.
+On Tue, Jul 15, 2025 at 02:24:39PM +0200, Thomas Zimmermann wrote:
+> Include <linux/of.h> to declare device_property_read_u32(). Avoids
+> dependency on backlight header to include it.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/backlight/jornada720_bl.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-diff --git a/drivers/video/backlight/jornada720_bl.c b/drivers/video/backlight/jornada720_bl.c
-index e28d2c071798..bbb65fdaddc7 100644
---- a/drivers/video/backlight/jornada720_bl.c
-+++ b/drivers/video/backlight/jornada720_bl.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/backlight.h>
- #include <linux/device.h>
-+#include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
+> ---
+>  drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+> index ea241c89593b..930948cb615f 100644
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/export.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/property.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/media-bus-format.h>
+> -- 
+> 2.50.0
+> 
+
 -- 
-2.50.0
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
