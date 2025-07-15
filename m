@@ -1,86 +1,320 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BC02EBDEA
-	for <asahi@lists.linux.dev>; Tue, 15 Jul 2025 13:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752586487; cv=none; b=kO1gKCtFNPGhl5v82s86n4+E0AfGjChy1zfUOkpj3O/h25fzGNI+HooI9jf63UQB3WDYc/IBIpGye2/zT5928wK+LkJ0nc3rJMpLT/PF+wEVK9xUWKZo2DgkbTPzp15Cnq5k7cOPhRiqHVj1qGrpHl3hA86gsPEsRVq2lLXxEV4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752586487; c=relaxed/simple;
-	bh=+5fnVYi8jGUiwllSXfccJ9ZG874S/+1gUDYyvoKFb0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J1meRunxCqa5CaEhx0XbvtBH9cbCk5Jz8ry0yhWV1wLs2ikjZ24V70gGBkVC/ffxfxgHXh/C1nNUpa89TdXlthBqGLWcGquPlWz3D7kgf+0EnlSH1WLTIEbgmXDlvkWlc3+qrjQ4KNQtnv/NAbXjJuRRQHW1TaXZYW0EV4fsuT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Om3RG4Gp; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4362236E3
+	for <asahi@lists.linux.dev>; Tue, 15 Jul 2025 15:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752592119; cv=pass; b=jp7ItYPuloQBzXMuSwGVSfmUKQuSyrR30rj0fOJbv7LDVb9G4B1aedB2D/w5iWiLPKjaYQn47Exp2/qddb5lBrfauF2jktADBpULh+jaAf33qC9xMTqgr4hrMBrk0wnGT1KIwEXskNsuH8xIuzic8wlO//ow9iz6Uv5teSKa9SI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752592119; c=relaxed/simple;
+	bh=E9xJPLD2UWHeWStvldQFxpsKbZwNGZgrOhuKIMcqRDM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hVrJHzNJxpwGLG3W/oFiAO+LB0Rxig1eBYqDVwAm8s+sH61VBFCCRLRChwbMjo+T6zOrnntv83diQNye1AdnvC/8Zvng2q3Ba2iK6IC+08013bL5eZb+W6lOX+vFlmPEBN6gXHxTMnWmqgKP6IPBFqEM4pUp9fU+Wxa/6tg3eiA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=caterina.shablia@collabora.com header.b=DLVy41uQ; arc=pass smtp.client-ip=136.143.188.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Om3RG4Gp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27E7EC116C6
-	for <asahi@lists.linux.dev>; Tue, 15 Jul 2025 13:34:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752586487;
-	bh=+5fnVYi8jGUiwllSXfccJ9ZG874S/+1gUDYyvoKFb0M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Om3RG4Gp7iPuBcFfzV0TJrXSvVZ1ziTXeDG8NIjHzeKf0fzxyzu5ewG1JJjYIBDEh
-	 oMSlbAknTx0ATbzw8IpDlNBIrVW1lnP16fyzsfYVc8m2i8t74qls7qpTRI/P7OaYVc
-	 KXCsvanIabf18oIFopxNwYFsSaT8eOo7AiatP31ifLhGzXVqrVk9e5PUixsZudYIJ4
-	 XQkjYpDTnIyf1Tnn8whwjtnj+T5Ygx5q19IlMqCmDHati5kjPJYO+Mk2NdzGwhLMqq
-	 wqNzqzPR/BjhVlVfVFNVVKBr1g+0D7TLomCWzuYZ79x3izp2CvaFAvbhU3NSfX5CSV
-	 m+shVTHiN8DMg==
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-60c60f7eeaaso8559152a12.0
-        for <asahi@lists.linux.dev>; Tue, 15 Jul 2025 06:34:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXkjlwowqwFf8RwYjVs1FoPxokYqE0k9ftdVw5cOwd2CduGZj24WPY16+42RFeg/C7ctXA5UQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6JQVzdtaiCi7rzdS4P2ruy3ORVQR58QPhycq+7tqU8RosR+uO
-	U5b7YmIoYFA0L+bX9JZzO6+MYr2o/jKNaNdJi+DWP8HypIFcEYflXfH1y7Pqp4iJ4Y+9imj5Bhm
-	Mrm63zrFiEroIzEvnvpZwDXahLzpSng==
-X-Google-Smtp-Source: AGHT+IGRu2JZfsUA5LKiQLqa/UEZNxt2u/LBgONat/gO2EH38uOyxF+eGpc7ilCTo4wwSiYodRP/HpFAhZMX9LDqasw=
-X-Received: by 2002:a17:907:9686:b0:ae0:dcd5:ea75 with SMTP id
- a640c23a62f3a-ae9b948923cmr254110266b.5.1752586485564; Tue, 15 Jul 2025
- 06:34:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=caterina.shablia@collabora.com header.b="DLVy41uQ"
+ARC-Seal: i=1; a=rsa-sha256; t=1752592098; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=SMb5GLJpgtZ71ENMoFidv9PUxv6GseJo5+pRZ06/IFDf0vvEBm0ix515Sk2LvorJTm439N2H0blOroGxvX6by9b/1pU7jPl3WUu4EUtNXd29yKoI6XIncfgksNmcBWOmx6aMRcIGWJXiWG0bmBrdS+IGEBq6yO92fNR9TOaPSsI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1752592098; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=bDjel0QpBiMC/6B+gn7IB1ZB6MToTTJkdyGIMHOO89w=; 
+	b=Sz1ZMI4UDUg64JfaJKL3rrbmoETDrKTaMFEwyukZfpWsNPOd4SxdinNMFcIk9O0AqT3wo5z9b4lmgcFsqztExk1DAgWSCXXIgsdSAbVOQ450YTjXlWluNU4B8RoAmFCk2tPngQiMcdUlsqB5gDQatwfDf+o6zvFdBPC+5SNMV+M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=caterina.shablia@collabora.com;
+	dmarc=pass header.from=<caterina.shablia@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752592097;
+	s=zohomail; d=collabora.com; i=caterina.shablia@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=bDjel0QpBiMC/6B+gn7IB1ZB6MToTTJkdyGIMHOO89w=;
+	b=DLVy41uQL3qlx9aialLRT6mnQiKzHta3uirR6ZOH22SgR58Eg8PL3RzAEEWXe0Su
+	CYaHoS+Y9IWwsi26dQ4q0YA+gpSl+g27ujaqR8+/00oFEQRa6Ql0QYEZw9DsZS/CcrW
+	Wpc81cJg8a1OL5O9do64U2AO517j0YifHaEKmAgQ=
+Received: by mx.zohomail.com with SMTPS id 1752592095729528.7515991456567;
+	Tue, 15 Jul 2025 08:08:15 -0700 (PDT)
+From: Caterina Shablia <caterina.shablia@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+Subject:
+ Re: [PATCH v4 1/7] drm/panthor: Add support for atomic page table updates
+Date: Tue, 15 Jul 2025 17:08:09 +0200
+Message-ID: <2813151.QOukoFCf94@xps>
+In-Reply-To: <d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com>
+References:
+ <20250707170442.1437009-1-caterina.shablia@collabora.com>
+ <20250707170442.1437009-2-caterina.shablia@collabora.com>
+ <d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250715122643.137027-1-tzimmermann@suse.de> <20250715122643.137027-14-tzimmermann@suse.de>
-In-Reply-To: <20250715122643.137027-14-tzimmermann@suse.de>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 15 Jul 2025 08:34:32 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKSjQy8CVohbVL50kn=o_kPVUsAUFjYvNC3mpcA7pm_Og@mail.gmail.com>
-X-Gm-Features: Ac12FXymC2XmqYlRUlcYFWrwlgiDEh1VRFeVs1QRm6fJt93kN_btbEF-gtsl3Qo
-Message-ID: <CAL_JsqKSjQy8CVohbVL50kn=o_kPVUsAUFjYvNC3mpcA7pm_Og@mail.gmail.com>
-Subject: Re: [PATCH v2 13/15] backlight: rave-sp: Include <linux/of.h> and <linux/mod_devicetable.h>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, 
-	neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, deller@gmx.de, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
-	simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com, 
-	ilpo.jarvinen@linux.intel.com, sven@kernel.org, alyssa@rosenzweig.io, 
-	neal@gompa.dev, support.opensource@diasemi.com, duje.mihanovic@skole.hr, 
-	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
-	platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Jul 15, 2025 at 7:30=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Include <linux/of.h> to declare struct device_node and include
-> <linux/mod_devicetable.h> to declare struct of_device_id. Avoids
-> dependency on backlight header to include it.
+El viernes, 11 de julio de 2025 15:30:21 (hora de verano de Europa central)=
+,=20
+Steven Price escribi=C3=B3:
+> On 07/07/2025 18:04, Caterina Shablia wrote:
+> > From: Boris Brezillon <boris.brezillon@collabora.com>
+> >=20
+> > Move the lock/flush_mem operations around the gpuvm_sm_map() calls so
+> > we can implement true atomic page updates, where any access in the
+> > locked range done by the GPU has to wait for the page table updates
+> > to land before proceeding.
+> >=20
+> > This is needed for vkQueueBindSparse(), so we can replace the dummy
+> > page mapped over the entire object by actual BO backed pages in an atom=
+ic
+> > way.
+> >=20
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
+> > ---
+> >=20
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 65 +++++++++++++++++++++++++--
+> >  1 file changed, 62 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > b/drivers/gpu/drm/panthor/panthor_mmu.c index b39ea6acc6a9..9caaba03c5eb
+> > 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -387,6 +387,15 @@ struct panthor_vm {
+> >=20
+> >  	 * flagged as faulty as a result.
+> >  	 */
+> >  =09
+> >  	bool unhandled_fault;
+> >=20
+> > +
+> > +	/** @locked_region: Information about the currently locked region
+> > currently. */ +	struct {
+> > +		/** @locked_region.start: Start of the locked region.=20
+*/
+> > +		u64 start;
+> > +
+> > +		/** @locked_region.size: Size of the locked region. */
+> > +		u64 size;
+> > +	} locked_region;
+> >=20
+> >  };
+> > =20
+> >  /**
+> >=20
+> > @@ -775,6 +784,10 @@ int panthor_vm_active(struct panthor_vm *vm)
+> >=20
+> >  	}
+> >  =09
+> >  	ret =3D panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab,=20
+transcfg,
+> >  	vm->memattr);>=20
+> > +	if (!ret && vm->locked_region.size) {
+> > +		lock_region(ptdev, vm->as.id, vm->locked_region.start,
+> > vm->locked_region.size); +		ret =3D wait_ready(ptdev, vm-
+>as.id);
+> > +	}
+>=20
+> Do we need to do this? It seems odd to restore a MMU context and
+> immediately set a lock region. Is there a good reason we can't just
+> WARN_ON if there's a lock region set in panthor_vm_idle()?
+So IIUC, when things are otherwise idle and we do a vm_bind, the vm will be=
+=20
+inactive, in which case we're not going to poke the mmu to inform it of the=
+=20
+locked region, because it literally is not aware of this vm. Now if in the=
+=20
+meanwhile something submits a job and activates the vm, we need to inform t=
+he=20
+mmu of the locked region, as vm_bind job might still be going on. I don't s=
+ee=20
+why panthor_vm_idle while a region is locked would be a problem? That can=20
+arise e.g. when a job completes but there's a concurrent vm_bind going on?
+>=20
+> I think we need to briefly take vm->op_lock to ensure synchronisation
+> but that doesn't seem a big issue. Or perhaps there's a good reason that
+> I'm missing?
+I think you're right, all other accesses to locked_region are guarded by=20
+op_lock. GPU job submit poke vm_active concurrently with vm_bind jobs doing=
+=20
+region {,un}locks.
+>=20
+> >  out_make_active:
+> >  	if (!ret) {
+> >=20
+> > @@ -902,6 +915,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm
+> > *vm, u64 iova, u64 size)>=20
+> >  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
+> >  	u64 offset =3D 0;
+> >=20
+> > +	drm_WARN_ON(&ptdev->base,
+> > +		    (iova < vm->locked_region.start) ||
+> > +		    (iova + size > vm->locked_region.start + vm-
+>locked_region.size));
+> >=20
+> >  	drm_dbg(&ptdev->base, "unmap: as=3D%d, iova=3D%llx, len=3D%llx", vm-
+>as.id,
+> >  	iova, size);
+> >  =09
+> >  	while (offset < size) {
+> >=20
+> > @@ -915,13 +931,12 @@ static int panthor_vm_unmap_pages(struct panthor_=
+vm
+> > *vm, u64 iova, u64 size)>=20
+> >  				iova + offset + unmapped_sz,
+> >  				iova + offset + pgsize * pgcount,
+> >  				iova, iova + size);
+> >=20
+> > -			panthor_vm_flush_range(vm, iova, offset +=20
+unmapped_sz);
+> >=20
+> >  			return  -EINVAL;
+> >  	=09
+> >  		}
+> >  		offset +=3D unmapped_sz;
+> >  =09
+> >  	}
+> >=20
+> > -	return panthor_vm_flush_range(vm, iova, size);
+> > +	return 0;
+> >=20
+> >  }
+> > =20
+> >  static int
+> >=20
+> > @@ -938,6 +953,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 io=
+va,
+> > int prot,>=20
+> >  	if (!size)
+> >  =09
+> >  		return 0;
+> >=20
+> > +	drm_WARN_ON(&ptdev->base,
+> > +		    (iova < vm->locked_region.start) ||
+> > +		    (iova + size > vm->locked_region.start + vm-
+>locked_region.size));
+> > +
+> >=20
+> >  	for_each_sgtable_dma_sg(sgt, sgl, count) {
+> >  =09
+> >  		dma_addr_t paddr =3D sg_dma_address(sgl);
+> >  		size_t len =3D sg_dma_len(sgl);
+> >=20
+> > @@ -985,7 +1004,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 io=
+va,
+> > int prot,>=20
+> >  		offset =3D 0;
+> >  =09
+> >  	}
+> >=20
+> > -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
+> > +	return 0;
+> >=20
+> >  }
+> > =20
+> >  static int flags_to_prot(u32 flags)
+> >=20
+> > @@ -1654,6 +1673,38 @@ static const char *access_type_name(struct
+> > panthor_device *ptdev,>=20
+> >  	}
+> > =20
+> >  }
+> >=20
+> > +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64
+> > size) +{
+> > +	struct panthor_device *ptdev =3D vm->ptdev;
+> > +	int ret =3D 0;
+> > +
+> > +	mutex_lock(&ptdev->mmu->as.slots_lock);
+> > +	drm_WARN_ON(&ptdev->base, vm->locked_region.start ||
+> > vm->locked_region.size); +	vm->locked_region.start =3D start;
+> > +	vm->locked_region.size =3D size;
+> > +	if (vm->as.id >=3D 0) {
+> > +		lock_region(ptdev, vm->as.id, start, size);
+> > +		ret =3D wait_ready(ptdev, vm->as.id);
+> > +	}
+> > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void panthor_vm_unlock_region(struct panthor_vm *vm)
+> > +{
+> > +	struct panthor_device *ptdev =3D vm->ptdev;
+> > +
+> > +	mutex_lock(&ptdev->mmu->as.slots_lock);
+> > +	if (vm->as.id >=3D 0) {
+> > +		write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
+> > +		drm_WARN_ON(&ptdev->base, wait_ready(ptdev, vm-
+>as.id));
+> > +	}
+> > +	vm->locked_region.start =3D 0;
+> > +	vm->locked_region.size =3D 0;
+> > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> > +}
+>=20
+> Do we need to include a drm_dev_enter() somewhere here? I note that
+> panthor_vm_flush_range() has one and you've effectively replaced that
+> code with the above.
+Looks like we should.
+>=20
+> Thanks,
+> Steve
+>=20
+> > +
+> >=20
+> >  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32
+> >  status) {
+> > =20
+> >  	bool has_unhandled_faults =3D false;
+> >=20
+> > @@ -2179,6 +2230,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
+> > panthor_vm_op_ctx *op,>=20
+> >  	mutex_lock(&vm->op_lock);
+> >  	vm->op_ctx =3D op;
+> >=20
+> > +
+> > +	ret =3D panthor_vm_lock_region(vm, op->va.addr, op->va.range);
+> > +	if (ret)
+> > +		goto out;
+> > +
+> >=20
+> >  	switch (op_type) {
+> >  =09
+> >  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
+> >  		if (vm->unusable) {
+> >=20
+> > @@ -2199,6 +2255,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
+> > panthor_vm_op_ctx *op,>=20
+> >  		break;
+> >  =09
+> >  	}
+> >=20
+> > +	panthor_vm_unlock_region(vm);
+> > +
+> >=20
+> > +out:
+> >  	if (ret && flag_vm_unusable_on_failure)
+> >  =09
+> >  		vm->unusable =3D true;
 
-struct device_node should be opaque...
 
-        /*
-         * If there is a phandle pointing to the device node we can
-         * assume that another device will manage the status changes.
-         * If not we make sure the backlight is in a consistent state.
-         */
-        if (!dev->of_node->phandle)
-                backlight_update_status(bd);
 
-Well, that is ugly. IMO, we should just drop the check. A DT built
-with "-@" option will have phandle set, so that's not a reliable test.
 
-Rob
