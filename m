@@ -1,81 +1,25 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C231C68F
-	for <asahi@lists.linux.dev>; Wed, 16 Jul 2025 06:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1352B2C1A2
+	for <asahi@lists.linux.dev>; Wed, 16 Jul 2025 15:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752648251; cv=none; b=fwAJwhx9noZAfbcmxKUuUGB+OEc8Nz6i8UU8kEFwlJzrV+G0ofWR9GtteMfLrVUIdBOrEdb6wGpb6FQZjakKryXYYAx3YI3PZxaVaWUeY3c7YfFHqcVyMND3heCfsRGG8d9BQl8zH8aWP75Y2Nkgkznk8aTpjCwGBC+f0CNWN4A=
+	t=1752680615; cv=none; b=Tq3SVxsbxiSM4tBXKc5d3UNzwRYWvr3AThaQ4Di+uMBDT2YHmpYW+OTzuawJaUzc/+eo+NumSRNtgogzOF719hBX8EkBhw96WziMGf5PH4gTGaP64/0AJ7N2NKzlrRSf9MMVC7hqAmljOFlPUcKXApUsPf0lExX1+nkOkQ6Q2bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752648251; c=relaxed/simple;
-	bh=HjTHZZUC++ay/L1HT9nZBv3mNJEGuF6Agyu0Ii+xI7g=;
+	s=arc-20240116; t=1752680615; c=relaxed/simple;
+	bh=Ji0775R0HVfNec8p3OHBYoZFw0jpOB2UYWrndZpS8uk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ed/20SH0gTW1iykBfakkaCvAF61hQexAn6r4cxtYMRbEvyCe/ehlH/BE7Z0QgSws3jrQjslVO8ZBRPRn5356Tp7cPfVAlGvqTKZdV0d0xgCB1nvNAbQ/eUbUNdbeX3ZdY19lYS0APrtKdkmMXkB8yLEioF3svaWtmRbeDiJiyro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lF9DIVbO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QOpY3Ktx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lF9DIVbO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QOpY3Ktx; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lF9DIVbO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QOpY3Ktx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lF9DIVbO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QOpY3Ktx"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1DC392122B;
-	Wed, 16 Jul 2025 06:44:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752648243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VEUoLTT5I8yzxJpfDzrdKZYJvEEQsf+bCiIncTF9xFA=;
-	b=lF9DIVbOAhMVTxiD08F1NaRufP6txNZuZn4Szmzu50e5fpgBSKnc6lx/LkO/n6Gti1iEvR
-	uvzOKwkIqYOcPo25PK1jWSkVZF0dw/zr9EmUR9aRRcI7VxfwPWajTVD2ZQlWJdyCkiuEuO
-	t4bfILADOnpKPSgOuhfC22tFZ1/ozVU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752648243;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VEUoLTT5I8yzxJpfDzrdKZYJvEEQsf+bCiIncTF9xFA=;
-	b=QOpY3Ktx5QNQsjpv1l4ST1Enz02WmMWpXX3x+vKXuHRRXUT0wg19Y1ef3roxYrUT4d8HY6
-	H3DRYY6pepx65mBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lF9DIVbO;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QOpY3Ktx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752648243; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VEUoLTT5I8yzxJpfDzrdKZYJvEEQsf+bCiIncTF9xFA=;
-	b=lF9DIVbOAhMVTxiD08F1NaRufP6txNZuZn4Szmzu50e5fpgBSKnc6lx/LkO/n6Gti1iEvR
-	uvzOKwkIqYOcPo25PK1jWSkVZF0dw/zr9EmUR9aRRcI7VxfwPWajTVD2ZQlWJdyCkiuEuO
-	t4bfILADOnpKPSgOuhfC22tFZ1/ozVU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752648243;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VEUoLTT5I8yzxJpfDzrdKZYJvEEQsf+bCiIncTF9xFA=;
-	b=QOpY3Ktx5QNQsjpv1l4ST1Enz02WmMWpXX3x+vKXuHRRXUT0wg19Y1ef3roxYrUT4d8HY6
-	H3DRYY6pepx65mBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CFB513A52;
-	Wed, 16 Jul 2025 06:44:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AOgYHTJKd2iPcAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 16 Jul 2025 06:44:02 +0000
-Message-ID: <f5a5f4a2-3ea5-4a38-9e2a-19421c532bf3@suse.de>
-Date: Wed, 16 Jul 2025 08:44:02 +0200
+	 In-Reply-To:Content-Type; b=h70XZ570K/YDoCrKBFD4aZ5EMgoIY+RTp9x3U39JXVRxPnRvgEtZa8xAE2N8u6y3YpNA6D8/6crkKtk2U8JJON3BdPhxAorzh9nPuw5wPEDuKaccWo2QTS9Ey72BRduVOav2Sj+OZmFUbM63oGzPzZ3IS4QCMbPG2O+DmvMbb6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DDFD8113E;
+	Wed, 16 Jul 2025 08:43:23 -0700 (PDT)
+Received: from [10.57.86.212] (unknown [10.57.86.212])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D3383F66E;
+	Wed, 16 Jul 2025 08:43:26 -0700 (PDT)
+Message-ID: <0108b3cd-dfdd-4e4c-a2d8-157458e26f77@arm.com>
+Date: Wed, 16 Jul 2025 16:43:24 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -83,140 +27,336 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 15/15] backlight: Do not include <linux/fb.h> in header
- file
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
- neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, deller@gmx.de,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, sven@kernel.org, alyssa@rosenzweig.io,
- neal@gompa.dev, support.opensource@diasemi.com, duje.mihanovic@skole.hr,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org
-References: <20250715122643.137027-1-tzimmermann@suse.de>
- <20250715122643.137027-16-tzimmermann@suse.de>
- <aHZWGnJ9D72YFgNh@phenom.ffwll.local>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aHZWGnJ9D72YFgNh@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,gmx.de,linux.intel.com,ffwll.ch,jannau.net,redhat.com,rosenzweig.io,gompa.dev,diasemi.com,skole.hr,lists.freedesktop.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 1DC392122B
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+Subject: Re: [PATCH v4 1/7] drm/panthor: Add support for atomic page table
+ updates
+To: Caterina Shablia <caterina.shablia@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
+ <d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com> <2813151.QOukoFCf94@xps>
+ <2434159.cojqenx9y0@xps>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <2434159.cojqenx9y0@xps>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi
-
-Am 15.07.25 um 15:22 schrieb Simona Vetter:
-> On Tue, Jul 15, 2025 at 02:24:52PM +0200, Thomas Zimmermann wrote:
->> The backlight interfaces don't require anything from <linux/fb.h>, so
->> don't include it.
+On 15/07/2025 16:33, Caterina Shablia wrote:
+> El martes, 15 de julio de 2025 17:08:09 (hora de verano de Europa central), 
+> Caterina Shablia escribió:
+>> El viernes, 11 de julio de 2025 15:30:21 (hora de verano de Europa central),
+>> Steven Price escribió:
+>>> On 07/07/2025 18:04, Caterina Shablia wrote:
+>>>> From: Boris Brezillon <boris.brezillon@collabora.com>
+>>>>
+>>>> Move the lock/flush_mem operations around the gpuvm_sm_map() calls so
+>>>> we can implement true atomic page updates, where any access in the
+>>>> locked range done by the GPU has to wait for the page table updates
+>>>> to land before proceeding.
+>>>>
+>>>> This is needed for vkQueueBindSparse(), so we can replace the dummy
+>>>> page mapped over the entire object by actual BO backed pages in an
+>>>> atomic
+>>>> way.
+>>>>
+>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>>> Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
+>>>> ---
+>>>>
+>>>>  drivers/gpu/drm/panthor/panthor_mmu.c | 65 +++++++++++++++++++++++++--
+>>>>  1 file changed, 62 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c
+>>>> b/drivers/gpu/drm/panthor/panthor_mmu.c index b39ea6acc6a9..9caaba03c5eb
+>>>> 100644
+>>>> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+>>>> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+>>>> @@ -387,6 +387,15 @@ struct panthor_vm {
+>>>>
+>>>>  	 * flagged as faulty as a result.
+>>>>  	 */
+>>>>  	
+>>>>  	bool unhandled_fault;
+>>>>
+>>>> +
+>>>> +	/** @locked_region: Information about the currently locked region
+>>>> currently. */ +	struct {
+>>>> +		/** @locked_region.start: Start of the locked region.
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> I like this very much.
->
-> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-Thanks for reviewing. backlight.h is also the last major header file the 
-includes <linux/fb.h>. Not including it here will free many other files 
-from the dependency.
-
->
-> I guess also my Acked-by for merging the entire pile through the backlight
-> subsystem, that's probably the easiest path to land this all.
-
-Yeah, that was the plan.
-
-Best regards
-Thomas
-
->
-> Cheers, Sima
->
->> ---
->>   include/linux/backlight.h | 1 -
->>   1 file changed, 1 deletion(-)
+>> */
 >>
->> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
->> index 10e626db7eee..f29a9ef1052e 100644
->> --- a/include/linux/backlight.h
->> +++ b/include/linux/backlight.h
->> @@ -10,7 +10,6 @@
->>   #define _LINUX_BACKLIGHT_H
->>   
->>   #include <linux/device.h>
->> -#include <linux/fb.h>
->>   #include <linux/mutex.h>
->>   #include <linux/types.h>
->>   
->> -- 
->> 2.50.0
+>>>> +		u64 start;
+>>>> +
+>>>> +		/** @locked_region.size: Size of the locked region. */
+>>>> +		u64 size;
+>>>> +	} locked_region;
+>>>>
+>>>>  };
+>>>>  
+>>>>  /**
+>>>>
+>>>> @@ -775,6 +784,10 @@ int panthor_vm_active(struct panthor_vm *vm)
+>>>>
+>>>>  	}
+>>>>  	
+>>>>  	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab,
 >>
+>> transcfg,
+>>
+>>>>  	vm->memattr);>
+>>>>
+>>>> +	if (!ret && vm->locked_region.size) {
+>>>> +		lock_region(ptdev, vm->as.id, vm->locked_region.start,
+>>>> vm->locked_region.size); +		ret = wait_ready(ptdev, vm-
+>>>
+>>> as.id);
+>>>
+>>>> +	}
+>>>
+>>> Do we need to do this? It seems odd to restore a MMU context and
+>>> immediately set a lock region. Is there a good reason we can't just
+>>> WARN_ON if there's a lock region set in panthor_vm_idle()?
+>>
+>> So IIUC, when things are otherwise idle and we do a vm_bind, the vm will be
+>> inactive, in which case we're not going to poke the mmu to inform it of the
+>> locked region, because it literally is not aware of this vm. Now if in the
+>> meanwhile something submits a job and activates the vm, we need to inform
+>> the mmu of the locked region, as vm_bind job might still be going on. I
+>> don't see why panthor_vm_idle while a region is locked would be a problem?
+>> That can arise e.g. when a job completes but there's a concurrent vm_bind
+>> going on?
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+So it's absolutely fine (and normal) to perform a vm_bind while the VM
+is idle. In this case there's no need to perform the lock because
+there's nothing running on the GPU which could be affected by the page
+tables being (temporarily) inconsistent.
+
+What I'm questioning is the design where if, in the middle of a vm_bind
+operation, a job comes in and then we set the lock region rather than
+just waiting for the vm_bind operation to complete. AFAICT simply
+synchronising on the vm->op_lock should achieve this.
+
+>>> I think we need to briefly take vm->op_lock to ensure synchronisation
+>>> but that doesn't seem a big issue. Or perhaps there's a good reason that
+>>> I'm missing?
+>>
+>> I think you're right, all other accesses to locked_region are guarded by
+>> op_lock. GPU job submit poke vm_active concurrently with vm_bind jobs doing
+>> region {,un}locks.
+> Actually no, that's not necessary. Access to locked_region is protected by 
+> slots_lock, which is held here. Trying to lock vm->op_lock would also be 
+> detrimental here, because these locks are often taken together and slots_lock 
+> is taken after op_lock is taken, so taking op_lock here would be extremely 
+> deadlockful.
+
+It would obviously be necessary to acquire vm->op_lock before
+as.slots_lock as you say to avoid deadlocks. Note that as soon as
+as.slots_lock is held vm->op_lock can be dropped.
+
+I just find the current approach a little odd, and unless there's a good
+reason for it would prefer that we don't enable a VM on a new address
+space while there's an outstanding vm_bind still running. Obviously if
+there's a good reason (e.g. we really do expect long running vm_bind
+operations) then that just need documenting in the commit message. But
+I'm not aware that's the case here.
+
+Although in general I'm a bit wary of relying on the whole lock region
+feature - previous GPUs have an errata. But maybe I'm being over
+cautious there.
+
+Thanks,
+
+Steve
+
+>>
+>>>>  out_make_active:
+>>>>  	if (!ret) {
+>>>>
+>>>> @@ -902,6 +915,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm
+>>>> *vm, u64 iova, u64 size)>
+>>>>
+>>>>  	struct io_pgtable_ops *ops = vm->pgtbl_ops;
+>>>>  	u64 offset = 0;
+>>>>
+>>>> +	drm_WARN_ON(&ptdev->base,
+>>>> +		    (iova < vm->locked_region.start) ||
+>>>> +		    (iova + size > vm->locked_region.start + vm-
+>>>
+>>> locked_region.size));
+>>>
+>>>>  	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm-
+>>>
+>>> as.id,
+>>>
+>>>>  	iova, size);
+>>>>  	
+>>>>  	while (offset < size) {
+>>>>
+>>>> @@ -915,13 +931,12 @@ static int panthor_vm_unmap_pages(struct
+>>>> panthor_vm
+>>>> *vm, u64 iova, u64 size)>
+>>>>
+>>>>  				iova + offset + unmapped_sz,
+>>>>  				iova + offset + pgsize * pgcount,
+>>>>  				iova, iova + size);
+>>>>
+>>>> -			panthor_vm_flush_range(vm, iova, offset +
+>>
+>> unmapped_sz);
+>>
+>>>>  			return  -EINVAL;
+>>>>  		
+>>>>  		}
+>>>>  		offset += unmapped_sz;
+>>>>  	
+>>>>  	}
+>>>>
+>>>> -	return panthor_vm_flush_range(vm, iova, size);
+>>>> +	return 0;
+>>>>
+>>>>  }
+>>>>  
+>>>>  static int
+>>>>
+>>>> @@ -938,6 +953,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64
+>>>> iova,
+>>>> int prot,>
+>>>>
+>>>>  	if (!size)
+>>>>  	
+>>>>  		return 0;
+>>>>
+>>>> +	drm_WARN_ON(&ptdev->base,
+>>>> +		    (iova < vm->locked_region.start) ||
+>>>> +		    (iova + size > vm->locked_region.start + vm-
+>>>
+>>> locked_region.size));
+>>>
+>>>> +
+>>>>
+>>>>  	for_each_sgtable_dma_sg(sgt, sgl, count) {
+>>>>  	
+>>>>  		dma_addr_t paddr = sg_dma_address(sgl);
+>>>>  		size_t len = sg_dma_len(sgl);
+>>>>
+>>>> @@ -985,7 +1004,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64
+>>>> iova,
+>>>> int prot,>
+>>>>
+>>>>  		offset = 0;
+>>>>  	
+>>>>  	}
+>>>>
+>>>> -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
+>>>> +	return 0;
+>>>>
+>>>>  }
+>>>>  
+>>>>  static int flags_to_prot(u32 flags)
+>>>>
+>>>> @@ -1654,6 +1673,38 @@ static const char *access_type_name(struct
+>>>> panthor_device *ptdev,>
+>>>>
+>>>>  	}
+>>>>  
+>>>>  }
+>>>>
+>>>> +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64
+>>>> size) +{
+>>>> +	struct panthor_device *ptdev = vm->ptdev;
+>>>> +	int ret = 0;
+>>>> +
+>>>> +	mutex_lock(&ptdev->mmu->as.slots_lock);
+>>>> +	drm_WARN_ON(&ptdev->base, vm->locked_region.start ||
+>>>> vm->locked_region.size); +	vm->locked_region.start = start;
+>>>> +	vm->locked_region.size = size;
+>>>> +	if (vm->as.id >= 0) {
+>>>> +		lock_region(ptdev, vm->as.id, start, size);
+>>>> +		ret = wait_ready(ptdev, vm->as.id);
+>>>> +	}
+>>>> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>> +static void panthor_vm_unlock_region(struct panthor_vm *vm)
+>>>> +{
+>>>> +	struct panthor_device *ptdev = vm->ptdev;
+>>>> +
+>>>> +	mutex_lock(&ptdev->mmu->as.slots_lock);
+>>>> +	if (vm->as.id >= 0) {
+>>>> +		write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
+>>>> +		drm_WARN_ON(&ptdev->base, wait_ready(ptdev, vm-
+>>>
+>>> as.id));
+>>>
+>>>> +	}
+>>>> +	vm->locked_region.start = 0;
+>>>> +	vm->locked_region.size = 0;
+>>>> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+>>>> +}
+>>>
+>>> Do we need to include a drm_dev_enter() somewhere here? I note that
+>>> panthor_vm_flush_range() has one and you've effectively replaced that
+>>> code with the above.
+>>
+>> Looks like we should.
+>>
+>>> Thanks,
+>>> Steve
+>>>
+>>>> +
+>>>>
+>>>>  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32
+>>>>  status) {
+>>>>  
+>>>>  	bool has_unhandled_faults = false;
+>>>>
+>>>> @@ -2179,6 +2230,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
+>>>> panthor_vm_op_ctx *op,>
+>>>>
+>>>>  	mutex_lock(&vm->op_lock);
+>>>>  	vm->op_ctx = op;
+>>>>
+>>>> +
+>>>> +	ret = panthor_vm_lock_region(vm, op->va.addr, op->va.range);
+>>>> +	if (ret)
+>>>> +		goto out;
+>>>> +
+>>>>
+>>>>  	switch (op_type) {
+>>>>  	
+>>>>  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
+>>>>  		if (vm->unusable) {
+>>>>
+>>>> @@ -2199,6 +2255,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
+>>>> panthor_vm_op_ctx *op,>
+>>>>
+>>>>  		break;
+>>>>  	
+>>>>  	}
+>>>>
+>>>> +	panthor_vm_unlock_region(vm);
+>>>> +
+>>>>
+>>>> +out:
+>>>>  	if (ret && flag_vm_unusable_on_failure)
+>>>>  	
+>>>>  		vm->unusable = true;
+> 
+> 
+> 
+> 
 
