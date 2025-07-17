@@ -1,160 +1,112 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0569A1E5701
-	for <asahi@lists.linux.dev>; Wed, 16 Jul 2025 15:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59FCB29A9C8
+	for <asahi@lists.linux.dev>; Thu, 17 Jul 2025 15:05:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752681549; cv=none; b=ppEeyqGFQlAf9vvluptV2HvxYlzAPiRE3/U44r2e6K+OssejOkqp6wKBWyPjj7l0iRkNy7BcOxKqYbeeiJ4FutS48nz+a8y4hp/F6j3Grloz5Qy9ULuEvCnt6TOq1nrFaf6JfLfrarf314kwJSiF1Yw0Mzo/alZZ/YfBvcvKqSc=
+	t=1752764719; cv=none; b=CfnmF/BgeaZoJ3mUIGo99OKfK8P+3UTisv40SrsTTEi4P6V5/ivS62GC6SHIMAvM0hAm4ke3ZcRKRyuHyLZBw9EtNYACtGt6pauuB8KgtGiAWsSpbr6GPdhuxxuRvY8cbLxyofG+SEa2I545F0R+dmIxtbyjs/wM/aWDrSpaWZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752681549; c=relaxed/simple;
-	bh=BJ29zWP+Fo1FE8nFGYS/h04/WngnfxPC7DE3y4NVhJs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CRVKGn2NpV4GhpxV9EAdfKmJ7tBoALVFdz5tQW4NlToaj8VsjQ+Fpxme6u+Qmw6KWTzZHpZOiRu6bNm16n+bIuuDRKFqv9MdyoD7+8jH29DlHsG+3F0fN7wQ2J7nqOLspodApbj2B6TeewyNgmlE4gZUMsZzihWAT3HyXBdBZsk=
+	s=arc-20240116; t=1752764719; c=relaxed/simple;
+	bh=uoLRd01WGj9blBLb7RINWtE7jWKrNCOt2K+pkM8WXHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WNrqYDw4XvNi/QUwnAyuNurpk2A67LS3Juj6UoFDcBK7LLOM2YhO/K59R9rZMFkeO09ToeIXrGZx4pzV1d358XCVBujO90Zp49j7BUA3QmCTZ9RMXs/nkE5Gs8PEZW5LSjs4WjqTrczx5Orwe/dG4A0zpBb6F74GRBBGrcYrXJQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 43885113E;
-	Wed, 16 Jul 2025 08:58:59 -0700 (PDT)
-Received: from [10.57.86.212] (unknown [10.57.86.212])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 23C053F694;
-	Wed, 16 Jul 2025 08:59:02 -0700 (PDT)
-Message-ID: <04f35ef6-d6d6-4a30-89fe-6e578c3f03be@arm.com>
-Date: Wed, 16 Jul 2025 16:59:00 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D20241596;
+	Thu, 17 Jul 2025 08:05:09 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B73C3F694;
+	Thu, 17 Jul 2025 08:05:14 -0700 (PDT)
+Date: Thu, 17 Jul 2025 16:05:09 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Sven Peter <sven@kernel.org>,
+	Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH RESEND v7 00/21] drivers/perf: apple_m1: Add Apple
+ A7-A11, T2 SoC support
+Message-ID: <aHkRJdAuvhS2mNQj@J2N7QTR9R3>
+References: <20250616-apple-cpmu-v7-0-df2778a44d5c@gmail.com>
+ <aHUeUMmn_19EayL1@willie-the-truck>
+ <be327242-ad55-476a-bed4-44c33c263962@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 7/7] drm/panthor: Add support for repeated mappings
-To: Caterina Shablia <caterina.shablia@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
- <20250707170442.1437009-8-caterina.shablia@collabora.com>
- <414aabbe-763b-4786-a85c-a2670475ece5@arm.com> <2244038.Hq7AAxBmiT@xps>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <2244038.Hq7AAxBmiT@xps>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <be327242-ad55-476a-bed4-44c33c263962@gmail.com>
 
-On 15/07/2025 16:17, Caterina Shablia wrote:
-> El viernes, 11 de julio de 2025 16:03:26 (hora de verano de Europa central), 
-> Steven Price escribió:
->> On 07/07/2025 18:04, Caterina Shablia wrote:
->>> From: Boris Brezillon <boris.brezillon@collabora.com>
->>>
->>> This allows us to optimize mapping of a relatively small
->>> portion of a BO over and over in a large VA range, which
->>> is useful to support Vulkan sparse bindings in an efficient
->>> way.
->>>
->>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> Co-developed-by: Caterina Shablia <caterina.shablia@collabora.com>
->>> Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
->>
->> This looks like the right sort of shape. From an uAPI perspective I'm
->> not sure whether u32 is the right type for bo_repeat_range. While I
->> can't immediately see a use for having a large repeat range it seems a
->> little silly to close it off when we're going to have padding afterwards
->> anyway. Obviously the kernel would reject large values because the
->> internal APIs are only u32. But it would enable this to be fixed if we
->> ever discover a usecase without a uAPI change.
->>
->>> ---
->>>
->>>  drivers/gpu/drm/panthor/panthor_drv.c |  3 +-
->>>  drivers/gpu/drm/panthor/panthor_mmu.c | 78 ++++++++++++++++++++++++---
->>>  include/uapi/drm/panthor_drm.h        | 23 ++++++++
->>>  3 files changed, 95 insertions(+), 9 deletions(-)
->>>
+On Mon, Jul 14, 2025 at 11:59:36PM +0800, Nick Chan wrote:
+> 
+> Will Deacon 於 2025/7/14 夜晚11:12 寫道:
+> > On Mon, Jun 16, 2025 at 09:31:49AM +0800, Nick Chan wrote:
+> >> This series adds support for the CPU PMU in the older Apple A7-A11, T2
+> >> SoCs. These PMUs may have a different event layout, less counters, or
+> >> deliver their interrupts via IRQ instead of a FIQ. Since some of those
+> >> older SoCs support 32-bit EL0, counting for 32-bit EL0 also need to
+> >> be enabled by the driver where applicable.
+> >>
+> >> Patch 1 adds the DT bindings.
+> >> Patch 2-7 prepares the driver to allow adding support for those
+> >> older SoCs.
+> > Modulo my nits, the patches look alright to this point...
+> >
+> >> Patch 8-12 adds support for the older SoCs.
+> > ... but I'm not sure if anybody actually cares about these older SoCs
+> > and, even if they do, what the state of the rest of Linux is on those
+> > parts. I recall horror stories about the OS being quietly migrated
+> > between CPUs with incompatible features, at which point I think we have
+> > to question whether we actually care about supporting this hardware.
+> The "horror" story you mentioned is about Apple A10/A10X/T2, which
+> has a big little switcher integrated into the cpufreq block, so when the
+> cpufreq driver switch between states in the same way as on other
+> SoCs, on these SoCs that would silently cause a CPU migration. There
+> is only one incompatible feature that I am aware of which is 32-bit EL0
+> support.
 
-[...]
+Surely the MIDR/REVIDR/AIDR also change?
 
->>> +static int
->>> +panthor_vm_repeated_map_pages(struct panthor_vm *vm, u64 iova, int prot,
->>> +			      struct sg_table *sgt, u64 offset, u64 
-> size,
->>> +			      u64 count)
->>> +{
->>> +	/* FIXME: we really need to optimize this at the io_pgtable level. 
-> */
->>
->> Do you have plans for optimizing this? 
-> I personally don't have any plans, no, but maybe Boris does. I'll forward this 
-> question to him once he's back from his vacation.
->> How bad is the performance
->> without optimizing?
-> It's better than the alternative of poking vm_bind with a morbillion 
-> drm_panthor_vm_bind_ops. More seriously, I don't really have any workloads 
-> beside VK CTS to measure, for now. There's some stuff we should try to do in 
-> panvk first, like using a 2M dummy_page and doing some gymnastics when mapping 
-> it so we get huge mappings, which will hopefully lessen the pressure on this 
-> loop.
+In general, silent migration isn't acceptable for the kernel, even if
+you largely happen to get away with that today. It is not acceptable for
+architectural feature support to change dynamically.
 
-Ok, sounds like some more investigation is needed. I'm a little wary of
-a new feature which has a FIXME like this as it sounds like the design
-hasn't been tested yet. I'm happy with the current code if it's indeed
-"good enough", but if it's still too slow to be actually usable then I
-think we need to fix it before merging rather than have a new feature
-which isn't actually fast enough to use.
+> However, since the CPUs in these SoCs does not support
+> 4K pages anyways in practice this is not an issue for as long as
+> CONFIG_EXPERT is disabled.
 
->>
->>> +	for (u64 i = 0; i < count; i++) {
->>> +		int ret;
->>> +
->>> +		ret = panthor_vm_map_pages(vm, iova + (size * i), prot,
->>> +					   sgt, offset, size);
->>> +		if (ret) {
->>> +			panthor_vm_unmap_pages(vm, iova, size * (i - 
-> 1));
->>> +			return ret;
->>> +		}
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>>
+Do these parts have EL2?
 
-[...]
+> > On the other hand, if it all works swimmingly and it's just the PMU
+> > driver that needs updating, then I could get on board with it.
+> 
+> As mentioned above, it does all work fine when CONFIG_EXPERT is not
+> enabled, and if it is enabled, then 32-bit process may crash with illegal
+> instruction but everything else will still works fine.
 
->>>
->>> +	/**
->>> +	 * @bo_repeat_range: The size of the range to be repeated.
->>> +	 *
->>> +	 * Must be zero if DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT is not set in
->>> +	 * flags.
->>> +	 *
->>> +	 * Size must be a multiple of bo_repeat_range.
->>> +	 */
->>> +	__u32 bo_repeat_range;
->>> +
->>> +	/** @pad: Padding field. MBZ. */
->>> +	__u32 pad;
->>
->> If we're going to have the padding then the kernel needs to check that
->> this padding is zero, so that it can be available for future use.
-> I decided to go with your suggestion to change bo_repeat_range to be an __u64, 
-> but rejecting vm_binds with values above 2^32-1 for now.
+I don't think that's quite true, unless these parts are also violating
+the architecture.
 
-Yeah I think that's cleanest. Please do include a comment in the uapi
-file about the 2^32-1 limit though.
+If the CPU doesn't implement AArch32, then an ERET to AArch32 is
+illegal. The way illegal exception returns are handled means that this
+will result in a (fatal) illegal execution state exception being taken
+from the exception return code in the kernel, not an UNDEF being taken
+from userspace that would result in a SIGILL.
 
-Thanks,
-Steve
+I do not think that we should pretend to support hardware with silent
+microarchitectural migration. So at the very least, we do not care about
+A10/A10X/T2.
 
+Mark.
