@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633872629C;
-	Sat, 19 Jul 2025 13:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDB5DDC1;
+	Sat, 19 Jul 2025 13:10:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752930316; cv=none; b=p83X2NN9NFvrIjQEAlg0DZlgN3vwFICPF4wHeL/jbrvF8YXha14kJ5Xx7AU+CbGrRVV+mLLpgRQWO2RmKZYRq3RKLRsIDuezbDrH5gBDKuPphqkSvJFtFBUrL6GBIWB3z48a+UZVFgMWnC+sXOf0IWTuGIbXFIQBrJK9Z0+/Y8g=
+	t=1752930653; cv=none; b=ODr1tkKXUKFbhMXKA+pdWhWQxucBXWpqLU7V9DHxUIkDz2rR0biCayLDeAvlzFEix9m2qamnDBRu1l73wHCuVg+1vCJK36DOFfbG0RUtugKjQgkyI3U6qF4scYFpyVwU8uDM2xsEO5D+EZO1VOmKoOFkSR8UYR6w3M4WJcx3S/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752930316; c=relaxed/simple;
-	bh=v2lHPjZPKgeXJcLAgsu2mcNkm2hNRJJ4aWcXRC80BmY=;
+	s=arc-20240116; t=1752930653; c=relaxed/simple;
+	bh=rSTIGzJE4AZYfml7shVbzMPVYvWAf8JVrO1QpxdZuh0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eBreAwUxI5lmz/HRJ+tu+BzNcgYw4wd2wA7HQMsQD3363MVWVDgXD2qmdbpwGADgUpzr89lUedg2/ShARmRCzk3TiQNqi7KrReyLc7pNezp3b6Dr6mi1gjL9f31E0iG0epn1Ky6BDiZaieE+YqL0XUsASmRv+fKGnUAfrhLutak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZX/JGwO; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=EAcQRGrDv6vha2uMoYgy7GUL1gl1ZlS4cuj/3OmCptBK7iuaLApMcmQLT3GajTlfK0BWItDvD46G/b8/tVQJoObva6aASkU50bsgqk6yGbKPTsCNH3hsD+yem6CP+XB7svRal+dBtqsMgt7wTrwWm0/AO0xsyIV/xZXUtS4tp68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZrsEDcQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZX/JGwO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C2D6C4CEE3;
-	Sat, 19 Jul 2025 13:05:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZrsEDcQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B95A9C4CEE3;
+	Sat, 19 Jul 2025 13:10:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752930315;
-	bh=v2lHPjZPKgeXJcLAgsu2mcNkm2hNRJJ4aWcXRC80BmY=;
+	s=k20201202; t=1752930652;
+	bh=rSTIGzJE4AZYfml7shVbzMPVYvWAf8JVrO1QpxdZuh0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FZX/JGwOvv8QNFAy76R+hFqnrT4CLCu390CTjjAGnE4SNiR7oR/HWbx5csBUskcJW
-	 EstRTwfIrB+9cfAsn9KDJHr4E+p9lTdpzzK9nAB71+B8EwUi0mB+OPyDnv4QJvcwKw
-	 DjDri39K8ormqkcfjF+W2nh0Iejjwuk51zXvp/T0t6PuQlmfaHuz05J0PWKeQuVyfO
-	 H0XTEwgEj0yZKACT0kzVjT+8Ybc9y70yg5nLUQgyLQ6Izgs6cqpbq02eY6m1/PAHwz
-	 BXxXye3MyHgQhzq+kCNeKv29Q2NLLgi1ixw7kqy630zAj6Mat83tMPLwXjyTwpCEUe
-	 IGd8CXVQ1BKwA==
-Message-ID: <75db9390-273f-4277-8ef8-dab9f779418e@kernel.org>
-Date: Sat, 19 Jul 2025 15:05:11 +0200
+	b=nZrsEDcQp7EjPt8b6W+QExMsYf8U6TiOGHeo8WXIbgH3bzxNijIviTLT+bMd6S3pt
+	 RILQ5JwahYtLFDFypUEGy3nX0D+ebLT1JvykCytL2c/wJSdt7e1r4zSQTrVokRiv0G
+	 PosLZ2kDExIbc8isbgk8KmCur2leHVapofN+WITyYx4dxvsIHUZubAEFwk8X6NVqCw
+	 v8uvPrEE1Q8bW/JRa8qlpYWaeNzgUg6VLsdP3aF6kLeIUnDDG4JsV1J0/P5kXxMFYe
+	 7rMlTWu6xCKpeW6v5Qn65qPBlaNbUzn2yhabpGqKqOfemEn0azOOyDsH3Xz3Kqj72a
+	 eZSu1Kp86Kvhw==
+Message-ID: <43aaf42a-6756-4133-8422-03ab99a59d19@kernel.org>
+Date: Sat, 19 Jul 2025 15:10:48 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,43 +35,43 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: spmi: Add Apple A11 and T2 compatible
-To: Nick Chan <towinchenmi@gmail.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Janne Grunau <j@jannau.net>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20250609-t8015-spmi-v1-0-b3c55ad01491@gmail.com>
- <20250609-t8015-spmi-v1-1-b3c55ad01491@gmail.com>
+Subject: Re: [PATCH v2 1/9] dt-bindings: i2c: apple,i2c: Document Apple
+ A7-A11, T2 compatibles
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Janne Grunau <j@jannau.net>,
+ Nick Chan <towinchenmi@gmail.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Neal Gompa <neal@gompa.dev>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+References: <20250610-i2c-no-t2-v2-0-a5a71080fba9@gmail.com>
+ <20250610-i2c-no-t2-v2-1-a5a71080fba9@gmail.com>
 Content-Language: en-US
 From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20250609-t8015-spmi-v1-1-b3c55ad01491@gmail.com>
+In-Reply-To: <20250610-i2c-no-t2-v2-1-a5a71080fba9@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09.06.25 16:59, Nick Chan wrote:
-> The SPMI bus found on Apple A11 and T2 SoCs are compatible with the
-> existing driver so add their compatibles.
+On 10.06.25 15:45, Nick Chan wrote:
+> The I2C controllers found on Apple A7-A11, T2 SoCs are compatible with
+> the existing driver so add their per-SoC compatibles.
 > 
 > Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 > ---
->   Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 2 ++
->   1 file changed, 2 insertions(+)
-> 
 
-Hi Stephen,
+Hi Andi,
 
-I think the dt-binding change adding the new compatibles should usually 
-go through your tree.
+I think usually this dt-binding change adding new compatibles should go 
+through your tree.
 
-I can also pick it up if you want to otherwise together with the rest of 
-the dts changes.
+If you want to I can also take it together with the other dts changes 
+though.
 
 
-Thanks,
+Best,
 
 
 Sven
+
+
 
