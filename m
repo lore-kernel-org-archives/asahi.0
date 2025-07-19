@@ -1,59 +1,59 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF772236F0
-	for <asahi@lists.linux.dev>; Sat, 19 Jul 2025 15:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5167F7F477
+	for <asahi@lists.linux.dev>; Sat, 19 Jul 2025 15:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752939728; cv=none; b=nxZ6emYKBXCYX36DpNZEqofnVZZ95rjxPL+9DSSJ0RmM//x/5K5dTx4OoI/yVi9YGOb7bCFXfi3hNMkQ1HFpAjI/GjeA89veKi/MxKOyFuI5FjgHcUmpyiuDy0mFUvdfa90Wi12+kb2WSDhu10tUvJx4JQ1WWrEIXIgci05VADk=
+	t=1752940353; cv=none; b=DBb+GgbVRPOo/2eq6Y25r595Hca4v6hmaBhyq1rPARlKLGdOHFjMVW43yVOFv5i0JYHX8epJOSt6Fna7HaVj3C9PhW+3rC0aDvu5JJwe3LjbKLvrSCvdBCdf7NEkiwDVhSdGRqKoZWC8FiUbwf+FAvi2prp7wS2JOZvm5kZpL4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752939728; c=relaxed/simple;
-	bh=rn1nnfWM5bSta9/PZz3/I1BzLdbB7ZlLj09o7IEgKVU=;
+	s=arc-20240116; t=1752940353; c=relaxed/simple;
+	bh=u5bc8PEesDrnBIXOtuFP7+ZA4bNJkI3uyCmzQ6D87WI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VBcezFNxUnNNKQd0PADPpPLkHK2kVDGUzHoczPSrdPDCwD/lWaPiGS2M0Tcuz4z0DfSV39px2US3mM6eMIuBMe5DoBTqihUKtbVYBqVhy+MCfbaaGSn4pfreALyxSRDzPVvy305AEbFRJHbCyYBeUg5dsP3dlUVkgIUepg5FYrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xBWr/AMv; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 To:Cc:Content-Type; b=EoR4Kv7kkNSHZA58/Cvu8Z28DcJRuR9sJalGtKPxNEkGE0W1jskVbQ1xmXdZVW/CsyuhK1KYc8HTmpRIS+I+0WOglmgoj2NDTPan+0bypLGx2RcsCp7s7AgdUrTk7jGfykI1M8owpEf3jABRga82+j5c3ZRaDH98AE14eMeb8Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=GDmMFKyL; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xBWr/AMv"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-32b7113ed6bso23733361fa.1
-        for <asahi@lists.linux.dev>; Sat, 19 Jul 2025 08:42:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="GDmMFKyL"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-32f1aaf0d60so30547201fa.1
+        for <asahi@lists.linux.dev>; Sat, 19 Jul 2025 08:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752939725; x=1753544525; darn=lists.linux.dev;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1752940350; x=1753545150; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rn1nnfWM5bSta9/PZz3/I1BzLdbB7ZlLj09o7IEgKVU=;
-        b=xBWr/AMv7NziHt+rhjnW/SbEVxDUJyZKfum1sofcsCzC0Apx1JXwZyFzx8PlObmMEy
-         JrkvxS9JoYq/EJ+eiS5bLXEdnHVLEWxZn6WpzHxQen+qJL/NreWhpVOt3y3J5i4FgxJ4
-         lJ3xzJlZyorZwP76QsnuEiyrZTOqjYxWA87KrHs8Qg4Ju5E+KfeFeuZi8fXayWogs2eR
-         OtD8s41lgB7QRQPiAWX8ZOdHkxO0mekIqOSbS3oJGRSDijDuQdGJU4uCDvYvPtiwsYev
-         aSGP6+P0o/6R/Lk0ko3p4HKtUvusoaYkctlw9/QGV2wds+IX+zpO/majRxJGk+8XSM0h
-         VvUA==
+        bh=u5bc8PEesDrnBIXOtuFP7+ZA4bNJkI3uyCmzQ6D87WI=;
+        b=GDmMFKyLp+l4WMwGnLPbBRPwydLpk/jwpSVYScjE22+otkjYMHQLB2DOEqn5TLhzWF
+         oTmkSaQa29XNq9kgvL0UcyBi2caeL2j2VjgsY5PHFLQEq+RxJSIDB+0ayzQLhrvW78vh
+         vSy8/11RAM0K4khr7B/wG0Mrcy5KwGCDD/omnjdeccAG6u61FRhZy4NFtABKqP4nABAc
+         DtVQcsphwYR5FwvDssixZtnXvSAh3Q252ciEy1xQhxsWNkZwgmf5rYtxIWYPlozLZk/5
+         vgv4K3Vj6SPzXMJxstVHqjBErcQOHwC2Eg5pH7gn82zNoL1UQJPk2d1LbYVXM/GQClMt
+         g5Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752939725; x=1753544525;
+        d=1e100.net; s=20230601; t=1752940350; x=1753545150;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rn1nnfWM5bSta9/PZz3/I1BzLdbB7ZlLj09o7IEgKVU=;
-        b=f1ZSp9Yow+kAOzdACRKWJGs9rdYsqNlGbrJdGOyK5j0YrfjJ5wUmAU9Yi4u+S3Tars
-         lWKHVCxheTQQYAONKcrezgfKFOOSqYYmgAFGyfOELkMot3EYU5K8CYmwyXfSh4OTtnhK
-         Cs4SrO/pjR9JOtdV2Fx18FLLrEmaMCdlED+dgLuxoFFZJvtH9N+yqf4z60/8IYND34ti
-         MPZCPY9ac+oYH2FYAFGniMjlLmQikGZpDzKV3MTUbPwIKFaRb0V44GP95C5EI/PZxm5v
-         0T1dhdTZYFNNw+AHFABeEjQ25NmxlS0Fds7i0m1CgnDzpRNhEwNhRP/yTQ27e3mkBZZB
-         qvGg==
-X-Forwarded-Encrypted: i=1; AJvYcCWQhKA6DO9GjAIYqNRqVuuSwt2KT8/9nRQ8BdiygJLXIDe8eYM5FKrjX6G7jFHSGp8knkY52A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyK4eX8geiY3hOTVlnuo7KqAdEw8iRg/gRRkp8bR2LkZinmeQvM
-	88gQImPwBKW47WMRWfc8XJQ3l4MIj6UlJqMGrX/AA2SFE4rQ5tPAU9VApltKuAiL+vtBlHlFj40
-	lhboObuegUu0Qgw0iqytACWozNdM0REgyE9jAT4eo6Q==
-X-Gm-Gg: ASbGncvvk+QCPLgRQdzcpDkCOgxabfaSCFbgwQGOdAJrvXPBH2PufBDxJKUtrvrCf6B
-	768UkkAYmzWt4TwdC/G6d1b5b1RSDprKQFsMIuiykODxQiOzde3r9uE0jBtf0ilpyK2jNluqvp5
-	pfgYBI/QabqLBISWhmE7zvaLYaP5JEQsx6kUq4HE6eXdCwUzxWR3evWi+TUXaJKTOKCSOW332xS
-	iJicmM=
-X-Google-Smtp-Source: AGHT+IHz0AgUzYYyokGlt/TZ09DPKHJYVrOty6k/FTgVY5vV1r1KxHh9aV72LWBbI4MCzMrbevh/6hzgi1HVNc+Usj4=
-X-Received: by 2002:a05:651c:54d:b0:32a:864a:46eb with SMTP id
- 38308e7fff4ca-3308f2b7638mr46687401fa.0.1752939725118; Sat, 19 Jul 2025
- 08:42:05 -0700 (PDT)
+        bh=u5bc8PEesDrnBIXOtuFP7+ZA4bNJkI3uyCmzQ6D87WI=;
+        b=eqkHvWhpgxQHDKDrb+ItDBP7jNdX+qiCnijm69AaXQaqaGuaKWlror+FXwho78KH5F
+         t8In/zBa7u8WrJgy1R4pYNqwzX9KiQoVj2KcYWnxaJwHCYiooJDKPbEs8qB7VQADwlZU
+         fzntWZ/1SLTI9EyaDEFUQ1HXIK+jJG0U7eJIm//rV1SYRVwbG9AdjKKEyZojQrq4J040
+         LBEjDRY9Kf+C82Uuezz/9UUHhpmORsevr/Wn3J95KBCQq7airecLlrUoCn6HLebytR7L
+         baMXveHm8buDCLt6cNdPYP6FtgnuVSKcELlV8tGFGS5gBguKx9j8KSmcF63HSz8N/nIO
+         Vehw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ5M2fNQl0zyo+5zNDeBs8Y8ETFNYCqUcUKREXIVvgBFeQYHCdD92yllNF4RKYMfkNsXnfnw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZ7chXjSnzcu2Rt4m6CjwONQVEZs6Ehg8lS6ufzQkaMsXTJjc0
+	DKlolKbCdl2DilWAe4F1+WS6hTAJVFjhr2Nf0Q9yaxFsusj67PJxEGC7bBDQIFOaFX2tvjldPoH
+	uJGld/E02BcmgAVejAuaOmEr89SgGPgHBkIXfoZZqfA==
+X-Gm-Gg: ASbGncs/ZE9GdSO6NlOlNlX8xwD/sncG8n8QT/O//BZAHpJq5Y42gWeg7mx2f4AaWkf
+	VtM8KgFkFY7ZbOXxGQt8LEXmA916Wmg0h2mX43v+HkH1ntHIJpym0JJIE2BhOiNIYTPPH5S5ues
+	KuQizZa7EkZQKCZ3rAUhVfCSMYdGQbtBWBrxQAAAb2BHtcMXvT4aTYSTlfCzXvz72rfqPvS7R8W
+	GHRa4cQEibAUALONRMXpA0sJIXrRTl09VK7q90=
+X-Google-Smtp-Source: AGHT+IFmiA61E4Gg0hTSxNIaahpYBE3l0iLJ8kM3KyoRS/pDDJR+mBK07r+7Ph2Rktom9ZxkS+DLG3ISTwAgRVBfuh8=
+X-Received: by 2002:a2e:a550:0:b0:32a:85ad:2162 with SMTP id
+ 38308e7fff4ca-3309a46638amr29026981fa.7.1752940350231; Sat, 19 Jul 2025
+ 08:52:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -62,14 +62,15 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20250610-smc-6-15-v7-0-556cafd771d3@kernel.org>
  <20250610-smc-6-15-v7-6-556cafd771d3@kernel.org> <8f9fdb3e-9655-44ce-8a2f-c1628c88c929@kernel.org>
-In-Reply-To: <8f9fdb3e-9655-44ce-8a2f-c1628c88c929@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 19 Jul 2025 17:41:54 +0200
-X-Gm-Features: Ac12FXwAlxaX4ocIXQ1MhtIhdmA9pd8x_pk-4cH3CUUGhFSCjbZy3REqIbEaUb0
-Message-ID: <CACRpkdZdz7eHVjgX-X_UwjJ_qSu5hSPeocuQ9DWSiyjNLU5AmA@mail.gmail.com>
+ <CACRpkdZdz7eHVjgX-X_UwjJ_qSu5hSPeocuQ9DWSiyjNLU5AmA@mail.gmail.com>
+In-Reply-To: <CACRpkdZdz7eHVjgX-X_UwjJ_qSu5hSPeocuQ9DWSiyjNLU5AmA@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Sat, 19 Jul 2025 17:52:19 +0200
+X-Gm-Features: Ac12FXzcG7EoJK0F7AkshhLftC2Qw2ygudqOy-1un15EMy9NVqfotyOTu45yZjU
+Message-ID: <CAMRc=McNK3fmbP2UON0EGkjM6gH_1zSHFr_PzZ9JhR7a5swLQw@mail.gmail.com>
 Subject: Re: [PATCH v7 06/10] gpio: Add new gpio-macsmc driver for Apple Macs
-To: Sven Peter <sven@kernel.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, 
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Sven Peter <sven@kernel.org>, Lee Jones <lee@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, asahi@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org, Hector Martin <marcan@marcan.st>, 
 	Neal Gompa <neal@gompa.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-gpio@vger.kernel.org, 
@@ -80,14 +81,21 @@ Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 19, 2025 at 2:59=E2=80=AFPM Sven Peter <sven@kernel.org> wrote:
+On Sat, Jul 19, 2025 at 5:42=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+>
+> On Sat, Jul 19, 2025 at 2:59=E2=80=AFPM Sven Peter <sven@kernel.org> wrot=
+e:
+>
+> > top posting on purpose: are you fine if Lee takes this commit with the
+> > rest through his mfd tree?
+>
+> Bartosz should answer this since he's dealing with the merge
+> window for GPIO, but generally it's fine, and it's even using
+> .set_rv.
 
-> top posting on purpose: are you fine if Lee takes this commit with the
-> rest through his mfd tree?
+Yes, for sure. Lee typically provides all interested parties with
+immutable branches after picking up complex drivers like this. I
+already reviewed it but for the sake of completeness:
 
-Bartosz should answer this since he's dealing with the merge
-window for GPIO, but generally it's fine, and it's even using
-.set_rv.
-
-Yours,
-Linus Walleij
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
