@@ -1,127 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCE422CBE9
-	for <asahi@lists.linux.dev>; Tue, 22 Jul 2025 13:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581AB372;
+	Tue, 22 Jul 2025 16:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753189446; cv=none; b=Ga+M4pX3grBtxn3NtMj+zWDIbrNOOj88z5ZANld8leF2CFf1JjX8G0nOnoxzWUYIvaIVYT8h30xz0tXnRmATJ0IliXu702ClsZHQ1HC4F9OybzsbnmMpflZpbCuHvGOKH3R6/a4gwBNF7VbV9HKLizU914oOZ18h7EDa8jYLPik=
+	t=1753201986; cv=none; b=S99d+Ef/cVXerPxXqUEZlwwaXmGv86jXng50yZW7rde7cXdcv73fY0rug9B3Xq7qboLMlIV65FM4EOAeCn8UMKZI3SAgWBQfIA3xkJZ/xoKMp/w8FK0SiYrkOl29wxNkJQeB3urJq4kBEFnjVWegib8O0suhBU1UMq2nJFlzcG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753189446; c=relaxed/simple;
-	bh=M9Vw3KUZFsgEmCfhOhsRP4t6JpAYCh+PJDWJBaOwz3A=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=aLpx+HVIk7GJR3RqGOOYDoMcKfBZUOW3mXnvh/IEBGFxj3Re5v9ogroj02rSYl3hoIAFmcthnLiVdZlWALKbBrXc4NkJrOVY7Uvd8Zg6cbAo7y1Ji0DUChXDxmX8c+NUuqr3EzMHRTS3FYuaBdlpx3n5L+/6QciFQQe1p+ehRVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtJw39HN; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1753201986; c=relaxed/simple;
+	bh=HOrXnADP7UreaaGT5Tj68vMJPVVKA1rs/NitPY59mv8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OoeTlXr9O77Ox1MxYDpyvxP9MOq9Y+s5rcI1Tdar7u23deztgxAXQe+G+MUe8RmAS9j5kSDPjsARmUhtUrEY4uJoS1RtmWgUpfWprKyf9ZXtPAx8wg05r67Hk9T9BhcbC8qKNk9dGQ3TaQsEMyKKqZ/YpU2bFpty+HrNgaxJUpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SzfIGf7F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtJw39HN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753189442; x=1784725442;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=M9Vw3KUZFsgEmCfhOhsRP4t6JpAYCh+PJDWJBaOwz3A=;
-  b=DtJw39HNieyEtkXKlIPyFEneErTH9dMLtRujXhCZOUxrR5/Kv5b1g6D4
-   A6kPnjWiiuCKECBKLjraN6fkFLj6waDeTsy97hspOU5IpWIB+75xqdHxa
-   dVrGhUQfXCLx26J/v5u8aDiH0tK+uyjTQGLuJVbTDUFZ5YQMBUNefx9ng
-   aPpwfzWNVtbKQvqdcjDAHVxHr0xZmHjWtR/yM7RI6PLBGkoL7agti2Txb
-   cgy26OtD53+EFkJQD/2TvpjnmnDtOHflcC/2SlmIdgOykH7YdZD7niSBn
-   q3VWYXK+RDEy7uK5qv3AR2YwaVM10JnlHURM7inoLf6r1AaTPnLwzFYAG
-   w==;
-X-CSE-ConnectionGUID: DCk4S1AhQY6FLGXLJWqFwQ==
-X-CSE-MsgGUID: mJhYo82zQuiYOHdxqNfR8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="66868859"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="66868859"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 06:04:01 -0700
-X-CSE-ConnectionGUID: s9F4wQS3SoOdr768O6l/2w==
-X-CSE-MsgGUID: a83p41ZBQmuPngQa5/7AJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="159209027"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.254])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 06:03:53 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 22 Jul 2025 16:03:48 +0300 (EEST)
-To: Thomas Zimmermann <tzimmermann@suse.de>
-cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, 
-    neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, deller@gmx.de, 
-    maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
-    simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net, 
-    Hans de Goede <hdegoede@redhat.com>, sven@kernel.org, alyssa@rosenzweig.io, 
-    neal@gompa.dev, support.opensource@diasemi.com, duje.mihanovic@skole.hr, 
-    dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
-    platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-    linux-fbdev@vger.kernel.org, Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v2 01/15] platform/x86: dell-uart-backlight: Use blacklight
- power constant
-In-Reply-To: <90d816ba-aaf3-4b7b-9c52-72613be5b85a@suse.de>
-Message-ID: <19aaca56-6784-209c-3076-cc63f733a021@linux.intel.com>
-References: <20250715122643.137027-1-tzimmermann@suse.de> <20250715122643.137027-2-tzimmermann@suse.de> <c380d3a4-2a99-cf52-0952-ee916b6c9676@linux.intel.com> <90d816ba-aaf3-4b7b-9c52-72613be5b85a@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SzfIGf7F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2EF4C4CEEB;
+	Tue, 22 Jul 2025 16:33:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753201986;
+	bh=HOrXnADP7UreaaGT5Tj68vMJPVVKA1rs/NitPY59mv8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SzfIGf7FM2DDMqURKHa7wAoobKre8lX1YP9pa7QJ18b/2Y5p5q0jtHbdBMrXz70b1
+	 oEKItR04r1mR8v0TwXieEJY5MqhEoVLrYQnoZks6AT4DZsshLfk9/HunQlXRGaXtYJ
+	 2lBkANT7kP/fBEcg9nblZqhllpNs9I8ilXmWPo/0rOyODzGgpjkdg8ajT339w0r7uV
+	 S5DYn0GaMm7eg85m0FEJAOFNWt3RqfyMS4RAU8IIl4u1jYA8wSWK7XKgDij/uHE9XP
+	 lXVLJj1UO6n5qY7f+TssU0993Gg3O+YV2gJ6ufG00WgPq/duNq07SH3DaE+TwaPHiA
+	 +5uA4qxAICnbQ==
+From: Sven Peter <sven@kernel.org>
+To: soc@lists.linux.dev
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Sven Peter <sven@kernel.org>
+Subject: [GIT PULL 1/2] Apple SoC driver changes for v6.17
+Date: Tue, 22 Jul 2025 18:32:57 +0200
+Message-Id: <20250722163258.62424-1-sven@kernel.org>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-860532718-1753189428=:920"
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Arnd,
 
---8323328-860532718-1753189428=:920
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Sorry for the very late pull requests this time, last weeks at work have been very
+busy and I wasn't able to find time earlier.
 
-On Mon, 21 Jul 2025, Thomas Zimmermann wrote:
+This time we have two PRs for 6.17, the details are also in the signed tags:
 
-> Hi
->=20
-> Am 21.07.25 um 13:43 schrieb Ilpo J=C3=A4rvinen:
-> > On Tue, 15 Jul 2025, Thomas Zimmermann wrote:
-> >=20
-> > > The backlight subsystem has gotten its own power constants. Replace
-> > > FB_BLANK_UNBLANK with BACKLIGHT_POWER_ON.
-> > >=20
-> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Reviewed-by: Hans de Goede <hansg@kernel.org>
-> > > Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-> > > ---
-> > >   drivers/platform/x86/dell/dell-uart-backlight.c | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/platform/x86/dell/dell-uart-backlight.c
-> > > b/drivers/platform/x86/dell/dell-uart-backlight.c
-> > > index 8f868f845350..f323a667dc2d 100644
-> > > --- a/drivers/platform/x86/dell/dell-uart-backlight.c
-> > > +++ b/drivers/platform/x86/dell/dell-uart-backlight.c
-> > > @@ -305,7 +305,7 @@ static int dell_uart_bl_serdev_probe(struct
-> > > serdev_device *serdev)
-> > >   =09dev_dbg(dev, "Firmware version: %.*s\n", resp[RESP_LEN] - 3, res=
-p +
-> > > RESP_DATA);
-> > >     =09/* Initialize bl_power to a known value */
-> > > -=09ret =3D dell_uart_set_bl_power(dell_bl, FB_BLANK_UNBLANK);
-> > > +=09ret =3D dell_uart_set_bl_power(dell_bl, BACKLIGHT_POWER_ON);
-> > >   =09if (ret)
-> > >   =09=09return ret;
-> > Hi Thomas,
-> >=20
-> > Do you expect this entire series to go in this cycle through some other
-> > tree than pdx86? If not, I'll take this through pdx86 tree in this cycl=
-e.
->=20
-> I don't know when the series will get merged, but it might still take a b=
-it.
-> Please take this patch through your tree. Good to have it off the list.
+- Driver updates which include making a rtkit memory management callback
+  optional and dropping default ARCH_APPLE from our drivers in Kconfig.
+  I wanted to instead select these in defconfig but that change isn't ready
+  for this cycle.
 
-Thanks.
+- Device tree updates which include the bindings and nodes for our GPU driver.
+  The driver itself isn't ready yet mainly due to rust dependencies but we're
+  confident about the bindings and want to commit to keeping them stable.
+  Otherwise there are a two smaller changes: removing another W=1 warning
+  (which required a change to the binding itelf that'll also land in 6.17
+  through the NVMEM tree) and adding a missing touchbar framebuffer node to
+  the Apple T2 SoC device tree.
 
-Applied it to the review-ilpo-next branch.
 
---=20
- i.
+Best,
 
---8323328-860532718-1753189428=:920--
+
+Sven
+
+
+
+The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
+
+  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git tags/apple-soc-drivers-6.17
+
+for you to fetch changes up to 0445eee835d6e59d635e242ba1d9273f168035fa:
+
+  soc: apple: rtkit: Make shmem_destroy optional (2025-07-19 14:52:36 +0200)
+
+----------------------------------------------------------------
+Apple SoC driver changes for v6.17
+
+- Dropped default ARCH_APPLE from Kconfig
+- Made shmem_destroy for coprocessor-managed buffers in the rtkit
+  library optional since it's not required for e.g. SMC
+
+Signed-off-by: Sven Peter <sven@kernel.org>
+
+----------------------------------------------------------------
+Sven Peter (2):
+      soc: apple: Drop default ARCH_APPLE in Kconfig
+      soc: apple: rtkit: Make shmem_destroy optional
+
+ drivers/soc/apple/Kconfig | 3 ---
+ drivers/soc/apple/rtkit.c | 3 +--
+ 2 files changed, 1 insertion(+), 5 deletions(-)
