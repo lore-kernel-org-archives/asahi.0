@@ -1,60 +1,55 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855E727A121
-	for <asahi@lists.linux.dev>; Tue, 22 Jul 2025 19:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753212117; cv=pass; b=RIxo7VkwNLh6N6smRSGYKjGMO9SIWV11nnyf2F+HYXYEB0aSBtzGdR7Etrfuy2AmNP1OWnRGXAfwwUtV7DVGPi+TNm1jg9+qP5CY6/TaBsUNfuvtZfIusovxgQ0I7Vkp65JBvnT4/jrt3IezRpYhEmjhupIEI8yBMcZO8ECVPio=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753212117; c=relaxed/simple;
-	bh=myBrXrprD8vQOswk76iiOoP2AABCnGQbIvTtX5GSO/Y=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C79917E4;
+	Wed, 23 Jul 2025 08:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753257982; cv=none; b=eAp8iwMhmrN4FKDBuAS1ffkWtnaJd2XFnq3Z7YgKqJpmwAa3oluoHgkJ9LWxcPHBLk9x+WfAYz/YRLEbfPCpZ73NQqhNQB0v0TSdB2Id51bcE5BxtxrubiS92tx0zAg7S4NqStJ8fUPNDMkhRWZ7AA6aR+P8AodStbNHJcEbiH8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753257982; c=relaxed/simple;
+	bh=WnDG1UA1bGrhEYDV9mKGmbyJ7Yrsf0tyvjUYJ1ZzAvo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ia0+zda7OJk46XD576mvcUgkT0diyE1mBooXLxUAmWYrzW3Hjl398+G5jm8eZrIqJmlDoMPvAs2G/4fssXFjMlMqP/NqwBk1yGXcI3lGlUhMAw/jKxjXFX0P7DFxU/jnlSPPGogjJI7yrukE7m1IvXpuMjtA6Qy61GUVr5rr/DI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=CQ60EPoz; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hvDMzs7i/No8YJ8vNyzPNMjZj5/dcLSl6Jb3oRtdjdqUa9n+kMEdJm08Zwe5xX43uwq0j2CEVDUQRYjnwxPrG531DChbjkMHtTLghSI+6njStXn0Y3XmPBWvA1jfSCUIS5IN5O4zb5IigWYyYBRAz0mkxg53o0ujsgNJ7scYK4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RQmfOxAC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="CQ60EPoz"
-ARC-Seal: i=1; a=rsa-sha256; t=1753212098; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YOi6TTEwIU2i9DCnhpi0g1oF/9DeebmF2lachFVjl68/HyOjwDyixlFUsyDM+8ZaikTpedNCH7Df8MoFWFtXSvLoElq9nFa7SY3lLU/WjT+mP2BXngXnLRwfuUUeMnliLj+eFD+DZ//t9yE5sagXFtCsk2goch+18EibRStPsGQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1753212098; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Qai5M5VsrAf1/MTCRQHTr0B01Buum0Ep0FyLGUM5vS8=; 
-	b=d1zuihA9HrYBTvYTh+ob+jYW6BlahuDns2mqMGjFdfqM/QRHmgQszjBoPeFAYnZD5N2za9GGveKam6JH+PSrcaIFow+TAq+q3/xEuI4jiRwN2LX3UHwMNyv63ftGS2Yj/hxMUxKzAYv+lbFTzV/dGT32SPv6Gea2atfDlk0a2Rc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753212098;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=Qai5M5VsrAf1/MTCRQHTr0B01Buum0Ep0FyLGUM5vS8=;
-	b=CQ60EPozePG5VpzlDk6J6JJ+PmMEOg6A/Eip79NbBhAnrfkPc+b3d4sXA5MnHcip
-	KUvlOXhHhH5OMVZoe7UHch1ze2nC45l9k8KLQ+lGgUJyVqJmmW3ZQvlxVA15h6SQaWS
-	ZdfDZMa1Yf7gFOlirmiLDd2zMgBEypMPbSc1AxhU=
-Received: by mx.zohomail.com with SMTPS id 1753212096981311.77162614318456;
-	Tue, 22 Jul 2025 12:21:36 -0700 (PDT)
-Date: Tue, 22 Jul 2025 20:21:25 +0100
-From: Adrian Larumbe <adrian.larumbe@collabora.com>
-To: Caterina Shablia <caterina.shablia@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Boris Brezillon <boris.brezillon@collabora.com>, 
-	Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH v4 5/7] drm/gpuvm: Add a flags field to
- drm_gpuvm_map_req/drm_gpuva_op_map
-Message-ID: <rquyd5sq4y6dhnnbqcmnorvhzvui6kbpysol6idinuwajlmawn@awv2uqosdacl>
-References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
- <20250707170442.1437009-6-caterina.shablia@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RQmfOxAC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D561C4CEE7;
+	Wed, 23 Jul 2025 08:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753257981;
+	bh=WnDG1UA1bGrhEYDV9mKGmbyJ7Yrsf0tyvjUYJ1ZzAvo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RQmfOxACvj52LQJCTXJJSVC97NHeii7RnfXwQtZajVUVCh6qVVnKCQhXtLVKTubzS
+	 qEMuTVr1bnUw/YdzP7GBpJNzsA+Bk6Na7SMh+sPJgWxGdJZ1qRXJfEJdUcKX85onE3
+	 k8k74Ywa9X4YdCH5RrJ8GaDdkRNjGwS77CwvWJBBRZHc8gbOcwESB6TaozTRID0yDU
+	 g3y1GnTvIWGMgetQ8SSpavu1oma51gSVxmKqqJ0/2+SxuCDUoi/dx2hovZvFfx6vyg
+	 UFPEcIHsmvF/6gg6AlIUJE1oOljDZSlzETOpQspQ+3KZ+O13D48FFOrBB75u/mUoqe
+	 FKQxr+lpmAWlQ==
+Date: Wed, 23 Jul 2025 09:06:15 +0100
+From: Lee Jones <lee@kernel.org>
+To: Sven Peter <sven@kernel.org>
+Cc: Nick Chan <towinchenmi@gmail.com>, asahi@lists.linux.dev,
+	Neal Gompa <neal@gompa.dev>, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Hector Martin <marcan@marcan.st>,
+	Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v7 07/10] power: reset: macsmc-reboot: Add driver for
+ rebooting via Apple SMC
+Message-ID: <20250723080615.GM11056@google.com>
+References: <20250610-smc-6-15-v7-0-556cafd771d3@kernel.org>
+ <20250610-smc-6-15-v7-7-556cafd771d3@kernel.org>
+ <7297d4b1-84a2-4bb1-8a33-29c827247df7@gmail.com>
+ <d6b778ee-02c0-4dd2-b33f-cec16c17807c@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -63,126 +58,54 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250707170442.1437009-6-caterina.shablia@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d6b778ee-02c0-4dd2-b33f-cec16c17807c@kernel.org>
 
-On 07.07.2025 17:04, Caterina Shablia wrote:
-> From: Asahi Lina <lina@asahilina.net>
->
-> drm_gpuva objects have a flags field. Currently, this can be managed by
-> drivers out-of-band, without any special handling in drm_gpuvm.
->
-> To be able to introduce flags that do affect the logic in the drm_gpuvm
-> core, we need to plumb it through the map calls. This will allow the
-> core to check the flags on map and alter the merge/split logic depending
-> on the requested flags and the flags of the existing drm_gpuva ranges
-> that are being split.
->
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gpuvm.c | 7 +++++++
->  include/drm/drm_gpuvm.h     | 9 +++++++++
->  2 files changed, 16 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index dc3c2f906400..dd949a8853b0 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -2063,6 +2063,7 @@ op_map_cb(const struct drm_gpuvm_ops *fn, void *priv,
->  	op.map.va.range = req->va.range;
->  	op.map.gem.obj = req->gem.obj;
->  	op.map.gem.offset = req->gem.offset;
-> +	op.map.flags = req->flags;
->
->  	return fn->sm_step_map(&op, priv);
->  }
-> @@ -2175,6 +2176,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  					.va.range = range - req->va.range,
->  					.gem.obj = obj,
->  					.gem.offset = offset + req->va.range,
-> +					.flags = va->flags,
->  				};
->  				struct drm_gpuva_op_unmap u = {
->  					.va = va,
-> @@ -2193,6 +2195,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  				.va.range = ls_range,
->  				.gem.obj = obj,
->  				.gem.offset = offset,
-> +				.flags = va->flags,
->  			};
->  			struct drm_gpuva_op_unmap u = { .va = va };
->
-> @@ -2219,6 +2222,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  					.gem.obj = obj,
->  					.gem.offset = offset + ls_range +
->  						      req->va.range,
-> +					.flags = va->flags,
->  				};
->
->  				ret = op_remap_cb(ops, priv, &p, &n, &u);
-> @@ -2247,6 +2251,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
->  					.va.range = end - req_end,
->  					.gem.obj = obj,
->  					.gem.offset = offset + req_end - addr,
-> +					.flags = va->flags,
->  				};
->  				struct drm_gpuva_op_unmap u = {
->  					.va = va,
-> @@ -2290,6 +2295,7 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
->  			prev.va.range = req_addr - addr;
->  			prev.gem.obj = obj;
->  			prev.gem.offset = offset;
-> +			prev.flags = va->flags;
->
->  			prev_split = true;
->  		}
-> @@ -2299,6 +2305,7 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
->  			next.va.range = end - req_end;
->  			next.gem.obj = obj;
->  			next.gem.offset = offset + (req_end - addr);
-> +			next.flags = va->flags;
->
->  			next_split = true;
->  		}
-> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> index a6e6c33fc10b..f77a89e791f1 100644
-> --- a/include/drm/drm_gpuvm.h
-> +++ b/include/drm/drm_gpuvm.h
-> @@ -847,6 +847,11 @@ struct drm_gpuva_op_map {
->  		 */
->  		struct drm_gem_object *obj;
->  	} gem;
-> +
-> +	/**
-> +	 * @flags: requested flags for the &drm_gpuva for this mapping
-> +	 */
-> +	enum drm_gpuva_flags flags;
->  };
->
->  /**
-> @@ -1074,6 +1079,9 @@ struct drm_gpuvm_map_req {
->  		/** @offset: offset in the GEM */
->  		u64 offset;
->  	} gem;
-> +
-> +	/** @flags: combination of DRM_GPUVA_ flags describing the mapping properties. */
-> +	enum drm_gpuva_flags flags;
+On Sat, 21 Jun 2025, Sven Peter wrote:
 
-Wouldn't this be better expressed as a u32 combination of enum drm_gpuva_flags flags?
-Calling it 'flags' makes me feel like any OR'd combination of enum values would be possible.
+> On 16.06.25 06:13, Nick Chan wrote:
+> > 
+> > 
+> > On 10/6/2025 23:29, Sven Peter wrote:
+> > > From: Hector Martin <marcan@marcan.st>
+> > > 
+> > > This driver implements the reboot/shutdown support exposed by the SMC
+> > > on Apple Silicon machines, such as Apple M1 Macs.
+> > > 
+> > > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > > Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> > > Reviewed-by: Neal Gompa <neal@gompa.dev>
+> > > Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > > Signed-off-by: Sven Peter <sven@kernel.org>
+> > > ---
+> > >   MAINTAINERS                         |   1 +
+> > >   drivers/power/reset/Kconfig         |   9 ++
+> > >   drivers/power/reset/Makefile        |   1 +
+> > >   drivers/power/reset/macsmc-reboot.c | 290 ++++++++++++++++++++++++++++++++++++
+> > >   4 files changed, 301 insertions(+)
+> > [...]
+> > 
+> > It seems that the reboot driver still probes even without the smc_reboot node in the smc node:
+> 
+> 
+> That's odd...
+> 
+> Lee, is it expected that a mfd sub-device declared with
+> MFD_CELL_OF("macsmc-reboot", NULL, NULL, 0, 0, "apple,smc-reboot"),
+> is loaded even if there's no corresponding node in the device tree?
+> 
+> I'll have to re-add the check that makes sure the sub-device is available
+> then.
 
->  };
->
->  struct drm_gpuva_ops *
-> @@ -1097,6 +1105,7 @@ void drm_gpuva_ops_free(struct drm_gpuvm *gpuvm,
->  static inline void drm_gpuva_init_from_op(struct drm_gpuva *va,
->  					  struct drm_gpuva_op_map *op)
->  {
-> +	va->flags = op->flags;
->  	va->va.addr = op->va.addr;
->  	va->va.range = op->va.range;
->  	va->gem.obj = op->gem.obj;
-> --
-> 2.47.2
+Yes, that's expected.  MFD is orthogonal to DT with respect to device
+registration, unless you specifically disable the node in DT.  If the
+node is missing, the device will still be registered, but no link will
+be made from the (non-existent) node to the 'of_node' pointer.
 
-Adrian Larumbe
+You have 3 choices; provide a DT node and explicitly set the status to
+'disabled', optionally omit registration from MFD (i.e. do not call
+mfd_add_devices()) or check for (!pdev->dev.of_node) in the sub-device's
+.probe() and bomb out early if true.
+
+-- 
+Lee Jones [李琼斯]
