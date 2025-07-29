@@ -1,116 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89072263F34;
-	Thu, 24 Jul 2025 10:25:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B17D125B2;
+	Tue, 29 Jul 2025 22:33:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753352738; cv=none; b=MjRLXc8aBRo1qM+y1I8Onqmg/lRAkGv/16khtqIxVyj1/bp9DbXM05x54EMOIf9GnLHndJeuAOyBEXOpSe1B/bhSmn83R9j1f3fGT5Nm3ndvAZfqLmXnTXEl58QjpCggMMS6fMkMD/y9B+xkzxuRNzadSUpuRuTbUS2n9jBmTCo=
+	t=1753828382; cv=none; b=XTUYr507ok5DKoPWfwQjCktmNHXsRAXA9cItSkyIhjnqW8OqR5s5X/fPMQzBVpCs64zS8wLuApXR+Ey6y/YDS6jwQUzH+if/YqeS0A7Y5AHK3J1ezbP7MoCG8i66/1cESalga8Pu8q9jPpLQsC19LKnRTzZEyOYnXo0ue6D9Dx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753352738; c=relaxed/simple;
-	bh=HBCOj9X488KZ8EnGV22QDU0a1yTLfx7WU/YCXnS4Ax4=;
+	s=arc-20240116; t=1753828382; c=relaxed/simple;
+	bh=WaeVTukSS1L5gqdvUBuqMfwo95AwKoyLXHK6FYRKhEE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zk44QAbpNXfGS8T6dJGiDXIKaTxPMrn6ird7dd5Pe97Dv/jkSOBGCzS5zzmhH1WNiq8CUjIyF6Z2jBVz+8BDYh2eNhdREeo3xmMTT6EAKaiFrVptsOMJyPwXYE7BJilbc/oIoKOwA0S6aUOxwdPoUq1WsFTk9YeISkKNW/FvwDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kPbDDm+c; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aAAu0MKUJ1luGsqicHydEjh3r0MVfIxYQitXmItzDHYOQ+w0pB2qz5I75JZR3X6hPR+zBOuINNXs3u81WdFU7nUM7Im9/EcNiyNlvccojIl0SyMOcbedxRb+7cygP3Jc9QQlP9xLEoSndFaIzOsjslktkb0HZGfx2aL1xImTSR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EG8CkcAZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kPbDDm+c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 365DFC4CEED;
-	Thu, 24 Jul 2025 10:25:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EG8CkcAZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F63CC4CEEF;
+	Tue, 29 Jul 2025 22:33:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753352738;
-	bh=HBCOj9X488KZ8EnGV22QDU0a1yTLfx7WU/YCXnS4Ax4=;
+	s=k20201202; t=1753828382;
+	bh=WaeVTukSS1L5gqdvUBuqMfwo95AwKoyLXHK6FYRKhEE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kPbDDm+cRKEYAvRaF8+5CoNKgi462vLKxYcf7h6hZqkKxCZ4WGm1og6XBGIc15S/D
-	 EVIzQrKrcGrW2SVFWz5Qx2Bcs5DjbpxtwJFnHgCet7z9MZw6a3zxSl8XgA++3EP1j0
-	 UWnS2CUOzhpZs3voKHDB68vzCZIlBdlKWhb8gFxnChP9G1Lz2wsxmmIS6Msfml3x2Z
-	 0rN5W0pxqizWkRG+bW6koilrIHglKTNXrtMdBAUjpjr8bBpN+G6VWXofw7Z2gVMg8C
-	 Z9ObT3bvh8tC/jDx6x5x8qqIByhwARzYS7AGb1yDw4QYz60E1JlKaEP4nhrvblDbSE
-	 ffqY0R+I37a1w==
-Date: Thu, 24 Jul 2025 11:25:29 +0100
-From: Lee Jones <lee@kernel.org>
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [GIT PULL] Immutable branch between MFD, GPIO, Power and SoC due for
- the v6.17 merge window
-Message-ID: <20250724102529.GA11056@google.com>
-References: <20250610-smc-6-15-v7-0-556cafd771d3@kernel.org>
+	b=EG8CkcAZflQ5UKTilOC3qgbe/N63nlo3M389nB5QMS/j7q4BMHPnJQNK6+7IaeopX
+	 oGFhvfp61MkSoJFMASRgeSPU8tPkZZVWJiaY3hkWqcHa7HIMLAY3AECuGWZKqMNAAa
+	 /euTcHEIQD52ExFBCRjYXW2DKzhr0EI1QApCFuarJ67jR4Qtyx/rTmTeXbVZDx0dPY
+	 g98HOkM4FTMfRxnwHDaNDc0IoquI0H/u/SGvyKWljortgOIXUokRRHJgn/+Ydw2DqK
+	 VEAQNB9TIo0R0yXFn9AoCs+tws9gfYyQvS01UX1wSF9/dRb/jIAvEvM1YXILgDNYoK
+	 SoleSr5s11OcA==
+Date: Wed, 30 Jul 2025 00:32:57 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] dt-bindings: i2c: apple,i2c: Document Apple
+ A7-A11, T2 compatibles
+Message-ID: <4dbhhssnqe4wh5h2n5k5y5bweb3hhdv2tn6ejmw35gvvdo76zv@lgmwb74hb5wo>
+References: <20250610-i2c-no-t2-v2-0-a5a71080fba9@gmail.com>
+ <20250610-i2c-no-t2-v2-1-a5a71080fba9@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250610-smc-6-15-v7-0-556cafd771d3@kernel.org>
+In-Reply-To: <20250610-i2c-no-t2-v2-1-a5a71080fba9@gmail.com>
 
-Enjoy!
+Hi Nick,
 
-The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
+On Tue, Jun 10, 2025 at 09:45:20PM +0800, Nick Chan wrote:
+> The I2C controllers found on Apple A7-A11, T2 SoCs are compatible with
+> the existing driver so add their per-SoC compatibles.
+> 
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 
-  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
+Just this one, merged to i2c/i2c-host.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-gpio-power-soc-v6.17
-
-for you to fetch changes up to 819687eb28e501d21dabd6a3f52454638a815071:
-
-  power: reset: macsmc-reboot: Add driver for rebooting via Apple SMC (2025-07-24 09:47:33 +0100)
-
-----------------------------------------------------------------
-Immutable branch between MFD, GPIO, Power and SoC due for the v6.17 merge window
-
-----------------------------------------------------------------
-Hector Martin (2):
-      gpio: Add new gpio-macsmc driver for Apple Macs
-      power: reset: macsmc-reboot: Add driver for rebooting via Apple SMC
-
-Russell King (Oracle) (2):
-      dt-bindings: gpio: Add Apple Mac SMC GPIO block
-      dt-bindings: mfd: Add Apple Mac System Management Controller
-
-Sven Peter (3):
-      dt-bindings: power: reboot: Add Apple Mac SMC Reboot Controller
-      soc: apple: rtkit: Make shmem_destroy optional
-      mfd: Add Apple Silicon System Management Controller
-
- .../devicetree/bindings/gpio/apple,smc-gpio.yaml   |  29 ++
- .../devicetree/bindings/mfd/apple,smc.yaml         |  79 ++++
- .../bindings/power/reset/apple,smc-reboot.yaml     |  40 ++
- MAINTAINERS                                        |   7 +
- drivers/gpio/Kconfig                               |  10 +
- drivers/gpio/Makefile                              |   1 +
- drivers/gpio/gpio-macsmc.c                         | 292 ++++++++++++
- drivers/mfd/Kconfig                                |  18 +
- drivers/mfd/Makefile                               |   1 +
- drivers/mfd/macsmc.c                               | 498 +++++++++++++++++++++
- drivers/power/reset/Kconfig                        |   9 +
- drivers/power/reset/Makefile                       |   1 +
- drivers/power/reset/macsmc-reboot.c                | 290 ++++++++++++
- drivers/soc/apple/rtkit.c                          |   3 +-
- include/linux/mfd/macsmc.h                         | 279 ++++++++++++
- 15 files changed, 1555 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
- create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
- create mode 100644 Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
- create mode 100644 drivers/gpio/gpio-macsmc.c
- create mode 100644 drivers/mfd/macsmc.c
- create mode 100644 drivers/power/reset/macsmc-reboot.c
- create mode 100644 include/linux/mfd/macsmc.h
-
--- 
-Lee Jones [李琼斯]
+Thanks,
+Andi
