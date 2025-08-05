@@ -1,238 +1,158 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C61727F012
-	for <asahi@lists.linux.dev>; Tue,  5 Aug 2025 14:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBE124167B;
+	Tue,  5 Aug 2025 22:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754402716; cv=none; b=cD8WH7feSxs0fqswFvcVJOSihH5LVMsDdUK3hcjFcuL4FdPCkNDUzDSJZyo83hmznh30oj7suxLUg9kBTV7ByWxUuD4stEV5ibrKBdlgenhIYrCqoxYj+wqmCzJ1mkEX7OeVxUu5+rHgSVePERQoUFUEqD3wGxWhPyGDFgZfZKI=
+	t=1754431716; cv=none; b=UoyQyfwHAHr5Jx5kOz0Nky99tfpqI4C9NvZJb5QlIZpcLo6Qx4luxROIcStQwQfCTPg4IHrDhM0ELC6A90pgvw6KC/iFGN44mmZ+OjMqHzhDbNTbRF+1jV6pDaWwgXagGGZTzTTCfD8EZ7mecVWK+JASocx/Y5DxUTCGMNzLv7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754402716; c=relaxed/simple;
-	bh=VwwDGPh3ds9A+awGPqwqcnNh6Gh4WFl0HqGJuWyvkkU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CRQNCzxoRrVFfBAaKQsEdoVv1ekhSdcofkfd91LasFZI05ZYqHsFDgjw6elQTC+syT6WbkBANPpwcoPhUj9mUoX3WWRO28m8Fi+uzBOAiaCeBFO8gvAhMiLFyUSS/AxTk/wCR4JmyY7bQ2PgRDDpWftanY/IPXnxsACjM3+GMQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JswbVhN9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1754431716; c=relaxed/simple;
+	bh=/aoxjBnanB6z5ZymLaTy2qG1GykI0n2CxoPSGTJMDc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GcMaR4tp2XFuu2pOkXDPuR0HRmskqryxmvSOzAbrW5nizhmCei4P621W4jWFdsPCDgUlpQxz+Vnuv2CsTqMGrPQLvU8uMZeZV1/1gDSJYhjS46cpDhJq58onNWE+n84TUWNN42sJxZxgInMco7r9xIOqIgzYzfduPg3zz+rozp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fnuMfwcR; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JswbVhN9"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5757Hsno003472
-	for <asahi@lists.linux.dev>; Tue, 5 Aug 2025 14:05:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FUcLnureUr1s/7YsNTnvW5Csv2CIZeOY1lQ56p5/Cj8=; b=JswbVhN9EiO/3bXB
-	KFFT2FK5zmrdDsAM9Z4O6z5zh7QsngVwmJQyJVPLIRQZy9tXuLlXFzx5q8QeK24Z
-	UuASYCo8lC5r5kPQilhktpk99gMDFXxhv/dT55dfFGKBCQXaaStS6SqslNBHs+Pk
-	6lpCnGjbmxM9hWGEUq1bYfANmhL1k2BCrodCT2z4jODPS9GZvl5Ka+gigTeBZa4j
-	hrLEdMvf9GRA+didrRj1V7EI/VkbiYXs7SbD328oyEfQp3RkEeUY0iTi8A1CYyOi
-	HGtkEWfS1GX9/TR+jdWzEglaT9vngedtZgPPmRClZ0L8g80N1lRCZfR6JAq2vIX7
-	73cJtw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48b3j3tm7x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <asahi@lists.linux.dev>; Tue, 05 Aug 2025 14:05:09 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7e7fe59cffdso12152685a.0
-        for <asahi@lists.linux.dev>; Tue, 05 Aug 2025 07:05:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754402707; x=1755007507;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FUcLnureUr1s/7YsNTnvW5Csv2CIZeOY1lQ56p5/Cj8=;
-        b=ZpGJV+x/+5jJzMX0KBLusvn3Rsbf4GNO7aoI36w80F36akX5LuAs8ftjtUIfk1SmWF
-         FFgiHpzBypFUROfrdSgHATui6DYNZlumAGMX9H13gHETpupRA7VE6L6tooQrM1QLl1F9
-         UGxjT1wq8fjmderiVm3TVhkraWPI918W3wwxz47UIKhFA6G0tGNVD4CyHXVFGSj0MmN2
-         CccsVH9U2/heWaU1/r48kROeWfKfxmeGeb/vbgI9vs3jKxjPXNff7G6cJBtItg9AAogX
-         PI9l80v5LK1jfbOtE51QqXdx/qtRw9IoCis3qCKFufV0mFydBRVlBdB32EDnWjDd/dXh
-         S2Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0U+kgD8qZVXgWxPOJDyK0kF38DAhkitKHA9b4swnJ+QQH/t4O7OAauZBsdjv2Au7zUH1Tsw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhgBrCCkgrBttQCd7FPeazwzLP8PCW0ugReto4YZIJOLJqr2tz
-	x5Bp5yrkIN7jCt8FbD98BtcA14i2pQvX0KC9IPJ6J2vXz9pY2sEDMXfiOrleGpABgDWpkP8/SVO
-	fvwc+7vaYspkPR111uEOY8bluIZLOa5djAtLOXXqWImowjkIu4Sp/o7yFKg==
-X-Gm-Gg: ASbGnct+yLmVfG2eMvyCV5b1djPP3f6o7eOCaY1sNhQMIqrsmSBSnia3nAMlWyOJIoG
-	MxjG/OuvjczN1qZr8dgVmAD+Pb8Qxd1ZJS9UkvRaS0CAKKdCmMthYzSBwtHQzqkcXIX5IMV8p8b
-	OvhhbfpWHyozuy3vuJGp8+a3rBGaAk/CZs/t+MmzLfa9DAruZS3+pzwCSkCwP1mnq7EQQ5RURPI
-	pquR118olFR+pcKhkFAyttTxH4jXtRweTxNj3saZWLTr2z+WhA88k8+Rnc6S3KZkQDPK3mDDtou
-	AM2JMwNhE9CU60lWcag4czA2d7WmlT6t22LDI1G/rgmMEPbjx4+iEUTHPdB4Jshflkg4POo9n3U
-	gTSeKGv8y0SQOIoVLGg==
-X-Received: by 2002:a05:620a:2a14:b0:7e7:fbbe:a193 with SMTP id af79cd13be357-7e7fbbea796mr612199685a.3.1754402706978;
-        Tue, 05 Aug 2025 07:05:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGu0CtTCnSeovH7oZZIpOsR6SihrS+IeJBeYEWKx2ZbtzZuol650T7aTGGDwlvwPzoxkQZS7A==
-X-Received: by 2002:a05:620a:2a14:b0:7e7:fbbe:a193 with SMTP id af79cd13be357-7e7fbbea796mr612187885a.3.1754402706081;
-        Tue, 05 Aug 2025 07:05:06 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8f17829sm8316020a12.19.2025.08.05.07.04.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Aug 2025 07:05:05 -0700 (PDT)
-Message-ID: <96cf6022-ef69-4749-88b0-e18a07bb8427@oss.qualcomm.com>
-Date: Tue, 5 Aug 2025 16:04:58 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnuMfwcR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754431715; x=1785967715;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/aoxjBnanB6z5ZymLaTy2qG1GykI0n2CxoPSGTJMDc4=;
+  b=fnuMfwcRKAFEfNlyqfrpQR8xaIvx6uPvE+4eTLFRAXIurD7TsmVrISif
+   HOwsQOx91u56cuf87ZJSUtE2iHEM+JXvIDrlrK+/T6ayPT+UAFwLjjJBc
+   LL4Xym8XPOt5NNmvbjGNE0ZTCwM3V43qcDNugtRoKIrJoaWkMrCEBfbko
+   OzGBL8ErfS1pY1Iyc62ZKjHmriA1hP6qdx8xiq8nuytFBQ6o7/FzlLI4H
+   X9vJzRUUlQOPlLMBoLsOW/ihg3MLmOyUJwTjfYkqEX8lrB3TGcAhpMyCf
+   fWnKhkEfqSGsl6107buvC0svUflFA4HOL5il9dfMwm0WCmN99+gRhDY9n
+   Q==;
+X-CSE-ConnectionGUID: Dunl/cAQStuFBOdHGWmJXA==
+X-CSE-MsgGUID: QGfB0BHIQ5C6Gmrb+LGeeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="44334910"
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
+   d="scan'208";a="44334910"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 15:08:31 -0700
+X-CSE-ConnectionGUID: cvABU6gySmCN+nSbWkFxIg==
+X-CSE-MsgGUID: QOXnb3dlQReNBMfKeCvA3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
+   d="scan'208";a="164139100"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 15:08:13 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ujPpG-00000003rhU-3uHR;
+	Wed, 06 Aug 2025 01:08:06 +0300
+Date: Wed, 6 Aug 2025 01:08:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Viresh Kumar <vireshk@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	imx@lists.linux.dev, linux-actions@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH RFC 3/6] dmaengine: qcom: gpi: Accept protocol ID hints
+Message-ID: <aJKAxkXO7csIi5Oi@smile.fi.intel.com>
+References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
+ <20250730-topic-dma_genise_cookie-v1-3-b505c1238f9f@oss.qualcomm.com>
+ <CAMuHMdV0JO=qtregrrHsBZ-6tpNdPUj3G1_LWRfRsj0vBb+qyw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/6] dmaengine: Make of_dma_request_slave_channel pass
- a cookie to of_xlate
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Frank Li <Frank.li@nxp.com>, Konrad Dybcio <konradybcio@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
-        Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Neal Gompa <neal@gompa.dev>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
-        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Taichi Sugaya <sugaya.taichi@socionext.com>,
-        Takao Orito <orito.takao@socionext.com>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?=
- <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?Am=C3=A9lie_Delaunay?= <amelie.delaunay@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Chen-Yu Tsai
- <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Laxman Dewangan
- <ldewangan@nvidia.com>,
-        Jon Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
-        Saravana Kannan <saravanak@google.com>,
-        =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
-        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Krzysztof Kozlowski
- <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-        linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        imx@lists.linux.dev, linux-actions@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-spi@vger.kernel.org
-References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
- <20250730-topic-dma_genise_cookie-v1-2-b505c1238f9f@oss.qualcomm.com>
- <aIpKz495WI1SJTeB@lizhi-Precision-Tower-5810>
- <20250730180417.GC21430@pendragon.ideasonboard.com>
- <aIpmgpXME1BmThxU@lizhi-Precision-Tower-5810>
- <20250801120007.GB4906@pendragon.ideasonboard.com>
- <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
- <20250804235140.GB12087@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250804235140.GB12087@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 3Ut-kF1p25liv0SmnGmyD1rZoahnM2Ef
-X-Authority-Analysis: v=2.4 cv=TZ+WtQQh c=1 sm=1 tr=0 ts=68920f95 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=IUwAV-ZVHCOG9dU_XxAA:9
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDEwMiBTYWx0ZWRfX9KsSyArkMNV5
- A1RBY+zMLevVRuH9r9AwuW7oRh9fRnEmAgo+I9KDMg5kQ65gCfiqYrXHrNYghyIscWeWUtamSjd
- ht01EDZiq7PJCULBK2wk7GBfdNPCCLkI7E16+JRnlOB5eNsrxHbhg4Suc+efoT3JlFMIpxJtcAJ
- oysLbqoilYaQK08HC1eV4Un92P2g+Z07QsZLNe5JNXwaMFMKj78K9gg4owZtuyBTGO9/IHhdXFq
- N0bDWz4RVhlP42nnN+Kw9EbtBGkPhw6QdYdtnIUBdb1hLX6ZZpFklUMgzVipiW5I22JlT6S3tA0
- bK1h3tXhok9qnr7c56yNYrpCnVGOtPdF99nle7AvdUJvef69TnLbnCBBwhdgmdO4X+IulQv3wvD
- +SF1VNz8s5P2HNjjTcHWTC741aEDcMRG0Gc4z3aRElDEizVQBGZyc16WpjSYynoZVCZ7VLtg
-X-Proofpoint-ORIG-GUID: 3Ut-kF1p25liv0SmnGmyD1rZoahnM2Ef
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-05_04,2025-08-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
- spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2508050102
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV0JO=qtregrrHsBZ-6tpNdPUj3G1_LWRfRsj0vBb+qyw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 8/5/25 1:51 AM, Laurent Pinchart wrote:
-> On Sat, Aug 02, 2025 at 02:37:54PM +0200, Konrad Dybcio wrote:
->> On 8/1/25 2:00 PM, Laurent Pinchart wrote:
->>> On Wed, Jul 30, 2025 at 02:37:54PM -0400, Frank Li wrote:
->>>> On Wed, Jul 30, 2025 at 09:04:17PM +0300, Laurent Pinchart wrote:
->>>>> On Wed, Jul 30, 2025 at 12:39:43PM -0400, Frank Li wrote:
->>>>>> On Wed, Jul 30, 2025 at 11:33:29AM +0200, Konrad Dybcio wrote:
->>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>>>>
->>>>>>> The DMA subsystem attempts to make it theoretically possible to pair
->>>>>>> any DMA block with any user. While that's convenient from a
->>>>>>> codebase sanity perspective, some blocks are more intertwined.
->>>>>>>
->>>>>>> One such case is the Qualcomm GENI, where each wrapper contains a
->>>>>>> number of Serial Engine instances, each one of which can be programmed
->>>>>>> to support a different protocol (such as I2C, I3C, SPI, UART, etc.).
->>>>>>>
->>>>>>> The GPI DMA it's designed together with, needs to receive the ID of the
->>>>>>> protocol that's in use, to adjust its behavior accordingly. Currently,
->>>>>>> that's done through passing that ID through device tree, with each
->>>>>>> Serial Engine expressed NUM_PROTOCOL times, resulting in terrible
->>>>>>> dt-bindings that are full of useless copypasta.
->>>>>>>
->>>>>>> In a step to cut down on that, let the DMA user give the engine driver
->>>>>>> a hint at request time.
->>>>>>>
->>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>>>> ---
+On Wed, Jul 30, 2025 at 01:32:58PM +0200, Geert Uytterhoeven wrote:
+> On Wed, 30 Jul 2025 at 11:35, Konrad Dybcio <konradybcio@kernel.org> wrote:
 
-[...]
+...
 
->> So.. do you folks want me to alter the patch in any way?
+> > +       /* The protocol ID is in the teens range, simply ignore the higher bits */
+> > +       gchan->protocol = (u32)((u64)proto);
 > 
-> I think the runtime PM issue is orthogonal to the problem this series
-> addresses. It can be addressed separately.
+> A single cast "(uintptr_t)" should be sufficient.
+
+FWIW, this means (unsigned long) as Torvalds is quite against uintptr_t in the kernel.
+
+> Casing the pointer to u64 on 32-bit may trigger:
 > 
-> That being said, I'm not a big fan of passing a void pointer to
-> .of_xlate() to carry device-specific information, in a device-specific
-> format. This seems prone to mismatch between clients and DMA engines.
-> .of_xlate() also seems the wrong place to do this. It would be cleaner
-> if we could use another operation, such as dmaengine_slave_config() for
-> instance.
+>     warning: cast from pointer to integer of different size
+> [-Wpointer-to-int-cast]
+> 
+> >         return dma_get_slave_channel(&gchan->vc.chan);
+> >  }
 
-Right, I noticed that the drivers in question already apparently do the
-very same thing (passing data through a voidptr), inside slave_config
-(via the peripheral_config/_size fields)..
-But that doesn't solve the issue this series is trying to tackle, since
-every DMA consumer driver passes its own structure (or NULL).
+-- 
+With Best Regards,
+Andy Shevchenko
 
-My immediate idea is to add yet another field, but that's lame. The other
-immediate idea would be to put an `u8 variant` at the start of all of 
-these structs ("we have tagged enums at home"), but that's lame *and*
-dangerous.
 
-Ideas?
-
-Konrad
