@@ -1,60 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BF926C39B;
-	Sun, 10 Aug 2025 18:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F51F18C933;
+	Sun, 10 Aug 2025 18:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754850349; cv=none; b=YJiFknJFnhdHL+bvzNwHLfyYdGCOzf3i4kry2+Wrb4tuI+MT9TTFVqe0iTAWzvsHg2IMDRC9PjD/T4VH7yXS5fDdkyhCXQpk/MMSKNHfrKZ4+fyCSIMS1v7FJFWOrLkunhb7u91/mHUScrmfkcOBVJHBbxoxWiYsXufzKwwZNXc=
+	t=1754850372; cv=none; b=c4fiWFwV1ugf143Jml1jPQmMGHMD40xfooM9gcNH3ktMBlYs78W+WbrlIbdyCOWfPy0fdCQDocwOadRYDl3qDPneWHf7RkLr1S4BBJER4FUUBuxoY0extIWGY/A+B4fx7NNMumF637e6hQdynW0J7db5kBe4Znk1kGoO7L6PHJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754850349; c=relaxed/simple;
-	bh=mZCkM6wGTji0mWS1T8Wao5Nwc6iHBzOB8nBF6FjiL+0=;
+	s=arc-20240116; t=1754850372; c=relaxed/simple;
+	bh=2zwGXhwxWi13w4nSYysw2oa5FejZxpDZAD0f4uYQPXw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JYCQd870NlKgYnKfudTxMi80MXMX1yK0Pgv1cHlQQHQxbFN0kVD6jrYH7mTzyqBJn5HlUdrvXf6wwZHG6YIek5MYtkvKIZyByp8UqQSaE+hMpaJZ2KQrF0nLb2zd+Pd3PD4Q2dmMNOoNJFL/Qr54s+6i818md3ogBM4E3+bJRtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QYe7rWM5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=mmlO7PNTpDrEcEVYbbmMoePm3MVV7Apz5KTit3ZeYzTKDSIiaB16cbnk5tKi3sEZ4/hjCnvQuoCMFfinwhqrrBNYXkL/z0nZeQv4wdXCXjBialTgVTvCgdLGfQE5SlKivUXH9MgeHqtMp/qOu1TSrNNOpyF2fnHO2g3rpTxL0kA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GlWFNxs6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QYe7rWM5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDF8DC4CEEB;
-	Sun, 10 Aug 2025 18:25:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GlWFNxs6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC488C4CEEB;
+	Sun, 10 Aug 2025 18:26:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754850348;
-	bh=mZCkM6wGTji0mWS1T8Wao5Nwc6iHBzOB8nBF6FjiL+0=;
+	s=k20201202; t=1754850372;
+	bh=2zwGXhwxWi13w4nSYysw2oa5FejZxpDZAD0f4uYQPXw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QYe7rWM5WTvPFgmLR7TLjrutsMkJklAM/UhllHcSQAfItQYp0TIM5qKhyNbmwqd9p
-	 HZnUw7fWKocJce1pJiPspNZGQZH+Vm46cN7KOL9PZ4eh0w2SCOQKvmn1daATRrV9Cv
-	 4cdQxC1mAC5SLLCrc9dk587FcaSETEVNuPQjkKwe4pFCCgoht6KoOnQpmJstZ4LwhK
-	 mU+QkVG1GAVBX32aiGpRWx+VUTOzOhMWP8cbN7RtcdzXpodPlWtbwmfwo68Jz84cp0
-	 iVRfDjK90q+dXl0TmkkgfAGAicf3uU1xgqaNv6tz949zkpXivG+bL2WJz3LruH+wWv
-	 f0AqtP3qtqlPQ==
+	b=GlWFNxs6lw9T8Gm49EYpEh52ouUPv13/JA/4lmKZ0BB3cac3L15n1SHc4SwYbHI0r
+	 dHxxLcPZfYjeymneVBx2ztn6zZazuFq3i+oo/KhOQGBnvAp9V+4UlpP0uvwRsVNhxW
+	 iIT0K6hkQ/NI+xjGhXTHrZYUIDrh7g8I2Xv4aTPu7gyifTMHiqfgVBg3ekE3H4Z13b
+	 Qxbj3eSZkw2hEK6JeAvUaRUpVUB56JhZ6Aqnm1MJ23OKSPDNehs58amTM4uxlilEUz
+	 f5tpirlHuI8KQqxSlXnd9RssLF/yW6IqVsGTqKCC1zUuyJ3Lalk+cOtj8QPIL9Bcpu
+	 pAp9RUuBCAnjA==
 From: Sven Peter <sven@kernel.org>
 To: Janne Grunau <j@jannau.net>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Neal Gompa <neal@gompa.dev>,
-	Hector Martin <marcan@marcan.st>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andi Shyti <andi.shyti@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Lee Jones <lee@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Sven Peter <sven@kernel.org>
-Cc: asahi@lists.linux.dev,
+	Nick Chan <towinchenmi@gmail.com>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: (subset) [PATCH v7 00/10] Apple Mac System Management Controller
-Date: Sun, 10 Aug 2025 20:25:34 +0200
-Message-Id: <175485029271.49938.2893773472462799086.b4-ty@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 0/9] I2C dt nodes and bindings for Apple A7-A11 SoCs
+Date: Sun, 10 Aug 2025 20:26:01 +0200
+Message-Id: <175485029275.49938.2043201584717247270.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250610-smc-6-15-v7-0-556cafd771d3@kernel.org>
-References: <20250610-smc-6-15-v7-0-556cafd771d3@kernel.org>
+In-Reply-To: <20250610-i2c-no-t2-v2-0-a5a71080fba9@gmail.com>
+References: <20250610-i2c-no-t2-v2-0-a5a71080fba9@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -64,28 +56,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Jun 2025 15:29:41 +0000, Sven Peter wrote:
-> This series adds support for the System Management Controller found in
-> Apple Silicon devices which we model as a mfd. It also includes support
-> for the GPIO block and the power/reset block as sub-devices.
+On Tue, 10 Jun 2025 21:45:19 +0800, Nick Chan wrote:
+> This series adds the device tree nodes and bindings for I2C on Apple A7-A11
+> SoCs, since the existing driver appears to be compatible. The drivers for the
+> attached Dialog DA2xxx PMIC will be in a future patch series.
 > 
-> Changes between v6 and v7:
->   - Rebased on 6.16-rc1
->   - Dropped mfd- prefix from the macsmc driver name
->   - Removed the check if the MBSE key exists in the reboot driver since
->     we can rely on the device tree now
->   - Changed my mail address to kernel.org
 > 
-> [...]
 
 Applied to local tree (apple-soc/dt-6.18), thanks!
 
-[08/10] arm64: dts: apple: t8103: Add SMC node
-        https://github.com/AsahiLinux/linux/commit/6101fe95b1ee
-[09/10] arm64: dts: apple: t8112: Add SMC node
-        https://github.com/AsahiLinux/linux/commit/49765a617a54
-[10/10] arm64: dts: apple: t600x: Add SMC node
-        https://github.com/AsahiLinux/linux/commit/4379305ffbc2
+[2/9] arm64: dts: apple: s5l8960x: Add I2C nodes
+      https://github.com/AsahiLinux/linux/commit/68e01988b208
+[3/9] arm64: dts: apple: t7000: Add I2C nodes
+      https://github.com/AsahiLinux/linux/commit/5b1ab37ccc60
+[4/9] arm64: dts: apple: t7001: Add I2C nodes
+      https://github.com/AsahiLinux/linux/commit/a56771d333ed
+[5/9] arm64: dts: apple: s800-0-3: Add I2C nodes
+      https://github.com/AsahiLinux/linux/commit/5bee6cb9d9df
+[6/9] arm64: dts: apple: s8001: Add I2C nodes
+      https://github.com/AsahiLinux/linux/commit/baf703b08374
+[7/9] arm64: dts: apple: t8010: Add I2C nodes
+      https://github.com/AsahiLinux/linux/commit/9f286293541e
+[8/9] arm64: dts: apple: t8011: Add I2C nodes
+      https://github.com/AsahiLinux/linux/commit/1d16ae50cb1b
+[9/9] arm64: dts: apple: t8015: Add I2C nodes
+      https://github.com/AsahiLinux/linux/commit/e1313c2185d2
 
 Best regards,
 -- 
