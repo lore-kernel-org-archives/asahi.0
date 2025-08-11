@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89E82E540E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6EB2E5420;
 	Mon, 11 Aug 2025 15:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925507; cv=none; b=PqtCWpmAgHmPMQ6cpER519h8KXCXTkxRYiyhjVAYakmS45By4kFSIzNJFTRu3KCIvnZP5ykVDqsXDPLp/xjnOIOLRtNJkHNOxZzmsKDw2Sjnq757kCIzDlTSVpdUNAjn3bqsqXtn/DaY+LZ4HW4k7Wcr+UaTiPTyYSgg3cKhXHU=
+	t=1754925508; cv=none; b=Ev2rxrPJ732qpb2mDIG0ggjeqRZqPTBdYJJyZPFo26aloSuaEcodtti784wlNZLDnCHQAkzTokkuuYEZSybmfpuzXXPSjpITakGhPvayyC+xU3CjBPsQbYijM0oyH4COR0RGU7GPBjVurfna0oeaYllPnMVhlW2Exf5rBRwaaTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754925507; c=relaxed/simple;
-	bh=+YJ0W3e8Ry5S5DjS+4PlqX6ML40vEonkexsgUgUrLws=;
+	s=arc-20240116; t=1754925508; c=relaxed/simple;
+	bh=GDBbCi4sx3Kp5l+kvCcvvvRUo/IgUsYvJ6NwMWxGsEY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jZW5gbJFt5xbdoAMnvHFpxPgNYNjdW21jkTe2TmQv7sBI/xGIIYulH10krEvCCp+6Ykh0lorPOLp9Ll6teeLxCOUOdaGQKJyXmUceF71BkQC8DakKq5bmhMdXTpH4oz8nao5DfXfnU28TZ3R5cCTVfPUeiJ9bov1j7vwKhXDMkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NYnlSl7S; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=sp7OhUYngHR1LoPX59QbGl3za5X62THPiqC1eiiea+9q+EL0jE5mBhZiyw/lWI87S84K0QaauLDZoerkGZ/mOAXGLb2DkwhBPV1B7+rn9Kk+z4XVZu4+4OczIMB5lwjj/BSFCYNWeqZx0rV+rjI0QlG0NtIbFsBPnh1OkbDrSaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FVUssxft; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NYnlSl7S"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 500EBC4CEFD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FVUssxft"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8DB40C19422;
 	Mon, 11 Aug 2025 15:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1754925507;
-	bh=+YJ0W3e8Ry5S5DjS+4PlqX6ML40vEonkexsgUgUrLws=;
+	bh=GDBbCi4sx3Kp5l+kvCcvvvRUo/IgUsYvJ6NwMWxGsEY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=NYnlSl7SQOCTzm2MntI3w4gqlcpt+oNMR4Gu6ttl0WjHNzwcwH39vQL1xB+TQtBnT
-	 Bv8Egl9HJC1rDpH0DG55KgXg5/Hn8d52atezT4ty8cVKJX6nmfJpRJwwpBSwkNw7Ny
-	 7QVhrM8TwmHyvs1ZtIJrqIkgrTMJ/EySvlChCi+HK7Ws0ZZPxHowcILFzL578gpofD
-	 F9jX1rSRPMvaSUl2g+oE62GVUaqAK3Cy9doqdXF8lafudKqhOwEGIxX4xjhQbsAo4i
-	 dCuLrjDMQMJxoIKwnVl7OWuz4LI+FaR9Z2ejNIR/DLg3oCm4MNzPcQ7BXutsE4JJCF
-	 Z5gSEnPWlG1lA==
+	b=FVUssxftST2dek6Q4r8S+rCTHEQ9Ye8zXXzlvb46vwIlliWJaorntnALS98Vw2QWP
+	 czJ6+8c5LJTYu7GAxLe9OBU8WIJI/HPQmJ4iNSSlasp7SXHlap+YG7soM6b58lkkzw
+	 yvzn4CeDwWI9De235yQCHSIDG3WoGKxE4Mw9HjR8mcrOgxhEy7FRPDoYmjLCwxHxsV
+	 mU+ufZindzchcF8/3+nzA7kZbs9No4mjc/CFVGDcOA2kp3rbic2WRUg9aMdVMlXbBX
+	 tprIX7ANLq79NJkgI5nFWi/abs4noR5BZdKwqlCnMQuAvjJBrSs/eERbjxFISN5/Kn
+	 vH1UKgLoShcKg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27835CA0EC4;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C2C7C87FD2;
 	Mon, 11 Aug 2025 15:18:27 +0000 (UTC)
 From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Date: Mon, 11 Aug 2025 11:18:13 -0400
-Subject: [PATCH 021/114] clk: hisilicon: hi6220-stub: convert from
- round_rate() to determine_rate()
+Date: Mon, 11 Aug 2025 11:18:16 -0400
+Subject: [PATCH 024/114] clk: ingenic: x1000-cgu: convert from round_rate()
+ to determine_rate()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-clk-for-stephen-round-rate-v1-21-b3bf97b038dc@redhat.com>
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-24-b3bf97b038dc@redhat.com>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -107,11 +107,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
  Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=1642;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=1676;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=e2OVtyr3sWH4fXdNlCM9p9d5GYfBN48B++2MLeRnYhc=;
- b=UWv9utHt6wbmXcSerNUtZQ46BUF8QgIw0Xf0z14cBEkL7zfWJ/zAQ+KXwELOXjfAH3xHutz25
- U+25ao9L/fRBVMiFNc5apjEUTTSGrlOOPGivQ/d2wQvG6Z6HNlj77r6
+ bh=U9vNul5ctFRsJ+cg3HiYsqW7zeu8fHnWHIvus1lAqJo=;
+ b=d7U0ETgjsmdWey22Vpt1SZg964FylYIIqQWd52fV8C7GbHEHlAksiEr9OO5lDEBzVGpXGdf5S
+ WTS+Gp0J5zlB0kAltAWUMtwk3JfACKSaxxwSHfVNUKq6Yvqgw9opAEq
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
@@ -127,45 +127,48 @@ on the cover letter of this series.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/hisilicon/clk-hi6220-stub.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/clk/ingenic/x1000-cgu.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/clk/hisilicon/clk-hi6220-stub.c b/drivers/clk/hisilicon/clk-hi6220-stub.c
-index a8319795ed1cc349a53ce977881620a11ec650ed..bf99cfafafa0133d64f3fbb09f14242fbabac3a1 100644
---- a/drivers/clk/hisilicon/clk-hi6220-stub.c
-+++ b/drivers/clk/hisilicon/clk-hi6220-stub.c
-@@ -161,11 +161,11 @@ static int hi6220_stub_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 	return ret;
+diff --git a/drivers/clk/ingenic/x1000-cgu.c b/drivers/clk/ingenic/x1000-cgu.c
+index feb03eed4fe8c8f617ef98254a522d72d452ac17..d80886caf393309a0c908c06fb5aa8b59aced127 100644
+--- a/drivers/clk/ingenic/x1000-cgu.c
++++ b/drivers/clk/ingenic/x1000-cgu.c
+@@ -84,16 +84,17 @@ static unsigned long x1000_otg_phy_recalc_rate(struct clk_hw *hw,
+ 	return parent_rate;
  }
  
--static long hi6220_stub_clk_round_rate(struct clk_hw *hw, unsigned long rate,
--		unsigned long *parent_rate)
-+static int hi6220_stub_clk_determine_rate(struct clk_hw *hw,
-+					  struct clk_rate_request *req)
+-static long x1000_otg_phy_round_rate(struct clk_hw *hw, unsigned long req_rate,
+-				      unsigned long *parent_rate)
++static int x1000_otg_phy_determine_rate(struct clk_hw *hw,
++					struct clk_rate_request *req)
  {
- 	struct hi6220_stub_clk *stub_clk = to_stub_clk(hw);
--	unsigned long new_rate = rate / 1000;  /* kHz */
-+	unsigned long new_rate = req->rate / 1000;  /* kHz */
+-	if (req_rate < 18000000)
+-		return 12000000;
+-
+-	if (req_rate < 36000000)
+-		return 24000000;
++	if (req->rate < 18000000)
++		req->rate = 12000000;
++	else if (req->rate < 36000000)
++		req->rate = 24000000;
++	else
++		req->rate = 48000000;
  
- 	switch (stub_clk->id) {
- 	case HI6220_STUB_ACPU0:
-@@ -181,12 +181,14 @@ static long hi6220_stub_clk_round_rate(struct clk_hw *hw, unsigned long rate,
- 		break;
- 	}
- 
--	return new_rate;
-+	req->rate = new_rate;
-+
+-	return 48000000;
 +	return 0;
  }
  
- static const struct clk_ops hi6220_stub_clk_ops = {
- 	.recalc_rate	= hi6220_stub_clk_recalc_rate,
--	.round_rate	= hi6220_stub_clk_round_rate,
-+	.determine_rate = hi6220_stub_clk_determine_rate,
- 	.set_rate	= hi6220_stub_clk_set_rate,
- };
+ static int x1000_otg_phy_set_rate(struct clk_hw *hw, unsigned long req_rate,
+@@ -161,7 +162,7 @@ static int x1000_usb_phy_is_enabled(struct clk_hw *hw)
  
+ static const struct clk_ops x1000_otg_phy_ops = {
+ 	.recalc_rate = x1000_otg_phy_recalc_rate,
+-	.round_rate = x1000_otg_phy_round_rate,
++	.determine_rate = x1000_otg_phy_determine_rate,
+ 	.set_rate = x1000_otg_phy_set_rate,
+ 
+ 	.enable		= x1000_usb_phy_enable,
 
 -- 
 2.50.1
