@@ -1,66 +1,66 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7B329BD93;
-	Mon, 11 Aug 2025 15:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929BB2DFF13;
+	Mon, 11 Aug 2025 15:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754927259; cv=none; b=AD2cWYx4oyaAqk6QylZurpm5xy/0iQzeVfd+6DSO+KB3IE6zcFR0OWKBgLfj11f1UIdRSbP3I4X080Qm99TK+bj10Fk4ik8Upsaq+58+3aWB82+H0yAwGx4qQpFgvmEaM3g86wESfd32FvrYsl9s8cvb2QTkKtnevwaFO6HRb0U=
+	t=1754927454; cv=none; b=N97BbXKGFtfUCMW5F5BfYwqbvehJT7zOEaRTJ/6TGM/Wn7MXFGk8Wh4ATOIY12S2CGUfA7+JJJ8vbPJwkxawISqXIr4eJmWEkRSOlhN7BIkEkOEEY3QDD9NQX+TilZ6fgA+xzc18Oi2h2A+vXbTmm5OWeon87kSZeH9sy2Fdboc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754927259; c=relaxed/simple;
-	bh=HqZVUyZfVpIoagKLdA4Wnmr1ax/f/DpaIg2D3Ho4d+g=;
+	s=arc-20240116; t=1754927454; c=relaxed/simple;
+	bh=3MrMePu5qHYOOUklAMogGuKMAutTQLNLRBh4z2IBUxA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sF+6gHz4J7/KNYntEzIb6hPTBil4bjCYrSOHp22W4CzAulhDUojZ90J82nJpSm8HcvHabXOnAJPxGp+y4TbppnaSSKr62A4vUcTheL2rpoU9OGuCP7eVhL1qVCRF+iqn6AHLSFreN7viUnX2fRCLJnvwoWwSlPzhzfUcJtZAN2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IsG2FR8b; arc=none smtp.client-ip=209.85.218.43
+	 Content-Type:MIME-Version; b=qIu4TNU3S1ZoRNx0JjS/ft7K15LYR9L2JqIIOIUQAriwAx7i1m/v0V6w8Sz3/XEC6jj5KJ93mfrPl9t+c0UFOB7HCrkmf7zBKzp1wrSHwq/45dkuu8kMCsrV8auAG3pn93/kGP/+wYtttEAF6oG+iZ2OI1VC+cGvPEsNKo/xpqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PTbeJVgF; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IsG2FR8b"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-af93c3bac8fso641211166b.2;
-        Mon, 11 Aug 2025 08:47:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PTbeJVgF"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-61592ff5df8so5685396a12.1;
+        Mon, 11 Aug 2025 08:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754927256; x=1755532056; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754927451; x=1755532251; darn=lists.linux.dev;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=HepA4l2VLL2ahLpWoV8gVaUs9oZFV/xKVn3GOH58US4=;
-        b=IsG2FR8bj1sCazrNSKwWporxefmsDHCuFd5qw/3bs5YuoP3U75uW4pYU6gylU3Abr/
-         Ru2GkTwypHzDLlXyHvF3zPhEP3aHukut+AbgAecdNL2cEwrGy434jxwqJY0hNWbqrBar
-         +hWSItdqSUCWo00qeuvWqLKUV+AJjORFxvuYwRn2DogjKL15D0dQ0BIYmm0TjtXUUwyE
-         Eb5zAO5W1WekX8y90bwXyNzCSRb1h1N5ehjRZZyJwb0HoV8thnkGQsWItnXrNbFsksoZ
-         1+Jl9QWRjSonWZ3zqbck1MXlVntzxIff5X+h8BydEZOCvfwh5egwuTK0WMScAklzvIeQ
-         HS/Q==
+        bh=gtZQ94WBszTISCSHtIKTauM3dit5VcpLWsofgTPpah4=;
+        b=PTbeJVgFHH+NhzGw/wUyql6XCjLnBv8ooGsNiuo3Dbs0WdBGQ613kzq/5NP7ZPHXUr
+         FQ+5J42RaeJh+PAn62Er8Jpxj0cNc3u6PVY0cN+M0jtHOYH/fz/s3Vftso+zyx0dW3qC
+         3KVegKIeX7TIAcVImwXhHvUFsGv2pjDd50hCF+//dfDFWla/Pqbb2K8clRvtNvNfMH3R
+         MoSAwhbDMIDEmf5uOdt15G6Chu0KjFfDb+W/M9hSGojzdOYTNQSgWTEkDt6VhguP9eF9
+         O9tleSmPflB3qrAV/SSqXOFs6gcnZwgToqLttpXN1IsqoGnf+4tyNdkbvZtGQw65tND/
+         7Mxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754927256; x=1755532056;
+        d=1e100.net; s=20230601; t=1754927451; x=1755532251;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HepA4l2VLL2ahLpWoV8gVaUs9oZFV/xKVn3GOH58US4=;
-        b=bTNwc5i2JAAtMctVchU59PJq3ZINeghoVpknEuR6/RQwqVpDfnfr7r6kMIWHtFJcBR
-         F+dH4DGm/6tPv8LsMMOAl1qv5CcLz7DlT+aOq3ULDFy2BvynNm8wRUR/PvuVL8aEWg95
-         lAnVSIbhyHibvpFf9h7oLabfthmGTn0tkq8c0TNy4e6mOlMthgrKcDAIwmsJBIcYv+Si
-         qepwK2VMYJguJ7wHh8U1SQwRg5CZpplPAeJDB7fZoO9ytux+xjNmdWG7FSddPziX25yQ
-         E+6OzNUnN120bw9j/SaY6YfYM60dTwR/KcxVJYvwUDjksgERNsmmpazB3CzOygQGNMRM
-         DHNw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIjv1daByM8VnK686J9RIb1C07DnYVYYFiNuBV6R5PlR3eBD1ouEcNASMFoVUG0hYQqtFr@lists.linux.dev, AJvYcCWSYqHWS0nOpbJpIiKIDqavW+UEPCVlOWbruGBBJpbZWU5DCuBFNbu0am2EVa79iwU4FjaWsw==@lists.linux.dev, AJvYcCWXb/enJJZuEGssS0mgT6e8W7FeLxmyCGSr3rvPFm2FQcTq6uvxVwlH3/TxuE5clRQMA0i65K2a@lists.linux.dev, AJvYcCXaNERO5DjxN7Pl+xk8MMcmKHCcBHCBZHgmM3eRyM2wT7x9JH7eiHNrSGw1fVcXr8h2W5a0@lists.linux.dev, AJvYcCXfvEqXNkUgVcGiD4Pr7oSQteEQ+7hDhEYIF5WkNro1EcPXpja1qjna8DPbAcYNZHuLCfK3YEfRAGo=@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVD53Anaa/ljD/ecnh+78WMD5VC9/pLufAb3vXrd0F3lOFjc5x
-	BakoOlUjSYEf08BHnpKO5u81e2FIZSDqoFY2plNYSASSapbRFS0wBQoL
-X-Gm-Gg: ASbGncvb7+pFOp1hJG138M1sP1hyef5rwXH4rl0rArkVcw4RRBDg9BJS0r2K5ZdcUHK
-	Bt2qVMkH1InIG+vDKhuIbHxme9+NlYi0pWaiZNGzYnld4q3YG2tSuEIdBXMOnRoYovFbf3v67sd
-	FQypm/Hvg8VNENQRBt+fAuCj8ISXa/pcH10Cn1/VtcdHqKK4gt4vn+KZ65T3y8MGQT6Wf3IkQ0F
-	k2+LSRXEVnfjZSZD9vCR6jpeWXjRbxqbhayseImRES5t9RcHHJlaBWCgrJUx/wPUlnv3U/i65bA
-	DBoFSJM3mHAKxuDKKKq3DAntrkS8A73l3pbq7CWdmnGc/bpKz658IgsPDTJ8VBHr6EwCfpJA1Wq
-	aADoWHUHj9xexQbLknHXtHoBx3rwJNGzeOdtI16A=
-X-Google-Smtp-Source: AGHT+IF0QNexCp3wac3HqRrzYFcQwTmRLRgzyDHjNrtoHTrtc/DjgfXz7LJ4ALK6NtSRdUvSvS+HtQ==
-X-Received: by 2002:a17:906:9f91:b0:af9:7823:620b with SMTP id a640c23a62f3a-af9c6517c2cmr1234169966b.44.1754927255767;
-        Mon, 11 Aug 2025 08:47:35 -0700 (PDT)
+        bh=gtZQ94WBszTISCSHtIKTauM3dit5VcpLWsofgTPpah4=;
+        b=f9EMKRuBga2g1bWD9rTlRYJOUBbtyMvFmteqasJF1XDAqg1u/C/O7zIGvsJhyFvxvk
+         YUCNA/Ta5IcAoamR+U5UUDqBBi6eKqB5ozPIXcSiYKRtdU82IDIcFOtIcszWZ1V3IWfl
+         /KeRofFtLPUOOv3Nh9xwxJyr06KvaSTl3c1RgCYcMFRvkBD9/T+KYDo4qP708tFYlsWW
+         5MhpOA06uySdvEF4LkOd0YKTOjvc1QUT6DiFKchyW5qRJ5xVtxLQcSTxuJgfpWtW79Hx
+         dMfC32cpGf7g/rcW8cV6pFqdtcuKyImSoDDeMWQXUBt7s0ecUFoF5VrxQ8rFmKL3COz4
+         gP4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU+2sIJWiqTNMzBcsv/Ix7+FVT0NdiXnbuKXvrXUQTYuiBr+EJ5w4JGZ6ylxVyxmEaOpABS@lists.linux.dev, AJvYcCUf1r+UhH0OkhTYXKAB+ArRPpL2EXE0DF1lqBXOxnp/wAMlWjiUju/lcf8N7VrlIDIAQ8Kf@lists.linux.dev, AJvYcCUsTBeqNZPy83FSXH1mA90uXJv4ZqiJhg2AkxHlOgOstos4kRgxpeM4ayS2UdijEymOMkMm596VUfM=@lists.linux.dev, AJvYcCVW2E9V/z5CD4KskYWQXbc8mS2GzvMN5iAS1AELOoG095bwr+wMMZm/Y1xJl871TDNmIQv2rQ==@lists.linux.dev, AJvYcCVkFAf7v/BJROuhysgfCchb90aomN5ndEtBRW4nTQ4Er//BIaVnamW9EJjev0jPiM451/FY8alj@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvX26cLMiCeSYNovwNRKa2VTokSgIjHZIVU5rH05tlmFNwWinG
+	6FdqPKueCPJykEA9/FKKKm+Od71YBIQUyDAMMbov54ABBehu3pxoSeWk
+X-Gm-Gg: ASbGncuqmSvJaw24rnhxzntbwlKadICNxha+Hk9ni36+eVG1x2ExzcFXNFMSUQVm8ZP
+	UnZ3zktiuE9sFgYhcsPDPDyEl+5n1MiUm0HyqPCN5vaze+Nyei00VD3IVLqtQF6WGSP9hdTP+CS
+	SpRFY+1OXLxW8zmsLNwmhj3U94pkyVA+XNHiHWwX408+5E8fm1Uf+Nu3zqt53jxCLFaTR+F3p8y
+	p6QrDx5Q0xgcz4U0HQhKIx9C+OLhWO0hhbtApKjjUzhldxfU7a+rAwLQGHndPXrBShyAISyp5Wt
+	s8x68wehdt7X7KgegolnoUXBvA/14Ox5ecdO5BArO3hdHIyhc+xIx3TJKjTXDjBKosDc02D5q1D
+	TtJsyiau12LTlIJk/eVIyu9jSs3qi+jdsuItgQeIYKrVXfE2QFg==
+X-Google-Smtp-Source: AGHT+IHe8ajBJUyXwu1jxvqnFBotZVZqGKDHQgYwFn+fyltnooA7uDIcyyMAL7hOfbd71etw3G4PSg==
+X-Received: by 2002:a05:6402:26c2:b0:618:3a61:b1c with SMTP id 4fb4d7f45d1cf-6183a610b1fmr2169187a12.31.1754927450586;
+        Mon, 11 Aug 2025 08:50:50 -0700 (PDT)
 Received: from giga-mm.home ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a076409sm2048822966b.12.2025.08.11.08.47.32
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8f000c3sm18680418a12.4.2025.08.11.08.50.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 08:47:35 -0700 (PDT)
-Message-ID: <597d4a777a13c2b67effaf5ba32959710d2f58f8.camel@gmail.com>
-Subject: Re: [PATCH 047/114] clk: sophgo: cv18xx-ip: convert from
- round_rate() to determine_rate()
+        Mon, 11 Aug 2025 08:50:50 -0700 (PDT)
+Message-ID: <d3b0ae61d0bb5dc4e115ace27e1672444ae90d83.camel@gmail.com>
+Subject: Re: [PATCH 014/114] clk: ep93xx: convert from round_rate() to
+ determine_rate()
 From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 To: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>, Stephen
  Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, Cristian
@@ -114,11 +114,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
 	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Date: Mon, 11 Aug 2025 17:47:31 +0200
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-47-b3bf97b038dc@redhat.com>
+Date: Mon, 11 Aug 2025 17:50:46 +0200
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-14-b3bf97b038dc@redhat.com>
 References: 
 	<20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
-	 <20250811-clk-for-stephen-round-rate-v1-47-b3bf97b038dc@redhat.com>
+	 <20250811-clk-for-stephen-round-rate-v1-14-b3bf97b038dc@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.1 
@@ -141,39 +141,56 @@ On Mon, 2025-08-11 at 11:18 -0400, Brian Masney via B4 Relay wrote:
 Reviewed-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
 > ---
-> =C2=A0drivers/clk/sophgo/clk-cv18xx-ip.c | 10 ++++++----
-> =C2=A01 file changed, 6 insertions(+), 4 deletions(-)
+> =C2=A0drivers/clk/clk-ep93xx.c | 18 ++++++++++--------
+> =C2=A01 file changed, 10 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/drivers/clk/sophgo/clk-cv18xx-ip.c b/drivers/clk/sophgo/clk-=
-cv18xx-ip.c
-> index b186e64d4813e2701b17520e544c453fc13d0e77..c2b58faf0938b7d537dc3a81a=
-ef59c549b9c9c79 100644
-> --- a/drivers/clk/sophgo/clk-cv18xx-ip.c
-> +++ b/drivers/clk/sophgo/clk-cv18xx-ip.c
-> @@ -45,10 +45,12 @@ static unsigned long gate_recalc_rate(struct clk_hw *=
-hw,
-> =C2=A0	return parent_rate;
+> diff --git a/drivers/clk/clk-ep93xx.c b/drivers/clk/clk-ep93xx.c
+> index 4bd8d6ecf6a2bde26287e4e949b062a5660139e6..b081ef920e250dd99134af684=
+5c443ee11266da8 100644
+> --- a/drivers/clk/clk-ep93xx.c
+> +++ b/drivers/clk/clk-ep93xx.c
+> @@ -389,23 +389,25 @@ static unsigned long ep93xx_div_recalc_rate(struct =
+clk_hw *hw,
+> =C2=A0	return DIV_ROUND_CLOSEST(parent_rate, clk->div[index]);
 > =C2=A0}
 > =C2=A0
-> -static long gate_round_rate(struct clk_hw *hw, unsigned long rate,
-> -			=C2=A0=C2=A0=C2=A0 unsigned long *parent_rate)
-> +static int gate_determine_rate(struct clk_hw *hw,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct clk_rate_request *req)
+> -static long ep93xx_div_round_rate(struct clk_hw *hw, unsigned long rate,
+> -				=C2=A0=C2=A0 unsigned long *parent_rate)
+> +static int ep93xx_div_determine_rate(struct clk_hw *hw,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 struct clk_rate_request *req)
 > =C2=A0{
-> -	return *parent_rate;
-> +	req->rate =3D req->best_parent_rate;
+> =C2=A0	struct ep93xx_clk *clk =3D ep93xx_clk_from(hw);
+> =C2=A0	unsigned long best =3D 0, now;
+> =C2=A0	unsigned int i;
+> =C2=A0
+> =C2=A0	for (i =3D 0; i < clk->num_div; i++) {
+> -		if ((rate * clk->div[i]) =3D=3D *parent_rate)
+> -			return rate;
+> +		if (req->rate * clk->div[i] =3D=3D req->best_parent_rate)
+> +			return 0;
+> =C2=A0
+> -		now =3D DIV_ROUND_CLOSEST(*parent_rate, clk->div[i]);
+> -		if (!best || is_best(rate, now, best))
+> +		now =3D DIV_ROUND_CLOSEST(req->best_parent_rate, clk->div[i]);
+> +		if (!best || is_best(req->rate, now, best))
+> =C2=A0			best =3D now;
+> =C2=A0	}
+> =C2=A0
+> -	return best;
+> +	req->rate =3D best;
 > +
 > +	return 0;
 > =C2=A0}
 > =C2=A0
-> =C2=A0static int gate_set_rate(struct clk_hw *hw, unsigned long rate,
-> @@ -63,7 +65,7 @@ const struct clk_ops cv1800_clk_gate_ops =3D {
-> =C2=A0	.is_enabled =3D gate_is_enabled,
-> =C2=A0
-> =C2=A0	.recalc_rate =3D gate_recalc_rate,
-> -	.round_rate =3D gate_round_rate,
-> +	.determine_rate =3D gate_determine_rate,
-> =C2=A0	.set_rate =3D gate_set_rate,
+> =C2=A0static int ep93xx_div_set_rate(struct clk_hw *hw, unsigned long rat=
+e,
+> @@ -437,7 +439,7 @@ static const struct clk_ops ep93xx_div_ops =3D {
+> =C2=A0	.disable =3D ep93xx_clk_disable,
+> =C2=A0	.is_enabled =3D ep93xx_clk_is_enabled,
+> =C2=A0	.recalc_rate =3D ep93xx_div_recalc_rate,
+> -	.round_rate =3D ep93xx_div_round_rate,
+> +	.determine_rate =3D ep93xx_div_determine_rate,
+> =C2=A0	.set_rate =3D ep93xx_div_set_rate,
 > =C2=A0};
 
 --=20
