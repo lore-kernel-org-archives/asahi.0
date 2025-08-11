@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6DA2E11B0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE4E2E11DF;
 	Mon, 11 Aug 2025 15:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925505; cv=none; b=nBt1SQPgVTsFcW2DBSjUunsDFWauDBVvSPDSQ+X82LwsBsmEW1pqp97yhbG4tFatVrbWGod2biVdhwKzb72GtYsccsRBNEF9020AJ2/ni8bgj5HsuTYOJWyZBif7vMgxbHTqdFsvxnbwDhhIZvnD4uIFINseI84N0JOnomNsSrM=
+	t=1754925505; cv=none; b=ryBhsEZfoPT7V2n70NmXEMsijRbuiQwAj4joC/LiF7mNyiIZpWvqSbVxlLLRvrGObvs3CPR23GCCHX7ls7R/GIsJGW6lJ0R7aAauXd69Pp9SjeMbD3VojUam6SgK3HRhhix7CSvl+FV+72chi/EXZ4HU/gGp6GcxQCzJm7aFqMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754925505; c=relaxed/simple;
-	bh=TdaQSq8mvIeYrNZnjdupEaO4ED3EgZ0Ms8W6bgzfct0=;
+	bh=Wnk8BgOipo2N9m2Ea9uOpJhaiYbl+Z6j0QpOrSLOTE0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A08GbJybnx/mm7DJLKASCdhwjxIXeMzSUCnfRysSR85MpvR6QBXIpAKswodF86cwBwc2LxAcvg36oBTU60d1rWS/WjIgZlmJYYF51F8v0WGbOdic+nQbo7SX9fP844yaTcXuDSl8B09f1nZyp+l2YnPoJHMCRQpCyLZv8bqezYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LnqqTvDa; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=XHA+zLkMZod1n4BXaSOv5gR+r4Y0H6xHuvXHPmM0XhewfvTTMArDRWfxhjgDFwzhjZ337xxrqkD/2wuWIMJo0Dsw+4pIrdz+H2TWEEFO5AOxUzLaH1e2gB6x0pbQG05BnOYs3M4YOVJ0ap3lrQ/slGriRnBOaGtkClTVC+GjFYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LbJ6Kzgs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LnqqTvDa"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A805C4CEFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LbJ6Kzgs"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 697E6C19425;
 	Mon, 11 Aug 2025 15:18:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1754925505;
-	bh=TdaQSq8mvIeYrNZnjdupEaO4ED3EgZ0Ms8W6bgzfct0=;
+	bh=Wnk8BgOipo2N9m2Ea9uOpJhaiYbl+Z6j0QpOrSLOTE0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=LnqqTvDalOStN3eWhPvsFIj0dHDBnnBxTeyPZlz1jBgoOxDPmsKpnYji5IAXr0DIW
-	 Q5G8ZsfG3kvUbL5HWfRXbcjTza8++Mggep0+I12ldkzovgbBoL6SD3n3e1u65QJFv5
-	 RD+GV9B5eWmLEyB/JChnPMBIkr5ScHjHkXP0C+Z3/jhGjBY+nc+jByMSjiRe2WlOZz
-	 6CietEbHp//Mjr1WLJPdxcwDStKM3MyYTc17+h+qYl7/Y7tdAAKdnCFYByAFJDaUXz
-	 yHm1f9m3Umk0lP0OXKrxHeen7wUlghgUR0n85HUK1XzBqO41RRNSZ3CJoAGIx6kXX5
-	 mIVs7hu4d++vA==
+	b=LbJ6KzgspBgsAPmYGfJknK33s/eHMgzX7lVbHf2pzr9DVHzBc9chYcOZa8nM6tEvM
+	 yZi72iJaf6E6ldHVy7FDw7pJf0nmJk4Y+KWi06jIrqKk5+XVfz1iMNvh3heUCBiTSL
+	 PeAn0G3lHG4sU5yTRGYZrtukRYvJXUkOh1PvjUAMlciQpMLMGLPAnjO4+93p8FkZtv
+	 RlKwIzVENygfObbosflZzrq+kiRxBrBgYclKP2u2sf7BEiLZSLMR2CsFsQi/PZJluU
+	 8jNPTmZhPjj1qr5niXk47aZrSo9aExytqHFLH0XcfTeW5TFTCMOknimrKqS9zf5cL0
+	 fhrmC8kPAotSw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA60C88CB9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C336CA0EC4;
 	Mon, 11 Aug 2025 15:18:25 +0000 (UTC)
 From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Date: Mon, 11 Aug 2025 11:17:54 -0400
-Subject: [PATCH 002/114] clk: at91: peripheral: convert from round_rate()
- to determine_rate()
+Date: Mon, 11 Aug 2025 11:17:57 -0400
+Subject: [PATCH 005/114] clk: at91: h32mx: convert from round_rate() to
+ determine_rate()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-clk-for-stephen-round-rate-v1-2-b3bf97b038dc@redhat.com>
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-5-b3bf97b038dc@redhat.com>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -107,11 +107,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
  Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=3764;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=1996;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=zyirca0yClNWaEsyA4yRgSm6IFANUNOLKtijue+IPEE=;
- b=xHxpbiLsoHOJfs6e9F9K2fRn+qjwW0kTAOujiN6+xnAyQ/u85/MgOQbCfuxXUqagPg+DhuFsi
- tjlaNX3CkRnDuZ/BhKkfkxulkwqkrNMislS7D8M4mmchajF/BU1U3yg
+ bh=+Gy4fG2AJvROWxLhbBjQuuilZZnIYreI5B1/XGUumAw=;
+ b=bddnmfr4Qq1udz7evPQmYKx0VTkqElCn38ZpoP64EqHSc8I+tppgsKu0InDLdio46Q6TiYUZ2
+ DhMOktZu9bvDKJ96MsnGmtOMrcr/Nv5jIn3B5BUb3PZfzg+8EZLKNzL
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
@@ -125,109 +125,67 @@ The round_rate() clk ops is deprecated, so migrate this driver from
 round_rate() to determine_rate() using the Coccinelle semantic patch
 on the cover letter of this series.
 
-This driver already has a clk_sam9x5_peripheral_determine_rate()
-implementation, however it can change the parent rate. The existing
-round rate does not have this functionality. I could add a check
-for CLK_SET_RATE_PARENT, and combine the two functions, however there
-are some other minor differences in the two implementations. I don't
-have access to this particular hardware. I believe that they could
-be combined, however it would need to be tested on real hardware.
-So, let's play it safe and convert the existing round rate
-implementation to ensure that the driver keeps the same functionality
-as before.
-
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/at91/clk-peripheral.c | 41 +++++++++++++++++++++++----------------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+ drivers/clk/at91/clk-h32mx.c | 33 ++++++++++++++++++++++-----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/clk/at91/clk-peripheral.c b/drivers/clk/at91/clk-peripheral.c
-index 629f050a855aaebfd1a03ff87c2b016cd2284a5a..e700f40fd87f9327365f250366f7f7bde01f5987 100644
---- a/drivers/clk/at91/clk-peripheral.c
-+++ b/drivers/clk/at91/clk-peripheral.c
-@@ -335,50 +335,57 @@ static int clk_sam9x5_peripheral_determine_rate(struct clk_hw *hw,
- 	return 0;
+diff --git a/drivers/clk/at91/clk-h32mx.c b/drivers/clk/at91/clk-h32mx.c
+index 1e6c12eeda10c4abb51c2046ea27b238db2560cb..a9aa93b5a870988677ad4609a210ed9570295228 100644
+--- a/drivers/clk/at91/clk-h32mx.c
++++ b/drivers/clk/at91/clk-h32mx.c
+@@ -40,21 +40,32 @@ static unsigned long clk_sama5d4_h32mx_recalc_rate(struct clk_hw *hw,
+ 	return parent_rate;
  }
  
--static long clk_sam9x5_peripheral_round_rate(struct clk_hw *hw,
--					     unsigned long rate,
--					     unsigned long *parent_rate)
-+static int clk_sam9x5_peripheral_no_parent_determine_rate(struct clk_hw *hw,
-+							  struct clk_rate_request *req)
+-static long clk_sama5d4_h32mx_round_rate(struct clk_hw *hw, unsigned long rate,
+-				       unsigned long *parent_rate)
++static int clk_sama5d4_h32mx_determine_rate(struct clk_hw *hw,
++					    struct clk_rate_request *req)
  {
- 	int shift = 0;
- 	unsigned long best_rate;
- 	unsigned long best_diff;
--	unsigned long cur_rate = *parent_rate;
-+	unsigned long cur_rate = req->best_parent_rate;
- 	unsigned long cur_diff;
- 	struct clk_sam9x5_peripheral *periph = to_clk_sam9x5_peripheral(hw);
+ 	unsigned long div;
  
--	if (periph->id < PERIPHERAL_ID_MIN || !periph->range.max)
+-	if (rate > *parent_rate)
 -		return *parent_rate;
-+	if (periph->id < PERIPHERAL_ID_MIN || !periph->range.max) {
+-	div = *parent_rate / 2;
+-	if (rate < div)
+-		return div;
++	if (req->rate > req->best_parent_rate) {
 +		req->rate = req->best_parent_rate;
+ 
+-	if (rate - div < *parent_rate - rate)
+-		return div;
++		return 0;
++	}
++	div = req->best_parent_rate / 2;
++	if (req->rate < div) {
++		req->rate = div;
 +
 +		return 0;
 +	}
- 
- 	if (periph->range.max) {
- 		for (; shift <= PERIPHERAL_MAX_SHIFT; shift++) {
--			cur_rate = *parent_rate >> shift;
-+			cur_rate = req->best_parent_rate >> shift;
- 			if (cur_rate <= periph->range.max)
- 				break;
- 		}
- 	}
- 
--	if (rate >= cur_rate)
--		return cur_rate;
-+	if (req->rate >= cur_rate) {
-+		req->rate = cur_rate;
 +
++	if (req->rate - div < req->best_parent_rate - req->rate) {
++		req->rate = div;
+ 
+-	return *parent_rate;
 +		return 0;
 +	}
- 
--	best_diff = cur_rate - rate;
-+	best_diff = cur_rate - req->rate;
- 	best_rate = cur_rate;
- 	for (; shift <= PERIPHERAL_MAX_SHIFT; shift++) {
--		cur_rate = *parent_rate >> shift;
--		if (cur_rate < rate)
--			cur_diff = rate - cur_rate;
-+		cur_rate = req->best_parent_rate >> shift;
-+		if (cur_rate < req->rate)
-+			cur_diff = req->rate - cur_rate;
- 		else
--			cur_diff = cur_rate - rate;
-+			cur_diff = cur_rate - req->rate;
- 
- 		if (cur_diff < best_diff) {
- 			best_diff = cur_diff;
- 			best_rate = cur_rate;
- 		}
- 
--		if (!best_diff || cur_rate < rate)
-+		if (!best_diff || cur_rate < req->rate)
- 			break;
- 	}
- 
--	return best_rate;
-+	req->rate = best_rate;
++
++	req->rate = req->best_parent_rate;
 +
 +	return 0;
  }
  
- static int clk_sam9x5_peripheral_set_rate(struct clk_hw *hw,
-@@ -430,7 +437,7 @@ static const struct clk_ops sam9x5_peripheral_ops = {
- 	.disable = clk_sam9x5_peripheral_disable,
- 	.is_enabled = clk_sam9x5_peripheral_is_enabled,
- 	.recalc_rate = clk_sam9x5_peripheral_recalc_rate,
--	.round_rate = clk_sam9x5_peripheral_round_rate,
-+	.determine_rate = clk_sam9x5_peripheral_no_parent_determine_rate,
- 	.set_rate = clk_sam9x5_peripheral_set_rate,
- 	.save_context = clk_sam9x5_peripheral_save_context,
- 	.restore_context = clk_sam9x5_peripheral_restore_context,
+ static int clk_sama5d4_h32mx_set_rate(struct clk_hw *hw, unsigned long rate,
+@@ -77,7 +88,7 @@ static int clk_sama5d4_h32mx_set_rate(struct clk_hw *hw, unsigned long rate,
+ 
+ static const struct clk_ops h32mx_ops = {
+ 	.recalc_rate = clk_sama5d4_h32mx_recalc_rate,
+-	.round_rate = clk_sama5d4_h32mx_round_rate,
++	.determine_rate = clk_sama5d4_h32mx_determine_rate,
+ 	.set_rate = clk_sama5d4_h32mx_set_rate,
+ };
+ 
 
 -- 
 2.50.1
