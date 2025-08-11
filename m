@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A012E2F01;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA6B2E3376;
 	Mon, 11 Aug 2025 15:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925506; cv=none; b=jo52aphxFSNEys/DhTCQujkBclUQ1Gs8Tq8PltZU/bUKcdu95wG75jGuEdBNadaMY5qx7Om6GpUxTk11SdEXSfdUVhuLAa/liVTlAomQzcBqZ72vBJH1NjkwlkCj7BOlg+L9WKJlhQuj77hEy2aipZEpy14TsOaSUcxrGqh7AyA=
+	t=1754925507; cv=none; b=OIevjp+F5ValgUVlmn5y9U+HbxOl+TdfjVnM3MMl3zm8XY2qVQJcz60g5n76iUUEAop/TnZoUBYhmAZAVvCNl1/HC4J0UEeZihjCZ5l6QPLN/M/yJAFSI5IpS74tD1PBIfsNM6POwzgfpPTVQlyP5KL8bLYpVzmmG0Nf/nH5VfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754925506; c=relaxed/simple;
-	bh=E7C3P6ZNy2rKHQkGfEkPikHIRWZ/Xvgj0NeSfgIHrs8=;
+	s=arc-20240116; t=1754925507; c=relaxed/simple;
+	bh=X4e2Fknx80T84aTEhcMFhuDeqmdcTguiBfpiDntAQuU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=og0vbfwWSs7ycjvrTvshux9CGwORNJRTYJRLn9B6W1Jl2AAXzEYjNtudUuet4Gh+TQS5Qoa1/ke5aV1VxbNlBhmmVhyuuzdSlP9DLigW7NXLBros+wj2pM0sRPyd9xkE5dQdCNbW36wvnBfS8zrPN9ettnuWnMj98+sPYbo9OHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VHRsDEmS; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=L7bNuRVFE6+5jhCYBuWzfkiizJ2zYU1YKRKMitIoVpVi17fqefqNzcJYklnWH3Sm1AcZO3cw1Uup58Cl5qADx9RvhWAj5qQ7oENoKtlvqhON2hQTRyRe3DQCazxF6O018jjiVoq4SiX0aozE+shvafuZllT4CbXsFGutjF1wZH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNCJxZjQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VHRsDEmS"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AB829C4CEF4;
-	Mon, 11 Aug 2025 15:18:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNCJxZjQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0C471C4DDFC;
+	Mon, 11 Aug 2025 15:18:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754925505;
-	bh=E7C3P6ZNy2rKHQkGfEkPikHIRWZ/Xvgj0NeSfgIHrs8=;
+	s=k20201202; t=1754925506;
+	bh=X4e2Fknx80T84aTEhcMFhuDeqmdcTguiBfpiDntAQuU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=VHRsDEmSBjRKdetcOPNULS116ScKbzgoGND634hKVQx0oA96s8BEcVh8j+K+kdFLW
-	 yUZ7ltQUfiKQw6PWppV2GVcsf3yrLkae/gewVW8//raRQlBx4GO28mse7oirloJYN0
-	 dxjCQKMfHLXuw1JjA778sR79IXQKA0YT+woJJd5/XJcjKYJ88d+zx42q/0jOD6n6K7
-	 BXkXukyyTb8a4hWUOshaLQFYi/yVnOQFvFtNqhi+ayD2iGtgnHm8IXwhe/iJA6OVwC
-	 4u1yzsK0Bj7OAJ8jVNmrY2PLmpWUhbGRy6xdS0jP/6y0i5H++0t+1lkYW0PV0qvkFI
-	 4G5BlWX3vRVGA==
+	b=WNCJxZjQrbDr0iYIWO/HYF/Y144lIX80FZF9qc/Ptu0zVF2cOtcFDXcjUsu+jk781
+	 AWuB5SpOB6MDtn2+z2JVZ09u7zdpBDflMRc7xEF02f9I5PSki38GRUl6GU9f03HLqx
+	 jg9a7l7AV3E12MZYKC0s++d21J+3A2u7ujRwNZJ77PFAwRn+CDDnBWjqS3uz0WiH9G
+	 Wyijt/UXGhqSj4T+LsOrM+KUFuII47ESBIhhyhoRqfkw6zZYAAk7vknHpC2ZGNRc2p
+	 xskTCgak3VTRC+WwvUJgWJPwUJHzantR2TMnOpHO17VRV71Q1W5C5/AmUYSD+qX4VL
+	 wNjI981QvezEA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B2A4CA0EC1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8634CA0EC5;
 	Mon, 11 Aug 2025 15:18:25 +0000 (UTC)
 From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Date: Mon, 11 Aug 2025 11:18:00 -0400
-Subject: [PATCH 008/114] clk: at91: sam9x60-pll: convert from round_rate()
+Date: Mon, 11 Aug 2025 11:18:03 -0400
+Subject: [PATCH 011/114] clk: baikal-t1: ccu-pll: convert from round_rate()
  to determine_rate()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-clk-for-stephen-round-rate-v1-8-b3bf97b038dc@redhat.com>
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-11-b3bf97b038dc@redhat.com>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -107,11 +107,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
  Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=4302;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=1959;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=OxQaMcKTSkwjmYKLw5h5eyKDpcwcRbzdzL1bNRAhzHc=;
- b=eCz2rWzNoc6MDhDi3s+TtzEA+KkyxL6IXQXbFJ/7MIWOAaNmzMp2adyhQdWMW4LTINxEeWF7j
- 80rtY2sTPZOBj0C3cFGU+2bqg238C4+uti4HvqwqtW5xEUni6asYwj+
+ bh=Rir3EwEBie1sPj5NCtSVFsGCoQCOIrz/9MT2zbH+7Pc=;
+ b=01t51IygvBOWZ2CKoHAJ0HkUooFlr6DFhgjoMi4GucTkeVEIgTfMzBHL3emzcRIFfdOQ28Avr
+ Yz+s8f6VL5lAsPxL+LRfhPHs8KFDsuUC8ZrmpAf/Ww2psKAv+/7QMBL
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
@@ -127,96 +127,51 @@ on the cover letter of this series.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/at91/clk-sam9x60-pll.c | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ drivers/clk/baikal-t1/ccu-pll.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/clk/at91/clk-sam9x60-pll.c b/drivers/clk/at91/clk-sam9x60-pll.c
-index cefd9948e10393e4762f8a1f5f2ca0a7e1180a87..bc1498c5704ad9dadbef4e990156602f2dd0bfea 100644
---- a/drivers/clk/at91/clk-sam9x60-pll.c
-+++ b/drivers/clk/at91/clk-sam9x60-pll.c
-@@ -230,12 +230,16 @@ static long sam9x60_frac_pll_compute_mul_frac(struct sam9x60_pll_core *core,
- 	return tmprate;
+diff --git a/drivers/clk/baikal-t1/ccu-pll.c b/drivers/clk/baikal-t1/ccu-pll.c
+index 13ef28001439e37ff4c5230a82fd4a81728861cc..357269f41cdcf5772ee56fc55f1fdb3e67d823e6 100644
+--- a/drivers/clk/baikal-t1/ccu-pll.c
++++ b/drivers/clk/baikal-t1/ccu-pll.c
+@@ -228,14 +228,16 @@ static void ccu_pll_calc_factors(unsigned long rate, unsigned long parent_rate,
+ 	}
  }
  
--static long sam9x60_frac_pll_round_rate(struct clk_hw *hw, unsigned long rate,
--					unsigned long *parent_rate)
-+static int sam9x60_frac_pll_determine_rate(struct clk_hw *hw,
-+					   struct clk_rate_request *req)
+-static long ccu_pll_round_rate(struct clk_hw *hw, unsigned long rate,
+-			       unsigned long *parent_rate)
++static int ccu_pll_determine_rate(struct clk_hw *hw,
++				  struct clk_rate_request *req)
  {
- 	struct sam9x60_pll_core *core = to_sam9x60_pll_core(hw);
+ 	unsigned long nr = 1, nf = 1, od = 1;
  
--	return sam9x60_frac_pll_compute_mul_frac(core, rate, *parent_rate, false);
-+	req->rate = sam9x60_frac_pll_compute_mul_frac(core, req->rate,
-+						      req->best_parent_rate,
-+						      false);
+-	ccu_pll_calc_factors(rate, *parent_rate, &nr, &nf, &od);
++	ccu_pll_calc_factors(req->rate, req->best_parent_rate, &nr, &nf, &od);
+ 
+-	return ccu_pll_calc_freq(*parent_rate, nr, nf, od);
++	req->rate = ccu_pll_calc_freq(req->best_parent_rate, nr, nf, od);
 +
 +	return 0;
  }
  
- static int sam9x60_frac_pll_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -321,7 +325,7 @@ static const struct clk_ops sam9x60_frac_pll_ops = {
- 	.unprepare = sam9x60_frac_pll_unprepare,
- 	.is_prepared = sam9x60_frac_pll_is_prepared,
- 	.recalc_rate = sam9x60_frac_pll_recalc_rate,
--	.round_rate = sam9x60_frac_pll_round_rate,
-+	.determine_rate = sam9x60_frac_pll_determine_rate,
- 	.set_rate = sam9x60_frac_pll_set_rate,
- 	.save_context = sam9x60_frac_pll_save_context,
- 	.restore_context = sam9x60_frac_pll_restore_context,
-@@ -332,7 +336,7 @@ static const struct clk_ops sam9x60_frac_pll_ops_chg = {
- 	.unprepare = sam9x60_frac_pll_unprepare,
- 	.is_prepared = sam9x60_frac_pll_is_prepared,
- 	.recalc_rate = sam9x60_frac_pll_recalc_rate,
--	.round_rate = sam9x60_frac_pll_round_rate,
-+	.determine_rate = sam9x60_frac_pll_determine_rate,
- 	.set_rate = sam9x60_frac_pll_set_rate_chg,
- 	.save_context = sam9x60_frac_pll_save_context,
- 	.restore_context = sam9x60_frac_pll_restore_context,
-@@ -487,12 +491,15 @@ static long sam9x60_div_pll_compute_div(struct sam9x60_pll_core *core,
- 	return best_rate;
- }
- 
--static long sam9x60_div_pll_round_rate(struct clk_hw *hw, unsigned long rate,
--				       unsigned long *parent_rate)
-+static int sam9x60_div_pll_determine_rate(struct clk_hw *hw,
-+					  struct clk_rate_request *req)
- {
- 	struct sam9x60_pll_core *core = to_sam9x60_pll_core(hw);
- 
--	return sam9x60_div_pll_compute_div(core, parent_rate, rate);
-+	req->rate = sam9x60_div_pll_compute_div(core, &req->best_parent_rate,
-+						req->rate);
-+
-+	return 0;
- }
- 
- static int sam9x60_div_pll_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -601,7 +608,7 @@ static const struct clk_ops sam9x60_div_pll_ops = {
- 	.unprepare = sam9x60_div_pll_unprepare,
- 	.is_prepared = sam9x60_div_pll_is_prepared,
- 	.recalc_rate = sam9x60_div_pll_recalc_rate,
--	.round_rate = sam9x60_div_pll_round_rate,
-+	.determine_rate = sam9x60_div_pll_determine_rate,
- 	.set_rate = sam9x60_div_pll_set_rate,
- 	.save_context = sam9x60_div_pll_save_context,
- 	.restore_context = sam9x60_div_pll_restore_context,
-@@ -612,7 +619,7 @@ static const struct clk_ops sam9x60_div_pll_ops_chg = {
- 	.unprepare = sam9x60_div_pll_unprepare,
- 	.is_prepared = sam9x60_div_pll_is_prepared,
- 	.recalc_rate = sam9x60_div_pll_recalc_rate,
--	.round_rate = sam9x60_div_pll_round_rate,
-+	.determine_rate = sam9x60_div_pll_determine_rate,
- 	.set_rate = sam9x60_div_pll_set_rate_chg,
- 	.save_context = sam9x60_div_pll_save_context,
- 	.restore_context = sam9x60_div_pll_restore_context,
-@@ -623,7 +630,7 @@ static const struct clk_ops sam9x60_fixed_div_pll_ops = {
- 	.unprepare = sam9x60_div_pll_unprepare,
- 	.is_prepared = sam9x60_div_pll_is_prepared,
- 	.recalc_rate = sam9x60_fixed_div_pll_recalc_rate,
--	.round_rate = sam9x60_div_pll_round_rate,
-+	.determine_rate = sam9x60_div_pll_determine_rate,
- 	.save_context = sam9x60_div_pll_save_context,
- 	.restore_context = sam9x60_div_pll_restore_context,
+ /*
+@@ -481,7 +483,7 @@ static const struct clk_ops ccu_pll_gate_to_set_ops = {
+ 	.disable = ccu_pll_disable,
+ 	.is_enabled = ccu_pll_is_enabled,
+ 	.recalc_rate = ccu_pll_recalc_rate,
+-	.round_rate = ccu_pll_round_rate,
++	.determine_rate = ccu_pll_determine_rate,
+ 	.set_rate = ccu_pll_set_rate_norst,
+ 	.debug_init = ccu_pll_debug_init
+ };
+@@ -491,7 +493,7 @@ static const struct clk_ops ccu_pll_straight_set_ops = {
+ 	.disable = ccu_pll_disable,
+ 	.is_enabled = ccu_pll_is_enabled,
+ 	.recalc_rate = ccu_pll_recalc_rate,
+-	.round_rate = ccu_pll_round_rate,
++	.determine_rate = ccu_pll_determine_rate,
+ 	.set_rate = ccu_pll_set_rate_reset,
+ 	.debug_init = ccu_pll_debug_init
  };
 
 -- 
