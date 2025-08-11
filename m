@@ -1,65 +1,66 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0322E88A8;
-	Mon, 11 Aug 2025 15:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE192E92DB;
+	Mon, 11 Aug 2025 15:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754926686; cv=none; b=EKpGrIzWlly3yYbNBmnkWNPgx2uESfGxg5f5ycuLHvfzNIFZZweGd7ybgsX4nIJUQ+xO4Ihil48zMbUP6zvE1eoNORjd42ueMwDb5Qa/ziyMyzVaCYgNAW7ZewgEHDaPkSASPHmSLMItQE/Mv7rHP67byd7KhUmMpgD3qwaYUOA=
+	t=1754926731; cv=none; b=b1zE3wl7sPAzoA4ZyK0fW7PSwP5j5fCwPKW38QMyhj46bSrKdUA03UnZ6wx1dZrSOyLsNuoURD10zUBtOMsowY/kClScs0QG6Bsk93xxNcLjcM9QIen9I/i1+9Hocp+XFgQm0e9wu1sESPeGrtj1/uQ6mg2AfOqVQ5yUvnlu73Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754926686; c=relaxed/simple;
-	bh=CqlyMujMU6ydNDStKnts5DDKJU1MVb00JtDeW/Rdvt0=;
+	s=arc-20240116; t=1754926731; c=relaxed/simple;
+	bh=FPbaAa28Nh3lMI3CatP7a4lPc6OfLL2O6SW4T1FANsI=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lrTeczh9ZsmJyye0BbhS9wu9QZWB+jw0awrxn66XrdSHkznC1M8hYkYflPSkmmd/FXEo/41y0k15X2W6P41GidOpTHXq19ndeQu0FWcpMwL1+Zt83+v++htt/3o7CVhD1TdkUDDjvQsVW6Hh8ksdaG9xvcbzGQnVPOILxgRv7eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uo5E0zpz; arc=none smtp.client-ip=209.85.218.49
+	 Content-Type:MIME-Version; b=i9aedr5cFSUp3S2qZotpU2Nzqg5rzojefUwSNmXNrZPaN0lTnyEwcT3KjGylwGYfR2J+CH7Yb898As37bJK41BfUHIB6KlxhjOjfRmpT9zDsbu+0en8xXt/WjiUqzx76+FPs4eCDJOnJX+KrY0NcJLGMHvqVm7KXeZD1rUvXsz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WX45NleR; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uo5E0zpz"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-af95b919093so664720666b.2;
-        Mon, 11 Aug 2025 08:38:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WX45NleR"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-adfb562266cso618416466b.0;
+        Mon, 11 Aug 2025 08:38:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754926682; x=1755531482; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754926728; x=1755531528; darn=lists.linux.dev;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=2HmgB4i0ef6G9gBd9c3iPtpa4z8Vmw9rM+uJkjjYMMg=;
-        b=Uo5E0zpz9uTDRyAHh2vtBLUgyfOS83eV51Zs76TmX5C1ZECNVX2srYKOcXY5+wYsRx
-         U6JyF4kzB94rTyac1jXJ2QT1U9UdepGVPd9DLy97hJ7/vmPH6NKeY3qJ4uRhckPDItd+
-         kD8Y6eFsW49IfpWexHuQXcF/ofWr4o0ODWYQTx2qXQ6YCLeYZiQZwIU24QcVLgduA8Pr
-         YqwcvkXvP1c+fgpUdmFGclFuPlqlg4h3djv+lsSQCi6OIsqzhU99IVRKvRdlCrsJ1Ele
-         HP/JaITM+Mc4Ak6z6rGn9T+ABjcDq9m+/XMieOIBGT9OTk1opgAeAQCl81riexQA2Op6
-         Pj/A==
+        bh=qD3PnaCJHe7CAGf98jDIpzJE6HGS8eh/nvSCm5VXAxc=;
+        b=WX45NleRBfzs1FTOjRTdrefhH6LF+nn6cAmvo1Aaxjuandjw4uK4njD+m6MsZEuoV2
+         7rJYpK3tWqsqX81hbgor8QgKgGQ9eKwPOeorFMzvaFQv4ZehFcgtKl3+UDGOHv+NAh+o
+         XrsMylRd8zyTmEGS6UZKuTVARQFp5QFzbsCleLJuIyKdSbduAJ86/vMLe6NKQV3UQ6RL
+         PqyGhkdDvITpY/pY1Vhe9t8Ux3hvEP7UtfDYiA1jCORw3EkGS4anEs8Nh0EVIF8Y1eV+
+         6OYetWM9+iuK4rUlZNMhA+E9jb7RXBdddUoofmIZq3Q4lY78ye7PsHU4ATaswl84Eup1
+         Ac6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754926682; x=1755531482;
+        d=1e100.net; s=20230601; t=1754926728; x=1755531528;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2HmgB4i0ef6G9gBd9c3iPtpa4z8Vmw9rM+uJkjjYMMg=;
-        b=KuGq68H3u1aeaWXdjZK0Y6PynCDA2QIIK4W+4R+EEmzaR5Mg2h+tR4M3b83tMg+ZZe
-         ZX4M5VPgiNmn657WLcVJa5avOjzusr3mjCUS7X+NvVxTCdVGDxPf16YY9WsoNStdhWos
-         JkD9eYG17Ohbc4JSvKKY+u60Kf3SmuNWO2YT32vq0HcP61Q3kim4slkcEg+jYOxxF1WV
-         0rax9D+rNuk8YCRKTxyZjKD6xeoBQuY00AFkgG65agxDkz/n5aUEz0AHS0NBl8Q63ssL
-         8Ce5UgJmXW5QN7oZz8HKnJ4nUqomXzfsfBvg3IdrBB5P0DlkHZFisuzNl1WTy2JjHbrf
-         6KeA==
-X-Forwarded-Encrypted: i=1; AJvYcCVOqNp/LASpbyVyT/2a1O0sFRHyuieA8CCxNv5Vbpgj9U8c6U++CEHiXnzrMyhr+zdWC1oC5A==@lists.linux.dev, AJvYcCVQvXv7K6LPQ94LHQsmkXag45eDj1rKVDXpJmDwPCidge4DPNHzCZjQEnnxc3qNJpQ9+HAWg0s1KKs=@lists.linux.dev, AJvYcCVeVj4L5eV29X1JS6OMCPMwkQTUdIgzerssYxZO1R/Mx0FR/lbzbGxbWifk1dE3epmJvcI3@lists.linux.dev, AJvYcCW4J1SLJA2w4vtcQythvc2S3HUgeYA4N0lOl1abWSGdnYMcBGrI1JAlILCj9ZHKflXgRPpsGYma@lists.linux.dev, AJvYcCX2XCDyQePDTH0SZ8/+jvcmOlHZiWQgQgnpvkL5+r2JorxvL9frAfKskGlDG+CRT8NXRR9l@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMYkR4tUuEfEwYFy2rbLhVLUpAkAFwU/XiCLIzjaeBLtqmUe0F
-	WfukpU54/w+LRwi2aR+fC6pBanZSsX/yjmKeWocWysCPyRbbm6Y2OV/j
-X-Gm-Gg: ASbGncuD2zzgqn+9nPpLMU+tqRa6nOzbHpEu3bgUehffb2uYHfdJyxjiFf1thT+R9yS
-	yECTQgd+ThQ97ZwHnrxxVLYwYz7yg/16JVI+jXR6VdsfoPeSdxFHuPcR9k1fHwUmU899LuyX4Ez
-	t37PPjOMnrSBaP+42Ur1IHwoKyxNdzYv+fx7zCJ8yez79BN8Gd9uZ4Tnhbfd9ct4PqTPpZtmI/s
-	+GEVIV1Z9uBVotZ1JnalZaJkSv8P2h17HW1kcq2vvbtcHfFbYfi3EroQxQgjqTr+mY43PTUM2aw
-	fIi/9fs7frSLSMsEkU8StSDn8RyB6LMCo+gScqSG5n2ZYEQ+FPaFJ9tNWleoLYIexlwfKvuQv2n
-	Tz1O06EM4ISUCda1qjAmyjziHPjz9hfX79+y8sRY=
-X-Google-Smtp-Source: AGHT+IHSK7yv3/D8orY0Pvy2Zzp8DcIZ6EslOLXmLH2atPhWs8y14U6F2aebL6rKGw4mDoY3DumHmw==
-X-Received: by 2002:a17:907:7ea8:b0:af9:8c1c:b9be with SMTP id a640c23a62f3a-af9c645d565mr1274686466b.14.1754926682117;
-        Mon, 11 Aug 2025 08:38:02 -0700 (PDT)
+        bh=qD3PnaCJHe7CAGf98jDIpzJE6HGS8eh/nvSCm5VXAxc=;
+        b=ctyeGndyXzeeafAhsZsDvPbD9S2k10qfevNTttya+ZTdQRGibmp7x2dsv6IfwTvpGP
+         lz149JOhbBqB8kp5KMG4BWuzw0wbJaJ1OON+3ueYBvjZpYt5r5mxb0+tAUNrLHz/Ledx
+         OrgOnljxMu/3s9m9P9/c3CU2oCwYwXTVECHO736ZI7lBDPXJuTPMrQxarRyWNNF1OBZ1
+         /+Pnx4ZQmBDnP1jJpvT4b8gVM0pqxVmbHY41asSivn09CGebPlE+1YJZ9Chd8IUUpF0K
+         4S8EN9JZimDezP35d03N+R9Z0bdkSvy0z5fcA/KPzw30QQ0VSyyWC5mqiAmKOkVlCo5W
+         KxSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU02U2w+NON8ZoDfuZ/iLFpZCXKudyzcEQAFgI1OdKQtto9wnIxKINPhxP95YIsgaH494l3@lists.linux.dev, AJvYcCV3tJLObKsuhy8w3EfgUqcpM/jALsCX7cYcQObNHjWx30zJ7iNSJ9Hyicmyqlt7WuIVL5Hib8hA@lists.linux.dev, AJvYcCVUARHuTOxMJ7/vmvAT0fzKWbZmRf0DlFH53JQtY9AMuFyBgGw+ye3axPm7VOTZGao6WzlNDQ==@lists.linux.dev, AJvYcCXKvelrljBdJ21gezkn3toWX1bVduGn0s5JtPPc56TOmaVmO0k2sQFGLfb+MFf+5+KOY+gQ@lists.linux.dev, AJvYcCXXEhme/55QA/f/Kyt4rfUh+DGcP5YN09OxfVaKspqNpySacqcpvJvN2RvGZrLaVZR30H9vswFRaOw=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbFsKZyMfAe1Mr/TmPdhCVmRCq3IQc1OHzr33LsXO9pO4t4rjZ
+	ErqYP7ld4uQ91bBuuCkelq6lmkbzgiw4OW7Pz49Cp/FuhIk/eN5QZb91
+X-Gm-Gg: ASbGnctrSVgNIG1VPL7Q3RLcSew7i3D1DY72wzn7IrUkJTs+MRPvOepxrfclccN/dfo
+	TmO92Ap2u5wch4q+H7pnuwhsi2BK5yAACbE8+DTAJ5WuZLsyagz9j40TCyshBdJRmn2ZCZF2rl/
+	mAfU71bKbo7fgQaTiz3YZec7lho/QSNuyiUC0jvwMLEWzFfuUaagU7b1NN/nec3ag4voALNhnpX
+	TjpqjgV7NdHaGODvQ7vm0NlkmFDCy3ox8Rgkr1D10OecfJr3WHPY7oSFeVgHQJznXIQg4nGyadI
+	q9VmonXQWKvBiaRWcc7PphCLs9LfSTCjjgEwrrO7MeRnSBa+nzutXFicM3UhcX4CLAzBWsCL7Fd
+	UPi8VdoAwvwYdUgA9eHTbut1sXdsdZn8Du0pz6fM=
+X-Google-Smtp-Source: AGHT+IEwAIMMmXMguO85CuFME8BHuByHpdLqU2yJrGASpVc+AuhN3x1kaE4ymuvmmSr6MxnWK7LVvA==
+X-Received: by 2002:a17:906:b07:b0:afa:1453:6632 with SMTP id a640c23a62f3a-afa14536b03mr150166866b.50.1754926727869;
+        Mon, 11 Aug 2025 08:38:47 -0700 (PDT)
 Received: from giga-mm.home ([2a02:1210:8642:2b00:82ee:73ff:feb8:99e3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c0afsm2032301266b.117.2025.08.11.08.37.59
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c157sm2047222366b.100.2025.08.11.08.38.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 08:38:01 -0700 (PDT)
-Message-ID: <84788b3be1d340f7a085c0d2a5903fd1032dd9eb.camel@gmail.com>
-Subject: Re: [PATCH 114/114] clk: fixed-factor: drop round_rate() clk ops
+        Mon, 11 Aug 2025 08:38:47 -0700 (PDT)
+Message-ID: <09635747dcd29f45a90dd33a74a9902d7bfa9649.camel@gmail.com>
+Subject: Re: [PATCH 112/114] clk: scmi: remove round_rate() in favor of
+ determine_rate()
 From: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 To: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>, Stephen
  Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, Cristian
@@ -113,11 +114,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
 	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Date: Mon, 11 Aug 2025 17:37:58 +0200
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-114-b3bf97b038dc@redhat.com>
+Date: Mon, 11 Aug 2025 17:38:43 +0200
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-112-b3bf97b038dc@redhat.com>
 References: 
 	<20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
-	 <20250811-clk-for-stephen-round-rate-v1-114-b3bf97b038dc@redhat.com>
+	 <20250811-clk-for-stephen-round-rate-v1-112-b3bf97b038dc@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.1 
@@ -128,65 +129,74 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-Hi Brian!
-
 On Mon, 2025-08-11 at 11:19 -0400, Brian Masney via B4 Relay wrote:
 > From: Brian Masney <bmasney@redhat.com>
 >=20
 > This driver implements both the determine_rate() and round_rate() clk
 > ops, and the round_rate() clk ops is deprecated. When both are defined,
 > clk_core_determine_round_nolock() from the clk core will only use the
-> determine_rate() clk ops. Also all clk drivers that directly calls
-> fixed-factor's round_rate() have been migrated over to determine_rate().
-> So let's remove the round_rate() clk ops.
+> determine_rate() clk ops, so let's remove the round_rate() clk ops since
+> it's unused.
 >=20
 > Signed-off-by: Brian Masney <bmasney@redhat.com>
 
 Reviewed-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
 > ---
-> =C2=A0drivers/clk/clk-fixed-factor.c | 16 ----------------
-> =C2=A01 file changed, 16 deletions(-)
+> =C2=A0drivers/clk/clk-scmi.c | 30 ------------------------------
+> =C2=A01 file changed, 30 deletions(-)
 >=20
-> diff --git a/drivers/clk/clk-fixed-factor.c b/drivers/clk/clk-fixed-facto=
-r.c
-> index 79b9a8c57d4b84be990955d8bc3159b818f38d50..de658c9e4c5386a7a8d220743=
-22577e0e9efd2b8 100644
-> --- a/drivers/clk/clk-fixed-factor.c
-> +++ b/drivers/clk/clk-fixed-factor.c
-> @@ -47,21 +47,6 @@ static int clk_factor_determine_rate(struct clk_hw *hw=
-,
-> =C2=A0	return 0;
+> diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
+> index d2408403283fc72f0cf902e65f4c08bcbc7b4b0b..6c6ddb92e7cf6a0cfac2c7e19=
+c0f15f777bb8c51 100644
+> --- a/drivers/clk/clk-scmi.c
+> +++ b/drivers/clk/clk-scmi.c
+> @@ -54,35 +54,6 @@ static unsigned long scmi_clk_recalc_rate(struct clk_h=
+w *hw,
+> =C2=A0	return rate;
 > =C2=A0}
 > =C2=A0
-> -static long clk_factor_round_rate(struct clk_hw *hw, unsigned long rate,
-> -				unsigned long *prate)
+> -static long scmi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+> -				unsigned long *parent_rate)
 > -{
-> -	struct clk_fixed_factor *fix =3D to_clk_fixed_factor(hw);
+> -	u64 fmin, fmax, ftmp;
+> -	struct scmi_clk *clk =3D to_scmi_clk(hw);
 > -
-> -	if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
-> -		unsigned long best_parent;
+> -	/*
+> -	 * We can't figure out what rate it will be, so just return the
+> -	 * rate back to the caller. scmi_clk_recalc_rate() will be called
+> -	 * after the rate is set and we'll know what rate the clock is
+> -	 * running at then.
+> -	 */
+> -	if (clk->info->rate_discrete)
+> -		return rate;
 > -
-> -		best_parent =3D (rate / fix->mult) * fix->div;
-> -		*prate =3D clk_hw_round_rate(clk_hw_get_parent(hw), best_parent);
-> -	}
+> -	fmin =3D clk->info->range.min_rate;
+> -	fmax =3D clk->info->range.max_rate;
+> -	if (rate <=3D fmin)
+> -		return fmin;
+> -	else if (rate >=3D fmax)
+> -		return fmax;
 > -
-> -	return (*prate / fix->div) * fix->mult;
+> -	ftmp =3D rate - fmin;
+> -	ftmp +=3D clk->info->range.step_size - 1; /* to round up */
+> -	do_div(ftmp, clk->info->range.step_size);
+> -
+> -	return ftmp * clk->info->range.step_size + fmin;
 > -}
 > -
-> =C2=A0static int clk_factor_set_rate(struct clk_hw *hw, unsigned long rat=
-e,
-> =C2=A0				unsigned long parent_rate)
+> =C2=A0static int scmi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long parent_rate)
 > =C2=A0{
-> @@ -87,7 +72,6 @@ static unsigned long clk_factor_recalc_accuracy(struct =
-clk_hw *hw,
+> @@ -300,7 +271,6 @@ scmi_clk_ops_alloc(struct device *dev, unsigned long =
+feats_key)
 > =C2=A0
-> =C2=A0const struct clk_ops clk_fixed_factor_ops =3D {
-> =C2=A0	.determine_rate =3D clk_factor_determine_rate,
-> -	.round_rate =3D clk_factor_round_rate,
-> =C2=A0	.set_rate =3D clk_factor_set_rate,
-> =C2=A0	.recalc_rate =3D clk_factor_recalc_rate,
-> =C2=A0	.recalc_accuracy =3D clk_factor_recalc_accuracy,
+> =C2=A0	/* Rate ops */
+> =C2=A0	ops->recalc_rate =3D scmi_clk_recalc_rate;
+> -	ops->round_rate =3D scmi_clk_round_rate;
+> =C2=A0	ops->determine_rate =3D scmi_clk_determine_rate;
+> =C2=A0	if (feats_key & BIT(SCMI_CLK_RATE_CTRL_SUPPORTED))
+> =C2=A0		ops->set_rate =3D scmi_clk_set_rate;
 
 --=20
 Alexander Sverdlin.
