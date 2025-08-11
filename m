@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7712EA481;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2FF2E11C6;
 	Mon, 11 Aug 2025 15:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925512; cv=none; b=c8E060/qfW24G6ttaxZ65lbVHB/aa5c0ecEUgrPdOk2auFFXzCjk7g94Ewek/Kt8NdWORWqRpO270vgNWeTiMGrELPLdt0y26ZxcTUVhUZFFhFxG+rdg2iKFUe6Io+kidYxeCnq21tRRNBLA2v3QLryNM7nMTKO/iRrwf2R6s58=
+	t=1754925512; cv=none; b=aZkYaKVeKjc5EO24JsKQeBZrK18dyrTRlwwVK4I9s9WFsiUBO5cYas7c0T9pQF0jRxzVj5xD9RDl/uSZJf3qc87D4ffefIFCi1T76rzjEAIgj1+dI3CmVuBfbFjZLjhn/lozWXuD0E5LnX8ncWy4KQAbZPQv2jRnV0xt1TxWtgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754925512; c=relaxed/simple;
-	bh=zmCUg76zLof8eoS/7RTlI/jupLUo8NRmmsmbkY5qpEE=;
+	bh=0vVbP8b53yX1PNbA+T6Py+fKP7hScno000OMFrpLy80=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CWilNxXo71RWbF6Gy90ArwblxyY7nzmEkl6ZqLnU1tTTryhpc2uC/fCmcH+kPP3MbzA4vQOE6lP3TPQXnGs41DEc6Q81gzVVA47Ee5Ii9grROkT8LMw4ZrPY9olz+qvFVn8XCRa6TJG++4AaYDjS4LebVKiaZ53/BxQfExO+g0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEffPL1f; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=O7p5FJimWgSaQuTLKsXMiI9An6P1gPiODxmupRGqylY59kR9Ux6Y1SbhbVyE5CLcAHk3Mm4LIH+imFYZYgV08iVHOPmtPNSVNbhSU+l3sG5OsqIptEZ5+QAxGXHjw8Sfz6038HWBuKHA3f18d/cdk0hB6iud++RppZn/VjqBjlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tpk4/iJ1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEffPL1f"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D0853C4AF1B;
-	Mon, 11 Aug 2025 15:18:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tpk4/iJ1"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 26652C4AF48;
+	Mon, 11 Aug 2025 15:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1754925511;
-	bh=zmCUg76zLof8eoS/7RTlI/jupLUo8NRmmsmbkY5qpEE=;
+	bh=0vVbP8b53yX1PNbA+T6Py+fKP7hScno000OMFrpLy80=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=fEffPL1f83xTt0V6nCAv3vIm5V7d7tDtxUJVx0OcIzV8zJTZobgRwLG4uCUy6tXfA
-	 g9aQ6OjvvAweDzQnAYJLb6vD+1HZkBpXgTmdNlgbdMw/fr71pwK99pbV6tMJTfx3qC
-	 NqIg8hBC7TBMGtSYeJD6AHi7FMkLxqZgKG7kNpqTfUxuw0BALsG68EgS9YA5kvKVOW
-	 wen44eqJrXXRJxjSoLutwzIk/E9+R3iJ2KJkg9h8I0k6JnnM0ybAw+1JlgV9FZnk6q
-	 xEftDc+JHZw1phu+iQGPac13M12NxufNAnekrsdN1e4HHa7T0oUhK1NQ97wDppnnbU
-	 mPo7VU2UEjPdQ==
+	b=tpk4/iJ1oqQxhIZWKepBmG99dwh/e1CqmEGrzkhggX+cXA17RnNlT54xyl44nBDXS
+	 9bte5Ib2Tz+lejdG52gfGnHey9TFYBnxONvEfhL5+bg7YXSIXMJk43uk9OkHfIJSEe
+	 8Ls/bGu4evKw+yBhgw21zp3vhQRCYWbLthbk8hjgyUmsFYv3SyAjFMIPlhIrobXEr8
+	 y2sOBg1c2i7QkAChIPIS7HyAVuH6oGWWIpbZ6KfUHDx7toa44B+fZ5FsK7buotcRuG
+	 z0KdmsFJ+J6sSRDPPZrUb2MhX+ZDszQs79OvSc6rliih4g71yNxPLk0tBs+9nwZ6TP
+	 uOlOowQy7BC1A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2939CA0ECD;
-	Mon, 11 Aug 2025 15:18:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DCFC87FD2;
+	Mon, 11 Aug 2025 15:18:31 +0000 (UTC)
 From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Date: Mon, 11 Aug 2025 11:18:46 -0400
-Subject: [PATCH 054/114] clk: sprd: pll: convert from round_rate() to
- determine_rate()
+Date: Mon, 11 Aug 2025 11:18:50 -0400
+Subject: [PATCH 058/114] clk: stm32: stm32-core: convert from round_rate()
+ to determine_rate()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-clk-for-stephen-round-rate-v1-54-b3bf97b038dc@redhat.com>
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-58-b3bf97b038dc@redhat.com>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -107,11 +107,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
  Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925498; l=1161;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925498; l=2520;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=lv1lhsl/a8OxY1tiKL0xS+d+op9x/12Aq3JoNd7BS7E=;
- b=zo8ewzTH+KwzagVE45LlzkRrxuBW/ePLl8c8CQNyi/dDl5yZB2XaATj5AsSgX4Uho9lkIEex1
- eHeq0Lpv7twDpncvySz25WRRnef/xMckhybKi9EhW/DbohKyb/ZKWnI
+ bh=EFl/g1nawDK+Bbrvg/8BWvf13GhRuLxKvqfdomWdmoo=;
+ b=2CfVOIfyHzTw3vT1nnMx4ETPsUuwtAyMl1XtZV19VqeNnfwLnyed0EAk4QKOgkd0A6hZdlq7z
+ HelA6LLBmSWA2ODCNYFlWd4dnlESc3c0qOPT98BZyMKhm0X+45f0/+J
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
@@ -127,34 +127,69 @@ on the cover letter of this series.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/sprd/pll.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/clk/stm32/clk-stm32-core.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/clk/sprd/pll.c b/drivers/clk/sprd/pll.c
-index 13a322b2535ac37ecb17f2c39d17d2c03532cfcb..bc6610d5fcb72faa7406ea78dca4cd9b848e9392 100644
---- a/drivers/clk/sprd/pll.c
-+++ b/drivers/clk/sprd/pll.c
-@@ -254,16 +254,16 @@ static int sprd_pll_clk_prepare(struct clk_hw *hw)
- 	return 0;
+diff --git a/drivers/clk/stm32/clk-stm32-core.c b/drivers/clk/stm32/clk-stm32-core.c
+index 933e3cde0795386c3e5e6902aa0989cf3dffc01e..72825b9c36a4d3b8ba3f7615b9026c09ffaf88d1 100644
+--- a/drivers/clk/stm32/clk-stm32-core.c
++++ b/drivers/clk/stm32/clk-stm32-core.c
+@@ -351,14 +351,14 @@ static int clk_stm32_divider_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	return ret;
  }
  
--static long sprd_pll_round_rate(struct clk_hw *hw, unsigned long rate,
--				unsigned long *prate)
-+static int sprd_pll_determine_rate(struct clk_hw *hw,
-+				   struct clk_rate_request *req)
+-static long clk_stm32_divider_round_rate(struct clk_hw *hw, unsigned long rate,
+-					 unsigned long *prate)
++static int clk_stm32_divider_determine_rate(struct clk_hw *hw,
++					    struct clk_rate_request *req)
  {
--	return rate;
+ 	struct clk_stm32_div *div = to_clk_stm32_divider(hw);
+ 	const struct stm32_div_cfg *divider;
+ 
+ 	if (div->div_id == NO_STM32_DIV)
+-		return rate;
++		return 0;
+ 
+ 	divider = &div->clock_data->dividers[div->div_id];
+ 
+@@ -369,14 +369,22 @@ static long clk_stm32_divider_round_rate(struct clk_hw *hw, unsigned long rate,
+ 		val =  readl(div->base + divider->offset) >> divider->shift;
+ 		val &= clk_div_mask(divider->width);
+ 
+-		return divider_ro_round_rate(hw, rate, prate, divider->table,
+-				divider->width, divider->flags,
+-				val);
++		req->rate = divider_ro_round_rate(hw, req->rate,
++						  &req->best_parent_rate,
++						  divider->table,
++						  divider->width,
++						  divider->flags, val);
++
++		return 0;
+ 	}
+ 
+-	return divider_round_rate_parent(hw, clk_hw_get_parent(hw),
+-					 rate, prate, divider->table,
+-					 divider->width, divider->flags);
++	req->rate = divider_round_rate_parent(hw, clk_hw_get_parent(hw),
++					      req->rate,
++					      &req->best_parent_rate,
++					      divider->table,
++					      divider->width, divider->flags);
++
 +	return 0;
  }
  
- const struct clk_ops sprd_pll_ops = {
- 	.prepare = sprd_pll_clk_prepare,
- 	.recalc_rate = sprd_pll_recalc_rate,
--	.round_rate = sprd_pll_round_rate,
-+	.determine_rate = sprd_pll_determine_rate,
- 	.set_rate = sprd_pll_set_rate,
+ static unsigned long clk_stm32_divider_recalc_rate(struct clk_hw *hw,
+@@ -392,7 +400,7 @@ static unsigned long clk_stm32_divider_recalc_rate(struct clk_hw *hw,
+ 
+ const struct clk_ops clk_stm32_divider_ops = {
+ 	.recalc_rate	= clk_stm32_divider_recalc_rate,
+-	.round_rate	= clk_stm32_divider_round_rate,
++	.determine_rate = clk_stm32_divider_determine_rate,
+ 	.set_rate	= clk_stm32_divider_set_rate,
  };
- EXPORT_SYMBOL_GPL(sprd_pll_ops);
+ 
 
 -- 
 2.50.1
