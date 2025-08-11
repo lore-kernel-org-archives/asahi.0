@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472182F1FDC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8842F1FE3;
 	Mon, 11 Aug 2025 15:18:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925518; cv=none; b=sP9QEHOAGDy9zy3k82lBYqZ+S1hKKNh7I9tWlPeqDhOcERBO5c5zjSS73UqPBhz3t2UutTAgGES6y6hgpPT0Gk5quAMXCw10EVcdm1HOfcWb85DVFjIx8rpvyn+DV/l6MPFxhCnipLqmHhXD0exbO8ba5g+xC9ze9wwVhAv/peA=
+	t=1754925518; cv=none; b=q0+/kMtPYlYOFZKgIDNymVzNc44nGetaKjRa2Rb0MhBa4a7wpSCUfYpt+1FjQgJNylWTdenikT0KGLgTAVwqZMFTPgyft1DaXV74Okf1fF1TMZiEIrnofKpYZeMfe3bZKsbKIlMbQdGCE20pHSTMd+d8+YwlnuoR+SOYxI06jU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754925518; c=relaxed/simple;
-	bh=fO4pH87z4eFHV4v/UgUqY5rSOEH48M2+go45AbeR5hY=;
+	bh=RX96VB6u2u2j0gj8aRxVceusfjYjlxTCuz0D2U0CuKs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J7QQLXzj+3ZEuul24eg6ruOkE2VRIGn5QUY5usTwQv/GeK4Ov39fiywH8KkDtE+D6fZjfaBJN5Vn2PBira++TtxPyfP2RV+sMfYWlYg65JVr4UjuAwwbb2E/s6j4QrI3nMwDmFd5u4z8t7syAH4RTgU7g98ngbhD74ukV1Focf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Az40kbOY; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=M6X1+20PcFcR9b77NkmPIIle33UTD2Yj8OFFxsWPiEgnJFCy1aO6ZrG4rQMC64fj1aRcOnlMq2EPFXCadLqs8Y3b+yHFJbcL1GDAK5yuLt0sNeOdOtn+PW16LUSUIfl/MqMnAwHdio6+hK+lEBd9l3Eg7lhND/ct4UnxD3KLaOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/u52cgM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Az40kbOY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 55330C4CEF9;
-	Mon, 11 Aug 2025 15:18:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/u52cgM"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9296C2BD05;
+	Mon, 11 Aug 2025 15:18:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754925514;
-	bh=fO4pH87z4eFHV4v/UgUqY5rSOEH48M2+go45AbeR5hY=;
+	s=k20201202; t=1754925513;
+	bh=RX96VB6u2u2j0gj8aRxVceusfjYjlxTCuz0D2U0CuKs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Az40kbOYTjlgYiXf3jjjLhMpPiWqBJGXjNhWKuhKgKEgS0dqb7ksH6Q7dmTZwcNLu
-	 Q1b+4goEv1kcxdQMEkzty/r214s9B3tItzaRMvtrGCNaz4PyyKhGQIM0pc/OFgroC8
-	 hd+7LnD9Mc2mHA/ITSucZb892rUGZbWKVXHhpbZC2vOVHJh/S6e9Zlgf8rHmf3Kv5p
-	 i8X96l9eJZfwfDtqJNItGtF0tpTvGWlO8P1OoIV80Kh9ubFHjcug1c5Mn4HOhwdEKi
-	 utFwT4d2JT6QbAZII6EyM96YreAhBcX5kyIAuBJQpb3fzPEg9y7kgq8sGU7guyq3Mj
-	 hHO+uNEhSZ6jg==
+	b=d/u52cgMK7BgJTNVMp4HbrYsxM3iTm/b6pgVPtM0bs1LDO5rQZaGpq8aa9QYOviLq
+	 Ki8ASW3U3Zt9204ZsFHocJPoMdc1hZHgFFyEM8wfFhn1HNTAby0QTkwKF8hTZj8TGu
+	 s9HXkiAmVydRD4/y3PzL6TZrOLuwJAt5VsX1KmjEUJ3ZHHM+Tl8HF3emYNL+E4/lMi
+	 q+59lSoOgJcixlORyaO3TXtSXZRXfCfDGmaPj30/JeMmXPwSVHxSEjLV+yWshWQ1D1
+	 6Or/SeuUXKSDWJQb5YYXgzmgkKEwYV4GVPJNzR0+tdBiGu1g+jSvYMRKkaGZbV/O/j
+	 U7o3sKQps6wDQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B438CA0ED1;
-	Mon, 11 Aug 2025 15:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9975ACA0EC8;
+	Mon, 11 Aug 2025 15:18:33 +0000 (UTC)
 From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Date: Mon, 11 Aug 2025 11:19:21 -0400
-Subject: [PATCH 089/114] clk: mvebu: dove-divider: convert from
+Date: Mon, 11 Aug 2025 11:19:16 -0400
+Subject: [PATCH 084/114] clk: mstar: msc313-cpupll: convert from
  round_rate() to determine_rate()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-clk-for-stephen-round-rate-v1-89-b3bf97b038dc@redhat.com>
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -107,11 +107,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
  Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925498; l=1944;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925498; l=2154;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=oV0L5pMbnuZkTYfF/ENUrwPv2qnrSE+KwezXJZqTf5o=;
- b=z5YAGbnnIfP8tmH1fAIJfEAzFrdo1ho+qJgzsp+GA6lQ+bPMwed35cDDYIinKL/+duQ/lEln4
- yueROUQJxkqDln8CE70UWMlcaXy3iFRwwxeYtzv+Kcqln7gguFaV2Z0
+ bh=VigQquSgUXe8PpjXC72p1zlfSb/Ud8e1iNRnORzurXs=;
+ b=0eBUqFcCOeAp1+esnZj/S2p/f8fZWVLmKH10c8zB3mypBCQoNBSEFI9b04eP497+mb6pIoVwU
+ qo9oUve18EJAulvfM2HdM+ake//UXBIu5rkT5OccHzmyiiBiiayu02P
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
@@ -127,51 +127,50 @@ on the cover letter of this series.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/mvebu/dove-divider.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/clk/mstar/clk-msc313-cpupll.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/clk/mvebu/dove-divider.c b/drivers/clk/mvebu/dove-divider.c
-index 0a90452ee808b6bf2f1f9f815624b99720c3a81f..47cc49e4cd9992ce32c7215fdda42762f2caff39 100644
---- a/drivers/clk/mvebu/dove-divider.c
-+++ b/drivers/clk/mvebu/dove-divider.c
-@@ -108,23 +108,23 @@ static unsigned long dove_recalc_rate(struct clk_hw *hw, unsigned long parent)
- 	return rate;
+diff --git a/drivers/clk/mstar/clk-msc313-cpupll.c b/drivers/clk/mstar/clk-msc313-cpupll.c
+index a93e2dba09d3523199263494efd2bf6987bb4156..3e643be02fe2a79c043c1b79a5e95c869b757ba1 100644
+--- a/drivers/clk/mstar/clk-msc313-cpupll.c
++++ b/drivers/clk/mstar/clk-msc313-cpupll.c
+@@ -140,20 +140,22 @@ static unsigned long msc313_cpupll_recalc_rate(struct clk_hw *hw, unsigned long
+ 					     parent_rate);
  }
  
--static long dove_round_rate(struct clk_hw *hw, unsigned long rate,
--			    unsigned long *parent)
-+static int dove_determine_rate(struct clk_hw *hw,
-+			       struct clk_rate_request *req)
+-static long msc313_cpupll_round_rate(struct clk_hw *hw, unsigned long rate,
+-				     unsigned long *parent_rate)
++static int msc313_cpupll_determine_rate(struct clk_hw *hw,
++					struct clk_rate_request *req)
  {
- 	struct dove_clk *dc = to_dove_clk(hw);
--	unsigned long parent_rate = *parent;
-+	unsigned long parent_rate = req->best_parent_rate;
- 	int divider;
+-	u32 reg = msc313_cpupll_regforfrequecy(rate, *parent_rate);
+-	long rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
++	u32 reg = msc313_cpupll_regforfrequecy(req->rate, req->best_parent_rate);
++	long rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
  
--	divider = dove_calc_divider(dc, rate, parent_rate, false);
-+	divider = dove_calc_divider(dc, req->rate, parent_rate, false);
- 	if (divider < 0)
- 		return divider;
+ 	/*
+ 	 * This is my poor attempt at making sure the resulting
+ 	 * rate doesn't overshoot the requested rate.
+ 	 */
+-	for (; rounded >= rate && reg > 0; reg--)
+-		rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
++	for (; rounded >= req->rate && reg > 0; reg--)
++		rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
  
--	rate = DIV_ROUND_CLOSEST(parent_rate, divider);
-+	req->rate = DIV_ROUND_CLOSEST(parent_rate, divider);
- 
- 	pr_debug("%s(): %s divider=%u parent=%lu rate=%lu\n",
--		 __func__, dc->name, divider, parent_rate, rate);
-+		 __func__, dc->name, divider, parent_rate, req->rate);
- 
--	return rate;
+-	return rounded;
++	req->rate = rounded;
++
 +	return 0;
  }
  
- static int dove_set_clock(struct clk_hw *hw, unsigned long rate,
-@@ -154,7 +154,7 @@ static int dove_set_clock(struct clk_hw *hw, unsigned long rate,
+ static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigned long parent_rate)
+@@ -168,7 +170,7 @@ static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigne
  
- static const struct clk_ops dove_divider_ops = {
- 	.set_rate	= dove_set_clock,
--	.round_rate	= dove_round_rate,
-+	.determine_rate = dove_determine_rate,
- 	.recalc_rate	= dove_recalc_rate,
+ static const struct clk_ops msc313_cpupll_ops = {
+ 	.recalc_rate	= msc313_cpupll_recalc_rate,
+-	.round_rate	= msc313_cpupll_round_rate,
++	.determine_rate = msc313_cpupll_determine_rate,
+ 	.set_rate	= msc313_cpupll_set_rate,
  };
  
 
