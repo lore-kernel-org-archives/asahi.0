@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00E02E3366;
-	Mon, 11 Aug 2025 15:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2473B2E3399;
+	Mon, 11 Aug 2025 15:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925506; cv=none; b=HaIOwOjaIcD70tjY+zrr/ERMog4aC2uol5Mw496zWydXVLzk3k2ynPht/SkVDPLcj+x4dlxZ1d2EMTkeXRAiRx+fKVfNH9BhlfOEhtK3RSqqjO2I+ZfAzlQmLHWsPey7hEzzXS0ZoF1j+7gCMTHny2JnzHEC5CqE+9LFlV4Amc0=
+	t=1754925507; cv=none; b=NeSqqOLxgOwoWC88GDdgHTI2GayuFcOn02El+Bl6rAG6W5vmZb1yfLsXG2Mz0lkCVNUk0UNSz83cdYoH2n6/xxG3Wm6eE13/d4jWyEkHfJizdLcgXVJRHDc9pWo1mtQrEbJranleR3OTQsbV+vgA/iB7oRBbyOCSGLp1aRln3nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754925506; c=relaxed/simple;
-	bh=e8HujlMpFGG0hdZmw2N8en6ukTSj2mtOycpd4S4Vwf4=;
+	s=arc-20240116; t=1754925507; c=relaxed/simple;
+	bh=VFtXFr9vIbfRWYr9oKIzZrITltUTnw3h47oXl5iKkyM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nNGGUsQyNFMd48Do54k9Q0V/Bfrvwdy1mKUr2GcFOSaUVUquWHUSHzAEmdpkuqKg4l6O+3pM21ljB0/r8YMo8oXl69Iyn7PJNOVAegv6QWmrrhOIAsV941IrIURnjKa6qWLAEB8uJ9i6tamDew8uC/zxzNNyN6/A6No70OnA3gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J02en6UE; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=s7mOYlULogZTRdrH6hPvD/xhJVJ8rXzjwnsdXABZHC62gx8pszATKN8l1gPVkCg6GeFJnjuH/uB1ZQ0bTHRfErzPmAB3NFOCGNsm1zbgyS7qLCnDfVvjC+sn0CpIgghwGm9zULig4Z5IOLoWa8bxlIYtsm/CvWdgWAkZF9DCalU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBnAYYEL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J02en6UE"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CA82BC2BCFA;
-	Mon, 11 Aug 2025 15:18:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBnAYYEL"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4B9C6C2BC9E;
+	Mon, 11 Aug 2025 15:18:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754925505;
-	bh=e8HujlMpFGG0hdZmw2N8en6ukTSj2mtOycpd4S4Vwf4=;
+	s=k20201202; t=1754925506;
+	bh=VFtXFr9vIbfRWYr9oKIzZrITltUTnw3h47oXl5iKkyM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=J02en6UE9b/Rvb3KTli9PVbkozXdoSR2v0zmMTskHL4vFcRHkeKhxUJTPksyieya7
-	 INF0CbE8fQFyM1AHBt/ncUlQCYbbO+B7fQwfAuUBq/730crE0F71frshNttXehOKLF
-	 5RsAL7/OdTT+RDqE3sJn3z+i2F1AAvzuHgkc2YTARakabm0YYRW4OIFVMdSsTQCmh6
-	 tSQRwRhLNQfCNmLvWkeVut4zqxj/It1wP7wa5eXsBmZUnF6lcVsf7nmIkf0PGzR4hg
-	 FhV9AqpyVQgJhalFias28+QZXBTeioLL+zINtrKNc+AeaDvLgQWknFbDmi14Ec8dUj
-	 0gGrz8y84NWXw==
+	b=mBnAYYELB4g2UaKHeFwyAjSlyQyh5nF37XyeEzv+a1vKT1V/g1rlSsGlzKoDQhFML
+	 dVjdIWgd7CMUJxDEwNn232fz9mQXrtNTblfARKgGueNWFlupYjrwgLOslJxtxe4tVb
+	 LerhQVB8AVrOfk4qhUbq7OiHrbWYFVvz7TvIjz8zc/mzI+qJkw+v1Htp6u2CoaVVoR
+	 XBLvioHJczzuxVYNYTRysrKnKtBWEpblm3XZrV37VHUkrXL9M6yOuDPzAdEiXO/jLb
+	 OCnTc+PFA+C9ZJEiSjChGSQwTXevAK7eXZ0BiymrZ1WEfH7UUsMs2pTc7Tp67q0eSy
+	 rhsEhiRIm/4OQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B850BCA0EC4;
-	Mon, 11 Aug 2025 15:18:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C2AACA0EC4;
+	Mon, 11 Aug 2025 15:18:26 +0000 (UTC)
 From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Date: Mon, 11 Aug 2025 11:18:01 -0400
-Subject: [PATCH 009/114] clk: at91: usb: convert from round_rate() to
+Date: Mon, 11 Aug 2025 11:18:05 -0400
+Subject: [PATCH 013/114] clk: cs2000-cp: convert from round_rate() to
  determine_rate()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-clk-for-stephen-round-rate-v1-9-b3bf97b038dc@redhat.com>
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-13-b3bf97b038dc@redhat.com>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -107,11 +107,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
  Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=2365;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=1787;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=CkFMBEvlwfAF/1cEEy4Ux9bAaDiae91CQftu/7tBiVg=;
- b=vpTO7eOQYukHmLekMXIJSVYs3w9GG4/WssMKC/2mI2HAxwcIzMt0GCj6VUqJnxzFixBn/JvKm
- Esu7k+ZiHvXDrtocEhKF/UU1z0pLz8UQpLpHbc07PNiXyK8vJhCFEyF
+ bh=UvrHRYRUxYuk67DeJ+BpwAUoKfafzxXGpd5nwpRerDw=;
+ b=fDAJAnMViOEmt/8f9KCjYUUh9pvmB1LYo7aMsJDlpj8/brXkcPxnDhngHVSEAGqFWM1LGT+LE
+ 6nhpWQIm00QB34irXdnHIulkoqg6QTZCVYDJATKKqb7eX0tY6Hgo221
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
@@ -127,67 +127,46 @@ on the cover letter of this series.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/at91/clk-usb.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ drivers/clk/clk-cs2000-cp.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/clk/at91/clk-usb.c b/drivers/clk/at91/clk-usb.c
-index b0696a928aa98d6fd75c3f2e1911aa9b6d1827e6..e906928cfbf05143a1fa4fc69cd7004a30824b6b 100644
---- a/drivers/clk/at91/clk-usb.c
-+++ b/drivers/clk/at91/clk-usb.c
-@@ -319,8 +319,8 @@ static unsigned long at91rm9200_clk_usb_recalc_rate(struct clk_hw *hw,
- 	return 0;
+diff --git a/drivers/clk/clk-cs2000-cp.c b/drivers/clk/clk-cs2000-cp.c
+index 35cb93ad298a7188ada8548a9e5995676d72e49f..8800472ba63f297c94b293323770ebb97999e12e 100644
+--- a/drivers/clk/clk-cs2000-cp.c
++++ b/drivers/clk/clk-cs2000-cp.c
+@@ -305,15 +305,19 @@ static unsigned long cs2000_recalc_rate(struct clk_hw *hw,
+ 	return cs2000_ratio_to_rate(ratio, parent_rate, priv->lf_ratio);
  }
  
--static long at91rm9200_clk_usb_round_rate(struct clk_hw *hw, unsigned long rate,
--					  unsigned long *parent_rate)
-+static int at91rm9200_clk_usb_determine_rate(struct clk_hw *hw,
-+					     struct clk_rate_request *req)
+-static long cs2000_round_rate(struct clk_hw *hw, unsigned long rate,
+-			      unsigned long *parent_rate)
++static int cs2000_determine_rate(struct clk_hw *hw,
++				 struct clk_rate_request *req)
  {
- 	struct at91rm9200_clk_usb *usb = to_at91rm9200_clk_usb(hw);
- 	struct clk_hw *parent = clk_hw_get_parent(hw);
-@@ -336,25 +336,27 @@ static long at91rm9200_clk_usb_round_rate(struct clk_hw *hw, unsigned long rate,
- 		if (!usb->divisors[i])
- 			continue;
+ 	struct cs2000_priv *priv = hw_to_priv(hw);
+ 	u32 ratio;
  
--		tmp_parent_rate = rate * usb->divisors[i];
-+		tmp_parent_rate = req->rate * usb->divisors[i];
- 		tmp_parent_rate = clk_hw_round_rate(parent, tmp_parent_rate);
- 		tmprate = DIV_ROUND_CLOSEST(tmp_parent_rate, usb->divisors[i]);
--		if (tmprate < rate)
--			tmpdiff = rate - tmprate;
-+		if (tmprate < req->rate)
-+			tmpdiff = req->rate - tmprate;
- 		else
--			tmpdiff = tmprate - rate;
-+			tmpdiff = tmprate - req->rate;
+-	ratio = cs2000_rate_to_ratio(*parent_rate, rate, priv->lf_ratio);
++	ratio = cs2000_rate_to_ratio(req->best_parent_rate, req->rate,
++				     priv->lf_ratio);
  
- 		if (bestdiff < 0 || bestdiff > tmpdiff) {
- 			bestrate = tmprate;
- 			bestdiff = tmpdiff;
--			*parent_rate = tmp_parent_rate;
-+			req->best_parent_rate = tmp_parent_rate;
- 		}
- 
- 		if (!bestdiff)
- 			break;
- 	}
- 
--	return bestrate;
-+	req->rate = bestrate;
+-	return cs2000_ratio_to_rate(ratio, *parent_rate, priv->lf_ratio);
++	req->rate = cs2000_ratio_to_rate(ratio, req->best_parent_rate,
++					 priv->lf_ratio);
 +
 +	return 0;
  }
  
- static int at91rm9200_clk_usb_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -384,7 +386,7 @@ static int at91rm9200_clk_usb_set_rate(struct clk_hw *hw, unsigned long rate,
- 
- static const struct clk_ops at91rm9200_usb_ops = {
- 	.recalc_rate = at91rm9200_clk_usb_recalc_rate,
--	.round_rate = at91rm9200_clk_usb_round_rate,
-+	.determine_rate = at91rm9200_clk_usb_determine_rate,
- 	.set_rate = at91rm9200_clk_usb_set_rate,
- };
- 
+ static int cs2000_select_ratio_mode(struct cs2000_priv *priv,
+@@ -430,7 +434,7 @@ static u8 cs2000_get_parent(struct clk_hw *hw)
+ static const struct clk_ops cs2000_ops = {
+ 	.get_parent	= cs2000_get_parent,
+ 	.recalc_rate	= cs2000_recalc_rate,
+-	.round_rate	= cs2000_round_rate,
++	.determine_rate = cs2000_determine_rate,
+ 	.set_rate	= cs2000_set_rate,
+ 	.prepare	= cs2000_enable,
+ 	.unprepare	= cs2000_disable,
 
 -- 
 2.50.1
