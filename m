@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41E32E540C;
-	Mon, 11 Aug 2025 15:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872262E5B38;
+	Mon, 11 Aug 2025 15:18:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925507; cv=none; b=F/zuM1tBt0CAZHc7SEc++hriOBxAy1Lq39GIYukTDM0e6v9JwTYuze/gaE977ZNLk6iD3mE7/m3RcuxzphxikCSsxXC2HXzAsIUjljq+516uEcrjBuHRwqGCuyO9Zmxl808Qp0JEMLTdUFR0y6Md37rTVVlP+qNRAEfMVReecb8=
+	t=1754925508; cv=none; b=QHk4Ye0W5lqxY3LGfPs2hLpmGuS7t0d9EZTRBXUOhQ5GwuYXUV+fQpXn0diAd9oPhQC7fsAEloSiOAdKMh1jbORWf/gGlt15J+nsl5Jx+jzTEtmYbvWNi0nmXp+CRXdQUL+MNeOVc6lMXV7IO6/XkBJSNjvE7fqCy28gRu9IeHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754925507; c=relaxed/simple;
-	bh=C05qN+rnG/d3AGses+aAapiwOZCatP6PgtsobjYNUxo=;
+	s=arc-20240116; t=1754925508; c=relaxed/simple;
+	bh=JXFxzPmNEcmAc9CaGg3a44Xz6AHd9Frd9XNjsAxp210=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WL+u+m19ps4fgZogmQ7g0bJXhjOGgbEZEPxdG1NiD/dYS8FF8jDabGwAN89eiEYL0IXl/cx+6L01zKptne6AQgfl4fe9OwjvMEofKgtWKJfkwTxE2TMi2S7gnormgaF37vvF9ifQzmiRqB+XoUilZ3VoMmxLY3GDaJgs7Eqb6DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nQVlfLC5; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=CJAD7gbCzDpp2jI8gFIne11LtWMzrITuJjC1+nskI6I/ZrniYX0EvyC1UXTurEGrgys/UYmSoW/hcTkI/Kq6keLeurEuN4TceeWRMLwWQ6auVbG3IpDBGbHVVH/yuUl+a/n1KS5Kx/dVEndcfoouir0+bz0QF3cymhqKML3D14M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BNPtBhr9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nQVlfLC5"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 56F49C116C6;
-	Mon, 11 Aug 2025 15:18:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BNPtBhr9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 56685C4CEFB;
+	Mon, 11 Aug 2025 15:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754925507;
-	bh=C05qN+rnG/d3AGses+aAapiwOZCatP6PgtsobjYNUxo=;
+	s=k20201202; t=1754925508;
+	bh=JXFxzPmNEcmAc9CaGg3a44Xz6AHd9Frd9XNjsAxp210=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=nQVlfLC5FERuGVAYNhIDC7pCSE1/v48Z2gdzhs4CNkdY1w/daDSpV0AOT3eYPWM1p
-	 k+M2sOpSyN4dd3TS3i1Sp3VnpjBr5V508mW0O4o2j01jJ/d/k/0i6wowPRVoxqIQLt
-	 +gkjyOGLrOhVfew0rcm3jDyXz3utMyzOBwZDDycZCm4ZpYZ5Jz+SZa5prgxc2qArgd
-	 pxudJnL0X5/ospwn5MR1r+ofn0VCZlEXOK5b0S3D3jGlPrL7VPqsf/7azLXTDGeYVm
-	 AdwAgVUAI4nBQhek7pFgkF4tCzBw6W1XPD0+somwRetdNg5NenFg4eLD5nn1Tahhj1
-	 jijBE3nOg0z3w==
+	b=BNPtBhr9qBZIApf/cKfIg9eiluUfd22RE6MmEGdcKiUGgm8O/qzlFns6ao1Zuffxq
+	 EhqLNA972TApavC2JiNerCkHqQE2FEsBFCq6KGCz3wDKQoGtqH4mjNvL5Y9+U8WjO5
+	 QEDZ+UbynpCtv2bKrplNU5shAj1xabtuDQxQK48AR+ylyMEVTMAANc/MdIjUSPtFHv
+	 jqL7nJDkvX5I8e2CUM1cBC1cnavzf/s9Juy3fe3NqLKORMdNdFXMUAcjxF9m8IpPWx
+	 n05Tq79n8CaraY5LqzyZ3dk0gtVQlYKkD94eqXja9MUbHg7d4JIqN8+KG50ZqIALi4
+	 D5FdR/jQHCd7g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F74C87FDA;
-	Mon, 11 Aug 2025 15:18:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D74C88CB9;
+	Mon, 11 Aug 2025 15:18:28 +0000 (UTC)
 From: Brian Masney via B4 Relay <devnull+bmasney.redhat.com@kernel.org>
-Date: Mon, 11 Aug 2025 11:18:14 -0400
-Subject: [PATCH 022/114] clk: ingenic: cgu: convert from round_rate() to
+Date: Mon, 11 Aug 2025 11:18:22 -0400
+Subject: [PATCH 030/114] clk: mmp: frac: convert from round_rate() to
  determine_rate()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250811-clk-for-stephen-round-rate-v1-22-b3bf97b038dc@redhat.com>
+Message-Id: <20250811-clk-for-stephen-round-rate-v1-30-b3bf97b038dc@redhat.com>
 References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -107,11 +107,11 @@ Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev, 
  Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=1643;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754925497; l=2117;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=HtI1wvPz+5VdtS2qexqe2gHJW0XaSbgytBsDxFNInmk=;
- b=I/ftK0zO5KhfvWSspMM0n3T2XFtDNqi7KJXM5VDoHnMC3O9R8uaRBcQXlqQXM8RSKKFShUBUy
- KuGS3/JXiDxCQH6WtfJ9PL2VP8I7ckSpcvVp7q4O7vVmAi2h4M2G/rB
+ bh=nbS+lfseW4POf+7BKNGCbFuuk4z3vqh5brFU07BCWjY=;
+ b=TxNZDlVqAB/rK83cdrpvc0jn++UNNk6hgPv5sXh/3OQ/S/DFzXtYhHVM02DhfEqyVBbsnp9jF
+ eO6x4YmPLY1AOuCF7wFj/UUbs3nsp+tbfFitys89bDtBMo8m2AYgHiW
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Endpoint-Received: by B4 Relay for bmasney@redhat.com/20250528 with
@@ -127,43 +127,64 @@ on the cover letter of this series.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/clk/ingenic/cgu.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/clk/mmp/clk-frac.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/clk/ingenic/cgu.c b/drivers/clk/ingenic/cgu.c
-index 0c9c8344ad1103b13337a26e14b0d5d5c340d705..91e7ac0cc3342e3552acb9d2ec00865a5234ad4f 100644
---- a/drivers/clk/ingenic/cgu.c
-+++ b/drivers/clk/ingenic/cgu.c
-@@ -174,14 +174,16 @@ ingenic_pll_calc(const struct ingenic_cgu_clk_info *clk_info,
- 		n * od);
- }
+diff --git a/drivers/clk/mmp/clk-frac.c b/drivers/clk/mmp/clk-frac.c
+index 6556f6ada2e830178b9525462f684bad683db454..0b1bb01346f0d7b450e85b805f6c84da6f803f56 100644
+--- a/drivers/clk/mmp/clk-frac.c
++++ b/drivers/clk/mmp/clk-frac.c
+@@ -21,8 +21,8 @@
  
--static long
--ingenic_pll_round_rate(struct clk_hw *hw, unsigned long req_rate,
--		       unsigned long *prate)
-+static int ingenic_pll_determine_rate(struct clk_hw *hw,
-+				      struct clk_rate_request *req)
+ #define to_clk_factor(hw) container_of(hw, struct mmp_clk_factor, hw)
+ 
+-static long clk_factor_round_rate(struct clk_hw *hw, unsigned long drate,
+-		unsigned long *prate)
++static int clk_factor_determine_rate(struct clk_hw *hw,
++				     struct clk_rate_request *req)
  {
- 	struct ingenic_clk *ingenic_clk = to_ingenic_clk(hw);
- 	const struct ingenic_cgu_clk_info *clk_info = to_clk_info(ingenic_clk);
+ 	struct mmp_clk_factor *factor = to_clk_factor(hw);
+ 	u64 rate = 0, prev_rate;
+@@ -33,19 +33,20 @@ static long clk_factor_round_rate(struct clk_hw *hw, unsigned long drate,
+ 		d = &factor->ftbl[i];
  
--	return ingenic_pll_calc(clk_info, req_rate, *prate, NULL, NULL, NULL);
-+	req->rate = ingenic_pll_calc(clk_info, req->rate, req->best_parent_rate,
-+				     NULL, NULL, NULL);
+ 		prev_rate = rate;
+-		rate = (u64)(*prate) * d->denominator;
++		rate = (u64)(req->best_parent_rate) * d->denominator;
+ 		do_div(rate, d->numerator * factor->masks->factor);
+-		if (rate > drate)
++		if (rate > req->rate)
+ 			break;
+ 	}
+-	if ((i == 0) || (i == factor->ftbl_cnt)) {
+-		return rate;
+-	} else {
+-		if ((drate - prev_rate) > (rate - drate))
+-			return rate;
+-		else
+-			return prev_rate;
+-	}
++
++	if ((i == 0) || (i == factor->ftbl_cnt))
++		req->rate = rate;
++	else if ((req->rate - prev_rate) > (rate - req->rate))
++		req->rate = rate;
++	else
++		req->rate = prev_rate;
 +
 +	return 0;
  }
  
- static inline int ingenic_pll_check_stable(struct ingenic_cgu *cgu,
-@@ -317,7 +319,7 @@ static int ingenic_pll_is_enabled(struct clk_hw *hw)
+ static unsigned long clk_factor_recalc_rate(struct clk_hw *hw,
+@@ -160,7 +161,7 @@ static int clk_factor_init(struct clk_hw *hw)
  
- static const struct clk_ops ingenic_pll_ops = {
- 	.recalc_rate = ingenic_pll_recalc_rate,
--	.round_rate = ingenic_pll_round_rate,
-+	.determine_rate = ingenic_pll_determine_rate,
- 	.set_rate = ingenic_pll_set_rate,
- 
- 	.enable = ingenic_pll_enable,
+ static const struct clk_ops clk_factor_ops = {
+ 	.recalc_rate = clk_factor_recalc_rate,
+-	.round_rate = clk_factor_round_rate,
++	.determine_rate = clk_factor_determine_rate,
+ 	.set_rate = clk_factor_set_rate,
+ 	.init = clk_factor_init,
+ };
 
 -- 
 2.50.1
