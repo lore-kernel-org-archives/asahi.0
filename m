@@ -1,163 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB6D10E3;
-	Tue, 12 Aug 2025 15:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB53061FFE;
+	Tue, 12 Aug 2025 18:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013154; cv=none; b=ntMjPdejpXvBHRb9CgK+nrv+aUsAXRWGjH7qVbwjRpqsS21NJVa78OlUT2hBGNj/8stVyZJQlhHh67pzP043piPR3frKBNaLxgQy8zIqd/tYbBrZrXA7vBqmpomBZM0FDExUTUGTehlUp5vRw4i/frx4+gZVOjNIAprxqm1XXEc=
+	t=1755023129; cv=none; b=Db/9KHDGO2ODRDg8o7CHyUkiAu3A1PquOOEnAcHJT+j3eyB+eTMQdXBIPTpp3AYAHunKs/NVD4+w7WwNELNCyCTO92qQa/5E1m9r+MiQ4g7HIxHGbTnL/WWL6HxpYq6lAJ8HGcqIhF/Rt2/C0yrw4x8l1XfSVIyCOGwDE9L2afA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755013154; c=relaxed/simple;
-	bh=iGUpF1C71k7qo9/61ohvQv5Z7z5laJQcZjUsXmHz/vc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pt2CUML2WU0StiS8ogpgc9qfX0Fd/ncK9vppdttRzoQukRSvb7erxtgeupniJ7J5n+H4uJR8jsDmdpV8YMTg9LjtINh59L1whArUysy/XEc7lyMv5Qlc1aOTzJgC4qH8kuc7ZXV3K5wLw7Eijh/hITeBCEuRwr8eYH6LzSrR5vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LiZpRdpD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755023129; c=relaxed/simple;
+	bh=k8kF1P6bFlbBEzuzYgvwP5CIW+2qmHksP+KG9Qod3gY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kxywRzpdhOLJ179Yxahvjv5j0vvLw5+r1qMS7XPmMVHNEdbQd0sWaweycdmRRkCrQblUijpLefTIEWhBN3CqQFMb9CuNz5YYLBc8F9NO5GtTPCd8h9g7rnsTTTbKdpdLw6Dpok+41bL9RXPhzlOzqGlfEZZvEgiEdml1Y88rW7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q3bqcmVt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LiZpRdpD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 284FDC4CEF0;
-	Tue, 12 Aug 2025 15:38:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q3bqcmVt"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D7F2C4CEF1;
+	Tue, 12 Aug 2025 18:25:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755013153;
-	bh=iGUpF1C71k7qo9/61ohvQv5Z7z5laJQcZjUsXmHz/vc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LiZpRdpDhra8HQLi6oTJvzINkJJSuv23n4QKhmL0GdIDFfOjMCDM1OqYhcWHHq3TI
-	 L28O5b3iPN5wVc9EXSMe1wiMP/NajukL3ql7pF4a85lv1fNAUZsV+TlMAAvN2rrzmr
-	 wRMnMSseO6nd8/EPTJY79HOmJ9zeY5vY0LS0u24hUa3icUGD8uDqDLMHMPTvWLEQv1
-	 l7Tw7lcXGU5Rs7ZD4eklupowdOLUecuU8uOFa6RlUoRtZfGlD+/8Ge0Ca3RaSQaoYZ
-	 h2ClWJH1Q8I12fZ++utjNSDaO59Bx51zYgkj3Rxo8YY8S6cPtFbxYBa0hRIu+GN5Me
-	 k5jWalHFpopnQ==
-Date: Tue, 12 Aug 2025 21:08:28 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: bmasney@redhat.com
-Cc: Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Chen Wang <unicorn_wang@outlook.com>, 
-	Inochi Amaoto <inochiama@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
-	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Michal Simek <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>, 
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Daniel Palmer <daniel@thingy.jp>, 
-	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Heiko Stuebner <heiko@sntech.de>, Andrea della Porta <andrea.porta@suse.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Alex Helms <alexander.helms.jy@renesas.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	spacemit@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	patches@opensource.cirrus.com, linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Subject: Re: [PATCH 079/114] clk: bm1880: convert from round_rate() to
- determine_rate()
-Message-ID: <tcl4eqicuqcptnbo4mcvjhacxkh2gh344k2bdrwfjbqflxspy7@x24np6pxjacf>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
- <20250811-clk-for-stephen-round-rate-v1-79-b3bf97b038dc@redhat.com>
+	s=k20201202; t=1755023129;
+	bh=k8kF1P6bFlbBEzuzYgvwP5CIW+2qmHksP+KG9Qod3gY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Q3bqcmVtxiJ2Jh0zGcNiIt0UfDFVERoCU0runnhyf8hYaqfFyz3y4Tn4qPi4DSl9z
+	 yUf6/AuKNMNkO8GBhCQQ/zxwOBnoeIfiViVf8MKDgy9fP+H98HsLKr12rgz1TwNP2n
+	 wTzPPcAppZof8iscirsmhcWujjkwbBlnBW1Pvor/F5lhETAErzhSKY80tGbTmktdFJ
+	 /8P/2sIitQyf8IJLL4x/ajbD/0LoKxM077jFmKiqpeLjHs38haDtuOFieTu6Gy/Pf5
+	 YyDexnO6K5i5DDXF8m/joYBnFCw5KrOp+vVyw0hxxYE2UF+hM0tZlsjebu827LM2Fk
+	 7UjQFn1XY+Aog==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B73CCA0EDC;
+	Tue, 12 Aug 2025 18:25:29 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Subject: [PATCH 0/3] Apple Silicon SMC RTC driver
+Date: Tue, 12 Aug 2025 18:25:14 +0000
+Message-Id: <20250812-wip-smc-rtc-v1-0-66a8e96dad60@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-79-b3bf97b038dc@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAqHm2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDC0Mj3fLMAt3i3GTdopJk3VQLU7MkszQjEzMDYyWgjoKi1LTMCrBp0bG
+ 1tQAIJoOQXQAAAA==
+X-Change-ID: 20250812-wip-smc-rtc-e856b6f24603
+To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, Sven Peter <sven@kernel.org>, 
+ Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1886; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=k8kF1P6bFlbBEzuzYgvwP5CIW+2qmHksP+KG9Qod3gY=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8bsdiH55MV3rVh+O/X9Tp18KtNRpYD9+sY/Nev/1+ucv
+ r3ujdaDjlIWBjEOBlkxRZbt++1Nnzx8I7h006X3MHNYmUCGMHBxCsBEAhsY/gee63BWXp5xaoNo
+ Xvyps0Y7Izbf/umg7WMtE6pfWR+wLIXhv6cc2zRmsX8cyV9vfNiwjH2Sw2bp8+cctLj9sm96scn
+ VMwMA
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-On Mon, Aug 11, 2025 at 11:19:11AM GMT, Brian Masney via B4 Relay wrote:
-> From: Brian Masney <bmasney@redhat.com>
-> 
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
-> 
+Hi,
 
-Once this patch gets merged, the 'Coccinelle semantic patch on the cover letter
-of this series' becomes irrelevant. I'd suggest to either include the script
-here or do not mention it at all.
+Now that the core mfd device has been upstream I've prepared one of the
+child drivers that is still missing: RTC support.
+This driver is required to read and set the hardware clock and requires
+a reference to an additional NVMEM cell to store the offset and thus
+requires a device tree node.
 
-- Mani
+The series applies cleanly to 6.17-rc1 but is based on a tree with three
+additional commits to add the SMC nodes to the DTS which didn't make it
+into 6.17. You can just ignore that and pretend this is based on
+6.17-rc1 since I'll take the dts update through my tree anyway.
 
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  drivers/clk/clk-bm1880.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/clk/clk-bm1880.c b/drivers/clk/clk-bm1880.c
-> index 002f7360b1c6c6e3058606a0808115b48fd3147a..dac190bc6e19a6dd4be413ea52d41f74934a1aa9 100644
-> --- a/drivers/clk/clk-bm1880.c
-> +++ b/drivers/clk/clk-bm1880.c
-> @@ -608,8 +608,8 @@ static unsigned long bm1880_clk_div_recalc_rate(struct clk_hw *hw,
->  	return rate;
->  }
->  
-> -static long bm1880_clk_div_round_rate(struct clk_hw *hw, unsigned long rate,
-> -				      unsigned long *prate)
-> +static int bm1880_clk_div_determine_rate(struct clk_hw *hw,
-> +					 struct clk_rate_request *req)
->  {
->  	struct bm1880_div_hw_clock *div_hw = to_bm1880_div_clk(hw);
->  	struct bm1880_div_clock *div = &div_hw->div;
-> @@ -621,13 +621,18 @@ static long bm1880_clk_div_round_rate(struct clk_hw *hw, unsigned long rate,
->  		val = readl(reg_addr) >> div->shift;
->  		val &= clk_div_mask(div->width);
->  
-> -		return divider_ro_round_rate(hw, rate, prate, div->table,
-> -					     div->width, div->flags,
-> -					     val);
-> +		req->rate = divider_ro_round_rate(hw, req->rate,
-> +						  &req->best_parent_rate,
-> +						  div->table,
-> +						  div->width, div->flags, val);
-> +
-> +		return 0;
->  	}
->  
-> -	return divider_round_rate(hw, rate, prate, div->table,
-> -				  div->width, div->flags);
-> +	req->rate = divider_round_rate(hw, req->rate, &req->best_parent_rate,
-> +				       div->table, div->width, div->flags);
-> +
-> +	return 0;
->  }
->  
->  static int bm1880_clk_div_set_rate(struct clk_hw *hw, unsigned long rate,
-> @@ -665,7 +670,7 @@ static int bm1880_clk_div_set_rate(struct clk_hw *hw, unsigned long rate,
->  
->  static const struct clk_ops bm1880_clk_div_ops = {
->  	.recalc_rate = bm1880_clk_div_recalc_rate,
-> -	.round_rate = bm1880_clk_div_round_rate,
-> +	.determine_rate = bm1880_clk_div_determine_rate,
->  	.set_rate = bm1880_clk_div_set_rate,
->  };
->  
-> 
-> -- 
-> 2.50.1
-> 
-> 
+Next to this SMC child driver we're still working on an input/misc HID
+driver for the powerbutton, a hwmon driver for the various sensors and a
+power-supply driver to manage the batteries.
 
+Best,
+
+Sven
+
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+Hector Martin (1):
+      rtc: Add new rtc-macsmc driver for Apple Silicon Macs
+
+Sven Peter (2):
+      dt-bindings: rtc: Add Apple SMC RTC
+      arm64: dts: apple: t8103,t600x,t8112: Add SMC RTC node
+
+ .../devicetree/bindings/mfd/apple,smc.yaml         |   9 ++
+ .../devicetree/bindings/rtc/apple,smc-rtc.yaml     |  35 +++++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi          |   6 +
+ arch/arm64/boot/dts/apple/t8103.dtsi               |   6 +
+ arch/arm64/boot/dts/apple/t8112.dtsi               |   6 +
+ drivers/mfd/macsmc.c                               |   1 +
+ drivers/rtc/Kconfig                                |  11 ++
+ drivers/rtc/Makefile                               |   1 +
+ drivers/rtc/rtc-macsmc.c                           | 141 +++++++++++++++++++++
+ 10 files changed, 218 insertions(+)
+---
+base-commit: 772c260c9c7f916c9a2508839df4f03fc19f3773
+change-id: 20250812-wip-smc-rtc-e856b6f24603
+
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Sven Peter <sven@kernel.org>
+
+
