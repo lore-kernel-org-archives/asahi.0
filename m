@@ -1,127 +1,101 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAB62FFDDB
-	for <asahi@lists.linux.dev>; Tue, 12 Aug 2025 18:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05F72C1585;
+	Wed, 13 Aug 2025 06:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755024098; cv=none; b=POsXTFG2DVwHJ2McualcWZLb9LI2bJPP/TtB9lDkEB+RL91Nt9DVzkx7uYCCXbreGwApPiyXBChBSXulD3ui/b7vrvyFzy6G83olujEBBPP3qbnZ4F/rChxNbLJQpFVu84vDe42SeedH5DiCteg5CFg6y10L59W+acrdWs+FjCw=
+	t=1755065696; cv=none; b=WGfzHyq1tNKj+BftAjLqp6WIDmrAgf+EFgGxUNsD68CE9HnNaoim5tlJEZUEzDydPlk95RKVUL+0+8fztMdtHmyik+9uRu9sAQq8bEgAlkrl365Aj6/vhz+qSHiMpQxhLj8M0x+yeOEHjqsWxBgQuNWLdpaeVgg3HGkCZKTYuQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755024098; c=relaxed/simple;
-	bh=gLRMsIvCv8IG45hsz/MkPHRnEYM5tUj2cZW2pTMmcKs=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=Da9OOTVCbS996IFCeyJwLG/8tDIVrE2QYj2S6Qt50FpQ06jxyLOW+3Mpr+iAm5tu6WnzDoXaa64s2qlllbqXiq25O3IElFXI72HEJSdKdu95TTwozHuBM0u8urlyFGcoJUdbbhMk9ZoMt4U3Z98pigvQAjBgYbpS5cn9LXwq5uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=YS/4WtQ3; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1755065696; c=relaxed/simple;
+	bh=zzBXjnqtqb37/MzYYMO6Uyf3zcc5YvizBUv3VzMi2Us=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C9ZtgSAHKtLt0gqoAFEzdmanmhOoVjNaScu1YipK8RzJn0Dq04fL5z/BolT/+00Qdj2EAUxqbVaMcphsLjfXE6Zu9m6GVvJSA06wSrZ+iheS+Dwd5F0opSHIo1ClUAxEBha+RhAs0eFoLfZE7+B0511aXatrRHgg60B57BNjBQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O33T+d1J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="YS/4WtQ3"
-X-KPN-MessageId: fe89f747-77ab-11f0-84d2-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id fe89f747-77ab-11f0-84d2-005056992ed3;
-	Tue, 12 Aug 2025 20:41:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=/3M4lDWEC7hP7KuGM7cE06jKWy9RiyUcvF4Xfh1YCsk=;
-	b=YS/4WtQ37lFKvMGEtTp+8J4iVoj/Mq6NfwVVO2Hji77xVOzkuyl4bLguvP7hDn0a0VBukuhuyh7zg
-	 KuSNcRQ0cF9eiYdxero+cf/vvpFXONKl/C4j6QblGLmueCVZtFoJ+beNVYOwgqKIo0APWVAF0E0xIr
-	 +zWQ1Kc9EKGU9pk6YL6qHPLq+bFhkvuv7Cao1XStZfQSIM8PbBly48L6CZxD/52naH0FsVuqTsESEV
-	 GK7tcNnnSNIlsMSG2AOzDjjjCqfP7QDAAloanNzAQXQO6em1wzP6/kTR1oxnGau7xQH/z3oKjUCsXC
-	 ZGHURoLZp7tcuKrw9ujHd4j6Qu9vSfQ==
-X-KPN-MID: 33|1+wkTmLP+rbkYDZSTRx2TNyahSDVBKcTrCDARRxfA37PcVf4d7uR4kLyDmD0fdK
- jzy4QDeFgZUc7eR6T4tH+4zkNo/16Oy1xT2hMauxbMwo=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|M/4jMQFXP+rTo5MG/gkkhJmKuNihgybGQtzZ0C9WJAVb6Xo5AJP0id5rm9zQv/k
- kmwbNz08Bnlb8DMOJ3Cb94w==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id cf6dfa05-77ab-11f0-8d53-00505699b758;
-	Tue, 12 Aug 2025 20:40:25 +0200 (CEST)
-Date: Tue, 12 Aug 2025 20:40:25 +0200
-Message-Id: <87wm78l6xy.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Sven Peter <sven@kernel.org>
-Cc: j@jannau.net, alyssa@rosenzweig.io, neal@gompa.dev,
-	lee@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, alexandre.belloni@bootlin.com,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rtc@vger.kernel.org, sven@kernel.org
-In-Reply-To: <20250812-wip-smc-rtc-v1-1-66a8e96dad60@kernel.org> (message from
-	Sven Peter on Tue, 12 Aug 2025 18:25:15 +0000)
-Subject: Re: [PATCH 1/3] dt-bindings: rtc: Add Apple SMC RTC
-References: <20250812-wip-smc-rtc-v1-0-66a8e96dad60@kernel.org> <20250812-wip-smc-rtc-v1-1-66a8e96dad60@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O33T+d1J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91660C4CEED;
+	Wed, 13 Aug 2025 06:14:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755065696;
+	bh=zzBXjnqtqb37/MzYYMO6Uyf3zcc5YvizBUv3VzMi2Us=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O33T+d1JsC78QxBBvqf9ksBCOSsxHSE2PurdBROZFAsOR5zXHxoDnYCgsACUitmUN
+	 6eeMPIMcHGZIRCOSyazKNuA+ZkfHPzPgfhtJO5UNSEtX2+LNL5uEmahTf8SNJBrT4s
+	 AR6fY8oUVNpa6cIeMZZHSs+H1Qe29xyPgUmLzA5pTLilCQ77lgXuxpjuV6WgDNqdr/
+	 alwfOZuzkGTCq9CAUXwzZbgTkmnUOUPylHBr6A+CDR4O2D4VM6Sc1mrpmcDkOQTnxx
+	 M1RY5GYsYHI7GM+b8QXuDq+TfEs6yFpdZV4jAT0Eki0Z//d1ztXPtKdBLaJ4qmlsj7
+	 xTi+86Abt+U1g==
+Message-ID: <074fcd4c-0da8-42c4-a567-64fa7e173894@kernel.org>
+Date: Wed, 13 Aug 2025 08:14:51 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: rtc: Add Apple SMC RTC
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rtc@vger.kernel.org
+References: <20250812-wip-smc-rtc-v1-0-66a8e96dad60@kernel.org>
+ <20250812-wip-smc-rtc-v1-1-66a8e96dad60@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250812-wip-smc-rtc-v1-1-66a8e96dad60@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> From: Sven Peter <sven@kernel.org>
-> Date: Tue, 12 Aug 2025 18:25:15 +0000
-> 
-> Apple Silicon Macs (M1, etc.) have an RTC that is part of the PMU IC,
-> but most of the PMU functionality is abstracted out by the SMC.
-> An additional RTC offset stored inside NVMEM is required to compute
-> the current date/time.
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-
-Reviewd-by: Mark Kettenis <kettenis@openbsd.org>
-
-> ---
->  .../devicetree/bindings/mfd/apple,smc.yaml         |  9 ++++++
->  .../devicetree/bindings/rtc/apple,smc-rtc.yaml     | 35 ++++++++++++++++++++++
->  MAINTAINERS                                        |  1 +
->  3 files changed, 45 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> index 8a10e270d421ecd703848f64af597de351fcfd74..38f077867bdeedba8a486a63e366e9c943a75681 100644
-> --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> @@ -41,6 +41,9 @@ properties:
->    reboot:
->      $ref: /schemas/power/reset/apple,smc-reboot.yaml
->  
-> +  rtc:
-> +    $ref: /schemas/rtc/apple,smc-rtc.yaml
-> +
->  additionalProperties: false
->  
->  required:
-> @@ -75,5 +78,11 @@ examples:
->            nvmem-cell-names = "shutdown_flag", "boot_stage",
->                               "boot_error_count", "panic_count";
->          };
-> +
-> +        rtc {
-> +          compatible = "apple,smc-rtc";
-> +          nvmem-cells = <&rtc_offset>;
-> +          nvmem-cell-names = "rtc_offset";
-> +       };
->        };
->      };
-> diff --git a/Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml b/Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..607b610665a28b3ea2e86bd90cb5f3f28ebac726
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
-> @@ -0,0 +1,35 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/rtc/apple,smc-rtc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple SMC RTC
-> +
-> +description:
-> +  Apple Silicon Macs (M1, etc.) have an RTC that is part of the PMU IC,
-> +  but most of the PMU functionality is abstracted out by the SMC.
-> +  An additional RTC offset stored inside NVMEM is required to compute
-> +  the current date/time.
-> +
+On 12/08/2025 20:25, Sven Peter wrote:
 > +maintainers:
 > +  - Sven Peter <sven@kernel.org>
 > +
@@ -129,6 +103,10 @@ Reviewd-by: Mark Kettenis <kettenis@openbsd.org>
 > +  compatible:
 > +    const: apple,smc-rtc
 > +
+
+No resources except nvmem? This should be folded into the parent. Don't
+create device node to instantiate drivers.
+
 > +  nvmem-cells:
 > +    items:
 > +      - description: 48bit RTC offset, specified in 32768 (2^15) Hz clock ticks
@@ -143,22 +121,12 @@ Reviewd-by: Mark Kettenis <kettenis@openbsd.org>
 > +  - nvmem-cell-names
 > +
 > +additionalProperties: false
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fe168477caa45799dfe07de2f54de6d6a1ce0615..aaef8634985b35f54de1123ebb4176602066d177 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2397,6 +2397,7 @@ F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
->  F:	Documentation/devicetree/bindings/power/apple*
->  F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
->  F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-> +F:	Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
->  F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
->  F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
->  F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+
+Missing example. If this is part of other device (like MFD), then the
+one there should be extended here.
+
 > 
-> -- 
-> 2.34.1
-> 
-> 
-> 
-> 
+
+
+Best regards,
+Krzysztof
