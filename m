@@ -1,187 +1,133 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A62036E9
-	for <asahi@lists.linux.dev>; Thu, 14 Aug 2025 04:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC7A2E11BF;
+	Thu, 14 Aug 2025 08:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755146152; cv=none; b=bl05ef8nxgBY3nwi8STO4TzJhN9Aqjzf95m5lmcXiiwqIgtmUyrv7oZglCp4Kqi2CvJcqWFXzIv/0xWYfw3xhVyaxOfNvmvRgUbNSh153l6+czaSX52/l+kdEXmq5swFgwwp7P2TLqo7N14Kqf3AbQYcJvHTUN8TgoStPED18GE=
+	t=1755160853; cv=none; b=TDZjvfLl9cSbzh0QyKGm0VkcvTNnrcE6U9KtrMd9gwe30Zy6EBbHQvVlFWJObU/FDXmsFmADuU9XGAMjYO9fqjeekbuCe+i4SbthQ2wlzCcj1M59BDHSHgG7RUl1wdlhaz91ajN/odDundRKfXLdBWRmpdryDIzYAygUbfu48W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755146152; c=relaxed/simple;
-	bh=QGb/WSxQrkoalS0PQR6chjMqXIC8l1e9Dtd3KAUUo7U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BQcPfmvrLxtWka4jxabHX6tpq1TTFLpYdumO9Nl+fS18ChKU2Lkdw6nSlI34Z6JYONCxosLfdqwPYaFoVWd4fpz9r0IRzVYX+APNIa8M+/3pqUm5tOJgAu97ARvlD9v7+O3krxMa7mMMtH2ZwNHRRE+8HpnT0IHY+PTl0qBEkis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=ER0DAD3v; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+	s=arc-20240116; t=1755160853; c=relaxed/simple;
+	bh=ZV9g15yATwUQ4KRLeEZL4tJS6hLbRv80h5AbIBbK0Wc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bAZ1D+9XSppNd33x/rtG36/HMMoKB9NABFVHUVLp8vDmz1M8Z4sH83Jk9yXb0SE7p+DQ3EXWv4HDbEybe45K6pGZLjwHPLSK+I+KIM3rDc5W74NUPzCRaann6nQUuJyPfOvByHBHUSvlkHa5Z4PstPWtN+U0+MnL+bqiQm7yj1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=jamsIrHa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MUwzqnsp; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="ER0DAD3v"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-32326e71c31so520747a91.3
-        for <asahi@lists.linux.dev>; Wed, 13 Aug 2025 21:35:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1755146148; x=1755750948; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
-        b=ER0DAD3vlV0+A5sT1jqWhiuGH4w+tHGERv2otSVgzwPkDkBDRusvHWSGUUkq8btmPb
-         FRA53J8QupTO1CfCKayHcKaamSKY1n/NqErah5k2BHfOVf/siaSm+A/FlsJdFWbTpJ1o
-         cK/XI4MuccxuiKjaWo6uuvkdPN3aiQBS7/9Us=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755146148; x=1755750948;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
-        b=FzNyNx68126MReNe7wXYaPkBUlkzu89se9ciyCLaiAy+h+KpLFsakwrx2mSeYneDKt
-         NunmWJFRyF3OXcj2W4GFgwlpiYLWEMJLTMAT0D+4lVNBcdJVCi/FKuaNomwtMhbpkiHs
-         I0NSsmWlmXvQcCIIfhyaTPKGdo+gc1Y7+bylQkFTa7aaaTkyh/8GcOZEp+I3wSqqacVj
-         gu/OOjrWE2DqoMCmrrZe7jqvr2HUYyXk1oq/EYUrSGpN93f8DoTL7FHdP8ggpghEKr3A
-         MLJi74+F2y8SBwlGJqAPApwXl/TUUjD7YvTbfIr0KT9LZB/UPa6eqAiSaOM6HlwQm48c
-         wi0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVvZqXvrbh2pYvwbcVLny0qpWo39/zQ6/nGkcFPqPZRGPRpYGzEeTw1Uwh4YzFeB0HBIeRfDQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYHTgZ2WUtLl0i6FBddpZE5p+K9k6U6a7561/lBAzwarG4ba0a
-	yNgO7WPzy02+tFjNVfncE405QAoQKooB7TvGIoDb3Tp5GQwUBevvJV/2s9WjuxILEpYQ/sjPmwT
-	Y73Wsraw6SJcvYVL+sWPG3ewbvA/0b0YmC5vGKVhgSg==
-X-Gm-Gg: ASbGncvipHfPQqeaJue2bfv9X2zwI7XYl8Cr8UK8FdQIHqslu7S626uVYrUz9XMhP84
-	o6gTK1PQjUVeaYbpeR5yxaECF0V4AqIl8UPul2gxWA3iKDd8nrAabJ804PtoZ3xHHED5vWFo5kd
-	KTP9zi4TkTmiCmotCJOFgNypq5Ck+yr7xyTfx1EtXaswMlbBN0T425aN+1qlFEaVvmbnGgJO7a+
-	R4w8pvR5NHw
-X-Google-Smtp-Source: AGHT+IFjwIWeQGe9GR6r4b2M90JJvm8sY4wwHgdbP9dAwNnEibxW+RtNYUEdWU1EXNpbiBYlhjSbLxcOxiikHu61EP4=
-X-Received: by 2002:a17:90b:58e7:b0:31f:6682:bd28 with SMTP id
- 98e67ed59e1d1-32327a52880mr2616043a91.16.1755146147789; Wed, 13 Aug 2025
- 21:35:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="jamsIrHa";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MUwzqnsp"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 3B59F14001B4;
+	Thu, 14 Aug 2025 04:40:50 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 14 Aug 2025 04:40:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1755160850; x=1755247250; bh=vV
+	TgLcT5IoFf0DgDdDv2GD6JnpUqRszQ9RbVmywYabk=; b=jamsIrHaBsps8Yw1bx
+	raYGHW7I75SD7qsxWM4SSRyiWhqhvweu8rxP1BIrqmdP0DBMF2Gy2vXdZ4PowCzi
+	GLajaXAtUhaJ2WgAm6oAyKEBm+XJ4ggbajTrI3/d9WknT8uO/bkfEYrc7AtvBKRU
+	ho9K97dkK+fWLtUc0vu8f3h8ZoHNn4+4/tCnugLPczqk+kE4zixkmD7/wJneV7XZ
+	mexPxQasxSQJOxU9pKucATy67ge0b4hGhO6A698MJeUPK4vPC2dbfCHSALpO/1C9
+	1MnbToxyABzjFnShEzEUzgVnjLGuzCRoF5SQX4oyOvBhu9s2/8fTLmAc8MEPp6n7
+	1Kdg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1755160850; x=1755247250; bh=vVTgLcT5IoFf0DgDdDv2GD6JnpUq
+	RszQ9RbVmywYabk=; b=MUwzqnspf82PC87Yp5R0aovZj7msskrjaIeASNmGF1sn
+	9i/QcLeEi1LgzadCFD33tDXToj8ZebKdELT5/gCo1Meq+6kqad2RFjGip2s6IA+g
+	nTiC6csLAgYTINq0cmRAiQTFsrykRsuraBvt8L5LInHDzc4ZQr9+wZ1R9Q12qP/D
+	opIO5yfOj2WqMJP7wRMelUCTWK/+Ez73x0HtQG8a7hsUszG/4K96ULGiYa+N6EIy
+	S7T9wXgeIcaQHUfjRk+zk87qNOQXfheoRqsiJsL92oO2Ks4npsctfokv+3u1rGSg
+	7BNE94ZD/+gSJrRWX5kSWcDnx+BYuQ/RN0MMrCnFbA==
+X-ME-Sender: <xms:EKGdaPkhlJQh62dE6OodIez8UJeXp33Dgjic4ZTrgfTRXQu3S4L4uA>
+    <xme:EKGdaIxOFBaW2URHtdczN8iBIlorqL7DNLFTDr4Ltg0YZBJX74toCLWpLRCiKhas2
+    Px0P4VKC6Dtj_JbU4Y>
+X-ME-Received: <xmr:EKGdaCzZtNulyg04eaIGQ5ueAhdGYymJ4QMmNwTfJiQ8gVxeEJ50h2Qf1Uwth5UevBdL5AEeCD7HsU_6eytegT63K8baltdbmkd9tQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddugedtieefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhephfdtue
+    duleejffduvdehkeeutdefhfdtvdeiieegheffleefvedvhfeggeegffefnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
+    hnvghtpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehiohhmmhhusehlihhsth
+    hsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshht
+    pdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthhtoh
+    epjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhs
+    rdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlse
+    hlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepnhgvrghlsehgohhm
+    phgrrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrh
+    hnvghlrdhorhhg
+X-ME-Proxy: <xmx:EKGdaIUKmPxTuOIURS0yoVF5PSqYJ1R_zOe_Sng_hLqB5W3Jn-hcOg>
+    <xmx:EKGdaJREdjzSYfD5xoDZ1C9UMNk8ADbLHWsuqIKbsepoP54gWCsCrA>
+    <xmx:EKGdaAQOVgpBMUP839qnZVrV-u9QNJMCYcf4viXjthJUODE4HaQLvw>
+    <xmx:EKGdaBeDsbgdTpG6P3KZFW1wDVj_eDzL8kdLqx8-OOy-qYbD1q2xyw>
+    <xmx:EqGdaC2EAjQZsslXUinEzZDPPAa4TbUIM0wnFZqCEG-a1sqJskyq2lOJ>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 14 Aug 2025 04:40:48 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH 0/3] iommu: apple-dart: Four level page table support
+Date: Thu, 14 Aug 2025 10:40:23 +0200
+Message-Id: <20250814-apple-dart-4levels-v1-0-db2214a78c08@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com> <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
-From: Daniel Palmer <daniel@thingy.jp>
-Date: Thu, 14 Aug 2025 13:35:36 +0900
-X-Gm-Features: Ac12FXxr3rvVXpJVntmlzZatJLppeB52b6KjThcDVumW6l6FaIvxvyr3Ex-UBYM
-Message-ID: <CAFr9PXn=jJPKzMcTa-TJSNuNQknauEttNZg=jV3sBwkTYqxLcw@mail.gmail.com>
-Subject: Re: [PATCH 084/114] clk: mstar: msc313-cpupll: convert from
- round_rate() to determine_rate()
-To: bmasney@redhat.com
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
-	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek <michal.simek@amd.com>, 
-	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
-	Andrea della Porta <andrea.porta@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Alex Helms <alexander.helms.jy@renesas.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
-	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
-	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPegnWgC/x3MSwqAMAxF0a1IxgasH6xuRRwEfWqgaGlFBHHvF
+ odncO9DEUERqc8eCrg06rEnmDyjaZN9BeucTGVRNoU1hsV7B54lnFw7XHCR7dIJrEymqltKoQ9
+ Y9P6nw/i+H3C0rOJkAAAA
+X-Change-ID: 20250811-apple-dart-4levels-8f9ae8ac1347
+To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>, Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1010; i=j@jannau.net;
+ s=yk2024; h=from:subject:message-id;
+ bh=ZV9g15yATwUQ4KRLeEZL4tJS6hLbRv80h5AbIBbK0Wc=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhoy5C/m8XQ59ip4p/j33DvepbJ3ftzPmHdcRW39g++EuB
+ q2bDDemdZSyMIhxMciKKbIkab/sYFhdoxhT+yAMZg4rE8gQBi5OAZjIZBVGhnMvtWu2vn/ruinq
+ /fqnrtNXCFe2X/qy3GtV1/8C1nWZC9sYGfpMuJWFKzQ3FMRxmbJGJgWbqHNemSe2VM3gddA0V8N
+ XHAA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Hi Brian,
+The DART instances found in T602x based SoCs (Apple's M2 Pro/Max/Ultra)
+indicate an IAS of 42 bit. This results in alloc_io_pgtable_ops()
+failing as io-pgtable-dart supports at most 36-bit IAS.
+The t8110 DART design supports 4-level page tables. Implement support
+for this in io-pgtable-dart and mark DART stream with more than 36-bit
+IAS as 4-level page tables.
 
-On Tue, 12 Aug 2025 at 00:18, Brian Masney via B4 Relay
-<devnull+bmasney.redhat.com@kernel.org> wrote:
->
-> From: Brian Masney <bmasney@redhat.com>
->
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
->
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  drivers/clk/mstar/clk-msc313-cpupll.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/clk/mstar/clk-msc313-cpupll.c b/drivers/clk/mstar/clk-msc313-cpupll.c
-> index a93e2dba09d3523199263494efd2bf6987bb4156..3e643be02fe2a79c043c1b79a5e95c869b757ba1 100644
-> --- a/drivers/clk/mstar/clk-msc313-cpupll.c
-> +++ b/drivers/clk/mstar/clk-msc313-cpupll.c
-> @@ -140,20 +140,22 @@ static unsigned long msc313_cpupll_recalc_rate(struct clk_hw *hw, unsigned long
->                                              parent_rate);
->  }
->
-> -static long msc313_cpupll_round_rate(struct clk_hw *hw, unsigned long rate,
-> -                                    unsigned long *parent_rate)
-> +static int msc313_cpupll_determine_rate(struct clk_hw *hw,
-> +                                       struct clk_rate_request *req)
->  {
-> -       u32 reg = msc313_cpupll_regforfrequecy(rate, *parent_rate);
-> -       long rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
-> +       u32 reg = msc313_cpupll_regforfrequecy(req->rate, req->best_parent_rate);
-> +       long rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
->
->         /*
->          * This is my poor attempt at making sure the resulting
->          * rate doesn't overshoot the requested rate.
->          */
-> -       for (; rounded >= rate && reg > 0; reg--)
-> -               rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
-> +       for (; rounded >= req->rate && reg > 0; reg--)
-> +               rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
->
-> -       return rounded;
-> +       req->rate = rounded;
-> +
-> +       return 0;
->  }
->
->  static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigned long parent_rate)
-> @@ -168,7 +170,7 @@ static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigne
->
->  static const struct clk_ops msc313_cpupll_ops = {
->         .recalc_rate    = msc313_cpupll_recalc_rate,
-> -       .round_rate     = msc313_cpupll_round_rate,
-> +       .determine_rate = msc313_cpupll_determine_rate,
->         .set_rate       = msc313_cpupll_set_rate,
->  };
->
->
-> --
-> 2.50.1
->
->
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Hector Martin (3):
+      iommu: apple-dart: Make the hw register fields u32s
+      iommu: io-pgtable: Add 4-level page table support
+      iommu: apple-dart: Add 4-level page table support
 
-Only visually inspected but seems correct.
+ drivers/iommu/apple-dart.c      |  47 ++++++++-----
+ drivers/iommu/io-pgtable-dart.c | 143 ++++++++++++++++++++++++----------------
+ include/linux/io-pgtable.h      |   1 +
+ 3 files changed, 118 insertions(+), 73 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250811-apple-dart-4levels-8f9ae8ac1347
 
-Reviewed-by: Daniel Palmer <daniel@thingy.jp>
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
-Thanks,
-
-Daniel
