@@ -1,183 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8F22FDC5C;
-	Wed, 13 Aug 2025 09:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A62036E9
+	for <asahi@lists.linux.dev>; Thu, 14 Aug 2025 04:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755078831; cv=none; b=gfpqzOzElZE1GMk9SPi1ji64v0gnT6OHAOQOjKlTNeBYghGH2Hq1IqmJdPvHnr4Q2wRTxZtlebZ+cNP2h61X5OsV5w3aOi2ffuD7v5VZdi7nfBIchIXPW32JCrY1FMHwQbwUMz+BUSxRgi1/jUQP2LseMn2K+2MylO4icVq/7HA=
+	t=1755146152; cv=none; b=bl05ef8nxgBY3nwi8STO4TzJhN9Aqjzf95m5lmcXiiwqIgtmUyrv7oZglCp4Kqi2CvJcqWFXzIv/0xWYfw3xhVyaxOfNvmvRgUbNSh153l6+czaSX52/l+kdEXmq5swFgwwp7P2TLqo7N14Kqf3AbQYcJvHTUN8TgoStPED18GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755078831; c=relaxed/simple;
-	bh=jPN0v70OwcYjIXRSNqY0ScIhvStfXtDwvU1h2Fu7Gd8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=suNQ1ekPvd6J7+0VKHslfg0cb69mPvTvpQTLHkxI7JnLZW9UQ9ESl1sBnaD780HNGHUU4k2RU6G6aiWfmznTPy/Eb23wSCa8LE28QIP/Lr+dnoknsK8G0Kuj871dNgie0l/WLEVgAF+mntvF3BCFg1erazkaMPpwtIK4DOGRYqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmFRHX0Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755146152; c=relaxed/simple;
+	bh=QGb/WSxQrkoalS0PQR6chjMqXIC8l1e9Dtd3KAUUo7U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BQcPfmvrLxtWka4jxabHX6tpq1TTFLpYdumO9Nl+fS18ChKU2Lkdw6nSlI34Z6JYONCxosLfdqwPYaFoVWd4fpz9r0IRzVYX+APNIa8M+/3pqUm5tOJgAu97ARvlD9v7+O3krxMa7mMMtH2ZwNHRRE+8HpnT0IHY+PTl0qBEkis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=ER0DAD3v; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmFRHX0Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 67D49C113D0;
-	Wed, 13 Aug 2025 09:53:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755078830;
-	bh=jPN0v70OwcYjIXRSNqY0ScIhvStfXtDwvU1h2Fu7Gd8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=AmFRHX0YbjrxGtdZCqlqhva6zJNa7kBM2325QEIGyAtRnvgSvqDxCqLIj17U2JFFY
-	 Z2zhYjAzJsPST6ghMzAxaLgz/TiK53DpD/iQG99XeDMItG71pYU4EZpRvylWvCXv1i
-	 n7CgJw07gabP8AelcYoS1BzalZ/ZQaLDV84zkX0Xl89sAROYl9pvDjjFnUrZb1zaAo
-	 BCr3gOlRRRNsmStmSMh4nxxswCQv3m7hjf9GqILXetXEgYKBup9zSu0xECJPWqI80t
-	 Zi0GKtP8t6GC6kWls0dx7aCWIMBdx884u/+8DT/7WYILm4COpKiuqjWhyavQ5MrSCO
-	 rouFkaTF6ekMQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A3CCA0EE0;
-	Wed, 13 Aug 2025 09:53:50 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Wed, 13 Aug 2025 11:53:37 +0200
-Subject: [PATCH 5/5] arm64: dts: apple: Add devicetreee for t8112-j415
+	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="ER0DAD3v"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-32326e71c31so520747a91.3
+        for <asahi@lists.linux.dev>; Wed, 13 Aug 2025 21:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thingy.jp; s=google; t=1755146148; x=1755750948; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
+        b=ER0DAD3vlV0+A5sT1jqWhiuGH4w+tHGERv2otSVgzwPkDkBDRusvHWSGUUkq8btmPb
+         FRA53J8QupTO1CfCKayHcKaamSKY1n/NqErah5k2BHfOVf/siaSm+A/FlsJdFWbTpJ1o
+         cK/XI4MuccxuiKjaWo6uuvkdPN3aiQBS7/9Us=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755146148; x=1755750948;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W68wJmIpwZKYrhZj9rQMZlkUfiQu51PmIXBdt9PMw2k=;
+        b=FzNyNx68126MReNe7wXYaPkBUlkzu89se9ciyCLaiAy+h+KpLFsakwrx2mSeYneDKt
+         NunmWJFRyF3OXcj2W4GFgwlpiYLWEMJLTMAT0D+4lVNBcdJVCi/FKuaNomwtMhbpkiHs
+         I0NSsmWlmXvQcCIIfhyaTPKGdo+gc1Y7+bylQkFTa7aaaTkyh/8GcOZEp+I3wSqqacVj
+         gu/OOjrWE2DqoMCmrrZe7jqvr2HUYyXk1oq/EYUrSGpN93f8DoTL7FHdP8ggpghEKr3A
+         MLJi74+F2y8SBwlGJqAPApwXl/TUUjD7YvTbfIr0KT9LZB/UPa6eqAiSaOM6HlwQm48c
+         wi0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVvZqXvrbh2pYvwbcVLny0qpWo39/zQ6/nGkcFPqPZRGPRpYGzEeTw1Uwh4YzFeB0HBIeRfDQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYHTgZ2WUtLl0i6FBddpZE5p+K9k6U6a7561/lBAzwarG4ba0a
+	yNgO7WPzy02+tFjNVfncE405QAoQKooB7TvGIoDb3Tp5GQwUBevvJV/2s9WjuxILEpYQ/sjPmwT
+	Y73Wsraw6SJcvYVL+sWPG3ewbvA/0b0YmC5vGKVhgSg==
+X-Gm-Gg: ASbGncvipHfPQqeaJue2bfv9X2zwI7XYl8Cr8UK8FdQIHqslu7S626uVYrUz9XMhP84
+	o6gTK1PQjUVeaYbpeR5yxaECF0V4AqIl8UPul2gxWA3iKDd8nrAabJ804PtoZ3xHHED5vWFo5kd
+	KTP9zi4TkTmiCmotCJOFgNypq5Ck+yr7xyTfx1EtXaswMlbBN0T425aN+1qlFEaVvmbnGgJO7a+
+	R4w8pvR5NHw
+X-Google-Smtp-Source: AGHT+IFjwIWeQGe9GR6r4b2M90JJvm8sY4wwHgdbP9dAwNnEibxW+RtNYUEdWU1EXNpbiBYlhjSbLxcOxiikHu61EP4=
+X-Received: by 2002:a17:90b:58e7:b0:31f:6682:bd28 with SMTP id
+ 98e67ed59e1d1-32327a52880mr2616043a91.16.1755146147789; Wed, 13 Aug 2025
+ 21:35:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250813-apple-dt-sync-6-17-v1-5-209f15d10aa0@jannau.net>
-References: <20250813-apple-dt-sync-6-17-v1-0-209f15d10aa0@jannau.net>
-In-Reply-To: <20250813-apple-dt-sync-6-17-v1-0-209f15d10aa0@jannau.net>
-To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
- Hector Martin <marcan@marcan.st>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3232; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=j/SpJUpMBqqMJF/E/m3nXQjyW/Z6PJx2/BxKhkTfoIQ=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhow5CWtKgtY+0FL7/rDyr1WzSVPh57e6DjMEJqlIz/m97
- IvM9HsHO0pZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAExkbzPDf5e47DdhOWoftrt3
- vN5i/O3nw651SzO4DM6b62aUJM3sv8jI8PasQ8mfAIt2HQflkjXiFR4y3I+ya5d9vvHiIxuj8Sl
- bLgA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
+References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com> <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-84-b3bf97b038dc@redhat.com>
+From: Daniel Palmer <daniel@thingy.jp>
+Date: Thu, 14 Aug 2025 13:35:36 +0900
+X-Gm-Features: Ac12FXxr3rvVXpJVntmlzZatJLppeB52b6KjThcDVumW6l6FaIvxvyr3Ex-UBYM
+Message-ID: <CAFr9PXn=jJPKzMcTa-TJSNuNQknauEttNZg=jV3sBwkTYqxLcw@mail.gmail.com>
+Subject: Re: [PATCH 084/114] clk: mstar: msc313-cpupll: convert from
+ round_rate() to determine_rate()
+To: bmasney@redhat.com
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Paul Cercueil <paul@crapouillou.net>, Keguang Zhang <keguang.zhang@gmail.com>, 
+	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Samuel Holland <samuel.holland@sifive.com>, 
+	Yixun Lan <dlan@gentoo.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
+	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Michal Simek <michal.simek@amd.com>, 
+	Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Romain Perier <romain.perier@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Andrea della Porta <andrea.porta@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Alex Helms <alexander.helms.jy@renesas.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, arm-scmi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, sophgo@lists.linux.dev, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
+	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-From: Janne Grunau <j@jannau.net>
+Hi Brian,
 
-The 15-inch M2 MacBook Air was released a year after the 13-inch one
-thus missed in initial submission of devicetrees for M2 based devices.
-It is currently a copy of t8112-j413 with edited identifiers but will
-eventually differ in a meaningful way. It has for example a different
-speaker configuration than the 13-inch model.
+On Tue, 12 Aug 2025 at 00:18, Brian Masney via B4 Relay
+<devnull+bmasney.redhat.com@kernel.org> wrote:
+>
+> From: Brian Masney <bmasney@redhat.com>
+>
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
+>  drivers/clk/mstar/clk-msc313-cpupll.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/clk/mstar/clk-msc313-cpupll.c b/drivers/clk/mstar/clk-msc313-cpupll.c
+> index a93e2dba09d3523199263494efd2bf6987bb4156..3e643be02fe2a79c043c1b79a5e95c869b757ba1 100644
+> --- a/drivers/clk/mstar/clk-msc313-cpupll.c
+> +++ b/drivers/clk/mstar/clk-msc313-cpupll.c
+> @@ -140,20 +140,22 @@ static unsigned long msc313_cpupll_recalc_rate(struct clk_hw *hw, unsigned long
+>                                              parent_rate);
+>  }
+>
+> -static long msc313_cpupll_round_rate(struct clk_hw *hw, unsigned long rate,
+> -                                    unsigned long *parent_rate)
+> +static int msc313_cpupll_determine_rate(struct clk_hw *hw,
+> +                                       struct clk_rate_request *req)
+>  {
+> -       u32 reg = msc313_cpupll_regforfrequecy(rate, *parent_rate);
+> -       long rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
+> +       u32 reg = msc313_cpupll_regforfrequecy(req->rate, req->best_parent_rate);
+> +       long rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
+>
+>         /*
+>          * This is my poor attempt at making sure the resulting
+>          * rate doesn't overshoot the requested rate.
+>          */
+> -       for (; rounded >= rate && reg > 0; reg--)
+> -               rounded = msc313_cpupll_frequencyforreg(reg, *parent_rate);
+> +       for (; rounded >= req->rate && reg > 0; reg--)
+> +               rounded = msc313_cpupll_frequencyforreg(reg, req->best_parent_rate);
+>
+> -       return rounded;
+> +       req->rate = rounded;
+> +
+> +       return 0;
+>  }
+>
+>  static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigned long parent_rate)
+> @@ -168,7 +170,7 @@ static int msc313_cpupll_set_rate(struct clk_hw *hw, unsigned long rate, unsigne
+>
+>  static const struct clk_ops msc313_cpupll_ops = {
+>         .recalc_rate    = msc313_cpupll_recalc_rate,
+> -       .round_rate     = msc313_cpupll_round_rate,
+> +       .determine_rate = msc313_cpupll_determine_rate,
+>         .set_rate       = msc313_cpupll_set_rate,
+>  };
+>
+>
+> --
+> 2.50.1
+>
+>
 
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- arch/arm64/boot/dts/apple/Makefile       |  1 +
- arch/arm64/boot/dts/apple/t8112-j415.dts | 80 ++++++++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
+Only visually inspected but seems correct.
 
-diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
-index 4f337bff36cdf51837ac7d50122692895026ce14..df4ba8ef6213c9f7e4ef02a50d7250008977cc71 100644
---- a/arch/arm64/boot/dts/apple/Makefile
-+++ b/arch/arm64/boot/dts/apple/Makefile
-@@ -80,5 +80,6 @@ dtb-$(CONFIG_ARCH_APPLE) += t6001-j316c.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t6001-j375c.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t6002-j375d.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8112-j413.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t8112-j415.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8112-j473.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8112-j493.dtb
-diff --git a/arch/arm64/boot/dts/apple/t8112-j415.dts b/arch/arm64/boot/dts/apple/t8112-j415.dts
-new file mode 100644
-index 0000000000000000000000000000000000000000..b54e218e5384ca89155e4350d6680a28a531f408
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8112-j415.dts
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple MacBook Air (15-inch, M2, 2023)
-+ *
-+ * target-type: J415
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+/dts-v1/;
-+
-+#include "t8112.dtsi"
-+#include "t8112-jxxx.dtsi"
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	compatible = "apple,j415", "apple,t8112", "apple,arm-platform";
-+	model = "Apple MacBook Air (15-inch, M2, 2023)";
-+
-+	aliases {
-+		bluetooth0 = &bluetooth0;
-+		wifi0 = &wifi0;
-+	};
-+
-+	led-controller {
-+		compatible = "pwm-leds";
-+		led-0 {
-+			pwms = <&fpwm1 0 40000>;
-+			label = "kbd_backlight";
-+			function = LED_FUNCTION_KBD_BACKLIGHT;
-+			color = <LED_COLOR_ID_WHITE>;
-+			max-brightness = <255>;
-+			default-state = "keep";
-+		};
-+	};
-+};
-+
-+/*
-+ * Force the bus number assignments so that we can declare some of the
-+ * on-board devices and properties that are populated by the bootloader
-+ * (such as MAC addresses).
-+ */
-+&port00 {
-+	bus-range = <1 1>;
-+	wifi0: wifi@0,0 {
-+		compatible = "pci14e4,4433";
-+		reg = <0x10000 0x0 0x0 0x0 0x0>;
-+		/* To be filled by the loader */
-+		local-mac-address = [00 10 18 00 00 10];
-+		apple,antenna-sku = "XX";
-+		brcm,board-type = "apple,snake";
-+	};
-+
-+	bluetooth0: bluetooth@0,1 {
-+		compatible = "pci14e4,5f71";
-+		reg = <0x10100 0x0 0x0 0x0 0x0>;
-+		/* To be filled by the loader */
-+		local-bd-address = [00 00 00 00 00 00];
-+		brcm,board-type = "apple,snake";
-+	};
-+};
-+
-+&i2c0 {
-+	/* MagSafe port */
-+	hpm5: usb-pd@3a {
-+		compatible = "apple,cd321x";
-+		reg = <0x3a>;
-+		interrupt-parent = <&pinctrl_ap>;
-+		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-names = "irq";
-+	};
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&fpwm1 {
-+	status = "okay";
-+};
+Reviewed-by: Daniel Palmer <daniel@thingy.jp>
 
--- 
-2.50.1
+Thanks,
 
-
+Daniel
