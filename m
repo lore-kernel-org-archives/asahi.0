@@ -1,232 +1,297 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010015.outbound.protection.outlook.com [52.103.67.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF60A2E9EB0;
-	Thu, 14 Aug 2025 08:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755160859; cv=none; b=TtiEXLxD/5Ze6eIQjDlScf3LleeAPs06qgF2C9zrJECRl+IfongTM30BKRTVxlQq9wFxssCbH+PvBYiMdy7oPtjkMdCQyFeUyr/JG19EL7ElkAN313XDVoc6ApbirvgAsJUFaiilKQYOXH3O4dxLjd01rc0Y2GGP/vfcFvNmcFA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755160859; c=relaxed/simple;
-	bh=gWJwlS88i16HpoPuqvaPOKo986ultjZxcO66aCiGV/c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=phYitBZr7oyuTIihxWet/WBTO5u3RIn8fjpboZ1kZTxOPTA6MvsljFSpbDBvIg03mG1tdyfIS86mVrjXnK0at7ntZip+n+l6TeQU5BL+8jsZiQIj5FbtQEhJa0oJiP8Dhiica/Y61bGFvOMFx8e1Fs3OGbuKKuGDyaDTQpWtByw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=QUwWwTlG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QvZZkPt0; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E58D247287;
+	Thu, 14 Aug 2025 08:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755161212; cv=fail; b=MIX7fNiQWh7su97e1fSyNJvQ3oFdeGuPcpAYYxZrfYMM4yny3YiO38GIsWWVFYiAY6NhLzlqw+vrBRbdNW4si+a6TffezlPDrR89NCo2TxNC6XzqN7MkzLfU8j2rPGb70qdCQTc7Gq8B8CV2Mj419vylAIhNELfVg8W3iIShZ0Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755161212; c=relaxed/simple;
+	bh=YcIJN20BgQACNtcviW/K78QX2OtkfM4Ys4aaWnJMB/M=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Oa4ehLAVnghh+AZ/3ZNG2X1bd66HPkK2hN+dbVdQJ7qIeB9CCSEd5+dcP9G2AdhNaXxWI8Z/EYMafJarGUquGhbIDgK7BTZzt7xUmqHKuAwjsZBr8URiv/vA71K9CqR+nH490G2UnoAHEQTlTxk00WaIaA0aED/gYvTsizuDmKk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=p5V+0eip; arc=fail smtp.client-ip=52.103.67.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="QUwWwTlG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QvZZkPt0"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 01A1614001A4;
-	Thu, 14 Aug 2025 04:40:57 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 14 Aug 2025 04:40:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1755160856;
-	 x=1755247256; bh=bLfHLlJrKDPCs/FZhmHqK0Zp1Gpj5ygoSbCyX153n2Y=; b=
-	QUwWwTlGGlUdh5D2EoYElGo4npNi9nDOcuOvtBZ9OWlu6yTnd1Z9NrQ1jBEabcZ3
-	6VbadAiTU/7b1it/1GM7XY292nR0UHUBWxstu4hL7C3kwukUdX80sKfmaVC6fubH
-	I/8bAxa/ZYF0ebrrZZ1pVORmqRP8B6ZFdpdgMJ8QTAXTFgRm1mJC5zaMm5/gMNu9
-	0l5J6nEhKkSca7oAXZA/lO5RuM4ZWNy/+7SMJsQQjbwrdE7LgZ7MK4Xr/c+lfx0m
-	Q9bKKw7OToFQwV+5E0QX4hRqT8VJiKbNe1LZS96XoyD8H1WYQL0u1mZIxqzsCc0U
-	ZFvyUSdhsGKpSDNwEW+2Bw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1755160856; x=
-	1755247256; bh=bLfHLlJrKDPCs/FZhmHqK0Zp1Gpj5ygoSbCyX153n2Y=; b=Q
-	vZZkPt0+rLKd8n6m/AcekTro7Nl3Q76TNOYw8LTtjI2u1OmyjansK5LsPsD2ynRA
-	NxWBwalFpxD/ad0k4TIuo2K+p0hjPoo/jP7IBNq4VllVbOMJOBMFNWrtXTuwrdUB
-	KvHL4XTQAyFu0dl7mSZwu8+zElq0xj1InW7SiVtmzcDoQIBmzqoYMDyWTJp7dOYu
-	evrupFXmaJxwq+N57vQWcNn46Zp1/gOXKw1W4zlWxR5Sy8ScDJSClklA0yLdTRnT
-	CPy6dSAkhaMEO/AB61fvbWx97NhHVu99ZmYTHw3o5OYH4H8st7hMfAKbvtlOida9
-	4+4biEfWT9/MVPJ9bJDfQ==
-X-ME-Sender: <xms:GKGdaEdb759aERT8sHUfdtZPTmkkn79196azzGI9yzWEUwfYd01QNA>
-    <xme:GKGdaMLIT1n0gLWOjf_pGSQeq5QlTob8bF7GYPkQEMtZ4kwZEYsJBXzrz3JkjBZEB
-    ggRLx7Yx2pCNa9zvZc>
-X-ME-Received: <xmr:GKGdaCpmnGlbriZLp9b1Owv1f4fMF7KIn2nJGl2A3Tcv4MHocn7pQ6Rsz9oT4tPF4h2KDs5dCBaxA0iUKPDHXxuZ2ZIdte7_Dsng_g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddugedtieefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
-    ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfe
-    ehheeileduffehteeihfdvtdelffdutdeludduiedutedvfeffheekhefgtedtnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
-    hurdhnvghtpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehiohhmmhhusehlih
-    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdr
-    shhtpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpth
-    htohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhs
-    thhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvg
-    hlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepnhgvrghlsehg
-    ohhmphgrrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:GKGdaKtGA6_VsDeKeXTG-RZNQD85D7J8CWfpzPLGPRczEuGjjnGgGA>
-    <xmx:GKGdaMIEMfMQRLOLLqt2vCnIHxW8_eZLwuxhGqi2YKuD47ek8_6wSg>
-    <xmx:GKGdaJo1667luzGsKaaj5pejBX40K6hDyFxaVH04VMNyfI6PmiQNIw>
-    <xmx:GKGdaPUhDGCiqg41hDosW1H0hT4cBm0WRh-rs8bPcxJakHhIl2Ly-Q>
-    <xmx:GKGdaDvVHbzv3dnu-eYgfHPrMcflksOVuTvfdbXDYuyWthNj0u1BJjQq>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 Aug 2025 04:40:56 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Thu, 14 Aug 2025 10:40:26 +0200
-Subject: [PATCH 3/3] iommu: apple-dart: Add 4-level page table support
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="p5V+0eip"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ghzOFCIlHQgjIW5rCEgksVpwnHLIT6pncg9dkT1+zvcJkmZn+6pojtHbamok/+SujD0grhUjT4O+btglmteUFtxrcuIqNDnzxfgcifIJ1ksRl+18lxPlnSCNYp5OEl5euMx4lnq+R3+cd93rGCFxQk7WhUzs6MBqXFTGfqC5P8UR4apGWvPqSsHQeaa3oQixsgFRFy5eK9Wln7GbDhMLdoxreSQgcczO4WXQnycu9pnw/aOvaFE5qhmVr9hBf+hDI2E7r8S91V9MUqNbeGh1PTevkESnmPtIGTvSyKbMlqt5NoyRxhNgYrs+8KvmZ3QlNutCM70y3f13Gpm1fqmyCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vPrCyFHI6U/Dhxf7jGTmetKqJAkeZEVrq7hThmK9QoI=;
+ b=n1PcBM+TJbSIxHgMTbC38vyHu/J6OsW+fDsByyE5y9CVKaL0dXrmXDOI1lFSL7LruuDH7Y6WYUfYYtLfToExacf66hgk5KmSyHK5m8Xh1Yvx4szYwqgMDXtGkfbVBsajD3FVyXE9uqqNGEtvHM3ixQD5Jbkje3nOuAmEXRuUwJCRmC2S04OulbNwhZfyQkgeMqhzjOXxmIMSLnEwU5o6lM2vc4j1epuFFy8CGMPU9aSIPOJjhrG3M/bXgnomPYNWdXIgwew79yIqfXnGzwdwnGzuqejtaiZ3XE4/uSceFo2lBjDe7Dt2DLg5ITbPxc2BMSPUpLK1VjMfddYl32KpkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vPrCyFHI6U/Dhxf7jGTmetKqJAkeZEVrq7hThmK9QoI=;
+ b=p5V+0eiprwlc4LgthvsdlVjXe9ubwFpMiAJfDCGqUGQfva7sGbmyRxfiLMxjKW5z7NZXo4y/QIVeJtz54VLZfC0M2hkLEQJVkMZ43yuAcCPvWXW+MUNUdB1utnpCqEylmUePp8OaBUfolQn6hT9NzNavyTXHmM/wmvMnShZ+m7LhHp7efspNhzN6P7naWqdhF+Fo8cXFwHfSacobqmHUDnIAc2yPfFaHYHd4Fsv+PZTOzShs/B+FkG37GIWigvnAZcNAQUyvpTo3wVeSJpwnER/trILNzlf7EEsnt+e/7NPVcRGcXJMpmCIjyh6RIvlGj2pW5NjEDTvnUUW2qXCcSw==
+Received: from MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:16f::16) by MAYPR01MB10650.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:158::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.17; Thu, 14 Aug
+ 2025 08:46:23 +0000
+Received: from MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::5dff:3ee7:86ee:6e4b]) by MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::5dff:3ee7:86ee:6e4b%4]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
+ 08:46:23 +0000
+Message-ID:
+ <MAUPR01MB1107224A0D6112F17349703ACFE35A@MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM>
+Date: Thu, 14 Aug 2025 16:46:07 +0800
+User-Agent: Mozilla Thunderbird
+From: Chen Wang <unicorn_wang@outlook.com>
+Subject: Re: [PATCH 113/114] clk: sophgo: sg2042-pll: remove round_rate() in
+ favor of determine_rate()
+To: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ Inochi Amaoto <inochiama@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Paul Cercueil <paul@crapouillou.net>, Keguang Zhang
+ <keguang.zhang@gmail.com>, Taichi Sugaya <sugaya.taichi@socionext.com>,
+ Takao Orito <orito.takao@socionext.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Jacky Huang <ychuang3@nuvoton.com>,
+ Shan-Chun Hung <schung@nuvoton.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Samuel Holland <samuel.holland@sifive.com>, Yixun Lan <dlan@gentoo.org>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>,
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Michal Simek <michal.simek@amd.com>, Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ Manivannan Sadhasivam <mani@kernel.org>, Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Palmer <daniel@thingy.jp>, Romain Perier <romain.perier@gmail.com>,
+ Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Heiko Stuebner <heiko@sntech.de>, Andrea della Porta
+ <andrea.porta@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Alex Helms <alexander.helms.jy@renesas.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ sophgo@lists.linux.dev, linux-mips@vger.kernel.org, imx@lists.linux.dev,
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com,
+ linux-actions@lists.infradead.org, asahi@lists.linux.dev,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
+References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+ <20250811-clk-for-stephen-round-rate-v1-113-b3bf97b038dc@redhat.com>
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-113-b3bf97b038dc@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYCP286CA0173.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c6::16) To MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:16f::16)
+X-Microsoft-Original-Message-ID:
+ <bd4ecb68-2f44-4dd0-ad56-ad20c6682b17@outlook.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250814-apple-dart-4levels-v1-3-db2214a78c08@jannau.net>
-References: <20250814-apple-dart-4levels-v1-0-db2214a78c08@jannau.net>
-In-Reply-To: <20250814-apple-dart-4levels-v1-0-db2214a78c08@jannau.net>
-To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>, Hector Martin <marcan@marcan.st>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4726; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=i3kAZWxlRfiQa+q5rET420js2FzDp/g4XWlOhDOKngU=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhoy5C/kmZwqe6Ti8S/vm27rkGRaaz7tWtj17l9L/41Hmw
- ss9p8rcO0pZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAExkiybDf9+Eb056a2zqmyuO
- GGTyHChsa5ZM/Fl4ofTofcFGCV57N0aGTRnv8pdf0L1aZH5lkf6hvORI3lsKMX+6VopcutnxcfZ
- afgA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MAUPR01MB11072:EE_|MAYPR01MB10650:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9fc5b2d-084d-40ea-618e-08dddb0f0bfe
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|15080799012|6090799003|41001999006|23021999003|19110799012|8060799015|461199028|5072599009|440099028|51005399003|51015399003|40105399003|39105399003|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?U016a3gvOHBGRk1rYnlPU003c2N1SGNpbDFzaWhyWWhySVlubHc3QWNUNy9E?=
+ =?utf-8?B?K3JjVGFzSnpFSFlReUpJcnZxUlZuczQ0ejFlbHlOSmN0elNiRzdMcWtCbXkv?=
+ =?utf-8?B?T2hvekt3dVQ1cVJoZHJudk01cnZISzFiblFmc0drVVZlcjFXMktjZ1pXZW1n?=
+ =?utf-8?B?RjZFTGZWeXhWQ1FtWWE1cXoxU3YzT3FsSmJuWWh5ZkZqcURhUng2M3Y1SGNj?=
+ =?utf-8?B?U0E0eW1XclZIWlVrYUYraEFHWlBGR3dPYVEvM2gxZFJ6Zk15R3ZmakRrcEpH?=
+ =?utf-8?B?N3J3QXg4WW0zTnY4SWJjbkZUNzc3ODZiQmtubG1BdHUxMlM4R0pLSXIxakh5?=
+ =?utf-8?B?M3A5dFlicHJNQy94S2QyazV6UDZRNnJxa0pRM1dsdmVqckdJZXN5ZG1sUkNy?=
+ =?utf-8?B?NFhjVUhVM2FOMjVEU3VPYUFURUJpRmZZdjV2TS9reWxhNGQrTE9vOHhVM1ph?=
+ =?utf-8?B?QTdIaWJrVkE4WElDaVBVb3RRMWpsOWNwOEM5aTFhNkw2ckF4d3MxYWx2UUVs?=
+ =?utf-8?B?dC82QlVmMFlLRUtOcnE0VGRxd3JZYzNmY2VLaFdBcUVCVUpOK3pLdnhJS3NV?=
+ =?utf-8?B?S3lWNVBHYlJkT3RvTE9sSTBNaVJsY0RvdG9Ed3BKeFkzNTRKMEVlbWwxMkcw?=
+ =?utf-8?B?alZ0V2lyWTdJbEdRc2N2UkpmSk9NTHlkaDI4V0NCTEI3dnZsTkE0YnRDK3Fp?=
+ =?utf-8?B?WldTamFOUENEczFhZ1VKeHI5TEJjZklTZklnY0U0MmcrZzdSZjZaL3NtOFlh?=
+ =?utf-8?B?eXNEb1ZoQ2RtN1NSNGdnY0FnMXBaTlVGNE9ZdDhVcXova0cySVJIZUJVR1Vk?=
+ =?utf-8?B?ZEFETC9JMng3Z3NYQlV3ME13eFJObVRBRVJaM2Nka1IvYW1UZExDaEhSWjZB?=
+ =?utf-8?B?RGxtRTBteU83cVY5dHl1YkRGalR6elM0OWxIelF4ckZmQUJIZk9NeWxTRHlK?=
+ =?utf-8?B?czdzTEtJQTFGOUtNY0wvV3NvWDhKNyt0THRjZTFmalRjR3NtTHV4NHYwejJj?=
+ =?utf-8?B?bVF0UDB3QWNCNEZJdHZBSlI4TEVsdUxZQkNTNHEwNUN5dUdPT01lSHZDUHh6?=
+ =?utf-8?B?S21ITjQyeXlHZTFJYjFvdUhrN1NTZW00ZjQ0WU1EcHZyd2V1Wm5nQ3NhWlYr?=
+ =?utf-8?B?czBPWVY5eGIvVG40VFE4eHREZHY4Wkg2TkprNnExaUd0ZGx1WmtjaDBKSDB0?=
+ =?utf-8?B?bkFZWmZHRnFUZDZDcElCREwrMUYrQmU3QVlzcHFVRmtxdlhUM3NlWWF1WW82?=
+ =?utf-8?B?bmZ6TDdKVzcwQW1tT2E2cFpmYStEb3RrL3FKWXF1b0tQOXR2S1BZQklpU1FJ?=
+ =?utf-8?B?WWp2alhwekgwU1R5S0o0cmwzUXg0YWdqYkJXd1hVdEJYMVVCSEdQNmhOcldD?=
+ =?utf-8?B?WHdwMjFmVFJ2Tm4zOXlWanA5V3VXYU4xd0tGOE53Z3ZyODhyaEJBU0creXBC?=
+ =?utf-8?B?bFZadlVCZFhFbFN4YlhVN3RJN3NLVFBDSnEvdVpYTFFnZEprZDN6YW5Cclow?=
+ =?utf-8?B?ZWpLaTBEdVR5dVlJSkxkQWNsWXh5cDlTYWhOSGFMMEhmeWtnTzlyYWd1dlhh?=
+ =?utf-8?B?N29aME1NUTk0VE1mWFpEd2pQMEVMd0V3M0VNRW85a2pjMTdIbStOMXBoNmpT?=
+ =?utf-8?B?ditleXpBTXhFazZBdEpya2dBVm5NRnRYeG5JZnlHcVdvRDYvSHIzNHh4K0xy?=
+ =?utf-8?B?alJqR21hdUpQQkFNWVQwWXE3TFhYV1R0dEtUMVRyaTdwdmJIVTBvOGpGb3RU?=
+ =?utf-8?Q?oBTPmUtvK/aR/PrXBroheMzcIUBrgyRG4bAzj/z?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?M0hpemdacllQb0tWVzhVYzR4ZzZHak55ZmVncXltaE93azBmVWxlZm9GQW5X?=
+ =?utf-8?B?cGtaclpudlJEMjd4ekIxWmRROExWbzd6RXJ6ZFBlUjJIRUdBdU1UZUFJdkJN?=
+ =?utf-8?B?dnYrOTlYMXZYa2o1MEFMdUFKU3l3QkRoVXZ6U29TdjZBamFCWlAwSG5zQUY3?=
+ =?utf-8?B?TGp6VU9FcjJCVTBmcE1xMGN6MWtEbytzQmI2UGhDcktjK3MvVnBjQk5mMmJj?=
+ =?utf-8?B?YWtPZk9kWWZIeHhUZnRXVU03NXFkUjR5STJPYktpMFQ0MmxGaWhiVXEwTkNx?=
+ =?utf-8?B?dW5qbEdqZStnZHBVSkx5eUl1VG9DdmxDR2tVcVlQZVgrWTRiN1dGWFZKZmZv?=
+ =?utf-8?B?cVJoSi9vQ21OdmdBMGFTYnZWVENVVkxzaXZMZURicDBCOEtIS1ByQnJaZUFo?=
+ =?utf-8?B?ZmlrNG9IZ0t1TUE1TGt5TUhRVXlXOXRkOE4yd3NEMURXam1Hd3RoQVUwb0dW?=
+ =?utf-8?B?UjdMRkdaMWhnSzl3VSt3V3JrL1NOZTVlTUJKTlZmVlBzb0VqSnl1N0h4Y1Jp?=
+ =?utf-8?B?YkZLK2EvL09QRTNQSC9kZ0t2Uzk5czBEenhyZlIzSzgwWmQzUHVmVzNYTGsz?=
+ =?utf-8?B?ZmViS0U4TFVnTWJ3Y2hEdmZhMkRwN2gzeHJvM0RtSUZTRXc2aGIwTHppakhG?=
+ =?utf-8?B?RFlGZDFSY01XL2lOMGlqZC93dkZ2dFpNVlFBeWRpenliVXZvSWVzT3JSRzJs?=
+ =?utf-8?B?V01xSy9iWXRHM0kvaVNnLzc0Zm1HL0ViOEtmWnU0ZkY5VDR1My92SkNIaHh4?=
+ =?utf-8?B?b3BBU0tDbHNheFpBbDVCSTZrZ3FwcTU5T3N4OEZJcDd5OHQxVDFHbFVyK2M0?=
+ =?utf-8?B?MnFEaWtoRGphVkE3cktEUGJ6UGx1bG40Qjg1SEhCcUFINHdvUkc1b0hTNU9G?=
+ =?utf-8?B?eUhtdUdEVHlaMk9iWEtUYjdsYzdzbVdLNWdJS1I4ZGpJejNsUkVHRk1kUG14?=
+ =?utf-8?B?MTJaeUFvWUlXN3VMM0xsWk1mOHZ4b002clhJdzZPd29aMUpIZG9QenN2U29k?=
+ =?utf-8?B?RjdmM29oVzV1Q3VQQ0JoSDhCbHA3R1hISVJST1ozYllmNWtiTUNCd2VDZnRZ?=
+ =?utf-8?B?L3AycTJNK3JDeTAvMVBDelhKK3V5bjhyWTdISysxR2hSenlWTHZnR2V4ajBo?=
+ =?utf-8?B?eURWalRnbzlTVkdsUjVzZ0FlVngzbkdvZ01iQnF1dWQ5dzFCeUdNRkk0STZ6?=
+ =?utf-8?B?YlgxSTB3WmQ3bldBZkdERnRxMlM2aTRoN3gxTTgybXliNUJEN0dZMDBwbi9k?=
+ =?utf-8?B?d1ZhSHhUV2luZFcyYnNtM3JEU0pUdmdNNVh1TDBsdVB5S1EzRHpWNXBVMnZD?=
+ =?utf-8?B?TCs3OUhwNkQ1bDlPSkduajcvZlNLcG14Y3dzVDMzN1hKUEpGSEVKRHhGT1J0?=
+ =?utf-8?B?Zi95ZnMyeGtZUFZBRytOQnlqMk16NXNmeFcwTENTczNudHV3eDY4N2dRNm9m?=
+ =?utf-8?B?Wk5aUXo1RUl3VGd0ZGJISjA5VEZLRk5yTEF4ekhaSG1iUEdyUWZ1dzUxMVRi?=
+ =?utf-8?B?NEhoNTU4L2VJRHI1UTJxWXJuYWNRRWlxWmprNmowQjYwcE04UlhEVTlKTHdw?=
+ =?utf-8?B?clVpOGR1OVZyMTUrU1pjalNraU51T1UvdEk0Z21HcmFiUEUwU2Q5VXUzaE1Y?=
+ =?utf-8?B?KzFjb0p3RWd0TVdmTEVsL3N0MUZ4amxFQVp5Q2VmWHFrMFdkNDhTQ3dOTDF3?=
+ =?utf-8?B?U1FiWVdPd3RkL2dZNTBNelVLTVh0SGUrRFlxQk04UHBsYmh0aERJVDJuQTVq?=
+ =?utf-8?Q?f0ePYnssesZtqWhOO7hsbeA7l0YkY4Sfln+QA4S?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9fc5b2d-084d-40ea-618e-08dddb0f0bfe
+X-MS-Exchange-CrossTenant-AuthSource: MAUPR01MB11072.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 08:46:23.1264
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAYPR01MB10650
 
-From: Hector Martin <marcan@marcan.st>
 
-The T8110 variant DART implementation on T602x SoCs indicates an IAS of
-42, which requires an extra page table level. The extra level is
-optional, but let's implement it.
+On 8/11/2025 11:19 PM, Brian Masney via B4 Relay wrote:
+> From: Brian Masney <bmasney@redhat.com>
+>
+> This driver implements both the determine_rate() and round_rate() clk
+> ops, and the round_rate() clk ops is deprecated. When both are defined,
+> clk_core_determine_round_nolock() from the clk core will only use the
+> determine_rate() clk ops, so let's remove the round_rate() clk ops since
+> it's unused.
+>
+> The implementation of sg2042_clk_pll_determine_rate() calls
+> sg2042_clk_pll_round_rate(), so this folds the two into a single
+> function.
+>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
 
-Since the driver failed at IO page table creation with 42-bit IAS add
-"apple,t6020-dart" as separate compatible using the T8110 HW data.
+Reviewed-by: Chen Wang <unicorn_wang@outlook.com>
 
-Later it might be useful to restrict this based on the actual attached
-devices, since most won't need that much address space anyway.
+Same comment as Alex. I will test this out after you send out v2.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/iommu/apple-dart.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+Thanks,
 
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index e72a93e78e26ca61b233c83d439dbdfadf040fc6..bb48e8603d6c84bcf107294d851c2f2fc1273298 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -133,6 +133,7 @@
- #define DART_T8110_TCR                  0x1000
- #define DART_T8110_TCR_REMAP            GENMASK(11, 8)
- #define DART_T8110_TCR_REMAP_EN         BIT(7)
-+#define DART_T8110_TCR_FOUR_LEVEL       BIT(3)
- #define DART_T8110_TCR_BYPASS_DAPF      BIT(2)
- #define DART_T8110_TCR_BYPASS_DART      BIT(1)
- #define DART_T8110_TCR_TRANSLATE_ENABLE BIT(0)
-@@ -177,6 +178,7 @@ struct apple_dart_hw {
- 	u32 tcr_enabled;
- 	u32 tcr_disabled;
- 	u32 tcr_bypass;
-+	u32 tcr_4level;
- 
- 	u32 ttbr;
- 	u32 ttbr_valid;
-@@ -217,6 +219,7 @@ struct apple_dart {
- 	u32 pgsize;
- 	u32 num_streams;
- 	u32 supports_bypass : 1;
-+	u32 four_level : 1;
- 
- 	struct iommu_group *sid2group[DART_MAX_STREAMS];
- 	struct iommu_device iommu;
-@@ -305,13 +308,16 @@ static struct apple_dart_domain *to_dart_domain(struct iommu_domain *dom)
- }
- 
- static void
--apple_dart_hw_enable_translation(struct apple_dart_stream_map *stream_map)
-+apple_dart_hw_enable_translation(struct apple_dart_stream_map *stream_map, int levels)
- {
- 	struct apple_dart *dart = stream_map->dart;
- 	int sid;
- 
-+	WARN_ON(levels != 3 && levels != 4);
-+	WARN_ON(levels == 4 && !dart->four_level);
- 	for_each_set_bit(sid, stream_map->sidmap, dart->num_streams)
--		writel(dart->hw->tcr_enabled, dart->regs + DART_TCR(dart, sid));
-+		writel(dart->hw->tcr_enabled | (levels == 4 ? dart->hw->tcr_4level : 0),
-+		       dart->regs + DART_TCR(dart, sid));
- }
- 
- static void apple_dart_hw_disable_dma(struct apple_dart_stream_map *stream_map)
-@@ -569,7 +575,8 @@ apple_dart_setup_translation(struct apple_dart_domain *domain,
- 	for (; i < stream_map->dart->hw->ttbr_count; ++i)
- 		apple_dart_hw_clear_ttbr(stream_map, i);
- 
--	apple_dart_hw_enable_translation(stream_map);
-+	apple_dart_hw_enable_translation(stream_map,
-+					 pgtbl_cfg->apple_dart_cfg.n_levels);
- 	stream_map->dart->hw->invalidate_tlb(stream_map);
- }
- 
-@@ -614,7 +621,7 @@ static int apple_dart_finalize_domain(struct apple_dart_domain *dart_domain,
- 	dart_domain->domain.pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
- 	dart_domain->domain.geometry.aperture_start = 0;
- 	dart_domain->domain.geometry.aperture_end =
--		(dma_addr_t)DMA_BIT_MASK(dart->ias);
-+		(dma_addr_t)DMA_BIT_MASK(pgtbl_cfg.ias);
- 	dart_domain->domain.geometry.force_aperture = true;
- 
- 	dart_domain->finalized = true;
-@@ -807,6 +814,8 @@ static int apple_dart_of_xlate(struct device *dev,
- 	if (cfg_dart) {
- 		if (cfg_dart->pgsize != dart->pgsize)
- 			return -EINVAL;
-+		if (cfg_dart->ias != dart->ias)
-+			return -EINVAL;
- 	}
- 
- 	cfg->supports_bypass &= dart->supports_bypass;
-@@ -1137,6 +1146,7 @@ static int apple_dart_probe(struct platform_device *pdev)
- 		dart->ias = FIELD_GET(DART_T8110_PARAMS3_VA_WIDTH, dart_params[2]);
- 		dart->oas = FIELD_GET(DART_T8110_PARAMS3_PA_WIDTH, dart_params[2]);
- 		dart->num_streams = FIELD_GET(DART_T8110_PARAMS4_NUM_SIDS, dart_params[3]);
-+		dart->four_level = dart->ias > 36;
- 		break;
- 	}
- 
-@@ -1169,9 +1179,9 @@ static int apple_dart_probe(struct platform_device *pdev)
- 
- 	dev_info(
- 		&pdev->dev,
--		"DART [pagesize %x, %d streams, bypass support: %d, bypass forced: %d] initialized\n",
-+		"DART [pagesize %x, %d streams, bypass support: %d, bypass forced: %d, AS %d -> %d] initialized\n",
- 		dart->pgsize, dart->num_streams, dart->supports_bypass,
--		dart->pgsize > PAGE_SIZE);
-+		dart->pgsize > PAGE_SIZE, dart->ias, dart->oas);
- 	return 0;
- 
- err_sysfs_remove:
-@@ -1292,6 +1302,7 @@ static const struct apple_dart_hw apple_dart_hw_t8110 = {
- 	.tcr_enabled = DART_T8110_TCR_TRANSLATE_ENABLE,
- 	.tcr_disabled = 0,
- 	.tcr_bypass = DART_T8110_TCR_BYPASS_DAPF | DART_T8110_TCR_BYPASS_DART,
-+	.tcr_4level = DART_T8110_TCR_FOUR_LEVEL,
- 
- 	.ttbr = DART_T8110_TTBR,
- 	.ttbr_valid = DART_T8110_TTBR_VALID,
+Chen
 
--- 
-2.50.1
-
+> ---
+>   drivers/clk/sophgo/clk-sg2042-pll.c | 24 ++++++++----------------
+>   1 file changed, 8 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/clk/sophgo/clk-sg2042-pll.c b/drivers/clk/sophgo/clk-sg2042-pll.c
+> index e5fb0bb7ac4f97616f3b472fcab45e5729eb653e..b2cbd50ac73c7538b1acbca517f4259cba885fcc 100644
+> --- a/drivers/clk/sophgo/clk-sg2042-pll.c
+> +++ b/drivers/clk/sophgo/clk-sg2042-pll.c
+> @@ -346,37 +346,30 @@ static unsigned long sg2042_clk_pll_recalc_rate(struct clk_hw *hw,
+>   	return rate;
+>   }
+>   
+> -static long sg2042_clk_pll_round_rate(struct clk_hw *hw,
+> -				      unsigned long req_rate,
+> -				      unsigned long *prate)
+> +static int sg2042_clk_pll_determine_rate(struct clk_hw *hw,
+> +					 struct clk_rate_request *req)
+>   {
+>   	struct sg2042_pll_ctrl pctrl_table;
+>   	unsigned int value;
+>   	long proper_rate;
+>   	int ret;
+>   
+> -	ret = sg2042_get_pll_ctl_setting(&pctrl_table, req_rate, *prate);
+> +	ret = sg2042_get_pll_ctl_setting(&pctrl_table,
+> +					 min(req->rate, req->max_rate),
+> +					 req->best_parent_rate);
+>   	if (ret) {
+>   		proper_rate = 0;
+>   		goto out;
+>   	}
+>   
+>   	value = sg2042_pll_ctrl_encode(&pctrl_table);
+> -	proper_rate = (long)sg2042_pll_recalc_rate(value, *prate);
+> +	proper_rate = (long)sg2042_pll_recalc_rate(value, req->best_parent_rate);
+>   
+>   out:
+>   	pr_debug("--> %s: pll_round_rate: val = %ld\n",
+>   		 clk_hw_get_name(hw), proper_rate);
+> -	return proper_rate;
+> -}
+> +	req->rate = proper_rate;
+>   
+> -static int sg2042_clk_pll_determine_rate(struct clk_hw *hw,
+> -					 struct clk_rate_request *req)
+> -{
+> -	req->rate = sg2042_clk_pll_round_rate(hw, min(req->rate, req->max_rate),
+> -					      &req->best_parent_rate);
+> -	pr_debug("--> %s: pll_determine_rate: val = %ld\n",
+> -		 clk_hw_get_name(hw), req->rate);
+>   	return 0;
+>   }
+>   
+> @@ -417,14 +410,13 @@ static int sg2042_clk_pll_set_rate(struct clk_hw *hw,
+>   
+>   static const struct clk_ops sg2042_clk_pll_ops = {
+>   	.recalc_rate = sg2042_clk_pll_recalc_rate,
+> -	.round_rate = sg2042_clk_pll_round_rate,
+>   	.determine_rate = sg2042_clk_pll_determine_rate,
+>   	.set_rate = sg2042_clk_pll_set_rate,
+>   };
+>   
+>   static const struct clk_ops sg2042_clk_pll_ro_ops = {
+>   	.recalc_rate = sg2042_clk_pll_recalc_rate,
+> -	.round_rate = sg2042_clk_pll_round_rate,
+> +	.determine_rate = sg2042_clk_pll_determine_rate,
+>   };
+>   
+>   /*
+>
