@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368B423D291;
-	Sat, 16 Aug 2025 14:02:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDD31D5150;
+	Sat, 16 Aug 2025 14:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755352940; cv=none; b=U+TwNRaOd4cgdE041CfnwzGdc0hmirQejppaQKeXHpykaQ0/YrcQ2BvgDw+2/YiugqLKNZt/7YTdvcGymKxyAKU8XAbO7QFrKDUWXpuaApBpna0x9cOw08IUeE11Zqj88kKh0j7YM8VrAW5x6AxdDM+4vufSLH+ux9Y54NDnroM=
+	t=1755353203; cv=none; b=IfE96EkHZI7KRRFz5MwqkCGiZ9z/tZc7wwse7v5Cdmq9ysTqawRi67likve6ofpfHNHcnR/PTIDxKwQKjsTlcY9m3t+JW6cX0VjkjgdNzpoUQBFJkm7zOqOTE+r4vR9QxS85SD/maOtPJE/XpmA897gL2us0l9sNKs1mX0pOK8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755352940; c=relaxed/simple;
-	bh=qO/300I+Jt1lgxY0j084jr/ihK+Jo7wjNEO7mZkVJ2I=;
+	s=arc-20240116; t=1755353203; c=relaxed/simple;
+	bh=n9KMFbKsDEZtJ9f9UHIfJm2mwyenMhPqIdyR4kfmItA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T7j2gR8u7WnmH88zUQi49btP3699EvHNiMt458M/5rahAlCs02rD94HebEOGzIoe8jQEyPYT+IpEOcubz9LTOa2SixJ7bK8rElekGW/+2anshL02N4SuIHe93X/kJg7tzUEpwIQHgpqRRa8LHlbKuUhYFv7hw/2vtm0gDuT5440=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EEE0xysx; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=QGYs9yeXKTA6Pp92EpX4ncP7ahccL57zttRyNex4YxWeRWGYB6XYsNiNkZatoiVT5s2oYhCx4n0IO7ZNh6rvq0/VUVoaVK5Xa7mvnNt0yJry8rQPkoVYK6IrgknUkyBtOLBDCZsnNMaDwM276E5StFN+aM1AX4HuWw1Ub1kB2rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HlIIwG+u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EEE0xysx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F5A2C4CEEF;
-	Sat, 16 Aug 2025 14:02:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HlIIwG+u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EF77C4CEEF;
+	Sat, 16 Aug 2025 14:06:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755352938;
-	bh=qO/300I+Jt1lgxY0j084jr/ihK+Jo7wjNEO7mZkVJ2I=;
+	s=k20201202; t=1755353201;
+	bh=n9KMFbKsDEZtJ9f9UHIfJm2mwyenMhPqIdyR4kfmItA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EEE0xysxcNFJlzz0kqO2yzGdaL0+MMRpMUoazV+Ww68zR57fCxIBP8q1YCSIjT9K2
-	 NvXtgYiUnPe81t0nktHEBdgqleO0PIk5LhiVC89eospNlDdmKZfTGdJQNlOm2qlZ/V
-	 8L/gsCk8mO7jj3GdNvOKkBa0a569Bg4ifFE6czf+kv3saNunLYpbeEIaDZJ8SwEeiU
-	 V8uZwrQaPeJ19U7CqPQzClcie5phDvg5A5Yv4Qilaq8UYGPdHUMETELx5WkigXYq/6
-	 6QZt2RbIdcxxAaSG2vgVrDxgJhDoV4NEAK+DiY8yVLjNJFGVY6rUqomzt0gsuWo4Vj
-	 gAOlmncDsJoPw==
-Message-ID: <e75431be-adab-461c-9a35-3245b3cb3534@kernel.org>
-Date: Sat, 16 Aug 2025 16:02:14 +0200
+	b=HlIIwG+uWOt/2nZYkISORRYS9zq7FDaj9GoQJJgbP7dqAppsOmMjwm4Ps94tVf+w0
+	 Kc50fxJzXlRUnk5RPI7BC+3Z0POcvmNA2bV/paTYn1KIYh36Z2Dg5Ixx3r/OD4/7Po
+	 xKX/Wdy0RuWa+hKaODaGCPsb+eggnR1GGEBLmVk1xU7Lpe51EhqEtk/8i3TGqVfMSJ
+	 U1IiUg9aClnjG4REaSmbVWxp0WUVddG4tSMBdOW4y//NH7uhXUBgOBeecZ5k66opfD
+	 unGAukxqx8Qoji4R5m6ihb6LvW98Eh1ajHnjxNQ7rn1NPkIBQ/mk76zVILoNzWwGQw
+	 bJYGHxHjafYGQ==
+Message-ID: <b7491aed-8942-4dd0-b2c8-349a9db1ca39@kernel.org>
+Date: Sat, 16 Aug 2025 16:06:37 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,38 +35,51 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] iommu: io-pgtable: Add 4-level page table support
-To: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+Subject: Re: [PATCH 0/5] Apple device tree sync from downstream kernel
+To: j@jannau.net, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>,
  Hector Martin <marcan@marcan.st>
-References: <20250814-apple-dart-4levels-v1-0-db2214a78c08@jannau.net>
- <20250814-apple-dart-4levels-v1-2-db2214a78c08@jannau.net>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250813-apple-dt-sync-6-17-v1-0-209f15d10aa0@jannau.net>
 Content-Language: en-US
 From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20250814-apple-dart-4levels-v1-2-db2214a78c08@jannau.net>
+In-Reply-To: <20250813-apple-dt-sync-6-17-v1-0-209f15d10aa0@jannau.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 14.08.25 10:40, Janne Grunau wrote:
-> From: Hector Martin <marcan@marcan.st>
+On 13.08.25 11:53, Janne Grunau via B4 Relay wrote:
+> This series pulls changes from the downstream device trees which are
+> supported in upstream kernel.
+> Most importantly it fixes the PCIe description for a specific iMac model
+> (iMac M1, 2 USB-C ports, 2021). This is worked around in the downstream
+> kernel by not disabling the port. In preparation for submitting M2
+> Pro/Max/Ultra devices trees I investigated the issue on the similarly
+> affected M2 Pro Mac mini and fixed it this way.
+> It completes the Wlan/BT device nodes for t600x based devices and adds
+> the missing 15-inch Macbook Air (M2, 2023).
 > 
-> DARTs on t602x SoCs are of the t8110 variant but have an IAS of 42,
-> which means optional support for an extra page table level.
+> Checkpatch emits following warnings:
 > 
-> Refactor the PTE management to support an arbitrary level count, and
-> then calculate how many levels we need for any given configuration.
+> WARNING: DT compatible string vendor "pci14e4" appears un-documented --
+> check ./Documentation/devicetree/bindings/vendor-prefixes.yaml
 > 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Which I chose to ignore. `vendor-prefixes.yaml` prefixes contains no
+> other mapping for PCI vendor code and the list of ignored prefixes
+> forbids extending it. Both options feel wrong though. "pci${vendor}" is
+> clearly a vendor prefix but duplicating the PCI vendor data base feels
+> wrong. `vendor-prefixes.yaml` currently does not contain and PCI vendor
+> aliases.
+> 
 > Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
 
-Same comment like for the previous patch about the commit description
-but otherwise this looks good to me. With that changed:
+For the entire series:
 
 Reviewed-by: Sven Peter <sven@kernel.org>
+
 
 
 Thanks,
