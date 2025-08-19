@@ -1,72 +1,73 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3466F31AF01
-	for <asahi@lists.linux.dev>; Tue, 19 Aug 2025 09:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF4831AF36
+	for <asahi@lists.linux.dev>; Tue, 19 Aug 2025 09:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755596857; cv=none; b=jSdLKvkQSq8gZmqagl+9el2BBds8QXWwhN3Vk1X16cexXgMOnQzpI29pJaSGnIMq7L1lCFoJ73AfwzVieme6jl0fyRfLLvio6Ru7sQGy1TsLnMpWn+e1W89VwA5oiplfGz30yQbNPRPPdj8D6Btjuwcsc6woJ4Oxzi5NQnuZYnk=
+	t=1755596887; cv=none; b=QDGDxSiSB01kr/rY0xGfTQUoo2oC+6QB215XxathYRF/7mRhxlP04PNeIz7SHJ+SHnHSSWPP0ITtNTWINoOswntLa3q0F/i022zr0JM9/kBNDh64sKSSJZ5rhkTXIE45/gSP+y+TsBXnFzKhYv7J946HC3c7Qcv3XYqD3ZQNG9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755596857; c=relaxed/simple;
+	s=arc-20240116; t=1755596887; c=relaxed/simple;
 	bh=RdTVW2acL3x4TY+q3fiwzcKJmZ14PXDkj8EpJokxAbo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XTScIt6X2K7YyF8OZaI2ozD+sE1PCiaoJvTW3YtnPe3TJDiTSCcDqrkWK+jmdrf3/ZekllmTkUA6+u/tnDeQX8Uh+JKy8ZyMp6nVCQUGaK84LVviR3khTQ6tD3gTvp9cRnkbYboNeMIGw71JmNyLro8+RZB8L8JdSX+uQJKEm14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rgYnkJ4h; arc=none smtp.client-ip=209.85.208.174
+	 To:Cc:Content-Type; b=KawX1kQCUq5C6JunFvYs4oyDltSx6vHp3S3Ltz/IpdTUiYp4Uq+IKLcahgcORip0vkgzhbzBfOFldzuWFfWacrwXQxV1sxlRuo6eKfW4UlhndiG77x9k1l4kVxA2laJdHOCstd+mzAemLwtA3v56/Q4abUB2j5EJ9EdSZiqKAn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VDJE6v1x; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rgYnkJ4h"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-333f8f0dd71so39477241fa.1
-        for <asahi@lists.linux.dev>; Tue, 19 Aug 2025 02:47:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VDJE6v1x"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-55ce526a25eso5081472e87.3
+        for <asahi@lists.linux.dev>; Tue, 19 Aug 2025 02:48:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755596853; x=1756201653; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1755596882; x=1756201682; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
         bh=RdTVW2acL3x4TY+q3fiwzcKJmZ14PXDkj8EpJokxAbo=;
-        b=rgYnkJ4hhh4gc6lEbqSVTkaMqHm8amrf5q1O1GiiJ84uWZ9dsccHCpY7Sr4aY1Wt2S
-         NVI7gPbtU67F/iQ0ygN1kZ84aG7sf/zpETyLNiZU1awH3aIpi2brC2wJjoHtJqXEv3X5
-         gH/AZciQtxXacWfgtmd94vsf7MS1zs6NKGGaqe05/+gKTgTUdgy7XYpVd7me9+Z0xqyG
-         vqZKqHKPIwIDYx0XWrj6+1LM3z5I4LH5NzG4WHT1k5+S9NRngfPbbsJLqg1NTTbFHiue
-         pkNxqjfNVyQ3b+LaZwh+BflOF0RaXZWfunNq58H97dAqkxibVxft8Pb8hRrd8RZm8r1d
-         hsFA==
+        b=VDJE6v1xRoALL3QxgkctA6wWWVs4I6LnGcIH/GEtp6g1HJfcLtYfkq0w3yW2TzcNai
+         dkHhTPwQ7/hnH2EzAxSa5d0P9fFPuB1A+/tdb7vIL/TIb9RzxO8sYxZv8dDnX+A6dGI9
+         1j5RGZUU2ZEv6kgwjpwDSxK88fk9php6F8HcRhmEQB1yarZNzj1J8cWfNPpBl2USbCtT
+         O4mYFrSKE7IcMHv7sQ9O0zQBkIkN7eyPvl26C88gFzNCO0rPrxFIOXhd3RcDlgfE3BvR
+         y91o2YfGb7zrBZ2zm4dfowxcxbGoNkphgTXhjeElkCLf9WGstIJAROTsR9WNKCTdpR6Z
+         Vn9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755596853; x=1756201653;
+        d=1e100.net; s=20230601; t=1755596882; x=1756201682;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=RdTVW2acL3x4TY+q3fiwzcKJmZ14PXDkj8EpJokxAbo=;
-        b=ot2jdYevbEzZuK00yAKMwEnt+9TDzAfSHjyYnWVIZAHdxn6QsU8ETAqmWn4FPcAY7F
-         wgSrk4nqHuKu0dSyq3130HEyvyHAnAYueRXidWiBEMEnZLx/WEAnFVirnOYtLLhBTX36
-         k4UnHIlok2wzXspi+C/f8SWqflaMh3fnjSvyX1UsDjx88F+k3zKuuhAIyKJWOlDOzk60
-         eXxaZyDt2T4m3HHHqhVO+4zxmSPgjzkHoTJqORPBCHwu3UHjKBnHT8okJ56ig2D+gUBz
-         4X1BQLwu+WRLuHK0fTKr48ROf+8IXfCx3n8mIa4DSh9PKQ8Xdd1ssEc45U8kJjpXDT55
-         saEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV8Rpkp9azwk4ByhxlJoxepgv0Y/UaYxXjeB1F+2OHLv47iH0Md/hA9mRlsyn0dhNWCh56iBg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmoL9ySo2VUI5RilJ/WeGjFGpIRm3bQt7n0IDtHbeRFX4TGx2a
-	X3h37VqAgYa7s5fI8esWSwnsaLDumlbfz4DQSq7Bi+yWQsmOgZW8NE+5caw2n5F5tqZtrg2/Iq8
-	KgeNH6sOn9va8uh0xngVFb/ir4C5KeSQgRGhskOsPjw==
-X-Gm-Gg: ASbGncvJndr0dg66uqVe5cX/nXmxwMTSpb8lR7bLFAoCNiRTNn2Xx3CBQKOIQnFDEBz
-	JUY6rRs+kWW8KA2QflEjGdUzYwoSObtIRe6H/Yml575ygaNxWDwRrY3eZh1oi0LA4d6eIJT7tvf
-	KgXrv1NCks7NlOTogdRRuaTVNoy7vHSPWm9CPGWrK8HxEJv4mbTVvORw9zBEnM98AvUWJ+fc9tk
-	cyS6n1ClES4
-X-Google-Smtp-Source: AGHT+IFaAkF1r4GWgj+j3Xeyk0sBgHgQuFXAyBRPToaJvqEtDi6Qt1cFt8RtILv6l5mltG8+0huqL2sCrZ81MI3EBAM=
-X-Received: by 2002:a05:651c:b2c:b0:333:ad0c:a44e with SMTP id
- 38308e7fff4ca-335305347dbmr5252501fa.7.1755596852940; Tue, 19 Aug 2025
- 02:47:32 -0700 (PDT)
+        b=TPcosI/eRWWiWqRUpCEecuKbJHTbfR5VrNaSRaRMtTP/1qf/YGKLGbB84Lu8C1UOrR
+         6t0KIqexHAKdC/4smT/d03cS6aEnC+ayYHKV9UkkEq3SemNCgwc2SM7exfB13ZR+h7jH
+         UTZ5+4iJQNlMbXCncKw0E2YVXxfLKRHYbfsPmGHdhuixKd4k78shZ06VcWWAnfvJUHjG
+         rYhcgaNj1+ZixzxoOsoE6g0/aiITQSwi5GPWzCC9DuCagojAKSrTCQXfE1oCRFkIdY91
+         VAiJSbmUD7rik1SKLhS/TaziXdVm+HKme4dCY56n79PHWzbjDP3KEPudlbrAO10oUmX/
+         Fltg==
+X-Forwarded-Encrypted: i=1; AJvYcCWuq4A8sdtXeKgB0VzKCArk2gYODSTuyzQb2BQ9mBsMhuM6uYllXe9mt7OLETzobpwIvq3O6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4c1slq4Oq75fz8NgfeDWKiWpu3JmRH3ANgv2Yenoe5eRWR4e7
+	l6uUkltL8iUt2a0AuOKes9UMRi8Ox6F5UK+Q6b0envrQ8f9PDNlOLjrTZTi27NfabWMy8Tk9BZI
+	C3+k0jfArfY6pE6+rZ6bda30UC1qnzca1pZXgziAfHA==
+X-Gm-Gg: ASbGncsTQDptpEKhTRPIXWFNNwAOohY0csgYdfnZQdt414rDVNlOe7kU2xEcjKhUWJx
+	CMUAzLEFq+WGi/TbSUt0S6NUMiG03/tFyof8g9qBkrqJU4DTy1lRVtwsFg8jNzKopje+XWoNqe/
+	5kvk7OoESskGwyy+vZ5xakQ3pkDJwMvdxCwJTQG1qWUmMrTW0w9xvjwH0+51IIjOg1J2ady5eoT
+	vJfjTw=
+X-Google-Smtp-Source: AGHT+IEolFO6aeJABYr1hNPxQasixpAjIgJqFl/o9dwJCRxvFjpbc3xagoFqiJPlswYsIWJYgR30Ss513xxDR9NTkTU=
+X-Received: by 2002:a2e:b8c1:0:b0:332:45b5:d68a with SMTP id
+ 38308e7fff4ca-335305347e8mr6104861fa.5.1755596882380; Tue, 19 Aug 2025
+ 02:48:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com> <20250811-clk-for-stephen-round-rate-v1-105-b3bf97b038dc@redhat.com>
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-105-b3bf97b038dc@redhat.com>
+References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com> <20250811-clk-for-stephen-round-rate-v1-108-b3bf97b038dc@redhat.com>
+In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-108-b3bf97b038dc@redhat.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 19 Aug 2025 11:47:21 +0200
-X-Gm-Features: Ac12FXwQ8ZNlahHw5FRReJn3coSNBp0waFbtb0dR-jKWl_cQ9vhC2BCpFgBry0M
-Message-ID: <CACRpkdZ3M65bKzaHcKPRhEFCy+TvHUq8bZ-8Zr_7HSRKsk_TWQ@mail.gmail.com>
-Subject: Re: [PATCH 105/114] clk: ux500: prcmu: convert from round_rate() to determine_rate()
+Date: Tue, 19 Aug 2025 11:47:51 +0200
+X-Gm-Features: Ac12FXyAMutAnmM6yYaTGFkQgGmOcrXudlcTGzS_av87nGHcGPs7Xb4FZygWAbE
+Message-ID: <CACRpkdZonmP8rSQS-rwzthNPv_MyddMReZQaD13b1qkRexxWyA@mail.gmail.com>
+Subject: Re: [PATCH 108/114] clk: versatile: icst: convert from round_rate()
+ to determine_rate()
 To: bmasney@redhat.com
 Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
 	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
