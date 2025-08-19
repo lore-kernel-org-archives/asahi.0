@@ -1,167 +1,138 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895131C01;
-	Tue, 19 Aug 2025 16:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA712E2295
+	for <asahi@lists.linux.dev>; Tue, 19 Aug 2025 18:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755620530; cv=none; b=EK8+PehkblNBFdVDFcSbAhuyfoPCZWf4rlIZKslBtnkwRzP6a4lSuAD42aZx3IcmvumzeQv9wp1ajIpEWLFrb+VMxjuzOBoRZz6dUnXz/GpDbyaTx/jHY8mklMuX5mwbyS+GYKRdM7CD0IIFjWCZm/WI4wIb+ep2+TasOoc/1ME=
+	t=1755628762; cv=none; b=dCOOERdNG9KFgNGX02HiSAs+V8irHpEeu7KT2m/gOPQaqO/pE1pyn2+RkOurX/GIt1edtEejubvX8uwAc0ZPUszMgy6ZKEbBiIthMpKzyiOvx0l73CwSter9A3GVbQFWA36eEztggjVhYDWs2fIXzDYxA0oroWC6HGEVDtQNyEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755620530; c=relaxed/simple;
-	bh=FiIphYldsHeBQ3UwTcbZaKPuigkn3+v3w+WuFBn5DUw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ArJ9KHFFlKBE+W6UqCfbCfj97i3Fz5uTe4mm9PSCWBrh6jMHzisTvESOb4RHlFWTGO7WXapsgldtPP7SqttixtyzL39I85WLYPGn2kZLrpx+CLFNF+A2pO7B6NQEJGXSSsUwA7hZB7m/GIx36Xsyd289iZeXMMye29w1BlovxoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B4nArvdv; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1755628762; c=relaxed/simple;
+	bh=PXzBRIfXwKHZi+PVe3ictws1msxyerhHK53wBLauIiw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hpl5ebTKh3wFFK/ExAQHq+g93KKTKJHso+uvJK3pao1LZUsB2P4HBU8h1P1Xg7rEIZL8lrS9vYj1JJGB3j/ewXu9hmbwWl8WO8tJxElkFGr/3KyDyNjZaz95ZUCJJ0W1WVH+PXISueNzky9F7RgHPx2zLHfAhIU5W3iU96qpdEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B4nArvdv"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-244581d9866so45387215ad.2;
-        Tue, 19 Aug 2025 09:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755620529; x=1756225329; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2PIjZ+DdmvuLwnrpTYlLbFeMpxoFxo/PTXBFZfTSGBg=;
-        b=B4nArvdvWijTKG6FGRLUHAYmY93Eb5yWhDmVW4c1vnnIIcy5UkIE2yR8ecB6UprJzw
-         OY33fr2LRYE1PQ4XadVVcD0+S+E8Y1uQi9PS9DM7zoRbHZohVR4wjzZMmNNZj8Vg/Dw6
-         06887Q1yjHpBSncRZL8nBg/lVa7SP6EUpRWTr5ofyEyDb+W7eZgBcTQVdH/2+bW6Ythh
-         9Cj9b3UBxZoswB+AphQboGuleoKC05wEdt2QwB4yrqc1IzkObbs9kako1Pr/n7HJU25Z
-         ahAYg9GAoNfWe4OxAUBo/f2KMVBykmA6h9OueseYNjM1PIlYvfkThg7wyrd0DP6gIWww
-         RITA==
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-afcb7abfc5cso961807966b.3
+        for <asahi@lists.linux.dev>; Tue, 19 Aug 2025 11:39:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755620529; x=1756225329;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2PIjZ+DdmvuLwnrpTYlLbFeMpxoFxo/PTXBFZfTSGBg=;
-        b=ZYJ006aGsRFsyrWRdgG/SY99e0UfkOYtdGRR/fI0LVl7xtV1RY/TtcJm7z+PhFkFl7
-         xY7xq/Hnqsh2NR/e+IzG4K3fqFp143T2BlgRQ80cJ2iiykeVrVoJNefO6HDvEpkHz0ej
-         VnMadfsKKd2sLiNkMvJ6RH9d/eszGWxBeSSJk+ZAZsSipXRN/F1eX46woo/5PUOVAgV4
-         +zIrMBs0KFmJA6w/48dCEOwxCNX9tQer+3JNuTeYigUZ85R6pKV9yBtOBqH7zj1rz5fK
-         jmkVppGQRAEiKENQLKExpbDfkqPH8PhEvyhPtx2J0e62YfKWkA/7pwwewzC1t1kwel0W
-         yI5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUrKYJ7V8AnXC24XDfF2wdkPcp4nlVWTs48AQmFFQMR/ii5PZUMKycTgX3sj8ashiqzVnCJ+w==@lists.linux.dev, AJvYcCVJ4oxrUb8G2AxhT5xPsbPSJyVL6q2QjDAUQcQQrA9pYYtm8qeLtEXrtbySfoc00gmsJbqruRM=@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcA/RTksE1v4WABQbis1BUWRKYSu+Uv8haVIFueE1lm0EMFv7w
-	13tTBOANC/YMmGEAhMlvO75yv0JkBIPxMvxtb4WAalPc+o/WoRux8C5W
-X-Gm-Gg: ASbGncsXJDDD03v5FCMf7P/c34cKhzFKic+JZ54vqSptTlk9XYABTxVMy/wNKhS0vmQ
-	SbiDbdrratUwAze5rcNwxuKNz0TsqTpaXSOxQuizSFawn04pr+UuNC/J6rvZSw7vy/ObWGNMdkF
-	E+jbivWkL/7BOGEkq5wsjFsSU7oN3WGu/qkQtEeQK49L6yF5WEOpxDGa88f8FuL1qh4uGW8vetu
-	JedGDTJOqSv3x1rcCGMfQvHDeBRDo2VKwWSs+scnlMOxQSujppRF2iLlF6PTy9J8opuHo7lv7/2
-	4e87ykaUbvepaBMysUqj/e5Ic+1FgPG1kGHVCbq52uG4Tmh3oj90Hx9vrgYFmepmVGDi7bB9riJ
-	SGEUZ7R+MJ+YGmMDsZ6pUmEm1hX8RIuVpwicivwUg+7UVIDTpwDDKgyEqhJwqUEE=
-X-Google-Smtp-Source: AGHT+IE1/3he44rcwmPwhGdP/2lEsUGbA2b74tOIcgVsabuA/J7rKhxfaf9z31Cj2VPPRLhP8RZaew==
-X-Received: by 2002:a17:903:3804:b0:244:55b5:7cfc with SMTP id d9443c01a7336-245e047bc13mr43207695ad.37.1755620528713;
-        Tue, 19 Aug 2025 09:22:08 -0700 (PDT)
-Received: from [192.168.0.124] (061092221177.ctinets.com. [61.92.221.177])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed4cc807sm1323105ad.82.2025.08.19.09.22.03
+        d=1e100.net; s=20230601; t=1755628758; x=1756233558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ik2CZRraiL4wjLDuUaIjOn1b1SNp0YAfTL1m5BkDZ58=;
+        b=j2Xbu1p1VlBwJuxn4YEKQD2ck/wsIlcYI7VrYQ2yLL/CVypMTFziDn3AclfbY5X2Qb
+         yHxFwvLI1tOpMn/eiyu+gBU6wiPhg40w2XsOqNTksfBjCZEkrRmY3Y0KfFdY7ndymTcN
+         TrGgEqpBRUNEOPni9YyvgiVGMnPJVhcPmXzWcQPu093Fz69tH4WIkzRxdCp0cZnpUcj4
+         MTW540+pRaAgPskOxxtQ/RyR0ZnjBJAVl0JeJkHhiP2eccksLfyJiSfGhP9ewAIbT2zG
+         Sx3Fgrsz1AuXWdnBUft3CEEKW5jsXUsERJI5wPfqFD/YJiCDOlfZP2coUMLKggCtArAX
+         NqRg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnyHCb3P03yaJPjE0cRzGtJx+BWM+gSbqoX6blVDMRkLgZLhbj5ve1KXUpb/mWan3kYnbamw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOEa2iyxlBMMNObgI0pBxdaS33Fdad2WdzUCR0y0DhlyeQkcW5
+	+WYqSZqfYs7H+97flIW/eRPSuxMAfD5pHHPIoqeByIwCTXyfhq+acGcnja50TNPSgnM=
+X-Gm-Gg: ASbGnctWsFR56R1DskTls03WBWE5I1csqoGwCHDjquyEQp1gNu95G5vCAFgE/3lKVTR
+	LdRk0ngGYO/12jIrH1JrC2cqlf2Y6uzeInVTeZx2UVlMi/UIJteFB5tG3jl/3LKjx6AyvRWqjIf
+	2nVMVA9D4sXfO5Ttbn3sdeOwsFlyUiVezqH4veeKBTeO4cADucK6lpnDsnVet0y9cQAKUQ+RHr4
+	xIoSqhh+DKtOOYUTgf/N0RwQj1q9lySUBQMGJAPC8iXa7RNwTUYF6d8n5/qUC40yf+cUavC6CiV
+	y9XQVHq2jA2u1F2EjeKCEdx+h1bfqC6VKBy+d9ToFGD+WxaNDtXnI5IvRK/2f4pVkXGL3qDS6kA
+	81VjcUbE9g9zKc2NkNZoGpBIs+xWx6EwEXQpl8isYIpEXDKbetDek
+X-Google-Smtp-Source: AGHT+IG856E0DBHQZj++nmqqeqXCzTuUZphpslPSYxr/Qfq0wR5qukC+N2j+2mjIJ9wkcCDiPk5T1g==
+X-Received: by 2002:a17:907:9810:b0:ae9:c47f:1bda with SMTP id a640c23a62f3a-afddd21d01cmr345227066b.59.1755628757856;
+        Tue, 19 Aug 2025 11:39:17 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded477d29sm29170966b.75.2025.08.19.11.39.16
+        for <asahi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 09:22:08 -0700 (PDT)
-Message-ID: <66ec7bd7-6b14-4766-97a1-3928d9129880@gmail.com>
-Date: Wed, 20 Aug 2025 00:22:01 +0800
+        Tue, 19 Aug 2025 11:39:17 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6188b5b113eso7930830a12.0
+        for <asahi@lists.linux.dev>; Tue, 19 Aug 2025 11:39:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXJnav4Ma5kRX8twMH4S7CImcO+2Fk6ZrRK41qkyA2Q3xWbTzPSVQx104L4lNzrRYZEvjTdew==@lists.linux.dev
+X-Received: by 2002:a05:6402:354a:b0:618:272a:6dc0 with SMTP id
+ 4fb4d7f45d1cf-61a97825978mr311982a12.27.1755628756633; Tue, 19 Aug 2025
+ 11:39:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/9] nvme: apple: Add Apple A11 support
-To: Christoph Hellwig <hch@lst.de>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org
-References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
- <20250818-t8015-nvme-v2-7-65648cd189e0@gmail.com>
- <20250819083038.GA1901@lst.de>
-Content-Language: en-MW
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250819083038.GA1901@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250813-apple-dt-sync-6-17-v1-0-209f15d10aa0@jannau.net>
+In-Reply-To: <20250813-apple-dt-sync-6-17-v1-0-209f15d10aa0@jannau.net>
+From: Neal Gompa <neal@gompa.dev>
+Date: Tue, 19 Aug 2025 14:38:39 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je-uMD4xPcmfcoxzdmo_wfHdiUvw=EByY+zG1c5UQ0=EfQ@mail.gmail.com>
+X-Gm-Features: Ac12FXwXcPnRZb3XHtBRKxe3pDOsXrkoCrBveLOoTcxv7QMCxYMri1d_dXh5Bt8
+Message-ID: <CAEg-Je-uMD4xPcmfcoxzdmo_wfHdiUvw=EByY+zG1c5UQ0=EfQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Apple device tree sync from downstream kernel
+To: j@jannau.net
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mark Kettenis <kettenis@openbsd.org>, Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Aug 13, 2025 at 5:53=E2=80=AFAM Janne Grunau via B4 Relay
+<devnull+j.jannau.net@kernel.org> wrote:
+>
+> This series pulls changes from the downstream device trees which are
+> supported in upstream kernel.
+> Most importantly it fixes the PCIe description for a specific iMac model
+> (iMac M1, 2 USB-C ports, 2021). This is worked around in the downstream
+> kernel by not disabling the port. In preparation for submitting M2
+> Pro/Max/Ultra devices trees I investigated the issue on the similarly
+> affected M2 Pro Mac mini and fixed it this way.
+> It completes the Wlan/BT device nodes for t600x based devices and adds
+> the missing 15-inch Macbook Air (M2, 2023).
+>
+> Checkpatch emits following warnings:
+>
+> WARNING: DT compatible string vendor "pci14e4" appears un-documented --
+> check ./Documentation/devicetree/bindings/vendor-prefixes.yaml
+>
+> Which I chose to ignore. `vendor-prefixes.yaml` prefixes contains no
+> other mapping for PCI vendor code and the list of ignored prefixes
+> forbids extending it. Both options feel wrong though. "pci${vendor}" is
+> clearly a vendor prefix but duplicating the PCI vendor data base feels
+> wrong. `vendor-prefixes.yaml` currently does not contain and PCI vendor
+> aliases.
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+> Hector Martin (2):
+>       arm64: dts: apple: t600x: Comple WiFi properties
+>       arm64: dts: apple: t600x: Add bluetooth device nodes
+>
+> Janne Grunau (3):
+>       arm64: dts: apple: t8103-j457: Fix PCIe ethernet iommu-map
+>       dt-bindings: arm: apple: Add t8112 j415 compatible
+>       arm64: dts: apple: Add devicetreee for t8112-j415
+>
+>  Documentation/devicetree/bindings/arm/apple.yaml |  2 +
+>  arch/arm64/boot/dts/apple/Makefile               |  1 +
+>  arch/arm64/boot/dts/apple/t6000-j314s.dts        |  8 +++
+>  arch/arm64/boot/dts/apple/t6000-j316s.dts        |  8 +++
+>  arch/arm64/boot/dts/apple/t6001-j314c.dts        |  8 +++
+>  arch/arm64/boot/dts/apple/t6001-j316c.dts        |  8 +++
+>  arch/arm64/boot/dts/apple/t6001-j375c.dts        |  8 +++
+>  arch/arm64/boot/dts/apple/t6002-j375d.dts        |  8 +++
+>  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi   | 10 +++
+>  arch/arm64/boot/dts/apple/t600x-j375.dtsi        | 10 +++
+>  arch/arm64/boot/dts/apple/t8103-j457.dts         | 12 +++-
+>  arch/arm64/boot/dts/apple/t8112-j415.dts         | 80 ++++++++++++++++++=
+++++++
+>  12 files changed, 161 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+> change-id: 20250813-apple-dt-sync-6-17-d1fc1c89f7ca
+>
 
+Series LGTM.
 
-On 19/8/2025 16:30, Christoph Hellwig wrote:
-> On Mon, Aug 18, 2025 at 04:43:00PM +0800, Nick Chan wrote:
->>  };
->>  
->> +struct apple_nvme_hw {
->> +	bool has_lsq_nvmmu;
->> +	u32 max_queue_depth;
->> +	void (*submit_cmd)(struct apple_nvme_queue *q, struct nvme_command *cmd);
-> 
-> Please stick to 80 character lines for the NVMe code.
-> 
-> Also I don't think an indirect call here is a good idea.  This is right
-> in the command submission fast path.  A simple branch will be a lot
-> faster.
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
-Ack for both of these points will check the other codes that got more
-indented as well.
-> 
->> +
->> +	if (q->is_adminq)
->> +		memcpy(&q->sqes[tag], cmd, sizeof(*cmd));
->> +	else
->> +		memcpy((void *)q->sqes + (tag << APPLE_NVME_IOSQES), cmd, sizeof(*cmd));
-> 
-> This could use a helper and / or comment to make the calculation
-> more obvious.
-
-This part of the code could be further simplified and after that
-it is similar to nvme_sq_copy_cmd() in pci.c:
-
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index f3999b8ef7ab..ff4c2f87770c 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -295,20 +295,17 @@ static void apple_nvme_submit_cmd_t8015(struct apple_nvme_queue *q,
- 				  struct nvme_command *cmd)
- {
- 	struct apple_nvme *anv = queue_to_apple_nvme(q);
--	u32 tag;
- 
- 	spin_lock_irq(&anv->lock);
- 
--	tag = q->sq_tail;
--	q->sq_tail += 1;
--
--	if (q->sq_tail == anv->hw->max_queue_depth)
--		q->sq_tail = 0;
--
- 	if (q->is_adminq)
--		memcpy(&q->sqes[tag], cmd, sizeof(*cmd));
-+		memcpy(&q->sqes[q->sq_tail], cmd, sizeof(*cmd));
- 	else
--		memcpy((void *)q->sqes + (tag << APPLE_NVME_IOSQES), cmd, sizeof(*cmd));
-+		memcpy((void *)q->sqes + (q->sq_tail << APPLE_NVME_IOSQES),
-+			cmd, sizeof(*cmd));
-+
-+	if (++q->sq_tail == anv->hw->max_queue_depth)
-+		q->sq_tail = 0;
- 
- 	writel(q->sq_tail, q->sq_db);
- 	spin_unlock_irq(&anv->lock);
-
-And this seems obvious enough on its own, and should not need comments.
-
-> 
->> +	anv->hw = (const struct apple_nvme_hw *)of_device_get_match_data(&pdev->dev);
-> 
-> Do we even need this cast?
-
-Don't think so, will remove.
-
-Best regards,
-Nick Chan
-
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
