@@ -1,105 +1,102 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F81F26C385
-	for <asahi@lists.linux.dev>; Thu, 21 Aug 2025 15:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289BF258EFF;
+	Thu, 21 Aug 2025 15:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755789327; cv=none; b=YNX11609dCoKUWxzYks0p4SYKMUAF2y9EofmRSxSPHvkPF00d7cgbHZzzgcjJZlfQg8WzRmlJOD11anzm0VZ9NZhyrovnOmBflf4KR4PZoy1mdXZiE3CDYFuPbIpeUmTYSLhmMblGEMxIbj8LsHlljczmoO4HFfB8EG0tvuZKMk=
+	t=1755789939; cv=none; b=RevQDLx98HCYOx+zL5K09I9ls3RFd+pYQ9Tmx1ybs+1/qYT5oncieUNBXDPnZ2ktsk384rCzeiP5p7lYAHgdPncL3So/JbTDECOCjO2MjKpCXz4OUgprK+47vrNACaF5qBeHxPwJQCU5V6gXT3SbIPLIjU3uHizIpHEXXydczQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755789327; c=relaxed/simple;
-	bh=Q6X/pDQCrW8V5E526AsgaNDv1ZMZazNafyiDPfLqCnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sLdQ7nqNMMO+uImg+czQyftbPOlyGJtLyFEQ3EwAvwFL+vk2dWLG32S65Gw47lU30IHEqGpriDe00dyF0l5l4nSlQkHQ6zt3iaLenO54zFcAWkE1Dhb7LqYGYMMGCBK7PsZBEXFGmI6KX2ivTEcnCNcJmvWujannT/s/YgviVMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pgMcV0Sa; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1755789939; c=relaxed/simple;
+	bh=9kJqLOf6Qe+TXpNf2uvky1bKvhlkOmQpjYLqd2IEmos=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=S9hztsJYByeBoYhw4f051gksZ++O4XKbdGHCIiFFw7wUqhD/IBD3DRQy4Tw3kJkRz0RAvKn7QE1Ofs2ooKCPdQK5t2I4ITwblBQ72SsFQZAmtI4B/HogUMgBMdIxUCKa9GDjGveZXMRRoNP+6QdeqQ2txqgNTBX/vyjkTQ38HGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n8g9HanS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pgMcV0Sa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1755789323;
-	bh=Q6X/pDQCrW8V5E526AsgaNDv1ZMZazNafyiDPfLqCnw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pgMcV0Sawp8POxaZoCb/t4273+4RBY2gGdJer9gi1oNiZLgBjvP7OmkHEO9yrMtZ2
-	 brBsWuS5D7QXgL5DJniS1Esdwy1J+Yb63NgqFOSPsIxBSefgWziipwR7/TJjccop0N
-	 3DUJoQ4yA6uC0w6MVseX7TV6pLv0ZMZYyxbaIGKKG1715Fjq+BCRb3aInTS/GiZMOd
-	 H8N6BvdJSRkBZ7fJDdzTyg1qlkuedTsk7VE6F1w1Ol4DQIDY1xj1wOs1JAz43zCEFW
-	 uZp+TbzagsgmorkwdSxd2FonOnPuxTVcNILzj4DI/HvsMlhhO11I9p04QHkeopX8s0
-	 r8j6bQHXJDGuw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9DB2517E01F5;
-	Thu, 21 Aug 2025 17:15:22 +0200 (CEST)
-Date: Thu, 21 Aug 2025 17:15:19 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Caterina Shablia <caterina.shablia@collabora.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Frank Binns <frank.binns@imgtec.com>, Matt
- Coster <matt.coster@imgtec.com>, Karol Herbst <kherbst@redhat.com>, Lyude
- Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Liviu Dudau
- <liviu.dudau@arm.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
- =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, asahi@lists.linux.dev, Asahi Lina
- <lina@asahilina.net>
-Subject: Re: [PATCH v4 1/7] drm/panthor: Add support for atomic page table
- updates
-Message-ID: <20250821171519.7224f470@fedora>
-In-Reply-To: <9445754d-28d2-4c95-a2f8-b850032b99d1@arm.com>
-References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
-	<d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com>
-	<2813151.QOukoFCf94@xps>
-	<2434159.cojqenx9y0@xps>
-	<0108b3cd-dfdd-4e4c-a2d8-157458e26f77@arm.com>
-	<20250821135127.2827abfb@fedora>
-	<9445754d-28d2-4c95-a2f8-b850032b99d1@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n8g9HanS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15E47C4CEEB;
+	Thu, 21 Aug 2025 15:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755789939;
+	bh=9kJqLOf6Qe+TXpNf2uvky1bKvhlkOmQpjYLqd2IEmos=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=n8g9HanS2lu636ESY7KmSZ/Zei+gIK6ydMzOks0Nf/9xeHezuQwjFM0Ty5bJP+6+R
+	 bvGK3jB4HUtLnTbqfwveFa4ZZxEdi3RR/q+V858X1muPPWBwHDnBR3bwpiKaNM785p
+	 RKFBJqjhDfhEd5yk3d/s1ek51x55nrlL5zMF4g4zxTOF19AoL4aJeoiMiMZJdxOTIA
+	 81oIfKUTxKRQp2SBAsZNAXU8bjZmnuy5L2wvEQjkGFB/3QpUjKERLhqIc9YCNWP0iU
+	 UPmQcCwuQx5U62WvrKig5WfLkPpq4rL1E1u2bvuM4tkbOC2aTOtpUEu1Au0oLoOWn+
+	 sGgym0VGzddZQ==
+Message-ID: <4a95cbf3-b3ae-4b26-8db2-dd5cf14a4c0c@kernel.org>
+Date: Thu, 21 Aug 2025 17:25:32 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+From: Sven Peter <sven@kernel.org>
+Subject: Re: [PATCH 2/8] dt-bindings: hwmon: add Apple System Management
+ Controller hwmon schema
+To: James Calligeros <jcalligeros99@gmail.com>, Rob Herring <robh@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org
+References: <20250819-macsmc-subdevs-v1-0-57df6c3e5f19@gmail.com>
+ <20250819-macsmc-subdevs-v1-2-57df6c3e5f19@gmail.com>
+ <20250819201537.GA1223169-robh@kernel.org>
+ <CAHgNfTw+wetmZzvPgkANpmSD4b6k0785QZLpBVD9FMqNDnq2EQ@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAHgNfTw+wetmZzvPgkANpmSD4b6k0785QZLpBVD9FMqNDnq2EQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 21 Aug 2025 16:02:09 +0100
-Steven Price <steven.price@arm.com> wrote:
+On 20.08.25 01:22, James Calligeros wrote:
+> Hi Rob,
+> 
+> On Wed, Aug 20, 2025 at 6:15 AM Rob Herring <robh@kernel.org> wrote:
+>>
 
-> On 21/08/2025 12:51, Boris Brezillon wrote:
-> > On Wed, 16 Jul 2025 16:43:24 +0100
-> > Steven Price <steven.price@arm.com> wrote:  
-> [...]
-> >> Although in general I'm a bit wary of relying on the whole lock region
-> >> feature - previous GPUs have an errata. But maybe I'm being over
-> >> cautious there.  
-> > 
-> > We're heavily relying on it already to allow updates of the VM while
-> > the GPU is executing stuff. If that's problematic on v10+, I'd rather
-> > know early :D.  
-> 
-> I think I'm just scarred by my experiences over a decade ago... ;)
-> 
-> I'm not aware of any issues with the modern[1] GPUs. The issue used to
-> be that the lock region could get accidentally unlocked by a cache flush
-> from another source - specifically the cache flush on job start flag.
-> 
-> It's also not a major issue if you keep the page tables consistent, the
-> lock region in theory allows a region to be in an inconsistent state -
-> but generally there's no need for that. AFAIK we mostly keep the tables
-> consistent anyway.
+[...]
 
-Right, it's not a problem until we introduce sparse binding support, at
-which point atomicity becomes important, and given remapping is not a
-thing the io-pagetable layer provides (remap has to be unmap+map), I
-need to rely on region locking to make it work, or we'll have to eat the
-fault-but-not-really-because-its-being-remapped overhead/complexity.
-Honestly, I'd rather rely on region locking if it's working, because
-it's far simpler ;-).
+>>> +          apple,fan-maximum:
+>>> +            $ref: /schemas/types.yaml#/definitions/string
+>>> +            pattern: "^[A-Za-z0-9]{4}"
+>>> +            description: The maximum speed the current fan can run at
+>>> +          apple,fan-target:
+>>> +            $ref: /schemas/types.yaml#/definitions/string
+>>> +            pattern: "^[A-Za-z0-9]{4}"
+>>> +            description: Writeable endpoint for setting desired fan speed
+>>> +          apple,fan-mode:
+>>> +            $ref: /schemas/types.yaml#/definitions/string
+>>> +            pattern: "^[A-Za-z0-9]{4}"
+>>> +            description: Writeable endpoint to enable/disable manual fan
+>>> +              control
+>>> +          label:
+>>> +            $ref: /schemas/types.yaml#/definitions/string
+>>> +            description: Human-readable name for the sensor
+>>
+>> Surely more than apple,key-id is required? How would it be useful with
+>> only that? You can know how many fans you have, but have no info or
+>> control over them?
+> 
+> The key specified in apple,key-id is the fan's current speed, which is the
+> only key strictly required to enumerate the presence of a fan in the system.
+> All of the other keys are optional information that are only really useful
+> when implementing manual fan control, which is itself optional as the platform
+> really expects the SMC firmware to have control over fan speeds at all times.
+
+
+Can we at least also require the label? Then we have the SMC key and a 
+human readable representation which is already useful.
+
+
+Sven
+
+
