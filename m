@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71FB2BE7D9;
-	Thu, 21 Aug 2025 15:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060E22D0620;
+	Thu, 21 Aug 2025 15:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755790804; cv=none; b=iYU+ewKFSiLiRoUF5gOb2/ZfzGclalzlvKvStBheYaa2SsbI6EbevlyTWBbgOyshaZ5ItkJC9TyP3tteTKVhU5Zcrfyc9DbfZtuBEWBmsn1KnZZFnKh+wAxuMm8N6GzYdUtsISozwgzi7D+2Ruy3kqtDd1SWIcvPnBJQS6aoAj0=
+	t=1755790804; cv=none; b=JpvHDghSNOsGYF1hOVoN29sbSsXqcoYzIMnf48PLS1A+AcRV1LemdZz5KKertaF3c23le+dA305UmzNI2uprUvJRenHb2bZUOhlbD++3XSfpDzWGPNwPyeoWnhDZPGoTc6FR3eGBQ7rWVLOmV7zYGr+4zD3La5D4AvhaElEp3Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755790804; c=relaxed/simple;
-	bh=ezlFWvM1nBUdjZySW2SLHcZqvdOTrYO8BvJNCg37DNw=;
+	bh=9jDoVQ1/z0pxLrrUKQFvuFlzCV4MYmq0sO+xpriK97c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bjF2rT+47Nz45R9l2qvhMSGsISNml+JUux/H3LDmS1njewxErB7BhqCxj2sbqJ4fGymZI2GmmG6whTxaL6iWA+R+m2ubdQqcVxKY+JeTLVbghpVSIEJE45CkJE2RfAtZMWezZkRf6D9NjhcN+wPgSVRLnnLNqL2gQyE0lkQIDBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rwKBmyNm; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=pdf/yFFtSoUN5uwUq8Y8NEuLbhIIMTwfZc7VnUom1KFB6fuuFjSSF+PgiGcYZ7o7AclQApe37jPQBUQ8Nbbx5Kk5KD+r1jc6wmn23I9G/nzzdfobN1VScUl3DUFYpIYck6l7CYlsB4KFG/NbfdQmDeGmMkE+urDAV3scYIJIhVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhLcjB6R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rwKBmyNm"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 40F8BC2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhLcjB6R"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 752C7C2BCB8;
 	Thu, 21 Aug 2025 15:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1755790803;
-	bh=ezlFWvM1nBUdjZySW2SLHcZqvdOTrYO8BvJNCg37DNw=;
+	bh=9jDoVQ1/z0pxLrrUKQFvuFlzCV4MYmq0sO+xpriK97c=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=rwKBmyNmPYHzHiw1yjRL/lEKSSs9N32vOnYxgaqrI6MbIHQ0tgc1vydZWAEGEahwJ
-	 o73QCX43BIztfBDptpHRc+Fn9hwDMYgcd1y+VWAovuU2DECP/nTkaVngaQYmJzl/Rj
-	 6LvgYP4NFi/3m4G9Cndq2mV42fp1qg333HJZeRsz0+igU8Wz8dTqaWTPLDVI1FgdwE
-	 UK7SzNByPmodTncOZs5BANE77UXwAsyXf0j5zfWAW6ddQAxYQDNarTH1T/omgRmeZy
-	 gtPgNIRhtErXu4jxhfwckEdLi6EOjP9eXYlNxXR+XtC5PUVTvlvWdUBnbMMtHWEXpf
-	 IBSct6hGqgwqQ==
+	b=LhLcjB6Reg3+JMHJNyU7msIaDCdB8DHH5hCnQOy77QlG0uVvelenxdBkXFCEgICoS
+	 9Lwb8I3MCJxO00NIG91hUHC4Wvb5ap2z4mh79xKZ/Eg9lP5VvLXs8Vbtq1e+lP221X
+	 E/rz0KhuMwr5LYr9gLBrofaFOlUh5ljPVPMWyDHoc+LHFI+WeDB3o+L/xbFT8CHczc
+	 saMOpBDeyys99H71m6ML8F8gR6Bk7eyVOG37cT9pNrgCNfYnnG/Dg6m3CwRMzevehO
+	 +oF7qY/bNNaEv7Ijgd6adK+eYHKTIbwhauqaRnIsW5HyWS5XARfxSKIyUO1iWwrRtd
+	 6en06OiDEpVvg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D94CA0EFC;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6A8CA0FE1;
 	Thu, 21 Aug 2025 15:40:03 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Thu, 21 Aug 2025 15:38:57 +0000
-Subject: [PATCH RFC 05/22] usb: dwc3: apple: Do not use host-vbus-glitches
- workaround
+Date: Thu, 21 Aug 2025 15:38:59 +0000
+Subject: [PATCH RFC 07/22] usb: dwc3: apple: Adjust vendor-specific
+ registers during init
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250821-atcphy-6-17-v1-5-172beda182b8@kernel.org>
+Message-Id: <20250821-atcphy-6-17-v1-7-172beda182b8@kernel.org>
 References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
 In-Reply-To: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -56,82 +56,93 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
- Sven Peter <sven@kernel.org>
+ Sven Peter <sven@kernel.org>, Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2484; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2771; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=K4xGHgVuy+gCBsZ5+L/7Ixe1BRKZmb/9H0zcphQVQWY=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zy26XL+h6aXW/svSIoXp77ec99t4L5FxRE9iT+zz8Sv
- zhiwRuPjlIWBjEOBlkxRZbt++1Nnzx8I7h006X3MHNYmUCGMHBxCsBEtgkwMvwx/5Zrkv990taN
- vudNDv9UPxd3rKY64paVQMfvQ4/PLU1l+Gd1L/hZwftLj6zC8xxPRr+ZtPYtr82Ze3sXXmI6wiC
- 9XIkHAA==
+ bh=Ikp6czp+quI9KYT9CWH9WFMemYOvMSa7Gr19hm1ueGQ=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Zy2xVS+teCv0fd52+62njLwutKT41zZ+O9/bz75wlvL
+ pgvVt/dUcrCIMbBICumyLJ9v73pk4dvBJduuvQeZg4rE8gQBi5OAZjI1B5GhjadZ9FrY78wRmp7
+ NX++XLy80071lkXGivInUwP1uPbLRDL8T9LQdmuR5mrdu8jPKO/k4vYE4eU37k1duEylI+kKj+o
+ NFgA=
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-From: Janne Grunau <j@jannau.net>
+From: Hector Martin <marcan@marcan.st>
 
-It results in SErrors during init presumedly because MMIO accesses fail
-while certain parts are shutdown.
+When tracing Apple's dwc3 driver under our hypervisor and comparing its
+MMIO access with their kernel debug output these vendor-specific
+registers have been identified. We don't know exactly what these do
+or why they are required but without changing these parameters sometimes
+USB3 devices don't work or take an additional 5 seconds to be recognized.
 
-Signed-off-by: Janne Grunau <j@jannau.net>
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Co-developed-by: Sven Peter <sven@kernel.org>
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/usb/dwc3/core.c | 1 +
- drivers/usb/dwc3/core.h | 2 ++
- drivers/usb/dwc3/host.c | 5 ++++-
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/core.c | 17 +++++++++++++++++
+ drivers/usb/dwc3/core.h | 18 ++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 26aa507a738f001409a97ef563c6561433a1cac5..8d2dc7fa18114102cc8893c4ca0e745e16f30754 100644
+index f8013ba2bdc22fa5e719df0841b12b84d9465b62..e018e80778cf39a9981d438c7e54534b26cddf63 100644
 --- a/drivers/usb/dwc3/core.c
 +++ b/drivers/usb/dwc3/core.c
-@@ -2273,6 +2273,7 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
+@@ -1366,6 +1366,23 @@ static int dwc3_core_init(struct dwc3 *dwc)
+ 	 */
+ 	dwc3_writel(dwc->regs, DWC3_GUID, LINUX_VERSION_CODE);
  
- 			dwc->dr_mode = USB_DR_MODE_OTG;
- 			dwc->role_switch_reset_quirk = true;
-+			dwc->no_early_roothub_poweroff = true;
- 		}
- 	}
- 
++	/* Apply Apple quirks */
++	if (of_device_is_compatible(dwc->dev->of_node, "apple,t8103-dwc3")) {
++		dwc3_writel(dwc->regs,
++			    APPLE_DWC3_CIO_LFPS_OFFSET,
++			    APPLE_DWC3_CIO_LFPS_OFFSET_VALUE);
++		dwc3_writel(dwc->regs,
++			    APPLE_DWC3_CIO_BW_NGT_OFFSET,
++			    APPLE_DWC3_CIO_BW_NGT_OFFSET_VALUE);
++
++		u32 link_timer = dwc3_readl(dwc->regs, APPLE_DWC3_CIO_LINK_TIMER);
++
++		link_timer &= ~APPLE_DWC3_CIO_PENDING_HP_TIMER;
++		link_timer |= FIELD_PREP(APPLE_DWC3_CIO_PENDING_HP_TIMER,
++					 APPLE_DWC3_CIO_PENDING_HP_TIMER_VALUE);
++		dwc3_writel(dwc->regs, APPLE_DWC3_CIO_LINK_TIMER, link_timer);
++	}
++
+ 	ret = dwc3_phy_setup(dwc);
+ 	if (ret)
+ 		return ret;
 diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 38f32f2a6193c1b2662ab4f38f4d20cf4b0e198d..3c3a36ec37345b2f9e71444ba3b90b52dbd24443 100644
+index 98e748cc348dfd9de1962c93fcf9f6a6690c2388..1caa46ca8b2ffb74dd3e58b174122e8f8216dd48 100644
 --- a/drivers/usb/dwc3/core.h
 +++ b/drivers/usb/dwc3/core.h
-@@ -1155,6 +1155,7 @@ struct dwc3_scratchpad_array {
-  * @susphy_state: state of DWC3_GUSB2PHYCFG_SUSPHY + DWC3_GUSB3PIPECTL_SUSPHY
-  *		  before PM suspend.
-  * @role_switch_reset_quirk: set to force reinitialization after any role switch
-+ * @no_early_roothub_poweroff: set to skip early root hub port power off
-  * @imod_interval: set the interrupt moderation interval in 250ns
-  *			increments or 0 to disable.
-  * @max_cfg_eps: current max number of IN eps used across all USB configs.
-@@ -1394,6 +1395,7 @@ struct dwc3 {
- 	unsigned		susphy_state:1;
+@@ -181,6 +181,24 @@
  
- 	unsigned		role_switch_reset_quirk:1;
-+	unsigned		no_early_roothub_poweroff:1;
+ #define DWC3_LLUCTL(n)		(0xd024 + ((n) * 0x80))
  
- 	u16			imod_interval;
++/*
++ * Apple Silicon dwc3 vendor-specific registers
++ *
++ * These registers were identified by tracing XNU's memory access patterns
++ * and correlating them with debug output over serial to determine their names.
++ * We don't exactly know what these do but without these USB3 devices sometimes
++ * don't work.
++ */
++#define APPLE_DWC3_CIO_LFPS_OFFSET 0xcd38
++#define APPLE_DWC3_CIO_LFPS_OFFSET_VALUE 0xf800f80
++
++#define APPLE_DWC3_CIO_BW_NGT_OFFSET 0xcd3c
++#define APPLE_DWC3_CIO_BW_NGT_OFFSET_VALUE 0xfc00fc0
++
++#define APPLE_DWC3_CIO_LINK_TIMER 0xcd40
++#define APPLE_DWC3_CIO_PENDING_HP_TIMER GENMASK(23, 16)
++#define APPLE_DWC3_CIO_PENDING_HP_TIMER_VALUE 0x14
++
+ /* Bit fields */
  
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index f7a71e6f9d80aca632f1f970d900a3de8a76f0a7..f7c3a0fc5fe258705311f89c1ba11ff599c01afe 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -134,8 +134,11 @@ int dwc3_host_init(struct dwc3 *dwc)
- 	/*
- 	 * Some platforms need to power off all Root hub ports immediately after DWC3 set to host
- 	 * mode to avoid VBUS glitch happen when xhci get reset later.
-+	 * On Apple platforms we must not touch any MMIO yet because dwc3
-+	 * will not work correctly before its PHY has been initialized.
- 	 */
--	dwc3_power_off_all_roothub_ports(dwc);
-+	if (!dwc->no_early_roothub_poweroff)
-+		dwc3_power_off_all_roothub_ports(dwc);
- 
- 	irq = dwc3_host_get_irq(dwc);
- 	if (irq < 0)
+ /* Global SoC Bus Configuration INCRx Register 0 */
 
 -- 
 2.34.1
