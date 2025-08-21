@@ -1,268 +1,141 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7EA3112BE
-	for <asahi@lists.linux.dev>; Thu, 21 Aug 2025 12:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86F131E105;
+	Thu, 21 Aug 2025 13:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755779396; cv=none; b=EQ4PIZLLxSEh6EQvy/1rDD3rySmMxo6UZjceuF+j3GDeS31hTUmQN6nCUkH0lxuONhE10uGNZYO2mxn+Did8H3AkUYnFvp7ZIM4PRDqqlm6lcKlTrlQxIHX1/9Y9mJbJYV8mtVfXzkCME28hqW0RHQZ72pOoFsFKL3EqDgCiIEw=
+	t=1755781790; cv=none; b=mMHgqfvsI6z2BGqGUm5t2+Qrcwy9yBGVmIIBWqALhyi2o+8TrgF4uhaBOJPSxQmpugDVOdjk9z0cw+8GctakGNFi0XNj2LBO6KKx2lPuI5/+b9KC/WNR4lnRIZC3SndTWVCkAZp7e8BiAaFrGcKQqdKUNh0NdMS60R/fxUjlV+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755779396; c=relaxed/simple;
-	bh=ijlb5esqaLBXf0mALq1QvcDz562IVmpFjpHLeOxS04A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MGodQ9vdncUMJODn33zPUHu/iP7M7rolBKP7cg2WjQ/thVrsegtb6QcxFbtIQDWYrFkT0gsZ6MSH2s9qV/W8ZeSw591FATCdGMWge1ID5JVk+PwZ1E0IyPizv1Dz/BgwF8UHE2nsyFqz14YOAG8K+3nN5lF6pEQKJxkBiCgBNGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bvIsxVXD; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1755781790; c=relaxed/simple;
+	bh=MhO8vmk/1Z8Jjft4FMGPZtCgY39MJ+NaHCMG5a9KDpg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hqd8kRJenNs0JKs2UcVirUp21e+E4dFKLyVEDcQiVPdp2oDsEyIEcIm4Tp8pjZNp0hp0WeQzT2bYKFBNuY9GcRfSzo9F1y+PSfY4HawVjicqujBIB7N6nvVN0PWS2rHBFMUuJ+LbyvooCay/ZbFABoVUP4DQK6T/2sobUdRwQ38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pp4z3Qr8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bvIsxVXD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1755779392;
-	bh=ijlb5esqaLBXf0mALq1QvcDz562IVmpFjpHLeOxS04A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bvIsxVXDCBsn2Z1qyYYvRXjkxTtpvHYKqzHyZZPnWRZX9coT5rj1CjMzo6balyWZH
-	 OM4rM/Xj0uDrHauJIhlsnMAuWivpuSA5ShIa3k9DXdsaZaDVf2x+feMIYF8rqMiMy1
-	 ePhXELqiWF0VNnpOUTmRSPVbNIuu/LvOTsaS4KGSgYMAcOS2sE8FdwJZm1HvKufRce
-	 kg8SUX2Zz5LAX1QDoX5aLyOjeVCGwOXLoX0TirgdkzFV6CPBDFlxOiVw4MccVMeYKI
-	 8d2uwFTx9pJkSWQ8jxOLS3k3urwNq82wUQxzGwWajNQvs8clBOZ5wAQSIEkDjm83hM
-	 lbmnFqHmBiFrg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id D298417E0154;
-	Thu, 21 Aug 2025 14:29:51 +0200 (CEST)
-Date: Thu, 21 Aug 2025 14:29:46 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: "Caterina Shablia" <caterina.shablia@collabora.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Frank Binns"
- <frank.binns@imgtec.com>, "Matt Coster" <matt.coster@imgtec.com>, "Karol
- Herbst" <kherbst@redhat.com>, "Lyude Paul" <lyude@redhat.com>, "Steven
- Price" <steven.price@arm.com>, "Liviu Dudau" <liviu.dudau@arm.com>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <asahi@lists.linux.dev>, "Asahi Lina"
- <lina@asahilina.net>, "Asahi Lina" <lina+kernel@asahilina.net>
-Subject: Re: [PATCH v4 6/7] drm/gpuvm: Add DRM_GPUVA_REPEAT flag and logic
-Message-ID: <20250821142946.00110c49@fedora>
-In-Reply-To: <DB62O8GQ2Y1C.11UY1XZV8OE3Q@kernel.org>
-References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
-	<20250707170442.1437009-7-caterina.shablia@collabora.com>
-	<DB62O8GQ2Y1C.11UY1XZV8OE3Q@kernel.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pp4z3Qr8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 595B7C4CEED;
+	Thu, 21 Aug 2025 13:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755781789;
+	bh=MhO8vmk/1Z8Jjft4FMGPZtCgY39MJ+NaHCMG5a9KDpg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Pp4z3Qr8yNX9qXMe4teETxZo+C3BrlwRUBx1dJv9wo23+nP8Dtrrrs4L1WDZyIfyr
+	 vF4wYHOVHjQsm7Qqz4UVkkeSzd6pXVf9/esNqm4PIVY62dwb26WmanygehuwJGt1uP
+	 GV6eyV0k8Sh6Iu/CnO1rqls58IELUr77vp51dGdOTS3310/ueXCfgd1ZCWYoDci9P2
+	 JmAyo0Wpl4N3WPm5ae9mWa878+iFIjRUfEj1ts59rc9IbFAO9Mi3OUJYU6ToBS6BkR
+	 CJqLBHQxDEiB+R3jjA0y6I2HUtup+kE8d4EswkdZrSQV+mE7Swm4e8Iq7Yqh2HVGBC
+	 jO+7BuBol+08A==
+Message-ID: <12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org>
+Date: Thu, 21 Aug 2025 15:09:42 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/9] dt-bindings: nvme: apple,nvme-ans: Add Apple A11
+To: Sven Peter <sven@kernel.org>, Nick Chan <towinchenmi@gmail.com>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, iommu@lists.linux.dev,
+ linux-nvme@lists.infradead.org
+References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
+ <20250818-t8015-nvme-v2-6-65648cd189e0@gmail.com>
+ <20250819-polite-papaya-catfish-1a9d1a@kuoka>
+ <8ac418ae-7ff0-4d5c-9f11-c24e36618ac1@kernel.org>
+ <b3cd1b3f-fa0e-4a98-84c7-e4271f262795@kernel.org>
+ <8279536d-c4f4-477a-9823-3e7b452c3c33@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <8279536d-c4f4-477a-9823-3e7b452c3c33@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 07 Jul 2025 21:33:13 +0200
-"Danilo Krummrich" <dakr@kernel.org> wrote:
+On 21/08/2025 12:25, Sven Peter wrote:
+> 
+> 
+> 1) For situations like this one where the generic one just doesn't make 
+> any sense we deprecate "apple,nvme-ans2" in the binding and use
+> "apple,t8103-nvme-ans2" as the fallback instead, i.e. just
+> "apple,t8103-nvme-ans2" for M1, "apple,t6000-nvme-ans2", 
+> "apple,t8103-nvme-ans2" for M1 Pro, and just "apple,t8015-nvme-ans2" for 
+> A11.
+> 
+> We keep the generic one in the driver for now but also add
+> "apple,t8103-nvme-ans2". We then remove the generic one from all 
+> upstream DTS files but keep it inside the downstream files we ship to 
+> users for now to avoid pain with kernel upgrades/downgrades.
+> A year or two from now we can then delete the deprecated generic 
+> compatibles everywhere. This all has to be synced with OpenBSD and 
+> u-boot as well since both also use these bindings.
+> It's gonna be rather painful but this would clean up the entire mess.
+> 
+> 
+> 2) We keep using the ones that are already upstream and just accept that 
+> the situation is a mess and add comment above all the bindings that we 
+> messed up and that this should not be used as pattern.
+> In this case that means it'll just be "apple,t8015-nvme-ans2" for A11 
+> without any fallback and we keep everything else the way it is.
+> 
+> I prefer option (2) but if you really want to get rid of all this mess 
 
-> On Mon Jul 7, 2025 at 7:04 PM CEST, Caterina Shablia wrote:
-> > From: Asahi Lina <lina+kernel@asahilina.net>
-> >
-> > To be able to support "fake sparse" mappings without relying on GPU page
-> > fault handling, drivers may need to create large (e.g. 4GiB) mappings of
-> > the same page repeatedly (or same range of pages). Doing this through
-> > individual mappings would be very wasteful. This can be handled better
-> > by using a flag on map creation, but to do it safely, drm_gpuvm needs to
-> > be aware of this special case.
-> >
-> > Add a flag that signals that a given mapping is a page mapping, which is
-> > repeated all over the entire requested VA range. This tweaks the
-> > sm_map() logic to treat the GEM offsets differently when mappings are
-> > a repeated ones so they are not incremented as they would be with regular
-> > mappings.
-> >
-> > The size of the GEM portion to repeat is passed through
-> > drm_gpuva::gem::range. Most of the time it will be a page size, but
-> > it can be bigger as long as it's less that drm_gpuva::va::range, and
-> > drm_gpuva::gem::range is a multiple of drm_gpuva::va::range.  
-> 
-> Should be "as long as it's less that drm_gpuva::va::range, and
-> drm_gpuva::va::range is a multiple of  drm_gpuva::gem::range".
-> 
-> I also think this feature deserves its own section in the global GPUVM
-> documentation -- please add a corresponding paragraph.
 
-Sure.
+I also prefer option (2). That's the least disruptive option for users
+and inconsistency in bindings naming is just inconsistency, no big deal.
+You just need to remember not to grow the old items/pattern with generic
+compatible.
 
-> 
-> > +static int check_map_req(struct drm_gpuvm *gpuvm,  
-> 
-> Let's call this validate_map_request().
-
-I can do that, sure.
-
-> 
-> > +			 const struct drm_gpuvm_map_req *req)
-> > +{
-> > +	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req->va.addr, req->va.range)))
-> > +		return -EINVAL;
-> > +
-> > +	if (req->flags & DRM_GPUVA_REPEAT) {
-> > +		u64 va_range = req->va.range;
-> > +
-> > +		/* For a repeated mapping, GEM range must be > 0
-> > +		 * and a multiple of the VA range.
-> > +		 */
-> > +		if (unlikely(!req->gem.range ||
-> > +			     va_range < req->gem.range ||
-> > +			     do_div(va_range, req->gem.range)))
-> > +			return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int
-> >  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  		   const struct drm_gpuvm_ops *ops, void *priv,
-> > @@ -2137,6 +2179,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  	struct drm_gpuva reqva = {
-> >  		.va.addr = req->va.addr,
-> >  		.va.range = req->va.range,
-> > +		.gem.range = req->gem.range,
-> >  		.gem.offset = req->gem.offset,
-> >  		.gem.obj = req->gem.obj,
-> >  		.flags = req->flags,
-> > @@ -2144,7 +2187,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  	u64 req_end = req->va.addr + req->va.range;
-> >  	int ret;
-> >  
-> > -	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req->va.addr, req->va.range)))
-> > +	ret = check_map_req(gpuvm, req);
-> > +	if (unlikely(ret))
-> >  		return -EINVAL;
-> >  
-> >  	drm_gpuvm_for_each_va_range_safe(va, next, gpuvm, req->va.addr, req_end) {
-> > @@ -2175,7 +2219,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  					.va.addr = req_end,
-> >  					.va.range = range - req->va.range,
-> >  					.gem.obj = obj,
-> > -					.gem.offset = offset + req->va.range,
-> > +					.gem.range = va->gem.range,
-> > +					.gem.offset = offset,  
-> 
-> Why change this from offset + req->va.range to just offset?
-
-This is conditionally updated if DRM_GPUVA_REPEAT is not set further
-down, because we don't want to move the GEM offset if the mapped portion
-is repeated.
-
-> 
-> Same for similar other changes below.
-> 
-> Also it seems that we need to update the documentation which shows all potential
-> cases when calling __drm_gpuvm_sm_map() [1].
-
-Yep, will do.
-
-> 
-> [1] https://docs.kernel.org/gpu/drm-mm.html#split-and-merge
-> 
-> >  					.flags = va->flags,
-> >  				};
-> >  				struct drm_gpuva_op_unmap u = {
-> > @@ -2183,6 +2228,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  					.keep = merge,
-> >  				};
-> >  
-> > +				if (!(va->flags & DRM_GPUVA_REPEAT))
-> > +					n.gem.offset += req->va.range;
-> > +
-> >  				ret = op_remap_cb(ops, priv, NULL, &n, &u);
-> >  				if (ret)
-> >  					return ret;
-> > @@ -2194,6 +2242,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  				.va.addr = addr,
-> >  				.va.range = ls_range,
-> >  				.gem.obj = obj,
-> > +				.gem.range = va->gem.range,
-> >  				.gem.offset = offset,
-> >  				.flags = va->flags,
-> >  			};
-> > @@ -2220,11 +2269,14 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  					.va.addr = req_end,
-> >  					.va.range = end - req_end,
-> >  					.gem.obj = obj,
-> > -					.gem.offset = offset + ls_range +
-> > -						      req->va.range,
-> > +					.gem.range = va->gem.range,
-> > +					.gem.offset = offset,
-> >  					.flags = va->flags,
-> >  				};
-> >  
-> > +				if (!(va->flags & DRM_GPUVA_REPEAT))
-> > +					n.gem.offset += ls_range + req->va.range;
-> > +
-> >  				ret = op_remap_cb(ops, priv, &p, &n, &u);
-> >  				if (ret)
-> >  					return ret;
-> > @@ -2250,7 +2302,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  					.va.addr = req_end,
-> >  					.va.range = end - req_end,
-> >  					.gem.obj = obj,
-> > -					.gem.offset = offset + req_end - addr,
-> > +					.gem.range = va->gem.range,
-> > +					.gem.offset = offset,
-> >  					.flags = va->flags,
-> >  				};
-> >  				struct drm_gpuva_op_unmap u = {
-> > @@ -2258,6 +2311,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  					.keep = merge,
-> >  				};
-> >  
-> > +				if (!(va->flags & DRM_GPUVA_REPEAT))
-> > +					n.gem.offset += req_end - addr;
-> > +
-> >  				ret = op_remap_cb(ops, priv, NULL, &n, &u);
-> >  				if (ret)
-> >  					return ret;
-> > @@ -2294,6 +2350,7 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
-> >  			prev.va.addr = addr;
-> >  			prev.va.range = req_addr - addr;
-> >  			prev.gem.obj = obj;
-> > +			prev.gem.range = va->gem.range;
-> >  			prev.gem.offset = offset;
-> >  			prev.flags = va->flags;
-> >  
-> > @@ -2304,7 +2361,10 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
-> >  			next.va.addr = req_end;
-> >  			next.va.range = end - req_end;
-> >  			next.gem.obj = obj;
-> > -			next.gem.offset = offset + (req_end - addr);
-> > +			prev.gem.range = va->gem.range;
-> > +			next.gem.offset = offset;
-> > +			if (!(va->flags & DRM_GPUVA_REPEAT))
-> > +				next.gem.offset += req_end - addr;
-> >  			next.flags = va->flags;
-> >  
-> >  			next_split = true;
-> > diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> > index f77a89e791f1..629e8508f99f 100644
-> > --- a/include/drm/drm_gpuvm.h
-> > +++ b/include/drm/drm_gpuvm.h
-> > @@ -56,10 +56,19 @@ enum drm_gpuva_flags {
-> >  	 */
-> >  	DRM_GPUVA_SPARSE = (1 << 1),
-> >  
-> > +	/**
-> > +	 * @DRM_GPUVA_REPEAT:
-> > +	 *
-> > +	 * Flag indicating that the &drm_gpuva is a mapping of a GEM
-> > +	 * portion repeated multiple times to fill the virtual address  
-> 
-> "of a GEM object with a certain range that is repeated multiple times to ..."
-
+Best regards,
+Krzysztof
