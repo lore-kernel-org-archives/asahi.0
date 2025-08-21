@@ -1,124 +1,253 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D49215798
-	for <asahi@lists.linux.dev>; Thu, 21 Aug 2025 10:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC423054D7
+	for <asahi@lists.linux.dev>; Thu, 21 Aug 2025 11:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755772290; cv=none; b=eFA6BsJ3R0zmFAgkYUqkx1QnxQN2LTp21IFwAUvBaJ+fK8vVjceU/MaCuSZhiIrDLT33uOAt90Aof0uitVyPHIVlHhYytficR/snmxbgT5J43JvMaz7ZVsRPhRMf0x5Jn/GsbsFIvXSzsALx535i8jaZZocRqjJwNY32qzHO2lQ=
+	t=1755776229; cv=none; b=d5FsLEpHae/JHZcI3z7gdRvGGibNi7DQ54McyVimLeTvQi1JcSyrq5EdLn61BZ64OChHcqANJE4BDiphAr3S3SInnhHzc69lz0FvmDuwLz9qDOJE9uwD0T5OWdX487wcG366Qi1+sInhkFX1nhhzbDf5MvO/G8dwoCjg53CiG6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755772290; c=relaxed/simple;
-	bh=L2n256knK+5dIW7WpN0KI9rFJ2kkJpRTU1MxJYBy+A8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i3GnnvDTtVZMDOM/5pZiSueGUeKIoRBFv6cTz++hOC9r2DfulD0eC12o/RccmZDRX9JJJvK/TZME0PZK2/TSjtqjb0f+7A3gd/T0BH1weVcglzW5ZLFSrqI6VrrnVgoFe5J3Hebtcd/8qwhnapD/b/PZbP9/1zNdInJiZkW6oCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=j686JQrA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ELkRK+/u; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1755776229; c=relaxed/simple;
+	bh=vTIYuqFFI4lufFZfI23A07GetKlFA8GCweCd9qK6Ro0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sZd8x/p7LfaOH6kEnByijVHwIOqbn5EVzQdjGOSSx/w+c+0J0vZ8tuHdFkxWbdv9LQkAkvyNrFjuXRPWbpsgbqrS/hnoam/6GeV7IyPy8YemMkwpi98Mf69d0NueIBA23Xj6DA2sxI1VthXoaTtg81gHBcDg+8lW2EL+igUD+tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=XuDbmp0P; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="j686JQrA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ELkRK+/u"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 1EFD614000F8;
-	Thu, 21 Aug 2025 06:31:28 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Thu, 21 Aug 2025 06:31:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1755772288; x=1755858688; bh=PXKKI4OnXo
-	7t/YcWii3j+mJxOzhErP8TYu8TKKt71MY=; b=j686JQrAisvABfKcShupGMSwRS
-	br5RiBNpoR/5x/WdLoCsWaE/jZbUCa0bdiMZoP8mQfbjnZSrZngUR+0xsK/+9R90
-	wnNIQ3oqulZFKR90W+jPHHkKqgzBvI/HnfCYpuvSEe2jqKDyV4lpfOEyuNL2/qr3
-	C/w+alqMrRgqk7sRvi9VkQCqta3F/Z/ahkvTKfTY45NAFdRGqovXJ46Vbz6VZNRn
-	ojUgTKpF8k56vFEsN71kcY02sYT0YEhkuM6BnJeREhrM1EHAUnlVsvhw88vB9H+T
-	hUBojEAjlrZNpJNx4a2X3tdTOsQ1P/jXvbw9JhHVnuNBMIVXtkNxrnCMz8DA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1755772288; x=1755858688; bh=PXKKI4OnXo7t/YcWii3j+mJxOzhErP8TYu8
-	TKKt71MY=; b=ELkRK+/u7cZsOZClFlftg0BLd8LFmFzLPKpEarwFmg1S5qlVmXP
-	jCnWIQsQ5re3AlrADDTlfDvvLq2lUbhkEUZY8VYwX95WNmJNloY7bJNEcaUTKPwR
-	hvJYt2js+Up/64jJdK7jlgapUVrbM547UZbXiXO3hob5/jHiqlYJj304p6fS7tZa
-	cmXKKPhmxQqubAcI49zWX9GTg14F3dhRreEivjNtCxAmvSJfnr/10nVk11BflRsJ
-	SVZQAPqPqMmxwbYQrhl3/c7PjwtCjB/zivyn3wL460o1TZGfJnq93VlvuaDc9WcL
-	XJ3vmupyXBkw7cBrVya/IYk+qkPGIIhmR5Q==
-X-ME-Sender: <xms:f_WmaHZb7-9Xi55LSqFbgdhaZxNCe8RPzgyDMEu0jh5xKUPhpzohdQ>
-    <xme:f_WmaMUWzlarwwy7d5hhkGAqOeqsIStx-YHGL1kqb1sb6CIrECYpVUREYXPZLa55O
-    ZNnnEB35t7ltJFqhwY>
-X-ME-Received: <xmr:f_WmaHFPPlcnIyX62t4Lg-Sv5v2kWxUDHwpPgd3_PQZmi_JGfy2q9ZWSwJWE4OPHLwuDslf9D0t_Vplq-ccysQyfBjRBDmJz8-0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduiedutddtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
-    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
-    shhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
-    drnhgvthdpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdp
-    rhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehkrhiikhdoug
-    htsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepkhgvthhtvghnihhssehophgvnhgsshgurdhorhhgpdhrtg
-    hpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoheprghsrghhihes
-    lhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:f_WmaOZj_fNrTtNvP0lOwNRNBC3qfZShIW1IjIFRoj0EzONnzKcrKg>
-    <xmx:f_WmaOF4ViS7Ns38LIbqcmqU-JXKpiAsrjJ6_rS2y6kMC9jm3NcBDg>
-    <xmx:f_WmaM2AxTDvLAgkj7is4jeLWe8gIPYp0c71bcBG4rkGeM5R2l-MhA>
-    <xmx:f_WmaKz4kVZWeMZGdnwhZPLVprAZ9p-TB9-8cpNELntu2Z2ChhqsdQ>
-    <xmx:gPWmaHJIvsyYvtbRZcgHsJBj1t34ZPnZbGKcUktHp4tQA-6YcPP_M_2M>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 Aug 2025 06:31:27 -0400 (EDT)
-Date: Thu, 21 Aug 2025 12:31:26 +0200
-From: Janne Grunau <j@jannau.net>
-To: Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] dt-bindings: arm: apple: Add t8112 j415 compatible
-Message-ID: <20250821103126.GD1270980@robin.jannau.net>
-References: <20250813-apple-dt-sync-6-17-v1-0-209f15d10aa0@jannau.net>
- <20250813-apple-dt-sync-6-17-v1-4-209f15d10aa0@jannau.net>
- <20250820190708.GA538860-robh@kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XuDbmp0P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1755776225;
+	bh=vTIYuqFFI4lufFZfI23A07GetKlFA8GCweCd9qK6Ro0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XuDbmp0PP5xX0tZW7+Mbj0yv6W+PwUq5hd7UoOaCmWS9ADwhLPFD6qfKWbXCa288J
+	 teGG1gjZW4wCb9yXtIjjal6au7K+WjHWEujL07gB6ILVMB1zz4JSdcCT4u+nbSxSLR
+	 hEYuxGX8uQCljyW7zOIoppotCG67ajl9llCITO8jIr9dQRaOeFYdFJldcrY0uS07X7
+	 mVzkxhHKy4BgNqd2HR/UO5Fg8qRK7Ms6T1o092SiM5J4Nhlh1sRQ3wuv/KVvwgJfgr
+	 HKg3Wv+TYlORHLF5KW7kagiAWgQPlaj7NtQ5sBJbEPhjKfs1JzPqmkV0B4xP5rdkHr
+	 9ahW0JG6F3moQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id EA87217E0DE3;
+	Thu, 21 Aug 2025 13:37:04 +0200 (CEST)
+Date: Thu, 21 Aug 2025 13:36:59 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Caterina Shablia <caterina.shablia@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Liviu Dudau
+ <liviu.dudau@arm.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
+ =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, asahi@lists.linux.dev, Asahi Lina
+ <lina@asahilina.net>
+Subject: Re: [PATCH v4 1/7] drm/panthor: Add support for atomic page table
+ updates
+Message-ID: <20250821133659.5e7d0cd2@fedora>
+In-Reply-To: <d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com>
+References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
+	<20250707170442.1437009-2-caterina.shablia@collabora.com>
+	<d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250820190708.GA538860-robh@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 20, 2025 at 02:07:08PM -0500, Rob Herring wrote:
-> On Wed, Aug 13, 2025 at 11:53:36AM +0200, Janne Grunau wrote:
-> > This adds the "apple,j415" (MacBook Air (15-inch, M2, 2023) to the
-> > apple,t8112 platform.
+On Fri, 11 Jul 2025 14:30:21 +0100
+Steven Price <steven.price@arm.com> wrote:
+
+> On 07/07/2025 18:04, Caterina Shablia wrote:
+> > From: Boris Brezillon <boris.brezillon@collabora.com>
 > > 
-> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > Move the lock/flush_mem operations around the gpuvm_sm_map() calls so
+> > we can implement true atomic page updates, where any access in the
+> > locked range done by the GPU has to wait for the page table updates
+> > to land before proceeding.
+> > 
+> > This is needed for vkQueueBindSparse(), so we can replace the dummy
+> > page mapped over the entire object by actual BO backed pages in an atomic
+> > way.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
 > > ---
-> >  Documentation/devicetree/bindings/arm/apple.yaml | 2 ++
-> >  1 file changed, 2 insertions(+)
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 65 +++++++++++++++++++++++++--
+> >  1 file changed, 62 insertions(+), 3 deletions(-)
 > > 
-> > diff --git a/Documentation/devicetree/bindings/arm/apple.yaml b/Documentation/devicetree/bindings/arm/apple.yaml
-> > index da60e9de1cfbd0151e973c3aafba6d0880fc21aa..3b90b5df60507b245de387de104a4e64f234139a 100644
-> > --- a/Documentation/devicetree/bindings/arm/apple.yaml
-> > +++ b/Documentation/devicetree/bindings/arm/apple.yaml
-> > @@ -93,6 +93,7 @@ description: |
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index b39ea6acc6a9..9caaba03c5eb 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -387,6 +387,15 @@ struct panthor_vm {
+> >  	 * flagged as faulty as a result.
+> >  	 */
+> >  	bool unhandled_fault;
+> > +
+> > +	/** @locked_region: Information about the currently locked region currently. */
+> > +	struct {
+> > +		/** @locked_region.start: Start of the locked region. */
+> > +		u64 start;
+> > +
+> > +		/** @locked_region.size: Size of the locked region. */
+> > +		u64 size;
+> > +	} locked_region;
+> >  };
 > >  
-> >    - MacBook Air (M2, 2022)
-> >    - MacBook Pro (13-inch, M2, 2022)
-> > +  - MacBook Pro (15-inch, M2, 2023)
+> >  /**
+> > @@ -775,6 +784,10 @@ int panthor_vm_active(struct panthor_vm *vm)
+> >  	}
+> >  
+> >  	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
+> > +	if (!ret && vm->locked_region.size) {
+> > +		lock_region(ptdev, vm->as.id, vm->locked_region.start, vm->locked_region.size);
+> > +		ret = wait_ready(ptdev, vm->as.id);
+> > +	}  
 > 
-> s/Pro/Air/?
+> Do we need to do this? It seems odd to restore a MMU context and
+> immediately set a lock region. Is there a good reason we can't just
+> WARN_ON if there's a lock region set in panthor_vm_idle()?
+> 
+> I think we need to briefly take vm->op_lock to ensure synchronisation
+> but that doesn't seem a big issue. Or perhaps there's a good reason that
+> I'm missing?
 
-yes, thanks. changed moved the added entry below "MacBook Air (M2, 2022)"
+Hm, I wish I had written a big fat comment along this change, because
+indeed, it seems simpler to take the op_lock to ensure any in-flight PT
+update is flushed before we make the AS active, and I definitely don't
+remember why I didn't do that. Could be some locking order inversion of
+some sort between the slot lock, or maybe I overthought this at the
+time. In any case, it looks like it's worth a try.
 
-Janne
+> 
+> >  
+> >  out_make_active:
+> >  	if (!ret) {
+> > @@ -902,6 +915,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+> >  	struct io_pgtable_ops *ops = vm->pgtbl_ops;
+> >  	u64 offset = 0;
+> >  
+> > +	drm_WARN_ON(&ptdev->base,
+> > +		    (iova < vm->locked_region.start) ||
+> > +		    (iova + size > vm->locked_region.start + vm->locked_region.size));
+> >  	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm->as.id, iova, size);
+> >  
+> >  	while (offset < size) {
+> > @@ -915,13 +931,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+> >  				iova + offset + unmapped_sz,
+> >  				iova + offset + pgsize * pgcount,
+> >  				iova, iova + size);
+> > -			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
+> >  			return  -EINVAL;
+> >  		}
+> >  		offset += unmapped_sz;
+> >  	}
+> >  
+> > -	return panthor_vm_flush_range(vm, iova, size);
+> > +	return 0;
+> >  }
+> >  
+> >  static int
+> > @@ -938,6 +953,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+> >  	if (!size)
+> >  		return 0;
+> >  
+> > +	drm_WARN_ON(&ptdev->base,
+> > +		    (iova < vm->locked_region.start) ||
+> > +		    (iova + size > vm->locked_region.start + vm->locked_region.size));
+> > +
+> >  	for_each_sgtable_dma_sg(sgt, sgl, count) {
+> >  		dma_addr_t paddr = sg_dma_address(sgl);
+> >  		size_t len = sg_dma_len(sgl);
+> > @@ -985,7 +1004,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+> >  		offset = 0;
+> >  	}
+> >  
+> > -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
+> > +	return 0;
+> >  }
+> >  
+> >  static int flags_to_prot(u32 flags)
+> > @@ -1654,6 +1673,38 @@ static const char *access_type_name(struct panthor_device *ptdev,
+> >  	}
+> >  }
+> >  
+> > +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
+> > +{
+> > +	struct panthor_device *ptdev = vm->ptdev;
+> > +	int ret = 0;
+> > +
+> > +	mutex_lock(&ptdev->mmu->as.slots_lock);
+> > +	drm_WARN_ON(&ptdev->base, vm->locked_region.start || vm->locked_region.size);
+> > +	vm->locked_region.start = start;
+> > +	vm->locked_region.size = size;
+> > +	if (vm->as.id >= 0) {
+> > +		lock_region(ptdev, vm->as.id, start, size);
+> > +		ret = wait_ready(ptdev, vm->as.id);
+> > +	}
+> > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void panthor_vm_unlock_region(struct panthor_vm *vm)
+> > +{
+> > +	struct panthor_device *ptdev = vm->ptdev;
+> > +
+> > +	mutex_lock(&ptdev->mmu->as.slots_lock);
+> > +	if (vm->as.id >= 0) {
+> > +		write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
+> > +		drm_WARN_ON(&ptdev->base, wait_ready(ptdev, vm->as.id));
+> > +	}
+> > +	vm->locked_region.start = 0;
+> > +	vm->locked_region.size = 0;
+> > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> > +}  
+> 
+> Do we need to include a drm_dev_enter() somewhere here? I note that
+> panthor_vm_flush_range() has one and you've effectively replaced that
+> code with the above.
+> 
+> Thanks,
+> Steve
+> 
+> > +
+> >  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> >  {
+> >  	bool has_unhandled_faults = false;
+> > @@ -2179,6 +2230,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+> >  
+> >  	mutex_lock(&vm->op_lock);
+> >  	vm->op_ctx = op;
+> > +
+> > +	ret = panthor_vm_lock_region(vm, op->va.addr, op->va.range);
+> > +	if (ret)
+> > +		goto out;
+> > +
+> >  	switch (op_type) {
+> >  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
+> >  		if (vm->unusable) {
+> > @@ -2199,6 +2255,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+> >  		break;
+> >  	}
+> >  
+> > +	panthor_vm_unlock_region(vm);
+> > +
+> > +out:
+> >  	if (ret && flag_vm_unusable_on_failure)
+> >  		vm->unusable = true;
+> >    
+> 
+
