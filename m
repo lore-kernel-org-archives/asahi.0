@@ -1,161 +1,298 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD614283FD3;
-	Thu, 21 Aug 2025 15:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08CA2E0405
+	for <asahi@lists.linux.dev>; Thu, 21 Aug 2025 16:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755791895; cv=none; b=ggvHTrX0v5n5/kKAurcFpfOI8zm3zwoE854kdnYbUL9+mnA9jIwdCQeuVOK8GnYRR/f3z4+unLDObXYDBZMeu2VpH6sh/VrNB1Q1Q641ywRZiswIv23T+nom8TJtK00PONqeO0BVECvwY1VfyuLk9fjKEhMCtsB6c8liiCz5Mhg=
+	t=1755794007; cv=none; b=To4TnvvtRerJQcF8OpVTYzdWLBUPZ7ch9D+DDWKBAtsjirc7LGlVHgtHsl5A+n0sO0OcLTr6k1+PcQ15qigXAU4QtfnjhMKLbVKnQU2T9TyLJw3MyOnQlgxe9aut2BCE3u9ocrmDi1UoH3t43L1o9adCnbDqK91Dry0cnH8QsoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755791895; c=relaxed/simple;
-	bh=W450nZF9q8zgSwZAzN00gO+pHroqymkBwDRdi0GaMOE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Qvb4uxqrDwLcpsbWoPg6q24+PTzPPV9KDTw8s2laXALL7tglKbf26xoMqJ9KjWEYfl/Q6i/zuzYWX5Z2Tq890JSAU6PEikj0npHyVhVwHP/51Dp5cutSR5yxzFQCZ4LMDC0Ac0A803QyeqHO4JriiJKPk1FirC1uJ+gMqGsKznI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gwBJa4/J; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755794007; c=relaxed/simple;
+	bh=9o7K2oRkJ7uECcYLWLfQEr0rutUleUHG+qmIZqoxHQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lj3YIGzMrLp8vs/EzW9NLZirA+AEK3qYyqKO96VHHXOEXXJs9vxJa179viA/z5wiT5AnB2xoE3osAQ7oOUlzMCHrWYZLTgHQ0+pnY/gDgz9vneeJjH7Jf9i99oLc4rERGOJCZf8zvHVymSjxL+nFH6svOIKGaWAbqN5ZmM7Fvf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=o4O53yF+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=USZ+a7ET; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gwBJa4/J"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-76e4f2e4c40so1153350b3a.2;
-        Thu, 21 Aug 2025 08:58:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755791893; x=1756396693; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F9SU02hcw6WNKVO382VnK0doOc9DExiucOzxMaULtIk=;
-        b=gwBJa4/JtS7Zb/sFWlwlGAFjfMx5Rek1t/LpbF2NJ83nPTCsA5Clu/bB/ogAKo05SU
-         RYrB3BZIl6OzCDd1JXWM01fvp28lj/moOyChM7PrBq+9oKwg4LNqwvm88Y+QgaLkeOBw
-         f7yNOwABq1XhJB1ZNd3GwGHQPJmuY9wsrshBnIogd1r/HSH7vps1MdI5BoI/FzETdLLG
-         HCBrUez3G+65UKV73mq/b1s/imBzvVFBtw+2rGjiGlP7KF/EQYzsc6WU7YKXVS4veINU
-         pdqqBX4mpauNyuzKDb3hrgPu24iEtxkFb4NGWu5bLOIA6DelrdO2YGNy9mDqBXwwlDbZ
-         3Kbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755791893; x=1756396693;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F9SU02hcw6WNKVO382VnK0doOc9DExiucOzxMaULtIk=;
-        b=BzeOyOwOwFcSCRmlKJxWTIYhMMeLC20ZSgj2nCHGVgdMhOEg3h+LF+XAMD4UolXie4
-         cwKcJbY/KHzAjyzD6MRmtNIbK4vAu+RVth6fLlNJhTXE9v60IVAoiHLdtnsEYDnwdMaj
-         NMwnui3EueTuyHnb7vYSswT6dGG8xrWOZMkmN69ybG8cFLgT1ztUR/hxy9VyI16YvBAv
-         QrZTPt55/DVgM1+MXww8yJUFg1OH1IKTypp5bmsI/5vfNLFT7mzcTc4owBDLU8YcpVZM
-         6PNKqE2AqS+nSnb/7FFd7cB+YUpXPCdGoKNjcqTnpSDWDd3mmZxquvJUl/Folb9EeggI
-         UCOg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlCdvLqxQ25sFA7ZPo+4ToH3nvnmUBHGoIs08inRC/jzaHYBaStkhUy5RD19BcG5+QaBS14A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxj8L1j/mcsAAiTiJYAp4kxJzOTyRSAXWE38z4GpxgpLit+KNFw
-	jAY2p/p4MnilyAoWKDousWJN8fQodenUSZywTZrdXaQic2RbeB57p5SK+aB08p3O
-X-Gm-Gg: ASbGncvAP4BKY16TtzhtwjOE41W92Qoqc7qNXsmB8aThefujFLq5WS7EV5Hm3wi9WMJ
-	t2lx31w57vLmEAfuY24nFV96LhPc07EXq1kX/1sSa3gIh3XhqtNtKkXURia0s/V9Fs+Ix/DsNvL
-	8C/GVRx+yGzpM5dR1K0fLpaEqJNHH8+mPeExuUu4Sy1tX6YlM0MZpKqMqCRj5OGYtUzN2RAaagN
-	9DIcE7NZHyc2xBUu6jO1yqZoRBwSDj6cHGZ0gbdoen/YAkwZv42KoSMfjweNzdtykdXiLJawcdG
-	EppDKuDJvVlmzT9kqTheRgKp9Si0vEsrHn80E0nNNpitrMhUcUp/4uSy/sepa93s1ckoNXIvyjw
-	jwqLu8FtYUVxsfIItNlBgV6WfhzKVqPaFjNsWNqTNvQs9EmM=
-X-Google-Smtp-Source: AGHT+IE1q9OtVvcB7jD7CQCK6LT73Fkhhe6O1oTYoqIaF9COWn7bTSzZtptOlx0VklEzRU+W2Yg10g==
-X-Received: by 2002:a05:6a20:7d8b:b0:240:387:cee with SMTP id adf61e73a8af0-243304a2ddfmr4276481637.0.1755791892695;
-        Thu, 21 Aug 2025 08:58:12 -0700 (PDT)
-Received: from [127.0.1.1] (061092221177.ctinets.com. [61.92.221.177])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-b47640afb33sm5094320a12.38.2025.08.21.08.58.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 08:58:11 -0700 (PDT)
-From: Nick Chan <towinchenmi@gmail.com>
-Date: Thu, 21 Aug 2025 23:56:46 +0800
-Subject: [PATCH v3 9/9] arm64: dts: apple: t8015: Add NVMe nodes
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="o4O53yF+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="USZ+a7ET"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 1ED2C14002A4;
+	Thu, 21 Aug 2025 12:33:24 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 21 Aug 2025 12:33:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1755794004; x=1755880404; bh=WnhvrMRU0G
+	4sFueNvawSUGt53uKKtYRG2McTbwQb1gk=; b=o4O53yF+lXPDP0nzGjDDcYosBQ
+	K2J2DmV4gOQeFdk8HCrL7+EsaBIlbzZ99pCPA4yfDkuIcYBTDBVQD3IErkd0i9Z4
+	7hsZWwpjcCX8E+jdf3IniO7n/0wogLgrUEUaxBCvXFFsrKJ2ufUh0Mwng/mr4qyI
+	HV0E3+fO/DWynna5QAYqI14MmiEOlIIAywFwAEUcpY1D2drymaFOwPuN7mVsqddh
+	V2VzbJIWu7PzN568ByWW3QDu/f7KzXNAqiEcHsvvUdYkCaHniySvkn/NIr2vMqyY
+	k7RoXfCm6bhpXK22h+Q653vGF8Wn9rU5raSZuhyqfhRx+UQMK4dy9r3E1n3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1755794004; x=1755880404; bh=WnhvrMRU0G4sFueNvawSUGt53uKKtYRG2Mc
+	TbwQb1gk=; b=USZ+a7ET46mt/NqAtfTT80hSCq16JndAN3AsGUg15BS7AUJOYpZ
+	2zabDX95r8waba2ThKKKmMoWoTQfXyqc/CYAiT+LPdiDcVO1v6va9NvlEAhBNSgL
+	uC6UuNilVvshBwCew7jLWkU1mDUhaQEfGK7sZZYnQ88N+s2lJ7/eA1Q6N1Qei9FW
+	t3gieJZ0EW/ugtZbtPEmAczcZ/w/YhVrQvKBB3OIjC7ZIih6csGIWHimq0xP5fdj
+	8ig75d7bzrVO12qeUtXjaf1TDxDNHShX14BMhjxV44DS94JbkTSafNxc/3Aewj8s
+	9foB+FIlcgabXqPhXv25S0rn7hO26E0CCww==
+X-ME-Sender: <xms:UkqnaDpo1zdgcc3MUoykP1u5MRsaSTr0QVK4aSLHKfIoLtZI3X4IEA>
+    <xme:UkqnaMBmRgNl7WXHma0g0QJY822DxrUTSU6ED8dJk4x0Sy7tZUS92SvjD6gcXrSFK
+    MQWhzaX5n9Bc6xqIbg>
+X-ME-Received: <xmr:UkqnaMP4tVmbVk--IVeagBtMe1LcCdLalnqmTztgCZI-tFB7HU2nJ-_T-_zVcr1TJr2ReIbXkvUIysrxofzHRDrJX529GWZy5Ac>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduiedujedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
+    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpeettd
+    ehleefveduteehudeklefhhfdvheffudekkeelkeeijeejgfeljeevhefhtdenucffohhm
+    rghinhepuggvvhhitggvthhrvggvrdhorhhgpdhkvghrnhgvlhdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdr
+    nhgvthdpnhgspghrtghpthhtohepudelpdhmohguvgepshhmthhpohhuthdprhgtphhtth
+    hopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhn
+    uhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsggrlhgsih
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiifvghi
+    ghdrihhopdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepvh
+    hkohhulheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:UkqnaKCzGd7lNR73vqhqz3zUakNcVipSTIxeWaY6xlQ_y0xPglfJQQ>
+    <xmx:UkqnaK9cnQlTZFRIsxRQ0NZXZ5mXUfqIDt-WOUwKHJ8vUc3N3BH2rA>
+    <xmx:UkqnaLFkqHaQLEgb1tEXvT1vFWNr2SCbksOK3Ex11xwdfsGdHIyOTA>
+    <xmx:UkqnaBLzD6CtS6P_bX5Ek5zSBXhdtmNDdoqNeeYkNAzMGvH4W4HTdw>
+    <xmx:VEqnaEjtt7i03_bO3qzyfztIdHyrM3CKmFPT0wSwZD9jb5uJK3mMBEH3>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 Aug 2025 12:33:22 -0400 (EDT)
+Date: Thu, 21 Aug 2025 18:33:20 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sven Peter <sven@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-phy@lists.infradead.org
+Subject: Re: [PATCH RFC 03/22] dt-bindings: phy: Add Apple Type-C PHY
+Message-ID: <20250821163320.GE1270980@robin.jannau.net>
+References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
+ <20250821-atcphy-6-17-v1-3-172beda182b8@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250821-t8015-nvme-v3-9-14a4178adf68@gmail.com>
-References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
-In-Reply-To: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org, 
- Nick Chan <towinchenmi@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1720; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=W450nZF9q8zgSwZAzN00gO+pHroqymkBwDRdi0GaMOE=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBop0HVNEQSbAL3+tZjzyN2WWJPuPis7prsUJE4e
- r+/j8uvOM2JAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaKdB1QAKCRABygi3psUI
- JHtuEACKC0KzhrgUSgUD0OWXRKnND+KJS6S49TEY4jfE8wS0+7bDXXPBH2LHqwFwyEyUHh/y45R
- QBMjGqJsVuFtjLjuAqJea9McDOJOf4anhYQck9UPhKFl5+COnr9pw9/Hw9HrvMN+hjML603tkJW
- MW3sW4RscbE5AOdDH1+W3o7Ib11FaiVAnEbu+XX0IsRfOgEVCg4QdPWM/UCcaBk3FZGMS3abXGn
- r6lqK/zwO72cRcZg27mdKqnitSyjbmqBF8ojB9aGNnET/9OeyaH3tn7JSIASY1wlarATt+z3GyB
- zkuVbwthmU8wJHm3xeq2bzEdpAdRxY4qn/OY08yzrXaJKnJi+Ex0yiqW5eHXXyxWQylH62oUP//
- 3YBFV4eFtDyGy7ApLSESHfrQ5ch3m/1J21oOOR5+LB2yzcOUajZkbCK1AzgzPHb7cz6cZI8LQeJ
- 5QKjLbi7r2JRXTjlszmvxMpi/0Eq3ap3uCeV+rs3FQn/N0N4Bau3X+joy+3xKmTHGCR3GEhqGgx
- 8rRN5rSrgf/UTKqsiUq0C4XPwE5nCOvg6WczE8UW5ORdm7z3B3ls0HvvzZRJsnDL2mhYYlRQJ7z
- l+TYMXGGRm7oI5MJfKau2yTunT+RcXdSK6+6kA2NjHOcNyRxOs5UeT9TLiXcEDyZYFFJQ8fPDDG
- iFMSRxoy6aoLIKw==
-X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
- fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250821-atcphy-6-17-v1-3-172beda182b8@kernel.org>
 
-Add nodes for NVMe and associated mailbox and sart for Apple A11 SoC.
+On Thu, Aug 21, 2025 at 03:38:55PM +0000, Sven Peter wrote:
+> Apple's Type-C PHY (ATCPHY) is a PHY for USB 2.0, USB 3.x,
+> USB4/Thunderbolt, and DisplayPort connectivity found in Apple Silicon
+> SoCs.
+> 
+> The PHY handles muxing between these different protocols and also provides
+> the reset controller for the attached dwc3 USB controller.
+> 
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  .../devicetree/bindings/phy/apple,atcphy.yaml      | 210 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 211 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/apple,atcphy.yaml b/Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..eb14010557c94f313b54b528e2d4039fe540062a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+> @@ -0,0 +1,210 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/apple,atcphy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple Type-C PHY (ATCPHY)
+> +
+> +maintainers:
+> +  - Sven Peter <sven@kernel.org>
+> +
+> +description:
+> +  The Apple Type-C PHY (ATCPHY) is a PHY for USB 2.0, USB 3.x,
+> +  USB4/Thunderbolt, and DisplayPort connectivity found in Apple Silicon SoCs.
+> +
+> +  The PHY handles muxing between these different protocols and also provides the
+> +  reset controller for the attached dwc3 USB controller.
+> +
+> +  The PHY is designed for USB4 operation and does not handle individual
+> +  differential pairs as distinct DisplayPort lanes. Any reference to lane in
+> +  this binding hence refers to two differential pairs (RX and TX) as used in USB
+> +  terminology.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - apple,t6000-atcphy
+> +      - apple,t6000-atcphy-dp-only # PHY hardwired to DP-to-HDMI converter on M2 Pro MacBook
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- arch/arm64/boot/dts/apple/t8015.dtsi | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+The comment is misleading, "t6000-atcphy-dp-only" would be for M1
+Pro/Max Macbooks. M2 Pro/Max Macbooks use the same design so the
+corresponding "apple,t6020-atcphy-dp-only" compatible is missing.
+I'm not sure this is the correct design though as the HW block is
+identical to "apple,t6000-atcphy".
+I think it might be better to have either the DRM KMS driver or a
+custom DP->HDMI drm_bridge switch the mode to DP-only.
+Or atcphy could initialize itself to DP-only based on the available
+ports.
 
-diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
-index 12acf8fc8bc6bcde6b11773cadd97e9ee115f510..84acf2839fb6279dcc956e1f4cee1afa909d2f27 100644
---- a/arch/arm64/boot/dts/apple/t8015.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015.dtsi
-@@ -402,6 +402,40 @@ pinctrl_smc: pinctrl@236024000 {
- 			 */
- 			status = "disabled";
- 		};
-+
-+		ans_mbox: mbox@257008000 {
-+			compatible = "apple,t8015-asc-mailbox";
-+			reg = <0x2 0x57008000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 265 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 266 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 267 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 268 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "send-empty", "send-not-empty",
-+				"recv-empty", "recv-not-empty";
-+			#mbox-cells = <0>;
-+			power-domains = <&ps_ans2>;
-+		};
-+
-+		sart: iommu@259c50000 {
-+			compatible = "apple,t8015-sart";
-+			reg = <0x2 0x59c50000 0x0 0x10000>;
-+			power-domains = <&ps_ans2>;
-+		};
-+
-+		nvme@259cc0000 {
-+			compatible = "apple,t8015-nvme-ans2";
-+			reg = <0x2 0x59cc0000 0x0 0x40000>,
-+				<0x2 0x59d20000 0x0 0x2000>;
-+			reg-names = "nvme", "ans";
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 270 IRQ_TYPE_LEVEL_HIGH>;
-+			mboxes = <&ans_mbox>;
-+			apple,sart = <&sart>;
-+			power-domains = <&ps_ans2>, <&ps_pcie>;
-+			power-domain-names = "ans", "apcie0";
-+			resets = <&ps_ans2>;
-+		};
- 	};
- 
- 	timer {
+> +      - apple,t6020-atcphy
+> +      - apple,t8103-atcphy
+> +      - apple,t8112-atcphy
+> +
+> +  reg:
+> +    minItems: 5
+> +    maxItems: 5
+> +
+> +  reg-names:
+> +    items:
+> +      - const: core
+> +      - const: lpdptx
+> +      - const: axi2af
+> +      - const: usb2phy
+> +      - const: pipehandler
+> +
+> +  "#phy-cells":
+> +    const: 1
+> +
+> +  "#reset-cells":
+> +    const: 0
+> +
+> +  orientation-switch:
+> +    type: boolean
+> +    description:
+> +      The PHY handles swapping lanes if the Type-C connector is flipped.
+> +
+> +  mode-switch:
+> +    type: boolean
+> +    description:
+> +      The PHY handles muxing between USB 2.0, USB 3.x, USB4/Thunderbolt, and DisplayPort.
 
--- 
-2.50.1
+These two properties could be referenced from
+/schemas/usb/usb-switch.yaml, see
+https://lore.kernel.org/linux-devicetree/20250807-topic-4ln_dp_respin-v4-1-43272d6eca92@oss.qualcomm.com/
 
+> +  power-domains:
+> +    minItems: 1
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output endpoint of the PHY to the Type-C connector
+
+Not sure if it's justified to mention the hardwired DP->HDMI converter
+in 14-/16-inch Macbooks Pro here as well.
+
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Incoming endpoint from the USB3 controller
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Incoming endpoint from the DisplayPort controller
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Incoming endpoint from the USB4/Thunderbolt controller
+> +
+> +  apple,tunable-axi2af:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      AXI2AF tunables.
+> +
+> +      This array is filled with 3-tuples each containing three 32-bit values
+> +      <register offset>, <mask>, and <value> by the bootloader.
+> +      The driver will use these to configure the PHY by reading from each
+> +      register, ANDing it with <mask>, ORing it with <value>, and storing the
+> +      result back to the register.
+> +      These values slightly differ even between different chips of the same
+> +      generation and are likely calibration values determined by Apple at
+> +      manufacturing time.
+> +
+> +  apple,tunable-common:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      Common tunables required for all modes, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-fuses:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      Fuse based tunables required for all modes, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane0-usb:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      USB tunables on lane 0, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane1-usb:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      USB tunables on lane 1, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane0-cio:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      USB4/Thunderbolt ("converged IO") tunables on lane 0, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane1-cio:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      USB4/Thunderbolt ("converged IO") tunables on lane 1, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane0-dp:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      DisplayPort tunables on lane 0, see apple,tunable-axi2af for details.
+> +
+> +      Note that lane here refers to a USB RX and TX pair re-used for DisplayPort
+> +      and not to an individual DisplayPort differential lane.
+> +
+> +  apple,tunable-lane1-dp:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      DisplayPort tunables on lane 1, see apple,tunable-axi2af for details.
+> +
+> +      Note that lane here refers to a USB RX and TX pair re-used for DisplayPort
+> +      and not to an individual DisplayPort differential lane.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - "#phy-cells"
+> +  - "#reset-cells"
+> +  - orientation-switch
+> +  - mode-switch
+
+any reason not to require "ports"? This would be carried over from
+usb-switch
+
+Janne
