@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854C1222587;
-	Fri, 22 Aug 2025 07:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D5D7261B;
+	Fri, 22 Aug 2025 08:19:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755847443; cv=none; b=sQHbYyNOSt8/NylU6MXNjcGCOdsHGgDILk4nXStbYqrQMeFZBbS6XnuA5BZHI3sM+6CIQFJKfj/Z1i1G50BBJyOb64aFIdqhywoF17aVbrBe7exjImNi7NI1FINCnq/q+2dInft2UEk8e1w1BJg+bzSmRyGbtWPzyibWDbDaMc8=
+	t=1755850790; cv=none; b=DCKDB2qlt6kgrdKqVR65bkXTi4UVd0jiM8E9Aqs6x3A4IHRZqeQot33JgakrEqGeRwxg6HNTH7uW2Di6+n1XaV0Y7CB/6CBGm4zzKRbOaQYjJIANw7ghV0Sp/PqxQOo4SDrE7zEI79vS30QJQgDVJwI902i0KD01k2d7jk5CC34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755847443; c=relaxed/simple;
-	bh=WuDthur/naSlz9x9SdcEfVIvLuh26ZaWEM8NRd6Pykk=;
+	s=arc-20240116; t=1755850790; c=relaxed/simple;
+	bh=HkE8AZTiPlzHsol+TKib6yPCz1oDuxVyBqFtTZA3Btc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=khrX5SdHGhTIa/WJFP9EO992NCcte4l38TLaLaJRx5HGGDU+YsPA8+iyRCQRU0sJdhR9cOYDGcoqRMDzZ+uz74Mk4MpYNSKgjJnZkfEqZDGbcp4aN4Fo/POHyW0g/KBuwwDjVJRNTbo31dbj6QR9Rziken9Z4Zj6LIdg+31zQFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Stzro7uf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=IRU4JMJ9giTNeNY9np5P7fMiwvXQwgQyAh7TofALq6Qa9k4wvI979p4fqxXSAhQkuKs2kfl3nSdKXhmsjm3xnMMA/02ew3bZ8VrSyouZnR3ZTWS+Wod5tRUQpphRpMwHyun73EQeVmbPwXTFGD2F3IxbkRXSKg4qzCFKUK68Kzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NMpKRcVM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Stzro7uf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8F5C4CEF4;
-	Fri, 22 Aug 2025 07:24:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NMpKRcVM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64FF6C113D0;
+	Fri, 22 Aug 2025 08:19:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755847443;
-	bh=WuDthur/naSlz9x9SdcEfVIvLuh26ZaWEM8NRd6Pykk=;
+	s=k20201202; t=1755850790;
+	bh=HkE8AZTiPlzHsol+TKib6yPCz1oDuxVyBqFtTZA3Btc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Stzro7ufnPBe9angyz46enQdBWHrKwFmd9T/VQcGvILXha1ulT3tW8OKmepm4mWZj
-	 1j2TWmF3Sp0JkrV2MAOi3A28voPvdLBM/rw5MP2PZuI59lCJ4tiwEp+XNAxfgX8GYR
-	 atgzOKqF4XCDTz3v/K7fqG5c7h3pmYohSBCww0HLHGBXibjeNXehjrJpdqMiKYKcZX
-	 pMDWngELOgsdI/k+3H/6z79sqlBxIEKBsE7eE6De905l6ReWId2yH2y8IBJ14WgE2L
-	 buLW/+xWUg5qKgc4o3w+xSw1XGi1b1Loe0h8UwFYiyisucKcINC+GvSxK3nHOsdWMY
-	 2QIIWsh96WG1Q==
-Date: Fri, 22 Aug 2025 09:24:00 +0200
+	b=NMpKRcVM2avITumqfYtpR1lJyNy1YGhcacH85UaXAzpSXOttsKoYASi0FKUaU3c3Z
+	 LZHMKa+Bm/tK9LhnO2Le6hkD6TRDDCwIacrsKCKDXxIg3cHlGkfTmyiz4J+tX0OeAk
+	 +y6hEJuRDwzIELlvKjoq1Z/cI3PB+gLj+leRv87IKdhqt2q0SAY8ZI6960dHWt5gUK
+	 RySJvhreS+KKJ0IDElOiOI+xhgkPpvCHElNb4FFvdwk7IKHfAHFglep3zi7q1pPCd0
+	 eL6wJM9h5zVy8CgVKdGsLd1BYeRPNfwPbu3NlXrHrHuE8IRVt4WpZOUTBL6jv9UGHx
+	 PdKiNBgxIMILQ==
+Date: Fri, 22 Aug 2025 10:19:47 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-phy@lists.infradead.org
-Subject: Re: [PATCH RFC 02/22] dt-bindings: usb: Add Apple dwc3
-Message-ID: <20250822-banana-ferret-of-opposition-0bcfad@kuoka>
-References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
- <20250821-atcphy-6-17-v1-2-172beda182b8@kernel.org>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 6/9] dt-bindings: nvme: apple,nvme-ans: Add Apple A11
+Message-ID: <20250822-singing-boobook-from-heaven-ef5cf8@kuoka>
+References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
+ <20250821-t8015-nvme-v3-6-14a4178adf68@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -50,73 +50,18 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250821-atcphy-6-17-v1-2-172beda182b8@kernel.org>
+In-Reply-To: <20250821-t8015-nvme-v3-6-14a4178adf68@gmail.com>
 
-On Thu, Aug 21, 2025 at 03:38:54PM +0000, Sven Peter wrote:
-> +
-> +  The common content of the node is defined in snps,dwc3.yaml.
-
-Drop sentence, redundant. Schema tells that.
-
-...
-
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 2
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +unevaluatedProperties: false
-
-This goes after required.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - iommus
-> +  - resets
-> +  - power-domains
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/apple-aic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    usb@82280000 {
-> +      compatible = "apple,t8103-dwc3", "snps,dwc3";
-> +      reg = <0x82280000 0x10000>;
-> +      interrupts = <AIC_IRQ 777 IRQ_TYPE_LEVEL_HIGH>;
-> +      iommus = <&dwc3_0_dart_0 0>, <&dwc3_0_dart_1 1>;
-> +
-> +      dr_mode = "otg";
-> +      usb-role-switch;
-> +      role-switch-default-mode = "host";
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fe168477caa45799dfe07de2f54de6d6a1ce0615..0e085cb0762f765958d67be61ae0d3d773503431 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2399,6 +2399,7 @@ F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
->  F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
->  F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
->  F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-> +F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
->  F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
->  F:	arch/arm64/boot/dts/apple/
->  F:	drivers/bluetooth/hci_bcm4377.c
+On Thu, Aug 21, 2025 at 11:56:43PM +0800, Nick Chan wrote:
+> Add ANS2 NVMe bindings for Apple A11 SoC.
 > 
-> -- 
-> 2.34.1
-> 
-> 
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> ---
+>  .../devicetree/bindings/nvme/apple,nvme-ans.yaml          | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
