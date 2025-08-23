@@ -1,205 +1,175 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE032FDC37
-	for <asahi@lists.linux.dev>; Fri, 22 Aug 2025 13:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19DEF4317D
+	for <asahi@lists.linux.dev>; Sat, 23 Aug 2025 03:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755868163; cv=none; b=u36uqwSpotGHTiLvxtBQ2bDNfTlYOf3navcZTAHFTI1TkRMPnSgchthBKnO/UWVmSM5FXYEaQrG09AxJsn1AapoBlMOyNik2x12cSEpaerRgaj7U3f2hHzAWUaPBCuujtR5bLLRsxRiwThJcs1J+/8MaeTZtxcVbAcklIQQV7BE=
+	t=1755920010; cv=none; b=IgqoH4FDmIQOeGEDhw4Wq2Kj9sGnU6Pk20TrVwHAhve4cuwDkfLDQC1vFMOPRr0NuAgqv5DYvPsyUJttudeWTc229W3uHwS6F6FvxLbbNL6gtNUUdtVB3XTAUn+eNzYxQTsRLEn4GTEToqw17Dv1feI9R5c1QLfvlS/aJqozDLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755868163; c=relaxed/simple;
-	bh=O0asdK8SeOVtorPLNtX9IHFVw5PwpWz+Y/IXMS4KmCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=bopPcUvUe8Z3HQ+vQLY2rdkiyjh96RFpoPduBfjeMMmXoHSClAH0rwU4MkkoSrEX139qzJou3pKEXyxpYUPuTv8Srb2Yj/+rLOQzziVT+2Kr/Nt0ddnwyuBsVO6p4yAGOefv4c+2V997Qy7uLRyDDNOMIWN1xCzR3JER9uHmUH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O2XOgrm8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755920010; c=relaxed/simple;
+	bh=22aqXHfJ0gDrVnDDeKPXsb5+lMYTML3pkSNh2zWaRXM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Pxrh8eJwty8Vjp0C8wYSJ97xN7x4KhCX/6rUojS0GPoEMqwO+HPnoTLKB2xREJu8kHdXUkYR43wLqj+oyEsdYikZFiYcpTeJGUxiZ0IWOymMIfIPjtMpevdWKg1nVO8lXP0VvTKUITk4UMBwCtfUFeGE+lWkRXMscaZL9ahGMPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IhVahXh9; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O2XOgrm8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755868160;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a26YwWriI/cAZNSFk7MZK1EJDFmLtTh5uMUvUQRBu1c=;
-	b=O2XOgrm8cUhbjKBAjb+XSahGNMIWKJwM8IUEvTnAqwszBPk+D3irzDEPsRKEk2GsSVvjn0
-	8BVRU1mxTu5gdtNUN1aX876SqQq2Sc9KiiDPbwa37X+iNyxTB6ETsRRFLis0XXnSZSjwQB
-	ryky0b/w2FTIIx/Qa3Y/nROxq73nZbE=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-612--OhLmBUPPyeIbh0rY5OqFA-1; Fri, 22 Aug 2025 09:09:14 -0400
-X-MC-Unique: -OhLmBUPPyeIbh0rY5OqFA-1
-X-Mimecast-MFC-AGG-ID: -OhLmBUPPyeIbh0rY5OqFA_1755868153
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7e87068f8afso530492185a.3
-        for <asahi@lists.linux.dev>; Fri, 22 Aug 2025 06:09:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IhVahXh9"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b47475cf8ecso1961935a12.0
+        for <asahi@lists.linux.dev>; Fri, 22 Aug 2025 20:33:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755920008; x=1756524808; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QqumeEmO4Hx86KLVWkSoquZafUAkAj4dwVn2wF9Dw9U=;
+        b=IhVahXh9BC7hnerhkzT8PxHrhCw1VF3xW9J7aLY5+fHw5o5uad6cCgPtDeDKh/+E1U
+         iaEnB5j3afeEoSIs74FqpdbFvIlrWtBFjLSU7VSeFqcnNQQmJO1EC4MxrbOZ6WfVG2+w
+         7A1fcJSASKxr1z7cQ4fivE8hbnDCJixkVmlSK1gRyr59vRvA6UU7E0TUf077ajHpyemg
+         ljQvxASMPm6ywBgXDv7ztB8v4bGfgST5sA7p+DPN8zDk5WpzmsCJzaaI3A/GRBlhkvOx
+         U15CtOL5WbOFREmH9V3wf3aoO4I5+zRhS4SWtEQ5uwQCQC4n/WLHNGiagvEDM92Rw/Xh
+         NRJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755868153; x=1756472953;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1755920008; x=1756524808;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a26YwWriI/cAZNSFk7MZK1EJDFmLtTh5uMUvUQRBu1c=;
-        b=WZpu0YLSGXvLZTZj8sPGXwVxScu6NPQzWVYtuohhTXOPomRAyKS3CCByGWD/Okx10Z
-         /KSIJCfhKr1JJFkLPS3F6cC1TPsbT2UuQnb8pQ4EGnw0XlDSGlonpvlLJEnxeu+ueA5a
-         y626coHrAq30ezq9xWStlp0dAE03m94Vc9OgMs1mqpD1BmdkbzM27bmpsykZfav0c2NI
-         XT91JjAdxJScQZfthl4W/X6fNuktbNGis6MfXJdlcioqvG8WNKIfBdIAIJJTUdE5rA60
-         IHjZCGRv2mpyRe0Q63xp60Z8W4ZVfQfeuN9WascJRQPkTPOu9jX7oNgWUyu49AA0tovS
-         rdFA==
-X-Forwarded-Encrypted: i=1; AJvYcCX4wSi1qIp3wHOgxZ4DP7MYPtU3b7ZSbJL+v9NTGVtTi3GG9zWHoDrPFDr5XG8EfCj/Z40zqw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMN9f4fXxCIxwlyMWvzv/XLBlwVtkJff63F04Olj+wgFqDDFOJ
-	tEbegUXsGhIP2iGFozCmBZ9yuSPjsuGADE0FfP/m27YSZQG/DrkzcD6QD5JcwPThykt4QfjPGSI
-	6eDQvsH41Gj+7w2xXEfDsuML2GA3mT66RuFdVToc5UDmSxUEfkK9+TcQZ
-X-Gm-Gg: ASbGncssyNIQlPTH3KColR6C4/ePUGdaXK/94nuMUDC1i/iGAh74EujoAP9Qrjhg3RZ
-	t9mfMDxkaSWB1ZwW5EllKv+hczfUoG19THaH72oNYEK2qp/E1ZyWJkRyfY2HoEd9TUU5xFxJai7
-	B5e0o/x4+0gOWT9Oit9eF+H6C1z/H3Vela6vsX+9OAYb1Ex+04o4F03zXdS/JjT2lDj/sAB763F
-	+teE1e4hryyyiR6fhcR9Wb/7V3ECnt8kSK4dNLpH3Kt70X5p5y7MPRi/jzJ9WUAABb321ilP6MO
-	zV9Z+JFEIj0vW53UnksY9Ls0CiqJo6NMdBo+xkIe9RYjnPlkkZpRZNmyC1CAoaQvM9xo5OOfd1a
-	gqAYd+tQeI6c72rHfLMc=
-X-Received: by 2002:a05:620a:6cc2:b0:7e3:6a01:e6ba with SMTP id af79cd13be357-7ea10f538ddmr299219885a.8.1755868152181;
-        Fri, 22 Aug 2025 06:09:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEW1uvjDvOlgb0eZoGZSzJHV+ZTat1aB9dEJTqNDB/h4VuJNJ3Q109+V4G1CkIe7Ilb4zQPqA==
-X-Received: by 2002:a05:620a:6cc2:b0:7e3:6a01:e6ba with SMTP id af79cd13be357-7ea10f538ddmr299210885a.8.1755868151398;
-        Fri, 22 Aug 2025 06:09:11 -0700 (PDT)
-Received: from x1 (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87e1c9b9dsm1332247685a.70.2025.08.22.06.09.05
+        bh=QqumeEmO4Hx86KLVWkSoquZafUAkAj4dwVn2wF9Dw9U=;
+        b=BiJ5xNthUw2nMIc/A0h9j0Z23s8Vq4XUM7lKMcDUdVczaiLe4GM9Cb5M0tZTsd8iCy
+         dnGb9U+az3RJHCN7gBFTo2CBLZP1UFcQh6rcBDKqwEcRGpwKo8r87pIU3Cu1mnoZgPFT
+         zIMLZLhT1NaedboY8EhyPBLpsd+XrE3LSOuWhW149n+jplbuVhREGwKh+zKE1NAGHUSp
+         EptBGJjNaVkVlS7bT4c6jZ7dON+6Ni1H7U7Ys+8VoidInhVOij30qGP7F0FGwxFg0BKl
+         MbHBDzgxpiDxT9NbHdAAIyDtBqDqcVLPzbEnacip4VnYCbeWOErMlSLDHAGXrLUveck9
+         lTdg==
+X-Gm-Message-State: AOJu0YzIVLJDnBKi6BmvH3kbK7rM0ZjzUA7kgq47q6Dx4nuRHm9mrJhC
+	NBsGNo7d+E+Sp4TGHFIWMqQyAMHsXuq3K2vuNms4E6whqCJSd61cQ2WK
+X-Gm-Gg: ASbGncvZQAihvpZ3ikMD6tLe8StO3uW5rIow96Glh0OudTMvg8wiTqfoocCXDXC52QX
+	Q0X9RsnM7XRt+J3JidMSPFXCEKPhPjVoyRhIRquI+SKagRJeS6p49u6uqgUhX3nmoEH2qFcM2jt
+	a9tp42QrWnqh4wZaTnIPBI0bIYjjHgbh+rrZfIJ2oLT3CGb+F4SK0IANvXcX4m1H76Ave7CeC4H
+	YPyNU1UdVwGoLNt5p/mFrWkWtXBPrIHZC/FzmxRHLeTXLzEDl98xfCKeti19UYhcjS1vQao8G6F
+	KdPhT0q79hIH8as0l+KJhPQIbXdXY33hVCcAtMJYH9CeEy4rLnD6mnaqF/pPb9tmQsJm6H7ebRs
+	src+sxHSLGOFAjefE5yd+qktgLfhR/rdsfcM/nsdpn1ATdU3HaaM8spn0c06FXFArOs3lPSw0c0
+	ohmf9u3reHjArZ418kXeBF
+X-Google-Smtp-Source: AGHT+IFNO6qfKHbLRi+OpQWp6841qH14Emm/wJaX729M23KqjGDOidxlZhEBKjGLIE2PeRR5ofMyBw==
+X-Received: by 2002:a17:903:320d:b0:242:a3fc:5917 with SMTP id d9443c01a7336-2462ede290dmr67089965ad.2.1755920008250;
+        Fri, 22 Aug 2025 20:33:28 -0700 (PDT)
+Received: from setsuna.localnet (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2466887fc80sm10166575ad.124.2025.08.22.20.33.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 06:09:10 -0700 (PDT)
-Date: Fri, 22 Aug 2025 09:09:04 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daniel Palmer <daniel@thingy.jp>,
-	Romain Perier <romain.perier@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Alex Helms <alexander.helms.jy@renesas.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	sophgo@lists.linux.dev, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
-	asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Subject: Re: [PATCH 000/114] clk: convert drivers from deprecated
- round_rate() to determine_rate()
-Message-ID: <aKhr8NYhei59At0s@x1>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
- <1907e1c7-2b15-4729-8497-a7e6f0526366@kernel.org>
- <aKhVVJPEPxCoKKjI@x1>
- <4d31df9e-62c9-4988-9301-2911ff7de229@kernel.org>
+        Fri, 22 Aug 2025 20:33:27 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Jean Delvare <jdelvare@suse.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Guenter Roeck <linux@roeck-us.net>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-input@vger.kernel.org
+Subject: Re: [PATCH 4/8] hwmon: Add Apple Silicon SMC hwmon driver
+Date: Sat, 23 Aug 2025 13:33:20 +1000
+Message-ID: <5792171.kQq0lBPeGt@setsuna>
+In-Reply-To: <56e1f496-a4c7-46a5-bd74-0412c1fd7207@roeck-us.net>
+References:
+ <20250819-macsmc-subdevs-v1-0-57df6c3e5f19@gmail.com>
+ <20250819-macsmc-subdevs-v1-4-57df6c3e5f19@gmail.com>
+ <56e1f496-a4c7-46a5-bd74-0412c1fd7207@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <4d31df9e-62c9-4988-9301-2911ff7de229@kernel.org>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: NmuLAq086NxTiMloRWy43skpSyWR9-D9EG52sv45HE8_1755868153
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Aug 22, 2025 at 02:23:50PM +0200, Krzysztof Kozlowski wrote:
-> On 22/08/2025 13:32, Brian Masney wrote:
-> > 7 of the 114 patches in this series needs a v2 with a minor fix. I see
-> > several paths forward to merging this. It's ultimately up to Stephen how
-> > he wants to proceed.
-> > 
-> > - I send Stephen a PULL request with all of these patches with the minor
-> >   cleanups to the 7 patches. Depending on the timing, Stephen can merge
-> >   the other work first, and I deal with cleaning up the merge conflicts.
-> >   Or he can if he prefers to instead.
-> > 
-> > - Stephen applies everyone else's work first to his tree, and then the
-> >   good 107 patches in this series. He skips anything that doesn't apply
-> >   due to other people's work and I follow up with a smaller series.
-> 
-> Both cause cross tree merge conflicts. Anyway, please document clearly
-> the dependencies between patches.
+Hi Guenter,
 
-This series only touches drivers/clk, so it shouldn't cause any issues
-with other subsystems, unless there's a topic branch somewhere, or I'm
-missing something?
+On Wednesday, 20 August 2025 2:02:58=E2=80=AFam Australian Eastern Standard=
+ Time Guenter Roeck wrote:
+> On 8/19/25 04:47, James Calligeros wrote:
+> > +/*
+> > + * Many sensors report their data as IEEE-754 floats. No other SMC
+> > function uses + * them.
+> > + */
+> > +static int macsmc_hwmon_read_f32_scaled(struct apple_smc *smc, smc_key
+> > key, +					int *p, int scale)
+> > +{
+> > +	u32 fval;
+> > +	u64 val;
+> > +	int ret, exp;
+> > +
+> > +	ret =3D apple_smc_read_u32(smc, key, &fval);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	val =3D ((u64)((fval & FLT_MANT_MASK) | BIT(23)));
+> > +	exp =3D ((fval >> 23) & 0xff) - FLT_EXP_BIAS - FLT_MANT_BIAS;
+> > +	if (scale < 0) {
+> > +		val <<=3D 32;
+> > +		exp -=3D 32;
+> > +		val /=3D -scale;
+>=20
+> I am quiter sure that this doesn't compile on 32 bit builds.
+>=20
+I don't see why not. We're not doing any 64-bit math on pointers, so we sho=
+uld
+be safe here. Regardless, this driver depends on MFD_MACSMC, which depends =
+on
+ARCH_APPLE, which is an ARM64 platform, so this driver shouldn't be compiled
+during a 32-bit build anyway.
 
-There are some drivers under drivers/clk/ where there is an entry in the
-MAINTAINERS file that's not Stephen, although it wasn't clear to me if
-all of those people will send PULL requests to Stephen. I described on
-the cover how how the series was broken up.
 
-  - Patches 4-70 are for drivers where there is no clk submaintainer
-  - Patches 71-110 are for drivers where this is an entry in MAINTAINERS
-    (for drivers/clk)
+> > +
+> > +	ret =3D of_property_read_string(fan_node, "apple,key-id", &now);
+> > +	if (ret) {
+> > +		dev_err(dev, "apple,key-id not found in fan node!");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	ret =3D macsmc_hwmon_parse_key(dev, smc, &fan->now, now);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (!of_property_read_string(fan_node, "label", &label))
+> > +		strscpy_pad(fan->label, label, sizeof(fan->label));
+> > +	else
+> > +		strscpy_pad(fan->label, now, sizeof(fan->label));
+> > +
+> > +	fan->attrs =3D HWMON_F_LABEL | HWMON_F_INPUT;
+> > +
+> > +	ret =3D of_property_read_string(fan_node, "apple,fan-minimum", &min);
+> > +	if (ret)
+> > +		dev_warn(dev, "No minimum fan speed key for %s", fan->label);
+> > +	else {
+> > +		if (!macsmc_hwmon_parse_key(dev, smc, &fan->min, min))
+> > +			fan->attrs |=3D HWMON_F_MIN;
+>=20
+> Above the error from macsmc_hwmon_parse_key() results in an abort,
+> here the error is logged in the function and ignored.
+>=20
+> Either it is an error or it isn't. Ignoring errors is not acceptable.
+> Dumping error messages and ignoring the error is even less acceptable.
+>=20
+The only strictly required key for fan speed monitoring is apple,key-id,
+which is why it is the only one that causes an early return when parsing
+it fails. If we don't have keys in the DT for min, max, target and mode,
+then all that means is we can't enable manual fan speed control. I don't
+see how making a failure to read these keys non-blocking is unacceptable
+in this context. If this is about the dev_err print in parse_key, then
+I can just get rid of that and have the parse_key callers do it when it's
+actually a blocking error.
 
-For the clk subdirectories that had say more than 3 patches, I sent
-those off as separate patch series. The ones in this series have an
-entry in MAINTAINERS only have a few patches for each maintainer.
+Regards,
+James
 
-As for patch dependencies, patches 111 (clk/divider) and
-114 (clk/fixed-factor) should go in last. It doesn't matter the order
-everything else goes in.
 
-Brian
+
+
+
 
