@@ -1,94 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C7813B58D;
-	Sat, 23 Aug 2025 07:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78ECE4A33;
+	Sat, 23 Aug 2025 09:32:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755934138; cv=none; b=OnTRgErIOzKfi1Z23SyXJh8muWFaPunE2xmWA8QsNFuV101ud5ObmGqQKmGsII1JfPNcaVSMeX37UHCi80xN2utanQCOAZX1Cp7eVdyT03M60LatrnxkoGjiQv/lrTfZ3PwY4NVFv+g6d0UuLoKjPjxEbE2PW5+Wnr7AAS6JfPs=
+	t=1755941550; cv=none; b=jzC0F9mC0l6mW/8ZxiDocjYSNKyIwk8kcaWIJWS5Y2kclRxyIKgulk1BwfCvMwvI71kxGy5mT+YZsueGmsrU61o2sPh//ujCe4sg41wc/c8A9uCiSyTBMy543NBZjooLM7irUxSczlZPoHMa5+1xMlWG0zqkoVy9bgc677PbSEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755934138; c=relaxed/simple;
-	bh=o5ysTK5lUokkQlsJ4ZNuL632O1gJLfvxM3SuJVSpKKs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gjOvN8idBLkZ9W3AJL/no45VySnoyQR9B1IouZkfum9494iR2g+At9V3Mu+3E5D9AUmSx+Rn7eCBu2zTu5u3kN8NgTVtulv9i3tZBlqRjKe9XX6O6Ihn3O3Eowy45y9hxZhV69AarAQDTcrqgHW0jo48e1iz/ALu28oGtKQib9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ApN3htTq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755941550; c=relaxed/simple;
+	bh=+gmaRG4bCJwAnZiedCk4uT+ovE7FPGaq2RQsy9fyihM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=EMs7bwROMqY+sVejCCj18upGupFvCcM8Xnt0r3anWC/GN1meLirZeKCS13bdNwnYFN8zrwM7tW4vy4DNEwMhYDlGJOpcVshqh1q1qkFUDtEF54WGLtGPJ1G3/ifjvpiP1r99L74mJhzqaArx3j754zJWP2evx9JpgAddPCxAB/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FhjPaQhP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ApN3htTq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F7C1C4CEE7;
-	Sat, 23 Aug 2025 07:28:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FhjPaQhP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD2E1C4CEE7;
+	Sat, 23 Aug 2025 09:32:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755934137;
-	bh=o5ysTK5lUokkQlsJ4ZNuL632O1gJLfvxM3SuJVSpKKs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ApN3htTqKwvJMqTVr/MCNwfEyaqVeh/IlfKc5zg0JqC+1mN6hk4VcjlN8dA7tmtto
-	 c7lHv/c8FqgXoysYwwm3jNdh0g7s9GYopBJSVUlub/NBD+FxAGl8FWC5vsFiDb9fBQ
-	 WrZEhVcBHjveVLoRnK2yC2Sh0/+TNNJ0X4FlO7j5VXvOCFORVUUBE78m9dhPwYerab
-	 KGAjaFKOweHoEKoic6MKZUO5pyUc2fVQOhpJ0S5JXt1DVOH0oUYFCjj7wMgNIKt+wR
-	 BdW+7oaTBKfr/qk272qhgwc3E3cY3X762rKj0HlhqyLTpXm594vZ/lXy+IQPl9MTD7
-	 7qhUcDWV+ItlQ==
-From: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org
-Subject: Re: (subset) [PATCH v3 0/9] Add support ANS2 NVMe on Apple A11
-Date: Sat, 23 Aug 2025 09:28:30 +0200
-Message-Id: <175593408419.53541.12520438370584715457.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
-References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
+	s=k20201202; t=1755941549;
+	bh=+gmaRG4bCJwAnZiedCk4uT+ovE7FPGaq2RQsy9fyihM=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=FhjPaQhPe0F68Fk8Xg+5uYwyCCuS30Qb3gJ47QfVRuDzDVENxq/NbNpZI/Am7oLbf
+	 +aAUIa9Qk/rz5HZeQ2srhbwDNhMs/cz2aeDfaHpfYlAuH7f0T/JsyrArRXpNjEjjZs
+	 6pbeqYT1CrU2lWc24aBYLB5HgJbetmavjZFWWVlV2Mcu7ZPGQMPItkt/9ww1vNnILp
+	 Jp/xLMUbklEpqp3VlycKxM4hbuQXSGOR4LeFtVIWnzuKJKQZPON9fEn6hcwHiCknk9
+	 gAblSTs8LXPsE0SRQBdAECmv/RK3U3/rY8dhFXrA19yQ8eMUzUQiKYaXrJZfSFZVVf
+	 7s3OE9FSPbxdg==
+Message-ID: <0289f92d-0d18-43d2-b98a-da8bb08e9342@kernel.org>
+Date: Sat, 23 Aug 2025 11:32:23 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Sven Peter <sven@kernel.org>
+Subject: Re: [PATCH RFC 07/22] usb: dwc3: apple: Adjust vendor-specific
+ registers during init
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ Hector Martin <marcan@marcan.st>
+References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
+ <20250821-atcphy-6-17-v1-7-172beda182b8@kernel.org>
+ <20250821221832.zsn4rk7nomsbgytx@synopsys.com>
+Content-Language: en-US
+In-Reply-To: <20250821221832.zsn4rk7nomsbgytx@synopsys.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 21 Aug 2025 23:56:37 +0800, Nick Chan wrote:
-> Apple A11 SoC comes with an NVMe controller that is similar to the
-> NVMe controller in M1, but less customized. Notably, it does not
-> have NVMMU or Linear SQ.
-> 
-> The controller is wired to an older variant of the SART address filter,
-> and uses an older variant of ASC mailbox, so add support for them too.
-> 
-> [...]
+Hi Thinh,
 
-Applied to git@github.com:AsahiLinux/linux.git (apple-soc/drivers-6.18), thanks!
+On 22.08.25 00:18, Thinh Nguyen wrote:
+> For this patch, however, I'd prefer these vendor-specific settings to be
+> in their own glue driver. I can only imagine more changes will be
+> introduced in the future with this vendor. See if we can use the new
+> glue interface in glue.h (some call this the new "flatten" model) when
+> creating a glue driver.
 
-[1/9] dt-bindings: mailbox: apple,mailbox: Add ASC mailboxes on Apple A11 and T2
-      https://github.com/AsahiLinux/linux/commit/32299eb03414
-[2/9] soc: apple: mailbox: Add Apple A11 and T2 mailbox support
-      https://github.com/AsahiLinux/linux/commit/fee2e558b488
-[3/9] dt-bindings: iommu: apple,sart: Add Apple A11
-      https://github.com/AsahiLinux/linux/commit/08d37b6bdfa7
-[4/9] soc: apple: sart: Make allow flags SART version dependent
-      https://github.com/AsahiLinux/linux/commit/240893c1f5b3
-[5/9] soc: apple: sart: Add SARTv0 support
-      https://github.com/AsahiLinux/linux/commit/58b28ca2e669
+Nice, thanks! Hints like that are exactly what I was hoping for when
+I sent this RFC.
 
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
+When I originally started working on this I tried to use the 
+parent/child model but didn't really get anywhere. This flattened model 
+looks very useful though.
+
+I think I can even move some of logic from the previous commits to 
+dwc3-apple.c if I extend the glue a little bit. I'll see how that works 
+out and maybe do that for the next version then.
+
+Thanks,
+
+Sven
 
