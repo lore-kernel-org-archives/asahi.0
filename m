@@ -1,101 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1B9749C;
-	Sun, 24 Aug 2025 15:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F401320B22;
+	Mon, 25 Aug 2025 08:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756049628; cv=none; b=fQ88aEA1iY7v3uuxQpRnMCDiQ/VEVHFbSLZp5yisywlmkdStITkPcQgSm+h4PiRza7Dc0b0MbT/sahpU5/NDKcuDarYK7Z0p6fivTEqDG0cwzfqZXBjIwtT8RJtiQ1oTGmFEb2tLFvlJGGf5ETP0/+H03BZjlhiLGYsqNaCB1hY=
+	t=1756109237; cv=none; b=ObsEFE5GSXeY8KcA+W0/Z89Pty6Vb1ugx40qdMrz695+u37tr9rX0pYqynGYoVc+YtZ29IscG8XGj8H3ZmQBAGC6ygQNgX/RgIR9V/Ifoyz9PODaMPv8K6liiEd7N2EuTkr1fM5ljFyPhtp7jaMf0gYT8jrjYZLi5FVM/vYL15M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756049628; c=relaxed/simple;
-	bh=oQzQEC/j+B5UVSDuvC80FiJ+MKY+IFlYoW/dIszqcuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ewva8S1sj20RxwPyTgrjh5Do1aJwK5dLnGioTQkIr3TzV+tjYQ+w5dXPanzfHadRq/Q9/h5uDnDP4jiblZ7ZXD7N7HDy42/50RTtN+uVbRgl4e/NO6T4S/dfk5mC506Ts0V3cSCVdmMe8KIpADU3KDQqJbVshRRumlL3VYu9fxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HSnUMQ4t; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HSnUMQ4t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAC7BC4CEEB;
-	Sun, 24 Aug 2025 15:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756049627;
-	bh=oQzQEC/j+B5UVSDuvC80FiJ+MKY+IFlYoW/dIszqcuU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HSnUMQ4tlsLUIC9Waj7DTcg0C+4Q5PkV2X/ONEbyFx2fbKxd/S3t4gW3/5YBlJ6M2
-	 UaiOBj+2tBwtGm2siDG6q0+wzYRi3f3ljnCA6Ug/37/MUj3lx04md6wZrKTgskj8JN
-	 2O3YacNREIgXwcqlJKRKDMipgyBFG/eMHKD7C52ICZxZ8rnP5elIAr9uFNxDWfHHlD
-	 oGLqLFzninpwNUMcMkW16ZlHBmO2mOCihjqPZUbNShr1voctFsQ8WbBjhAc/s9+eUO
-	 qfcKyYqC5XAq1miXvOvqzDlxverCrf9L0Qc1AOU1RdfVhqbfQd6mlU1MvgKTY/80CN
-	 HhLAeT1kmlVsw==
-Message-ID: <96409a43-b3f7-4b9e-a1e8-fd0ac6503cd9@kernel.org>
-Date: Sun, 24 Aug 2025 17:33:42 +0200
+	s=arc-20240116; t=1756109237; c=relaxed/simple;
+	bh=IBIp2gvwdN7Gzu3Imd4BXP9l50KbPoLZlLKeiU+y9wQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bx37Zvm9FrJyx3zwQ7lp2rCCGAyV1eC70RF09WCC5p5Rr9x2WeTZQ0l5xzUiOL1ClYSo7Q6SURnYEr5DBFgmzYfKh/KuUHTdSVA6fAvGPSzzcyiXcbO/XyzHdYcSTrVTR3wYH+2qP0hv/i+A1NxuPvhF/HpUyHa4G1sDKluM0Xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9E63768AA6; Mon, 25 Aug 2025 10:07:10 +0200 (CEST)
+Date: Mon, 25 Aug 2025 10:07:10 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 7/9] nvme: apple: Add Apple A11 support
+Message-ID: <20250825080710.GA23193@lst.de>
+References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com> <20250821-t8015-nvme-v3-7-14a4178adf68@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 03/22] dt-bindings: phy: Add Apple Type-C PHY
-To: Rob Herring <robh@kernel.org>, Janne Grunau <j@jannau.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-phy@lists.infradead.org
-References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
- <20250821-atcphy-6-17-v1-3-172beda182b8@kernel.org>
- <20250821163320.GE1270980@robin.jannau.net>
- <CAL_JsqL=y2OT4YrzT8z0O0T2hpM5X1k2pFEb8XjBRPoNMdO5kw@mail.gmail.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <CAL_JsqL=y2OT4YrzT8z0O0T2hpM5X1k2pFEb8XjBRPoNMdO5kw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250821-t8015-nvme-v3-7-14a4178adf68@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 22.08.25 01:00, Rob Herring wrote:
-> On Thu, Aug 21, 2025 at 11:33 AM Janne Grunau <j@jannau.net> wrote:
->>
->> On Thu, Aug 21, 2025 at 03:38:55PM +0000, Sven Peter wrote:
+On Thu, Aug 21, 2025 at 11:56:44PM +0800, Nick Chan wrote:
+> +		writel(anv->hw->max_queue_depth | (anv->hw->max_queue_depth << 16),
 
-[...]
+One long line left here.
 
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - apple,t6000-atcphy
->>> +      - apple,t6000-atcphy-dp-only # PHY hardwired to DP-to-HDMI converter on M2 Pro MacBook
->>
->> The comment is misleading, "t6000-atcphy-dp-only" would be for M1
->> Pro/Max Macbooks. M2 Pro/Max Macbooks use the same design so the
->> corresponding "apple,t6020-atcphy-dp-only" compatible is missing.
->> I'm not sure this is the correct design though as the HW block is
->> identical to "apple,t6000-atcphy".
->> I think it might be better to have either the DRM KMS driver or a
->> custom DP->HDMI drm_bridge switch the mode to DP-only.
->> Or atcphy could initialize itself to DP-only based on the available
->> ports.
-> 
-> Doesn't sound like this should be a different compatible. There's a
-> 'phy-mode' property or you can define the mode in the 'phys' cells for
-> the DP controller.
+Otherwise this looks fine to me.
 
-Okay, makes sense. I'll drop the compatible.
+Do you want to merge this through the apple SOC tree?  If so:
 
-I've only found "intel,phy-mode" inside bindings/phy but we can figure 
-this out later once we actually get to upstreaming what's required for 
-DisplayPort and mostly focus on USB3 for this series.
-
-
-Thanks
-
-
-Sven
-
+Acked-by: Christoph Hellwig <hch@lst.de>
 
