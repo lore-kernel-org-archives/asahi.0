@@ -1,156 +1,139 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911DC33CE97
-	for <asahi@lists.linux.dev>; Tue, 26 Aug 2025 12:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCEC283FCB;
+	Tue, 26 Aug 2025 21:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756210206; cv=none; b=ls120xZZvd9QxpEhiv6m6e1Ct41ccqUzi3wHSzRkYTIkthHTYkNiF9gq55asmulj7EoKawXU0pxfJKX4dwZ22/C2csUpJoS8mf2/FQREH73UIoqNrBBRVAeQAHVBduDoEWqk/L6g7T1Otr45h/aCASd1TZE9vIAgxBRRO2EsueA=
+	t=1756244791; cv=none; b=TJIvkzd9l49SnUvjda73s7uSUWbFGI198hHhrcnPTfxRQ9jOIBlXHzh5LpDkuLZQXD7ztVbpL7L711mrmeVZJy5AfkDlPps4UJddrqK8jUEldhvxDWTwjLiLnDABNhN6INfCqApWNpiTaFWIFxkeRLa35pOCjYhSxyzfkPyNfqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756210206; c=relaxed/simple;
-	bh=n0GU3aHOIbzcpxdfkfvKoQ2JdbUFCoeF/xHA7QnVC2k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OW46dJVECc6e6Xn+QMxOcg2xRM9w7yMSHEkNNiy+tDb2TLnD0bWoPIBGQ+t/J95wMwRunOGqPHezYeLX2I+ExTb8tnKiXg9eGGz5SaZK9IypnezvrCH+n5TiT1sZj/m6i/EIlWlh5GvtOyExeMYRy5y4L/lzPs6e5vYYhKtL8Hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jUB+ATJl; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1756244791; c=relaxed/simple;
+	bh=wxjUVhxbok5IPGUPMxHmf/MxyRnEbApTzZPax+WoJ1s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CSoZ7TRhxA+fDRYPYUaxJ6dRYU1qXdqd9UTDlQJGO8kNVi+d8r0aBU0CIEhXRc2gVbMz8PXOrRIGoamAoptEqvpG+2URLt5etAj3wtrz1rr1DCmj8gH8jHOiCjciObCC5Mrjz3Tv/Owcjjph0mJN/NaGr55qNjuywuhrndqrDeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jUB+ATJl"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-324fb2bb099so4098828a91.3
-        for <asahi@lists.linux.dev>; Tue, 26 Aug 2025 05:10:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756210204; x=1756815004; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CLgKkUt/EORHceeO89abTN08otZovq/goeI6WeVPzj4=;
-        b=jUB+ATJl2HTcEwQcyPy4rzId61KXJHORK8AyncbVu1V0jKtGAZKvUIPmYY0FvB+J7N
-         F3yqva0Pi7Kf9EgtTfOe2vj3JAlIr5Hw+VHaajBwk882pQ4mtgiyiLYFKW6Nc0AEcT/6
-         pAMm/+Nkvwkn9uaprdn7TmZD0/dw5czR6LxbpEGYvzu1TurfYMVS12QIDhNO547BU2MJ
-         gaDA01TI9qusysu0VQnPj4WlKgE+i/E4ldnz/0CC+rga4jioNzPue0Ood7ZgnMWeIFGb
-         VAGp986x5+pwMBfRHWqYt2vXoHltOYBso+Ay63DEHZv08MGK8Rr24U+fwLTE/lTah2Ax
-         eMRg==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-afcb78ead12so853908666b.1;
+        Tue, 26 Aug 2025 14:46:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756210204; x=1756815004;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1756244787; x=1756849587;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CLgKkUt/EORHceeO89abTN08otZovq/goeI6WeVPzj4=;
-        b=T74pmbnJa9Z2V/96vNdX6z2Arx3ylNnAUOxjCleWTNyuHSJo7kpYPhNuFsNc4X5OHZ
-         YnfO4uMpBuQo5b8pFWVPVw+NXymASyzcDn2ejJjM11TEdgL5pr/8Z9KfpWSabhIoVE2n
-         6RzqUuaQR71uxDvM4ZamACtq89JQVTDbNBlQowUnTI61MDV0uRa5UnsH44JD+AYt2iBU
-         aY9vWCquTvS0/aYNDN+x7FYLfPXMMdOMoMZviHJwqQYHbgbCXKS5P4t45KYgZCj4IbK3
-         zIu67cYfQynTS0JQ/qUplelq4WM6GjW05SQaYJn891N467B1AS3M5ba6R8yralDVrY7j
-         pzMw==
-X-Gm-Message-State: AOJu0YxxwU9yb7y3bd6gocvYh3/x4+lirJeUSIGyHG2g8XrMHmowPvQq
-	Ti/fUM23uE+LTd0MaMJht1xn7bW4Rv7zBXVV6CwGw7Ur4/t7Kj+hxD2p
-X-Gm-Gg: ASbGnctcPMa7FSw1a3bGCF8G8OdKBWIQLAHL105VKEaH3xVIzpZNKOrbF6JY3rPnNv/
-	82kc6XxhUGD2ci/+fFuZ9fZfEDQZtAohbMBL1cOOLjK0veP43uGXy8QjseBgJPIOtu/390gQ2jy
-	gi0Egu/Qw4L25T0nsSiRGw0BCh0z/6zxb2y/MzbxdyB1qYdcdrw5+u9/rG4WubAEWgWO7C1eo68
-	tnf0T8113ijnGN2sJkKr+r/QM+bwDc0SHhZ4MhD2fgP1zlJartiuG0VoOV+VQukR2IjSSsN1qRP
-	DUPCl9w/BV/ST8+7jSvdGMGNYEU6dpvZUX67eJ2zZQO7+gWuUrTKpsfMNWGpexKw+fNY7e8fLu1
-	g5PnycIeFJyXfS0rrpimVhissB/c=
-X-Google-Smtp-Source: AGHT+IGWgie8ZS02lLq0YJgxOyT9OhF17cJYHT5FMDsYYjsiJPCGQK8BxGNo1tID5Q6Dk0AkG/0Bgw==
-X-Received: by 2002:a17:90b:514f:b0:324:e6ea:f959 with SMTP id 98e67ed59e1d1-32515ed12b6mr20451822a91.14.1756210203424;
-        Tue, 26 Aug 2025 05:10:03 -0700 (PDT)
-Received: from [127.0.1.1] ([59.188.211.98])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-327565d3924sm619966a91.13.2025.08.26.05.09.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 05:10:03 -0700 (PDT)
-From: Nick Chan <towinchenmi@gmail.com>
-Date: Tue, 26 Aug 2025 20:09:15 +0800
-Subject: [PATCH v5 4/4] arm64: dts: apple: t8015: Add NVMe nodes
+        bh=qlR2W8sGPsNFxVXAPLkKkhjl01WcoRvDHaUyBoigeGE=;
+        b=oMbdzMgDt11l+B3/OZHh+gD3iPzskyoaAnJG2uc8qT/ul27BNbADtixtPfv77M6OuY
+         nWBDYvVLtupkzJoS8QxVQqjFk2xsxzqkTBIu5VS9XiX8nNht0eyjXlYuQWeg1jtU+58l
+         f1Wqv6I3Bv4X0hzfiBeG1CFd5t6KxzmGSDlBVwHUTjYWi3Xqffnxj5bQsj9sWah3HRym
+         pHUo/b1XsWnGpYhYRIaEEUaPv3DjXal3xy+48WOdCWrHPP6qg+z0uveMLH9Rj0mZs2FW
+         66afoSRxdF9ldHAqyY+tgwIh5maBqLzRZHVpkhP8Tmrmz1dJONyeTGaJE+p4ecOFmUUn
+         +fKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOzD0R5QVdoBiXdeGtkijJRIvF/cOWVwZqtJ+HWTeN0VhgH4WiUXvAG6ORzBzjpBY6TUDJ82I=@lists.linux.dev, AJvYcCXX+nuw9iZV2o+qqgLqRUabs1aiIAaBkzjzSwrIMX+U4UI44dqEOuqPasKjzfnwvnGiNg0kdw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwoZTrhP+jrYZQtXDL4Yji63TkTBCMmyBOuoK8Qa2P2F8hyTpb6
+	mwqGOeWSoNtbVmCd3gJIsQqHHe1CqCTMCISAHta7uvBgbmfFXm+7t0rT1q5khrhs
+X-Gm-Gg: ASbGnctrYGs6Wq3kcA0E/McYcjSf3/km8FKuLHfkJpP5u7T5ZfE5htuI3zhtOEf8R0w
+	AMdKblPCFwibZG9lrhcDJHAIAdr4dcpbghWqiv3ZX9FbB47+TXxUV/XKujwzoumPsYmsrLX4wF2
+	m/+6vKVVs/2z1eDKrxk9w1Ug7q+2h2Y7Gs+MQxipP7OHOD9OVbpALUOYb46LNRLOvyRZPRfkLUO
+	PKafSvFzjYoJZ039YUolc49bheHCUIrkpFZhtv/Me7EiQbp9dyEp5OFeRdSwKKZo7FJ/RRIcCc/
+	qsLbvR2zV6abtH5jxfDB6HLleDdherExBDn+OmBlHVRBks92RkP5hIlfehpy/scqRT10xofZDwp
+	N3hUTy8P6VkaNJQtvxrGQ56rDgwZNb+fEaxcbvI36uq9Alx6o2CRB4URsYUEteBo6T3uhRb2GJ3
+	TbFApUKd24
+X-Google-Smtp-Source: AGHT+IEookd3THdKas8pVR5mT3NBNJLZRBzj+FUI1HrgrQo5sunDTA+McpMw2bKjYcfHrjkshTJ5eg==
+X-Received: by 2002:a17:906:f5a7:b0:afe:ad45:acf5 with SMTP id a640c23a62f3a-afead45ad78mr297050666b.34.1756244786745;
+        Tue, 26 Aug 2025 14:46:26 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe81890cd7sm497689766b.109.2025.08.26.14.46.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Aug 2025 14:46:26 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-61c4f73cfa0so5366857a12.0;
+        Tue, 26 Aug 2025 14:46:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUrFIZ3XmVUuBKS5Sb1VOY00oNRcjkv+2+1ruwlW/DEd5QLvRSvx60kDoO006GwQEV+5dazf94=@lists.linux.dev, AJvYcCXr8CKYW9H538aoY6ovhqrplEMrRVUh2ECrcCjPjWF4ZQxqgUB2jGVX3D/gBVjOnuidOMjf3A==@lists.linux.dev
+X-Received: by 2002:a05:6402:34d2:b0:61c:979a:e7a1 with SMTP id
+ 4fb4d7f45d1cf-61c979ae911mr2475028a12.16.1756244786336; Tue, 26 Aug 2025
+ 14:46:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250826-t8015-nvme-v5-4-caee6ab00144@gmail.com>
-References: <20250826-t8015-nvme-v5-0-caee6ab00144@gmail.com>
-In-Reply-To: <20250826-t8015-nvme-v5-0-caee6ab00144@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Keith Busch <kbusch@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-nvme@lists.infradead.org, Nick Chan <towinchenmi@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1720; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=n0GU3aHOIbzcpxdfkfvKoQ2JdbUFCoeF/xHA7QnVC2k=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoraQDdi3xvWrgtoq+xYU0KaEpYAJiSJed9pe6Y
- /L5WzRkEjeJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaK2kAwAKCRABygi3psUI
- JB1eD/9FRaF5x0qOcvMaYKSiP6C7NrIQ2IRtHgqkthJk9bKAJo/6jVT9USMx+2fBKj3XVOlHGd4
- B7k3kwLSivIH7/Jxmhmu8nBktrbBnan5KWHiM24HnMrNompcQOIVKpCrJFlCWdma8sysAdG1w/P
- wCI4oZr+FlHtyx4aIF2e/mqOUe2xB5YuKlcAkZJ3s6x7NdzlY7vPTFatiPFGQxnWt5D2oFgextM
- cpPFRw80SmudDzweipUKE3+XyWBq6x9Q5VHE8xz8B1vbvDYh7rdFy6zrW+Tk2Wq2UdnsC+G+B6N
- lAEUDJscdVObCSnCinkxUnqYBb7322jSRX7ew/QrgJRrZkMMgoPeiXqvyVaYRJvVgvJO8avtqKR
- 8z9KTqP805PtPTpUXsKmjUOQ+xv1bX5dKlhm9+COAwZQNU2D/5JdPqaf71T722PZNsqD5rsIvW6
- Jj7h2LBjsMq21c4EnpSN4Si+iXHUYKo4pkrS+WzIlE1KH7oeQymatyKCowleF4N2IaD/JoJ3B6u
- tTFEdXikWWk9WGngv5wQTUgYKVPuGE5YoGLRW5ZMzsjpWxwbRMgIn/gbrmzt/i8FtQQf57t7RLy
- PZuGQjW2ja7ri7RIjWULGqlcUBwH0Re7h5kta5xXw7DlnwsF1tLY3DQIx3shq7tmy23tw5oPOZr
- uKVWm1K9alCgZKA==
-X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
- fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
+References: <20250826-dart-t8110-stream-error-v1-1-e33395112014@jannau.net>
+In-Reply-To: <20250826-dart-t8110-stream-error-v1-1-e33395112014@jannau.net>
+From: Neal Gompa <neal@gompa.dev>
+Date: Tue, 26 Aug 2025 17:45:48 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je8F_n9J5aBsTBm6RgAL9DdXKTgyMNxDo_aPOR42GzGUkA@mail.gmail.com>
+X-Gm-Features: Ac12FXwA-HRfgwtoditQ_gzG_vHw6fQHNUVW4nCA0dkeveZIhrlsxxZOpuqsYBc
+Message-ID: <CAEg-Je8F_n9J5aBsTBm6RgAL9DdXKTgyMNxDo_aPOR42GzGUkA@mail.gmail.com>
+Subject: Re: [PATCH] iommu/apple-dart: Clear stream error indicator bits for
+ T8110 DARTs
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Hector Martin <marcan@marcan.st>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add nodes for NVMe and associated mailbox and sart for Apple A11 SoC.
+On Tue, Aug 26, 2025 at 6:57=E2=80=AFAM Janne Grunau <j@jannau.net> wrote:
+>
+> From: Hector Martin <marcan@marcan.st>
+>
+> These registers exist and at least on the t602x variant the IRQ only
+> clears when theses are cleared.
+>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+> I've overlooked this change for the 4 level page table / t6020 support
+> series [1]. There are no dependencies to series so this can go in on its
+> own.
+>
+> Janne
+>
+> 1: https://lore.kernel.org/asahi/20250821-apple-dart-4levels-v2-0-e39af79=
+daa37@jannau.net/
+> ---
+>  drivers/iommu/apple-dart.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+> index 190f28d76615159527649cd288df395a50d950ef..8b1272b7bb44a1ebc03ca4ddf=
+3be43a1e42c97ed 100644
+> --- a/drivers/iommu/apple-dart.c
+> +++ b/drivers/iommu/apple-dart.c
+> @@ -122,6 +122,8 @@
+>  #define DART_T8110_ERROR_ADDR_LO 0x170
+>  #define DART_T8110_ERROR_ADDR_HI 0x174
+>
+> +#define DART_T8110_ERROR_STREAMS 0x1c0
+> +
+>  #define DART_T8110_PROTECT 0x200
+>  #define DART_T8110_UNPROTECT 0x204
+>  #define DART_T8110_PROTECT_LOCK 0x208
+> @@ -1077,6 +1079,9 @@ static irqreturn_t apple_dart_t8110_irq(int irq, vo=
+id *dev)
+>                 error, stream_idx, error_code, fault_name, addr);
+>
+>         writel(error, dart->regs + DART_T8110_ERROR);
+> +       for (int i =3D 0; i < BITS_TO_U32(dart->num_streams); i++)
+> +               writel(U32_MAX, dart->regs + DART_T8110_ERROR_STREAMS + 4=
+ * i);
+> +
+>         return IRQ_HANDLED;
+>  }
+>
+>
+> ---
+> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+> change-id: 20250826-dart-t8110-stream-error-1c2bbbf4fb63
+>
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- arch/arm64/boot/dts/apple/t8015.dtsi | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+LGTM.
 
-diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
-index 12acf8fc8bc6bcde6b11773cadd97e9ee115f510..84acf2839fb6279dcc956e1f4cee1afa909d2f27 100644
---- a/arch/arm64/boot/dts/apple/t8015.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015.dtsi
-@@ -402,6 +402,40 @@ pinctrl_smc: pinctrl@236024000 {
- 			 */
- 			status = "disabled";
- 		};
-+
-+		ans_mbox: mbox@257008000 {
-+			compatible = "apple,t8015-asc-mailbox";
-+			reg = <0x2 0x57008000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 265 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 266 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 267 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 268 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "send-empty", "send-not-empty",
-+				"recv-empty", "recv-not-empty";
-+			#mbox-cells = <0>;
-+			power-domains = <&ps_ans2>;
-+		};
-+
-+		sart: iommu@259c50000 {
-+			compatible = "apple,t8015-sart";
-+			reg = <0x2 0x59c50000 0x0 0x10000>;
-+			power-domains = <&ps_ans2>;
-+		};
-+
-+		nvme@259cc0000 {
-+			compatible = "apple,t8015-nvme-ans2";
-+			reg = <0x2 0x59cc0000 0x0 0x40000>,
-+				<0x2 0x59d20000 0x0 0x2000>;
-+			reg-names = "nvme", "ans";
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 270 IRQ_TYPE_LEVEL_HIGH>;
-+			mboxes = <&ans_mbox>;
-+			apple,sart = <&sart>;
-+			power-domains = <&ps_ans2>, <&ps_pcie>;
-+			power-domain-names = "ans", "apcie0";
-+			resets = <&ps_ans2>;
-+		};
- 	};
- 
- 	timer {
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
--- 
-2.51.0
 
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
