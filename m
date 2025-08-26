@@ -1,127 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8415C1C84DE;
-	Mon, 25 Aug 2025 22:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE35629D29B;
+	Tue, 26 Aug 2025 10:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756160639; cv=none; b=f2h3spRtkn2vsEM4C4FATPE2qI+2i7hL4WKYnGFnekgNY02x1u5bALm208tB0LZGyYYtyzVo3uBl4lBH96mljotOZnyj3o31pX39IGF519w5oWkoC6ILoLGp08Lg8Pmjh0BsrXH90XUpcZnHWNEdU3sxvpGP5AQDb7pyFFvskBQ=
+	t=1756205849; cv=none; b=mHsW5cMYNIPMNmTww867ulyv66lm5s8l7Uei0zlmGpe2KQ8muztXhgXzb3UZ8x+otMZv42C8AU8E30suldNeyms8GRU8gejFovl7mNZl96cT7w28bfJ1YeY7ReEJAEWC9/yumcRpk3ukCft6lzS5w1sBXzybLHSP2orHauNE5ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756160639; c=relaxed/simple;
-	bh=C8dCcIKDdLsDA62THkA9YNFeAbhvDEtzivsFsYtysoQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tGXY5uhHHeicUivdPPkMuJbDnPrgyvl7svEWl9kH8ICjdJomHVfJWsQdDXv6b+c82gKcXuaabvWy2SETQKd8fQbmcBlyPqLVa+vknJdAaq252X0vK5iIVTqjl27m+VGmNPIa9tscd0I6/jzZMdsDtM6tWpepnhy8SKpI2ZGwxRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFrzhgcp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756205849; c=relaxed/simple;
+	bh=vqIXBBy6l7WeM+eQwbRZ36QCEnQMWRyIbe5aLB4ko/0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rRqiK0i/6w6eAjZSNPF0MKAxoGrFHDNNFHLlvJjv3+WeH3sNTggyp90NM9W8u2+N+4aOAKknMiuVLXTzyMGWXIzWDrruJTydarBMQox5i5kiU2CZBUanhJUlvvl3Cb9WBP7mA4PH7xvEn/z6Q4bwgZbpeEjxaBld8cMvrJfSyVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=va85Wh+y; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dW6dIDvP; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFrzhgcp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B2B5C4CEED;
-	Mon, 25 Aug 2025 22:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756160639;
-	bh=C8dCcIKDdLsDA62THkA9YNFeAbhvDEtzivsFsYtysoQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eFrzhgcpB4xSQ+04CnDToPC6BbaXLfZhYIA5I/BavZfky4LVkNeiBm33bKCwjfNMR
-	 7Xb6TL3pLhbQUnBSeoZywHVCHtHEMtbySuCz757jR5LLWGzGIAWc2BOMQnJKu/GTDD
-	 OqBmH7dyMmZk1RARABrqGFKsw9O9AnWfe1iHh5N4qj7JtCSjVfAJPlNBoDQzAapk03
-	 krEs+vWhYgzabnk0EG5oW4LBwfNFqc1Pw+++S7/1krPhye3Fbxfwd3gAuIyFq598JK
-	 pyPcrlbN+zCcku+7kEqoKnQ115oGGgQBsZT2rIXqlg87fc1FYNe8a8EqRPk1p8C1S+
-	 DRCnOZhIQCHAQ==
-From: Yixun Lan <dlan@kernel.org>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daniel Palmer <daniel@thingy.jp>,
-	Romain Perier <romain.perier@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Alex Helms <alexander.helms.jy@renesas.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Brian Masney <bmasney@redhat.com>
-Cc: Yixun Lan <dlan@kernel.org>,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	sophgo@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	patches@opensource.cirrus.com,
-	linux-actions@lists.infradead.org,
-	asahi@lists.linux.dev,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	soc@lists.linux.dev
-Subject: Re: (subset) [PATCH 000/114] clk: convert drivers from deprecated round_rate() to determine_rate()
-Date: Tue, 26 Aug 2025 06:23:38 +0800
-Message-ID: <175616003525.79746.16402526303339008811.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="va85Wh+y";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dW6dIDvP"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id AD2EB7A0114;
+	Tue, 26 Aug 2025 06:57:25 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Tue, 26 Aug 2025 06:57:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1756205845; x=1756292245; bh=fw
+	B+02lU1oU9CXZnCCCtUhP4HDlWfmGUMKuT8KEB068=; b=va85Wh+ysvBQIYulnu
+	CVLCgGJ0bPS2U1vq22hO1UoNViElVV+6TAnbcE8dtREnZoaoLsYoYdvd9zI7Gp6I
+	+h0WbPTGFwoQmtzjvuq78U2+tHBx8B5sHhdN0LS+fh0ubpP23HewLRbjdR9YwX+c
+	B4qd6c9SwVooGtrv578IIsgSukgiHByHQCdCb5l2DKGWYaLVhO54tLQUuk/1S0X7
+	GI/PfcP2m/bfXohHL0LW4+rXbKNzh5qjoNwrRCW/WGI7Y4mmXQ8xpXOaWyXYRpfD
+	6nttWd9Lv6PSO57hL/zfllfgvyFy8n7xNWiFFeBVEjA534GiL6H0DvLncL2mT8ru
+	T9qg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1756205845; x=1756292245; bh=fwB+02lU1oU9CXZnCCCtUhP4HDlW
+	fmGUMKuT8KEB068=; b=dW6dIDvPFMoHmNzUSWPUsW0yoNkhM1iuZrPNyJOTGY7t
+	zprvoh0ZPuBAGtzfrlKvX+zIC9yjgqA6kS0ObAS2iiTOgAhj3Btq4RBXfGOqN1ZJ
+	InE+dF9p41LsgisNC7OoV9R/xpXkVFFYtXzxWu+fgJGSwtxOsT61tbnDAHW9O9E8
+	qRzDg0o0EkL08J0kvMEaJJTD9DIF8mhYG6m87zTyIa2a028DvpVY/0uIQt9TculV
+	7bDwiEmWcG6x2Y055tUKjD+tY0L9N4uhbsfuusp82tWFUqnavWYHPVyDPLknAg5+
+	PsYAoF/FSTsPRpQ6AwiM4xhJ4RfMaiCXbYVSsptwHA==
+X-ME-Sender: <xms:E5OtaEjotktW0NPsBmRR-kLRNe0I7Ta6Io-8lw3REZoKGXDwDgSGRQ>
+    <xme:E5OtaC-44aDJbK2vP7MKcwenLzsTSWEoEbjTtUESASot52xkONhg7zVlgs44Y1E5x
+    ADIFZ-AN30GD6KBE8g>
+X-ME-Received: <xmr:E5OtaJNFVz62-EirZkhI7TK2DCv342zDJTqVGjEcaz4UIC71iuvvqUI1zlxEFLsh4BotMCIWqq56JVOI7pr9NcU5iI4Z0g3T6Gni_Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddujeehtdelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfeehle
+    dtheefteejfedvheetuedttdetleegudeuteejveetieefuedvfeffvdeinecuffhomhgr
+    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepuddv
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepjhhorhho
+    seeksgihthgvshdrohhrghdprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrghrmh
+    drtghomhdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopegrlhih
+    shhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehiohhmmhhusehlihhsth
+    hsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgv
+    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:E5OtaGC8GCpdgGNv4VW9HQdcuScqETNP_MVUCKoGFYu6WiGoGcDo8A>
+    <xmx:E5OtaNPA8Bud0K2fgKF7bDOWALCVkEdIajVeSPZlS72brXD5OVVFyw>
+    <xmx:E5OtaNeOMWmZE2c3fiHkmAfDZcu54yqVc0AymoU0-Wg6jOgGYZGo4w>
+    <xmx:E5OtaO7uaA6YN4jiMKM_EMkUBFjVojrSeYLD1TFRF7WUbOWwQ1rgsQ>
+    <xmx:FZOtaFyzryjsiaGiY6hvEuX3SQcVsV_HDBkcPGnGD4v9uuWC9BQsrrG3>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Aug 2025 06:57:23 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Date: Tue, 26 Aug 2025 12:57:18 +0200
+Subject: [PATCH] iommu/apple-dart: Clear stream error indicator bits for
+ T8110 DARTs
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -129,29 +82,77 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250826-dart-t8110-stream-error-v1-1-e33395112014@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAA2TrWgC/x3MywqAIBBA0V+JWTeg9iD6lWihOdYsejBKBOG/J
+ y3P4t4XIglThLF6QejmyOdRoOsKls0eKyH7YjDKdGowPXorCdOgtcKYhOyOJHIK6sU450IbXN9
+ AqS+hwM9/nuacPzMLNWRpAAAA
+X-Change-ID: 20250826-dart-t8110-stream-error-1c2bbbf4fb63
+To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1556; i=j@jannau.net;
+ s=yk2024; h=from:subject:message-id;
+ bh=k9X6j7yu0itBb/72muBj/YHUjNWTT3JQlGmlwONFySc=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhoy1kwX/MXGWxs1W/iErZl96MfzdvkqNCSmXq5a1dW28a
+ 2P0ZfKpjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABOxi2H4Z3EspWl2YohmlNsD
+ 6yN7jJyS+Eq3zYs7P+Vje/Ta/OOvnBgZNhnm3ZjKz+jk7d/Kns6bcfthpf3Fom/HAmLfZLI/FZd
+ kBQA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
+From: Hector Martin <marcan@marcan.st>
 
-On Mon, 11 Aug 2025 11:17:52 -0400, Brian Masney wrote:
-> The round_rate() clk ops is deprecated in the clk framework in favor
-> of the determine_rate() clk ops, so let's go ahead and convert the
-> various clk drivers using the Coccinelle semantic patch posted below.
-> I did a few minor cosmetic cleanups of the code in a few cases.
-> 
-> This series is broken up into several categories:
-> 
-> [...]
+These registers exist and at least on the t602x variant the IRQ only
+clears when theses are cleared.
 
-Thanks, Applied to SpacemiT's SoC tree at "k1/clk-for-6.18" branch
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+I've overlooked this change for the 4 level page table / t6020 support
+series [1]. There are no dependencies to series so this can go in on its
+own.
 
-[049/114] clk: spacemit: ccu_ddn: convert from round_rate() to determine_rate()
-          https://github.com/spacemit-com/linux/commit/b4a7b0d2c4485d11d37dec721709660f3967efcf
-[050/114] clk: spacemit: ccu_mix: convert from round_rate() to determine_rate()
-          https://github.com/spacemit-com/linux/commit/56737edda7db58549550776092da12fe03600399
-[051/114] clk: spacemit: ccu_pll: convert from round_rate() to determine_rate()
-          https://github.com/spacemit-com/linux/commit/d02c71cba7bba453d233a49497412ddbf2d44871
+Janne
+
+1: https://lore.kernel.org/asahi/20250821-apple-dart-4levels-v2-0-e39af79daa37@jannau.net/
+---
+ drivers/iommu/apple-dart.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index 190f28d76615159527649cd288df395a50d950ef..8b1272b7bb44a1ebc03ca4ddf3be43a1e42c97ed 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -122,6 +122,8 @@
+ #define DART_T8110_ERROR_ADDR_LO 0x170
+ #define DART_T8110_ERROR_ADDR_HI 0x174
+ 
++#define DART_T8110_ERROR_STREAMS 0x1c0
++
+ #define DART_T8110_PROTECT 0x200
+ #define DART_T8110_UNPROTECT 0x204
+ #define DART_T8110_PROTECT_LOCK 0x208
+@@ -1077,6 +1079,9 @@ static irqreturn_t apple_dart_t8110_irq(int irq, void *dev)
+ 		error, stream_idx, error_code, fault_name, addr);
+ 
+ 	writel(error, dart->regs + DART_T8110_ERROR);
++	for (int i = 0; i < BITS_TO_U32(dart->num_streams); i++)
++		writel(U32_MAX, dart->regs + DART_T8110_ERROR_STREAMS + 4 * i);
++
+ 	return IRQ_HANDLED;
+ }
+ 
+
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250826-dart-t8110-stream-error-1c2bbbf4fb63
 
 Best regards,
 -- 
-Yixun Lan
+Janne Grunau <j@jannau.net>
 
