@@ -1,187 +1,189 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712662F6561
-	for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 13:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 024CB3568F7;
+	Wed, 27 Aug 2025 13:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756302479; cv=none; b=Wu/0HVl6xktZQUYRrkcxMhaUIHzMUFoqTSvS+77d8fRkvEln+BLuNPK9Q1PVK1G1tqaB3n55xXHzz6+hL6/S7QLR6bR76t1YyOQkfRhNopUgJ5TjGTJfbBqE8xRchN4ZgFI5yhhXim/fW5xCzEk4pPjD8/wK1YDq8gyS4/+++yE=
+	t=1756302631; cv=none; b=bc9h+gGGyZ/ohefJtj25jaExmeN0UpW35lBCbimGbcRsGY9EQSZr0b5n+WQOlj4wihDQzWTxt7aAZYmNnrWYQFLJBgETU/Jspn+hASSp+pugOR9tNjcwBpYIbKNlj17472tC1uN5qd2WSWI1dXptI9fLM5dVhAKq2yXj8ByGPBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756302479; c=relaxed/simple;
-	bh=Q2kWy223TtDyBh5b0lBxmJlvbzdjq0H7lgLMA0oDvgA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lf1RkeVD3XzzzQ+4K5FGr5MOghPUMUAEfLPBixTbyPH91hG7Zx10kF25L/WRzbSgtuHzG52fmU4vIiRCG/q02W4hXesI0i7JBg0D5jDU14OhHn4EDjD/5n+v5r2Wb5SHnj+RKPi/Vx4mKcRepKvrfoFCbhYQh0pRBHuotqOFcIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hkfVdkpN; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hkfVdkpN"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-770593ba164so3163605b3a.3
-        for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 06:47:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756302477; x=1756907277; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=+68jqkom7ymf+dc7lhIHptXHMKzlsdjsRXHdgDb0NzE=;
-        b=hkfVdkpNvP63MWOT7r1R81aIdNp0LTu9kMIf6gN+odiT3QKnEMMWGfcEDk92nEWl3r
-         ChehNvau87NSpungw8vYfUnAktXvOVzUnRwRwuiGgufjnO70caoN8R4LU7fOYgn8lo+3
-         Uakjn5LIxq5kSlv+sR+bhXeNFGFLY8GYuyGj5XHuEvrutqywESfyJklWFgQ8PyhOOend
-         nT2j1C3ltWqY/vXCpQLzI4m5FsII2mJ1eewS3L3oXg3Pf3TlmLrvHy2J+xucXUoRISG/
-         Bms0aEeuHNvmu3KhLKtym/AINp3dAFhD2xkzIvUptbJ/t13aVNLA2z1usO2x+h0niDwI
-         Cn+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756302477; x=1756907277;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+68jqkom7ymf+dc7lhIHptXHMKzlsdjsRXHdgDb0NzE=;
-        b=GL5HP2jZua0lmVllTCy00eiWyf+laK9jx83WmCDrKn1oRv6bEEF5cYohoxfYbkjPOD
-         kW3y7c/9MSGlRUzYI7fppInaTl/oQvBCtKl/K7iK82q/pdCoPiSXW9ARd4JmUV9OLrfr
-         VFRR/OK2VO/5wk63wmvfPJeBJYgB/1tAjLk9ztFm/6+MicYvgQWSqKGHuKT1hubzBqhy
-         lKASdfP87h38D302LAEiCDxs7R4eu5nU4wSENtqksi6RMiyu9Um8u5+uXXvZAxldz4vI
-         IyYlx+2xC/sD4BO1L9oR9CRYyYwn0+PlAcWbz6h9/kO2sgqv6JQp5busgtpfpAbbJL77
-         HZpg==
-X-Gm-Message-State: AOJu0Yz/EeP4lJDRz5eXrKtb/02aWZLGYpgs+rgYRHuxoE9pWAlBB5WW
-	L09xBaptp4aWMThcmnv+C3Gqch/6tAr0QUOe5hVnB664S5tnY2j8oHb3
-X-Gm-Gg: ASbGncuEhOySy1dbrMvSpZ5NgVoU1e/1LuVnP7UueyLayeifz0V7/qVK9QS3m95B6Q5
-	EQnzxyg45sOaacdx1hQZkeXgGSk5/8vuXTk7Ie3/JJK1omKXO0h7lm17Zx2M9NowOYC4FqW2uuN
-	c48oGtIIh/Kr/ABUxl66e7qFRf6QYvczKSb58Pd9d7h2kFbHJxLDTTzxyOAMMevud/CJ3jXAjOv
-	E9eOQioxpUoOawCSeTOcZ8bnQvQV7bL45Ve0Xw9DTaMJ6EWc8CnBcUg62GEWlfMphWUWATbb3s4
-	ajOcWnAJQ2RS5tYRqb6F+4SRt3gtOsV/BoXExDt0ZK23iUMM9WD2DhUPA0YUOOsh+AtJJqDc5DJ
-	MQ5xw8Hb8OoyZQiWcZvZcjxLAX8dRsGQhoxhpDrm7SUIkw1b3oqMHiQbQeIgMAiTkTXpelyM=
-X-Google-Smtp-Source: AGHT+IHik3mb95sJ568CGTsdPS/CQ24nrUfptjUVBYoUytndAsfD759RewY3gwgGvt5dnMPGc3VNlg==
-X-Received: by 2002:a05:6a00:1892:b0:770:fd32:f365 with SMTP id d2e1a72fcca58-770fd32f6a9mr13554066b3a.25.1756302476548;
-        Wed, 27 Aug 2025 06:47:56 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-770401b190asm13360764b3a.74.2025.08.27.06.47.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Aug 2025 06:47:55 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <cff7c8d0-cdd8-4ba5-864a-936a059624d8@roeck-us.net>
-Date: Wed, 27 Aug 2025 06:47:52 -0700
+	s=arc-20240116; t=1756302631; c=relaxed/simple;
+	bh=sjDy2yPaMyRUWRHA7zNCNkrYIPM6l4g0nDQeVISxPDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VvLjF50lMH9BSuMKY/T0ifYiu9BvZ9cOl5k7gZaEOMdlVu7hNVjMY+LLOvtvLKbsV9m/MjIAwQ7d9WPFuzzMuXPGB5Z73mcC/HTaQFguerZhp7GLSzOEsM5jbgU9U0O7aaj1x4c+U7gEezTN1/gqIlOd69QCOx2KAlSMkcOe0IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D431D2720;
+	Wed, 27 Aug 2025 06:50:20 -0700 (PDT)
+Received: from bogus (unknown [10.57.57.52])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A11B23F694;
+	Wed, 27 Aug 2025 06:50:11 -0700 (PDT)
+Date: Wed, 27 Aug 2025 14:49:48 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Brian Masney <bmasney@redhat.com>
+Cc: Peng Fan <peng.fan@oss.nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Yixun Lan <dlan@gentoo.org>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	UNGLinuxDriver@microchip.com, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Daniel Palmer <daniel@thingy.jp>,
+	Romain Perier <romain.perier@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Andrea della Porta <andrea.porta@suse.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Alex Helms <alexander.helms.jy@renesas.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	sophgo@lists.linux.dev, linux-mips@vger.kernel.org,
+	imx@lists.linux.dev, linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
+	asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
+Subject: Re: [PATCH 112/114] clk: scmi: remove round_rate() in favor of
+ determine_rate()
+Message-ID: <20250827-abstract-maize-tanuki-d1bdcb@sudeepholla>
+References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+ <20250811-clk-for-stephen-round-rate-v1-112-b3bf97b038dc@redhat.com>
+ <20250827070933.GB18994@nxa18884-linux.ap.freescale.net>
+ <aK8EbcEHz3Yzpa1W@x1>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/11] mfd: macsmc: add rtc, hwmon and hid subdevices
-To: James Calligeros <jcalligeros99@gmail.com>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jean Delvare <jdelvare@suse.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-input@vger.kernel.org, Mark Kettenis <kettenis@openbsd.org>,
- Hector Martin <marcan@marcan.st>
-References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aK8EbcEHz3Yzpa1W@x1>
 
-On 8/27/25 04:22, James Calligeros wrote:
-> Hi all,
+On Wed, Aug 27, 2025 at 09:13:17AM -0400, Brian Masney wrote:
+> On Wed, Aug 27, 2025 at 03:09:33PM +0800, Peng Fan wrote:
+> > Hi Brian, Sudeep, Cristian
+> > 
+> > On Mon, Aug 11, 2025 at 11:19:44AM -0400, Brian Masney via B4 Relay wrote:
+> > >From: Brian Masney <bmasney@redhat.com>
+> > >
+> > >This driver implements both the determine_rate() and round_rate() clk
+> > >ops, and the round_rate() clk ops is deprecated. When both are defined,
+> > >clk_core_determine_round_nolock() from the clk core will only use the
+> > >determine_rate() clk ops, so let's remove the round_rate() clk ops since
+> > >it's unused.
+> > >
+> > >Signed-off-by: Brian Masney <bmasney@redhat.com>
+> > >---
+> > > drivers/clk/clk-scmi.c | 30 ------------------------------
+> > > 1 file changed, 30 deletions(-)
+> > >
+> > >diff --git a/drivers/clk/clk-scmi.c b/drivers/clk/clk-scmi.c
+> > >index d2408403283fc72f0cf902e65f4c08bcbc7b4b0b..6c6ddb92e7cf6a0cfac2c7e19c0f15f777bb8c51 100644
+> > >--- a/drivers/clk/clk-scmi.c
+> > >+++ b/drivers/clk/clk-scmi.c
+> > >@@ -54,35 +54,6 @@ static unsigned long scmi_clk_recalc_rate(struct clk_hw *hw,
+> > > 	return rate;
+> > > }
+> > > 
+> > >-static long scmi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+> > >-				unsigned long *parent_rate)
+> > >-{
+> > 
+> > I see the point of round_rate is not used if determine_rate is there.
+> > But reading the code of round_rate, It might be better to rename
+> > scmi_clk_round_rate to scmi_clk_determine_rate.
+> > 
+> > Anyway, need Sudeep and Cristian to comment.
 > 
-> This series adds support for the remaining SMC subdevices. These are the
-> RTC, hwmon, and HID devices. They are being submitted together as the RTC
-> and hwmon drivers both require changes to the SMC DT schema.
+> In this case, yes the round_rate implementation is filled out, whereas
+> the determine_rate lets the firmware handle it, and
+> scmi_clk_recalc_rate() will later populate the rate the clock is running
+> at.
 > 
-> The RTC driver is responsible for getting and setting the system clock,
-> and requires an NVMEM cell. This series replaces Sven's original RTC driver
-> submission [1].
-> 
-> The hwmon function is an interesting one. While each Apple Silicon device
-> exposes pretty similar sets of sensors, these all seem to be paired to
-> different SMC keys in the firmware interface. This is true even when the
-> sensors are on the SoC. For example, an M1 MacBook Pro will use different
-> keys to access the LITTLE core temperature sensors to an M1 Mac mini. This
-> necessitates describing which keys correspond to which sensors for each
-> device individually, and populating the hwmon structs at runtime. We do
-> this with a node in the device tree. This series includes only the keys
-> for sensors which we know to be common to all devices. The SMC is also
-> responsible for monitoring and controlling fan speeds on systems with fans,
-> which we expose via the hwmon driver.
-> 
-> The SMC also handles the hardware power button and lid switch. Power
-> button presses and lid opening/closing are emitted as HID events, so we
-> add a HID subdevice to handle them.
-> 
-> Note that this series is based on a branch with three additional commits
-> applied to add the parent SMC nodes to the relevant Devicetrees. This
-> was done to silence build errors. The series applies cleanly to 6.17-rc1.
-> 
-> Regards,
-> 
-> James
-> 
-> [1] https://lore.kernel.org/asahi/CAEg-Je84XxLWH7vznQmPRfjf6GxWOu75ZetwN7AdseAwfMLLrQ@mail.gmail.com/T/#t
-> 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
-> Changes in v2:
-> - Added Rob's R-b tag to RTC DT binding
-> - Removed redundant nesting from hwmon DT binding
-> - Dedpulicated property definitions in hwmon DT schema
-> - Made label a required property for hwmon DT nodes
-> - Clarified semantics in hwmon DT schema definitions
-> - Split mfd tree changes into separate commits
-> - Fixed numerous style errors in hwmon driver
-> - Addressed Guenter's initial feedback on the hwmon driver
+> I can convert round_rate over to determine_rate in this case, however it
+> would be a change to what's there now, and risks a regression. Here's
+> the relevant code from drivers/clk/clk.c where the determine_rate and
+> round_rate ops are called:
 
-Don't you think that is a bit useless ? You might as well say "Addressed
-feedback comments" and be done with the change log.
+I am inclined towards this. Determine rate was added recently when the
+clock parent support was added IIUC, so I don't think it should regress
+anything.
 
-Guenter
+> 
+>     static int clk_core_determine_round_nolock(struct clk_core *core,
+>                                                struct clk_rate_request *req)
+>     {
+>     	...
+>             if (clk_core_rate_is_protected(core)) {
+>                     req->rate = core->rate;
+>             } else if (core->ops->determine_rate) {
+>                     return core->ops->determine_rate(core->hw, req);
+>             } else if (core->ops->round_rate) {
+>                     rate = core->ops->round_rate(core->hw, req->rate,
+>                                                  &req->best_parent_rate);
+>     	...
+> 
+> If Sudeep / Cristian want the round rate converted to determine rate in
+> this driver, then I can do that in a v2.
+> 
 
+Yes please. Also please post it independent if it doesn't have to be in
+the series. To many in cc and lots of patches to respin all.
+
+-- 
+Regards,
+Sudeep
