@@ -1,269 +1,163 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F433570AD
-	for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 11:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940D4304966;
+	Wed, 27 Aug 2025 12:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756293848; cv=none; b=nQBDwEkXlsG/ueJg48sx7zmUTvtMwCkf1z7bknahDcSV11d0rAHTR5PrbQw4XOMV7gi+GGd11dlEXwXeXWZ7/saUtT5HfBVIAblMF+oVA++mr5J3Ea4by6dL1EP5IKfM5H172RTlPLvNKDN/sGxcH9yw89ibpcddHu1dY+kbOlI=
+	t=1756297533; cv=none; b=ofrjo+gbhd+zintCQOR6ZtjRpxedN2WAYwEMjiyvAA3lMzv0kxJNPakij4daF+pJA7j0io90K4RfYgLUJQ+HRdaFk/VZ5PXCLb0SgpeY0cV2ixbqVvbSIEIrpTrPACRm5hUGrvzaPU1z/u8L4F0iLLqk1qNru1AVRzfGMcp24bQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756293848; c=relaxed/simple;
-	bh=5hVOIbFNhGdk2deyyP87QpYIGvupinnZhOGdw/+Fj2E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MQeHL/RK9IZQPP9863p0RR1VPTThxKitrPVCwg5sPKu6JNjwjqiRhONtQT2vA83xysj7Gp1ETiy8ffV3cdc+W2ZzI7VuDW+SIULAvJ7Y1OlfemBF7s93KPjV0C2867ewgOQjJUXQNKXsB3gzV0RTKl9tTSRpO6orzR5DCvwegbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KCOEM3iA; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756297533; c=relaxed/simple;
+	bh=aMQ8Ki9oIp1Hd6pVpoVRnqQJtbxH3JlLvfdyaVkIDSE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nXt05Y5JoWrwUKrsuDE3ocgZE4z679HiHqSOPylZPMSrsG9yo+ULsrzAkZNvyFGPEbmykM1gWWKcaDYn/4aYRdi9Al2HhOKk/jTRZ5CH7wVtdEt0i3nLe01s/GEzkKB/NZhqjaMJ/fChENrAZ22drahUH35JbmcubMw7203Iz9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=fhO9QFKW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=I/r1W69D; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KCOEM3iA"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24622df0d95so41190875ad.2
-        for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 04:24:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756293846; x=1756898646; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EAV1SA7tmKDs0DFNYAv2SnCbmS2lL2C7TchccWIUu1A=;
-        b=KCOEM3iAO7fwRt5j4AGGSmn9PEeREtrh8xhZeFUvUL2zEFsHjgZL89NoLrPc/iMCiH
-         dAZlPFZ9NwdvPVyPCivi6D3gIfY3sYQoU4k7TJXeBNc8rSkS9+6IP2DjlwaUQKXIcHaP
-         HobYlg+w2+QmjsUv19sTCnhNmTsidlu58IsNFV2gsmt7aE+GV2jIYyi1wMXY5K4Gpe2/
-         XVl0bAhLRGWmjVF+kONNDPqRBbc0zJPGm2SXMYX32DaVAyUxwc/rddpE/xjQff9Nen4u
-         nAS55alJpK74Ci9zzx6eWePfTIBvt1qN1Am5TBmBHzAX19Mr4Jwxo9CgT3kAfhmjUq0T
-         vmPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756293846; x=1756898646;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EAV1SA7tmKDs0DFNYAv2SnCbmS2lL2C7TchccWIUu1A=;
-        b=cPVa26Voj5d1qAMTEzf6XV1rb2eA05aa7mfYQwD7PUqon5g1/QVUHuhLbuVN1+bddZ
-         M18XpmF4IyZYaxItvf0duMF8UjPdDZJMlvU/OmluSawybZ4MHK9fmWtLGN21xjU/IJ+S
-         mZLRKzwqD7HUEzDyZaTiYYUTJV5ctQJZCGdv265ZkhVLoCEDkqAsMdCgwgeCNm1wa3Ny
-         8z1nPZHgczWnUgT2UASeq/OXWZmGKsrAY/3vlM3icyM7CZUkFB7zuQt1xy2UEZtTG2GI
-         pF0v2vTqxq9IzXpf0Oq0qUn5Uf2UwvWF3Kgdv5b1vJ5d04xaeQCMTDKi6ODjew5b5NZT
-         7ShQ==
-X-Gm-Message-State: AOJu0Ywi4DM6MUIpenj+9W9Uam4+HZktrJuxSkYVyiE/yXpu68MyD6Fq
-	QhKeOixmhDA0eMMtpPSNIzYFiclmkuzbloa8Be8iXuP5FK3LyJW5bNUf
-X-Gm-Gg: ASbGnctChLpIhnxywitd6iXD8+/zbKzxCsPWHc8HYltVo+AlWLhC/DeRyBSFM6daPCQ
-	yUNzb3+fulvn2VO2GhUeBR8LkkvZfp4u7aei6rUBANtzRERCUsynvy+lF5vzA+1LDVvw4Qh2fjY
-	wLlrQeDPYFUIyFifQBNtTxw/DikqqDf9yl03YCpiPa+kvUq49Sqwb1A98wabC0zqc1UJLTwC4U1
-	dbJTo7TtI/31jfNhcCB7y5Q9TjwO48QYBLdMIPPexPz1DMTy7kN3gHXcQ/qds1aYpSXhEk9AEFI
-	qxTxxN0nEiGTXIhU+HBZjC081n+kgKOGeyqXHrXPsTSdVOjEC1HLNeOd7p0yv15oSxu3y/aIqP7
-	iqcmJBb16HBRunvvJ0isNwuxqomjxG/72rF3eDhK2t1opAdTskh2RiqFnwv8osGTxYpTMAjTUzp
-	fT9SpK3GIHbNFOOons
-X-Google-Smtp-Source: AGHT+IEgqB5UiBHU0abrKFQK8xQrwcte6KMuII6oePpzWrjYXeDJ609b+w/zvWBMeHhWli3+DXh1nw==
-X-Received: by 2002:a17:902:e888:b0:23f:df56:c74c with SMTP id d9443c01a7336-2462ee38734mr223696675ad.14.1756293846078;
-        Wed, 27 Aug 2025 04:24:06 -0700 (PDT)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fcd6232sm1819708a91.16.2025.08.27.04.23.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 04:24:05 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 27 Aug 2025 21:22:45 +1000
-Subject: [PATCH v2 11/11] arm64: dts: apple: t8103, t600x, t8112: Add
- common hwmon nodes to devices
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="fhO9QFKW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="I/r1W69D"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 1E8F31D001C1;
+	Wed, 27 Aug 2025 08:25:30 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 27 Aug 2025 08:25:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1756297529; x=1756383929; bh=Yonvyw6arw
+	x9K/j0aRnK/gLYsQrk0m8h8Fj24bZWVVo=; b=fhO9QFKWc4uMzrvn11qgmZ9pQ5
+	t+v/nSm9aTWz8JSA2QMoXs6HlOwgfJ/H42DS1nDk+3NosbHqCT4z9Y6V8JTuV1J2
+	OGzmQJi56NtNBMeJ7MWHg2M/Np1Vzza2N+Pfv85oUgrFfnELvGAWp8sz61lN0518
+	XUKVyJcZe6PjcYjF2isYM11kSWqK8u6ygfEXO6ehdnHkxAO9tTMgqmQUP43cQatX
+	Wq9q3MVergWjDFkDaj2TbePjnlK/1WZmK7PENaQFVJ3+wnvVSyfvIm1rDp0wHuM/
+	s9wMKYppkiuHJBXQ92DTO0o6SZ9U6A8LT0V8+20iQ3foEkQFZ+NH0uApoSUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1756297529; x=1756383929; bh=Yonvyw6arwx9K/j0aRnK/gLYsQrk0m8h8Fj
+	24bZWVVo=; b=I/r1W69D/Ua2bm5BXK2wBOajLrzMomNKdk8LBzp8EO49mcvjLCw
+	s182ej2tJ8QcSWmGYUtMEzThRDwe0+tCYLCUvWdAxwaqe55JOg0hYvhsnv6SfBg6
+	OExTKM7VwVL7Df7X1EIwIBamnUu5fATbP2XZHvLTra6IRx6qSU6qd4LtEB3ZR5rF
+	ixMb4Uyzby4voDlGtFBdxDsIJBPHKOSlt+U+oRDZ9y52VYYMhZhTatFXTB0GGfjs
+	UWoP9XaabWAb+nJr0uUsdb3mls7gT7S8bfbiBkV16UWdN+xbnkLAJAkJOTTJN9EQ
+	8hCjx1dq4Dx9i4D/ksR2ZP+YUh3JsyySpoQ==
+X-ME-Sender: <xms:OPmuaCJ6XwkoODGu_w3yn-wMk6IszXtLN1WGKJ8PAk-bWWUCHeGNoA>
+    <xme:OPmuaLflAXWGINpS3XvOwaH7Gexj3422hbdyShh9F0zp8v1VTkNx90LzRG2t-tATt
+    -w3756kC4_Fd5eM-n4>
+X-ME-Received: <xmr:OPmuaFKAD8tGP81yPe2nBq6lMF0ydRlb0Tm1Kp79wc7napXJ3V2GkIEU8NVYyjPnKxpFXMYfPpiEZJP1oT8eCbbTz51h0hLFVAU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddujeekudehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
+    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
+    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
+    drnhgvthdpnhgspghrtghpthhtohepvdefpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehtohifihhntghhvghnmhhisehgmhgrihhlrdgtohhm
+    pdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtoh
+    epnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepjhgrshhsihhsihhnghhhsghr
+    rghrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegt
+    ohhnohhrodgutheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:OPmuaNCOOBPZgV55nrQZK9IFTHxW0mIUN89N-HCnFUtdif5869khFA>
+    <xmx:OPmuaGi__3hZHC3DXxgOf5RShzzmzFqlH-f30MMh9ef1fYIj2NNsiw>
+    <xmx:OPmuaPNBhL3_-PK_M3Q2JR0PkUrBaLaEDGJGgUrgmAOIGMIa1heY6A>
+    <xmx:OPmuaFZ43QmRQmAC2d5W9hQdpVeoDBFhFwoVqpaWkjN4GVSmgTCTJA>
+    <xmx:OfmuaCZfFzYt2huFIkk5sW9q3xEFfN6W3-dEaSfzmdnPr45f3ZX2RxxE>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 Aug 2025 08:25:27 -0400 (EDT)
+Date: Wed, 27 Aug 2025 14:25:25 +0200
+From: Janne Grunau <j@jannau.net>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sven Peter <sven@kernel.org>, Nick Chan <towinchenmi@gmail.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2 6/9] dt-bindings: nvme: apple,nvme-ans: Add Apple A11
+Message-ID: <20250827122525.GA204299@robin.jannau.net>
+References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
+ <20250818-t8015-nvme-v2-6-65648cd189e0@gmail.com>
+ <20250819-polite-papaya-catfish-1a9d1a@kuoka>
+ <8ac418ae-7ff0-4d5c-9f11-c24e36618ac1@kernel.org>
+ <b3cd1b3f-fa0e-4a98-84c7-e4271f262795@kernel.org>
+ <8279536d-c4f4-477a-9823-3e7b452c3c33@kernel.org>
+ <12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250827-macsmc-subdevs-v2-11-ce5e99d54c28@gmail.com>
-References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
-In-Reply-To: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-input@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6874;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=5hVOIbFNhGdk2deyyP87QpYIGvupinnZhOGdw/+Fj2E=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDBnrXjW3saep7c58/zbWu7Anl9fX5H7Ae7033Zo9z+Wyv
- B+EZ3zrKGVhEONikBVTZNnQJOQx24jtZr9I5V6YOaxMIEMYuDgFYCLFexkZvn5dzJQv01djKj5F
- oXLZZeFJz6ZHLdwnWLn8a2OnfmVoNCPD58bYlucFCRJGX8Vcz+gzazKd3FyyQXlN8YVji943Hgj
- gBAA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org>
 
-Add the known, common hwmon-related SMC keys to the DTs for the devices
-they pertain to.
+On Thu, Aug 21, 2025 at 03:09:42PM +0200, Krzysztof Kozlowski wrote:
+> On 21/08/2025 12:25, Sven Peter wrote:
+> > 
+> > 1) For situations like this one where the generic one just doesn't make 
+> > any sense we deprecate "apple,nvme-ans2" in the binding and use
+> > "apple,t8103-nvme-ans2" as the fallback instead, i.e. just
+> > "apple,t8103-nvme-ans2" for M1, "apple,t6000-nvme-ans2", 
+> > "apple,t8103-nvme-ans2" for M1 Pro, and just "apple,t8015-nvme-ans2" for 
+> > A11.
+> > 
+> > We keep the generic one in the driver for now but also add
+> > "apple,t8103-nvme-ans2". We then remove the generic one from all 
+> > upstream DTS files but keep it inside the downstream files we ship to 
+> > users for now to avoid pain with kernel upgrades/downgrades.
+> > A year or two from now we can then delete the deprecated generic 
+> > compatibles everywhere. This all has to be synced with OpenBSD and 
+> > u-boot as well since both also use these bindings.
+> > It's gonna be rather painful but this would clean up the entire mess.
+> > 
+> > 
+> > 2) We keep using the ones that are already upstream and just accept that 
+> > the situation is a mess and add comment above all the bindings that we 
+> > messed up and that this should not be used as pattern.
+> > In this case that means it'll just be "apple,t8015-nvme-ans2" for A11 
+> > without any fallback and we keep everything else the way it is.
+> > 
+> > I prefer option (2) but if you really want to get rid of all this mess 
+> 
+> 
+> I also prefer option (2). That's the least disruptive option for users
+> and inconsistency in bindings naming is just inconsistency, no big deal.
+> You just need to remember not to grow the old items/pattern with generic
+> compatible.
 
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- .../arm64/boot/dts/apple/t6001-j375c.dts | 2 ++
- .../arm64/boot/dts/apple/t6002-j375d.dts | 2 ++
- .../boot/dts/apple/t600x-j314-j316.dtsi  | 4 ++++
- .../arm64/boot/dts/apple/t600x-j375.dtsi | 2 ++
- arch/arm64/boot/dts/apple/t8103-j274.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j293.dts | 3 +++
- arch/arm64/boot/dts/apple/t8103-j313.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j456.dts | 2 ++
- arch/arm64/boot/dts/apple/t8103-j457.dts | 2 ++
- .../arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 ++
- arch/arm64/boot/dts/apple/t8112-j413.dts | 2 ++
- arch/arm64/boot/dts/apple/t8112-j473.dts | 2 ++
- arch/arm64/boot/dts/apple/t8112-j493.dts | 3 +++
- .../arm64/boot/dts/apple/t8112-jxxx.dtsi | 2 ++
- 14 files changed, 32 insertions(+)
+This sounds to me like a mix of option 1) and 2).
 
-diff --git a/arch/arm64/boot/dts/apple/t6001-j375c.dts b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-index 62ea437b58b25ca649e20b1072b4d835bbc17d3a..9e8c4107e65d8dc47ad2ad99af2f436613c11d8f 100644
---- a/arch/arm64/boot/dts/apple/t6001-j375c.dts
-+++ b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-@@ -16,3 +16,5 @@ / {
- 	compatible = "apple,j375c", "apple,t6001", "apple,arm-platform";
- 	model = "Apple Mac Studio (M1 Max, 2022)";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index 3365429bdc8be90b63c8051822243d897854ab27..b62cf16d6b73e74c3d9116730b44596be2a89ea0 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -48,3 +48,5 @@ hpm5: usb-pd@3a {
- 
- /delete-node/ &ps_disp0_cpu0_die1;
- /delete-node/ &ps_disp0_fe_die1;
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index 22ebc78e120bf8f0f71fd532e9dce4dcd117bbc6..2cb38861c3855e31c9b8ab66fe69b818c381c604 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -121,3 +121,7 @@ &fpwm0 {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-common.dtsi"
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-index d5b985ad567936111ee5cccc9ca9fc23d01d9edf..7e551e8660c9c2b51f021b1188680c5cce9d2951 100644
---- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-@@ -128,3 +128,5 @@ &pcie0_dart_3 {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 1c3e37f86d46d7b5d733717b47c4b57dc55e1201..f5b8cc087882d6bd2b0f4f2711844d2a0fa8b604 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -61,3 +61,5 @@ &pcie0_dart_2 {
- &i2c2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 5b3c42e9f0e6776241bf746d3458766e44e3639a..abb88391635fa048c196d0631d90405519ddd178 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -119,3 +119,6 @@ dfr_panel_in: endpoint {
- &displaydfr_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index 97a4344d8dca685708aff136af92a1b316f3c3dd..491ead016b2193f123f4ded9dadf85ebf37cdc7e 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -41,3 +41,5 @@ &wifi0 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 58c8e43789b4861544e20c717124ede3327be010..c2ec6fbb633cc6aeec2322f295c054998fbf08cc 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -75,3 +75,5 @@ &pcie0_dart_1 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index 152f95fd49a2118093396838fbd8b6bd1b518f81..20e85612ae70c116cab788f2c03f5a7d76cb19be 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -48,3 +48,5 @@ ethernet0: ethernet@0,0 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-index 0c8206156bfefda8a32c869787b2e0c8e67a9d17..f711af410a2edf7587ff091e195c5cf243dc8a34 100644
---- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-@@ -92,3 +92,5 @@ &nco_clkref {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 6f69658623bf89ce73e3486bce504f1f5f8003f3..500dcdf2d4b5da698ee0798f37f624ff70e7b9f0 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -78,3 +78,5 @@ &i2c4 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-index 06fe257f08be498ace6906b936012e01084da702..11db6a92493f367cfa64be5e844c80e99bdd325b 100644
---- a/arch/arm64/boot/dts/apple/t8112-j473.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-@@ -52,3 +52,5 @@ &pcie1_dart {
- &pcie2_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index fb8ad7d4c65a8fe7966f5541f24f03a379143cfb..a0da02c00f157a0e667b26aebef9157636b14ecf 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -133,3 +133,6 @@ touchbar0: touchbar@0 {
- 		touchscreen-inverted-y;
- 	};
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-index 6da35496a4c88dbaba125ebbe8c5a4a428c647c3..6e54c1fb097e8f72cb4fb37e491893a7e3d7e6c2 100644
---- a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-@@ -81,3 +81,5 @@ &nco_clkref {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-common.dtsi"
+All devices / SoCs already upstream will use the fixed current
+compatibles and thus are following option 2)
 
--- 
-2.51.0
+New SoCs will have to use
+    compatible = "apple,t6020-nvme-ans2", "apple,t8103-nvme-ans2";
+using t6020 as example even though they will be using the same driver
+code as "apple,nvme-ans2". Using t6020 as an example I planned to submit
+today.
+This will require adding the new fallback "apple,t8103-nvme-ans2"
+compatible string to the driver.
 
+Asking for clarification as I could image such driver changes will raise
+questions from the driver maintainers.
+
+Is there a way do document/annotate the generic compatibles as
+deprecated / "do not use" for new devices?
+
+Thanks
+Janne
