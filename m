@@ -1,33 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08139298CC7;
-	Wed, 27 Aug 2025 13:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712662F6561
+	for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 13:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756300864; cv=none; b=MJ9/AwRbW9ve6fxpjG3trIh5dWlssrNRvcqX2yTywKV8eggDpf/SvslI7EmSNQO82BouKfW2vyOrA5qZ8/qi9WpnqBWRMNC0afyc0RotAZLGVlTlttcqrUmOoAWeE2lrREd081mecPye3LY3om6LsN0/vwFjF28YTA+7NuDKfJI=
+	t=1756302479; cv=none; b=Wu/0HVl6xktZQUYRrkcxMhaUIHzMUFoqTSvS+77d8fRkvEln+BLuNPK9Q1PVK1G1tqaB3n55xXHzz6+hL6/S7QLR6bR76t1YyOQkfRhNopUgJ5TjGTJfbBqE8xRchN4ZgFI5yhhXim/fW5xCzEk4pPjD8/wK1YDq8gyS4/+++yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756300864; c=relaxed/simple;
-	bh=Wzw9A2fGU7gurXwIUpH8Synua2BxNhx7miIcMSPtbFI=;
+	s=arc-20240116; t=1756302479; c=relaxed/simple;
+	bh=Q2kWy223TtDyBh5b0lBxmJlvbzdjq0H7lgLMA0oDvgA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PoHkO6NKXmWK4NtIp29dAhsspjK+eAafHkEKNs/SNFzxFBpjrhjkBNvptf6nu8UdODcb4ciI5W3B1lgN1KltdQM+EIhIkU1hzazeE2A5Hu7i1fBWvnODheIC9u8rZB3nbg2Tu60p385efaKvl5DqM3IX66SOL8kDMMm6IT5Y1eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OVqM2ydK; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=lf1RkeVD3XzzzQ+4K5FGr5MOghPUMUAEfLPBixTbyPH91hG7Zx10kF25L/WRzbSgtuHzG52fmU4vIiRCG/q02W4hXesI0i7JBg0D5jDU14OhHn4EDjD/5n+v5r2Wb5SHnj+RKPi/Vx4mKcRepKvrfoFCbhYQh0pRBHuotqOFcIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hkfVdkpN; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OVqM2ydK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60C0AC4CEEB;
-	Wed, 27 Aug 2025 13:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756300863;
-	bh=Wzw9A2fGU7gurXwIUpH8Synua2BxNhx7miIcMSPtbFI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OVqM2ydKwGTnVMxTjiWXhqEIXrZbPzpeWmKQcq4EgGBy3WcS8p8Gc20DX+eaQODM6
-	 uTvsOrSjYJ0BYlSkrL7/eDizLL0UMC5TqacWRGbFDhdGWCf83TzaJ1psWyBQHVKJh1
-	 e06+mfR65iM++vRY9s2dk4BJlEF7L4IY+OV11yLZJrno/UEOBpzG7ysmplGPaAgIMb
-	 082/pg4A4MgxQ4BR8QKtDS3hKsDuB8LOOCCfI1YGCxNOv2Iptmd6jNcnEsJMiiVRdX
-	 2Qr2ymwqpxzhF+Kxmn5YklgLxsJFGssaX9G5LVFV0VJlDcJ/fgtKfGZ1DxbThyCNAP
-	 wn9u98AL1NhRQ==
-Message-ID: <3147ebf4-054c-4777-811f-86d0ad14caf6@kernel.org>
-Date: Wed, 27 Aug 2025 15:20:57 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hkfVdkpN"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-770593ba164so3163605b3a.3
+        for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 06:47:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756302477; x=1756907277; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=+68jqkom7ymf+dc7lhIHptXHMKzlsdjsRXHdgDb0NzE=;
+        b=hkfVdkpNvP63MWOT7r1R81aIdNp0LTu9kMIf6gN+odiT3QKnEMMWGfcEDk92nEWl3r
+         ChehNvau87NSpungw8vYfUnAktXvOVzUnRwRwuiGgufjnO70caoN8R4LU7fOYgn8lo+3
+         Uakjn5LIxq5kSlv+sR+bhXeNFGFLY8GYuyGj5XHuEvrutqywESfyJklWFgQ8PyhOOend
+         nT2j1C3ltWqY/vXCpQLzI4m5FsII2mJ1eewS3L3oXg3Pf3TlmLrvHy2J+xucXUoRISG/
+         Bms0aEeuHNvmu3KhLKtym/AINp3dAFhD2xkzIvUptbJ/t13aVNLA2z1usO2x+h0niDwI
+         Cn+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756302477; x=1756907277;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+68jqkom7ymf+dc7lhIHptXHMKzlsdjsRXHdgDb0NzE=;
+        b=GL5HP2jZua0lmVllTCy00eiWyf+laK9jx83WmCDrKn1oRv6bEEF5cYohoxfYbkjPOD
+         kW3y7c/9MSGlRUzYI7fppInaTl/oQvBCtKl/K7iK82q/pdCoPiSXW9ARd4JmUV9OLrfr
+         VFRR/OK2VO/5wk63wmvfPJeBJYgB/1tAjLk9ztFm/6+MicYvgQWSqKGHuKT1hubzBqhy
+         lKASdfP87h38D302LAEiCDxs7R4eu5nU4wSENtqksi6RMiyu9Um8u5+uXXvZAxldz4vI
+         IyYlx+2xC/sD4BO1L9oR9CRYyYwn0+PlAcWbz6h9/kO2sgqv6JQp5busgtpfpAbbJL77
+         HZpg==
+X-Gm-Message-State: AOJu0Yz/EeP4lJDRz5eXrKtb/02aWZLGYpgs+rgYRHuxoE9pWAlBB5WW
+	L09xBaptp4aWMThcmnv+C3Gqch/6tAr0QUOe5hVnB664S5tnY2j8oHb3
+X-Gm-Gg: ASbGncuEhOySy1dbrMvSpZ5NgVoU1e/1LuVnP7UueyLayeifz0V7/qVK9QS3m95B6Q5
+	EQnzxyg45sOaacdx1hQZkeXgGSk5/8vuXTk7Ie3/JJK1omKXO0h7lm17Zx2M9NowOYC4FqW2uuN
+	c48oGtIIh/Kr/ABUxl66e7qFRf6QYvczKSb58Pd9d7h2kFbHJxLDTTzxyOAMMevud/CJ3jXAjOv
+	E9eOQioxpUoOawCSeTOcZ8bnQvQV7bL45Ve0Xw9DTaMJ6EWc8CnBcUg62GEWlfMphWUWATbb3s4
+	ajOcWnAJQ2RS5tYRqb6F+4SRt3gtOsV/BoXExDt0ZK23iUMM9WD2DhUPA0YUOOsh+AtJJqDc5DJ
+	MQ5xw8Hb8OoyZQiWcZvZcjxLAX8dRsGQhoxhpDrm7SUIkw1b3oqMHiQbQeIgMAiTkTXpelyM=
+X-Google-Smtp-Source: AGHT+IHik3mb95sJ568CGTsdPS/CQ24nrUfptjUVBYoUytndAsfD759RewY3gwgGvt5dnMPGc3VNlg==
+X-Received: by 2002:a05:6a00:1892:b0:770:fd32:f365 with SMTP id d2e1a72fcca58-770fd32f6a9mr13554066b3a.25.1756302476548;
+        Wed, 27 Aug 2025 06:47:56 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-770401b190asm13360764b3a.74.2025.08.27.06.47.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Aug 2025 06:47:55 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <cff7c8d0-cdd8-4ba5-864a-936a059624d8@roeck-us.net>
+Date: Wed, 27 Aug 2025 06:47:52 -0700
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,100 +68,120 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/9] dt-bindings: iommu: apple,sart: Add Apple A11
-To: Rob Herring <robh@kernel.org>, Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org
-References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
- <20250818-t8015-nvme-v2-3-65648cd189e0@gmail.com>
- <20250820222044.GA1513864-robh@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2 00/11] mfd: macsmc: add rtc, hwmon and hid subdevices
+To: James Calligeros <jcalligeros99@gmail.com>, Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Jean Delvare <jdelvare@suse.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-input@vger.kernel.org, Mark Kettenis <kettenis@openbsd.org>,
+ Hector Martin <marcan@marcan.st>
+References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250820222044.GA1513864-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 21/08/2025 00:20, Rob Herring wrote:
-> On Mon, Aug 18, 2025 at 04:42:56PM +0800, Nick Chan wrote:
->> Add bindings for SARTv0 as found on Apple A11 SoC.
->>
->> Reviewed-by: Sven Peter <sven@kernel.org>
->> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
->> ---
->>  Documentation/devicetree/bindings/iommu/apple,sart.yaml | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/Documentation/devicetree/bindings/iommu/apple,sart.yaml b/Documentation/devicetree/bindings/iommu/apple,sart.yaml
->> index e87c1520fea60a2de549aa8a469fcded52e3b6e3..95d55ec688779bd52b8aef316a4c1ba7b7449574 100644
->> --- a/Documentation/devicetree/bindings/iommu/apple,sart.yaml
->> +++ b/Documentation/devicetree/bindings/iommu/apple,sart.yaml
->> @@ -29,6 +29,7 @@ description:
->>  properties:
->>    compatible:
->>      oneOf:
->> +      - const: apple,t8015-sart
+On 8/27/25 04:22, James Calligeros wrote:
+> Hi all,
 > 
-> Actually I take back my ack, move this to the existing 'enum' down 
-> below. With that change, you can keep the ack.
+> This series adds support for the remaining SMC subdevices. These are the
+> RTC, hwmon, and HID devices. They are being submitted together as the RTC
+> and hwmon drivers both require changes to the SMC DT schema.
+> 
+> The RTC driver is responsible for getting and setting the system clock,
+> and requires an NVMEM cell. This series replaces Sven's original RTC driver
+> submission [1].
+> 
+> The hwmon function is an interesting one. While each Apple Silicon device
+> exposes pretty similar sets of sensors, these all seem to be paired to
+> different SMC keys in the firmware interface. This is true even when the
+> sensors are on the SoC. For example, an M1 MacBook Pro will use different
+> keys to access the LITTLE core temperature sensors to an M1 Mac mini. This
+> necessitates describing which keys correspond to which sensors for each
+> device individually, and populating the hwmon structs at runtime. We do
+> this with a node in the device tree. This series includes only the keys
+> for sensors which we know to be common to all devices. The SMC is also
+> responsible for monitoring and controlling fan speeds on systems with fans,
+> which we expose via the hwmon driver.
+> 
+> The SMC also handles the hardware power button and lid switch. Power
+> button presses and lid opening/closing are emitted as HID events, so we
+> add a HID subdevice to handle them.
+> 
+> Note that this series is based on a branch with three additional commits
+> applied to add the parent SMC nodes to the relevant Devicetrees. This
+> was done to silence build errors. The series applies cleanly to 6.17-rc1.
+> 
+> Regards,
+> 
+> James
+> 
+> [1] https://lore.kernel.org/asahi/CAEg-Je84XxLWH7vznQmPRfjf6GxWOu75ZetwN7AdseAwfMLLrQ@mail.gmail.com/T/#t
+> 
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+> Changes in v2:
+> - Added Rob's R-b tag to RTC DT binding
+> - Removed redundant nesting from hwmon DT binding
+> - Dedpulicated property definitions in hwmon DT schema
+> - Made label a required property for hwmon DT nodes
+> - Clarified semantics in hwmon DT schema definitions
+> - Split mfd tree changes into separate commits
+> - Fixed numerous style errors in hwmon driver
+> - Addressed Guenter's initial feedback on the hwmon driver
 
-What commit fails to explain (folks, please fix that) is that device is
-incompatible with existing ones. Right?
+Don't you think that is a bit useless ? You might as well say "Addressed
+feedback comments" and be done with the change log.
 
-Commit should describe the hardware or any unusual things here. Not
-making devices compatible, while usually they were compatible, is the
-unusual thing.
-Best regards,
-Krzysztof
+Guenter
+
