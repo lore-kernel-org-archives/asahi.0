@@ -1,67 +1,66 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C21F34F48D
-	for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 11:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA72334F468
+	for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 11:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756293794; cv=none; b=NVZRTM/aWxxtb7k6QHd03IT3MarfN8klJHDxmCSN2LlZ/haSxCaMqgTtAcPaliI4JanVVZhiX9ScOsOEYzSMuVF2rQXyL6j81QcdpN39oQ4n3qfdXUb+R5qpAgM5KTTSNQDjksJLEZicVIC7fgAPi/iRilubUhh/oP/udrkhdX0=
+	t=1756293801; cv=none; b=P2O9X8BS2YrrySBSdrLQPif8NAOg2pn/gzVYEzr4BgeD7acv4Qaw9q+0IdB0McoPaTypCnEAyykxHAjcnenMrY1p0j1hrjZ6RpZRHgii4J0XDAH+pnfkndmDIoNygBUi7QGDWRA2fxrYa2uCPp9B5GmtyMMfi0D1nFOyo5laP+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756293794; c=relaxed/simple;
-	bh=kOHCh1tmOZfsjtAJTxIUfVW8g8Mep1vWd7pXV+GQ63g=;
+	s=arc-20240116; t=1756293801; c=relaxed/simple;
+	bh=VOrW2GfzJb6imZqi+U2s8G3s2QEeizLHqMoRRpb/nIs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=umcmWMx5XSxJUlFWZh2ha0xrvHWO/CCRZBNMNeQ9TaV29fmssUBWgV1yeQ36YrDUJG9MaBUx0O0aQBdNBu/SWMDrih3I25GEUIy4Qp5XPJvJBejY/UON/8VXmWQQ/fqhyWPHSBOcz8tBvHLO44MkIW7n/RIiBMF4+CleOaCdxAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bK9kBKVC; arc=none smtp.client-ip=209.85.210.173
+	 In-Reply-To:To:Cc; b=c2tdFCDkW6FdliTJDkJBPRkq28zvrwnj0DgoMsbzwTe9CdpnUSVqdNhaDnoii3gR9xcFV9T1bo5mEGuosrnXBGOjicQQwFtY8jDOM1iV9KxxhNyyeZ7wBoCsYDgPPNWw4P5cm3NYIvY+UDBi5qImJ+V5BmjSXMfVp0ix7Bc1XCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BPxiFxMt; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bK9kBKVC"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-771e4378263so2762101b3a.0
-        for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 04:23:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BPxiFxMt"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-32597b88e1bso2983591a91.1
+        for <asahi@lists.linux.dev>; Wed, 27 Aug 2025 04:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756293792; x=1756898592; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1756293799; x=1756898599; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V1KClXnYNESaxX6nw8jQRbh+BCfXEal+QzR0BXC9Jp4=;
-        b=bK9kBKVC7oE429TPmyjFkeRBjzFKqqa6z5M+b93EYy2726rlxJz1rHON+AxCXlExdA
-         blaq2D29y+B5WJnMuSmZ/3CsLqgFriNfPYJiWnojzDcLSj1IFO6lBXUcbn16+Z1KzqC3
-         qd0PIb+LahbtL1wJemPfb6nWi5OIfTIML84GxkcTWHZ0pEcgVfo3VxHhckvcvSeuB3sb
-         iHVaDZ8hjXFPlsYCsjD2vBlaI/BwVEQTWPi0EeqCck8jGThe+Td4RMwcGjrmgI1NU5XV
-         VcWVcpqGlruG31OgHGOPTTMH5cll6rHLhM/OS1LIL9gZUlJAdC7Lcvqc7zftZzmlkc7n
-         eQBQ==
+        bh=VRHVnpg9jOOLhSqBOjWKSbJGnSs0q1UyU/4Pw3oBr3I=;
+        b=BPxiFxMt7o1mazes8B6cXH59tM/74VD2wHtctL84gje16AmEkDUcL/BBg+ihPZfokC
+         mUwFG/Hqj9ON9LytfYY3C5CpAsWhZRgtk9EgzHkXoCZdn2pl2mIRZkp+2Zg4xWMVfGV/
+         MRuLLpjYezzKH3EYAHqSahlugEAU2SAjig7fMrdYrTpoDJyl32OusnvHxejAS4e7EiVw
+         IYsvaq9v14Hcr7zsZHa0jhQqjTJiRXBtwTB9J7LQNyJT/MGY0yTuRPkNCHi/sU/Qoa6P
+         6mvXxefrlUXTFz4RGo+0DPSWa2WR/DqnJJpdOam/jplpxCUL0KC34f+NsiqbNSfw4QSr
+         s+yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756293792; x=1756898592;
+        d=1e100.net; s=20230601; t=1756293799; x=1756898599;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V1KClXnYNESaxX6nw8jQRbh+BCfXEal+QzR0BXC9Jp4=;
-        b=wgYqVjC1OBcPVHvChELyXBTsYYlKFgoTtMyIKrvgFAE8bdi3ATYfl2ZHf9nKla5W5D
-         5jDKSoEhPJ9Xi7RKxrYMBc+pZD5J4VFzMOt6b9/brb+nRyiGvZL41G60uS54Bs18Hvbx
-         iHASSLaYQ6SoCEysBOZ8K25i8Ewl5UmNz3MG7ePMcm1zQEB6UqHpB4PURrjcL5iGrRPq
-         Rjf2RbT6qbGJlXl/FV+efzjzBaHzTypgTSitYn83CfAydWdaR1LiIc69bDulJfYttn6w
-         yAsryWyk0rX8B+4dciBQyhAjBj5+NyajlOdiGrkVu6LMEN5njKIMP8TFbZWTFIyhpNgM
-         WHWw==
-X-Gm-Message-State: AOJu0YyvQRlqnZVlmx73KuptE08j61R2ixR6DbMvgCcY5MfN+BLyqdN6
-	wefLzc82EXW5SQh8eJS7qidZ1rNJJc9wSf3k2R125PTQOxRxBEmlwJek
-X-Gm-Gg: ASbGncsAPjufP7qqWWzkUYgzIr2LmXLHGc3fWKGisWbDoK1PhKopJxn8tZFvjWVZusM
-	b46a4qMJHcGN7KN2zkU8SGP8PWed4wT7qMz7P6Mo0Crcdq3tQEy42v4F0YT2hC5EhAT+yisihkl
-	I2oH2A+6rpH1LmYzjFkZ4I2OsPj5+it9Zces/jXpjZ12hVDJkdIuOReN96QeGzQdwAAS6ypb1Te
-	snbzcZfsh3RtaOwJeiI0KTZTtN/3F6vLej8Mx0x8R0wHmdTtNBpe80x+cNPfbH49nrdqoHRGVak
-	SI7X64ZDw0PMvDDTmRsYSgHkV6dgkU3S/BEc32BMeDZ6oM/u8i8eva/uo1/NWDWsiF4sna+A1gW
-	Fuctr/F/6Q89eAV7/Gxa78FLvLHWQtw0C/PP4toU9rt/SZHfZykY+EgbAN+wNrBbsgWmovIHLl2
-	j1FZKCBYcDaJFaOUPh
-X-Google-Smtp-Source: AGHT+IE6Tu6wufrIlj+Kudc31D3OvoV/icWKSCI7R614I9GYVkGOYOO+IfrlAxI3vaqnE2V0vypq7A==
-X-Received: by 2002:a17:903:22c5:b0:245:fb83:25da with SMTP id d9443c01a7336-2462ee8dcc8mr203216505ad.22.1756293792214;
-        Wed, 27 Aug 2025 04:23:12 -0700 (PDT)
+        bh=VRHVnpg9jOOLhSqBOjWKSbJGnSs0q1UyU/4Pw3oBr3I=;
+        b=xJFCaYLcepguSYBirELWmNkyNwUfLGP6ZYAa0OuVuPJL2I19NVAu46NI1T8bl9YrX4
+         OtN/RYxn+srjCa+yyCslB9XdhlCu3oZFiABrTiopARk3FyeiPZkUrD+jfD+Ev+18axKa
+         yfJD3arGZ1iwhqknW9xfUS74qQ+BsPHB6DnptB8OI7PV2v8c+BS3Oe3Q2yffGnZj8AH3
+         8H8RzIwSmjRNuaMZcepeCYijoVazZzbIV2NrLUDSPF7RFtHbqdD077kBFo7vA5WrZ1KP
+         e04izfuOs8a4ww4Z8vOn5kyNBBabAKo/n26Yef+jd6GPW0/inG2jq4OkARppUoC+/3Xz
+         9jkw==
+X-Gm-Message-State: AOJu0YzpxWOvGIGMgsGvHTfU51PuwUx4DEPMztMyaEK1KRKlQ/Sl4Gof
+	OzbsinSBJFBeaFpVcONGm+NMDJANblmeOEAIhCzv8pAN1OF82TKq0wzS
+X-Gm-Gg: ASbGncshfabXyK654ilz+FJQUvBqw/5XbVxGnQBbRRTjWI2jpiAhiDkBwPv2iVZZSFw
+	XFReSRlSDEhA7SP6KmNoYjreTfqy/Bx7pcqHOCLLVnxJY1LtE+io95q0wEVHrrj5aXNJPRCSv9I
+	4Z83tRjrFqUYZMDIAXg4RUeZr4CeA3zGUrCXdybK8XaUszwF3yLqRHX3eGMnCvQP2d5ugaCC+zl
+	MHpW2eqcFSvG9O8C2PA8EUFs8P/yFjI+Lg7RjO6n4Dn9R8ChEdc1PKeMnL+zp57IFhTLk4pJB3w
+	+QEFpdG0boiZyIo9o+d/LrF6rk8RreE2/ERCSRARWXvvJ8WdOAFeVWzbSbWUvKLB68STLUys+wq
+	VQwYnzMw031I0K2iu7bw3c+aF90x+dQCwcrCawoVyns+3DROtOXxZ05B8yzDAU3HeMyo+0xB1vA
+	+nfn5szjp9QBYff+bN6PcSTQ9BV5c=
+X-Google-Smtp-Source: AGHT+IGazgBF7dBdHwX3f8CSjkteviIi1P6yshCO+mKyTVKYMXEQPnfM8dJAfOCjG9kzcJT1WvLKrA==
+X-Received: by 2002:a17:90b:3e44:b0:31e:ebb6:6499 with SMTP id 98e67ed59e1d1-32515ec135dmr27101965a91.24.1756293798966;
+        Wed, 27 Aug 2025 04:23:18 -0700 (PDT)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fcd6232sm1819708a91.16.2025.08.27.04.23.05
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fcd6232sm1819708a91.16.2025.08.27.04.23.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Aug 2025 04:23:11 -0700 (PDT)
+        Wed, 27 Aug 2025 04:23:18 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 27 Aug 2025 21:22:37 +1000
-Subject: [PATCH v2 03/11] rtc: Add new rtc-macsmc driver for Apple Silicon
- Macs
+Date: Wed, 27 Aug 2025 21:22:38 +1000
+Subject: [PATCH v2 04/11] mfd: macsmc: Wire up Apple SMC RTC subdevice
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250827-macsmc-subdevs-v2-3-ce5e99d54c28@gmail.com>
+Message-Id: <20250827-macsmc-subdevs-v2-4-ce5e99d54c28@gmail.com>
 References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
 In-Reply-To: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -84,238 +83,37 @@ To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-input@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>, 
- Hector Martin <marcan@marcan.st>
+ linux-input@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7121;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=761;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=fFYNx5MTaxomGmqTFhn5OXWgUInA1frn00iHExvU3h4=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDBnrXjV9LEg3D811Ofwr5/LdmH1FWr66Mis4ZHNOC9XNV
- tsy8//vjlIWBjEuBlkxRZYNTUIes43YbvaLVO6FmcPKBDKEgYtTACYyxZThf7bzYwOFO0V5nHeX
- TGIT8e7SZNBdebLoTKf3xf8dTdsKXBkZPqVdjFbdPMOoz/rc47pJko+PrRJtiDktuDD/UdQuHV9
- ffgA=
+ bh=VOrW2GfzJb6imZqi+U2s8G3s2QEeizLHqMoRRpb/nIs=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDBnrXjW92MB4c0NY3kzza2ESkqr5ug7N3ff//Q3gcdhkG
+ GrodOBlRykLgxgXg6yYIsuGJiGP2UZsN/tFKvfCzGFlAhnCwMUpABMJ2sXIcCBlW1rgMjN/5znf
+ ExM2rF4ZczxhX0kf064y0Yd5wdN3RzIyTJ2y3PDT9O8aRz79lH238vDDxEsncws9+a+wr25iuuT
+ 8nwUA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-From: Hector Martin <marcan@marcan.st>
+Add the new SMC RTC function to the mfd device
 
-Apple Silicon Macs (M1, etc.) have an RTC that is part of the PMU IC,
-but most of the PMU functionality is abstracted out by the SMC.
-On T600x machines, the RTC counter must be accessed via the SMC to
-get full functionality, and it seems likely that future machines
-will move towards making SMC handle all RTC functionality.
-
-The SMC RTC counter access is implemented on all current machines
-as of the time of this writing, on firmware 12.x. However, the RTC
-offset (needed to set the time) is still only accessible via direct
-PMU access. To handle this, we expose the RTC offset as an NVMEM
-cell from the SPMI PMU device node, and this driver consumes that
-cell and uses it to compute/set the current time.
-
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Sven Peter <sven@kernel.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- MAINTAINERS              |   1 +
- drivers/rtc/Kconfig      |  11 ++
- drivers/rtc/Makefile     |   1 +
- drivers/rtc/rtc-macsmc.c | 141 +++++++++++++++++++++++++
- 4 files changed, 154 insertions(+)
+ drivers/mfd/macsmc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 56aabfbc2520749beb9dba235f8e86c15e17b7b6..5d53d243dc9abdf1db5865f8e6bcddbac3eafebe 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2422,6 +2422,7 @@ F:	drivers/nvmem/apple-spmi-nvmem.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/power/reset/macsmc-reboot.c
- F:	drivers/pwm/pwm-apple.c
-+F:	drivers/rtc/rtc-macsmc.c
- F:	drivers/soc/apple/*
- F:	drivers/spi/spi-apple.c
- F:	drivers/spmi/spmi-apple-controller.c
-diff --git a/drivers/rtc/Kconfig b/drivers/rtc/Kconfig
-index 64f6e9756aff4a1f6f6c50f9b4fc2140f66a8578..d28a46a89c85e6b30b402aec155e8972ed2aaa8e 100644
---- a/drivers/rtc/Kconfig
-+++ b/drivers/rtc/Kconfig
-@@ -2068,6 +2068,17 @@ config RTC_DRV_WILCO_EC
- 	  This can also be built as a module. If so, the module will
- 	  be named "rtc_wilco_ec".
+diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
+index 870c8b2028a8fc0e905c8934c2636824cbe5d527..59be894460d33afa754927630881532b548b7ad8 100644
+--- a/drivers/mfd/macsmc.c
++++ b/drivers/mfd/macsmc.c
+@@ -47,6 +47,7 @@
+ static const struct mfd_cell apple_smc_devs[] = {
+ 	MFD_CELL_OF("macsmc-gpio", NULL, NULL, 0, 0, "apple,smc-gpio"),
+ 	MFD_CELL_OF("macsmc-reboot", NULL, NULL, 0, 0, "apple,smc-reboot"),
++	MFD_CELL_OF("macsmc-rtc", NULL, NULL, 0, 0, "apple,smc-rtc"),
+ };
  
-+config RTC_DRV_MACSMC
-+	tristate "Apple Mac System Management Controller RTC"
-+	depends on MFD_MACSMC
-+	help
-+	  If you say yes here you get support for RTC functions
-+	  inside Apple SPMI PMUs accessed through the SoC's
-+	  System Management Controller
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called rtc-macsmc.
-+
- config RTC_DRV_MSC313
- 	tristate "MStar MSC313 RTC"
-         depends on ARCH_MSTARV7 || COMPILE_TEST
-diff --git a/drivers/rtc/Makefile b/drivers/rtc/Makefile
-index 789bddfea99d8fcd024566891c37ee73e527cf93..bcb43b5878a562454986cbb9ab8cc45cec248dda 100644
---- a/drivers/rtc/Makefile
-+++ b/drivers/rtc/Makefile
-@@ -93,6 +93,7 @@ obj-$(CONFIG_RTC_DRV_M48T35)	+= rtc-m48t35.o
- obj-$(CONFIG_RTC_DRV_M48T59)	+= rtc-m48t59.o
- obj-$(CONFIG_RTC_DRV_M48T86)	+= rtc-m48t86.o
- obj-$(CONFIG_RTC_DRV_MA35D1)	+= rtc-ma35d1.o
-+obj-$(CONFIG_RTC_DRV_MACSMC)	+= rtc-macsmc.o
- obj-$(CONFIG_RTC_DRV_MAX31335)	+= rtc-max31335.o
- obj-$(CONFIG_RTC_DRV_MAX6900)	+= rtc-max6900.o
- obj-$(CONFIG_RTC_DRV_MAX6902)	+= rtc-max6902.o
-diff --git a/drivers/rtc/rtc-macsmc.c b/drivers/rtc/rtc-macsmc.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..05e360277f630f3368b2856aadef1f2b96426c37
---- /dev/null
-+++ b/drivers/rtc/rtc-macsmc.c
-@@ -0,0 +1,141 @@
-+// SPDX-License-Identifier: GPL-2.0-only OR MIT
-+/*
-+ * Apple SMC RTC driver
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/mfd/core.h>
-+#include <linux/mfd/macsmc.h>
-+#include <linux/module.h>
-+#include <linux/nvmem-consumer.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/rtc.h>
-+#include <linux/slab.h>
-+
-+/* 48-bit RTC */
-+#define RTC_BYTES 6
-+#define RTC_BITS (8 * RTC_BYTES)
-+
-+/* 32768 Hz clock */
-+#define RTC_SEC_SHIFT 15
-+
-+struct macsmc_rtc {
-+	struct device *dev;
-+	struct apple_smc *smc;
-+	struct rtc_device *rtc_dev;
-+	struct nvmem_cell *rtc_offset;
-+};
-+
-+static int macsmc_rtc_get_time(struct device *dev, struct rtc_time *tm)
-+{
-+	struct macsmc_rtc *rtc = dev_get_drvdata(dev);
-+	u64 ctr = 0, off = 0;
-+	time64_t now;
-+	void *p_off;
-+	size_t len;
-+	int ret;
-+
-+	ret = apple_smc_read(rtc->smc, SMC_KEY(CLKM), &ctr, RTC_BYTES);
-+	if (ret < 0)
-+		return ret;
-+	if (ret != RTC_BYTES)
-+		return -EIO;
-+
-+	p_off = nvmem_cell_read(rtc->rtc_offset, &len);
-+	if (IS_ERR(p_off))
-+		return PTR_ERR(p_off);
-+	if (len < RTC_BYTES) {
-+		kfree(p_off);
-+		return -EIO;
-+	}
-+
-+	memcpy(&off, p_off, RTC_BYTES);
-+	kfree(p_off);
-+
-+	/* Sign extend from 48 to 64 bits, then arithmetic shift right 15 bits to get seconds */
-+	now = sign_extend64(ctr + off, RTC_BITS - 1) >> RTC_SEC_SHIFT;
-+	rtc_time64_to_tm(now, tm);
-+
-+	return ret;
-+}
-+
-+static int macsmc_rtc_set_time(struct device *dev, struct rtc_time *tm)
-+{
-+	struct macsmc_rtc *rtc = dev_get_drvdata(dev);
-+	u64 ctr = 0, off = 0;
-+	int ret;
-+
-+	ret = apple_smc_read(rtc->smc, SMC_KEY(CLKM), &ctr, RTC_BYTES);
-+	if (ret < 0)
-+		return ret;
-+	if (ret != RTC_BYTES)
-+		return -EIO;
-+
-+	/* This sets the offset such that the set second begins now */
-+	off = (rtc_tm_to_time64(tm) << RTC_SEC_SHIFT) - ctr;
-+	return nvmem_cell_write(rtc->rtc_offset, &off, RTC_BYTES);
-+}
-+
-+static const struct rtc_class_ops macsmc_rtc_ops = {
-+	.read_time = macsmc_rtc_get_time,
-+	.set_time = macsmc_rtc_set_time,
-+};
-+
-+static int macsmc_rtc_probe(struct platform_device *pdev)
-+{
-+	struct apple_smc *smc = dev_get_drvdata(pdev->dev.parent);
-+	struct macsmc_rtc *rtc;
-+
-+	/*
-+	 * MFD will probe this device even without a node in the device tree,
-+	 * thus bail out early if the SMC on the current machines does not
-+	 * support RTC and has no node in the device tree.
-+	 */
-+	if (!pdev->dev.of_node)
-+		return -ENODEV;
-+
-+	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
-+	if (!rtc)
-+		return -ENOMEM;
-+
-+	rtc->dev = &pdev->dev;
-+	rtc->smc = smc;
-+
-+	rtc->rtc_offset = devm_nvmem_cell_get(&pdev->dev, "rtc_offset");
-+	if (IS_ERR(rtc->rtc_offset))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(rtc->rtc_offset),
-+				     "Failed to get rtc_offset NVMEM cell\n");
-+
-+	rtc->rtc_dev = devm_rtc_allocate_device(&pdev->dev);
-+	if (IS_ERR(rtc->rtc_dev))
-+		return PTR_ERR(rtc->rtc_dev);
-+
-+	rtc->rtc_dev->ops = &macsmc_rtc_ops;
-+	rtc->rtc_dev->range_min = S64_MIN >> (RTC_SEC_SHIFT + (64 - RTC_BITS));
-+	rtc->rtc_dev->range_max = S64_MAX >> (RTC_SEC_SHIFT + (64 - RTC_BITS));
-+
-+	platform_set_drvdata(pdev, rtc);
-+
-+	return devm_rtc_register_device(rtc->rtc_dev);
-+}
-+
-+static const struct of_device_id macsmc_rtc_of_table[] = {
-+	{ .compatible = "apple,smc-rtc", },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, macsmc_rtc_of_table);
-+
-+static struct platform_driver macsmc_rtc_driver = {
-+	.driver = {
-+		.name = "macsmc-rtc",
-+		.of_match_table = macsmc_rtc_of_table,
-+	},
-+	.probe = macsmc_rtc_probe,
-+};
-+module_platform_driver(macsmc_rtc_driver);
-+
-+MODULE_LICENSE("Dual MIT/GPL");
-+MODULE_DESCRIPTION("Apple SMC RTC driver");
-+MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
+ static int apple_smc_cmd_locked(struct apple_smc *smc, u64 cmd, u64 arg,
 
 -- 
 2.51.0
