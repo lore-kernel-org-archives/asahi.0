@@ -1,121 +1,192 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADC129ACC0
-	for <asahi@lists.linux.dev>; Thu, 28 Aug 2025 20:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625B9225D6
+	for <asahi@lists.linux.dev>; Thu, 28 Aug 2025 22:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756414796; cv=none; b=IC20GHacxtN7QnkUuP48KI1Nk9Z9JvqAvDU4uWn+VET1F+btuEtU3QGrK/2s+ytsInU/zPZtv9C4odjdqPsXUzJhX81k13hKXvpLd/OtRaMc3jxKuvN007aFRQavxF7GsRD2YKlSQDz75KO5ZqBKFpsiBUZx+E5g8OljJL2PriU=
+	t=1756419161; cv=none; b=L7U4QuNfU1lQ31LXQNai1X0LyL5uOQlxyYlW+LMLBNaSixfb+wijXIhDJVG83nRXOxLh2WN07TkqMUDl5g2YlSgHjZEVMofa4s+5a8ZU5BVyPOhZs40SH42Z/YkoV97bPFpd17wSxhMAPfn2nG3E1OiCpAztnJaxretBiwRAb/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756414796; c=relaxed/simple;
-	bh=vcH+lJXlXkzbWh1s+giYmvp9r3m+hUxJ894v+cf3nQo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=snpMvG2uzUGjRIaQkuVveym4lFfieK3q5CStaHziGT3DEM6bH0Mkswib3ouXsZmbC4p6Q41LI45NJZ62m5AGd9I/60x61kIyB9ErMdXXfiiYo+eSNlVbEcy2JhiH5TH63V0J5z6zFuH14gyobM0vgONqlVtxfgso0px0vzEul0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=quqsZ0c0; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1756419161; c=relaxed/simple;
+	bh=1NIhAK+w11BGCjslpOtTVWdmmqJ+P6N6h23+i81JK14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y8baAQe2dh4TXOir3RH9DWQ3oGs2cH998XgZQ7VBj9xbEawUqc7Y8DorZC24tzR/ZCBklGMtR1d9jJNFuFbe80f0g+fjfd0tKnghv3za3rwco/U6a7TX0hcsAMs97HzvfnJp3oJOMwuWkZMrOnuL5Pu0blzbolpeFTuFPaof8iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TfM05Iot; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="quqsZ0c0"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3366ce6889bso9965561fa.0
-        for <asahi@lists.linux.dev>; Thu, 28 Aug 2025 13:59:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756414792; x=1757019592; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vcH+lJXlXkzbWh1s+giYmvp9r3m+hUxJ894v+cf3nQo=;
-        b=quqsZ0c0Rsa3/PZHCxjzNCVMA2a3XpPl7xFVelqzreGXJgsrl9nIvKk2q7sVqfkX/n
-         dTgWKoEHCrBPs3/eUx9nctyEWv0hRiblMVdtHUuPqD9wgZzhP0rRmDhEt3IImobur46D
-         muXu/XGII0IuujmN5D05Rz6aQwOCYnfyacPni9oqhY19QuL4I6edB+nEMdOhljNl8Kzz
-         ogAQy2nJZ3MoTf48ih+xCah1K462manf9vhf8wxVtjJo0FHN19raUhwFiroHVD29Qn0y
-         7ybDfYh8uIbBvyzWDxJ3pjnKXyPmnBJo3lTHItfjjocTbnWiCfpUl/rXLv7LVaGHJbMW
-         Kzeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756414792; x=1757019592;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vcH+lJXlXkzbWh1s+giYmvp9r3m+hUxJ894v+cf3nQo=;
-        b=FKqPtL0RuqZpUpRKcQMERxGdNzgg9gqAZBXpfg9W1gvnp0xy/Lg6W+Z3TUEPEuqQiD
-         3/iacW78f1dpcWjkNfxRBc4pWiXkWfHInRBkca5n1UfVwQZxwRXmWVRYRjeP+t/DsI2i
-         rE37pwFTnC12tre4v7H3EhewP4wUmq2P3MulYW6OyaeZY1k4tXf4MDbqwvGrN4ovkEBz
-         dc89RZHsREeqenslHgb+DLEm0pQgsZ/2csaEwblYRWkOZDH9cK+OLdAa/4EY4rN66BaC
-         JzjtW1TW5Drsz/6lWCe/y9XoQ0Ym852BacQ3us94s1h9qm1ZfuSsA+QdadXxukrW7HlM
-         No5A==
-X-Forwarded-Encrypted: i=1; AJvYcCVKZesUTiWB2ha4U3cFLfAxHgafYA0cQWRTk1P4+dA1zuFakEInyirmDTcdtnf8igLuMac7Uw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwM+Y/o4T/Xjuaf74m+dJ5lOOUYSvKcGEOBuT6gq3u4CuJ9zA27
-	LEs7v5WsgSHgU9OugVI0Tyo2B08ODDJkHFfgcX51v4dpWfPZAp71hqG93KuPwQAL/q3X7v0Qjwt
-	tF/B/9QPK782UtclNbaqterLqpnfWB4QzIGTjJwB3BQ==
-X-Gm-Gg: ASbGnctuEUNGkXJXo5H+SiXScR8NdtQaVKiwYw2SxIaLgwLtWH688wMW8YyZK/nJvGX
-	dgPfYxA7ZAerRI1IvunX1V6FLFmsthpZ5qFVf5+LxUhPorqDL9/4G3chQhMO6vUh3hjB080ItH5
-	C2mBXvFuzQcYRpedaSw9vfl860i2pX3KZXdtvHZodwaqOkzwXuEpM9603XrBOl5s5QtvmPyTTkO
-	OBs37U=
-X-Google-Smtp-Source: AGHT+IEvCK27Dx3T+NwB4QTV9UIlsAab63smCZ6D7uUks2NtQZowbM82iFbh3N6kvr8t1WPK8CdOU0xtB51L+4ds/dQ=
-X-Received: by 2002:a05:651c:3256:10b0:332:3fd0:15fb with SMTP id
- 38308e7fff4ca-33650ba8612mr48592831fa.0.1756414792241; Thu, 28 Aug 2025
- 13:59:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TfM05Iot"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 9CDCE4E40BA4;
+	Thu, 28 Aug 2025 22:12:36 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5248C60303;
+	Thu, 28 Aug 2025 22:12:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AF0B91C2282D4;
+	Fri, 29 Aug 2025 00:12:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1756419154; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=umk9iWJI80083siMMEl+CA2tkGjcz41y3WD2Fn8H0Ic=;
+	b=TfM05Iot5cnVPUd+7CT5hHAFGGdx3Wi+hnTehL7TC1loZXNHtBwRJB1bDydItFHFCUjds4
+	6XdfgO5G5hisGu3ehZz/a0X/jv6btLjl4hQiaoLkfRPtbv0cBka3LnqI4LFCE8J1qGG6P1
+	0v+rZPq6GDA//du7YZ9+PRivJXiUBE99st4zy5u9pClr4rAqfSSZhYZcMknbpXlnLCD38N
+	jf4uNvQVAxaVGp1HHHXmC2oijgL8+ivkSlEzAviwt3odii7Je/6SGLCtBVtCJQcI1vLEoB
+	I9SAK4aG+XE+lvktkk8TNNXTcLEP2LYZXkIcQek3zI+1VYG7tAi7Wo3D6KThxA==
+Date: Fri, 29 Aug 2025 00:12:13 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v2 00/11] mfd: macsmc: add rtc, hwmon and hid subdevices
+Message-ID: <202508282212139a74f113@mail.local>
+References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net> <20250828-dt-apple-t6020-v1-9-507ba4c4b98e@jannau.net>
-In-Reply-To: <20250828-dt-apple-t6020-v1-9-507ba4c4b98e@jannau.net>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 28 Aug 2025 22:59:41 +0200
-X-Gm-Features: Ac12FXyoYnYKNXDomZzl4EdS0dXvIhCV2tkZJGb1B6Y1kaQgUA-l_NpqH411N_c
-Message-ID: <CACRpkdbg8KYcDpqDKn9fqs+rL9hLK9mGCj0PTXPBGDW7A_AZbw@mail.gmail.com>
-Subject: Re: [PATCH 09/37] dt-bindings: pinctrl: apple,pinctrl: Add
- apple,t6020-pinctrl compatible
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Michael Turquette <mturquette@baylibre.com>, 
-	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, Aug 28, 2025 at 4:02=E2=80=AFPM Janne Grunau <j@jannau.net> wrote:
+Hello,
 
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatible "apple,pinctrl" anymore [1]. Use
-> "apple,t8103-pinctrl" as fallback compatible as it is the SoC the driver
-> and bindings were written for.
->
-> The M2 Pro/Max/Ultra SoCs use the same pinctrl hardware, so just add its
-> per-SoC compatible using the new base as fallback.
->
-> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@k=
-ernel.org/
->
-> Signed-off-by: Janne Grunau <j@jannau.net>
+On 27/08/2025 21:22:34+1000, James Calligeros wrote:
+> Hi all,
+> 
+> This series adds support for the remaining SMC subdevices. These are the
+> RTC, hwmon, and HID devices. They are being submitted together as the RTC
+> and hwmon drivers both require changes to the SMC DT schema.
+> 
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+How do you expect this to be merged? From what I get, I could just take
+1 and 3 as there doesn't seem to be any actual dependencies on any of
+the other patches and the MFD change doesn't depend on the RTC changes.
 
-Yours,
-Linus Walleij
+> The RTC driver is responsible for getting and setting the system clock,
+> and requires an NVMEM cell. This series replaces Sven's original RTC driver
+> submission [1].
+> 
+> The hwmon function is an interesting one. While each Apple Silicon device
+> exposes pretty similar sets of sensors, these all seem to be paired to
+> different SMC keys in the firmware interface. This is true even when the
+> sensors are on the SoC. For example, an M1 MacBook Pro will use different
+> keys to access the LITTLE core temperature sensors to an M1 Mac mini. This
+> necessitates describing which keys correspond to which sensors for each
+> device individually, and populating the hwmon structs at runtime. We do
+> this with a node in the device tree. This series includes only the keys
+> for sensors which we know to be common to all devices. The SMC is also
+> responsible for monitoring and controlling fan speeds on systems with fans,
+> which we expose via the hwmon driver.
+> 
+> The SMC also handles the hardware power button and lid switch. Power
+> button presses and lid opening/closing are emitted as HID events, so we
+> add a HID subdevice to handle them.
+> 
+> Note that this series is based on a branch with three additional commits
+> applied to add the parent SMC nodes to the relevant Devicetrees. This
+> was done to silence build errors. The series applies cleanly to 6.17-rc1.
+> 
+> Regards,
+> 
+> James
+> 
+> [1] https://lore.kernel.org/asahi/CAEg-Je84XxLWH7vznQmPRfjf6GxWOu75ZetwN7AdseAwfMLLrQ@mail.gmail.com/T/#t
+> 
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+> Changes in v2:
+> - Added Rob's R-b tag to RTC DT binding
+> - Removed redundant nesting from hwmon DT binding
+> - Dedpulicated property definitions in hwmon DT schema
+> - Made label a required property for hwmon DT nodes
+> - Clarified semantics in hwmon DT schema definitions
+> - Split mfd tree changes into separate commits
+> - Fixed numerous style errors in hwmon driver
+> - Addressed Guenter's initial feedback on the hwmon driver
+> - Modified hwmon driver to reflect DT schema changes
+> - Added compatible property to hwmon node
+> - Link to v1: https://lore.kernel.org/r/20250819-macsmc-subdevs-v1-0-57df6c3e5f19@gmail.com
+> 
+> ---
+> Hector Martin (2):
+>       rtc: Add new rtc-macsmc driver for Apple Silicon Macs
+>       input: macsmc-hid: New driver to handle the Apple Mac SMC buttons/lid
+> 
+> James Calligeros (7):
+>       dt-bindings: hwmon: Add Apple System Management Controller hwmon schema
+>       mfd: macsmc: Wire up Apple SMC RTC subdevice
+>       hwmon: Add Apple Silicon SMC hwmon driver
+>       mfd: macsmc: Wire up Apple SMC hwmon subdevice
+>       mfd: macsmc: Wire up Apple SMC HID subdevice
+>       arm64: dts: apple: Add common hwmon sensors and fans
+>       arm64: dts: apple: t8103, t600x, t8112: Add common hwmon nodes to devices
+> 
+> Sven Peter (2):
+>       dt-bindings: rtc: Add Apple SMC RTC
+>       arm64: dts: apple: t8103,t600x,t8112: Add SMC RTC node
+> 
+>  .../bindings/hwmon/apple,smc-hwmon.yaml  | 132 ++++
+>  .../bindings/mfd/apple,smc.yaml          |  45 ++
+>  .../bindings/rtc/apple,smc-rtc.yaml      |  35 +
+>  MAINTAINERS                              |   5 +
+>  .../boot/dts/apple/hwmon-common.dtsi     |  37 ++
+>  .../boot/dts/apple/hwmon-fan-dual.dtsi   |  24 +
+>  arch/arm64/boot/dts/apple/hwmon-fan.dtsi |  19 +
+>  .../boot/dts/apple/hwmon-laptop.dtsi     |  35 +
+>  .../boot/dts/apple/hwmon-mac-mini.dtsi   |  17 +
+>  .../arm64/boot/dts/apple/t6001-j375c.dts |   2 +
+>  .../arm64/boot/dts/apple/t6002-j375d.dts |   2 +
+>  .../arm64/boot/dts/apple/t600x-die0.dtsi |   6 +
+>  .../boot/dts/apple/t600x-j314-j316.dtsi  |   4 +
+>  .../arm64/boot/dts/apple/t600x-j375.dtsi |   2 +
+>  arch/arm64/boot/dts/apple/t8103-j274.dts |   2 +
+>  arch/arm64/boot/dts/apple/t8103-j293.dts |   3 +
+>  arch/arm64/boot/dts/apple/t8103-j313.dts |   2 +
+>  arch/arm64/boot/dts/apple/t8103-j456.dts |   2 +
+>  arch/arm64/boot/dts/apple/t8103-j457.dts |   2 +
+>  .../arm64/boot/dts/apple/t8103-jxxx.dtsi |   2 +
+>  arch/arm64/boot/dts/apple/t8103.dtsi     |   6 +
+>  arch/arm64/boot/dts/apple/t8112-j413.dts |   2 +
+>  arch/arm64/boot/dts/apple/t8112-j473.dts |   2 +
+>  arch/arm64/boot/dts/apple/t8112-j493.dts |   3 +
+>  .../arm64/boot/dts/apple/t8112-jxxx.dtsi |   2 +
+>  arch/arm64/boot/dts/apple/t8112.dtsi     |   6 +
+>  drivers/hwmon/Kconfig                    |  12 +
+>  drivers/hwmon/Makefile                   |   1 +
+>  drivers/hwmon/macsmc_hwmon.c             | 848 +++++++++++++++++++++++++
+>  drivers/input/misc/Kconfig               |  11 +
+>  drivers/input/misc/Makefile              |   1 +
+>  drivers/input/misc/macsmc-hid.c          | 209 ++++++
+>  drivers/mfd/macsmc.c                     |   3 +
+>  drivers/rtc/Kconfig                      |  11 +
+>  drivers/rtc/Makefile                     |   1 +
+>  drivers/rtc/rtc-macsmc.c                 | 141 ++++
+>  36 files changed, 1637 insertions(+)
+> ---
+> base-commit: 876d6a70b24869f96ebc8672caf86cb4bae72927
+> change-id: 20250816-macsmc-subdevs-87032c017d0c
+> 
+> Best regards,
+> -- 
+> James Calligeros <jcalligeros99@gmail.com>
+> 
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
