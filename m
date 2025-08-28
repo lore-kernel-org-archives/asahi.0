@@ -1,163 +1,117 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EDB22A7F9;
-	Thu, 28 Aug 2025 17:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACED287250
+	for <asahi@lists.linux.dev>; Thu, 28 Aug 2025 20:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756401546; cv=none; b=Q1JfraElwpsi9x/duU64kU+sYHXO8BSyvMCIhIuOkDBAILRAWAmF8UddA2zCWDjnno/2KAQdPjqofDAid4msBEDy4wNN9q1YyaqIs8na7S5il2LOeh+2hBPMuS/t1/ijjSRX+2P7W6hB7pWVPLYWfkek7dzxMNUL5ONy3T0PGmc=
+	t=1756414777; cv=none; b=T23U98C858bU8eCG1xNUGAGJvParpSTsE+ycbJHr7OCffWG8S21pQyxiixNZLM0dFMFnibbKFYdriFxcv5+NIRAjyejdY3qRG3LqP6Llc9ozDNT0xf2flgkQV5trxLAeWWF9f2jJo5snR8YtOezlhtWOA+B8wQNLcsHg6Pk/yqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756401546; c=relaxed/simple;
-	bh=SS4pv8uyaXLZEUMjbC2GJgsLUt5PP91S4SC3iNr8JIE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iiddvf3EIHd5vF6ZfJeFTsCwNiDJOVgTZukqGoieHxzZR8QWk7KMf4WMw41M8f+4Tj03nRAyFhMZhYYrGNd+VmRiHmoUTUuZKYVeqzX865b7ZKoEcRdDmZRwzQ7ICka4bxi/mFkoX/QohAE7G6HtESs+dcXT+IO8IBZCxy7ZIKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BrfoDINR; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756414777; c=relaxed/simple;
+	bh=nhUyagpznBFRZ9pdGyujL8snMtRV7AxzIDv/2iWCkkM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rNsZUXYhuihbAsaWTWI7ubEIOXG6hBgH7qtrtaD4Tm5MuBkFb15Cv8VV5uJWGxobzFugNTzq/ZtgUHi3UdN8j5bJoxHnSDpA+YkgtV75DEXCUcPk8o0LP++sUg1qUIJTPoeJq9G7eBsYDOr8KZIcTSMFFi0ZbdK4I4Z20ZbZACI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eH0TahKp; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BrfoDINR"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-248ff5cabe0so1866195ad.0;
-        Thu, 28 Aug 2025 10:19:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eH0TahKp"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55f646b1db8so947468e87.0
+        for <asahi@lists.linux.dev>; Thu, 28 Aug 2025 13:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756401544; x=1757006344; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SS4pv8uyaXLZEUMjbC2GJgsLUt5PP91S4SC3iNr8JIE=;
-        b=BrfoDINRwpsl18PQ7xXjC5Cc1YmnSmalFXEWkIMk8MQ8BKi2dh1oO3oue29tv+RSwk
-         dGunsmSVD/KV9+W4YTmUzfPDWiX2CXbnIgGW79NGgps+Q/0znBVTdHHsPnidWLG4ejia
-         BJC7LBibNwbRBsrFCQiVCoQgaYVe5ZvtGtdFvLxIRexKpeA3o2jmQHwEDt1HGJbFDvaI
-         2sf19CGx1Fm+dVafKFIIoRoPPibwjqhXcycNtprTzGPqEWs7ZVGJcSVOCwgJRa06huOg
-         fowhdlw9zkm5tYxNcbhDW3raQFsNEIHdj8jph1cf3Ytx+PBLxpmjKlX7h1FP94mVXyTr
-         wYxQ==
+        d=linaro.org; s=google; t=1756414773; x=1757019573; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nhUyagpznBFRZ9pdGyujL8snMtRV7AxzIDv/2iWCkkM=;
+        b=eH0TahKptjB5T6yv59r5xvtqQhz0ZVXl8x7aqrJA/CrKzbauxO4urpyTs2cFcRvHD8
+         S2w9SjmxQLJo4ArUYKqrL9QX7kpMVsoY7fAowH6gMxFp4t4YyfvBrrfp5iHvLmQe3U/y
+         SyVGvlvjh6wWpxNZvX/qwPYIKwvp0jAjDLqeSXkpsygJuPROBAwLHzfEsUtiTlpTnqS1
+         uAZqGY+s6v5BDV15fU3+xg2WZ5+Oz2BwIOVGXZXBUQoPVB7fXixrAd3Nu254ogkF5kD5
+         qkM8eyTtBBMNNjr27fNVy4ejQLSK1y/kMioU6N5hdmGbRcdbXGzYMqlMoELp5a2LPhqi
+         Jyaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756401544; x=1757006344;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SS4pv8uyaXLZEUMjbC2GJgsLUt5PP91S4SC3iNr8JIE=;
-        b=P8gGRJjw6U0lJ6r45Pw/6aliAE1vARhm4/9My6ntIZnQbRY1igSWdCk8C/y4+yZ9QJ
-         f+bIjys+P6fJwT6NBwKQuyTP9tDnQgYQyiHd6sMtXL1c7Zjkjma7Vou692Fe37hCFWkI
-         pChnJQGBqj4Pa3XC7my9MZTumoAORUVcofaopVvj5qgk0+GFxKtX2F5i+w7MS+kyXXWv
-         lVFTqUW9OJsL0EPsH/2MfIbVaRrAxxXURSriI4fHB5x/RQLRMVMGQKfgR8ydG6DPhYDE
-         ZjtPgz7IBZR8QzCTNXRFbDF6T5Ao5NYuxVCvfDTcenwNjI4sn9Qtb89IeGh4EUJEOSE6
-         txSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLX7kDT2mBm5MmQXe4oT6Dg/f62+nFHT3TV5AtdKRhFdJtoSmRR1FP/m5f2pQ846T6Rnh85jg=@lists.linux.dev, AJvYcCVYWzwCaMLPzGgZp4pjNArkvjh8wbGD2+eNPIK2h5TvsVE1LINuTWMc2TFmKWOs96I7pOuVqg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yykeg4LrOdMibo4TiuRjVNMILdQbErPmrTiH0CMXkfcTAukOYKt
-	SWcdwnGtB0F6ra5aIUoOQHP6DhOLgrz3/YCB6VKhdRfzNbXVFEYgbP4+
-X-Gm-Gg: ASbGncsc94wkdfZI60OO8TO0KJvmRTP2hTApkHWKsfiXwQicdhKuzPWua1GlLILwMRM
-	xoP7HXUsZfUHVsl0rKAa35Uxyp6gMu2G4UQEUsfnrWQ2duT9m+efOg2PCF/dt0kHeisF22PmZTf
-	fpsqpWiA0VfsWt34IIzidplhfCwlaYaOjQaGktw31hBAnlSFC6+2Bi668FGXNLrwD+Zhqh5fc+L
-	AYxvtEntWfSj/aqWKmlFmFAbqRdBV+yKYNU4AJXO4fn8LPrtK8jkLDjXCd0hWtxIhixBlBrfMYZ
-	OjqGrEZKY3OYwl+1+fY+8rWY5QEWHDtOWyAf6cho2tiszktB3mnoJckT0sawgxKlxkxJDxvXOlC
-	Hds8DCNA/21Tn1QkKhA7kdKPbgRHS6G3dsls9uRkHhBPv5+OeTOBE/Q==
-X-Google-Smtp-Source: AGHT+IFPj3GBG1tXe0w52JDhOrrrStWKIT6zs8hpAEsM8UEVZqo8QCtKE2lg8olsPKFlf0oBzRgObQ==
-X-Received: by 2002:a17:903:2391:b0:249:308:353 with SMTP id d9443c01a7336-2490308048fmr5489935ad.41.1756401543466;
-        Thu, 28 Aug 2025 10:19:03 -0700 (PDT)
-Received: from [192.168.1.111] ([59.188.211.98])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24905da2f20sm739185ad.82.2025.08.28.10.18.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Aug 2025 10:19:02 -0700 (PDT)
-Message-ID: <86ab9bd4-9a4f-4ae9-930f-5fb9ef69c963@gmail.com>
-Date: Fri, 29 Aug 2025 01:18:47 +0800
+        d=1e100.net; s=20230601; t=1756414773; x=1757019573;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nhUyagpznBFRZ9pdGyujL8snMtRV7AxzIDv/2iWCkkM=;
+        b=A4nVWOFsGlofsm58PN8uTeZMEjgEXORGfQmk9pxSO1pSyFUCqtJ2qI0fVQ3JMDUDat
+         BnDrkeq/mqjVmrxnS8QZ9AO3cxUmBoWft3bKLXoH+ay1bMa+n+tUnsKT6RKejZBugZtS
+         oXhGamAFsoPJKvfrAQznvX/fL8ewDfbRT+qxalNfVmn51vCvc0v0h7NQh3azcj8K2ZnB
+         8QQFqXgKBdZftEATM9ngHJTMO0x1mnQ0JxKyDa62ztGlTZyERyDh2aAbe4LEhQ16sWgo
+         h4mo9xnb7B5gq4urrXKDJJcCXOwd4WVbmJrFrpCsrKy6fSAsh6ZXne4JuB/npYFimr/j
+         wdtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZO4/nwiVUEPCZix8HktOQvVBqewYZoHkDKwNQWkFPsAwt/9agkVWhfKiSj6eNV0HlPlywGg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTEvJjAaJJTiU+fMzdcQd/4bFS/Knn/SUjvqKXh175MK2TsGn1
+	bMhwVJ5of7jhku/Y9hlNLoVPN9tbKhuM7mZj5G6w7R+25Hlx0iFOPL4EJudsdS5eq4x3CPm9ptP
+	2KyolP2bC4F91/hEx3kiOR3jdU3WVss/FMsNGFIkivw==
+X-Gm-Gg: ASbGncsXql1jt4RhOqv2v8Pr5U/uXFSJAuLqHJVjYvyyfj8fb9ANOGK67xVTOmqZE2r
+	nS5OYWrZITxneMTT7MACcm8Hg50f+DMCwn+xFGNh5DtrQe2IR/MLh8p8/2PoYWQra0zqdDCxYST
+	y2XbTT3cMQtS24L0fhk7dfSZu5bRn2FIYzYDQt4FnVUV1vhOHhFUyxqZN7WUbErA9uEqC9fR5qT
+	D4z9r4=
+X-Google-Smtp-Source: AGHT+IGkAeRfSepttrAWspST3WxeFhzvmsQkOJn8zGWgyydoFU7mfe7dFpmDKHnPoU/jmN1MyfkA6699WvyfKPSV4Ms=
+X-Received: by 2002:a05:6512:6301:b0:55f:503c:d322 with SMTP id
+ 2adb3069b0e04-55f503cd585mr2344975e87.40.1756414773211; Thu, 28 Aug 2025
+ 13:59:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net> <20250828-dt-apple-t6020-v1-8-507ba4c4b98e@jannau.net>
+In-Reply-To: <20250828-dt-apple-t6020-v1-8-507ba4c4b98e@jannau.net>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 28 Aug 2025 22:59:22 +0200
+X-Gm-Features: Ac12FXwdi56r5WxKQlnuWh0e5CWqxbReZCdYkWbkMywpfjpFF5zgYMlMEAzYzgg
+Message-ID: <CACRpkdbvLhTQ8EujGg9QMbuGVRDnH9ApVxVt1NdmSmPw77QXdA@mail.gmail.com>
+Subject: Re: [PATCH 08/37] pinctrl: apple: Add "apple,t8103-pinctrl" as compatible
 To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner
- <tglx@linutronix.de>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>, van Spriel <arend@broadcom.com>,
- Lee Jones <lee@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Michael Turquette <mturquette@baylibre.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <932e0085-c901-40f8-b0d5-67f8f0b934e6@gmail.com>
- <20250828165012.GC204299@robin.jannau.net>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250828165012.GC204299@robin.jannau.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Michael Turquette <mturquette@baylibre.com>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Aug 28, 2025 at 4:02=E2=80=AFPM Janne Grunau <j@jannau.net> wrote:
 
-Janne Grunau 於 2025/8/29 凌晨12:50 寫道:
-> On Fri, Aug 29, 2025 at 12:11:40AM +0800, Nick Chan wrote:
->> Janne Grunau 於 2025/8/28 晚上10:01 寫道:
->>> This series adds device trees for Apple's M2 Pro, Max and Ultra based
->>> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
->>> follow design of the t600x family so copy the structure of SoC *.dtsi
->>> files.
->> [...]
->>> After discussion with the devicetree maintainers we agreed to not extend
->>> lists with the generic compatibles anymore [1]. Instead either the first
->>> compatible SoC or t8103 is used as fallback compatible supported by the
->>> drivers. t8103 is used as default since most drivers and bindings were
->>> initially written for M1 based devices.
->>>
->>> The series adds those fallback compatibles to drivers where necessary,
->>> annotates the SoC lists for generic compatibles as "do not extend" and
->>> adds t6020 per-SoC compatibles.
->> The series is inconsistent about the use of generic fallback compatibles.
->>
->> "apple,aic2", "apple,s5l-fpwm", "apple,asc-mailbox-v4" is still used.
-> Those are less generic than say "apple,spi". For "apple,aic2" especially
-> it's clear which SoCs use it and the set is closed (ignoring iphone SoCs
-> which very likely will never run linux). For the interrupt controller
-> the fallout of not using the "apple,aic2" is larger since even m1n1
-> expect that. irq driver is special in so far as it requires more than
-> adding a compatible.
-> I think "apple,s5l-fpwm" and "apple,asc-mailbox-v4" are specific enough
-> and describe simple hardware so the will not cause issues unlike the
-> complex firmware based "apple,nvme-ans2".
-
-All of these compatibles has around the same specificity as "apple,nvme-ans2" which is
-a mistake of using A11's version (ans2) to describe the M1 nvme (ans3). Though I do agree
-"apple,asc-mailbox-v4", "apple,s5l-fpwm" and "apple,aic2" should be fine compatibility-wise.
-
-Although AIC2 compatible should be fine that may not hold for later versions since Linux's
-AIC driver is actually AIC + core complex FIQ stuff, so when you do add newer AICs it is
-probably better to use SoC-specific compatible there.
-
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,pinctrl" anymore [1]. Use
+> "apple,t8103-pinctrl" as fallback compatible as it is the SoC the driver
+> and bindings were written for.
 >
-> Janne
+> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@k=
+ernel.org/
 >
-Best regards,
-Nick Chan
+> Signed-off-by: Janne Grunau <j@jannau.net>
+
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
