@@ -1,193 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751551FDA
-	for <asahi@lists.linux.dev>; Fri, 29 Aug 2025 00:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE2A22A4D5;
+	Fri, 29 Aug 2025 07:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756428479; cv=none; b=ixqqREPjjdE1ZevMKEYNbrDy6B/sjZpAUsWlzM0MwGtFIwalNsKM9IrAjfT9qzIDIoVbWCZ5hTRYT53Y1CGYDzLKGoxolIF0yKUl2H2yBu08sm0BOCWsaJzK8hynn/+BTLePFPHxiCF9rPED/3WrogDFxDCkaM1imZRT3gjDZmg=
+	t=1756453460; cv=none; b=Nox2edtW1S1sM+RBLGdwPEyeOL+aFWmH42aiTtvauXEWn+vjHD+hkEyw10nT+1FlvTVJbuE+E/uvKo/bFElFRzJTkFCv0SqiT+3osxP1z4jD+W2bO6Umv1SDzjOwCaYpqq3Vphg8uz06l/KzX7tEgU26nIf8Ix3KEB3C0OA7QPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756428479; c=relaxed/simple;
-	bh=2hr2jy4IpoCDgvk7s9IjtfXTVDQh1mDXQrhhYPQBqgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=VTPxYHfuco5bOZA4lD6QQmucYKzxp+LZWbVMM31XWgj3pGVGJiB127Ck1nJe4qIyA3HYHgWXdHHn3QuD6JgsQIli6tJjmnw/gu/8nJq/nyBR5hRl9YUZ5yIdNfVoFdRSS+Gb0VaLGODa/Kljdij72FRdoA/n5NgwudDQO03Du7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X2bqI+iK; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756453460; c=relaxed/simple;
+	bh=nMvebug/8aKBzyMnj8cDMWfLOrd+I+pKXhPg7EME4vk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ixe9r4gXh+vfqpcyrSEeI1ffILq3o57GYxzD7pNu6rRiHPG+KjsluG52YPxv1biY0O8azstvF+kdJJnHxaPmy2P2zQ33+hsyogNPVYBDpEdqDI0jBTFxtNbDTH/pKBlNDkdLcbv7DBCW8jNawBTMZvVZRFisFQHizH1blYI+M84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vjx01uYh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X2bqI+iK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756428476;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MySjf1dNQ+QFblxbzgcBLucxms+md0OmiOz5lWF0b/w=;
-	b=X2bqI+iKL80FamtJ+SqLchWE8oDnBbJGpqe3P6/SbNALyHg6tcA8Kz6ev3u4oDkLE0foX3
-	9aZr54el4jmA5afqZmBwY/0JVkKg+qQzqFiXoe1G5hVIRUatjykw960UAgOhyl5HrpFFoL
-	jKumBaLzq7GgQyFjjcBcbAAxNcry5iY=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-216-GgrT9yTvNVacqLcQb0gh9Q-1; Thu, 28 Aug 2025 20:47:55 -0400
-X-MC-Unique: GgrT9yTvNVacqLcQb0gh9Q-1
-X-Mimecast-MFC-AGG-ID: GgrT9yTvNVacqLcQb0gh9Q_1756428475
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7f7dd47f712so546656385a.1
-        for <asahi@lists.linux.dev>; Thu, 28 Aug 2025 17:47:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756428474; x=1757033274;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MySjf1dNQ+QFblxbzgcBLucxms+md0OmiOz5lWF0b/w=;
-        b=Fz2/1/y4L3CssjUzYcNVxKT/VF2fK9T3ityFz6AYQaPXwmRv3HJ2MXiy6afQvo6v1y
-         A5KFVCHfTTzZZmcB29myou76eXwGZ27+umWAS4CjuEUm9meQNVFI4B4BzN1mEt/6QvMl
-         J67L0V3Ih7byjrfqrZN1MV03K9Gb8lpZAbTN1cfT2fO9e6gnJGXus5T5zXBd2OUuezKv
-         0+63/Asu0g66fexXvxpnBrE2VfX2f0Lp3+LnGOiq+QcJs2D+WSFif6Cpk/dGsMmOkAY9
-         dIcOH4IcRp5iwginJYxsxHmuSYfMsXYIMmNHAWjGCejlLkboVWL2IRvoekXpyK2Qc0RI
-         zwpA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQLMssKP41hkKGJdeAo7Qram/OD0Cscn7TdsEIFgx1VC3pCnFgu+VZx9Ssv/lPtK13NKL7zA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz98jELewsuGyuX1O8BNiHccJ7B8JQBN9XK9UsXn0BeE/JgjneA
-	K4Nts7s/jUtuLULg3wuFAg4Ze3EHOvwXwtBomL3rbWCwUmEDsCVqjnKZQ9soytsvJuTXSl9VV09
-	lwRExBYAN8oUl5BnCq6t0H5u7/7g1TK/4+Sz9RFzJcqSBLC1HkmaSdOpu
-X-Gm-Gg: ASbGncttubrlBDf4WJu8UutLvleYD3HN78TQys2aDFyLbvbsrRl5Ftx9P+b4omQ57Vo
-	md4w8chm3xWkHQgcTll9hIzooqn36sDeHV9fOF5RmRUu6uLhhDeuq9M99jMeO5MdwgSQTYqZchd
-	VxLF+OQw22u4vsTrIL1mq3trjue/WlIoCOHgEIVBiHwi0qIKnuOYQv0ic4LXMXpF52p7/3/d68P
-	EbBi1HBe5BSM0nQr8dgPKPIhRpooSHkYykc6PqtHdCei0fk0UsU214vZsB68W8zZ8tShWu2uB+F
-	tY5cc7Zc7GAbTc1dFsdbZ98PtWmDU40g+jCHakRUp8qJD2QRJSDVaZ5kKWPd9vP8R04foLo02uS
-	onH/KMvfAqhdsZx8hmaA=
-X-Received: by 2002:a05:620a:408a:b0:7f3:caf0:8412 with SMTP id af79cd13be357-7f3caf08452mr1587635985a.46.1756428474369;
-        Thu, 28 Aug 2025 17:47:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEjCgf4If/yLnG9xLRPpSvaRiEUxzvfevF39cHGHA+NM0Oih06WQG6xkNf8xHsAsX5EmFe8lQ==
-X-Received: by 2002:a05:620a:408a:b0:7f3:caf0:8412 with SMTP id af79cd13be357-7f3caf08452mr1587627285a.46.1756428473789;
-        Thu, 28 Aug 2025 17:47:53 -0700 (PDT)
-Received: from x1 (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7fc14754ee8sm80548485a.32.2025.08.28.17.47.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 17:47:53 -0700 (PDT)
-Date: Thu, 28 Aug 2025 20:47:47 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	UNGLinuxDriver@microchip.com, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daniel Palmer <daniel@thingy.jp>,
-	Romain Perier <romain.perier@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Andrea della Porta <andrea.porta@suse.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>, Viresh Kumar <vireshk@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Alex Helms <alexander.helms.jy@renesas.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	sophgo@lists.linux.dev, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	patches@opensource.cirrus.com, linux-actions@lists.infradead.org,
-	asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Subject: Re: [PATCH 000/114] clk: convert drivers from deprecated
- round_rate() to determine_rate()
-Message-ID: <aLD4s0sGEaQKD9PQ@x1>
-References: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vjx01uYh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD31C4CEF4;
+	Fri, 29 Aug 2025 07:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756453459;
+	bh=nMvebug/8aKBzyMnj8cDMWfLOrd+I+pKXhPg7EME4vk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Vjx01uYhuY7ysGvUDRQnccZcPl1S2rnoL2GRt9uHIO8R8kBXUw0FyO89wrumtXRc3
+	 HKLiCsdUwk/ySu0HZmC5szGw0LM2IbgEJenbi6sZPYs849o6Uofxz08WaaX7HCFvjd
+	 bcVyOUh7V3l+Q9aGKCgx5HmRT9STMjOQWWpuevJ+/4VwyUjhAemwLYexIbCnukSF53
+	 6R0pDMb5Xa9r3jrqSNxbSDx0pAPeo1NFhpk8bJ4jLbGwW4hpjyArBL2rsKeI4NEzHd
+	 cjDe6e9ZLyOqhbDhZ0I8emtbZM0pIOR5OipJLOzFB/mEYAObMWZB7dCXRiGkTNsUWg
+	 qavyfN+q8lO3A==
+Message-ID: <aeef4f20-03c6-42a7-aac0-e385419a05f3@kernel.org>
+Date: Fri, 29 Aug 2025 09:44:14 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rlXIorzJ51DfVpuhUwm_8Ji1i6HVKlSnA7d-_lTsKp4_1756428475
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/9] dt-bindings: iommu: apple,sart: Add Apple A11
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+ Nick Chan <towinchenmi@gmail.com>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, iommu@lists.linux.dev,
+ linux-nvme@lists.infradead.org
+References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
+ <20250818-t8015-nvme-v2-3-65648cd189e0@gmail.com>
+ <20250820222044.GA1513864-robh@kernel.org>
+ <3147ebf4-054c-4777-811f-86d0ad14caf6@kernel.org>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <3147ebf4-054c-4777-811f-86d0ad14caf6@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 11, 2025 at 11:17:52AM -0400, Brian Masney wrote:
-> The round_rate() clk ops is deprecated in the clk framework in favor
-> of the determine_rate() clk ops, so let's go ahead and convert the
-> various clk drivers using the Coccinelle semantic patch posted below.
-> I did a few minor cosmetic cleanups of the code in a few cases.
+On 27.08.25 15:20, Krzysztof Kozlowski wrote:
+> 
+> What commit fails to explain (folks, please fix that) is that device is
+> incompatible with existing ones. Right?
 
-I posted a v2 patch series with 8 patches from this series that needed a
-v2 to:
+I've already applied this [1] but I can still rebase and change the 
+commit message to "Add apple,t8015-sart for SARTv0 found on the Apple 
+A11 SoC, which uses a different MMIO layout and is thus incompatible 
+with the previously described versions".
 
-https://lore.kernel.org/linux-clk/20250828-clk-round-rate-v2-v1-0-b97ec8ba6cc4@redhat.com/T/
 
-Sorry I didn't put PATCH v2 in the subject. I noticed as soon as it
-started to send.
+Sven
 
-In summary, it fixes one merge conflict introduced in linux-next, remove
-one case of &*, fix a comment, and removes unnecessary space after a
-cast on 5 patches.
 
-There are currently 7 patches from this series that's currently in
-linux-next (renesas, spacemit, samsung). 
-
-The relevant remaining 99 patches from this series waiting to be merged
-can be grabbed with this command:
-
-b4 am --add-link \
-	--cherry-pick 1-37,39-47,52-63,65-67,69-89,91-91,94-94,96-96,100-112,114-114 \
-	20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com
-
-There's no dependencies with the other series.
-
-Brian
+[1] 
+https://lore.kernel.org/all/175593408419.53541.12520438370584715457.b4-ty@kernel.org/
 
