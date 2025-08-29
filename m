@@ -1,51 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5E93375D5;
-	Fri, 29 Aug 2025 16:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D68224B09;
+	Fri, 29 Aug 2025 19:51:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756485659; cv=none; b=o5wEZ9Hjp2rXoXRiBNNwKmbz4kBs4oNffHCH8b9+FKlSpbeQyST2X7IX16wubx6/AtqeUcc2N5vsd7csgD0lz9kf1KlDjzmZ7ENKLFsQ79J5tX9sgYQJgHg7t8zAtf9sQKDXb7YUh5HU6aCu/vT8IpNO/LMsHI6hlD9n6F9EWEQ=
+	t=1756497084; cv=none; b=I4P70kSM/UbuEPJGCwvWVZTRmf7sNrLXJa/F0QKIaAhPuiG8DubsD/C9agQ3S+ZRu+yJ3Huj+5I2d3HUrLvpOnNfkEl9Z3BhMCURd09D66U5iIbaxtPsXX++qmGBNnpqn3gqIcqfc2bI6zRIxTBrUEsWUcAdKhZ13ZtkbGQ2R54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756485659; c=relaxed/simple;
-	bh=RQx3k9ICtqz81FINdTuayS6/7Dq2k0lIJ6C2JyMWlIc=;
+	s=arc-20240116; t=1756497084; c=relaxed/simple;
+	bh=iE1fOPe+H/DOT9l+qqw7zhT3aTQ0dSMmo1kdS8d+f20=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fxrIPCT8OZXEI7p+Xs0S71HyIftjDwaiB7yMcJKj8K79diTjd2RWISHbwUdZNjBLb0N3iWX0PgWu2X3MvQ3R8QIyriuaCvxMailoy9qYz8TkmRI7DWhGdf+KahyaSSSz7Qg2E3uYdJ+eMxun1/zStF7Osr0IlM2WfE3wVdEYIh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4xOVhID; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FVoFiEY1/cOidwb5l7UbAnM/1QTc+m0Y7YN/xOXHOdRctYzwsNfS7hnUsAKBHvkXvCYayeo7cea5hHIWUJXK3zcXvhmP3Sr9eTLPQ7u1OIVF83kOvmXuo+mBEaRN2g12kJkIXRIGdCzrY1zXvXEkhf15h9XTeQQE+5677mu/DNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uPYEnPUU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4xOVhID"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8881DC4CEF0;
-	Fri, 29 Aug 2025 16:40:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uPYEnPUU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 346BBC4CEF0;
+	Fri, 29 Aug 2025 19:51:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756485658;
-	bh=RQx3k9ICtqz81FINdTuayS6/7Dq2k0lIJ6C2JyMWlIc=;
+	s=k20201202; t=1756497082;
+	bh=iE1fOPe+H/DOT9l+qqw7zhT3aTQ0dSMmo1kdS8d+f20=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T4xOVhIDRV5duZ1GpPtBu0+6fshz/3NrsQrkdmFaUSY8AOpusTD94aeN2gst44zpd
-	 ZhwDpjky2b0/wq9sWQzJkeeVDbSFOsdHfp2C3Y4KVopYG3x5cI4191potu3DGLy7lP
-	 Gm7LhA0RQWOborD5EVfMODfkVxs8N35QzduH/DmnookgDoTj+Dtob1Ml2b67igB4Dt
-	 6BvhQX7LI5LLUnTdr1paCJMFi2ZdLFFJ2+d5RnXfqmK+KYVnZ8Xr1+ODKCPYkIGmtr
-	 stuklWrxlbDep/kyZ4A9Gp5yavNZj6kje2Rr1BxFE9tub+RnlqqLQhw9oNa8vr1FVd
-	 k33l4jW/UYRcg==
-Date: Fri, 29 Aug 2025 11:40:57 -0500
+	b=uPYEnPUUg4/LuQVFtqhOOS0tGS/0OVJpM+KchdKwqnpfkH0/J3whjo1E0NBxW4gpi
+	 uJDXfPT2+7W9SvWuvKxITtr+9wgDa0PLPjlOlPveFqy+zGxeJXRW3bmLtv6e6tXZkm
+	 Lt0jKmNEbrsoJG57fd3KAzrHhMHII+VJCvAN8o9yIncXsE2LjVvdVRlbplw8VmHBsq
+	 nEieoqr4Hd58x1XnW+1xWPl9IbBCsaBFlrOtBOQRsS5iKDBvoMcj7GYIAOBvWu/48K
+	 9ZUoI9CDe2TXQXinfy+0J0W3S8zuoPtSs1TE+Ci/Y2CLPC2Ymd1DL36wGlg46kmRHz
+	 JZChNYlMpZoRQ==
+Date: Fri, 29 Aug 2025 14:51:19 -0500
 From: Rob Herring <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jean Delvare <jdelvare@suse.com>,
+	Hector Martin <marcan@marcan.st>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
 	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 02/11] dt-bindings: hwmon: Add Apple System Management
- Controller hwmon schema
-Message-ID: <20250829164057.GA976361-robh@kernel.org>
-References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
- <20250827-macsmc-subdevs-v2-2-ce5e99d54c28@gmail.com>
+	Michael Turquette <mturquette@baylibre.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+Message-ID: <20250829195119.GA1206685-robh@kernel.org>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -54,212 +85,73 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250827-macsmc-subdevs-v2-2-ce5e99d54c28@gmail.com>
+In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 
-On Wed, Aug 27, 2025 at 09:22:36PM +1000, James Calligeros wrote:
-> Apple Silicon devices integrate a vast array of sensors, monitoring
-> current, power, temperature, and voltage across almost every part of
-> the system. The sensors themselves are all connected to the System
-> Management Controller (SMC). The SMC firmware exposes the data
-> reported by these sensors via its standard FourCC-based key-value
-> API. The SMC is also responsible for monitoring and controlling any
-> fans connected to the system, exposing them in the same way.
+On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
+> This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> follow design of the t600x family so copy the structure of SoC *.dtsi
+> files.
 > 
-> For reasons known only to Apple, each device exposes its sensors with
-> an almost totally unique set of keys. This is true even for devices
-> which share an SoC. An M1 Mac mini, for example, will report its core
-> temperatures on different keys to an M1 MacBook Pro. Worse still, the
-> SMC does not provide a way to enumerate the available keys at runtime,
-> nor do the keys follow any sort of reasonable or consistent naming
-> rules that could be used to deduce their purpose. We must therefore
-> know which keys are present on any given device, and which function
-> they serve, ahead of time.
+> t6020 is a cut-down version of t6021, so the former just includes the
+> latter and disables the missing bits.
 > 
-> Add a schema so that we can describe the available sensors for a given
-> Apple Silicon device in the Devicetree.
+> t6022 is two connected t6021 dies. The implementation seems to use
+> t6021 and disables blocks based on whether it is useful to carry
+> multiple instances. The disabled blocks are mostly on the second die.
+> MMIO addresses on the second die have a constant offset. The interrupt
+> controller is multi-die aware. This setup can be represented in the
+> device tree with two top level "soc" nodes. The MMIO offset is applied
+> via "ranges" and devices are included with preprocessor macros to make
+> the node labels unique and to specify the die number for the interrupt
+> definition.
 > 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/hwmon/apple,smc-hwmon.yaml  | 132 +++++++++++++++++++++++++
->  .../bindings/mfd/apple,smc.yaml          |  36 +++++++
->  MAINTAINERS                              |   1 +
->  3 files changed, 169 insertions(+)
+> The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
+> counterparts. The existing device templates are SoC agnostic so the new
+> devices can reuse them and include their t602{0,1,2}.dtsi file. The
+> minor differences in pinctrl and gpio numbers can be easily adjusted.
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..08cc4f55f3a41ca8b3b428088f96240266fa42e8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
-> @@ -0,0 +1,132 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/apple,smc-hwmon.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple SMC Hardware Monitoring
-> +
-> +description:
-> +  Apple's System Management Controller (SMC) exposes a vast array of
-> +  hardware monitoring sensors, including temperature probes, current and
-> +  voltage sense, power meters, and fan speeds. It also provides endpoints
-> +  to manually control the speed of each fan individually. Each Apple
-> +  Silicon device exposes a different set of endpoints via SMC keys. This
-> +  is true even when two machines share an SoC. The CPU core temperature
-> +  sensor keys on an M1 Mac mini are different to those on an M1 MacBook
-> +  Pro, for example.
-> +
-> +maintainers:
-> +  - James Calligeros <jcalligeros99@gmail.com>
-> +
-> +definitions:
+> With the t602x SoC family Apple introduced two new devices:
+> 
+> The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
+> missing SDHCI card reader and two front USB3.1 type-c ports and their
+> internal USB hub can be easily deleted.
+> 
+> The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
+> devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
+> implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
+> calls the PCIe controller "apcie-ge" in their device tree. The
+> implementation seems to be mostly compatible with the base t6020 PCIe
+> controller. The main difference is that there is only a single port with
+> with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
+> Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
+> and PCIe slots connect too.
+> 
+> This series does not include PCIe support for the Mac Pro for two
+> reasons:
+> - the linux switchtec driver fails to probe and the downstream PCIe
+>   connections come up as PCIe Gen1
+> - some of the internal devices require PERST# and power control to come
+>   up. Since the device are connected via the PCIe switch the PCIe
+>   controller can not do this. The PCI slot pwrctrl can be utilized for
+>   power control but misses integration with PERST# as proposed in [1].
+> 
+> This series depends on "[PATCH v2 0/5] Apple device tree sync from
+> downstream kernel" [2] due to the reuse of the t600x device templates
+> (patch dependencies and DT compilation) and 4 page table level support
+> in apple-dart and io-pgtable-dart [3] since the dart instances report
+> 42-bit IAS (IOMMU device attach fails without the series).
+> 
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatibles anymore [1]. Instead either the first
+> compatible SoC or t8103 is used as fallback compatible supported by the
+> drivers. t8103 is used as default since most drivers and bindings were
+> initially written for M1 based devices.
 
-$defs
+An issue here is any OS without the compatibles added to the drivers 
+won't work. Does that matter here? Soon as you need any new drivers or 
+significant driver changes it won't. The compatible additions could be 
+backported to stable. They aren't really any different than new PCI IDs 
+which get backported.
 
-definitions was convention. $defs is in json-schema spec now.
-
-> +  apple,key-id:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    pattern: "^[A-Za-z0-9]{4}$"
-> +    description: The SMC FourCC key of the desired sensor.
-> +      Must match the node's suffix.
-> +
-> +  label:
-> +    description: Human-readable name for the sensor
-> +
-> +properties:
-> +  compatible:
-> +    const: apple,smc-hwmon
-> +
-> +patternProperties:
-> +  "^current-[A-Za-z0-9]{4}$":
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      apple,key-id:
-> +        $ref: "#/definitions/apple,key-id"
-> +
-> +      label:
-> +        $ref: "#/definitions/label"
-> +
-> +    required:
-> +      - apple,key-id
-> +      - label
-
-This should be something like this:
-
-"^current-[A-Za-z0-9]{4}$":
-  $ref: "#/$defs/sensor"
-  unevaluatedProperties: false
-
-With the $defs/sensor being:
-
-$defs:
-  sensor:
-    type: object
-    
-    properties:
-      apple,key-id:
-        $ref: /schemas/types.yaml#/definitions/string
-        pattern: "^[A-Za-z0-9]{4}$"
-        description: 
-          The SMC FourCC key of the desired sensor. Must match the 
-          node's suffix.
-
-      label:
-        description: Human-readable name for the sensor
-
-    required:
-      - apple,key-id
-      - label
-
-Though in general, 'label' should never be required being just for human 
-convenience.
-
-> +
-> +  "^fan-[A-Za-z0-9]{4}$":
-> +    type: object
-> +    additionalProperties: false
-
-And this one the same as above, but with the additional fan properties 
-listed here.
-
-> +
-> +    properties:
-> +      apple,key-id:
-> +        $ref: "#/definitions/apple,key-id"
-> +
-> +      apple,fan-minimum:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: SMC key containing the fan's minimum speed
-> +
-> +      apple,fan-maximum:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: SMC key containing the fan's maximum speed
-> +
-> +      apple,fan-target:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: Writeable endpoint for setting desired fan speed
-> +
-> +      apple,fan-mode:
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +        pattern: "^[A-Za-z0-9]{4}$"
-> +        description: Writeable key to enable/disable manual fan control
-> +
-> +      label:
-> +        $ref: "#/definitions/label"
-> +
-> +    required:
-> +      - apple,key-id
-> +      - label
-> +
-> +  "^power-[A-Za-z0-9]{4}$":
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      apple,key-id:
-> +        $ref: "#/definitions/apple,key-id"
-> +
-> +      label:
-> +        $ref: "#/definitions/label"
-> +
-> +    required:
-> +      - apple,key-id
-> +      - label
-> +
-> +  "^temperature-[A-Za-z0-9]{4}$":
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      apple,key-id:
-> +        $ref: "#/definitions/apple,key-id"
-> +
-> +      label:
-> +        $ref: "#/definitions/label"
-> +
-> +    required:
-> +      - apple,key-id
-> +      - label
-> +
-> +  "^voltage-[A-Za-z0-9]{4}$":
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      apple,key-id:
-> +        $ref: "#/definitions/apple,key-id"
-> +
-> +      label:
-> +        $ref: "#/definitions/label"
-> +
-> +    required:
-> +      - apple,key-id
-> +      - label
-> +
-> +additionalProperties: false
+Rob
