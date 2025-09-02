@@ -1,93 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB672E0B77;
-	Tue,  2 Sep 2025 08:00:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9CD2E974E;
+	Tue,  2 Sep 2025 08:14:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756800047; cv=none; b=fLKnLNow0mBpUVVtK/A+VxI2pOd9gDW+zAJwZjX65Q/YCY3YzDwa8kdLn/UyX1cq9LUAOsMV2pxSU5BhcOzcQZne5d52aPwFLAseX5jy9zEkDgoJnUIa7+pvYRpWj7BWTtcBcKcj+cdf15QTBt5X5TOxrk2bPsPpFWyeyJGQPiQ=
+	t=1756800841; cv=none; b=l9a9SIRtU6OC1Lkl7tZiAQkJX2TdbIO6WOqhmfjwmHY9WkhSb1JB5cmWwFTFrStujdx77BHJ00umPD6AncG/dxVTAO7IBOteQorTYsvo6j88jdkodsZMCcbmW9OUbYu4NQ7d1dcQHBTQzb8v6pFefudFcRo8LOYHvpbAw0skzu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756800047; c=relaxed/simple;
-	bh=XlVsb0W3gvnjnn4kOm0HH95XP5h++83OeqUtirs+pRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fs712x4B1eC1hy6/jap91JiIHTUaFZZbdHsynELVZX38TuMMsaqX7RYRopj5CmUbnpQxqpScJfZpM4XBCKgqmcJOmqrdHkT7SElTzz7t6t6IMaxoeGzb/OiTijZApryR7iUl2Vy8knWIg3AUfQf4Z1hZ9rz/OJ9FxasoWVdsCUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBASvnqp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756800841; c=relaxed/simple;
+	bh=HWyqnnpUQ0RMOPKfJQXAPWxuH4TZHiX9DPbsyXAvzbI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XGMgK79mA1p8+g8b2Pm7mvD+qpMo0o4JHNA0f5sd7v98abfhppeeiWFgLxXnt1tAOyOU11w9uI4tHqWd5sSRFeEgJupMZ2wIOgOODopWfrPU85WOjNeLBwrqezoLfn2QU5ObjzOBmc+pIyPso5x4s8kEiyie9EcDzLbT1xK4Ca0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvFlM7ZS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBASvnqp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87F7AC4CEED;
-	Tue,  2 Sep 2025 08:00:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DvFlM7ZS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5639C4CEED;
+	Tue,  2 Sep 2025 08:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756800047;
-	bh=XlVsb0W3gvnjnn4kOm0HH95XP5h++83OeqUtirs+pRQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HBASvnqpvbq6OOzulRPWaHHEQaAIa/2/uu+zbCRwmuIliU6WKxKIvK8kOp/CQTQHb
-	 BIzkYZeaT1Trt+xO9apuCJ5q0vK7nkFdtijGZIwOnYPAbs9PbgEVQiYaSIS6zn9HvH
-	 5ZFEXTcD5tmVDPhPY9rwGKOKKAKks+tA+VpuWCap6z0CV0QmpCZltNT71tun9A/MbV
-	 5WZwgoxhJzIFjVFY88pxITO4WNkHsKrYu4FiZeoe+isUrfIdxa+9gx5b+JSRI5wfDT
-	 t7ZHF/6wz4f5MYnmQZtcpXmWseqmrNF2SG5K4ZZWx+a3rXQzHbRyCkl9ItnKqkG375
-	 qRva0wy1l5/7g==
-Date: Tue, 2 Sep 2025 10:00:44 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Michael Turquette <mturquette@baylibre.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
-	linux-clk@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 02/37] dt-bindings: arm: apple: apple,pmgr: Add
- t6020-pmgr compatible
-Message-ID: <20250902-falcon-of-awesome-wholeness-b3cbde@kuoka>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250828-dt-apple-t6020-v1-2-507ba4c4b98e@jannau.net>
+	s=k20201202; t=1756800841;
+	bh=HWyqnnpUQ0RMOPKfJQXAPWxuH4TZHiX9DPbsyXAvzbI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DvFlM7ZSYxpCGcYGhREx440CmfMmD26hWCb2Li88JwmndSOhT3akmsY32Rx6UCgfJ
+	 5y3JViivp3Nbvt2iuGys3uj//e6cOslQziAfarMbVgbxYh9t6+k1pPh2I/h3F/vaYh
+	 0oOEflXHBJbNTen6rRIhf+2tNrS4FtPBSrzj0MIReokz/UxUdeVpXz1M3ZFRkkrc3M
+	 G/A0E2QV2Nygu+4ZpD5MPqua//2Ty15mFOBOwWxFN9N7hXKqHkE4pbIVqPTssHZ3fz
+	 eM5lqva4fDEprJ65at5tG5QbCnY0rrvT3HgEPeZ29b4TYLeL5YdkcP2W9B6TQuPK4C
+	 /21F2Ag3/H53Q==
+From: Lee Jones <lee@kernel.org>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Lee Jones <lee@kernel.org>, Waqar Hameed <waqar.hameed@axis.com>
+Cc: kernel@axis.com, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <pnd8qjym7td.a.out@axis.com>
+References: <pnd8qjym7td.a.out@axis.com>
+Subject: Re: (subset) [PATCH v2] mfd: macsmc: Remove error prints for
+ devm_add_action_or_reset()
+Message-Id: <175680083942.2184860.11235957894379015646.b4-ty@kernel.org>
+Date: Tue, 02 Sep 2025 09:13:59 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250828-dt-apple-t6020-v1-2-507ba4c4b98e@jannau.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-c81fc
 
-On Thu, Aug 28, 2025 at 04:01:21PM +0200, Janne Grunau wrote:
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatible "apple,pmgr" anymore [1]. Use
-> "apple,t8103-pmgr" as base compatible as it is the SoC the bindings were
-> written for.
+On Tue, 05 Aug 2025 11:33:34 +0200, Waqar Hameed wrote:
+> When `devm_add_action_or_reset()` fails, it is due to a failed memory
+> allocation and will thus return `-ENOMEM`. `dev_err_probe()` doesn't do
+> anything when error is `-ENOMEM`. Therefore, remove the useless call to
+> `dev_err_probe()` when `devm_add_action_or_reset()` fails, and just
+> return the value instead.
 > 
-> The block on Apple M2 Pro/Max/Ultra SoCs is compatible with
-> "apple,t8103-pmgr" so use it as fallback compatible and add t6020 as
-> per-SoC compatible.
 > 
-> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
+> [...]
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Applied, thanks!
 
-Best regards,
-Krzysztof
+[1/1] mfd: macsmc: Remove error prints for devm_add_action_or_reset()
+      commit: 342c84507bfc197a0a9fddd6f076befefd5e6c25
+
+--
+Lee Jones [李琼斯]
 
