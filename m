@@ -1,185 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0E326C3A5;
-	Tue,  2 Sep 2025 19:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C1A2ECD11;
+	Wed,  3 Sep 2025 09:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756842876; cv=none; b=sxRAoAAyEtZFev17KptWrqIyb3VrWDDAQbtK8iU9j7bSroojv9MyRUn/3J5RbjZBCkIAYNBDmAE1yYKK5Sbl2dK54YM2FVurwbYDzVjF49M3FHYbzgHi52CaHQ9e5uqCfk5vhV6CKe8t931QZgpauCB97yTeCkSY8Myt3wCoO4Y=
+	t=1756893215; cv=none; b=nHaSO1IIlWyYgo7hBuGiR8oklCNbKHTi6KIGotqOKdE9l3qquuyDEmhYBJX9ZW649xApAxOfEj+UFJy9Jd5HmdAnHlqZXy6QcW6M+S1AYl17JrFvFjitMG/qBIWVWw3D4sAwj59r7cjVbUwsJIkxWA9Pu6XJ87CqbvhUTw1la9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756842876; c=relaxed/simple;
-	bh=oJOLNYG2Y3DXMCSgbwODVJA8SAuDYi5Dbvsh+hG6M4Q=;
+	s=arc-20240116; t=1756893215; c=relaxed/simple;
+	bh=277RioR3basjGp9kALm3hs9oH+dbVhaHNkYk9uma6EQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pTeAwe3H0ZfTbDJRRZWdM2xfd7eeEpnNtL9F+QPxdolsSSKSGVg2KssdqxuJvRFGlI5KGDCu5vrRtsKYB7eKris3kTBG9bP51RP8Q3AaoEHEOpuKMIM8oWx/tcTVmXEbAotzkNR8T4NOFEuVAdNms1mXBJiFmjXY3v5zT96bZJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrJeisJC; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=oou/AUIAQ4S1uynnClmz3oeFQXJBWkdH1djzutmArc0ED6fW+n6vibNkilm4xB+Vsb/dXFPi2b/y/5r/gyVFJiL2Ha0SYxzwAG83HlM0ELSvabfWWxLWOt9Z2YuofY2U4o7vIORzC4S9FEY5vSiAz0+9u4aXz+RxE34DU/Vpe5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=pXoYO4uN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WZpPJKSu; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrJeisJC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D07CC4CEED;
-	Tue,  2 Sep 2025 19:54:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756842875;
-	bh=oJOLNYG2Y3DXMCSgbwODVJA8SAuDYi5Dbvsh+hG6M4Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZrJeisJCeZBLdRd9piYISWxH6ectOKfLkCBAI45oB9yskyvBJx+HrHbj0QupA23QY
-	 HMwYW+4SpxkS1Px4DFX1y0PnsLKuIvMupIqIiKRi5+/yisqqzHEEZpEI+OC+GPQMt+
-	 Ih9UPZZxLrikazCJPDm6WovmTyFRm0ulZKF/oPzplGj21mx5CKCfRPvb9oo4xKL1nz
-	 Qojwko0xFxCfGWgdvCBAYT8/hAuaZcNeMu33YO6xDjk/8M8E6xVx4H6De8eZjysot9
-	 apZ9PSugbHYcTWyIOnwbJIoCz8GthLjCfl1K6nrT8bke0E+1MO5eocgkH5TUTef2/d
-	 X7vBDpLUcS7MA==
-Date: Tue, 2 Sep 2025 14:54:34 -0500
-From: Rob Herring <robh@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="pXoYO4uN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WZpPJKSu"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6A797EC0336;
+	Wed,  3 Sep 2025 05:53:29 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Wed, 03 Sep 2025 05:53:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1756893209; x=1756979609; bh=jNNb+nr/hF
+	Kdcw+MyWg50Siwcv+G2MEA1WmLkk6R+24=; b=pXoYO4uNcVZuUx9Lb0lz/ceknJ
+	VORA4T5rp/2utYlvIq/8FCigI1G2XxgMf2/f0gtvW20zmDflVKBUbuQwcjlkcLGk
+	BCBXtv6OZjTs5CfVP9rBI8gloI+8kHsKA9iEfm5urKuWjK1c+XqnsFtzhGkYzac1
+	pWC7Yb0rtiuvSSP5uBzlClipQA4dQOHtWxvF0MmcWEfXTvTPyulpJaKlcVDnKk69
+	VExqh/IB8N0UeSYuyS36M33Vm3i/3xIheVXth8eCbUL4/WNPzcV9A8goig4tda9B
+	fXwyxnIMZNQFS260aPWVPGC4abO/ls7C3t7XP52RQDLFd/OPdEgZA0wgpkxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1756893209; x=1756979609; bh=jNNb+nr/hFKdcw+MyWg50Siwcv+G2MEA1Wm
+	Lkk6R+24=; b=WZpPJKSuPdSVvsUz8WkC51Yhv7zyC3tkBUR6DeoxnRR3wM8R/mi
+	3DDfpSWxr3nlfbv4g1zYSnehh4MZndgr4D/T6Phn3PuuYCDuujxHzDtPXGo08t9/
+	YRY1yeyVra9XZAvf4FGa6FaFLh8GvPKz0mDJllwn9HF+dRT2rPPx4OpeRWbWsWFM
+	aszLMJzSK/sL0BQ2ClWVNiDONcYJYTyHYu0VlEus2PoMhWJGsrxU1skSV1i9g+tl
+	8X5FRWtFicWL4gI87JsUbgGh/s3PpjmN5mkhdLIAX1T31j1KdUD3NqEvrjyighzB
+	mJiXM4iFrlJJDXrYnOnWJ8ElIL7ktYkMv8g==
+X-ME-Sender: <xms:FxC4aG1qr09vvHwIJ4hRbt7dkIQxbA0fvsqT7xu7-Qa-EuI1Y0SAtg>
+    <xme:FxC4aMkjjJBlZaG1qNx88mBDxwo_Xhu75G-jqvsAUqKkRP9XRf8eRjyuRp5rPUJ8r
+    n4Wt8-hhISP1shtCe0>
+X-ME-Received: <xmr:FxC4aHZ5L4UDCpYxS4iPuJ2jp77oF68P09_Bh3agX1CIy18Cb4gvlewcgjaINc4RmuJVrWjOvYwkXbvqBUJgZ6aLOCp95D_yeWw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvkeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcuifhr
+    uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvdffve
+    elgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnh
+    gvthdpnhgspghrtghpthhtohepvddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pehhtghhsehlshhtrdguvgdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepthhofihinhgthhgvnhhmihesghhmrghilhdrtghomhdprhgtphhtthho
+    pegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehnvggrlhesgh
+    homhhprgdruggvvhdprhgtphhtthhopehjrghsshhishhinhhghhgsrhgrrhesghhmrghi
+    lhdrtghomhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    epkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdought
+    sehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:FxC4aKpXGXfqNRJtXU3bKWXf82Z1HtC8gg6cm1QSI4juZ64CPJpJvA>
+    <xmx:FxC4aNgClrkAVGxrPUSoA5iIA9dD-IuPEqmWHNN_kwc6d3MH4dldvg>
+    <xmx:FxC4aMxWuRIbQ_rTseCZMo3e5lePw_bkoEo1iX_61QGtyH-FqaYTug>
+    <xmx:FxC4aL8MmHW_zqynwVULmAhwl-4ii_YK6UIH_NVlSD4x8Q_GitvppA>
+    <xmx:GRC4aNXiqaEM5KtsXta-J8fDubHw9ulAUXUwLhYT3ONsidDAlYyK2-Ol>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Sep 2025 05:53:27 -0400 (EDT)
+Date: Wed, 3 Sep 2025 11:53:25 +0200
+From: Janne Grunau <j@jannau.net>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sven Peter <sven@kernel.org>, Nick Chan <towinchenmi@gmail.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
+	Hector Martin <marcan@marcan.st>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
 	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-Message-ID: <20250902194528.GA1014943-robh@kernel.org>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250829195119.GA1206685-robh@kernel.org>
- <20250830071620.GD204299@robin.jannau.net>
+	Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 7/9] nvme: apple: Add Apple A11 support
+Message-ID: <20250903095325.GA89417@robin.jannau.net>
+References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
+ <20250821-t8015-nvme-v3-7-14a4178adf68@gmail.com>
+ <20250825080710.GA23193@lst.de>
+ <89251134-9685-439e-b220-92717663f038@kernel.org>
+ <20250902052646.GA11139@lst.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250830071620.GD204299@robin.jannau.net>
+In-Reply-To: <20250902052646.GA11139@lst.de>
 
-On Sat, Aug 30, 2025 at 09:16:20AM +0200, Janne Grunau wrote:
-> On Fri, Aug 29, 2025 at 02:51:19PM -0500, Rob Herring wrote:
-> > On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
-> > > This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> > > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> > > follow design of the t600x family so copy the structure of SoC *.dtsi
-> > > files.
-> > > 
-> > > t6020 is a cut-down version of t6021, so the former just includes the
-> > > latter and disables the missing bits.
-> > > 
-> > > t6022 is two connected t6021 dies. The implementation seems to use
-> > > t6021 and disables blocks based on whether it is useful to carry
-> > > multiple instances. The disabled blocks are mostly on the second die.
-> > > MMIO addresses on the second die have a constant offset. The interrupt
-> > > controller is multi-die aware. This setup can be represented in the
-> > > device tree with two top level "soc" nodes. The MMIO offset is applied
-> > > via "ranges" and devices are included with preprocessor macros to make
-> > > the node labels unique and to specify the die number for the interrupt
-> > > definition.
-> > > 
-> > > The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
-> > > counterparts. The existing device templates are SoC agnostic so the new
-> > > devices can reuse them and include their t602{0,1,2}.dtsi file. The
-> > > minor differences in pinctrl and gpio numbers can be easily adjusted.
-> > > 
-> > > With the t602x SoC family Apple introduced two new devices:
-> > > 
-> > > The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
-> > > missing SDHCI card reader and two front USB3.1 type-c ports and their
-> > > internal USB hub can be easily deleted.
-> > > 
-> > > The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
-> > > devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
-> > > implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
-> > > calls the PCIe controller "apcie-ge" in their device tree. The
-> > > implementation seems to be mostly compatible with the base t6020 PCIe
-> > > controller. The main difference is that there is only a single port with
-> > > with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
-> > > Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
-> > > and PCIe slots connect too.
-> > > 
-> > > This series does not include PCIe support for the Mac Pro for two
-> > > reasons:
-> > > - the linux switchtec driver fails to probe and the downstream PCIe
-> > >   connections come up as PCIe Gen1
-> > > - some of the internal devices require PERST# and power control to come
-> > >   up. Since the device are connected via the PCIe switch the PCIe
-> > >   controller can not do this. The PCI slot pwrctrl can be utilized for
-> > >   power control but misses integration with PERST# as proposed in [1].
-> > > 
-> > > This series depends on "[PATCH v2 0/5] Apple device tree sync from
-> > > downstream kernel" [2] due to the reuse of the t600x device templates
-> > > (patch dependencies and DT compilation) and 4 page table level support
-> > > in apple-dart and io-pgtable-dart [3] since the dart instances report
-> > > 42-bit IAS (IOMMU device attach fails without the series).
-> > > 
-> > > After discussion with the devicetree maintainers we agreed to not extend
-> > > lists with the generic compatibles anymore [1]. Instead either the first
-> > > compatible SoC or t8103 is used as fallback compatible supported by the
-> > > drivers. t8103 is used as default since most drivers and bindings were
-> > > initially written for M1 based devices.
-> > 
-> > An issue here is any OS without the compatibles added to the drivers 
-> > won't work. Does that matter here? Soon as you need any new drivers or 
-> > significant driver changes it won't. The compatible additions could be 
-> > backported to stable. They aren't really any different than new PCI IDs 
-> > which get backported.
+On Tue, Sep 02, 2025 at 07:26:46AM +0200, Christoph Hellwig wrote:
+> On Wed, Aug 27, 2025 at 05:56:33PM +0200, Sven Peter wrote:
+> >> Do you want to merge this through the apple SOC tree?  If so:
+> >>
+> >> Acked-by: Christoph Hellwig <hch@lst.de>
+> >>
+> >>
+> >
+> > I don't think that's necessary since there are no build time dependencies 
+> > but if you want to I can take it through there.
 > 
-> I don't think backporting the driver compatible additions to stable
-> linux is very useful. It is only relevant for t602x devices and the only
-> way to interact with them is the serial console. The T602x PCIe support
-> added in v6.16 requires dart changes (the posted 4th level io page table
-> support) to be useful. After that PCIe ethernet works so there is a
-> practical way to interact with t602x systems. So there are probably zero
-> user of upstream linux on those devices 
-> I'm more concerned about other projects already supporting t602x
-> devices. At least u-boot and OpenBSD will be affected by this. As short
-> term solution m1n1 will add the generic compatibles [1] temporarily.
-> I think keeping this roughly for a year should allow to add the
-> compatibles and wait for "fixed" releases of those projects.
-> I'll send fixes for u-boot once the binding changes are reviewed.
+> Merging it through nvme sounds fine as well, I just through up
+> grabbing everything together would be easier.  I also noticed there's
+> another Apple hw enablement series that touches nvme, so I guess both
+> should go through the same tree?
 
-Honestly, at least in the cases where the generic compatible works for 
-every chip so far, I'd just stick with it. The issue with generic 
-compatibles is more that you don't really know if things are going to be 
-the same or not. And most of the time, the h/w ends up changing.
+yes, they should go through the same tree if they go in the same cycle.
+They conflict in dt-bindings and possibly the driver. We should avoid
+burden someone else with this conflict resolution.
 
-If you want to keep it like this since you've already done it, then for 
-all the binding patches:
-
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-
-Rob
+Janne
