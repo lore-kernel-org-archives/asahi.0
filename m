@@ -1,92 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2083AC1C;
-	Thu,  4 Sep 2025 19:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADCD2F069E;
+	Thu,  4 Sep 2025 22:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757014240; cv=none; b=G37fq7Muoed5RkS5VI5E5WtxK66UyK6QyDRiPbU8YVvyE/eKEJg3qiZdy1/R9erPqZR/iE20lVqQhn4ZPO6VHP0TceZHVepItgF1H3+yHg4cNlL996tAcrCxmGYhJeTb+qtGpLNoJMfqsfjw23b1hDR8dYWMygv3yKSW8KCvsCk=
+	t=1757026344; cv=none; b=HwnpQdFMa6uwdnByciT+z5gj5LRtMI29EK+I4Co0bymv6byeg24B7SrraC92Od8vitgVNpZK0nH7wxvrPK9Pt0DrBCMqG6PubtatQFr7nwZ0nrUfYmGu1XKtqytCWorz4zdLUmPGu4ab3VxeDdHhMEjNDTLyfe7dDveTyJxuRq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757014240; c=relaxed/simple;
-	bh=0RZ8CnMwf4NqKb6arTE1y1641ehql4WXMwOOTJDdIbw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K8x/IUExnLPPTcRp9eG0eZPCVfQJMu2xJrTDH16m4VgLzOLL7yCwgekusYKDfAjY4lQgb1Iploo8U1JJt/mEIWSMVpNR670Wd9HF19Et76CxGFOcJKPXnGTwx4Kjnut+2BHV3m774LjI5AOEwDJOYdWtNorsThmUHe79lL8mwL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XqU9NY0f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757026344; c=relaxed/simple;
+	bh=2MViS1nqSpyNjI/P7K/k2Spz+R3IZ3I4vxgoMymb5Uo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ifBDuZ7HlphKbl5jCsc8FsUSMkx8CAk/E3X2KkU4Y3Vcsl2TWBQIG26gKvd0wz11CLF2tWlM/0+D0pA3qBgqONiSTf4z/0KiHxX2URaEyGUYelac4kp2lBsXZdLVkBys/L7FsYM0rJ8QWk7xbQJlvcJqxFRbXwsqQhs/3wkUnlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=roBVwgBQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XqU9NY0f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909FDC4CEF6;
-	Thu,  4 Sep 2025 19:30:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="roBVwgBQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38DDFC4CEF0;
+	Thu,  4 Sep 2025 22:52:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757014240;
-	bh=0RZ8CnMwf4NqKb6arTE1y1641ehql4WXMwOOTJDdIbw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XqU9NY0f4OsloxJ8hrjbay3uVxPdDfrJdhw+yQhou50Mf8usGqoTPhJTDxoNZp+w6
-	 eu6nxigNZ8yXtk74xrcMlP3GhpB2hvBpxU8ah4yk5t3JX8Lb1vFpRH7YwijLTSgbWz
-	 qa9mBqjd3NaDpDjXFuhgVL3ZcMFKlqGV8sDgsAaqf5VbqGYVLBnMpIt1xy+iFdzoOR
-	 gNmUrbAa7u2A5P+g9AScjho9KWkTUaNgRl2ZBG1zaws8KKSV6BH1t5vhbS0CK2T0zA
-	 ywZqzYHxLFtRwnoZ7Dz4d747xiS8+AL/sRcm6VTWQeX0uaJ4oW2rz2DMJ+YwSutGZT
-	 wOMJINbdy8Rbw==
-Message-ID: <5b02ef9e-3017-400a-826c-59b5d5770a44@kernel.org>
-Date: Thu, 4 Sep 2025 21:30:30 +0200
+	s=k20201202; t=1757026343;
+	bh=2MViS1nqSpyNjI/P7K/k2Spz+R3IZ3I4vxgoMymb5Uo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=roBVwgBQdHjRYDAC6Yyl8gcjTa1sebepK19RtdZM5Kr+BJYNj5zWJeB02etY8KIyI
+	 b+RcIMOwSoGmpxXqnXcfjEYxksz+RXpt+pf2VjEB1VgJcIRHBceav+UIWYbNx2fE3K
+	 7+WEHceX9Cz41lRwl8VloRIumOdI4m0IKDa6VphbPJDeULrt3x0bJuAUukQ6/WKuL0
+	 REQt3WpNlSm3UUve2h7bV157b/yJ+NQBKzl9CGFniIjjyb7AShIWGiI11Zck6rcSys
+	 VyQI9wmTi+B2BLN4VmdvCQSrI8EEXTLBevvUrwyGOOOrG/WVf+G3vDakrZ7qQCvomP
+	 m3ZuahDyWvLeg==
+Date: Fri, 5 Sep 2025 00:52:20 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Mark Kettenis <kettenis@openbsd.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Michael Turquette <mturquette@baylibre.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+	linux-clk@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 10/37] dt-bindings: i2c: apple,i2c: Add apple,t6020-i2c
+ compatible
+Message-ID: <f5o23zrqe2ei3bmwlxokhtkgfpeki6ctoq3ahd4f66utfu5hdk@6q55hvy4hvq4>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-10-507ba4c4b98e@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/9] nvme: apple: Add Apple A11 support
-To: Janne Grunau <j@jannau.net>, Christoph Hellwig <hch@lst.de>
-Cc: Nick Chan <towinchenmi@gmail.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org
-References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
- <20250821-t8015-nvme-v3-7-14a4178adf68@gmail.com>
- <20250825080710.GA23193@lst.de>
- <89251134-9685-439e-b220-92717663f038@kernel.org>
- <20250902052646.GA11139@lst.de> <20250903095325.GA89417@robin.jannau.net>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20250903095325.GA89417@robin.jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828-dt-apple-t6020-v1-10-507ba4c4b98e@jannau.net>
 
-On 03.09.25 11:53, Janne Grunau wrote:
-> On Tue, Sep 02, 2025 at 07:26:46AM +0200, Christoph Hellwig wrote:
->> On Wed, Aug 27, 2025 at 05:56:33PM +0200, Sven Peter wrote:
->>>> Do you want to merge this through the apple SOC tree?  If so:
->>>>
->>>> Acked-by: Christoph Hellwig <hch@lst.de>
->>>>
->>>>
->>>
->>> I don't think that's necessary since there are no build time dependencies
->>> but if you want to I can take it through there.
->>
->> Merging it through nvme sounds fine as well, I just through up
->> grabbing everything together would be easier.  I also noticed there's
->> another Apple hw enablement series that touches nvme, so I guess both
->> should go through the same tree?
+Hi Janne,
+
+On Thu, Aug 28, 2025 at 04:01:29PM +0200, Janne Grunau wrote:
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,i2c" anymore [1]. Use
+> "apple,t8103-i2c" as fallback compatible as it is the SoC the driver
+> and bindings were written for.
 > 
-> yes, they should go through the same tree if they go in the same cycle.
-> They conflict in dt-bindings and possibly the driver. We should avoid
-> burden someone else with this conflict resolution.
+> This block is compatible with t8103, so just add the new per-SoC
+> compatible using apple,t8103-i2c as base.
+> 
+> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Good points, I'll pick up the latest version of this series on the 
-weekend then and handle any conflicts in case the other one is ready for 
-this cycle (which it probably will be) as well then.
+Acked-by: Andi Shyti <andi.shyti@kernel.org>
 
+Andi
 
-Thanks,
-
-
-Sven
-
+> ---
+>  .../devicetree/bindings/i2c/apple,i2c.yaml         | 27 +++++++++++++---------
+>  1 file changed, 16 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+> index fed3e1b8c43f67b8f5a19e5c1e046b0e17ab8017..500a965bdb7a84e4997b52e8c19dcc1a7ee0cff7 100644
+> --- a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+> @@ -20,17 +20,22 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - apple,s5l8960x-i2c
+> -          - apple,t7000-i2c
+> -          - apple,s8000-i2c
+> -          - apple,t8010-i2c
+> -          - apple,t8015-i2c
+> -          - apple,t8103-i2c
+> -          - apple,t8112-i2c
+> -          - apple,t6000-i2c
+> -      - const: apple,i2c
+> +    oneOf:
+> +      - items:
+> +          - const: apple,t6020-i2c
+> +          - const: apple,t8103-i2c
+> +      - items:
+> +          - enum:
+> +              # Do not add additional SoC to this list.
+> +              - apple,s5l8960x-i2c
+> +              - apple,t7000-i2c
+> +              - apple,s8000-i2c
+> +              - apple,t8010-i2c
+> +              - apple,t8015-i2c
+> +              - apple,t8103-i2c
+> +              - apple,t8112-i2c
+> +              - apple,t6000-i2c
+> +          - const: apple,i2c
+>  
+>    reg:
+>      maxItems: 1
+> 
+> -- 
+> 2.51.0
+> 
