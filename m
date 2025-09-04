@@ -1,136 +1,290 @@
-Received: from aposti.net (aposti.net [185.119.170.32])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14342D4B6F;
-	Wed,  3 Sep 2025 19:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAAB2FB60E
+	for <asahi@lists.linux.dev>; Thu,  4 Sep 2025 10:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756927239; cv=none; b=nnqO3evFtIt+5VADF09bwF1HgonZNMZillNczluLDofxUAWprcMKcB3MdaKNC+G0yELSvAYyYWM3/1r+mHdbbEoLXb7qMi7RBU8lxS3GpD98h1u6h1kE/4CciP8JiEDCIr/IjT1lvNreIGsnSmpOoLD4eRqew7GLb5kZRiy+w5k=
+	t=1756982560; cv=none; b=UX+JwSQWDHqAKpuLMU8bu+YvPS87mx5I6zK4HgM80unqDEE45Ua+AwGmZfYOlnvIQwWXoJGlD1+M1sF7JCLfMt4vQUmAPJ7tkjsS9/FVz23qFUkX4kEHf6PKA5+5CgHgd6TTk6/KkXIg9yyTcmSMd1zgO8SvMMUe3ZYwIdpxEYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756927239; c=relaxed/simple;
-	bh=kRSOTd5XrHRhOT4S3xBCr2B49OtJoj5AOBsWHzaGwXc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SW+LUlAyNFUKkbFyzCxAYsYgo7L+nQuD32k9quKV7nNvIckun8/7uC9smO8/k11vLnjyJWuLQKX2aCUZb0RiJH/JcUVPfuX2TAQMP1cCZZc+D2cOXPLtqO/LitGtaZxxc/aCcHa4xkpwXJSHAhiPxOP7n8xuIdSf3MHE4y5H0Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=Z0xvlH/E; arc=none smtp.client-ip=185.119.170.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1756982560; c=relaxed/simple;
+	bh=iNJ4FeVeT7B6e+//AQVG1salcqyAcnoFzo0f2zbeifg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ue+pbZ5GmZVOfk3OGp46383iUo789q7W7GDTMq3s/0qVN2R8xV2q08Nre1ujWAq4eWG8zV6CjZSL7HGFTUT1FGotoAeK4vSCCqL45AtW4tQxDCY8pCzj2oif+0S2glse4dgpsognFta5BfVbYco/AIMEjkEeG3vvpQdp+cSfrBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pCt5ows1; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="Z0xvlH/E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1756927235;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=c+ZgGU/Y7ymCGJS4a8iBSCEwRU68y0Cdd3gwtYGpdv4=;
-	b=Z0xvlH/ECfsC59swm4ATc7moQPplDnhXIzmBF4X35r6pJmnBDDeoU1Ie5Ab1yxhe+1ln8W
-	GcUQb2ZLGdW9NnPudS1kvJ3oXxwi39axE8bJQYRDLCQpq4QuYcwKIMP6MOFv74jzcnlQqN
-	tMc5uO4lOOAAr/7RBg88uyXzuq33+zQ=
-Message-ID: <f19aa842d210bf4cd3d7abf03ea7323f9e52df75.camel@crapouillou.net>
-Subject: Re: [PATCH 024/114] clk: ingenic: x1000-cgu: convert from
- round_rate() to determine_rate()
-From: Paul Cercueil <paul@crapouillou.net>
-To: bmasney@redhat.com, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	sophgo@lists.linux.dev, linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
-	linux-actions@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev
-Date: Wed, 03 Sep 2025 21:20:32 +0200
-In-Reply-To: <20250811-clk-for-stephen-round-rate-v1-24-b3bf97b038dc@redhat.com>
-References: 
-	<20250811-clk-for-stephen-round-rate-v1-0-b3bf97b038dc@redhat.com>
-	 <20250811-clk-for-stephen-round-rate-v1-24-b3bf97b038dc@redhat.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRU=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pCt5ows1"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e96e5535fcdso1961557276.1
+        for <asahi@lists.linux.dev>; Thu, 04 Sep 2025 03:42:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756982555; x=1757587355; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3IXOKsIqYkTA4LRuIysZBK9RbBlxCbzGVz/R04fan+Q=;
+        b=pCt5ows1A8c713Ko8mPDrHLykCUyl0QjN4XG6hKQKxWhX4NhoVgjQjVMBo8J8mxIJo
+         GEuVMl6hnBUlGWYr1slZHmopU3KCZchVjaUIXi1vWzkeqd771rIHvbppsgkM87heovLH
+         t/Rq2mts+GHUo3Dar3g2q7S1RDl4iKsQhtZN30eRLttN169y/AiXE6Um4Qzsk+lkBJuk
+         iEQUImQLxjnWliqL3G/+byNQe7aUN3qrgS9w1MDjNt2iYM1d7m95KtzpNLXXWcn0LEVP
+         PfZjFFHlhJ/TbX392W2BykE4M08M0sLRzrpiPTDw6xUUKrsxDklRDzi4VEEsBlXBrhue
+         baCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756982555; x=1757587355;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3IXOKsIqYkTA4LRuIysZBK9RbBlxCbzGVz/R04fan+Q=;
+        b=rOOoKzwn6duTXdeBBfWMPHtrjiq7E19OI2Jg8AiE2U5UpQRV1mciVGoFl7WbDSwHP5
+         znzZuV3xiJgA6qy9KAQm7QtZYHioerGv4gsDFNrlf96TBKQXQnOj9qhqYuWHdNWhMHdF
+         V/wquUl9r+ngGZtgAmbReSzSypyM4NvTLGtTkdDolA9icampE8/V4TCewT9pjhhEH2R2
+         JGNGoP3F9zmlAGm+NDP53mWr1LUs9CGdKCgaGmJpP9WW6xegefCgETx9qBQDb6hQlkMz
+         Zg00sEacjidk+3P+ku5w1WcE5/NFZlGVyJ4+C78Z9gAc5ivLfDr1KpfP6iXJ0iVm3fdV
+         HloA==
+X-Forwarded-Encrypted: i=1; AJvYcCVYpsHDOG9BS4jjG4A28X4w2xqBwzVpsnNwkIIO7DMiWI5Y7aXiiwG/ZvWCVEbeWfcwD2ABeg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQfSDR/mb0hEBq91eZ4hF77bhNFLvoVM0PjobAVSZpE6jIQMKJ
+	BGR9Pqg3Wafj3b/awewMLsZcu84Ho4Tck5h+aL/nt+u+jFMt/VD8KHOZL1bSAPVlAq6ZAViazJ9
+	fhlgodxNPvSdN3ODSM1asMfyEasPJJ7LxYD192D9pXA==
+X-Gm-Gg: ASbGncszDIgzJ7lm+oM3ZD+ObtnI0r9NxKettueRQWRPnu1Q95zYef0y/KVngD71p81
+	VagDbni8j39UjiSUqY53O8GIr+fioCjc8Xa6yftfBWKPJw7guskOCGGHrGjuvC/rvdh/tqdKvyB
+	aho2FgCtVxRJnRYN82fGdpLoCRvE1v10ABjaXfjdeLMI8M8FArA0sjbjbv1/uqkv1GvFL66JcqY
+	IQSt7aXgFAuUHCg7CA=
+X-Google-Smtp-Source: AGHT+IEeSGB7E+U5AfztCn/a0prTDkWoIwMcrRTgDGYjoK5cQKuLypMWypNuVlG8aGFMELgSR6JxD1pZQxnU/zZ73ew=
+X-Received: by 2002:a53:a106:0:b0:5f3:317e:40a8 with SMTP id
+ 956f58d0204a3-6014a94e9c5mr1611129d50.12.1756982554409; Thu, 04 Sep 2025
+ 03:42:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 4 Sep 2025 12:41:58 +0200
+X-Gm-Features: Ac12FXza5NBe8gQAzu9NnR9-urtLUV1_9O5Z3gtqmfhrws2_iw3qa7_NAVfym40
+Message-ID: <CAPDyKFr3WO5nLXYWoyH13KirmfNU+sVrvhefuwC+GrpAgynBgQ@mail.gmail.com>
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Michael Turquette <mturquette@baylibre.com>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-Le lundi 11 ao=C3=BBt 2025 =C3=A0 11:18 -0400, Brian Masney via B4 Relay a
-=C3=A9crit=C2=A0:
-> From: Brian Masney <bmasney@redhat.com>
->=20
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
->=20
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
+On Thu, 28 Aug 2025 at 16:01, Janne Grunau <j@jannau.net> wrote:
+>
+> This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> follow design of the t600x family so copy the structure of SoC *.dtsi
+> files.
+>
+> t6020 is a cut-down version of t6021, so the former just includes the
+> latter and disables the missing bits.
+>
+> t6022 is two connected t6021 dies. The implementation seems to use
+> t6021 and disables blocks based on whether it is useful to carry
+> multiple instances. The disabled blocks are mostly on the second die.
+> MMIO addresses on the second die have a constant offset. The interrupt
+> controller is multi-die aware. This setup can be represented in the
+> device tree with two top level "soc" nodes. The MMIO offset is applied
+> via "ranges" and devices are included with preprocessor macros to make
+> the node labels unique and to specify the die number for the interrupt
+> definition.
+>
+> The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
+> counterparts. The existing device templates are SoC agnostic so the new
+> devices can reuse them and include their t602{0,1,2}.dtsi file. The
+> minor differences in pinctrl and gpio numbers can be easily adjusted.
+>
+> With the t602x SoC family Apple introduced two new devices:
+>
+> The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
+> missing SDHCI card reader and two front USB3.1 type-c ports and their
+> internal USB hub can be easily deleted.
+>
+> The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
+> devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
+> implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
+> calls the PCIe controller "apcie-ge" in their device tree. The
+> implementation seems to be mostly compatible with the base t6020 PCIe
+> controller. The main difference is that there is only a single port with
+> with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
+> Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
+> and PCIe slots connect too.
+>
+> This series does not include PCIe support for the Mac Pro for two
+> reasons:
+> - the linux switchtec driver fails to probe and the downstream PCIe
+>   connections come up as PCIe Gen1
+> - some of the internal devices require PERST# and power control to come
+>   up. Since the device are connected via the PCIe switch the PCIe
+>   controller can not do this. The PCI slot pwrctrl can be utilized for
+>   power control but misses integration with PERST# as proposed in [1].
+>
+> This series depends on "[PATCH v2 0/5] Apple device tree sync from
+> downstream kernel" [2] due to the reuse of the t600x device templates
+> (patch dependencies and DT compilation) and 4 page table level support
+> in apple-dart and io-pgtable-dart [3] since the dart instances report
+> 42-bit IAS (IOMMU device attach fails without the series).
+>
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatibles anymore [1]. Instead either the first
+> compatible SoC or t8103 is used as fallback compatible supported by the
+> drivers. t8103 is used as default since most drivers and bindings were
+> initially written for M1 based devices.
+>
+> The series adds those fallback compatibles to drivers where necessary,
+> annotates the SoC lists for generic compatibles as "do not extend" and
+> adds t6020 per-SoC compatibles.
+>
+> [1]: https://lore.kernel.org/linux-pci/20250819-pci-pwrctrl-perst-v1-0-4b74978d2007@oss.qualcomm.com/
+> [2]: https://lore.kernel.org/asahi/20250823-apple-dt-sync-6-17-v2-0-6dc0daeb4786@jannau.net/
+> [3]: https://lore.kernel.org/asahi/20250821-apple-dart-4levels-v2-0-e39af79daa37@jannau.net/
+> [4]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+Is it okay for me to pick up the pmdomain patches (patch3 and patch4)
+by now - or what route are you planning to get this merged through?
 
-Cheers,
--Paul
+Kind regards
+Uffe
 
 > ---
-> =C2=A0drivers/clk/ingenic/x1000-cgu.c | 19 ++++++++++---------
-> =C2=A01 file changed, 10 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/clk/ingenic/x1000-cgu.c
-> b/drivers/clk/ingenic/x1000-cgu.c
-> index
-> feb03eed4fe8c8f617ef98254a522d72d452ac17..d80886caf393309a0c908c06fb5
-> aa8b59aced127 100644
-> --- a/drivers/clk/ingenic/x1000-cgu.c
-> +++ b/drivers/clk/ingenic/x1000-cgu.c
-> @@ -84,16 +84,17 @@ static unsigned long
-> x1000_otg_phy_recalc_rate(struct clk_hw *hw,
-> =C2=A0	return parent_rate;
-> =C2=A0}
-> =C2=A0
-> -static long x1000_otg_phy_round_rate(struct clk_hw *hw, unsigned
-> long req_rate,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long *parent_rate)
-> +static int x1000_otg_phy_determine_rate(struct clk_hw *hw,
-> +					struct clk_rate_request
-> *req)
-> =C2=A0{
-> -	if (req_rate < 18000000)
-> -		return 12000000;
-> -
-> -	if (req_rate < 36000000)
-> -		return 24000000;
-> +	if (req->rate < 18000000)
-> +		req->rate =3D 12000000;
-> +	else if (req->rate < 36000000)
-> +		req->rate =3D 24000000;
-> +	else
-> +		req->rate =3D 48000000;
-> =C2=A0
-> -	return 48000000;
-> +	return 0;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static int x1000_otg_phy_set_rate(struct clk_hw *hw, unsigned long
-> req_rate,
-> @@ -161,7 +162,7 @@ static int x1000_usb_phy_is_enabled(struct clk_hw
-> *hw)
-> =C2=A0
-> =C2=A0static const struct clk_ops x1000_otg_phy_ops =3D {
-> =C2=A0	.recalc_rate =3D x1000_otg_phy_recalc_rate,
-> -	.round_rate =3D x1000_otg_phy_round_rate,
-> +	.determine_rate =3D x1000_otg_phy_determine_rate,
-> =C2=A0	.set_rate =3D x1000_otg_phy_set_rate,
-> =C2=A0
-> =C2=A0	.enable		=3D x1000_usb_phy_enable,
+> Hector Martin (3):
+>       arm64: dts: apple: Add initial t6020/t6021/t6022 DTs
+>       arm64: dts: apple: Add J414 and J416 Macbook Pro device trees
+>       arm64: dts: apple: Add J180d (Mac Pro, M2 Ultra, 2023) device tree
+>
+> Janne Grunau (34):
+>       dt-bindings: arm: apple: Add t6020x compatibles
+>       dt-bindings: arm: apple: apple,pmgr: Add t6020-pmgr compatible
+>       pmdomain: apple: Add "apple,t8103-pmgr-pwrstate"
+>       dt-bindings: power: apple,pmgr-pwrstate: Add t6020 compatible
+>       dt-bindings: cpufreq: apple,cluster-cpufreq: Add t6020 compatible
+>       dt-bindings: interrupt-controller: apple,aic2: Add apple,t6020-aic compatible
+>       dt-bindings: iommu: dart: Add apple,t6020-dart compatible
+>       pinctrl: apple: Add "apple,t8103-pinctrl" as compatible
+>       dt-bindings: pinctrl: apple,pinctrl: Add apple,t6020-pinctrl compatible
+>       dt-bindings: i2c: apple,i2c: Add apple,t6020-i2c compatible
+>       dt-bindings: mailbox: apple,mailbox: Add t6020 compatible
+>       dt-bindings: gpu: apple,agx: Add agx-{g14s,g14c,g14d} compatibles
+>       dt-bindings: iommu: apple,sart: Add apple,t6020-sart compatible
+>       nvme-apple: Add "apple,t8103-nvme-ans2" as compatible
+>       dt-bindings: nvme: apple: Add apple,t6020-nvme-ans2 compatible
+>       dt-bindings: net: bcm4377-bluetooth: Add BCM4388 compatible
+>       dt-bindings: net: bcm4329-fmac: Add BCM4388 PCI compatible
+>       mfd: macsmc: Add "apple,t8103-smc" compatible
+>       dt-bindings: mfd: apple,smc: Add t6020-smc compatible
+>       dt-bindings: pwm: apple,s5l-fpwm: Add t6020-fpwm compatible
+>       spmi: apple: Add "apple,t8103-spmi" compatible
+>       dt-bindings: spmi: apple,spmi: Add t6020-spmi compatible
+>       watchdog: apple: Add "apple,t8103-wdt" compatible
+>       dt-bindings: watchdog: apple,wdt: Add t6020-wdt compatible
+>       clk: clk-apple-nco: Add "apple,t8103-nco" compatible
+>       dt-bindings: clock: apple,nco: Add t6020-nco compatible
+>       dmaengine: apple-admac: Add "apple,t8103-admac" compatible
+>       dt-bindings: dma: apple,admac: Add t6020-admac compatible
+>       ASoC: apple: mca: Add "apple,t8103-mca" compatible
+>       ASoC: dt-bindings: apple,mca: Add t6020-mca compatible
+>       spi: apple: Add "apple,t8103-spi" compatible
+>       spi: dt-bindings: apple,spi: Add t6020-spi compatible
+>       arm64: dts: apple: Add ethernet0 alias for J375 template
+>       arm64: dts: apple: Add J474s, J475c and J475d device trees
+>
+>  Documentation/devicetree/bindings/arm/apple.yaml   |   39 +-
+>  .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |   33 +-
+>  .../devicetree/bindings/clock/apple,nco.yaml       |   17 +-
+>  .../bindings/cpufreq/apple,cluster-cpufreq.yaml    |    3 +
+>  .../devicetree/bindings/dma/apple,admac.yaml       |   17 +-
+>  .../devicetree/bindings/gpu/apple,agx.yaml         |    6 +
+>  .../devicetree/bindings/i2c/apple,i2c.yaml         |   27 +-
+>  .../bindings/interrupt-controller/apple,aic2.yaml  |    1 +
+>  .../devicetree/bindings/iommu/apple,dart.yaml      |   14 +-
+>  .../devicetree/bindings/iommu/apple,sart.yaml      |    4 +-
+>  .../devicetree/bindings/mailbox/apple,mailbox.yaml |    1 +
+>  .../devicetree/bindings/mfd/apple,smc.yaml         |   17 +-
+>  .../net/bluetooth/brcm,bcm4377-bluetooth.yaml      |    1 +
+>  .../bindings/net/wireless/brcm,bcm4329-fmac.yaml   |    1 +
+>  .../devicetree/bindings/nvme/apple,nvme-ans.yaml   |   29 +-
+>  .../devicetree/bindings/pinctrl/apple,pinctrl.yaml |   27 +-
+>  .../bindings/power/apple,pmgr-pwrstate.yaml        |   27 +-
+>  .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |    3 +-
+>  .../devicetree/bindings/sound/apple,mca.yaml       |   17 +-
+>  .../devicetree/bindings/spi/apple,spi.yaml         |   16 +-
+>  .../devicetree/bindings/spmi/apple,spmi.yaml       |   17 +-
+>  .../devicetree/bindings/watchdog/apple,wdt.yaml    |   27 +-
+>  arch/arm64/boot/dts/apple/Makefile                 |    8 +
+>  arch/arm64/boot/dts/apple/t600x-j375.dtsi          |    1 +
+>  arch/arm64/boot/dts/apple/t6020-j414s.dts          |   26 +
+>  arch/arm64/boot/dts/apple/t6020-j416s.dts          |   26 +
+>  arch/arm64/boot/dts/apple/t6020-j474s.dts          |   47 +
+>  arch/arm64/boot/dts/apple/t6020.dtsi               |   22 +
+>  arch/arm64/boot/dts/apple/t6021-j414c.dts          |   26 +
+>  arch/arm64/boot/dts/apple/t6021-j416c.dts          |   26 +
+>  arch/arm64/boot/dts/apple/t6021-j475c.dts          |   37 +
+>  arch/arm64/boot/dts/apple/t6021.dtsi               |   69 +
+>  arch/arm64/boot/dts/apple/t6022-j180d.dts          |  121 ++
+>  arch/arm64/boot/dts/apple/t6022-j475d.dts          |   42 +
+>  arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi         |   38 +
+>  arch/arm64/boot/dts/apple/t6022.dtsi               |  347 +++
+>  arch/arm64/boot/dts/apple/t602x-common.dtsi        |  465 ++++
+>  arch/arm64/boot/dts/apple/t602x-die0.dtsi          |  577 +++++
+>  arch/arm64/boot/dts/apple/t602x-dieX.dtsi          |  129 ++
+>  arch/arm64/boot/dts/apple/t602x-gpio-pins.dtsi     |   81 +
+>  arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi     |   45 +
+>  arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi     |   38 +
+>  arch/arm64/boot/dts/apple/t602x-nvme.dtsi          |   42 +
+>  arch/arm64/boot/dts/apple/t602x-pmgr.dtsi          | 2268 ++++++++++++++++++++
+>  drivers/clk/clk-apple-nco.c                        |    1 +
+>  drivers/dma/apple-admac.c                          |    1 +
+>  drivers/mfd/macsmc.c                               |    1 +
+>  drivers/nvme/host/apple.c                          |    1 +
+>  drivers/pinctrl/pinctrl-apple-gpio.c               |    1 +
+>  drivers/pmdomain/apple/pmgr-pwrstate.c             |    1 +
+>  drivers/spi/spi-apple.c                            |    1 +
+>  drivers/spmi/spmi-apple-controller.c               |    1 +
+>  drivers/watchdog/apple_wdt.c                       |    1 +
+>  sound/soc/apple/mca.c                              |    1 +
+>  54 files changed, 4722 insertions(+), 113 deletions(-)
+> ---
+> base-commit: 50ee15a27ec4cc41e99ee5e9011de7875569cd52
+> change-id: 20250811-dt-apple-t6020-1359ce9bf2e7
+> prerequisite-change-id: 20250813-apple-dt-sync-6-17-d1fc1c89f7ca:v2
+> prerequisite-patch-id: 1405c7c78139704a4cbeb1adc67786b2c7971a3f
+> prerequisite-patch-id: 65865050e9e7427bac04f47d0b7927aacaac19bd
+> prerequisite-patch-id: 9240e5f435fb3406e77b4e4e9b02eb3d52e660e6
+> prerequisite-patch-id: c16715c9a9fcb396b7e4365fd767b05604b8de81
+> prerequisite-patch-id: a675ad20c2b427a021dafb5d6c8716497741604c
+>
+> Best regards,
+> --
+> Janne Grunau <j@jannau.net>
+>
