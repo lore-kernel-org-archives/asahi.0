@@ -1,70 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E609D345753
-	for <asahi@lists.linux.dev>; Fri,  5 Sep 2025 11:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EA0B34F470;
+	Fri,  5 Sep 2025 12:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757072411; cv=none; b=dLNuzOjzzxm4/g6pUN6yd3FtPTLukdDJL3NwUaaIdnovejwyU5hl6niFhrvyDFzmU/Ehu1fMvaddXfoqlG+CxuixH/J9lUGMNwcNNOOh/rT4Ap59MNY1fkyXyWJfi8o2RonkgKPTbrIxFg3hMe1vIXas805Ae5GG4jZpDiU0FtE=
+	t=1757075279; cv=none; b=DD/eqKN7+yZUOn5qr/pTgtYK9jBRGiJ5/jjzv09a3f12lYfAy2Vu/sCgS7KWtEkAysNmypvsN7MMAghmW0qaMWEqJTmVhaerRYybVMytS4l35EloO446lFkJGD6sbOMLtcCiDwr0Qtv7iVt4Y4kQBoJVJtDg+G6p16Kq5YQldQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757072411; c=relaxed/simple;
-	bh=sx2wz53gv4OIUWMCEXeNS8i0YplTPAB4OZ9qODA9qog=;
+	s=arc-20240116; t=1757075279; c=relaxed/simple;
+	bh=8CjpBmvrUyioClQv+4t4qWqIJCFOr+widzD2jXtprWQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YUkB1pD3jKi2Q1eHdrGFuwfdTD3ght3BkuJ45GzMWNheknvNO1vhsglZisl02NGxXmC24wJKnEx4ifCLl51brGP+vGJDkatFMLgRhyB6cqOcd+049W+bdPoD9RbSXbJwdLNLWupURDvKKLiPvw8MFmhOdMaCgtqQEDihQ9Do1B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SBnNCUSt; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=IUXZez1U+EgxdJI/xhsKDJJU8qbxZqW5RVLywEcZsT0Ezjh3v80JVIi/D137v5VeEBIdgHwR7W6f4vT3qxBaN8nH4qLWWNRfAAyCm1VqGrRg9kKcgha9t23G4ftHA1wQyuOLNi6gjocyX4UsGeaiZt9O1SRFJ5I+X9KuXaCWFhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=EONzcNdO; arc=none smtp.client-ip=85.214.250.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SBnNCUSt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757072408; x=1788608408;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sx2wz53gv4OIUWMCEXeNS8i0YplTPAB4OZ9qODA9qog=;
-  b=SBnNCUStDUL8/JU+555300KEYJqMKh87/udKHLgCPI8aYRdDCjWyf+HH
-   J/XeWcr05hfN7fZ99VbPcOW7GMdjSiv8urOg2/PuOWC7ls+yYT0rS1+Hp
-   8qMda3aFHc81hPO8FfSU2yG5bJ86J424+lzCFWpCixOJc+e8KwAkNTALv
-   cZ3T162/4IXaz39sq4e11W3VQgHh3h7zssBKWhItn/bPzx7JiWTzkBOQH
-   YPsIff6m5zRlHu+rdkAyY3HJDh1Oo6G1H6inNmssLXFF1LqzGIWe9C2U1
-   zlJ3qGyKfAy+tc1kWS/cf+5Yrn5wCmjSG4GStGxJiQeFGFuLWBicJWISE
-   Q==;
-X-CSE-ConnectionGUID: 1LavpSf6QF2eCvPxJ7jR2w==
-X-CSE-MsgGUID: b0u1k+hzTgKEkwSsih1nqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="63064749"
-X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
-   d="scan'208";a="63064749"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 04:40:07 -0700
-X-CSE-ConnectionGUID: 7ivWf5SiTburyJTsZYw9/Q==
-X-CSE-MsgGUID: Mm1LtjFKRfexLBEV4Qw4+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
-   d="scan'208";a="171710329"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by fmviesa007.fm.intel.com with SMTP; 05 Sep 2025 04:40:01 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 05 Sep 2025 14:40:00 +0300
-Date: Fri, 5 Sep 2025 14:40:00 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-phy@lists.infradead.org, Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH RFC 15/22] usb: typec: tipd: Update partner identity when
- power status was updated
-Message-ID: <aLrMEL_St_0JlZYG@kuha.fi.intel.com>
-References: <20250821-atcphy-6-17-v1-0-172beda182b8@kernel.org>
- <20250821-atcphy-6-17-v1-15-172beda182b8@kernel.org>
+	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="EONzcNdO"
+Received: from 8bytes.org (p54921b16.dip0.t-ipconnect.de [84.146.27.22])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 0745E52C54;
+	Fri,  5 Sep 2025 14:27:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1757075277;
+	bh=8CjpBmvrUyioClQv+4t4qWqIJCFOr+widzD2jXtprWQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EONzcNdOrHAgSS/R7sA/baWHgglBoaJyxqbKCl822wd1J4gyDGD3l/KbFg2hELjEK
+	 vLeMx68mqhnKsTRVe9eBoqtwlB0+LWgE056t4AgZv0ORHNQLtDHHnc9ZGlAwnKB8yD
+	 ldX1vNQbZI3mH4SvUcLnuBS59Qa0BPCvCFfFyAcuueshf3YcVvozVNyNyggswjdp4o
+	 Lf9EUiW+syyScoa+KmA/VzpNHaK2WLBvy0FDdBKUUZz83WOmPmcceOdQP15y2La0tP
+	 c7qO4at7A4tF6CoGXTpycfyBZvVlz8HhdiJkEo1ZPjya2kD98eteQyZYjUWNqedGzV
+	 1In0f20sVWSKQ==
+Date: Fri, 5 Sep 2025 14:27:55 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v2 0/3] iommu/apple-dart: Four level page table support
+Message-ID: <aLrXS9Z-F31SEd_G@8bytes.org>
+References: <20250821-apple-dart-4levels-v2-0-e39af79daa37@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -73,52 +49,33 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250821-atcphy-6-17-v1-15-172beda182b8@kernel.org>
+In-Reply-To: <20250821-apple-dart-4levels-v2-0-e39af79daa37@jannau.net>
 
-Hi,
-
-On Thu, Aug 21, 2025 at 03:39:07PM +0000, Sven Peter wrote:
-> From: Hector Martin <marcan@marcan.st>
+On Thu, Aug 21, 2025 at 12:15:57PM +0200, Janne Grunau wrote:
+> The DART instances found in T602x based SoCs (Apple's M2 Pro/Max/Ultra)
+> indicate an IAS of 42 bit. This results in alloc_io_pgtable_ops()
+> failing as io-pgtable-dart supports at most 36-bit IAS.
+> The t8110 DART design supports 4-level page tables. Implement support
+> for this in io-pgtable-dart and mark DART stream with more than 36-bit
+> IAS as 4-level page tables.
 > 
-> Whenever the power status is changed make sure to also update the
-> partner identity to be able to detect changes once de-bouncing and mode
-> changes arre added for CD321x.
-
-s/arre/are/
-
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Sven Peter <sven@kernel.org>
+> Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
->  drivers/usb/typec/tipd/core.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+> Changes in v2:
+> - simplified 4 page table level use in apple_dart_hw_enable_translation()
+> - use "iommu/{apple,io-pgtable}-dart:" as commit subject prefix
+> - added Sven's Rb:
+> - Link to v1: https://lore.kernel.org/r/20250814-apple-dart-4levels-v1-0-db2214a78c08@jannau.net
 > 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index e369897bfa017ca96e559a8bd70da11207d4513a..b0fdd4dddd3a490dbc2a8ced21ea0803658f36a7 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -636,9 +636,16 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
->  	if (!tps6598x_read_status(tps, &status))
->  		goto err_unlock;
->  
-> -	if (event & APPLE_CD_REG_INT_POWER_STATUS_UPDATE)
-> +	if (event & APPLE_CD_REG_INT_POWER_STATUS_UPDATE) {
->  		if (!tps6598x_read_power_status(tps))
->  			goto err_unlock;
-> +		if (TPS_POWER_STATUS_PWROPMODE(tps->pwr_status) == TYPEC_PWR_MODE_PD) {
-> +			if (tps6598x_read_partner_identity(tps)) {
-> +				dev_err(tps->dev, "%s: failed to partner identity\n", __func__);
+> ---
+> Hector Martin (3):
+>       iommu/apple-dart: Make the hw register fields u32s
+>       iommu/io-pgtable-dart: Add 4-level page table support
+>       iommu/apple-dart: Add 4-level page table support
+> 
+>  drivers/iommu/apple-dart.c      |  50 +++++++++-----
+>  drivers/iommu/io-pgtable-dart.c | 143 ++++++++++++++++++++++++----------------
+>  include/linux/io-pgtable.h      |   1 +
+>  3 files changed, 121 insertions(+), 73 deletions(-)
 
-				dev_err(tps->dev, "failed to read partner identity\n");
-
-> +				tps->partner_identity = (struct usb_pd_identity) {0};
-> +			}
-> +		}
-> +	}
->  
->  	if (event & APPLE_CD_REG_INT_DATA_STATUS_UPDATE)
->  		if (!tps->data->read_data_status(tps))
-
-thanks,
-
--- 
-heikki
+Applied, thanks.
