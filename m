@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB267221DA5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB20C21ADAE;
 	Sat,  6 Sep 2025 15:43:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757173419; cv=none; b=cFQ+yZwXQAh4LKq3V96xqIZHHS8bwg4+KzL6Q2Bq69v9lhUI0xivcVAXhUEDwf8Y2Al1XxupiGFWmCd3LN9Vo5dmNij2ZFG8IhmoyeC6sLlYH7zpuEUmyNIGQWwLUzX9KIlQPz+3pwk6fSBqBVu9qmGik1y3+xhSG0FaracqSFQ=
+	t=1757173419; cv=none; b=C8Q9ZP3/yM+ORilB/EZMdRSrM1p1JFXKsn0XK7e43MOBB065CTh5n3oL3X0BO4Do+MF78jpglSZ+tJG2eBj1VTyw8Pe4sd/Oi/hzfvyQ5bjwMNo0E0sj6l7jo2ZkCX/0oHXwYy1JvnJ0r1Cd+T8FqcLlbnCOauqu3U0cvZzcFZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757173419; c=relaxed/simple;
-	bh=IwSlnxJ2iq6EBFsK6qtAtYW5ioFRlILFFMPbZlRxlX4=;
+	bh=ijo1hW/xWUy1/m3cbnSQCqYPTm7fk4/pyNoDtB66FEQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qiCkdFOt3WtZx4Pp0ja36bv3jiaAAnyv6puRITxMCBEW9f+cUWvm6oGKzSHnXAzyjCLgvIxGTaqYTwVUr6zR5ih6aKYavWJ/Gs1+Qj725kgYTjAwFG+ZH7LKnRfLFgkaqsoDaI6vjc0f/hiKEvfmGPlau/O+lGPLv1KOF1T12Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+iCzZly; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=HAa0730A1VvTbz3o3rqA9Rfn5snlFa7gpx7DCRtdqQPW29dKjTQ8Lz3yR2N6CIThFqFumXnQY7nnhwERA1kWns1Pma5wcxCC9W4FyFvGRcozFo0ZtcEd1L2gpAtQT37Akpq/ouPqlk3P0XG+4nTl75BXqhN5IxX+phEnsvBN2o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qWerm7Pv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+iCzZly"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 59EC3C4AF09;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWerm7Pv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3E97AC4CEF7;
 	Sat,  6 Sep 2025 15:43:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1757173419;
-	bh=IwSlnxJ2iq6EBFsK6qtAtYW5ioFRlILFFMPbZlRxlX4=;
+	bh=ijo1hW/xWUy1/m3cbnSQCqYPTm7fk4/pyNoDtB66FEQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=N+iCzZlybG3lxFbOJUeEZOnutJZ4MfPOTSWPKeJu9ypAQEBgFMPWAdmR0X9c1JkOP
-	 CtHTpTl/9zNU2sP6o2zfdTwbq/dNQbTacirCpw/2WnKoKUmMSaKTuVrJVTNoHQhCri
-	 xeXmMYHZc/ZU1Mgvj3F9ZBPQDlCBckUeYCwe48uyGZZoia0VMJE4kEX5hCLo9DihpP
-	 Xl1VkKWmSfqsQNkZZHtW/+uhUpmC3YZkAPV2zsCtPkXVzZ4d4OT6kZelmQ7MGX5Odc
-	 Rkf0Xf+X5oZ5kVsTsJlVb9s8O3mT+OPykCQn4PDW+A/a28SVIgqdWNuXr7RykGnMlj
-	 okKjAIRELIXZw==
+	b=qWerm7PvhC+FRMtxnYufAPBQprwLjvFkcA6/A07k70IekDAWpMWyC7IM/AlGvasUh
+	 9oxKn6j6RhnY5eqG5QVnDHOSpETO/OicZ/ERbPtKzwabsJNOppU8D3XThFx1w/SN4J
+	 3nzhbH4k0Co/835Zbp/FiCBhTx5mUYb9R4Ab9V8JW4hVuLPwDGo5VMIXX2UauQFDQC
+	 uNcNjXLHMSYNhiKIdHvJxYqVzWqQu3HaIAYJL1V4ggnZxUfd/wtsBgoqp6ztkD8O1b
+	 PWhRdXPRWOVZqZhwNDXUm0zHLLJDp1JxCbVbf5pj4GUg0BobV6t98n9+CIjLpOhBiP
+	 w/tI7jM7eKleQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC35CAC582;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CCB3CA1012;
 	Sat,  6 Sep 2025 15:43:39 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Sat, 06 Sep 2025 15:43:16 +0000
-Subject: [PATCH v2 03/22] usb: dwc3: glue: Allow more fine grained control
- over mode switches
+Date: Sat, 06 Sep 2025 15:43:14 +0000
+Subject: [PATCH v2 01/22] dt-bindings: usb: Add Apple dwc3
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250906-atcphy-6-17-v2-3-52c348623ef6@kernel.org>
+Message-Id: <20250906-atcphy-6-17-v2-1-52c348623ef6@kernel.org>
 References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
 In-Reply-To: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -59,173 +58,125 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
  Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5254; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3085; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=IwSlnxJ2iq6EBFsK6qtAtYW5ioFRlILFFMPbZlRxlX4=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8aesDnPY2Ond928YnA9uuWW1bl/lYqLu3+/Zt9/kyfvy
- IrsBXpcHaUsDGIcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJzFnGyLDYkctWMFzeSmRX
- RL6f4oKJaeohC9xK/zdNdPtj8OvXgQCG/7kKQWFudh5ibxl4uQ6frqlwey4ofdDK7eV3zp9z772
- 0ZAQA
+ bh=ijo1hW/xWUy1/m3cbnSQCqYPTm7fk4/pyNoDtB66FEQ=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8aesJlHJ09wPGhpqSoWlrB1t1jvi52zQmV2Nfv98rP6+
+ H/SmxfCHaUsDGIcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJXFdk+MN34WbjvRwt82d8
+ fXHav37y/0w83TJzZbZV5ouycjOuvlRGhq9W7Y/atPWuu+y72HtviirTtCShvrvRFxZyr9hWPat
+ xHQcA
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-We need fine grained control over mode switched on the DWC3 controller
-present on Apple Silicon. Export core, host and gadget init and exit,
-ptrcap and susphy control functions. Also introduce an additional
-parameter to probe_data that allows to skip the final initialization
-step that would bring up host or gadget mode.
+Apple Silicon uses Synopsys DesignWare dwc3 based USB controllers for
+their Type-C ports.
 
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/usb/dwc3/core.c   | 16 +++++++++++-----
- drivers/usb/dwc3/gadget.c |  2 ++
- drivers/usb/dwc3/glue.h   | 14 ++++++++++++++
- drivers/usb/dwc3/host.c   |  2 ++
- 4 files changed, 29 insertions(+), 5 deletions(-)
+ .../devicetree/bindings/usb/apple,dwc3.yaml        | 80 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ 2 files changed, 81 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 8002c23a5a02acb8f3e87b2662a53998a4cf4f5c..18056fac44c8732278a650ac2be8b493892c92dd 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -132,6 +132,7 @@ void dwc3_enable_susphy(struct dwc3 *dwc, bool enable)
- 		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(i), reg);
- 	}
- }
-+EXPORT_SYMBOL_GPL(dwc3_enable_susphy);
- 
- void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy)
- {
-@@ -157,6 +158,7 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy)
- 
- 	dwc->current_dr_role = mode;
- }
-+EXPORT_SYMBOL_GPL(dwc3_set_prtcap);
- 
- static void __dwc3_set_mode(struct work_struct *work)
- {
-@@ -974,7 +976,7 @@ static void dwc3_clk_disable(struct dwc3 *dwc)
- 	clk_disable_unprepare(dwc->bus_clk);
- }
- 
--static void dwc3_core_exit(struct dwc3 *dwc)
-+void dwc3_core_exit(struct dwc3 *dwc)
- {
- 	dwc3_event_buffers_cleanup(dwc);
- 	dwc3_phy_power_off(dwc);
-@@ -982,6 +984,7 @@ static void dwc3_core_exit(struct dwc3 *dwc)
- 	dwc3_clk_disable(dwc);
- 	reset_control_assert(dwc->reset);
- }
-+EXPORT_SYMBOL_GPL(dwc3_core_exit);
- 
- static bool dwc3_core_is_valid(struct dwc3 *dwc)
- {
-@@ -1327,7 +1330,7 @@ static void dwc3_config_threshold(struct dwc3 *dwc)
-  *
-  * Returns 0 on success otherwise negative errno.
-  */
--static int dwc3_core_init(struct dwc3 *dwc)
-+int dwc3_core_init(struct dwc3 *dwc)
- {
- 	unsigned int		hw_mode;
- 	u32			reg;
-@@ -1527,6 +1530,7 @@ static int dwc3_core_init(struct dwc3 *dwc)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(dwc3_core_init);
- 
- static int dwc3_core_get_phy(struct dwc3 *dwc)
- {
-@@ -2298,9 +2302,11 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 	dwc3_check_params(dwc);
- 	dwc3_debugfs_init(dwc);
- 
--	ret = dwc3_core_init_mode(dwc);
--	if (ret)
--		goto err_exit_debugfs;
-+	if (!data->skip_core_init_mode) {
-+		ret = dwc3_core_init_mode(dwc);
-+		if (ret)
-+			goto err_exit_debugfs;
-+	}
- 
- 	pm_runtime_put(dev);
- 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 25db36c63951bf5654f4bf5a98d7073a028364cd..7b92eb8c4ccf118b81f27afaf3f31bf56e1b6f74 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -4794,6 +4794,7 @@ int dwc3_gadget_init(struct dwc3 *dwc)
- err0:
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(dwc3_gadget_init);
- 
- /* -------------------------------------------------------------------------- */
- 
-@@ -4812,6 +4813,7 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
- 	dma_free_coherent(dwc->sysdev, sizeof(*dwc->ep0_trb) * 2,
- 			  dwc->ep0_trb, dwc->ep0_trb_addr);
- }
-+EXPORT_SYMBOL_GPL(dwc3_gadget_exit);
- 
- int dwc3_gadget_suspend(struct dwc3 *dwc)
- {
-diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
-index 2efd00e763be4fc51911f32d43054059e61fb43a..633268c76fe4c7fdc312c9705dfa7cf7ccf3544c 100644
---- a/drivers/usb/dwc3/glue.h
-+++ b/drivers/usb/dwc3/glue.h
-@@ -15,16 +15,30 @@
-  * @res: resource for the DWC3 core mmio region
-  * @ignore_clocks_and_resets: clocks and resets defined for the device should
-  *		be ignored by the DWC3 core, as they are managed by the glue
-+ * @skip_core_init_mode: skip the finial initialization of the target mode, as
-+ *		it must be managed by the glue
-  */
- struct dwc3_probe_data {
- 	struct dwc3 *dwc;
- 	struct resource *res;
- 	bool ignore_clocks_and_resets;
-+	bool skip_core_init_mode;
- };
- 
- int dwc3_core_probe(const struct dwc3_probe_data *data);
- void dwc3_core_remove(struct dwc3 *dwc);
- 
-+int dwc3_core_init(struct dwc3 *dwc);
-+void dwc3_core_exit(struct dwc3 *dwc);
+diff --git a/Documentation/devicetree/bindings/usb/apple,dwc3.yaml b/Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..7c8708143696faf2133c141d2a78abd3b5813979
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/apple,dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+int dwc3_host_init(struct dwc3 *dwc);
-+void dwc3_host_exit(struct dwc3 *dwc);
-+int dwc3_gadget_init(struct dwc3 *dwc);
-+void dwc3_gadget_exit(struct dwc3 *dwc);
++title: Apple Silicon DWC3 USB controller
 +
-+void dwc3_enable_susphy(struct dwc3 *dwc, bool enable);
-+void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy);
++maintainers:
++  - Sven Peter <sven@kernel.org>
 +
- int dwc3_runtime_suspend(struct dwc3 *dwc);
- int dwc3_runtime_resume(struct dwc3 *dwc);
- int dwc3_runtime_idle(struct dwc3 *dwc);
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index e77fd86d09cf0a36161c20ad3c83f10e67099775..cf6512ed17a69134e6ca1b884f76c1439693fab1 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -220,6 +220,7 @@ int dwc3_host_init(struct dwc3 *dwc)
- 	platform_device_put(xhci);
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(dwc3_host_init);
- 
- void dwc3_host_exit(struct dwc3 *dwc)
- {
-@@ -230,3 +231,4 @@ void dwc3_host_exit(struct dwc3 *dwc)
- 	platform_device_unregister(dwc->xhci);
- 	dwc->xhci = NULL;
- }
-+EXPORT_SYMBOL_GPL(dwc3_host_exit);
++description:
++  Apple Silicon SoCs use a Synopsys DesignWare DWC3 based controller for each of
++  their Type-C ports.
++
++allOf:
++  - $ref: snps,dwc3-common.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - apple,t6000-dwc3
++              - apple,t6020-dwc3
++              - apple,t8112-dwc3
++          - const: apple,t8103-dwc3
++      - const: apple,t8103-dwc3
++
++  reg:
++    items:
++      - description: Core DWC3 region
++      - description: Apple-specific DWC3 region
++
++  reg-names:
++    items:
++      - const: dwc3-core
++      - const: dwc3-apple
++
++  interrupts:
++    maxItems: 1
++
++  iommus:
++    maxItems: 2
++
++  resets:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++  - iommus
++  - resets
++  - power-domains
++  - usb-role-switch
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/apple-aic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    usb@82280000 {
++      compatible = "apple,t8103-dwc3";
++      reg = <0x82280000 0xce00>, <0x8228cd00 0x3200>;
++      reg-names = "dwc3-core", "dwc3-apple";
++      interrupts = <AIC_IRQ 777 IRQ_TYPE_LEVEL_HIGH>;
++      iommus = <&dwc3_0_dart_0 0>, <&dwc3_0_dart_1 1>;
++
++      power-domains = <&ps_atc0_usb>;
++      resets = <&atcphy0>;
++
++      usb-role-switch;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fe168477caa45799dfe07de2f54de6d6a1ce0615..0e085cb0762f765958d67be61ae0d3d773503431 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2399,6 +2399,7 @@ F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
+ F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+ F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
+ F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
++F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+ F:	arch/arm64/boot/dts/apple/
+ F:	drivers/bluetooth/hci_bcm4377.c
 
 -- 
 2.34.1
