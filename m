@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB20C21ADAE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E6F28488F;
 	Sat,  6 Sep 2025 15:43:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757173419; cv=none; b=C8Q9ZP3/yM+ORilB/EZMdRSrM1p1JFXKsn0XK7e43MOBB065CTh5n3oL3X0BO4Do+MF78jpglSZ+tJG2eBj1VTyw8Pe4sd/Oi/hzfvyQ5bjwMNo0E0sj6l7jo2ZkCX/0oHXwYy1JvnJ0r1Cd+T8FqcLlbnCOauqu3U0cvZzcFZU=
+	t=1757173420; cv=none; b=uZOoE9WTkzHgP3yzEv9l7jzsezZtpsK2C5QJJPQiwSyQkTPfbz9juzoj5cPvgKVVVjixKo987rxLvGDc/UufgjPmRL7rAwxNRSE8gPEp8NWdwcIyfq6fgQ+AzL8JdH/p5cUtTd87IXWHmZks9cAWIU/eAV/+cJ2w/4EWXTR3A08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757173419; c=relaxed/simple;
-	bh=ijo1hW/xWUy1/m3cbnSQCqYPTm7fk4/pyNoDtB66FEQ=;
+	s=arc-20240116; t=1757173420; c=relaxed/simple;
+	bh=Xg9QJiSBBIwd6sYFd4P5Er5AJf6QTVlzXtTmrm9L9YQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HAa0730A1VvTbz3o3rqA9Rfn5snlFa7gpx7DCRtdqQPW29dKjTQ8Lz3yR2N6CIThFqFumXnQY7nnhwERA1kWns1Pma5wcxCC9W4FyFvGRcozFo0ZtcEd1L2gpAtQT37Akpq/ouPqlk3P0XG+4nTl75BXqhN5IxX+phEnsvBN2o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qWerm7Pv; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=XICzTxhau49Pvig0xt7aRdFkA2uLghcPC95aiQ8MILrPLSI0tgtCIouHVxeooYCqQnG6WDxBgygU7130/iLgPvATwftrIjspsr+Orzu3scQwiYfQuyjK43KQmJ9kx0txgIjx1x63stxKCgUm8TGppr+ypP4ZIdyJEQZXARwYw5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=thU1Yi3U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWerm7Pv"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3E97AC4CEF7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="thU1Yi3U"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8D12C2BCAF;
 	Sat,  6 Sep 2025 15:43:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1757173419;
-	bh=ijo1hW/xWUy1/m3cbnSQCqYPTm7fk4/pyNoDtB66FEQ=;
+	bh=Xg9QJiSBBIwd6sYFd4P5Er5AJf6QTVlzXtTmrm9L9YQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qWerm7PvhC+FRMtxnYufAPBQprwLjvFkcA6/A07k70IekDAWpMWyC7IM/AlGvasUh
-	 9oxKn6j6RhnY5eqG5QVnDHOSpETO/OicZ/ERbPtKzwabsJNOppU8D3XThFx1w/SN4J
-	 3nzhbH4k0Co/835Zbp/FiCBhTx5mUYb9R4Ab9V8JW4hVuLPwDGo5VMIXX2UauQFDQC
-	 uNcNjXLHMSYNhiKIdHvJxYqVzWqQu3HaIAYJL1V4ggnZxUfd/wtsBgoqp6ztkD8O1b
-	 PWhRdXPRWOVZqZhwNDXUm0zHLLJDp1JxCbVbf5pj4GUg0BobV6t98n9+CIjLpOhBiP
-	 w/tI7jM7eKleQ==
+	b=thU1Yi3U5IIXEBXKBA7HcqyHHBfCkMPqXRl/zO2eZlH/6r6txATifLn8InixYei1X
+	 8pfYGLonQ+83/F3NRMTvBnDFJiwts3Ze5vs/sOBeDyS1KvuzGG0VFEeNKDr8BaI9WR
+	 JIKq8gRMAZ+62r6AanhJVE5Uf4SrQ/P9ktXs1nCyY5txlqNbuhR1RDOkCWAvS8hfJ4
+	 9Y9rmPxFDYXFdKDGk5m031TTwbDrgl1wwuJXr4IAtRpWdyX/2uJpTf/v0+XGFhhF74
+	 VGvN/jer9YI0F8NNlbqEEBFWggXn053YSGwrjMQrARzomD4oy27IOiHihzvS58FU2/
+	 xyEIQOp8TzUYQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CCB3CA1012;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F48FCA1012;
 	Sat,  6 Sep 2025 15:43:39 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Sat, 06 Sep 2025 15:43:14 +0000
-Subject: [PATCH v2 01/22] dt-bindings: usb: Add Apple dwc3
+Date: Sat, 06 Sep 2025 15:43:21 +0000
+Subject: [PATCH v2 08/22] usb: typec: tipd: Trace data status for CD321x
+ correctly
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250906-atcphy-6-17-v2-1-52c348623ef6@kernel.org>
+Message-Id: <20250906-atcphy-6-17-v2-8-52c348623ef6@kernel.org>
 References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
 In-Reply-To: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -58,125 +59,150 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
  Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3085; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5697; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=ijo1hW/xWUy1/m3cbnSQCqYPTm7fk4/pyNoDtB66FEQ=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8aesJlHJ09wPGhpqSoWlrB1t1jvi52zQmV2Nfv98rP6+
- H/SmxfCHaUsDGIcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJXFdk+MN34WbjvRwt82d8
- fXHav37y/0w83TJzZbZV5ouycjOuvlRGhq9W7Y/atPWuu+y72HtviirTtCShvrvRFxZyr9hWPat
- xHQcA
+ bh=Xg9QJiSBBIwd6sYFd4P5Er5AJf6QTVlzXtTmrm9L9YQ=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8aesPnbv/qwGHjIlK87sXONUYreKd8fK89yixpk/Xtz/
+ PcF+blCHaUsDGIcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJ/GFhZLj954lK5UbBYouu
+ mvJv/iXdh9Zrx2f8vcA5L8TTa8vJo2yMDMvCds4zvKW3Kl5w0QK1Jsn2tIPNH9YlHroj9u9V+rM
+ KdX4A
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-Apple Silicon uses Synopsys DesignWare dwc3 based USB controllers for
-their Type-C ports.
+Some bits inside the CD321x TPS_DATA_STATUS register have a different
+function compared to the original tipd chip. Add these and introduce a
+separate trace function to show them correctly.
 
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- .../devicetree/bindings/usb/apple,dwc3.yaml        | 80 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 81 insertions(+)
+ drivers/usb/typec/tipd/core.c     |  8 +++++++-
+ drivers/usb/typec/tipd/tps6598x.h |  5 +++++
+ drivers/usb/typec/tipd/trace.h    | 39 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 51 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/apple,dwc3.yaml b/Documentation/devicetree/bindings/usb/apple,dwc3.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..7c8708143696faf2133c141d2a78abd3b5813979
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/apple,dwc3.yaml
-@@ -0,0 +1,80 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/apple,dwc3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 4815c5c462837865a5f9d37bbc139249c82c2f75..19d713937870304e68325a441b0de63eb5db3b80 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -114,6 +114,7 @@ struct tipd_data {
+ 	irq_handler_t irq_handler;
+ 	u64 irq_mask1;
+ 	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
++	void (*trace_data_status)(u32 status);
+ 	void (*trace_power_status)(u16 status);
+ 	void (*trace_status)(u32 status);
+ 	int (*apply_patch)(struct tps6598x *tps);
+@@ -492,7 +493,9 @@ static bool tps6598x_read_data_status(struct tps6598x *tps)
+ 		dev_err(tps->dev, "failed to read data status: %d\n", ret);
+ 		return false;
+ 	}
+-	trace_tps6598x_data_status(data_status);
 +
-+title: Apple Silicon DWC3 USB controller
++	if (tps->data->trace_data_status)
++		tps->data->trace_data_status(data_status);
+ 
+ 	return true;
+ }
+@@ -1519,6 +1522,7 @@ static const struct tipd_data cd321x_data = {
+ 		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
+ 		     APPLE_CD_REG_INT_PLUG_EVENT,
+ 	.register_port = tps6598x_register_port,
++	.trace_data_status = trace_cd321x_data_status,
+ 	.trace_power_status = trace_tps6598x_power_status,
+ 	.trace_status = trace_tps6598x_status,
+ 	.init = cd321x_init,
+@@ -1532,6 +1536,7 @@ static const struct tipd_data tps6598x_data = {
+ 		     TPS_REG_INT_DATA_STATUS_UPDATE |
+ 		     TPS_REG_INT_PLUG_EVENT,
+ 	.register_port = tps6598x_register_port,
++	.trace_data_status = trace_tps6598x_data_status,
+ 	.trace_power_status = trace_tps6598x_power_status,
+ 	.trace_status = trace_tps6598x_status,
+ 	.apply_patch = tps6598x_apply_patch,
+@@ -1545,6 +1550,7 @@ static const struct tipd_data tps25750_data = {
+ 		     TPS_REG_INT_DATA_STATUS_UPDATE |
+ 		     TPS_REG_INT_PLUG_EVENT,
+ 	.register_port = tps25750_register_port,
++	.trace_data_status = trace_tps6598x_data_status,
+ 	.trace_power_status = trace_tps25750_power_status,
+ 	.trace_status = trace_tps25750_status,
+ 	.apply_patch = tps25750_apply_patch,
+diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
+index cecb8d11d23972dab0d8c15458b4052af7510b03..03edbb77bbd6d8093b2560db83e5913e25d06154 100644
+--- a/drivers/usb/typec/tipd/tps6598x.h
++++ b/drivers/usb/typec/tipd/tps6598x.h
+@@ -197,6 +197,11 @@
+ #define TPS_DATA_STATUS_FORCE_LSX	     BIT(23)
+ #define TPS_DATA_STATUS_POWER_MISMATCH	     BIT(24)
+ 
++/* modified TPS_REG_DATA_STATUS bits for CD321x (and likely also TPS65987DDK) */
++#define CD321X_DATA_STATUS_HPD_IRQ	     BIT(14)
++#define CD321X_DATA_STATUS_HPD_LEVEL	     BIT(15)
++#define CD321X_DATA_STATUS_USB4_CONNECTION   BIT(23)
 +
-+maintainers:
-+  - Sven Peter <sven@kernel.org>
+ #define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK GENMASK(11, 10)
+ #define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT(x) \
+ 	TPS_FIELD_GET(TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK, (x))
+diff --git a/drivers/usb/typec/tipd/trace.h b/drivers/usb/typec/tipd/trace.h
+index bea383f2db9de5bbf1804fbad9ee6b134407b932..e9e40425138a01f15e35867f38f62e13623dbcec 100644
+--- a/drivers/usb/typec/tipd/trace.h
++++ b/drivers/usb/typec/tipd/trace.h
+@@ -217,6 +217,26 @@
+ 		{ TPS_DATA_STATUS_FORCE_LSX,		"FORCE_LSX" }, \
+ 		{ TPS_DATA_STATUS_POWER_MISMATCH,	"POWER_MISMATCH" })
+ 
++#define show_cd321x_data_status_flags(data_status) \
++	__print_flags(data_status & TPS_DATA_STATUS_FLAGS_MASK, "|", \
++		{ TPS_DATA_STATUS_DATA_CONNECTION,	"DATA_CONNECTION" }, \
++		{ TPS_DATA_STATUS_UPSIDE_DOWN,		"DATA_UPSIDE_DOWN" }, \
++		{ TPS_DATA_STATUS_ACTIVE_CABLE,		"ACTIVE_CABLE" }, \
++		{ TPS_DATA_STATUS_USB2_CONNECTION,	"USB2_CONNECTION" }, \
++		{ TPS_DATA_STATUS_USB3_CONNECTION,	"USB3_CONNECTION" }, \
++		{ TPS_DATA_STATUS_USB3_GEN2,		"USB3_GEN2" }, \
++		{ TPS_DATA_STATUS_USB_DATA_ROLE,	"USB_DATA_ROLE" }, \
++		{ TPS_DATA_STATUS_DP_CONNECTION,	"DP_CONNECTION" }, \
++		{ TPS_DATA_STATUS_DP_SINK,		"DP_SINK" }, \
++		{ CD321X_DATA_STATUS_HPD_IRQ,		"HPD_IRQ" }, \
++		{ CD321X_DATA_STATUS_HPD_LEVEL,		"HPD_LEVEL" }, \
++		{ TPS_DATA_STATUS_TBT_CONNECTION,	"TBT_CONNECTION" }, \
++		{ TPS_DATA_STATUS_TBT_TYPE,		"TBT_TYPE" }, \
++		{ TPS_DATA_STATUS_OPTICAL_CABLE,	"OPTICAL_CABLE" }, \
++		{ TPS_DATA_STATUS_ACTIVE_LINK_TRAIN,	"ACTIVE_LINK_TRAIN" }, \
++		{ CD321X_DATA_STATUS_USB4_CONNECTION,	"USB4" }, \
++		{ TPS_DATA_STATUS_POWER_MISMATCH,	"POWER_MISMATCH" })
 +
-+description:
-+  Apple Silicon SoCs use a Synopsys DesignWare DWC3 based controller for each of
-+  their Type-C ports.
+ #define show_data_status_dp_pin_assignment(data_status) \
+ 	__print_symbolic(TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(data_status), \
+ 		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_E, "E" }, \
+@@ -388,6 +408,25 @@ TRACE_EVENT(tps6598x_data_status,
+ 		    )
+ );
+ 
++TRACE_EVENT(cd321x_data_status,
++	TP_PROTO(u32 data_status),
++	TP_ARGS(data_status),
 +
-+allOf:
-+  - $ref: snps,dwc3-common.yaml#
++	TP_STRUCT__entry(
++			 __field(u32, data_status)
++			 ),
 +
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - apple,t6000-dwc3
-+              - apple,t6020-dwc3
-+              - apple,t8112-dwc3
-+          - const: apple,t8103-dwc3
-+      - const: apple,t8103-dwc3
++	TP_fast_assign(
++		       __entry->data_status = data_status;
++		       ),
 +
-+  reg:
-+    items:
-+      - description: Core DWC3 region
-+      - description: Apple-specific DWC3 region
++	TP_printk("%s%s%s",
++		  show_cd321x_data_status_flags(__entry->data_status),
++		  __entry->data_status & TPS_DATA_STATUS_DP_CONNECTION ? ", DP pinout " : "",
++		  maybe_show_data_status_dp_pin_assignment(__entry->data_status)
++		)
++);
 +
-+  reg-names:
-+    items:
-+      - const: dwc3-core
-+      - const: dwc3-apple
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  iommus:
-+    maxItems: 2
-+
-+  resets:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - iommus
-+  - resets
-+  - power-domains
-+  - usb-role-switch
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/apple-aic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    usb@82280000 {
-+      compatible = "apple,t8103-dwc3";
-+      reg = <0x82280000 0xce00>, <0x8228cd00 0x3200>;
-+      reg-names = "dwc3-core", "dwc3-apple";
-+      interrupts = <AIC_IRQ 777 IRQ_TYPE_LEVEL_HIGH>;
-+      iommus = <&dwc3_0_dart_0 0>, <&dwc3_0_dart_1 1>;
-+
-+      power-domains = <&ps_atc0_usb>;
-+      resets = <&atcphy0>;
-+
-+      usb-role-switch;
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe168477caa45799dfe07de2f54de6d6a1ce0615..0e085cb0762f765958d67be61ae0d3d773503431 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2399,6 +2399,7 @@ F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
- F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
- F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
- F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-+F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
+ #endif /* _TPS6598X_TRACE_H_ */
+ 
+ /* This part must be outside protection */
 
 -- 
 2.34.1
