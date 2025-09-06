@@ -1,75 +1,90 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5DBA2F2E;
-	Fri,  5 Sep 2025 12:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757076458; cv=none; b=SfOKS3uFgMD00mAkdE+W1dvDU4iUVQIiBShpc8In4lpPtUtPqy0PyJuJihKPGUzgblRIRvd1lZ1iUygWLeIU0mUpPBEx2kjgDttExrNJOFbsUDXBGcxXPxpnwJviY5zi+9f5V7V0AdkdOOsVjqdJnxRNG336m3vgO+LfQS4H35o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757076458; c=relaxed/simple;
-	bh=QEQQVhBJr9vTGUqxLLbGROAdD9ATWKivXMfcUsVX360=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OXvWjHg59MrOYBorb5Vm6iApXxFHgqE+0rCxL3+S+VfmGG0ekhk4Ee3IYB+EIi9zqBmlcxw8he3dti2pL/R7KNgXViy3zIh2WRAdiygLfMgDH3FO39s4NbKLCbwRHY5XEegmOO3rVtExwqfsixX5Z80xYTXegNM+EFBm1oEtWKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=nb8iuz9A; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="nb8iuz9A"
-Received: from 8bytes.org (p54921b16.dip0.t-ipconnect.de [84.146.27.22])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 035C254B38;
-	Fri,  5 Sep 2025 14:47:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1757076456;
-	bh=QEQQVhBJr9vTGUqxLLbGROAdD9ATWKivXMfcUsVX360=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nb8iuz9ARztuzTmOcRKnAzfrKUCGJ/Fc+ZsvXMwokcue6P8JrZitKrkILOM4b7AgF
-	 xCqOV3yArN/7bWpSYYbI5weW8PcmqSX4HO8dw0efTuCmqjvHg5NUqiU86qK7H0H9u5
-	 hEKbPt4UN5uY1i6tPQ4QyslY2eO7lW3KKluDkXHsUUTTFL+iAd8uzqEoIQwQ1p5dFN
-	 J3uuQ/Kv/8/OGV553xtsHqRkdfipIF0oZKx++hOgIdlkRRdMa2fBn78j7sMTPiRfh6
-	 XmuRL8gKN0y+CQNGrOnGSAdyldpV01hwoY9WK5NoQRWvnVCFDgOtjwuZoRJs58sEmv
-	 +toBN7N892Xew==
-Date: Fri, 5 Sep 2025 14:47:34 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH] iommu/apple-dart: Clear stream error indicator bits for
- T8110 DARTs
-Message-ID: <aLrb5kt7imDLdZpm@8bytes.org>
-References: <20250826-dart-t8110-stream-error-v1-1-e33395112014@jannau.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC85023184A;
+	Sat,  6 Sep 2025 08:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757146251; cv=none; b=sZDLEWKGVfWZfGFzkorUeqSpJw4A+t3Cai89S4g5MuEEvdxuWRgXxvCA/QkZ6iocFIg/BnR90hb71qgCYv57k/z8D8+cHKmciiE11DrPEX9F4dnxrAQ1UHVwcEv7gj0bj2NXhTwh0cO+xVCq8a70pzs9i8flweGDuz0O1nXV0ic=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757146251; c=relaxed/simple;
+	bh=cwPk6T3fU2IyG+AYF8QYuidB4vOjI0tVcpBFG7S39rc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C5vbsODN2lL1OXtuDNfdzAZAN3o7AzTe2axVqgZESm+HBA/02FHYX3nE6UcAJt3EULfrpvx/WVRIIHR/x4L5hVSJprNUyKGgsDBcffc2DIgsZGsdnFic5qp99eZK5yzJREMweNJ9f5YrY9dS4A8G3q53oufy2DQkkLdSIljzpUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKcXWMmj; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKcXWMmj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EBDFC4CEE7;
+	Sat,  6 Sep 2025 08:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757146251;
+	bh=cwPk6T3fU2IyG+AYF8QYuidB4vOjI0tVcpBFG7S39rc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=AKcXWMmj+SwlIU1GzFq8oGy5jgkkN17Uj4Hff5l9S2IVzbrPSPFYHuXjC5JuEo27j
+	 Y2B29lJ8waYDU63qj4rxD3ZGvwPFJL+wsuWuKva/z6fmmOY3izAgdYxQGymJ6nubwr
+	 QwsgF3t7rKBJE3i0+yp314MQ9Jw+fh69USW5yn3orTcbGVen/0szcZDM+Z9DhnoFPe
+	 c81VjlZ84X+7b1jVcrC4h2S24HKSq2u5nGodK9yC4x+NuvCJYrlC79BXRSzUfd6gJr
+	 aLmpCilGHesAV8kg406u0E/QMxzxM86UqXunzWFzSjV0eSdxGIAq1XHExGVuFtCiru
+	 IuJSvEmMbAUGQ==
+From: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Nick Chan <towinchenmi@gmail.com>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH v5 0/4] Add support ANS2 NVMe on Apple A11
+Date: Sat,  6 Sep 2025 10:10:43 +0200
+Message-Id: <175714604478.14736.9361483258492179321.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20250826-t8015-nvme-v5-0-caee6ab00144@gmail.com>
+References: <20250826-t8015-nvme-v5-0-caee6ab00144@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250826-dart-t8110-stream-error-v1-1-e33395112014@jannau.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 26, 2025 at 12:57:18PM +0200, Janne Grunau wrote:
-> From: Hector Martin <marcan@marcan.st>
+On Tue, 26 Aug 2025 20:09:11 +0800, Nick Chan wrote:
+> Apple A11 SoC comes with an NVMe controller that is similar to the
+> NVMe controller in M1, but less customized. Notably, it does not
+> have NVMMU or Linear SQ.
 > 
-> These registers exist and at least on the t602x variant the IRQ only
-> clears when theses are cleared.
+> The controller is wired to an older variant of the SART address filter,
+> and uses an older variant of ASC mailbox, so add support for them too.
 > 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
-> I've overlooked this change for the 4 level page table / t6020 support
-> series [1]. There are no dependencies to series so this can go in on its
-> own.
-> 
-> Janne
-> 
-> 1: https://lore.kernel.org/asahi/20250821-apple-dart-4levels-v2-0-e39af79daa37@jannau.net/
-> ---
->  drivers/iommu/apple-dart.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> [...]
 
-Applied, thanks.
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/drivers-6.18), thanks!
+
+[1/4] dt-bindings: nvme: apple,nvme-ans: Add Apple A11
+      https://github.com/AsahiLinux/linux/commit/1dd8daf1cd49
+[2/4] nvme: apple: Add Apple A11 support
+      https://github.com/AsahiLinux/linux/commit/04d8ecf37b5e
+
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/dt-6.18), thanks!
+
+[3/4] arm64: dts: apple: t8015: Fix PCIE power domains dependencies
+      https://github.com/AsahiLinux/linux/commit/55a1ed25fa8b
+[4/4] arm64: dts: apple: t8015: Add NVMe nodes
+      https://github.com/AsahiLinux/linux/commit/eef7336dc6c1
+
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
+
