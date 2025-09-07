@@ -1,1155 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2352F7441;
-	Sat,  6 Sep 2025 15:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB3D1B4224
+	for <asahi@lists.linux.dev>; Sun,  7 Sep 2025 08:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757173421; cv=none; b=PSCK2uppyO7YhHLdJIFc5HMj9RxSefUVLQ4rwt72UeCiCi0W1jExXdFG/l287cMvLq8ZZs8/P5ku+Hoy1bgOhwNdiD3dcjTzaENKOgXwkqSr9qOZ7z5or+EgDIRUMBGfgmtZaF6wo0H8BslhbZ/u2UJ/c6XTijFGW1oS0O8ZSvk=
+	t=1757235278; cv=none; b=OxYeEbAKUmcdlasZmAj1rgJ7o/OQiVUgMMtuDPGXP4/Bxkm/jlJv11aVPFGJPbgmW0pc+6RS6+5dhf31+qYihAUe8flsjDBGvCLmM+ABgjRXTUYVaIPAEk3BexfK2CILHlmNXL7dNDdh735bKOoRnuGWwmGcf7idByPrd91Bxow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757173421; c=relaxed/simple;
-	bh=KTAyeqUKBXSRXTrOzHfCOiEQdd5Glj7VWy4aaK3uSPI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K1T9vXuYd36MwGHZtf7kBRDyV1VsB5cO5Iirfp7X+3LcC39W11u63F6Da2+8W5Umy3hI7J3BzlDf+wRGVXW8m3OPbtoI+k84Yhit7rdPH8vPnSf3x5Ul2pzwzJL76UtsrYx2diU6YO0O5L8EEDU/m0mislUM+d+MhhNDFFe9QgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OGf0OvnR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757235278; c=relaxed/simple;
+	bh=sI7STwx5H6Ky6Q9bvFA9/p6Gsvpg4KWheBRc3GxyDeE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lZTqJ5AxWSRvryjyOFsSc6ScMSC9GU95Z/bz0AkzhP2+tuCmlpLNjaaMVKXhepgf63aZjrICdHDRjFR1D8ifKXzHcNO/9EZ1jDkoSUuq3WR9LBE5LSQ+6FRrA3K1pc+WxPrrcFlSn65kUf9ISMKty8uAEQLQH+q9voXwiO9TKQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cO0L9nRs; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OGf0OvnR"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B9C68C4CEFB;
-	Sat,  6 Sep 2025 15:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757173420;
-	bh=KTAyeqUKBXSRXTrOzHfCOiEQdd5Glj7VWy4aaK3uSPI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=OGf0OvnRpnZKswhahXWJhN0m/rfuq9MM1u+MJt6rRonM2fEsuNvdj5na2wOHufv+H
-	 ReswnIBbmDc6S/yQz4YFNWQ0ykA/xDnzgGBa6N5hywwVGVm0dIvoGKPkD4TjfZAfQN
-	 mvTucRbpWmlr7tzhDlvsFHo/DDrMyeBtAPHbj8QslWlkNvNonfOzQ7onPUztmIaS0R
-	 A1NWsSFfm44G15oP11rlP6PDDR4ZGsc1ttTEffhYYwljYp22QxvNa3yEaUysrrSsc7
-	 PMEKmCeZtlyfn59k3Ewnk5RsotFRpCIFBVDpF061xReeOcPFc3AtXjVvIym866z7LM
-	 l7Mb7AAHx5ZPA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B61CAC583;
-	Sat,  6 Sep 2025 15:43:40 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Sat, 06 Sep 2025 15:43:35 +0000
-Subject: [PATCH v2 22/22] arm64: dts: apple: t600x: Add Apple Type-C PHY
- and dwc3 nodes
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cO0L9nRs"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55f72452a8eso4119376e87.3
+        for <asahi@lists.linux.dev>; Sun, 07 Sep 2025 01:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757235275; x=1757840075; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ta1cFo0XDUArRgBS4UrHkNCAuCKCm6jMm0yBvo/F4kU=;
+        b=cO0L9nRsUwAf72nzsEi6vwjiTyNqoYtYY/DdEQZbdq/MAJ7mNmqaG1i/sG0itJwVtH
+         Psf6FFdkxUhBQuGXpHkyDG/mgfsc8BBKl7oDCVLkCvERZjeRqiwF0gdKvoZMsqv4/lGj
+         e1+gJxuR17q2rOnMGxKnvQCxJ5QZ0sSKfJP9QWk6txkWUwmIUsYV4w1cCtSIgANJnYN9
+         RURl1GZb8/+7OM1mb14pWDz10ENPenpFTqIed0fRDzXl5EljZ+0l+2mrYit+OD9yVMfo
+         3Q3GcE/URmGrYs2H3+7WTC6xsPf8o170ujp7KxYHCQH4ma7LOzGKWmUKK3KOxHBBPTfW
+         0zAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757235275; x=1757840075;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ta1cFo0XDUArRgBS4UrHkNCAuCKCm6jMm0yBvo/F4kU=;
+        b=cawT/Hu8ysK9R69R3mq2xTBUBJ+XjBVOlX9WfsjJdhVkZvEQa3HfTyXHj+fIHKnd4o
+         uY5+MJNrdWRtU3Ic9yO63VJpHA7bfG+o9dZym1OyT/oB1uPUzJbZ59i8sHjLNUBlDO2z
+         r2K5GpOot4I1kEMR0XIiSE2KXtRB4xe/u4hXYwfi0xa6Kqwj5xTGBhupfqWzmRRMx4C8
+         PnLBxQqvnMhtCeb/5PoO50RHT76CCHgpzytx+vMpZJMt1lxK8bWMWqNufkA5IoU182eI
+         4owx1l21aEyQ15iTA0EQqwRsdZiJYcIgTb8bX5GvVvB7HmdVMex+sQfj3tmAMBGLM15m
+         RnGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKE1MqyR7lQNAMNHGli7cl1wD2fu8fMDTjffhnfW3VpqNYbc5BhRtUtPke8/koxq20Hpdsmg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQDwRoYnDP3WMGoGUzI7pdLMqLzFKw8Fjjyo6os+I5LnnGehHv
+	NXq2GViIdVFjbm876YdQz9yoDKtIBW4p9jVNE1k28mcqYCztVpt8mj0i
+X-Gm-Gg: ASbGncu4ljW4oAydOBSSmujvaLtQ7CHQl7T1v6F0uLEqCW7PYCManLfV157wkGGKmc3
+	ppZ3FFZoBPaGCGQwcM0MpvefRzAwUpBX2hR0gbVI/67RKAGqdvyUooDWjRFGzsnE+zcIp+Rk2W4
+	Io1jySe7ydSgch6R4OqVcT+eOKezB/FEePWljWEXOQYtwmAuSP2gUgyIKFUBbop0i7lAt7Ba6Ty
+	6amWLqosIZ2gKEuafMKTE8HDOynFMm2kwk1S1Gvq7g0rhXWoHgpA7Y5VH9736xRtCJqfiruSTP7
+	dDlj9UUb0PuKd+PU5Cf3GINJjeoRTcCZRKCJP9Uqi7RIhAGogQJ3Cpy7KU4+3tARxYnDaQ46rNn
+	5l9huXzMhis4Co0vyy6+CwW+0jMNqhH6luUmoI3HwHSrJ7ZabTSXlQnJ8SVDFZpn+MgOJER/Hj0
+	vQ
+X-Google-Smtp-Source: AGHT+IFiJ49HQNMd/IFx7xIzrrtqMETUdaxARpaq6+DVUgUYdtERBew8emcGESiiMQvJ8usHN1vC9A==
+X-Received: by 2002:a05:6512:3e25:b0:55f:6759:a792 with SMTP id 2adb3069b0e04-562636d6328mr1074855e87.34.1757235275009;
+        Sun, 07 Sep 2025 01:54:35 -0700 (PDT)
+Received: from ?IPV6:2a00:1fa0:730:6bf5:b6a:8710:4129:8b95? ([2a00:1fa0:730:6bf5:b6a:8710:4129:8b95])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ace8121sm2814508e87.84.2025.09.07.01.54.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Sep 2025 01:54:33 -0700 (PDT)
+Message-ID: <f09dedfc-1f1b-4416-b854-9c4059ba264a@gmail.com>
+Date: Sun, 7 Sep 2025 11:54:31 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250906-atcphy-6-17-v2-22-52c348623ef6@kernel.org>
-References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
-In-Reply-To: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>, 
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/22] usb: typec: tipd: Update partner identity when
+ power status was updated
+To: Sven Peter <sven@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
  Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
- Sven Peter <sven@kernel.org>, R <rqou@berkeley.edu>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=25022; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=Gz8VC2GdnmHU+sqgZZgFGx+yLwOX3aB1YhMwtYgCrWg=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8aesOV8orkmE2t2HE7M8xBvEu478k182/Knem5MGhkvr
- 7rdbNnRUcrCIMbBICumyLJ9v73pk4dvBJduuvQeZg4rE8gQBi5OAZiIUhDDX/Fkh1sfTK6sumib
- eSKbJfRWxEPx2kNsjZwPZ0T5n95wxIGRYXNSbkvk+n39PX9z7v3c73swROyvxsN8xpd75Ew7xTf
- /YwMA
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+ Hector Martin <marcan@marcan.st>
+References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
+ <20250906-atcphy-6-17-v2-12-52c348623ef6@kernel.org>
+Content-Language: en-US
+From: Sergey Shtylyov <sergei.shtylyov@gmail.com>
+In-Reply-To: <20250906-atcphy-6-17-v2-12-52c348623ef6@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Janne Grunau <j@jannau.net>
+On 9/6/25 6:43 PM, Sven Peter wrote:
 
-Add all nodes and connections required to make USB3 work on M1 Pro, Max
-and Ultra based Apple machines.
+> From: Hector Martin <marcan@marcan.st>
+> 
+> Whenever the power status is changed make sure to also update the
+> partner identity to be able to detect changes once de-bouncing and mode
+> changes are added for CD321x.
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  drivers/usb/typec/tipd/core.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index c7cf936e5a61a331271c05b68ff1b77b89c0f643..cd427eecd8a594b7e609a20de27a9722055307d8 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -635,9 +635,16 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
+>  	if (!tps6598x_read_status(tps, &status))
+>  		goto err_unlock;
+>  
+> -	if (event & APPLE_CD_REG_INT_POWER_STATUS_UPDATE)
+> +	if (event & APPLE_CD_REG_INT_POWER_STATUS_UPDATE) {
+>  		if (!tps6598x_read_power_status(tps))
+>  			goto err_unlock;
+> +		if (TPS_POWER_STATUS_PWROPMODE(tps->pwr_status) == TYPEC_PWR_MODE_PD) {
+> +			if (tps6598x_read_partner_identity(tps)) {
+> +				dev_err(tps->dev, "failed to partner identity\n");
 
-Co-developed-by: R <rqou@berkeley.edu>
-Signed-off-by: R <rqou@berkeley.edu>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Sven Peter <sven@kernel.org>
----
- arch/arm64/boot/dts/apple/t6001.dtsi           |   1 +
- arch/arm64/boot/dts/apple/t6002-j375d.dts      | 197 +++++++++++++++++-
- arch/arm64/boot/dts/apple/t6002.dtsi           |   1 +
- arch/arm64/boot/dts/apple/t600x-dieX.dtsi      | 212 +++++++++++++++++++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 236 +++++++++++++++++++++
- arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 275 +++++++++++++++++++++++++
- 6 files changed, 916 insertions(+), 6 deletions(-)
+    Perhaps "failed to read partner identity\n"?
 
-diff --git a/arch/arm64/boot/dts/apple/t6001.dtsi b/arch/arm64/boot/dts/apple/t6001.dtsi
-index ffbe823b71bc8d9c0975524aa04efa9bf520a89e..6dcb71a1d65a8da82a512653a34ce6af3df8aee0 100644
---- a/arch/arm64/boot/dts/apple/t6001.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6001.dtsi
-@@ -11,6 +11,7 @@
- #include <dt-bindings/interrupt-controller/apple-aic.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/pinctrl/apple.h>
-+#include <dt-bindings/phy/phy.h>
- #include <dt-bindings/spmi/spmi.h>
- 
- #include "multi-die-cpp.h"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index 3365429bdc8be90b63c8051822243d897854ab27..3b4715d5754c12848d418a71124b443c034af3e7 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -15,6 +15,11 @@
- / {
- 	compatible = "apple,j375d", "apple,t6002", "apple,arm-platform";
- 	model = "Apple Mac Studio (M1 Ultra, 2022)";
-+
-+	aliases {
-+		atcphy4 = &atcphy0_die1;
-+		atcphy5 = &atcphy1_die1;
-+	};
- };
- 
- /* USB Type C */
-@@ -26,6 +31,30 @@ hpm4: usb-pd@39 {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec4: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Front Right";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				port@0 {
-+					reg = <0>;
-+					typec4_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_0_die1_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec4_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy0_die1_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
- 	};
- 
- 	/* front-left */
-@@ -35,16 +64,172 @@ hpm5: usb-pd@3a {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec5: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Front Left";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				port@0 {
-+					reg = <0>;
-+					typec5_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_1_die1_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec5_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy1_die1_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
- 	};
- };
- 
-+/* USB controllers on die 1 */
-+&dwc3_0_die1 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_0_die1_hs: endpoint {
-+				remote-endpoint = <&typec4_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_0_die1_ss: endpoint {
-+				remote-endpoint = <&atcphy0_die1_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+&dwc3_1_die1 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_1_die1_hs: endpoint {
-+				remote-endpoint = <&typec5_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_1_die1_ss: endpoint {
-+				remote-endpoint = <&atcphy1_die1_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+/* Type-C PHYs */
-+&atcphy0_die1 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy0_die1_typec_lanes: endpoint {
-+				remote-endpoint = <&typec4_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy0_die1_usb3: endpoint {
-+				remote-endpoint = <&dwc3_0_die1_ss>;
-+			};
-+		};
-+	};
-+};
-+
-+&atcphy1_die1 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy1_die1_typec_lanes: endpoint {
-+				remote-endpoint = <&typec5_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy1_die1_usb3: endpoint {
-+				remote-endpoint = <&dwc3_1_die1_ss>;
-+			};
-+		};
-+	};
-+};
-+
-+
-+/* Disable unused dwc3 instandes on the second die. */
-+&dwc3_2_dart_0_die1 {
-+	status = "disabled";
-+};
-+
-+&dwc3_2_dart_1_die1 {
-+	status = "disabled";
-+};
-+
-+&dwc3_2_die1 {
-+	status = "disabled";
-+};
-+
-+&dwc3_3_dart_0_die1 {
-+	status = "disabled";
-+};
-+
-+&dwc3_3_dart_1_die1 {
-+	status = "disabled";
-+};
-+
-+&dwc3_3_die1 {
-+	status = "disabled";
-+};
-+
-+/* Disable unused ATC phy instandes on the second die. */
-+&atcphy2_die1 {
-+	status = "disabled";
-+};
-+
-+&atcphy3_die1 {
-+	status = "disabled";
-+};
-+
-+/* Disable unused USB power-domains on the second die. */
-+&ps_atc2_usb_aon_die1 {
-+	status = "disabled";
-+};
-+
-+&ps_atc2_usb_die1 {
-+	status = "disabled";
-+};
-+
-+&ps_atc3_usb_aon_die1 {
-+	status = "disabled";
-+};
-+
-+&ps_atc3_usb_die1 {
-+	status = "disabled";
-+};
-+
- /* delete unused always-on power-domains on die 1 */
- 
--/delete-node/ &ps_atc2_usb_aon_die1;
--/delete-node/ &ps_atc2_usb_die1;
--
--/delete-node/ &ps_atc3_usb_aon_die1;
--/delete-node/ &ps_atc3_usb_die1;
--
- /delete-node/ &ps_disp0_cpu0_die1;
- /delete-node/ &ps_disp0_fe_die1;
-diff --git a/arch/arm64/boot/dts/apple/t6002.dtsi b/arch/arm64/boot/dts/apple/t6002.dtsi
-index 8fb648836b538bbd9efdccd6cec5d08d868a0d39..a532e5401c4ec430d8ff649a92459c80e9b6bb2b 100644
---- a/arch/arm64/boot/dts/apple/t6002.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6002.dtsi
-@@ -11,6 +11,7 @@
- #include <dt-bindings/interrupt-controller/apple-aic.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/pinctrl/apple.h>
-+#include <dt-bindings/phy/phy.h>
- #include <dt-bindings/spmi/spmi.h>
- 
- #include "multi-die-cpp.h"
-diff --git a/arch/arm64/boot/dts/apple/t600x-dieX.dtsi b/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
-index a32ff0c9d7b0c2ec720e9d4cf8e769da6431fbba..a282029475af874db7bf760017e1345ca982d94e 100644
---- a/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
-@@ -119,3 +119,215 @@ DIE_NODE(pinctrl_ap): pinctrl@39b028000 {
- 		interrupt-controller;
- 		#interrupt-cells = <2>;
- 	};
-+
-+	DIE_NODE(dwc3_0_dart_0): iommu@702f00000 {
-+		compatible = "apple,t6000-dart";
-+		reg = <0x7 0x02f00000 0x0 0x4000>;
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1194 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&DIE_NODE(ps_atc0_usb)>;
-+		#iommu-cells = <1>;
-+	};
-+
-+	DIE_NODE(dwc3_0_dart_1): iommu@702f80000 {
-+		compatible = "apple,t6000-dart";
-+		reg = <0x7 0x02f80000 0x0 0x4000>;
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1194 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&DIE_NODE(ps_atc0_usb)>;
-+		#iommu-cells = <1>;
-+	};
-+
-+	DIE_NODE(dwc3_0): usb@702280000 {
-+		compatible = "apple,t6000-dwc3", "apple,t8103-dwc3";
-+		reg = <0x7 0x02280000 0x0 0xcd00>, <0x7 0x0228cd00 0x0 0x3200>;
-+		reg-names = "dwc3-core", "dwc3-apple";
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1190 IRQ_TYPE_LEVEL_HIGH>;
-+		dr_mode = "otg";
-+		usb-role-switch;
-+		role-switch-default-mode = "host";
-+		iommus = <&DIE_NODE(dwc3_0_dart_0) 0>,
-+			<&DIE_NODE(dwc3_0_dart_1) 1>;
-+		power-domains = <&DIE_NODE(ps_atc0_usb)>;
-+		resets = <&DIE_NODE(atcphy0)>;
-+		phys = <&DIE_NODE(atcphy0) PHY_TYPE_USB2>, <&DIE_NODE(atcphy0) PHY_TYPE_USB3>;
-+		phy-names = "usb2-phy", "usb3-phy";
-+	};
-+
-+	DIE_NODE(atcphy0): phy@703000000 {
-+		compatible = "apple,t6000-atcphy", "apple,t8103-atcphy";
-+		reg = <0x7 0x03000000 0x0 0x4c000>,
-+			<0x7 0x03050000 0x0 0x8000>,
-+			<0x7 0x00000000 0x0 0x4000>,
-+			<0x7 0x02a90000 0x0 0x4000>,
-+			<0x7 0x02a84000 0x0 0x4000>;
-+		reg-names = "core", "lpdptx", "axi2af", "usb2phy",
-+			"pipehandler";
-+
-+		#phy-cells = <1>;
-+		#reset-cells = <0>;
-+
-+		orientation-switch;
-+		mode-switch;
-+		power-domains = <&DIE_NODE(ps_atc0_usb)>;
-+	};
-+
-+	DIE_NODE(dwc3_1_dart_0): iommu@b02f00000 {
-+		compatible = "apple,t6000-dart";
-+		reg = <0xb 0x02f00000 0x0 0x4000>;
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1211 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&DIE_NODE(ps_atc1_usb)>;
-+		#iommu-cells = <1>;
-+	};
-+
-+	DIE_NODE(dwc3_1_dart_1): iommu@b02f80000 {
-+		compatible = "apple,t6000-dart";
-+		reg = <0xb 0x02f80000 0x0 0x4000>;
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1211 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&DIE_NODE(ps_atc1_usb)>;
-+		#iommu-cells = <1>;
-+	};
-+
-+	DIE_NODE(dwc3_1): usb@b02280000 {
-+		compatible = "apple,t6000-dwc3", "apple,t8103-dwc3";
-+		reg = <0xb 0x02280000 0x0 0xcd00>, <0xb 0x0228cd00 0x0 0x3200>;
-+		reg-names = "dwc3-core", "dwc3-apple";
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1207 IRQ_TYPE_LEVEL_HIGH>;
-+		dr_mode = "otg";
-+		usb-role-switch;
-+		role-switch-default-mode = "host";
-+		iommus = <&DIE_NODE(dwc3_1_dart_0) 0>,
-+			<&DIE_NODE(dwc3_1_dart_1) 1>;
-+		power-domains = <&DIE_NODE(ps_atc1_usb)>;
-+		resets = <&DIE_NODE(atcphy1)>;
-+		phys = <&DIE_NODE(atcphy1) PHY_TYPE_USB2>, <&DIE_NODE(atcphy1) PHY_TYPE_USB3>;
-+		phy-names = "usb2-phy", "usb3-phy";
-+	};
-+
-+	DIE_NODE(atcphy1): phy@b03000000 {
-+		compatible = "apple,t6000-atcphy", "apple,t8103-atcphy";
-+		reg = <0xb 0x03000000 0x0 0x4c000>,
-+			<0xb 0x03050000 0x0 0x8000>,
-+			<0xb 0x00000000 0x0 0x4000>,
-+			<0xb 0x02a90000 0x0 0x4000>,
-+			<0xb 0x02a84000 0x0 0x4000>;
-+		reg-names = "core", "lpdptx", "axi2af", "usb2phy",
-+			"pipehandler";
-+
-+		#phy-cells = <1>;
-+		#reset-cells = <0>;
-+
-+		orientation-switch;
-+		mode-switch;
-+		power-domains = <&DIE_NODE(ps_atc1_usb)>;
-+	};
-+
-+	DIE_NODE(dwc3_2_dart_0): iommu@f02f00000 {
-+		compatible = "apple,t6000-dart";
-+		reg = <0xf 0x02f00000 0x0 0x4000>;
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1228 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&DIE_NODE(ps_atc2_usb)>;
-+		#iommu-cells = <1>;
-+	};
-+
-+	DIE_NODE(dwc3_2_dart_1): iommu@f02f80000 {
-+		compatible = "apple,t6000-dart";
-+		reg = <0xf 0x02f80000 0x0 0x4000>;
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1228 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&DIE_NODE(ps_atc2_usb)>;
-+		#iommu-cells = <1>;
-+	};
-+
-+	DIE_NODE(dwc3_2): usb@f02280000 {
-+		compatible = "apple,t6000-dwc3", "apple,t8103-dwc3";
-+		reg = <0xf 0x02280000 0x0 0xcd00>, <0xf 0x0228cd00 0x0 0x3c00>;
-+		reg-names = "dwc3-core", "dwc3-apple";
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1224 IRQ_TYPE_LEVEL_HIGH>;
-+		dr_mode = "otg";
-+		usb-role-switch;
-+		role-switch-default-mode = "host";
-+		iommus = <&DIE_NODE(dwc3_2_dart_0) 0>,
-+			<&DIE_NODE(dwc3_2_dart_1) 1>;
-+		power-domains = <&DIE_NODE(ps_atc2_usb)>;
-+		resets = <&DIE_NODE(atcphy2)>;
-+		phys = <&DIE_NODE(atcphy2) PHY_TYPE_USB2>, <&DIE_NODE(atcphy2) PHY_TYPE_USB3>;
-+		phy-names = "usb2-phy", "usb3-phy";
-+	};
-+
-+	DIE_NODE(atcphy2): phy@f03000000 {
-+		compatible = "apple,t6000-atcphy", "apple,t8103-atcphy";
-+		reg = <0xf 0x03000000 0x0 0x4c000>,
-+			<0xf 0x03050000 0x0 0x8000>,
-+			<0xf 0x00000000 0x0 0x4000>,
-+			<0xf 0x02a90000 0x0 0x4000>,
-+			<0xf 0x02a84000 0x0 0x4000>;
-+		reg-names = "core", "lpdptx", "axi2af", "usb2phy",
-+			"pipehandler";
-+
-+		#phy-cells = <1>;
-+		#reset-cells = <0>;
-+
-+		orientation-switch;
-+		mode-switch;
-+		power-domains = <&DIE_NODE(ps_atc2_usb)>;
-+	};
-+
-+	DIE_NODE(dwc3_3_dart_0): iommu@1302f00000 {
-+		compatible = "apple,t6000-dart";
-+		reg = <0x13 0x02f00000 0x0 0x4000>;
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1245 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&DIE_NODE(ps_atc3_usb)>;
-+		#iommu-cells = <1>;
-+	};
-+
-+	DIE_NODE(dwc3_3_dart_1): iommu@1302f80000 {
-+		compatible = "apple,t6000-dart";
-+		reg = <0x13 0x02f80000 0x0 0x4000>;
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1245 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&DIE_NODE(ps_atc3_usb)>;
-+		#iommu-cells = <1>;
-+	};
-+
-+	DIE_NODE(dwc3_3): usb@1302280000 {
-+		compatible = "apple,t6000-dwc3", "apple,t8103-dwc3";
-+		reg = <0x13 0x02280000 0x0 0xcd00>, <0x13 0x0228cd00 0x0 0x3200>;
-+		reg-names = "dwc3-core", "dwc3-apple";
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_IRQ DIE_NO 1241 IRQ_TYPE_LEVEL_HIGH>;
-+		dr_mode = "otg";
-+		usb-role-switch;
-+		role-switch-default-mode = "host";
-+		iommus = <&DIE_NODE(dwc3_3_dart_0) 0>,
-+			<&DIE_NODE(dwc3_3_dart_1) 1>;
-+		power-domains = <&DIE_NODE(ps_atc3_usb)>;
-+		resets = <&DIE_NODE(atcphy3)>;
-+		phys = <&DIE_NODE(atcphy3) PHY_TYPE_USB2>, <&DIE_NODE(atcphy3) PHY_TYPE_USB3>;
-+		phy-names = "usb2-phy", "usb3-phy";
-+	};
-+
-+	DIE_NODE(atcphy3): phy@1303000000 {
-+		compatible = "apple,t6000-atcphy", "apple,t8103-atcphy";
-+		reg = <0x13 0x03000000 0x0 0x4c000>,
-+			<0x13 0x03050000 0x0 0x8000>,
-+			<0x13 0x00000000 0x0 0x4000>,
-+			<0x13 0x02a90000 0x0 0x4000>,
-+			<0x13 0x02a84000 0x0 0x4000>;
-+		reg-names = "core", "lpdptx", "axi2af", "usb2phy",
-+			"pipehandler";
-+
-+		#phy-cells = <1>;
-+		#reset-cells = <0>;
-+
-+		orientation-switch;
-+		mode-switch;
-+		power-domains = <&DIE_NODE(ps_atc3_usb)>;
-+	};
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index 22ebc78e120bf8f0f71fd532e9dce4dcd117bbc6..13e654849eb3d637ac21479a3def8f8ddd731dd6 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -13,6 +13,10 @@
- 
- / {
- 	aliases {
-+		atcphy0 = &atcphy0;
-+		atcphy1 = &atcphy1;
-+		atcphy2 = &atcphy2;
-+		atcphy3 = &atcphy3;
- 		serial0 = &serial0;
- 		wifi0 = &wifi0;
- 	};
-@@ -62,6 +66,31 @@ hpm0: usb-pd@38 {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec0: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Left Rear";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					typec0_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_0_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec0_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy0_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
- 	};
- 
- 	hpm1: usb-pd@3f {
-@@ -70,6 +99,31 @@ hpm1: usb-pd@3f {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec1: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Left Front";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					typec1_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_1_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec1_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy1_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
- 	};
- 
- 	hpm2: usb-pd@3b {
-@@ -78,6 +132,31 @@ hpm2: usb-pd@3b {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec2: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Right";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					typec2_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_2_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec2_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy2_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
- 	};
- 
- 	/* MagSafe port */
-@@ -90,6 +169,163 @@ hpm5: usb-pd@3a {
- 	};
- };
- 
-+/* USB controllers */
-+&dwc3_0 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_0_hs: endpoint {
-+				remote-endpoint = <&typec0_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_0_ss: endpoint {
-+				remote-endpoint = <&atcphy0_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+&dwc3_1 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_1_hs: endpoint {
-+				remote-endpoint = <&typec1_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_1_ss: endpoint {
-+				remote-endpoint = <&atcphy1_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+/* USB controllers */
-+&dwc3_2 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_2_hs: endpoint {
-+				remote-endpoint = <&typec2_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_2_ss: endpoint {
-+				remote-endpoint = <&atcphy2_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+/* The 4th ATC Phy is connected to an internal DP to HDMI converter. */
-+&dwc3_3_dart_0 {
-+	status = "disabled";
-+};
-+
-+&dwc3_3_dart_1 {
-+	status = "disabled";
-+};
-+
-+&dwc3_3 {
-+	status = "disabled";
-+};
-+
-+/* Type-C PHYs */
-+&atcphy0 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy0_typec_lanes: endpoint {
-+				remote-endpoint = <&typec0_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy0_usb3: endpoint {
-+				remote-endpoint = <&dwc3_0_ss>;
-+			};
-+		};
-+	};
-+};
-+
-+&atcphy1 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy1_typec_lanes: endpoint {
-+				remote-endpoint = <&typec1_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy1_usb3: endpoint {
-+				remote-endpoint = <&dwc3_1_ss>;
-+			};
-+		};
-+	};
-+};
-+
-+&atcphy2 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy2_typec_lanes: endpoint {
-+				remote-endpoint = <&typec2_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy2_usb3: endpoint {
-+				remote-endpoint = <&dwc3_2_ss>;
-+			};
-+		};
-+	};
-+};
-+
-+&atcphy3 {
-+	/* Disable atcphy3 as long as DisplayPort is not supported. */
-+	status = "disabled";
-+};
-+
-+/*
-+ * The ps_atcN_usb_aon power-domains are always-on to avoid resetting dwc3
-+ * which reverts initialisation done by firmware.
-+ * atc3 is used exclusively for the DP-to-HDMI converter so this is not
-+ * necessary.
-+ */
-+&ps_atc3_usb_aon {
-+	/delete-property/ apple,always-on;
-+};
-+
- &nco_clkref {
- 	clock-frequency = <1068000000>;
- };
-diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-index d5b985ad567936111ee5cccc9ca9fc23d01d9edf..ab49ad9e32f2798bd126d0794917c8f434f222de 100644
---- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-@@ -11,6 +11,10 @@
- 
- / {
- 	aliases {
-+		atcphy0 = &atcphy0;
-+		atcphy1 = &atcphy1;
-+		atcphy2 = &atcphy2;
-+		atcphy3 = &atcphy3;
- 		serial0 = &serial0;
- 		wifi0 = &wifi0;
- 	};
-@@ -48,6 +52,31 @@ hpm0: usb-pd@38 {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec0: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Back Left";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					typec0_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_0_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec0_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy0_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
- 	};
- 
- 	hpm1: usb-pd@3f {
-@@ -56,6 +85,31 @@ hpm1: usb-pd@3f {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec1: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Back Left Middle";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					typec1_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_1_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec1_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy1_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
- 	};
- 
- 	hpm2: usb-pd@3b {
-@@ -64,6 +118,31 @@ hpm2: usb-pd@3b {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec2: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Back Right Middle";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					typec2_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_2_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec2_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy2_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
- 	};
- 
- 	hpm3: usb-pd@3c {
-@@ -72,6 +151,202 @@ hpm3: usb-pd@3c {
- 		interrupt-parent = <&pinctrl_ap>;
- 		interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-names = "irq";
-+
-+		typec3: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C Back Right";
-+			power-role = "dual";
-+			data-role = "dual";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					typec3_connector_hs: endpoint {
-+						remote-endpoint = <&dwc3_3_hs>;
-+					};
-+				};
-+				port@1 {
-+					reg = <1>;
-+					typec3_connector_ss: endpoint {
-+						remote-endpoint = <&atcphy3_typec_lanes>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+/* USB controllers */
-+&dwc3_0 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_0_hs: endpoint {
-+				remote-endpoint = <&typec0_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_0_ss: endpoint {
-+				remote-endpoint = <&atcphy0_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+&dwc3_1 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_1_hs: endpoint {
-+				remote-endpoint = <&typec1_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_1_ss: endpoint {
-+				remote-endpoint = <&atcphy1_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+/* USB controllers */
-+&dwc3_2 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_2_hs: endpoint {
-+				remote-endpoint = <&typec2_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_2_ss: endpoint {
-+				remote-endpoint = <&atcphy2_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+&dwc3_3 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dwc3_3_hs: endpoint {
-+				remote-endpoint = <&typec3_connector_hs>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dwc3_3_ss: endpoint {
-+				remote-endpoint = <&atcphy3_usb3>;
-+			};
-+		};
-+	};
-+};
-+
-+/* Type-C PHYs */
-+&atcphy0 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy0_typec_lanes: endpoint {
-+				remote-endpoint = <&typec0_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy0_usb3: endpoint {
-+				remote-endpoint = <&dwc3_0_ss>;
-+			};
-+		};
-+	};
-+};
-+
-+&atcphy1 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy1_typec_lanes: endpoint {
-+				remote-endpoint = <&typec1_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy1_usb3: endpoint {
-+				remote-endpoint = <&dwc3_1_ss>;
-+			};
-+		};
-+	};
-+};
-+
-+&atcphy2 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy2_typec_lanes: endpoint {
-+				remote-endpoint = <&typec2_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy2_usb3: endpoint {
-+				remote-endpoint = <&dwc3_2_ss>;
-+			};
-+		};
-+	};
-+};
-+
-+&atcphy3 {
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			atcphy3_typec_lanes: endpoint {
-+				remote-endpoint = <&typec3_connector_ss>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			atcphy3_usb3: endpoint {
-+				remote-endpoint = <&dwc3_3_ss>;
-+			};
-+		};
- 	};
- };
- 
+[...]
 
--- 
-2.34.1
-
+MBR, Sergey
 
