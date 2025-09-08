@@ -1,108 +1,272 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC519307484
-	for <asahi@lists.linux.dev>; Mon,  8 Sep 2025 13:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B502430CD94
+	for <asahi@lists.linux.dev>; Mon,  8 Sep 2025 15:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757336670; cv=none; b=AO9lOVoQq8Ewkucz00pmsiD+SrHiPn/HLE2TYV6iHcGpdW6fOh0GLWLcDkE6IbSz4X+2ZYwD5Jeo/0YLLRaIAZB7Dybq4wkjNUvdVK0ROyQxcrka7N8x6pHtrR2QFmbhgnWY6xcmcF3ujnhYj8/tfToEPzgfl/+Mx9yYSCsg6H0=
+	t=1757343991; cv=none; b=cfrpMIKY33Mf3YAqnPeNBNX5CtBeGDN8E+v53/oNDynSD7vUQHsy74zqG3Gm1xBdt/TdsNE9kwSf3OLB+iLBznL5z6nv12GwHnwvGVNnv6wYQ/EPw9P0HlxkiRYBy54H1gE7DWzq8U/dgx5NRkfxwHrlAD0afwk04VqcSgy47jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757336670; c=relaxed/simple;
-	bh=boqo4D0Ut6Z85GE1PumcJoIJQxrDEFv9/JnfEr7I//0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JQNXFgPaYlFigKPOitxhCMimoYZDqFN27AEbxFcbQeoXVvos+rWFPfu454fVTGiCOIjNuFISjCGNWb/lFe+xj9y2gb1p2VEm6rqKrtNRJMZtHf2jm9PJkcIE94+ze5K/bBcPkO1ly2e4o8uC13ZBp+Ls4wYwGC6J77uYjKOXOkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=BKy9EOhD; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="BKy9EOhD"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1757336664;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=byn18G7s2VhbZik+AaE4LMlS4ilFfprAqRoubR2e5f8=;
-	b=BKy9EOhDW4zdny/HfyWlxbl6Bv5Hj39ETBoXd0o6Q8coGVMrquxQ5EFqntAgkwGFoRvwnR
-	YVYvm00zqf9+4soKIaWcbbiq4d+YcTVCuV/9WtbvQUbr8HLajJKqlPxFzykzzFYp6t17io
-	/408aUYt4WFS4T7XjA/PeoIOkkWEj1M1BS3et6hLKd4f2ExirsAHBilPfL6rM7AASA/3yY
-	XME5FiSntkJ2QvmwSXlAa6OeL6wgjkbPZ/SLcK7fEzPw0R55G6miieOIwK/Yd92v7zh9xJ
-	rb+VLOGtOVuS39cog5YQ9ieaOD4dAWfXZNnlvY4UsV2n0sHpc7Zwws8sXHVphg==
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Date: Mon, 08 Sep 2025 09:04:19 -0400
-Subject: [PATCH v2] MAINTAINERS: remove Alyssa Rosenzweig
+	s=arc-20240116; t=1757343991; c=relaxed/simple;
+	bh=09VlF5sGc7EFG1okH0ns2V7M1MUaEroH+JoHebHI1RE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=K5YsjgFQevnSVjnzYsc3x2OCxTbe5sMnPJSYHJoeGzAA6enLlOmEDhX4rCZa7ZVFeB239mtRq/zhIAkIsJW9LhD3AwgKkeRraNsS1cfdbYqNraYEYdo38AHsoXVq20foaY5WppDLpJnKjAk7AF7d88ZUy3Wfn5Xrboa6RDFDRaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uvdQO-0001XM-Si; Mon, 08 Sep 2025 17:04:56 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uvdQL-000Gju-1h;
+	Mon, 08 Sep 2025 17:04:53 +0200
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1uvdQL-001K7X-1N;
+	Mon, 08 Sep 2025 17:04:53 +0200
+Message-ID: <4d46f4997e1c73aa5b10bdb61dec6760c30fa2f1.camel@pengutronix.de>
+Subject: Re: [PATCH v2 18/22] phy: apple: Add Apple Type-C PHY
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Sven Peter <sven@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Felipe
+ Balbi <balbi@kernel.org>,  Janne Grunau <j@jannau.net>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Thinh
+ Nguyen <Thinh.Nguyen@synopsys.com>, Heikki Krogerus
+ <heikki.krogerus@linux.intel.com>, Frank Li <Frank.Li@nxp.com>, Ran Wang
+ <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, Hector
+	Martin <marcan@marcan.st>
+Date: Mon, 08 Sep 2025 17:04:53 +0200
+In-Reply-To: <20250906-atcphy-6-17-v2-18-52c348623ef6@kernel.org>
+References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
+	 <20250906-atcphy-6-17-v2-18-52c348623ef6@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250908-kernel-retirement-v2-1-85c9d4d49f26@rosenzweig.io>
-X-B4-Tracking: v=1; b=H4sIAFLUvmgC/32NSw6CQBAFr0J67Rh6BARX3sOwAH1AR50xPQQ/h
- Ls7cgCXVcmrN1OACgIdkpkUkwTxLoLdJHQeGtfDyCUy2dTmaZXuzRXqcDOKURR3uNF0zG1VccH
- ZLqe4eyg6ea3NUx15kDB6fa8XE//sv9rEhg2KLmstmktblkf1Ae7zhPRb8VQvy/IFIEt0wLYAA
- AA=
-X-Change-ID: 20250907-kernel-retirement-f11b99161435
-To: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, sven@kernel.org, 
- j@jannau.net, maz@kernel.org
-Cc: Neal Gompa <neal@gompa.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-X-Migadu-Flow: FLOW_OUT
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-I'm moving on to other projects [1] and no longer wish to be copied on
-kernel patches. Remove my MAINTAINERS entries: both related to Apple
-driver support. So long and thanks for all the fish.
+Hi Sven,
 
-[1] https://rosenzweig.io/blog/asahi-gpu-part-n.html
+On Sa, 2025-09-06 at 15:43 +0000, Sven Peter wrote:
+> The Apple Type-C PHY (ATCPHY) is a PHY for USB 2.0, USB 3.x,
+> USB4/Thunderbolt, and DisplayPort connectivity found in Apple Silicon SoC=
+s.
+> The PHY handles muxing between these different protocols and also provide=
+s
+> the reset controller for the attached dwc3 USB controller.
+>=20
+> There is no documentation available for this PHY and the entire sequence
+> of MMIO pokes has been figured out by tracing all MMIO access of Apple's
+> driver under a thin hypervisor and correlating the register reads/writes
+> to their kernel's debug output to find their names. Deviations from this
+> sequence generally results in the port not working or, especially when
+> the mode is switched to USB4 or Thunderbolt, to some watchdog resetting
+> the entire SoC.
+>=20
+> This initial commit already introduces support for Display Port and
+> USB4/Thunderbolt but the drivers for these are not ready. We cannot
+> control the alternate mode negotiation and are stuck with whatever Apple'=
+s
+> firmware decides such that any DisplayPort or USB4/Thunderbolt device wil=
+l
+> result in a correctly setup PHY but not be usable until the other drivers
+> are upstreamed as well.
+>=20
+> Co-developed-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Co-developed-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  MAINTAINERS                |    1 +
+>  drivers/phy/Kconfig        |    1 +
+>  drivers/phy/Makefile       |    1 +
+>  drivers/phy/apple/Kconfig  |   14 +
+>  drivers/phy/apple/Makefile |    4 +
+>  drivers/phy/apple/atc.c    | 2214 ++++++++++++++++++++++++++++++++++++++=
+++++++
+>  6 files changed, 2235 insertions(+)
+>=20
+[...]
+> diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..9213485234873fcaafeb1d1d9=
+de3ddf07767d552
+> --- /dev/null
+> +++ b/drivers/phy/apple/atc.c
+> @@ -0,0 +1,2214 @@
+[...]
+> +struct apple_atcphy {
+[...]
+> +	struct reset_controller_dev rcdev;
+> +	struct typec_switch *sw;
+> +	struct typec_mux *mux;
+> +
+> +	struct mutex lock;
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
----
-Changes in v2:
-- Also add to .get_maintainer.ignore (suggested to me off-list).
-- Link to v1: https://lore.kernel.org/r/20250907-kernel-retirement-v1-1-e6f4b2eadb88@rosenzweig.io
----
- .get_maintainer.ignore | 1 +
- MAINTAINERS            | 2 --
- 2 files changed, 1 insertion(+), 2 deletions(-)
+Consider documenting the purpose of this lock to make 'checkpatch.pl --
+strict' happy.
 
-diff --git a/.get_maintainer.ignore b/.get_maintainer.ignore
-index b458815f1d1bf4d03cbe81a80f8b478cea53ebed..e8d2269bad9d000194c203df1a5b36a18e2f1953 100644
---- a/.get_maintainer.ignore
-+++ b/.get_maintainer.ignore
-@@ -1,5 +1,6 @@
- Alan Cox <alan@lxorguk.ukuu.org.uk>
- Alan Cox <root@hraefn.swansea.linux.org.uk>
-+Alyssa Rosenzweig <alyssa@rosenzweig.io>
- Christoph Hellwig <hch@lst.de>
- Jeff Kirsher <jeffrey.t.kirsher@intel.com>
- Marc Gonzalez <marc.w.gonzalez@free.fr>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cd7ff55b5d321752ac44c91d2d7e74de28e08960..3c10a189421c9d20247ad1546ba4af31556c87cd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1845,7 +1845,6 @@ S:	Odd fixes
- F:	drivers/input/mouse/bcm5974.c
- 
- APPLE PCIE CONTROLLER DRIVER
--M:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
- M:	Marc Zyngier <maz@kernel.org>
- L:	linux-pci@vger.kernel.org
- S:	Maintained
-@@ -2364,7 +2363,6 @@ F:	sound/soc/codecs/ssm3515.c
- ARM/APPLE MACHINE SUPPORT
- M:	Sven Peter <sven@kernel.org>
- M:	Janne Grunau <j@jannau.net>
--R:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
- R:	Neal Gompa <neal@gompa.dev>
- L:	asahi@lists.linux.dev
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+[...]
+> +static int atcphy_dp_configure(struct apple_atcphy *atcphy, enum atcphy_=
+dp_link_rate lr)
+> +{
+> +	const struct atcphy_dp_link_rate_configuration *cfg =3D &dp_lr_config[l=
+r];
+> +	const struct atcphy_mode_configuration *mode_cfg;
+> +	int ret;
+> +	u32 reg;
 
----
-base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
-change-id: 20250907-kernel-retirement-f11b99161435
+This function does a lot of register read-modify-writes.
 
-Best regards,
--- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
+	lockdep_assert_held(&atcphy->lock);
 
+maybe? Or you could move the 'guard(mutex)(&atcphy->lock);' from
+atcphy_dpphy_configure() in here.
+
+[...]
+> +static int atcphy_dpphy_configure(struct phy *phy, union phy_configure_o=
+pts *opts_)
+> +{
+> +	struct phy_configure_opts_dp *opts =3D &opts_->dp;
+> +	struct apple_atcphy *atcphy =3D phy_get_drvdata(phy);
+> +	enum atcphy_dp_link_rate link_rate;
+> +
+> +	if (opts->set_voltages)
+> +		return -EINVAL;
+> +	if (opts->set_lanes)
+> +		return -EINVAL;
+> +
+> +	if (opts->set_rate) {
+> +		guard(mutex)(&atcphy->lock);
+> +
+> +		switch (opts->link_rate) {
+> +		case 1620:
+> +			link_rate =3D ATCPHY_DP_LINK_RATE_RBR;
+> +			break;
+> +		case 2700:
+> +			link_rate =3D ATCPHY_DP_LINK_RATE_HBR;
+> +			break;
+> +		case 5400:
+> +			link_rate =3D ATCPHY_DP_LINK_RATE_HBR2;
+> +			break;
+> +		case 8100:
+> +			link_rate =3D ATCPHY_DP_LINK_RATE_HBR3;
+> +			break;
+> +		case 0:
+> +			return 0;
+> +		default:
+> +			dev_err(atcphy->dev, "Unsupported link rate: %d\n", opts->link_rate);
+> +			return -EINVAL;
+> +		}
+
+Seems to me like this switch(){} doesn't need to be under guard.
+
+> +
+> +		return atcphy_dp_configure(atcphy, link_rate);
+> +	}
+> +
+> +	return 0;
+> +}
+[...]
+> +static void _atcphy_dwc3_reset_assert(struct apple_atcphy *atcphy)
+> +{
+> +	lockdep_assert_held(&atcphy->lock);
+> +
+> +	clear32(atcphy->regs.pipehandler + PIPEHANDLER_AON_GEN, PIPEHANDLER_AON=
+_GEN_DWC3_RESET_N);
+> +	set32(atcphy->regs.pipehandler + PIPEHANDLER_AON_GEN,
+> +	      PIPEHANDLER_AON_GEN_DWC3_FORCE_CLAMP_EN);
+> +}
+> +
+> +static int atcphy_dwc3_reset_assert(struct reset_controller_dev *rcdev, =
+unsigned long id)
+> +{
+> +	struct apple_atcphy *atcphy =3D container_of(rcdev, struct apple_atcphy=
+, rcdev);
+> +	int ret;
+> +
+> +	guard(mutex)(&atcphy->lock);
+> +
+> +	_atcphy_dwc3_reset_assert(atcphy);
+> +
+> +	if (atcphy->pipehandler_up) {
+> +		ret =3D atcphy_configure_pipehandler_dummy(atcphy);
+> +		if (ret)
+> +			dev_warn(atcphy->dev, "Failed to switch PIPE to dummy: %d\n", ret);
+> +		else
+> +			atcphy->pipehandler_up =3D false;
+> +	}
+> +
+> +	atcphy_usb2_power_off(atcphy);
+> +
+> +	atcphy->dwc3_running =3D false;
+> +
+> +	return 0;
+> +}
+> +
+> +static int atcphy_dwc3_reset_deassert(struct reset_controller_dev *rcdev=
+, unsigned long id)
+> +{
+> +	struct apple_atcphy *atcphy =3D container_of(rcdev, struct apple_atcphy=
+, rcdev);
+> +
+> +	guard(mutex)(&atcphy->lock);
+> +
+> +	clear32(atcphy->regs.pipehandler + PIPEHANDLER_AON_GEN,
+> +		PIPEHANDLER_AON_GEN_DWC3_FORCE_CLAMP_EN);
+> +	set32(atcphy->regs.pipehandler + PIPEHANDLER_AON_GEN, PIPEHANDLER_AON_G=
+EN_DWC3_RESET_N);
+> +
+> +	atcphy->dwc3_running =3D true;
+> +
+> +	return 0;
+> +}
+> +
+> +const struct reset_control_ops atcphy_dwc3_reset_ops =3D {
+> +	.assert =3D atcphy_dwc3_reset_assert,
+> +	.deassert =3D atcphy_dwc3_reset_deassert,
+> +};
+> +
+> +static int atcphy_reset_xlate(struct reset_controller_dev *rcdev,
+> +			      const struct of_phandle_args *reset_spec)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int atcphy_probe_rcdev(struct apple_atcphy *atcphy)
+> +{
+> +	atcphy->rcdev.owner =3D THIS_MODULE;
+> +	atcphy->rcdev.nr_resets =3D 1;
+> +	atcphy->rcdev.ops =3D &atcphy_dwc3_reset_ops;
+> +	atcphy->rcdev.of_node =3D atcphy->dev->of_node;
+> +	atcphy->rcdev.of_reset_n_cells =3D 0;
+> +	atcphy->rcdev.of_xlate =3D atcphy_reset_xlate;
+> +
+> +	return devm_reset_controller_register(atcphy->dev, &atcphy->rcdev);
+> +}
+
+For the reset controller part,
+
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+regards
+Philipp
