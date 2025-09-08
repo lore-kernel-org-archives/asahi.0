@@ -1,67 +1,35 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F281303A1D
-	for <asahi@lists.linux.dev>; Mon,  8 Sep 2025 10:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC519307484
+	for <asahi@lists.linux.dev>; Mon,  8 Sep 2025 13:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757325743; cv=none; b=Vl+fn4Ge8Qh7YP33FworatNrC+rEMs9SdtbIrU98Th2TlmYKNzGBZ+c5+E1rHXz+lLycmzDOEa+SZWqoRlVSh8/a9dH17xzNLeNvLKW4HeC8EGs1N2P9Tglzy9wOfeZ0yuVdHtfyjoOkQsVTEVywYKXD0RvF3h6w/6jU6IvNdRg=
+	t=1757336670; cv=none; b=AO9lOVoQq8Ewkucz00pmsiD+SrHiPn/HLE2TYV6iHcGpdW6fOh0GLWLcDkE6IbSz4X+2ZYwD5Jeo/0YLLRaIAZB7Dybq4wkjNUvdVK0ROyQxcrka7N8x6pHtrR2QFmbhgnWY6xcmcF3ujnhYj8/tfToEPzgfl/+Mx9yYSCsg6H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757325743; c=relaxed/simple;
-	bh=NgiaadnBWzmQWHLVGXTkghr12q4e2Z2pGwu46CpKaLI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mfeddLp6cedU+eWyfyW/MOGsp055erqq0IPZxxZNVYkDXSgoqLMbK7nDpinrTVNBNziHIgR6NJI4rzqScr3EdqJ6Sl5AUAQ0/4so68V9A6hcwEGqKMuiujbjIu0Fy1B33QBdCtbYFQ1t4BQXf7z4aBbGT5yuur4UAn+rQVygWME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DgaNnqT3; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757336670; c=relaxed/simple;
+	bh=boqo4D0Ut6Z85GE1PumcJoIJQxrDEFv9/JnfEr7I//0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JQNXFgPaYlFigKPOitxhCMimoYZDqFN27AEbxFcbQeoXVvos+rWFPfu454fVTGiCOIjNuFISjCGNWb/lFe+xj9y2gb1p2VEm6rqKrtNRJMZtHf2jm9PJkcIE94+ze5K/bBcPkO1ly2e4o8uC13ZBp+Ls4wYwGC6J77uYjKOXOkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=BKy9EOhD; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DgaNnqT3"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b523fb676efso99596a12.3
-        for <asahi@lists.linux.dev>; Mon, 08 Sep 2025 03:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757325741; x=1757930541; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kj7fG7XAER68na8hgLjfPolxfyD9eQkGEiz9N4R6m0U=;
-        b=DgaNnqT3J4UcKtoUH7rlToK5G20oWbpKy8LX5OIjS170re16fZiL/G3kL9JoGTV2rN
-         2il3TKGLeeMyfZ5VGjbnEOJzKfAZIySsfVOO/AVEU79GUgw4uVYay7bMIV7Ec3INpzyD
-         edGFZ8pmGpNf2Lsj2O9tjsgD/xlRf1JtmsYuG74rodY1Eoi535cdFDR/PuVhOTjZo2VC
-         SoAOziWhyRz405PYmuONaxm6drNp1yiK5x0KL/OHOfj0ijWL2Z+tf8h52UgGCgvOJ8Mz
-         v6bVQRpQ+ZmMrQ8Q7ROUE9dUL1+J7fH1DPcICU2oP3VYt5t12GXY6nJGlDou9X86IWKY
-         vyRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757325741; x=1757930541;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kj7fG7XAER68na8hgLjfPolxfyD9eQkGEiz9N4R6m0U=;
-        b=tD2jqdlg9VWTSJU8bLHGccmb0pZf33XKAoyXPl8HiLzQON5yFVGK2RH4wnOxvelP8D
-         Oq8oYoqNA7SQ7L5xupdoA+bJ9U4dlYLFxw9vzBNq2C5h5Vpx/haLk/JmGYJ4BZX5qguF
-         JQfxHawolLqCBIeVcdrbTjknnPYG/yVoqJliSizUBckPiYp5CCdYRnwZnqY1L+hw2DZc
-         yz+tEOqOtHHvBoIBG/oi7UWgdmKPd0rABW9GDdHxo+zUCE3kAIfNJS2pqwf83IHFpLfS
-         rxyMrnFfNiMK/ZeN9JYjNti6GRH1dCRIvdBf+kLF7+XiBhajC2JD7FN7GZIRaqcojJfe
-         AWtA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJE+WSjC9NhhqRzIb59R5eY7uxV3Pv8qrIQPtvwltPpHNBUvm4y86bZgAlV4Rjxs9C7kTVTA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywdb95UbvH2us/vT0QRPYQg+6/paogNGS9hTqYgA43005i3pPTJ
-	8xNvxxc3Y2f0C0HKs6lbo3eGsq9OqlV6+cbVuQOpIKRAwuetzYBdg/RX
-X-Gm-Gg: ASbGnct/1QVRNi3EnMlXWwko39QzVUnBQRBa6ioUypWFP0LnkgH/9sfSZH+OVOb1S2B
-	7Ei1b6ZPreQVvJwoR/5RAdqcjBSlSEYR75hxUWDSf2usprEfxyoqViQKCfcdWPpU5tWqW99++Xv
-	LkX568Hkf8CC3cX1mRblG66G2sgKtNon6Q9mlbiOuUAGwvHcw94YVTG+SstH9Wix8IDgey37Xw+
-	d9KPZPQrfH6LN7w7ni7JCl2AqCOADGnKexHrjIqtzbemMI40p8wGYXTmjYA3GiIexDVPp+TqmlY
-	+OtblGB8jf+Rx2v+A/Mx+mx639GsMjOFp+/iXZ/zxjhPmk/zxrNc+nKRaNciB+IBlSJKl0ZcVtn
-	nu4AtM37isGorZha2cOKb2RH6dpKtAzu4Mc1fn9e0I7LamV9J
-X-Google-Smtp-Source: AGHT+IFzBnyCeoSUT4/jKqak6Ru0Kvj/hbUWjk5gn0379Y2ihPn96fH4hCkaATJ2yH9Os2NuxascEQ==
-X-Received: by 2002:a17:903:1a26:b0:24d:4a96:7b30 with SMTP id d9443c01a7336-25170e41046mr103171265ad.35.1757325740700;
-        Mon, 08 Sep 2025 03:02:20 -0700 (PDT)
-Received: from [127.0.1.1] ([59.188.211.98])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-24ccfc7f993sm107826545ad.63.2025.09.08.03.02.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 03:02:20 -0700 (PDT)
-From: Nick Chan <towinchenmi@gmail.com>
-Date: Mon, 08 Sep 2025 17:58:45 +0800
-Subject: [PATCH RESEND v8 21/21] arm64: dts: apple: t8015: Add CPU PMU
- nodes
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="BKy9EOhD"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1757336664;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=byn18G7s2VhbZik+AaE4LMlS4ilFfprAqRoubR2e5f8=;
+	b=BKy9EOhDW4zdny/HfyWlxbl6Bv5Hj39ETBoXd0o6Q8coGVMrquxQ5EFqntAgkwGFoRvwnR
+	YVYvm00zqf9+4soKIaWcbbiq4d+YcTVCuV/9WtbvQUbr8HLajJKqlPxFzykzzFYp6t17io
+	/408aUYt4WFS4T7XjA/PeoIOkkWEj1M1BS3et6hLKd4f2ExirsAHBilPfL6rM7AASA/3yY
+	XME5FiSntkJ2QvmwSXlAa6OeL6wgjkbPZ/SLcK7fEzPw0R55G6miieOIwK/Yd92v7zh9xJ
+	rb+VLOGtOVuS39cog5YQ9ieaOD4dAWfXZNnlvY4UsV2n0sHpc7Zwws8sXHVphg==
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Date: Mon, 08 Sep 2025 09:04:19 -0400
+Subject: [PATCH v2] MAINTAINERS: remove Alyssa Rosenzweig
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,87 +38,71 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250908-apple-cpmu-v8-21-d83b4544dc14@gmail.com>
-References: <20250908-apple-cpmu-v8-0-d83b4544dc14@gmail.com>
-In-Reply-To: <20250908-apple-cpmu-v8-0-d83b4544dc14@gmail.com>
-To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Sven Peter <sven@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org, 
- linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Nick Chan <towinchenmi@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1462; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=NgiaadnBWzmQWHLVGXTkghr12q4e2Z2pGwu46CpKaLI=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBovqlFI+V4GoFFzmg6iekYjO3wUQsQ2NoToVu02
- /eVS2sSy3OJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaL6pRQAKCRABygi3psUI
- JAaID/9rrnrkkgZNvzI0FIXkGSX4gBtvI+S+ZUhZpHoHLNx5mYa6SzSgxgGtFVh/RB3Ws6QCf2v
- QGDci6rsLtSmWAjeQ+uCoaMJcuSXbGTSiTxM2apn/N3Qa4oRhy96wHLRUCOq+zCdg9ST0POvKGD
- MU2QrOVTS/xAzulU2W6Veml9cV05aLbPnSgAdmlom+gXmZqWsicFUuun1bQzeP4YNj3tYfN85gL
- Kofv7w0kuwRAr6gePgu0je9RzyJZGzY8PhjJho1XYqKM2sboHNKtJOwjHQaOu9zKp1YysVomMA7
- a7x3EwE1STEqEZK3KFwIHFQvYNzVPSSbZJX2thGtvHTmjmdfgEJN3RoO+6YFRclhBoR3YY5l+Ez
- 10S/GLNWdQ7MVEbO4C8mBHFrrc370ZfIoqyP3UgvZZFP5itHr/ByW8ENdblvZRvHL1WeCQKZGQE
- 3UdpaW3pj2RP417YZdpur7CQmv8YdTxdj0v6EXOxqE+e+IZMp3Jda2PHs2jWOpFfT2QCRfFeQ/7
- RajECtYAJvCdQpNmkemfRYw+APevsJeyXEQhKifsPYISo2NkHZXg/lBZB7UQDBY5v2KPjf54Jk5
- a6R8wk8dredST8Wb+UBF5e028+i6SkVwrsnKOjn/zcu/fu42nEfKXCQJ4bEBlHwf6eIcMY4iqzH
- DF9ti+Uugiot7DA==
-X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
- fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
+Message-Id: <20250908-kernel-retirement-v2-1-85c9d4d49f26@rosenzweig.io>
+X-B4-Tracking: v=1; b=H4sIAFLUvmgC/32NSw6CQBAFr0J67Rh6BARX3sOwAH1AR50xPQQ/h
+ Ls7cgCXVcmrN1OACgIdkpkUkwTxLoLdJHQeGtfDyCUy2dTmaZXuzRXqcDOKURR3uNF0zG1VccH
+ ZLqe4eyg6ea3NUx15kDB6fa8XE//sv9rEhg2KLmstmktblkf1Ae7zhPRb8VQvy/IFIEt0wLYAA
+ AA=
+X-Change-ID: 20250907-kernel-retirement-f11b99161435
+To: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, sven@kernel.org, 
+ j@jannau.net, maz@kernel.org
+Cc: Neal Gompa <neal@gompa.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
+X-Migadu-Flow: FLOW_OUT
 
-Add CPU PMU nodes for Apple A11 SoC.
+I'm moving on to other projects [1] and no longer wish to be copied on
+kernel patches. Remove my MAINTAINERS entries: both related to Apple
+driver support. So long and thanks for all the fish.
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+[1] https://rosenzweig.io/blog/asahi-gpu-part-n.html
+
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 ---
- arch/arm64/boot/dts/apple/t8015.dtsi | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Changes in v2:
+- Also add to .get_maintainer.ignore (suggested to me off-list).
+- Link to v1: https://lore.kernel.org/r/20250907-kernel-retirement-v1-1-e6f4b2eadb88@rosenzweig.io
+---
+ .get_maintainer.ignore | 1 +
+ MAINTAINERS            | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
-index 12acf8fc8bc6bcde6b11773cadd97e9ee115f510..9bf5157f0e504b7394ef5354411d3d37e8d5760a 100644
---- a/arch/arm64/boot/dts/apple/t8015.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015.dtsi
-@@ -284,6 +284,18 @@ aic: interrupt-controller@232100000 {
- 			#interrupt-cells = <3>;
- 			interrupt-controller;
- 			power-domains = <&ps_aic>;
-+
-+			affinities {
-+				e-core-pmu-affinity {
-+					apple,fiq-index = <AIC_CPU_PMU_E>;
-+					cpus = <&cpu_e0 &cpu_e1 &cpu_e2 &cpu_e3>;
-+				};
-+
-+				p-core-pmu-affinity {
-+					apple,fiq-index = <AIC_CPU_PMU_P>;
-+					cpus = <&cpu_p0 &cpu_p1>;
-+				};
-+			};
- 		};
+diff --git a/.get_maintainer.ignore b/.get_maintainer.ignore
+index b458815f1d1bf4d03cbe81a80f8b478cea53ebed..e8d2269bad9d000194c203df1a5b36a18e2f1953 100644
+--- a/.get_maintainer.ignore
++++ b/.get_maintainer.ignore
+@@ -1,5 +1,6 @@
+ Alan Cox <alan@lxorguk.ukuu.org.uk>
+ Alan Cox <root@hraefn.swansea.linux.org.uk>
++Alyssa Rosenzweig <alyssa@rosenzweig.io>
+ Christoph Hellwig <hch@lst.de>
+ Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+ Marc Gonzalez <marc.w.gonzalez@free.fr>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cd7ff55b5d321752ac44c91d2d7e74de28e08960..3c10a189421c9d20247ad1546ba4af31556c87cd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1845,7 +1845,6 @@ S:	Odd fixes
+ F:	drivers/input/mouse/bcm5974.c
  
- 		pmgr: power-management@232000000 {
-@@ -412,6 +424,18 @@ timer {
- 		interrupts = <AIC_FIQ AIC_TMR_GUEST_PHYS IRQ_TYPE_LEVEL_HIGH>,
- 			     <AIC_FIQ AIC_TMR_GUEST_VIRT IRQ_TYPE_LEVEL_HIGH>;
- 	};
-+
-+	pmu-e {
-+		compatible = "apple,mistral-pmu";
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_FIQ AIC_CPU_PMU_E IRQ_TYPE_LEVEL_HIGH>;
-+	};
-+
-+	pmu-p {
-+		compatible = "apple,monsoon-pmu";
-+		interrupt-parent = <&aic>;
-+		interrupts = <AIC_FIQ AIC_CPU_PMU_P IRQ_TYPE_LEVEL_HIGH>;
-+	};
- };
- 
- #include "t8015-pmgr.dtsi"
+ APPLE PCIE CONTROLLER DRIVER
+-M:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+ M:	Marc Zyngier <maz@kernel.org>
+ L:	linux-pci@vger.kernel.org
+ S:	Maintained
+@@ -2364,7 +2363,6 @@ F:	sound/soc/codecs/ssm3515.c
+ ARM/APPLE MACHINE SUPPORT
+ M:	Sven Peter <sven@kernel.org>
+ M:	Janne Grunau <j@jannau.net>
+-R:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+ R:	Neal Gompa <neal@gompa.dev>
+ L:	asahi@lists.linux.dev
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
 
+---
+base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
+change-id: 20250907-kernel-retirement-f11b99161435
+
+Best regards,
 -- 
-2.51.0
+Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
