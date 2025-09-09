@@ -1,123 +1,134 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A9E3191C4
-	for <asahi@lists.linux.dev>; Tue,  9 Sep 2025 10:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A662366;
+	Tue,  9 Sep 2025 11:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757413918; cv=none; b=Sw/HfBoqhstDsNtZzH9Mp9KJZmIVKrC+RgCcfQwnHafWIcxU9zHeQW3GAPBXJanunZzXjOEco/lNrBWYQ9CYSzL5P4X2cLKjiFAW2+lLR+QS/noIREUZ2qCdEks2wCm3awPjAbnBGzApHt/FP1lw7vN21Qmm4HaEHhPqzk4QooM=
+	t=1757415736; cv=none; b=CtBY4leemy+IPW2mI9cV/DUvYfDjaY0+AJ+6ZunhGIgVINNysrEZEEaXPCuwFD13TxvPJb8eIRQWxN/XfPpssSumJptnkZWd6o/ffutGh5zDoQ93agMu7oYqgOaDiiWR9+zahGAummAi6nM98u90VWo7dS+09D2LsCeOO3kbsOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757413918; c=relaxed/simple;
-	bh=lj3i7DkwgDDQfj+771UKfDbe8JmLcdhupbsoCJs0uWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tVVaVQSJMNfqpqxvJhcfTGfl1nuXiE4tET/zngVYRWqn7wVB6ye7vBy1IcR95k6/gQyFCfwa09uwDV2qCXRaSI1WDU+6f8Nlqv5A7joz1d5fYU+op1VWVV1VvipTB9O9xFXixDDl2kgRHM7RrqmqCYTJ8hrJEAL5gp6RzXOeF1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DymGiR7F; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757415736; c=relaxed/simple;
+	bh=aIuqF/ZRe6lFkjJdZM9G73p8wj+XZdKXQkFoizqI+N8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DK2dIRh/Aa24AMFhQu8ZT/x6kUviBoZ01c09T8C7bk1qsOp6z+Y2ygd9CTydcK2Y8rFZUC4Np8imW3UQbZPU/li1UhMHhPTREPxeJjBzfKQY2fSdMBYu17I5y66tNuYWQVJWHIgyUE4UgafjhPSccqHoOXxIfkwnWAW12uS9pL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=b3WPnegU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=D2DejXVH; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DymGiR7F"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3e537dc30f7so1812779f8f.2
-        for <asahi@lists.linux.dev>; Tue, 09 Sep 2025 03:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757413915; x=1758018715; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HW3k3a1g3PxSXTokioV5I6j30q9AGehCL+syHRYqQJY=;
-        b=DymGiR7FREfPwH9bTJ6ZuD1eSpoDjVa0EN1PvL4snFAxaIcbaNewI0+tkNv5hKmsrE
-         V+ILD5zqKTY4WMhaxc3H3Poq9frK0qH3b6Cw85zZUMB6nff0OeuTdtHbMq4MP6RuqZtL
-         uM1xCNQodkohM5UZYE7kTVjEOx1yTewVpM7Ci09lEW1N583MWDpNFCimBC/7bdP9idUo
-         Ezwlggb56hmD5VAxvcGEycFaWsacz4hY0B+FhRSAXfO7MHVg5cJyVnCwDDr9hLIme6WU
-         gcd8I30Zgq5THkMy3/feI8vVzMm7xXp3tK3G6AL0FLx+t5zGHYNu4172CYR6FDZHwR0s
-         +qzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757413915; x=1758018715;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HW3k3a1g3PxSXTokioV5I6j30q9AGehCL+syHRYqQJY=;
-        b=gpiEmOmnEloSsQ9yWve2sH6bQM4O+cUmAf/6zn10VfxuwX5udvFhuc8Ubzjm/PPM/k
-         w+hF14dXfZJt3VXZJTeis3eenx+ATrf+1qsc5NS+sgcVBkzj95N/OLV+952NzB5aSY6H
-         mpB2GRkSpRA0hBRUN7rxVP1G/GMiAfMaX1L5BYFWNkPv42j1MlMR7c7C1F3rVMeLuGkD
-         t26rN/2lGdS+F1g51XPCoxQSSC6GpBYQ5M0Ib9ezDGf8W4JIIqhf87o1dbbwBGemikIN
-         8MrGgA3Zkcwnn6lJ1hrkMjKSUmNBrJE2a9H216cE/Rsjp5fiaUawOT4vP/Zs6/tN7rbe
-         Dzyg==
-X-Gm-Message-State: AOJu0YyUqv8TRsKFwNHWjSP/u4Q8Fgv2MxFNBzvyDXteOhbllZxiwca5
-	y75nsY0eHAoNQhJeW1JiMQ+lVnRB6B7D68nqSwHKqHB2+5evun0VmbcPYtVvdDGtx88=
-X-Gm-Gg: ASbGnctGBfL8/BRo0HEZF3Dushm7EihfxoUDjvlowMD2tc98il/wzfmALecQ53tTJUR
-	CCGveePcW7OaFZuctAX1nEU9Fp9d1bU+s82O+0/bYya6tEM8qvXiz/L/dacxzMF+aJ3uBN973f6
-	uXm/oei+9WgjEQelaqVck6e6vBypPQ0OVDwI7k61h0L6J88nzqF5ARIndChK0pdXzDJdclEEUlb
-	asrKjYuFG6HUbL6H03aEnyYBlcsJ0NQ1YsmcF0bGw6IFqmtYPEob6cTlnMuaAsAyMJlYUBagf9J
-	jBQMG0m4kbEoigSvvAzcqe6mazTPindtARPtF7J/YIwY+FDxqml5FxnlKZs7kIH+ICbeSnqcZfd
-	dKZ9reiWYIIV5mmYSojaghycNC37+A6OUhy7xgQ==
-X-Google-Smtp-Source: AGHT+IFoH9EnqEx0+Pe7sMyMKqAMtXnTsmvRwSvLBqe7bfnXupVV7qrijqcbw+6s8Vdt6wGe0MhdPw==
-X-Received: by 2002:a5d:5889:0:b0:3e0:152a:87b4 with SMTP id ffacd0b85a97d-3e64392b7a6mr8151669f8f.35.1757413915001;
-        Tue, 09 Sep 2025 03:31:55 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e7521ca2ddsm2126411f8f.23.2025.09.09.03.31.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 03:31:54 -0700 (PDT)
-Date: Tue, 9 Sep 2025 13:31:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: asahi@lists.linux.dev, iommu@lists.linux.dev
-Subject: [bug report] iommu/io-pgtable-dart: Add 4-level page table support
-Message-ID: <aMACFlJjrZHs_Yf-@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="b3WPnegU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="D2DejXVH"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 79245140018A;
+	Tue,  9 Sep 2025 07:02:12 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 09 Sep 2025 07:02:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1757415732; x=1757502132; bh=Qg9msnq0rA
+	uxNpy3cVSl50zVPz8zshU7qatmHCWOvkA=; b=b3WPnegUHlfDmS1OorMHh11hLn
+	xscw0iz8E2B2UT1Vrtqkb6bBjV1PdmilaQG+gt+BQbaGe/TM+ZuF+AB4ADi1vQww
+	9C3BCxqlOKmojJ74Za8NfOFkwhHtbRM+ArIf9FJ1Dh6DG+WRij83qJLar9+wIs+O
+	Ao14jN4TfeX+0yPebO/cqErjl17WKBRvOkiLjJ6wy8QBy1RDovicWbOfQOM+xbsg
+	SN7CqWRQU+3rqyrnK9tuf5JcyTsZfVHsQgg39blKGqYOCeT0rVml/975pKP3cLR6
+	f61GL+q8GDYwt2THwFUc9Cu619XuLiZmO5cpVKi2SN5/MIs2lcZaUQKqOnhw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1757415732; x=1757502132; bh=Qg9msnq0rAuxNpy3cVSl50zVPz8zshU7qat
+	mHCWOvkA=; b=D2DejXVHAPpWktesChxfQ0b9wHeMbiH2mwPjwg0KzN8QSddZa04
+	z6wKrQVs7htNREjoiS6yMr/ukErFZqP6ei46NBel42m6keOTqeg4qUyYpK0YB/NT
+	osHQLSy/Mh5LyporjUbmqJ8gLp4w+AGo2iSMSsk4Y9ElGwNrrYt77qwxu+rAFdaG
+	FC9V+n8V1tSq1b4+yyYLFI3h9/xWTUGafyNxNxlYkr6ZGn0whOfk62SQ2YRf6Q07
+	i5MijAAR58gK8Ds5XM7qxWUrBZ3bHC8Epb+rsp1BowGNRl/sWDERSqbFKoBUCBtv
+	aFFu+XQOFrZo0NaHqBG78sr/jxeZzJcucvA==
+X-ME-Sender: <xms:MwnAaLFDrpki7rBrYfvrxiwKMjhi82qBcvs4C5WRrvdqYESqqgUh_A>
+    <xme:MwnAaBwOcZIOKU_bYZrWO5hULjEHA9u3cxtBOzpzqhJEGwePyup_JmYNj3-aUQYFx
+    0iimyZkYk8_YP1xvBE>
+X-ME-Received: <xmr:MwnAaMt3NoX5TKKN6ln0WxVWng6vfkgJDNmFHiyXvsQq7HS_IyJpXOExkH9lWVMDZVkD9OYgS8fIXga_6aNZdFj-dkmrwGdw4m4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtddvfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
+    evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
+    hnvghtpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pegurghnrdgtrghrphgvnhhtvghrsehlihhnrghrohdrohhrghdprhgtphhtthhopehmrg
+    hrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhl
+    ihhnuhigrdguvghvpdhrtghpthhtohepihhomhhmuheslhhishhtshdrlhhinhhugidrug
+    gvvh
+X-ME-Proxy: <xmx:MwnAaO124KiCQxhk0Ul-f3KSm1AYqoMw7AMEhqdhRdIs69LwXecAgw>
+    <xmx:MwnAaH93FNbe5QXDTMnva0IgY4urGc7-fQmShe8v9FTKAxYgtehW1g>
+    <xmx:MwnAaPONOXjX9ikpqEcRGCU86GARAJqQczJ5XglxGr-BqbfHAHZHnQ>
+    <xmx:MwnAaLfsrgGr4Jedg9wYzYMPSk5a7rkgpy94U4UOSva6XpAWu0kayw>
+    <xmx:NAnAaKu52CYD1IaqBPKaZKl8WSUcYGzM9z8mS_63iwB-6UjnyxJTYVJD>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 9 Sep 2025 07:02:11 -0400 (EDT)
+Date: Tue, 9 Sep 2025 13:02:09 +0200
+From: Janne Grunau <j@jannau.net>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev,
+	iommu@lists.linux.dev
+Subject: Re: [bug report] iommu/io-pgtable-dart: Add 4-level page table
+ support
+Message-ID: <20250909110209.GD89417@robin.jannau.net>
+References: <aMACFlJjrZHs_Yf-@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <aMACFlJjrZHs_Yf-@stanley.mountain>
 
-Hello Hector Martin,
+On Tue, Sep 09, 2025 at 01:31:50PM +0300, Dan Carpenter wrote:
+> Hello Hector Martin,
+> 
+> Commit 74a0e72f03ff ("iommu/io-pgtable-dart: Add 4-level page table
+> support") from Aug 21, 2025 (linux-next), leads to the following
+> (UNPUBLISHED) Smatch static checker warning:
+> 
+> drivers/iommu/io-pgtable-dart.c:183 dart_get_last() warn: array off by one? 'data->pgd[tbl]'
+> drivers/iommu/io-pgtable-dart.c:252 dart_map_pages() warn: array off by one? 'data->pgd[tbl]'
+> 
+> drivers/iommu/io-pgtable-dart.c
+>     174 static dart_iopte *dart_get_last(struct dart_io_pgtable *data, unsigned long iova)
+>     175 {
+>     176         dart_iopte pte, *ptep;
+>     177         int level = data->levels;
+>     178         int tbl = dart_get_index(data, iova, level);
+>     179 
+>     180         if (tbl > (1 << data->tbl_bits))
+>                         ^
+> It does look like this should be >=.
 
-Commit 74a0e72f03ff ("iommu/io-pgtable-dart: Add 4-level page table
-support") from Aug 21, 2025 (linux-next), leads to the following
-(UNPUBLISHED) Smatch static checker warning:
+yes. There is a second occurance of this buggy check in
+dart_map_pages().
 
-drivers/iommu/io-pgtable-dart.c:183 dart_get_last() warn: array off by one? 'data->pgd[tbl]'
-drivers/iommu/io-pgtable-dart.c:252 dart_map_pages() warn: array off by one? 'data->pgd[tbl]'
+>     181                 return NULL;
+>     182 
+> --> 183         ptep = data->pgd[tbl];
+> 
+> data->pgd[] has BIT(2) elements.  The data->tbl_bits value is set
+> in dart_alloc_pgtable() and it has a check if (tbl_bits > max_tbl_bits)
+> which ensures that it is not more than 2.
+> 
+> I don't think dart_get_index() can actually return more than 3 so
+> maybe the check can just be removed?
 
-drivers/iommu/io-pgtable-dart.c
-    174 static dart_iopte *dart_get_last(struct dart_io_pgtable *data, unsigned long iova)
-    175 {
-    176         dart_iopte pte, *ptep;
-    177         int level = data->levels;
-    178         int tbl = dart_get_index(data, iova, level);
-    179 
-    180         if (tbl > (1 << data->tbl_bits))
-                        ^
-It does look like this should be >=.
+It can't as long as iova is within the iommu's ias. After brief check I
+haven't seen anything in iommu/iommu.c or iommu/apple-dart.c which
+prevents drivers to call iommu_map() with a random iova resulting in
+tbl == 4. So the checks needs to be fixed.
 
-    181                 return NULL;
-    182 
---> 183         ptep = data->pgd[tbl];
+I'll send a patch fixing both occurances.
 
-data->pgd[] has BIT(2) elements.  The data->tbl_bits value is set
-in dart_alloc_pgtable() and it has a check if (tbl_bits > max_tbl_bits)
-which ensures that it is not more than 2.
+Thanks for the report
 
-I don't think dart_get_index() can actually return more than 3 so
-maybe the check can just be removed?
-
-    184         if (!ptep)
-    185                 return NULL;
-    186 
-    187         while (--level > 1) {
-    188                 ptep += dart_get_index(data, iova, level);
-    189                 pte = READ_ONCE(*ptep);
-    190 
-    191                 /* Valid entry? */
-    192                 if (!pte)
-    193                         return NULL;
-    194 
-    195                 /* Deref to get next level table */
-    196                 ptep = iopte_deref(pte, data);
-    197         }
-    198 
-    199         return ptep;
-    200 }
-
-regards,
-dan carpenter
+Janne
