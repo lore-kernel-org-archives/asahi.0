@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C16F25228D
-	for <asahi@lists.linux.dev>; Tue,  9 Sep 2025 09:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6097A2D46C9
+	for <asahi@lists.linux.dev>; Tue,  9 Sep 2025 10:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757411782; cv=none; b=P/GKxJ4u/qm4AT7S7HWA/rOd0IDALuVWi/e3CAL+XCbpJAZ6I2j1nJnvyoZwghj1V0brjWzzDrchCawqm+nARKiQzDXA+GlJbe7zYelfwo13I74n0Xl3tXREFeFPjUvok2AmHTiDdlCd8pHaL8rZI1EBrOVIe6+6q89mNlaQOMs=
+	t=1757412135; cv=none; b=ucuW31DwKqJvYhD+XqXMJ9F+YXUccJmqG/YDoUqYyIbnwLL411UyECvf2GYQr1DIsJy+/EmLlFpPR3D3+hY4OOAdrRF/7ftcjMduOdc//Efi/QisBQ7Khnma9sRUR/mNkFy3vO1wFGG+CEO60fy+BBs5LRoP351iNvyrDhH6OcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757411782; c=relaxed/simple;
-	bh=uo5ZUhYMuByiGgJRlg8TUV2xCirGU9z4qi8EAlibyr8=;
+	s=arc-20240116; t=1757412135; c=relaxed/simple;
+	bh=tEjUpDYvYVCiLuU5pbp0rm5Pfjj/tg0TJ9N8gnYaMb8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=StAzifZ83fejtjp2N9CMVOSL7EHG1zqNVRElyElM7bhKsV5gv0ON7koTSOvZMyIkHDwiH+K/AckyRjG8MSNk16Cr/CaRDI0YhpLULeQyhLHlQPJ6HluyDtB2IE+ylDujXu6kw9/KwBpkv8kCIcJpxiAKGLpF9qG82Q3IBSpjhYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VkU8Kh3D; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=YAyTgxVs/UYLT3M3PRd9QFDIZH0IMz38Lq9OLgJQ4nC0OkA+OyCdZJqzOfL5k3w9YPZwRmHBScib+BGJXjQDf/F0hSLE2RNRS4FSD7ChzsG/oh06k5i2OkgbmZQqOEJqAQKwOADMVp00PB+y/B/jbHhRntbIAoAQmmaZUSJGiKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ac6XIqw3; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VkU8Kh3D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ac6XIqw3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757411781; x=1788947781;
+  t=1757412134; x=1788948134;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uo5ZUhYMuByiGgJRlg8TUV2xCirGU9z4qi8EAlibyr8=;
-  b=VkU8Kh3DXAo47And/As3kxpv0wyHxDgnai1kTCz2f6BTeJmXj4P2E3Cf
-   7r9EMazmDHP5I8lk1Uq84kjBiNAP+7i+Fn5UySa7yD/B8JAynTms5UXCZ
-   coWOqAcLWNQWw2AHWZyXLLeU8ZBYNwsU++vaYwOBNj5dKox7UHm6UK0jY
-   Q/7n9K/r4jAED5zP712FEAcV8c7KThIeDTHLn1x6aDRL7LTBxD7low/MZ
-   VTPwFSBGMjayYWtrml+tbGf//RN4z5cxgdIa+BJUn5EWz6AL/lnPSd9sO
-   UgOnFJeMxKFPEM9npmt43jpjcahQYnHyUT7iUUgZ9kPy2XwL7PuftZQ8K
+  bh=tEjUpDYvYVCiLuU5pbp0rm5Pfjj/tg0TJ9N8gnYaMb8=;
+  b=ac6XIqw3h/x/eFpMHOzAmDaGZsExBmZiupjwyvTJ3SF3tDUgexDJevhC
+   lLKHYhV+cwIXFjLVrQhkShh3sVlk1eGPDpV+94WJhSsEDl1+VvYTNG/Pu
+   VyFH60+YtwFikNMCRfCltF7THA3qSGXy5xTMo0UZgUkWSCEZbB51O/J6N
+   N36DG3A2hgu52W/N3bHofGOswREfO3Vuwzd5qsBWU3HR4mpHwzn1JSdp5
+   KeMhNIt2joQMUh7U1B21IpE1YRQ1wqpWWg6iV0SwED1GYQEvepNO7gK1X
+   +owaX1AJTKCLXLOpZh2nAeW+XuEyLF9MZJumAy8LufG7u0gizvpk5OVbc
    g==;
-X-CSE-ConnectionGUID: /0hrIz5YSRK0To6js7cOOw==
-X-CSE-MsgGUID: Vvc26+dOSX6eR3J/KVbklA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="70308689"
+X-CSE-ConnectionGUID: oWQuEhgORxySjNIQk3EM/w==
+X-CSE-MsgGUID: 46YhI+l/TIqQdXgELiqEsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59627225"
 X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; 
-   d="scan'208";a="70308689"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 02:56:21 -0700
-X-CSE-ConnectionGUID: P1az0YAkRKGZnXA+YSHqnw==
-X-CSE-MsgGUID: x+o8/7BtRJCBL8qT1k7V2g==
+   d="scan'208";a="59627225"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 03:02:13 -0700
+X-CSE-ConnectionGUID: 6CAL+BkbQ0GLmY9r/PDbfQ==
+X-CSE-MsgGUID: bWb6v0dzQF2Nf5Sb/J+gnA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; 
-   d="scan'208";a="172209638"
 Received: from kuha.fi.intel.com ([10.237.72.152])
-  by orviesa006.jf.intel.com with SMTP; 09 Sep 2025 02:56:15 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 09 Sep 2025 12:56:13 +0300
-Date: Tue, 9 Sep 2025 12:56:13 +0300
+  by fmviesa003.fm.intel.com with SMTP; 09 Sep 2025 03:02:07 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 09 Sep 2025 13:02:06 +0300
+Date: Tue, 9 Sep 2025 13:02:06 +0300
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To: Sven Peter <sven@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -57,16 +55,15 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
-	Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>,
 	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
 	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v2 13/22] usb: typec: tipd: Use read_power_status
- function in probe
-Message-ID: <aL_5vZvZG4oYQACo@kuha.fi.intel.com>
+Subject: Re: [PATCH v2 14/22] usb: typec: tipd: Read data status in probe and
+ cache its value
+Message-ID: <aL_7Hklraq2ff_YA@kuha.fi.intel.com>
 References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
- <20250906-atcphy-6-17-v2-13-52c348623ef6@kernel.org>
+ <20250906-atcphy-6-17-v2-14-52c348623ef6@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -75,39 +72,50 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250906-atcphy-6-17-v2-13-52c348623ef6@kernel.org>
+In-Reply-To: <20250906-atcphy-6-17-v2-14-52c348623ef6@kernel.org>
 
-On Sat, Sep 06, 2025 at 03:43:26PM +0000, Sven Peter wrote:
+On Sat, Sep 06, 2025 at 03:43:27PM +0000, Sven Peter wrote:
 > From: Hector Martin <marcan@marcan.st>
 > 
-> We need the initial power status to be able to reliably detect connector
-> changes once we introduce de-bouncing for CD321x next. read_power_status
-> takes care of this and also forwards the status to the trace subsystem
-> so let's use that instead of open-coding it inside probe.
+> Just like for power status we also need to keep track of data status to
+> be able to detect mode changes once we introduce de-bouncing for CD321x.
+> Read it during probe and keep a cached copy of its value.
 > 
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 > Signed-off-by: Sven Peter <sven@kernel.org>
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Reviewed-by: Heikki Krogerus <>
 
 > ---
->  drivers/usb/typec/tipd/core.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/usb/typec/tipd/core.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 > diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index cd427eecd8a594b7e609a20de27a9722055307d8..e6e9730ee6dacd8c1271b1d52a02da49ff248d3e 100644
+> index e6e9730ee6dacd8c1271b1d52a02da49ff248d3e..b558fc5ecbc35a9dabbf33c444f38173740af7c3 100644
 > --- a/drivers/usb/typec/tipd/core.c
 > +++ b/drivers/usb/typec/tipd/core.c
-> @@ -1549,11 +1549,8 @@ static int tps6598x_probe(struct i2c_client *client)
->  		goto err_role_put;
+> @@ -176,6 +176,7 @@ struct tps6598x {
 >  
+>  	int wakeup;
+>  	u32 status; /* status reg */
+> +	u32 data_status;
+>  	u16 pwr_status;
+>  	struct delayed_work	wq_poll;
+>  
+> @@ -538,6 +539,7 @@ static bool tps6598x_read_data_status(struct tps6598x *tps)
+>  		dev_err(tps->dev, "failed to read data status: %d\n", ret);
+>  		return false;
+>  	}
+> +	tps->data_status = data_status;
+>  
+>  	if (tps->data->trace_data_status)
+>  		tps->data->trace_data_status(data_status);
+> @@ -1551,6 +1553,8 @@ static int tps6598x_probe(struct i2c_client *client)
 >  	if (status & TPS_STATUS_PLUG_PRESENT) {
-> -		ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &tps->pwr_status);
-> -		if (ret < 0) {
-> -			dev_err(tps->dev, "failed to read power status: %d\n", ret);
-> +		if (!tps6598x_read_power_status(tps))
+>  		if (!tps6598x_read_power_status(tps))
 >  			goto err_unregister_port;
-> -		}
+> +		if (!tps->data->read_data_status(tps))
+> +			goto err_unregister_port;
 >  		ret = tps6598x_connect(tps, status);
 >  		if (ret)
 >  			dev_err(&client->dev, "failed to register partner\n");
