@@ -1,162 +1,330 @@
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2402472A8;
-	Tue,  9 Sep 2025 11:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAB125C804;
+	Tue,  9 Sep 2025 17:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757418894; cv=none; b=Qj8YiTjFNK9VW0hZFKc/8A6PWTZMLGOHLyUHvXM55RqriQZt47f0xdWvqmly4XWPQCTSECYvKZDpmlLaouEAjepjhpKKGZsbid9HFFFXujohETfNMw/emruCdwSH5pczj9TbNjh7ApGM4iqg6DvGk+i80nbo3sdUPYBd6MoJiTY=
+	t=1757437482; cv=none; b=qNHmNUxdMLMPUHnphC3KSLeNMG7Cf6SRAQawNftXDE+OqNV9v5+4L6oiYwLpaNNO4wYYt41+hz6UCDQpP8aLIyhZlOCwSzpIL/pmitMOOz7duxPwJW91t4Zl80h1sh97cnDH+JyyVi4PLqG+MyByV3kZJQ0L7S3jjliJdVVTt30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757418894; c=relaxed/simple;
-	bh=6iXD5m0xbJJ9yI3fFImUYVSx/Zs/cga4QJHzGSzB/10=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tKWm690AE/xroEJlKy0pI3b8FyO9YXHlRO/mDR1wAXOeT5qHeHgIiooBQqmsENFzIKUNG6dwtrg2bMApio6RtvtN/ipWVnRhlyLw0rB8A4dy+mIROM0f48/c6cjQPG2VqljWsoPv6bWt6bWmoBij1acMsy7zBsuq2mtTpgTefU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=MKxJp5ki; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=k/KfuZm7; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1757437482; c=relaxed/simple;
+	bh=1Rd9o6WpxdFjdYOqLhQLHzTPUyEZ/qZjJs+LfJAwKOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KT8gYUOmUBxyTBTTMx4no5GBXVtKhJjD/enDQriiOr7lNeMpBGTOu8nD645sNi57xF2eTJ7uiQ8oNzzHQAvia/IzImD4IBnGSvsesC15oJ2TaaP1fh8BU/fTx/LTs0T29PXJx2zFrcH6J0sdkrn8xl0kpcYi6cGewR7izZt3C+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MUPs6TMA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="MKxJp5ki";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="k/KfuZm7"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0E90814000E9;
-	Tue,  9 Sep 2025 07:54:51 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 09 Sep 2025 07:54:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1757418891; x=1757505291; bh=Xg
-	llFUx1hMJXZthKN6RSylNEPxNp90PjmGPFYCczU3c=; b=MKxJp5kiaP89vLxg22
-	BOn2h0ywmis0W9knLLvxaGguspj1X7X+/7R94Doj3VQvQC/qyWWfq/uay1MryUK7
-	LLeLQLN6fyE1elg07CMRvpEX7E/+doRX6IskuWB3ZkjzdNHycdGZUj7jMewHuw7w
-	f+8Jl44ECgmO1ktauce3xwuIFMAMujRh8DBYj2BrKMUDQXkVKUTjpATwxSzlUDjz
-	/mYvjJtYPbrv5VDCAVRC9iHjGbDX0HIewM2yG82lql5UxxkzjljwbycDoa3Pan/H
-	gcYnSKRP9c/n0fUWZIRNOy8G+Rff7xhbS0dQFfFL3wTaLInnKfgE6P+NeoXMekZY
-	66eQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1757418891; x=1757505291; bh=XgllFUx1hMJXZthKN6RSylNEPxNp
-	90PjmGPFYCczU3c=; b=k/KfuZm7zAtskYp6dq5+d9FFBiL4NmLmgcKo2gl7PjN+
-	xRLrZD8wJ2SPtXdSPMpH5EkgP8pmwUHK/UOXkA/AuI4o9eIjXscvBQyo7UyXIUYf
-	F0xd9aUcbAc4DYR7c+5aC1K+kzHj7k83M9LvrqSVoDS0LjZ1VlsJyuCh9qKgujEZ
-	SczBhQKu4vXqXb9q92DEA+e+A1NZv8d3km+UhiGj+rzaEmd+K33qOLsv0rN0JUd3
-	Ve26ty/i4eh4hoeEZ1rt0JjKOxoVaS5FmWEDtPR/0CGfSCNfwlAwg5cT0YdA0mwI
-	VCWQyK/tDxorjlzDo7Srb8KrxQhRlfl1QJ+ojjva1Q==
-X-ME-Sender: <xms:ihXAaAkqbFOIv3rIpWZwCV5q5O3LbQALK0RmlDCt_fTMtKTs8jFv8w>
-    <xme:ihXAaHFJlQiWPSEgiJLcEluQskKXzVqPbVosgNMaCQEV1I2BTv6TZ27vNPZh63jnB
-    peqFoD5TTBdqy4z848>
-X-ME-Received: <xmr:ihXAaJgSOKqGwFM3T6r1NZqrmAhx1xhvd5oTRFeZe0DXwDTZNzHIAyNMnLkUJo8vGDbdI6o2fJ_434H6P9o9RbFgs_HqEa92LGL6zg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtdefhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
-    uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpeefheeltd
-    ehfeetjeefvdehteeutddtteelgeduueetjeevteeifeeuvdefffdvieenucffohhmrghi
-    nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedufedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshhvvghnsehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopehjohhroheske
-    gshihtvghsrdhorhhgpdhrtghpthhtohepuggrnhdrtggrrhhpvghnthgvrheslhhinhgr
-    rhhordhorhhgpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpth
-    htohepjhhovghrghdrrhhovgguvghlsegrmhgurdgtohhmpdhrtghpthhtohepfihilhhl
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrghrmh
-    drtghomh
-X-ME-Proxy: <xmx:ihXAaMgCH-4IFoKCggPJRdhxxW_c-NLDQP3qwgZ79ru41V7mdDxhig>
-    <xmx:ihXAaEkeMt5QMGal3ky7Tqn-Mqao_QI1w6eu2PeUcljYnqXN1j8JmA>
-    <xmx:ihXAaIYOVL61-M9FdeLfj571KiOEpwuA0qVoWP8Ib6h-KZNLxAU7EQ>
-    <xmx:ihXAaPwSP2fXcwlz-ZgHq9sKh5xvsk87k3wSg6sfg7Hgze-xfsY8pw>
-    <xmx:ixXAaEHyLufroOn5rObo_ro8rYL8z--t8DvyYpvhnUrNEtlSWLzGoYdE>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 9 Sep 2025 07:54:49 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Tue, 09 Sep 2025 13:54:43 +0200
-Subject: [PATCH] iommu/io-pgtable-dart: Fix off by one error in table index
- check
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MUPs6TMA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C53DEC4CEF4;
+	Tue,  9 Sep 2025 17:04:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757437482;
+	bh=1Rd9o6WpxdFjdYOqLhQLHzTPUyEZ/qZjJs+LfJAwKOQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MUPs6TMATyIsWv6eZBfXU7qjW1nEZmICjT6oS3/xu7zFuKp8OcsoeErMoi07Z2RCI
+	 oPUCzCXj0E1rmAfcOUJX7Fhz3e18+/ouV0NrfSZFlClTWj92UxKW3sENkvB2epdKnu
+	 45nGcuV3mGiHPK0AdR72XnrIx4mEY2vQgTCtr0t6cq65oxgtYIjY75RRDQlQ3/paqt
+	 RXYCQ5jQ7MfQ65NIuO9EBiWi48jZCEQqF3CaBU3uBPGJJKeXEyVMUj7q/wIQk9vJcN
+	 kVcUJdgoenXFGcaqzIwqRXWHSlReJ4LTsEgzx1wcYQu38gC7zP975f1OtGsytT1WR5
+	 uJ5qWE2zpZsww==
+Date: Tue, 9 Sep 2025 12:04:40 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sven Peter <sven@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
+	Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH v2 16/22] dt-bindings: phy: Add Apple Type-C PHY
+Message-ID: <20250909170440.GA3343344-robh@kernel.org>
+References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
+ <20250906-atcphy-6-17-v2-16-52c348623ef6@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250909-iommu-dart-tbl-check-fix-v1-1-c800a0375660@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAIMVwGgC/x2MSQqAMAwAvyI5G6gVhfoV8dA2UYMrrYog/t3ic
- QZmHogchCM02QOBL4myrQmKPAM/2nVgFEoMWulKGWVQtmU5kWw48HAz+pH9hL3cqEuqLFHtXG8
- g5XvgpP91273vB7vYJAZqAAAA
-X-Change-ID: 20250909-iommu-dart-tbl-check-fix-23d5add6bbf9
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Hector Martin <marcan@marcan.st>
-Cc: Joerg Roedel <joerg.roedel@amd.com>, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2070; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=6iXD5m0xbJJ9yI3fFImUYVSx/Zs/cga4QJHzGSzB/10=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowDoh3bfa+euaByMivv3/Kd+8yeirNcuFa7ZNsUc84+p
- Q6ZioiojlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABPhN2X4p+03de+iP49CTjDf
- an/B9UrtnKxKhVRyRGSSw/OcLpaOl4wMt1IePKoXWPlA66bcbsHdupYcn64m6Nm4M/2qPJ/yWHQ
- lBwA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250906-atcphy-6-17-v2-16-52c348623ef6@kernel.org>
 
-The check for the dart table index allowed values of
-(1 << data->tbl_bits) while only as many entries are initialized in
-apple_dart_alloc_pgtable. This results in an array out of bounds access
-when data->tbl_bits is at its maximal value of 2. When data->tbl_bits is
-0 or 1 an unset (initialized to zero) data->pgd[] entry is used. In both
-cases the value is used as pointer to read page table entries and
-results in dereferencing invalid pointers.
-There is no prior check that the passed iova is inside the iommu's IAS
-so invalid values can be passed from driver's calling iommu_map().
+On Sat, Sep 06, 2025 at 03:43:29PM +0000, Sven Peter wrote:
+> Apple's Type-C PHY (ATCPHY) is a PHY for USB 2.0, USB 3.x,
+> USB4/Thunderbolt, and DisplayPort connectivity found in Apple Silicon
+> SoCs.
+> 
+> The PHY handles muxing between these different protocols and also provides
+> the reset controller for the attached dwc3 USB controller.
+> 
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  .../devicetree/bindings/phy/apple,atcphy.yaml      | 213 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 214 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/apple,atcphy.yaml b/Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..a863fe3a8f6d80a113e495e8425775c91e4cd10c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+> @@ -0,0 +1,213 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/apple,atcphy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple Type-C PHY (ATCPHY)
+> +
+> +maintainers:
+> +  - Sven Peter <sven@kernel.org>
+> +
+> +description:
 
-Fixes: 74a0e72f03ff ("iommu/io-pgtable-dart: Add 4-level page table support")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/asahi/aMACFlJjrZHs_Yf-@stanley.mountain/
-Signed-off-by: Janne Grunau <j@jannau.net>
----
-Based on today's iommu/master (9bffaa5ceb26) [1]
+Add '>' to to maintain paragraph formatting.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git
----
- drivers/iommu/io-pgtable-dart.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> +  The Apple Type-C PHY (ATCPHY) is a PHY for USB 2.0, USB 3.x,
+> +  USB4/Thunderbolt, and DisplayPort connectivity found in Apple Silicon SoCs.
+> +
+> +  The PHY handles muxing between these different protocols and also provides the
+> +  reset controller for the attached DWC3 USB controller.
+> +
+> +  The PHY is designed for USB4 operation and does not handle individual
+> +  differential pairs as distinct DisplayPort lanes. Any reference to lane in
+> +  this binding hence refers to two differential pairs (RX and TX) as used in USB
+> +  terminology.
+> +
+> +allOf:
+> +  - $ref: /schemas/usb/usb-switch.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - apple,t6000-atcphy
+> +              - apple,t6020-atcphy
+> +              - apple,t8112-atcphy
+> +          - const: apple,t8103-atcphy
+> +      - const: apple,t8103-atcphy
+> +
+> +  reg:
+> +    items:
+> +      - description: Common controls for all PHYs (USB2/3/4, DisplayPort, Thunderbolt)
+> +      - description: DisplayPort Alternate Mode PHY specific controls
+> +      - description: AXI to Apple Fabric interconnect controls, only modified by tunables
+> +      - description: USB2 PHY specific controls
+> +      - description: USB3 PIPE interface controls
+> +
+> +  reg-names:
+> +    items:
+> +      - const: core
+> +      - const: lpdptx
+> +      - const: axi2af
+> +      - const: usb2phy
+> +      - const: pipehandler
+> +
+> +  "#phy-cells":
+> +    const: 1
+> +
+> +  "#reset-cells":
+> +    const: 0
+> +
+> +  mode-switch: true
+> +  orientation-switch: true
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output endpoint of the PHY to the Type-C connector
 
-diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
-index 9a63c80a2786bf70fc2544b1f96d2e4c8591c2f8..54d287cc0dd1b8bb07eb437a23ae0e493645a80d 100644
---- a/drivers/iommu/io-pgtable-dart.c
-+++ b/drivers/iommu/io-pgtable-dart.c
-@@ -177,7 +177,7 @@ static dart_iopte *dart_get_last(struct dart_io_pgtable *data, unsigned long iov
- 	int level = data->levels;
- 	int tbl = dart_get_index(data, iova, level);
- 
--	if (tbl > (1 << data->tbl_bits))
-+	if (tbl >= (1 << data->tbl_bits))
- 		return NULL;
- 
- 	ptep = data->pgd[tbl];
-@@ -246,7 +246,7 @@ static int dart_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
- 
- 	tbl = dart_get_index(data, iova, level);
- 
--	if (tbl > (1 << data->tbl_bits))
-+	if (tbl >= (1 << data->tbl_bits))
- 		return -ENOMEM;
- 
- 	ptep = data->pgd[tbl];
+SS port of the connector?
 
----
-base-commit: 9bffaa5ceb26d73344b1a16b745f363fb2a6f6b4
-change-id: 20250909-iommu-dart-tbl-check-fix-23d5add6bbf9
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Incoming endpoint from the USB3 controller
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Incoming endpoint from the DisplayPort controller
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Incoming endpoint from the USB4/Thunderbolt controller
+> +
+> +  apple,tunable-axi2af:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      AXI2AF tunables.
+> +
+> +      This array is filled with 3-tuples each containing three 32-bit values
+> +      <register offset>, <mask>, and <value> by the bootloader.
 
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
+That sounds like a 3xN matrix. Use uint32-matrix type.
 
+blank line between paragraphs and use '>' modifier.
+
+> +      The driver will use these to configure the PHY by reading from each
+> +      register, ANDing it with <mask>, ORing it with <value>, and storing the
+> +      result back to the register.
+> +      These values slightly differ even between different chips of the same
+> +      generation and are likely calibration values determined by Apple at
+> +      manufacturing time.
+
+This could be worded more simply. The first part sounds like fixed for a 
+given SoC, but from manufacturing time setting I gather these vary even 
+for a single product/device.
+
+I gather all this is being copied out of Apple FW?
+
+> +
+> +  apple,tunable-common:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      Common tunables required for all modes, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-fuses:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      Fuse based tunables required for all modes, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane0-usb:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      USB tunables on lane 0, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane1-usb:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      USB tunables on lane 1, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane0-cio:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      USB4/Thunderbolt ("converged IO") tunables on lane 0, see apple,tunable-axi2af for details.
+
+Wrap lines at 80 char.
+
+> +
+> +  apple,tunable-lane1-cio:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      USB4/Thunderbolt ("converged IO") tunables on lane 1, see apple,tunable-axi2af for details.
+> +
+> +  apple,tunable-lane0-dp:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      DisplayPort tunables on lane 0, see apple,tunable-axi2af for details.
+> +
+> +      Note that lane here refers to a USB RX and TX pair re-used for DisplayPort
+> +      and not to an individual DisplayPort differential lane.
+> +
+> +  apple,tunable-lane1-dp:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description:
+> +      DisplayPort tunables on lane 1, see apple,tunable-axi2af for details.
+> +
+> +      Note that lane here refers to a USB RX and TX pair re-used for DisplayPort
+> +      and not to an individual DisplayPort differential lane.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - "#phy-cells"
+> +  - "#reset-cells"
+> +  - orientation-switch
+> +  - mode-switch
+> +  - power-domains
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    phy@83000000 {
+> +      compatible = "apple,t8103-atcphy";
+> +      reg = <0x83000000 0x4c000>,
+> +            <0x83050000 0x8000>,
+> +            <0x80000000 0x4000>,
+> +            <0x82a90000 0x4000>,
+> +            <0x82a84000 0x4000>;
+> +      reg-names = "core", "lpdptx", "axi2af", "usb2phy",
+> +                  "pipehandler";
+> +
+> +      #phy-cells = <1>;
+> +      #reset-cells = <0>;
+> +
+> +      orientation-switch;
+> +      mode-switch;
+> +      power-domains = <&ps_atc0_usb>;
+> +
+> +      ports {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        port@0 {
+> +          reg = <0>;
+> +
+> +          endpoint {
+> +            remote-endpoint = <&typec_connector_ss>;
+> +          };
+> +        };
+> +
+> +        port@1 {
+> +          reg = <1>;
+> +
+> +          endpoint {
+> +            remote-endpoint = <&dwc3_ss_out>;
+> +          };
+> +        };
+> +
+> +        port@2 {
+> +          reg = <2>;
+> +
+> +          endpoint {
+> +            remote-endpoint = <&dcp_dp_out>;
+> +          };
+> +        };
+> +
+> +        port@3 {
+> +          reg = <3>;
+> +
+> +          endpoint {
+> +            remote-endpoint = <&acio_tbt_out>;
+> +          };
+> +        };
+> +      };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e147e1b919d5737a34e684ec587872ce591c641a..c4cbae63b0c0d42042e12d366e4a32d7ca3711ea 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2393,6 +2393,7 @@ F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+>  F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
+>  F:	Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml
+>  F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
+> +F:	Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+>  F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+>  F:	Documentation/devicetree/bindings/power/apple*
+>  F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
+> 
+> -- 
+> 2.34.1
+> 
+> 
