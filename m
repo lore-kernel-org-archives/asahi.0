@@ -1,535 +1,329 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758AC2E9735
-	for <asahi@lists.linux.dev>; Thu, 11 Sep 2025 09:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB7C30FC36
+	for <asahi@lists.linux.dev>; Thu, 11 Sep 2025 10:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757582775; cv=none; b=tDrIf4JTq3pqc70z5Y3tpGCNJG5MoqbgwtzMVT+4z8EcXHfzwGicoZTSdpmQ1rZ69PeLsnkrscf0YlezBljNzWgBUIWh6BaskI76jloVsMChDLizhxnICGv/Mk7h8c4MTOP01IirTBv3PI5jATUhrYhtOSLe1VI5CvLqbirmr1A=
+	t=1757585465; cv=none; b=HnTu2ikk8mMgVJsXZ+zxQpdwTvvaWA8EiH83ZBZ2/yVZFMzq5wUvS2URrNQs3qcequGAFLXMla3C5on7jTzDKUvEeiBqw6bHsWDU22GtNzxPePuG9eniDZTrE2H4XM0x7ICvj+enIR9F4oBTZSkJO+FmMCiVpYyoSlIm3Z9O7t0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757582775; c=relaxed/simple;
-	bh=K+b9lYsKgwPBEZLrO89rsK6poRl0+QIt1SDns//ju6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kk72A3ezZS6fzibpA0NP7H2va3fmuodBGnUzX/odf1ZSlrK5O0ipazX2kuLYDIi+WCikWqRvZoLTo/UlsFXKuGrANd4y3MG5+gIUJAmS7iPJbPCbmzsaPd+elcCJiPU6LKHm454/hQvbZfuSBjWDi0u5iKEiW3I1kmuPjnuLP3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=ODKH0lVE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LDduIdzN; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="ODKH0lVE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LDduIdzN"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id F21047A001E;
-	Thu, 11 Sep 2025 05:26:10 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 11 Sep 2025 05:26:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1757582770; x=1757669170; bh=DJYzLFKfHM
-	lCWVvTixCw6+fqr/WXFMRu6AQWZTQqxwE=; b=ODKH0lVErnPnR7NxCH0avYOpFX
-	XjZqwPhUkBocQrc1HxqNvcoNPAsTg8DtQh4GaacvXRkk/SRAa73YGencoqxe+AzK
-	ftrytTCdEuTcyGZLf5T1lS0u4gSR8dRFWZ3PZL0Y1D0mpZwG1/7by1IR3L19IIAI
-	hpQTQzT630SA1617oPE9q2uvgqsArOBFAnrll1PHqON7Pp0RV/a5Wp1A/4wuIboj
-	M8zsubKpWK8TSS4Buc7cVQ3W/SeS+fJpk9us4Ep/3Kfl5yd8jTsBbFUndvPRFBZ5
-	17DT+KrsugGlh4P5Xs8BBzXlukEw5KzzC3/NluR8CytFaWUGNZDofvaTXH9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1757582770; x=1757669170; bh=DJYzLFKfHMlCWVvTixCw6+fqr/WXFMRu6AQ
-	WZTQqxwE=; b=LDduIdzN2x0ATkTOWVhzFHHnnu1DGjLVeUSBjrHTr2X4cepa6ga
-	m6CiLWjnUPGzd1ds0oCyahfjF3R4CK0fJKN7nIHT+K8VC3O93xz46rbNx2wg2+O6
-	h7JPmetptLzAUo6kdX1hdsgcBtwClh8KwQXMSYr/9DUOTgikfwR1YBfCrlO/VXMa
-	30JFCijJJLFS8gPoy0bR7KQ4q5OjhcZZtekLO9ps++1Ochu4rPyBTeNAz3oVkRhY
-	M4BVomw/jNMPNIEpCauaJa2o/paNDpbUQ6G6sKwpBmfiQs5ui9zcX1UWkQH4RmD1
-	ZMUQf1CYA3VANYvdBxmlw4YFlv0FgoSHYmw==
-X-ME-Sender: <xms:sJXCaPBIpXSGg7R6w11uO2HG6eahfRi3W9JhbfkC6n7LgFF0w9HOSA>
-    <xme:sJXCaAi_A_mnQkwJvcjEV_wv2ZXq4f20BMpx7-zE2QMGvyuUUtRYyeo3EvayPaY2B
-    8caGj3YykxUgiUwP8k>
-X-ME-Received: <xmr:sJXCaBPZYT6gtfGUfXeao4ajOuCaZoaymte7W4SZfaiEhO4l37m1KtrD9NWUJ7jBIiIDOuAL5_u1sU2tkONXEi_z_Sr2vwFNGTw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvheektdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
-    evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
-    hnvghtpdhnsggprhgtphhtthhopedvfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhheslhhinh
-    hugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrghlsghi
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvih
-    hgrdhiohdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehv
-    khhouhhlsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:sJXCaPaQfQ8LIBwoQzLV0ENwj57RQqX46GN6LRU9gxqJbnyZakHsAg>
-    <xmx:sJXCaO_ibK-UTeLxPNdkTc6n1iJpGfS7cngyXu2Ybo1KODSq-pficA>
-    <xmx:sJXCaK2INVTJ02ymTBE3OTB84K8_J-s6pG7-6VyYLz2LW830qeoEcw>
-    <xmx:sJXCaP3rXCENuJ2Ygf5nlFuDSFluL0nXCkl0tPzsTo6vVLWB6KYQbw>
-    <xmx:spXCaPjqXEXtRIcQAHJS4CSZnUrvzR5kUJZBHpsv538pyFYoaxMTSrkM>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Sep 2025 05:26:08 -0400 (EDT)
-Date: Thu, 11 Sep 2025 11:26:06 +0200
-From: Janne Grunau <j@jannau.net>
-To: Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
-	Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v2 15/22] usb: typec: tipd: Handle mode transitions for
- CD321x
-Message-ID: <20250911092606.GE89417@robin.jannau.net>
-References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
- <20250906-atcphy-6-17-v2-15-52c348623ef6@kernel.org>
+	s=arc-20240116; t=1757585465; c=relaxed/simple;
+	bh=6KAwVRLW5Ywsgo5DBuCSoDqBIba161zb+P1ZIE5x5XQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pZYIkjlWQdLgmSkaYW776o0afo5c5V67zfM0QZGzuxmnKE2rDEUAShEJhGpHAoOBEv1MfAvA2r9RKSI/yR8GvRsmkby0nb9rBZ0AeMyGwMCNfaxmvqLYUKSfwh6+1A+WD4tXblum7AIfNh9/KtlkzhcTT/Li/H4wMHndiHasiVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b0787fa12e2so77314866b.2
+        for <asahi@lists.linux.dev>; Thu, 11 Sep 2025 03:11:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757585459; x=1758190259;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S7ly2Efr3aD8QyxPSswHNwfdGEyG+Grnl+9kaAGf3Cs=;
+        b=nKxHXLZsg11aRadGMyWl//gG1h9tNCPFJ0/yH9HLDfALuV/A7z5AHZOPC+pkCeEE6U
+         erSoOzCwPD2TQ/42SfnHNkOnL0amiM4nPPvWOOxyOKK6wmKjPSstlwd4eF03wjloSyyt
+         giD59D62QMZqUaox6p2y7rwUpfYD1oWE/2NCqvOP3i9X/YIwLd386kBnm3c3MIBPCiHB
+         XSqHbhrn28PtcwvqgASA1ZZHOdVuhioE9vetfMf2zcRqr4W2sETZ4sk2GOui3dQMkV80
+         JR3KoqbcqSlhpWdVaw6RazFIBc9sxj6j6WZO0erlV5xyBH4PsBMossJt/RhlkyVz+8WX
+         Z5RA==
+X-Forwarded-Encrypted: i=1; AJvYcCXHsQrKtdrf90A3raeRs4M7ZA2jZd0cCUyRY0D9StoC4RlW/6XhpkZGhBpnMB3mN7smG255QA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8hWxDh94pqnFfXqJy1AeGwMQwde696wBWJ9gBs1/GQNyl+MGV
+	uWSRrkjcDWlCfDvtmmNcrPYtaNPXmUADjLeyO0N+ZNGLEank1A8FMtj2yAKMFzdfgGsU8w==
+X-Gm-Gg: ASbGncu4tTk50UkvRqZx4o6WjOli2Y2adEm/0bcLOmVbeBaIQK/wrLRkXgD041z5eU1
+	JPQ+3YRyuC5X811ceuJ39K/gsKxIbGIaUgCLV8RB7DS8GpogTn1KW29vtrN/CsSFKkwlXZGGr6O
+	cSwGM5gUPE9SSnQbGLVIhtJA5Cqv6aAzmNieeu5koIq3MmHdH578ZNaYb0xkG/gpN/QVEE+MQOi
+	dseAeb/HYTa6FRt6V+PLq+QcfmgOwtZOFPCNK8OJ/gsbNxUIwk8Ezcowf+cQ2Ul0OWMpuO2Z07M
+	9325Ap+aBc1JeroA9pVww9K7DlhkF0JN8avGBi9wYpd5qfhh7UuJDwO5d5f87hYci4Zflg55wB6
+	I1GX44CZuwPWZv8TEB/XDWObE4IV5Jw7j8eb7wKOk0d5YJEm01xAu0o2x5PPCV7GKar9Esop1qO
+	ZrE+3q5JxsZwS71bcSAhfq8Hej/K2DKQ==
+X-Google-Smtp-Source: AGHT+IFNofjX03PFshOlFnpjQx66GqoyaryiwJq8FABXATaObbi+yxz4F1r0OYJx+u01MI+dPhuAzw==
+X-Received: by 2002:a17:907:3e8c:b0:b04:4046:db6b with SMTP id a640c23a62f3a-b04b16bcec0mr1615749566b.45.1757585458813;
+        Thu, 11 Sep 2025 03:10:58 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b316e2d4sm98846266b.45.2025.09.11.03.10.58
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 03:10:58 -0700 (PDT)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-afcb78ead12so72833266b.1
+        for <asahi@lists.linux.dev>; Thu, 11 Sep 2025 03:10:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWyQ3nK2T50KM5JfR40HhANEDgqNCr0blqxOlHhsHlb2d0hITz/DBpP9JXmbRevd/dWqbCbUw==@lists.linux.dev
+X-Received: by 2002:a17:906:f8cf:b0:b04:bfda:e437 with SMTP id
+ a640c23a62f3a-b04bfdaf4d1mr1454520166b.32.1757585457836; Thu, 11 Sep 2025
+ 03:10:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250906-atcphy-6-17-v2-15-52c348623ef6@kernel.org>
+References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
+In-Reply-To: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
+From: Neal Gompa <neal@gompa.dev>
+Date: Thu, 11 Sep 2025 12:10:21 +0200
+X-Gmail-Original-Message-ID: <CAEg-Je_=Jzp_Rb0DwSjQ4fzYHFtOecneN6JaWgGGv8BEBPnhhw@mail.gmail.com>
+X-Gm-Features: AS18NWC94YQ20cxcK-m9v2-A3V_x77Cw9qAo7tdpDB-LrH72BSxZ_dRe35VW7q8
+Message-ID: <CAEg-Je_=Jzp_Rb0DwSjQ4fzYHFtOecneN6JaWgGGv8BEBPnhhw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/22] Apple Silicon USB3 support
+To: Sven Peter <sven@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Felipe Balbi <balbi@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Frank Li <Frank.Li@nxp.com>, Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
+	stable@kernel.org, Hector Martin <marcan@marcan.st>, R <rqou@berkeley.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 06, 2025 at 03:43:28PM +0000, Sven Peter wrote:
-> From: Hector Martin <marcan@marcan.st>
-> 
-> On Apple Silicon machines there is no control over which alt mode is
-> chosen. The CD321x' firmware negotiates the target mode on its own and
-> only lets the main CPU know after the mode has already been chosen.
-> Especially after plugging a new cable in this can result to quick mode
-> changes from e.g. power only -> USB3 only -> USB3+DisplayPort in a short
-> time. It is not possile to influence this in any way and we also do not
-> get direct access to the PDOs or VDOs exchanged via USB PD.
-> 
-> Additionally, mode changes must be tightly synchronized between DWC3 and
-> the Type C PHY and most mode changes require a full reset of DWC3 to
-> make the port work correctly.
-> On the machines the usb role change is used to reset the controller.
-> The role change is additionally done synchronously from the callback
-> instead of relying on a workqueue as usual in order to avoid any races
-> which can, in the worst case, result in resetting the entire SoC if
-> Type-C PHY and DWC3 are out of sync.
-
-This paragraph needs to be update considering the dwc3 apple glue
-driver.
-
-> To be able to control all this we trigger the entire process in the
-> correct order directly from the TIPD driver and de-bounce any mode
-> changes to avoid tearing down and re-setting DWC3 back up multiple times
-> any time a new connection is made.
-> 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Co-developed-by: Sven Peter <sven@kernel.org>
+On Sat, Sep 6, 2025 at 5:43=E2=80=AFPM Sven Peter <sven@kernel.org> wrote:
+>
+> Hi,
+>
+> With the dwc3 glue approach this is starting to look reasonable to me.
+>
+> There's still one issue (SuperSpeed devices have a 5 second delay before
+> they come up; This has been known for ages and we haven't been able to
+> identify the root cause) but otherwise both host and device mode have
+> been working quite well across a number of different devices (usb3 only,
+> usb3+dp, dp-only, usb4, and the first two combined with a broken c-to-a
+> adapter that can trigger a lot of quick plug/unplug events ;)) for me.
+>
+> With the dwc3 glue driver this series can now also be merged independentl=
+y
+> once it's ready: Patches 1-4 can go through the dwc3 tree, 5-15 through
+> tipd, 16-18 should go together through the phy tree, and I'll take the
+> DTS changes through my tree. If everyone's happy with the overall
+> approach here I can also just send these as individual series.
+>
+> A tree for testing is again available as apple-usb3-v2 at [5].
+>
+> Changes in v2:
+> - Link to v1: https://lore.kernel.org/r/20250821-atcphy-6-17-v1-0-172beda=
+182b8@kernel.org
+> - Fixed dt-binding warnings
+> - Extended the glue layer to allow control over mode switching
+> - Removed quirks added to dwc3 and implemented them as a glue
+>   driver instead as suggested by Thinh
+> - Dropped snps,dwc3 fallback compatible since this is neither compatible
+>   with the glue driver approach nor is this hardware truly compatible
+>   with snps,dwc3 unless the bootloader did a lot of heavy-lifting and
+>   left everything in just the right state
+> - Dropped atcphy dp-only compatible since this can be detected in other
+>   ways or just be driven from the dp controller once we upstream that
+> - Fixed duplicate #define in TIPD
+> - Use ioremap_np when required instead of just skipping
+>   dwc3_power_off_all_roothub_ports
+> - Dropped the change that added the USB role to typec_mux_state since
+>   the new glue driver approach no longer requires this.
+> - Cleaned up some leftover TODOs in atcphy and ran clang-format
+> - Reworked tunables.c to use a variable sized member and alloc the
+>   entire struct directly
+> - Shortened debug messages in atcphy
+> - Added DTS changes for t8112 and t600x
+> - Call typec_unregister_altmode unconditionally as it's NULL-safe
+> - Fixed arre -> arr typo in commit message
+> - Drop __func__ from cd321x_interrupt debug print
+> - Picked up Heikki's r-b tags
+>
+> Original cover letter:
+>
+> This series includes changes to dwc3, tipd and a new phy driver to enable
+> USB3 on these machines. There's also some preparations to eventually enab=
+le
+> DisplayPort AltMode and Thunderbolt but those need future work.
+> Overall, this entire setup is quite a mess and we've tried to make it wor=
+k
+> for quite a while now and finally came up with this solution here.
+>
+> The USB3 controller is a very special kind of broken: It never sees any p=
+ort
+> plug/unplug events that should normally arrive directly at dwc3.
+> Additionally, it needs to go through a full hard reset for every new conn=
+ection
+> and most mode change. Details on why this is required are in the commit
+> description.
+>
+> On top of that we need to keep the Type-C PHY bringup and dwc3 bringup ti=
+ghtly
+> synchronized. If there's a race between the two systems at best the port =
+stops
+> working until a system reboot and at worst there's a watchdog somewhere t=
+hat
+> forcefully resets the entire SoC after ~5 seconds. I've only seen the lat=
+ter
+> when bringing up thunderbolt so far but wouldn't be surprised if it happe=
+ns
+> with just usb3 as well.
+>
+> The entire bringup/bringup is orchestrated by a TIPD variant called CD321=
+x
+> found on these machines. Unlike the original chips we however get no cont=
+rol
+> over which mode is negotiated or are even able to see the PDOs or VDOs. W=
+e only
+> get to know once the mode has been negotiated and have to act accordingly=
+. I
+> even went as far as dumping the firmware from the chip to confirm this [1=
+][2].
+>
+> Hector wrote another summary of this early in January as well [3] and thi=
+s
+> series is the only way we've been able to bring these ports up reliably.
+> It's not pretty in some places but I have no other idea how to implement =
+this,
+> hence the RFC tag. Happy to discuss other approaches as well.
+>
+> Both the PHY and the TIPD driver already include changes for DisplayPort
+> AltMode and USB4/Thunderbolt. These need additional work though but
+> since we can't control the mode devices end up in we can already merge
+> them now.
+>
+> I used phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml as a template for the dt-bi=
+nding
+> for atcphy (especially the ports). That was the most recent binding I fou=
+nd for
+> a PHY with similar features.
+>
+> In order to test this you need to run the latest m1n1 master [4] because =
+the
+> 1.5.0 release does not include the code that lifts the tunables from Appl=
+e's
+> device tree. A kernel tree for testing is also tagged as apple-usb3-v1 at=
+ [5].
+>
+> If the overall approach here is fine and no one can think of a better way=
+ to
+> support this SoC I'll drop the RFC and include the dts changes for the ot=
+her
+> M1 and M2 machines as well.
+>
+> Best,
+>
+> Sven
+>
+> [1] https://social.treehouse.systems/@sven/111092587315536174
+> [2] https://social.treehouse.systems/@sven/111096589846468888
+> [3] https://lore.kernel.org/all/fda8b831-1ffc-4087-8e7b-d97779b3ecc5@marc=
+an.st/
+> [4] https://github.com/AsahiLinux/m1n1
+> [5] https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git
+>
 > Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
->  drivers/usb/typec/tipd/core.c | 297 +++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 293 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index b558fc5ecbc35a9dabbf33c444f38173740af7c3..95218e8be65dbbb594465961b1fda76eed1e266c 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -17,6 +17,7 @@
->  #include <linux/usb/typec.h>
->  #include <linux/usb/typec_altmode.h>
->  #include <linux/usb/typec_dp.h>
-> +#include <linux/usb/typec_mux.h>
->  #include <linux/usb/typec_tbt.h>
->  #include <linux/usb/role.h>
->  #include <linux/workqueue.h>
-> @@ -120,6 +121,9 @@ struct tps6598x_intel_vid_status_reg {
->  #define TPS_TASK_TIMEOUT		1
->  #define TPS_TASK_REJECTED		3
->  
-> +/* Debounce delay for mode changes, in milliseconds */
-> +#define CD321X_DEBOUNCE_DELAY_MS 500
-> +
->  enum {
->  	TPS_MODE_APP,
->  	TPS_MODE_BOOT,
-> @@ -145,6 +149,7 @@ struct tipd_data {
->  	irq_handler_t irq_handler;
->  	u64 irq_mask1;
->  	size_t tps_struct_size;
-> +	void (*remove)(struct tps6598x *tps);
->  	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
->  	void (*unregister_port)(struct tps6598x *tps);
->  	void (*trace_data_status)(u32 status);
-> @@ -155,6 +160,7 @@ struct tipd_data {
->  	int (*switch_power_state)(struct tps6598x *tps, u8 target_state);
->  	bool (*read_data_status)(struct tps6598x *tps);
->  	int (*reset)(struct tps6598x *tps);
-> +	int (*connect)(struct tps6598x *tps, u32 status);
->  };
->  
->  struct tps6598x {
-> @@ -183,6 +189,17 @@ struct tps6598x {
->  	const struct tipd_data *data;
->  };
->  
-> +struct cd321x_status {
-> +	u32 status;
-> +	u32 pwr_status;
-> +	u32 data_status;
-> +	u32 status_changed;
-> +	struct usb_pd_identity partner_identity;
-> +	struct tps6598x_dp_sid_status_reg dp_sid_status;
-> +	struct tps6598x_intel_vid_status_reg intel_vid_status;
-> +	struct tps6598x_usb4_status_reg usb4_status;
-> +};
-> +
->  struct cd321x {
->  	struct tps6598x tps;
->  
-> @@ -192,6 +209,13 @@ struct cd321x {
->  
->  	struct typec_altmode *port_altmode_dp;
->  	struct typec_altmode *port_altmode_tbt;
-> +
-> +	struct typec_mux *mux;
-> +	struct typec_mux_state state;
-> +
-> +	struct cd321x_status update_status;
-> +	struct delayed_work update_work;
-> +	struct usb_pd_identity cur_partner_identity;
->  };
->  
->  static enum power_supply_property tps6598x_psy_props[] = {
-> @@ -613,9 +637,229 @@ static void tps6598x_handle_plug_event(struct tps6598x *tps, u32 status)
->  	}
->  }
->  
-> +static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status *st)
-> +{
-> +	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
-> +
-> +	if (!(st->data_status & TPS_DATA_STATUS_DATA_CONNECTION)) {
-> +		if (cd321x->state.mode == TYPEC_STATE_SAFE)
-> +			return;
-> +		cd321x->state.alt = NULL;
-> +		cd321x->state.mode = TYPEC_STATE_SAFE;
-> +		cd321x->state.data = NULL;
-> +		typec_mux_set(cd321x->mux, &cd321x->state);
-> +	} else if (st->data_status & TPS_DATA_STATUS_DP_CONNECTION) {
-> +		struct typec_displayport_data dp_data;
-> +		unsigned long mode;
-> +
-> +		switch (TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(st->data_status)) {
-> +		case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_A:
-> +			mode = TYPEC_DP_STATE_A;
-> +			break;
-> +		case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_B:
-> +			mode = TYPEC_DP_STATE_B;
-> +			break;
-> +		case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_C:
-> +			mode = TYPEC_DP_STATE_C;
-> +			break;
-> +		case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_D:
-> +			mode = TYPEC_DP_STATE_D;
-> +			break;
-> +		case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_E:
-> +			mode = TYPEC_DP_STATE_E;
-> +			break;
-> +		case TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_F:
-> +			mode = TYPEC_DP_STATE_F;
-> +			break;
-> +		default:
-> +			dev_err(tps->dev, "Invalid DP pin assignment\n");
-> +			return;
-> +		}
-> +
-> +		if (cd321x->state.alt == cd321x->port_altmode_dp &&
-> +		   cd321x->state.mode == mode) {
-> +			return;
-> +		}
-> +
-> +		dp_data.status = le32_to_cpu(st->dp_sid_status.status_rx);
-> +		dp_data.conf = le32_to_cpu(st->dp_sid_status.configure);
-> +		cd321x->state.alt = cd321x->port_altmode_dp;
-> +		cd321x->state.data = &dp_data;
+> To: Sven Peter <sven@kernel.org>
+> To: Janne Grunau <j@jannau.net>
+> To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> To: Neal Gompa <neal@gompa.dev>
+> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> To: Rob Herring <robh@kernel.org>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> To: Frank Li <Frank.Li@nxp.com>
+> To: Ran Wang <ran.wang_1@nxp.com>
+> To: Peter Chen <peter.chen@nxp.com>
+> To: Philipp Zabel <p.zabel@pengutronix.de>
+> To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> To: Vinod Koul <vkoul@kernel.org>
+> To: Kishon Vijay Abraham I <kishon@kernel.org>
+> Cc: asahi@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-phy@lists.infradead.org
+>
+> ---
+> Hector Martin (5):
+>       usb: typec: tipd: Update partner identity when power status was upd=
+ated
+>       usb: typec: tipd: Use read_power_status function in probe
+>       usb: typec: tipd: Read data status in probe and cache its value
+>       usb: typec: tipd: Handle mode transitions for CD321x
+>       arm64: dts: apple: t8103: Mark ATC USB AON domains as always-on
+>
+> Janne Grunau (2):
+>       arm64: dts: apple: t8112: Add Apple Type-C PHY and dwc3 nodes
+>       arm64: dts: apple: t600x: Add Apple Type-C PHY and dwc3 nodes
+>
+> Sven Peter (15):
+>       dt-bindings: usb: Add Apple dwc3
+>       usb: dwc3: dwc3_power_off_all_roothub_ports: Use ioremap_np when re=
+quired
+>       usb: dwc3: glue: Allow more fine grained control over mode switches
+>       usb: dwc3: Add Apple Silicon DWC3 glue layer driver
+>       usb: typec: tipd: Clear interrupts first
+>       usb: typec: tipd: Move initial irq mask to tipd_data
+>       usb: typec: tipd: Move switch_power_state to tipd_data
+>       usb: typec: tipd: Trace data status for CD321x correctly
+>       usb: typec: tipd: Add cd321x struct with separate size
+>       usb: typec: tipd: Read USB4, Thunderbolt and DisplayPort status for=
+ cd321x
+>       usb: typec: tipd: Register DisplayPort and Thunderbolt altmodes for=
+ cd321x
+>       dt-bindings: phy: Add Apple Type-C PHY
+>       soc: apple: Add hardware tunable support
+>       phy: apple: Add Apple Type-C PHY
+>       arm64: dts: apple: t8103: Add Apple Type-C PHY and dwc3 nodes
+>
+>  .../devicetree/bindings/phy/apple,atcphy.yaml      |  213 ++
+>  .../devicetree/bindings/usb/apple,dwc3.yaml        |   80 +
+>  MAINTAINERS                                        |    4 +
+>  arch/arm64/boot/dts/apple/t6001.dtsi               |    1 +
+>  arch/arm64/boot/dts/apple/t6002-j375d.dts          |  197 +-
+>  arch/arm64/boot/dts/apple/t6002.dtsi               |    1 +
+>  arch/arm64/boot/dts/apple/t600x-dieX.dtsi          |  212 ++
+>  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi     |  236 +++
+>  arch/arm64/boot/dts/apple/t600x-j375.dtsi          |  275 +++
+>  arch/arm64/boot/dts/apple/t8103-j274.dts           |   12 +
+>  arch/arm64/boot/dts/apple/t8103-j293.dts           |   12 +
+>  arch/arm64/boot/dts/apple/t8103-j313.dts           |   12 +
+>  arch/arm64/boot/dts/apple/t8103-j456.dts           |   12 +
+>  arch/arm64/boot/dts/apple/t8103-j457.dts           |   12 +
+>  arch/arm64/boot/dts/apple/t8103-jxxx.dtsi          |  137 ++
+>  arch/arm64/boot/dts/apple/t8103-pmgr.dtsi          |    2 +
+>  arch/arm64/boot/dts/apple/t8103.dtsi               |  105 +
+>  arch/arm64/boot/dts/apple/t8112-j413.dts           |   12 +
+>  arch/arm64/boot/dts/apple/t8112-j473.dts           |   11 +
+>  arch/arm64/boot/dts/apple/t8112-j493.dts           |   12 +
+>  arch/arm64/boot/dts/apple/t8112-jxxx.dtsi          |  137 ++
+>  arch/arm64/boot/dts/apple/t8112.dtsi               |  105 +
+>  drivers/phy/Kconfig                                |    1 +
+>  drivers/phy/Makefile                               |    1 +
+>  drivers/phy/apple/Kconfig                          |   14 +
+>  drivers/phy/apple/Makefile                         |    4 +
+>  drivers/phy/apple/atc.c                            | 2214 ++++++++++++++=
+++++++
+>  drivers/soc/apple/Kconfig                          |    4 +
+>  drivers/soc/apple/Makefile                         |    3 +
+>  drivers/soc/apple/tunable.c                        |   71 +
+>  drivers/usb/dwc3/Kconfig                           |   11 +
+>  drivers/usb/dwc3/Makefile                          |    1 +
+>  drivers/usb/dwc3/core.c                            |   16 +-
+>  drivers/usb/dwc3/dwc3-apple.c                      |  425 ++++
+>  drivers/usb/dwc3/gadget.c                          |    2 +
+>  drivers/usb/dwc3/glue.h                            |   14 +
+>  drivers/usb/dwc3/host.c                            |    7 +-
+>  drivers/usb/typec/tipd/core.c                      |  564 ++++-
+>  drivers/usb/typec/tipd/tps6598x.h                  |    5 +
+>  drivers/usb/typec/tipd/trace.h                     |   39 +
+>  include/linux/soc/apple/tunable.h                  |   60 +
+>  41 files changed, 5192 insertions(+), 64 deletions(-)
+> ---
+> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+> change-id: 20250820-atcphy-6-17-b7eaf23be17c
 
-&dp_data points to the stack. As it's no longer used after the
-typec_mux_set call set cd321x->state.data to NULL to clear the dangling
-pointer.
+Series LGTM.
 
-> +		cd321x->state.mode = mode;
-> +		typec_mux_set(cd321x->mux, &cd321x->state);
-> +	} else if (st->data_status & TPS_DATA_STATUS_TBT_CONNECTION) {
-> +		struct typec_thunderbolt_data tbt_data;
-> +
-> +		if (cd321x->state.alt == cd321x->port_altmode_tbt &&
-> +		   cd321x->state.mode == TYPEC_TBT_MODE)
-> +			return;
-> +
-> +		tbt_data.cable_mode = le16_to_cpu(st->intel_vid_status.cable_mode);
-> +		tbt_data.device_mode = le16_to_cpu(st->intel_vid_status.device_mode);
-> +		tbt_data.enter_vdo = le16_to_cpu(st->intel_vid_status.enter_vdo);
-> +		cd321x->state.alt = cd321x->port_altmode_tbt;
-> +		cd321x->state.mode = TYPEC_TBT_MODE;
-> +		cd321x->state.data = &tbt_data;
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
-same issue as with dp_data
 
-> +		typec_mux_set(cd321x->mux, &cd321x->state);
-> +	} else if (st->data_status & CD321X_DATA_STATUS_USB4_CONNECTION) {
-> +		struct enter_usb_data eusb_data;
-> +
-> +		if (cd321x->state.alt == NULL && cd321x->state.mode == TYPEC_MODE_USB4)
-> +			return;
-> +
-> +		eusb_data.eudo = le32_to_cpu(st->usb4_status.eudo);
-> +		eusb_data.active_link_training =
-> +			!!(st->data_status & TPS_DATA_STATUS_ACTIVE_LINK_TRAIN);
-> +
-> +		cd321x->state.alt = NULL;
-> +		cd321x->state.data = &eusb_data;
-
-and again
-
-> +		cd321x->state.mode = TYPEC_MODE_USB4;
-> +		typec_mux_set(cd321x->mux, &cd321x->state);
-> +	} else {
-> +		if (cd321x->state.alt == NULL && cd321x->state.mode == TYPEC_STATE_USB)
-> +			return;
-> +		cd321x->state.alt = NULL;
-> +		cd321x->state.mode = TYPEC_STATE_USB;
-> +		cd321x->state.data = NULL;
-> +		typec_mux_set(cd321x->mux, &cd321x->state);
-> +	}
-> +}
-> +
-> +static void cd321x_update_work(struct work_struct *work)
-> +{
-> +	struct cd321x *cd321x = container_of(to_delayed_work(work),
-> +					    struct cd321x, update_work);
-> +	struct tps6598x *tps = &cd321x->tps;
-> +	struct cd321x_status st;
-> +
-> +	guard(mutex)(&tps->lock);
-> +
-> +	st = cd321x->update_status;
-> +	cd321x->update_status.status_changed = 0;
-> +
-> +	bool old_connected = !!tps->partner;
-> +	bool new_connected = st.status & TPS_STATUS_PLUG_PRESENT;
-> +	bool was_disconnected = st.status_changed & TPS_STATUS_PLUG_PRESENT;
-> +
-> +	bool usb_connection = st.data_status &
-> +			      (TPS_DATA_STATUS_USB2_CONNECTION | TPS_DATA_STATUS_USB3_CONNECTION);
-> +
-> +	enum usb_role old_role = usb_role_switch_get_role(tps->role_sw);
-> +	enum usb_role new_role = USB_ROLE_NONE;
-> +	enum typec_pwr_opmode pwr_opmode = TYPEC_PWR_MODE_USB;
-> +	enum typec_orientation orientation = TYPEC_ORIENTATION_NONE;
-> +
-> +	if (usb_connection) {
-> +		if (tps->data_status & TPS_DATA_STATUS_USB_DATA_ROLE)
-> +			new_role = USB_ROLE_DEVICE;
-> +		else
-> +			new_role = USB_ROLE_HOST;
-> +	}
-> +
-> +	if (new_connected) {
-> +		pwr_opmode = TPS_POWER_STATUS_PWROPMODE(st.pwr_status);
-> +		orientation = TPS_STATUS_TO_UPSIDE_DOWN(st.status) ?
-> +			TYPEC_ORIENTATION_REVERSE : TYPEC_ORIENTATION_NORMAL;
-> +	}
-> +
-> +	bool is_pd = pwr_opmode == TYPEC_PWR_MODE_PD;
-> +	bool partner_changed = old_connected && new_connected &&
-> +		(was_disconnected ||
-> +		 (is_pd && memcmp(&st.partner_identity,
-> +				  &cd321x->cur_partner_identity, sizeof(struct usb_pd_identity))));
-> +
-> +	/* If we are switching from an active role, transition to USB_ROLE_NONE first */
-> +	if (old_role != USB_ROLE_NONE && (new_role != old_role || was_disconnected))
-> +		usb_role_switch_set_role(tps->role_sw, USB_ROLE_NONE);
-> +
-> +	/* Process partner disconnection or change */
-> +	if (!new_connected || partner_changed) {
-> +		if (!IS_ERR(tps->partner))
-> +			typec_unregister_partner(tps->partner);
-> +		tps->partner = NULL;
-> +	}
-> +
-> +	/* If there was a disconnection, set PHY to off */
-> +	if (!new_connected || was_disconnected) {
-> +		cd321x->state.alt = NULL;
-> +		cd321x->state.mode = TYPEC_STATE_SAFE;
-> +		cd321x->state.data = NULL;
-> +		typec_set_mode(tps->port, TYPEC_STATE_SAFE);
-> +	}
-> +
-> +	/* Update Type-C properties */
-> +	typec_set_pwr_opmode(tps->port, pwr_opmode);
-> +	typec_set_pwr_role(tps->port, TPS_STATUS_TO_TYPEC_PORTROLE(st.status));
-> +	typec_set_vconn_role(tps->port, TPS_STATUS_TO_TYPEC_VCONN(st.status));
-> +	typec_set_orientation(tps->port, orientation);
-> +	typec_set_data_role(tps->port, TPS_STATUS_TO_TYPEC_DATAROLE(st.status));
-> +	power_supply_changed(tps->psy);
-> +
-> +	/* If the plug is disconnected, we are done */
-> +	if (!new_connected)
-> +		return;
-> +
-> +	/* Set up partner if we were previously disconnected (or changed). */
-> +	if (!tps->partner) {
-> +		struct typec_partner_desc desc;
-> +
-> +		desc.usb_pd = is_pd;
-> +		desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
-> +		desc.identity = NULL;
-> +
-> +		if (desc.usb_pd)
-> +			desc.identity = &st.partner_identity;
-> +
-> +		tps->partner = typec_register_partner(tps->port, &desc);
-> +		if (IS_ERR(tps->partner))
-> +			dev_warn(tps->dev, "%s: failed to register partnet\n", __func__);
-> +
-> +		if (desc.identity) {
-> +			typec_partner_set_identity(tps->partner);
-> +			cd321x->cur_partner_identity = st.partner_identity;
-> +		}
-> +	}
-> +
-> +	/* Update the TypeC MUX/PHY state */
-> +	cd321x_typec_update_mode(tps, &st);
-> +
-> +	/* Launch the USB role switch */
-> +	usb_role_switch_set_role(tps->role_sw, new_role);
-> +
-> +	power_supply_changed(tps->psy);
-> +}
-> +
-> +static void cd321x_queue_status(struct tps6598x *tps)
-> +{
-> +	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
-> +
-> +	cd321x->update_status.status_changed |= cd321x->update_status.status ^ tps->status;
-> +
-> +	cd321x->update_status.status = tps->status;
-> +	cd321x->update_status.pwr_status = tps->pwr_status;
-> +	cd321x->update_status.data_status = tps->data_status;
-> +
-> +	cd321x->update_status.partner_identity = tps->partner_identity;
-> +	cd321x->update_status.dp_sid_status = cd321x->dp_sid_status;
-> +	cd321x->update_status.intel_vid_status = cd321x->intel_vid_status;
-> +	cd321x->update_status.usb4_status = cd321x->usb4_status;
-> +}
-> +
-> +static int cd321x_connect(struct tps6598x *tps, u32 status)
-> +{
-> +	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
-> +
-> +	tps->status = status;
-> +	cd321x_queue_status(tps);
-> +	schedule_delayed_work(&cd321x->update_work, msecs_to_jiffies(CD321X_DEBOUNCE_DELAY_MS));
-> +
-> +	return 0;
-> +}
-> +
->  static irqreturn_t cd321x_interrupt(int irq, void *data)
->  {
->  	struct tps6598x *tps = data;
-> +	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
->  	u64 event = 0;
->  	u32 status;
->  	int ret;
-> @@ -652,9 +896,15 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
->  		if (!tps->data->read_data_status(tps))
->  			goto err_unlock;
->  
-> -	/* Handle plug insert or removal */
-> -	if (event & APPLE_CD_REG_INT_PLUG_EVENT)
-> -		tps6598x_handle_plug_event(tps, status);
-> +	tps->status = status;
-> +	cd321x_queue_status(tps);
-> +
-> +	/*
-> +	 * Cancel pending work if not already running.
-> +	 * We will requeue the work after CD321X_DEBOUNCE_DELAY_MS regardless.
-> +	 */
-> +	cancel_delayed_work(&cd321x->update_work);
-
-Should the work be canceled before updating tps->status and calling
-cd321x_queue_status()? If so the status updates and rescheduling the
-work can be handled by calling cd321x_connect().
-
-> +	schedule_delayed_work(&cd321x->update_work, msecs_to_jiffies(CD321X_DEBOUNCE_DELAY_MS));
->  
->  err_unlock:
->  	mutex_unlock(&tps->lock);
-> @@ -1014,6 +1264,13 @@ cd321x_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
->  	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
->  	int ret;
->  
-> +	/*
-> +	 * This is only called from _probe such that update_work can be
-> +	 * initialized and then scheduled for the first time to handle
-> +	 * plugs already connected at boot time.
-> +	 */
-
-this comment seems to be outdated and at the wrong place
-
-> +	INIT_DELAYED_WORK(&cd321x->update_work, cd321x_update_work);
-> +
->  	ret = tps6598x_register_port(tps, fwnode);
->  	if (ret)
->  		return ret;
-> @@ -1022,10 +1279,26 @@ cd321x_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
->  	if (ret)
->  		goto err_unregister_port;
->  
-> +	cd321x->mux = fwnode_typec_mux_get(fwnode);
-> +	if (IS_ERR(cd321x->mux)) {
-> +		ret = PTR_ERR(cd321x->mux);
-> +		goto err_unregister_altmodes;
-> +	}
-> +
-> +	cd321x->state.alt = NULL;
-> +	cd321x->state.mode = TYPEC_STATE_SAFE;
-> +	cd321x->state.data = NULL;
->  	typec_set_mode(tps->port, TYPEC_STATE_SAFE);
->  
->  	return 0;
->  
-> +err_unregister_altmodes:
-> +	if (cd321x->port_altmode_dp)
-> +		typec_unregister_altmode(cd321x->port_altmode_dp);
-
-typec_unregister_altmode() is ERR / NULL safe so the if is not needed
-
-> +	if (cd321x->port_altmode_tbt)
-> +		typec_unregister_altmode(cd321x->port_altmode_tbt);
-> +	cd321x->port_altmode_dp = NULL;
-> +	cd321x->port_altmode_tbt = NULL;
->  err_unregister_port:
->  	typec_unregister_port(tps->port);
->  	return ret;
-> @@ -1042,6 +1315,8 @@ cd321x_unregister_port(struct tps6598x *tps)
->  {
->  	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
->  
-> +	if (cd321x->mux)
-> +		typec_mux_put(cd321x->mux);
-
-typec_mux_put is ERR / NULL safe so the if is not needed
-for consistency with port_altmode_* the dangling pointer should be
-cleared to NULL
-
-Janne
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
