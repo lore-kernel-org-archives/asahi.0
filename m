@@ -1,329 +1,155 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB7C30FC36
-	for <asahi@lists.linux.dev>; Thu, 11 Sep 2025 10:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F9E2848B4;
+	Fri, 12 Sep 2025 09:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757585465; cv=none; b=HnTu2ikk8mMgVJsXZ+zxQpdwTvvaWA8EiH83ZBZ2/yVZFMzq5wUvS2URrNQs3qcequGAFLXMla3C5on7jTzDKUvEeiBqw6bHsWDU22GtNzxPePuG9eniDZTrE2H4XM0x7ICvj+enIR9F4oBTZSkJO+FmMCiVpYyoSlIm3Z9O7t0=
+	t=1757669507; cv=none; b=UKZIA24I3cgOiR5xHITFq3td6ODh/lt5xPLFJQ++49ANkIiaOES2EGOgDtfIJxTJriAkU6LLZwARKPefdt67vDKXDrhTqxPpY3ugHqeflgWfPnZKe7FmJvt82CstGHTy22fUV5daefjy7tqFoncbF+Tl8qDLxo7JYYFNN1KR/fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757585465; c=relaxed/simple;
-	bh=6KAwVRLW5Ywsgo5DBuCSoDqBIba161zb+P1ZIE5x5XQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pZYIkjlWQdLgmSkaYW776o0afo5c5V67zfM0QZGzuxmnKE2rDEUAShEJhGpHAoOBEv1MfAvA2r9RKSI/yR8GvRsmkby0nb9rBZ0AeMyGwMCNfaxmvqLYUKSfwh6+1A+WD4tXblum7AIfNh9/KtlkzhcTT/Li/H4wMHndiHasiVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b0787fa12e2so77314866b.2
-        for <asahi@lists.linux.dev>; Thu, 11 Sep 2025 03:11:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757585459; x=1758190259;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S7ly2Efr3aD8QyxPSswHNwfdGEyG+Grnl+9kaAGf3Cs=;
-        b=nKxHXLZsg11aRadGMyWl//gG1h9tNCPFJ0/yH9HLDfALuV/A7z5AHZOPC+pkCeEE6U
-         erSoOzCwPD2TQ/42SfnHNkOnL0amiM4nPPvWOOxyOKK6wmKjPSstlwd4eF03wjloSyyt
-         giD59D62QMZqUaox6p2y7rwUpfYD1oWE/2NCqvOP3i9X/YIwLd386kBnm3c3MIBPCiHB
-         XSqHbhrn28PtcwvqgASA1ZZHOdVuhioE9vetfMf2zcRqr4W2sETZ4sk2GOui3dQMkV80
-         JR3KoqbcqSlhpWdVaw6RazFIBc9sxj6j6WZO0erlV5xyBH4PsBMossJt/RhlkyVz+8WX
-         Z5RA==
-X-Forwarded-Encrypted: i=1; AJvYcCXHsQrKtdrf90A3raeRs4M7ZA2jZd0cCUyRY0D9StoC4RlW/6XhpkZGhBpnMB3mN7smG255QA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8hWxDh94pqnFfXqJy1AeGwMQwde696wBWJ9gBs1/GQNyl+MGV
-	uWSRrkjcDWlCfDvtmmNcrPYtaNPXmUADjLeyO0N+ZNGLEank1A8FMtj2yAKMFzdfgGsU8w==
-X-Gm-Gg: ASbGncu4tTk50UkvRqZx4o6WjOli2Y2adEm/0bcLOmVbeBaIQK/wrLRkXgD041z5eU1
-	JPQ+3YRyuC5X811ceuJ39K/gsKxIbGIaUgCLV8RB7DS8GpogTn1KW29vtrN/CsSFKkwlXZGGr6O
-	cSwGM5gUPE9SSnQbGLVIhtJA5Cqv6aAzmNieeu5koIq3MmHdH578ZNaYb0xkG/gpN/QVEE+MQOi
-	dseAeb/HYTa6FRt6V+PLq+QcfmgOwtZOFPCNK8OJ/gsbNxUIwk8Ezcowf+cQ2Ul0OWMpuO2Z07M
-	9325Ap+aBc1JeroA9pVww9K7DlhkF0JN8avGBi9wYpd5qfhh7UuJDwO5d5f87hYci4Zflg55wB6
-	I1GX44CZuwPWZv8TEB/XDWObE4IV5Jw7j8eb7wKOk0d5YJEm01xAu0o2x5PPCV7GKar9Esop1qO
-	ZrE+3q5JxsZwS71bcSAhfq8Hej/K2DKQ==
-X-Google-Smtp-Source: AGHT+IFNofjX03PFshOlFnpjQx66GqoyaryiwJq8FABXATaObbi+yxz4F1r0OYJx+u01MI+dPhuAzw==
-X-Received: by 2002:a17:907:3e8c:b0:b04:4046:db6b with SMTP id a640c23a62f3a-b04b16bcec0mr1615749566b.45.1757585458813;
-        Thu, 11 Sep 2025 03:10:58 -0700 (PDT)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b316e2d4sm98846266b.45.2025.09.11.03.10.58
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Sep 2025 03:10:58 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-afcb78ead12so72833266b.1
-        for <asahi@lists.linux.dev>; Thu, 11 Sep 2025 03:10:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWyQ3nK2T50KM5JfR40HhANEDgqNCr0blqxOlHhsHlb2d0hITz/DBpP9JXmbRevd/dWqbCbUw==@lists.linux.dev
-X-Received: by 2002:a17:906:f8cf:b0:b04:bfda:e437 with SMTP id
- a640c23a62f3a-b04bfdaf4d1mr1454520166b.32.1757585457836; Thu, 11 Sep 2025
- 03:10:57 -0700 (PDT)
+	s=arc-20240116; t=1757669507; c=relaxed/simple;
+	bh=cZZSj/PLAmvPikniIesMdJfhqh3VOpUH71TpGrecZ8M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tIUScZ6Gzx9bxdDLH7qle5FByA8HOy260Awo0S7Oxp4PHfo+Ao6tQmigQBbIokDw0n6b0hp6GeL5M5lk5HzJ2BvuStC1kygrHoCX5vof//FsXAzmY+OrKjvhDBl4NyqVaa0zCR/EMPEbydokKZyLJO15Mdm+U2v+NSDoqSEsKsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDl2A0LO; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDl2A0LO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB683C4CEF1;
+	Fri, 12 Sep 2025 09:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757669506;
+	bh=cZZSj/PLAmvPikniIesMdJfhqh3VOpUH71TpGrecZ8M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oDl2A0LOXO/1X2zNKv7aRnP0NHdkbAsbDDgwtZzvwmo12fpeFM2E3/tK2+Vtp6jDf
+	 LtHjqH3FhqX9XCd49ZEoi9d2wFua1A1xl2NpXDXII2TJgNe2FaEGcY3H9R3K+d/kSk
+	 i5GbpzjLt0Me2HD69Wbc5uGIc3TwgDS6JZFlUf4XXoZCI/2uPJn9w8cEPAn3NjkatI
+	 mrNqigkcd6DbPU1UEsK3MA+M2bqLjMfjb8ArXgRSIyAq3CjGnxkE8s7LGICh/mIf7j
+	 5pUu4Qe144CAGGymifmDXQ3yvwNpleByOIrvrEZ2XoQVUNyLe8+LbR96tJeBNXKw/y
+	 Se8H2lBXfymbQ==
+Date: Fri, 12 Sep 2025 11:31:43 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Michael Turquette <mturquette@baylibre.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+	linux-clk@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 20/37] dt-bindings: pwm: apple,s5l-fpwm: Add t6020-fpwm
+ compatible
+Message-ID: <ahxdf3l6zvmjp2nlgklg3go7biaimuz7qh5upnhohrrbrg62e6@gmi3pmbccwwe>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-20-507ba4c4b98e@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
-In-Reply-To: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
-From: Neal Gompa <neal@gompa.dev>
-Date: Thu, 11 Sep 2025 12:10:21 +0200
-X-Gmail-Original-Message-ID: <CAEg-Je_=Jzp_Rb0DwSjQ4fzYHFtOecneN6JaWgGGv8BEBPnhhw@mail.gmail.com>
-X-Gm-Features: AS18NWC94YQ20cxcK-m9v2-A3V_x77Cw9qAo7tdpDB-LrH72BSxZ_dRe35VW7q8
-Message-ID: <CAEg-Je_=Jzp_Rb0DwSjQ4fzYHFtOecneN6JaWgGGv8BEBPnhhw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/22] Apple Silicon USB3 support
-To: Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Felipe Balbi <balbi@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Frank Li <Frank.Li@nxp.com>, Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
-	stable@kernel.org, Hector Martin <marcan@marcan.st>, R <rqou@berkeley.edu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hd4ybrkt7tr5jevb"
+Content-Disposition: inline
+In-Reply-To: <20250828-dt-apple-t6020-v1-20-507ba4c4b98e@jannau.net>
+
+
+--hd4ybrkt7tr5jevb
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 20/37] dt-bindings: pwm: apple,s5l-fpwm: Add t6020-fpwm
+ compatible
+MIME-Version: 1.0
 
-On Sat, Sep 6, 2025 at 5:43=E2=80=AFPM Sven Peter <sven@kernel.org> wrote:
->
-> Hi,
->
-> With the dwc3 glue approach this is starting to look reasonable to me.
->
-> There's still one issue (SuperSpeed devices have a 5 second delay before
-> they come up; This has been known for ages and we haven't been able to
-> identify the root cause) but otherwise both host and device mode have
-> been working quite well across a number of different devices (usb3 only,
-> usb3+dp, dp-only, usb4, and the first two combined with a broken c-to-a
-> adapter that can trigger a lot of quick plug/unplug events ;)) for me.
->
-> With the dwc3 glue driver this series can now also be merged independentl=
-y
-> once it's ready: Patches 1-4 can go through the dwc3 tree, 5-15 through
-> tipd, 16-18 should go together through the phy tree, and I'll take the
-> DTS changes through my tree. If everyone's happy with the overall
-> approach here I can also just send these as individual series.
->
-> A tree for testing is again available as apple-usb3-v2 at [5].
->
-> Changes in v2:
-> - Link to v1: https://lore.kernel.org/r/20250821-atcphy-6-17-v1-0-172beda=
-182b8@kernel.org
-> - Fixed dt-binding warnings
-> - Extended the glue layer to allow control over mode switching
-> - Removed quirks added to dwc3 and implemented them as a glue
->   driver instead as suggested by Thinh
-> - Dropped snps,dwc3 fallback compatible since this is neither compatible
->   with the glue driver approach nor is this hardware truly compatible
->   with snps,dwc3 unless the bootloader did a lot of heavy-lifting and
->   left everything in just the right state
-> - Dropped atcphy dp-only compatible since this can be detected in other
->   ways or just be driven from the dp controller once we upstream that
-> - Fixed duplicate #define in TIPD
-> - Use ioremap_np when required instead of just skipping
->   dwc3_power_off_all_roothub_ports
-> - Dropped the change that added the USB role to typec_mux_state since
->   the new glue driver approach no longer requires this.
-> - Cleaned up some leftover TODOs in atcphy and ran clang-format
-> - Reworked tunables.c to use a variable sized member and alloc the
->   entire struct directly
-> - Shortened debug messages in atcphy
-> - Added DTS changes for t8112 and t600x
-> - Call typec_unregister_altmode unconditionally as it's NULL-safe
-> - Fixed arre -> arr typo in commit message
-> - Drop __func__ from cd321x_interrupt debug print
-> - Picked up Heikki's r-b tags
->
-> Original cover letter:
->
-> This series includes changes to dwc3, tipd and a new phy driver to enable
-> USB3 on these machines. There's also some preparations to eventually enab=
-le
-> DisplayPort AltMode and Thunderbolt but those need future work.
-> Overall, this entire setup is quite a mess and we've tried to make it wor=
-k
-> for quite a while now and finally came up with this solution here.
->
-> The USB3 controller is a very special kind of broken: It never sees any p=
-ort
-> plug/unplug events that should normally arrive directly at dwc3.
-> Additionally, it needs to go through a full hard reset for every new conn=
-ection
-> and most mode change. Details on why this is required are in the commit
-> description.
->
-> On top of that we need to keep the Type-C PHY bringup and dwc3 bringup ti=
-ghtly
-> synchronized. If there's a race between the two systems at best the port =
-stops
-> working until a system reboot and at worst there's a watchdog somewhere t=
-hat
-> forcefully resets the entire SoC after ~5 seconds. I've only seen the lat=
-ter
-> when bringing up thunderbolt so far but wouldn't be surprised if it happe=
-ns
-> with just usb3 as well.
->
-> The entire bringup/bringup is orchestrated by a TIPD variant called CD321=
-x
-> found on these machines. Unlike the original chips we however get no cont=
-rol
-> over which mode is negotiated or are even able to see the PDOs or VDOs. W=
-e only
-> get to know once the mode has been negotiated and have to act accordingly=
-. I
-> even went as far as dumping the firmware from the chip to confirm this [1=
-][2].
->
-> Hector wrote another summary of this early in January as well [3] and thi=
-s
-> series is the only way we've been able to bring these ports up reliably.
-> It's not pretty in some places but I have no other idea how to implement =
-this,
-> hence the RFC tag. Happy to discuss other approaches as well.
->
-> Both the PHY and the TIPD driver already include changes for DisplayPort
-> AltMode and USB4/Thunderbolt. These need additional work though but
-> since we can't control the mode devices end up in we can already merge
-> them now.
->
-> I used phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml as a template for the dt-bi=
-nding
-> for atcphy (especially the ports). That was the most recent binding I fou=
-nd for
-> a PHY with similar features.
->
-> In order to test this you need to run the latest m1n1 master [4] because =
-the
-> 1.5.0 release does not include the code that lifts the tunables from Appl=
-e's
-> device tree. A kernel tree for testing is also tagged as apple-usb3-v1 at=
- [5].
->
-> If the overall approach here is fine and no one can think of a better way=
- to
-> support this SoC I'll drop the RFC and include the dts changes for the ot=
-her
-> M1 and M2 machines as well.
->
-> Best,
->
-> Sven
->
-> [1] https://social.treehouse.systems/@sven/111092587315536174
-> [2] https://social.treehouse.systems/@sven/111096589846468888
-> [3] https://lore.kernel.org/all/fda8b831-1ffc-4087-8e7b-d97779b3ecc5@marc=
-an.st/
-> [4] https://github.com/AsahiLinux/m1n1
-> [5] https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git
->
-> Signed-off-by: Sven Peter <sven@kernel.org>
+Hello,
+
+On Thu, Aug 28, 2025 at 04:01:39PM +0200, Janne Grunau wrote:
+> The PWM controller on Apple's M2 Pro/Max SoCs behaves in the same way as
+> on previous M1 and M2 SoCs. Add its per SoC compatible.
+>=20
+> At the same time fix the order of existing entries. The sort order logic
+> is having SoC numeric code families in release order, and SoCs within
+> each family in release order:
+>=20
+> - t8xxx (Apple HxxP/G series, "phone"/"tablet" chips)
+>   - t8103 (Apple H13G/M1)
+>   - t8112 (Apple H14G/M2)
+> - t6xxx (Apple HxxJ series, "desktop" chips)
+>   - t6000/t6001/t6002 (Apple H13J(S/C/D) / M1 Pro/Max/Ultra)
+>   - t6020/t6021/t6022 (Apple H14J(S/C/D) / M2 Pro/Max/Ultra)
+>=20
+> Note that SoCs of the t600[0-2] / t602[0-2] family share the
+> t6000 / t6020 compatible where the hardware is 100% compatible, which is
+> usually the case in this highly related set of SoCs.
+>=20
+> Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
-> To: Sven Peter <sven@kernel.org>
-> To: Janne Grunau <j@jannau.net>
-> To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> To: Neal Gompa <neal@gompa.dev>
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> To: Rob Herring <robh@kernel.org>
-> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> To: Frank Li <Frank.Li@nxp.com>
-> To: Ran Wang <ran.wang_1@nxp.com>
-> To: Peter Chen <peter.chen@nxp.com>
-> To: Philipp Zabel <p.zabel@pengutronix.de>
-> To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> To: Vinod Koul <vkoul@kernel.org>
-> To: Kishon Vijay Abraham I <kishon@kernel.org>
-> Cc: asahi@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-phy@lists.infradead.org
->
-> ---
-> Hector Martin (5):
->       usb: typec: tipd: Update partner identity when power status was upd=
-ated
->       usb: typec: tipd: Use read_power_status function in probe
->       usb: typec: tipd: Read data status in probe and cache its value
->       usb: typec: tipd: Handle mode transitions for CD321x
->       arm64: dts: apple: t8103: Mark ATC USB AON domains as always-on
->
-> Janne Grunau (2):
->       arm64: dts: apple: t8112: Add Apple Type-C PHY and dwc3 nodes
->       arm64: dts: apple: t600x: Add Apple Type-C PHY and dwc3 nodes
->
-> Sven Peter (15):
->       dt-bindings: usb: Add Apple dwc3
->       usb: dwc3: dwc3_power_off_all_roothub_ports: Use ioremap_np when re=
-quired
->       usb: dwc3: glue: Allow more fine grained control over mode switches
->       usb: dwc3: Add Apple Silicon DWC3 glue layer driver
->       usb: typec: tipd: Clear interrupts first
->       usb: typec: tipd: Move initial irq mask to tipd_data
->       usb: typec: tipd: Move switch_power_state to tipd_data
->       usb: typec: tipd: Trace data status for CD321x correctly
->       usb: typec: tipd: Add cd321x struct with separate size
->       usb: typec: tipd: Read USB4, Thunderbolt and DisplayPort status for=
- cd321x
->       usb: typec: tipd: Register DisplayPort and Thunderbolt altmodes for=
- cd321x
->       dt-bindings: phy: Add Apple Type-C PHY
->       soc: apple: Add hardware tunable support
->       phy: apple: Add Apple Type-C PHY
->       arm64: dts: apple: t8103: Add Apple Type-C PHY and dwc3 nodes
->
->  .../devicetree/bindings/phy/apple,atcphy.yaml      |  213 ++
->  .../devicetree/bindings/usb/apple,dwc3.yaml        |   80 +
->  MAINTAINERS                                        |    4 +
->  arch/arm64/boot/dts/apple/t6001.dtsi               |    1 +
->  arch/arm64/boot/dts/apple/t6002-j375d.dts          |  197 +-
->  arch/arm64/boot/dts/apple/t6002.dtsi               |    1 +
->  arch/arm64/boot/dts/apple/t600x-dieX.dtsi          |  212 ++
->  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi     |  236 +++
->  arch/arm64/boot/dts/apple/t600x-j375.dtsi          |  275 +++
->  arch/arm64/boot/dts/apple/t8103-j274.dts           |   12 +
->  arch/arm64/boot/dts/apple/t8103-j293.dts           |   12 +
->  arch/arm64/boot/dts/apple/t8103-j313.dts           |   12 +
->  arch/arm64/boot/dts/apple/t8103-j456.dts           |   12 +
->  arch/arm64/boot/dts/apple/t8103-j457.dts           |   12 +
->  arch/arm64/boot/dts/apple/t8103-jxxx.dtsi          |  137 ++
->  arch/arm64/boot/dts/apple/t8103-pmgr.dtsi          |    2 +
->  arch/arm64/boot/dts/apple/t8103.dtsi               |  105 +
->  arch/arm64/boot/dts/apple/t8112-j413.dts           |   12 +
->  arch/arm64/boot/dts/apple/t8112-j473.dts           |   11 +
->  arch/arm64/boot/dts/apple/t8112-j493.dts           |   12 +
->  arch/arm64/boot/dts/apple/t8112-jxxx.dtsi          |  137 ++
->  arch/arm64/boot/dts/apple/t8112.dtsi               |  105 +
->  drivers/phy/Kconfig                                |    1 +
->  drivers/phy/Makefile                               |    1 +
->  drivers/phy/apple/Kconfig                          |   14 +
->  drivers/phy/apple/Makefile                         |    4 +
->  drivers/phy/apple/atc.c                            | 2214 ++++++++++++++=
-++++++
->  drivers/soc/apple/Kconfig                          |    4 +
->  drivers/soc/apple/Makefile                         |    3 +
->  drivers/soc/apple/tunable.c                        |   71 +
->  drivers/usb/dwc3/Kconfig                           |   11 +
->  drivers/usb/dwc3/Makefile                          |    1 +
->  drivers/usb/dwc3/core.c                            |   16 +-
->  drivers/usb/dwc3/dwc3-apple.c                      |  425 ++++
->  drivers/usb/dwc3/gadget.c                          |    2 +
->  drivers/usb/dwc3/glue.h                            |   14 +
->  drivers/usb/dwc3/host.c                            |    7 +-
->  drivers/usb/typec/tipd/core.c                      |  564 ++++-
->  drivers/usb/typec/tipd/tps6598x.h                  |    5 +
->  drivers/usb/typec/tipd/trace.h                     |   39 +
->  include/linux/soc/apple/tunable.h                  |   60 +
->  41 files changed, 5192 insertions(+), 64 deletions(-)
-> ---
-> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-> change-id: 20250820-atcphy-6-17-b7eaf23be17c
+>  Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/=
+Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> index 142157bff0cd851c85fbf0132d734d470c5a0761..04519b0c581d0e9fb1ae6aa21=
+9a4e850027de6a2 100644
+> --- a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> @@ -17,8 +17,9 @@ properties:
+>      items:
+>        - enum:
+>            - apple,t8103-fpwm
+> -          - apple,t6000-fpwm
+>            - apple,t8112-fpwm
+> +          - apple,t6000-fpwm
+> +          - apple,t6020-fpwm
+>        - const: apple,s5l-fpwm
+> =20
+>    reg:
 
-Series LGTM.
+The patch is fine for me. There was no merge plan sketched out in the
+cover letter and I don't spot any dependencies this patch is a part of.
+So I applied this patch to
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for=
+-next
 
+as 6.18-rc1 material.
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Best regards
+Uwe
+
+--hd4ybrkt7tr5jevb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjD6HwACgkQj4D7WH0S
+/k5dDwf/ZhdoZ04wcFscsQjfQPV9sY5Kzs8OxPgL+m4AV85SDwzSuZybeACCfsL2
+U+r2uMlK/Q21DJwXbTJjmnyAe19XWYtcvtUfKd50OAsoPnpijd6XN/VzkpPwSI1v
+MM1rZmYLCNhucLOPo87uqSwtHmOGOiHGefUgolr3pa9kl2VjNfe2U9byQTQegxaK
+CxeDN6bZEPo8n7PoU1mmnwFDouEZD1xzQt3FdvPpL2XORk2Ye5r89n1q02uTLbkj
+EsQ7IOSbpp2UDyIkxF0ESV6nWtpLn7AIB0rNABUH7JZA9FQ29vzAc9a3FRiLJsUa
+2cvxXsdWOdhpncFiR4L1mRq39BoLAQ==
+=7x/6
+-----END PGP SIGNATURE-----
+
+--hd4ybrkt7tr5jevb--
