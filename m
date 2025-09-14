@@ -1,157 +1,234 @@
-Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3048E2DD5E2;
-	Sun, 14 Sep 2025 16:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A94E2E0409
+	for <asahi@lists.linux.dev>; Sun, 14 Sep 2025 19:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757866989; cv=none; b=o+eNf22i1nPPWOFCpYll5xZQ0ZhAlc1bFXjFCJkR8J5EJTKQoa0SgHaAcLeZk4sda7mQEYb8lSnk1Z2PJnleEgxRdyKUyEuSLIQjZ6hWodRuKuFhmb9zD36Zha6RYrVXYqVI5S58vo4rwVb/iAE2FypmSnF111zyGtJ5OyAn/mM=
+	t=1757878736; cv=none; b=VxMEisYB6yctiOCIZzi5dxoYC2IXdXQ7qoBQhNe3Dsx9sUAnPBR8O3yVbzc9rrj6uxV2hYpzlgEYp/FbzUIGz07fzvM9XU7f4cSMdtGqrcbKWEsh/HVL7QJASfBJNVfNQ2sp/2+CKDfWGkdv7I4+kRFIbgLcoJ25OVxpNcP2+Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757866989; c=relaxed/simple;
-	bh=dQxeITb5hY6qfYJHe0khMY48r+n3JwUcweNzQW8TgQM=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=qEZlh+wZKtTUNaLcQQ9tovODHOIJNU2TAnHm9Pq82Kzzl3+WXXbo0UtglGKXunf8fxpV+x/x7QkJuLntsj9IFHTkEDgQTI7QoSBn4jM28rAl1SC+G1A64fDD0O+1q9iksn4JUqDefTbaBCgg62uGkQCV7/MHsJoVTfsbqnPs3Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=W6XcFwIX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nM6bqhzC; arc=none smtp.client-ip=103.168.172.141
+	s=arc-20240116; t=1757878736; c=relaxed/simple;
+	bh=cUkvxMc1z2FUP8/ZLqz9qQHCc2lZtpnUyN61yW93mXU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kPeIQ7K4hc9L/NL9o9v8Bnrw8w2JVDCnzAVWlge2ozsJ9lrIi3okA3fhaztDgq9vU+AoV2yjxxkJ3CNmjf3192jodEcAtSxAd21oM+LNpe5et5lf0Zr4KwveEiaFcGKFo1BZReRKAwCfiVdFeIFPWBFRBUau3N0Tn5oh7+WZqdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=XVpu1fpk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Mh1X2mgI; arc=none smtp.client-ip=202.12.124.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="W6XcFwIX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nM6bqhzC"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="XVpu1fpk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Mh1X2mgI"
 Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id 32A321380306;
-	Sun, 14 Sep 2025 12:23:05 -0400 (EDT)
-Received: from phl-imap-09 ([10.202.2.99])
-  by phl-compute-01.internal (MEProxy); Sun, 14 Sep 2025 12:23:05 -0400
+	by mailfhigh.stl.internal (Postfix) with ESMTP id ECA3A7A0129;
+	Sun, 14 Sep 2025 15:38:52 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sun, 14 Sep 2025 15:38:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1757866985;
-	 x=1757874185; bh=GczAxd/yOSl3eyN3svqHIDHZRTOmApw3DytFsK5tSX8=; b=
-	W6XcFwIXgzpDaSAqZKokVSa67KQ+sFY7Pu8grs8rRoQs20bJprES12ZYeDwvjV7i
-	cXP1MDRkrOfpoeV9zsVCFU/cXIP7XXBtuAyV235w2lFX5xl4jcUvGlYrMHy5cgRb
-	t+5gUiAObnx3rc+ZTkRKbq1l2VxwOwE9lF0oBwUd9qXcO5+Uog99iq/4kvqseqgK
-	xR7Ke4gcd4Z222FVedLz2omnFPHtPgdPDF8V76Tbow6WnHobA1/NjrbPqzUAjcbd
-	xVa+l8xl0GpAK6mYMF2WWbIgqO2FmcZG9QVO4BBcUNophOp2ATt0zHCq+f+3UDKL
-	xdQZHKnbFUm/qy/3UjvFxQ==
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1757878732; x=1757965132; bh=9o
+	b3+l+1f9IP3Uc7NeallE4LkO03rIbLfuv4476RPcQ=; b=XVpu1fpk7uG/ZP3obd
+	r8+y6Ts0QQDe6l3zxRBt7Q2pqT7A1BB1jKIXa8qGE8rS3EIyZBdqwNXHOchezRiQ
+	YCKButws4u65Wp32GE6yaLTgJoQRfV8tSVmlOeKNy+zDNKHuFQ3uiET5HBCAqFAM
+	HqEesA7XLfW5PveNncDsyePsf8oNeCh3mCj2H2VONVvncRPcorP9sGMafq4SL5F7
+	QERFgeqbHdgGifntm5GEr5kNSCMbTUUp60Kb6zA9FmpRaycysBTB6GTeK245kbaR
+	LNoobBz9Pl6CktgDPWLkmFfOpWLSsRsqgjg+bx2NXVeks4soddbakrvqd07U4uZJ
+	Kl7w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757866985; x=
-	1757874185; bh=GczAxd/yOSl3eyN3svqHIDHZRTOmApw3DytFsK5tSX8=; b=n
-	M6bqhzCkxh0Ikr92GVRoanj38iNM7PDbawI6zlj+r0YIRmNWw7IlahIX+FzT8r6L
-	4ehDw4W6aq4FFqMVnesNjKMvmZZm0FmA9COI+ug0KKsE6Hx7sBDEHAq3EE3huEga
-	yRFS2/WMgMdqvUxtZmkvglHc+Y9pMj39K2vILvmxXR8bVlnrSW4ld5kBf6oAbWeH
-	jyE02ep/4otNruFJE1FODwtVpFrDXlnRanryaHRkI+9ef1vLuhfmEQOVA44ZpFGF
-	t/VrxYLO4aL5Ow/zh8V9GrSitf85NME5qjrTVISJ4hDLk9fM50EUG9j6hkNByTyj
-	TDPxh0EGEkPi1xLLx79nA==
-X-ME-Sender: <xms:6OvGaMtGJNoFU90oJRDc2LZkQqEHSCV6IpZU5rE1YQSMxDJc-Zechw>
-    <xme:6OvGaJeiJg4BQhbYGYhzi22Pc-G3MhN50E8GkYhBMly3mdnKay0gc6SsLw5KB7WXh
-    N1ZleIJcyasknW2MbA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefhedvkecutefuodetggdotefrod
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1757878732; x=1757965132; bh=9ob3+l+1f9IP3Uc7NeallE4LkO03
+	rIbLfuv4476RPcQ=; b=Mh1X2mgIsk0zOsXQx3JQcC9gqW0wsXNcvRkNnrlVzw6i
+	uX6iWl8tEOtkXB53qrqAvx9PToSvYlJQeadAy7vyD4ekpt4SPt/+kNBTvCS0AYv8
+	lHgFtq1SOTEtoe01OM8K96W0VIELYclOonjXx3f4t1UXksgCajYyUp74ft/PQPCO
+	Cp3maXXTB5Tgrs+8wHNsfG2vqlDGB0D8VGRiD5FEJruYfNWDhHCIEWPBnfuwBZd/
+	kTC79GwUzeMprVp6gTzvblOjkAH/F0sNTbM/hIfq8p441qt2VzPLjl27ZsJR8gKW
+	bm4g5E43LmAqMEX3zYVEw429UvjuMh/Z/RgnHy24SQ==
+X-ME-Sender: <xms:zBnHaKHTW0q1s9SFeBvGzOT-J4U2BkK8qQwJ82YUVvXdDBYvkWl_Sg>
+    <xme:zBnHaLdSYyIJ-kljZECBmeqcJSau-87d70vM-NkbCkJ1XwSjF1IayqaRxDVdEgX6v
+    oy5WKzXdDRbjh9AH2Y>
+X-ME-Received: <xmr:zBnHaLm2g1qn8biWb7BGXsoUCzu2uxXkqBQhSFUyfN0cIDaJOr7Q3CAnvYbVjPnmSHap9tTtWR_P8Fxs8WbOyV6DNGKzLPi_RJ-CaQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefheeijecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdflrghnnhgv
-    ucfirhhunhgruhdfuceojhgrnhhnvgesjhgrnhhnrghurdhnvghtqeenucggtffrrghtth
-    gvrhhnpefhjeehgfelteeggfehveejffeiffetiefhfedvgedvhfeuhefhfeevvedujeej
-    ueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepjhgrnhhnvgesjhgrnhhnrghurdhnvghtpdhn
-    sggprhgtphhtthhopeehtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhorh
-    hoseeksgihthgvshdrohhrghdprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrghr
-    mhdrtghomhdprhgtphhtthhopehmthhurhhquhgvthhtvgessggrhihlihgsrhgvrdgtoh
-    hmpdhrtghpthhtoheprghrvghnugessghrohgruggtohhmrdgtohhmpdhrtghpthhtohep
-    phhovhhikhdolhhinhestghuthgvsghithdrohhrghdprhgtphhtthhopehsihhmohhnrg
-    esfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdp
-    rhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    epjhgrshhsihhsihhnghhhsghrrghrsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:6OvGaOnzWWVTK6fHrNZnoZrAsZNIYnOs8dYQpfjjbb7GfAHjI0UNiw>
-    <xmx:6OvGaPJc7xNH61IJmWT8YOHXCQh-LmyrgzjlwFVLrgG12KTGADf1lw>
-    <xmx:6OvGaLZJAYQXqKRAAHuGP_N8BOx7he9-R6wDnmwoJa7sDRvUmAYXPQ>
-    <xmx:6OvGaNk2ayK10X4nxODH_Hof8LmRZzENB7AwWON103kD7vzuYyuLsA>
-    <xmx:6evGaM9xgikSDaVg4rqD1Ch26sn7Y_SH6mDxFSCjOMlAG1D8cnyO4xpU>
-Feedback-ID: i449149f6:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id EAFF03020073; Sun, 14 Sep 2025 12:23:03 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+    hrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
+    uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefhjeethe
+    ejffetuefhjeetgeegveelleeltdfhgfetieegudelteehhfejveffleenucffohhmrghi
+    nhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgs
+    pghrtghpthhtohepudegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrohgshh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhr
+    tghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtghpthhtoheprghsrghhiheslhhish
+    htshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgv
+    lheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehmrgiisehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehkrhiihihsiihtohhfrdhkohiilhhofihskhhi
+    sehlihhnrghrohdrohhrghdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:zBnHaKqikW0vmKgbAfERI-K53piFSlS9r9U-w4dW-d2fXA_N-5cPCA>
+    <xmx:zBnHaIEiRvs-Wz5zs2i9XBHer96afvOVvJ1Cqae67QjEOI_XAxAJVQ>
+    <xmx:zBnHaASc80BvbOv-rOnT285Y7eHU_Ef1NmUeXRcb52vq6d_Ve44nZQ>
+    <xmx:zBnHaON4PwWvo808Z1Uyu_MgFKQS_k5ID3AdJAvXh8S0uOgc93D6rQ>
+    <xmx:zBnHaA0kq46KPksJlY5JqsuDnIec6_D6w4QGX2RmTCGF0EqpcjOxj0Dt>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 14 Sep 2025 15:38:51 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH v2 0/6] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+Date: Sun, 14 Sep 2025 21:38:43 +0200
+Message-Id: <20250914-dt-apple-t6020-v2-0-1a738a98bb43@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: ATYmlVkkxBG-
-Date: Sun, 14 Sep 2025 18:22:36 +0200
-From: "Janne Grunau" <janne@jannau.net>
-To: "Sven Peter" <sven@kernel.org>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Neal Gompa" <neal@gompa.dev>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Hector Martin" <marcan@marcan.st>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "Viresh Kumar" <viresh.kumar@linaro.org>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Joerg Roedel" <joro@8bytes.org>,
- "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Mark Kettenis" <kettenis@openbsd.org>,
- "Andi Shyti" <andi.shyti@kernel.org>,
- "Jassi Brar" <jassisinghbrar@gmail.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
- "Marcel Holtmann" <marcel@holtmann.org>,
- "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>,
- "Johannes Berg" <johannes@sipsolutions.net>,
- "van Spriel" <arend@broadcom.com>, "Lee Jones" <lee@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- "Stephen Boyd" <sboyd@kernel.org>,
- "Wim Van Sebroeck" <wim@linux-watchdog.org>,
- "Guenter Roeck" <linux@roeck-us.net>,
- "Michael Turquette" <mturquette@baylibre.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- "Vinod Koul" <vkoul@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Marc Zyngier" <maz@kernel.org>,
- "Ulf Hansson" <ulf.hansson@linaro.org>,
- "Keith Busch" <kbusch@kernel.org>, "Jens Axboe" <axboe@kernel.dk>,
- "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Janne Grunau" <j@jannau.net>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Message-Id: <175786548038.4027671.16854298573806924090.b4-ty@jananu.net>
-In-Reply-To: <20250828-dt-apple-t6020-v1-31-bb8e1b87edef@jannau.net>
-References: <20250828-dt-apple-t6020-v1-31-bb8e1b87edef@jannau.net>
-Subject: Re: (subset) [PATCH 31/37] spi: apple: Add "apple,t8103-spi" compatible
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMMZx2gC/12Nyw6CMBBFf4XM2jFtBXms/A/DopRBakypbWk0h
+ H+3oomJy3OSe+4CnpwmD022gKOovZ5MArHLQI3SXAh1nxgEEwWrOMc+oLT2RhiOTDDkh6JWVHe
+ DoBLSyDoa9GMLntsPO7rPqRt+ctQ+TO65nUb+tt++qP77kSPDgpWdzFXe1RWdrtIYOe8NBWjXd
+ X0BUFl+ycIAAAA=
+X-Change-ID: 20250811-dt-apple-t6020-1359ce9bf2e7
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>, 
+ Marc Zyngier <maz@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6369; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=cUkvxMc1z2FUP8/ZLqz9qQHCc2lZtpnUyN61yW93mXU=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhozjkidn3RO+ZS1w/Of7n+tvPZi+KHfrkUuhi0q8dTZPN
+ lLYt1dodkcpC4MYF4OsmCJLkvbLDobVNYoxtQ/CYOawMoEMYeDiFICJpMsyMnzwvbNXJ0zb4lWL
+ iuxc1dqI0H/HV3jabP1kfMeP9fMGo52MDPdPhesv625NTbdyX2Erbewl84G38v5MPi7xZMF7zXd
+ bWQE=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
+This series adds device trees for Apple's M2 Pro, Max and Ultra based
+devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+follow design of the t600x family so copy the structure of SoC *.dtsi
+files.
 
-On Thu, 28 Aug 2025 16:52:09 +0200, Janne Grunau wrote:
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatible "apple,spi" anymore [1]. Use
-> "apple,t8103-spi" as base compatible as it is the SoC the driver and
-> bindings were written for.
-> 
-> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
-> 
-> [...]
+t6020 is a cut-down version of t6021, so the former just includes the
+latter and disables the missing bits.
 
-Applied, thanks!
+t6022 is two connected t6021 dies. The implementation seems to use
+t6021 and disables blocks based on whether it is useful to carry
+multiple instances. The disabled blocks are mostly on the second die.
+MMIO addresses on the second die have a constant offset. The interrupt
+controller is multi-die aware. This setup can be represented in the
+device tree with two top level "soc" nodes. The MMIO offset is applied
+via "ranges" and devices are included with preprocessor macros to make
+the node labels unique and to specify the die number for the interrupt
+definition.
 
-[31/37] spi: apple: Add "apple,t8103-spi" compatible
-        commit: 3f2ed0057369d07c20c7ab48c1c46dc77eb436c2
-[32/37] spi: dt-bindings: apple,spi: Add t6020-spi compatible
-        commit: ffea30e9e6178eeb7d9c165b0b0b2d2e7c5f4fbf
+The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
+counterparts. The existing device templates are SoC agnostic so the new
+devices can reuse them and include their t602{0,1,2}.dtsi file. The
+minor differences in pinctrl and gpio numbers can be easily adjusted.
+
+With the t602x SoC family Apple introduced two new devices:
+
+The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
+missing SDHCI card reader and two front USB3.1 type-c ports and their
+internal USB hub can be easily deleted.
+
+The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
+devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
+implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
+calls the PCIe controller "apcie-ge" in their device tree. The
+implementation seems to be mostly compatible with the base t6020 PCIe
+controller. The main difference is that there is only a single port with
+with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
+Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
+and PCIe slots connect too.
+
+This series does not include PCIe support for the Mac Pro for two
+reasons:
+- the linux switchtec driver fails to probe and the downstream PCIe
+  connections come up as PCIe Gen1
+- some of the internal devices require PERST# and power control to come
+  up. Since the device are connected via the PCIe switch the PCIe
+  controller can not do this. The PCI slot pwrctrl can be utilized for
+  power control but misses integration with PERST# as proposed in [1].
+
+This series depends on "[PATCH v2 0/5] Apple device tree sync from
+downstream kernel" [2] due to the reuse of the t600x device templates
+(patch dependencies and DT compilation) and 4 page table level support
+in apple-dart and io-pgtable-dart [3] since the dart instances report
+42-bit IAS (IOMMU device attach fails without the series).
+
+Both dependencies are in next and queued for the 6.18 merge window in
+https://github.com/AsahiLinux/linux/commits/apple-soc/dt-6.18 and
+https://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git/log/
+
+After discussion with the devicetree maintainers we agreed to not extend
+lists with the generic compatibles anymore [4]. Instead either the first
+compatible SoC or t8103 is used as fallback compatible supported by the
+drivers. t8103 is used as default since most drivers and bindings were
+initially written for M1 based devices.
+
+[1]: https://lore.kernel.org/linux-pci/20250819-pci-pwrctrl-perst-v1-0-4b74978d2007@oss.qualcomm.com/
+[2]: https://lore.kernel.org/asahi/20250823-apple-dt-sync-6-17-v2-0-6dc0daeb4786@jannau.net/
+[3]: https://lore.kernel.org/asahi/20250821-apple-dart-4levels-v2-0-e39af79daa37@jannau.net/
+[4]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+
+---
+Changes in v2:
+- Fixed copy-n-paste errors still referencing t600x (M1 series)
+- Reworded outdated comments
+- Dropped all dt-binding changes except "dt-bindings: arm: apple: Add
+  t6020x compatibles" as those were picked up in apple-soc/drivers-6.18
+- Dropped all driver changes, will be sent separately if not already
+  picked up
+- rebased onto https://github.com/AsahiLinux/linux/commits/apple-soc/dt-6.18
+- Link to v1: https://lore.kernel.org/r/20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net
+
+---
+Hector Martin (3):
+      arm64: dts: apple: Add initial t6020/t6021/t6022 DTs
+      arm64: dts: apple: Add J414 and J416 Macbook Pro device trees
+      arm64: dts: apple: Add J180d (Mac Pro, M2 Ultra, 2023) device tree
+
+Janne Grunau (3):
+      dt-bindings: arm: apple: Add t6020x compatibles
+      arm64: dts: apple: Add ethernet0 alias for J375 template
+      arm64: dts: apple: Add J474s, J475c and J475d device trees
+
+ Documentation/devicetree/bindings/arm/apple.yaml |   39 +-
+ arch/arm64/boot/dts/apple/Makefile               |    8 +
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi        |    1 +
+ arch/arm64/boot/dts/apple/t6020-j414s.dts        |   26 +
+ arch/arm64/boot/dts/apple/t6020-j416s.dts        |   26 +
+ arch/arm64/boot/dts/apple/t6020-j474s.dts        |   47 +
+ arch/arm64/boot/dts/apple/t6020.dtsi             |   22 +
+ arch/arm64/boot/dts/apple/t6021-j414c.dts        |   26 +
+ arch/arm64/boot/dts/apple/t6021-j416c.dts        |   26 +
+ arch/arm64/boot/dts/apple/t6021-j475c.dts        |   37 +
+ arch/arm64/boot/dts/apple/t6021.dtsi             |   69 +
+ arch/arm64/boot/dts/apple/t6022-j180d.dts        |  121 ++
+ arch/arm64/boot/dts/apple/t6022-j475d.dts        |   42 +
+ arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi       |   38 +
+ arch/arm64/boot/dts/apple/t6022.dtsi             |  349 ++++
+ arch/arm64/boot/dts/apple/t602x-common.dtsi      |  465 +++++
+ arch/arm64/boot/dts/apple/t602x-die0.dtsi        |  575 ++++++
+ arch/arm64/boot/dts/apple/t602x-dieX.dtsi        |  128 ++
+ arch/arm64/boot/dts/apple/t602x-gpio-pins.dtsi   |   81 +
+ arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi   |   45 +
+ arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi   |   38 +
+ arch/arm64/boot/dts/apple/t602x-nvme.dtsi        |   42 +
+ arch/arm64/boot/dts/apple/t602x-pmgr.dtsi        | 2265 ++++++++++++++++++++++
+ 23 files changed, 4515 insertions(+), 1 deletion(-)
+---
+base-commit: eef7336dc6c11f80c08b55b09b24faf124baeb0d
+change-id: 20250811-dt-apple-t6020-1359ce9bf2e7
 
 Best regards,
 -- 
-Janne Grunau <j@jananu.net>
+Janne Grunau <j@jannau.net>
+
