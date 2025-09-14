@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9803F1E7C18;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99CA26B2D3;
 	Sun, 14 Sep 2025 12:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757854608; cv=none; b=R9MYeeFSgeXMSiH43RzZMKAWFNnaXk2Ypzb0K2vqlE297QDg+a0crsknHIPjnKI2eAkTTG0/PalCSSxib6OiVYfRdxq2p0osPoqhXOh4A2CZ+8vCdl78L2Lf9ZGxFwUXJ0kJ2mdJoxaM9zNy1Is8Dmgah2YmlWquQfwpIzF2ncU=
+	t=1757854608; cv=none; b=TNVVnWgWqxVw9tnumT2Xk8fo5VQXId7esWItMZGto6h4SujFk2rZoXIeYNX+mBy6rGWPZmgZZ+IsfKynBW2EUrdUFze5i/VIIFhC8M/RXXDztzW+wk/uvd6frYYZZlAFm1pOja5/R+5iVV4Yqg7/LKDoT+5F7Iw76E5WfFdNIjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757854608; c=relaxed/simple;
-	bh=sUkw4q4IY9bSBtfRWTCcqxsVU/bRRgymfhNhDOYa7GM=;
+	bh=n4r7zMHDw/fPAOcEpKAkNiWA7bMT/Gk7NMP0eqPegkY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tT71uMxQ8SP58gcVf2okM3GZww9wEdW/rEoaEutgc3RVf61EPEzcEhKAWSZqzRzsrVvNr6IcJC4H4BRLP7jAee5Mw3sMllK1kwfy1sjYOjQ34bFgPzd35Un74OzHmo8XjXXybMnENZoq0EtsGUPuG2hfd8unv66lHZr1mPGETDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKIriVvi; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=gPNzMV62TEiEdL38mcYMzb7YLtE8CezaM2M0BURnjLGwfb1zsjRAt3eNBflKpZBS7J0uTC9JBB8FLBbn0O0hmUn++5r6il7GXgyzr24AzrahtcXtSHsUuZAZypUbC7JyPELraEBKO0Q04BqPZi30hwzsx8Bu9VcJHoodlD6JQ7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GM70exrU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKIriVvi"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4765BC4CEFD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GM70exrU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9C748C116B1;
 	Sun, 14 Sep 2025 12:56:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1757854608;
-	bh=sUkw4q4IY9bSBtfRWTCcqxsVU/bRRgymfhNhDOYa7GM=;
+	bh=n4r7zMHDw/fPAOcEpKAkNiWA7bMT/Gk7NMP0eqPegkY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UKIriVviyUhz8icNz7vYIZIyWaQo2Ume4+meCG3F82iYctnWeBsLBv04fHA1ORYFL
-	 goUJuNn6iCYECVoe6zenmbb7Fn9CbXCHcLQAo1H6mRDRFWvBBrlRkaKhOEv5PeSOA/
-	 67fm8/bvlcpFc4USAWcxW+SIIWPXJG7YjA3wrOumBcUu0j18BoAOFsTbmDpBX1dKzL
-	 r+WU1Zv6373AO/YeyS8z5WnCaleljYvgq8vC6qnAwkgkR9KFf1ZhGV8niVZWmw67Yw
-	 TX7ChdhBWhihjWcfUBZ0YBGZNLUn7SactmuwuQPnb5hn57ud0dwmaRjgGu7rCvRpGA
-	 UFOHDaEUuGYnA==
+	b=GM70exrUvCkp2VCAXOJiUKn+Z4tj1+T8uSrT32ZEsG0/B7Z74yLzH0CT47sje+w0r
+	 8eA/HYlhfe1AA6h4MDnlFGuJiTDgRScQw1vzlU1XQk4udUy82TJp7tpB/3pqA8ylVe
+	 rQU7OCqi3ZZ8YX7W670D7TBB+A5cGx805prxYKueQgUNamFNrHeMs9iSPQnAdrc3nT
+	 yg1CWhL4ydmXp6rwNcX8v9CsQx3tT2Orsb/JCAmHBnoz/5qwvQpfNkPr6kRnenaI07
+	 72hoA7IRtTXZJOsaXC72rr8gBTZf8G0oO0cUMigWHFdJz8maX9j/07aIKQNyj469Zn
+	 eWTtSk4TNRrOw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 392A5CAC58F;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97B98CAC598;
 	Sun, 14 Sep 2025 12:56:48 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Sun, 14 Sep 2025 12:56:08 +0000
-Subject: [PATCH 03/11] usb: typec: tipd: Move switch_power_state to
- tipd_data
+Date: Sun, 14 Sep 2025 12:56:15 +0000
+Subject: [PATCH 10/11] usb: typec: tipd: Read data status in probe and
+ cache its value
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250914-apple-usb3-tipd-v1-3-4e99c8649024@kernel.org>
+Message-Id: <20250914-apple-usb3-tipd-v1-10-4e99c8649024@kernel.org>
 References: <20250914-apple-usb3-tipd-v1-0-4e99c8649024@kernel.org>
 In-Reply-To: <20250914-apple-usb3-tipd-v1-0-4e99c8649024@kernel.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -49,85 +49,63 @@ To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
  linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Sven Peter <sven@kernel.org>
+ Sven Peter <sven@kernel.org>, Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2365; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1585; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=sUkw4q4IY9bSBtfRWTCcqxsVU/bRRgymfhNhDOYa7GM=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8ax3dUsr4w3vX+QVSXGvMxFZcrDtVoXH5RLtggZ/rJZ/
- /2estWfjlIWBjEOBlkxRZbt++1Nnzx8I7h006X3MHNYmUCGMHBxCsBEOC4wMvx2C9vxyGm3uVL+
- 22CjJTeOqO9RmHLXoSz7d4bkrAbP3JUMv9n1lYzm+l3In8Zg+X23Yu43lV3TPnLxqn08GaAu0HR
- UnBkA
+ bh=SEqFsdZj9wQbFtYLraoDyZILplcZKiIw4Wc/CN9A6bM=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8ax3R3KDnc5D/soHDFte8ez7pDPf1GvbN65wT4Mj0Mll
+ u659+lbRykLgxgHg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAi7w0ZGfYv3iFd9mtTW2v9
+ 0d1Lth41ipia1Tzt+f5U+4Ucgb+uHFdkZJjUeyaPZcEPpqe1lQECrt+ktZJ+vuW5/cLsyNqzh/b
+ /i2ADAA==
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-When support for CD321x was originally added no other hardware variant
-was supported and there was no need for struct tipd_data. Now that it
-exists move the special case in there so that we can drop the
-of_device_is_compatible_check entirely.
+From: Hector Martin <marcan@marcan.st>
 
+Just like for power status we also need to keep track of data status to
+be able to detect mode changes once we introduce de-bouncing for CD321x.
+Read it during probe and keep a cached copy of its value.
+
+Signed-off-by: Hector Martin <marcan@marcan.st>
 Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/usb/typec/tipd/core.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ drivers/usb/typec/tipd/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 6d8bcbc9cad8a1394e066504d4c5ca570edd4e4f..4815c5c462837865a5f9d37bbc139249c82c2f75 100644
+index f546f4ae563af3d411ec6591fe9c3b122e4efaab..f347e5bc625497ddff270e3e9e4d2ddaf3ca6bc1 100644
 --- a/drivers/usb/typec/tipd/core.c
 +++ b/drivers/usb/typec/tipd/core.c
-@@ -118,6 +118,7 @@ struct tipd_data {
- 	void (*trace_status)(u32 status);
- 	int (*apply_patch)(struct tps6598x *tps);
- 	int (*init)(struct tps6598x *tps);
-+	int (*switch_power_state)(struct tps6598x *tps, u8 target_state);
- 	int (*reset)(struct tps6598x *tps);
- };
+@@ -176,6 +176,7 @@ struct tps6598x {
  
-@@ -1293,7 +1294,6 @@ tps25750_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
+ 	int wakeup;
+ 	u32 status; /* status reg */
++	u32 data_status;
+ 	u16 pwr_status;
+ 	struct delayed_work	wq_poll;
  
- static int tps6598x_probe(struct i2c_client *client)
- {
--	struct device_node *np = client->dev.of_node;
- 	struct tps6598x *tps;
- 	struct fwnode_handle *fwnode;
- 	u32 status;
-@@ -1331,18 +1331,16 @@ static int tps6598x_probe(struct i2c_client *client)
- 	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
- 		tps->i2c_protocol = true;
+@@ -538,6 +539,7 @@ static bool tps6598x_read_data_status(struct tps6598x *tps)
+ 		dev_err(tps->dev, "failed to read data status: %d\n", ret);
+ 		return false;
+ 	}
++	tps->data_status = data_status;
  
--	if (np && of_device_is_compatible(np, "apple,cd321x")) {
--		/* Switch CD321X chips to the correct system power state */
--		ret = cd321x_switch_power_state(tps, TPS_SYSTEM_POWER_STATE_S0);
--		if (ret)
--			return ret;
--
--	}
--
- 	tps->data = i2c_get_match_data(client);
- 	if (!tps->data)
- 		return -EINVAL;
- 
-+	if (tps->data->switch_power_state) {
-+		ret = tps->data->switch_power_state(tps, TPS_SYSTEM_POWER_STATE_S0);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/* Make sure the controller has application firmware running */
- 	ret = tps6598x_check_mode(tps);
- 	if (ret < 0)
-@@ -1525,6 +1523,7 @@ static const struct tipd_data cd321x_data = {
- 	.trace_status = trace_tps6598x_status,
- 	.init = cd321x_init,
- 	.reset = cd321x_reset,
-+	.switch_power_state = cd321x_switch_power_state,
- };
- 
- static const struct tipd_data tps6598x_data = {
+ 	if (tps->data->trace_data_status)
+ 		tps->data->trace_data_status(data_status);
+@@ -1551,6 +1553,8 @@ static int tps6598x_probe(struct i2c_client *client)
+ 	if (status & TPS_STATUS_PLUG_PRESENT) {
+ 		if (!tps6598x_read_power_status(tps))
+ 			goto err_unregister_port;
++		if (!tps->data->read_data_status(tps))
++			goto err_unregister_port;
+ 		ret = tps6598x_connect(tps, status);
+ 		if (ret)
+ 			dev_err(&client->dev, "failed to register partner\n");
 
 -- 
 2.34.1
