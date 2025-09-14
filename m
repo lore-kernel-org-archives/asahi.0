@@ -1,91 +1,124 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A832A1B2
-	for <asahi@lists.linux.dev>; Sun, 14 Sep 2025 13:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933201DC198;
+	Sun, 14 Sep 2025 15:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757856576; cv=none; b=hNvkiwQC2rGnAfZwhEEYk+owaMAW4UUslHjObzhNNYZahvW1hvZohPt++hOMZTXdh7Gf677asbLI1Z79cZhTeYPvgQIwuQtnBSHRl8fxGGBMlrbzIgMXR51tYTMW9kO4sEONkZtrtGZcX+HuTsJQ+va+Qrm5ajnIIujSt1YVBDk=
+	t=1757863527; cv=none; b=KF/+pcMACm7ObV85zo8vM6aIaeYqgg/RWTOOwffP869F9fKrFttweX2mCAaLDBhD93Lgn7+mR9F89W44ISFdX9W5GUWFwgpP92yaSKGbu7Sr08R5JWcfdow34SraYAJ7ufK2TDazJSaJgt1Tn1ihYlHjzhgmK4piZnUJYfPLmiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757856576; c=relaxed/simple;
-	bh=ynUogUtMc6vDYR4x765+JnL05KuJsA3l4L/avvP9S5w=;
+	s=arc-20240116; t=1757863527; c=relaxed/simple;
+	bh=pzjFWi3vSizi+sDsUA5hWojROcQ85d1CDLAbV4UkiYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ODhKwJtKucBqdkerR4h3Ixw54bqx0VYpMh/8dLu8LVJHvtsBIC6AehAaJKSz5CbTvRtZtnaVF79lTtTuS+jNStEyK4t4U4D/3VIlY/L8xHIQIDFYHRa/rOqclO1h0gh3vjrH1iTc20yijHMOpDpR5yKTPyH41Aapxwzf/EcYiNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=IQgfEDg+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lfVi7Z2+; arc=none smtp.client-ip=103.168.172.152
+	 Content-Type:Content-Disposition:In-Reply-To; b=diuB/VKmqxYjKGY2fFwWQEl2UH3PcxRxUfDekQSFonP3nk/kVPKedeJHeIoknhbixllfQtoRjCynangPYIoVT6B4QVeQcYOWPD+fvj3Y+3s19mpj1+UjRuy8ziPobpzty8HbRVgekknHkyoI+5KLP3lqavmiha+jhpy66VxZXuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=fqniaA4n; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Vj23bhcy; arc=none smtp.client-ip=103.168.172.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="IQgfEDg+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lfVi7Z2+"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 935AB1400159;
-	Sun, 14 Sep 2025 09:29:33 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="fqniaA4n";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Vj23bhcy"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id 9FD391380371;
+	Sun, 14 Sep 2025 11:25:24 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Sun, 14 Sep 2025 09:29:33 -0400
+  by phl-compute-02.internal (MEProxy); Sun, 14 Sep 2025 11:25:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1757856573; x=1757942973; bh=LvsmTEFXWc
-	PhwHybn1QAYEPHsP2aICJv87mnJcBL40Q=; b=IQgfEDg+V+jQq/fGUCNiVStmpK
-	oXzUFOXkQ6/ZAPZaVaVVeC95EiWKWi5NGzEBD5q2/SEX48NHbdMpddPfsfjdSNNK
-	qHG2seezTvBTML7cxiHqiBxbas707WKhaej0pf//0/0yhZIhnybHSl6+GfLAH+AA
-	TvRTz+blNLVwEH7NDbaiGh/iybaD5ZGuHfX5NhLffmX3EC4l77q0bCRHAGa+M56z
-	zGt1Gby+cmz8IrW7LbbjOMfynrbKJHDUryFXWQG+OMko8ny/kdl4+Oymkm471nCj
-	5RcglM4KgIfq0kRwJKxqtJgF9Ex3QLBwSK3MTQiVICg/sFyK3kRfL2G0U8cA==
+	:subject:to:to; s=fm3; t=1757863524; x=1757870724; bh=tWnDpBVNIk
+	8/6xOJajwpS5PW/ODB8z60GmMpvcHEyLY=; b=fqniaA4no7nBvtwisVO0EAziaY
+	zEu1OxB2nmfd9hxQQ6FceNaEfgPI/uOeA3ZUMlixYSgDNmwiIjnghzegCeXC7ooM
+	LvWC+S6IFuwyUZIiDef/lCWKT4qBsufKdFw30aP8oBZazgmYwz3BDB+ZmycSta6t
+	xptfu7gQpOG7ehf9onSRjHDPp99xdgiS7wuPGm4N3NTF+9TI+D6pUYs4H+vp6SZw
+	M5/GnUj+UjYiCszBHilRciH7Xg30wJ4oaajlksr0rV95z7TNExSNAABZPiumrshE
+	FvdljC6vKY79xqhNPoz+sv/5ZzI32UEqoetagTR1nlRh8Hs/vE+pwru4KkFg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1757856573; x=1757942973; bh=LvsmTEFXWcPhwHybn1QAYEPHsP2aICJv87m
-	nJcBL40Q=; b=lfVi7Z2+L9AAnvqnsmH1l/jCzm64AjOMwM51PY9vTe8wyG/+LAL
-	zORo9AQvItcCvA+nkKEVpjOfUS0PUdkh5AjljL2gYpqkwqiXZixJ+kVLy48rLrs5
-	RLvuPfXIrNrQYiBMaO1OOSls3oh/OLBxlvxazVCLFJ/zyTwpdTVd+gpMS5PUMbhB
-	E89oP8Fa/NsCspBApHst6GsXW7sFvsLgwbNiRxDJzm6sI3aiMCj9NQZEny0PE4rG
-	qSYmlkFMdEXioAd231Zctb+7ni58KnGol4VcJfsEOElRdLE2QM0Q/wz+SHUEHouP
-	3/iuDK4YacmXT442vM582AruqP1v6yipyew==
-X-ME-Sender: <xms:O8PGaOxJ_4eixX8UbkrLeeC0Lz1rH78kfNVEh1kVGnTqOj-t4FMS9w>
-    <xme:O8PGaHpZym2tR0jeNIthcXgqHm2ATq_fKhouXZulW1V06biJOl0LJF16gzMZ6tpcG
-    c-Vb1-sJxHqq5lxwpo>
-X-ME-Received: <xmr:O8PGaHosBq3SqVX1KS0IjpCtfCH7_E8zeamvdW8KEyk6t7cAK_d2RhaShTNkkq6aAcA5VB0yAvB1U0Uy3NRbGrUNEhPY54COHc0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefgeelfecutefuodetggdotefrod
+	1757863524; x=1757870724; bh=tWnDpBVNIk8/6xOJajwpS5PW/ODB8z60GmM
+	pvcHEyLY=; b=Vj23bhcyVMjkmI+SG5zcvx9xWXRofAidImGdIqDbcLHM0WUXLc8
+	VdJ5/Ah1c+SQLupMy8hPB6g+eQtldDZoSyTcdvRRHeqbzvU0Cza12fMqqwBCwKIx
+	XRXQG97RFEtAOSU5a+qagQeuIAZpU+z4/twkaZZ9fF8rbZYTKJJUunKkcHe13HsO
+	taCZKYFvYUAnhVBpORJEKOyg2/M2EAShulAaGjcM8zm5gq5xLiBnzeFc2Kbds8Kl
+	cjiBRbNIWFH6ATBWXfkEOIb9VhsgtBfbtq1YELEVGHuugIERRPgQ8SsFlhE1Cyyg
+	dvlCSYfmupMutudH+yvoMkyjyO68z9vORGw==
+X-ME-Sender: <xms:YN7GaCTuMx0f0t2jRi7MjfjequzWOeswX29HOTcvvGYGS0MYiIBHUg>
+    <xme:YN7GaL6QBGhruZL6oRXxCEfZI4zo5kPWLdpjuyLcU_mz4EuO5tln9nxooV2UWTC9E
+    tIpfL6jS9L3FfQQEuI>
+X-ME-Received: <xmr:YN7GaLYUVdoEvMx6ZIn2invZ0We4bPduj51BqChNtRqO21phkH22Zsg10x0DzgL7UQBL86YCGWtRbrW6wbE3W7edo_aBudk-3-k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefhedujecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
-    evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
-    hnvghtpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhgvihhkkhhirdhkrhhogh
-    gvrhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehgrhgvghhkhhes
-    lhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehnvggrlhesghhomh
-    hprgdruggvvhdprhgtphhtthhopehlihhnuhigqdhushgssehvghgvrhdrkhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdp
-    rhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrg
-    guvggrugdrohhrghdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsth
-X-ME-Proxy: <xmx:O8PGaPD0zpc_tUdoucETqraXdhPJkYm_iWnRwd8sxl3PUxLU_io26A>
-    <xmx:O8PGaNv630J6Q-86-2yxNnZTHNsvN9m_qxXTYPiSZq3Yxp49E9qByg>
-    <xmx:O8PGaGJTHWqJX_n5T-frTo2-d1C6XMCx4JKOLZLa-xilIYedZmrBlA>
-    <xmx:O8PGaMYSN8RaXUyMnT72wTpo_2VBS08NPqNW7SPhrLTYYnaANbhHKQ>
-    <xmx:PcPGaOqGpExHgXCr2sGckUvN3lNhAAH2HN1ttpohvNhUKO9DIQHHlVAK>
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfduue
+    ffleefkeegueektdehkeejtedtffdtudejhfdvheetgfeigfeltdeufeejnecuffhomhgr
+    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepieef
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehulhhfrdhhrghnshhsohhnsehlih
+    hnrghrohdrohhrghdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtohepnhgvrg
+    hlsehgohhmphgrrdguvghvpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtoh
+    hnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrhgtrghnsehmrghr
+    tggrnhdrshhtpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:YN7GaATZo9SilxufSz1EnUQzaOFsuTqisab9144SXip2OdtK6SNNLA>
+    <xmx:YN7GaJKV9V5TpZEISgGyVcxs3hzxjRHlCRxpZ1ubu5AZbXZ1dg9h1Q>
+    <xmx:YN7GaLtfn-mnCoeiXQaPsWDk9zzhoxZfBvlAx4p97b2D9kfTWnImVA>
+    <xmx:YN7GaPJNXrp5QdJBPMY7CemSNwxQLBjHfnIQrKLxRmSJmLsfz5TGDQ>
+    <xmx:ZN7GaF5XtQVAFSjVp-zByym9kYneBv_lXsjnvFHPMbeT2w1HFN8_DQfJ>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 14 Sep 2025 09:29:30 -0400 (EDT)
-Date: Sun, 14 Sep 2025 15:29:29 +0200
+ 14 Sep 2025 11:25:19 -0400 (EDT)
+Date: Sun, 14 Sep 2025 17:25:18 +0200
 From: Janne Grunau <j@jannau.net>
-To: Sven Peter <sven@kernel.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neal Gompa <neal@gompa.dev>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 11/11] usb: typec: tipd: Handle mode transitions for
- CD321x
-Message-ID: <20250914132929.GA1645557@robin.jannau.net>
-References: <20250914-apple-usb3-tipd-v1-0-4e99c8649024@kernel.org>
- <20250914-apple-usb3-tipd-v1-11-4e99c8649024@kernel.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,	Hector Martin <marcan@marcan.st>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,	Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>,	Robin Murphy <robin.murphy@arm.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,	Andi Shyti <andi.shyti@kernel.org>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+Message-ID: <20250914152518.GB1645557@robin.jannau.net>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <CAPDyKFr3WO5nLXYWoyH13KirmfNU+sVrvhefuwC+GrpAgynBgQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -94,41 +127,90 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250914-apple-usb3-tipd-v1-11-4e99c8649024@kernel.org>
+In-Reply-To: <CAPDyKFr3WO5nLXYWoyH13KirmfNU+sVrvhefuwC+GrpAgynBgQ@mail.gmail.com>
 
-On Sun, Sep 14, 2025 at 12:56:16PM +0000, Sven Peter wrote:
-> From: Hector Martin <marcan@marcan.st>
+On Thu, Sep 04, 2025 at 12:41:58PM +0200, Ulf Hansson wrote:
+> On Thu, 28 Aug 2025 at 16:01, Janne Grunau <j@jannau.net> wrote:
+> >
+> > This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> > follow design of the t600x family so copy the structure of SoC *.dtsi
+> > files.
+> >
+> > t6020 is a cut-down version of t6021, so the former just includes the
+> > latter and disables the missing bits.
+> >
+> > t6022 is two connected t6021 dies. The implementation seems to use
+> > t6021 and disables blocks based on whether it is useful to carry
+> > multiple instances. The disabled blocks are mostly on the second die.
+> > MMIO addresses on the second die have a constant offset. The interrupt
+> > controller is multi-die aware. This setup can be represented in the
+> > device tree with two top level "soc" nodes. The MMIO offset is applied
+> > via "ranges" and devices are included with preprocessor macros to make
+> > the node labels unique and to specify the die number for the interrupt
+> > definition.
+> >
+> > The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
+> > counterparts. The existing device templates are SoC agnostic so the new
+> > devices can reuse them and include their t602{0,1,2}.dtsi file. The
+> > minor differences in pinctrl and gpio numbers can be easily adjusted.
+> >
+> > With the t602x SoC family Apple introduced two new devices:
+> >
+> > The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
+> > missing SDHCI card reader and two front USB3.1 type-c ports and their
+> > internal USB hub can be easily deleted.
+> >
+> > The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
+> > devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
+> > implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
+> > calls the PCIe controller "apcie-ge" in their device tree. The
+> > implementation seems to be mostly compatible with the base t6020 PCIe
+> > controller. The main difference is that there is only a single port with
+> > with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
+> > Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
+> > and PCIe slots connect too.
+> >
+> > This series does not include PCIe support for the Mac Pro for two
+> > reasons:
+> > - the linux switchtec driver fails to probe and the downstream PCIe
+> >   connections come up as PCIe Gen1
+> > - some of the internal devices require PERST# and power control to come
+> >   up. Since the device are connected via the PCIe switch the PCIe
+> >   controller can not do this. The PCI slot pwrctrl can be utilized for
+> >   power control but misses integration with PERST# as proposed in [1].
+> >
+> > This series depends on "[PATCH v2 0/5] Apple device tree sync from
+> > downstream kernel" [2] due to the reuse of the t600x device templates
+> > (patch dependencies and DT compilation) and 4 page table level support
+> > in apple-dart and io-pgtable-dart [3] since the dart instances report
+> > 42-bit IAS (IOMMU device attach fails without the series).
+> >
+> > After discussion with the devicetree maintainers we agreed to not extend
+> > lists with the generic compatibles anymore [1]. Instead either the first
+> > compatible SoC or t8103 is used as fallback compatible supported by the
+> > drivers. t8103 is used as default since most drivers and bindings were
+> > initially written for M1 based devices.
+> >
+> > The series adds those fallback compatibles to drivers where necessary,
+> > annotates the SoC lists for generic compatibles as "do not extend" and
+> > adds t6020 per-SoC compatibles.
+> >
+> > [1]: https://lore.kernel.org/linux-pci/20250819-pci-pwrctrl-perst-v1-0-4b74978d2007@oss.qualcomm.com/
+> > [2]: https://lore.kernel.org/asahi/20250823-apple-dt-sync-6-17-v2-0-6dc0daeb4786@jannau.net/
+> > [3]: https://lore.kernel.org/asahi/20250821-apple-dart-4levels-v2-0-e39af79daa37@jannau.net/
+> > [4]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+> >
+> > Signed-off-by: Janne Grunau <j@jannau.net>
 > 
-> On Apple Silicon machines there is no control over which alt mode is
-> chosen. The CD321x' firmware negotiates the target mode on its own and
-> only lets the main CPU know after the mode has already been chosen.
-> Especially after plugging a new cable in this can result to quick mode
-> changes from e.g. power only -> USB3 only -> USB3+DisplayPort in a short
-> time. It is not possile to influence this in any way and we also do not
-> get direct access to the PDOs or VDOs exchanged via USB PD.
-> 
-> Additionally, mode changes must be tightly synchronized between DWC3 and
-> the Type C PHY and most mode changes require a full reset of DWC3 to
-> make the port work correctly.
-> This is all done synchronously from the role switch handler inside the
-> DWC3 glue driver on these machines to avoid tripping any failsafes or
-> watchdogs inside the Type-C PHY that may, in the worst case, reset the
-> entire SoC.
-> 
-> To be able to control all this we trigger the entire process in the
-> correct order directly from the TIPD driver and de-bounce any mode
-> changes to avoid tearing down and re-setting DWC3 back up multiple times
-> any time a new connection is made.
-> 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Co-developed-by: Sven Peter <sven@kernel.org>
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
->  drivers/usb/typec/tipd/core.c | 290 +++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 286 insertions(+), 4 deletions(-)
+> Is it okay for me to pick up the pmdomain patches (patch3 and patch4)
+> by now - or what route are you planning to get this merged through?
 
-Reviewed-by: Janne Grunau <j@jannau.net>
+Sorry, I forgot to mention the merge strategy in the cover letter. I've
+picking up all acked patches that are not yet picked up and we'll merge
+them through the apple-soc tree.
+This includes all dt-binding patches, patch4.
+
+Feel free to pick up or ack patch3
 
 Janne
