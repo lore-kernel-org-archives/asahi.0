@@ -1,62 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389CF2FB970
-	for <asahi@lists.linux.dev>; Mon, 15 Sep 2025 13:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442D31FAC37;
+	Mon, 15 Sep 2025 13:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757942057; cv=none; b=mB9O2lpHNrW4BDxvlpTKOpRRDHV9A7YnQzbEMsn48O1win1vXkYbzzdJ2hD73ADcpMGcfylLeDej3iWj9976GBUE4r7j3ZaIrarPzY9FRZpTcCVQUvgSZidflpHVOXg1D3JHGSwd3LH3/0ep3Zxk513+ghf6tQ2mKFHXbM3OW+g=
+	t=1757944431; cv=none; b=Ry1tE5bDzWcR7moyjphrwKntA7Lixy5d/Biwa0qyg9blYbgjD1fhg+OYscFm19J5cFpRuYZqS9nfR9ddNrCPTtse+hb9DBnwEbd3qZwK3ALqpPqMYvtuYx8zNsg0c3r2beh4QudLIM3yBPNwCjgX6n1qowx2PPeE4/81aFO9xq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757942057; c=relaxed/simple;
-	bh=Dle/WCXE1FdM2SDAFI+ZfumRAap/NFKRsz2OC6kLbMo=;
+	s=arc-20240116; t=1757944431; c=relaxed/simple;
+	bh=2L0TCLurcQikiy6LERWvyLU5Bo9wU2XgceSFsaPD02E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UtZ+fsjt0SHDqi+TgcS8Lls/vz2mHsvUBlXfEEMEvZxrS8mqDvn3CK5yHG3qWP3LFETF68yBr/nD7/Mp9nW2GqW5xKxoGaaa9AXVAfUP3aFDROJQvwl72kbXFWefcEU14jBheW783P3DYWk8lhYxd8y1NTJP5Jj99XK+8YEHWTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEQk+VY2; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q04yicFHUqKcnXrcdgYXtFwFZD8NjdB3/PBmMj56huVk+vRPgW5Iq/e/pRbya/CIVzBeN6ACLKc1w3Au5PKKU7IfH9Pk0hylZRAex8q5qwegEPFAWf7ykVCHazIw/n2GupPW546QgRKH6N2o7489muee19Gkxmc6VaCNstphLCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NFo6SJFp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEQk+VY2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757942055; x=1789478055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Dle/WCXE1FdM2SDAFI+ZfumRAap/NFKRsz2OC6kLbMo=;
-  b=EEQk+VY2zgy3DD2NAPrFkOLEq5b8VpHcN2hMfI39JNt3gE1vZ5LhF6ID
-   FBTvTQ9wgDL6bdj+s9caEm1hN0453LnWW0084wQCJpQTaiIgEtim4obsS
-   b15ZudlCW/k3vyZvOsErzBh03V3zXHVx7yy4UsD5KXx9HJGVIdbVdJX7v
-   XnMtvZuuwvjWOGTz9rI5UHY+TFMDkk9/YEJ2L+LUZy6UzzzAptw3hiCdW
-   qpInlk3M28aaR/+UE2jf/Av7jnwoixYUU4/7R9tfvEKFXsaJ47muKK6i2
-   lxhwtf7iIPLF6BZdMJUHEdF3HsSUAwXC/BHuhnpjE765rpPPG+AtnoRgX
-   w==;
-X-CSE-ConnectionGUID: PbcOJ5niRd+/EvQSDUwbNg==
-X-CSE-MsgGUID: rxwcnMAHT7qhcR8JAYfV3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="59890763"
-X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="59890763"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 06:14:15 -0700
-X-CSE-ConnectionGUID: zpz3F27SSnSNkSqFUpMt/A==
-X-CSE-MsgGUID: ac8/E/joTTG4Igx2G0j/KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="173942411"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by orviesa010.jf.intel.com with SMTP; 15 Sep 2025 06:14:11 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 15 Sep 2025 16:14:10 +0300
-Date: Mon, 15 Sep 2025 16:14:10 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 08/11] usb: typec: tipd: Update partner identity when
- power status was updated
-Message-ID: <aMgRIoaIbMDH3aAl@kuha.fi.intel.com>
-References: <20250914-apple-usb3-tipd-v1-0-4e99c8649024@kernel.org>
- <20250914-apple-usb3-tipd-v1-8-4e99c8649024@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NFo6SJFp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E863BC4CEF1;
+	Mon, 15 Sep 2025 13:53:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757944431;
+	bh=2L0TCLurcQikiy6LERWvyLU5Bo9wU2XgceSFsaPD02E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NFo6SJFppr+gpyl9VOZqDgu6d5hrCbvUYTK2ilkYtJZt7dR2DI/w2VKQzI+VHxIyp
+	 DxfNnnnB7nL2DsbfQlYyHDCC0YAHTmuH1i3HHL9pI6c70vyvJ4qO7xd5F9ETcoe5RE
+	 HFveWnFpb3he3WPSqbmU0tk2AtKnem8aQhyzdVEP4vLe+55QrMRpVD5FOZ5UsUdmKF
+	 96duNO/Jn70uu7Y84TN/ZWL8FhMHgKO+5H5/S5zzsNOD3AeK7RWh9AJDWKfJuqIFDK
+	 nMlldIAsVz5ifxOHi551Y67isBPB2+xMiwy612mNXuW5S1Fo6sf96pnp3h9ExebYbp
+	 QbY4zDeGQkziA==
+Date: Mon, 15 Sep 2025 08:53:49 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
+	linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>,
+	Stephen Boyd <sboyd@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	devicetree@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v4 1/3] dt-bindings: spmi: Add Apple A11 and T2 compatible
+Message-ID: <175794440092.2724212.9818605948916059174.robh@kernel.org>
+References: <20250915-t8015-spmi-v4-0-758620b5f2ae@gmail.com>
+ <20250915-t8015-spmi-v4-1-758620b5f2ae@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -65,51 +48,29 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250914-apple-usb3-tipd-v1-8-4e99c8649024@kernel.org>
+In-Reply-To: <20250915-t8015-spmi-v4-1-758620b5f2ae@gmail.com>
 
-On Sun, Sep 14, 2025 at 12:56:13PM +0000, Sven Peter wrote:
-> From: Hector Martin <marcan@marcan.st>
+
+On Mon, 15 Sep 2025 09:52:24 +0800, Nick Chan wrote:
+> The SPMI bus found on Apple A11 and T2 SoCs are compatible with the
+> existing driver for t8103's spmi so add their compatibles.
 > 
-> Whenever the power status is changed make sure to also update the
-> partner identity to be able to detect changes once de-bouncing and mode
-> changes are added for CD321x.
-> 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: Sven Peter <sven@kernel.org>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 > ---
->  drivers/usb/typec/tipd/core.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index c7cf936e5a61a331271c05b68ff1b77b89c0f643..e16c6c07c72a3e285f1fc94db72bed8dc3217a1d 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -635,9 +635,16 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
->  	if (!tps6598x_read_status(tps, &status))
->  		goto err_unlock;
->  
-> -	if (event & APPLE_CD_REG_INT_POWER_STATUS_UPDATE)
-> +	if (event & APPLE_CD_REG_INT_POWER_STATUS_UPDATE) {
->  		if (!tps6598x_read_power_status(tps))
->  			goto err_unlock;
-> +		if (TPS_POWER_STATUS_PWROPMODE(tps->pwr_status) == TYPEC_PWR_MODE_PD) {
-> +			if (tps6598x_read_partner_identity(tps)) {
-> +				dev_err(tps->dev, "failed to read partner identity\n");
-> +				tps->partner_identity = (struct usb_pd_identity) {0};
-> +			}
-> +		}
-> +	}
->  
->  	if (event & APPLE_CD_REG_INT_DATA_STATUS_UPDATE)
->  		if (!tps->data->read_data_status(tps))
-> 
-> -- 
-> 2.34.1
+>  Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
 
--- 
-heikki
+
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
+
+If a tag was not added on purpose, please state why and what changed.
+
+Missing tags:
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
+
+
