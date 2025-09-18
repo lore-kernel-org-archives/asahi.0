@@ -1,51 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1941327FB3E;
-	Thu, 18 Sep 2025 19:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EE92571BE;
+	Thu, 18 Sep 2025 19:18:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758222970; cv=none; b=kKQNWecehG5rMqUarglbsYa6KHk3fm2bbdXmmTJdoI/yZbOe7LEIRm46mNBxoXs5eZzaaKqPz39EeEgMBYoJeXjQbNTtereee7jrdDmuQE/wnFd+XaBeMyJrHVPBTgYbXOfw526aJCV74rAG+DYJ4/WPkGU/g4U3Ur1RjJ+7RT0=
+	t=1758223099; cv=none; b=a7nn+PQucbWsQmQWa+lwOt0a57v3bsVVZ1UYA+OUci84dvmN/OfYkhK/Ajyn0dOzgdgQr3xHW/ZexXeEvf5v4LksXsuIQNFKfywYdaj30HV+0w+4XHkuH6kbQPacQgaMreiyhIQ7vr6DnJqLYZUw2v6ETPa5+Pa065kxx/8VbKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758222970; c=relaxed/simple;
-	bh=KjDn6sHmv2zJSG8U1crdiaXSz9YTXqPKu6icdPo2s30=;
+	s=arc-20240116; t=1758223099; c=relaxed/simple;
+	bh=MUpffNQtTuMogr/Z0Ui88SDz5hy4fxKiznghbUNZqy4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZjorQc/sBswGsXUTCkpox5Lc7LUtjgLAww3nJJBJ6L43uFBzAp03IFeRViBUF9jrOxgbEB/wP1kGx0OesbW7+1pG61OlYmsOxNoEzz/gwJBuReon69s/NNKRor9yccPSUWCFfsFomhmZyhEfhNHfOhL2ytSzxuGrmL4LqXu8OSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FLCmFbFg; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OXmEwTswzkntU5CHcEUMJQULT2crmUO0499xHIBx3icvru/NrxQNBNveZOi6HujTyfY8VYjiLjLpQzffqZv+1I0t2rNCbHbHm2gh38KqF7Ay3Gm124og2R6dY+tqPaqF425xwwIUeErYldPsXVpaKUPi/VNsJnxQg1tfY1P0pqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lAzz5vCz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FLCmFbFg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16981C4CEE7;
-	Thu, 18 Sep 2025 19:16:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lAzz5vCz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F19C4CEE7;
+	Thu, 18 Sep 2025 19:18:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758222969;
-	bh=KjDn6sHmv2zJSG8U1crdiaXSz9YTXqPKu6icdPo2s30=;
+	s=k20201202; t=1758223099;
+	bh=MUpffNQtTuMogr/Z0Ui88SDz5hy4fxKiznghbUNZqy4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FLCmFbFgOB16yHVUmpDid8KyJanGo+jSn4CL1c+SGxXbJK3Fv7XKbe5Uyu3WxUuru
-	 MDVtzh6VYbrNpkkJeeVkPWv0C47MrlxpIyCGDKypNjPMLn9sNmH1NwlmhD/taagqqd
-	 gmgCOuagY9ejxFmzemfErqQ/Xs7ijJ+Apl0vN4K90uPNG6nwMHKb1hLpVA7gwndNQW
-	 sgwfLX4jzMcO9wyZ8ZWL2anuS5ztOf2AGh74nboaAD5mSI9PQRGyPOfnNrg7mQWIIa
-	 3NN7gkuRl93CTFS3w1wfYIbcA6k2UMrwO8PsYeiLaHhzRI9KsoMEYGbrjCDREFPxaF
-	 cRjVKu/1OGEBQ==
+	b=lAzz5vCzn+2fe5ZhpKvi4G3vWsd5j9LSjYgh4ajOqVJZHJ360/AkSEHr0un0YwkgV
+	 2QjosqpmjgPauPghNP3QE0pBpijuUx0KrIgtG8Anns0O6fF/Iag0N6EwFK/0X3S4Y8
+	 lbBlQNgjY5y2+XkzaXhe+fP5CgNNlRSTm8MOd1VGLjRCouNzRhXxZelmCb4diq+hke
+	 nMCpCspQb5bR+cT0D5ilPryp4l6zGd4JuTsBb6BHYdbUlSnzi/pheWXD8lNNsmUGH8
+	 CS5eC+bQjXZwmHNLNSL9kqQgsoPChMfWcF+aj8m0kSZmEz+f3Drx6otOg4zZ6mqKkn
+	 HgnUKu2P78Tkg==
 From: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>,
+To: linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] SPMI dt-bindings and nodes for Apple A11 and T2 SoCs
-Date: Thu, 18 Sep 2025 21:15:37 +0200
-Message-Id: <175822291282.28444.12268120049385663263.b4-ty@kernel.org>
+	j@jannau.net,
+	maz@kernel.org,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Sven Peter <sven@kernel.org>,
+	Neal Gompa <neal@gompa.dev>
+Subject: Re: [PATCH v2] MAINTAINERS: remove Alyssa Rosenzweig
+Date: Thu, 18 Sep 2025 21:18:14 +0200
+Message-Id: <175822308081.28767.18396895381445166904.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250915-t8015-spmi-v4-0-758620b5f2ae@gmail.com>
-References: <20250915-t8015-spmi-v4-0-758620b5f2ae@gmail.com>
+In-Reply-To: <20250908-kernel-retirement-v2-1-85c9d4d49f26@rosenzweig.io>
+References: <20250908-kernel-retirement-v2-1-85c9d4d49f26@rosenzweig.io>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -55,25 +49,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 15 Sep 2025 09:52:23 +0800, Nick Chan wrote:
-> This series adds dt-bindings and nodes for Apple A11 and T2 SoCs,
-> and the existing driver appears to be compatible. Drivers for the attached
-> Dialog DA2422 and DA2449 PMICs will be in a future patch series.
+On Mon, 08 Sep 2025 09:04:19 -0400, Alyssa Rosenzweig wrote:
+> I'm moving on to other projects [1] and no longer wish to be copied on
+> kernel patches. Remove my MAINTAINERS entries: both related to Apple
+> driver support. So long and thanks for all the fish.
 > 
-> The dt-binding patch depends on other spmi dt-binding patches that are
-> already applied in apple-soc/drivers-6.18, so it is best for it to be
-> applied through there.
+> [1] https://rosenzweig.io/blog/asahi-gpu-part-n.html
+> 
 > 
 > [...]
 
-Applied to git@github.com:AsahiLinux/linux.git (asahi-soc/for-next), thanks!
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/fixes-6.17), thanks!
 
-[1/3] dt-bindings: spmi: Add Apple A11 and T2 compatible
-      https://github.com/AsahiLinux/linux/commit/4b167146ec05
-[2/3] arm64: dts: apple: t8012: Add SPMI node
-      https://github.com/AsahiLinux/linux/commit/8f6e6934e33e
-[3/3] arm64: dts: apple: t8015: Add SPMI node
-      https://github.com/AsahiLinux/linux/commit/70fa521f4d55
+[1/1] MAINTAINERS: remove Alyssa Rosenzweig
+      https://github.com/AsahiLinux/linux/commit/07db1def8f0a
 
 Best regards,
 -- 
