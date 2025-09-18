@@ -1,72 +1,128 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E27372628;
-	Thu, 18 Sep 2025 19:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE8621B9E7;
+	Thu, 18 Sep 2025 19:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758223368; cv=none; b=NOe1z6W8Fk4nKslUBDILvIJfq3LBePimSeGzGC5ean3oM3thGWMDdaHraKoNVnAFTUMJ2M5TWCbCvlAF4YBgc8zM0FFCN39NPMpVDVPT2Z8aCJLlwPre7PJAlCohiQSDM9p7oxsx8gDjEniussdDliJvy04YLntjC1DwnOYlL1w=
+	t=1758223993; cv=none; b=qOD9q2ldcS0dBKvCKfAbGyrgHq9BMJQ9+SjwM05+f8DhrQCXEmCbNjIYaJP0xtUjwaD7fiSPnfYdUVZBpvrDh+UGTh4Qkc3PxBg97D7rNzcGJekrLf9a16bq4H2ix47vlhk/dvcSWhWwCCYPENCGXSJwZ7jjYwtN7XvLtZm5wWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758223368; c=relaxed/simple;
-	bh=uUTkBOCHlpE9jvtDKV3XPScDPvuC3VQ5F2qvTh6jLIk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eCZNeXXORU/DFW9gn4R6t5j1TzOJpIc6p1y8T8VL5WCZAsHoLjWEEYMYb3TSOVU8VCEcPVsZQu/EZRlswYIctsWRPpBujbP8JCBN2fQefT6hCXfsd00horNdzQxWbSM0Uy6Hc5s2D+Ab9GcUooYajFB7JMTkXc4ISh4uw5BB0KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BAbn0Zf0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758223993; c=relaxed/simple;
+	bh=SiTsMJ0sXAvpCnRX8FDPv8MfV2YWSlcEA47DenlZULY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fGhViwm+q2NMeUEu8m7/lJLhrFTxPZKdVYccF8r4IdjBUh+DTeKFxa3tWjq6INQZSV1rJfpZkEYVG4TzvWXZWDR15GevwTUDVspB0r5gGWlUkSQ+nHJyykfswEBmUjQQkR6dm8lNsTQhH8VIV9x4HeCuGHXuh4QDdDLDKi+FwSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YlGWVZsw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BAbn0Zf0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A04DC4CEE7;
-	Thu, 18 Sep 2025 19:22:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YlGWVZsw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6849EC4CEE7;
+	Thu, 18 Sep 2025 19:33:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758223367;
-	bh=uUTkBOCHlpE9jvtDKV3XPScDPvuC3VQ5F2qvTh6jLIk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BAbn0Zf07MqY+sjUJIbC5od42aLaFginsyXK8hlH9oUg2mk6nxkaQ60pTMToqssWu
-	 MGUoH0/kM4TH6VwokFhtXpBRr16vrUokj3eRtSYrLyFd8i2cTLPk+fCRFUUiQHeL3t
-	 LH/D1/GkmDOwDlxq4O4uidaRO0aDu4oztJsWc9OhRrlHnB76IBs6TdAWicXlp4dmvP
-	 zTAtgFgn+0HkvRPjnNTxY7aG3H/vavVwiRbq1pHuECeDEcM3p64Y8fvpjYPOBnP0Sx
-	 6JeJ3RhMzgK+GEqytC+bfQ7TJ596dwErRQ/oLmkBJhlS0sfS3XzBBzFt6EIfZiNmW4
-	 /GALPuaNhiBpw==
+	s=k20201202; t=1758223993;
+	bh=SiTsMJ0sXAvpCnRX8FDPv8MfV2YWSlcEA47DenlZULY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YlGWVZsw4RvC4JibN0EA6ibUfzsD04RlN5WeB4D1zYQJ9gFHptEmnMVPmNBfSr3bB
+	 HH0XQZaLMzje1GGD7MwYt/JCmyf05k0dQ6elVo0kMqFC6RFQERQ2PASS0IlJFTGjkC
+	 TM63BT3RirjMC9mwtoe83aVhq5IgPpoiCWPo3XrZAvth7Ae6b/S0KHw5UclcLM357T
+	 vBP+w/K7TuYScKef3bSEN7M147yQI0P5i48fs3CaLS+hEszfe9jT4ZharfxIxLD6Rf
+	 OBJrM7gKQOK0jhPAl/N8uNKTH4OqrvrxhtqD04A7yLGkDGjRLWIlXn6DNb0lwSs5lw
+	 A4+l3vl0alafw==
 From: Sven Peter <sven@kernel.org>
-To: soc@lists.linux.dev
-Cc: asahi@lists.linux.dev,
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	van Spriel <arend@broadcom.com>,
+	Lee Jones <lee@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Michael Turquette <mturquette@baylibre.com>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sven Peter <sven@kernel.org>
-Subject: [GIT PULL] Apple SoC fixes for v6.17
-Date: Thu, 18 Sep 2025 21:22:41 +0200
-Message-Id: <20250918192241.29374-1-sven@kernel.org>
+	linux-pm@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: (subset) [PATCH 00/37] arm64: Add initial device trees for Apple M2 Pro/Max/Ultra devices
+Date: Thu, 18 Sep 2025 21:32:52 +0200
+Message-Id: <175822390213.30186.12188566922096991002.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+On Thu, 28 Aug 2025 16:01:19 +0200, Janne Grunau wrote:
+> This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> follow design of the t600x family so copy the structure of SoC *.dtsi
+> files.
+> 
+> t6020 is a cut-down version of t6021, so the former just includes the
+> latter and disables the missing bits.
+> 
+> [...]
 
-  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/drivers-6.18), thanks!
 
-are available in the Git repository at:
+[03/37] pmdomain: apple: Add "apple,t8103-pmgr-pwrstate"
+        https://github.com/AsahiLinux/linux/commit/442816f97a4f
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git tags/apple-soc-fixes-6.17
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
-for you to fetch changes up to 07db1def8f0aad25612b35377b63aa20b032c86d:
-
-  MAINTAINERS: remove Alyssa Rosenzweig (2025-09-18 21:17:31 +0200)
-
-----------------------------------------------------------------
-Apple SoC fixes for 6.17
-
-Just a single commit that drops Alyssa from MAINTAINERS at her own wish
-and adds here to .get_maintainer.ignore
-
-Signed-off-by: Sven Peter <sven@kernel.org>
-
-----------------------------------------------------------------
-Alyssa Rosenzweig (1):
-      MAINTAINERS: remove Alyssa Rosenzweig
-
- .get_maintainer.ignore | 1 +
- MAINTAINERS            | 2 --
- 2 files changed, 1 insertion(+), 2 deletions(-)
