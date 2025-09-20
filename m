@@ -1,200 +1,169 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011048.outbound.protection.outlook.com [40.93.194.48])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4572D6E47;
-	Fri, 19 Sep 2025 23:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758323719; cv=fail; b=o+PItB/bSnD6DUoi/TQOHRQxSD6WEIfTw/35UCua9b50Un21WMXxahShH0xlUBWX8fNc10jYzGc1DOlue7AEYNz4fSTkPBJoDCsyismbbWubJNcxptBvNsV65mdgugS56BXMMybNIXNFnX61uGjuJDoNFMDLl5Drdj5tArEWIkg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758323719; c=relaxed/simple;
-	bh=wcqjjk6lozDghnN+UvGHfG8MoN3H3NJkbdPet8xqZbY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ENOZFFwIIIxiDAceB5pCSF7UkSBBhAhRmxetTHxrHIFt+GxQVfr0txWeNS+49vIaDFjfi8St9qN23JFcw5C0Z6n0UZLQI4LZqRewvoaqFtabdk0p49aWuipkLja6ukQY+NHMWcQZj3FnVXSy60VmYlk4X69o3OM1+BCHYTfWoRA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Z5nDeVFS; arc=fail smtp.client-ip=40.93.194.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84CE18BBB9;
+	Sat, 20 Sep 2025 11:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758368900; cv=none; b=WsXCgvTfGn5vTPknBA/FX8ZQLajbIBwRR+blviU0/ppWcCSyE/a/57pFfObbSbqqG2eZ7wEYIuJ6XtsU6RCoSLSjFMwzu3hvjmqWpFkZv/3+VXeZ9RbISOt/PDPJ7aNBP0cR55huUXj6WZVjS48WulQqNI+WVYFCKRXx6WqEKvo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758368900; c=relaxed/simple;
+	bh=S4lEmGoMz/EYlXIdqoTKwelfO4ALXROy7V1e0MeAQH0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q9UyqQ7MCoxZ4xaIPVHnmjZQBoIwKWaiiTXyig+TfnwPsWhjyUF/XS6jj/8iNJoNTsReAoRH+rr9xdo3Xc+rY5i/1mG309ILeOZ4npWpNbb6JNDHuKh77VHa6euJnIhiTIhkpMdAP71Isf40vY7RKrp1PHBFzEDHUZU/L34eaZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iaVGOGOR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Z5nDeVFS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yVLxc6Tmdiw/FvVnwMrbXK3FEdg1e7PeHwUpip7vV7kUGHgmidCEUfSMmU2z9V+yH3gTzWLI8MV4ZppCEykhYA17hIeG+Ow4lahiOXq/8Hh1IBcy8nV8q4Ldy3v2/uSF1A1gV/+5jaYCtN0H+VRYeorikj+pg3ELFvMh3sQEYQYDBncH3StZS5qbcbty23z/7Q2j4p2aJ6vIxJ++Nzz5Kkm4YwcYLKKH5VMqcNZ6PT8XV6qN4dIgO5Sd/CattsO7Er5LBbZ/LPlNxry2D8W7RIjxLrlcfBIwOf5uIQsBHXI9GTQ9NN/dZa7rPeiuMM0dk+PNZx4Rs2+Z2a8XOm6zZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c/Qg5mfPam+hZ4EzvkfwG8c/nFVyTqd8/nbtNYm2gGE=;
- b=dk5e89/Z9K3MtAwRfF/tP8REgyftc3njeRaMF49WrALYvVNiypy2maA2WHE/XMI7JSBWig6YJCHgAS5o/fIh64tuh9pcMIcJZFtK0zFc1e0H8di9/O7b5Oy90lXJsFo/DxXeCWjcRjJXp4c7mRfvJ7kNtEVL4Um+Kw6TOBNcGa6YDtmnbnupKQv8MEFGqBKqS1h7F8BCKrJNJucEjMkr9FdmDCqqsOLWSGWExtEbjl39Yscm8K4IelPxkLlPa78ByNUU/yr2fC7iLbRQ1Se86x1WA3YQY2aJ7Es1bMp/CvFyv4FvT9tHL/Kskh2MTwg1CyPBMkXBTPV5lVOga0o0gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c/Qg5mfPam+hZ4EzvkfwG8c/nFVyTqd8/nbtNYm2gGE=;
- b=Z5nDeVFSm4/8za0PjwMKAGBCJFzhToMnDWyo3aPsm9u3eOL6gvBzHQNeOMqfv2MKSNZ8moMtKn4AUgIb5zYuMA/v4haOqVXgKBM5xADMZYOqdOUJCgiq2n0cyQyoRRseUCyplCmN0EyX+ROTnQ6X5F/XsuNQqoBpJPObfuDT1poSG6dFMXrPvgjdHC4zRBYxOId9XYHadioAjkCZHEeN7wxyiPF+zIYU0YsBwLS10GNrRC6rBEIXkj7cgYgNLHqSCsAIA8nz/HiB/L/xl/rKRqMkLaE760HnvwFcfgCAZEkbsKZkLnEvT3E5UvXPcbIucwB/rH75Qq/18HvixpjFeg==
-Received: from PH7P220CA0080.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:32c::23)
- by SJ2PR12MB8011.namprd12.prod.outlook.com (2603:10b6:a03:4c8::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Fri, 19 Sep
- 2025 23:15:13 +0000
-Received: from CY4PEPF0000EE37.namprd05.prod.outlook.com
- (2603:10b6:510:32c:cafe::5) by PH7P220CA0080.outlook.office365.com
- (2603:10b6:510:32c::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.14 via Frontend Transport; Fri,
- 19 Sep 2025 23:15:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000EE37.mail.protection.outlook.com (10.167.242.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Fri, 19 Sep 2025 23:15:12 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 19 Sep
- 2025 16:14:48 -0700
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.34; Fri, 19 Sep
- 2025 16:14:48 -0700
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.129.68.7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Fri, 19 Sep 2025 16:14:44 -0700
-Date: Fri, 19 Sep 2025 16:14:43 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-CC: "joro@8bytes.org" <joro@8bytes.org>, "jgg@nvidia.com" <jgg@nvidia.com>,
-	"bhelgaas@google.com" <bhelgaas@google.com>, "suravee.suthikulpanit@amd.com"
-	<suravee.suthikulpanit@amd.com>, "will@kernel.org" <will@kernel.org>,
-	"robin.murphy@arm.com" <robin.murphy@arm.com>, "sven@kernel.org"
-	<sven@kernel.org>, "j@jannau.net" <j@jannau.net>, "alyssa@rosenzweig.io"
-	<alyssa@rosenzweig.io>, "neal@gompa.dev" <neal@gompa.dev>,
-	"robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>,
-	"m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "krzk@kernel.org"
-	<krzk@kernel.org>, "alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
-	"dwmw2@infradead.org" <dwmw2@infradead.org>, "baolu.lu@linux.intel.com"
-	<baolu.lu@linux.intel.com>, "yong.wu@mediatek.com" <yong.wu@mediatek.com>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"angelogioacchino.delregno@collabora.com"
-	<angelogioacchino.delregno@collabora.com>, "tjeznach@rivosinc.com"
-	<tjeznach@rivosinc.com>, "paul.walmsley@sifive.com"
-	<paul.walmsley@sifive.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "alex@ghiti.fr"
-	<alex@ghiti.fr>, "heiko@sntech.de" <heiko@sntech.de>,
-	"schnelle@linux.ibm.com" <schnelle@linux.ibm.com>, "mjrosato@linux.ibm.com"
-	<mjrosato@linux.ibm.com>, "gerald.schaefer@linux.ibm.com"
-	<gerald.schaefer@linux.ibm.com>, "orsonzhai@gmail.com" <orsonzhai@gmail.com>,
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
-	"zhang.lyra@gmail.com" <zhang.lyra@gmail.com>, "wens@csie.org"
-	<wens@csie.org>, "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-	"samuel@sholland.org" <samuel@sholland.org>, "jean-philippe@linaro.org"
-	<jean-philippe@linaro.org>, "rafael@kernel.org" <rafael@kernel.org>,
-	"lenb@kernel.org" <lenb@kernel.org>, "Liu, Yi L" <yi.l.liu@intel.com>,
-	"cwabbott0@gmail.com" <cwabbott0@gmail.com>, "quic_pbrahma@quicinc.com"
-	<quic_pbrahma@quicinc.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "linux-samsung-soc@vger.kernel.org"
-	<linux-samsung-soc@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "virtualization@lists.linux.dev"
-	<virtualization@lists.linux.dev>, "linux-acpi@vger.kernel.org"
-	<linux-acpi@vger.kernel.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>, "Sethi, Vikram" <vsethi@nvidia.com>,
-	"helgaas@kernel.org" <helgaas@kernel.org>, "etzhao1900@gmail.com"
-	<etzhao1900@gmail.com>
-Subject: Re: [PATCH v4 5/7] iommu: Add iommu_get_domain_for_dev_locked()
- helper
-Message-ID: <aM3j48Xqlfvh44fm@Asurada-Nvidia>
-References: <cover.1756682135.git.nicolinc@nvidia.com>
- <c9daeafb9046bed9e915fdafe20fe28a8c427d29.1756682135.git.nicolinc@nvidia.com>
- <BL1PR11MB527129A9BBF84BAC106B327E8C08A@BL1PR11MB5271.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iaVGOGOR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E848FC4CEEB;
+	Sat, 20 Sep 2025 11:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758368899;
+	bh=S4lEmGoMz/EYlXIdqoTKwelfO4ALXROy7V1e0MeAQH0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iaVGOGORuQwMrNSIa4PH+D4hqQ1EzqYfhpFDlKS6GxoHvE2G07cydmcNxbH7JiSaF
+	 VB//OvZ/NIyqtXTiQdgNIaJR1yOOt0GN5wvED71XbHWGfJQ8MXAbSmRKzOP0oGzxUo
+	 eI0dRZofOuo2tWVbhmOha+R9iPLZBhlAq6PxjOe1O36YWhAikhcfQDESIsNAQ7q3jU
+	 7Gd+ryQWi2LOvjIBn6+lHG+z8ITQPLWMenRTdeRpW6AWLUHFqDx4XBMKA2WVWqmMZP
+	 P+Fxg09E+3mx9SdSTdOU9opMn20sKOks4qBu7Z2VV23wsoQOCrm3HqCHZtnhcHSmN+
+	 St34XJ6vkjrEw==
+Message-ID: <5bae4ebe-dd42-4e84-9ee6-c9f6a88f7db5@kernel.org>
+Date: Sat, 20 Sep 2025 13:48:12 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <BL1PR11MB527129A9BBF84BAC106B327E8C08A@BL1PR11MB5271.namprd11.prod.outlook.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE37:EE_|SJ2PR12MB8011:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba7ef5ec-8489-4649-31ee-08ddf7d262e5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0GACN3qznxKYjXD0FFz200NahW22jOhyIzG6IkToK6aNz4roLC4njGUBQ7O+?=
- =?us-ascii?Q?0bVI02WX4bTxYRj7B6ZAKmBRzZsjzRT/+Gj2l0Anmpsob7+ywbMsVPzRiLTG?=
- =?us-ascii?Q?+wVg3y9DI6fAsVFlaPx42zVew39AyYgNP53XK7/DumnZX0k8ZOac1i5c6nCd?=
- =?us-ascii?Q?FaASQGIREDofqtXzipg6hpSn/PXnG/No58E1RTXI0NsvtDBSpYdWXVeHAaXT?=
- =?us-ascii?Q?1u+oc+5orfcC+22qgG+/Jw1Qrf6PWJ3kSuWlvgun4sD9m5qVqI1Qa563zp7J?=
- =?us-ascii?Q?mB1iXpGq8E0gTZ7qoIuDcJ5pXc6Y0c6b/Xqr7RJqVDs8Ctj9+q7Fr52MNAYB?=
- =?us-ascii?Q?gImTxMG3yGj08V+SY9ZgfUZEpRQPW8jCdzrmcFItjuscuXrTiKgTG9ygTeCi?=
- =?us-ascii?Q?WU5v1Kvv846bF2OgXsCEo96yadl6om6J81wLKmjxDnYrgAhERZTyGpGK+ucN?=
- =?us-ascii?Q?+9teWY76j9A+VWBTSeo1QJP3TWltPwGXVSye8r8t2qQbY77txY7FxNA301a1?=
- =?us-ascii?Q?PlRnVPGfDZuT3xjgQW1z+L2F5UMXTZQc9R/cdzd3wNqwGf+2yVTrV3CFkN+V?=
- =?us-ascii?Q?mYUeOiu70zbBvWQmvnhpfhfxmAZ5peAUXt5EVATs/CXJqax9iBgVBHlKs0LX?=
- =?us-ascii?Q?dyuXMpGkQfS2+OP9tlMDlLy2vgwZD9kwaaus61TWl4ppXIL6X7LceuZ9k2CY?=
- =?us-ascii?Q?e+sn2FrDr2eR1MKp3WEgVEbIJrjJp0xT0yVNZZJjd9NQOR/bf5dO/G+Z/z7G?=
- =?us-ascii?Q?IUrl4h90jPKe+4S8CCmCqnzasW22EEk7FhLcQgNVGIB2SlX+uYoEAUjRbIM9?=
- =?us-ascii?Q?n1qeMYLlepjrsjXclxsmJ+9D4hxU0tKydycmvPjaTfYt8Zkilt8ewgkqbnHm?=
- =?us-ascii?Q?lPkeBVXquQKWcF5u2YfWgayK8MJACn9cFVTIWug18Y6T+KCeFWnGClbRvvk2?=
- =?us-ascii?Q?dRv0jpVfgvghR7kuLef3SOhmN+zTGsJxJvEXMRH+L28NsawwMbeY4utnRuok?=
- =?us-ascii?Q?qTgo7LNOMnoZkLPENR12buZ25ZRWGRqSDivO0plIrHhodWa52cUlH4CMA7Fr?=
- =?us-ascii?Q?+JytRQ9IlsTL1KfTDCM6ZXhe/MxCvj9zD4VCdQxs62kmJ5hLWTyBEHpLK568?=
- =?us-ascii?Q?g+DXIe7TzlwWjbY7EldpAnzwKmcEqph20ERzKGrTqzBo7E5iFpgHqFjy3gel?=
- =?us-ascii?Q?enphqiSnQih6DRB6MIDHiQg/jdOH5yJdjoL/+CGX94xNWwY0mDr8GSJBrBl9?=
- =?us-ascii?Q?x0k4wxlC69NQrH2WNdIJ9J5DfbH8vWdrYAB6ciu0KNNH6mRZ8898mPUcfKZy?=
- =?us-ascii?Q?6ifxYbYlIXZpco+8+DCUW6YsACx9gmZkPm0XWxk1KdJ5J506VyzjXjBWHs2/?=
- =?us-ascii?Q?K1UaqcZKYzlUoOUCR4o75fHE/Ml9lPQyc49hsHxtK081yaMrPW3lxHYkZSXj?=
- =?us-ascii?Q?mTpzo8Ukc/R6GQQ1RtyU3eIY4BImq1aMouCCEQueplRSZlEc4AIj7niAVIlI?=
- =?us-ascii?Q?jM4lmV5ZXb4+D3afQruBDGO8Ap1GBEbVbj2T?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 23:15:12.8569
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba7ef5ec-8489-4649-31ee-08ddf7d262e5
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE37.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8011
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/22] usb: dwc3: glue: Allow more fine grained control
+ over mode switches
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
+ Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
+References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
+ <20250906-atcphy-6-17-v2-3-52c348623ef6@kernel.org>
+ <20250919214013.gtbaknjrgd375hm6@synopsys.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20250919214013.gtbaknjrgd375hm6@synopsys.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 12, 2025 at 09:36:38AM +0000, Tian, Kevin wrote:
-> > From: Nicolin Chen <nicolinc@nvidia.com>
-> > Sent: Monday, September 1, 2025 7:32 AM
-> > 
-> > 
-> > +/* Caller must be a general/external function that isn't an IOMMU callback
-> > */
-> >  struct iommu_domain *iommu_get_domain_for_dev(struct device *dev)
-> >  {
+Hi,
+
+On 19.09.25 23:40, Thinh Nguyen wrote:
+> On Sat, Sep 06, 2025, Sven Peter wrote:
+>> We need fine grained control over mode switched on the DWC3 controller
+>> present on Apple Silicon. Export core, host and gadget init and exit,
+>> ptrcap and susphy control functions. Also introduce an additional
+>> parameter to probe_data that allows to skip the final initialization
+>> step that would bring up host or gadget mode.
+>>
+>> Signed-off-by: Sven Peter <sven@kernel.org>
+>> ---
+>>   drivers/usb/dwc3/core.c   | 16 +++++++++++-----
+>>   drivers/usb/dwc3/gadget.c |  2 ++
+>>   drivers/usb/dwc3/glue.h   | 14 ++++++++++++++
+>>   drivers/usb/dwc3/host.c   |  2 ++
+>>   4 files changed, 29 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+>> index 8002c23a5a02acb8f3e87b2662a53998a4cf4f5c..18056fac44c8732278a650ac2be8b493892c92dd 100644
+>> --- a/drivers/usb/dwc3/core.c
+>> +++ b/drivers/usb/dwc3/core.c
+>> @@ -132,6 +132,7 @@ void dwc3_enable_susphy(struct dwc3 *dwc, bool enable)
+>>   		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(i), reg);
+>>   	}
+>>   }
+>> +EXPORT_SYMBOL_GPL(dwc3_enable_susphy);
+>>   
+>>   void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy)
+>>   {
+>> @@ -157,6 +158,7 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy)
+>>   
+>>   	dwc->current_dr_role = mode;
+>>   }
+>> +EXPORT_SYMBOL_GPL(dwc3_set_prtcap);
 > 
-> 'general function' is not easy to get its meaning. just keep 'external'?
+> I'm hesitant to export this as is. This function may change the susphy
+> bits and expect them to be restored later. It's not meant to be a
+> standalone use. At least, we should document how it should be used along
+> with the other newly added interfaces.
 
-This is still one internal function use this:
-drivers/iommu/dma-iommu.c:1785:	    iommu_deferred_attach(dev, iommu_get_domain_for_dev(dev)))
 
-So, it's not completely "external" :-/
+Sure, I can otherwise also open-code the susphy change inside 
+dwc3_apple_phy_set_mode anyway if you prefer to keep this private to the 
+dwc3 core. I should restore it there to the original value anyway I 
+guess after phy_set_mode.
 
-Thanks
-Nicolin
+
+
+>>   
+>>   static void __dwc3_set_mode(struct work_struct *work)
+
+[...]
+
+>>   int dwc3_gadget_suspend(struct dwc3 *dwc)
+>>   {
+>> diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
+>> index 2efd00e763be4fc51911f32d43054059e61fb43a..633268c76fe4c7fdc312c9705dfa7cf7ccf3544c 100644
+>> --- a/drivers/usb/dwc3/glue.h
+>> +++ b/drivers/usb/dwc3/glue.h
+>> @@ -15,16 +15,30 @@
+>>    * @res: resource for the DWC3 core mmio region
+>>    * @ignore_clocks_and_resets: clocks and resets defined for the device should
+>>    *		be ignored by the DWC3 core, as they are managed by the glue
+>> + * @skip_core_init_mode: skip the finial initialization of the target mode, as
+> 
+> finial -> final?
+
+Whoops, yes, I thought I ran a spell checker over this because I usually 
+add a lot of typos but must've forgotten :-)
+
+
+> 
+>> + *		it must be managed by the glue
+>>    */
+
+[...]
+
+>>   
+>> +int dwc3_core_init(struct dwc3 *dwc);
+>> +void dwc3_core_exit(struct dwc3 *dwc);
+>> +
+>> +int dwc3_host_init(struct dwc3 *dwc);
+>> +void dwc3_host_exit(struct dwc3 *dwc);
+>> +int dwc3_gadget_init(struct dwc3 *dwc);
+>> +void dwc3_gadget_exit(struct dwc3 *dwc);
+>> +
+>> +void dwc3_enable_susphy(struct dwc3 *dwc, bool enable);
+>> +void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy);
+>> +
+> 
+> We should document these interfaces. The dwc3_core_probe() does all of
+> the above in the proper order. It's not obvious why these are needed and
+> how they should be used.
+
+Very good point, I'll add documentation for all of these!
+
+
+Thanks for the review,
+
+
+Sven
+
+
