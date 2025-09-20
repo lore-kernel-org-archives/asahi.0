@@ -1,169 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84CE18BBB9;
-	Sat, 20 Sep 2025 11:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F47C1E502;
+	Sat, 20 Sep 2025 12:30:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758368900; cv=none; b=WsXCgvTfGn5vTPknBA/FX8ZQLajbIBwRR+blviU0/ppWcCSyE/a/57pFfObbSbqqG2eZ7wEYIuJ6XtsU6RCoSLSjFMwzu3hvjmqWpFkZv/3+VXeZ9RbISOt/PDPJ7aNBP0cR55huUXj6WZVjS48WulQqNI+WVYFCKRXx6WqEKvo=
+	t=1758371434; cv=none; b=FVZ3mIjDSQrAZAuOJ4ov/hSySKdcWS5/Z7EVxl3yo8iiWhSqyWFSFG+ersz/C8Y7umC8hSpETyJNtiw83uTtNP2f5nwpSD9PpJNBK+V49pPf2a3zUf0Yhq6PHZXusOlpojVrTgNLqPPU9yRKDmRGwEkqenFftq7RgQQEZscRa2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758368900; c=relaxed/simple;
-	bh=S4lEmGoMz/EYlXIdqoTKwelfO4ALXROy7V1e0MeAQH0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q9UyqQ7MCoxZ4xaIPVHnmjZQBoIwKWaiiTXyig+TfnwPsWhjyUF/XS6jj/8iNJoNTsReAoRH+rr9xdo3Xc+rY5i/1mG309ILeOZ4npWpNbb6JNDHuKh77VHa6euJnIhiTIhkpMdAP71Isf40vY7RKrp1PHBFzEDHUZU/L34eaZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iaVGOGOR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758371434; c=relaxed/simple;
+	bh=+ABFe90/6L3G3RwAWo57j6ADE9lXeFOY1J0mVIJdsog=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hkUCsanrvbrBsSPdWFduqQIr1zNIu0a1nppOXstASK4bICjQ6v2tT76TpSDwe7+UISUSba6SeQwf9tnpvuIeD3BQoid6FXgBtwBhfENt43NXY6RWbyPnIKc+9wF+QXgACgn6LDStHenVv8oKj8fX4rAEIPjSYp9Z8/P8BhNrE+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fnqKPjuw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iaVGOGOR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E848FC4CEEB;
-	Sat, 20 Sep 2025 11:48:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fnqKPjuw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2752EC4CEEB;
+	Sat, 20 Sep 2025 12:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758368899;
-	bh=S4lEmGoMz/EYlXIdqoTKwelfO4ALXROy7V1e0MeAQH0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iaVGOGORuQwMrNSIa4PH+D4hqQ1EzqYfhpFDlKS6GxoHvE2G07cydmcNxbH7JiSaF
-	 VB//OvZ/NIyqtXTiQdgNIaJR1yOOt0GN5wvED71XbHWGfJQ8MXAbSmRKzOP0oGzxUo
-	 eI0dRZofOuo2tWVbhmOha+R9iPLZBhlAq6PxjOe1O36YWhAikhcfQDESIsNAQ7q3jU
-	 7Gd+ryQWi2LOvjIBn6+lHG+z8ITQPLWMenRTdeRpW6AWLUHFqDx4XBMKA2WVWqmMZP
-	 P+Fxg09E+3mx9SdSTdOU9opMn20sKOks4qBu7Z2VV23wsoQOCrm3HqCHZtnhcHSmN+
-	 St34XJ6vkjrEw==
-Message-ID: <5bae4ebe-dd42-4e84-9ee6-c9f6a88f7db5@kernel.org>
-Date: Sat, 20 Sep 2025 13:48:12 +0200
+	s=k20201202; t=1758371433;
+	bh=+ABFe90/6L3G3RwAWo57j6ADE9lXeFOY1J0mVIJdsog=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fnqKPjuwWPTWO/5/xvtw6GA3iR/3+e48t2cVXcsiVuGjoBLf1x2d7qxVLquQ851p/
+	 mB1nGZdkMocGgGbFedR75ni2oawfAproeT66hAy7KfFTmtDjfkLV//U7hL/H5l6jIV
+	 yWLVArkD52Hbh2G5zb/YyhWBUsjybmvFqX2vRHfEQLbIYfF06L+g11h5LlHuqmX/5S
+	 78QCl+qfgTKv/5I/P5rfIcc8Zqa+TJlRJmTpqPY3mPLNyfR4BBoXvfPaUO8vqgC2qF
+	 Hlyp1yid4DOC9Kp3tuVsE+9jZJCS5E5BDbXkN3LgdlCyKwa8GKnCoifEYHqMCcGZTl
+	 5pJP+kLsinF1g==
+From: Sven Peter <sven@kernel.org>
+To: soc@lists.linux.dev
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Sven Peter <sven@kernel.org>
+Subject: [GIT PULL 1/2] Apple SoC driver changes for v6.18
+Date: Sat, 20 Sep 2025 14:30:27 +0200
+Message-Id: <20250920123028.49973-1-sven@kernel.org>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/22] usb: dwc3: glue: Allow more fine grained control
- over mode switches
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
- Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
-References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
- <20250906-atcphy-6-17-v2-3-52c348623ef6@kernel.org>
- <20250919214013.gtbaknjrgd375hm6@synopsys.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20250919214013.gtbaknjrgd375hm6@synopsys.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
 
-On 19.09.25 23:40, Thinh Nguyen wrote:
-> On Sat, Sep 06, 2025, Sven Peter wrote:
->> We need fine grained control over mode switched on the DWC3 controller
->> present on Apple Silicon. Export core, host and gadget init and exit,
->> ptrcap and susphy control functions. Also introduce an additional
->> parameter to probe_data that allows to skip the final initialization
->> step that would bring up host or gadget mode.
->>
->> Signed-off-by: Sven Peter <sven@kernel.org>
->> ---
->>   drivers/usb/dwc3/core.c   | 16 +++++++++++-----
->>   drivers/usb/dwc3/gadget.c |  2 ++
->>   drivers/usb/dwc3/glue.h   | 14 ++++++++++++++
->>   drivers/usb/dwc3/host.c   |  2 ++
->>   4 files changed, 29 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->> index 8002c23a5a02acb8f3e87b2662a53998a4cf4f5c..18056fac44c8732278a650ac2be8b493892c92dd 100644
->> --- a/drivers/usb/dwc3/core.c
->> +++ b/drivers/usb/dwc3/core.c
->> @@ -132,6 +132,7 @@ void dwc3_enable_susphy(struct dwc3 *dwc, bool enable)
->>   		dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(i), reg);
->>   	}
->>   }
->> +EXPORT_SYMBOL_GPL(dwc3_enable_susphy);
->>   
->>   void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy)
->>   {
->> @@ -157,6 +158,7 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy)
->>   
->>   	dwc->current_dr_role = mode;
->>   }
->> +EXPORT_SYMBOL_GPL(dwc3_set_prtcap);
-> 
-> I'm hesitant to export this as is. This function may change the susphy
-> bits and expect them to be restored later. It's not meant to be a
-> standalone use. At least, we should document how it should be used along
-> with the other newly added interfaces.
+  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
 
+are available in the Git repository at:
 
-Sure, I can otherwise also open-code the susphy change inside 
-dwc3_apple_phy_set_mode anyway if you prefer to keep this private to the 
-dwc3 core. I should restore it there to the original value anyway I 
-guess after phy_set_mode.
+  https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git tags/apple-soc-drivers-6.18
 
+for you to fetch changes up to 442816f97a4f84cb321d3359177a3b9b0ce48a60:
 
+  pmdomain: apple: Add "apple,t8103-pmgr-pwrstate" (2025-09-18 21:30:56 +0200)
 
->>   
->>   static void __dwc3_set_mode(struct work_struct *work)
+----------------------------------------------------------------
+Apple SoC driver updates for 6.18
 
-[...]
+Krzysztof Kozlowski asked us to move away from generic compatibles:
+- Adjust all dt-bindings to use apple,t8103-XXXX instead of apple,XXXX
+  as fallback and add a comment that the old generic list should no
+  longer be extended.
+- Add new fallback compatibles to pinctrl, pmdomain, spi, and mca
+  drivers. These changes have been Acked by their subsystem maintainers
+  to be merged through our tree together with the dt-bindings.
 
->>   int dwc3_gadget_suspend(struct dwc3 *dwc)
->>   {
->> diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
->> index 2efd00e763be4fc51911f32d43054059e61fb43a..633268c76fe4c7fdc312c9705dfa7cf7ccf3544c 100644
->> --- a/drivers/usb/dwc3/glue.h
->> +++ b/drivers/usb/dwc3/glue.h
->> @@ -15,16 +15,30 @@
->>    * @res: resource for the DWC3 core mmio region
->>    * @ignore_clocks_and_resets: clocks and resets defined for the device should
->>    *		be ignored by the DWC3 core, as they are managed by the glue
->> + * @skip_core_init_mode: skip the finial initialization of the target mode, as
-> 
-> finial -> final?
+Support for pre-M1 Apple Silicon:
+- SART and mailbox gain support for Apple's A11, which are both
+  required for NVMe.
+- NVMe also gains support for Apple's A11 and the nvme maintainers
+  prefer that we merge this through the soc tree together with
+  the mailbox and SART changes.
+- SPMI compatibles for A11 and T2 have been added, also going through
+  the soc tree due to conflicts with the generic compatible removal and
+  because no driver change is required.
 
-Whoops, yes, I thought I ran a spell checker over this because I usually 
-add a lot of typos but must've forgotten :-)
+Signed-off-by: Sven Peter <sven@kernel.org>
 
+----------------------------------------------------------------
+Janne Grunau (23):
+      dt-bindings: arm: apple: apple,pmgr: Add t6020-pmgr compatible
+      dt-bindings: power: apple,pmgr-pwrstate: Add t6020 compatible
+      dt-bindings: cpufreq: apple,cluster-cpufreq: Add t6020 compatible
+      dt-bindings: interrupt-controller: apple,aic2: Add apple,t6020-aic compatible
+      dt-bindings: iommu: dart: Add apple,t6020-dart compatible
+      dt-bindings: pinctrl: apple,pinctrl: Add apple,t6020-pinctrl compatible
+      dt-bindings: mailbox: apple,mailbox: Add t6020 compatible
+      dt-bindings: gpu: apple,agx: Add agx-{g14s,g14c,g14d} compatibles
+      dt-bindings: iommu: apple,sart: Add apple,t6020-sart compatible
+      dt-bindings: nvme: apple: Add apple,t6020-nvme-ans2 compatible
+      dt-bindings: net: bcm4377-bluetooth: Add BCM4388 compatible
+      dt-bindings: net: bcm4329-fmac: Add BCM4388 PCI compatible
+      dt-bindings: mfd: apple,smc: Add t6020-smc compatible
+      dt-bindings: spmi: apple,spmi: Add t6020-spmi compatible
+      dt-bindings: watchdog: apple,wdt: Add t6020-wdt compatible
+      dt-bindings: clock: apple,nco: Add t6020-nco compatible
+      dt-bindings: dma: apple,admac: Add t6020-admac compatible
+      ASoC: dt-bindings: apple,mca: Add t6020-mca compatible
+      spi: dt-bindings: apple,spi: Add t6020-spi compatible
+      pinctrl: apple: Add "apple,t8103-pinctrl" as compatible
+      ASoC: apple: mca: Add "apple,t8103-mca" compatible
+      spi: apple: Add "apple,t8103-spi" compatible
+      pmdomain: apple: Add "apple,t8103-pmgr-pwrstate"
 
-> 
->> + *		it must be managed by the glue
->>    */
+Nick Chan (8):
+      dt-bindings: mailbox: apple,mailbox: Add ASC mailboxes on Apple A11 and T2
+      soc: apple: mailbox: Add Apple A11 and T2 mailbox support
+      dt-bindings: iommu: apple,sart: Add Apple A11
+      soc: apple: sart: Make allow flags SART version dependent
+      soc: apple: sart: Add SARTv0 support
+      dt-bindings: nvme: apple,nvme-ans: Add Apple A11
+      nvme: apple: Add Apple A11 support
+      dt-bindings: spmi: Add Apple A11 and T2 compatible
 
-[...]
+Sven Peter (1):
+      soc: apple: Drop default ARCH_APPLE in Kconfig
 
->>   
->> +int dwc3_core_init(struct dwc3 *dwc);
->> +void dwc3_core_exit(struct dwc3 *dwc);
->> +
->> +int dwc3_host_init(struct dwc3 *dwc);
->> +void dwc3_host_exit(struct dwc3 *dwc);
->> +int dwc3_gadget_init(struct dwc3 *dwc);
->> +void dwc3_gadget_exit(struct dwc3 *dwc);
->> +
->> +void dwc3_enable_susphy(struct dwc3 *dwc, bool enable);
->> +void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy);
->> +
-> 
-> We should document these interfaces. The dwc3_core_probe() does all of
-> the above in the proper order. It's not obvious why these are needed and
-> how they should be used.
-
-Very good point, I'll add documentation for all of these!
-
-
-Thanks for the review,
-
-
-Sven
-
-
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |  33 ++--
+ .../devicetree/bindings/clock/apple,nco.yaml       |  17 +-
+ .../bindings/cpufreq/apple,cluster-cpufreq.yaml    |   3 +
+ .../devicetree/bindings/dma/apple,admac.yaml       |  17 +-
+ .../devicetree/bindings/gpu/apple,agx.yaml         |   6 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |   1 +
+ .../devicetree/bindings/iommu/apple,dart.yaml      |  14 +-
+ .../devicetree/bindings/iommu/apple,sart.yaml      |   5 +-
+ .../devicetree/bindings/mailbox/apple,mailbox.yaml |   8 +
+ .../devicetree/bindings/mfd/apple,smc.yaml         |  17 +-
+ .../net/bluetooth/brcm,bcm4377-bluetooth.yaml      |   1 +
+ .../bindings/net/wireless/brcm,bcm4329-fmac.yaml   |   1 +
+ .../devicetree/bindings/nvme/apple,nvme-ans.yaml   |  30 ++--
+ .../devicetree/bindings/pinctrl/apple,pinctrl.yaml |  27 +--
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |  27 +--
+ .../devicetree/bindings/sound/apple,mca.yaml       |  17 +-
+ .../devicetree/bindings/spi/apple,spi.yaml         |  16 +-
+ .../devicetree/bindings/spmi/apple,spmi.yaml       |  20 ++-
+ .../devicetree/bindings/watchdog/apple,wdt.yaml    |  27 +--
+ drivers/nvme/host/apple.c                          | 197 ++++++++++++++-------
+ drivers/pinctrl/pinctrl-apple-gpio.c               |   1 +
+ drivers/pmdomain/apple/pmgr-pwrstate.c             |   1 +
+ drivers/soc/apple/Kconfig                          |   3 -
+ drivers/soc/apple/mailbox.c                        |  19 ++
+ drivers/soc/apple/sart.c                           |  60 ++++++-
+ drivers/spi/spi-apple.c                            |   1 +
+ sound/soc/apple/mca.c                              |   1 +
+ 27 files changed, 404 insertions(+), 166 deletions(-)
