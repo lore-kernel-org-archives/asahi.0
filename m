@@ -1,180 +1,59 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834032868B;
-	Sun, 21 Sep 2025 13:40:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7883E211A09;
+	Sun, 21 Sep 2025 16:08:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758462035; cv=none; b=lkoX+CN+fkxUlT9o/QF6rJs4kojVcfOKpbvbF0+0p/qqySc40eARB+DpLzR2pSkeGJnkTGccUi83F4C8H8km4S3S0mBg689Akf6HjycQo6cWTC4W5TyyefW7I1yEb1ujSoqN3iVadgmPnPIcZS0dX+Xl/nhr9vfL4cO9ifkEkoY=
+	t=1758470915; cv=none; b=TUR4mQ25/crnJCRFRxYThsb+kw+DRuOscwQm6m34iaGdWZP05Ta/k0RpAfLrzw91Moe3PuEexV6GKJFB2FcmbRqpEkMgNqGCnq7kMcsdjLqYGDOqyKgCqWfe5Fg9X9ktsDQKGxzlxlC1IPNUQCOVaAbPSmGW+VtBPFyojqpftok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758462035; c=relaxed/simple;
-	bh=95QcD0HJijwOHoaQ6eyOQBU6JkvhnmTwXbdFW5nxPbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n70+U7E3KNvei0SmcN72+KwtrX/pYKe82rbmVPZl5Rx/RQOCVmBBJia9zK6w4lf+YV7p/z1RKGgRboU7EmdMqgmN5iMicFHBQZTUf3Irord9xfkq74fMbMNtmrdbd4j6LvTalg0Rp6cg9LRmh/iFnUj+1IgHW6OJ5A9L2YgtiPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKgWQQZX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758470915; c=relaxed/simple;
+	bh=bjgVhndVUFUWDh9Kli3/1k8OQLzpscDz8f8evH9FF0I=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=SUBbS1jSwfyriM91Lz5Wzgg24GvQD0V5daITiu14nox10ibNV/2TRlr4ncBG/UEnAqH9XSEGMJR1AfNqV1+esyrqR7IIjAagFGmsC3EzYK5xmduuRQFU5kFePf/eNPl3MuW6jWDadsDAI4tumV0hdZzW8I5ICvDf+XlH023yrZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TZO+l66m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKgWQQZX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD449C4CEE7;
-	Sun, 21 Sep 2025 13:40:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TZO+l66m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEED8C4CEE7;
+	Sun, 21 Sep 2025 16:08:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758462035;
-	bh=95QcD0HJijwOHoaQ6eyOQBU6JkvhnmTwXbdFW5nxPbM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DKgWQQZXjQN82L8kwgQ1cbiOIhuNq4crRXiki+UNkV3qaXbmI8jeQiebAsX9P3zpO
-	 V91T12ukCZY9WgU+VsuNXfDS0hwayPluHpc5H3tWZV4/ci7xd0qpNf9MBvGyuBrZIA
-	 qzHM1lnthrdQms+WHEs6qy/NvWYV5h+/8RJAtfIv7eKeC+M1P3c+Q6ibITQ+l4olyg
-	 zTmZrVXhzWDqEUm0WGrmWRHLrk/VFI+YPj98lgcg8HXmKfMATUCcow5EmJPPQ7sgnI
-	 oh8XKMRU2RB2ivVWxRBXC5TqO2KYDgdyi9LuAo1EAucj4CnPsyDIHGs4Wo54MeKJSP
-	 jsOrImSzehm+Q==
-Message-ID: <41bb000c-5643-4ed2-8d33-a6bd8a549409@kernel.org>
-Date: Sun, 21 Sep 2025 15:40:28 +0200
+	s=k20201202; t=1758470915;
+	bh=bjgVhndVUFUWDh9Kli3/1k8OQLzpscDz8f8evH9FF0I=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=TZO+l66md5y3YCmXc+ANR/7ZQQnj+9xH3xUYAKm16jr1VgmO7nbmA17BrgK/cp/1I
+	 ErAp9eU0l0ULWifGJSR8G6K31HdIhbPHRzPZCzoYVkURF0xm+t9Lp0IEZSKtUhv5To
+	 NZu/9IYg7jMI23EOHyqP+9Yf1aKiJVOzv4il1R+7W1e64H8azKP5cKmPz00VBgcjHS
+	 PM9ECn8MePHnkI7w4wRHfNxe5xMJ2h3rKfz6GeQ9giQ6ATo5gVf/vbqE+0BUftKaap
+	 6gENrL80OHsZU6jBLMOv2yTsyFq8PwSbbvOqjz6w5EsEXkHMQfXyVbT4c+pXfINbKa
+	 C6DAc9QudVGqg==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/22] usb: dwc3: Add Apple Silicon DWC3 glue layer
- driver
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
- Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
-References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
- <20250906-atcphy-6-17-v2-4-52c348623ef6@kernel.org>
- <20250919224016.gyao3aoka5ineear@synopsys.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20250919224016.gyao3aoka5ineear@synopsys.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250828-dt-apple-t6020-v1-25-507ba4c4b98e@jannau.net>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net> <20250828-dt-apple-t6020-v1-25-507ba4c4b98e@jannau.net>
+Subject: Re: [PATCH 25/37] clk: clk-apple-nco: Add "apple,t8103-nco" compatible
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andi Shyti <andi.shyti@kernel.org>, Christoph Hellwig <hch@lst.de>, Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, Guenter Roeck <linux@roeck-us.net>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, Johannes Berg <johannes@sipsolutions.net>, Keith Busch <kbusch@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Marc Zyngier <maz@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, Mark Brown <broonie@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, Martin =?utf-8?q?Povi=C5=A1er?= <povik+lin@cutebit.org>, Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Neal Gompa <neal@gompa.dev>, Rafael J. Wysocki <rafael@kernel.org>, Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Sagi Grimberg <sagi@grimberg.me>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sven Peter <sven@kernel.org>, Takashi Iwai <tiwai@suse.com>, Thomas Gleixner <tglx@linutronix.de>, Thomas Zimmermann <tzimmermann@suse.de>, Ulf Hansson <ulf.hansson@linaro.org>, Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Vinod Koul <vkoul@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Will Deacon <will@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, van Spriel <arend@broadcom.com>
+Date: Sun, 21 Sep 2025 09:08:33 -0700
+Message-ID: <175847091343.4354.2623772725149192827@lazor>
+User-Agent: alot/0.11
 
-Hi,
+Quoting Janne Grunau (2025-08-28 07:01:44)
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,nco" anymore [1]. Use
+> "apple,t8103-nco" as base compatible as it is the SoC the driver and
+> bindings were written for.
+>=20
+> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@k=
+ernel.org/
+>=20
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
 
-On 20.09.25 00:40, Thinh Nguyen wrote:
-> On Sat, Sep 06, 2025, Sven Peter wrote:
->> As mad as it sounds, the dwc3 controller present on the Apple M1 must be
->> reset and reinitialized whenever a device is unplugged from the root
->> port or when the PHY mode is changed.
-
-[....]
-
->> +/**
->> + * struct dwc3_apple - Apple-specific DWC3 USB controller
->> + * @dwc: Core DWC3 structure
->> + * @dev: Pointer to the device structure
->> + * @mmio_resource: Resource to be passed to dwc3_core_probe
->> + * @apple_regs: Apple-specific DWC3 registers
->> + * @resets: Reset control
->> + * @role_sw: USB role switch
->> + * @lock: Mutex for synchronizing access
->> + * @core_probe_done: True if dwc3_core_probe was already called after the first plug
->> + * @mode: Current mode of the controller (off/host/device)
-> 
-> For this platform, current mode of the controller should only ever be
-> host or device mode. Seems we're mixing power with usb role? ie. what
-> DWC3_APPLE_OFF is being used for?
-> 
-
-So this platform is very messed up and in order the bring up dwc3 and 
-the PHY there are four steps:
-
-1) The PHY itself has to be brought up; for this we need to know the 
-mode (USB3, USB3+DisplayPort, USB4, etc) and the lane orientation. This 
-happens from typec_mux_set
-2) DWC3 has to be brought up but we must not touch the gadget area or 
-start xhci yet
-3) The PHY bring-up has to be finalized and dwc3's PIPE interface has to 
-be switched to the USB3 PHY, this is done inside phy_set_mode.
-4) We can now initialize xhci or gadget mode.
-
-I think we can switch 1 and 2 but 3 has to happen after (1 and 2) and 4 
-has to happen after 3.
-
-And then to bring this all down again:
-
-1) DWC3 has to exit host or gadget mode and must no longer touch those 
-registers
-2) The PHY has to switch dwc3's PIPE interface back to the dummy backend
-3) The PHY itself can be shut down, this happens from typec_mux_set
-
-We also can't transition the PHY from one mode to another while dwc3 is 
-up and running (this is slightly wrong, some transitions are possible, 
-others aren't but because we have no documentation for this I'd rather 
-play it safe).
-
-After both the PHY and dwc3 are initialized we will also only ever see a 
-single "new device connected" event. If we just keep them running only 
-the first device plugged in will ever work. XHCI's port status register 
-actually does show the correct state but no interrupt ever comes in. In 
-gadget mode we don't even get a USBDisconnected event and everything 
-looks like there's still something connected on the other end.
-
-
-And to make this all extra fun: If we get the order of some of this 
-wrong either the port is just broken until a phy+dwc3 reset, or it's 
-broken until a full SoC reset (likely because we can't reset some parts 
-of the PHY), or some watchdog kicks in after a few seconds and forces a 
-full SoC reset (I've mostly seen this with USB4/Thunderbolt but there's 
-clearly some watchdog that hates invalid states).
-
-
-So there's really no good way to keep dwc3 fully up and running after we 
-disconnect a cable because then we can't shut down the PHY anymore. And 
-if we kept the PHY running in whatever mode until the next cable is 
-connected we'd need to tear it all down and bring it back up again 
-anyway to detect and use the next device.
-
-
-Instead, I just shutdown everything once a cable is disconnected and 
-that's this DWC3_APPLE_OFF state. Maybe I can put the explanation above 
-as a comment in there and maybe also rename "mode" to "state" here 
-because we may get something like DWC3_APPLE_USB4_TUNNEL in the future 
-here as well because the sequence might be a bit different there.
-
-
-
->> + */
->> +struct dwc3_apple {
-
-[...]
-
->> +	/*
->> +	 * Note that we only bring up dwc3 once the first device is attached because we need to know
->> +	 * the role (e.g. host), mode (e.g. USB3) and lane orientation to bring up the PHY which is
->> +	 * tightly coupled to dwc3.
->> +	 */
-> 
-> The wording here is odd. You can wait for attach to do this, but it
-> should not be a requirement. You might not know whether you need to
-> switch role, but you should be able to initialize the controller in
-> either host or device mode prior to attachment.
-> 
-> Any particular reason we need to do this? If not, we can do away with
-> the core_probe_done condition.
-
-Because I can't really bring up dwc3 fully to any mode without 
-cooperation from the PHY and bringing it up here doesn't really buy us 
-much (see above). What I could do here is already call dwc3_core_probe 
-and then immediately dwc3_core_exit again to get rid of that condition.
-
-
-
-Thanks,
-
-
-Sven
+Acked-by: Stephen Boyd <sboyd@kernel.org>
