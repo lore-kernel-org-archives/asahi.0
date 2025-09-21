@@ -1,151 +1,180 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381B918DB1F;
-	Sat, 20 Sep 2025 12:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834032868B;
+	Sun, 21 Sep 2025 13:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758371436; cv=none; b=lHnEpVjthv/4S4PVdTQIshvf1r0Ed+q35Gn57hLTgji+l53v8mYMgLaiaDbm1qiNwohtxoEg+U3Qz9XrrK8frYEHhCOIFT47cMXEJFw0O7J8Fp3qXBpnuHsBlR066S2YtimDTMpkYoseaEtTjdhYpKO1uurk9BT8oE7PSCFLspk=
+	t=1758462035; cv=none; b=lkoX+CN+fkxUlT9o/QF6rJs4kojVcfOKpbvbF0+0p/qqySc40eARB+DpLzR2pSkeGJnkTGccUi83F4C8H8km4S3S0mBg689Akf6HjycQo6cWTC4W5TyyefW7I1yEb1ujSoqN3iVadgmPnPIcZS0dX+Xl/nhr9vfL4cO9ifkEkoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758371436; c=relaxed/simple;
-	bh=azjtBgg9o8jYuuDI1h5t3q803QLZoJl/KPkMwExin3Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cRkeMeCh5ZcoTbI87CI3yHzsqRMXAeuCg+rE0dTUqNJ3I2OgZmZhpISK1SCT9zvWypJNMfYjMkrSiuPfeosb53ZFgpz+6krx9CEsp6vOaiOHqTgWNas+3p4GgZMTGNwk82HFcHLthSyo4C+Suuv2A0Qy7shxy8RIxgPpXeTLxeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdhGKz7i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758462035; c=relaxed/simple;
+	bh=95QcD0HJijwOHoaQ6eyOQBU6JkvhnmTwXbdFW5nxPbM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n70+U7E3KNvei0SmcN72+KwtrX/pYKe82rbmVPZl5Rx/RQOCVmBBJia9zK6w4lf+YV7p/z1RKGgRboU7EmdMqgmN5iMicFHBQZTUf3Irord9xfkq74fMbMNtmrdbd4j6LvTalg0Rp6cg9LRmh/iFnUj+1IgHW6OJ5A9L2YgtiPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKgWQQZX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdhGKz7i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCFDC4CEF7;
-	Sat, 20 Sep 2025 12:30:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKgWQQZX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD449C4CEE7;
+	Sun, 21 Sep 2025 13:40:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758371435;
-	bh=azjtBgg9o8jYuuDI1h5t3q803QLZoJl/KPkMwExin3Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WdhGKz7iOT5/i+kSqRcvVLN0ApfKvwUHjabdMZZkluxpQS4s8a5ZO5IfGeeWreasd
-	 XBBCb6SM3dB/AJGmxHS4IqWdcO7RqRHwnAJnq9zoiuL9qlsMmFIaA8QOJgYx+3v3KD
-	 bNu6qek6IRu5gikpFrHfZSA1WlU5Lnqa2AtqBgrRZRqvhivoPc183l++Q32VkAqGif
-	 0tiVu8KV+8f+DuvrTBQASDuWqmcFmGf5SUj6xBPou5Ev+COuKRQxaC8us+3dtxEcDc
-	 vC37tUxMrNomi4UT/dK5Ya2SF3REei3TlNDUS1VoCYBHlmjR2BKGSuhhy445I8kRrK
-	 khr2nSvs2EmMg==
-From: Sven Peter <sven@kernel.org>
-To: soc@lists.linux.dev
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL 2/2] Apple SoC DTS changes for v6.18
-Date: Sat, 20 Sep 2025 14:30:28 +0200
-Message-Id: <20250920123028.49973-2-sven@kernel.org>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250920123028.49973-1-sven@kernel.org>
-References: <20250920123028.49973-1-sven@kernel.org>
+	s=k20201202; t=1758462035;
+	bh=95QcD0HJijwOHoaQ6eyOQBU6JkvhnmTwXbdFW5nxPbM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DKgWQQZXjQN82L8kwgQ1cbiOIhuNq4crRXiki+UNkV3qaXbmI8jeQiebAsX9P3zpO
+	 V91T12ukCZY9WgU+VsuNXfDS0hwayPluHpc5H3tWZV4/ci7xd0qpNf9MBvGyuBrZIA
+	 qzHM1lnthrdQms+WHEs6qy/NvWYV5h+/8RJAtfIv7eKeC+M1P3c+Q6ibITQ+l4olyg
+	 zTmZrVXhzWDqEUm0WGrmWRHLrk/VFI+YPj98lgcg8HXmKfMATUCcow5EmJPPQ7sgnI
+	 oh8XKMRU2RB2ivVWxRBXC5TqO2KYDgdyi9LuAo1EAucj4CnPsyDIHGs4Wo54MeKJSP
+	 jsOrImSzehm+Q==
+Message-ID: <41bb000c-5643-4ed2-8d33-a6bd8a549409@kernel.org>
+Date: Sun, 21 Sep 2025 15:40:28 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/22] usb: dwc3: Add Apple Silicon DWC3 glue layer
+ driver
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
+ Ran Wang <ran.wang_1@nxp.com>, Peter Chen <peter.chen@nxp.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
+References: <20250906-atcphy-6-17-v2-0-52c348623ef6@kernel.org>
+ <20250906-atcphy-6-17-v2-4-52c348623ef6@kernel.org>
+ <20250919224016.gyao3aoka5ineear@synopsys.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20250919224016.gyao3aoka5ineear@synopsys.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 4379305ffbc2eebe3de673fc965145d441c89b8f:
+Hi,
 
-  arm64: dts: apple: t600x: Add SMC node (2025-08-10 20:21:57 +0200)
+On 20.09.25 00:40, Thinh Nguyen wrote:
+> On Sat, Sep 06, 2025, Sven Peter wrote:
+>> As mad as it sounds, the dwc3 controller present on the Apple M1 must be
+>> reset and reinitialized whenever a device is unplugged from the root
+>> port or when the PHY mode is changed.
 
-are available in the Git repository at:
+[....]
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git tags/apple-soc-dt-6.18-part2
+>> +/**
+>> + * struct dwc3_apple - Apple-specific DWC3 USB controller
+>> + * @dwc: Core DWC3 structure
+>> + * @dev: Pointer to the device structure
+>> + * @mmio_resource: Resource to be passed to dwc3_core_probe
+>> + * @apple_regs: Apple-specific DWC3 registers
+>> + * @resets: Reset control
+>> + * @role_sw: USB role switch
+>> + * @lock: Mutex for synchronizing access
+>> + * @core_probe_done: True if dwc3_core_probe was already called after the first plug
+>> + * @mode: Current mode of the controller (off/host/device)
+> 
+> For this platform, current mode of the controller should only ever be
+> host or device mode. Seems we're mixing power with usb role? ie. what
+> DWC3_APPLE_OFF is being used for?
+> 
 
-for you to fetch changes up to 70fa521f4d55127c85d7c2defe8c20be75e29efd:
+So this platform is very messed up and in order the bring up dwc3 and 
+the PHY there are four steps:
 
-  arm64: dts: apple: t8015: Add SPMI node (2025-09-18 21:13:45 +0200)
+1) The PHY itself has to be brought up; for this we need to know the 
+mode (USB3, USB3+DisplayPort, USB4, etc) and the lane orientation. This 
+happens from typec_mux_set
+2) DWC3 has to be brought up but we must not touch the gadget area or 
+start xhci yet
+3) The PHY bring-up has to be finalized and dwc3's PIPE interface has to 
+be switched to the USB3 PHY, this is done inside phy_set_mode.
+4) We can now initialize xhci or gadget mode.
 
-----------------------------------------------------------------
-Apple SoC DTS updates for 6.18, part 2
+I think we can switch 1 and 2 but 3 has to happen after (1 and 2) and 4 
+has to happen after 3.
 
-- New device trees for all M2 Pro, Max and Ultra models are added.
-  This is responsible for most of the changed lines since we already
-  need 2000+ lines just to describe all the power domains inside
-  t602x-pmgr.dtsi for these SoCs.
-- Missing WiFi properties for t600x are added.
-- Bluetooth nodes are added for all t600x machines.
-- The PCIe ethernet iommu-map was fixed for the Apple M1 iMac
-  to account for a disabled PCIe port.
-- SPMI, NVMe, SART and mailbox nodes for Apple's T2 and A11.
+And then to bring this all down again:
 
-----------------------------------------------------------------
-Hector Martin (5):
-      arm64: dts: apple: t600x: Add missing WiFi properties
-      arm64: dts: apple: t600x: Add bluetooth device nodes
-      arm64: dts: apple: Add initial t6020/t6021/t6022 DTs
-      arm64: dts: apple: Add J414 and J416 Macbook Pro device trees
-      arm64: dts: apple: Add J180d (Mac Pro, M2 Ultra, 2023) device tree
+1) DWC3 has to exit host or gadget mode and must no longer touch those 
+registers
+2) The PHY has to switch dwc3's PIPE interface back to the dummy backend
+3) The PHY itself can be shut down, this happens from typec_mux_set
 
-Janne Grunau (6):
-      arm64: dts: apple: t8103-j457: Fix PCIe ethernet iommu-map
-      dt-bindings: arm: apple: Add t8112 j415 compatible
-      arm64: dts: apple: Add devicetreee for t8112-j415
-      dt-bindings: arm: apple: Add t6020x compatibles
-      arm64: dts: apple: Add ethernet0 alias for J375 template
-      arm64: dts: apple: Add J474s, J475c and J475d device trees
+We also can't transition the PHY from one mode to another while dwc3 is 
+up and running (this is slightly wrong, some transitions are possible, 
+others aren't but because we have no documentation for this I'd rather 
+play it safe).
 
-Nick Chan (4):
-      arm64: dts: apple: t8015: Fix PCIE power domains dependencies
-      arm64: dts: apple: t8015: Add NVMe nodes
-      arm64: dts: apple: t8012: Add SPMI node
-      arm64: dts: apple: t8015: Add SPMI node
+After both the PHY and dwc3 are initialized we will also only ever see a 
+single "new device connected" event. If we just keep them running only 
+the first device plugged in will ever work. XHCI's port status register 
+actually does show the correct state but no interrupt ever comes in. In 
+gadget mode we don't even get a USBDisconnected event and everything 
+looks like there's still something connected on the other end.
 
- Documentation/devicetree/bindings/arm/apple.yaml |   41 +-
- arch/arm64/boot/dts/apple/Makefile               |    9 +
- arch/arm64/boot/dts/apple/t6000-j314s.dts        |    8 +
- arch/arm64/boot/dts/apple/t6000-j316s.dts        |    8 +
- arch/arm64/boot/dts/apple/t6001-j314c.dts        |    8 +
- arch/arm64/boot/dts/apple/t6001-j316c.dts        |    8 +
- arch/arm64/boot/dts/apple/t6001-j375c.dts        |    8 +
- arch/arm64/boot/dts/apple/t6002-j375d.dts        |    8 +
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi   |   10 +
- arch/arm64/boot/dts/apple/t600x-j375.dtsi        |   11 +
- arch/arm64/boot/dts/apple/t6020-j414s.dts        |   26 +
- arch/arm64/boot/dts/apple/t6020-j416s.dts        |   26 +
- arch/arm64/boot/dts/apple/t6020-j474s.dts        |   47 +
- arch/arm64/boot/dts/apple/t6020.dtsi             |   22 +
- arch/arm64/boot/dts/apple/t6021-j414c.dts        |   26 +
- arch/arm64/boot/dts/apple/t6021-j416c.dts        |   26 +
- arch/arm64/boot/dts/apple/t6021-j475c.dts        |   37 +
- arch/arm64/boot/dts/apple/t6021.dtsi             |   69 +
- arch/arm64/boot/dts/apple/t6022-j180d.dts        |  121 ++
- arch/arm64/boot/dts/apple/t6022-j475d.dts        |   42 +
- arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi       |   38 +
- arch/arm64/boot/dts/apple/t6022.dtsi             |  349 ++++
- arch/arm64/boot/dts/apple/t602x-common.dtsi      |  465 +++++
- arch/arm64/boot/dts/apple/t602x-die0.dtsi        |  575 ++++++
- arch/arm64/boot/dts/apple/t602x-dieX.dtsi        |  128 ++
- arch/arm64/boot/dts/apple/t602x-gpio-pins.dtsi   |   81 +
- arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi   |   45 +
- arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi   |   38 +
- arch/arm64/boot/dts/apple/t602x-nvme.dtsi        |   42 +
- arch/arm64/boot/dts/apple/t602x-pmgr.dtsi        | 2265 ++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8012.dtsi             |    8 +
- arch/arm64/boot/dts/apple/t8015-pmgr.dtsi        |    1 +
- arch/arm64/boot/dts/apple/t8015.dtsi             |   42 +
- arch/arm64/boot/dts/apple/t8103-j457.dts         |   12 +-
- arch/arm64/boot/dts/apple/t8112-j415.dts         |   80 +
- 35 files changed, 4727 insertions(+), 3 deletions(-)
- create mode 100644 arch/arm64/boot/dts/apple/t6020-j414s.dts
- create mode 100644 arch/arm64/boot/dts/apple/t6020-j416s.dts
- create mode 100644 arch/arm64/boot/dts/apple/t6020-j474s.dts
- create mode 100644 arch/arm64/boot/dts/apple/t6020.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t6021-j414c.dts
- create mode 100644 arch/arm64/boot/dts/apple/t6021-j416c.dts
- create mode 100644 arch/arm64/boot/dts/apple/t6021-j475c.dts
- create mode 100644 arch/arm64/boot/dts/apple/t6021.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t6022-j180d.dts
- create mode 100644 arch/arm64/boot/dts/apple/t6022-j475d.dts
- create mode 100644 arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t6022.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t602x-common.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t602x-die0.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t602x-dieX.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t602x-gpio-pins.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t602x-nvme.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t602x-pmgr.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t8112-j415.dts
+
+And to make this all extra fun: If we get the order of some of this 
+wrong either the port is just broken until a phy+dwc3 reset, or it's 
+broken until a full SoC reset (likely because we can't reset some parts 
+of the PHY), or some watchdog kicks in after a few seconds and forces a 
+full SoC reset (I've mostly seen this with USB4/Thunderbolt but there's 
+clearly some watchdog that hates invalid states).
+
+
+So there's really no good way to keep dwc3 fully up and running after we 
+disconnect a cable because then we can't shut down the PHY anymore. And 
+if we kept the PHY running in whatever mode until the next cable is 
+connected we'd need to tear it all down and bring it back up again 
+anyway to detect and use the next device.
+
+
+Instead, I just shutdown everything once a cable is disconnected and 
+that's this DWC3_APPLE_OFF state. Maybe I can put the explanation above 
+as a comment in there and maybe also rename "mode" to "state" here 
+because we may get something like DWC3_APPLE_USB4_TUNNEL in the future 
+here as well because the sequence might be a bit different there.
+
+
+
+>> + */
+>> +struct dwc3_apple {
+
+[...]
+
+>> +	/*
+>> +	 * Note that we only bring up dwc3 once the first device is attached because we need to know
+>> +	 * the role (e.g. host), mode (e.g. USB3) and lane orientation to bring up the PHY which is
+>> +	 * tightly coupled to dwc3.
+>> +	 */
+> 
+> The wording here is odd. You can wait for attach to do this, but it
+> should not be a requirement. You might not know whether you need to
+> switch role, but you should be able to initialize the controller in
+> either host or device mode prior to attachment.
+> 
+> Any particular reason we need to do this? If not, we can do away with
+> the core_probe_done condition.
+
+Because I can't really bring up dwc3 fully to any mode without 
+cooperation from the PHY and bringing it up here doesn't really buy us 
+much (see above). What I could do here is already call dwc3_core_probe 
+and then immediately dwc3_core_exit again to get rid of that condition.
+
+
+
+Thanks,
+
+
+Sven
