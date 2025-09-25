@@ -1,134 +1,178 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC42F260580
-	for <asahi@lists.linux.dev>; Thu, 25 Sep 2025 20:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE48426056A
+	for <asahi@lists.linux.dev>; Thu, 25 Sep 2025 20:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758832420; cv=none; b=hm+fA665KjK1T738won5u32YCueT6v6u8baUUGA4hZNBoUGwMdfglb6fB+6DyyT3WpXq8ypGx/6G8mPTtFQyaaPe19ciJj0unBgeEZIYPKwMMTpqFo21OzyBpmwtVU6IHfbLXigyUjNRaJwCF+IsBcNTtRkS4N84FZdopZslwPM=
+	t=1758833370; cv=none; b=mr/gIYV5dzZs+H54woBr/onlpbUMyZTEyhBVJHHtBPeDhJZLNDiGye6nuBcdaOWvuT5M6v0sW+Gzk6r86rNhRwFgV7HEQqqap3dEysJKibs5KlqdQh34w6uERxYV/wZDttLUW6uYSrFvML3lZ9TL3sD8n6E6rvTRAI+goNNK0ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758832420; c=relaxed/simple;
-	bh=+Jor10eg5LvHZCSW9hUAM8+MJz6BmLXiQAQ9uw52A+I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kjf/lbljfOOsig4O9WbUMoSJ3Gy+qOHShcsrjAb6UQDZ41ucF13yDAedz4siI8J3HjsNYlY3zLjoPrb39/8gL0/9yVku9eAwOMoVuOxaJMKOb7s8/BdfqY4sauQ5iISEwEp4WSL73/9IRU3YArgLESPdQJcASAGUlR/eWtsoKyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=pJf8uTAx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lw2ETftN; arc=none smtp.client-ip=202.12.124.158
+	s=arc-20240116; t=1758833370; c=relaxed/simple;
+	bh=DsC1KNobCsjMiOuQxS1ywlHomeqokFzE74vO6jIRnJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nd4y+uSnF5lo0AYbfxF+kDxJRgDwntVbS/soX9ztLmmQLHGfdPQ8RBe+WKSCIbH5MrHBIoXy9oCqtov7kU5JHa7LU28PN6yNvGQ0LJcNhnuY7vvK7AJV5vYNdMmM81YZwFn155y0jE5fyjprtuXDBe+bST3PApt+P9hAlqsgxkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=M0LCMS3A; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Yj2sMtu8; arc=none smtp.client-ip=202.12.124.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="pJf8uTAx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lw2ETftN"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id CB4A37A006F;
-	Thu, 25 Sep 2025 16:33:36 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="M0LCMS3A";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Yj2sMtu8"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id C606A1D00114;
+	Thu, 25 Sep 2025 16:49:27 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Thu, 25 Sep 2025 16:33:37 -0400
+  by phl-compute-04.internal (MEProxy); Thu, 25 Sep 2025 16:49:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1758832416; x=1758918816; bh=4M
-	sAfN8ggET6LQP8EBxlOi/6T17883/ulcELGobe1ps=; b=pJf8uTAxclEov111Gn
-	xQ33IEzEHo7vZmyugvLylE5X3t7pkcrOh7/XCidyZiYzR0a4NyS6HyGjCY2RivHL
-	kzjCsBYKPn9K1MMqnWmtZ+EUfptvUGwTXB3/GZ8RoGAFD14VLatTcN0i7x5VdcxL
-	VzKzL3SI9txI5qCLxEx4yXyHlncYrz9iuU7+9OZYhj/NBtQ8b0V3YQT953Sy4yZo
-	Poqajq2bZA6wWZeIzp3ZkJcmlT9Jk2ZhyUUk7CV3YRcYDk0nTHNtiocJBthAeOKb
-	mdf+WJOcxLqpClG3rFnpPh/b85F1wePpSMC9tA3ZEygExgKKTzXzHmGqjOhNBwNS
-	IGpw==
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1758833367; x=1758919767; bh=pRiRz65gfx
+	P/K+El944Fw9vGdwL/oexgMM0ZUDURBSA=; b=M0LCMS3AMM5et0J+Os6Vqxb9uV
+	xtGeNgr7XsvnZ34/4CrFJcs0SkmFgqqMCflWm1o9NECRJNFrz+yx1ce7cCbBgdZf
+	TxYe+vt/4bUyuKTmh9WrVxmHCegGlZupXQK7PVvpbkY89pyn4nltIOcX9IilLhwM
+	EGcGWEnsXBtXTfLtQWP8R+bCBtC10b/P0hNcttCDuf3rgAzTi1aVp2iIQSZEnNa3
+	y9Lk5/ZsO+rpL/XaQve1aricuNCnXYCQ6G9Aj+KQcViuK4Sg0aygazmETZCDlfjT
+	zgewFs3gQiMi6u4d+Cztn3ij38UeM+ZtrlVkoCbsM2/w1sK5qAnoDTBfhHcQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1758832416; x=1758918816; bh=4MsAfN8ggET6LQP8EBxlOi/6T178
-	83/ulcELGobe1ps=; b=lw2ETftN5AzzStse6OyaSkJZuueuyPUur6H1J8UGRtAL
-	tAAxWijSEKFt0+5vbGbdh3XAnZ0qgCAOIiIrfGGq/UXiozMzSnH1YKDdLcp9/6BN
-	KhM3y0FEGYd2J7ZXf5fTGCZdsy68aVqpYXJHAF25iIz8+Do2qQt+Zpi19xJNXYpI
-	Mh4WgO2/X6IQvjxGw6fQgxjDjmvjifcF4MeHYx9kv+zv+8/UeqFmKIOzks5BE+LL
-	UE7ge7OkFFfvJm567uE/u+dwu9/8SwWCtMq+8Fol1c3T23qehOYs3iW2+4RsZsHL
-	V6Zrlv+zstB5oR5MuvqEMKEV3a1pZWJpe/v1oxRW/w==
-X-ME-Sender: <xms:IKfVaDcyJhuTh0EKMcbT7vfbUje0hkz8Pbd-IaixgespATpn-tBd7Q>
-    <xme:IKfVaDQrYi9YSJzbAyMUw9HGudsbSIg0PzuO7Dc1C7BlHXtf450WNSz-mWmtG7Ul9
-    gtJfkffpo43jiU3YeEvA-b0v6hzAcVH5dQoFvUpAgjFSqnwnPJhZA>
-X-ME-Received: <xmr:IKfVaMZ4Z7_YvfZp_Dav0LunN2VmZjwuKOp6WaDEsuZj9X8eArDK1OprQmGG3gTJW533JK5Z17qaxoYL770K6oOFF-9bzRlim92Rfg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeijeeghecutefuodetggdotefrod
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1758833367; x=1758919767; bh=pRiRz65gfxP/K+El944Fw9vGdwL/oexgMM0
+	ZUDURBSA=; b=Yj2sMtu8O3F+Kx5i7Z8uf9scVDTtK5+EyXh/XZHb92EPEHNf2Tg
+	yxOuQECbUF+8fwRvG+ojcO8N3LnMCMCqHRD72k9DY4Z9T6xxt7WXbCM4n4LryxGj
+	GMQz2CGgKvu/3bzMVK56t4LKKGE3CF7s4zKQjE64lHZ9PqOiOEJnl3I0FJZdPrhc
+	SIDSv/vWwFCeCSKMXSYEW2Z/MfKuoFnU/n4wQxf1/6TQIjQ+lo7UCBFkgXka+I82
+	4M6EUjIx6XYVVAMyiXe/BegcXfvMoBbkASDq4Yv7fNZeyL9dg2wNifDUrP+PuImg
+	PEDPQVGCYhyP3qXf8uyn9d/biRKwuX+B3GA==
+X-ME-Sender: <xms:1qrVaC8vHx0FpK7wVQfSLwIvvTSaKAhaMFti864vkkGFU45BmkKNhw>
+    <xme:1qrVaOmfAog4fGntob1mM3p8kBr5b0pPjQfBUu3X74nT0NB0v7U2UrLuBdO-2d50_
+    1eIFuz8szwZ2-Mq0poW1q-I7CC4SQMDwloAiP3at71RRPPtFCilfjY>
+X-ME-Received: <xmr:1qrVaDhTqcaLfeHQyar0Irs-daUc5U30lYTPM0bYaimB2niY_edu8Zq0lNM8tq5XoCP0F_DTr3JvC1ZkrxCdGPGMPAQz175J0qw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeijeeglecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
-    uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgffeiff
-    etueffteeugfeghffghedthfekgfdtjeeuuedvveekteevvedvffekheenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnh
-    gvthdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    shhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvg
-    hrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlvggv
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuh
-    igrdguvghvpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtghpthhtoheplhhi
-    nhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnh
-    gvrghlsehgohhmphgrrdguvghv
-X-ME-Proxy: <xmx:IKfVaGdLgQ47fw3_12hvrZhafUyESr_kIuiiZmel5oIMUKdEh5wa8A>
-    <xmx:IKfVaNJiTL8cjvTSDT__UcSJ8An68vNHUfVm4Igj0aPVuEA7GARr-g>
-    <xmx:IKfVaDLdz77NmFoKrf-EvnPHSUTNZT49cU58Nm4x5bJ6E_AfDQQmSg>
-    <xmx:IKfVaMWokm2V5rgT18v8iSgKqEmkosr2nwMaMhFre0Ew3s07gidJUQ>
-    <xmx:IKfVaL5wYVvDXcvtiryhIXB5g6spwD_SM6WbfZgl96NQUaRfSyCNdz9w>
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
+    evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
+    hnvghtpdhnsggprhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    oheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjtggrlhhlihhgvghroh
+    hsleelsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhvvghnsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtth
+    hopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehlvggvsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrghn
+    ughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomh
+X-ME-Proxy: <xmx:1qrVaOao71GXLxPMCXF8ifhw7iuU7G3UHMrNsnwc2o-jchzXIdFaIg>
+    <xmx:1qrVaPFGPdiKIQc4Xwf_Bsk9IwdYAzAmz_PqGC1BWOvA2KE5cLotsA>
+    <xmx:1qrVaDZRW0RLE7tZskpIiJIJEuKlspTdiDgj-WJi3FGjSN-EhrLSdQ>
+    <xmx:1qrVaI05auGkBWHysFMA1b2pqfzRAK4YHkx-EyN_n6VuJSVyrIJZ4w>
+    <xmx:16rVaJelfvLVoBNkaYohj4h6QucSt7TTsZJRro5KPpfrnJIBUDHJH2Wv>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Sep 2025 16:33:35 -0400 (EDT)
+ 25 Sep 2025 16:49:26 -0400 (EDT)
+Date: Thu, 25 Sep 2025 22:49:25 +0200
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 25 Sep 2025 22:33:18 +0200
-Subject: [PATCH] mfd: macsmc: Initialize mutex
+To: Rob Herring <robh@kernel.org>
+Cc: James Calligeros <jcalligeros99@gmail.com>,
+	Sven Peter <sven@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 02/11] dt-bindings: hwmon: Add Apple System Management
+ Controller hwmon schema
+Message-ID: <20250925204925.GA637503@robin.jannau.net>
+References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
+ <20250827-macsmc-subdevs-v2-2-ce5e99d54c28@gmail.com>
+ <20250829164057.GA976361-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-macsmc-mutex_init-v1-1-416e9e644735@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAA6n1WgC/x3MTQqAIBBA4avErBNMiH6uEhHTONYstNCKILp70
- vJbvPdA4iicoC8eiHxJki1kVGUBtGJYWInNBqNNrTtTK4+UPCl/HnxPEuRQrbYNzQaRHELu9sh
- O7v85jO/7ASqO8vhjAAAA
-X-Change-ID: 20250925-macsmc-mutex_init-80d7cb2aacfa
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1050; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=+Jor10eg5LvHZCSW9hUAM8+MJz6BmLXiQAQ9uw52A+I=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhoyry+UO9Srerd2t5J3CXPixIzP8kk3K0o78Hg8pJqstE
- 61cZ6zsKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJG9Cxj+u/Dy+rsvSXuXqf/+
- NJPM2Vvxa/88vl4V/Sj85vrdP/fqPWD4n5c9X/nTyo3iOrwT1Xo0xQxLWI2EVVz8QmOninz3X3G
- PBQA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250829164057.GA976361-robh@kernel.org>
 
-Struct apple_smc's mutex was not initialized before use. Surprisingly
-this only resulted in occasional NULL pointer dereferences in
-apple_smc_read() calls from the probe() functions of sub devices.
+On Fri, Aug 29, 2025 at 11:40:57AM -0500, Rob Herring wrote:
+> On Wed, Aug 27, 2025 at 09:22:36PM +1000, James Calligeros wrote:
+> > Apple Silicon devices integrate a vast array of sensors, monitoring
+> > current, power, temperature, and voltage across almost every part of
+> > the system. The sensors themselves are all connected to the System
+> > Management Controller (SMC). The SMC firmware exposes the data
+> > reported by these sensors via its standard FourCC-based key-value
+> > API. The SMC is also responsible for monitoring and controlling any
+> > fans connected to the system, exposing them in the same way.
+> > 
+> > For reasons known only to Apple, each device exposes its sensors with
+> > an almost totally unique set of keys. This is true even for devices
+> > which share an SoC. An M1 Mac mini, for example, will report its core
+> > temperatures on different keys to an M1 MacBook Pro. Worse still, the
+> > SMC does not provide a way to enumerate the available keys at runtime,
+> > nor do the keys follow any sort of reasonable or consistent naming
+> > rules that could be used to deduce their purpose. We must therefore
+> > know which keys are present on any given device, and which function
+> > they serve, ahead of time.
+> > 
+> > Add a schema so that we can describe the available sensors for a given
+> > Apple Silicon device in the Devicetree.
+> > 
+> > Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> > ---
+> >  .../bindings/hwmon/apple,smc-hwmon.yaml  | 132 +++++++++++++++++++++++++
+> >  .../bindings/mfd/apple,smc.yaml          |  36 +++++++
+> >  MAINTAINERS                              |   1 +
+> >  3 files changed, 169 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..08cc4f55f3a41ca8b3b428088f96240266fa42e8
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
+> > @@ -0,0 +1,132 @@
+> 
+> This should be something like this:
+> 
+> "^current-[A-Za-z0-9]{4}$":
+>   $ref: "#/$defs/sensor"
+>   unevaluatedProperties: false
+> 
+> With the $defs/sensor being:
+> 
+> $defs:
+>   sensor:
+>     type: object
+>     
+>     properties:
+>       apple,key-id:
+>         $ref: /schemas/types.yaml#/definitions/string
+>         pattern: "^[A-Za-z0-9]{4}$"
+>         description: 
+>           The SMC FourCC key of the desired sensor. Must match the 
+>           node's suffix.
+> 
+>       label:
+>         description: Human-readable name for the sensor
+> 
+>     required:
+>       - apple,key-id
+>       - label
+> 
+> Though in general, 'label' should never be required being just for human 
+> convenience.
 
-Fixes: e038d985c9823 ("mfd: Add Apple Silicon System Management Controller")
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/mfd/macsmc.c | 1 +
- 1 file changed, 1 insertion(+)
+That does not sound as it would be compatible with skipping nodes in the
+driver if the node misses label. The driver could of course fall back
+to create a hwmon sensors without labels. I looks to me it would be a
+stretch to call the presence of the labels human convenience.
 
-diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
-index 870c8b2028a8fc0e905c8934c2636824cbe5d527..3a117cf19145e86b642f40dc165b542b8df69070 100644
---- a/drivers/mfd/macsmc.c
-+++ b/drivers/mfd/macsmc.c
-@@ -413,6 +413,7 @@ static int apple_smc_probe(struct platform_device *pdev)
- 	if (!smc)
- 		return -ENOMEM;
- 
-+	mutex_init(&smc->mutex);
- 	smc->dev = &pdev->dev;
- 	smc->sram_base = devm_platform_get_and_ioremap_resource(pdev, 1, &smc->sram);
- 	if (IS_ERR(smc->sram_base))
-
----
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-change-id: 20250925-macsmc-mutex_init-80d7cb2aacfa
-
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
-
+Janne
