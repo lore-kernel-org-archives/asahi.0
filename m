@@ -1,33 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880F814B953;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88151199385;
 	Fri, 26 Sep 2025 14:31:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758897107; cv=none; b=OcYVrKaeZKTK0zKulSC27lj9FdZ9dTm209ze/R1UaK2HdYEhLqzJ+xv1YLbtiEIfmqW6pTIy+qq0aIOnxuvLTwCoAeiy8nmpY8vJXf5mtqWueFh+yaqV5tJa3TwqrDjgz0Lhc3DTnAmyuWoT0i8xnokDYLdrkUAyci6le4BYz1A=
+	t=1758897107; cv=none; b=EQaqIdthTdZIVrxf1Wrk8n+yjHkziYdda4LoAScUjtdJ0kN1nQTeBTsxoNBirhVcXViGPO9UUNcRa490USinHDQC1vyI59B1BYzTjKJ2DU+pth/4MEM1Ta6dvD737RECchqwj4VRBsagDLyXQXOFVlMpBFZBifFmsbXg6xD4fJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758897107; c=relaxed/simple;
-	bh=OnDdN5s5SMJAOdUjTlTdk8YSqexHLi2AY5mkc+V9J+g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GypgzrPuPG2E/FTzQpMZDJYLJisWYX8adhaGFrsv47AXymWNo1q2ex6zI4h0q5uIOFxj9Er5TuK02vgyn+AFNjrRAjGdjtN6vcPrrgKWVwdbMO0BPp99RWBlSG9xGymLsdHFbAwXh1zdrN6LJ+9z/x4+gU1N4kSD/9UM66veGMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q0DzEk1y; arc=none smtp.client-ip=10.30.226.201
+	bh=OQcO92jUkLnjsTNz9W4cXXplFNHIhPbu+0qASGU4+x4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=C2rhYHc1bbL1X1tHzkP1HszIy7XCinLNiYJAGKTjaQamhEXjy7rvIb0nucfHbodlnixd+xF813Jsf8m4sCr2hYy6v0O6rHDfRf8ZVZX4Gmqt8v7WS6ndKtNSQ0vNnEnRy4b+Fw9hUOTzqVlXs0dTa3LJ5x4j7+Pu3cf+znH5RkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpusbPte; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q0DzEk1y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29E0EC4CEF4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpusbPte"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41CE4C4CEF7;
 	Fri, 26 Sep 2025 14:31:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758897107;
-	bh=OnDdN5s5SMJAOdUjTlTdk8YSqexHLi2AY5mkc+V9J+g=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Q0DzEk1y+aCWugKcowIs/VXzxgz1ao9F4vFW2HEEvuRHZGBtr6w5c2/p7XJ6JE6MQ
-	 NF7KEmpVWjr79wR8ANvFru+TJ30c5DwJdnBdU1l6wPc+HoxEDVna7COsrwuaH/Zvp0
-	 1yX/W/PacmB4ugm7y4IrVZa39m3qJggMjzqRMlSCnkv/C+yD/ugZIqX5aozPa2qt5k
-	 djPK0jD10ahl5S7ld2RIAy+fsMHw0eqOLaCyMgRKi65Ye6nrTUQiP6oDRQQvWIwDBD
-	 BJJUERdlKqHTXSyIUlWSvGBSHYalFwn0OoLVTw4lZbTlV31XBwf/XC90iMtLsyGTdY
-	 X5+qi2HCo1uPg==
+	bh=OQcO92jUkLnjsTNz9W4cXXplFNHIhPbu+0qASGU4+x4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HpusbPtegyRF5tS8YuUiVvGWFIJicNUJq3x6YhZetZ8ptCOa3egk8fLAE2VL102VQ
+	 Zn2/swzkDo6FqLgl+8S7IyWZSLZBnmCITWgV+ecTCFywWcOwF3nVuofmZzqSL8Cdk1
+	 jvYYMeYsr1kV5/Zl+2JlEHCr86h+FtKPV0NDJN6FVUeHwFFTLbYm4ThxdCicV+6gnM
+	 rvymrdAE80e7NzjGYL36F+NbIGnBM110cio8Fj2LVsXaD1hZvApbZxNPReajdFaJGt
+	 6nbf8eLNni3vQZgSHla2j6PR0XD6OVbnBP2SnOntb6dMXIJ233GXdNkkI5CKtFSXeT
+	 9kbaKPqTK7XxA==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1v29U4-000000001g0-2lej;
+	id 1v29U4-000000001g4-3fXP;
 	Fri, 26 Sep 2025 16:31:40 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Sven Peter <sven@kernel.org>,
@@ -36,10 +37,12 @@ Cc: Neal Gompa <neal@gompa.dev>,
 	asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/2] soc: apple: fix device leak on mbox lookup
-Date: Fri, 26 Sep 2025 16:31:30 +0200
-Message-ID: <20250926143132.6419-1-johan@kernel.org>
+Subject: [PATCH 2/2] soc: apple: sart: drop device reference after lookup
+Date: Fri, 26 Sep 2025 16:31:32 +0200
+Message-ID: <20250926143132.6419-3-johan@kernel.org>
 X-Mailer: git-send-email 2.49.1
+In-Reply-To: <20250926143132.6419-1-johan@kernel.org>
+References: <20250926143132.6419-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,21 +51,54 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series fixes a device reference leak when looking up mboxes and
-simplifies the sart lookup by dropping the corresponding reference
-sooner.
+Holding a reference to a device does not prevent its driver data from
+going away so there is no point in keeping the reference after looking
+up the sart device.
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/soc/apple/sart.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-
-Johan Hovold (2):
-  soc: apple: mailbox: fix device leak on lookup
-  soc: apple: sart: drop device reference after lookup
-
- drivers/soc/apple/mailbox.c | 15 +++++++++++----
- drivers/soc/apple/sart.c    | 13 ++-----------
- 2 files changed, 13 insertions(+), 15 deletions(-)
-
+diff --git a/drivers/soc/apple/sart.c b/drivers/soc/apple/sart.c
+index afa111736899..6952afc41308 100644
+--- a/drivers/soc/apple/sart.c
++++ b/drivers/soc/apple/sart.c
+@@ -164,17 +164,11 @@ static int apple_sart_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static void apple_sart_put_device(void *dev)
+-{
+-	put_device(dev);
+-}
+-
+ struct apple_sart *devm_apple_sart_get(struct device *dev)
+ {
+ 	struct device_node *sart_node;
+ 	struct platform_device *sart_pdev;
+ 	struct apple_sart *sart;
+-	int ret;
+ 
+ 	sart_node = of_parse_phandle(dev->of_node, "apple,sart", 0);
+ 	if (!sart_node)
+@@ -192,14 +186,11 @@ struct apple_sart *devm_apple_sart_get(struct device *dev)
+ 		return ERR_PTR(-EPROBE_DEFER);
+ 	}
+ 
+-	ret = devm_add_action_or_reset(dev, apple_sart_put_device,
+-				       &sart_pdev->dev);
+-	if (ret)
+-		return ERR_PTR(ret);
+-
+ 	device_link_add(dev, &sart_pdev->dev,
+ 			DL_FLAG_PM_RUNTIME | DL_FLAG_AUTOREMOVE_SUPPLIER);
+ 
++	put_device(&sart_pdev->dev);
++
+ 	return sart;
+ }
+ EXPORT_SYMBOL_GPL(devm_apple_sart_get);
 -- 
 2.49.1
 
