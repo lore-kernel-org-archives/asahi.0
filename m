@@ -1,116 +1,157 @@
-Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE79122A7F1
-	for <asahi@lists.linux.dev>; Thu, 25 Sep 2025 22:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31432F3C04
+	for <asahi@lists.linux.dev>; Fri, 26 Sep 2025 10:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758838396; cv=none; b=H2PJY02fDt/G1xgGCvlB4V8UpIu3UgTyjvXD5J/XublISAXcXujIZIGhXwXVSM6mVCYxUOOtSJHMbT5rUyYe2K434kDWEeDKY0CMIaBjq7MVnr5wDGX3edYKpwfA+b0qMIejErYOuHVQqvJrZhpXKKfbf+sIh+C7pY5z0hqo/C4=
+	t=1758884116; cv=none; b=TBv7PnzOXtGPCujSDphRvoFz8mn2DHptX90lbyLCYHvAVh19kB8sch+DRtcHyAkcxW6e2is5Q7Yq2uJcnzB/QYrDFPA6TkBg9rVr7hLdi4CGUDNI5IJReqChDTdTe8Y2ePrhQvZzJv8RQN7AGrr4JNS+rbRNxsChmR1Qr6lV5Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758838396; c=relaxed/simple;
-	bh=RLVEm8TKjKjyOUDosja7lY9N2225leIPPpRAHlP9i7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IBZOlH/TwiX1lUg2nfZC3C2APSk2HgQwEJcageWcZLpwT3cnZAPzLYxRJ2zacPsg2bSuDNC2PKAY3l/6ITL/YSE/fIz0UvnYd04wCmQpMpqvGDEQnKoZTqPl0MkKLyuk3uhZutY/VC6Ew+1fU9KbLmAXP3xOD+XpN4fzZ0TJr8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=hPknQP7I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lA61YFTe; arc=none smtp.client-ip=202.12.124.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1758884116; c=relaxed/simple;
+	bh=ng/p5D85fQbLWgCo/VzPcztWqRtbLIIRQ31vWWSLO5o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E4Q3+j+tCaczkKCx0zTFAgs57Vjrn68h38L2+Smr3OtCnN+Ri3fJb8YiS6DewxIA56amc/gNPS1Z4S6TRuCk+3JcqxaU+dD3HCD8ecZD4huFYlrO5RzFaK4hlJ6wLVw5Tir/yGfzJzcS1Kk7yv6kysSFJpci2D1g8XI9Mru9H5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RK9/Xpqa; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="hPknQP7I";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lA61YFTe"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailflow.stl.internal (Postfix) with ESMTP id 8C3A213000D4;
-	Thu, 25 Sep 2025 18:13:13 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 25 Sep 2025 18:13:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1758838393; x=1758845593; bh=NPqIzxxCqz
-	501l2T2BaB2Nu2Wi0UoMZvzBbrRhIgFq0=; b=hPknQP7Ib8/dPKgJghAIwp4B+e
-	GO7CW9zWOtcNILi4be6e55oGgFUTpWvR91f8FYrGYH6D0AaJI5X1DT3+vHeq/bTN
-	k+xqthJl8cN9iKWAyZI2BDaO4dGv9fmxmrq7b/ELLHhbAqihZmWbeMKScqkMDct9
-	Z///nzLybxNkdsvCPd7ukjb27YKSKejLBL+82e+XpodPuy43xS+RVJNroSfSWeqT
-	GYvfWJb/blVYudeDWF9qDNFTHYSO2lSFGfJM+nIdEVBglverRidfMtUqUsFqJL+n
-	N0VUG9G/Bozo25Ppm1pjKkG/b4UF/s9UPW4wjkpr9XXPLxOGd97gAt0ONVMw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1758838393; x=1758845593; bh=NPqIzxxCqz501l2T2BaB2Nu2Wi0UoMZvzBb
-	rRhIgFq0=; b=lA61YFTeMGQD7SdfAE6TX9ix5Dogy+/Vzn22MXRJ+1iTL7+V86V
-	yAvixanKoJ9B+n+tDTiGYgvWeZBFKZ2H8luAfHvoOsuiTNXQl2tU04Ca//ulvUUw
-	p3cYfT7B+Dq6uw5b+M97eFiPGDQEjU5CAKrQqEp5EB8fxEc6QO5dkIOE8xJNGtpr
-	/jPFrZ7Dow9XjPTj/SNko15jtEdvktp52T1dIbaOWy4KJHXz0S5iWiLLdxrUNZpZ
-	FWnfAvmzRt4vWoOYfMHZVp75E6+18Rm0eUcgncaF8NHcZpHCjLO0N8c8XJvSfYBg
-	u4TtP8YnD3L3D8DzfK1b6C/BPko9T5gjBfA==
-X-ME-Sender: <xms:eb7VaB0ijrXjuFef8Vf9O1Dsq4ghbiCEWJMFi4xPA4d57S3hE80EHQ>
-    <xme:eb7VaObXpG2WMgVZ4kSTlMnM4VCYnQQWcWojc3N8LPy_kaW8hICzBF65zMdsFmpeM
-    iVjDuZZgmSdh1pbgr14_abVU17A0D13NVuAxXwNFyVqCq44GGYw4vs>
-X-ME-Received: <xmr:eb7VaOnnaFtJv44_4RBhYi4JllU-xDK2C56vB_wjQ8hxKq1UH2yMvlAptAourvs-0GutvDcHCEVsw_vMED23BnEAvARAoLgqbx4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeijeeiiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
-    evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
-    hnvghtpdhnsggprhgtphhtthhopedvuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepjhgtrghllhhighgvrhhoshelleesghhmrghilhdrtghomhdprhgtphhtthhopehsvh
-    gvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiif
-    vghighdrihhopdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoh
-    eplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrghn
-    ughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomh
-X-ME-Proxy: <xmx:eb7VaNeMifx9zoubpJ2MYKko2bR9KdfdCrVsJJ9xpTEXQ0RlB3w8JA>
-    <xmx:eb7VaM0oF3mL2R-0udCW5d6joZNd2Ai7eo3lODJTJ_9lW93NXM4EGw>
-    <xmx:eb7VaKlyQic6Ai44_2MWDWfS52YpDq74sZ1QYqwmrRzKcQqNCYJgnQ>
-    <xmx:eb7VaNZOLHJGXlyMaMMyqnEul-lrsNw-iNVnF_bPmBWQ4jTPlqWWLg>
-    <xmx:eb7VaCBOG2XJmnt2zIs-X1lUBxCkSQJMieXer_VDjdSwiLq7ArbSxPPx>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 25 Sep 2025 18:13:12 -0400 (EDT)
-Date: Fri, 26 Sep 2025 00:13:11 +0200
-From: Janne Grunau <j@jannau.net>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v2 00/11] mfd: macsmc: add rtc, hwmon and hid subdevices
-Message-ID: <20250925221311.GF637503@robin.jannau.net>
-References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RK9/Xpqa"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so1887562b3a.1
+        for <asahi@lists.linux.dev>; Fri, 26 Sep 2025 03:55:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758884114; x=1759488914; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fG/8r6Zh74ocis4PYV5dxG4SwOJqWmE0/JuYdwpI5Bw=;
+        b=RK9/XpqaJk7EzVDwaZEJ/myOUeKzFlgyHZXzf9Vl2HKfrWy1J5RM194vLs5w2ipAZx
+         ClQmb9KV9pM9KaEF4iz5w//y03kK+azPNlf2ldvbuYia1RbfnZTkbnlOEXx3CjTsNxti
+         juXH10N65a44RuA9AmoblpBh9ZQYdY/C8OWdTvqtPk+leW6La8eFMT23tEwM/7trx29o
+         k8xExSFlsOpTh68In4GKh48fvK8PvEx53yEvOxJS5dJFtjGwWNh4V/LSzyzlqkQwKDFn
+         dY+gkkkJR43sUEEn5yACHLlSdyKSR5amknuo2KRONat+x29pbrUJRCL3hG5oPx+8BATf
+         8jdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758884114; x=1759488914;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fG/8r6Zh74ocis4PYV5dxG4SwOJqWmE0/JuYdwpI5Bw=;
+        b=UvXUEi1hHdH2+vtDesBf8DttfLnEAcAMwTBzxN+0Pcdbp1cgXZod+7UB5HszsOCrLL
+         X7+xlNVwXxAbjuJFL1eBvfmeFqKBcq8rnXQdpFvYXfJ+AChwrKJwOUUnCrTVN3Nh2Ebm
+         U+XEMFfygokEJvpiL0cfCphOuEXStBBdoEE7VmKEhIEvE+987VjV88vdDmfJEdVDUDew
+         10OqsQsPuUry52TqjfohMXkce9D1s/VrqxKcs8A04kizjpPhUNMTsALvcTo9KOpQDDte
+         cScYAHKEijCxmXRvTeY3cIaIjD5kSJA4nGef8NFOfRwaUCbF2SBTUymlOal7QNw4w3n3
+         4Fzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtPoMBYhDZhT3GpH0watTBG0p1wHPOY4oDZ+Y9DfXLIC5Qv6SwD+bhAcx7ZSNqhx2hRMM5Eg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJKfsIr7mVH6dYVMKz5fGRei++VVejOK04Z+amMnQnnwNA5tZP
+	A03fWt8evGhXdVj9XOkThyFCkVzXvG46AEKNlsqewwmXz7wNbtyljOk=
+X-Gm-Gg: ASbGnctoAiEKepoF/udDq7sezA6WxU1C+A9boadFX6Eo4+VfNrjtBl248XocE1nrVJ0
+	h7+SrY03aiAg176kSA7sWZeiNe56VBUrcM5OuzMeW/vvXJEDd8rZaTLnH+TteMHa9TcCxn86XTu
+	KY2tSwZ4HwCBGeHT6nyLpTQTrYQnZe4w0Vnjf9JqOiBYbTZvhpV7RtCZNHYJpbLfqHXikspo0+Y
+	UX8rDQPsgfKe4E2S0Mjj0MgZ6hfcEqgp8spjY9eVZGxJQG3mDIDP3OsX0mN2G6sStXkZK9kBW+w
+	ZIPVel0K5Rb6R+fM0jEA3fYWp5HZvjVxmzjddJxsePeLhbJ9RB90yh+vPcWtsx7Q4Np6xdDt0MO
+	AMLPkQFxAEOyJdFm3IVixIS1yJdzmEOcWNODrGgjaqIrsVJOOw0IMImTQKanXA+u3Nr9y2davgw
+	==
+X-Google-Smtp-Source: AGHT+IHoR6X2imZeXiOqh27AKoNYEtTfZrOufz/4X8jbeOqzZcdMNwoD0bok6WOIEC6F/UDhsBRR6g==
+X-Received: by 2002:a05:6a00:8d0:b0:776:19f6:5d2f with SMTP id d2e1a72fcca58-78100fd3661mr6495280b3a.11.1758884113839;
+        Fri, 26 Sep 2025 03:55:13 -0700 (PDT)
+Received: from at-Standard-PC-Q35-ICH9-2009.. ([122.167.144.150])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78102c06b0dsm4062536b3a.82.2025.09.26.03.55.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Sep 2025 03:55:13 -0700 (PDT)
+From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+To: 
+Cc: atharvatiwarilinuxdev@gmail.com,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Lee Jones <lee@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] mfd/macsmc: make SMC write buffers const
+Date: Fri, 26 Sep 2025 16:24:59 +0530
+Message-ID: <20250926105505.33499-1-atharvatiwarilinuxdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 27, 2025 at 09:22:34PM +1000, James Calligeros wrote:
-> Hi all,
-> 
-> This series adds support for the remaining SMC subdevices. These are the
-> RTC, hwmon, and HID devices. They are being submitted together as the RTC
-> and hwmon drivers both require changes to the SMC DT schema.
+Mark the write buffer arguments in apple_smc_write(), apple_smc_rw(),
+and apple_smc_write_atomic() as const. These functions do not modify
+the data provided by the caller, so the parameters should be const
+qualified.
 
-I we would instantiate all sub devices via MFD_CELL_OF macsmc-hid (or
--input) and the omitted macsmc-power would require SMC dt-binding
-changes as well. I'm conflicted on that since both use SMC to determine
-if they are present.
+Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+---
+ drivers/mfd/macsmc.c       | 6 +++---
+ include/linux/mfd/macsmc.h | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Janne
+diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
+index 870c8b2028a8..0f8ed400b986 100644
+--- a/drivers/mfd/macsmc.c
++++ b/drivers/mfd/macsmc.c
+@@ -173,7 +173,7 @@ int apple_smc_read(struct apple_smc *smc, smc_key key, void *buf, size_t size)
+ }
+ EXPORT_SYMBOL(apple_smc_read);
+ 
+-int apple_smc_write(struct apple_smc *smc, smc_key key, void *buf, size_t size)
++int apple_smc_write(struct apple_smc *smc, smc_key key, const void *buf, size_t size)
+ {
+ 	guard(mutex)(&smc->mutex);
+ 
+@@ -181,7 +181,7 @@ int apple_smc_write(struct apple_smc *smc, smc_key key, void *buf, size_t size)
+ }
+ EXPORT_SYMBOL(apple_smc_write);
+ 
+-int apple_smc_rw(struct apple_smc *smc, smc_key key, void *wbuf, size_t wsize,
++int apple_smc_rw(struct apple_smc *smc, smc_key key, const void *wbuf, size_t wsize,
+ 		 void *rbuf, size_t rsize)
+ {
+ 	guard(mutex)(&smc->mutex);
+@@ -239,7 +239,7 @@ int apple_smc_enter_atomic(struct apple_smc *smc)
+ }
+ EXPORT_SYMBOL(apple_smc_enter_atomic);
+ 
+-int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, void *buf, size_t size)
++int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, const void *buf, size_t size)
+ {
+ 	guard(spinlock_irqsave)(&smc->lock);
+ 	u8 result;
+diff --git a/include/linux/mfd/macsmc.h b/include/linux/mfd/macsmc.h
+index 6b13f01a8592..3c5467854e28 100644
+--- a/include/linux/mfd/macsmc.h
++++ b/include/linux/mfd/macsmc.h
+@@ -149,7 +149,7 @@ int apple_smc_read(struct apple_smc *smc, smc_key key, void *buf, size_t size);
+  *
+  * Return: Zero on success, negative errno on error
+  */
+-int apple_smc_write(struct apple_smc *smc, smc_key key, void *buf, size_t size);
++int apple_smc_write(struct apple_smc *smc, smc_key key, const void *buf, size_t size);
+ 
+ /**
+  * apple_smc_enter_atomic - Enter atomic mode to be able to use apple_smc_write_atomic
+@@ -176,7 +176,7 @@ int apple_smc_enter_atomic(struct apple_smc *smc);
+  *
+  * Return: Zero on success, negative errno on error
+  */
+-int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, void *buf, size_t size);
++int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, const void *buf, size_t size);
+ 
+ /**
+  * apple_smc_rw - Write and then read using the given SMC key
+@@ -189,7 +189,7 @@ int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, void *buf, size_t
+  *
+  * Return: Zero on success, negative errno on error
+  */
+-int apple_smc_rw(struct apple_smc *smc, smc_key key, void *wbuf, size_t wsize,
++int apple_smc_rw(struct apple_smc *smc, smc_key key, const void *wbuf, size_t wsize,
+ 		 void *rbuf, size_t rsize);
+ 
+ /**
+-- 
+2.43.0
+
