@@ -1,96 +1,140 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF5B45C0B
-	for <asahi@lists.linux.dev>; Sat, 27 Sep 2025 02:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061602E1EFC
+	for <asahi@lists.linux.dev>; Sat, 27 Sep 2025 13:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758940150; cv=none; b=TPVbdXvmi1/1M6ZzOCNV1ENA8zQI+cpBG+xna4zOTJwkUAs9ViNBfJUkB9qGugNs1eY97c7WWYStI+C2AUIZ9DJrluQo/P0h7vqjPo0QDZDEiF4QBdoVSRVanA3MNGObyfvZ09hmz04ZPj3000zlJLW7tdxo7vAeThq19QWFFZA=
+	t=1758981467; cv=none; b=kmdSofefpolOX4d+e7LeIU45QHprrU9JbxkzSUvqG129pYGqujBKwHnnlk9VH3altWtinUa9/Zj/wlka3mQq5FpcjU0QU9iQsUMh04Dmo0RVekYyLRrPR1MHBpvbbyiRIbB1Wy2VCnCM7CmEjaAoSJ64FrxGtD1r3/Nm60qot64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758940150; c=relaxed/simple;
-	bh=GIPnusP700J5lEYYX7UIiuxp43JikbB/9frzCsSPEbk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lcoIxzVYnHdDSGbWFGL6+0ka4OpHClORFg1DifDxc3J1mesgvNFP+mPC3VEQRb/ORuffISegvTjat3Qv8ebajYwxa+psK79BVOF+V7S+hhX9udLS6+oOkS6/9wsDxBOsQZDqR6c0B3PpdKqR4F/ZG9ZDCjAIxf9Vk2CPUg1WE4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-634c01ca9dcso1743021a12.3
-        for <asahi@lists.linux.dev>; Fri, 26 Sep 2025 19:29:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758940147; x=1759544947;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+DevKPTwMgnfMY33tLxNP7YJQ+kh/p8Il+2rzMT1+A4=;
-        b=rNV1j8/EovBerW9ODyryVGjSDeZECIGLqu0tZpyFuLpMSv5IkNz6tzPkYwb+txqjDg
-         azrK/1PmrH+4N2B5F70gOj6SBkAlExyUxYvLfgFd1+csKUNy+ueBDWQldv0ZT7DRi1Fc
-         TQsnr5SThKgq0h2FMMFpVRhD3oACfFIaW2W23WjqSdgW45/jVObg1pGVqh/oqjtjvicU
-         XIJU7cQRMrELhAKQz9yGDDz4riIFbAjpylBgaAxh0bqrU+aPeQE/pmy0zqxTCXvAtfIt
-         oEUTtGr3Yz167xSxfbYTaxd+pgCVkDL/N18iEwPjSRWvnNRR+8m36XeCqkzII3I5m40G
-         qiQw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5rnKI+vEDSIJQGv/xLgUKCsWTlJC59eeIzxMYBb6q+T217/J27VtMOMUuqJJFPy4W4aQRuw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZUO3FEMMya1LymfFup1TokiVH4Wh0UApAcY9+cm+j12utauVL
-	6bn7SrPZJ9H3JN0HWpvkm0va/lWUFR+cNbcpji6ZpueMPM4vQzDDlkmHvXAEvCL/
-X-Gm-Gg: ASbGncuLUpsjy3ayNBOUDua+IeuIYK7jrQ6ohJOyw3/qrVM0blOaK2OwK+cOwa9lPb3
-	N03+QkqC80w2FG0AFeYFLuIiCbdBTOtiT+HSDIdUKpUfPeGGInmGDLzA0KpEzEpM+RiNtNdHlN1
-	lQrzzfVvZVO1Iji+OQJ31AFg+Vhs0uewTfujlXnbzHc9m0kpz1Pqv1l+11FlmIGWb0D/ceHYNj0
-	GLpq9CDqBQdfZJX3XvnSmRBSAf043p4gGEix4yVS1TFnCnzQiCVIoPFh+SeQCONRAOod4qeRLnY
-	2AkVq3K/nfAGVOvhk0Ng5QBPwT+jAiZ7SwLJhH1deypje/FdO+OJQrvzG/WaXLq8TD93U6uaV3G
-	NqStBmlwl+qBvPc+3qwQCX0zvlDYGckcrKECWPVBYTHzXHLhnlcEV0q1U1o7atMRzqAp5X0HnMT
-	qgoGB3GDHw
-X-Google-Smtp-Source: AGHT+IEXbdjmfM3s1ogIHVo5caVhvnlHpTHEIPKgjeuZNXS1cm9zzK7lvUS3HM3IBIQSgMeG3XA8/Q==
-X-Received: by 2002:a17:906:7313:b0:b37:4f78:55d1 with SMTP id a640c23a62f3a-b374f790f61mr742972566b.17.1758940147045;
-        Fri, 26 Sep 2025 19:29:07 -0700 (PDT)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b353efa46b2sm473830766b.24.2025.09.26.19.29.06
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Sep 2025 19:29:06 -0700 (PDT)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b38e5c2e055so194119266b.0
-        for <asahi@lists.linux.dev>; Fri, 26 Sep 2025 19:29:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWFcwizzEQDyj03oMmlFT/C34ygg+WqN6YZVM93g1qj7CP7dbr7cFhyDHRs6870sZ4zrdNECA==@lists.linux.dev
-X-Received: by 2002:a17:907:2d1e:b0:b2f:963:1d2f with SMTP id
- a640c23a62f3a-b34bef98b74mr1061773766b.51.1758940146614; Fri, 26 Sep 2025
- 19:29:06 -0700 (PDT)
+	s=arc-20240116; t=1758981467; c=relaxed/simple;
+	bh=odZJScnngEm+S3AtxQrvpSQkKV7osaJFzsa1SO+IUKA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=j/XJ5OWZuvfdE9kcLSC6S+vNCepU2A9qbec+YBvUfOUzqnYgWpMZElA8tPOBANBsdHo//EMNcaj2EHPmvzSUC4SX1hDLXDLp1Cq7hRVNA0GUFtURrUexgv5NzPmPlk/Y8CjKuE+nq0Sd6czKZlVpKSspso5PxHjULjLDfmuysjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=oH+Ba3zt; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="oH+Ba3zt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1758981457; x=1759586257; i=markus.elfring@web.de;
+	bh=odZJScnngEm+S3AtxQrvpSQkKV7osaJFzsa1SO+IUKA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=oH+Ba3zt0+dGiYrIR2WM0YBhFoc70T1i3hRznjrp8QyqGPS4QLddjKiUNnjoItGl
+	 yNYrypUNBoa/6l9Yy9deXPIxq+iRrmQjr1Flbc5348AQaK5dHQLvsN3V3qWrzPiLk
+	 ZH3j6IO7JKbIIW3bmoBFRBoyfL/IstSemIWsYU5NsjAey0vn/RNf6DDi3bOmH4hir
+	 0n2oxG6poLIs0HIRS07/+0FFYm6+uqTYpv7SY/kBiJ3r7cr6zud912+CBYyR4Fytz
+	 KDVrGM2k6Ibnr2ZIlXMjBZY3StnS/2UiUEV6Ak85H0EikrI02kgMk9LNR4uVYioc9
+	 Sf+zZiTlbI8QmyCjvg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.221]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M5QqN-1v17qu2Caj-00FIhH; Sat, 27
+ Sep 2025 15:57:37 +0200
+Message-ID: <1bc9a4b3-7a8d-4bcf-9481-36fdc76e066c@web.de>
+Date: Sat, 27 Sep 2025 15:57:36 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: Janne Grunau <j@jannau.net>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Lee Jones <lee@kernel.org>,
+ Neal Gompa <neal@gompa.dev>, Sven Peter <sven@kernel.org>
 References: <20250925-macsmc-mutex_init-v1-1-416e9e644735@jannau.net>
-In-Reply-To: <20250925-macsmc-mutex_init-v1-1-416e9e644735@jannau.net>
-From: Neal Gompa <neal@gompa.dev>
-Date: Fri, 26 Sep 2025 22:28:30 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je-+dK+Weixf1iP7hn6dt_CXWTYraA=TSr=rMPkyoJVHbg@mail.gmail.com>
-X-Gm-Features: AS18NWD9i2Ce3lSv7X8ID-5SK3bN9ENqRcod81yTbnB7Qdrfx1pZRHR_ctdLGks
-Message-ID: <CAEg-Je-+dK+Weixf1iP7hn6dt_CXWTYraA=TSr=rMPkyoJVHbg@mail.gmail.com>
 Subject: Re: [PATCH] mfd: macsmc: Initialize mutex
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Lee Jones <lee@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250925-macsmc-mutex_init-v1-1-416e9e644735@jannau.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:NP8BtfQimdEvXv9Rq7e//xfDrOyxRsxFbOjcZln17pFcUU25ON4
+ 01QEjVcgNfaTJiqNG74TimTsw2+MZj+3bWvyq1HELeHmdcSOrRGA/RNyiqjhuFFg2nwuvwB
+ pg6rNtB+MYSqxA3JHX80TfCeicnMrDFyuFYwbcb4ELV1SPOaihhAPBNPS879GjrHhYYT4Ai
+ t22PzWDqTBLP7Il49U0bA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:syKLplIkyV8=;m9npGcuZVIwJ/6WdKlV27+G+lGw
+ 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
+ S
 
-On Thu, Sep 25, 2025 at 4:33=E2=80=AFPM Janne Grunau <j@jannau.net> wrote:
->
 > Struct apple_smc's mutex was not initialized before use. Surprisingly
 > this only resulted in occasional NULL pointer dereferences in
 > apple_smc_read() calls from the probe() functions of sub devices.
->
-> Fixes: e038d985c9823 ("mfd: Add Apple Silicon System Management Controlle=
-r")
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
->  drivers/mfd/macsmc.c | 1 +
->  1 file changed, 1 insertion(+)
->
 
-LGTM.
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.17-rc7#n94
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Regards,
+Markus
