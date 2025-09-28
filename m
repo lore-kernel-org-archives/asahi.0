@@ -1,176 +1,192 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F067019755B
-	for <asahi@lists.linux.dev>; Sun, 28 Sep 2025 00:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4482475F7
+	for <asahi@lists.linux.dev>; Sun, 28 Sep 2025 02:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759020390; cv=none; b=cOzO+63VS9O2pknMOa3lgwRD476im/UWkH/hugOB3Ns+RkzM7w7vptEDnqG1x6+TDvTVBjgbo4vKVS2CyZkQzqvlP7ulCRCjy7cmz+9twyHcXjs767SF/hE04xahiax9xUkAdfgkrLjPhLIVEBtbChOWLnSk54odd+T8/l9zvmg=
+	t=1759025363; cv=none; b=aoXfXeELlZDFuLFhT4yfe+xAPg2woZarQToIAMZ2ueGoNaHQuNiSitHINZfzlRPu1C9nRV45RzjVSp8Rvxdc0/isWuo/ri1E+Ct81zdwqTW00xIStbnY2TiDVVn5YaSQ6y/i0rYQZpY13w0U79J9kLRN3V0McSE6oD5qKj7G/Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759020390; c=relaxed/simple;
-	bh=uFT8DD+GpvmowlrkoMgNzPNeWBkwZV4HRy1OuviWi4M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KH2oxCdxrrM/KRcWiVp6QRKKxzKFrgItk0kBJEizd0AIoSzpgv8o9mPW4ex74h0qltIDCMyoJrgbir8F4XUF6ejPT2mCurdYNuZHmMVcA4kbHVien4hJ+a4U4hRX6Qxq60qkt0OOLT3WaKyhaW/+Y6u9nyQ5Zn7N6JknY24L1Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=db0aGSkr; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1759025363; c=relaxed/simple;
+	bh=GUSKUxYpWhOeHcuugkxc4tLA+jsAQdmXAEPQQnQote8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i2fWmHWXlBwwUi4a4qyJo/wYdEtAa3eKp18Ih7zPuEKhL+fgyae1yMWbufEP2FKspIya+26ceoATYegjxxzM9u83FZvQ6GySuSc/ahzPRhdGYW9C8JIBncZNdMO6M2Z/DabcjLItQ8CzmQFCj1T+zglsrl0E7AuUTGUn2dDytlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2VNv7dT; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="db0aGSkr"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2570bf6058aso48876015ad.0
-        for <asahi@lists.linux.dev>; Sat, 27 Sep 2025 17:46:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2VNv7dT"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-27d4d6b7ab5so52663075ad.2
+        for <asahi@lists.linux.dev>; Sat, 27 Sep 2025 19:09:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759020388; x=1759625188; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R0SQxdo3RLHRiJ7AnzgCm7ZcELugvg2FhH462RqaNN4=;
-        b=db0aGSkr6PuUoEG9Z8lSOzXVr+KHVwHU+PE9mGzrL8bD+csVDWib89s5kodKrTQI+5
-         9y50VkFqE8K+3kDPPnO26lEjAMbdNMmK+noTbXYZ9ILeOsc7AxiOhUVw9wAHb8XFLEo8
-         G75PE2jdSZebDV4L08cGEyYMUvY2gJJqQ4ayaJOxuIgLDM6p8Rd+KqS+bQ/JDP2yiVZW
-         E70qc1FvlO2QF2Te18TT9xrv72vJq7PoamF/DLpyTK7W0TiQ68CEBftf6kVR2+z+zwwc
-         xbJN+GFOQzdqJ4RrzpDKvlDlq+ZbKYskpGmvorDlgjBRxzJp1V33ivq97PTQu3JPKbLI
-         1fGQ==
+        d=gmail.com; s=20230601; t=1759025361; x=1759630161; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=eFwFGuMoBlO4UnFHFhFZsqW80xbz11TQVfcLYBTWIYY=;
+        b=i2VNv7dTobBapCH1Wzc+bw2p/BvcJvD3Qj9FBXfdrv8PjGMbPThqkzOLbGkJyayA8K
+         eqGwwDLF8yQd6inzjMHMMG/tiCa8lxSADiMBd9KHsJJdT/qGwkqddjs6wnSkJtmP2t5W
+         N62nmBTQWi1uIb88lXEHKmEf0oNGoNL5nF1NTDfZFq8/4Nhz6DdBDSEnE07B53gB1ko6
+         feyqqPD0fIspxaZq4dM+x015DKHkgKRv1u7w+TuCTrAi904XtPF7qOUrEygDQpU7mjT4
+         uCdymRHLv8f6lYmq+H0+ueu0sJeqFvAiTp6OrluZn8Qq0vS6lP6k+fcZSdis0plTsNBd
+         Zn5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759020388; x=1759625188;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R0SQxdo3RLHRiJ7AnzgCm7ZcELugvg2FhH462RqaNN4=;
-        b=q4LKEp8Sfr08OScstHzZ7v9BVyvY2WRV3axoF5EI5xGVZwDJhWs8p0kc5Nob4XNebi
-         sCTjXJvWunox85Mf/n6seMh4tQSDhfMBtNSlyKBVhDth8iBltwFomIiSl/nsNEYxPW1O
-         WAOKs/3Q65X8dtqXL3E8dhVVk1GKigDU45DhjlSeWcgHNIRtw0Q4PZX5G+qJkG7hAZnF
-         4T0IzG2nKEFjF+Vmi5pj9Yt3XhROl3Q73a7bqk/AUYn+wtn7FHIEERQJsIccP4IXYPA8
-         8oqa42ZC2KC/N8l9mmOp2ezuZkhhpD1KPluSO3t4OmQtAStRVnKuwJ3GICM3X6MazrxZ
-         Inyg==
-X-Forwarded-Encrypted: i=1; AJvYcCWG1yhGRyRf/cP4QAUQiOpR6o9qA91WId4sM3jkxoDINZ/0kvked4D6ex3i5+ep+WPzOB/1fA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcVZ18buMrzr2ZmZ64fmVC5tbBFQ0dC0xdpYBpGw5T/jM9F2Ab
-	ijc+iKjryWEeWBBpgnVwSVnbS8kcJFs8ITW8hqipCKUhg/oUurDT7p+9
-X-Gm-Gg: ASbGncswMHsgxjLKMmjqWfd3ckAGFTtJ55VSwD07h6xdqi2c8wahtL881eG6Qo8ThHJ
-	Cpp78TIcPRsbVfXGAV6m5XpT8SS4k048o+vg3Z/3gLik83p7mTkQan+3fpAs5kriVc+86rjCzvF
-	B+w7jAGXtumYnS6gutpYHQTUW2qCiUEcFcJ3iB35sxefw4FMxPFlv1i3SdXnekQZltwVa9IIJIK
-	XXpMDP1gVP3/ieOpOMuzb3uH0RnPJy7XjFXszzJK+pnhR43cWKh5+nI5yfPVwfo6nPPkj5zzfQT
-	HWnTQQWLar62fcfQONzMjPtJ35v91jWvIJ7s7JqJgJMEeY4pFnzAM502rvH3FJxxtWDiRKNvR5n
-	HOZKV6nqH4oJpiGWTLt8/ckfiIiUWaG7usZeud++TjAdNsUVrhNOZRQP2cMA7KnCdLnzS+Wb1+b
-	uWce45fbq3TWoIMnJe6wELtbeJ1/qCvSts
-X-Google-Smtp-Source: AGHT+IHh6vp11a5YTPpS7Cpx/YPQS6tq6OUbtGBtN9cobxgvPjCMMdsgzvmVq+T4sqfObnWyrmGxdQ==
-X-Received: by 2002:a17:902:ef03:b0:27e:ef12:6e94 with SMTP id d9443c01a7336-27eef126f60mr78326435ad.55.1759020388025;
-        Sat, 27 Sep 2025 17:46:28 -0700 (PDT)
-Received: from setsuna.localnet (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6ac27d4sm88980475ad.135.2025.09.27.17.46.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Sep 2025 17:46:27 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Janne Grunau <j@jannau.net>, Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org
-Subject:
- Re: [PATCH v2 02/11] dt-bindings: hwmon: Add Apple System Management
- Controller hwmon schema
-Date: Sun, 28 Sep 2025 10:36:03 +1000
-Message-ID: <2537878.PYKUYFuaPT@setsuna>
-In-Reply-To:
- <CAL_JsqK-9n3_H6vS80bZuZiSPi9UNuMzHEPFL_EzYTeyNS1cYg@mail.gmail.com>
-References:
- <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
- <20250925204925.GA637503@robin.jannau.net>
- <CAL_JsqK-9n3_H6vS80bZuZiSPi9UNuMzHEPFL_EzYTeyNS1cYg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1759025361; x=1759630161;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eFwFGuMoBlO4UnFHFhFZsqW80xbz11TQVfcLYBTWIYY=;
+        b=HiWdICPazYtNtoPhx6l1UNlDS4RyV296hP2rvIqmJ4cThBILfYuW1b23tlDXjcLEGa
+         E5oOXb6k9NL0PMm47Nk+m3a2zutImvCKyaDITPhj1GDcjlD4ypEHSjM5GLKBEaadutFP
+         FJU1uADgL4JUOKld2iIcY5vd+xBvelRutY7VjZzhGAJha5RaxMooeDEn0a5C13UQPbaw
+         KBFbdSbS6SM8HZWQKdJDaaB1dvWzDOSMZSQxaHjdMJFaiqXvmtJYVNNfHFMUYz/xuSsI
+         HZQ+0awuZ7EyIcTsA+gI/b2pxwigu7P19y9Too5cALTOVV7IjJN4UuTj9c1/ue6Vrc07
+         EMGA==
+X-Forwarded-Encrypted: i=1; AJvYcCVCtrh2Q0r/xNVdDQx/WnuiUiA2q7w+BXulxtXCRwiWttaAtOJirXqCj9CfpN5+7BMzVGXBsA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUW8lJEWVwjP5SZ/nLvFRQiBDPHuo++niW9qaxVwteaCqCRJdl
+	CL543QehTb7a2AN9RPOW+AgRClXd523shTIioVtQU8/8lWvmoOZXJbUq
+X-Gm-Gg: ASbGnctCXDal0td0t4b6NYb1RrZBpDrf5LGAakXrOZKFN/sTNh1tVC6R8H3K5Bqms/o
+	qwbnxdvl03txt48QtHJ65nJMOjbSf+I+HhSlV0VcvClT38oN6ddzxnhJqlWx5TJWsLVF2OBt7rP
+	1Jddxsmg7PXh7Gdm5dkgyGBRPJFm547+8lRX2S2kd2WkjbU0ZoIy8a3xRLWPNGqEWxtwUVA1Ko9
+	r8EeWaFry1mASCTEnOxPCGfTnjS9qp4uCoXYov3PpoxgqonFvRCq4p5UC+jMkyylAvOqRHC6fh9
+	8gt/ImgNN06oR6UhxayRH6iUPPeiHBXA8pEJ2SG6waOU3JVo2S7W2dZ1AtJtWPwNwdumvHjdryv
+	Jj3un4cePKaV1fbrubNDybPYAbrz0Ypg80T1je4D1u0jNUQziHrCyUxCkGKNX+UHHCUTGyms=
+X-Google-Smtp-Source: AGHT+IENLcEnP9fle5P0/XBhhJQoZV1aQkW9RdCjU8CtjMNudeKurmLux3aZ05laluYZdZcozVy1ig==
+X-Received: by 2002:a17:903:38cd:b0:27e:d4a8:56ad with SMTP id d9443c01a7336-27ed4a85a82mr131587345ad.61.1759025360628;
+        Sat, 27 Sep 2025 19:09:20 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6ae693fsm90315405ad.152.2025.09.27.19.09.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 Sep 2025 19:09:20 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <827f50ac-9994-4e04-bf48-51774f5d504b@roeck-us.net>
+Date: Sat, 27 Sep 2025 19:09:18 -0700
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/11] dt-bindings: hwmon: Add Apple System Management
+ Controller hwmon schema
+To: James Calligeros <jcalligeros99@gmail.com>, Janne Grunau <j@jannau.net>,
+ Rob Herring <robh@kernel.org>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Jean Delvare <jdelvare@suse.com>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org
+References: <20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com>
+ <20250925204925.GA637503@robin.jannau.net>
+ <CAL_JsqK-9n3_H6vS80bZuZiSPi9UNuMzHEPFL_EzYTeyNS1cYg@mail.gmail.com>
+ <2537878.PYKUYFuaPT@setsuna>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <2537878.PYKUYFuaPT@setsuna>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Rob,
+On 9/27/25 17:36, James Calligeros wrote:
+> Hi Rob,
+> 
+> On Friday, 26 September 2025 7:43:23 am Australian Eastern Standard Time Rob
+> Herring wrote:
+>> On Thu, Sep 25, 2025 at 3:49 PM Janne Grunau <j@jannau.net> wrote:
+>>> On Fri, Aug 29, 2025 at 11:40:57AM -0500, Rob Herring wrote:
+>>>>
+>>>> This should be something like this:
+>>>>
+>>>> "^current-[A-Za-z0-9]{4}$":
+>>>>    $ref: "#/$defs/sensor"
+>>>>    unevaluatedProperties: false
+>>>>
+>>>> With the $defs/sensor being:
+>>>>
+>>>> $defs:
+>>>>    sensor:
+>>>>      type: object
+>>>>      
+>>>>      properties:
+>>>>        apple,key-id:
+>>>>          $ref: /schemas/types.yaml#/definitions/string
+>>>>          pattern: "^[A-Za-z0-9]{4}$"
+>>>>          
+>>>>          description:
+>>>>            The SMC FourCC key of the desired sensor. Must match the
+>>>>            node's suffix.
+>>>>        
+>>>>        label:
+>>>>          description: Human-readable name for the sensor
+>>>>      
+>>>>      required:
+>>>>        - apple,key-id
+>>>>        - label
+>>>>
+>>>> Though in general, 'label' should never be required being just for human
+>>>> convenience.
+>>>
+>>> That does not sound as it would be compatible with skipping nodes in the
+>>> driver if the node misses label. The driver could of course fall back
+>>> to create a hwmon sensors without labels.
+>>
+>> The driver absolutely should.
+> 
+> The original submission (and our downstream version) do this, but I changed
+> it for v2 per Sven's feedback [1]. Outside of development/experimentation,
+> we will (should) never have a sensor in the Devicetree of uknown utility.
+> If we know what a sensor is for, then we should have a label for it.
+> 
 
-On Friday, 26 September 2025 7:43:23=E2=80=AFam Australian Eastern Standard=
- Time Rob=20
-Herring wrote:
-> On Thu, Sep 25, 2025 at 3:49=E2=80=AFPM Janne Grunau <j@jannau.net> wrote:
-> > On Fri, Aug 29, 2025 at 11:40:57AM -0500, Rob Herring wrote:
-> > >=20
-> > > This should be something like this:
-> > >=20
-> > > "^current-[A-Za-z0-9]{4}$":
-> > >   $ref: "#/$defs/sensor"
-> > >   unevaluatedProperties: false
-> > >=20
-> > > With the $defs/sensor being:
-> > >=20
-> > > $defs:
-> > >   sensor:
-> > >     type: object
-> > >    =20
-> > >     properties:
-> > >       apple,key-id:
-> > >         $ref: /schemas/types.yaml#/definitions/string
-> > >         pattern: "^[A-Za-z0-9]{4}$"
-> > >        =20
-> > >         description:
-> > >           The SMC FourCC key of the desired sensor. Must match the
-> > >           node's suffix.
-> > >      =20
-> > >       label:
-> > >         description: Human-readable name for the sensor
-> > >    =20
-> > >     required:
-> > >       - apple,key-id
-> > >       - label
-> > >=20
-> > > Though in general, 'label' should never be required being just for hu=
-man
-> > > convenience.
-> >=20
-> > That does not sound as it would be compatible with skipping nodes in the
-> > driver if the node misses label. The driver could of course fall back
-> > to create a hwmon sensors without labels.
->=20
-> The driver absolutely should.
+Label attributes are optional in hwmon drivers. Period.
 
-The original submission (and our downstream version) do this, but I changed
-it for v2 per Sven's feedback [1]. Outside of development/experimentation,
-we will (should) never have a sensor in the Devicetree of uknown utility.
-If we know what a sensor is for, then we should have a label for it.
-
-> > I looks to me it would be a
-> > stretch to call the presence of the labels human convenience.
->=20
-> Then it is an abuse of 'label". "label" is supposed to be literally
-> that. Matching a sticker on a port of a device.
->=20
-> If you need to associate a sensor with some other piece of h/w, then
-> that should be via a phandle or something.
-
-I don't think doing so is particularly useful for this platform. Few of
-the sensors that we know about are directly related to any one piece of=20
-hardware.
-It's pretty much just the CPU cores and Broadcom module. The rest are things
-like fans, palm rest area temperature sensors, ammeters and voltmeters for=
-=20
-entire
-rails, etc.
-
-Even where we can reliably associate a sensor to a piece of hardware,
-(e.g. the WiFi/BT board), doing so does not by itself do anything useful. We
-still need to write a human-readable label for the sensor.
-
-I was trying to avoid yet another vendor property, but would something like
-'apple,sensor-label' work here?
-
-> Rob
-
-James
-
-[1]: https://lore.kernel.org/asahi/4a95cbf3-b3ae-4b26-8db2-dd5cf14a4c0c@ker=
-nel.org/
-
+Guenter
 
