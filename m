@@ -1,67 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B604D284670;
-	Wed,  8 Oct 2025 13:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A4B266576;
+	Wed,  8 Oct 2025 14:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759931864; cv=none; b=l5cKUjwQ57gC7lnSJIf2yu94GceKNsT+njoqSsxMLPSnYDmynyakYHZtIQ4bAQ/xCMhfAJ2A7hAihiPN4hjt2JlySE6Xqgq6uurGNbr5MzSg246cX1Ix9sKDlO1H5cGLKbWpqxydVMha2U87ZVh8V1uWwNk2kC0/R/1yknjiVdw=
+	t=1759933239; cv=none; b=Pnwf+DHczL2VBJTFDLqjzYnmIj1V2kVSSR60g18+qjwcCkDwGoqpGfUUrGnGhENtKw1tpgXPsY1kfybWRcyDUc5F6DB1Wt12lzRN8Kom9yNHMgwY4wZ2tGDcVixhHBgIvRDtItMG2Vm8qAdoeSfT0d1yTb3qR5YjjdaXqD3AplM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759931864; c=relaxed/simple;
-	bh=3xT85CT/P1jeGTZY3huEJ5JRccxDMFaCN0SMPtXlL6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ixckSFRSMsIr1nfJGl+cX0a9FmfUWZSQVJG4AOfgYup49byf6maLjG8uI6azBSlhNggG11vhgFgqInMHTfxsZ8f2tTFuo+EpEt+dseD0HTMFAFwhGkt3NiqSlTGAyVaQje6gvLfLCAGYTMA1hQ4j2BO7Ehpw6eTlbZpUZ7BjFp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btLyQNEB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759933239; c=relaxed/simple;
+	bh=DXLUJwIFDqo9yxA809XtAiU05h5zv726Jm63srA1HqM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pupuvkBe4XMhb4gO8R/Oa2UoGXaDHcUYjxzcA9kjn4GN5CxKWshW5V7w9/RA3vutmQHc/PynpOFS39AQMb/fUVo3t2sXydXsp99tPMYiScE0HhdIR9X6m2hjuiZYqpyRuYnfqjfypczrBUdkNrcjQz3eK/9qZpTcvugtb65k9DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sr2HY6nP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btLyQNEB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD01EC4CEE7;
-	Wed,  8 Oct 2025 13:57:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sr2HY6nP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD753C4CEE7;
+	Wed,  8 Oct 2025 14:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759931864;
-	bh=3xT85CT/P1jeGTZY3huEJ5JRccxDMFaCN0SMPtXlL6Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=btLyQNEBjY5F1ulKVbtXT+e7r8PeA3SG/SPfwT8Qz9QmGqlRzClVoeuktL6vhHqSH
-	 MjaW38Qh58m6qKnBBqkZa5xal1kLNvzVjXp5RtF8ij5z9/Rd9eXL5Ia4+j+f0IQGEK
-	 DJAontqMzliW40srMf7YsO7EaMtOUW7p7ocG2Jo5uYrTn/K97TI321G/4GUqBIi2KT
-	 lla3lM7v2FvnBt/gkTKn0E49isfaRjf/sQ8n7k2wMVxcP18V4Th1I4+YlyGRJ42gMy
-	 fY6tp0AqzXResdFCnmHzJpfwbaZLV+Xk8utzc9KZkI0r2p6Wa9lCN0ps0wvVsuI1Da
-	 qsJacXp07UpKQ==
-Date: Wed, 8 Oct 2025 14:57:39 +0100
-From: Lee Jones <lee@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Janne Grunau <j@jannau.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	LKML <linux-kernel@vger.kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Sven Peter <sven@kernel.org>
-Subject: Re: mfd: macsmc: Initialize mutex
-Message-ID: <20251008135739.GX8757@google.com>
-References: <20250925-macsmc-mutex_init-v1-1-416e9e644735@jannau.net>
- <1bc9a4b3-7a8d-4bcf-9481-36fdc76e066c@web.de>
- <20251001095505.GP8757@google.com>
- <0acf13d6-d63b-4079-93ba-d53910e624d7@web.de>
- <20251001124825.GR8757@google.com>
- <a3b93cc1-0c0f-4aa7-9b08-b3821ce8e70e@web.de>
+	s=k20201202; t=1759933239;
+	bh=DXLUJwIFDqo9yxA809XtAiU05h5zv726Jm63srA1HqM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sr2HY6nP+YY825+Af6T62I0LEEsgtfcpYEQzMKp+63xt/Et8VIkg5MLMrvDXOK059
+	 L0F3U5GiTCsUYcH8wvyTH8JINufV0omW68WAsGedvOsnGio87ZM79i1f3+74EiYn7+
+	 8wb/76ku57LJzKSDXB6JxqQTdpB12Us2iU6ektinAsJpzKYBqsULugyCBpop3FoWzI
+	 OXhividQD/YC44OtznP6d7ZFUEzyZWj0xYP9TdCyxOUbAmsErqrkomuS/V0BzazfBI
+	 EiutAu+evxc8HpF9NaTW4MYJC0m0ZAEjdyrdoQFf9gYAE/WaT9DZynxeEXPpOycfI/
+	 Y7dfut7eSbZXA==
+Message-ID: <0fa63b77-f912-48de-b67f-6df3acccea61@kernel.org>
+Date: Wed, 8 Oct 2025 16:20:35 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a3b93cc1-0c0f-4aa7-9b08-b3821ce8e70e@web.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] mfd/macsmc: make SMC write buffers const
+To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+ Lee Jones <lee@kernel.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20251007130510.1653-1-atharvatiwarilinuxdev@gmail.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20251007130510.1653-1-atharvatiwarilinuxdev@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 01 Oct 2025, Markus Elfring wrote:
-
-> >>>>> Struct apple_smc's mutex was not initialized before use. Surprisingly
-> >>>>> this only resulted in occasional NULL pointer dereferences in
-> >>>>> apple_smc_read() calls from the probe() functions of sub devices.
-> …> However, you must also provide your own context.
+On 07.10.25 15:05, Atharva Tiwari wrote:
+> Mark the write buffer arguments in apple_smc_write(), apple_smc_rw(),
+> and apple_smc_write_atomic() as const. These functions do not modify
+> the data provided by the caller, so the parameters should be const
+> qualified.
 > 
-> Do you try to support the creation of improved change descriptions?
+> Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+> ---
 
-Not to -pedantic levels, no.
+Reviewed-by: Sven Peter <sven@kernel.org>
 
--- 
-Lee Jones [李琼斯]
+
+Thanks,
+
+
+Sven
+
+
