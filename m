@@ -1,66 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4962E265A;
-	Wed,  8 Oct 2025 14:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E41DF6C;
+	Thu,  9 Oct 2025 00:43:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759933261; cv=none; b=PwWyW7DBCfmJnppfmkKFBXFycW0OtRlVPCYAXJGTS0fUnWSJ4XMZDj/Hu+8nCLArv+wMNUcU6w8iBWr4F6QR6AOR6ipQVtsIUUVSsPf1Zfiw+hzN6sYycn6r6p/aYbfCioqB4b0eZwpGQ16RI6oVQN+AaMKucDOPErJ9TF655k8=
+	t=1759970623; cv=none; b=Yp8Sgv334qMGZwUjckOq94MWeSAzBeRaW6OJkiguvAU5mxW6ZBgBvKp4pYLTQCyn99boRfOyq0s/EvTN44fSQt0H2+Fz4nlJMZPjdSwMubQejaPrgsC/9uB3w1uUMA+TzBkcku93bPoSzNF5tY+tBhds6kMo+vmDqmVIHOnDrxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759933261; c=relaxed/simple;
-	bh=Sx0SteDPRmJFcqg50YxwV4lcQ6BV5pFc2BTLLbYJImQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VRYSs2eOAF+jihbNBgBwbsiVTtKoVlqiR5HblLFUzzBAqCYU6OYo0pXoBMSfFMU47p2OwE/5bhQytZExPvoVn+S7zLOxeKa7yhdo8frONCnKSDQKZ+5eFynSrhrrmT8RTD72I3IhOtn0keAMAm2STwMSd3jvco8aemFTr1/Wz38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=czJf48Bd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759970623; c=relaxed/simple;
+	bh=dX0f9NNc3ev8nYEkPBXLQP7xHQwnM4V0kjsg1TcaF4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UPAC3Bc1srG70TvsS9mzw4+gqAWcWdyA3jCE3CSWg7Y7ZnnLuH6dyJarcaV4WaIoLRagpoedODmyiCuKGkt4G/ZxlzTbWoJx3STqubzn6qX3ZOc+xMIcj4UqkMznNRf6MFoXQrk9uOHdGOnbMCgiZp5Aaq7vhs2XQDxSPm4f0jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/miDTD6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="czJf48Bd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9EE4C4CEE7;
-	Wed,  8 Oct 2025 14:20:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/miDTD6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFE24C4CEE7;
+	Thu,  9 Oct 2025 00:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759933261;
-	bh=Sx0SteDPRmJFcqg50YxwV4lcQ6BV5pFc2BTLLbYJImQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=czJf48BdGtP5MgMondaHstZGFYGR0tzbfaL68XXOI4uwNSBO1Jv4RQUFPJEfrifZ9
-	 rcr0hmc4lb1BkYgE+FO4EHrDTmOq3Hxjrq13wFo+zh0xo1o6wpa5OcLyeix9RKdaWr
-	 fN3EMCsjmNnFLTVEVP2Xrn6GE9NSnl0lMbkOQO4ADKIJXnzSfkrlxLKhoHPe039ujz
-	 S8aoWS1OFyQ4e87+zQrReV0PeS1bqNHEUhD564fEnlhTUFoWlqTxeRo9WXr1NC7rq6
-	 8qBmxi9EuzUPQ4OuShSQIrK0FJRr7175ax7tbxPzfdn1pORS0PjjoL4YNtw3MHn/Iq
-	 dgm0MS/vkbcBw==
-Message-ID: <82605ddd-d0d8-4449-8bb9-9f94b2bde734@kernel.org>
-Date: Wed, 8 Oct 2025 16:20:57 +0200
+	s=k20201202; t=1759970623;
+	bh=dX0f9NNc3ev8nYEkPBXLQP7xHQwnM4V0kjsg1TcaF4w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d/miDTD6rOtxCuQvVhd0sT74JQnWl8xOws2qjCrK8PTGimCO/Cih2WPRfelX3vUrC
+	 dFpxSVeBkaCVvgpZUq4wW3XUNYyXwet85zHxnSqCrshdZa5/j+uLXmn1wIYQzOTXWt
+	 Sj6X8HpuLR91VXM7yzkuSrAW/xLiet20fPM2ncUH7EEZC1pwhNc/KXWgX8ta0rg5En
+	 Yt7VBXXwwivQ3Y/p+vHtjPtQAKinE4o7qERQVfdgxCShMcUfCoeEgAZie90AK5YOIM
+	 ycMOijxSoKMVwCNqp0jxYvtFOyodh2z1foXA/7GDpwPskLtQ1uoA4vHjIUQW/7Q+OE
+	 VUrpGpn+Hhreg==
+Date: Wed, 8 Oct 2025 19:43:41 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: linux-input@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-rtc@vger.kernel.org, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Janne Grunau <j@jannau.net>, Lee Jones <lee@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>, Neal Gompa <neal@gompa.dev>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Sven Peter <sven@kernel.org>
+Subject: Re: [PATCH v3 02/13] dt-bindings: hwmon: Add Apple System Management
+ Controller hwmon schema
+Message-ID: <175997061547.377977.15400204653916198003.robh@kernel.org>
+References: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
+ <20251007-macsmc-subdevs-v3-2-d7d3bfd7ae02@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mfd: macsmc: Initialize mutex
-To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Lee Jones <lee@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250925-macsmc-mutex_init-v1-1-416e9e644735@jannau.net>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20250925-macsmc-mutex_init-v1-1-416e9e644735@jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251007-macsmc-subdevs-v3-2-d7d3bfd7ae02@gmail.com>
 
-On 25.09.25 22:33, Janne Grunau wrote:
-> Struct apple_smc's mutex was not initialized before use. Surprisingly
-> this only resulted in occasional NULL pointer dereferences in
-> apple_smc_read() calls from the probe() functions of sub devices.
+
+On Tue, 07 Oct 2025 21:16:43 +1000, James Calligeros wrote:
+> Apple Silicon devices integrate a vast array of sensors, monitoring
+> current, power, temperature, and voltage across almost every part of
+> the system. The sensors themselves are all connected to the System
+> Management Controller (SMC). The SMC firmware exposes the data
+> reported by these sensors via its standard FourCC-based key-value
+> API. The SMC is also responsible for monitoring and controlling any
+> fans connected to the system, exposing them in the same way.
 > 
-> Fixes: e038d985c9823 ("mfd: Add Apple Silicon System Management Controller")
-> Signed-off-by: Janne Grunau <j@jannau.net>
+> For reasons known only to Apple, each device exposes its sensors with
+> an almost totally unique set of keys. This is true even for devices
+> which share an SoC. An M1 Mac mini, for example, will report its core
+> temperatures on different keys to an M1 MacBook Pro. Worse still, the
+> SMC does not provide a way to enumerate the available keys at runtime,
+> nor do the keys follow any sort of reasonable or consistent naming
+> rules that could be used to deduce their purpose. We must therefore
+> know which keys are present on any given device, and which function
+> they serve, ahead of time.
+> 
+> Add a schema so that we can describe the available sensors for a given
+> Apple Silicon device in the Devicetree.
+> 
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 > ---
+>  .../bindings/hwmon/apple,smc-hwmon.yaml  | 86 +++++++++++++++++++++++++
+>  .../bindings/mfd/apple,smc.yaml          | 36 +++++++++++
+>  MAINTAINERS                              |  1 +
+>  3 files changed, 123 insertions(+)
+> 
 
-Reviewed-by: Sven Peter <sven@kernel.org>
-
-
-Thanks,
-
-
-Sven
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
