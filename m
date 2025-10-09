@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FBB2F25FD;
-	Thu,  9 Oct 2025 15:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0409E2FBE09;
+	Thu,  9 Oct 2025 16:00:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760025548; cv=none; b=jwcYHTS1qpDhdT5YFMtLloNvWgb8XiwLzAdawoI4JqpESf8e7aq7MjESN1JcL/z7NJpadlvq4BBJLpDXb8u2v/eiN5SHWtKUHeYnolt1ricGXQp9KJ4giDqXWDraDh7lk4bMRNe8MzvZ9mXXAXjrVStGekh9mvebQlc30aotzCQ=
+	t=1760025638; cv=none; b=nDHwh9vklQ/7XbBQXClaetMFs0KdyR5R7Yguh4HPpmqZRENqVuahfuyUcxexDjlJIqoTKaUVkXckImAjHeEGa3iTR4tSBSFG1TikQ6456XO7eF3L2f9R4goZbXfKIBoGR/G0xoFd/NCokCb4p4KOHBjb3Y+Hkpjpz1mJAQ7Wj8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760025548; c=relaxed/simple;
-	bh=M0d/cnF+33Don3wW+JMwAO13Eu7zb/6Dnpq8fGlfMhQ=;
+	s=arc-20240116; t=1760025638; c=relaxed/simple;
+	bh=ALThAbtUaT72qVaCD2dRMI9yWcRKFS93pvx7JXbR47M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dGHUCs6Yb2Vg5S0YPQrOpXhEFBV1KJqB9Skbix3SpxJ/FDZKfvj6Nl6rMaO9+le264k6e6tO7BYxJv4oo8CJd/NgrO4rN4bpO2Oats3KMLAYD5DA6f8fGFSBDiRRJojR3vuptv6vyMTorMbA30IvTDOlqGx4YQ0K34hkYqCPN4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mcn/J2af; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=QDBk6wC1khdinIO1wwZdM+gd2+T0zcpqGtHu4qz11poX10EcOnc6XO4hrIWUuZgr4MSDUF5GwVSJyu6w6N5AmtF75Hzi/nYn3r8vm4eV+IYdVCdVvVmuFYO2qJwelTR8ChPlRSXLUP34F8BPGGVFcKadUQXFB0LMspJiDa+eWN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IhXRQidw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mcn/J2af"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94AE9C4CEE7;
-	Thu,  9 Oct 2025 15:59:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IhXRQidw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6178C4CEE7;
+	Thu,  9 Oct 2025 16:00:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760025547;
-	bh=M0d/cnF+33Don3wW+JMwAO13Eu7zb/6Dnpq8fGlfMhQ=;
+	s=k20201202; t=1760025637;
+	bh=ALThAbtUaT72qVaCD2dRMI9yWcRKFS93pvx7JXbR47M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mcn/J2afPcTrFDBMLgiS4CVpym3bncuukc7yvJ72sLU3SINS2CPr/x9bugDsGCTLl
-	 y8gGyBu6cu2L3POzZJ6Zdjzi8H5bS8ilDsKlkbwoZOzzr9c+2JYhXHnU5i4JxhXG0t
-	 bVZUoQ25yXBwNCCMAaKCtLvKvDQCQRf9rNw9NtRXJAc4e7fFYuRXIVY0E7D3saCWSl
-	 AKnT20P8fcjBJzrcfXoqN4DuKyBcDWsPYEjdBcVxUfE5Xs+BdkrwruVHm7jKv4I9Xa
-	 YY3QP+uQv7kS5elqBIFUPk7ByWYlRvMn0sBKeq/S62pJHSIsVZg4MDPD5khNXG7CJ5
-	 OJjcAdsd2mcfg==
+	b=IhXRQidww2WXw5y5l5wJAu+aLeXMytEbRgl7OR8Uuzm7/sU+HiyVjWtrbGWc/kbwG
+	 uH7wQrd5K0jGL7MXnLQc8LrWXdKIMCse5S++sW9UxxFvzwrk6v7vScl2sdVxwBX4G+
+	 iRUfk/iXxrptgEHQEsyBZIc44k/U6H9HU8cxS81F3GJnMOV9F4CGk71iDnueWO9RA8
+	 nC6pf73As63lhcLjaDOAEYnBMVKplCueIhwtpP36sxXpMEES3phH7l2jFtmrVVFFwo
+	 NGVyaG8F56L8NZHq35wN+V9OeE27sIIu/TG7hZgbyBiOnu2viRsg+WXoR9xi36tqnJ
+	 ZA+rJtjiUCnOQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Janne Grunau <j@jannau.net>,
-	Lee Jones <lee@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Neal Gompa <neal@gompa.dev>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Sven Peter <sven@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	sven@kernel.org,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.17] mfd: macsmc: Add "apple,t8103-smc" compatible
-Date: Thu,  9 Oct 2025 11:55:06 -0400
-Message-ID: <20251009155752.773732-40-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.17-6.6] pmdomain: apple: Add "apple,t8103-pmgr-pwrstate"
+Date: Thu,  9 Oct 2025 11:55:55 -0400
+Message-ID: <20251009155752.773732-89-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251009155752.773732-1-sashal@kernel.org>
 References: <20251009155752.773732-1-sashal@kernel.org>
@@ -55,18 +57,20 @@ Content-Transfer-Encoding: 8bit
 
 From: Janne Grunau <j@jannau.net>
 
-[ Upstream commit 9b959e525fa7e8518e57554b6e17849942938dfc ]
+[ Upstream commit 442816f97a4f84cb321d3359177a3b9b0ce48a60 ]
 
 After discussion with the devicetree maintainers we agreed to not extend
-lists with the generic compatible "apple,smc" anymore [1]. Use
-"apple,t8103-smc" as base compatible as it is the SoC the driver and
-bindings were written for.
+lists with the generic compatible "apple,pmgr-pwrstate" anymore [1]. Use
+"apple,t8103-pmgr-pwrstate" as base compatible as it is the SoC the
+driver and bindings were written for.
 
 [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 
 Signed-off-by: Janne Grunau <j@jannau.net>
-Link: https://lore.kernel.org/r/20250828-dt-apple-t6020-v1-18-507ba4c4b98e@jannau.net
-Signed-off-by: Lee Jones <lee@kernel.org>
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Sven Peter <sven@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
@@ -74,66 +78,67 @@ LLM Generated explanations, may be completely bogus:
 
 YES
 
-- What changed
-  - Adds a new OF match entry `{ .compatible = "apple,t8103-smc" }` to
-    the driver’s match table in drivers/mfd/macsmc.c:481, leaving the
-    existing generic match `{ .compatible = "apple,smc" }` intact.
+- What changed: The patch adds a single OF compatible to the driver
+  match table to explicitly support the Apple M1 (t8103) PMGR power-
+  state nodes. Concretely, it inserts `{ .compatible =
+  "apple,t8103-pmgr-pwrstate" }` in `drivers/pmdomain/apple/pmgr-
+  pwrstate.c:309`, keeping the existing generic fallback `{ .compatible
+  = "apple,pmgr-pwrstate" }` just below it (drivers/pmdomain/apple/pmgr-
+  pwrstate.c:310).
+- Rationale from commit message: DT maintainers agreed to stop extending
+  nodes with the generic `"apple,pmgr-pwrstate"` and instead use the
+  SoC-specific string as the base compatible. Without this addition, a
+  DT using only `"apple,t8103-pmgr-pwrstate"` would fail to bind the
+  driver.
+- Scope and risk: The change is a single-line device-ID addition to the
+  OF match table. It does not touch runtime logic, data structures,
+  Kconfig, or probe/remove paths. There are no architectural changes.
+  This kind of “add a new compatible ID” patch is routinely accepted for
+  stable because it’s low-risk and purely affects device binding.
+- User impact fixed: On systems providing a DTB that omits the generic
+  fallback (aligned with the new binding guidance), the driver would not
+  probe, leaving PM domains and reset control unmanaged. Adding the
+  t8103 compatible restores functionality. This is a real, user-visible
+  failure mode when booting older kernels with newer DTBs or bootloader-
+  provided DTBs following updated conventions.
+- Alignment with bindings: The bindings already enumerate SoC-specific
+  compatibles, including `"apple,t8103-pmgr-pwrstate"`
+  (Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml:41).
+  The driver now matches that SoC-specific string directly, which aligns
+  the implementation with binding expectations going forward.
+- No regressions expected: Existing DTs that list both
+  `"apple,t8103-pmgr-pwrstate", "apple,pmgr-pwrstate"` continue to bind
+  identically, only preferring the SoC-specific match. DTs that still
+  only have the generic string continue to work via the unchanged `{
+  .compatible = "apple,pmgr-pwrstate" }` entry
+  (drivers/pmdomain/apple/pmgr-pwrstate.c:310).
+- Stable policy fit: This is a minimal, contained, non-feature change
+  that enables correct binding for an existing driver on an existing SoC
+  and prevents regressions with evolving DTs. There’s no security
+  implication and no interaction with critical core subsystems beyond OF
+  matching.
+- Backport note: On older stable series, the file may reside under a
+  different path (pre-“pmdomain” rename). The change remains a trivial
+  OF-ID addition to the same match table in that file.
 
-- Why it matters
-  - Devicetree policy is moving away from expanding generic compatibles
-    like `"apple,smc"` and towards SoC‑specific base compatibles. The
-    binding documents this pattern and uses SoC‑specific compatibles
-    with explicit fallback chains
-    (Documentation/devicetree/bindings/mfd/apple,smc.yaml:20).
-  - Current DTs for Apple SoCs use these patterns:
-    - t8103 (M1) nodes include `"apple,t8103-smc"`
-      (arch/arm64/boot/dts/apple/t8103.dtsi:900).
-    - t6020 (M2 Pro) nodes use `"apple,t6020-smc", "apple,t8103-smc"`
-      (arch/arm64/boot/dts/apple/t602x-die0.dtsi:105), intentionally
-      avoiding the generic `"apple,smc"`.
-  - Before this change, the driver only matched `"apple,smc"`
-    (v6.17:drivers/mfd/macsmc.c showed only the generic match), so
-    kernels without the `"apple,t8103-smc"` entry would fail to bind on
-    DTs that omit the generic fallback, causing the SMC MFD (and all
-    dependent subdevices like GPIO and reboot) not to probe.
+Given the above, this is a textbook low-risk backport that prevents real
+breakage with newer DTBs and should be backported to stable trees that
+already contain the Apple PMGR power-state driver.
 
-- Risk and scope
-  - Minimal and contained: a one‑line addition to an OF match table
-    (drivers/mfd/macsmc.c:481). No functional code paths change, no
-    behavioral differences for already working systems, and no
-    architectural changes.
-  - Security-neutral: no new I/O or parsing paths are introduced; only
-    device binding is enabled for an SoC‑specific compatible.
-  - No negative side effects expected: the new match string is specific
-    and does not overlap with other drivers.
-
-- Stable suitability
-  - This is a classic “device/compatible ID addition” that fixes a user-
-    visible binding failure when DTs conform to updated bindings that
-    avoid the generic `"apple,smc"`. Such ID additions are routinely
-    accepted into stable to enable hardware that otherwise won’t probe.
-  - Although the commit lacks an explicit Cc: stable, it meets stable
-    rules: important fix (driver doesn’t bind on modern DTs), minimal
-    risk, no features, and confined to the MFD subsystem.
-
-Conclusion: Backporting ensures the macsmc driver binds on DTs using the
-SoC-based compatible scheme (notably those that rely on
-`"apple,t8103-smc"` fallback), with negligible regression risk.
-
- drivers/mfd/macsmc.c | 1 +
+ drivers/pmdomain/apple/pmgr-pwrstate.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
-index 870c8b2028a8f..a5e0b99484830 100644
---- a/drivers/mfd/macsmc.c
-+++ b/drivers/mfd/macsmc.c
-@@ -478,6 +478,7 @@ static int apple_smc_probe(struct platform_device *pdev)
+diff --git a/drivers/pmdomain/apple/pmgr-pwrstate.c b/drivers/pmdomain/apple/pmgr-pwrstate.c
+index 9467235110f46..82c33cf727a82 100644
+--- a/drivers/pmdomain/apple/pmgr-pwrstate.c
++++ b/drivers/pmdomain/apple/pmgr-pwrstate.c
+@@ -306,6 +306,7 @@ static int apple_pmgr_ps_probe(struct platform_device *pdev)
  }
  
- static const struct of_device_id apple_smc_of_match[] = {
-+	{ .compatible = "apple,t8103-smc" },
- 	{ .compatible = "apple,smc" },
- 	{},
+ static const struct of_device_id apple_pmgr_ps_of_match[] = {
++	{ .compatible = "apple,t8103-pmgr-pwrstate" },
+ 	{ .compatible = "apple,pmgr-pwrstate" },
+ 	{}
  };
 -- 
 2.51.0
