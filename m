@@ -1,158 +1,65 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EFB1A23AC
-	for <asahi@lists.linux.dev>; Thu,  9 Oct 2025 01:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2FA2472AE;
+	Thu,  9 Oct 2025 12:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759975118; cv=none; b=Ya/U5QTrdty1AIpcWe/UtnWPRdqgQB7K+ZFaf5DC1uU9fVjYbcxBdBPICZfIoBnCp9CBgcRou7wd+BmxJrNT51ogZ9CzclMvZJZEIQboGYw2aZ57XZeKcvbcTmCDJOuDgBozPt44BfdPh+5ti97TqS+F3IPtPjLyawkGLNum2D8=
+	t=1760012778; cv=none; b=gd4rS6Ybcc+W6zYtDSoCjPx/NUL+2grbFroIpTzvwgeB3JGp/JmVj3yqquIhSRC8oqRF/6aSijf2Dm+5ugj3k2ycqSX4iDfMEQLbpU7B2OoGjjnYFsUoWOcP3x5jNzEr9m+nBnyCj+7mZHGi9FOJUelN9gggv4X7E4PkVSx/GNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759975118; c=relaxed/simple;
-	bh=cBbOyvyZ60m9YZe8t1WrE6nNLEs0DHt+yuPxFq4aEwY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jY8+JyEP3iT2ZlFs5/YXuIdWtLiT+b98UIy4ccmpjb5mivDrkFdviWN3dDW0h1rgn9lKMGsuQoLAwvUicSk8QvCEhanZ1u7T0dlP8MFmLnwTHG2LB5xl+y54QSnCTgCwLWLJZMWWIcSWuQEc5kuzAXOJGzsV+KzG7hWszAn9A5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROlf/WPR; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760012778; c=relaxed/simple;
+	bh=XW6LbGQYe1GOixXoZSrRStaHjVTYa1BdDfSA7prWz+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dYKR2NdiOIcp+y2AvF5WLmy+BR6e8vbUIM1zsKlxs51+CLUbWSjfUzv0xWk1Gpof81COR76gbdTXz/egXmtrtGqyCKJKFuA5NWXCqqBPCPZxuYdxnJdtVyYidGjPIOlrP4KUtkxERmc01Kt5sJ+ep4bhvqYUVDyeuhRf+/xGZjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEo8nk/W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROlf/WPR"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-782a77b5ec7so363093b3a.1
-        for <asahi@lists.linux.dev>; Wed, 08 Oct 2025 18:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759975114; x=1760579914; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=2aGfciQxVmbM+4l+bNDs3L4I0WH01Ha6lKiSJ74aDco=;
-        b=ROlf/WPRlyqiETne9uoz8BHmo8h9Y5uofWdgZPKTrUPLWvIu9djizxYQ+VD75CAsCJ
-         Gshul7XXG+VJqN2oMu9UwmK3TtIQrWWcdqBlHSmQPaBwlOLBPqQz3gPQV0Y18i2L833n
-         yANS49vB6bpb4QuBPbAQIWMuiOvqGrmPCP0b0x7rltRtKJyjJimnyoZEN1FCix5+thTp
-         xzCoUTZYiE1FmUpPMZYr7L7DwvxDGXAft1w1pfYpa+BG/6DdvzFc1fB+wkBSebOxiArE
-         nGfnXlrCwxblJDV7QoqPOsPpDQHWl7a3mfUqOhKY6NdLacvxhhkzQIP1ihiYCez107E1
-         yhOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759975114; x=1760579914;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2aGfciQxVmbM+4l+bNDs3L4I0WH01Ha6lKiSJ74aDco=;
-        b=s7XbuBuAhkDC0AT4wMSyPknRznjQYLR2R1FvQ0oI6ubRFe9w7JIEkiPPUTlY25UX4w
-         iPxBbq9hqmhPhwKVezUS3jrfTaOeNgK44U/o45KcW8gRPuvQIVm0jakw286MRS16lSOY
-         qxqmPcXkWceEMKE62aAGCughUVnSpycEQQM/WiX5kClpyuJCq9Y2jo1kPDAF2zvgKn0S
-         bmUWhZ+KxsHP9qUozC9kg6N+lUcy3+LghzHJgMPvvI+kx81WpBqfvjXHIYIUPoXoDKe+
-         47KYFvI0/xJFVxLPJBgXcUMkqihDrBGSR8USSg7BeMuO6J/PIGKEQPtsg0TfjkR0gjpc
-         VzZQ==
-X-Gm-Message-State: AOJu0YyKriLXYkX//1USUzl1OCROMY8JOLxntfaBzkCRG89wYho+NFdE
-	vo3YV2vwGO16g4HWYzObfadExR2YECmK4jmhIHMVuJ8myXuZs9Pm3HDL
-X-Gm-Gg: ASbGnctGZ4W/gdhrTO43Lbj3pZtec8HnXWRUjCYW/4o96GkoDg43gfXTmGOyJHe2Bsy
-	WeN5OCjql22x6M9EAa5E7fezRqlYY5c8UuItRf+l6pOoeYWV8szTxvlGbWTtdhc6IlmZ5eAakn5
-	5KB9l2XdTUwX8QWAeBzp9LjPBExeC24VaL+Tbf0lO9+VKj/88gtA9WL70NZ+9xc8QSj9Pa1vpRd
-	A1t+xdIDzilzvOhFz1UjLlDbrqQahmfomYwAbA5smlcm0QZGqZI7SfHEaxPz+7l+w4CBPlMiip0
-	sUtXa3ehog7iZf/P4xmWEs95vOQxS5ZDNhZFjMluwracO2GA0CL8NHYCfy2xwop3MsPPe4Nk55p
-	mwVgi/NNrHPxenbVC8G6TKjngMuotJ8NV9Eo6bTQ9kicuUpAdFjUehmWXDHyiu30nPbZWbE8VXP
-	f1gAlvjOeXkWrz4dxdmf8vT8Vo+30KRg==
-X-Google-Smtp-Source: AGHT+IFRnXDNLeO6K/K3wthKcVdDZ0k79jHMKp0eRtg+qp5MtCtdWauMOoFNlF0VJLS/II4OcfTVwg==
-X-Received: by 2002:a05:6a20:3956:b0:303:8207:eb56 with SMTP id adf61e73a8af0-32da8190b86mr7638215637.5.1759975114450;
-        Wed, 08 Oct 2025 18:58:34 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b51102259sm4986725a91.7.2025.10.08.18.58.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 18:58:33 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c7d01ff6-0e09-4ea1-8c5d-59be5e3fff16@roeck-us.net>
-Date: Wed, 8 Oct 2025 18:58:31 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEo8nk/W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24E55C4CEE7;
+	Thu,  9 Oct 2025 12:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760012777;
+	bh=XW6LbGQYe1GOixXoZSrRStaHjVTYa1BdDfSA7prWz+4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AEo8nk/W4KDqP4vHVOCC+I52oHnSuVQbAWr81grWaqoXy3Y1RMCgb9i2F6hNgWuXa
+	 E8B0pdm31Lb9vu+Jhh0Bc/zkOd46IIVn9D3gdgunqiQkdbM1DZF1iuVf1G2pXJnqN9
+	 s5wja0quF7KXxhIyJKzUE0G8zoYUdjtVbs1g3+TVAZ9DCq6D+PUATpAUsrn6XUGv1i
+	 ey6xlo+t9FA8nES0q1j6VSV4Z2nCYnYQ8AtQK/bDS2eJA1SaVqL2fTD05T/NIcGkZy
+	 YW8980gwEsu53qwDm0pBAVJ4b4YCAz3A1FqQpc8onI2HsydxSPnaXw3xBTl2UPeOG7
+	 M+CshnFxtmsHA==
+Date: Thu, 9 Oct 2025 13:26:13 +0100
+From: Lee Jones <lee@kernel.org>
+To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] mfd/macsmc: make SMC write buffers const
+Message-ID: <20251009122613.GA2796410@google.com>
+References: <20251007130510.1653-1-atharvatiwarilinuxdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/13] hwmon: Add Apple Silicon SMC hwmon driver
-To: James Calligeros <jcalligeros99@gmail.com>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jean Delvare <jdelvare@suse.com>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com>
- <20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251007-macsmc-subdevs-v3-6-d7d3bfd7ae02@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251007130510.1653-1-atharvatiwarilinuxdev@gmail.com>
 
-On 10/7/25 04:16, James Calligeros wrote:
-> The System Management Controller on Apple Silicon devices is responsible
-> for integrating and exposing the data reported by the vast array of
-> hardware monitoring sensors present on these devices. It is also
-> responsible for fan control, and allows users to manually set fan
-> speeds if they so desire. Add a hwmon driver to expose current,
-> power, temperature, and voltage monitoring sensors, as well as
-> fan speed monitoring and control via the SMC on Apple Silicon devices.
-> 
-> The SMC firmware has no consistency between devices, even when they
-> share an SoC. The FourCC keys used to access sensors are almost
-> random. An M1 Mac mini will have different FourCCs for its CPU core
-> temperature sensors to an M1 MacBook Pro, for example. For this
-> reason, the valid sensors for a given device are specified in a
-> child of the SMC Devicetree node. The driver uses this information
-> to determine which sensors to make available at runtime.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+On Tue, 07 Oct 2025, Atharva Tiwari wrote:
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+> Mark the write buffer arguments in apple_smc_write(), apple_smc_rw(),
+> and apple_smc_write_atomic() as const. These functions do not modify
+> the data provided by the caller, so the parameters should be const
+> qualified.
+> 
+> Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+> ---
+>  drivers/mfd/macsmc.c       | 6 +++---
+>  include/linux/mfd/macsmc.h | 6 +++---
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+
+Applied, thanks
+
+-- 
+Lee Jones [李琼斯]
