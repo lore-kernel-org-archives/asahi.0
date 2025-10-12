@@ -1,197 +1,200 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010026.outbound.protection.outlook.com [52.101.56.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E471F14D283
-	for <asahi@lists.linux.dev>; Sun, 12 Oct 2025 13:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760276025; cv=none; b=n6WiYlqWumDeATWPLcEzQ7NpQX+y9b6Q2VOzX1yicpswT79IA5Tmg/YYbzKOjjA6kmvoEkjTfrDSvPA59+4ceNtDQsfFW0wdvefdFlxZfRVsupWvKNzhjHDrW8XcXZ/vdwOz1fjAAYB8+8PxAJWH8/jL5uWTGH+wtXI39npMk4g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760276025; c=relaxed/simple;
-	bh=Ww5plqoNeNO1cU6mKtLyHrtk8QN93Cdv2cblf0oYPJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tdi0kbPzWlQTG4mE5Y5t1OeLdImxZMV92b7117CD8wfckcyxFK4JZCbVAtLVjLR8T614rAVoIy+3BnhnuD2P0dd04tVR2yojdn2DEoqgVBMDfzF5d6Ed9wVII/NS1jrhtnjJVYQbqHBStPDrqjL4Gq6kzLneBjK3Eo3Ks+xPOac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=GYdvTvuI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JZk6iema; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83C02727F3;
+	Sun, 12 Oct 2025 23:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760313481; cv=fail; b=eKHXy3pyGJsIOAj1GIa5MmCLci7gKjXcCabXIxW89fExnhrFPG+OZ/MtTzoQL07aXkl1UyWAVnTNM/E8x4hIDxx07b65Ex46lfwV1RWzOCjWOr/TgNOuN/1ZFDaloo7Lj3tgQKpB27jArSif5a0L7Um1t+c+Fa2zkqisR6KVusw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760313481; c=relaxed/simple;
+	bh=1Bp+GdgwobBnGDovkW0S0VECFu+aQYaHL1OE9cmoSUQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RRF+BbTRsIqFyTUP+PxRb9MMHb6XtnhN9TGKZYwszbN+Fdn82d6efwd9Cxdi98EXxI1A9redXM8xBrw0SztfJyR4IpjJO9AaeeYV93CaUOm7C0TUetYD9Rz5ydhnpsRXXd6pNOJQLFonGPIHwBiDhwk5PJtOjbvfnbhq1gScSCU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cIOqbfLi; arc=fail smtp.client-ip=52.101.56.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="GYdvTvuI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JZk6iema"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B1C4D7A00D4;
-	Sun, 12 Oct 2025 09:33:41 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Sun, 12 Oct 2025 09:33:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1760276021; x=1760362421; bh=WLOCDyMr2h
-	FKeVuMRVe8+2z9soTconDeuvbennxCXRY=; b=GYdvTvuIgaxhdKELz3DLpQST4q
-	dl7J2zysVb8n9tJ/BdViBKLPSG7wwEs/+0ijfEG8gtgZ4bGg5jsOMX/csm9IraC/
-	4/ze8SBN+4tWT0UVuEA2qoVvYPMAjWfCZ7uLGefuMw3QMb7Q3nWJOPGp+QxNkrxE
-	6Fb6iq3PdafzYOaJ9xkFYFEaCeGPHkwoVAwCJOW6a3rZD6g9iLaKMsbU1ZVLgyMe
-	CpTG6wDzPEOereV+NmqO8g6syfR036Ph5FqbO0xndAMznUWJPjMQame1gPTuwUp8
-	zQUk7lrYOTIBGMAqp4gNJYanipw3Xs+g2mfF+VwjJbIHMiY4KLVSWr4HLzmg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1760276021; x=1760362421; bh=WLOCDyMr2hFKeVuMRVe8+2z9soTconDeuvb
-	ennxCXRY=; b=JZk6iemaf2Igw4rURPW39zUigWKIQw/wKkrXNTRmMW/0qeVEPC9
-	xjzSLKFVNEvspRoHJw7VXW4XFZtiH2KWrZLYbZkFqLqJt29t5hMMDSKrJgR9e9I2
-	AsgddeaUUjhjtF8iMXUN1fsddYkLygYc7i2cxfznOEpVhwKbuN/QzdT/RuTz/njS
-	orCmyK8qSAszXvjuDAo9zuE4T6SsWCyp5325KarRVZ3rUicCNHErKDNJrS9AM89f
-	8rS1HyiBTmZrsNpCI06hXQKxFydTLzhv+GJ6v2s3N7uacMPTieWM5QorWFt1AAqD
-	3TcxbPTYI8spoU3OKE2F5yR0BLXc81j32FA==
-X-ME-Sender: <xms:M67raO_H7_9CxSIkVVjYIxr5kajMi6G-8lH1-noCcymbZ8EKKy6gRQ>
-    <xme:M67raNMYk9gK6iDYrGCamdv-_s9UTnfQBnP-8N-KFWm6nX1PlsJd2XHUAxZe5nV5q
-    KPIzTK_SzTKsgvTQHV0N8Ftn4zb_ystIt1SagiJzyo0RiVNq6vRRzc>
-X-ME-Received: <xmr:M67raK0_b7Haee385PeeWdbZlETWnAGqUlkl8JY55C-fJtnVmqTPx5TYyZYdgW1ln2Ldct-peo_VwfiRSlrQv9FlfwDmzmSLULw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduudegledtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgud
-    euffelfeekgeeukedtheekjeettdfftddujefhvdehtefgiefgledtueefjeenucffohhm
-    rghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedu
-    iedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdp
-    rhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugesrg
-    hrnhgusgdruggvpdhrtghpthhtohepphgrnhhkrghjrdguuhgsvgihsehsrghmshhunhhg
-    rdgtohhmpdhrtghpthhtohephhgvihhkohesshhnthgvtghhrdguvgdprhgtphhtthhope
-    hlihhvihhurdguuhgurghusegrrhhmrdgtohhmpdhrtghpthhtohepshhuuggvvghprdhh
-    ohhllhgrsegrrhhmrdgtohhmpdhrtghpthhtoheplhhpihgvrhgrlhhishhisehkvghrnh
-    gvlhdrohhrgh
-X-ME-Proxy: <xmx:M67raGfWdQpDopDNEBK-DmDT32-jqH8nVHiR2BC8iobSZ8G_GtmA_w>
-    <xmx:M67raLYRwBswDOBl2WOvODzP5eD4CuKRh9iXRhUwRcxibtqBxnHffQ>
-    <xmx:M67raLWMscTU9YJoqhxDorc6TvXXphYdVeE1pf3-njdcbfLbP50ZEg>
-    <xmx:M67raOSMjM-qP-9YPYqVjks970XbOLLDbrIl-Kir-OnNxMJPQJqMUQ>
-    <xmx:Na7raHdNm4Mu4-irwylHsP2TIRk89KD3IJnT_RasnQdAzYfvks86i-im>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 12 Oct 2025 09:33:38 -0400 (EDT)
-Date: Sun, 12 Oct 2025 15:33:37 +0200
-From: Janne Grunau <j@jannau.net>
-To: "Rob Herring (Arm)" <robh@kernel.org>,
-	Herve Codina <herve.codina@bootlin.com>
-Cc: Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Pankaj Dubey <pankaj.dubey@samsung.com>,
-	Heiko Stuebner <heiko@sntech.de>, Liviu Dudau <liviu.dudau@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Will McVicker <willmcvicker@google.com>,
-	John Madieu <john.madieu.xa@bp.renesas.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] mfd: syscon: Remove the platform driver support
-Message-ID: <20251012133337.GA897177@robin.jannau.net>
-References: <20241217-syscon-fixes-v2-0-4f56d750541d@kernel.org>
- <20241217-syscon-fixes-v2-2-4f56d750541d@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cIOqbfLi"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nummqVh2zhE0fCU8YFx4rzLY+zvh8mN6z83w0HxlYYrEIfDeEvVUkJ6T05500ROWlvPJrNpMNn6NAKncZselWMcx1PN1DVJpCmv+BSigrOuLSAh7LiSC31UqzcZpIYXp8nVnYuhtqbgbBeerQgNcqjgZJ2zfY7XikuPFmLPHmV0dGe5ptCeMymVYuCkwaS3Auhp4wdjd5StUUbsYDpWPbdatbSerEHxEtNKbiE/IeZdlEt1XLO3al/DQKOJvTX3Y0MCJG062/mJl26Gbnpu437WTqJ0+hiKkglpRmLH4z6cVIl2Hc01zMV25qThxl+jKdWAjbe9V5opDUpvzxtNLgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9AkpFDHqbakSr2VweHMq4HYjY6+8hR7BthW7BwwCjCg=;
+ b=YXPiKVTnaxE0zPrGi+nNevuWkhDWwCb1CJmHGp92M3mcNWtYqGb1OpLkGcZVdCGRuZFkR1OeISaJ7Tk6KZe5A+Z/XnP8usEMPxBN7VOL0VjGyNf/FTJMaRPVjBGlBwZ+CWv91xAd4KKCPDoXqO5cC7Tv1Ytj+aA6rHUoWstdgD/RdU62mjz6f97jEpRQkzrdhA+0+/beJli7rZ8HYGmojXVm41cNdkz44vldvVa2LgbboE02Yp2Ydoogc6gl1Y1/kDXvaIs1ovTuu209cY1O41muQ5uvqqH0HI1QkF7ksEBXww/+z14f5OQF2nrdgfdee5Ik0MnCGTRZulObCut/Qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=8bytes.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9AkpFDHqbakSr2VweHMq4HYjY6+8hR7BthW7BwwCjCg=;
+ b=cIOqbfLiT+Mb9+jl12T+7h3qka9Xo1gBpJE2Vopm8Ro9gmD9XfeHA88puRfex8g/ruCE8PqulMkbvZePNfdcmD/AVIaSWDdfkBmZEsHOW4n34ctkU1FYPyO5nlNRi+SJsku3/dM19SwCAO9lQ9rUnZS1J6OYEtoCoc+YY6IeSMiRvmWHTbNbGjE/k0c2bGuLsd69EIDYzFlQbEtWcAoMqFMmpDBOd7/zfEz9zH7gSMPrEzAK05LS4tW5UOsu3zTKkbqmQA62nE++sNvdtIgV/0e70YgiC5T4VzJ7/pm6huCVxnUh+YNwDcZj3VHxIX0jq+Z3HJL1pE/r5RVsgPug2A==
+Received: from PH0P220CA0005.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:d3::25)
+ by DM6PR12MB4233.namprd12.prod.outlook.com (2603:10b6:5:210::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Sun, 12 Oct
+ 2025 23:57:55 +0000
+Received: from SA2PEPF000015C9.namprd03.prod.outlook.com
+ (2603:10b6:510:d3:cafe::37) by PH0P220CA0005.outlook.office365.com
+ (2603:10b6:510:d3::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9203.12 via Frontend Transport; Sun,
+ 12 Oct 2025 23:57:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SA2PEPF000015C9.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9228.7 via Frontend Transport; Sun, 12 Oct 2025 23:57:54 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Sun, 12 Oct
+ 2025 16:57:48 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 12 Oct
+ 2025 16:57:47 -0700
+Received: from Asurada-Nvidia.nvidia.com (10.127.8.12) by mail.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Sun, 12 Oct 2025 16:57:44 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <joro@8bytes.org>, <jgg@nvidia.com>, <kevin.tian@intel.com>
+CC: <suravee.suthikulpanit@amd.com>, <will@kernel.org>,
+	<robin.murphy@arm.com>, <sven@kernel.org>, <j@jannau.net>,
+	<robin.clark@oss.qualcomm.com>, <m.szyprowski@samsung.com>,
+	<krzk@kernel.org>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+	<yong.wu@mediatek.com>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>, <tjeznach@rivosinc.com>,
+	<pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+	<heiko@sntech.de>, <schnelle@linux.ibm.com>, <mjrosato@linux.ibm.com>,
+	<orsonzhai@gmail.com>, <baolin.wang@linux.alibaba.com>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+	<thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+	<jean-philippe@linaro.org>, <iommu@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-samsung-soc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-s390@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
+	<patches@lists.linux.dev>
+Subject: [PATCH v1 0/6] iommu: Pass in old_domain pointer to attach_dev
+Date: Sun, 12 Oct 2025 16:57:36 -0700
+Message-ID: <cover.1760312540.git.nicolinc@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241217-syscon-fixes-v2-2-4f56d750541d@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015C9:EE_|DM6PR12MB4233:EE_
+X-MS-Office365-Filtering-Correlation-Id: 484175a6-fec7-4a2e-792b-08de09eb292d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700013|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?nBtyWVvqmDXyNr1DLbNcwRL+ZDY1oIIGY1ZzfBYjhSFSTqi1itdkzGXSB81r?=
+ =?us-ascii?Q?a+JREGOQXRJ/vrhVhi0Yz5JOytGlBqyzyE2ndvVJjuSI5yehXVpa+UcqTvZB?=
+ =?us-ascii?Q?t2Q8OqvBMKxnQMbU6HgxuMxKTY6XWW8A8qGnThy7DngTY0L3g8mTdJ6UXJci?=
+ =?us-ascii?Q?CZz7F4bffiQ2xdyx4B2Uw0lCOL7/8xRhgaiUghkzCjRJeZ57K65EWMWjxw6t?=
+ =?us-ascii?Q?uqK4zUAL2xdGG++dLAvOxuNFnAhWDv8wT3HPuM1bjdhRpSiuSbIXztYc9tMK?=
+ =?us-ascii?Q?DaN1dTmsOoJtksWc8mgeGj2bDm4aP9o2PWfVlWVzslXS7YSHkILX87sDEk3i?=
+ =?us-ascii?Q?+jeLwU/GBMkg0k3sSpjCiFxZE8guvQl/qNwjpHSn6/ob4AnDVgaikBFfzdKI?=
+ =?us-ascii?Q?Z+5RijUp7n9mNte6dyqeU2ceIeIQERsyABogcF8667bppea9eR40lZwOdCjM?=
+ =?us-ascii?Q?3AFgswaxDSYUO7/bKTzb35S3FtR0PecV4UPE8OiDSMPCFN9NtG5HLiUVqU7r?=
+ =?us-ascii?Q?KyoNGWNzVbGYKbIazR8+438ewSNl8wwci0TC4laXsLF3zaycVEDOeDRjsYGK?=
+ =?us-ascii?Q?3/YQ4eRaRxxjX3Uiv+aKNPy3x0a768HSV4ZZpM8S/U28Eq4KveAPi5uVWPmg?=
+ =?us-ascii?Q?vPpcKUBipZK6npLQEsVR2+E/PhOcIQiLRw4DouiZGn5950ej1K1mbyYcyIk9?=
+ =?us-ascii?Q?OvjlsZYol0RGIu5pq6802c03g0kMHb/Q2vXbuACbNn2dzhn9D14JdfVzdAox?=
+ =?us-ascii?Q?5N//zjO8OSbS12hpOpEDEurJna5FDXuv3PHzGy2Lxw8zqgBIDGcBEATl17eC?=
+ =?us-ascii?Q?RJv2HQQE/drUX8tv4elUf3TDtGLBXTy2GdmnkUPVzg6PL3+5exbF5bEYY+1P?=
+ =?us-ascii?Q?bnwpkLBhy3HsZvKfCRmwZ2AAMHdCt0Ehw4t/RlYWez6SdLuVNshAxm+lTe/t?=
+ =?us-ascii?Q?AMwo2ASt0FbY6Rwo3EcKhQhllqGpUvBoYrtWe7BQ5yFpUl+PmWj/JmffVcu0?=
+ =?us-ascii?Q?YxHqoQaSihOm8ek86ERzYDfHz5Qhl3v0X+3hEsw1AZafnx3zb3AHYOAfZO5x?=
+ =?us-ascii?Q?fU+E7yk5YBvj2NTJA8H16x3JfHWHURcm3bkSIGJL8tSP9JgORDw1VWTInQRp?=
+ =?us-ascii?Q?P2O0PaSaHRJaMqwpnKk8MynlRJVoAwMo27ijRSzqIupAhe9ZCh9mJ2kAQrvr?=
+ =?us-ascii?Q?/u+hLd/QemHlixIFxVjMW4KCZB/7n//Q/ygzrNA63Jb8wvbaK5L6rSqmeBVM?=
+ =?us-ascii?Q?i0ocDrQMU/3n5zgYD+GA/lODEOtDh3QzkCidO4sgtGcbZpGSbVXDA1MBIg03?=
+ =?us-ascii?Q?soGK2UKh6lk0hmLOWpLkTBBpVrBLHDeqMbU70gckUBhYHXqvhf7JO5k7nPhG?=
+ =?us-ascii?Q?D1xsVoiyCk+UHmozDkydAmHXNi2UgvXWR7GpXLqpQLbk70jyMFds6o8mnXD3?=
+ =?us-ascii?Q?iMKP52652P2QAoHfZM1dM2dFafP0YLvaMG00OjSHwKYD0czxylgT9Az7fDFp?=
+ =?us-ascii?Q?R6+Hh/tsHN9D84drke1OcsVtj+ctr/3TnSB9kg+5roukd1aeJ5jI7wOiQAMR?=
+ =?us-ascii?Q?zfmGV1uGnAkIKGx86mA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700013)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2025 23:57:54.4861
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 484175a6-fec7-4a2e-792b-08de09eb292d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF000015C9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4233
 
-On Tue, Dec 17, 2024 at 12:11:41PM -0600, Rob Herring (Arm) wrote:
-> The platform driver is dead code. It is not used by DT platforms since
-> commit bdb0066df96e ("mfd: syscon: Decouple syscon interface from
-> platform devices") which said:
-> 
->     For non-DT based platforms, this patch keeps syscon platform driver
->     structure so that syscon can be probed and such non-DT based drivers
->     can use syscon_regmap_lookup_by_pdev API and access regmap handles.
->     Once all users of "syscon_regmap_lookup_by_pdev" migrated to DT based,
->     we can completely remove platform driver of syscon, and keep only helper
->     functions to get regmap handles.
-> 
-> The last user of syscon_regmap_lookup_by_pdevname() was removed in 2018.
-> syscon_regmap_lookup_by_pdevname() was then removed in 2019, but that
-> commit failed to remove the rest of the platform driver.
+Tidy the release_device callbacks in the drivers and switch to the core
+managed release_domain.
 
-This removed the only driver claiming pmgr nodes on Apple silicon
-platforms. The nodes use compatible strings of the form
+This allows the core further to pass in the old domain pointer into the
+attach_dev callbacks to reduce the use of iommu_get_domain_for_dev().
 
-compatible = "apple,t8103-pmgr", "apple,pmgr", "syscon", "simple-mfd";
+This is a preparatory series for new iommu_dev_reset APIs:
+https://lore.kernel.org/all/cover.1756682135.git.nicolinc@nvidia.com/
 
-The description still holds as the removal of the driver did not result
-in functional changes and went unnoticed. The missing driver became 
-apparent with pmdomain's sync_state() support in 6.17 which prints
-following messages on a M1 mac mini
+This is on github:
+https://github.com/nicolinc/iommufd/tree/iommu_attach_old_dom-v1
 
-| [   11.789419] apple-pmgr-pwrstate 23b700000.power-management:power-controller@420: sync_state() pending due to 23d280000.power-management
-| [   11.792414] apple-pmgr-pwrstate 23b700000.power-management:power-controller@448: sync_state() pending due to 23d280000.power-management
+Jason Gunthorpe (1):
+  iommu: Generic support for RMRs during device release
 
-None of the other compatible are claimed by any driver. There is no
-driver for "apple,t8103-pmgr" or "apple,pmgr" and simple-pm-bus.c binds
-"simple-mfd" only if it is the first compatible string.
+Nicolin Chen (5):
+  iommu/arm-smmu-v3: Set release_domain to arm_smmu_blocked_domain
+  iommu/exynos-iommu: Set release_domain to exynos_identity_domain
+  iommu/amd: Set release_domain to blocked_domain
+  iommu: Do not revert set_domain for the last gdev
+  iommu: Pass in old domain to attach_dev callback functions
 
-The easiest solution would be to probe via simple-pm-bus.c if the device
-is compatible with "apple,pmgr". The generic compatible is justified by
-not having any device specific code. The other option would by to add
-the growing list of SoC specific "apple,*-pmgr" compatibles to the match
-table.
-The alternative of writing an Apple pmgr driver which does nothing
-except successfully probing devices does not look appealing.
+ include/linux/iommu.h                         |  3 +-
+ drivers/iommu/amd/iommu.c                     | 21 +++------
+ drivers/iommu/apple-dart.c                    |  9 ++--
+ .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |  5 ++-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 31 ++++++-------
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |  9 ++--
+ drivers/iommu/arm/arm-smmu/qcom_iommu.c       | 11 ++---
+ drivers/iommu/exynos-iommu.c                  | 11 ++---
+ drivers/iommu/fsl_pamu_domain.c               | 12 ++---
+ drivers/iommu/intel/iommu.c                   | 10 +++--
+ drivers/iommu/intel/nested.c                  |  2 +-
+ drivers/iommu/iommu.c                         | 44 +++++++++++++------
+ drivers/iommu/iommufd/selftest.c              |  2 +-
+ drivers/iommu/ipmmu-vmsa.c                    | 10 ++---
+ drivers/iommu/msm_iommu.c                     | 11 ++---
+ drivers/iommu/mtk_iommu.c                     |  8 ++--
+ drivers/iommu/mtk_iommu_v1.c                  |  7 ++-
+ drivers/iommu/omap-iommu.c                    | 12 ++---
+ drivers/iommu/riscv/iommu.c                   |  9 ++--
+ drivers/iommu/rockchip-iommu.c                | 20 ++++++---
+ drivers/iommu/s390-iommu.c                    |  9 ++--
+ drivers/iommu/sprd-iommu.c                    |  3 +-
+ drivers/iommu/sun50i-iommu.c                  |  8 ++--
+ drivers/iommu/tegra-smmu.c                    | 10 ++---
+ drivers/iommu/virtio-iommu.c                  |  6 ++-
+ 25 files changed, 167 insertions(+), 116 deletions(-)
 
-There is second problem though. The device link between
-23b700000.power-management:power-controller@420 and
-23d280000.power-management should not exist in the first place. See
-following excerpt from arch/arm64/boot/dts/apple/{t8103,t8103-pmgr}.dtsi
-omitting only unrelated child nodes.
+-- 
+2.43.0
 
-/ {
-	pmgr: power-management@23b700000 {
-		compatible = "apple,t8103-pmgr", "apple,pmgr", "syscon", "simple-mfd";
-		#address-cells = <1>;
-		#size-cells = <1>;
-		reg = <0x2 0x3b700000 0 0x14000>;
-
-		ps_atc0_common: power-controller@420 {
-			compatible = "apple,t8103-pmgr-pwrstate", "apple,pmgr-pwrstate";
-			reg = <0x420 4>;
-			#power-domain-cells = <0>;
-			#reset-cells = <0>;
-			label = "atc0_common";
-		};
-	};
-
-	pmgr_mini: power-management@23d280000 {
-		compatible = "apple,t8103-pmgr", "apple,pmgr", "syscon", "simple-mfd";
-		#address-cells = <1>;
-		#size-cells = <1>;
-		reg = <0x2 0x3d280000 0 0x4000>;
-
-		ps_atc0_usb: power-controller@98 {
-			compatible = "apple,t8103-pmgr-pwrstate", "apple,pmgr-pwrstate";
-			reg = <0x98 4>;
-			#power-domain-cells = <0>;
-			#reset-cells = <0>;
-			label = "atc0_usb";
-			power-domains = <&ps_atc0_usb_aon>, <&ps_atc0_common>;
-		};
-	};
-}
-
-To my understanding the fw_devlinks should only exists between
-&ps_atc0_common and &ps_atc0_usb. Herve Codina reports and posts a patch
-for what sounds to be the same issue in [1] for simple-pm-bus. I can't
-reproduce the report though. As soon as simple-pm-bus successfully
-probes the pmgr devices the spurious devlinks are gone.
-
-So I think this needs to be fixed in either of/platform.c for all
-devices handled in of_platform_default_populate() or in
-driver-core/devlink considering the issue appears without driver for the
-bus device.
-
-Janne
-
-[1]: https://lore.kernel.org/lkml/20250613134817.681832-6-herve.codina@bootlin.com/
