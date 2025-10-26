@@ -1,148 +1,174 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22EDA2264D4;
-	Sat, 25 Oct 2025 16:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B64187346;
+	Sun, 26 Oct 2025 12:22:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761409551; cv=none; b=htxx6fRTg5pQ4VhoFn5TSshdxf+tq7uhvJu9kitczfX3RDv+yHENwPuBGezrXnQtvbSq197fwek1bOVfLQYvigsjcWWQ8FO9AxfKljepWNNGisP/PzqmHPcBkVqn+HoQO3e3TEAOWw+SHL9jywtrwch2BsxVXVH1uq1YkyUv5go=
+	t=1761481324; cv=none; b=Mqvexy8BOhcoGAHh8MOrfe8ktigEbwdjcQ9axNTl8g5Y7i4dbfKgIMnWwAbaSmtfKqwdIGHJV1in2+FtgZazAch3DZcdBLZcUiBDQchrE5KEtPPm/l/L0JweJRI0SBq4agVi6KJMv8fI4nq++zdBUs3JLFWhBbbI1UTdFMriO5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761409551; c=relaxed/simple;
-	bh=Em1vmYzb3CPqjJdulvBWr7VV9J5NImJHW4FlbVzFjhc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZI0b/Rn82JXvIpb1S85nfxzRBKH5EsdnsNAdEX566vTWF6YlT69oAPR+KQ93Phn3T0nq/+QUMIVY6aHXsJvg0gzvHCguTZ7eCLIL/OZ0OSNGbX0QM6RorciXLCBatpO4R2VnDTXcIO+5bTLy59R0wFxnPiQbOzmYnvJHSQeayk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C83fisvN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761481324; c=relaxed/simple;
+	bh=GXuFAtgP+oHMIwv1faVRiehyLAz3rr8xYHnrw+m3qak=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kAxb+szLyFgtl5uCnnWhBzYWSPuY8Pms72FpNhkyANoz/Dv7jbpA9LWBOU6gWoDTso9JA8+/tB2OfOyFKsKkzkbHvmbBw4lQtSgUWWO4N5iNNKenejx1Fd808N56n/EHqWVTErjjitV2GSozT7skyrz3XwLKvhweCtQOaUZ5spg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k111yPkR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C83fisvN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 900E6C4CEFB;
-	Sat, 25 Oct 2025 16:25:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k111yPkR"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 17B8EC4CEE7;
+	Sun, 26 Oct 2025 12:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761409551;
-	bh=Em1vmYzb3CPqjJdulvBWr7VV9J5NImJHW4FlbVzFjhc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C83fisvN6GC1POYJioqMtF7W6fBWly6hd2mrsBvtQI1QhukBKifLvwCCD66ABpG35
-	 ODhG5ogR7mIa+t6nAmJP/wHTZeQmQ3b5uOi8pS8Gi/hCBl9l4uDilJuvM32pvMJ5+M
-	 ES7YYSzCgpzI6lOojchjgQzPLG6kfUti3fV6Osu34EQHMDCY2gnbtsp7vIQpvBEu5w
-	 mf800yzNQItEXNTZFpNnD6OgfzjNVRbAnGnkqnQ15e80JgvzOhcuId2r7tgcsVzuzV
-	 2Un3LOGgfwlJ8elBcMhoNuSD8auWj8CoDdkPGFBZS7NUlTaTxQcoA/OPGdbtvt21Ji
-	 iS9DAI0bf5Itg==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Hector Martin <marcan@marcan.st>,
-	Janne Grunau <j@jannau.net>,
-	Sven Peter <sven@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Joerg Roedel <joerg.roedel@amd.com>,
-	Sasha Levin <sashal@kernel.org>,
-	joro@8bytes.org,
-	will@kernel.org,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.17-6.6] iommu/apple-dart: Clear stream error indicator bits for T8110 DARTs
-Date: Sat, 25 Oct 2025 11:59:52 -0400
-Message-ID: <20251025160905.3857885-361-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
-References: <20251025160905.3857885-1-sashal@kernel.org>
+	s=k20201202; t=1761481324;
+	bh=GXuFAtgP+oHMIwv1faVRiehyLAz3rr8xYHnrw+m3qak=;
+	h=From:Date:Subject:To:Cc:From;
+	b=k111yPkR1SAqFi0Qba1jO49IqFj+0ci+6K7rGAXWe2l3L63nptArnw0a7XPQChgHR
+	 L1k9/OBZgmJbPGHphEAWKjiriogr1wqe9tnBb2oT64hx671BPFyeHmXygcFKGDbRSj
+	 BAqI3kmZDK1L4cxknhg41JIRYWlwSGLmN2D5AdNgEoxiLjmTc6UN7rkn+FpN7HmRH3
+	 YjpUUnWkWEkIDL96CdtejGKVdzEKU2yQv7FTdwzxdYth5i2NyYmwNq9o6/nhWSR+2i
+	 hNNc8rKcaochTKbh11fhFEE2gxhguvKvr4vjPw/8FTyrebj1djI0+/Llmeq2G30CPj
+	 qcyoXv7EX1EVg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F25CCD1A5;
+	Sun, 26 Oct 2025 12:22:03 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Sun, 26 Oct 2025 12:21:36 +0000
+Subject: [PATCH usb-next] usb: dwc3: apple: Only support a single reset
+ controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.5
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251026-b4-dwc3-apple-reset-array-fix-v1-1-ccdbacd63f78@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAE8S/mgC/x3MwQrCMAyA4VcZORtY6xzoq4iHtIkakFqSTSdj7
+ 77i8fsP/woupuJw6VYw+ajruzSEQwf5SeUhqNwMsY+n0MeIaUD+5iNSrS9BE5cJyYx+eNcFaQy
+ Z4zkxhxHao5q0/P9fYfaERZYJbtu2A+uoLQR5AAAA
+X-Change-ID: 20251022-b4-dwc3-apple-reset-array-fix-a61cd29bdd16
+To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sven Peter <sven@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4079; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=GXuFAtgP+oHMIwv1faVRiehyLAz3rr8xYHnrw+m3qak=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Y/oczj+5zfLeI4+Srj5LntiU/C5kyIN8tijz08dwpPo
+ /fJPW97OkpZGMQ4GGTFFFm277c3ffLwjeDSTZfew8xhZQIZwsDFKQATeb+V4Q9X33uZNcet++6y
+ fNy4Xd/3zs3K5ODcbb3i8/jVGU68DOBmZHi73a7h0vMvfZyFhxc+/ZWo/6i06uZ3VQ/XnakbNkl
+ cusEBAA==
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-From: Hector Martin <marcan@marcan.st>
+As pointed out by Philipp, Apple's dwc3 controller only uses a single
+reset line and there's thus no need to use reset controller array
+functions. The only functional change here is replacing
+devm_reset_control_array_get_exclusive with
+devm_reset_control_get_exclusive. The rest are only cosmetic changes
+to replace "resets" with "reset".
 
-[ Upstream commit ecf6508923f87e4597228f70cc838af3d37f6662 ]
-
-These registers exist and at least on the t602x variant the IRQ only
-clears when theses are cleared.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Reviewed-by: Sven Peter <sven@kernel.org>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Link: https://lore.kernel.org/r/20250826-dart-t8110-stream-error-v1-1-e33395112014@jannau.net
-Signed-off-by: Joerg Roedel <joerg.roedel@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Reported-by: Philipp Zabel <p.zabel@pengutronix.de>
+Closes: https://lore.kernel.org/asahi/47112ace39ea096242e68659d67a401e931abf3a.camel@pengutronix.de/
+Fixes: 0ec946d32ef7 ("usb: dwc3: Add Apple Silicon DWC3 glue layer driver")
+Signed-off-by: Sven Peter <sven@kernel.org>
 ---
+I was planning to submit a v3 with this fixed but didn't find the time
+before v2 was picked up.
+---
+ drivers/usb/dwc3/dwc3-apple.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-LLM Generated explanations, may be completely bogus:
-
-YES
-
-- Fixes a real bug: On T8110-class DARTs, the interrupt only deasserts
-  when per‑stream error indicator bits are cleared. Without clearing
-  them, the IRQ can remain asserted, causing repeated interrupts and
-  potential system instability.
-- Minimal, contained change: Adds one register define and a short clear
-  loop in the T8110 IRQ handler only.
-  - Adds `DART_T8110_ERROR_STREAMS` at `0x1c0` (drivers/iommu/apple-
-    dart.c:125).
-  - In `apple_dart_t8110_irq`, after acknowledging the error status
-    (`writel(error, ...)`), clears all stream error indicator words:
-    `for (int i = 0; i < BITS_TO_U32(dart->num_streams); i++)
-    writel(U32_MAX, dart->regs + DART_T8110_ERROR_STREAMS + 4 * i);`
-    (drivers/iommu/apple-dart.c:1093, drivers/iommu/apple-dart.c:1094,
-    drivers/iommu/apple-dart.c:1095).
-- Scoped to T8110 only: The handler is registered only for the T8110
-  hardware variant (drivers/iommu/apple-dart.c:1298), so it does not
-  affect other Apple DART generations.
-- Safe by design:
-  - `num_streams` is read from hardware (`DART_T8110_PARAMS4_NUM_SIDS`)
-    and bounded by `DART_MAX_STREAMS` (drivers/iommu/apple-dart.c:1152,
-    drivers/iommu/apple-dart.c:1153, drivers/iommu/apple-dart.c:1156,
-    drivers/iommu/apple-dart.c:1161).
-  - `BITS_TO_U32(...)` ensures the correct number of 32‑bit words are
-    cleared.
-  - The driver already uses the same write‑all‑ones bitmap pattern for
-    stream operations (e.g., enabling all streams) showing these
-    registers are W1C bitmaps and that this access pattern is
-    established and safe (drivers/iommu/apple-dart.c:485,
-    drivers/iommu/apple-dart.c:486).
-- No architectural changes or API/ABI effects: This is a straightforward
-  IRQ acknowledgment fix limited to the Apple DART IOMMU driver.
-- User impact: Prevents stuck/level interrupts and interrupt floods on
-  affected Apple SoCs (e.g., t602x using T8110 DART), improving
-  stability and correctness.
-
-Given it is a clear bug fix, small and localized, with low regression
-risk and meaningful user impact, it is a strong candidate for
-backporting to stable kernels that include the T8110 DART support.
-
- drivers/iommu/apple-dart.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index 190f28d766151..8b1272b7bb44a 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -122,6 +122,8 @@
- #define DART_T8110_ERROR_ADDR_LO 0x170
- #define DART_T8110_ERROR_ADDR_HI 0x174
+diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c
+index 6e41bd0e34f461b0c3db9b8a646116458ff816b6..cc47cad232e397ac4498b09165dfdb5bd215ded7 100644
+--- a/drivers/usb/dwc3/dwc3-apple.c
++++ b/drivers/usb/dwc3/dwc3-apple.c
+@@ -81,7 +81,7 @@ enum dwc3_apple_state {
+  * @dev: Pointer to the device structure
+  * @mmio_resource: Resource to be passed to dwc3_core_probe
+  * @apple_regs: Apple-specific DWC3 registers
+- * @resets: Reset control
++ * @reset: Reset control
+  * @role_sw: USB role switch
+  * @lock: Mutex for synchronizing access
+  * @state: Current state of the controller, see documentation for the enum for details
+@@ -93,7 +93,7 @@ struct dwc3_apple {
+ 	struct resource *mmio_resource;
+ 	void __iomem *apple_regs;
  
-+#define DART_T8110_ERROR_STREAMS 0x1c0
-+
- #define DART_T8110_PROTECT 0x200
- #define DART_T8110_UNPROTECT 0x204
- #define DART_T8110_PROTECT_LOCK 0x208
-@@ -1077,6 +1079,9 @@ static irqreturn_t apple_dart_t8110_irq(int irq, void *dev)
- 		error, stream_idx, error_code, fault_name, addr);
+-	struct reset_control *resets;
++	struct reset_control *reset;
+ 	struct usb_role_switch *role_sw;
  
- 	writel(error, dart->regs + DART_T8110_ERROR);
-+	for (int i = 0; i < BITS_TO_U32(dart->num_streams); i++)
-+		writel(U32_MAX, dart->regs + DART_T8110_ERROR_STREAMS + 4 * i);
-+
- 	return IRQ_HANDLED;
+ 	struct mutex lock;
+@@ -237,9 +237,9 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
+ 
+ 	lockdep_assert_held(&appledwc->lock);
+ 
+-	ret = reset_control_deassert(appledwc->resets);
++	ret = reset_control_deassert(appledwc->reset);
+ 	if (ret) {
+-		dev_err(appledwc->dev, "Failed to deassert resets, err=%d\n", ret);
++		dev_err(appledwc->dev, "Failed to deassert reset, err=%d\n", ret);
+ 		return ret;
+ 	}
+ 
+@@ -288,9 +288,9 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
+ core_exit:
+ 	dwc3_core_exit(&appledwc->dwc);
+ reset_assert:
+-	ret_reset = reset_control_assert(appledwc->resets);
++	ret_reset = reset_control_assert(appledwc->reset);
+ 	if (ret_reset)
+-		dev_warn(appledwc->dev, "Failed to assert resets, err=%d\n", ret_reset);
++		dev_warn(appledwc->dev, "Failed to assert reset, err=%d\n", ret_reset);
+ 
+ 	return ret;
  }
+@@ -323,9 +323,9 @@ static int dwc3_apple_exit(struct dwc3_apple *appledwc)
+ 	dwc3_core_exit(&appledwc->dwc);
+ 	appledwc->state = DWC3_APPLE_NO_CABLE;
  
+-	ret = reset_control_assert(appledwc->resets);
++	ret = reset_control_assert(appledwc->reset);
+ 	if (ret) {
+-		dev_err(appledwc->dev, "Failed to assert resets, err=%d\n", ret);
++		dev_err(appledwc->dev, "Failed to assert reset, err=%d\n", ret);
+ 		return ret;
+ 	}
+ 
+@@ -411,14 +411,14 @@ static int dwc3_apple_probe(struct platform_device *pdev)
+ 	appledwc->dev = &pdev->dev;
+ 	mutex_init(&appledwc->lock);
+ 
+-	appledwc->resets = devm_reset_control_array_get_exclusive(dev);
+-	if (IS_ERR(appledwc->resets))
+-		return dev_err_probe(&pdev->dev, PTR_ERR(appledwc->resets),
+-				     "Failed to get resets\n");
++	appledwc->reset = devm_reset_control_get_exclusive(dev, NULL);
++	if (IS_ERR(appledwc->reset))
++		return dev_err_probe(&pdev->dev, PTR_ERR(appledwc->reset),
++				     "Failed to get reset control\n");
+ 
+-	ret = reset_control_assert(appledwc->resets);
++	ret = reset_control_assert(appledwc->reset);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "Failed to assert resets, err=%d\n", ret);
++		dev_err(&pdev->dev, "Failed to assert reset, err=%d\n", ret);
+ 		return ret;
+ 	}
+ 
+
+---
+base-commit: be83d83664e9f6fa035e96fb9187f9e7898659e4
+change-id: 20251022-b4-dwc3-apple-reset-array-fix-a61cd29bdd16
+
+Best regards,
 -- 
-2.51.0
+Sven Peter <sven@kernel.org>
+
 
