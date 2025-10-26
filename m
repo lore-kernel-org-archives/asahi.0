@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B64187346;
-	Sun, 26 Oct 2025 12:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2DD35959;
+	Sun, 26 Oct 2025 13:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761481324; cv=none; b=Mqvexy8BOhcoGAHh8MOrfe8ktigEbwdjcQ9axNTl8g5Y7i4dbfKgIMnWwAbaSmtfKqwdIGHJV1in2+FtgZazAch3DZcdBLZcUiBDQchrE5KEtPPm/l/L0JweJRI0SBq4agVi6KJMv8fI4nq++zdBUs3JLFWhBbbI1UTdFMriO5U=
+	t=1761486730; cv=none; b=rpigeW0JpOyKQPr7PtATCrzxUxhP79THVqhUmdEOF/26vg4YLMO9mx21WXq9tgMYH3TpDr7ro6fwqn2pDWps36h1tAtIaorm6IQx8OKZSyNue9q/zzKlFkNOv4zu3QXPLyzSl5Wdv9LGpJOcA6mVlAZqunTvIbpiMxljZIKAcn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761481324; c=relaxed/simple;
-	bh=GXuFAtgP+oHMIwv1faVRiehyLAz3rr8xYHnrw+m3qak=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kAxb+szLyFgtl5uCnnWhBzYWSPuY8Pms72FpNhkyANoz/Dv7jbpA9LWBOU6gWoDTso9JA8+/tB2OfOyFKsKkzkbHvmbBw4lQtSgUWWO4N5iNNKenejx1Fd808N56n/EHqWVTErjjitV2GSozT7skyrz3XwLKvhweCtQOaUZ5spg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k111yPkR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761486730; c=relaxed/simple;
+	bh=yZ3IEkl1n9erkdmjtZuGOoV1888UoPVwWdqzFE/L10w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=miyiGmS7lVYE8QN1fHykiGu5QNoEu/SGe4NrCJJ7+QMdoLY0FjN5cWfvlVgbQnViio0dF2u/1FXif9TI5/1lPb93ulqVrs6DQr+TWwOxOhROJBCDBotr16Scyfox6AuuS2ZhjDVIl/mglbOjxA7rEsfDSRyTRI03zL55gWV512U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PcF5CUHI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k111yPkR"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 17B8EC4CEE7;
-	Sun, 26 Oct 2025 12:22:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PcF5CUHI"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 28FE1C4AF0B;
+	Sun, 26 Oct 2025 13:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761481324;
-	bh=GXuFAtgP+oHMIwv1faVRiehyLAz3rr8xYHnrw+m3qak=;
-	h=From:Date:Subject:To:Cc:From;
-	b=k111yPkR1SAqFi0Qba1jO49IqFj+0ci+6K7rGAXWe2l3L63nptArnw0a7XPQChgHR
-	 L1k9/OBZgmJbPGHphEAWKjiriogr1wqe9tnBb2oT64hx671BPFyeHmXygcFKGDbRSj
-	 BAqI3kmZDK1L4cxknhg41JIRYWlwSGLmN2D5AdNgEoxiLjmTc6UN7rkn+FpN7HmRH3
-	 YjpUUnWkWEkIDL96CdtejGKVdzEKU2yQv7FTdwzxdYth5i2NyYmwNq9o6/nhWSR+2i
-	 hNNc8rKcaochTKbh11fhFEE2gxhguvKvr4vjPw/8FTyrebj1djI0+/Llmeq2G30CPj
-	 qcyoXv7EX1EVg==
+	s=k20201202; t=1761486730;
+	bh=yZ3IEkl1n9erkdmjtZuGOoV1888UoPVwWdqzFE/L10w=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=PcF5CUHIlRuj5af+DC4pIXve7YKgAmVusbzwao0bkS/pg4u5z7/rIRmGevg6xN+hI
+	 TdZ7517YZilPK5SA6Zvy8peRuRtaNKP+bKb64zPldsBZl77e/z6ed+ECSsnRrdhcgv
+	 oxpYgn4VmpVuWacEHdvwLtENBJgE5qH2j7W3WUo1zITBaPAW3AUrVU41WrIqKPx+24
+	 snwY4q8VzWZ5AuZyqi4Xw47XuSsA1cEzuQnCkLTzzjzFzaxK6v3YOYifXQmkEZAPBa
+	 xFcpc7FIP25+ecwkEWz4DRHtXNXj/NlODGllzykWLd/9nlZJV50KHLdksc+k3asBej
+	 K6tHbYp9Qlr+g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F25CCD1A5;
-	Sun, 26 Oct 2025 12:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F21CCF9EB;
+	Sun, 26 Oct 2025 13:52:10 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Sun, 26 Oct 2025 12:21:36 +0000
-Subject: [PATCH usb-next] usb: dwc3: apple: Only support a single reset
- controller
+Date: Sun, 26 Oct 2025 13:52:02 +0000
+Subject: [PATCH 2/3] dt-bindings: phy: Add Apple Type-C PHY
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,135 +40,285 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251026-b4-dwc3-apple-reset-array-fix-v1-1-ccdbacd63f78@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAE8S/mgC/x3MwQrCMAyA4VcZORtY6xzoq4iHtIkakFqSTSdj7
- 77i8fsP/woupuJw6VYw+ajruzSEQwf5SeUhqNwMsY+n0MeIaUD+5iNSrS9BE5cJyYx+eNcFaQy
- Z4zkxhxHao5q0/P9fYfaERZYJbtu2A+uoLQR5AAAA
-X-Change-ID: 20251022-b4-dwc3-apple-reset-array-fix-a61cd29bdd16
+Message-Id: <20251026-b4-atcphy-v1-2-f81b1225f9c6@kernel.org>
+References: <20251026-b4-atcphy-v1-0-f81b1225f9c6@kernel.org>
+In-Reply-To: <20251026-b4-atcphy-v1-0-f81b1225f9c6@kernel.org>
 To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sven Peter <sven@kernel.org>
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4079; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8145; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=GXuFAtgP+oHMIwv1faVRiehyLAz3rr8xYHnrw+m3qak=;
- b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Y/oczj+5zfLeI4+Srj5LntiU/C5kyIN8tijz08dwpPo
- /fJPW97OkpZGMQ4GGTFFFm277c3ffLwjeDSTZfew8xhZQIZwsDFKQATeb+V4Q9X33uZNcet++6y
- fNy4Xd/3zs3K5ODcbb3i8/jVGU68DOBmZHi73a7h0vMvfZyFhxc+/ZWo/6i06uZ3VQ/XnakbNkl
- cusEBAA==
+ bh=yZ3IEkl1n9erkdmjtZuGOoV1888UoPVwWdqzFE/L10w=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ8Y/9RbXwBkz1HxrAvuSXX0OG3h8XKv33PdTaIyz5Nlnx
+ hYRHxZ0lLIwiHEwyIopsmzfb2/65OEbwaWbLr2HmcPKBDKEgYtTACayeynDP0NnT9vXpVYLN12w
+ T+s8dLhAS+1lSb5escj/9v9TllQvv87wh2PqzSef9KWvXWdds9uMu/x4UJeYfK+Nv0+nyHw/xu+
+ vmQE=
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-As pointed out by Philipp, Apple's dwc3 controller only uses a single
-reset line and there's thus no need to use reset controller array
-functions. The only functional change here is replacing
-devm_reset_control_array_get_exclusive with
-devm_reset_control_get_exclusive. The rest are only cosmetic changes
-to replace "resets" with "reset".
+Apple's Type-C PHY (ATCPHY) is a PHY for USB 2.0, USB 3.x,
+USB4/Thunderbolt, and DisplayPort connectivity found in Apple Silicon
+SoCs.
 
-Reported-by: Philipp Zabel <p.zabel@pengutronix.de>
-Closes: https://lore.kernel.org/asahi/47112ace39ea096242e68659d67a401e931abf3a.camel@pengutronix.de/
-Fixes: 0ec946d32ef7 ("usb: dwc3: Add Apple Silicon DWC3 glue layer driver")
+The PHY handles muxing between these different protocols and also provides
+the reset controller for the attached dwc3 USB controller.
+
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
-I was planning to submit a v3 with this fixed but didn't find the time
-before v2 was picked up.
----
- drivers/usb/dwc3/dwc3-apple.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ .../devicetree/bindings/phy/apple,atcphy.yaml      | 222 +++++++++++++++++++++
+ MAINTAINERS                                        |   1 +
+ 2 files changed, 223 insertions(+)
 
-diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c
-index 6e41bd0e34f461b0c3db9b8a646116458ff816b6..cc47cad232e397ac4498b09165dfdb5bd215ded7 100644
---- a/drivers/usb/dwc3/dwc3-apple.c
-+++ b/drivers/usb/dwc3/dwc3-apple.c
-@@ -81,7 +81,7 @@ enum dwc3_apple_state {
-  * @dev: Pointer to the device structure
-  * @mmio_resource: Resource to be passed to dwc3_core_probe
-  * @apple_regs: Apple-specific DWC3 registers
-- * @resets: Reset control
-+ * @reset: Reset control
-  * @role_sw: USB role switch
-  * @lock: Mutex for synchronizing access
-  * @state: Current state of the controller, see documentation for the enum for details
-@@ -93,7 +93,7 @@ struct dwc3_apple {
- 	struct resource *mmio_resource;
- 	void __iomem *apple_regs;
- 
--	struct reset_control *resets;
-+	struct reset_control *reset;
- 	struct usb_role_switch *role_sw;
- 
- 	struct mutex lock;
-@@ -237,9 +237,9 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
- 
- 	lockdep_assert_held(&appledwc->lock);
- 
--	ret = reset_control_deassert(appledwc->resets);
-+	ret = reset_control_deassert(appledwc->reset);
- 	if (ret) {
--		dev_err(appledwc->dev, "Failed to deassert resets, err=%d\n", ret);
-+		dev_err(appledwc->dev, "Failed to deassert reset, err=%d\n", ret);
- 		return ret;
- 	}
- 
-@@ -288,9 +288,9 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
- core_exit:
- 	dwc3_core_exit(&appledwc->dwc);
- reset_assert:
--	ret_reset = reset_control_assert(appledwc->resets);
-+	ret_reset = reset_control_assert(appledwc->reset);
- 	if (ret_reset)
--		dev_warn(appledwc->dev, "Failed to assert resets, err=%d\n", ret_reset);
-+		dev_warn(appledwc->dev, "Failed to assert reset, err=%d\n", ret_reset);
- 
- 	return ret;
- }
-@@ -323,9 +323,9 @@ static int dwc3_apple_exit(struct dwc3_apple *appledwc)
- 	dwc3_core_exit(&appledwc->dwc);
- 	appledwc->state = DWC3_APPLE_NO_CABLE;
- 
--	ret = reset_control_assert(appledwc->resets);
-+	ret = reset_control_assert(appledwc->reset);
- 	if (ret) {
--		dev_err(appledwc->dev, "Failed to assert resets, err=%d\n", ret);
-+		dev_err(appledwc->dev, "Failed to assert reset, err=%d\n", ret);
- 		return ret;
- 	}
- 
-@@ -411,14 +411,14 @@ static int dwc3_apple_probe(struct platform_device *pdev)
- 	appledwc->dev = &pdev->dev;
- 	mutex_init(&appledwc->lock);
- 
--	appledwc->resets = devm_reset_control_array_get_exclusive(dev);
--	if (IS_ERR(appledwc->resets))
--		return dev_err_probe(&pdev->dev, PTR_ERR(appledwc->resets),
--				     "Failed to get resets\n");
-+	appledwc->reset = devm_reset_control_get_exclusive(dev, NULL);
-+	if (IS_ERR(appledwc->reset))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(appledwc->reset),
-+				     "Failed to get reset control\n");
- 
--	ret = reset_control_assert(appledwc->resets);
-+	ret = reset_control_assert(appledwc->reset);
- 	if (ret) {
--		dev_err(&pdev->dev, "Failed to assert resets, err=%d\n", ret);
-+		dev_err(&pdev->dev, "Failed to assert reset, err=%d\n", ret);
- 		return ret;
- 	}
- 
+diff --git a/Documentation/devicetree/bindings/phy/apple,atcphy.yaml b/Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..0acac7e3ee67ef2f03ffe1e04b0ac0fb414af362
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+@@ -0,0 +1,222 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/apple,atcphy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple Type-C PHY (ATCPHY)
++
++maintainers:
++  - Sven Peter <sven@kernel.org>
++
++description: >
++  The Apple Type-C PHY (ATCPHY) is a combined PHY for USB 2.0, USB 3.x,
++  USB4/Thunderbolt, and DisplayPort connectivity via Type-C ports found in
++  Apple Silicon SoCs.
++
++  The PHY handles muxing between these different protocols and also provides the
++  reset controller for the attached DWC3 USB controller.
++
++  It is designed for USB4 operation and does not handle individual differential
++  pairs as distinct DisplayPort lanes. Any reference to lane in this binding
++  hence refers to two differential pairs (RX and TX) as used in USB terminology.
++
++  In order to correctly setup these lanes for the various modes calibration
++  values copied from Apple's firmware and converted to the format described
++  below by our bootloader m1n1 are required. Without these only USB2 operation
++  is possible.
++
++allOf:
++  - $ref: /schemas/usb/usb-switch.yaml#
++
++$defs:
++  apple,tunable:
++    $ref: /schemas/types.yaml#/definitions/uint32-matrix
++    items:
++      items:
++        - description: Register offset
++        - description: Mask to be applied to the register value
++        - description: Bits to be set after applying the mask
++    description: >
++      List of (register offset, mask, value) tuples copied from Apple's Device
++      Tree by our bootloader m1n1 and used to configure the PHY. These values
++      even vary for a single product/device and likely contain calibration
++      values determined by Apple at manufacturing time.
++      Unless otherwise noted these tunables are always applied to the core
++      register region.
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - apple,t6000-atcphy
++              - apple,t6020-atcphy
++              - apple,t8112-atcphy
++          - const: apple,t8103-atcphy
++      - const: apple,t8103-atcphy
++
++  reg:
++    items:
++      - description: Common controls for all PHYs (USB2/3/4, DisplayPort, TBT)
++      - description: DisplayPort Alternate Mode PHY specific controls
++      - description: Type-C PHY AXI to Apple Fabric interconnect controls
++      - description: USB2 PHY specific controls
++      - description: USB3 PIPE interface controls
++
++  reg-names:
++    items:
++      - const: core
++      - const: lpdptx
++      - const: axi2af
++      - const: usb2phy
++      - const: pipehandler
++
++  "#phy-cells":
++    const: 1
++
++  "#reset-cells":
++    const: 0
++
++  mode-switch: true
++  orientation-switch: true
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Outgoing connection to the SS port of the Type-C connector.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Incoming endpoint from the USB3 controller.
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Incoming endpoint from the DisplayPort controller.
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Incoming endpoint from the USB4/Thunderbolt controller.
++
++  apple,tunable-common-a:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      Common tunables required for all modes, applied before tunable-axi2af.
++
++  apple,tunable-axi2af:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      AXI to Apple Fabric tunables, required for all modes. Unlike all other
++      tunables these are applied to the axi2af region.
++
++  apple,tunable-common-b:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      Common tunables required for all modes, applied after tunable-axi2af.
++
++  apple,tunable-lane0-usb:
++    $ref: "#/$defs/apple,tunable"
++    description: USB3 tunables for lane 0.
++
++  apple,tunable-lane1-usb:
++    $ref: "#/$defs/apple,tunable"
++    description: USB3 tunables for lane 1.
++
++  apple,tunable-lane0-cio:
++    $ref: "#/$defs/apple,tunable"
++    description: USB4/Thunderbolt ("Converged IO") tunables for lane 0.
++
++  apple,tunable-lane1-cio:
++    $ref: "#/$defs/apple,tunable"
++    description: USB4/Thunderbolt ("Converged IO") tunables for lane 1.
++
++  apple,tunable-lane0-dp:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      DisplayPort tunables for lane 0.
++
++      Note that lane here refers to a USB RX and TX pair re-used for DisplayPort
++      and not to an individual DisplayPort differential lane.
++
++  apple,tunable-lane1-dp:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      DisplayPort tunables for lane 1.
++
++      Note that lane here refers to a USB RX and TX pair re-used for DisplayPort
++      and not to an individual DisplayPort differential lane.
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - "#phy-cells"
++  - "#reset-cells"
++  - orientation-switch
++  - mode-switch
++  - power-domains
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    phy@83000000 {
++      compatible = "apple,t8103-atcphy";
++      reg = <0x83000000 0x4c000>,
++            <0x83050000 0x8000>,
++            <0x80000000 0x4000>,
++            <0x82a90000 0x4000>,
++            <0x82a84000 0x4000>;
++      reg-names = "core", "lpdptx", "axi2af", "usb2phy",
++                  "pipehandler";
++
++      #phy-cells = <1>;
++      #reset-cells = <0>;
++
++      orientation-switch;
++      mode-switch;
++      power-domains = <&ps_atc0_usb>;
++
++      ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        port@0 {
++          reg = <0>;
++
++          endpoint {
++            remote-endpoint = <&typec_connector_ss>;
++          };
++        };
++
++        port@1 {
++          reg = <1>;
++
++          endpoint {
++            remote-endpoint = <&dwc3_ss_out>;
++          };
++        };
++
++        port@2 {
++          reg = <2>;
++
++          endpoint {
++            remote-endpoint = <&dcp_dp_out>;
++          };
++        };
++
++        port@3 {
++          reg = <3>;
++
++          endpoint {
++            remote-endpoint = <&acio_tbt_out>;
++          };
++        };
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 46126ce2f968e4f9260263f1574ee29f5ff0de1c..83487fea4e654171190f6e934203d3f6a881dd34 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2431,6 +2431,7 @@ F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
+ F:	Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml
+ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
++F:	Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+ F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+ F:	Documentation/devicetree/bindings/power/apple*
+ F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
 
----
-base-commit: be83d83664e9f6fa035e96fb9187f9e7898659e4
-change-id: 20251022-b4-dwc3-apple-reset-array-fix-a61cd29bdd16
-
-Best regards,
 -- 
-Sven Peter <sven@kernel.org>
+2.34.1
 
 
