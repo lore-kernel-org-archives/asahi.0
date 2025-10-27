@@ -1,55 +1,45 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF4F624DCED;
-	Mon, 27 Oct 2025 12:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761569759; cv=none; b=isT81xFxsGKsHMiUdQmGhicigFp4PhSC8JOZiFcsHVrthgzlr/X8gPmy63Xj/RFF1nerD1+R187PcLAuzTbRvpwfEFz9zvijO54gHbsz94BnJCvv8GXI4/Xmp6Q7EeRsAuFv7OXgQ/phCUKFCsw6se0lxc8i8m04mRX02SjC7J0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761569759; c=relaxed/simple;
-	bh=wdPrvvPNgCJ92pfYnd82XapNMb2/K9Lk7SnMdXsPwYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EcxjKKuroC0M+JM/6H3PTXelv5YUJUaRVBaBlump9zUQEFADlhhcYntmpeub5vf3hjGcblHLCpBw9dccC5iPf1B+yXbbwXj4vbf0GKyH+bhl3QV31b90Tf1EuP7MOHgTSfjncgROJu/kG0BgyCmumZifBhOlpdDp5F/lWEw2ej8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=HA4IsI57; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="HA4IsI57"
-Received: from 8bytes.org (p549214ac.dip0.t-ipconnect.de [84.146.20.172])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 574F959993;
-	Mon, 27 Oct 2025 13:55:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1761569756;
-	bh=wdPrvvPNgCJ92pfYnd82XapNMb2/K9Lk7SnMdXsPwYo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E262D7DED;
+	Mon, 27 Oct 2025 19:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761593527; cv=none; b=L56EqG6bCfS5Bhha7To+F2mSgdTchjsYHJjrJ48LR02hVOOv5yhRSPWujcTpACqWbWz/gcmtZvKmEIZtCKlJorCu4aId5xzCx28DbGH4PVL/UaYgC7jDtrmFvn7nt3Ab8SbzFxEnuOec0tH6ZoLn7nM/ohY1X+6zMkB6foATRAc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761593527; c=relaxed/simple;
+	bh=oEIFLwg+vMtiQ/y1rzQR0wldto4rWaop80M5IVc5VzU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q26eFr0olb0Fc5+0+qbFSgUjMpmMC+J2HVYDh81qTXSdWPXqm8YavhCnJSkWeTp3BgDPFBZGSrAw55RdpcJpTgAQym2AvMMYH3YTabkG0XqBvWgSo8RzhI0yZ/rqqfkOef/FaV1WhkBgHsMgJx4bWv5sMpe0erXc0Qm8Y7c8/XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k6pNEWwM; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k6pNEWwM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919B0C4CEF1;
+	Mon, 27 Oct 2025 19:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761593527;
+	bh=oEIFLwg+vMtiQ/y1rzQR0wldto4rWaop80M5IVc5VzU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HA4IsI57/crRJKm5huZnz2yM9cueuQ83JrqqF31F0g7mwiTfeSnd43x0jF6LZthZc
-	 xInJr7Dl8APiu4Qf/1dKwgAOW7EJNTBxKaqeF3SCeMWstoORITwx7nsvUeINWh5k+9
-	 Ny8WfW/m0sLSzi4YzjffMfU5XZZBpghT634JsVKbHjtinJ84F0IqokpBXMlZ9vPJO6
-	 HareDmhYXldiDUpmdDec87KCRVmJXWOlsHVldVZQAV6o+WAdhsPOkS6ZLKvwvFxjCx
-	 iZSNYPT42T4jbU1r7D4nVssf6XfXSjG7/V3tsl+vP1evUijU+Z9RswofRmqxeAExhN
-	 NJmXcf6NEl0nQ==
-Date: Mon, 27 Oct 2025 13:55:55 +0100
-From: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, suravee.suthikulpanit@amd.com, 
-	will@kernel.org, robin.murphy@arm.com, sven@kernel.org, j@jannau.net, 
-	robin.clark@oss.qualcomm.com, m.szyprowski@samsung.com, krzk@kernel.org, dwmw2@infradead.org, 
-	baolu.lu@linux.intel.com, yong.wu@mediatek.com, matthias.bgg@gmail.com, 
-	angelogioacchino.delregno@collabora.com, tjeznach@rivosinc.com, pjw@kernel.org, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, heiko@sntech.de, schnelle@linux.ibm.com, mjrosato@linux.ibm.com, 
-	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, wens@csie.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, thierry.reding@gmail.com, 
-	jonathanh@nvidia.com, jean-philippe@linaro.org, iommu@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH v2 0/6] iommu: Pass in old_domain pointer to attach_dev
-Message-ID: <xlu227m6u3wubnexhxh2cpx7nwudhvbmgqcqoas57a6sqgvege@p4s5i5p77v7a>
-References: <cover.1761017765.git.nicolinc@nvidia.com>
+	b=k6pNEWwMLGvzAWBWoBmVLQ+XdDyjFHAhvOCxXgwSXTxBKWO5/NuLWhQKkihLEX7aP
+	 LKgI7G4lkBamHGgtANCDrX8H+tIL19Z79B0S53yciHqFxh/KAA97KGAAebgCdrEJqT
+	 LIs/uAa4dG2KF0RnGNfNi9FwqOc7ybIb4JbeCgAy6OxHtn8CpmfErUtv91zMLoLeha
+	 cXxu/KlUZKSjrHXUghfEq3uknJmfbwkgXH83ieKob3ixLtD4nTzLdBF7BMgEYdZjWb
+	 mRkVcIEj2udzuYnwXuariKZOpOBhpxODdUJJWQXMlacISX+Pp2vwI6QAXHPGtaE0/V
+	 NYEL3/2/SNCyA==
+Date: Mon, 27 Oct 2025 14:32:05 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Sven Peter <sven@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Neal Gompa <neal@gompa.dev>,
+	linux-arm-kernel@lists.infradead.org, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH 2/3] dt-bindings: phy: Add Apple Type-C PHY
+Message-ID: <176159352279.1458022.4288702383335406769.robh@kernel.org>
+References: <20251026-b4-atcphy-v1-0-f81b1225f9c6@kernel.org>
+ <20251026-b4-atcphy-v1-2-f81b1225f9c6@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -58,45 +48,24 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1761017765.git.nicolinc@nvidia.com>
+In-Reply-To: <20251026-b4-atcphy-v1-2-f81b1225f9c6@kernel.org>
 
-On Wed, Oct 22, 2025 at 07:21:03PM -0700, Nicolin Chen wrote:
-> Jason Gunthorpe (1):
->   iommu: Generic support for RMRs during device release
-> 
-> Nicolin Chen (5):
->   iommu/arm-smmu-v3: Set release_domain to arm_smmu_blocked_domain
->   iommu/exynos-iommu: Set release_domain to exynos_identity_domain
->   iommu/amd: Set release_domain to blocked_domain
->   iommu: Do not revert set_domain for the last gdev
->   iommu: Pass in old domain to attach_dev callback functions
-> 
->  include/linux/iommu.h                         |  3 +-
->  arch/powerpc/kernel/iommu.c                   |  5 ++-
->  drivers/iommu/amd/iommu.c                     | 21 +++------
->  drivers/iommu/apple-dart.c                    |  9 ++--
->  .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |  5 ++-
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 31 ++++++-------
->  drivers/iommu/arm/arm-smmu/arm-smmu.c         |  9 ++--
->  drivers/iommu/arm/arm-smmu/qcom_iommu.c       | 11 ++---
->  drivers/iommu/exynos-iommu.c                  | 11 ++---
->  drivers/iommu/fsl_pamu_domain.c               | 12 ++---
->  drivers/iommu/intel/iommu.c                   | 10 +++--
->  drivers/iommu/intel/nested.c                  |  2 +-
->  drivers/iommu/iommu.c                         | 44 +++++++++++++------
->  drivers/iommu/iommufd/selftest.c              |  2 +-
->  drivers/iommu/ipmmu-vmsa.c                    | 10 ++---
->  drivers/iommu/msm_iommu.c                     | 11 ++---
->  drivers/iommu/mtk_iommu.c                     |  8 ++--
->  drivers/iommu/mtk_iommu_v1.c                  |  7 ++-
->  drivers/iommu/omap-iommu.c                    | 12 ++---
->  drivers/iommu/riscv/iommu.c                   |  9 ++--
->  drivers/iommu/rockchip-iommu.c                | 20 ++++++---
->  drivers/iommu/s390-iommu.c                    | 13 +++---
->  drivers/iommu/sprd-iommu.c                    |  3 +-
->  drivers/iommu/sun50i-iommu.c                  |  8 ++--
->  drivers/iommu/tegra-smmu.c                    | 10 ++---
->  drivers/iommu/virtio-iommu.c                  |  6 ++-
->  26 files changed, 172 insertions(+), 120 deletions(-)
 
-Applied, thanks.
+On Sun, 26 Oct 2025 13:52:02 +0000, Sven Peter wrote:
+> Apple's Type-C PHY (ATCPHY) is a PHY for USB 2.0, USB 3.x,
+> USB4/Thunderbolt, and DisplayPort connectivity found in Apple Silicon
+> SoCs.
+> 
+> The PHY handles muxing between these different protocols and also provides
+> the reset controller for the attached dwc3 USB controller.
+> 
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  .../devicetree/bindings/phy/apple,atcphy.yaml      | 222 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 223 insertions(+)
+> 
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
