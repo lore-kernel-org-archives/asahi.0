@@ -1,209 +1,303 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010063.outbound.protection.outlook.com [52.101.61.63])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C46279327;
-	Tue, 28 Oct 2025 06:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761634491; cv=fail; b=X/PgrFudP+7NvoTVyBo2AMHk8byd2dNa72ZhM5yd8c925rzgJegmxwdDAJGQfzFnGoz2VfsRUlWaY1HVN1DbnjXajMe3FfkLQnvyTbnJbqHiuhIrlKIuNxFyCN24DPG69Cdkal9xMT2rdG/vHZIfdlcSzO69n3TX+Pa9p/2dzhk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761634491; c=relaxed/simple;
-	bh=pR1JKV/7uHftl4I++dJEexUjoZAs9zmhRCR0brqJpTw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mEMTkycv7OAuZSSV4ZkGAOQQSAliQD/uSGu62wm15Elr2xWGRNWNBog+apcaHUc+HBdRysZAkeGm01lbyfRlVaSVTodj8KLNwBDmHp5aft6AfKmBeFAmEE7UHSVBPrP6FY2c0Z01j95NdrwVYy2pyezwChIncbAZA7Vm6MQwDvw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TxIbLLJ1; arc=fail smtp.client-ip=52.101.61.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8377320F08C
+	for <asahi@lists.linux.dev>; Wed, 29 Oct 2025 19:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761765669; cv=none; b=kpTNbL2W+SyFeMY5jmMd0+OZztxxJT9L3W2RInn89AFG9Q3cpQDUWdKQau1PCRbMpOAkBMKGGnH0wH3JfdENMDWxyOSgAUx3/aJ9CimdfjM7FCIrC6AWryk/lcNPl621LYm5WgiIwtWjMXHjx7C6xeIJx+Km4qJg3xRAARiHazs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761765669; c=relaxed/simple;
+	bh=/lZWQ8dQnrk+7cil2nPb5OVfOQ/bThjdz+4WcFo8DS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L4bVPtP0yF+RlKwLIsbJWVZ5TQGEN3CqijjLK5ETNaMKAg2sovzYNzIHhZiV9KkJ48L4d1a5FQxYyCqAZBsPQFv0yBDiocDKPYc1Buy5x9N/q9gprndVv+4JP4xDrYtSTamaTvKF6ltg5czDoESMVALsiogrZPMMdat8l8T0Kh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=OYMw0sCH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PW6/T/Bo; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TxIbLLJ1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yDwGpY+2GG8kNMqgzBnhwH5CLggZvsTBLIr3mQza/WoZ3woQpyItQ58GpNa7u+vaxth487zqE3A1IhIQuQlrzRD9JoWUHNlVfCX9YhIzixT2TYUyxMImOvFBbUEPmfR2mLCiOo2M0VDzgoeHx4oYiGzC0rYpErjdHLwX3rDnh7q4XqlLVQdhlV0mmEI5Sqf2fNgf4iNZAw8XF7a3Z6fhfwK/wN4I03MfmC/sUJ5xWTvAIvGPpA5lMaQKYgJzyBVYqTym7Mi89jjN6j5lN32a/NCPkdGG1BOEOSF6tvzWDiEiPQ+9DTMIZvXPjgoS0M+3uArYtpl1j5M3Y1VlEhmtgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eR4popbPYKTm4IdURWFMHNCaQFM1QK1+9AKs1QYAp9U=;
- b=P/HuKTiAIJ/DvIyozvoCFtK9d+TcrRJxsQ2A1C+6PHo3JuEMTo5fiUWDV6e6uoQxpuzny+UlwY6d+/0wjELh0Pi4s2jv3zJ+DWQC7w2QcQAnqJU6OPEqIvRNeZgzTHX/o35/jdgU2EQXv+4N18xTkg51SrywRIXJFOLOVXJTYeSlB5hcDOEDdr7lR6C/C0rrdV13HCi7wPSWsqcTamNGkBpeJ9GyL7kZtQe0UK5t9FvAgNFnZ8DCwatXCsL9Hk8BHEps4UHZzCQcs9OXh/XJClPASmgFNEJOV12U0PFbf+4S2boDjm/AvYiMwu1y6bYaXcwvyRUwjjIcPT+4ARWGyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=csie.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eR4popbPYKTm4IdURWFMHNCaQFM1QK1+9AKs1QYAp9U=;
- b=TxIbLLJ1ZbEblp1VoOQ60IDHzlN4QXA/g96jscBJKSMAIJ/MFHDFdSg9bkPkBpoQCmoofjSsGQLF+Ysd2qO1B1bZJXlloN4CU1kmGmR6K0ye/R85cX/lcwsCuOc6QULA3CekBjTUZz6fXcNx8oep/xKpL4oNHCPtERuq8Vbx73wYUX/aJ/yKEYe9O3/q334SVFkxJNpXTQHFGBahVrVwP14Gvyy3mK9rrd4Zy6ALXie+bc0vgVY8UCT1SABR10+hiJ+hjwaiBAJ5ipKg/80pZX0JWxrmr34g+CjdNTx+2kLf9Au4cjpffnVzHS4p7UwdKTu8kjitSWmUgIKRS6N0LA==
-Received: from BN9PR03CA0778.namprd03.prod.outlook.com (2603:10b6:408:13a::33)
- by CH2PR12MB4150.namprd12.prod.outlook.com (2603:10b6:610:a6::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Tue, 28 Oct
- 2025 06:54:45 +0000
-Received: from BN2PEPF0000449D.namprd02.prod.outlook.com
- (2603:10b6:408:13a:cafe::88) by BN9PR03CA0778.outlook.office365.com
- (2603:10b6:408:13a::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.12 via Frontend Transport; Tue,
- 28 Oct 2025 06:54:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN2PEPF0000449D.mail.protection.outlook.com (10.167.243.148) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Tue, 28 Oct 2025 06:54:44 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.34; Mon, 27 Oct
- 2025 23:54:32 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Oct
- 2025 23:54:32 -0700
-Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com (10.129.68.8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 27 Oct 2025 23:54:29 -0700
-Date: Mon, 27 Oct 2025 23:54:28 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: <joro@8bytes.org>, <kevin.tian@intel.com>,
-	<suravee.suthikulpanit@amd.com>, <will@kernel.org>, <robin.murphy@arm.com>,
-	<sven@kernel.org>, <j@jannau.net>, <jean-philippe@linaro.org>,
-	<robin.clark@oss.qualcomm.com>, <dwmw2@infradead.org>,
-	<baolu.lu@linux.intel.com>, <yong.wu@mediatek.com>, <matthias.bgg@gmail.com>,
-	<angelogioacchino.delregno@collabora.com>, <tjeznach@rivosinc.com>,
-	<pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-	<heiko@sntech.de>, <schnelle@linux.ibm.com>, <mjrosato@linux.ibm.com>,
-	<wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<thierry.reding@gmail.com>, <jonathanh@nvidia.com>, <iommu@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
-	<linux-rockchip@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-	<virtualization@lists.linux.dev>, <patches@lists.linux.dev>
-Subject: Re: [PATCH v1 03/20] iommu/arm-smmu-v3: Implement
- arm_smmu_domain_test_dev
-Message-ID: <aQBopHFub8wyQh5C@Asurada-Nvidia>
-References: <cover.1760312725.git.nicolinc@nvidia.com>
- <f52e8079148a673641d2858700c49fa0c81022aa.1760312725.git.nicolinc@nvidia.com>
- <20251020163231.GX316284@nvidia.com>
- <aPaWsEg1Y3XqsA3E@Asurada-Nvidia>
- <20251027232640.GE1018328@nvidia.com>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="OYMw0sCH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PW6/T/Bo"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id BAE7BEC0216;
+	Wed, 29 Oct 2025 15:21:04 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Wed, 29 Oct 2025 15:21:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1761765664; x=1761852064; bh=jem23dYJdF
+	RhHLUSEWq8tu+ibq6sWJqXQQzANvsStpY=; b=OYMw0sCHij1zJaRlTY4YrR4JL+
+	aekjErUkcj4MYndWo86jBl5sr3A4VGbafACxivi3A77xvglutrG3himNHGHsM/cJ
+	h63Jz/C0wvMrNiN8eNXfiWPdQa2O8seVGMMqsK8Opq4/5DxWv7FsNSs3d8MBOtf1
+	LQJxO/1fJUIpN5eLwBHNeJp0qbmUSBdRVGz2emWzbKDx2esVqLy0BdT664W9jn0z
+	jic9fuDw7ThInXUkyw7B8lVqJNBE3kvIZpEPSoI4B5D1sX5p3rzW3fqT+U44XiLD
+	h1PJWTjCvxF4wwVNDzNhkfdRdrgzrLdY3FNPeIvDWQBJu6Oa7F3uLItIcmWA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1761765664; x=1761852064; bh=jem23dYJdFRhHLUSEWq8tu+ibq6sWJqXQQz
+	ANvsStpY=; b=PW6/T/BobTSrujnjEzRH2re4C+q8SOtvPVnXWrJm3MOpWtEMHTc
+	pHq08V22b8fO/IFhpodR6NScUdy4/6T4Y/Tjm53tUDobp8nAfcEtSm9xsv0i+Jy6
+	MMDtsUMTYIIE29YZyLQZTLDaVlgsDYjhWvUwHePKaFE/o1riq55Z4zLbhEbgYY/I
+	zUTB8MKlqyzhU1pmUwCBLOke1mohnVkkew4fStOaSDoRljOi62Mlk64I02OP8sXC
+	jeoIl+mlNO4pWayZwMKuDmCl3wtgZP06R5YahGSy85OD7JlvWCB2YdbSXSWvLgaP
+	2zE7R9pYmMKBNWQJS2VU3Cufiub9l0JPmXg==
+X-ME-Sender: <xms:H2kCaTdvuR0Quaz_Wa7neXmxc2yCbsoUhbUEpKuVZPBN3rxfVXE0bQ>
+    <xme:H2kCaTnZyAG8DvX8Pu6MD5IAIUT8hkNaaMAip_s4V5mBLwHA0Js4GunpHLHeI8b7t
+    Q7e8sAO1Ks3kmRb9U0Mry2St9hi9kB3LLITQTCeSy9y2S2NUY2RwCQ>
+X-ME-Received: <xmr:H2kCaSpTAJF-us1M4W0Zzv-w8F7V5BdN3nB0GeSuh-v-TdKPp_dtSTGaSDSzpbHHPgNo5Zbd4zIcFxIqif-DlBpAuI_3UAt2LwY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieegheehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
+    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
+    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
+    drnhgvthdpnhgspghrtghpthhtohepudegpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvrghlsehgohhmph
+    grrdguvghvpdhrtghpthhtohepvhhkohhulheskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    ohepkhhishhhohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprd
+    iirggsvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegrshgrhhhisehl
+    ihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:H2kCaQFJ-jlPTf321gWn7Ew0QtFozD-QEP9H0RpWgKVsxbJjB4_uhQ>
+    <xmx:H2kCaYQAP0zaeNvQOkcDooS1okPvh1ZolGl5OpviAFEGdPPVicVwhA>
+    <xmx:H2kCaWNDpDaB4ehDJBvCjoycEcXE51rVm0JvXlYD5S1OZah-b9h2lg>
+    <xmx:H2kCaVkTozJx0mtR3rat_6VW88AtmdNYGQ_pvk5Fmb12aYWjq8c_ww>
+    <xmx:IGkCaXHxT7V8XajSIX1xktYOLXAnFQiuscZ5xiV8m9ksndsw1qA8lfb0>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Oct 2025 15:21:02 -0400 (EDT)
+Date: Wed, 29 Oct 2025 20:21:01 +0100
+From: Janne Grunau <j@jannau.net>
+To: Sven Peter <sven@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Subject: Re: [PATCH 1/3] soc: apple: Add hardware tunable support
+Message-ID: <20251029192101.GA458701@robin.jannau.net>
+References: <20251026-b4-atcphy-v1-0-f81b1225f9c6@kernel.org>
+ <20251026-b4-atcphy-v1-1-f81b1225f9c6@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251027232640.GE1018328@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF0000449D:EE_|CH2PR12MB4150:EE_
-X-MS-Office365-Filtering-Correlation-Id: d842b719-4def-4257-6660-08de15eee099
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|7416014|1800799024|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?fGUmcarunF6mbX+AippTaiEUY2peatoTMyHGt/KfKy82iBEYmMgWDqCJLU/h?=
- =?us-ascii?Q?Aft3E9MtBgUdOMN6R24elRge5gJpCjyvq9E6iOTo8noba4j5ciQB8mnl9vs6?=
- =?us-ascii?Q?Ao909usDPbZo9CPI4pE/nfstI6KvV49m+L1exjNHcXFja+5o9VgjOxCptyCo?=
- =?us-ascii?Q?hv/zbnbtbNop/T8PoB/m1sYKTB57zhBq32HFTP5Run2bpy2grlNVA6XeDItc?=
- =?us-ascii?Q?BtV+th7UuaYSlmNgGr2HdH3c25h2zLOId3UOpPpAXr0YKrXUi9eiv3D9Oi3U?=
- =?us-ascii?Q?80QwygkLP5U5KEgPytBCtvF3cXZUOaLFfb2HfmTRxIOzassw4A6FyNW06Qwy?=
- =?us-ascii?Q?nnvfmhXf9VF5y4sXbAzdvqyJERaO+cetn/rhrskWyl7wzvcUKloGDW4HbuE1?=
- =?us-ascii?Q?nyf9htzTeYsiJXrrANlb+NtzHI2YnXPmJ3fWB3aOSAwSQK1G18N9XmIW7JZj?=
- =?us-ascii?Q?lQSpI/NxnSlfOGVjfJ2lxgyrxNYK3fhm8hptPbf2du/skdlq+XpaLuqGdv3h?=
- =?us-ascii?Q?nhcrMPd3sRS4vOwvADAMXO1x2HKn4DDwRi6B5xPIHXc23mGEvRokDbvshJ75?=
- =?us-ascii?Q?yuqquIQJLgzy9xtMUtNEI/gKesh6F8HFZ7MmxHeEBLExYAg3xX7n2iITrLVO?=
- =?us-ascii?Q?xD3QhMmO1rQWG58NiRr9zkZ3ryQ38lFzOkZW+cICRy6X5nUBeoiD1+2Ec34i?=
- =?us-ascii?Q?Io6f9XfPpGXuQSyay+198NTqurSjqbhSb3c9NxxQTtvKYMqoi0+twtZAWnMo?=
- =?us-ascii?Q?rZVIeMHLtM/FBhk63WbKj6FidkePaa6jdX30UtvLbidnk4XrLZIDOmfE78aY?=
- =?us-ascii?Q?yWSrvDme5KB6UtPHPwQv4NJ520oR9l8RQ6d3w/HiUMSeCe9J4yIEnjBVdA23?=
- =?us-ascii?Q?iPZ0kTX6QWtRR2g94o7CXdjOTKh1U0d3sOcPIGtnQyapbYUypByRPxjfAvQa?=
- =?us-ascii?Q?ygyMMEm7WFbkAlRvC/rKgkkya5EG1ZtLUfDX4VmHa+0t0ry1Qyv/J1ukBq4F?=
- =?us-ascii?Q?R/BoLph5OFN8esguQ5X3SdDKXsZJNKGqZyg2LwgajfOpkG7IsmcbaaN+R4zx?=
- =?us-ascii?Q?QGAMkFtxNli3zX1RJdGhSHfZuTiMKWJcce5aji5JYK0tfInHZo6mZFBAkfKY?=
- =?us-ascii?Q?o+C6HMB6/YiVosEyUEOCOQvD6D07LjC+RmsuiM3HI3SRM69Sy/jMYIJp2Bmc?=
- =?us-ascii?Q?JM8oyBU5HkP5OpWMgJDydBr0WZ4GhsQRaAsJXqXG3+G3OQd7QXgi04BRhTVI?=
- =?us-ascii?Q?4jEfql+tCHJiwWpCPX7Ej1MQZKJiMlYGVg51co74xVHHkyB6/VXb+EUCjvhk?=
- =?us-ascii?Q?d7zs0ojjatsiXxhN1kMWhXPGkNgLcpjHQATj6RWl1Dm0MvFG4gMVusc4xCjz?=
- =?us-ascii?Q?jp0X7BujtfEtj8FEUVS3le89JnTBj3GmWNiWCBF/AVBwyUvA7arQyCpZNSjg?=
- =?us-ascii?Q?ppki4VjznSsWJmOLGT1wgXxoNj8cE3wKbJ9AORGcG4k1dGimclIPTO7x7mTt?=
- =?us-ascii?Q?hflYUIgm3p/pD4x3l75jcVRr6AuJH0dYA2gqKqkqqtQlPdWFZqrPK1tbi2hR?=
- =?us-ascii?Q?yzgOBayjqOPa+OsVpBw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(7416014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 06:54:44.6252
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d842b719-4def-4257-6660-08de15eee099
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF0000449D.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4150
+In-Reply-To: <20251026-b4-atcphy-v1-1-f81b1225f9c6@kernel.org>
 
-On Mon, Oct 27, 2025 at 08:26:40PM -0300, Jason Gunthorpe wrote:
-> On Mon, Oct 20, 2025 at 01:08:16PM -0700, Nicolin Chen wrote:
+Hej,
+
+On Sun, Oct 26, 2025 at 01:52:01PM +0000, Sven Peter wrote:
+> Various hardware, like the Type-C PHY or the Thunderbolt/USB4 NHI,
+> present on Apple SoCs need machine-specific tunables passed from our
+> bootloader m1n1 to the device tree. Add generic helpers so that we
+> don't have to duplicate this across multiple drivers.
 > 
-> > > I don't see any reasonable way to mitigate this??
-> > 
-> > Right. It can't simply go through a regular attach_dev call since
-> > driver wouldn't expect any inconsistency in the core.
-> > 
-> > Driver would have to be aware of the reset state, and make a copy
-> > of the old domain's CD/STE to use for a test_dev() during a reset.
+> Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  drivers/soc/apple/Kconfig         |  4 +++
+>  drivers/soc/apple/Makefile        |  3 ++
+>  drivers/soc/apple/tunable.c       | 71 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/soc/apple/tunable.h | 60 +++++++++++++++++++++++++++++++++
+>  4 files changed, 138 insertions(+)
 > 
-> It seems convoluted :\
+> diff --git a/drivers/soc/apple/Kconfig b/drivers/soc/apple/Kconfig
+> index ad67368892311bed5a94d358288390a6fb8b3b4a..d0ff32182a2b4a10c98cb96c70a03bea8c650f84 100644
+> --- a/drivers/soc/apple/Kconfig
+> +++ b/drivers/soc/apple/Kconfig
+> @@ -38,6 +38,10 @@ config APPLE_SART
+>  
+>  	  Say 'y' here if you have an Apple SoC.
+>  
+> +config APPLE_TUNABLE
+> +	tristate
+> +	depends on ARCH_APPLE || COMPILE_TEST
+> +
+>  endmenu
+>  
+>  endif
+> diff --git a/drivers/soc/apple/Makefile b/drivers/soc/apple/Makefile
+> index 4d9ab8f3037b7159771d8817fa507ba29f99ae10..0b85ab61aefe131349a67d0aa80204edd8e89925 100644
+> --- a/drivers/soc/apple/Makefile
+> +++ b/drivers/soc/apple/Makefile
+> @@ -8,3 +8,6 @@ apple-rtkit-y = rtkit.o rtkit-crashlog.o
+>  
+>  obj-$(CONFIG_APPLE_SART) += apple-sart.o
+>  apple-sart-y = sart.o
+> +
+> +obj-$(CONFIG_APPLE_TUNABLE) += apple-tunable.o
+> +apple-tunable-y = tunable.o
+> diff --git a/drivers/soc/apple/tunable.c b/drivers/soc/apple/tunable.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..c54da8ef28cef16118c518c761f95e8dd9f78002
+> --- /dev/null
+> +++ b/drivers/soc/apple/tunable.c
+> @@ -0,0 +1,71 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
+> +/*
+> + * Apple Silicon hardware tunable support
+> + *
+> + * Each tunable is a list with each entry containing a offset into the MMIO
+> + * region, a mask of bits to be cleared and a set of bits to be set. These
+> + * tunables are passed along by the previous boot stages and vary from device
+> + * to device such that they cannot be hardcoded in the individual drivers.
+> + *
+> + * Copyright (C) The Asahi Linux Contributors
+> + */
+> +
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/soc/apple/tunable.h>
+> +
+> +struct apple_tunable *devm_apple_tunable_parse(struct device *dev,
+> +					       struct device_node *np,
+> +					       const char *name)
+> +{
+> +	struct apple_tunable *tunable;
+> +	struct property *prop;
+> +	const __be32 *p;
+> +	size_t sz;
+> +	int i;
+> +
+> +	prop = of_find_property(np, name, NULL);
+> +	if (!prop)
+> +		return ERR_PTR(-ENOENT);
+> +
+> +	if (prop->length % (3 * sizeof(u32)))
+> +		return ERR_PTR(-EINVAL);
+> +	sz = prop->length / (3 * sizeof(u32));
+> +
+> +	tunable = devm_kzalloc(dev,
+> +			       sizeof(*tunable) + sz * sizeof(*tunable->values),
 
-Yea. Both core and driver would end up with complexities Orz.
+There is a struct_size macro in linux/overflow.h for this calculation.
+We do not have to care about overflows as as struct property.length
+remains (signed) int. I would expect there is a much smaller limit for of
+properties in place anyway. The macro looks nicer though:
 
-> IDK if you want to do that some kind of "attach but really don't" flag
-> so all the tracking was kept, just the STE was forced to blocking.
-> 
-> Then since all the fake attaches are tracked and validated switching
-> to a real ste shouldn't fail.
-> 
-> For instance SMMU could continue to build the CD table and act like
-> the CD is active, but the STE wouldn't point to it.
-> 
-> Basically, this approach doesn't seem to solve all the problems, it
-> reduces them sure, but there are still enough gaps.
+struct_size(tunable, values, sz)
 
-Yea, this works for reset because the physical STE is on an ABORT
-state, so SW can concurrently mutate the CD as much as it wants.
-Yet, with a translating STE, CD table can't be mutated I suppose?
+> +			       GFP_KERNEL);
+> +	if (!tunable)
+> +		return ERR_PTR(-ENOMEM);
+> +	tunable->sz = sz;
+> +
+> +	for (i = 0, p = NULL; i < tunable->sz; ++i) {
+> +		p = of_prop_next_u32(prop, p, &tunable->values[i].offset);
 
-So this "attach but really don't" flag would be used by the reset
-case exclusively. It feels like the surgical in-driver approach
-that we thought about in the beginning v.s. the core-managed one
-that we wished for to fix all drivers.
+Does it make sense to add an size argument either here or in
+apple_tunable_apply() to check that the offset is within the expect MMIO
+region? Not really important but might catch a bug someday.
 
-By doing so, I think the core could simply forward the two reset
-callbacks to the driver where it does an STE-level suspend/resume
-and raises a reset flag so that any concurrent attach_dev would
-bypass the last STE updates until the reset_done is finished.
+> +		p = of_prop_next_u32(prop, p, &tunable->values[i].mask);
+> +		p = of_prop_next_u32(prop, p, &tunable->values[i].value);
+> +	}
+> +
+> +	return tunable;
+> +}
+> +EXPORT_SYMBOL(devm_apple_tunable_parse);
+> +
+> +void apple_tunable_apply(void __iomem *regs, struct apple_tunable *tunable)
+> +{
+> +	size_t i;
+> +
+> +	for (i = 0; i < tunable->sz; ++i) {
+> +		u32 val, old_val;
+> +
+> +		val = old_val = readl_relaxed(regs + tunable->values[i].offset);
+> +		val &= ~tunable->values[i].mask;
+> +		val |= tunable->values[i].value;
+> +		if (val != old_val)
+> +			writel_relaxed(val, regs + tunable->values[i].offset);
+> +	}
+> +}
+> +EXPORT_SYMBOL(apple_tunable_apply);
+> +
+> +MODULE_LICENSE("Dual MIT/GPL");
+> +MODULE_AUTHOR("Sven Peter <sven@kernel.org>");
+> +MODULE_DESCRIPTION("Apple Silicon hardware tunable support");
+> diff --git a/include/linux/soc/apple/tunable.h b/include/linux/soc/apple/tunable.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..7e74e81b32e56c9a8ce94cb64bb340b007bac8da
+> --- /dev/null
+> +++ b/include/linux/soc/apple/tunable.h
+> @@ -0,0 +1,60 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
+> +/*
+> + * Apple Silicon hardware tunable support
+> + *
+> + * Each tunable is a list with each entry containing a offset into the MMIO
+> + * region, a mask of bits to be cleared and a set of bits to be set. These
+> + * tunables are passed along by the previous boot stages and vary from device
+> + * to device such that they cannot be hardcoded in the individual drivers.
+> + *
+> + * Copyright (C) The Asahi Linux Contributors
+> + */
+> +
+> +#ifndef _LINUX_SOC_APPLE_TUNABLE_H_
+> +#define _LINUX_SOC_APPLE_TUNABLE_H_
+> +
+> +#include <linux/device.h>
+> +#include <linux/types.h>
+> +
+> +/**
+> + * Struct to store an Apple Silicon hardware tunable.
+> + *
+> + * Each tunable is a list with each entry containing a offset into the MMIO
+> + * region, a mask of bits to be cleared and a set of bits to be set. These
+> + * tunables are passed along by the previous boot stages and vary from device
+> + * to device such that they cannot be hardcoded in the individual drivers.
+> + *
+> + * @param sz Number of [offset, mask, value] tuples stored in values.
+> + * @param values [offset, mask, value] array.
+> + */
+> +struct apple_tunable {
+> +	size_t sz;
+> +	struct {
+> +		u32 offset;
+> +		u32 mask;
+> +		u32 value;
+> +	} values[] __counted_by(sz);
+> +};
+> +
+> +/**
+> + * Parse an array of hardware tunables from the device tree.
+> + *
+> + * @dev: Device node used for devm_kzalloc internally.
+> + * @np: Device node which contains the tunable array.
+> + * @name: Name of the device tree property which contains the tunables.
+> + *
+> + * @return: devres allocated struct on success or PTR_ERR on failure.
+> + */
+> +struct apple_tunable *devm_apple_tunable_parse(struct device *dev,
+> +					       struct device_node *np,
+> +					       const char *name);
+> +
+> +/**
+> + * Apply a previously loaded hardware tunable.
+> + *
+> + * @param regs: MMIO to which the tunable will be applied.
+> + * @param tunable: Pointer to the tunable.
+> + */
+> +void apple_tunable_apply(void __iomem *regs, struct apple_tunable *tunable);
+> +
+> +#endif
 
-This, however, will require driver to implement those callbacks
-individually, if it cares to fix the vulnerability..
+Reviewed-by: Janne Grunau <j@jannau.net>
 
-> So I think we either have to live with them and call it a user bug to
-> change the domain improperly during FLR.. If it happens dump the
-> translation into blocking and move on..
-
-But, we previously discussed that it'd not be a user bug for VFs,
-unless they are all getting reset by the PCI core?
-
-Otherwise, returning -EBUSY rejecting concurrent attach would be
-the easiest way.
-
-Thanks
-Nicolin
+Janne
