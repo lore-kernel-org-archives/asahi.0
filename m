@@ -1,210 +1,156 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012061.outbound.protection.outlook.com [40.93.195.61])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665E526738B;
-	Wed,  5 Nov 2025 18:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762366710; cv=fail; b=eA20F6ATaoT+Azomb1ijeVSOH6uAA9+vQJxIJPj0wHM9SE4irNfuX46uK88qMJyLGYALM9NFYUQhBXm85rcXuQKJUOl7lu36Eq0Ku4Kr+d214mzCbHQhhNPsasehDvVTzo1oB93JCpYjYvFcMjqlnMAKAh4qRSAr5jcotYMQ3h8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762366710; c=relaxed/simple;
-	bh=FkiM+kh2rMErygFvDRS1UOtJHOVVMoZyZuZAUTV+n5k=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dW52Azfd1Zx1Pmy+fsSB9CLkhR3YwQhkVYRV3IR2MR33+HzG+PecltpFwrehacO5h+yru6aC2qslrebuHP/9nnRZPjfR8QQ0OMOtKz9lkkUXdetptIwpxHbUOhwUIx1mBb8FWUGkU2clFZMrHaTMbD2yIQcxU/ha0X3/tBjlx9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sukUT+O4; arc=fail smtp.client-ip=40.93.195.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195E03321BC;
+	Thu,  6 Nov 2025 13:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762437219; cv=none; b=DX8sIMTCucO0XtnO2MPKDKjac/J1VCPGWRMcymP4j8LUms0n9E4vYjDIs/EM36Ao0SZ5AqcVJOX+MS6zRfDZspiiXxxuVH9Hh0pzQN1y/aqXFu7VLQsSzYPbVO3wgOSpM7aHPKu+LSg05nJ/Q2NAnmPP+K+tyNRMk1Hu77LFSPw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762437219; c=relaxed/simple;
+	bh=qcQmnaysazEGwAaCAXfwCY+ui93J1l78Y+j7goEWMJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uk10FsmCzS/9cH4lnTykbaErpSgDo476lwwJhTgDW8BJ1clAH/jgw4twUu/SP9EdSbrcoY+cWGnHazpG34YGPC0ZpCT+qwl7codpK2Sg3pYMdmxWW+MsHhvuPqyYJ3lnI/jSRKOCRbIGB98sDrcjYyOreFoqAZ1yebDbvvYcfg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U/B2+Gtc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sukUT+O4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IKuNbrr5ooxS5PArsMEkxfRbFzaQ65qM7fznj9vRFC2eLUY5mdYTsfH1MriLNd/mmcXLiYefzxGASSU5cYZDyOvJw6MrIGa5Vf0EKUf+oql8g/t2Q3z/Pn8VaG8JF0kf14i9nwiahfcNRP2LZctjdyS2Zx8IIpZZQq3SNdU6lGm3yCedCQZ1PC8La5TVc1N5pawLSN3mq0vLPUnE2+JivYtdE6BPQrkWGgUSLBoOhT5i3p5VKVsTwJOkQ+veYcu4Wl1+MgVxHb61dV0T5xi5H0YkOUx/QOMcJoIT1ZGUSNyU1FDYvZMgs8R9Pr34iJ7F2ll4cWAku6kCzKRBgGofmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TVbxH8zZg/dBSjSSQnbJVnTvN0blKg05thaY9dEiC+c=;
- b=XxH/xwmmG3L+izbkVl/yKju4l0HT5aHQTtT3qPW65/9mbUGyNCtPtMVg6snwKGRHZn7TuQLxGhwUUOl8neXA9YNK3OLsTew7F+STVxE0qsWRULsRJxbtfGnAiKvRN2h2GFSv0f67kMhynxGjfNSAFyjgrBOsnNsFnW38h2LU3/JxhBKRP44q7BpHfwNefgMXsn8cO4axhjMPAtOY/Q0eaFYMlnZAmFhcN/EvIJZSH9dNUv6rPccBgT17iuUTQVb//o+9I2KXffE2IG7hWi9rscJcjLeSEsT5Lyqh73kPETdZxrScdiJRuMV+YWocBinZirWQzEKBlvkCX+FjQlJigg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TVbxH8zZg/dBSjSSQnbJVnTvN0blKg05thaY9dEiC+c=;
- b=sukUT+O4vTDXOL68jp0W6wppVHjS3HCDfExAbcnzRPnMwKZFYYmQUaapn0mE2x/LCtUwDm4Aw9guMBjGwcAWK9rf9ymZkytWLgOXHuCMvMz8JpPCVz6SqZp7cP8lOufC1tGqiA58EjpZT2jN+X4kyE5HaJU9bZNXswKiAkSGqOQIh1KOkFDA1kePW/wpu66l/7X21/0AddT0S1Yff3qCC1opCVFAelSdhQe24tmUqLQxNBOlQ144igzwAxt9J0iZe4CVrfAE+vjYzxsYjDSCAcdRVn6lCJOUc2qKOgTHBdhXFSr7TQj62yDvS9q/bq+CEt1/1Qod1lj0WMLIHhdU7g==
-Received: from SJ0PR13CA0198.namprd13.prod.outlook.com (2603:10b6:a03:2c3::23)
- by MN6PR12MB8591.namprd12.prod.outlook.com (2603:10b6:208:471::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Wed, 5 Nov
- 2025 18:18:22 +0000
-Received: from SJ1PEPF0000231C.namprd03.prod.outlook.com
- (2603:10b6:a03:2c3:cafe::c8) by SJ0PR13CA0198.outlook.office365.com
- (2603:10b6:a03:2c3::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.5 via Frontend Transport; Wed, 5
- Nov 2025 18:18:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ1PEPF0000231C.mail.protection.outlook.com (10.167.242.233) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Wed, 5 Nov 2025 18:18:22 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 5 Nov
- 2025 10:18:04 -0800
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 5 Nov
- 2025 10:18:04 -0800
-Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 5 Nov 2025 10:18:02 -0800
-Date: Wed, 5 Nov 2025 10:18:01 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>, "joro@8bytes.org" <joro@8bytes.org>,
-	"suravee.suthikulpanit@amd.com" <suravee.suthikulpanit@amd.com>,
-	"will@kernel.org" <will@kernel.org>, "robin.murphy@arm.com"
-	<robin.murphy@arm.com>, "sven@kernel.org" <sven@kernel.org>, "j@jannau.net"
-	<j@jannau.net>, "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-	"robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>,
-	"dwmw2@infradead.org" <dwmw2@infradead.org>, "baolu.lu@linux.intel.com"
-	<baolu.lu@linux.intel.com>, "yong.wu@mediatek.com" <yong.wu@mediatek.com>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"angelogioacchino.delregno@collabora.com"
-	<angelogioacchino.delregno@collabora.com>, "tjeznach@rivosinc.com"
-	<tjeznach@rivosinc.com>, "pjw@kernel.org" <pjw@kernel.org>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>, "aou@eecs.berkeley.edu"
-	<aou@eecs.berkeley.edu>, "heiko@sntech.de" <heiko@sntech.de>,
-	"schnelle@linux.ibm.com" <schnelle@linux.ibm.com>, "mjrosato@linux.ibm.com"
-	<mjrosato@linux.ibm.com>, "wens@csie.org" <wens@csie.org>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "samuel@sholland.org"
-	<samuel@sholland.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-	"jonathanh@nvidia.com" <jonathanh@nvidia.com>, "iommu@lists.linux.dev"
-	<iommu@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "asahi@lists.linux.dev"
-	<asahi@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "virtualization@lists.linux.dev"
-	<virtualization@lists.linux.dev>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH v1 02/20] iommu: Introduce a test_dev domain op and an
- internal helper
-Message-ID: <aQuU2dic75VkSyjr@Asurada-Nvidia>
-References: <cover.1760312725.git.nicolinc@nvidia.com>
- <32ce256a2ece5d63e99d5858f953586859818ffc.1760312725.git.nicolinc@nvidia.com>
- <BN9PR11MB5276D10BD480FE66881870B08CFBA@BN9PR11MB5276.namprd11.prod.outlook.com>
- <aQO//+6/B/WbdK2h@Asurada-Nvidia>
- <20251103185400.GA1537560@nvidia.com>
- <BN9PR11MB527638C0E43E8AA000410B878CC5A@BN9PR11MB5276.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U/B2+Gtc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C72C4CEFB;
+	Thu,  6 Nov 2025 13:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762437218;
+	bh=qcQmnaysazEGwAaCAXfwCY+ui93J1l78Y+j7goEWMJc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U/B2+GtcbfxHYrwm8y9iKwVHm3brmqcyvJtf4kiAdXrQDv1jwhYUcTEgaaUtro6s0
+	 o5VrpCW2Rju2WAsXureWRM+JhsrHxM+pBN4wLQVW2lonyMvfzgZJKiNHhifzSY7wt/
+	 PhIv8p4oNEq8+U8/zZ84jDmu5ataeLN4CvNqXhqpq/n0D95018PTYjFlsC8Tvt0iW6
+	 lFfWNyXVb8yhjgd0vYXnjOAHkfjdxK+aQkd1xrgZcclFjSbvvf3p8E5KrLg7FfboCg
+	 3dKl+jQSzofaYCalbwQFv8FKaevex9OtCiic+efn2dU9bPa8oJ3g+/IzfVFSU5/hmQ
+	 reEPNN+OZK3mQ==
+Date: Thu, 6 Nov 2025 13:53:31 +0000
+From: Lee Jones <lee@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v4 08/11] input: macsmc-input: New driver to handle the
+ Apple Mac SMC buttons/lid
+Message-ID: <20251106135331.GN8064@google.com>
+References: <20251025-macsmc-subdevs-v4-0-374d5c9eba0e@gmail.com>
+ <20251025-macsmc-subdevs-v4-8-374d5c9eba0e@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <BN9PR11MB527638C0E43E8AA000410B878CC5A@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231C:EE_|MN6PR12MB8591:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ba14651-9b7d-41ac-b073-08de1c97b458
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026|7416014|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?fyNu0vYIWg5Wi5i56jiDih4IKeySzyyzBaJlMhyvaIH9i1tZ5wzcB0ygDsKs?=
- =?us-ascii?Q?bAgB6SeAPmJxS34aUS9cgYK43nzigsJ4nAZ8lBchHXqG8D6O0P6lIaZV1YJp?=
- =?us-ascii?Q?1ngPK7eSr68QfkpwtdMWaS2Y+qKUfBQTdvUV/+PX7A+wuxtTDqlLuw56y0OQ?=
- =?us-ascii?Q?cOunGV7XE3dSZUzojr00xKGfNqjqPUz2Y0uU37+Npzj76ldF4vqYsjFr23Qy?=
- =?us-ascii?Q?wrDzF9VNkEJ5Nb6qF0CsGlIP5j2st7L0GvsrqnvDYq8FMyo2ViGPSb64MO/S?=
- =?us-ascii?Q?KwEsNtlik6J+UdbW2dut7LS2nFAWy9t8JiymSA95GBS6nblDE0kEvVRv4QWj?=
- =?us-ascii?Q?Xtv8io5X3exvLxXdUsppPlsfpp6hLoYSegxpzJYI3jOOIaEALUIvK8+JxgZe?=
- =?us-ascii?Q?WAxxRS9V4K24RllZ1/JKcRvXHbmQjziOqzuVYf/MjzqGIkcWDIY/xMkQz5yl?=
- =?us-ascii?Q?nWXAljB+JbuZSqAQKH3bYhiKGAvwfbeuraNAfFDhXljlumrpxXSVZmjrB+Ec?=
- =?us-ascii?Q?zvb3H1q4BSNkso1Ikv69ymWP+J4r4wROnP8Ez0mwFXqkteD+dvEjX3xlku8f?=
- =?us-ascii?Q?97gRZi6PN+8st+NLfDwbpGulfnrTinOx2BEqXzQpy1+6radCHn9ElYfR1Wwg?=
- =?us-ascii?Q?BYxj+M2VIyjL2sojXsWXW4V/Pkmb2Ncta6SJPDta+tGSxNjxGJb9nwWi+Ddv?=
- =?us-ascii?Q?WMN8Es/nGI6U1DIDuSISwhhj5lbasKVSbCLb20BXXgkJX39AEFohJoYlLqOa?=
- =?us-ascii?Q?7CnETMnS0E81igjZmbMyXN8esmWuZvhdcmFVZSU0iFrRxXBEy6Xjjx2fySvo?=
- =?us-ascii?Q?BIs1HDLxz+hpoASn0XSRQyd7BnjyvmSG85hERMITZZgoARUK2jWERAhLTm4r?=
- =?us-ascii?Q?m/cuucM6K9Qmr0WEorkx+FnfX2la/FexlZnrPqnC3KbcLC9lLCglyGPVUGyG?=
- =?us-ascii?Q?mz6Azf1RZhw5dvuRR68UZL9gQ+r4L0lFTuwY0e1rJ0VDIyRotnK9zjoEwIAw?=
- =?us-ascii?Q?xhnJTWIslLaIvACsgaVTbvp4cbo7HR4ZQTYWPo7uru1SsdzWn0KkYYV7GllG?=
- =?us-ascii?Q?eP33f7+iQpCX4cnmWW5QSJPE1kxSUMYddQ6VSG9Vnx1WgUgJ/PbBWrLy+TR7?=
- =?us-ascii?Q?zbek45sd5vm41RtvOmOjLzPFkNVnxPCzw5pIlgmXz/KWFQwF0f0nF+rqtIH0?=
- =?us-ascii?Q?lgPovybw/X+8tm9n/uIShFtmofcv57MHAt6rrwY8pxmegesjTbzFuavtFlcX?=
- =?us-ascii?Q?NIsKhOTXfXIQKMXNwLVbqpRZrsEJlNiR+qixpMrhmSpOY+Fi2fY+WmxJmPAB?=
- =?us-ascii?Q?hiGCHpbA77F/vHMt9Yu4xqXT/6kTgXaDaT1k/siuYyTvUYAj3Y5ku59ftEqd?=
- =?us-ascii?Q?7y8lOfI3tAdphTWIIh7zd1Dp+QiKF79LlB972HgUrM6Ayg5UR85ZxziUlVpV?=
- =?us-ascii?Q?JRmUVaveZgSZ7cH3Z0C0GijVaZHRNdk47a0bzIQsKtdp7Nfyww7Zpsba/t98?=
- =?us-ascii?Q?vKfXgY/In3nTLQXdMQhbcVBq5O1rNCAYfOywpZK9ZS2if0uU5hE6sgyEgXNL?=
- =?us-ascii?Q?H45fT9JVcUNlUCv9V1Ew2RC6OgA6olppabvpLIa9?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026)(7416014)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 18:18:22.3550
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ba14651-9b7d-41ac-b073-08de1c97b458
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF0000231C.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8591
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251025-macsmc-subdevs-v4-8-374d5c9eba0e@gmail.com>
 
-On Wed, Nov 05, 2025 at 06:57:31AM +0000, Tian, Kevin wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Tuesday, November 4, 2025 2:54 AM
-> > 
-> > On Thu, Oct 30, 2025 at 12:43:59PM -0700, Nicolin Chen wrote:
-> > 
-> > > FWIW, I am thinking of another design based on Jason's remarks:
-> > > https://lore.kernel.org/linux-iommu/aQBopHFub8wyQh5C@Asurada-
-> > Nvidia/
-> > >
-> > > So, instead of core initiating the round trip between the blocking
-> > > domain and group->domain, it forwards dev_reset_prepare/done to the
-> > > driver where it does a low-level attachment that wouldn't fail:
-> > >   For SMMUv3, it's an STE update.
-> > >   For intel_iommu, it seems to be the context table update?
-> > 
-> > Kevin, how bad do you think the UAPI issue is if we ignore it?
-> > 
+On Sat, 25 Oct 2025, James Calligeros wrote:
+
+> From: Hector Martin <marcan@marcan.st>
 > 
-> yeah probably better to leave it. I didn't see a clean way and the
-> value didn't justify the complexity.
+> This driver implements power button and lid switch support for Apple Mac
+> devices using SMC controllers driven by the macsmc driver.
 > 
-> Regarding to PF reset, it's a devastating operation while the vf user
-> is operating the vf w/o any awareness. there must be certain
-> coordination in userspace. otherwise nobody can recover the
-> registers. Comparing to that, solving the domain attach problem
-> is less important...
+> In addition to basic input support, this also responds to the final
+> shutdown warning (when the power button is held down long enough) by
+> doing an emergency kernel poweroff. This allows the NVMe controller to
+> be cleanly shut down, which prevents data loss for in-cache data.
+> 
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Co-developed-by: Sven Peter <sven@kernel.org>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  MAINTAINERS                       |   1 +
+>  drivers/input/misc/Kconfig        |  11 ++
+>  drivers/input/misc/Makefile       |   1 +
+>  drivers/input/misc/macsmc-input.c | 208 +++++++++++++++++++++++++
+>  4 files changed, 221 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 79b9f40224a9..e8283f127f11 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2451,6 +2451,7 @@ F:	drivers/hwmon/macsmc-hwmon.c
+>  F:	drivers/pmdomain/apple/
+>  F:	drivers/i2c/busses/i2c-pasemi-core.c
+>  F:	drivers/i2c/busses/i2c-pasemi-platform.c
+> +F:	drivers/input/misc/macsmc-input.c
+>  F:	drivers/input/touchscreen/apple_z2.c
+>  F:	drivers/iommu/apple-dart.c
+>  F:	drivers/iommu/io-pgtable-dart.c
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index 0e6b49fb54bc..109660a1a5d2 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -981,4 +981,15 @@ config INPUT_STPMIC1_ONKEY
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called stpmic1_onkey.
+>  
+> +config INPUT_MACSMC
+> +	tristate "Apple Mac SMC lid/buttons"
+> +	depends on MFD_MACSMC
+> +	help
+> +	  Say Y here if you want to use the input events delivered via the
+> +	  SMC controller on Apple Mac machines using the macsmc driver.
+> +	  This includes lid open/close and the power button.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called macsmc-input.
+> +
+>  endif
+> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+> index ae857c24f48e..480a0d08d4ae 100644
+> --- a/drivers/input/misc/Makefile
+> +++ b/drivers/input/misc/Makefile
+> @@ -51,6 +51,7 @@ obj-$(CONFIG_INPUT_IQS7222)		+= iqs7222.o
+>  obj-$(CONFIG_INPUT_KEYSPAN_REMOTE)	+= keyspan_remote.o
+>  obj-$(CONFIG_INPUT_KXTJ9)		+= kxtj9.o
+>  obj-$(CONFIG_INPUT_M68K_BEEP)		+= m68kspkr.o
+> +obj-$(CONFIG_INPUT_MACSMC_INPUT)	+= macsmc-input.o
+>  obj-$(CONFIG_INPUT_MAX7360_ROTARY)	+= max7360-rotary.o
+>  obj-$(CONFIG_INPUT_MAX77650_ONKEY)	+= max77650-onkey.o
+>  obj-$(CONFIG_INPUT_MAX77693_HAPTIC)	+= max77693-haptic.o
+> diff --git a/drivers/input/misc/macsmc-input.c b/drivers/input/misc/macsmc-input.c
+> new file mode 100644
+> index 000000000000..d35322856526
+> --- /dev/null
+> +++ b/drivers/input/misc/macsmc-input.c
+> @@ -0,0 +1,208 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
+> +/*
+> + * Apple SMC input event driver
+> + * Copyright The Asahi Linux Contributors
+> + *
+> + * This driver exposes certain events from the SMC as an input device.
+> + * This includes the lid open/close and power button notifications.
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/input.h>
+> +#include <linux/mfd/core.h>
 
-If I capture these correctly, we should go with a -EBUSY version:
- - Reject concurrent attachments during a device reset
- - Skip reset for devices having sibling group devices
- - Allow PF to stop IOMMU, ignoring VFs
-?
+This looks like it shouldn't be there.
 
-That sounds pretty much like this v4:
-https://lore.kernel.org/linux-iommu/0f6021b500c74db33af8118210dd7a2b2fd31b3c.1756682135.git.nicolinc@nvidia.com/
-by dropping the SRIOV concern.
+> +#include <linux/mfd/macsmc.h>
+> +#include <linux/module.h>
+> +#include <linux/reboot.h>
 
-Thanks
-Nicolin
+-- 
+Lee Jones [李琼斯]
