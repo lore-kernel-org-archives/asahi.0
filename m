@@ -1,67 +1,68 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB7631282B
-	for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 11:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A040E30DD1C
+	for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 11:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762946325; cv=none; b=F6vM4OAU42IbHAPbbM9SjElOOYAT3iTvRBBWybsAIiPB55cg8KF0E5Ri+e8HPHf5Ldoxux1enWgcwdu9Pky5dDQl+kwHvlNIQ/tk4PMkyCY/5QTe3Zi+ivOweegmuB5ayT7gP/vDJmct8SptMWFUC0UEuK4h6VIXOfTP28H0a5g=
+	t=1762946332; cv=none; b=L3f3FT4xXcZKyVhB9dyT2hY3EVPRsutMo5HEnW+OLQsbFw7CfdlAgqm9zSZIZNi6im8a0m8LiSukp3nca3rl8oo9y+3drNT1pYIQ6MjL/umP0yHBc3rADWPiy4/vZPKkwpQo/nDa+ZyZ5pbTb8F2YQUcgWrWYSPB72wqgJI1VdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762946325; c=relaxed/simple;
-	bh=Gjco+o33Ze1VtTmwY3+n9x0V+5Bjmx76JK+PO6sbBb8=;
+	s=arc-20240116; t=1762946332; c=relaxed/simple;
+	bh=cV5fF0qJO7pdpT8f2yzJ48FKOMe3eNyb1yjLf5hwPSc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NkpWaiAfW6dHATvR+CSs8r2k+xjoYOa0l7GJ76O2EdMGM0eDmy0qFebdVL8+5/Ut9SrC0ZCT5B263B64Es/1pUsGCXK9b5N3mKye8DkM+qwpNjKz48uIxzsebuBvdYFZ96TPwKV2N5PVAiUNVrdhrziQ+0n8GtsRjkVyk/LtW8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AENDRUR9; arc=none smtp.client-ip=209.85.214.175
+	 In-Reply-To:To:Cc; b=jcHLDdCn0gpGFlwe8hl0EBO/2xWHhIhcLQN3gXepHxdY2pbETIAQqyV5TE5U+anqzK92suMpSCW3Xw6ly4TUFY2iZtuG147hEUq7E+lVrSh7ZP4kgaW8StB1rSMVWwV09dOFcR9zOcfHv/iPoM585/sQUpO4yy7ZOJ5DFeWZGSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZzLfdAcd; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AENDRUR9"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-298039e00c2so8692705ad.3
-        for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 03:18:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZzLfdAcd"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2956d816c10so7550875ad.1
+        for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 03:18:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762946322; x=1763551122; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762946330; x=1763551130; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RMg0B2M6mlNno5KCjV7xdRrPsgdx1eaJiYPjLRnt1dA=;
-        b=AENDRUR95RGmWJtCL07rbPNW2ypDthTY6VSV5cxijfY7f10WfBkrRxnG8hIzmXdocF
-         0pA7LCPuZcqPlcs6OxFDDWcBZiXYWtSsTgMS2ernug9fVVsce70Y/0ExCdjx0xiSbUl1
-         bNh9bgPeNEY5b7BBSuAAczgVpvfXRbKR/VHmNZWtDxzQYn8AK0mKLXCXIL8NcVU//eHl
-         89GDa8+xFuE/eECF8SBZw+9UyrbmL+/PUVYU33d5rGVM8JT+yoopfqObT4IDD3mZ82oA
-         16Uc7icVIBPELZXsBqmnvyyk8BPjdWtXMeJx87vN/QmZ6VPE3hfEXTNJ5tyZHD9rnhWz
-         acXQ==
+        bh=iA6BDAFFSivvDJvfncgF5ApGj9cWDmXDuEaDbWv5cik=;
+        b=ZzLfdAcdWUG0+G/AwFLNwczFS4MdjmT9JLvidkZL9aJUyJu+vbFikSvCWXR1CMTtuc
+         uwxPKSBis+QyauHsAX6Qc128HnNpMU358esOvK4GV2A+tzN+pKM8T8dMZ5o0YOwoeIha
+         xdLXXbZPMuRAHL7slXIdf0C35gT8xaf2zfocuHrksxpVREapLH5oFTuptXdeocdpIsDm
+         FHIbC43UYyXxmihxa8DVwXzpWdYlALJUhK8Z/goApoTLAbYqkFUO4xcPwm6Y2oy+iAyu
+         cDYMQ+k8gmZzCkLQEmJs0r2y54KHUtC194livENqHupYfh3A6LqRDoglnqLMQz+y7bR4
+         Qq0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762946322; x=1763551122;
+        d=1e100.net; s=20230601; t=1762946330; x=1763551130;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=RMg0B2M6mlNno5KCjV7xdRrPsgdx1eaJiYPjLRnt1dA=;
-        b=YVEKewuV29jBZJNj1UksorUW3cHg2LouBl7iCdNHoTSoFhUL3sKzwl4kbVC4UCzo6x
-         Xwi8GXVA+rXkNQ3qx+r1hW46SPqfIAWPcNN4ifZprQrBhrgkRg96YGVSN2Zl7kzpmM9/
-         49t66yG99/rbMfuc90NbdeW2AwbVtEjy5RlStHytw4PG97b3RNeWBrs578/XHk6gcHWG
-         U2dggEghRy7bOeqtS/3xg0Yrf4DqXcUiRIeIkiQXoFVpRtXGcmiVBIzsP7u/JU+C/q5u
-         93cQIn1lz5NZ1omjtNGCB9nI+QQiwS0AcZ5Q+k9rI1R19x+nEjxadtgvf8lpfjieg/9y
-         59bg==
-X-Gm-Message-State: AOJu0YzGj16MsbxKCX3iDUtWILf9YmWOVmjgqBlPAvvw3EO/lZApnhh6
-	KspmrHOAwoeYH2fJHV1rv4Y/uG1WuDl6LEgl+3bFiPOsZhYe37JGvQSp
-X-Gm-Gg: ASbGnctf5RE3oDIaQnmqW/b7To+FRksdWE3WSN9YzAiW+eunCs0ZtImnxkPmrz9y4jZ
-	iN5kckwAitWhxSkh0y3m6xhBFEjIgRLcblj5Ki93ZjF84Vrfa0/k6mtswEMuH4zcdxGxfQCs5zc
-	bk7BkGB6VdczFs1HV6btrBonOQSFJwlYMFUHRy+/aC8KIVVpMNAHV0yzSxIqlZeZw0XJZW+oKRL
-	aFrdGcjgOeXqFU6a+mUVq1FU81YZDgclCTLJ6jB9jiiVIHHtRl79Lzm+3w1O1RnTxWFFUaCnm/L
-	DDb6oPTBY3KCM0TWwa+H5ImvfHbc4DGmGrwGsBLaXr12oRj2ikwG2hoZhYj2WEPmqfGI93TZ0ET
-	BwI1dAr1IckVc4ORQLchhl3yZMaQD5SfqvWbdqwjIb51nU/Ktx/GL/bRFe0VpMNpg8lwmgirAnI
-	tK0n/vsYweC1ezjewID1nwza5n7WXadcnQk/rx2g+OABUf9AT8R6R9YeOoaiOWzcWt8Ywuk8wpr
-	zVBX3xoWv6iG81fbfcbIFb1HsZkGX8tWeJAwBoECkhc5gFfWmTqT/w=
-X-Google-Smtp-Source: AGHT+IHJszkUFQqYlR5AFfzTGIEAaKvG8RL+kwBBJVNc77ojPYvNHMx8YbFZwpTAtKabQYIgMU5Dvg==
-X-Received: by 2002:a17:902:fc47:b0:295:24c3:8b49 with SMTP id d9443c01a7336-2984ee0ada1mr33966605ad.46.1762946322113;
-        Wed, 12 Nov 2025 03:18:42 -0800 (PST)
+        bh=iA6BDAFFSivvDJvfncgF5ApGj9cWDmXDuEaDbWv5cik=;
+        b=jYYA4j8BavCICCEzmSPBck/AS4N8qPqc7R1STJ8sSOPkDtsf8bfXr8qYU0mc7ey417
+         Ow5CdATGpFsKTXVS5JvmcR8z96TBcEDl313x3Bt4YawlBXyn3fgWUA21jPHZFpBUWFM9
+         qWh4JYy+LGQExA24NGm5E6AT/MLH/rLfg75TOAPWt7pPPI0zm/8NSfulw6+fMLSCZo6v
+         40V85iQv8AkbhTv8LgOX4dUB/HlnzdZpWCn/0UtXCILGFaYDTaoWf9W5ciJCZYoSMfr3
+         XahhLgD+pNC72ajJlLQI5vstdsQ1vKyRmSAdxT+9HDONCG/hwgo4GGjzg09mm/hGpTTL
+         xTWg==
+X-Gm-Message-State: AOJu0YxLd/Uv4xDjJE6izlpcyYgnarUknE6eQpLLGb7stOiEvszu2VDa
+	EYgJtY1xVO4l8hTw7/KzziBNWNNOaxlRhIwVvxs391pQ3dhT7VdufUNv
+X-Gm-Gg: ASbGncvvHDrsmLtX09zL8te/nTl4qcpyBh3DjFXBvVp8F7LebQkpG9dhGXNzT1rbRxt
+	mlXBo0qovmd2+5SuoeWwH+54wVgpE8UG11ypKItu3L8haHUoQPcuAk8sj2JSaEtjxAuM2HAVTrE
+	nJt/azvAnFLc6QKC23eVy0pWIoKhFAfiaTp7Ag/SgyOL72yeCz/K+3D1R4zI7nwFFaU7Gr09exm
+	4JcYnr86nYYw6USUWxJx4gtdI4tvp7G01b3cLrbwuU33pUTxetjsy6gNIaiuN2rpnOrKRzSySxa
+	DcUg7H1FWoc7UpBJJxox3pSN0LXzyYtY33YyP8AwSowhMvdqWuTme3TFRJ3ozrqwzwbbKQ9p4kr
+	i11WP9BEDCh3G0PODFmZ/6uKiP+Vpc9AACfswwVcgHKEi0oydOJQDLzSvP97MsNVT2zjTOz6oDd
+	mWcyOyfCBjxlbIk8dyKxLEAvUaH9a8Jj7l1q2iZlOwjqJzYl5jSVRUXq4aHEVQCGAt68L36KEM5
+	cu3IAjOcPrPEr6U5EL4EM7JWfDthn81nrjkF5Zt93nLAmFiUfMiAzw=
+X-Google-Smtp-Source: AGHT+IFR7QWTTs3Zcb/5ft94/X6vbUaJNlBlezavBVdQ/3VzVvLaCae6d4kQA/Kg2GnApMGUCG81qQ==
+X-Received: by 2002:a17:902:e543:b0:295:2cb6:f4a8 with SMTP id d9443c01a7336-2984ee16a71mr33782855ad.51.1762946329798;
+        Wed, 12 Nov 2025 03:18:49 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dca0f28sm27386695ad.60.2025.11.12.03.18.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dca0f28sm27386695ad.60.2025.11.12.03.18.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 03:18:41 -0800 (PST)
+        Wed, 12 Nov 2025 03:18:49 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 12 Nov 2025 21:16:55 +1000
-Subject: [PATCH v5 09/11] mfd: macsmc: Wire up Apple SMC input subdevice
+Date: Wed, 12 Nov 2025 21:16:56 +1000
+Subject: [PATCH v5 10/11] arm64: dts: apple: t8103,t60xx,t8112: Add SMC RTC
+ node
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,7 +71,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251112-macsmc-subdevs-v5-9-728e4b91fe81@gmail.com>
+Message-Id: <20251112-macsmc-subdevs-v5-10-728e4b91fe81@gmail.com>
 References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
 In-Reply-To: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -88,36 +89,99 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
  linux-input@vger.kernel.org, linux-doc@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=737;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2689;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=Gjco+o33Ze1VtTmwY3+n9x0V+5Bjmx76JK+PO6sbBb8=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJkiOUe9MqcoXO87L1RrfX5F5enpO+XeLfuuXJ0+02Ubs
- 7Dj91SGjoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
- GuoY6xgxcHEKwFTPdGH472O74la/3mPRvl8BylqCRWoyR8UunDqpHsCo80ls1Q6em4wMm22qelk
- nzL8Uw5BRsPxd9cobzkyfXVcpMehOeLLkl9dURgA=
+ bh=WbLk+4olybI4wwc+d0lxY+Dd90gh9RgPWEprBEz0Yao=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJkiOcfOlYr8bFj60khS+5UQ9+ndU0LetjI3h5jenRAds
+ vHv9vyajoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GuoY6xgxcHEKwFTPsGBk2Hnku/XnVYdT5a8tbZ2TVdjOzRLv9rKet/G+5L3EV+bhcYwM3TMD+QP
+ 1Wg9YbJ+ZoGimuWT1km1Luw48U79aPqHg7cRgRgA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Add the new SMC input function to the mfd device
+From: Sven Peter <sven@kernel.org>
+
+The System Manager Controller of all M1/M2 SoCs supports the RTC
+sub-device.
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
+Signed-off-by: Sven Peter <sven@kernel.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- drivers/mfd/macsmc.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../arm64/boot/dts/apple/t600x-die0.dtsi | 6 ++++++
+ .../arm64/boot/dts/apple/t602x-die0.dtsi | 6 ++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi     | 6 ++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi     | 6 ++++++
+ 4 files changed, 24 insertions(+)
 
-diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
-index 51dd667d3b5f..3b69eb6d032a 100644
---- a/drivers/mfd/macsmc.c
-+++ b/drivers/mfd/macsmc.c
-@@ -45,6 +45,7 @@
- #define SMC_TIMEOUT_MS		500
+diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
+index 3603b276a2ab..f715b19efd16 100644
+--- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
+@@ -44,6 +44,12 @@ smc_reboot: reboot {
+ 			nvmem-cell-names = "shutdown_flag", "boot_stage",
+ 				"boot_error_count", "panic_count";
+ 		};
++
++		rtc {
++			compatible = "apple,smc-rtc";
++			nvmem-cells = <&rtc_offset>;
++			nvmem-cell-names = "rtc_offset";
++		};
+ 	};
  
- static const struct mfd_cell apple_smc_devs[] = {
-+	MFD_CELL_NAME("macsmc-input"),
- 	MFD_CELL_OF("macsmc-gpio", NULL, NULL, 0, 0, "apple,smc-gpio"),
- 	MFD_CELL_OF("macsmc-hwmon", NULL, NULL, 0, 0, "apple,smc-hwmon"),
- 	MFD_CELL_OF("macsmc-reboot", NULL, NULL, 0, 0, "apple,smc-reboot"),
+ 	smc_mbox: mbox@290408000 {
+diff --git a/arch/arm64/boot/dts/apple/t602x-die0.dtsi b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
+index 2e7d2bf08ddc..8622ddea7b44 100644
+--- a/arch/arm64/boot/dts/apple/t602x-die0.dtsi
++++ b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
+@@ -121,6 +121,12 @@ smc_reboot: reboot {
+ 			nvmem-cell-names = "shutdown_flag", "boot_stage",
+ 				"boot_error_count", "panic_count";
+ 		};
++
++		rtc {
++			compatible = "apple,smc-rtc";
++			nvmem-cells = <&rtc_offset>;
++			nvmem-cell-names = "rtc_offset";
++		};
+ 	};
+ 
+ 	pinctrl_smc: pinctrl@2a2820000 {
+diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+index 8b7b27887968..59f2678639cf 100644
+--- a/arch/arm64/boot/dts/apple/t8103.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+@@ -916,6 +916,12 @@ smc_reboot: reboot {
+ 				nvmem-cell-names = "shutdown_flag", "boot_stage",
+ 					"boot_error_count", "panic_count";
+ 			};
++
++			rtc {
++				compatible = "apple,smc-rtc";
++				nvmem-cells = <&rtc_offset>;
++				nvmem-cell-names = "rtc_offset";
++			};
+ 		};
+ 
+ 		smc_mbox: mbox@23e408000 {
+diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
+index 3f79878b25af..6bc3f58b06f7 100644
+--- a/arch/arm64/boot/dts/apple/t8112.dtsi
++++ b/arch/arm64/boot/dts/apple/t8112.dtsi
+@@ -919,6 +919,12 @@ smc_reboot: reboot {
+ 				nvmem-cell-names = "shutdown_flag", "boot_stage",
+ 					"boot_error_count", "panic_count";
+ 			};
++
++			rtc {
++				compatible = "apple,smc-rtc";
++				nvmem-cells = <&rtc_offset>;
++				nvmem-cell-names = "rtc_offset";
++			};
+ 		};
+ 
+ 		smc_mbox: mbox@23e408000 {
 
 -- 
 2.51.2
