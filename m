@@ -1,66 +1,67 @@
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AE830AD16
-	for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 11:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3154630B53B
+	for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 11:17:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762946257; cv=none; b=pLjyZOnKOxhJegcHe8LnHIhGmOErNWi/MtbZiw4LZSB3UTgPk4rNa/pKFvDdBfzRmgOsMlCWsSkJdXWQenmkTse0her5KVWWPWsVHicBYlS4eiMqIv/UYCp1wEhWarV42FHApG2bQLL60bPOLjvUJAVgrMDGl90BGSptYANfjrU=
+	t=1762946264; cv=none; b=lAC6nyqVvcaYZY4ytaD/8e+pmMMkARE+mpjUHUklJTODxs0V3HzcWeMnjm4+Pn9mvZia73SoP3miC/U5oLUkN2ZD1F8lnI2YDNTqcdRmJccYTGFzRdULMeFAK+NjKu5q3kFAAhEGRmYI+/kFqPxlpQzJT3GZu/pxlk4bn6Rdx08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762946257; c=relaxed/simple;
-	bh=P0402Uz3TGlHgNTrUFPCtCcxzRvCHZS96bV6+P1WJZE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jpibwigePt6hS6mHLAFYqRAbx5wvU1NJL9aKHCJCuZZXUT1UxUHbtvGVIwH7C+c6hUJ93OOxxnVRXM9yevR8L+yNpAWyUa7oioM0vz3PbUSJvdAacg4QBpUGppVLiox/ZfK443Jc9cuHvzEOXG765VRTV5V+66bDPNw06KQfsOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QlIcYPAg; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1762946264; c=relaxed/simple;
+	bh=Ys2W7bVXS/rMb7lzjzuNB+sgh7O/1vg8ds/1vxXK880=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=sSF0qBiYn6UWlLEPEjjYhSj0NgZmAoOOKReWKbV4Of7ph9oKoR3+qT+T4982IXLkxtPvWp6fMrwfBs73614pHkVLuzdFH7gf9O9WE/ztdnZO/LQN+I12tBrivH0tDrcBbe47E6vtwVFDnPU3kN0J7PnS40LTkVY8ruaZpXxAqow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F7oZgira; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QlIcYPAg"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-298145fe27eso7816445ad.1
-        for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 03:17:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F7oZgira"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-29555415c5fso7527875ad.1
+        for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 03:17:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762946255; x=1763551055; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O7clx8dfZg3jZ+tSq2YUEpFAI0n8/M6CLth3qWizbsA=;
-        b=QlIcYPAgZmSntatMGLr+7bjGPKsYq22uTVh1XZedcj8kUw2ckNBP96/VePA8cBr0ZL
-         qbMNR19NVzD4fQdLtOlWT3xAcmRLBU8kkRC9s53NViIbAQa5ZXP+I400D3fQHpXzelQs
-         gSFeaOaBKdj898RjMsh7b5Y5+IadC/Nvad8SG/NZJ2zGtF0raN+zXfuUJkdoW84a4e+N
-         coZpiTCvVCiVEbb7w78QYdQmkxOC7Ezu+A5/4ZBw6zjQ+7lLhgIsHDddsg734mjYwxRa
-         q6HcsFCnhLTJ0cJYrX4j4MUc+WdT4fKKBKdKUFlDwJBR8WjrTly3lFile84+fSYtBHZZ
-         KMrA==
+        d=gmail.com; s=20230601; t=1762946262; x=1763551062; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LgbjWrvK8elb98wH0NVYO1wkwh6HfRo9teorVSr5yAE=;
+        b=F7oZgirakmpmqNcmcFBwmAR+Hi5OHVJkl31SYgZC6vDPr24WSR4FOxxAd3rvGPZw7A
+         IOq43QGzLjF4/PHdvZ9SJdFWGDnjZxRtwfMzuqFLHL+N0Wys4fs07W+ZJhpt5sXUrnP2
+         F0f2KGfI7qRbNX5AM3d9XwbtvUKZ27m7hPubqt3JtUJZlv7C1FsE0NPVMH6oMcZ5W769
+         zLOO0sTInOVL1rMGZKVr9UAbOiAwJUUAVetTls3iVhcKyN3307s1WtnaDJ5WWxUvo2Hd
+         vrd8ldctaDLdKZQbXK3m8s4brtBO8sXfhbyPc0mvVaG+vHC9CcYl1kGxWGSDJG2HEFiX
+         DIYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762946255; x=1763551055;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O7clx8dfZg3jZ+tSq2YUEpFAI0n8/M6CLth3qWizbsA=;
-        b=XGmUmXXa5ssgVjkhg9wmzjBe1uAky1zkBVrp0KzfX22LaaPg9yS4LI1QJoF8e3HYaa
-         tIbvGVJAr6J6dj0U/6QXGbtMNt0IkP2gh3oLq+9KavpM0WCvng8on+Z/RueAKWXKeh4N
-         St1s9AFocdFDswcGehpejmTUHG+dX1itt3wkN2rqarz9Te1ol5T6P4hIvWw6DvAzzcM4
-         2DMrtvCLWK5oy3CiYKsSBh/pzIVxq/TNGYBTtvisHCstHT0mvDFI78L7jRLBD0t5dsUo
-         HqtL9QAMHilLaCdREeCR0VcQkd4sX8Mn2V1F7gq8aRwujC5zJVDdTK5R8/qqUlkyQ9Jt
-         Lmng==
-X-Gm-Message-State: AOJu0Yycgk7aTvgAjCvvzXMSiDG2+NYvMD5nJT8q1xPHJvuTetK41nKr
-	FTZIqVdvYjzQXjPWH/WEgoQ5RZ5pA60q03Dzf5QaLTwDq5nMsG/89NoW
-X-Gm-Gg: ASbGncsHKBj7WLeGEQ2Fwrla4MKF2VWKKGhRLq1DpNJma8GBCWrMEALa6vYpW7YK/+W
-	jbfLcooFvQRgmETfIfb+YeOiOLCQUhA496Fqt4JclYNj4G+8pLbQcSYfztSazeu9BTqvFcwaLSZ
-	eIdq1I/toowwCzi6xLKr1xNv4Hfk3V3m2wBW25438om8Djv1+lDHjwqosFW5paogfv4EoHc07gC
-	x0K90dpGZnNXFbtY3MN9F45suoj7YTtEt6yCLYLKvUFK/n+Vos+Xx0CPu+efZ1LQ5Zi/sTq5n7f
-	Am++Hc38uhb7ba1gm6G3KGMhO5ubFat3Qfn8XFogdGe1xHg818R+SfrakdxLOrfnI9TZ2aqgeOK
-	Q3Jcz4GryvOnnod6aKfXl8bLyWVaAiu2NDMpPZ4em5lo5n9uaQGAz1xKqcWpv9ZOHpzir2/rvyt
-	SrpCps2BUtf88Qhdjugy59YyfyOKauezgZYwKpRYxV+yXEZOX02SrTlmpShlypkOdkhEOs6zR2E
-	RfHQwuiRJ6+EKx7A1awedjuLCEDWArrLX8R8yiv6JoVlkodGYaEJW4=
-X-Google-Smtp-Source: AGHT+IHVEaLkAKMKOQnX2Yk+k2Hy7v2hitB1DZg/c1k61ch6ePvOS7vJ2UEiP4g6NHx8/2s4uaVz5g==
-X-Received: by 2002:a17:902:f684:b0:26a:8171:dafa with SMTP id d9443c01a7336-2984ed49524mr36554305ad.21.1762946254443;
-        Wed, 12 Nov 2025 03:17:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762946262; x=1763551062;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LgbjWrvK8elb98wH0NVYO1wkwh6HfRo9teorVSr5yAE=;
+        b=e2+wrPE59a0vdbJ/mS+CoUVQbFvS39tAMAcIsY79Cnp1yfYMzs2pt7V0O5lkzoOd7H
+         lPIbG5VuvT3hZ+K0iIRYTODR0EIsQpLPj64lMPMnK83f61ppqLgZO8UKrYe3HvVKz5A0
+         0GLfvow7dRyJMtxe3yP9zkDkFlM6kMp+n9yDmw/84yOuoz6POLpjmfOwyWUPOtjeFwWF
+         j2hApgIx2NsLR5TXywdAye3KD7MEejK+xSWzI6aXMWmxRsQogvtqYu+1j4J2GleecQFh
+         +rrhwh0MhQ5Hktm4Zrj3jApLMxDLKk66l2EAFGjNJTBNhqSZttxHfYGJ9HBA2ZnXm/7+
+         8Lvg==
+X-Gm-Message-State: AOJu0Yxp8In2MJDVBbL2aa77AZXMNwSRWV9cnKTxZAMJXVO6eRKIiKbA
+	aBXGwNsOYML1RxvVnkiNtMU7r/+uqknZRoTli+l/g2KG9DqsLGkQ4DbG
+X-Gm-Gg: ASbGncuLfN2HGh1gMz5/gU/Oez/U+cpJIdzYeEnZz58mPwzenssK7d/S8oonwYhem3y
+	l50IdXEW5WXX/QYY7IMvl5IUX208vZj/RUT0CXx7YH+a099n0+1pgwdSKSj0P7ElnrwCQdGwFp+
+	vSM6xTo117EjYQF+Jl10DVFGNuIvBNp73SkMG8Pp8zG3regpZccIkTnEj6BEJZMNLf9EiOUJgrX
+	6ySAy4rr40dsYuYkByEbSZSs9GS+LDv4bLQXDbC8cyfBVnFTdoFEgcSt7rFu1kIae5wfI/dQlRh
+	Pd8huyL64DomqFCJBBoAI8wfTta9IKtG4E+q64ya8Ssb+ACcy4Oe6qsDXtx1ljWGU/AC0B0difZ
+	2s1kDs2SYGpz8VWj/k8cDbFiN/6zIUfhIaA3X6yz2067S2gj7TANG+GFAOLCOWmppxPQcKZXLsV
+	/MorVGk8WcUo8mSW8TKd1HG1QWeoc0+BFAZjvqQXI30D0fo8C1q55wY5Mx0LAW2GxXg0nymYA5V
+	Wuy8EZrGFV5sbkGPwCRhr29m0EakExbFxHvilCH/Fc0cWEJJJxkXt4=
+X-Google-Smtp-Source: AGHT+IHzzKGS6ukPiu3qZhs2xy9KjVsM2L0MFpMuDNYIYeYdSYNgHuNotiH+CMNMtQb/4PcLQUYTDA==
+X-Received: by 2002:a17:902:dac3:b0:262:9c4:5470 with SMTP id d9443c01a7336-2984edc800amr35769115ad.28.1762946262292;
+        Wed, 12 Nov 2025 03:17:42 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dca0f28sm27386695ad.60.2025.11.12.03.17.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dca0f28sm27386695ad.60.2025.11.12.03.17.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 03:17:34 -0800 (PST)
+        Wed, 12 Nov 2025 03:17:42 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Subject: [PATCH v5 00/11] mfd: macsmc: add rtc, hwmon and hid subdevices
-Date: Wed, 12 Nov 2025 21:16:46 +1000
-Message-Id: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+Date: Wed, 12 Nov 2025 21:16:47 +1000
+Subject: [PATCH v5 01/11] dt-bindings: rtc: Add Apple SMC RTC
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,12 +70,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJ5sFGkC/2XMQWrDMBCF4asEraswGlmRlVXuUbqQZ8aJoI6D1
- YqW4LtXCTQYe/kefP9dZZmSZHXc3dUkJeU0XutwbztFl3g9i05ct0JAB6056CFSHkjn746lZN1
- 6sEhgPAOpim6T9OnnGXz/qPuS8tc4/T77xTze/1RYp4rRoJ3n/kBWXG/C6TzE9LmncVCPVMEFR
- 7/hWDmJkxDYNYTtmtsXNwBbbitnz7br2UcBXPNmwdFteFO59Q07CtJFkCWf5/kPEEC78mkBAAA
- =
-X-Change-ID: 20250816-macsmc-subdevs-87032c017d0c
+Message-Id: <20251112-macsmc-subdevs-v5-1-728e4b91fe81@gmail.com>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+In-Reply-To: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
  Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -89,175 +87,116 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
  linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- Mark Kettenis <kettenis@openbsd.org>, Hector Martin <marcan@marcan.st>
+ Mark Kettenis <kettenis@openbsd.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7401;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3352;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=P0402Uz3TGlHgNTrUFPCtCcxzRvCHZS96bV6+P1WJZE=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJkiOcvqqhaZzQtebHiWL3KbwN0ohsKQ0AcxbxY2tMbfr
- G75FXGoYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- hjrGOkYMXJwCMNV2Vxn+qWvvmalsuUr7mbkmTxgj94QZj97MYlyuOX3zCsdqccceB4b/hVsc/76
- 5fDv6W223y9wp7bkbgv4utvZdu7Thxdsr29omcwMA
+ bh=5rnjjuFINxFZvoBYoUd9LjmfgXR+dmJkDEVsibGRKy8=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJkiOUce1qazTeLmfLnTij+44+21Ts/axefvRd7jOmBRU
+ 6pv9ja2YyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
+ hjrGOkYMXJwCMNUs3IwMU197tywX5rA+6qDHltJfezFg8be1XbntnS9kApWe7Ds4keF/nM3UDPv
+ tslv37N+8xk+vWWvFol0ZHk2ZujrVi9y4D0xiBgA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi all,
+From: Sven Peter <sven@kernel.org>
 
-This series adds support for the remaining SMC subdevices. These are the
-RTC, hwmon, and HID devices. They are being submitted together as the RTC
-and hwmon drivers both require changes to the SMC DT schema.
+Apple Silicon Macs (M1, etc.) have an RTC that is part of the PMU IC,
+but most of the PMU functionality is abstracted out by the SMC.
+An additional RTC offset stored inside NVMEM is required to compute
+the current date/time.
 
-The RTC driver is responsible for getting and setting the system clock,
-and requires an NVMEM cell. This series replaces Sven's original RTC driver
-submission [1].
-
-The hwmon function is an interesting one. While each Apple Silicon device
-exposes pretty similar sets of sensors, these all seem to be paired to
-different SMC keys in the firmware interface. This is true even when the
-sensors are on the SoC. For example, an M1 MacBook Pro will use different
-keys to access the LITTLE core temperature sensors to an M1 Mac mini. This
-necessitates describing which keys correspond to which sensors for each
-device individually, and populating the hwmon structs at runtime. We do
-this with a node in the device tree. This series includes only the keys
-for sensors which we know to be common to all devices. The SMC is also
-responsible for monitoring and controlling fan speeds on systems with fans,
-which we expose via the hwmon driver.
-
-The SMC also handles the hardware power button and lid switch. Power
-button presses and lid opening/closing are emitted as HID events, so we
-add an input subdevice to handle them.
-
-Since there are no real dependencies between the components of this series,
-it should be fine for each subsystem to take the relevant patches through
-their trees. The mfd one-liners should be taken in order to avoid trivial
-conflicts. Per [2], the hwmon driver should be merged along with the preceding
-mfd patch adding the __SMC_KEY macro to avoid build errors.
-
-Regards,
-
-James
-
-[1] https://lore.kernel.org/asahi/CAEg-Je84XxLWH7vznQmPRfjf6GxWOu75ZetwN7AdseAwfMLLrQ@mail.gmail.com/T/#t
-[2] https://lore.kernel.org/asahi/20251106140050.GQ8064@google.com/
-
+Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Sven Peter <sven@kernel.org>
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
-Changes in v5:
-- Drop inadvertent mfd core includes in rtc and input drivers
-- Link to v4: https://lore.kernel.org/r/20251025-macsmc-subdevs-v4-0-374d5c9eba0e@gmail.com
+ .../bindings/mfd/apple,smc.yaml          |  9 +++++++
+ .../bindings/rtc/apple,smc-rtc.yaml      | 35 +++++++++++++++++++++++++
+ MAINTAINERS                              |  1 +
+ 3 files changed, 45 insertions(+)
 
-Changes in v4:
-- Added Rob's R-b to hwmon Devicetree schema
-- Added missing include to hwmon driver
-- Dropped superfluous dev_info() from hwmon probe
-- Added Guenter's A-b to hwmon driver
-- Renamed INPUT_MACSMC_INPUT to INPUT_MACSMC
-- Dropped leftover mention of HID in input driver
-- Reinstated input driver MODULE_ALIAS
-- Trigger a hard wakeup on power button/lid switch when coming out of
-  s2idle
-- Suppress KEY_POWER event on wakeup to prevent an immediate shutdown
-  when waking up
-- Squashed hwmon Devicetree commits into one
-- Link to v3: https://lore.kernel.org/r/20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com
+diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+index 5429538f7e2e..0410e712c900 100644
+--- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
++++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+@@ -46,6 +46,9 @@ properties:
+   reboot:
+     $ref: /schemas/power/reset/apple,smc-reboot.yaml
+ 
++  rtc:
++    $ref: /schemas/rtc/apple,smc-rtc.yaml
++
+ additionalProperties: false
+ 
+ required:
+@@ -80,5 +83,11 @@ examples:
+           nvmem-cell-names = "shutdown_flag", "boot_stage",
+                              "boot_error_count", "panic_count";
+         };
++
++        rtc {
++          compatible = "apple,smc-rtc";
++          nvmem-cells = <&rtc_offset>;
++          nvmem-cell-names = "rtc_offset";
++       };
+       };
+     };
+diff --git a/Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml b/Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
+new file mode 100644
+index 000000000000..607b610665a2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
+@@ -0,0 +1,35 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/rtc/apple,smc-rtc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple SMC RTC
++
++description:
++  Apple Silicon Macs (M1, etc.) have an RTC that is part of the PMU IC,
++  but most of the PMU functionality is abstracted out by the SMC.
++  An additional RTC offset stored inside NVMEM is required to compute
++  the current date/time.
++
++maintainers:
++  - Sven Peter <sven@kernel.org>
++
++properties:
++  compatible:
++    const: apple,smc-rtc
++
++  nvmem-cells:
++    items:
++      - description: 48bit RTC offset, specified in 32768 (2^15) Hz clock ticks
++
++  nvmem-cell-names:
++    items:
++      - const: rtc_offset
++
++required:
++  - compatible
++  - nvmem-cells
++  - nvmem-cell-names
++
++additionalProperties: false
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f0c8b85baa6b..51942a9a9b43 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2439,6 +2439,7 @@ F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+ F:	Documentation/devicetree/bindings/power/apple*
+ F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
+ F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
++F:	Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
+ F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
+ F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
 
-Changes in v3:
-- Renamed macsmc-hid to macsmc-input
-- Switched to pm_wakeup_event in macsmc-input
-- macsmc-input now configures its capabilities before registering the device
-- Renamed macsmc_hwmon to macsmc-hwmon
-- Dropped module aliases in macsmc-input and macsmc_hwmon
-- Introduced new SMC FourCC macro to silence GCC errors
-- Condensed hwmon binding using $defs
-- Made label property optional for hwmon sensors
-- Fixed incorrect hwmon is_visible implementation
-- Dropped 64-bit math from SMC float ops
-- Fixed incorrect use of error numbers in hwmon driver
-- Replaced a number of non-fatal dev_errs with dev_dbgs in hwmon driver
-- Added hwmon driver documentation
-- Added hwmon subdevice directly to the DT SMC node
-- Included "common" hwmon sensors in SoC .dtsi files
-- Fixed typo in hwmon-common.dtsi
-- Added Neal's R-b to series
-- Added required nodes to t602x Devicetrees
-- Link to v2: https://lore.kernel.org/r/20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com
-
-Changes in v2:
-- Added Rob's R-b tag to RTC DT binding
-- Removed redundant nesting from hwmon DT binding
-- Dedpulicated property definitions in hwmon DT schema
-- Made label a required property for hwmon DT nodes
-- Clarified semantics in hwmon DT schema definitions
-- Split mfd tree changes into separate commits
-- Fixed numerous style errors in hwmon driver
-- Removed log messages sysfs read/write functions in hwmon driver
-- Removed ignored errors from hwmon driver
-- Removed uses of dev_err for non-errors in hwmon driver
-- Made it more obvious that a number of hwmon fan properties are optional
-- Modified hwmon driver to reflect DT schema changes
-- Added compatible property to hwmon node
-- Link to v1: https://lore.kernel.org/r/20250819-macsmc-subdevs-v1-0-57df6c3e5f19@gmail.com
-
----
-Hector Martin (2):
-      rtc: Add new rtc-macsmc driver for Apple Silicon Macs
-      input: macsmc-input: New driver to handle the Apple Mac SMC buttons/lid
-
-James Calligeros (7):
-      dt-bindings: hwmon: Add Apple System Management Controller hwmon schema
-      mfd: macsmc: Wire up Apple SMC RTC subdevice
-      mfd: macsmc: Add new __SMC_KEY macro
-      hwmon: Add Apple Silicon SMC hwmon driver
-      mfd: macsmc: Wire up Apple SMC hwmon subdevice
-      mfd: macsmc: Wire up Apple SMC input subdevice
-      arm64: dts: apple: t8103, t8112, t60xx: Add hwmon SMC subdevice
-
-Sven Peter (2):
-      dt-bindings: rtc: Add Apple SMC RTC
-      arm64: dts: apple: t8103,t60xx,t8112: Add SMC RTC node
-
- .../bindings/hwmon/apple,smc-hwmon.yaml  |  86 +++
- .../bindings/mfd/apple,smc.yaml          |  45 ++
- .../bindings/rtc/apple,smc-rtc.yaml      |  35 +
- Documentation/hwmon/macsmc-hwmon.rst     |  71 +++
- MAINTAINERS                              |   6 +
- .../boot/dts/apple/hwmon-common.dtsi     |  33 +
- .../boot/dts/apple/hwmon-fan-dual.dtsi   |  22 +
- arch/arm64/boot/dts/apple/hwmon-fan.dtsi |  17 +
- .../boot/dts/apple/hwmon-laptop.dtsi     |  33 +
- .../boot/dts/apple/hwmon-mac-mini.dtsi   |  15 +
- .../arm64/boot/dts/apple/t6001-j375c.dts |   2 +
- arch/arm64/boot/dts/apple/t6001.dtsi     |   2 +
- .../arm64/boot/dts/apple/t6002-j375d.dts |   2 +
- .../arm64/boot/dts/apple/t600x-die0.dtsi |  10 +
- .../boot/dts/apple/t600x-j314-j316.dtsi  |   3 +
- .../arm64/boot/dts/apple/t602x-die0.dtsi |  10 +
- arch/arm64/boot/dts/apple/t8103-j274.dts |   2 +
- arch/arm64/boot/dts/apple/t8103-j293.dts |   3 +
- arch/arm64/boot/dts/apple/t8103-j313.dts |   2 +
- arch/arm64/boot/dts/apple/t8103-j456.dts |   2 +
- arch/arm64/boot/dts/apple/t8103-j457.dts |   2 +
- arch/arm64/boot/dts/apple/t8103.dtsi     |  11 +
- arch/arm64/boot/dts/apple/t8112-j413.dts |   2 +
- arch/arm64/boot/dts/apple/t8112-j473.dts |   2 +
- arch/arm64/boot/dts/apple/t8112-j493.dts |   3 +
- arch/arm64/boot/dts/apple/t8112.dtsi     |  11 +
- drivers/hwmon/Kconfig                    |  12 +
- drivers/hwmon/Makefile                   |   1 +
- drivers/hwmon/macsmc-hwmon.c             | 851 +++++++++++++++++++++++++
- drivers/input/misc/Kconfig               |  11 +
- drivers/input/misc/Makefile              |   1 +
- drivers/input/misc/macsmc-input.c        | 207 ++++++
- drivers/mfd/macsmc.c                     |   3 +
- drivers/rtc/Kconfig                      |  11 +
- drivers/rtc/Makefile                     |   1 +
- drivers/rtc/rtc-macsmc.c                 | 140 ++++
- include/linux/mfd/macsmc.h               |   1 +
- 37 files changed, 1671 insertions(+)
----
-base-commit: 24172e0d79900908cf5ebf366600616d29c9b417
-change-id: 20250816-macsmc-subdevs-87032c017d0c
-
-Best regards,
 -- 
-James Calligeros <jcalligeros99@gmail.com>
+2.51.2
 
