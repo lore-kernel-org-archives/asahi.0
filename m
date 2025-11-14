@@ -1,481 +1,160 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A72313532
-	for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 11:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E82E2FB624
+	for <asahi@lists.linux.dev>; Fri, 14 Nov 2025 11:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762946340; cv=none; b=eAChc2x7YyakuIjCcNeHCkyCPPD3J4ZVUznVEubq/8waAnb2JAWtnWtzg38XMF6PYqUJzunWNYU41voEtDy1INZgNIaCxVn43m0aeUeaMYFX+yC7rzB4MM+yhAbk/N3hq3maEGZmjrbB2zDiJRrlj8Kl+m8curOr4QsaYcm2adg=
+	t=1763120220; cv=none; b=Tcnzwon8sKhj/AfLmqZLZu8eCSzVxk9o6Dt+HmjsrMdaQgbzxCrlc5NdsaxC3j0qKgAshQQ7usiYgYZkJ3ZpdFcoJnipchsY3x6hS1LreNnWsvCD9pumxHXUaJ/YhiTl50BlZiAenRUGdPRi+H2ia4EjigYoazGBwQm8KDZggKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762946340; c=relaxed/simple;
-	bh=DvoNn8piBq3/RMBpQvEHO8ZeX9vzUS0LqSVLvVC6flk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u00YBKWhg7697ZV6MMBuwaY6qElOjn6L1rCKGZcxrqfP1C/i1Sxxscbkw/+cmd/BNPOU9Q09pJRasG58mkLMFmEH+s1k6RBALov34klh3/hhnF5Jw1XfV6pyWfJ6YkeZDj5Y02sCRZDDLgypbmUxaiw4wiEK8WsBNaPi7CIHfHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ei5CfH3n; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763120220; c=relaxed/simple;
+	bh=YOqQYfs4nuQmvSgoRMMjC8XlPFHhX1Q2biOJY+6ams8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UkSfkgUPvGmgMgg49ol0VtlJPRQzF4R9a/11MalSaNb3+6mVBjEsqi0GIYeTMLL8pMK9X1ETTZnHVmo7F1LHLKqxdv/J8jxFmhf0lF3X7orgXlvdcfp5fTT4kzHmcMNM3VJxIbrUkQUohT1/ARmY7YE46a3BrznZEureCOue8cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cr/RH+V+; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ei5CfH3n"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2955623e6faso6412125ad.1
-        for <asahi@lists.linux.dev>; Wed, 12 Nov 2025 03:18:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762946337; x=1763551137; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cFAKkFyXyl3xzCijB0MqhcWNwMFSjCzGgD6ecJ/NvoM=;
-        b=Ei5CfH3nQPT9+GEb7rGXhVy9WdN9WLZUd0p73ng1Q7XqwaQhML6No7q7rffav/+5kL
-         lVEtpmCrZNdOLEYRTCHzC6saxkkhNJAXrQvMhkxmzCDoOTunEnlyR2wzGu/JQy+8Pz0S
-         AOwsLTAjZBRmdQbmvyQ1IDjSCRsUy31nhAVxWxidyJnuY5Ql84Qs51+YA5dGtCJwbHR3
-         ix5iJQNIrIolppcuuYCfcEyPXpbHzN0uAkaPT7C7AwKBhyEnQH+fREeFV5Y0KG84g3MH
-         G0jtUi0V3gExYKh30iGsCQSLDzGrz3qGxaRgnmQtmDmBEAacoArlGM6GqY7v8adFEAZ7
-         NYgA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cr/RH+V+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763120217;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9P5NBgI6mcvaRko/BuipRaZLnCkAOoZG9QxXhEGpNPI=;
+	b=Cr/RH+V+5Wd5XNdL1ASEGglGkclKI/rY/nZaYmCDMp+nC6AmOVyxO0kADAsGcw0qoWoxRd
+	xHmBow08gRVtdPhbCBPTU20KLdeT8Y62DhI3m4GKcdpwoJ61tPHwgyHx9/sOhYFOFbcoBd
+	GQ6Wgx4uJTiok9w8FyB00fACnAr0Cj8=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-611-Fq6_sgE9P-ykp6dKLqyyFg-1; Fri, 14 Nov 2025 06:36:56 -0500
+X-MC-Unique: Fq6_sgE9P-ykp6dKLqyyFg-1
+X-Mimecast-MFC-AGG-ID: Fq6_sgE9P-ykp6dKLqyyFg_1763120215
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-b73405a2e7bso167913666b.0
+        for <asahi@lists.linux.dev>; Fri, 14 Nov 2025 03:36:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762946337; x=1763551137;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cFAKkFyXyl3xzCijB0MqhcWNwMFSjCzGgD6ecJ/NvoM=;
-        b=CiA587GeMOtJ2BFEyc2QPoE7YHBPwur3jyeOMPMh8GD/lNfeGysaLxlL6ZOPDJJGvh
-         dWahJenPZOb7j1iWPvL1M+vuD8p8krbXzSARie/JUQP3R5RhPmrG5YE2a/8Khc16DNI+
-         TSLex+i4L+5rWbjZnlAW/y+EWkZplXxDiHZLjte5ZqRc65TaAr7DOwd9rqLRqVikGuM9
-         FAzWD1Vww+N285+7Q5sNfOx5uKxxWpZhZSDiVemfcJ4GrjcL8incJCVhYax9C2Z6Sbgp
-         zb+IPiWjHz6Z+CTvCOFsBaoc+PY2pS1EUGrQBjTErFAs24A0lT19ZDE+QPXyvXWZRLwV
-         4i5w==
-X-Gm-Message-State: AOJu0YzMsZ3aU6C4Y4VR4VBBN/mQ+Gh8NY4TcOedsk3vP7bsACWMtzV0
-	zX5M33lj5S+MRKYbGOc5rigPxrMoQWDF04tDo2r1gHKNhxXYVm5XrIuK
-X-Gm-Gg: ASbGncva7ugMDnJSwtXfv/emWNvN1gsR5whi6Bd+uDH5L6TJ2fELIsQ/6wbe4yFkBTL
-	RNnVGu0XQ0KPxmYewa7qL4Yg1gHcH0BDGHTM0ejUmrrS17sp9cA0MBu3884NT3U7OOCCfxl6lUe
-	4OEOoPDolSD1UTJMKznT5xAbUKYG4SxNDcm9tH0ilU720toVwG9weyqNBXAK8dORY7GkUHGWq4t
-	AtwGvugm6Z+Fb2DhfUpHFPRhSPx8hnUEQeDEjHva0HKea7KoG7sGo/sZHFohodw5iu1n74IvPUU
-	mir62b+jsSgfFZONYEPrCLFXRBG/zcU0BDEcHfrugetX2CfpLBsxtg7rs9LaYxpp7gYwWxzvipm
-	RBMj9KvzVs5BVb3HZ9Tm+oQT+rA1+oMg9m4WoWJoVbEksWM0uP/GQk/rkLFF5qOLnmxbvVNcjYz
-	DirCjK9f1rW0quoRzaRGewRxSpypKLMCjUUAoFb61fsxtFBxh5MnZD49VW13smqbyrV6KRJ5jWq
-	sYs8M/PKz7zhjKLaifWpUyL4jfjklQ3e7QGdN91C+iGXwpKmnqDIvI=
-X-Google-Smtp-Source: AGHT+IGt0RRVbVR/yZsLZrSMrAd0R3g3Iv447XVFWHi+oqmuFnDXiY3rJ/p45tT2A4ZH4cWSR5tTMA==
-X-Received: by 2002:a17:903:2406:b0:298:4f73:d872 with SMTP id d9443c01a7336-2984f73d8d1mr34941415ad.21.1762946337209;
-        Wed, 12 Nov 2025 03:18:57 -0800 (PST)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dca0f28sm27386695ad.60.2025.11.12.03.18.50
+        d=1e100.net; s=20230601; t=1763120215; x=1763725015;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9P5NBgI6mcvaRko/BuipRaZLnCkAOoZG9QxXhEGpNPI=;
+        b=ZIiHByTGbwZ834w2K0VBEec5FmmL2NASPVAVR7uU1xO5VeB2x9rwLpgSO2jX2oaP8M
+         BkRAxr709u1X2I+EX4eD7B8xotF2EnF32NWSBE+g7Nm9ZIFXrBL8rRafmMz0DZCSIPtT
+         pvWRR0yY6vT/7VvKvK9ZrtATZfhpIKV5yOcNtGyKNVId995/oKUZQ1HktHzMJkkO5S4T
+         V2Z0l9ajkULlpd2KGXhJqPuc12oLCqlQwi2fsK7+i7UG/7CCmrjWNf1l3poIGBQx+SdL
+         NMbwhYS8djsZLrJa+XFPrGFLagomR3m/katfZWqqpVu4Hsq2+mBZ3Lp54VZATlsdEc04
+         IsFA==
+X-Forwarded-Encrypted: i=1; AJvYcCXR7HuyyrQEyme2lFHmZ/y2xCPxrfgg0VMbFF6Ap5H3YRmT8UgMp0dRrgMYKRl4iGyyA7h1kA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDZoQWuoAEtBFlpHma46ucvevNTiSEwPUV4kWV+xm4iBHvZls9
+	8UQ52Fzd/2nelHqAY55OBWyNDPk9J/UJGJPE4SI0fjoz2LagXCaW8N0sqYGq7gTEZjhnczn62ps
+	tFG/aD1iIE19a3zZSI8VOwqKb9nVysU91DCab9fg9oQgmnDxparRByHaa
+X-Gm-Gg: ASbGncskp45FFZT0sSZ4nUxNqB6BkqizMBJyhLAHGJXecWx4PkKP+SF3XKGjR74gKNG
+	T6yP+jG60B0F21JDG3411LC/dd3ZzROEmCl7bcjGFAHFb94kBegdDjVOevXDyPmgG3s0IDA3JjD
+	owv/VQjCCM3T2M8jepLJPQ0nKYL0LJhXSh3woBZxxgRqqkQkkgdz4ptXYj218elDXC68NZoxy+L
+	WFEIG4P6/r1Jqk/OtikaYlJXokhfJyMExhy+j9yzVphLKZ0bxnZWkqoler3IOXRYX7iFKhgespe
+	J/G6ZNKwDlg1J3oiZj3Qn6IzGCX8CUlObTUQyx/1eTXmxpXNUQO4gUZGDcc5j9uh6JB4CJXrg0k
+	i06Eq6ApWzhbM95mhJLBxAIten8GfpvTp5KKWo8kHypxz4HC4
+X-Received: by 2002:a17:907:3f0a:b0:b71:b4a1:b29d with SMTP id a640c23a62f3a-b736796a40amr241980266b.64.1763120214725;
+        Fri, 14 Nov 2025 03:36:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGncWVaDUYmrZnQ3gSDBk8EIFCOicAB84qOiU3rPLLBv82jXFCsdviDxrNodVDC2Ot4XM+Oyw==
+X-Received: by 2002:a17:907:3f0a:b0:b71:b4a1:b29d with SMTP id a640c23a62f3a-b736796a40amr241977566b.64.1763120214298;
+        Fri, 14 Nov 2025 03:36:54 -0800 (PST)
+Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb ([2a02:810d:7e01:ef00:1622:5a48:afdc:799f])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fad41d9sm371942366b.27.2025.11.14.03.36.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 03:18:56 -0800 (PST)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 12 Nov 2025 21:16:57 +1000
-Subject: [PATCH v5 11/11] arm64: dts: apple: t8103, t8112, t60xx: Add hwmon
- SMC subdevice
+        Fri, 14 Nov 2025 03:36:53 -0800 (PST)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Frank Li <Frank.Li@nxp.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Peter Rosin <peda@axentia.se>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	asahi@lists.linux.dev,
+	patches@opensource.cirrus.com
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] MAINTAINERS: refer to trivial-codec.yaml in relevant sections
+Date: Fri, 14 Nov 2025 12:36:41 +0100
+Message-ID: <20251114113647.231481-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251112-macsmc-subdevs-v5-11-728e4b91fe81@gmail.com>
-References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
-In-Reply-To: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12033;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=DvoNn8piBq3/RMBpQvEHO8ZeX9vzUS0LqSVLvVC6flk=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJkiOcdKW0OuRJzxTNLXypSeaKSjarLpuSGXpk26pWvhp
- e8M76I6JrAwiHExWIopsmxoEvKYbcR2s1+kci/MHFYmkCHSIg0MQMDCwJebmFdqpGOkZ6ptqGdo
- qGOsY8TAxSkAU+2sz/A/IldnXZEPx5S0Y8VyJUHfLa8YaNi5vCp7u/b9hZMzvLOzGb6KtH+fsYp
- xcrbTMe7NMQ1G7Auunq4xT23bt8rq6McFhnwA
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 3xyNVPwVnfDKG5QwtRy8kQ15ot4Jk_5SGhFn8es9O-s_1763120215
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=yes
+Content-Transfer-Encoding: 8bit
 
-Apple's System Management Controller integrates numerous sensors
-that can be exposed via hwmon. Add the subdevice, compatible,
-and some common sensors that are exposed on every currently
-supported device as a starting point.
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+Commit 4acbfcf11cbe ("ASoC: dt-bindings: consolidate simple audio codec to
+trivial-codec.yaml") aggregates a few sound device-tree bindings, i.e., txt
+and yaml files, into a common trivial-codec.yaml, but misses to adjust the
+references in ANALOG DEVICES INC ASOC CODEC DRIVERS, ARM/APPLE MACHINE
+SOUND DRIVERS, NXP TFA9879 DRIVER and WOLFSON MICROELECTRONICS DRIVERS,
+which refer to files removed by the commit above.
+
+Make these sections refer to trivial-codec.yaml, in order to inform the
+maintainers on changes to the device-tree binding relevant to the
+hardware drivers.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 ---
- .../boot/dts/apple/hwmon-common.dtsi     | 33 +++++++++++++++++++++++++
- .../boot/dts/apple/hwmon-fan-dual.dtsi   | 22 +++++++++++++++++
- arch/arm64/boot/dts/apple/hwmon-fan.dtsi | 17 +++++++++++++
- .../boot/dts/apple/hwmon-laptop.dtsi     | 33 +++++++++++++++++++++++++
- .../boot/dts/apple/hwmon-mac-mini.dtsi   | 15 +++++++++++
- .../arm64/boot/dts/apple/t6001-j375c.dts |  2 ++
- arch/arm64/boot/dts/apple/t6001.dtsi     |  2 ++
- .../arm64/boot/dts/apple/t6002-j375d.dts |  2 ++
- .../arm64/boot/dts/apple/t600x-die0.dtsi |  4 +++
- .../boot/dts/apple/t600x-j314-j316.dtsi  |  3 +++
- .../arm64/boot/dts/apple/t602x-die0.dtsi |  4 +++
- arch/arm64/boot/dts/apple/t8103-j274.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j293.dts |  3 +++
- arch/arm64/boot/dts/apple/t8103-j313.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j456.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j457.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103.dtsi     |  5 ++++
- arch/arm64/boot/dts/apple/t8112-j413.dts |  2 ++
- arch/arm64/boot/dts/apple/t8112-j473.dts |  2 ++
- arch/arm64/boot/dts/apple/t8112-j493.dts |  3 +++
- arch/arm64/boot/dts/apple/t8112.dtsi     |  5 ++++
- 21 files changed, 165 insertions(+)
+ MAINTAINERS | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/apple/hwmon-common.dtsi b/arch/arm64/boot/dts/apple/hwmon-common.dtsi
-new file mode 100644
-index 000000000000..b87021855fdf
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-common.dtsi
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * Hardware monitoring sensors expected to be found on all Apple Silicon devices
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	current-ID0R {
-+		apple,key-id = "ID0R";
-+		label = "AC Input Current";
-+	};
-+	power-PSTR {
-+		apple,key-id = "PSTR";
-+		label = "Total System Power";
-+	};
-+	power-PDTR {
-+		apple,key-id = "PDTR";
-+		label = "AC Input Power";
-+	};
-+	power-PMVR {
-+		apple,key-id = "PMVR";
-+		label = "3.8 V Rail Power";
-+	};
-+	temperature-TH0x {
-+		apple,key-id = "TH0x";
-+		label = "NAND Flash Temperature";
-+	};
-+	voltage-VD0R {
-+		apple,key-id = "VD0R";
-+		label = "AC Input Voltage";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi b/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi
-new file mode 100644
-index 000000000000..3eef0721bcca
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi
-@@ -0,0 +1,22 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * SMC hwmon fan keys for Apple Silicon desktops/laptops with two fans
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+#include "hwmon-fan.dtsi"
-+
-+&smc_hwmon {
-+	fan-F0Ac {
-+		label = "Fan 1";
-+	};
-+	fan-F1Ac {
-+		apple,key-id = "F1Ac";
-+		label = "Fan 2";
-+		apple,fan-minimum = "F1Mn";
-+		apple,fan-maximum = "F1Mx";
-+		apple,fan-target = "F1Tg";
-+		apple,fan-mode = "F1Md";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-fan.dtsi b/arch/arm64/boot/dts/apple/hwmon-fan.dtsi
-new file mode 100644
-index 000000000000..fba9faf38f4b
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-fan.dtsi
-@@ -0,0 +1,17 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * hwmon fan keys for Apple Silicon desktops/laptops with a single fan.
-+ *
-+ *  Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	fan-F0Ac {
-+		apple,key-id = "F0Ac";
-+		label = "Fan";
-+		apple,fan-minimum = "F0Mn";
-+		apple,fan-maximum = "F0Mx";
-+		apple,fan-target = "F0Tg";
-+		apple,fan-mode = "F0Md";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi b/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi
-new file mode 100644
-index 000000000000..0c4666282a5c
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * Hardware monitoring sensors expected on all Apple Silicon laptops
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	power-PHPC {
-+		apple,key-id = "PHPC";
-+		label = "Heatpipe Power";
-+	};
-+	temperature-TB0T {
-+		apple,key-id = "TB0T";
-+		label = "Battery Hotspot Temperature";
-+	};
-+	temperature-TCHP {
-+		apple,key-id = "TCHP";
-+		label = "Charge Regulator Temperature";
-+	};
-+	temperature-TW0P {
-+		apple,key-id = "TW0P";
-+		label = "WiFi/BT Module Temperature";
-+	};
-+	voltage-SBAV {
-+		apple,key-id = "SBAV";
-+		label = "Battery Voltage";
-+	};
-+	voltage-VD0R {
-+		apple,key-id = "VD0R";
-+		label = "Charger Input Voltage";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi b/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi
-new file mode 100644
-index 000000000000..f32627336ae7
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * hwmon sensors expected on all Mac mini models
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+#include "hwmon-fan.dtsi"
-+
-+&smc_hwmon {
-+	temperature-TW0P {
-+		apple,key-id = "TW0P";
-+		label = "WiFi/BT Module Temperature";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6001-j375c.dts b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-index 2e7c23714d4d..08276114c1d8 100644
---- a/arch/arm64/boot/dts/apple/t6001-j375c.dts
-+++ b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-@@ -24,3 +24,5 @@ &wifi0 {
- &bluetooth0 {
- 	brcm,board-type = "apple,okinawa";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6001.dtsi b/arch/arm64/boot/dts/apple/t6001.dtsi
-index ffbe823b71bc..264df90f07d8 100644
---- a/arch/arm64/boot/dts/apple/t6001.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6001.dtsi
-@@ -66,3 +66,5 @@ p-core-pmu-affinity {
- &gpu {
- 	compatible = "apple,agx-g13c", "apple,agx-g13s";
- };
-+
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index 2b7f80119618..d12c0ae418f7 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -56,3 +56,5 @@ &bluetooth0 {
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 836ec73c604d..311c418a76ea 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1770,6 +1770,7 @@ S:	Supported
+ W:	http://wiki.analog.com/
+ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/sound/adi,*
++F:	Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ F:	sound/soc/codecs/ad1*
+ F:	sound/soc/codecs/ad7*
+ F:	sound/soc/codecs/adau*
+@@ -2419,9 +2420,9 @@ M:	Martin Povišer <povik+lin@cutebit.org>
+ L:	asahi@lists.linux.dev
+ L:	linux-sound@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
+-F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+ F:	Documentation/devicetree/bindings/sound/apple,*
++F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
++F:	Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ F:	sound/soc/apple/*
+ F:	sound/soc/codecs/cs42l83-i2c.c
+ F:	sound/soc/codecs/cs42l84.*
+@@ -18843,7 +18844,7 @@ NXP TFA9879 DRIVER
+ M:	Peter Rosin <peda@axentia.se>
+ L:	linux-sound@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/sound/nxp,tfa9879.yaml
++F:	Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ F:	sound/soc/codecs/tfa9879*
  
- /delete-node/ &ps_disp0_cpu0_die1;
- /delete-node/ &ps_disp0_fe_die1;
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-index f715b19efd16..e6647c1a9173 100644
---- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-@@ -37,6 +37,10 @@ smc_gpio: gpio {
- 			#gpio-cells = <2>;
- 		};
- 
-+		smc_hwmon: hwmon {
-+			compatible = "apple,smc-hwmon";
-+		};
-+
- 		smc_reboot: reboot {
- 			compatible = "apple,smc-reboot";
- 			nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index c0aac59a6fae..127814a9dfa4 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -131,3 +131,6 @@ &fpwm0 {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t602x-die0.dtsi b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-index 8622ddea7b44..680c103c1c0f 100644
---- a/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-@@ -114,6 +114,10 @@ smc_gpio: gpio {
- 			#gpio-cells = <2>;
- 		};
- 
-+		smc_hwmon: hwmon {
-+			compatible = "apple,smc-hwmon";
-+		};
-+
- 		smc_reboot: reboot {
- 			compatible = "apple,smc-reboot";
- 			nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 1c3e37f86d46..f5b8cc087882 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -61,3 +61,5 @@ &pcie0_dart_2 {
- &i2c2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 5b3c42e9f0e6..abb88391635f 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -119,3 +119,6 @@ dfr_panel_in: endpoint {
- &displaydfr_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index 97a4344d8dca..491ead016b21 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -41,3 +41,5 @@ &wifi0 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 58c8e43789b4..c2ec6fbb633c 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -75,3 +75,5 @@ &pcie0_dart_1 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index 7089ccf3ce55..aeaab2482d54 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -56,3 +56,5 @@ ethernet0: ethernet@0,0 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 59f2678639cf..f1820bdc0910 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -909,6 +909,10 @@ smc_gpio: gpio {
- 				#gpio-cells = <2>;
- 			};
- 
-+			smc_hwmon: hwmon {
-+				compatible = "apple,smc-hwmon";
-+			};
-+
- 			smc_reboot: reboot {
- 				compatible = "apple,smc-reboot";
- 				nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-@@ -1141,3 +1145,4 @@ port02: pci@2,0 {
- };
- 
- #include "t8103-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 6f69658623bf..500dcdf2d4b5 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -78,3 +78,5 @@ &i2c4 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-index 06fe257f08be..11db6a92493f 100644
---- a/arch/arm64/boot/dts/apple/t8112-j473.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-@@ -52,3 +52,5 @@ &pcie1_dart {
- &pcie2_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index fb8ad7d4c65a..a0da02c00f15 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -133,3 +133,6 @@ touchbar0: touchbar@0 {
- 		touchscreen-inverted-y;
- 	};
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 6bc3f58b06f7..c4d1e5ffaee9 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -912,6 +912,10 @@ smc_gpio: gpio {
- 				#gpio-cells = <2>;
- 			};
- 
-+			smc_hwmon: hwmon {
-+				compatible = "apple,smc-hwmon";
-+			};
-+
- 			smc_reboot: reboot {
- 				compatible = "apple,smc-reboot";
- 				nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-@@ -1180,3 +1184,4 @@ port03: pci@3,0 {
- };
- 
- #include "t8112-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
-
+ NXP-NCI NFC DRIVER
+@@ -27915,6 +27916,7 @@ F:	Documentation/devicetree/bindings/extcon/wlf,arizona.yaml
+ F:	Documentation/devicetree/bindings/mfd/wlf,arizona.yaml
+ F:	Documentation/devicetree/bindings/mfd/wm831x.txt
+ F:	Documentation/devicetree/bindings/regulator/wlf,arizona.yaml
++F:	Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ F:	Documentation/devicetree/bindings/sound/wlf,*.yaml
+ F:	Documentation/devicetree/bindings/sound/wm*
+ F:	Documentation/hwmon/wm83??.rst
 -- 
-2.51.2
+2.51.1
 
