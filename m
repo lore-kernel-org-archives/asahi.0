@@ -1,122 +1,130 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7469E3009E9
-	for <asahi@lists.linux.dev>; Mon, 17 Nov 2025 19:00:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA5126A1AF
+	for <asahi@lists.linux.dev>; Tue, 18 Nov 2025 02:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763406054; cv=none; b=X3Vd3u7O7FGJadVicz/vhwM60BgUdOmJKAuKJ8cu9NMv+cS42hi3R34Cw1i/zugKM9AZwGHWNpFAogW9PhdYssDSQ69Kojpg8HFRINxKTXyKV39ctxlCjGNmdP7Cgp6KLeLWME+LaTuVEU2azQJpI68gxvM+gd4SWb+ktD1w+OQ=
+	t=1763433434; cv=none; b=K5w4R42TDHDG6e68YfPxD8v+lEZxEfXJ0WVHG584yuQx6eFBJjMCrvtf5SH5M9H8eHRDlrhZB3ejHJfVUCYf1qRZw3nK61wlg1WcAxQxk4rqj1Jphi7MDxAAJxDBKNgWjOdNHAFTjKynhSAvmkJ0/RWs+t8rkyRdbV/E+90eMvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763406054; c=relaxed/simple;
-	bh=9LwQ8cgiBx+GR9gi4Ze2NRYHzMsmpVYF+u+bBwx5cCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFBSjh8mEy+YV7055T8gGxBuXku7D4cIBHZR1UHMpIRv2du3ZHSGxNg3AtiKIZacUVK2zmN/5jwzjKMaWMqtTydd1ZeK7i8CQKAmebCc5B8+P6MlAn+gbXJyMyv+0i77gx7odKT3GASFNfrTF47TdYEwbsnvtcSQ8KOlHNPILmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f/csKNSL; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763433434; c=relaxed/simple;
+	bh=ujPW9yg87PcqhgrVlK+bXGSlNI3uLpBnuSRQV2ZuFjs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NuxKQMYdJADFLu9za9+ZvoMk/2wRYnGK6SUzj93b2idfEeVl9VLSVj7Rijy0eLP7HrrtpytWcx1sIkQv7EamZCM4zeU4qmNS9d+N1Wx0hCbCT5SB7UhUOE3RvyzXBRTl/4Xr/5tXk9+gzHmhMocTcXQ19NYEG06SpHbRSGgmChQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=aXNfm6i9; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=yeQFfXUI; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f/csKNSL"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-29844c68068so46185185ad.2
-        for <asahi@lists.linux.dev>; Mon, 17 Nov 2025 11:00:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763406052; x=1764010852; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H0lS2cED24LXASEO8Kaw1E9xKUmdy8WEPj1E8PP+Wtk=;
-        b=f/csKNSL4vDuR8YJp2cN8ki4IuJPTMlqsCY+fK8Ph7X/zIFO0j64AzHScw/5rluGuF
-         Qx8CyC50z+BKBXEp1cWJ/LDZgKCU2aMtjAIJ/UAx/EF3MGALp4gvF4bdsioGuX4ImL6A
-         sWcXv7F6oD9jwoeiJFOVQTgmQWSSSb5KNrZ5FQ1AsKvoZ4egz9OBJyJlDSntN1H3Wl4/
-         MdWXtm+plZG84vHFCB0k6eYjwHuLfWVIOzWXAe12P/YRt6oGyd3sdxI3porAirM/3FZL
-         CkrpBM16SfXDZvHAoiuxFGJSkIW5Av3/lWd2/umEu4xZaEdHNb4bfSVIWqeqf1JqmhbO
-         GJOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763406052; x=1764010852;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=H0lS2cED24LXASEO8Kaw1E9xKUmdy8WEPj1E8PP+Wtk=;
-        b=R+0Eh8qHLUV/Jj9Rdl3ZMlC0adMuqHV7WdEM9AX2z8Tj8e0sRnPsqbF4DiVqKWkGJv
-         zC2zsNProilsJv4I95gOtrP8h59kowczVoOIkrnNpYTOVSC6NJZZI3dBByQ7AvXX0mtK
-         hW8T7l8e5b//hAv85NizQjBxla+f4dJ4SEuO7qP/wmXQ/j/K7meJaSv5TR6+cWE/OJ4m
-         YevFRO+I2sV/gxWmlnuRVwVDcrDVlC51toGPvUImgj+HJggFcyNI6Ix8SmOGTxe6cU2t
-         ohOtwTKfk3u9MG3xiSqRUgJnv0mwSArPH+8mLw+XcISRA8HkLwykYlwg0uluqRHxPgBU
-         MUIw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSX1xqzolR9W00hNsz5mQIHrpFXO13Tz1iCQgpG/xyN1lBIrc7oJVESGSjGZ0fyS+TUVIOLg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLcS40m890nV7n0X6KK28vIlaTOqw3Ez+etnUBd2XlmoJel/KL
-	5Tdxrytludi+Y3CWp31X2EYYaP+b4CJhiV/+jGPEODvFtCNzHLC7zgEJ
-X-Gm-Gg: ASbGncsRU4VUsQ85ZBHXVIsfwagj04Gwm16tZRqIppv0KR0cw+pdNEtuP9G1JhEOz0J
-	hgPcftJJN4gFVb+1KdFMKGwfBZuSmBycRMQTH5qAI/4NmmNT68IfvYYply3BA+FtbJV9mFN74CQ
-	F3erKt1fTdQytHejxYjahnsST185K6JqcR96fCMGcx6QjbTXQ4bwZsonFjUztVL8BDXqXT1kSmb
-	dcg14jyznUYuknV5kezMVfrQfcDKX+86aNlG+FHjptrro6BloXn22fFdlojXqnLHvQPkWLiESjD
-	cIKeI+B8n70zcqjqXxipde9K+gVw3UdzXh1IMyS1WZe12NZoxjgvfhnwsk7T9PbTACSZveMw8sU
-	pBGdWL0wPnLdJrrql5yjjoP4JF/Tf1xgw/iAA61FzhfSVJYxvM07u4rek13ZzrZFJtdgNPycm/m
-	MrrjFpjDeeqgC0BlJxDSc1TG7To7YPW6DUjx/e28F31kO4
-X-Google-Smtp-Source: AGHT+IGDVNZOalPoeGLRx0StV1WyF6OuSXplI/tFFH2YjaxRb6M+ZouwxCgXlyJ+r8uHMpC01NlQdg==
-X-Received: by 2002:a17:903:198d:b0:298:2af7:8d26 with SMTP id d9443c01a7336-2986a76a26dmr169206325ad.54.1763406050080;
-        Mon, 17 Nov 2025 11:00:50 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2376f6sm146281525ad.21.2025.11.17.11.00.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 11:00:49 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 17 Nov 2025 11:00:48 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 06/11] hwmon: Add Apple Silicon SMC hwmon driver
-Message-ID: <7a445358-ce9e-4180-99dd-1a771c8ffa98@roeck-us.net>
-References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
- <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="aXNfm6i9";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="yeQFfXUI"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=To:Message-Id:Subject:Date:From; t=1763433356; bh=sCKuHgHWUgcOfEQfIFqPn+9
+	wVr1eVaiBHZJNU2USNOE=; b=aXNfm6i9a+xNKVRDoAAAnNPv/z/RLlIaA2od6QUldPcFWr8u/d
+	tteq5UDfGe7zsSMhN3QOzHamKKRsuMOZaB8Ppusw2l/ug7wqqrOfNG3/HBSJQY1zoVn/txBlF/x
+	mUOWUSWhLpK8b9KcrdFZvz8cO/FkOPbyha7XZhQXOzpbeuLLe8YWzAH4nyKlzhCAvvUCOyd5jPi
+	Wey7L0RWkUXs9r1tYu07IPKFqZvx1gmAjfZF4ql9MtuoURYrhF2JpncDy6TgvphmhEl+eGITcx8
+	3IAmT0fQbfdOfEpt5Tx3ACUvX/de+Rv+0yw1Oo++ltkuRr5r1UEiv9mhy+M6Tz5peig==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=To:Message-Id:Subject:Date:From; t=1763433356; bh=sCKuHgHWUgcOfEQfIFqPn+9
+	wVr1eVaiBHZJNU2USNOE=; b=yeQFfXUIHQmZiH13f2XPEaDPnjvXqwOKE2GcVOhfd8dvdoNreA
+	Q0SRx0xG+ffvSuFVdXDHgQbkUDYzyuRu2+BQ==;
+From: Jens Reidel <adrian@mainlining.org>
+Date: Tue, 18 Nov 2025 03:35:25 +0100
+Subject: [PATCH] nvmem: apple-spmi-nvmem: wrap regmap calls to satisfy CFI
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251118-apple-spmi-nvmem-cfi-v1-1-75b9ced0a2c2@mainlining.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQqAIBBA4avErBtojH7oKtHCbKyBNFGQILp70
+ vJbvPdA4iicYKoeiJwlyeULqK7AHNrvjLIVg2pUR0Qj6hBOxhScoM+OHRor2DftYEivdiMFJQ2
+ Rrdz/dl7e9wMXpd1MZgAAAA==
+X-Change-ID: 20251118-apple-spmi-nvmem-cfi-6037c1abfd12
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Srinivas Kandagatla <srini@kernel.org>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Hector Martin <marcan@marcan.st>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Jens Reidel <adrian@mainlining.org>, 
+ Clayton Craft <craftyguy@postmarketos.org>, stable@vger.kernel.org
+X-Mailer: b4 0.14.2
 
-On Wed, Nov 12, 2025 at 09:16:52PM +1000, James Calligeros wrote:
-> The System Management Controller on Apple Silicon devices is responsible
-> for integrating and exposing the data reported by the vast array of
-> hardware monitoring sensors present on these devices. It is also
-> responsible for fan control, and allows users to manually set fan
-> speeds if they so desire. Add a hwmon driver to expose current,
-> power, temperature, and voltage monitoring sensors, as well as
-> fan speed monitoring and control via the SMC on Apple Silicon devices.
-> 
-> The SMC firmware has no consistency between devices, even when they
-> share an SoC. The FourCC keys used to access sensors are almost
-> random. An M1 Mac mini will have different FourCCs for its CPU core
-> temperature sensors to an M1 MacBook Pro, for example. For this
-> reason, the valid sensors for a given device are specified in a
-> child of the SMC Devicetree node. The driver uses this information
-> to determine which sensors to make available at runtime.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Acked-by: Guenter Roeck <linux@roeck-us.net>
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+The Apple SPMI NVMEM driver previously cast regmap_bulk_read/write to
+void * when assigning them to nvmem_config's reg_read/reg_write
+function pointers.
 
-Applied to hwmon-next.
+This cast breaks the expected function signature of nvmem_reg_read_t
+and nvmem_reg_write_t. With CFI enabled, indirect calls through
+these pointers fail:
 
-Note that I can not apply the devicetree patch (2/11), presumably since it depends
-on the first patch of the series.
+  CFI failure at nvmem_reg_write+0x194/0x1e4 (target: regmap_bulk_write+0x0/0x2c8; expected type: 0x83a189c3)
+  ...
+  Call trace:
+   nvmem_reg_write+0x194/0x1e4 (P)
+   __nvmem_cell_entry_write+0x298/0x2e8
+   nvmem_cell_write+0x24/0x34
+   macsmc_reboot_probe+0x1dc/0x454 [macsmc_reboot]
+  ...
 
-Guenter
+Introduce thin wrapper functions with the correct nvmem function
+pointer types to satisfy the CFI checks.
+
+Fixes: fe91c24a551c ("nvmem: Add apple-spmi-nvmem driver")
+Signed-off-by: Jens Reidel <adrian@mainlining.org>
+Reported-by: Clayton Craft <craftyguy@postmarketos.org>
+Tested-by: Clayton Craft <craftyguy@postmarketos.org>
+Cc: stable@vger.kernel.org
+---
+ drivers/nvmem/apple-spmi-nvmem.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvmem/apple-spmi-nvmem.c b/drivers/nvmem/apple-spmi-nvmem.c
+index 88614005d5ce1dc2d1cafcb89ac66d8376ffcc96..7acb0c07d6abe9e9984908f5ea2f4e2e9c10bb06 100644
+--- a/drivers/nvmem/apple-spmi-nvmem.c
++++ b/drivers/nvmem/apple-spmi-nvmem.c
+@@ -18,6 +18,22 @@ static const struct regmap_config apple_spmi_regmap_config = {
+ 	.max_register	= 0xffff,
+ };
+ 
++static int apple_spmi_nvmem_read(void *priv, unsigned int offset, void *val,
++				 size_t bytes)
++{
++	struct regmap *map = priv;
++
++	return regmap_bulk_read(map, offset, val, bytes);
++}
++
++static int apple_spmi_nvmem_write(void *priv, unsigned int offset, void *val,
++				  size_t bytes)
++{
++	struct regmap *map = priv;
++
++	return regmap_bulk_write(map, offset, val, bytes);
++}
++
+ static int apple_spmi_nvmem_probe(struct spmi_device *sdev)
+ {
+ 	struct regmap *regmap;
+@@ -28,8 +44,8 @@ static int apple_spmi_nvmem_probe(struct spmi_device *sdev)
+ 		.word_size = 1,
+ 		.stride = 1,
+ 		.size = 0xffff,
+-		.reg_read = (void *)regmap_bulk_read,
+-		.reg_write = (void *)regmap_bulk_write,
++		.reg_read = apple_spmi_nvmem_read,
++		.reg_write = apple_spmi_nvmem_write,
+ 	};
+ 
+ 	regmap = devm_regmap_init_spmi_ext(sdev, &apple_spmi_regmap_config);
+
+---
+base-commit: 0c1c7a6a83feaf2cf182c52983ffe330ffb50280
+change-id: 20251118-apple-spmi-nvmem-cfi-6037c1abfd12
+
+Best regards,
+-- 
+Jens Reidel <adrian@mainlining.org>
+
