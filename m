@@ -1,95 +1,223 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D03B9463;
-	Wed, 26 Nov 2025 21:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9A12D47E6
+	for <asahi@lists.linux.dev>; Fri, 28 Nov 2025 08:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764191813; cv=none; b=eA61QrVWDalHoVo4e0zCbk4uJwYbgPHlGzIlw/Og9Hb5XANhhoBngFDrp5sdICu5K0cN9dAQiULyu1zVrC4dmIKqAbs4OY/csedKC75VJntSCsqY9oULj/aGQIRw01nIlEb/deko5BsMwpcoYDdePWbGP+NJ1VcCTr2ZgNjzQ4Y=
+	t=1764317449; cv=none; b=cFq/e+EZGWyeG20yVK5vnk6WUaxMF2wDqJsbrAKOv3T6ggvVdsi6X2QAs9LdSwNgCyGUEkLydJJhMNJCTVhW9+cVPRzfdrZXPpbEL9YSLRI/c6L8O20oh2tO63M5+Jp90hqc1TcxXXYSOZwvzr0K8q1QNGyux80DcJgVNpp/RDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764191813; c=relaxed/simple;
-	bh=6FSXv6lvj8Cxw9bAiqE0JGXXnCopMs910raX/aEiueY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vr1Mlv+GS0cWEVcz+97whRVk9sWHKI/1L21VH2tPEIt7C2aRLniMrHR/1GDVX3lBD054sA9Fh+dXu0YpefWk4Nv2g3uYjDUaXQaQQD9tnaFd/7HUygeVV05kKo2lWQ372hY5QeQBGiWpU2z6V44SQ+AKBi6nNDtfU/jnOXQG8k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWO3HjYD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764317449; c=relaxed/simple;
+	bh=BI6d5r9H0oVhcgY7hqM0ujL/0z2q9c72cR3/Pq4ycVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WmgLqIqnefC/ZcKjdlRouSoVNOfpw0iAikiSDXGz+HmALhMV3zORaovJgt31Jt8ZRoamGMyKPBBveDSmVFEAU0IIbUiP4AupRy6CYSCjkWfKPq13OHbZVKJh0BAaqARwiSSthMZ84z5ZvAj7PhffuUaYz5Ap3JhTecLoFOAKm5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a/sQqZ1P; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWO3HjYD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA15FC4CEF7;
-	Wed, 26 Nov 2025 21:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764191813;
-	bh=6FSXv6lvj8Cxw9bAiqE0JGXXnCopMs910raX/aEiueY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=uWO3HjYDThOYfpBqwCtm91Yweuelw481K2wJe9VK1m6sVqnffr5zIpgjGG4v9fgrO
-	 kOrwjAd9Igw0VIi6uBggtNY5tutVTD+S4n5xw53rJ+hLK0W3CqyboSK9rAzb8iPO4e
-	 c+2CJl5TFMrzbaPVEOSDW+WILmlv0tL0Wqv5UFoiQqgLYtzYasDIOvucKcQuZn86lr
-	 hhqJByiQ1s89fbrPRgL+kA20E2KUjjVvabCUobhN4F77ZggEOA23JHnFWnQKSGg36v
-	 4exweOY9ZaZN6L44+ODCcQ+NfdXUv0duQTZhe9V0Vu5xwu9NJhYIvm8ZxY0srkGEj+
-	 8aeIA6Uh1M0aA==
-From: Sven Peter <sven@kernel.org>
-To: soc@lists.linux.dev
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Sven Peter <sven@kernel.org>
-Subject: [GIT PULL] Apple SoC driver changes for v6.19
-Date: Wed, 26 Nov 2025 22:16:32 +0100
-Message-ID: <20251126211634.8864-1-sven@kernel.org>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a/sQqZ1P"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-429c8632fcbso993712f8f.1
+        for <asahi@lists.linux.dev>; Fri, 28 Nov 2025 00:10:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764317445; x=1764922245; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+2bFlIh8I9NZQcRpDPD+Djsorg8bRceb3xQr+grKSRk=;
+        b=a/sQqZ1PWivvUrJ/yYYyLNizK/FnHQWLY3KbjKkc/TmZOnJv0An3Hw55G49M5Rkgjc
+         4+DayuEVOPhOEChinHjFyKRkVjRqtSkgovvu2mHDPxHS7PmgFaJr/fkx0mimhla1arOJ
+         QJdmgDH+uqqXqlF3pqWgm+SuXaJyQmIoZMX6bHl8fBdeDIERpXxwu29YHw1QaSxkjCcW
+         Kfmh7l8SGdu77KPSoCPvojeR1r2IEEaAbSAEYtPvQnVNKEC9x3887PNAKiwLx5ywTu65
+         V5UHQk1u+ANK//HNRldfWcP2oMTo9hVZ8sDPSmnjxGxmDFkGBIWAfcftiCYOQm+oHvqF
+         x/Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764317445; x=1764922245;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+2bFlIh8I9NZQcRpDPD+Djsorg8bRceb3xQr+grKSRk=;
+        b=BSD8C0pN74atgZrHCnZomC/W62lcMw2JBlT1vBGkYGLmyoMCD+IomtDX3s4CY5Q+ug
+         CXfUBNI/rNEwD3J0/w5NwNm0/gk3YXPk5BPEHj3audAmoJ6sX3KJEOIbS+JzKlOSpjzs
+         qPtQgh4W1ivQXYIHdqLKBmnQhA8I2f1ie5v925D6Jueay91ZZIIbypb7OpitaqL/p5A+
+         PyPp2Y7QDrLkdPLmhk1lPiWRnzk/BRdwqAX0qMYRaXYH/ec+otip0/lIDxdStW/LIyYZ
+         EhU8mFm0/TJWPwMCOW6Ccz3Ecfp3xwYVkWRVg1tF9KS/Kc5iVHXWCPNvDqCZXy160Ims
+         S4zA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXTEYEQvKS5+aYzyS7mY9viIbe4ohQwPZMGn4a3s9NhBVkHvKiCxnkb1PeB6Ppd1oKNRnqJw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxn8lOrRSmTKkTtB5zJQQI8JnAWGhYnDX9vgr+RZlG+b8hHXZej
+	m0fRsCGqTIP8UlwhCbGkGdyHd23lccs3J0Empr3VjfeulsOSNljau1vn6/KIQ90a4Iw=
+X-Gm-Gg: ASbGncu/x8ozFmMC4QHZPE4nXcpp/lGqLkWyFX82djnFBI4no8jY8mp++9nKo8oIKQP
+	3paidyDCuUTJJLkYXdiH39Jio7jGySk4vrsdg3WSfoKYhe3xMla2axgpnHu84B+JPMH0zq8lo22
+	Y1oa9nr3gGOyuMVWpYSJ/Inwo4xOfHu0gS2/1YoDT5GkUPg2AK6q1NslgVqJmmSzw8zw3P4qKjQ
+	dhUCxsvRZLXalLWb9HodpP8AcM1jSHYx3aNc/P2j+o0ZlAsN0bKMMz7/kiqgnggbktV9xgkYTl4
+	DIflfLMSuyl4flOaDNZITc99/hwmGJA5AQwKLdjBsnQnffnVUMPy5hkGbLyAZ6fWNtejBX5CKow
+	kbgBpKtLdZ/CuMAqQKBOkVYr9MQQbUstgggk290GRqh0RBTsjnLaYTAp23p12MgSgw43MADaN63
+	n08iDitN8Baxzuw2oz
+X-Google-Smtp-Source: AGHT+IHVNGxLHdQSfNonRBBq78f347/I8I+ulkCPlaTONnGVXYiUFj038obXmFsDqBT8iAGXzvuP8A==
+X-Received: by 2002:a05:600c:1d1d:b0:477:7c7d:d9b7 with SMTP id 5b1f17b1804b1-477c01ec3f5mr247354265e9.33.1764317445111;
+        Fri, 28 Nov 2025 00:10:45 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47911143bb6sm83247115e9.3.2025.11.28.00.10.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 00:10:43 -0800 (PST)
+Date: Fri, 28 Nov 2025 11:10:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 06/11] hwmon: Add Apple Silicon SMC hwmon driver
+Message-ID: <aSlY_w-nXA38PrBO@stanley.mountain>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+ <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 
-Hi,
+On Wed, Nov 12, 2025 at 09:16:52PM +1000, James Calligeros wrote:
+> +static int macsmc_hwmon_populate_sensors(struct macsmc_hwmon *hwmon,
+> +					 struct device_node *hwmon_node)
+> +{
+> +	struct device_node *key_node __maybe_unused;
 
-Please pull the following changes for Apple SoC drivers. These have been in
--next for a few weeks as usual and details are in the signed tag.
+The for_each_child_of_node_with_prefix() macros declare key_node so this
+declaration is never used so far as I can see.  I thought Sparse had a
+warning where we declared shadow variables where two variables have the
+same name but it doesn't complain here. #strange
 
+> +	struct macsmc_hwmon_sensor *sensor;
+> +	u32 n_current = 0, n_fan = 0, n_power = 0, n_temperature = 0, n_voltage = 0;
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "current-") {
+                                                       ^^^^^^^^
 
-Thanks,
+regards,
+dan carpenter
 
+> +		n_current++;
+> +	}
+> +
+> +	if (n_current) {
+> +		hwmon->curr.sensors = devm_kcalloc(hwmon->dev, n_current,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->curr.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "current-") {
+> +			sensor = &hwmon->curr.sensors[hwmon->curr.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_C_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_C_LABEL;
+> +
+> +				hwmon->curr.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "fan-") {
+> +		n_fan++;
+> +	}
+> +
+> +	if (n_fan) {
+> +		hwmon->fan.fans = devm_kcalloc(hwmon->dev, n_fan,
+> +					       sizeof(struct macsmc_hwmon_fan), GFP_KERNEL);
+> +		if (!hwmon->fan.fans)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "fan-") {
+> +			if (!macsmc_hwmon_create_fan(hwmon->dev, hwmon->smc, key_node,
+> +						     &hwmon->fan.fans[hwmon->fan.count]))
+> +				hwmon->fan.count++;
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "power-") {
+> +		n_power++;
+> +	}
+> +
+> +	if (n_power) {
+> +		hwmon->power.sensors = devm_kcalloc(hwmon->dev, n_power,
+> +						    sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->power.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "power-") {
+> +			sensor = &hwmon->power.sensors[hwmon->power.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_P_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_P_LABEL;
+> +
+> +				hwmon->power.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "temperature-") {
+> +		n_temperature++;
+> +	}
+> +
+> +	if (n_temperature) {
+> +		hwmon->temp.sensors = devm_kcalloc(hwmon->dev, n_temperature,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->temp.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "temperature-") {
+> +			sensor = &hwmon->temp.sensors[hwmon->temp.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_T_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_T_LABEL;
+> +
+> +				hwmon->temp.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "voltage-") {
+> +		n_voltage++;
+> +	}
+> +
+> +	if (n_voltage) {
+> +		hwmon->volt.sensors = devm_kcalloc(hwmon->dev, n_voltage,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->volt.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "volt-") {
+> +			sensor = &hwmon->temp.sensors[hwmon->temp.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_I_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_I_LABEL;
+> +
+> +				hwmon->volt.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
 
-Sven
-
-
-The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
-
-  Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git tags/apple-soc-drivers-6.19
-
-for you to fetch changes up to f95f3bceade25914cca30c871187b2d33db23f34:
-
-  soc: apple: sart: drop device reference after lookup (2025-10-13 18:32:53 +0200)
-
-----------------------------------------------------------------
-Apple SoC driver updates for 6.18
-
-Two small fixes:
-- mailbox: Stop leaking a reference to the mbox platform device during
-  lookup
-- sart: drop device reference after lookup since it's no longer used
-  afterwards
-
-Signed-off-by: Sven Peter <sven@kernel.org>
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQS3vz815OHsEaWy0u9EEX0kKnUe6QUCaSdsTAAKCRBEEX0kKnUe
-6Q3TAP9LzbLNHLFbDgCQXRRU5Qb5RxakNQ6o6eoyJP2I4C16SwEA0PChp6r/yH7I
-US56W3mTG3vlJKag472fLyDmZITkFw0=
-=9YPH
------END PGP SIGNATURE-----
-
-----------------------------------------------------------------
-Johan Hovold (2):
-      soc: apple: mailbox: fix device leak on lookup
-      soc: apple: sart: drop device reference after lookup
-
- drivers/soc/apple/mailbox.c | 15 +++++++++++----
- drivers/soc/apple/sart.c    | 13 ++-----------
- 2 files changed, 13 insertions(+), 15 deletions(-)
