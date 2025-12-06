@@ -1,146 +1,168 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62759308F27
-	for <asahi@lists.linux.dev>; Fri, 28 Nov 2025 10:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A693C154BF5
+	for <asahi@lists.linux.dev>; Sat,  6 Dec 2025 17:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764326228; cv=none; b=EWA55ACnpPkw0QWPinSbJbM6ryyl59K6AuPLDOr/NmqCXAvxKqJ8gNoJpb3He7xHpJGnzOwHaFHkq6f0AAiuLRTvBZoLV9xGaEUWHlObTSd0Yw+uw4e4if4KUfWxnVTUKskIokDPs0oojBPbVuvbVS8P2Tsh4ktECSHVXPyZv/o=
+	t=1765040540; cv=none; b=k2qMIpZuvyaQcKHR2JfKdYJcHGQQktZpc4irfHjqalSlPDkH3nIpp9qEwiTeMDUWJ78F9kJhMCRuISCIJ3WvswbHzs4vzSDje6kG7aPCQtBbTzKIk2WEkLGkSRN0Kkwx3BlJEehTwWQPvwdxkuBYFlvH4WCHjI/lihHSu1TjBL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764326228; c=relaxed/simple;
-	bh=LsjBUCj2srMne7edzgGW8cbMkZIkCTv5yV9uYfkGBBM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oVElaWggcy2TeGU1FUyND++xTmhdnn0Exr7dXUg+2vBES6baCXqeoPsvuHxT4BAWQxzTCHh11q2RNL00yXjX3dcTOyg1w1y4AvCBJUu2gffLAcuIbe6wVH1VP2z/RiYwSHxPHfxwKrNpScLBg6WqMbSNmAk+/snOuTBX1CEjNyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RYXZiHbP; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765040540; c=relaxed/simple;
+	bh=YDEldHxbXirkW4qrGW5JIGNP7PwWmaOgDy1K8WA8i4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dYf81pfl+DNpuovEGG04aqoTdkCIahVQRSsLzBgAAoN+886v9B//sl0Bxt0L2k/o3dh65puqyaGAZCoVcBxRUhMj8i1tqfhi1X8uRWUAGrIQ9f7pus0Ufr8PThP7lWPUzDpaozzMhhiYi056aHT0WvSvclFdM7H6pIZ5cTTuF2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=iqnoTEh2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d0F9+jaZ; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RYXZiHbP"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29586626fbeso22023595ad.0
-        for <asahi@lists.linux.dev>; Fri, 28 Nov 2025 02:37:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764326226; x=1764931026; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L4VICBTALhOgKQ11NcNnDdPOSrcRxYndkOphogjBgx4=;
-        b=RYXZiHbPANxUZEyyiK3fh0eLqtMWmDpGaIi6LsHor2zgJTYYDLOwC7oLfyynqevHD8
-         YiV2V5SVKsoTEzPqACd4lgsr5xmQamgDgJMJUEqWUWPi7vGvSA1kPqINV4KCEBTVr3xM
-         18gN62CQ1JYp5l4K4V8nT3hFYCAbdY2vy4tRa2iudTak2YC2iEleONOwe55TlSV94d0C
-         z+Igk0NTU+5SyYeDwB0Rm+5PyaYpQlGgDpoj4/sZj6PV1DiaHCgygESEfABuOyB2+LoO
-         J3EcGOvumnh3xcWH3zd++akqCnt3xPGbKVgSGhYlxp6q+JpL5rohKDlBjoUZOrCKUWXn
-         YmYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764326226; x=1764931026;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=L4VICBTALhOgKQ11NcNnDdPOSrcRxYndkOphogjBgx4=;
-        b=NlbnbccOA84WNRuBCXWOaktUjVdPFhe8yxZF+6F9yS7T7o9mnnwY3m0UeGrDWVM8BL
-         P6+bf5yse5F1mjI0qGJupEXvX9tv7jWRSGh1jgop3Zp+8xofrOuolqau/HU/66cAJevV
-         eLkhKXyO35KhRIZNBQyBrBo3svDRPI+GXnh4iTmZznNIyKFm2WZ0K4o2nFEyKgTO0vfZ
-         DlnyVG/NzAoKDoU1Q1S5BeyI7YmWX/dPucqE8+vuxdpPs2wrcCO0UJgHhS+xjP7PXsCo
-         P9vPEuPBJNJe+AekgqnnnxtcEUqzNmaIIaHc6I1LWn2/+SutyBONmGSafEQysLCyosHM
-         hJ6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWU/6yK+xmokoy8o7csNv9tAaxYQi0L8Ewz3qang/X5gzZxdY6xOT775TZJ0r6dSWIYJJvrTA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVzo6F6fsIvudA2aDw6ExhSo5zCfekZCNbshz8KBbe7EEjLjtm
-	8TczSBwfwfw5tcG5pyqV+Qz+2MaBuoyJZv2zfw5g+pI9tV7xpnHkhH5l
-X-Gm-Gg: ASbGnct/Be+JkYQ5DQ2J+/88+xU8tj3r6sIbw0+/Ceni4iLXCGq9PQqjv2nC87oYzJJ
-	iNeve7q+DkKzJQgS2mepcS/vMOdZSns2P6cs+ijkp3IAej5KVqsdlonjYOn+u6YscW5lBWgtXGT
-	gEjFnJbERkqcnx4yFDNNqCNL2FAXeoeDKCQjA6wYymWJoEHn3LX6uT/Yf2Y0/r/++0oYm9L7JqB
-	6P1VL/XtMA4VmA6uqQ2viTW9tk1UjNL+uI5wbl+GmXIWCAegGa53t7GvAqVJ/x40blRybUgz3F+
-	rrGez6cSsyo24gWgqqCdRrlVHtsG2Qo11nzPP1xdG6udcfwtgiwxJu5G/silpo3zMl0sywccf7y
-	AXh0fzks3kakr3DWjy5uEK0XcKDxjcDTTUMfhHpCQ1Jo0OPoh5+s7MPm54NzXBS5VyqNNlmBp35
-	GgjeB972PMx8fSVlMm9LQG85Y2XAfZW07C+PrVkl1MYaTeznAhqgUK01DMu+9WipWXR2/qe72yy
-	Y82DC1XsK8PzC28RlL6O750XuFujrtMpWz701USEGbNUZYGQIH1g5ckYTcHn+M8YmmhlduFUtMZ
-	rgYoDOC85cZLzq83JXpM7po3ztCBFuWd9C8uDFZsILVLHMgYPsNLdg4=
-X-Google-Smtp-Source: AGHT+IGMXq1Dh7hKw7TbowlI22iUZ08cEdFKrn/i/FIQAiWpJQ+dGpYRwCov3xkXMTBkJf1Am/GMAQ==
-X-Received: by 2002:a17:903:b84:b0:295:b7a3:30e6 with SMTP id d9443c01a7336-29b6bec45damr309873285ad.18.1764326225590;
-        Fri, 28 Nov 2025 02:37:05 -0800 (PST)
-Received: from setsuna.localnet (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce470347sm41643525ad.41.2025.11.28.02.36.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 02:37:05 -0800 (PST)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 05/11] mfd: macsmc: Add new __SMC_KEY macro
-Date: Fri, 28 Nov 2025 20:36:56 +1000
-Message-ID: <1938104.tdWV9SEqCh@setsuna>
-In-Reply-To: <20251120134445.GC661940@google.com>
-References:
- <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
- <20251112-macsmc-subdevs-v5-5-728e4b91fe81@gmail.com>
- <20251120134445.GC661940@google.com>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="iqnoTEh2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d0F9+jaZ"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 2E4CB7A003F;
+	Sat,  6 Dec 2025 12:02:17 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Sat, 06 Dec 2025 12:02:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1765040537; x=1765126937; bh=akElKtMCvE
+	opTkcA7oc7FuQirAtyfyYhr24fQVunu+M=; b=iqnoTEh2A3s75E7E+4BwZp9OE9
+	rs3ewr+kl6BgHK7a3Wrl7LxDDba8ELtTATPe4gYtqD9wKWSkXg+9gNL2s9JVLgYw
+	319gIyY58hDxEJ8BHKeuyBSxzs1Q3uHDIPuhZQB01Hcxprn5mnYmcz5V5torxRsN
+	qnl+0Wrq4ZjkMJ0Ig+Mz9+AaoztBshaFKwn8Go4Fr9DdzaTwGHFUHOkWOzKuyg+Y
+	l8ZsTrlAGFhATsUIj9gqu1eSUzyauikleru0rq7KPnRYjjMUN3PNDPqAdeR8DBui
+	bsMGg+ZdAaO7gO33w5GxwoX2Et36quojx5bLlBDa/4MgyqONSVR71qHiHjpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1765040537; x=1765126937; bh=akElKtMCvEopTkcA7oc7FuQirAtyfyYhr24
+	fQVunu+M=; b=d0F9+jaZiu11FcUGiK+qKuhbiYmsG8uoQhXnTKkS0ObAjL0MVVh
+	MbrmfzYxU/6MweUVnPQ+8oUwIyFyZxQhtL6AkmcuSa8xdfSlTsZa5APpJ36SX/eJ
+	VjCQ73XdgM3hiHYpETUG5hdGvQNfQ9yZEpU5amfKR9ZOBnBTotTdsBKflKnvI+Wr
+	eM6u7MZggdMX5KBey+B4hVu8e/hD5Zh8lqSMsyoBqCD9/7dZ5rHubaBtPvyxItoD
+	FoF59YTuj1G/LJO1AUrmfaqKIfF46MyVgrWBNbRsBgDXOHhUI2H58QwCt2TqYjxU
+	8J8h5HRjw1KAj9HIZUrIxiSEhAxhpgDYrjA==
+X-ME-Sender: <xms:mGE0acwbYaRS_eZm09MF5zfWTkrEijSwIFgcdi9CoEmdkKhtDvKqiQ>
+    <xme:mGE0aftByd-nlvhHEpeadx4zp8Qhcy47pISrS3eFi0oxnXVWrtKNr0GISwXyMn9FR
+    3AuVSVv302qOD68LeNv8zYZ_grfdHkMgN97mLQCdZsD2dlM9Gu4Ig8>
+X-ME-Received: <xmr:mGE0afaehyt43uLL73g1i5tl5DSBYisN6-refuNG169EiLAWtnpt7vvKg4Ltjt4DeXoQ0VnlNrwbkJFP5C0YGJm3u9_ZBfJNnq4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudeglecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnheptdfhff
+    euvedvueeijeejjeetvdfgfefgteefveeiueevtddtffehfefhhfetudfhnecuffhomhgr
+    ihhnpehgihhthhhusgdrtghomhdpthihphgvshdrrhhsnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggp
+    rhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhoshhsih
+    hnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopegrlhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpth
+    htohepsghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhih
+    sehgrghrhihguhhordhnvghtpdhrtghpthhtohepsghjohhrnhefpghghhesphhrohhtoh
+    hnmhgrihhlrdgtohhmpdhrtghpthhtoheprgdrhhhinhgusghorhhgsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopegrlhhitggvrhihhhhlsehgohhoghhlvgdrtghomhdprhgtph
+    htthhopehtmhhgrhhoshhssehumhhitghhrdgvughu
+X-ME-Proxy: <xmx:mGE0ae0lAnQAZPZPJx3chOoc0UFLD_Y31zYo-CzoLSNRpq8zzHEGkg>
+    <xmx:mGE0aRuEXDCz03iFqY5YGpjb_lADmAFKBFeVo93jxF511_LVGGpW5w>
+    <xmx:mGE0aSBRij925YZFqTW-aEiNF4fB9e9Rzixx6ANALYK0oTgCG6p2Og>
+    <xmx:mGE0aUZV8vZXUQkmBhBpAaYjTfGSTWTFEQE3OxplvKt00Z-gTYnhAg>
+    <xmx:mWE0aecCCJGUipLD0gnZ32K3nYtQBHT8dpJOAGqJKRsyk6_aRkOcirMJ>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 6 Dec 2025 12:02:15 -0500 (EST)
+Date: Sat, 6 Dec 2025 18:02:14 +0100
+From: Janne Grunau <j@jannau.net>
+To: Benno Lossin <lossin@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, Fiona Behrens <me@kloenk.dev>,
+	Alban Kurti <kurti@invicto.ai>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH] rust: pin-init: add references to previously initialized
+ fields
+Message-ID: <20251206170214.GE1097212@robin.jannau.net>
+References: <20250905140047.3325945-1-lossin@kernel.org>
+ <20251203220516.GA592465@robin.jannau.net>
+ <DEQZLZ9AVCZE.380X3OF521Y5L@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DEQZLZ9AVCZE.380X3OF521Y5L@kernel.org>
 
-On Thursday, 20 November 2025 11:44:45=E2=80=AFpm Australian Eastern Standa=
-rd Time Lee=20
-Jones wrote:
-> On Wed, 12 Nov 2025, James Calligeros wrote:
-> > When using the _SMC_KEY macro in switch/case statements, GCC 15.2.1 err=
-ors
-> > out with 'case label does not reduce to an integer constant'. Introduce
-> > a new __SMC_KEY macro that can be used instead.
-> >=20
-> > Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> > ---
-> >=20
-> >  include/linux/mfd/macsmc.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/include/linux/mfd/macsmc.h b/include/linux/mfd/macsmc.h
-> > index 6b13f01a8592..f6f80c33b5cf 100644
-> > --- a/include/linux/mfd/macsmc.h
-> > +++ b/include/linux/mfd/macsmc.h
-> > @@ -41,6 +41,7 @@ typedef u32 smc_key;
-> >=20
-> >   */
-> > =20
-> >  #define SMC_KEY(s) (smc_key)(_SMC_KEY(#s))
-> >  #define _SMC_KEY(s) (((s)[0] << 24) | ((s)[1] << 16) | ((s)[2] << 8) |
-> >  (s)[3])>=20
-> > +#define __SMC_KEY(a, b, c, d) (((u32)(a) << 24) | ((u32)(b) << 16) |
-> > ((u32)(c) << 8) | ((u32)(d)))
-> Are we expecting users/consumers to be able to tell the difference
-> between SMC_KEY and __SMC_KEY (assuming that _SMC_KEY is just an
-> internal)?
+On Sat, Dec 06, 2025 at 09:23:08AM +0100, Benno Lossin wrote:
+> On Wed Dec 3, 2025 at 11:05 PM CET, Janne Grunau wrote:
+> > On Fri, Sep 05, 2025 at 04:00:46PM +0200, Benno Lossin wrote:
+> >> After initializing a field in an initializer macro, create a variable
+> >> holding a reference that points at that field. The type is either
+> >> `Pin<&mut T>` or `&mut T` depending on the field's structural pinning
+> >> kind.
+> >
+> > just as a heads up: creating references broke part of the agx firmware
+> > init structs which uses a `#[repr(C, packed)]` struct as field in
+> > another struct. This fails with
+> >
+> > | error[E0793]: reference to packed field is unaligned
+> > |    --> ../drivers/gpu/drm/asahi/initdata.rs:722:28
+> > |     |
+> > | 722 |                       sub <- try_init!(raw::GlobalsSub::ver {
+> > |     |  ____________________________^
+> > | 723 | |                         unk_54: cfg.global_unk_54,
+> > | 724 | |                         unk_56: 40,
+> > | 725 | |                         unk_58: 0xffff,
+> > | ...   |
+> > | 731 | |                         ..Zeroable::init_zeroed()
+> > | 732 | |                     }),
+> > |     | |______________________^
+> > |     |
+> > |     = note: packed structs are only aligned by one byte, and many modern architectures penalize unaligned field accesses
+> > |     = note: creating a misaligned reference is undefined behavior (even if that reference is never dereferenced)
+> > |     = help: copy the field contents to a local variable, or replace the reference with a raw pointer and use `read_unaligned`/`write_unaligned` (loads and stores via `*p` must be properly aligned even when using raw pointers)
+> > |     = note: this error originates in the macro `$crate::__init_internal` which comes from the expansion of the macro `try_init` (in Nightly builds, run with -Z macro-backtrace for more info)
+> >
+> > This was easy enough to work around, I don't see how this embedding of a
+> > `#[repr(C, packed)]` struct was necessary or at least helpful. The code
+> > is not expected to be included in the upstream driver so it no worth
+> > spending effort on this.
+> >
+> > I don't think it's likely that anyone else will run into this but I
+> > thought I mention it at least.
+> >
+> > The asahi driver also ran into the discussed variable shadowing issue (a
+> > variable was used to initialize a field of the same name and was later
+> > used to initialize another field). This was trivially fixed by renaming
+> > the variable.
+> 
+> Thanks for the report, I expected the latter kind of error, but was not
+> aware of the packed struct issue. If anyone needs a proper workaround
+> from pin-init, let me know.
 
-_SMC_KEY is used in the gpio driver, and I would have used it here too if n=
-ot=20
-for GCC complaining about it. I wouldn't expect anyone to want to use=20
-__SMC_KEY outside of the specific use case this commit addresses given the=
-=20
-suboptimal ergonomics.
+I spoke too soon. The packed struct issue is also present in the capture
+driver for Macbook microphones (aop_audio). Working around this issue
+there is less obvious and more effort. I think it might be enough to use
+unaligned u32 / u64 types already present in asahi [1].
 
-> I have not tested this and it is just off the top of my head, but does
-> this work:
->=20
-> #define _SMC_KEY(s) __SMC_KEY((s)[0], (s)[1], (s)[2], (s)[3])
+I'm not sure how prevalent packed structs are outside of Apple's
+firmware interfaces. I was surprised running into the same issue in a
+second driver but I shouldn't have been. There are plans for another
+driver where this isssue will be present.
 
-This works fine on a smattering of M1 and M2 series machines. I can submit =
-a=20
-v6 with this and the hwmon driver dropped if need be.
+A workaround on pin-init side would be appreciated. Due to the nature of
+these packed structs I do not see a need to have access to previously
+initialized fields. An optional way to supress the references would be
+good enough for the cases I'm aware off.
 
-Regards,
-James
+Thanks
 
+Janne
 
+1: https://github.com/AsahiLinux/linux/blob/asahi-6.17.9-1/drivers/gpu/drm/asahi/fw/types.rs#L48
