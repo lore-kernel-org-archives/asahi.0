@@ -1,168 +1,172 @@
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A693C154BF5
-	for <asahi@lists.linux.dev>; Sat,  6 Dec 2025 17:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1057923D7FF;
+	Mon,  8 Dec 2025 02:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765040540; cv=none; b=k2qMIpZuvyaQcKHR2JfKdYJcHGQQktZpc4irfHjqalSlPDkH3nIpp9qEwiTeMDUWJ78F9kJhMCRuISCIJ3WvswbHzs4vzSDje6kG7aPCQtBbTzKIk2WEkLGkSRN0Kkwx3BlJEehTwWQPvwdxkuBYFlvH4WCHjI/lihHSu1TjBL8=
+	t=1765159459; cv=none; b=B7KU6mMbzWmZRSJaVXwLYwkehdhzvOwnhjlW4kP5Rkv7eGSTq24Hia3c7Ks0koSnIBHV9Tu8sMu7wbWtBoNZDPwPUziijR/YuUm7jHUHl+XQwKAet84C+eLI0cX5VNp6MlHvzHsYVFmYYSjOBk89QQYfY1/tNXtlcP7cbQffLzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765040540; c=relaxed/simple;
-	bh=YDEldHxbXirkW4qrGW5JIGNP7PwWmaOgDy1K8WA8i4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dYf81pfl+DNpuovEGG04aqoTdkCIahVQRSsLzBgAAoN+886v9B//sl0Bxt0L2k/o3dh65puqyaGAZCoVcBxRUhMj8i1tqfhi1X8uRWUAGrIQ9f7pus0Ufr8PThP7lWPUzDpaozzMhhiYi056aHT0WvSvclFdM7H6pIZ5cTTuF2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=iqnoTEh2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d0F9+jaZ; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1765159459; c=relaxed/simple;
+	bh=PhD/zPcsp23w3jW7gcG+Xy9ut1qV4VnpMklFW2ZBkn0=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=POojAmYDQdqIYDMcEp7bAeF7yxbYPBjYbeG/F9qqyMf3fqkNX3R3Oc6/CBE+SKuSvvALwOt7n359YFx4h8U1w8AN/oQp/yw/f85y6GZYjk8VXDsUttsjM4BNeDoWs+npUhHd/hV67n/WOCMCzDjZ6yyCXZOlyMfQNenQO1WF/IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GJIo+4RI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="iqnoTEh2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d0F9+jaZ"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 2E4CB7A003F;
-	Sat,  6 Dec 2025 12:02:17 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sat, 06 Dec 2025 12:02:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1765040537; x=1765126937; bh=akElKtMCvE
-	opTkcA7oc7FuQirAtyfyYhr24fQVunu+M=; b=iqnoTEh2A3s75E7E+4BwZp9OE9
-	rs3ewr+kl6BgHK7a3Wrl7LxDDba8ELtTATPe4gYtqD9wKWSkXg+9gNL2s9JVLgYw
-	319gIyY58hDxEJ8BHKeuyBSxzs1Q3uHDIPuhZQB01Hcxprn5mnYmcz5V5torxRsN
-	qnl+0Wrq4ZjkMJ0Ig+Mz9+AaoztBshaFKwn8Go4Fr9DdzaTwGHFUHOkWOzKuyg+Y
-	l8ZsTrlAGFhATsUIj9gqu1eSUzyauikleru0rq7KPnRYjjMUN3PNDPqAdeR8DBui
-	bsMGg+ZdAaO7gO33w5GxwoX2Et36quojx5bLlBDa/4MgyqONSVR71qHiHjpA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1765040537; x=1765126937; bh=akElKtMCvEopTkcA7oc7FuQirAtyfyYhr24
-	fQVunu+M=; b=d0F9+jaZiu11FcUGiK+qKuhbiYmsG8uoQhXnTKkS0ObAjL0MVVh
-	MbrmfzYxU/6MweUVnPQ+8oUwIyFyZxQhtL6AkmcuSa8xdfSlTsZa5APpJ36SX/eJ
-	VjCQ73XdgM3hiHYpETUG5hdGvQNfQ9yZEpU5amfKR9ZOBnBTotTdsBKflKnvI+Wr
-	eM6u7MZggdMX5KBey+B4hVu8e/hD5Zh8lqSMsyoBqCD9/7dZ5rHubaBtPvyxItoD
-	FoF59YTuj1G/LJO1AUrmfaqKIfF46MyVgrWBNbRsBgDXOHhUI2H58QwCt2TqYjxU
-	8J8h5HRjw1KAj9HIZUrIxiSEhAxhpgDYrjA==
-X-ME-Sender: <xms:mGE0acwbYaRS_eZm09MF5zfWTkrEijSwIFgcdi9CoEmdkKhtDvKqiQ>
-    <xme:mGE0aftByd-nlvhHEpeadx4zp8Qhcy47pISrS3eFi0oxnXVWrtKNr0GISwXyMn9FR
-    3AuVSVv302qOD68LeNv8zYZ_grfdHkMgN97mLQCdZsD2dlM9Gu4Ig8>
-X-ME-Received: <xmr:mGE0afaehyt43uLL73g1i5tl5DSBYisN6-refuNG169EiLAWtnpt7vvKg4Ltjt4DeXoQ0VnlNrwbkJFP5C0YGJm3u9_ZBfJNnq4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudeglecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnheptdfhff
-    euvedvueeijeejjeetvdfgfefgteefveeiueevtddtffehfefhhfetudfhnecuffhomhgr
-    ihhnpehgihhthhhusgdrtghomhdpthihphgvshdrrhhsnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggp
-    rhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhoshhsih
-    hnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopegrlhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpth
-    htohepsghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhih
-    sehgrghrhihguhhordhnvghtpdhrtghpthhtohepsghjohhrnhefpghghhesphhrohhtoh
-    hnmhgrihhlrdgtohhmpdhrtghpthhtoheprgdrhhhinhgusghorhhgsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopegrlhhitggvrhihhhhlsehgohhoghhlvgdrtghomhdprhgtph
-    htthhopehtmhhgrhhoshhssehumhhitghhrdgvughu
-X-ME-Proxy: <xmx:mGE0ae0lAnQAZPZPJx3chOoc0UFLD_Y31zYo-CzoLSNRpq8zzHEGkg>
-    <xmx:mGE0aRuEXDCz03iFqY5YGpjb_lADmAFKBFeVo93jxF511_LVGGpW5w>
-    <xmx:mGE0aSBRij925YZFqTW-aEiNF4fB9e9Rzixx6ANALYK0oTgCG6p2Og>
-    <xmx:mGE0aUZV8vZXUQkmBhBpAaYjTfGSTWTFEQE3OxplvKt00Z-gTYnhAg>
-    <xmx:mWE0aecCCJGUipLD0gnZ32K3nYtQBHT8dpJOAGqJKRsyk6_aRkOcirMJ>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 6 Dec 2025 12:02:15 -0500 (EST)
-Date: Sat, 6 Dec 2025 18:02:14 +0100
-From: Janne Grunau <j@jannau.net>
-To: Benno Lossin <lossin@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, Fiona Behrens <me@kloenk.dev>,
-	Alban Kurti <kurti@invicto.ai>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH] rust: pin-init: add references to previously initialized
- fields
-Message-ID: <20251206170214.GE1097212@robin.jannau.net>
-References: <20250905140047.3325945-1-lossin@kernel.org>
- <20251203220516.GA592465@robin.jannau.net>
- <DEQZLZ9AVCZE.380X3OF521Y5L@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GJIo+4RI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:Cc:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=gug9CwpDqb+TCtvtvwUyKvSMovynSjoGfeuTquKCNd8=; b=GJIo+4RI9zScb6ah6vv9oRpxzU
+	Y7EWECcyRQu8nbLGARUrNfg8Tf31lmCdvheA4wizeMRNn8jd2oQZcDFAKM3XtpJOFHgKAIFmFxcTv
+	bVNsYdJ2WBssI0QGKWm0dAlXfAEFt4dYUFXweq8dChvTJhlWS/bFlbMLpmvwR8sVH4LLAn+moUc/e
+	dwPO4XIr7ox2E+EE6HCxsIqlryksDU81uTSUtjnVkU5jqxCVHQsxgXSQICjzZd9bGt39Vynmmg2y9
+	bmZm1gVEVFJDMuvAUWQJs1vvVlr2tI/R5csgXX7eLqAEJF5YMH5r3nH7sEBdxlHU/k0O4WlY47CKF
+	weAnAEQw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vSQbi-0000000CRpl-40tu;
+	Mon, 08 Dec 2025 02:04:11 +0000
+Message-ID: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+Date: Sun, 7 Dec 2025 18:04:09 -0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DEQZLZ9AVCZE.380X3OF521Y5L@kernel.org>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: Kconfig dangling references (BZ 216748)
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, andrew.jones@linux.dev, linux-omap@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-sound@vger.kernel.org,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Paul Kocialkowski <paulk@sys-base.io>, chrome-platform@lists.linux.dev,
+ Paul Cercueil <paul@crapouillou.net>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
+ x86@kernel.org, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Dec 06, 2025 at 09:23:08AM +0100, Benno Lossin wrote:
-> On Wed Dec 3, 2025 at 11:05 PM CET, Janne Grunau wrote:
-> > On Fri, Sep 05, 2025 at 04:00:46PM +0200, Benno Lossin wrote:
-> >> After initializing a field in an initializer macro, create a variable
-> >> holding a reference that points at that field. The type is either
-> >> `Pin<&mut T>` or `&mut T` depending on the field's structural pinning
-> >> kind.
-> >
-> > just as a heads up: creating references broke part of the agx firmware
-> > init structs which uses a `#[repr(C, packed)]` struct as field in
-> > another struct. This fails with
-> >
-> > | error[E0793]: reference to packed field is unaligned
-> > |    --> ../drivers/gpu/drm/asahi/initdata.rs:722:28
-> > |     |
-> > | 722 |                       sub <- try_init!(raw::GlobalsSub::ver {
-> > |     |  ____________________________^
-> > | 723 | |                         unk_54: cfg.global_unk_54,
-> > | 724 | |                         unk_56: 40,
-> > | 725 | |                         unk_58: 0xffff,
-> > | ...   |
-> > | 731 | |                         ..Zeroable::init_zeroed()
-> > | 732 | |                     }),
-> > |     | |______________________^
-> > |     |
-> > |     = note: packed structs are only aligned by one byte, and many modern architectures penalize unaligned field accesses
-> > |     = note: creating a misaligned reference is undefined behavior (even if that reference is never dereferenced)
-> > |     = help: copy the field contents to a local variable, or replace the reference with a raw pointer and use `read_unaligned`/`write_unaligned` (loads and stores via `*p` must be properly aligned even when using raw pointers)
-> > |     = note: this error originates in the macro `$crate::__init_internal` which comes from the expansion of the macro `try_init` (in Nightly builds, run with -Z macro-backtrace for more info)
-> >
-> > This was easy enough to work around, I don't see how this embedding of a
-> > `#[repr(C, packed)]` struct was necessary or at least helpful. The code
-> > is not expected to be included in the upstream driver so it no worth
-> > spending effort on this.
-> >
-> > I don't think it's likely that anyone else will run into this but I
-> > thought I mention it at least.
-> >
-> > The asahi driver also ran into the discussed variable shadowing issue (a
-> > variable was used to initialize a field of the same name and was later
-> > used to initialize another field). This was trivially fixed by renaming
-> > the variable.
-> 
-> Thanks for the report, I expected the latter kind of error, but was not
-> aware of the packed struct issue. If anyone needs a proper workaround
-> from pin-init, let me know.
+from  https://bugzilla.kernel.org/show_bug.cgi?id=216748
 
-I spoke too soon. The packed struct issue is also present in the capture
-driver for Macbook microphones (aop_audio). Working around this issue
-there is less obvious and more effort. I think it might be enough to use
-unaligned u32 / u64 types already present in asahi [1].
+The bugzilla entry includes a Perl script and a shell script.
+This is the edited result of running them (I removed some entries that were noise).
 
-I'm not sure how prevalent packed structs are outside of Apple's
-firmware interfaces. I was surprised running into the same issue in a
-second driver but I shouldn't have been. There are plans for another
-driver where this isssue will be present.
+I'll try to Cc: all of the relevant mailing lists or individuals.
 
-A workaround on pin-init side would be appreciated. Due to the nature of
-these packed structs I do not see a need to have access to previously
-initialized fields. An optional way to supress the references would be
-good enough for the cases I'm aware off.
 
-Thanks
+ARCH_HAS_HOLES_MEMORYMODEL ---
+arch/arm/mach-omap1/Kconfig:7:	select ARCH_HAS_HOLES_MEMORYMODEL
 
-Janne
+ARM_ERRATA_794072 ---
+arch/arm/mach-npcm/Kconfig:33:	select ARM_ERRATA_794072
 
-1: https://github.com/AsahiLinux/linux/blob/asahi-6.17.9-1/drivers/gpu/drm/asahi/fw/types.rs#L48
+ARM_SMC_MBOX ---
+arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
+
+CLK_FIXED_FCH ---
+sound/soc/amd/Kconfig:11:	select CLK_FIXED_FCH
+sound/soc/amd/Kconfig:48:	select CLK_FIXED_FCH
+sound/soc/amd/acp/Kconfig:107:	select CLK_FIXED_FCH
+
+CONFIG_STM ---
+drivers/hwtracing/stm/Kconfig:16:	default CONFIG_STM  # should be STM
+drivers/hwtracing/stm/Kconfig:31:	default CONFIG_STM
+
+CPU_HAS_LOAD_STORE_LR ---
+arch/mips/Kconfig:1411:	select CPU_HAS_LOAD_STORE_LR
+
+DRM_KMS_DMA_HELPER ---
+drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
+drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
+
+EXTCON_TCSS_CROS_EC ---
+drivers/usb/typec/ucsi/Kconfig:76:	depends on !EXTCON_TCSS_CROS_EC
+
+MACH_JZ4755 ---
+drivers/clk/ingenic/Kconfig:20:	default MACH_JZ4755
+drivers/pinctrl/pinctrl-ingenic.c:158:	IS_ENABLED(CONFIG_MACH_JZ4755) << ID_JZ4755 |
+drivers/pinctrl/pinctrl-ingenic.c:4616:		.data = IF_ENABLED(CONFIG_MACH_JZ4755, &jz4755_chip_info)
+
+MACH_JZ4760 ---
+drivers/clk/ingenic/Kconfig:40:	default MACH_JZ4760
+drivers/pinctrl/pinctrl-ingenic.c:159:	IS_ENABLED(CONFIG_MACH_JZ4760) << ID_JZ4760 |
+drivers/pinctrl/pinctrl-ingenic.c:4620:		.data = IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+drivers/pinctrl/pinctrl-ingenic.c:4624:		.data = IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+
+MACH_STM32MP25 ---
+drivers/pinctrl/stm32/Kconfig:58:	default MACH_STM32MP25 || (ARCH_STM32 && ARM64)
+
+MFD_AIROHA_AN8855 ---
+drivers/nvmem/Kconfig:33:	depends on MFD_AIROHA_AN8855 || COMPILE_TEST
+
+MFD_TN48M_CPLD ---
+drivers/gpio/Kconfig:1624:	depends on MFD_TN48M_CPLD || COMPILE_TEST
+drivers/reset/Kconfig:365:	depends on MFD_TN48M_CPLD || COMPILE_TEST
+drivers/reset/Kconfig:366:	default MFD_TN48M_CPLD
+
+MIPS_BAIKAL_T1 ---
+drivers/ata/Kconfig:197:	select MFD_SYSCON if (MIPS_BAIKAL_T1 || COMPILE_TEST)
+drivers/bus/Kconfig:43:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/bus/Kconfig:58:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/clk/baikal-t1/Kconfig:4:	depends on (MIPS_BAIKAL_T1 && OF) || COMPILE_TEST
+drivers/clk/baikal-t1/Kconfig:5:	default MIPS_BAIKAL_T1
+drivers/clk/baikal-t1/Kconfig:20:	default MIPS_BAIKAL_T1
+drivers/clk/baikal-t1/Kconfig:33:	default MIPS_BAIKAL_T1
+drivers/clk/baikal-t1/Kconfig:45:	default MIPS_BAIKAL_T1
+drivers/hwmon/Kconfig:462:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/i2c/busses/Kconfig:589:	select MFD_SYSCON if MIPS_BAIKAL_T1
+drivers/memory/Kconfig:69:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/mtd/maps/Kconfig:81:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/pci/controller/dwc/Kconfig:89:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+drivers/spi/Kconfig:370:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+
+PINCTRL_MILBEAUT ---
+arch/arm/mach-milbeaut/Kconfig:16:	select PINCTRL_MILBEAUT
+
+SND_SOC_AC97_BUS_NEW ---
+sound/soc/pxa/Kconfig:21:	select SND_SOC_AC97_BUS_NEW
+
+SND_SOC_CS35L56_CAL_SYSFS_COMMON ---
+sound/soc/codecs/Kconfig:920:	select SND_SOC_CS35L56_CAL_SYSFS_COMMON
+
+TEST_KUNIT_DEVICE_HELPERS ---
+drivers/iio/test/Kconfig:11:	select TEST_KUNIT_DEVICE_HELPERS
+
+USB_HSIC_USB3613 ---
+drivers/staging/greybus/Kconfig:209:	depends on USB_HSIC_USB3613 || COMPILE_TEST
+drivers/staging/greybus/arche-platform.c:26:#if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
+
+USB_OHCI_SH ---
+arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
+arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
+arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
+arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
+arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=y
+
+X86_P6_NOP ---
+arch/x86/Kconfig.cpufeatures:41:	depends on X86_64 || X86_P6_NOP
+arch/x86/Makefile_32.cpu:48:ifneq ($(CONFIG_X86_P6_NOP),y)
+
+XTENSA_PLATFORM_ESP32 ---
+drivers/tty/serial/Kconfig:1598:	depends on XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
+drivers/tty/serial/Kconfig:1611:	depends on XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
+
+
+-- 
+~Randy
+
