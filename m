@@ -1,149 +1,92 @@
-Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DCA26A1AF;
-	Mon,  8 Dec 2025 20:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233F52E1F0E
+	for <asahi@lists.linux.dev>; Mon,  8 Dec 2025 22:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765224366; cv=none; b=eQmLTNVd//YxF6eO4bOE3Nu7foDN8UVZPDdRgkpPiAnbuCmmgO59tksH3TslcovX7f0snJiyWVmIYsQda8/BSCy4GPNkVJOiiK+Q1cw302Eqe4Qme4EIJXdFxGMX8l0stQgL6Zp7VkmIzzZqTM9fBkuheMYwkI9UVMdMGKK4nfY=
+	t=1765231759; cv=none; b=KpkFB7zlKLjHiqhVmMFF2Utdv5KrLxNgfUPLOIGewiSttiUn7VZER9vLl+dTnM73FikCreSINjAhBNkb5V23YY6GW+FUT9AvYXUQuDOcNgsfnzTdlaBo/mmsQKgPxgKkZleVXmgtYWaXhq1/1t7biyVGwIicY98LSIWjlpdZeO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765224366; c=relaxed/simple;
-	bh=jr5/ZXHHETObVyfq2xnDJTDvOshfBwx+krGl3v0gYC4=;
+	s=arc-20240116; t=1765231759; c=relaxed/simple;
+	bh=MbE1bv1r91ojRBbAgd8sSdkFaVll/H4wSmg6gbMWeGY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O3rj2taSf8oYlgAYyzL4Dd64gsp7B2PYtGzSz1SDmlUnRbTIgqYCYeDMp7+9YBLK4A6iz+hMxmoJq7HFgRz29c9wCujHcz9etE7EaDN3m7rLDJugm3sf7068piHEHzC0MhpSqM7XM7874XJGiKj7/OJB7fxuU4e0mkLF7ArEktQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=RCw4MYw+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=voCV257E; arc=none smtp.client-ip=103.168.172.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=DKYLp6ehqKujpEQjjGx9zbCHk1vNx80zqhEdcTOLWlgCaoizkM2f2lEhJT91ct4YGPnqoCko3dBIU9i6BnSaBSDxBCtzNf/XwylnJeYFVYOR47NLrYpOKnqnP7cUMun66fNaUIDK2zS2y7vxZ7HZy2h8YxPMQv71B/RKYFtRqjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZIFFayhW; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="RCw4MYw+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="voCV257E"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailflow.phl.internal (Postfix) with ESMTP id 15BE51380418;
-	Mon,  8 Dec 2025 15:06:00 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Mon, 08 Dec 2025 15:06:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1765224360; x=1765231560; bh=geGVe3G5SB
-	gEZ59+oVuK/Iwq85pb8lTkLlayLey8xSA=; b=RCw4MYw+7ZLDHkj305wxxjCRSX
-	rMrdbrBgi9f25g/3it320zvhMNV1ZQKoK4HMoVtdSMCSQxa3T1NtQGZK2ji7FaB+
-	4EAMXj2Z/18fg18HLzgIp1Xd2gaRaVf6aOd9tq+17uy6+b25gxNy3mnV9680Kb9/
-	5tqHVF1j8ty4YqRtlzJwDQD/AFabZMuWlqsu+ivO0qERdUZBTsbfvToLgDReiU2c
-	Lh/Eba71Uo99rQNJKXg+dWVZlsvVZ4EEWaxpUn0pfDgHeJqy1Ci7jT91cm3WjvPy
-	sTJxo0O0i2VTRszFsHu9XlHbQZYuMm/iGITipFRODxC1B8IcWm5/KrQbrMbg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1765224360; x=1765231560; bh=geGVe3G5SBgEZ59+oVuK/Iwq85pb8lTkLla
-	yLey8xSA=; b=voCV257E8ExI8LRf6UdVA7F02TYLxADA60npChdBR6Y21xs0tRA
-	C1uw+AV9CLSaNfK6RAUV6AE1RZBKQaSh2/pgZThaQt1P282do/o12nWenujxz3Pg
-	/tdhnCFD0X7RQQSdVppzFajbBlqF0NSSuk+kHONsZxH3CEBuJYx+4gBEMsH+gyIP
-	razXamAr0cLJLucn4Z8U6ZvWzmg4VLNRkI8fW7bkvNN/o41lmXQ/g0VAlsbl0p+c
-	9kOr6shetIpWgA2fAxvQUSRm6uEgMj9wjThm4m3EyfuK4xRaW/GPDonriBPihui9
-	NKID6dEU3zuG8C0j+xnEP0PQag6LUCS0h3A==
-X-ME-Sender: <xms:pi83aTQUBBxxcwI8Ju7BapuF7LwulYjYQpKe7sWAR0r_uWtzDdDwRg>
-    <xme:pi83aebVHsxrKMEuQywvzdXSDZHpM9MK2UiluZkdXAVmh0J0nNZu6U6gfkZg9j0Ga
-    Ut53OsW7mEjA55oME3b-thugVKSe0_5Tbewl2mI88XfPPTSUxekmw>
-X-ME-Received: <xmr:pi83acQeu23D1kI1rLhQ4wr0x5rXNlW92yKuzfJ9DXbmbyD1PnQo3LIx3zAyL52iJBsHs4oNCdPXZZnY0nx-sHu7J1Hs6kJCHtU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddujeehlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfduue
-    ffleefkeegueektdehkeejtedtffdtudejhfdvheetgfeigfeltdeufeejnecuffhomhgr
-    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepvdei
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehprghulhhksehshihsqdgsrghsvg
-    drihhopdhrtghpthhtoheprhguuhhnlhgrphesihhnfhhrrgguvggrugdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopegrnhguhidrshhhvghvtghhvghnkhhosehgmhgrihhlrdgtohhmpdhrtghp
-    thhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopegrnhgurhgvfidrjhhonh
-    gvsheslhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhomhgrphesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehophgvnhgsmhgtsehlihhsthhsrdhoii
-    hlrggsshdrohhrghdprhgtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgv
-    rhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:pi83aZ4RCJmeDa-VR1cQPG2ul73JR-gGDUFjKdpu-22mFdL9oWUOfw>
-    <xmx:pi83aXrSwaSszaHmCrk55lMdmsGtmyEQHQ1s-QpJy4Rt1_cXfEHipg>
-    <xmx:pi83aUR5DbLatVwQOF8-uRLn9TImi_QeLc8Ti5pE_VqfQwUHqh1VcA>
-    <xmx:pi83aTtoeQfXbJumEOlxloGR9zkRk3a07od05eZIJLIDpzutEw-WGg>
-    <xmx:qC83aQtVE-oT3QFyD3EhDToVHKkkvo2HfKm_z0WZaMfBkC3mxyGDZ6m_>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Dec 2025 15:05:57 -0500 (EST)
-Date: Mon, 8 Dec 2025 21:05:55 +0100
-From: Janne Grunau <j@jannau.net>
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev,
-	linux-omap@vger.kernel.org, openbmc@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-mips@vger.kernel.org, asahi@lists.linux.dev,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	chrome-platform@lists.linux.dev,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	linux-sh@vger.kernel.org, x86@kernel.org,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: Kconfig dangling references (BZ 216748)
-Message-ID: <20251208200555.GA333481@robin.jannau.net>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
- <aTcVXrUXVsyjaT22@shepard>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZIFFayhW"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id B3C89C180D1;
+	Mon,  8 Dec 2025 22:08:52 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 78604606DD;
+	Mon,  8 Dec 2025 22:09:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 13D07103C8D5C;
+	Mon,  8 Dec 2025 23:09:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1765231755; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=txJRuHrrwV2ADW2a0LZ396P8T6DrwxOBcVmxIdFH5mY=;
+	b=ZIFFayhWWluy/Qms43QysyKzVEzgYbV0fvLPjTvuqBXZkXZsh477ayBau29XgKXhEO/9jp
+	nEVCYk0l9aNSPfiD9uDM7jbB3+NJ2uoMpn0IvxIpRa64dDpRe/CdYLNVVPA01tiZio5rjn
+	Hqv5AqlwlWViU+/fM4A9kiylenR3TeEpf3HZUayLznN/o0vtEr8D0wSDnxwgfmBBlrLYzd
+	6n5F7gVHJkqmvik2uMYPuY/rgnIESqxELcep1iZYvDMXwDUIssjWka7VQJLwbX4xMN2iIZ
+	eBpGAyA2siQARTp01ckbQm41jtJfqCuYSopaHjdIvT3sbRk2BVzHp2duiPTBog==
+Date: Mon, 8 Dec 2025 23:09:08 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: (subset) [PATCH v5 00/11] mfd: macsmc: add rtc, hwmon and hid
+ subdevices
+Message-ID: <176523152354.342815.17888940507252789645.b4-ty@bootlin.com>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aTcVXrUXVsyjaT22@shepard>
+In-Reply-To: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Dec 08, 2025 at 07:13:50PM +0100, Paul Kocialkowski wrote:
-> Hi Randy,
+On Wed, 12 Nov 2025 21:16:46 +1000, James Calligeros wrote:
+> This series adds support for the remaining SMC subdevices. These are the
+> RTC, hwmon, and HID devices. They are being submitted together as the RTC
+> and hwmon drivers both require changes to the SMC DT schema.
 > 
-> On Sun 07 Dec 25, 18:04, Randy Dunlap wrote:
-> > from  https://bugzilla.kernel.org/show_bug.cgi?id=216748
-> > 
-> > The bugzilla entry includes a Perl script and a shell script.
-> > This is the edited result of running them (I removed some entries that were noise).
+> The RTC driver is responsible for getting and setting the system clock,
+> and requires an NVMEM cell. This series replaces Sven's original RTC driver
+> submission [1].
 > 
 > [...]
-> 
-> > DRM_KMS_DMA_HELPER ---
-> > drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
-> > drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
-> 
-> For these two, the symbol was removed in commit
-> 09717af7d13d63df141ae6e71686289989d17efd
 
-That commit removed DRM_KMS_CMA_HELPER. Later commit 6bcfe8eaeef0
-("drm/fb: rename FB CMA helpers to FB DMA helpers") renamed
-DRM_KMS_CMA_HELPER erroneously to DRM_KMS_DMA_HELPER.
+Applied, thanks!
 
-> but these two drivers either were
-> missed by the batch rename or were introduced a bit later.
+[01/11] dt-bindings: rtc: Add Apple SMC RTC
+        https://git.kernel.org/abelloni/c/07049187e830
+[03/11] rtc: Add new rtc-macsmc driver for Apple Silicon Macs
+        https://git.kernel.org/abelloni/c/49a51df427db
 
-In the case of drivers/gpu/drm/adp/Kconfig it was missed much later
-during review (but iirc went through the same rename out of tree).
+Best regards,
 
-> Since the symbol selected DRM_GEM_CMA_HELPER (which is still needed by the
-> drivers), it should be replaced with DRM_GEM_CMA_HELPER.
-
-That symbol doesn't exist anymore either. It's now DRM_GEM_DMA_HELPER
-which is already present in both files.
-
-So the "select DRM_KMS_DMA_HELPER" lines can be removed from both files.
-
-Janne
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
