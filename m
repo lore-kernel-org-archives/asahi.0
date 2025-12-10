@@ -1,144 +1,148 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D818A32E13A
-	for <asahi@lists.linux.dev>; Wed, 10 Dec 2025 21:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3198A2FB0BC;
+	Wed, 10 Dec 2025 22:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765401458; cv=none; b=dPI+JkT7sZzhGgC4M/Kwxkby7QWO1N2fIz0KFtR9SRVEImz5YLICn2+w0Z4n+kIfbu3XwtxCbs1p0sxfS4hzldrCGdorLJplIEGQjnyUaixXXlY/qvYkwEjje9ERiIm4YZWcFEptl1F7tkhLOFXtIizg3IAu2B/0+6z1Fx+1HEg=
+	t=1765404628; cv=none; b=DsVMrWpGR5SUWsHz8Mb6uCT1ihS4CQs177DPC1ngsfw1/U7xHEleT6HRG6zzveFDrLCBMMolT0BXMmhMM+mc//VLOtzWCprGmPke08I2audy0Tck88roccr/5a1lwxv2Iaa3DRFrIC2NmIoJ6/la0IfXDCcHKwnku3Ygu3a2RIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765401458; c=relaxed/simple;
-	bh=TGnIFeubVY7VeY994lX8aOuQktK904Czk8dQrCal58c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U/flBypXx+uBOhtUCI8o1d2vo+xgU+ZA9EZFtwm7eysKxmBsRckmgtwNIJC0ZI6xctM9hlr/Qp3rd1UFhjCIS94Mkam2SyIrGcg+qjAVgPnsFmpcUJLylo3gtc2OQ/kGFF4yYZYChAsBYgyuNaSFO4RS10lxwwDiL6y16yMdHKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E/0LVVDu; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/0LVVDu"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4775ae77516so2756185e9.1
-        for <asahi@lists.linux.dev>; Wed, 10 Dec 2025 13:17:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765401455; x=1766006255; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tOfFY77gZCltiZjkrHeQ4oE/3Skq9gP62li7AIVP3wU=;
-        b=E/0LVVDuYozh09rhLLRok/DIOwmACcx4zpmP86qOsiDcai0HggH+sLEbjE6e1sMMXL
-         jFZDOHlsBGCeTu9edzeNgqbX9Q0H0+RrOJVgafpwbir/bXbXHG5n+LNJwmkK5jDQJnK7
-         KgUcLDwk95zKvdOajAsp4hIaDNmuVWYc34ApIzAjYFglvRdJKb9Pu4zyw7xdtizkYh+x
-         eZiTso4dBa8BOb4jHYY3wkQqZFLQ2vVJdjV3OAy9ODRNDUuZenVHzg0GnjNLcSMkmKUq
-         FzDXXUMkKuLsqxxvx+XZvvArahKeN80z3O82gQGo+XjxFeDnvQtVF78+v4sUC6Snjq1T
-         NN4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765401455; x=1766006255;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tOfFY77gZCltiZjkrHeQ4oE/3Skq9gP62li7AIVP3wU=;
-        b=Bd7OOejBbbdenYOwoOAHbRiBthgTeQ1sHVC7trUvpp/IzUn2SdvJ6kSuTx4beEE7AI
-         +x3PJ/Kok+dIQnEjsV+toNdTbkzOikhhpU5QGR7Yz+O5Jm2Tb1+occbMfaYv2NdxWI5N
-         sU+BG5bVi1Hy8P0WK0VYzJe39tjhqj8f1gSQRjQI/UhSqVH2mGyiLp1r78zdQGLdOFJD
-         fhWBE1e2m4VAwRlvU8N2Bw7R0ktIyGvE9cWqE6CZu20sepyJriPhUv4hRz9xKTklvdGR
-         AT7z3FJWvI8J+TagmAaT60DQVgptv1d6BU6pe7GO/SzySx8iP/s/5NvJNx1pAXoHjbaH
-         ivcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWE0rzRV0OiD8SllwIrVj02pFVm+pF6FDrdFGNmZ3imGoGUGst8gAFQ8l9bMV6+pZjXlwlvQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWHk/tUEG/dmolibIqmOPU5h/Wnnqyn9GQNEU+YihtbvchKdZ9
-	9ge6TZoZ5svIWTU+w5BTr4CrU9WMJeQmc88UmmQqUoL0SLdFPCEqD2/A
-X-Gm-Gg: ASbGncs9OqGutIaz12h4wwQqVSAdRVRcAGeiYHDvQMyI0hyGalkHmkbkU/5AI1eGImz
-	JssDEXRIv7e80jMshANCP86P0elKP6NkvS3nsbVY/T6FhtI1aKcRTBGiWmyX9wqzn+mZBqbO7t9
-	gl+k0pXqzUhU7wZKIQrOfDPiR9sVf7x/Qo+Ydv+R3TPF9zHOML1YQuZ17VHAy7TyvKN2Hcj9yqo
-	8wCnuY0WoBM83LdsJ2jmrv7lOHK0GyWqbnw0sPR0QlSI3QspWmZLbzE/yh5BwEOU2S1pnD1k6Uc
-	ivxU+rKfnAFZxpiSEYs/QgZkO83ScyKH6qeE76uHng8oJ0oj2ZQyA+5m71eAmGQDgOdNb/ZWMpX
-	1zLdjPz1HTl1Iuz4UlPT9vGCEHxsVSIKQ146AocxHCu+X/C2Oa/b7Kub5KyXLhcyoVD/4Xj0ukI
-	lUg0fp2hjN6lMG2UofIFZJeWfKSEaiWOFcP1DWIzxjv6o=
-X-Google-Smtp-Source: AGHT+IEllRKC6NDjpHfpSYxwBWFGd/XV/21Iks7SFysobBhsAwJQ/2swNyMn8d0YVqdg6M9x4r2d4A==
-X-Received: by 2002:a05:600c:8b16:b0:471:131f:85b7 with SMTP id 5b1f17b1804b1-47a8375ab5fmr38139825e9.15.1765401455052;
-        Wed, 10 Dec 2025 13:17:35 -0800 (PST)
-Received: from dev-linux.homserver.local ([51.154.248.7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a66614sm1113198f8f.5.2025.12.10.13.17.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 13:17:34 -0800 (PST)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Neal Gompa <neal@gompa.dev>
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/2] Bluetooth: hci_bcm4377: Use generic power management
-Date: Wed, 10 Dec 2025 21:17:25 +0000
-Message-ID: <20251210211728.544677-1-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1765404628; c=relaxed/simple;
+	bh=9Mbw+2a+O0bpocbYBboqIR0wKgD/bxSaeJe1Sq+BSnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E5YIhgESYNYm/X5GvVcf+XaQrwwreex+PJ5gLI5QGh/62HED/4s5JGiWaCADg/4iR+Q5q4pTTDh8Yt00a8ejCMFrbBPIGsrWnhlPXhviVwFoMEflzZoaQybcSDLQPNTFCT+St7dz0VoeyXTyyWfhcSFLgP6EB8W3UxWrblfDN+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 6CDDB1F80041;
+	Wed, 10 Dec 2025 22:09:51 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 69875B127FD; Wed, 10 Dec 2025 22:09:38 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id EBB48B127E9;
+	Wed, 10 Dec 2025 22:09:35 +0000 (UTC)
+Date: Wed, 10 Dec 2025 23:09:33 +0100
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Janne Grunau <j@jannau.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev,
+	linux-omap@vger.kernel.org, openbmc@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	chrome-platform@lists.linux.dev,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	linux-gpio@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	linux-sh@vger.kernel.org, x86@kernel.org,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: Kconfig dangling references (BZ 216748)
+Message-ID: <aTnvnaRuJ5lF4dVv@collins>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+ <aTcVXrUXVsyjaT22@shepard>
+ <20251208200555.GA333481@robin.jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MEb6eXQ93P1+3Wd8"
+Content-Disposition: inline
+In-Reply-To: <20251208200555.GA333481@robin.jannau.net>
 
-Switch to the generic PCI power management framework and remove legacy
-callbacks like .suspend() and .resume(). With the generic framework, the
-standard PCI related work like:
-        - pci_save/restore_state()
-        - pci_enable/disable_device()
-        - pci_set_power_state()
-is handled by the PCI core and this driver should implement only
-hci_bcm4377 specific operations in its respective callback functions.
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/bluetooth/hci_bcm4377.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+--MEb6eXQ93P1+3Wd8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index 45e6d84224ee..925d0a635945 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -2416,8 +2416,9 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 					hdev);
- }
- 
--static int bcm4377_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int bcm4377_suspend(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct bcm4377_data *bcm4377 = pci_get_drvdata(pdev);
- 	int ret;
- 
-@@ -2431,8 +2432,9 @@ static int bcm4377_suspend(struct pci_dev *pdev, pm_message_t state)
- 	return 0;
- }
- 
--static int bcm4377_resume(struct pci_dev *pdev)
-+static int bcm4377_resume(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct bcm4377_data *bcm4377 = pci_get_drvdata(pdev);
- 
- 	iowrite32(BCM4377_BAR0_SLEEP_CONTROL_UNQUIESCE,
-@@ -2441,6 +2443,8 @@ static int bcm4377_resume(struct pci_dev *pdev)
- 	return hci_resume_dev(bcm4377->hdev);
- }
- 
-+static DEFINE_SIMPLE_DEV_PM_OPS(bcm4377_ops, bcm4377_suspend, bcm4377_resume);
-+
- static const struct dmi_system_id bcm4377_dmi_board_table[] = {
- 	{
- 		.matches = {
-@@ -2541,8 +2545,7 @@ static struct pci_driver bcm4377_pci_driver = {
- 	.name = "hci_bcm4377",
- 	.id_table = bcm4377_devid_table,
- 	.probe = bcm4377_probe,
--	.suspend = bcm4377_suspend,
--	.resume = bcm4377_resume,
-+	.driver.pm = &bcm4377_ops,
- };
- module_pci_driver(bcm4377_pci_driver);
- 
--- 
-2.51.0
+Hi Janne,
 
+Le Mon 08 Dec 25, 21:05, Janne Grunau a =C3=A9crit :
+> On Mon, Dec 08, 2025 at 07:13:50PM +0100, Paul Kocialkowski wrote:
+> > Hi Randy,
+> >=20
+> > On Sun 07 Dec 25, 18:04, Randy Dunlap wrote:
+> > > from  https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
+> > >=20
+> > > The bugzilla entry includes a Perl script and a shell script.
+> > > This is the edited result of running them (I removed some entries tha=
+t were noise).
+> >=20
+> > [...]
+> >=20
+> > > DRM_KMS_DMA_HELPER ---
+> > > drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
+> > > drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
+> >=20
+> > For these two, the symbol was removed in commit
+> > 09717af7d13d63df141ae6e71686289989d17efd
+>=20
+> That commit removed DRM_KMS_CMA_HELPER. Later commit 6bcfe8eaeef0
+> ("drm/fb: rename FB CMA helpers to FB DMA helpers") renamed
+> DRM_KMS_CMA_HELPER erroneously to DRM_KMS_DMA_HELPER.
+>=20
+> > but these two drivers either were
+> > missed by the batch rename or were introduced a bit later.
+>=20
+> In the case of drivers/gpu/drm/adp/Kconfig it was missed much later
+> during review (but iirc went through the same rename out of tree).
+>=20
+> > Since the symbol selected DRM_GEM_CMA_HELPER (which is still needed by =
+the
+> > drivers), it should be replaced with DRM_GEM_CMA_HELPER.
+>=20
+> That symbol doesn't exist anymore either. It's now DRM_GEM_DMA_HELPER
+> which is already present in both files.
+
+Thanks for the details! It seems that I was looking at an older tree.
+
+> So the "select DRM_KMS_DMA_HELPER" lines can be removed from both files.
+
+Good, then I'll craft a patch removing these two lines.
+
+All the best,
+
+Paul
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--MEb6eXQ93P1+3Wd8
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmk5750ACgkQhP3B6o/u
+lQxOag/+J9Lwmq+hqcg9BxoDCZl6KmFGAh/RmelPeBUew6LlQphMcDpjQ0yJavK3
+bxojss4r12rV5307+f47JlSMFJa/100MablzoWV0koupx/JCRszhYf2w1lxYHKJh
+7jwy8GLd9NnaZGaiscrckVEcfaVRufzSM2I6ErSZIMSYEZ1LUTCakTPAwrgtarZb
+b9FzHmCrau56mdC2M6StWaolU90t4em1/We8XVRtLY87MEY/VQK6qLylL2fbpuIX
+5+DjnOBDMrvyB7UJFVbzcQA4ev1ckCBvnB2JdzGOfquj6XTO23m5/L5qfxTVk6qa
+yp9ShU6lQZ9RjinifpGWf8JTYl46U7hch9PrUCE/n0FgVl2frQHb/N08ynKUniCB
+1U76zgnG48Wkj08Sz6anRvER3dqEhzJgxJxpkW1UqoXFOSBQeeJZzZONuuUxYw3M
+8JKSldwJVj/oLlvCOI6QO0Q9T+U4YS1gpNBfHbysPaJgZyqld5tXaElOo9k8P8pX
+kAMhcvAn6FaXqkX5qJOAN+91M+CkQwQlWf16G7HKV0LcOvzCtGHYWVrxb7xWw9Em
+JBZRsrdq4CaQc34D8GkBR14H6WGWkGR4OQSTqxshPv7x/S4u9vV8FQWIhLW2LToY
+kw9ephtALgBj6D79R84K2DGlmZwPH2sunV3y9huDh3SNlR5dZg8=
+=EEMR
+-----END PGP SIGNATURE-----
+
+--MEb6eXQ93P1+3Wd8--
