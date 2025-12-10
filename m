@@ -1,143 +1,215 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from aposti.net (aposti.net [185.119.170.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8034224AF1
-	for <asahi@lists.linux.dev>; Wed, 10 Dec 2025 03:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061D91E7C23;
+	Wed, 10 Dec 2025 13:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765339092; cv=none; b=W//TykBp3cSwgv/xMCaIg0yR25G/8yEQ0CrslIgQ99P4VcvDzWh4Gdw/dUjRNEDfByF56V1JJ4eFhR7+27a4sY5Lee1Uwz1PA/aPXyqyTPJM9Y8WVZ4MxkdVdYbjMXu6E+cnRbwblbAiD9MAvjwMFMRrowbiddbMhveuM6tKaIg=
+	t=1765372646; cv=none; b=aUlcRiEWkcvXz4dg+n624o5EcevZ1qGwI6HsyzCST5ITksB4pCeFQKLFSnIHNwK702n4h5N2ou/bv3DL60270rWDDng9WHLrqnB6Eso+aJc+L+YkDNkUtvucOILhXtNOZoOsjYaKtSj/5xn2e6A2G6PMbTnzhRCBb/dk7NFGVyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765339092; c=relaxed/simple;
-	bh=qrrddUg0J/Vj3a3W8m/yYJDr8fLKEDPh9eHraAS8sLU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bDPhjIzn5EX0F05LURJyEmGGXRTv0pTy5OMOpjKSIrxzgsMEIHREQYbekMp76YP6Do78rZFprJhNZQhqPFfH0NZGv7UWyn0QS1GPDmUU/Xk0B08m5f/v+2R7kXTL6hHVK6mM4WD/oNoZW+yMeEGJxiR7SDqQIs7w4XYcq9ukUlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aV5T0INw; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765372646; c=relaxed/simple;
+	bh=jcPu3SNVQJaXw9PqEo38M18ABhD7SAoOI2W2LvihJ68=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KRdleWvJ3m97Pnh889nzPVtHX26xI8yG7D/D2P1hg3v8/1do1X4rAIt4o0OcHzIRJCN/VwKPBDoWZqDvToGGGEMzYTIXoB9+5QrphkzHYBRtpNo+K0Cws/cmqANC6nndRnUp7ml8HR6lHl0TuNaijhsY1vLRjvxUo2UoS9cEKjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=RnCMPHJ8; arc=none smtp.client-ip=185.119.170.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aV5T0INw"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4f1b1948ffaso2176711cf.2
-        for <asahi@lists.linux.dev>; Tue, 09 Dec 2025 19:58:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765339090; x=1765943890; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xLoOmL2OINkQVzeV8Rqv6NYJGZqFQ0WjVAMg3gQeW1M=;
-        b=aV5T0INw/3GWPPzdHw09z/ocSz8hhv5k1ae+RldDCwj2rAinKcPk4wHE1IvTdrgpGL
-         Prc4upu+WFgFQ59Ryi/l439X+OzaPgv+aIu8T7bFdi2CBlBnwBB/dma/V1gJpWjSMzlg
-         U3mDZFJItWpDFSXse34jssr3neP0Agq7hNapqn5mbHXZtRd/6X7713volB2R72Oq6LKH
-         C2XIqaIlNN7tL81ncZLxtQE6PT8QMtIq/jQ/aDgK1/bL3ozTULB7gd4mgnatYCaZ6BDQ
-         1up2TnEQmdOY/eMSVhb/NyzwZEMX2HBsk5GNcOD3D6eC/gmcD6csUGwQFUebgGLsCJDz
-         pfAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765339090; x=1765943890;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xLoOmL2OINkQVzeV8Rqv6NYJGZqFQ0WjVAMg3gQeW1M=;
-        b=YKhFDdWXYjoUWr5af2isXOusDxEmVamwnxXDJy7YdHipvKzJvBLF0DhwxFTPxpAaPj
-         QPxSaiWwdLYSFX0AjFb7lV7eEbvzrq/9d7FxMHHrVuoH/gv0qvXtvrNFZHzzuRCICAKp
-         NrwKwIyoeElscTIVRZFjDdkl3zwwDewdBA+e14hFcgP4Kap2E67Zy4Kk3SxNLHgGJ6A7
-         fV65s83MMTnxFBSkftSchkg7Uv3fSMzjG+4UUvaMHThZoWKNghY5PGs0nW5ffrl/JdWL
-         67EuRmj7bFeh/laQOqCbTErFumB3/OcT5MSQupQKrgn1yyfpvnbNJUazZdQT7QA/882x
-         XA2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXCun0Fdpa6lhbcg3kMoI66826KrvFe0/SaufYKR7uVWiNY59o7GoLrKrD2RIbBwQAFUAUCyg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxblWBa3Sl3Q4faBDEwB4QtMQDs/8JSx9+1TFfnzVdTThE6pq3B
-	sU4gcu+KBtxGOKHDU3OfJF6dWJPJUkbkQmUFeZWzXPepmfuxRqCWuGKUdop72aeV77NBoHIBWJa
-	fH9dMnhRMrMod+Ie0pwvGPvHv+FNdBig=
-X-Gm-Gg: ASbGnctrlp9G75Cw8sc0loxHiPJVUsviaV0SNl227dwEEJnYL3E+exZ9vvHMww8fk7Z
-	TocpFHMPPERaufbfLA6y+t/NRgmduX4gujG1jYOWgq641eQv/Z1VwOSdXCf7xC1FtI1AZqONm59
-	QmhCvT3nQmku4/VMvAEpoo+Dj8cb/l4rG1n0BWWWJASuuJHsLz7VBGUvbd7iKO+Y2GDieyR7qYD
-	0n1gjFbRW+/QzIwgvpfFI+OkRT9BZMhKdEjoHkjJRQPagjp/bGWLg1FH25mdznsJR0O0yDRUIaK
-	lwIjs1AeN/VHPF/8CwkGOWUkQ7q+YQX/8rMX6N36v2qgwPzW5FHdQm+z5ooCN6dZzZQz2tvLAbo
-	cuUiA9ADQ1oGlSoqLQFjf5QIAlyisSB8CZkw=
-X-Google-Smtp-Source: AGHT+IFGSPpDaGsF7GV6bSeqZjzx0wih4VR146dqGL5dRtKu2H9I9xlLneXMcdOPKYcfgnDqQlmhKeVlt3Ia1lJlppw=
-X-Received: by 2002:a05:622a:5d3:b0:4ee:1dd0:5a40 with SMTP id
- d75a77b69052e-4f1b1aae5b4mr12728361cf.59.1765339089481; Tue, 09 Dec 2025
- 19:58:09 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="RnCMPHJ8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1765372011;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cDRFy6vcE6IK0n780GaRWgRqUqt6rq2uXI/t4/Gr+Mo=;
+	b=RnCMPHJ8+5bLooq6YXu3nxjc4rHzf3q6p7Xq5Db7RIOUc6t+Xd3ujkkPR0UB3ezQtrVOcb
+	eEW6BLRdJMR0FiH+oIzNU8lDYzI29mfeAEpWk0l8VPS1wWY4/shf0rvBVsaV0G+NMHf00k
+	+Cudz+YjfUoQ/V5j0AoCmAvEmoGw5dk=
+Message-ID: <4b6db1eb455fff8e3c7372943faa5ef179c1d19f.camel@crapouillou.net>
+Subject: Re: Kconfig dangling references (BZ 216748)
+From: Paul Cercueil <paul@crapouillou.net>
+To: Randy Dunlap <rdunlap@infradead.org>, Linux Kernel Mailing List
+	 <linux-kernel@vger.kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, 	andrew.jones@linux.dev, linux-omap@vger.kernel.org,
+ openbmc@lists.ozlabs.org, 	linux-sound@vger.kernel.org, Alexander Shishkin	
+ <alexander.shishkin@linux.intel.com>, linux-mips@vger.kernel.org, 
+	asahi@lists.linux.dev, "dri-devel@lists.freedesktop.org"	
+ <dri-devel@lists.freedesktop.org>, Paul Kocialkowski <paulk@sys-base.io>, 
+	chrome-platform@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-gpio@vger.kernel.org, Srinivas Kandagatla	 <srini@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Matti Vaittinen	
+ <mazziesaccount@gmail.com>, Jonathan Cameron <jic23@kernel.org>, Vaibhav
+ Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
+ x86@kernel.org, Max Filippov	 <jcmvbkbc@gmail.com>
+Date: Wed, 10 Dec 2025 14:06:41 +0100
+In-Reply-To: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRU=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
- <20251209-tdm-idle-slots-v1-4-38dabf6bc01e@gmail.com> <aTjZc3mgu7CQOkDU@sirena.co.uk>
-In-Reply-To: <aTjZc3mgu7CQOkDU@sirena.co.uk>
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 10 Dec 2025 13:57:50 +1000
-X-Gm-Features: AQt7F2peQnceaEJraJhL4gaHZEV1D4IiSKkpSo2-8pS48v4HYxCHrY9kKA6UQpE
-Message-ID: <CAHgNfTxmYxNaYOdGK4Eb4ouCqmUCjVuhzGdgTAL=+ybObqrCmw@mail.gmail.com>
-Subject: Re: [PATCH 4/7] ASoC: soc-dai: define TDM idle behaviour modes
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Mark,
+Hi Randy,
 
-On Wed, Dec 10, 2025 at 12:22=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> On Tue, Dec 09, 2025 at 07:31:17PM +1000, James Calligeros wrote:
->
-> > Imagine for example two codecs sharing a bus. When one codec is
-> > transmitting, the other must ensure that it is holding its side
-> > to 0, or data from the transmitting codec will be corrupted. We
-> > can trust the "idle" codec to simply do this itself, however
-> > this is undefined behaviour. Some devices may leave the line
-> > floating, others still may pull the line high. We need a way to
-> > control this behaviour.
->
-> I'm finding this explanation quite confusing - you appear to be
-> describing the situation where two devices simultaneously drive the same
-> signal which would be extremely unusual and I can't see how it would
-> work electrically.
+Le dimanche 07 d=C3=A9cembre 2025 =C3=A0 18:04 -0800, Randy Dunlap a =C3=A9=
+crit=C2=A0:
+> from=C2=A0 https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
+>=20
+> The bugzilla entry includes a Perl script and a shell script.
+> This is the edited result of running them (I removed some entries
+> that were noise).
+>=20
+> I'll try to Cc: all of the relevant mailing lists or individuals.
+>=20
+>=20
+> ARCH_HAS_HOLES_MEMORYMODEL ---
+> arch/arm/mach-omap1/Kconfig:7:	select ARCH_HAS_HOLES_MEMORYMODEL
+>=20
+> ARM_ERRATA_794072 ---
+> arch/arm/mach-npcm/Kconfig:33:	select ARM_ERRATA_794072
+>=20
+> ARM_SMC_MBOX ---
+> arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
+>=20
+> CLK_FIXED_FCH ---
+> sound/soc/amd/Kconfig:11:	select CLK_FIXED_FCH
+> sound/soc/amd/Kconfig:48:	select CLK_FIXED_FCH
+> sound/soc/amd/acp/Kconfig:107:	select CLK_FIXED_FCH
+>=20
+> CONFIG_STM ---
+> drivers/hwtracing/stm/Kconfig:16:	default CONFIG_STM=C2=A0 # should
+> be STM
+> drivers/hwtracing/stm/Kconfig:31:	default CONFIG_STM
+>=20
+> CPU_HAS_LOAD_STORE_LR ---
+> arch/mips/Kconfig:1411:	select CPU_HAS_LOAD_STORE_LR
+>=20
+> DRM_KMS_DMA_HELPER ---
+> drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
+> drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
+>=20
+> EXTCON_TCSS_CROS_EC ---
+> drivers/usb/typec/ucsi/Kconfig:76:	depends on
+> !EXTCON_TCSS_CROS_EC
+>=20
+> MACH_JZ4755 ---
+> drivers/clk/ingenic/Kconfig:20:	default MACH_JZ4755
+> drivers/pinctrl/pinctrl-
+> ingenic.c:158:	IS_ENABLED(CONFIG_MACH_JZ4755) << ID_JZ4755 |
+> drivers/pinctrl/pinctrl-ingenic.c:4616:		.data =3D
+> IF_ENABLED(CONFIG_MACH_JZ4755, &jz4755_chip_info)
+>=20
+> MACH_JZ4760 ---
+> drivers/clk/ingenic/Kconfig:40:	default MACH_JZ4760
+> drivers/pinctrl/pinctrl-
+> ingenic.c:159:	IS_ENABLED(CONFIG_MACH_JZ4760) << ID_JZ4760 |
+> drivers/pinctrl/pinctrl-ingenic.c:4620:		.data =3D
+> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+> drivers/pinctrl/pinctrl-ingenic.c:4624:		.data =3D
+> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
 
-We are trying to solve a few of problems here, and one of them is
-a bit odd. I've probably jumbled up a bunch of different things here.
+Those were added when upstreaming support for the JZ4755/JZ4760, but
+the DTS files and actual support in arch/mips/ was never sent.
 
-We have the use case where a codec enjoys exclusive use of a bus. For
-these, the codec can transmit 0 on any unused slots to hold the bus.
+Instead of dropping those, I'll try to upstream the basic support for
+those SoCs in the coming days.
 
-We also have the case where multiple codecs share a single bus. One
-codec can weakly pull the bus low when it's not being actively driven by
-any of the attached codecs.
+Cheers,
+-Paul
 
-However, a number of machines split six codecs into groups of three
-across two electrical lines and then OR them at the receiving
-port such that they appear on a single bus at the SoC. Because the two
-data lines are ORed at the receiver, we have to guarantee that line B is
-zero while line A is active, and vice versa. To do this, we set a single co=
-dec
-from each group to zero-fill during the active slots of the other group.
-
-> > Thus, we define five possible bus-keeping modes that a device can
-> > be in: NONE (UB/as initialised), OFF (explicitly disabled), ZERO
-> > (actively transmit a 0), PULLDOWN, and HIZ (floating).
->
-> What is "explicitly disabled" in ths context?  Why aren't pull up or
-> drive high options?
-
-The OFF state was added so that consumers can explicitly disable
-any and all bus keeping if necessary and supported by the component.
-TAS2764 and 2770 both initialise with some bus keeping features enabled,
-hence for this hardware NONE !=3D OFF. I suspect this is the case for other
-hardware too.
-
-I neglected to add pull up and drive high simply because none of the
-initially implemented hardware uses either. I can them for completeness's
-sake, however.
-
-Regards,
-James
+>=20
+> MACH_STM32MP25 ---
+> drivers/pinctrl/stm32/Kconfig:58:	default MACH_STM32MP25 ||
+> (ARCH_STM32 && ARM64)
+>=20
+> MFD_AIROHA_AN8855 ---
+> drivers/nvmem/Kconfig:33:	depends on MFD_AIROHA_AN8855 ||
+> COMPILE_TEST
+>=20
+> MFD_TN48M_CPLD ---
+> drivers/gpio/Kconfig:1624:	depends on MFD_TN48M_CPLD ||
+> COMPILE_TEST
+> drivers/reset/Kconfig:365:	depends on MFD_TN48M_CPLD ||
+> COMPILE_TEST
+> drivers/reset/Kconfig:366:	default MFD_TN48M_CPLD
+>=20
+> MIPS_BAIKAL_T1 ---
+> drivers/ata/Kconfig:197:	select MFD_SYSCON if (MIPS_BAIKAL_T1
+> || COMPILE_TEST)
+> drivers/bus/Kconfig:43:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+> drivers/bus/Kconfig:58:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+> drivers/clk/baikal-t1/Kconfig:4:	depends on (MIPS_BAIKAL_T1
+> && OF) || COMPILE_TEST
+> drivers/clk/baikal-t1/Kconfig:5:	default MIPS_BAIKAL_T1
+> drivers/clk/baikal-t1/Kconfig:20:	default MIPS_BAIKAL_T1
+> drivers/clk/baikal-t1/Kconfig:33:	default MIPS_BAIKAL_T1
+> drivers/clk/baikal-t1/Kconfig:45:	default MIPS_BAIKAL_T1
+> drivers/hwmon/Kconfig:462:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+> drivers/i2c/busses/Kconfig:589:	select MFD_SYSCON if MIPS_BAIKAL_T1
+> drivers/memory/Kconfig:69:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+> drivers/mtd/maps/Kconfig:81:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+> drivers/pci/controller/dwc/Kconfig:89:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+> drivers/spi/Kconfig:370:	depends on MIPS_BAIKAL_T1 ||
+> COMPILE_TEST
+>=20
+> PINCTRL_MILBEAUT ---
+> arch/arm/mach-milbeaut/Kconfig:16:	select PINCTRL_MILBEAUT
+>=20
+> SND_SOC_AC97_BUS_NEW ---
+> sound/soc/pxa/Kconfig:21:	select SND_SOC_AC97_BUS_NEW
+>=20
+> SND_SOC_CS35L56_CAL_SYSFS_COMMON ---
+> sound/soc/codecs/Kconfig:920:	select
+> SND_SOC_CS35L56_CAL_SYSFS_COMMON
+>=20
+> TEST_KUNIT_DEVICE_HELPERS ---
+> drivers/iio/test/Kconfig:11:	select TEST_KUNIT_DEVICE_HELPERS
+>=20
+> USB_HSIC_USB3613 ---
+> drivers/staging/greybus/Kconfig:209:	depends on USB_HSIC_USB3613
+> || COMPILE_TEST
+> drivers/staging/greybus/arche-platform.c:26:#if
+> IS_ENABLED(CONFIG_USB_HSIC_USB3613)
+>=20
+> USB_OHCI_SH ---
+> arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=3Dy
+>=20
+> X86_P6_NOP ---
+> arch/x86/Kconfig.cpufeatures:41:	depends on X86_64 ||
+> X86_P6_NOP
+> arch/x86/Makefile_32.cpu:48:ifneq ($(CONFIG_X86_P6_NOP),y)
+>=20
+> XTENSA_PLATFORM_ESP32 ---
+> drivers/tty/serial/Kconfig:1598:	depends on
+> XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
+> drivers/tty/serial/Kconfig:1611:	depends on
+> XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
+>=20
