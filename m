@@ -1,134 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B1E217F29;
-	Wed, 10 Dec 2025 02:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8034224AF1
+	for <asahi@lists.linux.dev>; Wed, 10 Dec 2025 03:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765334592; cv=none; b=AWPrIzi6I6LhHcl/WBZaaO79vhIEeEik9i89unpW3Tr/POvHYbhqyqChZnne/E47LlsRCAqcTiJ+NE4UIglBnmFzsUv5XEes082RfnXP8gMA6Ik0No3KxrbmRvJS+ShUhp1uV1wOBdqzycnNF5LC7hlJQQcOkKhnBiwVUeKCQAs=
+	t=1765339092; cv=none; b=W//TykBp3cSwgv/xMCaIg0yR25G/8yEQ0CrslIgQ99P4VcvDzWh4Gdw/dUjRNEDfByF56V1JJ4eFhR7+27a4sY5Lee1Uwz1PA/aPXyqyTPJM9Y8WVZ4MxkdVdYbjMXu6E+cnRbwblbAiD9MAvjwMFMRrowbiddbMhveuM6tKaIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765334592; c=relaxed/simple;
-	bh=X+b6Ds7bmDEkMPiz88ZlLr0Tke0Lzhiei47PPP9Y6Ns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BfQRx7Ta6q5uBTulXWjSvFC6UfnT3puPCliI4nESbZzSNszsaZlwUOuERhFc3U+VATo6eRqrR2OF3p5byZ97r9hvAAvx9fMrpGHnz6gIJE6XX/3h+Tluv3TT/i3TUblOxcKlgmfQabRpjXv80TEE7kM3nydkzNXTQAXOJjGToyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpQdcJSM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765339092; c=relaxed/simple;
+	bh=qrrddUg0J/Vj3a3W8m/yYJDr8fLKEDPh9eHraAS8sLU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bDPhjIzn5EX0F05LURJyEmGGXRTv0pTy5OMOpjKSIrxzgsMEIHREQYbekMp76YP6Do78rZFprJhNZQhqPFfH0NZGv7UWyn0QS1GPDmUU/Xk0B08m5f/v+2R7kXTL6hHVK6mM4WD/oNoZW+yMeEGJxiR7SDqQIs7w4XYcq9ukUlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aV5T0INw; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CpQdcJSM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 798B4C4CEF5;
-	Wed, 10 Dec 2025 02:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765334591;
-	bh=X+b6Ds7bmDEkMPiz88ZlLr0Tke0Lzhiei47PPP9Y6Ns=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CpQdcJSMWs4M8QuTtVJ+bnbNUmARkQ1gBUYFKTXSt3AhAYhizWobpRAWvY+LJOFg3
-	 dVfIqakpH/b8pKN1BMKpXl6jUJdnqwpG9vzFjl3vUDV/GP/rcd66AMvTyGXH1+b4WK
-	 o6KdADELPU+VRszdDs/MBnJf+MJUMkHhJFNA7L01QAxEFlq5yxfPUq6DSVKLx8mZKy
-	 Rt0wu0Q777MwB/xDVyIcNAEOAcDxNU0raLrKK43Z+ZG1vWBBQdtCnJ9v1dPBEtU01o
-	 ed+Es/YgKeAs95siQfkBh1AvzXs50f9R3SpiV+ncQiQ/2TbpFLQ3bhbI8zRjN1wfGX
-	 wYX+Tp5HPyfFQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id E23071ACB974; Wed, 10 Dec 2025 02:43:08 +0000 (GMT)
-Date: Wed, 10 Dec 2025 11:43:08 +0900
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH 0/7] ASoC: basic support for configuring bus keepers
-Message-ID: <aTjePJuPNegXc9cl@sirena.co.uk>
-References: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aV5T0INw"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4f1b1948ffaso2176711cf.2
+        for <asahi@lists.linux.dev>; Tue, 09 Dec 2025 19:58:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765339090; x=1765943890; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xLoOmL2OINkQVzeV8Rqv6NYJGZqFQ0WjVAMg3gQeW1M=;
+        b=aV5T0INw/3GWPPzdHw09z/ocSz8hhv5k1ae+RldDCwj2rAinKcPk4wHE1IvTdrgpGL
+         Prc4upu+WFgFQ59Ryi/l439X+OzaPgv+aIu8T7bFdi2CBlBnwBB/dma/V1gJpWjSMzlg
+         U3mDZFJItWpDFSXse34jssr3neP0Agq7hNapqn5mbHXZtRd/6X7713volB2R72Oq6LKH
+         C2XIqaIlNN7tL81ncZLxtQE6PT8QMtIq/jQ/aDgK1/bL3ozTULB7gd4mgnatYCaZ6BDQ
+         1up2TnEQmdOY/eMSVhb/NyzwZEMX2HBsk5GNcOD3D6eC/gmcD6csUGwQFUebgGLsCJDz
+         pfAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765339090; x=1765943890;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xLoOmL2OINkQVzeV8Rqv6NYJGZqFQ0WjVAMg3gQeW1M=;
+        b=YKhFDdWXYjoUWr5af2isXOusDxEmVamwnxXDJy7YdHipvKzJvBLF0DhwxFTPxpAaPj
+         QPxSaiWwdLYSFX0AjFb7lV7eEbvzrq/9d7FxMHHrVuoH/gv0qvXtvrNFZHzzuRCICAKp
+         NrwKwIyoeElscTIVRZFjDdkl3zwwDewdBA+e14hFcgP4Kap2E67Zy4Kk3SxNLHgGJ6A7
+         fV65s83MMTnxFBSkftSchkg7Uv3fSMzjG+4UUvaMHThZoWKNghY5PGs0nW5ffrl/JdWL
+         67EuRmj7bFeh/laQOqCbTErFumB3/OcT5MSQupQKrgn1yyfpvnbNJUazZdQT7QA/882x
+         XA2g==
+X-Forwarded-Encrypted: i=1; AJvYcCXCun0Fdpa6lhbcg3kMoI66826KrvFe0/SaufYKR7uVWiNY59o7GoLrKrD2RIbBwQAFUAUCyg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxblWBa3Sl3Q4faBDEwB4QtMQDs/8JSx9+1TFfnzVdTThE6pq3B
+	sU4gcu+KBtxGOKHDU3OfJF6dWJPJUkbkQmUFeZWzXPepmfuxRqCWuGKUdop72aeV77NBoHIBWJa
+	fH9dMnhRMrMod+Ie0pwvGPvHv+FNdBig=
+X-Gm-Gg: ASbGnctrlp9G75Cw8sc0loxHiPJVUsviaV0SNl227dwEEJnYL3E+exZ9vvHMww8fk7Z
+	TocpFHMPPERaufbfLA6y+t/NRgmduX4gujG1jYOWgq641eQv/Z1VwOSdXCf7xC1FtI1AZqONm59
+	QmhCvT3nQmku4/VMvAEpoo+Dj8cb/l4rG1n0BWWWJASuuJHsLz7VBGUvbd7iKO+Y2GDieyR7qYD
+	0n1gjFbRW+/QzIwgvpfFI+OkRT9BZMhKdEjoHkjJRQPagjp/bGWLg1FH25mdznsJR0O0yDRUIaK
+	lwIjs1AeN/VHPF/8CwkGOWUkQ7q+YQX/8rMX6N36v2qgwPzW5FHdQm+z5ooCN6dZzZQz2tvLAbo
+	cuUiA9ADQ1oGlSoqLQFjf5QIAlyisSB8CZkw=
+X-Google-Smtp-Source: AGHT+IFGSPpDaGsF7GV6bSeqZjzx0wih4VR146dqGL5dRtKu2H9I9xlLneXMcdOPKYcfgnDqQlmhKeVlt3Ia1lJlppw=
+X-Received: by 2002:a05:622a:5d3:b0:4ee:1dd0:5a40 with SMTP id
+ d75a77b69052e-4f1b1aae5b4mr12728361cf.59.1765339089481; Tue, 09 Dec 2025
+ 19:58:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SJWIcwdK1mSmc43s"
-Content-Disposition: inline
-In-Reply-To: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
-X-Cookie: It's clever, but is it art?
+References: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
+ <20251209-tdm-idle-slots-v1-4-38dabf6bc01e@gmail.com> <aTjZc3mgu7CQOkDU@sirena.co.uk>
+In-Reply-To: <aTjZc3mgu7CQOkDU@sirena.co.uk>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Wed, 10 Dec 2025 13:57:50 +1000
+X-Gm-Features: AQt7F2peQnceaEJraJhL4gaHZEV1D4IiSKkpSo2-8pS48v4HYxCHrY9kKA6UQpE
+Message-ID: <CAHgNfTxmYxNaYOdGK4Eb4ouCqmUCjVuhzGdgTAL=+ybObqrCmw@mail.gmail.com>
+Subject: Re: [PATCH 4/7] ASoC: soc-dai: define TDM idle behaviour modes
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Mark,
 
---SJWIcwdK1mSmc43s
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, Dec 10, 2025 at 12:22=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
+ote:
+>
+> On Tue, Dec 09, 2025 at 07:31:17PM +1000, James Calligeros wrote:
+>
+> > Imagine for example two codecs sharing a bus. When one codec is
+> > transmitting, the other must ensure that it is holding its side
+> > to 0, or data from the transmitting codec will be corrupted. We
+> > can trust the "idle" codec to simply do this itself, however
+> > this is undefined behaviour. Some devices may leave the line
+> > floating, others still may pull the line high. We need a way to
+> > control this behaviour.
+>
+> I'm finding this explanation quite confusing - you appear to be
+> describing the situation where two devices simultaneously drive the same
+> signal which would be extremely unusual and I can't see how it would
+> work electrically.
 
-On Tue, Dec 09, 2025 at 07:31:13PM +1000, James Calligeros wrote:
+We are trying to solve a few of problems here, and one of them is
+a bit odd. I've probably jumbled up a bunch of different things here.
 
-> Consider a device with two codecs that report voice coil voltage and
-> current data back to the host via I2S. Codec A is configured to transmit
-> its V/ISENSE data on TDM slots 1 and 3, while Codec B is configured to
-> do so on slots 2 and 4. The receiving end sums the two together.
-> If Codec A transmits anything on slots 2 or 4 (and vice versa), the
-> result is a bus conflict.
+We have the use case where a codec enjoys exclusive use of a bus. For
+these, the codec can transmit 0 on any unused slots to hold the bus.
 
-> Some codecs include configurable bus keepers to ameliorate this issue.
+We also have the case where multiple codecs share a single bus. One
+codec can weakly pull the bus low when it's not being actively driven by
+any of the attached codecs.
 
-You've not really mentioned an issue here?  The expected behaviour for
-TDM is that devices should only drive the the slots they are configured
-to drive and should let the bus float otherwise, otherwise no other
-device could transmit.
+However, a number of machines split six codecs into groups of three
+across two electrical lines and then OR them at the receiving
+port such that they appear on a single bus at the SoC. Because the two
+data lines are ORed at the receiver, we have to guarantee that line B is
+zero while line A is active, and vice versa. To do this, we set a single co=
+dec
+from each group to zero-fill during the active slots of the other group.
 
-> Notable examples are the TI TAS2764 and TAS2770. By default, these
-> codecs keep their SDOUT pin floating during unconfigured TDM slots,
-> however this can result in garbage data on the bus. TAS2764 can be
-> set up to fill specific TDM slots with zeroes, TAS2770 can hold its
-> SDOUT pin to ground.
+> > Thus, we define five possible bus-keeping modes that a device can
+> > be in: NONE (UB/as initialised), OFF (explicitly disabled), ZERO
+> > (actively transmit a 0), PULLDOWN, and HIZ (floating).
+>
+> What is "explicitly disabled" in ths context?  Why aren't pull up or
+> drive high options?
 
-Right, so AIUI this is the actual thing you're trying to do - you want
-to additionally configure a CODEC to drive slots it's not putting data
-on to ensure there are no dead slots on the bus?  I guess you might have
-some restrictions on clocking which mean you need extra BCLKs (eg,
-needing power of 2 clocks).  But I'm having a hard time connecting this
-to your description below so I don't think I've followed what you're
-saying here.
+The OFF state was added so that consumers can explicitly disable
+any and all bus keeping if necessary and supported by the component.
+TAS2764 and 2770 both initialise with some bus keeping features enabled,
+hence for this hardware NONE !=3D OFF. I suspect this is the case for other
+hardware too.
 
-> This feature is necessary to properly drive the speaker systems found
-> on most Apple Silicon laptops. All but three models include six codecs
-> in two groups of three driving two woofers and a tweeter on both the left
-> and right channels. Each codec group has a single line for SDOUT, to
-> which all codecs are connected. The two groups are then summed on to
-> one I2S port. Each group must ensure that it is silent on the bus while
-> the other is supposed to be active.
+I neglected to add pull up and drive high simply because none of the
+initially implemented hardware uses either. I can them for completeness's
+sake, however.
 
-So is there one SDOUT or two which are connected... somehow?  I'm
-confused.
-
-> In the downstream Asahi Linux kernel[1], we set up one codec in each
-> group to zero-fill or pull down its group's side of the bus for the
-> opposite group's transmit slots. This is done entirely in the codec
-> driver, however this approach is perhaps over-fit for our use case.
-> Following previous mailing list discussions[2], I have tried to
-> expose the functionality in a more configurable and generic way.
-
-I can't parse what this is describing at all, sorry.  What is a "side"
-of a bus, and how is all this different to idle TDM slots?
-
---SJWIcwdK1mSmc43s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmk43jwACgkQJNaLcl1U
-h9AHiwf+KNgaEov7+sP0RmabPXtktOJflXPUzmECYjFNugoBNM4LeV91NCbOd17I
-w3/P3+7rS798JEmVpnB6u/ERppHZt6hXDRNP7BVSB5y/vr0+P6Iv7aSIWnjsjsXJ
-K+OicnfxX2MNo4QoSRkHKZqr0tXGOyewfsAidl4nxVvhbdZUPpozGXDexOxIvsbP
-HE4RQBTIz5F9pISZ+pdEjrGCrj1aNbCfd8/DYlzdm9TQExI61JJ+HPPlUnv7YFEq
-hHmuXXyqDt1MKIEqbvp3fwLzdM0aABW24WFoieXFwZNtZ0Aw2VAFkwvtNBvDCYVA
-wtM8KiYQDpQp/Fnmj62T4YS9Yt7dyg==
-=50C4
------END PGP SIGNATURE-----
-
---SJWIcwdK1mSmc43s--
+Regards,
+James
