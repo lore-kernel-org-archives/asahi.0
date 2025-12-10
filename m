@@ -1,215 +1,144 @@
-Received: from aposti.net (aposti.net [185.119.170.32])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061D91E7C23;
-	Wed, 10 Dec 2025 13:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D818A32E13A
+	for <asahi@lists.linux.dev>; Wed, 10 Dec 2025 21:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765372646; cv=none; b=aUlcRiEWkcvXz4dg+n624o5EcevZ1qGwI6HsyzCST5ITksB4pCeFQKLFSnIHNwK702n4h5N2ou/bv3DL60270rWDDng9WHLrqnB6Eso+aJc+L+YkDNkUtvucOILhXtNOZoOsjYaKtSj/5xn2e6A2G6PMbTnzhRCBb/dk7NFGVyI=
+	t=1765401458; cv=none; b=dPI+JkT7sZzhGgC4M/Kwxkby7QWO1N2fIz0KFtR9SRVEImz5YLICn2+w0Z4n+kIfbu3XwtxCbs1p0sxfS4hzldrCGdorLJplIEGQjnyUaixXXlY/qvYkwEjje9ERiIm4YZWcFEptl1F7tkhLOFXtIizg3IAu2B/0+6z1Fx+1HEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765372646; c=relaxed/simple;
-	bh=jcPu3SNVQJaXw9PqEo38M18ABhD7SAoOI2W2LvihJ68=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KRdleWvJ3m97Pnh889nzPVtHX26xI8yG7D/D2P1hg3v8/1do1X4rAIt4o0OcHzIRJCN/VwKPBDoWZqDvToGGGEMzYTIXoB9+5QrphkzHYBRtpNo+K0Cws/cmqANC6nndRnUp7ml8HR6lHl0TuNaijhsY1vLRjvxUo2UoS9cEKjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=RnCMPHJ8; arc=none smtp.client-ip=185.119.170.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1765401458; c=relaxed/simple;
+	bh=TGnIFeubVY7VeY994lX8aOuQktK904Czk8dQrCal58c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U/flBypXx+uBOhtUCI8o1d2vo+xgU+ZA9EZFtwm7eysKxmBsRckmgtwNIJC0ZI6xctM9hlr/Qp3rd1UFhjCIS94Mkam2SyIrGcg+qjAVgPnsFmpcUJLylo3gtc2OQ/kGFF4yYZYChAsBYgyuNaSFO4RS10lxwwDiL6y16yMdHKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E/0LVVDu; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="RnCMPHJ8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1765372011;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=cDRFy6vcE6IK0n780GaRWgRqUqt6rq2uXI/t4/Gr+Mo=;
-	b=RnCMPHJ8+5bLooq6YXu3nxjc4rHzf3q6p7Xq5Db7RIOUc6t+Xd3ujkkPR0UB3ezQtrVOcb
-	eEW6BLRdJMR0FiH+oIzNU8lDYzI29mfeAEpWk0l8VPS1wWY4/shf0rvBVsaV0G+NMHf00k
-	+Cudz+YjfUoQ/V5j0AoCmAvEmoGw5dk=
-Message-ID: <4b6db1eb455fff8e3c7372943faa5ef179c1d19f.camel@crapouillou.net>
-Subject: Re: Kconfig dangling references (BZ 216748)
-From: Paul Cercueil <paul@crapouillou.net>
-To: Randy Dunlap <rdunlap@infradead.org>, Linux Kernel Mailing List
-	 <linux-kernel@vger.kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>, 	andrew.jones@linux.dev, linux-omap@vger.kernel.org,
- openbmc@lists.ozlabs.org, 	linux-sound@vger.kernel.org, Alexander Shishkin	
- <alexander.shishkin@linux.intel.com>, linux-mips@vger.kernel.org, 
-	asahi@lists.linux.dev, "dri-devel@lists.freedesktop.org"	
- <dri-devel@lists.freedesktop.org>, Paul Kocialkowski <paulk@sys-base.io>, 
-	chrome-platform@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-gpio@vger.kernel.org, Srinivas Kandagatla	 <srini@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Matti Vaittinen	
- <mazziesaccount@gmail.com>, Jonathan Cameron <jic23@kernel.org>, Vaibhav
- Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
- x86@kernel.org, Max Filippov	 <jcmvbkbc@gmail.com>
-Date: Wed, 10 Dec 2025 14:06:41 +0100
-In-Reply-To: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRU=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/0LVVDu"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4775ae77516so2756185e9.1
+        for <asahi@lists.linux.dev>; Wed, 10 Dec 2025 13:17:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765401455; x=1766006255; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tOfFY77gZCltiZjkrHeQ4oE/3Skq9gP62li7AIVP3wU=;
+        b=E/0LVVDuYozh09rhLLRok/DIOwmACcx4zpmP86qOsiDcai0HggH+sLEbjE6e1sMMXL
+         jFZDOHlsBGCeTu9edzeNgqbX9Q0H0+RrOJVgafpwbir/bXbXHG5n+LNJwmkK5jDQJnK7
+         KgUcLDwk95zKvdOajAsp4hIaDNmuVWYc34ApIzAjYFglvRdJKb9Pu4zyw7xdtizkYh+x
+         eZiTso4dBa8BOb4jHYY3wkQqZFLQ2vVJdjV3OAy9ODRNDUuZenVHzg0GnjNLcSMkmKUq
+         FzDXXUMkKuLsqxxvx+XZvvArahKeN80z3O82gQGo+XjxFeDnvQtVF78+v4sUC6Snjq1T
+         NN4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765401455; x=1766006255;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tOfFY77gZCltiZjkrHeQ4oE/3Skq9gP62li7AIVP3wU=;
+        b=Bd7OOejBbbdenYOwoOAHbRiBthgTeQ1sHVC7trUvpp/IzUn2SdvJ6kSuTx4beEE7AI
+         +x3PJ/Kok+dIQnEjsV+toNdTbkzOikhhpU5QGR7Yz+O5Jm2Tb1+occbMfaYv2NdxWI5N
+         sU+BG5bVi1Hy8P0WK0VYzJe39tjhqj8f1gSQRjQI/UhSqVH2mGyiLp1r78zdQGLdOFJD
+         fhWBE1e2m4VAwRlvU8N2Bw7R0ktIyGvE9cWqE6CZu20sepyJriPhUv4hRz9xKTklvdGR
+         AT7z3FJWvI8J+TagmAaT60DQVgptv1d6BU6pe7GO/SzySx8iP/s/5NvJNx1pAXoHjbaH
+         ivcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWE0rzRV0OiD8SllwIrVj02pFVm+pF6FDrdFGNmZ3imGoGUGst8gAFQ8l9bMV6+pZjXlwlvQA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWHk/tUEG/dmolibIqmOPU5h/Wnnqyn9GQNEU+YihtbvchKdZ9
+	9ge6TZoZ5svIWTU+w5BTr4CrU9WMJeQmc88UmmQqUoL0SLdFPCEqD2/A
+X-Gm-Gg: ASbGncs9OqGutIaz12h4wwQqVSAdRVRcAGeiYHDvQMyI0hyGalkHmkbkU/5AI1eGImz
+	JssDEXRIv7e80jMshANCP86P0elKP6NkvS3nsbVY/T6FhtI1aKcRTBGiWmyX9wqzn+mZBqbO7t9
+	gl+k0pXqzUhU7wZKIQrOfDPiR9sVf7x/Qo+Ydv+R3TPF9zHOML1YQuZ17VHAy7TyvKN2Hcj9yqo
+	8wCnuY0WoBM83LdsJ2jmrv7lOHK0GyWqbnw0sPR0QlSI3QspWmZLbzE/yh5BwEOU2S1pnD1k6Uc
+	ivxU+rKfnAFZxpiSEYs/QgZkO83ScyKH6qeE76uHng8oJ0oj2ZQyA+5m71eAmGQDgOdNb/ZWMpX
+	1zLdjPz1HTl1Iuz4UlPT9vGCEHxsVSIKQ146AocxHCu+X/C2Oa/b7Kub5KyXLhcyoVD/4Xj0ukI
+	lUg0fp2hjN6lMG2UofIFZJeWfKSEaiWOFcP1DWIzxjv6o=
+X-Google-Smtp-Source: AGHT+IEllRKC6NDjpHfpSYxwBWFGd/XV/21Iks7SFysobBhsAwJQ/2swNyMn8d0YVqdg6M9x4r2d4A==
+X-Received: by 2002:a05:600c:8b16:b0:471:131f:85b7 with SMTP id 5b1f17b1804b1-47a8375ab5fmr38139825e9.15.1765401455052;
+        Wed, 10 Dec 2025 13:17:35 -0800 (PST)
+Received: from dev-linux.homserver.local ([51.154.248.7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a66614sm1113198f8f.5.2025.12.10.13.17.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Dec 2025 13:17:34 -0800 (PST)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Neal Gompa <neal@gompa.dev>
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/2] Bluetooth: hci_bcm4377: Use generic power management
+Date: Wed, 10 Dec 2025 21:17:25 +0000
+Message-ID: <20251210211728.544677-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Randy,
+Switch to the generic PCI power management framework and remove legacy
+callbacks like .suspend() and .resume(). With the generic framework, the
+standard PCI related work like:
+        - pci_save/restore_state()
+        - pci_enable/disable_device()
+        - pci_set_power_state()
+is handled by the PCI core and this driver should implement only
+hci_bcm4377 specific operations in its respective callback functions.
 
-Le dimanche 07 d=C3=A9cembre 2025 =C3=A0 18:04 -0800, Randy Dunlap a =C3=A9=
-crit=C2=A0:
-> from=C2=A0 https://bugzilla.kernel.org/show_bug.cgi?id=3D216748
->=20
-> The bugzilla entry includes a Perl script and a shell script.
-> This is the edited result of running them (I removed some entries
-> that were noise).
->=20
-> I'll try to Cc: all of the relevant mailing lists or individuals.
->=20
->=20
-> ARCH_HAS_HOLES_MEMORYMODEL ---
-> arch/arm/mach-omap1/Kconfig:7:	select ARCH_HAS_HOLES_MEMORYMODEL
->=20
-> ARM_ERRATA_794072 ---
-> arch/arm/mach-npcm/Kconfig:33:	select ARM_ERRATA_794072
->=20
-> ARM_SMC_MBOX ---
-> arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
->=20
-> CLK_FIXED_FCH ---
-> sound/soc/amd/Kconfig:11:	select CLK_FIXED_FCH
-> sound/soc/amd/Kconfig:48:	select CLK_FIXED_FCH
-> sound/soc/amd/acp/Kconfig:107:	select CLK_FIXED_FCH
->=20
-> CONFIG_STM ---
-> drivers/hwtracing/stm/Kconfig:16:	default CONFIG_STM=C2=A0 # should
-> be STM
-> drivers/hwtracing/stm/Kconfig:31:	default CONFIG_STM
->=20
-> CPU_HAS_LOAD_STORE_LR ---
-> arch/mips/Kconfig:1411:	select CPU_HAS_LOAD_STORE_LR
->=20
-> DRM_KMS_DMA_HELPER ---
-> drivers/gpu/drm/adp/Kconfig:9:	select DRM_KMS_DMA_HELPER
-> drivers/gpu/drm/logicvc/Kconfig:7:	select DRM_KMS_DMA_HELPER
->=20
-> EXTCON_TCSS_CROS_EC ---
-> drivers/usb/typec/ucsi/Kconfig:76:	depends on
-> !EXTCON_TCSS_CROS_EC
->=20
-> MACH_JZ4755 ---
-> drivers/clk/ingenic/Kconfig:20:	default MACH_JZ4755
-> drivers/pinctrl/pinctrl-
-> ingenic.c:158:	IS_ENABLED(CONFIG_MACH_JZ4755) << ID_JZ4755 |
-> drivers/pinctrl/pinctrl-ingenic.c:4616:		.data =3D
-> IF_ENABLED(CONFIG_MACH_JZ4755, &jz4755_chip_info)
->=20
-> MACH_JZ4760 ---
-> drivers/clk/ingenic/Kconfig:40:	default MACH_JZ4760
-> drivers/pinctrl/pinctrl-
-> ingenic.c:159:	IS_ENABLED(CONFIG_MACH_JZ4760) << ID_JZ4760 |
-> drivers/pinctrl/pinctrl-ingenic.c:4620:		.data =3D
-> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
-> drivers/pinctrl/pinctrl-ingenic.c:4624:		.data =3D
-> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/bluetooth/hci_bcm4377.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Those were added when upstreaming support for the JZ4755/JZ4760, but
-the DTS files and actual support in arch/mips/ was never sent.
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 45e6d84224ee..925d0a635945 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -2416,8 +2416,9 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 					hdev);
+ }
+ 
+-static int bcm4377_suspend(struct pci_dev *pdev, pm_message_t state)
++static int bcm4377_suspend(struct device *dev)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct bcm4377_data *bcm4377 = pci_get_drvdata(pdev);
+ 	int ret;
+ 
+@@ -2431,8 +2432,9 @@ static int bcm4377_suspend(struct pci_dev *pdev, pm_message_t state)
+ 	return 0;
+ }
+ 
+-static int bcm4377_resume(struct pci_dev *pdev)
++static int bcm4377_resume(struct device *dev)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct bcm4377_data *bcm4377 = pci_get_drvdata(pdev);
+ 
+ 	iowrite32(BCM4377_BAR0_SLEEP_CONTROL_UNQUIESCE,
+@@ -2441,6 +2443,8 @@ static int bcm4377_resume(struct pci_dev *pdev)
+ 	return hci_resume_dev(bcm4377->hdev);
+ }
+ 
++static DEFINE_SIMPLE_DEV_PM_OPS(bcm4377_ops, bcm4377_suspend, bcm4377_resume);
++
+ static const struct dmi_system_id bcm4377_dmi_board_table[] = {
+ 	{
+ 		.matches = {
+@@ -2541,8 +2545,7 @@ static struct pci_driver bcm4377_pci_driver = {
+ 	.name = "hci_bcm4377",
+ 	.id_table = bcm4377_devid_table,
+ 	.probe = bcm4377_probe,
+-	.suspend = bcm4377_suspend,
+-	.resume = bcm4377_resume,
++	.driver.pm = &bcm4377_ops,
+ };
+ module_pci_driver(bcm4377_pci_driver);
+ 
+-- 
+2.51.0
 
-Instead of dropping those, I'll try to upstream the basic support for
-those SoCs in the coming days.
-
-Cheers,
--Paul
-
->=20
-> MACH_STM32MP25 ---
-> drivers/pinctrl/stm32/Kconfig:58:	default MACH_STM32MP25 ||
-> (ARCH_STM32 && ARM64)
->=20
-> MFD_AIROHA_AN8855 ---
-> drivers/nvmem/Kconfig:33:	depends on MFD_AIROHA_AN8855 ||
-> COMPILE_TEST
->=20
-> MFD_TN48M_CPLD ---
-> drivers/gpio/Kconfig:1624:	depends on MFD_TN48M_CPLD ||
-> COMPILE_TEST
-> drivers/reset/Kconfig:365:	depends on MFD_TN48M_CPLD ||
-> COMPILE_TEST
-> drivers/reset/Kconfig:366:	default MFD_TN48M_CPLD
->=20
-> MIPS_BAIKAL_T1 ---
-> drivers/ata/Kconfig:197:	select MFD_SYSCON if (MIPS_BAIKAL_T1
-> || COMPILE_TEST)
-> drivers/bus/Kconfig:43:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
-> drivers/bus/Kconfig:58:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
-> drivers/clk/baikal-t1/Kconfig:4:	depends on (MIPS_BAIKAL_T1
-> && OF) || COMPILE_TEST
-> drivers/clk/baikal-t1/Kconfig:5:	default MIPS_BAIKAL_T1
-> drivers/clk/baikal-t1/Kconfig:20:	default MIPS_BAIKAL_T1
-> drivers/clk/baikal-t1/Kconfig:33:	default MIPS_BAIKAL_T1
-> drivers/clk/baikal-t1/Kconfig:45:	default MIPS_BAIKAL_T1
-> drivers/hwmon/Kconfig:462:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
-> drivers/i2c/busses/Kconfig:589:	select MFD_SYSCON if MIPS_BAIKAL_T1
-> drivers/memory/Kconfig:69:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
-> drivers/mtd/maps/Kconfig:81:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
-> drivers/pci/controller/dwc/Kconfig:89:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
-> drivers/spi/Kconfig:370:	depends on MIPS_BAIKAL_T1 ||
-> COMPILE_TEST
->=20
-> PINCTRL_MILBEAUT ---
-> arch/arm/mach-milbeaut/Kconfig:16:	select PINCTRL_MILBEAUT
->=20
-> SND_SOC_AC97_BUS_NEW ---
-> sound/soc/pxa/Kconfig:21:	select SND_SOC_AC97_BUS_NEW
->=20
-> SND_SOC_CS35L56_CAL_SYSFS_COMMON ---
-> sound/soc/codecs/Kconfig:920:	select
-> SND_SOC_CS35L56_CAL_SYSFS_COMMON
->=20
-> TEST_KUNIT_DEVICE_HELPERS ---
-> drivers/iio/test/Kconfig:11:	select TEST_KUNIT_DEVICE_HELPERS
->=20
-> USB_HSIC_USB3613 ---
-> drivers/staging/greybus/Kconfig:209:	depends on USB_HSIC_USB3613
-> || COMPILE_TEST
-> drivers/staging/greybus/arche-platform.c:26:#if
-> IS_ENABLED(CONFIG_USB_HSIC_USB3613)
->=20
-> USB_OHCI_SH ---
-> arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=3Dy
->=20
-> X86_P6_NOP ---
-> arch/x86/Kconfig.cpufeatures:41:	depends on X86_64 ||
-> X86_P6_NOP
-> arch/x86/Makefile_32.cpu:48:ifneq ($(CONFIG_X86_P6_NOP),y)
->=20
-> XTENSA_PLATFORM_ESP32 ---
-> drivers/tty/serial/Kconfig:1598:	depends on
-> XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
-> drivers/tty/serial/Kconfig:1611:	depends on
-> XTENSA_PLATFORM_ESP32 || (COMPILE_TEST && OF)
->=20
