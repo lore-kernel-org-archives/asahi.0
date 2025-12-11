@@ -1,110 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF69322259F;
-	Thu, 11 Dec 2025 01:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD5FCA6B
+	for <asahi@lists.linux.dev>; Thu, 11 Dec 2025 07:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765417707; cv=none; b=jCyHBikjKOuuiQotulBHtvAQAqrj6C3kivyvXCFauaeE7sQwbk5hTfPh7HLnxrhk6keg+DpP5lGIR4klB1Oy+iP4UHv291WIuDJHdo3F87++2LBCRQan0/1xWJXuthsrTLvrPOHXttT67c5JJ6Sof7rUEN/dkCV3LxRT2C9waeg=
+	t=1765437310; cv=none; b=EbBoapxsEn86GvRm9yxOGr1ZwziW+DezNdeOM1FMjvgKxOgF2MvrlR2R5XkXEt1eq7Qon/vYxi46qSexww8+tON+0fZyeQE0d0lUJbPlrGMHnvqkOJjqVEo0RTd7hxK5nyihZI/IlOCGMHywzazcLdRhx4nYYA5dOJEKu91veZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765417707; c=relaxed/simple;
-	bh=bsNHK4wRv0LhzVOGuJzCuJXVaLyhXJunj4croYtEeWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GHdlToDKTJiI0Xnb/lEbEinP0nHX4GMHahRyPZW3f4XVD0lYf3b7pjaL1qQyt6s+CI/GfTwNKQOTpWdo7so1KWxFsjww/Lk4a4HfYhSaXgGeWbwrIt5q4zmBLr0fvb9oRzA3SJu1iNW48o7UGRQ7kQhyXp9U8y37zMOGw7gjBiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lm7a7I7m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765437310; c=relaxed/simple;
+	bh=HZoEo5LzpRM3RCZR+m7AeefAAgqjqCqPZbaB/K9CGAg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pFdvBi6F/S3xwRum9Jfu6WC4uv3tv+x/6oaKFKZ1M41qN3mqrS8MAQt9bLLlhpd4TgpCNunFg6NuuZj5DE1RxlRSHF37pyNqSasfCy1hCPhMPz31/Sr03IUj1qKUINA2fgvyxbzbjT6UGZrp8krSb+m8ncHVf+XxkgiLnxReiXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rBlmiYgZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KjmGnpQb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xqZk4MKu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7zRa6bRi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lm7a7I7m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A6EC4CEF1;
-	Thu, 11 Dec 2025 01:48:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765417707;
-	bh=bsNHK4wRv0LhzVOGuJzCuJXVaLyhXJunj4croYtEeWA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lm7a7I7mE9qT7WGiGUx8UdxDcVZSa9UN0nSaP4kBdo+g4JvLCTiRlTJ5N6u2XpsaI
-	 3H/0he3VN4xfMWgfLDlRSC/2ZPWMELjtV4Sb7JUvQTeZPJ83sfDsCKUJdU0/s8ugnU
-	 FuJJLcqRqY7PjJSOvqVH9+Tn3skjW5GMcqX0jGbLIqtTEUTLBR+HnFLJenNTJF/elA
-	 RqNAVSBRTtql7F3quGz3ZEWZCy9kkTvjGzJk/eCcGWdjcY1uuXH3evh9/l+gq2HBsa
-	 inrR6e+d4Oolyqn7mBvKmiLACb/xVnlrG3mSlQQzCc423uLgjGHDQJ7eqscGN/9Xz6
-	 xs82Ied/wIB1A==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 0045E1ACB974; Thu, 11 Dec 2025 01:48:24 +0000 (GMT)
-Date: Thu, 11 Dec 2025 10:48:24 +0900
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH 4/7] ASoC: soc-dai: define TDM idle behaviour modes
-Message-ID: <aToi6OMxiAcdBrnV@sirena.co.uk>
-References: <20251209-tdm-idle-slots-v1-0-38dabf6bc01e@gmail.com>
- <20251209-tdm-idle-slots-v1-4-38dabf6bc01e@gmail.com>
- <aTjZc3mgu7CQOkDU@sirena.co.uk>
- <CAHgNfTxmYxNaYOdGK4Eb4ouCqmUCjVuhzGdgTAL=+ybObqrCmw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rBlmiYgZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KjmGnpQb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xqZk4MKu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7zRa6bRi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E12A75BDB6;
+	Thu, 11 Dec 2025 07:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765437305; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VTtjYyMeKQKIOU7u2hGWmS+R/qmaJbl5YRIsdXE2mjA=;
+	b=rBlmiYgZMf0xfCd837UsPJxjFx4oif4l+BbYvki0AkQWb/KjMKuk0Lk7OPgGfgQK6jIh31
+	DIAPfrcV8Pl1r/n+zJZMCGnO5f5MIPo3FQyC0Bxd/XGOXELP2YL/vfKqZlO8dhMbDldEmn
+	sWyeKjwaZPYHs90zsdHC3ahMD4bGx6g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765437305;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VTtjYyMeKQKIOU7u2hGWmS+R/qmaJbl5YRIsdXE2mjA=;
+	b=KjmGnpQbcZxEg7wo2ML3T6q706ST848xqtuR0nd/LbO6UMTe2+fElhvKXl3TcKjAiauhA/
+	HujyS0yCs9PsMbBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xqZk4MKu;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7zRa6bRi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765437303; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VTtjYyMeKQKIOU7u2hGWmS+R/qmaJbl5YRIsdXE2mjA=;
+	b=xqZk4MKu/i2PU3WpFYWl8jivXer2YPz9YoOvlrDoSCZVbBiDcA1WEJzxx26RACnWPmE4bs
+	SOwes3khN8v77XECCpZlIaAcHBYXkbhDCAQr1r6zK94L+H8H4kMfOvW89pnDPUyWo6zYzk
+	8I5YFOuZEipL0EQJ0Nl12m212yTsTtY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765437303;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VTtjYyMeKQKIOU7u2hGWmS+R/qmaJbl5YRIsdXE2mjA=;
+	b=7zRa6bRiHBjDVnv2g1Uvhs0Q3OtaTx/WHhXLg2lTk1sNktfUtpjGoh6jtSPJO/S9xP4ZLN
+	ZiRgrAVgTwNyUHDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D9BB3EA63;
+	Thu, 11 Dec 2025 07:15:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dHV+HHdvOmkaAwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 11 Dec 2025 07:15:03 +0000
+Message-ID: <04b1edc4-fcb2-44ab-b449-fed5de6e124f@suse.de>
+Date: Thu, 11 Dec 2025 08:15:02 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Pb1joisuHwCHeqND"
-Content-Disposition: inline
-In-Reply-To: <CAHgNfTxmYxNaYOdGK4Eb4ouCqmUCjVuhzGdgTAL=+ybObqrCmw@mail.gmail.com>
-X-Cookie: It's clever, but is it art?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: Remove remaining DRM_KMS_DMA_HELPER users
+To: Paul Kocialkowski <paulk@sys-base.io>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Randy Dunlap <rdunlap@infradead.org>
+References: <20251210222337.3751485-1-paulk@sys-base.io>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251210222337.3751485-1-paulk@sys-base.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Rspamd-Queue-Id: E12A75BDB6
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,jannau.net,linux.intel.com,kernel.org,ffwll.ch,infradead.org];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,sys-base.io:email,suse.de:mid,suse.de:dkim,suse.de:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 
 
---Pb1joisuHwCHeqND
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Wed, Dec 10, 2025 at 01:57:50PM +1000, James Calligeros wrote:
+Am 10.12.25 um 23:23 schrieb Paul Kocialkowski:
+> The DRM_KMS_CMA_HELPER config option was removed in commit 09717af7d13d
+> ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option") but two drivers were
+> later merged with the option still selected.
+>
+> The dangling option was later renamed to DRM_KMS_DMA_HELPER with commit
+> 6bcfe8eaeef0 ("drm/fb: rename FB CMA helpers to FB DMA helpers").
+>
+> Remove the entries in the two drivers, which already select
+> DRM_GEM_DMA_HELPER (that was previously selected via DRM_KMS_CMA_HELPER).
+>
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 
-> We have the use case where a codec enjoys exclusive use of a bus. For
-> these, the codec can transmit 0 on any unused slots to hold the bus.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> We also have the case where multiple codecs share a single bus. One
-> codec can weakly pull the bus low when it's not being actively driven by
-> any of the attached codecs.
+> ---
+>   drivers/gpu/drm/adp/Kconfig     | 1 -
+>   drivers/gpu/drm/logicvc/Kconfig | 1 -
+>   2 files changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/adp/Kconfig b/drivers/gpu/drm/adp/Kconfig
+> index 9fcc27eb200d..acfa21ee06d2 100644
+> --- a/drivers/gpu/drm/adp/Kconfig
+> +++ b/drivers/gpu/drm/adp/Kconfig
+> @@ -6,7 +6,6 @@ config DRM_ADP
+>   	select DRM_KMS_HELPER
+>   	select DRM_BRIDGE_CONNECTOR
+>   	select DRM_DISPLAY_HELPER
+> -	select DRM_KMS_DMA_HELPER
+>   	select DRM_GEM_DMA_HELPER
+>   	select DRM_PANEL_BRIDGE
+>   	select VIDEOMODE_HELPERS
+> diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicvc/Kconfig
+> index 579a358ed5cf..11aae1626199 100644
+> --- a/drivers/gpu/drm/logicvc/Kconfig
+> +++ b/drivers/gpu/drm/logicvc/Kconfig
+> @@ -4,7 +4,6 @@ config DRM_LOGICVC
+>   	depends on OF || COMPILE_TEST
+>   	select DRM_CLIENT_SELECTION
+>   	select DRM_KMS_HELPER
+> -	select DRM_KMS_DMA_HELPER
+>   	select DRM_GEM_DMA_HELPER
+>   	select REGMAP
+>   	select REGMAP_MMIO
 
-Or configure so you don't have any idle slots.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-> However, a number of machines split six codecs into groups of three
-> across two electrical lines and then OR them at the receiving
-> port such that they appear on a single bus at the SoC. Because the two
-> data lines are ORed at the receiver, we have to guarantee that line B is
-> zero while line A is active, and vice versa. To do this, we set a single codec
-> from each group to zero-fill during the active slots of the other group.
 
-So this is an actual logical OR gate somewhere rather than a direct
-electrical connection?
-
-It'd be good to have an explanation more like this in the commit
-messages to make it clearer to users what this is intended to do.
-
---Pb1joisuHwCHeqND
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmk6IuUACgkQJNaLcl1U
-h9D25wf/UsJQP72iHm3Bx4cCkiOBX1vxvax9DWGQFjRnVyUlib3e81+nEUN9hPUP
-F1z7hEOJl9VBT8DTHkCF+u69lJqj3VcaLyv4y9p5JRmnn8a752strfvFCbb6u8ut
-zDAP+3DZ0s7/xaM55dr+dXoUfmde97HiZkk23mwW6Mk1GaVR0eW1Q141j2lMBCzM
-oy2m9mRNnF0FqYMUhtXJE1X2ZqZJ4M3ATessCDZqG3HLk50nNdZxpYKl3T6J6KpG
-fYksvE1mvk+Kub9c4I7iZ7rpJk09wOy9JMgL1kDKwKmsjsR5SkxnBBMoy6+r/7nP
-uvdJYoHVO71HRc47ISk6XHQGduPIIA==
-=WXvU
------END PGP SIGNATURE-----
-
---Pb1joisuHwCHeqND--
