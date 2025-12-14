@@ -1,213 +1,326 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD5FCA6B
-	for <asahi@lists.linux.dev>; Thu, 11 Dec 2025 07:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AB6273F9;
+	Sun, 14 Dec 2025 11:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765437310; cv=none; b=EbBoapxsEn86GvRm9yxOGr1ZwziW+DezNdeOM1FMjvgKxOgF2MvrlR2R5XkXEt1eq7Qon/vYxi46qSexww8+tON+0fZyeQE0d0lUJbPlrGMHnvqkOJjqVEo0RTd7hxK5nyihZI/IlOCGMHywzazcLdRhx4nYYA5dOJEKu91veZo=
+	t=1765713116; cv=none; b=h1RjDE5w14SaMqFHSNH0jlgz0e2ZI3cG5MHBNs9M0Xrlz2BnXN/o2+HUwtHk5JQ341GR55ZTpy2EYajpUPdmB6WGwlgDvlxoCyTmIEyrIfRrI26MhGftH9qobRo85u02i6InCLpkWe2C9jwLooVT2zWHCA/T1DxgQkdPShWU4+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765437310; c=relaxed/simple;
-	bh=HZoEo5LzpRM3RCZR+m7AeefAAgqjqCqPZbaB/K9CGAg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pFdvBi6F/S3xwRum9Jfu6WC4uv3tv+x/6oaKFKZ1M41qN3mqrS8MAQt9bLLlhpd4TgpCNunFg6NuuZj5DE1RxlRSHF37pyNqSasfCy1hCPhMPz31/Sr03IUj1qKUINA2fgvyxbzbjT6UGZrp8krSb+m8ncHVf+XxkgiLnxReiXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rBlmiYgZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KjmGnpQb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xqZk4MKu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7zRa6bRi; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1765713116; c=relaxed/simple;
+	bh=B8pn83D7Yy67lmNF8MQiKBTy4XDuUoCznztEvqwwgV4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=pZnc3rN9LPcHxqgt2dOcHvaEwymkdev4BU/ZMLVXQbrmbXE+j44EOELVANgEYi42iGkR0WT8BRB4Lp15zWpx0QjVQZgvBz7rp2U43HOidZwqlUjq8yYnKyFYJQziGPFKmiAoOne1iQ2rNf4cusRzKeQc1n1e2AuFZqBE9NlBt/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dd/Vgl8L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rBlmiYgZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KjmGnpQb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xqZk4MKu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7zRa6bRi"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E12A75BDB6;
-	Thu, 11 Dec 2025 07:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765437305; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VTtjYyMeKQKIOU7u2hGWmS+R/qmaJbl5YRIsdXE2mjA=;
-	b=rBlmiYgZMf0xfCd837UsPJxjFx4oif4l+BbYvki0AkQWb/KjMKuk0Lk7OPgGfgQK6jIh31
-	DIAPfrcV8Pl1r/n+zJZMCGnO5f5MIPo3FQyC0Bxd/XGOXELP2YL/vfKqZlO8dhMbDldEmn
-	sWyeKjwaZPYHs90zsdHC3ahMD4bGx6g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765437305;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VTtjYyMeKQKIOU7u2hGWmS+R/qmaJbl5YRIsdXE2mjA=;
-	b=KjmGnpQbcZxEg7wo2ML3T6q706ST848xqtuR0nd/LbO6UMTe2+fElhvKXl3TcKjAiauhA/
-	HujyS0yCs9PsMbBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xqZk4MKu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7zRa6bRi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765437303; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VTtjYyMeKQKIOU7u2hGWmS+R/qmaJbl5YRIsdXE2mjA=;
-	b=xqZk4MKu/i2PU3WpFYWl8jivXer2YPz9YoOvlrDoSCZVbBiDcA1WEJzxx26RACnWPmE4bs
-	SOwes3khN8v77XECCpZlIaAcHBYXkbhDCAQr1r6zK94L+H8H4kMfOvW89pnDPUyWo6zYzk
-	8I5YFOuZEipL0EQJ0Nl12m212yTsTtY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765437303;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=VTtjYyMeKQKIOU7u2hGWmS+R/qmaJbl5YRIsdXE2mjA=;
-	b=7zRa6bRiHBjDVnv2g1Uvhs0Q3OtaTx/WHhXLg2lTk1sNktfUtpjGoh6jtSPJO/S9xP4ZLN
-	ZiRgrAVgTwNyUHDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D9BB3EA63;
-	Thu, 11 Dec 2025 07:15:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dHV+HHdvOmkaAwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 11 Dec 2025 07:15:03 +0000
-Message-ID: <04b1edc4-fcb2-44ab-b449-fed5de6e124f@suse.de>
-Date: Thu, 11 Dec 2025 08:15:02 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dd/Vgl8L"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 90B5FC19421;
+	Sun, 14 Dec 2025 11:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765713115;
+	bh=B8pn83D7Yy67lmNF8MQiKBTy4XDuUoCznztEvqwwgV4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Dd/Vgl8L3h5pvA8ByVrBqE+L5k+OFLaVl5W7mLKnZyKkD+vpM5wr50Ef9Nu6xVTkD
+	 +rbZ7CLhG6fb/yRUDE2cNfQrQ8DvxxIEy1jE2wkC6Q89/PJCjOOSTp++0JLZmDxmHm
+	 IXVO421T7I9noXSoKbQuK9r/JShBei3K6YJbIrNTLqMgIK7LN9PwlELTzYvEnJw9J8
+	 jdfyaxKm3KdTF00R5F5QDfo9vprzmeHwkSJS3O+m7YYq8z6b9p6a2U8nSp7PBCypIF
+	 m4YImZKB8GFJ8t4w8ctBl8Fp6MD7wupMTOkDjbPHLJnsx6xxidlO6GAj7flLLWCbzV
+	 fLUs13n/D4IGg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81230D5B16D;
+	Sun, 14 Dec 2025 11:51:55 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Sun, 14 Dec 2025 11:51:35 +0000
+Subject: [PATCH v3 2/3] dt-bindings: phy: Add Apple Type-C PHY
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: Remove remaining DRM_KMS_DMA_HELPER users
-To: Paul Kocialkowski <paulk@sys-base.io>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Randy Dunlap <rdunlap@infradead.org>
-References: <20251210222337.3751485-1-paulk@sys-base.io>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251210222337.3751485-1-paulk@sys-base.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: E12A75BDB6
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,jannau.net,linux.intel.com,kernel.org,ffwll.ch,infradead.org];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,sys-base.io:email,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251214-b4-atcphy-v3-2-ba82b20e9459@kernel.org>
+References: <20251214-b4-atcphy-v3-0-ba82b20e9459@kernel.org>
+In-Reply-To: <20251214-b4-atcphy-v3-0-ba82b20e9459@kernel.org>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org, 
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8195; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=B8pn83D7Yy67lmNF8MQiKBTy4XDuUoCznztEvqwwgV4=;
+ b=owGbwMvMwCHmIlirolUq95LxtFoSQ6bdkmvvY79c0nGeVs61OP6Vv9pZW73uxi3XLAqz1P60/
+ IrPiP/bUcrCIMbBICumyLJ9v73pk4dvBJduuvQeZg4rE8gQBi5OAZiI6HGG/yX8Lw4ttfwgM/lE
+ ybGibMZTBzwj72w0t3a0tdx9e8Psxb8Z/ntW36lrO83ENCldi98k2jSMo2PZxamW07d/LeU1PGS
+ zhhsA
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
+Apple's Type-C PHY (ATCPHY) is a PHY for USB 2.0, USB 3.x,
+USB4/Thunderbolt, and DisplayPort connectivity found in Apple Silicon
+SoCs.
 
+The PHY handles muxing between these different protocols and also provides
+the reset controller for the attached dwc3 USB controller.
 
-Am 10.12.25 um 23:23 schrieb Paul Kocialkowski:
-> The DRM_KMS_CMA_HELPER config option was removed in commit 09717af7d13d
-> ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option") but two drivers were
-> later merged with the option still selected.
->
-> The dangling option was later renamed to DRM_KMS_DMA_HELPER with commit
-> 6bcfe8eaeef0 ("drm/fb: rename FB CMA helpers to FB DMA helpers").
->
-> Remove the entries in the two drivers, which already select
-> DRM_GEM_DMA_HELPER (that was previously selected via DRM_KMS_CMA_HELPER).
->
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+ .../devicetree/bindings/phy/apple,atcphy.yaml      | 222 +++++++++++++++++++++
+ MAINTAINERS                                        |   1 +
+ 2 files changed, 223 insertions(+)
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   drivers/gpu/drm/adp/Kconfig     | 1 -
->   drivers/gpu/drm/logicvc/Kconfig | 1 -
->   2 files changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/adp/Kconfig b/drivers/gpu/drm/adp/Kconfig
-> index 9fcc27eb200d..acfa21ee06d2 100644
-> --- a/drivers/gpu/drm/adp/Kconfig
-> +++ b/drivers/gpu/drm/adp/Kconfig
-> @@ -6,7 +6,6 @@ config DRM_ADP
->   	select DRM_KMS_HELPER
->   	select DRM_BRIDGE_CONNECTOR
->   	select DRM_DISPLAY_HELPER
-> -	select DRM_KMS_DMA_HELPER
->   	select DRM_GEM_DMA_HELPER
->   	select DRM_PANEL_BRIDGE
->   	select VIDEOMODE_HELPERS
-> diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicvc/Kconfig
-> index 579a358ed5cf..11aae1626199 100644
-> --- a/drivers/gpu/drm/logicvc/Kconfig
-> +++ b/drivers/gpu/drm/logicvc/Kconfig
-> @@ -4,7 +4,6 @@ config DRM_LOGICVC
->   	depends on OF || COMPILE_TEST
->   	select DRM_CLIENT_SELECTION
->   	select DRM_KMS_HELPER
-> -	select DRM_KMS_DMA_HELPER
->   	select DRM_GEM_DMA_HELPER
->   	select REGMAP
->   	select REGMAP_MMIO
+diff --git a/Documentation/devicetree/bindings/phy/apple,atcphy.yaml b/Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..0acac7e3ee67ef2f03ffe1e04b0ac0fb414af362
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+@@ -0,0 +1,222 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/apple,atcphy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple Type-C PHY (ATCPHY)
++
++maintainers:
++  - Sven Peter <sven@kernel.org>
++
++description: >
++  The Apple Type-C PHY (ATCPHY) is a combined PHY for USB 2.0, USB 3.x,
++  USB4/Thunderbolt, and DisplayPort connectivity via Type-C ports found in
++  Apple Silicon SoCs.
++
++  The PHY handles muxing between these different protocols and also provides the
++  reset controller for the attached DWC3 USB controller.
++
++  It is designed for USB4 operation and does not handle individual differential
++  pairs as distinct DisplayPort lanes. Any reference to lane in this binding
++  hence refers to two differential pairs (RX and TX) as used in USB terminology.
++
++  In order to correctly setup these lanes for the various modes calibration
++  values copied from Apple's firmware and converted to the format described
++  below by our bootloader m1n1 are required. Without these only USB2 operation
++  is possible.
++
++allOf:
++  - $ref: /schemas/usb/usb-switch.yaml#
++
++$defs:
++  apple,tunable:
++    $ref: /schemas/types.yaml#/definitions/uint32-matrix
++    items:
++      items:
++        - description: Register offset
++        - description: Mask to be applied to the register value
++        - description: Bits to be set after applying the mask
++    description: >
++      List of (register offset, mask, value) tuples copied from Apple's Device
++      Tree by our bootloader m1n1 and used to configure the PHY. These values
++      even vary for a single product/device and likely contain calibration
++      values determined by Apple at manufacturing time.
++      Unless otherwise noted these tunables are always applied to the core
++      register region.
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - apple,t6000-atcphy
++              - apple,t6020-atcphy
++              - apple,t8112-atcphy
++          - const: apple,t8103-atcphy
++      - const: apple,t8103-atcphy
++
++  reg:
++    items:
++      - description: Common controls for all PHYs (USB2/3/4, DisplayPort, TBT)
++      - description: DisplayPort Alternate Mode PHY specific controls
++      - description: Type-C PHY AXI to Apple Fabric interconnect controls
++      - description: USB2 PHY specific controls
++      - description: USB3 PIPE interface controls
++
++  reg-names:
++    items:
++      - const: core
++      - const: lpdptx
++      - const: axi2af
++      - const: usb2phy
++      - const: pipehandler
++
++  "#phy-cells":
++    const: 1
++
++  "#reset-cells":
++    const: 0
++
++  mode-switch: true
++  orientation-switch: true
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Outgoing connection to the SS port of the Type-C connector.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Incoming endpoint from the USB3 controller.
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Incoming endpoint from the DisplayPort controller.
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Incoming endpoint from the USB4/Thunderbolt controller.
++
++  apple,tunable-common-a:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      Common tunables required for all modes, applied before tunable-axi2af.
++
++  apple,tunable-axi2af:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      AXI to Apple Fabric tunables, required for all modes. Unlike all other
++      tunables these are applied to the axi2af region.
++
++  apple,tunable-common-b:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      Common tunables required for all modes, applied after tunable-axi2af.
++
++  apple,tunable-lane0-usb:
++    $ref: "#/$defs/apple,tunable"
++    description: USB3 tunables for lane 0.
++
++  apple,tunable-lane1-usb:
++    $ref: "#/$defs/apple,tunable"
++    description: USB3 tunables for lane 1.
++
++  apple,tunable-lane0-cio:
++    $ref: "#/$defs/apple,tunable"
++    description: USB4/Thunderbolt ("Converged IO") tunables for lane 0.
++
++  apple,tunable-lane1-cio:
++    $ref: "#/$defs/apple,tunable"
++    description: USB4/Thunderbolt ("Converged IO") tunables for lane 1.
++
++  apple,tunable-lane0-dp:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      DisplayPort tunables for lane 0.
++
++      Note that lane here refers to a USB RX and TX pair re-used for DisplayPort
++      and not to an individual DisplayPort differential lane.
++
++  apple,tunable-lane1-dp:
++    $ref: "#/$defs/apple,tunable"
++    description: >
++      DisplayPort tunables for lane 1.
++
++      Note that lane here refers to a USB RX and TX pair re-used for DisplayPort
++      and not to an individual DisplayPort differential lane.
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - "#phy-cells"
++  - "#reset-cells"
++  - orientation-switch
++  - mode-switch
++  - power-domains
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    phy@83000000 {
++      compatible = "apple,t8103-atcphy";
++      reg = <0x83000000 0x4c000>,
++            <0x83050000 0x8000>,
++            <0x80000000 0x4000>,
++            <0x82a90000 0x4000>,
++            <0x82a84000 0x4000>;
++      reg-names = "core", "lpdptx", "axi2af", "usb2phy",
++                  "pipehandler";
++
++      #phy-cells = <1>;
++      #reset-cells = <0>;
++
++      orientation-switch;
++      mode-switch;
++      power-domains = <&ps_atc0_usb>;
++
++      ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        port@0 {
++          reg = <0>;
++
++          endpoint {
++            remote-endpoint = <&typec_connector_ss>;
++          };
++        };
++
++        port@1 {
++          reg = <1>;
++
++          endpoint {
++            remote-endpoint = <&dwc3_ss_out>;
++          };
++        };
++
++        port@2 {
++          reg = <2>;
++
++          endpoint {
++            remote-endpoint = <&dcp_dp_out>;
++          };
++        };
++
++        port@3 {
++          reg = <3>;
++
++          endpoint {
++            remote-endpoint = <&acio_tbt_out>;
++          };
++        };
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5b11839cba9de1e9e43f63787578edd8c429ca39..5c68ab187d406d5fd6d042672848197c1b6957a1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2471,6 +2471,7 @@ F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
+ F:	Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml
+ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
++F:	Documentation/devicetree/bindings/phy/apple,atcphy.yaml
+ F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+ F:	Documentation/devicetree/bindings/power/apple*
+ F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+2.34.1
 
 
