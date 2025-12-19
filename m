@@ -1,99 +1,102 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A72A2C0F9A
-	for <asahi@lists.linux.dev>; Thu, 18 Dec 2025 22:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103F32C08D4;
+	Fri, 19 Dec 2025 08:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766096401; cv=none; b=rWY3Op+w03lz0czy/lAVTcIwr2YH/29lYjlw1twLM911I/MoSlyBraLF4kQIVq4PEVEHxeEZiHEQ0OeExzfqdSy2Sjiz1Qb6LWygTkZ71fqEB3xALbVC3utBiXPfTQXpxPDFgMOGl20IqXGbq4MAgBNui9NEhg5Tnd5PN16m+X8=
+	t=1766132002; cv=none; b=MLTq1Q0gx7CLXd0fHbzMVFm3+Up8hZwX/uUaKuiuEt4H3FsNGpq6caWuZu6T7pXVEGHnOH2k7yxGbbV+BVmO5PrsUgu2vzYW8329kUGeUBwKc3/7saG6gTKBcHjuWSrhAlXtsXDZoolwKtXv26IaZSadWmzd7OHikOQU39WBzT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766096401; c=relaxed/simple;
-	bh=9i7cze2zXw3sphfypXDmh432a+tbDocZK89YgxAxEHA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PnPNWOdCPns3SIkMQxLo8rQ73CnfK2Sz936ygO9nYT6cHIsscvj2ZJ3kPwpBy5LQ6S+7/8yLZp0GPW64+GYHUUFhe/JUsd9nRG1sFkzjj894VxowZuwQQxT5zxHjTtjWc29MFvumMX788xYxysqbqYvjJliVpC/Sz8xKqC530MU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WmFX4UOe; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766132002; c=relaxed/simple;
+	bh=lvn+iw5IxWpNsx5ppx7UaT4z6tDEmv9IRQkqRmBQGQc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=X6Zj7BN4qkU4LGHLkiciIf5Aww90aWgl36vXBF8tdQEn6jb/ORtZaKhGqSMs3592U+Ax1ESsAkIc+K4IODERKZSoNQlL2KrfJlQikM20zMAbUqTyMfSuIQohuFjIXyk5B/hhGgSlH3xtF6sOwbWhQpzrfoznKTd7JXe70UsCm/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M/IUrif+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WmFX4UOe"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7bc248dc16aso1008021b3a.0
-        for <asahi@lists.linux.dev>; Thu, 18 Dec 2025 14:19:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766096399; x=1766701199; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DHi2VHdVHFCMJr3d7N3lZkt4cAkpVU0QksLG1hGqfO8=;
-        b=WmFX4UOe0n1I4R5nmmhwpEHtVePEMnLleg5kvxAy62SAP5iE9lezegDjwNTvN4Bi/l
-         yKj3ZFuYnJhEZ2E7ALUxosnf+3CQeXRjsFEUCBkvxrv0doMLT28PDS10M7LZIYY/LOwT
-         CRS27L0GC5i5dPbD9uqtWtDITxbKQ3/ma1Eiyl7Zb9ba4X+8+yin4WD2WdsJU32Acj1A
-         v4twc/GF9ny5ysrNIy1KLOBQU035BJZbAKoIu1syzLKHK/+rPb0zfwXg3QPbdIY0bGl5
-         D1vfxOh3cVeI+lJdJrGPS4U1PsPS9d+3f/yelPtT8ASDxdBTfONFSw0WU9ftQfjee66+
-         YqFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766096399; x=1766701199;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DHi2VHdVHFCMJr3d7N3lZkt4cAkpVU0QksLG1hGqfO8=;
-        b=r8K8FnnwVnI3bW/1aCqJ85Naebn6dZOF12WIjK8nG8WUq4gcNr1Q5CXRLZkF7DaBgF
-         To5qCzwfzsWEzAw6IEPOJ/NLm01iOqYwKyOjXosOeQeJaqC+rBbjAKzERMl6Z9UgGTJn
-         VJa93pEyz/qr7hCZwqV/qkD2aV6QkRj7no1t9rHSW+ZHBOpR6vJ9tpXJg+vTemcRp2N4
-         OMxD7iO1jVwON2HHYVfv37GrCeqYctSYdhxgyeWXl/TVD/1qNQGlQTAqlVumGfx2Gnyv
-         904bD8RMY3+yJyIowosST5vq7jCnqa32TXWcJvZN1uYS87cAjXZPNsL+PFiDSgL5ycBG
-         ofVw==
-X-Forwarded-Encrypted: i=1; AJvYcCWznsykHu7ro4SKegjIdh/Au05TPfX1YdW9/+R+qTqBGhUpH2fN0VhvqRoTnLbGqL0xH6q+Og==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYc8CNoh4uW1CuBmdfJJzmxJqt2F/mcYPK1H9ti0NleCLogh9T
-	M9ew6V5O2X/wyrGTCtoO2ba38IyAIRNwZe/CfctHJxVLM0jrVO1Iuf43
-X-Gm-Gg: AY/fxX5i/dfIdANp67L/XwXWrARFTvZh+KG6Fujog5S1/G1m6o0F4GizVeLP7UDbGoq
-	rG/eBmpmoeK88s2zPduDUkpHJEAcelFQeUfM7QqL4aG3deDqPYDSWqwMN41dweV/CRuuLdpZUIp
-	X1u0yqpPOql1w9KaNsfCwXLrzvwXVivJNAdok4FT1se9JarNHTvkRpDEZF+IQDr2n5WdrNulKM4
-	lyfnYz1qARbBvXvE4reyzJBdF+agXVjNy78IuBOnsn4ojSF4S6xRfcADvjcPQ2pZHXrpOkANJCW
-	5nY8bSNNcMARhNcwwvXjyc9q+Etzzbx6CtbfkpPv+WYkQ1I1+3FdSP4hV4cQrgpKSr8DXXmFtxN
-	uu2pEM++nfDWPZmirezBpzdbfN2mh0Jtb3sqEANpddp9dGl4Z/+v4er1Hf+NP9RljHWdcQHp3Vw
-	KGsMPXiNplXV+QiAhryH8QuFjIWnKKN6sPuSkmPby2vU33XoFC4wQ=
-X-Google-Smtp-Source: AGHT+IEJ6Dza5e+TAlnoSNxkhL516y4Cp3K+eoLm8K4vH3URG1EJpjMsZlCqp1ChQbxfdNHgZFOu0g==
-X-Received: by 2002:a05:7022:4190:b0:119:e56b:98b8 with SMTP id a92af1059eb24-121722ebb6cmr841995c88.31.1766096399117;
-        Thu, 18 Dec 2025 14:19:59 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:c00:cda0:e722:e1ee])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217254c734sm1678256c88.13.2025.12.18.14.19.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 14:19:58 -0800 (PST)
-Date: Thu, 18 Dec 2025 14:19:55 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: fnkl.kernel@gmail.com
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, pitust <piotr@stelmaszek.com>
-Subject: Re: [PATCH] Input: apple_z2: Fix reading incorrect reports after
- exiting sleep
-Message-ID: <snwkpf4esyxxhyo2yzq5xepgoh6nkvvqldbiqpj6zm3bbc43zn@gdsxdsza564a>
-References: <20251218-z2-init-fix-v1-1-48e3aa239caf@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M/IUrif+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12A1FC4CEF1;
+	Fri, 19 Dec 2025 08:13:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766132001;
+	bh=lvn+iw5IxWpNsx5ppx7UaT4z6tDEmv9IRQkqRmBQGQc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=M/IUrif+d4VKn/MpBzO8oXg7fyF4udbLWjFGC+kaeTKXVdK9pnVZSk9qfn61Oncpi
+	 GhR5l8VAZ4IA86aoju4qY4COjaufMk77R9+qzFfwAZOU9Mv14DiZsPZrAzz0fP8C8O
+	 RVHu5dAXut9fzq8uA8rHcl2hgk3qtCR3o7FIhbbxw1etaHqlACnKIZpUTGy4fOBicw
+	 mUDSllG1LCmoO9eVDdYT7nQEkxN8ixdDPeXlwtWDpLBykJTtiH2K8RTzj7p3zgR18A
+	 EftOxjTcUmtQ5u7Eo9SivKx97gnYTIzCDyvlh8FtZdCb56p0NX1TrxQ6CjwLInTtmr
+	 ati6fNfjsc4FQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3BBE4380AA50;
+	Fri, 19 Dec 2025 08:10:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218-z2-init-fix-v1-1-48e3aa239caf@gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 0/6] iommu: Pass in old_domain pointer to attach_dev
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <176613180983.3684357.11179224135837486617.git-patchwork-notify@kernel.org>
+Date: Fri, 19 Dec 2025 08:10:09 +0000
+References: <cover.1761017765.git.nicolinc@nvidia.com>
+In-Reply-To: <cover.1761017765.git.nicolinc@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: linux-riscv@lists.infradead.org, joro@8bytes.org, jgg@nvidia.com,
+ kevin.tian@intel.com, suravee.suthikulpanit@amd.com, will@kernel.org,
+ robin.murphy@arm.com, sven@kernel.org, j@jannau.net,
+ robin.clark@oss.qualcomm.com, m.szyprowski@samsung.com, krzk@kernel.org,
+ dwmw2@infradead.org, baolu.lu@linux.intel.com, yong.wu@mediatek.com,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ tjeznach@rivosinc.com, pjw@kernel.org, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, heiko@sntech.de, schnelle@linux.ibm.com,
+ mjrosato@linux.ibm.com, orsonzhai@gmail.com, baolin.wang@linux.alibaba.com,
+ wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ thierry.reding@gmail.com, jonathanh@nvidia.com, jean-philippe@linaro.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux.dev, patches@lists.linux.dev
 
-On Thu, Dec 18, 2025 at 09:11:26AM +0100, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Hello:
+
+This series was applied to riscv/linux.git (fixes)
+by Joerg Roedel <joerg.roedel@amd.com>:
+
+On Wed, 22 Oct 2025 19:21:03 -0700 you wrote:
+> Tidy the release_device callbacks in the drivers and switch to the core
+> managed release_domain.
 > 
-> Under certain conditions (more prevalent after a suspend/resume cycle),
-> the touchscreen controller can send the "boot complete" interrupt before
-> it actually finished booting. In those cases, attempting to read touch
-> data resuls in a stream of "not ready" messages being read and
-> interpreted as a touch report. Check that the response is in fact a
-> touch report and discard it otherwise.
+> This allows the core further to pass in the old domain pointer into the
+> attach_dev callbacks to reduce the use of iommu_get_domain_for_dev().
 > 
-> Reported-by: pitust <piotr@stelmaszek.com>
-> Closes: https://oftc.catirclogs.org/asahi/2025-12-17#34878715;
-> Fixes: 471a92f8a21a ("Input: apple_z2 - add a driver for Apple Z2 touchscreens")
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> This is a preparatory series for new iommu_dev_reset APIs:
+> https://lore.kernel.org/all/cover.1756682135.git.nicolinc@nvidia.com/
+> 
+> [...]
 
-Applied, thank you.
+Here is the summary with links:
+  - [v2,1/6] iommu: Generic support for RMRs during device release
+    https://git.kernel.org/riscv/c/e94160488e65
+  - [v2,2/6] iommu/arm-smmu-v3: Set release_domain to arm_smmu_blocked_domain
+    https://git.kernel.org/riscv/c/52f77fb176ec
+  - [v2,3/6] iommu/exynos-iommu: Set release_domain to exynos_identity_domain
+    https://git.kernel.org/riscv/c/680a6a60fc08
+  - [v2,4/6] iommu/amd: Set release_domain to blocked_domain
+    https://git.kernel.org/riscv/c/c21b34762e2f
+  - [v2,5/6] iommu: Do not revert set_domain for the last gdev
+    https://git.kernel.org/riscv/c/2b33598e666d
+  - [v2,6/6] iommu: Pass in old domain to attach_dev callback functions
+    (no matching commit)
 
+You are awesome, thank you!
 -- 
-Dmitry
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
