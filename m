@@ -1,385 +1,129 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2658A341AC3
-	for <asahi@lists.linux.dev>; Mon, 22 Dec 2025 13:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CCD126BF7
+	for <asahi@lists.linux.dev>; Tue, 23 Dec 2025 14:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766411442; cv=none; b=ugVgU/qymbiFY/oJzkHMVGseuLj+aExygSwZoSLlONpHG/2naWGsVYE0zCppAFebDK7zq1bmuZrlGRwLP1kh8h+A3438b3WFGiXRX2gVqm3S2TLE1coMsU0jKGFyr5gHFpbhINJa147xtDwn7ojCsvqUng9iq5PJHt+PsZZ9de4=
+	t=1766499257; cv=none; b=GPcJDIT9DHpGe0WxhgrI/M6AIX0jmic2UtIVcNaiGlralloyMYXSiZPvCkptKNx/kriRjMt/ALEts5f4EZBKT2T4nv9kimKKBP1cwCu0a4Mbp26yG45Ji4JC8iwZyUIPA9+INHoO4xxpunQtM7shcgQ4sFrU5ZXcwHiFeA60Dqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766411442; c=relaxed/simple;
-	bh=k+WlEjGFs5Rkzrhieb+Ls4G8ju4EL+kjwknMhVtHuZc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h+YECl+WWA90vjcNXDsttlZiT/GUbKNgCHHPlRUq770lIiOFwegKWRj2vfZRfqEDL5ABURB72KoqmTVAk08H86Bq3GTmXxhxuZQDwfSAbOENXnPLG+IB28kXzxxuAKswgPTNJl5I1Kv02zu8WufDWaAemLCMdVwyAmwgPlZu4HQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZkvU3Gpq; arc=none smtp.client-ip=209.85.210.193
+	s=arc-20240116; t=1766499257; c=relaxed/simple;
+	bh=2GuJTyWIrsDeGaNyuHSnV8PC6KHT0nLXNngeZNALiqY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=K4J3VlGbPa5Py3XWafAS9dmMyn5wGGqbhC4YjOO97VPc+trnQV21VBpbogT5upYxcbBS6wUfaV1/9Iv0YnGrxk+Erk98FF+bpw518iSYpIbNhClIBy0QPvf0ttC0htTEwTy+Cz9q5cj2p4P6+WBzUOeRNUY4/WNsIpS+ybxFgPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRlFHW+v; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZkvU3Gpq"
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-7aae5f2633dso3977374b3a.3
-        for <asahi@lists.linux.dev>; Mon, 22 Dec 2025 05:50:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRlFHW+v"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0b4320665so76150445ad.1
+        for <asahi@lists.linux.dev>; Tue, 23 Dec 2025 06:14:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766411439; x=1767016239; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8BaR3k+5zrCCB1XIcd8osL/EF92HXoyzBz26/MVuE/I=;
-        b=ZkvU3Gpqnoo23PXHhQOmUQTalYLxBMQivQ8O6w/qp8oQDh/UT60IJIHmqFod9QrVwL
-         fKQtidJ0R8ZzwcUiWhfpli0BTZlW9yRqAcz40s8o1qpBeRDI5IiyHfesFTJSxxfeaAzi
-         tegLEqHMSHi1s4DY9SXYyW0zp/Wggvic44fC644uYmFtrNHpw1gAJnQDcTCAMeZfMe/K
-         sduQKDFTHQU8OV9MpHrzAbQ8MLLLykLzA78tY3VJzgY3nS6gQ64WVwwgvzFcp/XHrq4E
-         DsaXHTjReCVk5Yxs1Y58Tlr8/+ayw0SHIYaepGAKbeMpZ8oucA1d0CDtKdRhl03l2bwj
-         vsRw==
+        d=gmail.com; s=20230601; t=1766499254; x=1767104054; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wiq2+idlG0hH4ZrZSix3sKLK8vSbIBlzF1NOft2de3U=;
+        b=HRlFHW+vNibrWacBYIBSFuaWynbFQMDOd6seK/F32BKJSstCIkVbMHmMOVgQj6GYeW
+         XwoNOtsAwtl8zVuV2CYCk65WOm4hKeNclR0V0MGJr7HwVGaFlMSYvUN9AovURZZJNYNk
+         EVNu9mrIx61E/FJLDuoxdhsA4JTyce0p2wyoN4wA0QogZtCKmK4TAnc6ccWXhbENGsjL
+         Mh/BX9R9bsBzsoQsOK+3WgHNI0rIYZ/Jttsc/lws/oW1EMXu8jn51Z4qVkJBDYGjv3jc
+         74m1xxG5MqkVK59uwQB90KIEQAFu5r3y2Aw3mf3bAFVi2JLvF+6o/SEgCZANdy6gGv7z
+         ymzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766411439; x=1767016239;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8BaR3k+5zrCCB1XIcd8osL/EF92HXoyzBz26/MVuE/I=;
-        b=QMLciJdL65ST/F0Gw/zcoKE80XTJRsGw5rB6xDfLs1deRFZPsvZFXCSH/j+Kie5BZa
-         zrBH6IvfPsOTqTa9u3XMAxTV4XM3V+7AW2kEd7S0IMkBQ52bIDUg/BXYOVR3va4JQkhn
-         +7ixM6/q3AAaRHfclKG8yCImq3gR2SlbtxCoATxvOrysT1vqE2t8GHDAE/pE5tziVBtx
-         6hemRwPjo8hHKYsYuxpR8Yw5aww0qOOvL+0ND1FAwDU4cTXZwGnZsTHC1C/NPUk+UUBq
-         39JqI/NsStzwjt+wyMb5mZ0AfNTDMhYMfElxrJ2C0yedJyPT6apLr2wjMyU0ZtWNNvdI
-         YiLg==
-X-Gm-Message-State: AOJu0YzYIiuBYOu5HFt4Nu1/E5YmRqiaGTXDp8JN69jdI48umks7FAFh
-	biBcRXtuEVGoNNqueVd6kRJw66kgmDYO72+bWsmigDTT/Fnn42IRNbx9
-X-Gm-Gg: AY/fxX77eZD7D8WYheJYk4fGZr7KhyT1gDUF7TKWgwLih4JFCTcRorqSjLnzNOXqJT9
-	2OZvito6QUhdFyuP7hQuAp45cINGtQq2OicMNcGf4xYIUM5gCAVzW4ANrfWO5xP5p07E1KBCQ17
-	2BH+B19jWvq+1R9X9NR9sIDJDAtQ0F9Wad5ohHOP1OPmVEN2qNRHhX9VSEGliiG+rk+PZtutmM3
-	mUY3dKLSDNAZnqsBlgVHc08ZKPlm+git/Tst/7qkMCqbpuDSXuJkGoVhKtzi0D7W7PX6BUiQo1C
-	kraWsJ3DDTEuECBvtpiiO3lJDoqK7CrYUcZUbzDe8G08prhLWJDZoo7/zq/g1gEXh0Dcp9SFqSV
-	mGJobQ0KaAppuQLPhQo37P9tNHPmjZYnmgnJM+lKrmM7k1meA248rmrZnIw6fTMjF+omfUaz6RQ
-	0i7KsHoU7MFD37sFxrs1ZR8kJBMgzy
-X-Google-Smtp-Source: AGHT+IEyXSAJPi4cc8ok6Aq+xnI2o3obyF+3x23oU5Ir+vtxQzV06aOtv7kzKDFrV13w830o83jyfg==
-X-Received: by 2002:aa7:930b:0:b0:7e8:450c:61b8 with SMTP id d2e1a72fcca58-7ff6607e842mr10207742b3a.40.1766411439404;
-        Mon, 22 Dec 2025 05:50:39 -0800 (PST)
-Received: from [192.168.1.115] ([59.188.211.98])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e493123sm10542320b3a.50.2025.12.22.05.50.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Dec 2025 05:50:38 -0800 (PST)
-Message-ID: <aa4242f9-7d26-4df5-9e14-1b3bb7334652@gmail.com>
-Date: Mon, 22 Dec 2025 21:50:33 +0800
+        d=1e100.net; s=20230601; t=1766499254; x=1767104054;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wiq2+idlG0hH4ZrZSix3sKLK8vSbIBlzF1NOft2de3U=;
+        b=VtQO0w3i4vd/cxx1TXPOTN4qWUpEpADKH0jI1qdCcGISFP3CPCw6ej99SgNTMbFTGh
+         jG7bUrzWyhtAQG774kBvgCBVul+wHCKbozUakliH/D9uO4s1T55/cnuxYvvoACcL0S/E
+         MaFdiFTrrIjvRg89s0apxcAJpCa2oviPWScmY5Y89ktBpVrPP3B5gbl4DIbJ49E02Is0
+         LPoev7MBdjcIsQDuj4f4EqnTkFiNYB5bRZ8ebRInJwM43wU2zxwRTpvD1q+DihB2vCwk
+         EjFNBZIpjWD2HP0P+hxEicHibt35uA1NGYkuW9uTUMLdFU3FNakEWjAF4M/VkproFZ0F
+         CsXQ==
+X-Gm-Message-State: AOJu0YwOdz74aVbgh3mdUhIDO8TUNtKkN2N9zLBM4Tdu/3F/AcapRIGV
+	WroburtqF90QkRxcj4CmMgJy4QkxuIde/euc0YgoP+tbxd3iLWC7F5/8
+X-Gm-Gg: AY/fxX7ywx1hJvFsBM/FsowjJnkV958Gt//rhJJ/Kn5rRF6+fIfIjxVfx+7c0MKTssB
+	sI78wMHKEX0cBZKVLQJNo/TCxt+RtBVeIBpQ5WO7sIXCcuC5/Khru00Xv7fXI+d8XwOCHozPVKm
+	Ea48jxZUi2wpP8uhFh5ynWn1DjLiSLmCtuTuX1EEf1pmp0L/dKbBjbdfcy6NMDxJO7brV9+X+pU
+	cthByFmaPHblfRLB6leLOlVE1T2e0DdoPfBdNq0cI6WAzsoXtLgdbQ4qxivT6NzV01+/J8CGEqp
+	QHcOKOtObFHRKT47BKIMxeQ0l8b0mbQ0OCEqNut21fYK2wVpr+3nbePf54rcyBEqEiQl4uFJHWB
+	Jq6qR7B4IMdb0hs5fh0IrNn+7h+XqFKIBoSypmGQb3sB0Ta1z3oIk6bq8OW9AtQr0R+1pj/l5L0
+	i5vKTzKRtA3t0o
+X-Google-Smtp-Source: AGHT+IFyvVOEweNxrh16YD20mE77IBN0Po8lftDP9+7uthANKKUtoM/hDSrwfGPJXxWtS2gW83cJIA==
+X-Received: by 2002:a17:902:f60b:b0:2a0:b44e:9ab6 with SMTP id d9443c01a7336-2a2f222aedcmr158395745ad.7.1766499254507;
+        Tue, 23 Dec 2025 06:14:14 -0800 (PST)
+Received: from [127.0.1.1] ([59.188.211.98])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2a2f3d5dea1sm126783015ad.81.2025.12.23.06.14.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 06:14:13 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH 0/3] RTKit protocol version 10 support
+Date: Tue, 23 Dec 2025 22:13:41 +0800
+Message-Id: <20251223-rtkit-v10-v1-0-12b4783d6403@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/11] input: macsmc-input: New driver to handle the
- Apple Mac SMC buttons/lid
-To: James Calligeros <jcalligeros99@gmail.com>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- Hector Martin <marcan@marcan.st>
-References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
- <20251112-macsmc-subdevs-v5-8-728e4b91fe81@gmail.com>
-Content-Language: en-MW
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20251112-macsmc-subdevs-v5-8-728e4b91fe81@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJWjSmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDIyMj3aKS7MwS3TJDA93klOQ0E8OklMTE1DQloPqCotS0zAqwWdGxtbU
+ AMb6qb1sAAAA=
+X-Change-ID: 20251222-rtkit-v10-cdcf41bdaaef
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Nick Chan <towinchenmi@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1300; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=2GuJTyWIrsDeGaNyuHSnV8PC6KHT0nLXNngeZNALiqY=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBpSqOwxGpt66m0Ftv7sWbJM0JlxwkPw0O04MAXv
+ mmMcoQCcu6JAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaUqjsAAKCRABygi3psUI
+ JMVQD/41UkTQa0076LW9gr+nbJAiCTI0Es0JhXXGB9F25C6yySKvUBTX0fMP2YAfWSuZh5ezjLS
+ Rs92NfEZcUDUltXsObHEcMbNJOyyOoW/RfvW9Dr3gYtwS2ajezbcbMWEfjv65GeN2Q9FcMh/TlV
+ /AVhPfp9YT8mHCdGRMeek3P1BcqrDStLc5sbvgdolmFaMtI+bLRM70t1LD6VZBe4eAATVTaJdiM
+ I8hULkYZt62gj5Kk4wUYmavF7p3hDeGN52lvjUe9N//O4G+adeVSBNMfZ3zA/La3mic13RX9gb/
+ ho4PuLkiDVS1vWKXjnzNvmoWaqbOM2/UlBOFssflYJl5/cWOb0jR0O/y16GqU52/XROSJdyEdwE
+ fC6kp40kNOvqlAwk3Q8kNHXSVtbq46LkmineLmXfyzoDsN/xwLWB3wCnhtIOhmtRyqZHVXCtiXt
+ Oc0/7/3BeBxK0SxzRxlyj+i2VfefBMCxpn2/oAdNDe9yZuJsSDiiySihjzofqFykhDChjaLjuii
+ V70Gg6BreUjgECgt/Z+TnkWUAEkW1nowyP7X6j90VW+Y/Y3TgKKoKJSIcWFRZ2rtx1s+nSz9vSJ
+ G5DTimceg38O9ypV3Rx4bxC5ffkdYAmNwBM8NAxuhcdfDwzN2/nAVP1A/Pq7zndJaOHXWhjetie
+ KYa8w3mxCvBEWzw==
+X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
+ fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
+Add support for version 10 of the RTKit protocol which is used from iOS 11
+to iOS 13. In version 10 epmap is always completed within 1 message, and
+app endpoints start at 0x6 instead of 0x20.
 
+A new interface apple_rtkit_app_ep_to_ep() is added to accommodate the
+difference in app endpoints. Consumer drivers that uses RTKit app endpoints
+need to be modified to use the new interface to work with protocol
+version 10.
 
-Hi,
-On 12/11/2025 19:16, James Calligeros wrote:
+Add support in macsmc to get the SMC endpoint with the new interface.
+nvme-apple does not use any RTKit app endpoints.
 
-> From: Hector Martin <marcan@marcan.st>
-> 
-> This driver implements power button and lid switch support for Apple Mac
-> devices using SMC controllers driven by the macsmc driver.
-> 
-> In addition to basic input support, this also responds to the final
-> shutdown warning (when the power button is held down long enough) by
-> doing an emergency kernel poweroff. This allows the NVMe controller to
-> be cleanly shut down, which prevents data loss for in-cache data.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Co-developed-by: Sven Peter <sven@kernel.org>
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  MAINTAINERS                       |   1 +
->  drivers/input/misc/Kconfig        |  11 ++
->  drivers/input/misc/Makefile       |   1 +
->  drivers/input/misc/macsmc-input.c | 207 +++++++++++++++++++++++++
->  4 files changed, 220 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fb55a167699e..48bdca6943f3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2455,6 +2455,7 @@ F:	drivers/hwmon/macsmc-hwmon.c
->  F:	drivers/pmdomain/apple/
->  F:	drivers/i2c/busses/i2c-pasemi-core.c
->  F:	drivers/i2c/busses/i2c-pasemi-platform.c
-> +F:	drivers/input/misc/macsmc-input.c
->  F:	drivers/input/touchscreen/apple_z2.c
->  F:	drivers/iommu/apple-dart.c
->  F:	drivers/iommu/io-pgtable-dart.c
-> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-> index cc2558630797..1144ba151dbf 100644
-> --- a/drivers/input/misc/Kconfig
-> +++ b/drivers/input/misc/Kconfig
-> @@ -992,4 +992,15 @@ config INPUT_STPMIC1_ONKEY
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called stpmic1_onkey.
->  
-> +config INPUT_MACSMC
-> +	tristate "Apple Mac SMC lid/buttons"
-> +	depends on MFD_MACSMC
-> +	help
-> +	  Say Y here if you want to use the input events delivered via the
-> +	  SMC controller on Apple Mac machines using the macsmc driver.
-> +	  This includes lid open/close and the power button.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called macsmc-input.
-> +
->  endif
-> diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-> index f5ebfa9d9983..c6394105252f 100644
-> --- a/drivers/input/misc/Makefile
-> +++ b/drivers/input/misc/Makefile
-> @@ -52,6 +52,7 @@ obj-$(CONFIG_INPUT_IQS7222)		+= iqs7222.o
->  obj-$(CONFIG_INPUT_KEYSPAN_REMOTE)	+= keyspan_remote.o
->  obj-$(CONFIG_INPUT_KXTJ9)		+= kxtj9.o
->  obj-$(CONFIG_INPUT_M68K_BEEP)		+= m68kspkr.o
-> +obj-$(CONFIG_INPUT_MACSMC_INPUT)	+= macsmc-input.o
-should be CONFIG_INPUT_MACSMC (alternatively change Kconfig instead)
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+---
+Nick Chan (3):
+      soc: apple: rtkit: Support verison-specific app endpoint start
+      soc: apple: rtkit: Add protocol version 10 support
+      mfd: macsmc: Support variable app endpoint start
 
->  obj-$(CONFIG_INPUT_MAX7360_ROTARY)	+= max7360-rotary.o
->  obj-$(CONFIG_INPUT_MAX77650_ONKEY)	+= max77650-onkey.o
->  obj-$(CONFIG_INPUT_MAX77693_HAPTIC)	+= max77693-haptic.o
-> diff --git a/drivers/input/misc/macsmc-input.c b/drivers/input/misc/macsmc-input.c
-> new file mode 100644
-> index 000000000000..f4598e65fc80
-> --- /dev/null
-> +++ b/drivers/input/misc/macsmc-input.c
-> @@ -0,0 +1,207 @@
-> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
-> +/*
-> + * Apple SMC input event driver
-> + * Copyright The Asahi Linux Contributors
-> + *
-> + * This driver exposes certain events from the SMC as an input device.
-> + * This includes the lid open/close and power button notifications.
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/input.h>
-> +#include <linux/mfd/macsmc.h>
-Missing #include <linux/mfd/core.h>
-
-> +#include <linux/module.h>
-> +#include <linux/reboot.h>
-> +
-> +/**
-> + * struct macsmc_input
-> + * @dev: Underlying struct device for the input sub-device
-> + * @smc: Pointer to apple_smc struct of the mfd parent
-> + * @input: Allocated input_dev; devres managed
-> + * @nb: Notifier block used for incoming events from SMC (e.g. button pressed down)
-> + * @wakeup_mode: Set to true when system is suspended and power button events should wake it
-> + */
-> +struct macsmc_input {
-> +	struct device *dev;
-> +	struct apple_smc *smc;
-> +	struct input_dev *input;
-> +	struct notifier_block nb;
-> +	bool wakeup_mode;
-> +};
-> +
-> +#define SMC_EV_BTN 0x7201
-> +#define SMC_EV_LID 0x7203
-> +
-> +#define BTN_POWER		0x01 /* power button on e.g. Mac Mini chasis pressed */
-> +#define BTN_TOUCHID		0x06 /* combined TouchID / power button on MacBooks pressed */
-> +#define BTN_POWER_HELD_SHORT	0xfe /* power button briefly held down */
-> +#define BTN_POWER_HELD_LONG	0x00 /* power button held down; sent just before forced poweroff */
-> +
-> +static void macsmc_input_event_button(struct macsmc_input *smcin, unsigned long event)
-> +{
-> +	u8 button = (event >> 8) & 0xff;
-> +	u8 state = !!(event & 0xff);
-> +
-> +	switch (button) {
-> +	case BTN_POWER:
-> +	case BTN_TOUCHID:
-> +		pm_wakeup_dev_event(smcin->dev, 0, (smcin->wakeup_mode && state));
-> +
-> +		/* Suppress KEY_POWER event to prevent immediate shutdown on wake */
-> +		if (smcin->wakeup_mode)
-> +			return;
-> +
-> +		input_report_key(smcin->input, KEY_POWER, state);
-> +		input_sync(smcin->input);
-> +		break;
-> +	case BTN_POWER_HELD_SHORT: /* power button held down; ignore */
-> +		break;
-> +	case BTN_POWER_HELD_LONG:
-> +		/*
-> +		 * If we get here the power button has been held down for a while and
-> +		 * we have about 4 seconds before forced power-off is triggered by SMC.
-> +		 * Try to do an emergency shutdown to make sure the NVMe cache is
-> +		 * flushed. macOS actually does this by panicing (!)...
-> +		 */
-> +		if (state) {
-> +			dev_crit(smcin->dev, "Triggering forced shutdown!\n");
-> +			if (kernel_can_power_off())
-> +				kernel_power_off();
-> +			else /* Missing macsmc-reboot driver? */
-> +				kernel_restart("SMC power button triggered restart");
-> +		}
-> +		break;
-> +	default:
-> +		dev_warn(smcin->dev, "Unknown SMC button event: %04lx\n", event & 0xffff);
-> +	}
-> +}
-> +
-> +static void macsmc_input_event_lid(struct macsmc_input *smcin, unsigned long event)
-> +{
-> +	u8 lid_state = !!((event >> 8) & 0xff);
-> +
-> +	pm_wakeup_dev_event(smcin->dev, 0, (smcin->wakeup_mode && !lid_state));
-> +	input_report_switch(smcin->input, SW_LID, lid_state);
-> +	input_sync(smcin->input);
-> +}
-> +
-> +static int macsmc_input_event(struct notifier_block *nb, unsigned long event, void *data)
-> +{
-> +	struct macsmc_input *smcin = container_of(nb, struct macsmc_input, nb);
-> +	u16 type = event >> 16;
-> +
-> +	switch (type) {
-> +	case SMC_EV_BTN:
-> +		macsmc_input_event_button(smcin, event);
-> +		return NOTIFY_OK;
-> +	case SMC_EV_LID:
-> +		macsmc_input_event_lid(smcin, event);
-> +		return NOTIFY_OK;
-> +	default:
-> +		/* SMC event meant for another driver */
-> +		return NOTIFY_DONE;
-> +	}
-> +}
-> +
-> +static int macsmc_input_probe(struct platform_device *pdev)
-> +{
-> +	struct apple_smc *smc = dev_get_drvdata(pdev->dev.parent);
-> +	struct macsmc_input *smcin;
-> +	bool have_lid, have_power;
-> +	int error;
-> +
-> +	/* Bail early if this SMC neither supports power button nor lid events */
-> +	have_lid = apple_smc_key_exists(smc, SMC_KEY(MSLD));
-> +	have_power = apple_smc_key_exists(smc, SMC_KEY(bHLD));
-> +	if (!have_lid && !have_power)
-> +		return -ENODEV;
-> +
-> +	smcin = devm_kzalloc(&pdev->dev, sizeof(*smcin), GFP_KERNEL);
-> +	if (!smcin)
-> +		return -ENOMEM;
-> +
-> +	smcin->dev = &pdev->dev;
-> +	smcin->smc = smc;
-> +	platform_set_drvdata(pdev, smcin);
-> +
-> +	smcin->input = devm_input_allocate_device(&pdev->dev);
-> +	if (!smcin->input)
-> +		return -ENOMEM;
-> +
-> +	smcin->input->phys = "macsmc-input (0)";
-> +	smcin->input->name = "Apple SMC power/lid events";
-> +
-> +	if (have_lid)
-> +		input_set_capability(smcin->input, EV_SW, SW_LID);
-> +	if (have_power)
-> +		input_set_capability(smcin->input, EV_KEY, KEY_POWER);
-> +
-> +	if (have_lid) {
-> +		u8 val;
-> +
-> +		error = apple_smc_read_u8(smc, SMC_KEY(MSLD), &val);
-> +		if (error < 0)
-> +			dev_warn(&pdev->dev, "Failed to read initial lid state\n");
-> +		else
-> +			input_report_switch(smcin->input, SW_LID, val);
-> +	}
-> +
-> +	if (have_power) {
-> +		u32 val;
-> +
-> +		error = apple_smc_read_u32(smc, SMC_KEY(bHLD), &val);
-> +		if (error < 0)
-> +			dev_warn(&pdev->dev, "Failed to read initial power button state\n");
-> +		else
-> +			input_report_key(smcin->input, KEY_POWER, val & 1);
-> +	}
-> +
-> +	error = input_register_device(smcin->input);
-> +	if (error) {
-> +		dev_err(&pdev->dev, "Failed to register input device: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	input_sync(smcin->input);
-> +
-> +	smcin->nb.notifier_call = macsmc_input_event;
-> +	blocking_notifier_chain_register(&smc->event_handlers, &smcin->nb);
-> +
-> +	device_init_wakeup(&pdev->dev, true);
-> +
-> +	return 0;
-> +}
-> +
-> +static int macsmc_input_pm_prepare(struct device *dev)
-> +{
-> +	struct macsmc_input *smcin = dev_get_drvdata(dev);
-> +
-> +	smcin->wakeup_mode = true;
-> +	return 0;
-> +}
-> +
-> +static void macsmc_input_pm_complete(struct device *dev)
-> +{
-> +	struct macsmc_input *smcin = dev_get_drvdata(dev);
-> +
-> +	smcin->wakeup_mode = false;
-> +}
-> +
-> +static const struct dev_pm_ops macsmc_input_pm_ops = {
-> +	.prepare = macsmc_input_pm_prepare,
-> +	.complete = macsmc_input_pm_complete,
-> +};
-> +
-> +static struct platform_driver macsmc_input_driver = {
-> +	.driver = {
-> +		.name = "macsmc-input",
-> +		.pm = &macsmc_input_pm_ops,
-> +	},
-> +	.probe = macsmc_input_probe,
-> +};
-> +module_platform_driver(macsmc_input_driver);
-> +
-> +MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
-> +MODULE_LICENSE("Dual MIT/GPL");
-> +MODULE_DESCRIPTION("Apple SMC input driver");
-> +MODULE_ALIAS("platform:macsmc-input");
-> 
+ drivers/mfd/macsmc.c               | 18 +++++++-----
+ drivers/soc/apple/rtkit-internal.h |  4 ++-
+ drivers/soc/apple/rtkit.c          | 59 ++++++++++++++++++++++++++------------
+ include/linux/mfd/macsmc.h         |  2 ++
+ include/linux/soc/apple/rtkit.h    | 10 +++++++
+ 5 files changed, 67 insertions(+), 26 deletions(-)
+---
+base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
+change-id: 20251222-rtkit-v10-cdcf41bdaaef
 
 Best regards,
-Nick Chan
+-- 
+Nick Chan <towinchenmi@gmail.com>
+
