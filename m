@@ -1,66 +1,66 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE83C314B8E
-	for <asahi@lists.linux.dev>; Tue, 23 Dec 2025 14:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37B6320CAC
+	for <asahi@lists.linux.dev>; Tue, 23 Dec 2025 14:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766499261; cv=none; b=axlcwsoIIgrFKXjK9PR80q9r5ju+5Ja/nMF7IOiiwVq7mnV27Es44dW0GuNDl10Ps0s4QMxOOpAjHiPx36wVwWnP9/+lBVcU1bP6I+s4OkUzvQrXZELwuML0JBVktgz1EHfcgDq7X/V5lATxVb/oC+NIYGkTyAtL2aIqKKF7NMU=
+	t=1766499264; cv=none; b=pLqVpM5bXEWAMUDn6Zp/kIFvR/kryuWzxyXo4KViPJZwSKm2GeemL3aWlrGIuP8Z4BTMwlVuxppeK8x2eAPRWmN/0jVOp+naQFehHSgE4x+31ykcisdHSwR0RY4Uu8IjW8hAltWAYHnpD+lOITPzngGKXvtIs/kMQGvqnWx4njo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766499261; c=relaxed/simple;
-	bh=tTm+zqXwen50SB01rU9h2NYFDbVkJ0agw2KXYp566Rw=;
+	s=arc-20240116; t=1766499264; c=relaxed/simple;
+	bh=M8K2zyn6hgbZbYWDWq9d9LHWwqY0uxaEJ1APjbEF8uc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H7qHzCZ/E9n9og+mKloxd1ThXjwzc23X9igSqYZhInAGGiQjJs2AkT/lazIzLsDq0ARKjK7Zmlgcz0gXdZYVfPLXcSDffCglkWmnIVdJNY8ykatHWKwqDo4RPicWCuD7vToxyHbud2ETL2kOmvti31CUs072hcwK/T6fGISiBos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KQSkp6Ic; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:To:Cc; b=bExVWbqJJCjdrTJRqXKUarImELpbqYPp3FzCJqexG+2ZD6XSRnV7f87VYfi1fnHDE1RstUXYuF+u6UNuySaitG4S0FBMY+kn47ERq6PwZxrQOERBAWy7F5FnZLrN/C5D7POb+ItDqsK7PNgw0fgDhnh5AVq3YZEOZ0JHxm0Ah0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GiaZ/xAQ; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KQSkp6Ic"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a0ac29fca1so44618665ad.2
-        for <asahi@lists.linux.dev>; Tue, 23 Dec 2025 06:14:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GiaZ/xAQ"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0c20ee83dso63520685ad.2
+        for <asahi@lists.linux.dev>; Tue, 23 Dec 2025 06:14:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766499259; x=1767104059; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766499261; x=1767104061; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=93Pf6X13SUCkXiU5R7ykDf2LAtr96ckHMpNWb3vo6Bg=;
-        b=KQSkp6Ic+6L4KrI7NWraSdSNr7aC5KgUkipvWH6pfNpKwOlW1G1hsEJLCNQzvKidB6
-         U+b/qdlhqPAvaW+tG3g6KXBGwXzfxnsheFbS5QXDBaJgeFDdVGWmQ5bffDleeYLhbFOD
-         Aylk3VsULAwa3YyZQGhRbVcA4lIwxv/ZTyMPdg5XIUBbuBMecW5eqbdV22h/T6ceBkkk
-         R43XsWz6CgpzZ2ktMYxtTWiHsC+pAt6XmbMu2QnAEmPbeEPZ4par0kBVTIGOEXEmEJip
-         +E41y6pbr5EcYa+5BWSOM3T2O2oelWuYvYx273mFNUC0rOo2bO9UgW07OaYeV1klZOnM
-         xAgA==
+        bh=FzbzO6CJwLccPfkWtJ0+CvDng44py3nFdjMzI7Msc48=;
+        b=GiaZ/xAQw5Wjyw8NRjIcBE8lr9nBH5CcIq80sOA9HiQ4/WVJcugM52++PnvLbmBeBS
+         jd2juh657GxTZU/pyGjrfDrDuybruAi+/LMrA6iNwygdHxbrlFO3GZxkaMorjrgP5XBh
+         rLQfRQQSp5dCn/eUMbew+4dE1i1ewufjhy9U9QI/yqzwwfOFdeXx/0ERVg6ILu6Bn734
+         3jRSGzprNIwne3Ve0m4I+GHqdZ8/sysOhmGMJKZi8teZslA8yoQacM4YzBC8E5trh0kB
+         3YDKBBtGxFBg3czbQxAyjbd5QWVgQx6r8tktRekkWWKIVJKvPAYH0OGhc1YOlJE9hIm/
+         4PYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766499259; x=1767104059;
+        d=1e100.net; s=20230601; t=1766499261; x=1767104061;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=93Pf6X13SUCkXiU5R7ykDf2LAtr96ckHMpNWb3vo6Bg=;
-        b=i+34WSCWKXAP5CTGNpasL4RafkFI2dIVDFT2mmjf0+wK9FdzZE/qkRc1+z2h1Lssf0
-         6POq9+N4yeUNqj+ygHYvmPmZrWE54ZteMtGmTORqzQaAp3FN7idHwVZNjl4oHhggQlJT
-         joaa454v1hVS0uNdX0ItBoQDKBO2Dgyml0gDf+wvDCGeZr9BcBn6Obr8oh+DRMTAEt5h
-         cu5FkFeqHfpzOIoN9nhwRNS+MMy7pWeujfhJ2mds1WQGihDlQlG9n5hSBeF1/+77Avid
-         iy7IIbq5SajaDqw2VxA4KDE5cPRHpi8/5e/lUYsew6RZOo7bS/Ea0bSQ1w+JLYRDnegc
-         34pw==
-X-Gm-Message-State: AOJu0Yyv/RsU7EoHSer1DS+8Sq2Ti5K9k29tvaYMEnqpDGGAnfGLzV9d
-	mrLH0tgD3bqngb9lVfDEGQquotOmoXbxI2OhBTfbuHGdz86XZneX6YkY
-X-Gm-Gg: AY/fxX7uANO1NrmqCyD2vBHehiJho2FzE31BQx7VYdG/hY1wKY0XgrYTprqkPcNKnQt
-	wKxcuj5I+duQIKdgk2l1uc61ljbFJrfXJjbvISmbv4cIreyUlHOPo+Ndrn0GVGY+vlAEF5kSs+l
-	lRGwHGHAStp1SFeAGiT/vLbfFaq3SV8vuyMAk3MxLIvNtwkCCBrGewXNZ5wt6nro5XGRAoGUUzP
-	/h30EaDHceqhzmcrCP7wN9+LAz5ZGE52qLr8gh8AyZLLpU0dchh+8w0oi6Ol4L1dDs2smfIXPOh
-	gQT+xf7h79IRpdb0yOLjo5VkihX4SYE5GQGwIlL+XsUjvozti1GTfYi3+Se2p6/t80+0HzoJ2BL
-	AgNRStcJyQ1MtBU0d+QFTw6B3OAwiEf6NJD4dLFBQMlS7/mMMSEoHEawHrnqS6XkuOUXnCdwMPv
-	XVE98PoqsGMTBG
-X-Google-Smtp-Source: AGHT+IFxxP4o8t9oxgJnfMD7Rvph5B8jqUM/0u1lCIkIRDfEj0VekGFpThdkzLHanj3mcLJ2UNhZtw==
-X-Received: by 2002:a17:903:19cf:b0:2a0:abba:a2f4 with SMTP id d9443c01a7336-2a2f2202f9fmr180596745ad.2.1766499258811;
-        Tue, 23 Dec 2025 06:14:18 -0800 (PST)
+        bh=FzbzO6CJwLccPfkWtJ0+CvDng44py3nFdjMzI7Msc48=;
+        b=lrLacilgbCan5JBtsd1dDlufy1LiEuNTwiRBv9eIup1D17YZ7qlcAO1+Xu/jsB6ig3
+         Hvhc7PEMGVLSqZKf9ZyQM7zrUPwOcM6zZF5iIsiRL83qt4PDcxt7vWoNJNE1xHtxsmPQ
+         W1JYUSRGDMYT7XymlHZYdLUjO/O8S3WVkMB0hQp5Nlh4EXBQCNqQhVY/5DV7gIsHAARK
+         7BsHqUFYijpDObL/Q9AB/JOdYrzOBmWqDUNbpblrETjNKDVz08VtGd5KuYeyzTWGvNNb
+         eIH4/m2YrfxJwxeIvlhH0Ak9orZxNTQU/7VYb8yhcmikH0e8EZy7nMn5IPRFo/Fjfbf3
+         jb4Q==
+X-Gm-Message-State: AOJu0YxYZcv8ZZRWmuEhAsdnjFxTr/bxKBRl8sjiB05KPnnBe71hFSQn
+	LT+xqahjwmtDfDmQaAN8nF1AZYRM7C8UcC7ZlB2qrC9o8il7tLtCCjWO
+X-Gm-Gg: AY/fxX5j8M8raUqIqbh0o4+feSgvxX3LZvAcWIX1F4/7dHHfpJTWJLLLzzZEgIJIoqf
+	gMs6hhB9RnO9jlHkxvXK4mYeW+oaVkFjJlEll3SHZtEFZVL/zoEvBxkOG+jAjtUhvrS8q1d2ZuF
+	Jm+IXxIftRwIITrZA0LBEfEMfn4EMi80CojUkuKzHJ4HIqhvUCieG5zZHEXLAzvRuujxUYg+O4W
+	R0MJCi5GzHCe7OwmaD64M278nXfBVC7q17PBLYUfg6Sk1c/NqOT3GGjAmH+SFoZad4dfzF63GpB
+	J5Jmf3ovZ7eTaoUKNWBEtX41kpvfTegk4EIlL1gxKaCbNrP2wvCRk/zTvLjUXV0L8k9QV2KDij2
+	P07hFPJP7m1vwjRKK7EhY2w7er1so7JF5ZnNH4rB00tQVr9WlFHJ03LXRU+TOFkbv7JuXwGOMeo
+	oONKwSdE+AX9bq
+X-Google-Smtp-Source: AGHT+IGQ72Qv40VXzWytpO8QexsPaVNcVSgbu9++QRVSPgfELMtmnY3IL6BZct+pHXLP45EtI7mwDQ==
+X-Received: by 2002:a17:903:3b86:b0:2a0:8966:7c9a with SMTP id d9443c01a7336-2a2f2c5e17cmr128978835ad.58.1766499261071;
+        Tue, 23 Dec 2025 06:14:21 -0800 (PST)
 Received: from [127.0.1.1] ([59.188.211.98])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2a2f3d5dea1sm126783015ad.81.2025.12.23.06.14.16
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2a2f3d5dea1sm126783015ad.81.2025.12.23.06.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 06:14:18 -0800 (PST)
+        Tue, 23 Dec 2025 06:14:20 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
-Date: Tue, 23 Dec 2025 22:13:43 +0800
-Subject: [PATCH 2/3] soc: apple: rtkit: Add protocol version 10 support
+Date: Tue, 23 Dec 2025 22:13:44 +0800
+Subject: [PATCH 3/3] mfd: macsmc: Support variable app endpoint start
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251223-rtkit-v10-v1-2-12b4783d6403@gmail.com>
+Message-Id: <20251223-rtkit-v10-v1-3-12b4783d6403@gmail.com>
 References: <20251223-rtkit-v10-v1-0-12b4783d6403@gmail.com>
 In-Reply-To: <20251223-rtkit-v10-v1-0-12b4783d6403@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -77,92 +77,128 @@ To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2685; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=tTm+zqXwen50SB01rU9h2NYFDbVkJ0agw2KXYp566Rw=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBpSqO00cm9gv6KSqRnEOw+U36x5MViiExoXK7ex
- +D6c8eT/xeJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaUqjtAAKCRABygi3psUI
- JJ+HEACIk6GTMOs0PDPBjmRg01FJtNN9rcdzL8dCpXfy5X/I1/6GLZI+H2rJMZU7lNdCazplt4v
- aGYE6aL+d1xpwKsEFGGR2nKfu2No0WRAsBJeFXcjQRYbMuKTBWwg6Q5MTdMXnZ/HVzXZSd2rURj
- IWQ7KxszSNG23lX8pzC5Dd1RbnY6C2bfaYShPzmOShThArTTR0kmVGgJIMphlQYS+n6rlCgqES/
- fnu6LF7mC23G1HcAKInIuh2mg5dbDu8pvg0N8g9qIvEVIoXbsasBxWA5RUAXt1aYjskiyJTbZEV
- BQ9l6FBzjaY/wmIBV72/d0SGXsRCTUOcy08cP2P0tT+CwGeMUZ0iJ9jqQAazSce15j3lsTvVlcq
- SwN7tGJKJs2GcDds+HWCSD9hCVLhzCkKzWYgoz5+ahmRe9DZqbVpD09IT48CYKAU1/2X25h20Bk
- sr5G9nu76yqXVj4JhrfB7dmYsMIOGsOtfmn+lA1vPI0hQajvTePtqtJIyB1gjoUf9C5DgyImncu
- onMIVq6Ysc25U5Iuot9o3EckNK0mPnen76ldjS1ckH28YC+FkqktlYWmEdDKQB7xnhesI7EqvJL
- YODj3XltpvKFNr3q6RsBKclhQEOXrwYgnjna6BTJej+dluDTQ11ZmiiMMy0JaGPzXBptqldbg25
- 88uroAOXqqLp2yg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4098; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=M8K2zyn6hgbZbYWDWq9d9LHWwqY0uxaEJ1APjbEF8uc=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBpSqO0FVpbSnWy2ywhYchunAaQhBkTgjRFRp5so
+ ykp/7/dG8iJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaUqjtAAKCRABygi3psUI
+ JIEoD/0f3NCHVZ2r8ele5bqiSXKPtHaBivP+HJp6qU5/SgN+2PTLkkR8FGBjk6qCd+1BklLR2lx
+ YgHveWm7ER9OJn+oq/kdjl/Qc9J3csrgRdnpH5LJWHF8bEWoEfmZ/rP/NQrAd8N7FFJNkhhaRVN
+ sUT63qgPNEPIV7O1w75BTVaS+xBXsDjE45D0pOmyMixLEX8bRpToAtMeWIiU51YrlxtDJ3zmbwl
+ f9zPJK8OHe/cAH1JE9E+s//hWxzM9GV3tjg02NGv7bUylHHc7skszdfH5UUWAtxy5zX5vTswKFW
+ CbKr7606xyLB42oJM7ccaJYsBBAAIlLZNhdufUlawnPofJyHy9qxRpvtSrKH64zkN5nwUBU8o3Y
+ yWCxQyj2UBw5lq+7vlrUtKVCnI1n8r1vlzvc+qSzMctfnNVVU4NVWYj32FStCm+bC+g8P0WLOzp
+ qg9Q/UpZe15HvQOQp84YHipBRVSl/6ganKd8LG7Fliqe4XV4D7IwOFbgO+Koxc/hj437iMGrhvc
+ LTTmT+K3F/2j40vUrR/H8mIRtHkVa4blaYlmXsoc6QzZUvEGwJaz08V9OEnL+Nv+U9csORd6yOB
+ SURtZQBqNHF3JCQWeaCCagEHpm0Khnn3kYGCcl0vRRECxoZFnnqK+NOPIOg2tvXpEsPQIdKQfaU
+ asmCSLfjrPHh2Tg==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-Add support for protocol version 10 used from iOS 11-13. In
-protocol version 10, epmap is always completed within a single
-message, and app endpoints start at 0x6 instead of 0x20.
+Instead of hardcoding the SMC endpoint number, use
+apple_rtkit_app_ep_to_ep() to convert a relative endpoint number to
+an absolute endpoint number in order to support protocol versions
+with a different start of app endpoint number.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- drivers/soc/apple/rtkit-internal.h |  1 +
- drivers/soc/apple/rtkit.c          | 19 ++++++++++++-------
+ drivers/mfd/macsmc.c       | 18 +++++++++++-------
+ include/linux/mfd/macsmc.h |  2 ++
  2 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/soc/apple/rtkit-internal.h b/drivers/soc/apple/rtkit-internal.h
-index 52ef7a202120eb8a56c149179389741ec0f5e358..5f91dea8b7a178b368783d74f8c5786ea2965fa7 100644
---- a/drivers/soc/apple/rtkit-internal.h
-+++ b/drivers/soc/apple/rtkit-internal.h
-@@ -19,6 +19,7 @@
- #include <linux/workqueue.h>
- #include "mailbox.h"
+diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
+index e3893e255ce5e4bb4832d80ad1fc002d413a291a..4e0fc5ddf9293ee7281680e964fc5f9b80260b3d 100644
+--- a/drivers/mfd/macsmc.c
++++ b/drivers/mfd/macsmc.c
+@@ -21,7 +21,7 @@
+ #include <linux/soc/apple/rtkit.h>
+ #include <linux/unaligned.h>
  
-+#define APPLE_RTKIT_APP_ENDPOINT_START_V10 0x6
- #define APPLE_RTKIT_APP_ENDPOINT_START_V11 0x20
- #define APPLE_RTKIT_MAX_ENDPOINTS 0x100
+-#define SMC_ENDPOINT			0x20
++#define SMC_APP_ENDPOINT		0
  
-diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-index 716d6a3e6eefd82d919467e39d68245c5c0d137c..376d1d30fd1e2176357c1daa24c76300c7c70f85 100644
---- a/drivers/soc/apple/rtkit.c
-+++ b/drivers/soc/apple/rtkit.c
-@@ -71,7 +71,7 @@ enum {
- #define APPLE_RTKIT_OSLOG_SIZE GENMASK_ULL(55, 36)
- #define APPLE_RTKIT_OSLOG_IOVA GENMASK_ULL(35, 0)
+ /* We don't actually know the true size here but this seem reasonable */
+ #define SMC_SHMEM_SIZE			0x1000
+@@ -72,7 +72,7 @@ static int apple_smc_cmd_locked(struct apple_smc *smc, u64 cmd, u64 arg,
+ 	       FIELD_PREP(SMC_ID, smc->msg_id) |
+ 	       FIELD_PREP(SMC_DATA, arg));
  
--#define APPLE_RTKIT_MIN_SUPPORTED_VERSION 11
-+#define APPLE_RTKIT_MIN_SUPPORTED_VERSION 10
- #define APPLE_RTKIT_MAX_SUPPORTED_VERSION 12
+-	ret = apple_rtkit_send_message(smc->rtk, SMC_ENDPOINT, msg, NULL, false);
++	ret = apple_rtkit_send_message(smc->rtk, smc->ep, msg, NULL, false);
+ 	if (ret) {
+ 		dev_err(smc->dev, "Failed to send command\n");
+ 		return ret;
+@@ -262,7 +262,7 @@ int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, const void *buf,
+ 	       FIELD_PREP(SMC_DATA, key));
+ 	smc->atomic_pending = true;
  
- struct apple_rtkit_rx_work {
-@@ -140,7 +140,10 @@ static void apple_rtkit_management_rx_hello(struct apple_rtkit *rtk, u64 msg)
- 		 want_ver);
- 	rtk->version = want_ver;
+-	ret = apple_rtkit_send_message(smc->rtk, SMC_ENDPOINT, msg, NULL, true);
++	ret = apple_rtkit_send_message(smc->rtk, smc->ep, msg, NULL, true);
+ 	if (ret < 0) {
+ 		dev_err(smc->dev, "Failed to send command (%d)\n", ret);
+ 		return ret;
+@@ -330,7 +330,7 @@ static bool apple_smc_rtkit_recv_early(void *cookie, u8 endpoint, u64 message)
+ {
+ 	struct apple_smc *smc = cookie;
  
--	rtk->app_ep_start = APPLE_RTKIT_APP_ENDPOINT_START_V11;
-+	if (rtk->version < 11)
-+		rtk->app_ep_start = APPLE_RTKIT_APP_ENDPOINT_START_V10;
-+	else
-+		rtk->app_ep_start = APPLE_RTKIT_APP_ENDPOINT_START_V11;
- 
- 	reply = FIELD_PREP(APPLE_RTKIT_MGMT_HELLO_MINVER, want_ver);
- 	reply |= FIELD_PREP(APPLE_RTKIT_MGMT_HELLO_MAXVER, want_ver);
-@@ -171,14 +174,16 @@ static void apple_rtkit_management_rx_epmap(struct apple_rtkit *rtk, u64 msg)
+-	if (endpoint != SMC_ENDPOINT) {
++	if (endpoint != smc->ep) {
+ 		dev_warn(smc->dev, "Received message for unknown endpoint 0x%x\n", endpoint);
+ 		return false;
  	}
+@@ -366,7 +366,7 @@ static void apple_smc_rtkit_recv(void *cookie, u8 endpoint, u64 message)
+ {
+ 	struct apple_smc *smc = cookie;
  
- 	reply = FIELD_PREP(APPLE_RTKIT_MGMT_EPMAP_BASE, base);
--	if (msg & APPLE_RTKIT_MGMT_EPMAP_LAST)
--		reply |= APPLE_RTKIT_MGMT_EPMAP_LAST;
--	else
--		reply |= APPLE_RTKIT_MGMT_EPMAP_REPLY_MORE;
-+	if (rtk->version > 10) {
-+		if (msg & APPLE_RTKIT_MGMT_EPMAP_LAST)
-+			reply |= APPLE_RTKIT_MGMT_EPMAP_LAST;
-+		else
-+			reply |= APPLE_RTKIT_MGMT_EPMAP_REPLY_MORE;
-+	}
- 
- 	apple_rtkit_management_send(rtk, APPLE_RTKIT_MGMT_EPMAP_REPLY, reply);
- 
--	if (!(msg & APPLE_RTKIT_MGMT_EPMAP_LAST))
-+	if (rtk->version > 10 && !(msg & APPLE_RTKIT_MGMT_EPMAP_LAST))
+-	if (endpoint != SMC_ENDPOINT) {
++	if (endpoint != smc->ep) {
+ 		dev_warn(smc->dev, "Received message for unknown endpoint 0x%x\n", endpoint);
  		return;
+ 	}
+@@ -427,18 +427,22 @@ static int apple_smc_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to wake up SMC");
  
- 	for_each_set_bit(ep, rtk->endpoints, rtk->app_ep_start) {
++	smc->ep = apple_rtkit_app_ep_to_ep(smc->rtk, SMC_APP_ENDPOINT);
++	if (!smc->ep)
++		return dev_err_probe(dev, ret, "Failed to get SMC endpoint");
++
+ 	ret = devm_add_action_or_reset(dev, apple_smc_rtkit_shutdown, smc);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = apple_rtkit_start_ep(smc->rtk, SMC_ENDPOINT);
++	ret = apple_rtkit_start_ep(smc->rtk, smc->ep);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to start SMC endpoint");
+ 
+ 	init_completion(&smc->init_done);
+ 	init_completion(&smc->cmd_done);
+ 
+-	ret = apple_rtkit_send_message(smc->rtk, SMC_ENDPOINT,
++	ret = apple_rtkit_send_message(smc->rtk, smc->ep,
+ 				       FIELD_PREP(SMC_MSG, SMC_MSG_INITIALIZE), NULL, false);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to send init message");
+diff --git a/include/linux/mfd/macsmc.h b/include/linux/mfd/macsmc.h
+index cc09ecce0df7424b288d4248d869f4c9bed3e188..1a462baae0e38ac099f90988afda0f3f5ad968b9 100644
+--- a/include/linux/mfd/macsmc.h
++++ b/include/linux/mfd/macsmc.h
+@@ -93,6 +93,7 @@ enum apple_smc_boot_stage {
+  * @sram: Pointer to SRAM resource
+  * @sram_base: SRAM base address
+  * @shmem: RTKit shared memory structure for SRAM
++ * @ep: SMC endpoint number
+  * @msg_id: Current message id for commands, will be incremented for each command
+  * @atomic_mode: Flag set when atomic mode is entered
+  * @atomic_pending: Flag indicating pending atomic command
+@@ -118,6 +119,7 @@ struct apple_smc {
+ 	struct resource *sram;
+ 	void __iomem *sram_base;
+ 	struct apple_rtkit_shmem shmem;
++	u8 ep;
+ 
+ 	unsigned int msg_id;
+ 
 
 -- 
 2.52.0
