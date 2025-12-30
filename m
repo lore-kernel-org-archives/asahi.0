@@ -1,135 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9141DE8BF;
-	Tue, 30 Dec 2025 01:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73422580F3
+	for <asahi@lists.linux.dev>; Tue, 30 Dec 2025 18:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767058688; cv=none; b=PT2h2Pwj3wxD5VmJWSLnRKf8nkJztEiBAqo7fNoJ8wC3P83ESkbP14rLNlwSIPiD2m4ONt1zpeWSK8C4NaPXoA3XphKh+iRmAEnC2+qaZlaW8kqQMfAcQoCj5LOTzP12MTAUKQo9BwEESem4i4uRMWOVvmG5Padbag5RTtjL1R4=
+	t=1767119594; cv=none; b=DxUecIdiuTkbJvM2vTiCoFvbObEdmg9BDedvQt0L/i+DiEm9TBbzW+yr+Fd7swHP3ePOH8vGZ8cQ9CWbUE0rSyzE00Gx7O2CtsuuzEMKxwuu/VSMC5zi7YsLimiuiYKtJyy1LelJwQktcwvRnSzV/X5TvuPB/xMvssNZI6w80as=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767058688; c=relaxed/simple;
-	bh=urCIY28Bgg/DWNEhGAokKr3T2XA/0hKP4bHhcr/Cd8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UThlcO1sFSrH/kxG+mo/5ZPtv1yX9hWYGC+ifDqvsD+OPazs3GzxPBLuHXuhtbRXxFUopFmSOZ9IWoMr51bK7IO0K0zWMfEGa5FYpL7wtnpKQ2T8ZMDIh1/9WQziz49vrFqzOyIrMVEpRmRL/xPrey4Xtgu2ZttHO9sAjYiYlrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ane3J7yR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767119594; c=relaxed/simple;
+	bh=peiIl3kcZSGYDI0SYDU6pNL+X/0lARo53q7LuV+LeDI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fHIgE0g/o3eLIgwEZo8e2Z/c0tukC6/edvC3wHGJhrsuh+Fi49euvqccvsyUxB0TANZsRG2TpJDR1gsUe+q9XlfLJKcpkv4QIOP9Oec/871ivwRCfmXVuiTGSTfcZuAlN2gSZYcIzciYFOj7NAiv1Rw41mJoXdzDZSAjJ7HBSzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E39tfwCU; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ane3J7yR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15B2DC4CEF7;
-	Tue, 30 Dec 2025 01:38:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767058688;
-	bh=urCIY28Bgg/DWNEhGAokKr3T2XA/0hKP4bHhcr/Cd8E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ane3J7yRRaqVeKXcNFl0zPb8F1eUzeet5WWEV7XMk7579tlwZy76sgoUiQbfEF+Uq
-	 ye+KSU7k9a2XiwxqzgEuGpB7PwVPHtuVxyk4j5Wk0GkwFkLoTPwbKv+hNFR7qLqjm4
-	 eYZfS6OUXYMcEmDJbeas4P5nVszIgcs8/MPstXi+7ZPL5DHpj1eSXag+gfkGqu3fLd
-	 tpczmQLTtvsK3yW7drKcusScsXyQROhfD5Z7lBsRQbBuSEYO1wkgsxBgr2QYas4PdM
-	 4cIMyPzt30MRC6PpladfWCKr1uBgJtYFiD3UrD+Dw3AyDVR2Fy7mdH2HZxVAxUD8pA
-	 /8Pfl0Ckj9I8w==
-Date: Mon, 29 Dec 2025 19:38:07 -0600
-From: Rob Herring <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH v2 3/7] ASoC: dt-bindings: add TDM slot idle mode
- properties
-Message-ID: <20251230013807.GA3063323-robh@kernel.org>
-References: <20251221-tdm-idle-slots-v2-0-ed4d96413aec@gmail.com>
- <20251221-tdm-idle-slots-v2-3-ed4d96413aec@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E39tfwCU"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a0b4320665so155858905ad.1
+        for <asahi@lists.linux.dev>; Tue, 30 Dec 2025 10:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767119592; x=1767724392; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=liNs4Nu20YxUTwqcdL8jR/v1sBx3Nke7g7mFbFi8pF8=;
+        b=E39tfwCUKFw9+pGm8PiDNANRKxrXKbpLKJnWsWq3TcOJgtvksZGtXntzm284Il8+kT
+         yc3IfS6qvWi+iYvlBldiZxyln+zXnlKSJAs11i4oWNkbqnxpgt+33OYylAuQWJjg1CBM
+         FS5Hdp1bfdh3Rvsv7DzQDtxCIhoZd4yvQwQjqxew3Yl9Pz+RcUbo1hQSs8bHI35NrMuM
+         M65KXYNFhGDSUvpAfv4WGocbsXgk/uTM5jIKQlysxi5rtZZmkv1AUhI3gnismQccsk1v
+         wQMj5Bm81jHMk56+pm4Sm3bIHc8dkKh5IlEgbX9JKEXBz6oORePPGcpLrAjMktcKdOF4
+         7b4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767119592; x=1767724392;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=liNs4Nu20YxUTwqcdL8jR/v1sBx3Nke7g7mFbFi8pF8=;
+        b=nuwnz+8JfFhMTwduPWsEb8w+0OLrUEP+/MrcWEgZP/Bi7NJT8Akzr4IiWCxBCIPO6n
+         0o4yq7DOdmuEGY/B6jmQcYGlJMDvCSCivvWJz1PMbHysgSfE522qfT6+dzDaMUJtRQxa
+         EtKkJHJHNsFsn+rbir/xI0KM6xY7kaKArOErj6uuX9t8aocRu/trX1Znrwu51R92bHRG
+         ic1w5ifLwFsc49sZoCzrbj3QJ5ORvX5tSwbmLDJadaSmF9NjQmR/sqFpXlZu7KsD8EjD
+         RxE9Iu3C6SebvrToOS/PuidNcF4oZ+RrSDETugO3B0mzC6sTz/aweBy65GTWrfKVGrrF
+         1oZw==
+X-Gm-Message-State: AOJu0Yx9jrSYcasELzwmn0cakLMt49RgESQb30O6mEMf6UvLibTRKk8/
+	y3eOpM48GouGTcP3doK5S2n9KqQ4RHjbemJCNy6vwJdNVQ/D7yvS+Zsw
+X-Gm-Gg: AY/fxX6fIzvwXMkWA2DXXQCpV8UCfrogCZoBMXVXRX0yWdfS+orEDnHrnFrx0lKMMbu
+	aY2nAU/4RH61W+hW2nPDdCZX9kF/6Xv8PSn+TSyO/3zrGbFZkW4CiPAjeAkyqbXwj8BAy2IHlQS
+	faIw6IpqgkJ14YJiqM9LbRj6z86z1G0A2Le3qpZesFZz5mGJjHOFvPigLrROIsOBdZk8WHcUXPh
+	kSH2Kr2HzuzybhscFKc49l31mbo3eEQ7dxQK64xU/2UONOeksr9dX7qGnPoOt+/aQyx23VWMO0q
+	/FbuMRkU9Kd73xLwefcR0RvBy/l5QnAUXS0isOU/uGbk3VG6iJ5wI0yceib/wpqa5k/m4a3MvzY
+	Xw9cLlF/kwDDNcjaqSEzmdi3PuMV3pvKtGgAlIQ4KVbv+xX1aaaLzP2v/sf0KuuA18yS0aOyBG0
+	IBT70734Szt+AKvP4C16wUNdQ=
+X-Google-Smtp-Source: AGHT+IHfak2FfRD9VrZovrwOmes8QiGk+sY8RzvYOjUrAuZrPT3jY6+ly7bsYHkegveLW5pJZduZFg==
+X-Received: by 2002:a17:902:e550:b0:29f:87f3:9c22 with SMTP id d9443c01a7336-2a2f2c4cc02mr379373775ad.52.1767119592031;
+        Tue, 30 Dec 2025 10:33:12 -0800 (PST)
+Received: from [127.0.1.1] ([59.188.211.98])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2a2f3d4d87fsm302758125ad.46.2025.12.30.10.33.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Dec 2025 10:33:11 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+Date: Wed, 31 Dec 2025 02:30:42 +0800
+Subject: [PATCH] arm64: dts: apple: s8001: Add DWI backlight for J98a, J99a
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251221-tdm-idle-slots-v2-3-ed4d96413aec@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251231-b4-j98a-j99a-dwi-bl-v1-1-24793c2b99fc@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAFEaVGkC/x2MSQqAMBDAviJzdsC21u0r4qHLqCOi0oIK4t8tX
+ gI5JA9ECkwRuuyBQCdH3rckIs/AzWabCNknB1lILaQSaEtc2sYktAb9xWhXtLpyqqi1KUcLqTw
+ CjXz/13543w8vWX6xZQAAAA==
+X-Change-ID: 20251231-b4-j98a-j99a-dwi-bl-b56c3075a4fb
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Nick Chan <towinchenmi@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1741; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=peiIl3kcZSGYDI0SYDU6pNL+X/0lARo53q7LuV+LeDI=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBpVBrfZDu5oRktCcjFTaRTbil7TaNMr/NVMwu9P
+ RIiqTyoz6KJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaVQa3wAKCRABygi3psUI
+ JCfBD/4uajJFiAAk8T1F7l8vcke5uW7iQljDlvYBkbO4PCkYGYaS9JOoV/PlM9s8oD0j+RTe1zt
+ W53+AdleMK4yl9rfxMaKoA9ZcLghAMegPCLBlyby0XrFdPUDlWwczui7N7NOino66HzpL2D6CLZ
+ 9tnRseowYOmL1cKCSqxwbXfW9DFVp1cDZezOFXz9lOY2c3ouGcJyevE1MTOaYx6arVHJ8/e3eXU
+ FLTLCtoAQ8MexqmffRzwxOP9FBZoiEDQqDGi3dD2McnwNuC7oIXNnoxh2J6tI/xTVJ67IjhBwLW
+ y+CfruiuZ++/6Bqx3eVWO6mBdU1ghsACYLvyS8Y/LG4ylfO0NeBUGFEGQnYc8T12SkuLLpD1ToM
+ FqgquhS8lChUcPmr/Hau75eocJD5dpQoUbGKqUjRilxXIU0c+xAi27HFqqw1fY6Ns00o6yuDg4J
+ S7rRh4zSoKcvTV1N3xKyno+QUrFZnTge8CCSFh6WIUsR+zIZ0ClyaJiP1Ca56s564IEhGmZm9Lh
+ kB3RkfssnVO3hlSouoSLDxd+mg2tuefHds9qmR5iqBLjdS3jsdfFqhN2ie7IHg79ZMEznEATpVT
+ nY8GwKT9RJGaC/hai0CcnKJRJFW4LWEq9J66arLAU3Ex5r3MentJrQ89Pv3dKBs2ONbFRd9B+li
+ WjHqgkSjTawFH0g==
+X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
+ fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-On Sun, Dec 21, 2025 at 07:35:59PM +1000, James Calligeros wrote:
-> Add properties to describe TDM slot idle behaviour. These properties can
-> be used to describe how a DAI is supposed to behave when not active.
-> 
-> For example, Apple Silicon laptops split a single I2S bus between two
-> physical lines which are combined at an OR gate in front of the
-> receiving port. One codec on each line is expected to transmit zeroes
-> during the active TDM slots of the opposite line, or we will have corrupted
-> data at the receiver.
-> 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/sound/tdm-slot.yaml         | 33 +++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/tdm-slot.yaml b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
-> index 5bc46048d689..e8b2d35a7c37 100644
-> --- a/Documentation/devicetree/bindings/sound/tdm-slot.yaml
-> +++ b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
-> @@ -33,6 +33,17 @@ $defs:
->      $ref: /schemas/types.yaml#/definitions/uint32-array
->      description: Receive direction slot mask. Optional. Identical to TX mask.
->  
-> +  dai-tdm-idle-mode:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    enum:
-> +      - none
-> +      - off
-> +      - zero
-> +      - pulldown
-> +      - hiz
-> +      - pullup
-> +      - drivehigh
-> +
->  properties:
->    dai-tdm-slot-num:
->      $ref: "#/$defs/dai-tdm-slot-num"
-> @@ -46,4 +57,26 @@ properties:
->    dai-tdm-slot-rx-mask:
->      $ref: "#/$defs/dai-tdm-slot-rx-mask"
->  
-> +  dai-tdm-slot-tx-idle-mode:
-> +    $ref: "#/$defs/dai-tdm-idle-mode"
-> +    description: Transmit direction idle slot mode. Optional. For hardware
-> +      that can configure its behaviour during idle TDM slots via
-> +      .set_tdm_idle(). "None" represents UB/unspecified behaviour and is the
-> +      same as not setting this property.
-> +
-> +  dai-tdm-slot-rx-idle-mode:
-> +    $ref: "#/$defs/dai-tdm-idle-mode"
-> +    description: Receive direction idle slot mode. Optional. Identical to TX
-> +      idle slot mode.
-> +
-> +  dai-tdm-slot-tx-idle-mask:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Transmit direction idle slot mask. Optional. 1 represents
-> +      an idle slot.
-> +
-> +  dai-tdm-slot-rx-idle-mask:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: Receive direction idle slot mask. Optional. Identical to
-> +      TX mask.
+iPad Pro (12.9-inch) uses DWI backlight, while the 9.7-inch model does not.
+Add DWI backlight node for s8001 and enable it for J98a and J99a.
 
-These can be under a patternProperties:
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+---
+ arch/arm64/boot/dts/apple/s8001-j98a-j99a.dtsi | 4 ++++
+ arch/arm64/boot/dts/apple/s8001.dtsi           | 7 +++++++
+ 2 files changed, 11 insertions(+)
 
-patternProperties:
-  '^dai-tdm-slot-[rt]x-idle-mode$':
-    ...
+diff --git a/arch/arm64/boot/dts/apple/s8001-j98a-j99a.dtsi b/arch/arm64/boot/dts/apple/s8001-j98a-j99a.dtsi
+index e66a4c1c138fe82dcdd652d4d56a8f4583f660cb..67633c56a7238983517b36ba319a704424be07c5 100644
+--- a/arch/arm64/boot/dts/apple/s8001-j98a-j99a.dtsi
++++ b/arch/arm64/boot/dts/apple/s8001-j98a-j99a.dtsi
+@@ -9,6 +9,10 @@
+  * Copyright (c) 2024, Nick Chan <towinchenmi@gmail.com>
+  */
+ 
++&dwi_bl {
++	status = "okay";
++};
++
+ &ps_dcs4 {
+ 	apple,always-on; /* LPDDR4 interface */
+ };
+diff --git a/arch/arm64/boot/dts/apple/s8001.dtsi b/arch/arm64/boot/dts/apple/s8001.dtsi
+index b5b00dca6ffa4caa1d504860693da001a8ced80e..209c7dd19b7c289096e22b3c86a825c53d19a78f 100644
+--- a/arch/arm64/boot/dts/apple/s8001.dtsi
++++ b/arch/arm64/boot/dts/apple/s8001.dtsi
+@@ -209,6 +209,13 @@ aic: interrupt-controller@20e100000 {
+ 			power-domains = <&ps_aic>;
+ 		};
+ 
++		dwi_bl: backlight@20e200080 {
++			compatible = "apple,s8000-dwi-bl", "apple,dwi-bl";
++			reg = <0x2 0x0e200080 0x0 0x8>;
++			power-domains = <&ps_dwi>;
++			status = "disabled";
++		};
++
+ 		pinctrl_ap: pinctrl@20f100000 {
+ 			compatible = "apple,s8000-pinctrl", "apple,pinctrl";
+ 			reg = <0x2 0x0f100000 0x0 0x100000>;
 
-  '^dai-tdm-slot-[rt]x-idle-mask$':
-    ...
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251231-b4-j98a-j99a-dwi-bl-b56c3075a4fb
 
-And then remove the $defs.
+Best regards,
+-- 
+Nick Chan <towinchenmi@gmail.com>
 
-Rob
