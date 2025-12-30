@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46D517C77;
-	Tue, 30 Dec 2025 01:32:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2607F1FF5E3;
+	Tue, 30 Dec 2025 01:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767058346; cv=none; b=WMMzHEJYel6odpsDexb6yPmTP1mJbXIzQqA656U3Oyv19ymPpdsKFqtlQKBxT5GK84VtyGKqp6C8+5KuzTwkGK9stU71UDfWaFHsqy48ib3wdrCbsTWAlvWeinCvHSy8CNEDW8fGNgcKkWImxQK8BeaF3gfy+OrKcZshamQqnfM=
+	t=1767058506; cv=none; b=eIRgcCYDwP/HdtbJjHNZI+ThMyue9WZ9k7Xfgq+iuZF+kSFsyprAy0kijZmZzm3jH6zruVlMaJaGs7JGsC2AYTsRDl1YezectKpcJRgl4tBY8RHql7mqck4TZTMRI+dI2mtF6jJM1FxTiY2fCE4BafwVqUhNu8I8FZED5e48+3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767058346; c=relaxed/simple;
-	bh=8GC9+1cPgKA6OlXPNo/vqRfC2edlTNPVVVG293aNUF8=;
+	s=arc-20240116; t=1767058506; c=relaxed/simple;
+	bh=Tj9LHQA+IIT2RlXp2c5HhaFtv0tgYyyX0N8rDKsQDgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mjYt9hPCEfb8n0jTQI9M27qz92GuCAPujLgiwqqjVQui1MxhueGctJ0YfJDAKI1UN5Wbp3/Dld5ZVJ2Z0i2xOeXXwIkXyMbdZtbi55ZtY0uQDoDv7o+C/VtXKIUjtBmrSuaEfL4YrGlLffy23kkcFExtwP2VI6o5eg+QL/Ps7pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t0gWSqfe; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WGUOKpAy1wEIROaym4ydcpcYCRo2/XPPzgrs+H54nofY67eTiHDxbrKTmjwKPcNrsu4JpwEwaa1Ha2R0s2qQV3jb/WW4gKDUl/Lxyo9EgmoL2jIUBh1WmlGPpdoEnqlkC9vN6/C5APdiVm8Gm5ZEBWtZ2v571fY1U1DMkSf9fYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DjBBMpBn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t0gWSqfe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16129C4CEF7;
-	Tue, 30 Dec 2025 01:32:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DjBBMpBn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9493C4CEF7;
+	Tue, 30 Dec 2025 01:35:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767058346;
-	bh=8GC9+1cPgKA6OlXPNo/vqRfC2edlTNPVVVG293aNUF8=;
+	s=k20201202; t=1767058506;
+	bh=Tj9LHQA+IIT2RlXp2c5HhaFtv0tgYyyX0N8rDKsQDgU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t0gWSqfeZ5wpv1aoDOkKa0nd/G1HAxtAdbI+iNPqRs1+zmOyCOZNucc+Ftxn/Igxt
-	 JQVD1uqZEeMDo4iT2QSP/ia54kdSSTiH5HUwQrhoux6B512R1fzshk69Rj9/0bOsI9
-	 FbbrLt6fOBtnryWnsTmTR1w+AhWCznx/h9CnSqGRG3oAG6WBP35dzKkXVSsYiEGRC4
-	 rqwbdGEvnMUYzT6zE+27R6hZEvBG1LAUeUssqFOLGxZTT+WMeJZitkPMER4ftd50eG
-	 DM1JSAfSzrAxFDioeWU1wlretsnK4IMmq3JzptubpbQU0rszNFn0BwckanbfMOBRlT
-	 BWX/vMDN8QyAg==
-Date: Mon, 29 Dec 2025 19:32:25 -0600
+	b=DjBBMpBn+cZZetPVWGTzI+d5MWX9W8emEsUr69Bw1L8QtapARppZ4FwAlP3y/guwa
+	 c2LuKMi2BWOmbt7eDYDIclvlePNZVTmgtZOJQwAbdU6SQ1eMoobyrW3NFEGNzgGZZQ
+	 3Z4ZQWmaEaI7+71ahs9FAP381YmEfru0JF79TCF7pN/EgnrIXPxpSS57G5aUU3TEFY
+	 GOxUoAiLJO+7E+D0cB1x14WZmTQeFmx0NoajJvGhJ6bQ4Y0X8UGe/GlyGSWTUDP54e
+	 AGxqgBGJOqmVtGVESheapDugYywmjmnrt3Sxt8aeA6S9l4WDAUEgikrHoaxgFc7+yn
+	 7wNfPVdjJNjkw==
+Date: Mon, 29 Dec 2025 19:35:04 -0600
 From: Rob Herring <robh@kernel.org>
 To: James Calligeros <jcalligeros99@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -43,11 +43,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	devicetree@vger.kernel.org, imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev
-Subject: Re: [PATCH v2 2/7] ASoC: dt-bindings: update tdm-slot.txt references
- to tdm-slot.yaml
-Message-ID: <20251230013225.GA3037280-robh@kernel.org>
+Subject: Re: [PATCH v2 1/7] ASoC: dt-bindings: convert tdm-slot to YAML
+Message-ID: <20251230013504.GB3037280-robh@kernel.org>
 References: <20251221-tdm-idle-slots-v2-0-ed4d96413aec@gmail.com>
- <20251221-tdm-idle-slots-v2-2-ed4d96413aec@gmail.com>
+ <20251221-tdm-idle-slots-v2-1-ed4d96413aec@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -56,97 +55,111 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251221-tdm-idle-slots-v2-2-ed4d96413aec@gmail.com>
+In-Reply-To: <20251221-tdm-idle-slots-v2-1-ed4d96413aec@gmail.com>
 
-On Sun, Dec 21, 2025 at 07:35:58PM +1000, James Calligeros wrote:
-> Ensure that all references to tdm-slot.txt have been updated to
-> tdm-slot.yaml, and are schema-compliant.
+On Sun, Dec 21, 2025 at 07:35:57PM +1000, James Calligeros wrote:
+> This schema was still in plaintext form. Convert to YAML format.
 > 
 > Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 > ---
->  .../bindings/sound/imx-audio-card.yaml   | 14 ++++++--------
->  .../bindings/sound/simple-card.yaml      | 14 ++------------
->  2 files changed, 8 insertions(+), 20 deletions(-)
+>  .../bindings/sound/tdm-slot.txt          | 29 ---------------
+>  .../bindings/sound/tdm-slot.yaml         | 49 +++++++++++++++++++++++++
+>  2 files changed, 49 insertions(+), 29 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> index 3c75c8c78987..eb702f48d694 100644
-> --- a/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> +++ b/Documentation/devicetree/bindings/sound/imx-audio-card.yaml
-> @@ -31,6 +31,12 @@ patternProperties:
->          $ref: /schemas/types.yaml#/definitions/string
->          maxItems: 1
->  
-> +      dai-tdm-slot-num:
-> +        $ref: tdm-slot.yaml#/$defs/dai-tdm-slot-num
+> diff --git a/Documentation/devicetree/bindings/sound/tdm-slot.txt b/Documentation/devicetree/bindings/sound/tdm-slot.txt
+> deleted file mode 100644
+> index 4bb513ae62fc..000000000000
+> --- a/Documentation/devicetree/bindings/sound/tdm-slot.txt
+> +++ /dev/null
+> @@ -1,29 +0,0 @@
+> -TDM slot:
+> -
+> -This specifies audio DAI's TDM slot.
+> -
+> -TDM slot properties:
+> -dai-tdm-slot-num : Number of slots in use.
+> -dai-tdm-slot-width : Width in bits for each slot.
+> -dai-tdm-slot-tx-mask : Transmit direction slot mask, optional
+> -dai-tdm-slot-rx-mask : Receive direction slot mask, optional
+> -
+> -For instance:
+> -	dai-tdm-slot-num = <2>;
+> -	dai-tdm-slot-width = <8>;
+> -	dai-tdm-slot-tx-mask = <0 1>;
+> -	dai-tdm-slot-rx-mask = <1 0>;
+> -
+> -And for each specified driver, there could be one .of_xlate_tdm_slot_mask()
+> -to specify an explicit mapping of the channels and the slots. If it's absent
+> -the default snd_soc_of_xlate_tdm_slot_mask() will be used to generating the
+> -tx and rx masks.
+> -
+> -For snd_soc_of_xlate_tdm_slot_mask(), the tx and rx masks will use a 1 bit
+> -for an active slot as default, and the default active bits are at the LSB of
+> -the masks.
+> -
+> -The explicit masks are given as array of integers, where the first
+> -number presents bit-0 (LSB), second presents bit-1, etc. Any non zero
+> -number is considered 1 and 0 is 0. snd_soc_of_xlate_tdm_slot_mask()
+> -does not do anything, if either mask is set non zero value.
+> diff --git a/Documentation/devicetree/bindings/sound/tdm-slot.yaml b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
+> new file mode 100644
+> index 000000000000..5bc46048d689
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
+> @@ -0,0 +1,49 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/tdm-slot.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +      dai-tdm-slot-width:
-> +        $ref: tdm-slot.yaml#/$defs/dai-tdm-slot-width
+> +title: Time Division Multiplexing (TDM) Slot Parameters
+> +
+> +maintainers:
+> +  - Liam Girdwood <lgirdwood@gmail.com>
+> +
+> +select: false
+> +
+> +$defs:
+> +  dai-tdm-slot-num:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: Number of slots in use
+> +
+> +  dai-tdm-slot-width:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: Width, in bits, of each slot
+> +
+> +  dai-tdm-slot-tx-mask:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: Transmit direction slot mask. Optional. Drivers may specify an
+> +      .xlate_tdm_slot_mask() to generate a slot mask dynamically. If neither
+> +      this property nor a driver-specific function are specified, the default
+> +      snd_soc_xlate_tdm_slot_mask() function will be used to generate a mask.
+> +      The first element of the array is slot 0 (LSB). Any nonzero value will be
+> +      treated as 1.
+> +
+> +  dai-tdm-slot-rx-mask:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: Receive direction slot mask. Optional. Identical to TX mask.
 
-Drop these and add just '$ref: tdm-slot.yaml#' up a level (with 
-'properties').
-
-You may need 'unevaluatedProperties' or you can put 
-'dai-tdm-slot-num: true' here if you want to define which properties are 
-used.
+Just move each of these to the properties below as they are only used 
+once.
 
 > +
->        format:
->          description: audio format.
->          items:
-> @@ -38,14 +44,6 @@ patternProperties:
->              - i2s
->              - dsp_b
->  
-> -      dai-tdm-slot-num:
-> -        description: see tdm-slot.txt.
-> -        $ref: /schemas/types.yaml#/definitions/uint32
-> -
-> -      dai-tdm-slot-width:
-> -        description: see tdm-slot.txt.
-> -        $ref: /schemas/types.yaml#/definitions/uint32
-> -
->        playback-only:
->          description: link is used only for playback
->          $ref: /schemas/types.yaml#/definitions/flag
-> diff --git a/Documentation/devicetree/bindings/sound/simple-card.yaml b/Documentation/devicetree/bindings/sound/simple-card.yaml
-> index 533d0a1da56e..a14716b2732f 100644
-> --- a/Documentation/devicetree/bindings/sound/simple-card.yaml
-> +++ b/Documentation/devicetree/bindings/sound/simple-card.yaml
-> @@ -27,14 +27,6 @@ definitions:
->      description: dai-link uses bit clock inversion
->      $ref: /schemas/types.yaml#/definitions/flag
->  
-> -  dai-tdm-slot-num:
-> -    description: see tdm-slot.txt.
-> -    $ref: /schemas/types.yaml#/definitions/uint32
-> -
-> -  dai-tdm-slot-width:
-> -    description: see tdm-slot.txt.
-> -    $ref: /schemas/types.yaml#/definitions/uint32
-> -
->    system-clock-frequency:
->      description: |
->        If a clock is specified and a multiplication factor is given with
-> @@ -115,6 +107,8 @@ definitions:
->  
->    dai:
->      type: object
-> +    $ref: tdm-slot.yaml#
+> +properties:
+> +  dai-tdm-slot-num:
+> +    $ref: "#/$defs/dai-tdm-slot-num"
 > +
->      properties:
->        sound-dai:
->          maxItems: 1
-> @@ -133,10 +127,6 @@ definitions:
->        bitclock-master:
->          $ref: /schemas/types.yaml#/definitions/flag
->  
-> -      dai-tdm-slot-num:
-> -        $ref: "#/definitions/dai-tdm-slot-num"
-> -      dai-tdm-slot-width:
-> -        $ref: "#/definitions/dai-tdm-slot-width"
->        clocks:
->          maxItems: 1
->        system-clock-frequency:
+> +  dai-tdm-slot-width:
+> +    $ref: "#/$defs/dai-tdm-slot-width"
+> +
+> +  dai-tdm-slot-tx-mask:
+> +    $ref: "#/$defs/dai-tdm-slot-tx-mask"
+> +
+> +  dai-tdm-slot-rx-mask:
+> +    $ref: "#/$defs/dai-tdm-slot-rx-mask"
+> +
+> +additionalProperties: true
 > 
 > -- 
 > 2.52.0
