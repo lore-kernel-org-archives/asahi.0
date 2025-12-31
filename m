@@ -1,80 +1,80 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AA32D6E5A
-	for <asahi@lists.linux.dev>; Wed, 31 Dec 2025 10:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA56421C17D
+	for <asahi@lists.linux.dev>; Wed, 31 Dec 2025 12:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767177715; cv=none; b=YR5O0KLjYmH+hP1f4gJBraf63e6iMlnsUHn2DrNjTGkUKbR3Axp91seefrmeoa5FRgc04ohF35/oW0s6p7B9XMmbZ3Vcb6USLDrEib1P/AEBzXQ5JC8Xx7gRucWVapSJkxc6dknz/mngoGy8Cq6qduS+3xkNFWAOHGUtNbxqGJw=
+	t=1767182850; cv=none; b=A0sF5KX61d00TFbr4GU4dJsjWQQXe+0PWYHG5U7TDDf61T4SP+Fvr0hUvS/FVl6VdHSGlCwSpIFfd22O0262p53yxWcnFxNAWEROLilOceafyZDqArCj/o6rxROHNM233KOeP7PGT6Edc3TMxaHGldFN1Gc7Hpez+NlEXi+bqQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767177715; c=relaxed/simple;
-	bh=ldnc9AN0Tcy3LRdMsAxOkNoDR2A2lSMzX/+Q9YUZ7V8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lXhMZyKVtfbrGNrkoSiP9HirMxFKweP68dEym6OqAS0aUIKj+muSrMYpnYuUqPuWimspzwezJWX5E3z7o4IWOdcBBQm4TDY0IjPEiIlhLlS4rbAFeuwXsfjL06d2bwczwSBjQg44aqWihHXc8GzgA1IMyvT2snf2H5wj18nVpxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=c8zPfXie; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hCp+54Vd; arc=none smtp.client-ip=202.12.124.151
+	s=arc-20240116; t=1767182850; c=relaxed/simple;
+	bh=vjl+69Y7fxj8I0QaXAqrOw68C+ZGqOU22KG/HJFgJ/w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=s+JPsLmgD0gE+jXMFhq54Rwd5Hro+ZPYREuxW7QEiU1KC4fdfJmulzrD5GdDWEAlw+8mw57en+HoKbo6q18luPDjiWhCHx/MsQiSvmZYamaAUqIo2It+gGzFnzxIMTpNksgRlumV3N21aGy3PiO+4cI14oUHkI/FiYJ6VGdEVvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=mD/YrANf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HGmxJZSL; arc=none smtp.client-ip=202.12.124.144
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="c8zPfXie";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hCp+54Vd"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="mD/YrANf";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HGmxJZSL"
 Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.stl.internal (Postfix) with ESMTP id D519F1D00058;
-	Wed, 31 Dec 2025 05:41:52 -0500 (EST)
+	by mailfout.stl.internal (Postfix) with ESMTP id D98931D000C0;
+	Wed, 31 Dec 2025 07:07:25 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Wed, 31 Dec 2025 05:41:53 -0500
+  by phl-compute-11.internal (MEProxy); Wed, 31 Dec 2025 07:07:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1767177712; x=1767264112; bh=2J
-	v2thumymaHM3F69ycEVzyljEg5XSCOFSLqxw/qaeM=; b=c8zPfXie9M3ssRxJlx
-	tYIz0qkKMo9uxFUn60lf5Kq0Qdx49YqKsfCA4E+2Xgjx3XUK6CufW8Q2h/CK53Vg
-	JAHKYb7+rEqDHUzt4feEmbrKLQW1NN9hC+dc2xYeIictMkuVxpZCDHvH7+2xiTFX
-	TF3Q3AxnyNSJtHT7g2/WmDG+r5ksiywa64rjk0lKR6Ju7kfQsuG4N0HTEtyGmuvm
-	ZtN7DfDQ12XsOMRckxdwgVJ2OeTLcHhH5Lr8phfRXFWjfmjkK+fvcYelEEkCrAIU
-	grkeBgel38Mm5YkvU4/L41HDLrIEqNkaks82ZkKcgsYQvvFxuB90vb2g9l7bQQAW
-	1KrQ==
+	:subject:subject:to:to; s=fm3; t=1767182845; x=1767269245; bh=Fb
+	O7EqdF+KVmZQo9uR+0FgHo+CoXl6nilB68rvFnOsI=; b=mD/YrANfYLsIAQqnQl
+	rhCEnVLiXv9wKHIZlkYTOTqbFzwBNcyio+aurNwg/XTVqD32ncrVzvAf9R93IG9V
+	pdWQzu/aIaA8Wg7vsW2v+ztsc3g7ByJyo4jBxRe/r8UOleewDk45HXF/tQTNWXy4
+	jb00tFpn4KGr9N6qDdT3+5cGUdlks70lyN1jMtkYRSULVuT4Vk3XGca9qAzTzXMT
+	sTpbEYpa0A5UdSMrRmNeufcxBKM2L8tMd9X6S0XOGOoTsxkLYv4tiwu+JYSzRb6N
+	loiVc749eq1pXDRegfovwmu6ghtJ/ww4Ng0lt1BByRPu26VgQlIAZX8rpeDRygn3
+	/5ZA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
 	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1767177712; x=1767264112; bh=2Jv2thumymaHM3F69ycEVzyljEg5
-	XSCOFSLqxw/qaeM=; b=hCp+54VdBdHu87EpMQzbi+DlApa0SxEVfjtF+Jdt+RxN
-	eym2t0NHfAuPm9cX6D0ATtoVIwUp/Klwc0saQJxrAElgNt8ufulyLJa9u6H8BHAT
-	u5elowRDSzXO6zDiq8ZjPdygXlADDZB0cTLBEPX8kjpHpKRehjkxEnY7RyH99RfL
-	AsUWdzXF3wOzUEFh2I8SnCh8Jh2n6uvLmQGzim0qYrVm2tqMzbHq1IaC7xfpA1RT
-	UC/bWOfQt1lClzcSK0KkE8G7BPS4DDujpel+xcwo9i1DQlskrS3OTAfbfNd+MJzr
-	wNawts5/Z4xFlWy+wd6ew47Vus1+Jj9O1ZWfAN3Lhg==
-X-ME-Sender: <xms:8P1UaZAPJKdb_mX_QBq4mcZz8lV1tVwg8AsFXPhJcSVnXuRdUxy7xA>
-    <xme:8P1UaTVrR4aLiTHSl1V6qIIDHMIuQsPOn2oucjoZGhtizHLJ0ZQEn0hu8CL0E6jqt
-    9Rzdwf5phg6tS1jmYQYWrKccOGU_yBTGjeDFVZCAuDa3lYrVjyAgBM>
-X-ME-Received: <xmr:8P1Uaf985-mc5pko0VXeCIYYyYtCK5EI7v9ArTEcMuK5mzAoWiU8bj-keJcbxhvnqVJ4XFrns3hce_kEZLgh9bCpA3rDy5xJ7OmxaA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekvdeilecutefuodetggdotefrod
+	fm2; t=1767182845; x=1767269245; bh=FbO7EqdF+KVmZQo9uR+0FgHo+CoX
+	l6nilB68rvFnOsI=; b=HGmxJZSLdw/MQI5YPN/Vrxb7Yoiwed9Ekpvxi6tgSE3b
+	EPcylqhimUNshocMxw4AP+58qrxAJeZ1vwz6OhGuciQtBphTtRymf5hen7E5fIHw
+	x8MmSzcnvnE3YcqnjhT3GMj5XVdPQDWMI91o3afbwiS/SilDXPTQIYYn4GdwN8z+
+	NgBE8e9Gh/L5ta3ULs+1b2ZRjNNik2bAd9xMgX7xUNdQG+3dy2sX2OuFK4tzPQ1l
+	gGPDRVeYd5oBXg7c50yhWpmhIVDXTwcgeAVSUMs2ryoxiLbzJ005aBZehWpS4An8
+	wAzX+sz15K3uefRB0ncKHGwmr4hBhb7TzqNSTYr8+g==
+X-ME-Sender: <xms:_BFVaTtmxPPOGQNyCcksu1fYnBg8Kq9mLJl58goTtGnnj4Dh1b2PbQ>
+    <xme:_BFVaSsPVQkrZmM3_FBsmCRUR-dTKpmSYJTvY5GYyNzla41qLlLwjmL2k_KYQJOJ1
+    Vfen8BrtwgvSobkUdk5JjETmhozSf67FbyJWVouzhr5QK2oTtOOkE8>
+X-ME-Received: <xmr:_BFVaQFbyqEtG_GqWjak7TqhUoE42N-kLQJcAyr0a0JqBwu1Vqc5X_q5oDbE5lAyojpgGQ9_6xeCjRNA0_rOQXPkEwJ7cwao76Deeg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekvdekiecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
     uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpeefheeltd
     ehfeetjeefvdehteeutddtteelgeduueetjeevteeifeeuvdefffdvieenucffohhmrghi
     nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopeduuddp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtg
-    hpthhtohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehl
-    ihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepshgsohihugeskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepfhhnkhhlrdhkvghrnhgvlhesghhmrghilhdrtghomhdprh
-    gtphhtthhopehjvghffhessghorhhtohdrfhhrpdhrtghpthhtohepghhrvghgkhhhsehl
-    ihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepnhgvrghlsehgohhmph
-    grrdguvghv
-X-ME-Proxy: <xmx:8P1UadSPnyGjKm0pfk2GirXVL9AuxvVayrho4DFBd7epazBXVxgYfg>
-    <xmx:8P1UacRLI2LwqObnHDr4QRZOtbM6Pp81ek91qHw5oRJwAKe7alJJig>
-    <xmx:8P1UaR4syHqsumAb_Np31N-fZoEN8FQj0f13pLYkMIZ0q0_su-TpIQ>
-    <xmx:8P1UaZXKHpjSsgMTWLXbiffnNAqYdsUWD4OctF2jwyJ_3bTgLmEddQ>
-    <xmx:8P1UadUhwC_CpO1VLBjhGSv2Atzm7pGfgvqN5RDX3z9YLWo4ISquQJXF>
+    hmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedutddp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqfigrthgthhguohhgse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdgu
+    vghvpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
+    htthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigsehrohgvtghkqdhushdrnhgvthdprhgtphhtthhopehsvhgvnheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtghpthhtoheplhhi
+    nhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplh
+    hinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+X-ME-Proxy: <xmx:_BFVaVN4vGpo9hJisRHtaVo7IgHFf2QtqlV9MnHDIbOXKH0fPBp31A>
+    <xmx:_BFVaXLoqHwAMnyWik9jY9smiK1DQXQOJ6iCBv7PJoUQA7d4PuxNYg>
+    <xmx:_BFVaW_PCreJWFbWEBARUnEUYNNxsCwlqY9GchEIgbak-gRDu6ILvw>
+    <xmx:_BFVabFFneqBzUcuP4F5JiaVX-g9K4eWQrvksTSvKDCCukHgh8q2Pw>
+    <xmx:_RFVaXg0bTOtf_NW1Hksq7VIbvnRGPeqGj4AxPCd8YlCswgRlDU7dHuf>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 31 Dec 2025 05:41:51 -0500 (EST)
+ 31 Dec 2025 07:07:24 -0500 (EST)
 From: Janne Grunau <j@jannau.net>
-Date: Wed, 31 Dec 2025 11:41:32 +0100
-Subject: [PATCH] spmi: apple: Add "apple,t8103-spmi" compatible
+Date: Wed, 31 Dec 2025 13:07:21 +0100
+Subject: [PATCH] watchdog: apple: Add "apple,t8103-wdt" compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -83,37 +83,36 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251231-spmi-apple-t8103-base-compat-v1-1-98da572086f9@jannau.net>
-X-B4-Tracking: v=1; b=H4sIANv9VGkC/x3MSwqDQAwA0KtI1g2Y8VPbq5QuMtNoA1XDREpBv
- LtDl2/zdnDJKg73aocsX3VdlwK6VJDevEyC+iqGUIeOQkPoNiuy2UdwG6huMLILpnU23lCuieL
- Qh3jjFkphWUb9/fvH8zhOpPDQRW4AAAA=
-X-Change-ID: 20251231-spmi-apple-t8103-base-compat-e7c1b862b9a4
+Message-Id: <20251231-watchdog-apple-t8103-base-compat-v1-1-1702a02e0c45@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAPgRVWkC/x3NQQqDMBBA0avIrB1wEpTUq4iLMU51oDUhCW1Bv
+ HuDy7f5/4QsSSXD2JyQ5KNZw1FBbQN+52MT1LUaTGd6Mpbwy8Xva9iQY3wJFkedxYWzoA/vyAU
+ dD8bKw1laBqiZmOSpv3sxzdf1B4pYdBtyAAAA
+X-Change-ID: 20251231-watchdog-apple-t8103-base-compat-8a623e9831b6
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Stephen Boyd <sboyd@kernel.org>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Jean-Francois Bortolotti <jeff@borto.fr>
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
+ linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1459; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1493; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=ldnc9AN0Tcy3LRdMsAxOkNoDR2A2lSMzX/+Q9YUZ7V8=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsyQv+84p8/NlojeYD7p2xH7k8sUmu/cdN5o9d1+6rYJn
- 40WGHou6ihlYRDjYpAVU2RJ0n7ZwbC6RjGm9kEYzBxWJpAhDFycAjCRI7GMDH+Vrk3T+r3vkueK
- Xu+H/BWed+uSbxVOlP4bFuz1VMjcNIeR4dq2v+07+i49Pbel0epsdoh0nkncdpHY3nu9nO+/N3y
- 35wYA
+ bh=vjl+69Y7fxj8I0QaXAqrOw68C+ZGqOU22KG/HJFgJ/w=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsxQwd/F71fsMdP4t1plzf2X8jnZZyvyqySz9kg+tvCP2
+ v7AIu9hRwkLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgIkUqjP8M3oUoFi+0W3thrmn
+ cvR81VUUPgn+yGTzP3arY9n1B0VMZgzfk75vzxL+IXk5JLJxAmt5xH15rqJLe5+rztq4ZHW60G9
+ OAA==
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
 After discussion with the devicetree maintainers we agreed to not extend
-lists with the generic compatible "apple,spmi" anymore [1]. Use
-"apple,t8103-spmi" as base compatible as it is the SoC the driver and
+lists with the generic compatible "apple,wdt" anymore [1]. Use
+"apple,t8103-wdt" as base compatible as it is the SoC the driver and
 bindings were written for.
 
 [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 
-Fixes: 77ca75e80c71 ("spmi: add a spmi driver for Apple SoC")
+Fixes: 4ed224aeaf66 ("watchdog: Add Apple SoC watchdog driver")
 Cc: stable@vger.kernel.org
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Janne Grunau <j@jannau.net>
@@ -123,25 +122,25 @@ device trees in [2].
 
 2: https://lore.kernel.org/r/20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net
 ---
- drivers/spmi/spmi-apple-controller.c | 1 +
+ drivers/watchdog/apple_wdt.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-index 697b3e8bb023566f17911fc222666d84f5e14c91..87e3ee9d4f2aa5517808827f5dd365055c08446a 100644
---- a/drivers/spmi/spmi-apple-controller.c
-+++ b/drivers/spmi/spmi-apple-controller.c
-@@ -149,6 +149,7 @@ static int apple_spmi_probe(struct platform_device *pdev)
- }
+diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
+index 66a158f67a712bbed394d660071e02140e66c2e5..6b9b0f9b05cedfd7fc5d0d79ba19ab356dc2a080 100644
+--- a/drivers/watchdog/apple_wdt.c
++++ b/drivers/watchdog/apple_wdt.c
+@@ -218,6 +218,7 @@ static int apple_wdt_suspend(struct device *dev)
+ static DEFINE_SIMPLE_DEV_PM_OPS(apple_wdt_pm_ops, apple_wdt_suspend, apple_wdt_resume);
  
- static const struct of_device_id apple_spmi_match_table[] = {
-+	{ .compatible = "apple,t8103-spmi", },
- 	{ .compatible = "apple,spmi", },
- 	{}
+ static const struct of_device_id apple_wdt_of_match[] = {
++	{ .compatible = "apple,t8103-wdt" },
+ 	{ .compatible = "apple,wdt" },
+ 	{},
  };
 
 ---
 base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20251231-spmi-apple-t8103-base-compat-e7c1b862b9a4
+change-id: 20251231-watchdog-apple-t8103-base-compat-8a623e9831b6
 
 Best regards,
 -- 
