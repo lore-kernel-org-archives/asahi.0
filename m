@@ -1,79 +1,80 @@
 Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E08530F927
-	for <asahi@lists.linux.dev>; Wed, 31 Dec 2025 09:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37345313E37
+	for <asahi@lists.linux.dev>; Wed, 31 Dec 2025 10:11:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767174147; cv=none; b=KsB6YO+Oo05jB46LJw39esguuRV2z7E+FhQ//V0Yhz6bJkPlFAsEGKAzFYIChkYS7u7KxapvbYDptqNQx1HV590XVwfBzRh2G4/iOMW034AYf0xUhT0y4ocRrk4jHGBdjPEbfGk8wLpVh46FA2RZPWhfe2Cor5o4k0Z+ZWB5Vro=
+	t=1767175864; cv=none; b=BkpOl79P1UhVVurKBD/yx8A7tV/dBMQvP11ngk9vYo6FfPrcZPIJiqaXEMLf5ypJlPyQ0oshosordEkyGmhl1fphecEEqx9sc7xRGuPkY8rxbpY3gASEatj2bxUFjmsbXRHPZuIx0HIXGO3XcE2RnxaXa/tY9ItRaIEirqmrX6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767174147; c=relaxed/simple;
-	bh=xJzCPQmr76VNl5jCxm+Qduv0QwPM15gusEARXhaF7Do=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=By3jOyaxcd4k0pAzaGB4YZygTaE31sBGwaZrk00mfh72b3ri3z50hHm7qX+rdr852hIxcwmq57kl0xuOczmxN8ZO6mntVo4OVo9VNEU7A9Nym+Cq1ao52HJ0bwDhxFpHlDQf6FTEDhXPphnJskRiKyMm6Q+Mbx5lOYgPxLcGLfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=MLgsVcf8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=zTD6P0KX; arc=none smtp.client-ip=202.12.124.159
+	s=arc-20240116; t=1767175864; c=relaxed/simple;
+	bh=Z6UfWp3DVlHIsal4wMPx5lIHO6KQiRUKtFUsnXt0oXg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=prdj9nrGTN58D3W8qlaVvmeWWM7UxjfjEyv3yP+M91xvvipKSNgjx9dTEcx75vRKDzRvIZ0TEnRNMvkWTclsL97VonDaal0V2q25ItxWn4FBN+zKm5JwAhp5CbUcXntQ2Mm1eW2FV5fKnorGa1tYlBtNQqRMznrx0vYEeUNYxas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=RXuURktU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MlAtCwQ1; arc=none smtp.client-ip=202.12.124.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="MLgsVcf8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zTD6P0KX"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id CB0807A010C;
-	Wed, 31 Dec 2025 04:42:23 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="RXuURktU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MlAtCwQ1"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 462627A0130;
+	Wed, 31 Dec 2025 05:11:02 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 31 Dec 2025 04:42:24 -0500
+  by phl-compute-02.internal (MEProxy); Wed, 31 Dec 2025 05:11:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1767174143; x=1767260543; bh=hS
-	6XZTtAqHnnW+f1AAVumjb0R3JxUAZPLUP82F/FDSE=; b=MLgsVcf8hl1RFoBH9J
-	Mnoa9A7Frol7Yuopv2Zmd6Y+RnjfAASz8BrrVbvaRaRfS0sZGcHQCNBwpCBZO72i
-	Y9q/w1KUc+qWpbHv3jkTLlNSRhCzhyuRa7JRPLwk9X85JVHCdYRHJ2xDVKPB07yz
-	bgoSmtYuUFoZUDjlC+t4ior8/twz4UXzSI6qKbvtf3ASIFQq5A3t7gpgv5uaLhaA
-	1zhaB6cXXGd1Lgis6P9BCtDoaVvGuS6hgR9gM9JZBBG9E+NO7/u+/1hjImwEhui7
-	7aXaS/3fp7WhXdyI9TgZZPn3CriVvoMoxUEJIaYQAkdWA9RenQtlJ1Hknnwe4CJ6
-	0Hxw==
+	:subject:subject:to:to; s=fm3; t=1767175862; x=1767262262; bh=u9
+	9kyjHIdrk8TOgcfR0ihUIFHQzHwPedb8Ibv3lFtdk=; b=RXuURktULgqHTOm5p2
+	LU9l8A33grZkd73wFvFpEShwP5TFW5MUCNqotFyGLYm1aJahQvklel3VvmDEIbii
+	TxeX015y3kM0JATyNQObOxt3I+1iXnicDlERKHsTBO27rkpHaF3jfSSG6a6rI+Wq
+	mnLhSD5xdeaG3vxvKFn5HLoVJVNEdzA9UV9lel9Z9Q09QN2YWzedNcACdwGbrI7D
+	LGtxznKRAHGZYf8pMd2PajKL6KXSxeaUFzi/JNT3Y14fRv0vtJTynuDQSKk5bsXJ
+	TwpULRBbEzRkEEK04s4cbm0wzY39CUg+XT8t//SPTzoYiyow216SfG3FQZaUAv55
+	bJPQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
 	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1767174143; x=1767260543; bh=hS6XZTtAqHnnW+f1AAVumjb0R3Jx
-	UAZPLUP82F/FDSE=; b=zTD6P0KXMWm8MksJkqFWViwQbVeLN7xOf5vzohBLyH8e
-	HgXseWuBlF/EPwgyY7+9v1M3ZuuicMCEOANT+Di18c2yNwon/AWF/kL9Gal3UYad
-	CN7oOA3VjEWt+pH2AzSJo3t9G4TI13oSYTzXh4w/7XFrkQ+jGC3E1FcQ9PsMA4vX
-	/oQ2l+YpyvqLso9wLJFQoZIr4S6NCvrPosyD6IC862iHGhhjsJ679Gs5Httxa2TI
-	ycvpyibiFTGeejBaRy8FFst12hdJ2jxvYfw6PElfstUl/YUP8sRcndT12xjSTNAM
-	QD0EBXYw0zySnLne+XPZjEykAOfhyvq8Ciq/GgVnmg==
-X-ME-Sender: <xms:_-9UaQN8Ui9W-bVUdfMBhs-JSMHfjZXX0BfJqsrHHqz7JfpaABE_IA>
-    <xme:_-9UaZhfAWF1U2JALUoZ2pXRYc8wyIilU5Umc1QiQz07ofyA9injRxa8O5hdaU_KL
-    UJ6Fy8NenmMMInia7nC4HJcn9W0OEsbX7uwMRUcpPPclt0onlK2xw>
-X-ME-Received: <xmr:_-9Uaa4YtgC15-kLQLWiuKEwHRJNbr0Ob6SaMd3i4JLc70s0dO9d7kgBI2L9CHbBEbONPgXuin0TbSTZ6DCBMFxCoR_8-IDjRGitEQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekvdehjecutefuodetggdotefrod
+	fm2; t=1767175862; x=1767262262; bh=u99kyjHIdrk8TOgcfR0ihUIFHQzH
+	wPedb8Ibv3lFtdk=; b=MlAtCwQ1rchxIyK+JrkCZo/WFvPw29NyOtNQBeAF38om
+	1nzVH4wvUhiHCOEb6zD+aKnAbeOHDI/mE4ZZ7Dy7JFwyKkRRnCjkC+LDN0ltAkkG
+	0wDJTuaJ6ZuSIQMAnkwSAqATpaD42Zb2iJKF74nD9OLIhcChu4HuYpdVrIZ3ikuB
+	Rv3pTwA0qInE5FmeLt5UxUuElqV31Vu32Cz9jI9KXm0hivS+iiWGtdNEam05uoYt
+	1uY7TpLm/I1oa8EVZJUjjpW4LZP2T9rHvEcxWoEMU1GDI3umpBUCtO5mM3d8wNt9
+	7Er2pwDafw38ejTCelzlSYXFmt+ksmNZ9nbT6+mc7w==
+X-ME-Sender: <xms:tfZUaRla3d4UwZBrqj2eCPNgrhMNk55uy9dGcnQb4JRJ89cbP-wzEA>
+    <xme:tfZUaSAavrCTsqj_xd1zop-SopBsmAo-lhDjOwxw1tfiltNLnVrcxTMJEXInOqInq
+    SgRDtBs-aaZcdx54o7Jt7un5wUE1LOhLSw2pQsNBENRbYlpQgBIMpE>
+X-ME-Received: <xmr:tfZUabBnVAHQ4rhxIgAF3q0n1oHFCVEml5WgGIgamEw7aFtb3SxKSOzfysHWj_ctU1EdtpEMwRW0UEjFDIECCLU6_tTzIpjH7FFU6w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekvdeifecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
     uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpeefheeltd
     ehfeetjeefvdehteeutddtteelgeduueetjeevteeifeeuvdefffdvieenucffohhmrghi
     nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopeekpdhm
-    ohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlh
-    eslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehnvggrlhesghho
-    mhhprgdruggvvhdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhope
-    hsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhig
-    qdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhig
-    rdguvghvpdhrtghpthhtohepshhvvghnsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:_-9UaY2LqZmifgtncPRph7siEYH5HgDR5m875leypgLKIsoAlbZ3PA>
-    <xmx:_-9UadtIDS5WzDV--0QiwS0S69248s0B0igaklc_HEGC9sjkjbLlmA>
-    <xmx:_-9UaW59orB_iAPMtfWG-5qTF4-kLtukCX8vKbQjPgoAPGS6_wYIFw>
-    <xmx:_-9UaRc4TwCfDZL9KJyYxNe7cRNXq1Z4gfXPTKQKgcpotlecHxRsBg>
-    <xmx:_-9UaePBSgTnhK5OVDJpjSyQhH-c07gXY4nWWc1Ks4oJ5sadIwaAvRpo>
+    hmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedufedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtg
+    hpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheprghsrghhiheslh
+    hishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
+    pdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheprgigsghovgeskhgvrhhnvghlrdgukhdprhgtphhtthhopehlihhnuhigqdgrrhhm
+    qdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhope
+    hsrghgihesghhrihhmsggvrhhgrdhmvg
+X-ME-Proxy: <xmx:tfZUaRGFdjrAjOsB4h5j5vSEBP-seUe1rKRsD3V2ejiEqnCcbcJ7Pg>
+    <xmx:tfZUaa6BK6yXd70L-pCL9crcN_5gzw6V2IZccZRC315QuATri1IlHQ>
+    <xmx:tfZUaQQLURa_QhUecD5M0uCXigMZvhuHSzBLYRRmtwU8BtYIgNGWXg>
+    <xmx:tfZUad7Z0jJ55pAMNZrIFkeLjKSYHvWFadQWPNtvsqlk-YFCfQOXcA>
+    <xmx:tvZUaQgGPvXNkXVN7-Edapio7OXyCpoXNQN8EK-9scB1basXbBFxnNCb>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 31 Dec 2025 04:42:22 -0500 (EST)
+ 31 Dec 2025 05:11:00 -0500 (EST)
 From: Janne Grunau <j@jannau.net>
-Date: Wed, 31 Dec 2025 10:42:12 +0100
-Subject: [PATCH v2] mfd: macsmc: Initialize mutex
+Date: Wed, 31 Dec 2025 11:10:57 +0100
+Subject: [PATCH] nvme-apple: Add "apple,t8103-nvme-ans2" as compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -82,62 +83,71 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251231-macsmc-mutex_init-v2-1-5818c9dc9b29@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAPPvVGkC/32NQQ6CMBBFr0JmbQ2tLYgr72GIGcsgY0IxbSEY0
- rtbOYDL95L//gaBPFOAS7GBp4UDTy6DOhRgB3RPEtxlBlUqUzbKiBFtGK0Y50jrnR1HcS672j4
- Uou0R8u7tqed1b97azAOHOPnPfrHIn/1XW6SQQsuKGqq0rk/m+kLncD46itCmlL5blJHyswAAA
- A==
-X-Change-ID: 20250925-macsmc-mutex_init-80d7cb2aacfa
+Message-Id: <20251231-nvme-apple-t8103-base-compat-v1-1-dc11727dc930@jannau.net>
+X-B4-Tracking: v=1; b=H4sIALD2VGkC/x3MwQqEIBAA0F+JOTegtrrRr0SH0aZ2oEw0YiH69
+ 5U9vsu7oXAWLjA0N2S+pMgRK3TbQPhQXBllrgajjNXKOIzXzkgpbYxnr1WHngpjOPZEJ3a296S
+ sey1vB7VImRf5/vtxep4fSrzdnG4AAAA=
+X-Change-ID: 20251026-nvme-apple-t8103-base-compat-358ba0564f76
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Arnd Bergmann <arnd@arndb.de>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1305; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1949; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=xJzCPQmr76VNl5jCxm+Qduv0QwPM15gusEARXhaF7Do=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsyQ93+WP2h+Itt+OWydBMfzVeZX3+h8vvVm5UyVTK33n
- 49ELeln6ihlYRDjYpAVU2RJ0n7ZwbC6RjGm9kEYzBxWJpAhDFycAjCRbltGhudFh+5kPZmxNr5e
- 65HNZL21e75WtnHKyN2ae+swR7rpK2ZGhv2+0ec7ls3Tya0PuFo6TShHrzHB23uFlM0rPYU7slr
- GjAA=
+ bh=Z6UfWp3DVlHIsal4wMPx5lIHO6KQiRUKtFUsnXt0oXg=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsyQb5tV12pHblu1a0ZetWv+Tdu9zU6Kxy1aF7iLKHupp
+ 134/+JHRykLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgImkeTMy/DhuqvHLaaL3sv0e
+ z2uUrErmr1F48f18f/3xBauXR6Vo3Wf47xw29bD89zuMTlGcDQ9FFoYsqq9seX7p7WrfJ07eHhL
+ 3OQE=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Initialize struct apple_smc's mutex in apple_smc_probe(). Using the
-mutex uninitialized surprisingly resulted only in occasional NULL
-pointer dereferences in apple_smc_read() calls from the probe()
-functions of sub devices.
+After discussion with the devicetree maintainers we agreed to not extend
+lists with the generic compatible "apple,nvme-ans2" anymore [1]. Add
+"apple,t8103-nvme-ans2" as fallback compatible as it is the SoC the
+driver and bindings were written for.
 
-Fixes: e038d985c9823 ("mfd: Add Apple Silicon System Management Controller")
-Cc: stable@vger.kernel.org
+[1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+
+Cc: stable@vger.kernel.org # v6.18+
+Fixes: 5bd2927aceba ("nvme-apple: Add initial Apple SoC NVMe driver")
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
-Changes in v2:
-- rewritten commit message
-- added missing Cc: stable
-- rebased onto v6.19-rc1
-- Link to v1: https://lore.kernel.org/r/20250925-macsmc-mutex_init-v1-1-416e9e644735@jannau.net
+This is split off from the v1 series adding Apple M2 Pro/Max/Ultra
+device trees in [2]. Handling this as fix adding a device id only for
+v6.18+ for two reasons. apple_nvme_of_match gained hw_data in v6.18 and
+device trees using this compatible were only added in v6.18.
+    
+2: https://lore.kernel.org/r/20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net
+    
+Changes compared to the patch in that series:
+- rebased onto v6.19-rc1 since commit 04d8ecf37b5e ("nvme: apple: Add
+  Apple A11 support") introduced hw data for the match table
 ---
- drivers/mfd/macsmc.c | 1 +
+ drivers/nvme/host/apple.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
-index e3893e255ce5e4bb4832d80ad1fc002d413a291a..3015e8d36d6e5bfdcea342c7d05a7b34788d7845 100644
---- a/drivers/mfd/macsmc.c
-+++ b/drivers/mfd/macsmc.c
-@@ -413,6 +413,7 @@ static int apple_smc_probe(struct platform_device *pdev)
- 	if (!smc)
- 		return -ENOMEM;
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 15b3d07f8ccdd023cd3be75eedd349b747c1ecad..ed61b97fde59f7e02664798d9c2612ac16307f5c 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1704,6 +1704,7 @@ static const struct apple_nvme_hw apple_nvme_t8103_hw = {
  
-+	mutex_init(&smc->mutex);
- 	smc->dev = &pdev->dev;
- 	smc->sram_base = devm_platform_get_and_ioremap_resource(pdev, 1, &smc->sram);
- 	if (IS_ERR(smc->sram_base))
+ static const struct of_device_id apple_nvme_of_match[] = {
+ 	{ .compatible = "apple,t8015-nvme-ans2", .data = &apple_nvme_t8015_hw },
++	{ .compatible = "apple,t8103-nvme-ans2", .data = &apple_nvme_t8103_hw },
+ 	{ .compatible = "apple,nvme-ans2", .data = &apple_nvme_t8103_hw },
+ 	{},
+ };
 
 ---
 base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20250925-macsmc-mutex_init-80d7cb2aacfa
+change-id: 20251026-nvme-apple-t8103-base-compat-358ba0564f76
 
 Best regards,
 -- 
