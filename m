@@ -1,134 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1993C38;
-	Sun,  4 Jan 2026 15:17:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF2B2A1BB;
+	Sun,  4 Jan 2026 21:18:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767539865; cv=none; b=EqqK3gAApv9opu6gUhuusJsusUJplJ2PfHZCG3DClFIyn8IoLT8qVJ9gBJspNLQ3imYjqgycn0xnwu1JrhEOaYHKhhe5mha+BMZZAGi4vfC1TqDG1zHyL0s6gGCTOaCUD42p8Vk+VIViaLxBHsaH15WQbJcxYx/49nFIyiwD6w8=
+	t=1767561518; cv=none; b=AEvZmqeAnhCpjeLw3V813XEHBbg1nA1D8EQkDrtWRCzfqoMi4gntpG3yMFHv+e7GGQTzcbYblcim1FDFzxMcGGE+E6I68nxOeino7lESPixkJUjGdeIkTbXfd8TNuokq0KkwILKzFfD9LvpzKIJTehsYKerI00YygE+k71YBhsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767539865; c=relaxed/simple;
-	bh=ilHTz00/ydutL7TWuctBmXtIkpvVMhcUPkVSQeqTSzc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D7IISAeQyjs4ihR1xfXgTmWRCEfv0bneas319JbRycfjrgHauq1W+JlrQtoJoSE+HBLvq9rPl1pP5Fy5d35cdH4RpLGRHdD13w7QpfeWBq8lq9oThDVzMTa+bycHDic/5eSVkycxpNZu9GpmjRv3reBmVEbQF9nYBX7fKXSYyiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nAUMOJ/e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767561518; c=relaxed/simple;
+	bh=qmsbKPbX1+sTQZ0QzAzI0MrRK6GYbgNVPa9s4pvCfbc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=X0NafIxYY8vf7pgNZCduSfkEkB2AitjOH2PbbHYKg9qFVQzSS29Xxe/0iJbh4JAuug2jT1Wf9KCYp0daGVZp7hY02iVRrsQbdEaJC2Kwoy5aQA8AXpFLXnOGefJQaGbsHM8BjZn+46OEOK5fs5r9lwfVrlMyf/FVlBPKUNvL0wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCl9K+CB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nAUMOJ/e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0100C4CEF7;
-	Sun,  4 Jan 2026 15:17:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCl9K+CB"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E81C4C4CEF7;
+	Sun,  4 Jan 2026 21:18:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767539864;
-	bh=ilHTz00/ydutL7TWuctBmXtIkpvVMhcUPkVSQeqTSzc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nAUMOJ/eyXqjteFZhyToWEkWmGfYyugqGNZjnrNBCBEwQh6JjcUY6RQoLg5KBADu3
-	 sEMqzu7Egr7Ks03o8HMpZNgNwLCbOJlY+Ec3KMA3dEwvgbxgomFHym73MquX6QYnfT
-	 I0ktuPK4t0uw//2sNtOmsLhu6d8tfVIlnFE/uhEGXWIcHAR6PUKqfakJh4NchyNdcZ
-	 Hw2l+JQ+kKC+tKnwSgbtuIL8PXBOQnwkwtKXsch6xNEq9P0mGvoIYvtsn+7/VD3+in
-	 JnnquiiNzYCOwP9jpYxQsejqg/HmIggV9SrWYs87i6Wea6xf6OEt/bQIjPlsRCn1uo
-	 A0lLSJUTdNJQg==
-Message-ID: <04da9bc6-ebfb-4799-bace-c56a9537282e@kernel.org>
-Date: Sun, 4 Jan 2026 16:17:40 +0100
+	s=k20201202; t=1767561518;
+	bh=qmsbKPbX1+sTQZ0QzAzI0MrRK6GYbgNVPa9s4pvCfbc=;
+	h=From:Date:Subject:To:Cc:From;
+	b=aCl9K+CB2+aZuzO65xUsu9TKwmmGuVlnCCobp4NwalzEh9zavwlCG1D/cRf6fGpMy
+	 gkNnngON4M6X77TNYSlCLiyJK5nuyj6E0aHLIM9C3QkR7xvD8KC69vBFOkQL5CJI+t
+	 FWwCitey73izmA0WpJ2c1s89JGvTHODpSenyQ8y2Ok19EsKHBsbrMieLhRzGacljYE
+	 dFA268A1/8fiPS2UDwjSkgayWQXoPRLAgFTI9TV9Z6qJiWTOBhXAkVsR4gxI5TQY+N
+	 5greOSht/FkAJeoCGShLrOFTmfQIoFYzraOsKelMTHoayFEifvsga2b4+8BJ7Im8Fk
+	 i/UeLHfMSwUSw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA84C2A06C;
+	Sun,  4 Jan 2026 21:18:37 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Sun, 04 Jan 2026 22:18:31 +0100
+Subject: [PATCH next] phy: apple: atc: Actually check return value of
+ devm_apple_tunable_parse
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] soc: apple: rtkit: Support verison-specific app
- endpoint start
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Lee Jones <lee@kernel.org>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
-References: <20251223-rtkit-v10-v1-0-12b4783d6403@gmail.com>
- <20251223-rtkit-v10-v1-1-12b4783d6403@gmail.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20251223-rtkit-v10-v1-1-12b4783d6403@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260104-atcphy-tunable-fix-v1-1-40bf00feaac0@kernel.org>
+X-B4-Tracking: v=1; b=H4sIACbZWmkC/x2MQQqAIBAAvxJ7bkGlLPpKdLBcayEs1KKI/p50n
+ IGZByIFpghd8UCgkyNvPoMsC5gW42dCtplBCaWFFBWaNO3LjenwZlwJHV9Yy6ZV2mpHzkIO90B
+ Z/9MePF0Jhvf9AOlMAr1qAAAA
+X-Change-ID: 20260104-atcphy-tunable-fix-517826d6fefd
+To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Thomas Glanzmann <thomas@glanzmann.de>, Sven Peter <sven@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3484; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=qmsbKPbX1+sTQZ0QzAzI0MrRK6GYbgNVPa9s4pvCfbc=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ2bUTe3pSZWHQk0WVMpvdHxZcLpp0gkxf/0n51f+idksd
+ HDZnYBzHaUsDGJcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJ9Bkw/A9fmLPN/tvt5H9J
+ akkBktq9fi0KHhOUl5vJnPgdUZu3m4Xhr3zIV2XVuNWfHGUnT2Kc/bQkIPyQn+TJaSeeTXkXIel
+ TygUA
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-Hi,
+Let's actually check the return value of devm_apple_tunable_parse
+instead of trying to check IS_ERR on a pointer to the return value which
+is always going to be valid. This prevent a oops when the tunables are
+invalid or when they don't exist:
 
+[   42.819119] ------------[ cut here ]------------
+[   42.819121] WARNING: CPU: 6 PID: 88 at drivers/phy/apple/atc.c:2145 atcphy_mux_set+0xf60/0x1128 [phy_apple_atc]
+[   42.819302] CPU: 6 UID: 0 PID: 88 Comm: kworker/6:1 Tainted: G S                  6.18+unreleased-asahi #1 PREEMPTLAZY  Debian 6.18.2-0-1~exp1
+[   42.819311] Tainted: [S]=CPU_OUT_OF_SPEC
+[   42.819314] Hardware name: Apple Mac mini (M1, 2020) (DT)
+[   42.819316] Workqueue: events cd321x_update_work [tps6598x]
+[   42.819332] pstate: 81400009 (Nzcv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+[   42.819338] pc : atcphy_mux_set+0xf60/0x1128 [phy_apple_atc]
+[   42.819344] lr : atcphy_mux_set+0x30/0x1128 [phy_apple_atc]
+[   42.819348] sp : ffffc000813c7c00
+[   42.819350] x29: ffffc000813c7c00 x28: ffff800016babeb8 x27: ffff800016babc80
+[   42.819357] x26: 0000000000000001 x25: 0000000000000001 x24: 0000000000000000
+[   42.819364] x23: ffff800016babec0 x22: 00000000ffffffa1 x21: 0000000000000003
+[   42.819371] x20: ffff80000c1b3680 x19: ffff80000dcdd080 x18: 0000000000000000
+[   42.819376] x17: 0000000000000000 x16: ffffd42e6ede6e08 x15: 0000000000000000
+[   42.819382] x14: ffffd42e707b6980 x13: 0000000000025c68 x12: 726f703d54524f50
+[   42.819388] x11: 0000000000000040 x10: 0000000000000000 x9 : ffffd42e555ed9c0
+[   42.819394] x8 : 0000000000000006 x7 : ffff80000a000dd8 x6 : 0000000000000002
+[   42.819399] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000001
+[   42.819404] x2 : 0000000000000005 x1 : 000000000000ff01 x0 : 0000000000000001
+[   42.819410] Call trace:
+[   42.819412]  atcphy_mux_set+0xf60/0x1128 [phy_apple_atc] (P)
+[   42.819419]  typec_mux_set+0x74/0xd8 [typec]
+[   42.819444]  cd321x_update_work+0x440/0x8a8 [tps6598x]
+[   42.819453]  process_one_work+0x170/0x3e0
+[   42.819466]  worker_thread+0x25c/0x390
+[   42.819473]  kthread+0x148/0x240
+[   42.819479]  ret_from_fork+0x10/0x20
+[   42.819488] ---[ end trace 0000000000000000 ]---
 
-On 23.12.25 15:13, Nick Chan wrote:
-> Support for protocol versions where app endpoints starts at a
-> different endpoint number will be added. Consumer drivers will also
-> need to be modified to have them to work with such protocol
-> versions.
-> 
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> ---
->   drivers/soc/apple/rtkit-internal.h |  3 ++-
->   drivers/soc/apple/rtkit.c          | 42 +++++++++++++++++++++++++++-----------
->   include/linux/soc/apple/rtkit.h    | 10 +++++++++
->   3 files changed, 42 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/soc/apple/rtkit-internal.h b/drivers/soc/apple/rtkit-internal.h
-> index b8d5244678f0100b72173fa9aca80bf9db1b4e5e..52ef7a202120eb8a56c149179389741ec0f5e358 100644
-> --- a/drivers/soc/apple/rtkit-internal.h
-> +++ b/drivers/soc/apple/rtkit-internal.h
+Reported-by: Thomas Glanzmann <thomas@glanzmann.de>
+Fixes: 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY")
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+ drivers/phy/apple/atc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-[...]
+diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
+index c8a58ee64b7aad3205df51cf16ae778471ad2c5d..716c1e70de38ca604803739fedaa543d91f7501b 100644
+--- a/drivers/phy/apple/atc.c
++++ b/drivers/phy/apple/atc.c
+@@ -2178,10 +2178,10 @@ static int atcphy_load_tunables(struct apple_atcphy *atcphy)
+ 	for (int i = 0; i < ARRAY_SIZE(tunables); i++) {
+ 		*tunables[i].tunable = devm_apple_tunable_parse(
+ 			atcphy->dev, atcphy->np, tunables[i].dt_name, tunables[i].res);
+-		if (IS_ERR(tunables[i].tunable)) {
++		if (IS_ERR(*tunables[i].tunable)) {
+ 			dev_err(atcphy->dev, "Failed to read tunable %s: %ld\n",
+-				tunables[i].dt_name, PTR_ERR(tunables[i].tunable));
+-			return PTR_ERR(tunables[i].tunable);
++				tunables[i].dt_name, PTR_ERR(*tunables[i].tunable));
++			return PTR_ERR(*tunables[i].tunable);
+ 		}
+ 	}
+ 
 
->   
-> +	/*
-> +	 * The management endpoint is required to receive the HELLO message
-> +	 * and infer the start of app endpoints so assume it is a system
-> +	 * endpoint here and update this value when HELLO is received.
-> +	 */
-> +	rtk->app_ep_start = APPLE_RTKIT_EP_CRASHLOG;
+---
+base-commit: add66a6673bc4aacd0ef0f3c4a51271501770b17
+change-id: 20260104-atcphy-tunable-fix-517826d6fefd
 
-The comment doesn't explain why you set this to APPLE_RTKIT_EP_CRASHLOG.
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
-
-> +
->   	init_completion(&rtk->epmap_completion);
->   	init_completion(&rtk->iop_pwr_ack_completion);
->   	init_completion(&rtk->ap_pwr_ack_completion);
-> @@ -851,6 +860,15 @@ int apple_rtkit_shutdown(struct apple_rtkit *rtk)
->   }
->   EXPORT_SYMBOL_GPL(apple_rtkit_shutdown);
->   
-> +u8 apple_rtkit_app_ep_to_ep(struct apple_rtkit *rtk, u8 app_ep)
-> +{
-> +	if (!apple_rtkit_is_running(rtk))
-> +		return 0;
-
-Please don't just silently ignore errors.
-
-> +
-> +	return rtk->app_ep_start + app_ep;
-> +}
-> +EXPORT_SYMBOL_GPL(apple_rtkit_app_ep_to_ep);
-> +
->   int apple_rtkit_idle(struct apple_rtkit *rtk)
->   {
->   	int ret;
-> diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
-> index 736f530180179bd144cf85eb0f0bd93844d7188a..423cf1022372b124c9b2728445f85a9b3067c707 100644
-> --- a/include/linux/soc/apple/rtkit.h
-> +++ b/include/linux/soc/apple/rtkit.h
-> @@ -172,4 +172,14 @@ int apple_rtkit_send_message(struct apple_rtkit *rtk, u8 ep, u64 message,
->    */
->   int apple_rtkit_poll(struct apple_rtkit *rtk);
->   
-> +/*
-> + * Convert an endpoint number relative to start of app endpoint to an absolute
-> + * endpoint number.
-
-
-Is this conversion even true for other co-processors that are not SMC or 
-does it just work by accident here? Maybe it makes more sense to drop 
-this function and decide which endpoint to use in the SMC driver.
-
-The documentation is also a bit confusing, please at least explain what 
-"start of app endpoint" means and where/how you would use this function.
-
-
-
-
-
-Sven
 
