@@ -1,200 +1,148 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54516254AFF
-	for <asahi@lists.linux.dev>; Mon,  5 Jan 2026 15:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A003E57C9F
+	for <asahi@lists.linux.dev>; Mon,  5 Jan 2026 21:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767626903; cv=none; b=L7QQYn3N3TU+12CKIbVMY/g4Tn9T4yCdQuQjivNgm8TH+EH3q0FVlEeNlPwYoEAOEGbIJHrBI2okW0V0fRbOarKR1kHq+VViwYoEYYbCsrMW70g1eLgqQerPmCIU68bsLAtY8XruAKT665CDd2sWEe7m1BegpUk5DZkrEtcZ0qI=
+	t=1767647052; cv=none; b=q8jukYuOJEzwFsSmI+rMqFFjdnh4yZ8B14bRT94QICWcoYRoIwy7bp2FUI1o8IMB479636Zz0rx3qPssXlqDWbdaxw6TyryykSTJ3xAh7LU0Ya0e4KpCDX79op6iHJkGQY457g4IaO8+wmdSyzT3K6dYD283yTkIwTRKi2FwHJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767626903; c=relaxed/simple;
-	bh=elxpgA/6+H5G8eJucP1DeZ9FjE+Wn3AhrEJK8CWxi/Y=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=n7pIUsWgq8EYjMstC+GfVYnh6Sf7zLCVIwcCQXuYhTjaTAXKvUknTVyAvaI9XK7Svuk0pmu1YMFq0N1kwe5qaxK4dYE6r4LG4y8pegadrFdlXQKO2ClQ6Kzwwe6oVqjuk1ObhES4BASGmdjwiq7QkwsZr8bNnRVo36bPMG6RoOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MuJt3ES6; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1767647052; c=relaxed/simple;
+	bh=1maun1oJjM1Hu8fQx3t6bLB8U8dZwzJKItCNPc8qshE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ExkLoWXFZpAieNNqBQ8eOGgwgQS15Bjhb/6f9IGISFIrfZE3qaDbe63DS7w4fkC/ijxptZd6T/dQVh8vOmM0IcZEJVB34vt5WTqeRryfDVsBDzjyBeQDnWis8zDXXX5SypzucRmilAxiYweYYqmJKot28q3/IE32LxK94hOPNnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=AbeewUkH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=O9RFqbFa; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MuJt3ES6"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-477bf34f5f5so488445e9.0
-        for <asahi@lists.linux.dev>; Mon, 05 Jan 2026 07:28:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767626900; x=1768231700; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JiUuiG11sjb3RVF8qKsN43KHgfxfg8lfjAm8EVRs7z8=;
-        b=MuJt3ES6xYQhAu+waFjjqd0rPmvyZHz+gqqbOIprYJyDTST5pCWPQkwFrHVQUH1gx5
-         kbaK2daBqV9FMGS+2o71UJUPSPQ5p6PPC1qY5kgsLe5aOfrT8+m+puVIKXMVwS9RO5qr
-         yuLRDbubT+Usa2rf26RBNu8fVMQL6u4d45F3yFCXOY/eAEC0UM+h+Pua6Z5lmy+JRC2l
-         ajI6M5HbIbjKm6jWsHoe7Q/t8vxYK6V06VqRq8nF6H5YNLwRnz3l9eG2lHRCMT42soqe
-         nvUOlZInUlypO/zsduf0YfdXggoXNx3ioZdnLtrsDfyTJHgSbOro7L9FbdoFkrsHmy9o
-         GMAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767626900; x=1768231700;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JiUuiG11sjb3RVF8qKsN43KHgfxfg8lfjAm8EVRs7z8=;
-        b=dgMQM6uHcLxftqtZX6xA1MuFcocPeHZ85nCCoXcY2CKwNO78+wz98Tug0kNp/mgEKT
-         mByKXJ+y0NV8AwOMgRtNPhNsyqFXexoRkAGIk95ArloSyCPUomRj7vkZCpx+5GPyCpzk
-         S4RKnlUr82rUdVGE98MDs/4ozCscq8sM26DxrNbTGj819C2JvHs0H6rDlFWQJWw1yolT
-         IlPZFimsI5ws5GUff6UIHgD4nmuFX+c9UvhYlj6xrqjuxj/ZvoJv3LOMkgiop0xFmrt5
-         G1ma/VL54+R6LrcUzC9PTFIluoTd6MEmcVwhCmhuGJ5YK+fSyf0MYLF8Lcbhv/u8rWPA
-         Seyw==
-X-Gm-Message-State: AOJu0YzQCTUT0FiPRKpGgLlWzE0+iqyO8NS5TIqRdVGasxMaIYl5mWc5
-	ag31BBntfnOJOqvSHRYmikcQCDyKzo9WXgewHTOczNXFcRU+KG8qN3tQ8LKZ32WUcUo=
-X-Gm-Gg: AY/fxX60O5C/3OHh1hcwLkEI1HuhXCUWl7Pi1K7KRMVBhzt6vhEWND+Whv5nKT6Qxcp
-	uS/qeuOWB+AA1PUGKIOgztP+rEmZIXXQ6OO1Iae6hfiJJnmHyoWnJtEw/qjP7bwe1hTSaAmeigd
-	/sUkpzu8UWnR2Sw71QKiOsU51N/jey17OfJbOSQwgr3wx9EsE+PdOTqTqFZG1cTEwhVxeI5cjpI
-	9I6WV1TS6eVTh9YU5A2+7wRWREujGA+8JZMlpP1AFcgczOvJ/0OxRYRrkNN/JufK+I51hw/zk/E
-	e426Qp25zElpnuALIfn0Cu/UkPnTb7jJQH/1vpJQy+vmOQPoVVMUrI70B6Rgdo6nMx1WcomDpBs
-	UBojdAxS2DB7k1ZVGilmogV49bdCwuaLJYjK3MFTqtp4JNEjxh2WsfyQV+SGahAM5R2lP8WARTF
-	gcDtg4H32lniGUk0+okm/aWhwfCdQpboLXToIFJASGCzNZsJG5k2luy7+QWKU/UEc=
-X-Google-Smtp-Source: AGHT+IFE8e5sC3B0bF5zrvpWL/oFWYMQNfCjja3Nw/1swqUnOWasg9DxOhRiNiaKDKikllRi6k1+zQ==
-X-Received: by 2002:a05:600c:a0d:b0:46e:6d5f:f68 with SMTP id 5b1f17b1804b1-47d34de634cmr534951085e9.12.1767626899465;
-        Mon, 05 Jan 2026 07:28:19 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:3d9:2080:d4c1:5589:eadb:1033? ([2a01:e0a:3d9:2080:d4c1:5589:eadb:1033])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6d452c69sm198773955e9.9.2026.01.05.07.28.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jan 2026 07:28:19 -0800 (PST)
-Message-ID: <b671ca2c-1fb1-4c4f-b0af-45dd33402b0c@linaro.org>
-Date: Mon, 5 Jan 2026 16:28:18 +0100
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="AbeewUkH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="O9RFqbFa"
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfout.stl.internal (Postfix) with ESMTP id BA5BF1D00104;
+	Mon,  5 Jan 2026 16:04:09 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Mon, 05 Jan 2026 16:04:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1767647049; x=1767733449; bh=Fm
+	8K3+5irrckK0MC/V3f6c/1Gi9boQDobZ1i7gbQTQg=; b=AbeewUkHbhpp8HV5OA
+	fSyQ+Gf2Yrs4E08XfMlxEjZDhvqQa/tTfdPNnBA3gjRbosZrPlJaNjozzSJ9qUwF
+	k5E/FrGtPH7DYtiVGP9AMwZds1P51TNRws1+gMcx4/0HReglbBDoseyFWeIF0v5C
+	sHhMovM0kJ54HqRzxQ1K9PxsimErzZfEqACjNV2y7jp4Ys8W/NEFFRJgiJWKWlL3
+	FFFdX99MrEhlEcglSZ1v2MfA01GS0I8Q/OeVbA0h0kt/y7HhpIJE4uSr7mnKtViP
+	u7kv6gdeREqpzbDkvvmv5sFFRJjs0Yf4sowBARsiLZYe7DzkP9nQgp3MG/j9Z4Cv
+	5XAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1767647049; x=1767733449; bh=Fm8K3+5irrckK0MC/V3f6c/1Gi9b
+	oQDobZ1i7gbQTQg=; b=O9RFqbFaQ/ubMC9/xM1fIBrsJ5SdxwZLoZETfgDCBdeX
+	+nB9oMbLrmg9YD8TGptNehU9/rL0bCM+X09Wgbx6eKaxj114OGIkHHBBSaSJ2DU1
+	STFqeBucK957JpuDOvFO1yrRMnc0TChkg98gylqqPjAzrBF2wCLc4ghr8THcfoPs
+	rF4uvKiQL7TMOLwgBGEYwwsTiBcMX6wEkxhkiqCUFKzP0vNNw1ipHoFCU3u9/P6U
+	+nq/U+SgnLVzmKutp1OFNuey5fhNJ+njZepwNmoguJ+oGU8BYCgrMC/914f5yaXf
+	9WUjlQ5RZLwKtzsV+06/Wtjr+Ucl4T5Nrh1zgdgyjg==
+X-ME-Sender: <xms:SSdcab9ZYD2bUzSAmHl-t5uid1gSdAthmqwyKnWxv7oGYqBMj1FE1g>
+    <xme:SSdcaTIeUl_rpskIbyIxOxYIwfSC7dlngS1V73yYbuvcMC5cds5WnTcZ5hQCAuS59
+    nMlqBCWbbumyX_9eX8n895kEyyxqMubQ-lV7vZPrERMRoKgfwfLHNg>
+X-ME-Received: <xmr:SSdcacjaGhfe9Q8PGuQtsIKnYWymwCdEHZaVLI90cAVBh9lGZ7cs-k9jdxOSBcW66MM_l357sUFkdqm30vCDKhImxldxz4NLqdZn0A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdelkeeffecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
+    uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefhtdeuud
+    eljeffuddvheekuedtfefhtddvieeigeehffelfeevvdfhgeeggefffeenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnh
+    gvthdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    rghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegurhhiqdguvg
+    hvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhg
+    thdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhope
+    hjsehjrghnnhgruhdrnhgvth
+X-ME-Proxy: <xmx:SSdcab69izJVJ1QQgWtRiqOThjgAEBSDnMLEceaZv8zjAA5au9YL8Q>
+    <xmx:SSdcacYQM2QBPnWjICP12FmFE0uv0n7w2jJEo4rjOG53b2CBJsFQSA>
+    <xmx:SSdcaY4y-To7H9FTc6gDSDI1hondH31pioruKeHHzzxvQKfgfwunuQ>
+    <xmx:SSdcaXDXg_MiJS3VtnHoZ_WpwFFS-SxosJe6kcYXehKusZOr__5Gyg>
+    <xmx:SSdcaZibmaShM8yyhbtFyeMMbU_TlFniapJdwLtImmcV0x20z513LBnb>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 5 Jan 2026 16:04:07 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH i-g-t 0/3] Add infrastruture and initial tests for ashi DRM
+ render driver
+Date: Mon, 05 Jan 2026 22:03:44 +0100
+Message-Id: <20260105-asahi-tests-wave1-v1-0-a6c72617e680@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH next v2] phy: apple: atc: Actually check return value of
- devm_apple_tunable_parse
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
- Thomas Glanzmann <thomas@glanzmann.de>
-References: <20260104-atcphy-tunable-fix-v2-1-84e5c2a57aaa@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20260104-atcphy-tunable-fix-v2-1-84e5c2a57aaa@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADAnXGkC/x3MMQqAMAxA0atIZgOpUBWvIg5BY5tFpSkqiHe3O
+ L7h/wdMkorBUD2Q5FTTfStwdQVz5C0I6lIMDTUtOfLIxlExi2XDi09x2HHvaSEhXglKdyRZ9f6
+ fIygGzDC97wevvmLKagAAAA==
+X-Change-ID: 20260105-asahi-tests-wave1-7a850d0e0af0
+To: Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1944; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=1maun1oJjM1Hu8fQx3t6bLB8U8dZwzJKItCNPc8qshE=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhswYdfspF8t/bL7pYrB99vbyyfv8fyS2Svye+NPo32amw
+ ywil2OjOkpZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAEykeykjw91LhR6sCReCHOL+
+ CPWUX3VnFhbn3LtBXCuyN1JyRVvoSkaGDytX60q2eQVqMrz9rtj6Qdj8u+dnB4Xgl4sYP5UeW/6
+ YBQA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-On 1/4/26 22:56, Sven Peter wrote:
-> Let's actually check the return value of devm_apple_tunable_parse
-> instead of trying to check IS_ERR on a pointer to the return value which
-> is always going to be valid. This prevent a oops when the tunables are
-> invalid or when they don't exist:
-> 
-> [   57.664567] Unable to handle kernel paging request at virtual address fffffffffffffffe
-> [   57.664584] Mem abort info:
-> [   57.664589]   ESR = 0x0000000096000007
-> [   57.664595]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [   57.664602]   SET = 0, FnV = 0
-> [   57.664607]   EA = 0, S1PTW = 0
-> [   57.664611]   FSC = 0x07: level 3 translation fault
-> [   57.664617] Data abort info:
-> [   57.664621]   ISV = 0, ISS = 0x00000007, ISS2 = 0x00000000
-> [   57.664626]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-> [   57.664631]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-> [   57.664640] swapper pgtable: 16k pages, 47-bit VAs, pgdp=0000000b4391c000
-> [   57.664647] [fffffffffffffffe] pgd=0000000000000000, p4d=0000000000000000, pud=0000000b44188403, pmd=0000000b4418c403, pte=0000000000000000
-> [   57.664670] Internal error: Oops: 0000000096000007 [#1]  SMP
-> [   57.665047] CPU: 1 UID: 0 PID: 23 Comm: kworker/1:0 Tainted: G S                  6.18.2+ #2 PREEMPTLAZY
-> [   57.665061] Tainted: [S]=CPU_OUT_OF_SPEC
-> [   57.665066] Hardware name: Apple Mac mini (M1, 2020) (DT)
-> [   57.665072] Workqueue: events cd321x_update_work [tps6598x]
-> [   57.665100] pstate: 61400009 (nZCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-> [   57.665111] pc : apple_tunable_apply+0x8/0x80 [apple_tunable]
-> [   57.665121] lr : atcphy_mux_set+0x3e0/0x1138 [phy_apple_atc]
-> [   57.665133] sp : ffffc000802a7c00
-> [   57.665138] x29: ffffc000802a7c00 x28: 0000000000000003 x27: ffff800016c84080
-> [   57.665151] x26: 0000000000000002 x25: ffff800016c84090 x24: ffff800016c8408f
-> [   57.665163] x23: 0000000000020004 x22: 0000000000000001 x21: 0000000000000006
-> [   57.665175] x20: ffff80000d6da9b0 x19: ffff80000d6da880 x18: 0000000000000002
-> [   57.665188] x17: 0000000000000000 x16: ffffe22de59e0e38 x15: 0000000000000002
-> [   57.665199] x14: ffffe22de76ecff8 x13: 0000000000000001 x12: ffff9dd5f90bc000
-> [   57.665211] x11: 00000000000000c0 x10: 048abc15ceba0919 x9 : ffffe22dbc5fde10
-> [   57.665223] x8 : ffff80000175e0d8 x7 : 0000000000000004 x6 : 0000000000000000
-> [   57.665234] x5 : 0000000000000001 x4 : 0000000d6d132db7 x3 : 00000000000155db
-> [   57.665246] x2 : 0000000000000000 x1 : fffffffffffffffe x0 : ffffc00082b80000
-> [   57.665258] Call trace:
-> [   57.665265]  apple_tunable_apply+0x8/0x80 [apple_tunable] (P)
-> [   57.665276]  typec_mux_set+0x74/0xe0 [typec]
-> [   57.665315]  cd321x_update_work+0x440/0x8c0 [tps6598x]
-> [   57.665332]  process_one_work+0x178/0x3d0
-> [   57.665346]  worker_thread+0x260/0x390
-> [   57.665354]  kthread+0x150/0x250
-> [   57.665369]  ret_from_fork+0x10/0x20
-> [   57.665386] Code: e69a0ae8 ffffe22d aa1e03e9 d503201f (f9400022)
-> [   57.665394] ---[ end trace 0000000000000000 ]---
-> 
-> Reported-by: Thomas Glanzmann <thomas@glanzmann.de>
-> Fixes: 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY")
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
-> Changes in v2:
-> - Copy/paste error: Copied a WARN instead of the kernel oops this patch fixes
-> - Link to v1: https://patch.msgid.link/20260104-atcphy-tunable-fix-v1-1-40bf00feaac0@kernel.org
-> ---
->   drivers/phy/apple/atc.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-> index c8a58ee64b7aad3205df51cf16ae778471ad2c5d..716c1e70de38ca604803739fedaa543d91f7501b 100644
-> --- a/drivers/phy/apple/atc.c
-> +++ b/drivers/phy/apple/atc.c
-> @@ -2178,10 +2178,10 @@ static int atcphy_load_tunables(struct apple_atcphy *atcphy)
->   	for (int i = 0; i < ARRAY_SIZE(tunables); i++) {
->   		*tunables[i].tunable = devm_apple_tunable_parse(
->   			atcphy->dev, atcphy->np, tunables[i].dt_name, tunables[i].res);
-> -		if (IS_ERR(tunables[i].tunable)) {
-> +		if (IS_ERR(*tunables[i].tunable)) {
->   			dev_err(atcphy->dev, "Failed to read tunable %s: %ld\n",
-> -				tunables[i].dt_name, PTR_ERR(tunables[i].tunable));
-> -			return PTR_ERR(tunables[i].tunable);
-> +				tunables[i].dt_name, PTR_ERR(*tunables[i].tunable));
-> +			return PTR_ERR(*tunables[i].tunable);
->   		}
->   	}
->   
-> 
-> ---
-> base-commit: add66a6673bc4aacd0ef0f3c4a51271501770b17
-> change-id: 20260104-atcphy-tunable-fix-517826d6fefd
-> 
-> Best regards,
+I will start with upstreaming the asahi DRM render driver. The UAPI was
+merged in v6.16-rc1 and the downstream Asahi Linux kernel tree has a
+driver implementing this fully.
+The asahi (OpenGL 4.6 conformant) and honeycomb (Vulkan 1.4 conformant)
+user space drivers using this UAPI are available in mesa since 25.2.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+This initial submission contains test infrastructure and tests for the
+ioctl DRM_IOCTL_ASAHI_GET_PARAMS and DRM_IOCTL_ASAHI_GET_TIME.
+These two tests are the only ones the initial version of the initial
+upstream submission of the driver will pass.
 
-Thanks,
-Neil
+I have additional tests which the downstream driver passes as well. I
+was planning to submit them together with upstream driver patches which
+implement the necessary functionality for the tests.
+
+If preferred I could submit all tests and gate them based on the driver
+version to avoid expected igt-gpu-tools test failures against
+incomplete (as in not implementing the full UAPI) upstream driver
+versions.
+
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Janne Grunau (3):
+      drm-uapi/asahi: Initial import of asahi_drm.h
+      asahi: Add test infrastruture for asahi DRM render driver
+      tests/asahi: Add test for DRM_IOCTL_ASAHI_GET_TIME
+
+ include/drm-uapi/asahi_drm.h   | 1194 ++++++++++++++++++++++++++++++++++++++++
+ lib/drmtest.c                  |    1 +
+ lib/drmtest.h                  |    1 +
+ lib/igt_asahi.c                |   58 ++
+ lib/igt_asahi.h                |   15 +
+ lib/meson.build                |    1 +
+ meson.build                    |    8 +
+ tests/asahi/asahi_get_params.c |   55 ++
+ tests/asahi/asahi_get_time.c   |   63 +++
+ tests/asahi/meson.build        |   14 +
+ tests/meson.build              |    2 +
+ 11 files changed, 1412 insertions(+)
+---
+base-commit: cef45b995557367ba082bc460fbab2190af943fd
+change-id: 20260105-asahi-tests-wave1-7a850d0e0af0
+
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
+
