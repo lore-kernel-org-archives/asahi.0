@@ -1,153 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CD817A303;
-	Sun,  4 Jan 2026 21:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2682251795;
+	Mon,  5 Jan 2026 01:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767563805; cv=none; b=Yxeahxrk7qFu4vyLXwR2nm1CA5EV7d9xWpKHKh2ZNDLxUVLgf0NvMaM5CaDBvAxu6BgqoWqQSF+4jXFCyHtWJDzS8dtrUdNRS6CsEsO/mbXiWYacPBhu6iXSwwtqjUYTDhYtHm57j2Io/U+bKlWWmYPis2sHOTT2UcLSumPSmLA=
+	t=1767575845; cv=none; b=jxCjq+eslDwzZnYce+6dgkqLUuahofDevRXT1LRjw37bmG7nys9D0KIWjASnuoRtV1wXdbizT5QJB2+dEU6ke1jNrEajKb5yc0EhYbuUqOEkN+xmHwCoitJtGguzrOv129iVnQxUJiAxxzO3/i3yiLHUa8zqrDW0QCqE7cVcjgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767563805; c=relaxed/simple;
-	bh=uWGulKN2lHSRnMj0osTbo7QLy+1zIg8tXJwHMSqsZzg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PuT2Kii07PvlRYNuBKQ6nEs/ZvaYFKd6dS4SR3W5NoZrFZsPt16eG6EDlZHDZo/4BsuJxppL31MaB+fCzcgf/V8to2vDKD+wPNaAFvPWqUzF//Vz4VEWK32K2R2cvOzAgRHgKtRVevTBQEcHnx0MvN0nb+5Vu/RfogUoAYbd1fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYKCQut2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767575845; c=relaxed/simple;
+	bh=lKYlFUk3wTX+gwXFOMsXeQ4+0b/Y3itIzSFepyAzzDk=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=FvRMSne941cGw4VtG2k9spnZqIb3e6Y6vtKAfmF8nwM1/Rr+xxc6p65WBdQBkCyRUCbM3HtQewP2uIjhpr95MO2+lAxZzYczov4V6lcwe7RULYPAFd7y0uPL/a2rEDeOUXgzpf8S6gg6f0VGTFAMRXTrXltYaw1vs3zadtmKIlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AKRq+C0R; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYKCQut2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E752DC4CEF7;
-	Sun,  4 Jan 2026 21:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767563805;
-	bh=uWGulKN2lHSRnMj0osTbo7QLy+1zIg8tXJwHMSqsZzg=;
-	h=From:Date:Subject:To:Cc:From;
-	b=kYKCQut2cTh8Ohmx4hvaUEr9k9PTQt1G0ilGF9h+3nvQAWugHizx9aXdSM0WkSEbZ
-	 aiIP9xYxkxDNUvB+ql8ORvVwEfleduzTrW9tFCen8ky7F3ggxcNRuRNgeyKZI27ffX
-	 i9T1ciLi/VxI5r2vsmZ2kcplfd9VW7tW/+FvUl876IsM8V0fgZWBhYBcosGfc9wfnD
-	 d4/8KiDz/OIwu9+kQ4UCyZeZwWjFX/BYB5BMRHU5ABfRWeXrP69KbrcJhNzGkj1EE5
-	 BhJuMHiwAg8+SkQ+7ks6BnCCXWYQsF7vsuUqm1mYTs2D7x1bIeuwrS/vFi7+W03b6Y
-	 OjpqeD2qJfgBw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA24C2A070;
-	Sun,  4 Jan 2026 21:56:44 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Sun, 04 Jan 2026 22:56:39 +0100
-Subject: [PATCH next v2] phy: apple: atc: Actually check return value of
- devm_apple_tunable_parse
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AKRq+C0R"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=pZJXqr1shDOJNTqRYSFVIu1Zdtd7/8R285rGmkkRm1E=; b=AKRq+C0RidbJ2ebH1AwJJaiFtO
+	8KWAnzMMb5j2/RD+jEWnlyhtwoMIEpAqesaCl2mj+Bgr79rcXC2iLY4X8UoUZ1J6ZcERcRLZf/1Mr
+	Qj9AvTYMuYYMDIchA/83TyX753gWfZ5EHQHWWsZhznwSoZHN6XQ9mSMXkqJBZRxUOF8JjK7kxTjy8
+	YRYm5cRRxcqihc4WnIbQJI4hdpLFCyLFM5d6xhV3rSlhTjcSnziwDYdjnr6V0QQi5WmSmqCxg8qg0
+	JaNWJvB4I8S7f1CbEKaO5cHJ++lZok1J0rNm2fPDugTXr2azRdsHFhVo21Rw9ChmdPDMCgZBM4Cj0
+	TJFOwEpA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vcZDf-0000000AbSy-3tej;
+	Mon, 05 Jan 2026 01:17:16 +0000
+Message-ID: <eb7c246a-6c5f-4d8d-bc96-2a71ece2e042@infradead.org>
+Date: Sun, 4 Jan 2026 17:17:14 -0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260104-atcphy-tunable-fix-v2-1-84e5c2a57aaa@kernel.org>
-X-B4-Tracking: v=1; b=H4sIABbiWmkC/32NQQ6DIBBFr2Jm3WkGYmnTVe/RuEAdhNSAAWo0x
- ruXcIAu//v57x+QODpO8GwOiLy65IIvQV4aGKz2E6MbSwZJUpGgFnUeFrtj/nrdz4zGbXgT94d
- UozJsRijDJXLBVfoGz1uGrlDrUg5xr0+rqN0/6SpQYEu9ITKs9UCvD0fP8zXECbrzPH+Amfemu
- wAAAA==
-X-Change-ID: 20260104-atcphy-tunable-fix-517826d6fefd
-To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Thomas Glanzmann <thomas@glanzmann.de>, Sven Peter <sven@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4402; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=uWGulKN2lHSRnMj0osTbo7QLy+1zIg8tXJwHMSqsZzg=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ2bUIyk5+WNWvS27v5hr3lnM1HHkoOXx0mnvGdj+9MhKz
- 660z7/RUcrCIMbFICumyLJ9v73pk4dvBJduuvQeZg4rE8gQBi5OAZjIzUpGho0bnNeLCO589vd9
- 98d7uf3bg+/kZP7OEd13u+Qnc/almIuMDMuyP97byOQ7ieFR0xzHCYz3MrX3WJ1c+EMxtyDndcT
- ZmwwA
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
+User-Agent: Mozilla Thunderbird
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [Linux-stm32] Kconfig dangling references (BZ 216748)
+To: Antonio Borneo <antonio.borneo@foss.st.com>, Arnd Bergmann
+ <arnd@arndb.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: linux-sh@vger.kernel.org,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ andrew.jones@linux.dev, Paul Cercueil <paul@crapouillou.net>,
+ Max Filippov <jcmvbkbc@gmail.com>, linux-stm32@st-md-mailman.stormreply.com,
+ chrome-platform@lists.linux.dev, openbmc@lists.ozlabs.org, x86@kernel.org,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Paul Kocialkowski
+ <paulk@sys-base.io>, linux-sound@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linux-OMAP <linux-omap@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+ Srinivas Kandagatla <srini@kernel.org>, Jonathan Cameron <jic23@kernel.org>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+ <5e335232-89b4-4c35-93bd-efad7e4d8995@app.fastmail.com>
+ <0220ec0592b6ef8936c25cffbc6cbfa0539fb71a.camel@foss.st.com>
+Content-Language: en-US
+In-Reply-To: <0220ec0592b6ef8936c25cffbc6cbfa0539fb71a.camel@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Let's actually check the return value of devm_apple_tunable_parse
-instead of trying to check IS_ERR on a pointer to the return value which
-is always going to be valid. This prevent a oops when the tunables are
-invalid or when they don't exist:
 
-[   57.664567] Unable to handle kernel paging request at virtual address fffffffffffffffe
-[   57.664584] Mem abort info:
-[   57.664589]   ESR = 0x0000000096000007
-[   57.664595]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   57.664602]   SET = 0, FnV = 0
-[   57.664607]   EA = 0, S1PTW = 0
-[   57.664611]   FSC = 0x07: level 3 translation fault
-[   57.664617] Data abort info:
-[   57.664621]   ISV = 0, ISS = 0x00000007, ISS2 = 0x00000000
-[   57.664626]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[   57.664631]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[   57.664640] swapper pgtable: 16k pages, 47-bit VAs, pgdp=0000000b4391c000
-[   57.664647] [fffffffffffffffe] pgd=0000000000000000, p4d=0000000000000000, pud=0000000b44188403, pmd=0000000b4418c403, pte=0000000000000000
-[   57.664670] Internal error: Oops: 0000000096000007 [#1]  SMP
-[   57.665047] CPU: 1 UID: 0 PID: 23 Comm: kworker/1:0 Tainted: G S                  6.18.2+ #2 PREEMPTLAZY
-[   57.665061] Tainted: [S]=CPU_OUT_OF_SPEC
-[   57.665066] Hardware name: Apple Mac mini (M1, 2020) (DT)
-[   57.665072] Workqueue: events cd321x_update_work [tps6598x]
-[   57.665100] pstate: 61400009 (nZCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-[   57.665111] pc : apple_tunable_apply+0x8/0x80 [apple_tunable]
-[   57.665121] lr : atcphy_mux_set+0x3e0/0x1138 [phy_apple_atc]
-[   57.665133] sp : ffffc000802a7c00
-[   57.665138] x29: ffffc000802a7c00 x28: 0000000000000003 x27: ffff800016c84080
-[   57.665151] x26: 0000000000000002 x25: ffff800016c84090 x24: ffff800016c8408f
-[   57.665163] x23: 0000000000020004 x22: 0000000000000001 x21: 0000000000000006
-[   57.665175] x20: ffff80000d6da9b0 x19: ffff80000d6da880 x18: 0000000000000002
-[   57.665188] x17: 0000000000000000 x16: ffffe22de59e0e38 x15: 0000000000000002
-[   57.665199] x14: ffffe22de76ecff8 x13: 0000000000000001 x12: ffff9dd5f90bc000
-[   57.665211] x11: 00000000000000c0 x10: 048abc15ceba0919 x9 : ffffe22dbc5fde10
-[   57.665223] x8 : ffff80000175e0d8 x7 : 0000000000000004 x6 : 0000000000000000
-[   57.665234] x5 : 0000000000000001 x4 : 0000000d6d132db7 x3 : 00000000000155db
-[   57.665246] x2 : 0000000000000000 x1 : fffffffffffffffe x0 : ffffc00082b80000
-[   57.665258] Call trace:
-[   57.665265]  apple_tunable_apply+0x8/0x80 [apple_tunable] (P)
-[   57.665276]  typec_mux_set+0x74/0xe0 [typec]
-[   57.665315]  cd321x_update_work+0x440/0x8c0 [tps6598x]
-[   57.665332]  process_one_work+0x178/0x3d0
-[   57.665346]  worker_thread+0x260/0x390
-[   57.665354]  kthread+0x150/0x250
-[   57.665369]  ret_from_fork+0x10/0x20
-[   57.665386] Code: e69a0ae8 ffffe22d aa1e03e9 d503201f (f9400022)
-[   57.665394] ---[ end trace 0000000000000000 ]---
 
-Reported-by: Thomas Glanzmann <thomas@glanzmann.de>
-Fixes: 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY")
-Signed-off-by: Sven Peter <sven@kernel.org>
----
-Changes in v2:
-- Copy/paste error: Copied a WARN instead of the kernel oops this patch fixes
-- Link to v1: https://patch.msgid.link/20260104-atcphy-tunable-fix-v1-1-40bf00feaac0@kernel.org
----
- drivers/phy/apple/atc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 12/8/25 1:48 AM, Antonio Borneo wrote:
+> On Mon, 2025-12-08 at 09:55 +0100, Arnd Bergmann wrote:
+>> On Mon, Dec 8, 2025, at 03:04, Randy Dunlap wrote:
+>>> from  https://bugzilla.kernel.org/show_bug.cgi?id=216748
+>>>
+>>> The bugzilla entry includes a Perl script and a shell script.
+>>> This is the edited result of running them (I removed some entries that 
+>>> were noise).
+>>>
+>>> I'll try to Cc: all of the relevant mailing lists or individuals.
+>>>
+>>> ...
+>>>
+>>> MACH_STM32MP25 ---
+>>> drivers/pinctrl/stm32/Kconfig:58:       default MACH_STM32MP25 || (ARCH_STM32 
+>>> && ARM64)
+>>
+>> This was likely intended for 32-bit kernels on 64-bit STM32MP25
+>> chips, which we don't support. I think this can go.
+> 
+> Yes, I fully agree!
+> 
+> I have a series pinctrl stm32 to be rebased on v6.19-rc1 and I can include the
+> drop of MACH_STM32MP25 inside it.
 
-diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-index c8a58ee64b7aad3205df51cf16ae778471ad2c5d..716c1e70de38ca604803739fedaa543d91f7501b 100644
---- a/drivers/phy/apple/atc.c
-+++ b/drivers/phy/apple/atc.c
-@@ -2178,10 +2178,10 @@ static int atcphy_load_tunables(struct apple_atcphy *atcphy)
- 	for (int i = 0; i < ARRAY_SIZE(tunables); i++) {
- 		*tunables[i].tunable = devm_apple_tunable_parse(
- 			atcphy->dev, atcphy->np, tunables[i].dt_name, tunables[i].res);
--		if (IS_ERR(tunables[i].tunable)) {
-+		if (IS_ERR(*tunables[i].tunable)) {
- 			dev_err(atcphy->dev, "Failed to read tunable %s: %ld\n",
--				tunables[i].dt_name, PTR_ERR(tunables[i].tunable));
--			return PTR_ERR(tunables[i].tunable);
-+				tunables[i].dt_name, PTR_ERR(*tunables[i].tunable));
-+			return PTR_ERR(*tunables[i].tunable);
- 		}
- 	}
- 
+and what about this dangling symbol?
+arch/arm64/Kconfig.platforms:375:	select ARM_SMC_MBOX
 
----
-base-commit: add66a6673bc4aacd0ef0f3c4a51271501770b17
-change-id: 20260104-atcphy-tunable-fix-517826d6fefd
+It was merged with ARCH_STM32 in
+9e4e24414cc6 ("arm64: introduce STM32 family on Armv8 architecture")
 
-Best regards,
+Same answer as for MACH_STM32MP25?
+If so, Antonio, can you take care of that one also, please?
+
+thanks.
 -- 
-Sven Peter <sven@kernel.org>
-
+~Randy
 
