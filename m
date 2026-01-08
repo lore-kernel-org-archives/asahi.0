@@ -1,83 +1,83 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFD43328E4
-	for <asahi@lists.linux.dev>; Thu,  8 Jan 2026 21:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDA73314AC
+	for <asahi@lists.linux.dev>; Thu,  8 Jan 2026 21:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767906279; cv=none; b=nuWNRist+JOCE+akHLO0dMTPDOTtIVAzK3CXHsrBhwVm6fx60Jt1Z7zYQqOgJyApGo4nRbFeKBtpsKpOzkQE4SrZPbNcFqsrS8GyviJoIceNie/6KYbeXcJvKYwWebgTzCl16tAemT2t05uPWPWLwYu+2CPP5mRzPw0ZLHSsVDI=
+	t=1767906282; cv=none; b=lSVlRYWBiCdmmf1ByHsmd90NPOhsivUZqUuA9KLTCTriXZjQqzk+wImloub0tL9oe6R4Jmbj5OP+Tlja/0HpH7xWPU7HfWeV4jJW99JFvkrqCy+HxYU7TgpekWOuCExDf41qrxApn3erhbQxPrR7OitGg8SU2ZRRLO1nEgjyYtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767906279; c=relaxed/simple;
-	bh=eh/RncIhcNF7K7NjRWfxhxp8BvQj2+b3J+GhqEj6jH4=;
+	s=arc-20240116; t=1767906282; c=relaxed/simple;
+	bh=nWa+h9+Kxvhc/pJdQJaqkBTx7CGfODqQM4FTFtlW9+Y=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qktCO/JNu0j6YM1PxWeY+lfqPofprOz2OG+R+X+oQjnqhSvExXHj6OqqWIhLe0k+mbs6Zathq72N7PyZKD3WzISOeJ3YZqLacjuqtpamjTc6SXjf/Kw/NcaV1u3upqKr5ke0u1UGp5Q6n/PMMYqxamgzZM2M19YpWcePSx7htrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=MPnudNsW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=zvtoLnw2; arc=none smtp.client-ip=202.12.124.148
+	 In-Reply-To:To:Cc; b=t8KCp8T5QYNXzKZHGXSgupaoshXfjCwGTwawEhs583N+uUkNs7G2gQm28NOW0jgNgZYtnv6Imym4YVP2I4oTN5qH0az4MMF2ThqEPmER9XcVKb7CHjOM6sIPk7ijHxEA76F8CoCanpU+ip+VJF+4Lyva/PwJlcP2yHjquHGlT6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=ZDQLCXaL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=N0yc+26l; arc=none smtp.client-ip=202.12.124.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="MPnudNsW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zvtoLnw2"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="ZDQLCXaL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="N0yc+26l"
 Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 229401D00070;
-	Thu,  8 Jan 2026 16:04:37 -0500 (EST)
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 7FBD07A0075;
+	Thu,  8 Jan 2026 16:04:40 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 08 Jan 2026 16:04:37 -0500
+  by phl-compute-01.internal (MEProxy); Thu, 08 Jan 2026 16:04:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1767906276;
-	 x=1767992676; bh=b8MwoLw3nQeq6OMFA9qd8hgLbODnrMCyrSn1Vrtcd/U=; b=
-	MPnudNsWg0G3S3bPjBiCjdExs0KzqRHPVxxR/Gs4j/Y7ogZJzsL0nzrvIwqaEu8S
-	UA8MAW1oByW2crii8X/cix8+9iRR8FZL784Y6qVEd1VHGCGmwYFc+eaQTvaCq4Vx
-	iwGZyBuijapWQDQp4lBTUvoRgfclRduhH4SzFpXVrnpzTRvxKEagCqg93psH110S
-	/G96C0baqopkGNaymRkDd23e0Wp0HE5sx7UmLwPpTMN9me/2+78iFKP1hmBSOaR7
-	OxoE3FjJWnEn6EJTwVQjzRifVh1cL6HEIRiT7Fjcswybve5wsY1J4w/NGZBwEXxI
-	cVO/GaARa2Sq6hZIo0twLA==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1767906280;
+	 x=1767992680; bh=QteEnV4Lmmr4kXq6459mdyhN7lvg8bT64d/57W2Zy3w=; b=
+	ZDQLCXaLlZ3ASL1Bdf/c1FUx2x8sfUejM+vTyCe3+K6+hgb7kkisKsNmZ9iT0z8f
+	92WUaYQ+XrqYgv7ZhXTxCpBCoxZW3LLwHhaQOllx3NX+Fqh96ZtE/HK5ve4dLujC
+	+CeLtkp41A8VwxpH2d8xdInu7gS1678EG2bnDw66AjZx4y7L9KT6K5mFveUf5cg/
+	NlIXQN1V8EU3WGsFW3dwjZl2vtlY71J6YvNKYA1MT/JOeHA/jVwyeNc+s8RZmuUJ
+	VkHi/HvHinvn/uQL1yq3duz7o87ZTuXV5OXtJqfp3/EhzVlxi1MRiq339G93/RzF
+	HARQqiqBG73799NpZL1Pyw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767906276; x=
-	1767992676; bh=b8MwoLw3nQeq6OMFA9qd8hgLbODnrMCyrSn1Vrtcd/U=; b=z
-	vtoLnw2Cw5nQpBOb/aXCTHaHFyRtPzp6QKstrLR0goHQCa5cQRRwUUHlbZRGe0O7
-	y92lJHGjRSTDHE6xJU2u1H/IlRU6HADVHZ2URJLCHVDLQTVR4wbQEn4YSPOqSmhR
-	I3jCXUzbB3UtcMU9TALLNqSZXo7J55jwWdrR0mdn1Se2Xq0LC1xIEEy7UM1dXcgl
-	+ehOS3Ubfvopjyim/4KLU3Kp/dJXB+vuSYErb72U3QL6PbJcWUjt7reWRbyyV2qy
-	r4OfOMXMUsXvESLUzeOQQPii+s1Fvb9qD6s+vOEJaWWX1+KV5gj+HllFO35oMlyg
-	tyFLsxMbtUdkv0wHl54WQ==
-X-ME-Sender: <xms:5BtgadbgDLzukVvbe4n38uDwSQ8y1J9j4eL0zJRmefCgNGocVs9wGw>
-    <xme:5BtgaV88cq8RsE7lG0IcWeei4gRkARCFQRWknaN03krQMQbTaF95if4EW1X-xz4yI
-    XmLY3ygkXbhExjFEzhiFQjLECMMqxb5cMfbl06baqiN0Ge3F42hcnM>
-X-ME-Received: <xmr:5BtgafOk_6VQ0tPKy4QRd-nxYdWnlw7-QjbdUdSD3qOnk2eO4p186ss6cMMon5rHGUHv-Y5DT3Aj9bvH28VyVHv5Hyi3IwMYHz6i6w>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767906280; x=
+	1767992680; bh=QteEnV4Lmmr4kXq6459mdyhN7lvg8bT64d/57W2Zy3w=; b=N
+	0yc+26lJBzFKE5oXelHZepPAT4qQKyuftKqr4i6d5qggDjv21ls4JdeLII7AVnk8
+	HFtIx5UXoCtQFRj67Lif+3/amMFcrzXBBP9JSZQW+QwaNWozygitwRaKz/ZVceiJ
+	oHb7F6/M7kPgrHBmx629lYx0KTKuWEWR+VrMK0NNJAdUdQQGwyxYhnuda3Pjiwi0
+	kISL0kPEIfbCRpwGSsy7P0wdaVrpL25Rj9PrpKDbiEbgdlj6Qh5uon8NfgH23GIT
+	HM764Kt0rzscKJWO8/O0N7SWiOE/0rZ9EskJD3piNCHIV4tBNdE46oyEArhl593/
+	JEphaayJ2+K34pMsxbzyw==
+X-ME-Sender: <xms:6Btgaex_cz8x_uSbYkTsKK6fBEEJatckrCIX-m2gG3otCaqw0MV8-A>
+    <xme:6Btgaeq4_Cba4sfwx_3zqL8-vpu1tZY-Qs-LoCwJGrxIVgghO3Rz2MO6wrg3fANu4
+    9yhdq0ZNjweIAClUFHehuY4VG-U_WRsGOZ2fZo6YrM97F50k3H871Y>
+X-ME-Received: <xmr:6BtgaeM0Iz5W0RJmopvKgbEJFYcv_v-ghhYxAqo-uMohhWlYCdW4jaSZhDiJNUqIW4JG59uDdymIj6HjD1mXBw1vT-cQ0x6QGXhebw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeileekucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
     ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfe
     ehheeileduffehteeihfdvtdelffdutdeludduiedutedvfeffheekhefgtedtnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
+    uhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
     hurdhnvghtpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghp
     thhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghsrghhih
-    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehsvhgvnheskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheplh
-    hinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
-    pdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvse
-    hvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:5BtgaSFfDlFKDgRf39Xm9qMJy_X9QOytiqRnv385aPov7g4LRZTHIw>
-    <xmx:5Btgadw0m4awAO3LZHnYhW3r6zavCJ4CJtF9apzdxZF3IzkYEqV91Q>
-    <xmx:5BtgaTqozZaRg2aKTHOBOnsa-gszjwdSeANEt0cCZJUZ5uhbs8gqtQ>
-    <xmx:5BtgaTneHNn-HhJAHveJ2ChEjZ258hzcNMMNk2dxFwkK1U_9pjQTrg>
-    <xmx:5BtgaXXHE-VfoZuPdU2q2Y4O36Uzst7OzWfbH9sj5hMckcvK0UD2pEx9>
+    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehmrghrtggrnhesmhgrrhgt
+    rghnrdhsthdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    epnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgv
+    rhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheptghonh
+    horhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvg
+    hlrdhorhhg
+X-ME-Proxy: <xmx:6BtgaScNUPjt762OBbrT5FLV9XLqsdgpZFg_-emiIC1buXQAoQV_5Q>
+    <xmx:6BtgaUV12cJ7BskigDtycOKa3Hv_0Gi9dzqFWWS1V-22FrutFRnbxA>
+    <xmx:6BtgaTD6JxGDHrFY9V4ObUZACW9-NAAcUuxdALb6_goa4YLl4FpLoA>
+    <xmx:6Btgaf4kd8-ctf3SdFpsbfy47rDB6S-vJ5SMrITINtcg2Epg1DTq5A>
+    <xmx:6Btgafs46Jp6awtYEBOaFq2gfdk5kd8c3y8sYb5dTEbh6XfSmamboY0_>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Jan 2026 16:04:36 -0500 (EST)
+ 8 Jan 2026 16:04:39 -0500 (EST)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 08 Jan 2026 22:04:01 +0100
-Subject: [PATCH 1/3] arm64: dts: apple: t8112-j473: Keep the HDMI port
- powered on
+Date: Thu, 08 Jan 2026 22:04:02 +0100
+Subject: [PATCH 2/3] arm64: dts: apple: t8103: Mark ATC USB AON domains as
+ always-on
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -86,7 +86,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-apple-dt-pmgr-fixes-v1-1-cfdce629c0a8@jannau.net>
+Message-Id: <20260108-apple-dt-pmgr-fixes-v1-2-cfdce629c0a8@jannau.net>
 References: <20260108-apple-dt-pmgr-fixes-v1-0-cfdce629c0a8@jannau.net>
 In-Reply-To: <20260108-apple-dt-pmgr-fixes-v1-0-cfdce629c0a8@jannau.net>
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
@@ -94,68 +94,53 @@ To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>, stable@vger.kernel.org
+ Janne Grunau <j@jannau.net>, Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1920; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1408; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=eh/RncIhcNF7K7NjRWfxhxp8BvQj2+b3J+GhqEj6jH4=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhswE6btlRbsbJk3fHHhLxEleW4JB6aDYxO+ynMd0RN5dL
- v6v8Nezo5SFQYyLQVZMkSVJ+2UHw+oaxZjaB2Ewc1iZQIYwcHEKwESswxkZ9l9ocJw/5d/36HZ7
- fdNnHGu3Jjxk0ypZseq0kXRVBMNCS4Z/1srl0+qDtn2JurdKSVlzj26jyDaPX+EXD5nPf7KMJya
- TAQA=
+ bh=Tv265ezbKIPR4yKCBPnSeHHBwfskxmuu1jk3lNIHRZw=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhswE6btMrLF3EuXmZ12WK1aq2xm97mk8b5X3XX3JB/ek7
+ RX8Sxw6SlkYxLgYZMUUWZK0X3YwrK5RjKl9EAYzh5UJZAgDF6cATGSVMyPD3YdiLZvci59U+kQf
+ KAmYc+CvxHJ1jenXV+xt4P1/wufydEaGnXsW3Cg0OKLa0dt2LSxvzh6RqZv9lz2dLLGmZcXykxN
+ i+QE=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Add the display controller and DPTX phy power-domains to the framebuffer
-node to keep the framebuffer and display out working after device probing
-finished.
-The OS has more control about the display pipeline used for the HDMI
-output on M2 based devices. The HDMI output is driven by an integrated
-DisplayPort to HDMI converter (Parade PS190). The DPTX phy is now
-controlled by the OS and no longer by firmware running on the display
-co-processor. This allows using the second display controller on the
-second USB type-c port or tunneling 2 DisplayPort connections over
-USB4/Thunderbolt.
-The m1n1 bootloader uses the second display controller to drive the HDMI
-output. Adjust for this difference compared to the notebooks as well.
+From: Hector Martin <marcan@marcan.st>
 
-Fixes: 2d5ce3fbef32 ("arm64: dts: apple: t8112: Initial t8112 (M2) device trees")
-Cc: stable@vger.kernel.org
+Shutting these down breaks dwc3 init done by the firmware. We probably
+never want to do this anyway. It might be possible remove this once
+a PHY driver is in place to do the init properly, but it may not be
+worth it. "always-on" is a plausible interpretation of the "aon" suffix.
+The t8112, t600x and t602x "ps_atc?_usb_aon" power-controller nodes are
+have already "apple,always-on" properties.
+
+Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- arch/arm64/boot/dts/apple/t8112-j473.dts | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ arch/arm64/boot/dts/apple/t8103-pmgr.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-index 06fe257f08be498ace6906b936012e01084da702..4ae1ce919dafc40d849f7dcee948457158562316 100644
---- a/arch/arm64/boot/dts/apple/t8112-j473.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-@@ -21,6 +21,25 @@ aliases {
+diff --git a/arch/arm64/boot/dts/apple/t8103-pmgr.dtsi b/arch/arm64/boot/dts/apple/t8103-pmgr.dtsi
+index c41c57d63997a59a9fe3c88de31fddb31781398e..4bfe0d2de30ad6f975b31d443b62ef0e74b14324 100644
+--- a/arch/arm64/boot/dts/apple/t8103-pmgr.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103-pmgr.dtsi
+@@ -1103,6 +1103,7 @@ ps_atc0_usb_aon: power-controller@88 {
+ 		#power-domain-cells = <0>;
+ 		#reset-cells = <0>;
+ 		label = "atc0_usb_aon";
++		apple,always-on; /* Needs to stay on for dwc3 to work */
  	};
- };
  
-+/*
-+ * Keep the power-domains used for the HDMI port on.
-+ */
-+&framebuffer0 {
-+	power-domains = <&ps_dispext_cpu0>, <&ps_dptx_ext_phy>;
-+};
-+
-+/*
-+ * The M2 Mac mini uses dispext for the HDMI output so it's not necessary to
-+ * keep disp0 power-domains always-on.
-+ */
-+&ps_disp0_sys {
-+	/delete-property/ apple,always-on;
-+};
-+
-+&ps_disp0_fe {
-+	/delete-property/ apple,always-on;
-+};
-+
- /*
-  * Force the bus number assignments so that we can declare some of the
-  * on-board devices and properties that are populated by the bootloader
+ 	ps_atc1_usb_aon: power-controller@90 {
+@@ -1111,6 +1112,7 @@ ps_atc1_usb_aon: power-controller@90 {
+ 		#power-domain-cells = <0>;
+ 		#reset-cells = <0>;
+ 		label = "atc1_usb_aon";
++		apple,always-on; /* Needs to stay on for dwc3 to work */
+ 	};
+ 
+ 	ps_atc0_usb: power-controller@98 {
 
 -- 
 2.52.0
