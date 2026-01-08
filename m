@@ -1,49 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE36288CA3;
-	Thu,  8 Jan 2026 20:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E1932F766;
+	Thu,  8 Jan 2026 20:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767904229; cv=none; b=FOqOK8oDtzE+q9fCj/XlTIyNSHZWRXF6T6RKw7XOUDxkRqFYxLNgahxarzmo6BzE+4xDywLPy9Qw1VBPHmq0rOjFhCRhKIfCsYAev+c+8RC9zwFXCDLhp3iy6k8RY4+RG31EqZJYMbSlDjl20qOKTuo6e96mxNvcXv4/bUIBZO8=
+	t=1767904229; cv=none; b=Gv+92UXL7aGpbdApUhR9gVz3dax7sZ5kAPyHKIpdG+QD3kBCOLTNLGl/13mKm4j1bIphABrG//DbRKkWfHRjJi7hNuIEmtrNrhdjHvQ5rvhqDhJELxTYuV71bZBM/lMRu/W14x1vp9abF6mQ8gY+eVcscIi+/8VyMvS/hltcLTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1767904229; c=relaxed/simple;
-	bh=5FDjJzy6AOW1qFhOgfm62fFBhHaSU5fD45eqi9Wu6i4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=O1/kvrRZKmxhkAKxdv/Vd+bO01SV6PhrIzth39RynvdOUHytNGMtFMsfMGjyP7QIFjWBsfaAZhtlOV0mGpZlc/a+Si8i/UE5eb3tVvcu/sYJND8B9j5J1U7Wy0VWtwPWrH6WEYJ+rV+ynqCWMNe86WnBYK3sC+npJ6zEHz5eWDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VemOoXM0; arc=none smtp.client-ip=192.198.163.18
+	bh=pEPhZuFQG5WHDMDYcHjF4DXWD4eYs4lWob3YuVcuX9E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=L2vjlf3hlFHgfX52dqNbKj7O6UP6dbogD0z0VTBzH/cbGpotfkGr/3GZ2NSc/oo7GdvG3GW7z/dvrpIAzuciRzFdkPdBokyPqS9UshDdp2uQYC4SXXHkJGkKlpS02ZDbyMXdvpW0zIC1EdBjbIH5qWfhU2IoK4sKEwOdlExmwus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jDvWa3YO; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VemOoXM0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDvWa3YO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767904228; x=1799440228;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5FDjJzy6AOW1qFhOgfm62fFBhHaSU5fD45eqi9Wu6i4=;
-  b=VemOoXM0KfEdqOBPesDTwbpTbFFBbD9LxTOptATok/bgKHMdjz/O/XTc
-   8NKmK3tQzYZOVFe+2HNJbgyouso0KsTAYuo11f2wKLTTAKZbN80Y528QC
-   W++4RLN0+uwCEmdNZlQoVpQG9NPb0maJIK/0Wto/v6iomYp/xm3/fcBBP
-   5NNE1e7q48WY8MAB+cCyQaUYuRDOVpzeerQqDeSUIgYKy+qnIvIreIi+F
-   bzSu/QLYkZhQ0z9y+/b1AVHWAvigdCyCnofd+C0qkQsJlRNe1A32Aw4Uh
-   X3m1KibjgPm9N51+B9iX9FeAx3UfRyid19YNNmiUbxry+mkv230BlbXxC
-   Q==;
-X-CSE-ConnectionGUID: SBu8lGGGRzCKflKWAt2+uw==
-X-CSE-MsgGUID: 69ZSEUX1Tgy8Kip9Lnoj/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="68485861"
+  t=1767904229; x=1799440229;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=pEPhZuFQG5WHDMDYcHjF4DXWD4eYs4lWob3YuVcuX9E=;
+  b=jDvWa3YO0LXK3p1FxLdX8cjoUEKk3GcL5e6u0pbjq0M6ftRIaFhxCYgW
+   mRNppABuyd45Gb6awhH6IKt9lV0ewT7Z2/WmFBjOHpHNXcHfHFx3d+Rza
+   F8CAzVJ7PF4BrDGPG+/VfJxUX2rTHS66y5rnFneSDDVIib4woELGkZMGw
+   u76XtcO0G3/B7slfPAx/N5Tx2Xslt4TD9bUhx1AorBhmSFcLm5OJ0YX4B
+   x6skzPNk3lwo6Qqv97jUVn80e/UeUpezITSIOnW7+ZwPUWOHhPY5ojYNk
+   8PqvLheh18ZqzlQp7EUg3N4I9ZSYIwV5SKXGMHIftGPC9G122OVf7RNaJ
+   A==;
+X-CSE-ConnectionGUID: TdH2SDH+RfKPUx4CiXAA3Q==
+X-CSE-MsgGUID: nvJWoGPtScSQGJ3NqJ+w7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="68485883"
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="68485861"
+   d="scan'208";a="68485883"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 12:30:26 -0800
-X-CSE-ConnectionGUID: dV6UL5sSSy6kvW0TibQ/lg==
-X-CSE-MsgGUID: ssbC0vDPTbSXiI7fJK5T+Q==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 12:30:27 -0800
+X-CSE-ConnectionGUID: Tfj3zHaHQA6N1Nmn6xLihg==
+X-CSE-MsgGUID: AxNa2QRdR56ADK7OKSMe6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="226706600"
+   d="scan'208";a="226706611"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Jan 2026 12:30:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 08 Jan 2026 12:30:17 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 8983166; Thu, 08 Jan 2026 21:30:15 +0100 (CET)
+	id 432F498; Thu, 08 Jan 2026 21:30:17 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Mark Brown <broonie@kernel.org>,
 	Varshini Rajendran <varshini.rajendran@microchip.com>,
@@ -194,145 +195,66 @@ Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
 	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
 	Michal Simek <michal.simek@amd.com>,
 	Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH v1 0/4] spi: Make SPI core to take care of fwnode assignment
-Date: Thu,  8 Jan 2026 21:23:37 +0100
-Message-ID: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/4] spi: Propagate default fwnode to the SPI controller device
+Date: Thu,  8 Jan 2026 21:23:38 +0100
+Message-ID: <20260108203004.3538449-2-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
+References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-It seems all of the SPI drivers want to propagate fwnode (or of_node)
-of the physical device to the SPI device. Make sure we don't duplicate
-it over and over in each new driver (+2 in this cycle) by making core
-to take care of that. Note, similar is done already by IIO and
-I²C subsystems.
+Most of the SPI controller drivers share the parent's fwnode
+by explicit assignment. Propagate the default by SPI core,
+so they may drop that in the code. Only corner cases may require
+a special treatment and we simply (re)assign the controller's
+fwnode explicitly (as it's done right now, no changes required
+for that).
 
-There is one noticeable and quite specific case that is taken care in
-the first patch and would be nice to have a confirmation from Cirrus
-that everything is okay. The rest is just a mechanical conversion.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/spi/spi-cs42l43.c | 8 ++++++++
+ drivers/spi/spi.c         | 3 +++
+ 2 files changed, 11 insertions(+)
 
-Andy Shevchenko (4):
-  spi: Propagate default fwnode to the SPI controller device
-  spi: Drop duplicate of_node assignment
-  spi: Drop duplicate fwnode assignment
-  spi: Drop duplicate device_set_node() call
-
- drivers/spi/atmel-quadspi.c          | 1 -
- drivers/spi/spi-airoha-snfi.c        | 1 -
- drivers/spi/spi-altera-platform.c    | 2 --
- drivers/spi/spi-amlogic-spifc-a1.c   | 1 -
- drivers/spi/spi-amlogic-spisg.c      | 1 -
- drivers/spi/spi-apple.c              | 1 -
- drivers/spi/spi-ar934x.c             | 1 -
- drivers/spi/spi-armada-3700.c        | 4 +---
- drivers/spi/spi-aspeed-smc.c         | 1 -
- drivers/spi/spi-atcspi200.c          | 1 -
- drivers/spi/spi-ath79.c              | 1 -
- drivers/spi/spi-atmel.c              | 1 -
- drivers/spi/spi-axi-spi-engine.c     | 1 -
- drivers/spi/spi-bcm-qspi.c           | 1 -
- drivers/spi/spi-bcm2835.c            | 1 -
- drivers/spi/spi-bcm2835aux.c         | 1 -
- drivers/spi/spi-bcm63xx-hsspi.c      | 1 -
- drivers/spi/spi-bcm63xx.c            | 1 -
- drivers/spi/spi-bcmbca-hsspi.c       | 1 -
- drivers/spi/spi-cadence-quadspi.c    | 1 -
- drivers/spi/spi-cadence-xspi.c       | 1 -
- drivers/spi/spi-cadence.c            | 1 -
- drivers/spi/spi-cavium-octeon.c      | 1 -
- drivers/spi/spi-cavium-thunderx.c    | 1 -
- drivers/spi/spi-clps711x.c           | 1 -
- drivers/spi/spi-cs42l43.c            | 8 ++++++++
- drivers/spi/spi-davinci.c            | 1 -
- drivers/spi/spi-dln2.c               | 2 --
- drivers/spi/spi-dw-core.c            | 2 --
- drivers/spi/spi-ep93xx.c             | 1 -
- drivers/spi/spi-falcon.c             | 1 -
- drivers/spi/spi-fsl-dspi.c           | 1 -
- drivers/spi/spi-fsl-espi.c           | 1 -
- drivers/spi/spi-fsl-lib.c            | 1 -
- drivers/spi/spi-fsl-lpspi.c          | 1 -
- drivers/spi/spi-geni-qcom.c          | 1 -
- drivers/spi/spi-gpio.c               | 1 -
- drivers/spi/spi-gxp.c                | 1 -
- drivers/spi/spi-hisi-kunpeng.c       | 1 -
- drivers/spi/spi-img-spfi.c           | 1 -
- drivers/spi/spi-imx.c                | 1 -
- drivers/spi/spi-ingenic.c            | 1 -
- drivers/spi/spi-lantiq-ssc.c         | 1 -
- drivers/spi/spi-ljca.c               | 1 -
- drivers/spi/spi-loongson-core.c      | 1 -
- drivers/spi/spi-lp8841-rtc.c         | 1 -
- drivers/spi/spi-meson-spicc.c        | 1 -
- drivers/spi/spi-meson-spifc.c        | 1 -
- drivers/spi/spi-microchip-core-spi.c | 1 -
- drivers/spi/spi-mpc512x-psc.c        | 2 --
- drivers/spi/spi-mpc52xx-psc.c        | 2 --
- drivers/spi/spi-mpc52xx.c            | 1 -
- drivers/spi/spi-mpfs.c               | 1 -
- drivers/spi/spi-mt65xx.c             | 1 -
- drivers/spi/spi-mt7621.c             | 1 -
- drivers/spi/spi-mtk-nor.c            | 1 -
- drivers/spi/spi-mtk-snfi.c           | 1 -
- drivers/spi/spi-mux.c                | 1 -
- drivers/spi/spi-mxic.c               | 1 -
- drivers/spi/spi-npcm-fiu.c           | 1 -
- drivers/spi/spi-npcm-pspi.c          | 1 -
- drivers/spi/spi-nxp-fspi.c           | 2 --
- drivers/spi/spi-nxp-xspi.c           | 1 -
- drivers/spi/spi-oc-tiny.c            | 1 -
- drivers/spi/spi-orion.c              | 1 -
- drivers/spi/spi-pl022.c              | 1 -
- drivers/spi/spi-pxa2xx.c             | 2 --
- drivers/spi/spi-qcom-qspi.c          | 1 -
- drivers/spi/spi-qpic-snand.c         | 1 -
- drivers/spi/spi-qup.c                | 1 -
- drivers/spi/spi-rb4xx.c              | 1 -
- drivers/spi/spi-realtek-rtl-snand.c  | 1 -
- drivers/spi/spi-realtek-rtl.c        | 1 -
- drivers/spi/spi-rockchip-sfc.c       | 1 -
- drivers/spi/spi-rockchip.c           | 1 -
- drivers/spi/spi-rspi.c               | 1 -
- drivers/spi/spi-rzv2h-rspi.c         | 2 --
- drivers/spi/spi-rzv2m-csi.c          | 2 --
- drivers/spi/spi-s3c64xx.c            | 1 -
- drivers/spi/spi-sc18is602.c          | 2 --
- drivers/spi/spi-sg2044-nor.c         | 1 -
- drivers/spi/spi-sh-hspi.c            | 1 -
- drivers/spi/spi-sh-msiof.c           | 1 -
- drivers/spi/spi-sifive.c             | 1 -
- drivers/spi/spi-slave-mt27xx.c       | 1 -
- drivers/spi/spi-sn-f-ospi.c          | 1 -
- drivers/spi/spi-sprd-adi.c           | 1 -
- drivers/spi/spi-sprd.c               | 1 -
- drivers/spi/spi-stm32-ospi.c         | 1 -
- drivers/spi/spi-stm32-qspi.c         | 1 -
- drivers/spi/spi-stm32.c              | 1 -
- drivers/spi/spi-sun4i.c              | 1 -
- drivers/spi/spi-sun6i.c              | 1 -
- drivers/spi/spi-sunplus-sp7021.c     | 1 -
- drivers/spi/spi-synquacer.c          | 3 ---
- drivers/spi/spi-tegra114.c           | 1 -
- drivers/spi/spi-tegra20-sflash.c     | 1 -
- drivers/spi/spi-tegra20-slink.c      | 1 -
- drivers/spi/spi-tegra210-quad.c      | 1 -
- drivers/spi/spi-ti-qspi.c            | 1 -
- drivers/spi/spi-uniphier.c           | 1 -
- drivers/spi/spi-virtio.c             | 2 --
- drivers/spi/spi-wpcm-fiu.c           | 1 -
- drivers/spi/spi-xcomm.c              | 1 -
- drivers/spi/spi-xilinx.c             | 1 -
- drivers/spi/spi-xlp.c                | 1 -
- drivers/spi/spi-xtensa-xtfpga.c      | 1 -
- drivers/spi/spi.c                    | 3 +++
- 108 files changed, 12 insertions(+), 121 deletions(-)
-
+diff --git a/drivers/spi/spi-cs42l43.c b/drivers/spi/spi-cs42l43.c
+index 4b6b65f450a8..a4a650c8d740 100644
+--- a/drivers/spi/spi-cs42l43.c
++++ b/drivers/spi/spi-cs42l43.c
+@@ -371,6 +371,14 @@ static int cs42l43_spi_probe(struct platform_device *pdev)
+ 
+ 	fwnode_property_read_u32(xu_fwnode, "01fa-sidecar-instances", &nsidecars);
+ 
++	/*
++	 * Depending on the value of nsidecars we either create a software node
++	 * or assign an fwnode. We don't want software node to be attached to
++	 * the default one. That's why we need to clear the SPI controller fwnode
++	 * first.
++	 */
++	device_set_node(&priv->ctlr->dev, NULL);
++
+ 	if (nsidecars) {
+ 		struct software_node_ref_args args[] = {
+ 			SOFTWARE_NODE_REFERENCE(fwnode, 0, GPIO_ACTIVE_LOW),
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index f077ea74e299..b773c297f8b1 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -3072,6 +3072,9 @@ struct spi_controller *__spi_alloc_controller(struct device *dev,
+ 	else
+ 		ctlr->dev.class = &spi_controller_class;
+ 	ctlr->dev.parent = dev;
++
++	device_set_node(&ctlr->dev, dev_fwnode(dev));
++
+ 	pm_suspend_ignore_children(&ctlr->dev, true);
+ 	spi_controller_set_devdata(ctlr, (void *)ctlr + ctlr_size);
+ 
 -- 
 2.50.1
 
