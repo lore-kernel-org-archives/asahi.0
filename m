@@ -1,33 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E6D3644DA;
-	Fri,  9 Jan 2026 16:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83695366DB5
+	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 17:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767977031; cv=none; b=Y6gkhgcVYusBcXPxAMxoOOd68wawTblf531E7VPziKb0suSQzwCJchj+kVr2cDZkJdBPZP/DVO4nxTwF4DTTM2HYrsAGrIjdj5LwyLIHsaHlbFMR4hoTImCr4SqEI9kjiT18F/hgXIk9azJbzzAhAS36W869Yn3RYTO8/FJKBOQ=
+	t=1767979237; cv=none; b=IZy2tYVJeS1dsYGLSakSP3Yp8nil0JSQH1/bSlFGVw/Csk5yufLZggtvzkz/CTr1n3pudkbw30BpAuqrLv43yyKXrFdT3MSc+vL4vgoF7rlgaVLOYWecWvURGFEFiJd9rG8AeuXo5Jk0txvlmvX/8PrwPP+7rQxPqjuYqr5iVZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767977031; c=relaxed/simple;
-	bh=+RnyNDAFYZmy9UXiV2xcpvmL7grvkNRrzz2vsXKxrpM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Hs+I4/+J6+hlrTCn+z86p3AjjgYacaGejj1yXJJnYuN3iFbeNJ5MVcYZLVyw4IzTDyAqiSBul2KrxnjCrnDUccA9tWa7IuYl6ooSIwSWeEhx1260tF2l5NlFToR8xlJtPrNvU3n4ukcB0dES/uuGHUKlzeH7FW9xATFdLzIauHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uCMKfyYf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767979237; c=relaxed/simple;
+	bh=kxn2hk+EJhSnbBbMmTcTBtKEj6KmDfgiSItOfKs1D0I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=h+0ODOdxnaQ4r0CTGTnQYjoewB4u6d/DzbNNLWyTdYgVYm0WOq0BgwRIKSbK2R9pVlFm2zFhO3ojnqL3bwK30M8uv56iKaZlRPPk4395qB0xNunr/sozseKItfhGDXdIT2B8lEnAXyJqHn7YXUqAF5vjbma8iTZshNSQ3ekAVlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=j1hxaGBj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=zL9IbEjU; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uCMKfyYf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C776C4CEF7;
-	Fri,  9 Jan 2026 16:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767977030;
-	bh=+RnyNDAFYZmy9UXiV2xcpvmL7grvkNRrzz2vsXKxrpM=;
-	h=From:Date:Subject:To:Cc:From;
-	b=uCMKfyYfKXY9HxJ66OR3+1hNu7gwaPm2opxFTnTBcd7SU248Vr0oA7SC2QWVg4gu8
-	 3V+kM8VpSwTRe9comxh/3xNQnGsacnM1ZdI5Q8ko8zG7ldx28RsjtdZzjNVw7nV7ox
-	 C/cZ6u7co3oMSoXvzv+FehvSvx34/SweSzOpuIUaPnImP3/G19IjPP062bmhKh2Dyy
-	 8jDOqWXesy+VTBRoO07EpfyloSBvdtztcztUuIdWnHwAKJewRhtM7xh33BLEuaOjJB
-	 AH1eFub1Fsb6wV1Lq2dfDriN5A9bgg3+NpEM41Q2OQ57ZZYr+ZramWRaLCvElvR+EV
-	 5j1x6d7jj66mg==
-From: Sven Peter <sven@kernel.org>
-Date: Fri, 09 Jan 2026 17:43:34 +0100
-Subject: [PATCH v2] usb: dwc3: apple: Set USB2 PHY mode before dwc3 init
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="j1hxaGBj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zL9IbEjU"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6C7771400153;
+	Fri,  9 Jan 2026 12:20:34 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Fri, 09 Jan 2026 12:20:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1767979234; x=1768065634; bh=AV
+	ugb64ELLFxDJEs3KstbvdNXX80JkrQFafAxUlJSCU=; b=j1hxaGBjnxSdBQAVxY
+	K9izHnpCdmXDimi1wKczod4UdTc/wGAHO9DkHfHImWApiYyOpkvLqexBcUqsFHsx
+	+PIBiKfXcBxP/zSw+CvmZW8atcgSKheOFPVeby/RSFdPJuB5jsV6aFHAqABgcrUR
+	hD3gKs40eWAbd9rmj+sh7ELrV6r6UM5ub8CZYzf7839cKNAHfv3w5IIfk7/gf1E9
+	6oVMSoIzn+tW5kyCrPkUu1UqYYsFm4nLjFunaMywWzWVFeshFEmE3gl+nGrj95Ms
+	s0z1i4rvh3hf+t+SXhBV8yPaieqlNQhkmbfV2nHsUlARN3/RLHWR7DpF6psRQ0bC
+	1HgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1767979234; x=1768065634; bh=AVugb64ELLFxDJEs3KstbvdNXX80
+	JkrQFafAxUlJSCU=; b=zL9IbEjUMml7vmXQY4qSlRkWIl2nrQy0sAF3SLhS20kl
+	TfWfF/F1Qc/OGTCsP1Hn831VVxA8SZfWSkInepOuRJncm1Ltv2auHqsJUQ/W5aqQ
+	TuZSO3PaXZGkMAWDrY6iF4prtrDoJEn3uz6WE9o080jsqMDnI5CxdkhGv928+5PK
+	fAAg5oo1b5hYGxHb7Ml4SHZ6QYJIplrlDB0yrJW2F6W2D4/X9QYKrQY0L9nJic8W
+	tXSkY8hpzVFA7Y6oWz6/OpnBMalkeQQaWqyPZfyn9byF0mvs+//kLD4Ww+pmdm0M
+	FcvY68T/5dqD6ziDpUU+YW5+ZU8JaVMzEaGObKjnTQ==
+X-ME-Sender: <xms:4jhhaT81b2LomLrRCvuqbWbBzcxjL7ToDA8EycURqeSOmiGxz5utDw>
+    <xme:4jhhaRNw5RBAKGT8KwLNXo8a5Dbjlc1VNJ2NMhMyofM2FK10sx2B3H42vvYnCKLER
+    4tu9GQoeuxb6Ihb7YN2N5ov4eic60wLGWNE7yo5ZEN52VomDFRUw5U>
+X-ME-Received: <xmr:4jhhaRGH-1TxzVbXMdRxSOMGJlQBdZwO8x_S-fBQLGPyl5JzkQA1PC8bzqSRFKxRuQ_hmPFxQQurs8NaK9e1Mewejnj3QicCb8hsKQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdelfeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfeehle
+    dtheefteejfedvheetuedttdetleegudeuteejveetieefuedvfeffvdeinecuffhomhgr
+    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohephedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepkhgvthhtvghnihhssehophgvnhgssh
+    gurdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdp
+    rhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopehuqdgsohhotheslh
+    hishhtshdruggvnhigrdguvgdprhgtphhtthhopehtrhhinhhisehkohhnshhulhhkohdr
+    tghomh
+X-ME-Proxy: <xmx:4jhhafQhGnC90qaqBjWf59QbvlSiaKSdH0dMFYrLEu7BCPtJ7cRZ5A>
+    <xmx:4jhhaev0ynC6ZW2BmB7I8wuENOeXXUCLfvQhWQchvfsP2d2SIh5EBg>
+    <xmx:4jhhaXKriuiLCZdjTF1ZcL5i7UVA1pG0EZOL-Sslu8oy8iQsYlqY8A>
+    <xmx:4jhhaTnG7soseUV9GS3SesGaHWlW3TLUsGdvH-sYCawmSF98rBLknA>
+    <xmx:4jhhaQeINhU5DSgF_bSDKLSgHO20wnDiuN5JF5XWDdtN2g5LxVoJOShj>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Jan 2026 12:20:33 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Fri, 09 Jan 2026 18:20:30 +0100
+Subject: [PATCH] configs: apple: Enable SMBIOS / sysinfo
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -36,143 +80,70 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-dwc3-apple-usb2phy-fix-v2-1-ab6b041e3b26@kernel.org>
-X-B4-Tracking: v=1; b=H4sIADUwYWkC/4WNTQ6CMBBGr0Jm7Zi2IhJX3MOwgM5AGwk0rVYJ6
- d0tXMDle/l+NgjsLQe4Fxt4jjbYZc6gTgVo080jo6XMoISqhBQ10kdfsHNuYnyHXjmz4mC/qAd
- Je6ImEpDLznPWx/CjzWxseC1+PX6i3O3fyShR4pXo1uuqVKIUzZP9zNN58SO0KaUfsOiour0AA
- AA=
-X-Change-ID: 20260108-dwc3-apple-usb2phy-fix-cf1d26018dd0
-To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- James Calligeros <jcalligeros99@gmail.com>, stable@vger.kernel.org, 
- Sven Peter <sven@kernel.org>
+Message-Id: <20260109-apple-defconfig-smbios-v1-1-16477009c034@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAN04YWkC/x2MQQqDMBAAvyJ7diFJbat+RXqIycYuaBKyIAXJ3
+ w09DszMBUKFSWDuLih0snCKDXTfgfvauBGybwxGmZfSakKb807oKbgUA28ox8pJ0D7eo2qSHp4
+ GWpwLBf79x8un1hthFoz+aAAAAA==
+X-Change-ID: 20260109-apple-defconfig-smbios-a37802021452
+To: u-boot@lists.denx.de
+Cc: Mark Kettenis <kettenis@openbsd.org>, Tom Rini <trini@konsulko.com>, 
+ asahi@lists.linux.dev, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5121; i=sven@kernel.org;
- h=from:subject:message-id; bh=+RnyNDAFYZmy9UXiV2xcpvmL7grvkNRrzz2vsXKxrpM=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ2aigeUndpGO6asUCg27Qieb/eu0U5rkcv+Pv0jppRk2j
- NOc3+R1lLIwiHExyIopsmzfb2/65OEbwaWbLr2HmcPKBDKEgYtTACaSv5nhf5aWNc/9SW33nwfq
- 20+5JJLzeG3LvuAj34pmhRiX1B1LMmJkOBNlHnvc/5j/La9jGp2t+SePcSqUmZTNfiriILo/vHs
- xKwA=
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1771; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=kxn2hk+EJhSnbBbMmTcTBtKEj6KmDfgiSItOfKs1D0I=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsxEiwffZE/l73cweyH3akbR7Z2pVw5dWfm51PdjoljxF
+ pGlK9t1OkpZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAExkWykjw5PjK1pb2qolhNVY
+ GieVaT5TW+WVv/RVlGfM/ZpHchr8ixn+Z6TkGj9q9F5vF560yre8JNZvlnzk0efqtk94S3yu75z
+ ADQA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Now that the upstream code has been getting broader test coverage by our
-users we occasionally see issues with USB2 devices plugged in during boot.
-Before Linux is running, the USB2 PHY has usually been running in device
-mode and it turns out that sometimes host->device or device->host
-transitions don't work.
-The root cause: If the role inside the USB2 PHY is re-configured when it
-has already been powered on or when dwc3 has already enabled the ULPI
-interface the new configuration sometimes doesn't take affect until dwc3
-is reset again. Fix this rare issue by configuring the role much earlier.
-Note that the USB3 PHY does not suffer from this issue and actually
-requires dwc3 to be up before the correct role can be configured there.
+Enable verbose SMBIOS table generation so that user space applications
+can use the SMBIOS table to provide details about the system. The
+desired information is chassis-type to determine whether the system is
+laptop.
+Adding the chassis-type property is proposed for the upstream device
+trees in the Linux kernel in [1].
 
-Reported-by: James Calligeros <jcalligeros99@gmail.com>
-Reported-by: Janne Grunau <j@jannau.net>
-Fixes: 0ec946d32ef7 ("usb: dwc3: Add Apple Silicon DWC3 glue layer driver")
-Cc: stable@vger.kernel.org
-Tested-by: Janne Grunau <j@jannau.net>
-Reviewed-by: Janne Grunau <j@jannau.net>
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Sven Peter <sven@kernel.org>
+Link: https://lore.kernel.org/asahi/20260109-apple-dt-usb-c-atc-dwc3-v1-0-ce0e92c1a016@jannau.net/ [1]
+Signed-off-by: Janne Grunau <j@jannau.net>
 ---
-Changes in v2:
-- Picked up tags, thanks!
-- Fixed a typo in the commit messages (dwc2 -> dwc3)
-- Link to v1: https://patch.msgid.link/20260108-dwc3-apple-usb2phy-fix-v1-1-5dd7bc642040@kernel.org
+I do not plan to update u-boot's in-tree device trees. The Linux device
+trees have almost reached feature parity. The main missing features are
+the USB Type-C ports (on track for next merge window) and the laptop
+keyboards. I think it makes more sense to close the feature gap and
+switch to upstream device trees instead of adding to the in-tree device
+trees.
 ---
- drivers/usb/dwc3/dwc3-apple.c | 48 +++++++++++++++++++++++++++++--------------
- 1 file changed, 33 insertions(+), 15 deletions(-)
+ configs/apple_m1_defconfig | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c
-index cc47cad232e397ac4498b09165dfdb5bd215ded7..c2ae8eb21d514e5e493d2927bc12908c308dfe19 100644
---- a/drivers/usb/dwc3/dwc3-apple.c
-+++ b/drivers/usb/dwc3/dwc3-apple.c
-@@ -218,25 +218,31 @@ static int dwc3_apple_core_init(struct dwc3_apple *appledwc)
- 	return ret;
- }
- 
--static void dwc3_apple_phy_set_mode(struct dwc3_apple *appledwc, enum phy_mode mode)
--{
--	lockdep_assert_held(&appledwc->lock);
--
--	/*
--	 * This platform requires SUSPHY to be enabled here already in order to properly configure
--	 * the PHY and switch dwc3's PIPE interface to USB3 PHY.
--	 */
--	dwc3_enable_susphy(&appledwc->dwc, true);
--	phy_set_mode(appledwc->dwc.usb2_generic_phy[0], mode);
--	phy_set_mode(appledwc->dwc.usb3_generic_phy[0], mode);
--}
--
- static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state state)
- {
- 	int ret, ret_reset;
- 
- 	lockdep_assert_held(&appledwc->lock);
- 
-+	/*
-+	 * The USB2 PHY on this platform must be configured for host or device mode while it is
-+	 * still powered off and before dwc3 tries to access it. Otherwise, the new configuration
-+	 * will sometimes only take affect after the *next* time dwc3 is brought up which causes
-+	 * the connected device to just not work.
-+	 * The USB3 PHY must be configured later after dwc3 has already been initialized.
-+	 */
-+	switch (state) {
-+	case DWC3_APPLE_HOST:
-+		phy_set_mode(appledwc->dwc.usb2_generic_phy[0], PHY_MODE_USB_HOST);
-+		break;
-+	case DWC3_APPLE_DEVICE:
-+		phy_set_mode(appledwc->dwc.usb2_generic_phy[0], PHY_MODE_USB_DEVICE);
-+		break;
-+	default:
-+		/* Unreachable unless there's a bug in this driver */
-+		return -EINVAL;
-+	}
-+
- 	ret = reset_control_deassert(appledwc->reset);
- 	if (ret) {
- 		dev_err(appledwc->dev, "Failed to deassert reset, err=%d\n", ret);
-@@ -257,7 +263,13 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
- 	case DWC3_APPLE_HOST:
- 		appledwc->dwc.dr_mode = USB_DR_MODE_HOST;
- 		dwc3_apple_set_ptrcap(appledwc, DWC3_GCTL_PRTCAP_HOST);
--		dwc3_apple_phy_set_mode(appledwc, PHY_MODE_USB_HOST);
-+		/*
-+		 * This platform requires SUSPHY to be enabled here already in order to properly
-+		 * configure the PHY and switch dwc3's PIPE interface to USB3 PHY. The USB2 PHY
-+		 * has already been configured to the correct mode earlier.
-+		 */
-+		dwc3_enable_susphy(&appledwc->dwc, true);
-+		phy_set_mode(appledwc->dwc.usb3_generic_phy[0], PHY_MODE_USB_HOST);
- 		ret = dwc3_host_init(&appledwc->dwc);
- 		if (ret) {
- 			dev_err(appledwc->dev, "Failed to initialize host, ret=%d\n", ret);
-@@ -268,7 +280,13 @@ static int dwc3_apple_init(struct dwc3_apple *appledwc, enum dwc3_apple_state st
- 	case DWC3_APPLE_DEVICE:
- 		appledwc->dwc.dr_mode = USB_DR_MODE_PERIPHERAL;
- 		dwc3_apple_set_ptrcap(appledwc, DWC3_GCTL_PRTCAP_DEVICE);
--		dwc3_apple_phy_set_mode(appledwc, PHY_MODE_USB_DEVICE);
-+		/*
-+		 * This platform requires SUSPHY to be enabled here already in order to properly
-+		 * configure the PHY and switch dwc3's PIPE interface to USB3 PHY. The USB2 PHY
-+		 * has already been configured to the correct mode earlier.
-+		 */
-+		dwc3_enable_susphy(&appledwc->dwc, true);
-+		phy_set_mode(appledwc->dwc.usb3_generic_phy[0], PHY_MODE_USB_DEVICE);
- 		ret = dwc3_gadget_init(&appledwc->dwc);
- 		if (ret) {
- 			dev_err(appledwc->dev, "Failed to initialize gadget, ret=%d\n", ret);
+diff --git a/configs/apple_m1_defconfig b/configs/apple_m1_defconfig
+index 2d685da8c9eee2084b0144050e12c03c77e5184e..52672f59566dc0ebbb1c829cff6c7d8f798e7c50 100644
+--- a/configs/apple_m1_defconfig
++++ b/configs/apple_m1_defconfig
+@@ -16,6 +16,8 @@ CONFIG_SYS_64BIT_LBA=y
+ CONFIG_APPLE_SPI_KEYB=y
+ # CONFIG_MMC is not set
+ CONFIG_NVME_APPLE=y
++CONFIG_SYSINFO=y
++CONFIG_SYSINFO_SMBIOS=y
+ CONFIG_USB_XHCI_HCD=y
+ CONFIG_USB_XHCI_DWC3=y
+ CONFIG_USB_XHCI_PCI=y
+@@ -25,4 +27,4 @@ CONFIG_VIDEO_FONT_16X32=y
+ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_NO_FB_CLEAR=y
+ CONFIG_VIDEO_SIMPLE=y
+-# CONFIG_SMBIOS is not set
++CONFIG_GENERATE_SMBIOS_TABLE_VERBOSE=y
 
 ---
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20260108-dwc3-apple-usb2phy-fix-cf1d26018dd0
+base-commit: 127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3
+change-id: 20260109-apple-defconfig-smbios-a37802021452
 
 Best regards,
 -- 
-Sven Peter <sven@kernel.org>
+Janne Grunau <j@jannau.net>
 
