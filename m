@@ -1,163 +1,160 @@
 Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668FB3328F3
-	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 10:14:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C453C3370FE
+	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 10:17:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767953643; cv=none; b=qnZjORcFzSKvqTfLODBEMJlyYvdsSGPKblHmujJ+ezS1pe98ZMG2v9Lmybolw7bpZvwhEtpp6gYZRrK5V82edtObZH2OMEQIrWqfy3ROgx3sPZf9ruNHO0S+W8Mh2e/by7kFAwlCVatgyBv3MEqmSWB7ZnnIFwQWCG6VtvZfzVo=
+	t=1767953837; cv=none; b=uubjV2semADPqJrsSlo5hPGNac2FnTCXjIZPuNAMwhfiwpE60TeLwWjcf3nifCOB1Y8F3tZ6Qz0ZhvtSJQnhJk8ECbwOT13+O3nLTBoJ5LRuF2dRC6/1F80RwvvSWDE0rdSLQP2fLbMnlZimXi3ZWHPUVd1PDS+dblhPeXGOSiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767953643; c=relaxed/simple;
-	bh=m/FrghxQ+IIR6+FVSne5p9YypfXduphdFmcFCuXksXA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZrZk7/w8v+l9amWyobEd4o52DPMqed7/2sMWkBgZWYcnFIMpRASbOsqM0ba4+/eqs1DdyNDXfLSJ400KoxSD2wgrmoxJjS7/gtPiZ03hnS9oHOBQ+8XNIvfK6N7sHRiVvbWfxbcfBHXboDoNbsrgo52+GvbaRDtsVQjcDqpzsFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=k+fHSYkC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pwkgTbrA; arc=none smtp.client-ip=202.12.124.148
+	s=arc-20240116; t=1767953837; c=relaxed/simple;
+	bh=8VF0HDudP651rYa6TTDF894HhyVzCF4w30ggRZxKL4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u7i36D2PJXJ1TTamZkCj1vgpDY8aszyAarAeLY8/qxp+TA8I5Yf3HDp2E3AZyOT3zFMqt2k6TMI0c5dnXf53nydocw9GKqqvcWig9G2bStYkh6EoQ8R+D0Wjk+qfjPfnUazFpUiiaOic7gFIDD0+4KK2XFrf5deQMUFDyUsUpvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=HRhlPGy0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=piZYRz86; arc=none smtp.client-ip=202.12.124.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="k+fHSYkC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pwkgTbrA"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 92E041D00194;
-	Fri,  9 Jan 2026 05:13:59 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Fri, 09 Jan 2026 05:13:59 -0500
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="HRhlPGy0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="piZYRz86"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id C16EC1D00105;
+	Fri,  9 Jan 2026 05:17:14 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Fri, 09 Jan 2026 05:17:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1767953639; x=1768040039; bh=Z0
-	zxZ5WM7PHh/aWTK9OatGXUnyFKLOlRWA2Aire8PpE=; b=k+fHSYkCWMggZNHmwM
-	DjFBPqhtcDkYmG9ch9mFN4z3B70v+mZNGMu1DtK4hWeCKa1IYIGygNwoubZNG+rV
-	KBcagyPyYnGz57n5+D+L8uDvTwW+uUYGW4Xi2PP72dqCfdjQ87BmM3yHSI2vGF+T
-	OHDmQt/sVY4nsk6h/1Xu8YfBONRJ7U9jtWKeDhMV7KAusRgTxJnHd20NF5KVaFu0
-	a2Bd5nHZzbroQ8sJtWtEPFtG4fkivYVqFjbMv2pNRB4IIMWw+zeTY+2YWhWOECwb
-	MxnMDeYWkip7NYPZcobe6kcfQVxvpKheH5SU1/irQf9loZu+6Bt03rjbLku/19mf
-	GUuw==
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1767953834; x=1768040234; bh=tAe4Ay9DRB
+	wZLM3SXPjxHg6HAHc6QRZx7WafCH1J7NY=; b=HRhlPGy0tIP32hDVHNt5PD/IzT
+	FA7b/K39UmI527ClrwZzAbDkeFWkE+cO9mhUywQTkRcbEtrAglKheJXswpISws6q
+	uduy+jBNHv4QZ9PPxsuAYXrVFKQzQOhTfYPzfd2Zo0sTXcLj9IpMa+NJsxD5kOP2
+	9ccyFmnR9BILRpKwRQAlJBgY7mgETGK7hrY6FYkn80gDfFwofXFrlrX+jrMpOyJv
+	iNWm0UhZL2icrA8Ug2Aby2jlzmmyOrM8qoE8O3RbKIs7vS1fMOefuKLFWZd0b6Em
+	OKOD7izG80Yux9M19NardylQt0CP0U4mX2M5STKAgx8awVl8CfpeCaR1IUdg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1767953639; x=1768040039; bh=Z0zxZ5WM7PHh/aWTK9OatGXUnyFK
-	LOlRWA2Aire8PpE=; b=pwkgTbrAeS7rlk2Fs572ImuS3ve+TrdWReM7uyTVhztZ
-	StFc6fR9tF1dZ9P9hnV1eoIYR5O2b6e+6An65epah1Z3Hb8O7nwD7Zmdss+53rRo
-	P2WVESaFxusak+nN9qS8ltHzPQy0zxHfg67A1QZ8BW56O3funjtuXkXrKS9L3qMS
-	wDV0FQ21I5qVP9PCq5+fSGFGjCMsQfoGlejuV8csle0fa5w0kWmbZf7he3sRLsGJ
-	vBloe26/o+0KCf7hJb4qMzYHElDt9ldp5dpdyMdM1qPxdO1LUfZ0zqZec7uhtlAQ
-	mHkEZO6+2oHSR7ACQT6BwetyTb2mwFRg9uv4zuGRNA==
-X-ME-Sender: <xms:5tRgadWC-GKRdNX4V-KSXFXP_xC9J2tCy9OcTh33z55yEiKWScJGxQ>
-    <xme:5tRgab2YLx51MbeZ0buDClYwMZXyCOn2_sQ3X4OHWw7q9IT90L_YydtTUZml17z0H
-    lzr9gVPVG7aPGE4-PXDh4RecYa_CGbR9bBMjrIeoJ6RKb851Q8Ujbk>
-X-ME-Received: <xmr:5tRgaSsaCEmxhtDcIUJSebAU6KB8-S9ZgJGwS1nrSTq_eW7-Eul_CmaIUGMTjlA6ME9phFk2UXpnOhdDXmlnqYoJBz4VMOqwFN_CrA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdekheegucetufdoteggodetrf
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1767953834; x=1768040234; bh=tAe4Ay9DRBwZLM3SXPjxHg6HAHc6QRZx7Wa
+	fCH1J7NY=; b=piZYRz861AOGCMwT5BJw1xNZQPPW9vgllvwSbDmyLz2gzvN2cku
+	GxK2/ZJVqC0fOGr+HpJCBFp++9/ZIzEcoQoz8e/8Z0uqwba5S+qWphxM7KOgWPo2
+	QrLtQKOnWyI8RfSDxrOdKfpSc41IFyLOz4ssyuII3wB5rl4I8WNsZC6cgTh1IQeB
+	DLCcibZpfqJAvIVy8JfUcNuXW1Roe7p2QCuQeXSC1MBg4DuprldauLLNnCXiefLX
+	dbapG1RYoLksukXDwsowpD/jeBHai8IfgT+773ZYQZOVeHnCYJrp07WtdtdxALKE
+	FBae+M7Orr8QSPRnpxwwpCuKUIW3VYMg5FA==
+X-ME-Sender: <xms:qdVgacpkPewnXvGQryYpbD9FD86y8Iaw2d2ELAH_ULowRrdxemzP9g>
+    <xme:qdVgafNMtUwr3UmjYHeMy2jP9FaxlViQQWPedV7gGA8OjKhzaKj6Tn1uMDpL-nWat
+    SvelsT85EGP5XKuI_XPdWgE5ROckqiIstQ6opwgpNbOrxBUpDdYWw>
+X-ME-Received: <xmr:qdVgaVpO_qkDsxiHIWpcV9HWAmfcLwAJARnNlsIRruMijfoCkiYxqeKC1bn_1bVvyaX6LquFRNWU_E748KeIV1U_0k2gS6_KJMA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdekheehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfffie
-    ffteeuffetuefggefhgfehtdfhkefgtdejueeuvdevkeetveevvdffkeehnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
-    hnvghtpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
+    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
+    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
+    drnhgvthdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
     ohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvggrlhesghhomhhprg
-    druggvvhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdr
-    ohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrih
-    hnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehthhhinhhhrdhnghhuhigvnhesshih
-    nhhophhshihsrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrh
-    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidquhhssgesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrd
-    guvghvpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:5tRgaTWZfsADM6y4T_tLxasycPAyaBXWycHu0Yq1Vl6hwzov5HJApw>
-    <xmx:5tRgaaz0M7bV1R-5Ve3da7CgO-yULFIw-6cjIU2FL-YW9aw5PCM8sA>
-    <xmx:5tRgaSEgs7W8ZAXaUMMbmI1xHCoDG3PTjh9wySWVUMSVwmCfaMCW6g>
-    <xmx:5tRgaXuN31DExD2cZpVq9JqnQoxc7gP3D1QJvlnGu_hkAsywO-s9eg>
-    <xmx:59RgaStoczRy6IheGn8UitCtMoU27-dHQUibaCnr9AdE2A__Nn_vMH3t>
+    druggvvhdprhgtphhtthhopehvkhhouhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprg
+    hsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgr
+    rhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtth
+    hopehlihhnuhigqdhphhihsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepthhhohhmrghssehglhgrnhiimhgrnhhnrdguvg
+X-ME-Proxy: <xmx:qdVgaas5GVOOEdrAwRuGhWLsMZGFak5ipeUvL5kzm-L3_bMO1xTURA>
+    <xmx:qdVgac0HT9vFLLnIxHWbcc3g5wcw4D6MB6UB5rzml5LVtbaCgZvy9g>
+    <xmx:qdVgadH3pjFQtV3shDQbvoFBoqKssxLQVS8pgMRdKHXVphFUZtlF-A>
+    <xmx:qdVgafuyKW1aPB5SBlPyhkvFklmC4YI6oT7PMfuG3Ohs5Vxe2tulvg>
+    <xmx:qtVgaW-403zcmvJApebVsrUkfWLiiLlm6UWcl62f224lUJA2c5yK-tb2>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Jan 2026 05:13:58 -0500 (EST)
+ 9 Jan 2026 05:17:13 -0500 (EST)
+Date: Fri, 9 Jan 2026 11:17:12 +0100
 From: Janne Grunau <j@jannau.net>
-Date: Fri, 09 Jan 2026 11:13:48 +0100
-Subject: [PATCH] usb: dwc3: apple: Ignore USB role switches to the active
- role
+To: Sven Peter <sven@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Glanzmann <thomas@glanzmann.de>
+Subject: Re: [PATCH next] phy: apple: atc: Actually check return value of
+ devm_apple_tunable_parse
+Message-ID: <20260109101712.GC4068972@robin.jannau.net>
+References: <20260104-atcphy-tunable-fix-v1-1-40bf00feaac0@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-apple-dwc3-role-switch-v1-1-11623b0f6222@jannau.net>
-X-B4-Tracking: v=1; b=H4sIANvUYGkC/x2MywqAIBAAfyX23IJm2ONXooPZVgtRopGB9O9Jt
- 5nDTIJAnilAXyTwdHPg88giywLsZo6VkOfsUIlKCyk6NM7thHO0Cv2ZKUS+7IZy0m29NKrVwkK
- OnaeFn388jO/7AertVrhoAAAA
-X-Change-ID: 20260109-apple-dwc3-role-switch-1b684f73860c
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2351; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=m/FrghxQ+IIR6+FVSne5p9YypfXduphdFmcFCuXksXA=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsyEK48VNCKZ/hgG7rmWkxnXOkPev3Lb8/kRjUKzlR7oL
- VNxzavpKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJH02YwMD4X8pH8tPXND0mCq
- XuS5SSHx5aKhOjWvti089nTPE13eBYwMK2fFyJ3U2P+M6e6teXf8A9wPFghqSLQHW5UXC3I7OE5
- mBQA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260104-atcphy-tunable-fix-v1-1-40bf00feaac0@kernel.org>
 
-Ignore USB role switches if dwc3-apple is already in the desired state.
-The USB-C port controller on M2 and M1/M2 Pro/Max/Ultra devices issues
-additional interrupts which result in USB role switches to the already
-active role.
-Ignore these USB role switches to ensure the USB-C port controller and
-dwc3-apple are always in a consistent state. This matches the behaviour
-in __dwc3_set_mode() in core.c.
-Fixes detecting USB 2.0 and 3.x devices on the affected systems. The
-reset caused by the additional role switch appears to leave the USB
-devices in a state which prevents detection when the phy and dwc3 is
-brought back up again.
+On Sun, Jan 04, 2026 at 10:18:31PM +0100, Sven Peter wrote:
+> Let's actually check the return value of devm_apple_tunable_parse
+> instead of trying to check IS_ERR on a pointer to the return value which
+> is always going to be valid. This prevent a oops when the tunables are
+> invalid or when they don't exist:
+> 
+> [   42.819119] ------------[ cut here ]------------
+> [   42.819121] WARNING: CPU: 6 PID: 88 at drivers/phy/apple/atc.c:2145 atcphy_mux_set+0xf60/0x1128 [phy_apple_atc]
+> [   42.819302] CPU: 6 UID: 0 PID: 88 Comm: kworker/6:1 Tainted: G S                  6.18+unreleased-asahi #1 PREEMPTLAZY  Debian 6.18.2-0-1~exp1
+> [   42.819311] Tainted: [S]=CPU_OUT_OF_SPEC
+> [   42.819314] Hardware name: Apple Mac mini (M1, 2020) (DT)
+> [   42.819316] Workqueue: events cd321x_update_work [tps6598x]
+> [   42.819332] pstate: 81400009 (Nzcv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+> [   42.819338] pc : atcphy_mux_set+0xf60/0x1128 [phy_apple_atc]
+> [   42.819344] lr : atcphy_mux_set+0x30/0x1128 [phy_apple_atc]
+> [   42.819348] sp : ffffc000813c7c00
+> [   42.819350] x29: ffffc000813c7c00 x28: ffff800016babeb8 x27: ffff800016babc80
+> [   42.819357] x26: 0000000000000001 x25: 0000000000000001 x24: 0000000000000000
+> [   42.819364] x23: ffff800016babec0 x22: 00000000ffffffa1 x21: 0000000000000003
+> [   42.819371] x20: ffff80000c1b3680 x19: ffff80000dcdd080 x18: 0000000000000000
+> [   42.819376] x17: 0000000000000000 x16: ffffd42e6ede6e08 x15: 0000000000000000
+> [   42.819382] x14: ffffd42e707b6980 x13: 0000000000025c68 x12: 726f703d54524f50
+> [   42.819388] x11: 0000000000000040 x10: 0000000000000000 x9 : ffffd42e555ed9c0
+> [   42.819394] x8 : 0000000000000006 x7 : ffff80000a000dd8 x6 : 0000000000000002
+> [   42.819399] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000001
+> [   42.819404] x2 : 0000000000000005 x1 : 000000000000ff01 x0 : 0000000000000001
+> [   42.819410] Call trace:
+> [   42.819412]  atcphy_mux_set+0xf60/0x1128 [phy_apple_atc] (P)
+> [   42.819419]  typec_mux_set+0x74/0xd8 [typec]
+> [   42.819444]  cd321x_update_work+0x440/0x8a8 [tps6598x]
+> [   42.819453]  process_one_work+0x170/0x3e0
+> [   42.819466]  worker_thread+0x25c/0x390
+> [   42.819473]  kthread+0x148/0x240
+> [   42.819479]  ret_from_fork+0x10/0x20
+> [   42.819488] ---[ end trace 0000000000000000 ]---
+> 
+> Reported-by: Thomas Glanzmann <thomas@glanzmann.de>
+> Fixes: 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY")
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  drivers/phy/apple/atc.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
+> index c8a58ee64b7aad3205df51cf16ae778471ad2c5d..716c1e70de38ca604803739fedaa543d91f7501b 100644
+> --- a/drivers/phy/apple/atc.c
+> +++ b/drivers/phy/apple/atc.c
+> @@ -2178,10 +2178,10 @@ static int atcphy_load_tunables(struct apple_atcphy *atcphy)
+>  	for (int i = 0; i < ARRAY_SIZE(tunables); i++) {
+>  		*tunables[i].tunable = devm_apple_tunable_parse(
+>  			atcphy->dev, atcphy->np, tunables[i].dt_name, tunables[i].res);
+> -		if (IS_ERR(tunables[i].tunable)) {
+> +		if (IS_ERR(*tunables[i].tunable)) {
+>  			dev_err(atcphy->dev, "Failed to read tunable %s: %ld\n",
+> -				tunables[i].dt_name, PTR_ERR(tunables[i].tunable));
+> -			return PTR_ERR(tunables[i].tunable);
+> +				tunables[i].dt_name, PTR_ERR(*tunables[i].tunable));
+> +			return PTR_ERR(*tunables[i].tunable);
+>  		}
+>  	}
 
-Fixes: 0ec946d32ef7 ("usb: dwc3: Add Apple Silicon DWC3 glue layer driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/usb/dwc3/dwc3-apple.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Reviewed-by: Janne Grunau <j@jannau.net>
 
-diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c
-index cc47cad232e397ac4498b09165dfdb5bd215ded7..35eadd1fa08049829ba40651a96eb122ed55460f 100644
---- a/drivers/usb/dwc3/dwc3-apple.c
-+++ b/drivers/usb/dwc3/dwc3-apple.c
-@@ -339,6 +339,22 @@ static int dwc3_usb_role_switch_set(struct usb_role_switch *sw, enum usb_role ro
- 
- 	guard(mutex)(&appledwc->lock);
- 
-+	/*
-+	 * Skip role switches if appledwc is already in the desired state. The
-+	 * USB-C port controller on M2 and M1/M2 Pro/Max/Ultra devices issues
-+	 * additional interrupts which results in usb_role_switch_set_role()
-+	 * calls with the current role.
-+	 * Ignore those calls here to ensure the USB-C port controller and
-+	 * appledwc are in a consistent state.
-+	 * This matches the behaviour in __dwc3_set_mode().
-+	 * Do no handle USB_ROLE_NONE for DWC3_APPLE_NO_CABLE and
-+	 * DWC3_APPLE_PROBE_PENDING since that is no-op anyway.
-+	 */
-+	if (appledwc->state == DWC3_APPLE_HOST && role == USB_ROLE_HOST)
-+		return 0;
-+	if (appledwc->state == DWC3_APPLE_DEVICE && role == USB_ROLE_DEVICE)
-+		return 0;
-+
- 	/*
- 	 * We need to tear all of dwc3 down and re-initialize it every time a cable is
- 	 * connected or disconnected or when the mode changes. See the documentation for enum
-
----
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20260109-apple-dwc3-role-switch-1b684f73860c
-
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
-
+Janne
