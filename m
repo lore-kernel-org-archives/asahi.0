@@ -1,144 +1,125 @@
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com [209.85.167.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D20364EBD
-	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 15:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EAC33B6D1
+	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 15:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767972359; cv=none; b=I+vghc9PKPcTS4xXHPtl/h7Me5SW6iddND/OcBuX9ZN9l++1tEoAQAk3nsXGQM6g1nUlpQAqOJYNgvQKpjUs/rdTOsGw4LnDnM/QnkugNsVmRgg7g3nU2wXffCVwcE073OhfjPcT2+c5n0jYHW/+ZT1xTmk5cye/wxXMcQkt8N8=
+	t=1767973081; cv=none; b=X6cg0FjUfPl8zE6hS3YIzkmi+qJNaSvHDV5QJQOFamn68oVEg1f50rU0wJtuHzk7It4XOc8XLGl2M4fR5y8YOUg0sN+bm1VtQJ141eimRLmfqtY8r7L0vePlkrWkoMGhVxrRuhxS9saPurBJffUCl/kTln62Mm1s3EZGf8GKhuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767972359; c=relaxed/simple;
-	bh=AJPBLOhsNE6NUX/mnfmMo8DI9FwN/AXyZUWmv+NCEFM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OghQ4MpqWjeY3bWgYjupdg4gei8Tajow+wr39Pw5jJAlc71OcQLeWRAFqmW2wIqVEADKtlZDk0fNbjd60nhwLdxGcAv9w+aWAsm7ROBGSmRYG/fY9Y6Q6bgA4R5r34cpGTAJVhQVIeQlBNR+0gHqWx9rRM15nUa1o3lrIrbSs6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=myMHnwnW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UR/uh8+x; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="myMHnwnW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UR/uh8+x"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 4BCF5140018E;
-	Fri,  9 Jan 2026 10:25:57 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 09 Jan 2026 10:25:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1767972357;
-	 x=1768058757; bh=D+K8EMEof++7D26DPSvnPgtOOvNH7OpYLlMmU+m2xgU=; b=
-	myMHnwnW9Exy3yuvt+PVVToXINmMnYWytoOLL3YHSViYbthzpI+rtXo+ArEbXLf8
-	w/CVEthMJFM/03mLliSDsqOT/Uj1RpTv0AoCb5hmW1zXubxmaeUd0247QX+B5nZS
-	Z1ith5qU957GErzFzh5U5YTckdEOsD/AAtUctHAQMAwxpHQFotNllcI1++itFrMO
-	sIuBtxpMoAmK58ZNe/gXmr36CA2nsZwl0XopcgPJWWSOpmAgcU6c0hTmopCRDVqJ
-	S84p6zU56ZfDulUxup8UAh4zlLgznTzYLSKINF48etH8o8TIKbV+miEbCZHGPWqJ
-	/H6Mv38c6gATcldQ6sMXnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767972357; x=
-	1768058757; bh=D+K8EMEof++7D26DPSvnPgtOOvNH7OpYLlMmU+m2xgU=; b=U
-	R/uh8+xzUQY6hS8oKea4t/8BzYVm9nyB39N4FNy7WpY+96GN1RPRHS+Bg9athSEl
-	quNXCArUmWi43dpfOP4NsdLqAOl2jBb9j8G2+3iyX+Bn8GUmBuHSAall7haVBUne
-	T+lnRmBnGc/Nk36dChVErN1+PmF9lh38crGkn9tfJqm47gkDesOKIQpW2/a+bCCP
-	1uCc4RP1f3Q/72b+wKijP+MY9rqdjr5ROH/3DSR2dcE0QnJuXxDZsV5eouMGOReD
-	w3lS4g9n4zhs+vJTHMunIQGQZQ0xFJhk3Xu+hsJ97Fgm0jIMTuuf+OEZHZjhBaju
-	zInu3Qx4GCvFhMmGxD5aw==
-X-ME-Sender: <xms:BR5haehb2JusAnjBJ6LLmp12mc3Mr4VisAsUK_ij7Ek2fh83WkIFuQ>
-    <xme:BR5haXOiA2rQaqjIcWkHTpk7HKURYVmX5yEdt5sgmFS2Bs3_tA-n1LbhpcjhxIJjC
-    dI7JeCCAme6Tf-QMS_kN88Nwj_6QCl-ROg7-WqsdgLgr5etzrUSSRE>
-X-ME-Received: <xmr:BR5haRo__mwW7lVZtkAYlPd1VSrGJFV3DCe44lyGaprMoWtzZotoM-NApB9fU3T1Hbd9FKIfFt8vdpF49przMCOfTKHiaFMMy5nJmg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeludeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
-    ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfe
-    ehheeileduffehteeihfdvtdelffdutdeludduiedutedvfeffheekhefgtedtnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
-    hurdhnvghtpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsehjrghnnhgruh
-    drnhgvthdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghsrghhih
-    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhk
-    vghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehn
-    vggrlhesghhomhhprgdruggvvhdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:BR5haR7AYu_Ca-Z5Bh24RS9BZ_1qVaBAx0SLpoADEwEX99rLLLjtvQ>
-    <xmx:BR5haXgEnbzMO0GcutJr0wX94mwxt1K0UPXC42nQemJFm-XXE4NYuw>
-    <xmx:BR5haf6JY4aZqMOaMV8UxZdtCpNSIMDvtzGDmx4KcV18W38uL3ECbA>
-    <xmx:BR5haUEQT_C5F_EYnMwCdGw62nnmuPCYaq9GazwtkKlyBrt3JkEhZQ>
-    <xmx:BR5haeL7-xPjXM-J1esXgfCPkiBwfHDDaxKChHjn5m8t-eng14qdykLQ>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Jan 2026 10:25:56 -0500 (EST)
-From: Janne Grunau <j@jannau.net>
-Date: Fri, 09 Jan 2026 16:25:46 +0100
-Subject: [PATCH 4/4] arm64: dts: apple: Add chassis-type property for Apple
- iMacs
+	s=arc-20240116; t=1767973081; c=relaxed/simple;
+	bh=4wsaBqi0jtRPnszPM3ogYPTMuByF3Kdlpu042cJzlT0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rNBMy6h4iUe++7h48gWitTNBCjWm+4XMMQCGRY+yO2ibjNCIgRvp8canvHc9Q2+rWG2Lrj1LGGiX8cEWe+M3TEkivoEtQ7sALtCPR18n32EgH0fN6v0WaWYYIRgoGsxGOPq7NqDhjIBOwIahmwKGVHRqDQUlkBt+/nFBtNDKwgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f196.google.com with SMTP id 5614622812f47-45a815c1cfdso592800b6e.0
+        for <asahi@lists.linux.dev>; Fri, 09 Jan 2026 07:37:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767973076; x=1768577876;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tDVtzzCDjggnrGIABHuMI1ztRsI4OAs0dlS5olQIsSk=;
+        b=SNJ0Uvg34fiub3llxhwHahgfS+lUtMuK4ORsAdBHwL4/QGArkjtQ7xGwxlOzLnQ8tU
+         TZt4+YyexeI4PunZVwarCNttg5JGeMSlibYvfkAQOhN+Jz1E1BNkGQjir0MCEcQXW6yx
+         NKKLhw9KnazigF+DJrayDkpQBQ4ix9RXEW6/gn452eVmmfJmeExD4onW4MQXb30LDBtD
+         6atW4wbaBBUmR7YfOroCfca+A9t2CQqR9ZqUqEiVQM4OEKrI/C+ni84FJ8zQiTIonT60
+         xw0z0iCaoD3g6YwIvN+yD74SnEoSIyjxbU8+1f+lUTcBbxFM3tCuNbXigWWivgDMdAOg
+         GT0A==
+X-Forwarded-Encrypted: i=1; AJvYcCULa55HtxQqy5Of+ZVp2V2gNMaMm1oKK2tCq8wwMvufGZVMecWgbY71xLW7sL558IpY7TmN9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YypxLR13jlHRkTqV8c1+H7llQ5HHmU/lEkkZY/pvTckohVZ8soI
+	aTCBRZm9h3XMXRZWLCNy1CQD/wmkXYZahGBFXNDbQiwUQDRIsaU+I/NAyyCGFgr0
+X-Gm-Gg: AY/fxX4iuM7cLBUfpwGCAVl9rjrlMJWk9dTGfe+WEhL62nhxFsL4LR57G9kplhomssS
+	alGjw7ttHSoFLc1jf4zK7IoJHqjjG8ZnO8F5GW5dq0wRcD3V6t6NXC6gkCW/74RtaU9PU6uc4yj
+	vywE62eRQ4ZvfvvBjYMaM7MPpUwJ3oEiaTvLdgNWIynJlU4cK7iK5U7COhx72DdDqVJsQveiEii
+	Tt423bcbGOfp46mOik+wDAz3FskB+iTYpnw5ohoAZojnCWU/OvvFhtr0v/gpCl9/+xDe7IOZQlx
+	+HAV7HY+s6S731HuCCggGzQl1Rk//aRs6MAR6cuCE/fB1t/2lUBhefsxDG0y+uUTwi/HBLUDg/w
+	sXynZxUk8kcWDQ5ChLRGcoY0MgJQg4esw8c6t4LZ/CsFdFM/dYbcgpq8lcdhlGmRuKrCf+TiZBB
+	WYgzxGNYpvv9WfrOBBbn7jTGuC3MYA3RdX2jSjxtJ8SIs3hoIr4tVwlgBPcCdeZtTjARtZ6gEC
+X-Google-Smtp-Source: AGHT+IFlWdh1QlZZrqh7wEqi3GlHjA6a0a8yJ5x/q/kDQulnwHsq3fi/lgHIuMr0I4HonXgO/hHyWw==
+X-Received: by 2002:a05:6808:17a1:b0:450:4782:2b0e with SMTP id 5614622812f47-45a6bdb705dmr5144528b6e.15.1767973076194;
+        Fri, 09 Jan 2026 07:37:56 -0800 (PST)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com. [209.85.210.48])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e17cd81sm4873969b6e.2.2026.01.09.07.37.55
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jan 2026 07:37:55 -0800 (PST)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7c95936e43cso1694636a34.0
+        for <asahi@lists.linux.dev>; Fri, 09 Jan 2026 07:37:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWtVM5T6cbEzQD2ZsFmghvIrkkPsmAgUyT3BbC+KE+O7wuYFemvrs31FPyOf+x/e8F/FyGp3A==@lists.linux.dev
+X-Received: by 2002:a05:6830:6601:b0:7c7:827f:872d with SMTP id
+ 46e09a7af769-7ce50ad0573mr7614979a34.37.1767973074949; Fri, 09 Jan 2026
+ 07:37:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-apple-dt-chassis-type-v1-4-c215503734c5@jannau.net>
 References: <20260109-apple-dt-chassis-type-v1-0-c215503734c5@jannau.net>
 In-Reply-To: <20260109-apple-dt-chassis-type-v1-0-c215503734c5@jannau.net>
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1303; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=AJPBLOhsNE6NUX/mnfmMo8DI9FwN/AXyZUWmv+NCEFM=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsxE2T8tm7w/Plt8jCWAZ3ph8Px8xed5zOf2l+iviRJSC
- xHZdreto5SFQYyLQVZMkSVJ+2UHw+oaxZjaB2Ewc1iZQIYwcHEKwESm9TAyrD3+5dI3jxe6tdIr
- 1z+aLnVEbFuP9Z+eWaY8hn1nryw2yGVkWCndlLN7Q9Rv6Zrvi/XFFyRWO+ds2Hra7fgGryrLZHZ
- XLgA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+From: Neal Gompa <neal@gompa.dev>
+Date: Fri, 9 Jan 2026 10:37:18 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je-4Dycowe8TukV7+suU2pm8yy-G5ukVeBD5=r4PFKo5Lw@mail.gmail.com>
+X-Gm-Features: AQt7F2rWXpsz3frhT-_Ey7mmSLoD8jECIUJKTjNZwMNhWrvNHrGDKMFRD2wFgXs
+Message-ID: <CAEg-Je-4Dycowe8TukV7+suU2pm8yy-G5ukVeBD5=r4PFKo5Lw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] arm64: dts: apple: Add chassis-type properties
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Apple iMac (M1, 2021) are all-in-one devices with an integrated display.
+On Fri, Jan 9, 2026 at 10:25=E2=80=AFAM Janne Grunau <j@jannau.net> wrote:
+>
+> Add chassis-type properties for all Apple silicon Macs. "chassis-type"
+> is used by u-boot to fill the SMBIOS "System Enclosure or Chassis Type"
+> field. User space software uses this field to to determine if a device
+> is an laptop. The exact use case eludes me unfortunately.
+>
+> The Mac Pro uses "server" as chassis-type which is not entirely
+> accurate. The tower and rack mount Mac Pro versions share the same .dts
+> file and are identical except for the enclosure. I haven't found an
+> obvious property in Apple's device tree to distinguish between those so
+> both use "server" instead of the more accurate "tower" and "rack mount
+> chassis". The latter chassis-types are not in dt-schema anyway.
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+> Janne Grunau (4):
+>       arm64: dts: apple: Add chassis-type property for all Macbooks
+>       arm64: dts: apple: Add chassis-type property for Apple desktop devi=
+ces
+>       arm64: dts: apple: Add chassis-type property for Mac Pro
+>       arm64: dts: apple: Add chassis-type property for Apple iMacs
+>
+>  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 2 ++
+>  arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 2 ++
+>  arch/arm64/boot/dts/apple/t6022-j180d.dts      | 2 ++
+>  arch/arm64/boot/dts/apple/t8103-j274.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8103-j293.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8103-j313.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8103-j456.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8103-j457.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8112-j413.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8112-j415.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8112-j473.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8112-j493.dts       | 1 +
+>  12 files changed, 15 insertions(+)
+> ---
+> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> change-id: 20260109-apple-dt-chassis-type-f31523a1f681
+>
 
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- arch/arm64/boot/dts/apple/t8103-j456.dts | 1 +
- arch/arm64/boot/dts/apple/t8103-j457.dts | 1 +
- 2 files changed, 2 insertions(+)
+LGTM.
 
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 58c8e43789b4861544e20c717124ede3327be010..2436f0e692e36ba19b99e00dcc1a9f09a26e246a 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -15,6 +15,7 @@
- / {
- 	compatible = "apple,j456", "apple,t8103", "apple,arm-platform";
- 	model = "Apple iMac (24-inch, 4x USB-C, M1, 2021)";
-+	chassis-type = "all-in-one";
- 
- 	aliases {
- 		ethernet0 = &ethernet0;
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index 7089ccf3ce55661f3f83810496daed40c8199189..208171adde129ac0f16b7a891704308bc2aa20cd 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -15,6 +15,7 @@
- / {
- 	compatible = "apple,j457", "apple,t8103", "apple,arm-platform";
- 	model = "Apple iMac (24-inch, 2x USB-C, M1, 2021)";
-+	chassis-type = "all-in-one";
- 
- 	aliases {
- 		ethernet0 = &ethernet0;
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
--- 
-2.52.0
 
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
