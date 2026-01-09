@@ -1,56 +1,56 @@
 Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40E7363C71
-	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 15:25:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BD3363C6D
+	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 15:25:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767972354; cv=none; b=RZBIL4AKAb+NtCQDtG8JDBGmONu5nnhZw4JmsQrL7ibW5wILxy7w/Xy2U/88hSinwaY3mzMJPkCek7HOxiOUgvkEg6rU5+0cEVqaTRx+cVT2XBc+oi0FVlDaYAKnnFktABvj7YgcBtcCrwwKQmTsgWz5U1pLjMdMPztNt7RTJlg=
+	t=1767972356; cv=none; b=V8Q87EvPYyFm1syNN/gg5D6jPr5Lh3W5/7y03b2bsHCKN/luQVPx/FPgcCef7GHIrV+F6NIbtbkFIydroliBVdjMS46rHb0+BztBA8H/xidaYRkZ2YEgWxddy1uCNzHaxg3kl9DWsrtCjr8fm45vSgR+H16MkRHEX0e1OA+Jejk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767972354; c=relaxed/simple;
-	bh=shJn6zXhU83Gvr/ziMV87HAm/8EnCEYSHfJ6fBqlmGg=;
+	s=arc-20240116; t=1767972356; c=relaxed/simple;
+	bh=SOK5Eyemmpz03VsX+x7LfeUtfqaOqL/374p1fPhcRpc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Jlze7vAraGjUzhtql+aSCwtXMHwwT8BdbkrZGQA2mFua4JEzy778hisu+NSKT8EChP6bH5/7ENLUrpnfA7kQjNjmwTk/gs+dGF6IfQhtMYQB8bu6NeOEzVoTxK/cpt1tsu1oG8NOycKV17syURqxDyY8pi6McJvz9it+qI3a9NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=f4nIlget; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oeXm5HWm; arc=none smtp.client-ip=103.168.172.151
+	 In-Reply-To:To:Cc; b=FLYG7lPamEY7aRdhX+6gVud+Xv03Ci1UTbWZR0L164V5qD3WJYEdKPFBR+XNMv6k5IFE0e08MJqGxuPB5Kn6IPlUDMpE3SWcgtmfgMD1+1En1TDK1t3p9+PaFxW3UtMFy0OojPonoP1cmLevwfOLV8y1YeQSHMIQnadyasghxCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=dYg8IdrZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J18tgSKF; arc=none smtp.client-ip=103.168.172.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="f4nIlget";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oeXm5HWm"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 1455FEC01C2;
-	Fri,  9 Jan 2026 10:25:52 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="dYg8IdrZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J18tgSKF"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id C7E59EC018C;
+	Fri,  9 Jan 2026 10:25:53 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Fri, 09 Jan 2026 10:25:52 -0500
+  by phl-compute-05.internal (MEProxy); Fri, 09 Jan 2026 10:25:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1767972352;
-	 x=1768058752; bh=5CCQ+W32XP4VZ1zZFnVTs2k6r5HvqKV38SEShSLJh64=; b=
-	f4nIlgetXdbjgIYCSclKpXReDj1mjNLEfAxQm5j8EOziy1+ScLB+g4gVXt6Nuw2R
-	WuvsRvIFU84opaNt+Bsp/Oz0/zZ0iboO2Z3iIxczQ7RYaloLMnIM6ONNzPYKhWxD
-	+/XLuRv4G3xq6fHSrtVjL9qlKbm805Mi3ChMCwq5uCs47EyDEJIYiFDUsDpr5N0F
-	LK/TjWJ2KEk6g6Ii+NY0/nAyqbi3K9LER6jJ1UC+4RZOMRSNcIvpmY0vRlR5y7VA
-	JMp28YMWXXgOlV1r90JnmLBlkjsLk81Wievk/d64w4eO72mi4Yy/b4IfWfWGZLxK
-	MhC7FGUNUjAGUwuMU97D5A==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1767972353;
+	 x=1768058753; bh=BKby8XEY0gog5d92JfJPvtX+nrRYxzECZ+aWCrF6A+E=; b=
+	dYg8IdrZTKvBhGl/n6m12RgLeIFO+xYIVdPEqdM5Jp6LbSOTLmGsiNxD83rGDOcK
+	PIMtUdlR+9HRa2AtoLkmYr5wdLoivFpY0MLyOo24pRo3MvMstOLHXm4Ifs3yXg/v
+	OWzhgYmgQnY0k3ihkK3klYgDf0H8iZu5gWE8lEhaU58fprZUQmQjiNL7XHIf7WwV
+	NUihWwU6n5EGaidlFNzzulHGgyEXPyGB7G9/3PhQFdMSueNXxq2+sAJKhGqnRx1h
+	Zmda20fNKN9H01jXGg7oo3sy8y8DXb6Cf2k9qD9b12FdTUyjya+3/zKAjGNN5Kua
+	2cRaUEfRD5mcmH/ai0MWuw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767972352; x=
-	1768058752; bh=5CCQ+W32XP4VZ1zZFnVTs2k6r5HvqKV38SEShSLJh64=; b=o
-	eXm5HWmgNpaoaKfXTTQF0VIPeyyk80+dMW6XFmPWWgmBAX1OZ9J3XCAlDz0VDwOP
-	+xxN/YJ+W5fMrHb8jpYRwmomjF6Zp0N5/+lRBI8nplB30aMDM+26iJFCjC7Yh6eK
-	yflfF8RKKR+KAijfZZQtXyhMw8HvUkublFF+VjUqEX+hqIlwtkBe6CzzvQbzFptm
-	rARvpJHZZGZwVBEZR90SjmLCA/4qEoJPSs9dGgm2zMBLDn+3z+/iL3LAaQ45Peio
-	vQXrKagE7BVcjTAQGS0y8ab6eQsHG7T/nSZzBCXU5AtsR8HT1h76tXYGJrKPcHOv
-	217V+ZdnFiuvAZA5O+QwA==
-X-ME-Sender: <xms:_x1haTg-Q6pShgtEvgnLlbkTVvCAssGoNe70hXQ_VteHhGNzWPWxlA>
-    <xme:_x1haYPemZbEwYsD3CQviJ8kIHagK3f9cDEFNkauAnv7qUlcFIMQgUNDyI6nDc6ck
-    _84-Pe8rQQjuc7vPI2yIJvIQWvB77HlfGHI2obrtGL_6KkpmCg8VA>
-X-ME-Received: <xmr:_x1haeoxrKFNHXreaiCcvtFj0rCz36766iqmG9JuKBIBiiSSLBKW5enJ1XAL7bxPlm6a3XIKvUOIpSJfgz3Hj97ienI3OGxrY09S4A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeludejucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767972353; x=
+	1768058753; bh=BKby8XEY0gog5d92JfJPvtX+nrRYxzECZ+aWCrF6A+E=; b=J
+	18tgSKFsSMAiPSEG04n68DyaOSz38OLxPkpxragcCEdWy4GIaH13Lf1NLX4zSqSw
+	DgmOXB7P10hzFKeEh1cRfEYNeR15TY1UoCq64x/43YO2fqvf59IhLR2fBo0BJdGS
+	upAXxNHqb/WS/iltKzIwoO8UNcVWsin8hm5V33uQ34gSgnVqOmACU+cqrVob6idN
+	8cYtSQQwGGxyZhf4tauCywf57pnwq9Vpujvv1TtC1olicQ6OvW1m9oPXF90tXEIv
+	Hb8XWnO7qNF+VG5zKYDgdHdJT+nhNbqyRSWHrxPwNK0r1LL/qxSw7uNspFUkik28
+	4FjVLhF643XGMJO2eGxnA==
+X-ME-Sender: <xms:AR5haXrKPOUFEqjyq8RvAJfRFeHudus9MUR1W3aVowpzt-XcE9ksyA>
+    <xme:AR5haZ3itW8KuiqpDyLPG2HKB0tE3cpDCfd6J8vxeFm28TlDf5vLRR3Hv6Motu4x3
+    lkQ2CMwVAvm05X9pA1f7_zIAsZEDCyMG5hw5q40Shq9g4lhb016_ZM>
+X-ME-Received: <xmr:AR5hafxMQZJiq09T5nWK6CnAa-aVd27by7XLf1EPg-4uZfiGmPwx4GXxDHYkyWVM7v9kqVeqQmiLALz4l4u6Y29YeROmfrBF-OZ5kQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeludeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
@@ -66,18 +66,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeludejucetufdote
     hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehn
     vggrlhesghhomhhprgdruggvvhdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvg
     hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:_x1haa4CWt11q8kH_qkywCa-jtzE3sHvra38WPM5CrTiZaHtX5mdYQ>
-    <xmx:_x1haci7cXGeReBVZhYq2lRv9fyFKCVrxv19qAzBKATnMaAaZbE2Rg>
-    <xmx:_x1haQ53Z__KlsMec_OtaduynjcJzHUMZuRvnU4g6UPR4LBAaF0LVQ>
-    <xmx:_x1haRFgt2gkir1CDrDQkNYsbsu5V8f-1ZmguKLfVqrdC3qkwFfiZQ>
-    <xmx:AB5haXKYt0eC-vGDdS59TjeaX4aYhu-bTFgL8kncBLUu7MfL4BEamghg>
+X-ME-Proxy: <xmx:AR5haVi1wNMRStuCbhl33jIAoAtW1oLSyLAUbIohRMG5ZPPfTOU_gA>
+    <xmx:AR5haSqKaMAGOv_yKbwQnFwx9-e9P6BnDfpH406qotZRoTloFWn_EA>
+    <xmx:AR5hachiQZrgUQUKwhDGi63V-ItH0wf26l1Q2jCn25alQAaWGAIz3w>
+    <xmx:AR5haUPawbxtSyg36smwzX7RkxHrRO0n2PnralXfWtjhhcwvts5H9g>
+    <xmx:AR5haUJ-ixxUtNOHYJ9H9_x_GhjytjO3PsOtSUWP2JfLrfsZ_mqqNd7s>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Jan 2026 10:25:51 -0500 (EST)
+ 9 Jan 2026 10:25:53 -0500 (EST)
 From: Janne Grunau <j@jannau.net>
-Date: Fri, 09 Jan 2026 16:25:43 +0100
-Subject: [PATCH 1/4] arm64: dts: apple: Add chassis-type property for all
- Macbooks
+Date: Fri, 09 Jan 2026 16:25:44 +0100
+Subject: [PATCH 2/4] arm64: dts: apple: Add chassis-type property for Apple
+ desktop devices
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -86,7 +86,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-apple-dt-chassis-type-v1-1-c215503734c5@jannau.net>
+Message-Id: <20260109-apple-dt-chassis-type-v1-2-c215503734c5@jannau.net>
 References: <20260109-apple-dt-chassis-type-v1-0-c215503734c5@jannau.net>
 In-Reply-To: <20260109-apple-dt-chassis-type-v1-0-c215503734c5@jannau.net>
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
@@ -96,102 +96,65 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3610; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1927; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=shJn6zXhU83Gvr/ziMV87HAm/8EnCEYSHfJ6fBqlmGg=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsxE2d+NBhbnoj/w9Je23nrkcfn1kb3hhzkz5atKL62+9
- PKJzo+IjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABOZGcLwv5bl4/EzqesCZj+t
- UHVOrszznNN+d3LrkoSND/kPH4i+28rwP/7y3qWzyqpWrGet89jUzlOnbcJjPs3NVvOdjMFPEWl
- dRgA=
+ bh=SOK5Eyemmpz03VsX+x7LfeUtfqaOqL/374p1fPhcRpc=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsxE2d82Nzjmctf95j167yVD3cfUd2Jh86wXKAqbHw+7v
+ vW/nGtzRykLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgIk0pjEyXFB71Le780qm//6T
+ jaUTGP7X8lqlBIbnBzXFOrMt2/97OyPDxiM204QcrjIIKt/f80wm6UnWUe1Ldov/MEv+ZGqY79T
+ KDwA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-All Macbook Air and Pro devices are laptops so annotate this as
-chassis-tpe in the root node.
+Apple's Mac mini and Studio are desktop devices. The SMBIOS has chassis
+types which might be more accurate like "low profile desktop" or "mini
+pc" but without clear definition what those are use plain "desktop" as
+chassis-type in the root node.
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 2 ++
- arch/arm64/boot/dts/apple/t8103-j293.dts       | 1 +
- arch/arm64/boot/dts/apple/t8103-j313.dts       | 1 +
- arch/arm64/boot/dts/apple/t8112-j413.dts       | 1 +
- arch/arm64/boot/dts/apple/t8112-j415.dts       | 1 +
- arch/arm64/boot/dts/apple/t8112-j493.dts       | 1 +
- 6 files changed, 7 insertions(+)
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi | 2 ++
+ arch/arm64/boot/dts/apple/t8103-j274.dts  | 1 +
+ arch/arm64/boot/dts/apple/t8112-j473.dts  | 1 +
+ 3 files changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index c0aac59a6fae4f6f4b387483665349a8e2521c1e..15bd157a486c0d6f8fa23e628a87dc3cf4cac731 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -12,6 +12,8 @@
- #include <dt-bindings/leds/common.h>
+diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+index c0fb93ae72f4d4fcb254a36dc408d55ab1bca0e9..5bba233b5383f227621bf0a648e9de43597b38ed 100644
+--- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+@@ -10,6 +10,8 @@
+  */
  
  / {
-+	chassis-type = "laptop";
++	chassis-type = "desktop";
 +
  	aliases {
  		bluetooth0 = &bluetooth0;
- 		serial0 = &serial0;
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 5b3c42e9f0e6776241bf746d3458766e44e3639a..91cca3000abc10c302ff59c148c0895de70415e0 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -16,6 +16,7 @@
+ 		ethernet0 = &ethernet0;
+diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
+index 1c3e37f86d46d7b5d733717b47c4b57dc55e1201..b379ca25b1b7011c0e24f0ef97a6b6bd469342f0 100644
+--- a/arch/arm64/boot/dts/apple/t8103-j274.dts
++++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
+@@ -15,6 +15,7 @@
  / {
- 	compatible = "apple,j293", "apple,t8103", "apple,arm-platform";
- 	model = "Apple MacBook Pro (13-inch, M1, 2020)";
-+	chassis-type = "laptop";
- 
- 	/*
- 	 * All of those are used by the bootloader to pass calibration
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index 97a4344d8dca685708aff136af92a1b316f3c3dd..778e482a6fb67071b13a30bb31cac8d65afd5666 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -16,6 +16,7 @@
- / {
- 	compatible = "apple,j313", "apple,t8103", "apple,arm-platform";
- 	model = "Apple MacBook Air (M1, 2020)";
-+	chassis-type = "laptop";
- 
- 	led-controller {
- 		compatible = "pwm-leds";
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 6f69658623bf89ce73e3486bce504f1f5f8003f3..bb9f34e8dc90e55ac2817ce70f17ee4867919fc9 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -16,6 +16,7 @@
- / {
- 	compatible = "apple,j413", "apple,t8112", "apple,arm-platform";
- 	model = "Apple MacBook Air (13-inch, M2, 2022)";
-+	chassis-type = "laptop";
+ 	compatible = "apple,j274", "apple,t8103", "apple,arm-platform";
+ 	model = "Apple Mac mini (M1, 2020)";
++	chassis-type = "desktop";
  
  	aliases {
- 		bluetooth0 = &bluetooth0;
-diff --git a/arch/arm64/boot/dts/apple/t8112-j415.dts b/arch/arm64/boot/dts/apple/t8112-j415.dts
-index b54e218e5384ca89155e4350d6680a28a531f408..061629e153eaaa8f96d351feccae2d9152aefb6f 100644
---- a/arch/arm64/boot/dts/apple/t8112-j415.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j415.dts
-@@ -16,6 +16,7 @@
+ 		ethernet0 = &ethernet0;
+diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
+index 06fe257f08be498ace6906b936012e01084da702..a05951e91a022c9b08a1b7897832ae9553201340 100644
+--- a/arch/arm64/boot/dts/apple/t8112-j473.dts
++++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
+@@ -15,6 +15,7 @@
  / {
- 	compatible = "apple,j415", "apple,t8112", "apple,arm-platform";
- 	model = "Apple MacBook Air (15-inch, M2, 2023)";
-+	chassis-type = "laptop";
+ 	compatible = "apple,j473", "apple,t8112", "apple,arm-platform";
+ 	model = "Apple Mac mini (M2, 2023)";
++	chassis-type = "desktop";
  
  	aliases {
- 		bluetooth0 = &bluetooth0;
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index fb8ad7d4c65a8fe7966f5541f24f03a379143cfb..1f98ab70d7c3ab4f178d78ce3732661401ba77eb 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -16,6 +16,7 @@
- / {
- 	compatible = "apple,j493", "apple,t8112", "apple,arm-platform";
- 	model = "Apple MacBook Pro (13-inch, M2, 2022)";
-+	chassis-type = "laptop";
- 
- 	/*
- 	 * All of those are used by the bootloader to pass calibration
+ 		ethernet0 = &ethernet0;
 
 -- 
 2.52.0
