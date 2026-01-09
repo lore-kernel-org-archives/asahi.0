@@ -1,140 +1,168 @@
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911C5265CDD
-	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 19:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D901931B133
+	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 21:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767987703; cv=none; b=cZvRmsNIFeHEvZ036iZpVml9/n0XPZFPtd55eLW/SQZYZyqvUHO9+9Z5hFwmGXRENW5513astjP+ItlQjuBct7cLII7OFbayPKdNkv+TnLZwMLUqFYkO4Yu8m9iE7ispwsvGeavbYN5TeeDIdv+HeNZo8zDFeBjWai7VhDhB+X8=
+	t=1767992760; cv=none; b=rwUYqzgHGbwqztPYKKYjid7fp5Jhuot7NxyPrQgBJU2r0uBr85rhWIocxsc4ExgZGtSfGXF6+QfUcjY5SCep+qakC42QQyGsRFCjdEutn8biuTbRg/3Ig9kq9mI7NVpT882IqpDWjGyUc2bj6nbljWzrnOWDv5iCuzby9SjvlF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767987703; c=relaxed/simple;
-	bh=1xZR13ZWgaLmj5Z6bVbcFZEJdTlPhond4y8NuvDtGos=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Di/xj4D4gSppAD/wtlZeSuTFrs0YNfCKJZmWfkMzWox4RrQKdP7WllSgCJuHqFbkkikiQf1doryx756p+N8pvdB2UowXBSyyUKBJvi2zjkZOAitsd6B68nBDJZFg3LO4gP54P5mKt6acivQSq0Oxul/eTBBcGE3r6oIfB2jKGBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=mCihlSse; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lpAl6qdu; arc=none smtp.client-ip=103.168.172.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1767992760; c=relaxed/simple;
+	bh=hFkoYS6mSblvGR8UZ5SC4jjV6cZBaoNUpvigDTKOQCw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hFqpbzrUjsmbL2+QzOL5fpecFpxV1K/Z5gnGQ5Y5/pTRHk9Q19jMzazgKpP5Tj7abDYJxhXkpHuAYRrvca9XmDZ7tzrHQoDi/xiWeHtd2Wh0jMWjkFiZYb1ARG9afsOh7W+KkQSRMso7P1NmgGxf/AHsO0pS596ym78M9k/36g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=FXgYlF+v; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="mCihlSse";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lpAl6qdu"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B89A914000B6;
-	Fri,  9 Jan 2026 14:41:40 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Fri, 09 Jan 2026 14:41:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1767987700; x=1768074100; bh=OR
-	EaD/86edDfuAsGZ40EvIcSkl4P/sExClwGjj/E0L8=; b=mCihlSsesBkkCVpehB
-	liOwm45LYA89mvJSSKFcX6QBx/cBkXhQOQERvPOB1zVJIETqhBJcn7OO8BNKOLM2
-	kSw9JjHZ5GYpuyqw7PKSZDqGgmhw/kb81CHYECciynBEu7wfPtXs5vltfvIyAauu
-	9eOggNIhXo98CkqsY7wm3LWveEbc159pNX8Q8zpB2L8wVW8xgC28EAXdtEOa+Ruf
-	v2SVn+p6vSXUlHQB851IPphq6A7CVNb5Ryodu/1ceAB1g17A75ONeEH8yJY2+V0M
-	zk98vkujuJUIARekqbzGl3UQlvEHt/5M8q9zymswc5ZgaCOU1L6GqblPyjzg3c7K
-	PWFw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1767987700; x=1768074100; bh=OREaD/86edDfuAsGZ40EvIcSkl4P
-	/sExClwGjj/E0L8=; b=lpAl6qduDZmLpQkOZR7stdPsQvTnSy0dybU7vuxt2FAI
-	cXnaSLArrWVTiNhm8JC3vOwg6CeZz7NvjYGsE04CQbQ4XKiWDQhz6aUDaHh48DqE
-	nNpfj14+OO6ZOwUU+E43Rlx5MqfQepzJyoD28tPyZeZ+WQVwe2FMI5P9x+1w1d4K
-	d9oSah+Xe+9zT25XSIoPN1TZD60xLMhVslDDpsL73aRfRCeC+0aw+Vr3OfNVYh+j
-	vdIEtAQ6+g29sPWinKK+5UjIETwbNmUxU8z/4rVdIgxmC2Ca9gzWR5O77125Fdlr
-	mp5MegbVPblkxuxx5UeYjtRS1N90syjVrTFH3KA9dg==
-X-ME-Sender: <xms:9FlhaZunQs24UlwfBtFhK_FLc_eOyTazoT7iCB3epmDnb1rML17ZbA>
-    <xme:9FlhaTINisMi5yZ_NOG_xKsdUncwV6_RjItwX6z5YHVLeKL6IpPf_ye27txJG3ndS
-    Bd93lDlB6ciJ5PNPL0PSpMor6xZ_vwl3fnKQC5Qdow3b4AWu30sGyqP>
-X-ME-Received: <xmr:9Flhaa9ebxeH-WnYLK4cgQWPHkLKMn20HdN6KWMYdHYxpfi2BnpHe9K-2zmrbM8_lRHjCl8vPh7tTBl17l_EuiNgan8N5hxoB6TSTg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdelieekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfeehle
-    dtheefteejfedvheetuedttdetleegudeuteejveetieefuedvfeffvdeinecuffhomhgr
-    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepjedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuhdqsghoohhtsehlihhsthhsrdguvg
-    hngidruggvpdhrtghpthhtohepmhgrrhhkrdhkvghtthgvnhhishesgihsgegrlhhlrdhn
-    lhdprhgtphhtthhopehtrhhinhhisehkohhnshhulhhkohdrtghomhdprhgtphhtthhope
-    gsmhgvnhhgrdgtnhesghhmrghilhdrtghomhdprhgtphhtthhopehmrghrvgigseguvghn
-    gidruggvpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprh
-    gtphhtthhopehjsehjrghnnhgruhdrnhgvth
-X-ME-Proxy: <xmx:9FlhaUzqHWf7KTSkj73ACpih6Zce8PdpRMuQ-OrjATnbyHd01Nj2cQ>
-    <xmx:9Flhaf5lJyI22bbOawx8weJtc9xPe9JyyZ93nqhgQCNP6MIkbqDMVQ>
-    <xmx:9FlhaT-c-chs7uXd5kbK4ER2a2lUXXorad53RqHNHAiRP_iXf0gmRA>
-    <xmx:9FlhacreSBRqgdfh-abzVplgggximmA2i5f_bZ1N4riFip53sZEU3g>
-    <xmx:9FlhaY03NolbP9edPxUGdJOh4jBPUglQ0v63EVyCxpMuFC9NvUKY6c_t>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Jan 2026 14:41:39 -0500 (EST)
-From: Janne Grunau <j@jannau.net>
-Date: Fri, 09 Jan 2026 20:41:36 +0100
-Subject: [PATCH] usb: xhci-dwc3: Add "apple,t8103-dwc3" compatible
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="FXgYlF+v"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a12ebe4b74so45373895ad.0
+        for <asahi@lists.linux.dev>; Fri, 09 Jan 2026 13:05:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1767992757; x=1768597557; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f+kn0nlzGkQ0BViOYfFFGO8lkUm/rT4hSAopw8yn9RE=;
+        b=FXgYlF+v1kwDnZQB8S2OQqA+/8oebL2CAS74UvjMvPmTcr/ZwXruuHwZXfmsqxVofR
+         fQLLPwE/4XFZNmwEQUpYK7Imq7nRW6qyJfk23GQYdywu7cHLbvJoS1P8vgD9POMe8l7l
+         W2UlqbMS9OnJSQQ4nyfQx3za0b5a6HsK99mAvKjAGI5ZJgAXpfFCGwbTwLz0NLnrXqhc
+         QYta7zEDkYVb1BEuHe3OhisIIU7d9Mpn1TLRqmJXjW3CEcAg6jbZ1p0VuomhBOW6yEyU
+         qLaTZ6f3vT9nizvh4l3JEuIrFSFlqVk3RGms0kfjwhRexqu4bwnPu/KdAFkn0dDGSFij
+         ZiOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767992757; x=1768597557;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=f+kn0nlzGkQ0BViOYfFFGO8lkUm/rT4hSAopw8yn9RE=;
+        b=Zw4JLBiNVV2zWGvCYZVa6vq03kv54Z+vHeBZ8xCItlBvqKUhEXvNg7Is8cwq4Uy2gP
+         dckW+uXKrKSaaJGY9OayO5wxRu1rwPskKjHylVW38Gutj+ipf61nhUoYqibMBIRPrZ12
+         TpznEAHqTj+MU20o1EeadZA5tvr/k09P6R0X9vCNepOa+ESA2BpoKq4xOEudgjFAWH9p
+         Oi2ebBySAX6gGK761ytUoAugwxg+ZjfFQuBi8A9pvTT34bHfrHFuNsETleBANx5bP+Pi
+         d2xsr1yQ1rOv7LCa92ZScNezIt4oq2IWcsRPgT8Cj6DDhhSion3wQI7N2mLunYuvIPWm
+         mDFw==
+X-Forwarded-Encrypted: i=1; AJvYcCViLbfGwg7yO2fHwDSqCkC6ivfB0/OMCYPATVPfp2J3oxnAhOPkVGujOx9HMaMOe68UOwyYNg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJxOMGpEBZQt/LyycFCRDhmNZjH2ngPPwpulCSYN3Q4lyFMubY
+	V570UZ92n9/+mHNiqE3vMDmV6VwgTY1+x45pASpZDJT+PKUcfioqRfg2Zb112fZ7gQQRQiHWwvv
+	8zITCckKi7SjAi7F27gHWEp8J3uV0IbY=
+X-Gm-Gg: AY/fxX4bWqa/31KEuSlPURyWarKGBxQEWSc0wtbD8G8mSygGemygklSxeydV9hCQ38H
+	pLAudKpiFLXSY9S31Gb6trXJFqwB4IgUN5xZncsQX97Kpff2dejG2oCymRzBTM3Y6y4WfszAjos
+	UHKMMemvzAyYCHufhkr8OwVyb8OIGt1uyhz8Q+Lgn+POX/euO1VMCRX1V0eIIOmLHVaGlXFScne
+	mmsdw09xGjpV9Y9ZpmoLP4vNVWyAN/yQcDztkUNIm7gYjqJQtrYBQ/1q3QJfs45bt7Y1D7Od1IF
+	nlZsvMdTv4czRPh/uL/D+HjLTrW/sZtiYjiqLJ0=
+X-Google-Smtp-Source: AGHT+IGzEqZSKhDh+mfZnkqq/TwV9IRDJvdndDZXOgFLWIDXGIN31XCilSikaluLQUb1REl5xfFtQyCdyy3ZvPXVWkE=
+X-Received: by 2002:a17:903:1acc:b0:295:592f:94a3 with SMTP id
+ d9443c01a7336-2a3ee49b5camr115632895ad.48.1767992757127; Fri, 09 Jan 2026
+ 13:05:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAO9ZYWkC/x3MTQqDMBAG0KvIrDuQRFu1V5EuYvxaBzSGpP6Ae
- PeGLt/mnZQQBYmexUkRmyRZfIa+FeRG6z9gGbLJKPNQWrW8pp6H3ZVsQ5jAbpmD/fIkfj24MRq
- o7z1c1VAeQsRbjv/eva7rB9b0/odtAAAA
-X-Change-ID: 20260109-usb-dwc3-apple-compat-linux-821ee75bec48
-To: u-boot@lists.denx.de
-Cc: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
- Tom Rini <trini@konsulko.com>, Mark Kettenis <mark.kettenis@xs4all.nl>, 
- asahi@lists.linux.dev, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1447; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=1xZR13ZWgaLmj5Z6bVbcFZEJdTlPhond4y8NuvDtGos=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhszEyA//bwZtqi1ovKvEutI4bdUmk9/H/k0RWbrok94GP
- k8fPf7kjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABOZMpGR4VAzY0HPCY7uxfsm
- qGsm1W+wqpHb8WzF9hn5LBZP9newXWT4n/7uycsHC72kvefeOrXN4XA0y/2bX37blnqbZM3VVJ5
- xgx8A
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com> <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Fri, 9 Jan 2026 22:05:46 +0100
+X-Gm-Features: AZwV_QgnJP_ucVFfV4UzfxU71gNnGoxRPDRc5QYDA0rdtBqGfiMffeomtdZlKmw
+Message-ID: <CAFBinCDzAOC9Sc_LZEbLhtajvPC4zjRiaoq6k9at2iJQnJxwjw@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] spi: Drop duplicate of_node assignment
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+	Varshini Rajendran <varshini.rajendran@microchip.com>, 
+	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sunny Luo <sunny.luo@amlogic.com>, 
+	Janne Grunau <j@jannau.net>, Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
+	CL Wang <cl634@andestech.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	David Lechner <dlechner@baylibre.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>, Jun Guo <jun.guo@cixtech.com>, 
+	Philipp Stanner <phasta@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+	Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, 
+	Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Xianwei Zhao <xianwei.zhao@amlogic.com>, 
+	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>, 
+	Sergio Perez Gonzalez <sperezglz@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>, 
+	Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>, 
+	Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Longbin Li <looong.bin@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	=?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>, 
+	Alessandro Grassi <alessandro.grassi@mailbox.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Darshan R <rathod.darshan.0896@gmail.com>, Aaron Kling <webgeek1234@gmail.com>, 
+	Vishwaroop A <va@nvidia.com>, Haixu Cui <quic_haixcui@quicinc.com>, 
+	Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, imx@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, Sven Peter <sven@kernel.org>, 
+	Neal Gompa <neal@gompa.dev>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ryan Wanner <ryan.wanner@microchip.com>, 
+	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Kamal Dasu <kamal.dasu@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, William Zhang <william.zhang@broadcom.com>, 
+	Kursad Oney <kursad.oney@broadcom.com>, Anand Gore <anand.gore@broadcom.com>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, Jean-Marie Verdun <verdun@hpe.com>, 
+	Nick Hawkins <nick.hawkins@hpe.com>, Yang Shen <shenyang39@huawei.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Lixu Zhang <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Han Xu <han.xu@nxp.com>, 
+	Yogesh Gaur <yogeshgaur.83@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Heiko Stuebner <heiko@sntech.de>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
+	Masahisa Kojima <masahisa.kojima@linaro.org>, Jassi Brar <jaswinder.singh@linaro.org>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Linux support for dwc3 on Apple silicon SoCs switched to using a
-apple specific glue driver [1] that uses it own compatible string. The
-glue driver handles platform specific requirements on the interaction
-between dwc3 and the USB2/USB3 PHY and reset-controller for USB role
-switches and plug events.
-To keep USB working as before when the nodes still carried "snps,dwc3"
-as compatible add "apple,t8103-dwc3" to the of match table. Eventually
-it is probably advisable to add a dwc3-apple glue driver and write code
-for the currently empty Apple Type-C PHY driver in phy-apple-atc.c.
-
-Link: https://lore.kernel.org/asahi/20251015-b4-aplpe-dwc3-v2-0-cbd65a2d511a@kernel.org/ [1]
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/usb/host/xhci-dwc3.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/host/xhci-dwc3.c b/drivers/usb/host/xhci-dwc3.c
-index e3e0ceff43e6abdb8643f265819eff28c2c802f4..ba42c3247654b7d9272c42ea9c4cf0bd9082915e 100644
---- a/drivers/usb/host/xhci-dwc3.c
-+++ b/drivers/usb/host/xhci-dwc3.c
-@@ -238,6 +238,7 @@ static int xhci_dwc3_remove(struct udevice *dev)
- 
- static const struct udevice_id xhci_dwc3_ids[] = {
- 	{ .compatible = "snps,dwc3" },
-+	{ .compatible = "apple,t8103-dwc3" },
- 	{ }
- };
- 
-
----
-base-commit: 127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3
-change-id: 20260109-usb-dwc3-apple-compat-linux-821ee75bec48
-
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
-
+On Thu, Jan 8, 2026 at 9:30=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> The SPI core provides the default of_node for the controller,
+> inherited from the actual (parent) device. No need to repeat it
+> in the driver.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+[...]
+>  drivers/spi/spi-amlogic-spifc-a1.c   | 1 -
+>  drivers/spi/spi-amlogic-spisg.c      | 1 -
+[...]
+>  drivers/spi/spi-meson-spicc.c        | 1 -
+>  drivers/spi/spi-meson-spifc.c        | 1 -
+For the Amlogic and Amlogic Meson drivers:
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
