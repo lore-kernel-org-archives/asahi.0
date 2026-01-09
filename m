@@ -1,176 +1,163 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837FD3590AF
-	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 09:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668FB3328F3
+	for <asahi@lists.linux.dev>; Fri,  9 Jan 2026 10:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767950196; cv=none; b=ANvKSZjAkbAvwsZqZRsQDdXSyiteOE2DJdpYPdykvpkjTzZMWh01ZpM9C5opWNM8SGStGNkv0Ghy4FIECtFcWKqAuhT82fjKFOyncn3om1AkILoAZtMqpEUgrVVu8NWseMa4QLkBs3aM6B5ERKttmdz76EbML0ybwJ0Wa4CDakM=
+	t=1767953643; cv=none; b=qnZjORcFzSKvqTfLODBEMJlyYvdsSGPKblHmujJ+ezS1pe98ZMG2v9Lmybolw7bpZvwhEtpp6gYZRrK5V82edtObZH2OMEQIrWqfy3ROgx3sPZf9ruNHO0S+W8Mh2e/by7kFAwlCVatgyBv3MEqmSWB7ZnnIFwQWCG6VtvZfzVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767950196; c=relaxed/simple;
-	bh=E0edNL5B3rP6w3+T0Ub2/VKHaC3rr+HLeEDX8RHsn8o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fgbjiTd62RBRbTXxP8ySKTV0bV38A695tKzDrpciPH3L13Mgv5KStCxXHLyZgtAJ2fl0QONn6bCgvtje/adwgC5nZObrIWQCYJITwajony4BG3uCYR0HLs4Uj937ubvpnKqn4kUBYPZBZwfTgQwzOa+LaKcANrk2EZNBwuusHXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-8be92e393f8so309067885a.1
-        for <asahi@lists.linux.dev>; Fri, 09 Jan 2026 01:16:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767950193; x=1768554993;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fiQ5XxZuQA23XgqzTfwN/M3quzujtTsdQBOQmuJCqAs=;
-        b=U+SPk0F8zO35RT3R32oYKda4KpmFjMyrdQQ1dd5oiSoZPNhSr8QDd6t6fjB3vkTMGt
-         0CINEXNIrpcIEQ3GJlCX7BmbdizMC0pz+G7WCbUBSzAAsVKOnTfxv7h/eOECvV4ZLk2w
-         j6Pj+wOAt1ZOk2Ow9KYJxAErtt7bX3QhELEFV1tryoFRO67+6pYtI5s41w23kvzKDDCv
-         jVW64nIkTl+CJbmg9jp06tzBR04YcXbw+hR6QeWrgo33IuMmvy6aRIrtgQ8D9ierwAEf
-         V7fepGuX+vyE+aA8Dl/6CohXYXHEAPy6d+xKG9W4L3RfTMQakXmNhRCJyGF/bSvYElWN
-         DpBg==
-X-Forwarded-Encrypted: i=1; AJvYcCViJNPIhVNer1bU8Ws0bMBjijSIuDYdclq71g9G0CnVkopMWVioZcPjZ8kMfEEkI392BZtVEw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzHvdLmDIA0Qm2hhBh1deDf1+tks8zKkL9hNmeUH+SYw/f2w84I
-	2V9ZH6sBw/SFrpFTlb1z9qEXUUP1zi5ZRRAgmFlMjay5ZsXEz0YK6k/UNVJqH6pjMdE=
-X-Gm-Gg: AY/fxX77fhMF5+fDHRf7MfJAa5dFYGxkOTdz+whlN0HU/t2JmKZkujs+YdizdrEWAY6
-	MP1wsqT7Qz+vum7xFtqJzHelgIsYw+XdB5jU04dfE8MfgeLl2hXV+0+bcLtCuACIIPuYOFf9rsO
-	YVlpVTREVqS42zHi6T1kKW28HJCfsFvBIg53oPye6vS+I1zA69b4WQ05a0Ea/JMYqsYbmL8dkPF
-	iA72DO7/PoRpfWU6QYaYAvmp3bT4kMt/emy+rQ9YpBbP9yXws8VD9zGKts/A0saSHiPg82rSo5j
-	96EyZ9r+t5WLHtkAVT2kfN6q7M3rPH1nCVr/R5lRLQR4zfM5Vq9CsAQ2oCr4tgKE2+XszJKXi/P
-	/0X/aW4Ydiz4/cWZ+ph0e0MxQxdIrb0NOcsai2DJoXJEDsbg7CQR+A5ZoBmtkSjpIv1r4u5H9ih
-	QgfyO7wGZ06/902LC2v2aelzOrmdEx4IdYokqMjXznGzQOJ/2siMkw
-X-Google-Smtp-Source: AGHT+IHlZHdmTgwEvyz+ZIKz6BQaOxm88om3Oi7JB/2Mq+CECYaTQGi6LfV1Kfgc00vrPoJvngDdiA==
-X-Received: by 2002:a05:620a:4722:b0:8b2:9b48:605b with SMTP id af79cd13be357-8c388b6d6d9mr1191185985a.6.1767950193301;
-        Fri, 09 Jan 2026 01:16:33 -0800 (PST)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com. [209.85.222.171])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c38a9244bdsm515451185a.3.2026.01.09.01.16.32
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jan 2026 01:16:33 -0800 (PST)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8be92e393f8so309067185a.1
-        for <asahi@lists.linux.dev>; Fri, 09 Jan 2026 01:16:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVw2A+zXxuahNCkPL6//wHR3uO4uJiLHywRnovP+EfStFYp7VMx5dkyo4U/uieozhQMPNtsiw==@lists.linux.dev
-X-Received: by 2002:a05:6102:2b92:b0:5dd:a0bf:8c89 with SMTP id
- ada2fe7eead31-5ec755c2d49mr4919224137.7.1767949880413; Fri, 09 Jan 2026
- 01:11:20 -0800 (PST)
+	s=arc-20240116; t=1767953643; c=relaxed/simple;
+	bh=m/FrghxQ+IIR6+FVSne5p9YypfXduphdFmcFCuXksXA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZrZk7/w8v+l9amWyobEd4o52DPMqed7/2sMWkBgZWYcnFIMpRASbOsqM0ba4+/eqs1DdyNDXfLSJ400KoxSD2wgrmoxJjS7/gtPiZ03hnS9oHOBQ+8XNIvfK6N7sHRiVvbWfxbcfBHXboDoNbsrgo52+GvbaRDtsVQjcDqpzsFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=k+fHSYkC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pwkgTbrA; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="k+fHSYkC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pwkgTbrA"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 92E041D00194;
+	Fri,  9 Jan 2026 05:13:59 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Fri, 09 Jan 2026 05:13:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1767953639; x=1768040039; bh=Z0
+	zxZ5WM7PHh/aWTK9OatGXUnyFKLOlRWA2Aire8PpE=; b=k+fHSYkCWMggZNHmwM
+	DjFBPqhtcDkYmG9ch9mFN4z3B70v+mZNGMu1DtK4hWeCKa1IYIGygNwoubZNG+rV
+	KBcagyPyYnGz57n5+D+L8uDvTwW+uUYGW4Xi2PP72dqCfdjQ87BmM3yHSI2vGF+T
+	OHDmQt/sVY4nsk6h/1Xu8YfBONRJ7U9jtWKeDhMV7KAusRgTxJnHd20NF5KVaFu0
+	a2Bd5nHZzbroQ8sJtWtEPFtG4fkivYVqFjbMv2pNRB4IIMWw+zeTY+2YWhWOECwb
+	MxnMDeYWkip7NYPZcobe6kcfQVxvpKheH5SU1/irQf9loZu+6Bt03rjbLku/19mf
+	GUuw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1767953639; x=1768040039; bh=Z0zxZ5WM7PHh/aWTK9OatGXUnyFK
+	LOlRWA2Aire8PpE=; b=pwkgTbrAeS7rlk2Fs572ImuS3ve+TrdWReM7uyTVhztZ
+	StFc6fR9tF1dZ9P9hnV1eoIYR5O2b6e+6An65epah1Z3Hb8O7nwD7Zmdss+53rRo
+	P2WVESaFxusak+nN9qS8ltHzPQy0zxHfg67A1QZ8BW56O3funjtuXkXrKS9L3qMS
+	wDV0FQ21I5qVP9PCq5+fSGFGjCMsQfoGlejuV8csle0fa5w0kWmbZf7he3sRLsGJ
+	vBloe26/o+0KCf7hJb4qMzYHElDt9ldp5dpdyMdM1qPxdO1LUfZ0zqZec7uhtlAQ
+	mHkEZO6+2oHSR7ACQT6BwetyTb2mwFRg9uv4zuGRNA==
+X-ME-Sender: <xms:5tRgadWC-GKRdNX4V-KSXFXP_xC9J2tCy9OcTh33z55yEiKWScJGxQ>
+    <xme:5tRgab2YLx51MbeZ0buDClYwMZXyCOn2_sQ3X4OHWw7q9IT90L_YydtTUZml17z0H
+    lzr9gVPVG7aPGE4-PXDh4RecYa_CGbR9bBMjrIeoJ6RKb851Q8Ujbk>
+X-ME-Received: <xmr:5tRgaSsaCEmxhtDcIUJSebAU6KB8-S9ZgJGwS1nrSTq_eW7-Eul_CmaIUGMTjlA6ME9phFk2UXpnOhdDXmlnqYoJBz4VMOqwFN_CrA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdekheegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfffie
+    ffteeuffetuefggefhgfehtdfhkefgtdejueeuvdevkeetveevvdffkeehnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
+    hnvghtpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvggrlhesghhomhhprg
+    druggvvhdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdr
+    ohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrih
+    hnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehthhhinhhhrdhnghhuhigvnhesshih
+    nhhophhshihsrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrh
+    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidquhhssgesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrd
+    guvghvpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:5tRgaTWZfsADM6y4T_tLxasycPAyaBXWycHu0Yq1Vl6hwzov5HJApw>
+    <xmx:5tRgaaz0M7bV1R-5Ve3da7CgO-yULFIw-6cjIU2FL-YW9aw5PCM8sA>
+    <xmx:5tRgaSEgs7W8ZAXaUMMbmI1xHCoDG3PTjh9wySWVUMSVwmCfaMCW6g>
+    <xmx:5tRgaXuN31DExD2cZpVq9JqnQoxc7gP3D1QJvlnGu_hkAsywO-s9eg>
+    <xmx:59RgaStoczRy6IheGn8UitCtMoU27-dHQUibaCnr9AdE2A__Nn_vMH3t>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Jan 2026 05:13:58 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Fri, 09 Jan 2026 11:13:48 +0100
+Subject: [PATCH] usb: dwc3: apple: Ignore USB role switches to the active
+ role
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com> <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 9 Jan 2026 10:11:09 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV2B9sRmy-k5ucmo6WukvNFq3QqxM0BkB-qS=+-AP4M3Q@mail.gmail.com>
-X-Gm-Features: AZwV_QjXHpmtcr0h8pnp_-HCv95C85A8pbrG70DRu5Hp0BWpB8DvCNd7K_eVFa4
-Message-ID: <CAMuHMdV2B9sRmy-k5ucmo6WukvNFq3QqxM0BkB-qS=+-AP4M3Q@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] spi: Drop duplicate of_node assignment
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Mark Brown <broonie@kernel.org>, 
-	Varshini Rajendran <varshini.rajendran@microchip.com>, 
-	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sunny Luo <sunny.luo@amlogic.com>, 
-	Janne Grunau <j@jannau.net>, Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
-	CL Wang <cl634@andestech.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
-	David Lechner <dlechner@baylibre.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>, Jun Guo <jun.guo@cixtech.com>, 
-	Philipp Stanner <phasta@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
-	Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, 
-	Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	Xianwei Zhao <xianwei.zhao@amlogic.com>, 
-	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>, 
-	Sergio Perez Gonzalez <sperezglz@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>, 
-	Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>, 
-	Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Longbin Li <looong.bin@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
-	=?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>, 
-	Alessandro Grassi <alessandro.grassi@mailbox.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Darshan R <rathod.darshan.0896@gmail.com>, Aaron Kling <webgeek1234@gmail.com>, 
-	Vishwaroop A <va@nvidia.com>, Haixu Cui <quic_haixcui@quicinc.com>, 
-	Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, imx@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, Sven Peter <sven@kernel.org>, 
-	Neal Gompa <neal@gompa.dev>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Ryan Wanner <ryan.wanner@microchip.com>, 
-	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Kamal Dasu <kamal.dasu@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, William Zhang <william.zhang@broadcom.com>, 
-	Kursad Oney <kursad.oney@broadcom.com>, Anand Gore <anand.gore@broadcom.com>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, Jean-Marie Verdun <verdun@hpe.com>, 
-	Nick Hawkins <nick.hawkins@hpe.com>, Yang Shen <shenyang39@huawei.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Lixu Zhang <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Avi Fishman <avifishman70@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
-	Benjamin Fair <benjaminfair@google.com>, Han Xu <han.xu@nxp.com>, 
-	Yogesh Gaur <yogeshgaur.83@gmail.com>, Linus Walleij <linusw@kernel.org>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
-	Heiko Stuebner <heiko@sntech.de>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
-	Masahisa Kojima <masahisa.kojima@linaro.org>, Jassi Brar <jaswinder.singh@linaro.org>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260109-apple-dwc3-role-switch-v1-1-11623b0f6222@jannau.net>
+X-B4-Tracking: v=1; b=H4sIANvUYGkC/x2MywqAIBAAfyX23IJm2ONXooPZVgtRopGB9O9Jt
+ 5nDTIJAnilAXyTwdHPg88giywLsZo6VkOfsUIlKCyk6NM7thHO0Cv2ZKUS+7IZy0m29NKrVwkK
+ OnaeFn388jO/7AertVrhoAAAA
+X-Change-ID: 20260109-apple-dwc3-role-switch-1b684f73860c
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2351; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=m/FrghxQ+IIR6+FVSne5p9YypfXduphdFmcFCuXksXA=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsyEK48VNCKZ/hgG7rmWkxnXOkPev3Lb8/kRjUKzlR7oL
+ VNxzavpKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJH02YwMD4X8pH8tPXND0mCq
+ XuS5SSHx5aKhOjWvti089nTPE13eBYwMK2fFyJ3U2P+M6e6teXf8A9wPFghqSLQHW5UXC3I7OE5
+ mBQA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-On Thu, 8 Jan 2026 at 21:30, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> The SPI core provides the default of_node for the controller,
-> inherited from the actual (parent) device. No need to repeat it
-> in the driver.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Ignore USB role switches if dwc3-apple is already in the desired state.
+The USB-C port controller on M2 and M1/M2 Pro/Max/Ultra devices issues
+additional interrupts which result in USB role switches to the already
+active role.
+Ignore these USB role switches to ensure the USB-C port controller and
+dwc3-apple are always in a consistent state. This matches the behaviour
+in __dwc3_set_mode() in core.c.
+Fixes detecting USB 2.0 and 3.x devices on the affected systems. The
+reset caused by the additional role switch appears to leave the USB
+devices in a state which prevents detection when the phy and dwc3 is
+brought back up again.
 
->  drivers/spi/spi-rspi.c               | 1 -
->  drivers/spi/spi-sh-hspi.c            | 1 -
->  drivers/spi/spi-sh-msiof.c           | 1 -
+Fixes: 0ec946d32ef7 ("usb: dwc3: Add Apple Silicon DWC3 glue layer driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ drivers/usb/dwc3/dwc3-apple.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
+diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c
+index cc47cad232e397ac4498b09165dfdb5bd215ded7..35eadd1fa08049829ba40651a96eb122ed55460f 100644
+--- a/drivers/usb/dwc3/dwc3-apple.c
++++ b/drivers/usb/dwc3/dwc3-apple.c
+@@ -339,6 +339,22 @@ static int dwc3_usb_role_switch_set(struct usb_role_switch *sw, enum usb_role ro
+ 
+ 	guard(mutex)(&appledwc->lock);
+ 
++	/*
++	 * Skip role switches if appledwc is already in the desired state. The
++	 * USB-C port controller on M2 and M1/M2 Pro/Max/Ultra devices issues
++	 * additional interrupts which results in usb_role_switch_set_role()
++	 * calls with the current role.
++	 * Ignore those calls here to ensure the USB-C port controller and
++	 * appledwc are in a consistent state.
++	 * This matches the behaviour in __dwc3_set_mode().
++	 * Do no handle USB_ROLE_NONE for DWC3_APPLE_NO_CABLE and
++	 * DWC3_APPLE_PROBE_PENDING since that is no-op anyway.
++	 */
++	if (appledwc->state == DWC3_APPLE_HOST && role == USB_ROLE_HOST)
++		return 0;
++	if (appledwc->state == DWC3_APPLE_DEVICE && role == USB_ROLE_DEVICE)
++		return 0;
++
+ 	/*
+ 	 * We need to tear all of dwc3 down and re-initialize it every time a cable is
+ 	 * connected or disconnected or when the mode changes. See the documentation for enum
 
-Gr{oetje,eeting}s,
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20260109-apple-dwc3-role-switch-1b684f73860c
 
-                        Geert
-
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Janne Grunau <j@jannau.net>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
