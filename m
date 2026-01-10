@@ -1,93 +1,81 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF9A1DE2C9
-	for <asahi@lists.linux.dev>; Sat, 10 Jan 2026 03:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3856C312805;
+	Sat, 10 Jan 2026 10:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768015542; cv=none; b=cnMEhtrHCq8pvC4Wl0PduNGvo1LJb39qCwJC3eeYay9twSGPCnicYPyHRF5E4Q3smOmOYTzBY/bz9IfpaSLP0I4PgT3YKIX6mGg9FiWJc5XiSBIZ1GQhUraK7YkrA9qscr0mYTclnLENNAfmsDmhjthanjW1PoefjcfDWOj8SR4=
+	t=1768041596; cv=none; b=EhRXmIJEGpvhzLFlRteE+25UO/NOuWaNoouMvscuW52d7872FNtlChUceG9+hVLztYabq8hX3XqfAA9uNK1/xlR/mEa/oNsKiSo+uuIvCVnQV1fK9+4UPridmRgpxikpGRd9wQiSuWaBEy3rGhof6jRkxWndqriYsRTs9PB0tJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768015542; c=relaxed/simple;
-	bh=Hprd7dqrUFFTSjGW0BdussBG/keW8gExHfrWCA1IxLY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k63UQe4Wn9WpfUH+k3Cb+l12GLIsC14eGR38c/pTpk71VHGABr4I4Nu6aJwwE3Ack5O+j5+DLImhVgCLy/uLGuMcvRT36w7JT5CHgr98lCw/p+H2LGqVcZ73fI4j0UdEwwWMtrjAO4jOND/OFccsRFKXOVzlVtYqMJ7EVqy9mvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ybm3Gicq; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1768041596; c=relaxed/simple;
+	bh=dp45UAvDX3D+LDpNdQ7rxwJJ7Dat2HjMmkqIdx1vX/0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TiqIYk37Epdd32v1he7JOXHO9iLjJ8iszUkPRRYntu2Slk1WgagBo2bnzvzVIzeweR/4b/er0KKKeq2JIgI0RLFQ4J5aJC91uLah1EGaClz+VKm7/OVYRAanAnCQj74Nfb8ddg59Xy+WJTpEP5K4G8ELonWD+Ki3y+qxQh2uSQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OHlLmRX4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ybm3Gicq"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dp3tc319Nz9tKY;
-	Sat, 10 Jan 2026 04:25:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1768015528;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g5O/MYxRlpIUbzmq4/wFA8doL3V40//2Cl8RI+G3ul4=;
-	b=ybm3GicqH3ng/hN3qh3W5hYdgFp9fHS4qGFmncYYoK3p4OA6KkfCayHfA6zC6/nnYGwYfH
-	0ThXRztr99PhVc8hkHxhcIJi95HSpyize2iUulkAr8z5SM2YTEnS/DYszF7prsEH+OfjI+
-	Vf3T3B00vENDwlQnBuk4JPjV/B5hIC7AD0zsLmhayotKTAu5U0nwOY1toRpFHuRUKfJ9gB
-	94VcgVv5SbUtvKZFbK9UAiUR2l7HxlWGOdSH7Lw0KYJUlIgJemzyg05xwWLxXjBhgI0n3Q
-	qDubIa4mDCaRkwdeb99ef3xk+02KZ9yq5TAVIy93HDdZKrJVa5mBWyz5fcy3eQ==
-Message-ID: <8063e878-2fc9-4d97-b4e5-fb70fe3b8cc1@mailbox.org>
-Date: Sat, 10 Jan 2026 03:06:53 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OHlLmRX4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31EBBC4CEF1;
+	Sat, 10 Jan 2026 10:39:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768041595;
+	bh=dp45UAvDX3D+LDpNdQ7rxwJJ7Dat2HjMmkqIdx1vX/0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OHlLmRX4hLNZ3b0RgWa2z/hDviakBqbwIpUCxsoeWH+LbhiKvekoYBvExUtGcP4kP
+	 0cgqeuTs2SUdaO1wPL6Sn3vnCTMraE1ycTZXF8IEi86nzZbDYtp/Q9iSR5wobFYYya
+	 /eAnMJQpdeJyu6ugVvtzNpGzEBYpDYefdGZTwMYbxmuKlyUNuH+s2iizZjv98U6L/q
+	 mYWUApHO5qIdyL7rfySj7u2z/0soNGLBH6h/eM4RnjH6OZ4g/IKxY8wVkWL7IT/4Vs
+	 Dopxr1Da8O8ZmRtJQLLY0ZxQDdqF2Dq7Xdr+hf9C+BwppCmMuST3dMIqxyKJkmzdDY
+	 c8/qJHjD2Mt5A==
+From: Sven Peter <sven@kernel.org>
+To: Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 0/3] arm64: dts: apple: Small pmgr fixes
+Date: Sat, 10 Jan 2026 11:39:36 +0100
+Message-ID: <176804152717.3568.6544517123602866395.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260108-apple-dt-pmgr-fixes-v1-0-cfdce629c0a8@jannau.net>
+References: <20260108-apple-dt-pmgr-fixes-v1-0-cfdce629c0a8@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] usb: xhci-dwc3: Add "apple,t8103-dwc3" compatible
-To: Janne Grunau <j@jannau.net>, u-boot@lists.denx.de
-Cc: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>,
- Tom Rini <trini@konsulko.com>, Mark Kettenis <mark.kettenis@xs4all.nl>,
- asahi@lists.linux.dev
-References: <20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: e0bd039d18c55cfe032
-X-MBO-RS-META: uo6nwymi1tikrncdfimeg4opthewanw5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 1/9/26 8:41 PM, Janne Grunau wrote:
-> The Linux support for dwc3 on Apple silicon SoCs switched to using a
-> apple specific glue driver [1] that uses it own compatible string. The
-> glue driver handles platform specific requirements on the interaction
-> between dwc3 and the USB2/USB3 PHY and reset-controller for USB role
-> switches and plug events.
-> To keep USB working as before when the nodes still carried "snps,dwc3"
-> as compatible add "apple,t8103-dwc3" to the of match table. Eventually
-> it is probably advisable to add a dwc3-apple glue driver and write code
-> for the currently empty Apple Type-C PHY driver in phy-apple-atc.c.
+On Thu, 08 Jan 2026 22:04:00 +0100, Janne Grunau wrote:
+> This series contains 3 small pmgr related fixes for Apple silicon
+> devices with M1 and M2.
 > 
-> Link: https://lore.kernel.org/asahi/20251015-b4-aplpe-dwc3-v2-0-cbd65a2d511a@kernel.org/ [1]
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
->   drivers/usb/host/xhci-dwc3.c | 1 +
->   1 file changed, 1 insertion(+)
+> 1. Prevent the display controller and DPTX phy from powered down after
+>    initial boot on the M2 Mac mini. This is the only fix worthwhile for
+>    stable kernels. Given how long it has been broken and that it's not a
+>    regression I think it can wait to the next merge window and get
+>    backported from there into stable kernels.
 > 
-> diff --git a/drivers/usb/host/xhci-dwc3.c b/drivers/usb/host/xhci-dwc3.c
-> index e3e0ceff43e6abdb8643f265819eff28c2c802f4..ba42c3247654b7d9272c42ea9c4cf0bd9082915e 100644
-> --- a/drivers/usb/host/xhci-dwc3.c
-> +++ b/drivers/usb/host/xhci-dwc3.c
-> @@ -238,6 +238,7 @@ static int xhci_dwc3_remove(struct udevice *dev)
->   
->   static const struct udevice_id xhci_dwc3_ids[] = {
->   	{ .compatible = "snps,dwc3" },
-> +	{ .compatible = "apple,t8103-dwc3" },
+> [...]
 
+Applied to AsahiLinux/linux (apple-soc/dt-6.20), thanks!
 
-Please keep the list sorted.
+[1/3] arm64: dts: apple: t8112-j473: Keep the HDMI port powered on
+      https://github.com/AsahiLinux/linux/commit/162a29b58c5b
+[2/3] arm64: dts: apple: t8103: Mark ATC USB AON domains as always-on
+      https://github.com/AsahiLinux/linux/commit/f15cea4e84ae
+[3/3] arm64: dts: apple: t8103: Add ps_pmp dependency to ps_gfx
+      https://github.com/AsahiLinux/linux/commit/35e794fefd47
 
-With that fixed:
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
-Reviewed-by: Marek Vasut <marek.vasut@mailbox.org>
-
-Thank you !
