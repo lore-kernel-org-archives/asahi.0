@@ -1,53 +1,56 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6467629D26E
-	for <asahi@lists.linux.dev>; Sat, 10 Jan 2026 19:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF32226B973
+	for <asahi@lists.linux.dev>; Sat, 10 Jan 2026 19:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768072440; cv=none; b=Upqt3i5eB21fPR4ICVii/YhuhmPsv5+nrL5WaQgkfhrSmuZa9Hmn10zNurDH7D/l++bnGQPirWOnNWm14UQCfnGxL6Fmc22lFlwexPu67d86TzCI45i7sN6z0qeyXGdWfmKvTU8u/7cn3fvPW5FQYNuifLnJPXedJmGc0Ql5y6I=
+	t=1768073207; cv=none; b=Kv867XQMCIBjWORSXFJsxAhePWSOy1TjmUEizU2dt0em0q4RRZbFUi6ge+EJe/mljohU8BUT6SilafRzFoeyB4Sgi0O4kyngD192FyoitFDcnXmBoZwILYSalxzIHYcb05s8h+iHli2fmB1l/xm5WeBrkAiG1wE9BJnGgxl2+tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768072440; c=relaxed/simple;
-	bh=h3Cx8tyqMYRHmyVodrWQGk+4ydYO1OeaY7ClZMbJTj4=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=NbzhPRbbp5dnx4Te5sWi6SD6GoxdSzsPFgpOlPkSDx1a8k0+hCsr3t61TgXzx5RDCR1uw4z8NMwpp+OoxK32h8iEHND3SF0VHQ5ZGIdUFIlgF8Ib08sLRKZscemPgLYCfP6Tp5fW+aL9E9WXKjnh0WTYQLYCTedRKYtT7ZMnz2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Hxg+brja; arc=none smtp.client-ip=195.121.94.186
+	s=arc-20240116; t=1768073207; c=relaxed/simple;
+	bh=rnvxtnRu1rSQSP6ypBUEsV37vDvQUoTWQLJx+OnihIk=;
+	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=PZtcmL3kU5E+ttlso8P+cJ9wCMxSOLbWGJbcpwMRPLAVO3eNieBSuE0la3xIIESwSHFEQYmdhscpdOxYbv+cIxAW0vxoL/UK36WIC4ltMCsPZoSr9cBXIy2cxdEc99MFPbgYiChnKXf2ZAp7bra62swEDsuOv8+TzAtBSZlhVro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Cu403eMb; arc=none smtp.client-ip=195.121.94.185
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Hxg+brja"
-X-KPN-MessageId: 7dc0aab4-ee58-11f0-89d8-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Cu403eMb"
+X-KPN-MessageId: 46e2daaa-ee5a-11f0-8fef-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 7dc0aab4-ee58-11f0-89d8-00505699b430;
-	Sat, 10 Jan 2026 20:13:48 +0100 (CET)
+	id 46e2daaa-ee5a-11f0-8fef-005056999439;
+	Sat, 10 Jan 2026 20:26:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=subject:to:from:message-id:date;
-	bh=FmNUNchhXYD2+HGqqF9G7SmeOdg9hoimFKhVXz1TY0c=;
-	b=Hxg+brja1Yq1AotGMcJpsutRE3IJiAW1AvbAHVVrfZnHDg054U+JDakbduNFwXyW3xKlf6v0obOkT
-	 L4JvVOy1TqiKV27boiEx04hjM9HiZ6iUX5S2QkmqUO1eAxBtclRpUU2n5nhtz8xEXtDhBV3x2jHaaK
-	 p3OUy8XqLPxqmmw3W3ycf/eNYbX9QSfFrTo8ylJ2Jhj6RhSyGwKcTASne35BvraT70eGAY8HKSmuSp
-	 kqd9Y2TtJQ+NSRm3zatNvAgDfNpzS17T4Sw49Y4Ni06naohLaj3sk0aJzQOso2OjfiPP14K4fLlQFW
-	 fd/fBy8ZyGEXue7euKlPAguwNRKVr9w==
-X-KPN-MID: 33|0wgyXI7qLuaXMgedYKB6L2q5i5jrAI6DXbreMhXV2EOGQOxotndPOSwmXPYn4fD
- q+Drw/KNN90oPmHwQVLbLuB65iN6tskP7AWg+9EN0hwY=
+	bh=1kRHIH05u+KrIwE9Qo8lvdbKCNByfY32s/uMnAuuqv8=;
+	b=Cu403eMbDM3vWI/QGN0TOYO+MfheIIeGCxRBdFyGf+Fw34Lci5iW8sxPCtqMU5vHW3wxPC2f+Hsuj
+	 UrAOs/aaffDiYrXLSgVx01HABCNr5pB5vlSvTHyHFbzQlVHQq4ThBpHjaiTKJFzYSIH6DpAuboSRF0
+	 pwCuDuQvzh+idV20JW/EwBJepnnCItUM7BB+XGwg6iQbCVpR9t/hAhkc8ObhTv+VNJxcZ3MSopQcul
+	 ySXJrY4Y44wjbbZ2VOAFowcPQ4bQorMJ7I7ZBD0F/DYTls6yoOaMAix/Ho5eOEmYIZN+bYh3jevcVv
+	 yOnL2rP3SOSnaMY40nIqpvJ1eZrqlcA==
+X-KPN-MID: 33|+uXw80JppQnUVPXaDGNuWw3DZmbQImWj5rdnLXMFm4KNGQTeJd28uA22CyL9Xw8
+ Ab5Qx6TxfYsG6w3/uEbb7XQ==
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|UMkPAj4XxmK3uM9kKexgYdRbUSYEHWMRoVn2kRXu9wwft0chV616W058oCJ1jlP
- HnBUov/2rXYT1L5JpoHQmbw==
+X-CMASSUN: 33|ABcsc6EyIPmuN5VvOx3IXRlOfqA+oGFBLv4xNvXZUHwTSryLb3MlnAThl5Uq2CW
+ DYsdFcw6SPCzVAVj6vYeGMQ==
 Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 7deda2c6-ee58-11f0-bff6-00505699772e;
-	Sat, 10 Jan 2026 20:13:49 +0100 (CET)
-Date: Sat, 10 Jan 2026 20:13:48 +0100
-Message-Id: <87y0m58emr.fsf@bloch.sibelius.xs4all.nl>
+	id 47212731-ee5a-11f0-86cc-005056998788;
+	Sat, 10 Jan 2026 20:26:36 +0100 (CET)
+Date: Sat, 10 Jan 2026 20:26:35 +0100
+Message-Id: <87wm1p8e1g.fsf@bloch.sibelius.xs4all.nl>
 From: Mark Kettenis <mark.kettenis@xs4all.nl>
 To: Janne Grunau <j@jannau.net>
-Cc: u-boot@lists.denx.de, kettenis@openbsd.org, trini@konsulko.com,
-	asahi@lists.linux.dev, j@jannau.net
-In-Reply-To: <20260109-apple-defconfig-smbios-v1-1-16477009c034@jannau.net>
-	(message from Janne Grunau on Fri, 09 Jan 2026 18:20:30 +0100)
-Subject: Re: [PATCH] configs: apple: Enable SMBIOS / sysinfo
-References: <20260109-apple-defconfig-smbios-v1-1-16477009c034@jannau.net>
+Cc: sven@kernel.org, neal@gompa.dev, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	j@jannau.net
+In-Reply-To: <20260109-apple-dt-chassis-type-v1-0-c215503734c5@jannau.net>
+	(message from Janne Grunau on Fri, 09 Jan 2026 16:25:42 +0100)
+Subject: Re: [PATCH 0/4] arm64: dts: apple: Add chassis-type properties
+References: <20260109-apple-dt-chassis-type-v1-0-c215503734c5@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -55,57 +58,53 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 
 > From: Janne Grunau <j@jannau.net>
-> Date: Fri, 09 Jan 2026 18:20:30 +0100
+> Date: Fri, 09 Jan 2026 16:25:42 +0100
 > 
-> Enable verbose SMBIOS table generation so that user space applications
-> can use the SMBIOS table to provide details about the system. The
-> desired information is chassis-type to determine whether the system is
-> laptop.
-> Adding the chassis-type property is proposed for the upstream device
-> trees in the Linux kernel in [1].
-
-Given that we have no real space constraint, should we add
-CONFIG_CMD_SMBIOS=y as well?
-
-> Link: https://lore.kernel.org/asahi/20260109-apple-dt-usb-c-atc-dwc3-v1-0-ce0e92c1a016@jannau.net/ [1]
+> Add chassis-type properties for all Apple silicon Macs. "chassis-type"
+> is used by u-boot to fill the SMBIOS "System Enclosure or Chassis Type"
+> field. User space software uses this field to to determine if a device
+> is an laptop. The exact use case eludes me unfortunately.
+> 
+> The Mac Pro uses "server" as chassis-type which is not entirely
+> accurate. The tower and rack mount Mac Pro versions share the same .dts
+> file and are identical except for the enclosure. I haven't found an
+> obvious property in Apple's device tree to distinguish between those so
+> both use "server" instead of the more accurate "tower" and "rack mount
+> chassis". The latter chassis-types are not in dt-schema anyway.
+> 
 > Signed-off-by: Janne Grunau <j@jannau.net>
+
+For the series:
+
+Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+
 > ---
-> I do not plan to update u-boot's in-tree device trees. The Linux device
-> trees have almost reached feature parity. The main missing features are
-> the USB Type-C ports (on track for next merge window) and the laptop
-> keyboards. I think it makes more sense to close the feature gap and
-> switch to upstream device trees instead of adding to the in-tree device
-> trees.
-> ---
->  configs/apple_m1_defconfig | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Janne Grunau (4):
+>       arm64: dts: apple: Add chassis-type property for all Macbooks
+>       arm64: dts: apple: Add chassis-type property for Apple desktop devices
+>       arm64: dts: apple: Add chassis-type property for Mac Pro
+>       arm64: dts: apple: Add chassis-type property for Apple iMacs
 > 
-> diff --git a/configs/apple_m1_defconfig b/configs/apple_m1_defconfig
-> index 2d685da8c9eee2084b0144050e12c03c77e5184e..52672f59566dc0ebbb1c829cff6c7d8f798e7c50 100644
-> --- a/configs/apple_m1_defconfig
-> +++ b/configs/apple_m1_defconfig
-> @@ -16,6 +16,8 @@ CONFIG_SYS_64BIT_LBA=y
->  CONFIG_APPLE_SPI_KEYB=y
->  # CONFIG_MMC is not set
->  CONFIG_NVME_APPLE=y
-> +CONFIG_SYSINFO=y
-> +CONFIG_SYSINFO_SMBIOS=y
->  CONFIG_USB_XHCI_HCD=y
->  CONFIG_USB_XHCI_DWC3=y
->  CONFIG_USB_XHCI_PCI=y
-> @@ -25,4 +27,4 @@ CONFIG_VIDEO_FONT_16X32=y
->  CONFIG_SYS_WHITE_ON_BLACK=y
->  CONFIG_NO_FB_CLEAR=y
->  CONFIG_VIDEO_SIMPLE=y
-> -# CONFIG_SMBIOS is not set
-> +CONFIG_GENERATE_SMBIOS_TABLE_VERBOSE=y
-> 
+>  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 2 ++
+>  arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 2 ++
+>  arch/arm64/boot/dts/apple/t6022-j180d.dts      | 2 ++
+>  arch/arm64/boot/dts/apple/t8103-j274.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8103-j293.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8103-j313.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8103-j456.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8103-j457.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8112-j413.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8112-j415.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8112-j473.dts       | 1 +
+>  arch/arm64/boot/dts/apple/t8112-j493.dts       | 1 +
+>  12 files changed, 15 insertions(+)
 > ---
-> base-commit: 127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3
-> change-id: 20260109-apple-defconfig-smbios-a37802021452
+> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> change-id: 20260109-apple-dt-chassis-type-f31523a1f681
 > 
 > Best regards,
 > -- 
 > Janne Grunau <j@jannau.net>
+> 
 > 
 > 
