@@ -1,56 +1,54 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF32226B973
-	for <asahi@lists.linux.dev>; Sat, 10 Jan 2026 19:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CE418DB37
+	for <asahi@lists.linux.dev>; Sat, 10 Jan 2026 19:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768073207; cv=none; b=Kv867XQMCIBjWORSXFJsxAhePWSOy1TjmUEizU2dt0em0q4RRZbFUi6ge+EJe/mljohU8BUT6SilafRzFoeyB4Sgi0O4kyngD192FyoitFDcnXmBoZwILYSalxzIHYcb05s8h+iHli2fmB1l/xm5WeBrkAiG1wE9BJnGgxl2+tI=
+	t=1768073356; cv=none; b=sZUgbrP6mDQebwW/YuutGuaBIhuO7r1hWKhmP0TEQO1jMThE9i0pcND6j0TBQbvnEdGRykTLrZVYNPYn2OYJcN97uT3Rp+1W4f0XqmIzQ9kB00MOY+sl1a3btiK4XnkxTtDVCD2RGuPUctEngKUJtAOtAVvQNKLscacIG16fsCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768073207; c=relaxed/simple;
-	bh=rnvxtnRu1rSQSP6ypBUEsV37vDvQUoTWQLJx+OnihIk=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=PZtcmL3kU5E+ttlso8P+cJ9wCMxSOLbWGJbcpwMRPLAVO3eNieBSuE0la3xIIESwSHFEQYmdhscpdOxYbv+cIxAW0vxoL/UK36WIC4ltMCsPZoSr9cBXIy2cxdEc99MFPbgYiChnKXf2ZAp7bra62swEDsuOv8+TzAtBSZlhVro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Cu403eMb; arc=none smtp.client-ip=195.121.94.185
+	s=arc-20240116; t=1768073356; c=relaxed/simple;
+	bh=JBGdeOCbaRNuG0HHSVLLpkGtcCuDetqvTak5QOTmuPs=;
+	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=JOpyrKfHpP0eNqA9ZQGFhUA1YLgnzRS0B+EaF0rLPYt1kCFJ5XQn6YZeXgGXd4Wo3KaBfea7Y1uizuX4/qm9Wlsx/B+zsflv5SMkT6wXXdvXyjrlj9wdcYRwWgPTLGKs2OBivAjHSvrwOdOcOOzoZrSUUHw8TG2cmpeHWsPIDpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Wj0DLwWE; arc=none smtp.client-ip=195.121.94.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Cu403eMb"
-X-KPN-MessageId: 46e2daaa-ee5a-11f0-8fef-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Wj0DLwWE"
+X-KPN-MessageId: a474ca67-ee5a-11f0-89d8-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 46e2daaa-ee5a-11f0-8fef-005056999439;
-	Sat, 10 Jan 2026 20:26:35 +0100 (CET)
+	id a474ca67-ee5a-11f0-89d8-00505699b430;
+	Sat, 10 Jan 2026 20:29:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=subject:to:from:message-id:date;
-	bh=1kRHIH05u+KrIwE9Qo8lvdbKCNByfY32s/uMnAuuqv8=;
-	b=Cu403eMbDM3vWI/QGN0TOYO+MfheIIeGCxRBdFyGf+Fw34Lci5iW8sxPCtqMU5vHW3wxPC2f+Hsuj
-	 UrAOs/aaffDiYrXLSgVx01HABCNr5pB5vlSvTHyHFbzQlVHQq4ThBpHjaiTKJFzYSIH6DpAuboSRF0
-	 pwCuDuQvzh+idV20JW/EwBJepnnCItUM7BB+XGwg6iQbCVpR9t/hAhkc8ObhTv+VNJxcZ3MSopQcul
-	 ySXJrY4Y44wjbbZ2VOAFowcPQ4bQorMJ7I7ZBD0F/DYTls6yoOaMAix/Ho5eOEmYIZN+bYh3jevcVv
-	 yOnL2rP3SOSnaMY40nIqpvJ1eZrqlcA==
-X-KPN-MID: 33|+uXw80JppQnUVPXaDGNuWw3DZmbQImWj5rdnLXMFm4KNGQTeJd28uA22CyL9Xw8
- Ab5Qx6TxfYsG6w3/uEbb7XQ==
+	bh=is7sIcZRkTvchgsj8/mIfcfByBbJFYN6C9fw8XLk4g0=;
+	b=Wj0DLwWEFS5mmUCsqnYqN+SaorcHTmVM8qXJK7L/fqdQ4vqEUCQ5yg1zARDsTPL2ZATIenhi28xhb
+	 u8m76KKQ3nTD5r29Y8Ev2zjKKGO5pLWAo1QfQb/CXBXvRDPOM+Sh0falOdNN5u1+UHsP7i4KizDw25
+	 qKn+99BNTdtBR3xfJgds78xh40De1+iuzf7qXuuTqPOHmXBiqniMBvOle+Lsexu+RJTnRqVbcTpTWG
+	 l47IPADLkKwy0i/gckYCUBAcHwevaK5nWeR38RoFx/qouVO53JkcEn6WhPVEsumRfhd1G/1K7tx4FT
+	 a8H/E7D+2j8q8NtZ7PZYeJM6oYVkSfQ==
+X-KPN-MID: 33|Pw5kkYYL7KLJWTemvwpNCL+nwc8UQKEJ+zEvHx+ySDF2UwPvx4nXwDaDmu7al9v
+ i45v5O1fkPMHzmzP91yZkHQ7yrftRiB+gbZ8xu6yyIn8=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|ABcsc6EyIPmuN5VvOx3IXRlOfqA+oGFBLv4xNvXZUHwTSryLb3MlnAThl5Uq2CW
- DYsdFcw6SPCzVAVj6vYeGMQ==
+X-CMASSUN: 33|T+ig73/TxdepUA0w2qY46nMUB99zpIVBWHTJ36bgyTIm/enBlT6O+kwXVKkRI2i
+ 8FXKQYOgifa3HaovjFYNx2Q==
 Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 47212731-ee5a-11f0-86cc-005056998788;
-	Sat, 10 Jan 2026 20:26:36 +0100 (CET)
-Date: Sat, 10 Jan 2026 20:26:35 +0100
-Message-Id: <87wm1p8e1g.fsf@bloch.sibelius.xs4all.nl>
+	id a4a4a505-ee5a-11f0-bff6-00505699772e;
+	Sat, 10 Jan 2026 20:29:13 +0100 (CET)
+Date: Sat, 10 Jan 2026 20:29:12 +0100
+Message-Id: <87v7h98dx3.fsf@bloch.sibelius.xs4all.nl>
 From: Mark Kettenis <mark.kettenis@xs4all.nl>
 To: Janne Grunau <j@jannau.net>
-Cc: sven@kernel.org, neal@gompa.dev, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	j@jannau.net
-In-Reply-To: <20260109-apple-dt-chassis-type-v1-0-c215503734c5@jannau.net>
-	(message from Janne Grunau on Fri, 09 Jan 2026 16:25:42 +0100)
-Subject: Re: [PATCH 0/4] arm64: dts: apple: Add chassis-type properties
-References: <20260109-apple-dt-chassis-type-v1-0-c215503734c5@jannau.net>
+Cc: u-boot@lists.denx.de, bmeng.cn@gmail.com, marex@denx.de,
+	trini@konsulko.com, asahi@lists.linux.dev, j@jannau.net
+In-Reply-To:
+	<20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
+	(message from Janne Grunau on Fri, 09 Jan 2026 20:41:36 +0100)
+Subject: Re: [PATCH] usb: xhci-dwc3: Add "apple,t8103-dwc3" compatible
+References: <20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -58,53 +56,45 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 
 > From: Janne Grunau <j@jannau.net>
-> Date: Fri, 09 Jan 2026 16:25:42 +0100
+> Date: Fri, 09 Jan 2026 20:41:36 +0100
 > 
-> Add chassis-type properties for all Apple silicon Macs. "chassis-type"
-> is used by u-boot to fill the SMBIOS "System Enclosure or Chassis Type"
-> field. User space software uses this field to to determine if a device
-> is an laptop. The exact use case eludes me unfortunately.
-> 
-> The Mac Pro uses "server" as chassis-type which is not entirely
-> accurate. The tower and rack mount Mac Pro versions share the same .dts
-> file and are identical except for the enclosure. I haven't found an
-> obvious property in Apple's device tree to distinguish between those so
-> both use "server" instead of the more accurate "tower" and "rack mount
-> chassis". The latter chassis-types are not in dt-schema anyway.
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-
-For the series:
+> The Linux support for dwc3 on Apple silicon SoCs switched to using a
+> apple specific glue driver [1] that uses it own compatible string. The
+> glue driver handles platform specific requirements on the interaction
+> between dwc3 and the USB2/USB3 PHY and reset-controller for USB role
+> switches and plug events.
+> To keep USB working as before when the nodes still carried "snps,dwc3"
+> as compatible add "apple,t8103-dwc3" to the of match table. Eventually
+> it is probably advisable to add a dwc3-apple glue driver and write code
+> for the currently empty Apple Type-C PHY driver in phy-apple-atc.c.
 
 Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
 
+> Link: https://lore.kernel.org/asahi/20251015-b4-aplpe-dwc3-v2-0-cbd65a2d511a@kernel.org/ [1]
+> Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
-> Janne Grunau (4):
->       arm64: dts: apple: Add chassis-type property for all Macbooks
->       arm64: dts: apple: Add chassis-type property for Apple desktop devices
->       arm64: dts: apple: Add chassis-type property for Mac Pro
->       arm64: dts: apple: Add chassis-type property for Apple iMacs
+>  drivers/usb/host/xhci-dwc3.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 2 ++
->  arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 2 ++
->  arch/arm64/boot/dts/apple/t6022-j180d.dts      | 2 ++
->  arch/arm64/boot/dts/apple/t8103-j274.dts       | 1 +
->  arch/arm64/boot/dts/apple/t8103-j293.dts       | 1 +
->  arch/arm64/boot/dts/apple/t8103-j313.dts       | 1 +
->  arch/arm64/boot/dts/apple/t8103-j456.dts       | 1 +
->  arch/arm64/boot/dts/apple/t8103-j457.dts       | 1 +
->  arch/arm64/boot/dts/apple/t8112-j413.dts       | 1 +
->  arch/arm64/boot/dts/apple/t8112-j415.dts       | 1 +
->  arch/arm64/boot/dts/apple/t8112-j473.dts       | 1 +
->  arch/arm64/boot/dts/apple/t8112-j493.dts       | 1 +
->  12 files changed, 15 insertions(+)
+> diff --git a/drivers/usb/host/xhci-dwc3.c b/drivers/usb/host/xhci-dwc3.c
+> index e3e0ceff43e6abdb8643f265819eff28c2c802f4..ba42c3247654b7d9272c42ea9c4cf0bd9082915e 100644
+> --- a/drivers/usb/host/xhci-dwc3.c
+> +++ b/drivers/usb/host/xhci-dwc3.c
+> @@ -238,6 +238,7 @@ static int xhci_dwc3_remove(struct udevice *dev)
+>  
+>  static const struct udevice_id xhci_dwc3_ids[] = {
+>  	{ .compatible = "snps,dwc3" },
+> +	{ .compatible = "apple,t8103-dwc3" },
+>  	{ }
+>  };
+>  
+> 
 > ---
-> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-> change-id: 20260109-apple-dt-chassis-type-f31523a1f681
+> base-commit: 127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3
+> change-id: 20260109-usb-dwc3-apple-compat-linux-821ee75bec48
 > 
 > Best regards,
 > -- 
 > Janne Grunau <j@jannau.net>
-> 
 > 
 > 
