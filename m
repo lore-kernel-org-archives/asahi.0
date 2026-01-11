@@ -1,140 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E08500963;
-	Sun, 11 Jan 2026 17:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4525F1EDA3C
+	for <asahi@lists.linux.dev>; Sun, 11 Jan 2026 19:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768151199; cv=none; b=qW8ZRHZGhFCoXtnoYAttdnv42mzu1D/LUJFAMT0eXTac7WyGvDJdlaDdgcegbOI6fvm0SZA5VJ1RLytmogIqDjmS2otrypx3Y3G2V9Cr5KCmi1Le30U8OCJg1YaXIkI42HMMHpp7MWsNeiWSFIVhvvdblGII4eQ/nBE7u+d6hK0=
+	t=1768160071; cv=none; b=XQqdYSxihOC/faM7dYS9nWZUyE9/1LZl6CA2hss9HFHXVBREWI2VrU1pVBuH6w9kvY2hX9bia05NC8hE3QUkof2UhzB1xy/JNQ2ym9Zpo7OmOAiE9+FSyXTfOIXYI6n9Ss+5QzjzizvZggk7iA2LdUnUP6/sO13AELOaMkcubXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768151199; c=relaxed/simple;
-	bh=/NMtZisAP9xrOC8AIvPH0lhzDe1OgxI6w+qhe2D9s9M=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=OMxRyfZoq7v1/5M3mgGPD+mj2eQZXTh8gswUGRvE2QbSTLb1y7R0ox8DVvvRVQKLh03CsVMpf7Jo4DQkSinbOFFbw9s3rOaiHoAqTTo8qwPDdWdd41rOhiOF4A04tNk4j1ti8LCS7r2reP1qwUufQi95/EOY4R95tZlze1mqIsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NXtqTD3Y; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NXtqTD3Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63795C4CEF7;
-	Sun, 11 Jan 2026 17:06:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768151199;
-	bh=/NMtZisAP9xrOC8AIvPH0lhzDe1OgxI6w+qhe2D9s9M=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=NXtqTD3Y5Q6kSI1qnrUOjgz5EV+XDqN9b21VF2fkExkeJiu2/JrmFdsjMkcfnka6U
-	 cIlDvByA0HQQXUKwjgvYZyxaCvQ+ll6ydZJds+pJLQwf6fTBhlyEQq0nXsvD1oJrck
-	 8ls123Vqxb6UtnX2Y+Upztzuz+B4ue69DutXOI1KjLkmRhtRuEkM+xbk6Q8XvcMnsm
-	 Vt/7vkk2fcH4/lDjdS1uqrYZisyreqMaPA8UNPKoE1zROmPTf8Gqb0GzrnVbSIolw0
-	 SoPiIBZrLxU3ksMaKuGggA7BnqMeSe7iB61IRVwAFdEQuMLGMdHC4Y4NOsGWUSY9zr
-	 /XS2q5K3j+VEQ==
+	s=arc-20240116; t=1768160071; c=relaxed/simple;
+	bh=5dakl8XFKnP2x/+i5fUt1gHxR7w/OUAPoRSxfbl/y00=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hdkTR3+yNnNa8dmzoBx907B84ntAoMzN9RGC4PwQZHlyJf1jjZCJnOkG8OejpLqmtkopukKr/LNkIVgmw3xGLxZcTojpJRX3OiQTEfeBhbyXWytllxSKg9td8ZJxP/97UxAQ+psEwBxBAYj6IPetysY3JFDcxkKlMCp5wfqyXkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-3f0d1a39cabso4118146fac.3
+        for <asahi@lists.linux.dev>; Sun, 11 Jan 2026 11:34:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768160068; x=1768764868;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GkYn852Tu9q0tPkoFGT8vCSdPljgd8X3NYVvGE1Eo3g=;
+        b=jNGu4wA7+0n61kXoL6Bca9dPvj6TbxukLUQMrr6IUCYG3wLKZWVDCG+UFT4CiJGDZk
+         K8HiRuI+Q+dbEtd30Sx68YdEvRAcdnCk6lajv715AEXgKrvoRxrZXbj+Yr0wc3RAsmfi
+         Zd9pYdFtVV/czZ610Io6r9l4ojMibAWmVoRazN6yyqqte/7cpGdkVceMlhzGLQ/wEW2i
+         BLK9wxneBqV9UMz/v3ktCHmZXr9mh809PllFOUBb+HWrF8FXOpRRWfqmYYgsIrliXpQA
+         Fy/9MqvXaBNLmlsqYKLsJAVjQiAQmKqvnICWrkcolbXVHxTiN93yxg5KB1F9uTt+nUcL
+         9kmA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/+gUgWAOLTtbC08VwERj0DBuAQ8D7xjrxa7wzx6lHdaxv3Qt7vKG6GgaYunjxFaGzpNVu+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzGFbs/Bhi2cS6JDP10WE913GnOyPykp5j4tHLmpIV8flItW7R
+	s0WUCFW5IifWvmeQWc1/+nXANVmazyNQKo3XrOGcEAPxIDaUB7mrscAu9OUymQ==
+X-Gm-Gg: AY/fxX6eRtmZ0GPfa/BR1v1AV55yvBS+8K9s1tWkOQvhsFYqnanohyTt1zAO2gBy06v
+	fdxh0BbcX29INVIH2jU0CS60s1fyRRhYrY4ZnlWD2VrioKL0X2j+3YWmcvpqLM+eTvJiNBIWfEz
+	++OLkx6mnMxh5gVWGh/6hMe5j9WwcPAlDnQFRhh18GtqAuILnXOpyg6agD3/+HAAnGZme6qTyQv
+	JVwWyyat0HGkfUWvurxPuDhHL8b/y5MUUSxwb9HFDOOqW/Lv/J4UvlJtuAI1InQ1MSJGBg3MeR7
+	aJUYt14qvRm2aGKyEJC72c5ZAPAfEc6YQX+w5HbW/NXnApb4VCCx8hy09EC8ycsvbrX0STXnVff
+	/xLLvhnNdx5+2k/niwD+8j68xl5q3OAFJ+Cb4zKA2W1eL0bf3rdnA4fjpHpY/bqTH/Oe1faXDKl
+	70xl9aXdNV4lIeHeDmkQ3bZI46bFTDnaGDtDp5h350uZksRbCU0t+TWdNx4TIjZWu2QC4DkhQP
+X-Google-Smtp-Source: AGHT+IGIDwg3xNTKCU0atUU49GydukxIEWWHD0j1kkGQcbOCm16XXu+74eDdQNgcE/f2H2xuCXyRYg==
+X-Received: by 2002:a05:6820:e88:b0:65d:88b:c00d with SMTP id 006d021491bc7-65f54f72e3fmr5390732eaf.66.1768160068313;
+        Sun, 11 Jan 2026 11:34:28 -0800 (PST)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com. [209.85.210.41])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-65f48cb03c8sm6455819eaf.10.2026.01.11.11.34.27
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Jan 2026 11:34:27 -0800 (PST)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7caf5314847so4007649a34.0
+        for <asahi@lists.linux.dev>; Sun, 11 Jan 2026 11:34:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWizuKHThbGqD4Rj9umg9hpfmdT+0sZSqfRmM6jVGQmAVfrbTw0/WHGdZi6WK0869sE7VN5Kg==@lists.linux.dev
+X-Received: by 2002:a05:6830:4995:b0:7c7:827f:2b6b with SMTP id
+ 46e09a7af769-7ce50bfdec9mr10107663a34.38.1768160067563; Sun, 11 Jan 2026
+ 11:34:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
+In-Reply-To: <20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
+From: Neal Gompa <neal@gompa.dev>
+Date: Sun, 11 Jan 2026 14:33:51 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je8EMWmwyMMXM-82PbXvLKdxUz9Jxus33dxEAZ8eRRxz3g@mail.gmail.com>
+X-Gm-Features: AZwV_QiswhMQh-OfNIc-ljra59Z6BdVFFswTCuHhAUK8Tp-IsA-zsBu1qCLV9X4
+Message-ID: <CAEg-Je8EMWmwyMMXM-82PbXvLKdxUz9Jxus33dxEAZ8eRRxz3g@mail.gmail.com>
+Subject: Re: [PATCH] usb: xhci-dwc3: Add "apple,t8103-dwc3" compatible
+To: Janne Grunau <j@jannau.net>
+Cc: u-boot@lists.denx.de, Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
+	Tom Rini <trini@konsulko.com>, Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 11 Jan 2026 18:06:34 +0100
-Message-Id: <DFLXAD7L0MYF.39C9FW4KL917D@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Danilo Krummrich" <dakr@kernel.org>, "Fiona Behrens" <me@kloenk.dev>,
- "Alban Kurti" <kurti@invicto.ai>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>
-Subject: Re: [PATCH] rust: pin-init: add references to previously
- initialized fields
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Janne Grunau" <j@jannau.net>
-X-Mailer: aerc 0.21.0
-References: <20250905140047.3325945-1-lossin@kernel.org>
- <20251203220516.GA592465@robin.jannau.net>
- <DEQZLZ9AVCZE.380X3OF521Y5L@kernel.org>
- <20251206170214.GE1097212@robin.jannau.net>
-In-Reply-To: <20251206170214.GE1097212@robin.jannau.net>
 
-On Sat Dec 6, 2025 at 6:02 PM CET, Janne Grunau wrote:
-> On Sat, Dec 06, 2025 at 09:23:08AM +0100, Benno Lossin wrote:
->> On Wed Dec 3, 2025 at 11:05 PM CET, Janne Grunau wrote:
->> > On Fri, Sep 05, 2025 at 04:00:46PM +0200, Benno Lossin wrote:
->> >> After initializing a field in an initializer macro, create a variable
->> >> holding a reference that points at that field. The type is either
->> >> `Pin<&mut T>` or `&mut T` depending on the field's structural pinning
->> >> kind.
->> >
->> > just as a heads up: creating references broke part of the agx firmware
->> > init structs which uses a `#[repr(C, packed)]` struct as field in
->> > another struct. This fails with
->> >
->> > | error[E0793]: reference to packed field is unaligned
->> > |    --> ../drivers/gpu/drm/asahi/initdata.rs:722:28
->> > |     |
->> > | 722 |                       sub <- try_init!(raw::GlobalsSub::ver {
->> > |     |  ____________________________^
->> > | 723 | |                         unk_54: cfg.global_unk_54,
->> > | 724 | |                         unk_56: 40,
->> > | 725 | |                         unk_58: 0xffff,
->> > | ...   |
->> > | 731 | |                         ..Zeroable::init_zeroed()
->> > | 732 | |                     }),
->> > |     | |______________________^
->> > |     |
->> > |     =3D note: packed structs are only aligned by one byte, and many =
-modern architectures penalize unaligned field accesses
->> > |     =3D note: creating a misaligned reference is undefined behavior =
-(even if that reference is never dereferenced)
->> > |     =3D help: copy the field contents to a local variable, or replac=
-e the reference with a raw pointer and use `read_unaligned`/`write_unaligne=
-d` (loads and stores via `*p` must be properly aligned even when using raw =
-pointers)
->> > |     =3D note: this error originates in the macro `$crate::__init_int=
-ernal` which comes from the expansion of the macro `try_init` (in Nightly b=
-uilds, run with -Z macro-backtrace for more info)
->> >
->> > This was easy enough to work around, I don't see how this embedding of=
- a
->> > `#[repr(C, packed)]` struct was necessary or at least helpful. The cod=
-e
->> > is not expected to be included in the upstream driver so it no worth
->> > spending effort on this.
->> >
->> > I don't think it's likely that anyone else will run into this but I
->> > thought I mention it at least.
->> >
->> > The asahi driver also ran into the discussed variable shadowing issue =
-(a
->> > variable was used to initialize a field of the same name and was later
->> > used to initialize another field). This was trivially fixed by renamin=
-g
->> > the variable.
->>=20
->> Thanks for the report, I expected the latter kind of error, but was not
->> aware of the packed struct issue. If anyone needs a proper workaround
->> from pin-init, let me know.
+On Fri, Jan 9, 2026 at 2:41=E2=80=AFPM Janne Grunau <j@jannau.net> wrote:
 >
-> I spoke too soon. The packed struct issue is also present in the capture
-> driver for Macbook microphones (aop_audio). Working around this issue
-> there is less obvious and more effort. I think it might be enough to use
-> unaligned u32 / u64 types already present in asahi [1].
+> The Linux support for dwc3 on Apple silicon SoCs switched to using a
+> apple specific glue driver [1] that uses it own compatible string. The
+> glue driver handles platform specific requirements on the interaction
+> between dwc3 and the USB2/USB3 PHY and reset-controller for USB role
+> switches and plug events.
+> To keep USB working as before when the nodes still carried "snps,dwc3"
+> as compatible add "apple,t8103-dwc3" to the of match table. Eventually
+> it is probably advisable to add a dwc3-apple glue driver and write code
+> for the currently empty Apple Type-C PHY driver in phy-apple-atc.c.
 >
-> I'm not sure how prevalent packed structs are outside of Apple's
-> firmware interfaces. I was surprised running into the same issue in a
-> second driver but I shouldn't have been. There are plans for another
-> driver where this isssue will be present.
+> Link: https://lore.kernel.org/asahi/20251015-b4-aplpe-dwc3-v2-0-cbd65a2d5=
+11a@kernel.org/ [1]
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  drivers/usb/host/xhci-dwc3.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> A workaround on pin-init side would be appreciated. Due to the nature of
-> these packed structs I do not see a need to have access to previously
-> initialized fields. An optional way to supress the references would be
-> good enough for the cases I'm aware off.
+> diff --git a/drivers/usb/host/xhci-dwc3.c b/drivers/usb/host/xhci-dwc3.c
+> index e3e0ceff43e6abdb8643f265819eff28c2c802f4..ba42c3247654b7d9272c42ea9=
+c4cf0bd9082915e 100644
+> --- a/drivers/usb/host/xhci-dwc3.c
+> +++ b/drivers/usb/host/xhci-dwc3.c
+> @@ -238,6 +238,7 @@ static int xhci_dwc3_remove(struct udevice *dev)
+>
+>  static const struct udevice_id xhci_dwc3_ids[] =3D {
+>         { .compatible =3D "snps,dwc3" },
+> +       { .compatible =3D "apple,t8103-dwc3" },
+>         { }
+>  };
+>
+>
+> ---
+> base-commit: 127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3
+> change-id: 20260109-usb-dwc3-apple-compat-linux-821ee75bec48
+>
 
-FYI, I am merging a workaround this cycle, see [1]. Gary had a good idea
-for a future patch series which I am tracking in [2].
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
-Cheers,
-Benno
 
-[1]: https://lore.kernel.org/all/20260111122554.2662175-14-lossin@kernel.or=
-g
-[2]: https://github.com/Rust-for-Linux/pin-init/issues/98
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
