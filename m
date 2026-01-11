@@ -1,100 +1,153 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CE418DB37
-	for <asahi@lists.linux.dev>; Sat, 10 Jan 2026 19:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B4F61FFE
+	for <asahi@lists.linux.dev>; Sun, 11 Jan 2026 05:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768073356; cv=none; b=sZUgbrP6mDQebwW/YuutGuaBIhuO7r1hWKhmP0TEQO1jMThE9i0pcND6j0TBQbvnEdGRykTLrZVYNPYn2OYJcN97uT3Rp+1W4f0XqmIzQ9kB00MOY+sl1a3btiK4XnkxTtDVCD2RGuPUctEngKUJtAOtAVvQNKLscacIG16fsCk=
+	t=1768110722; cv=none; b=MNPjarcIFR6blW8JJYnHdkA/jwRlnbtRPG42T/ecunwcb29PgROdVc5ioASI9yxdAl/Nb9Wr9D/axQESmEh3ajG+CWzKzEzGi9KsliCfK0DD138cnjnI9UmczYCGA1mi9X1JjrjbjsQakY+CX+XRgBg8AJ6I3o7XtyVo3l6eI1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768073356; c=relaxed/simple;
-	bh=JBGdeOCbaRNuG0HHSVLLpkGtcCuDetqvTak5QOTmuPs=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=JOpyrKfHpP0eNqA9ZQGFhUA1YLgnzRS0B+EaF0rLPYt1kCFJ5XQn6YZeXgGXd4Wo3KaBfea7Y1uizuX4/qm9Wlsx/B+zsflv5SMkT6wXXdvXyjrlj9wdcYRwWgPTLGKs2OBivAjHSvrwOdOcOOzoZrSUUHw8TG2cmpeHWsPIDpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Wj0DLwWE; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1768110722; c=relaxed/simple;
+	bh=gFOqW5EllA9fOAMNFfoSxTnUWA45XGayQuA1pDHkobg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MtA+iDQU+AKvU1mvNMAnZ9L68ZYN1i9DjTzvQHVhD/DBDj49KdTTuw4Hi56gU1Egiv3kt0XOTnu8UIEq2Y4UMR4veFaEg42YYLc97qjY5NfNAxJdUa7MGORGbQSE9Nh5EIUhGqilLdScac5ql2fxeBwOX1jFTTAsJfrdB7rj2tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0lTfxA7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Wj0DLwWE"
-X-KPN-MessageId: a474ca67-ee5a-11f0-89d8-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id a474ca67-ee5a-11f0-89d8-00505699b430;
-	Sat, 10 Jan 2026 20:29:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=is7sIcZRkTvchgsj8/mIfcfByBbJFYN6C9fw8XLk4g0=;
-	b=Wj0DLwWEFS5mmUCsqnYqN+SaorcHTmVM8qXJK7L/fqdQ4vqEUCQ5yg1zARDsTPL2ZATIenhi28xhb
-	 u8m76KKQ3nTD5r29Y8Ev2zjKKGO5pLWAo1QfQb/CXBXvRDPOM+Sh0falOdNN5u1+UHsP7i4KizDw25
-	 qKn+99BNTdtBR3xfJgds78xh40De1+iuzf7qXuuTqPOHmXBiqniMBvOle+Lsexu+RJTnRqVbcTpTWG
-	 l47IPADLkKwy0i/gckYCUBAcHwevaK5nWeR38RoFx/qouVO53JkcEn6WhPVEsumRfhd1G/1K7tx4FT
-	 a8H/E7D+2j8q8NtZ7PZYeJM6oYVkSfQ==
-X-KPN-MID: 33|Pw5kkYYL7KLJWTemvwpNCL+nwc8UQKEJ+zEvHx+ySDF2UwPvx4nXwDaDmu7al9v
- i45v5O1fkPMHzmzP91yZkHQ7yrftRiB+gbZ8xu6yyIn8=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|T+ig73/TxdepUA0w2qY46nMUB99zpIVBWHTJ36bgyTIm/enBlT6O+kwXVKkRI2i
- 8FXKQYOgifa3HaovjFYNx2Q==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id a4a4a505-ee5a-11f0-bff6-00505699772e;
-	Sat, 10 Jan 2026 20:29:13 +0100 (CET)
-Date: Sat, 10 Jan 2026 20:29:12 +0100
-Message-Id: <87v7h98dx3.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Janne Grunau <j@jannau.net>
-Cc: u-boot@lists.denx.de, bmeng.cn@gmail.com, marex@denx.de,
-	trini@konsulko.com, asahi@lists.linux.dev, j@jannau.net
-In-Reply-To:
-	<20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
-	(message from Janne Grunau on Fri, 09 Jan 2026 20:41:36 +0100)
-Subject: Re: [PATCH] usb: xhci-dwc3: Add "apple,t8103-dwc3" compatible
-References: <20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0lTfxA7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0915C4CEF7
+	for <asahi@lists.linux.dev>; Sun, 11 Jan 2026 05:52:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768110721;
+	bh=gFOqW5EllA9fOAMNFfoSxTnUWA45XGayQuA1pDHkobg=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=P0lTfxA7J1vxOQY4hChwaQHlTa9WRMPbmkoUzHG4DuAPpLAvvhJwizp/45xu3tPYm
+	 gvDKAm3Zq7v0Fbfjp0cx0La4P3ldfaxXRa3T0qXjTsAsqNhNgAYS26YwB7iHXgV8FR
+	 l91eXhrG3u0SBvHjZ4mQx+gVkG8nN52cd4aHXCYlxN/cxkX93RlWRGAejgjqmMBwn4
+	 b/VcWocgQ1uDlCCjFttNeDijhBhO7EX3yvy55uWq5isdwRXzWDjUEHS0Eyd/bfGBNw
+	 SYdY1H0+XTsZAaI1Z+C/JfbSg5XTjFv/2Pphs9ocUxbEDFshKnrGaHKltKmdwRK86u
+	 bx6XOxfy1uHPw==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b8364e4ccso2160814e87.3
+        for <asahi@lists.linux.dev>; Sat, 10 Jan 2026 21:52:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXgbFTMerKK51lgKGtibm/VUHsPnUO2QqGNFMuS8+p5mjBxyQCufpqO0xDjGOrIsvcx3lxgpQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzgZlBAlkf9qkxK2yzy5o0v0B377OZf/DUO80rTunLf6AyAi0UI
+	8DdySLQQQcQBEMj5E0ziepJn6s2nKeHQ23xoW4ADPCg31Ktqs4M64JDCkG9e69HG/vF3BAmHM9Z
+	lb9QN8T0I8i1BJan2z7e7G3MH+gky9Sc=
+X-Google-Smtp-Source: AGHT+IHdx8MpFefSjShCgzPfxBNx4mIFIm/zyAePE38bdBhjZyOXA6x69rTwWZ2pdG4l9l0f7a6WNZMxH5DhWbEqc7E=
+X-Received: by 2002:a05:6512:31cd:b0:59b:6853:f085 with SMTP id
+ 2adb3069b0e04-59b6ef04985mr5236958e87.16.1768110718798; Sat, 10 Jan 2026
+ 21:51:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com> <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260108203004.3538449-3-andriy.shevchenko@linux.intel.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 11 Jan 2026 13:51:46 +0800
+X-Gmail-Original-Message-ID: <CAGb2v640nT=+g6bVuROizSG5Qb-upfQefs0-j9X0BnOHf9NYMg@mail.gmail.com>
+X-Gm-Features: AZwV_QjlNyXyyBCLSJ5be_kfqm-PbzUe8msaEi6oZsEaSVwRVLe_bhZOZe6iKv4
+Message-ID: <CAGb2v640nT=+g6bVuROizSG5Qb-upfQefs0-j9X0BnOHf9NYMg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] spi: Drop duplicate of_node assignment
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+	Varshini Rajendran <varshini.rajendran@microchip.com>, 
+	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sunny Luo <sunny.luo@amlogic.com>, 
+	Janne Grunau <j@jannau.net>, Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
+	CL Wang <cl634@andestech.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	David Lechner <dlechner@baylibre.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>, Jun Guo <jun.guo@cixtech.com>, 
+	Philipp Stanner <phasta@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+	Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, 
+	Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Xianwei Zhao <xianwei.zhao@amlogic.com>, 
+	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>, 
+	Sergio Perez Gonzalez <sperezglz@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>, 
+	Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>, 
+	Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Longbin Li <looong.bin@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	=?UTF-8?Q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>, 
+	Alessandro Grassi <alessandro.grassi@mailbox.org>, Darshan R <rathod.darshan.0896@gmail.com>, 
+	Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>, 
+	Haixu Cui <quic_haixcui@quicinc.com>, Darshan Rathod <darshanrathod475@gmail.com>, 
+	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	imx@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	virtualization@lists.linux.dev, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, Sven Peter <sven@kernel.org>, 
+	Neal Gompa <neal@gompa.dev>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ryan Wanner <ryan.wanner@microchip.com>, 
+	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Kamal Dasu <kamal.dasu@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, William Zhang <william.zhang@broadcom.com>, 
+	Kursad Oney <kursad.oney@broadcom.com>, Anand Gore <anand.gore@broadcom.com>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, Jean-Marie Verdun <verdun@hpe.com>, 
+	Nick Hawkins <nick.hawkins@hpe.com>, Yang Shen <shenyang39@huawei.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Lixu Zhang <lixu.zhang@intel.com>, Yinbo Zhu <zhuyinbo@loongson.cn>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Avi Fishman <avifishman70@gmail.com>, 
+	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
+	Benjamin Fair <benjaminfair@google.com>, Han Xu <han.xu@nxp.com>, 
+	Yogesh Gaur <yogeshgaur.83@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Heiko Stuebner <heiko@sntech.de>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
+	Masahisa Kojima <masahisa.kojima@linaro.org>, Jassi Brar <jaswinder.singh@linaro.org>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> From: Janne Grunau <j@jannau.net>
-> Date: Fri, 09 Jan 2026 20:41:36 +0100
-> 
-> The Linux support for dwc3 on Apple silicon SoCs switched to using a
-> apple specific glue driver [1] that uses it own compatible string. The
-> glue driver handles platform specific requirements on the interaction
-> between dwc3 and the USB2/USB3 PHY and reset-controller for USB role
-> switches and plug events.
-> To keep USB working as before when the nodes still carried "snps,dwc3"
-> as compatible add "apple,t8103-dwc3" to the of match table. Eventually
-> it is probably advisable to add a dwc3-apple glue driver and write code
-> for the currently empty Apple Type-C PHY driver in phy-apple-atc.c.
-
-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
-
-> Link: https://lore.kernel.org/asahi/20251015-b4-aplpe-dwc3-v2-0-cbd65a2d511a@kernel.org/ [1]
-> Signed-off-by: Janne Grunau <j@jannau.net>
+On Fri, Jan 9, 2026 at 4:30=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> The SPI core provides the default of_node for the controller,
+> inherited from the actual (parent) device. No need to repeat it
+> in the driver.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  drivers/usb/host/xhci-dwc3.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/host/xhci-dwc3.c b/drivers/usb/host/xhci-dwc3.c
-> index e3e0ceff43e6abdb8643f265819eff28c2c802f4..ba42c3247654b7d9272c42ea9c4cf0bd9082915e 100644
-> --- a/drivers/usb/host/xhci-dwc3.c
-> +++ b/drivers/usb/host/xhci-dwc3.c
-> @@ -238,6 +238,7 @@ static int xhci_dwc3_remove(struct udevice *dev)
->  
->  static const struct udevice_id xhci_dwc3_ids[] = {
->  	{ .compatible = "snps,dwc3" },
-> +	{ .compatible = "apple,t8103-dwc3" },
->  	{ }
->  };
->  
-> 
-> ---
-> base-commit: 127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3
-> change-id: 20260109-usb-dwc3-apple-compat-linux-821ee75bec48
-> 
-> Best regards,
-> -- 
-> Janne Grunau <j@jannau.net>
-> 
-> 
+[...]
+
+>  drivers/spi/spi-sun4i.c              | 1 -
+>  drivers/spi/spi-sun6i.c              | 1 -
+
+Acked-by: Chen-Yu Tsai <wens@kernel.org> # sun4i, sun6i
+
+[...]
