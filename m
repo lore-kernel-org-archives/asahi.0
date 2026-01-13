@@ -1,79 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C2B25F98B;
-	Tue, 13 Jan 2026 06:59:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819CE30FC3E;
+	Tue, 13 Jan 2026 07:07:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768287540; cv=none; b=cowjO5uXW1SwnXmaKSgeUsFYhTUSDmOJSyAjSOx82R4HmU5KQzr4V3lbOjRygXHLwJVJtxZrcmCxMJT4EbIL5kR9qs8khW5uodCplA45wRieonn3LB1K9Ou3rzXemaFIEexxTIYwBajcl09ktCrsinGDq6ghC1RWRr3XxZF+c9k=
+	t=1768288079; cv=none; b=m4pVQV+riYmLhL4QV5MRVAN9qKAAeRFiuuyg7bX3Mks3KZh4DIjZkQMgQPewW6+YDD5ln5bh7ZpESk7KaHo9ZKNjeU7WBHxPCDg/eYgGPatC+tADq7CRwTrIqNUXYZkfV3g3cT6wmQhmMfq+69FN6X8HeieQAgp3WuRliXjPoOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768287540; c=relaxed/simple;
-	bh=inkLnSl0ItzeVinaMJYgEU5Xice93U0TjHQH3H3LEVQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aIRCJiJslboM2lSnNZP+e5tQwnUR5dKxvRbMJ5jHRx0eCBeAHH2pqUK4naSNIhkHQtgWgyZrzo8JsSBiZs60XqDrI1bvQJJyFip9WqSttQeuVtChJgIgcu94aMqLjbe9tc7gpAPqePWWyCzh6Cad/22hPREcjnVXLPDL8E5VO08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AoQQGfF4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768288079; c=relaxed/simple;
+	bh=F8U6Q68qUAatZhyd2d4JaNwkARmZ3sJ39aNTp5Upt8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nAhX7H/LyBOc/B1ei+7BFrKPG5CbD1HSb97IvDxilz+Zm9tiC4wpQZ7r/6FjL2g7+ba4sEm8mYYJuS5asQV1LKvbw/DXf4JEytHfKnBCZAAEJkX5Lnr0yqLoy+An0lpioYbftys5SHVCo1ZCeTz7Tv9+eA222GSIADEUgZnBX8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AfeK4P5i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AoQQGfF4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47842C116C6;
-	Tue, 13 Jan 2026 06:58:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AfeK4P5i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F179C116C6;
+	Tue, 13 Jan 2026 07:07:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768287540;
-	bh=inkLnSl0ItzeVinaMJYgEU5Xice93U0TjHQH3H3LEVQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AoQQGfF4j3uqXMq5Ca/8b5AJS6i2raNtMWlorWMax9SQ/ivKBH7CYAeX3Y3YU7qrW
-	 5ztSQ9BZX196R9+Bp1UI6sWWXzv+M9reVlVaPGuU/BkDI6QPSt+230EFqo6qenTxdf
-	 1BaNRgPAOrQ8fRdOp8dhu72nDDR2wOaTFz6fgl1TNz6mT/D7+Uiis8LyMcZnCpfkX6
-	 5/HrYQIk0QFXQlffSKJVLWjAS8wgKm1hPDYs75U0hC+MPNz1lvLL63nUxi3Pkbia4P
-	 9opiMHucT3Snny6hmeWTOG8UyCM9Dl3epRvCWoiEc71OLRtceUkmGoxRefAYtuty3X
-	 EW1Znlv0JZFnA==
-Message-ID: <675f32d7-c866-4b66-93bb-0dc6ed53f5f9@kernel.org>
-Date: Tue, 13 Jan 2026 07:58:56 +0100
+	s=k20201202; t=1768288079;
+	bh=F8U6Q68qUAatZhyd2d4JaNwkARmZ3sJ39aNTp5Upt8c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=AfeK4P5itnMZATgBjW473iT+a4FxGLVknDoFxwEPLg1Cw9za4CyKqGICmDBSVjxlp
+	 q+tAEz9uR5q17/NHe6iDWjgNk0Xxa3PBkM87+65NJOwq/ZlSjoi24DRiU018TkGWPT
+	 xcD2W5R92IbKrk28onhnt2cr0gTiopy78Pe27M8d1CUuk8qSCDvaDh3pl0GHXCiDei
+	 F2u7UFsDQxbp5/96KQoFtuYlEofwoWxu4/o6ynHXMeF+riFhPNu1yEuXgjVRD89bg7
+	 a7XpHs9DWHJEZR7Ycvjz0dYjCQ92HaENv/s4kYnAM/oAoPLjYExh4Dtn6NRX1vpsGo
+	 LizXO4xjhM48A==
+From: Sven Peter <sven@kernel.org>
+To: Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>,
+	R <rqou@berkeley.edu>
+Subject: Re: [PATCH 0/3] arm64: dts: apple: Add integrated USB Type-C ports
+Date: Tue, 13 Jan 2026 08:07:41 +0100
+Message-ID: <176828797321.8477.14188625188804624753.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260109-apple-dt-usb-c-atc-dwc3-v1-0-ce0e92c1a016@jannau.net>
+References: <20260109-apple-dt-usb-c-atc-dwc3-v1-0-ce0e92c1a016@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: dwc3: apple: Ignore USB role switches to the active
- role
-To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260109-apple-dwc3-role-switch-v1-1-11623b0f6222@jannau.net>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260109-apple-dwc3-role-switch-v1-1-11623b0f6222@jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 09.01.26 11:13, Janne Grunau wrote:
-> Ignore USB role switches if dwc3-apple is already in the desired state.
-> The USB-C port controller on M2 and M1/M2 Pro/Max/Ultra devices issues
-> additional interrupts which result in USB role switches to the already
-> active role.
-> Ignore these USB role switches to ensure the USB-C port controller and
-> dwc3-apple are always in a consistent state. This matches the behaviour
-> in __dwc3_set_mode() in core.c.
-> Fixes detecting USB 2.0 and 3.x devices on the affected systems. The
-> reset caused by the additional role switch appears to leave the USB
-> devices in a state which prevents detection when the phy and dwc3 is
-> brought back up again.
+On Fri, 09 Jan 2026 15:07:03 +0100, Janne Grunau wrote:
+> Now that all dependencies for USB 2.0 and 3.x support are either merged
+> (tipd changes in v6.18, dwc3-apple in v6.19-rc1) or in linux-next (Apple
+> Type-C PHY) prepare device tree changes to expose the ports.
 > 
-> Fixes: 0ec946d32ef7 ("usb: dwc3: Add Apple Silicon DWC3 glue layer driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
+> Each port on Apple silicon devices is driven by a separate collection of
+> hardware blocks. For USB 2.0 and 3.x the collection consists of:
+> - Apple Type-C PHY, combo PHY for USB 2.0, USB 3.x, USB4/Thunderbolt and
+>   DisplayPort
+> - Synopsys Designware dwc3 USB controller
+> - two DART iommu instances for dwc3
+> - CD321x USB PD controller (similar to Ti's TPS6598x series)
+> 
+> [...]
 
-Reviewed-by: Sven Peter <sven@kernel.org>
-Tested-by: Sven Peter <sven@kernel.org> # M1 mac mini and macbook air
+Applied to AsahiLinux/linux (apple-soc/dt-6.20), thanks!
 
+[1/3] arm64: dts: apple: t8103: Add nodes for integrated USB Type-C ports
+      https://github.com/AsahiLinux/linux/commit/2b737cc5be70
+[2/3] arm64: dts: apple: t8112: Add nodes for integrated USB Type-C ports
+      https://github.com/AsahiLinux/linux/commit/b4f4054864e6
+[3/3] arm64: dts: apple: t60xx: Add nodes for integrated USB Type-C ports
+      https://github.com/AsahiLinux/linux/commit/e21c8e2e0276
 
-thanks,
-
-
-Sven
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
