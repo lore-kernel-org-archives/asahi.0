@@ -1,464 +1,300 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx0a-00230701.pphosted.com (mx0a-00230701.pphosted.com [148.163.156.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B4B356A08
-	for <asahi@lists.linux.dev>; Mon, 12 Jan 2026 20:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768250167; cv=none; b=W8RvloW+VZ2kg139568+XPlrLNz4JtqGp5c03U0k481GWzxRXMW9E1/vgmTdK1XfUWCCWeRmUs9e4P+EJGKko4S8Vwvej+pRpI79YuHGjNdSWl72UEU6iq5F8BU+FhFb3wRweM/+85O8E2fVqtrr3WMC30f03+ce60zsQ/RJIWs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768250167; c=relaxed/simple;
-	bh=qUj8niNVfX9+vDdYMcQmMtutkkFc8vAbK8eRfRuvapk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KaLriLe16NI/Txb0IbieyQROo1PvfoXQfW4P8vtF+zU7ZATQwi3oNWy9DnQy4JaFDKbNdxt2VvGOkF4NHGhZs5lIXP+9H7MjZW0YePbvFwX229gMZ5MLRys62K8iN04FMRe//gpT50zZNA4VBTHwNUiDtcnCWMLsbXhQQskSS3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GpvCAl8o; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3920241690;
+	Tue, 13 Jan 2026 00:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.156.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768265579; cv=fail; b=n4P3FS4CgyFjPN3ro3FBhsu0fskKuMdyEU2ywzVUgtEDFAH6NZABzRQeIHmk9jL3tplDmydxh7aorq76Wb6HbHmlA0k7yoYUJ8sw9JmxGOO44m1DCHcs4y4VeCpQlK9jrlLjhn9RCcAldN/spKF1etjd5Bl2vUepkfMNRu2qouw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768265579; c=relaxed/simple;
+	bh=QPJAOX4MfyW9ZICrhXYSyubr5riyys4kwrvtmo/3C6g=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ReC4MqIBiy4DO4vtmOU1SdLlb2ksDnlNQ5zsBiToVRXmeA6vBhHwHcZBZmaZfpnmvGWsJSqdq9gKqT2YjN7ditGq2PLzQd6RLVH9bXg9Voj+zYCnLkkIbUUi5olzw8/XVnlB5KmbNBVu0f9OpuPsyrI7ww6mv1/eMTdQZViMDFY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=FFl5xFph; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=LCK/85oX; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=mhlKVAid reason="signature verification failed"; arc=fail smtp.client-ip=148.163.156.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GpvCAl8o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768250165; x=1799786165;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qUj8niNVfX9+vDdYMcQmMtutkkFc8vAbK8eRfRuvapk=;
-  b=GpvCAl8oXK9CJMws2/BuY5Y37oeUrSRnrB/T8i3UrAe1C6HNvRAK8eOM
-   uw23Vb0lw043Ia9J9FLnkZsKsNiOpqHQnOG3pkiK3Pfjaeb+thLQCruCu
-   yV+aeXGLYEAUwpEsrhMTkQL6cdS3Ul7OSYhQEK3xIJ49PnpGLPwUd6i7Z
-   H4qVbItlRNxJvdeR28uuGBdWsMV/ICa6l5X5xvThv/llNXr7dlAGcCB84
-   N6GPXzq5sQehaDIIB9/zb6HQF1Mfo7WC4gH5IEg6PplZXuScKYAdXEPcd
-   ZzgoMhAD5aQMRZgCFCVf6vHsfvdZvAwqFJ0nxDD8VTOrfaledqMPw8D3W
-   Q==;
-X-CSE-ConnectionGUID: LgqV2j8mSdGfP/WuPqEZyQ==
-X-CSE-MsgGUID: Qg1pPfqURkaxYtrLyRxOFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80173844"
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="80173844"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 12:36:00 -0800
-X-CSE-ConnectionGUID: iw3PrMiXR5eS++D7j1LIkw==
-X-CSE-MsgGUID: gUFTEXqYTuqTjf9xF2Kmdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="208707642"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2026 12:35:50 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 8AD1A9D; Mon, 12 Jan 2026 21:35:37 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Varshini Rajendran <varshini.rajendran@microchip.com>,
-	Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Haotian Zhang <vulab@iscas.ac.cn>,
-	Sunny Luo <sunny.luo@amlogic.com>,
-	Janne Grunau <j@jannau.net>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Amelie Delaunay <amelie.delaunay@foss.st.com>,
-	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
-	CL Wang <cl634@andestech.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	William Zhang <william.zhang@broadcom.com>,
-	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
-	Manikandan Muralidharan <manikandan.m@microchip.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>,
-	Hang Zhou <929513338@qq.com>,
-	Jun Guo <jun.guo@cixtech.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	=?UTF-8?q?Beno=C3=AEt=20Monin?= <benoit.monin@bootlin.com>,
-	Shiji Yang <yangshiji66@outlook.com>,
-	James Clark <james.clark@linaro.org>,
-	Jonathan Marek <jonathan@marek.ca>,
-	Carlos Song <carlos.song@nxp.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>,
-	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
-	Sergio Perez Gonzalez <sperezglz@gmail.com>,
-	Qianfeng Rong <rongqianfeng@vivo.com>,
-	Haibo Chen <haibo.chen@nxp.com>,
-	Gabor Juhos <j4g8y7@gmail.com>,
-	Md Sadre Alam <quic_mdalam@quicinc.com>,
-	Rosen Penev <rosenp@gmail.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Luis de Arquer <luis.dearquer@inertim.com>,
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Longbin Li <looong.bin@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	=?UTF-8?q?Cl=C3=A9ment=20Le=20Goffic?= <clement.legoffic@foss.st.com>,
-	Alessandro Grassi <alessandro.grassi@mailbox.org>,
-	Darshan R <rathod.darshan.0896@gmail.com>,
-	Aaron Kling <webgeek1234@gmail.com>,
-	Vishwaroop A <va@nvidia.com>,
-	Haixu Cui <quic_haixcui@quicinc.com>,
-	Darshan Rathod <darshanrathod475@gmail.com>,
-	linux-spi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	asahi@lists.linux.dev,
-	linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Ray Liu <ray.liu@airoha.com>,
-	Sven Peter <sven@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Kamal Dasu <kamal.dasu@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Kursad Oney <kursad.oney@broadcom.com>,
-	Anand Gore <anand.gore@broadcom.com>,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Jean-Marie Verdun <verdun@hpe.com>,
-	Nick Hawkins <nick.hawkins@hpe.com>,
-	Yang Shen <shenyang39@huawei.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Lixu Zhang <lixu.zhang@intel.com>,
-	Yinbo Zhu <zhuyinbo@loongson.cn>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>,
-	Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Han Xu <han.xu@nxp.com>,
-	Yogesh Gaur <yogeshgaur.83@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Li-hao Kuo <lhjeff911@gmail.com>,
-	Masahisa Kojima <masahisa.kojima@linaro.org>,
-	Jassi Brar <jaswinder.singh@linaro.org>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Michal Simek <michal.simek@amd.com>,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: [PATCH v2 4/4] spi: Drop duplicate device_set_node() call
-Date: Mon, 12 Jan 2026 21:21:26 +0100
-Message-ID: <20260112203534.4186261-5-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260112203534.4186261-1-andriy.shevchenko@linux.intel.com>
-References: <20260112203534.4186261-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="FFl5xFph";
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="LCK/85oX";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="mhlKVAid"
+Received: from pps.filterd (m0098571.ppops.net [127.0.0.1])
+	by mx0a-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60CKGVHN3836888;
+	Mon, 12 Jan 2026 16:52:29 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
+	cc:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	pfptdkimsnps; bh=QPJAOX4MfyW9ZICrhXYSyubr5riyys4kwrvtmo/3C6g=; b=
+	FFl5xFphyUeZIMeCd8LsJENDv0y+5JMKs9dOPGodjGUXwgRub42CbhijEH0cuKvM
+	KH/jrxgLhMfTL1Khs/GmsdkQQ2mYdW8fPKQNReyxRb5Ys8156apFA2TD6vFffIdw
+	R6AnHJoHu/aWytfxD7/tROlUagfqKP1ZfLYvLhW0gvmzEhastkOMuL4AOZzq5uGo
+	pnrHIcHl7aH8SalYvnNDbLB6I/KSIVDUqmXhEio2+qr3cO4r9bt+TUcXPWMyWHXp
+	GUYo+PkA6ITDZxqyKDFaN3881g+pTsfgYJ1VoLvM5NpzP6ZBr0WrVflBaoYVm6DZ
+	yKHRAd0LK/voQWiVVS+7LQ==
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 4bkpnq8sv3-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 12 Jan 2026 16:52:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1768265548; bh=QPJAOX4MfyW9ZICrhXYSyubr5riyys4kwrvtmo/3C6g=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=LCK/85oX/3+YEyWz3IfvXSpGYbGH5NAnIJ7eHwK3WxHReRbLc5/R0JV4i5qYvecAe
+	 glufViiYrO1lopbxFP5ZIlYPGD2BhqWJ/wxerDRmuTqBeQufi1eZiebEL4m4BWLK/Z
+	 OTOEMjoKo2ho7Yz30wXvqkCh9pvAcMSyaGm4biZvlLivLD+/g4LKNMggJ1I+mLwgYW
+	 sJNzdHifdry3WlpiiMWmg6ve5y6x0P/eCGYDiFFtnK9pQS+cmOISnjP8Bst6sCupu0
+	 DiDbMJO3ihn7/xH8mZhbR/6jaIeFgyW8zvchsPy/wZQHKXhRUP8ipGwBcU22X0E+22
+	 iU75F7qKvWiWw==
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8F53840124;
+	Tue, 13 Jan 2026 00:52:27 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (sv2-o365relay7.synopsys.com [10.202.1.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
+	by mailhost.synopsys.com (Postfix) with ESMTPS id 1897AA0073;
+	Tue, 13 Jan 2026 00:52:27 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=mhlKVAid;
+	dkim-atps=neutral
+Received: from CY3PR08CU001.outbound.protection.outlook.com (mail-cy3pr08cu00102.outbound.protection.outlook.com [40.93.6.106])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id B83032201AB;
+	Tue, 13 Jan 2026 00:52:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AS3OxH3EZ/aNssJXh5u893wHYJsiBOvIulnJ344hHU0/jHY/2Q8c6yjaARkfB6rmYfHsRrBN06uKjPctJDegWN1WRuLjKaCKLroWwwlHqOTBVhn6bwpWScOWTcPDrhhEbkHbHrDVptX8Gf0N6utJkGL3yyY8FPuZxYwMdadgSqDI/2vQP3LZISQZGYdaC9ZrUMo0ohB/icxTKT0+uGwKp3F2LolNH6A2TgY2VAfJTntikhwUAehxGX6918skLjM4gMSS4yjOFoqRHG34zdNj3uYQiXJnIcAAWHUoOLDRO0yeCF95C65vPCD5an+Vti6gnzVozf3FRkPs/qF1HVssyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QPJAOX4MfyW9ZICrhXYSyubr5riyys4kwrvtmo/3C6g=;
+ b=W3rwc6j37+5GwTXdlGBLkQonSsx9Duk9RefAmce2wV8iSc9I/DKi9vR7ksLqTvPBhLvJGd9ssEFqOiBw7FjQWGE/fKPsyy/aQQ9z7Okg8NNsqSBN1Ou88L6ZQze0OOrKvcWP1nZ+CI9HV/3KhlAjmWH9QmYArG5jsYkX66OvKrwdsMteap53s0gC8K0dQDk67QWX9s/4ddITIhv66MWaCLcl9wKwgdR+uM/wY4Fb/SD/KLt+EbRL9oto0UAxU4PBktFPMuq8uJNSZQXCyZ8cE3koqLxZvxxaRdLE5xwtJuB7eJpJqC5MSNJmKXK0C2W+LBoRVS8pAjIWMiEm5xmzRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QPJAOX4MfyW9ZICrhXYSyubr5riyys4kwrvtmo/3C6g=;
+ b=mhlKVAidcBmVX1iDHCOH+VLby/yXJbjvG03yiaJycZo7sG2Raf2IqIIUbXgDEBmpfl7gcvlt/dlHOS7evCXnYmvCuRZYXpGRjPwIU4mO8Wq4j3Vs1KBeaamlRgr20OFatp9rpienJ4cmEQ7AxX3GMwt493AlD59Y0z+qfqTvmOs=
+Received: from LV2PR12MB5990.namprd12.prod.outlook.com (2603:10b6:408:170::16)
+ by DM4PR12MB6637.namprd12.prod.outlook.com (2603:10b6:8:bb::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.12; Tue, 13 Jan
+ 2026 00:52:23 +0000
+Received: from LV2PR12MB5990.namprd12.prod.outlook.com
+ ([fe80::3d09:f15f:d888:33a8]) by LV2PR12MB5990.namprd12.prod.outlook.com
+ ([fe80::3d09:f15f:d888:33a8%5]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
+ 00:52:23 +0000
+X-SNPS-Relay: synopsys.com
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To: Janne Grunau <j@jannau.net>
+CC: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+        "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH] usb: dwc3: apple: Ignore USB role switches to the active
+ role
+Thread-Topic: [PATCH] usb: dwc3: apple: Ignore USB role switches to the active
+ role
+Thread-Index: AQHcgVCxbW4cO8qyLk2+4LnTwDCxtrVPSx2A
+Date: Tue, 13 Jan 2026 00:52:23 +0000
+Message-ID: <20260113005221.kwl756dt3bpfelnb@synopsys.com>
+References: <20260109-apple-dwc3-role-switch-v1-1-11623b0f6222@jannau.net>
+In-Reply-To: <20260109-apple-dwc3-role-switch-v1-1-11623b0f6222@jannau.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV2PR12MB5990:EE_|DM4PR12MB6637:EE_
+x-ms-office365-filtering-correlation-id: add0d215-bc75-46d6-bd0d-08de523e03b2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?Yjk1ak50bldhS2M3alBFTEZQbFBlYnBlZkJ5dW1YQVo5UldCOThOd0pmYms5?=
+ =?utf-8?B?dSswNXk1SVMycnczZzhCWFZOS0oyYU1GaGpZbFVReWhaVmw0MDI4NUFEVXRy?=
+ =?utf-8?B?K1ZRRE1BZlRLUllRcTh2MFZmWElTS3BYV0U1MXpBMHVhUldTSnJKQTVNQzNv?=
+ =?utf-8?B?QzNQZDEvTUd0YlhTUnl1WTlMOXMyeDV4Y3pQK2owY09tOXdQbGozRm9nQmxI?=
+ =?utf-8?B?OXpSQXk1VjN4M1RBVGNmMmw4WkoxanE4TEFhWUVRRThpZlRIVlJMZGY3T1Zp?=
+ =?utf-8?B?aHZHZmNkL3JUQmdlcWJyZ1hJa1ZvWXNJU0k1dEhZZVpGak9uZWlaampVSGRY?=
+ =?utf-8?B?OWkyQXVPbFpVODVPeUtBUXpBZWgrcWRob0d0TFd1eWhzcEorK09yeWRxMlFa?=
+ =?utf-8?B?Z1hsWWVSck1OcXl4TjFaUklPWEtlMXJkVHMxQ1BoRlhzMkNYSW5WaDNnRFd3?=
+ =?utf-8?B?ci9HNUpuVHREVVBDZ3VyMUNkRklaRXhYWUQrUWltbU12WDk4cVBqMk9CUFBw?=
+ =?utf-8?B?ZGhMbjVYZ3BiVlZUM0xVRk1YU2VoVlhWQmhmZkJvYTFrbTAyaW9UYXIzUEdL?=
+ =?utf-8?B?a0FHWTd4V1c2WVh2L1VZTElWSlNCSXgyUmRCMmZFMFFHUUZHaGduaVoxNVBi?=
+ =?utf-8?B?ZXlmVnBRaDB5cnhSN2JHbVM5dXplZFZDSU02NmhYUHhOSm1KcHZQeEpGTyti?=
+ =?utf-8?B?WnNNRzRhVFp0eVBlcUxZQS9iNWxXcU1XNExYM255Q3RUUlJnVDJScXhzaHdV?=
+ =?utf-8?B?TmdSbzJQUTBhbXNrS2JObHhlVkYzOS9nS1E4d04rTisxSjVONUpWcEo3UWVp?=
+ =?utf-8?B?eklzRXFBMWJwYWRJYjlSL3RHSzNNZk54cS9lQ1Z1UDZ6bzV2YnB0MWxqbXlG?=
+ =?utf-8?B?L2VqUElybXZQWHB6TEpVV1pQYWRtVUM3dnp3ZGlOMTRhTHZJMlJ4ckJ1b1o1?=
+ =?utf-8?B?czRyeUlHUzYrQnVWbm1la3JXNEZueEp5eVl2SkNxVnZlRk8wUXJ5d0M5Mlk1?=
+ =?utf-8?B?WkdrUHNPYUZnSHFxS0g1amlOeEluTVJJa1hxWTM5TVdtUDdhc3lWMjVseVFm?=
+ =?utf-8?B?Y3FtNUhLbGRkUkd3Y3V1UVRVOHdueWhiZXN6RitHQm91aEEzTFczeXo1WDFm?=
+ =?utf-8?B?VDhJL1RObVVwdXFveUF1OGE3SEc1OW1IcGc2UnU4a2t3UnVST0MyRUpZOS9B?=
+ =?utf-8?B?bGJUNUZZWEFpSXN4cUlXSTRaUGdIa1lLbU1hNWdTSGltQjNuNUVzVEcxd0dp?=
+ =?utf-8?B?WGYrS0VPaHdFbWY0aUJ2ejFKeGhuNHM0U3RsN0cwcW5wc3l2QytlQnhodWY4?=
+ =?utf-8?B?TlpOVERaYnVXSkswdGYwYlNzdzBscWYxcXYwLzFIOWtjcjZjeXR4TFk5TlVH?=
+ =?utf-8?B?T21ZazQwcVV0UFJCQzFPWVV0bUsrNWxGdG5WU3FkcUlDRE1ZY3RvZnpZZlRq?=
+ =?utf-8?B?SVdsMmRQWFo5SCtyeDdWRlBkQlIrQ3JINUNxUHlud2lLaTY0bTEzY1JOVVpu?=
+ =?utf-8?B?MTdGNEZYYUFxNUJJTnBoV3IyOTRxVDd1bnlZbWxFd2o2WVF4ekNuaFNSZkNy?=
+ =?utf-8?B?aHR1Zi9UZnYzL3pmbGdoeWdPQW42M3RldGdaZC9ONXE0SFllRDV3TEhGR2dy?=
+ =?utf-8?B?M0RKdGUvVDIrQVh4SUJieUIwT3NVZStFWnFJMkFsdGNXYUhOZjAySGwvVjJn?=
+ =?utf-8?B?ejNnUnBxRjMyT0FYV3dncXUvTm1VM1VmcUN0OW9IeHhpaTZkcDlGTll1TFgv?=
+ =?utf-8?B?Q2l3cDAwMUZna0JLaWFObitBcXBKT0Ftdm1lMFMxNU5IODBlSE5EdWJPalA0?=
+ =?utf-8?B?UVNqV3cvcE9rcFhmUGkwOHhteS9yY0hBWWJXU3lTN3dzSEhXdDZsenUyRUl1?=
+ =?utf-8?B?QzJ4Y3VmYU9FVWFrQURLMDRpVnpmeXUyOEVKV0xSdlJOUStmYXZzMHYyZlpO?=
+ =?utf-8?B?ZFFBaDhSeGpzK01yTThFanp3Rnl3REtPREhxK21jTEU2ZkpDcG03Y2pvWC9N?=
+ =?utf-8?B?TmhRaUtoWDNmdEJZMkhYMGxSbk1pRncxQ3hvK1JGKzlWTytpZUhTVzUvTHAz?=
+ =?utf-8?Q?4B/GKd?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ZDdPUnFLQTBJaDBkdmwxczR5cUd6bkEyb0lXV2svcGpWUlVNSkZ6VXNGYkh0?=
+ =?utf-8?B?MHF2UTBSVVpScHZRTXB1TkhFRWlqblFIcWp5dytXYTZEaEQrczd5b3F2dEJp?=
+ =?utf-8?B?M2orMDdJQnhkNmtWSVlRVHNTb1pKZDk1bElrZzhtaVAzYjdycHFEd3hVQ0FH?=
+ =?utf-8?B?RWJmbm9BS0FMQ2dOMENYSFZvaFRURW1SaVVnT2lEVkhqRGJYTnIwK2xzeHhF?=
+ =?utf-8?B?eVZSazI0YlNabWg0d0Z2NEthZmRmRUlOUDFlcTRSTEcvUHFkQ05CMUpvRENm?=
+ =?utf-8?B?c0RRWkw3ODNRR0pqYUtpdG5DSS9qaDdsWW5OT3ZPb2dPQnhpWDVSZVpMZ3Fo?=
+ =?utf-8?B?MFU2R0FrNWNWOGpOTmkxbUxmREFER1pZS1Q4R3BOUy9DcFE1L1JVUkMweElW?=
+ =?utf-8?B?TExPMlZqTC9HeEtvMkswMlBXdkxPcG1PVXNpODFvUnE0cmJLUGJZYmtoVGdR?=
+ =?utf-8?B?NWl2Umh1VVd0eitKdlphZzRZSUhpK3N4Vldla3RzWVVDVDhITThjakU5M2F3?=
+ =?utf-8?B?UGR4anlXN21yYkwyUnhoclZIYXJWcjFTTjhhVFRZYlZyY1EybXlkdFJNZGwr?=
+ =?utf-8?B?U3FjcE5VeU1KV0ZnYklVSS9DSmVMYk9udjhEaFlMSUZFdHR5citHa1JYU283?=
+ =?utf-8?B?UjQ0WUI1dlFVdlMrRHR1NDRCWCtERm4yS01JTG9yT3d3eVhQZmI0c0JtL2ZB?=
+ =?utf-8?B?Q0JXSm5xdWsxeUlLREwwOGJwVFBibUVGbXhDWTJlejdCZmxZYmJKWE5ISjZz?=
+ =?utf-8?B?UFo1NzhoL2tpNVNjK1dXSDQzczd5aVNOcmRIZlp5TEdMdTQvV2dPK1BaUkl0?=
+ =?utf-8?B?RW9aWjgybUFVcFVLTGgvTGdBajBMRGdyQmpyT09VSG9CQ2llZ1l0b2FzWFo0?=
+ =?utf-8?B?RlI2VE45SWhoZXZTVUdlT3pWU1ZXMEZBZFhGSVBPemszVzU2TGxha0FtMlhD?=
+ =?utf-8?B?cEZpUGtabUxWVlJONzI4VlVqQ1ZZaENGWThuR0dySTJuOTNxQ3JwRDJncklL?=
+ =?utf-8?B?N0tlaEFOWkRqREVnN1IrTFcyMEtpdWd3RjhJczBpR1FUTnVIbjdDRzU5Qlkz?=
+ =?utf-8?B?THh3bVZCTDNOVFV1c0g1R1NZTTlMWkFoZzRQYlBlNkJuWThJbytNcGM0VXZr?=
+ =?utf-8?B?Nk1iL2R6WEh4SDF0V0NFVzNKWHBCMWJyVWp3dFlPSnNGYlUvdWF6MWowbGtQ?=
+ =?utf-8?B?U0phVGFKc2hEeS9CdlR6clo3ZjgzNXRlemhRVGJVTWhNNmdnOUhyQnptaUFk?=
+ =?utf-8?B?UHRnVTVuaFZEUHBlbEl3RWJ6RFF5eDVyMVUrUU10TjBKdnlMdmQ3Ym15bjFv?=
+ =?utf-8?B?enRkVVBjTkVNUmhQdjIyVDRMZU9OVktFcVNONHlWU3ZBYnJVTFAwOWQ2b1N0?=
+ =?utf-8?B?Qlg2N2RVOE9kbllCTzVqMWFFSGlYYkhEWDBBN3d2QUxiRllSeEMzRnBHMmNx?=
+ =?utf-8?B?UTdna3IvZ1ZBN2RSeEx2OEdWSFlSVFFhWk9FRHdodVNOK2w3QjU2MlBRc1Zq?=
+ =?utf-8?B?dTBVempOZks0NEI5clQzb2VyMUhaZXlvL3ZCNmxTRzJDOS9pWDJFN1lOalA1?=
+ =?utf-8?B?NmlYT3hCTEdzNmthcCtLelRrUWxxWC9SYnVOTmJIY0pkdzB1ZXA1UUZCOFZV?=
+ =?utf-8?B?RnR5d1NSTVczT1c4VSt3UTZEbUpKVkMwTTFvRmNibnlLQnUxd3BKSGFGMDUx?=
+ =?utf-8?B?cC9zcFpwZjFnRmlyczh3dER5SWJjdHIyMm1SS2dqWGVLSjlqSThYZUt1Y093?=
+ =?utf-8?B?OWV1QUFPV0FUTk5GeldEVUdweGF5ek9Ua1czcVNvbnlKT2lhTEJVV1RmcWxK?=
+ =?utf-8?B?aWk4QUgwWm4zVmd5T1FoR3pLSTdoMkRkL3lsSzNDQnRSRTY2K3J1RG9ieml2?=
+ =?utf-8?B?bWFMaXZrU3V2L085MUdXMGZEbkJYWkFFell2ZzdTMUd4Y0hvUFBuU2FZQ0Mz?=
+ =?utf-8?B?Z1UxMjlsSDhrVWFLUFNWVUxVRVM0WG1PVmFzVmo5VEZxc3VLcXZlcVppaWJl?=
+ =?utf-8?B?Y0oxUXgzSHFLWmE2R0hrdHBxNFU4REw5VGQ0ZkI5bWxNZlZiUXNvTzlEOEFQ?=
+ =?utf-8?B?U0xpUkx2aWt1SXVhQ1RtcjlkdjF3Y01vSUNESmVBelJ4Y3p0V3hxV05WN0hk?=
+ =?utf-8?B?dnZ6Skg5cEJqVXhLMjhWRFJud2l6RjNETEhiTXNrajlsY2cySlJnMHhpa082?=
+ =?utf-8?B?emlzMG5vMWZFS2swUlppeGtzYWVPaElJYXkyN3h5dDZSNURZN1ZYUXVTNzlz?=
+ =?utf-8?B?M3pxbDROL2ZscWRBVFdNSXZ6ZSswSWl4eUtFRXVvb2hjckZPYTMweFFFL3Rp?=
+ =?utf-8?B?ek1Sa1Y1RUpDaUdPb0tJS3dhTnV1bnlMSlkzeUdaTTJtS0E2K1IxQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6949640C45CAA14884229782B657F48A@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	UgP/xd4euIh1klicPyMl3vbFrQwXs/9TehtRNWJySEQSLrVU8SQORsMnrcAwd02L4dQWb0j2C587GwPbdUJKznja2jjr3RyQPpgOMmyD29CcrRllaAfK5pKhKk7nGdHv3hVgr2Sg3xa91zcFv3VxfOjqRjjiRzOngZbLwKiLK52YBQ0wp/wZTISWqWCoEMiSY6Vwy+b1blV9W7impNGqA1c2Gzh98om2oe6Sl4Fi6tdW8IcZpT0eya5X/yOqVwdCvh1P1wG0lECjdgL3O85U2fHMsVHT6hMdErIzBLuuSk60mpZg6EOdbwGMCTCu3yNHweFJfioymSgjczqgsSfCUXx+iJcWX55AnCfxJmOHpyC4iCe7AW1gNDQB9UbzDEStrYJryMV4ZIbZtfU6Ti1E0yOyGSo7P/KzJONK37BiVRVFiZ3RkYCjWJ2aWfpfbKDAluWv7AIxHRVvDNTEqLSdr6ff2k6XuM/jhcDQygsczGnYiq3R5f7CFBo6ktGy405TVVlEix1N5JPWsZTtS4ovHjHc1xuFi3g0jcEWYkMK/W6k8dxMY0+qgPrVHYYnF7KPMpw/33PuODwluLjR34gzAQkAPcGKlhCH2l4fQWUmXT6WHN6aMJYXis82Zpt4Ibb8ihDSbbtukgHX1AUreIp83Q==
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: add0d215-bc75-46d6-bd0d-08de523e03b2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2026 00:52:23.6218
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6Xi/QBXF1SNaEMUGDXCTshPv6bIbXLpOYl814W3yU7o9hdjD2MU9AyTpHKtFNu2DT+YY6WXIuSCTx/kGUOwNww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6637
+X-Authority-Analysis: v=2.4 cv=NpzcssdJ c=1 sm=1 tr=0 ts=6965974c cx=c_pps
+ a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=qPHU084jO2kA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=dOLNmq4gAAAA:8 a=jIQo8A4GAAAA:8
+ a=9SEzmUO9_Uq-NgxCKa0A:9 a=QEXdDO2ut3YA:10 a=_m6CO-mWuQdSFutSHjXj:22
+X-Proofpoint-GUID: EaKZil8zvrddLxtE412DdZLyR-FwyaJO
+X-Proofpoint-ORIG-GUID: EaKZil8zvrddLxtE412DdZLyR-FwyaJO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEzMDAwNSBTYWx0ZWRfX+H1p/i8bOfQB
+ mhnj6Olvazp2JDqjfETPaOrNcpGr+PpPWjmOFt4JskPC+8haPOHhJmZYVbyG2eMyBrEtRzFvA6w
+ iubURVSqEIAjFbcxrAJFMwyicO3cszbYVT+BKtm7xqp8fFWV/U/Xxigog9sdk50YYHcUSpV47Mi
+ JKsnO086ygm5Buin+oPgvb+1V1gpikPL9+O2sUzo7ZRcz+wml2X9iKC6Cugt53Qjod5NQeyWvJa
+ mcDAUI0W/HdtIH9vGXltittv9YquoRee7xYg5AHLTbBgE83JJ+YHptzmC4EVqYfOm7Ft3R4oQtM
+ xHtCPU6BPHi48u/OmCHxpl+G2TkXb2PV3oDB8QtBOvKKaJZVprR+8fE1bOzMLVJqIO/2aX8zoER
+ NZ8O4s1gJa9VoNPG2A6b0ioeKIVQzwF1F08pZjQdrWOnoHR1UfNf6Dr4j7LFwiohbYm7SkfDq94
+ ul6n3oTnciY9oN0/hMw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-12_07,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
+ policy=outbound_active_cloned score=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 priorityscore=1501
+ suspectscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601130005
 
-The SPI core provides the default fwnode for the controller,
-assigned by device_set_node(). No need to repeat it in the driver.
-
-Tested-by: Benoît Monin <benoit.monin@bootlin.com> # dw mobileye
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/spi/spi-airoha-snfi.c       | 1 -
- drivers/spi/spi-dln2.c              | 3 ---
- drivers/spi/spi-dw-core.c           | 2 --
- drivers/spi/spi-ep93xx.c            | 1 -
- drivers/spi/spi-gpio.c              | 1 -
- drivers/spi/spi-ljca.c              | 1 -
- drivers/spi/spi-loongson-core.c     | 1 -
- drivers/spi/spi-mpc512x-psc.c       | 2 --
- drivers/spi/spi-mpc52xx-psc.c       | 2 --
- drivers/spi/spi-nxp-fspi.c          | 2 --
- drivers/spi/spi-pxa2xx.c            | 2 --
- drivers/spi/spi-realtek-rtl-snand.c | 1 -
- drivers/spi/spi-rzv2h-rspi.c        | 2 --
- drivers/spi/spi-rzv2m-csi.c         | 2 --
- drivers/spi/spi-sc18is602.c         | 2 --
- drivers/spi/spi-sunplus-sp7021.c    | 1 -
- drivers/spi/spi-virtio.c            | 2 --
- 17 files changed, 28 deletions(-)
-
-diff --git a/drivers/spi/spi-airoha-snfi.c b/drivers/spi/spi-airoha-snfi.c
-index 70327aebc26b..7b6c09f91fef 100644
---- a/drivers/spi/spi-airoha-snfi.c
-+++ b/drivers/spi/spi-airoha-snfi.c
-@@ -1124,7 +1124,6 @@ static int airoha_snand_probe(struct platform_device *pdev)
- 	ctrl->bits_per_word_mask = SPI_BPW_MASK(8);
- 	ctrl->mode_bits = SPI_RX_DUAL;
- 	ctrl->setup = airoha_snand_setup;
--	device_set_node(&ctrl->dev, dev_fwnode(dev));
- 
- 	err = airoha_snand_nfi_init(as_ctrl);
- 	if (err)
-diff --git a/drivers/spi/spi-dln2.c b/drivers/spi/spi-dln2.c
-index 2013bc56ded8..d90282960ab6 100644
---- a/drivers/spi/spi-dln2.c
-+++ b/drivers/spi/spi-dln2.c
-@@ -682,15 +682,12 @@ static int dln2_spi_probe(struct platform_device *pdev)
- 	struct spi_controller *host;
- 	struct dln2_spi *dln2;
- 	struct dln2_platform_data *pdata = dev_get_platdata(&pdev->dev);
--	struct device *dev = &pdev->dev;
- 	int ret;
- 
- 	host = spi_alloc_host(&pdev->dev, sizeof(*dln2));
- 	if (!host)
- 		return -ENOMEM;
- 
--	device_set_node(&host->dev, dev_fwnode(dev));
--
- 	platform_set_drvdata(pdev, host);
- 
- 	dln2 = spi_controller_get_devdata(host);
-diff --git a/drivers/spi/spi-dw-core.c b/drivers/spi/spi-dw-core.c
-index 9ebf244294f8..0d59c141beb0 100644
---- a/drivers/spi/spi-dw-core.c
-+++ b/drivers/spi/spi-dw-core.c
-@@ -936,8 +936,6 @@ int dw_spi_add_controller(struct device *dev, struct dw_spi *dws)
- 	if (!ctlr)
- 		return -ENOMEM;
- 
--	device_set_node(&ctlr->dev, dev_fwnode(dev));
--
- 	dws->ctlr = ctlr;
- 	dws->dma_addr = (dma_addr_t)(dws->paddr + DW_SPI_DR);
- 
-diff --git a/drivers/spi/spi-ep93xx.c b/drivers/spi/spi-ep93xx.c
-index e1d097091925..90d5f3ea6508 100644
---- a/drivers/spi/spi-ep93xx.c
-+++ b/drivers/spi/spi-ep93xx.c
-@@ -689,7 +689,6 @@ static int ep93xx_spi_probe(struct platform_device *pdev)
- 	/* make sure that the hardware is disabled */
- 	writel(0, espi->mmio + SSPCR1);
- 
--	device_set_node(&host->dev, dev_fwnode(&pdev->dev));
- 	error = devm_spi_register_controller(&pdev->dev, host);
- 	if (error) {
- 		dev_err(&pdev->dev, "failed to register SPI host\n");
-diff --git a/drivers/spi/spi-gpio.c b/drivers/spi/spi-gpio.c
-index c8dadb532c40..072127a38fad 100644
---- a/drivers/spi/spi-gpio.c
-+++ b/drivers/spi/spi-gpio.c
-@@ -351,7 +351,6 @@ static int spi_gpio_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	if (fwnode) {
--		device_set_node(&host->dev, fwnode);
- 		host->use_gpio_descriptors = true;
- 	} else {
- 		status = spi_gpio_probe_pdata(pdev, host);
-diff --git a/drivers/spi/spi-ljca.c b/drivers/spi/spi-ljca.c
-index 3f412cf8f1cd..0c6e6248d8ba 100644
---- a/drivers/spi/spi-ljca.c
-+++ b/drivers/spi/spi-ljca.c
-@@ -238,7 +238,6 @@ static int ljca_spi_probe(struct auxiliary_device *auxdev,
- 	controller->auto_runtime_pm = false;
- 	controller->max_speed_hz = LJCA_SPI_BUS_MAX_HZ;
- 
--	device_set_node(&ljca_spi->controller->dev, dev_fwnode(&auxdev->dev));
- 	auxiliary_set_drvdata(auxdev, controller);
- 
- 	ret = spi_register_controller(controller);
-diff --git a/drivers/spi/spi-loongson-core.c b/drivers/spi/spi-loongson-core.c
-index b46f072a0387..f50423c3db4c 100644
---- a/drivers/spi/spi-loongson-core.c
-+++ b/drivers/spi/spi-loongson-core.c
-@@ -210,7 +210,6 @@ int loongson_spi_init_controller(struct device *dev, void __iomem *regs)
- 	controller->unprepare_message = loongson_spi_unprepare_message;
- 	controller->set_cs = loongson_spi_set_cs;
- 	controller->num_chipselect = 4;
--	device_set_node(&controller->dev, dev_fwnode(dev));
- 	dev_set_drvdata(dev, controller);
- 
- 	spi = spi_controller_get_devdata(controller);
-diff --git a/drivers/spi/spi-mpc512x-psc.c b/drivers/spi/spi-mpc512x-psc.c
-index 3c1638ba5bee..a1aeb5403a74 100644
---- a/drivers/spi/spi-mpc512x-psc.c
-+++ b/drivers/spi/spi-mpc512x-psc.c
-@@ -480,8 +480,6 @@ static int mpc512x_psc_spi_of_probe(struct platform_device *pdev)
- 	host->use_gpio_descriptors = true;
- 	host->cleanup = mpc512x_psc_spi_cleanup;
- 
--	device_set_node(&host->dev, dev_fwnode(dev));
--
- 	tempp = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
- 	if (IS_ERR(tempp))
- 		return dev_err_probe(dev, PTR_ERR(tempp), "could not ioremap I/O port range\n");
-diff --git a/drivers/spi/spi-mpc52xx-psc.c b/drivers/spi/spi-mpc52xx-psc.c
-index 3bbeb8d5bfb8..73d2383461ca 100644
---- a/drivers/spi/spi-mpc52xx-psc.c
-+++ b/drivers/spi/spi-mpc52xx-psc.c
-@@ -319,8 +319,6 @@ static int mpc52xx_psc_spi_of_probe(struct platform_device *pdev)
- 	host->transfer_one_message = mpc52xx_psc_spi_transfer_one_message;
- 	host->cleanup = mpc52xx_psc_spi_cleanup;
- 
--	device_set_node(&host->dev, dev_fwnode(dev));
--
- 	mps->psc = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
- 	if (IS_ERR(mps->psc))
- 		return dev_err_probe(dev, PTR_ERR(mps->psc), "could not ioremap I/O port range\n");
-diff --git a/drivers/spi/spi-nxp-fspi.c b/drivers/spi/spi-nxp-fspi.c
-index 50a7e4916a60..320b3d93df57 100644
---- a/drivers/spi/spi-nxp-fspi.c
-+++ b/drivers/spi/spi-nxp-fspi.c
-@@ -1383,8 +1383,6 @@ static int nxp_fspi_probe(struct platform_device *pdev)
- 	else
- 		ctlr->mem_caps = &nxp_fspi_mem_caps;
- 
--	device_set_node(&ctlr->dev, fwnode);
--
- 	ret = devm_add_action_or_reset(dev, nxp_fspi_cleanup, f);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/spi/spi-pxa2xx.c b/drivers/spi/spi-pxa2xx.c
-index ec7117a94d5f..78c399e95ef2 100644
---- a/drivers/spi/spi-pxa2xx.c
-+++ b/drivers/spi/spi-pxa2xx.c
-@@ -1290,8 +1290,6 @@ int pxa2xx_spi_probe(struct device *dev, struct ssp_device *ssp,
- 	drv_data->controller_info = platform_info;
- 	drv_data->ssp = ssp;
- 
--	device_set_node(&controller->dev, dev_fwnode(dev));
--
- 	/* The spi->mode bits understood by this driver: */
- 	controller->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH | SPI_LOOP;
- 
-diff --git a/drivers/spi/spi-realtek-rtl-snand.c b/drivers/spi/spi-realtek-rtl-snand.c
-index 741cf2af3e91..7d5853d202c6 100644
---- a/drivers/spi/spi-realtek-rtl-snand.c
-+++ b/drivers/spi/spi-realtek-rtl-snand.c
-@@ -400,7 +400,6 @@ static int rtl_snand_probe(struct platform_device *pdev)
- 	ctrl->mem_ops = &rtl_snand_mem_ops;
- 	ctrl->bits_per_word_mask = SPI_BPW_MASK(8);
- 	ctrl->mode_bits = SPI_RX_DUAL | SPI_RX_QUAD | SPI_TX_DUAL | SPI_TX_QUAD;
--	device_set_node(&ctrl->dev, dev_fwnode(dev));
- 
- 	return devm_spi_register_controller(dev, ctrl);
- }
-diff --git a/drivers/spi/spi-rzv2h-rspi.c b/drivers/spi/spi-rzv2h-rspi.c
-index aae916882915..23f0e92ae208 100644
---- a/drivers/spi/spi-rzv2h-rspi.c
-+++ b/drivers/spi/spi-rzv2h-rspi.c
-@@ -797,8 +797,6 @@ static int rzv2h_rspi_probe(struct platform_device *pdev)
- 		controller->dma_rx = NULL;
- 	}
- 
--	device_set_node(&controller->dev, dev_fwnode(dev));
--
- 	ret = devm_spi_register_controller(dev, controller);
- 	if (ret)
- 		dev_err(dev, "register controller failed\n");
-diff --git a/drivers/spi/spi-rzv2m-csi.c b/drivers/spi/spi-rzv2m-csi.c
-index 7c0442883ac0..5d80939dddb5 100644
---- a/drivers/spi/spi-rzv2m-csi.c
-+++ b/drivers/spi/spi-rzv2m-csi.c
-@@ -634,8 +634,6 @@ static int rzv2m_csi_probe(struct platform_device *pdev)
- 	controller->use_gpio_descriptors = true;
- 	controller->target_abort = rzv2m_csi_target_abort;
- 
--	device_set_node(&controller->dev, dev_fwnode(dev));
--
- 	ret = devm_request_irq(dev, irq, rzv2m_csi_irq_handler, 0,
- 			       dev_name(dev), csi);
- 	if (ret)
-diff --git a/drivers/spi/spi-sc18is602.c b/drivers/spi/spi-sc18is602.c
-index 1627aa66c965..78c558e7228e 100644
---- a/drivers/spi/spi-sc18is602.c
-+++ b/drivers/spi/spi-sc18is602.c
-@@ -251,8 +251,6 @@ static int sc18is602_probe(struct i2c_client *client)
- 	if (!host)
- 		return -ENOMEM;
- 
--	device_set_node(&host->dev, dev_fwnode(dev));
--
- 	hw = spi_controller_get_devdata(host);
- 
- 	/* assert reset and then release */
-diff --git a/drivers/spi/spi-sunplus-sp7021.c b/drivers/spi/spi-sunplus-sp7021.c
-index 256ae07db6be..789b092fe8c0 100644
---- a/drivers/spi/spi-sunplus-sp7021.c
-+++ b/drivers/spi/spi-sunplus-sp7021.c
-@@ -419,7 +419,6 @@ static int sp7021_spi_controller_probe(struct platform_device *pdev)
- 		ctlr = devm_spi_alloc_host(dev, sizeof(*pspim));
- 	if (!ctlr)
- 		return -ENOMEM;
--	device_set_node(&ctlr->dev, dev_fwnode(dev));
- 	ctlr->bus_num = pdev->id;
- 	ctlr->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH | SPI_LSB_FIRST;
- 	ctlr->auto_runtime_pm = true;
-diff --git a/drivers/spi/spi-virtio.c b/drivers/spi/spi-virtio.c
-index 6aad9f1fd016..9e66c917fb75 100644
---- a/drivers/spi/spi-virtio.c
-+++ b/drivers/spi/spi-virtio.c
-@@ -344,8 +344,6 @@ static int virtio_spi_probe(struct virtio_device *vdev)
- 	priv->vdev = vdev;
- 	vdev->priv = priv;
- 
--	device_set_node(&ctrl->dev, dev_fwnode(&vdev->dev));
--
- 	dev_set_drvdata(&vdev->dev, ctrl);
- 
- 	virtio_spi_read_config(vdev);
--- 
-2.50.1
-
+T24gRnJpLCBKYW4gMDksIDIwMjYsIEphbm5lIEdydW5hdSB3cm90ZToNCj4gSWdub3JlIFVTQiBy
+b2xlIHN3aXRjaGVzIGlmIGR3YzMtYXBwbGUgaXMgYWxyZWFkeSBpbiB0aGUgZGVzaXJlZCBzdGF0
+ZS4NCj4gVGhlIFVTQi1DIHBvcnQgY29udHJvbGxlciBvbiBNMiBhbmQgTTEvTTIgUHJvL01heC9V
+bHRyYSBkZXZpY2VzIGlzc3Vlcw0KPiBhZGRpdGlvbmFsIGludGVycnVwdHMgd2hpY2ggcmVzdWx0
+IGluIFVTQiByb2xlIHN3aXRjaGVzIHRvIHRoZSBhbHJlYWR5DQo+IGFjdGl2ZSByb2xlLg0KPiBJ
+Z25vcmUgdGhlc2UgVVNCIHJvbGUgc3dpdGNoZXMgdG8gZW5zdXJlIHRoZSBVU0ItQyBwb3J0IGNv
+bnRyb2xsZXIgYW5kDQo+IGR3YzMtYXBwbGUgYXJlIGFsd2F5cyBpbiBhIGNvbnNpc3RlbnQgc3Rh
+dGUuIFRoaXMgbWF0Y2hlcyB0aGUgYmVoYXZpb3VyDQo+IGluIF9fZHdjM19zZXRfbW9kZSgpIGlu
+IGNvcmUuYy4NCj4gRml4ZXMgZGV0ZWN0aW5nIFVTQiAyLjAgYW5kIDMueCBkZXZpY2VzIG9uIHRo
+ZSBhZmZlY3RlZCBzeXN0ZW1zLiBUaGUNCj4gcmVzZXQgY2F1c2VkIGJ5IHRoZSBhZGRpdGlvbmFs
+IHJvbGUgc3dpdGNoIGFwcGVhcnMgdG8gbGVhdmUgdGhlIFVTQg0KPiBkZXZpY2VzIGluIGEgc3Rh
+dGUgd2hpY2ggcHJldmVudHMgZGV0ZWN0aW9uIHdoZW4gdGhlIHBoeSBhbmQgZHdjMyBpcw0KPiBi
+cm91Z2h0IGJhY2sgdXAgYWdhaW4uDQo+IA0KPiBGaXhlczogMGVjOTQ2ZDMyZWY3ICgidXNiOiBk
+d2MzOiBBZGQgQXBwbGUgU2lsaWNvbiBEV0MzIGdsdWUgbGF5ZXIgZHJpdmVyIikNCj4gQ2M6IHN0
+YWJsZUB2Z2VyLmtlcm5lbC5vcmcNCj4gU2lnbmVkLW9mZi1ieTogSmFubmUgR3J1bmF1IDxqQGph
+bm5hdS5uZXQ+DQo+IC0tLQ0KPiAgZHJpdmVycy91c2IvZHdjMy9kd2MzLWFwcGxlLmMgfCAxNiAr
+KysrKysrKysrKysrKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKQ0KPiAN
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1hcHBsZS5jIGIvZHJpdmVycy91
+c2IvZHdjMy9kd2MzLWFwcGxlLmMNCj4gaW5kZXggY2M0N2NhZDIzMmUzOTdhYzQ0OThiMDkxNjVk
+ZmRiNWJkMjE1ZGVkNy4uMzVlYWRkMWZhMDgwNDk4MjliYTQwNjUxYTk2ZWIxMjJlZDU1NDYwZiAx
+MDA2NDQNCj4gLS0tIGEvZHJpdmVycy91c2IvZHdjMy9kd2MzLWFwcGxlLmMNCj4gKysrIGIvZHJp
+dmVycy91c2IvZHdjMy9kd2MzLWFwcGxlLmMNCj4gQEAgLTMzOSw2ICszMzksMjIgQEAgc3RhdGlj
+IGludCBkd2MzX3VzYl9yb2xlX3N3aXRjaF9zZXQoc3RydWN0IHVzYl9yb2xlX3N3aXRjaCAqc3cs
+IGVudW0gdXNiX3JvbGUgcm8NCj4gIA0KPiAgCWd1YXJkKG11dGV4KSgmYXBwbGVkd2MtPmxvY2sp
+Ow0KPiAgDQo+ICsJLyoNCj4gKwkgKiBTa2lwIHJvbGUgc3dpdGNoZXMgaWYgYXBwbGVkd2MgaXMg
+YWxyZWFkeSBpbiB0aGUgZGVzaXJlZCBzdGF0ZS4gVGhlDQo+ICsJICogVVNCLUMgcG9ydCBjb250
+cm9sbGVyIG9uIE0yIGFuZCBNMS9NMiBQcm8vTWF4L1VsdHJhIGRldmljZXMgaXNzdWVzDQo+ICsJ
+ICogYWRkaXRpb25hbCBpbnRlcnJ1cHRzIHdoaWNoIHJlc3VsdHMgaW4gdXNiX3JvbGVfc3dpdGNo
+X3NldF9yb2xlKCkNCj4gKwkgKiBjYWxscyB3aXRoIHRoZSBjdXJyZW50IHJvbGUuDQo+ICsJICog
+SWdub3JlIHRob3NlIGNhbGxzIGhlcmUgdG8gZW5zdXJlIHRoZSBVU0ItQyBwb3J0IGNvbnRyb2xs
+ZXIgYW5kDQo+ICsJICogYXBwbGVkd2MgYXJlIGluIGEgY29uc2lzdGVudCBzdGF0ZS4NCj4gKwkg
+KiBUaGlzIG1hdGNoZXMgdGhlIGJlaGF2aW91ciBpbiBfX2R3YzNfc2V0X21vZGUoKS4NCj4gKwkg
+KiBEbyBubyBoYW5kbGUgVVNCX1JPTEVfTk9ORSBmb3IgRFdDM19BUFBMRV9OT19DQUJMRSBhbmQN
+Cj4gKwkgKiBEV0MzX0FQUExFX1BST0JFX1BFTkRJTkcgc2luY2UgdGhhdCBpcyBuby1vcCBhbnl3
+YXkuDQo+ICsJICovDQo+ICsJaWYgKGFwcGxlZHdjLT5zdGF0ZSA9PSBEV0MzX0FQUExFX0hPU1Qg
+JiYgcm9sZSA9PSBVU0JfUk9MRV9IT1NUKQ0KPiArCQlyZXR1cm4gMDsNCj4gKwlpZiAoYXBwbGVk
+d2MtPnN0YXRlID09IERXQzNfQVBQTEVfREVWSUNFICYmIHJvbGUgPT0gVVNCX1JPTEVfREVWSUNF
+KQ0KPiArCQlyZXR1cm4gMDsNCj4gKw0KPiAgCS8qDQo+ICAJICogV2UgbmVlZCB0byB0ZWFyIGFs
+bCBvZiBkd2MzIGRvd24gYW5kIHJlLWluaXRpYWxpemUgaXQgZXZlcnkgdGltZSBhIGNhYmxlIGlz
+DQo+ICAJICogY29ubmVjdGVkIG9yIGRpc2Nvbm5lY3RlZCBvciB3aGVuIHRoZSBtb2RlIGNoYW5n
+ZXMuIFNlZSB0aGUgZG9jdW1lbnRhdGlvbiBmb3IgZW51bQ0KPiANCj4gLS0tDQo+IGJhc2UtY29t
+bWl0OiA4ZjBiNGNjZTQ0ODFmYjIyNjUzNjk3Y2NlZDhkMGQwNDAyN2NiMWU4DQo+IGNoYW5nZS1p
+ZDogMjAyNjAxMDktYXBwbGUtZHdjMy1yb2xlLXN3aXRjaC0xYjY4NGY3Mzg2MGMNCj4gDQo+IEJl
+c3QgcmVnYXJkcywNCj4gLS0gDQo+IEphbm5lIEdydW5hdSA8akBqYW5uYXUubmV0Pg0KPiANCg0K
+QWNrZWQtYnk6IFRoaW5oIE5ndXllbiA8VGhpbmguTmd1eWVuQHN5bm9wc3lzLmNvbT4NCg0KVGhh
+bmtzLA0KVGhpbmg=
