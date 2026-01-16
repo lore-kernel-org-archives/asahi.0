@@ -1,63 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC07336ECB;
-	Fri, 16 Jan 2026 02:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97BA20DD51
+	for <asahi@lists.linux.dev>; Fri, 16 Jan 2026 13:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768531832; cv=none; b=oo2DcqYEYGOrU8YmZxLuMnT2xw1vpqOa/hvgeV4MqSqHXh4gIIgGqoz20sd8BucUTUUqIdof33m55sGPpkQiZoz9yjDsS2+6v+4HtywFYZaXqtjJXFNDj+KNu7FzDRgfbr4APZ5tg7QqRdTCtsQ0E9/nOpO4QtQRKWs5YNIkj9Y=
+	t=1768570526; cv=none; b=EpKfO34diXnnEusaH3JuHZ/KmA3vphYRiGPnQvei2/alRbTLa6gdwvAcpbyWhKBW95JUkPyrVTF8jcF6bnvlJlyELrKuY6o3Dk5HHx6WqMhMqpsQCYrTQG3CftqJMZwNmr+IeIKmzSNEMim8g/dlg9ncRyD+tC3vc/WPgzYdv4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768531832; c=relaxed/simple;
-	bh=mGq6lq6CX8A0vkqW4EaPcUBUnxO3Dn8wywcn5lCiB9Y=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=JavuwaqBj7I7JYj5v2m15E/SWKnL9yrhN9LQXsTDGTfVzzCdJqJse9rfhHnQ+d2D/Kw9iuWF3d/Y0Ovd5B3Eh8KMnHoIRDuqK1zL0zsZoResdu/z4ZSGlRTi5gqZ3cAWflevwnD8MCanWSvy5cwljZuNoHrc3ITmwlLpwp/Hwh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mPUDrH5m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768570526; c=relaxed/simple;
+	bh=bap0HXtcufe/1Iu3vBFTopD3YZm/eVDQ9pb4KCiUABw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=g9M/rI7RXbkQMBI1LQdGpXSGD/OGMUPTZe7SzoGVvlHzk/qPoB/prUuXTFYY12VVA+aJnIBTDaJjXbpWJk44zEY6tBpnzMU3uvYlWeXwDx1FgR9YeGNumPlMq++OutVMGtlEU6AZkNiY6yoRt+9droyNmJE3zVv4dZsrs+9zz1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=O/5Z3fKy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uc0IR85Y; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mPUDrH5m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 301A0C116D0;
-	Fri, 16 Jan 2026 02:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768531832;
-	bh=mGq6lq6CX8A0vkqW4EaPcUBUnxO3Dn8wywcn5lCiB9Y=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=mPUDrH5m/i7VJ8eJhQMRp0aA8plTZVx1lHaXswg5cxrmD2OUAxcoJRNvorM1c3A25
-	 r+Ojg6h4Th+dS4YtcNFiVXd7ubnvwxwsvC2Rfw1yh6+nQ5SRDyOO1VZ3G2DjK/IMZB
-	 S0ouoLeRU30bhpLpuEf2Cr9msvUMy1HbRFFQJBkuAkT1mcIt2cp8XGagLqpniUbjmb
-	 Q4MQGfd9UL7LehymhT+dlg2oQ1iBxdOX1Lbub96dRiDT40svtEicpP012a2jjfydaS
-	 0mWI8gAX83RrghFMnTVsx9+jiM9ZHFPrA9K7m1CcqNPNCmLz32Ar3Q1VJmGGNfGFZq
-	 I78JHOb4Rcy+g==
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="O/5Z3fKy";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uc0IR85Y"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id D22B07A0148;
+	Fri, 16 Jan 2026 08:35:22 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Fri, 16 Jan 2026 08:35:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1768570522; x=1768656922; bh=qd
+	2NSspqGHueGVy2NakxU92uR20g/epJLHkcNutb6fc=; b=O/5Z3fKymAt03DCJtF
+	XC4DwM9D2CJQYBvqeQMBAc8qNa4ewjQYWo2HnCLkIre5YcNHBXIGLZxGWTEFMwMq
+	PpoacZjv8qr0NnK1IVf0cWoejFRkmhtp3YBaWtIiOOLGDYJAJwBiRWEyi8g1H0R2
+	++Cooh5oruYtNN/2v3dXXUWvjiR/2xlhVzjufVa13HtKdqFXvbE6+uMsoCKomFVA
+	eZ1LKyNonaswTCF8q6s3fJF+QJixbSbf9GB+1M/HYeB1XYEzE8G5nqKh7TzM5ZXl
+	nHPAfaTKzcICCfgitKMa+MI7ranhS/m9Acvfr0POPAVJHCMgPyRx1FiLsD9hWzUD
+	31GA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1768570522; x=1768656922; bh=qd2NSspqGHueGVy2NakxU92uR20g
+	/epJLHkcNutb6fc=; b=uc0IR85YbsLkTcsQEvaVUvpd7p1lWQruFXUDrgISGwZJ
+	KhkSJYIg3/UTMvXsr6+iHGN27znxPaF+leqr/eAoWp4JefdFn5Fc7Bn+4qO4qV3Z
+	CsCF+JUY+Lyv8jFcQGKR9rcDH77qEt08QhomTE4J0n6/bI7hjEhhFcSskrOC+Xc2
+	WnO9zjKqGTO8+4SIcZaiL4DpIa4dX8N+hnxIHmX50BXBmM3yzXWv8OeWWSQm5QPq
+	Zl+H280W+jh1c8VGXpAFq+T+WPW8gR4Cpuus3IuKtkAtuWwfp2KW92bO3LXxEAuw
+	G1uqCksMx1q6AqxQ0vKsjMC99IGE07BoSsoekMRMtQ==
+X-ME-Sender: <xms:mT5qaaT3xqZlu6HwRJv1C2JK_DPVsH1-SMA8rd0PYA17lEW8qturaA>
+    <xme:mT5qaS3K2XiLSKcZoTHuiUV-o1HPvWUJ1YCvjVtFCG8QT4OU22CmEwJ5e62vWpTWY
+    TglpHXbWQ_Uiobj-Mtg3qS-6FI3rjuxyupl-u_1gdzSvjPc6YyBrHc>
+X-ME-Received: <xmr:mT5qaSdb-ePCI3ozSV1oitoB734xxb2umpxe8UBUnMB4a03IolrH-T-6wxVc2snmA8IRtuEvrDq-zL4oVR8j2mlRv35E6qIlZezySw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduvdeltdejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfeehle
+    dtheefteejfedvheetuedttdetleegudeuteejveetieefuedvfeffvdeinecuffhomhgr
+    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepuddt
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvh
+    dprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopehmrghrvgigsegu
+    vghngidruggvpdhrtghpthhtohepmhgrrhhkrdhkvghtthgvnhhishesgihsgegrlhhlrd
+    hnlhdprhgtphhtthhopehmrghrvghkrdhvrghsuhhtsehmrghilhgsohigrdhorhhgpdhr
+    tghpthhtohepuhdqsghoohhtsehlihhsthhsrdguvghngidruggvpdhrtghpthhtohepth
+    hrihhniheskhhonhhsuhhlkhhordgtohhmpdhrtghpthhtohepkhgvthhtvghnihhsseho
+    phgvnhgsshgurdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugi
+    druggvvh
+X-ME-Proxy: <xmx:mj5qaSNRB8wvEbrR02lBTKGyluxKo5cQEpDDIQdoehN4is7JVnT2BA>
+    <xmx:mj5qaeVmBywwu4T8eIxTXw-D1NL9F-CCaPKEMvydxjrG3mU46aX0rA>
+    <xmx:mj5qaSyeJpnsITgwhE6-SkM-Xlgg_pw0V1QKgvRJc8tjcPccAv_kqg>
+    <xmx:mj5qad-il2kUHu7SBPCwLJLhIxq1WNfnKp3HWG29WdaMcSL_zDjztg>
+    <xmx:mj5qaeolfg8NWAMIZd2AA-aKaEf-WWb6XYny0ObncXkIZ7brhzt9rNJh>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 16 Jan 2026 08:35:21 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Fri, 16 Jan 2026 14:35:06 +0100
+Subject: [PATCH v2] usb: xhci-dwc3: Add "apple,t8103-dwc3" compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251231-clk-apple-nco-t8103-base-compat-v1-1-6459e65b6299@jannau.net>
-References: <20251231-clk-apple-nco-t8103-base-compat-v1-1-6459e65b6299@jannau.net>
-Subject: Re: [PATCH] clk: clk-apple-nco: Add "apple,t8103-nco" compatible
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, Janne Grunau <j@jannau.net>
-To: Janne Grunau <j@jannau.net>, Martin =?utf-8?q?Povi=C5=A1er?= <povik+lin@cutebit.org>, Michael Turquette <mturquette@baylibre.com>, Neal Gompa <neal@gompa.dev>, Sven Peter <sven@kernel.org>
-Date: Thu, 15 Jan 2026 19:50:30 -0700
-Message-ID: <176853183042.4027.16837126295266775570@lazor>
-User-Agent: alot/0.11
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260116-usb-dwc3-apple-compat-linux-v2-1-36ac33108d43@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAIk+amkC/43NQQ6CMBCF4auQWTuGVovIynsYFm0ZZAyWpgXEE
+ O5u5QQuv7f43wqRAlOEKlsh0MyRB5cgDxnYTrsHITfJIHNZ5CK/4hQNNm97Qu19T2iHl9cj9uy
+ mBUspiC7KkD2XkAo+UMvLXr/XyR3HcQif/WwWv/W/7ixQoClIKmUUKd3ento5PR0djVBv2/YFT
+ Ea7VscAAAA=
+X-Change-ID: 20260109-usb-dwc3-apple-compat-linux-821ee75bec48
+To: u-boot@lists.denx.de
+Cc: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
+ Tom Rini <trini@konsulko.com>, Mark Kettenis <mark.kettenis@xs4all.nl>, 
+ asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>, 
+ Mark Kettenis <kettenis@openbsd.org>, Marek Vasut <marek.vasut@mailbox.org>, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1809; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=bap0HXtcufe/1Iu3vBFTopD3YZm/eVDQ9pb4KCiUABw=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhswsu2k/DWaFlP9k3S5q9lvcscnGYx3X/HXqLT5Xv39I4
+ vf+fqGwo5SFQYyLQVZMkSVJ+2UHw+oaxZjaB2Ewc1iZQIYwcHEKwEReWDD8lbi/N+rAvifi+c/c
+ yme/qt45X7OhZ6vi3i2n1u++qFt0OYCRYTV/4Y0Mv94tcr3VwmH5U3MUi0Q7W7OPPjK5P6Pql60
+ dIwA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Quoting Janne Grunau (2025-12-31 05:22:00)
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatible "apple,nco" anymore [1]. Use
-> "apple,t8103-nco" as base compatible as it is the SoC the driver and
-> bindings were written for.
->=20
-> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@k=
-ernel.org/
->=20
-> Fixes: 6641057d5dba ("clk: clk-apple-nco: Add driver for Apple NCO")
-> Cc: stable@vger.kernel.org
-> Acked-by: Stephen Boyd <sboyd@kernel.org>
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
+The Linux support for dwc3 on Apple silicon SoCs switched to using a
+apple specific glue driver [1] that uses it own compatible string. The
+glue driver handles platform specific requirements on the interaction
+between dwc3 and the USB2/USB3 PHY and reset-controller for USB role
+switches and plug events.
+To keep USB working as before when the nodes still carried "snps,dwc3"
+as compatible add "apple,t8103-dwc3" to the of match table. Eventually
+it is probably advisable to add a dwc3-apple glue driver and write code
+for the currently empty Apple Type-C PHY driver in phy-apple-atc.c.
 
-Applied to clk-next
+Link: https://lore.kernel.org/asahi/20251015-b4-aplpe-dwc3-v2-0-cbd65a2d511a@kernel.org/ [1]
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+Reviewed-by: Marek Vasut <marek.vasut@mailbox.org>
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Changes in v2:
+- sorted the entries in xhci_dwc3_ids alphabetically
+- imported Reviewed-by: trailers
+- Link to v1: https://lore.kernel.org/r/20260109-usb-dwc3-apple-compat-linux-v1-1-b6e255b5e5af@jannau.net
+---
+ drivers/usb/host/xhci-dwc3.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/host/xhci-dwc3.c b/drivers/usb/host/xhci-dwc3.c
+index e3e0ceff43e6abdb8643f265819eff28c2c802f4..8ad07a4b98c9574a5fa0cbfe83f5567e0f49f364 100644
+--- a/drivers/usb/host/xhci-dwc3.c
++++ b/drivers/usb/host/xhci-dwc3.c
+@@ -237,6 +237,7 @@ static int xhci_dwc3_remove(struct udevice *dev)
+ }
+ 
+ static const struct udevice_id xhci_dwc3_ids[] = {
++	{ .compatible = "apple,t8103-dwc3" },
+ 	{ .compatible = "snps,dwc3" },
+ 	{ }
+ };
+
+---
+base-commit: 127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3
+change-id: 20260109-usb-dwc3-apple-compat-linux-821ee75bec48
+
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
+
