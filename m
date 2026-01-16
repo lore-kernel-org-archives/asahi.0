@@ -1,90 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC58AEED8;
-	Thu, 15 Jan 2026 21:00:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3EEA20C00C;
+	Fri, 16 Jan 2026 02:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768510837; cv=none; b=AcqqQz5hn9ixbFZcPqvX3rsdEcqqx1cY2JWZCCT5MzoEYWa1UDk4agRPFVIZs9PHzsxOFpbS9TiIbeXy4XmM3Z7tK0u9sCEX8Z8Ln8lhRmH01pMedLgc8cckdJkWd4iPyikL8Pf2yp9ebdHatjR81PuUFhYcz2X1GFKjuHlAfOs=
+	t=1768530018; cv=none; b=YUtVBjC3jHrWppl5PVkDGv3DzaY2E/EhRRN5EniqjjpZum5unXwKP2sjGIh3W4uLvy7xo9O+MJ1OQ+p01ZG9pV6R2DdmB6oVLWUpwaMvZEeus+pg1vRTME0/FBN8tD/uScd+sDZBWIxMdD8oTdu88ABDXQB3ZQvp056lIqcXlMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768510837; c=relaxed/simple;
-	bh=DykiV8OWIGZBqj5EbF75NN1M9XHMbeDKlJ0/Mh6XJ7c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oTJuTg5regwjAS114ZGC7LUGqbMXftqaEO8eTZ1QR7BtPI1cDYML+IYKVO4RKbJwf+TIEooAE+wFMBPhs6a/cjpSfr/7dTJcafFQX6DSIUmGSvMnwp+XtZyTU7K5+PVDf4ydqOJxZjrGAd3f8DYdo1KQP7LvLH6b0qM2C6+L8Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACPWfmPb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768530018; c=relaxed/simple;
+	bh=EG1hY4Bj4RYTqTep9iIgJg/7syTPIFuY/17rX6gtjqM=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=dZL9osZ8Z+YMhGrQoPbySQnaZaTJFH3J8UH362yUG/bswD/dYFnwxgXI05/mETNu6yr4dtDP5UtpuaWZNysT3VQUhLpaIjJdGnoaIhSpeB8gyQ9AVvKL2XBEO3lcDwLWFBcY+hkM5w/B/g4qSuFTmfSgrZupnAA4++xWZheiWfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WZnG4dTd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACPWfmPb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 659BFC116D0;
-	Thu, 15 Jan 2026 21:00:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WZnG4dTd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51492C116D0;
+	Fri, 16 Jan 2026 02:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768510837;
-	bh=DykiV8OWIGZBqj5EbF75NN1M9XHMbeDKlJ0/Mh6XJ7c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ACPWfmPbEgahCgAzAGCzEtKriOasnghvP7Zt5xB74K+zymKMYmEBJKKQeqnC0/L0V
-	 WWLdAu28hiNXXQYVnhA3mRtaktnX2ldstmms5z1sPg6ekeQOMKb2k/LzCrbAwp4zas
-	 n90v6kuMXR/bnXuFagW23WaVi8nx0vMxQq7ssJv3dKwVCzW6sKBvHPGgjE72vRhdo9
-	 ht49jMDgwzEMfywZTg7/Xxz7ze9mKGWU1cMFVxt/Vs74SW8PkuXc8WwKhrMoMDG1l1
-	 MEf/c/3nFhHYiU2hVsPD+gCQiNtpUJEaChBAX1ym93lAvFMLAbfTYp3j4ZLaz+rQEP
-	 qdoC1AElh2idA==
-Message-ID: <af3204c0-0492-4555-9a75-3716fa264ecd@kernel.org>
-Date: Thu, 15 Jan 2026 22:00:33 +0100
+	s=k20201202; t=1768530018;
+	bh=EG1hY4Bj4RYTqTep9iIgJg/7syTPIFuY/17rX6gtjqM=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=WZnG4dTdOLUw4oTH5wlBwJrxGQDkv9wbhTG6chJsVQKfPL/fBhcLP+HcWvxqnMSGL
+	 Bz0r+4bHtQQhUMzGIk/TAqiwHICLrOJv8hlZaJ7Gzagi2OU1y4xaG1OOfCmhAyFJ8h
+	 nd55Oy+VnZJL+MRibGdirDMLIbk4k7rX1BvBYm8IpjoZ6YxMUt/d+GBEAtfGupHtGg
+	 20YUghOK5FzG3mDbo0poYawJuerdqqlQvLnAMnViPVb7HNrffmpvavYRELx1HY7G6L
+	 pYTMwW9fPJr0rQciKD0aXBBgmscJl3vgtONIRP+hiYFkefHZ/ot5QwWgJBgV+5Pez6
+	 np9RqeS9kiL0Q==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] power: supply: Add macsmc-power driver for Apple
- Silicon
-To: michael.reeves077@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Hector Martin <marcan@marcan.st>, Lee Jones <lee@kernel.org>,
- Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>,
- Sebastian Reichel <sre@kernel.org>
-References: <20260115-b4-macsmc-power-v3-0-c236e09874be@gmail.com>
- <20260115-b4-macsmc-power-v3-1-c236e09874be@gmail.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260115-b4-macsmc-power-v3-1-c236e09874be@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251231-spmi-apple-t8103-base-compat-v1-1-98da572086f9@jannau.net>
+References: <20251231-spmi-apple-t8103-base-compat-v1-1-98da572086f9@jannau.net>
+Subject: Re: [PATCH] spmi: apple: Add "apple,t8103-spmi" compatible
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Janne Grunau <j@jannau.net>
+To: Janne Grunau <j@jannau.net>, Jean-Francois Bortolotti <jeff@borto.fr>, Neal Gompa <neal@gompa.dev>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sven Peter <sven@kernel.org>
+Date: Thu, 15 Jan 2026 20:20:16 -0600
+Message-ID: <176853001644.16445.12638081232487224512@lazor>
+User-Agent: alot/0.11
 
-Hi,
-
-
-On 1/15/26 08:08, Michael Reeves via B4 Relay wrote:
-> From: Michael Reeves <michael.reeves077@gmail.com>
->
-> This driver provides battery and AC status monitoring for Apple Silicon
-> Macs via the SMC (System Management Controller). It supports
-> reporting capacity, voltage, current, and charging status.
->
-> Co-developed-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+Quoting Janne Grunau (2025-12-31 04:41:32)
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,spmi" anymore [1]. Use
+> "apple,t8103-spmi" as base compatible as it is the SoC the driver and
+> bindings were written for.
+>=20
+> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@k=
+ernel.org/
+>=20
+> Fixes: 77ca75e80c71 ("spmi: add a spmi driver for Apple SoC")
+> Cc: stable@vger.kernel.org
 > Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
+> Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
->   MAINTAINERS                         |   1 +
->   drivers/power/supply/Kconfig        |  11 +
->   drivers/power/supply/Makefile       |   1 +
->   drivers/power/supply/macsmc-power.c | 834 ++++++++++++++++++++++++++++++++++++
->   4 files changed, 847 insertions(+)
-[...]
-> +
-> +static int macsmc_power_event(struct notifier_block *nb, unsigned long event, void *data)
-> +{
-> +	struct macsmc_power *power = container_of(nb, struct macsmc_power, nb);
-> +
-> +	/*
-> +	 * SMC Event IDs are reverse-engineered.
 
-Any chance you meant something else here? The event IDs aren't special, 
-everything here is reverse-engineered ;)
-No need to change this imho unless there's another reason for a v4 though:
-
-Reviewed-by: Sven Peter <sven@kernel.org>
-
-
-Sven
+Applied to spmi-next
