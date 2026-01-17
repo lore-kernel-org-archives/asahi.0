@@ -1,133 +1,123 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A169E288D2
-	for <asahi@lists.linux.dev>; Sat, 17 Jan 2026 12:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235C2274B51;
+	Sat, 17 Jan 2026 17:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768653171; cv=none; b=ksd/UkAbBkiPwcnq1MSMHtQ/PSofI8Ew5BjMRnUZXGoWyPgakcm0ehRScUIGoPcDjXrVE4md0ysxHWZ5tbCi7nQMX3FKClIOSaaJ1s2q5EBY7gfCABANQvnRtzeKs6KF8hBPrYFaO6c2nriWaZ5xNjfnX8owELsJFY+LCdkJMYw=
+	t=1768670731; cv=none; b=nZeUAgigaT8R5t9x9D1OSCGAtTHpdy8zt8tVZn5AT7DoidMaoCEegS7ZeFc7RsjbJGO5JQe1mdIAGdDQ2FmKwuDCBnoRVIHKLm2V9Z/M6WlhNLhPnsI8ZX2R1ILim1WQCzIQrnjDYVmeuZNsQEaBE4nJsVPMyyUwXX+p9DBwifo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768653171; c=relaxed/simple;
-	bh=sr9HE2t6AKV8pW8uQSDNG0Xo8kqmM0bt+dhJgtrWXqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o7cBaQGptNQ/1Q6ZaR9yPn8cDSfdR7ol3nm+BOGtdfSGIDTCDIYhHYDr6W85OMyq6WZexXv339shOfak055xvjaQaka7TK2sD837DQExW0mfz9FtQGyv4UMmIl8acKeoIaeN7a/ayjb9J+KCVGeCfHTGJIzgyjpciA0hPNt2Uy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=b5agoghe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iM31dSo7; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1768670731; c=relaxed/simple;
+	bh=4V35tKqw5KQHMXyZcaINOZDMyewJrJBwf6xXsdEQV0I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SglfMH1YYeWYex/O5/+wqHU53pUc/QR4/UnCRwm4cEe8d3HdsL/hNnU4S+3wwS/AYrnHZMz9ZZ0gcpM5VGhqcoF2u4y5gOuw42rs+sQGmuLjurgM1yLs2Gvyz1XVz6QKD6FB4Ks5kM2T+T3FbnNA/SjDZfU9VOdvI6+laWLu+eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYz3D+er; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="b5agoghe";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iM31dSo7"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 08BB314005F8;
-	Sat, 17 Jan 2026 07:32:49 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sat, 17 Jan 2026 07:32:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1768653169; x=1768739569; bh=8L40GxX58S
-	7CkvQid1FvkGF3NrNusAOGvB1a5qsmUhk=; b=b5agoghei+XC3YU9yIN0HvH3fD
-	7iGLJI+UrK7QHBQMTbWFx0qvqUitgwrrikEIcT0+jiej6oPfEhpichOsqYdb9d7F
-	znD/c9m2rzQXXHLvkyTPQxqYX2eZZ3lNwemaaU9iasS6Q6RSxTCw0Y/XSJpN1Gct
-	T5085Vi34TJRYFHC54THZKmh815Ic9TSdbxKV9hM8Aaydz1luXTDcoheZ4ZT1cs4
-	PL2Hh3rKRuXiY8pFuMpyBfLvlKkuVGx6xP9A3HZmXWdHxPYDzi6QalZhWhs0tPW9
-	UUZj28IBiPyWZ+VAAb3mbigy9tcsMuOt8neGhlM8MzV1ayZO4TKauR30UG5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1768653169; x=1768739569; bh=8L40GxX58S7CkvQid1FvkGF3NrNusAOGvB1
-	a5qsmUhk=; b=iM31dSo7NqAgwSdTfIYk6+9yvCK2gs9XN7XyrQCN4iU0FvCpR8z
-	/IyHJmxkBiYq2qjohNkEAnHrnMVV7Xl4Xgd8GVx09ikhhopz3FB5eMbAhKiNJeet
-	YvgVV2xT8hmGvi6YmBYsVTcncsYqcqOw99mauPh85mJDK3kaD7BHpJTBZeZ5922R
-	nTBccoe6ujX0d6RPeyZcGAkngR859/yBp/RZx8hCXb6jtwkAXQlAKZW9IUPow+vm
-	5vhlBL4kHIUr2GIA9vnXXnIvgfcmrvkAwqVlrosxMz2kotVbuNRpXsyIBi8pBDij
-	aS74LJ2iVelpvCrS6b4pDWsPAR/oSp+Ip3g==
-X-ME-Sender: <xms:cIFrafmj9dh9dTFF_0Myi4B8NjCso6-O9lhRz5aRKA1Pc1dW0ePhOw>
-    <xme:cIFrabCX5uuEHISu8ABaBNoy0Qae6Qin3vu98reU8mYyHjtJMYLowEPeYb9RX62RM
-    33mEzjOLpmISDXZmMwAK6yvLqJsKcTFPG-sXuGTmC_8c7aSN7rHNhs>
-X-ME-Received: <xmr:cIFraRN4MZ1cmWI9_FAJpwFmQjd4wbScRXnubYKDh_r_S3-hY6I8SlLF2JqFFSqmPK4_jrUPVfQKVHraiODUMXBi-i_GwsktUh8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufedukedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
-    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
-    drnhgvthdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehmihgthhgrvghlrdhrvggvvhgvshdtjeejsehgmhgrihhlrdgtohhmpdhrtghpth
-    htohepshhrvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhope
-    hlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhes
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhpmhesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhn
-    uhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsth
-    hsrdhinhhfrhgruggvrggurdhorhhg
-X-ME-Proxy: <xmx:cIFraSO47e2aFImcnjy5_bvphqXunbfadMue2o--1ZL4QB8CHx-nuA>
-    <xmx:cIFraZkcOfOyO0tdM2la3R_yZX31ZNs9HTgkgO-eHUM7K779QpQfQA>
-    <xmx:cIFraQt28-CxnGJBFOWhtswlJf8AkD049iWMNHNMO39uZpyS99V26w>
-    <xmx:cIFraco_pq_Dse5SF_d0m7GZthsNhTRig45KPEiv_VUzW-YB3j8LFg>
-    <xmx:cYFraRXD_kyNszl39fo-88v_K5KJvpqdFeD_mwliSZY3d6iN6_2cMBCU>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 17 Jan 2026 07:32:47 -0500 (EST)
-Date: Sat, 17 Jan 2026 13:32:47 +0100
-From: Janne Grunau <j@jannau.net>
-To: michael.reeves077@gmail.com
-Cc: Sebastian Reichel <sre@kernel.org>, Sven Peter <sven@kernel.org>,
-	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v3 2/2] mfd: macsmc: Wire up Apple SMC power driver
-Message-ID: <20260117123247.GB58217@robin.jannau.net>
-References: <20260115-b4-macsmc-power-v3-0-c236e09874be@gmail.com>
- <20260115-b4-macsmc-power-v3-2-c236e09874be@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYz3D+er"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A7E1C4CEF7;
+	Sat, 17 Jan 2026 17:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768670730;
+	bh=4V35tKqw5KQHMXyZcaINOZDMyewJrJBwf6xXsdEQV0I=;
+	h=From:Date:Subject:To:Cc:From;
+	b=rYz3D+erMRpxk2pzST5vBLjNjFsQ9n9O/kXyFNR0KhOOY+mSG6am/Bu7MJcEPJZYZ
+	 VfUT2bB6u975c0AWASxTa7LwldPKj/2xE3cLyMzDUlVSPH52wRsCopTM/8o4E+Cd7p
+	 O9cD5ppR5uLf/pchTFgnXJBGgv60qOl9UWgFK5B/XqNVucfDociJWjH8tHVagitYF9
+	 U8iW8F22l717GV3JBi7IZGYblnr1GLjrQtH153+BqlRbhpWG9Hi0yqtOTfePfhJe7s
+	 ySqK7jh9wA5P7BYerhLGNYl1Y0dt+VP6VFEp0DqU5EWNUct+elIiOW2sPMF72aHIbS
+	 LVCBmfVsdKFSA==
+From: Sven Peter <sven@kernel.org>
+Date: Sat, 17 Jan 2026 18:24:44 +0100
+Subject: [PATCH] soc: apple: rtkit: Add function to poweroff
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260115-b4-macsmc-power-v3-2-c236e09874be@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260117-apple-rtkit-poweroff-v1-1-6fbe8145e965@kernel.org>
+X-B4-Tracking: v=1; b=H4sIANvFa2kC/x3MTQqEMAxA4atI1gYaf2GuMrhoNZ0Jii2pqCDe3
+ eLyW7x3QWIVTvApLlDeJUlYM6gsYPzb9ccoUzZUpuoMUY82xoVRt1k2jOFgDd6jG2vnyDeWTAs
+ 5jcpeznf7He77ASauEJlmAAAA
+X-Change-ID: 20260117-apple-rtkit-poweroff-bc3bb1f4a105
+To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2139; i=sven@kernel.org;
+ h=from:subject:message-id; bh=4V35tKqw5KQHMXyZcaINOZDMyewJrJBwf6xXsdEQV0I=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ2b20QfzzgRv9XyvfZBHuLLr8W49fSX1nNralIkzZdapP
+ /x95nxvRykLgxgXg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAi0f8Z/sr1/tt3XveogtnL
+ WZ/K352YGJHudSp2l/hPzgDDbq/iD+wM/13cZAsua2o5bDA8YvBA6bm8GZPeBM/2UJdPwbmxiSl
+ LuAA=
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 
-On Thu, Jan 15, 2026 at 06:08:16PM +1100, Michael Reeves via B4 Relay wrote:
-> From: Michael Reeves <michael.reeves077@gmail.com>
-> 
-> Add the cell for the macsmc-power driver so it is probed by the
-> MFD core.
-> 
-> Co-developed-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+Add a function to put a co-processor into the lowest possible power
+state from which recovery usually isn't possible without a full SoC
+reset. This is required for the USB4/Thunderbolt co-processors which
+can be restarted since the entire USB4 root complex can be completely
+reset independently of the rest of the SoC.
 
-Co-developed-by: for a single line change as simple as this is silly.
-Please just keep Hector as author and just add your SOB
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+ drivers/soc/apple/rtkit.c       | 17 +++++++++++++++++
+ include/linux/soc/apple/rtkit.h |  7 +++++++
+ 2 files changed, 24 insertions(+)
 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
-> ---
->  drivers/mfd/macsmc.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
-> index 1b7e7b3e785f..358feec2d088 100644
-> --- a/drivers/mfd/macsmc.c
-> +++ b/drivers/mfd/macsmc.c
-> @@ -46,6 +46,7 @@
->  
->  static const struct mfd_cell apple_smc_devs[] = {
->  	MFD_CELL_NAME("macsmc-input"),
-> +	MFD_CELL_NAME("macsmc-power"),
->  	MFD_CELL_OF("macsmc-gpio", NULL, NULL, 0, 0, "apple,smc-gpio"),
->  	MFD_CELL_OF("macsmc-hwmon", NULL, NULL, 0, 0, "apple,smc-hwmon"),
->  	MFD_CELL_OF("macsmc-reboot", NULL, NULL, 0, 0, "apple,smc-reboot"),
+diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+index b8d4da147d23f7e99e76eea314e4d976cddbd1c6..381faaf74d5982163d2c44d1e2c6e0ddad07bd73 100644
+--- a/drivers/soc/apple/rtkit.c
++++ b/drivers/soc/apple/rtkit.c
+@@ -851,6 +851,23 @@ int apple_rtkit_shutdown(struct apple_rtkit *rtk)
+ }
+ EXPORT_SYMBOL_GPL(apple_rtkit_shutdown);
+ 
++int apple_rtkit_poweroff(struct apple_rtkit *rtk)
++{
++	int ret;
++
++	ret = apple_rtkit_set_ap_power_state(rtk,
++					     APPLE_RTKIT_PWR_STATE_OFF);
++	if (ret)
++		return ret;
++
++	ret = apple_rtkit_set_iop_power_state(rtk, APPLE_RTKIT_PWR_STATE_OFF);
++	if (ret)
++		return ret;
++
++	return apple_rtkit_reinit(rtk);
++}
++EXPORT_SYMBOL_GPL(apple_rtkit_poweroff);
++
+ int apple_rtkit_idle(struct apple_rtkit *rtk)
+ {
+ 	int ret;
+diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
+index 736f530180179bd144cf85eb0f0bd93844d7188a..bda3c528b51553c13f7fe5685ab60f7fc675361b 100644
+--- a/include/linux/soc/apple/rtkit.h
++++ b/include/linux/soc/apple/rtkit.h
+@@ -125,6 +125,13 @@ int apple_rtkit_wake(struct apple_rtkit *rtk);
+  */
+ int apple_rtkit_shutdown(struct apple_rtkit *rtk);
+ 
++/*
++ * Put the co-processor into the lowest power state. Note that it usually
++ * is not possible to recover from this state without a full SoC reset.
++ */
++
++int apple_rtkit_poweroff(struct apple_rtkit *rtk);
++
+ /*
+  * Put the co-processor into idle mode
+  */
 
-This patch does not apply on top of v6.19-rc1. The base-commit helpfully
-provided by b4 does not exists in my tree. I assume it's either a mfd or
-linux-next commit? Please note the branch/tag this series applies to in
-the cover letter if it is not the most recent -rc1 from Linus
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20260117-apple-rtkit-poweroff-bc3bb1f4a105
 
-Janne
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
+
