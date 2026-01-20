@@ -1,126 +1,199 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768892222D1
-	for <asahi@lists.linux.dev>; Tue, 20 Jan 2026 15:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C0D478876;
+	Tue, 20 Jan 2026 19:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768923790; cv=none; b=Pq2x5gNlIX454yajtJhdSTWPHnXxpIu7QW/bC9UaPaQg98yhYMuzhrZejbResRbhPYwbfY5rX/0hN/pa9e+1XDLuT0/3zp9+/tPYNE0r3/qLk2r1EzShPB485/h8qOVXxrbAojHrrkrBg4EOCx3wzuL9n6qcv8Rkdmk+citiI80=
+	t=1768936959; cv=none; b=a6+qCrlqUVUAn7YeBDK2lLmdbzGS/f2rU6h/xnCAPUxWzj0T7gcnWQHVO3Sjbe63wMimZpU7Lb/jN4WBenvGSVliUNKobIwHqxToBk/hB+obHLMkbS3AlFRrKqoW0sMJAFJcvXDOjMu2RhX4xoT6NCL7ehXV+3QvVReMTvb8iA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768923790; c=relaxed/simple;
-	bh=7TdqoT0rGpuw7LPs8c/RsCOBXZvBI6DpmC1g3shR4Bg=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=LJg6CJjuO2T0LfUa+CGs8uqDixhaOyBpwVlJAR2fagTw0Z0y+bOWV/IDsIqooEsLzU/gVqpZjzTOsJYJwr5iILHcRNwCZjq8edagU4siLlLHxafw42jyUbN0QgTq4SWzwXtdRGmWjtOw/au1bXmauQq7bfewQPyzry8l34bOgx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=uKuw7+VX; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1768936959; c=relaxed/simple;
+	bh=OVmbkw3k7fJ26f3GTMylBqqrvRkFQLNjf2AcM9UevMU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=spci6KxDjVDn1GUZvW3mSJy/+UvS0QNjQlktC4mtcKMfkgiNPDovvhHKOOCAXr5LMLTrqvBu71hWhjFhYwZ9wH24CCXdim/Vfh9egJ3rPR+8UkBkjL0mYsIjIbSshK+qXbdsrxle0vpu04tfbyITPt6bFwQ/bcgqzmpajIXNabc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YlIDWci6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="uKuw7+VX"
-X-KPN-MessageId: b18e0fc1-f616-11f0-af3f-005056994fde
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id b18e0fc1-f616-11f0-af3f-005056994fde;
-	Tue, 20 Jan 2026 16:42:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=b5GmnV5hH19TmEjM1zmElt3ODM0+Qg2la/Lz52igLHI=;
-	b=uKuw7+VX+XAOxSIwh+yDhGsLnjyPcwPNLxBe434kozH4ZOejc4zV0daKknMbF5/LvzWvUbGumlaBl
-	 FWER1J00+yz8UAhExoVCeEA7Ztp0XVdIWkHP+19lXGIfEyYHs88Jj5ZGidg4qGwYT71taFLt+j+iQO
-	 ocSJNil0scXuYofrbj7fpIT+0szZzC+20XgQIlTwWC3X90Kp7vqS8N7S7/p7DURErQFBnmYMDrhyXp
-	 P7QPWd5aAqt7TFZ9PqQouIuUD3y+BvwkUx8G+mv8Wk2rk4iwrdG5/syIvwtmtLsWsPMYDMrXc9+EHK
-	 6idjAYlk8zrjgajxLU9RdEKkcR3498Q==
-X-KPN-MID: 33|atlskeW/izMYHWvIo+6pWnStY/q39cTzPH8wM+5euOKxDTJ/81Vjt+gR7+p2Rwf
- +9L6vKa1Z6dFufWZWVRCJ16tyt2qTRmmh9y0DQaYCtFI=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|6eQgfqsfS30NSK5YWBYH25wpwpuo2jlrUC9J/f2pLNzn8n3zFC8Ncbcsdy6z/0O
- LHjhHLdzB1azBoNtKZVBRVw==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id b0f3fa70-f616-11f0-8d40-00505699b758;
-	Tue, 20 Jan 2026 16:42:57 +0100 (CET)
-Date: Tue, 20 Jan 2026 16:42:56 +0100
-Message-Id: <87ikcw70jj.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Janne Grunau <j@jannau.net>
-Cc: u-boot@lists.denx.de, kettenis@openbsd.org, trini@konsulko.com,
-	asahi@lists.linux.dev, j@jannau.net
-In-Reply-To: <20260116-apple-defconfig-smbios-v2-1-861d707b466a@jannau.net>
-	(message from Janne Grunau on Fri, 16 Jan 2026 14:44:46 +0100)
-Subject: Re: [PATCH v2] configs: apple: Enable SMBIOS / sysinfo
-References: <20260116-apple-defconfig-smbios-v2-1-861d707b466a@jannau.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YlIDWci6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BB5C19422;
+	Tue, 20 Jan 2026 19:22:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768936958;
+	bh=OVmbkw3k7fJ26f3GTMylBqqrvRkFQLNjf2AcM9UevMU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=YlIDWci6NaIrYvDjAq2yhQz8tWegT2Dg6owXkPTtWwCCNZy6TIGjxdkf0SjWMqrBS
+	 HZ1OYluozzxuGUb+8XWZyPhjHzhZZBTdn+x4fAQviriIGxbMX1dqT/c1f/SDma9EII
+	 glDqd9riC4rVx6B2QSNL57WNsH5WjpCsMft/TEmFUb+YsHy2dFuwVHN2w/p0QKAC/w
+	 5Sj7i2icD1/pyQOPwPNE/B2LChkgA736lCjfJaMApcMxmC8AfGe77IDEawz4zO7gsp
+	 7BnFoBJwZbhJtt0PHorTsf9ENVZR5l7hg6xF7YMzjdh3zo3J0vrT/Hr5cse6h9pQHI
+	 VNOGdReIfciTA==
+From: Mark Brown <broonie@kernel.org>
+To: Varshini Rajendran <varshini.rajendran@microchip.com>, 
+ Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sunny Luo <sunny.luo@amlogic.com>, Janne Grunau <j@jannau.net>, 
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, CL Wang <cl634@andestech.com>, 
+ Manikandan Muralidharan <manikandan.m@microchip.com>, 
+ David Lechner <dlechner@baylibre.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Jonas Gorski <jonas.gorski@gmail.com>, Hang Zhou <929513338@qq.com>, 
+ Jun Guo <jun.guo@cixtech.com>, Philipp Stanner <phasta@kernel.org>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Bartosz Golaszewski <brgl@kernel.org>, 
+ =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+ Shiji Yang <yangshiji66@outlook.com>, James Clark <james.clark@linaro.org>, 
+ Jonathan Marek <jonathan@marek.ca>, Carlos Song <carlos.song@nxp.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ Xianwei Zhao <xianwei.zhao@amlogic.com>, 
+ Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>, 
+ Sergio Perez Gonzalez <sperezglz@gmail.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Qianfeng Rong <rongqianfeng@vivo.com>, Haibo Chen <haibo.chen@nxp.com>, 
+ Gabor Juhos <j4g8y7@gmail.com>, Md Sadre Alam <quic_mdalam@quicinc.com>, 
+ Rosen Penev <rosenp@gmail.com>, Luis de Arquer <luis.dearquer@inertim.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Longbin Li <looong.bin@gmail.com>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>, 
+ Alessandro Grassi <alessandro.grassi@mailbox.org>, 
+ Chen-Yu Tsai <wens@kernel.org>, Darshan R <rathod.darshan.0896@gmail.com>, 
+ Aaron Kling <webgeek1234@gmail.com>, Vishwaroop A <va@nvidia.com>, 
+ Haixu Cui <quic_haixcui@quicinc.com>, 
+ Darshan Rathod <darshanrathod475@gmail.com>, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, imx@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, 
+ Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Ryan Wanner <ryan.wanner@microchip.com>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Kamal Dasu <kamal.dasu@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ William Zhang <william.zhang@broadcom.com>, 
+ Kursad Oney <kursad.oney@broadcom.com>, 
+ Anand Gore <anand.gore@broadcom.com>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+ Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>, 
+ Yang Shen <shenyang39@huawei.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Lixu Zhang <lixu.zhang@intel.com>, 
+ Yinbo Zhu <zhuyinbo@loongson.cn>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Daire McNamara <daire.mcnamara@microchip.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
+ Han Xu <han.xu@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, 
+ Linus Walleij <linusw@kernel.org>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Paul Walmsley <pjw@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
+ Masahisa Kojima <masahisa.kojima@linaro.org>, 
+ Jassi Brar <jaswinder.singh@linaro.org>, 
+ Laxman Dewangan <ldewangan@nvidia.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+ Michal Simek <michal.simek@amd.com>, Max Filippov <jcmvbkbc@gmail.com>
+In-Reply-To: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
+References: <20260108203004.3538449-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 0/4] spi: Make SPI core to take care of fwnode
+ assignment
+Message-Id: <176893693352.778248.9155805475563647239.b4-ty@kernel.org>
+Date: Tue, 20 Jan 2026 19:22:13 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-47773
 
-> From: Janne Grunau <j@jannau.net>
-> Date: Fri, 16 Jan 2026 14:44:46 +0100
+On Thu, 08 Jan 2026 21:23:37 +0100, Andy Shevchenko wrote:
+> It seems all of the SPI drivers want to propagate fwnode (or of_node)
+> of the physical device to the SPI device. Make sure we don't duplicate
+> it over and over in each new driver (+2 in this cycle) by making core
+> to take care of that. Note, similar is done already by IIO and
+> I²C subsystems.
 > 
-> Enable verbose SMBIOS table generation so that user space applications
-> can use the SMBIOS table to provide details about the system. The
-> desired information is chassis-type to determine whether the system is
-> laptop.
-> Adding the chassis-type property is proposed for the upstream device
-> trees in the Linux kernel in [1].
-> Enable CMD_SMBIOS as debugging aid as the platform can easily deal with
-> large u-boot binaries.
+> There is one noticeable and quite specific case that is taken care in
+> the first patch and would be nice to have a confirmation from Cirrus
+> that everything is okay. The rest is just a mechanical conversion.
 > 
-> Link: https://lore.kernel.org/asahi/20260109-apple-dt-usb-c-atc-dwc3-v1-0-ce0e92c1a016@jannau.net/ [1]
-> Reviewed-by: Tom Rini <trini@konsulko.com>
-> Signed-off-by: Janne Grunau <j@jannau.net>
+> [...]
 
-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+Applied to
 
-> ---
-> Changes in v2:
-> - Added CMD_SMBIOS as suggested by Mark
-> - Added Tom's Reviewed-by: trailer
-> - Link to v1: https://lore.kernel.org/r/20260109-apple-defconfig-smbios-v1-1-16477009c034@jannau.net
-> ---
-> I do not plan to update u-boot's in-tree device trees. The Linux device
-> trees have almost reached feature parity. The main missing features are
-> the USB Type-C ports (on track for next merge window) and the laptop
-> keyboards. I think it makes more sense to close the feature gap and
-> switch to upstream device trees instead of adding to the in-tree device
-> trees.
-> ---
->  configs/apple_m1_defconfig | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/configs/apple_m1_defconfig b/configs/apple_m1_defconfig
-> index 2d685da8c9eee2084b0144050e12c03c77e5184e..1ce69f2882a1baf8d3713c18f8fe6b3fe5e2ae57 100644
-> --- a/configs/apple_m1_defconfig
-> +++ b/configs/apple_m1_defconfig
-> @@ -10,12 +10,15 @@ CONFIG_SYS_PBSIZE=276
->  # CONFIG_DISPLAY_CPUINFO is not set
->  CONFIG_DISPLAY_BOARDINFO_LATE=y
->  CONFIG_BOARD_LATE_INIT=y
-> +CONFIG_CMD_SMBIOS=y
->  CONFIG_CMD_SELECT_FONT=y
->  CONFIG_NO_NET=y
->  CONFIG_SYS_64BIT_LBA=y
->  CONFIG_APPLE_SPI_KEYB=y
->  # CONFIG_MMC is not set
->  CONFIG_NVME_APPLE=y
-> +CONFIG_SYSINFO=y
-> +CONFIG_SYSINFO_SMBIOS=y
->  CONFIG_USB_XHCI_HCD=y
->  CONFIG_USB_XHCI_DWC3=y
->  CONFIG_USB_XHCI_PCI=y
-> @@ -25,4 +28,4 @@ CONFIG_VIDEO_FONT_16X32=y
->  CONFIG_SYS_WHITE_ON_BLACK=y
->  CONFIG_NO_FB_CLEAR=y
->  CONFIG_VIDEO_SIMPLE=y
-> -# CONFIG_SMBIOS is not set
-> +CONFIG_GENERATE_SMBIOS_TABLE_VERBOSE=y
-> 
-> ---
-> base-commit: 127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3
-> change-id: 20260109-apple-defconfig-smbios-a37802021452
-> 
-> Best regards,
-> -- 
-> Janne Grunau <j@jannau.net>
-> 
-> 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+
+Thanks!
+
+[1/4] spi: Propagate default fwnode to the SPI controller device
+      commit: f2d1a3318eb1ec860999db48cb8d13b43261624d
+[2/4] spi: Drop duplicate of_node assignment
+      commit: 3974a585be78a1dc90a19d5cf1846a99954e3842
+[3/4] spi: Drop duplicate fwnode assignment
+      commit: 103c510e1c6832720059756d155dd13a42baa7ab
+[4/4] spi: Drop duplicate device_set_node() call
+      commit: 37fbc1ab0f225d23f0839260a11375b4f1f7cf8c
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
