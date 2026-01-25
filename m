@@ -1,95 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E0E31B100;
-	Sun, 25 Jan 2026 13:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7984F2FF148;
+	Sun, 25 Jan 2026 19:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769346857; cv=none; b=EPMS0Sa21oBZhAcfRyFZNdfqq3vQ71ZlKgkCUAor6NPAzGJtlj5C/4Qz5fde74rN6lFR5Xm7McOvS83XJ0KZQeT/QWcrYci9UeO5F5ZvFQSQzfNa6xlpbBgtx3stPpj7/XSiNp9e7a1p9TEuZ0XeB1gGvospNKNwazpPLkN+QoY=
+	t=1769371018; cv=none; b=jlPkqcF0/5O/RyfdMqKITfEmurKvJ0kEEXFZZnvNgwkY5BjPxQG6gKbXoiKHSSdph0fVYk7IpVVOqkcknigVHUMnUw0weBTohXT+e0baQlYXK8PCtL0I6eX2AIvUqhZib4Nzo+P+L06dGioK6pu2ayAp2m6MH+Pu3HamaSooGPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769346857; c=relaxed/simple;
-	bh=4qeRI0/8CXPNVIq8qwuTcyMxP3YlJM0KAF+LDIonx7s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=skEXTvoXqNZyZL94NcLGp00kP0eGoBqaIg5aHYHqJyYIoqXhkv0w+aBCaPY8KCTS9vc65HZCrfiB6HAbJvFgkEKSTIGQXkfWtby3l1ChZp1ABlKy9QpsKtzpsjDfuUHBZf1o0mXfTyTgUmIqhB7MBruGVH0NuEz5xLil7A/PJlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phIHFM/T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769371018; c=relaxed/simple;
+	bh=qTKxnEAJp/Ki0VGMVmpt0zh+HCdIB1MFyEaQiBTjsxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+99pRn34Eo2jmKKq8+sRWPFvAqCedmQOLIXidDtu6UQEe2ehffRK1bNsmuvSd182jTbr4CjX+SE1HRVzgWtTyPB7ZAPw28nNwk90/Xwj1vjO8CAChLG8g2xu+khx8R1m3WxB02fuHRtZkB2i9jSxgcNs/BBfasIwp8JRzSgJFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+q73UM9; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phIHFM/T"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2163FC19421;
-	Sun, 25 Jan 2026 13:14:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769346857;
-	bh=4qeRI0/8CXPNVIq8qwuTcyMxP3YlJM0KAF+LDIonx7s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=phIHFM/TZycq0bBuebQOAvfWZRLjr5O2Q1pvxCAXag/B2zAAAU3EsuQhJgeLo2pl1
-	 sBeH1o2qkvrkzIjDQNJuLxtA6POhycud/EsxUwTG8CQgpoG0Ib0xFkuOTh3MDP5eIl
-	 rUWMpFNrOG1+Ulz28NpaY6pCYstTtpKf3aM+qJdIc0U2KSKGzLcIycOhh0U0Zc17/V
-	 CY+Oo5Wie/nGea5rVQBvrwtbWcsn37JLkgzYvU6dWy2qN8Af1vtrJp+7OJ3KAIqERG
-	 Ue77UDLByHy3sLsf/oSzqTriroYHimayzDEKBKkqVndEO9526Ls+JHkxz6uNcKlvrM
-	 mUVlwqzqfO5yA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 190F8E63CA6;
-	Sun, 25 Jan 2026 13:14:17 +0000 (UTC)
-From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Mon, 26 Jan 2026 00:14:12 +1100
-Subject: [PATCH v5 2/2] mfd: macsmc: Wire up Apple SMC power driver
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+q73UM9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769371017; x=1800907017;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qTKxnEAJp/Ki0VGMVmpt0zh+HCdIB1MFyEaQiBTjsxg=;
+  b=M+q73UM9YwX4PFXdXOkWFuVDqhoc1hn+1vqjgYQIE9pRvnxb5XzkApKI
+   JihXOgarY/hOBORl+1LV7VRc72Fb0M0So19A0zqvWgqIZ/3ZyXq0i01fU
+   sxJiOKWrt7c8icCD/e9WmjbVlAk5XJ9oqmb7yjU3kajpO1q/KWF7388iL
+   P1VmE4ryFy2MxD3Hn5fpei/rckA2K93Fi864E/tRU28uaBfoW0DfIfXda
+   xuO3dSYHOVxq4w0SbOF5sr/KSaDEJnygml2YB0aa9PbqZn/qYqwje0a3d
+   A4iS3tfiY6QhAnyy8lU7goSr+WtFndN10RWRQYeT6dMU86dlys8/evwXl
+   g==;
+X-CSE-ConnectionGUID: z+9J6YltTsqyuT8QKk8y/Q==
+X-CSE-MsgGUID: 7uhppx4ISQixU+dibDKaXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70601011"
+X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
+   d="scan'208";a="70601011"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2026 11:56:56 -0800
+X-CSE-ConnectionGUID: BvjibUp4RkOnR7Ek7NSQDQ==
+X-CSE-MsgGUID: D0xhRt44Qv2cUqSn23xRjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,253,1763452800"; 
+   d="scan'208";a="207564226"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 25 Jan 2026 11:56:52 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vk6E5-00000000Wba-1WlU;
+	Sun, 25 Jan 2026 19:56:49 +0000
+Date: Mon, 26 Jan 2026 03:56:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	Lee Jones <lee@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Michael Reeves <michael.reeves077@gmail.com>,
+	Hector Martin <marcan@marcan.st>, Joey Gouly <joey.gouly@arm.com>
+Subject: Re: [PATCH v5 1/2] power: supply: Add macsmc-power driver for Apple
+ Silicon
+Message-ID: <202601260326.ZuabPAK0-lkp@intel.com>
+References: <20260126-b4-macsmc-power-v5-1-302462673b18@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260126-b4-macsmc-power-v5-2-302462673b18@gmail.com>
-References: <20260126-b4-macsmc-power-v5-0-302462673b18@gmail.com>
-In-Reply-To: <20260126-b4-macsmc-power-v5-0-302462673b18@gmail.com>
-To: Sebastian Reichel <sre@kernel.org>, Sven Peter <sven@kernel.org>, 
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Michael Reeves <michael.reeves077@gmail.com>, 
- Hector Martin <marcan@marcan.st>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769346855; l=861;
- i=michael.reeves077@gmail.com; s=20260105; h=from:subject:message-id;
- bh=l66XKVNJtI8aTWFc0QpUQyQBnqT+6mvF4xxxt3DtiJc=;
- b=mAiJPj7JoEQiRxVrmZOGA5lsT+1h5EHMSlS24t3OZFIp8C/24RLl14QauMr4mwcMN7baB6bLg
- NGQjmQbOZkgANchr7FeZ26sU/ht/OdWNbq2LnUaVurk9t22TLORn4n7
-X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
- pk=QIrgWBGCm3LG0YYc6MLCDkwuVXLTGGooVBdWX/KhSiU=
-X-Endpoint-Received: by B4 Relay for michael.reeves077@gmail.com/20260105
- with auth_id=591
-X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
-Reply-To: michael.reeves077@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260126-b4-macsmc-power-v5-1-302462673b18@gmail.com>
 
-From: Hector Martin <marcan@marcan.st>
+Hi Michael,
 
-Add the cell for the macsmc-power driver so it is probed by the
-MFD core.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Reviewed-by: Sven Peter <sven@kernel.org>
-Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
----
- drivers/mfd/macsmc.c | 1 +
- 1 file changed, 1 insertion(+)
+[auto build test ERROR on ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea]
 
-diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
-index 1b7e7b3e785f..358feec2d088 100644
---- a/drivers/mfd/macsmc.c
-+++ b/drivers/mfd/macsmc.c
-@@ -46,6 +46,7 @@
- 
- static const struct mfd_cell apple_smc_devs[] = {
- 	MFD_CELL_NAME("macsmc-input"),
-+	MFD_CELL_NAME("macsmc-power"),
- 	MFD_CELL_OF("macsmc-gpio", NULL, NULL, 0, 0, "apple,smc-gpio"),
- 	MFD_CELL_OF("macsmc-hwmon", NULL, NULL, 0, 0, "apple,smc-hwmon"),
- 	MFD_CELL_OF("macsmc-reboot", NULL, NULL, 0, 0, "apple,smc-reboot"),
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Reeves-via-B4-Relay/power-supply-Add-macsmc-power-driver-for-Apple-Silicon/20260125-211800
+base:   ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+patch link:    https://lore.kernel.org/r/20260126-b4-macsmc-power-v5-1-302462673b18%40gmail.com
+patch subject: [PATCH v5 1/2] power: supply: Add macsmc-power driver for Apple Silicon
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260126/202601260326.ZuabPAK0-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260126/202601260326.ZuabPAK0-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601260326.ZuabPAK0-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/power/supply/macsmc-power.c:559:3: error: call to undeclared function 'emergency_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     559 |                 emergency_sync();
+         |                 ^
+   1 error generated.
+
+
+vim +/emergency_sync +559 drivers/power/supply/macsmc-power.c
+
+   531	
+   532	static void macsmc_power_critical_work(struct work_struct *wrk)
+   533	{
+   534		struct macsmc_power *power = container_of(wrk, struct macsmc_power, critical_work);
+   535		u16 bitv, b0av;
+   536		u32 bcf0;
+   537	
+   538		if (!power->batt)
+   539			return;
+   540	
+   541		/*
+   542		 * Avoid duplicate atempts at emergency shutdown
+   543		 */
+   544		if (power->emergency_shutdown_triggered || system_state > SYSTEM_RUNNING)
+   545			return;
+   546	
+   547		/*
+   548		 * EMERGENCY: Check voltage vs design minimum.
+   549		 * If we are below BITV, the battery is physically exhausted.
+   550		 * We must shut down NOW to protect the filesystem.
+   551		 */
+   552		if (apple_smc_read_u16(power->smc, SMC_KEY(BITV), &bitv) >= 0 &&
+   553		    apple_smc_read_u16(power->smc, SMC_KEY(B0AV), &b0av) >= 0 &&
+   554		    b0av < bitv) {
+   555			power->emergency_shutdown_triggered = true;
+   556			dev_emerg(power->dev,
+   557				  "Battery voltage (%d mV) below design minimum (%d mV)! Emergency shutdown.\n",
+   558				  b0av, bitv);
+ > 559			emergency_sync();
+   560			kernel_power_off();
+   561		}
+   562	
+   563		/*
+   564		 * Avoid duplicate attempts at orderly shutdown.
+   565		 * Voltage check is above this as we may want to
+   566		 * "upgrade" an orderly shutdown to a critical power
+   567		 * off if voltage drops.
+   568		 */
+   569		if (power->orderly_shutdown_triggered || system_state > SYSTEM_RUNNING)
+   570			return;
+   571	
+   572		/*
+   573		 * Check if SMC flagged the battery as empty.
+   574		 * We trigger a graceful shutdown to let the OS save data.
+   575		 */
+   576		if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &bcf0) == 0 && bcf0 != 0) {
+   577			power->orderly_shutdown_triggered = true;
+   578			dev_crit(power->dev, "Battery critical (empty flag set). Triggering orderly shutdown.\n");
+   579			orderly_poweroff(true);
+   580		}
+   581	}
+   582	
 
 -- 
-2.51.2
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
