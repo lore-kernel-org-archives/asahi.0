@@ -1,90 +1,91 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD9B3EBF1E
-	for <asahi@lists.linux.dev>; Sun, 25 Jan 2026 11:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AB41C84A2
+	for <asahi@lists.linux.dev>; Sun, 25 Jan 2026 11:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769341741; cv=none; b=dcuoXjggQDQu+h3aEpkJcZP2JPiLI1PGAmpjY100gA0U8XLiKYiJrfb6hlGRVl+lBAToLFTcPxTiLLGlPzmN8thONDb2tEUbod4TiDFwvc+bcWGJMmgaV4I4pcooQMtHW8OJNpETgmNipXr+GHdjUR4oKW2Rj7zg7X9Qd9bQfqs=
+	t=1769342401; cv=none; b=AWDrGgP4e89aREfogSUtf+A4fMGXmSci576MO2dQoaqF/NPfMme3oNR0c+tiizKmIsrpBeh8TQLQvlyLHheixHuTys7KN9UrwzLdSFSyP6EqprltSvj1XEWv1UkDzjkUxWpkm5SwyXXoibzkuSTTZOPn1Q0g2XiXp/xg+uPKekI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769341741; c=relaxed/simple;
-	bh=rjL77zUUToUEaHnlOYyIIVe+LQJi2/fxYrBq+3x7VUk=;
+	s=arc-20240116; t=1769342401; c=relaxed/simple;
+	bh=YNMX28lH7yQTekU4UYI8HtGWuYBnu2Yna1t67/pHo6s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CTiZEN9UWdKzfAHk6uFCJXg11peL5z/k2l1h9KAQjM06i88+rVbfQ/y/ufN6rwpTgmLopL7//IAvXeZPrc7GJDvPJ/Zq4Dyx74rzl0sU7ynvZpHVXflRXtb6QYhR2EmQDfVGXr17Z8qQrCx7+24nr9XkiDpZ9MhqDOL/d1Vy+Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=cOE/nwD4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=w3Vm91fr; arc=none smtp.client-ip=202.12.124.155
+	 Content-Type:Content-Disposition:In-Reply-To; b=WYG6Y2CDEspgcH4xHu3Ki7i0ond7m0HPeTpc+lmloJaXCx2unw0xyI1Cps1xfTM0yBv5IcNR0MVupbZY7NQTzL8s59VmIMXpgn3go95G8T6Si2qnBl2Ltsa3Z9bee7BXj110zjOj9SKssA54MmC1vIMNwe5kvKD57gv4raOITQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=bFTYzXWZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u8jk3QBB; arc=none smtp.client-ip=202.12.124.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="cOE/nwD4";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="w3Vm91fr"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 22AEC7A0186;
-	Sun, 25 Jan 2026 06:48:59 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="bFTYzXWZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u8jk3QBB"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 284971D000CB;
+	Sun, 25 Jan 2026 06:59:58 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Sun, 25 Jan 2026 06:48:59 -0500
+  by phl-compute-05.internal (MEProxy); Sun, 25 Jan 2026 06:59:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1769341738; x=1769428138; bh=d/ESZ+BjF+
-	l0bKx2dy8B0A8Rnl/sw5R4KcwWPDgIvMU=; b=cOE/nwD4KhI9/lkClbht6dYy8N
-	TsM81QddgixChETN62/eQN+l/Y/XCJTRKKxu53oXr4O05Y7ppRcVFxL+ettHvSVh
-	lkqV6UTkZ/z27XXnUpXtKFtYL48n55/qjCi2zTypEl3MP12LZI/aSLz3IwPKI/87
-	KhAlhcJaI3hvlafS0NDgOPWZGnMAuvJRwgPVKOb2ExrmUfkkYrwI0Tu+GZveXlWO
-	mYIO2XN2RHgYKQD8ZFkxzdOzGOPC7xTW6DwxlYtNm6+Zdddf9OiXHgwy+9+WPiN0
-	T2Z7l0sK6EoxR9F2bbvhxR0YtTZSDexv/hHCtVEpbxDmCR6V9iP6i69XX7EA==
+	:subject:to:to; s=fm1; t=1769342398; x=1769428798; bh=xdSz0Z3Yvv
+	3FK1yVmSaxLS0CRwbiu1gJvhI7SEWm/78=; b=bFTYzXWZhPfhALhFpi3e700yHY
+	G0dyfiVXxTKY5dkhjIDq+QiPVFwCc5uDU0JpgPyqrlJKF78bQX6KXD2ypoVRealw
+	AS9YUC8fus1ThEjwoHSzOXLhGPnj+/V5jjuZILHPyIYC7w/rolyXucHn3PqEBSep
+	ogpOcLm9UwBErQVjcYRojrRvBrIf5F5HGB6bsfU2lOkfGaw2SQOx89phkaGpzN0m
+	b7XcS/AeH/gOWq91meFWiBKVXqfWfhEuIY8FdiktfEyodjunLXGG6eg5QFkbaDBm
+	pYkUdNhszAVWOU+m6gjaKsIJxYm8HmfscCyzK3MYTKMEQ+iaeSG6Wk5fyAUw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1769341738; x=1769428138; bh=d/ESZ+BjF+l0bKx2dy8B0A8Rnl/sw5R4Kcw
-	WPDgIvMU=; b=w3Vm91frxER6kV66GFu7X+vWbBMjQnAAS9xdxMnnsFpB8zWdbTx
-	chV9uMnBLuqOfsBklmBCIcxVxW3HUXWS4ECzBLNKD4QH5jb1z6ni9lMIX0HL3kwO
-	7UwdgvsDnZPsViArfBcEepQ0Xax5oAVrVHKY1DvTfIvKFVoNwqHl0x0y4B3JTBuD
-	FqGTKKkvcxgVFwKuNmGxMfO/z0/JcM/RujoCJQQt/PARPnI5xHsjIkieoscnap5/
-	/7GGgv29CZafYqZqilu5xb6RFS05CWowE6AYquqr3yFqKaWrEU7aprsb47iDbRee
-	Tb7sYSEXZIsSH8Cy+rqG82pAO4suiqkmUig==
-X-ME-Sender: <xms:KgN2aWCf5gMdOgbSrp1NBxS6c8GrJPL0vsIk0EdeNtHpnpu4CGxQcg>
-    <xme:KgN2acWGE8ZwYcNG4Vab8tNS5dDKmokwsDjWPhVpcc3LhX2fFVCyVOaSo1u3ogmvd
-    9rIya7LdON9E5Ao5Q0yHUH11oUjevG6Zns5AE27dasUDThdadLeXNo>
-X-ME-Received: <xmr:KgN2aU-ZUr1hjuH0-mFE7Tnh8I3jObm6C4RPOTyd9hnWZlW7TtTq2wOzoqzLMgkzTaj8H2_rEpNOlAp2nd4hkE1wy9-lyk6T300>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduheegjeduucetufdoteggodetrf
+	1769342398; x=1769428798; bh=xdSz0Z3Yvv3FK1yVmSaxLS0CRwbiu1gJvhI
+	7SEWm/78=; b=u8jk3QBBQXDeLNUwfDlP/qRsB+VeP9/0WefKgxCC46/k01SVs/N
+	U+3nNcuck9Elz7eZqay+E0YlxcFFSv9QuPljdXZ3r6vcQR852CubBYdNkmdXUqYz
+	QKdSbtXzIakC6XXolGquY0+p+SrqHdovgXagcRmBdiiaMCjvpBz1M70nUhIz8dHm
+	Js3YBl0Vq+lnvQhptsCt4E+o7tz06g09FGnB1zsBvAq7TskPluVD3EIArkbACpn0
+	WXPC49x8HrLqs14IM06eawqhmisfJixS6g061WNEyMUqIwt++eaz9apRFCga53g+
+	W2H3PU+cn9pr054LIEFXwHmR/dz5T60Nv9Q==
+X-ME-Sender: <xms:vQV2aZoO38EFyaI5Z-A8yO2wykUoNHyGfxgmsDlx8554YvWc0WYTRw>
+    <xme:vQV2aT2kgbcSM-EY2AkU1Dseh49efMXK1bSngRQDHvkkqHg9y1bM9yAaUtsVl_U0R
+    SPPlfs0hUPczQd2S4GQWMOK9Tjhr2_p8hyel7R5bsxqraPX-AKpJCI>
+X-ME-Received: <xmr:vQV2aRx-eHNgLqTDzxOV03xS56dAa2aygEL_cr_WnPqsE10qppTEBlQTgo3JqeKy8vi15KNwJGe-69BG21UgODbLazVpu-Gi1Uc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduheegjeefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpeeigf
-    dvheehleegiedtgfeljefgjeevfeejgeetkeetfeevtdefkeeluefhieegtdenucffohhm
-    rghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphht
-    thhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrrhhkrdhkvghtth
-    gvnhhishesgihsgegrlhhlrdhnlhdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepthhglh
-    igsehlihhnuhhtrhhonhhigidruggvpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghsrghhihes
-    lhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvg
-    hrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
-X-ME-Proxy: <xmx:KgN2aeR9atulmEYUpnk1EtQsUJ6yNX5AC0joewSERRVeO87DY0Gz2g>
-    <xmx:KgN2aZQILSZebzY-Ov0cXT7CpZP4zobydWf9Br34hEswQ6wpJBZhcQ>
-    <xmx:KgN2aa5wUCL--fp9fGqs4jQYl4l7NQc4lT9rYijgCnyyqLmvn9mKMQ>
-    <xmx:KgN2aeVbfW9Kpux3ndc2tBZoHp8WPotuZWZKzW2XVmU3PI7vuxCfcA>
-    <xmx:KgN2aVugQMkSEeassmSfPupr7xzZW6DxG1do6D-0Sqq4cLmtD3a-WuP4>
+    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
+    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
+    drnhgvthdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvrghlsehgohhmph
+    grrdguvghvpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggvpdhrtghp
+    thhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
+    htthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggr
+    ugdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnh
+    gvlhdrohhrgh
+X-ME-Proxy: <xmx:vQV2afhf41cSMDJq7gxecTDPY8SKwpkb-tvOu-bS5mjRKpAhdU8EIw>
+    <xmx:vQV2aUrw9jMHh9Bm9Dt4XMRFUj4PlkFkx-dvzD2InX2AEv5P6fXhjg>
+    <xmx:vQV2aWieI6NizH1BR83pnUDSLHRxsojpyX15fP0ZNRwHZIULPqPObw>
+    <xmx:vQV2aWP9Jn7LCgu3D3xdRGsrIJykH4Z26QCthcc7Vhv6gCpBDfaD9w>
+    <xmx:vgV2aR3lbRR4wtI5UW3JIi-qroT1PNI_KGPmdouTHm-eHJULVd_0ERFv>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 25 Jan 2026 06:48:58 -0500 (EST)
-Date: Sun, 25 Jan 2026 12:48:57 +0100
+ 25 Jan 2026 06:59:57 -0500 (EST)
+Date: Sun, 25 Jan 2026 12:59:56 +0100
 From: Janne Grunau <j@jannau.net>
-To: Mark Kettenis <mark.kettenis@xs4all.nl>
-Cc: sven@kernel.org, neal@gompa.dev, tglx@linutronix.de, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, asahi@lists.linux.dev,
+To: Sven Peter <sven@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>, Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: interrupt-controller: apple,aic2: Add
- AICv3
-Message-ID: <20260125114857.GA1667597@robin.jannau.net>
+Subject: Re: [PATCH 2/2] irqchip/apple-aic: Add support for "apple,t8122-aic3"
+Message-ID: <20260125115956.GB1667597@robin.jannau.net>
 References: <20260125-irq-apple-aic3-v1-0-a2afe66a6ab9@jannau.net>
- <20260125-irq-apple-aic3-v1-1-a2afe66a6ab9@jannau.net>
- <87y0ll6i23.fsf@bloch.sibelius.xs4all.nl>
+ <20260125-irq-apple-aic3-v1-2-a2afe66a6ab9@jannau.net>
+ <5d4ef8fd-55c1-42c3-a18d-a262997ec302@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -93,88 +94,43 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87y0ll6i23.fsf@bloch.sibelius.xs4all.nl>
+In-Reply-To: <5d4ef8fd-55c1-42c3-a18d-a262997ec302@kernel.org>
 
-On Sun, Jan 25, 2026 at 12:35:48PM +0100, Mark Kettenis wrote:
-> > From: Janne Grunau <j@jannau.net>
-> > Date: Sun, 25 Jan 2026 12:08:45 +0100
-> 
-> Hi Janne,
-> 
-> > 
-> > AIC version 3 as found on the Apple M3 (t8122) is very similar to AICv2
-> > in its base functionality. It can use the same device tree bindings as
-> > AICv2 so add it to the AICv2 bindings.
-> > This interrupt controller is used on all Apple SoCs starting with M3 up
-> > to at least M5.
-> > The only apparent difference is the increased IRQ config offset. Apple's
-> > device tree codes this new offset as property of the "aic" node but the
-> > value stayed constant for all SoCs with "aic,3". Since the SoC specific
-> > compatible "apple,t8122-aic3" will be used in the driver this offset can
-> > remain a driver implementation detail.
+On Sun, Jan 25, 2026 at 12:42:38PM +0100, Sven Peter wrote:
+> On 25.01.26 12:08, Janne Grunau wrote:
+> > Introduce support for the new AICv3 hardware block in t8122 and t603x
+> > SoCs. AICv3 is similar to AICv2 but has an increased IRQ config offset.
+> > These MMIO offsets are coded as properties of the "aic,3" node in
+> > Apple's device tree. The actual offsets are the same for all SoCs
+> > starting from M3 through at least M5. So do not bother to follow suit
+> > but use AICv3 specific defines in the driver.
+> > The compatible string is SoC specific so future SoCs with AICv3 and
+> > different offsets would just use their own compatible string as base and
+> > add their new offsets.
 > > 
 > > Signed-off-by: Janne Grunau <j@jannau.net>
 > > ---
-> >  .../bindings/interrupt-controller/apple,aic2.yaml  | 29 +++++++++++++++-------
-> >  1 file changed, 20 insertions(+), 9 deletions(-)
+> >   drivers/irqchip/irq-apple-aic.c | 27 +++++++++++++++++++++++++--
+> >   1 file changed, 25 insertions(+), 2 deletions(-)
 > > 
-> > diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> > index ee5a0dfff437816056bda0de5523bf38be4f49ba..933e134d82bb599a68707ba34e04ea55d61050b9 100644
-> > --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> > +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> > @@ -4,10 +4,10 @@
-> >  $id: http://devicetree.org/schemas/interrupt-controller/apple,aic2.yaml#
-> >  $schema: http://devicetree.org/meta-schemas/core.yaml#
-> >  
-> > -title: Apple Interrupt Controller 2
-> > +title: Apple Interrupt Controller 2 and 3
-> >  
-> >  maintainers:
-> > -  - Hector Martin <marcan@marcan.st>
-> > +  - Janne Grunau <j@jannau.net>
-> >  
-> >  description: |
-> >    The Apple Interrupt Controller 2 is a simple interrupt controller present on
-> > @@ -28,14 +28,23 @@ description: |
-> >    which do not go through a discrete interrupt controller. It also handles
-> >    FIQ-based Fast IPIs.
-> >  
-> > +  The Apple Interrupt Controller 3 is in its base functionality very similar to
-> > +  the Apple Interrupt Controller 2 and uses the same device tree bindings. It is
-> > +  found on Apple ARM SoCs platforms starting with t8122 (M3).
-> > +
-> >  properties:
-> >    compatible:
-> > -    items:
-> > -      - enum:
-> > -          - apple,t8112-aic
-> > -          - apple,t6000-aic
-> > -          - apple,t6020-aic
-> > -      - const: apple,aic2
-> > +    oneOf:
-> > +      - items:
-> > +          - enum:
-> > +              - apple,t8112-aic
-> > +              - apple,t6000-aic
-> > +              - apple,t6020-aic
-> > +          - const: apple,aic2
-> > +      - items:
-> > +          - enum:
-> > +              - apple,t6030-aic3
-> > +          - const: apple,t8122-aic3
+> > diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
+> > index 3c70364e7cddd6ed6285595f136146ab04b897b2..f4efc325bebad1ae6119aa4eab47819a267da207 100644
+> > --- a/drivers/irqchip/irq-apple-aic.c
+> > +++ b/drivers/irqchip/irq-apple-aic.c
+> > @@ -54,6 +54,7 @@
+> >   #include <linux/irqdomain.h>
+> >   #include <linux/jump_label.h>
+> >   #include <linux/limits.h>
+> > +#include <linux/of.h>
 > 
-> I think this is missing a
-> 
->          - const: apple,t8122-aic3
-> 
-> otherwise, the non-{Pro/Ultra/Max} M3 can't have the simple
-> 
->     compatible = "apple,t8122-aic3"
+> Did we miss this include previously or why is it added now?
 
-indeed, I forgot to copy my t8122 device tree over when I ran dtbs_check
-before submission. Fixed locally and I added a apple,t8122-aic3 example
-which tests the #interrupt-cells 3 case
+It's a leftover from my initial (unsend) version which read MMIO offsets
+from node properties.
 
-Thanks
+It was strictly speaking missing though as the driver uses multiple
+functions from it. On the other hand it is probably safe to assume that
+of_address.h will include it implicity. I can remove this line from the
+as it is confusing adding it without apparent reason.
 
 Janne
