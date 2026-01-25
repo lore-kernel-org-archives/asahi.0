@@ -1,136 +1,140 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AB41C84A2
-	for <asahi@lists.linux.dev>; Sun, 25 Jan 2026 11:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537681D88B4;
+	Sun, 25 Jan 2026 13:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769342401; cv=none; b=AWDrGgP4e89aREfogSUtf+A4fMGXmSci576MO2dQoaqF/NPfMme3oNR0c+tiizKmIsrpBeh8TQLQvlyLHheixHuTys7KN9UrwzLdSFSyP6EqprltSvj1XEWv1UkDzjkUxWpkm5SwyXXoibzkuSTTZOPn1Q0g2XiXp/xg+uPKekI=
+	t=1769346335; cv=none; b=DC92N5zNuKNpt/33ecdjhSer1e/F7nRhydoyHCVEcsCn6BxKddwRVUQxt08USIwEx1MtenYFnxOOtNji5TilTwbmx3MXhe1jdvMWgXnvQCDev3UMyzrkzU728lyq3g5ai6iqlmQmChFgaG2mXPnuZotvDO2wn12IvHtMEJXZYNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769342401; c=relaxed/simple;
-	bh=YNMX28lH7yQTekU4UYI8HtGWuYBnu2Yna1t67/pHo6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WYG6Y2CDEspgcH4xHu3Ki7i0ond7m0HPeTpc+lmloJaXCx2unw0xyI1Cps1xfTM0yBv5IcNR0MVupbZY7NQTzL8s59VmIMXpgn3go95G8T6Si2qnBl2Ltsa3Z9bee7BXj110zjOj9SKssA54MmC1vIMNwe5kvKD57gv4raOITQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=bFTYzXWZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=u8jk3QBB; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1769346335; c=relaxed/simple;
+	bh=3nVJfHoPeIK1kwbJp85jAtXyh/3kl/mn5dtmy7TOuao=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JmzTeAxyz06J9EeE+S0gPlLYrWZ9zgvuzDicoBwbUyfxIkhIPaj2n7TZXBGPLTrj/E9/YA6P9oXFiiLtiE+WmBcv2d3FYISeYYb5cTZ5/dZUBmthIYMtdSAqHWQBJQgHzTLOkcviA4G03D69F3jCwr98HDfMopulhCZ6niGRYq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l5Ngo5pY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="bFTYzXWZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="u8jk3QBB"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 284971D000CB;
-	Sun, 25 Jan 2026 06:59:58 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Sun, 25 Jan 2026 06:59:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1769342398; x=1769428798; bh=xdSz0Z3Yvv
-	3FK1yVmSaxLS0CRwbiu1gJvhI7SEWm/78=; b=bFTYzXWZhPfhALhFpi3e700yHY
-	G0dyfiVXxTKY5dkhjIDq+QiPVFwCc5uDU0JpgPyqrlJKF78bQX6KXD2ypoVRealw
-	AS9YUC8fus1ThEjwoHSzOXLhGPnj+/V5jjuZILHPyIYC7w/rolyXucHn3PqEBSep
-	ogpOcLm9UwBErQVjcYRojrRvBrIf5F5HGB6bsfU2lOkfGaw2SQOx89phkaGpzN0m
-	b7XcS/AeH/gOWq91meFWiBKVXqfWfhEuIY8FdiktfEyodjunLXGG6eg5QFkbaDBm
-	pYkUdNhszAVWOU+m6gjaKsIJxYm8HmfscCyzK3MYTKMEQ+iaeSG6Wk5fyAUw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1769342398; x=1769428798; bh=xdSz0Z3Yvv3FK1yVmSaxLS0CRwbiu1gJvhI
-	7SEWm/78=; b=u8jk3QBBQXDeLNUwfDlP/qRsB+VeP9/0WefKgxCC46/k01SVs/N
-	U+3nNcuck9Elz7eZqay+E0YlxcFFSv9QuPljdXZ3r6vcQR852CubBYdNkmdXUqYz
-	QKdSbtXzIakC6XXolGquY0+p+SrqHdovgXagcRmBdiiaMCjvpBz1M70nUhIz8dHm
-	Js3YBl0Vq+lnvQhptsCt4E+o7tz06g09FGnB1zsBvAq7TskPluVD3EIArkbACpn0
-	WXPC49x8HrLqs14IM06eawqhmisfJixS6g061WNEyMUqIwt++eaz9apRFCga53g+
-	W2H3PU+cn9pr054LIEFXwHmR/dz5T60Nv9Q==
-X-ME-Sender: <xms:vQV2aZoO38EFyaI5Z-A8yO2wykUoNHyGfxgmsDlx8554YvWc0WYTRw>
-    <xme:vQV2aT2kgbcSM-EY2AkU1Dseh49efMXK1bSngRQDHvkkqHg9y1bM9yAaUtsVl_U0R
-    SPPlfs0hUPczQd2S4GQWMOK9Tjhr2_p8hyel7R5bsxqraPX-AKpJCI>
-X-ME-Received: <xmr:vQV2aRx-eHNgLqTDzxOV03xS56dAa2aygEL_cr_WnPqsE10qppTEBlQTgo3JqeKy8vi15KNwJGe-69BG21UgODbLazVpu-Gi1Uc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduheegjeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
-    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
-    drnhgvthdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvrghlsehgohhmph
-    grrdguvghvpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggvpdhrtghp
-    thhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
-    htthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggr
-    ugdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnh
-    gvlhdrohhrgh
-X-ME-Proxy: <xmx:vQV2afhf41cSMDJq7gxecTDPY8SKwpkb-tvOu-bS5mjRKpAhdU8EIw>
-    <xmx:vQV2aUrw9jMHh9Bm9Dt4XMRFUj4PlkFkx-dvzD2InX2AEv5P6fXhjg>
-    <xmx:vQV2aWieI6NizH1BR83pnUDSLHRxsojpyX15fP0ZNRwHZIULPqPObw>
-    <xmx:vQV2aWP9Jn7LCgu3D3xdRGsrIJykH4Z26QCthcc7Vhv6gCpBDfaD9w>
-    <xmx:vgV2aR3lbRR4wtI5UW3JIi-qroT1PNI_KGPmdouTHm-eHJULVd_0ERFv>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 25 Jan 2026 06:59:57 -0500 (EST)
-Date: Sun, 25 Jan 2026 12:59:56 +0100
-From: Janne Grunau <j@jannau.net>
-To: Sven Peter <sven@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>, Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] irqchip/apple-aic: Add support for "apple,t8122-aic3"
-Message-ID: <20260125115956.GB1667597@robin.jannau.net>
-References: <20260125-irq-apple-aic3-v1-0-a2afe66a6ab9@jannau.net>
- <20260125-irq-apple-aic3-v1-2-a2afe66a6ab9@jannau.net>
- <5d4ef8fd-55c1-42c3-a18d-a262997ec302@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l5Ngo5pY"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D9D50C4CEF1;
+	Sun, 25 Jan 2026 13:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769346334;
+	bh=3nVJfHoPeIK1kwbJp85jAtXyh/3kl/mn5dtmy7TOuao=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=l5Ngo5pYqzrq0r4RytKaCaq38TZovoV1p/C2/tuzvHGsorbTOJ87tgWUS+L5V2/18
+	 OJFDRp6hmHAJhnrucJqKPnEgFosKUwOPLcMWIVSE8kS8vSqkgM2PclZ90XCMF72Vyu
+	 0kMDYcNE76EfSG5HtzZPoCfFM3jzj1RAShpdX7KQATmyA5rTXUJeKSQhcl4R6XGtXs
+	 QYTft2nMKrnBp4OKPaqFim438ZIE2tQUrsUh6bybBpxRKcZhnNuAlnRUDwG/lOG+H3
+	 6SnMtuBlYNpaf53aYa4Grwf+awtMyoPXFhctJAmGD/+bnRK3aQEI3KrA0cMOfYcgpc
+	 fff7xUQxFtPEg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7FB0E63CA2;
+	Sun, 25 Jan 2026 13:05:34 +0000 (UTC)
+From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
+Subject: [PATCH v4 0/2] (no cover subject)
+Date: Mon, 26 Jan 2026 00:05:19 +1100
+Message-Id: <20260126-b4-macsmc-power-v4-0-aa2a682ca650@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5d4ef8fd-55c1-42c3-a18d-a262997ec302@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABAVdmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyTHQUlJIzE
+ vPSU3UzU4B8JSMDIzMDQyNT3SQT3dzE5OLcZN2C/PLUIt2kJGMDYwvLVAPTNEMloK6CotS0zAq
+ widGxtbUAXSi/4mEAAAA=
+X-Change-ID: 20260125-b4-macsmc-power-bb30389e05f1
+To: Sebastian Reichel <sre@kernel.org>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Lee Jones <lee@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Michael Reeves <michael.reeves077@gmail.com>, 
+ Hector Martin <marcan@marcan.st>, Joey Gouly <joey.gouly@arm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769346333; l=3237;
+ i=michael.reeves077@gmail.com; s=20260105; h=from:subject:message-id;
+ bh=3nVJfHoPeIK1kwbJp85jAtXyh/3kl/mn5dtmy7TOuao=;
+ b=f9YdilHx6WpwE5bb46PjUgNU7L08sOqM5p/8Q9JPHM5B9FvkIYtQmOg20dkPEpoBQEwM58ZLu
+ dqpUzgNEQk5B6TfMg3i/+YeSnSVeYF8d3cXQQgLZoiuhNNf0cUgDHnI
+X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
+ pk=QIrgWBGCm3LG0YYc6MLCDkwuVXLTGGooVBdWX/KhSiU=
+X-Endpoint-Received: by B4 Relay for michael.reeves077@gmail.com/20260105
+ with auth_id=591
+X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
+Reply-To: michael.reeves077@gmail.com
 
-On Sun, Jan 25, 2026 at 12:42:38PM +0100, Sven Peter wrote:
-> On 25.01.26 12:08, Janne Grunau wrote:
-> > Introduce support for the new AICv3 hardware block in t8122 and t603x
-> > SoCs. AICv3 is similar to AICv2 but has an increased IRQ config offset.
-> > These MMIO offsets are coded as properties of the "aic,3" node in
-> > Apple's device tree. The actual offsets are the same for all SoCs
-> > starting from M3 through at least M5. So do not bother to follow suit
-> > but use AICv3 specific defines in the driver.
-> > The compatible string is SoC specific so future SoCs with AICv3 and
-> > different offsets would just use their own compatible string as base and
-> > add their new offsets.
-> > 
-> > Signed-off-by: Janne Grunau <j@jannau.net>
-> > ---
-> >   drivers/irqchip/irq-apple-aic.c | 27 +++++++++++++++++++++++++--
-> >   1 file changed, 25 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
-> > index 3c70364e7cddd6ed6285595f136146ab04b897b2..f4efc325bebad1ae6119aa4eab47819a267da207 100644
-> > --- a/drivers/irqchip/irq-apple-aic.c
-> > +++ b/drivers/irqchip/irq-apple-aic.c
-> > @@ -54,6 +54,7 @@
-> >   #include <linux/irqdomain.h>
-> >   #include <linux/jump_label.h>
-> >   #include <linux/limits.h>
-> > +#include <linux/of.h>
-> 
-> Did we miss this include previously or why is it added now?
+This series adds a power supply driver for the Apple SMC found on
+Apple Silicon devices. This allows the kernel to report AC status,
+battery charging status, and power metrics, and modify the charging
+behaviour.
 
-It's a leftover from my initial (unsend) version which read MMIO offsets
-from node properties.
+The first patch adds the driver itself, and the second patch wires it
+up to the MFD core.
 
-It was strictly speaking missing though as the driver uses multiple
-functions from it. On the other hand it is probably safe to assume that
-of_address.h will include it implicity. I can remove this line from the
-as it is confusing adding it without apparent reason.
+The driver is based on an original out-of-tree implementation by
+Hector Martin. It has been refactored by myself for upstream inclusion, 
+including support for newer SMC firmwares, devices without batteries,
+dynamic property detection and improved state management, among other
+things.
 
-Janne
+This series is based ontop of the current linux-next at time of writing,
+the exact commit hash is listed below.
+
+Tested on: Apple M3 (MacBook Air, J613)
+
+Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
+---
+Changes in v4:
+- Restore Hector Martin as primary author for the series.
+- Restore downstream Co-developed-by and Signed-off-by tags.
+- Add Reviewed-by: Sven Peter <sven@kernel.org>.
+- Simplify MFD patch authorship and remove redundant tags.
+- Fix probe return value being overwritten by devm_work_autocancel.
+- Return -ENODEV in probe if neither battery nor AC adapter are found.
+- Add bounds check for nprops against MACSMC_MAX_BATT_PROPS.
+- Refactor macsmc_battery_set_charge_behaviour to remove unnecessary resets.
+- Improve critical_work shutdown flags and remove return.
+- Add comments explaining SMC key firmware history and flag meanings.
+- Clarify event ID descriptions and restore BSFC flag comments.
+- Remove redundant dev_dbg logs for missing battery or AC.
+- Link to v3: https://lore.kernel.org/r/20260115-b4-macsmc-power-v3-0-c236e09874be@gmail.com
+
+Changes in v3:
+- Rebase on top of latest linux-next
+- Drop charge control threshold properties.
+- Switch to devm_work_autocancel() for critical work.
+- Add platform ID table and remove MODULE_ALIAS.
+- Simplify property array management in struct macsmc_power.
+- Improve probe error handling and device pointer usage.
+- Minor style and indentation fixes.
+- Link to v2: https://lore.kernel.org/r/20260109-b4-macsmc-power-v2-0-93818f1e7d62@gmail.com
+
+Changes in v2:
+- Added Reviewed-by: Neal Gompa <neal@gompa.dev> to all patches.
+- Fixed Makefile alignment by using tabs for the macsmc-power entry.
+- Upgraded physical battery exhaustion log level to EMERG.
+- Downgraded software-triggered orderly poweroff log level to CRIT.
+- Added check for CHIS key to skip AC registration on desktop models.
+- Link to v1: https://lore.kernel.org/r/20260105-b4-macsmc-power-v1-0-62954c42a555@gmail.com
+
+---
+Hector Martin (2):
+      power: supply: Add macsmc-power driver for Apple Silicon
+      mfd: macsmc: Wire up Apple SMC power driver
+
+ MAINTAINERS                         |   1 +
+ drivers/mfd/macsmc.c                |   1 +
+ drivers/power/supply/Kconfig        |  11 +
+ drivers/power/supply/Makefile       |   1 +
+ drivers/power/supply/macsmc-power.c | 851 ++++++++++++++++++++++++++++++++++++
+ 5 files changed, 865 insertions(+)
+---
+base-commit: ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+change-id: 20260125-b4-macsmc-power-bb30389e05f1
+
+Best regards,
+-- 
+Michael Reeves <michael.reeves077@gmail.com>
+
+
