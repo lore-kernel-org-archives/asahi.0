@@ -1,121 +1,157 @@
 Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12E032C31B
-	for <asahi@lists.linux.dev>; Wed, 28 Jan 2026 08:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FBA334683
+	for <asahi@lists.linux.dev>; Wed, 28 Jan 2026 08:57:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769588976; cv=none; b=sCpHw7bySsrCUJ1vfg1sRStr3B8QI1qee3/duh4InpjjZ/+GZn9MFNhBTat76/UV22H3PcKEhmhMq4xrubagEf7szRN1PrMAZdVqbsSnI3d6VNv/0zRQs4okGIk59nX0VF9a1RiXhhZQaqdT43/3wqjClEA+GBYCLHkkCHdgeNU=
+	t=1769590644; cv=none; b=pFTJH6FGpv03dvYrJT4tTBydJjIWmFSfeCk3i5jyxES8iwLjvcxX05OD2GN5fDLqDtHZQG8XlnyMSaLQbZEy45eSDYQpHETqOeGRBhyitxL8v6lvh9OOsMsJ0uM1XI4MBD5LgMjWVnuoEeP1iKD8/6QNbE4vUm6O0rmCUEsQsR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769588976; c=relaxed/simple;
-	bh=n0kXo1k4vo0QxMi+tXd2olPq/uITmfbOZwA8SJxX0P0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WjmV4YFpBYW6xBnetoZC2rFZomQBxhFBZ714zGujzYgxsqwSwlRWiD+vA57HSruLFPS5NssAr8Cc8HCGs+iIP48GfYW+MoAE5xje6NaKjYzYTlrxzN10wNKWTFodpR3omfRaVXT5QVids0i3oTu4avam+y3pwURYKLx1yYX4DLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=qKk3ceXt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Y3CvMSA+; arc=none smtp.client-ip=202.12.124.145
+	s=arc-20240116; t=1769590644; c=relaxed/simple;
+	bh=lSCd9224ugKISLFYLWd468PqALwjXlK5iifgzV8hY5Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=C9MLqfajKkJDZEu/lQmabClSFeAO3eZuoKYOahaY0lXVhigaxSpsRfIqETd2U5OKQVoHkNJ5GoJckdCKLhrzH0PtFEyOSrWEsVQsj0kI1mX0UrRp0gi8Z+O0ApnNoNVyMLr+RGtsvx8tA9GbZ262uDfCi/V65Wi5MGilv7PYnmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=HSw7JYbK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ae9CZ5wu; arc=none smtp.client-ip=202.12.124.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="qKk3ceXt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Y3CvMSA+"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 99A501D00141;
-	Wed, 28 Jan 2026 03:29:33 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="HSw7JYbK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ae9CZ5wu"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id A2A511D00090;
+	Wed, 28 Jan 2026 03:57:22 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 28 Jan 2026 03:29:33 -0500
+  by phl-compute-02.internal (MEProxy); Wed, 28 Jan 2026 03:57:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1769588973; x=1769675373; bh=lzNRjNZ++s
-	EseGt/Ra7+QgYJtUADHHDL2C2yG0SvrDA=; b=qKk3ceXtv2q0vSNFXERPGLWY24
-	vqOeN+Ef3o27W9d/3O//372A2ML0ePYvNo4qtEsbHt9TZ+51n0QRNHN0ISM796/v
-	Ewj8B8/zki8QvCHTL1OhXgaI3K8QowNBiOFGcvvyjslySqiKZyfiIaElizV0wQ04
-	G+qGM+BJPHjzYqqNPhSBU3bIXhAHPhVxFAEKXbD+s56luEikb1lpIyEVK2pKJsmG
-	oR72Y126dAXRFCevgKa8DXjdUd4EqpkIbaCw/BI8kGd16Hp7ZkPcAfUf+s72564K
-	gsiHee5yfh9b8XhF1dzCV/r+yAJ1WOE/Jz0eOMQYlBv7PxZoqyH1DjkkBScw==
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1769590642; x=1769677042; bh=AW
+	q/HTw1YbVVTLbDtDcQ/JJUIzFiIOVRXqodj5LKW5Q=; b=HSw7JYbK+PBrJm20mW
+	/28ngXbf+wjRthIM4pYDD5AdrTQoBVektxX5gEaBE4928XVSRMjXOc6eIkF0osjl
+	nzREBD4GIY1o3si1HrtciLsm5yFY0MdYmnzsWn9jBAhBxtSCqfUb5UbadvC9Sunu
+	4PE+PRlVCjBsvNhOz+0SqThH0TY50U1jpscMGD6s/0fBb1UTKXJ9zIa2jMXwPTOQ
+	yy0YMb6s6lbs5i159N9Ug34C8dxGEyC2DFsbV2GZNove4hC2PqZRLhPdt5kFjMQz
+	FU1uqyyDvbMKTj6RONuvoWacXMGJGQ8Kz8Gkr3PpBkThJB7MvxhZrqijCzJ1JwIJ
+	x7Zw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1769588973; x=1769675373; bh=lzNRjNZ++sEseGt/Ra7+QgYJtUADHHDL2C2
-	yG0SvrDA=; b=Y3CvMSA+oXcT2o8XYPc1lDo4S+gPxHcjeRI7pF22GNJWYWxfnWP
-	1vCooNPsM8Qs9xG0Ekc3pz4v6N34yjq4BEcfZzqn5WQvnlzCe7ckxUuMvM8zo6Uy
-	6XFipqQCFYikF2QnJh2rGlRUr1T8bBbV004uNQAHcGe+VV7pklOIjC5Su68emC+V
-	Biz02ZBwPA3Qhhz936Mpo8mJO1ORZ/BJ/4hwx9yiN8v+jQjky1UY0Z4QWTD/Rqe5
-	MTEBF5qPixI/vosHKFsLGPxXM8dOIFPS1P44JGdGpdDmhLRMA2bvhn1xR/bbuxIu
-	4SW8WgxU8QSZH4UNoJy3KT7v8T54/BUkBLQ==
-X-ME-Sender: <xms:7ch5aRa7h8dCaQzqAGFVZ_v1ylNY3ld51l7XSXjwqdLAINtj1oEqsA>
-    <xme:7ch5aQl9mjWSAio5ASn_H1qljXV2oTcs_4UKhhtbjhQE3if1EOJFRghyncCt4hdZ7
-    UtsdZmnG6wwDpRV1mf8uyMWuJGCRkEYdyjxwiz6rNixbCBtwaF9jw>
-X-ME-Received: <xmr:7ch5afgU5DrZpU7KKJvGHJE1tM6LLgS90ZooMJsjExpIA8k5bYs2FLATZAE7DExZUUXdYFzWGy-ikyY-7PeQYT-5PKiLT2uk0_4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduiedvkeelucetufdoteggodetrf
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1769590642; x=1769677042; bh=AWq/HTw1YbVVTLbDtDcQ/JJUIzFi
+	IOVRXqodj5LKW5Q=; b=Ae9CZ5wufqDtP7AwGtiztITsDPQf2ItJPhd5OjABpZTi
+	hbBMcoMJOExkajxDdLbQKJqr14AcJvp7yBU+KIWCQkm1UZXsCWfYAbECelBZILEC
+	nFoxUGoZo8S03HWDPOVpv4r41EM7HWGZMjsmBUx+UC3lnpAgwYT9r8CC0D6gberS
+	9GNN4VXn5tvnDbckRFoRasYlo1CbFt8ImREV9xg3RLLZn8Bbc1WYajywHRM4yL7C
+	Lmq8x+Lq2F5j1zJwhSBVlGs9Z6B8ym7LGf4jbKkVVBU2FWwMIvvx5WkPGPG4W8Qn
+	8LnDwlLLfQrdkqLtXULPUoWrlaiahNf/BuFj/qGh+A==
+X-ME-Sender: <xms:cs95abPp_AmSkebm8N6W3YpghxAW5v__-hAKruhyfwuVBtCLL6J9LA>
+    <xme:cs95aRy-2-L58I259z-UucZHKNP8IEGLQEGJ5HArXHuhiYHL_uTruD3JTao7YSZsO
+    c1EFmaqK503GpbD54P85Gtg3hUZn6GkBluwrT1OkfdG3oPEhg7BaaA>
+X-ME-Received: <xmr:cs95aVpTflY7dqXXAO2ZmdplCiiHXFg_sbKLRgtA3tcAI_SKYZptNGvNAPPKGXzU2UvVsiICVzZOkjVa-fhVVSBehyXj1rQZksUNEg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduiedvleegucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
-    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
-    drnhgvthdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehtghhlgieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthho
-    pehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoh
-    eplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdho
-    rhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrd
-    horhhg
-X-ME-Proxy: <xmx:7ch5aaRDDMUZbL5aKNd0NsSm6EV_jfw9QE6-LOQymmkb-Zwsrzgt2g>
-    <xmx:7ch5aYZofHUfeH7tcCUHonMwk7BTrhwuBMDXTu1uKRh9C3jN3IMB0w>
-    <xmx:7ch5afS3TVLs-lDu_I4QuSGRtBIPmXEif-J_NTaecTyny1kmPRS51A>
-    <xmx:7ch5af-lF9t_XKCj32sWHJMAwhYeLEpPCXYxHpK7dDGlsH2IbxRKfQ>
-    <xmx:7ch5aVGeJiN1Vi2OFOdWOHF3qO5qx_faxELUvo02cZdoX0Il6jdU8z8Q>
+    gurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepudffle
+    ejffefieeigeeluddvgeeklefhffeigefhudejieevgffgkeeftdffvedunecuffhomhgr
+    ihhnpeihrghmlhdrrghpphhlvgdpkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhn
+    sggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhgvrg
+    hlsehgohhmphgrrdguvghvpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtghp
+    thhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehtghhlgieslhhinhhuthhrohhnihigrdgu
+    vgdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfh
+    hrrgguvggrugdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhig
+    rdguvghvpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
+    rdhorhhg
+X-ME-Proxy: <xmx:cs95aZOWUmjwrmikHWfn_JQ6RJUhR_ZX48NjX4lVtHykN9JMKmjF2g>
+    <xmx:cs95aRfFgC46CawEmYkvezHnVuQv-XANTjRIC1-Q47zcMauIJqUK-Q>
+    <xmx:cs95aXVmGUxsIZDTdUozKWVoitmwom1a7kr9jEb_BmhE9tJlqbegwQ>
+    <xmx:cs95aaDLUuz1AdGxWaA4gprdx3DK8CBjwRRYNiPmJ8ObQ5nFNoLUZw>
+    <xmx:cs95adeJ6FlANp17K-v_9vr7w4MU3WynIU6MwzLEW4W1mgrJV2JhOz2d>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 28 Jan 2026 03:29:32 -0500 (EST)
-Date: Wed, 28 Jan 2026 09:29:31 +0100
+ 28 Jan 2026 03:57:21 -0500 (EST)
 From: Janne Grunau <j@jannau.net>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] irqchip/apple-aic: Add support for "apple,t8122-aic3"
-Message-ID: <20260128082931.GC1667597@robin.jannau.net>
-References: <20260125-irq-apple-aic3-v1-0-a2afe66a6ab9@jannau.net>
- <20260125-irq-apple-aic3-v1-2-a2afe66a6ab9@jannau.net>
- <87fr7scqxl.ffs@tglx>
+Subject: [PATCH v2 0/2] Add Apple interrupt controller 3 support
+Date: Wed, 28 Jan 2026 09:57:07 +0100
+Message-Id: <20260128-irq-apple-aic3-v2-0-b4bc8e16c997@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87fr7scqxl.ffs@tglx>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGPPeWkC/13MwQrCMAzG8VcZORtpOy3Mk+8hO8SZuoh0tZ1FG
+ X136/AkOf0D32+BxFE4waFZIHKWJJOvYTYNDCP5K6NcaoNRxiqtO5T4QArhzkgytKhavXOWyNS
+ DOgqRnbxW8NTXHiXNU3yvftbf748y+38qa1RYGcfWkqVzd7yR9/Tcep6hL6V8ANXyWSmtAAAA
+X-Change-ID: 20260119-irq-apple-aic3-0314f6aa2a2a
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2081; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=lSCd9224ugKISLFYLWd468PqALwjXlK5iifgzV8hY5Q=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhszK8wV/Wau4zuj82sZ4u/p3XeqqZ8smzbpQUzu5/Pvs1
+ 2pbFrNkdJSyMIhxMciKKbIkab/sYFhdoxhT+yAMZg4rE8gQBi5OAZiI7DtGhiOHsxaeP1pwRFb+
+ hPTeiQc8WFacEjlw7970C2czDzo1bH3NyDBtjoSX6MeanW2dshd2fEiym9vyYdMcbhPWupYuto4
+ nwdwA
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-On Mon, Jan 26, 2026 at 04:52:06PM +0100, Thomas Gleixner wrote:
-> On Sun, Jan 25 2026 at 12:08, Janne Grunau wrote:
-> > +/*
-> > + * AIC v3 registers (MMIO)
-> > + */
-> > + 
-> 
-> Pointless newline and please make this a /* Oneline comment */
+Add yet another variant of Apple's interrupt controller. This one might
+to stick for more SoC variants than their predecessors. According to
+Apple's device trees it is used on all SoCs since the M3 (t8122) up to
+M5 (t8142). This information is not 100% reliable since macOS uses
+different kernel builds for each SoC variant.
+As far as the functionality implemented in the Linux driver it is almost
+identical to AICv2. The only noticeable difference is an increased
+IRQ_CFG offset.
+AICv3 uses the same device tree bindings as AICv2 so add its compatible
+to the existing apple,aic2.yaml.
+Apple's device tree added many MMIO offsets as properties for the
+"aic,3" node. The offsets are the same for all released SoCs with AICv3
+so the Linux driver continues to use hard coded offsets.
+Compatible strings for AICv3 will be SoC specific like
+"apple,t8122-aic3" so a potential future SoC with different offsets
+would use a new base compatible string for which the driver uses
+different MMIO offsets.
+While the offsets are the same on M4 and later SoCs access to
+implementation defined system registers will require different
+compatible strings.
 
-copy-n-pasted from AICv2 (and AICv1) above, changed locally for v2
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Changes in v2:
+- allow single "apple,t8122-aic3" compatible in the bindings
+- drop leftover #include <linux/of.h> as it's not justified by the
+  contents
+- comment and white space style fixes
+- sort cases by version in switch statement
+- Add Sven's Rb:
+- Link to v1: https://lore.kernel.org/r/20260125-irq-apple-aic3-v1-0-a2afe66a6ab9@jannau.net
 
-> > +#define AIC3_IRQ_CFG		0x10000
-> > +
-> >  	}
-> > +	case 3:
-> >  	case 2: {
-> 
-> 1 3 2 is a weird count order...
+---
+Janne Grunau (2):
+      dt-bindings: interrupt-controller: apple,aic2: Add AICv3
+      irqchip/apple-aic: Add support for "apple,t8122-aic3"
 
-version 3 was using a fall-through in the intial version so the order
-made sense then. Change locally to 'case 2 ... 3:'
+ .../bindings/interrupt-controller/apple,aic2.yaml  | 45 +++++++++++++++++-----
+ drivers/irqchip/irq-apple-aic.c                    | 24 ++++++++++--
+ 2 files changed, 57 insertions(+), 12 deletions(-)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20260119-irq-apple-aic3-0314f6aa2a2a
 
-Janne
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
+
