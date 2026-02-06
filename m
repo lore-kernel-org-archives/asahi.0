@@ -1,207 +1,126 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA134676F
-	for <asahi@lists.linux.dev>; Fri,  6 Feb 2026 09:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331EA3ECBF6
+	for <asahi@lists.linux.dev>; Fri,  6 Feb 2026 13:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770368502; cv=none; b=StpzK7JSwBTfM5hQ6kvt3IH00QKTTR33azHLLqkY+5TgKUzX41yDu7bNY6NPyJ6zmrkTEIISpHUBPOUEOaQhkBtjbyGWHjkxQuRl/Sg1rvFjld/jqPJrDUGzWbg/vg01U5+YWbpgJqndzdSG9LhAl2CQBWRGkYuGWdfLyfT4j7s=
+	t=1770385252; cv=none; b=Q9+OpAUo1vJpl+Xf0zldd7owUmGZ555qXD+ZqVKu7op9RoR5kaCyelCY87BlhlM4CsN5kLpGBArKtWHqa8zlZxUOHLwcRluT8+SpSlPrkGZJiyfh9RiGBOTpIP5kYK2v21/o3cMqfF0UNEFiJyph4KUMnGwLfoF7i0CYrPoPu9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770368502; c=relaxed/simple;
-	bh=asJVk3oDuqmwmZ312NC0mB7ORGNHM32Qh/uEQ9O2u5s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eTLz+yAtmkx7eMpQEYkmusBAP4HXXzsKgrnnK6fqeAL0VtFEsj/+Wo57sewm+ULLK8HDendSI0bNRNwaFUZhFisxDoiBTBdt4qjiZUzn17FYvhhtRVGgB1Yu/OeKVthS/uHw8DZXTsR7P1yXfx1GnTPMPtX3Z082gYRc6issrdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=likewhatevs.io; spf=pass smtp.mailfrom=likewhatevs.io; dkim=pass (2048-bit key) header.d=likewhatevs.io header.i=@likewhatevs.io header.b=j/yR3Rmc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pjku9ZbL; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=likewhatevs.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=likewhatevs.io
+	s=arc-20240116; t=1770385252; c=relaxed/simple;
+	bh=P44VP+76f3XIOiXxwtqpbZTku04FznTwYaI2CBS8RA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=iuxMw9x9/AeM1xUCdNw2p77l1C6Wo175yj33KlQckrLt70EaBZGm4+uCXfFbg8bOBlBrWEWAOhlRfKi+5eIZA3b0ksgv31fB+5EUoUwB5PX3JZIapP8mg4PMQ4b6KJA/yFpd+2VC22KZmYLJLHDMA0mWmG7QDwbDQFe/+9Skqvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SwJPdp10; arc=none smtp.client-ip=209.85.128.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=likewhatevs.io header.i=@likewhatevs.io header.b="j/yR3Rmc";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pjku9ZbL"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 91C687A0021;
-	Fri,  6 Feb 2026 04:01:41 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Fri, 06 Feb 2026 04:01:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=likewhatevs.io;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1770368501; x=1770454901; bh=e6Q5jFK43Z
-	J1Twf/eEHkLZQeVBspSGKtpQIWC0nWZzI=; b=j/yR3RmcRCUQB3p3fOJmIVSMfN
-	l+iXWCqX6UvNAyb5hQVBeGVVMwciZbgRFYQjcM7dgneTs6unJEsdVMvxVwUEIoGz
-	Xyr59fxbOPg4HIgmA858d8ytVE0rSb2HlDdgYzvo2QNsogP5U7u2EgDEiDjvEO7n
-	9gGOd0O3jd1yJp0v8/yVuhWO+L6MGcXElD33Ktbz5/x3LOyLLRj4MXKmqgtY7Dpn
-	wWHtCOv287afDheS9TOyMmXPC8WYrL7+CXOfrx23Lm0gItc7J6K6pGoLVGSe0qeF
-	YXDEWZhzLZO6sU+n23nU5PFpL8d7CJ9ym51Qu+Jgi8M8lknjCIkFKzam2kaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1770368501; x=1770454901; bh=e6Q5jFK43ZJ1Twf/eEHkLZQeVBspSGKtpQI
-	WC0nWZzI=; b=pjku9ZbLF9pgCVJ6NcW4j8i70bylRNpHUdSFQwiNkUOVzrvn9K0
-	L1zfywn23i8jHdH37inaSX3nxMLpal7/jV8dj3eiO9T11cWk1C74K1z24dWiQENm
-	dZfJcDNhbZv1GYTPkOcqy0cdaXyz368PshzBcLRg2ZUzYe+XByUu9iFRv7cDwMed
-	emok0U6Vdcccmyn88WQHmwC/5gcZgIdoEFun0oPCLH/dP56bgM+0oVPaUIQbINGm
-	xYWfe6ey5q9qFc2Bf4bu2phW5p09clR66mp8bkI/ENpwqF/Wp6t2yaqAOY2DJD8f
-	ppNCH3057Xh80k0nkbkWOaG5g4BpnBg9I1A==
-X-ME-Sender: <xms:9a2FaVp8IOx3GOl2FHnzwimgDZoVeQF4aVpIeO7SWcdtKNvqa0nlRw>
-    <xme:9a2Faf3e9yqur2x4TbczquCjtx1LGTIfe-fzhh460zijE_Y6z7HILnfzylSdQOusa
-    _LpN_toz0uBdVgVKCyeob37fmqCtUZOWq6svdJfaUgfvSyZUmfQtcQ>
-X-ME-Received: <xmr:9a2FadwBmH5Dw7Y36mBRQn76cprdMKr1n70wyzx5GY7pwVEu7L7i-Zo0dPkZCZERMn3gA-U5OO1gIg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukeejjeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheprfgrthcuufhomhgr
-    rhhuuceophgrthhsoheslhhikhgvfihhrghtvghvshdrihhoqeenucggtffrrghtthgvrh
-    hnpeefveeiveeijefgueettdejleelieefvddtkeekudduveetveeutdehffeiueehuden
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtsh
-    hosehlihhkvgifhhgrthgvvhhsrdhiohdpnhgspghrtghpthhtohepuddtpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehtjheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    epshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsehjrghnnhgruhdrnhgv
-    thdprhgtphhtthhopehvkhhouhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvg
-    grlhesghhomhhprgdruggvvhdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhn
-    uhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsth
-    hsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepughmrggvnhhgihhnvgesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvh
-    hgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:9a2Fabj4rFlVceoykmXZ55DOWR_EXYQaBKOcAjsqhCH_khiu37X_2w>
-    <xmx:9a2FaQp6CWeQ8J7QU6WwbaOLg1I12bP7CIeQypKc_qZ1MF4GwUjOaw>
-    <xmx:9a2FaSjFyoYkl6vt8RKuIjEDRC5goa6Og3xPFASZKp1TAanN3Rbx7A>
-    <xmx:9a2FaSP9ItJ-9B6L8-X36eynNjlYQo0ikQqXmvksV1Z6apEsPlO6UA>
-    <xmx:9a2FaSK_1RCmuqsYENXBncnezyaQFNrmPH10evF_gX7DHebGJPyke9U->
-Feedback-ID: i7f194913:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Feb 2026 04:01:40 -0500 (EST)
-From: Pat Somaru <patso@likewhatevs.io>
-To: Tejun Heo <tj@kernel.org>,
-	Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pat Somaru <patso@likewhatevs.io>
-Subject: [PATCH] dma: apple-admac: Convert from tasklet to BH workqueue
-Date: Fri,  6 Feb 2026 04:01:37 -0500
-Message-ID: <20260206090137.1127897-1-patso@likewhatevs.io>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SwJPdp10"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4806dffc64cso18680155e9.1
+        for <asahi@lists.linux.dev>; Fri, 06 Feb 2026 05:40:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770385251; x=1770990051; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LkO0ZDFXsTERryZDi+Xw4hkZo9DKWHuedNYRkbdXlU0=;
+        b=SwJPdp10vLe1T9dHF9/uWJdTQsyKHad7cOgvqq7JOZXRB6N9zaarG/xoHNd/06OPfy
+         C0BHpsB8NYv3YuBOyQUKXyVQNd9jIE/2MHDOHmrcIpdO5wDNUkaxeCZmzncfZVfrOvqT
+         +CJZRkCLLsaD4DTOOyvBPZAYJLtiDW1Ji7Qv0kOLkYPbIFgaXQVx58KjQD7GwpYLb5lv
+         LeW7DSOUWKFz+sRGNeP3pc8Kd68yDW6hBjI9NKxyZnDc30byPWvAzjwdPyFr0GQl30pi
+         wBBJc0Dx6chtzqdEwcWSTGF9CXpCMzoNiklNbtKx+JPHPpn/75K2vBTlfRX8ltD1tvNF
+         ZVDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770385251; x=1770990051;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LkO0ZDFXsTERryZDi+Xw4hkZo9DKWHuedNYRkbdXlU0=;
+        b=a1ADdIeZ1jp0To1ODmJjqFLzK+N2zNJvdR7pkKRdFuCr0f9AStIIbsgQYBb67Mb2Kz
+         nsO4+VWcp0I5GKnoDsZmDBOWIBJjeVSrVs7Y4ZBIfOyJxq43kVui19FDB9GuTiBJX1WT
+         4nqNCOdsldKVxrp+yP8Xq4yHFsIwmqpbwBMSe4OPcHLzv9YmV9joiN7uxHdXkjU0eFYj
+         ZrUAIt5E/0pSy3J5DxFOCqX5jP6/SxWOYuzW4jNq/6Wn6N/gJ+v+Vj0QeflogMAK0447
+         MSSjmuCT9/XlUd1R7jkz8JYuTq9mfMd4g4WaWx1lBQUsm2qg/OkgxleR90a4riIVfEy2
+         RKyg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9wTDoVn3Gluzo2IP/8epZS8ik5lLLF0/WCePM/BWdcar/czbuJ15U1qS7V6jpf/MQnQA6AQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqhqnzK3Lovj2LEb4Rj+Az5CSAz9QLmJ7myO88smDs9lc1R59M
+	jdX9Vq0QW6S3bsx8mUlqEY6dJLcJuFA+KuYrKphQR17SjCP5zCTqvVNPbl6egvVZftY=
+X-Gm-Gg: AZuq6aLVZ6LHNpMRnL2KPLHnnPv5Vs0+x/ScS1mJk97uLDqeVkcgQXAaxf787GHfC7o
+	xFRmByTgHX//UVH5YJrcc4UrrQDDkW0GaHZ3kM5AMtf2+YdiT4a9PtcNuEW2tjMWsWYnWLYhNx8
+	GBwCLoaeuNfexnkjh+jezmVBWVG6H+L3EYBJVUg45/11ieLeMMEpqKYpveVd1+uP9icyGHaHC8M
+	6/ASD21MYG/BS9FZcMuemciRaDcXI0/wYIrCSW4LjoPBAyYzpdU6rUWKG/koMakOGXbgQNLDBmS
+	c92eCqAOy7tUR1HxNYAkc5vBbb2ORD2UM4EPtQz/uhmw6umgFHABZKQY6Z8u0sIAuwLFr8kvpsC
+	S5EFGqHaKdXIs8mQzWDjbNsprSKSVPrzwha6YtHdK+ITVYP+PdycLJGeWFOnOkkQSrQanRSNNzS
+	g8dKI6N7PcZVo3uQIE
+X-Received: by 2002:a05:600c:8b61:b0:47d:3ffb:16c9 with SMTP id 5b1f17b1804b1-48320966711mr32154065e9.23.1770385250573;
+        Fri, 06 Feb 2026 05:40:50 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483206b8bbbsm81547395e9.3.2026.02.06.05.40.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 05:40:50 -0800 (PST)
+Date: Fri, 6 Feb 2026 16:40:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sven Peter <sven@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>, Neil Armstrong <neil.armstrong@linaro.org>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-phy@lists.infradead.org,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: [bug report] phy: apple: Add Apple Type-C PHY
+Message-ID: <aYXvX1bYOXtYCgfC@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <caa37f28-a2e8-4e0a-a9ce-a365ce805e4b@stanley.mountain>
 
-The only generic interface to execute asynchronously in the BH context
-is tasklet; however, it's marked deprecated and has some design flaws
-such as the execution code accessing the tasklet item after the
-execution is complete which can lead to subtle use-after-free in certain
-usage scenarios and less-developed flush and cancel mechanisms.
+[ Smatch checking is paused while we raise funding.  #SadFace
+  https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/ -dan ]
 
-To replace tasklets, BH workqueue support was recently added. A BH
-workqueue behaves similarly to regular workqueues except that the queued
-work items are executed in the BH context.
+Hello Sven Peter,
 
-This patch converts drivers/dma/apple-admac.c from tasklet to BH
-workqueue.
+Commit 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY") from Dec 14,
+2025 (linux-next), leads to the following Smatch static checker
+warning:
 
-The Apple ADMAC driver uses a per-channel tasklet to invoke DMA
-completion callbacks for cyclic transactions. This conversion maintains
-the same execution semantics while using the modern BH workqueue
-infrastructure.
+	drivers/phy/apple/atc.c:2209 atcphy_map_resources()
+	warn: 'resources[i]->addr' isn't an ERR_PTR
 
-This patch was tested by:
-    - Building with allmodconfig: no new warnings (compared to v6.18)
-    - Building with allyesconfig: no new warnings (compared to v6.18)
-    - Booting defconfig kernel via vng and running `uname -a`:
-    Linux virtme-ng 6.18.0-virtme #1 SMP PREEMPT_DYNAMIC 0 x86_64 GNU/Linux
+drivers/phy/apple/atc.c
+    2191 static int atcphy_map_resources(struct platform_device *pdev, struct apple_atcphy *atcphy)
+    2192 {
+    2193         struct {
+    2194                 const char *name;
+    2195                 void __iomem **addr;
+    2196                 struct resource **res;
+    2197         } resources[] = {
+    2198                 { "core", &atcphy->regs.core, &atcphy->res.core },
+    2199                 { "lpdptx", &atcphy->regs.lpdptx, NULL },
+    2200                 { "axi2af", &atcphy->regs.axi2af, &atcphy->res.axi2af },
+    2201                 { "usb2phy", &atcphy->regs.usb2phy, NULL },
+    2202                 { "pipehandler", &atcphy->regs.pipehandler, NULL },
+    2203         };
+    2204         struct resource *res;
+    2205 
+    2206         for (int i = 0; i < ARRAY_SIZE(resources); i++) {
+    2207                 res = platform_get_resource_byname(pdev, IORESOURCE_MEM, resources[i].name);
+    2208                 *resources[i].addr = devm_ioremap_resource(&pdev->dev, res);
+--> 2209                 if (IS_ERR(resources[i].addr))
 
-Semantically, this is an equivalent conversion and there shouldn't be
-any user-visible behavior changes. The BH workqueue implementation uses
-the same softirq infrastructure, and performance-critical networking
-conversions have shown no measurable performance impact.
+This is checking the wrong variable.  The * is missing.
+if (IS_ERR(*resources[i].addr)) {
 
-Maintainers can apply this directly to the DMA subsystem tree or ack it
-for the workqueue tree to carry.
+    2210                         return dev_err_probe(atcphy->dev, PTR_ERR(resources[i].addr),
+    2211                                              "Unable to map %s regs", resources[i].name);
+    2212 
+    2213                 if (resources[i].res)
+    2214                         *resources[i].res = res;
+    2215         }
+    2216 
+    2217         return 0;
+    2218 }
 
-Signed-off-by: Pat Somaru <patso@likewhatevs.io>
----
- drivers/dma/apple-admac.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index bd49f0374291..8a0e100d5aaf 100644
---- a/drivers/dma/apple-admac.c
-+++ b/drivers/dma/apple-admac.c
-@@ -16,6 +16,7 @@
- #include <linux/reset.h>
- #include <linux/spinlock.h>
- #include <linux/interrupt.h>
-+#include <linux/workqueue.h>
- 
- #include "dmaengine.h"
- 
-@@ -89,7 +90,7 @@ struct admac_chan {
- 	unsigned int no;
- 	struct admac_data *host;
- 	struct dma_chan chan;
--	struct tasklet_struct tasklet;
-+	struct work_struct work;
- 
- 	u32 carveout;
- 
-@@ -522,8 +523,8 @@ static int admac_terminate_all(struct dma_chan *chan)
- 		adchan->current_tx = NULL;
- 	}
- 	/*
--	 * Descriptors can only be freed after the tasklet
--	 * has been killed (in admac_synchronize).
-+	 * Descriptors can only be freed after the work
-+	 * has been cancelled (in admac_synchronize).
- 	 */
- 	list_splice_tail_init(&adchan->submitted, &adchan->to_free);
- 	list_splice_tail_init(&adchan->issued, &adchan->to_free);
-@@ -543,7 +544,7 @@ static void admac_synchronize(struct dma_chan *chan)
- 	list_splice_tail_init(&adchan->to_free, &head);
- 	spin_unlock_irqrestore(&adchan->lock, flags);
- 
--	tasklet_kill(&adchan->tasklet);
-+	cancel_work_sync(&adchan->work);
- 
- 	list_for_each_entry_safe(adtx, _adtx, &head, node) {
- 		list_del(&adtx->node);
-@@ -662,7 +663,7 @@ static void admac_handle_status_desc_done(struct admac_data *ad, int channo)
- 		tx->reclaimed_pos %= 2 * tx->buf_len;
- 
- 		admac_cyclic_write_desc(ad, channo, tx);
--		tasklet_schedule(&adchan->tasklet);
-+		queue_work(system_bh_wq, &adchan->work);
- 	}
- 	spin_unlock_irqrestore(&adchan->lock, flags);
- }
-@@ -712,9 +713,9 @@ static irqreturn_t admac_interrupt(int irq, void *devid)
- 	return IRQ_HANDLED;
- }
- 
--static void admac_chan_tasklet(struct tasklet_struct *t)
-+static void admac_chan_work(struct work_struct *work)
- {
--	struct admac_chan *adchan = from_tasklet(adchan, t, tasklet);
-+	struct admac_chan *adchan = from_work(adchan, work, work);
- 	struct admac_tx *adtx;
- 	struct dmaengine_desc_callback cb;
- 	struct dmaengine_result tx_result;
-@@ -886,7 +887,7 @@ static int admac_probe(struct platform_device *pdev)
- 		INIT_LIST_HEAD(&adchan->issued);
- 		INIT_LIST_HEAD(&adchan->to_free);
- 		list_add_tail(&adchan->chan.device_node, &dma->channels);
--		tasklet_setup(&adchan->tasklet, admac_chan_tasklet);
-+		INIT_WORK(&adchan->work, admac_chan_work);
- 	}
- 
- 	err = reset_control_reset(ad->rstc);
--- 
-2.52.0
-
+regards,
+dan carpenter
