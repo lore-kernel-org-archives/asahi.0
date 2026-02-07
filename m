@@ -1,212 +1,142 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8785A303A1A
-	for <asahi@lists.linux.dev>; Fri,  6 Feb 2026 22:12:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667F82253A1
+	for <asahi@lists.linux.dev>; Sat,  7 Feb 2026 16:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770415938; cv=none; b=LzzOHwAbb0302PlavqvKnWoB0lbX2Nnkl/+QvQSKAka8Wgl8gv1GF2MNhYGomhO2whzSMrbCdxqSVEdfHt/iWx3VFwQkIgnt1uPlXkZw+tdfaSh30apad1Z9sq482ABLNbSik6i+lXOhkIHkGnDYKaGWRsqdgZ+nx6CnbZUyKu8=
+	t=1770482451; cv=none; b=omSw+kMmLaRIfLAUIMnc+DitPqg1P/B4SEvdl6curkdACsn0yzg40S66b46rZYWq/Sn9d0I9UHn2pms5b64bpe1wUg3vQyBvuguq0SVSQfoSee77Yf+31y9GWj5iLzZfccpPczMH4rfVBbNZRHb/x3PCrg9NHUHQNH5sPO2Uzug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770415938; c=relaxed/simple;
-	bh=NhBTIoUFO3jPR/nChJXtmHx5jc1jcGiEH9jTLs13ilo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M0VLh3tZWvY2zGVMeSEhWQGRaSJBgSfjh3ftUkBGLul1u/BWUFWIKpVcSGeisRtZ6hJwD+ieLrnxMPXqb+2sHqEeeBAVbzi3Engf+G5HvZxMZPqhp36l0JQKm7NlgOffEPUxOJLhaPLplVxDR4lQNlqrIwzfYUue5LyjO9O2Sxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=likewhatevs.io; spf=pass smtp.mailfrom=likewhatevs.io; dkim=pass (2048-bit key) header.d=likewhatevs.io header.i=@likewhatevs.io header.b=XeSX3y5W; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fm+4d4qh; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=likewhatevs.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=likewhatevs.io
+	s=arc-20240116; t=1770482451; c=relaxed/simple;
+	bh=gXKmpNpYUfje69UnUeQRkjWXqxdVdCEP+0abPCWnBcU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=eFPCL5kTWlqVZ6sqKuGlrVvvr+uo+GyAa4HX4KhljQOvAADymeVjn0zrPtUk/VrUvJYfRWb/S8FDZ8OPjtb/N6tkVfsDYn+KWO6aBO52MTC9Mj7zZ8I/HExO91CTFEFbDuXL0WjoH7VjCmuxPj+KYiSaXNCNYUpNqJYN3oV77GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=VitwxPVC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cECKFyNp; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=likewhatevs.io header.i=@likewhatevs.io header.b="XeSX3y5W";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fm+4d4qh"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 49FB71D00011;
-	Fri,  6 Feb 2026 17:12:17 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 06 Feb 2026 17:12:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=likewhatevs.io;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1770415937; x=1770502337; bh=7gD00ofvgd
-	E2X5UA+AH8QBhGtuM17gN4fure9pmx0xo=; b=XeSX3y5WNjP3YOv/mH/kzEMF8j
-	KsSP5hRz5psK/lWHyHwwdGIzye0Q60sfPUn7oSG/alqgJ+tQOVqhOH4mEPx+zuru
-	MiaCd11l9SoMyViTMD9r9L/UIclVWcvfvKzRFixUkHYrwsAqSchwYeBSj7TbVsUf
-	uRSU2hkWNbvgjVtuF/TVnONcb+PCj5bO75Y5pPu1MJ4vrWPqjzj1/H9wKvb2di/g
-	Lb0cYXtVSqCm6w7diCJ2GB14GMI+sOAHJEHn7uM7aiBP+c+DC3I0oUkuyA53mN4I
-	yQGr6OyMfg5i7TtcE/A0bvrcTcKNwc0h23tTb8oAOi1Is9jAxNwhUwjgK3uQ==
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="VitwxPVC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cECKFyNp"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 0E845EC011F;
+	Sat,  7 Feb 2026 11:40:50 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Sat, 07 Feb 2026 11:40:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1770482450; x=1770568850; bh=jU
+	BEXhsSeC5uIqTFNxthrxtRMhomBleIOTGrKRAiolE=; b=VitwxPVCmY0i9Of2Ef
+	CpV2pOTDwIp1LDUmV2txqZEf1eO381LmSUAlpztbX13HGUPzu/lFHegSXDrKjZTJ
+	lgX6eadX4IhX1zlA60PnmPqV4MJwhzu8jeskT66+vIOxJokqrOrqI2fyoPpEh1LQ
+	fzrJqj+kcFfJPLlLTsOfnCBhIzfnb7sVkpfY9bom9YtiqtHlmiM94/z1pw2UkXaW
+	ILcndZrR02Y7WQLqhcAB3CLHDO/1HVoH/D67w03cpLEUB5NiIrO4AthO9eGgX9O+
+	tc0TAn7R1/LjZOLxwuICHwTCElf7jepHHdbGN7qTS43ekKtN2hw5quUTDcuaM8pD
+	WP+w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1770415937; x=1770502337; bh=7gD00ofvgdE2X5UA+AH8QBhGtuM17gN4fur
-	e9pmx0xo=; b=fm+4d4qhBAR0zgb4evNXydaGTby/BHkfsRsQnZvZ/KG8/WXEADc
-	vT0MQvgdHOsspvf/MBh1DsiQw39MvSVHGcet+xX0UZShUah1kqBngnmC+9ZPNngD
-	YkvVLPgLRbvs1EjpasFzjyN2FkP7uDtKh9R2y+iUe8i0eto8Xycop0NVtF+Nna7s
-	Df6uMgaOR4O7tAmQUVkVfYPlJLlAcs0NiRw14hd1XuVsJ4kAAIEVlDTYoEIL+TeO
-	E4tETnsoDxDss5gZjnGOFp+O2Za78xIBKrK3y1reIoYUfEW4omKkRrA+6m3MV3m0
-	e1PtvR5mZhIZGIaYPkwJVcHv8jEb+Vj/yrg==
-X-ME-Sender: <xms:QGeGaT3AKB2-9_5-U0KsBLA5wy4z2RusDVexFKt5WRvqTkbyWJQXJA>
-    <xme:QGeGad4SfuIlx36RvVJw1Mq-WuZeDLFs01Y3kZJThAOvJDkyD4x7e4UtTKhqdZEBU
-    S26Yi6bpJ1FxgOXJq0_-_MDVobDvOvJAY8aytvrj1_zEvnGiOtavF5Z>
-X-ME-Received: <xmr:QGeGafS1mmUG_7sTYzDJ6h32j56YI3ksP1q4LTWgTVwZz3hjDdBzuOYOHSGthHN99NQDdGvWFIztmA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukeelfeegucetufdoteggodetrf
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1770482450; x=1770568850; bh=jUBEXhsSeC5uIqTFNxthrxtRMhom
+	BleIOTGrKRAiolE=; b=cECKFyNpBEe1XJiMBWc/sYPBAdHw9019gwFCA0t3+ppP
+	vs/I4Er40V85OH1mhMYn2T/pojWkFJkgPfKAZWLbMhzoZ4w5IgmH1yYDhfkVi01e
+	OxvXR6a0mb/zPOizDsMLhhcRV3L5R6lq9dAdl4sVq/HgMG37xfTVLb0treMsvCxH
+	a4PD0a76nsGV/ikyDc5aXBa8+cUzXdYLKXh3oeoTlk4GUGD92ip+kD8zzBjalwp9
+	XVf6Mb4CHq7cEH4NRa/H9qVYbo3yppxCmhnoh/NBimPgiuxTV8LmOY/W1q41wQV0
+	Rb6IL1yZ2Z+hq2Jj7UgR1yRVBA7so3Jb8Tl/YmORaQ==
+X-ME-Sender: <xms:EWuHaYztydNBunP9xLyyftuHlKn5FXap50BLloMDcaBt62XO79jktA>
+    <xme:EWuHaZpVNpFRgf3KdRIRRJKSXZ2pvLwDHWD1MIoxtSlDNV24lLS-5tps2UQ2CWQEK
+    Tf2-zfhtL5_nbav1yH0alwt0cQd7GC1Jrditf_Vftcf17v4i9K1RA>
+X-ME-Received: <xmr:EWuHaT3fdN20Bplt2lPJd_041oIuX0gwTIJAd2WIs4fCQuS4O6UKfXPDzy7uL1tZkQygaPN6ybAQLB6VG5p8knMyES0pQiifGRkgLw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduleduheehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheprfgrthcuufhomhgr
-    rhhuuceophgrthhsoheslhhikhgvfihhrghtvghvshdrihhoqeenucggtffrrghtthgvrh
-    hnpeefveeiveeijefgueettdejleelieefvddtkeekudduveetveeutdehffeiueehuden
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtsh
-    hosehlihhkvgifhhgrthgvvhhsrdhiohdpnhgspghrtghpthhtohepuddupdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehtjheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    epshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjsehjrghnnhgruhdrnhgv
-    thdprhgtphhtthhopehvkhhouhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvg
-    grlhesghhomhhprgdruggvvhdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhn
-    uhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsth
-    hsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepughmrggvnhhgihhnvgesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvh
-    hgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:QGeGaSXu9skGpcL3m21MSqLgcIhyVOW5ttPMjCBkiaNvpfezD5aw1w>
-    <xmx:QGeGaUE6v74vlcakoq93tPWKfFuKpxlfxH2SjqvIzy23lx_f_Hce9w>
-    <xmx:QGeGaVcFrUI-ubSg4bjiAxMRuRLswXmyNLPBh5Eeof9V_aWb2ETRSg>
-    <xmx:QGeGadp9RP7UPI6l7NmlWKiIawf4rqwy-9wNWsccQ8fdJTFFTVqSkw>
-    <xmx:QWeGae3l4YhOJLx8Q6S6lkzGMFcgNDs6vLdVdk6HUahF-67o_3crtjm5>
-Feedback-ID: i7f194913:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Feb 2026 17:12:16 -0500 (EST)
-From: Pat Somaru <patso@likewhatevs.io>
-To: Tejun Heo <tj@kernel.org>,
-	Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pat Somaru <patso@likewhatevs.io>,
-	Frank Li <Frank.Li@nxp.com>
-Subject: [PATCH v2] dma: apple-admac: Convert from tasklet to BH workqueue
-Date: Fri,  6 Feb 2026 17:11:43 -0500
-Message-ID: <20260206221143.1261191-1-patso@likewhatevs.io>
-X-Mailer: git-send-email 2.52.0
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfeehle
+    dtheefteejfedvheetuedttdetleegudeuteejveetieefuedvfeffvdeinecuffhomhgr
+    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepuddt
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepphdrii
+    grsggvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepuggrnhdrtggrrhhp
+    vghnthgvrheslhhinhgrrhhordhorhhgpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvg
+    htpdhrtghpthhtoheplhhinhhugidqphhhhieslhhishhtshdrihhnfhhrrgguvggrugdr
+    ohhrghdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorh
+    hgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:EWuHaRydCofoszGR5cvKQS7I0v4W5AEG1rf_J4l5I_U2wmnaPNStRg>
+    <xmx:EWuHafiS9Ih-7-rWtMz4bNJqvAQWl6oFJeVx1N3WUKCriv9IUvx0JQ>
+    <xmx:EWuHaUqnG5CyMcBL6J8nBqIi85fMUw4QL9I7Rjxu8vACnAq9ds1qPA>
+    <xmx:EWuHaWiJL4-1YLA_J9l1SpJ6qk7vls-ZD3y6vbxUrYg_PKnMLOCjsA>
+    <xmx:EmuHaVGBf2cvpyJQ0aqQXA9ccBCuFyw8e9OoLcCCzaLYi62xRMjDMSAF>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 7 Feb 2026 11:40:48 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Sat, 07 Feb 2026 17:40:34 +0100
+Subject: [PATCH phy-next] phy: apple: apple: Check the actual ioremap
+ return value
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260207-phy-apple-resource-err-ptr-v1-1-78735b07ed2d@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAAFrh2kC/x3MQQqDMBBG4avIrDuQxKq0VykuRH91QOIwsUUR7
+ 960y2/x3kkJJkj0LE4yfCTJGjP8raB+7uIEliGbggu1C65hnQ/uVBewIa1v68EwY92Mq0coB+9
+ Ld68rygM1jLL/5y/6dRH7Ru11fQGEpHp4dgAAAA==
+X-Change-ID: 20260207-phy-apple-resource-err-ptr-5923d1130465
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: asahi@lists.linux.dev, linux-phy@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1394; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=gXKmpNpYUfje69UnUeQRkjWXqxdVdCEP+0abPCWnBcU=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsz2bL5czctTKpsv+pl5HnaVknGNP77Gc+/u6fHS0so/2
+ TKK9Qo6SlkYxLgYZMUUWZK0X3YwrK5RjKl9EAYzh5UJZAgDF6cATOTLE0aGFVsr/C96WShHzqiX
+ /+8i9uHayfIZl1hTDhS+fyD12SNBlOGv8NloHTMmxpfZX1ccV1v6pukWj+xjrpYuzsib3RldiwV
+ ZAQ==
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-The only generic interface to execute asynchronously in the BH context
-is tasklet; however, it's marked deprecated and has some design flaws
-such as the execution code accessing the tasklet item after the
-execution is complete which can lead to subtle use-after-free in certain
-usage scenarios and less-developed flush and cancel mechanisms.
+The address where the devm_ioremap_resource() return value is stored is
+always a valid pointer. Check the actual return value instead as that
+that might be an error value.
 
-To replace tasklets, BH workqueue support was recently added. A BH
-workqueue behaves similarly to regular workqueues except that the queued
-work items are executed in the BH context.
-
-Convert apple-admac.c from tasklet to BH workqueue
-
-Semantically, this is an equivalent conversion and there shouldn't be
-any user-visible behavior changes. The BH workqueue implementation uses
-the same softirq infrastructure, and performance-critical networking
-conversions have shown no measurable performance impact.
-
-Signed-off-by: Pat Somaru <patso@likewhatevs.io>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/asahi/aYXvX1bYOXtYCgfC@stanley.mountain/
+Fixes: 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY")
+Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- v2: Updated commit message
+ drivers/phy/apple/atc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- The Apple ADMAC driver uses a per-channel tasklet to invoke DMA
- completion callbacks for cyclic transactions. This conversion maintains
- the same execution semantics while using the modern BH workqueue
- infrastructure.
+diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
+index dc867f368b68748ea953e594ad998d7f965d8d1d..c144e273a555a741b49adfccbe046df83d193e03 100644
+--- a/drivers/phy/apple/atc.c
++++ b/drivers/phy/apple/atc.c
+@@ -2206,7 +2206,7 @@ static int atcphy_map_resources(struct platform_device *pdev, struct apple_atcph
+ 	for (int i = 0; i < ARRAY_SIZE(resources); i++) {
+ 		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, resources[i].name);
+ 		*resources[i].addr = devm_ioremap_resource(&pdev->dev, res);
+-		if (IS_ERR(resources[i].addr))
++		if (IS_ERR(*resources[i].addr))
+ 			return dev_err_probe(atcphy->dev, PTR_ERR(resources[i].addr),
+ 					     "Unable to map %s regs", resources[i].name);
+ 
 
- This patch was tested by:
-    - Building with allmodconfig: no new warnings (compared to v6.18)
-    - Building with allyesconfig: no new warnings (compared to v6.18)
-    - Booting defconfig kernel via vng and running `uname -a`:
-    Linux virtme-ng 6.18.0-virtme #1 SMP PREEMPT_DYNAMIC 0 x86_64 GNU/Linux
+---
+base-commit: dbeea86fecef7cf2b93aded4525d74f6277376ef
+change-id: 20260207-phy-apple-resource-err-ptr-5923d1130465
 
- Maintainers can apply this directly to the DMA subsystem tree or ack it
- for the workqueue tree to carry.
-
- Thanks for letting me know about talk to maintainer section, Frank!
-
- drivers/dma/apple-admac.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index bd49f0374291..8a0e100d5aaf 100644
---- a/drivers/dma/apple-admac.c
-+++ b/drivers/dma/apple-admac.c
-@@ -16,6 +16,7 @@
- #include <linux/reset.h>
- #include <linux/spinlock.h>
- #include <linux/interrupt.h>
-+#include <linux/workqueue.h>
- 
- #include "dmaengine.h"
- 
-@@ -89,7 +90,7 @@ struct admac_chan {
- 	unsigned int no;
- 	struct admac_data *host;
- 	struct dma_chan chan;
--	struct tasklet_struct tasklet;
-+	struct work_struct work;
- 
- 	u32 carveout;
- 
-@@ -522,8 +523,8 @@ static int admac_terminate_all(struct dma_chan *chan)
- 		adchan->current_tx = NULL;
- 	}
- 	/*
--	 * Descriptors can only be freed after the tasklet
--	 * has been killed (in admac_synchronize).
-+	 * Descriptors can only be freed after the work
-+	 * has been cancelled (in admac_synchronize).
- 	 */
- 	list_splice_tail_init(&adchan->submitted, &adchan->to_free);
- 	list_splice_tail_init(&adchan->issued, &adchan->to_free);
-@@ -543,7 +544,7 @@ static void admac_synchronize(struct dma_chan *chan)
- 	list_splice_tail_init(&adchan->to_free, &head);
- 	spin_unlock_irqrestore(&adchan->lock, flags);
- 
--	tasklet_kill(&adchan->tasklet);
-+	cancel_work_sync(&adchan->work);
- 
- 	list_for_each_entry_safe(adtx, _adtx, &head, node) {
- 		list_del(&adtx->node);
-@@ -662,7 +663,7 @@ static void admac_handle_status_desc_done(struct admac_data *ad, int channo)
- 		tx->reclaimed_pos %= 2 * tx->buf_len;
- 
- 		admac_cyclic_write_desc(ad, channo, tx);
--		tasklet_schedule(&adchan->tasklet);
-+		queue_work(system_bh_wq, &adchan->work);
- 	}
- 	spin_unlock_irqrestore(&adchan->lock, flags);
- }
-@@ -712,9 +713,9 @@ static irqreturn_t admac_interrupt(int irq, void *devid)
- 	return IRQ_HANDLED;
- }
- 
--static void admac_chan_tasklet(struct tasklet_struct *t)
-+static void admac_chan_work(struct work_struct *work)
- {
--	struct admac_chan *adchan = from_tasklet(adchan, t, tasklet);
-+	struct admac_chan *adchan = from_work(adchan, work, work);
- 	struct admac_tx *adtx;
- 	struct dmaengine_desc_callback cb;
- 	struct dmaengine_result tx_result;
-@@ -886,7 +887,7 @@ static int admac_probe(struct platform_device *pdev)
- 		INIT_LIST_HEAD(&adchan->issued);
- 		INIT_LIST_HEAD(&adchan->to_free);
- 		list_add_tail(&adchan->chan.device_node, &dma->channels);
--		tasklet_setup(&adchan->tasklet, admac_chan_tasklet);
-+		INIT_WORK(&adchan->work, admac_chan_work);
- 	}
- 
- 	err = reset_control_reset(ad->rstc);
+Best regards,
 -- 
-2.52.0
+Janne Grunau <j@jannau.net>
 
