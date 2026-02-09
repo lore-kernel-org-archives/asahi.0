@@ -1,48 +1,33 @@
-Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B13381707
-	for <asahi@lists.linux.dev>; Mon,  9 Feb 2026 16:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D6938552A;
+	Mon,  9 Feb 2026 16:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770655243; cv=none; b=EbaY9i6NlTzOhrd69Bn6MqblRq1Kh6tVWs+81pSVq/nEHoUbMlam8pfqWFq83M1ve3Oy/jAClKPxmuWFdop0DEnGBlODPxnB/rIelYWb1dqPCMIADgvETTD8GyoXQ0lXnHFghsh7hcDkX9yD6rHT3sxVaO79IPS/EM9CaE5rwR8=
+	t=1770655585; cv=none; b=iUltcoc72LJn3bQOlWzGHKADOL1VN56HlsWViX9Io2+PtixMkdh+e5XByPL/5SlhpCqoVOuluYDEbmDojCajQQCh2Wr2UpAm5FFe5SusxaNwUoOAK8+zdlLSuPmeE9Rp6aWxlCNScWTeTFGQJCTBojU+gn+OmFbptPrq7Rp0lSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770655243; c=relaxed/simple;
-	bh=j17AXHvSfHr99CYKY7pg836e+SsOVBK4hwZSWsKn9nM=;
+	s=arc-20240116; t=1770655585; c=relaxed/simple;
+	bh=yvJm2CvDj9npboW4Dn1BKbYvXBkODW928Si+6fskTsY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UrBqnDF9YnUxjks3lwZbKQ4t3DGXhONF85ckPe5S1YMgHSEoBuTLiMIOWwYYEGK/cckS4aGDu5X4GMdL8z+KjhOB24LH8Ywv9woUf1kglNtJc8wokrYbmVnhIpsNMbBVnFaTo1bqm+SxSlN/Fk8KNlU5nvfa2fARP5kyMuq4Syw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=gXyMG2vm; arc=none smtp.client-ip=199.89.1.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	 In-Reply-To:Content-Type; b=CMv/5VZItL0THzzm1jqovAYblEj6ny2Kd8nPBFbMnbWqcOvSYOOO+fWSO8D+kL5l9OnQ4NucJa8CNvAAkhVcQEY43OYJkHNhm+22LCNLzhZoEhrZxg3IZ9By9hPxkGUN1yjqevt89jhplHUHdvq0MRLpwQRibqiKrfQLFN7Po4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRGR6rL9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="gXyMG2vm"
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4f8r6F2zhFzlqg85;
-	Mon,  9 Feb 2026 16:40:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1770655234; x=1773247235; bh=Q1K6d3mqNvtObYRv0jI7YV2Y
-	MQtcUg2MGGkrrLlVLPg=; b=gXyMG2vmyAaNcISogIa5KKaPQuWdvp6J9luuWn66
-	ue2QPM8f0nsc/37ME9JxNwoY+mM3+/sDEoyiBNvIRsP32cQnWf3FIn3xKmMKx/t1
-	9y0LiGmQNVmsAF60sdkCYczQwyxs3IqGJIV3WYOclERGVj9pkOSg/exSX5lE65Iu
-	NLW1v2gBcgIdTvkSpIfkiVFCa2b89gv3CX1KJdN9jOxZHWRV7G/TRjIEvSU0/Bsk
-	ct+CTFp/bZJ23+RJPk2XQZeQf8rcEltyLt3WtU+CdMOCs1YGytpPEC8qMZuh1GPg
-	SGMYVkGjgNtc04pntPO4QjsgU00JHYyPsrUD5IznkRjtKA==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id i-vtrfhRE5Nj; Mon,  9 Feb 2026 16:40:34 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4f8r664BhGzlqk1m;
-	Mon,  9 Feb 2026 16:40:30 +0000 (UTC)
-Message-ID: <6b18e0bc-efa7-4bd5-b12b-a313941d2ba1@acm.org>
-Date: Mon, 9 Feb 2026 08:40:29 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRGR6rL9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAB00C116C6;
+	Mon,  9 Feb 2026 16:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770655584;
+	bh=yvJm2CvDj9npboW4Dn1BKbYvXBkODW928Si+6fskTsY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SRGR6rL9Pn6t0eHoetOURp0COinD0ABrAn4szb9u5wx0thhJG9RTRMwoU60cFABci
+	 6beSeSYyOkwR1px8jYcWyHFHEVmrivDkA0ExBJ7jmKzEPxOgZCloNzbZpI3szuNT3n
+	 i1CaKkWul8HahINuQ9bGDmYeiyeBBr9NMAhzH3JWhLivwehKmd0pBfGWorPXOSUUwd
+	 CaToEvLSAbiEo5d+huOmV9A3SS1E9sbtRIyBd8J7dOJMZuBUhls/+yVGMotwTjehmw
+	 2xJtpeC+h66gFSt/J80fXliNueF858dkPVeAdK52p14DjWNEOPJ+Z+CzhB8UIJmijt
+	 K8brcSi1I1E7g==
+Message-ID: <d476ecff-03fc-4520-a228-662aa6752733@kernel.org>
+Date: Mon, 9 Feb 2026 17:46:20 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -50,65 +35,37 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] blk-mq: use blk_queue_enter/exit to protect debugfs
- file creation
-To: Yu Kuai <yukuai@fnnas.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, sven@kernel.org, j@jannau.net,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: tj@kernel.org, nilay@linux.ibm.com, ming.lei@redhat.com, neal@gompa.dev,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20260209082953.3053721-1-yukuai@fnnas.com>
- <20260209082953.3053721-5-yukuai@fnnas.com>
+Subject: Re: [PATCH phy-next] phy: apple: apple: Check the actual ioremap
+ return value
+To: Janne Grunau <j@jannau.net>, Vinod Koul <vkoul@kernel.org>
+Cc: asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-phy@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+References: <20260207-phy-apple-resource-err-ptr-v1-1-78735b07ed2d@jannau.net>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20260209082953.3053721-5-yukuai@fnnas.com>
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20260207-phy-apple-resource-err-ptr-v1-1-78735b07ed2d@jannau.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2/9/26 12:29 AM, Yu Kuai wrote:
-> diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-> index faeaa1fc86a7..03583d0d3972 100644
-> --- a/block/blk-mq-debugfs.c
-> +++ b/block/blk-mq-debugfs.c
-> @@ -613,11 +613,6 @@ static void debugfs_create_files(struct request_queue *q, struct dentry *parent,
->   				 const struct blk_mq_debugfs_attr *attr)
->   {
->   	lockdep_assert_held(&q->debugfs_mutex);
-> -	/*
-> -	 * Creating new debugfs entries with queue freezed has the risk of
-> -	 * deadlock.
-> -	 */
-> -	WARN_ON_ONCE(q->mq_freeze_depth != 0);
->   	/*
->   	 * debugfs_mutex should not be nested under other locks that can be
->   	 * grabbed while queue is frozen.
+On 07.02.26 17:40, Janne Grunau wrote:
+> The address where the devm_ioremap_resource() return value is stored is
+> always a valid pointer. Check the actual return value instead as that
+> that might be an error value.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/asahi/aYXvX1bYOXtYCgfC@stanley.mountain/
+> Fixes: 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY")
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
 
-The above looks fine to me.
+Reviewed-by: Sven Peter <sven@kernel.org>
 
-> @@ -628,9 +623,19 @@ static void debugfs_create_files(struct request_queue *q, struct dentry *parent,
->   	if (IS_ERR_OR_NULL(parent))
->   		return;
->   
-> +	/*
-> +	 * Avoid creating debugfs files while the queue is frozen, wait for
-> +	 * the queue to be unfrozen and prevent new freeze while creating
-> +	 * debugfs files.
-> +	 */
-> +	if (blk_queue_enter(q, 0))
-> +		return;
-> +
->   	for (; attr->name; attr++)
->   		debugfs_create_file_aux(attr->name, attr->mode, parent,
->   				    (void *)attr, data, &blk_mq_debugfs_fops);
-> +
-> +	blk_queue_exit(q);
->   }
-
-This is not clear to me. Why are concurrent queue freezes not allowed
-while debugfs attributes are created? I don't see any code in debugfs
-that calls back into the block layer while creating debugfs attributes?
-Did I perhaps overlook something?
 
 Thanks,
 
-Bart.
+
+Sven
+
+
