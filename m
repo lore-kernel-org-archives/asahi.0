@@ -1,100 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D19724887E;
-	Mon,  9 Feb 2026 08:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3A228150F
+	for <asahi@lists.linux.dev>; Mon,  9 Feb 2026 14:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770625815; cv=none; b=c5r/n+hNbWj2FIfamCYLl2IA9Eq7kZ6HJDnSmP1fK055EM4/TZXJtaK2JiTEiiywoSZLT05XxdVnuRn0VhB/ercv2deVGYN+JAe2yYA18uPQBWOatyHwiRZsnxtY/W0B+McqmdeEWV2X7+5n4KcaLtIizmCyHpl1C/gcgKUXLj8=
+	t=1770649049; cv=none; b=Wfd3xSMjryO2/Wk3J9Tdz+wsYVd21vmKzu5H5hDGJgjyAQIFqXCy4ljyalFKgxlySQnHzI/2mXmZX+MZPXnN5bGFaggHSkE+6I1rFIpF7Yn1tc9PV0EPEeMTmNz4WanPihsHuxj6Gn4Vl1lkU/w0pyac3GFtVggjP6cManThzvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770625815; c=relaxed/simple;
-	bh=sXFRIJREhuh7cCFtvF+hsw0v8CGsjZ9tD0CEzZccQVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O18UsyGiPv7dagPjX2Iw8wspZ1qO9P8+BXKxNXBzulmhxKMyzwro4Yp5OmhcyIFIzLXvd3yltIEUtWL7q/IXkqn9Kfy+tWWgWKW1TqFdWFxo3GBEFeLQm73tv77RlqAO5ONjaeWRaGmszx9Ucsi99OE98VswuRgHNmdGAys2aww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4E9C2BCB1;
-	Mon,  9 Feb 2026 08:30:11 +0000 (UTC)
-From: Yu Kuai <yukuai@fnnas.com>
-To: axboe@kernel.dk,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	sven@kernel.org,
-	j@jannau.net,
-	linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: tj@kernel.org,
-	nilay@linux.ibm.com,
-	ming.lei@redhat.com,
-	neal@gompa.dev,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	yukuai@fnnas.com
-Subject: [PATCH 4/4] blk-mq: use blk_queue_enter/exit to protect debugfs file creation
-Date: Mon,  9 Feb 2026 16:29:53 +0800
-Message-ID: <20260209082953.3053721-5-yukuai@fnnas.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260209082953.3053721-1-yukuai@fnnas.com>
-References: <20260209082953.3053721-1-yukuai@fnnas.com>
+	s=arc-20240116; t=1770649049; c=relaxed/simple;
+	bh=0IR9s1nc46G6Cv3dolxXSeAxA2CyVyw34Xn9cs7mm78=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hAdyHKaMF8H41J1bnPG6z45dJFiY1u5J7h5TYYSoDUPT39ni3dfiq5y52HGTbfw8GViJBpbsDurkdoFD/yCmd5uxa6dUo2DxylWgZNni8ou8X3nPY4+u3NJn7lE64Oj3NRj12OZoytHz/oTkpSbjE/k3+3kuY/9jU3n0woajhkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 498C368CFE; Mon,  9 Feb 2026 15:57:22 +0100 (CET)
+Date: Mon, 9 Feb 2026 15:57:21 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Yu Kuai <yukuai@fnnas.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	sven@kernel.org, j@jannau.net, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, tj@kernel.org, nilay@linux.ibm.com,
+	ming.lei@redhat.com, neal@gompa.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/4] nvme-rdma: move blk_mq_update_nr_hw_queues after
+ nvme_unfreeze
+Message-ID: <20260209145721.GA18315@lst.de>
+References: <20260209082953.3053721-1-yukuai@fnnas.com> <20260209082953.3053721-2-yukuai@fnnas.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209082953.3053721-2-yukuai@fnnas.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Replace the freeze depth check with blk_queue_enter()/blk_queue_exit()
-which properly waits for the queue to be unfrozen and prevents new
-freezes while creating debugfs files. This provides correct
-synchronization without false warnings.
+On Mon, Feb 09, 2026 at 04:29:50PM +0800, Yu Kuai wrote:
+> blk_mq_update_nr_hw_queues() freezes and unfreezes queues internally.
+> When the queue is already frozen before this call, the freeze depth
+> becomes 2. The internal unfreeze only decrements it to 1, leaving the
+> queue still frozen when debugfs_create_files() is called.
+> 
+> This triggers WARN_ON_ONCE(q->mq_freeze_depth != 0) in
+> debugfs_create_files() and risks deadlock.
+> 
+> Fix this by moving nvme_unfreeze() before blk_mq_update_nr_hw_queues()
+> so the queue is unfrozen before the call, allowing the internal
+> freeze/unfreeze to work correctly.
 
-If the queue is dying (blk_queue_enter returns error), skip creating
-the debugfs files as the queue is being torn down anyway.
+After this nothing is really protected by the frozen queue except
+for unquiescing the I/O queues.  So we can probably eventually
+drop it, but it might make sense to avoid that for now.
 
-Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Closes: https://lore.kernel.org/all/aYWQR7CtYdk3K39g@shinmob/
-Signed-off-by: Yu Kuai <yukuai@fnnas.com>
----
- block/blk-mq-debugfs.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index faeaa1fc86a7..03583d0d3972 100644
---- a/block/blk-mq-debugfs.c
-+++ b/block/blk-mq-debugfs.c
-@@ -613,11 +613,6 @@ static void debugfs_create_files(struct request_queue *q, struct dentry *parent,
- 				 const struct blk_mq_debugfs_attr *attr)
- {
- 	lockdep_assert_held(&q->debugfs_mutex);
--	/*
--	 * Creating new debugfs entries with queue freezed has the risk of
--	 * deadlock.
--	 */
--	WARN_ON_ONCE(q->mq_freeze_depth != 0);
- 	/*
- 	 * debugfs_mutex should not be nested under other locks that can be
- 	 * grabbed while queue is frozen.
-@@ -628,9 +623,19 @@ static void debugfs_create_files(struct request_queue *q, struct dentry *parent,
- 	if (IS_ERR_OR_NULL(parent))
- 		return;
- 
-+	/*
-+	 * Avoid creating debugfs files while the queue is frozen, wait for
-+	 * the queue to be unfrozen and prevent new freeze while creating
-+	 * debugfs files.
-+	 */
-+	if (blk_queue_enter(q, 0))
-+		return;
-+
- 	for (; attr->name; attr++)
- 		debugfs_create_file_aux(attr->name, attr->mode, parent,
- 				    (void *)attr, data, &blk_mq_debugfs_fops);
-+
-+	blk_queue_exit(q);
- }
- 
- void blk_mq_debugfs_register(struct request_queue *q)
--- 
-2.51.0
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
