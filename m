@@ -1,135 +1,111 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C40C2C0F72
-	for <asahi@lists.linux.dev>; Tue, 10 Feb 2026 20:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7711C33506C
+	for <asahi@lists.linux.dev>; Tue, 10 Feb 2026 21:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770756509; cv=none; b=LV2la22C5gh8Ybb3zgQnAqniu1KeyOVJ0LXlLVm+WtJDgymioI2Ugd2SFkyFwh7J6BCm0piHoLg6PAh3NBuE4RYFVue3/HoMVU2sC6Feb8IhDRsdhabP+dq/zw51NKOB+hmMCG1neU6MTIwJOzsGpQW+oKlOu6mZ8ix/fi32QXQ=
+	t=1770757432; cv=none; b=hjWVvB6HI0GOvR9OXBob4z/ahr97eMjf63hlBPOWlGBNthALi0R5Yn3HoJNuKRMf2xxoFXEC5VbKT3LBcm1MBh2UjV4G7/Bj0+KSdaJUEALiZSWn9Y6KhyUnn1wm0cNlTyxVuLZOpM4+bOrrkHuvrREDrel31In8wC8PNsErpFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770756509; c=relaxed/simple;
-	bh=YTe90HOOdkVfNfCT/gue8burqLOxJxyUIeHAwdAkruw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AyN4aCNlT8H32VGZ+56x5NVGLFcs1hxSgdv9pGB9FprUolfQrXgmnMZBLSd4keURkTPbnTVY/k0+7zHdtWMv69NXeqVjgg2Qh0WplXy4YWoq99ZA2h9QQFFl2RLQHVguSXlPUuHJExTAZwSfKgavhXoInm3OF+dH21OsuNTUsP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jWXnYHhm; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770757432; c=relaxed/simple;
+	bh=v2F4lRC09DNyNnJD2ttzcRUS3ae92KAiDkfdH/EDDW0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=BytLjEeIVp+cphM6VQLs9HpRAa6liS3c4srdW4JZsa/sdAUjSWaIeL2YcNupQ/W6Kk/eVVdoEA/VbqW5Lv+nC7Qlq5KI9ZpcXio1bonZ5Dq9xIkXEG5NJXkOI8UsUN++xw9zF9pPdxrRlJ+hjVZRwzdo0mFbE+WHPUjPqTx1Ejk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=VyMH0UYo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZaGqqAnL; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jWXnYHhm"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4806fd9033bso10463825e9.3
-        for <asahi@lists.linux.dev>; Tue, 10 Feb 2026 12:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770756506; x=1771361306; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qyFgyNWHXU64SHJN29WjtJtR7uYHlrJZAim1yoRlcII=;
-        b=jWXnYHhmkIq8MkxGL64G6MBrmCIMeeZSOJG6VNhK8mkU9n6Z+oDKN97dQRAx+0Mn0K
-         2vLyFifkrjHPrWIeOT5x0jXvpU95GagnxX/8aCFHpcnM5VT7UTUi2o2tCF0lXHYf4pxn
-         iIUwuGMOz9powF3GiYZu2m3u5iHRQdJwrtfyk0lj5bOaXUGRp4y4DB5Y3ULJox/mOnTE
-         2m9FNU+58ztS5ScS5xRAymHEmbMAB9QizxDgWmFu3KGztzu6a++DlZChBQunFi5x4sqD
-         WvPrxzJGb89JO36E+rpAdAjxQkFNYrxyCg5TrHRmGJ9Ynhj5Airb75EV9uAHbSqI+0hU
-         AyFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770756506; x=1771361306;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qyFgyNWHXU64SHJN29WjtJtR7uYHlrJZAim1yoRlcII=;
-        b=Ko/KexPcVOupk8jgwTw/hwsryw4z8fIjzYxiIieWKFsj72VufKV8EgXd91RxlQrgTx
-         EcjuvKc8FAvilyLBKPrXsFYUdQL/8ewTpQuEtbD2n12lLp1DoUzDK6BzB+hsqgTYGzPc
-         Jv9bz69IO+a0v0ROzdht1fYPdi77S+2KhPdpMxcFrG/MRYP9cnjQEYaJ/LirPptkK9rN
-         i4fSBW8EJwS0UXHvFldCDv3gxa+j7WlPi8TBHePROuO06mqGSYhSybyM6eks9+Kd3cX8
-         eMPw7JTOq3ctqnhJgdh79jqygouHXRbSNE1aYzvpD8DqoVSR3XmjZf5UhK/EPVtfDUDS
-         YFcg==
-X-Forwarded-Encrypted: i=1; AJvYcCUvdTZ1dOLOvHuwWiX10VQcD5I2eR36rUR3/ZPnkMoP80Xcpp5zGSCeMYqoC67cWd1tm+3f3w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+ILXSKuncboxPuVe9J0LSdgLdfo/lcV/tlD6Q0hgIYaPao89d
-	AonQI6xrXSUZh7fAmjXelD8+INXjbHQf2//bSF18QDavjrNhx7oHLKM4rQAAXg==
-X-Gm-Gg: AZuq6aJDF2YfRmAYg1JykgTPtYoB/6U1ERE0M0GaqM5I8nFrx2y2KuDSrP46s5GYxb5
-	Wy+8oXKcgpC/sdPCUyJb/E6ZCZgWM6ldCmpN4um9WsNgKpAUzM2aQb0/abMlrQJDetpvChDI+e1
-	KsnIbgeuKSCdXAJDVOFGRgrlw55OT0Utw0kSulR+w6iOwII7tF8eN2HVs1s2hmUKOnTTYuJXJIV
-	nvMOBlT0YVRgcAdSN7S9UMtS/rORuo7pY4fHesEh/79nFlIbJHLzi7GfdOz0Awv5tZOFnbxLr9p
-	ED0NG/3xFy9LU0VGA5xgqYUGAyaKtRfsp8jS+muky+052CgJb0WBFxDSZmiq+cTN9nl+HOim2So
-	a3fzyfLNEJDwsHW3Zis3Bc45BGSJdYK+kJfhqMeK6l0Ld9WBNXu4EP/zUsYAMiTc2TusvN9j3iO
-	cDG0Ls71O1nDFChag=
-X-Received: by 2002:a05:600c:64cc:b0:477:5ca6:4d51 with SMTP id 5b1f17b1804b1-483511ccf92mr29460685e9.3.1770756505624;
-        Tue, 10 Feb 2026 12:48:25 -0800 (PST)
-Received: from skbuf ([2a02:2f04:d501:d900:d8ac:c964:9b43:1b13])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d5d8ebfsm133863775e9.2.2026.02.10.12.48.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 12:48:24 -0800 (PST)
-Date: Tue, 10 Feb 2026 22:48:22 +0200
-From: Vladimir Oltean <olteanv@gmail.com>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev,
-	linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH phy-next] phy: apple: apple: Check the actual ioremap
- return value
-Message-ID: <20260210204822.jr22el4rlyosin2q@skbuf>
-References: <20260207-phy-apple-resource-err-ptr-v1-1-78735b07ed2d@jannau.net>
- <20260207-phy-apple-resource-err-ptr-v1-1-78735b07ed2d@jannau.net>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="VyMH0UYo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZaGqqAnL"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id 8A5BEEC05FE;
+	Tue, 10 Feb 2026 16:03:49 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-09.internal (MEProxy); Tue, 10 Feb 2026 16:03:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1770757429;
+	 x=1770843829; bh=v2F4lRC09DNyNnJD2ttzcRUS3ae92KAiDkfdH/EDDW0=; b=
+	VyMH0UYoBPCicmVTYHQsjtYBvOVoB8CNC4ICPq10fy/tCij9achP3L67zsYjXP/D
+	AGsa6LGmqk9F07u0JWwnfWhtnxhQ8/3evQHJR4+lNpAAOSXIuJTmnqOnXvT7/Hcv
+	JBRGdSnAEFMimO7YXAVya++pmO1Rhc1S0NfIBTKMJTp8spHZic+8KOCo+U3dJ6wl
+	lqpc+BnLVR9opa2SrkyiTVsAIZ+t4oGkZaJN1owuWCDsj194XMvJDcRvvYG3RtZU
+	0XzFndyDS4aR6sI4gmt50DtSzHtHxmCNqBx4r7eoDh7nL1a4EY1N3M5xULVavsM5
+	JlXz7j8QuzFV4ohM7y3+AQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770757429; x=
+	1770843829; bh=v2F4lRC09DNyNnJD2ttzcRUS3ae92KAiDkfdH/EDDW0=; b=Z
+	aGqqAnLNZ1iQR0VR6WMui8EVciooX7clPO+Z3sHYHuvB4XpEOuJjDIZeCFo7ZsG/
+	wJjXQTkdlQF5nO+FGzzT3Gkbp2Do1bhXgqDf8LICh5QwB3CM4mFPs1uQGynJviO7
+	W0ifylxrpUP8ztTz+8f79RIZv/RBZfOo0O2LU5V/V5nWf/6Q1QdRhyRMCEKJmdOW
+	fwSGF5Cpxd1z9+qrGr5/MO/emBjROSTEb8Gly+abw1KYwrgGn4lNHiN38Z6Ts+Un
+	r64B7uHQpJf5nyDCd4UsjpAKZS91vQ0UzWBemlAoNmX0B4uDcOOpjQqbd96JaNga
+	UwpaX/RukRPU5utkQY+hg==
+X-ME-Sender: <xms:NJ2LaUpwv29GbgxKb8V1diEmqhcTyB4lS-TxjM_KOTA-spNqfzRiJQ>
+    <xme:NJ2LaVcfLB88XLc5D1UakpIMJW7xescHEmyO11xVzeCbiO6BM-Om_SQBzF95HVfLZ
+    l4SBvgc398mLmV8opQT4g3cO2elsdGrlmzIlRUHCBE07PcoTa-dBAZj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvtddtjeduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedflfgrnhhn
+    vgcuifhruhhnrghufdcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epheejtdeffeethfetgefhffejudegheefueejtedvhfeuheevfeekheetfeduffevnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnh
+    hnrghurdhnvghtpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgt
+    phhtthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsh
+    hvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmvgeskhhlohgvnhhkrdguvghv
+    pdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:NJ2LaVRSgPQBNIIEkLoGciYzKWFtQmdct0iGDfQOl4jANAiYjpLAxw>
+    <xmx:NJ2LacmTKvtuRGg_kjSvi6SDIuSnGJbE6-y2RfPgFrYpWuoShbdE8A>
+    <xmx:NJ2LaVS4dGpFEwOWKNnA4vDHFLhVh8VzoZ30Onh-yk3nwPJdheDWlQ>
+    <xmx:NJ2LaaNBVEUUzWjhXNLwuUlOCC4zD8WOwORUeVHfLto2MPIjwXGlKg>
+    <xmx:NZ2LaQH0NNS1Ok6ANKAnWRytVJSaS2BgxIXPrh6IIk638ybfCPebTkIa>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id D3897700069; Tue, 10 Feb 2026 16:03:48 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260207-phy-apple-resource-err-ptr-v1-1-78735b07ed2d@jannau.net>
- <20260207-phy-apple-resource-err-ptr-v1-1-78735b07ed2d@jannau.net>
+X-ThreadId: AkIrrnlxGvb-
+Date: Tue, 10 Feb 2026 22:03:28 +0100
+From: "Janne Grunau" <j@jannau.net>
+To: "Fiona Behrens" <me@kloenk.dev>, "Sven Peter" <sven@kernel.org>,
+ "Sasha Finkelstein" <fnkl.kernel@gmail.com>
+Cc: asahi@lists.linux.dev
+Message-Id: <c87d7b7b-ead8-41d8-81b6-4c1245695f8f@app.fastmail.com>
+In-Reply-To: <20260205-asahi-iio-aop-cfg-v1-1-c83e3b00fd0e@kloenk.dev>
+References: <20260205-asahi-iio-aop-cfg-v1-1-c83e3b00fd0e@kloenk.dev>
+Subject: Re: [PATCH] rust: iio: common: Change cfg guard of aop_sensors module
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hello Janne,
+Hej,
 
-On Sat, Feb 07, 2026 at 05:40:34PM +0100, Janne Grunau wrote:
-> The address where the devm_ioremap_resource() return value is stored is
-> always a valid pointer. Check the actual return value instead as that
-> that might be an error value.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/asahi/aYXvX1bYOXtYCgfC@stanley.mountain/
-> Fixes: 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY")
-> Signed-off-by: Janne Grunau <j@jannau.net>
+On Thu, Feb 5, 2026, at 16:02, Fiona Behrens wrote:
+> Change the cfg guard of the `aop_sensors` module to the direct config
+> symbols `CONFIG_IIO_AOP_SENSORS_LAS` and `CONFIG_IIO_AOP_SENSORS_ALS`
+> without checking if they are set as either module or yes.
+>
+> This fixes a build error when `CONFIG_IIO_AOP_SENSORS_LAS` is set to
+> module and `CONFIG_IIO_AOP_SENSORS_ALS` is disabled.
+>
+> Signed-off-by: Fiona Behrens <me@kloenk.dev>
 > ---
->  drivers/phy/apple/atc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-> index dc867f368b68748ea953e594ad998d7f965d8d1d..c144e273a555a741b49adfccbe046df83d193e03 100644
-> --- a/drivers/phy/apple/atc.c
-> +++ b/drivers/phy/apple/atc.c
-> @@ -2206,7 +2206,7 @@ static int atcphy_map_resources(struct platform_device *pdev, struct apple_atcph
->  	for (int i = 0; i < ARRAY_SIZE(resources); i++) {
->  		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, resources[i].name);
->  		*resources[i].addr = devm_ioremap_resource(&pdev->dev, res);
-> -		if (IS_ERR(resources[i].addr))
-> +		if (IS_ERR(*resources[i].addr))
->  			return dev_err_probe(atcphy->dev, PTR_ERR(resources[i].addr),
->  					     "Unable to map %s regs", resources[i].name);
+> The old cfg seem to be created due to a copy past error where two times
+> the same cfg is checked.
+>
+> This is meant for the asahi downstream kernel as the iio rust mod is not
+> yet part of the upstream rfl kernel.
 
-This does not seem correct - every call site that tests a pointer for
-IS_ERR() also decodes the error using PTR_ERR(). Whereas you are here
-creating the pattern "if (IS_ERR(*a)) return PTR_ERR(a)".
+merged in in the downstream kernel, thanks
 
-Proven practice seems to tell us that insisting to save the
-devm_ioremap_resource() return code directly in *resources[i].addr
-is too complex here.
-
-Would you consider creating a temporary "void __iomem *addr" local
-variable, and set "*resources[i].addr = addr" only once it's validated?
-This would make the code obviously correct upon review.
-
->  
-> 
-> ---
-> base-commit: dbeea86fecef7cf2b93aded4525d74f6277376ef
-> change-id: 20260207-phy-apple-resource-err-ptr-5923d1130465
-> 
-> Best regards,
-> -- 
-> Janne Grunau <j@jannau.net>
-> 
-> 
+Janne
