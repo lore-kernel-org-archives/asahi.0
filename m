@@ -1,128 +1,88 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C22364040
-	for <asahi@lists.linux.dev>; Tue, 24 Feb 2026 07:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717C02BDC0B;
+	Wed, 25 Feb 2026 19:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771919832; cv=none; b=r37uWuU6JvZrdqQebXZHlp/pjFkE1VLkU2WNqi76TlVNNk8HAAgBH1Ddg1e6jJMXTkX3q3XvYnYRRheLojUaGvN45NYChc3PB1y6HpGbuWc4StbVB5TnRVAJ3WuntPdyekcTr8R89heF1lH51dSn8rJ0gBgboVycwOPQCYVHWjU=
+	t=1772046410; cv=none; b=C2iJcL/+480I/YHjZXlKGyMdjBZz7D9rDBrfjHOYcTLQZ1oJzFLE/IxdiHUbLjjJy1MCcr1WpVUu+WMQJdQwI4q6ys5H7pk7TvcCtL2hRgCwIdoBN0THPsklbDTHMxMzFtXWeHh6iogEskFPdI8fyXckDm3EhXMBzybjNfhHgUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771919832; c=relaxed/simple;
-	bh=bTIjanl1ROwkCGJcUveHfG1+yFMvz2d0psnXVYoN1Xw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VdUYbebSvwJBAHL007o4yVd7eCWVbkAwVkLO6ot3CQMIAMuXjY7defo4RG11a0Ic1GIfH4FxCb63dzIcixx6X5vuxMRs6bpf65KFPc2p2+yOu/NxwvnBAMWTvwFjKlzbAD3wp7jYJ5IcAE6dQ9rxPJKr0niGUIY+tvTdXrPfGBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=nN/T9M+v; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bdmc02QW; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1772046410; c=relaxed/simple;
+	bh=CkF2t8pRuS74frv5kvj9lORnS27YFPg618nCWr1Qn6Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XHJaii9FZuMf61IdwYWUHXxGoBMFZxG6+/BXmbOVUaQBIINICQTuG2qoP9z8zVQHjBoF80t7ts1htwChBMe4D3f3K2oQsSQYtb0M1w2vpWHDjb8SLkTAF5JghMdtGACFj6tqkNNerTun1cPFM3bFVT7Jvkxz73o8UCy1I/aDNkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEwqBYzu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="nN/T9M+v";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bdmc02QW"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id 43A19EC0330;
-	Tue, 24 Feb 2026 02:57:08 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Tue, 24 Feb 2026 02:57:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1771919828; x=1772006228; bh=ldww1WlQMk
-	oL/zBNyH/ndnXhb+ElXOiHG/mK0hPi1Qc=; b=nN/T9M+vmH5YqvY1M4+dtPwULO
-	CPqnNKjgIsJ2ihdGyRkXskoJXQDDmxTU1S967RwRLPJf55RPZgGRYw48Z7TAK9Rp
-	Rmz5xaZhz7yAIDMCXS5XdbuTQLwVrHdNNgA05yiRl4zmM0uA8V+IVZM2RcVbz1+j
-	KgKwZJdBHEsyzgoWyZF2B5koy1pNgtPhhAfnHUy81nXnwyC3n77smPEbZktI7sBt
-	dG/g6vMhwz4QMBysMcbFuJTt2sPcSdw0+WBUiqSUwyreI01eVfbcHR3bcWNfeqIw
-	4308RgbuurCQgufA6hqQXOl7qOITn/4dGwk9Pr89eOxZUjdOUQ0+Mb0/HAeg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1771919828; x=1772006228; bh=ldww1WlQMkoL/zBNyH/ndnXhb+ElXOiHG/m
-	K0hPi1Qc=; b=bdmc02QWewmtGwV3ILdMIAeoaK4OpigMC1Rc9l74iN0cios4jBv
-	VGiZC4gUMUJkEmy5EWeqvVjwSXTsYS0ntRXCHv0XPTJoymwKAQTYRxj9bxfS8MHW
-	SI9CmQgYGTjiBvJNgawmkB1DUD6nzgSOmsqAOWOyQWP5mGaV4c7ilnxFS7BIhKwT
-	CA2fhdMtM7AXx6K3p5AHIIonzi6gSUhr963d7wHpF9CA0aV2JwGFU3IcLEF38WBI
-	AkvvRAR8aWTdBejQPLxS+GvmaekdpkxCPnXFgwnMM1aWwxIb5TSMHya+0elUsoo3
-	iFyDGwT6aO9ERBXsohQ66akUMf5my5HbUNA==
-X-ME-Sender: <xms:01mdaUjUsyTtDSNTcu2odblcfhI0IeSvrnYO7oBCOZ2bO1QDJkrJjA>
-    <xme:01mdaVLkqH5ynk9ohtpxRuVYvrUb672JHQ3z-fXXYQA3Cobu-lTKT3Qb5P_NbQEtp
-    1RmxQP-PsXpApyTSXn3ugJBToG0kAD1ljjxSukRz2ljcYXw2_6GEozf>
-X-ME-Received: <xmr:01mdabnwOwxd2iOX4HaIZzuWaPF_lZXBfhWni4owJblHsZxPfuN35BTC61xAGN4_dTY2r0ol05HSQlhcoBVyHKBXT48yC_pmXL8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvfeeliedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
-    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
-    drnhgvthdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehkrhiihihsiihtohhfrdhkohiilhhofihskhhisehoshhsrdhquhgrlhgtohhmmh
-    drtghomhdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
-    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepvhhkohhulheskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhr
-    ghdprhgtphhtthhopehprdiirggsvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtph
-    htthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhi
-    nhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpd
-    hrtghpthhtoheplhhinhhugidqphhhhieslhhishhtshdrihhnfhhrrgguvggrugdrohhr
-    gh
-X-ME-Proxy: <xmx:01mdaVMzwroFnj39sRBE1ZP6UfRkYYKP8xh4Eri-FxBTqYAeWrQDsQ>
-    <xmx:01mdad6NQMaFSVf9mb2Rd8rz76GSjMJ4tlkXuoBGozwzlwpcb8fqig>
-    <xmx:01mdaRZ7BxuC8sAAqhK2bN_4ZkTxYTKyAMI0O68eWe3Pq1rPTI3mQw>
-    <xmx:01mdaSc3918Gp60VyRKHANVNtwJYzDJlpyU_g8qNCM58BSf5NiYZVg>
-    <xmx:1FmdafEQ5HQiUWC3y0T9sK-O5XRFLbybtqoG4Er5bS92OzYedtH7yOcO>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Feb 2026 02:57:07 -0500 (EST)
-Date: Tue, 24 Feb 2026 08:57:05 +0100
-From: Janne Grunau <j@jannau.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 1/3] phy: apple: atc: Make atcphy_dwc3_reset_ops variable
- static
-Message-ID: <20260224075705.GA1310076@robin.jannau.net>
-References: <20260216110413.159994-4-krzysztof.kozlowski@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEwqBYzu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0949CC19421;
+	Wed, 25 Feb 2026 19:06:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772046410;
+	bh=CkF2t8pRuS74frv5kvj9lORnS27YFPg618nCWr1Qn6Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=fEwqBYzuisJzZFLaNXC2/Siri2s27nszmXZUOHm4uJ3lrv6rdifahP13kPkv8iU++
+	 872LULForDTlAejjPQm2UicYYv0L2L7RXYjPoTXfsN0oZahkiRzFKr1hUtD9/Js5Si
+	 9QgneQzrgp00+lAeNKhYzAfllpwkkzXXpkmMrphrn3wXlqFRl3bUtUDqjObfSpsHUZ
+	 6GjvF0zUVWZbiEn90lRzbqnKWneOsoHHVcC/zPkLRLyM24QSoWVYimj/1FHvFrm6B2
+	 /4os9rB4VZAH83t62VvC0fAjPWY+U2Ht6mJ4XefGRjlCzyPLt0w7C3uklY+921i0Sc
+	 w9tW9LBwopTbA==
+From: Mark Brown <broonie@kernel.org>
+To: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, 
+ povik+lin@cutebit.org, david.rhodes@cirrus.com, rf@opensource.cirrus.com, 
+ cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, Tim Bird <tim.bird@sony.com>
+Cc: linux-spdx@vger.kernel.org, asahi@lists.linux.dev, 
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260217190837.165504-1-tim.bird@sony.com>
+References: <20260217190837.165504-1-tim.bird@sony.com>
+Subject: Re: [PATCH v2] ASoC: Add SPDX ids to many soc files
+Message-Id: <177204640678.168100.16145526317077921085.b4-ty@kernel.org>
+Date: Wed, 25 Feb 2026 19:06:46 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260216110413.159994-4-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
-On Mon, Feb 16, 2026 at 12:04:14PM +0100, Krzysztof Kozlowski wrote:
-> File-scope 'atcphy_dwc3_reset_ops' is not used outside of this unit, so
-> make it static to silence sparse warning:
+On Tue, 17 Feb 2026 12:08:37 -0700, Tim Bird wrote:
+> Add appropriate SPDX-License-Identifier lines to the
+> the remaining files that are missing such lines in the
+> sound/soc directory, and in a few other miscelaneous files.
+> Remove boilerplate license text.
 > 
->   atc.c:2026:32: warning: symbol 'atcphy_dwc3_reset_ops' was not declared. Should it be static?
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> ---
->  drivers/phy/apple/atc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-> index dc867f368b68..32d97226e926 100644
-> --- a/drivers/phy/apple/atc.c
-> +++ b/drivers/phy/apple/atc.c
-> @@ -2023,7 +2023,7 @@ static int atcphy_dwc3_reset_deassert(struct reset_controller_dev *rcdev, unsign
->  	return 0;
->  }
->  
-> -const struct reset_control_ops atcphy_dwc3_reset_ops = {
-> +static const struct reset_control_ops atcphy_dwc3_reset_ops = {
->  	.assert = atcphy_dwc3_reset_assert,
->  	.deassert = atcphy_dwc3_reset_deassert,
->  };
 
-Reviewed-by: Janne Grunau <j@jannau.net>
+Applied to
 
-thanks
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Janne
+Thanks!
+
+[1/1] ASoC: Add SPDX ids to many soc files
+      commit: 0fa3df83d5537c5cc3eacb9896c457f0c22791f8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
