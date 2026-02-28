@@ -1,217 +1,112 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022086.outbound.protection.outlook.com [52.101.96.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1386D3BFE3F
-	for <asahi@lists.linux.dev>; Sat, 28 Feb 2026 12:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E64286891
+	for <asahi@lists.linux.dev>; Sat, 28 Feb 2026 14:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772280239; cv=fail; b=cNb+S7ZicFSfmD7iJ5iyBnBuC8xIhzGRYZyee6saXN5uKLsePcXsgyyMhPVTdqxFmftF3S2M6KHKTydOy4HBWegTGcy7qU1ZDeZYsKbqqAPxKCw6Y9Iens/02d3zKTmGporaJFpc4ZyjJ/6PjBNTzAzxeu4t4l/6LWRJss2SSjM=
+	t=1772287784; cv=pass; b=Z0TOuaR/FUNF7CL8oBGk/L0IrloAQe3GfUVGYm/fceGS+XrHSd1ngIe+snOk3xmiTEQ/oh/HN97oWPx4ldE2kbiAbdrAvMU8vagEiDAJAds1I48Tk7p4gfqumfH1CMsE+93ROB1SOTG0zI5C+ibTKO7FGdqikfPiQj+z29zZu7c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772280239; c=relaxed/simple;
-	bh=VblW3Ml4NbD5U85407nr4KjIJiUwi9YhgahyBhzqaR0=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=GLAZBakm+BFXo0awAkCVftZMGWT6BnmJcpRrNFlytYgOZqPI9o40IhZAwyCd/hE5LAdndLLKGqriexr+yDuvp2jsPohy9PkI+pxtT0MZCcJ2F+Ey+jt9alyZ/F0f4a+AY2fqQJV13tXSpKMM6JWjdrHHlFRzQ1Lv6op0HKfUsjM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=fJcMzlO9; arc=fail smtp.client-ip=52.101.96.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1772287784; c=relaxed/simple;
+	bh=0Ad5ViPg4F5q58dcml7U51wvG6H2OdjKxWdEWYbzf1k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sGwVmrOWVw0C3iSTUUa1C9uh9gWfWPo+1t4WyxZ9qzlMKe6GEw4ny3DI97+mupT6ykeQ99EF6wu9cMHsHo1IfDbAm/wyHbRc+MC86u5eP9u3FqJWwWXJ1C0lp47y7GPngww96nmA9QQh9tD12RukG1mDYi/OMsjqb2ItPOrrPy0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ms64Kp0K; arc=pass smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="fJcMzlO9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jhT0sCjK29uR9bwQF80PvlDu8ZdZvx6XDx24tgnXdXIKWMUEkjZWhwJj7nEMRr28TMHqE6rPvHz2R+xx+VXbX4FVUfgqvbOO9Luw46tZF36dvkZa7hQI3CplI+im/CqzRePIlRU8boWKVPys0yxYQ2+3fCBjze97toBEe9XxQ9Si03GhkSAzozsXKzZa/qYFG4CDHB0eLeWr+dZDj6y1Q0DzyE90J8I17Yr14nQ6NekxH42wEE8ijsKH2DNNg1hxo/aaXCLD3sWtSVMLXdurKWNzbWvW9XoSD8xg6gGZrx2P2DKsqLmcwKy2y1ve+GClV+MKOohlIGJSexD14k8Bcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XjIR7NkojXl+lpbzz+T1lQNx1swGz39UW/hZxAFZQ0w=;
- b=hA8BcxZur3g+YWlF/e75DHDXPdhhtpeg/60/lGtD9LTvIEJrkw1yCnOYBSuazFy1sLjCWgM+fccgptMffh+nOdUscXslW/YGJfMPiqhWVGi+LdThK7rx7aLqgO0488UdvEvidpl1JaDNrAytMnFg77qViKpwA8rN27jS6GLHJDOZdb061grrJkY+C8GJglibR9lryXPR7a1OhS2FiAnuHOqwdo3JR1VdutYeYIvBjbiAam8puuZ4rUaPpdbr9wIoE2UfJ/LA9tfP8vnVSRvmIkyTxM7VYnoF87NJSOMgXmHLVKmQqaxlmJ4qJncLH9T/W+ipIkQospTsu+kfKVvuqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XjIR7NkojXl+lpbzz+T1lQNx1swGz39UW/hZxAFZQ0w=;
- b=fJcMzlO9e4O2WLRie3i6fAAbPT9HmXDpgxW21JEJJxjtPuDuU3eVBWRQf4JGGKcbp1jSCGx8aB7EBjwFVTwmUREXEOHjOnyM59RHsUW8+QdviXhuuxLfH1DQKKBkohrFJ+7Yu29V8Z9fL1AmhyZtpo6W8PgRyaPml77QkNj2Boo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO6P265MB6444.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2df::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Sat, 28 Feb
- 2026 12:03:54 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9654.015; Sat, 28 Feb 2026
- 12:03:54 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 28 Feb 2026 12:03:54 +0000
-Message-Id: <DGQKWRTZ6SK8.2RDGJN91OW0TM@garyguo.net>
-Cc: "Janne Grunau" <j@jannau.net>, <asahi@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] rust: pin-init: internal: init: remove
- `#[disable_initialized_field_access]`
-From: "Gary Guo" <gary@garyguo.net>
-To: "Benno Lossin" <lossin@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260228113713.1402110-1-lossin@kernel.org>
-In-Reply-To: <20260228113713.1402110-1-lossin@kernel.org>
-X-ClientProxiedBy: LO4P265CA0148.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c7::12) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ms64Kp0K"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2bdb82b69f4so154964eec.3
+        for <asahi@lists.linux.dev>; Sat, 28 Feb 2026 06:09:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772287783; cv=none;
+        d=google.com; s=arc-20240605;
+        b=E1Jka4xylgI9Hdu+D5U87HDF7Ic+iMWxdDnJU4+Z82fjBMi/i0mjODMxUSCkDhU9Zx
+         VrnAb33N9JKozzHw4jiajJBlvUWl8haWMLtY9polWn9CDHC8dVgQRd3xqglVx9/96ie4
+         8rYYw/3IUZ83Pd9+AKMQcxiJx+VeYH6CDvnGyuEHWj9w2uWNkEccZAY3K8ZgCU3Wz6y4
+         8mmLT6IJb+YDQa8ibjvQdkaLVVFLpHm9Sh5xuvx7h/iOvs+gKbZ4lhO6h+uJZEZCio1l
+         uJW8aIPb1iErlIk+YtTHFqeN4TmkNB5k26uszYtJIbGt1Tm3BbW6Q+LnLiyApbs6ZT5Q
+         sdNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0Ad5ViPg4F5q58dcml7U51wvG6H2OdjKxWdEWYbzf1k=;
+        fh=kJZvYpwdFwzZjKxHzqAxqt037WzdA0OqifkHh+WGiPE=;
+        b=eNH2KJf3T7QJw/M9LO4Jg0Z3DgrUrfJUBg3aa10idNsv+Aa8FEJ3T2oUuLq40RVpAF
+         uOU+fGQzchGNnDQ7/ZlQjapeUit1EijdNA0IHFo1X+X33B2ZnZazlIc3bDJ6ZEE3yHmO
+         Ii179h8e4FObT37VJ84OxPMegeayc6YNTPn79w/aAtWG85lvnwim7oPf6EEkhm8PPtQy
+         AJkjwD2GA4RClsTq7irM5rixFrAWFlgv9ZNHR+906M9MgZ/uWOzaDghLIrO9WkGq+Y4C
+         76rZIxvL+tYzCsR5DOBL3hPmmGN2pktL2L5mTvM5g/esBQOoLlJ0SgoGmX/rFTZeRTYJ
+         c6Ww==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772287783; x=1772892583; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0Ad5ViPg4F5q58dcml7U51wvG6H2OdjKxWdEWYbzf1k=;
+        b=ms64Kp0K/0rcbsr5f7xEEsveDem05YW0U6ueBuuj3oERUHgEis8UC+S055zOuLC315
+         HvuAxvTxPanB1b4ObTjLU5G9uwDEPYnbeLFKXDs2DY7NpDyuxcJjx6oWNwx1iuRZOdI6
+         zgoqDtBH7+XniQQAOKg1gIMSULGhuwF0yhCYSJuDgE+j/JLonidUFjE8rBKJM6DeA4/g
+         K69uHPyAff0YCPatdHN+m+2qNEvVYT4my/xFHCaI11twRCeV5mnMIP/jbftPPNnbIaRI
+         eSEG7wznPh+jjqoApjwXsJ2jqY9K6hP+WQER+X3hO/y09FJanck2pY2MYeqKYuzZn6al
+         GvOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772287783; x=1772892583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0Ad5ViPg4F5q58dcml7U51wvG6H2OdjKxWdEWYbzf1k=;
+        b=bUgvwAYMtvnwneWf8EhbCQkKt9aufv70Enn16RQbE18DBjOd3AX5GL5p3s1hP54Y0r
+         uJpR46U2T5bq+XzzsvAUFlZjkPHes0GnpqRz0CmsjyFmrXOh1uqw1qtWIDUMYQB7KmSV
+         9p7duT/fw7wuhD36LT14xDrHqqGU3/ZH2L6qOZ2nNiHGiZXpS8CsOU5sfTmS2mGqtSp/
+         5QnizcOb3FKBkNJHjHFxzzdh0H5IArJ7nG1bANo3oY1sR1XVAUQZ6EMnunNwdBO6tw8n
+         SV6NZxz8htYUVDGSioRg6As0L9r5TyWGbYyeSr4Yi3ltB6s9TcoGN/E0lQ+TOO6nzKDF
+         hixQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWO58WUGnbc6vn+yy5MrBOAIqAwXzs6elaJPHkgkd/UYcEqoCdxSNxgCVMvEUgoGfCos+hcMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBZOL9oeZdvocK4n/4dd9h2gtNPq4l/CDldyFw07bLSUEWzPPL
+	RBsAQzb9G4eEpB0gEcthpahMO9tjy3d/InTuX5xMWgiJsTazBzC70jyEE7wrYu0dqgnvmDVIEMi
+	K4jDA9/kzz/9hIEYMDHfdrLk3SjELSws=
+X-Gm-Gg: ATEYQzwmNMFhWPfJaOEQjubPRliCl4G+fjNXI2Kq2zYx+6w4iJ2JITndA/bddczDFC1
+	CgK+VQ6yZvZbK5Rwed2YulFxZx1EFr6m5D8Skt2JgQ/vQdsa+AIWlPHE7hVZX73XenumtacLHfE
+	aEa4msh4QNiebA4k/zXSJR7gKeoghxVm25jcQBQ5OIUoRWNVPPYA96tTPwXMjTwRVA2WglJ68Rp
+	deqJE8OtvJt0k/ofkXYswSq2/ZOD7bWPB5ceDuUklhiH5wlRnsqp/L0U7wcAoMcHhpIqzLLXLKO
+	6R/ZQ4IoVndMCJb2+DwzsrzRl0fOJEN2lxuQuUlxM0FepFP2rOYblSZjcNpdsFZ1qTRrMvOh7Ts
+	wgcYRMiTuRbHLz2z2HFTxnQjZAUzE
+X-Received: by 2002:a05:7300:724c:b0:2bd:db75:c283 with SMTP id
+ 5a478bee46e88-2bde1d5e3aemr1108757eec.8.1772287782724; Sat, 28 Feb 2026
+ 06:09:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6444:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4fcf7313-69cf-4d91-5e7d-08de76c1720e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|10070799003|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	sUYVUUwhIRFc4Za4BAIPsMyqeWbK2h4GfeU76SHZMjhFRTE8/uVmAzIz+CJnR9HDFks//5VH8ArxoGd6tAABfs00N2gPBMt8DPckNsGrStW+b+03JmHkN+AQw97Cn6kKV/nuQ+vacRp5hox9fVz9hR8rtTrzHSK99PpqCHYXgvnRHT5LJLtaIPcKOY6ZirSOc1B3J9IkMPV4PKv/VVZ4AICzJAFgLDmfnWL73y85DGk58q0XVR2XixsZM4b45IgR64SBqg0ixvIHMt5ikAwKTwW8DHbwQ0ZGbH+3y+wiRzV50oD6eMHrefckqDviSf/nnHuvXPTpQpCnh21P54AZ+5hkKk1ZeuBS0VQJjIJKLdX0ihrJw4h611SFkFDVsUkPLdFbvXak0dwkhe+xU7qryfyKQjs0CfCcSaXLZjUOS9LKU3AcCYMao6nG6CVcdG9gH1cH+VB96j10WZkJCQGM4bYLFO9sBhgAvGQnwA1YpXSaPe8QjJFUoCg34vnRTtdv0y47xO1zO+s30ANYYhBFwKYL4fVPoFHbhd6ML8oiBbKTNEfYFAvwSeZ7vStOE+L/MgAP5WSAjye0cmRVBm/lOzQoAgc2b0aMLIZqtuUGfisBbgBHKXWUjvKU7XWo7EJKhlHmwST5/z4ni5OebQk7gHTMeJJ2gNumpyyKu4M96C5RXTxsZU9ny0bQ+LFTK8nX
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(10070799003)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NDFNZEUrS1d2L0hnWXhRZXBsWE53RHV6ZUxrbWRTQXBQcEp5RjA1K0VHOXVG?=
- =?utf-8?B?OGhqaVV1bkowV1hSK00ybjdjblBtaHNZUlk4Q1dqaytUdW5PZEt2U0Y4OXp2?=
- =?utf-8?B?Rnp5TjFLc3k1VkRZY0JmUUdFS3g3OTdQbFdQVnAxTVN4SnBTRDYybnR2YmZv?=
- =?utf-8?B?YzJRVzBNSE9aMUV2MUF1aERzSE5oNHhVWGliT0xZMG9yNzZMbjFnV2FZa1Zn?=
- =?utf-8?B?N2hDR1BXQ3ZSZUp2cElXN2VvRktVVjhseHQ5ZGtzNHVVYWlNeTZSMStnWURM?=
- =?utf-8?B?SWQwSnp2OElhVGNGVmNNNW5ISmRERXYxNHRaYTVFd0diMDVqcWZvbEZuYTNw?=
- =?utf-8?B?cnlvbnlqMm9vSG02NTdwaVVQRkgxeUxkWURmSGl5SFhlMGZoZU9rOWJUYmtp?=
- =?utf-8?B?M2Z1UFU3UFlXamIvTkxkdXpVSFZmU3BXQzdybEpCMWF4aXV0U243TWQvOW1t?=
- =?utf-8?B?S0ZJbUI2bmxuL2NVWDZoTjE1b3A5YUh2Q21UNjBnaTZxUU5LUFp4dVVtSGV1?=
- =?utf-8?B?Q0p0bzM1NXd6WktNeTgvWklQNkNHMXRuc1JTWlZtcTRPeTRXaFlxOFZ6VzRU?=
- =?utf-8?B?U0NDc0taZHgzZ2Y1QXNUTWw3VjVUNzRRSEpsd2ppNFBXRkxnbFc3MUdCV0d5?=
- =?utf-8?B?U3dmbGJJMmovdGxRdFAxUFZuS1JvcHZnWnFKRGRWclgxZnJIaHJncGJoK1U3?=
- =?utf-8?B?T1dLM0FaZFA5RHFYSFJmOGs4Vll5K1FIbW9PYUR4RmJPRThTZkIyN25vaXBS?=
- =?utf-8?B?YnZ3M2JIRmhyS1c2T2ZteFpPQmM3Rm5pU3U1QXNuNFhEZnVDd1pRRjBrYlo1?=
- =?utf-8?B?aDhxVyt0eTM0WWJoMmd1TU1oOUZvUUw0T28wTEpzRkRuWmRRWUFKY3MvUXRX?=
- =?utf-8?B?eVY1ejNhNWE5cEdmemltZkZnSGhQeEwwZXluR2I5aURuVFdxcjE1WFhJdmZu?=
- =?utf-8?B?VVpNZGNSS3crc0M2SFFzV1NTUVVXckdOK1drcndJQjdVanRZdDZSck0zRDZS?=
- =?utf-8?B?MFdYeEZscDhubzBFM1Y5SjVqSUFnTk1FUHlGSnJnOGd4aWVmS3Fiamh1WFEz?=
- =?utf-8?B?YzFrQTFzYWZlVXRkenhvUm5Ib2NZT2YrTXZHUXprZlRXVHJobTQ4RFV4MVVz?=
- =?utf-8?B?L3drYzc4NVkvblMzU3NDNjlzU2RBczZPeEJBRzR2MllQYTY0K2lzR2UwOWF4?=
- =?utf-8?B?V25nMzl6ZGhwSDhuaG9zcFN0c2FlcVo1ZXJCSGJGZXVMcU1zTE44c3l0TSt2?=
- =?utf-8?B?UlRzRzl5MlJyUU5xd0tkVmpzeC9VMmNOcGRuSVVUcHBHWnpMQnJBR0Jnbjh4?=
- =?utf-8?B?b3B0U1dGaTJXd0c2QzdJY0FFVGhFV0JIYXFkUkx3VVg2Vnl6VVhZOWk2cFRC?=
- =?utf-8?B?TlFQN3huWklSdlM2b2x5UENjNnVFNkVOdGZVNTV0d3ZWaGo5WmJERGdicFY5?=
- =?utf-8?B?Zmt1a1RHWmhscVE5b2JwL0NYd1dlclVWUngzVW9KRmVuT1hhU1BzZE1DWXM1?=
- =?utf-8?B?ZEJjMWZ5emVjajBkcDZOQ3FVdDFadmdKajFRd0pzcUcyY0xJa1M2dE14bWNM?=
- =?utf-8?B?OUs3UzF4aVZtbENnL0ZTYlBLTGJqRUNNcjJlNkFscDMvcGFIamdBOWhCakZF?=
- =?utf-8?B?ajdNOHhrdTVYVnNHSjdoaEVMbWE4aGZpbm10VHhtY0dNaGJvYkFSb2V6cmFw?=
- =?utf-8?B?YTA2T2l0cWV1dW1PSytzSTI4aGxMNVFXUHlzVEdaaGIzbUNNclRkN29mT1Bj?=
- =?utf-8?B?aGFsTU83YUpSMkt4eDBWVlNUQnVJaHZQd0JrY2JLZ3VnZjludnBjSVRURzRk?=
- =?utf-8?B?QlZVZER2TEs1KzNEMDVXSnZjQS82Ty90RHlMQnZJdmlwRGNBUCtBMU9iTGxs?=
- =?utf-8?B?Qzl2VTkyUVZSVTV5TjM5WUJwbDJVMExzL3lhMkhZSCtnc2RDdjhaUUprVGNl?=
- =?utf-8?B?ektGY1pDRFNHU3ErRU9OQkQ5azBya0xHRkdKTTRHUkpOMDhKM3FxWjRFWEhn?=
- =?utf-8?B?Q3JheWF1Q2w2aGtXYTFFV0FTYzdSVXg5MGtEWmtDaGJKandtV1BFdXEvTlda?=
- =?utf-8?B?dExwSjJ3U2F2cHFldGpMV0ZIdU1HcE1ZV3d2M3RubC8vQjk1ZE1BOGY0azdP?=
- =?utf-8?B?ZWNSZnkrNzlKZ2dsSjZKTVJPOXpWMW54R0RGaGlsWDlIcTdBSENQdUxWRXVq?=
- =?utf-8?B?UDVLOWNIU2ZwNnQ1eFltcnMxK2tiSExIU1htbnlEUlZUcTA0bEJiREtzbE45?=
- =?utf-8?B?Z1FqMHE2TjlmdXJoSElObDljaVJ2MDlFNDMvVTBIdU9VdXNXSlM3NmhuUU5u?=
- =?utf-8?B?Tnl5VEw3NFBkWUJCNE8ySnJ3Yk1OeTBNWmxwd212VURJN1ZJQWt3Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fcf7313-69cf-4d91-5e7d-08de76c1720e
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2026 12:03:54.8173
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xovhgu8b4OwkzPD+HrJAWlD/UeWyj4RMvbtVU7jF51TrsXy6k7KOcEU2ROSe9P1AXgy+YSmaDe/oLz0Dor7kFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6444
+References: <20260228113713.1402110-1-lossin@kernel.org>
+In-Reply-To: <20260228113713.1402110-1-lossin@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 28 Feb 2026 15:09:30 +0100
+X-Gm-Features: AaiRm50szvIfRFXSTL2frZgjUpT-JGt0pzE0jav9lOhN5cEXeTSsJV_EDM9YSmc
+Message-ID: <CANiq72=U8Hvpz-cqHyc-3WJu07HLeaAkB2vhUhtROFqeWrFSVw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] rust: pin-init: internal: init: remove `#[disable_initialized_field_access]`
+To: Benno Lossin <lossin@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Janne Grunau <j@jannau.net>, 
+	asahi@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat Feb 28, 2026 at 11:37 AM GMT, Benno Lossin wrote:
-> Gary noticed [1] that the initializer macros as well as the `[Pin]Init`
-> traits cannot support packed struct, since they use operations that
+On Sat, Feb 28, 2026 at 12:37=E2=80=AFPM Benno Lossin <lossin@kernel.org> w=
+rote:
+>
+> The affected stable trees that are still
+> maintained are: 6.17, 6.16, 6.12, and 6.6.
 
-This is better read as "unaligned field", rather than "packed struct". The
-packed struct can be initialized as a whole by moving it into place.
+6.17 and 6.16 are not maintained, so we can ignore those, i.e. only
+6.12 and 6.6 will need it.
 
-After all, a value of a packed struct is itself a valid initializer and is
-sound.
-
-If you have
-
-#[derive(Zeroable)]
-struct Foo {
-   x: u8,
-   y: u16,
-   z: u8,
-}
-
-it is also valid to have `pin_init!(Foo { x: 1, ..Zeroable::zeroed() })`
-
-> require aligned pointers. This means that any code using packed structs
-> and pin-init is unsound.
->=20
-> Thus remove the `#[disable_initialized_field_access]` attribute from
-> `init!`, which is the only safe way to create an initializer of a packed
-> struct.
->=20
-> In the future, we can add support for packed structs by changing the
-> trait infrastructure to include `UnalignedInit` or hopefully another
-> mechanism.
-
-I guess the comment can be reworded a bit, to hint that this won't be added
-unless there's a compelling need, e.g.
-
-    If support for in-place initializing packed structs is required in the
-    future, we can ...
-
-Personally I think this won't be neeeded, as there are many ways around
-supporting unaligned fields, e.g. by creating and moving the entire packed
-structs. Another way is to use `Unaligned<T>` type for fields that needs
-pin-init, similar to what zerocopy have.
-
-Best,
-Gary
-
->=20
-> Reported-by: Gary Guo <gary@garyguo.net>
-> Link: https://rust-for-linux.zulipchat.com/#narrow/channel/561532-pin-ini=
-t/topic/initialized.20field.20accessor.20detection/with/576210658 [1]
-> Fixes: ceca298c53f9 ("rust: pin-init: internal: init: add escape hatch fo=
-r referencing initialized fields")
-> Signed-off-by: Benno Lossin <lossin@kernel.org>
-> ---
-> This commit does not need backporting, as ceca298c53f9 is not yet in any
-> stable tree.
->=20
-> However, the unsoundness still affects several stable trees, because it
-> was unknowingly fixed in commit 42415d163e5d ("rust: pin-init: add
-> references to previously initialized fields"). Before then, packed
-> structs compiled without any issues with pin-init and thus all prior
-> kernel versions with pin-init that do not contain that commit are
-> affected.
->=20
-> We introduced pin-init in 90e53c5e70a6 ("rust: add pin-init API core"),
-> which was included in 6.4. The affected stable trees that are still
-> maintained are: 6.17, 6.16, 6.12, and 6.6. Note that 6.18 and 6.19
-> already contain 42415d163e5d, so they are unaffected.
->=20
-> I will prepare a separate patch series to backport 42415d163e5d to each
-> of the affected trees, including the second patch of this series that
-> documents the fact that field accessors are load-bearing for soundness.
->=20
-> @asahi folks, let me know if I should prioritize a solution for packed
-> structs. Otherwise I'd like not support it at the moment, as that
-> requires some deeper changes to the internals of pin-init. I'm tracking
-> the status of packed structs in:
->=20
->     https://github.com/Rust-for-Linux/pin-init/issues/112
-> ---
->  rust/pin-init/internal/src/init.rs | 39 ++++++------------------------
->  1 file changed, 8 insertions(+), 31 deletions(-)
-
+Cheers,
+Miguel
