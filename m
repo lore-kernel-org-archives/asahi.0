@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798A525DB1C;
-	Sun,  1 Mar 2026 01:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD5E26E710;
+	Sun,  1 Mar 2026 01:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327978; cv=none; b=giPlxoM81gRb6OTPvBIk9Wabm6uAXIMfVqXpL1kFeZwMgnKBXPSJCvS0CuFypk495S5YRzLfDjSLmKTVcNZlsprjNnEAFEa3nTFCQtFRJh1rsLcs3TugfGsCuSHbWD0BdFUdsc9kH6kYibXO7LEYGgznOUV3hQsGsddXGutfktw=
+	t=1772328080; cv=none; b=SGJW6WGFjmnycVsHpSg0U5Jp97P71P0F5RUlGiyj6UZfmoJY44YV6uD+R2WIEBSEzFTCl0fqLyLInmf3h3yZhVPnhsmFkG7WoOcUmH9tuWLzjlocY1EnmkY6gTO+/S+SnEBgjOwp4/io5G0EtFkr0B2uAWokfU12EBCNdhjFqHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327978; c=relaxed/simple;
-	bh=vEG88Hyk00Tafp4vt7H+O1aYyWOVvOlo+WTwnXnHFrc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jBapP16kwiDuFVo4TruBqibbn6AhHFSCBvyB9VyKCMWT6lvwiT3WPbchfrnpVT5LRg8n50NFaRLXnPQkAiYJ/JA8qxCm9/OqkIeyFV0SgdQRq9m9pA47MReVNrLDCmbDiFjp6phdCgQT5H2xigsO1PpOsGvdBbkXOpcZXLTq4h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFJUEOOT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772328080; c=relaxed/simple;
+	bh=nQi1ZwZu+uxNekWTc62vjx6L1HetqztgxKUdU7MC5Xw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=er8HynWwrJATjOOTEMj7FYJ80HMBFdjY37F+QKi48QpPNKiGMA7Djj65FXvQXv4Gkatf+jhqHjeMmyS+qMOnJ8EG88niOcjE7Kd2qJ2i61ugMLXCRSr+Xl+IifRMiZhlPYtu4paCFD0GJX00DTgZYhg1rM+LEzyvh46AfSl5jiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViqGU/Im; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFJUEOOT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5B29C2BC86;
-	Sun,  1 Mar 2026 01:19:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViqGU/Im"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE5BBC19421;
+	Sun,  1 Mar 2026 01:21:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327978;
-	bh=vEG88Hyk00Tafp4vt7H+O1aYyWOVvOlo+WTwnXnHFrc=;
+	s=k20201202; t=1772328080;
+	bh=nQi1ZwZu+uxNekWTc62vjx6L1HetqztgxKUdU7MC5Xw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=BFJUEOOTZKKH6agKey1YkwxxawmhTlHLzgRuRffnWcnAH2YSAZKvA39s0vVP1TVV5
-	 GY8CFYRwW/y1bL4axXJbM+giBPhYh7zGlVl/R9jIHVjtbA3993qTSbPjgdsqhYFC/a
-	 bxAndcPzVL4f/JaSx1XHVdSYWaSw2F8eoRb0DV7c3KiRmO4vYDsfzSfv7hrC/7FX9J
-	 CD2VjoC4qtOU/pLOsDOjRUUrBVyDHCV/9GKNe5gXG0L/Hnh2r8E7puMgX3jRG88irE
-	 BN15LkUTf8RWCzTqW7iV+xKMrIrJb1iXiy8oKA977HUdp0bgU7qHH39tGNSgxrxS+i
-	 MJL9zQSW7WMsA==
+	b=ViqGU/ImNXjNkA7XbRDttcC0vb44p71MF4PcE3XiqLp+NjVpnDJz707KR+fG3x01H
+	 t5hVS8RwmgvjdydGui5bsXL5e2zckIIyqp1x8mLoi8knVsIV1Pzih24LEP8P4ptBuo
+	 KvQhcZWBQqLsFybUmO7piNZI7W4jpEsX360FmcunyYMVsdpz79aOaum5W0qwEtbGiX
+	 5RpepB8nC2okgXaBTh0pJqHAc/3xp1zV824ORevYS7lF2yWr02aqSt+CNrBjyycrbo
+	 TyquL6J/vfVlGEC1qNZLj6ZPwJf/5y3ZPFjTmP+ZuWoKBSuRI3zmQWZROJoa9hyrc4
+	 HrNHX3jQ+KhUw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	j@jannau.net
-Cc: Sven Peter <sven@kernel.org>,
+Cc: Stephen Boyd <sboyd@kernel.org>,
+	Neal Gompa <neal@gompa.dev>,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: FAILED: Patch "arm64: dts: apple: t8112-j473: Keep the HDMI port powered on" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:19:36 -0500
-Message-ID: <20260301011936.1674726-1-sashal@kernel.org>
+	linux-clk@vger.kernel.org
+Subject: FAILED: Patch "clk: clk-apple-nco: Add "apple,t8103-nco" compatible" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:21:18 -0500
+Message-ID: <20260301012118.1677195-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -56,63 +57,40 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 3e4e729325131fe6f7473a0673f7d8cdde53f5a0 Mon Sep 17 00:00:00 2001
+From ef9b3b4dbe767e4ac642a88dc0507927ac545047 Mon Sep 17 00:00:00 2001
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 8 Jan 2026 22:04:01 +0100
-Subject: [PATCH] arm64: dts: apple: t8112-j473: Keep the HDMI port powered on
+Date: Wed, 31 Dec 2025 13:22:00 +0100
+Subject: [PATCH] clk: clk-apple-nco: Add "apple,t8103-nco" compatible
 
-Add the display controller and DPTX phy power-domains to the framebuffer
-node to keep the framebuffer and display out working after device probing
-finished.
-The OS has more control about the display pipeline used for the HDMI
-output on M2 based devices. The HDMI output is driven by an integrated
-DisplayPort to HDMI converter (Parade PS190). The DPTX phy is now
-controlled by the OS and no longer by firmware running on the display
-co-processor. This allows using the second display controller on the
-second USB type-c port or tunneling 2 DisplayPort connections over
-USB4/Thunderbolt.
-The m1n1 bootloader uses the second display controller to drive the HDMI
-output. Adjust for this difference compared to the notebooks as well.
+After discussion with the devicetree maintainers we agreed to not extend
+lists with the generic compatible "apple,nco" anymore [1]. Use
+"apple,t8103-nco" as base compatible as it is the SoC the driver and
+bindings were written for.
 
-Fixes: 2d5ce3fbef32 ("arm64: dts: apple: t8112: Initial t8112 (M2) device trees")
+[1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+
+Fixes: 6641057d5dba ("clk: clk-apple-nco: Add driver for Apple NCO")
 Cc: stable@vger.kernel.org
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Janne Grunau <j@jannau.net>
-Link: https://patch.msgid.link/20260108-apple-dt-pmgr-fixes-v1-1-cfdce629c0a8@jannau.net
-Signed-off-by: Sven Peter <sven@kernel.org>
+Signed-off-by: Stephen Boyd <sboyd@kernel.org>
 ---
- arch/arm64/boot/dts/apple/t8112-j473.dts | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/clk/clk-apple-nco.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-index a05951e91a022..bfa959023a0db 100644
---- a/arch/arm64/boot/dts/apple/t8112-j473.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-@@ -22,6 +22,25 @@ aliases {
- 	};
- };
+diff --git a/drivers/clk/clk-apple-nco.c b/drivers/clk/clk-apple-nco.c
+index d3ced4a0f029e..434c067968bbc 100644
+--- a/drivers/clk/clk-apple-nco.c
++++ b/drivers/clk/clk-apple-nco.c
+@@ -320,6 +320,7 @@ static int applnco_probe(struct platform_device *pdev)
+ }
  
-+/*
-+ * Keep the power-domains used for the HDMI port on.
-+ */
-+&framebuffer0 {
-+	power-domains = <&ps_dispext_cpu0>, <&ps_dptx_ext_phy>;
-+};
-+
-+/*
-+ * The M2 Mac mini uses dispext for the HDMI output so it's not necessary to
-+ * keep disp0 power-domains always-on.
-+ */
-+&ps_disp0_sys {
-+	/delete-property/ apple,always-on;
-+};
-+
-+&ps_disp0_fe {
-+	/delete-property/ apple,always-on;
-+};
-+
- /*
-  * Force the bus number assignments so that we can declare some of the
-  * on-board devices and properties that are populated by the bootloader
+ static const struct of_device_id applnco_ids[] = {
++	{ .compatible = "apple,t8103-nco" },
+ 	{ .compatible = "apple,nco" },
+ 	{ }
+ };
 -- 
 2.51.0
 
