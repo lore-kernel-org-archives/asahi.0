@@ -1,248 +1,161 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47803314B66
-	for <asahi@lists.linux.dev>; Sun,  1 Mar 2026 08:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD93B302756
+	for <asahi@lists.linux.dev>; Sun,  1 Mar 2026 17:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772352427; cv=none; b=C6hKz9Vkm68rwUKlqFBEHhoURLW6coOFcIdu2OvMUyt8hAFFv9kRIOJ7pVoi9k5SscuOvLNBDlPDGnSonOmbNUBEoB4k90Ay0RCB/9ivGxCqAX9XJB0+AFJNFroF1UYZ672LhmoQd+BSsDLQZcjz0oLUZwT5EWBHZ7o0oCULNdM=
+	t=1772385148; cv=none; b=FklpxpD6jdMQv4eOmWkpTzKL+FwcDy6uSrJH3YcEGGMJY3lZhdXvA/FKIv1a2pIqF57F6wfRiMn2sUJJiQYMP9VlobGTCvB0RX4UVhg2MKj4r2L0fVaaGEoY9QRFXCNX9dWAieUAz3yvJFZfN44aeeOxq5Z7EuWqcAkmOaYWS64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772352427; c=relaxed/simple;
-	bh=tgaTiLnqDVU09V+sOch0MS59MDRnaMGowpS7pQpkHvk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Pl/gWNjIIRxWm/H0ynVC0/sjT8wAS4E3a9W2cJtORC6K9UybNxsXYnvanggalZWWsomrX8wwZx9xgmHgOPmAE2VQNBzzdVtx/jZXOd4ci5RRnzWAVl6tJTorI2d2zWOeZYaefFAAfTKBjug1BmN4Mo9o+/Trxg8MGWiTFjIya7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nga5rf1P; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772385148; c=relaxed/simple;
+	bh=vhaUIKmRQqxlusdgAEbn8VEqEE4zNIocOCsLD9scoAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o9d/XvfxfhdhpWNaXAk889Rtg/Sgpk7NhmOF24gYp4/O5GeMgovcyUUpQUVz6rBujq+t4HwhidsXKnnhUtE9kzuiKHRVsYzRH0J2kieXJwIJ9n2n3BeXJ804+my6OWQ9MCSBsQ8NOekL/uubGDv2hRVJTWHJ+s9CZi310fR+OuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=COr3RKDq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=3RQn59wi; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nga5rf1P"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-358eac0571aso2307010a91.2
-        for <asahi@lists.linux.dev>; Sun, 01 Mar 2026 00:07:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772352423; x=1772957223; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MUY9ZBmDZl+OfoG0SmjcuxGXm9iN1eBUEEJQwad6G5U=;
-        b=Nga5rf1PHC4GlH8rfL37MtO2moolgsAEX03YrLA118nT0d0FRMq+Jzxv1n7iDMPlSO
-         uLxW1wWk7OUFGcUkp2SRdnXkKxHM4loiO/NEfkdsW+jKOVvgI1wCmvJybny25BFn6nFj
-         JwloX9arQgjbClFQCYHkq8lvTdAw6U11PI29IH5Jy/7qwkagy5OSVvdJEwOGvjT5D2HR
-         Uea240OQ9r1pgg1pjXuq0y0L6JJLUu4Zu+RHnSJ/dHng4btYxLKuGcxYH50j4/wnZugI
-         DnQYiKjWAe1RUOPZftE6r0aF2AOGKrdyFViwtgWUwDSwaWF8EcUMsAY9kZotef7cOnrB
-         ZH6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772352423; x=1772957223;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MUY9ZBmDZl+OfoG0SmjcuxGXm9iN1eBUEEJQwad6G5U=;
-        b=kuHITILQj37AdssRe6DgTkaHEp1noJ9fZsZzfOFmvCz6uSbzf3fYnMg4fSFNbm6BbJ
-         LRZwwLMEnfe3N51cTzjLht8/GM/cw85Eq/GA2ydh5KLODbIvnQAyLu8xPX5xmobJcgBO
-         RtH1xPNC4TnlrVpYKhWLC5Hvf2Gwq9xukWJDwFy/n6dVbqXFYfWVIynCZc/n+XzupTRc
-         rcoNlMDMIYuoXe+5SvQCICy7HU7P4i+VQBFFKjiQPiMHTbTx9Kls+2jPZX4GIfTTSZcH
-         ClEwk6aa7b5edEhyBZCI29m0DDcIfxqgkrqkvhvZClipVgrwLIDvTXmaq8oAcjC56vxH
-         sCMw==
-X-Forwarded-Encrypted: i=1; AJvYcCW2lYyPstPZVNx5gcUaWr2PBvWb8OoP7urmchYQtYPqcXzHj5YMZWrOV95YTfgjOQeqx9DVhQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1JYI+W5lGkhh+SSftDBdW1oR9DYORphHyYwfLS0FYI5tDy/RP
-	Y9czr+o2b8cfovpxhTsSxtf6HUOf8rPHKM5bbGFj4s0Hd8AP9s5b/pD8
-X-Gm-Gg: ATEYQzwt3CQzgt6HB3xVPoJZTD17Y7ZTf1EILx/AcVuDAG2GWBR1+/AVaW0eGg0j1JL
-	6U4EHxl064++DPLu2JRNNdr5dZiZ8X0ycoOc2zveU1fjGMa2BuXtw018j7rdoQp7Hv3GncpzEJl
-	3FIubfjEbLbSJcCgESmo4ZvHK6m4jyDa1PhoIy7sfsZlw4JObeV8tXtcFuF2+5sDX+UrKyWtysH
-	Yy6RLO18k+sfDYTA/v3NVdQ4KkGM+vN/KDCaNCZDN6SE7bKZKewUissmZ/v2ftfsVqls7Mbv/mt
-	NwF1MWs0iEzCejr/KdurMc/h5UPdIcebcdU3lhu69GX4CbZyhsZviVEJAfpk0gf37D4qd7dk6mH
-	LTjWK+YEQWaPapzgk+kZtRlke0xIXuTFvhOMUFx6SwXhsJa7N8w3yQPKOpE0vRrUoiQOd88zOzu
-	SdigOdXfqEHD/mUDKXTtO8RYu4ETlJRKa6QJOsa5NXP4Nwxa6E3QMAPegOW/D/pC+7tFCgqCU3P
-	p5rKXgrjg4Nuq/dMp51vsDINZdUnXMj4/EHVhhUir2PGZAk3iltaigYVytKira4eEPBfx3pLW2e
-X-Received: by 2002:a17:90a:e18f:b0:356:8719:f516 with SMTP id 98e67ed59e1d1-35965ceaf7dmr8142105a91.24.1772352423345;
-        Sun, 01 Mar 2026 00:07:03 -0800 (PST)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359135ef1d7sm8885384a91.5.2026.03.01.00.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 00:07:02 -0800 (PST)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 01 Mar 2026 18:05:26 +1000
-Subject: [PATCH v3 7/7] ASoC: tas2770: expose SDOUT bus keeper via
- set_tdm_idle
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="COr3RKDq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="3RQn59wi"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id D948B1D0005E;
+	Sun,  1 Mar 2026 12:12:24 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Sun, 01 Mar 2026 12:12:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1772385144; x=1772471544; bh=JvpvEOa8Cw
+	cssa/8kfGC7exMi81uwRLONhgntqmZiDI=; b=COr3RKDqms2GN4EZdTWv1RUM9T
+	tBRCaWH4HfaY/wXZzFVToe/goQ7QEkpRDwSjuYdugUkJvBDO0PZUU8GBLp+uwZ0J
+	RlPhfDNyWnS0HlDBkk4Bo9JAlv/br0XHJesoBbJfzam+ky5VWCvvTrRAgPC4qeJV
+	pbz8HS+GwAnZ0uPU+EXwd/BlNXSlwyLmgGQPLUhY5s9C+b47OEt2XJ2TN3FpZUcH
+	1aTugTC+ggXAT/Yc0/Zk4MZS0fmFnPugGutRDhv5lIACwvbGE7HRz63M/0YhrN3v
+	4lxIz+zf6Mm5iBKZef92zwh+XzdciH17sggOCkeN7EgXKuuL08MW2pLgW5LA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1772385144; x=1772471544; bh=JvpvEOa8Cwcssa/8kfGC7exMi81uwRLONhg
+	ntqmZiDI=; b=3RQn59wicyxbpapRWscP0sQGydPPzXCYldNWU+Dz7GdqWUDLmhZ
+	0/ZuOvAQCn5yDNbDgkXcMEMLd2cd6j1GAwT8Wpihx/+gIDeFMsXY7LoRQzyWqP0a
+	bu/ZUME1eSYaGfk+oKRGuZqtobJ2XVqGaYntNR3ymDO0bqp2LVamV4nFvf9avLkK
+	GknFTgz12ew75aeGV+tZQ2zS/X8GFYRKhGz/Pcyld2xNpMeK/g82cl38zXv48yJI
+	EfHa+V13uBVmFKVfz41Q1EjULkSrdD+StC6XxDVIiRoFyPZ6CFEWS+OxeyQ/kzzO
+	y4/OKC4NvgbxiRSjRT8GM1moG0BdB/rG7AA==
+X-ME-Sender: <xms:eHOkadhOQI1fbDAVvIlCCm2gUbLMF68DzGy1fOmBNoSZh8-A7_2RnA>
+    <xme:eHOkaaJzVhVwfoMeweaXDqeU37xiNKxGSIqtfM32RFN-PpSnclX8nZrUElkI5Psez
+    WxA4chVj0ykyGBaDkbQsm6Zd-2hncOPse4Eaa_F-b-sTSAm10cvn0g>
+X-ME-Received: <xmr:eHOkacnVo6BPX4TVr0w8dpNDYOyu5t8G9cu2UcwrQAO1QF41TRC5f_3qxVnh2IWJpnCgAXjnI3IdCxeGrfhBNL1GpyeLL-52-2k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvheehfeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
+    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefggf
+    duveeiudefleeigfefvdeludevffeghfehjeffteekfeeghefggfdtudelgfenucffohhm
+    rghinhepiihulhhiphgthhgrthdrtghomhdpghhithhhuhgsrdgtohhmnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhn
+    vghtpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
+    eplhhoshhsihhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrghrhiesghgrrhih
+    ghhuohdrnhgvthdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopegsohhquhhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsjhhorhhnfegp
+    ghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegrrdhhihhnuggsohhrgh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlihgtvghrhihhlhesghhoohhglhgv
+    rdgtohhmpdhrtghpthhtohepthhmghhrohhsshesuhhmihgthhdrvgguuhdprhgtphhtth
+    hopegurghkrheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:eHOkaSMbi03zPgFOpLCGqxM5tC5RABfXtC114q9LNMXxNQuUJ2ZH0g>
+    <xmx:eHOkaW4h0NnW_MntY4LWI_VR9OB2u6AFcdKI4JCHPhvb8w20PWaHnA>
+    <xmx:eHOkaWavfFZy4r_9lYDB53TbvfFgtk1n-4bmn-zZoRTR5ehLctozuw>
+    <xmx:eHOkaTddnpcBH_D-wLq9RT0wyA4fruT8gGOLepdVzet9nGNw-By6QQ>
+    <xmx:eHOkabn_P-xmQBtwVfu2qZn39TYtl5_TDz9Ydxkg5ts7ETW8-6LqMAhE>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 1 Mar 2026 12:12:23 -0500 (EST)
+Date: Sun, 1 Mar 2026 18:12:22 +0100
+From: Janne Grunau <j@jannau.net>
+To: Benno Lossin <lossin@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, asahi@lists.linux.dev,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] rust: pin-init: internal: init: remove
+ `#[disable_initialized_field_access]`
+Message-ID: <20260301171222.GA22561@robin.jannau.net>
+References: <20260228113713.1402110-1-lossin@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260301-tdm-idle-slots-v3-7-c6ac5351489a@gmail.com>
-References: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
-In-Reply-To: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Shengjiu Wang <shengjiu.wang@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
- Frank Li <Frank.Li@nxp.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4520;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=tgaTiLnqDVU09V+sOch0MS59MDRnaMGowpS7pQpkHvk=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJmLP2dcTLpzemWex/bfGxXUDX58YpGPWnFnj8yUCo28u
- 2eU9EtmdExkYRDjYrAUU2TZ0CTkMduI7Wa/SOVemDmsTCBDpEUaGICAhYEvNzGv1EjHSM9U21DP
- 0EjHWMeIgYtTAKbaUpCR4YJRr9JVri/nYzdXH/q9TWVPg7Cu/fqlz6NSj7Bqmj44Y8PwT00yTkn
- RuGpje8r1VntOyysFth9LO+97iO69NGWv9stOdgA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260228113713.1402110-1-lossin@kernel.org>
 
-TAS2770 includes a bus keeper which can be used to control the behaviour
-of the SDOUT pin during specified TDM slots. The chip can either pull
-the pin to ground, actively transmit zeroes, or keep the pin floating
-(default/uninitialised behaviour).
+On Sat, Feb 28, 2026 at 12:37:04PM +0100, Benno Lossin wrote:
+> Gary noticed [1] that the initializer macros as well as the `[Pin]Init`
+> traits cannot support packed struct, since they use operations that
+> require aligned pointers. This means that any code using packed structs
+> and pin-init is unsound.
+> 
+> Thus remove the `#[disable_initialized_field_access]` attribute from
+> `init!`, which is the only safe way to create an initializer of a packed
+> struct.
+> 
+> In the future, we can add support for packed structs by changing the
+> trait infrastructure to include `UnalignedInit` or hopefully another
+> mechanism.
+> 
+> Reported-by: Gary Guo <gary@garyguo.net>
+> Link: https://rust-for-linux.zulipchat.com/#narrow/channel/561532-pin-init/topic/initialized.20field.20accessor.20detection/with/576210658 [1]
+> Fixes: ceca298c53f9 ("rust: pin-init: internal: init: add escape hatch for referencing initialized fields")
+> Signed-off-by: Benno Lossin <lossin@kernel.org>
+> ---
+> This commit does not need backporting, as ceca298c53f9 is not yet in any
+> stable tree.
+> 
+> However, the unsoundness still affects several stable trees, because it
+> was unknowingly fixed in commit 42415d163e5d ("rust: pin-init: add
+> references to previously initialized fields"). Before then, packed
+> structs compiled without any issues with pin-init and thus all prior
+> kernel versions with pin-init that do not contain that commit are
+> affected.
+> 
+> We introduced pin-init in 90e53c5e70a6 ("rust: add pin-init API core"),
+> which was included in 6.4. The affected stable trees that are still
+> maintained are: 6.17, 6.16, 6.12, and 6.6. Note that 6.18 and 6.19
+> already contain 42415d163e5d, so they are unaffected.
+> 
+> I will prepare a separate patch series to backport 42415d163e5d to each
+> of the affected trees, including the second patch of this series that
+> documents the fact that field accessors are load-bearing for soundness.
+> 
+> @asahi folks, let me know if I should prioritize a solution for packed
+> structs. Otherwise I'd like not support it at the moment, as that
+> requires some deeper changes to the internals of pin-init. I'm tracking
+> the status of packed structs in:
 
-Expose the bus keeper via the set_tdm_idle DAI op so that it can be
-configured by consumers.
+I have worked around this in the downstream AOP audio driver now. I did
+not do that initially since it looked more involved and we were planning
+to bring support back.
+These structs describe messages for communication with a coprocessor via
+shared memory. They are derived by observing messages by tracing. So
+there is only limited understanding how the messages are formated. Their
+layout has for obvious reason match exactly so `#[repr(C, packed)]` is
+the obvious choice.
+One of the structs had a size of N * 4 - 1 which results in a alignment
+of 1. Fortunately the struct could be padded to multiple of 4.
+Nevertheless it was required to replace a few u32 with an unaligned
+version.
 
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- sound/soc/codecs/tas2770.c | 75 +++++++++++++++++++++++++
- sound/soc/codecs/tas2770.h | 12 ++++
- 2 files changed, 87 insertions(+)
+I'm not sure if there is a need to support unaligned fields in pin-init.
+The workarounds in the asahi GPU and AOP audio drivers are acceptable
+and could stay indefinitely.
 
-diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index 6f878b01716f..d4d7d056141b 100644
---- a/sound/soc/codecs/tas2770.c
-+++ b/sound/soc/codecs/tas2770.c
-@@ -492,11 +492,86 @@ static int tas2770_set_dai_tdm_slot(struct snd_soc_dai *dai,
- 	return 0;
- }
- 
-+static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
-+				    unsigned int tx_mask,
-+				    unsigned int rx_mask,
-+				    int tx_mode, int rx_mode)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct tas2770_priv *tas2770 = snd_soc_component_get_drvdata(component);
-+	int ret;
-+
-+	/* We don't support setting anything for SDIN */
-+	if (rx_mode)
-+		return -EOPNOTSUPP;
-+
-+	if (tas2770->idle_tx_mode == tx_mode)
-+		return 0;
-+
-+	switch (tx_mode) {
-+	case SND_SOC_DAI_TDM_IDLE_PULLDOWN:
-+		ret = snd_soc_component_update_bits(component, TAS2770_DIN_PD,
-+						    TAS2770_DIN_PD_SDOUT,
-+						    TAS2770_DIN_PD_SDOUT);
-+		if (ret)
-+			return ret;
-+
-+		break;
-+	case SND_SOC_DAI_TDM_IDLE_ZERO:
-+		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
-+						    TAS2770_TDM_CFG_REG4_TX_KEEPER,
-+						    TAS2770_TDM_CFG_REG4_TX_KEEPER);
-+		if (ret)
-+			return ret;
-+
-+		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
-+						    TAS2770_TDM_CFG_REG4_TX_FILL, 0);
-+		if (ret)
-+			return ret;
-+
-+		break;
-+	case SND_SOC_DAI_TDM_IDLE_HIZ:
-+		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
-+						    TAS2770_TDM_CFG_REG4_TX_KEEPER,
-+						    TAS2770_TDM_CFG_REG4_TX_KEEPER);
-+		if (ret)
-+			return ret;
-+
-+		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
-+						    TAS2770_TDM_CFG_REG4_TX_FILL,
-+						    TAS2770_TDM_CFG_REG4_TX_FILL);
-+		if (ret)
-+			return ret;
-+
-+		break;
-+	case SND_SOC_DAI_TDM_IDLE_OFF:
-+		ret = snd_soc_component_update_bits(component, TAS2770_DIN_PD,
-+						    TAS2770_DIN_PD_SDOUT, 0);
-+		if (ret)
-+			return ret;
-+
-+		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
-+						    TAS2770_TDM_CFG_REG4_TX_KEEPER, 0);
-+		if (ret)
-+			return ret;
-+
-+		break;
-+
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	tas2770->idle_tx_mode = tx_mode;
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_dai_ops tas2770_dai_ops = {
- 	.mute_stream = tas2770_mute,
- 	.hw_params  = tas2770_hw_params,
- 	.set_fmt    = tas2770_set_fmt,
- 	.set_tdm_slot = tas2770_set_dai_tdm_slot,
-+	.set_tdm_idle = tas2770_set_dai_tdm_idle,
- 	.no_capture_mute = 1,
- };
- 
-diff --git a/sound/soc/codecs/tas2770.h b/sound/soc/codecs/tas2770.h
-index 3fd2e7003c50..102040b6bdf8 100644
---- a/sound/soc/codecs/tas2770.h
-+++ b/sound/soc/codecs/tas2770.h
-@@ -67,6 +67,14 @@
- #define TAS2770_TDM_CFG_REG3_RXS_SHIFT 0x4
- #define TAS2770_TDM_CFG_REG3_30_MASK  GENMASK(3, 0)
- #define TAS2770_TDM_CFG_REG3_30_SHIFT 0
-+    /* TDM Configuration Reg4 */
-+#define TAS2770_TDM_CFG_REG4  TAS2770_REG(0X0, 0x0E)
-+#define TAS2770_TDM_CFG_REG4_TX_LSB_CFG BIT(7)
-+#define TAS2770_TDM_CFG_REG4_TX_KEEPER_CFG BIT(6)
-+#define TAS2770_TDM_CFG_REG4_TX_KEEPER BIT(5)
-+#define TAS2770_TDM_CFG_REG4_TX_FILL BIT(4)
-+#define TAS2770_TDM_CFG_REG4_TX_OFFSET_MASK GENMASK(3, 1)
-+#define TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING BIT(0)
-     /* TDM Configuration Reg5 */
- #define TAS2770_TDM_CFG_REG5  TAS2770_REG(0X0, 0x0F)
- #define TAS2770_TDM_CFG_REG5_VSNS_MASK  BIT(6)
-@@ -115,6 +123,9 @@
- #define TAS2770_TEMP_LSB  TAS2770_REG(0X0, 0x2A)
-     /* Interrupt Configuration */
- #define TAS2770_INT_CFG  TAS2770_REG(0X0, 0x30)
-+    /* Data In Pull-Down */
-+#define TAS2770_DIN_PD  TAS2770_REG(0X0, 0x31)
-+#define TAS2770_DIN_PD_SDOUT BIT(7)
-     /* Misc IRQ */
- #define TAS2770_MISC_IRQ  TAS2770_REG(0X0, 0x32)
-     /* Clock Configuration */
-@@ -146,6 +157,7 @@ struct tas2770_priv {
- 	int pdm_slot;
- 	bool dac_powered;
- 	bool unmuted;
-+	int idle_tx_mode;
- };
- 
- #endif /* __TAS2770__ */
+Janne
 
--- 
-2.53.0
-
+>     https://github.com/Rust-for-Linux/pin-init/issues/112
