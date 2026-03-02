@@ -1,161 +1,219 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD93B302756
-	for <asahi@lists.linux.dev>; Sun,  1 Mar 2026 17:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759633FB072;
+	Mon,  2 Mar 2026 14:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772385148; cv=none; b=FklpxpD6jdMQv4eOmWkpTzKL+FwcDy6uSrJH3YcEGGMJY3lZhdXvA/FKIv1a2pIqF57F6wfRiMn2sUJJiQYMP9VlobGTCvB0RX4UVhg2MKj4r2L0fVaaGEoY9QRFXCNX9dWAieUAz3yvJFZfN44aeeOxq5Z7EuWqcAkmOaYWS64=
+	t=1772460273; cv=none; b=tfo/IwHf0Oo4EVkDibPEDy3/vRi/d8OD1kWGWM8oUW2hEcoNYxFyAQ6irCt0FAjl7cfvzCchx0AsqcjkJrqJ+Hyp5HIW4frY/MaP9LW2gRtB+jhtci4jggfXwCKTM5x0/feffFno+Vig5SQg3e4emNtmoyPopElLDL2QGBkOfjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772385148; c=relaxed/simple;
-	bh=vhaUIKmRQqxlusdgAEbn8VEqEE4zNIocOCsLD9scoAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o9d/XvfxfhdhpWNaXAk889Rtg/Sgpk7NhmOF24gYp4/O5GeMgovcyUUpQUVz6rBujq+t4HwhidsXKnnhUtE9kzuiKHRVsYzRH0J2kieXJwIJ9n2n3BeXJ804+my6OWQ9MCSBsQ8NOekL/uubGDv2hRVJTWHJ+s9CZi310fR+OuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=COr3RKDq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=3RQn59wi; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1772460273; c=relaxed/simple;
+	bh=FWvmTwbXMGmMmOMHmif6zgJqnJQlH6L3lPMOIbNWxd8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BisDyVV79CJvHYMSRYp2n/Mjmn4BqCQT3A1GrfJ+bkPt7+pjOcI/SU+QDCkxw1hOTRcHzewb+/zOJGroAJSGntL9+o/q9ESwmOWpGdbPNQKTAApKPOMmWaN/pc5IiBm3r1K0jpTJKx2Hwd0cDZF42fttMQ5850lwC843Uu3GnuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDypVqAC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="COr3RKDq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="3RQn59wi"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id D948B1D0005E;
-	Sun,  1 Mar 2026 12:12:24 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sun, 01 Mar 2026 12:12:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1772385144; x=1772471544; bh=JvpvEOa8Cw
-	cssa/8kfGC7exMi81uwRLONhgntqmZiDI=; b=COr3RKDqms2GN4EZdTWv1RUM9T
-	tBRCaWH4HfaY/wXZzFVToe/goQ7QEkpRDwSjuYdugUkJvBDO0PZUU8GBLp+uwZ0J
-	RlPhfDNyWnS0HlDBkk4Bo9JAlv/br0XHJesoBbJfzam+ky5VWCvvTrRAgPC4qeJV
-	pbz8HS+GwAnZ0uPU+EXwd/BlNXSlwyLmgGQPLUhY5s9C+b47OEt2XJ2TN3FpZUcH
-	1aTugTC+ggXAT/Yc0/Zk4MZS0fmFnPugGutRDhv5lIACwvbGE7HRz63M/0YhrN3v
-	4lxIz+zf6Mm5iBKZef92zwh+XzdciH17sggOCkeN7EgXKuuL08MW2pLgW5LA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1772385144; x=1772471544; bh=JvpvEOa8Cwcssa/8kfGC7exMi81uwRLONhg
-	ntqmZiDI=; b=3RQn59wicyxbpapRWscP0sQGydPPzXCYldNWU+Dz7GdqWUDLmhZ
-	0/ZuOvAQCn5yDNbDgkXcMEMLd2cd6j1GAwT8Wpihx/+gIDeFMsXY7LoRQzyWqP0a
-	bu/ZUME1eSYaGfk+oKRGuZqtobJ2XVqGaYntNR3ymDO0bqp2LVamV4nFvf9avLkK
-	GknFTgz12ew75aeGV+tZQ2zS/X8GFYRKhGz/Pcyld2xNpMeK/g82cl38zXv48yJI
-	EfHa+V13uBVmFKVfz41Q1EjULkSrdD+StC6XxDVIiRoFyPZ6CFEWS+OxeyQ/kzzO
-	y4/OKC4NvgbxiRSjRT8GM1moG0BdB/rG7AA==
-X-ME-Sender: <xms:eHOkadhOQI1fbDAVvIlCCm2gUbLMF68DzGy1fOmBNoSZh8-A7_2RnA>
-    <xme:eHOkaaJzVhVwfoMeweaXDqeU37xiNKxGSIqtfM32RFN-PpSnclX8nZrUElkI5Psez
-    WxA4chVj0ykyGBaDkbQsm6Zd-2hncOPse4Eaa_F-b-sTSAm10cvn0g>
-X-ME-Received: <xmr:eHOkacnVo6BPX4TVr0w8dpNDYOyu5t8G9cu2UcwrQAO1QF41TRC5f_3qxVnh2IWJpnCgAXjnI3IdCxeGrfhBNL1GpyeLL-52-2k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvheehfeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefggf
-    duveeiudefleeigfefvdeludevffeghfehjeffteekfeeghefggfdtudelgfenucffohhm
-    rghinhepiihulhhiphgthhgrthdrtghomhdpghhithhhuhgsrdgtohhmnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhn
-    vghtpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
-    eplhhoshhsihhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrghrhiesghgrrhih
-    ghhuohdrnhgvthdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopegsohhquhhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsjhhorhhnfegp
-    ghhhsehprhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegrrdhhihhnuggsohhrgh
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlihgtvghrhihhlhesghhoohhglhgv
-    rdgtohhmpdhrtghpthhtohepthhmghhrohhsshesuhhmihgthhdrvgguuhdprhgtphhtth
-    hopegurghkrheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:eHOkaSMbi03zPgFOpLCGqxM5tC5RABfXtC114q9LNMXxNQuUJ2ZH0g>
-    <xmx:eHOkaW4h0NnW_MntY4LWI_VR9OB2u6AFcdKI4JCHPhvb8w20PWaHnA>
-    <xmx:eHOkaWavfFZy4r_9lYDB53TbvfFgtk1n-4bmn-zZoRTR5ehLctozuw>
-    <xmx:eHOkaTddnpcBH_D-wLq9RT0wyA4fruT8gGOLepdVzet9nGNw-By6QQ>
-    <xmx:eHOkabn_P-xmQBtwVfu2qZn39TYtl5_TDz9Ydxkg5ts7ETW8-6LqMAhE>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 1 Mar 2026 12:12:23 -0500 (EST)
-Date: Sun, 1 Mar 2026 18:12:22 +0100
-From: Janne Grunau <j@jannau.net>
-To: Benno Lossin <lossin@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDypVqAC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BE4C2BCB1;
+	Mon,  2 Mar 2026 14:04:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772460273;
+	bh=FWvmTwbXMGmMmOMHmif6zgJqnJQlH6L3lPMOIbNWxd8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RDypVqAC5+oWIEnPibY3eCblxU4BilDH9Ic8tsu9YHWI5tH1CohmBbFOyG6qthECy
+	 u7hIZ/6OpmIBUVFjh8QHFUovlY16/NnCSRjHekezmWXXuwoBNynAAdMy5sma9oBzEn
+	 EoHi1uoZiafpKrDXLiXYxKu6SWTemFg65sPOYpjP4yIXrF3cottcT52qGoyfdvPz6R
+	 veNXTvTK5+y35rMzigj9LK9jM2zF6Vsf8D2COnD/LHceF/s/bAcOlgNWHxM7/OzuLB
+	 sQdnhd5b4yC3xCrFkf7kUdurJWlsE2WWkMl5Xu4MjIri+3npmrZ3kQRcfZ8sYBS4rk
+	 10ml5mlbg7nsQ==
+From: Benno Lossin <lossin@kernel.org>
+To: Benno Lossin <lossin@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Miguel Ojeda <ojeda@kernel.org>,
 	Boqun Feng <boqun@kernel.org>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
 	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, asahi@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] rust: pin-init: internal: init: remove
- `#[disable_initialized_field_access]`
-Message-ID: <20260301171222.GA22561@robin.jannau.net>
-References: <20260228113713.1402110-1-lossin@kernel.org>
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: "Janne Grunau" <j@jannau.net>,
+	asahi@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] rust: pin-init: internal: init: remove `#[disable_initialized_field_access]`
+Date: Mon,  2 Mar 2026 15:04:14 +0100
+Message-ID: <20260302140424.4097655-1-lossin@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260228113713.1402110-1-lossin@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 28, 2026 at 12:37:04PM +0100, Benno Lossin wrote:
-> Gary noticed [1] that the initializer macros as well as the `[Pin]Init`
-> traits cannot support packed struct, since they use operations that
-> require aligned pointers. This means that any code using packed structs
-> and pin-init is unsound.
-> 
-> Thus remove the `#[disable_initialized_field_access]` attribute from
-> `init!`, which is the only safe way to create an initializer of a packed
-> struct.
-> 
-> In the future, we can add support for packed structs by changing the
-> trait infrastructure to include `UnalignedInit` or hopefully another
-> mechanism.
-> 
-> Reported-by: Gary Guo <gary@garyguo.net>
-> Link: https://rust-for-linux.zulipchat.com/#narrow/channel/561532-pin-init/topic/initialized.20field.20accessor.20detection/with/576210658 [1]
-> Fixes: ceca298c53f9 ("rust: pin-init: internal: init: add escape hatch for referencing initialized fields")
-> Signed-off-by: Benno Lossin <lossin@kernel.org>
-> ---
-> This commit does not need backporting, as ceca298c53f9 is not yet in any
-> stable tree.
-> 
-> However, the unsoundness still affects several stable trees, because it
-> was unknowingly fixed in commit 42415d163e5d ("rust: pin-init: add
-> references to previously initialized fields"). Before then, packed
-> structs compiled without any issues with pin-init and thus all prior
-> kernel versions with pin-init that do not contain that commit are
-> affected.
-> 
-> We introduced pin-init in 90e53c5e70a6 ("rust: add pin-init API core"),
-> which was included in 6.4. The affected stable trees that are still
-> maintained are: 6.17, 6.16, 6.12, and 6.6. Note that 6.18 and 6.19
-> already contain 42415d163e5d, so they are unaffected.
-> 
-> I will prepare a separate patch series to backport 42415d163e5d to each
-> of the affected trees, including the second patch of this series that
-> documents the fact that field accessors are load-bearing for soundness.
-> 
-> @asahi folks, let me know if I should prioritize a solution for packed
-> structs. Otherwise I'd like not support it at the moment, as that
-> requires some deeper changes to the internals of pin-init. I'm tracking
-> the status of packed structs in:
+Gary noticed [1] that the initializer macros as well as the `[Pin]Init`
+traits cannot support unaligned fields, since they use operations that
+require aligned pointers. This means that any code using structs with
+unaligned fields in pin-init is unsound.
 
-I have worked around this in the downstream AOP audio driver now. I did
-not do that initially since it looked more involved and we were planning
-to bring support back.
-These structs describe messages for communication with a coprocessor via
-shared memory. They are derived by observing messages by tracing. So
-there is only limited understanding how the messages are formated. Their
-layout has for obvious reason match exactly so `#[repr(C, packed)]` is
-the obvious choice.
-One of the structs had a size of N * 4 - 1 which results in a alignment
-of 1. Fortunately the struct could be padded to multiple of 4.
-Nevertheless it was required to replace a few u32 with an unaligned
-version.
+By default, the `init!` macro generates references to initialized
+fields, which makes the compiler check that those fields are aligned.
+However, we added the `#[disable_initialized_field_access]` attribute to
+avoid this behavior in ceca298c53f9 ("rust: pin-init: internal: init:
+add escape hatch for referencing initialized fields"). Thus remove the
+`#[disable_initialized_field_access]` attribute from `init!`, which is
+the only safe way to create an initializer handling unaligned fields.
 
-I'm not sure if there is a need to support unaligned fields in pin-init.
-The workarounds in the asahi GPU and AOP audio drivers are acceptable
-and could stay indefinitely.
+If support for in-place initializing structs with unaligned fields is
+required in the future, we could figure out a solution. This is tracked
+in [2].
 
-Janne
+Reported-by: Gary Guo <gary@garyguo.net>
+Link: https://rust-for-linux.zulipchat.com/#narrow/channel/561532-pin-init/topic/initialized.20field.20accessor.20detection/with/576210658 [1]
+Link: https://github.com/Rust-for-Linux/pin-init/issues/112 [2]
+Fixes: ceca298c53f9 ("rust: pin-init: internal: init: add escape hatch for referencing initialized fields")
+Signed-off-by: Benno Lossin <lossin@kernel.org>
+---
+Changelog:
+* changes since v1: https://lore.kernel.org/all/20260228113713.1402110-1-lossin@kernel.org
+  - improved note added to the code in patch 2
+  - improved commit messages
+---
+This commit does not need backporting, as ceca298c53f9 is not yet in any
+stable tree.
 
->     https://github.com/Rust-for-Linux/pin-init/issues/112
+However, the unsoundness still affects two stable trees, because it was
+unknowingly fixed in commit 42415d163e5d ("rust: pin-init: add
+references to previously initialized fields"). Before then, packed
+structs compiled without any issues with pin-init and thus all prior
+kernel versions with pin-init that do not contain that commit are
+affected.
+
+We introduced pin-init in 90e53c5e70a6 ("rust: add pin-init API core"),
+which was included in 6.4. The affected stable trees that are still
+maintained are: 6.12 and 6.6. Note that 6.18 and 6.19 already contain
+42415d163e5d, so they are unaffected.
+
+I will prepare a separate patch series to backport 42415d163e5d to each
+of the affected trees, including the second patch of this series that
+documents the fact that field accessors are load-bearing for soundness.
+
+Janne Grunau has worked around [3] this problem in the AOP audio driver
+downstream, which was the reason for adding the
+`#[disable_initialized_field_access]` attribute in the first place.
+
+[3]: https://lore.kernel.org/all/20260301171222.GA22561@robin.jannau.net
+---
+ rust/pin-init/internal/src/init.rs | 39 ++++++------------------------
+ 1 file changed, 8 insertions(+), 31 deletions(-)
+
+diff --git a/rust/pin-init/internal/src/init.rs b/rust/pin-init/internal/src/init.rs
+index 42936f915a07..da53adc44ecf 100644
+--- a/rust/pin-init/internal/src/init.rs
++++ b/rust/pin-init/internal/src/init.rs
+@@ -62,7 +62,6 @@ fn ident(&self) -> Option<&Ident> {
+ 
+ enum InitializerAttribute {
+     DefaultError(DefaultErrorAttribute),
+-    DisableInitializedFieldAccess,
+ }
+ 
+ struct DefaultErrorAttribute {
+@@ -86,6 +85,7 @@ pub(crate) fn expand(
+     let error = error.map_or_else(
+         || {
+             if let Some(default_error) = attrs.iter().fold(None, |acc, attr| {
++                #[expect(irrefutable_let_patterns)]
+                 if let InitializerAttribute::DefaultError(DefaultErrorAttribute { ty }) = attr {
+                     Some(ty.clone())
+                 } else {
+@@ -145,15 +145,7 @@ fn assert_zeroable<T: ?::core::marker::Sized>(_: *mut T)
+     };
+     // `mixed_site` ensures that the data is not accessible to the user-controlled code.
+     let data = Ident::new("__data", Span::mixed_site());
+-    let init_fields = init_fields(
+-        &fields,
+-        pinned,
+-        !attrs
+-            .iter()
+-            .any(|attr| matches!(attr, InitializerAttribute::DisableInitializedFieldAccess)),
+-        &data,
+-        &slot,
+-    );
++    let init_fields = init_fields(&fields, pinned, &data, &slot);
+     let field_check = make_field_check(&fields, init_kind, &path);
+     Ok(quote! {{
+         // We do not want to allow arbitrary returns, so we declare this type as the `Ok` return
+@@ -236,7 +228,6 @@ fn get_init_kind(rest: Option<(Token![..], Expr)>, dcx: &mut DiagCtxt) -> InitKi
+ fn init_fields(
+     fields: &Punctuated<InitializerField, Token![,]>,
+     pinned: bool,
+-    generate_initialized_accessors: bool,
+     data: &Ident,
+     slot: &Ident,
+ ) -> TokenStream {
+@@ -272,13 +263,6 @@ fn init_fields(
+                         unsafe { &mut (*#slot).#ident }
+                     }
+                 };
+-                let accessor = generate_initialized_accessors.then(|| {
+-                    quote! {
+-                        #(#cfgs)*
+-                        #[allow(unused_variables)]
+-                        let #ident = #accessor;
+-                    }
+-                });
+                 quote! {
+                     #(#attrs)*
+                     {
+@@ -286,7 +270,9 @@ fn init_fields(
+                         // SAFETY: TODO
+                         unsafe { #write(::core::ptr::addr_of_mut!((*#slot).#ident), #value_ident) };
+                     }
+-                    #accessor
++                    #(#cfgs)*
++                    #[allow(unused_variables)]
++                    let #ident = #accessor;
+                 }
+             }
+             InitializerKind::Init { ident, value, .. } => {
+@@ -326,20 +312,15 @@ fn init_fields(
+                         },
+                     )
+                 };
+-                let accessor = generate_initialized_accessors.then(|| {
+-                    quote! {
+-                        #(#cfgs)*
+-                        #[allow(unused_variables)]
+-                        let #ident = #accessor;
+-                    }
+-                });
+                 quote! {
+                     #(#attrs)*
+                     {
+                         let #init = #value;
+                         #value_init
+                     }
+-                    #accessor
++                    #(#cfgs)*
++                    #[allow(unused_variables)]
++                    let #ident = #accessor;
+                 }
+             }
+             InitializerKind::Code { block: value, .. } => quote! {
+@@ -466,10 +447,6 @@ fn parse(input: syn::parse::ParseStream<'_>) -> syn::Result<Self> {
+                 if a.path().is_ident("default_error") {
+                     a.parse_args::<DefaultErrorAttribute>()
+                         .map(InitializerAttribute::DefaultError)
+-                } else if a.path().is_ident("disable_initialized_field_access") {
+-                    a.meta
+-                        .require_path_only()
+-                        .map(|_| InitializerAttribute::DisableInitializedFieldAccess)
+                 } else {
+                     Err(syn::Error::new_spanned(a, "unknown initializer attribute"))
+                 }
+
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+-- 
+2.53.0
+
