@@ -1,103 +1,109 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE2E31E84C
-	for <asahi@lists.linux.dev>; Tue,  3 Mar 2026 11:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A08322B83;
+	Tue,  3 Mar 2026 18:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772537498; cv=none; b=L4fTz+l7iynBC+asE2VLhsMRI2blqVQO6hipYJiBauUXLywkUjqL+T4Ng1jYvtThkFFo5LYOgK1YqLUmph5LgDfwafMAT5q8DHGhRXbe6SvetCfnl88dxlDeCUnuHqt0lMlfWO4b8beZIadnz97EDE6+gNkCPXK9nPWjtOaoVIs=
+	t=1772561865; cv=none; b=sw/P5QCGgNjQaohi2z8Ec8nBoQFC5o/H0exZ6fWRLqs6maDr9p458UxatdHm7PUXOWx0x2K2D4puZ3NTsfjXVxcWUp0dHYoypY9SDETvI8yzSXtMeVK+ElH0WnW5jJwRFzazFR13L0tl5m71VhD/2obYQNQafFnIpKoBC/qBQeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772537498; c=relaxed/simple;
-	bh=Sh0Wyuegl3U89t2IMn2+3vPBnjuBYsEDi6+plbKyr8o=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tGS7uipMRAFWmp3XZ7T6Invi5Hlp31GLJZQ481T4MIbzk2cDDRr+eMCbOkGeRzA6IxRXHSbmRWq6YjAu2n3JaZHMHhGezcwUtwVEirsj7yipa3lM1KCeD+eJRkc/j5zilQ7f1Xzx2DlLVmUn+ok0rA8nlNjGanfc/H/C3rzweH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N7yvHL6N; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1772561865; c=relaxed/simple;
+	bh=RRSAF7Cbn+Y7/qFbIiFd50NDJ3b2Hsk6Fs1KYlOpjjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W48sCDVhDVNxCu1Y47fAB9D1T3h2vwnNx2IMvOxAzw3Tu/qvCwgyHlyJNjeIbF2fhGV0ToNi6Hb5GdKxqYUaYEgqKQDs1AhydChYrVI2O7pffeFllmqbpu6h9ZtuvkmYYe9YuOsvO/aCVLghPD6H4JUxaqPfxzPL9UWW9A96ggs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AFmnpksV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N7yvHL6N"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4837a718f41so30803765e9.2
-        for <asahi@lists.linux.dev>; Tue, 03 Mar 2026 03:31:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772537494; x=1773142294; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=38x5OncwAiSFYUDBr2ZhbAskiL0YL/di//zDMAN1dtM=;
-        b=N7yvHL6NYhv25gwwXm+qQncavLZTZ+4B56wHs0dkL7h6WoU4dMkqUGj7tPVokj8R1g
-         BjVsRH58SsA7F6x+wbsitCV9Ej8Cn2+/PbeH23nHx0BFlK3mvoMcDQejCiRBmf+N8uu7
-         m3+sTkJpS3D9pGjo9IUj8ss3NCIJf/ti3PaZAvkZcnDC2S4KhWzDnBHhTHYVAgvBLoxi
-         MqrRS11AxALX0NXfFhgzulqzPUk1JZzXmPX6VjCJBaHxZISoFeC5vTVBC9xMgLd12PpU
-         i9PVa8c3QTv1ZRxq9QBnZWgsU6jKlwL8tOEt6pyGb4E94pdhUAy6lLpLEMLwmoddrNhP
-         +YXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772537494; x=1773142294;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=38x5OncwAiSFYUDBr2ZhbAskiL0YL/di//zDMAN1dtM=;
-        b=gaf1lSqQry5BTnXsiWFV3wt1an2LcdHEX9/sf/h2B87B0TNVbRjMSlm0c7uKO6pQXt
-         u8S16bzxxnkHQEmdR1hJ4CWHHTiq++4aHIisqd5YyywCZOHwWmWGyyMUwZlvy0VBmuE6
-         xNV6tItdOwl541jjhVEjSLOF09+h6MTDcQqD25E7h2ypPj9ZVoLsOIv8jPmCufqVq3qs
-         nDaSjU3PpkoiYYBvR2e9mzbSwRRVNvuxwWEKgMOcK1LQ6LCr1hG2cKz8IRF2+UaYKE+Z
-         O6A8IOSw9gBvsn85cCYWNZL+fT8h/nWKdKQpqhNjSp9VP2mRiItIiFnJYPzAZpuE0T3+
-         d/6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWLPS2bDRmU32Q5RocK4QzflRzFY+XKyKyv5P9dHOs4oliTTq0hFDkOjeptuaDWwyd3Gk9qFg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhViQFttDrH4RwFwsi1OpKxRpoBtlCNfgbmmj1G8kPHYR3lmMH
-	9KEmgYGORyJM5rormrCyrzwQEcLFmWDeCdmzSvLCpr3HuXEris+9Oq9TaA2Eglpi4sUlsDBb7at
-	IwtHGv12CNtO4SuPOCg==
-X-Received: from wmbbd15.prod.google.com ([2002:a05:600c:1f0f:b0:477:9dee:b5d5])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1e2a:b0:480:1dc6:2686 with SMTP id 5b1f17b1804b1-483c9ba15afmr297261305e9.13.1772537493662;
- Tue, 03 Mar 2026 03:31:33 -0800 (PST)
-Date: Tue, 3 Mar 2026 11:31:32 +0000
-In-Reply-To: <20260302140424.4097655-1-lossin@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AFmnpksV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F0EC116C6;
+	Tue,  3 Mar 2026 18:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772561864;
+	bh=RRSAF7Cbn+Y7/qFbIiFd50NDJ3b2Hsk6Fs1KYlOpjjY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AFmnpksVfSIPe8qCt/hkyH5cbrYtt39OP5Dd9AY32ahzBq/SfLssswMsrvhiZRR/0
+	 THUs+C/sfmMEfBQ3aTu06jlY3qRA3M2qpVNVOIco91EKL0ooeTPTsmD2PhdGZdNSAC
+	 /HUblPl8vVEFgHnRUcjE8ArtRxPgBw6cNho4didjxHeBzd5lijRUQHXIs3KtRFRLY5
+	 pK91xQHZ62j+GzG/i0sVJ/cBF9K/guf93KYaZj1/R2GpLN0zvUF65JurCgymnNYEfX
+	 bUnyPAtYBhR2G/ik3yzTQFf0ZrdfA+LBkoXtVvzyTTfzjaveRUubMSKbi6DIEYSiNP
+	 ZWZvArNOwxdlQ==
+Date: Tue, 3 Mar 2026 18:17:37 +0000
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Frank Li <Frank.Li@nxp.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v3 5/7] ASoC: soc-dai: add common operation to set TDM
+ idle mode
+Message-ID: <0478f3d0-4b96-41f6-a69a-818255463203@sirena.org.uk>
+References: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+ <20260301-tdm-idle-slots-v3-5-c6ac5351489a@gmail.com>
+ <877brtacgp.wl-kuninori.morimoto.gx@renesas.com>
+ <4716405.LvFx2qVVIh@setsuna>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260302140424.4097655-1-lossin@kernel.org>
-Message-ID: <aabGlKYNd0CrO7_f@google.com>
-Subject: Re: [PATCH v2 1/2] rust: pin-init: internal: init: remove `#[disable_initialized_field_access]`
-From: Alice Ryhl <aliceryhl@google.com>
-To: Benno Lossin <lossin@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Janne Grunau <j@jannau.net>, 
-	asahi@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="R4THYWriuVzE2xcg"
+Content-Disposition: inline
+In-Reply-To: <4716405.LvFx2qVVIh@setsuna>
+X-Cookie: Use the Force, Luke.
 
-On Mon, Mar 02, 2026 at 03:04:14PM +0100, Benno Lossin wrote:
-> Gary noticed [1] that the initializer macros as well as the `[Pin]Init`
-> traits cannot support unaligned fields, since they use operations that
-> require aligned pointers. This means that any code using structs with
-> unaligned fields in pin-init is unsound.
-> 
-> By default, the `init!` macro generates references to initialized
-> fields, which makes the compiler check that those fields are aligned.
-> However, we added the `#[disable_initialized_field_access]` attribute to
-> avoid this behavior in ceca298c53f9 ("rust: pin-init: internal: init:
 
-checkpatch here: missing 'commit' before ceca298c53f9
+--R4THYWriuVzE2xcg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> add escape hatch for referencing initialized fields"). Thus remove the
-> `#[disable_initialized_field_access]` attribute from `init!`, which is
-> the only safe way to create an initializer handling unaligned fields.
-> 
-> If support for in-place initializing structs with unaligned fields is
-> required in the future, we could figure out a solution. This is tracked
-> in [2].
-> 
-> Reported-by: Gary Guo <gary@garyguo.net>
-> Link: https://rust-for-linux.zulipchat.com/#narrow/channel/561532-pin-init/topic/initialized.20field.20accessor.20detection/with/576210658 [1]
+On Tue, Mar 03, 2026 at 07:10:49PM +1000, James Calligeros wrote:
+> On Tuesday, 3 March 2026 12:11:50=E2=80=AFpm Australian Eastern Standard =
+Time Kuninori=20
+> Morimoto wrote:
 
-Should probably be Closes: rather than Link:.
+> > > +int snd_soc_dai_set_tdm_idle(struct snd_soc_dai *dai,
+> > > +			     unsigned int tx_mask, unsigned int rx_mask,
+> > > +			     int tx_mode, int rx_mode);
 
-> Link: https://github.com/Rust-for-Linux/pin-init/issues/112 [2]
-> Fixes: ceca298c53f9 ("rust: pin-init: internal: init: add escape hatch for referencing initialized fields")
-> Signed-off-by: Benno Lossin <lossin@kernel.org>
+> > Do we need "rx_mode" ?
+> > Only "tx_mode" is enough if my understanding was correct.
 
-change itself LGTM
+> For our (Asahi) purposes yes, we only require TX. However, TAS2770 also
+> has a bus keeper on SDIN, and I suspect other hardware may too. Rather th=
+an
+> break the API later on should the need to configure this arise,
+> I decided to add the capability now. I am happy to get rid of it if
+> we think it is superfluous at this time though.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+I do think it's reasonable to keep things symmetric, it's probably
+better to have an API that's consistent even if some of the code doesn't
+currently get used.
+
+--R4THYWriuVzE2xcg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmnJcAACgkQJNaLcl1U
+h9DTSAf8D0G8Yi1rPXU5owawPsaqcagcoZ+c0UhX0QTxFfnDUvvp1d5jHbmNGo9m
+ZWx0C0/ZFmCimlRnGHpyt4YEhenuHsyN8/oqKUsy1Txgo3ix21CkQY5bPPetoZp3
+QX+0g0TRFVIkz9SSddjj26w5rZ9QYwQhZDNv//HsXSHpCTOjCM5gjDyNYIbOz76M
+N7gxBwo+HvyeR6kBXpNJAISqQNBJOK/9n4Cg3RxQfwz9UIooBBfzzGIirpbPJl2G
+uJxs/9pk1MDUivxcR6CEVjexjRn3GhZFrQ4UQLoW3fuiRvbgJ7yEJlEHh1URHr1B
+n9BDBFv0uM3a9yipyoTLWwzG6NOX0Q==
+=12yo
+-----END PGP SIGNATURE-----
+
+--R4THYWriuVzE2xcg--
