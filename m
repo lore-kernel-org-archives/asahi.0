@@ -1,174 +1,134 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011054.outbound.protection.outlook.com [40.107.74.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B24367F3E;
-	Tue,  3 Mar 2026 02:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772503918; cv=fail; b=PPf/RoO9Lq9K9dwua33eTOFt2rxWmJiC9Z6CJr+Fk6p4gINdRIjO31U2YhVxhBziFaNfqw3VIXABcNnDCgKdnwOKLitNbSY0mDehYEcntG+yd5CGRsngNksGvibd9E5j45nrUuypZfOX755jXE//tEVHJZcZU+UoI+Eb0eUw7vM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772503918; c=relaxed/simple;
-	bh=IgkQ92+3JSFfn0Y8ecAOrEKvKfT+a+74UFGZ3yRndSA=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Tv6GMj4ZHtVuHar9Yj6YPqsJzEduohEQbZDrVvswtCDjgn8CxxCScur1hlZDTLRfp8oAKQBF3mM9oAsUEMPSUj1bG7/rN3e9t1+mJ3bTHGeQAkOF1ha3Q9efyEXpQoplKqkNLON/CHMUNHccKQAskm13tfNGw1dLGhppgzjeNMk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=b3DYysXy; arc=fail smtp.client-ip=40.107.74.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E3C32C92A
+	for <asahi@lists.linux.dev>; Tue,  3 Mar 2026 09:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772529061; cv=none; b=ViRNMCrSDquZAkf4TmJ0x4D7qU/8dyQT4u/lM9USFGz8ynIQh+lzfjJGCk9WIVa0LEjfPR/36gnEp/9HCYfUQkcDnoKpnvIhDwXIjAWul4vrRnvlCsw+ldNFoIhoU7tj7OScdBbhgVpQjMIBoyb8w3R/ULlvqJRshcdt6MjJ+2M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772529061; c=relaxed/simple;
+	bh=w8Kx1qlt4D62VcByjefxrRx2gnqxk8TlOdvwp54Diog=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gM2MnfO3rHmg4CP6McwktNeCq330wtwnNSdHX+QFldg2eKV7vNHJxrdssv3NvxLih9lJdzJYbq7ismj227kUAgFvi5YKdwnr3s3IDo04UNmmZn6qQxdeb7NQp1Vmq6U4Vhsxic+xBTG45DPSrO1GwfOuhH74JlYa6ah0e5kSvLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RlAZfsK4; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="b3DYysXy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xDnmu8iLp1PyqHxn6Q9e13AatVhUBTciNgeNVlZbk68f0y8fYscenHK/ZIeJYRT28xIeIMy7lAeN/SyyO2keookknQ8cSghTUTeDRhkmUOOdCv+1YkXLD0aly7dMZ0F291SkZdAjjbyxTJefFxEeG7DrqImJURhJaSagO7N5n7cO1rGb3GFLWVXPp8337tfpoUEG+X14i+eTfWR3W4+zaXPrzEIqfFhKvMMCmd6xQSjVsEVqfBNH0WHJ6H3Vq88R7D/8jtggfT382/y/Y7r1gmsbGmkC4EEUGEereGx54JI7YUKmxjfKPzxq+573N8yaKbYe+fRNZaDATW/yfSK2Jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YSamu9lLSlLaB9BslfpiQCTx0bKiqACI6FjwwQSiH8U=;
- b=gwg01xPV5fhggH5WaaGkKiCK+y7m+mA9M1C6oP6YDTOeEEgg9gwcqzLnPVNlo7diMjWpErXX4Y9Wgc9U/+Mx8kDmLVdZ3bOhIt6uTkaYQQllZCfZqJ83EpKxOUFueEQfE6Jt8Yl70e+5+/YRCRUeVW2DR+HhJFO/qTk1NULCVwvLwGi3RNjf3mDxrE4xRMaJcDY36/UpNUOSAirG0adUldV6/sccw3G9b0g26sIVEVhf1g2QX0Y/XKRUA1ammHIqThGpTNFdErEVd5qyTbqjNkqgewWibZdSZ41xBQdc8nBF0bIv8nqQ5WkBt+tB+qEJNCSJV2o8QshZfSoo5vHdKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YSamu9lLSlLaB9BslfpiQCTx0bKiqACI6FjwwQSiH8U=;
- b=b3DYysXymUJQRLFFKLT71vMzq8K4QchZkdpUTu3evR8p0N0gc4v9PfGcf6dZ89h0u1ztkAHiAvSTJGKDT9Bs2nlPtY696Ok6U5ptES3ng5cZGnzOoJ7Q1xBioDjKomtAYLuIE27z/M8oaVutEwYeBFvQ7BdBbbSy5B9wVL3ISBI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com (2603:1096:400:ff::13)
- by OSRPR01MB11584.jpnprd01.prod.outlook.com (2603:1096:604:22f::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Tue, 3 Mar
- 2026 02:11:52 +0000
-Received: from TYYPR01MB7976.jpnprd01.prod.outlook.com
- ([fe80::c654:926c:3c54:57a9]) by TYYPR01MB7976.jpnprd01.prod.outlook.com
- ([fe80::c654:926c:3c54:57a9%7]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
- 02:11:51 +0000
-Message-ID: <877brtacgp.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH v3 5/7] ASoC: soc-dai: add common operation to set TDM idle mode
-In-Reply-To: <20260301-tdm-idle-slots-v3-5-c6ac5351489a@gmail.com>
-References: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
-	<20260301-tdm-idle-slots-v3-5-c6ac5351489a@gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 3 Mar 2026 02:11:50 +0000
-X-ClientProxiedBy: OS7PR01CA0182.jpnprd01.prod.outlook.com
- (2603:1096:604:250::8) To TYYPR01MB7976.jpnprd01.prod.outlook.com
- (2603:1096:400:ff::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RlAZfsK4"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-827307b12dfso2931217b3a.1
+        for <asahi@lists.linux.dev>; Tue, 03 Mar 2026 01:10:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772529059; x=1773133859; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5ieqeIgWXtsJGqN9iYbh1K+fW5zi5u0kpmcIzoP8Jzk=;
+        b=RlAZfsK4Q9mKe7Knvr+3o2BSXvCJ+kiAEUjHcbYVB7ZhEGZpWzpmGB+aOrYd/Ky1PM
+         YFnBHXS2+SOXJ12HgqbfUTpX0cBJzQygZDhzLad7aprw5M685bMogqx827Y3mg2SuGsU
+         /QLkiECLp92JAvgUJccMMoVJ36Do8EjmvWb9WorvxmQAeJ4k0niEuYe+fM6fNUDev1W8
+         SvZpRQhUHg0gtNUBKOFyssHKEZxWcbVe81CfHcxzRJVcvrbaJPEcmZDmbwdLd3nk4ooG
+         26u+93d67dodldAyLa1o2MPGZlcJOeZMMvluP55Jnn89T68EidX+F0wRjdS+d3teaVTT
+         zS+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772529059; x=1773133859;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5ieqeIgWXtsJGqN9iYbh1K+fW5zi5u0kpmcIzoP8Jzk=;
+        b=g06gU39BnIbYD/91fL0NSDG9vg3hZK95Yqs4NbYu97sXNulC1HWErxvAkuVsZ7X+Az
+         cAZmj3KPnWhQlLm/XKg9/pAD9fk4PUAmf4FB0zAgkgPfcgD7EXKQckfAb5epNy54Kc7+
+         iC8vZfFxnTrBKL0ihsHrAX2Umgmod+ZhAF2kl3TU37VjjfXqLQSwhYeLOXaU76qR8EBm
+         meM4g4aBIzOtJRtkTmpBdvPmgwHnRqPPop9DJntPl7dn3+kZiiG6b7jcesbv08NnXBgf
+         W9qBDG65eqQD3p8qZHXnH/d1MxFVChN3lROEPD8kGs61GBCo8Cd0jebVz3Gj/0Trv//A
+         GsyA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPgwUGABdgT3tYQL28UlJVmL6I+U6vfQRBKQ6UrHbaFlXPnkmT1e3LYhe3bpfs3z27Z6NYpA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSUyavRyN12uhEZHTqAwVtEMU2ro/g5aAsSd/LaAUYTLr3r/Eo
+	zAoeUbVqPVQRMOLynMip1v+XLjjvp34HnM0FyZNPEuF2Xo7RQHaTpAee
+X-Gm-Gg: ATEYQzzPw0bxdB1+DcWPNwP3bchomIGXnS/LhbeKlcGTfKHy8PrvjWfLkyy081AyUxx
+	xmmtAPdB8zNMD5ILsJO8iCv1U1vGF+93zAI2cN2vAPO3BDQBtDM6tmVD5VjUGspOO9l7Flpkcgl
+	t5SYTFjsx4xxOdoobzprHJBDir3l0hwGGQYMhUhDL69ScJIaIif80HRlLLa58OzFdsMA3v8jBYo
+	35NY2Kvd7at25vTjGSkdvUliqO6qL07VuCqvx/3ZEDLt5bzmxf9c7c140TbQ5Qztdi3TKa8BfTZ
+	m7NIoVBmojhIH6H+Rjqlf+37Sh+jf35g8W6iofopZuPglC1UajKVCP03yi53+DZoXV8qOnAGHUY
+	r0c9Y9HkeZqbUS7GQeo2Wu+SAQlo1Igm/UHNOxI7ovmX+qw27DkvQSjeMu6RaWMowuit3/hzmmY
+	v+DSjDv81XFK/NKj78m/CHvXaGfFEsF0j1bOUtEje///mayw2HFFesj4r4NY4IBQ+D1MtmT5y5b
+	DLR89k+LOz0mzdlvov2zzlQ3P242fpDmp37nCvlOP3HybcukAydsWTyuJvfMFD5Sq+obvcyx5Rx
+	S8A=
+X-Received: by 2002:a05:6a00:1ad4:b0:825:2927:3aa6 with SMTP id d2e1a72fcca58-8295d82a9abmr1551612b3a.14.1772529059400;
+        Tue, 03 Mar 2026 01:10:59 -0800 (PST)
+Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82739db4955sm16000114b3a.29.2026.03.03.01.10.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 01:10:59 -0800 (PST)
+From: James Calligeros <jcalligeros99@gmail.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Frank Li <Frank.Li@nxp.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject:
+ Re: [PATCH v3 5/7] ASoC: soc-dai: add common operation to set TDM idle mode
+Date: Tue, 03 Mar 2026 19:10:49 +1000
+Message-ID: <4716405.LvFx2qVVIh@setsuna>
+In-Reply-To: <877brtacgp.wl-kuninori.morimoto.gx@renesas.com>
+References:
+ <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+ <20260301-tdm-idle-slots-v3-5-c6ac5351489a@gmail.com>
+ <877brtacgp.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB7976:EE_|OSRPR01MB11584:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae74de98-5573-45ab-7355-08de78ca3bc3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|52116014|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	5mLgxrJJIcfh7BH/S3mXkQPZGq++/3BQo0WxdFIl4z4jMwFgbYN5mJj+4NuEPgPVXqehIkuzBMDx4s8f0r0IZUTXsvbxq4Ftes2Nsl/qKbDHgkbisAp4K776Ma4+YVgph8w/iU0xOtOPfMFO+NpE5hbTSfXVggQ5hzul3nYxvPIOf45HtdfXhR4LKWKWhO297m0tQvD1ORvotU7zZTKzY5R37WCUhT2+otgZWyKOgZJ4K8q7w+rJY1hLNagHezN1v27nbMfsexIZYQTS1EkyaWl8M22o7LHeMsRHzzqw+AncdAGguhPcKXst955o//AEmz8h0gemTXMizUa+MV+/f68cj2vdRTaDf8nR8FQx4lUk2ZmFDHcDcJj3AI3a3ItKSjEmK7/is7HPGmXbmVZWmC9Atp5apSi2koqKSD5122R/aDLRof+tletIQtLHU1vOuNujHwWHWIAWylxsysvo7xvjO04hkdW2oH+nz/VBA699s0rHGSJEDEvzHyG6ezjZsyPMtwDgWLSz8mMYhzL0unn9iJ0HuV8Vabh7OBq/NQlltgID1k4h19MoGZYt3zvHw5s690Ki5StHmBjKHZ2xYm64XG0PIkwcxXWKGXEKIA1m9zQ6d1RNQ3lcVJZxZdkjyzfIag8AlErJtjCBJDSP/ch6MfbQWEQGXVtL/CJo6I+IfnJjWPntlhXWTmrxqBjE8KJZvlFHTIX2pmE8Oa4sN0Et9jq51BbGcpxQgbYgbJgsJg+yMyDKZuWYevP3PMzcQg32LTQRhApOEHTRow0kfsb+Lid1No0AdpLWT/zGD/4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB7976.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(52116014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?j5ieVbM5l8GECg+vGSRKwnPdoHjja3Ge0lA4Ts8Q2kN6XNR8BMAz7nV1yCAC?=
- =?us-ascii?Q?kmNiq/S510AvDMlr6LEdrgK/gR0QJri15Bi/OHOEERFLDHiAE0q6QOhpMDGZ?=
- =?us-ascii?Q?C+dTuES6qdZl4O5VbBvJnfKd/KPvQ6VnhIIJOpOyyR8WI1Su0bRomhCryB6c?=
- =?us-ascii?Q?USOzKfTXtmWG8r0z3hrdN/w1eB0AZfU0hUhUiNnOWr0rtNCxGqJ7tabwj/r6?=
- =?us-ascii?Q?MAC51v9bdGnq74mHziSTJe1DmXkmhLEIMEfGzwT6/ZSLp1b8eBHeLJNSSw98?=
- =?us-ascii?Q?+es9FLY38HTSDKvXpvHLchnLUNr3m6UJBJwklVlzJue9yE4loNtPDF+grSge?=
- =?us-ascii?Q?51MjedSyTIAwHSrrNvnwvnTyc7lobKCIPSqd7a9i+vBqZtJXHXIKHEW5oSrV?=
- =?us-ascii?Q?VJlaaUmduJJLnpVXSjNtglU4fObk1VkSvo3nbakTbW7ely8f9nnvD/q3IIVa?=
- =?us-ascii?Q?qJcwpCf5Whuol/2pXObpfXmcnQ0xRwPSaJRyjmdvnIfChmBLbi2ETRxkdxKB?=
- =?us-ascii?Q?KG1su61feG5B2HO+98Z26tz7we0UbzhZ82QA+pcI0sl1uao/4q6VbHzaIS0a?=
- =?us-ascii?Q?8An9OgQvxv9NNhkyU32H/lwsmHhZJVmyMhKKk/Mm/lfNyEkf3QkQ/CPOud9M?=
- =?us-ascii?Q?09kOSBWzr98TzgK9rAEtJEfmSyCe4X/+nEe0d/8XbexlwURfsfaScAQvuoM0?=
- =?us-ascii?Q?ph2tPrDNWO2CThDT3v13z4/AKWgS3t4jpw2J1+XfRvyZQybiMGFCsi+DXHhD?=
- =?us-ascii?Q?kchCpX0gxNkC/x1zfuN2TfNPM7v4yQGG+Oadj6b/2OCS1uPV6rMcpVMyOegj?=
- =?us-ascii?Q?vqiKnCS8wjSP4lANBybmaZySY4vSOImYoFGHJFJqD4e8OJVgSjlUlWFQvbM5?=
- =?us-ascii?Q?30vP96NEmpRSl9JZI4452tlwsgUqLESaq4Uc+mp9WjpF7B545uzbU1Uc+qFT?=
- =?us-ascii?Q?0t9/GraqhzohEXT9Ye3yJl+Ykfuc1G3arKhwJqEGkWKPNWh5HbCuKJJYz1Fw?=
- =?us-ascii?Q?WLdLJbJvrUVYV+pse2hiX0bdoAZ9N/03YkXqhEHi++jg0GmTFTbAGdeS+oHc?=
- =?us-ascii?Q?jYmHdriV8OG95elJ+I7Ymz6A+ONrwj0Eb5L+YJBfjIwPfm0mq4HUWMTX9+em?=
- =?us-ascii?Q?rzxvQAv1JQ128/BwgP9L6iarw5ER3l9qARuQKUdR/9L5a8EVlL6ZU6ld0S7w?=
- =?us-ascii?Q?kQmriFZPt7vFIVAb7gihhijwgWcuJWX6jbWEJjQ1VFalLbX+dl95fPbkS/SK?=
- =?us-ascii?Q?xBQA3ujjTCpa7CkH5AohJh8JdvFXLVatX8Kj/5pX0YTuhRNQQFw+pEN3CEaQ?=
- =?us-ascii?Q?vHQOXO4xCSxdRwPng5BsTAULMVprabPtPh1NQTtBiNIRtRpm/Gg2LweUaB9S?=
- =?us-ascii?Q?xLTPWD/8VClog/wQ2Nrjcz6ByH634F2vHNSqR6Ojdqz3pyUH6FhwVGz2TcXt?=
- =?us-ascii?Q?kI2+NdjwB2zYITElfz9tmHotR03mzZoUiawScqCyzEfEmTeClejwuU3JBwau?=
- =?us-ascii?Q?QYQCdeuNB3qO+QIUu6InXeQYVoHLaYjTtL49uAO1ThLSIPV93bPCXh//4U3w?=
- =?us-ascii?Q?vZSguLe/ms0UXnQwqqU5m52jeQZ9p3T1KXXoZgq/J4fU0aSm3qzAYYuADEnk?=
- =?us-ascii?Q?dVP60i8y7GwRhswdM/q65HEhFPP7oC+vgkfB8w23G0dm07UA3F7xlbKBrheL?=
- =?us-ascii?Q?YtGCAkR9E5fGZoitaIdnYV1y/nScrO+lGYhTeXJ5YtZGaYulGu2OSPCTYiSs?=
- =?us-ascii?Q?h8HkpDscVtNKCADJegoe3+4WbOM/GC7lVc7FmLF5yUQTVhewqbCe?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae74de98-5573-45ab-7355-08de78ca3bc3
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB7976.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 02:11:51.8558
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wWiB5suILr1nHB3cc6pl50XT0JwSzg6ioY994SrjlmApFWlptW/tWxAhos7hYMrD9YqsmvOyDKqDpXLIb+TD/qLaxIA/TZxXd5Sc81J3BMqv67/GpYS2WKJjvU9h5LVn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11584
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+
+Hi Kuniori,
+
+On Tuesday, 3 March 2026 12:11:50=E2=80=AFpm Australian Eastern Standard Ti=
+me Kuninori=20
+Morimoto wrote:
+> > +int snd_soc_dai_set_tdm_idle(struct snd_soc_dai *dai,
+> > +			     unsigned int tx_mask, unsigned int rx_mask,
+> > +			     int tx_mode, int rx_mode);
+>=20
+> Do we need "rx_mode" ?
+> Only "tx_mode" is enough if my understanding was correct.
+
+=46or our (Asahi) purposes yes, we only require TX. However, TAS2770 also
+has a bus keeper on SDIN, and I suspect other hardware may too. Rather than
+break the API later on should the need to configure this arise,
+I decided to add the capability now. I am happy to get rid of it if
+we think it is superfluous at this time though.
+
+> This patch-set adds new snd_soc_dai_set_tdm_idle(), but no one is calling
+> it. Who use it ??
+
+Currently no one in tree consumes this API, and it is likely that no one wi=
+ll
+until we submit our platform driver. See the linked resources in the cover
+letter for more details.
+
+In the interests of transparency, I don't expect to have the
+platform driver ready for submission any time soon; it is a bit of a mess
+and given that I did not write most of it I still need to wrap my head
+around why certain decisions were made during its design. However, we
+are 100% committed to getting it merged at some point.
+
+If you would prefer I can resubmit this series along with the driver
+once it is ready, so that there is an example consumer for the API.
+
+Regards,
+
+James Calligeros
 
 
-Hi James
-
-> Some audio devices, like certain Texas Instruments codecs, integrate
-> configurable bus keepers that dictate the codec's behaviour during
-> idle TDM slots. Now that we have definitions for various idle modes,
-> add a snd_soc_dai_set_tdm_idle() operation to control this in a
-> standardised way.
-> 
-> This is useful on Apple Silicon laptops, where a single I2S bus is
-> comprised of two physical lines which are ORed just before the
-> receiving port. When a codec on one line is transmitting, we must
-> guarantee that the other line is low. We can achieve this by
-> configuring one codec on each line to use its bus keeper to fill
-> its line with zeroes during the active slots of the other line.
-> 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
-(snip)
-> +int snd_soc_dai_set_tdm_idle(struct snd_soc_dai *dai,
-> +			     unsigned int tx_mask, unsigned int rx_mask,
-> +			     int tx_mode, int rx_mode);
-
-Do we need "rx_mode" ?
-Only "tx_mode" is enough if my understanding was correct.
-
-This patch-set adds new snd_soc_dai_set_tdm_idle(), but no one is calling
-it. Who use it ??
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
