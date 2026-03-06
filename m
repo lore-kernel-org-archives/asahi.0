@@ -1,91 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F5622425B;
-	Thu,  5 Mar 2026 08:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BA8207A20;
+	Fri,  6 Mar 2026 00:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772697945; cv=none; b=Lc34Mk/h0zWPi8ibefOUL9AmbMrHknQ92/le3Wv04+BAo8dVXzQc+XBsLZJQcM3MLHt+m9exRHyJ6ismCfj9zTCgy5w2gPK/9xBT6dLE/Fcg7WQGOrZHGX8qbi3QS6UKuV+ki8xiGRMPdDOAs17/M20TUJMo/CJ89mqZGwX40RA=
+	t=1772757022; cv=none; b=srhtPs09ZqvQJS81DZYK0yHYh+AIqzO2wOODqDumh+/qXHJG1QVjelCjgYNB2lr0MXhYgfkngAelkkUE/YoK9qn5/kdX6+NXxDY+x6rgUGx+eLTMNW6dXnZFqnQfGf9a65PX40vMjkzkBRM+RctSmBpcihu9i2mq7yHz4xZ1aU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772697945; c=relaxed/simple;
-	bh=vA6PYAMRHM36XFlE5PCJYcHBuMHbNaBZqJ9H6p7K5dg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=gCbrJEBu7nEh1OJj1Uc09b8xdoWDF3e18/1wboBBGX9islVNPFc3OspHmyiUejDeBq0CO7c+Rlj5k7Mktl0y9yNE/TVAreRy4AdmRXMdNKGDbaQF4e4AV6rvnY3udfnoT9O5yh+KCXdZ9QvGdyJgou0Fd4xXIlC848zH/l+/i+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8vu4B9z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772757022; c=relaxed/simple;
+	bh=vmwInn4SskmODHI1zr76dOW2u1eZLDAg1ejAi8dpHnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=swhIBlZOV7OaSfsLdKhy0wcCZYzzHYMy6OHsivgqwdLfdBkggf+LqKzg2g/gbOV17ugvruEnqt/cin51mftPQXtQxcw52q8Xq2IFGWQEQqUBgk8zG2i53svstYo9knKGImB1da5V7E+t8RZkmrPKqMNIvWISETM1mB6bfxMZWWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tgXwyVFo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8vu4B9z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70967C116C6;
-	Thu,  5 Mar 2026 08:05:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tgXwyVFo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D49C116C6;
+	Fri,  6 Mar 2026 00:30:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772697945;
-	bh=vA6PYAMRHM36XFlE5PCJYcHBuMHbNaBZqJ9H6p7K5dg=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=N8vu4B9zw9meGzC9Ue0wr0hvLnw+5NbaV9nOFgqFQ/HuwQwVxLbOl/8pWAuLKGIwj
-	 wyyDcPl8yoSxvuw5FFsVFMa0W9/3etmzjimY3qBINzXS6HekN3DH+MDYpHYbAsxTB0
-	 9e1q/JCTgRT7+79XysTCnSRED/pmrc4N3FGhq7DYaWmh6tl0hRVwC+j4JTYKOZUPdD
-	 Hi9eRPnuB6V1PaedpwE3XR/Mz3CAg7QmajHEr+LvMsKL6QnP9AgJUalTv1yi/ytaLM
-	 QyOtu4jKUL5v75DuyYeLal1eTUIBzkrzN5f0SskS82aw4HDee/l+MVnZIF4x2KbPHE
-	 xQxMVSTJU+qcw==
+	s=k20201202; t=1772757021;
+	bh=vmwInn4SskmODHI1zr76dOW2u1eZLDAg1ejAi8dpHnw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tgXwyVFo+Emg12wFLR/syV9eMcecLnNwpIHV4W1evV5VsMhIuOrpQJzt8FLE0erVO
+	 +mjO1bgKYA0kFwyiY+BJNT453FdxOf5GhdRx+a5NnNBNiLUdxqYvioe1YTMDwIkdna
+	 GH2WxnIj4lXR/P4gyY6MZmBUZC9a0lQEImh0AhmfAIfZ8m94RJ3cfK7M/XkEnWVWtD
+	 VLBuOSph5JXU9D/i4l3nlJY6Rmk8BLrDezGG8EpRewP0KDaOwMgh45OLFGA0DZCCDH
+	 uQptw3s+ingmJ1IGSXaIqQg5zNI3MnHv1yCbQqI0PU1O03l7s5+87M0rx6lNuLag5A
+	 6qpfdWdggNbTA==
+Date: Thu, 5 Mar 2026 18:30:20 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Thomas Gleixner <tglx@kernel.org>, Sven Peter <sven@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, Neal Gompa <neal@gompa.dev>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, asahi@lists.linux.dev
+Subject: Re: [PATCH v3 1/2] dt-bindings: interrupt-controller: apple,aic2:
+ Add AICv3
+Message-ID: <177275702044.855774.12868970786032244233.robh@kernel.org>
+References: <20260223-irq-apple-aic3-v3-0-2b7328076b8d@jannau.net>
+ <20260223-irq-apple-aic3-v3-1-2b7328076b8d@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Mar 2026 09:05:40 +0100
-Message-Id: <DGUOZ3GDF3D4.3CBJGK1S3DPCO@kernel.org>
-Subject: Re: [PATCH v2 1/2] rust: pin-init: internal: init: remove
- `#[disable_initialized_field_access]`
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Gary Guo" <gary@garyguo.net>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Danilo Krummrich" <dakr@kernel.org>, "Janne Grunau" <j@jannau.net>,
- <asahi@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260302140424.4097655-1-lossin@kernel.org>
- <aabGlKYNd0CrO7_f@google.com> <DGTSY7NPZEDA.27MENGDJA87B8@kernel.org>
- <CANiq72kNdc7=-uoWXBpxkn2No6-Z0hVnx_yWMNphyTVscsMkUA@mail.gmail.com>
-In-Reply-To: <CANiq72kNdc7=-uoWXBpxkn2No6-Z0hVnx_yWMNphyTVscsMkUA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260223-irq-apple-aic3-v3-1-2b7328076b8d@jannau.net>
 
-On Wed Mar 4, 2026 at 1:26 PM CET, Miguel Ojeda wrote:
-> On Wed, Mar 4, 2026 at 8:00=E2=80=AFAM Benno Lossin <lossin@kernel.org> w=
-rote:
->>
->> I figured that we can't really "close" a Zulip topic (we can mark it as
->> completed, but that topic was originally about the field accessors, so
->> not sure if this makes much sense.
->
-> Using Link: instead of Closes: is supposed to mean that only part of
-> the issue is fixed, i.e. whether you can "technically close" it or not
-> is not important (e.g. Closes: to an archive like lore.kernel.org are
-> very common and actually what the docs mention as the first use case).
->
-> So I would say Closes: should be the "default", and Link: is for
-> particular cases where an actual issue (or message) carries several
-> topics and could be confusing to have several commits with the exact
-> same Closes: line.
->
-> In the case of Zulip, we can link to particular messages in a single
-> thread, so typically it is possible to use Closes:, though the current
-> UI isn't great to see where exactly it was linked to... :(
->
-> Anyway, I guess the inspiration was the similar feature from forges,
-> and perhaps in case someone has a custom tracking system that actually
-> auto-closes things in a forge, but it is a bit confusing. Having
-> allowed "# ..." for Closes: or a similar Closes(foo): instead of
-> reusing Link: may have been better.
->
-> I hope that helps!
 
-Yeah that explains it, thanks!
+On Mon, 23 Feb 2026 21:42:46 +0100, Janne Grunau wrote:
+> AIC version 3 as found on the Apple M3 (t8122) is very similar to AICv2
+> in its base functionality. It can use the same device tree bindings as
+> AICv2 so add it to the AICv2 bindings.
+> This interrupt controller is used on all Apple SoCs starting with M3 up
+> to at least M5.
+> The only apparent difference is the increased IRQ config offset. Apple's
+> device tree codes this new offset as property of the "aic" node but the
+> value stayed constant for all SoCs with "aic,3". Since the SoC specific
+> compatible "apple,t8122-aic3" will be used in the driver this offset can
+> remain a driver implementation detail.
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  .../bindings/interrupt-controller/apple,aic2.yaml  | 30 +++++++++++++++-------
+>  1 file changed, 21 insertions(+), 9 deletions(-)
+> 
 
-In that case you can make it a closes tag when picking.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Cheers,
-Benno
