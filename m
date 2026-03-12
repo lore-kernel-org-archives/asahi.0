@@ -1,115 +1,117 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6723D1CA1
-	for <asahi@lists.linux.dev>; Wed, 11 Mar 2026 10:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CA82820C6;
+	Thu, 12 Mar 2026 14:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773226348; cv=none; b=kjEcKgTltdDtvzyE8HetSEMy36kGrruIT9giPeTyxwyqVYsjtgZQg7ozfKkgCy5Pu1VgTzzX022ET/XslNGQioURfVJeQI1osrmD2nXscT7gdxOjejPfu4+dCD36eX+eXfShX6VeD/M08WBlbQ0zBEG8RzvjzxJ6jBjD9BTalEI=
+	t=1773325993; cv=none; b=gOml0CWt4tQNMneR321Gbs2LYD2eK3QXPgT4LV9ktBvGcl0fXM+o1i4U7PYpk/7g9zaiKsziiLEZldBh9vztKfe59/3Pjb3QCGILc/IOQEsaRhezn7jC9Oo+a2KfA2CIJaqw94vMjxGHnJmJu7+V0BOy5z1muETiSGw5Yoa0/x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773226348; c=relaxed/simple;
-	bh=VTFbGjqMuCilNHDxgvaQ2CTafhfYnCrd0sXbQe7PI8c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KOmU9t9PUzS4eRDAhfxSz7SGEIkLh3CVXDG3+mwR+qQkiPGZ2WtA7pUVLM7Cn+KIXmXI0XQT5VOf0oxSXA/Lx/6UZxWO1/VJsGSwCc7SrbGD2i7aVBTOYHh4FRNBDpI+1/+G1asSCAzkNMe62Wh+GwsuQ4IcYYxQwb9qYv/4CT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fIJ3Kvki; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773325993; c=relaxed/simple;
+	bh=hAqiSIPHV6ZBtT4ry40ie+ToTsclopBhbBmC3I37NGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rRDVBxKkeC9MQPXSh4j1KEbkEpDAkoBbn3xNOU+caod0O/iFgURYz+d6LO24Pcp3GQ5OxTyPHctZgfUIXVMxYHwgyF8JmCaW7674sj0FG2rGKhnh8pj6rY36FRtfgILbpqR2e3kQFuZB1oYy79bz05NS9Es9N2xO8mfkYjbCUgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RcSOu1Sn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fIJ3Kvki"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-82980945556so2724769b3a.0
-        for <asahi@lists.linux.dev>; Wed, 11 Mar 2026 03:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773226345; x=1773831145; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LPTO/kKMdzOm1yb4HExAVv5DEVkwKacMrp7m0gdsATQ=;
-        b=fIJ3KvkiQC3+BXirVniA+Z0RZZblspsRfDktIbpi+k2wj9jKMIhB/RdOfuoaUXEs82
-         A1x1BQSpq9iJv+tQd77NZrb+Byyf3XAm7G6n+MVDvWMGMR+MgNLaA1DRuiPJ2hCN0vdk
-         /UpNL51wZihlHFmydcUajl/ehTxdGxwCiKK2COA982nDKjW65Um1te7svTHOcOVPGFxD
-         ERYQ+4qzDGwlDsYXX8VC594rWtkhWKDE+afyJetfSMFJHi2Rav9euR1oaLsS+OH3k63Y
-         Yq6Z/wP/VTkO7MTxzkEtmlCverTeLt/9oOz+nf77HBqNp0V9KhnSSVN8m9Gw6pNhB2qv
-         BqLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773226345; x=1773831145;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LPTO/kKMdzOm1yb4HExAVv5DEVkwKacMrp7m0gdsATQ=;
-        b=QmzLLKfAFGmRZeT8bKO5BxBZLIszRw54EOmDOtSgZB1Fl8NmOApYLkk6MN6hMaJi5o
-         qjOQ0MgF6hMoawf/f+QQ7wYwdFM4qXd+X6e8R6CaIJyC4l0ElUGUYWWNoj2r7g8dISAc
-         mwCzYA4EvDREpQLsXQCwoIFCQWk7STgGQbkK7fDHXKqeM2TQ3QFn4Jq/OQaf+YlCrQDv
-         V/NSUX0eigS+zES7wTyKWnihNGGVB5iWd+rb2DjwvecnorFESrhLtjGj+5VuS261n1LI
-         kdyW7jn4VcE2/eBS1NxxSkv2llEVQnAOaOByDDws3Onxt5bKyWmW5FYguQBX8AfTt+Ox
-         vxVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUakrJEF6ZKxGFShmSWc3cc5HOa4lbwDsNaM00zy9YEEFqKuvRK5Z3DStX/pQ1O48OXPwStKw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0UMRkgiCeUMcHrf1nffQdysEnB5JRf6O8Q7JMCvuvPixb/FZI
-	LJC5vQ0tS9Vobp1v9AK8XJvOePv2PHWyB7/AwpvscwZ7JZE4+6nGA3pu
-X-Gm-Gg: ATEYQzzbLz1X8xRf+oZUdSJ8gGgRL3Zt7hmDpqtXx3/7v+TIMwQCpl+QwptFUAzr7ZU
-	98UQL3mrsWKkGMWBoH2/AYrCKH0zHa8yBx0HFq7ByYJqEsHeza4pQF4QGKS7Ye1HoKisg/XJyId
-	x62mYAWK6RoqK0A8dM30N+2A00vn98OGewTwoEIWwv5cNhgW0LVf932fRM+T5yiS7fne5xcY7mP
-	B1Nwbr2ACj4MKvn950ykuF6cBFl4QXEfHAsRy3x+/IeSYeJzSbrrDkUIulqik7enRg6NCIw86rl
-	qH/CV3CN0hX7QJFBIEKGKzFiVASzQtKEJqon+yDa3ut2H343eRdLwr7OOnytZD5UTxczMrdJpxu
-	vJi2krlIrI/mAmpLRbVM06tBbX4/ZosMvx5QLaEuywEwvpkq2r7apDhYq2k/fVQrCCV9QvVD0Be
-	r5Tyn49L0HJDgwDu2oY/2DbvEcCNeF1p+WpAUCto4mVT2mAxkwF/pRefDbKmT6F4tiP9persA4y
-	mgQWhEE+WE4fQ32EodD4AyDrn4wkzEyeTXoH6sq8TSt0oJ0sDpSWKozpdFPPfF0nVkb9cKuB949
-	l45Vy1GYTFQuWA==
-X-Received: by 2002:a05:6a00:9510:b0:823:c59:9cb0 with SMTP id d2e1a72fcca58-829f707348bmr2146847b3a.1.1773226345365;
-        Wed, 11 Mar 2026 03:52:25 -0700 (PDT)
-Received: from minako.localnet ([2403:581e:d87e:0:739f:50a5:e171:f133])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6df32a6sm2255620b3a.14.2026.03.11.03.52.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 03:52:24 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: codecs: cs42l84: set up PLL for more sample rates
-Date: Wed, 11 Mar 2026 20:52:18 +1000
-Message-ID: <3333069.e9J7NaK4W3@minako>
-In-Reply-To: <ac417b14-dcdd-4e67-b1c0-b41ff1e22fc3@sirena.org.uk>
-References:
- <20260307-cs42l84-rates-v1-1-1c55a5673031@gmail.com>
- <ac417b14-dcdd-4e67-b1c0-b41ff1e22fc3@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RcSOu1Sn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3179C4CEF7;
+	Thu, 12 Mar 2026 14:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773325993;
+	bh=hAqiSIPHV6ZBtT4ry40ie+ToTsclopBhbBmC3I37NGI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RcSOu1SnEJQJuIIa4HOnXsEmrDTtj2Eq/Y4YzU1yzmHbRx1bJL+NCNR6Tl7twkZkw
+	 hh0ItLcS3/IYKU6IBAN/XGDH9fySq3ULcSBAcDegHRpIatPOWR97xugE49nDTs/9mv
+	 uMvoHa0lUo9mFVyY76byD8zxQpBAlEElnQPpsmZMqTTH/453cCqpN7eJXHiA7qh6sb
+	 pt3CbCSSosij9eVHRMG1pLnFJZTn8BjycpF4y6iBmnBSTtIAQr3NBvUHdkAftgpRtQ
+	 MrJ/VgJd7DE6hJsy6Z26G2h389OmPQrjiutt9vdJy3gANgIMG6PLd8SvoCUk5+1DRT
+	 xjluM+5aId5hw==
+Date: Thu, 12 Mar 2026 14:33:05 +0000
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Frank Li <Frank.Li@nxp.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v3 7/7] ASoC: tas2770: expose SDOUT bus keeper via
+ set_tdm_idle
+Message-ID: <6a3cc78a-77bc-473e-bfbf-caffbe8f25bb@sirena.org.uk>
+References: <20260301-tdm-idle-slots-v3-0-c6ac5351489a@gmail.com>
+ <20260301-tdm-idle-slots-v3-7-c6ac5351489a@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-
-Hi Mark,
-
-On Wednesday, 11 March 2026 4:51:25=E2=80=AFam Australian Eastern Standard =
-Time Mark=20
-Brown wrote:
-> These are adding 44.1kHz based rates with a new value for MCLK (the
-> final value in each entry).  Those values are read with a switch
-> statement in cs42l84_pll_config but that only has an entry for 24.576MHz
-> for some reason, that won't match 112.896MHz and will just leave the
-> pll_mclk_f with whatever value it had before.  Don't we need a new case
-> statement there for the new MCLK?
-
-Yes and no. According to the datasheet, the chip only requires the PLL to be
-in the "region" of 12 or 24 MHz. Since we only have 12 MHz region PLL confi=
-gs
-in our table, this does actually work without changes, albeit unintutitively
-(and accidentally).
-
-On 42L42, this is configured using the MCLKDIV and MCLK_SRC_SEL bits, which
-behave identically to what we've ended up calling MCLK_F. I will add an
-explicit arm to the case statement and a comment explaining this so that it=
- is
-not ambiguous.
-
-Regards,
-James
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IXXiSMaL5DxziIGM"
+Content-Disposition: inline
+In-Reply-To: <20260301-tdm-idle-slots-v3-7-c6ac5351489a@gmail.com>
+X-Cookie: I feel better about world problems now!
 
 
+--IXXiSMaL5DxziIGM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sun, Mar 01, 2026 at 06:05:26PM +1000, James Calligeros wrote:
+
+> +static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
+> +				    unsigned int tx_mask,
+> +				    unsigned int rx_mask,
+> +				    int tx_mode, int rx_mode)
+> +{
+
+> +	switch (tx_mode) {
+> +	case SND_SOC_DAI_TDM_IDLE_PULLDOWN:
+> +		ret = snd_soc_component_update_bits(component, TAS2770_DIN_PD,
+> +						    TAS2770_DIN_PD_SDOUT,
+> +						    TAS2770_DIN_PD_SDOUT);
+> +		if (ret)
+> +			return ret;
+> +
+> +		break;
+
+This and all the other cases only updates the bits it's specifically
+setting for the mode, so _ZERO and _HIZ don't update the pull and this
+doesn't update the _KEEP/_FILL settings.  Not sure how often anyone is
+going to change this at runtime though.
+
+> +	case SND_SOC_DAI_TDM_IDLE_OFF:
+> +		ret = snd_soc_component_update_bits(component, TAS2770_DIN_PD,
+> +						    TAS2770_DIN_PD_SDOUT, 0);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+> +						    TAS2770_TDM_CFG_REG4_TX_KEEPER, 0);
+
+Actually this does _KEEP but not _FILL.
+
+--IXXiSMaL5DxziIGM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmyzqEACgkQJNaLcl1U
+h9C9VQf/fZCHVpmQ9kpNtJbiGpHrvPe+rIlhBNyQU3d3Ae6pe9l6B5REJOofNuXd
+93N4y6V0PdC8ua1LFqj7YsQXCNcvEFBXhRS+NY8K6+6QwqG4umZ1PwI8G7zMWw/i
+kkboFELiFULhwmm1iTWox0SYqLnUTY0dwyTHnli0mTLApQA4fiaHYFFSp2uWl4WY
+rbxnjqQbQtRVi08wPAUU/QoSAw42L72c3DZBhug+eWONv1u54O4G0ssZVc9SqWQ5
+xAa9PzAWPRasGfrSzPuUHBh4AT29P1tI3Z+a1eRkiTL8e8zG9qW9E8iRTU3Cnfri
+7ebNB/ybAN6A+DlJmlSnVXW1zzIaog==
+=mZC6
+-----END PGP SIGNATURE-----
+
+--IXXiSMaL5DxziIGM--
