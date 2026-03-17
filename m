@@ -1,61 +1,61 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B761833F8A6
-	for <asahi@lists.linux.dev>; Tue, 17 Mar 2026 06:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAC433FE05
+	for <asahi@lists.linux.dev>; Tue, 17 Mar 2026 06:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773729690; cv=none; b=XQysuG5KgHTP/2ilg6I1l9jrgeOXQLN20lh6ePT2+HFxhcCXGnrTAqzz5HoXQoJ+FrHdq8+tnXbBuFcfGiG4WoUaYs2Gt4QegF/7P0VpHmt60x8eaa0MPz7dfwpB4beZ/oWlqd3POK0edIVdCk6KDiCnNuOzTjhNPBuMUSu8Ous=
+	t=1773729693; cv=none; b=DjwUfb4qoYeENmMBsWpeKpeuZ5NiSko3RKR2bpOI+U2tMpkdcqORoUyoKQ127M045shPn7Pt2VdqAJrIijdDc9MuKNOVuuHjw0UOfiNr33X+nvxU1WnMgyS1h/xgkOrCnQk/cslsIfgqWDy0l2sWVg6ELzU+0sxDq/3IavVK/bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773729690; c=relaxed/simple;
-	bh=MBgJA1Xwf/X1DLoh3ax7tabp8ViIY1hzcXxBmKVvQqo=;
+	s=arc-20240116; t=1773729693; c=relaxed/simple;
+	bh=93P8QocL6QULHfeE9WND83Chole/3U0ixH53QORnDMY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uimVZiITc74x5EFRqSPKEnFbwVA5P+vKDjnlJ+/hTyLYQy5BFx4BuONApBAeszG2KOoieZfOeSDs5qfJc1utDzlAmjLSdtb1ujskh9w2gs3/VmjPZ2mJuqM0Iy4+2YZ3YFFPDIg11epOnCyIG0G9i/2cs3smPS6QtCfF6hZdLJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bop6YFxn; arc=none smtp.client-ip=209.85.214.180
+	 MIME-Version; b=WiYcWTqrOKk8+09BPyy9J1odmTrLISgPx1GDnmbNvreAYzWY4lY70trtP/9DehNx6ISzS5ucK6/Yc1vNmWnotzUyI7K1IDLpptVTi20R88zBXcMNjULzEVW2BC9aCUgpTc99SbDVaDQ2vqAJ0klwd6exn7nS8ksw2FVmUj9Ske0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jzjSOLMh; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bop6YFxn"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2b04e6a989eso17395525ad.3
-        for <asahi@lists.linux.dev>; Mon, 16 Mar 2026 23:41:28 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jzjSOLMh"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a8fba3f769so25489825ad.2
+        for <asahi@lists.linux.dev>; Mon, 16 Mar 2026 23:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773729688; x=1774334488; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1773729691; x=1774334491; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=beYKL+KpJYqTN09SlrzQ/IJhFB/kZtPqCQ/2b0LTAW0=;
-        b=bop6YFxnLC14sJPls+7BF+scLGLEKZ/kyNTPlvg3yUSmFpTg6NgsH65wDewdKa//BT
-         J524Zbm24OWHD+jKNjqOcRTfGxFH9kqENJDHZhlAmp5t0/A0rbuP3sf3dT+Fq+dM37cv
-         eT49OjBKLHPJoml7+QuhTQVGGpQ5AipIp/c4k=
+        bh=1GwlbKCuRkMEJtcMvq6Y2vEjKV9Tt6Itzx4uW6Jnu0w=;
+        b=jzjSOLMhfU32Q7Um3/V8jLH4Z86ifkYnZmQU1mmfZ1HQn5YUIFEMGrhOP0slpu0iR3
+         DI9U8SJ7N7U4f51gKXFGVGvFPvZUjmbW7pnUImjxK4qYlPKak5FJKNAxRsMmUkeBVoic
+         cSGNpTQXejkHjg71My1u9vTWX/WngV16enEVg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773729688; x=1774334488;
+        d=1e100.net; s=20251104; t=1773729691; x=1774334491;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=beYKL+KpJYqTN09SlrzQ/IJhFB/kZtPqCQ/2b0LTAW0=;
-        b=cigGK++kG+/2T+1SYE/GkorPn2I9vNBiIX7dLOBNDQuD23shtadCNvFRUkudZcretd
-         /l7osP9bRnGVFFDBbJ6MNs8YTuxIs2Cm6mM6MIdyjsuWwauSto5XjuBiEl7XH2m1EWyk
-         CtKB3H8ZCFGil9llYKlJ2Jn4ZEDSKe5AGxXSx8GhttFPJAlky6kIN/0TVy+5h19t4O++
-         KWA1NvLBeZ3zxfwOB9hYnXcmYmudOkrYqXmwYkPzyUvChVP4AASRpxnL2zjF9qLn7pNS
-         9bP7DJTE5GkFXulLEgQNIET/5tC1E9ixFo0S5coG0hZCOdyfWKRasYivBQP36Wzpv7WZ
-         GSGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUR9PWQJc7fYaHwmKbBpq+9KwMCH5bMsz0BbLH4ZF7e3ktS8OsBEm1TlO1ZxVzzjsAeymtc4w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlLytDMq7EEB9PG9Hcr8JbLQ05ag8NAx5kbE6u5p9bad3HfXri
-	yQ4WpI9oGgYtwrgbjOB/zDdBMObdL88r8OClA5W5xnIvrV2z2cUCC2c9aII64qukvg==
-X-Gm-Gg: ATEYQzzTM3120/jFSwc7JGNqEnX4mdTMWdUvx4aG1SS3IunKwYC444Q4NsKqe1keJ8L
-	mtD1SjLNphVOkeDBonXxuXOgcdk62829/xh3wJb1tdZ/U0pL6yVNh9VptpJsel653ucDsbhZ+Pc
-	35iuNJFlHRHSXATrKQBnKe8QzaTi36Fa5vFbtGQv6fAgUeWOuE2A44oiRG1P/hAopzXSmM1q9zY
-	t+hI3NA4BmF7SXlQ4eDu6TET1Wz3cY28R4f2bv8MRDLiUehEHfoXIHgzOpJwLFtOOLAqfDdE/XS
-	OnmlFQozwzw8qZwfauz3K38Pms7/ARtV210Z8mqYb+023+P7f8qv0oyA3SMY6p65KBjkk+SWdrr
-	Dc8g6VTs8xX9coN0e54Szr2qQGoa47HyQytVcUy2oObSPQM9y11kryhOTy5l/Kjw3hHUYpqYYfa
-	I052JA78j6LEtfdJOPBjFES83lWMMWezO/1uX2WC6jAt4ST+wDmg9mCFlfRVMdErgPIrc7wk713
-	V34Xwkf
-X-Received: by 2002:a17:903:37d0:b0:2b0:4a57:e498 with SMTP id d9443c01a7336-2b04a57e8demr100300115ad.15.1773729688017;
-        Mon, 16 Mar 2026 23:41:28 -0700 (PDT)
+        bh=1GwlbKCuRkMEJtcMvq6Y2vEjKV9Tt6Itzx4uW6Jnu0w=;
+        b=oiSvv4vVSrlcTRLj46CCRlnhA3VFlbTdJsQ86vjk/7+huwhP+MzJqF8kRIaEY+ZA0O
+         nTI1ruZpg+BZcUc+L+tPmaSEJZewPXIT+1GHq0Z7f5h0W8EQmb5UhQ+0r6pNO5Tsn0v0
+         olnvO5GBPoxIQiC0zB58b4WsT2o4m+rvJuen30znYYDWltYzotoiFKvHS9AAxZ7B69rU
+         xYhAypu+hQSQ686NWfdJ3G32W7H506WtL3fRrQuBUdkOyVfccjNI1a0aQ4S6QyoMpBUi
+         rsZ2Bs8+T6xZs3ocVXc0CWeYcsfb/8AT2XMyurlsPzY66PRmFUx6o2J2Jh5ZsdK1lwoP
+         0ApA==
+X-Forwarded-Encrypted: i=1; AJvYcCXL0U8Kv+F75z5thhYQJSBvf7AHxU6oudt89ysdFVIpKc+wkRSNeg3EnKWE8+nmEHciui174A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZquykmYQ8yF8OWiv2aIsMFOYVKy/YJxHhC8AWJGf5Y+UtPzDG
+	UqPy2amssm8y+D2Wzqi/yL5fPgZGtkxSXtLAwfXZdEJ2pmTMlhId9n/sIu6YtG0y2A==
+X-Gm-Gg: ATEYQzyCXAP6VSuUbX6nwyJsH8NzpvIkAPBGNxJF1hvSNln5ZS41bunhhDq9ncIKdCe
+	2EN0/QiLiQTJbmkJduFJWshXx5DoYnHE9XNVtdy7fP29cgPFgwLwQ3C456qZR4FidNGzzkjOrL+
+	yOs+E+8+B1fwrTsWFjvaDHPq8qSFfXJDOIYcejqzkstORsQj7/GEHBfxPdRtkz8rxhzrtMy4M9z
+	jd3RACEPrjLfOosGIMNpli0gkSn0Z6pQBpAtj8lV36NlFQG8aF04c56B3XVFHdIFjNwN8XdmiJI
+	euHZozl6c+3Ag3U6ViLMDdRO67xhAE8r6tG7/27prO0ctaexOdxqGzVLChvbJPvF+6dKDGvOjfh
+	KFRa57tLRlKFAfUC6AfQIv4ahO42vzArzOR6/+Ede1OL5/whDjgdHuAGhiN1QNFFIK3JCW9uh2N
+	/G2ewNx5/6becGWuiYgb7CPl7E2OpJF9Aym9aSJbt/cENB/7duRuv9f/Ee9db4/VXkiOFl0lH7I
+	nbaOl+r
+X-Received: by 2002:a17:902:ecd2:b0:2b0:5a4c:726a with SMTP id d9443c01a7336-2b05a5bbfdfmr53881605ad.43.1773729691244;
+        Mon, 16 Mar 2026 23:41:31 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:a064:c65d:a199:5cb6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece605231sm124269425ad.27.2026.03.16.23.41.25
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece605231sm124269425ad.27.2026.03.16.23.41.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 23:41:27 -0700 (PDT)
+        Mon, 16 Mar 2026 23:41:30 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -68,10 +68,12 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	asahi@lists.linux.dev,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: [PATCH v2 3/4] drm/gem-dma: Use the dma_*_attr API variant
-Date: Tue, 17 Mar 2026 14:40:45 +0800
-Message-ID: <20260317064049.696795-4-wenst@chromium.org>
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Janne Grunau <j@jannau.net>
+Subject: [PATCH v2 4/4] drm/gem-dma: Support DRM_MODE_DUMB_KERNEL_MAP flag
+Date: Tue, 17 Mar 2026 14:40:46 +0800
+Message-ID: <20260317064049.696795-5-wenst@chromium.org>
 X-Mailer: git-send-email 2.53.0.851.ga537e3e6e9-goog
 In-Reply-To: <20260317064049.696795-1-wenst@chromium.org>
 References: <20260317064049.696795-1-wenst@chromium.org>
@@ -85,139 +87,221 @@ Content-Transfer-Encoding: 8bit
 
 From: Rob Herring <robh@kernel.org>
 
-In preparation to allow DRM DMA users to adjust the DMA_ATTR_* flags,
-convert the DMA helper code to use the dma_*_attr APIs instead of the
-dma_*_wc variants.
+Add support in DMA helpers to handle callers specifying
+DRM_MODE_DUMB_KERNEL_MAP flag. Existing behavior is maintained with this
+change. drm_gem_dma_dumb_create() always creates a kernel mapping as
+before. drm_gem_dma_dumb_create_internal() lets the caller set the flags
+as desired.
 
-Only the DMA_ATTR_WRITE_COMBINE and DMA_ATTR_NO_WARN attributes are set
-in this commit, so there's no functional change.
+Most drivers that use drm_gem_dma_dumb_create_internal() are already
+using the internal client interface via drm_client_setup*() and
+DRM_FBDEV_DMA_DRIVER_OPS, and do not have other direct kernel
+accesses to the buffer memory internally. Therefore, there is no need
+to add the DRM_MODE_DUMB_KERNEL_MAP flag for them.
 
-Also change the dma_free_wc() call in vc4_bo_purge() in the vc4 driver
-to use dma_free_attrs() to match. vc4_bo is a sub-class of
-drm_gem_dma_object.
-
-Sub-classes of |struct drm_gem_dma_object| can also set additional
-DMA_ATTR_* flags if they choose so. For example a sub-class could
-set DMA_ATTR_FORCE_CONTIGUOUS in certain cases.
+The only outlier is the adp driver. The DRM_MODE_DUMB_KERNEL_MAP flag
+is added to its dumb_create() function, adp_drm_gem_dumb_create().
 
 Signed-off-by: Rob Herring <robh@kernel.org>
-[wenst@chromium.org: Rebase onto renamed DMA helpers]
-[wenst@chromium.org: Make vc4_bo_purge() use matching dma_free_attrs()]
-[wenst@chromium.org: Expand commit message to mention that sub-classes
-                     can set extra DMA_ATTR_* flags]
+[wenst@chromium.org: Rebase onto renamed GEM DMA helpers]
+[wenst@chromium.org: show "vaddr=(no mapping)" in drm_gem_dma_print_info()]
+[wenst@chromium.org: Drop DRM_MODE_DUMB_KERNEL_MAP driver changes]
+[wenst@chromium.org: Add DRM_MODE_DUMB_KERNEL_MAP to adp_drm_gem_dumb_create()]
+[wenst@chromium.org: Add flags field to drm_gem_dma_create_with_handle()
+		     kerneldoc]
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-
 ---
 Changes since v1:
-- Rebased onto renamed DMA helpers
-- Made vc4_bo_purge() use matching dma_free_attrs()
-- Expanded commit message to mention that sub-classes can set extra
-  DMA_ATTR_* flags
----
- drivers/gpu/drm/drm_gem_dma_helper.c | 26 +++++++++++++++-----------
- drivers/gpu/drm/vc4/vc4_bo.c         |  2 +-
- include/drm/drm_gem_dma_helper.h     |  3 +++
- 3 files changed, 19 insertions(+), 12 deletions(-)
+- Rebased onto renamed GEM DMA helpers
+- Added check in drm_fb_dma_get_scanout_buffer() and drm_gem_dma_vmap().
+- Made drm_gem_dma_print_info() show "vaddr=(no mapping)" for objects
+  allocated without kernel mapping
+- Dropped existing DRM_MODE_DUMB_KERNEL_MAP flag addition in various
+  drivers
+- Added DRM_MODE_DUMB_KERNEL_MAP flag to adp_drm_gem_dumb_create()
+- Added flags field kerneldoc for drm_gem_dma_create_with_handle()
 
+Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Janne Grunau <j@jannau.net>
+Cc: asahi@lists.linux.dev
+---
+ drivers/gpu/drm/adp/adp_drv.c        |  1 +
+ drivers/gpu/drm/drm_fb_dma_helper.c  |  4 ++
+ drivers/gpu/drm/drm_gem_dma_helper.c | 67 +++++++++++++++++-----------
+ 3 files changed, 47 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
+index 4554cf75565e..c549b44b3814 100644
+--- a/drivers/gpu/drm/adp/adp_drv.c
++++ b/drivers/gpu/drm/adp/adp_drv.c
+@@ -95,6 +95,7 @@ static int adp_drm_gem_dumb_create(struct drm_file *file_priv,
+ {
+ 	args->height = ALIGN(args->height, 64);
+ 	args->size = args->pitch * args->height;
++	args->flags = DRM_MODE_DUMB_KERNEL_MAP;
+ 
+ 	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
+ }
+diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c b/drivers/gpu/drm/drm_fb_dma_helper.c
+index fd71969d2fb1..12a44accc48c 100644
+--- a/drivers/gpu/drm/drm_fb_dma_helper.c
++++ b/drivers/gpu/drm/drm_fb_dma_helper.c
+@@ -187,6 +187,10 @@ int drm_fb_dma_get_scanout_buffer(struct drm_plane *plane,
+ 	if (!dma_obj->vaddr)
+ 		return -ENODEV;
+ 
++	/* Buffer was allocated with NO_KERNEL_MAPPING */
++	if (dma_obj->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
++		return -ENODEV;
++
+ 	iosys_map_set_vaddr(&sb->map[0], dma_obj->vaddr);
+ 	sb->format = fb->format;
+ 	sb->height = fb->height;
 diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-index 1c00a71ab3c9..9722c9fc86f3 100644
+index 9722c9fc86f3..281fb563f061 100644
 --- a/drivers/gpu/drm/drm_gem_dma_helper.c
 +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-@@ -108,6 +108,7 @@ __drm_gem_dma_create(struct drm_device *drm, size_t size, bool private)
- 		goto error;
- 	}
- 
-+	dma_obj->dma_attrs |= DMA_ATTR_NO_WARN | DMA_ATTR_WRITE_COMBINE;
- 	return dma_obj;
- 
- error:
-@@ -152,9 +153,10 @@ struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
- 						       DMA_TO_DEVICE,
- 						       GFP_KERNEL | __GFP_NOWARN);
- 	} else {
--		dma_obj->vaddr = dma_alloc_wc(drm_dev_dma_dev(drm), size,
--					      &dma_obj->dma_addr,
--					      GFP_KERNEL | __GFP_NOWARN);
-+		dma_obj->vaddr = dma_alloc_attrs(drm_dev_dma_dev(drm), size,
-+						 &dma_obj->dma_addr,
-+						 GFP_KERNEL | __GFP_NOWARN,
-+						 dma_obj->dma_attrs);
- 	}
- 	if (!dma_obj->vaddr) {
- 		drm_dbg(drm, "failed to allocate buffer with size %zu\n",
-@@ -242,9 +244,9 @@ void drm_gem_dma_free(struct drm_gem_dma_object *dma_obj)
- 					     dma_obj->vaddr, dma_obj->dma_addr,
- 					     DMA_TO_DEVICE);
- 		else
--			dma_free_wc(drm_dev_dma_dev(gem_obj->dev),
--				    dma_obj->base.size, dma_obj->vaddr,
--				    dma_obj->dma_addr);
-+			dma_free_attrs(drm_dev_dma_dev(gem_obj->dev),
-+				       dma_obj->base.size, dma_obj->vaddr,
-+				       dma_obj->dma_addr, dma_obj->dma_attrs);
- 	}
- 
- 	drm_gem_object_release(gem_obj);
-@@ -435,8 +437,9 @@ struct sg_table *drm_gem_dma_get_sg_table(struct drm_gem_dma_object *dma_obj)
- 	if (!sgt)
- 		return ERR_PTR(-ENOMEM);
- 
--	ret = dma_get_sgtable(drm_dev_dma_dev(obj->dev), sgt, dma_obj->vaddr,
--			      dma_obj->dma_addr, obj->size);
-+	ret = dma_get_sgtable_attrs(drm_dev_dma_dev(obj->dev), sgt,
-+				    dma_obj->vaddr, dma_obj->dma_addr,
-+				    obj->size, dma_obj->dma_attrs);
- 	if (ret < 0)
- 		goto out;
- 
-@@ -546,9 +549,10 @@ int drm_gem_dma_mmap(struct drm_gem_dma_object *dma_obj, struct vm_area_struct *
- 				     vma, vma->vm_end - vma->vm_start,
- 				     virt_to_page(dma_obj->vaddr));
- 	} else {
--		ret = dma_mmap_wc(drm_dev_dma_dev(dma_obj->base.dev), vma,
--				  dma_obj->vaddr, dma_obj->dma_addr,
--				  vma->vm_end - vma->vm_start);
-+		ret = dma_mmap_attrs(drm_dev_dma_dev(dma_obj->base.dev), vma,
-+				     dma_obj->vaddr, dma_obj->dma_addr,
-+				     vma->vm_end - vma->vm_start,
-+				     dma_obj->dma_attrs);
- 	}
- 	if (ret)
- 		drm_gem_vm_close(vma);
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index f45ba47b4ba8..981593739a0f 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -304,7 +304,7 @@ static void vc4_bo_purge(struct drm_gem_object *obj)
- 
- 	drm_vma_node_unmap(&obj->vma_node, dev->anon_inode->i_mapping);
- 
--	dma_free_wc(dev->dev, obj->size, bo->base.vaddr, bo->base.dma_addr);
-+	dma_free_attrs(dev->dev, obj->size, bo->base.vaddr, bo->base.dma_addr, bo->base.dma_attrs);
- 	bo->base.vaddr = NULL;
- 	bo->madv = __VC4_MADV_PURGED;
+@@ -116,26 +116,8 @@ __drm_gem_dma_create(struct drm_device *drm, size_t size, bool private)
+ 	return ERR_PTR(ret);
  }
-diff --git a/include/drm/drm_gem_dma_helper.h b/include/drm/drm_gem_dma_helper.h
-index f2678e7ecb98..e815ff121e23 100644
---- a/include/drm/drm_gem_dma_helper.h
-+++ b/include/drm/drm_gem_dma_helper.h
-@@ -16,6 +16,8 @@ struct drm_mode_create_dumb;
-  *       more than one entry but they are guaranteed to have contiguous
-  *       DMA addresses.
-  * @vaddr: kernel virtual address of the backing memory
-+ * @dma_attrs: DMA attributes used when allocating backing memory.
-+ *             Only applies to coherent memory.
-  * @map_noncoherent: if true, the GEM object is backed by non-coherent memory
+ 
+-/**
+- * drm_gem_dma_create - allocate an object with the given size
+- * @drm: DRM device
+- * @size: size of the object to allocate
+- *
+- * This function creates a DMA GEM object and allocates memory as backing store.
+- * The allocated memory will occupy a contiguous chunk of bus address space.
+- *
+- * For devices that are directly connected to the memory bus then the allocated
+- * memory will be physically contiguous. For devices that access through an
+- * IOMMU, then the allocated memory is not expected to be physically contiguous
+- * because having contiguous IOVAs is sufficient to meet a devices DMA
+- * requirements.
+- *
+- * Returns:
+- * A struct drm_gem_dma_object * on success or an ERR_PTR()-encoded negative
+- * error code on failure.
+- */
+-struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
+-					      size_t size)
++static struct drm_gem_dma_object *
++drm_gem_dma_create_flags(struct drm_device *drm, size_t size, u32 flags)
+ {
+ 	struct drm_gem_dma_object *dma_obj;
+ 	int ret;
+@@ -146,6 +128,9 @@ struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
+ 	if (IS_ERR(dma_obj))
+ 		return dma_obj;
+ 
++	if (!(flags & DRM_MODE_DUMB_KERNEL_MAP))
++		dma_obj->dma_attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
++
+ 	if (dma_obj->map_noncoherent) {
+ 		dma_obj->vaddr = dma_alloc_noncoherent(drm_dev_dma_dev(drm),
+ 						       size,
+@@ -171,6 +156,30 @@ struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
+ 	drm_gem_object_put(&dma_obj->base);
+ 	return ERR_PTR(ret);
+ }
++
++/**
++ * drm_gem_dma_create - allocate an object with the given size
++ * @drm: DRM device
++ * @size: size of the object to allocate
++ *
++ * This function creates a DMA GEM object and allocates memory as backing store.
++ * The allocated memory will occupy a contiguous chunk of bus address space.
++ *
++ * For devices that are directly connected to the memory bus then the allocated
++ * memory will be physically contiguous. For devices that access through an
++ * IOMMU, then the allocated memory is not expected to be physically contiguous
++ * because having contiguous IOVAs is sufficient to meet a devices DMA
++ * requirements.
++ *
++ * Returns:
++ * A struct drm_gem_dma_object * on success or an ERR_PTR()-encoded negative
++ * error code on failure.
++ */
++struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
++					      size_t size)
++{
++	return drm_gem_dma_create_flags(drm, size, DRM_MODE_DUMB_KERNEL_MAP);
++}
+ EXPORT_SYMBOL_GPL(drm_gem_dma_create);
+ 
+ /**
+@@ -179,6 +188,7 @@ EXPORT_SYMBOL_GPL(drm_gem_dma_create);
+  * @file_priv: DRM file-private structure to register the handle for
+  * @drm: DRM device
+  * @size: size of the object to allocate
++ * @flags: DRM_MODE_DUMB_* flags if any
+  * @handle: return location for the GEM handle
+  *
+  * This function creates a DMA GEM object, allocating a chunk of memory as
+@@ -194,14 +204,14 @@ EXPORT_SYMBOL_GPL(drm_gem_dma_create);
   */
- struct drm_gem_dma_object {
-@@ -25,6 +27,7 @@ struct drm_gem_dma_object {
+ static struct drm_gem_dma_object *
+ drm_gem_dma_create_with_handle(struct drm_file *file_priv,
+-			       struct drm_device *drm, size_t size,
++			       struct drm_device *drm, size_t size, u32 flags,
+ 			       uint32_t *handle)
+ {
+ 	struct drm_gem_dma_object *dma_obj;
+ 	struct drm_gem_object *gem_obj;
+ 	int ret;
  
- 	/* For objects with DMA memory allocated by GEM DMA */
- 	void *vaddr;
-+	unsigned long dma_attrs;
+-	dma_obj = drm_gem_dma_create(drm, size);
++	dma_obj = drm_gem_dma_create_flags(drm, size, DRM_MODE_DUMB_KERNEL_MAP);
+ 	if (IS_ERR(dma_obj))
+ 		return dma_obj;
  
- 	bool map_noncoherent;
- };
+@@ -283,7 +293,7 @@ int drm_gem_dma_dumb_create_internal(struct drm_file *file_priv,
+ 		args->size = args->pitch * args->height;
+ 
+ 	dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args->size,
+-						 &args->handle);
++						 args->flags, &args->handle);
+ 	return PTR_ERR_OR_ZERO(dma_obj);
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_dma_dumb_create_internal);
+@@ -313,12 +323,13 @@ int drm_gem_dma_dumb_create(struct drm_file *file_priv,
+ 	struct drm_gem_dma_object *dma_obj;
+ 	int ret;
+ 
++	args->flags = DRM_MODE_DUMB_KERNEL_MAP;
+ 	ret = drm_mode_size_dumb(drm, args, 0, 0);
+ 	if (ret)
+ 		return ret;
+ 
+ 	dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args->size,
+-						 &args->handle);
++						 args->flags, &args->handle);
+ 	return PTR_ERR_OR_ZERO(dma_obj);
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_dma_dumb_create);
+@@ -412,7 +423,10 @@ void drm_gem_dma_print_info(const struct drm_gem_dma_object *dma_obj,
+ 			    struct drm_printer *p, unsigned int indent)
+ {
+ 	drm_printf_indent(p, indent, "dma_addr=%pad\n", &dma_obj->dma_addr);
+-	drm_printf_indent(p, indent, "vaddr=%p\n", dma_obj->vaddr);
++	if (dma_obj->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
++		drm_printf_indent(p, indent, "vaddr=(no mapping)\n");
++	else
++		drm_printf_indent(p, indent, "vaddr=%p\n", dma_obj->vaddr);
+ }
+ EXPORT_SYMBOL(drm_gem_dma_print_info);
+ 
+@@ -511,6 +525,9 @@ EXPORT_SYMBOL_GPL(drm_gem_dma_prime_import_sg_table);
+ int drm_gem_dma_vmap(struct drm_gem_dma_object *dma_obj,
+ 		     struct iosys_map *map)
+ {
++	if (dma_obj->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
++		return -ENOMEM;
++
+ 	iosys_map_set_vaddr(map, dma_obj->vaddr);
+ 
+ 	return 0;
 -- 
 2.53.0.851.ga537e3e6e9-goog
 
