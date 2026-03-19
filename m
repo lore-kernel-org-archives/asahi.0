@@ -1,216 +1,107 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706703DD51A
-	for <asahi@lists.linux.dev>; Thu, 19 Mar 2026 14:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C467D4207A;
+	Thu, 19 Mar 2026 20:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773932289; cv=none; b=CpkPLmuDGmQgmUS199HYlJuIAfdYZte6/LMj43amFZBoFVYn7TgSOUwc0jBWBl8SOfg2onstn88EDQDfghjE1VxaYIDI8vKr4nzRsJz2JWb2gP/lbTFqY+j8widSOeFbHaTtbANk6pBQ178uBrctR1kehgZ5O7HbiHnj8+SpwR8=
+	t=1773951116; cv=none; b=ny+YnPV+eifR7GimNlgpzG1JBSYi48jiSMfvPNtKXc7cUf56b7sSbJwknRYpcVjK+t5VZD1MTVMsuPsB3nAxQEOZc49M6aeUpyZobisWvcYwkP+azcuw0JJOfMQCCehCWsItg+yCd933AKosTwtdE4XoVKT56EiK3ArgAqHllGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773932289; c=relaxed/simple;
-	bh=pgxNV0NukCTQwDip0+2Xj8IDia+pUtXJoQL4YDXa/cU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=u1Ntcgcwm769yy30u6MROuxrp+TBT+7bu8jRige8kJyl6yclNV6qbPwt8LURqKzJ1pCeLWGwO+iqNSmXX9PDy6fy72GjimIvoqn7Gds5FQGKBKj+BxILR+K8h7sbYx/RMCv7WV7IQHwVtMPNtPUHbNamvp4vWd72DQ7xlmApE0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=DjPKuzP8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rPKRDR6a; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1773951116; c=relaxed/simple;
+	bh=Oc2gCcNeG49sxkrY4UJ+RNT2vpAyb7bJGfww+rFV3Nc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iNgfiHnO5mZG9fAdRWlGvSKPID5qQ9YibrH4uSrOUQDLzBkWS1fhbW8TXmZVA9HXELbvv0Os5W43ySNgfkHTK3TOAz+bdTs9QPe6QqpPPOsvpf5951zdAXErcgX4dkK5/+xx/71pc9X+28GXRO1lNUirDePXmaanEBj8B7u1XrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J0j1+UkN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="DjPKuzP8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rPKRDR6a"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 27D9DEC00FD;
-	Thu, 19 Mar 2026 10:58:04 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 19 Mar 2026 10:58:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1773932284; x=1774018684; bh=3m
-	nTyAhpYWz2zaDPLvJ2kJeO/ztsRtlNN1dUSgeAJpw=; b=DjPKuzP8SUF8zr9Zs4
-	tpLPVQnLeQ9Il+n7GTO111AOmoZHSV5Xk5ZLzAWYlBJSCJE6LsNTG27G0p5U2Vd8
-	MddQJOkWuAEo6s4tioBvc2jmNtwpFSGViTZ2aAjOs1mX6slIB4HGnrEw3myoglLy
-	bn3pPWAuNSUeLuQTWSMeVpoeJkk0fKwK3ahH/N7PhWY7V3bVRUKgXyjPjLDsgPfV
-	ML0dhJcKNKbvzYQ83y99sJ7n5Gm+kD4csG9rtr9+sZDysNUcLXMw0nuLww1vRB29
-	WVZvUfBmq9++q9zGZgi4/LoXasSVQG5WnzxUogubCWQTbNUYFDkH3jGT5POUDBx7
-	x4yA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1773932284; x=1774018684; bh=3mnTyAhpYWz2zaDPLvJ2kJeO/zts
-	RtlNN1dUSgeAJpw=; b=rPKRDR6a96r2lY/dGZZXcA/lhDv1A7Z0Smvi/HGcnIf6
-	1St04c77cxzWulpsScPAP6S5F8zi3xsmpqFFBxUtxHXMqYX2d/LF2o1rv6X7yOrA
-	whBCXcQd23aE+A+yz72Tn2NnkIBv4IB1RLhFthl0JlwKl6cAoJe8CArpAN938myG
-	z4XVl/AXGVbgZLBNdSvpCkbklK+yoRW93mYd1HkzSfs4rWpBsOX6CZzqUpqmC2xd
-	8iwTWrvDOfu2M1qDDymWP2GoDJLkzrOoo/B2No8jXsULom/JyoYSIS2/qAdcdVON
-	HIp/v4R2Hh008GnZi1rps98C45RvVVK8EupDnOxMvw==
-X-ME-Sender: <xms:-w68ab77C32kNdd-CowSo6Mw3vzXRwZ1SoxppdkffthdJDPg6hiXsQ>
-    <xme:-w68aZH04Jv7dm4aejy0xAh_U9IcfNpl19cfN0tXXXWPFJ70JiCcQfxHbBME4OkaV
-    m_OK-P7aG9idoOjU8h8AL-JXkFnflMDhAMrsms7eQQJh51yxhJl_-4>
-X-ME-Received: <xmr:-w68aeApqTetZrojFw1I-TVb2NmBaG6kKah-eelCJoT8uJ_NZdkb8I5h04OECnJVKkDFnhjN1zTjbNQ4SfHPzcGJ6PgfLhR_ka-TBw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdejfeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfffie
-    ffteeuffetuefggefhgfehtdfhkefgtdejueeuvdevkeetveevvdffkeehnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
-    hnvghtpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepjhesjhgrnhhnrghurdhnvghtpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrh
-    hnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheptghonhho
-    rhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
-    htoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhs
-    thhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrh
-    drkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:-w68aWyanuuoSzEXCOILLw5Xauao5bdie_X8jadmvin2U1goGfCtgw>
-    <xmx:-w68aa4LI8x0tAr8qZO8AYebamf782YayI6yyFhqGqtD8CiYgl98mQ>
-    <xmx:-w68afwftwbNruos5KToLy6ScGOd314v4q09wep5cN9H8nVqKLt7Vw>
-    <xmx:-w68aWch0DYfK8TgB_pNkiTbkmS_LnAEJcOA5FvovPvF0EDYfr9TCA>
-    <xmx:_A68aaYZLyYCUw22XfOmOHt_6tZgQoJdWRqefD4NWWQN8ds6fN4jLNok>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Mar 2026 10:58:03 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Thu, 19 Mar 2026 15:57:52 +0100
-Subject: [PATCH] dt-bindings: arm: apple: Add M3 (t8112 and t603x) devices
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J0j1+UkN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29B7AC19424;
+	Thu, 19 Mar 2026 20:11:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773951116;
+	bh=Oc2gCcNeG49sxkrY4UJ+RNT2vpAyb7bJGfww+rFV3Nc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=J0j1+UkNVcC9s4n3io4VHVdfu6LWd/KPZZgwXERNPWgpUPYIG8gOtnMsjrzO1gscc
+	 XqCrR9NsRCNBnEQSxnFG2J9TWO8zJf5Sk2V59TndUSx1gN9cnLca1RL3WBqE0V79ZN
+	 nN30KUDpnGuodNH5p00MGhUjJYxlVXWKBzOTFDvmDKLd/nUgapx/t101vavJEUR1uS
+	 tNbCl0V93ClxNB4ER05dqMbKI8kPnuvpBzUrhr//9zU7DAvxVRW3aNAK+RWXhLB5Xf
+	 tylLs78Zzhxl/8NfkBujHqejIxYBsHK2pM9lkeGhWXmvzqsLSulF96tBXicDgUKnb8
+	 F1OD4gj0KCJpA==
+Message-ID: <21f2e3a2-ae8b-4997-a3c4-bb77663c04e8@kernel.org>
+Date: Thu, 19 Mar 2026 21:11:52 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: arm: apple: Add M3 (t8112 and t603x) devices
+To: Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>,
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260319-apple-m3-devices-dt-binding-v1-1-12052e195d6f@jannau.net>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260319-apple-m3-devices-dt-binding-v1-1-12052e195d6f@jannau.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260319-apple-m3-devices-dt-binding-v1-1-12052e195d6f@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAO8OvGkC/x3M0QqEIBBA0V+Jed6B0gjbX4l9MGesgdZEIwLp3
- 5MeD1xugcxJOMO3KZD4lCx7qOg+DbjVhoVRqBpUq4ZWdxptjBvjXyPV2nFGOnCWQBIWNMZ5Ywd
- PvRqhHmJiL9d7n373/QDNx0uZbQAAAA==
-X-Change-ID: 20260313-apple-m3-devices-dt-binding-88cf8a6fd429
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3987; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=pgxNV0NukCTQwDip0+2Xj8IDia+pUtXJoQL4YDXa/cU=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsw9fD9X3pjJtI3JS0P2SPXd4lBN1cYjD3OvrVv8e3FMI
- b9DQvLzjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABM5/ojhr4jK72J7/wt21y5w
- ZBatY0yZxju9atKaqxt/RzF7eW5238TIMPvG7qxde5Z3/9vWvumt0kWR6HrV/89vtyYxa+26z35
- kJj8A
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-The Apple M3 based devices follow the pattern of their M1 and M2
-predecessors. One notable difference is that the M3 Max SoC has two
-variants: t6031 and t6034.
-t6034 has 14 CPU cores, 30 GPU cores and a combined 384-bit LPPDR5
-memory bus while t6031 comes with 16 CPU cores, 40 GPU cores and a
-512-bit wide LPPDR5 interface. These are the only apparent
-differences between those two SoCs.
+On 19/03/2026 15:57, Janne Grunau wrote:
+> The Apple M3 based devices follow the pattern of their M1 and M2
+> predecessors. One notable difference is that the M3 Max SoC has two
+> variants: t6031 and t6034.
+> t6034 has 14 CPU cores, 30 GPU cores and a combined 384-bit LPPDR5
+> memory bus while t6031 comes with 16 CPU cores, 40 GPU cores and a
+> 512-bit wide LPPDR5 interface. These are the only apparent
+> differences between those two SoCs.
 
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- Documentation/devicetree/bindings/arm/apple.yaml | 55 ++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/arm/apple.yaml b/Documentation/devicetree/bindings/arm/apple.yaml
-index 5c2629ec3d4cbcee49d3ff6a4db1cc8298e2a2e1..acfe9824921280458d0911ae9cbf609101f37380 100644
---- a/Documentation/devicetree/bindings/arm/apple.yaml
-+++ b/Documentation/devicetree/bindings/arm/apple.yaml
-@@ -96,6 +96,13 @@ description: |
-   - MacBook Pro (13-inch, M2, 2022)
-   - Mac mini (M2, 2023)
- 
-+  Devices based on the "M3" SoC:
-+
-+  - MacBook Air (13-inch, M3, 2024)
-+  - MacBook Air (15-inch, M3, 2024)
-+  - MacBook Pro (14-inch, M3, 2023)
-+  - iMac (24-inch, M3, 2023)
-+
-   Devices based on the "M1 Pro", "M1 Max" and "M1 Ultra" SoCs:
- 
-   - MacBook Pro (14-inch, M1 Pro, 2021)
-@@ -116,6 +123,14 @@ description: |
-   - Mac Studio (M2 Ultra, 2023)
-   - Mac Pro (M2 Ultra, 2023)
- 
-+  Devices based on the "M3 Pro", "M3 Max" and "M3 Ultra" SoCs:
-+
-+  - MacBook Pro (14-inch, M3 Pro, 2023)
-+  - MacBook Pro (14-inch, M3 Max, 2023)
-+  - MacBook Pro (16-inch, M3 Pro, 2023)
-+  - MacBook Pro (16-inch, M3 Max, 2023)
-+  - Mac Studio (M3 Ultra, 2025)
-+
-   The compatible property should follow this format:
- 
-   compatible = "apple,<targettype>", "apple,<socid>", "apple,arm-platform";
-@@ -297,6 +312,17 @@ properties:
-           - const: apple,t8112
-           - const: apple,arm-platform
- 
-+      - description: Apple M3 SoC based platforms
-+        items:
-+          - enum:
-+              - apple,j433 # iMac (24-inch, 2x USB-C, M3, 2023)
-+              - apple,j434 # iMac (24-inch, 4x USB-C, M3, 2023)
-+              - apple,j504 # MacBook Pro (14-inch, M3, 2023)
-+              - apple,j613 # MacBook Air (13-inch, M3, 2024)
-+              - apple,j615 # MacBook Air (15-inch, M3, 2024)
-+          - const: apple,t8122
-+          - const: apple,arm-platform
-+
-       - description: Apple M1 Pro SoC based platforms
-         items:
-           - enum:
-@@ -347,6 +373,35 @@ properties:
-           - const: apple,t6022
-           - const: apple,arm-platform
- 
-+      - description: Apple M3 Pro SoC based platforms
-+        items:
-+          - enum:
-+              - apple,j514s # MacBook Pro (14-inch, M3 Pro, 2023)
-+              - apple,j516s # MacBook Pro (16-inch, M3 Pro, 2023)
-+          - const: apple,t6030
-+          - const: apple,arm-platform
-+
-+      - description: Apple M3 Max SoC based platforms
-+        oneOf:
-+          - items:
-+              - enum:
-+                  - apple,j514c # MacBook Pro (14-inch, M3 Max, 16 cores, 2023)
-+                  - apple,j516c # MacBook Pro (16-inch, M3 Max, 16 cores, 2023)
-+              - const: apple,t6031
-+              - const: apple,arm-platform
-+          - items:
-+              - enum:
-+                  - apple,j514m # MacBook Pro (14-inch, M3 Max, 14 cores, 2023)
-+                  - apple,j516m # MacBook Pro (16-inch, M3 Max, 14 cores, 2023)
-+              - const: apple,t6034
-+              - const: apple,arm-platform
-+
-+      - description: Apple M3 Ultra SoC based platforms
-+        items:
-+          - const: apple,j575d # Mac Studio (M3 Ultra, 2025)
-+          - const: apple,t6032
-+          - const: apple,arm-platform
-+
- additionalProperties: true
- 
- ...
-
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260313-apple-m3-devices-dt-binding-88cf8a6fd429
+There is no user of this in this patchset and your commit msg or
+changelog must explain that. We don't take bindings without users.
 
 Best regards,
--- 
-Janne Grunau <j@jannau.net>
-
+Krzysztof
