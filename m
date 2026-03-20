@@ -1,55 +1,55 @@
 Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967D43ACA7B
-	for <asahi@lists.linux.dev>; Fri, 20 Mar 2026 12:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792353AC0F1
+	for <asahi@lists.linux.dev>; Fri, 20 Mar 2026 12:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774009424; cv=none; b=s8kXf6j5i2/yuNWrCR+qbs2z5LPJl4/RltTbDolxtXVqOwVYcX8X/z7etbdJmgXKzLws8fkYYagdTOFpTYlx3xQk8q0eqWZ1hcI/BIdF/4LIMImDtotONMqNMVqVdlnqiO0Yuf2fCHAHfIaT6Sj9uEBMTP2uXIG37j0uMnTP0XU=
+	t=1774009426; cv=none; b=a9EsIhiKfQB6YNTRJMzxTqcXRawsX7IJ6pOmGRd1WsNZateX/qlx39O+rslsEz/h/ZFFtmkugBXfirQ/JNTPwjSGysFvC1/IDtdQZ2HfVovtkUNoWJyYB/nG4Fx7znLdpSXa0UEvlGLu+rihJfPSKaxeFinT2N6gTbWKCOgh130=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774009424; c=relaxed/simple;
-	bh=iptqK0MK2F+9Cab0yWgsD04dQkDPQW6FI8oBI0X4bB8=;
+	s=arc-20240116; t=1774009426; c=relaxed/simple;
+	bh=x6Qe6Kw14xao3bSRFl/Kgufiy8EMMno8B7J53ldPVP8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kPR8umTO93+ppTdMMjxBi5NCMijNpUkGYf2GUCRKZOQut6YIthrKFk58YV/AHPXtGC0s7DBVYp15j5aR2yLGCX2nisgpsbQrbdh4MzMgeDc/Ln+uxgO9DC0dMv1+ve0T4zC8zKrocfjvGeoiVJcQFTwmvuJ22CAFfJzxI6m7RM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=qZGsRdol; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E55nhl5R; arc=none smtp.client-ip=103.168.172.141
+	 In-Reply-To:To:Cc; b=l3qFR/9Ei6JvxMf1Vlj8nDy3inMT+lFL8CLNkylCKqv4OLzL+RgLqJcrT+o0fAhb+mKcMjHaD+5B18oIQ1OuYKXdQ0XXCPcnyBa/yUjmzR/LalQ9a25ZtSR8PvcwmNSUja9YmdvZ3Hvg1vhVzij9qTC71dXyk5X61tdDuyIWQXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=LcalUQsl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Vbj/QsgL; arc=none smtp.client-ip=103.168.172.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="qZGsRdol";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E55nhl5R"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id D6AF313800DD;
-	Fri, 20 Mar 2026 08:23:42 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 20 Mar 2026 08:23:42 -0400
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="LcalUQsl";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Vbj/QsgL"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailflow.phl.internal (Postfix) with ESMTP id A0DFA13800E3;
+	Fri, 20 Mar 2026 08:23:44 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Fri, 20 Mar 2026 08:23:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1774009422;
-	 x=1774016622; bh=LiJ39O+gV/vs6WPLCTGiaT+afqvJ67nFrDEVuBuGfvI=; b=
-	qZGsRdolvzShcx/PSmpYIchq3vQMQT269Tc1gxS3NJVyL9o/usDCfWtOC9DUXDNs
-	27KkpNScWcYib6s1xdYvnMjaNkH85qdmc5G+Yg5GBOAKX7zGDbsUesoEJb6588nc
-	pfE00v1MZH6cepifrUDUwzroGqgB5ubbTkG8f7Nm3KJQsdF6C7KCe2e7pqyasPdE
-	jPFR0THfqAlGO2w7vwjc5o0lxXjcdtdO8T112Uul2NRluOYrMeFON42tEae+E41a
-	gLFD0IsGPqyGi0pIvw+rYvkvg7mTKhQrX/iKx54gzmnLon0z+ULT7V96xXopCYC0
-	br0KxTn/rWI2QZmChp0qeA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1774009424;
+	 x=1774016624; bh=jtkLawOArao2lCnWHz+vxVSKfUKpDNghJlpU1ibhhOc=; b=
+	LcalUQslf3rG6fhoDzayHx0tTcMSQ7ihtdzHGQdQlTcW6I3NEVtunzF8cplqLzKj
+	5Yzh+oDGHLDbqTx2+GB7KkmC8JgC0A/JhfI7wQiQSl39niHKwA42qYZ2l6Xbspkl
+	fHvu9vFhxBHFT8zYs1yI+p9kXIQUnxa7MQFPQm0MhIrdPLQMJp89ChwNjCQaQ0mv
+	4gsLUfppjS1y8iLM7nWtvinWkpCpDI/PwGMh4oaRLyXxj4iA482eqmGoTcDKso2b
+	1HVWqT5mvJrRC8WRy4Cxp7R6c6h+W7js7YS4stZWgSvpNjwAuUJJeRjrD7+aumgc
+	0PJsw0ISMQfpdKAI7aN3mQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774009422; x=
-	1774016622; bh=LiJ39O+gV/vs6WPLCTGiaT+afqvJ67nFrDEVuBuGfvI=; b=E
-	55nhl5Rbv+6HvuHCcvKIDi0Y4YUKvM9jjQDHz+TexuoZrlGgoUU/6zfGxSWh6jkX
-	dPIYm/7npGSFy0zOkPJXKSaGFN008572A1uEbo/hF8F3sjjIl7FPSZF6KmcPp/CY
-	3cN0A4qV0r/A45SX+rdtabcYRe/Oh4GbejjhtuxIOkGN7NViqt9xPiLUj8yFDCgY
-	aZ5PY33s6onBaBJW3PFhID2NVuM4p5jFb9Py+3q+ZbLpmBzeN2hlTJ9Bj0OAu7fw
-	1Z1QsdgWy2E561DFY36nv0mIUVzmc3DJBaIvicymjO2HD8MTeKd3U3qXbzc5N0gc
-	O6dxjy8kkRyiKBBzzZgRw==
-X-ME-Sender: <xms:Tjy9aUE8cMi-Y837N9JcVB4mcYNbQDk6dpWrA2CoWVFUaSoOz4-fOw>
-    <xme:Tjy9aSMBKRo6y2ArHcKg5UU7ASV9Ti0ydhm5-wo-VTdz1aUGlOLPwWGnSSB5-h7nP
-    Vj5VQfbVOlnF-VLtKo6UCkFcEQoZqivfz5MsyuwUshj_caGCB0VJxg>
-X-ME-Received: <xmr:Tjy9abv-6rhwB0ZYeoaSzCPuLmvfAGs-hOfHZ6Lby-t8KBc3_5Onj6d1rP2NknLIBo16bOQy5pgq36RjE9axEqSIWF242Nk9SHGWTw>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774009424; x=
+	1774016624; bh=jtkLawOArao2lCnWHz+vxVSKfUKpDNghJlpU1ibhhOc=; b=V
+	bj/QsgLRH69dp3fe2nx/b8BsNLWt60iFSQCklJdTERPDOHxbjms2FaRonQQHN2y5
+	yzrdx7Jlirepo3TET4DDiyazN5aeIcVGj2TgsnNVTLus4VhxH9mO2tXKUyeKkF1C
+	qV1YVZGlzthW/7zmDRRxv/K1hsCWBKXGjJ7+9T3O32LQj1SAzI1ybK1z09Q53H1m
+	ru9Rs4c77FWZa8XDseWr1t9ZcbXTsqAyJCzqtKlrjabsRGzEeAH4QqO3HGbRapJy
+	8fyERzcBwuMMZGCWbXVlyhapiH+D7t26Gsi6A7bTc/EcCXfkJYyNGJMTINuPsjXh
+	c27R5u7iTbkUuKoPwx2qw==
+X-ME-Sender: <xms:UDy9aaIHm6yVcW30iyI991a7Cg5zkPOK7oIfrmum1QN9MD8Tm4bMIg>
+    <xme:UDy9ac7cYaRkKtiZxyyqRAI8lcECr6mvfgH9X_jpwSPL5YZfvqhdQVy3d8bIAoO8v
+    FT3uxMBL9xpjc6mQQ8hkAUaR03Cwtzfjp-Lv4AHWZv1uMS0hLQVyg>
+X-ME-Received: <xmr:UDy9aZnnlihSnOCxc9GvK3FFVFAgmIM95zAoV50ueAcdVNHt3dUF4S2SNOcfCfAEYHX_Z5hJPvsHpx1NuoaVOasU6GYWEE6bLM9u0g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdelkeelucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
@@ -66,17 +66,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdelkeelucetufdote
     hnvghlrdhorhhgpdhrtghpthhtohepkhgvthhtvghnihhssehophgvnhgsshgurdhorhhg
     pdhrtghpthhtoheplhhinhhugidqihdvtgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
     gtphhtthhopeifihhmsehlihhnuhigqdifrghttghhughoghdrohhrgh
-X-ME-Proxy: <xmx:Tjy9aYJH8ecz5XDjs_VelJ2b4ydtqVyLx32LA6Wp7ohEkX3dOCttFw>
-    <xmx:Tjy9aZeXGsxx0nowuyy53TVeyMjxOvRq9-xbXX9sEZY5xlk-COFAIg>
-    <xmx:Tjy9abJ84kpBNR-T3CPuRD7AycW_SmjhMDzOVGK2ZdEbrYK_XsmoKA>
-    <xmx:Tjy9abBDTPddTRyFEeAYvCxDCB3LLhEpTH7wEToJxTUHNaAkkrHrhw>
-    <xmx:Tjy9aRBwv7xQ4yGVgfuc5RARD7k09KQVkAzkkwwbGMDcxh2o-OWbY5wq>
+X-ME-Proxy: <xmx:UDy9aWJrqKde_2_UdgrTcWiWchePzM7Rbr0mvpiU4A2BzWmannIzXQ>
+    <xmx:UDy9aSEMsnsq6lYq5-qgeVj_AoiMfzR-wDwkxSAhLlL_Of08YSuDJg>
+    <xmx:UDy9afMP3rbLGE2Pqrag8taS2uYW7DN2kjkWgZU343LbzcM9c99HHQ>
+    <xmx:UDy9aU8twT63cAh__d-AmF8suJWIzz3k412zM-kM8DYWGwMLtfj4cw>
+    <xmx:UDy9aT9gBJhghB5JpfKryQobZCqz2whyfjGuMZsRgeN6eslixFcqR5cu>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Mar 2026 08:23:42 -0400 (EDT)
+ 20 Mar 2026 08:23:43 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Fri, 20 Mar 2026 13:23:20 +0100
-Subject: [PATCH 2/9] dt-bindings: arm: apple: apple,pmgr: Add t8122
+Date: Fri, 20 Mar 2026 13:23:21 +0100
+Subject: [PATCH 3/9] dt-bindings: power: apple,pmgr-pwrstate: Add t8122
  compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -86,7 +86,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260320-apple-m3-initial-devicetrees-v1-2-5842e1e393a8@jannau.net>
+Message-Id: <20260320-apple-m3-initial-devicetrees-v1-3-5842e1e393a8@jannau.net>
 References: <20260320-apple-m3-initial-devicetrees-v1-0-5842e1e393a8@jannau.net>
 In-Reply-To: <20260320-apple-m3-initial-devicetrees-v1-0-5842e1e393a8@jannau.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -103,40 +103,41 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-i2c@vger.kernel.org, linux-pwm@vger.kernel.org, 
  Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1039; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1176; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=iptqK0MK2F+9Cab0yWgsD04dQkDPQW6FI8oBI0X4bB8=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsy9Nu5Xkjm2rVnqrKZcMsNZo0z6ZtlBsWdW1zitZvyJu
- 7v8/pf/HaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACai18TwP2SnW4Czn7fuoe7w
- ud+32KXNCovYf0PP4pt5VVXF7OWqhowM5xPXGW7lPfbXQlHp1LMg92Q2Lgv9CgcVLdtvnHz7NwZ
- xAgA=
+ bh=x6Qe6Kw14xao3bSRFl/Kgufiy8EMMno8B7J53ldPVP8=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsy9Nu7RXC/iF+1PTOoqex/ikP6gZsZWu/BQoSd+0pl/l
+ He0qh3sKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJG2Swx/OFc57/ssvYhx5YPX
+ 06xuppluMJfo3q8+eZKB1ywN9Uc7PzAyrLOfeHaT2yOfT4+5D/4uLxOamy/e12i6oHlmb7KJ/+X
+ 37AA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-The PMGR blocks on Apple silicon M3 SoCs (t8122) are compatible with the
-M1 and M2 predecessors. Add "apple,t8122-pmgr" as M3 specific
-compatible.
+The device power state management of the PMGR blocks on Apple's t8122
+SoC (M3) is compatible with the existing driver.
+Add "apple,t8122-pmgr-pwrstate" as SoC specific compatible under the
+existing "apple,t8103-pmgr-pwrstate" used by the driver.
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml | 4 +++-
+ Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-index b88f41a225a385e68a71de93027b5b62c38d6b63..c67b67ba065afaaccf4436d86dfbac233870d624 100644
---- a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-+++ b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-@@ -36,7 +36,9 @@ properties:
-           - const: syscon
-           - const: simple-mfd
+diff --git a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+index caf15188099921d2b92a20a616945627f34fb869..c9be097cfba0e416081aa5d6677c74d2b34c9ac8 100644
+--- a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
++++ b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+@@ -43,7 +43,9 @@ properties:
+               - apple,t6000-pmgr-pwrstate
+           - const: apple,pmgr-pwrstate
        - items:
--          - const: apple,t6020-pmgr
+-          - const: apple,t6020-pmgr-pwrstate
 +          - enum:
-+              - apple,t6020-pmgr
-+              - apple,t8122-pmgr
-           - const: apple,t8103-pmgr
-           - const: syscon
-           - const: simple-mfd
++              - apple,t6020-pmgr-pwrstate
++              - apple,t8122-pmgr-pwrstate
+           - const: apple,t8103-pmgr-pwrstate
+ 
+   reg:
 
 -- 
 2.53.0
