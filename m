@@ -1,39 +1,39 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A5C37DE8B
-	for <asahi@lists.linux.dev>; Fri, 27 Mar 2026 06:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39953BED2A
+	for <asahi@lists.linux.dev>; Fri, 27 Mar 2026 06:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774592392; cv=none; b=UFHUsdaYbOlGXrEQl6kdojWTuIOKBQfmEKxXp4VMQZ3RSrfGUTAXashQb2nZ+bII31A6z5CCBXhro3n5iilma4SSx9cgzPYPjBJDHuOuyfxXOBSbje4s8Vi2YMsGdBQiW4LCHPpGZkdEd2+F5qxBScB0sEKH9K2WdFBRXFvytk0=
+	t=1774593455; cv=none; b=YgkSmvKNUJpHsrgn3auzcvLoNXtUbdlmEKDv/amJfO9DnJjH9uPDZ8E0NgOn/c9bwhmtpVOUyx5/SShAkV3dXU5oiirKBNZcE+XPbJxCI7HmFomeUlON2supii+5oFBLQtkn4SZynWZwrBYTplplg/xXlD1CRwNDsEA/XE1b25U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774592392; c=relaxed/simple;
-	bh=a9MV5tB528dqbT7LmCuycL/iOqssie+F8rRh56jLNrY=;
+	s=arc-20240116; t=1774593455; c=relaxed/simple;
+	bh=qWmYBof7kcqXZaGJFhox3PYJRvZy8oAyxrCoD4W/WCA=;
 	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
-	 Content-Type:References; b=YHZXJVgI2Y8gMdKL4jvAO2MmMeh7C+DufW1OOO1ouKwAnyX9a1kMDn1P1E88KU4/zaFZmovd5/3f5qxTXD8XvZJ9zGzctqelsi/EKuX+0Ckv2TTTB+jzQcTs2BzDX91IwQOA/ccyAZdBU1j5lyRWC7NxQ/3XDIEzS0l/DmYBido=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=rUoMx9ho; arc=none smtp.client-ip=203.254.224.24
+	 Content-Type:References; b=k4F80ymX19g6G8vSaAWEqZy2lLNWsL3gdwufho4D6Wna36nvmQI5meRCClLtIZnZnVGr3hxQ0YAzwWBf4oSF4gb5n5v9XPvdjASYPdQBVE9GrvhezQzgcyprOKSJ7N3n1OosiXHbg/NMl5PRDxwlYs49wKODy8ApEGRTPANylAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=K5oZfykv; arc=none smtp.client-ip=203.254.224.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="rUoMx9ho"
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260327061942epoutp01e513165f2267b7af2278c090ab119885~gnl6Ztv1M3196231962epoutp01F
-	for <asahi@lists.linux.dev>; Fri, 27 Mar 2026 06:19:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260327061942epoutp01e513165f2267b7af2278c090ab119885~gnl6Ztv1M3196231962epoutp01F
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="K5oZfykv"
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260327063722epoutp04d14fa1601223aa5353c406b9b7e7f4c2~gn1VbRSBo1906119061epoutp04B
+	for <asahi@lists.linux.dev>; Fri, 27 Mar 2026 06:37:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260327063722epoutp04d14fa1601223aa5353c406b9b7e7f4c2~gn1VbRSBo1906119061epoutp04B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774592382;
-	bh=XnJA/5zwAPxZ6vMIZJbzIFubHwh+nIkMH+ZqspPFCx0=;
+	s=mail20170921; t=1774593442;
+	bh=1+O6aNFLjR2fJGkRkFMDHHc6Xd1lom5HjfhLE8xyfdk=;
 	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=rUoMx9hoGfks4r+dxmr5olSm/bblUxZcyt4PWgT7YJaBNdPalrNlN0cMvjQol1iJz
-	 spAJj3ov5ZFNwm/P1ZcffyGowvWtNOfXs/ZS3bb1XA58vrY5YlcN7fyKFO2w2AyW8V
-	 dhigBaDblg2q8IbpIaE8/WEF2q1syAyqZsN+lIxc=
+	b=K5oZfykvxGQYKRUaqowjfHzqKh454SqP8PZTsCS8db/DUZ402z4wQCglIdPwTHBfI
+	 FK+dN6YUkt2m7DQlbznP/TDIGQNvcxYAlHAI9hn8sEKBziC4Yl8WU+Y5CSGRca81wa
+	 3CkQrZCrHbN9MiBEWBm98SOcbTvECGaRuidS6PeI=
 Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
-	20260327061941epcas2p17e4702f290bbe98e79942dda2d496d8c~gnl557Uoj3148231482epcas2p1K;
-	Fri, 27 Mar 2026 06:19:41 +0000 (GMT)
-Received: from epcas2p2.samsung.com (unknown [182.195.38.208]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4fhr8Y3HDzz6B9m4; Fri, 27 Mar
-	2026 06:19:41 +0000 (GMT)
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260327063721epcas2p2c4f0a625266a14058ef94d5c52416784~gn1UtWWrK0303903039epcas2p2g;
+	Fri, 27 Mar 2026 06:37:21 +0000 (GMT)
+Received: from epcas2p2.samsung.com (unknown [182.195.38.210]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4fhrXw6mQNz6B9mD; Fri, 27 Mar
+	2026 06:37:20 +0000 (GMT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -67,9 +67,9 @@ X-Drm-Type: N,general
 X-Msg-Generator: Mail
 X-Msg-Type: PERSONAL
 X-Reply-Demand: N
-Message-ID: <20260327061940epcms2p576446826c1c5336a57ec19f433122386@epcms2p5>
-Date: Fri, 27 Mar 2026 15:19:40 +0900
-X-CMS-MailID: 20260327061940epcms2p576446826c1c5336a57ec19f433122386
+Message-ID: <20260327063720epcms2p43a46a694d9cda121cc804bfa2bab8d59@epcms2p4>
+Date: Fri, 27 Mar 2026 15:37:20 +0900
+X-CMS-MailID: 20260327063720epcms2p43a46a694d9cda121cc804bfa2bab8d59
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
@@ -85,9 +85,9 @@ References: <acVGECskf5pg3_MY@kbusch-mbp> <acQxjZMOqj74yIJf@kbusch-mbp>
 	<20260326014429epcms2p135ffd3c2b2fface6423d045e9614c262@epcms2p1>
 	<20260326065152epcms2p51a18d3bbecb6eb6dc2ddba09651e5152@epcms2p5>
 	<acVCnozG1WKPkq1L@kbusch-mbp> <20260326143124.GA17507@lst.de>
-	<CGME20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p5>
+	<CGME20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
 
-On Thu, Mar 26, 2026 at 03:43PM +0100, hch@lst.de wrote:
+On Thu, Mar 26, 2026 at 08:43 -0600, Keith Busch wrote:
 > Yeah, the spec is not very clear on their use. It just defines the codes
 > and a one sentence description, and then never mentioned again. I think
 > it allows the possibility for the controller to internally complete a
@@ -99,10 +99,14 @@ On Thu, Mar 26, 2026 at 03:43PM +0100, hch@lst.de wrote:
 > Anyway if a controller did return it for whatever reason, even if it is
 > a bug, we'd want to see it in the trace.
 
+Sorry, The date is wrong, so I send it again.
+On Thu, Mar 26, 2026 at 08:43 -0600, hch@lst.de wrote:
+-> On Thu, Mar 26, 2026 at 14:43PM UTC, Keith Busch wrote:
 
 I've confirmed what you discussed, and it seems like the approach you
 proposed is a better one.
 Can I send patch v7 as above?
 
-Regrad,
+
+Regards,
 Minsik Jeon
