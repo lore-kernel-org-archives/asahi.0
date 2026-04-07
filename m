@@ -1,153 +1,326 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBB134B1A4
-	for <asahi@lists.linux.dev>; Tue,  7 Apr 2026 02:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F69639BFE7;
+	Tue,  7 Apr 2026 12:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775528442; cv=none; b=tY+JE1xXMelY8ShAQ2Z6MlBhvSCaXwWxH16tpLlH73ZzD7X44kKCbh+pi7AvmbHCfySM79ECVXbMUzDxXGcSL4Z9nJCOU3MaTmjBl2uPUaZUTC0kE51fcy+asvZEM4ISEPJSJJh4rIBJLiJyneOytMLNvb4dJJagRMK7q3ed+U8=
+	t=1775563772; cv=none; b=F1bYyQb61cJ/1veaki8W9naSFnRBoqDDUMoczCnLtpC9ZLfctbywptTyW98cAR+qbT9SlEBR8FSvtCldk9zEnlzEvnstwEZbWuzE0m7HSSSdhk1vF+RSMGCpzEO9p8lb3vlAKHL9/zoBKRlDGF59wFujC4bOFHZtU5Npm4UxPzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775528442; c=relaxed/simple;
-	bh=LNl598CtverB6RoVHWavFb380/eHEY1x3g4dSUTb7wI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IGaXZOaOWLSDo8+vln8FvOvmCG8DGae70hmrFZC4xsGqCJWB9wxGNRA/SDsy9O0CbMvwU5Zqg+UdAvuBF+CjmiZNEVET6hBIBTsWo1+5q8DVw/qKruFtmArqIFLPHUdY1McQVDawoVui1vnanLXkk7LonWMZDFzxrdrhJ5TGroE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=V6fh3diO; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1775563772; c=relaxed/simple;
+	bh=MA/16xgPpr6e24Jp3Irwq/t17AycVTq4l79wFF2Amw4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GBP3UmA/cvXEe2vZ7rSQadWdwxSnCL3nu7xsxZAOhXfhF3QRepZ2QRF7gHMpGdc4cw+Ba1bBM/rjtS5Z+Pk2zbK0MrsftOzcTKoxqTW97eEngrYoGVzPgvcSoSmIUyFLaGnVUt5fkDb4xj3hfNLvNZ37kJIxbfeLuNtJ/DgxOqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f+ZnMjH9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="V6fh3diO"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d9bba96f7dso2384414a34.1
-        for <asahi@lists.linux.dev>; Mon, 06 Apr 2026 19:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1775528437; x=1776133237; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uj0K5FyMi7XSuPG2uq1mtZavJKlMVDQzSk2zMk1W2/0=;
-        b=V6fh3diO5to2aU9lLYgUkvDvxnYbKZdSZtC3CfkuubC/IZ7pS5bseM47IpqppDE+ii
-         0JXLczLLr0vZ3JkP0s6WrE/5+pIGV7zORpagEdhE1lU55pgUa+LGspAU4C9aaKzild8B
-         dnHymi9emvAykBXHkl4pZtGtOdNQJQDDvGJIO4lUO1F8Hoas+4+orivAsaA4qU+N8lpm
-         unmEh5dS+5YGMB41ILT6xHWUziQhvO5fBxBRLzsAM8zlgdbDGbRgNagb5Ip+ypOu7NH/
-         wnXCTTwK4WCK37qorQMt8OZKKNCoGUujp0XJEguUDkgC3hgOlebT93T9yvoB35D7A0No
-         Y7rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775528437; x=1776133237;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uj0K5FyMi7XSuPG2uq1mtZavJKlMVDQzSk2zMk1W2/0=;
-        b=P3YS1RWtXp4QQ8xFTES8oN72VIw68iAKEIbXdWO7xY9gvqcclbZSJ580LcN+FPcg5J
-         iMHjn5MGlL1RkzCKlZ7HSB8tY5L19dcoB5QN8OgU5OYCHAzNPP9RZ8G7el4dMvJvJL5k
-         cxxZLh7tMSrXyfObLFIzDQZok98YEqDKxNtpd8QZopRjNFIQ8uEPzGPeRrrCeUhSVoSY
-         sP9wBs+l7Cm2i4tp+npXesQRgvPF+4xdu7iqQ7Jey7Lm1rh1QjxlRWjZDlzoNcfSnmLU
-         L3ekSbOWyPvGbHFq2Ifw6orwGRpQtBeolXhoF8GAfkn5lAvf8gRXhu3lnvVrXDd5KpiU
-         5EEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXizlrs3EotzwwVWOcURUpwH50siOC/hKEl1HMkg6kQOpDb2sLowWyYnoR1EmQvu9IN+O7GBw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYNCu+CtjqJvM59pkBB/tDndDYObwJk5uSXLda4g0aS0mn6RjV
-	e1nYDk/t6jDkCMUestnmFgeRFJVyEgFBdElEr1oOxPR3p8WQfqtrnZy4JtovaJs/sbw=
-X-Gm-Gg: AeBDievLpBFExCZMwkBg2/JaH3kLiTfFhd8Pe2g2fIcZNCxCujcnyDTSnFUYu/hSAog
-	mUdpQ42CpMBW+iOis0tUwgr41RhaDvAtrmk+ZJlFLc/1O/f7EuB1SKNff4XNmaWHWyQbJhdj4ml
-	vCDfehBP03g7dusIkDw07M2im7G+Ud3dz4vS2H2vJf0HQuEtnCUXbLWevw9Qtrhv0dSH2OvDsBE
-	dWbOni0ozLPodgryfMFwXpEljmf/cBq4wx8zSDG6orqS5EKGWYZARmOliIdenOdt/EwJ0Ims9EE
-	z3v4JlItyP54gmqet0TbNej4spzV351RomKqnTUR5zCctH9Ft/pDwupYrWW3ayQf5bA/cRa5wzS
-	1mjJdzx+soyB6JCP/xhnU3D44hHnrB7h0TPvV9Mu30P55FfxxE9GIQQgHrQYOcYYZapE/E1Zy9o
-	zfQkTXOa5eNr8k/qpDIHWl3cy9RyIOkDd1dZNaCHkpOMxI/qiQZExlLatMj7u3jWYKY9j1efUO4
-	f6/t1l5aQ==
-X-Received: by 2002:a05:6830:83af:b0:7db:b68f:b819 with SMTP id 46e09a7af769-7dbb6f25a6emr9575077a34.6.1775528437568;
-        Mon, 06 Apr 2026 19:20:37 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dbd663a4a5sm4895363a34.25.2026.04.06.19.20.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Apr 2026 19:20:37 -0700 (PDT)
-Message-ID: <8143e057-4c3b-4365-8780-003e897b9baf@kernel.dk>
-Date: Mon, 6 Apr 2026 20:20:35 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+ZnMjH9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EC931C116C6;
+	Tue,  7 Apr 2026 12:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775563772;
+	bh=MA/16xgPpr6e24Jp3Irwq/t17AycVTq4l79wFF2Amw4=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=f+ZnMjH9u95W+KecgH1M5djCLLZnJ2HGZ7KjMf3gVFzXfg4lq3jCo+mxR/E9egmnh
+	 kXHaO5RLfZs70qR1kR+ZFxDvck468UjNzYFmkXVbvcIDzf6b1nYV1LByIVsJPqZ1wA
+	 EMWm0IjAuL6xPC8bbCOa4WtknGR1GqgmdRkdK9YIqLxMS921b6lvGNUCSqQB8Owk0m
+	 0e1QTOckyMRkmXbedowUvPjEMDHRePabm4d0WGawZsN5H4MJ2emhZu3KlbGx9SI4jG
+	 tKLj9tu4uQonVasdEfh4FNoilbjgCiwzzvpjvdTz2w60DecGM+MQJR2wWT0I/w7ujF
+	 tDaRgL20q7bkg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D74E4FEEF29;
+	Tue,  7 Apr 2026 12:09:31 +0000 (UTC)
+From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Date: Tue, 07 Apr 2026 14:09:14 +0200
+Subject: [PATCH] Bluetooth: Add Broadcom channel priority commands
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-apple: drop invalid put of admin queue reference
- count
-To: Fedor Pchelkin <pchelkin@ispras.ru>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Sagi Grimberg <sagi@grimberg.me>,
- Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, "Heyne, Maximilian" <mheyne@amazon.de>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, stable@vger.kernel.org
-References: <20260403202701.991276-1-pchelkin@ispras.ru>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260403202701.991276-1-pchelkin@ispras.ru>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260407-brcm-prio-v1-1-f38b17376640@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDEwNz3aSi5FzdgqLMfN0kM2ODVLPkZGMLYxMloPqCotS0zAqwWdGxtbU
+ AfbxXPlsAAAA=
+X-Change-ID: 20260407-brcm-prio-b630e6cc3834
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>
+Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, 
+ netdev@vger.kernel.org, Sasha Finkelstein <fnkl.kernel@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775563770; l=7872;
+ i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
+ bh=gg4x5lEmIqKFrASgP0xO22e+G2K7V8H9TMkHZhq7+QY=;
+ b=vbmIOo8yojBRUh3vdplseWSQTA6tBL5Ublusuh3CS9xPiTabxvXlO4ioFtSCo6ffq9mj/H1I+
+ flNVNUJaGSeBgHsyPMZP7NVDSsx61c3wUNqJn5Pu53GVlZW04KseeMm
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
+ auth_id=283
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: fnkl.kernel@gmail.com
 
-On 4/3/26 2:27 PM, Fedor Pchelkin wrote:
-> Commit 03b3bcd319b3 ("nvme: fix admin request_queue lifetime") moved the
-> admin queue reference ->put call into nvme_free_ctrl() - a controller
-> device release callback performed for every nvme driver doing
-> nvme_init_ctrl().
-> 
-> nvme-apple sets refcount of the admin queue to 1 at allocation during the
-> probe function and then puts it twice now:
-> 
-> nvme_free_ctrl()
->   blk_put_queue(ctrl->admin_q) // #1
->   ->free_ctrl()
->     apple_nvme_free_ctrl()
->       blk_put_queue(anv->ctrl.admin_q) // #2
-> 
-> Note that there is a commit 941f7298c70c ("nvme-apple: remove an extra
-> queue reference") which intended to drop having an extra admin queue
-> reference.  Looks like at that moment it accidentally fixed a refcount
-> leak, which existed since the driver's introduction.  There were an
-> initial ->set and an extra ->get call at driver's probe function, and only
-> a single ->put inside apple_nvme_free_ctrl().
-> 
-> However now after commit 03b3bcd319b3 ("nvme: fix admin request_queue
-> lifetime") the refcount is imbalanced again.  Fix it by removing extra
-> ->put call from apple_nvme_free_ctrl().  Compile tested only.
-> 
-> Found by Linux Verification Center (linuxtesting.org).
-> 
-> Fixes: 03b3bcd319b3 ("nvme: fix admin request_queue lifetime")
-> Cc: stable@vger.kernel.org # depends on 941f7298c70c
-> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
-> ---
-> 
-> Also nvme-apple seems not to have a blk_mq_destroy_queue() call for
-> admin queue since introduction - if it's needed, the proper place would
-> be in apple_nvme_remove() just before calling nvme_uninit_ctrl(), I guess?
-> 
->  drivers/nvme/host/apple.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index ed61b97fde59..1d82f0541b0b 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -1269,8 +1269,6 @@ static void apple_nvme_free_ctrl(struct nvme_ctrl *ctrl)
->  {
->  	struct apple_nvme *anv = ctrl_to_apple_nvme(ctrl);
->  
-> -	if (anv->ctrl.admin_q)
-> -		blk_put_queue(anv->ctrl.admin_q);
->  	put_device(anv->dev);
->  }
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-Could this just be:
+Certain Broadcom bluetooth chips (bcm4377/bcm4378/bcm438) need ACL
+streams carrying audio to be set as "high priority" using a vendor
+specific command to prevent 10-ish second-long dropouts whenever
+something does a device scan. This series adds an ioctl to control
+the priorities and hooks it up for the relevant chips.
 
-static void apple_nvme_free_ctrl(struct nvme_ctrl *ctrl)
-{
-	put_device(ctrl->dev);
-}
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+---
+ MAINTAINERS                      |  2 ++
+ drivers/bluetooth/hci_bcm4377.c  |  2 ++
+ include/net/bluetooth/hci_core.h | 12 ++++++++++++
+ include/net/bluetooth/hci_sock.h |  7 +++++++
+ net/bluetooth/Kconfig            |  7 +++++++
+ net/bluetooth/Makefile           |  1 +
+ net/bluetooth/brcm.c             | 29 +++++++++++++++++++++++++++++
+ net/bluetooth/brcm.h             | 17 +++++++++++++++++
+ net/bluetooth/hci_conn.c         | 11 +++++++++++
+ net/bluetooth/hci_sock.c         |  4 ++++
+ 10 files changed, 92 insertions(+)
 
-at this point?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c3fe46d7c4bc..81be021367ec 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2562,6 +2562,8 @@ F:	include/dt-bindings/pinctrl/apple.h
+ F:	include/linux/mfd/macsmc.h
+ F:	include/linux/soc/apple/*
+ F:	include/uapi/drm/asahi_drm.h
++F:	net/bluetooth/brcm.c
++F:	net/bluetooth/brcm.h
+ 
+ ARM/ARTPEC MACHINE SUPPORT
+ M:	Jesper Nilsson <jesper.nilsson@axis.com>
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 925d0a635945..5f79920c0306 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -2397,6 +2397,8 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (bcm4377->hw->broken_le_ext_adv_report_phy)
+ 		hci_set_quirk(hdev, HCI_QUIRK_FIXUP_LE_EXT_ADV_REPORT_PHY);
+ 
++	hci_set_brcm_capable(hdev);
++
+ 	pci_set_drvdata(pdev, bcm4377);
+ 	hci_set_drvdata(hdev, bcm4377);
+ 	SET_HCIDEV_DEV(hdev, &pdev->dev);
+diff --git a/include/net/bluetooth/hci_core.h b/include/net/bluetooth/hci_core.h
+index a7bffb908c1e..ef3b5433203c 100644
+--- a/include/net/bluetooth/hci_core.h
++++ b/include/net/bluetooth/hci_core.h
+@@ -642,6 +642,10 @@ struct hci_dev {
+ 	bool			aosp_quality_report;
+ #endif
+ 
++#if IS_ENABLED(CONFIG_BT_BRCMEXT)
++	bool			brcm_capable;
++#endif
++
+ 	int (*open)(struct hci_dev *hdev);
+ 	int (*close)(struct hci_dev *hdev);
+ 	int (*flush)(struct hci_dev *hdev);
+@@ -1791,6 +1795,13 @@ static inline void hci_set_aosp_capable(struct hci_dev *hdev)
+ #endif
+ }
+ 
++static inline void hci_set_brcm_capable(struct hci_dev *hdev)
++{
++#if IS_ENABLED(CONFIG_BT_BRCMEXT)
++	hdev->brcm_capable = true;
++#endif
++}
++
+ static inline void hci_devcd_setup(struct hci_dev *hdev)
+ {
+ #ifdef CONFIG_DEV_COREDUMP
+@@ -1812,6 +1823,7 @@ int hci_get_conn_list(void __user *arg);
+ int hci_get_conn_info(struct hci_dev *hdev, void __user *arg);
+ int hci_get_auth_info(struct hci_dev *hdev, void __user *arg);
+ int hci_inquiry(void __user *arg);
++int hci_set_acl_prio(struct hci_dev *hdev, void __user *arg);
+ 
+ struct bdaddr_list *hci_bdaddr_list_lookup(struct list_head *list,
+ 					   bdaddr_t *bdaddr, u8 type);
+diff --git a/include/net/bluetooth/hci_sock.h b/include/net/bluetooth/hci_sock.h
+index 13e8cd4414a1..95d156ac4cae 100644
+--- a/include/net/bluetooth/hci_sock.h
++++ b/include/net/bluetooth/hci_sock.h
+@@ -91,6 +91,8 @@ struct hci_ufilter {
+ 
+ #define HCIINQUIRY	_IOR('H', 240, int)
+ 
++#define HCISETACLPRIO	_IOW('H', 250, int)
++
+ /* Ioctl requests structures */
+ struct hci_dev_stats {
+ 	__u32 err_rx;
+@@ -171,6 +173,11 @@ struct hci_inquiry_req {
+ 	__u8  length;
+ 	__u8  num_rsp;
+ };
++
++struct hci_acl_prio_req {
++	__u16 handle;
++	__u8  high_prio;
++};
+ #define IREQ_CACHE_FLUSH 0x0001
+ 
+ #endif /* __HCI_SOCK_H */
+diff --git a/net/bluetooth/Kconfig b/net/bluetooth/Kconfig
+index 6b2b65a66700..0f2a5fbcafc5 100644
+--- a/net/bluetooth/Kconfig
++++ b/net/bluetooth/Kconfig
+@@ -110,6 +110,13 @@ config BT_AOSPEXT
+ 	  This options enables support for the Android Open Source
+ 	  Project defined HCI vendor extensions.
+ 
++config BT_BRCMEXT
++	bool "Enable Broadcom extensions"
++	depends on BT
++	help
++	  This option enables support for the Broadcom defined HCI
++	  vendor extensions.
++
+ config BT_DEBUGFS
+ 	bool "Export Bluetooth internals in debugfs"
+ 	depends on BT && DEBUG_FS
+diff --git a/net/bluetooth/Makefile b/net/bluetooth/Makefile
+index a7eede7616d8..b4c9013a46ce 100644
+--- a/net/bluetooth/Makefile
++++ b/net/bluetooth/Makefile
+@@ -24,5 +24,6 @@ bluetooth-$(CONFIG_BT_LE) += iso.o
+ bluetooth-$(CONFIG_BT_LEDS) += leds.o
+ bluetooth-$(CONFIG_BT_MSFTEXT) += msft.o
+ bluetooth-$(CONFIG_BT_AOSPEXT) += aosp.o
++bluetooth-$(CONFIG_BT_BRCMEXT) += brcm.o
+ bluetooth-$(CONFIG_BT_DEBUGFS) += hci_debugfs.o
+ bluetooth-$(CONFIG_BT_SELFTEST) += selftest.o
+diff --git a/net/bluetooth/brcm.c b/net/bluetooth/brcm.c
+new file mode 100644
+index 000000000000..d03d2af5dc7e
+--- /dev/null
++++ b/net/bluetooth/brcm.c
+@@ -0,0 +1,29 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2026 The Asahi Linux Contributors
++ */
++
++#include <net/bluetooth/bluetooth.h>
++#include <net/bluetooth/hci_core.h>
++
++#include "brcm.h"
++
++int brcm_set_high_priority(struct hci_dev *hdev, u16 handle, bool enable)
++{
++	struct sk_buff *skb;
++	u8 cmd[3];
++
++	if (!hdev->brcm_capable)
++		return -EOPNOTSUPP;
++
++	cmd[0] = handle;
++	cmd[1] = handle >> 8;
++	cmd[2] = !!enable;
++
++	skb = hci_cmd_sync(hdev, 0xfc57, sizeof(cmd), cmd, HCI_CMD_TIMEOUT);
++	if (IS_ERR(skb))
++		return PTR_ERR(skb);
++
++	kfree_skb(skb);
++	return 0;
++}
+diff --git a/net/bluetooth/brcm.h b/net/bluetooth/brcm.h
+new file mode 100644
+index 000000000000..a501f2988a96
+--- /dev/null
++++ b/net/bluetooth/brcm.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2026 The Asahi Linux Contributors
++ */
++
++#if IS_ENABLED(CONFIG_BT_BRCMEXT)
++
++int brcm_set_high_priority(struct hci_dev *hdev, u16 handle, bool enable);
++
++#else
++
++static inline int brcm_set_high_priority(struct hci_dev *hdev, u16 handle, bool enable)
++{
++	return -EOPNOTSUPP;
++}
++
++#endif
+diff --git a/net/bluetooth/hci_conn.c b/net/bluetooth/hci_conn.c
+index 11d3ad8d2551..b2c7414a9c5b 100644
+--- a/net/bluetooth/hci_conn.c
++++ b/net/bluetooth/hci_conn.c
+@@ -35,6 +35,7 @@
+ #include <net/bluetooth/iso.h>
+ #include <net/bluetooth/mgmt.h>
+ 
++#include "brcm.h"
+ #include "smp.h"
+ #include "eir.h"
+ 
+@@ -2775,6 +2776,16 @@ int hci_get_auth_info(struct hci_dev *hdev, void __user *arg)
+ 	return copy_to_user(arg, &req, sizeof(req)) ? -EFAULT : 0;
+ }
+ 
++int hci_set_acl_prio(struct hci_dev *hdev, void __user *arg)
++{
++	struct hci_acl_prio_req req;
++
++	if (copy_from_user(&req, arg, sizeof(req)))
++		return -EFAULT;
++
++	return brcm_set_high_priority(hdev, req.handle, req.high_prio);
++}
++
+ struct hci_chan *hci_chan_create(struct hci_conn *conn)
+ {
+ 	struct hci_dev *hdev = conn->hdev;
+diff --git a/net/bluetooth/hci_sock.c b/net/bluetooth/hci_sock.c
+index 0290dea081f6..4be6aeeb6bad 100644
+--- a/net/bluetooth/hci_sock.c
++++ b/net/bluetooth/hci_sock.c
+@@ -1035,6 +1035,9 @@ static int hci_sock_bound_ioctl(struct sock *sk, unsigned int cmd,
+ 		if (!capable(CAP_NET_ADMIN))
+ 			return -EPERM;
+ 		return hci_sock_reject_list_del(hdev, (void __user *)arg);
++
++	case HCISETACLPRIO:
++		return hci_set_acl_prio(hdev, (void __user *)arg);
+ 	}
+ 
+ 	return -ENOIOCTLCMD;
+@@ -1072,6 +1075,7 @@ static int hci_sock_ioctl(struct socket *sock, unsigned int cmd,
+ 	case HCIGETAUTHINFO:
+ 	case HCIBLOCKADDR:
+ 	case HCIUNBLOCKADDR:
++	case HCISETACLPRIO:
+ 		break;
+ 	default:
+ 		return -ENOIOCTLCMD;
 
+---
+base-commit: bfe62a454542cfad3379f6ef5680b125f41e20f4
+change-id: 20260407-brcm-prio-b630e6cc3834
+
+Best regards,
 -- 
-Jens Axboe
+Sasha Finkelstein <fnkl.kernel@gmail.com>
+
+
