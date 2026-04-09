@@ -1,136 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0540A2DFF04;
-	Thu,  9 Apr 2026 13:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6992B3DE432;
+	Thu,  9 Apr 2026 14:47:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775741781; cv=none; b=qqcKwA2JrhVZZOkmPVzrJRyjw7qX0+Hn2/STSlHr0PL3zhJUDGQGAN4ucJ1CvU5Qbh7x2c0qZe5YEctWjSaD90oUMQNl8qAAe+mt5bnvfvBesnbvt7BrAy9DNoIErcHt8FE6WAub7rk512E+t0/8+SuyN6GfM+FjjnxPbckpInM=
+	t=1775746055; cv=none; b=U06dXAh/8YOyO1lZNJZZp5qIl8D4l9WqEzYdfUrX1d+LFIaTI2omMJKm7WHqPgPKncyHu6B71TWgZdaGbeuOQP/pqc2qynIhWOlenPobcV2LfrJTKx9lYVKyySV6CaektzF2muHndJ9916siSLyfRfK52fPCznqb4cVHXQDNIEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775741781; c=relaxed/simple;
-	bh=GDn1DLacIU14AK7FEP/oZNxe8Zv3uw0qR8hvd50FNrw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pbKecWKWXKDoxo/XYpjIh4h1sDha/p92/BAmb2CfuBdMxKFOllgOHd1Yp5YVcnbKgBBZkfNClZCjMCkj+Kv0NosTZ1gFEIfpuFf6Wn0RdOVFOLGfhOgp4r4hLigANfDpkEIipoa0gdZEGojfiLulA01gTEEUpYOMTBZgiDE9WVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HAeetAG1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775746055; c=relaxed/simple;
+	bh=djRqfPBkNVahcZFjp0o5BzT6Z5NlQchfQKtyM/aCpRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zr8QAlFnMNLQG2GyGmD9UcG+d186Bz7vevTZK4JHndtxfcJLLc8djlDa9eSw8Eaa929OAeDQRPdt+ynwumnXs/jQxVRgv0al50QSw5Er+femENsW6auQR9R9PrQCxNJurLX1uTzIvxok+V/Lkgv9v99ljuKvAdUSJtTA+6Msoz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DlAisKje; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HAeetAG1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 979D6C2BC87;
-	Thu,  9 Apr 2026 13:36:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DlAisKje"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9B80C19424;
+	Thu,  9 Apr 2026 14:47:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775741780;
-	bh=GDn1DLacIU14AK7FEP/oZNxe8Zv3uw0qR8hvd50FNrw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HAeetAG10hQOSi28lGmI8p6MQ6lUDjbpcZSKna3znj56XsevBbHIvmJ73H0EKGk4h
-	 geafC4hvDZBxOB/IwhyUAYSww5URj1sCfthRkP9DPXqvyB5ihAb1w4VErFikL+39DR
-	 JYmM1p7CzWe3cyNMHAc72RPsFMdGGB16vQsC1oPxp0PjVdKZ7reCqWgthVpYNSZcJ1
-	 OeCH+8PQCCFIbrBR0L5hkdyVE/QfI3AC4gA0YLvnDZXN9W09echBeNHD2aoQlSwOVN
-	 HaqEzTn5GOUH+9tM/idaNdF3b25sw4mL2rwGSGkwhX94LdkjNNc1CxI0TgyGJBWOCs
-	 kskToFhzh+JFQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wApYQ-0000000AGL8-0UYk;
-	Thu, 09 Apr 2026 13:36:18 +0000
-Date: Thu, 09 Apr 2026 14:36:17 +0100
-Message-ID: <86wlyg2r3i.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: akihiko.odaki@daynix.com,
-	"Gutierrez Cantu, Bernardo"
- <bercantu@amazon.de>,
-	alexandru.elisei@arm.com,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	broonie@kernel.org,
-	catalin.marinas@arm.com,
-	james.morse@arm.com,
-	kvmarm@lists.cs.columbia.edu,
-	kvmarm@lists.linux.dev,
+	s=k20201202; t=1775746054;
+	bh=djRqfPBkNVahcZFjp0o5BzT6Z5NlQchfQKtyM/aCpRo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DlAisKje+O0Lnmqr+zVussfrUGx5EyoJKtv8uEoz3CJtl+tT6wWPZNX39aDECpJ8b
+	 bVgP93SURRCtuaDuBFe+9ehf+jfHND0Y1/cVmfADHpr++Gl7ctLO5oUJLX9eJZ2/9S
+	 UxQGVmAfT/RdYtlu4mU0wJ0T2zdB3CQVdSb8xai6em7u+iDDRmCIILxqWML+yCeKF1
+	 CVmu/mYqQuz+1x+nv9+ido/yjHwdANbjiN6pfavqgqrK7+7VEVgeZG+2JYjg54j3fj
+	 0qs+Viz4C1LIby2TdVLejtg1KpnWQjSfUHE0Kfpm7iYbEbLiUSbC6eMcyd6u0fpayd
+	 ITvz+7dpj/YoA==
+Date: Thu, 9 Apr 2026 08:47:32 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Fedor Pchelkin <pchelkin@ispras.ru>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Heyne, Maximilian" <mheyne@amazon.de>, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	marcan@marcan.st,
-	mathieu.poirier@linaro.org,
-	oliver.upton@linux.dev,
-	suzuki.poulose@arm.com,
-	sven@svenpeter.dev,
-	will@kernel.org
-Subject: Re: [PATCH v7 7/7] KVM: arm64: Normalize cache configuration
-In-Reply-To: <b71910e202ac4a56a87c0e34df13cce058d46a76.camel@infradead.org>
-References: <20230112023852.42012-8-akihiko.odaki@daynix.com>
-	<b71910e202ac4a56a87c0e34df13cce058d46a76.camel@infradead.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] nvme-apple: drop invalid put of admin queue reference
+ count
+Message-ID: <ade8BAxGrW9q3DFM@kbusch-mbp>
+References: <20260408141815.375695-1-pchelkin@ispras.ru>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: dwmw2@infradead.org, akihiko.odaki@daynix.com, bercantu@amazon.de, alexandru.elisei@arm.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, broonie@kernel.org, catalin.marinas@arm.com, james.morse@arm.com, kvmarm@lists.cs.columbia.edu, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, marcan@marcan.st, mathieu.poirier@linaro.org, oliver.upton@linux.dev, suzuki.poulose@arm.com, sven@svenpeter.dev, will@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260408141815.375695-1-pchelkin@ispras.ru>
 
-On Thu, 09 Apr 2026 13:25:24 +0100,
-David Woodhouse <dwmw2@infradead.org> wrote:
-> 
-> On Thu, 12 Jan 2023 at 11:38:52 +0900, Akihiko Odaki wrote:
-> > Before this change, the cache configuration of the physical CPU was
-> > exposed to vcpus. This is problematic because the cache configuration a
-> > vcpu sees varies when it migrates between vcpus with different cache
-> > configurations.
-> > 
-> > Fabricate cache configuration from the sanitized value, which holds the
-> > CTR_EL0 value the userspace sees regardless of which physical CPU it
-> > resides on.
-> > 
-> > CLIDR_EL1 and CCSIDR_EL1 are now writable from the userspace so that
-> > the VMM can restore the values saved with the old kernel.
-> 
-> (commit 7af0c2534f4c5)
-> 
-> How does the VMM set the values that the old kernel would have set?
+On Wed, Apr 08, 2026 at 05:18:14PM +0300, Fedor Pchelkin wrote:
+> Commit 03b3bcd319b3 ("nvme: fix admin request_queue lifetime") moved the
+> admin queue reference ->put call into nvme_free_ctrl() - a controller
+> device release callback performed for every nvme driver doing
+> nvme_init_ctrl().
 
-By reading them at the source?
-
-> Let's say we're deploying a kernel with this change for the first time,
-> and we need to ensure that we provide a consistent environment to
-> guests, which can be live migrated back to an older host.
-
-We have never guaranteed host downgrade. It almost never works.
-
-> So for new launches, we need to provide the values that the old kernel
-> *would* have provided to the guest. A new launch isn't a migration;
-> there are no "values saved with the old kernel".
-
-And you can provide these values.
-
-> 
-> Userspace can't read the CLIDR_EL1 and CCSIDR_EL1 registers directly,
-> and AFAICT not everything we need to reconstitute them is in sysfs. How
-> is this supposed to work?
->
-> Shouldn't this change have been made as a capability that the VMM can
-> explicitly opt in or out of? Environments that don't do cross-CPU
-> migration absolutely don't care about, and actively don't *want*, the
-> sanitisation that this commit inflicted on us, surely?
-
-I don't think a capability buys you anything. You want to expose
-something to the guest? Make it so. You are in the favourable
-situation to completely own the HW and the VMM.
-
-The stuff we are allowing the VMM to change are not directly relevant
-to the guest anyway (set/way per cache levels...), and were only
-actively breaking things.
-
-> Am I missing something?
-
-That you had over 3 years to voice your concern, and did nothing?
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Thanks, applied to nvme-7.1.
