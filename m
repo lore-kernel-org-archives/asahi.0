@@ -1,33 +1,33 @@
 Received: from chaosmail.localdomain (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7417B28725B
-	for <asahi@lists.linux.dev>; Sat, 11 Apr 2026 14:36:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37C135E929
+	for <asahi@lists.linux.dev>; Sat, 11 Apr 2026 14:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775918205; cv=none; b=N0gIH/Az5gl6fGCPUMY66UIrR2kYaFjen3wajzD43FADgtdQDLEIQRHyXiHwhhAx5XZbahS9MRRS2ORThabxcSqOIyBADBVHJwtgiHix0lxDoqnGn2NpBWkYhS670ZvOFZzSX/dgZrTcx3/vgwJJepsiv+PSBr1DOzpOH7DVac8=
+	t=1775918206; cv=none; b=Vhvb6a3Y0zpuWU8xjDoCXvYzQzsryZ8aehLIYtPB0aDs0v5qgXvARCVtDwWU7wI57QfR0OYo4AHuP8+f4kX0a05fEgXokJ4cOABnBHtVv7nDktGQhRXVykOO2rbct1pr9qdSt622opQuCuqJxEPUV5atNFg93tOsZDT/8V3H2zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775918205; c=relaxed/simple;
-	bh=pFvZzJ+2JNqYzGkXOj7yghuqMYYsZ3ZA8LBIkJ02IUE=;
+	s=arc-20240116; t=1775918206; c=relaxed/simple;
+	bh=H3vb196Bonv2B64TrkyQotDmkvS/Tgm+20Oi7PQEDyw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u7puWQEg9/5/Rd8HKZhgjut+a9WsgZAS2y9NJdHYXajG6ZWozQ693iKse7981+E0/P48eDGfrpc4gyCE7tBODkzniqkXsw4otE/beOZa5BEaWTJAWX8SKfCUjBguU2BxxhmFLkptvpIl9gtDIZSAaLgGWxI9SMF1EYAhRu7jWTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=i8gdiMs6; arc=none smtp.client-ip=77.81.229.115
+	 In-Reply-To:To:Cc; b=oTRLVgStVDyIDI3nLyFnYiA6N9Fi1ipq0fxUNOPCjO/WTqyh8fy4mKE2Ul0O+TVQSFZbhtRTKCsNXxJ8bbEQuTvEI42o5O7rtLxBOVPt8HaR6eghvSTKI489nVLYHlPxDWCM3TZT3lIijuaa0TlxvhyW3Nii5ArOWZNUSXc/S5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=UkMhGpa0; arc=none smtp.client-ip=77.81.229.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="i8gdiMs6"
-Received: by chaosmail.localdomain (Postfix) with ESMTPSA id 70E251CC199;
-	Sat, 11 Apr 2026 14:36:36 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="UkMhGpa0"
+Received: by chaosmail.localdomain (Postfix) with ESMTPSA id C7A2D1CC197;
+	Sat, 11 Apr 2026 14:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
 	s=mail; t=1775918196;
-	bh=FtGiuzbBUavxf6U1ObnTJRZNvgby5w8mIWpcdSCRg1c=;
+	bh=FV2KW+VzhC+bsnnWEGvRQPU2DOb0W51ZIph3TY9j7+U=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=i8gdiMs6OirV0FgoRzPc6yf1cj1E4SqkRsX2+QnTzxkovWGCypUuFF8+BQVzHVDDQ
-	 TC6qyWzVhmj+0MxaCECOzqVyq/B+eWz3HCEL4C9cFppemYML3H8re9rAJ785reIYpk
-	 E+IMn8TMIAdIMEkfxyG+I+Avkhq7fgqUAv19YSuQ=
+	b=UkMhGpa0dzddIdSXbo0kBLHynv1yiKYSD/wKMj6lOOqfXaV7e1ZM7S2qiIqkkWaw2
+	 6m7ZsNmhOu3Fa0zgJ2Gc+VfLHLwiQwIqDmRk+GwZ42nYzmbTX+Oeu2LBCnnxzf1934
+	 CKTIksEQlUMl1kk0ZbrzzgoLLNrLMjTbPsJ/Imc4=
 From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Sat, 11 Apr 2026 16:36:08 +0200
-Subject: [PATCH 2/2] dt-bindings: Update Sasha Finkelstein's email address
+Date: Sat, 11 Apr 2026 16:36:07 +0200
+Subject: [PATCH 1/2] mailmap: Update Sasha Finkelstein's email address
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -36,7 +36,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260411-mailmap-v1-2-5a519f7b00b5@chaosmail.tech>
+Message-Id: <20260411-mailmap-v1-1-5a519f7b00b5@chaosmail.tech>
 References: <20260411-mailmap-v1-0-5a519f7b00b5@chaosmail.tech>
 In-Reply-To: <20260411-mailmap-v1-0-5a519f7b00b5@chaosmail.tech>
 To: Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>, 
@@ -44,132 +44,47 @@ To: Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>,
  Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>, 
  Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775918195; l=5761;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775918195; l=1276;
  i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=pFvZzJ+2JNqYzGkXOj7yghuqMYYsZ3ZA8LBIkJ02IUE=;
- b=PKhHPXjAYr92OwJv1HfI491wy7Rq9kUg4J4oHSojaFmvFMG5p4v2T8pMZNEiSkDeen/nhxq95
- t624Qwgt9RECOPpdKIl+dgGsGbG8c4KpwtGwOqPJkyTn+PwkJ2NgqQV
+ bh=H3vb196Bonv2B64TrkyQotDmkvS/Tgm+20Oi7PQEDyw=;
+ b=ct7uqOuq5sYCWgJLD8+EojNofW+gbwL+Za+lqMiLFXZldSDl29QDSuwNuSQ+tqJysQ7YBIGvv
+ yUEJ3VuTAPKANgO/A/llvcH4bf+Hj4iz1ALNPsBBgXxc0424NHkzGfi
 X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-Change the bindings that list my address
+Add mailmap entry
 
 Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
- Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml    | 2 +-
- Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml         | 2 +-
- Documentation/devicetree/bindings/display/panel/apple,summit.yaml            | 2 +-
- Documentation/devicetree/bindings/gpu/apple,agx.yaml                         | 2 +-
- Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml | 2 +-
- Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml                | 2 +-
- Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml                    | 2 +-
- Documentation/devicetree/bindings/spmi/apple,spmi.yaml                       | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+ .mailmap    | 1 +
+ MAINTAINERS | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
-index 5e6da66499a5..d7c822df8a94 100644
---- a/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
-+++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Apple pre-DCP display controller MIPI interface
+diff --git a/.mailmap b/.mailmap
+index 22c5ab1c5d55..df3cd6a25780 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -733,6 +733,7 @@ Sarangdhar Joshi <spjoshi@codeaurora.org>
+ Saravana Kannan <saravanak@kernel.org> <skannan@codeaurora.org>
+ Saravana Kannan <saravanak@kernel.org> <saravanak@google.com>
+ Sascha Hauer <s.hauer@pengutronix.de>
++Sasha Finkelstein <k@chaosmail.tech> <fnkl.kernel@gmail.com>
+ Sahitya Tummala <quic_stummala@quicinc.com> <stummala@codeaurora.org>
+ Sathishkumar Muruganandam <quic_murugana@quicinc.com> <murugana@codeaurora.org>
+ Satya Priya <quic_skakitap@quicinc.com> <quic_c_skakit@quicinc.com> <skakit@codeaurora.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d238590a31f2..0d7a00ae3fc3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8668,7 +8668,7 @@ F:	include/linux/host1x.h
+ F:	include/uapi/drm/tegra_drm.h
  
- maintainers:
--  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+  - Sasha Finkelstein <k@chaosmail.tech>
- 
- description:
-   The MIPI controller part of the pre-DCP Apple display controller
-diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-index 102fb1804c0c..571fa32db2cf 100644
---- a/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-+++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Apple pre-DCP display controller
- 
- maintainers:
--  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+  - Sasha Finkelstein <k@chaosmail.tech>
- 
- description:
-   A secondary display controller used to drive the "touchbar" on
-diff --git a/Documentation/devicetree/bindings/display/panel/apple,summit.yaml b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
-index f081755325e9..1c1ba59467f3 100644
---- a/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Apple "Summit" display panel
- 
- maintainers:
--  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+  - Sasha Finkelstein <k@chaosmail.tech>
- 
- description:
-   An OLED panel used as a touchbar on certain Apple laptops.
-diff --git a/Documentation/devicetree/bindings/gpu/apple,agx.yaml b/Documentation/devicetree/bindings/gpu/apple,agx.yaml
-index 05af942ad174..59989d8bd1cb 100644
---- a/Documentation/devicetree/bindings/gpu/apple,agx.yaml
-+++ b/Documentation/devicetree/bindings/gpu/apple,agx.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Apple SoC GPU
- 
- maintainers:
--  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+  - Sasha Finkelstein <k@chaosmail.tech>
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
-index 402ca6bffd34..44158e89e818 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Apple touchscreens attached using the Z2 protocol
- 
- maintainers:
--  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+  - Sasha Finkelstein <k@chaosmail.tech>
- 
- description: A series of touschscreen controllers used in Apple products
- 
-diff --git a/Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml b/Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml
-index 80b5a6cdcec9..4ca75ed07a54 100644
---- a/Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml
-+++ b/Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml
-@@ -9,7 +9,7 @@ title: Apple SPMI NVMEM
- description: Exports a series of SPMI registers as NVMEM cells
- 
- maintainers:
--  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+  - Sasha Finkelstein <k@chaosmail.tech>
- 
- allOf:
-   - $ref: nvmem.yaml#
-diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-index 04519b0c581d..d8f4f9ffe884 100644
---- a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-+++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-@@ -8,7 +8,7 @@ title: Apple FPWM controller
- 
- maintainers:
-   - asahi@lists.linux.dev
--  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+  - Sasha Finkelstein <k@chaosmail.tech>
- 
- description: PWM controller used for keyboard backlight on ARM Macs
- 
-diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-index ba524f1eb704..3e5b14bc8c31 100644
---- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-+++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Apple SPMI controller
- 
- maintainers:
--  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+  - Sasha Finkelstein <k@chaosmail.tech>
- 
- description: A SPMI controller present on most Apple SoCs
- 
+ DRM DRIVERS FOR PRE-DCP APPLE DISPLAY OUTPUT
+-M:	Sasha Finkelstein <fnkl.kernel@gmail.com>
++M:	Sasha Finkelstein <k@chaosmail.tech>
+ R:	Janne Grunau <j@jannau.net>
+ L:	dri-devel@lists.freedesktop.org
+ L:	asahi@lists.linux.dev
 
 -- 
 2.53.0
