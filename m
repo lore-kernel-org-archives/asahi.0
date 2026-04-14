@@ -1,70 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BEB523E358;
-	Tue, 14 Apr 2026 20:22:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F13C31E826;
+	Tue, 14 Apr 2026 20:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776198137; cv=none; b=iSnEvqUXZyJ+46SvqXZcb8pKGiotpUsq6eOL7BjCRfQZqCtDhv9hymSEJNo2Vh8XYtDQiGhlbUWsoiQHaC7sIR4sltB4AWA8GRGbobn0U5YBNgrkAvQZ4lLHCPtaCZLNsT6nB1EXET3N7vMxcdFQ5NmxXZDLpoeGRRn6U1rMH9g=
+	t=1776198285; cv=none; b=pxOnUtcOzW7WEghscKR9b55fZtlOkBhwd3RqAZJCzgVXB0WtkCWpIa7RRFy1myOYNuqIiE5/2Rsbbb7yjGivI+yGbaJDVhmshXVx4QZY9EgXEik2by7J1BT14XHbMYrzmETBi7Lptxgc16nLREKHNEOO9FqkQbgzkc047yD1cJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776198137; c=relaxed/simple;
-	bh=u8VoH0br5aPKxM88rZ468ccIiZFO2OyEnXm8yn1sFoI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t4qWVS4q9m1UuFbxKN6+y6b48G9w0/l6TtUiFhSt54FZCYYu6cZnR3pf0PwKsIKSJ4bO75I/YyRmNsWc2r3fS5O+2yx9Q/Xu8BRYcbWcWw02JtHJjKQGrEWOMLvLaFHZ3SiGWM3O4T8jarckDpRul+MC8Akcr4Vb9pwdG1PKK4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZv4kwTn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776198285; c=relaxed/simple;
+	bh=9gzrxKbw2rxLwue2MsvZ/QpDvJM6VvmWIy9J5cPJO0s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dg9/wGAfxhngQZJ4LzEs+NObgl4JVjEMzuhTCnDyk59PT/sriISaWPPk+8o2eSApJdq6H3LQQ/vnW6AEGLhMQBsThOz8wH0NDsVxTGcBazdghp052rfPyN7SU9l7Bx0utwichxfuCXsITr5uK47YSqHzEYN7LssEtN1Ee6+2aTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iB9npNQd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZv4kwTn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFACC19425;
-	Tue, 14 Apr 2026 20:22:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iB9npNQd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1C97C19425;
+	Tue, 14 Apr 2026 20:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776198137;
-	bh=u8VoH0br5aPKxM88rZ468ccIiZFO2OyEnXm8yn1sFoI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mZv4kwTn3d3oY3PpENWwiKPw99H1poJ53Cp9LpExkbQzdTFANpZu8a09rb6aGHRhd
-	 ROc+1FfHi3mmfTQkPQgF+5hZNk7pup0NKDmM+YgnEmLIiISVF2+mW4E8Eh8t1FIiJc
-	 YH02tjDD7Nyu2eaA66UoCzee1yQiK7mG5nN6cTRisDlGTeJ30vVYBJJKpTlqIVpHeX
-	 MLloz0soe4UuRu++BER7gGkUs7++xdB3Gh+06h4IQyr+jce1sGUgue6CziQ2SQofeP
-	 ogJMWZXQwrhmd2txQkU/MUgrB3nlfLZT4uPYmZUurUFxSYysrWwgsj6l2en7JFpATB
-	 UBMqC1H2Bazyg==
+	s=k20201202; t=1776198284;
+	bh=9gzrxKbw2rxLwue2MsvZ/QpDvJM6VvmWIy9J5cPJO0s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=iB9npNQd4Uq8GqWbc6nfDQCUGz/NKMH077as1pAwywYc5wRCRfAktsxJjnD7VG4Fm
+	 YiCfAoH9UJSR3T0Fey7YxZS2PeoRdN8bLXMetpjdu1gbDVEPCX3ikAEv8wJEosCETX
+	 6kFn24oRkmPRTttdSqHgk9PraPWwhf0lTY4dyPgTbCXCOI3UGZ2AdUvIzporkOEERm
+	 Q2czFlISg7eqB6/oWEKoHVxHDj6lri+116jn/Ve/7jhlRhXTx3Kjtqjt6iJ0d1WeC8
+	 zaduqioMFVbova++50cAcnZ05BNrs/puRC81gQuFmglTBud0VMLHmPFqEHlIXMMfvH
+	 xPzXaQrY2loEA==
 From: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	asahi@lists.linux.dev,
-	Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 0/2] Update Sasha Finkelstein's email address
-Date: Tue, 14 Apr 2026 22:21:58 +0200
-Message-ID: <177619775021.3727.15345405608996383354.b4-ty@kernel.org>
+To: soc@lists.linux.dev
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Apple SoC fixes for v7.0
+Date: Tue, 14 Apr 2026 22:24:25 +0200
+Message-ID: <20260414202428.5278-1-sven@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260411-mailmap-v1-0-5a519f7b00b5@chaosmail.tech>
-References: <20260411-mailmap-v1-0-5a519f7b00b5@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Sat, 11 Apr 2026 16:36:06 +0200, Sasha Finkelstein wrote:
-> Moving away from gmail
-> 
-> 
+Hi,
 
-Applied to local tree (apple-soc/fixes-7.0), thanks!
+Two fixes without any functional changes, they just update Sasha's email
+everywhere and fix a typo in a dtsi file comment.
+As discussed with Arnd I'm already sending out the PR now so that you guys can
+decide when to merge this.
 
-[1/2] mailmap: Update Sasha Finkelstein's email address
-      https://github.com/AsahiLinux/linux/commit/b04a4f8ff704
-[2/2] dt-bindings: Update Sasha Finkelstein's email address
-      https://github.com/AsahiLinux/linux/commit/44d9ae042c58
 
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
+Thanks,
 
+
+Sven
+
+
+The following changes since commit 028ef9c96e96197026887c0f092424679298aae8:
+
+  Linux 7.0 (2026-04-12 13:48:06 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git tags/apple-soc-fixes-7.0
+
+for you to fetch changes up to c7ff53ef45b2f879576f7bbeb163828d04f5f491:
+
+  arm64: dts: apple: Fix spelling error (2026-04-14 22:13:19 +0200)
+
+----------------------------------------------------------------
+Apple SoC fixes for 7.0
+
+Two commits without any functional changes that arrived just before the
+merge window opened:
+- Update Sasha's email address in all dt-bindings, MAINTAINERS and add
+  him to mailmap
+- Fix a typo in spi1-nvram.dtsi
+
+----------------------------------------------------------------
+Axel Flordal (1):
+      arm64: dts: apple: Fix spelling error
+
+Sasha Finkelstein (2):
+      mailmap: Update Sasha Finkelstein's email address
+      dt-bindings: Update Sasha Finkelstein's email address
+
+ .mailmap                                                                | 1 +
+ .../devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml         | 2 +-
+ Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml    | 2 +-
+ Documentation/devicetree/bindings/display/panel/apple,summit.yaml       | 2 +-
+ Documentation/devicetree/bindings/gpu/apple,agx.yaml                    | 2 +-
+ .../devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml      | 2 +-
+ Documentation/devicetree/bindings/nvmem/apple,spmi-nvmem.yaml           | 2 +-
+ Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml               | 2 +-
+ Documentation/devicetree/bindings/spmi/apple,spmi.yaml                  | 2 +-
+ MAINTAINERS                                                             | 2 +-
+ arch/arm64/boot/dts/apple/spi1-nvram.dtsi                               | 2 +-
+ 11 files changed, 11 insertions(+), 10 deletions(-)
