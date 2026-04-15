@@ -1,117 +1,73 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026071A0BD0
-	for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 12:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776256449; cv=pass; b=tt1S4dWyev1nzLzUSCUSvIrW+3MzITBRxM0PcUv6EVnP5vuQdx3wcwB1szvzxsVsaWH4ZnvXEc7fovKIS8YnQyR02Ih/g+M45xOYG7KWUgvw0ZsB1YkgiXzTLy2SQ6t3wia8WaEGUKllBJsM23UppKhmhbMtmHiDUwIe+U+VYzE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776256449; c=relaxed/simple;
-	bh=+h8HlJDwvYNw5rua/v6Zk+eoY4fhxZ1OcFHecBDCW7U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GDCI2mTUdZsU72h+SlJ271ezCnwJILvuP1gqKnX02vx9FhjGenlEt3XaaN74W9No9EAGxiBY6QBgwYS0XkecUUnGQC6vm69Roj/VDVvoG7Ju4p5TLqHGXBUAx8G/gV5/aKpxwK1vehEfSbwwctQPDHlXlLhxf3ZH9SIvBy7+U9g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gXb0JKZ0; arc=pass smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FB1199FAB;
+	Wed, 15 Apr 2026 14:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776264227; cv=none; b=JvWQDpuGConQuW8PtqFhdzWIO3fi5Ah8iLZmosxMKW7i3JczQhz7kDDOien5nYu+Loi3lZXqtOhuItCrXwb6rnmXa3vXsKyfAtII5eoQRCJJWdYSLUwR7MjQsQDn5LkgmbK6CV05x0fcmX7ibHzZz2Hv9bIWiul2zLLS+Ska/Aw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776264227; c=relaxed/simple;
+	bh=9i7ucr/FPUAUV3jCqOGxaNo9oFryZ+19C0hp4xTZ5Uw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cFRjc7F9YZOBexOiSvMimBJhRHtkBvngRGzpV4bgKmv6tq4hta47kTy54rvemG74qypvukIYv3y3DryvQZZ5BgsUIg4TB/HVVOmmDtF2r0e+VEFL1T8uxVGq6DsK4VF1FM2JbkoPRZX61aEwr3SUfIqASHjJbgPelHlmNViaqow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqaN5N0y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gXb0JKZ0"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2b25cf1b5f0so44774395ad.3
-        for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 05:34:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776256447; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ABfQd+urIetbOIjUry2tELwdU8ekA93brIcz4VrUsXJWXOLTfIUw+/2liQ+7QPbyy2
-         UHooPnhhQjrEVDE3kq8zMv644V4s+db4Q+LzeN86/KqUK0LinXZJZwBstyy2IlYr7Bi/
-         5ukNbzB8uzJNW6y9oj/Z95Fa+JBGmlCguTpIZE0exJfLxrQ4GXmJd9O/Ly1oQ+Bpcd51
-         S0u9sIFD0TO8aSS4biWiyg+2Wf+7F1ibnzu1LWEGwL8Afq7G8AXOtetm/y52ZGQehqJG
-         iffyqerWkJg0dri/BlIrG8pYjDfhjtWH15tJ2a3nNIfTnHb+22KKfU+yL7446i9Z5fms
-         pAYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9v5h0WGA6GciBmySthgQ0LZ+Ql4Vyrp/FXGCtEgGi0I=;
-        fh=hCf/qpwC9Yk1CP7ntWOOeAqyw+9LeL5vOFp9KuB+o1A=;
-        b=AIFDiYasdk+5ko2lC5vx9crr8PJKE+Zeh7zP0688FzmCwt+GzXE/4O7lxB9EBdDUAp
-         BQyjEotW0GXejCQEsfg40G3LujYKq1rBMB3Ar4rxcFTAH53MtuA1c9Da2IEIrbA29piG
-         TQViO7rTCQORnR3FbEGTCc8YzlnyKx6ZWl6Enl8cGiffT/QmiP7MYIVfzsNkHa3AvuSR
-         +hxr+mTn3mxQK5viU77SFhD91Pw0s6P1WHz/czi8T934JhSLnU4ZmeCv2hbK6pqAqAa1
-         +oV06+6NukH5Txq07lM9HCt0Wlo5OWbEPHngKcO887nc9Qg0GTCe6PRmtYtKpUe8OUvM
-         H2Wg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776256447; x=1776861247; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9v5h0WGA6GciBmySthgQ0LZ+Ql4Vyrp/FXGCtEgGi0I=;
-        b=gXb0JKZ0bqVb8jQlP2NyPfF4URMwkn0ON5dS/VDJYT0CwyMkijEb+vDE90pTs+1yC5
-         c6IvBx0dbqn0mHEIVMZWY2Cg0pnezS0vdFvz3Y6mP1oyNUql1nl5QJNxz7rNJ4fyswq3
-         klgkpbY6uaneWZ7Y2++ZdR78RjDiAkgT7bn3LBK23CvPDfvEL3+ifD0YqkNnv+UpJkmx
-         EeiKS9a2s+2wuOOO9S1CC5OVXkxJRxUJQrnws6nejzHNy5o9+KXyjcfxkzKqpalADJHV
-         b55vXMlWznTeqI8rdbOs/OVsQPTbsyLWaerCkRozi6qTbtGp6Q1cdD7Zg8nc6Ec6vrn8
-         XZQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776256447; x=1776861247;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9v5h0WGA6GciBmySthgQ0LZ+Ql4Vyrp/FXGCtEgGi0I=;
-        b=tRf3xLwcnePPRHpzQUU9gDK9Qm+cC9rmWcUNRZZCs7FXTNd5oZf8l/ooPAWnDndUIP
-         uleinY3S4zCZwwcm3YXivxXNv6VVjVHN26ShVehhL+SA2EyAcpv+1L3MTBCOsXpc6OBZ
-         Jh/9HYKj3SqvHGUoWqnzkwRzMc7RbzzX8zq3NkfgswYGIkqCixdGt7Bw+jskf4feLVQr
-         d80ZjkYuvtt31KwMpa72MVpaKW/qHPRHVjumEiTBbJ127kOZiEwOMnjWUoOOlTBh7aaI
-         lX9Y062JrAIV2LmPKP15wRKDNghv2hYv2hOgx6XNv43skJebIfx4UGx3MZ2AKfuvcGKV
-         CvbA==
-X-Forwarded-Encrypted: i=1; AFNElJ/qWAVqVIclOf8gz8TRtRNzd3lLdTSPbYT4vqOuk3hcobmY+6zg8U3zvMBdcZ1+KMb4Rhl0+Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8Rg/qATuPvXm1rLKPeOksojnKpPiHLE98w+gq70GyF9t2RVjp
-	znRXvFQgFq44nNf+QMtFAaenK0Hozd4mKIeZHonGt/ovnKzh79Pfa5bKmwlTA/pMoyXltxzKHsY
-	h1Xg410n+TAV1sje5GwEIWF67LB9muNg=
-X-Gm-Gg: AeBDieu6BXuGC65fxtImQ5Yxhvr1mzmXWtEtYudq9RSnYaKOmIXKBOTMTuYoIENUEWW
-	he4aBrYAfZ0Ttlvqhg+pxMJR4wF594FaUqxVxUoakI1bV9feHFCwSsyN8cl/cfITaJFBHJi2WYx
-	b0LwV5EdQ1ADomBcvtZC7LHz3rPTM9K05j1HvNrhBbvfGMZ4wpbVHHrpVWwDj+12UATIFDMBCPD
-	CZRWzi8ZKMuxOiOdVLfq2SweKPvD5VP8YvEUKVmUDAJM5PAjm3+5CdRtOeOd32P7pTfgEDuy8pc
-	1D+ai5wlWHA9Eu8NsZieE0ra4IxQ0A==
-X-Received: by 2002:a17:903:ac6:b0:2b0:60db:7927 with SMTP id
- d9443c01a7336-2b2d5a168bcmr221211305ad.28.1776256447117; Wed, 15 Apr 2026
- 05:34:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqaN5N0y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00294C19424;
+	Wed, 15 Apr 2026 14:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776264226;
+	bh=9i7ucr/FPUAUV3jCqOGxaNo9oFryZ+19C0hp4xTZ5Uw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gqaN5N0y3dhQK5sTEFWhpO1r9tU761vPUZi8owXkbkxUuCf43H9sZDCxMQZy+f9KN
+	 mI6BWzwbN5fafhk4e0A0FZmPVZfU/83bpV2JDMENoxCy6OtFpBhXFnPLmTDBhzCMQ2
+	 60H817fc34qGrVXhEon5JM36u3tcIdep+7IYsRDzPBgvnw55PNyNTQ9+mSpXcgUMHk
+	 eCI+X0VCixYvRAkUd1nvJ4HPGJJ0H1PRRyz+GiN5I3yEPZPALet5kVgptTRgS+NaGM
+	 paz8nA3yapGK7dgXQQ1axdzJN7aagQ7fdKoKwfCQIqT6liWjnzO5xslrZwPwAveuPT
+	 WvU1oD/9PLUcw==
+Date: Wed, 15 Apr 2026 08:43:44 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: =?utf-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
+Cc: "hch@lst.de" <hch@lst.de>, Justin Tee <justintee8345@gmail.com>,
+	"axboe@kernel.dk" <axboe@kernel.dk>,
+	"sven@kernel.org" <sven@kernel.org>, "j@jannau.net" <j@jannau.net>,
+	"neal@gompa.dev" <neal@gompa.dev>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"justin.tee@broadcom.com" <justin.tee@broadcom.com>,
+	"nareshgottumukkala83@gmail.com" <nareshgottumukkala83@gmail.com>,
+	"paul.ely@broadcom.com" <paul.ely@broadcom.com>,
+	James Smart <james.smart@broadcom.com>,
+	"kch@nvidia.com" <kch@nvidia.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	=?utf-8?B?7J207J2A7IiY?= <euns212.lee@samsung.com>,
+	=?utf-8?B?7Lm47LCs?= <joshi.k@samsung.com>
+Subject: Re: [PATCH v5] nvme: Skip trace complete_rq on host path error
+Message-ID: <ad-kIPLsGO7iv8y0@kbusch-mbp>
+References: <CGME20260415084107epcms2p71b9c0d252180653ab96a9f5f2121be71@epcms2p7>
+ <20260415084107epcms2p71b9c0d252180653ab96a9f5f2121be71@epcms2p7>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260407-brcm-prio-v2-1-3f745edf49af@gmail.com> <CABBYNZJAEqwfTuVqbFAnx97HBSjcwn3Hb+y+r4r2C=MMPxFoDg@mail.gmail.com>
-In-Reply-To: <CABBYNZJAEqwfTuVqbFAnx97HBSjcwn3Hb+y+r4r2C=MMPxFoDg@mail.gmail.com>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 15 Apr 2026 14:33:55 +0200
-X-Gm-Features: AQROBzCJwjrc1bDi-TXhcjD-wf65qYVngCDiW7f3UZYU9kWetoIg3teCKW6NkdA
-Message-ID: <CAMT+MTQ6orj5tpiGL9hz8m2TGiBjA-9D_0e1iLt=_dXBFHcOgg@mail.gmail.com>
-Subject: Re: [PATCH v2] Bluetooth: Add Broadcom channel priority commands
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Marcel Holtmann <marcel@holtmann.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260415084107epcms2p71b9c0d252180653ab96a9f5f2121be71@epcms2p7>
 
-On Tue, 14 Apr 2026 at 16:00, Luiz Augusto von Dentz
-<luiz.dentz@gmail.com> wrote:
-> > +       if (sock)
-> > +               set_bit(SOCK_CUSTOM_SOCKOPT, &sock->flags);
->
-> This is more complicated than it needs to be. I'd just add a new
-> callback, `hdev->set_priority(handle, skb->priority)`, so the driver
-> is called whenever it needs to elevate a connection's priority, that
-> said there could be cases where a connection needs its priority set
-> momentarily to transmit A2DP, followed by OBEX packets that are best
-> effort. Therefore, `hci_conn` will probably need to track the priority
-> so it can detect when it needs changing on a per skb basis.
+On Wed, Apr 15, 2026 at 05:41:07PM +0900, 전민식 wrote:
+> Hi Keith, hch
+> 
+> Gentle ping for review on [PATCH v5] nvme: Skip trace complete_rq on 
+> host path error.
+> 
+> I agree with your propsed approach. Should I send a new version(v6) 
+> based on that?
 
-I have tested per-skb priorities, and unfortunately, this does not work.
-If something tries to send a low-priority packet (for example - a volume
-adjustment), a priority drop causes the same kind of dropout that is
-caused by scans. It appears that the only way to make this hardware work
-is to set the entire hci connection as high priority for as long as it
-is being used to transmit audio.
+Yes, I hadn't seen an updated patch yet so was just waiting for that.
+Or was this one on me to submit?
