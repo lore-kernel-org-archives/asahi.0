@@ -1,81 +1,79 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E91B3C3C02
-	for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 15:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA46350298
+	for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 15:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776266379; cv=pass; b=TifcLK4qyhwhdVNiIPvpt/BmwL8Q3l5ERwFjA8YUDk/TLCuQyh3MgsRYUsSePkgU6M/M6JWsPleMEfsTy3qld5yjtyMXxUqHxG8mlYG8pPZ24ROHANXQ6hMjn/GHVTi4P5PkcEL/LYp9ieujdGZ4YQOh8tPxKTcZhFOF/VO4Fm0=
+	t=1776267090; cv=pass; b=k8zwOU5Y8UwbMRWTVDwrDxBJm0fhC2dGq50Dkg16mt4ckHn/lGB1slpyPfydC0lLgk0wqqFYcsLk9AQ9IxXb7ZILiASVF0ZI5QjRMwYxNai7VOgyxRj0MkNjtBPwO5WncrSxC8im588AMcmztPUftbKacaVvZTR53wpacKyEEQs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776266379; c=relaxed/simple;
-	bh=R35x7FeinH2LTmH0GOByVG4M38bJg/xLsvDfT8GEsJ4=;
+	s=arc-20240116; t=1776267090; c=relaxed/simple;
+	bh=eZZ9MBeGinL5cKg3LaYZTrFFidLDf8L6MNP8Brjr8zM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s05GnXZYKVN+f0vrv8S9I2nppR3h85nADPAMbZ2IMSsWb5ilWcMhkMcxiQhWJ/Gqn2ICxw1yq+thaXJVxZbf9xFlje8ctMPe1/lhdMghkqnXDpRb3tl6bDHkR6CpkLGFxk4Ei1IeFiIE4EiLlDdrH0LaCvSqjrAVMTWtaY2Crts=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nrMpBypw; arc=pass smtp.client-ip=209.85.210.54
+	 To:Cc:Content-Type; b=e6+XO/bymNkJPjPcf3B0iAECYZtO0vgnygkdR4ql0y1c5EK5A10l+4aSjcNYeYHk+XRRtx2YVlQj1/0CKZ+dPYNxn5Ad531sFFBRyNor3xx3YUJi9iYthuoFVs6ZXB9jJ97zZzI83all5qg/JAcQVxqLvlA50hNZB+Qv4s0CRK4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FlQWHbYR; arc=pass smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nrMpBypw"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7dbb89ab229so5999545a34.1
-        for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 08:19:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776266377; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FlQWHbYR"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2aaf59c4f7cso32367265ad.1
+        for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 08:31:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776267089; cv=none;
         d=google.com; s=arc-20240605;
-        b=ekkSQAHjlryEbIGJyxnVe8FuMugIT54d3KaYbzqSkao4CCiqfFdtmmCx68K7fnPK6U
-         /9JdI0Ok7TdufPv8nHfU33obaQAXd32Y6HHWVwxfGbOWeSYqmTROrN+3LGdnCEWAVJrN
-         GOEPbrLG7RrIOJWxHVPUuEBFaD+kJ6S55e5R+3+Jyeu3FtMAli8dZQfcwMhLoSOMpsV8
-         QmCGcKm5DafH0h1+ueMLdqsnXmdZRqyaqQHfvxm+qw37Sh5nQiirKj2Q9PGXDFFHiSoK
-         LeZ0YePauMDr9yzdcap7DF68zVI2YXE1Hijqtiuccihpb3toXKjf1bkp27Y3+9YRDI1s
-         G6lA==
+        b=ZYS1WX7JdZdbODBDOZXUy1DE0VLNynhLEWQJyy1qpAkR3FDLs0A0YOfqjrG2R5BkRt
+         FlDiEKdJvnzdwx9dD8kISU3n2S6OEMFDb9N+e7RplbmgjCSmKybXAvqafflBCeAqbT2t
+         bbYidy0sDN20Ev1iF22e+kspIMOucU+a7j7ex2UdHJIP6R3x+Vvo9Uo9KlGT1yZiOjTy
+         QbEpbE2jj8FCVDu8TV8+DyKuos/L0jCLmixALpcDL6GsU3n6KgKSKHAPHOgs1iDAjm8e
+         up42o2AtUr6AX+Oqka2N20dNLeYbEMdor9kxt/TAh0OsTmgyZzjmWzE0L74FMseH9Lil
+         NuVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1VOuNwEfeozQq2kMUhcXYFUYg+uJ+za15jc5bP91H/o=;
-        fh=4AoF2/UXbrNvf9aoM3qLUBfvMTzCIlUfYvxkLDsjnro=;
-        b=Ui0orwrPIZw+kdx6e1GiFESGqLPnwQXGM1ld4Ei3cw0/uMWKjHp2kL2z2o/objWD5Q
-         no1adO45AFSBAhwMC5IhGxLHnNm+ATJ692HuFdN8hVGLauRmVJLh5V4jEW6H4SAiRgAf
-         XXvokf4qLO3oky2Vic2nXpESGIdxtuf1F2hkkcZ2zgZRq4XAIEaKEK7t7BGZGvMGnmJH
-         QXMHq4q/eMfE3V3nuaxjzNdLRzr38JZ+PSAx/zyAkBg1MdfJ1YNUhTWQU34zt7qlbxpm
-         rFGBljLRfLaXn2t+2AzqkiP7xmIHmYHKIIXjcQHPlnJtwv/DuYGUUffQYvha78/7uboT
-         Njyw==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=eZZ9MBeGinL5cKg3LaYZTrFFidLDf8L6MNP8Brjr8zM=;
+        fh=IC+Kgq8IF3H6rfNFgBSZvw0CXIPRQFhpUKFNGUOPL1w=;
+        b=gr6WBgQPjC30ZRdMDaPYghW4xtMGqKSwFWRUd/rVCX1bpJ6IIaze0OXu6xv9K8fyvS
+         EWa16Rp6gn06IvJrlDWtLapjtLMD5KlWDxQZlgWc5mpy2lOtM7l3tUeWObEFnPs9i9k4
+         do2LN3lSjmW3s5Y+lZgOqbK+zqdvkD9rC1er0//kvdV1caTjOvjjZjzW7Yx2DtPsOzOm
+         3Ljl1F6c2E693/2Uh+GEk24kRcerGNQM2bIMk3Gtb6P/PQ+ndCC6uvYYprWg1jERJ1+J
+         +nkCFXpX95tcVC9VpLTOFy3CHrJ3rpx3t+gMwok5/O/I++kUh7wNpKgkGdqIjOi0CX4m
+         r8jA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776266377; x=1776871177; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1VOuNwEfeozQq2kMUhcXYFUYg+uJ+za15jc5bP91H/o=;
-        b=nrMpBypwvW48SNLPL6ba5kqyuCHNk9uHq2O1hg0sYen4xUO8bppdTkKYngNIP0LYxt
-         X/xlSa4lzdmpZemZDBFImxdrzgz5SDXhHbQGatQnVbHy/5PeZ9kn8Jj9FF1B6ylj1khT
-         G00xRix1suZ18ZhGKeyB3Zpwu87YvDl/Y9ZMiXQ4aVc2sPw2wIOiim5WOxUno6CHvgvi
-         ons8srNaS7+iZg1TY0CcYv5R2r8fEHtSASBOnjKhFLZ4kW2kxrezcQSX3t/SMqwhh+l0
-         /D47WI5mOWheXoZhvrGGh7kSf8WQ7DdGTknvm23fgDAuBkN/w/4Y3x5L3vQ+sjtitdzm
-         KpqA==
+        d=gmail.com; s=20251104; t=1776267089; x=1776871889; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eZZ9MBeGinL5cKg3LaYZTrFFidLDf8L6MNP8Brjr8zM=;
+        b=FlQWHbYR49fKC/XiCEMES6pqyycqKQJmSqZvbgab9MIs3m+XPrt0BTO0J2pFZEqR5p
+         UmT14zSvEb+vGBxEHiwRQLHJ0+uDhAqze5tNfuEOnYe/G5P4U7zO6AA7VWn/0tPouzmO
+         E3Tz3UK7FPGAIkSnhkjxcbDlpxw0mAkpwP9f1Wjs/lyhPOu/+sb3XCw84/le3RqhFzum
+         r8/noPpraCaw5frNrVKSnsZmiLDzuC5R3kkt5pdpCpvu6WsYhdxhtULkksbifmKjVu6V
+         01MKND4Ap/KWMllydHpWJ0NFd+Ty2bd7PyJL2AeVkRZKfT0m3W4biPzdAkv0zFXi9eJP
+         Y74w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776266377; x=1776871177;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1VOuNwEfeozQq2kMUhcXYFUYg+uJ+za15jc5bP91H/o=;
-        b=AC39yUcS9zYdSbqmAD2QvFPj8ArkmURAjb6FyIQrQHGW63Q93LJTCkjZ7FsuSuG4Nb
-         YUO539eXNF0XmvlOQd4idKMOJxQ9hAaSrLT9RkeTT0vKpOftOCQhXbyAa1IimH1mSgrM
-         tue+jTiG+w4vcVIHwwBItvVipTaACantxNlgvW9KmzcP/5wG2w9wUIdaH76d2mLyAQcj
-         K0ki/9Mkh0I3Qlh6q/wRp531dfoPD/0zxqilV1MKqGPCwmkeQl7VLscCCu75SGO/rl03
-         P8NpS0BrdwomNd9KyWxMWD0M3AD9frlM1JzMoG4cXlW80cnUbi5+I/5ARvhr8lTQeM3e
-         9LiA==
-X-Forwarded-Encrypted: i=1; AFNElJ9XC9Pd9la5GwXywbPUP0rfnS6HJQv5l6kxbzmEomw0uecs0VN+GqUV3/WpbFu9Oim1Se8omQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywb/veep/EiMMyuYVgS2ogTypyqB34Fo6C4EBS9Qdg/lNBYD3WN
-	hneowr2P+XaBQz44o5Lk4x3bY3X9BPULPTPC4HIXBRLT8TSA3B0ff9xZmoGte6HnakLjZW8fgfq
-	7MKAC3gBSoOEYx/rhyPKbL+Mch+vHpQ0=
-X-Gm-Gg: AeBDievKYTGOQcLQYRu63ZAj441U3C2zGNTl4qQi3mswRMkQ/b2W2aKTE8ZBHXGfio8
-	Np/AMttDIT7bvTzDkrgmL6GVeTNIwdv/v00pWFm+nGxbAHYb7qAuNed65QalUQHm/b1GobzNcJl
-	ho7Z8Tf3ih+8uRhcLL727uzzejdIzEd/7KsRRe/XLhaOaM6PWrSRgC6e75WSrqITItZd6COxKew
-	AU49YtQlUiZj1zD+h10pndEfApVTGQIdjvPbyHDotuw/eyRq8YAvX5RddtnP/vVmq9kTW/05KAs
-	qyddE+i0ifeIB3dMbZkweW47o7rrNLqtqCPmxzs6a5wIS976M2XcuoManIOxBKzclae80Q5dhGn
-	FUg==
-X-Received: by 2002:a05:6820:98a:b0:68c:a53c:8ff1 with SMTP id
- 006d021491bc7-68ca54bd3eamr11009276eaf.11.1776266377081; Wed, 15 Apr 2026
- 08:19:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776267089; x=1776871889;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eZZ9MBeGinL5cKg3LaYZTrFFidLDf8L6MNP8Brjr8zM=;
+        b=aATWY+Y9JUR1hD8NzeTWs6ConAVwl911G4V8MG/eA8u0WF/fqLcNPQM89ZHQKrS51E
+         ZiY2PPcHAG0wYZZKUQuBZGfJ05NaFWaq/W6976jyucKIsZSKiPnuV1idK3FbkIFE90u4
+         7oCmFPtJYKVSBT8P2XXPlDCC9y4H5lU3HD9dksIay2UfRL6gzH3PN58h7hAK9IbArc0q
+         AX5vxL14Y22ns2pEBY6rQp8rPo1EL+58SQL0oexmV9bRPQrj4k3koU+ErgNq49F+Kjpg
+         umSfhLldulJ9bVk0QeD4X3P1NQS6x1ahCm+a06L652FnY6WwCtvn3EmRpUmZYPaK4bVA
+         1CBA==
+X-Forwarded-Encrypted: i=1; AFNElJ9sKK8o0g1V+g6+zU3L8SfaR4IOj6ZgFVcMTk3gKapA42XvmsLIZ9MIUmpxhAPa1sactkRjSQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvA3dTmNep80qNnL9xygkFXfOSfQoteyWfK+V2pJ8clbm2cVaF
+	SBnp84z81ZpgIA6JNhWek6IbyMsAXr2pjsfhoMNHGwG8gxKAIgoDwDWrtQxXEQOu8QWYJtN/dAc
+	Tq9Yy6ZEdN9yHyG9rH3bh/4XgiUT/hR4=
+X-Gm-Gg: AeBDieuLPVKPlyc0bh4bzWGVH8GI7SudymP+BG4nn+Fbj00JFaHCNANTuizsfkePFy9
+	Kl5LQRy//OqAZBZTnT6wsW3KDQkqZRpTcenm71K2rsGcyUmFaHSLA/QITYK61C6yK7so/w3q/GS
+	588pSXTG2qmPCz/7Of0jZn9Nbr+IYXl9ZZ9BTbtUkkI2kVDIvPj4c4z1L7e6SXOe/1YEI1h2GdE
+	dqgFtp8vEx2oyvWeqQI9qgEnWPjsLUER2WVBvSVBz8Qx+GP/SQVx2ZjRBppxKUCCN7qmRD1PBLU
+	werGGNk82/XIQsPt8p467OK/gtetyg==
+X-Received: by 2002:a17:903:1211:b0:2b2:4b4e:e4d8 with SMTP id
+ d9443c01a7336-2b2d591b8aemr215377705ad.4.1776267088525; Wed, 15 Apr 2026
+ 08:31:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -83,14 +81,15 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260407-brcm-prio-v2-1-3f745edf49af@gmail.com>
- <CABBYNZJAEqwfTuVqbFAnx97HBSjcwn3Hb+y+r4r2C=MMPxFoDg@mail.gmail.com> <CAMT+MTQ6orj5tpiGL9hz8m2TGiBjA-9D_0e1iLt=_dXBFHcOgg@mail.gmail.com>
-In-Reply-To: <CAMT+MTQ6orj5tpiGL9hz8m2TGiBjA-9D_0e1iLt=_dXBFHcOgg@mail.gmail.com>
-From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date: Wed, 15 Apr 2026 11:19:24 -0400
-X-Gm-Features: AQROBzDwk1p0rJ7IlG2lPh_IuUkTifTHO7F9HnsebEPzRDlTsV8TRziiZbRGV7g
-Message-ID: <CABBYNZLNR8hYS9jLLKeB=M9XVvtSFtf1wi4DmcJKBbQVvHTPaw@mail.gmail.com>
+ <CABBYNZJAEqwfTuVqbFAnx97HBSjcwn3Hb+y+r4r2C=MMPxFoDg@mail.gmail.com>
+ <CAMT+MTQ6orj5tpiGL9hz8m2TGiBjA-9D_0e1iLt=_dXBFHcOgg@mail.gmail.com> <CABBYNZLNR8hYS9jLLKeB=M9XVvtSFtf1wi4DmcJKBbQVvHTPaw@mail.gmail.com>
+In-Reply-To: <CABBYNZLNR8hYS9jLLKeB=M9XVvtSFtf1wi4DmcJKBbQVvHTPaw@mail.gmail.com>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Wed, 15 Apr 2026 17:31:16 +0200
+X-Gm-Features: AQROBzD-Fi9TwOA2iNwLMvKH3PB5XbyRvKB5pMzjCowARYCArTwXFPUUzeFibBI
+Message-ID: <CAMT+MTSdVnor4+3vXhyfhye2kVp5-UPgg_Fwm4rH0mJHM_FuAg@mail.gmail.com>
 Subject: Re: [PATCH v2] Bluetooth: Add Broadcom channel priority commands
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
 Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
 	Marcel Holtmann <marcel@holtmann.org>, "David S. Miller" <davem@davemloft.net>, 
 	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
@@ -98,37 +97,16 @@ Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@
 	linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, 
 	netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Sasha,
+On Wed, 15 Apr 2026 at 17:19, Luiz Augusto von Dentz
+<luiz.dentz@gmail.com> wrote:
+> Ok, then maybe we should decrease the priority, so it can only go up.
+> That said, in a multiple connection scenario, we cannot really tell
+> what should be prioritized if we cannot momentarily decrease the
+> priority.
 
-On Wed, Apr 15, 2026 at 8:34=E2=80=AFAM Sasha Finkelstein <fnkl.kernel@gmai=
-l.com> wrote:
->
-> On Tue, 14 Apr 2026 at 16:00, Luiz Augusto von Dentz
-> <luiz.dentz@gmail.com> wrote:
-> > > +       if (sock)
-> > > +               set_bit(SOCK_CUSTOM_SOCKOPT, &sock->flags);
-> >
-> > This is more complicated than it needs to be. I'd just add a new
-> > callback, `hdev->set_priority(handle, skb->priority)`, so the driver
-> > is called whenever it needs to elevate a connection's priority, that
-> > said there could be cases where a connection needs its priority set
-> > momentarily to transmit A2DP, followed by OBEX packets that are best
-> > effort. Therefore, `hci_conn` will probably need to track the priority
-> > so it can detect when it needs changing on a per skb basis.
->
-> I have tested per-skb priorities, and unfortunately, this does not work.
-> If something tries to send a low-priority packet (for example - a volume
-> adjustment), a priority drop causes the same kind of dropout that is
-> caused by scans. It appears that the only way to make this hardware work
-> is to set the entire hci connection as high priority for as long as it
-> is being used to transmit audio.
-
-Ok, then maybe we should decrease the priority, so it can only go up.
-That said, in a multiple connection scenario, we cannot really tell
-what should be prioritized if we cannot momentarily decrease the
-priority.
-
---=20
-Luiz Augusto von Dentz
+I believe that the priority is only per-connection and is not designed
+to be used per-packet. On Android they change priority when an
+A2DP stream starts or stops, by sending the commands from
+userspace and are accepting that other things using the same hci
+connection will also have high priority.
