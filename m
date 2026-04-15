@@ -1,112 +1,113 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA46350298
-	for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 15:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776267090; cv=pass; b=k8zwOU5Y8UwbMRWTVDwrDxBJm0fhC2dGq50Dkg16mt4ckHn/lGB1slpyPfydC0lLgk0wqqFYcsLk9AQ9IxXb7ZILiASVF0ZI5QjRMwYxNai7VOgyxRj0MkNjtBPwO5WncrSxC8im588AMcmztPUftbKacaVvZTR53wpacKyEEQs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776267090; c=relaxed/simple;
-	bh=eZZ9MBeGinL5cKg3LaYZTrFFidLDf8L6MNP8Brjr8zM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e6+XO/bymNkJPjPcf3B0iAECYZtO0vgnygkdR4ql0y1c5EK5A10l+4aSjcNYeYHk+XRRtx2YVlQj1/0CKZ+dPYNxn5Ad531sFFBRyNor3xx3YUJi9iYthuoFVs6ZXB9jJ97zZzI83all5qg/JAcQVxqLvlA50hNZB+Qv4s0CRK4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FlQWHbYR; arc=pass smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143F0396593
+	for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 22:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776291898; cv=none; b=gGUnXn1yN/4nNB+sN8UMv3unKdmFHTehNeUOyVBuF2G86K/SvYdQNqZp92SQub85fwE2yWEryl0Nk4xMjGOY7YCa2IIy8/NWCXXN1DjFa/blUOQwJUQYNLeAbKdyP1fvdeW6nEhaiHsW+VUc65yY2ZZ8yNlorFuTTHd9J25WeT0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776291898; c=relaxed/simple;
+	bh=3OL1zEuQN0fn++jqXDTIIT051LlJXz7a/EpbpSTJFyM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q72usBbZRo3u2n+cP/xvxPCeoZEm6Vs0ue9qFSX2gkH4/LDi1fpuc3MjvgNWOIK0fSg3Y5IgJhbglJURDlq6JsAR88ochDH67eNu2PtQtmdPTwvAW5AVTpEy+8GqRx29Kz1VIVEUFnJdukUFrcutB0Dnrx4SHVBrq5OAoHzsatc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PzKitx8k; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FlQWHbYR"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2aaf59c4f7cso32367265ad.1
-        for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 08:31:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776267089; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZYS1WX7JdZdbODBDOZXUy1DE0VLNynhLEWQJyy1qpAkR3FDLs0A0YOfqjrG2R5BkRt
-         FlDiEKdJvnzdwx9dD8kISU3n2S6OEMFDb9N+e7RplbmgjCSmKybXAvqafflBCeAqbT2t
-         bbYidy0sDN20Ev1iF22e+kspIMOucU+a7j7ex2UdHJIP6R3x+Vvo9Uo9KlGT1yZiOjTy
-         QbEpbE2jj8FCVDu8TV8+DyKuos/L0jCLmixALpcDL6GsU3n6KgKSKHAPHOgs1iDAjm8e
-         up42o2AtUr6AX+Oqka2N20dNLeYbEMdor9kxt/TAh0OsTmgyZzjmWzE0L74FMseH9Lil
-         NuVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=eZZ9MBeGinL5cKg3LaYZTrFFidLDf8L6MNP8Brjr8zM=;
-        fh=IC+Kgq8IF3H6rfNFgBSZvw0CXIPRQFhpUKFNGUOPL1w=;
-        b=gr6WBgQPjC30ZRdMDaPYghW4xtMGqKSwFWRUd/rVCX1bpJ6IIaze0OXu6xv9K8fyvS
-         EWa16Rp6gn06IvJrlDWtLapjtLMD5KlWDxQZlgWc5mpy2lOtM7l3tUeWObEFnPs9i9k4
-         do2LN3lSjmW3s5Y+lZgOqbK+zqdvkD9rC1er0//kvdV1caTjOvjjZjzW7Yx2DtPsOzOm
-         3Ljl1F6c2E693/2Uh+GEk24kRcerGNQM2bIMk3Gtb6P/PQ+ndCC6uvYYprWg1jERJ1+J
-         +nkCFXpX95tcVC9VpLTOFy3CHrJ3rpx3t+gMwok5/O/I++kUh7wNpKgkGdqIjOi0CX4m
-         r8jA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PzKitx8k"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so97227175e9.2
+        for <asahi@lists.linux.dev>; Wed, 15 Apr 2026 15:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776267089; x=1776871889; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eZZ9MBeGinL5cKg3LaYZTrFFidLDf8L6MNP8Brjr8zM=;
-        b=FlQWHbYR49fKC/XiCEMES6pqyycqKQJmSqZvbgab9MIs3m+XPrt0BTO0J2pFZEqR5p
-         UmT14zSvEb+vGBxEHiwRQLHJ0+uDhAqze5tNfuEOnYe/G5P4U7zO6AA7VWn/0tPouzmO
-         E3Tz3UK7FPGAIkSnhkjxcbDlpxw0mAkpwP9f1Wjs/lyhPOu/+sb3XCw84/le3RqhFzum
-         r8/noPpraCaw5frNrVKSnsZmiLDzuC5R3kkt5pdpCpvu6WsYhdxhtULkksbifmKjVu6V
-         01MKND4Ap/KWMllydHpWJ0NFd+Ty2bd7PyJL2AeVkRZKfT0m3W4biPzdAkv0zFXi9eJP
-         Y74w==
+        d=gmail.com; s=20251104; t=1776291895; x=1776896695; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b15IkafPfIRKQwId3wrpIPX17TVkjx2r9u0B11S3rRY=;
+        b=PzKitx8k08QzocLkjByFbrujy57J0NkRk3CzDnJ+MiiiQKwdL0SsNEX7aS+efu9uqL
+         edQvGAAG0kTsXQXh1jVN74ZFT3puaQjKzQPhXHxE1fcw+qPzSN06F/UxGpREC0y784I7
+         AlK5TQxetZqqnzZPIsuy6YxC/KtWdFGktmkcvT0wpK00L2OSk4jj1cupYsHOTkNiJdaG
+         zePC2bzV8UoZ4KYjhdmHy5ejS2oBgDML5X4df/me+YGdY5FyeLakfIda/1tsqPtkwjFC
+         GHwPdOye1AkrXU54R8Z3VnDda4kozoTlWVsGcOpgE/43jieC61JRIUE7MUiHebP8y/sB
+         ZTFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776267089; x=1776871889;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1776291895; x=1776896695;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eZZ9MBeGinL5cKg3LaYZTrFFidLDf8L6MNP8Brjr8zM=;
-        b=aATWY+Y9JUR1hD8NzeTWs6ConAVwl911G4V8MG/eA8u0WF/fqLcNPQM89ZHQKrS51E
-         ZiY2PPcHAG0wYZZKUQuBZGfJ05NaFWaq/W6976jyucKIsZSKiPnuV1idK3FbkIFE90u4
-         7oCmFPtJYKVSBT8P2XXPlDCC9y4H5lU3HD9dksIay2UfRL6gzH3PN58h7hAK9IbArc0q
-         AX5vxL14Y22ns2pEBY6rQp8rPo1EL+58SQL0oexmV9bRPQrj4k3koU+ErgNq49F+Kjpg
-         umSfhLldulJ9bVk0QeD4X3P1NQS6x1ahCm+a06L652FnY6WwCtvn3EmRpUmZYPaK4bVA
-         1CBA==
-X-Forwarded-Encrypted: i=1; AFNElJ9sKK8o0g1V+g6+zU3L8SfaR4IOj6ZgFVcMTk3gKapA42XvmsLIZ9MIUmpxhAPa1sactkRjSQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwvA3dTmNep80qNnL9xygkFXfOSfQoteyWfK+V2pJ8clbm2cVaF
-	SBnp84z81ZpgIA6JNhWek6IbyMsAXr2pjsfhoMNHGwG8gxKAIgoDwDWrtQxXEQOu8QWYJtN/dAc
-	Tq9Yy6ZEdN9yHyG9rH3bh/4XgiUT/hR4=
-X-Gm-Gg: AeBDieuLPVKPlyc0bh4bzWGVH8GI7SudymP+BG4nn+Fbj00JFaHCNANTuizsfkePFy9
-	Kl5LQRy//OqAZBZTnT6wsW3KDQkqZRpTcenm71K2rsGcyUmFaHSLA/QITYK61C6yK7so/w3q/GS
-	588pSXTG2qmPCz/7Of0jZn9Nbr+IYXl9ZZ9BTbtUkkI2kVDIvPj4c4z1L7e6SXOe/1YEI1h2GdE
-	dqgFtp8vEx2oyvWeqQI9qgEnWPjsLUER2WVBvSVBz8Qx+GP/SQVx2ZjRBppxKUCCN7qmRD1PBLU
-	werGGNk82/XIQsPt8p467OK/gtetyg==
-X-Received: by 2002:a17:903:1211:b0:2b2:4b4e:e4d8 with SMTP id
- d9443c01a7336-2b2d591b8aemr215377705ad.4.1776267088525; Wed, 15 Apr 2026
- 08:31:28 -0700 (PDT)
+        bh=b15IkafPfIRKQwId3wrpIPX17TVkjx2r9u0B11S3rRY=;
+        b=MWedPu1cfw67YUcetXBGRC8d2oY7cQ+Zg0gfCqXaSUPtXvIjScU2/e+hyc60KIhL9u
+         wuP/5EComO1Yv26vrMR2rFSEG5JNowrIm76nOXgQIAkiS0e8ofhu1TSnWareM8W53ajY
+         QSJuwbNuYrGouPu6IDegsk1oBVmpLMUx+CqDbJAKzmeCehuoFmD51sCvaFSncgVH/ekg
+         JDwIYlEEl2+9I45mFCt/HpRoVB/3nK5d3BnbxAUmLUu83wvYjCLZCKGHtPeYbSijejIM
+         niGF7Z/rAMtX5Ti66vq+lrFy3/PxPeReJXdF16SvhnhVnyxFpQ+/KJX6rszxuwWHupKL
+         30kw==
+X-Forwarded-Encrypted: i=1; AFNElJ87T2Zb3QRtW34Yf/794U+mibSQN/4Pg3FKW79l7/JhleiMd0YMY7VkeL3BZ40rzAuJ7jlPrA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFJselP9bZGBKnfkz77fAbJEl5aw6VT1jM6YyrQFSc02x2Ih7I
+	xf0JZbirgq58oQfZOgIUadNwadTQuvkf7fxvye5stwA3y6aiOY1Rch8=
+X-Gm-Gg: AeBDiev+N0ZkgOoDQYugG5R8XgR5SBHjZTARFcRbuwZhPjhHLnxZueK2CcRke37InVG
+	5D8DFpGc+Sm8K4f7aZ7OwJu9vAvxhenoh+PTDD93pSOeiqKXXrW5gmPByUWyG4wrotaIrZqTu1J
+	/K5e6bUagku5X8olLcxwWck/K8xuc+OPnAjdZEK2LovTbLAQWZ0SAcHdyJepqGf1t7IZAuflsBW
+	7aWlmoFsZVaDQqctFofOVPvWZWt3pW+a9Ie4Trz0k8ivVVtOB6BZf9on/N6cj/XemiHm+jWpcbG
+	aCjH5exoT5gIJIfxo8jeWyZnfloLJhSeytJWgscFk24rjug7SXJxF7kwLodb6/sUs+rrBUgZvrW
+	ZwPUQWzwJEUD28FnqKgr8fwiFXnOKcZ45/2SGjFo0e1TKPgNbdjn7TgrMQwRGiGdpeKjLAEdPHd
+	qxPCI=
+X-Received: by 2002:a05:600c:4a18:b0:488:e6cf:671a with SMTP id 5b1f17b1804b1-488e6cf67d6mr109815055e9.25.1776291895440;
+        Wed, 15 Apr 2026 15:24:55 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f581b8f8sm2482665e9.4.2026.04.15.15.24.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 15:24:54 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Hector Martin <marcan@marcan.st>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: [PATCH v2] Bluetooth: hci_bcm4377: fix OOB read from firmware event length in completion ring
+Date: Wed, 15 Apr 2026 22:24:54 +0000
+Message-ID: <20260415222454.1547214-1-tristmd@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260407-brcm-prio-v2-1-3f745edf49af@gmail.com>
- <CABBYNZJAEqwfTuVqbFAnx97HBSjcwn3Hb+y+r4r2C=MMPxFoDg@mail.gmail.com>
- <CAMT+MTQ6orj5tpiGL9hz8m2TGiBjA-9D_0e1iLt=_dXBFHcOgg@mail.gmail.com> <CABBYNZLNR8hYS9jLLKeB=M9XVvtSFtf1wi4DmcJKBbQVvHTPaw@mail.gmail.com>
-In-Reply-To: <CABBYNZLNR8hYS9jLLKeB=M9XVvtSFtf1wi4DmcJKBbQVvHTPaw@mail.gmail.com>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 15 Apr 2026 17:31:16 +0200
-X-Gm-Features: AQROBzD-Fi9TwOA2iNwLMvKH3PB5XbyRvKB5pMzjCowARYCArTwXFPUUzeFibBI
-Message-ID: <CAMT+MTSdVnor4+3vXhyfhye2kVp5-UPgg_Fwm4rH0mJHM_FuAg@mail.gmail.com>
-Subject: Re: [PATCH v2] Bluetooth: Add Broadcom channel priority commands
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Marcel Holtmann <marcel@holtmann.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 15 Apr 2026 at 17:19, Luiz Augusto von Dentz
-<luiz.dentz@gmail.com> wrote:
-> Ok, then maybe we should decrease the priority, so it can only go up.
-> That said, in a multiple connection scenario, we cannot really tell
-> what should be prioritized if we cannot momentarily decrease the
-> priority.
+From: Tristan Madani <tristan@talencesecurity.com>
 
-I believe that the priority is only per-connection and is not designed
-to be used per-packet. On Android they change priority when an
-A2DP stream starts or stops, by sending the commands from
-userspace and are accepting that other things using the same hci
-connection will also have high priority.
+The firmware-controlled entry->len is used as the memcpy size for inline
+payload data without bounds checking when the PAYLOAD_MAPPED flag is not
+set. This causes out-of-bounds reads from the completion ring DMA memory
+for the HCI_D2H and SCO_D2H transfer rings.
+
+Add a length validation against the completion ring payload_size.
+
+Fixes: 8a06127602de ("Bluetooth: hci_bcm4377: Add new driver for BCM4377 PCIe boards")
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+---
+Note: v2 resubmission -- original sent via Gmail had HTML rendering
+issues. This version uses git send-email for plain-text formatting.
+
+drivers/bluetooth/hci_bcm4377.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index XXXXXXX..XXXXXXX 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -754,6 +754,14 @@ static void bcm4377_handle_completion(struct bcm4377_data *bcm4377,
+ 	data_len = le32_to_cpu(entry->len);
+ 	msg_id = le16_to_cpu(entry->msg_id);
+ 	transfer_ring = le16_to_cpu(entry->ring_id);
++
++	if (data_len > ring->payload_size) {
++		dev_warn(&bcm4377->pdev->dev,
++			 "event data len %zu exceeds payload size %zu for completion ring %d\n",
++			 data_len, ring->payload_size, ring->ring_id);
++		return;
++	}
++
+ 	if ((ring->transfer_rings & BIT(transfer_ring)) == 0) {
+ 		dev_warn(
+
