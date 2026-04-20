@@ -1,91 +1,150 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F571A9F9B
-	for <asahi@lists.linux.dev>; Mon, 20 Apr 2026 01:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776647498; cv=none; b=DwMRtQ6JViuBdmxlBs6Uga4iC/ix+KwCQhZzNVgwQAlVC/w74M/MR+UcGDD5WBBuuZB4/Qf/Olvr/amKBMBqnwTBhiCo5MFmdl+iHtUUE61sN7CPO5dnJ4RkTUHceeL21D93K0DLywJRw6I8OfdSrTGd4CVLKUv+vyZij8L2nCA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776647498; c=relaxed/simple;
-	bh=C0aW81I3StTCcJXehP69KLFeqWnD+swGwk+Y2hOVrM8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C9B34F46D
+	for <asahi@lists.linux.dev>; Mon, 20 Apr 2026 20:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776717481; cv=pass; b=YfWv5Bjrc0QqwLjBpfopj5AqRWKDfKwsp71gMJqYsW8/AcFN9p18HuGYyjfBCt7NZ0Nnuv+2K/4qiml5bH8dRQFQimkGzvPCS3dn0Nmv3N2kOj+MtIrTU7zSJmBfwLnmT5lFm7msqZA2//6bsqcKutoaAnSuq4Hz0Ozs5ZaUOVk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776717481; c=relaxed/simple;
+	bh=ADQUzdT1kaUTCl9XZzAUwQqYr9cALPSJzCeEmR/kFGM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nNqALjFw8FXwMnLU4Z39kKCeXmBFakr2kfoIOzryTamfAtXwCWvE4XARABuotiQOEGDKbS9I3tnzBQRFoezg17zfgmY0IGsn12hDYgIkmUaD3ns/fZOkNansCUURlhIRm+/hq06z2tqY6OLm7KdY/kq8s1UOe9gRjxVvAFei4GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+	 To:Cc:Content-Type; b=aBbdYmvmhUsvqgDE77y5C0+eCd9MGgWfg7LW5kzAg26quGcSz13mUftESqD74wgCvCo8k2J2H9+QCJA7K95p+kZN5JHpdIIoLeNgSNcCOsndw16BpZcZQPoqkubI5T3fIgLhvlUTB0xfkSGu2GWW4zrH9DqmerrJyIpGoa00gzI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b2TILBWY; arc=pass smtp.client-ip=74.125.224.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7dbe437b072so1470360a34.2
-        for <asahi@lists.linux.dev>; Sun, 19 Apr 2026 18:11:37 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b2TILBWY"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-6530dd51ccaso3333724d50.3
+        for <asahi@lists.linux.dev>; Mon, 20 Apr 2026 13:38:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776717479; cv=none;
+        d=google.com; s=arc-20240605;
+        b=B5ydqAOvN9Rps7HP8FbymCqPMvks/vhB7wGI89PxG8QAcZDwW67Q4ZghRRX//hT1Lx
+         PRy/MFVy1raKCg0QrHM9TQOgKKCzksPSJyVHPCc8LI/B5g5hf08KSFl4lNPlqwrEEsqr
+         yf7QOg0pE8+ladkpv2Mrxhs6BCn0OS8fs7u5d3N4aF10CEHFu/uy7VtYyOOzZWwpVBc+
+         rQoNImS/IlmRyCHZQCKE45LBFyk9bBfGbR4V9XQt1nzV2kcvSGiyrrdeDInFSmA3W32V
+         S0D6HHl/ADDoNg2Wrmpr/5OE7KRQi8dmcODjP8TD2TruEO3d84rtvKnkVGpJso6fTYCj
+         sIvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xljAePTDiU88jhAg2MqebjJvsqcljT34hn/5T4lFweU=;
+        fh=5iuz06QYbLpIOVOF0VjP//VHG/Qo7ruKNRKG/7CeS64=;
+        b=PWiE13Y9NxubJocgHH4XNHlKxz6ygpCSQYtlxyXy3/ftEmJQGZ8n3yDzoj3rdSdj6w
+         OX5ySwXKfLxY4WScf2oJ5a/J1bTz9GF2FoTux1THtodBnYNMN0o2OHLsInVrW631Q7IY
+         CmIAPfXtpWVCLWJzw8ZirWZDjkbt/0EaSpmzGL4xukVK/+G0pb/rMoBhI73JHyh+zAl0
+         0b0PAZnXlC5bR6k4CMCsccqMLqxxmK/z/761pdiYTCJaiFZokiNTUMjf+ICpvN5QizGI
+         LlElV4zuHhs2M7ueYaRnWnco78dJ5Rbsv7rt5fgilXxz1ztnuJ7nJmLGYK4JMphv6XFl
+         6rKA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776717479; x=1777322279; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xljAePTDiU88jhAg2MqebjJvsqcljT34hn/5T4lFweU=;
+        b=b2TILBWYbRd3WrfRtPQrjYLjxTHAUqsO4Cnu+uEnwGnPrnkYoDx4EAlIF9sv6Vvgqu
+         zXh7G5L6wgo8UGma7BfBJF7YmaSZ7wUerMGM6u4uRk7fMLKCOIr8kQK4/GjTAgd2qtsJ
+         siSCbJ/C3zP5ihU4JHRtNh7UZAz6Zb/YWT1kaF/qpLijmDY+BH3Nd6KT07+WyH1mSGA0
+         0gR9uGPPi2Sy19z9lPvOSUbX9vwriMZF33MrbUgiGVoPjHzKVPS9uiUj7tiyI5XjdPcZ
+         ltrz5b1PIDGs3Yhq2Qf0jDBd2ghyaFi1eNT+Z0ubV4UfIoXaYx6wuVOK3Kuq38lWOlSc
+         g5Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776647496; x=1777252296;
+        d=1e100.net; s=20251104; t=1776717479; x=1777322279;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=C0aW81I3StTCcJXehP69KLFeqWnD+swGwk+Y2hOVrM8=;
-        b=TqNMtwht9XI8xoBAPGV1vmzrjUwkrpFeBZcO55oQTmnVNvYfirmRSuoWgr6Hl+VC2P
-         WVhkZXJxIYWN4HrbTevmn5lwli4h/gbq4LSTBNCvCSxpTDIjmW3YpcQAfMRqENHpzKvb
-         siq2zr+QFgm1IMHu7zgNwjEExLT4kzl2C+c0gyo8bHFcPC/1EEPh5TM3l42ysrfXuSVe
-         uYKD/qPM4mKwUtD9dcvA/Ei3iNkMhxzh5aSq1oNgtyZ2JZPunOXor58HeNGbc9tXjSwO
-         0e7eBqIMenwk5nRCGHAGDZgf+/n9Nm65Qltnksdewal/maEzpCmTGDiWFp89TPyo5nOl
-         GaRg==
-X-Forwarded-Encrypted: i=1; AFNElJ822Fl0qW6Nx+5euvMwT7WUMUaL5bFk3J51eh74twV/bPNuvRsqY+BSJvK4K6XpFAdd9VVebg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmBxNyf7wcIZ/F9YrxB+rsPeCdRbMXK6FKR4fzxDBmXhqDXcgN
-	Hh1wsZM/GL8aRywNlsb2UR+kLa6NpzYwv3VgWreABbRPqcBbQxQdZ+lh3UQtfw==
-X-Gm-Gg: AeBDiesw+qXWWZ5+lkunRuJSrqndJx/mq6hF1iJ9XQ9RorrTBrjrorTj7qStZW2aHLS
-	jNJ2HCvNVQjJBUX0s+RsXFj5HScxZVR8Ig/d4XirXO489rnSlQ9lby04/+DxNjYNIRAa5FcJgYK
-	1e/7mh37enCoKELCQIz6NKrnqNCtg8lfjBU2t5GvfTli5cHk9/787rNAApc5M3YkyNheHVpk2fS
-	B6Jjd/qrvsz7PPc4fiDf3yN26GSdBTMDlmaRZmZxlp1gGl39xzYD/tNgbmm7zfrMjPOCjP1+Z+o
-	CiF4hacSJcnQA6ltO1IrfaeQJu99AS6jxseGcmFS9mnTzYkDIJFaf/d/ecrYVOFw6t/nO7uGVEn
-	etzN8DRNMKDZjlVBeVI3I3lbtkkVxuNWvyzLZXh3eU0KkosWhLLwa1HZLgi/V+UZwE8QRmWYTWt
-	eDO3t+b6vx5hddH3AWmrX7CkV2sqRtyjvl+B7m6H60oQSWnfyMCGXcLrgybDwp/Ddw+snm0+PTE
-	4w8KKX5ZbywPygV2ZTgS9zrunFGmQx7IWEfjJ6SgX0Imt2NJDJ6PCbWGsbGR5eGkYAR5WMz4NgV
-	96u615Sx
-X-Received: by 2002:a05:6820:2010:b0:687:6290:6333 with SMTP id 006d021491bc7-69462f46144mr6543230eaf.58.1776647495907;
-        Sun, 19 Apr 2026 18:11:35 -0700 (PDT)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com. [209.85.210.41])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-42b8fe2c52bsm7675616fac.0.2026.04.19.18.11.35
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Apr 2026 18:11:35 -0700 (PDT)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7dbca22dbfeso1243425a34.1
-        for <asahi@lists.linux.dev>; Sun, 19 Apr 2026 18:11:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8VENUMp7V6JYL6u0UBnoUuXhOy3hUGn8zOiJaMxlBCh1ttZJGDdh12ZnvXiOzpin+CkYD5UQ==@lists.linux.dev
-X-Received: by 2002:a05:6830:828a:b0:7d7:cdd3:df6b with SMTP id
- 46e09a7af769-7dc9521f4ecmr7107720a34.14.1776647494828; Sun, 19 Apr 2026
- 18:11:34 -0700 (PDT)
+        bh=xljAePTDiU88jhAg2MqebjJvsqcljT34hn/5T4lFweU=;
+        b=bVp98cHglxHf6ZYHvseS6zyTvvc7fS8K829UKN7/glvXl5bvLdzzqQiM4RN45D2Wut
+         xMRh2XFP/1vs5JAJtbpZDbnrwzJnwdULfF0iNhvB13Te66Nffnj9nGFqRs7Adwv2rcUy
+         sq8nl11k7YzhARxq6CLLO87YDXOeFoaZJRwV9KAQXYCo9eFAufN60HFur5t2yPdZKV3p
+         ErYiJhiZPMg4xZNl6wATwgyUdb4lzgRQBxjzH0X65G4EeDx5X5BB4IG/s0xDEoSc8PlW
+         wk1F4gLWEKtBleeh4ni/WOR/SgU3bPCzXOU4aoS2aOzAYKY23FAAI5DHtzRpuzGCXfXm
+         xQhA==
+X-Forwarded-Encrypted: i=1; AFNElJ/7Lu49AskyowsB+tViaJSYp9sX1VUPPjw8sfyra624UP4Vthmurw+Zw6UUIJxmb4xoLkhwRQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxM5IHEvr4fBpcMo7n9mHHtsI0pjASbeid1tGYzJha1ahyX9GJs
+	opcBOL3FVaQU7/RI7AS5q4nK0hV/iNTzCZ7O8wRG6bL/Hr/G0/Xuq+YWTR35kMmhSNLSKpdPBjZ
+	nXxK/0bHNAMG988FQBru4T1HXNBbhDEE=
+X-Gm-Gg: AeBDievXgRZfU14QaJKyPoBVjq+5Zrg34/0zcKrZ1A0hn7X1uSs/ObPOFTnUUbZkFm6
+	V+OXvfBKdBl8K9u7p5aPbZ7b20YWlfyCRpR/nHaclEa+bFYHWpJd/XvguvJ7wArJR/K+HkLCEEo
+	7sMFpK4Oq+slKLg9uVXJCrOs2wB3eQfYmIn0h2JbKy7CZ+Hly+CAsL8jTghkU5fkhqlkrAW8npe
+	NJStWvX5p/cgEJ4C+SKlu2mGXqd34Trnt0NLUxKEj/c2+AvIrsL4rFqjK24NR5YOijB43xQpu/n
+	bZO6stE5bYHPgOYhvEZg7PK9SFxL8ZY703/EsWngbY10nlr0pD6iFPrO1Dl+mPy4qOevPCtf742
+	Ey7vZ
+X-Received: by 2002:a05:690e:418f:b0:651:c468:99a2 with SMTP id
+ 956f58d0204a3-65310a2bbafmr11722686d50.45.1776717479496; Mon, 20 Apr 2026
+ 13:37:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260411-mailmap-v1-0-5a519f7b00b5@chaosmail.tech> <20260411-mailmap-v1-1-5a519f7b00b5@chaosmail.tech>
-In-Reply-To: <20260411-mailmap-v1-1-5a519f7b00b5@chaosmail.tech>
-From: Neal Gompa <neal@gompa.dev>
-Date: Sun, 19 Apr 2026 21:10:58 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je9WStzQj30YsRfJvp-9z1-+qbbGPxTNGkt7Kdj+XjjbUA@mail.gmail.com>
-X-Gm-Features: AQROBzDnYy_QIhsEDV3LeYMU1OQV8X44CvHYlKgDLdrGKHckgRju0mncg5q_5Ow
-Message-ID: <CAEg-Je9WStzQj30YsRfJvp-9z1-+qbbGPxTNGkt7Kdj+XjjbUA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mailmap: Update Sasha Finkelstein's email address
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Janne Grunau <j@jannau.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>, 
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
+References: <20260417104639.2608008-1-tristmd@gmail.com>
+In-Reply-To: <20260417104639.2608008-1-tristmd@gmail.com>
+From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date: Mon, 20 Apr 2026 16:37:48 -0400
+X-Gm-Features: AQROBzDy-6p2J796JPwwp_frm0FIgY1zcTHIOwEvqSjHrTNCfyTRMYOUjgz5Euo
+Message-ID: <CABBYNZL-TZ_8XPpsH488Q8WtisfbX4jiBb_G0B3U-quiaYOAQw@mail.gmail.com>
+Subject: Re: [PATCH v3] Bluetooth: hci_bcm4377: validate firmware event length
+ in completion ring
+To: Tristan Madani <tristmd@gmail.com>
+Cc: linux-bluetooth@vger.kernel.org, marcel@holtmann.org, sven@svenpeter.dev, 
+	marcan@marcan.st, asahi@lists.linux.dev, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 11, 2026 at 10:36=E2=80=AFAM Sasha Finkelstein <k@chaosmail.tec=
-h> wrote:
+Hi Tristan,
+
+On Fri, Apr 17, 2026 at 6:46=E2=80=AFAM Tristan Madani <tristmd@gmail.com> =
+wrote:
 >
-> Add mailmap entry
+> From: Tristan Madani <tristan@talencesecurity.com>
 >
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> The firmware-controlled entry->len is used as the memcpy size for inline
+> payload data without bounds checking when the PAYLOAD_MAPPED flag is not
+> set. This causes out-of-bounds reads from the completion ring DMA memory
+> for the HCI_D2H and SCO_D2H transfer rings.
+>
+> Add a length validation against the completion ring payload_size.
+>
+> Fixes: 8a06127602de ("Bluetooth: hci_bcm4377: Add new driver for BCM4377 =
+PCIe boards")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
 > ---
+>  drivers/bluetooth/hci_bcm4377.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4=
+377.c
+> index 925d0a635..5d2f594c2 100644
+> --- a/drivers/bluetooth/hci_bcm4377.c
+> +++ b/drivers/bluetooth/hci_bcm4377.c
+> @@ -755,6 +755,13 @@ static void bcm4377_handle_completion(struct bcm4377=
+_data *bcm4377,
+>         msg_id =3D le16_to_cpu(entry->msg_id);
+>         transfer_ring =3D le16_to_cpu(entry->ring_id);
+>
+> +       if (data_len > ring->payload_size) {
+> +               dev_warn(&bcm4377->pdev->dev,
+> +                        "event data len %zu exceeds payload size %zu for=
+ ring %d\n",
+> +                        data_len, ring->payload_size, ring->ring_id);
+> +               return;
+> +       }
+> +
+>         if ((ring->transfer_rings & BIT(transfer_ring)) =3D=3D 0) {
+>                 dev_warn(
+>                         &bcm4377->pdev->dev,
+> --
+> 2.47.3
 
-Acked-by: Neal Gompa <neal@gompa.dev>
+https://sashiko.dev/#/patchset/20260417104639.2608008-1-tristmd%40gmail.com
 
+Comments seem valid.
 
 --=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Luiz Augusto von Dentz
