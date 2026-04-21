@@ -1,179 +1,203 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907F52147F9
-	for <asahi@lists.linux.dev>; Mon, 20 Apr 2026 23:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4803D8134;
+	Tue, 21 Apr 2026 14:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776726641; cv=none; b=EDSvdl3TVp42kpEvEnSMBwGW469C00qUrWxjKk2h3AypGklWczMYjrGrtQ+sv4GjCJZccF6YMS+ea8v+zvJEHxwvDfe7IMdNCBb6Zrww2e33WvqXjJNTs4EF9aDSVB20E8rxN/HecRRF7AoQdIM8Hx/hqUZcqUc7hf5PAWkfJoI=
+	t=1776782256; cv=none; b=oaPO3pKFxAIX5GtFWt0lDkNeadSn0aFbOaox7MkIu/omt9s5aQ8s5t3z+KSbty+xY4tUXZZqbFcEl/mDtlWYdP9VW2DlTEr/twwFkPgY8MnhP3RHK1GkapKjc9xtzoZJRLqJhqfwOTkDLJiBNXBSNJY+3M1ykcEy8eSkPQ8DuEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776726641; c=relaxed/simple;
-	bh=tb2JNc5ynwajJeCuTzOWgJ2OezcFfgp4Ywh/smpSH0k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I31HNTIVylMbiI257jB/L6s2hVFU2m+q9h5ik8OmIypQJ77/tZi0yxN9YVMvDh5IH7RkJFpEtNcyEOskVXA4A5s1PVEI1HpBxEd7XTT434ZMBHMXJrt9g8O5I8iH17IcOpF7kLvpDDSRXzTUB6dwTIVHWdjsRwWR6BPyH51b+xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gkv+NB8V; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776782256; c=relaxed/simple;
+	bh=Jc1r7WiTMzlzZpAR8gpYFiGbgq1zu4/YSPRVmKk3eB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B3Xkq87jM7RjUq6xfzBJqBDepsbH/gjfkUZmNj87Hlscs4FmurIieKr/wGsdVYPY+XTV7eL+Qu4kgoBJRjKdWdoULTlyXGLkFhQJyW8ik58xlWBMTtiLGoY524yPgaMEdnOQYiqIuWjAe4axoaNiz3zdLJBXp/9KImdnJPqB7uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDK6A7pw; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gkv+NB8V"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so3913898f8f.3
-        for <asahi@lists.linux.dev>; Mon, 20 Apr 2026 16:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776726638; x=1777331438; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8BFbqe6zs9zdE69IPJo3pEdqtjhoEkNZOLj14gX1oP8=;
-        b=Gkv+NB8VxCvh1xY0QhlIge7oFWnGmLo/Qagq0wl/ioivG2Fxf5j5b1ehlNJtQHu+j8
-         m7UTT8kyg54ZnU6bqhkLq3vZmRQkUk5LuZWsMNpEW8b1+89x4wVExoFuLPsJKQdu9q22
-         3l/oRvPx5eeQ0MFs9X/2gyz+VtZBpgKrnXPOd0ZBZo78rCgYlkoxk2/A+7xl0beBHttc
-         6NHq6EmlYaIVpvHO2lzK0TbX37um1w2cIPdJht6X79AyvKiOq8rMVQJJZZLKUs78p6D8
-         rCl0+mAylZrvym/csqxZssYMQIoNKS60Tlmh5wqTIe9UyVcBphthEUaCKW93Ff7bCxlF
-         6AuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776726638; x=1777331438;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8BFbqe6zs9zdE69IPJo3pEdqtjhoEkNZOLj14gX1oP8=;
-        b=JRmNSh6QBiTY73rAPHnmZncXL+XO5bWJJHXCe3eGs9Tv4uuFWmZ3p55c19cI2fwJd/
-         2bMHqjOvfyXuHrJWObX7T7H++DwxVfiQ0Mp+DVq3Wv8hK1YG9ZgfvZuTcXG7GD2RmA+r
-         joacrWx3S1aw28/zvWX7Qn/RkyUgU0+6s/RX1DdsW+Cwz3B5l0tIlEbBExvjpEapkCxm
-         c2LpKuguDOivPaWZ+tfkB39uvH0x8qZEDlPQAt6FzCG7nJNkThg+b+PCl/WNtVIna+Rn
-         pQ34r1FhpZEpK1tgsDXsvn3UyewQFiu5j/hOc97dCBGMXa4Ue920DyoJ5DahHvh+/HVX
-         JncA==
-X-Forwarded-Encrypted: i=1; AFNElJ+BTEYcrAJiUizETHoX4wrVIZ4T1oulyvhjripfMCYkZ2FKLyuQSD0yLWgLrnTRWUz8tqWyLw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5KebUAYJlEErkCzzyQW79vE/uCjDPO5a+ki93fWixo+T/Ifq9
-	tD6KR4AfmBuXv+/Xscajb8u/uP+zts3LxeRKhKQQ3KDxDUTEHePRSdvF
-X-Gm-Gg: AeBDieunDQ4Ec0ZnJ33q/Jl5r3cmuYu4tPyW4ZzujmHB7RmpDtPbEB4qf+YSTpWK8Ol
-	vydqJza0ik+2WyIaOahmmxuW+0x0ovlHTXpZasOL0UTx6cZMrS7SPObdKs85uMrRrnSVg8tgIEx
-	XMy9fZNuw5KApJ4WRSMjL78HgMQ3qgXaeJEEgc2IFanvmTws8M5r5pptsA7+rHmp/I9fU0T+21m
-	dzw8AFK4nTIXcReqzT/43C7+MVhfbcMS0s5LoMO2GAyDWOizPz+hvkT9vl2bST1yTCNBV5iZOAu
-	1d9L+NFSYoKD2MGM1qCRczK/4dtnnjTzF95YOgFnnELcQQQGEfIcrPH86iX/tOX/smrbHb4ISaP
-	7cp+kU5IktcF0U0WjRcRzyIOEwedMWOX5GPDjpo2huBgwb4v3ZatZOeiK0AW1xedyir7SenSrzR
-	7Rwey2B1vK2bYop4GRBTRcLQvgrzs5rkD0XXyAOIKlz49MFfg10jC+zFtxlcKR/sMCUt28MP1d0
-	jEtoa3fl+sCEdcpAFc6WQ==
-X-Received: by 2002:a05:6000:1acc:b0:43e:a70d:7622 with SMTP id ffacd0b85a97d-43fe3e0c612mr24008948f8f.22.1776726637610;
-        Mon, 20 Apr 2026 16:10:37 -0700 (PDT)
-Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a174sm36837571f8f.18.2026.04.20.16.10.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 16:10:37 -0700 (PDT)
-From: David Carlier <devnexen@gmail.com>
-To: Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Hector Martin <marcan@marcan.st>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: David Carlier <devnexen@gmail.com>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] phy: apple: atc: Fix typec switch/mux leak and UAF on unbind
-Date: Tue, 21 Apr 2026 00:10:13 +0100
-Message-ID: <20260420231014.35462-1-devnexen@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDK6A7pw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776782255; x=1808318255;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Jc1r7WiTMzlzZpAR8gpYFiGbgq1zu4/YSPRVmKk3eB4=;
+  b=BDK6A7pwuiviAjoLYy5gDzccGnafRw4R99hfgBP/DoCV/X05h3VfAek+
+   Ewx5GJ4HxWf8t+YEvQTPvkT00KnTafwndm7/SPjbA3X9B4OV5h+3/dYYA
+   Zqi4H3wWk9uOPNih+wwFXRrAB4dVPDFbmwN5cDxtKxredHGhXq0k2AQQy
+   Sli1Pj0oo/uKzq6kBGFwKLi9rOuF9KMLaHGG8QxOBaYXw+03Vn3d6yE0a
+   MVyCal2EymsgqZuuqKeHp4I/Z5zuGDce+xL5SGGucea4RFLBnjU9MwQMe
+   X/zOz6cLdt4FUgzcC7KTeMoMcZJR5jcO19bqm2j227BlhpSQoe/NpLjwB
+   Q==;
+X-CSE-ConnectionGUID: Kj7dfgk3SjiED/WvAcaMPA==
+X-CSE-MsgGUID: GwVGqnrBQCSayu/ARn+BMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="100373434"
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="100373434"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 07:37:10 -0700
+X-CSE-ConnectionGUID: PYeFdFnCTU+49WDFjXKZ+g==
+X-CSE-MsgGUID: p2vpNJ3bTUCon9nd1F/utQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="227725225"
+Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 21 Apr 2026 07:37:07 -0700
+Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wFCDo-000000003dg-37uZ;
+	Tue, 21 Apr 2026 14:37:04 +0000
+Date: Tue, 21 Apr 2026 22:36:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tristan Madani <tristmd@gmail.com>, linux-bluetooth@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	luiz.dentz@gmail.com, marcel@holtmann.org, sven@svenpeter.dev,
+	marcan@marcan.st, asahi@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH v3] Bluetooth: hci_bcm4377: validate firmware event
+ length in completion ring
+Message-ID: <202604212248.Sek1Tdfg-lkp@intel.com>
+References: <20260417104639.2608008-1-tristmd@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260417104639.2608008-1-tristmd@gmail.com>
 
-atcphy_probe_switch() and atcphy_probe_mux() discard the pointers
-returned by typec_switch_register() and typec_mux_register(). The
-platform driver has no .remove callback, so the registered switch
-and mux devices outlive the apple_atcphy struct, which is released
-by devm cleanup on driver unbind.
+Hi Tristan,
 
-A subsequent typec event (cable orientation change, alt-mode
-transition) then invokes the registered atcphy_sw_set() or
-atcphy_mux_set() callback, which retrieves the freed apple_atcphy
-and dereferences it. Unbind followed by a cable replug or alt-mode
-change is enough to trigger the use-after-free.
+kernel test robot noticed the following build warnings:
 
-Save the registered switch and mux and unregister them through
-devm_add_action_or_reset() so the framework references disappear in
-step with the driver's devm-allocated state. Drop the unused struct
-apple_atcphy::sw and ::mux fields, which were declared with the
-wrong consumer-side types and never assigned.
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on bluetooth-next/master linus/master v7.0 next-20260420]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Fixes: 8e98ca1e74db ("phy: apple: Add Apple Type-C PHY")
-Signed-off-by: David Carlier <devnexen@gmail.com>
----
- drivers/phy/apple/atc.c | 27 ++++++++++++++++++++++-----
- 1 file changed, 22 insertions(+), 5 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tristan-Madani/Bluetooth-hci_bcm4377-validate-firmware-event-length-in-completion-ring/20260420-161359
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20260417104639.2608008-1-tristmd%40gmail.com
+patch subject: [PATCH v3] Bluetooth: hci_bcm4377: validate firmware event length in completion ring
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260421/202604212248.Sek1Tdfg-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260421/202604212248.Sek1Tdfg-lkp@intel.com/reproduce)
 
-diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-index e9d106f135c5..4156fabad742 100644
---- a/drivers/phy/apple/atc.c
-+++ b/drivers/phy/apple/atc.c
-@@ -628,9 +628,6 @@ struct apple_atcphy {
- 
- 	struct reset_controller_dev rcdev;
- 
--	struct typec_switch *sw;
--	struct typec_mux *mux;
--
- 	struct mutex lock;
- };
- 
-@@ -2066,15 +2063,25 @@ static int atcphy_sw_set(struct typec_switch_dev *sw, enum typec_orientation ori
- 	return 0;
- }
- 
-+static void atcphy_typec_switch_unregister(void *data)
-+{
-+	typec_switch_unregister(data);
-+}
-+
- static int atcphy_probe_switch(struct apple_atcphy *atcphy)
- {
-+	struct typec_switch_dev *sw;
- 	struct typec_switch_desc sw_desc = {
- 		.drvdata = atcphy,
- 		.fwnode = atcphy->dev->fwnode,
- 		.set = atcphy_sw_set,
- 	};
- 
--	return PTR_ERR_OR_ZERO(typec_switch_register(atcphy->dev, &sw_desc));
-+	sw = typec_switch_register(atcphy->dev, &sw_desc);
-+	if (IS_ERR(sw))
-+		return PTR_ERR(sw);
-+
-+	return devm_add_action_or_reset(atcphy->dev, atcphy_typec_switch_unregister, sw);
- }
- 
- static int atcphy_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *state)
-@@ -2146,15 +2153,25 @@ static int atcphy_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *sta
- 	return atcphy_configure(atcphy, target_mode);
- }
- 
-+static void atcphy_typec_mux_unregister(void *data)
-+{
-+	typec_mux_unregister(data);
-+}
-+
- static int atcphy_probe_mux(struct apple_atcphy *atcphy)
- {
-+	struct typec_mux_dev *mux;
- 	struct typec_mux_desc mux_desc = {
- 		.drvdata = atcphy,
- 		.fwnode = atcphy->dev->fwnode,
- 		.set = atcphy_mux_set,
- 	};
- 
--	return PTR_ERR_OR_ZERO(typec_mux_register(atcphy->dev, &mux_desc));
-+	mux = typec_mux_register(atcphy->dev, &mux_desc);
-+	if (IS_ERR(mux))
-+		return PTR_ERR(mux);
-+
-+	return devm_add_action_or_reset(atcphy->dev, atcphy_typec_mux_unregister, mux);
- }
- 
- static int atcphy_load_tunables(struct apple_atcphy *atcphy)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604212248.Sek1Tdfg-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/bluetooth/hci_bcm4377.c:11:
+   In file included from include/linux/dma-mapping.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/bluetooth/hci_bcm4377.c:761:15: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'u16' (aka 'unsigned short') [-Wformat]
+     760 |                          "event data len %zu exceeds payload size %zu for ring %d\n",
+         |                                                                   ~~~
+         |                                                                   %hu
+     761 |                          data_len, ring->payload_size, ring->ring_id);
+         |                                    ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +761 drivers/bluetooth/hci_bcm4377.c
+
+   734	
+   735	static void bcm4377_handle_completion(struct bcm4377_data *bcm4377,
+   736					      struct bcm4377_completion_ring *ring,
+   737					      u16 pos)
+   738	{
+   739		struct bcm4377_completion_ring_entry *entry;
+   740		u16 msg_id, transfer_ring;
+   741		size_t entry_size, data_len;
+   742		void *data;
+   743	
+   744		if (pos >= ring->n_entries) {
+   745			dev_warn(&bcm4377->pdev->dev,
+   746				 "invalid offset %d for completion ring %d\n", pos,
+   747				 ring->ring_id);
+   748			return;
+   749		}
+   750	
+   751		entry_size = sizeof(*entry) + ring->payload_size;
+   752		entry = ring->ring + pos * entry_size;
+   753		data = ring->ring + pos * entry_size + sizeof(*entry);
+   754		data_len = le32_to_cpu(entry->len);
+   755		msg_id = le16_to_cpu(entry->msg_id);
+   756		transfer_ring = le16_to_cpu(entry->ring_id);
+   757	
+   758		if (data_len > ring->payload_size) {
+   759			dev_warn(&bcm4377->pdev->dev,
+   760				 "event data len %zu exceeds payload size %zu for ring %d\n",
+ > 761				 data_len, ring->payload_size, ring->ring_id);
+   762			return;
+   763		}
+   764	
+   765		if ((ring->transfer_rings & BIT(transfer_ring)) == 0) {
+   766			dev_warn(
+   767				&bcm4377->pdev->dev,
+   768				"invalid entry at offset %d for transfer ring %d in completion ring %d\n",
+   769				pos, transfer_ring, ring->ring_id);
+   770			return;
+   771		}
+   772	
+   773		dev_dbg(&bcm4377->pdev->dev,
+   774			"entry in completion ring %d for transfer ring %d with msg_id %d\n",
+   775			ring->ring_id, transfer_ring, msg_id);
+   776	
+   777		switch (transfer_ring) {
+   778		case BCM4377_XFER_RING_CONTROL:
+   779			bcm4377_handle_ack(bcm4377, &bcm4377->control_h2d_ring, msg_id);
+   780			break;
+   781		case BCM4377_XFER_RING_HCI_H2D:
+   782			bcm4377_handle_ack(bcm4377, &bcm4377->hci_h2d_ring, msg_id);
+   783			break;
+   784		case BCM4377_XFER_RING_SCO_H2D:
+   785			bcm4377_handle_ack(bcm4377, &bcm4377->sco_h2d_ring, msg_id);
+   786			break;
+   787		case BCM4377_XFER_RING_ACL_H2D:
+   788			bcm4377_handle_ack(bcm4377, &bcm4377->acl_h2d_ring, msg_id);
+   789			break;
+   790	
+   791		case BCM4377_XFER_RING_HCI_D2H:
+   792			bcm4377_handle_event(bcm4377, &bcm4377->hci_d2h_ring, msg_id,
+   793					     entry->flags, HCI_EVENT_PKT, data,
+   794					     data_len);
+   795			break;
+   796		case BCM4377_XFER_RING_SCO_D2H:
+   797			bcm4377_handle_event(bcm4377, &bcm4377->sco_d2h_ring, msg_id,
+   798					     entry->flags, HCI_SCODATA_PKT, data,
+   799					     data_len);
+   800			break;
+   801		case BCM4377_XFER_RING_ACL_D2H:
+   802			bcm4377_handle_event(bcm4377, &bcm4377->acl_d2h_ring, msg_id,
+   803					     entry->flags, HCI_ACLDATA_PKT, data,
+   804					     data_len);
+   805			break;
+   806	
+   807		default:
+   808			dev_warn(
+   809				&bcm4377->pdev->dev,
+   810				"entry in completion ring %d for unknown transfer ring %d with msg_id %d\n",
+   811				ring->ring_id, transfer_ring, msg_id);
+   812		}
+   813	}
+   814	
+
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
