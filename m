@@ -1,64 +1,63 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA78A3EF0AF
-	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 12:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BECB3EF0C3
+	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 12:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776949039; cv=none; b=dCkfbLjhagbLb9bmAKe53YdaQsr6YMjBAERfhD1w20I0Z1Jt3Y6hy2YL+NpRB1FrYeURUGivC7yLuB8FyMxpUOPKOUP7NFYqG4qxr9fbHIsV2dm4xMy3leBjlFyqrBhcD42R01gUV6D9UaTGvMKmsF4NE0Mq5tcii1omHjdeLD4=
+	t=1776949045; cv=none; b=pIIe+FFD3ahYh/7ztgBuRmldJ/SBjMqKWjvPGnB7c2a1PxQ2J2LngiriqPTNR4ewGF+QCX45SX1exCaYE3XPigMjuKG2L1XcFc9oS9LA6OKbmrqyaXta3GijkMRttvkPNECbTldu5Icxbld+lrem44c3qhXMibpTNxSiXhhmuC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776949039; c=relaxed/simple;
-	bh=CP1ghv01QCcyLHSfiPOnX65aYM4APtuzG8pM9zCfUgA=;
+	s=arc-20240116; t=1776949045; c=relaxed/simple;
+	bh=bTDWzZVmDIEzzIR2e9kQP08/l7bognv4SdRbWpJltEQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nhNcIwlUjTxFVl6Hbd/8sNT/ujQhK2eZM/oQLb+UYXi2fZZgu/jhiZYCq6Q80uzHHGzuoE3lv/sdwcz6o9IomgLv6LpqlJCekIjy8YWznXmv9qeLwi2FqGcxJmQI5sY/ZnUw8RpR7q3dEWEdF64x1pM696/FtshC1Xtl+NH6ZFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NOg9WSRO; arc=none smtp.client-ip=209.85.216.42
+	 MIME-Version; b=f6Ern6pSXGgEv1ejemx7ppOoIXp1Mhr+qLaNnVHcxZqwKNUtWYzF4GAmNKMrFk7HhF3f9Lh4NBbjC6TmVAbNvqyi9BrJCaKp8KDQL4D9y6LJzKosR11IGqljCByXRzJr3tg37ZcymnH6uaii30QjjT7CfWf0Qp3lIRr1/3/JYec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ET0adwm4; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NOg9WSRO"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-35fb166b0c6so3814516a91.0
-        for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 05:57:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ET0adwm4"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2b24fdac394so63979115ad.3
+        for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 05:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776949037; x=1777553837; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776949040; x=1777553840; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ujluhbOld/XQ/a08kQS62pX+2z7OtnQnN7cupiUIIOA=;
-        b=NOg9WSROYyJJOnIHp+D3/23BJnyKWh+1eMrdCtiB86xDXv+BbYU6o7mT98mejFTPSB
-         pybLZ0m70mkMGzQk1xN+yS3V0VcYMb5x2wWJ8oPNB6HVpX8h1+CiyE1/aHp3InrxNTyM
-         0iI4rQpTwrSBzv9GEifdSdNkgVThwYK4wk1p2kHoeZc7qCOQFgsAjJOLu3asjzp88WiH
-         u8fzLJKqHuzngSY9upEciwyYqDM+9Y31FIMKxgmF0INsbfrgKC5yT5o3zO3TUIi1ZY1q
-         3BKoyI4sq2BBo0xEK2fOW5lA/PbW11tbOjEIx2h2JBW2/5QNmv2L1uHXd00WIw4Nkusl
-         ZHRQ==
+        bh=kDI1B8x0qzvt78g6hp6pJdTAzcHsH/waiJ0wXVZHtXE=;
+        b=ET0adwm4Vsxv1NIVxAeiHf/MmOifyumGzn5qKmz/9938jtFggZP0x/O42fOYf3ZYj/
+         vX6REpbCv7KwgipMwg9RDZvrab6cNJGKrm4AAXB/lVGPzo5xcV161DOq2mxLaE5LXJ0w
+         5fqOPQymynYSmpVtDKE4j+l/2RBwsYq6Ewt1NPGxgZR2enSQyd3oZHFMgNPuuv0jqDMh
+         AgVqp1bGk7ZuQWh+1JQ4jZLTsaMdZ5KaO5nc+eSjlhSVxlXNnl4gquwFFg2aiAmAOpbM
+         0oSULpMHzq1MJoHKwmnXXNZOroxCTcCPK3zQGpBa9vpkjagH0SIBXMs2SjSQBtsjUVQ4
+         23Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776949037; x=1777553837;
+        d=1e100.net; s=20251104; t=1776949040; x=1777553840;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ujluhbOld/XQ/a08kQS62pX+2z7OtnQnN7cupiUIIOA=;
-        b=CmPQxDpdY1LeOnc9UQ0A2gbUY5mvXNmmNS942fIrmlhApYMdYufcotMjhCYProw7Kq
-         WVzZ3xhGl9t57z+JAl2oUENh0fXMihvJrLxFAzDD91bmfF3QRITkkwwXg1zw0T+C60X3
-         ADqlFuQ4NMErw3RkbkRNVPkuDYBvJMufSmtkuHhGdvvS/tWcR3AA4NOe2/Y1EreBfL4b
-         cfsDnfGLyYlNolyLoBc9jaRNGh3d9rJmPciQNYvtYAL+wu6zDSaRawF0Q6+DJPYdImve
-         /MAnfkTIWReWOAFlhg6IcE1Q0gWoNrbyo4n2IbLeou+QXRYVRGmxm+m68PG5lB0Bkh+y
-         2UUQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9zCdaqbz/fBQXAxEg3XCyWgF1gLo2PXhwlny18dDt/nx0PXJm5i1hdqg5wLCYEeAV+89c96g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwltF6FX+4ffYp9YCGymFIa5NFOrqXoWa1Ix8zvKR3wC+UwhzIH
-	rCFdG3v05ha+hcZNdoVLaRQxCklr0ZZyRzdM/XNiCuMLIs2/f7pHo8cwNdVMXQ==
-X-Gm-Gg: AeBDietlErvyPkCvV1cdn4z/CRa3bv+D4AlEZ36P/7tmQEzL6FVNlls7h15oPiLMKBZ
-	pAGOhbN1WjnR4cosl8mn5OrGppbHjo14L3GHkzJ3e9J+u4mFrdh3K5G1dJ/xk7HzRtXpNzPv8Z4
-	oqBKXpC8ovnabefHPYG8p0Ho4lDmUtd8FrmsjpoueAkIC+Zv9/L5udmztjO5C+irz+WSJgAajnh
-	oH8cZOr9Rfe3E1XsURbUZaVUzxOmZH80dZK6CqbtG9jKwlAMUulyTRCM7lNJpJ/9szJAyCWOyJQ
-	fIIcQcVkb1qMHWX1O/bXa+btkvGyjlJHePdfLWEMW6j5OMNigwoQEP879gMdi064YS2ORVki9uI
-	f3yGw1nj1rOWo5XkuhDRuHSbvkRkoYnaGMfaxa4aBcx8wYcwH+OgnQ6f4G+RsSV+yJ9XpSN08Wn
-	i0M2eZpKaZRJXDeC3aCW9hc3LP8q6kwDHof+w8Ldpq4LC7jEPObb88kFyESwKYWwI2QGX0RXe7k
-	9s7p9s=
-X-Received: by 2002:a17:902:b195:b0:2b2:4bbc:14b0 with SMTP id d9443c01a7336-2b5f9eb272fmr163793265ad.20.1776949037203;
-        Thu, 23 Apr 2026 05:57:17 -0700 (PDT)
+        bh=kDI1B8x0qzvt78g6hp6pJdTAzcHsH/waiJ0wXVZHtXE=;
+        b=H6Tw8fjVspJhLOCkWKXG8udNzQ8AXPf971L7dgtbnFFbVKu1HPVzkmrsL5w2KCu6jM
+         S6MY0aAiBJSA1REkfwKlPZoVgmp9ItTgBnA9kkaPUGCEpI5Tjwx0AqQf435VKI3QniAL
+         OkdgHj2uDIj1onVIZqFk9IOvyp7Ai71BzsnZriXe/6/kgbRLQS1XsqxX0vpBOuLOr2c2
+         Y58lurpdXDLn9HmPbGCM61jPps/j8KXMmwas05VOlKaMWMr+iAzOrM/D152cvKxYhVK+
+         53rzzmLgXki27nDwF0HbBUeJ1aeICBLhadCsEytO7yCTHV1wTwFE/uql0xGPErCGDipC
+         SomQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8f6sThDNV1GflpYbOwzj2MnqArUq11Fqa8Eubo/X8V3jCgDiiQLo/6DocOCelOiojT5+RBJg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrIG/FJ6ZCQXQgPmAuovSyRUaDqJdgqpGHUPoeeiYSbGZG3Vz8
+	cCTYcUxTFj0XNY72gUzyD7AsHHKS7lFAx1z5bUQsIm70EeEptUF6BayF
+X-Gm-Gg: AeBDies8IbzKxxCoEr+8XOf9dQYdDa+ROglctjmmswI/ksGaI7uvLvcDo3bGVKxNS7u
+	15Ym/FjnZgvrd/4jaOdWLbCdejBfGL3kytqchkow9SPp40q/f43sTdx7kT/WDH93TucecsTKf2T
+	ENue72FOhuDQKNAz7gTkqpkz6s5wHhdllSoe84MpPfGOZJT9bdNQGdQ6RqGD90kBpg15Q6JsmVj
+	iMXLi1vnJpeNodHBoyrdTa7/bXar5ifrVCxRS4sJWr3qW0p9vHxc+w0V7WSVA0/nxPPBi/3yJmL
+	ujif6q1XcmryfvrT4fZMspyCQ5MIccRQ9hCqtVaZ9G1dsLsmBQRpyd3Ea5o7t/GL5lV9obPh4s6
+	Yy82xBO5tj4PZHJXq3ZGeO/i8lD/gE8Q5S3F1ZaLzo+HlOkMBla5iOwQTMC7KLIthHr1V7iOKEy
+	iXkZKEwQqEfdsE1tjoAKdQUtyO3lElFqMDKNhDuJoah0ZK7KK2TxX5xe6MHyhqaExEo+WJ
+X-Received: by 2002:a17:903:2ac6:b0:2b2:549f:7d2b with SMTP id d9443c01a7336-2b5f9ee2f21mr281621055ad.11.1776949040431;
+        Thu, 23 Apr 2026 05:57:20 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff390sm192106545ad.9.2026.04.23.05.57.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff390sm192106545ad.9.2026.04.23.05.57.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 05:57:16 -0700 (PDT)
+        Thu, 23 Apr 2026 05:57:20 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
@@ -69,9 +68,9 @@ Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 4/5] ASoC: samsung: pcm: Use guard() for spin locks
-Date: Thu, 23 Apr 2026 19:56:45 +0700
-Message-ID: <20260423125646.156599-5-phucduc.bui@gmail.com>
+Subject: [PATCH 5/5] ASoC: samsung: spdif: Use guard() for spin locks
+Date: Thu, 23 Apr 2026 19:56:46 +0700
+Message-ID: <20260423125646.156599-6-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260423125646.156599-1-phucduc.bui@gmail.com>
 References: <20260423125646.156599-1-phucduc.bui@gmail.com>
@@ -90,192 +89,99 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/samsung/pcm.c | 99 +++++++++++++++++------------------------
- 1 file changed, 40 insertions(+), 59 deletions(-)
+ sound/soc/samsung/spdif.c | 25 ++++++++-----------------
+ 1 file changed, 8 insertions(+), 17 deletions(-)
 
-diff --git a/sound/soc/samsung/pcm.c b/sound/soc/samsung/pcm.c
-index a03ba9374c2e..309f024bf2a4 100644
---- a/sound/soc/samsung/pcm.c
-+++ b/sound/soc/samsung/pcm.c
-@@ -218,7 +218,6 @@ static int s3c_pcm_trigger(struct snd_pcm_substream *substream, int cmd,
+diff --git a/sound/soc/samsung/spdif.c b/sound/soc/samsung/spdif.c
+index fb30f6b637a0..7fc46d55c522 100644
+--- a/sound/soc/samsung/spdif.c
++++ b/sound/soc/samsung/spdif.c
+@@ -143,7 +143,6 @@ static int spdif_trigger(struct snd_pcm_substream *substream, int cmd,
  {
  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct s3c_pcm_info *pcm = snd_soc_dai_get_drvdata(snd_soc_rtd_to_cpu(rtd, 0));
+ 	struct samsung_spdif_info *spdif = to_info(snd_soc_rtd_to_cpu(rtd, 0));
 -	unsigned long flags;
  
- 	dev_dbg(pcm->dev, "Entered %s\n", __func__);
+ 	dev_dbg(spdif->dev, "Entered %s\n", __func__);
  
-@@ -226,27 +225,23 @@ static int s3c_pcm_trigger(struct snd_pcm_substream *substream, int cmd,
+@@ -151,16 +150,14 @@ static int spdif_trigger(struct snd_pcm_substream *substream, int cmd,
  	case SNDRV_PCM_TRIGGER_START:
  	case SNDRV_PCM_TRIGGER_RESUME:
  	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
--		spin_lock_irqsave(&pcm->lock, flags);
--
--		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
--			s3c_pcm_snd_rxctrl(pcm, 1);
--		else
--			s3c_pcm_snd_txctrl(pcm, 1);
--
--		spin_unlock_irqrestore(&pcm->lock, flags);
-+		scoped_guard(spinlock_irqsave, &pcm->lock) {
-+			if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-+				s3c_pcm_snd_rxctrl(pcm, 1);
-+			else
-+				s3c_pcm_snd_txctrl(pcm, 1);
-+		}
+-		spin_lock_irqsave(&spdif->lock, flags);
+-		spdif_snd_txctrl(spdif, 1);
+-		spin_unlock_irqrestore(&spdif->lock, flags);
++		scoped_guard(spinlock_irqsave, &spdif->lock)
++			spdif_snd_txctrl(spdif, 1);
  		break;
- 
  	case SNDRV_PCM_TRIGGER_STOP:
  	case SNDRV_PCM_TRIGGER_SUSPEND:
  	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
--		spin_lock_irqsave(&pcm->lock, flags);
--
--		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
--			s3c_pcm_snd_rxctrl(pcm, 0);
--		else
--			s3c_pcm_snd_txctrl(pcm, 0);
--
--		spin_unlock_irqrestore(&pcm->lock, flags);
-+		scoped_guard(spinlock_irqsave, &pcm->lock) {
-+			if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-+				s3c_pcm_snd_rxctrl(pcm, 0);
-+			else
-+				s3c_pcm_snd_txctrl(pcm, 0);
-+		}
+-		spin_lock_irqsave(&spdif->lock, flags);
+-		spdif_snd_txctrl(spdif, 0);
+-		spin_unlock_irqrestore(&spdif->lock, flags);
++		scoped_guard(spinlock_irqsave, &spdif->lock)
++			spdif_snd_txctrl(spdif, 0);
  		break;
- 
  	default:
-@@ -265,7 +260,6 @@ static int s3c_pcm_hw_params(struct snd_pcm_substream *substream,
- 	void __iomem *regs = pcm->regs;
- 	struct clk *clk;
- 	int sclk_div, sync_div;
--	unsigned long flags;
- 	u32 clkctl;
- 
- 	dev_dbg(pcm->dev, "Entered %s\n", __func__);
-@@ -278,36 +272,33 @@ static int s3c_pcm_hw_params(struct snd_pcm_substream *substream,
  		return -EINVAL;
- 	}
- 
--	spin_lock_irqsave(&pcm->lock, flags);
--
--	/* Get hold of the PCMSOURCE_CLK */
--	clkctl = readl(regs + S3C_PCM_CLKCTL);
--	if (clkctl & S3C_PCM_CLKCTL_SERCLKSEL_PCLK)
--		clk = pcm->pclk;
--	else
--		clk = pcm->cclk;
--
--	/* Set the SCLK divider */
--	sclk_div = clk_get_rate(clk) / pcm->sclk_per_fs /
--					params_rate(params) / 2 - 1;
--
--	clkctl &= ~(S3C_PCM_CLKCTL_SCLKDIV_MASK
--			<< S3C_PCM_CLKCTL_SCLKDIV_SHIFT);
--	clkctl |= ((sclk_div & S3C_PCM_CLKCTL_SCLKDIV_MASK)
--			<< S3C_PCM_CLKCTL_SCLKDIV_SHIFT);
-+	scoped_guard(spinlock_irqsave, &pcm->lock) {
-+		/* Get hold of the PCMSOURCE_CLK */
-+		clkctl = readl(regs + S3C_PCM_CLKCTL);
-+		if (clkctl & S3C_PCM_CLKCTL_SERCLKSEL_PCLK)
-+			clk = pcm->pclk;
-+		else
-+			clk = pcm->cclk;
- 
--	/* Set the SYNC divider */
--	sync_div = pcm->sclk_per_fs - 1;
-+		/* Set the SCLK divider */
-+		sclk_div = clk_get_rate(clk) / pcm->sclk_per_fs /
-+						params_rate(params) / 2 - 1;
- 
--	clkctl &= ~(S3C_PCM_CLKCTL_SYNCDIV_MASK
--				<< S3C_PCM_CLKCTL_SYNCDIV_SHIFT);
--	clkctl |= ((sync_div & S3C_PCM_CLKCTL_SYNCDIV_MASK)
--				<< S3C_PCM_CLKCTL_SYNCDIV_SHIFT);
-+		clkctl &= ~(S3C_PCM_CLKCTL_SCLKDIV_MASK
-+				<< S3C_PCM_CLKCTL_SCLKDIV_SHIFT);
-+		clkctl |= ((sclk_div & S3C_PCM_CLKCTL_SCLKDIV_MASK)
-+				<< S3C_PCM_CLKCTL_SCLKDIV_SHIFT);
- 
--	writel(clkctl, regs + S3C_PCM_CLKCTL);
-+		/* Set the SYNC divider */
-+		sync_div = pcm->sclk_per_fs - 1;
- 
--	spin_unlock_irqrestore(&pcm->lock, flags);
-+		clkctl &= ~(S3C_PCM_CLKCTL_SYNCDIV_MASK
-+					<< S3C_PCM_CLKCTL_SYNCDIV_SHIFT);
-+		clkctl |= ((sync_div & S3C_PCM_CLKCTL_SYNCDIV_MASK)
-+					<< S3C_PCM_CLKCTL_SYNCDIV_SHIFT);
- 
-+		writel(clkctl, regs + S3C_PCM_CLKCTL);
-+	}
- 	dev_dbg(pcm->dev, "PCMSOURCE_CLK-%lu SCLK=%ufs SCLK_DIV=%d SYNC_DIV=%d\n",
- 				clk_get_rate(clk), pcm->sclk_per_fs,
- 				sclk_div, sync_div);
-@@ -320,13 +311,11 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
- {
- 	struct s3c_pcm_info *pcm = snd_soc_dai_get_drvdata(cpu_dai);
- 	void __iomem *regs = pcm->regs;
+@@ -182,7 +179,6 @@ static int spdif_hw_params(struct snd_pcm_substream *substream,
+ 	void __iomem *regs = spdif->regs;
+ 	struct snd_dmaengine_dai_dma_data *dma_data;
+ 	u32 con, clkcon, cstas;
 -	unsigned long flags;
--	int ret = 0;
- 	u32 ctl;
+ 	int i, ratio;
  
- 	dev_dbg(pcm->dev, "Entered %s\n", __func__);
+ 	dev_dbg(spdif->dev, "Entered %s\n", __func__);
+@@ -196,7 +192,7 @@ static int spdif_hw_params(struct snd_pcm_substream *substream,
  
--	spin_lock_irqsave(&pcm->lock, flags);
-+	guard(spinlock_irqsave)(&pcm->lock);
+ 	snd_soc_dai_set_dma_data(snd_soc_rtd_to_cpu(rtd, 0), substream, dma_data);
  
- 	ctl = readl(regs + S3C_PCM_CTL);
+-	spin_lock_irqsave(&spdif->lock, flags);
++	guard(spinlock_irqsave)(&spdif->lock);
  
-@@ -336,8 +325,7 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
+ 	con = readl(regs + CON) & CON_MASK;
+ 	cstas = readl(regs + CSTAS) & CSTAS_MASK;
+@@ -214,7 +210,7 @@ static int spdif_hw_params(struct snd_pcm_substream *substream,
  		break;
  	default:
- 		dev_err(pcm->dev, "Unsupported clock inversion!\n");
--		ret = -EINVAL;
--		goto exit;
+ 		dev_err(spdif->dev, "Unsupported data size.\n");
+-		goto err;
 +		return -EINVAL;
  	}
  
- 	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-@@ -346,8 +334,7 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
- 		break;
- 	default:
- 		dev_err(pcm->dev, "Unsupported master/slave format!\n");
--		ret = -EINVAL;
--		goto exit;
+ 	ratio = spdif->clk_rate / params_rate(params);
+@@ -224,7 +220,7 @@ static int spdif_hw_params(struct snd_pcm_substream *substream,
+ 	if (i == ARRAY_SIZE(spdif_sysclk_ratios)) {
+ 		dev_err(spdif->dev, "Invalid clock ratio %ld/%d\n",
+ 				spdif->clk_rate, params_rate(params));
+-		goto err;
 +		return -EINVAL;
  	}
  
- 	switch (fmt & SND_SOC_DAIFMT_CLOCK_MASK) {
-@@ -359,8 +346,7 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
- 		break;
+ 	con &= ~CON_MCLKDIV_MASK;
+@@ -257,7 +253,7 @@ static int spdif_hw_params(struct snd_pcm_substream *substream,
  	default:
- 		dev_err(pcm->dev, "Invalid Clock gating request!\n");
--		ret = -EINVAL;
--		goto exit;
+ 		dev_err(spdif->dev, "Invalid sampling rate %d\n",
+ 				params_rate(params));
+-		goto err;
 +		return -EINVAL;
  	}
  
- 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-@@ -374,16 +360,11 @@ static int s3c_pcm_set_fmt(struct snd_soc_dai *cpu_dai,
- 		break;
- 	default:
- 		dev_err(pcm->dev, "Unsupported data format!\n");
--		ret = -EINVAL;
--		goto exit;
-+		return -EINVAL;
- 	}
+ 	cstas &= ~CSTAS_CATEGORY_MASK;
+@@ -268,12 +264,7 @@ static int spdif_hw_params(struct snd_pcm_substream *substream,
+ 	writel(cstas, regs + CSTAS);
+ 	writel(clkcon, regs + CLKCON);
  
- 	writel(ctl, regs + S3C_PCM_CTL);
+-	spin_unlock_irqrestore(&spdif->lock, flags);
 -
--exit:
--	spin_unlock_irqrestore(&pcm->lock, flags);
--
--	return ret;
-+	return 0;
+ 	return 0;
+-err:
+-	spin_unlock_irqrestore(&spdif->lock, flags);
+-	return -EINVAL;
  }
  
- static int s3c_pcm_set_clkdiv(struct snd_soc_dai *cpu_dai,
+ static void spdif_shutdown(struct snd_pcm_substream *substream,
 -- 
 2.43.0
 
