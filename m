@@ -1,205 +1,388 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78611E2614;
-	Tue, 21 Apr 2026 15:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6760D3E3D9A
+	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 09:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776786684; cv=none; b=nnLV2lSyuIp4SoU1AeN9WkcZoONvFrMFzjenyncxMJE0o4dHtnPsRHBDxI6WI2Oco+sM0HMc6k6C8JV4OuSBfwECtehHSJJ9diyGlyMw3z80BEZF/49ReMvElw0z51HwWYMJiBddIvpw2XagJcfT+Jg/qrXA77UuPAACnS89mnM=
+	t=1776935879; cv=none; b=WGTi9WxOPRulD9qXI9vCy9dvwog8Xw7me0egs5Iyxs2RuSFGwFzv79aF4v7w6QJq3oYeI4NjhbrSviZgG5/UQG8392pi2ZmozcmViX3FzemaSh6xJNUqc40htpbwfMjYzCI+LSPNsE5tVgfHcJvmApkjCFFaE+hWJYIOQ1ILSKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776786684; c=relaxed/simple;
-	bh=PgNeSfUwXuNTIAWz0lFy9e6I68v66mw46lASzOGwHT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CM2846+uyt9+fs+V4FiGrxfUhr3d/APuXMI5FTRygOjOnUCIizqGDTEqpB0bGdRI7PY0xOCTqbVBE8j5DlpRjWebMG2xeL0r64p5bL0IVNgWrv3l/CdeeSIiQLyeKYDJUzGPGkAivNlsq7U5lnfA87uCcQIKE2zT13dKUXHNTEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=faajLDNh; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776935879; c=relaxed/simple;
+	bh=0bibXgXYmMmsNZM5CWvR8AEmesPhJX/+aPZvwFEcwIc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fFjEg5PN9AjxTIPhnEeRXoO1law4Op9lhNlzWpHRhPx6Uv3UwASby16+Y9Q6R6BnL8q4gP8ShSfqdDAuK7cRWKjveDm5r0OoxkHdsEsiPnuuCKjqmwfVJr3+R5dEZWHLyRbErbRBvzw6ufgyZJs8U5p9KOBkTEvGULwJWi8qouI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=q5bujtby; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="faajLDNh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776786683; x=1808322683;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PgNeSfUwXuNTIAWz0lFy9e6I68v66mw46lASzOGwHT0=;
-  b=faajLDNhU6nxcoYHOvJtJNhAMoUZBpDGv02h9AQG+3eJ8yRchoJD8X4S
-   dGsJS1eeYHEp5e2fgxtx8sIs+w8hqLK0wjrQMbaIVYxPxt1kPYSJ2vCwV
-   l/S7Jz3bYfxo6htVUmnRaey23MAqSWkMeEs0HuePBrQo65Xbwdqs6FO9p
-   eP/kebmObf0nHrTbjqKn4Sznzzcg3GPG3vkgWoPCJDkHmISXH62O1B65c
-   FD7ISxMKKxkXqyWfKnrVXCc7KNEGBD11di2z2zqSi+Oqo5/9531rBkODh
-   I7zekHesSUPG4aDfmlB8CV6w8R1u7tWvACEQdsuD+7aJ+a1OsC35Tqdfi
-   g==;
-X-CSE-ConnectionGUID: 6GEo7dymQCabAEPscM9IDw==
-X-CSE-MsgGUID: GKtxsLP6Te2Z4JktBfv3mQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="76759466"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="76759466"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:51:20 -0700
-X-CSE-ConnectionGUID: pjaNHav+QTySKwbAVILdKw==
-X-CSE-MsgGUID: VJw3IVDiTYa0yM6QJWX92Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="231186758"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 21 Apr 2026 08:51:18 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wFDNb-000000003iK-1yRP;
-	Tue, 21 Apr 2026 15:51:15 +0000
-Date: Tue, 21 Apr 2026 23:50:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tristan Madani <tristmd@gmail.com>, linux-bluetooth@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, luiz.dentz@gmail.com,
-	marcel@holtmann.org, sven@svenpeter.dev, marcan@marcan.st,
-	asahi@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v3] Bluetooth: hci_bcm4377: validate firmware event
- length in completion ring
-Message-ID: <202604220005.gyhLDa7b-lkp@intel.com>
-References: <20260417104639.2608008-1-tristmd@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="q5bujtby"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id EEBA81A33BC;
+	Thu, 23 Apr 2026 09:17:47 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B05A060495;
+	Thu, 23 Apr 2026 09:17:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8ED6210460A92;
+	Thu, 23 Apr 2026 11:17:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776935862; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=fg+cfL7RFhXRqyxQ+5IEhbipfMHZKY0UpIKJXrJ9fFQ=;
+	b=q5bujtbykq4zXmP/ViiTPdoLiG5rI0IaZoAA1hMcWIsLUIjEVEl28d937PxTSzkcMAo/iZ
+	FfPwWtnuuqp+IknsHgvp3qm2VGtVpuHNGfMwGTXr2NkdUJOEtPHMV4UHRqdwWxLZYY/52V
+	TZjndhPSGi4MLc5sduluxvM9nY9F6d73IxJ7XGYOWbGdcr5LPkjFcaZUqMHKClI3ggDkmt
+	vv2RfEgf0BziLtsSNwVeni3K0HcfWG0FFpxhXmTS2A0O9EMNfYm5uB4MovAIlAdrmlJuqv
+	x5G5QDqMA5j0QJvF0aKhDcR51xqodoTterNKBN6akBGsCUESvx0TKhaoHu4wbA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v2 00/41] drm/display: bridge-connector: attach encoder to
+ the connector
+Date: Thu, 23 Apr 2026 11:16:54 +0200
+Message-Id: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260417104639.2608008-1-tristmd@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIbj6WkC/42OQQ7CIBBFr9KwFkOJhcaV9zCNgWFqx1gwgI2m6
+ d2lNe5dvsz/78/MEkbCxI7VzCJOlCj4AnJXMRiMvyInV5hJIZU41Iq7OHIbyZULBO8Rcojc5Gx
+ guKCH4DByUE1tQDRaND0rpkfEnl7byrn7cnraW+mu6jUxUCqe9/bGVK+536L+a3GqueBK29a2v
+ W21NCcbQr6T30MYWbcsywfd2mBG6gAAAA==
+X-Change-ID: 20260416-drm-bridge-connector-attach_encoder-c651ac05705f
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
+ Liu Ying <victor.liu@nxp.com>, Douglas Anderson <dianders@chromium.org>, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Icenowy Zheng <zhengxingda@iscas.ac.cn>, Jingoo Han <jingoohan1@gmail.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, Michal Simek <michal.simek@amd.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, asahi@lists.linux.dev, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org, 
+ linux-tegra@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Tristan,
+This series simplifies using the bridge-connector by removing the need to
+attach the newly created connector to the encoder.
 
-kernel test robot noticed the following build warnings:
+== Series description
 
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v7.0 next-20260420]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Currently all users of the bridge-connector must call
+drm_connector_attach_encoder() immediately after a successful
+drm_bridge_connector_init().
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tristan-Madani/Bluetooth-hci_bcm4377-validate-firmware-event-length-in-completion-ring/20260420-161359
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20260417104639.2608008-1-tristmd%40gmail.com
-patch subject: [PATCH v3] Bluetooth: hci_bcm4377: validate firmware event length in completion ring
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260422/202604220005.gyhLDa7b-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260422/202604220005.gyhLDa7b-lkp@intel.com/reproduce)
+This is an unnecessary burden for users. Move the call to the end of
+drm_bridge_connector_init() so all callers can be simplified.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604220005.gyhLDa7b-lkp@intel.com/
+ * Patch 1 adds a drm_connector_attach_encoder() call at the end of
+   drm_bridge_connector_init()
+ * The other patches remove drm_connector_attach_encoder() after all
+   drm_bridge_connector_init() calls, ordered from the simplest ones
+   (only the last one is somewhat non-obvious)
 
-All warnings (new ones prefixed by >>):
+The Cc list is huge due to the many drivers touched. I sent v1 to a reduced
+Cc list to ensure there is an agreement about the overall idea. That seems
+to be the case, so now it's time to copy all drivers maintainers.
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/async.h:14,
-                    from drivers/bluetooth/hci_bcm4377.c:8:
-   drivers/bluetooth/hci_bcm4377.c: In function 'bcm4377_handle_completion':
->> drivers/bluetooth/hci_bcm4377.c:760:26: warning: format '%zu' expects argument of type 'size_t', but argument 4 has type 'int' [-Wformat=]
-     760 |                          "event data len %zu exceeds payload size %zu for ring %d\n",
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/bluetooth/hci_bcm4377.c:759:17: note: in expansion of macro 'dev_warn'
-     759 |                 dev_warn(&bcm4377->pdev->dev,
-         |                 ^~~~~~~~
-   drivers/bluetooth/hci_bcm4377.c:760:69: note: format string is defined here
-     760 |                          "event data len %zu exceeds payload size %zu for ring %d\n",
-         |                                                                   ~~^
-         |                                                                     |
-         |                                                                     long unsigned int
-         |                                                                   %u
+It would be nice to apply all of this series at once to avoid duplicated
+calls to drm_connector_attach_encoder() in the interim. That would be
+harmless beacuse drm_connector_attach_encoder() is idempotent, but
+unpleasant.
 
+== Additional rationale (for the curious)
 
-vim +760 drivers/bluetooth/hci_bcm4377.c
+Besides making the usage of the bridge-connector a bit simpler, this series
+is in preparation for DRM bridge hotplug. Here's why, feel free to skip if
+you don't care.
 
-   734	
-   735	static void bcm4377_handle_completion(struct bcm4377_data *bcm4377,
-   736					      struct bcm4377_completion_ring *ring,
-   737					      u16 pos)
-   738	{
-   739		struct bcm4377_completion_ring_entry *entry;
-   740		u16 msg_id, transfer_ring;
-   741		size_t entry_size, data_len;
-   742		void *data;
-   743	
-   744		if (pos >= ring->n_entries) {
-   745			dev_warn(&bcm4377->pdev->dev,
-   746				 "invalid offset %d for completion ring %d\n", pos,
-   747				 ring->ring_id);
-   748			return;
-   749		}
-   750	
-   751		entry_size = sizeof(*entry) + ring->payload_size;
-   752		entry = ring->ring + pos * entry_size;
-   753		data = ring->ring + pos * entry_size + sizeof(*entry);
-   754		data_len = le32_to_cpu(entry->len);
-   755		msg_id = le16_to_cpu(entry->msg_id);
-   756		transfer_ring = le16_to_cpu(entry->ring_id);
-   757	
-   758		if (data_len > ring->payload_size) {
-   759			dev_warn(&bcm4377->pdev->dev,
- > 760				 "event data len %zu exceeds payload size %zu for ring %d\n",
-   761				 data_len, ring->payload_size, ring->ring_id);
-   762			return;
-   763		}
-   764	
-   765		if ((ring->transfer_rings & BIT(transfer_ring)) == 0) {
-   766			dev_warn(
-   767				&bcm4377->pdev->dev,
-   768				"invalid entry at offset %d for transfer ring %d in completion ring %d\n",
-   769				pos, transfer_ring, ring->ring_id);
-   770			return;
-   771		}
-   772	
-   773		dev_dbg(&bcm4377->pdev->dev,
-   774			"entry in completion ring %d for transfer ring %d with msg_id %d\n",
-   775			ring->ring_id, transfer_ring, msg_id);
-   776	
-   777		switch (transfer_ring) {
-   778		case BCM4377_XFER_RING_CONTROL:
-   779			bcm4377_handle_ack(bcm4377, &bcm4377->control_h2d_ring, msg_id);
-   780			break;
-   781		case BCM4377_XFER_RING_HCI_H2D:
-   782			bcm4377_handle_ack(bcm4377, &bcm4377->hci_h2d_ring, msg_id);
-   783			break;
-   784		case BCM4377_XFER_RING_SCO_H2D:
-   785			bcm4377_handle_ack(bcm4377, &bcm4377->sco_h2d_ring, msg_id);
-   786			break;
-   787		case BCM4377_XFER_RING_ACL_H2D:
-   788			bcm4377_handle_ack(bcm4377, &bcm4377->acl_h2d_ring, msg_id);
-   789			break;
-   790	
-   791		case BCM4377_XFER_RING_HCI_D2H:
-   792			bcm4377_handle_event(bcm4377, &bcm4377->hci_d2h_ring, msg_id,
-   793					     entry->flags, HCI_EVENT_PKT, data,
-   794					     data_len);
-   795			break;
-   796		case BCM4377_XFER_RING_SCO_D2H:
-   797			bcm4377_handle_event(bcm4377, &bcm4377->sco_d2h_ring, msg_id,
-   798					     entry->flags, HCI_SCODATA_PKT, data,
-   799					     data_len);
-   800			break;
-   801		case BCM4377_XFER_RING_ACL_D2H:
-   802			bcm4377_handle_event(bcm4377, &bcm4377->acl_d2h_ring, msg_id,
-   803					     entry->flags, HCI_ACLDATA_PKT, data,
-   804					     data_len);
-   805			break;
-   806	
-   807		default:
-   808			dev_warn(
-   809				&bcm4377->pdev->dev,
-   810				"entry in completion ring %d for unknown transfer ring %d with msg_id %d\n",
-   811				ring->ring_id, transfer_ring, msg_id);
-   812		}
-   813	}
-   814	
+The old bridge hotplug proposals I have sent in the past [1] were based on
+a hotplug-bridge driver to sit between the last fixed bridge and the first
+hotplugged bridge. Discussion with the community led to the need of
+removing the hotplug-bridge and let common DRM code handle hotplug. The
+common place of code that appears the most suitable for hotplug handling is
+the bridge-connector, which is by now the recommended way to handle
+connector instantiation after a bridge chain.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So I'm in the process of extending the bridge-connector to be the central
+point to handle bridge hotplug. Turns out the need to call
+drm_connector_attach_encoder() after drm_bridge_connector_init() has
+returned is adding big headaches to such work. So I'm send this long but
+simple series to both simplify bridge-connector usage and remove one
+obstacle from the bridge hotplug work. This series is relevant by itself
+anyway.
+
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-26-9d6f2c9c3058@bootlin.com/
+
+== Grand plan
+
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [0].
+
+Here's the work breakdown (➜ marks the current series):
+
+ 1. … add refcounting to DRM bridges struct drm_bridge,
+      based on devm_drm_bridge_alloc()
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. … add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. ✔ protect encoder bridge chain with a mutex (v7.2)
+       7. … of_drm_find_bridge
+          a. ✔ add of_drm_get_bridge() (v7.0),
+	       convert basic direct users (v7.0-v7.1)
+	  b. ✔ convert direct of_drm_get_bridge() users, part 2 (v7.0)
+	  c. ✔ convert direct of_drm_get_bridge() users, part 3 (v7.0)
+	  d. ✔ convert direct of_drm_get_bridge() users, part 4 (v7.1-v7.2)
+	  e. … convert bridge-only drm_of_find_panel_or_bridge() users
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. … handle gracefully atomic updates during bridge removal
+    A. ✔ Add drm_bridge_enter/exit() to protect device resources (v7.0)
+    B. … protect private_obj removal from list
+    C. ✔ Add drm_bridge_clear_and_put() (v7.1)
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. ✔ Migrate i.MX LCDIF driver to bridge-connector (v7.2)
+ 6. ➜ DRM bridge hotplug
+    A. ➜ Bridge hotplug management in the DRM core
+       1. ➜ bridge-connector: attach encoder to the connector
+    B.   Device tree description
+
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v2:
+- patch 1: update kdoc
+- patch 41: fix by rewriting it fully
+- update cover letter
+- Link to v1: https://patch.msgid.link/20260417-drm-bridge-connector-attach_encoder-v1-0-67b8b8fb872a@bootlin.com
+
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Robert Foss <rfoss@kernel.org>
+To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+To: Jonas Karlman <jonas@kwiboo.se>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+To: Janne Grunau <j@jannau.net>
+To: Liu Ying <victor.liu@nxp.com>
+To: Douglas Anderson <dianders@chromium.org>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+To: Frank Li <Frank.Li@nxp.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pengutronix Kernel Team <kernel@pengutronix.de>
+To: Fabio Estevam <festevam@gmail.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+To: Paul Cercueil <paul@crapouillou.net>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Kevin Hilman <khilman@baylibre.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+To: Abhinav Kumar <abhinav.kumar@linux.dev>
+To: Jessica Zhang <jesszhan0024@gmail.com>
+To: Sean Paul <sean@poorly.run>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Sandy Huang <hjc@rock-chips.com>
+To: Heiko Stübner <heiko@sntech.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+To: Jonathan Hunter <jonathanh@nvidia.com>
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Jingoo Han <jingoohan1@gmail.com>
+To: Inki Dae <inki.dae@samsung.com>
+To: Seung-Woo Kim <sw0312.kim@samsung.com>
+To: Kyungmin Park <kyungmin.park@samsung.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Alim Akhtar <alim.akhtar@samsung.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+To: Marek Vasut <marex@denx.de>
+To: Stefan Agner <stefan@agner.ch>
+To: Jyri Sarha <jyri.sarha@iki.fi>
+To: Michal Simek <michal.simek@amd.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>
+Cc: Ian Ray <ian.ray@gehealthcare.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: asahi@lists.linux.dev
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+
+---
+Luca Ceresoli (41):
+      drm/display: bridge-connector: attach the encoder to the created connector
+      drm: adp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/bridge: adv7511: remove now-redundant call to drm_connector_attach_encoder()
+      drm/bridge: ite-it6263: remove now-redundant call to drm_connector_attach_encoder()
+      drm/bridge: ti-sn65dsi86: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx/dcss: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx: ldb: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx: parallel-display: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx/lcdc: remove now-redundant call to drm_connector_attach_encoder()
+      drm/ingenic: remove now-redundant call to drm_connector_attach_encoder()
+      drm/kmb/dsi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/mediatek: mtk_dpi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/mediatek: mtk_dsi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/meson: encoder_cvbs: remove now-redundant call to drm_connector_attach_encoder()
+      drm/meson: encoder_hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/msm/dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/msm/hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/omapdrm: remove now-redundant call to drm_connector_attach_encoder()
+      rm/rockchip: cdn-dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: rk3066_hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tegra: hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tegra: rgb: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tests: bridge: remove now-redundant call to drm_connector_attach_encoder()
+      drm: verisilicon: remove now-redundant call to drm_connector_attach_encoder()
+      drm/exynos: exynos_dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm: rcar-du: encoder: remove now-redundant call to drm_connector_attach_encoder()
+      drm: renesas: rz-du: rzg2l_du_encoder: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: analogix_dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: dw_dp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: dw_hdmi_qp: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: inno-hdmi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/msm/mdp4: remove now-redundant call to drm_connector_attach_encoder()
+      drm/msm/dsi: remove now-redundant call to drm_connector_attach_encoder()
+      drm/mxsfb/lcdif: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: lvds: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tidss: remove now-redundant call to drm_connector_attach_encoder()
+      drm/tilcdc: remove now-redundant call to drm_connector_attach_encoder()
+      drm: zynqmp_kms: remove now-redundant call to drm_connector_attach_encoder()
+      drm/imx: remove now-redundant call to drm_connector_attach_encoder()
+      drm/rockchip: rgb: remove now-redundant call to drm_connector_attach_encoder()
+      drm: renesas: shmobile: remove now-redundant call to drm_connector_attach_encoder()
+
+ drivers/gpu/drm/adp/adp_drv.c                     |  2 --
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c      |  2 --
+ drivers/gpu/drm/bridge/ite-it6263.c               |  2 --
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c             |  2 --
+ drivers/gpu/drm/display/drm_bridge_connector.c    | 11 +++++++++--
+ drivers/gpu/drm/exynos/exynos_dp.c                |  2 +-
+ drivers/gpu/drm/imx/dc/dc-kms.c                   |  8 +-------
+ drivers/gpu/drm/imx/dcss/dcss-kms.c               |  2 --
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c               |  2 --
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c      |  2 --
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c               |  2 --
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c         |  2 --
+ drivers/gpu/drm/kmb/kmb_dsi.c                     |  2 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c                |  1 -
+ drivers/gpu/drm/mediatek/mtk_dsi.c                |  1 -
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c        |  2 --
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c        |  2 --
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c          |  7 -------
+ drivers/gpu/drm/msm/dp/dp_drm.c                   |  2 --
+ drivers/gpu/drm/msm/dsi/dsi_manager.c             |  4 ----
+ drivers/gpu/drm/msm/hdmi/hdmi.c                   |  2 --
+ drivers/gpu/drm/mxsfb/lcdif_drv.c                 |  6 ------
+ drivers/gpu/drm/omapdrm/omap_drv.c                |  2 --
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c |  2 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  |  2 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 16 +++++++---------
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c   |  2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c            |  2 --
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c         |  2 +-
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    |  2 +-
+ drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c     |  2 +-
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c            |  2 --
+ drivers/gpu/drm/rockchip/rockchip_lvds.c          |  6 ------
+ drivers/gpu/drm/rockchip/rockchip_rgb.c           |  9 ---------
+ drivers/gpu/drm/tegra/hdmi.c                      |  2 --
+ drivers/gpu/drm/tegra/rgb.c                       |  2 --
+ drivers/gpu/drm/tests/drm_bridge_test.c           |  2 --
+ drivers/gpu/drm/tidss/tidss_encoder.c             |  6 ------
+ drivers/gpu/drm/tilcdc/tilcdc_encoder.c           |  6 ------
+ drivers/gpu/drm/verisilicon/vs_bridge.c           |  1 -
+ drivers/gpu/drm/xlnx/zynqmp_kms.c                 |  6 ------
+ 41 files changed, 25 insertions(+), 117 deletions(-)
+---
+base-commit: 77fec37c895fcbdefbcec97cefd6d1f5cfdf1e3a
+change-id: 20260416-drm-bridge-connector-attach_encoder-c651ac05705f
+
+Best regards,
+--  
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
