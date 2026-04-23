@@ -1,216 +1,143 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FAEBA34
-	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 12:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11C83EDAC5
+	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 12:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776948327; cv=none; b=kflsd+3d6liTwow2XA6yfNmww+eZCIj/NUS01mK1ZC4lJKEU/jPt/LCEsQ4H5XQ+HfEdGwsEF76pGveCFdJb+MRZIYc+fs8ZlV8BDwOr0p2HI2iFuJAAxnaYnJmeWbmPUy5MkFjyQQAQlqN8eNcnanJNtPoDIgpPYX264mNR3h0=
+	t=1776948730; cv=none; b=e2y9FsRHxRtX4NJ2xJB+iymbUawGKCli7QW7oezw+QdDUGBHECJwQcX6rvlDwz82MluJ6d2QyygtQskU0XTPT6sM0cfAyLxFB3NaTPE/SP19MprQNboeVWAYxIvhYZpHoO6d71cVLnrvMsxf3FTyN2a3oS946HXZu5yGUhq1mOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776948327; c=relaxed/simple;
-	bh=invPGYQ7NdzxSWBArDuv9hg22Fo9hiwrNySrMfHzM1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CdRn2DBfGdTnqzNb4Gzkw2Zaw+zKABUcyjczHEMAcvoMjQYvyx8ysLkZv/bnWBy1QeFgBTSMNnqPBkRMZ+mcrq9jJRV7+MyVtjbqmjRi0/qCSLIxnHAY+JYq2+jF1EDsE30nL5unA0VZJBkpjqQqZPaeWUePp4Mpy8QhtL48hxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kz7jLeBz; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fj3unF5x; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1776948730; c=relaxed/simple;
+	bh=Jg5SR7o1VcWMJNB5wdQqpvyhrEnCSnyB6mn3nEk4jeM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JjnXp/7yybNH3MpeIaGItlN4ZBlGL2/HrcSXmkyUiIYMxqWuAJYNVxVfPJ6RjPKteIfMd5DaUhep3EE3YuaehjIJ3Bk1GptSTN2dfZug9X9fRSMHH1bjaCp0YbQkRQVVPR8/ZNzMPXHxXqHwq3RggRA0KxAMYpPmQd9NU7U1hA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2unwkd9; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kz7jLeBz";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fj3unF5x"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63N8u2jD366223
-	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 12:45:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=BWsj0dSc6URl6GzhKqtvvsA5
-	lvMVdCA8oRPUY5tXRI4=; b=kz7jLeBzJhutORDVFx2iCKLx6BbKBMv6ZD/OAzXy
-	A0y9fL8VJ5azBC4WAyY4ur8i751/Cb6BI3cUXuKQsmwXwY34+fQJImLA7H/88D4v
-	1BG5/aKfbFE/R3yiLswxqHx22LbWVldKcz8Z7n+9vvLF6H0umWX04940IYnC18qK
-	tqpEoazA4Gx/aTQtT+TClBki1rUGdP2FhQ9RJS7+TJ/lTUY5IZeO+dCzFtwCvg78
-	NWGFar9sZDj1b7ftpz2facMTIbdcJTW1sSKycWLMr7MmGIEbOm3qQC3OGbd5TyaF
-	4WBlrARrtwmAMfi0rdEMVIqZqVfGqYskKA29CbPTq0GlIQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dq35rbgm0-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 12:45:24 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8eaee67d1bcso712833785a.0
-        for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 05:45:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2unwkd9"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2b7adb38d65so5554545ad.2
+        for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 05:52:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776948200; x=1777553000; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BWsj0dSc6URl6GzhKqtvvsA5lvMVdCA8oRPUY5tXRI4=;
-        b=fj3unF5xcQFpolxixSX23wREeX/jNIohJMOQkbCgcv1VGpBNOjLAxESVaGgs1njZ9S
-         KSop5qp41p2+KYWkDeRm+GXHk3Wp4fDYHKed/HPUlvSyvgyzSHzvcuZvbRFwC/EIM9kK
-         P5IJqMeLtIFjb+SAt7QqPk2QgEqmihf4TRjHzsIYgwKlI/xiYfXAd8EokSY6BXdOaZDa
-         qkGruGCi7UcjAwaR7W0wf20yG2Dg2sa2ALMooCPlsJ1QWWviEh8HPZ3TxT9/qi3yZj72
-         HPqTIC2JFgF5MK62N76Bk2b9eAfJY68wzwbr1JIQuA+Tzj2xWylkS3vb+E9PVpz7sFma
-         Ck+g==
+        d=gmail.com; s=20251104; t=1776948729; x=1777553529; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kvrsh829buHJ1xDv00U40C6X+HtmBnUZPS87U4o6y9M=;
+        b=i2unwkd9iqq+a68qlVw5zQYX/FboJuNJKfDlQFwyDynHQ84VUENFijnkCqAOfg0EuR
+         PVC0n2Ta6GSLNzo+73ETHzcNdM527Yk0+lj5+U1WEZ2Io9iu6On0aw1mX48u2hTiddkm
+         7StXZTkQ96SDE0jIPK+YbDjOs16JN12I0CrjGAIaB/BXnPkW1DsLKO0ufc4ShnsapSm4
+         5uGb1M1xeW+e9O4E/kwItVoNP+01dLocqyRJcETZSgEgze7Q/QVh/vSJbTXyspvr1HbL
+         ArvZKnWoo/ckBUY8Gl6mn+TVu15ceHtNw0FECtLMqZmZ9qXFgdQT0Hy6de/w81K6gV88
+         WwEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776948200; x=1777553000;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BWsj0dSc6URl6GzhKqtvvsA5lvMVdCA8oRPUY5tXRI4=;
-        b=CdPVx3ndVfMZIG1C6RELwCsjqwnsnp6XfTbAFhCxPl+VKN/2OgY+ICCh7cEjWZjLt3
-         XHrG76A7Ou5tNxiz7OLFdQbi7jecRAc5WS/EVsjNAuECybZObBLkUPqgwilyFNcEDTqo
-         LjJxRpy8fawVRn6RXsUZ1+9fQi5dorp8BW/zYg/SbtXmZ/cXe8RX3dXMrVJ/UP9cswQl
-         nx2uK9MgHTNiWlZHGVy7WBrnrt+JkUHJPA7vVRyvPrpVXKchoz4upqczdrUlOII/a7SS
-         lSFvJzvyuanh2R7Lx7efPDKkRiBQg+xmEyisJuCiuW9gv4H+AcSRWyomC+LrLeJW1KZ9
-         Qa+Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8obfmdL4ie02siA6p2UTKDS722W524Wt+kGh5E4EUSGcFJiS3ytD/7B8b9SGbuzylzgdD4oQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhX7Fe/VK/iElksgSvPiw9P6PpaWYd+AJux2pRKIuQsdarB/8X
-	5Z2dWj7EP2Pj/WLy9swKS+XJduYhSJ15Z3o4lsOXTowv0OIK9SxUZsfHHfBWizKxjUbLCekwHBI
-	7rskMk0n5Y5jtxYchd8qs2ZYi33ckP+gJRPf9lTM/ni6byrepdsu2kxxYAw==
-X-Gm-Gg: AeBDietq3GHEtkAMzft5GZ9XC+vbGfUXJhTeCUpphSOqNCms2IAc4o4u8pGeJ7YY5s+
-	uQFB2Ha1EfWemkxvrExJIWGZ3SueHSNZjrpJRyhpcJAGqcGK3Z49fMTSoeomWw1x0UwS3BRsqCP
-	Yh7d8c0uhC7I9qLACiOxTKRism7hO3eiOFBKaLZihfhcb+NT7raWPTvCPQWNBxqtoP8fVMCOeBa
-	5CNKHYNMasIvzSBkseG2XUMTqyOoHkLe5i+osdYflixoCLeRlLB3NpdDGeyEiWmyfvPqy5tofHr
-	UYOF7DuMOWfW6HdN9CG6CfZxCzvEZUMmHL+/OKNxPsAoRM8V74QrkxpZ6EeaX8shsmOCry8WZC0
-	5PP7HBY3ig1XnycelUGUH4XTA5nDYgRCY98kxf0eECqpymjFky5nYev4j7PU1dGYscBz7bTymEj
-	p/GWtmTlU41OPMoHOp8RJTRJr7NGMJJIa15YoqdtkusTpLKg==
-X-Received: by 2002:ac8:57c1:0:b0:50f:b6ef:e10b with SMTP id d75a77b69052e-50fb6f016cemr157722131cf.27.1776948199544;
-        Thu, 23 Apr 2026 05:43:19 -0700 (PDT)
-X-Received: by 2002:ac8:57c1:0:b0:50f:b6ef:e10b with SMTP id d75a77b69052e-50fb6f016cemr157720991cf.27.1776948198942;
-        Thu, 23 Apr 2026 05:43:18 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187e12d5sm5133222e87.41.2026.04.23.05.43.17
+        d=1e100.net; s=20251104; t=1776948729; x=1777553529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kvrsh829buHJ1xDv00U40C6X+HtmBnUZPS87U4o6y9M=;
+        b=b67FKkNVhk13prWsJG5HjPqyvAtX5zd+qKlShTkU2HPYIyB/RACUhwnyam+Bp+fKia
+         6oUeKFyLnqkDcZ6sRd0z1tLuhz3OSP2W1ikLQ7u4SUhgG1H7QMrgF8SyucXZ0yY9aP/i
+         c51wJpLl+FrFyOnqxQHCrA33iqpTXJ7qpMsWP0VHRmVElyu/83cdxDSTjTr5NMXGEptW
+         xlWKmzskTdJl9p9ICSzUbprNFUQFiz2WSTdNeEEaEqq6h8MuVnTBHEhjpw7QJ1PlngXe
+         zNd3aHpd5QpNdIIfP1nQpSIGC6hWGmVYolWpt7W2mx5CVnCDY+b1F4Am22FK9vg8Cprf
+         J88A==
+X-Forwarded-Encrypted: i=1; AFNElJ/9fkLaqMy/yiTtOsl1JLbHLOAAuQz50eyHPBu0LzsV8dyYbm5tNz5HQFZnbTpc8W2ZZ356dg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy5rOXf0Cl1QtBFnCHcbEpaXokYfFaeylQY0e1QSduAK2G+zLFG
+	SExkuvPOr00XyxnRTfmXpatj/jNm4mGSL/6aRop72s10LFdqg2FXoNFs
+X-Gm-Gg: AeBDies7b21lETK7LSR0OXxZ327gqJoKWqgkEINaUrW7V7y4RK4c5oo7neRWlNEgo+l
+	RJF6Lz4RgvuG6jz9i40mHtdXX3HoUMV4LBJlh8fW0vCeMyuLkdw1YDJ4d82h4inIBEYd9b5j/L4
+	wOxmzK7QcZI/xMsaijeqG1mS5nZ/4K+k4I6z+aNX/daVRWXS/TwUMZtZSeI49JbXC8roxqnhPRe
+	IB1L76MlanikoXOs2xnaDr3wR5uV3XREdxIWNHH10kxe59BHzTcY67tegQuG4WHL5KGmeJrPwgM
+	W9Mhtnsu9vx25nMvvQqilwqQvvVyevVc73a4XTOFmkYj8OWLm5jg4LMOBf5venibqlTBUC+e+iO
+	zEX/gNNMRziwPiMIw8EBOl9GZgJJ1ddjWFlTx3M1UxXp4p/69pQyG0ZcbouinOdgedEma/m7Csm
+	vDXxqmu6Tpf/k42FRri0cve++Yy7VWpWxSd2jdr+sS6gd2qTcWYyuJCbsfpMPqbhz2MLiY
+X-Received: by 2002:a17:903:2986:b0:2b2:4c58:5ba7 with SMTP id d9443c01a7336-2b5f9f43679mr290188045ad.30.1776948728813;
+        Thu, 23 Apr 2026 05:52:08 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab3c067sm193432875ad.76.2026.04.23.05.52.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 05:43:17 -0700 (PDT)
-Date: Thu, 23 Apr 2026 15:43:15 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>,
-        Liu Ying <victor.liu@nxp.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
-        Andy Yan <andy.yan@rock-chips.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-        Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>, Marek Vasut <marex@denx.de>,
-        Stefan Agner <stefan@agner.ch>, Jyri Sarha <jyri.sarha@iki.fi>,
-        Michal Simek <michal.simek@amd.com>, Hui Pu <Hui.Pu@gehealthcare.com>,
-        Ian Ray <ian.ray@gehealthcare.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        asahi@lists.linux.dev, imx@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 41/41] drm: renesas: shmobile: remove now-redundant
- call to drm_connector_attach_encoder()
-Message-ID: <kxltg2wx2zwuliguszipn3hldalok36finlqwxe4qh3e2mr3hv@ymc7gwkozlzo>
-References: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
- <20260423115550.444930-7-luca.ceresoli@bootlin.com>
+        Thu, 23 Apr 2026 05:52:08 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>
+Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ASoC: apple: mca: Use guard() for mutex locks
+Date: Thu, 23 Apr 2026 19:51:54 +0700
+Message-ID: <20260423125154.156257-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260423115550.444930-7-luca.ceresoli@bootlin.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDEyNiBTYWx0ZWRfX+yLlJ3GfzATr
- z4CBRVSAoARM82H7HwjcDO5P7AjQgLIE8sE6Cbm3hmxauKhFTMFlD3E1I4ftcGW1bxXOQKiEiUe
- 05lBL0ETYJFr8fpSOFCUVRRtsMWThxpoBQ3cR2s8t8onvPymT7EY92z4OPnoIUDL3Kwm22Ol9KG
- AfeNgG3+tSMIXy16w2z21yTLwrxZGtNmWGiCeqM2MtiDaMQQkrCMfe8eTvGdBFXpcOB+E6ED72c
- uYagDAImkOfTDQz1ngZgctBBjFNAN3vJCFhrVQ/KscF21lcJJR3S8hfeg5tF8OGqrLs8jOJNkY5
- KgPvVRG+yawRkApApnLUi9BwvLR0HzMR9iLSCZw7QkSBlC3QAIPNA7pq6Z/mt3bHHPkPZEMVYur
- ZvGrs3bX7d/GOVtsWFq3TGg2oSqbkH4hUq02gxG+ETDsapQNZ3p5p1sunH2gSrFYB+3/0jpF+Ty
- DmlAiXhOVeE53tsf6FA==
-X-Proofpoint-ORIG-GUID: oTScgMFzpL-A_eDvo0ZGhlqJPjqIIHPf
-X-Proofpoint-GUID: oTScgMFzpL-A_eDvo0ZGhlqJPjqIIHPf
-X-Authority-Analysis: v=2.4 cv=f5J4wuyM c=1 sm=1 tr=0 ts=69ea1464 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=P-IC7800AAAA:8
- a=W9-MdjkIhrGOmg5mk6gA:9 a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
- a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 phishscore=0 adultscore=0 malwarescore=0
- spamscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604230126
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 23, 2026 at 01:55:50PM +0200, Luca Ceresoli wrote:
-> shmob_drm_connector_create() can init the connector in two ways, based on
-> the 'if (sdev->pdata)':
-> 
->  1. manually in shmob_drm_connector_create(), or
->  2. delegating to drm_bridge_connector_init()
-> 
-> Whichever branch is taken, drm_connector_attach_encoder() is called
-> immediately after to attach the connector to the encoder.
-> 
-> Now drm_bridge_connector_init() calls drm_connector_attach_encoder() on the
-> connector so it is not needed anymore in case 2 and should be removed, but
-> it is still needed in case 1. Move drm_connector_attach_encoder() from the
-> common path to inside shmob_drm_connector_create() in order to get back to
-> a single drm_connector_attach_encoder() in both cases.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - rewrote completely, fixing potential ERR_PTR deref and ending up with
->   a cleaner patch
-> - also wrote more extensive commit message
-> ---
->  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c    | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-LGTM now.
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
 
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/apple/mca.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index 39269cc7def6..492165c0e1ea 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -307,7 +307,7 @@ static bool mca_fe_clocks_in_use(struct mca_cluster *cl)
+ 	struct mca_cluster *be_cl;
+ 	int stream, i;
+ 
+-	mutex_lock(&mca->port_mutex);
++	guard(mutex)(&mca->port_mutex);
+ 	for (i = 0; i < mca->nclusters; i++) {
+ 		be_cl = &mca->clusters[i];
+ 
+@@ -316,12 +316,10 @@ static bool mca_fe_clocks_in_use(struct mca_cluster *cl)
+ 
+ 		for_each_pcm_streams(stream) {
+ 			if (be_cl->clocks_in_use[stream]) {
+-				mutex_unlock(&mca->port_mutex);
+ 				return true;
+ 			}
+ 		}
+ 	}
+-	mutex_unlock(&mca->port_mutex);
+ 	return false;
+ }
+ 
+@@ -765,9 +763,8 @@ static int mca_be_startup(struct snd_pcm_substream *substream,
+ 		       cl->base + REG_PORT_CLOCK_SEL);
+ 	writel_relaxed(PORT_DATA_SEL_TXA(fe_cl->no),
+ 		       cl->base + REG_PORT_DATA_SEL);
+-	mutex_lock(&mca->port_mutex);
+-	cl->port_driver = fe_cl->no;
+-	mutex_unlock(&mca->port_mutex);
++	scoped_guard(mutex, &mca->port_mutex)
++		cl->port_driver = fe_cl->no;
+ 	cl->port_started[substream->stream] = true;
+ 
+ 	return 0;
+@@ -788,9 +785,8 @@ static void mca_be_shutdown(struct snd_pcm_substream *substream,
+ 		 */
+ 		writel_relaxed(0, cl->base + REG_PORT_ENABLES);
+ 		writel_relaxed(0, cl->base + REG_PORT_DATA_SEL);
+-		mutex_lock(&mca->port_mutex);
+-		cl->port_driver = -1;
+-		mutex_unlock(&mca->port_mutex);
++		scoped_guard(mutex, &mca->port_mutex)
++			cl->port_driver = -1;
+ 	}
+ }
+ 
 -- 
-With best wishes
-Dmitry
+2.43.0
+
