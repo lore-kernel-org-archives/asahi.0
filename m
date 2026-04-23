@@ -1,38 +1,38 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4F93F0755
-	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 13:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4D8363C75
+	for <asahi@lists.linux.dev>; Thu, 23 Apr 2026 16:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776950374; cv=none; b=A7uWA0DTcz4ZLbO9vbx7e8igaWHbHjNmyolkYhl2HggNj3sjY+v+iN3DpxeKT1PD1SU3jKgi3mcXThDTCwlP8tQWgPXRfAjfxfrL8/37XW9RoA+NlUHifi1TGR+CujdvigoBVTDb8Zi3ImC/CrFQxvbMY5UVDaecjhXwEKkyfJA=
+	t=1776962792; cv=none; b=NEfLOTmwjYP1K3Kyw69fYh74D8JdkH/NtWbmsbMn1zIlpRAY/dkj5v/ZHamPoWo3NI66dOM9wtMIZ5rGqCJmVUMgfP5/MLS5iDTlgA2QKVNePdXFsv+QgXA7Zbgg5VSAoiymU3zkxbuSZnF2nSbA7EUjlDY2PPZ1Xsm0vrXxXe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776950374; c=relaxed/simple;
-	bh=+v1IGGwBlD7W1TrUt5/g/toItgrGx+CShEQy9dqBHjY=;
+	s=arc-20240116; t=1776962792; c=relaxed/simple;
+	bh=S05j6aseg7c7u3xV5vOsljLds3FQ6L9R3JcogXmLNZs=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=ocTHWn7Mok1Ao89PSZCvDfCLXISwRodfYyUTuvwl0EYXOyF911+dwkaMDBA8lcOJEz1aIH5jH00C3b1lJou1M+Y9zqI+31w6iSLi8JPnWI7GYLzOD82ik0O2VCZVALS66m02+7sdJke98jgnMNpmdFLurlXzIlZIfBkPpy3strg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CHffhXGz; arc=none smtp.client-ip=185.171.202.116
+	 References:In-Reply-To; b=F2ROLtpS3ZTUVnILNAJUbDNFybX47bEOD+8b6yz/n2EVQ3FyXRJbnB8DgozmQiAVyZHqaJrlefP2iH2FKn6mSLRcqQ7/NYNzv8Vn8/u63V2/qdbxE1w8ZaUxV50tQP9A56hz3nFhgbFCg9rgwPk/eR7m8o5x4KESW2Nhov06Ap8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2l2tjOxb; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CHffhXGz"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="2l2tjOxb"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A341CC5EF11;
-	Thu, 23 Apr 2026 13:20:11 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 3677F4E42AD1;
+	Thu, 23 Apr 2026 16:46:29 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4BD1460495;
-	Thu, 23 Apr 2026 13:19:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B727910460BC4;
-	Thu, 23 Apr 2026 15:19:04 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E2194600DD;
+	Thu, 23 Apr 2026 16:46:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 66CE510720005;
+	Thu, 23 Apr 2026 18:46:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1776950366; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1776962785; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=N0czXPTCBLd6Via7w9anQbZ1SyEjDMbKmYb2klNRSzM=;
-	b=CHffhXGzBeQ87qx+VLT/QJwCaDtokpzRnxIGgqeeBGcHmpx9dkFTQezMvWUYtBFalmt0ym
-	ZlPNQeOk5Q1kth18AWc/K+W7Raxp9+99ljR8+PbnvhlipPqpO27B6VpRihKIXQayDAqgRG
-	da/TeGo6hU5ux+mR4M6i/8AmHfkbG+YJihJqxxPpKk1ng/qYjjX625VUgLNqxJALo9M/FP
-	rIln33FBGqBltj0d5nmulxlKj/OYQmYlq0XBZlKDps6B3HZSM/rShXabOS7pnFzpExVbdP
-	stMHIMq4UYNiQX+If3xxxJ52QyUsGZwDX30+01HblvyxBtNmG2GoUDU/v0ZI4A==
+	bh=S05j6aseg7c7u3xV5vOsljLds3FQ6L9R3JcogXmLNZs=;
+	b=2l2tjOxbp/muwVUTt1iYaIz8b7OLe+mJ2gwHjUl/Zi9B+c+A9VYP6Ja5C2fCxD7EBcL8KE
+	tj9o1FWt6yl5MwmosOaOCmM5hg14Gf6FQCD6xO4NlTRrX8rWJO7AXZiqzKJUGSdGNfq0dX
+	90/Fet3eusoHdXKPgHJviW0bm/BmWmkW8WJGQJXu+6RINWTT2CgIMhDV/YcJ+q/TJAH7GV
+	wy8CB9xvhkE+fTuzqLnN9+emGn4BkhcJVhKXnLTSZCbNekK5oVrGCbiUFXMRSBxTBCE1Lo
+	fGJwcmZCjXWgzqASXiN/aqIJ5NiJ8amWgtQeCTnheHeEOAEeGBshs0HQdugKjg==
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,10 +41,10 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Apr 2026 15:19:03 +0200
-Message-Id: <DI0KBQCGJWIC.1TNNX177Z8ZNU@bootlin.com>
-Subject: Re: [PATCH 35/41] drm/rockchip: lvds: remove now-redundant call to
- drm_connector_attach_encoder()
+Date: Thu, 23 Apr 2026 18:46:00 +0200
+Message-Id: <DI0OQ6JRMPTR.1FP9UHPJBYI7M@bootlin.com>
+Subject: Re: [PATCH v2 00/41] drm/display: bridge-connector: attach encoder
+ to the connector
 Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
  <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
  Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
@@ -97,38 +97,37 @@ Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
 To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
-References: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com> <20260423115334.444750-1-luca.ceresoli@bootlin.com> <wapbiwxou64emxlt6oz5slst3nvcgvs35hvhpz7v3wmwp33bzc@mvdog4t7un6m>
-In-Reply-To: <wapbiwxou64emxlt6oz5slst3nvcgvs35hvhpz7v3wmwp33bzc@mvdog4t7un6m>
+References: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com> <wanzalswb3lez6kyklprqojcnidab5fkxgu57lfka45w2rt4ic@xdatq5o7yiub>
+In-Reply-To: <wanzalswb3lez6kyklprqojcnidab5fkxgu57lfka45w2rt4ic@xdatq5o7yiub>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Dmitry, Geert,
-
-On Thu Apr 23, 2026 at 2:42 PM CEST, Dmitry Baryshkov wrote:
-> On Thu, Apr 23, 2026 at 01:53:28PM +0200, Luca Ceresoli wrote:
->> drm_connector_attach_encoder() is now called by
+On Thu Apr 23, 2026 at 2:45 PM CEST, Dmitry Baryshkov wrote:
+> On Thu, Apr 23, 2026 at 11:16:54AM +0200, Luca Ceresoli wrote:
+>> This series simplifies using the bridge-connector by removing the need t=
+o
+>> attach the newly created connector to the encoder.
+>>
+>> =3D=3D Series description
+>>
+>> Currently all users of the bridge-connector must call
+>> drm_connector_attach_encoder() immediately after a successful
 >> drm_bridge_connector_init().
 >>
->> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->> ---
->>  drivers/gpu/drm/rockchip/rockchip_lvds.c | 6 ------
->>  1 file changed, 6 deletions(-)
+>> This is an unnecessary burden for users. Move the call to the end of
+>> drm_bridge_connector_init() so all callers can be simplified.
 >>
 >
-> stray duplicate
+> I don't know which one is more correct in this situation, but let it be
+> R-B for the series:
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>
+> Feel free to take the msm patches through drm-misc-next (A-b).
 
-Due to the long Cc list, when sending the series with b4 I hit the mail
-provider limit, so patches after 34 were not sent.
+Meaning: Acked-by on the msm patches + Reviewed-by on all the series,
+right?
 
-I then sent them manually using the good old git format-patch/send-email,
-but in the process I missed the v2 (heh, b4 is great at automating
-that!). So patch 35 got sent without v2, and then I resent it and the
-following ones with the v2 marker.
-
-Sorry about the noise!
-
-I think with Dmitry's all-series R-by this whole series can be applied at
-once (I'll wait ~1 week before applying, in case of more comments). This
-will avoid more iterations spamming lots of people.
+Thank you very much!
 
 Luca
 
