@@ -1,68 +1,68 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65474136358
-	for <asahi@lists.linux.dev>; Sat, 25 Apr 2026 00:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96453136358
+	for <asahi@lists.linux.dev>; Sat, 25 Apr 2026 00:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777077867; cv=none; b=X/H7IEvxAd/VneJxI7WvPm3nzkWNoOUDzZPoB482j70KkDtIlEcPoxJSi/FfvGVnVUdsJbQ8UIDteOf4PZ8H27JopvSsWL0dTUxPUBalg9UtT3wx7ZrcO18HoG++KnoTqs5CcZz0ohzX3AfgeH+q4C92A6mHUGNOzJ2FoFLdIS0=
+	t=1777077872; cv=none; b=FVdjwAbBJHr6FIhhkE+xT6UFzA9R4T5pzItfOSsk3vQU0NmXBnVIsctoM7+cbKDKJ6khNg8BmXnO1tVnpYHNBxTQrnT+xBMlpf2RFYqAMEThm8qbBztKOWPrDrxeQUT8HhIFFG+i6IwLP6EkdbbBVpT6gnZ7Wi0FRnCGKb9TqDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777077867; c=relaxed/simple;
-	bh=OM3g9FtTD35pKvRKldl4QuwFBMFj0CM7U9jz3AYWiF4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NWP4a90W6IaUM1cLERUiQuR4mesdZZBhIXbdcsq/2ZQ9kul6zE8nh9a6bZSoizRus12qtB6exzJyXrlFOwkOwPgRgGPKvIStTDk3wJnyDimICZQwDs0UCc3OtzgnjMuI8iPxHsT4PjSWDyJVFbA1MRIPm3fBYJsGiuB3VpZWIS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdiNqM6L; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1777077872; c=relaxed/simple;
+	bh=vbRWR4+e3gI1T28wrrTlg16+8udVjYCSiQQA8vBr/y0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=m2v7XIYLV1nacvhE7G3ldRYlEGn3kZ55U9sn+gMdeg89ruUK2aUy0ylJ7ZQYnA+8JcTPVvoDO4n9XOxdk4BeSI2RpBwjPzfbSKhkKYU3ZqGf7xgkMkLVkZ6t5Ly9uwkzPuWEFawisRalSmYL53O/reNe76dObM1vj4BNuE64Rrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iUV82w0H; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdiNqM6L"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-82fbf5d4dc2so4827846b3a.1
-        for <asahi@lists.linux.dev>; Fri, 24 Apr 2026 17:44:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iUV82w0H"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82f943870baso3440632b3a.1
+        for <asahi@lists.linux.dev>; Fri, 24 Apr 2026 17:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777077866; x=1777682666; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZXELO0KaVcDm5nDbpYvDIqJfkxikSAl12jvPRMM61W0=;
-        b=fdiNqM6LIXk8IMIeF+zTOTSRjqZHIyAT4cCwj1nR3PlDwsZOHTpVOySIYJ/utt0kIg
-         CloloJO0HY1mRBYI1epaj/u3eYx2A5PXpbLixZ/fOw+QdQEvqcwkmeufHvf6eBA9vnm9
-         wMmkzj+BPpll5U8pthZNLiQi5q+PPkC5HgAlEk9bt60wKzSgD6GdQ7xuawIXxUHOCLOG
-         XX83/JLxsIshA2wERVLArWi3iq04DmCCHinEqPMcHahv9UqH/n1BxSBTKkSnM8kSUNlI
-         YGIjROUvygzSdXx2/D01ijhPiyV6ek5QBNtG6HrUK0qqh3AORjL/WheEOFJHuV2l7hK5
-         FWKA==
+        d=gmail.com; s=20251104; t=1777077871; x=1777682671; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xm2BMd5f70+IFDw9oIxnL0UFKMFjyAQAWO1QVmfPcuU=;
+        b=iUV82w0H/fD8GcL+2pX0vSC4bU8+mpsKJNwrjQ4Hd2cKC4sunxA4gHiwrYcGLo01r2
+         8b4g0H/YdfxG6HCDcrkfqLbWh2Wc33Eo+qBCcrcGt5CKB8hkBYporoDSpIqa1W52A7O5
+         5CsLLC5TyG+OPV3DDqDvLr2M7R/mcN47kgeI5veLSn1WdMyF20viJoNMvqIJJrxEtRc2
+         SHh0oZHGQtXCvFgFa3pExPhV5mAqg+m+6eqvpBAUOXmbFZynxLYvcV1YCKWPUqEg7f5P
+         Y7NghPZ+cg3QfEWyiJSibQor/kFerucW+Bg7kLc/fO11qfjjF7DSykQn84gAic730WaI
+         q0ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777077866; x=1777682666;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZXELO0KaVcDm5nDbpYvDIqJfkxikSAl12jvPRMM61W0=;
-        b=eSW+/Enven1VrFTiOeS+UDOTBOW5Z5anaNI/2eIAF7tAecjCjBiCDjkzMxjJPpgc8h
-         jO4Q7jyMnLkktOzNwKAArW3WmUeqCMBnwNtmrj271hmRsGXQRBJ2NG6ISsN5Jjj4lKtO
-         XipM5OsRB1RuBckflIGZYTTWKz6xP1trtm5BumtjxEGArSJfljhEGG2FthpIV2SCVB9t
-         jLujwEAXvxhJmVAARDKSLKRNDfJodSnZWtSPWkkWr8bZ2VoEGVObxM/3WLqkR4fy6jaD
-         dIXg/TpsBXccz9mjr18KcEsNGLoM8xuLMjJ3RfvhhglxcO+cTKf3g73XnccJC0j2ADL/
-         J1iw==
-X-Forwarded-Encrypted: i=1; AFNElJ9HU12YTFvteBJS+c5L4Fib/rx+60gDTh0pfTDrZBl7yaeLg/Y5Q+3G/Fa6XAK1SeEztCix7Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwvjA/R4bmIjnXBlPbN3MzHqvEf7+2Q7G0LG3pqH9WR9OE0A9d/
-	EcGiOzc7xi4yUshfx4vbvfCqRE8NOuQLor/WLO2lQXvVGxEAHdQlaX34
-X-Gm-Gg: AeBDievkZ50Xjp/xmqMMWX5EWLWIUNLIr2psmf9FS/D844IppqPkG9srMPxytAP9yQs
-	jNL1uiaykAG91S4ijluPmhJhbOEbyz1ZhvsgeTOtqgfLmPOY8nW9RPlwL0crj5eLg540tR2oYMo
-	B+2XvWbAx3FqFIAqET0W34ko+1NWGNCJ7BSgMSsDE+y7vYTVwZzUhKPUZGPxK4NctGNGCfBRmVt
-	yYsIh3YImHGw1Ta+GwDSEKF658HmJr9oL5HmpvtOyQdH2pQUSGWbz+qA8f06dW4GYVubxT99HeK
-	3GvxRcLMV6fVUsEAJnnFpkw7dd+kxDu4CoLWltrB9/IXJHpEbiKUUBKmccHE3QJtZp3A72XJ8Rd
-	BU3CrWm95nZ+1HF/ndE8wjr2BQHEWb/bkCx8XEwp6bfNuNSxbo5S2y1fAntZTKzJ+MIfjrPK9E3
-	E8iUQAn+yNhhPyrW+Q1Ufkke08dmzIOBFRoMmcE9FyiYgyMWaCKOxiVvt91SWS+ehPGvqvs42ny
-	t5yxQrDjwa6XuDR3NVdeyOzxNr5VutHQhqFiGNhR4tCzHzA7kHSfA2Q8hV6/fWQ7vamC8xyuACu
-	3i6ZMZrXgQ==
-X-Received: by 2002:a05:6a00:8715:b0:82f:a89e:e16f with SMTP id d2e1a72fcca58-82fa89ee99fmr18683408b3a.14.1777077865744;
-        Fri, 24 Apr 2026 17:44:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777077871; x=1777682671;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xm2BMd5f70+IFDw9oIxnL0UFKMFjyAQAWO1QVmfPcuU=;
+        b=D7spk19YcCe4uRlkZXkDN22oozj4ykeFXYz3Bi/3nrJYgW3t72JiQW6XXwuCmnZ/xF
+         MbRFkieTyRet9G3l6AQ+xsFFCf6nJdvne2OxRBnYM/bR//vqJp+BcQ3HOnsy4G4zdkPc
+         8CCRnox/tdIklrqqZK5Cg8Z1HVEfZQnjkEdXNYNwnkqZczliMnMl/4o/rMDDkb+1gODC
+         zcsLzRio9p8jbz40qlztIDs+DRFwxWWGorii/UfgpkWwew1sNjoc9EJbKeUQCTT3WMk2
+         0zs5EAZ4R3oXdOI/BYWhUAk3Wh+dINliTd3ioJ+KckoRgL2dSlZO46KeXfaRdRqFUnLb
+         ZM7w==
+X-Forwarded-Encrypted: i=1; AFNElJ/+jqI3LaevzUkAY/szrSBsMEQu65CpuLnz4fpkvhnRHI1p58ARj3FAV1UkiS9DZqP2b5zlwg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzrunu4Wi+Hz0lmSTag3NKgeJXmtMjrR6UDKIpiUbYLRooVtDBg
+	uBqtOlULmqcdL2Kbpel/WsBnvIwNR19qcJq8x8Swz28CU/gYpqeDwuCw
+X-Gm-Gg: AeBDiesZqoXXAJaNKphOLz1UXs79lER8dpUKBWPpvUwSL0x6Mh51qzA+inmD2pu0lzZ
+	62bzRal2RoqmyV8RwSB5uqbUxYIpMYeeov8kU/LDG7AeKP2UjJiPqlkf1CYmiU/mVgWbv28hPEU
+	IpjQ7zHOcPXngMRTkxwPi1PjmSy0EDAbHbEcIvyXpZYtaBi6EThA+3porVsTf99uUCk7AOliMRH
+	jGchjS1plbFLs3iix3n9b/GXvrT23nOoUSsvesvHN30MJrHMEWsR2ZF96YwhtmpQCPJCPVubUbA
+	yuNt+1IAmg1zK0JLXf5Kv5kuMQfKhDBWKHXmfYP08lDZDH9CPNOVeuAmvmNj1GM4BoxSnX5/7Sr
+	wz7nCm1+5tAdlqugpDf2QBGUbiVUz8PhlIrNjL/22DYyETsICieAnqdUBqc6g7Rrc6zrBQjdVa1
+	FUXoDnVEx9mBXwuOd8THGl4CQl6jrYEn4awac8qifqkuZO9QIxDVz8eKqxyBNnhPKUUL4nu5AN1
+	llaEEN5IKopbWAGNuBZfKPHo0HkWL3nq5db1AnEQwE2mTYxR1QYfe1gjreRbf5XquOLS1muBxjj
+	6Mr0+FQVtQ==
+X-Received: by 2002:a05:6a00:2ea5:b0:82f:1973:4b96 with SMTP id d2e1a72fcca58-82f8c91bc71mr39302406b3a.26.1777077870896;
+        Fri, 24 Apr 2026 17:44:30 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0566dsm24948385b3a.57.2026.04.24.17.44.20
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0566dsm24948385b3a.57.2026.04.24.17.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 17:44:25 -0700 (PDT)
+        Fri, 24 Apr 2026 17:44:30 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Subject: [PATCH 0/4] ASoC: tas27{64,70}: Fixes for hwmon temperature
- readout
-Date: Sat, 25 Apr 2026 10:44:02 +1000
-Message-Id: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
+Date: Sat, 25 Apr 2026 10:44:03 +1000
+Subject: [PATCH 1/4] ASoC: tas2764: Mark die temp register as volatile
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,10 +71,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFIO7GkC/yXMywqDMBCF4VeRWXcgBuPtVUoXNh11BKNkrAbEd
- zfq8uPwnx2EPJNAnezgaWXhyUWkrwRs37iOkH/RoJXOVaYNLo3oIgTst3Fy2HIgwdaWJlNUppV
- REMvZ0z3E8P15LP/vQHa5ruA4TkXOikx3AAAA
-X-Change-ID: 20260425-tas27xx-hwmon-fixes-fc8540e81950
+Message-Id: <20260425-tas27xx-hwmon-fixes-v1-1-83c13b8e8f54@gmail.com>
+References: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
+In-Reply-To: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
  Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
  Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
@@ -83,49 +82,41 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1274;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=860;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=OM3g9FtTD35pKvRKldl4QuwFBMFj0CM7U9jz3AYWiF4=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJlv+FKkN2d9adi0KMv8sOY5lm1Wjd8bX8bmMh/68Wdtz
- fff08q3d0xkYRDjYrAUU2TZ0CTkMduI7Wa/SOVemDmsTGBDRBoYgICFgS83Ma/USMdIz1TbUM/Q
- SMdYx4iBi1MApjpRnJFh5cGJb3V2ZJx7avnKNc7o0t5L3i4KrbvnnzJ85+vxn2vXaUaGf6eF026
- stLzg/f/k6SsZtgvdDK9JrPy8Tku/9OO1mvcl/AA=
+ bh=vbRWR4+e3gI1T28wrrTlg16+8udVjYCSiQQA8vBr/y0=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJlv+FIO8OgtsTpy6fl1eTM17fYVx6732x49qbnbds6Ns
+ qfr/2X/6ZjIwiDGxWAppsiyoUnIY7YR281+kcq9MHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
+ oZGOsY4RAxenAEy1/QeGfya9zcf4bhUnWwR9eVKyctObv//izaf1et6xErC9x+fhKMvwv7qyXiz
+ Jr3/HBtUJoh9WJBczTwnbcXV5toDw1xeaVS7xDAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi folks,
+Reading the temperature register always returns the first value
+read from the chip due to regcache.
 
-This series makes some fixes to the hwmon temperature reading
-functionality added as part of [1].
+Mark TAS2764_TEMP as volatile to prevent returning stale, cached
+values when reading the die temp.
 
-- The arithmetic for TAS2770 was incorrect, leading to readings
-  which deviated from the true value sampled by the ADC.
-- TAS2764 was returning the cached value for each read after the
-  first register sampling.
-- Both chips were returning nonsense values before the ADC was
-  fully powered up, causing issues with some monitoring software.
-
-Regards,
-James
-
-[1]: https://lore.kernel.org/all/20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com/
-
+Fixes: 186dfc85f9a8 ("ASoC: tas2764: expose die temp to hwmon")
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
-James Calligeros (4):
-      ASoC: tas2764: Mark die temp register as volatile
-      ASoC: tas2764: Deal with bogus initial temperature register value
-      ASoC: tas2770: Fix order of operations for temperature calculation
-      ASoC: tas2770: Deal with bogus initial temperature value
+ sound/soc/codecs/tas2764.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- sound/soc/codecs/tas2764.c | 22 ++++++++++++++--------
- sound/soc/codecs/tas2770.c | 13 ++++++++++---
- 2 files changed, 24 insertions(+), 11 deletions(-)
----
-base-commit: 7a69564045595263837fbd57e9f67e0507b04d8c
-change-id: 20260425-tas27xx-hwmon-fixes-fc8540e81950
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 423b7073b302..6aab6d2b7419 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -904,6 +904,7 @@ static bool tas2764_volatile_register(struct device *dev, unsigned int reg)
+ {
+ 	switch (reg) {
+ 	case TAS2764_SW_RST:
++	case TAS2764_TEMP:
+ 	case TAS2764_INT_LTCH0 ... TAS2764_INT_LTCH4:
+ 	case TAS2764_INT_CLK_CFG:
+ 		return true;
 
-Best regards,
---  
-James Calligeros <jcalligeros99@gmail.com>
+-- 
+2.54.0
 
