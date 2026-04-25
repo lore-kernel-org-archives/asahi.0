@@ -1,155 +1,135 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35ECE1B6D08
-	for <asahi@lists.linux.dev>; Sat, 25 Apr 2026 00:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B46175A62;
+	Sat, 25 Apr 2026 15:16:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777077889; cv=none; b=I98lwTkuJ189kT3n5ncsmTdGR1JMaJuH7pKVAK87+2mJBXmQ8arPsopFpNSZIOTNM1aiiACrA6nRAD5sFeQwcDHb5z7h1fdqcT16lBidkwrwmlVFWZB2CAvHsuQuj0J25l6LF6X7zwrjR2T91p5gmahuQDnmlrF+qtjQ6pQ9bPY=
+	t=1777130201; cv=none; b=sPWhT+PDNfrOwivQBHa/HZK+1qEVR2UY/pkPrL4aJd5qczKxYni4kjn5FkkLL+nCO9wVWRZ23hgwWzmMViB0S5vXMjtt22pO/bP1M0emwhBNBhyuHhbqXJyyRp2QPs4hWGoVtv43YTUF/tfmSAbGhKf/XEgasDXRLPC1Vw9nlj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777077889; c=relaxed/simple;
-	bh=F5yeh6pdK6Hs7beqeyQj/TVTdS2YepfCTkinI6k7d80=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tcPBGmIku/locohLZOHcJyni0FbLY6q0y2smdjJN/mcsq2du4ZYQ+eU5/efrtQVp1oofRRbEE5hYnpPKRl42+Rt1ViWhXm5xXWsyJGSXjc+J2VmSrl9JPfVT1U7tCxPN/xvjSxSUHy+l7vML1KlFNn473+qnFBi1/qx4xbi254c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EzB6SyYd; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EzB6SyYd"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c70e27e2b74so3199820a12.0
-        for <asahi@lists.linux.dev>; Fri, 24 Apr 2026 17:44:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777077887; x=1777682687; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hX2/JA8GK9hYTduQnxjY+1BP+OMuld9S7rTvEbat1fM=;
-        b=EzB6SyYddaV0w3+ERkcNY928EzJxMA7yNzyzUapYFz/JgsS51UAY9t1aZeqLiR5s3u
-         RrCvGIJjXo0GHBw6QCOpkmHg3o84cEbb9S8n8kd2QYydou49iIjJhOXc0MYzCtc9tWwf
-         aD82m+qZwXX+KRxnFO3W3GwPuLD+zbcvfWbhiN8ZvtmzhcMP+QdEqi2hGDZArK/5XC5d
-         tWSzMXQOYtgTvWQGPPrLwv9z0GC6LXIvjLo613mxtC/MRp29IXOeZXnI8BDsK4KDjMSF
-         6Bop+K1TW12qBmfaozDnHjgGBjc0bSGMumKn6r8X4hyxKPljSGGsaPPXneQiV1M4s1eX
-         bORg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777077887; x=1777682687;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hX2/JA8GK9hYTduQnxjY+1BP+OMuld9S7rTvEbat1fM=;
-        b=Iwp4VfHtdedxF4zIVf3Hby1Q3/zWHbclSFMwV8cPE4XXTKcF+gXZXgx9JfV9G5WZlQ
-         InK/h+LJtSGxSUr9WI3vWa0EFTGG/d+flLjOJBhfOWbNedBEW+IqImdHI1cI+Ts7rcJ5
-         L5qWQMIHqzx9QVvARwJqCycVUU0usi5Lj7dceFHruaefeygvjH2S7SWzm8KO8skjFj6l
-         kNLaQht8fP6P1Sb0H3QbrR/R7X11CKlD8tzTIVnzOt7Ki8/SA4P0IPTvogutqxUpWh6n
-         coWIfES5bT8YxKsDAjChDdTlr9ZQRbBfp2gu+q2L2hiFxuGci1UasFDx4+aqrxSaKKF0
-         hkzA==
-X-Forwarded-Encrypted: i=1; AFNElJ/4FtT2hBX/rvUImMNS73BEWQ6obleHv7NosXygPrdFZvQsctMZnzOkaGhFpRknN1xAYqecaQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFe+zcSBQSRVmJBeNcajsLkWkqBUe9j51nr1G6OG+p0NurIhI2
-	q2otmmVJcCZTwkJd7J7ANcOTe5ahdi0upqUCerQp8My1aSKo+9Ig2nQu
-X-Gm-Gg: AeBDiesuxUXdFA3vdIU3//pJnBeBb2+gnLGx0RgzpvmzicZQQ5EoU3gOwmET4/SVJHT
-	J9moANBXTYtdcDXg8c9jLvQydaEIFBmf0rmqXM2QYyS3dMp+9dfyRtbGzPcEKt69YLG5juyF80D
-	kbcDZ80e0sII45qG+8YMOtFr89zSl8DazPg0RuaJMOz32mnzFrz52pS+b4wnJoCzE6tKVi8vkKC
-	6wYY4MIERsTzOPH/L2oQDL0jCyet03DcTpcINY1j37fHg0RAbfP008x1qVz1alVLf3oeOotlEmI
-	0Ez4G1Iaq0gq9uc0cCu3Xa/xKBugt852WuI1NnlIBRMQjKHQdZgeM9Gs1FBEjXVhzp1JSJkQn/y
-	dKZyuO+nraeSgvanAGD8x5xNRo+eHrGvHgvFWswj3znuCx84Lsc2YOsVJKSHZR4TnxBRpqv6HLZ
-	7wPW2E2qFwY1YMZ7PpeOa8/yPhpl/7QmpbxfxX8hNg2IhRYOGJ4cdjjfmJfmzu9sEAFZWTHDnSb
-	+1U1QpYZmcKFUczjntnt/i7/qO2OtkCMkszaH+eP6oOo1uGLW+/AaZQ66wXPZscAkhNLXsb2Z3S
-	LMjq0mpwQA==
-X-Received: by 2002:a05:6a21:3396:b0:3a3:21db:8ee8 with SMTP id adf61e73a8af0-3a321dbc8ccmr11418866637.1.1777077886621;
-        Fri, 24 Apr 2026 17:44:46 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0566dsm24948385b3a.57.2026.04.24.17.44.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 17:44:46 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 25 Apr 2026 10:44:06 +1000
-Subject: [PATCH 4/4] ASoC: tas2770: Deal with bogus initial temperature
- value
+	s=arc-20240116; t=1777130201; c=relaxed/simple;
+	bh=3Z/IqMkalHLCJW6aIeSbicuakoof3CvwT79KtHgSsqE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dqiNTp0ZkmOcu8F+R0oOTuIaaFquq0qr6d8WxgmWCS59EIYYWKEWQ2Id8ZeSQget7w9tLUgoxC4CS6Z121LrgCH6rsgBLzZ8Al4ijgg8NysWQopjOdq2BN0JXaU1iCuKCfPOv6gtXvY5XZk7GWTangRSqik8Tljd0vkI8uH3CZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.102.10])
+	by APP-05 (Coremail) with SMTP id zQCowAD3hAiZ2uxpJCOPDg--.10690S2;
+	Sat, 25 Apr 2026 23:15:40 +0800 (CST)
+Message-ID: <fb1d8dc6a764b50456e86d75646c4e4ca574cbb7.camel@iscas.ac.cn>
+Subject: Re: [PATCH v2 24/41] drm: verisilicon: remove now-redundant call to
+ drm_connector_attach_encoder()
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Dmitry Baryshkov	
+ <dmitry.baryshkov@oss.qualcomm.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>,  Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart	
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Janne Grunau <j@jannau.net>, Liu Ying <victor.liu@nxp.com>, Douglas
+ Anderson <dianders@chromium.org>, Laurentiu Palcu	
+ <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, Frank
+ Li	 <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Philipp Zabel	 <p.zabel@pengutronix.de>, Paul Cercueil
+ <paul@crapouillou.net>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Matthias Brugger	
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
+ <angelogioacchino.delregno@collabora.com>, Kevin Hilman
+ <khilman@baylibre.com>,  Jerome Brunet <jbrunet@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Rob Clark	
+ <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
+ <jesszhan0024@gmail.com>, Sean Paul	 <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Sandy Huang <hjc@rock-chips.com>, Heiko
+ =?ISO-8859-1?Q?St=FCbner?=	 <heiko@sntech.de>, Andy Yan
+ <andy.yan@rock-chips.com>, Thierry Reding	 <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,  Jonathan Hunter
+ <jonathanh@nvidia.com>, Jingoo Han <jingoohan1@gmail.com>, Inki Dae
+ <inki.dae@samsung.com>,  Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
+ Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski	 <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Laurent Pinchart	
+ <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen	
+ <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham	
+ <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven	
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Biju Das	
+ <biju.das.jz@bp.renesas.com>, Marek Vasut <marex@denx.de>, Stefan Agner	
+ <stefan@agner.ch>, Jyri Sarha <jyri.sarha@iki.fi>, Michal Simek	
+ <michal.simek@amd.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, 	linux-mips@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, 	linux-amlogic@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, 	freedreno@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, 	linux-tegra@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, 	linux-renesas-soc@vger.kernel.org
+Date: Sat, 25 Apr 2026 23:15:37 +0800
+In-Reply-To: <20260423-drm-bridge-connector-attach_encoder-v2-24-2ae6ca69b390@bootlin.com>
+References: 
+	<20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
+	 <20260423-drm-bridge-connector-attach_encoder-v2-24-2ae6ca69b390@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260425-tas27xx-hwmon-fixes-v1-4-83c13b8e8f54@gmail.com>
-References: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
-In-Reply-To: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1877;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=F5yeh6pdK6Hs7beqeyQj/TVTdS2YepfCTkinI6k7d80=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJlv+FIixd5laq+Nc0jrstovZVGz3CkyJ7HG3KH5vorRO
- U37R9wdE1kYxLgYLMUUWTY0CXnMNmK72S9SuRdmDisTyBBpkQYGIGBh4MtNzCs10jHSM9U21DM0
- 0jHWMWLg4hSAqS7YyfA/88y+/OthEjcP5vC9NJAM95Iwz1/41cxrK6N2MOOipOg9jAy3FXhFk3i
- EzT9nz7/FX6S1zGDZxiCFvXVGbBH+6zknb2EFAA==
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+X-CM-TRANSID:zQCowAD3hAiZ2uxpJCOPDg--.10690S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GFWxKr15Xw1xXw48Jr4rGrg_yoWftFg_u3
+	ZY9F9rWry5KF1DG3WxJrn5Zry2v3Z5CFW8Zrnrt3yfKws7Aw18Z347Xryav34UuFy8AFsF
+	kw4DGFZ7Ar1akjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbV8YjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I
+	6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+	8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
+	cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+	A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+	w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+	vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY
+	1x0262kKe7AKxVW3AVW8Zr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+	x0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x07j7fHUUUUUU=
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 
-TAS2770 initialises the temperature readout registers to 0.
-This value persists until the chip is fully powered up and
-the ADC starts sampling. The ADC then persists the last sampled
-temperature during software shutdown.
+=E5=9C=A8 2026-04-23=E5=9B=9B=E7=9A=84 11:17 +0200=EF=BC=8CLuca Ceresoli=E5=
+=86=99=E9=81=93=EF=BC=9A
+> drm_connector_attach_encoder() is now called by
+> drm_bridge_connector_init().
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+> =C2=A0drivers/gpu/drm/verisilicon/vs_bridge.c | 1 -
+> =C2=A01 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/verisilicon/vs_bridge.c
+> b/drivers/gpu/drm/verisilicon/vs_bridge.c
+> index 2a0ad00a94d6..83c91d5ce397 100644
+> --- a/drivers/gpu/drm/verisilicon/vs_bridge.c
+> +++ b/drivers/gpu/drm/verisilicon/vs_bridge.c
+> @@ -365,7 +365,6 @@ struct vs_bridge *vs_bridge_init(struct
+> drm_device *drm_dev,
+> =C2=A0		ret =3D PTR_ERR(bridge->conn);
+> =C2=A0		return ERR_PTR(ret);
+> =C2=A0	}
+> -	drm_connector_attach_encoder(bridge->conn, bridge->enc);
 
-The ADC should therefore never return 0 in normal operating
-conditions, so return -ENODATA and mark it as a fault condition
-using HWMON_T_FAULT.
+Checked the source of this function and it looks idempotent.
 
-Fixes: ff73e2780169 ("ASoC: tas2770: expose die temp to hwmon")
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- sound/soc/codecs/tas2770.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Acked-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 
-diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index 50501bcbe916..21e3daadefab 100644
---- a/sound/soc/codecs/tas2770.c
-+++ b/sound/soc/codecs/tas2770.c
-@@ -633,6 +633,9 @@ static int tas2770_read_die_temp(struct tas2770_priv *tas2770, long *result)
- 	 * value read back from its registers will be the last value sampled
- 	 * before entering software shutdown.
- 	 */
-+	if (reading == 0)
-+		return -ENODATA;
-+
- 	*result = (reading - (93 * 16)) * 1000 / 16;
- 	return 0;
- }
-@@ -646,6 +649,7 @@ static umode_t tas2770_hwmon_is_visible(const void *data,
- 
- 	switch (attr) {
- 	case hwmon_temp_input:
-+	case hwmon_temp_fault:
- 		return 0444;
- 	default:
- 		break;
-@@ -665,6 +669,9 @@ static int tas2770_hwmon_read(struct device *dev,
- 	case hwmon_temp_input:
- 		ret = tas2770_read_die_temp(tas2770, val);
- 		break;
-+	case hwmon_temp_fault:
-+		*val = !!tas2770_read_die_temp(tas2770, val);
-+		return 0;
- 	default:
- 		ret = -EOPNOTSUPP;
- 		break;
-@@ -674,7 +681,7 @@ static int tas2770_hwmon_read(struct device *dev,
- }
- 
- static const struct hwmon_channel_info *const tas2770_hwmon_info[] = {
--	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-+	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_FAULT),
- 	NULL
- };
- 
-
--- 
-2.54.0
+> =C2=A0
+> =C2=A0	return bridge;
+> =C2=A0}
 
