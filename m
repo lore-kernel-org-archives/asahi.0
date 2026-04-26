@@ -1,91 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC8B1D88D7;
-	Sun, 26 Apr 2026 20:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DDE26A08A;
+	Sun, 26 Apr 2026 23:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777235551; cv=none; b=AETtonSydLPsyYvAo24I7XbX2+PNynI1uE/xqfybIX6Emnc4hbNgW/ck7sPzDmfRAeuip85fi3a69H9zCUB3N5pGXyZ5/DoGRukQ8bMla7DgoYBAPPm3VYOLvbDwvXP5lUVDSmkM9I77dRm7WUfyk3yV/WP6qteMS0MnNsbttnE=
+	t=1777245749; cv=none; b=MUKAM6GuxbI15cPsIdvIyx4JAqh5vvoCFOvf10T9B2B5v7MEdj6UyESlWy4mGAXW4ThbdUC/xHZfFhWBBXeRwkC3RlbDMFKcsTRkSjk8kQaBlTulCSUKcXrJ6k/BUnZAud096fdweOnJOjTXKvXV4L9Ehiz/8Oqt7PozHdT+VY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777235551; c=relaxed/simple;
-	bh=Ds3gxzQ8m4suolOgA0go+iuDdpqvWttps5+xxjX8PfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mrf5rNBhF43pKegJx/fSamzQKbTU7x01wN/D7bWcuPXIhK87L6bE5NbJdZHZIVfssr3IjLagxVEv6X+5souJRbb9HtkYk7IO95pC1VbjQY0x+6G44AQRj+DSyyOKP0HaXaA4Rh+4nRbHsoAyTjhp9CvaIqn2ABwhjzJH5U7/p94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u5VVXQFs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777245749; c=relaxed/simple;
+	bh=FU/k+L8i7Ta4OHCpZRnzemqVs2DF9E6WhaOdevkZjGA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=osGLRmbg9FZViwZ00rVJk6lYVi0t1UFlWmRsXyrX/jwZlxdWUtfv3Vqt7pYGwA87N+sldX2PMkKQ9twNIF4Ap7/fpNGuAsoa9Kgbe2QpYo5I3UZte3pNbSa9riocArCxoEXZUPu9Z8X9omeWpddqxNGnPqLRv+d9I0i9DAqHyLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dskz/xhh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u5VVXQFs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB556C2BCAF;
-	Sun, 26 Apr 2026 20:32:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dskz/xhh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F29FC2BCB8;
+	Sun, 26 Apr 2026 23:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777235551;
-	bh=Ds3gxzQ8m4suolOgA0go+iuDdpqvWttps5+xxjX8PfQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u5VVXQFsYc80l2SeIAP0bUEYdIHKn6RWq8uPO2P/95ODL8Q4ePhhbcvK5JwmGWAO4
-	 Zz5/305jEFiwjj2h4HmIJaozxIyvJjT3Kbq6dxHJDm5fCyCv2Q0xo7UFAoi1+4/zdj
-	 rheeRI0wo+pXI78X3uMP9hP0C9sNazNcDFkAgEAHBr8RMd/r8wsoqppFamgDP9O+eW
-	 9YHKsgnFVlQwlmArpaiuqtYqnHUXbdgHxrzkMIubke8jCIejt6fl9vXzhEYGTIaGNk
-	 R9OPWoJjfOQVGCtOPRVZ08QDPiPJQ66Cej0mwoRKx/Ma4C8sUTvBbOTXQG4bATYjEq
-	 WcgPBPSaAepmA==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id EA96E1AC5821; Sun, 26 Apr 2026 21:32:27 +0100 (BST)
-Date: Mon, 27 Apr 2026 05:32:27 +0900
+	s=k20201202; t=1777245748;
+	bh=FU/k+L8i7Ta4OHCpZRnzemqVs2DF9E6WhaOdevkZjGA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dskz/xhhzU5GTHSCU/lVXrHZEG4iz15DZ1FYmfANNQavfuQGHEpgrifREDyKCwFkW
+	 bdztSlGdS52GO5BIizzSmMEM1cdSdX+Zago6un6CBjpRVpmJxzMTv9KS+clvPN9Osb
+	 2BhV+cCRdyjGFB8PZ2MyWxIB6bCqpE3zt8OWLtQxa+JdL/uT4fgAarjThjvQ/NwUQG
+	 hkUaT/i6cSpfeh5B8zwzqQFiGiU/iBW1REf94huWOp0ZgO2C01NpoSizxorEIvOlCx
+	 ycFt3V8GJmgRDwEUXel3Y8nbGHClqyYRHbGxRo7IlCAdyJamvtAomNtVvJ3cCoUWno
+	 dVgUBc+0Zpc2g==
 From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH 2/4] ASoC: tas2764: Deal with bogus initial temperature
- register value
-Message-ID: <ae52W1bMIngzrTiv@sirena.co.uk>
-References: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
- <20260425-tas27xx-hwmon-fixes-v1-2-83c13b8e8f54@gmail.com>
+To: phucduc.bui@gmail.com
+Cc: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260423125154.156257-1-phucduc.bui@gmail.com>
+References: <20260423125154.156257-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH] ASoC: apple: mca: Use guard() for mutex locks
+Message-Id: <177724034927.266775.12675076324275289049.b4-ty@b4>
+Date: Mon, 27 Apr 2026 06:52:29 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tJAag3hnjFSdKzLc"
-Content-Disposition: inline
-In-Reply-To: <20260425-tas27xx-hwmon-fixes-v1-2-83c13b8e8f54@gmail.com>
-X-Cookie: Victory uber allies!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1117; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=FU/k+L8i7Ta4OHCpZRnzemqVs2DF9E6WhaOdevkZjGA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p4ypWpJ6CbBU3iQ0ipBBmPE5ZIFP1UPsdBft
+ evB2cIqRq+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eMgAKCRAk1otyXVSH
+ 0MYjB/9h5ZcVrhGxChFdnig5i5XRxG0+9F2VTT2ZIN9Zw2sXcK8tsIm6pbzJtP2HAFzI6YVM06N
+ vC7mhFD9eOGiTQtV/wKBsX/u8LP6RP9JE98ousbYVQNTrjuWuSrN4LLFiB3Cpx3iNd1hhzDd5Zz
+ C/J6uCwNMPk+Sh4FnKAevzk/EUX1/Hobdrm2osG83n7NW6ID4tsr7bsZXBFrwqg2bHoDaYbFIZ6
+ RxgZo+3XUAvAzVbNXvZixtCS3lx7iloIQqha4AzschbSk9i0d4d/1/VWhmvutgnPlwmqvsTzdHz
+ JujbnWwMcZT23aEuuO/q9jlLkrjT3FeWFl0/UU+Sk3q2VC8o
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Thu, 23 Apr 2026 19:51:54 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: apple: mca: Use guard() for mutex locks
 
---tJAag3hnjFSdKzLc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Sat, Apr 25, 2026 at 10:44:04AM +1000, James Calligeros wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-> Return -ENODATA early if the temperature has not yet been sampled
-> by the chip, and indicate a fault condition using HWMON_T_FAULT.
+Thanks!
 
-> +	case hwmon_temp_fault:
-> +		*val = !!tas2764_read_die_temp(tas2764, val);
-> +		return 0;
+[1/1] ASoC: apple: mca: Use guard() for mutex locks
+      https://git.kernel.org/broonie/sound/c/fc86d55e8b78
 
-Should this pay more attention to the error code in case there was an
-actual I/O error talking to the chip as opposed to a synthetic -ENODATA
-caused by reading a 0 back?  If we can't talk to the chip we don't
-specifically know if there was a temparature fault.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---tJAag3hnjFSdKzLc
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnudlQACgkQJNaLcl1U
-h9A/EAf/V2boh7Zey1I20Vy1k2PU7+bNRIFd5c0YmKJAoSGAkP4Ptr99sfXB+frL
-/bzUhV39M1+UBVAhxriQ7cd+g8vnSqAaS+4+pGtMk0br7vuzIsFfUJxPVWHoGNix
-nWdhB7j2n0y9+jFtu5fVdumQXxpLGQU1nuYRWjVXCceq3QmaZXDeOMWE3wYPfrEZ
-uDEq9udjwJhdvs3pv+nmTqmFRN2WDuvDNqFCvVihkwFxeJnsyVJJxBugISStSd15
-bUxhJjj5TT+m1ddgGfXOlNBVH8Qu2yJ90i5Vdz485Du0gYmYKo5z6O2BYiZvPyiQ
-UCD/yOCQArJ7z3y3v5r6kIcsl9OrGw==
-=86Ve
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---tJAag3hnjFSdKzLc--
+Thanks,
+Mark
+
