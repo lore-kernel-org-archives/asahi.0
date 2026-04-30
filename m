@@ -1,276 +1,212 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE17C42EEA9;
-	Tue, 28 Apr 2026 14:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B361C39A05C
+	for <asahi@lists.linux.dev>; Thu, 30 Apr 2026 09:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777385499; cv=none; b=PDfNeR4WHNggsF4BuuMEbjSuOVEazjIIIsrdrUnHwEKRFhiF8yN0bGLlj1nzTedI9PMgimjxv3J0zR/t1HGK5oKS1BSHyQKQiXwH8hdPkCI6nFcOi4VphwAmc5xsDrVzYH8pjGePXQotXiaR558nu46GTP1G0dAJdzVEZxfycDI=
+	t=1777540733; cv=none; b=b8yRzIvyXHi3ZXpQ1KcXZVyVCdhKz8YYxvZaSVzKzPTXlnRstnveqkvhLaFsvVSah1XRbLSUq0ZZhA0uMi9cC/pATrevS9awYZaN16izpwf1KZlQEa/5Dgb9JZKWtm5Uv31mjIIxB4Aa03l2WGSJCwa0Ml+t5pQkpkR+IdQT8zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777385499; c=relaxed/simple;
-	bh=XwiqsOpR23ShlfylRkZ2Fb1ig1xeGogp5lQf7doEuds=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=O7FXM7Zve1ugDJRKNmo2gnpqWPXdcFcERtUoXVmb4AjDl4/lTnZRpxQsFPZafZhLMH0jaYUL4OGjPEQ7g/IiRBzksaGVfZJWPTCDriJK1Cxui0SGVmKUYB3CyFpQacySlxEfX98JPc8nqcK/rGU2TEA51YY+GbrZX63z/rJ50yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from edelgard.fodlan.icenowy.me (unknown [112.94.102.122])
-	by APP-03 (Coremail) with SMTP id rQCowADX79bQv_BpQaZ1Dw--.2120S2;
-	Tue, 28 Apr 2026 22:10:28 +0800 (CST)
-Message-ID: <7d9086ff60e5e98117aeeb40a085dcde2c29de65.camel@iscas.ac.cn>
+	s=arc-20240116; t=1777540733; c=relaxed/simple;
+	bh=UJL6OelUXsdUY30x9NgFXQIVtEbTmLIWMXWCnrTOyiM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mylm3S1LeMrX8B9e2YyxbjC1+x1UR+sAmPBteJg+eR+NYTTT5F89THn0uDzaaC47T28N2a2tcJFTEqOfIdbM0cIf2IrjD5kUEkzsLM20AAcX9KH+WuGLMGy1p/ZGrXm+kNGLfxZubo9VWfwSiXgORsqMSTDv/2AhStUaUDgkgac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jl75Y6bE; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jl75Y6bE"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 1282D1A3488;
+	Thu, 30 Apr 2026 09:18:50 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CBD7660495;
+	Thu, 30 Apr 2026 09:18:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E3A8E1072B84F;
+	Thu, 30 Apr 2026 11:18:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1777540726; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=kPzFTYl8s/0qzQL977XUmLm+EjuPVHwAvy6zvNV2190=;
+	b=jl75Y6bEL+7XH1zwiNW+c6qdRlqqlGGwLUpQ85RtTJdu9EpHAcCly7th2dkRJqgvBNtrOi
+	m2QfOXlLwq71dPBT0OgjxI68dJM3R2cB+iqkYi+0XspHjpHCoF+EBBUkZg5KaK9Ge507iz
+	kqv6ZoGGXkW8Sf95ZaByPAT/w9zxdFH418OSOYfew2Xz2glDUB3n85brvXZfGs5i95VpeD
+	3qzwbW2V/v/ub1Uw3wAAOmhwm9AQuiqFqc4ERnz9TZ2T+PdNiUahf2hsk6fdwzSWKMnhlC
+	YsCVptaZkFgjdrCmR7033Fh8MbPK2PhMdRWJYtWVA5m52jQShDFOY9mIO9MHIA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Janne Grunau <j@jannau.net>, Liu Ying <victor.liu@nxp.com>, 
+ Douglas Anderson <dianders@chromium.org>, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Icenowy Zheng <zhengxingda@iscas.ac.cn>, Jingoo Han <jingoohan1@gmail.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, Michal Simek <michal.simek@amd.com>, 
+ Sasha Finkelstein <k@chaosmail.tech>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
+References: <20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
 Subject: Re: [PATCH v2 00/41] drm/display: bridge-connector: attach encoder
  to the connector
-From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Dmitry Baryshkov	
- <dmitry.baryshkov@oss.qualcomm.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>,  Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart	
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Janne Grunau <j@jannau.net>, Liu Ying <victor.liu@nxp.com>, Douglas
- Anderson <dianders@chromium.org>, Laurentiu Palcu	
- <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, Frank
- Li	 <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Philipp Zabel	 <p.zabel@pengutronix.de>, Paul Cercueil
- <paul@crapouillou.net>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Matthias Brugger	
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>, Kevin Hilman
- <khilman@baylibre.com>,  Jerome Brunet <jbrunet@baylibre.com>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>, Rob Clark	
- <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
- <jesszhan0024@gmail.com>, Sean Paul	 <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Sandy Huang <hjc@rock-chips.com>, Heiko
- =?ISO-8859-1?Q?St=FCbner?=	 <heiko@sntech.de>, Andy Yan
- <andy.yan@rock-chips.com>, Thierry Reding	 <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,  Jonathan Hunter
- <jonathanh@nvidia.com>, Jingoo Han <jingoohan1@gmail.com>, Inki Dae
- <inki.dae@samsung.com>,  Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
- Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski	 <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Laurent Pinchart	
- <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen	
- <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham	
- <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven	
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Biju Das	
- <biju.das.jz@bp.renesas.com>, Marek Vasut <marex@denx.de>, Stefan Agner	
- <stefan@agner.ch>, Jyri Sarha <jyri.sarha@iki.fi>, Michal Simek	
- <michal.simek@amd.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 	linux-mips@vger.kernel.org,
- linux-mediatek@lists.infradead.org, 	linux-amlogic@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, 	freedreno@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, 	linux-tegra@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, 	linux-renesas-soc@vger.kernel.org
-Date: Tue, 28 Apr 2026 22:10:18 +0800
-In-Reply-To: <DI4TW9XECX53.17TEZPCSWTH1A@bootlin.com>
-References: 
-	<20260423-drm-bridge-connector-attach_encoder-v2-0-2ae6ca69b390@bootlin.com>
-	 <cf2c91396eb3017aa51dd9c840badffddca2f7ec.camel@iscas.ac.cn>
-	 <DI4TW9XECX53.17TEZPCSWTH1A@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+Message-Id: <177754070456.1321073.15208749896191583310.b4-ty@b4>
+Date: Thu, 30 Apr 2026 11:18:24 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-CM-TRANSID:rQCowADX79bQv_BpQaZ1Dw--.2120S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtw4DGF1UKFWUtry7tFWxCrg_yoW7WFWDpF
-	Wjga12kr4kXryrAws2vF15Za4FvrWDJr45Jr1qgw4SkaykuF18AFW7tFs8uasrAFWrW3Wj
-	qr4YqrWxuF15AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvGb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I
-	8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
-	c7CjxVAaw2AFwI0_ZF0_GFyUMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-	67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
-	IIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
-	6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
-	73UjIFyTuYvjxUyPr4UUUUU
-X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
 
-=E5=9C=A8 2026-04-28=E4=BA=8C=E7=9A=84 15:39 +0200=EF=BC=8CLuca Ceresoli=E5=
-=86=99=E9=81=93=EF=BC=9A
-> Hello Icenowy,
->=20
-> On Sat Apr 25, 2026 at 5:22 PM CEST, Icenowy Zheng wrote:
-> > =E5=9C=A8 2026-04-23=E5=9B=9B=E7=9A=84 11:16 +0200=EF=BC=8CLuca Ceresol=
-i=E5=86=99=E9=81=93=EF=BC=9A
-> > > This series simplifies using the bridge-connector by removing the
-> > > need to
-> > > attach the newly created connector to the encoder.
-> > >=20
-> > > =3D=3D Series description
-> > >=20
-> > > Currently all users of the bridge-connector must call
-> > > drm_connector_attach_encoder() immediately after a successful
-> > > drm_bridge_connector_init().
-> > >=20
-> > > This is an unnecessary burden for users. Move the call to the end
-> > > of
-> > > drm_bridge_connector_init() so all callers can be simplified.
-> > >=20
-> > > =C2=A0* Patch 1 adds a drm_connector_attach_encoder() call at the end
-> > > of
-> > > =C2=A0=C2=A0 drm_bridge_connector_init()
-> > > =C2=A0* The other patches remove drm_connector_attach_encoder() after
-> > > all
-> > > =C2=A0=C2=A0 drm_bridge_connector_init() calls, ordered from the simp=
-lest
-> > > ones
-> > > =C2=A0=C2=A0 (only the last one is somewhat non-obvious)
-> > >=20
-> > > The Cc list is huge due to the many drivers touched. I sent v1 to
-> > > a
-> > > reduced
-> > > Cc list to ensure there is an agreement about the overall idea.
-> > > That
-> > > seems
-> > > to be the case, so now it's time to copy all drivers maintainers.
-> > >=20
-> > > It would be nice to apply all of this series at once to avoid
-> > > duplicated
-> > > calls to drm_connector_attach_encoder() in the interim. That
-> > > would be
-> > > harmless beacuse drm_connector_attach_encoder() is idempotent,
-> > > but
-> > > unpleasant.
-> > >=20
-> > > =3D=3D Additional rationale (for the curious)
-> > >=20
-> > > Besides making the usage of the bridge-connector a bit simpler,
-> > > this
-> > > series
-> > > is in preparation for DRM bridge hotplug. Here's why, feel free
-> > > to
-> > > skip if
-> > > you don't care.
-> > >=20
-> > > The old bridge hotplug proposals I have sent in the past [1] were
-> > > based on
-> > > a hotplug-bridge driver to sit between the last fixed bridge and
-> > > the
-> > > first
-> > > hotplugged bridge. Discussion with the community led to the need
-> > > of
-> > > removing the hotplug-bridge and let common DRM code handle
-> > > hotplug.
-> > > The
-> > > common place of code that appears the most suitable for hotplug
-> > > handling is
-> > > the bridge-connector, which is by now the recommended way to
-> > > handle
-> > > connector instantiation after a bridge chain.
-> > >=20
-> > > So I'm in the process of extending the bridge-connector to be the
-> > > central
-> > > point to handle bridge hotplug. Turns out the need to call
-> > > drm_connector_attach_encoder() after drm_bridge_connector_init()
-> > > has
-> > > returned is adding big headaches to such work. So I'm send this
-> > > long
-> > > but
-> > > simple series to both simplify bridge-connector usage and remove
-> > > one
-> > > obstacle from the bridge hotplug work. This series is relevant by
-> > > itself
-> > > anyway.
-> > >=20
-> > > [1]
-> > > https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-26-9d6f2c=
-9c3058@bootlin.com/
-> > >=20
-> > > =3D=3D Grand plan
-> > >=20
-> > > This is part of the work to support hotplug of DRM bridges. The
-> > > grand
-> > > plan
-> > > was discussed in [0].
-> >=20
-> > Just see the bridge hotplugging thing, is it possible for DRM
-> > drivers
-> > to declare bridges attached to themselves after this?
-> >=20
-> > Loongson 7A1000 PCH can only output DPI signals, so nearly all
-> > products
-> > with it are shipping with some kind of external bridges, but
-> > currently
-> > drm/loongson does not support them (all display connectors are now
-> > seen
-> > as DPI ones, and connectors behind non-transparent bridges won't
-> > work).
-> >=20
-> > The bridges are going to be accessed by the DDC I2C busses of
-> > 7A1000,
-> > and are not declared with device tree (systems with 7A1000 never
-> > ship
-> > with device trees, and Linux currently matches a built-in device
-> > tree).
-> > (Bridges being on the DDC I2C also introduces some dependency for
-> > them
-> > to depend on the drm/loongson driver.)
-> >=20
-> > Loongson have defined some kind of VBIOS declaring what bridge is
-> > behind, and their non-mainline driver just contains driver codes
-> > for
-> > all possible bridges. (Sui Jingfeng previously tried to mainline
-> > such
-> > practice, and of course it's rejected because of code duplicity.)
->=20
-> I'm afraid your question goes a bit beyond my knowledge, the hotplug
-> work
-> I'm carrying on is focuses on DT platforms.
->=20
-> My limited understading of non-DT platforms is that a card driver
-> must
-> instantiate all components and tie them together, which assumes it
-> has to
-> know them somehow (ACPI, hardcoded, whatever). Others can probably
-> comment
-> better about this.
 
-Yes, there's some proprietary way defined by Loongson to declare which
-device is attached.
+On Thu, 23 Apr 2026 11:16:54 +0200, Luca Ceresoli wrote:
+> This series simplifies using the bridge-connector by removing the need to
+> attach the newly created connector to the encoder.
+> 
+> == Series description
+> 
+> Currently all users of the bridge-connector must call
+> drm_connector_attach_encoder() immediately after a successful
+> drm_bridge_connector_init().
+> 
+> [...]
 
-The problem here is just to instantiate the attached devices (although
-parsing of the Loongson VBIOS data is also a TODO now) and prevent
-dependency loop.
+Applied, thanks!
 
-Thanks,
-Icenowy
+[01/41] drm/display: bridge-connector: attach the encoder to the created connector
+        commit: dcad6dd16e87a6dcc78ab05f64c704cec2809db9
+[02/41] drm: adp: remove now-redundant call to drm_connector_attach_encoder()
+        commit: f96e621e90dfeb35676604b223f42f721e7c364f
+[03/41] drm/bridge: adv7511: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 4f88126e09160fa5c226e786982d433aba0345c4
+[04/41] drm/bridge: ite-it6263: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 7ecf62396ed7883eda3bb949df7f95e5a1048b17
+[05/41] drm/bridge: ti-sn65dsi86: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 1977688f60eab4c92dca15c8b7e6b19635902ee0
+[06/41] drm/imx/dcss: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 4b29d25b55fc28ab6065500a60693b093ad05366
+[07/41] drm/imx: ldb: remove now-redundant call to drm_connector_attach_encoder()
+        commit: dd7784328061fba1fba919d8879ed65ea30feeae
+[08/41] drm/imx: parallel-display: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 5c18883f8050b1f6fdb35050cf9dad64779f6ee9
+[09/41] drm/imx/lcdc: remove now-redundant call to drm_connector_attach_encoder()
+        commit: b490bc69f1c11d8335dbd628d5e32db8986f848c
+[10/41] drm/ingenic: remove now-redundant call to drm_connector_attach_encoder()
+        commit: bc9e6392403e316c9d6e337b7cf28543051cb28e
+[11/41] drm/kmb/dsi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: d731d87126d43936ab74804785446f67a2d60d0c
+[12/41] drm/mediatek: mtk_dpi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: c21f9adc83c5edf0b990cd068283d3c831b43074
+[13/41] drm/mediatek: mtk_dsi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 41bfe06bb3cae68c0b3e21c5181c49f68db67e18
+[14/41] drm/meson: encoder_cvbs: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 82da98ea371dff7a9ece58083846556b043bec9a
+[15/41] drm/meson: encoder_hdmi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 013adec1a93dcd052c6eb1769609eee661983ca9
+[16/41] drm/msm/dp: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 6108b5b7219e3f3f947922f4faa8ccbc570210d2
+[17/41] drm/msm/hdmi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: f7ed1d3dde56b98e065b950d1044a0f655b194ba
+[18/41] drm/omapdrm: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 7b229305be6300c90e6f005784f9f53d4d23d579
+[19/41] rm/rockchip: cdn-dp: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 86909f184b4f045f4d85dd2ca957811c1184aa1c
+[20/41] drm/rockchip: rk3066_hdmi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: d5304653b60edb79bfb71209ebbd4b57001ab003
+[21/41] drm/tegra: hdmi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: c0670fc1e75782a9dd0cd94acb7b262077b3f720
+[22/41] drm/tegra: rgb: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 04ce2e375f6dde267f53995d81c48ab31dc06b52
+[23/41] drm/tests: bridge: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 6d303956b41f870240a23d4896ec12e420026637
+[24/41] drm: verisilicon: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 6d65baa60f0d7c305eb63b738163c1e35d0eef20
+[25/41] drm/exynos: exynos_dp: remove now-redundant call to drm_connector_attach_encoder()
+        commit: d627f7e6318906da2b95ac60616af7501d5145a5
+[26/41] drm: rcar-du: encoder: remove now-redundant call to drm_connector_attach_encoder()
+        commit: fa38bb8dc2e852e2979593b965779b8cca532014
+[27/41] drm: renesas: rz-du: rzg2l_du_encoder: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 88bcd924cd85a29658a60418f6e60a0f912f990c
+[28/41] drm/rockchip: analogix_dp: remove now-redundant call to drm_connector_attach_encoder()
+        commit: b7e25e250ea405f1c65256494b56e0f6443cc96a
+[29/41] drm/rockchip: dw_dp: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 8015bfccca36672e412dae4240886c71278c5b3c
+[30/41] drm/rockchip: dw_hdmi_qp: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 14a25df41b19aba228e66c0d9578e6e6b3cc58f9
+[31/41] drm/rockchip: inno-hdmi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 6db094d4ce87fb4caf90db9863bb6a8b427b15c9
+[32/41] drm/msm/mdp4: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 4e833e078f3d40d4f4a24c162210a1b7855f1539
+[33/41] drm/msm/dsi: remove now-redundant call to drm_connector_attach_encoder()
+        commit: f9274ba1dff8b0adff22e8d877ec1e85bb14d0c3
+[34/41] drm/mxsfb/lcdif: remove now-redundant call to drm_connector_attach_encoder()
+        commit: da3918b645a5efe6fad2aa53b84a4d98c3df999c
+[35/41] drm/rockchip: lvds: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 24202edb689ead20411568251792a31103b9bde0
+[35/41] drm/rockchip: lvds: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 24202edb689ead20411568251792a31103b9bde0
+[37/41] drm/tilcdc: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 055673da01cdb130732ee556db58f7408392c1b8
+[38/41] drm: zynqmp_kms: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 42ccccb38ca8bac394faeb30c924ad542f5f1bee
+[39/41] drm/imx: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 2b727270b955b72cf6f47c5883bdc6f997f0e06f
+[40/41] drm/rockchip: rgb: remove now-redundant call to drm_connector_attach_encoder()
+        commit: d5d8e04dc0557437b19039206012305166df2bf7
+[41/41] drm: renesas: shmobile: remove now-redundant call to drm_connector_attach_encoder()
+        commit: 6533278b0deb14de860035dd1913e1e55e781e60
 
->=20
-> As a general principle, when devices can be mixed and matched by the
-> board
-> designer, hardcoding them is a bad design choice. Think of bad old
-> board
-> files written in C, which were unmanageable and got replaced exactly
-> by
-> device tree. So my opinion is that DRM encoders and bridges should
-> know as
-> little as possible about the following bridge, connector or panel
-> that
-> follows them.
->=20
-> Luca
->=20
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
