@@ -1,128 +1,150 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011011.outbound.protection.outlook.com [40.93.194.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4C0287263
-	for <asahi@lists.linux.dev>; Fri,  1 May 2026 05:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777613252; cv=fail; b=uxZnehXAZ8pmrfcp1JVv0QQlPvv4gBRdZji0oeMu4pwfk9/xxLuYtuIeeTzRnEAg+ZtHY6Obfokd5z2JAmYJOQorqbBocf9Oyw3x6T7TZME1Kuim/hYc/ox6ejaahKn5NbPzMGbFFONIVufDI90CVPMX2o0pXv64wzQyaxmnjdw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777613252; c=relaxed/simple;
-	bh=gCt1N/+Bvdij4MsaXEvJEFZ/yaD8toi0KPPBCOPaa5c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hr1kYdzfo1xiSzyiLj/db2mAedyaIoD+mHpVOI1hj2Cp451rzUTLUZWQrTZ9jhmx6aFd3pSHB3+2wlHigl9CO9ZTiu2sGNXfxaVNlTKLD37Tyu0GZ6KC0hBVAFwwiIrWGZ7C3Bzo9sGFfpc3BwZQZIvinNoRDNkOoZO/O5Dm5S4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=U+yXraLp; arc=fail smtp.client-ip=40.93.194.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB613B389A
+	for <asahi@lists.linux.dev>; Sun,  3 May 2026 12:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777811028; cv=none; b=msRrv4K6oKetfHyLurL+b7zufagNa1PYWnvCkkTqvwhHIOGMiFcT0fOpt2hdo6Z9P1sh2Ib54fPbyRObV266P2ihzZvv2hO1kqLG8U0M/D5IQFPEeBYOsFmDysbxxq2cVTuNdvgduzoPV5YrYbBrmpbOM/kcbIfOTU/loKYjfjI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777811028; c=relaxed/simple;
+	bh=cBF/PgoBgDQMZImfi0PK9EOQ4KdCg26XWDCXf0kpwQE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JCxllwUDpvOIGYfAV+BX3joDOA9BhtLNpld/XzD9Doiuz6IdOUl8nf7Yle+l6dHY/4/inpvrfqeaw03sWOfzk3rR4BqNYhVqn4wna9ajuj887ISDt29JagifFpMdfw0OuUuOpr0gpmawlPIlfyUntVeuhSieY24EfOsArSkjNu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elmLSsP3; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="U+yXraLp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KkSNPWLgRymNHdYmw8KIQBdVUOpR6+uv5aHijxhy++avERscLPez6OXkXQalZGdvhTTpDlcgTU4w59cGgiNkMoS7uokPON1Gldlsh+uVLCHFx6pDlJxahxFxiClwHeV2oB8dyQ6TZm48DyBSQK5HwqmpKDxTTFpbWML/sJlxE93Zeq8PY7xqP7yxrBKFh+zwAOs9uon3nfBJWh/ansLZVhuqAR1fFXJaOkSICEFcuJRWZrWW/zxhc7EcYTk66M+3g8oZfq4RXMvwgdKGcOHFA4q2D738LL2L41Z0xmGHPwDwk0vJvvI4Qv6Jo/8oGyITit0/tIYxULGq34YuqB+TQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kt3S7NoU5lWguRvq+nBD2ENz36sNqkk0TZa52T6r0c8=;
- b=E9vG6eYXWRqeqF1Nw7rxdJkarLUvRFEy9W+Gn+/IkVZKDeMDoIpH2fw01ypSRDcnXGZfZRWtLy2xuDdM3fESI7zP4iFhXNnM9sc7neiaWC23hGq4TizIUCCUrv6AkYoksvvhF6PMWOcrMD+lze1zp1RVoEvK2rVHpM7pc2ogIqwFMn976UMATCvh4g+sfmoMJ65coeBMSGHvq0KpoHNAFixJqaJo7qegQ66vQE/D+Q+OIETNNMZqDGW43idAzzDzBQ/m1cmtlpd9bEcG1ERKQvVp9B64MYZ1dw7sQStuBy7mFXrK7EsFhKkPEcn1PQ0vvtHeIuR/+CxkelVs1cmE6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=163.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kt3S7NoU5lWguRvq+nBD2ENz36sNqkk0TZa52T6r0c8=;
- b=U+yXraLp345Wh0nvf/567xMFREssfU3xEhXLeXjbjlADj7mOBX7KyMWJA6SSOS4pwp+se+RM5PYG9LrlLkhYT9eMmFlLmxq7rlvEoEcSVTgxFfsfODDOSJ2aSM3IfFN+mJpvgIAhWQYTu75GiTu8EfD4MKnuhue9b37IOBQmf9k=
-Received: from BY5PR16CA0028.namprd16.prod.outlook.com (2603:10b6:a03:1a0::41)
- by CH2PR12MB4056.namprd12.prod.outlook.com (2603:10b6:610:a5::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.22; Fri, 1 May
- 2026 05:27:26 +0000
-Received: from SJ1PEPF00002318.namprd03.prod.outlook.com
- (2603:10b6:a03:1a0:cafe::e8) by BY5PR16CA0028.outlook.office365.com
- (2603:10b6:a03:1a0::41) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.22 via Frontend Transport; Fri,
- 1 May 2026 05:27:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SJ1PEPF00002318.mail.protection.outlook.com (10.167.242.228) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.9 via Frontend Transport; Fri, 1 May 2026 05:27:26 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 1 May
- 2026 00:27:25 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 1 May
- 2026 00:27:25 -0500
-Received: from [172.31.184.125] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Fri, 1 May 2026 00:27:21 -0500
-Message-ID: <9d8d3f4c-2084-432b-900b-8411c56478e6@amd.com>
-Date: Fri, 1 May 2026 10:57:20 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elmLSsP3"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c801d732058so276458a12.1
+        for <asahi@lists.linux.dev>; Sun, 03 May 2026 05:23:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777811026; x=1778415826; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NYp4Og2+ktDZKSQruyvoX8pnwkOqiEAo3XA3+4ENvyA=;
+        b=elmLSsP332hMaWeHMrZWuZDNw35qVZLVJkMN2aOrFO50zkKvcAV3N41+0gDmBETE6f
+         bm8dJ7k0/74JJMQGY6CklhOfQWFzl2RsQnWv644pxyT+Ug4gVMqoicBXYM0ImkphcFxP
+         eFWnRIPdM7EfLGChavhzWpx4edQzojTzfvky4ZsC2pMDXAnw5y7obplk858oifrbJ31p
+         M1RvvHl6mF2iiokS3f988NvObP2an7DhNZMICfWiPRTZYdZFcERM6WmU8SxK6jckoUSm
+         3QmuUNjbnK+Lw3qqPFgVFhAhmL3gpTX3kVWk5YuPyt2gq43gHKdVhhxv4jgnMYkrCgKW
+         yrCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777811026; x=1778415826;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NYp4Og2+ktDZKSQruyvoX8pnwkOqiEAo3XA3+4ENvyA=;
+        b=rBelVOO1CAfdx10gdTpHn3+scFenNC43e5M+jwZjKErkAWriquboXSyi8g/RJgdQZu
+         NdVL32/7uAZ6Zn6GrNB5a/mjId5D+AdV+h01du3F9wCKZ3xFa/qVdDNn42kjrRgRigvr
+         l3VjqsLvO+PWIKZYWRpncO1qJZaRp200CgOg3Ofulfu3mR61yWLm/2BJJR4ykt500Yzo
+         18qjMY8xWNxYwtQqoPXGMZuH8M7kBwv1F1fA4oXzv72jYIyaDcSuv8/Id0gN6Hh4y9o0
+         PTh7KcU8Hbr+OF/zESiWXHatVVfpIy8HpCFM1FdCOmpD4oZGSsTT27ZAHbhhh8wz5kJ+
+         J0iw==
+X-Forwarded-Encrypted: i=1; AFNElJ80pCtJpkYy/GN1qBBxpVkWHc4HbfCKYLoEEKRrDEbhSsLzMhg+EzEKQuzd0sAuQJOXGbWGIw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmLh4/LV8kGfQLythOwGrM7GXrmVLGFRJlAsX32R0Cz5yMZWqD
+	5Q9Fj22LtMlIbw/EUwYZp/Eyek6zzpB/oKD2AKmiqKa4ZYR9UwTgvQ5N
+X-Gm-Gg: AeBDieuggEPh0qRFpbSf9RylH+ml8TJHDASV0zV+41sH/q96ZVU+0parWKC9sKlDUOE
+	TrN10r6ymr7EhPvRVG6mqYSmGjCvZVf+iuJ6pGPamWFt2IkCYes9eHM377Y5bIdEGZryrzfNNkW
+	daH2sXs2TdRvn41O+uyqu/01sI/yP32ScGMPlQcEX4xQY+ROmYhjig8BFFChUeqrPhqHQzPL+yi
+	hHfRuVH2NojnXxejYbb66yg0k/F3QOM9xlkMNo/Vf46WSZlenXA/Lx5eShrfafD/1nlefU69l13
+	Xu7jPBlAzcFR1QrxBCFICiCgiAIkEHreOqBAghFLZSyezOzRe91Az5NAsBzkjuf8JmgMV9RnSHM
+	7B9AolJjZ4RUA7cZUmu05utQSjFYF/GpSHaP6b+qGzayDqua4J5FP6dwvyBbknF+ID9/DIztz98
+	JOoptQ2xb+a+ol/qoqCTBJP9A9poahFmKHeIAkgyqHsjASOxoAYEn1gCdqj9CThCrH32jFNtgJe
+	Ib7N4hl6pATHvrZY3/Y+QZj8uh6lKAbzrsVaPKpCQcL1E3SPGWKgKgbeJMTfFq48E7wMHmXmpgi
+	tRwqf/2rp3M=
+X-Received: by 2002:a05:6a20:3ca8:b0:3a2:ed4a:5d7e with SMTP id adf61e73a8af0-3a3d20bcbc3mr12745793637.22.1777811026410;
+        Sun, 03 May 2026 05:23:46 -0700 (PDT)
+Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8023e6eabesm2098464a12.5.2026.05.03.05.23.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 05:23:45 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH v2 0/2] ASoC: tas27{64,70}: Fixes for hwmon temperature
+ readout
+Date: Sun, 03 May 2026 22:23:22 +1000
+Message-Id: <20260503-tas27xx-hwmon-fixes-v2-0-208e802be4ac@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] cpufreq/amd-pstate: Use FIELD_MODIFY()
-To: Hans Zhang <18255117159@163.com>, <ray.huang@amd.com>,
-	<mario.limonciello@amd.com>, <rafael@kernel.org>, <viresh.kumar@linaro.org>,
-	<sven@kernel.org>, <j@jannau.net>
-CC: <perry.yuan@amd.com>, <neal@gompa.dev>, <linux-pm@vger.kernel.org>,
-	<asahi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <20260430163213.44695-1-18255117159@163.com>
- <20260430163213.44695-2-18255117159@163.com>
-Content-Language: en-US
-From: K Prateek Nayak <kprateek.nayak@amd.com>
-In-Reply-To: <20260430163213.44695-2-18255117159@163.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002318:EE_|CH2PR12MB4056:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ecad14e-9abc-4b64-b640-08dea74254cf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700016|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	ZyToTkshyduIQY7V+VIHBpMFBCVfiSIEXdp6pmLuFehg9PjlpynIoIJhekFMqiV/NnxuqIKEfSbaIfPEA22U2WSSCr67d/2eQsy3dI630PhrCK1Jw9guMoAss3CX7WuSFG9Ib/ijf3ZahysCJNa7DV+rW5TRSHm9V8N3b41sFHkDfAokUVZoqHRXjFD6a/ZV/rmEEn0YZ3ZsijwzAe1N1hgGSCFCRCJN3X1fbYyfELZkgeOH0dXObRgonDHY7FZBz84L7AO7Dfxk8Vv2laWfUU3aL13BSsB0aqvdpTKsK8Ve7AwXCEoczI6KMPg/ze16+ahwhC6YFzWO4WaniMLyKY42eC04S+2yuc8UW0sFnQ/X7yUlS8MWDXGcOiZ3plYOCtoqNDfUQyHHIq+85OaYcRMSAM8/z0usG963edTq0jgIA0eui/ImWqC9uM21TIR2Me9Ftt2LP96PwNzamRYp7yw/x6AcWXlyCt7cjeqzEOQgQc7a0xfmnHJ1DhjbbPkjPmkzKmqbUVuy3cZqeXR2V0Y97cK1npV84/ABU4F6paKfhlRx4vJecvmdJaI7Voec6bt9ePzhqfH2BaZnTSigXobXIWGsU1DvHHkS0Sn1qdRWrx0hHVdET0eeqS3oT4WepoY5fdQdFW9Xg6T+8VduFdSFTJBcvgQF9VXvV3rO8/Z/oaiLBHU/nJHwMFWCHZy0etV5m/yWi16azvO9TlCypLqXF/UDOyBwXtYSjiKr3JU=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	FGYuNnDw5LvfvVy2Lntl7ysvajki7Zo2gcmbiQUcqlKNZKkA7VmYZKv1Jnf3zJxy0RTbx1ApBkrU6I5imzJ9LUc78K/0qZmEAm7GWHBXyQDNaeSfWidbG0aInfto89R0Z9iibuF7NAUA2o0BckVQGGqRiHH/zIxb2zhv9weKqzc7KXKs1WD7SVYj/O9E3oDaIiRVEntb1GsEYTws+wq8YLbMdX425sNiRAe2CTnYcCJX6aSs0xGBP4Y2rttHX1Pts0Wve3JhQFIiR+itMo5Qfm980+HmtBJdZnPxTNOZQ09L6n68Z9oLEL99U9ak5gZzcHPE5cP3NYGFis99QqPNQMGG8V1lB5cxx0tnL6+GUmGjjDhLxR7M6uTsXUWVEPl2H88CZNfrY9A7VONmj0JHLa+4Irc0D/0/pkOHBvcqDzP8WPVreiURpbIonZ4rtSSu
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2026 05:27:26.4426
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ecad14e-9abc-4b64-b640-08dea74254cf
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002318.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4056
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADo+92kC/32NwQ6CMBBEf4Xs2TVtoVo9+R+GA9QFaqQ1XUQM4
+ d8tePf4MvNmZmCKjhjO2QyRRscu+ARql4HtKt8SultiUEIdRKE0DhWr4zRh9+6Dx8ZNxNhYowt
+ BRp60gGQ+I21BEq/lj/lV38kO69Ta6BwPIX6221Guvf8Po0SBJrcyrw2ZRheXtq/cY29DD+WyL
+ F9PcILCyAAAAA==
+X-Change-ID: 20260425-tas27xx-hwmon-fixes-fc8540e81950
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Sen Wang <sen@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, James Calligeros <jcalligeros99@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1811;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=cBF/PgoBgDQMZImfi0PK9EOQ4KdCg26XWDCXf0kpwQE=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJnf7XxiecQLFfdNTzg352qrQLfoU9ddPYfuM4XddlZJY
+ M2om5bWMZGFQYyLwVJMkWVDk5DHbCO2m/0ilXth5rAygQyRFmlgAAIWBr7cxLxSIx0jPVNtQz1D
+ Ix1jHSMGLk4BmGqRZEaG2YfPR9ZVahobpdmetPt7oHXz3MYW9i6FlIDOP3WeUdXRjAw3tyqniTf
+ J6/tOCTX/n7xbe/Iqs/lTFBz4py2e2H19ZRErAA==
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hello Hans,
+Hi folks,
 
-On 4/30/2026 10:02 PM, Hans Zhang wrote:
-> Use FIELD_MODIFY() to remove open-coded bit manipulation.
-> No functional change intended.
-> 
-> Signed-off-by: Hans Zhang <18255117159@163.com>
+This series makes some fixes to the hwmon temperature reading
+functionality added as part of [1].
 
-Thank you for cleaning this up! Feel free to include:
+- The arithmetic for TAS2770 was incorrect, leading to readings
+  which deviated from the true value sampled by the ADC.
+- TAS2764 was returning the cached value for each read after the
+  first register sampling.
+- Both chips were returning nonsense values before the ADC was
+  fully powered up, causing issues with some monitoring software.
 
-Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
+Regards,
+James
 
--- 
-Thanks and Regards,
-Prateek
+[1]: https://lore.kernel.org/all/20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com/
+
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+---
+Changes in v2:
+- Drop applied commits
+- Respect non-ENODATA error codes when checking for a fault condition
+- Link to v1: https://patch.msgid.link/20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com
+
+To: Shenghao Ding <shenghao-ding@ti.com>
+To: Kevin Lu <kevin-lu@ti.com>
+To: Baojun Xu <baojun.xu@ti.com>
+To: Sen Wang <sen@ti.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+To: James Calligeros <jcalligeros99@gmail.com>
+To: Martin Povišer <povik+lin@cutebit.org>
+Cc: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+James Calligeros (2):
+      ASoC: tas2764: Deal with bogus initial temperature register value
+      ASoC: tas2770: Deal with bogus initial temperature value
+
+ sound/soc/codecs/tas2764.c | 35 +++++++++++++++++++------
+ sound/soc/codecs/tas2770.c | 23 +++++++++++++++-
+ 2 files changed, 49 insertions(+), 9 deletions(-)
+---
+base-commit: 425b3a9530f53cfa5f156ab69228a5e0b8de1667
+change-id: 20260425-tas27xx-hwmon-fixes-fc8540e81950
+
+Best regards,
+--  
+James Calligeros <jcalligeros99@gmail.com>
+
