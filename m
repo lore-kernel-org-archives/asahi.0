@@ -1,95 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D83839B482;
-	Tue,  5 May 2026 11:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8092FE56E
+	for <asahi@lists.linux.dev>; Tue,  5 May 2026 13:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777982300; cv=none; b=NdmvYU9FYI+W2+JibrupSIydlRYZbNgNC+O+2mmYgEq2B464Dlni5kl7RazvLn4e/V1UjyEU35DrbSxahjOlVRGEf6t8Sczu3BV3iPj1OBoN6WiLWtMI/5YnU1yQfposeX1Au/pZgp+ljqU0bnEfd46mQDwkuObeYy2Sw3DRrak=
+	t=1777987068; cv=none; b=qrZ/6C433v9/FhJG4e9jDIUTALWgxByjtHkmTD/UalAm7vEOBEWAYp2MJP5TxtMO7b/X3iQAcBH+VH+ey+ylt2Wo8iyE3GqSf07778w8SjqhoodCatCUABNeDcXd4yP5DZCxic034UQc46Qf0tU8GK8axBww6X40fOP9T1eWnk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777982300; c=relaxed/simple;
-	bh=xeHgIov2eBpdGzkI2CwiiBe+BA7OivIJjLZsOU3eaw0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NOTZMzAXrxLbbWA7u9dWYSTCa4ptET8JOyvsc097YtS0sB7LKDMSAqOTgxmCJX/QwBRzyF+1qK7/UicezvK0ZMmK9n5ztwuju2ODZ9jOVtZzgB4/Qqu9mPS0oD1N1uNMVopwqj1W0Q3SwEgbHahoAIEyMPGfZ/Bq9fPPBUSzj0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fYN5N1rc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777987068; c=relaxed/simple;
+	bh=yZlednh9nVTM+xIY3GdlLz29I02HRrnjp3HlVqr0/w8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UHK2QEuUSUsuNXM+1qgJM9xTe2yf/mBy2czO59uszgL9bDDZpDaKY44RpsoN0OA1s3rEhrcGpP0SZOnMLBiM/WEPeVCtwM90p1dZJwCeCKVwiGbfgRkTl+pYgjBSJUnNERKCdXutdLEJu21950BiKrQ12jaAcjO/Mhf0HZKb3Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qwF1krWs; arc=none smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fYN5N1rc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF412C2BCB9;
-	Tue,  5 May 2026 11:58:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777982300;
-	bh=xeHgIov2eBpdGzkI2CwiiBe+BA7OivIJjLZsOU3eaw0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fYN5N1rchR7eEvP0govyfmD6MHZoqKNVzkzvxVNi0Sas2SUr2iGMcQdsXawiHjDdU
-	 0cctc47NJyEbVT5jmIC/dZEAD5nca5uBnOfPOIT7NyTQ3hJFF1O7O5aSs6MbtL+VIY
-	 jHESJv8Pg21JJno+GBYvveiqtMaZwrZCE9cI16et41fM1fvkfrAg+z68OShEbRFTp5
-	 8A35krKli6nZhiOF8TNokue0WTiwRaOdfhkhcnvx2AJ5z04v4r3cArxm0VKGgbUyEA
-	 wAcIZMBzfgjaRvo5EHqO3qlZDJXK52juCNUynq+rr9G/CXr7uvxpB1sVzJQANzNExX
-	 JpsPBI2lQg6Kg==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Sen Wang <sen@ti.com>, James Calligeros <jcalligeros99@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev
-In-Reply-To: <20260503-tas27xx-hwmon-fixes-v2-0-208e802be4ac@gmail.com>
-References: <20260503-tas27xx-hwmon-fixes-v2-0-208e802be4ac@gmail.com>
-Subject: Re: [PATCH v2 0/2] ASoC: tas27{64,70}: Fixes for hwmon temperature
- readout
-Message-Id: <177798229732.597350.3675316757687862413.b4-ty@b4>
-Date: Tue, 05 May 2026 20:58:17 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qwF1krWs"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12c45281a06so8167064c88.1
+        for <asahi@lists.linux.dev>; Tue, 05 May 2026 06:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777987067; x=1778591867; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+7Uwvr8MeFsSApFn56xtx5NITAqS9F0rWz+pR67Hm0s=;
+        b=qwF1krWsqbFpOJQ/fFkKJaGboIVBEOGEM5ZH7jEVjnPyRpUyFhrhIFNbV7ocRMSdPe
+         y1KVJRCSGdGslTM3w26d60CYl8x6Dvan4SMJHfnnzqCTWsZfCwOrQkqKAZ8Uz+jhvFca
+         7O5nL3C5aNq4HvvJX69K8242aunu4XJhPQLgEqSKea2gyvGIa5BR3hgnk7BXjVK1Yewn
+         XM4C2YI72Vli2WbWyvcECXpA/EbpfeeBmWOjKMhFkd9O/5W/+YxMxE1mt2aS6hVQ++I6
+         aMa9BpruTqoSYyPFbvrUlXSQIZ7VbNBPTh+54sF7p+61EzkHAyqc4uSiOIE97J7L2Wbf
+         nSUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777987067; x=1778591867;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+7Uwvr8MeFsSApFn56xtx5NITAqS9F0rWz+pR67Hm0s=;
+        b=MD+EORFmwSXK2CxaOdrw4gGHR1xOM4hEpWERQofraWRKNQz4Adj2wIGoesFTIoeiPp
+         ceon6EdXhldMC+prwN+zjuNT926Ut0o/GN5w9ZPQKsSbar79cYhdmPIzavrnaTvRckHs
+         o+O9E5mXshQewaVWysx3ocWY+hHiBA9AlhGyZqCOgyugnTKA2/W/OjNecY0GlmvX8hr7
+         scIQ9q8J5xHh50sEdJ4RgffLEvZIH1dzcPOWykgt02hSWN2nguzwrj4EGLPDgdJarXTn
+         4eHgXVJ+pr5jkinHEpAXjQkbiECGHFVC2ftgLVVZNKMLsPH2XFaVeNEVc1sO3oAbJ08O
+         1Bzw==
+X-Forwarded-Encrypted: i=1; AFNElJ9jLTdtMPw+PfoQlH6QMzKrH4wcVHIn1tRfKDiQnFjg7mturOoAwCbrLRj+5N94OY1uSbzXYQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxT8g5tyTGSReIhY9ZN1mBriYhv97MQ2ODsi+CWf6f0DFK2kFbr
+	t1jCXBGo5jxqRmRehs9ts9cG46xP2X7o+8snLHcPl/FyDv7jdbZeFxX7
+X-Gm-Gg: AeBDiesPKxAVxssXXAM5lmqLlMspCGeseoiuUsfEtAsyWNd41v1+lq0R55Q90m4ftBd
+	BHyTHCFiy78wExt8UpstO1e18QPM4ro+MfiPrft4JY+sWng/UPT5izuZVlsy9yETva+glY/l4MZ
+	lb/4FwRz2RP+At2WnBDNjWs+wbaaD7ufBP1HQz1hsZGsQEGNdM/gyXBOAaKBqUFTPns9SSvXNvp
+	3E/xPrK4BEHAo6Inb7EY/ToRN43cOEZnN+smEr55GK0CwA2NS0NfHxPlcl1vlVyx6DtoipCp5ZB
+	UjHQ3uHYpoFDhZXUS1+1CPnAvX6b9bImkOtXTv5JZwKeJgF0Bf47zUKpfd+OpIZ79u0soKu7RIs
+	BGy3NXgOQqnb2WjhQFAefPA4/C1v0nmJRySwTEwugoOVJSa42RvRBnILGsTWAT6mQOxx8vQckLd
+	e1UAwAbqe5OYt7a3yhRP0eTw6eaOvoOL14Ajs7uh1ZePnh8kE=
+X-Received: by 2002:a05:7022:238e:b0:128:d352:bf8a with SMTP id a92af1059eb24-130b1c72299mr1458737c88.33.1777987066539;
+        Tue, 05 May 2026 06:17:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df827a73fsm18173052c88.1.2026.05.05.06.17.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 06:17:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 5 May 2026 06:17:45 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Janne Grunau <j@jannau.net>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Joshua Peisach <jpeisach@ubuntu.com>
+Subject: Re: [PATCH v2 3/6] dt-bindings: watchdog: apple,wdt: Add t8122
+ compatible
+Message-ID: <5856030a-4d3e-4d1a-928b-f9aa0b21f1a7@roeck-us.net>
+References: <20260505-apple-m3-initial-devicetrees-v2-0-b0c2f3519e0e@jannau.net>
+ <20260505-apple-m3-initial-devicetrees-v2-3-b0c2f3519e0e@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505-apple-m3-initial-devicetrees-v2-3-b0c2f3519e0e@jannau.net>
 
-On Sun, 03 May 2026 22:23:22 +1000, James Calligeros wrote:
-> This series makes some fixes to the hwmon temperature reading
-> functionality added as part of [1].
+On Tue, May 05, 2026 at 01:02:41PM +0200, Janne Grunau wrote:
+> The watchdog on the Apple silicon t8122 (M3) SoC is compatible with the
+> existing driver. Add "apple,t8122-wdt" as SoC specific compatible under
+> "apple,t8103-wdt" used by the driver.
 > 
-> - The arithmetic for TAS2770 was incorrect, leading to readings
->   which deviated from the true value sampled by the ADC.
-> - TAS2764 was returning the cached value for each read after the
->   first register sampling.
-> - Both chips were returning nonsense values before the ADC was
->   fully powered up, causing issues with some monitoring software.
-> 
-> [...]
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: tas2764: Deal with bogus initial temperature register value
-      https://git.kernel.org/broonie/misc/c/915f9860fe1c
-[2/2] ASoC: tas2770: Deal with bogus initial temperature value
-      https://git.kernel.org/broonie/misc/c/d0771f4995d3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Applied to my watchdog-next branch.
 
 Thanks,
-Mark
-
+Guenter
