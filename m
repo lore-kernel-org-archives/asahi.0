@@ -1,140 +1,131 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A08C3A256C
-	for <asahi@lists.linux.dev>; Fri,  8 May 2026 23:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BA039EF2F
+	for <asahi@lists.linux.dev>; Sun, 10 May 2026 15:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778281598; cv=none; b=haJMO5aVxD9BCv0YCNvtSsYPfqS8Zgohk462zjYzTyytAWP1Guh6kF5PgpTkpIZLlRp/YFD2H1Bkti35Fg9rEyYWwOwVrT3YF/GroGr67fT1kBGOP/ANvZEwcNJL/Z2OQmjkk3PBUfXUOwd+epmbPNo8hM7ilRYfoL2Bv1aK21U=
+	t=1778426984; cv=none; b=usxVwoH1kyrgE5t10Cxejt+4Cl7R5n0qYSGteZaa48DMH74S1OwR2R0jOVH6kmTBsgQ3XxA9V1/YeCo2ryh6O6jvx0Vp4EoLoxABqCo2Psd1U8zqQsILxKHOk4kw5B9J3Kd7Tti0mvQ268EE8GZO5+1zFfoTZK9+9j77QgV1EiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778281598; c=relaxed/simple;
-	bh=t85JgM7KjwXDhuHHWszBT9YbwgD4puLOXW4SOvK3YkE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=DlsOB8Lc/p2YigOKLfQz4iXUJPOH9Vlem2cj4dMX1giq4q6S1+JY2XM11XDG/Tt5RAylg7H1i/ydv1lBNQ9eCtSNxdv/MrEvwMqdqXNzT7jJ4cLN+5gmKr9GNVA6SskjtflMGj1dKAk9UBGcIgENNxj/k/W3PQdjcTdfmOnSCd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=dnhJgd3b; arc=none smtp.client-ip=121.127.44.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1778426984; c=relaxed/simple;
+	bh=VGhBlR4i0yiBkTCF4XD51IEzNUwKDosxwd/fQ1UG4tU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cwfFDwdYc6ZB8KvUz5qmlNJiFeRQxVqDxfGGqVTWHot0R5rhDrur5KQmN+R9hMs4UUWdLjB92103O23AXB7l3in0iWkFF/j7rluEN3EE+fA5HWPy6sOdNs8ko8uf0b8f1lHxJoh/pFGQjePv/hrTPpmRT8Tf/Bz16qVfMNjQjXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WfoASXYV; arc=none smtp.client-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="dnhJgd3b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1778281596;
- bh=q2RkdA8XgRewXeIJWKjEFH8X9QpIWC1TGFtAoUA+NC0=;
- b=dnhJgd3bj5vKoS98ZpwuBbJDZSg8VBVJl2aSZMoKtG6AcAmsq/kyja/uFeImpEdhAv+0I4rI4
- td08ilsiUkIqgJInw4cHQeOHmJouRRqQgkgk4Bub/oEQMahofIZp9gjhLLYRJVd6LOC5ey2x0rj
- qZCO3OmwII0TOTO/o2eAbWCEwZwi09xitZQgsL+magDoRU3sGOs1DYJBGS2ZA0njzWrC55aTwoZ
- 8Sftx8Wp/rWdUOY8KLDNaspGgLclIz5bKT+UF3u7WND+sWuO5ZuPswpDIdhivNRbDPsKYS82RNV
- hazGfaUfDpX/QYLrV0Pc9a2Bz72pzLAh5E+iOAXBDKOA==
-X-Forward-Email-ID: 69fe6c7947f0cc71ba90f8e4
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.66
-X-Forward-Email-Version: 2.7.7
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WfoASXYV"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c15849aa2cso4271951eec.0
+        for <asahi@lists.linux.dev>; Sun, 10 May 2026 08:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778426981; x=1779031781; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qigH8lxO+eZS/TR71vYkcB8nPKNDMGG4EcHQASbQAqg=;
+        b=WfoASXYVnepUqRhX3eu3oUcnIomd2gyMH8ONjabMKiJqFd+Db4bpOyhCUe/T8HLrM8
+         fzfiqpZJVslezZ8vFzKt9Zx8lO5W5rQ1O8X4IZxgRGf9651o0CWgUKOIl6fs1rMQGtXL
+         0jXJqTFLd+8fnM2ky4JhbMs5njtQBnpElQRYsJA7C0yMePVhhJxrOJrNhli+BIw/mRLz
+         9vpMLQM/dN4KbM49J2ayZzNgFuUJgD86aKY2F48yIBIcy5Z1BAnzV+B70ww9Hm9SSu7N
+         f/K0wwd3OlF5JZgv4UWgox5MZI19p1e6DSwTE3p9u1kxLYjR1QCea4AbBiOE+zXj+ybv
+         6gqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778426981; x=1779031781;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qigH8lxO+eZS/TR71vYkcB8nPKNDMGG4EcHQASbQAqg=;
+        b=Vs8p9YIG+jEm4qxFeOB1Agvx4a9FJTmvvzj+BqwCHYSrBSThxtA2njoND6JkmDjj7k
+         DKjiCptqAGaQW4Zzb9gPCw0zxWl1TvT2NzoS768nlAk6zDSQD1Mt3dkOed6Nqbu/Q0uD
+         xgtVSJ05TA0Q8LjiAz4mRxRfWlAo5JwDwDsQNuJtQ9vdW8DZgR5kgEj5eXGs+fELM6TL
+         D6Jo433d6DGyMu8lm++U/i8Qaofzy7MFgp7TaKx0IXbGPqwL5chF0sDJ8FnRsWeIUgD4
+         PZaR9XNvLoMD6S/FclNm1Ay2QQv5I4s2KgrXz4oKNtqhkHNrEl2aZ0fgOuDvHoR/I2qc
+         xy/g==
+X-Forwarded-Encrypted: i=1; AFNElJ/gzl/B3TM1bgHlPZcKBY8QCvUn7x3EANbzM+JHHOKurORLBAjwsRzGg31fQLr/AfwjPdGooQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yys3320wb8uF6gcNiCgQM4qa2u3kOBb8Cp9plQZROmWCaZ5BoBD
+	BPL4LkVxSJZUkCAcx5IuCyBdwxRu3Gr4MsZIicwym2gLubYV7p2aG0TT
+X-Gm-Gg: Acq92OHopuoHZw7oG9FXWFqGxQgOwzDEDx7THYBJ/4G/p/AxJ83EfbWYUXxKtik2YzM
+	rxW9pgeHMvaJocJXYumcErv3BJRZc2U85OFtYI82mJivn13ce1LQLn+Cb9mvFF350BOvyIIwM29
+	XAUmVjMnfRR9P5gl9VGwyXQ7F3gnlKkN8oCvHODOpfVuQL6H4luJ/zGYDKP0lrKova0+PZVtFFw
+	cbYdafhF/z9QyhsxRZe111qL/+0LicM3jTbLXgEdoX87mfpY7WG4O1R2Xxf999E5bM/BnJTPWyW
+	6aEHF4ibPSjVB68vhEbRH8XQ2icAxnG7OSR8SsDcEDHDCkYBoDDP8xCB6zbBpqTkBu9QFbRVI48
+	JYPBD71uVZJPimvfPdLXgpJ+eoZXk0ID4EfT52Yr+wA8o/vfj4rNb3HFiMOt0dw7wYJyV5GFs6d
+	LFpWXWrrHWmtlXtiLwXfoX+IXbQZ9SEmIrnEomVLCiqtPwwoc=
+X-Received: by 2002:a05:693c:300b:b0:2ea:5057:a2f9 with SMTP id 5a478bee46e88-2f549f7c2aamr9650588eec.16.1778426981133;
+        Sun, 10 May 2026 08:29:41 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f91004b6a2sm8525864eec.0.2026.05.10.08.29.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 08:29:40 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 10 May 2026 08:29:39 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Janne Grunau <j@jannau.net>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Joshua Peisach <jpeisach@ubuntu.com>
+Subject: Re: [PATCH v3 2/5] dt-bindings: watchdog: apple,wdt: Add t8122
+ compatible
+Message-ID: <85ea46a7-1136-4ea0-9eec-7dfa465df20b@roeck-us.net>
+References: <20260507-apple-m3-initial-devicetrees-v3-0-ca07c81b5dc7@jannau.net>
+ <20260507-apple-m3-initial-devicetrees-v3-2-ca07c81b5dc7@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Fri, 08 May 2026 19:06:31 -0400
-Message-Id: <DIDO7P6WFHGO.MP8TEJ5N4QQP@ubuntu.com>
-Cc: <olteanv@gmail.com>, <asahi@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-phy@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] phy: apple: atc: Fix typec switch/mux leak on unbind
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "David Carlier" <devnexen@gmail.com>, <sven@kernel.org>, <j@jannau.net>,
- <neal@gompa.dev>, <vkoul@kernel.org>, <neil.armstrong@linaro.org>,
- <marcan@marcan.st>, <p.zabel@pengutronix.de>
-X-Mailer: aerc 0.21.0
-References: <20260507163746.108086-1-devnexen@gmail.com>
- <20260508201958.30060-1-devnexen@gmail.com>
-In-Reply-To: <20260508201958.30060-1-devnexen@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260507-apple-m3-initial-devicetrees-v3-2-ca07c81b5dc7@jannau.net>
 
-On Fri May 8, 2026 at 4:19 PM EDT, David Carlier wrote:
->  drivers/phy/apple/atc.c | 27 ++++++++++++++++++++++-----
->  1 file changed, 22 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-> index e9d106f135c5..4156fabad742 100644
-> --- a/drivers/phy/apple/atc.c
-> +++ b/drivers/phy/apple/atc.c
-> @@ -628,9 +628,6 @@ struct apple_atcphy {
-> =20
->  	struct reset_controller_dev rcdev;
-> =20
-> -	struct typec_switch *sw;
-> -	struct typec_mux *mux;
-> -
->  	struct mutex lock;
->  };
-> =20
-> @@ -2066,15 +2063,25 @@ static int atcphy_sw_set(struct typec_switch_dev =
-*sw, enum typec_orientation ori
->  	return 0;
->  }
-> =20
-> +static void atcphy_typec_switch_unregister(void *data)
-> +{
-> +	typec_switch_unregister(data);
-> +}
-> +
->  static int atcphy_probe_switch(struct apple_atcphy *atcphy)
->  {
-> +	struct typec_switch_dev *sw;
->  	struct typec_switch_desc sw_desc =3D {
->  		.drvdata =3D atcphy,
->  		.fwnode =3D atcphy->dev->fwnode,
->  		.set =3D atcphy_sw_set,
->  	};
-> =20
-> -	return PTR_ERR_OR_ZERO(typec_switch_register(atcphy->dev, &sw_desc));
-> +	sw =3D typec_switch_register(atcphy->dev, &sw_desc);
-> +	if (IS_ERR(sw))
-> +		return PTR_ERR(sw);
-> +
-> +	return devm_add_action_or_reset(atcphy->dev, atcphy_typec_switch_unregi=
-ster, sw);
->  }
-> =20
->  static int atcphy_mux_set(struct typec_mux_dev *mux, struct typec_mux_st=
-ate *state)
-> @@ -2146,15 +2153,25 @@ static int atcphy_mux_set(struct typec_mux_dev *m=
-ux, struct typec_mux_state *sta
->  	return atcphy_configure(atcphy, target_mode);
->  }
-> =20
-> +static void atcphy_typec_mux_unregister(void *data)
-> +{
-> +	typec_mux_unregister(data);
-> +}
-> +
->  static int atcphy_probe_mux(struct apple_atcphy *atcphy)
->  {
-> +	struct typec_mux_dev *mux;
->  	struct typec_mux_desc mux_desc =3D {
->  		.drvdata =3D atcphy,
->  		.fwnode =3D atcphy->dev->fwnode,
->  		.set =3D atcphy_mux_set,
->  	};
-> =20
-> -	return PTR_ERR_OR_ZERO(typec_mux_register(atcphy->dev, &mux_desc));
-> +	mux =3D typec_mux_register(atcphy->dev, &mux_desc);
-> +	if (IS_ERR(mux))
-> +		return PTR_ERR(mux);
-> +
-> +	return devm_add_action_or_reset(atcphy->dev, atcphy_typec_mux_unregiste=
-r, mux);
->  }
-> =20
->  static int atcphy_load_tunables(struct apple_atcphy *atcphy)
+On Thu, May 07, 2026 at 09:33:08AM +0200, Janne Grunau wrote:
+> The watchdog on the Apple silicon t8122 (M3) SoC is compatible with the
+> existing driver. Add "apple,t8122-wdt" as SoC specific compatible under
+> "apple,t8103-wdt" used by the driver.
 
-Looks okay. Ran it on M1 MBP, no issues as far as I can tell.
+'"apple,t8103-wdt" used by the driver' is not true. The watchdog driver
+only supports "apple,wdt".
 
-Tested-by: Joshua Peisach <jpeisach@ubuntu.com>
+> 
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> index 05602678c070..845b5e8b5abc 100644
+> --- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> @@ -16,7 +16,9 @@ properties:
+>    compatible:
+>      oneOf:
+>        - items:
+> -          - const: apple,t6020-wdt
+> +          - enum:
+> +              - apple,t6020-wdt
+> +              - apple,t8122-wdt
+>            - const: apple,t8103-wdt
+>        - items:
+>            - enum:
+
+I second Sashiko's findings that the driver will fail to bind because it
+only supports "apple,wdt". I would not mind and apply the patch anyway,
+but the statement in the description is just plain wrong and thus
+misleading. Please fix.
+
+Thanks,
+Guenter
