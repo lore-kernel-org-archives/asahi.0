@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6B821D596;
-	Wed, 13 May 2026 19:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727C53A48CE;
+	Thu, 14 May 2026 05:59:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778698860; cv=none; b=o4JUWx6eYkE8fVT5sOIY/I0l4L2MiJbUE4S+YPKjW2oM+QHO74AVMn+LvkRl9vCHyGaaXQVnkIMpcD5EFxhlD7ioJXGT1ACWXW5yips4XOQCf/bcHJCxEpl0yFFrw13/1uObkhhtJsYhKJKVH1XCDg1LhITTv94InyWorawoDqg=
+	t=1778738393; cv=none; b=aT82qHXHUgPv9jmrAb1jo4Okw0R2HSo9dSDRLAzrO9boXV5QTIwUbToUkz+0bqomWiCHov7/qAdxGSP6xaRFgdAA3KZs0efUGxGoyPz0TYu8vtdYmO/mjP2uBc77GUO61+SKHq72yM0gJ5wP8aEooACKsxbCC34qBkHOvNMTNPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778698860; c=relaxed/simple;
-	bh=XOehGBgidKfU6vI12ZqEdcnFg/iDrDomxlDH4nK7ilk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TgYIeE5ZCSqSEpnj1X6+fojMeMBtSzunbs1b2aGFIFjqLCkpiUs685rbwROV7thl9nfHeEyP3jR2jmC0kwKo9MUTACV2gPxtDSF/+dxCsUnLVZ46K5Gm++2oKxLeUiiXXrnIW6Eg4cuPfwyANPM4ta2M+jHC6UrgPEUJQLFo7y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZMt9uV+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778738393; c=relaxed/simple;
+	bh=eekMyTGqaYzrA3edzem1c62xAm8OrTQXGIliLNmLT30=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ntYFUzy4ZU358nKGzkwA72LFFbE5DETpoqlVCkMIL9T9r4JO6ZPNzABOlzErEW5QwKWmnxKbcEe5zYqwtHYngE5QDoqBZKZ0H3OsiZm107IeMruz3YNBSSPPMOzAiTEO4xplzsDphRH4EAudfTXUsFKSzjP2n5pojFI0UXYnl9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fYf8dvRk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZMt9uV+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE55C19425;
-	Wed, 13 May 2026 19:00:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fYf8dvRk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C3CC2BCB7;
+	Thu, 14 May 2026 05:59:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778698860;
-	bh=XOehGBgidKfU6vI12ZqEdcnFg/iDrDomxlDH4nK7ilk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kZMt9uV+ChB2jbCqvHzbWwFlzmFPz+FEDmee3x4GjrHdXgHnIKHZzpaRkg8EF4rhl
-	 P0COar+Nkok+/eL159J+iA4VHWUKlu2H2DU64e4Inz9ugtyl7FDJ3YBPGu2m0vALXu
-	 F6Du75vef06EEFZBbLjXJEMKNL2m5dPba2owbtsHbewWaSkY/YZNZ5FKpQ5M/SdNqb
-	 KdGbZi2RWk0e4KO0EHqI2/JIOGJ8gdejK3WE2ziVDVza0P9pK2IUfx1nGMEk/AfJmj
-	 1k1AvBJcp7TbnxoG2GsVOvExTQXZ7Do/qzwtlEMzO1v3s0S98ni4NqUVzblFzoBLmz
-	 oed43+SOb/PJw==
-Message-ID: <65f6da30-eb20-4020-b13a-ac7d4c823dfc@kernel.org>
-Date: Wed, 13 May 2026 21:00:44 +0200
+	s=k20201202; t=1778738393;
+	bh=eekMyTGqaYzrA3edzem1c62xAm8OrTQXGIliLNmLT30=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=fYf8dvRkuuicNo7+mDHvKuYrb5yktnlgW/LSSKM7yEWet3C4jtpwJnGLC7216mVlJ
+	 Cu3SyIGPnxyjHwXSVbmWYd12oj9NeKZQgquMl9ID3VVZqvowbHuKiSDvEtl7frlxI8
+	 l0birNgJrSKb2rbUPJJM6Ihfd/tzNnLUuNgWekWvkXeUodixJlhDSd0hBj+FCJgmP/
+	 wVubcA6G1iMW2TaauIZHxux/JrbfcGdAmYM5NEnIAzDworKsxItZwn8OWiJxJ4ixp/
+	 lg16mkJDOeSngDb3dENhedQgSi/ozZKRgL3qFHejGYl75dtvLYY27QUHf6CnHzckHt
+	 oFsq6ixpH4FDQ==
+Message-ID: <28af26ab-bb6b-4763-8405-e36fe3ce68fd@kernel.org>
+Date: Thu, 14 May 2026 07:59:38 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,6 +37,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 2/2] ASoC: Use named initializers for arrays of
  i2c_device_data
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
  <u.kleine-koenig@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
  Mark Brown <broonie@kernel.org>
@@ -87,7 +88,7 @@ Cc: David Rhodes <david.rhodes@cirrus.com>,
  Markus Schneider-Pargmann <msp@baylibre.com>
 References: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
  <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <65f6da30-eb20-4020-b13a-ac7d4c823dfc@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -132,28 +133,34 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <65f6da30-eb20-4020-b13a-ac7d4c823dfc@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 13/05/2026 19:23, Uwe Kleine-König (The Capable Hub) wrote:
->  MODULE_DEVICE_TABLE(i2c, adau1372_i2c_ids);
-> diff --git a/sound/soc/codecs/adau1373.c b/sound/soc/codecs/adau1373.c
-> index 16b9b2658341..5dd961b233ce 100644
-> --- a/sound/soc/codecs/adau1373.c
-> +++ b/sound/soc/codecs/adau1373.c
-> @@ -1599,7 +1599,7 @@ static int adau1373_i2c_probe(struct i2c_client *client)
->  }
->  
->  static const struct i2c_device_id adau1373_i2c_id[] = {
-> -	{ "adau1373" },
-> +	{ .name = "adau1373" },
->  	{ }
->  };
+On 13/05/2026 21:00, Krzysztof Kozlowski wrote:
+> On 13/05/2026 19:23, Uwe Kleine-König (The Capable Hub) wrote:
+>>  MODULE_DEVICE_TABLE(i2c, adau1372_i2c_ids);
+>> diff --git a/sound/soc/codecs/adau1373.c b/sound/soc/codecs/adau1373.c
+>> index 16b9b2658341..5dd961b233ce 100644
+>> --- a/sound/soc/codecs/adau1373.c
+>> +++ b/sound/soc/codecs/adau1373.c
+>> @@ -1599,7 +1599,7 @@ static int adau1373_i2c_probe(struct i2c_client *client)
+>>  }
+>>  
+>>  static const struct i2c_device_id adau1373_i2c_id[] = {
+>> -	{ "adau1373" },
+>> +	{ .name = "adau1373" },
+>>  	{ }
+>>  };
+> 
+> This is inconsistent with most (or all?) of other xx_device_id table
+> usages and, IIUC, is not even necessary to achieve your goal (which
+> itself is good).
 
-This is inconsistent with most (or all?) of other xx_device_id table
-usages and, IIUC, is not even necessary to achieve your goal (which
-itself is good).
+After talking on IRC, I see that actually many of platform_device_id use
+named initializers for '.name' and PCI uses macro for that, thus my
+"consistency" concern is not really valid. Especially that if you change
+i2c and spi tables, the named initializers might be more frequent...
 
 Best regards,
 Krzysztof
