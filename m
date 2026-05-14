@@ -1,166 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727C53A48CE;
-	Thu, 14 May 2026 05:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EBD3909B5
+	for <asahi@lists.linux.dev>; Thu, 14 May 2026 11:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778738393; cv=none; b=aT82qHXHUgPv9jmrAb1jo4Okw0R2HSo9dSDRLAzrO9boXV5QTIwUbToUkz+0bqomWiCHov7/qAdxGSP6xaRFgdAA3KZs0efUGxGoyPz0TYu8vtdYmO/mjP2uBc77GUO61+SKHq72yM0gJ5wP8aEooACKsxbCC34qBkHOvNMTNPo=
+	t=1778756781; cv=none; b=hXzNTN92sbiALrTHbTPgoIw6IrlTd+qS/h5tXhAq6cFGwEDc3TyCYGmemYmmqJ9nu8f7D1VhJRnyE0W+cfCXRy/KD9VJxztMkiApx/Fspq6bRy9b8JzXikiEdSFX+VZM9czG5Vq7J8uovQz9+tf+fetnwwXIwk8Tvd/RxV4sfM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778738393; c=relaxed/simple;
-	bh=eekMyTGqaYzrA3edzem1c62xAm8OrTQXGIliLNmLT30=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ntYFUzy4ZU358nKGzkwA72LFFbE5DETpoqlVCkMIL9T9r4JO6ZPNzABOlzErEW5QwKWmnxKbcEe5zYqwtHYngE5QDoqBZKZ0H3OsiZm107IeMruz3YNBSSPPMOzAiTEO4xplzsDphRH4EAudfTXUsFKSzjP2n5pojFI0UXYnl9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fYf8dvRk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778756781; c=relaxed/simple;
+	bh=47sog5D+xEQbGjajYDAtYcSG4JoXZ0powok8EU5fFOQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lqGfX7aq+14lVMY/wXz3sBKFDJOkowWpNYYACybFAeZdXYtFOID2INTE9+KPjcVIsjXnxqZlMyH5qNjNUHm3vkVlWapl829x3DJMUSj4tt7vBlt+kYiquuvLGK1k1GMKBTK9JNwmlShdgjriKE0g535R4rW2P47rtwmxPST0ruk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3m2I5/S; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fYf8dvRk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C3CC2BCB7;
-	Thu, 14 May 2026 05:59:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778738393;
-	bh=eekMyTGqaYzrA3edzem1c62xAm8OrTQXGIliLNmLT30=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=fYf8dvRkuuicNo7+mDHvKuYrb5yktnlgW/LSSKM7yEWet3C4jtpwJnGLC7216mVlJ
-	 Cu3SyIGPnxyjHwXSVbmWYd12oj9NeKZQgquMl9ID3VVZqvowbHuKiSDvEtl7frlxI8
-	 l0birNgJrSKb2rbUPJJM6Ihfd/tzNnLUuNgWekWvkXeUodixJlhDSd0hBj+FCJgmP/
-	 wVubcA6G1iMW2TaauIZHxux/JrbfcGdAmYM5NEnIAzDworKsxItZwn8OWiJxJ4ixp/
-	 lg16mkJDOeSngDb3dENhedQgSi/ozZKRgL3qFHejGYl75dtvLYY27QUHf6CnHzckHt
-	 oFsq6ixpH4FDQ==
-Message-ID: <28af26ab-bb6b-4763-8405-e36fe3ce68fd@kernel.org>
-Date: Thu, 14 May 2026 07:59:38 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3m2I5/S"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c8021c8c42fso3402539a12.3
+        for <asahi@lists.linux.dev>; Thu, 14 May 2026 04:06:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778756779; x=1779361579; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=umazs7xdzJh6gNqfVRcGHxjaKuxZgvm9MNq62f5KWtU=;
+        b=B3m2I5/SBybcNOvM3hpAwHRobCE+mrlh+Y+/ZhgE+uVwvGFDupr+dku4TkFINSGigS
+         7KqrOP/sPiaE76fjFkWEcgDyTWAL/tMY9dhq7mlGSEKzoA8+7howziLyU1M/mrvDvXoS
+         lTmofAVkTeFn7wIX3X+rChXaibuBByAbp+36gCNSUqnwu8Ws2T+rt96JAjA/rEw0hErt
+         KWwExxTYvmmwh8ytXeV4P6VcnsI8AoMO9r0veH8Vzp95DcDsP2RjUOprRrFpI5FgGV/f
+         LTM6jNdLkAI9ETqPgASoRvTmmMqjIqm/vesCl9cXkAiOOvVdBBmeNnmB6Dj3RkZTjIYv
+         Ghvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778756779; x=1779361579;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=umazs7xdzJh6gNqfVRcGHxjaKuxZgvm9MNq62f5KWtU=;
+        b=FN5m8xfNqyKcrvLInlIQ5ZU2OK4z4PI8/mM/i1yoPQqDjRNxPP4xQYt1q0Oc+Iy6WM
+         gi/a0qjNcPtg0CoadQpKWF4qxqO/MvcwdGuFB7jJTS9dY2bYOSGUiRfS8Fq13/giYJJB
+         kAJn+mkMh64dIEAXZ2xdF4lwUb3ZtqFvA3NJW0aeFrM9c5aVZeeeGmWhqAbGvf1bBnK5
+         jIF8dFSC3JmD66O54WgkGd5MdM4qZUkh97jyPsgNx1Z/W7AAaVntPHLRquBqLTZlkOce
+         Mn3q72jzEsCcGiZGI6jbzTeeBf4aVu9/rjbbgDGwYn3jD8dfHmsWc95wE49LH76Wd+Et
+         xD7Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8RUdO0WMUitm2WnowbxOKsQZOWSwCqJZq5flnubAFd5bT34b2h9RiRrQUxWPQPaReK5VG6Nw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwJGLg9qGMGqB3/TREPpcbt5PILfRk+d8R8/wYWbOSSr+kHxIx
+	AKDG7GQiiU8LRWTfH8Rh8oYvL0skIA4AlGebf/kTH3/UY1C3hf4eCq3p
+X-Gm-Gg: Acq92OHnLipyzrLp0THwQfJ7U/F4qki/7A+mWkGsxDvSqoyPofkgklRVT1BDk3/jxts
+	JVdgu9YTVP90Y6hQryEGEYM24hCMMrr4jqqsyHDf0jIkZ4iuYcrkNsYAJDz+3s04upNYhHrWDAK
+	meTui24Jy4yZl8qf3ExZf4AhVPEgiGAhDn6iyNNGxC0J9UPcvT2g9CRJ7Xwc9aV1+gI78BKLLo+
+	dlrg0AW4vuRBhPzEPoey3CLm4apIiPh52tZx0kGYMiADrdfVWjOuavXo/w6/3dOJs6w5J+MR/0W
+	iDd5BSNUkuSj9epOMROGVYW3YRvNb6awtKErWDqvyLI0iNU9awnjAc5YhQviNAHyPf0I4qzPxA2
+	BFIbpJXuiRBBC09TKuL0DrbAwfu5xEa6hA8768Fwl29rmMpmXv2NUmeGJGbLMD5+LlQ6Hu44GZp
+	/igxMOZxq6FXyEpUVdC3VYbscSQdBP0rMIOy20xTQLmj/B0A9qSdovbvSrRg==
+X-Received: by 2002:a17:902:d392:b0:2ba:7610:3f21 with SMTP id d9443c01a7336-2bd270fbe07mr63185415ad.5.1778756778730;
+        Thu, 14 May 2026 04:06:18 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5c0600b4sm23053735ad.28.2026.05.14.04.06.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 04:06:18 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>
+Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ASoC: ti: omap-mcbsp: Remove mixed goto/scoped cleanup handling
+Date: Thu, 14 May 2026 18:06:02 +0700
+Message-ID: <20260514110602.30480-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] ASoC: Use named initializers for arrays of
- i2c_device_data
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Lars-Peter Clausen <lars@metafoo.de>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Support Opensource <support.opensource@diasemi.com>,
- Nick Li <nick.li@foursemi.com>, M R Swami Reddy <mr.swami.reddy@ti.com>,
- Vishwas A Deshpande <vishwas.a.deshpande@ti.com>,
- Peter Rosin <peda@axentia.se>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Oder Chiou <oder_chiou@realtek.com>, Fabio Estevam <festevam@gmail.com>,
- Kiseok Jo <kiseok.jo@irondevice.com>, Kevin Cernekee
- <cernekee@chromium.org>, Steven Eckhoff
- <steven.eckhoff.opensource@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Thorsten Blum <thorsten.blum@linux.dev>,
- Chris Morgan <macromorgan@hotmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Weidong Wang <wangweidong.a@awinic.com>, Aaron Kling
- <webgeek1234@gmail.com>, Teguh Sobirin <teguh@sobir.in>,
- Luca Weiss <luca.weiss@fairphone.com>,
- Bharadwaj Raju <bharadwaj.raju@machinesoul.in>,
- Hsieh Hung-En <hungen3108@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>,
- Shimrra Shai <shimrrashai@gmail.com>, Zhang Yi <zhangyi@everest-semi.com>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Qasim Ijaz <qasdev00@gmail.com>, Sharique Mohammad <sharq0406@gmail.com>,
- Chen Ni <nichen@iscas.ac.cn>, Neo Chang <YLCHANG2@nuvoton.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Kees Cook <kees@kernel.org>, Qianfeng Rong <rongqianfeng@vivo.com>,
- Tim Bird <tim.bird@sony.com>,
- Bram Vlerick <bram.vlerick@openpixelsystems.org>,
- Peter Korsgaard <peter@korsgaard.com>, Linus Walleij <linusw@kernel.org>,
- Wenyuan Li <2063309626@qq.com>, Bartosz Golaszewski <brgl@kernel.org>,
- Shengjiu Wang <shengjiu.wang@nxp.com>,
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
- Xichao Zhao <zhao.xichao@vivo.com>, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Markus Schneider-Pargmann <msp@baylibre.com>
-References: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
- <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
- <65f6da30-eb20-4020-b13a-ac7d4c823dfc@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <65f6da30-eb20-4020-b13a-ac7d4c823dfc@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 13/05/2026 21:00, Krzysztof Kozlowski wrote:
-> On 13/05/2026 19:23, Uwe Kleine-König (The Capable Hub) wrote:
->>  MODULE_DEVICE_TABLE(i2c, adau1372_i2c_ids);
->> diff --git a/sound/soc/codecs/adau1373.c b/sound/soc/codecs/adau1373.c
->> index 16b9b2658341..5dd961b233ce 100644
->> --- a/sound/soc/codecs/adau1373.c
->> +++ b/sound/soc/codecs/adau1373.c
->> @@ -1599,7 +1599,7 @@ static int adau1373_i2c_probe(struct i2c_client *client)
->>  }
->>  
->>  static const struct i2c_device_id adau1373_i2c_id[] = {
->> -	{ "adau1373" },
->> +	{ .name = "adau1373" },
->>  	{ }
->>  };
-> 
-> This is inconsistent with most (or all?) of other xx_device_id table
-> usages and, IIUC, is not even necessary to achieve your goal (which
-> itself is good).
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-After talking on IRC, I see that actually many of platform_device_id use
-named initializers for '.name' and PCI uses macro for that, thus my
-"consistency" concern is not really valid. Especially that if you change
-i2c and spi tables, the named initializers might be more frequent...
+After converting to guard()/scoped_guard() helpers,
+omap_mcbsp_request() still mixes scoped cleanup with
+goto based error handling.
 
-Best regards,
-Krzysztof
+Remove the remaining goto based cleanup paths for a more
+consistent cleanup flow.
+
+Suggested-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/ti/omap-mcbsp.c | 46 +++++++++++++++++++--------------------
+ 1 file changed, 22 insertions(+), 24 deletions(-)
+
+diff --git a/sound/soc/ti/omap-mcbsp.c b/sound/soc/ti/omap-mcbsp.c
+index d82fef629867..26af616c33f5 100644
+--- a/sound/soc/ti/omap-mcbsp.c
++++ b/sound/soc/ti/omap-mcbsp.c
+@@ -307,7 +307,7 @@ static int omap_mcbsp_request(struct omap_mcbsp *mcbsp)
+ 		reg_cache = NULL;
+ 	}
+ 
+-	if(mcbsp->pdata->ops && mcbsp->pdata->ops->request)
++	if (mcbsp->pdata->ops && mcbsp->pdata->ops->request)
+ 		mcbsp->pdata->ops->request(mcbsp->id - 1);
+ 
+ 	/*
+@@ -322,42 +322,40 @@ static int omap_mcbsp_request(struct omap_mcbsp *mcbsp)
+ 				  "McBSP", (void *)mcbsp);
+ 		if (err != 0) {
+ 			dev_err(mcbsp->dev, "Unable to request IRQ\n");
+-			goto err_clk_disable;
+ 		}
+ 	} else {
+ 		err = request_irq(mcbsp->tx_irq, omap_mcbsp_tx_irq_handler, 0,
+ 				  "McBSP TX", (void *)mcbsp);
+ 		if (err != 0) {
+ 			dev_err(mcbsp->dev, "Unable to request TX IRQ\n");
+-			goto err_clk_disable;
+-		}
+-
+-		err = request_irq(mcbsp->rx_irq, omap_mcbsp_rx_irq_handler, 0,
+-				  "McBSP RX", (void *)mcbsp);
+-		if (err != 0) {
+-			dev_err(mcbsp->dev, "Unable to request RX IRQ\n");
+-			goto err_free_irq;
++		} else {
++			err = request_irq(mcbsp->rx_irq, omap_mcbsp_rx_irq_handler, 0,
++					  "McBSP RX", (void *)mcbsp);
++			if (err != 0) {
++				dev_err(mcbsp->dev, "Unable to request RX IRQ\n");
++				free_irq(mcbsp->tx_irq, (void *)mcbsp);
++			}
+ 		}
+ 	}
+ 
+-	return 0;
+-err_free_irq:
+-	free_irq(mcbsp->tx_irq, (void *)mcbsp);
+-err_clk_disable:
+-	if(mcbsp->pdata->ops && mcbsp->pdata->ops->free)
+-		mcbsp->pdata->ops->free(mcbsp->id - 1);
++	if (err != 0) {
++		if (mcbsp->pdata->ops && mcbsp->pdata->ops->free)
++			mcbsp->pdata->ops->free(mcbsp->id - 1);
+ 
+-	/* Disable wakeup behavior */
+-	if (mcbsp->pdata->has_wakeup)
+-		MCBSP_WRITE(mcbsp, WAKEUPEN, 0);
++		/* Disable wakeup behavior */
++		if (mcbsp->pdata->has_wakeup)
++			MCBSP_WRITE(mcbsp, WAKEUPEN, 0);
+ 
+-	scoped_guard(spinlock, &mcbsp->lock) {
+-		reg_cache = mcbsp->reg_cache;
+-		mcbsp->free = true;
+-		mcbsp->reg_cache = NULL;
++		scoped_guard(spinlock, &mcbsp->lock) {
++			reg_cache = mcbsp->reg_cache;
++			mcbsp->free = true;
++			mcbsp->reg_cache = NULL;
++		}
++
++		return err;
+ 	}
+ 
+-	return err;
++	return 0;
+ }
+ 
+ static void omap_mcbsp_free(struct omap_mcbsp *mcbsp)
+-- 
+2.43.0
+
