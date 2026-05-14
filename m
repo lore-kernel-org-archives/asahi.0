@@ -1,55 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191D22580EE;
-	Thu, 14 May 2026 14:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EA228505E;
+	Thu, 14 May 2026 16:08:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778769653; cv=none; b=Vg6Boq4BFbcYKxIUF2gX5tve2Q8rowSy0mC8DjeVjMET3HdAJdQSR6fKZb0hO8uhqcyDLPnfgUqAbb3IO3jfA7HRxxQYvKWqYTZcyY8+R/ox+M/U0djdfqRqcaVGGzJ9bB7Iqqh7qxK7QXfgDlwHJOWadbXOzOZm27T43hRMnMs=
+	t=1778774903; cv=none; b=VkZ9nb/0A/3ZAagD+l3OyXOzS/3B1PHk8bbGKuniMRwupSERUGE952oY93iAEIO83X6+0blOSzFtCoWZuXzo/wzzABApl6zf1D7wfitItgRtQutvk/Nep2IWV+fV4u/wmKUHKzbSqF3iFgPXP8mykg4/c9XiO8xpywkuDztyLD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778769653; c=relaxed/simple;
-	bh=0x75qfZ974oSd0DncU4aTxFtPQ8gBmzZoEemuSqf3zc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZKbh11ndctaFWbF4sjLwA6u3ZYqc2spRb2qt4SxJ82jRAxsXOkyl8mcR9NYvFeIoSK+RyeFWq9RM9WUCNXhPkq4BuO7bwebb9hZ+L9WMRUEoukxjeWgf6PpDLgNqVTBlrGnAUoUtUXoEmy0nfD9IAJVACS11PKrOEP+nsjHsUi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hsiUv2jW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778774903; c=relaxed/simple;
+	bh=JgMf4wRpFiwD3alNMNl5XaWiw8QaBk00SyYTww0vZHg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PuBwNxT3FBjHUUqMpkzwfkjuzoYm9GhYCvbFzUdNKndakapydQJVnwPMqCf7UpzFIRDrpiSuIDML6Vk+H8mG8/2TB7VekZb9O5SpTTR4iqrWS/7HhTwc1cdW+sir6kFo6oSEAP85Ve1ImLb+n6E9LSxtLTCAl869NCPo8M7MwcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QX849FNd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hsiUv2jW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CC21C2BCB3;
-	Thu, 14 May 2026 14:40:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QX849FNd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26BD6C2BCB3;
+	Thu, 14 May 2026 16:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778769652;
-	bh=0x75qfZ974oSd0DncU4aTxFtPQ8gBmzZoEemuSqf3zc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hsiUv2jWzSZcTZyJ3ZxI4lwIXNvq6oZk0wdTmalRDH6gmavvQVOau0eatDbAmNE3E
-	 dKMmjjjqB5w7o8AAE5Gx0bDZjjXftJaMOVzbTlcKvHDOY5RghDgdx7AEiqxHmw0Uea
-	 0uPRNF0VaaA1bWhUx53DrHwBL+qjuFHb4zI4WReKoYuaE8350LwwkwWuibHeERtE4b
-	 FhjLcGiK6RZLKw7LH0OhI7xnwr+uCbpBVyX6IxX+RlfbL2diZi4omvTa849vbNUDP4
-	 zur04KOX4onh4bcnu0lPpDb1Bdt3w3nYVTCvNxUmPPLWRBU2GD8ZNgHIudj9ukZsAW
-	 4uHikaYewcDSg==
-Date: Thu, 14 May 2026 08:40:50 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Yuriy Havrylyuk <yhavry@gmail.com>
-Subject: Re: [PATCH v2] nvme-apple: Reset q->sq_tail during queue init
-Message-ID: <agXe8lAqUu8Uwb1l@kbusch-mbp>
-References: <20260514-nvme-apple-sq-reset-v2-1-84cbb5c70bf5@gmail.com>
+	s=k20201202; t=1778774903;
+	bh=JgMf4wRpFiwD3alNMNl5XaWiw8QaBk00SyYTww0vZHg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=QX849FNdq4n1pmDeYiczWfPi/yO0SBj6+z6Hg34KhSCUe8UfPKXfpb8S0/gUq29Rw
+	 ntpr2ddLBmVU18R2dqsRINe99c1TKju9sCH4QXRCdj4ipVNkOUhTmISarVEy22t1A2
+	 xG/jtJQe+j8jbDWhtttJr72lMk2Vx227JPBhzPIlHWgIi3HrcFwl7ZuT6gCacmvAR/
+	 g7xfAevIhvbGXRgGXQWifiehUTDcd8DU4s09uznuhJUSbcfrrfWQEsRFs2m0j8Mfd9
+	 LqcmF+oT4TACdpt1zxcpaoIOSvttx/snQU9nuc0cSX6nkQkcFTXphvvuImPdJx9q0O
+	 ryA+uquraHqXw==
+From: Vinod Koul <vkoul@kernel.org>
+To: sven@kernel.org, j@jannau.net, neal@gompa.dev, 
+ neil.armstrong@linaro.org, marcan@marcan.st, p.zabel@pengutronix.de, 
+ David Carlier <devnexen@gmail.com>
+Cc: olteanv@gmail.com, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260508201958.30060-1-devnexen@gmail.com>
+References: <20260507163746.108086-1-devnexen@gmail.com>
+ <20260508201958.30060-1-devnexen@gmail.com>
+Subject: Re: [PATCH v3] phy: apple: atc: Fix typec switch/mux leak on
+ unbind
+Message-Id: <177877489977.1079578.13272721889190867698.b4-ty@kernel.org>
+Date: Thu, 14 May 2026 21:38:19 +0530
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260514-nvme-apple-sq-reset-v2-1-84cbb5c70bf5@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Thu, May 14, 2026 at 09:16:01PM +0800, Nick Chan wrote:
-> Fixes a "duplicate tag error for tag 0" firmware crash during controller
-> reset while setting up the admin queue on Apple A11 / T8015.
 
-Thanks, applied to nvme-7.1.
+On Fri, 08 May 2026 21:19:58 +0100, David Carlier wrote:
+> atcphy_probe_switch() and atcphy_probe_mux() discard the pointers
+> returned by typec_switch_register() and typec_mux_register(). The
+> platform driver has no .remove callback, so when the driver unbinds
+> (e.g. via sysfs unbind) neither typec_switch_unregister() nor
+> typec_mux_unregister() is called. The framework reference taken in
+> typec_switch_register() (device_initialize() + device_add() in
+> drivers/usb/typec/mux.c) is therefore never dropped and the
+> typec_switch_dev / typec_mux_dev objects stay live forever, with
+> their sysfs entries under the typec_mux class also left behind. A
+> subsequent rebind cannot recreate them with the same fwnode-derived
+> name.
+> 
+> [...]
+
+Applied, thanks!
+
+[1/1] phy: apple: atc: Fix typec switch/mux leak on unbind
+      commit: 1854082fe0ddb81bc93d1f8e8a00554217fd09d1
+
+Best regards,
+-- 
+~Vinod
+
+
