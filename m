@@ -1,225 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FE5305698;
-	Sun, 17 May 2026 13:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07523CE490;
+	Fri, 22 May 2026 10:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779024699; cv=none; b=HTH/op72MlzMs/ohjbyKQaL+G7iqWbSj/vWv7JyzzQQlTwo6WY4zIFGwgLAgw2dXzChTwA68LzZnra1+RDi/dMM7sle5Pu5t2iPQkqqijpTiocOoQNe3DKr5FY9E5yfa9fuIUqROvDm/EfI9C2IZEjAEWrAqezSh5jm/308qirI=
+	t=1779445325; cv=none; b=rNhL4Ej8AmZZv/JCxjqq4/uFZpULggDQueajjX0PIRU2eN9d/MN8q/ndZjLSuL3DgV4uqWONZ6cZR5lwsygLDi4LxcRYfrQjm45LEqB5MC/9q3qyXAmEiJ0wReBU9/YZUMmm5Eyms1FJTeMN+hPKzxBXElhIP7gH2GNXgaussfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779024699; c=relaxed/simple;
-	bh=IOITomRVBjW8JyHrXWDU15HH3RUKKw8cqpKEE3tx5+w=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=YC9wOgneNnjMAP39lVA20Xu7nPGbVUGilykDqxX70s86Gr1jiTzGfg0GYTlq64WxjjBw1AGBlwpZbpaZ8cH0Nfv/Tg/qpmNvjKRSpvJ+XclRf6NWejEXqf8FwtVwKWFKeXxOGkspruVHCA+F1+edkVPjRqzof8KWued8VpMro38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vRSDUQlz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779445325; c=relaxed/simple;
+	bh=Q3EmgiS0xb2HZNxg/RftK2CygD26EtkORNTMm15D0f4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=tSMe1HjYdZzGCLU9/d7ymMlwQrnSg6D0/7HLgqO5SFeNFtTAU5rNWbUbx592kz0QgYdNej42Q1ocmc3Y8wnh2Cy9YmMOKmn05MWVu/dC5u8PoeY/W1VMLRBljQuANJCR7ivEbg1h2LQDtM3RnKo5zowmPjE1wa59US7sfAMnYUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fkn3S8E2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vRSDUQlz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FCF9C2BCB0;
-	Sun, 17 May 2026 13:31:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779024698;
-	bh=IOITomRVBjW8JyHrXWDU15HH3RUKKw8cqpKEE3tx5+w=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=vRSDUQlzohHA/FWqGFxnoNCKuAfC3laCZBBCLUUoYSTRVmug4W2ThJTrAHf/06xlG
-	 Hs0XSJ18tDV+NOeDUa+YRFkrgoMpr6OCZSNLZNK88ffkfv3aS6wCuZZ3eMfnj0Y/sA
-	 3JD7SOZiPaWO/tBeooFFo7wVSKPbe2RBIVka+XQQgadg3fWU3mzeo1g2GnBC6l4DsG
-	 JIwthJyXuP2eDJb/Mm02Qg/6HCZyyC7QJIO1s6uXWsNfUMb5tM8A1q0eI9FoEbJY7c
-	 nsnm/utsBSxoLICcy8IqlwNmHsovTLE+IIPfgaFlln75kGedz1Ni8CqmxpRmd9ud0C
-	 vZBsFYQpilMXA==
-Message-ID: <a1264253-ee93-4671-ae3b-3a1bd307f65a@kernel.org>
-Date: Sun, 17 May 2026 15:31:34 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fkn3S8E2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51AD91F000E9;
+	Fri, 22 May 2026 10:21:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779445322;
+	bh=Xkp9iXSwBMxfkLoiFAco0YIr6FIaGNxMqOiskAens2w=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=fkn3S8E20iag5WUtkXqt10BtP9VOR3jHd2nrGXWdCeT76Esode9SfVrRhSL9j/Oqs
+	 y7cS4qsN2oKytuOsy1WGnkxexcFbBgQZ6e7CFV+JiQiysCST8P9KuoEgKnO3Lrt0Ng
+	 d4eU05l+KGH8o72bA7sD3KlNV+U49gJjZrCodYPz4ai/HaCt61G301WunHnQzBJnMq
+	 7NbDKL6qoSPxegl8CVv1un/4SntbH6VTTh1wueKyTfFN29akfB8Tz3wJZUP+FQ3HTR
+	 HjKnYGSo6Qmf9+5JacpJuF8ktiQ+KEJi/XDk1vcR9DZyvdg0A9/KYrzWplZOaWg81R
+	 N0OWVsriMO5FQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Oder Chiou <oder_chiou@realtek.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com, David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Support Opensource <support.opensource@diasemi.com>, 
+ Nick Li <nick.li@foursemi.com>, M R Swami Reddy <mr.swami.reddy@ti.com>, 
+ Vishwas A Deshpande <vishwas.a.deshpande@ti.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Fabio Estevam <festevam@gmail.com>, Kiseok Jo <kiseok.jo@irondevice.com>, 
+ Kevin Cernekee <cernekee@chromium.org>, 
+ Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, 
+ Thorsten Blum <thorsten.blum@linux.dev>, 
+ Chris Morgan <macromorgan@hotmail.com>, 
+ Marco Crivellari <marco.crivellari@suse.com>, 
+ Weidong Wang <wangweidong.a@awinic.com>, 
+ Aaron Kling <webgeek1234@gmail.com>, Teguh Sobirin <teguh@sobir.in>, 
+ Luca Weiss <luca.weiss@fairphone.com>, 
+ Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, 
+ Hsieh Hung-En <hungen3108@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
+ Shimrra Shai <shimrrashai@gmail.com>, Zhang Yi <zhangyi@everest-semi.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ Qasim Ijaz <qasdev00@gmail.com>, Sharique Mohammad <sharq0406@gmail.com>, 
+ Chen Ni <nichen@iscas.ac.cn>, Neo Chang <YLCHANG2@nuvoton.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Kees Cook <kees@kernel.org>, Qianfeng Rong <rongqianfeng@vivo.com>, 
+ Tim Bird <tim.bird@sony.com>, 
+ Bram Vlerick <bram.vlerick@openpixelsystems.org>, 
+ Peter Korsgaard <peter@korsgaard.com>, Linus Walleij <linusw@kernel.org>, 
+ Wenyuan Li <2063309626@qq.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+ Xichao Zhao <zhao.xichao@vivo.com>, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Markus Schneider-Pargmann <msp@baylibre.com>, 
+ Peter Rosin <peda@lysator.liu.se>, Dan Carpenter <error27@gmail.com>
+In-Reply-To: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
+References: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v1 0/2] ASoC: Rework initialization of i2c_device_ids
+Message-Id: <177936315178.58022.6647400711614620844.b4-ty@b4>
+Date: Thu, 21 May 2026 12:32:31 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Sven Peter <sven@kernel.org>
-Subject: Re: [PATCH 2/2] usb: dwc3: Notify XHCI core of tunneled status
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Jack Pham <jack.pham@oss.qualcomm.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "usb4-upstream@oss.qualcomm.com" <usb4-upstream@oss.qualcomm.com>,
- Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, asahi@lists.linux.dev
-References: <20260505-topic-dwc3_tunneling_state-v1-0-4aaa6c3c14cb@oss.qualcomm.com>
- <20260505-topic-dwc3_tunneling_state-v1-2-4aaa6c3c14cb@oss.qualcomm.com>
- <afpyvhadqZw0xfTB@vbox>
- <1163a026-03b2-4860-a422-eb276920b4aa@oss.qualcomm.com>
- <afzP+uoUALSji95Q@hu-jackp-lv.qualcomm.com> <af0SM3C5qHc73DM8@vbox>
- <670f9a9f-54b9-4109-986e-5071caf1dcaf@oss.qualcomm.com>
- <af5sfCOfBa7mYqPw@vbox>
- <0431f8ff-545b-4533-8bb3-d4f3d2e30032@oss.qualcomm.com>
- <551c246d-7ff6-49e5-bb14-3f49f7649e54@kernel.org>
- <9d8092f2-d04d-4c53-a0da-6da272d3b447@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <9d8092f2-d04d-4c53-a0da-6da272d3b447@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1580; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Q3EmgiS0xb2HZNxg/RftK2CygD26EtkORNTMm15D0f4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC4+xfmyychPuCUwk/jiLXspmo/BcLb856BbX
+ 308jyaWUsiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuPgAKCRAk1otyXVSH
+ 0AzCB/0ZVReZqZGERUELDL4MyBklwJcxn2eozuE4QgHL/zTKaedA/xJb7gGN9GSz8PaH8EvPZ3/
+ G7ADNjyOLY1H1oAJLKTP0vfM1KuRNwUuB720DV/dtITwL49AmQ7lPgQbXUTSW84RRNo+ZZxdXUy
+ DEmEAgmH+IHk0wi6M7ZeHVKyyevKUvEr1Mrg+MGzHAQSAFSGNLgOyvyDKIuod66cT+531JOSSnr
+ bAGE0YgBWc8EqBIXsbSDJ7/Cyob/0FEKMKu2xkrq+qhNDMNJAC2fMv+8BgapN6/e+1uJAAaHjQC
+ Jr68ZQFKhKJRw6zWX8KedYHp6/QESUgrzn4TCVaNVf0C5GwS
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-cc: asahi@lists.linux.dev
-
-On 12.05.26 13:56, Konrad Dybcio wrote:
-> On 5/11/26 8:44 PM, Sven Peter wrote:
->> Hi,
->>
->> On 11.05.26 11:06, Konrad Dybcio wrote:
->>> On 5/9/26 1:31 AM, Thinh Nguyen wrote:
->>>> On Fri, May 08, 2026, Konrad Dybcio wrote:
->>>>> On 5/8/26 12:46 AM, Thinh Nguyen wrote:
->>>>>> On Thu, May 07, 2026, Jack Pham wrote:
->>>>>>> On Thu, May 07, 2026 at 12:34:50PM +0200, Konrad Dybcio wrote:
->>>>>>>> On 5/7/26 1:40 AM, Thinh Nguyen wrote:
->>>>>>>>> On Tue, May 05, 2026, Konrad Dybcio wrote:
->>>>>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+On Wed, 13 May 2026 19:23:02 +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> ASoC: Rework initialization of i2c_device_ids
+> 
+> Hello,
+> 
+> this series is a preparation for
+> 
+> 	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+> 	index 23ff24080dfd..aebd3a5e90af 100644
+> 	--- a/include/linux/mod_devicetable.h
+> 	+++ b/include/linux/mod_devicetable.h
+> 	@@ -477,7 +477,11 @@ struct rpmsg_device_id {
 > 
 > [...]
-> 
->>> 4. drivers/phy/qualcomm/phy-qcom-qmp-combo.c reprograms the PHY based
->>>      on typec_mux events in native cases, or to USB4/TBT mode if the router
->>>      driver requests it [that last part is not yet upstream]
->>> 5. [optionally] retimer drivers in between (most often Parade PS883x
->>>      series via drivers/usb/typec/mux/ps883x.c), which act as an
->>>      additional typec_mux/switch in the chain
->>> 6. [not upstream yet] USB4 router driver consumes some typec_mux
->>>      parameters (orientation, cable and partner capabilities) and sends a
->>>      command to another MCU to high-speed link establishment. It also sets
->>>      the aforementioned magic register.
->>
->> I'm not sure if mux is the correct framework here. On Apple Silicon we also need an out-of-band notification from the PD controller to the USB4 NHI here but the NHI isn't a mux in the typec sense. And how do you ensure that 4 happens before 6 if you use the typec mux framework or does that not matter for your platform?
-> 
-> Some mux provider drivers (e.g. the PS883x one) call typec_mux_get/set()
-> explicitly, and combining that with the right of_graph things end up
-> working naturally (perhaps to some degree by luck?).
 
-It's luck, it was the wrong order for Apple Silicon :-)
-I just don't think it's appropriate to describe the native host 
-interface as a mux (at least on Apple Silicon) since the mux is inside 
-the Type-C PHY even though the mux framework happens to transport almost 
-all the correct information.
-I also don't think it makes sense to describe that thing as a mux inside 
-the device tree.
+Applied to
 
-> 
-> With the QMPPHY specifically, it already exposes a separate struct phy
-> for the USB3 sub-block and another one for DP. I added a third one for
-> USB4, which when activated, programs it into USB4 mode and de facto
-> blocks the driver from acting as a typec_mux (simply via an early return
-> from mux_set) for the duration of the USB4PHY being in use (the router
-> takes care of lane assignment and orientation, when active).
-> 
-> Making this predictable (and controllable from the router driver) was
-> paramount, as the device will crash if the router is attempted to be
-> brought online at the wrong time, since most of its clocks are derived
-> from the on-PHY PLL. Similarly, the suspend flows also require tight
-> control of the PHY's power state.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-Yeah, that's similar to Apple Silicon except that we drive all the 
-synchronization from the Type-C PD controller because we have even more 
-components that all have to kept in sync on those platforms.
+Thanks!
 
-> 
-> 
-> I ended up modeling the router as a mux&switch, since like I mentioned,
-> it needs a number of parameters that already come via these frameworks
-> (cable type/speed, orientation, etc.) and the drivers needs to talk to
-> the MCU immediately after the PHY and retimer are set up, so that only
-> made sense.
-> 
->> Currently I use [1] and [2] in my work-in-progress tree though I'm not quite happy with it yet.
-> 
-> I took a look at your branch and predictably we faced some common
-> obstacles.. Although I'm jealous of RTKIT..
-> 
->>> At a glance, 2. seems like a reasonably fitting place to set it, however:
->>> * it does not have any sort of a handle to the typec_connector (it
->>> only acts like a mux that sets another mux), and
->>> * it may be going away in the future
->>>
->>> so I'd much prefer to keep this logic somewhere near where this iteration
->>> of the patch does - I think it'll be useful for more implementations, as
->>> I'd imagine it'd be fairly commonplace to hardwire CIOCTRL_CIO_EN and
->>> another part of the pipeline that must logically be online for USB4 to
->>> be useful
->>>
->>> +Sven, on ASi, is CIOCTRL_CIO_EN (dwc3base + (0xcd20 + ((port) * 0x30))
->>> written to manually?
->>
->> I don't think so, but we need a manual out-of-band notification to both PCIe, tunneled DisplayPort and USB3 once the tunnel has been brought upside the NHI (i.e. long after the typec altmode is entered) and all this has to be represented in the device tree as well.
-> 
-> The DP situation in our impl is.. colorful as well.
-> Generally I think we only need to reset the protocol adapters, which
-> happen to live within the router's address space, making it contained
-> within the TBT driver.
+[1/2] ASoC: Drop empty i2c remove callbacks
+      https://git.kernel.org/broonie/sound/c/2e0389f3689c
+[2/2] ASoC: Use named initializers for arrays of i2c_device_data
+      https://git.kernel.org/broonie/sound/c/910714d4e79b
 
-Yeah, for us it's separate and there's the display co-processor which 
-has to get an OOB notification for any established USB4/TBT tunnel.
-It's a big mess essentially.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
->> DWC3 on Apple platforms is very cursed and has to be fully offline while the Type-C switches modes and must only be brought up then once the tunnel inside the NHI has already been established.
-> 
->> My current WIP code uses a tbt_oob_notify for all that that I introduced and something like this in the dt to represent the connections:
->>
->> /* USB4 */
->> &usb4_1_acio {
->>      ports {
->>          #address-cells = <1>;
->>          #size-cells = <0>;
->>
->>          /* 1: USB4 port */
->>          port@1 {
->>              reg = <1>;
->>              usb4_1_acio_tbt: endpoint {
->>                  remote-endpoint = <&typec1_con_tbt>;
->>              };
->>          };
->>
->>          /* 2: unused(?) USB4 port */
-> 
-> Any chance port2 is used for lane bonding?
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-None, port 2 isn't connected to anything. That (?) is just a leftover. 
-The host router block can probably support two ports with shared 
-bandwidth but Apple instead decided to create a separate host router for 
-each port.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> 
->>          /* 3: PCIe, TBD */
->>          /* 4: USB3, TBD */
->>          /* 5: DP0, TBD */
->>          /* 6: DP1, TBD */
->>      };
->> };
->>
->> Still not completely happy with that as well.
->> Does PCIe tunneling also need additional OOB notifications for you?
-> 
-> No, simply enabling the path works, after which we get the normal hotplug
-> events
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Lucky you! We need to enable the PCIe tunnels inside the pcie driver 
-*after* the tunnel is up inside the NHI because otherwise the 
-co-processor firmware will crash. There's also some weirdness going on 
-with PCIe hotplug events below the root bridge that I have yet to figure 
-out. From what I can tell XNU manually injects these events whenever the 
-TBT tunnel changes. We can see that weirdness with long chains like a 
-USB4 hub -> Another TBT dock -> Apple's TBT display -> TBT-to-ethernet 
-adapter.
-I've added generic out-of-bound notifications for that but not quite 
-happy with it yet.
-
-
-Please also cc me on any thunderbolt submissions. If your work goes in 
-first I can just rebase mine on top of your tree and see if we need 
-anything more.
-
-
-Sven
-
+Thanks,
+Mark
 
