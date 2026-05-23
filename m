@@ -1,147 +1,312 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07523CE490;
-	Fri, 22 May 2026 10:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822DF352018
+	for <asahi@lists.linux.dev>; Sat, 23 May 2026 12:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445325; cv=none; b=rNhL4Ej8AmZZv/JCxjqq4/uFZpULggDQueajjX0PIRU2eN9d/MN8q/ndZjLSuL3DgV4uqWONZ6cZR5lwsygLDi4LxcRYfrQjm45LEqB5MC/9q3qyXAmEiJ0wReBU9/YZUMmm5Eyms1FJTeMN+hPKzxBXElhIP7gH2GNXgaussfI=
+	t=1779540766; cv=none; b=HosNuSX2qTIqzKRx1SrvM4sdE+HhSaCR7omiqQx4VRMQ99+iunSS5yDW+/ykSQa9eZDlXoUD+HOmRfmfKK2oqfErYdt8+9mE6BXXOjxZCbG5mmrmWoHU6mgAQXZubI0JoDOPkYqT53hiLjzsyMWN5K0B881bv05Q8tMpF9gCDnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445325; c=relaxed/simple;
-	bh=Q3EmgiS0xb2HZNxg/RftK2CygD26EtkORNTMm15D0f4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tSMe1HjYdZzGCLU9/d7ymMlwQrnSg6D0/7HLgqO5SFeNFtTAU5rNWbUbx592kz0QgYdNej42Q1ocmc3Y8wnh2Cy9YmMOKmn05MWVu/dC5u8PoeY/W1VMLRBljQuANJCR7ivEbg1h2LQDtM3RnKo5zowmPjE1wa59US7sfAMnYUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fkn3S8E2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779540766; c=relaxed/simple;
+	bh=6+fWAZt+4ivYTzLpmo8IvPTUCuA4JscxLqeYDtrKYs4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MZZzApvnSrM1lXznA0nhY9xlL+qDXaa/u7TCtsqi2sI0pIGjf4EZMbzD5pibxOainkRiksXEPR9SgbqzcsGFNb3BKfeI9LPlvo6GtObAJNyPc5VKOnW7ptuSNpIb3mFwaJXuZwxIy0eggWini+G2/fvsmvXJNcvvNufijbWiK+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=dVPhjAuy; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fkn3S8E2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51AD91F000E9;
-	Fri, 22 May 2026 10:21:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445322;
-	bh=Xkp9iXSwBMxfkLoiFAco0YIr6FIaGNxMqOiskAens2w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=fkn3S8E20iag5WUtkXqt10BtP9VOR3jHd2nrGXWdCeT76Esode9SfVrRhSL9j/Oqs
-	 y7cS4qsN2oKytuOsy1WGnkxexcFbBgQZ6e7CFV+JiQiysCST8P9KuoEgKnO3Lrt0Ng
-	 d4eU05l+KGH8o72bA7sD3KlNV+U49gJjZrCodYPz4ai/HaCt61G301WunHnQzBJnMq
-	 7NbDKL6qoSPxegl8CVv1un/4SntbH6VTTh1wueKyTfFN29akfB8Tz3wJZUP+FQ3HTR
-	 HjKnYGSo6Qmf9+5JacpJuF8ktiQ+KEJi/XDk1vcR9DZyvdg0A9/KYrzWplZOaWg81R
-	 N0OWVsriMO5FQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Oder Chiou <oder_chiou@realtek.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com, David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Support Opensource <support.opensource@diasemi.com>, 
- Nick Li <nick.li@foursemi.com>, M R Swami Reddy <mr.swami.reddy@ti.com>, 
- Vishwas A Deshpande <vishwas.a.deshpande@ti.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Fabio Estevam <festevam@gmail.com>, Kiseok Jo <kiseok.jo@irondevice.com>, 
- Kevin Cernekee <cernekee@chromium.org>, 
- Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, 
- Thorsten Blum <thorsten.blum@linux.dev>, 
- Chris Morgan <macromorgan@hotmail.com>, 
- Marco Crivellari <marco.crivellari@suse.com>, 
- Weidong Wang <wangweidong.a@awinic.com>, 
- Aaron Kling <webgeek1234@gmail.com>, Teguh Sobirin <teguh@sobir.in>, 
- Luca Weiss <luca.weiss@fairphone.com>, 
- Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, 
- Hsieh Hung-En <hungen3108@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
- Shimrra Shai <shimrrashai@gmail.com>, Zhang Yi <zhangyi@everest-semi.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- Qasim Ijaz <qasdev00@gmail.com>, Sharique Mohammad <sharq0406@gmail.com>, 
- Chen Ni <nichen@iscas.ac.cn>, Neo Chang <YLCHANG2@nuvoton.com>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Kees Cook <kees@kernel.org>, Qianfeng Rong <rongqianfeng@vivo.com>, 
- Tim Bird <tim.bird@sony.com>, 
- Bram Vlerick <bram.vlerick@openpixelsystems.org>, 
- Peter Korsgaard <peter@korsgaard.com>, Linus Walleij <linusw@kernel.org>, 
- Wenyuan Li <2063309626@qq.com>, Bartosz Golaszewski <brgl@kernel.org>, 
- Shengjiu Wang <shengjiu.wang@nxp.com>, 
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
- Xichao Zhao <zhao.xichao@vivo.com>, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Markus Schneider-Pargmann <msp@baylibre.com>, 
- Peter Rosin <peda@lysator.liu.se>, Dan Carpenter <error27@gmail.com>
-In-Reply-To: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
-References: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v1 0/2] ASoC: Rework initialization of i2c_device_ids
-Message-Id: <177936315178.58022.6647400711614620844.b4-ty@b4>
-Date: Thu, 21 May 2026 12:32:31 +0100
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="dVPhjAuy"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id CBB74240027
+	for <asahi@lists.linux.dev>; Sat, 23 May 2026 14:52:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
+	t=1779540756; bh=bxiCjbyE4L9dPupS9cBbu4nnbIMmzEr7N/QwhywpPUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=dVPhjAuy4QprE97NyeN60SRuaFmZOVYuNgA0654tq5KR6lfgR0jfj2kMOnvDplGhT
+	 bZL1G2lrOEVS9f4QvdU32lQE3lsN3Q1KygSG1Nb6IfcDkrreY4S83EQ8NSAjKu3Tkq
+	 cK32iwTZ1Ng0maVqXElKeobTcPPh2ELWkC+Mq3okYZFZys6FY5vH3fPJp1qWL+mDUq
+	 5fmQvJDGmw1/R5QNgamgZKN1DUr8lRTHmKh+t+CJ0QuIe3thULXr2XgiPt6Ag6YXkl
+	 VLDWm2nI7T8syH4EdEW8sRaBdfxD7XPS/PKuRkC0VYtBT29HjKxlxuiz3H6RU5Obhs
+	 ZSDPX7I0mVEsA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4gN29W11Cqz6tvq;
+	Sat, 23 May 2026 14:52:31 +0200 (CEST)
+From: Mateusz Nowicki <mateusz.nowicki@posteo.net>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Caleb Sander Mateos <csander@purestorage.com>,
+	Sung-woo Kim <iam@sung-woo.kim>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Thomas Fourier <fourier.thomas@gmail.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Luke Wang <ziniu.wang_1@nxp.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nbd@other.debian.org,
+	dm-devel@lists.linux.dev,
+	linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Subject: [PATCH v1] block: switch numa_node to int in blk_mq_hw_ctx and init_request
+Date: Sat, 23 May 2026 12:52:35 +0000
+Message-ID: <20260523125210.272274-1-mateusz.nowicki@posteo.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1580; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Q3EmgiS0xb2HZNxg/RftK2CygD26EtkORNTMm15D0f4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC4+xfmyychPuCUwk/jiLXspmo/BcLb856BbX
- 308jyaWUsiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuPgAKCRAk1otyXVSH
- 0AzCB/0ZVReZqZGERUELDL4MyBklwJcxn2eozuE4QgHL/zTKaedA/xJb7gGN9GSz8PaH8EvPZ3/
- G7ADNjyOLY1H1oAJLKTP0vfM1KuRNwUuB720DV/dtITwL49AmQ7lPgQbXUTSW84RRNo+ZZxdXUy
- DEmEAgmH+IHk0wi6M7ZeHVKyyevKUvEr1Mrg+MGzHAQSAFSGNLgOyvyDKIuod66cT+531JOSSnr
- bAGE0YgBWc8EqBIXsbSDJ7/Cyob/0FEKMKu2xkrq+qhNDMNJAC2fMv+8BgapN6/e+1uJAAaHjQC
- Jr68ZQFKhKJRw6zWX8KedYHp6/QESUgrzn4TCVaNVf0C5GwS
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 13 May 2026 19:23:02 +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> ASoC: Rework initialization of i2c_device_ids
-> 
-> Hello,
-> 
-> this series is a preparation for
-> 
-> 	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-> 	index 23ff24080dfd..aebd3a5e90af 100644
-> 	--- a/include/linux/mod_devicetable.h
-> 	+++ b/include/linux/mod_devicetable.h
-> 	@@ -477,7 +477,11 @@ struct rpmsg_device_id {
-> 
-> [...]
+numa_node in blk_mq_hw_ctx and the matching argument of
+blk_mq_ops::init_request can be NUMA_NO_NODE (-1).  Declared as
+unsigned int, NUMA_NO_NODE becomes UINT_MAX and walks off
+nvme_dev::descriptor_pools[] on CONFIG_NUMA=n [1].
 
-Applied to
+Switch the field and the callback prototype to int and update all
+in-tree init_request implementations.  No functional change:
+cpu_to_node(), kmalloc_node() and blk_alloc_flush_queue() already
+take int.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+Link: https://lore.kernel.org/linux-nvme/20260522150628.399288-1-mateusz.nowicki@posteo.net/ [1]
+Link: https://lore.kernel.org/linux-nvme/20260309062840.2937858-2-iam@sung-woo.kim/
+Suggested-by: Caleb Sander Mateos <csander@purestorage.com>
+Suggested-by: Sung-woo Kim <iam@sung-woo.kim>
+Signed-off-by: Mateusz Nowicki <mateusz.nowicki@posteo.net>
+---
+ block/bsg-lib.c                   | 2 +-
+ drivers/block/mtip32xx/mtip32xx.c | 2 +-
+ drivers/block/nbd.c               | 2 +-
+ drivers/md/dm-rq.c                | 2 +-
+ drivers/mmc/core/queue.c          | 2 +-
+ drivers/mtd/ubi/block.c           | 2 +-
+ drivers/nvme/host/apple.c         | 2 +-
+ drivers/nvme/host/fc.c            | 2 +-
+ drivers/nvme/host/pci.c           | 2 +-
+ drivers/nvme/host/rdma.c          | 2 +-
+ drivers/nvme/host/tcp.c           | 2 +-
+ drivers/nvme/target/loop.c        | 2 +-
+ drivers/scsi/scsi_lib.c           | 2 +-
+ include/linux/blk-mq.h            | 4 ++--
+ 14 files changed, 15 insertions(+), 15 deletions(-)
 
-Thanks!
+diff --git a/block/bsg-lib.c b/block/bsg-lib.c
+index fdb4b290ca68..895db30a7033 100644
+--- a/block/bsg-lib.c
++++ b/block/bsg-lib.c
+@@ -299,7 +299,7 @@ static blk_status_t bsg_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ /* called right after the request is allocated for the request_queue */
+ static int bsg_init_rq(struct blk_mq_tag_set *set, struct request *req,
+-		       unsigned int hctx_idx, unsigned int numa_node)
++		       unsigned int hctx_idx, int numa_node)
+ {
+ 	struct bsg_job *job = blk_mq_rq_to_pdu(req);
+ 
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index 567192e371a8..8aedba9b5690 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -3340,7 +3340,7 @@ static void mtip_free_cmd(struct blk_mq_tag_set *set, struct request *rq,
+ }
+ 
+ static int mtip_init_cmd(struct blk_mq_tag_set *set, struct request *rq,
+-			 unsigned int hctx_idx, unsigned int numa_node)
++			 unsigned int hctx_idx, int numa_node)
+ {
+ 	struct driver_data *dd = set->driver_data;
+ 	struct mtip_cmd *cmd = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index fe63f3c55d0d..e2fe9e3308fc 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -1888,7 +1888,7 @@ static void nbd_dbg_close(void)
+ #endif
+ 
+ static int nbd_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-			    unsigned int hctx_idx, unsigned int numa_node)
++			    unsigned int hctx_idx, int numa_node)
+ {
+ 	struct nbd_cmd *cmd = blk_mq_rq_to_pdu(rq);
+ 	cmd->nbd = set->driver_data;
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index 9703b3ae364e..9a386254d836 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -462,7 +462,7 @@ static void dm_start_request(struct mapped_device *md, struct request *orig)
+ }
+ 
+ static int dm_mq_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-			      unsigned int hctx_idx, unsigned int numa_node)
++			      unsigned int hctx_idx, int numa_node)
+ {
+ 	struct mapped_device *md = set->driver_data;
+ 	struct dm_rq_target_io *tio = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
+index 39fcb662c43f..cfa268925c26 100644
+--- a/drivers/mmc/core/queue.c
++++ b/drivers/mmc/core/queue.c
+@@ -208,7 +208,7 @@ static unsigned short mmc_get_max_segments(struct mmc_host *host)
+ }
+ 
+ static int mmc_mq_init_request(struct blk_mq_tag_set *set, struct request *req,
+-			       unsigned int hctx_idx, unsigned int numa_node)
++			       unsigned int hctx_idx, int numa_node)
+ {
+ 	struct mmc_queue_req *mq_rq = req_to_mmc_queue_req(req);
+ 	struct mmc_queue *mq = set->driver_data;
+diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
+index 8880a783c3bc..29c0d6941a81 100644
+--- a/drivers/mtd/ubi/block.c
++++ b/drivers/mtd/ubi/block.c
+@@ -312,7 +312,7 @@ static blk_status_t ubiblock_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ static int ubiblock_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct ubiblock_pdu *pdu = blk_mq_rq_to_pdu(req);
+ 
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index c692fc73babf..97586307ac1a 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -819,7 +819,7 @@ static int apple_nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 
+ static int apple_nvme_init_request(struct blk_mq_tag_set *set,
+ 				   struct request *req, unsigned int hctx_idx,
+-				   unsigned int numa_node)
++				   int numa_node)
+ {
+ 	struct apple_nvme_queue *q = set->driver_data;
+ 	struct apple_nvme *anv = queue_to_apple_nvme(q);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index e4f4528fe2a2..1907da499ad2 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2109,7 +2109,7 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+ 
+ static int
+ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-		unsigned int hctx_idx, unsigned int numa_node)
++		unsigned int hctx_idx, int numa_node)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(set->driver_data);
+ 	struct nvme_fcp_op_w_sgl *op = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 139a10cd687f..afd407df640f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -660,7 +660,7 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 
+ static int nvme_pci_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index f77c960f7632..08459c65c3d5 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -292,7 +292,7 @@ static void nvme_rdma_exit_request(struct blk_mq_tag_set *set,
+ 
+ static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
+ 		struct request *rq, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(set->driver_data);
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 15d36d6a728e..36b3ec50a9fd 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -548,7 +548,7 @@ static void nvme_tcp_exit_request(struct blk_mq_tag_set *set,
+ 
+ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ 		struct request *rq, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(set->driver_data);
+ 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d98d0cdc5d6f..ae00bcef2251 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -202,7 +202,7 @@ static int nvme_loop_init_iod(struct nvme_loop_ctrl *ctrl,
+ 
+ static int nvme_loop_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_loop_ctrl *ctrl = to_loop_ctrl(set->driver_data);
+ 	struct nvme_loop_iod *iod = blk_mq_rq_to_pdu(req);
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 6e8c7a42603e..67f789bd02e7 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1950,7 +1950,7 @@ static blk_status_t scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
+ }
+ 
+ static int scsi_mq_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-				unsigned int hctx_idx, unsigned int numa_node)
++				unsigned int hctx_idx, int numa_node)
+ {
+ 	struct Scsi_Host *shost = set->driver_data;
+ 	struct scsi_cmnd *cmd = blk_mq_rq_to_pdu(rq);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 18a2388ba581..2e7f90048171 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -428,7 +428,7 @@ struct blk_mq_hw_ctx {
+ 	struct blk_mq_tags	*sched_tags;
+ 
+ 	/** @numa_node: NUMA node the storage adapter has been connected to. */
+-	unsigned int		numa_node;
++	int			numa_node;
+ 	/** @queue_num: Index of this hardware queue. */
+ 	unsigned int		queue_num;
+ 
+@@ -653,7 +653,7 @@ struct blk_mq_ops {
+ 	 * flush request.
+ 	 */
+ 	int (*init_request)(struct blk_mq_tag_set *set, struct request *,
+-			    unsigned int, unsigned int);
++			    unsigned int, int);
+ 	/**
+ 	 * @exit_request: Ditto for exit/teardown.
+ 	 */
 
-[1/2] ASoC: Drop empty i2c remove callbacks
-      https://git.kernel.org/broonie/sound/c/2e0389f3689c
-[2/2] ASoC: Use named initializers for arrays of i2c_device_data
-      https://git.kernel.org/broonie/sound/c/910714d4e79b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+base-commit: 45255ea1ca096b11b1303c9b54502a28f3a31dd1
+-- 
+2.53.0
 
