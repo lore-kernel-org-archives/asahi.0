@@ -1,67 +1,96 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F21C33C53F;
-	Mon, 25 May 2026 06:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A1D3E5A32;
+	Mon, 25 May 2026 09:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779689000; cv=none; b=MHZ2M9Flr8+JgEQU4SXZaWc+5cYl0Vlz0bXh74QIF5Ev/1NAkP1F14yLxPQk4YW/gh5PLYY+BGOq9RaJ1GdWbCisaK3nX3dgngUewkyxUvfEVsGloNjsxb+uBMSiuemZfHT2vg3tvOtyqeiq2DUohhGrG8IU/jWY2DQ3XrcUaLA=
+	t=1779701167; cv=none; b=G1cVuzqSPuw3H071PtPEDv1+9TaDMELcy6Vrz6EnqAUnCanJKdrNGWqPD1WvBGx65Q5Q94xrnjJOdQlOMBbELOP2Z/Rhfz26zblbnyVWcWsjN+HmbxI0pSG23ld+zrVvvceR9yQwJ25C893MIVpyNnkLPBzHrouY4YjVAByOsY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779689000; c=relaxed/simple;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sTmF5y3RWnhr1DWVd8Or0ZEFJaznlzQv1pW6chpHXDzEMYUkQpAl7rNAPToOw3yQ81TPL1SxcxVPJHlvEbrEYkYZABtdYsSctmnffZBsfwNrFXl4jVmJc5b1QR18i0rH6FhzX7LEQ11Oko+UmCkV7u4E7LgPVCipnYKZg8qxZtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B108368C4E; Mon, 25 May 2026 08:03:14 +0200 (CEST)
-Date: Mon, 25 May 2026 08:03:14 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Mateusz Nowicki <mateusz.nowicki@posteo.net>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Sung-woo Kim <iam@sung-woo.kim>, Josef Bacik <josef@toxicpanda.com>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Ulf Hansson <ulfh@kernel.org>, Richard Weinberger <richard@nod.at>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>, Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Thomas Fourier <fourier.thomas@gmail.com>,
-	Al Viro <viro@zeniv.linux.org.uk>, Luke Wang <ziniu.wang_1@nxp.com>,
-	Kees Cook <kees@kernel.org>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nbd@other.debian.org,
-	dm-devel@lists.linux.dev, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, asahi@lists.linux.dev,
+	s=arc-20240116; t=1779701167; c=relaxed/simple;
+	bh=jmYi9k8kfIYDV6PSc0blAw2ZCe6obcAFkc4TkEVBsD0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Z104y+NCD/uTTfSCAHgIEO3k1gw+qNdD2zDJiNweiNflheIZzJfmOzfSf6yrxwXzLupGiGAQyhfRwDms+MyY9i0Ic5YaIrOWk9/Q7+Ayg+v/ZVYUJkvzmhnc9vGyj2vJup1jcnY9Fi936Fs223/d50RA8P0vXhcGnHez7I+Dsfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H7H8MfXD; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H7H8MfXD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A02E1F000E9;
+	Mon, 25 May 2026 09:26:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779701166;
+	bh=skzTssuwru7jF3TpsgIsQPJu8IbIuLMfcBBNvTemjVE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=H7H8MfXDgcg2czwLwQhZFCL2kqMjRCt9tXoVzp4zeEDmKAYkQrEXUVc2JEUW2iIjK
+	 Vuzy3H5k3Lla3w9XIbEjkEw8EIAEUxPr9Ik+YywZqcE3XvMlv0kK6kyA9tTXjno7ax
+	 YZGG6k95KRRS3MHsk0avHWKKMJA+wHrlHeDeeYtuBWyv+l8X9+TDVPr8HJxWx+TXLZ
+	 DzQ4fKJC3n1V0kfuXrlqZ9kmDUuSBoEywRGAyrWlR1QAL/PvGbajSvlG5VuW6KgYe8
+	 Pg9qRoSl+NV2ibriujglyE7gRvcEXZwZx+fG2cs5PIfYpf+TQ44LxUg/jTMrE4RZvv
+	 Sdbjhi2TLVoxQ==
+From: Sven Peter <sven@kernel.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Neal Gompa <neal@gompa.dev>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v1] block: switch numa_node to int in blk_mq_hw_ctx and
- init_request
-Message-ID: <20260525060313.GA3586@lst.de>
-References: <20260523125210.272274-1-mateusz.nowicki@posteo.net>
+	linux-watchdog@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Joshua Peisach <jpeisach@ubuntu.com>,
+	Michael Reeves <michael.reeves077@gmail.com>
+Subject: Re: (subset) [PATCH v3 0/5] Initial Apple silicon M3 device trees and dt-bindings
+Date: Mon, 25 May 2026 11:25:48 +0200
+Message-ID: <177970089799.4336.5106410094266979561.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260507-apple-m3-initial-devicetrees-v3-0-ca07c81b5dc7@jannau.net>
+References: <20260507-apple-m3-initial-devicetrees-v3-0-ca07c81b5dc7@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260523125210.272274-1-mateusz.nowicki@posteo.net>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Looks good:
+On Thu, 07 May 2026 09:33:06 +0200, Janne Grunau wrote:
+> Hej,
+> 
+> This series adds initial device trees for M3 Apple silicon devices. The
+> device trees contain only a minimal set of hardware not going much
+> beyond the minimum required for booting kernel and initramfs and
+> verify via serial console that the hardware and drivers work.
+> The hardware with the exception of the interrupt controller is
+> compatible with the M1 and M2 SoCs and the existing drivers.
+> `make dtbs_check` depends on the already applied and dropped apple,i2c
+> and apple,pmgr dt-binding changes.
+> The watchdog load depends on stalled and forgotten addition of the
+> "apple,t8103-wdt" compatible posted in [1]. I've replied to the thread
+> to get the change merged.
+> 
+> [...]
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Applied to local tree (apple-soc/dt-7.2), thanks!
+
+[1/5] dt-bindings: power: apple,pmgr-pwrstate: Add t8122 compatible
+      https://github.com/AsahiLinux/linux/commit/4d28a9a428f6
+[3/5] dt-bindings: pwm: apple,s5l-fpwm: Add t8122 compatible
+      https://github.com/AsahiLinux/linux/commit/d0960529afbd
+[4/5] dt-bindings: arm: apple: Add M3 based devices
+      https://github.com/AsahiLinux/linux/commit/5701af106b03
+[5/5] arm64: dts: apple: Initial t8122 (M3) device trees
+      https://github.com/AsahiLinux/linux/commit/1dfa78533534
+
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
