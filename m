@@ -1,297 +1,292 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E516A37E2FA
-	for <asahi@lists.linux.dev>; Mon, 25 May 2026 12:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1AD385D72
+	for <asahi@lists.linux.dev>; Mon, 25 May 2026 13:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779711107; cv=none; b=SLpx+gdZfTevObkv+waaiWunVw4cZGW/YRp0SQSthTZ2+mlRTyWR9N90CxlqtkkPzmnjdjs/x4/gJno9vK15RkyCt0h7LdfIjw/Z1pgcimtnWER1B3ZtuUclGLMNBDo0pZUXHuUt9HWSi+ARe19DqOvqlc7nhCUKBgB3EP9h2nc=
+	t=1779716038; cv=none; b=Zg2Wrphu6yaxVTs2cOgsL0Onqt6iXzDSsEX+2vXPgdV/sS/aiqrBxMu3aIhiVRMpGpcadPecJtVhFeecW/kCF35Uc8lcEJuFVyUI7I5TSdNq3wiGGgv+utqmIIJ6eMygIjxgSbmv0pCScv6lLGkGdOgadzCOK9J6IUQNfgNnSP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779711107; c=relaxed/simple;
-	bh=yh+/UfLiqBwqQ3sjftqkvE0efFCAz71iDWkf+c5wSI0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mnVlfubW1qy0ba/8gApJCqcZCeKxMbE0VVxF+4t9Zq30+e7+yTH4luGLRcXwYvVxmsVyEPbkFN/82j8rhETcwmOFyzmO3PMC5hQxxTd0ihEmA16w57wNOy2eIz36d5OMXYlAJjSyKyOj2yuFBb1VMrAAmetxIDr24oy8ugajdjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=vf1IwRLp; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1779716038; c=relaxed/simple;
+	bh=E9mJ0ZSaqPkh3BkO8yS/DfFowBkoUmjAGTIbFIbX2Ws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LuQfIgLCe/72JrRa/SGSTlblTaOeAVFp7C7sMZCLj4Ah0eJzMh0iAublLe+oOgonoIMF7cJejG9HMfTTzQqBSToiiHWyFogMthqBYvZAQuZul6EMrM997QZUYYcK1iEWlNORukfeQvt/YCPjW0grJfOPmbUw4pqu2gHErj2x9R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2Tyz24J; arc=none smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="vf1IwRLp"
-Received: by chaosmail.tech (Postfix) id D770C1C7F11;
-	Mon, 25 May 2026 12:11:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1779711096;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Ua2hjTXYJSmbP4jngVjvQ645Iiscu/cT4lcalp5VRsc=;
-	b=vf1IwRLpq6GKsKuzT83xNShYQs+LE/xxKTKVAy30GqmZIpbbBAgs5NDf2QHesHNgc/wBHk
-	blpx4kymWHrH7E3V7PrBW284VGpVYVqDb2g351eJAYDW/ghuckcX6zEX70VWQ+S56wkqPC
-	+R37tr+jpMnxmkYDhtpPtfIV6w+X6mQ=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Mon, 25 May 2026 14:11:16 +0200
-Subject: [PATCH v3] Bluetooth: Add Broadcom channel priority commands
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2Tyz24J"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1329fc4bf77so6961808c88.1
+        for <asahi@lists.linux.dev>; Mon, 25 May 2026 06:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779716036; x=1780320836; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WnFay5PIcb5rM2eujuo4gD1l7YH3IarEX6qo/MN+h1g=;
+        b=Z2Tyz24JbgfeLY0MzOsZIa8Kkhn9fAaUf9mkoWpalPp82tycq00cfwX0s5QJ7uggFZ
+         GPRFWfbewm/lJ7WB61nDhakA9uR0W1R82nhaMJAAtDBbGWIhMLh2qv/rL4rLKKyWboNF
+         HFJtIMiNC3L5yJRaVx4IT9jYdQVthvFCj095Ops6uxsrSyaVTvD2AT+JBQL/jGQt1rzy
+         eXMuO0Dn+IVdQuVspg3Yca69bcDF9/dGyGbKKKCgWuq0aKTxeVsiitkH7RkMIhxE+d06
+         jyRAQivCrpvS9uSHeqQGytD9i9K2y30+Cebug20tPm4Jd3qMbZ+J4DtASeK5MfTui+OV
+         u+nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779716036; x=1780320836;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=WnFay5PIcb5rM2eujuo4gD1l7YH3IarEX6qo/MN+h1g=;
+        b=hUSdy23xY3tIRyFbIJ86lIjT3vNiPx42MO0NmrS2c9iaB8orA/tVarCSibqTE+wX4c
+         2dM4PeZr7EemwHEe3VRtIveXPEnw7kp248DDvSGk6c+YWfafM2nJp0uVo8v9Ixh0/++p
+         6ts5GLySRSUWE+wFVcYiolLyXDtDz6Dqchdct0e3yKtoo2PWYd2pmeitSRdS4Uwjx1fp
+         Qb5Rff+v0PXx5lERte0fxs96l0/nOCwlsgukJ+mEmBDceCcUcA2BasjHjwRTok/GpjnD
+         XVVcaULyyHdvmmCsPc6wYtSbYLQB4F1EkyM99r4Up8TXkZU1lv0s0NlLI8cAh7HL6w5F
+         /Bjg==
+X-Forwarded-Encrypted: i=1; AFNElJ82OkdEVIJOO6FlT1D1v46chrtkNCCSePnVZFojfk5/+drA23G4DuTIIc9rzkJ3tWdKyf1ODQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7+/7RW2l4oy65a53yXoajr38R7u5Gi8BGF+eF0Lo74WI/857X
+	K473774PY+D+tyf01NBfnYvGclrJJvKA0MUfo09wFwt6ISJepcn/6gpG
+X-Gm-Gg: Acq92OGX3eKrKHF5buItb7cOiw0lxh4tzjUqaJKnrBbLsEmdPkkYo5FKg4fHNInedrc
+	CWcYqndTrm4xMUGP1wXVtMY8bBeSozWpU5OURgNhnfLnxqWfpf8jTlEu/HZM7uVvKPVmCl4R7T6
+	b7V/QtHX6RLdY7FMAcGnkbQ+TPOdtPQnLSqdlaNQlNgErtJfymk+cSIu7JSi8etg4Mwe0bhJTil
+	dBq8ppEM4WQL3GP6Yi1tYI21d9QvgqafzMp5rmAALiGeLYSflHRlEOmgB7V2tl2ujTZR/jCwX40
+	sqnygOxZERASnzOklBuAMRm6+5R/ZPrbbpiTaNv2ZhY28WPoCCtsBGo/4OzUf/yczQGmqqJPinS
+	OMx0Pde6NYE5FP7DqEHzCmlPJJJy7zStN7Ag7l8IUff2TTy856PwqgQRudRvennZWNdDe7upKI6
+	QvaKDsmX0NJnv90i9cyYfkz6yi1qXSjiYL7mQB
+X-Received: by 2002:a05:7022:4393:b0:12a:949b:b9b with SMTP id a92af1059eb24-1365fb526d4mr5122952c88.23.1779716035456;
+        Mon, 25 May 2026 06:33:55 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-136b3706ad6sm3785990c88.13.2026.05.25.06.33.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 May 2026 06:33:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 25 May 2026 06:33:53 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 02/11] dt-bindings: hwmon: Add Apple System Management
+ Controller hwmon schema
+Message-ID: <2571c780-7bb7-4519-92bd-52b82ae6a965@roeck-us.net>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+ <20251112-macsmc-subdevs-v5-2-728e4b91fe81@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260525-brcm-prio-v3-1-6259e10233f8@chaosmail.tech>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WMyw6CMBBFf4XM2pq+bNGV/2FcQJnCJEJJaxoN4
- d8trFzo8tzccxZIGAkTXKoFImZKFKYC6lCBG5qpR0ZdYZBcGq65ZW10I5sjBdYaxdE4p2qlofz
- niJ5ee+t2LzxQeob43tNZbOuvShZMMK/qVlhljdH82o8NPY4ujLBVsvxrymIqb/UJO6/Pjf821
- 3X9AKQsh3fcAAAA
-X-Change-ID: 20260407-brcm-prio-b630e6cc3834
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>
-Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, 
- netdev@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779711095; l=7497;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=yh+/UfLiqBwqQ3sjftqkvE0efFCAz71iDWkf+c5wSI0=;
- b=a6xCWP9LECyK5zy/7vv2VP8inEAuz74w69uAdL7ZOPiE2ce0gIklmeUsrnRYI0d/wuj9UE4lO
- /F0ssoAk+5/ArUgDq8K2X9HpVCGW3Q/nhsdzeA04qMKVLWe1pIw2FZ4
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112-macsmc-subdevs-v5-2-728e4b91fe81@gmail.com>
 
-Certain Broadcom bluetooth chips (bcm4377/bcm4378/bcm438) need ACL
-streams carrying audio to be set as "high priority" using a vendor
-specific command to prevent 10-ish second-long dropouts whenever
-something does a device scan. This patch sends the command when the
-socket priority is set to TC_PRIO_INTERACTIVE, as BlueZ does for audio.
+On Wed, Nov 12, 2025 at 09:16:48PM +1000, James Calligeros wrote:
+> Apple Silicon devices integrate a vast array of sensors, monitoring
+> current, power, temperature, and voltage across almost every part of
+> the system. The sensors themselves are all connected to the System
+> Management Controller (SMC). The SMC firmware exposes the data
+> reported by these sensors via its standard FourCC-based key-value
+> API. The SMC is also responsible for monitoring and controlling any
+> fans connected to the system, exposing them in the same way.
+> 
+> For reasons known only to Apple, each device exposes its sensors with
+> an almost totally unique set of keys. This is true even for devices
+> which share an SoC. An M1 Mac mini, for example, will report its core
+> temperatures on different keys to an M1 MacBook Pro. Worse still, the
+> SMC does not provide a way to enumerate the available keys at runtime,
+> nor do the keys follow any sort of reasonable or consistent naming
+> rules that could be used to deduce their purpose. We must therefore
+> know which keys are present on any given device, and which function
+> they serve, ahead of time.
+> 
+> Add a schema so that we can describe the available sensors for a given
+> Apple Silicon device in the Devicetree.
+> 
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  .../bindings/hwmon/apple,smc-hwmon.yaml  | 86 +++++++++++++++++++++++++
+>  .../bindings/mfd/apple,smc.yaml          | 36 +++++++++++
 
-From experimenting with the hardware - this command is not suitable for
-per-skb priority switching, as prioritization is done on the handle
-level, with this command reconfiguring certain radio timings, and
-dropping to low priority in order to send a low packet on the same
-handle as an audio stream is being played on causes the same kind of
-dropout it is supposed to avoid. In addition, the hardware is rather
-picky about when this command can be sent, as sending it during
-connection open results in a timeout. The vendor stacks solve it by
-having high-level visibility into what a connection is used for and
-sending it from userspace when it is known that an audio stream is
-about to start. As we can't have that visibility without introducing a
-new ioctl, the socket priority is used as proxy.
+I see that the rest of this series is going to be applied. This patch
+touches bindings in mfd, which I can not apply.
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
-Changes in v3:
-- use a struct for command data
-- Link to v2: https://lore.kernel.org/r/20260407-brcm-prio-v2-1-3f745edf49af@gmail.com
+With the assumption that the patch will be applied through some other tree,
+presumably mfd:
 
-Changes in v2:
-- new ioctl got nack-ed, so let's use sk_priority as the trigger
-- Link to v1: https://lore.kernel.org/r/20260407-brcm-prio-v1-1-f38b17376640@gmail.com
----
- MAINTAINERS                      |  2 ++
- drivers/bluetooth/hci_bcm4377.c  |  2 ++
- include/net/bluetooth/hci_core.h | 15 +++++++++++++++
- net/bluetooth/Kconfig            |  7 +++++++
- net/bluetooth/Makefile           |  1 +
- net/bluetooth/brcm.c             | 38 ++++++++++++++++++++++++++++++++++++++
- net/bluetooth/brcm.h             | 19 +++++++++++++++++++
- net/bluetooth/hci_core.c         |  4 ++++
- 8 files changed, 88 insertions(+)
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 10e8253181d3..da4d12ec70d6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2581,6 +2581,8 @@ F:	include/dt-bindings/pinctrl/apple.h
- F:	include/linux/mfd/macsmc.h
- F:	include/linux/soc/apple/*
- F:	include/uapi/drm/asahi_drm.h
-+F:	net/bluetooth/brcm.c
-+F:	net/bluetooth/brcm.h
- 
- ARM/ARTPEC MACHINE SUPPORT
- M:	Jesper Nilsson <jesper.nilsson@axis.com>
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index 925d0a635945..5f79920c0306 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -2397,6 +2397,8 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (bcm4377->hw->broken_le_ext_adv_report_phy)
- 		hci_set_quirk(hdev, HCI_QUIRK_FIXUP_LE_EXT_ADV_REPORT_PHY);
- 
-+	hci_set_brcm_capable(hdev);
-+
- 	pci_set_drvdata(pdev, bcm4377);
- 	hci_set_drvdata(hdev, bcm4377);
- 	SET_HCIDEV_DEV(hdev, &pdev->dev);
-diff --git a/include/net/bluetooth/hci_core.h b/include/net/bluetooth/hci_core.h
-index aa600fbf9a53..53ebb2ae898f 100644
---- a/include/net/bluetooth/hci_core.h
-+++ b/include/net/bluetooth/hci_core.h
-@@ -642,6 +642,10 @@ struct hci_dev {
- 	bool			aosp_quality_report;
- #endif
- 
-+#if IS_ENABLED(CONFIG_BT_BRCMEXT)
-+	bool			brcm_capable;
-+#endif
-+
- 	int (*open)(struct hci_dev *hdev);
- 	int (*close)(struct hci_dev *hdev);
- 	int (*flush)(struct hci_dev *hdev);
-@@ -756,6 +760,10 @@ struct hci_conn {
- 
- 	unsigned int	sent;
- 
-+#if IS_ENABLED(CONFIG_BT_BRCMEXT)
-+	bool		brcm_high_prio;
-+#endif
-+
- 	struct sk_buff_head data_q;
- 	struct list_head chan_list;
- 
-@@ -1791,6 +1799,13 @@ static inline void hci_set_aosp_capable(struct hci_dev *hdev)
- #endif
- }
- 
-+static inline void hci_set_brcm_capable(struct hci_dev *hdev)
-+{
-+#if IS_ENABLED(CONFIG_BT_BRCMEXT)
-+	hdev->brcm_capable = true;
-+#endif
-+}
-+
- static inline void hci_devcd_setup(struct hci_dev *hdev)
- {
- #ifdef CONFIG_DEV_COREDUMP
-diff --git a/net/bluetooth/Kconfig b/net/bluetooth/Kconfig
-index ee6457d1a5ee..b611942c7b8f 100644
---- a/net/bluetooth/Kconfig
-+++ b/net/bluetooth/Kconfig
-@@ -107,6 +107,13 @@ config BT_AOSPEXT
- 	  This options enables support for the Android Open Source
- 	  Project defined HCI vendor extensions.
- 
-+config BT_BRCMEXT
-+	bool "Enable Broadcom extensions"
-+	depends on BT
-+	help
-+	  This option enables support for the Broadcom defined HCI
-+	  vendor extensions.
-+
- config BT_DEBUGFS
- 	bool "Export Bluetooth internals in debugfs"
- 	depends on BT && DEBUG_FS
-diff --git a/net/bluetooth/Makefile b/net/bluetooth/Makefile
-index 41049b280887..d402645dfb7d 100644
---- a/net/bluetooth/Makefile
-+++ b/net/bluetooth/Makefile
-@@ -23,5 +23,6 @@ bluetooth-$(CONFIG_BT_LE) += iso.o
- bluetooth-$(CONFIG_BT_LEDS) += leds.o
- bluetooth-$(CONFIG_BT_MSFTEXT) += msft.o
- bluetooth-$(CONFIG_BT_AOSPEXT) += aosp.o
-+bluetooth-$(CONFIG_BT_BRCMEXT) += brcm.o
- bluetooth-$(CONFIG_BT_DEBUGFS) += hci_debugfs.o
- bluetooth-$(CONFIG_BT_SELFTEST) += selftest.o
-diff --git a/net/bluetooth/brcm.c b/net/bluetooth/brcm.c
-new file mode 100644
-index 000000000000..299d83d465c3
---- /dev/null
-+++ b/net/bluetooth/brcm.c
-@@ -0,0 +1,38 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2026 The Asahi Linux Contributors
-+ */
-+
-+#include <net/bluetooth/bluetooth.h>
-+#include <net/bluetooth/hci_core.h>
-+
-+#include "brcm.h"
-+
-+struct brcm_prio_cmd {
-+	__le16 handle;
-+	u8 enable;
-+} __packed;
-+
-+int brcm_set_high_priority(struct hci_dev *hdev, struct hci_conn *conn,
-+			   bool enable)
-+{
-+	struct sk_buff *skb;
-+	struct brcm_prio_cmd cmd;
-+
-+	if (!hdev->brcm_capable)
-+		return 0;
-+
-+	if (conn->brcm_high_prio == enable)
-+		return 0;
-+
-+	cmd.handle = cpu_to_le16(conn->handle);
-+	cmd.enable = !!enable;
-+
-+	skb = hci_cmd_sync(hdev, 0xfc57, sizeof(cmd), &cmd, HCI_CMD_TIMEOUT);
-+	if (IS_ERR(skb))
-+		return PTR_ERR(skb);
-+
-+	conn->brcm_high_prio = enable;
-+	kfree_skb(skb);
-+	return 0;
-+}
-diff --git a/net/bluetooth/brcm.h b/net/bluetooth/brcm.h
-new file mode 100644
-index 000000000000..2290fc6cf798
---- /dev/null
-+++ b/net/bluetooth/brcm.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2026 The Asahi Linux Contributors
-+ */
-+
-+#if IS_ENABLED(CONFIG_BT_BRCMEXT)
-+
-+int brcm_set_high_priority(struct hci_dev *hdev, struct hci_conn *conn,
-+			   bool enable);
-+
-+#else
-+
-+static inline int brcm_set_high_priority(struct hci_dev *hdev,
-+					 struct hci_conn *conn, bool enable)
-+{
-+	return 0;
-+}
-+
-+#endif
-diff --git a/net/bluetooth/hci_core.c b/net/bluetooth/hci_core.c
-index c46c1236ebfa..0e74bad496a2 100644
---- a/net/bluetooth/hci_core.c
-+++ b/net/bluetooth/hci_core.c
-@@ -46,6 +46,7 @@
- #include "msft.h"
- #include "aosp.h"
- #include "hci_codec.h"
-+#include "brcm.h"
- 
- static void hci_rx_work(struct work_struct *work);
- static void hci_cmd_work(struct work_struct *work);
-@@ -3696,6 +3697,9 @@ static void hci_sched_acl_pkt(struct hci_dev *hdev)
- 
- 			skb = skb_dequeue(&chan->data_q);
- 
-+			if (skb->priority == TC_PRIO_INTERACTIVE)
-+				brcm_set_high_priority(hdev, chan->conn, true);
-+
- 			hci_conn_enter_active_mode(chan->conn,
- 						   bt_cb(skb)->force_active);
- 
+Guenter
 
----
-base-commit: 8bc67e4db64aa72732c474b44ea8622062c903f0
-change-id: 20260407-brcm-prio-b630e6cc3834
-
-Best regards,
---  
-Sasha Finkelstein <k@chaosmail.tech>
-
+>  MAINTAINERS                              |  1 +
+>  3 files changed, 123 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
+> new file mode 100644
+> index 000000000000..2eec317bc4b3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
+> @@ -0,0 +1,86 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/apple,smc-hwmon.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple SMC Hardware Monitoring
+> +
+> +description:
+> +  Apple's System Management Controller (SMC) exposes a vast array of
+> +  hardware monitoring sensors, including temperature probes, current and
+> +  voltage sense, power meters, and fan speeds. It also provides endpoints
+> +  to manually control the speed of each fan individually. Each Apple
+> +  Silicon device exposes a different set of endpoints via SMC keys. This
+> +  is true even when two machines share an SoC. The CPU core temperature
+> +  sensor keys on an M1 Mac mini are different to those on an M1 MacBook
+> +  Pro, for example.
+> +
+> +maintainers:
+> +  - James Calligeros <jcalligeros99@gmail.com>
+> +
+> +$defs:
+> +  sensor:
+> +    type: object
+> +
+> +    properties:
+> +      apple,key-id:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: The SMC FourCC key of the desired sensor.
+> +          Must match the node's suffix.
+> +
+> +      label:
+> +        description: Human-readable name for the sensor
+> +
+> +    required:
+> +      - apple,key-id
+> +
+> +properties:
+> +  compatible:
+> +    const: apple,smc-hwmon
+> +
+> +patternProperties:
+> +  "^current-[A-Za-z0-9]{4}$":
+> +    $ref: "#/$defs/sensor"
+> +    unevaluatedProperties: false
+> +
+> +  "^fan-[A-Za-z0-9]{4}$":
+> +    $ref: "#/$defs/sensor"
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      apple,fan-minimum:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: SMC key containing the fan's minimum speed
+> +
+> +      apple,fan-maximum:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: SMC key containing the fan's maximum speed
+> +
+> +      apple,fan-target:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: Writeable endpoint for setting desired fan speed
+> +
+> +      apple,fan-mode:
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +        pattern: "^[A-Za-z0-9]{4}$"
+> +        description: Writeable key to enable/disable manual fan control
+> +
+> +
+> +  "^power-[A-Za-z0-9]{4}$":
+> +    $ref: "#/$defs/sensor"
+> +    unevaluatedProperties: false
+> +
+> +  "^temperature-[A-Za-z0-9]{4}$":
+> +    $ref: "#/$defs/sensor"
+> +    unevaluatedProperties: false
+> +
+> +  "^voltage-[A-Za-z0-9]{4}$":
+> +    $ref: "#/$defs/sensor"
+> +    unevaluatedProperties: false
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> index 0410e712c900..34ce048619f5 100644
+> --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> @@ -49,6 +49,9 @@ properties:
+>    rtc:
+>      $ref: /schemas/rtc/apple,smc-rtc.yaml
+>  
+> +  hwmon:
+> +    $ref: /schemas/hwmon/apple,smc-hwmon.yaml
+> +
+>  additionalProperties: false
+>  
+>  required:
+> @@ -89,5 +92,38 @@ examples:
+>            nvmem-cells = <&rtc_offset>;
+>            nvmem-cell-names = "rtc_offset";
+>         };
+> +
+> +        hwmon {
+> +          compatible = "apple,smc-hwmon";
+> +
+> +          current-ID0R {
+> +            apple,key-id = "ID0R";
+> +            label = "AC Input Current";
+> +          };
+> +
+> +          fan-F0Ac {
+> +            apple,key-id = "F0Ac";
+> +            apple,fan-minimum = "F0Mn";
+> +            apple,fan-maximum = "F0Mx";
+> +            apple,fan-target = "F0Tg";
+> +            apple,fan-mode = "F0Md";
+> +            label = "Fan 1";
+> +          };
+> +
+> +          power-PSTR {
+> +            apple,key-id = "PSTR";
+> +            label = "Total System Power";
+> +          };
+> +
+> +          temperature-TW0P {
+> +            apple,key-id = "TW0P";
+> +            label = "WiFi/BT Module Temperature";
+> +          };
+> +
+> +          voltage-VD0R {
+> +            apple,key-id = "VD0R";
+> +            label = "AC Input Voltage";
+> +          };
+> +        };
+>        };
+>      };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 51942a9a9b43..6e5e219c5fe6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2422,6 +2422,7 @@ F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+>  F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
+>  F:	Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
+>  F:	Documentation/devicetree/bindings/gpu/apple,agx.yaml
+> +F:	Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml
+>  F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+>  F:	Documentation/devicetree/bindings/input/touchscreen/apple,z2-multitouch.yaml
+>  F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
