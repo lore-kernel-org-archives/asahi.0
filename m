@@ -1,90 +1,127 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D403265623
-	for <asahi@lists.linux.dev>; Mon, 25 May 2026 14:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAFE3C5DD4
+	for <asahi@lists.linux.dev>; Tue, 26 May 2026 16:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779718075; cv=none; b=tvSrfSbe745T5gcDhIJRFZLOwgVH1X4IVCLTQH/QXiF+qlWzOO9bTZ0Aol+mQDV4RL1d7Oa0hViO2Q+N8ckEGQG8zymk6SN/eFLdgrVwQkWT7f4wgj72ohwp3vjgndJnG8G+ZVBoCM07rLRONc7zOkakJBxZsEK77QZoJAGjVrE=
+	t=1779813447; cv=none; b=Naobx+4qhCyxr6K2RulZHkZNYwt/hohiQ/GPwoe4AxJtqgmWiRpob9LzXu/9GFz8dUNYy9+FfJVWfLdnzjdI4n57B7uYAys0lYhrMdWA9qGq4Bhwo5py1Ejf/wY7bkKYB2gk8K0hDXcoO7eIYpllpAPpnscwR7M8RhpoTp3nfkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779718075; c=relaxed/simple;
-	bh=2Ho2IoV59LwkMD+Wa6e3K4Vn8fLL93pSqnoD57gbJEU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=jhESMjkImtREvmS3sSjb7fGDX3B+SRqfBkUiNR5MGUPWBgNEwfMOu2B2KxzXfZx8nzxGFiWIhn8oILd4OhwXgMYXbUGeDE0pV6JmNy8rPcaTFpF938wAxVifBV1k1UwacpawSNkb3DUm4ngYdarYkL4j4RhBTTWfBWFlfFNnZaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=IXduTA2s; arc=none smtp.client-ip=121.127.44.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1779813447; c=relaxed/simple;
+	bh=2EeXpqQDt+Fd1xdkcAs9Zp3fbvTTh/2xP1kDKJJar2o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IuPIZ6zIjMLPBdeFhy4CZVNyvL6eRWQOxTUK1SSsQZ2OLOp6rv9FWrDqqruURTw/HdcpYQqt1R98aeUjCxDJpsL5R+dh0pEilG5hKmV2zYKXX/bZyM9ZPB/NcakH/Nm8p7S4UpCjG1rY4U00M0DyAMjc3YiHx9xZHv376tlBtSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=SU3ThnVC; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="IXduTA2s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: Subject: Cc: To: From: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1779718073;
- bh=2Ho2IoV59LwkMD+Wa6e3K4Vn8fLL93pSqnoD57gbJEU=;
- b=IXduTA2s4V4sLkEQHkNFX2pXACy/KU9cYjEMOU5bWy+lFNVbZKI+qc09amJw+lSWrWNvGqyrt
- +dLXVeo2M1ZImCGKq3WojKgvP/DZaxqJ31Mfl9dHQEcwem4SUnCzsDU9DSTklbRRHhVhXc4YlVB
- 5pk2SLqLCr35q5HlJDMY1wHeZE6aSziUiHNmxe55z5nrivtcp+RpX1H0NRR3ymCcuI9Dc6axoRj
- 19kAas8i8JbYu67GV9Z/sPddqucXxhK8c3NXM8xk3tYJW6glFrUVqSQIOsCYXRX+463uIkzqoPU
- VlU3Z0IJSc6FIX66ekrcNV53Pbwe3I8ovikh2hiQ+knw==
-X-Forward-Email-ID: 6a1457b79efc2641fb7d3a63
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 2.8.15
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="SU3ThnVC"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-43587e63a8eso6808619fac.0
+        for <asahi@lists.linux.dev>; Tue, 26 May 2026 09:37:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1779813445; x=1780418245; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CbEyVDKYB6brZVOZVveRW94ChbWHXbhuaSGALUdMmOo=;
+        b=SU3ThnVCPHlt4oT8byLdn/GYrZHHWbdZLZef6I5gl3W8ljD/ie1gZer0bKPDtSwaXK
+         dkDDd7sR7f5VwfiEiUcyNA9pqDzbYM/8D816YEYMJwW7RYGrTuIpBZ58LH4u9jNTqIXo
+         yrYIqOklA63TQXfAazqY4ckJCD3y04RIR2CsdjyyJPBP7F3Vqxl9SzgDJ8K8KwjVWc4O
+         C09KVlPsKWMsfKuaLGYPUxYCPMKgmrrQgH1Oqbhy5eDmeb6K94Hpg1ZGdGNDcLfwFju0
+         nsx/o4sYkvPlBmlSnBHEivDCGOwwb8SiVqRyw12gaQdl2Xj2u9gwmdM7T9YG31ieSJJk
+         chFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779813445; x=1780418245;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CbEyVDKYB6brZVOZVveRW94ChbWHXbhuaSGALUdMmOo=;
+        b=GXD18geJNh4K82ABYzx9f0A8eHEgvdEz/SiDb8sFx7G1Lgs8heu30Jlgx9MirxTTIb
+         /DJBNZwDrVT6AyjRV4fxlMtvwUAk+wM3zSYpu+GCsu/Mft3z2qlxNwn7f/UJCtyuKaTJ
+         3y9bSHrFQEHkVD5RgXck3mH7HTnKwFZ6r4rQpZvXvRnpyDIT3vdBHZIHhkxjHhfe1E4s
+         UKs91xdTtoTe+c7Yo7U/932TjxNBpeGr317ShilXTce9HGBA8eH52o3M79OjywXPhA+P
+         zscqCX8VbQZecJ2sVA5R96p2HXc2XzUe1Wv4/s2MBaJZLf3o4zE5LLs7B+mUUYR0a2VB
+         biDQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8jodzVaodE1mVO+Gh1NLzrxe+9kAuBQW43i3JtGtiGOVde8OBcOCBEaXg11z1PTg+ylek9Mw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNyIE9aVtDKJwv/ZyEPTmiYusMCTeuAabPq7iapJv2Sdea9M5P
+	Hro8QWmzH/fxE7/dh5NhfFGRI7/2Zyw/zqsYFTY2s6cgDSFtXRWBsYdtAFBYChwsT3Y=
+X-Gm-Gg: Acq92OFU1Oh5DDSQ8YFigQxMFjdEhLG957DSbGmJYl5YDvfTNyzuEIc8CF+y5XfUP75
+	qj068yNV3PdAnEZQct1CReuu3LuODgn1sJp1ROKH0IfO1sLS7LA9bDsFdcl4CLNHVieYxyMYyeo
+	i/EtAu9gyPRCP1LegUIGTk9hD5Q+SwSvoNN6lpMLvdVMa1SoNS+Z++k5j5Vck43dCSh4XIDlQv1
+	rb+YsZOAfhrSqlpTIosJE5zpiBjEH/D2Nd7O4lITSDyCu0bEbEYdq/kBwTajtX86GfpD6/zDImR
+	VuIVC9cQ9tuJUTck0MXzwmOX0mw45REVGtzfpt45f9w5bOvuU4j6kj1rL4NUp2MmnZkRJqvhs3X
+	n0MBaRY7owvBa4/ZyRuj1WPMWVoX96slFeZPkazeFVvl6ZLUUpeva070lcmR7BY+IbhrcDecYno
+	geeIu5K7iKV+GX68UmzVMCw85qPgOr9UxWqY/4Vs3UsOLfEMGsYKGfRDmngGhThnfGLhALw6ekR
+	RKEgFqKvS9YuHcmu+B6p1RO
+X-Received: by 2002:a05:6871:289a:b0:43a:5cd0:db00 with SMTP id 586e51a60fabf-43b5adb7a25mr12258063fac.23.1779813444777;
+        Tue, 26 May 2026 09:37:24 -0700 (PDT)
+Received: from [127.0.0.1] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43b639fd7adsm13561265fac.14.2026.05.26.09.37.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 09:37:22 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Mateusz Nowicki <mateusz.nowicki@posteo.net>
+Cc: Caleb Sander Mateos <csander@purestorage.com>, 
+ Sung-woo Kim <iam@sung-woo.kim>, Josef Bacik <josef@toxicpanda.com>, 
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
+ Mikulas Patocka <mpatocka@redhat.com>, 
+ Benjamin Marzinski <bmarzins@redhat.com>, Ulf Hansson <ulfh@kernel.org>, 
+ Richard Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, 
+ Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Thomas Fourier <fourier.thomas@gmail.com>, 
+ Al Viro <viro@zeniv.linux.org.uk>, Luke Wang <ziniu.wang_1@nxp.com>, 
+ Kees Cook <kees@kernel.org>, linux-block@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nbd@other.debian.org, 
+ dm-devel@lists.linux.dev, linux-mmc@vger.kernel.org, 
+ linux-mtd@lists.infradead.org, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
+ linux-scsi@vger.kernel.org
+In-Reply-To: <20260523125210.272274-1-mateusz.nowicki@posteo.net>
+References: <20260523125210.272274-1-mateusz.nowicki@posteo.net>
+Subject: Re: [PATCH v1] block: switch numa_node to int in blk_mq_hw_ctx and
+ init_request
+Message-Id: <177981344077.464267.4670805396521914701.b4-ty@b4>
+Date: Tue, 26 May 2026 10:37:20 -0600
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Mon, 25 May 2026 10:07:50 -0400
-Message-Id: <DIRTEIGVL56X.1W49YU67DXNUQ@ubuntu.com>
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Sasha Finkelstein" <k@chaosmail.tech>, "Joshua Peisach"
- <jpeisach@ubuntu.com>
-Cc: "Sven Peter" <sven@kernel.org>, "Janne Grunau" <j@jannau.net>, "Neal
- Gompa" <neal@gompa.dev>, "Marcel Holtmann" <marcel@holtmann.org>, "Luiz
- Augusto von Dentz" <luiz.dentz@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon
- Horman" <horms@kernel.org>, <linux-kernel@vger.kernel.org>,
- <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-bluetooth@vger.kernel.org>, <netdev@vger.kernel.org>
-Subject: Re: [PATCH v3] Bluetooth: Add Broadcom channel priority commands
-X-Mailer: aerc 0.21.0
-References: <20260525-brcm-prio-v3-1-6259e10233f8@chaosmail.tech>
- <DIRT7260SRQZ.1BFF8CX3FJ57G@ubuntu.com>
- <172D11E7-AF98-43F8-B41B-907738749EA5@chaosmail.tech>
-In-Reply-To: <172D11E7-AF98-43F8-B41B-907738749EA5@chaosmail.tech>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.2
 
-On Mon May 25, 2026 at 10:05 AM EDT, Sasha Finkelstein wrote:
->
->> On May 25, 2026, at 15:58, Joshua Peisach <jpeisach@ubuntu.com> wrote:
->>=20
->> On Mon May 25, 2026 at 8:11 AM EDT, Sasha Finkelstein wrote:
->>>=20
->>> + cmd.enable =3D !!enable;
->>> +
->>=20
->> Probably a dumb question, but worth asking - what is the purpose of the
->> "!!"? Wouldn't just passing "enable" be sufficient?
->
-> This is a way to enforce that the value is exactly 0 or 1, not 0 or non-z=
-ero.
->
->>=20
->> Also, currently, cmd.enable seems to just be set and used in the case
->> of boolean conditions. Would it make sense for the enable field in
->> brcm_prio_cmd to be a bool or does it not really matter?
->>=20
-> Opposite, actually, this struct is fed to firmware, and it needs to be
-> specifically a u8.
 
-Got it, thanks!
+On Sat, 23 May 2026 12:52:35 +0000, Mateusz Nowicki wrote:
+> numa_node in blk_mq_hw_ctx and the matching argument of
+> blk_mq_ops::init_request can be NUMA_NO_NODE (-1).  Declared as
+> unsigned int, NUMA_NO_NODE becomes UINT_MAX and walks off
+> nvme_dev::descriptor_pools[] on CONFIG_NUMA=n [1].
+> 
+> Switch the field and the callback prototype to int and update all
+> in-tree init_request implementations.  No functional change:
+> cpu_to_node(), kmalloc_node() and blk_alloc_flush_queue() already
+> take int.
+> 
+> [...]
 
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+Applied, thanks!
+
+[1/1] block: switch numa_node to int in blk_mq_hw_ctx and init_request
+      commit: 65e1c8f96ad1a1f3b72e8a91d1341d570f91d985
+
+Best regards,
+-- 
+Jens Axboe
+
+
+
