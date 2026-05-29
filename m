@@ -1,127 +1,232 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAFE3C5DD4
-	for <asahi@lists.linux.dev>; Tue, 26 May 2026 16:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E7C81732
+	for <asahi@lists.linux.dev>; Fri, 29 May 2026 10:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779813447; cv=none; b=Naobx+4qhCyxr6K2RulZHkZNYwt/hohiQ/GPwoe4AxJtqgmWiRpob9LzXu/9GFz8dUNYy9+FfJVWfLdnzjdI4n57B7uYAys0lYhrMdWA9qGq4Bhwo5py1Ejf/wY7bkKYB2gk8K0hDXcoO7eIYpllpAPpnscwR7M8RhpoTp3nfkM=
+	t=1780049923; cv=none; b=J+eKJk/7bLx4P/3bsbP2O6lfq4hKfkUOAUIDBjUeGM/7p1bYxxkmWWdQR6ZXqG1Ym37H1K+9tD6IlECd0Kce/BAIt+Q+AsBMhlTbwv77uBGScUid5LOo4H8rd4iBfl6G3vEw4xGlLdrL1zuEjzkhWWhHYt+A1cfJJfFZJzJNTQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779813447; c=relaxed/simple;
-	bh=2EeXpqQDt+Fd1xdkcAs9Zp3fbvTTh/2xP1kDKJJar2o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IuPIZ6zIjMLPBdeFhy4CZVNyvL6eRWQOxTUK1SSsQZ2OLOp6rv9FWrDqqruURTw/HdcpYQqt1R98aeUjCxDJpsL5R+dh0pEilG5hKmV2zYKXX/bZyM9ZPB/NcakH/Nm8p7S4UpCjG1rY4U00M0DyAMjc3YiHx9xZHv376tlBtSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=SU3ThnVC; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1780049923; c=relaxed/simple;
+	bh=HR0BG2x5gStI8qVvDgUBsjfK17M95+4vrnDaD2QTsYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aqXYybN2EWaAwTkKk7Ol3S31X/YeiH/a2smW5TmIAmVzb9DYfJ9/lCMLK9RE32fz87LrwbVdI0tKNecFanss8zO0Qe5DsBIuVXunRrPuuaFuN0ATbj0SZF/CGtwS8Mh83KvHKbdHpncIpX8FXuCc5Wa9cLsfKUDcC9HSySiEZcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=anZB5nmx; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="SU3ThnVC"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-43587e63a8eso6808619fac.0
-        for <asahi@lists.linux.dev>; Tue, 26 May 2026 09:37:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="anZB5nmx"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45eedc94d37so676812f8f.3
+        for <asahi@lists.linux.dev>; Fri, 29 May 2026 03:18:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1779813445; x=1780418245; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CbEyVDKYB6brZVOZVveRW94ChbWHXbhuaSGALUdMmOo=;
-        b=SU3ThnVCPHlt4oT8byLdn/GYrZHHWbdZLZef6I5gl3W8ljD/ie1gZer0bKPDtSwaXK
-         dkDDd7sR7f5VwfiEiUcyNA9pqDzbYM/8D816YEYMJwW7RYGrTuIpBZ58LH4u9jNTqIXo
-         yrYIqOklA63TQXfAazqY4ckJCD3y04RIR2CsdjyyJPBP7F3Vqxl9SzgDJ8K8KwjVWc4O
-         C09KVlPsKWMsfKuaLGYPUxYCPMKgmrrQgH1Oqbhy5eDmeb6K94Hpg1ZGdGNDcLfwFju0
-         nsx/o4sYkvPlBmlSnBHEivDCGOwwb8SiVqRyw12gaQdl2Xj2u9gwmdM7T9YG31ieSJJk
-         chFQ==
+        d=baylibre.com; s=google; t=1780049919; x=1780654719; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gRuenZrko78jZddy0UFWO+BRki0zaXyQrkNHtJpBvQk=;
+        b=anZB5nmxohmHhx0MeKzlf0ac3ussNCFyihbkn5KFtVLLH8Ey4M/boSc9Bu572OZZyb
+         JvqRVyaS0MRAsmVRGufFBDTnHE/uYbM72TMvNmR5K6suNuaUzw74XuCqP0Phe1uc2bet
+         T3SiEXVDVXpvMnn0RdvQq8SspDNioKN3ze3Q++KOaVvv1krXoMnTaxcvTD5mEMlt1ast
+         aidnNTVNX6gulYdmYn1+Z8ODQ/4fVnYNQuTyPvHF7/CWKT39MLKSWQL8zRgxXZwmkT+t
+         +vdBE+Q9aIamzqQbzYZ89ZfvkairAkU1NSN3WkFM9yjAmGE0yz1ErZZLN7g4SrzvJk71
+         A22g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779813445; x=1780418245;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CbEyVDKYB6brZVOZVveRW94ChbWHXbhuaSGALUdMmOo=;
-        b=GXD18geJNh4K82ABYzx9f0A8eHEgvdEz/SiDb8sFx7G1Lgs8heu30Jlgx9MirxTTIb
-         /DJBNZwDrVT6AyjRV4fxlMtvwUAk+wM3zSYpu+GCsu/Mft3z2qlxNwn7f/UJCtyuKaTJ
-         3y9bSHrFQEHkVD5RgXck3mH7HTnKwFZ6r4rQpZvXvRnpyDIT3vdBHZIHhkxjHhfe1E4s
-         UKs91xdTtoTe+c7Yo7U/932TjxNBpeGr317ShilXTce9HGBA8eH52o3M79OjywXPhA+P
-         zscqCX8VbQZecJ2sVA5R96p2HXc2XzUe1Wv4/s2MBaJZLf3o4zE5LLs7B+mUUYR0a2VB
-         biDQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8jodzVaodE1mVO+Gh1NLzrxe+9kAuBQW43i3JtGtiGOVde8OBcOCBEaXg11z1PTg+ylek9Mw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNyIE9aVtDKJwv/ZyEPTmiYusMCTeuAabPq7iapJv2Sdea9M5P
-	Hro8QWmzH/fxE7/dh5NhfFGRI7/2Zyw/zqsYFTY2s6cgDSFtXRWBsYdtAFBYChwsT3Y=
-X-Gm-Gg: Acq92OFU1Oh5DDSQ8YFigQxMFjdEhLG957DSbGmJYl5YDvfTNyzuEIc8CF+y5XfUP75
-	qj068yNV3PdAnEZQct1CReuu3LuODgn1sJp1ROKH0IfO1sLS7LA9bDsFdcl4CLNHVieYxyMYyeo
-	i/EtAu9gyPRCP1LegUIGTk9hD5Q+SwSvoNN6lpMLvdVMa1SoNS+Z++k5j5Vck43dCSh4XIDlQv1
-	rb+YsZOAfhrSqlpTIosJE5zpiBjEH/D2Nd7O4lITSDyCu0bEbEYdq/kBwTajtX86GfpD6/zDImR
-	VuIVC9cQ9tuJUTck0MXzwmOX0mw45REVGtzfpt45f9w5bOvuU4j6kj1rL4NUp2MmnZkRJqvhs3X
-	n0MBaRY7owvBa4/ZyRuj1WPMWVoX96slFeZPkazeFVvl6ZLUUpeva070lcmR7BY+IbhrcDecYno
-	geeIu5K7iKV+GX68UmzVMCw85qPgOr9UxWqY/4Vs3UsOLfEMGsYKGfRDmngGhThnfGLhALw6ekR
-	RKEgFqKvS9YuHcmu+B6p1RO
-X-Received: by 2002:a05:6871:289a:b0:43a:5cd0:db00 with SMTP id 586e51a60fabf-43b5adb7a25mr12258063fac.23.1779813444777;
-        Tue, 26 May 2026 09:37:24 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43b639fd7adsm13561265fac.14.2026.05.26.09.37.20
+        d=1e100.net; s=20251104; t=1780049919; x=1780654719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gRuenZrko78jZddy0UFWO+BRki0zaXyQrkNHtJpBvQk=;
+        b=F/3T1YuUzoWt2kUr+slsNyNgb0293Z4WnfYlx9kVfl0d9FvzZlBJd4X1qKt6V1Q//7
+         4se0YUrGkPn2Pspxgaje9GL2CXD/LORqxlJhtGW3ck5I4ybY18IgmWN7i/XOwA4+pUeS
+         x8ZXQ3WFLjvKXtdPFJmRkSoluiPZtPvTeKelGbabTWcyuD4wM912m14yeXVtnstcBURb
+         5DefosIlCc35GhRMxA5Kw9nci6kVVCjBDUvaalGWilHDmE+dMTP3EEB7OOg9XLnLMeYv
+         Ae4xp48x5YwqWrCWsvRldtRt9E9ftew4w8EBE2kTCc2nM6hr7PW1j8P0bstok/c7aOLY
+         hiBQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9l1i8yilsqXjY4hAmAAxHrJ1KzDnZltu/1h0eMuYTLHXkJkglVU+4OaJC5XRE1y88DXTCo+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzW2JvYLmgV9bnQOr+vaKQA3psHxc7GfidiB4id/M695v41C+qj
+	iRL+1XVSmtUVE80Fo0y5kCQoB9vaathITRmiBDslcrUZqwzNDDSlWrY4mA3gTdw1lqo=
+X-Gm-Gg: Acq92OHtXN1kRF+SX8b6DWVLjzGP7BwDSBcconTVspv27rqu84Vd+6KqO2rrVqbU5zi
+	TnkT0n8mofWq6pFCAnobKX9Hj8EYVsSVNI9G8QeTqGXdHCKpD6xlSsBRFmiwNwf0NrT9ifpgNnq
+	PKgZqa1aF+vzR/40+c6ONK9+zGyKBjXRY6PuoO9g+TkxYN5+aQHuxHHVlP1/8nLRwm3maJ0mv2d
+	/VCMuZaPt1scfOJLPa2wUXaucat3PUeSOlcRW1oPNXsvG1WoCwRYnImp0XcgodK0XINO01zHqUp
+	LVVtBGdDv95jnD/E+lawb0pN5agIO8uloKCpQTfaY70dbjRlzVc/clrcbXBYm4KfSdF2zS7uWNE
+	O6NZ5dgFnLQ+SnT90WW2+cMQGoHbyBpFO/2+aj9/YOZSNxQaqmwvk2cR84XCraTPr+WKyp6sQ9D
+	qOe6S1b3kaRxvGhYGX+tzi3Zn+wCs0REEo8WF0cJdMa8EYD+jqCtzd9dvDRIyoUDazkRoE/rqEj
+	qKHyAhOsvYFxdM42SulvE+BsQ==
+X-Received: by 2002:a5d:6f03:0:b0:45e:ef4a:8192 with SMTP id ffacd0b85a97d-45ef14aeca6mr4456766f8f.38.1780049919017;
+        Fri, 29 May 2026 03:18:39 -0700 (PDT)
+Received: from localhost (p200300f65f47db043f932d8b97293bf6.dip0.t-ipconnect.de. [2003:f6:5f47:db04:3f93:2d8b:9729:3bf6])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45ef354cd7csm2359192f8f.18.2026.05.29.03.18.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 09:37:22 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Mateusz Nowicki <mateusz.nowicki@posteo.net>
-Cc: Caleb Sander Mateos <csander@purestorage.com>, 
- Sung-woo Kim <iam@sung-woo.kim>, Josef Bacik <josef@toxicpanda.com>, 
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
- Mikulas Patocka <mpatocka@redhat.com>, 
- Benjamin Marzinski <bmarzins@redhat.com>, Ulf Hansson <ulfh@kernel.org>, 
- Richard Weinberger <richard@nod.at>, Zhihao Cheng <chengzhihao1@huawei.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Sven Peter <sven@kernel.org>, 
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
- Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, 
- Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Thomas Fourier <fourier.thomas@gmail.com>, 
- Al Viro <viro@zeniv.linux.org.uk>, Luke Wang <ziniu.wang_1@nxp.com>, 
- Kees Cook <kees@kernel.org>, linux-block@vger.kernel.org, 
- linux-kernel@vger.kernel.org, nbd@other.debian.org, 
- dm-devel@lists.linux.dev, linux-mmc@vger.kernel.org, 
- linux-mtd@lists.infradead.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
- linux-scsi@vger.kernel.org
-In-Reply-To: <20260523125210.272274-1-mateusz.nowicki@posteo.net>
-References: <20260523125210.272274-1-mateusz.nowicki@posteo.net>
-Subject: Re: [PATCH v1] block: switch numa_node to int in blk_mq_hw_ctx and
- init_request
-Message-Id: <177981344077.464267.4670805396521914701.b4-ty@b4>
-Date: Tue, 26 May 2026 10:37:20 -0600
+        Fri, 29 May 2026 03:18:38 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Sebastian Reichel <sre@kernel.org>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	=?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Hans de Goede <hansg@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Yixun Lan <dlan@kernel.org>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Amit Sunil Dhamne <amitsd@google.com>,
+	Samuel Kayode <samkay014@gmail.com>,
+	linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev,
+	asahi@lists.linux.dev,
+	imx@lists.linux.dev,
+	Chen-Yu Tsai <wens@kernel.org>
+Subject: [PATCH v1 0/6] power: Use named initializers for platform_device_id arrays
+Date: Fri, 29 May 2026 12:18:15 +0200
+Message-ID: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5698; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=HR0BG2x5gStI8qVvDgUBsjfK17M95+4vrnDaD2QTsYk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqGWfoDIuZ0g/W2ypE62dFHULfUWoyzPSByuJOy zumyQmeqqeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahln6AAKCRCPgPtYfRL+ TsKPB/9mAyfp+pLZiIDxZa/Gq+SSHanqJrTQwpZ9rQFWh6BTlVwAzfy9/iK3DTaEC0m73vbGFfQ SrrV9RH9jd6SuuSNJEy+P030qdvrNgwnqe9+Kw6h9Ox1Xf/WbmVgbFqiAvBlC9bWaxNYlaSXA6b k6D0JHKSjZPpHgGWSl8de58GW9wTOhD4G7APcHqvig2ElcuxKXGEJMbDiI5C+wM6c/uNZYGDKQH Gyln8usdt6LIe+L24f+S0WZZOkN5b75oBqE1U4SirbgWSV0oQR/VgR5R3MVvLMMrmyqPiFaaawD fWqFsf8PmmOgcfZvBQ4ZGzTElp/ezMarN1H6m653QUtXR1kb
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+
+Hello,
+
+this series targets to use named initializers for platform_device_id
+arrays. In general these are better readable for humans and more robust
+to changes in the respective struct definition.
+
+This robustness is needed as I want to do
+
+	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+	--- a/include/linux/mod_devicetable.h
+	+++ b/include/linux/mod_devicetable.h
+	@@ -610,4 +610,7 @@ struct dmi_system_id {
+	 struct platform_device_id {
+		char name[PLATFORM_NAME_SIZE];
+	-	kernel_ulong_t driver_data;
+	+	union {
+	+		kernel_ulong_t driver_data;
+	+		const void *driver_data_ptr;
+	+	};
+	 };
+
+which allows dropping several casts and eases porting CHERI to mainline
+linux. A possible follow-up change is the following example:
+
+	diff --git a/drivers/gpio/gpio-pxa.c b/drivers/gpio/gpio-pxa.c
+	index 5d61053e0596..03bc8e859d73 100644
+	--- a/drivers/gpio/gpio-pxa.c
+	+++ b/drivers/gpio/gpio-pxa.c
+	@@ -534,7 +534,7 @@ static struct irq_chip pxa_muxed_gpio_chip = {
+	 static int pxa_gpio_nums(struct platform_device *pdev)
+	 {
+		const struct platform_device_id *id = platform_get_device_id(pdev);
+	-	struct pxa_gpio_id *pxa_id = (struct pxa_gpio_id *)id->driver_data;
+	+	struct pxa_gpio_id *pxa_id = id->driver_data_ptr;
+		int count = 0;
+	 
+		switch (pxa_id->type) {
+	@@ -708,14 +708,14 @@ static int pxa_gpio_probe(struct platform_device *pdev)
+	 }
+	 
+	 static const struct platform_device_id gpio_id_table[] = {
+	-	{ .name = "pxa25x-gpio",	.driver_data = (unsigned long)&pxa25x_id },
+	-	{ .name = "pxa26x-gpio",	.driver_data = (unsigned long)&pxa26x_id },
+	-	{ .name = "pxa27x-gpio",	.driver_data = (unsigned long)&pxa27x_id },
+	-	{ .name = "pxa3xx-gpio",	.driver_data = (unsigned long)&pxa3xx_id },
+	-	{ .name = "pxa93x-gpio",	.driver_data = (unsigned long)&pxa93x_id },
+	-	{ .name = "mmp-gpio",		.driver_data = (unsigned long)&mmp_id },
+	-	{ .name = "mmp2-gpio",		.driver_data = (unsigned long)&mmp2_id },
+	-	{ .name = "pxa1928-gpio",	.driver_data = (unsigned long)&pxa1928_id },
+	+	{ .name = "pxa25x-gpio",	.driver_data_ptr = &pxa25x_id },
+	+	{ .name = "pxa26x-gpio",	.driver_data_ptr = &pxa26x_id },
+	+	{ .name = "pxa27x-gpio",	.driver_data_ptr = &pxa27x_id },
+	+	{ .name = "pxa3xx-gpio",	.driver_data_ptr = &pxa3xx_id },
+	+	{ .name = "pxa93x-gpio",	.driver_data_ptr = &pxa93x_id },
+	+	{ .name = "mmp-gpio",		.driver_data_ptr = &mmp_id },
+	+	{ .name = "mmp2-gpio",		.driver_data_ptr = &mmp2_id },
+	+	{ .name = "pxa1928-gpio",	.driver_data_ptr = &pxa1928_id },
+		{ }
+	 };
+ 
+increasing readability due to less casting. Also this results in the
+compiler warning:
+
+	drivers/gpio/gpio-pxa.c: In function ‘pxa_gpio_nums’:
+	drivers/gpio/gpio-pxa.c:537:38: error: initialization discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+	  537 |         struct pxa_gpio_id *pxa_id = id->driver_data_ptr;
+	      |                                      ^~
+
+which is a good thing as adding the needed const to fix this warning
+improves type safety. (Sorry, no driver below drivers/power benefits
+here, so the example is from a different subsystem.)
+
+Patch #5 is just an unrelated change where I spotted the patch
+opportunity while preparing this series. It's included here just for my
+convenience and could be applied independently.
+
+If you consider the last patch mostly churn, just drop it.
+
+There are no dependencies between the patches, the only file that is
+touched in more than one patch is drivers/power/supply/mt6360_charger.c
+and even if these (i.e. patches #1 and #5) are reordered, git should be
+able to cope with that without conflicts.
+
+Note that this series is only build tested, and there is the possibility
+that I failed to spot driver data usage that render patches #2 and/or #3
+wrong. So a deeper look on at least those two won't hurt.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (The Capable Hub) (6):
+  power: Drop unused assignment of platform_device_id driver data
+  power: supply: max14577: Drop driver data in of and platform device id
+    arrays
+  power: supply: max17042: Drop driver data in of and platform device id
+    arrays
+  power: Use named initializers for platform_device_id arrays
+  power: supply: mt6360_charger: Use of match table unconditionally
+  power: Unify code style for platform_device_id arrays
+
+ drivers/power/reset/qemu-virt-ctrl.c           |  2 +-
+ drivers/power/reset/spacemit-p1-reboot.c       |  4 ++--
+ drivers/power/reset/tps65086-restart.c         |  2 +-
+ drivers/power/supply/axp288_charger.c          |  2 +-
+ drivers/power/supply/axp288_fuel_gauge.c       |  2 +-
+ drivers/power/supply/bd71828-power.c           |  8 ++++----
+ drivers/power/supply/charger-manager.c         |  4 ++--
+ drivers/power/supply/cros_charge-control.c     |  4 ++--
+ drivers/power/supply/cros_peripheral_charger.c |  4 ++--
+ drivers/power/supply/cros_usbpd-charger.c      |  4 ++--
+ drivers/power/supply/macsmc-power.c            |  2 +-
+ drivers/power/supply/max14577_charger.c        | 12 +++++-------
+ drivers/power/supply/max17042_battery.c        | 14 +++++++-------
+ drivers/power/supply/max77693_charger.c        |  2 +-
+ drivers/power/supply/max77759_charger.c        |  2 +-
+ drivers/power/supply/max8997_charger.c         |  2 +-
+ drivers/power/supply/max8998_charger.c         |  2 +-
+ drivers/power/supply/mt6360_charger.c          |  6 +++---
+ drivers/power/supply/pf1550-charger.c          |  2 +-
+ drivers/power/supply/rt5033_charger.c          |  2 +-
+ 20 files changed, 40 insertions(+), 42 deletions(-)
 
 
-On Sat, 23 May 2026 12:52:35 +0000, Mateusz Nowicki wrote:
-> numa_node in blk_mq_hw_ctx and the matching argument of
-> blk_mq_ops::init_request can be NUMA_NO_NODE (-1).  Declared as
-> unsigned int, NUMA_NO_NODE becomes UINT_MAX and walks off
-> nvme_dev::descriptor_pools[] on CONFIG_NUMA=n [1].
-> 
-> Switch the field and the callback prototype to int and update all
-> in-tree init_request implementations.  No functional change:
-> cpu_to_node(), kmalloc_node() and blk_alloc_flush_queue() already
-> take int.
-> 
-> [...]
-
-Applied, thanks!
-
-[1/1] block: switch numa_node to int in blk_mq_hw_ctx and init_request
-      commit: 65e1c8f96ad1a1f3b72e8a91d1341d570f91d985
-
-Best regards,
+base-commit: f7af91adc230aa99e23330ecf85bc9badd9780ad
 -- 
-Jens Axboe
-
-
+2.47.3
 
