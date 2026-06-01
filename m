@@ -1,110 +1,90 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698F44C92
-	for <asahi@lists.linux.dev>; Mon,  1 Jun 2026 06:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C81D360EDE;
+	Mon,  1 Jun 2026 19:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780296544; cv=none; b=pxBvDuEZI7xk5a4SyPwMnzm5tnR/ruB6A+UQWRMJW+b6VtMY0EULvTR/yL2+vhS87RtOkxJgONaAg6Qoj+F2CsrwhhEiG0swqXa9OcTjvlGSdMuZy3mKWNGrV+e1MRbo+lsk5tMU+z8wBnPDHAKC9/FOVQySBr56WexcFOK5o1E=
+	t=1780342091; cv=none; b=WIXCBGTyoGshjjJAyLabR94QkHh+xi6RDF0CFjaJIEGz/g+8nZy9qzuQERJ2lyjPsbRw3AYBDXzd4EDNSfalhfmjx4ktO6JUQ1+L232T5xy2qB2a87vRLDwCZyHhq31528Giwsi4TY7Q+Urz9jGRQXagekmlfYiSDlDxzEOxZBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780296544; c=relaxed/simple;
-	bh=y4/ouupBjoYRS77m3fiaKDERYhLyJZEdAdivWI66SqA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lRCmGq49JMlweCuZH9pQwtcPjGQgtVrAddH8OtB6Za5/4FP6qVDPCYvbtaXsaq2YiMyhMyBQ7NwbO/POBA+4QjIPBnHq6UuB80juc85YltpMKi9nGi64iwtZTZI9xtO8yWIRGRpfsL/l1jQWvCES6ciL8N/dXTMLOTt01a4nSNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gu6rjTN4; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780342091; c=relaxed/simple;
+	bh=oJvVtxM1xLc2HjJ1CGbHcAeaHfyfE1pqqFuTdIpKjvc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YWoo9gBxZh3WMGBB+V3wJzm4T4z9Fsuso1bSKdWh696exhftG/BnkMSokF/eGKu52MwWtLJu5mCEMQWlYrwYGI74V94ZEFwRVQpr84PjZzSnCRnwKC7xoRmD1eCIdOdzDdzBxXfbxugGJbTNMr+Ns3B5ijzinpJKJr8parNRcSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7HvLvVO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gu6rjTN4"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa5be9ab1aso2558371e87.1
-        for <asahi@lists.linux.dev>; Sun, 31 May 2026 23:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780296541; x=1780901341; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pGxbL9faVDVgrvfQsBar+KVqQ+FJr+nh53Wa1vgTsOQ=;
-        b=gu6rjTN4pWCuTZsYyKnIVX9rDYs1yl+zmsuKbYQqQYXFzNKIKv3zs6ZzvjWMOopyeC
-         6lomPK4q0jzDi/oO2/VJQnNS4dAMZWLkwuqXtiRydpGx0q0eEaZ23Uog6gZLBBh4HvMY
-         ah0cKuPWXkamnCC7k/UaVHpLQA+psKlu8IZFIW66lrjOi/iAKzqAdiNcfFWcN67ERgu3
-         KQ9CL/KhJYhhyqmItz/vbiiwAQg5Db+AIXLvk0OSMJGMll+FtMKnm7Kn70ftLO92OG3D
-         gNpaMvHJZuvQy7lhEIOrbFKBoPqchceenyZ6HuEVNvSAJUqd6Wa1U4a/LUxWyBsWTYXx
-         oKKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780296541; x=1780901341;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pGxbL9faVDVgrvfQsBar+KVqQ+FJr+nh53Wa1vgTsOQ=;
-        b=TuXC2q1XqqG8NtVVpoe9hldYxuPGchQaaC+2mR+hXCINWtITxyq3DwF2XfywqLBYVw
-         VqE+Fm4Bm+Qw8ExIGcroM1D/ubn6lbjenNeMK/is/n/i7sweHl/mka0oQrmhLfvNPq4l
-         9NIOBYRZRQRBOuWqpSQGitKjwOWq6WbqyFq9CP9oxmQbvxa7e2vE320WyjS75STX+kxd
-         jyABXVHpI+TdaII28o542YR2hhcDAV0luqge7kYQ6+MpfSouN1pds1HGTmSzYxaDsbg3
-         OCGMjiOAgTDUm2xs4qKhldGVipNFccmJc6HcEDlI02wK0MgKHFJRyEBxAu7CoRSaZOOd
-         Scpw==
-X-Forwarded-Encrypted: i=1; AFNElJ/QPh8JY8EVgrtFAnoHXUcHQqpe+VYTcCJdt12Z+1v/ekhVX9YMDE2pzPmDsiKbhSbbsnwF5g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1Sur4KDQrnWCXY6oe0vYbZzgcx74glzC/LFFXqLozUhCzA/jk
-	F0jSi35Lem4+2v1fegMf1ojSV6p9qcxKxGGd/pVJItMhZlAMmzXZ/9/B
-X-Gm-Gg: Acq92OFrAwgZSHZ1AhhCN5rg14ka3cJIdvFqB8vtehO/BOI1MGm77q1rRu6vTx+kc1E
-	MW0V8vSuJvpGC5friLcZw4JfI6xZN00ljcEffLwossXoeiSQMqs1h+lGUmmAu5nidxe/k1s9Glt
-	f8RDJUrrQ1wmIi5PyOyH183DY4Uy5+pWKKAOb3n/8dpIbTXMMbmFv5PTkhD+NLOfnn6kUV3dosW
-	uReY8F1RCi0FF27foZWPap15Ma2IOr9/fr8mknVI7+xsrnqO2hTYWy7LKTNabco4HeFnFr/r6Lp
-	v+IC4Q3lmtklXrhiMcVPa/YZl9/gak+yjbR53WiGrAM+l/yYkpikTNezMk1StGCXjxecnHHBGF7
-	CLhw0eywecPpI5u07F66j20eMfQOggyQNlrjhdPGvQEDh8cSxPVo+9lTojYp7BGZdGnXTjWudmz
-	0DmUULEV9tehc6b1OpwX7yqMIIfbHoQ0mfuY4SZDdv8/Qf0qB0LYyGG+qrMb73ypl7jVdXMz76/
-	aDVPFkrMKugke3xuaQ=
-X-Received: by 2002:a05:6512:2306:b0:5a3:f25f:cc30 with SMTP id 2adb3069b0e04-5aa60a32f56mr3289885e87.32.1780296540285;
-        Sun, 31 May 2026 23:49:00 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa5b793e24sm1898970e87.73.2026.05.31.23.48.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 May 2026 23:48:59 -0700 (PDT)
-Message-ID: <b509c623-a47f-4216-9202-2c542f3c2e7b@gmail.com>
-Date: Mon, 1 Jun 2026 09:48:58 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7HvLvVO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32EEE1F00893;
+	Mon,  1 Jun 2026 19:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780342090;
+	bh=tq9hC/3pSjCU1zQh1hrpFiGfKgYq/LkIGM+ulqsQyiA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=T7HvLvVOibi7qLus6vM4bZcU/nYKtFxRDkObZU4Ht6bjnAvszWEQaWIE7f3lghyIN
+	 JJy7Nkxjyh196lRU2i44LmfFaBu4j75sVgtwkQFtOKctxO9UWvnC0wJjMkpziwbBhE
+	 RL78lH7nm5ttrkft3JDArP2TxydubsfCNRQXstUb8LvJ+ItghrBrYCGbPz1/iJuFZE
+	 884xhIC7/yhZvkL21KoTwua5HEf8//gMzUsFtJ5FF7HjGM5Dia1nhmsbsnrR08g/Ql
+	 smWOIDdem/8ePu6Ik1FYG9j+QhoaHU5VzByUaJa/GFgY1N+yYnAHic48Jhnsa6iQRZ
+	 TtzbXfCrhBeBQ==
+From: Sven Peter <sven@kernel.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Neal Gompa <neal@gompa.dev>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Joshua Peisach <jpeisach@ubuntu.com>,
+	Michael Reeves <michael.reeves077@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/6] Initial Apple silicon M3 device trees and dt-bindings
+Date: Mon,  1 Jun 2026 21:27:52 +0200
+Message-ID: <178034193517.3711.18153194478204531400.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260505-apple-m3-initial-devicetrees-v2-0-b0c2f3519e0e@jannau.net>
+References: <20260505-apple-m3-initial-devicetrees-v2-0-b0c2f3519e0e@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/6] power: Use named initializers for
- platform_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>, Sebastian Reichel <sre@kernel.org>
-Cc: Yixun Lan <dlan@kernel.org>, Andreas Kemnade <andreas@kemnade.info>,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Amit Sunil Dhamne <amitsd@google.com>,
- Samuel Kayode <samkay014@gmail.com>, linux-pm@vger.kernel.org,
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev
-References: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
- <1ceacf4f9c3f827bcad85b378aa04cdca1c04635.1780048925.git.u.kleine-koenig@baylibre.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <1ceacf4f9c3f827bcad85b378aa04cdca1c04635.1780048925.git.u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On 29/05/2026 13:18, Uwe Kleine-König (The Capable Hub) wrote:
-> Named initializers are better readable and more robust to changes of the
-> struct definition. This robustness is relevant for a planned change to
-> struct platform_device_id replacing .driver_data by an anonymous union.
+On Tue, 05 May 2026 13:02:38 +0200, Janne Grunau wrote:
+> Hej,
 > 
-> While touching these arrays unify spacing and usage of commas.
+> This series adds initial device trees for M3 Apple silicon devices. The
+> device trees contain only a minimal set of hardware not going much
+> beyond the minimum required for booting kernel and initramfs and
+> verify via serial console that the hardware and drivers work.
+> The hardware with the exception of the interrupt controller is
+> compatible with the M1 and M2 SoCs and the existing drivers.
+> `make dtbs_check` fails due to already applied and dropped apple,i2c
+> dt-bindings change (commit c5f25f5800f5 ("dt-bindings: i2c: apple,i2c:
+> Add t8122 compatible") in
+> https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git
+> i2c/for-next).
 > 
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+> [...]
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+Applied to local tree (apple-soc/dt-7.2), thanks!
 
-Yours,
-	-- Matti
+[1/6] dt-bindings: arm: apple: apple,pmgr: Add t8122 compatible
+      https://github.com/AsahiLinux/linux/commit/0407ad56fbbf
 
+Best regards,
 -- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
+Sven Peter <sven@kernel.org>
 
-~~ When things go utterly wrong vim users can always type :help! ~~
