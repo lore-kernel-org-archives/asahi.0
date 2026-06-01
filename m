@@ -1,140 +1,110 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF9219EED3
-	for <asahi@lists.linux.dev>; Sat, 30 May 2026 09:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698F44C92
+	for <asahi@lists.linux.dev>; Mon,  1 Jun 2026 06:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780131754; cv=none; b=MAKZYSF17a7M0mRb+wBhXhSYEpYlYayZYzde1EvGGOnwNTWFtlE6S1PRCqsDDWQ7ug5NfdVeraMEbkpGrfzBQO5UxjmblmQff7zBK5Yn5xd4ufEJIIfCeJj63WoW81OGQNJrt/wEfefi1VK7ug246aw8tUYnykKcei6Fn6m00/8=
+	t=1780296544; cv=none; b=pxBvDuEZI7xk5a4SyPwMnzm5tnR/ruB6A+UQWRMJW+b6VtMY0EULvTR/yL2+vhS87RtOkxJgONaAg6Qoj+F2CsrwhhEiG0swqXa9OcTjvlGSdMuZy3mKWNGrV+e1MRbo+lsk5tMU+z8wBnPDHAKC9/FOVQySBr56WexcFOK5o1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780131754; c=relaxed/simple;
-	bh=bREBuEqpqyQwcnS4eQ6YqGQ3bXoZoXgfLkUpJIqywVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XNA3brRi7ZthMY8XVAyZQ5g+dA//f2oTJ8EbRPhKbBmAcrcbbjeItUVttX31cbV3g4c7tbhMl8KkH7QmYwqtXqtNLwvj/gkOnjdB7ZeD+D68b/eGoUFp9Pb9b+ajGJ+yFePJx0NMTc4Uk+ejJZqYD9ZG45xrT2JOV99DNA/Tclg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=fgQ0jPCX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=b5DxiRjJ; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1780296544; c=relaxed/simple;
+	bh=y4/ouupBjoYRS77m3fiaKDERYhLyJZEdAdivWI66SqA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lRCmGq49JMlweCuZH9pQwtcPjGQgtVrAddH8OtB6Za5/4FP6qVDPCYvbtaXsaq2YiMyhMyBQ7NwbO/POBA+4QjIPBnHq6UuB80juc85YltpMKi9nGi64iwtZTZI9xtO8yWIRGRpfsL/l1jQWvCES6ciL8N/dXTMLOTt01a4nSNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gu6rjTN4; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="fgQ0jPCX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="b5DxiRjJ"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 2AF79140005C;
-	Sat, 30 May 2026 05:02:32 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sat, 30 May 2026 05:02:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1780131752; x=1780218152; bh=8Y08Yc/9Ob
-	CFrBoa3oD8RRhgwJsluA9PsZz28hZyP2k=; b=fgQ0jPCXayXSAJqBQbatCaW9Ss
-	jpkUHz5FPNuDUMmSsGTE5Npo1vcymtYwGEjPdkX0gW+QhTXpABu6epu+UoEvXdbT
-	Zr/SmFESXrka23JfHJld7cgEu5EaJBUw6JvcSdx+0j90IQyMVmcO1eaLgRTpAAyj
-	cEdUxv+RkfkqQW5R3JSaRGIHOsu2fn9MNgOUEnflxKIW7FFnjS+G4j4ycCo4exam
-	Ds5IedqeGNREoY6gHUD6pfpaa7ltWwP1YuXwpwqJYGOfcjUaULbIsJJH6iz1yiJa
-	FIKiLG8X66nZxUiGx51F2kebGQom0eOAR4ShhohF3r5c6j52AuT4WjIxDmiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1780131752; x=1780218152; bh=8Y08Yc/9ObCFrBoa3oD8RRhgwJsluA9PsZz
-	28hZyP2k=; b=b5DxiRjJZJLtP4bXVx1V+Tu/Pk9CLrx9k8Pk4nuVmbNC2T/PA7E
-	19p9U8yaK/IsevjwI8vrtma1CFoP6qhI3zzFCIURb1IfWd/cze37M43KmKl8Zfux
-	nfRBXyOozp6WHabGIO/C3TEaWvmrAwz2zz2BHSqTqBD6NnsVunAmevXVfnyWPAqZ
-	NuWraZtdJHKWaNw2VAAGpv7bqxB8pTFvRKVMdNxWIjIjIoPJSu2gTBdEHZThnUce
-	DnP3eqiz/4eWSxjOHxJceg9EAPq33JD0GzMMhyjM2ZJwkLP7DgTWArM9b5Hynnm1
-	3ba7r/wL8fIeijTXQBqMhAqDLnhv3Lu6D8Q==
-X-ME-Sender: <xms:p6caatfeaLTeU7fNxL6_FesenpZNCDdPfC04lB2QMOSgoWqCdti-CA>
-    <xme:p6caagHj4WU9YZ07M_AQKn8itQ-zWmhIQtw6UTMjR0KMX1ScTzvO9kER063pP1x9G
-    okHIA05XtGOb2hvT1GrsyP-Bl5V_-v7lQtggj8hNvoiKcRlnH1DDhiU>
-X-ME-Received: <xmr:p6caavHVWKml6D3yxSxIqtZ0L2yduXPzJk_RgiGUCAgI6APSpWjT_RDvB93Yuv7jjjGNxKVpE6OjWnnl2vaVRYr-Wmg9JxEacWo>
-X-ME-Proxy-Cause: dmFkZTEgVH0+MijfGOyS8LccP2FlT4PjQGKiqHieM85QnwsZb/DBivIGG35sOrFkzroCgS
-    QVTAP1PgLElAjKh9dN6yLCKwn/4uQu2yMoiNWvaZitp16XcLa3tFAZ1FZdzYOvRgj6ZANh
-    FvtzLlempzhlx7Ej3sI0Sqs0Ok9EwgzWYII28ZvQbNcigUMolKZ6X2gOSNbvnUfy5RKOD/
-    IE0kn6LWxudtaLRqJ+t5yFn9bx4JSuvJRiVW7zArCFqfc51DA9YaVtZstuF1Xk12GAirow
-    CqtmzRJ2INp31rbWw3riCGZ+xQDrxavxNVXxdl/s1yrIUDPGZQ7Kh3LOIE9V2CpN0Z5IQc
-    JXT2EWV8j5/BT+0RDuMF+3pMUoA6ceg9cpx2a5xZZod8MJL4kYeyOSbiY2INV/24nMbRxS
-    PKGEQ4kvI8T7q64axGwA0wbdDhrP7nL3erfHDHy+yIjtYmUYzADtKKGD8Rk0sXnpM/uVqm
-    8bCezPypUrTPf0O/POhI7Ab/4XCiMEWF75FFiRKnKhekT+goHc272r7zM1xP9rWjG+JKgm
-    Tp1qFyA/C2hQ+gtmdtTtHWLgKNQLHEQvVeEr70JcMgeUAPIsFCJTnKnsL5xdOmpC68+9jW
-    mnESXLWLyPTOWJhQyOSmAryENA/UTvzapfhrwkFNPzTB1xFzzVj4JTqK4nqw
-X-ME-Proxy: <xmx:p6caaoPsOP86pd9veLKivz2dzdn1JedNn9MqU2XlktKKUqLgtFKpQQ>
-    <xmx:p6caaspMkntuLkPUPYod3UbXRGRvnL6zTt87sKrGHHsWSTfJKV2HPQ>
-    <xmx:p6caahAY81d8ns5umtS1DLbca_vPgOXuU3S3cRhsZo7yEmBXCdImMQ>
-    <xmx:p6caatNXS2So5FPQ3sHrPMF58Rsd1beci-eCEUSNon3Is6aLfIV84w>
-    <xmx:qKcaatr0ejJZQiftEFTHfqMN87jLApxgMtOG-_ak6qvUR_O6jD7TUdvE>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 30 May 2026 05:02:30 -0400 (EDT)
-Date: Sat, 30 May 2026 11:02:29 +0200
-From: Janne Grunau <j@jannau.net>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-watchdog@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Joshua Peisach <jpeisach@ubuntu.com>,
-	Michael Reeves <michael.reeves077@gmail.com>
-Subject: Re: [PATCH v3 0/5] Initial Apple silicon M3 device trees and
- dt-bindings
-Message-ID: <20260530090229.GA1424101@robin.jannau.net>
-References: <20260507-apple-m3-initial-devicetrees-v3-0-ca07c81b5dc7@jannau.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gu6rjTN4"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa5be9ab1aso2558371e87.1
+        for <asahi@lists.linux.dev>; Sun, 31 May 2026 23:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780296541; x=1780901341; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pGxbL9faVDVgrvfQsBar+KVqQ+FJr+nh53Wa1vgTsOQ=;
+        b=gu6rjTN4pWCuTZsYyKnIVX9rDYs1yl+zmsuKbYQqQYXFzNKIKv3zs6ZzvjWMOopyeC
+         6lomPK4q0jzDi/oO2/VJQnNS4dAMZWLkwuqXtiRydpGx0q0eEaZ23Uog6gZLBBh4HvMY
+         ah0cKuPWXkamnCC7k/UaVHpLQA+psKlu8IZFIW66lrjOi/iAKzqAdiNcfFWcN67ERgu3
+         KQ9CL/KhJYhhyqmItz/vbiiwAQg5Db+AIXLvk0OSMJGMll+FtMKnm7Kn70ftLO92OG3D
+         gNpaMvHJZuvQy7lhEIOrbFKBoPqchceenyZ6HuEVNvSAJUqd6Wa1U4a/LUxWyBsWTYXx
+         oKKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780296541; x=1780901341;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pGxbL9faVDVgrvfQsBar+KVqQ+FJr+nh53Wa1vgTsOQ=;
+        b=TuXC2q1XqqG8NtVVpoe9hldYxuPGchQaaC+2mR+hXCINWtITxyq3DwF2XfywqLBYVw
+         VqE+Fm4Bm+Qw8ExIGcroM1D/ubn6lbjenNeMK/is/n/i7sweHl/mka0oQrmhLfvNPq4l
+         9NIOBYRZRQRBOuWqpSQGitKjwOWq6WbqyFq9CP9oxmQbvxa7e2vE320WyjS75STX+kxd
+         jyABXVHpI+TdaII28o542YR2hhcDAV0luqge7kYQ6+MpfSouN1pds1HGTmSzYxaDsbg3
+         OCGMjiOAgTDUm2xs4qKhldGVipNFccmJc6HcEDlI02wK0MgKHFJRyEBxAu7CoRSaZOOd
+         Scpw==
+X-Forwarded-Encrypted: i=1; AFNElJ/QPh8JY8EVgrtFAnoHXUcHQqpe+VYTcCJdt12Z+1v/ekhVX9YMDE2pzPmDsiKbhSbbsnwF5g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1Sur4KDQrnWCXY6oe0vYbZzgcx74glzC/LFFXqLozUhCzA/jk
+	F0jSi35Lem4+2v1fegMf1ojSV6p9qcxKxGGd/pVJItMhZlAMmzXZ/9/B
+X-Gm-Gg: Acq92OFrAwgZSHZ1AhhCN5rg14ka3cJIdvFqB8vtehO/BOI1MGm77q1rRu6vTx+kc1E
+	MW0V8vSuJvpGC5friLcZw4JfI6xZN00ljcEffLwossXoeiSQMqs1h+lGUmmAu5nidxe/k1s9Glt
+	f8RDJUrrQ1wmIi5PyOyH183DY4Uy5+pWKKAOb3n/8dpIbTXMMbmFv5PTkhD+NLOfnn6kUV3dosW
+	uReY8F1RCi0FF27foZWPap15Ma2IOr9/fr8mknVI7+xsrnqO2hTYWy7LKTNabco4HeFnFr/r6Lp
+	v+IC4Q3lmtklXrhiMcVPa/YZl9/gak+yjbR53WiGrAM+l/yYkpikTNezMk1StGCXjxecnHHBGF7
+	CLhw0eywecPpI5u07F66j20eMfQOggyQNlrjhdPGvQEDh8cSxPVo+9lTojYp7BGZdGnXTjWudmz
+	0DmUULEV9tehc6b1OpwX7yqMIIfbHoQ0mfuY4SZDdv8/Qf0qB0LYyGG+qrMb73ypl7jVdXMz76/
+	aDVPFkrMKugke3xuaQ=
+X-Received: by 2002:a05:6512:2306:b0:5a3:f25f:cc30 with SMTP id 2adb3069b0e04-5aa60a32f56mr3289885e87.32.1780296540285;
+        Sun, 31 May 2026 23:49:00 -0700 (PDT)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa5b793e24sm1898970e87.73.2026.05.31.23.48.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 May 2026 23:48:59 -0700 (PDT)
+Message-ID: <b509c623-a47f-4216-9202-2c542f3c2e7b@gmail.com>
+Date: Mon, 1 Jun 2026 09:48:58 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260507-apple-m3-initial-devicetrees-v3-0-ca07c81b5dc7@jannau.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/6] power: Use named initializers for
+ platform_device_id arrays
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>, Sebastian Reichel <sre@kernel.org>
+Cc: Yixun Lan <dlan@kernel.org>, Andreas Kemnade <andreas@kemnade.info>,
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Amit Sunil Dhamne <amitsd@google.com>,
+ Samuel Kayode <samkay014@gmail.com>, linux-pm@vger.kernel.org,
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev
+References: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
+ <1ceacf4f9c3f827bcad85b378aa04cdca1c04635.1780048925.git.u.kleine-koenig@baylibre.com>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <1ceacf4f9c3f827bcad85b378aa04cdca1c04635.1780048925.git.u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hej,
-
-On Thu, May 07, 2026 at 09:33:06AM +0200, Janne Grunau wrote:
+On 29/05/2026 13:18, Uwe Kleine-König (The Capable Hub) wrote:
+> Named initializers are better readable and more robust to changes of the
+> struct definition. This robustness is relevant for a planned change to
+> struct platform_device_id replacing .driver_data by an anonymous union.
 > 
-> This series adds initial device trees for M3 Apple silicon devices. The
-> device trees contain only a minimal set of hardware not going much
-> beyond the minimum required for booting kernel and initramfs and
-> verify via serial console that the hardware and drivers work.
-> The hardware with the exception of the interrupt controller is
-> compatible with the M1 and M2 SoCs and the existing drivers.
-> `make dtbs_check` depends on the already applied and dropped apple,i2c
-> and apple,pmgr dt-binding changes.
-> The watchdog load depends on stalled and forgotten addition of the
-> "apple,t8103-wdt" compatible posted in [1]. I've replied to the thread
-> to get the change merged.
+> While touching these arrays unify spacing and usage of commas.
 > 
-> Merge strategy:
-> Apply whole series via apple-soc / arm-soc to keep `make dtbs_check`
-> errors minimal. Otherwise no dependencies between the patches.
-> I might want to send another series which depends on this later in this
-> cycle.
-> 
-> Link: https://lore.kernel.org/linux-watchdog/20251231-watchdog-apple-t8103-base-compat-v1-1-1702a02e0c45@jannau.net/ [1]
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
-> Changes in v3:
-> - adjust reg size of pmgr node to fit all its childrens' regs. Improper
->   size was caused by a bug in the script used to convert Apple's
->   power-states into DT nodes
-> - drop picked up changes from v2:
->   - [PATCH v2 1/6] dt-bindings: arm: apple: apple,pmgr: Add t8122 compatible" (for v7.2-rc1)
+> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 
-This is wrong, I must have mixed this up with "[PATCH v2 3/6]
-dt-bindings: watchdog: apple,wdt: Add t8122 compatible". The change is
-missing in next and causes dtbs_check warnings.
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
-I can either resend the change or Sven can pick it up from the v2 series
-in https://lore.kernel.org/all/20260505-apple-m3-initial-devicetrees-v2-1-b0c2f3519e0e@jannau.net/
+Yours,
+	-- Matti
 
-Thanks
+-- 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
 
-Janne
+~~ When things go utterly wrong vim users can always type :help! ~~
