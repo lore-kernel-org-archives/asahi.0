@@ -1,95 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F969325701;
-	Wed,  3 Jun 2026 20:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3028389118;
+	Thu,  4 Jun 2026 10:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780519623; cv=none; b=sMMSQtHyLsgzyO8YE+AVKWNPIQJke3RJUaDm+QbxW2hQrxxXVBi/CFkSaxudTN/MyIWdO9FtrIaOS5LX7r68LTD3PqlI90YT8JQYAAtd/3sxhLAc9fhan/NURbyKX2qgfvJnn6krk4D3fNm+HDxd3GcriSPvH3kzz1D8chGIFe0=
+	t=1780568777; cv=none; b=Z/Svj0SNVdyF51zDjsFEwfOutSL0hmeEs93Gub1iZUm0PuCSiE2s+zR9MpYNqe7Ngw+MSf77Vf18dZ3qLJzjbuXkNfJnLQtBL+Vjp1Ll6GNdHuTCeZ7ZmnxSkzyWT0WuqJY8IJw0cDNKJsDracdTOYJMNEI7wIXWH45Sho8PUAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780519623; c=relaxed/simple;
-	bh=29MCDtinOnbJzWYEVVZoMaJT+rK9yT6ne6Y6YbJz5Ak=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nH92pVgaH/BIrUyvRCRFMrIFiisp75Hg2+x4R2E3LUtf/hhTPRXHOXwr7J6Rv0+2bYOOf5+ROzwd50RnGMFzFqvCnWLEk+u8vbQMsyOy3ApsccWhKWp7nbSrygTD57FVfTOW8XvN1ECpTnC2Jda2aRI8WOTb6cxrdyzkTiijOew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 470E71F00893;
-	Wed,  3 Jun 2026 20:47:02 +0000 (UTC)
-Received: by venus (Postfix, from userid 1000)
-	id BDB17180C6E; Wed, 03 Jun 2026 22:46:59 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Sebastian Reichel <sre@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, 
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- chrome-platform@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, Hans de Goede <hansg@kernel.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
- Purism Kernel Team <kernel@puri.sm>, Yixun Lan <dlan@kernel.org>, 
- Andreas Kemnade <andreas@kemnade.info>, 
- Matti Vaittinen <mazziesaccount@gmail.com>, Sven Peter <sven@kernel.org>, 
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- Amit Sunil Dhamne <amitsd@google.com>, Samuel Kayode <samkay014@gmail.com>, 
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
- asahi@lists.linux.dev, imx@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>
-In-Reply-To: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
-References: <cover.1780048925.git.u.kleine-koenig@baylibre.com>
-Subject: Re: (subset) [PATCH v1 0/6] power: Use named initializers for
- platform_device_id arrays
-Message-Id: <178051961974.2666348.7125017575893735399.b4-ty@collabora.com>
-Date: Wed, 03 Jun 2026 22:46:59 +0200
+	s=arc-20240116; t=1780568777; c=relaxed/simple;
+	bh=rx9XYRZ9P6MsSQlFryH1uAKkyo0nFf5xFk05gwMgjks=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UzBQR8q9MoSwmRTLIuQ7XketFV1ifWJ8UIs/M8jnN2zBYgZgjE9zqBbo2MnEgsT/52elvuqSo3+Huh5h+J2N27VpmsP30whHR6y9fyGOnJW4ib93LEe9fTFOIPSthZ0FTz78pJ4nhU5F/Jq3iXtZTeqmZ/KuqGvwh70NBjvdz58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OsjDmmXu; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OsjDmmXu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65C4A1F00893;
+	Thu,  4 Jun 2026 10:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780568775;
+	bh=tfu9KnLGfgoGr3OfG2c4EY0cS/9adxdzuVFmvrPD2NY=;
+	h=From:To:Cc:Subject:Date;
+	b=OsjDmmXu3EGiqTrDmFydvjZVHEoMiUjY1LgfSfDNjor50LcXF+VgmxDc5rjTEjnWb
+	 fRwJyKVo5hacT+VJYqCbsH2LoKi7GuQvqsYVLPDWHHXU2tBbp/x9ytgKHYqzfQ7yNc
+	 13nCSpNr8P+UCvBy5tYsvEme/yGSXzhNYWduGuQtZPOKA5rJq7wpsjUSo8B4ifdVkU
+	 Os59Gp2HoUqGBGLZlul97z8uaNfFutby329qEqVmwCEQQmbkbp5QpngcpNC0a52mTD
+	 d1bMb1TwY63+cjXzqAVBRpRDHlBpTMGM5SB6x621hf2d2/YgHtvyW62ZHprlfaL5xc
+	 SNbc13/9SIJ/A==
+From: Sven Peter <sven@kernel.org>
+To: soc@lists.linux.dev
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Sven Peter <sven@kernel.org>
+Subject: [GIT PULL] Apple SoC DT changes for v7.2
+Date: Thu,  4 Jun 2026 12:25:58 +0200
+Message-ID: <20260604102600.3790-1-sven@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.3
 
+The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
 
-On Fri, 29 May 2026 12:18:15 +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> this series targets to use named initializers for platform_device_id
-> arrays. In general these are better readable for humans and more robust
-> to changes in the respective struct definition.
-> 
-> This robustness is needed as I want to do
-> 
-> 	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-> 	--- a/include/linux/mod_devicetable.h
-> 	+++ b/include/linux/mod_devicetable.h
-> 	@@ -610,4 +610,7 @@ struct dmi_system_id {
-> 	 struct platform_device_id {
-> 		char name[PLATFORM_NAME_SIZE];
-> 	-	kernel_ulong_t driver_data;
-> 	+	union {
-> 	+		kernel_ulong_t driver_data;
-> 	+		const void *driver_data_ptr;
-> 	+	};
-> 	 };
-> 
-> [...]
+  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
 
-Applied, thanks!
+are available in the Git repository at:
 
-[1/6] power: Drop unused assignment of platform_device_id driver data
-      commit: 75a0e1e0b86078687c3c6a05107a98c7e59a65a8
-[2/6] power: supply: max14577: Drop driver data in of and platform device id arrays
-      commit: 37258ad1f3a52ea442c32b3c92ad7146e74050c7
-[4/6] power: Use named initializers for platform_device_id arrays
-      commit: e28f7498dd819878b8acacb89c4c073a646feea0
-[5/6] power: supply: mt6360_charger: Use of match table unconditionally
-      commit: eb7ed650e5960fc303130704d1e29d18a7d0e1df
-[6/6] power: Unify code style for platform_device_id arrays
-      commit: e3f669bed32287ae72c05a4ddab4a6687b0e62ca
+  https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git tags/apple-soc-dt-7.2
 
-Best regards,
--- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
+for you to fetch changes up to c65ab4905e5874a1a489c72da4d6e78a6c9b5943:
 
+  arm64: dts: apple: Initial t8122 (M3) device trees (2026-06-01 21:25:24 +0200)
+
+----------------------------------------------------------------
+Apple SoC DT update for 7.2
+
+Add minimal device trees for all t8122 / base M3 based devices and some
+required new compatibles to the dt-bindings. These are enough to boot
+Linux on these devices to a simple serial console but future work is
+required to make these machines useful for end users.
+
+Signed-off-by: Sven Peter <sven@kernel.org>
+
+----------------------------------------------------------------
+Janne Grunau (5):
+      dt-bindings: arm: apple: apple,pmgr: Add t8122 compatible
+      dt-bindings: power: apple,pmgr-pwrstate: Add t8122 compatible
+      dt-bindings: pwm: apple,s5l-fpwm: Add t8122 compatible
+      dt-bindings: arm: apple: Add M3 based devices
+      arm64: dts: apple: Initial t8122 (M3) device trees
+
+ Documentation/devicetree/bindings/arm/apple.yaml   |   18 +
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |    4 +-
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |    4 +-
+ .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |    1 +
+ arch/arm64/boot/dts/apple/Makefile                 |    5 +
+ arch/arm64/boot/dts/apple/t8122-j433.dts           |   19 +
+ arch/arm64/boot/dts/apple/t8122-j434.dts           |   19 +
+ arch/arm64/boot/dts/apple/t8122-j504.dts           |   37 +
+ arch/arm64/boot/dts/apple/t8122-j613.dts           |   35 +
+ arch/arm64/boot/dts/apple/t8122-j615.dts           |   35 +
+ arch/arm64/boot/dts/apple/t8122-jxxx.dtsi          |   48 +
+ arch/arm64/boot/dts/apple/t8122-pmgr.dtsi          | 1149 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8122-usbpd-i2c.dtsi     |   32 +
+ arch/arm64/boot/dts/apple/t8122.dtsi               |  444 ++++++++
+ 14 files changed, 1848 insertions(+), 2 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/apple/t8122-j433.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8122-j434.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8122-j504.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8122-j613.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8122-j615.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8122-jxxx.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8122-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8122-usbpd-i2c.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8122.dtsi
