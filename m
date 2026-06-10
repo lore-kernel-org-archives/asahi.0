@@ -1,44 +1,35 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8620E388360;
-	Mon,  8 Jun 2026 19:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEF930C63B
+	for <asahi@lists.linux.dev>; Wed, 10 Jun 2026 05:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780947917; cv=none; b=eGriTXxF0ejAkT0ZGf5FdyfRMOruQIW0BIY0uPdb46BMiDk+oLackeLjk8smvmUspV1K9TFoAh3ak1HabNjfaPHd8gozbyTOzipH8BK7enHlT6aCqVSsIYuqxsjVdz/N7poap8K6FjJmwdl+AwqjHfu1rT9YFvLlFWGoXIJ+psQ=
+	t=1781068313; cv=none; b=Xztph1nykDtANRP4A6bnYDSCUFlrFTBrTKuX3rIHiMlyLGvsJ+3lhkNBmHWvdBTLiSjfEMiVSL0W1pIGgM1Kxg+yuAGZVt/pLh4/t/2yv6VWQ3JpTXffDwVkHe/RUQLz3bzrdRx24XuFWDK60eMTI5AIkM5r7y2aM0Nv1gbsXBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780947917; c=relaxed/simple;
-	bh=XQ11Rq1e58nQgzUhJEvKxGwl+m9/K14suhoVGq61YTA=;
+	s=arc-20240116; t=1781068313; c=relaxed/simple;
+	bh=w0nJky1C5Kf2ZTd5GGL8XSB7SoINzUVyPTgAQJQ/8rM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vs3buC3oxQPnN80SjiQxp3gANqw+2ZxZ6Fqt7UFfSGMbEv1nTcQWy4qFYP/bC3HF+Yqty97rDdpr4hkEgjjc5Mic5tAovLlgnynje56Okj+SNNqY5g9fX69fWTCLdsapLlurXFSnVViTcFSewuLoAe7/BAgzha/9ZsBId+osK1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ijWIg8hE; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ijWIg8hE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51AE1F00898;
-	Mon,  8 Jun 2026 19:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780947916;
-	bh=nOUM233BkDBWLACgplH8WA444SMzwf33kfGfAapuszI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ijWIg8hEXUjPIsGy30fNPYYxzPq3N1OHeiab4V3QfTyUN7SmS+ddM8BHST4psVUw8
-	 JVd48+84OrFEkT/Wmd1ljv6pgmk/szWVRlpcquySAwMCwo1GU37BvOVV+HbczSeDS3
-	 DqfgkSH5G/IGDA3y/m1HT1BlIMs3jSDrJbhDh5wo3IIQ9wsiWCUmqH/C3qODLC1JRi
-	 juw2KI2WBY6ye8L7hAZUTl7LWXJ2u2Iw7CIYbxGLM772r/CjqUarLmZNXqHyxc2O2y
-	 nvnRuz1ERBMws+VH0h2/bX37JVlNDrqChe8+Excwz7iLUPgP7N2mIzY06PNaNSuErd
-	 qbEQsmgnVFSSA==
-Date: Mon, 8 Jun 2026 13:45:14 -0600
-From: Keith Busch <kbusch@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WRpQqHGfP3UDqhD9BdStnSqO8PnPSRpxuRqSBPpsCsgh2D+GbicDAuARcuNogfyYFZt6gfTaqCLpSME7DZXCmgbPR4lZ6zeMQAL+403XrbMn/UXvC39ofEZ8tD9HWmBN6He3baLlSPQgUa3x2184b7sl2nd6dtGKwKHDMgmy26k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B6F1168BEB; Wed, 10 Jun 2026 07:11:46 +0200 (CEST)
+Date: Wed, 10 Jun 2026 07:11:46 +0200
+From: Christoph Hellwig <hch@lst.de>
 To: Nick Chan <towinchenmi@gmail.com>
 Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v2] nvme-apple: Prevent shared tags across queues on
- Apple A11
-Message-ID: <aicbyoYG_XFUkocj@kbusch-mbp>
-References: <20260607-prevent-tag-collision-t8015-v2-1-dc4ef4fb42bc@gmail.com>
+Subject: Re: [PATCH 1/2] nvme-apple: Only limit admin queue tag space when
+ with Linear SQ is present
+Message-ID: <20260610051146.GA559@lst.de>
+References: <20260606-prevent-tag-collision-t8015-v1-0-93ccf4eca550@gmail.com> <20260606-prevent-tag-collision-t8015-v1-1-93ccf4eca550@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -47,14 +38,20 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260607-prevent-tag-collision-t8015-v2-1-dc4ef4fb42bc@gmail.com>
+In-Reply-To: <20260606-prevent-tag-collision-t8015-v1-1-93ccf4eca550@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Sun, Jun 07, 2026 at 02:10:58PM +0800, Nick Chan wrote:
-> On Apple A11, tags of pending commands must be unique across the admin
-> and IO queues, else the firmware crashes with
-> "duplicate tag error for tag N", with N being the tag.
+On Sat, Jun 06, 2026 at 09:25:25PM +0800, Nick Chan wrote:
+> Apple NVMe controllers require tags of pending commands to not be shared
+> across admin and IO queues. However, on Apple A11 without linear SQ, it is
+> not possible for either queue to skip over some tags and must go from 0 to
+> the configured maximum before wrapping around.
 > 
-> Apply the existing workaround for M1 of reserving two tags for the admin
-> queue to A11.
+> As a result, in order to prevent tag collision, dynamic tag reservation
+> while a command is in-flight becomes necessary. In this context, there is
+> no reason to limit the admin queue's tag space, as it is not helpful in
+> preventing tag collision.
 
-Thanks, applied to nvme-7.2.
+I'm not really into these Apple specific, but what does
+"dynamic tag reservation" mean here?
+
