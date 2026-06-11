@@ -1,165 +1,147 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D4F3AC0C6
-	for <asahi@lists.linux.dev>; Wed, 10 Jun 2026 21:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31AAC215075
+	for <asahi@lists.linux.dev>; Thu, 11 Jun 2026 03:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781125732; cv=none; b=RLV8esDvafIddDaZko5nnkA2jdxh++D9owJafn8mSx3ksc9PFUZ4MS9Fj5EZXyyzbEukijXa5Twc/ICwnXATDk4oxPyxnjIcWg15txanqeybUNkFvFiwwIYCfcwtPd5doIJ+KWWtPYP5NsdO1gWPvOdEYqTfaPepcMzZMKYTXag=
+	t=1781149637; cv=none; b=nFnkD64a9WKNYoRMkKslyE9vd7e+MG7qyybzRdFWDdsL+pOR4mCHmhiAIGKM25xrn9HiQBU3647P6ARqz89nH9j8trFV4PjXg5PA6oTRpe4ocD6Dlaa1UhbKy56FcZW3EJtS/FCA5MSozzsmU02KOI1O6ou3ffscG9tMSz3Tkz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781125732; c=relaxed/simple;
-	bh=Ig2OVt3TBv7ddvTUNvfJSFZLo8RWweuoGZlGh1vDWos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WRSXWnkZYF5qQs3psdQdGubxqky/OA6al47O/eu2G2vofGx3wPod2ULMgOjPBV9SyEm4Ub5v1cjzez5GQi19RpKem4Aa95IZmdi/FMJjgalgMe9h0Fh+QkgE1Sp2w7G9nbSmAdjIxKnIaCo1gfM11VcxX2PVrTiTavvb+VZld2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=dHvdTLl2; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1781149637; c=relaxed/simple;
+	bh=0uGCT1Kc2NxDdy8bTsOui18h4pRTL4+6YYZ70jx2g3w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=k1GMBezS7EfoFqCzbZ/SD0f14cYqsH1PoZqQDtujhMPN2vl69GlsoXDXaQv1t45GZwTkicVSKbnwee57lKjsyG1QoyE5jbmutKSgz/7bnHoNDFPrYHWjEboO67IZxdkKK1DMJ2YLjPP+IWiTj6RgFwyYAYHP2bBC7XKkGixEb4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=FAud0Rfb; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=LUPx9Kfn; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="dHvdTLl2"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490af320e2aso79666505e9.2
-        for <asahi@lists.linux.dev>; Wed, 10 Jun 2026 14:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781125729; x=1781730529; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ig2OVt3TBv7ddvTUNvfJSFZLo8RWweuoGZlGh1vDWos=;
-        b=dHvdTLl2ltvoy6DxSMWCAu8X6tiZ562Ga35Pz8Fh5HLDeKmDyLD0eeTbA4MuWkFIZw
-         EqOOmTGGlvPqVuVfUMxGObpzXApczaWLyXZr2xYcuEunLSjyWjilbgeCaA9xuCyffXvN
-         YvoFSRpWkXjIEWVWnrzvQQ1UdWWxtwDX5aXr2xLBeDhj/XRABnXRpPORjs5+tkgdGiuh
-         /eHNbDVIHPQNA/Mq+2OQCMOReDDKguisRkvZb53Le74ThEzvO0Pr9WkTQ8SJreauuJ8q
-         xdyxmr8loi5/qKYlaDZNTcfORvnV4AllgFEndsBZlmSuzZyKjhjCEL1luycIu8KYxpXj
-         Cy0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781125729; x=1781730529;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ig2OVt3TBv7ddvTUNvfJSFZLo8RWweuoGZlGh1vDWos=;
-        b=FbNsRZuWNebsGwwJeyjJx1t8YYinoXZSjBzS9QarRvHHSIhx7s9+PRysZ/YO/GCVZX
-         aj1HHFxTO4tA0IyKwi3nl37nMamBG8QgQMvM8aq53VcxeF/i6aoTTLvBflIed+Nul/Xp
-         oL7oDerZF+bq1Py6zebTh12CQbupCk+WA6D809MFE+x6uQcNLX7d5hi/X2mbCpJbzSEI
-         C03RHYHPlYM7ZM57P72l3tgzW+PgpefZctKitiGJh+TsMk8RCuX7BqIRjLR3/xUVC8Tk
-         7+oiUeWBedB3ajmBxmrtBDx6tnsIF/VMwZBrWw+4/Uf3aitdtKGRHbyFsGDLBYtPfk3b
-         nidw==
-X-Forwarded-Encrypted: i=1; AFNElJ97oWFfhLqlUqdehBgE4CdAEXw/OLqMNFts39jOF37bwdh1T4g7ZiIIQiH1PC6ucWZjVOnBww==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5kj/hXCaED6keVlvCkOVapuMkxhtYVlo+pJRWlfN0iksD9bbo
-	Ivg8GJRrUxcUB/JB7omhIbxNuOSAmT+OSpIylaUn8ZsqEnrI85HwEtIaif73PlAj96I=
-X-Gm-Gg: Acq92OEolvr7PRKNxUIAvCI6B2F5glUKRhMx81PAg6BnglwkUZgxHBk0rAz8DAVn8jI
-	PJrNfjrBfSkIao9W9BGhpK5ocWvxje1hJM6kYKS8agRblBA7rW6qIi59fpbeStjWPPm6zzBJLC2
-	MOGXXK5ZCUmjeRvI9KvTKPK6QSklB4NWsJKMalMPHj6yNFVAGQ58/UHPPU6g05O2jdbOPjhP0cd
-	IXsxuwEoW8z5uWkxDdQH9kE6qCj/sP9UIwa3uZMES+SfY29FWbEFzXHJZzIqasAfg88/eLcGSXF
-	NCsHH9hgEgDkzGp62lKdsekq+oZ6EIeMPB+UP+VNUWMv4b9i75sTTzXbMbo5YK4c798Q2EhcwW5
-	Y1KPT2jLpzqINbjpYuBfU6sUVAXGxioMEZmzWDLH50vzBDgdbKqBouLh0+HWzdttAgbkCRgaWqo
-	HQ1LECLfForS24PTf3RwP5HCK2bRG9CFqFepkaJq0=
-X-Received: by 2002:a05:600d:640f:10b0:490:b7e6:bd1d with SMTP id 5b1f17b1804b1-490c25e30a2mr298781385e9.16.1781125729131;
-        Wed, 10 Jun 2026 14:08:49 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:559d:eec2:887f:c200])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46028a6dce6sm67341274f8f.30.2026.06.10.14.08.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 14:08:47 -0700 (PDT)
-Date: Wed, 10 Jun 2026 23:08:45 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, Marcel Holtmann <marcel@holtmann.org>, 
-	Markus Schneider-Pargmann <msp@baylibre.com>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Bluetooth: hci_bcm4377: Use named initializers for
- pci_device_id array
-Message-ID: <ainSCcYroJUIAuwr@monoceros>
-References: <20260504160940.2168650-2-u.kleine-koenig@baylibre.com>
- <aimXkX4FC4JVxt6q@monoceros>
- <CABBYNZKuOdtxa8ksEZM1FyjYJCQ22H6NzaX31t6LcZuvn0LMNg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="FAud0Rfb";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="LUPx9Kfn"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=To:Message-Id:Subject:Date:From; t=1781149627; bh=Z4pxYkTJFG5ZwHLzZDKYz0g
+	IuL/SlRTVttv6cDMB0rk=; b=FAud0RfbPy8KAWfNAh03l1eAQ+Y3tjy31zYTkmYLSPtRmX12kA
+	ZPA7xuy2EfYZW1H6O+doSYTD2N6q1g7Zpf87ROCXQEA4d3n4ywGclFc1ZzQL8946IK+fMjHmMt+
+	HNLeybiUZD4FVDOB5tYXeXnuKv3NHOdLRO3gWfs34Bh6n5NQEiD0JBR5mGXPvbrbkOKWfZHlplL
+	v7CFI2hwU/39q3hv753lUU+uNR9wMFULX3txywkP18KsoiIUQCpzcNLzTgberNZBfI8/TQDM8rf
+	5HnSI8kut5Br3qiL48V61G908Ff7k6hq3Tik76rBpiSgIQnd5pwsmlaX649a83dh6Fg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=To:Message-Id:Subject:Date:From; t=1781149627; bh=Z4pxYkTJFG5ZwHLzZDKYz0g
+	IuL/SlRTVttv6cDMB0rk=; b=LUPx9KfnvGjLyeWsrXc4y9NPKk3T1yj8fkEyfN/Rqh6BhqZaaT
+	Wh/uIfJXELI8fESoIkKertjqDx0nU4dE00DQ==;
+From: Aelin Reidel <aelin@mainlining.org>
+Date: Thu, 11 Jun 2026 05:46:48 +0200
+Subject: [PATCH RESEND] nvmem: apple-spmi-nvmem: wrap regmap calls to
+ satisfy CFI
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xqdkuhrraxjetghb"
-Content-Disposition: inline
-In-Reply-To: <CABBYNZKuOdtxa8ksEZM1FyjYJCQ22H6NzaX31t6LcZuvn0LMNg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260611-apple-spmi-nvmem-cfi-v1-1-9dd90938ef4a@mainlining.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDM0ND3cSCgpxU3eKC3EzdvLLc1Fzd5LRMXTNz4xRToJI081QTJaDWgqL
+ UtMwKsLHRSkGuwa5+LkqxEPHi0qSs1OQSkJlKtbUAmvjB0oAAAAA=
+X-Change-ID: 20260611-apple-spmi-nvmem-cfi-673d5202f7e4
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Srinivas Kandagatla <srini@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Sasha Finkelstein <k@chaosmail.tech>, Hector Martin <marcan@marcan.st>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Aelin Reidel <aelin@mainlining.org>, 
+ Clayton Craft <craftyguy@postmarketos.org>, stable@vger.kernel.org
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781149627; l=2799;
+ i=aelin@mainlining.org; s=20260503; h=from:subject:message-id;
+ bh=0uGCT1Kc2NxDdy8bTsOui18h4pRTL4+6YYZ70jx2g3w=;
+ b=1gdAEe0bFpeBdIolOAe2ZPjRNOrjlsjGo8imSin1FxB5ARqUSIFeTVKpEpJSNFuTL01etdWCh
+ rXrtod7tIFHDmeR6O9yu49zLOMQkiA9hi+ms5O3P+WS3SZsK085bCOK
+X-Developer-Key: i=aelin@mainlining.org; a=ed25519;
+ pk=JdivYHq/vT1Z1DpBeadmJbY/Fi5Ab9P/C35KYCOezfA=
 
+The Apple SPMI NVMEM driver previously cast regmap_bulk_read/write to
+void * when assigning them to nvmem_config's reg_read/reg_write
+function pointers.
 
---xqdkuhrraxjetghb
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Bluetooth: hci_bcm4377: Use named initializers for
- pci_device_id array
-MIME-Version: 1.0
+This cast breaks the expected function signature of nvmem_reg_read_t
+and nvmem_reg_write_t. With CFI enabled, indirect calls through
+these pointers fail:
 
-Hello,
+  CFI failure at nvmem_reg_write+0x194/0x1e4 (target: regmap_bulk_write+0x0/0x2c8; expected type: 0x83a189c3)
+  ...
+  Call trace:
+   nvmem_reg_write+0x194/0x1e4 (P)
+   __nvmem_cell_entry_write+0x298/0x2e8
+   nvmem_cell_write+0x24/0x34
+   macsmc_reboot_probe+0x1dc/0x454 [macsmc_reboot]
+  ...
 
-On Wed, Jun 10, 2026 at 01:13:44PM -0400, Luiz Augusto von Dentz wrote:
-> On Wed, Jun 10, 2026 at 12:59=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capab=
-le Hub)
-> <u.kleine-koenig@baylibre.com> wrote:
-> >
-> > On Mon, May 04, 2026 at 06:09:40PM +0200, Uwe Kleine-K=C3=B6nig (The Ca=
-pable Hub) wrote:
-> > > Initializing a struct using list initializers is hard to read, compar=
-ed
-> > > to that using named initializers is more ideomatic. Convert the macro
-> > > used to assign values in the driver's pci_device_id array accordingly.
-> > >
-> > > This change doesn't introduce any changes to the compiled array on an
-> > > x86 and an arm64 build.
-> > >
-> > > Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koen=
-ig@baylibre.com>
-> > > ---
-> > > Hello,
-> > >
-> > > this is a preparing change for making struct pci_device_id::driver_da=
-ta an
-> > > anonymous union (similar to
-> > > https://lore.kernel.org/all/cover.1776579304.git.u.kleine-koenig@bayl=
-ibre.com/).
-> > > This requires named initializers for .driver_data. But even without t=
-hat
-> > > this is a nice cleanup making the macro better readable.
-> > >
-> > > Gcc is happy with simplifying the assignment further using
-> > > PCI_VDEVICE(BROADCOM, BCM ## id ## _DEVICE_ID), but this is a bit fis=
-hy
-> > > because PCI_VDEVICE also assigns .class and .class_mask (using list
-> > > initializers), so I didn't convert that.
-> >
-> > In the meantime I learned that doing that would break W=3D1 builds, so =
-it
-> > was a good choice to not go that path.
-> >
-> > > Once all pci_device_id use
-> > > named initializers, the two zeros can be dropped from PCI_VDEVICE and
-> > > this entry simplified accordingly.
-> >
-> > Is this patch still on someone's radar? Ideally for application in time
-> > for 7.2-rc1?
->=20
-> It is no longer in patchwork so if you really want to get in please resen=
-d.
+Introduce thin wrapper functions with the correct nvmem function
+pointer types to satisfy the CFI checks.
 
-Instead I unarchived the patch, so it appears in the patch list again. I
-hope this is easier for everyone (it is for me).
+Fixes: fe91c24a551c ("nvmem: Add apple-spmi-nvmem driver")
+Signed-off-by: Aelin Reidel <aelin@mainlining.org>
+Reported-by: Clayton Craft <craftyguy@postmarketos.org>
+Tested-by: Clayton Craft <craftyguy@postmarketos.org>
+Reviewed-by: Sven Peter <sven@kernel.org>
+Cc: stable@vger.kernel.org
+---
+Difference vs the original patch:
+- Updated my name and email
+- Picked up Sven's R-b
+- Link to original: https://lore.kernel.org/all/20251118-apple-spmi-nvmem-cfi-v1-1-75b9ced0a2c2@mainlining.org/
 
-Best regards
-Uwe
+It's been half a year, so I figured I'd gently poke for this to be
+applied.
+---
+ drivers/nvmem/apple-spmi-nvmem.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
---xqdkuhrraxjetghb
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/nvmem/apple-spmi-nvmem.c b/drivers/nvmem/apple-spmi-nvmem.c
+index 88614005d5ce..7acb0c07d6ab 100644
+--- a/drivers/nvmem/apple-spmi-nvmem.c
++++ b/drivers/nvmem/apple-spmi-nvmem.c
+@@ -18,6 +18,22 @@ static const struct regmap_config apple_spmi_regmap_config = {
+ 	.max_register	= 0xffff,
+ };
+ 
++static int apple_spmi_nvmem_read(void *priv, unsigned int offset, void *val,
++				 size_t bytes)
++{
++	struct regmap *map = priv;
++
++	return regmap_bulk_read(map, offset, val, bytes);
++}
++
++static int apple_spmi_nvmem_write(void *priv, unsigned int offset, void *val,
++				  size_t bytes)
++{
++	struct regmap *map = priv;
++
++	return regmap_bulk_write(map, offset, val, bytes);
++}
++
+ static int apple_spmi_nvmem_probe(struct spmi_device *sdev)
+ {
+ 	struct regmap *regmap;
+@@ -28,8 +44,8 @@ static int apple_spmi_nvmem_probe(struct spmi_device *sdev)
+ 		.word_size = 1,
+ 		.stride = 1,
+ 		.size = 0xffff,
+-		.reg_read = (void *)regmap_bulk_read,
+-		.reg_write = (void *)regmap_bulk_write,
++		.reg_read = apple_spmi_nvmem_read,
++		.reg_write = apple_spmi_nvmem_write,
+ 	};
+ 
+ 	regmap = devm_regmap_init_spmi_ext(sdev, &apple_spmi_regmap_config);
 
------BEGIN PGP SIGNATURE-----
+---
+base-commit: abe651837cb394f76d738a7a747322fca3bf17ba
+change-id: 20260611-apple-spmi-nvmem-cfi-673d5202f7e4
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmop0loACgkQj4D7WH0S
-/k5XeQgAoTcuZnjClD8CBiVzulCVvCVSkCfgQKHapo9L6hikgCrhNsvTOvHMFU6S
-XDZ2dot5rGjM/KAYI0h8FHaXTdH36OKmbjykaiP+DIFuHS7VkpWcSc2EM7hAvZha
-uGcJCF4xyc5CyNPElG/wDPHJdL2fJPJkKUjMeDiFSnU5qRg4spodg9e2dD03Hrap
-0D0yH2F9jcYbHNC851gjYuJ3NvrJEHijOc8vg1Ylw8+9LsQDrt76yI2uffzB8/6n
-/CFEgnnByMZObzRw6oaxYc9jXkjK+e7oiquz56xyx0c3SqFOlMrBPo3Zj2G9LIRM
-UFLkgNRU51FxahnG5mJuKv98enwHMw==
-=zDmy
------END PGP SIGNATURE-----
+Best regards,
+--  
+Aelin Reidel <aelin@mainlining.org>
 
---xqdkuhrraxjetghb--
