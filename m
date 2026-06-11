@@ -1,36 +1,34 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31AAC215075
-	for <asahi@lists.linux.dev>; Thu, 11 Jun 2026 03:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5103F8EAB
+	for <asahi@lists.linux.dev>; Thu, 11 Jun 2026 16:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781149637; cv=none; b=nFnkD64a9WKNYoRMkKslyE9vd7e+MG7qyybzRdFWDdsL+pOR4mCHmhiAIGKM25xrn9HiQBU3647P6ARqz89nH9j8trFV4PjXg5PA6oTRpe4ocD6Dlaa1UhbKy56FcZW3EJtS/FCA5MSozzsmU02KOI1O6ou3ffscG9tMSz3Tkz0=
+	t=1781196970; cv=none; b=PGtzZ7nmCkplqyVNfnLhgOo6PGgpskjiLIBKn3PARSaYWcce3j15h+WUAQIRZkbHWvwTcRelsMsCeIYTPIe3kGidJl+gxn6AcNHS/9eJTThJ1VWnpggCZmQIvTeGbTgNeoc3BtZCcwHmfwBgR3H3VSb0bJNLCZpdPbmQlA6d60E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781149637; c=relaxed/simple;
-	bh=0uGCT1Kc2NxDdy8bTsOui18h4pRTL4+6YYZ70jx2g3w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=k1GMBezS7EfoFqCzbZ/SD0f14cYqsH1PoZqQDtujhMPN2vl69GlsoXDXaQv1t45GZwTkicVSKbnwee57lKjsyG1QoyE5jbmutKSgz/7bnHoNDFPrYHWjEboO67IZxdkKK1DMJ2YLjPP+IWiTj6RgFwyYAYHP2bBC7XKkGixEb4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=FAud0Rfb; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=LUPx9Kfn; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1781196970; c=relaxed/simple;
+	bh=j1r/8sY3Ac5Mv74SC6M7yo0s1bKstpo1/iNrmZWqntM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pHTT4vzSe2C4xpBu5WLttAjay4GHk9Tj16Blw0+So441Q/ZrTLZ3erHO5pe7heJF4UGgPycMfKSVitQSe+iLcyX3UcEF+JGMNU5275bzqMd1zMWTAhgmyKCuHTQueoDXYjQpw7AKn+tNRPQpwQxBclXt100gwEPdt98CWUxUkVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=YXS9i3kH; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="FAud0Rfb";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="LUPx9Kfn"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=To:Message-Id:Subject:Date:From; t=1781149627; bh=Z4pxYkTJFG5ZwHLzZDKYz0g
-	IuL/SlRTVttv6cDMB0rk=; b=FAud0RfbPy8KAWfNAh03l1eAQ+Y3tjy31zYTkmYLSPtRmX12kA
-	ZPA7xuy2EfYZW1H6O+doSYTD2N6q1g7Zpf87ROCXQEA4d3n4ywGclFc1ZzQL8946IK+fMjHmMt+
-	HNLeybiUZD4FVDOB5tYXeXnuKv3NHOdLRO3gWfs34Bh6n5NQEiD0JBR5mGXPvbrbkOKWfZHlplL
-	v7CFI2hwU/39q3hv753lUU+uNR9wMFULX3txywkP18KsoiIUQCpzcNLzTgberNZBfI8/TQDM8rf
-	5HnSI8kut5Br3qiL48V61G908Ff7k6hq3Tik76rBpiSgIQnd5pwsmlaX649a83dh6Fg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=To:Message-Id:Subject:Date:From; t=1781149627; bh=Z4pxYkTJFG5ZwHLzZDKYz0g
-	IuL/SlRTVttv6cDMB0rk=; b=LUPx9KfnvGjLyeWsrXc4y9NPKk3T1yj8fkEyfN/Rqh6BhqZaaT
-	Wh/uIfJXELI8fESoIkKertjqDx0nU4dE00DQ==;
-From: Aelin Reidel <aelin@mainlining.org>
-Date: Thu, 11 Jun 2026 05:46:48 +0200
-Subject: [PATCH RESEND] nvmem: apple-spmi-nvmem: wrap regmap calls to
- satisfy CFI
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="YXS9i3kH"
+Received: by chaosmail.tech (Postfix) id 093201CA007;
+	Thu, 11 Jun 2026 16:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1781196560;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JCKxt4CJrWbA/Kxvm+FttEzjVPa3DbGPVSW9P7DhCSY=;
+	b=YXS9i3kHJgfXC4w5bHLhMAYf7n05XOqtLsNv3fx6tmjrVO3e/pbtU5uiCmYe82zwVUszNQ
+	0ebWWhGUsz2wNLVjzmcTNun6l7kqNrpGAeFDvNAT0L5TBRLiSsHMWBUqHPj/f1rzOwmj5w
+	lhyEIGkCr9c9t19xK4jHUZ/LhKw8xgI=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Thu, 11 Jun 2026 18:49:14 +0200
+Subject: [PATCH] power: supply: macsmc: Support macOS 27 SMC firmware
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -39,109 +37,126 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260611-apple-spmi-nvmem-cfi-v1-1-9dd90938ef4a@mainlining.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDM0ND3cSCgpxU3eKC3EzdvLLc1Fzd5LRMXTNz4xRToJI081QTJaDWgqL
- UtMwKsLHRSkGuwa5+LkqxEPHi0qSs1OQSkJlKtbUAmvjB0oAAAAA=
-X-Change-ID: 20260611-apple-spmi-nvmem-cfi-673d5202f7e4
+Message-Id: <20260611-gate-power-v1-1-8a62721086c7@chaosmail.tech>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMOw6AIBAA0auYrSUBCky8irFAWHAtlIC/hHB3U
+ ctXzGRIGAkT9E2GiCcl2tYK0TZgZr16ZGSrQXKpuBKCeb0jC9uFkRlnO6ms4bZzUIMQ0dH9zYb
+ xdzqmBc3+HqCUB/lVyQFuAAAA
+X-Change-ID: 20260611-gate-power-cfd726dc0d7f
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Srinivas Kandagatla <srini@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Sasha Finkelstein <k@chaosmail.tech>, Hector Martin <marcan@marcan.st>
+ Neal Gompa <neal@gompa.dev>, Sebastian Reichel <sre@kernel.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Aelin Reidel <aelin@mainlining.org>, 
- Clayton Craft <craftyguy@postmarketos.org>, stable@vger.kernel.org
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781149627; l=2799;
- i=aelin@mainlining.org; s=20260503; h=from:subject:message-id;
- bh=0uGCT1Kc2NxDdy8bTsOui18h4pRTL4+6YYZ70jx2g3w=;
- b=1gdAEe0bFpeBdIolOAe2ZPjRNOrjlsjGo8imSin1FxB5ARqUSIFeTVKpEpJSNFuTL01etdWCh
- rXrtod7tIFHDmeR6O9yu49zLOMQkiA9hi+ms5O3P+WS3SZsK085bCOK
-X-Developer-Key: i=aelin@mainlining.org; a=ed25519;
- pk=JdivYHq/vT1Z1DpBeadmJbY/Fi5Ab9P/C35KYCOezfA=
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781196559; l=3957;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=j1r/8sY3Ac5Mv74SC6M7yo0s1bKstpo1/iNrmZWqntM=;
+ b=LU3j9N/7qxItSItu0oLNOWtCYY+mzSDXnVYp2unJvt7UCSqNs94NLt5Jx5zgQhrEU9uMZaTWU
+ dAbqXMM5LJvC/UAW+6nFCmVLOniYS+tclSdef9hnvuUAjmJcZg+S6x/
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-The Apple SPMI NVMEM driver previously cast regmap_bulk_read/write to
-void * when assigning them to nvmem_config's reg_read/reg_write
-function pointers.
+The SMC firmware included in macOS 27 changed the size of BCF0 key from
+4 to 1 bytes. This key is used for indicating that battery state is
+critically low.
 
-This cast breaks the expected function signature of nvmem_reg_read_t
-and nvmem_reg_write_t. With CFI enabled, indirect calls through
-these pointers fail:
-
-  CFI failure at nvmem_reg_write+0x194/0x1e4 (target: regmap_bulk_write+0x0/0x2c8; expected type: 0x83a189c3)
-  ...
-  Call trace:
-   nvmem_reg_write+0x194/0x1e4 (P)
-   __nvmem_cell_entry_write+0x298/0x2e8
-   nvmem_cell_write+0x24/0x34
-   macsmc_reboot_probe+0x1dc/0x454 [macsmc_reboot]
-  ...
-
-Introduce thin wrapper functions with the correct nvmem function
-pointer types to satisfy the CFI checks.
-
-Fixes: fe91c24a551c ("nvmem: Add apple-spmi-nvmem driver")
-Signed-off-by: Aelin Reidel <aelin@mainlining.org>
-Reported-by: Clayton Craft <craftyguy@postmarketos.org>
-Tested-by: Clayton Craft <craftyguy@postmarketos.org>
-Reviewed-by: Sven Peter <sven@kernel.org>
-Cc: stable@vger.kernel.org
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
-Difference vs the original patch:
-- Updated my name and email
-- Picked up Sven's R-b
-- Link to original: https://lore.kernel.org/all/20251118-apple-spmi-nvmem-cfi-v1-1-75b9ced0a2c2@mainlining.org/
+ drivers/power/supply/macsmc-power.c | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
-It's been half a year, so I figured I'd gently poke for this to be
-applied.
----
- drivers/nvmem/apple-spmi-nvmem.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvmem/apple-spmi-nvmem.c b/drivers/nvmem/apple-spmi-nvmem.c
-index 88614005d5ce..7acb0c07d6ab 100644
---- a/drivers/nvmem/apple-spmi-nvmem.c
-+++ b/drivers/nvmem/apple-spmi-nvmem.c
-@@ -18,6 +18,22 @@ static const struct regmap_config apple_spmi_regmap_config = {
- 	.max_register	= 0xffff,
- };
+diff --git a/drivers/power/supply/macsmc-power.c b/drivers/power/supply/macsmc-power.c
+index 33ca07460f3a..650dc8740f71 100644
+--- a/drivers/power/supply/macsmc-power.c
++++ b/drivers/power/supply/macsmc-power.c
+@@ -86,6 +86,7 @@ struct macsmc_power {
+ 	bool has_ch0i; /* Force discharge (Older firmware) */
+ 	bool has_ch0c; /* Inhibit charge (Older firmware) */
+ 	bool has_chte; /* Inhibit charge (Modern firmware) */
++	bool bcf0_1byte; /* Battery critical */
  
-+static int apple_spmi_nvmem_read(void *priv, unsigned int offset, void *val,
-+				 size_t bytes)
+ 	u8 num_cells;
+ 	int nominal_voltage_mv;
+@@ -273,6 +274,18 @@ static int macsmc_battery_get_date(const char *s, int *out)
+ 	return 0;
+ }
+ 
++static int macsmc_battery_read_bcf0(struct macsmc_power *power, u32 *val)
 +{
-+	struct regmap *map = priv;
++	u8 tval;
++	int ret;
 +
-+	return regmap_bulk_read(map, offset, val, bytes);
++	if (!power->bcf0_1byte)
++		return apple_smc_read_u32(power->smc, SMC_KEY(BCF0), val);
++	ret = apple_smc_read_u8(power->smc, SMC_KEY(BCF0), &tval);
++	*val = tval;
++	return ret;
 +}
 +
-+static int apple_spmi_nvmem_write(void *priv, unsigned int offset, void *val,
-+				  size_t bytes)
-+{
-+	struct regmap *map = priv;
-+
-+	return regmap_bulk_write(map, offset, val, bytes);
-+}
-+
- static int apple_spmi_nvmem_probe(struct spmi_device *sdev)
+ static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
  {
- 	struct regmap *regmap;
-@@ -28,8 +44,8 @@ static int apple_spmi_nvmem_probe(struct spmi_device *sdev)
- 		.word_size = 1,
- 		.stride = 1,
- 		.size = 0xffff,
--		.reg_read = (void *)regmap_bulk_read,
--		.reg_write = (void *)regmap_bulk_write,
-+		.reg_read = apple_spmi_nvmem_read,
-+		.reg_write = apple_spmi_nvmem_write,
- 	};
+ 	bool flag;
+@@ -280,7 +293,7 @@ static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
+ 	int ret;
  
- 	regmap = devm_regmap_init_spmi_ext(sdev, &apple_spmi_regmap_config);
+ 	/* Check for emergency shutdown condition */
+-	if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &val) >= 0 && val)
++	if (macsmc_battery_read_bcf0(power, &val) >= 0 && val)
+ 		return POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
+ 
+ 	/* Check AC status for whether we could boot in this state */
+@@ -577,7 +590,7 @@ static void macsmc_power_critical_work(struct work_struct *wrk)
+ 	 * Check if SMC flagged the battery as empty.
+ 	 * We trigger a graceful shutdown to let the OS save data.
+ 	 */
+-	if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &bcf0) == 0 && bcf0 != 0) {
++	if (macsmc_battery_read_bcf0(power, &bcf0) == 0 && bcf0 != 0) {
+ 		power->orderly_shutdown_triggered = true;
+ 		dev_crit(power->dev, "Battery critical (empty flag set). Triggering orderly shutdown.\n");
+ 		orderly_poweroff(true);
+@@ -616,6 +629,7 @@ static int macsmc_power_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct apple_smc *smc = dev_get_drvdata(pdev->dev.parent);
+ 	struct power_supply_config psy_cfg = {};
++	struct apple_smc_key_info info;
+ 	struct macsmc_power *power;
+ 	bool has_battery = false;
+ 	bool has_ac_adapter = false;
+@@ -714,6 +728,20 @@ static int macsmc_power_probe(struct platform_device *pdev)
+ 		if (apple_smc_key_exists(smc, SMC_KEY(CH0I)))
+ 			power->has_ch0i = true;
+ 
++		ret = apple_smc_get_key_info(power->smc, SMC_KEY(BCF0), &info);
++		if (ret) {
++			dev_err(&pdev->dev, "Failed to determine BCF0 key size\n");
++			return ret;
++		}
++		if (info.size == 1)
++			power->bcf0_1byte = true;
++		else if (info.size == 4)
++			power->bcf0_1byte = false;
++		else {
++			dev_err(&pdev->dev, "Unexpected BCF0 key size %d\n", info.size);
++			return -EIO;
++		}
++
+ 		/* Reset "Optimised Battery Charging" flags to default state */
+ 		if (power->has_chte)
+ 			apple_smc_write_u32(smc, SMC_KEY(CHTE), 0);
+@@ -766,7 +794,7 @@ static int macsmc_power_probe(struct platform_device *pdev)
+ 		power->nominal_voltage_mv = MACSMC_NOMINAL_CELL_VOLTAGE_MV * power->num_cells;
+ 
+ 		/* Enable critical shutdown notifications by reading status once */
+-		apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &val32);
++		macsmc_battery_read_bcf0(power, &val32);
+ 
+ 		psy_cfg.drv_data = power;
+ 		power->batt = devm_power_supply_register(dev, &power->batt_desc, &psy_cfg);
 
 ---
-base-commit: abe651837cb394f76d738a7a747322fca3bf17ba
-change-id: 20260611-apple-spmi-nvmem-cfi-673d5202f7e4
+base-commit: 9716c086c8e8b141d35aa61f2e96a2e83de212a7
+change-id: 20260611-gate-power-cfd726dc0d7f
 
 Best regards,
 --  
-Aelin Reidel <aelin@mainlining.org>
+Sasha Finkelstein <k@chaosmail.tech>
 
