@@ -1,95 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B067B389108;
-	Fri, 12 Jun 2026 22:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB14D2DECBF;
+	Sat, 13 Jun 2026 21:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781302043; cv=none; b=Pr9TfUSfV4wvyzjHmOJHm4DQLqXlaKwlGQXRvZG2cXF4v3LhNjYlHcTmvpZ8XHUc9FZiMbgzu7XffKwoNREtUtsb9fwg5Syv0ifIPHacnT6pPbFQnjKVD252O8nbAIxV9CndDtXSmogrQ5m0avRFOcyy2dQZDlly2qub7S3NCBA=
+	t=1781386934; cv=none; b=pCbIUpTSkVZ+rJRQ5ChpI3rjRYDRiJqrigwL//jweaXBGspGqk2T0DTOhnQbuof2yMWE0LvnoxD0Ru8tautLdfAtSephRg6b0Yg2Kp3lzwzvVDkJwxco4odXbC8jZVWSV/uDRLzPpT7dQuaDiIZHywlgEQnBHR/8Et36QEKyh4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781302043; c=relaxed/simple;
-	bh=kal8MWWC+s3/wQwF8S90+qoOyh5nANqkBNfU/7+MzhM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QqCRd+gSN7EJkO1nNK/06IqwQe+Pf4EJu0oMzk3R1C2avPvRA/+IcYeASissnIs/19KWog2jeQGcVNY0R1BPxYzCQDSip33xcMwBvMhCj6sk7su2NlWY0iq8f+YDzRnKYl4SNK4/lsFPZCpDpuTYlBq3HB+lmru5aCsDcODOFso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eSeH4214; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781386934; c=relaxed/simple;
+	bh=UDF2EKMrT5gKBEA18/mC2S/FqavgJhyXi06Nv2Z1Xmg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OpA3DEwyZ8QZaXr2j2fIdj788mRiwamodcbbOYI+xXMvBqewYX7SEdVPtKrw41n9vfLvKaFvZD4TS23vLYn06dh8F9fGFHct17Q5KaiPIkdAno3ZpEXrwdCehn46hj55b9h3mmAXEpoyK1OhMz5Y7EtMOvPGR9iQtANVUficfDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J1KfefCR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eSeH4214"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A1701F000E9;
-	Fri, 12 Jun 2026 22:07:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781302042;
-	bh=IN3NFdrc14uXt12CxYGdLvKSeFnCWmr06lwae8sC5PQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eSeH42147TIqEamoqMGijR7mxIS4V3VFsHwhimWdPwNNtSUKeyvlWgLd8MS9WZAAH
-	 /GU8SoIi0KbUr1+vjmG1SphztmEQwL75hCu2Eb399lVwUaPOSj6IsrDX6RzaSPlAGw
-	 iRNDVY7mR1Mo2yjBAnV5aaLOKMG5zP4KLHJHO9qjPDk/pX4dmWhfSuqLiR+mOf/lt/
-	 zg31BRI2ixfhkVcxPOECcak+LgDtoHUlyWQVCfU5gtiGa/9ickcR4bJ+TjD1nwN9ax
-	 kklPeAovejBrzj7S0qSalz76zg10S42g4ZHMnqqXLeIXn9gOTWLo3xoLozQQHA4ice
-	 rwcQE8V7io5dw==
-Date: Fri, 12 Jun 2026 17:07:21 -0500
-From: Rob Herring <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 1/7] dt-bindings: hwmon: Add Apple System Management
- Controller hwmon schema
-Message-ID: <20260612220721.GA1901304-robh@kernel.org>
-References: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
- <20251215-macsmc-subdevs-v6-1-0518cb5f28ae@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J1KfefCR"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0A262C19425;
+	Sat, 13 Jun 2026 21:42:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781386934;
+	bh=UDF2EKMrT5gKBEA18/mC2S/FqavgJhyXi06Nv2Z1Xmg=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=J1KfefCRMStVKUahWuBNDHg6ZVobYypt3hg6keQ4H1Ijwkxaz60t95E0ejTlg1pyy
+	 ZideBvjYU04u114Mr3+0PJzWT2TEn9VWeVJRoc6qs/Zdf036/sSpyWRU9s2b4yyAYq
+	 g56OAe8EizjwLSpYyZctKEMdmUH37kU127v79BMAg0P878sNut0llltvGv+8lvIjHy
+	 +Cp41Da5PZIZH9Jyg/L8HhL+c9N4Wq5s513g5QFnhHnuo47XMIF9Ade0WFHneZN4b2
+	 o6BUXRJWwUDvm+p/7b6U6Ab2wOmWO2W76V5PeZL0sxVJatVG4DMYxrypOCH6ZO5X0y
+	 PGU+C2Z2nPuIw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B6BCD98C5;
+	Sat, 13 Jun 2026 21:42:13 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Date: Sat, 13 Jun 2026 16:42:12 -0500
+Subject: [PATCH] Input: apple_z2 - bound the device-reported packet length
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215-macsmc-subdevs-v6-1-0518cb5f28ae@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260613-b4-disp-b1926f1a-v1-1-3a277b7c0cfa@proton.me>
+X-B4-Tracking: v=1; b=H4sIALPOLWoC/x3MQQqAIBBA0avErBtIC8muEi3GHGs2JQoRiHdPW
+ r7F/wUyJ+EMS1cg8SNZ7qtB9R3sJ10Ho/hm0IM2g1Ejugm95IhOWW2CItyJ/BzspClYaFlMHOT
+ 9l+tW6wfY+4MYYgAAAA==
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Sasha Finkelstein <k@chaosmail.tech>
+Cc: linux-arm-kernel@lists.infradead.org, Neal Gompa <neal@gompa.dev>, 
+ linux-input@vger.kernel.org, asahi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781386931; l=3413;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=HJr41MzsNAgdosyjOBWzjfV06tvv0y+yjyYHV/ssUMU=;
+ b=uJGd+xWxV/O/9IKWycpqj9CKYM4uyDLxIThyI5YroMJXLg9nuvw2kuBkdcBHSk5VF0aKBIk2+
+ 7FQuydudKU6CgHu0E6hF3LagjfSG95afsqzvV9Z3Y++mOEq5dALtSLZ
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
 
-On Mon, Dec 15, 2025 at 07:37:45PM +1000, James Calligeros wrote:
-> Apple Silicon devices integrate a vast array of sensors, monitoring
-> current, power, temperature, and voltage across almost every part of
-> the system. The sensors themselves are all connected to the System
-> Management Controller (SMC). The SMC firmware exposes the data
-> reported by these sensors via its standard FourCC-based key-value
-> API. The SMC is also responsible for monitoring and controlling any
-> fans connected to the system, exposing them in the same way.
-> 
-> For reasons known only to Apple, each device exposes its sensors with
-> an almost totally unique set of keys. This is true even for devices
-> which share an SoC. An M1 Mac mini, for example, will report its core
-> temperatures on different keys to an M1 MacBook Pro. Worse still, the
-> SMC does not provide a way to enumerate the available keys at runtime,
-> nor do the keys follow any sort of reasonable or consistent naming
-> rules that could be used to deduce their purpose. We must therefore
-> know which keys are present on any given device, and which function
-> they serve, ahead of time.
-> 
-> Add a schema so that we can describe the available sensors for a given
-> Apple Silicon device in the Devicetree.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/hwmon/apple,smc-hwmon.yaml  | 86 +++++++++++++++++++++++++
->  .../bindings/mfd/apple,smc.yaml          | 36 +++++++++++
->  MAINTAINERS                              |  1 +
->  3 files changed, 123 insertions(+)
+From: Bryam Vargas <hexlabsecurity@proton.me>
 
-I fixed up the error and applied. Please ensure all your patches get 
-applied.
+apple_z2_read_packet() takes a 16-bit length from the touch controller's
+interrupt-data reply (rx_buf[1..2]) and, only rounded down to a multiple of
+four, uses it as the size of the second SPI transfer into the fixed-size
+rx_buf:
 
-Rob
+	pkt_len = (get_unaligned_le16(z2->rx_buf + 1) + 8) & 0xfffffffc;
+	error = spi_read(z2->spidev, z2->rx_buf, pkt_len);
+
+rx_buf is a fixed 4000-byte buffer, but pkt_len is fully controlled by the
+device and is never checked against it, so a malicious, malfunctioning or
+counterfeit controller (or an interposer on the SPI bus) that reports a
+large length makes spi_read() write up to 65540 device-supplied bytes into
+the 4000-byte buffer -- a controller-driven heap out-of-bounds write of up
+to about 61 KiB.  The recently added reply-type check only validates
+rx_buf[0], not the length.
+
+Reject any packet whose length exceeds the receive buffer.
+
+Fixes: 471a92f8a21a ("Input: apple_z2 - add a driver for Apple Z2 touchscreens")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+---
+Reachable on every touch interrupt once the controller is booted
+(apple_z2_irq -> apple_z2_read_packet).
+
+Verified with a faithful in-kernel KASAN litmus (the verbatim 4000-byte
+allocation, the exact pkt_len computation, and the spi_read transfer modelled
+as a memset of pkt_len controller bytes), CONFIG_KASAN_INLINE=y:
+
+  Arm A, reported length 0x1000 -> pkt_len 4104:
+    BUG: KASAN: slab-out-of-bounds in apple_z2_read_packet
+    Write of size 4104 ... located 0 bytes inside of allocated 4000-byte region
+    ... which belongs to the cache kmalloc-4k of size 4096
+  Arm B, with this patch (length rejected): clean
+  Arm C, benign length: clean
+
+  AddressSanitizer (x86_64 and i386), reported length 0xffff -> pkt_len 65540:
+    heap-buffer-overflow WRITE of size 65540, both ABIs.
+
+Reproducer and full logs available on request.
+---
+ drivers/input/touchscreen/apple_z2.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/apple_z2.c b/drivers/input/touchscreen/apple_z2.c
+index 271ababf0ad5..ff9ff97be185 100644
+--- a/drivers/input/touchscreen/apple_z2.c
++++ b/drivers/input/touchscreen/apple_z2.c
+@@ -22,6 +22,7 @@
+ #define APPLE_Z2_TOUCH_MOVED             4
+ #define APPLE_Z2_CMD_READ_INTERRUPT_DATA 0xEB
+ #define APPLE_Z2_REPLY_INTERRUPT_DATA    0xE1
++#define APPLE_Z2_MAX_PACKET              4000
+ #define APPLE_Z2_HBPP_CMD_BLOB           0x3001
+ #define APPLE_Z2_FW_MAGIC                0x5746325A
+ #define LOAD_COMMAND_INIT_PAYLOAD        0
+@@ -147,6 +148,8 @@ static int apple_z2_read_packet(struct apple_z2 *z2)
+ 		return 0;
+ 
+ 	pkt_len = (get_unaligned_le16(z2->rx_buf + 1) + 8) & 0xfffffffc;
++	if (pkt_len > APPLE_Z2_MAX_PACKET)
++		return -EMSGSIZE;
+ 
+ 	error = spi_read(z2->spidev, z2->rx_buf, pkt_len);
+ 	if (error)
+@@ -363,7 +366,7 @@ static int apple_z2_probe(struct spi_device *spi)
+ 	if (!z2->tx_buf)
+ 		return -ENOMEM;
+ 	/* 4096 will end up being rounded up to 8192 due to devres header */
+-	z2->rx_buf = devm_kzalloc(dev, 4000, GFP_KERNEL);
++	z2->rx_buf = devm_kzalloc(dev, APPLE_Z2_MAX_PACKET, GFP_KERNEL);
+ 	if (!z2->rx_buf)
+ 		return -ENOMEM;
+ 
+
+---
+base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
+change-id: 20260613-b4-disp-b1926f1a-caad8f942af9
+
+Best regards,
+-- 
+Bryam Vargas <hexlabsecurity@proton.me>
+
+
