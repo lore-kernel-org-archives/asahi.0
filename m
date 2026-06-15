@@ -1,161 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E104403EBE;
-	Mon, 15 Jun 2026 15:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F1B2882B6;
+	Mon, 15 Jun 2026 18:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781537284; cv=none; b=uVFKHcQlNUw4qQuhFKgYBkf3fWTMx1cy6LZDWlniwIoLuGH4cCgWaHVtWqGnTqXwPQd+QIOZHtuOXnSafL5us+Xu/GRXLR3PiZ6X5edBLBe/nHe4S23iggyKlcOYH0O9Cgis070xHAKdqzVks10IIb2h2oKbr3x6g5kwVjK8Zm4=
+	t=1781547652; cv=none; b=W2rx8wLl+u1q/Wc/JUl+nuGVPB/FRmLC+F7PZOqM7JXv1yJ2onjcAtyJo27Mf1QIXRUlKyn1Bq6/C4jOtL4eFyE5vJ93RWiTyI1ICzQWBzVLnrpq4zyhheCH45qTDJe+SAVJQg0vj1mxtjthwJNzVry2GpZSo0FAn81OlImRADc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781537284; c=relaxed/simple;
-	bh=ztP9n10+REOMsguNxHAiAEwIdcpv6F777s03Mce9vF8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oSwcvDqZTY7SYflbMG9OUj1qIYNZHundAFM/F9DG4IN9/tPWGnVCFUGfht+kzA8uxe2ZWIBcU+J4lWomLROzu8bNdEMkEI5EsTrXsqBk0O5ir4y4wenIZEIYiCKM+0MNipAVX4sjec/xDWGtsUi4giKHrQpenxCkMgSBBSRq2lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j98OzfUM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781547652; c=relaxed/simple;
+	bh=LHjIQuxX3I0P97by+TixGf9E2OyDn7KeunIpzWewOQg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Q17rnJeZTHAdTMjrjZlvx3mMOWdZkQoubskrRwX9BRpZqc7TqJgDq+9TNc6ccMzckcM3FgLcwxNf9M7xyvW7vvuFoR5LKlfi+oFX1ysXXMPM+AFpVARKcYvnTfuMivanpkYoBBG9RMNyibI+fi7EswrZgNS7+AwEYf4A5aoZCUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8LA5jnV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j98OzfUM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D33221F00A3A;
-	Mon, 15 Jun 2026 15:28:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781537283;
-	bh=rwEtHSfL9+M1JoHBDck2NmycQ9jDd8imR/CJrjIJ+SI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=j98OzfUMnY8KLCN2dMb90EVO5432sPP+SqVCwD9qQfBhtE2f/i5MFB2Ylhn7+LK5I
-	 e/Ok1zgZaiW2gxv6QEYyjfFhVvk2QqXADb59/K9Q0pAMjUT9T0ajn5dipxJj2kOdfD
-	 2+WZm4uOu1Plb0lZ822Kqrnpo5exKIakB26MgNHYENkUb4UfPfm2hcH6Ids6/QdXtN
-	 p76ysY6Hv+/Rv6Bt4UH/6J1d7j/cE1wJmqRMAhd2hUyvEzHSrK24xGqXUXxfqFDisP
-	 P41anJDMTQuu7Rm3efBqS1ISXFfsFnU3nlayWMfGeR71XtmQdrSqi6SP8uYhLjTfYO
-	 gaI3QEGXhjRWA==
-Message-ID: <99b69262-e54b-424e-baa2-96ef7013b87a@kernel.org>
-Date: Mon, 15 Jun 2026 17:27:59 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8LA5jnV"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 87E66C2BCB4;
+	Mon, 15 Jun 2026 18:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781547652;
+	bh=LHjIQuxX3I0P97by+TixGf9E2OyDn7KeunIpzWewOQg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=P8LA5jnVbJ3b6pbMbK+GNBvcAglaKuXhW4EecTnNk1jJRx6OPdu3eRzeHTZKc/hvC
+	 GpYBiKYn3pB8g9Lb1+EXqAN4JByDlDEpQDSshq6ejaGTwuMnBbUfHeBFQM79pCQY5B
+	 +wXCKD/n9KZWDfE5lRRzjYcOgzhvV3eDPtStNiVga1RoGi+CXJQVevN02mpxI11SXb
+	 ZuHBk8Sh+nB7UqVoXURVl/v4OzryAWCCk417Sn46IVSpvqQ3H2sTzeUGEr18bZE2sW
+	 BBd7ixSSHB/MFMZoHUAPC/hNbVsuO4iO9qlTbY0ZOC5wnVLE0Z+ve1SOcpgCpZekkC
+	 53V8YUcpTGYgw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E3C5CD98CF;
+	Mon, 15 Jun 2026 18:20:52 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Subject: [PATCH v3 0/2] Input: apple_z2 - bound device-reported packet
+ length and finger count
+Date: Mon, 15 Jun 2026 13:20:50 -0500
+Message-Id: <20260615-b4-disp-05943ee1-v3-0-bbfe1b651613@proton.me>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: errata: Handle Apple WFI State Loss
-To: Will Deacon <will@kernel.org>, Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, Sasha Finkelstein <k@chaosmail.tech>
-References: <20260615-wfi-erratum-v2-1-59a73467f70d@cyberchaos.dev>
- <ajAT9fWgOd9HY7ei@willie-the-truck>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <ajAT9fWgOd9HY7ei@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIJCMGoC/x3MSwqAIBRG4a3EHXfBHhq1lWhQ+lt3YqEQgbT3p
+ OE3OCdTQhQkmqpMEbckOUNBV1dkjzXsYHHF1KrWKNNo3np2ki5Weuw7oOHRWW0tzKA8qGRXhJf
+ nX87L+36pHeheYgAAAA==
+To: Sasha Finkelstein <k@chaosmail.tech>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
+ Sven Peter <sven@kernel.org>, linux-input@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781547650; l=4223;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=LHjIQuxX3I0P97by+TixGf9E2OyDn7KeunIpzWewOQg=;
+ b=og68OIf/C2guQ7Z1a94j9uP8UzdZEudHLdixjd+QyMCALrSGfUH4QQwWkRReRpGHaTIkiackj
+ USnaBxfF97QAfNdBBE7BD2DJ81uBm7tZFo3HJrvgDESOzeZDNbgE66G
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
 
-On 15.06.26 17:02, Will Deacon wrote:
-> On Mon, Jun 15, 2026 at 02:21:36PM +0200, Yureka Lilian wrote:
->> Apple Silicon CPUs can lose register state in WFI, leading to crashes
->> in the idle loop early in the boot process.
->> This applies to any previous Apple Silicon CPUs too, but is worked
->> around by configuring the WFI mode in SYS_IMP_APL_CYC_OVRD sysreg
->> during m1n1's chickens setup.
->> This workaround no longer exists since M4.
->>
->> Add a workaround capability for replacing wfi and wfit with nop, and
->> an erratum to enable it on the affected CPUs if the workaround using the
->> sysreg is not already applied. Leave the decision whether the sysreg
->> workaround can be used up to the earlier parts of the boot chain which
->> already configure the Apple Silicon chicken bits.
->>
->> This alternative has to be applied in early boot, since otherwise some
->> cores might enter the idle loop before apply_alternatives_all() is run.
->>
->> Reviewed-by: Sasha Finkelstein <k@chaosmail.tech>
->> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
->> ---
->> Changes since v1:
->> Restricted the erratum to EL2 only, since in EL1 we'd expect the
->> hypervisor to trap WFI and handle the erratum.
->>
->> Tested on M4 and M4 Pro (which now sometimes nondeterministically
->> crash later during boot).
->> Successfully booted on M3 Max with the SYS_IMP_APL_CYC_OVRD
->> workaround disabled in the bootloader, as well as A18 Pro (which,
->> like M4 / M4 Pro, doesn't have SYS_IMP_APL_CYC_OVRD).
->>
->> There is probably a better place for the SYS_IMP_APL_CYC_OVRD
->> defines, which I currently put in the middle of cpu_errata.c, but I
->> wouldn't know where.
->> ---
->>   arch/arm64/Kconfig               | 12 ++++++++++++
->>   arch/arm64/include/asm/barrier.h | 19 ++++++++++++++++---
->>   arch/arm64/kernel/cpu_errata.c   | 21 +++++++++++++++++++++
->>   arch/arm64/tools/cpucaps         |  1 +
->>   4 files changed, 50 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index b3afe0688919..8c8ff069856f 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -453,6 +453,18 @@ config AMPERE_ERRATUM_AC04_CPU_23
->>   
->>   	  If unsure, say Y.
->>   
->> +config APPLE_ERRATUM_WFI_STATE
->> +	bool "Apple Silicon: WFI loses state"
->> +	default y
->> +	help
->> +	  This option adds an alternative code sequence to work around some
->> +	  Apple Silicon CPUs losing register state during wfi and wfit
->> +	  instructions.
->> +
->> +	  As a workaround, the wfi and wfit instructions are replaced with nop
->> +	  operations via the alternative framework if an affected CPU is
->> +	  detected.
->> +
->>   config ARM64_WORKAROUND_CLEAN_CACHE
->>   	bool
->>   
->> diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
->> index 9495c4441a46..f72eddc7c434 100644
->> --- a/arch/arm64/include/asm/barrier.h
->> +++ b/arch/arm64/include/asm/barrier.h
->> @@ -20,9 +20,22 @@
->>   #define wfe()		asm volatile("wfe" : : : "memory")
->>   #define wfet(val)	asm volatile("msr s0_3_c1_c0_0, %0"	\
->>   				     : : "r" (val) : "memory")
->> -#define wfi()		asm volatile("wfi" : : : "memory")
->> -#define wfit(val)	asm volatile("msr s0_3_c1_c0_1, %0"	\
->> -				     : : "r" (val) : "memory")
->> +#define wfi()							\
->> +	do {							\
->> +		asm volatile(					\
->> +		ALTERNATIVE("wfi",				\
->> +			    "nop",				\
->> +			    ARM64_WORKAROUND_WFI_STATE)		\
->> +		: : : "memory");				\
->> +	} while (0)
->> +#define wfit(val)						\
->> +	do {							\
->> +		asm volatile(					\
->> +		ALTERNATIVE("msr s0_3_c1_c0_1, %0",		\
->> +			    "nop",				\
->> +			    ARM64_WORKAROUND_WFI_STATE)		\
->> +		: : "r" (val) : "memory");			\
->> +	} while (0)
-> 
-> How can you guarantee that we don't run one of these prior to patching?
-> 
-> I wonder if we're better off doing something like x86 and having an "idle="
-> cmdline option. which could choose between e.g. nop, wfe, wfi and yield, for
-> example? In fact, would wfe be a better choice than nop for you?
+The Apple Z2 touch controller is across an SPI bus and its reports are not
+trusted: a malicious, malfunctioning or counterfeit controller (or an
+interposer on the bus) can put arbitrary values in the report header.  Two
+such device-supplied fields are used as sizes without being bounded against
+the fixed 4000-byte receive buffer, giving the device a heap out-of-bounds
+write and a heap out-of-bounds read.  This series bounds both.
 
-I think that should also solve the issue of detecting if we're running 
-on bare metal and need this or if there's something that mitigates the 
-issue (e.g. M1-M3 where we can still enable that chicken bit or a 
-hypervisor that just traps wfi): Just let the bootloader decide and 
-inject that cmdline option.
+Patch 1 bounds the 16-bit packet length before the second SPI transfer
+(spi_read() into the 4000-byte rx_buf) -- the OOB write.
 
+Patch 2 bounds the device-reported finger count in apple_z2_parse_touches()
+-- the OOB read that is then forwarded to userspace as input events.
 
-Best,
+The two are paired because, as Dmitry noted on v2 of patch 2, the finger
+count alone is not enough: msg_len is itself derived from the device length,
+so patch 1 is what makes the patch 2 bound meaningful.  Patch 1 was posted
+standalone first and carries Sasha Finkelstein's Reviewed-by; it is unchanged
+here.
 
+This v3 series supersedes the two separate postings:
+  - packet length (standalone): https://lore.kernel.org/all/20260613-b4-disp-b1926f1a-v1-1-3a277b7c0cfa@proton.me/
+  - finger count v1:            https://lore.kernel.org/all/20260613-b4-disp-f0148c89-v1-1-868a48b2a187@proton.me/
+  - finger count v2:            https://lore.kernel.org/all/20260613-b4-disp-4ebcbd68-v2-1-0161acfbd688@proton.me/
 
-Sven
+Changes since the v2 finger-count patch (Dmitry Torokhov review,
+https://lore.kernel.org/all/ai8U0QiwpBH8qNS3@google.com/):
+- Patch 2: instead of clamping the finger count to what the packet holds
+  (v2 used min_t and reported the fingers that fit), drop the whole packet
+  when the device claims more fingers than it can hold, with a
+  dev_warn_ratelimited(), per Dmitry's "I'd drop such packet" suggestion.
+  A legitimate zero-finger ("all lifted") report (nfingers == 0) is still
+  passed through to input_mt_sync_frame()/input_sync(), so lifting all
+  fingers is not lost.  (Dropped Joshua Peisach's v2 Reviewed-by, as the
+  fix shape changed materially from clamp to drop.)
+- Patch 2 bound uses the multiplication form
+  (msg_len < FINGERS_OFFSET + nfingers * sizeof(*fingers)) rather than a
+  (msg_len - FINGERS_OFFSET) subtraction, so there is no unsigned underflow
+  when msg_len < FINGERS_OFFSET (which would otherwise re-open the read).
+- Patch 1 folded into the series unchanged (Reviewed-by Sasha Finkelstein).
+
+Note on patch 1 (Sasha Finkelstein, on the standalone thread): rejecting an
+over-long packet desyncs the SPI datastream and the device then needs a reset
+before it operates again.  That is the intended outcome for a controller that
+is already misbehaving or hostile -- a recoverable desync is preferable to a
+~61 KiB heap overflow -- so the reject is kept.
+
+Verification (in-kernel KASAN, CONFIG_KASAN=y kasan.fault=panic, plus userspace
+ASan models of the exact parse arithmetic on x86_64 and i386):
+  Patch 1 (packet length): reported length -> pkt_len 65540:
+    Arm A (no patch): KASAN slab-out-of-bounds / ASan heap-buffer-overflow WRITE,
+      both ABIs.
+    Arm B (patch): rejected, clean.   Arm C (benign): clean.
+  Patch 2 (finger count, drop shape): nfingers 255 in a short packet (msg_len 19):
+    Arm A (no patch): BUG: KASAN: slab-out-of-bounds, Read of size 2, 1 byte to
+      the right of the allocated 4000-byte region (cache kmalloc-4k) -> panic;
+      ASan heap-buffer-overflow READ, both ABIs.
+    Arm B (patch): packet dropped, zero reads, clean, not synced.
+    Arm C (benign 3 fingers, msg_len 114): parsed in-bounds, clean, synced.
+    Arm D (zero-finger all-lifted, nfingers 0, msg_len 19): clean, synced.
+Reproducers and full logs available on request.
+
+---
+Bryam Vargas (2):
+      Input: apple_z2 - bound the device-reported packet length
+      Input: apple_z2 - bound the device-reported finger count
+
+ drivers/input/touchscreen/apple_z2.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+---
+base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
+change-id: 20260615-b4-disp-05943ee1-9dc5cce670fe
+
+Best regards,
+-- 
+Bryam Vargas <hexlabsecurity@proton.me>
 
 
