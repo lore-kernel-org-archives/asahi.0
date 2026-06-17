@@ -1,63 +1,63 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8987400E0A
-	for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 10:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016A33D8132
+	for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 10:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692859; cv=none; b=CdLbYugLvAcRxVvk/O+tGhABPT2pgd5IVfEF25asaCJD656ozjOsGFqz2mYwGRiIncSD0BBS2jPzoTX7+amm9uJ6TzF+k6NbI5Xl5DDWB36W9EWoLu6tSckxgr/BvQr3DuV861GK0v90bf5T5+9HfOd1ZsGtuPPT+xzqoX03NMg=
+	t=1781692867; cv=none; b=tN6z5Ow8TXWox06Lp/OGe69cyRcckaOEdqPtj52aITlU6i0YoJxl2Mdlvfr4o1zANpMgoN5/fcJvvVeBHLpx383ZcFap86VoNRtTYn1QYSjgcF4bxGeS7aVzHWFoZ6bDpgdpzYvMoEj4LgFk8iWumWqPRGgTs0ZeNfQ6Iry5dMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692859; c=relaxed/simple;
-	bh=QkG7uMhxFhIgdfzJMdnxdGkaLUEDO6tHpYig6hGOA/I=;
+	s=arc-20240116; t=1781692867; c=relaxed/simple;
+	bh=T5inPM0/ZembfY2Nrx+5l3rT9jXABsUVzUit1sml7qs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mZme1fs11MWvhMTQzPVmP9NOsKyD0zSslYyAP8N0yjMfBRFigZOBBNxhLxC2MdDtm9AmdDFAiJh/UUZ95qEv87wzfJb3WwJPTPAxRA430KmNmj+SnWkCT442LVAwpHZYKwv5XExbfWw7WlIbr2LkWGz4g6m62KAN11CLi6auNeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WHHw5d32; arc=none smtp.client-ip=74.125.82.175
+	 MIME-Version; b=BdZ4jTUapwwRVP4Is2dia+fiIOch39bW6T+O7rEmTvbWaY3fjgNpvq+hH2PzCGliVHr0jtuZaU0BFXgtfTrEv2p0FJkEA905uvo9lI40yxiysLbVOjDPlw/xdmvVZHTPJgRXmcW7grJ7t4WSfvgUv97TSLrCp5+ptFgwjTvUjJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQTCqZI3; arc=none smtp.client-ip=74.125.82.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WHHw5d32"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-30759632453so8919231eec.1
-        for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 03:40:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQTCqZI3"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-3078e0dcd67so5794275eec.0
+        for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 03:41:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692857; x=1782297657; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781692865; x=1782297665; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kxB3SnelSJeC61Cb2O2sZ2DxgfCvfhJf77FHm8odZMc=;
-        b=WHHw5d32HlHRbj2+F7NmJmNhnMhnZxxBQptuY9gOIE/VSNyonE2Aiz+CjnawMEcng8
-         vU/EMKHz9W0jNdhWLGDC+Wr7R7AP5ezpnLE0lxrQgPwnvEZYna3sMkfcNvZxQSnl0nME
-         dSoI19ON2/qRmFEGgi/8aP+TsrVQo8nGAYh/UyjN3bZP4rxxBrxpQZF0ij2AtYtfevQ6
-         wQ2LEfjo1XoL+eA66NOs8ceTomEC/RmXkGtR2mtPHxm9c1GxyGLmDm7CTi117YawBo1Q
-         PeBx+BvZbE5XFkhMMvgU2m2LbxSNxX18Qm/kKkd8sifHNL6dl3utDdlueKIsvWD9VLiY
-         fOzQ==
+        bh=djEuHymjWJS5SFW/o8P0inIono61ptYNHJ11jX9l3Ik=;
+        b=gQTCqZI37FngjWe9YuZT0kkp4Z/nqek2MkdwMp//WQ4TA5jXGu/3XsvXHW1gAN/k2x
+         7Yo+hFB5dMFqwpvdZxuz9jyqtuFyePkEROXtm2YR6E92K7JoP1ycST13tGxVkD6A6Lrx
+         BXlYc+g9X7dFTm6T0qBAsR4IIWdBEHAJFrMBXG2P27tj2D/icgHMKN7H+EqyJfur9ghE
+         /JkF2xEIoE1cSItequM+CCrg87+3BxWQZz6GWcf4lsXIbs8QI60DtYQhnbT6BCo6b2xl
+         c7u5A3bXkaxfwENHxxhwyEV6xIsMqQZ7Rn5xPUUx9ePOPcySq1Z3Ngo3FxyLU26mjE6L
+         j60Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692857; x=1782297657;
+        d=1e100.net; s=20251104; t=1781692865; x=1782297665;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kxB3SnelSJeC61Cb2O2sZ2DxgfCvfhJf77FHm8odZMc=;
-        b=YEb26oG/t53JE1vWg6Pms+e2s4ja6C4V5VbfEOzo4TfMrUnXuPlS34i0bl9ZBjfU6j
-         e9DyT3jzpJWmdqq5KB3oYYUZfaADXca2I1oUJ2OTdINco6VhE612z+qzdDy2ImE+Jeo5
-         EBdInp0NPCYM6w05LWlW7r0r1J9PJWXu6UHNvvWtc/d9ZlTa59eLV4xi4QcNJpW86gX+
-         ExsXUYmnR3Z2gpm8qYnIYUlOek/IiBPMQCo725LcQdMY3HGP1rqQoabu8nOxVvcGb04Z
-         +eR/Mmm1elpt+QgeDxpzcKIJ6HjI6MbgoS83TVjDilaWFcW507iczJY/u6g7WHK+6o88
-         OVQA==
-X-Forwarded-Encrypted: i=1; AFNElJ+Y8k2jtQFR4e51hblcNu8lxGGIxiwPFecEaowmSozFj+mmdedFbvlm3TP6j6ksq3LkW8xgaQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFs+OraUvK5/mdFxBCfjLP44/VerVsZJurqt4/IDcSLWVboA8X
-	trUhOAJTvTelaaYJwqAhj+zmMVBGvITLWdj+6tizPY5ZaD14CZ1zdKOT
-X-Gm-Gg: AfdE7ck6giBLkl37p/sYtGYbjmHetRKjEvcWqYn1kgL6DsS40rLTGylluElr56hko5X
-	D9PHtnA8dRlGK5QOA3Lc3AHkRka8X+3uPz3tXIPYQzc1W+Iam9plpDmfa12rbmCyfiMOCSIKSEA
-	gQEc4MgLkeB22jI3eZ1dqQLY8UPqE6c8B5/2CiZQIfFxZ1O2JLFR+JjsF31FDo4GeleMKGNmPnd
-	gmJdbmwMHRQp1axA92MAMgGeTq80q4ksMIQ6RUp3Sz5Nqun6ljHJ8iIn+p+Mys4BCnQ2zfiY0GO
-	KzzJLKHhNoK7WnENy5gouUXMRJn/UHrO1FKcK97o7XiaxFykLkeLa6ix6J9c7qdOBNbV1EVPEaI
-	LWwDepsmL6p5JN8DtuTdfBuineZVHDaUdf2GsDmMb8AfNbeoLJjEgqe6DKRfI+5bnRSHaYlNz9b
-	FAIkX5i6BekXw6B90jKTh6YlHkNm8INE5c7Iy9c2RLNkTwpiE=
-X-Received: by 2002:a05:7301:10c5:b0:2e2:3381:2fba with SMTP id 5a478bee46e88-30bc9cad496mr1423566eec.3.1781692856764;
-        Wed, 17 Jun 2026 03:40:56 -0700 (PDT)
+        bh=djEuHymjWJS5SFW/o8P0inIono61ptYNHJ11jX9l3Ik=;
+        b=AR5wF+K3UewUkWZ0iTUc8aQQEV9T93+ONTy6xXsta2tc4SDAGMxij0B7a8H1oV1hlP
+         pc+H48tJEdbIGCkuRLaEHZmL8q10kQo9IlvNEyfYFM7vKPPGhUHuXyZ75JyyRRKymJ2I
+         5i7tZRIhoXsJc7cIjQQ0Ku07FKTwmCZLumZUOxJot+nzF1YVqh+Mato2GgkJsB9lVVpb
+         La1l+yXkGVjhx+i+pP8cDoFXxCvdsCtymM91PFxlBqWlIk9TLNLp2VbO6hdsI1PtGeEM
+         ALYJ92Vp/uqE++bC2uoUX8j8d3hM+35Jt/ndttVhebuG+4Uhg7ZZ9kdOLclNTYL4klkZ
+         81vw==
+X-Forwarded-Encrypted: i=1; AFNElJ9P3gDFHqtO3Rzg1pQgrWakHavFEObR2V198BLemJCSyq5P4C9xbUBRsPsnayNEY1TBbZeyKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyekmwLvVbfz/K85kac/uRAK3M3pMbXHUvZz/G5hqEbqNb/+Saf
+	x8ldhG1SgwYHiBaXPBjB/VREAUkoW9MWGkYugMcK2ddRc2eMVFezs0Hu
+X-Gm-Gg: AfdE7cn7R77lkshE9no+DnJP+nmekzR7G2d1FO/yy7+KSdOL0t7pry3Dnx4qOYMsKVb
+	Lg9SQpAR/Xwg51auH3c43Vr75PowE/ev/F4Yh32nHOZuKo8Uw8kj+kApxYiErvJgGD1Sy99Y7o8
+	6jUWe4Ort0ND7tjcmLSO6uTQgk/sYuhFIhfpIe3+2jjaeBPGw6W/dnNcAvPdciMuDy2XG5m5bph
+	zzjBcWG84OS7NSyK3WivrKx3fwyERmVvRpNiEY0oe38ppSCLXBOyG1FZxzOVaBqQVr/seSufDtY
+	K3qQJSx4ky6sUrCHeZ6l9ggpIbq+th4heOABTMMpl0BONrElGFWqBT7UxpaAtgj0rSmpw1TXJ9T
+	E/iMabkQBAnXGsWxXg6qL3BQqaFLai4cqgWCetVdaP1XwrwOyGU1hZu3IS4BRUU689GBB5N/evR
+	kqWLCEzluTh2zZfunaZybBrqK+rYEdfMOkZKKa8/td2KeRyMPzCsQU3zpv0Q==
+X-Received: by 2002:a05:7300:30c8:b0:30a:e52d:fb27 with SMTP id 5a478bee46e88-30bc9df5a44mr2016767eec.11.1781692865129;
+        Wed, 17 Jun 2026 03:41:05 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.40.48
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.40.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:40:56 -0700 (PDT)
+        Wed, 17 Jun 2026 03:41:04 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 51/78] ASoC: codecs: rt722: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:32:08 +0700
-Message-ID: <20260617103235.449609-52-phucduc.bui@gmail.com>
+Subject: [PATCH 52/78] ASoC: codecs: sigmadsp: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:32:09 +0700
+Message-ID: <20260617103235.449609-53-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,100 +115,64 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/rt722-sdca-sdw.c | 33 +++++++++++++++----------------
- sound/soc/codecs/rt722-sdca.c     |  3 +--
- 2 files changed, 17 insertions(+), 19 deletions(-)
+ sound/soc/codecs/sigmadsp.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
-index 0f76492ff915..ca5a4ee6ce9e 100644
---- a/sound/soc/codecs/rt722-sdca-sdw.c
-+++ b/sound/soc/codecs/rt722-sdca-sdw.c
-@@ -368,7 +368,7 @@ static int rt722_sdca_interrupt_callback(struct sdw_slave *slave,
- 	 * scheme. We do want however to prevent new workqueues from being scheduled if
- 	 * the disable_irq flag was set during system suspend.
- 	 */
--	mutex_lock(&rt722->disable_irq_lock);
-+	guard(mutex)(&rt722->disable_irq_lock);
+diff --git a/sound/soc/codecs/sigmadsp.c b/sound/soc/codecs/sigmadsp.c
+index 2e08fde3989c..592aba25de11 100644
+--- a/sound/soc/codecs/sigmadsp.c
++++ b/sound/soc/codecs/sigmadsp.c
+@@ -135,7 +135,7 @@ static int sigmadsp_ctrl_put(struct snd_kcontrol *kcontrol,
+ 	uint8_t *data;
+ 	int ret = 0;
  
- 	ret = sdw_read_no_pm(rt722->slave, SDW_SCP_SDCA_INT1);
- 	if (ret < 0)
-@@ -432,12 +432,9 @@ static int rt722_sdca_interrupt_callback(struct sdw_slave *slave,
- 		mod_delayed_work(system_power_efficient_wq,
- 			&rt722->jack_detect_work, msecs_to_jiffies(280));
+-	mutex_lock(&sigmadsp->lock);
++	guard(mutex)(&sigmadsp->lock);
  
--	mutex_unlock(&rt722->disable_irq_lock);
+ 	data = ucontrol->value.bytes.data;
+ 
+@@ -148,8 +148,6 @@ static int sigmadsp_ctrl_put(struct snd_kcontrol *kcontrol,
+ 			ctrl->cached = true;
+ 	}
+ 
+-	mutex_unlock(&sigmadsp->lock);
 -
- 	return 0;
- 
- io_error:
--	mutex_unlock(&rt722->disable_irq_lock);
- 	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
  	return ret;
  }
-@@ -514,13 +511,13 @@ static int rt722_sdca_dev_system_suspend(struct device *dev)
- 	 * deferred work completes and before the parent disables
- 	 * interrupts on the link
- 	 */
--	mutex_lock(&rt722_sdca->disable_irq_lock);
--	rt722_sdca->disable_irq = true;
--	ret1 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK1,
--				SDW_SCP_SDCA_INTMASK_SDCA_0, 0);
--	ret2 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK2,
--				SDW_SCP_SDCA_INTMASK_SDCA_8, 0);
--	mutex_unlock(&rt722_sdca->disable_irq_lock);
-+	scoped_guard(mutex, &rt722_sdca->disable_irq_lock) {
-+		rt722_sdca->disable_irq = true;
-+		ret1 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK1,
-+					SDW_SCP_SDCA_INTMASK_SDCA_0, 0);
-+		ret2 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK2,
-+					SDW_SCP_SDCA_INTMASK_SDCA_8, 0);
-+	}
  
- 	if (ret1 < 0 || ret2 < 0) {
- 		/* log but don't prevent suspend from happening */
-@@ -542,13 +539,15 @@ static int rt722_sdca_dev_resume(struct device *dev)
- 		return 0;
+@@ -160,7 +158,7 @@ static int sigmadsp_ctrl_get(struct snd_kcontrol *kcontrol,
+ 	struct sigmadsp *sigmadsp = snd_kcontrol_chip(kcontrol);
+ 	int ret = 0;
  
- 	if (!slave->unattach_request) {
--		mutex_lock(&rt722->disable_irq_lock);
--		if (rt722->disable_irq == true) {
--			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK1, SDW_SCP_SDCA_INTMASK_SDCA_0);
--			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK2, SDW_SCP_SDCA_INTMASK_SDCA_8);
--			rt722->disable_irq = false;
-+		scoped_guard(mutex, &rt722->disable_irq_lock) {
-+			if (rt722->disable_irq == true) {
-+				sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK1,
-+						SDW_SCP_SDCA_INTMASK_SDCA_0);
-+				sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK2,
-+						SDW_SCP_SDCA_INTMASK_SDCA_8);
-+				rt722->disable_irq = false;
-+			}
- 		}
--		mutex_unlock(&rt722->disable_irq_lock);
+-	mutex_lock(&sigmadsp->lock);
++	guard(mutex)(&sigmadsp->lock);
+ 
+ 	if (!ctrl->cached) {
+ 		ret = sigmadsp_read(sigmadsp, ctrl->addr, ctrl->cache,
+@@ -174,8 +172,6 @@ static int sigmadsp_ctrl_get(struct snd_kcontrol *kcontrol,
+ 			ctrl->num_bytes);
  	}
  
- 	ret = sdw_slave_wait_for_init(slave, RT722_PROBE_TIMEOUT);
-diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
-index 1b6729f363fc..5fb5dc2ee3b4 100644
---- a/sound/soc/codecs/rt722-sdca.c
-+++ b/sound/soc/codecs/rt722-sdca.c
-@@ -294,7 +294,7 @@ static void rt722_sdca_btn_check_handler(struct work_struct *work)
- 
- static void rt722_sdca_jack_init(struct rt722_sdca_priv *rt722)
- {
--	mutex_lock(&rt722->calibrate_mutex);
-+	guard(mutex)(&rt722->calibrate_mutex);
- 	if (rt722->hs_jack) {
- 		/* set SCP_SDCA_IntMask1[0]=1 */
- 		sdw_write_no_pm(rt722->slave, SDW_SCP_SDCA_INTMASK1,
-@@ -317,7 +317,6 @@ static void rt722_sdca_jack_init(struct rt722_sdca_priv *rt722)
- 		rt722_sdca_index_update_bits(rt722, RT722_VENDOR_HDA_CTL,
- 			RT722_GE_RELATED_CTL2, 0x4000, 0x4000);
- 	}
--	mutex_unlock(&rt722->calibrate_mutex);
+-	mutex_unlock(&sigmadsp->lock);
+-
+ 	return ret;
  }
  
- static int rt722_sdca_set_jack_detect(struct snd_soc_component *component,
+@@ -677,10 +673,10 @@ static void sigmadsp_activate_ctrl(struct sigmadsp *sigmadsp,
+ 		return;
+ 	changed = snd_ctl_activate_id(card, &ctrl->kcontrol->id, active);
+ 	if (active && changed > 0) {
+-		mutex_lock(&sigmadsp->lock);
+-		if (ctrl->cached)
+-			sigmadsp_ctrl_write(sigmadsp, ctrl, ctrl->cache);
+-		mutex_unlock(&sigmadsp->lock);
++		scoped_guard(mutex, &sigmadsp->lock) {
++			if (ctrl->cached)
++				sigmadsp_ctrl_write(sigmadsp, ctrl, ctrl->cache);
++		}
+ 	}
+ }
+ 
 -- 
 2.43.0
 
