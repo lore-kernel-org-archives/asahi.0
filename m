@@ -1,63 +1,63 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC134418F0
-	for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 10:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D725B478E53
+	for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 10:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692883; cv=none; b=bg/4fuHN5Kh818KkSMH3vqDlLNzWafFY7pUco1RNzMtlV4u9XW5HLAWIn8ts+ehU9Q6YNnfDGEL6aC0BYujh+MySqS11uudFE8Z6WqdIoUKbMfnTYh0EcQrWH0Iwq+wK1DGEsvVIC1uY3JtSidKiW0o7ZdCb5Y4FdE4axPawaSQ=
+	t=1781692892; cv=none; b=jBrF7PlLF3UmFkoIx5RESHm8Nf9mptJCQeoR9AR2EGA6yrmI0xWqXI8bzymVG4nD+R3e8l8aBz1/GkygsYzk+UUxfz866ePnYU4N9y0EloPCaS8vhGRIVHlZZRwV/egNXF5wQMME8XzH+dSxid9dvJPn7QSdYK4Sv6fpRx0vjhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692883; c=relaxed/simple;
-	bh=9xbV3n1tUxWEoIS+358Ym1B2iqW853YzQpFC5yt90Sg=;
+	s=arc-20240116; t=1781692892; c=relaxed/simple;
+	bh=CUFDizm8j2l+aG+O0iqDVpukA4UDOPYwQgm/2dCZpzw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FNvpNuGEMeeBldSHstzRoAsBaMU8Yk78I30jXYTl0FaYjCsW4j+jfTPOq/ebKGtu3a+b9OX48wT3IOvlHX1PqYMHKDmzxMqELfRrfPBbggLvuPec30eXscnHnoRDJDlnnBvSylLXkPvhbqe/4R7AarDihvPneLzdI4vVQrgTT30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FvvGE1P0; arc=none smtp.client-ip=74.125.82.175
+	 MIME-Version; b=gMFY2Vpu7WqI6C7iIWSTG3+zgD/cDVnX1HlYwGpH7aecy9EaY1rX7ZtEwrWwA88UtlN+nihWzGE7kjwceHpwcycxFqlNDAEWknqV6FetuPeExrjrZx/IQvIqtYUdMCO6gJi7RrWDW9iTGqZRz14722MNFs9zBw5A5G9tIvDba2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L8ib3GYj; arc=none smtp.client-ip=74.125.82.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvvGE1P0"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-304f590dd91so6364040eec.0
-        for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 03:41:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L8ib3GYj"
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-137335bc3caso6891545c88.0
+        for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 03:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692882; x=1782297682; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781692890; x=1782297690; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gwhpp7/VdBz3UggslbsZXRIuTaC9RnI8WqyEGL8e2x0=;
-        b=FvvGE1P0qg6SKXUXylTjk7OYW39iQ1kIYSSbn8YAEpH/Ui9tStXYy1eIIlOdxqBnye
-         A7QLAhv36IG/inM+9cHc20YjXHRmFUYFBuFZY/pyKctGzH59X273qrMmW2c2jHZRk66p
-         5UO/0jtdJR9yUb5tcbH8X5TuigcUvTEAzRvS8GMXnvoiXvzSI2icGYGCXVbEK1CB2VE9
-         npsvZXMLmGY9TPB+GB4poGRyE0O3w44yIThG21up9Vn9EAF2Ons/w2X6+065/+rMQL8s
-         z66E/Kyzj9EEmICWkAJtaNmSaQTYjWvKHAiQfb2dvKSG2Fm0Pnp8CewgDsV3I7vKeK+5
-         ocEw==
+        bh=AUF1nUSK8JjVFEerCymxn+O2TFW28hvbz/kOFuEnXM4=;
+        b=L8ib3GYj4exzevc1NuuL9sWoYTn1RG3o65+19TGsr8f7RYmIT64WWTSl/ixAUuMOxb
+         +xAbehCmjOXOSjgJA6dU3DqLphXzwJXSXyooFX6jiO2N6IXiCWmXiIwpQQ3tIHBTxys/
+         /PZ+ap5/KmIpDmkAQH3KnnKK8/xg7lMvxsTbAZSAjIAQFIz+ByMB1Q0BhcXq3pxTePjE
+         ZQBomqGEgG+IywavTrAXSA44u5R8yAY+UYHIldwJWF3Khc5rKFpTCJf7vtQt2LdSdanz
+         2N4AP354rHQR0qgplTSNsP/VLdi29Sy7dyzUbiPE2n8N+i/23W+0F0OXAISUK/AknM+c
+         /EPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692882; x=1782297682;
+        d=1e100.net; s=20251104; t=1781692890; x=1782297690;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Gwhpp7/VdBz3UggslbsZXRIuTaC9RnI8WqyEGL8e2x0=;
-        b=Nv7qIWmnZiJpNqAv0EXDG5K/GCEgqA5fuRYFSTSwuCdKrf8Fgs4dpkhJTychQBOQuY
-         zURVhBJaVRDEEugZLQtBFdtD6Bf8NR5LMCysIbFUDsMFoqR2EXkgdj4Qv8WPQ5JmHa5N
-         Uve+JLqXWe7OhGgfJv5qdUTEIz9TTXAzrJ2cs9EvFv0dty94+GfYX/XxQIqZYZDrrjvn
-         9BjI4slC4VwX4cFuxkm6iVH8J8NgIRhj8nnZ9292Vx7eEENKemuPHHJD/tyMcTbrchLS
-         bBD+y43UzJde/JJcduOagS1pK2RqQwWhPOpPD3HucL8LgCCuowsIBbUdjcVaCAGXFCvJ
-         tQjg==
-X-Forwarded-Encrypted: i=1; AFNElJ9Z6/pNJLJZNcfjUPHMm+9MhaXQqhOJMall9Hq+tL+tgGmRA8Jd/6qTMobJvfUOPsxWnPE3nQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4qJcezpx+deyAUjaHelHp12tWFe5OW6J9I5eAWEWvVgwgdJim
-	5j3pj8bpFajKN17joAfxQjDMj5gyKTa+Bc2Xd3y1DNVOOBQoSzVPvy1v
-X-Gm-Gg: AfdE7ck+IizsPXJk00tsVnU77PVf90Al7dAStL/zatYplwzRb8FcJYs7ccRr/yhg+7C
-	R+TxgHVamal1JM9IOA10DDqxMIb60R0DQoRtpRFOlbnJYNx8os8EiMHvEV0M/FAWEp9vVFyBtqO
-	Xbm6aECuJaDYe7Rg0mJK8O5fSL6LPmrAYsNQlKVmDJ9gWlfmQ9j6JQQs9sdQeEoOhuvash1q0XP
-	pJKRN5CWogQKv7wXsNV9GNV46Bt3yfzI/T+3ZrwMxfLAO84RhVh4//aNS3/amyse/ktFNGWoD1Y
-	f9u6eZIx9Ogh1Rh8yziu9TRk7Rsh6pKM+m2kvreJLzQwv4LzET3FzlhkD9pvaMNZSiAAYnqXUw3
-	88hO20spZVSmTc9IOiqz3A+DYy82nBa9iaiaeH/H1d3VgxkAvoTGunmdS6SJVpn4SkBnDwwi17P
-	sn7zW6aWU8PBMxM022rFJEnp26J6EhgBVnI4vAtNdPxVxeYw8=
-X-Received: by 2002:a05:693c:2d88:b0:2da:1874:f3bd with SMTP id 5a478bee46e88-30bc9f57d3amr1910340eec.16.1781692881708;
-        Wed, 17 Jun 2026 03:41:21 -0700 (PDT)
+        bh=AUF1nUSK8JjVFEerCymxn+O2TFW28hvbz/kOFuEnXM4=;
+        b=X7Y67c+3X86Z+BamTrh9XqZeqDXVJS1Dgece04lkz+uPpi29VawqV0XXd86kItSQqH
+         Q53RUNbOAcGs6RwNptC0eqPKCX/QrW1tu35y5FQeAg8JD9+g2pNcG/mRR9zMw7D9obXH
+         fShMrnd1YoKOJgNq59jd8GsQhBvtTkv1y92LTxV3sJwugyunXm9v5SifjrXIutTlyEO4
+         i01zuop3YnykHYqMg9EGxGiKZ1NVzkmDlgXRuLXKD4zUOALRBX54CySu/B/0znBZL65B
+         +uF0AyyVwY4h7D6zq4mycOcCUQcig4yc8t9jmZnK3EtsvqA73DsodDhsB5slnWgorMxO
+         J2ng==
+X-Forwarded-Encrypted: i=1; AFNElJ/XsKrle0BvsYtJ51L4ownAE+og+/B0jrM+zKvgyWOwdu2rTG/KYO7k/76zO/cxRnk+1eLvEQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/3kBkkGK8zM6Z5zsYQwh1gEjiBb6bEwHSG6t0dPv3h26Qy66J
+	HUWrVtipaTLFAqZBE1kppmMKEwvzeS0/b1EgUPh1RUR451zhGA+OVPpn
+X-Gm-Gg: Acq92OHHVsWwQnkOS2YEJ1xN3Wijyqjzckjtoj2GJQFSqsm48mQEmY9h5JXebyYQKa9
+	9RZXTTzUHQcIDHtxs9IdvLKai+Nz4XDES5WdLZh8RQymV7hGpG9iUlYBknXy6ViVw5AKr6oVm+4
+	uHjU0qL3mJpBClV4VSy+OR0Ds99Ck+rKhn8C1ybZZV/e/vMN6PmhGXfvmkWiV7dGwCkNC10tk6P
+	JsaS3q3td/hunrxahUNNWyfMw7Ib6T2OuAWVHqPXWrvyHNtsl0fUG6AATitNBCcqGB/lG3c+BdC
+	5PLrzhw3GJ9ey0T8SRImtgND7Occ9zUPJXAguvzbBOWGllfjBHxYf+OWnSj4g99BQORcvfp8UNA
+	4wMUhP6VPrJWIaa4RSOLBB8mowCN7rBRp1OEn+fXeVrvzV9VF/3yvvnQXmIdLnecaE1wXCSdngw
+	Rf3l8ePymK7nbHH2dgPDnehgjZ0MPAQ7Hv3xRcvHx0lU8QuqeDTpEkwfbetw==
+X-Received: by 2002:a05:7022:112:b0:137:edc4:a5e6 with SMTP id a92af1059eb24-1398f6b4762mr1323943c88.29.1781692889954;
+        Wed, 17 Jun 2026 03:41:29 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.41.13
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.41.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:41:21 -0700 (PDT)
+        Wed, 17 Jun 2026 03:41:29 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 54/78] ASoC: codecs: sta32x: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:32:11 +0700
-Message-ID: <20260617103235.449609-55-phucduc.bui@gmail.com>
+Subject: [PATCH 55/78] ASoC: codecs: tas2781: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:32:12 +0700
+Message-ID: <20260617103235.449609-56-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,45 +115,110 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/sta32x.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ sound/soc/codecs/tas2781-comlib-i2c.c |  4 +---
+ sound/soc/codecs/tas2781-i2c.c        | 20 ++++++++------------
+ 2 files changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/sound/soc/codecs/sta32x.c b/sound/soc/codecs/sta32x.c
-index 652c6e3a9e63..61703e6e0586 100644
---- a/sound/soc/codecs/sta32x.c
-+++ b/sound/soc/codecs/sta32x.c
-@@ -271,7 +271,7 @@ static int sta32x_coefficient_get(struct snd_kcontrol *kcontrol,
- 	unsigned int cfud, val;
- 	int i, ret = 0;
+diff --git a/sound/soc/codecs/tas2781-comlib-i2c.c b/sound/soc/codecs/tas2781-comlib-i2c.c
+index e24d56a14cfd..85fcb33752a1 100644
+--- a/sound/soc/codecs/tas2781-comlib-i2c.c
++++ b/sound/soc/codecs/tas2781-comlib-i2c.c
+@@ -342,7 +342,7 @@ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
+ 	/* Codec Lock Hold to ensure that codec_probe and firmware parsing and
+ 	 * loading do not simultaneously execute.
+ 	 */
+-	mutex_lock(&tas_priv->codec_lock);
++	guard(mutex)(&tas_priv->codec_lock);
  
--	mutex_lock(&sta32x->coeff_lock);
-+	guard(mutex)(&sta32x->coeff_lock);
+ 	if (tas_priv->name_prefix)
+ 		scnprintf(tas_priv->rca_binaryname, 64, "%s-%sRCA%d.bin",
+@@ -360,8 +360,6 @@ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
+ 		dev_err(tas_priv->dev, "request_firmware_nowait err:0x%08x\n",
+ 			ret);
  
- 	/* preserve reserved bits in STA32X_CFUD */
- 	regmap_read(sta32x->regmap, STA32X_CFUD, &cfud);
-@@ -287,19 +287,15 @@ static int sta32x_coefficient_get(struct snd_kcontrol *kcontrol,
- 		regmap_write(sta32x->regmap, STA32X_CFUD, cfud | 0x04);
- 	} else if (numcoef == 5) {
- 		regmap_write(sta32x->regmap, STA32X_CFUD, cfud | 0x08);
--	} else {
--		ret = -EINVAL;
--		goto exit_unlock;
--	}
-+	} else
-+		return -EINVAL;
-+
- 
- 	for (i = 0; i < 3 * numcoef; i++) {
- 		regmap_read(sta32x->regmap, STA32X_B1CF1 + i, &val);
- 		ucontrol->value.bytes.data[i] = val;
- 	}
- 
--exit_unlock:
--	mutex_unlock(&sta32x->coeff_lock);
--
+-	/* Codec Lock Release*/
+-	mutex_unlock(&tas_priv->codec_lock);
  	return ret;
  }
+ EXPORT_SYMBOL_GPL(tascodec_init);
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 9e6f0ad5f05d..f2b739780f73 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -843,12 +843,12 @@ static int tasdevice_digital_gain_get(
+ 	unsigned char data[4];
+ 	int ret;
  
+-	mutex_lock(&tas_dev->codec_lock);
++	guard(mutex)(&tas_dev->codec_lock);
+ 	/* Read the primary device */
+ 	ret = tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
+ 	if (ret) {
+ 		dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
+-		goto out;
++		return ret;
+ 	}
+ 
+ 	target = get_unaligned_be32(&data[0]);
+@@ -868,8 +868,7 @@ static int tasdevice_digital_gain_get(
+ 	/* find out the member same as or closer to the current volume */
+ 	ucontrol->value.integer.value[0] =
+ 		abs(target - ar_l) <= abs(target - ar_r) ? l : r;
+-out:
+-	mutex_unlock(&tas_dev->codec_lock);
++
+ 	return 0;
+ }
+ 
+@@ -889,13 +888,13 @@ static int tasdevice_digital_gain_put(
+ 	unsigned char data[4];
+ 
+ 	vol = clamp(vol, 0, max);
+-	mutex_lock(&tas_dev->codec_lock);
++	guard(mutex)(&tas_dev->codec_lock);
+ 	/* Read the primary device */
+ 	ret = tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
+ 	if (ret) {
+ 		dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
+ 		rc = -1;
+-		goto out;
++		return rc;
+ 	}
+ 
+ 	volrd = get_unaligned_be32(&data[0]);
+@@ -903,7 +902,7 @@ static int tasdevice_digital_gain_put(
+ 
+ 	if (volrd == volwr) {
+ 		rc = 0;
+-		goto out;
++		return rc;
+ 	}
+ 
+ 	for (i = 0; i < tas_dev->ndev; i++) {
+@@ -919,8 +918,7 @@ static int tasdevice_digital_gain_put(
+ 
+ 	if (status)
+ 		rc = -1;
+-out:
+-	mutex_unlock(&tas_dev->codec_lock);
++
+ 	return rc;
+ }
+ 
+@@ -1766,12 +1764,10 @@ static int tasdevice_dapm_event(struct snd_soc_dapm_widget *w,
+ 	int state = 0;
+ 
+ 	/* Codec Lock Hold */
+-	mutex_lock(&tas_priv->codec_lock);
++	guard(mutex)(&tas_priv->codec_lock);
+ 	if (event == SND_SOC_DAPM_PRE_PMD)
+ 		state = 1;
+ 	tasdevice_tuning_switch(tas_priv, state);
+-	/* Codec Lock Release*/
+-	mutex_unlock(&tas_priv->codec_lock);
+ 
+ 	return 0;
+ }
 -- 
 2.43.0
 
