@@ -1,63 +1,63 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E034E43D4FF
-	for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 10:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B81943CEFE
+	for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 10:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692770; cv=none; b=AhlO3PGDT1xo8Y2S8HlJArr6cyqNO/QWi+8MUuVtoE/HzSSSfmHoRoYTF5WCrhQ1s/bmZBayu7w5lItQct3HRFAuhPVA5aW+MTQbjAwnX8sTsHMbIVBUYs48RgoqRxIG7qNoCsgBg7Tu/oHQC0MxbSqCZQNUL1hXUIs5w38Aqso=
+	t=1781692780; cv=none; b=eo/AFR2JYUfhmZkl2MNt9OcNkIdfKhbtFgGUQNhMjK7jPmg5O/vgYDvy+0kr6PoEHM1J6/UsY0MrrYVDj1Hm7lIAJ/5Dcir2b3ldrX5ifVEfkXFBoyZPU/+e79MJDbPuXLJwOdIkbD1jMXhuuto9uRDqnZsg087JaiPouPihh8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692770; c=relaxed/simple;
-	bh=glqReXfZPCSQ9DjYZSYbXgYtCkut9TkNRV+nVhsubfM=;
+	s=arc-20240116; t=1781692780; c=relaxed/simple;
+	bh=aKhcyI2WDSo96TltHAbwkDoRWNtxc6VdjCx9GbZVAX4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EMIHx+inMFzN0eQc7rQl12sobo1eSYYn/x2gDeV5S28If1n5APe10PxAiGraR+X/1023GoEZ6x5P9MchOZLHs93D81XG+6BV1/KlaSKuvKTkuuoMDfYraV0DjZPoGIxMiigS2bhmYmgd420COuHIRr0g8ph8ki92W5wUN7//fXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bMm1MrMV; arc=none smtp.client-ip=74.125.82.169
+	 MIME-Version; b=LToWMNWgzKejNarbe6CNHas8thlO35i1eBIGorR/y5+DHYft9xttR7F0EWEzkd5KeXbCkx71ZgUHzKJ8iaLBHmeCkS50LEykxnGVuDI8dNl8/aBZiir8QxrnJRYfeINKjP6o2plN/dCjWaqnV7c3Os651s+ToX4DXAZPUAoeh/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cZn/Y8gg; arc=none smtp.client-ip=74.125.82.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMm1MrMV"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-30b6dad2382so6296098eec.0
-        for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 03:39:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cZn/Y8gg"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-30759632453so8917415eec.1
+        for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 03:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692768; x=1782297568; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781692779; x=1782297579; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4V8d0Yg4cyesbpB3rX5XFizQgFDCgrflJrinbH7M1Rc=;
-        b=bMm1MrMV8J/5WZ1jlZzxVPRXpf9VOPU5kBMdXLkn6+vqG+UKXgA6AOopRTq/MBRd63
-         EZ6oWcoLZaQO/s0Je0p8f3vzKdTIc6dyuKh+aDlWlnlAPHz0q6KILOMEwEYkfTHIyKKr
-         cb5FJN5qm6jVlUvssQ6yyTWC1rvar4m6qHhVOMJ55pq2hHQpClbXEJh8xj71/Ue7ZeID
-         bxRdWXoMyWXG6Mh83gNZfy3sIp9Nf6dv7SQHEYz/g1AQz0c7fBEvaxqUHMN7g13Kt1Bf
-         0LeqNSbUxJRgkbVZM5zqcuJOEWqOHjeupatnrO6sxD82BBe0o8tWn/vr29PApvMGWnnm
-         WGqQ==
+        bh=8SpJk+YV05owTMk/l4yBZn7d6rPDuNymeMNQ+5MR+ME=;
+        b=cZn/Y8ggPBW+VkaUFPc8qGfiDfXwGa8JPEdVV1JkiKiSxc4la2ESwMyLh3MpGlgURT
+         Q2uMtwktKZpEOOMPWg9CEL2waddANTg3cM7QeJQtxWkNpKuoKycgV2DTp4nAC4uOSmJ+
+         NGKXeW5HeURYLIPmuN1LhRQFO5JeMOxD8iwL16Su9njam14yA59cBtBoGLrIcybnLPnD
+         hCrfj9KJPt8TXcfr3GFtG9umn+Xr2tYTocBO7e6Uz7h3cue/XxHBtJRs9K1VVxNa5qfz
+         MMhxuJVuhLJnt3My//VwZ7Iy0sh528D+I2OjO+XUq/ieTVMv+Tt3I9bAFDDzAvaXS0kE
+         vt/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692768; x=1782297568;
+        d=1e100.net; s=20251104; t=1781692779; x=1782297579;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4V8d0Yg4cyesbpB3rX5XFizQgFDCgrflJrinbH7M1Rc=;
-        b=AvFKvlZZNDFWPQLAfQ3WXrdhfl7NMtZUJYEjdoKUwPQzZGwqyi+uNpyV2df9sq+XbR
-         C6fVbJvzhQdtNtb8UtVHizFo4EmuNRMnAnucY2UEDp6PESqY42dNfSEpR5mBr/J+6Fq4
-         DIatRC1lXO2hKLEMbk4cda3J8KmvVBaFJeZ/Q4CH8Ry/jHkkIbxWyOi5AKua2UeVzf2B
-         DXmgiXuDh/r6Upb5yhi6PP59JrLerAvPhK/fdHAIrviOsZjEgRLH5rbofyA6NS/bOQqH
-         v8FQowZmcCO+AAHixm3AZfmNgaHbEYzw3ePqslgYGDzMojx7WlxuBIPeOuOkXAGS+6gU
-         VHgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8nrD18DZbGMDHIPwmWnlO8HtNTc1W7oJlo/NW+/Wh2FiWeJCMTH+280ObkrFUIkrR4Lb1jkA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvsFwcJ4DLxLhRRoUCQC8N6Zuhv3kwge9LYzb5CeJ/SoX1zgha
-	UH6E8s5JMsALXwJhtv68p09e7zyiVL33MAE7XJpNfF+Ot6zDGVKl0geB
-X-Gm-Gg: AfdE7cmCfTqpYqWvcN/Bg2stse+rZ3SykWkIVdd4S0qZcMVtVzeiDVEqCHCSDkIo+8J
-	r/u/Zwnaoi/oxeshHKDwSKhFgtxeyUJTRrIjJa55GR8n3oog7mAoVCvly4P8LqieR8RX8SfUkXA
-	kvc3GzjuZqnVI0hYZ9ByqozY46XXKydC77DpTkkapnI6bkDBOx09ZWUbh7+4BSV9oi0kX/BuiVQ
-	8fjGBEZxC+CQxlfJp3lpE2BHK7j637z05GJOJpymdd2ZsQcQwFElaPbYTA8W9Lob2enk2wy2GPI
-	6MtJDqCwvGTtbLFAxGFQfPvKD4LfCMd+zzDcjOpXfM8G8BTVr88CJu0Xvz6pFQEuENn0Y6LIgvK
-	rLIxheE8jgpeAVwoy0X+naI/8Oa95uFjAZHKvtUUCTZRY9WxDaGMlwxr3FcOJu679mMElLKGos1
-	6uSgvo/MO61PNodrcII+Yq8qS3DLo+87gpZe5fQCJdxNoWiDk=
-X-Received: by 2002:a05:7300:2d20:b0:304:d835:274 with SMTP id 5a478bee46e88-30bcae227f9mr1625563eec.24.1781692768114;
-        Wed, 17 Jun 2026 03:39:28 -0700 (PDT)
+        bh=8SpJk+YV05owTMk/l4yBZn7d6rPDuNymeMNQ+5MR+ME=;
+        b=lTQkQFWktdtaf5AOuNRAjKM544KwosSFv0CIoit0FDWNuCrQ8BvkdZmJ3ptoUO6CrF
+         4rZKjkgYsBcPomwQ5rOxDtAHwdRKYoB/dv+cWKLKsbp0wVE84fFIXVlYUzLW2/O93GJu
+         JjCDAU7rEkL4NnA2I9sZNHnxkkj7UaigEU4Vm+su550VyMrUMNfe37FdaftsZujSSjrZ
+         UHlL3A9NKalFBC6OLYM7ADOA5JjD6BZm5d92hS7tIEbFTKaQRt/SjfcdMwJoaAEA7zYJ
+         rBVqYsOicB8N0a7F0COcTegip7xOmhriKCXySQ1IeSyqAu1EyuHZuppJhrup13IdtrhU
+         SH1A==
+X-Forwarded-Encrypted: i=1; AFNElJ8APA2NLYoEGDniR4dTa6XVzJ6Jz8lR2NALQGsU4U76LEytMxKxURVQyFMZQ2VaoKE5mxkLJA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPko9vMiR0V0IehfF3vfSYbpQ1VHNB3Xjz9n4sWvvBY0sfghIO
+	x5+n0yAVAuzyOi6WFuPQPitJBxVmFX+U1ecPPAG+axn+PWzm8uduY7fi
+X-Gm-Gg: AfdE7clnau5ibY5KfUIUvs1F9VCQj9z9dEYNdGW3xfPmJ1gvsYl1iAaKLpgmRm1g+6X
+	zV6GxLMk91/DgbE/e7sV7RjrmzVladDqczbid17uV+vSdt//wIdHVjGS2MEhctWUJ5JL+Gk1kml
+	KNqc89WeBCOUIYqbvRKZ3DqgazIXv8+czF0BIZ/AK1Qv6XUnkhRxogrIuazX6oq0T8mPuSbHhQ6
+	2WpZ0vr2zpCIgoaoP9g3EzeJypEndkvoAG4hLbucotNhLYzuKehahJNtKaICYSD+Af4RoPbWAwI
+	v97kKx+33YEWCUOilacTXylIIIDlQrebxll5mNssKclqnQydLTManZLJV9S2HA8MArCMtOuSV+4
+	k1Pj+n+E2Ug2baZu2YTTOgmw2t9i2k4OUpoYRw/pHBIBUcJ2gcdauDRT2qB6fc71975rZ4fm9RO
+	ZVi4CqBJG+B/x3pfqjePxSSaRjdvni5bAWW42Q5g0loed0b3c=
+X-Received: by 2002:a05:7300:a497:b0:2c5:50fe:c795 with SMTP id 5a478bee46e88-30bca0ed5a2mr1720604eec.29.1781692778532;
+        Wed, 17 Jun 2026 03:39:38 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.39.20
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.39.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:39:27 -0700 (PDT)
+        Wed, 17 Jun 2026 03:39:38 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 41/78] ASoC: codecs: rt5514-spi: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:31:58 +0700
-Message-ID: <20260617103235.449609-42-phucduc.bui@gmail.com>
+Subject: [PATCH 42/78] ASoC: codecs: rt5645: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:31:59 +0700
+Message-ID: <20260617103235.449609-43-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,83 +115,187 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/rt5514-spi.c | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ sound/soc/codecs/rt5645.c | 161 +++++++++++++++++++-------------------
+ 1 file changed, 80 insertions(+), 81 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5514-spi.c b/sound/soc/codecs/rt5514-spi.c
-index 199507d12841..be4f5f7da22e 100644
---- a/sound/soc/codecs/rt5514-spi.c
-+++ b/sound/soc/codecs/rt5514-spi.c
-@@ -79,17 +79,17 @@ static void rt5514_spi_copy_work(struct work_struct *work)
- 	unsigned int cur_wp, remain_data;
- 	u8 buf[8];
+diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
+index 8a9af260e5f7..4a74b90bd3f6 100644
+--- a/sound/soc/codecs/rt5645.c
++++ b/sound/soc/codecs/rt5645.c
+@@ -3325,93 +3325,92 @@ static void rt5645_jack_detect_work(struct work_struct *work)
+ 	if (!rt5645->component)
+ 		return;
  
--	mutex_lock(&rt5514_dsp->dma_lock);
-+	guard(mutex)(&rt5514_dsp->dma_lock);
- 	if (!rt5514_dsp->substream) {
- 		dev_err(rt5514_dsp->dev, "No pcm substream\n");
--		goto done;
-+		return;
- 	}
- 
- 	runtime = rt5514_dsp->substream->runtime;
- 	period_bytes = snd_pcm_lib_period_bytes(rt5514_dsp->substream);
- 	if (!period_bytes) {
- 		schedule_delayed_work(&rt5514_dsp->copy_work, 5);
--		goto done;
-+		return;
- 	}
- 
- 	if (rt5514_dsp->buf_size % period_bytes)
-@@ -111,7 +111,7 @@ static void rt5514_spi_copy_work(struct work_struct *work)
- 
- 		if (remain_data < period_bytes) {
- 			schedule_delayed_work(&rt5514_dsp->copy_work, 5);
--			goto done;
+-	mutex_lock(&rt5645->jd_mutex);
+-
+-	switch (rt5645->pdata.jd_mode) {
+-	case 0: /* Not using rt5645 JD */
+-		if (rt5645->gpiod_hp_det) {
+-			gpio_state = gpiod_get_value(rt5645->gpiod_hp_det);
+-			if (rt5645->pdata.inv_hp_pol)
+-				gpio_state ^= 1;
+-			dev_dbg(rt5645->component->dev, "gpio_state = %d\n",
+-				gpio_state);
+-			report = rt5645_jack_detect(rt5645->component, gpio_state);
+-		}
+-		snd_soc_jack_report(rt5645->hp_jack,
+-				    report, SND_JACK_HEADPHONE);
+-		snd_soc_jack_report(rt5645->mic_jack,
+-				    report, SND_JACK_MICROPHONE);
+-		mutex_unlock(&rt5645->jd_mutex);
+-		return;
+-	case 4:
+-		val = snd_soc_component_read(rt5645->component, RT5645_A_JD_CTRL1) & 0x0020;
+-		break;
+-	default: /* read rt5645 jd1_1 status */
+-		val = snd_soc_component_read(rt5645->component, RT5645_INT_IRQ_ST) & 0x1000;
+-		break;
++	scoped_guard(mutex, &rt5645->jd_mutex) {
++		switch (rt5645->pdata.jd_mode) {
++		case 0: /* Not using rt5645 JD */
++			if (rt5645->gpiod_hp_det) {
++				gpio_state = gpiod_get_value(rt5645->gpiod_hp_det);
++				if (rt5645->pdata.inv_hp_pol)
++					gpio_state ^= 1;
++				dev_dbg(rt5645->component->dev, "gpio_state = %d\n",
++					gpio_state);
++				report = rt5645_jack_detect(rt5645->component, gpio_state);
++			}
++			snd_soc_jack_report(rt5645->hp_jack,
++					    report, SND_JACK_HEADPHONE);
++			snd_soc_jack_report(rt5645->mic_jack,
++					    report, SND_JACK_MICROPHONE);
 +			return;
++		case 4:
++			val = snd_soc_component_read(rt5645->component, RT5645_A_JD_CTRL1) & 0x0020;
++			break;
++		default: /* read rt5645 jd1_1 status */
++			val = snd_soc_component_read(rt5645->component, RT5645_INT_IRQ_ST) & 0x1000;
++			break;
+ 
+-	}
++		}
+ 
+-	if (!val && (rt5645->jack_type == 0)) { /* jack in */
+-		report = rt5645_jack_detect(rt5645->component, 1);
+-	} else if (!val && rt5645->jack_type == SND_JACK_HEADSET) {
+-		/* for push button and jack out */
+-		btn_type = 0;
+-		if (snd_soc_component_read(rt5645->component, RT5645_INT_IRQ_ST) & 0x4) {
+-			/* button pressed */
+-			report = SND_JACK_HEADSET;
+-			btn_type = rt5645_button_detect(rt5645->component);
+-			/* rt5650 can report three kinds of button behavior,
+-			   one click, double click and hold. However,
+-			   currently we will report button pressed/released
+-			   event. So all the three button behaviors are
+-			   treated as button pressed. */
+-			switch (btn_type) {
+-			case 0x8000:
+-			case 0x4000:
+-			case 0x2000:
+-				report |= SND_JACK_BTN_0;
+-				break;
+-			case 0x1000:
+-			case 0x0800:
+-			case 0x0400:
+-				report |= SND_JACK_BTN_1;
+-				break;
+-			case 0x0200:
+-			case 0x0100:
+-			case 0x0080:
+-				report |= SND_JACK_BTN_2;
+-				break;
+-			case 0x0040:
+-			case 0x0020:
+-			case 0x0010:
+-				report |= SND_JACK_BTN_3;
+-				break;
+-			case 0x0000: /* unpressed */
+-				break;
+-			default:
+-				dev_err(rt5645->component->dev,
+-					"Unexpected button code 0x%04x\n",
+-					btn_type);
+-				break;
++		if (!val && (rt5645->jack_type == 0)) { /* jack in */
++			report = rt5645_jack_detect(rt5645->component, 1);
++		} else if (!val && rt5645->jack_type == SND_JACK_HEADSET) {
++			/* for push button and jack out */
++			btn_type = 0;
++			if (snd_soc_component_read(rt5645->component, RT5645_INT_IRQ_ST) & 0x4) {
++				/* button pressed */
++				report = SND_JACK_HEADSET;
++				btn_type = rt5645_button_detect(rt5645->component);
++				/*
++				 * rt5650 can report three kinds of button behavior,
++				 * one click, double click and hold. However,
++				 * currently we will report button pressed/released
++				 * event. So all the three button behaviors are
++				 * treated as button pressed.
++				 */
++				switch (btn_type) {
++				case 0x8000:
++				case 0x4000:
++				case 0x2000:
++					report |= SND_JACK_BTN_0;
++					break;
++				case 0x1000:
++				case 0x0800:
++				case 0x0400:
++					report |= SND_JACK_BTN_1;
++					break;
++				case 0x0200:
++				case 0x0100:
++				case 0x0080:
++					report |= SND_JACK_BTN_2;
++					break;
++				case 0x0040:
++				case 0x0020:
++				case 0x0010:
++					report |= SND_JACK_BTN_3;
++					break;
++				case 0x0000: /* unpressed */
++					break;
++				default:
++					dev_err(rt5645->component->dev,
++						"Unexpected button code 0x%04x\n",
++						btn_type);
++					break;
++				}
+ 			}
++			if (btn_type == 0)/* button release */
++				report =  rt5645->jack_type;
++			else {
++				mod_timer(&rt5645->btn_check_timer,
++					msecs_to_jiffies(100));
++			}
++		} else {
++			/* jack out */
++			report = 0;
++			snd_soc_component_update_bits(rt5645->component,
++					    RT5645_INT_IRQ_ST, 0x1, 0x0);
++			rt5645_jack_detect(rt5645->component, 0);
  		}
+-		if (btn_type == 0)/* button release */
+-			report =  rt5645->jack_type;
+-		else {
+-			mod_timer(&rt5645->btn_check_timer,
+-				msecs_to_jiffies(100));
+-		}
+-	} else {
+-		/* jack out */
+-		report = 0;
+-		snd_soc_component_update_bits(rt5645->component,
+-				    RT5645_INT_IRQ_ST, 0x1, 0x0);
+-		rt5645_jack_detect(rt5645->component, 0);
  	}
  
-@@ -146,9 +146,6 @@ static void rt5514_spi_copy_work(struct work_struct *work)
- 	snd_pcm_period_elapsed(rt5514_dsp->substream);
- 
- 	schedule_delayed_work(&rt5514_dsp->copy_work, 5);
+-	mutex_unlock(&rt5645->jd_mutex);
 -
--done:
--	mutex_unlock(&rt5514_dsp->dma_lock);
- }
- 
- static void rt5514_schedule_copy(struct rt5514_dsp *rt5514_dsp)
-@@ -216,7 +213,7 @@ static int rt5514_spi_hw_params(struct snd_soc_component *component,
- 		snd_soc_component_get_drvdata(component);
- 	u8 buf[8];
- 
--	mutex_lock(&rt5514_dsp->dma_lock);
-+	guard(mutex)(&rt5514_dsp->dma_lock);
- 	rt5514_dsp->substream = substream;
- 	rt5514_dsp->dma_offset = 0;
- 
-@@ -225,8 +222,6 @@ static int rt5514_spi_hw_params(struct snd_soc_component *component,
- 	if (buf[0] & RT5514_IRQ_STATUS_BIT)
- 		rt5514_schedule_copy(rt5514_dsp);
- 
--	mutex_unlock(&rt5514_dsp->dma_lock);
--
- 	return 0;
- }
- 
-@@ -236,9 +231,8 @@ static int rt5514_spi_hw_free(struct snd_soc_component *component,
- 	struct rt5514_dsp *rt5514_dsp =
- 		snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&rt5514_dsp->dma_lock);
--	rt5514_dsp->substream = NULL;
--	mutex_unlock(&rt5514_dsp->dma_lock);
-+	scoped_guard(mutex, &rt5514_dsp->dma_lock)
-+		rt5514_dsp->substream = NULL;
- 
- 	cancel_delayed_work_sync(&rt5514_dsp->copy_work);
- 
+ 	snd_soc_jack_report(rt5645->hp_jack, report, SND_JACK_HEADPHONE);
+ 	snd_soc_jack_report(rt5645->mic_jack, report, SND_JACK_MICROPHONE);
+ 	if (rt5645->en_button_func)
 -- 
 2.43.0
 
