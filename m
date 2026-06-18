@@ -1,63 +1,63 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC31A3F0A87
-	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18ED3EE1DB
+	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781780988; cv=none; b=Kz48AFH9QzwbxaA97UYJvrrajNRneXPAhwe2bkTCAXa1BD5dnZqm5ZpY+1dVtmdjYJ4cX8fKfaASIUO/eHuNdQTZc3Pvz3aSBNVh9GD+gp5VnOLvjP5iTZlUv2u7RWMgHRS9XpwIKvU9tUv50U4YxzuwGE3wgQE7Aik+mURYHW0=
+	t=1781780996; cv=none; b=l95VftRuYkru+CzsQleW5fA0pVOj8m2as8BgO6XPBdBwTo9FGnTeF8SbCpJyL/6ZroOAQXeYlIxQmJTRjVG2n+SBiawWbn1bS5xvOhUEXemOQgCEib2PdcVlVHbmst/8kuaLMG7G2ifM7PpHnPqwC21/Pq2c1fI0BilDVr3RxkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781780988; c=relaxed/simple;
-	bh=2YEFbdla4i9f3SYHqUh0C1+vGlG+s3hBs5AIA/oPVVs=;
+	s=arc-20240116; t=1781780996; c=relaxed/simple;
+	bh=c5O372q2rjDQ5irwM8M2Qw2a9PpNWbTIU2zvtjVkg3Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HO2enQqcCp5L7cQXhhS2QLXzTTYAH88e3m2mZQE30Pj+7ATs8D4qJOpVjVufeA9EALn3QBlPen7VzAhmcZuhCfNetIhbUG0iWEvJBYcCbjCSpPNYcgXTvRkJ60qTEfmJboD5+eg0LDbf0jIKQT12+IaRdFRnyRDUAmQ/IzhVCDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H0adfDTm; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=qOyvPtjnOxOGfW0IrIDqrTfAKyFXh5wsMYepSLJl5CNp0NcrjGqhc3fyEr9lFkVl9n/cOIAfnSv0WseqQsWmOMakESSW0muRYqoxKMXbAWYbKqPGQ+mCw+L6OfhdyK8RvwMHpUI85CXXAVnG4W0RZ/iX03LS7XvsRhFHH7HEE6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7SL/4mM; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0adfDTm"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2bf3781ca51so7468725ad.0
-        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:09:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7SL/4mM"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c0c1e0b0faso5832305ad.0
+        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:09:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781780986; x=1782385786; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781780994; x=1782385794; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B+5iMTEe+TMtLaXRee64f4hO5oI+4SkVEwQJjwWAAKo=;
-        b=H0adfDTmtta0D9nYxOte/8rY2rTObNzP90EZKJswS0JVs1hFhwWXFpszJPyIs+EC8B
-         ObipJ0kaVWkv8rHtCu4bNunEU3ryb6mQ2WbAqtT4TLlqVcHLx5gPlw/4nq0qvBgExW61
-         4+2QWH1uRFA8gLIVKX7yo36RuQXuR2X7YYxnnmdgL0Ks/ntI81Yty0T3HOq3P4DwviZG
-         Lf97gUug2veyigihmgg73sCo3k6M6qCVtLUz5MXfTkvaFcm4inWE98KvH/H/RZNuJ3M2
-         CbLGVj3iKjcX/KZOEUlqtS3NQ1qAM89/jdRT5XLi1HZXWMNp1W8JNu1tLtEZAEKggoaF
-         w2MQ==
+        bh=Mr2TzHHPLOZ5QRNblYXdE64EZ52E5yqz/2kOl9/QETA=;
+        b=I7SL/4mMk5ErUO4uuwFiHpurdxLf/sUTyr//lh8J6bIE+YcKsPr3670GqgXO7bwtpd
+         +1qTBNu3HiUY7uj3UNOD4lvKjqxaZdIwVT9Gw8gV41W542zNnVYdAJQixUCyYk8VFZIB
+         9tudi1VQU/VjUnORq8z60eOsb3nDBP0b8+Ix0Z4RymgIqMdv2A0R6uji85QXFix1DsRS
+         FVdF1F4eMkbF6E4Hxk3pa8LtvfW5+/DttpwNAPgUGHi/Pc4td1UXqarhFpqcq2vqPa4/
+         uBJifvgemZagjMRPubAer55hsdgvQJwo/CmEUWX5TLm79tzuij4wPgcgvpMybOfoGvus
+         0/cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781780986; x=1782385786;
+        d=1e100.net; s=20251104; t=1781780994; x=1782385794;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=B+5iMTEe+TMtLaXRee64f4hO5oI+4SkVEwQJjwWAAKo=;
-        b=mIvpQ2fPZmIswMsomQflO9qCiATX8D2+BTIazt69x+vnpdWk1sZs8LWlek61D1MyVU
-         BziTvtzKQnd1+XvxQC6LVohIEzuQxZbTBDc7xv/o/sX078FHV8ByvqmBnIynMournQjG
-         RsEAoStZY0tdHm/HHmRS+0e6Dj6n3m4488oWfD9u7Ve5BCC0XQTpNBpxMwGK9kokLq6l
-         klE/fcRqgC9MiZwgvqDibTexMiWfiuK74SdcVjr+VJUMT5+YtWflahv1PVwwYEJEpVCI
-         os+AX1f/Y8jQeD6CJLSLS11CoOnkuJVAHaWUi1rtXKE7FSee4V2FKby+PGrpsmCoc9op
-         WWmA==
-X-Forwarded-Encrypted: i=1; AFNElJ+WVNkBUvDH200k0FpI4l+n9Bu6Y0YaXPds6f25w/p1O0oOdEu0pFUCqjUdqkOswmxMcnGSFg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YypbwXkfg8U8BwSEE5sVwvl7CcNaNdSKTKZx9vJCEh3SREJsvSg
-	5IAYEu8IEbQGqHVkLgB9Y1r971XEkbL6eczUN2YRp43qyFIB2Tvi64b0
-X-Gm-Gg: AfdE7clNCkKxxORgqkrMcLiBM9ii2PJFFhzrmKIgrhIbxSCqgtIuhplE7Mi0XYNpymB
-	/Jahfrq3TzIJN3LdlDsbq8VZ4QrmpwNO+6sxlqttvO45R+M5w6H1Vr9RJIfb78wk4jOuakt/U6u
-	5456DZe2Nggvz2fnwICSf2osX7aBWKtt+nSM+9Hi7p0hPe7aUivRq38NBrF6M1WKZs2M7NTeNHr
-	zOQ1xU2LIwOv/UXbIAWjkyzWQsF2JAZfHOBcoD+f2oNpLs+h8iWCN3OYyEK6DDlXl0J7zRHCCNF
-	F+eSw46tcwgJSWZA7fXpzxbTnB2UFtCs2c2a+6p9bKBTh/D6o2Ro7dimdfX0aeyDSKzdGcv1wUo
-	HjKzbkx97wt8mFY5LB7YgBoBFaVYhyZx334L37vnHxC4iBm1WAlZkYNY+D8e2/f6WlI3pj2qz37
-	gPBpDLlo30ftc3AjLw/NvlPrJ3E28xa1dI2ESWb/3HSJlBlZg=
-X-Received: by 2002:a17:902:f681:b0:2bf:175a:db61 with SMTP id d9443c01a7336-2c6e471a08fmr36744085ad.7.1781780986069;
-        Thu, 18 Jun 2026 04:09:46 -0700 (PDT)
+        bh=Mr2TzHHPLOZ5QRNblYXdE64EZ52E5yqz/2kOl9/QETA=;
+        b=APlL2esTQ0JFwBkxaTyfD3CiI5ZPEd8bbxekLus2xsKP2i1uJ4Wwa8Js+QNz41gw+K
+         JsPuFc3rPXldJlvhkADMYMynNuWHVnJ9ZhQAF0AXDNC7Atazm5NRH2A2tNjW7uVY+ctQ
+         +S+bX1f24ivv+At46DkUKvYzcpE3K/MpueU0yCXoB8+NGFXsg9UNtQGPrFTDyPLPj5ym
+         i/YxLnJainTikTuRpn5gm4UqtMAKO1d54y0wYvEiybHnLxshQ2F8RFxro3RmuyzWwLmt
+         ohDkLwgtOkN0I9u9Nup/+F27y1TxlLrXJ0Y35iy9xDOQQIlIkfQedhWdvC728y5+9r8t
+         tTFA==
+X-Forwarded-Encrypted: i=1; AFNElJ+5c4gdXxa6iMUAJHzGpGy6jMcMBCDZ8Evsj24ZpwFaAp1QSO5GBRg5PEdJtqa37uqRQmRHxA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTDjAAfpe3DIe/Nszdc0Pe/W7VG1XSjzwsgDP8iLNQ+QUGzogN
+	WbygYs3gZl43lmPAQi5QsJeZ9GxYAK/ff6eLwN8v9Ocy08Kczwt/T7C1
+X-Gm-Gg: AfdE7cmOtnncRlt0LKDlmMIZM/Up6Pdvvtj3sjIvlH6FGXqjPYlv9eBzoCZ2qJelU9u
+	4j/OfnR9NnTJizTxDZhxUi5YSreOLIEjRv7W77GuwBYBAvKZD6Wxo8Xtq1YNvw9ukpRjXZJx2El
+	zQ5J/gPS0QCHPHr15YR+TxQtdORXrxa5c/G4OjQRgZSLFC98YtCOddH6ONY1yTYuiT0InTvU0dU
+	LZz0C/0JMk3iWFY3Vx8jX/m/YLASShjOVUaxREc+G4Y0XuEKhu2z8opXw8yR0IzHIyNgACwqocK
+	ZbeICcsnD5pRNijAxEA7Si4Rg7DKbIle2eQZ/kXMZYyk7cngb5rpIvsL5BmXPkDHE+GXXbhsBrG
+	oHGbQAxMf2vTh/TkYykHhypz7AKFBKpV+LB4noGzAJghTcE7+Knw7UTKbR6T7SSa6ZP/QD6XBPD
+	L+k6ZIjITJLEZQRg6dUC1sOtAFE9WgC5BRgdLsvgQtOY22nZE=
+X-Received: by 2002:a17:903:1b6f:b0:2bf:77b2:8b2d with SMTP id d9443c01a7336-2c6bc25ca62mr81275545ad.30.1781780994455;
+        Thu, 18 Jun 2026 04:09:54 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.09.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.09.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:09:45 -0700 (PDT)
+        Thu, 18 Jun 2026 04:09:54 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 63/78] ASoC: codecs: wcd-mbhc: Use guard() for mutex locks
-Date: Thu, 18 Jun 2026 18:08:12 +0700
-Message-ID: <20260618110827.232983-7-phucduc.bui@gmail.com>
+Subject: [PATCH 64/78] ASoC: codecs: wcd934x: Use guard() for mutex locks
+Date: Thu, 18 Jun 2026 18:08:13 +0700
+Message-ID: <20260618110827.232983-8-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260618110827.232983-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -116,274 +116,118 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/wcd-mbhc-v2.c | 142 +++++++++++++++------------------
- 1 file changed, 66 insertions(+), 76 deletions(-)
+ sound/soc/codecs/wcd934x.c | 46 ++++++++++++++++----------------------
+ 1 file changed, 19 insertions(+), 27 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd-mbhc-v2.c b/sound/soc/codecs/wcd-mbhc-v2.c
-index bb0c8478a8eb..b8e87d0b79b1 100644
---- a/sound/soc/codecs/wcd-mbhc-v2.c
-+++ b/sound/soc/codecs/wcd-mbhc-v2.c
-@@ -419,9 +419,8 @@ static void wcd_cancel_hs_detect_plug(struct wcd_mbhc *mbhc,
- 				      struct work_struct *work)
+diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+index bc41a1466c70..817ad53595fc 100644
+--- a/sound/soc/codecs/wcd934x.c
++++ b/sound/soc/codecs/wcd934x.c
+@@ -1265,13 +1265,12 @@ static int wcd934x_set_sido_input_src(struct wcd934x_codec *wcd, int sido_src)
+ 
+ static int wcd934x_enable_ana_bias_and_sysclk(struct wcd934x_codec *wcd)
  {
- 	mbhc->hs_detect_work_stop = true;
--	mutex_unlock(&mbhc->lock);
-+	guard(mutex)(&mbhc->lock);
- 	cancel_work_sync(work);
--	mutex_lock(&mbhc->lock);
- }
+-	mutex_lock(&wcd->sysclk_mutex);
+-
+-	if (++wcd->sysclk_users != 1) {
+-		mutex_unlock(&wcd->sysclk_mutex);
+-		return 0;
++	scoped_guard(mutex, &wcd->sysclk_mutex) {
++		if (++wcd->sysclk_users != 1) {
++			mutex_unlock(&wcd->sysclk_mutex);
++			return 0;
++		}
+ 	}
+-	mutex_unlock(&wcd->sysclk_mutex);
  
- static void wcd_mbhc_cancel_pending_work(struct wcd_mbhc *mbhc)
-@@ -458,7 +457,7 @@ static void wcd_mbhc_find_plug_and_report(struct wcd_mbhc *mbhc,
- 	if (mbhc->current_plug == plug_type)
- 		return;
+ 	regmap_update_bits(wcd->regmap, WCD934X_ANA_BIAS,
+ 			   WCD934X_ANA_BIAS_EN_MASK,
+@@ -1328,12 +1327,12 @@ static int wcd934x_enable_ana_bias_and_sysclk(struct wcd934x_codec *wcd)
  
--	mutex_lock(&mbhc->lock);
-+	guard(mutex)(&mbhc->lock);
+ static int wcd934x_disable_ana_bias_and_syclk(struct wcd934x_codec *wcd)
+ {
+-	mutex_lock(&wcd->sysclk_mutex);
+-	if (--wcd->sysclk_users != 0) {
+-		mutex_unlock(&wcd->sysclk_mutex);
+-		return 0;
++	scoped_guard(mutex, &wcd->sysclk_mutex) {
++		if (--wcd->sysclk_users != 0) {
++			mutex_unlock(&wcd->sysclk_mutex);
++			return 0;
++		}
+ 	}
+-	mutex_unlock(&wcd->sysclk_mutex);
  
- 	switch (plug_type) {
- 	case MBHC_PLUG_TYPE_HEADPHONE:
-@@ -481,7 +480,6 @@ static void wcd_mbhc_find_plug_and_report(struct wcd_mbhc *mbhc,
- 		     mbhc->current_plug, plug_type);
+ 	regmap_update_bits(wcd->regmap, WCD934X_CLK_SYS_MCLK_PRG,
+ 			   WCD934X_EXT_CLK_BUF_EN_MASK |
+@@ -2384,7 +2383,7 @@ static int wcd934x_micbias_control(struct snd_soc_component *component,
+ 			__func__, micb_num);
+ 		return -EINVAL;
+ 	}
+-	mutex_lock(&wcd934x->micb_lock);
++	guard(mutex)(&wcd934x->micb_lock);
+ 
+ 	switch (req) {
+ 	case MICB_PULLUP_ENABLE:
+@@ -2446,8 +2445,6 @@ static int wcd934x_micbias_control(struct snd_soc_component *component,
  		break;
  	}
--	mutex_unlock(&mbhc->lock);
+ 
+-	mutex_unlock(&wcd934x->micb_lock);
+-
+ 	return 0;
  }
  
- static void wcd_schedule_hs_detect_plug(struct wcd_mbhc *mbhc,
-@@ -517,7 +515,7 @@ static void mbhc_plug_detect_fn(struct work_struct *work)
- 	enum snd_jack_types jack_type;
- 	bool detection_type;
+@@ -2488,7 +2485,7 @@ static int wcd934x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 					    int req_volt, int micb_num)
+ {
+ 	struct wcd934x_codec *wcd934x = snd_soc_component_get_drvdata(component);
+-	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en, ret = 0;
++	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en;
  
--	mutex_lock(&mbhc->lock);
-+	guard(mutex)(&mbhc->lock);
- 
- 	mbhc->in_swch_irq_handler = true;
- 
-@@ -578,7 +576,6 @@ static void mbhc_plug_detect_fn(struct work_struct *work)
- 
- exit:
- 	mbhc->in_swch_irq_handler = false;
--	mutex_unlock(&mbhc->lock);
- }
- 
- static irqreturn_t wcd_mbhc_mech_plug_detect_irq(int irq, void *data)
-@@ -673,29 +670,28 @@ static irqreturn_t wcd_mbhc_btn_press_handler(int irq, void *data)
- 	int mask;
- 	unsigned long msec_val;
- 
--	mutex_lock(&mbhc->lock);
-+	guard(mutex)(&mbhc->lock);
- 	wcd_cancel_btn_work(mbhc);
- 	mbhc->is_btn_press = true;
- 	msec_val = jiffies_to_msecs(jiffies - mbhc->jiffies_atreport);
- 
- 	/* Too short, ignore button press */
- 	if (msec_val < MBHC_BUTTON_PRESS_THRESHOLD_MIN)
--		goto done;
-+		return IRQ_HANDLED;
- 
- 	/* If switch interrupt already kicked in, ignore button press */
- 	if (mbhc->in_swch_irq_handler)
--		goto done;
-+		return IRQ_HANDLED;
- 
- 	/* Plug isn't headset, ignore button press */
- 	if (mbhc->current_plug != MBHC_PLUG_TYPE_HEADSET)
--		goto done;
-+		return IRQ_HANDLED;
- 
- 	mask = wcd_mbhc_get_button_mask(mbhc);
- 	mbhc->buttons_pressed |= mask;
- 	if (schedule_delayed_work(&mbhc->mbhc_btn_dwork, msecs_to_jiffies(400)) == 0)
- 		WARN(1, "Button pressed twice without release event\n");
--done:
--	mutex_unlock(&mbhc->lock);
-+
- 	return IRQ_HANDLED;
- }
- 
-@@ -704,14 +700,14 @@ static irqreturn_t wcd_mbhc_btn_release_handler(int irq, void *data)
- 	struct wcd_mbhc *mbhc = data;
- 	int ret;
- 
--	mutex_lock(&mbhc->lock);
-+	guard(mutex)(&mbhc->lock);
- 	if (mbhc->is_btn_press)
- 		mbhc->is_btn_press = false;
- 	else /* fake btn press */
--		goto exit;
-+		return IRQ_HANDLED;
- 
- 	if (!(mbhc->buttons_pressed & WCD_MBHC_JACK_BUTTON_MASK))
--		goto exit;
-+		return IRQ_HANDLED;
- 
- 	ret = wcd_cancel_btn_work(mbhc);
- 	if (ret == 0) { /* Reporting long button release event */
-@@ -725,8 +721,6 @@ static irqreturn_t wcd_mbhc_btn_release_handler(int irq, void *data)
- 		}
+ 	switch (micb_num) {
+ 	case MIC_BIAS_1:
+@@ -2506,7 +2503,7 @@ static int wcd934x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 	default:
+ 		return -EINVAL;
  	}
- 	mbhc->buttons_pressed &= ~WCD_MBHC_JACK_BUTTON_MASK;
--exit:
--	mutex_unlock(&mbhc->lock);
- 
- 	return IRQ_HANDLED;
- }
-@@ -768,62 +762,60 @@ static int wcd_mbhc_initialise(struct wcd_mbhc *mbhc)
- 		return ret;
- 	}
- 
--	mutex_lock(&mbhc->lock);
--
--	if (mbhc->cfg->typec_analog_mux)
--		mbhc->swap_thr = GND_MIC_USBC_SWAP_THRESHOLD;
--	else
--		mbhc->swap_thr = GND_MIC_SWAP_THRESHOLD;
--
--	/* setup HS detection */
--	if (mbhc->mbhc_cb->hph_pull_up_control_v2)
--		mbhc->mbhc_cb->hph_pull_up_control_v2(component,
--				mbhc->cfg->typec_analog_mux ?
--					HS_PULLUP_I_OFF : HS_PULLUP_I_DEFAULT);
--	else if (mbhc->mbhc_cb->hph_pull_up_control)
--		mbhc->mbhc_cb->hph_pull_up_control(component,
--				mbhc->cfg->typec_analog_mux ?
--					I_OFF : I_DEFAULT);
--	else
--		wcd_mbhc_write_field(mbhc, WCD_MBHC_HS_L_DET_PULL_UP_CTRL,
--				mbhc->cfg->typec_analog_mux ? 0 : 3);
--
--	wcd_mbhc_write_field(mbhc, WCD_MBHC_HPHL_PLUG_TYPE, mbhc->cfg->hphl_swh);
--	wcd_mbhc_write_field(mbhc, WCD_MBHC_GND_PLUG_TYPE, mbhc->cfg->gnd_swh);
--	wcd_mbhc_write_field(mbhc, WCD_MBHC_SW_HPH_LP_100K_TO_GND, 1);
--	if (mbhc->cfg->gnd_det_en && mbhc->mbhc_cb->mbhc_gnd_det_ctrl)
--		mbhc->mbhc_cb->mbhc_gnd_det_ctrl(component, true);
--	wcd_mbhc_write_field(mbhc, WCD_MBHC_HS_L_DET_PULL_UP_COMP_CTRL, 1);
--
--	/* Plug detect is triggered manually if analog goes through USBCC */
--	if (mbhc->cfg->typec_analog_mux)
--		wcd_mbhc_write_field(mbhc, WCD_MBHC_L_DET_EN, 0);
--	else
--		wcd_mbhc_write_field(mbhc, WCD_MBHC_L_DET_EN, 1);
--
--	if (mbhc->cfg->typec_analog_mux)
--		/* Insertion debounce set to 48ms */
--		wcd_mbhc_write_field(mbhc, WCD_MBHC_INSREM_DBNC, 4);
--	else
--		/* Insertion debounce set to 96ms */
--		wcd_mbhc_write_field(mbhc, WCD_MBHC_INSREM_DBNC, 6);
-+	scoped_guard(mutex, &mbhc->lock) {
-+		if (mbhc->cfg->typec_analog_mux)
-+			mbhc->swap_thr = GND_MIC_USBC_SWAP_THRESHOLD;
-+		else
-+			mbhc->swap_thr = GND_MIC_SWAP_THRESHOLD;
-+
-+		/* setup HS detection */
-+		if (mbhc->mbhc_cb->hph_pull_up_control_v2)
-+			mbhc->mbhc_cb->hph_pull_up_control_v2(component,
-+					mbhc->cfg->typec_analog_mux ?
-+						HS_PULLUP_I_OFF : HS_PULLUP_I_DEFAULT);
-+		else if (mbhc->mbhc_cb->hph_pull_up_control)
-+			mbhc->mbhc_cb->hph_pull_up_control(component,
-+					mbhc->cfg->typec_analog_mux ?
-+						I_OFF : I_DEFAULT);
-+		else
-+			wcd_mbhc_write_field(mbhc, WCD_MBHC_HS_L_DET_PULL_UP_CTRL,
-+					     mbhc->cfg->typec_analog_mux ? 0 : 3);
-+
-+		wcd_mbhc_write_field(mbhc, WCD_MBHC_HPHL_PLUG_TYPE, mbhc->cfg->hphl_swh);
-+		wcd_mbhc_write_field(mbhc, WCD_MBHC_GND_PLUG_TYPE, mbhc->cfg->gnd_swh);
-+		wcd_mbhc_write_field(mbhc, WCD_MBHC_SW_HPH_LP_100K_TO_GND, 1);
-+		if (mbhc->cfg->gnd_det_en && mbhc->mbhc_cb->mbhc_gnd_det_ctrl)
-+			mbhc->mbhc_cb->mbhc_gnd_det_ctrl(component, true);
-+		wcd_mbhc_write_field(mbhc, WCD_MBHC_HS_L_DET_PULL_UP_COMP_CTRL, 1);
-+
-+		/* Plug detect is triggered manually if analog goes through USBCC */
-+		if (mbhc->cfg->typec_analog_mux)
-+			wcd_mbhc_write_field(mbhc, WCD_MBHC_L_DET_EN, 0);
-+		else
-+			wcd_mbhc_write_field(mbhc, WCD_MBHC_L_DET_EN, 1);
- 
--	/* Button Debounce set to 16ms */
--	wcd_mbhc_write_field(mbhc, WCD_MBHC_BTN_DBNC, 2);
-+		if (mbhc->cfg->typec_analog_mux)
-+			/* Insertion debounce set to 48ms */
-+			wcd_mbhc_write_field(mbhc, WCD_MBHC_INSREM_DBNC, 4);
-+		else
-+			/* Insertion debounce set to 96ms */
-+			wcd_mbhc_write_field(mbhc, WCD_MBHC_INSREM_DBNC, 6);
- 
--	/* enable bias */
--	mbhc->mbhc_cb->mbhc_bias(component, true);
--	/* enable MBHC clock */
--	if (mbhc->mbhc_cb->clk_setup)
--		mbhc->mbhc_cb->clk_setup(component,
--				mbhc->cfg->typec_analog_mux ? false : true);
-+		/* Button Debounce set to 16ms */
-+		wcd_mbhc_write_field(mbhc, WCD_MBHC_BTN_DBNC, 2);
- 
--	/* program HS_VREF value */
--	wcd_program_hs_vref(mbhc);
-+		/* enable bias */
-+		mbhc->mbhc_cb->mbhc_bias(component, true);
-+		/* enable MBHC clock */
-+		if (mbhc->mbhc_cb->clk_setup)
-+			mbhc->mbhc_cb->clk_setup(component,
-+					mbhc->cfg->typec_analog_mux ? false : true);
- 
--	wcd_program_btn_threshold(mbhc, false);
-+		/* program HS_VREF value */
-+		wcd_program_hs_vref(mbhc);
- 
--	mutex_unlock(&mbhc->lock);
-+		wcd_program_btn_threshold(mbhc, false);
-+	}
- 
- 	pm_runtime_put_autosuspend(component->dev);
- 
-@@ -1327,7 +1319,7 @@ static irqreturn_t wcd_mbhc_adc_hs_rem_irq(int irq, void *data)
- 	unsigned long timeout;
- 	int adc_threshold, output_mv, retry = 0;
- 
--	mutex_lock(&mbhc->lock);
-+	guard(mutex)(&mbhc->lock);
- 	timeout = jiffies + msecs_to_jiffies(WCD_FAKE_REMOVAL_MIN_PERIOD_MS);
- 	adc_threshold = wcd_mbhc_adc_get_hs_thres(mbhc);
- 
-@@ -1342,7 +1334,7 @@ static irqreturn_t wcd_mbhc_adc_hs_rem_irq(int irq, void *data)
- 
- 		/* Check for fake removal */
- 		if ((output_mv <= adc_threshold) && retry > FAKE_REM_RETRY_ATTEMPTS)
--			goto exit;
-+			return IRQ_HANDLED;
- 	} while (!time_after(jiffies, timeout));
- 
+-	mutex_lock(&wcd934x->micb_lock);
++	guard(mutex)(&wcd934x->micb_lock);
  	/*
-@@ -1359,8 +1351,6 @@ static irqreturn_t wcd_mbhc_adc_hs_rem_irq(int irq, void *data)
- 	wcd_mbhc_elec_hs_report_unplug(mbhc);
- 	wcd_mbhc_write_field(mbhc, WCD_MBHC_BTN_ISRC_CTL, 0);
+ 	 * If requested micbias voltage is same as current micbias
+ 	 * voltage, then just return. Otherwise, adjust voltage as
+@@ -2521,15 +2518,11 @@ static int wcd934x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 						    WCD934X_MICB_VAL_MASK);
  
+ 	req_vout_ctl = wcd_get_micb_vout_ctl_val(component->dev, req_volt);
+-	if (req_vout_ctl < 0) {
+-		ret = -EINVAL;
+-		goto exit;
+-	}
++	if (req_vout_ctl < 0)
++		return -EINVAL;
+ 
+-	if (cur_vout_ctl == req_vout_ctl) {
+-		ret = 0;
+-		goto exit;
+-	}
++	if (cur_vout_ctl == req_vout_ctl)
++		return 0;
+ 
+ 	if (micb_en == WCD934X_MICB_ENABLE)
+ 		snd_soc_component_write_field(component, micb_reg,
+@@ -2550,9 +2543,8 @@ static int wcd934x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 		 */
+ 		usleep_range(2000, 2100);
+ 	}
 -exit:
--	mutex_unlock(&mbhc->lock);
- 	return IRQ_HANDLED;
+-	mutex_unlock(&wcd934x->micb_lock);
+-	return ret;
++
++	return 0;
  }
  
-@@ -1622,10 +1612,10 @@ void wcd_mbhc_deinit(struct wcd_mbhc *mbhc)
- 	free_irq(mbhc->intr_ids->mbhc_btn_press_intr, mbhc);
- 	free_irq(mbhc->intr_ids->mbhc_sw_intr, mbhc);
- 
--	mutex_lock(&mbhc->lock);
--	wcd_cancel_hs_detect_plug(mbhc,	&mbhc->correct_plug_swch);
--	cancel_work_sync(&mbhc->mbhc_plug_detect_work);
--	mutex_unlock(&mbhc->lock);
-+	scoped_guard(mutex, &mbhc->lock) {
-+		wcd_cancel_hs_detect_plug(mbhc, &mbhc->correct_plug_swch);
-+		cancel_work_sync(&mbhc->mbhc_plug_detect_work);
-+	}
- 
- 	kfree(mbhc);
- }
+ static int wcd934x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
 -- 
 2.43.0
 
