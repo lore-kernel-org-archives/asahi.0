@@ -1,63 +1,63 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37BF3F0A95
-	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF963F0AA7
+	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781781031; cv=none; b=LSCG6dqafarwsA6kAW1SeKnk0ZZE36nFpyP/HAvhYFX7Ql7lWwLCzdGd0vBpIBB4W+nCvxAAMsaJyjbRI9Dshuf0QaKkyWjrP96Yu4YFHzZQ1KpldHewXMv2zpOV9xMH7rqYhRrgStC5rRD2lI3sNhC8uothhuS7cL4ydaB17P4=
+	t=1781781039; cv=none; b=jEb7Z+z7Q54zCOuMbEZ0VVpFhYeYaw/HMPvALx8hbmjwZgmKlVe9vM/nPgfoM3qyw9feYZ6tegaPyonZC+EfkI2Ni5oHpKdax7qrCXoM3WK7Tw3V7EEzSRb/VuiLik0J/ssquaH423yI1K3atg0ntRxI/KffFjOdZJe1+UhwSSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781781031; c=relaxed/simple;
-	bh=VepUQOH9I2YScBtyygKkYYIP3OnVwMB6+G3b8wmbhVE=;
+	s=arc-20240116; t=1781781039; c=relaxed/simple;
+	bh=VUGM1dmrYZr3ZCpRVFURnksOb2sWDjNx8Q29gealQ+Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Gv8zXb9lVFQkUcS/0qWGZX1vpVy5WowVFirrWtdw7DG5BPKtkEYV+EqYyIde/m50WjJFchpsHPlZ4cdL5cyIGFDUzZ1L3xqkkqh35AIgBLNPVXfe/DSXgm1eMMlno2mcWCwCIPwy0ZAcGKnXXD0BC4DrqEniM0SalwDwCJdGA5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cH3fm3nw; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=f/ugchjQZIFLE8HrGUTWhP/JIBr9Ber2T/03ydy3KDqnUTLmbOzO9+6lhNwLEo5teaU6pVKeeDeISumfHmWJ+SdofxOJGNXG1uJtOiy1N27hxbqISt3UwwKgsAKNvZdjpvh7O/edVrhAnRK0tbcuEfytxJMLKzc1wn9sSkk81ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XSoNOjbP; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cH3fm3nw"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c132ac5ec2so8954705ad.1
-        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:10:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XSoNOjbP"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c40397e746so5405985ad.3
+        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:10:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781781029; x=1782385829; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781781037; x=1782385837; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RUydxf/ZwzEU3byhG6kKewQSumkNnr4b0Y4idMeiddo=;
-        b=cH3fm3nwF2p8B/UXWleYu7rVphjhaYAg8BBQ4ySq/apsD8tTzfkcDAF/kjj9I0wZNB
-         McBszp8j3J821E1B9vo/Tj/U6XsXvKyuPK3SzZdtAkaJG5O+zwXLNhFNWfDcsWmCh8eK
-         sTYSsBb3B/+uPh/bfPwfzzm1HbqyFjIlvw5ig06vD7OzyxWvrEO5e/UoJyDGGqlJfKYt
-         lqAhVSb9U47nmAz/3qvh8sfgiabmWqLyZqwPTIBwjsb5lT5NphDqOCxWOueNVHWXt0MY
-         FucqY914bSKPyfRfC2T7mXgGRCm4e/3N0zCVygR3rWzN+jM1aw9fG55FuOlWlWVXbsli
-         3aHA==
+        bh=GCvpI9caCdCJQKq9fbLR0v07NU2fYhKI7H79tQqdsi8=;
+        b=XSoNOjbP94g50Poh4jBlzKtwN+vUcEsr6zZVy/M7RpGZTNje0u60ghGkxLS6d6g3RX
+         t/NP8+P9v/aLmeIHzHaWj0Pu7ft2VvdjRJ6CSWiehvQvOWxP7t719H323//ZGNp24/cL
+         ATDulmhONZHPMrLBOyiC3VqlwTsuI7xiUNAqjiQKQ6rQP4ZhiAyoZDJWVup50Kisr5Zf
+         eVnsl2PMAbaUdEo5QZ/VY9rhWcJNQ5JGvq5ty3v24diymHavDv50gKx3ouUTwGWw3Vwb
+         J9Uk+XBloK81PiId6+u40TEksCH6kQHCG5PmEFkXynvjtB+nh7svqHUMh9LEjul7cLxp
+         a0Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781781029; x=1782385829;
+        d=1e100.net; s=20251104; t=1781781037; x=1782385837;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RUydxf/ZwzEU3byhG6kKewQSumkNnr4b0Y4idMeiddo=;
-        b=roPzidL91nC9BZ2HYFTHspwmRgtUjx9NjvYCz7ZwLeYmeHeeFVs6t3AvrJ8vsxRaPU
-         HvOkERM0xA3oJwjJNiHk/m0GHH7ZI+IICN8zCJ7d1azh7reJXa7OxoClk+DosXiMPuKn
-         mVQ/lLnBo7hHBZ8w1qVaZpLlqttzQNu4H2tQ58iUGGpKUzrXBFaFkII7Z3Ud5oeKXcGZ
-         yunoAc/j2kcnaiR1yIFRfv9aaqFasOYWbCAmZYaA52RLLuLp6Dv7SSo3a2VQu0BxjFwy
-         uWAHuBCp1puYdgs4BlgK6O9DZPq/ZXWTNgM4BH4j2SIL9y8boLT2lRI28t8ss3bmmHgU
-         CVxg==
-X-Forwarded-Encrypted: i=1; AFNElJ+3REOfwjhvfnxLR075e9G/8BLDdFGD7J80Zj24qNUz7+APrCxD0PbLy7uHaZ7ldwgshChCBg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8LYZCTzTsA7MB1y03/6hCB1wshfT+YGhNXXAsEJtUtLxKaQ2J
-	tDvEZSQuvJeB8wPJEX6R+ckXQBjs6OPoQ+0fzdQYHZPyX5k1Ofz9pvX0
-X-Gm-Gg: AfdE7ckhws6TgcFZqzd4gg1DKTucXDzccM5+i54c/KMix3o4qsipico9xDvsDfgZGom
-	Jg46bR76jqCXCiDNWTqts5wOrYCxIsPZB7aBdtMGz3D90ijUFmpEKBUSnenWhnfvJZELTZshXqS
-	alPMlPBg39DtJgMUUnmhErvCHQX6Q7TX+62UnFoqQVJZQJa7bx1u8tlEDPonSOEgSSykoJcA/L4
-	Eso/G6OizftqNXHHPWZiZrkDTN2bh70jP2nrC9aFeixWkzi7jVjHrschZ/CUbZ8HAXjTEz4Hq4B
-	9d1XdQPj0G6uTK8kC/vhHZlggQo8i2tPbGKRx1bzKXwtlZ11fK4/h5mhvhxym02hBOH7noUFViy
-	ezRr9Vmj6pL8GjzG4Zzv9eWzZ2Ud5grUqa72MWOIrIlTo/ba6cDaxOdgOJy6jbWeCDvJzKAvrC8
-	S92HqkagY2nknNvfcIvhmoqwGwv1g7UsBppsN133/BbNxik1eIRvM9NHUlAw==
-X-Received: by 2002:a17:902:c945:b0:2ba:3e2f:6883 with SMTP id d9443c01a7336-2c6e5155763mr34980605ad.19.1781781029264;
-        Thu, 18 Jun 2026 04:10:29 -0700 (PDT)
+        bh=GCvpI9caCdCJQKq9fbLR0v07NU2fYhKI7H79tQqdsi8=;
+        b=SrJQUf6or9LDzHILvTYF/yR1bNDltcNtlEQ2SIGqSDNZT2f+I9rlx4wviMDwKuylDK
+         7IvbuzB4mMIwSSLLTDUOD04t/7cIqKsvyb5SKT/5jf7qSsUr8GOBAFXxf6huSn20C8Ki
+         Xg+zBegfKBBtbcSclliEZnykN2Pl7K6vyVVoUUqeMCxm6fk1HedO5DMFh+qxlCqMARuL
+         tHVSYRBo1/5n3JwPnu0MtgYWs3p3nA4pYkEJbHpgs7ejehnUj7wZFR0/8T/Ryv5Ifa0z
+         VZLeO4RH03dUYzeDkptNvyp0YnO+6SRl0lZJxopTW9ZB2tlluOD2oCgrqgM1QKqO7l9q
+         IECw==
+X-Forwarded-Encrypted: i=1; AFNElJ+LDGqLyc8UmBlVV/XQ1BKyH8ytL5pgp/6UXvWRlMwk14yuqA+xqKPdOVuVjORwAxbOlTyZ3A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZUMiTL59E718S3kRjFiHXixn3C3PrsnrTN/k46D+s+SOlgs7C
+	Np8wkj+VKG42yKhzOlwsC1cUi+H/WXfIncMJ53UwEKHBlxRCU77jbvQR
+X-Gm-Gg: AfdE7cmVYUZfx9AfkNhLeJDiSg6aMW5GXr5DVMdNCtnVIjXqQqmv+jE18T4TKmuwEXi
+	2JVEyZ1zJ8OTMehFJsRCq+arnARIpbocWtsgUUqVmznVxXl0Kon0VJ580uZ/bNqVuwlZfF2sc/k
+	Bj+UXEBlQt60MQ7eszW4BfgoDuogMcEVqFaP+10ZeQFOMrFJFIbIy++D0AnVmRi+BM6kdIbnWui
+	OwXBwZpSv01jUeRRx3VI/k7MwbzCCq+wzXonP5equY1Iu+3PhUe8nE6DGJuEOQkdIlm52POBlBy
+	H8PoCoBiagtjoC4Oz/stVD2AukOS2FrDmbtshG5dF+RarCl2RZquwPn3/EkPISQOtGZBoisZMTa
+	X+cWp6NoBacRAMkcEzi7KMu8TXoyzefmzDy0nX7wQDp1Nj724jnZPp0bjLpU891lrE6TMTDyfVf
+	5d4tx0MnJVmJ6MsCn4Cr4oJ+uFj59OC3aPGWU2hGTT92ZQvoo=
+X-Received: by 2002:a17:903:1a6f:b0:2b7:975c:dacc with SMTP id d9443c01a7336-2c6f340c78cmr24378815ad.1.1781781037629;
+        Thu, 18 Jun 2026 04:10:37 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.10.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.10.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:10:28 -0700 (PDT)
+        Thu, 18 Jun 2026 04:10:37 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 68/78] ASoC: codecs: wm0010: Use guard() for mutex & spin locks
-Date: Thu, 18 Jun 2026 18:08:17 +0700
-Message-ID: <20260618110827.232983-12-phucduc.bui@gmail.com>
+Subject: [PATCH 69/78] ASoC: codecs: wm2000: Use guard() for mutex locks
+Date: Thu, 18 Jun 2026 18:08:18 +0700
+Message-ID: <20260618110827.232983-13-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260618110827.232983-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -111,184 +111,88 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex & spin locks.
+Clean up the code using guard() for mutex locks.
 Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/wm0010.c | 63 ++++++++++++++-------------------------
- 1 file changed, 23 insertions(+), 40 deletions(-)
+ sound/soc/codecs/wm2000.c | 27 ++++++---------------------
+ 1 file changed, 6 insertions(+), 21 deletions(-)
 
-diff --git a/sound/soc/codecs/wm0010.c b/sound/soc/codecs/wm0010.c
-index 2a8c61a72c17..aeca42e4caba 100644
---- a/sound/soc/codecs/wm0010.c
-+++ b/sound/soc/codecs/wm0010.c
-@@ -148,13 +148,11 @@ static const char *wm0010_state_to_str(enum wm0010_state state)
- static void wm0010_halt(struct snd_soc_component *component)
- {
- 	struct wm0010_priv *wm0010 = snd_soc_component_get_drvdata(component);
--	unsigned long flags;
- 	enum wm0010_state state;
+diff --git a/sound/soc/codecs/wm2000.c b/sound/soc/codecs/wm2000.c
+index 9b68ee69324b..775f138fdf3f 100644
+--- a/sound/soc/codecs/wm2000.c
++++ b/sound/soc/codecs/wm2000.c
+@@ -612,20 +612,15 @@ static int wm2000_anc_mode_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct wm2000_priv *wm2000 = dev_get_drvdata(component->dev);
+ 	unsigned int anc_active = ucontrol->value.integer.value[0];
+-	int ret;
  
- 	/* Fetch the wm0010 state */
--	spin_lock_irqsave(&wm0010->irq_lock, flags);
--	state = wm0010->state;
--	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
-+		state = wm0010->state;
+ 	if (anc_active > 1)
+ 		return -EINVAL;
  
- 	switch (state) {
- 	case WM0010_POWER_OFF:
-@@ -173,9 +171,8 @@ static void wm0010_halt(struct snd_soc_component *component)
- 		break;
- 	}
+-	mutex_lock(&wm2000->lock);
++	guard(mutex)(&wm2000->lock);
  
--	spin_lock_irqsave(&wm0010->irq_lock, flags);
--	wm0010->state = WM0010_POWER_OFF;
--	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
-+		wm0010->state = WM0010_POWER_OFF;
+ 	wm2000->anc_active = anc_active;
+ 
+-	ret = wm2000_anc_set_mode(wm2000);
+-
+-	mutex_unlock(&wm2000->lock);
+-
+-	return ret;
++	return wm2000_anc_set_mode(wm2000);
  }
  
- struct wm0010_boot_xfer {
-@@ -190,11 +187,9 @@ struct wm0010_boot_xfer {
- static void wm0010_mark_boot_failure(struct wm0010_priv *wm0010)
- {
- 	enum wm0010_state state;
--	unsigned long flags;
+ static int wm2000_speaker_get(struct snd_kcontrol *kcontrol,
+@@ -645,20 +640,15 @@ static int wm2000_speaker_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct wm2000_priv *wm2000 = dev_get_drvdata(component->dev);
+ 	unsigned int val = ucontrol->value.integer.value[0];
+-	int ret;
  
--	spin_lock_irqsave(&wm0010->irq_lock, flags);
--	state = wm0010->state;
--	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
-+		state = wm0010->state;
+ 	if (val > 1)
+ 		return -EINVAL;
  
- 	dev_err(wm0010->dev, "Failed to transition from `%s' state to `%s' state\n",
- 		wm0010_state_to_str(state), wm0010_state_to_str(state + 1));
-@@ -558,7 +553,6 @@ static int wm0010_boot(struct snd_soc_component *component)
- {
- 	struct spi_device *spi = to_spi_device(component->dev);
- 	struct wm0010_priv *wm0010 = snd_soc_component_get_drvdata(component);
--	unsigned long flags;
- 	int ret;
- 	struct spi_message m;
- 	struct spi_transfer t;
-@@ -568,10 +562,10 @@ static int wm0010_boot(struct snd_soc_component *component)
- 	u8 *out;
- 	int i;
+-	mutex_lock(&wm2000->lock);
++	guard(mutex)(&wm2000->lock);
  
--	spin_lock_irqsave(&wm0010->irq_lock, flags);
--	if (wm0010->state != WM0010_POWER_OFF)
--		dev_warn(wm0010->dev, "DSP already powered up!\n");
--	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &wm0010->irq_lock) {
-+		if (wm0010->state != WM0010_POWER_OFF)
-+			dev_warn(wm0010->dev, "DSP already powered up!\n");
-+	}
+ 	wm2000->spk_ena = val;
  
- 	if (wm0010->sysclk > 26000000) {
- 		dev_err(component->dev, "Max DSP clock frequency is 26MHz\n");
-@@ -579,7 +573,7 @@ static int wm0010_boot(struct snd_soc_component *component)
- 		goto err;
- 	}
- 
--	mutex_lock(&wm0010->lock);
-+	guard(mutex)(&wm0010->lock);
- 	wm0010->pll_running = false;
- 
- 	dev_dbg(component->dev, "max_spi_freq: %d\n", wm0010->max_spi_freq);
-@@ -589,7 +583,6 @@ static int wm0010_boot(struct snd_soc_component *component)
- 	if (ret != 0) {
- 		dev_err(&spi->dev, "Failed to enable core supplies: %d\n",
- 			ret);
--		mutex_unlock(&wm0010->lock);
- 		goto err;
- 	}
- 
-@@ -601,17 +594,15 @@ static int wm0010_boot(struct snd_soc_component *component)
- 
- 	/* Release reset */
- 	gpiod_set_value_cansleep(wm0010->reset, 0);
--	spin_lock_irqsave(&wm0010->irq_lock, flags);
--	wm0010->state = WM0010_OUT_OF_RESET;
--	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
-+		wm0010->state = WM0010_OUT_OF_RESET;
- 
- 	if (!wait_for_completion_timeout(&wm0010->boot_completion,
- 					 msecs_to_jiffies(20)))
- 		dev_err(component->dev, "Failed to get interrupt from DSP\n");
- 
--	spin_lock_irqsave(&wm0010->irq_lock, flags);
--	wm0010->state = WM0010_BOOTROM;
--	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
-+		wm0010->state = WM0010_BOOTROM;
- 
- 	ret = wm0010_stage2_load(component);
- 	if (ret)
-@@ -621,9 +612,8 @@ static int wm0010_boot(struct snd_soc_component *component)
- 					 msecs_to_jiffies(20)))
- 		dev_err(component->dev, "Failed to get interrupt from DSP loader.\n");
- 
--	spin_lock_irqsave(&wm0010->irq_lock, flags);
--	wm0010->state = WM0010_STAGE2;
--	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
-+		wm0010->state = WM0010_STAGE2;
- 
- 	/* Only initialise PLL if max_spi_freq initialised */
- 	if (wm0010->max_spi_freq) {
-@@ -693,11 +683,8 @@ static int wm0010_boot(struct snd_soc_component *component)
- 	if (ret != 0)
- 		goto abort;
- 
--	spin_lock_irqsave(&wm0010->irq_lock, flags);
--	wm0010->state = WM0010_FIRMWARE;
--	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
+-	ret = wm2000_anc_set_mode(wm2000);
 -
--	mutex_unlock(&wm0010->lock);
-+	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
-+		wm0010->state = WM0010_FIRMWARE;
+-	mutex_unlock(&wm2000->lock);
+-
+-	return ret;
++	return wm2000_anc_set_mode(wm2000);
+ }
  
- 	return 0;
+ static const struct snd_kcontrol_new wm2000_controls[] = {
+@@ -676,9 +666,8 @@ static int wm2000_anc_power_event(struct snd_soc_dapm_widget *w,
+ {
+ 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+ 	struct wm2000_priv *wm2000 = dev_get_drvdata(component->dev);
+-	int ret;
  
-@@ -708,11 +695,9 @@ static int wm0010_boot(struct snd_soc_component *component)
- abort:
- 	/* Put the chip back into reset */
- 	wm0010_halt(component);
--	mutex_unlock(&wm0010->lock);
- 	return ret;
+-	mutex_lock(&wm2000->lock);
++	guard(mutex)(&wm2000->lock);
  
- err_core:
--	mutex_unlock(&wm0010->lock);
- 	regulator_bulk_disable(ARRAY_SIZE(wm0010->core_supplies),
- 			       wm0010->core_supplies);
- err:
-@@ -734,9 +719,8 @@ static int wm0010_set_bias_level(struct snd_soc_component *component,
- 		break;
- 	case SND_SOC_BIAS_STANDBY:
- 		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_PREPARE) {
--			mutex_lock(&wm0010->lock);
--			wm0010_halt(component);
--			mutex_unlock(&wm0010->lock);
-+			scoped_guard(mutex, &wm0010->lock)
-+				wm0010_halt(component);
- 		}
- 		break;
- 	case SND_SOC_BIAS_OFF:
-@@ -832,9 +816,8 @@ static irqreturn_t wm0010_irq(int irq, void *data)
- 	case WM0010_OUT_OF_RESET:
- 	case WM0010_BOOTROM:
- 	case WM0010_STAGE2:
--		spin_lock(&wm0010->irq_lock);
--		complete(&wm0010->boot_completion);
--		spin_unlock(&wm0010->irq_lock);
-+		scoped_guard(spinlock, &wm0010->irq_lock)
-+			complete(&wm0010->boot_completion);
- 		return IRQ_HANDLED;
- 	default:
- 		return IRQ_NONE;
+ 	if (SND_SOC_DAPM_EVENT_ON(event))
+ 		wm2000->anc_eng_ena = 1;
+@@ -686,11 +675,7 @@ static int wm2000_anc_power_event(struct snd_soc_dapm_widget *w,
+ 	if (SND_SOC_DAPM_EVENT_OFF(event))
+ 		wm2000->anc_eng_ena = 0;
+ 
+-	ret = wm2000_anc_set_mode(wm2000);
+-
+-	mutex_unlock(&wm2000->lock);
+-
+-	return ret;
++	return wm2000_anc_set_mode(wm2000);
+ }
+ 
+ static const struct snd_soc_dapm_widget wm2000_dapm_widgets[] = {
 -- 
 2.43.0
 
