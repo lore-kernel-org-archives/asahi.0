@@ -1,175 +1,247 @@
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DA13368A7
-	for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 19:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF19635898
+	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 01:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781724197; cv=none; b=VmZo9Dk1mNwsqp6MWCvCRtFy6XK/Kkfjh3t42R8ShFxjEIWlPRb4nh9nLSC7MEFI4vyarKiZ7DYGFulg+yTwXWjE7+EnvHJle5xY7MbLlgC6TkCPaXWRFl3868figSG/gDLeVPaG4yrExfZufn5LFzTQe5JKMeDzagiFhNhr2Ec=
+	t=1781745245; cv=none; b=snAafHZYs6zSrrNg78ubdPxDyE5RXYSPMXGQlXEtDVxugpLhdhS5RZ4LbtpeuOgbYKVJwGjP2JMlH6YzanmPnWq/wu3DaNISNisYS1VRFshtMPXKZONrhDxcKE27xzgH93KgjgEpX3vl10KAtQ6hAR1YOl5v7XyNLY4LP7Qp8cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781724197; c=relaxed/simple;
-	bh=sylUrKe46saGnhLfpr867FeGJbONgmD7qOHzkUWpTIE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FhPH5tTdbtnsZk/mf9ebI7m8LgfJBf5zqGMo2jQ9SGHcGfEVUzoonh/G+zNeleluZCxTkFPU3sc/LdaZq1/QLZIO0ipMLODvb6z77UzN0XbwRmFHWrrOjGqeoB6fFoTgpczhhwtyJgI9BJvCq68XyR2++JfrcPRHMQuj5mzuakU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=tqd/kfqH; arc=none smtp.client-ip=195.39.247.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	s=arc-20240116; t=1781745245; c=relaxed/simple;
+	bh=HUfcNg5OMhaAcM5bWMySjW1OmdKwHeBe+svn3HPAQ8Y=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=LiplycTtdQ0cFtOgNXZKEO+VgwzAWmHhZuF5BhSyvOhtLcSy9WaOcg+1AmgUVSqQ7vADY+WWtRlJhMdv+cJvNo3hjbrJu6lTFic5rI2Fse7Yvm0YD9ttYYM76rYttew3nEAbaukuKMeoArinxFAqpey1rf7tyhwltc5m07MNd54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=nZcNIjiL; arc=none smtp.client-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="tqd/kfqH"
-Message-ID: <e105c7b2-a5eb-4b5d-955f-685058143e9d@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1781724186;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q95z5sSwV0dy1C5J3NyKld/x09FNzHMWpBLFQlV9hHw=;
-	b=tqd/kfqH3RdtyPcHKJDRPI47WkWqqfGkXsX0OKIGPHYKTOg5o0f7Bx+cfN/3JNunA2dQeM
-	QHKAK6m6G3oNIsVh6YHi9VVb41N0zM7N2f5waMA32xcjXLGNi5c3mRhuIgnDVLrDKMdUwR
-	PipDFusEt8zDAHXc4maOVOKI6uav9Z8=
-Date: Wed, 17 Jun 2026 21:23:03 +0200
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="nZcNIjiL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1781745237;
+ bh=eBmTxVYzn/IEiGT8WtuKfobyevttU4FdpI0lnGII/fM=;
+ b=nZcNIjiLsvSYbd8xv8b3T+sdP2j0qUnh11kCob/Ezo9UJA7sgHMo7n+nitAfaX+WYP8PXQaqq
+ A3gptqC7LpvaHNg6qfa3U5DhYK73TbLQxzU32ntKWk6GYclmnZ+Bb6qQlrbeg5pLzISbblpaXNF
+ chCcJX488SEJHrmqjf9sKgL71M6tDtxN+CBQea2GcyRcsca1meaglP7DqRJEHt5AnBTB6HxkQOS
+ kqit1sSypT47A5UowlJjJvK3TQBapXJCcHHMw9YEz/KNWfW6VRcig1dJLo2zTl0A9RACtR2sGH9
+ FJ0ogIvXf8CewKCbge/7O7ousBOH98tAVM8AEhuYHbjA==
+X-Forward-Email-ID: 6a334650e2ba51f45781c4bf
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 121.127.44.73
+X-Forward-Email-Version: 2.8.30
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] arm64: errata: Handle Apple WFI State Loss
-To: Will Deacon <will@kernel.org>, Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, Sasha Finkelstein <k@chaosmail.tech>
-References: <20260615-wfi-erratum-v2-1-59a73467f70d@cyberchaos.dev>
- <ajAT9fWgOd9HY7ei@willie-the-truck>
-Content-Language: en-US
-From: Yureka Lilian <yureka@cyberchaos.dev>
-In-Reply-To: <ajAT9fWgOd9HY7ei@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Wed, 17 Jun 2026 21:13:50 -0400
+Message-Id: <DJBRYZ86TXOG.HU3XGECUPHAI@ubuntu.com>
+Cc: "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca
+ Ceresoli" <luca.ceresoli@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ "Sasha Finkelstein" <k@chaosmail.tech>, "Janne Grunau" <j@jannau.net>,
+ <asahi@lists.linux.dev>
+Subject: Re: [PATCH 01/37] drm/adp: mipi: Switch to atomic bridge callbacks
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Maxime Ripard" <mripard@kernel.org>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>
+X-Mailer: aerc 0.21.0
+References: <20260617-drm-all-atomic-bridges-v1-0-b63e6316166b@kernel.org>
+ <20260617-drm-all-atomic-bridges-v1-1-b63e6316166b@kernel.org>
+In-Reply-To: <20260617-drm-all-atomic-bridges-v1-1-b63e6316166b@kernel.org>
 
-On 6/15/26 17:02, Will Deacon wrote:
-> On Mon, Jun 15, 2026 at 02:21:36PM +0200, Yureka Lilian wrote:
->> Apple Silicon CPUs can lose register state in WFI, leading to crashes
->> in the idle loop early in the boot process.
->> This applies to any previous Apple Silicon CPUs too, but is worked
->> around by configuring the WFI mode in SYS_IMP_APL_CYC_OVRD sysreg
->> during m1n1's chickens setup.
->> This workaround no longer exists since M4.
->>
->> Add a workaround capability for replacing wfi and wfit with nop, and
->> an erratum to enable it on the affected CPUs if the workaround using the
->> sysreg is not already applied. Leave the decision whether the sysreg
->> workaround can be used up to the earlier parts of the boot chain which
->> already configure the Apple Silicon chicken bits.
->>
->> This alternative has to be applied in early boot, since otherwise some
->> cores might enter the idle loop before apply_alternatives_all() is run.
->>
->> Reviewed-by: Sasha Finkelstein <k@chaosmail.tech>
->> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
->> ---
->> Changes since v1:
->> Restricted the erratum to EL2 only, since in EL1 we'd expect the
->> hypervisor to trap WFI and handle the erratum.
->>
->> Tested on M4 and M4 Pro (which now sometimes nondeterministically
->> crash later during boot).
->> Successfully booted on M3 Max with the SYS_IMP_APL_CYC_OVRD
->> workaround disabled in the bootloader, as well as A18 Pro (which,
->> like M4 / M4 Pro, doesn't have SYS_IMP_APL_CYC_OVRD).
->>
->> There is probably a better place for the SYS_IMP_APL_CYC_OVRD
->> defines, which I currently put in the middle of cpu_errata.c, but I
->> wouldn't know where.
->> ---
->>   arch/arm64/Kconfig               | 12 ++++++++++++
->>   arch/arm64/include/asm/barrier.h | 19 ++++++++++++++++---
->>   arch/arm64/kernel/cpu_errata.c   | 21 +++++++++++++++++++++
->>   arch/arm64/tools/cpucaps         |  1 +
->>   4 files changed, 50 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index b3afe0688919..8c8ff069856f 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -453,6 +453,18 @@ config AMPERE_ERRATUM_AC04_CPU_23
->>   
->>   	  If unsure, say Y.
->>   
->> +config APPLE_ERRATUM_WFI_STATE
->> +	bool "Apple Silicon: WFI loses state"
->> +	default y
->> +	help
->> +	  This option adds an alternative code sequence to work around some
->> +	  Apple Silicon CPUs losing register state during wfi and wfit
->> +	  instructions.
->> +
->> +	  As a workaround, the wfi and wfit instructions are replaced with nop
->> +	  operations via the alternative framework if an affected CPU is
->> +	  detected.
->> +
->>   config ARM64_WORKAROUND_CLEAN_CACHE
->>   	bool
->>   
->> diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
->> index 9495c4441a46..f72eddc7c434 100644
->> --- a/arch/arm64/include/asm/barrier.h
->> +++ b/arch/arm64/include/asm/barrier.h
->> @@ -20,9 +20,22 @@
->>   #define wfe()		asm volatile("wfe" : : : "memory")
->>   #define wfet(val)	asm volatile("msr s0_3_c1_c0_0, %0"	\
->>   				     : : "r" (val) : "memory")
->> -#define wfi()		asm volatile("wfi" : : : "memory")
->> -#define wfit(val)	asm volatile("msr s0_3_c1_c0_1, %0"	\
->> -				     : : "r" (val) : "memory")
->> +#define wfi()							\
->> +	do {							\
->> +		asm volatile(					\
->> +		ALTERNATIVE("wfi",				\
->> +			    "nop",				\
->> +			    ARM64_WORKAROUND_WFI_STATE)		\
->> +		: : : "memory");				\
->> +	} while (0)
->> +#define wfit(val)						\
->> +	do {							\
->> +		asm volatile(					\
->> +		ALTERNATIVE("msr s0_3_c1_c0_1, %0",		\
->> +			    "nop",				\
->> +			    ARM64_WORKAROUND_WFI_STATE)		\
->> +		: : "r" (val) : "memory");			\
->> +	} while (0)
-> How can you guarantee that we don't run one of these prior to patching?
-
-We can't, but there are a few points to our advantage, namely the boot 
-cpu isn't actually affected by this (when the CYC_OVRD bits are not 
-configured or not supported), and first round of patching happens quite 
-early before the other cpus are started.
-
+On Wed Jun 17, 2026 at 6:14 AM EDT, Maxime Ripard wrote:
+> The mipi bridge still uses the deprecated non-atomic bridge
+> callbacks.
 >
-> I wonder if we're better off doing something like x86 and having an "idle="
-> cmdline option. which could choose between e.g. nop, wfe, wfi and yield, for
-> example?
-
-This is a good idea.
-
-We also considered using nohlt, however this doesn't disable the use of 
-wfit in __delay (which I confirmed to also lose register state with 
-sufficiently long timeout values), and it would prevent us from enabling 
-a psci based idle later. So it seems a new parameter is needed.
-
-> In fact, would wfe be a better choice than nop for you?
-
-Regarding wfe: Simply replacing the wfi with wfe on these particular 
-machines leads to them getting stuck in the boot process (entering wfe 
-on the boot core and never waking up again), maybe because some kinds of 
-interrupts do not count as as events for the wfe wake-up?
-
+> Switch to their atomic counterparts, adding the bridge state
+> handlers if not already present.
 >
-> Will
+> Generated by the following Coccinelle script:
+>
+> @ is_bridge @
+> identifier funcs;
+> @@
+>
+>  struct drm_bridge_funcs funcs =3D {
+> 	...,
+>  };
+>
+> @ has_create_state depends on is_bridge @
+> identifier funcs, f;
+> @@
+>
+> struct drm_bridge_funcs funcs =3D {
+>   ...,
+>   .atomic_create_state =3D f,
+>   ...,
+> };
+>
+> @ update_struct depends on (is_bridge && !has_create_state) @
+> identifier is_bridge.funcs;
+> identifier f;
+> @@
+>
+>  struct drm_bridge_funcs funcs =3D {
+> +	.atomic_create_state =3D drm_atomic_helper_bridge_create_state,
+> +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
+>  	...,
+>  };
+>
+> @ update_pre_enable_struct depends on (is_bridge && !has_create_state) @
+> identifier is_bridge.funcs;
+> identifier f;
+> @@
+>
+>  struct drm_bridge_funcs funcs =3D {
+>  	...,
+> -	.pre_enable =3D f,
+> +	.atomic_pre_enable =3D f,
+>  	...,
+>  };
+>
+> @ update_pre_enable_impl depends on update_pre_enable_struct @
+> identifier update_pre_enable_struct.f;
+> identifier b;
+> @@
+>
+> -void f(struct drm_bridge *b)
+> +void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
+>  {
+> 	...
+>  }
+>
+> @ update_enable_struct depends on (is_bridge && !has_create_state) @
+> identifier is_bridge.funcs;
+> identifier f;
+> @@
+>
+>  struct drm_bridge_funcs funcs =3D {
+>  	...,
+> -	.enable =3D f,
+> +	.atomic_enable =3D f,
+>  	...,
+>  };
+>
+> @ update_enable_impl depends on update_enable_struct @
+> identifier update_enable_struct.f;
+> identifier b;
+> @@
+>
+> -void f(struct drm_bridge *b)
+> +void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
+>  {
+> 	...
+>  }
+>
+> @ update_disable_struct depends on (is_bridge && !has_create_state) @
+> identifier is_bridge.funcs;
+> identifier f;
+> @@
+>
+>  struct drm_bridge_funcs funcs =3D {
+>  	...,
+> -	.disable =3D f,
+> +	.atomic_disable =3D f,
+>  	...,
+>  };
+>
+> @ update_disable_impl depends on update_disable_struct @
+> identifier update_disable_struct.f;
+> identifier b;
+> @@
+>
+> -void f(struct drm_bridge *b)
+> +void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
+>  {
+> 	...
+>  }
+>
+> @ update_post_disable_struct depends on (is_bridge && !has_create_state) =
+@
+> identifier is_bridge.funcs;
+> identifier f;
+> @@
+>
+>  struct drm_bridge_funcs funcs =3D {
+>  	...,
+> -	.post_disable =3D f,
+> +	.atomic_post_disable =3D f,
+>  	...,
+>  };
+>
+> @ update_post_disable_impl depends on update_post_disable_struct @
+> identifier update_post_disable_struct.f;
+> identifier b;
+> @@
+>
+> -void f(struct drm_bridge *b)
+> +void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
+>  {
+> 	...
+>  }
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>
+> ---
+> To: Sasha Finkelstein <k@chaosmail.tech>
+> Cc: Janne Grunau <j@jannau.net>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: asahi@lists.linux.dev
+> ---
+>  drivers/gpu/drm/adp/adp-mipi.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/adp/adp-mipi.c b/drivers/gpu/drm/adp/adp-mip=
+i.c
+> index cba7d32150a9..232bb9539423 100644
+> --- a/drivers/gpu/drm/adp/adp-mipi.c
+> +++ b/drivers/gpu/drm/adp/adp-mipi.c
+> @@ -3,10 +3,11 @@
+>  #include <linux/component.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> =20
+> +#include <drm/drm_atomic_state_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_mipi_dsi.h>
+> =20
+>  #define DSI_GEN_HDR 0x6c
+>  #define DSI_GEN_PLD_DATA 0x70
+> @@ -220,10 +221,13 @@ static int adp_dsi_bridge_attach(struct drm_bridge =
+*bridge,
+> =20
+>  	return drm_bridge_attach(encoder, adp->next_bridge, bridge, flags);
+>  }
+> =20
+>  static const struct drm_bridge_funcs adp_dsi_bridge_funcs =3D {
+> +	.atomic_create_state =3D drm_atomic_helper_bridge_create_state,
+> +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
+>  	.attach	=3D adp_dsi_bridge_attach,
+>  };
+> =20
+>  static int adp_mipi_probe(struct platform_device *pdev)
+>  {
 
+I have no objections, nor do I really think there would be any, but
+I wanted to point out, thank you for not CCing *everyone* on the entire
+patchset but just the cover letter and the patch I'm interested in :)
 
-Best regards,
---
-Yureka Lilian<yureka@cyberchaos.dev>
+Happily,
 
-
+Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
