@@ -1,247 +1,188 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF19635898
-	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 01:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EF9211466
+	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 02:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781745245; cv=none; b=snAafHZYs6zSrrNg78ubdPxDyE5RXYSPMXGQlXEtDVxugpLhdhS5RZ4LbtpeuOgbYKVJwGjP2JMlH6YzanmPnWq/wu3DaNISNisYS1VRFshtMPXKZONrhDxcKE27xzgH93KgjgEpX3vl10KAtQ6hAR1YOl5v7XyNLY4LP7Qp8cs=
+	t=1781749010; cv=none; b=n6ptIKFkkBB3g55RuXJwYTpm9O/rAxpyotJzeALWi03/rnCc6qTSa4frsLz6lmvqim/lrnS6VGnTaOES5EHjSx+j+yr+qD2lizKabNVpth6I0wd0LU7I5k6rcyLdy5ZNzvALsx3hu2+eEQFKX1hElQ1O5ufQCU9KAVjGPFdG7iQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781745245; c=relaxed/simple;
-	bh=HUfcNg5OMhaAcM5bWMySjW1OmdKwHeBe+svn3HPAQ8Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=LiplycTtdQ0cFtOgNXZKEO+VgwzAWmHhZuF5BhSyvOhtLcSy9WaOcg+1AmgUVSqQ7vADY+WWtRlJhMdv+cJvNo3hjbrJu6lTFic5rI2Fse7Yvm0YD9ttYYM76rYttew3nEAbaukuKMeoArinxFAqpey1rf7tyhwltc5m07MNd54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=nZcNIjiL; arc=none smtp.client-ip=121.127.44.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1781749010; c=relaxed/simple;
+	bh=MsS0KDl7YWx1slEsJmktzRF9IWNN3CLmS1v1KYJV9MQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ty4pGoZeYy1LYWXl11VgP12FRymjNI4ABiCiq2f2zuZBN8HI5MzBfAidH+nLifD0oih2wjRcacAUoNvYLb7CNdccrg2DdVDHrq0hVh8poEgkU/Id9FfUwdKM5qBrTkWMKbimxQuH/1Or+3sjnfNks1cZPXm91sVtxKcvaxNhCRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kW7mUlwj; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="nZcNIjiL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1781745237;
- bh=eBmTxVYzn/IEiGT8WtuKfobyevttU4FdpI0lnGII/fM=;
- b=nZcNIjiLsvSYbd8xv8b3T+sdP2j0qUnh11kCob/Ezo9UJA7sgHMo7n+nitAfaX+WYP8PXQaqq
- A3gptqC7LpvaHNg6qfa3U5DhYK73TbLQxzU32ntKWk6GYclmnZ+Bb6qQlrbeg5pLzISbblpaXNF
- chCcJX488SEJHrmqjf9sKgL71M6tDtxN+CBQea2GcyRcsca1meaglP7DqRJEHt5AnBTB6HxkQOS
- kqit1sSypT47A5UowlJjJvK3TQBapXJCcHHMw9YEz/KNWfW6VRcig1dJLo2zTl0A9RACtR2sGH9
- FJ0ogIvXf8CewKCbge/7O7ousBOH98tAVM8AEhuYHbjA==
-X-Forward-Email-ID: 6a334650e2ba51f45781c4bf
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 2.8.30
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kW7mUlwj"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2bf125989f2so2696475ad.3
+        for <asahi@lists.linux.dev>; Wed, 17 Jun 2026 19:16:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781749008; x=1782353808; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G6bgdFP6eQHqUIHYA197THpQx8Z+j/fXy0gSUXkLpxo=;
+        b=kW7mUlwji1uf26bg7yu8rzROS43b5WQ56sxFlOzGqFj4GzboeTt2IjwEiqa25j8xHN
+         9CH0/cdCRYv8jYsly8YTXVcu5EIpYtaixK4VkbHsQXmcGglBKVS0nhsuKhFWbUASMJ8/
+         7h/q+2OFbinyggNy93aS6MNM+Fsphtk8d+BfGzhJn6nm4s7dlRN3EmxHK4Z8ZbFKdTRv
+         8JJPlJLos0f52c6ou8xUoPs0GAsKnBxPgjns+ZXOfkoFS1cFrTnd0yO9bZUa6OYTLrRC
+         i8Ab2XdwU7RKgXIWb9hG/EOQ3u4pivQmkccQFNyXVNCg/6w/L6GtBZuiXRuyLLUWXwkn
+         D9Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781749008; x=1782353808;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G6bgdFP6eQHqUIHYA197THpQx8Z+j/fXy0gSUXkLpxo=;
+        b=lNKTrLJ4hNhTOxmOLwKTTjsw4gnbCCwNyAdjoBonZmbGKnDdCLp1i1xrM3y4QHLG2e
+         6cS+tpBTevJ5Q90TFXP1Kb3+ixGXHhpz6PiER9vWiSzGzdnKtiXHgPKGa+cRIwOejrxW
+         hCvITfzzf+mEZ/4HCwfQK0d16fPv6+Gfec1L5MMH9ZaJCIzVKMNsgMNdXGvkWx5STpHc
+         D0FTslepU8Rl3RxoGXC9FOzVI1zOgWZUCA6vNI9iUgV3T679E95kTiHJiGFZNwtdyS7y
+         q+jmJkcZMY8wZswscVpxrOe5AkleqXIkiMo80fPgmHcd0VctlluWobl0TntUpA1IKgUd
+         dz4A==
+X-Forwarded-Encrypted: i=1; AFNElJ/3tWSKbu6P3Yc1JXiIS7wV/OoKH9G/5Os7oS5OuLS/8nForOa63yQaXcE17jORuIsuBiVYnA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEiVBuM1bri6iZsBh7nxM6pxA73zzU3GjVMIpx5XUupCwUCqeL
+	oItGo3+j3rxIpEEgJOMJtuSt3BOh4f1Fd4pSo+PuJTNwg0IeeEsg06RX
+X-Gm-Gg: AfdE7ckJHXKrlZWhry2FDyRIzHb3OVLcA6WU1lFIWH4XzLbrnImur4/d9lLgQaEdt5S
+	GnEglmM9MHoTQfptd983Tj86ge7BGTnxMcfOxrLeZiazSNQLlp6ro9IpI9fpHScVa+GtuYXYySO
+	/gKuIwMrjoPSbKeOm5lS6zTxflNinb60MGHCigpIZgIJegA0Mz4yxE5lOWoo2t/2TDHG40ieJyL
+	838eazI8DwRshhYfhVRbkIo+SYA4BnPEJUYzuu1IfyFKK/883+gN7M5r9wcVVUKYcOiaiVfriRM
+	mPVocYnAUQiubNrTBUYFbE0/LRQ16qF64fF+5aci8YLLbqL/PZvXRQtL/hVG4e97G+0GkydwtmN
+	dvAlvcBxiLTSheOSdHnNDEx9CYalKmEThBd8ZRCPb7JQ7xhgRP5mwrTNNOIaC3GmPcxxFkZFFvX
+	ipqiFk3TjrKXGMqQPHB4ChnvAXu0nsZWxzLD5INHR3rAIwtQp20uVPB8Rhizs3+HCtx5PvbSLUA
+	gMWLzJQ1mpOW9VxVrtLfGieqS/3BLOvgBHEWTPRJxl1TNw=
+X-Received: by 2002:a17:903:19ed:b0:2c2:50c7:58a4 with SMTP id d9443c01a7336-2c6bc223ee0mr64827035ad.22.1781749007689;
+        Wed, 17 Jun 2026 19:16:47 -0700 (PDT)
+Received: from bass-virtual-machine.. ([111.202.175.140])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6a1878493sm61854705ad.81.2026.06.17.19.16.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 19:16:47 -0700 (PDT)
+From: Gui-Dong Han <hanguidong02@gmail.com>
+To: sven@kernel.org,
+	kbusch@kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	j@jannau.net,
+	neal@gompa.dev,
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	baijiaju1990@gmail.com,
+	Gui-Dong Han <hanguidong02@gmail.com>
+Subject: [PATCH v2] nvme-apple: Use acquire/release for queue enabled state
+Date: Thu, 18 Jun 2026 10:15:43 +0800
+Message-Id: <20260618021543.3866850-1-hanguidong02@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Wed, 17 Jun 2026 21:13:50 -0400
-Message-Id: <DJBRYZ86TXOG.HU3XGECUPHAI@ubuntu.com>
-Cc: "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca
- Ceresoli" <luca.ceresoli@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- "Sasha Finkelstein" <k@chaosmail.tech>, "Janne Grunau" <j@jannau.net>,
- <asahi@lists.linux.dev>
-Subject: Re: [PATCH 01/37] drm/adp: mipi: Switch to atomic bridge callbacks
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Maxime Ripard" <mripard@kernel.org>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>
-X-Mailer: aerc 0.21.0
-References: <20260617-drm-all-atomic-bridges-v1-0-b63e6316166b@kernel.org>
- <20260617-drm-all-atomic-bridges-v1-1-b63e6316166b@kernel.org>
-In-Reply-To: <20260617-drm-all-atomic-bridges-v1-1-b63e6316166b@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Jun 17, 2026 at 6:14 AM EDT, Maxime Ripard wrote:
-> The mipi bridge still uses the deprecated non-atomic bridge
-> callbacks.
->
-> Switch to their atomic counterparts, adding the bridge state
-> handlers if not already present.
->
-> Generated by the following Coccinelle script:
->
-> @ is_bridge @
-> identifier funcs;
-> @@
->
->  struct drm_bridge_funcs funcs =3D {
-> 	...,
->  };
->
-> @ has_create_state depends on is_bridge @
-> identifier funcs, f;
-> @@
->
-> struct drm_bridge_funcs funcs =3D {
->   ...,
->   .atomic_create_state =3D f,
->   ...,
-> };
->
-> @ update_struct depends on (is_bridge && !has_create_state) @
-> identifier is_bridge.funcs;
-> identifier f;
-> @@
->
->  struct drm_bridge_funcs funcs =3D {
-> +	.atomic_create_state =3D drm_atomic_helper_bridge_create_state,
-> +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
->  	...,
->  };
->
-> @ update_pre_enable_struct depends on (is_bridge && !has_create_state) @
-> identifier is_bridge.funcs;
-> identifier f;
-> @@
->
->  struct drm_bridge_funcs funcs =3D {
->  	...,
-> -	.pre_enable =3D f,
-> +	.atomic_pre_enable =3D f,
->  	...,
->  };
->
-> @ update_pre_enable_impl depends on update_pre_enable_struct @
-> identifier update_pre_enable_struct.f;
-> identifier b;
-> @@
->
-> -void f(struct drm_bridge *b)
-> +void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
->  {
-> 	...
->  }
->
-> @ update_enable_struct depends on (is_bridge && !has_create_state) @
-> identifier is_bridge.funcs;
-> identifier f;
-> @@
->
->  struct drm_bridge_funcs funcs =3D {
->  	...,
-> -	.enable =3D f,
-> +	.atomic_enable =3D f,
->  	...,
->  };
->
-> @ update_enable_impl depends on update_enable_struct @
-> identifier update_enable_struct.f;
-> identifier b;
-> @@
->
-> -void f(struct drm_bridge *b)
-> +void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
->  {
-> 	...
->  }
->
-> @ update_disable_struct depends on (is_bridge && !has_create_state) @
-> identifier is_bridge.funcs;
-> identifier f;
-> @@
->
->  struct drm_bridge_funcs funcs =3D {
->  	...,
-> -	.disable =3D f,
-> +	.atomic_disable =3D f,
->  	...,
->  };
->
-> @ update_disable_impl depends on update_disable_struct @
-> identifier update_disable_struct.f;
-> identifier b;
-> @@
->
-> -void f(struct drm_bridge *b)
-> +void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
->  {
-> 	...
->  }
->
-> @ update_post_disable_struct depends on (is_bridge && !has_create_state) =
-@
-> identifier is_bridge.funcs;
-> identifier f;
-> @@
->
->  struct drm_bridge_funcs funcs =3D {
->  	...,
-> -	.post_disable =3D f,
-> +	.atomic_post_disable =3D f,
->  	...,
->  };
->
-> @ update_post_disable_impl depends on update_post_disable_struct @
-> identifier update_post_disable_struct.f;
-> identifier b;
-> @@
->
-> -void f(struct drm_bridge *b)
-> +void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
->  {
-> 	...
->  }
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->
-> ---
-> To: Sasha Finkelstein <k@chaosmail.tech>
-> Cc: Janne Grunau <j@jannau.net>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: asahi@lists.linux.dev
-> ---
->  drivers/gpu/drm/adp/adp-mipi.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/adp/adp-mipi.c b/drivers/gpu/drm/adp/adp-mip=
-i.c
-> index cba7d32150a9..232bb9539423 100644
-> --- a/drivers/gpu/drm/adp/adp-mipi.c
-> +++ b/drivers/gpu/drm/adp/adp-mipi.c
-> @@ -3,10 +3,11 @@
->  #include <linux/component.h>
->  #include <linux/iopoll.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> =20
-> +#include <drm/drm_atomic_state_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_mipi_dsi.h>
-> =20
->  #define DSI_GEN_HDR 0x6c
->  #define DSI_GEN_PLD_DATA 0x70
-> @@ -220,10 +221,13 @@ static int adp_dsi_bridge_attach(struct drm_bridge =
-*bridge,
-> =20
->  	return drm_bridge_attach(encoder, adp->next_bridge, bridge, flags);
->  }
-> =20
->  static const struct drm_bridge_funcs adp_dsi_bridge_funcs =3D {
-> +	.atomic_create_state =3D drm_atomic_helper_bridge_create_state,
-> +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_duplicate_state =3D drm_atomic_helper_bridge_duplicate_state,
->  	.attach	=3D adp_dsi_bridge_attach,
->  };
-> =20
->  static int adp_mipi_probe(struct platform_device *pdev)
->  {
+apple_nvme_init_queue() initializes queue state and then marks the queue
+enabled. The interrupt and request paths check enabled before using that
+queue state.
 
-I have no objections, nor do I really think there would be any, but
-I wanted to point out, thank you for not CCing *everyone* on the entire
-patchset but just the cover letter and the patch I'm interested in :)
+The old wmb() after WRITE_ONCE(enabled, true) does not publish the
+earlier initialization before enabled becomes visible. Use a release store
+when enabling the queue and acquire loads when testing it.
 
-Happily,
+Although the shutdown-side enabled accesses are not used for publishing
+queue initialization, use helpers for them as well for consistency.
 
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+Fixes: 5bd2927aceba ("nvme-apple: Add initial Apple SoC NVMe driver")
+Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+---
+v2:
+- Drop the old wmb(), as suggested by Keith Busch.
+- Use the queue enabled helpers in apple_nvme_disable(), as suggested by
+  Keith Busch.
+v1:
+- Found by auditing READ_ONCE() used for synchronization.
+- A similar fix can be found in 8df672bfe3ec.
+---
+ drivers/nvme/host/apple.c | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index f9327feb87d0..291271c3954b 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -151,6 +151,23 @@ struct apple_nvme_queue {
+ 	bool enabled;
+ };
+ 
++static inline bool apple_nvme_queue_enabled(struct apple_nvme_queue *q)
++{
++	/* Pair with apple_nvme_enable_queue(). */
++	return smp_load_acquire(&q->enabled);
++}
++
++static inline void apple_nvme_enable_queue(struct apple_nvme_queue *q)
++{
++	/* Publish queue initialization before setting q->enabled. */
++	smp_store_release(&q->enabled, true);
++}
++
++static inline void apple_nvme_disable_queue(struct apple_nvme_queue *q)
++{
++	WRITE_ONCE(q->enabled, false);
++}
++
+ /*
+  * The apple_nvme_iod describes the data in an I/O.
+  *
+@@ -677,7 +694,7 @@ static bool apple_nvme_handle_cq(struct apple_nvme_queue *q, bool force)
+ 	bool found;
+ 	DEFINE_IO_COMP_BATCH(iob);
+ 
+-	if (!READ_ONCE(q->enabled) && !force)
++	if (!apple_nvme_queue_enabled(q) && !force)
+ 		return false;
+ 
+ 	found = apple_nvme_poll_cq(q, &iob);
+@@ -780,7 +797,7 @@ static blk_status_t apple_nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	 * We should not need to do this, but we're still using this to
+ 	 * ensure we can drain requests on a dying queue.
+ 	 */
+-	if (unlikely(!READ_ONCE(q->enabled)))
++	if (unlikely(!apple_nvme_queue_enabled(q)))
+ 		return BLK_STS_IOERR;
+ 
+ 	if (!nvme_check_ready(&anv->ctrl, req, true))
+@@ -863,7 +880,7 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+ 	nvme_quiesce_io_queues(&anv->ctrl);
+ 
+ 	if (!dead) {
+-		if (READ_ONCE(anv->ioq.enabled)) {
++		if (apple_nvme_queue_enabled(&anv->ioq)) {
+ 			apple_nvme_remove_sq(anv);
+ 			apple_nvme_remove_cq(anv);
+ 		}
+@@ -887,8 +904,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+ 		nvme_disable_ctrl(&anv->ctrl, false);
+ 	}
+ 
+-	WRITE_ONCE(anv->ioq.enabled, false);
+-	WRITE_ONCE(anv->adminq.enabled, false);
++	apple_nvme_disable_queue(&anv->ioq);
++	apple_nvme_disable_queue(&anv->adminq);
+ 	mb(); /* ensure that nvme_queue_rq() sees that enabled is cleared */
+ 	nvme_quiesce_admin_queue(&anv->ctrl);
+ 
+@@ -1016,8 +1033,7 @@ static void apple_nvme_init_queue(struct apple_nvme_queue *q)
+ 		memset(q->tcbs, 0, anv->hw->max_queue_depth
+ 			* sizeof(struct apple_nvmmu_tcb));
+ 	memset(q->cqes, 0, depth * sizeof(struct nvme_completion));
+-	WRITE_ONCE(q->enabled, true);
+-	wmb(); /* ensure the first interrupt sees the initialization */
++	apple_nvme_enable_queue(q);
+ }
+ 
+ static void apple_nvme_reset_work(struct work_struct *work)
+-- 
+2.34.1
