@@ -1,63 +1,63 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF963F0AA7
-	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05E43F1651
+	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781781039; cv=none; b=jEb7Z+z7Q54zCOuMbEZ0VVpFhYeYaw/HMPvALx8hbmjwZgmKlVe9vM/nPgfoM3qyw9feYZ6tegaPyonZC+EfkI2Ni5oHpKdax7qrCXoM3WK7Tw3V7EEzSRb/VuiLik0J/ssquaH423yI1K3atg0ntRxI/KffFjOdZJe1+UhwSSU=
+	t=1781781048; cv=none; b=eEuKu/6aIYiB9+8bqrXT6mxjHY7QFLU27CJ19a9SWuFggtEDTxWoNiyEc5CPkmKMCFz6+wK7NjOHZQ+eKVHZlZe9Uj+qDn8ncmcLU+VuuzBjIrR7VqTCnXY3HgKTmWvGR90oiEoKjIjxT78Mb8AAcV5JVePpMmfB/bMMAe1txVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781781039; c=relaxed/simple;
-	bh=VUGM1dmrYZr3ZCpRVFURnksOb2sWDjNx8Q29gealQ+Y=;
+	s=arc-20240116; t=1781781048; c=relaxed/simple;
+	bh=um4XzRK/FYmWBzEASpvNytlSiXtvP8Pb9Nu/RJVt2Io=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f/ugchjQZIFLE8HrGUTWhP/JIBr9Ber2T/03ydy3KDqnUTLmbOzO9+6lhNwLEo5teaU6pVKeeDeISumfHmWJ+SdofxOJGNXG1uJtOiy1N27hxbqISt3UwwKgsAKNvZdjpvh7O/edVrhAnRK0tbcuEfytxJMLKzc1wn9sSkk81ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XSoNOjbP; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=iwYRSuEMIWyXMG8Czk+akCpCkmR15kL+R3hXpLAdAfEhSkMmDn9i2S/Z5i3hgIpU6zqVpJeJudy1DUYMWGJAY3KYmd4XDcCCw/AK65Zh5YDkwHvO72jpSb1JVe6XdVgQ/kN5o0wNihgqzAJmRhVPj40wkwWFIZJcWMElR+n+02c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PWBdRtrV; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XSoNOjbP"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c40397e746so5405985ad.3
-        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:10:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PWBdRtrV"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2c6d4851142so9089765ad.1
+        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781781037; x=1782385837; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781781046; x=1782385846; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GCvpI9caCdCJQKq9fbLR0v07NU2fYhKI7H79tQqdsi8=;
-        b=XSoNOjbP94g50Poh4jBlzKtwN+vUcEsr6zZVy/M7RpGZTNje0u60ghGkxLS6d6g3RX
-         t/NP8+P9v/aLmeIHzHaWj0Pu7ft2VvdjRJ6CSWiehvQvOWxP7t719H323//ZGNp24/cL
-         ATDulmhONZHPMrLBOyiC3VqlwTsuI7xiUNAqjiQKQ6rQP4ZhiAyoZDJWVup50Kisr5Zf
-         eVnsl2PMAbaUdEo5QZ/VY9rhWcJNQ5JGvq5ty3v24diymHavDv50gKx3ouUTwGWw3Vwb
-         J9Uk+XBloK81PiId6+u40TEksCH6kQHCG5PmEFkXynvjtB+nh7svqHUMh9LEjul7cLxp
-         a0Hg==
+        bh=McfH8rWJuuVUcm1G/yfvz4+Q+IQpATUYtGec2KxjrME=;
+        b=PWBdRtrVN4tvA8ZpxZvLT3RsTIFlSxp2ntm3A4Ysc4bbkxBDB35ZPp0Cq6SnyhPqQ5
+         lcUzCuU1YFz0/DKfocHIptPwB2clTzKexepx1xis281rBDRvevd1Evyaz/leXWYAS4dN
+         VzbFeDMWpWu7mJ74YIDclPZM6WG8KJoq5JEEBD9U7ZXlRZJieAvxrYQbjepzLNgJT2hu
+         2aBE55CSVhNpv3gAhvTlgLqOXRaVCPsT1eZ9Yt6WceA9B+VPuLgw5dgWQyFhdJfOrGXL
+         Z0CU1SQYtc7doJRQkOuYGfThIIIP0bpoY7rb6ZGHs58aMhBU35w+nCJjf2Za2aoldaj7
+         pnsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781781037; x=1782385837;
+        d=1e100.net; s=20251104; t=1781781046; x=1782385846;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GCvpI9caCdCJQKq9fbLR0v07NU2fYhKI7H79tQqdsi8=;
-        b=SrJQUf6or9LDzHILvTYF/yR1bNDltcNtlEQ2SIGqSDNZT2f+I9rlx4wviMDwKuylDK
-         7IvbuzB4mMIwSSLLTDUOD04t/7cIqKsvyb5SKT/5jf7qSsUr8GOBAFXxf6huSn20C8Ki
-         Xg+zBegfKBBtbcSclliEZnykN2Pl7K6vyVVoUUqeMCxm6fk1HedO5DMFh+qxlCqMARuL
-         tHVSYRBo1/5n3JwPnu0MtgYWs3p3nA4pYkEJbHpgs7ejehnUj7wZFR0/8T/Ryv5Ifa0z
-         VZLeO4RH03dUYzeDkptNvyp0YnO+6SRl0lZJxopTW9ZB2tlluOD2oCgrqgM1QKqO7l9q
-         IECw==
-X-Forwarded-Encrypted: i=1; AFNElJ+LDGqLyc8UmBlVV/XQ1BKyH8ytL5pgp/6UXvWRlMwk14yuqA+xqKPdOVuVjORwAxbOlTyZ3A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZUMiTL59E718S3kRjFiHXixn3C3PrsnrTN/k46D+s+SOlgs7C
-	Np8wkj+VKG42yKhzOlwsC1cUi+H/WXfIncMJ53UwEKHBlxRCU77jbvQR
-X-Gm-Gg: AfdE7cmVYUZfx9AfkNhLeJDiSg6aMW5GXr5DVMdNCtnVIjXqQqmv+jE18T4TKmuwEXi
-	2JVEyZ1zJ8OTMehFJsRCq+arnARIpbocWtsgUUqVmznVxXl0Kon0VJ580uZ/bNqVuwlZfF2sc/k
-	Bj+UXEBlQt60MQ7eszW4BfgoDuogMcEVqFaP+10ZeQFOMrFJFIbIy++D0AnVmRi+BM6kdIbnWui
-	OwXBwZpSv01jUeRRx3VI/k7MwbzCCq+wzXonP5equY1Iu+3PhUe8nE6DGJuEOQkdIlm52POBlBy
-	H8PoCoBiagtjoC4Oz/stVD2AukOS2FrDmbtshG5dF+RarCl2RZquwPn3/EkPISQOtGZBoisZMTa
-	X+cWp6NoBacRAMkcEzi7KMu8TXoyzefmzDy0nX7wQDp1Nj724jnZPp0bjLpU891lrE6TMTDyfVf
-	5d4tx0MnJVmJ6MsCn4Cr4oJ+uFj59OC3aPGWU2hGTT92ZQvoo=
-X-Received: by 2002:a17:903:1a6f:b0:2b7:975c:dacc with SMTP id d9443c01a7336-2c6f340c78cmr24378815ad.1.1781781037629;
-        Thu, 18 Jun 2026 04:10:37 -0700 (PDT)
+        bh=McfH8rWJuuVUcm1G/yfvz4+Q+IQpATUYtGec2KxjrME=;
+        b=rd1+ATDSs4hxMNSaFYG85t6xZmrlULAiGaYUY4xOE0NWIf9FOLDg/nnt72ZPzTTS3E
+         GFOqKrJKj5J1KjAUF2Z1BJgqoYneRmW8kVzdnN4WKLBCR69gYxNVrKRN8bPSQ/Ke+HZg
+         7JiLW1Rmpn66aYd6n72FPLT9JrPsnSfD26qEq8nTpoqsGLob/ZkzbmlXqsC40ZdJ988k
+         M3sJ5zyyf+uJ68M3WYxcqj0d4GMouXj7PfBeotKuE0LmyAAmNYkNCpuSwj2c5Q+sDdEP
+         xDzy55SforGPqYN6SZXrQXAkdnESwrDNetzxj4XeCjOlHV2TRDK4UjpiwzsI+iLObbKs
+         TIBQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+bn+zSF9X7g15jEPpvW8XCg6zaHJhC8+6D3Tm3oJi+ByjxKAifcZ+r8d2m2RKrzxLrSaXxNQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzuHsIJ64hShC76LgTfv1x0gnKBPuSYTNAfswA8PGGYjJtope2
+	6RScNqpyjn4HF7XKN2PvSjrL2NLJ+0Hxk560OQQY8QIy2xojQG85SQQF
+X-Gm-Gg: AfdE7clGZWGO7RqJycmHRTxcqfbJ8b1cHNFkU4I7uxguqdc/3PlEJWbgWt6KNXxM5tv
+	C7hf12SUfgC+S6aP3eeniI+lx+fEiEM7j98oT5bMYekVEXKF1nauu4FBjUw02f6A1jEe8okNIDM
+	PLNSxqe9Di/Wo4Lb/muc28rjCKKZT49kKi/AYTwrjJH/wjVgu+Our6+fPODCgL2DMaj6iEDoJi+
+	P7UwfyFAaEjEOASMm1wdAZCC6Su2eY9PJHiekyoJFQHWaNP0dXzc7bXVhG7jr7xhYWadNMTOUrS
+	GJf39ObAuuVuQn4eJTdtKnu/SJRODPqRsSQz0VFs6I+xxlS44A5o34dq6EPdY25HZvfNmT2t8pz
+	gbRqSOUxBoRhMsgceUHszcGp3JRvdxD8FMyOsToGSQjJwmcrIWx514mdvOKKviMruKTfM649cTk
+	CwtO2jtZ8YpXP+3ErSw0vVSD/QJkQZ+6+5WvjHHqCEAFuuuvA=
+X-Received: by 2002:a17:903:22cb:b0:2c2:343:88b0 with SMTP id d9443c01a7336-2c6de666d41mr28427805ad.19.1781781046290;
+        Thu, 18 Jun 2026 04:10:46 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.10.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.10.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:10:37 -0700 (PDT)
+        Thu, 18 Jun 2026 04:10:46 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 69/78] ASoC: codecs: wm2000: Use guard() for mutex locks
-Date: Thu, 18 Jun 2026 18:08:18 +0700
-Message-ID: <20260618110827.232983-13-phucduc.bui@gmail.com>
+Subject: [PATCH 70/78] ASoC: codecs: wm5102: Use guard() for mutex locks
+Date: Thu, 18 Jun 2026 18:08:19 +0700
+Message-ID: <20260618110827.232983-14-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260618110827.232983-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -116,83 +116,64 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/wm2000.c | 27 ++++++---------------------
- 1 file changed, 6 insertions(+), 21 deletions(-)
+ sound/soc/codecs/wm5102.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/codecs/wm2000.c b/sound/soc/codecs/wm2000.c
-index 9b68ee69324b..775f138fdf3f 100644
---- a/sound/soc/codecs/wm2000.c
-+++ b/sound/soc/codecs/wm2000.c
-@@ -612,20 +612,15 @@ static int wm2000_anc_mode_put(struct snd_kcontrol *kcontrol,
+diff --git a/sound/soc/codecs/wm5102.c b/sound/soc/codecs/wm5102.c
+index b4d4137c05b4..d0b6707ce62e 100644
+--- a/sound/soc/codecs/wm5102.c
++++ b/sound/soc/codecs/wm5102.c
+@@ -667,10 +667,9 @@ static int wm5102_out_comp_coeff_get(struct snd_kcontrol *kcontrol,
  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct wm2000_priv *wm2000 = dev_get_drvdata(component->dev);
- 	unsigned int anc_active = ucontrol->value.integer.value[0];
--	int ret;
+ 	struct arizona *arizona = dev_get_drvdata(component->dev->parent);
  
- 	if (anc_active > 1)
+-	mutex_lock(&arizona->dac_comp_lock);
++	guard(mutex)(&arizona->dac_comp_lock);
+ 	put_unaligned_be16(arizona->dac_comp_coeff,
+ 			   ucontrol->value.bytes.data);
+-	mutex_unlock(&arizona->dac_comp_lock);
+ 
+ 	return 0;
+ }
+@@ -683,12 +682,11 @@ static int wm5102_out_comp_coeff_put(struct snd_kcontrol *kcontrol,
+ 	uint16_t dac_comp_coeff = get_unaligned_be16(ucontrol->value.bytes.data);
+ 	int ret = 0;
+ 
+-	mutex_lock(&arizona->dac_comp_lock);
++	guard(mutex)(&arizona->dac_comp_lock);
+ 	if (arizona->dac_comp_coeff != dac_comp_coeff) {
+ 		arizona->dac_comp_coeff = dac_comp_coeff;
+ 		ret = 1;
+ 	}
+-	mutex_unlock(&arizona->dac_comp_lock);
+ 
+ 	return ret;
+ }
+@@ -699,9 +697,8 @@ static int wm5102_out_comp_switch_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct arizona *arizona = dev_get_drvdata(component->dev->parent);
+ 
+-	mutex_lock(&arizona->dac_comp_lock);
++	guard(mutex)(&arizona->dac_comp_lock);
+ 	ucontrol->value.integer.value[0] = arizona->dac_comp_enabled;
+-	mutex_unlock(&arizona->dac_comp_lock);
+ 
+ 	return 0;
+ }
+@@ -717,12 +714,11 @@ static int wm5102_out_comp_switch_put(struct snd_kcontrol *kcontrol,
+ 	if (ucontrol->value.integer.value[0] > mc->max)
  		return -EINVAL;
  
--	mutex_lock(&wm2000->lock);
-+	guard(mutex)(&wm2000->lock);
+-	mutex_lock(&arizona->dac_comp_lock);
++	guard(mutex)(&arizona->dac_comp_lock);
+ 	if (arizona->dac_comp_enabled != ucontrol->value.integer.value[0]) {
+ 		arizona->dac_comp_enabled = ucontrol->value.integer.value[0];
+ 		ret = 1;
+ 	}
+-	mutex_unlock(&arizona->dac_comp_lock);
  
- 	wm2000->anc_active = anc_active;
- 
--	ret = wm2000_anc_set_mode(wm2000);
--
--	mutex_unlock(&wm2000->lock);
--
--	return ret;
-+	return wm2000_anc_set_mode(wm2000);
+ 	return ret;
  }
- 
- static int wm2000_speaker_get(struct snd_kcontrol *kcontrol,
-@@ -645,20 +640,15 @@ static int wm2000_speaker_put(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct wm2000_priv *wm2000 = dev_get_drvdata(component->dev);
- 	unsigned int val = ucontrol->value.integer.value[0];
--	int ret;
- 
- 	if (val > 1)
- 		return -EINVAL;
- 
--	mutex_lock(&wm2000->lock);
-+	guard(mutex)(&wm2000->lock);
- 
- 	wm2000->spk_ena = val;
- 
--	ret = wm2000_anc_set_mode(wm2000);
--
--	mutex_unlock(&wm2000->lock);
--
--	return ret;
-+	return wm2000_anc_set_mode(wm2000);
- }
- 
- static const struct snd_kcontrol_new wm2000_controls[] = {
-@@ -676,9 +666,8 @@ static int wm2000_anc_power_event(struct snd_soc_dapm_widget *w,
- {
- 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
- 	struct wm2000_priv *wm2000 = dev_get_drvdata(component->dev);
--	int ret;
- 
--	mutex_lock(&wm2000->lock);
-+	guard(mutex)(&wm2000->lock);
- 
- 	if (SND_SOC_DAPM_EVENT_ON(event))
- 		wm2000->anc_eng_ena = 1;
-@@ -686,11 +675,7 @@ static int wm2000_anc_power_event(struct snd_soc_dapm_widget *w,
- 	if (SND_SOC_DAPM_EVENT_OFF(event))
- 		wm2000->anc_eng_ena = 0;
- 
--	ret = wm2000_anc_set_mode(wm2000);
--
--	mutex_unlock(&wm2000->lock);
--
--	return ret;
-+	return wm2000_anc_set_mode(wm2000);
- }
- 
- static const struct snd_soc_dapm_widget wm2000_dapm_widgets[] = {
 -- 
 2.43.0
 
