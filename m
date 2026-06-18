@@ -1,63 +1,63 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18ED3EE1DB
-	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:09:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E2E3F0A87
+	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781780996; cv=none; b=l95VftRuYkru+CzsQleW5fA0pVOj8m2as8BgO6XPBdBwTo9FGnTeF8SbCpJyL/6ZroOAQXeYlIxQmJTRjVG2n+SBiawWbn1bS5xvOhUEXemOQgCEib2PdcVlVHbmst/8kuaLMG7G2ifM7PpHnPqwC21/Pq2c1fI0BilDVr3RxkQ=
+	t=1781781004; cv=none; b=ZnL2zlZI75UcYirncu1AmzfUkbzgcCUgeSRPFoLU9D8mZ2fDmCJWT/Fdp4353Nj7mM01zDItDyz+T+8g3dWf5ejsM1pwhP00Pmc5etqqL0TxnRlSJnzqEpwHXgMoDq2nOlJI1Og7ao7AElXBrmJFH9Td+4slgIbrJp2d6yBK9Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781780996; c=relaxed/simple;
-	bh=c5O372q2rjDQ5irwM8M2Qw2a9PpNWbTIU2zvtjVkg3Y=;
+	s=arc-20240116; t=1781781004; c=relaxed/simple;
+	bh=r4nP5iq5srzymqWd5sW1nNO9Ilz4j50vuTzEN76jxq8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qOyvPtjnOxOGfW0IrIDqrTfAKyFXh5wsMYepSLJl5CNp0NcrjGqhc3fyEr9lFkVl9n/cOIAfnSv0WseqQsWmOMakESSW0muRYqoxKMXbAWYbKqPGQ+mCw+L6OfhdyK8RvwMHpUI85CXXAVnG4W0RZ/iX03LS7XvsRhFHH7HEE6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7SL/4mM; arc=none smtp.client-ip=209.85.214.181
+	 MIME-Version; b=lIosT3jeNw0KQQTaWMVshcWbG39c+UvfdjkoGeNHoIRmdlroWCGt1jTDhdnx9BJp/c0TScepR94be2UQzoaEPTOsU+GNjQzc6XMuOCjXzIInhjmUhn+FI7PlqCdMV7OoPLY7Flck2fQn5+HBvp56unGObMfIYIuh+86ubknQBXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVADuLw2; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7SL/4mM"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c0c1e0b0faso5832305ad.0
-        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:09:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVADuLw2"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2c40397e746so5401405ad.3
+        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781780994; x=1782385794; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781781003; x=1782385803; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Mr2TzHHPLOZ5QRNblYXdE64EZ52E5yqz/2kOl9/QETA=;
-        b=I7SL/4mMk5ErUO4uuwFiHpurdxLf/sUTyr//lh8J6bIE+YcKsPr3670GqgXO7bwtpd
-         +1qTBNu3HiUY7uj3UNOD4lvKjqxaZdIwVT9Gw8gV41W542zNnVYdAJQixUCyYk8VFZIB
-         9tudi1VQU/VjUnORq8z60eOsb3nDBP0b8+Ix0Z4RymgIqMdv2A0R6uji85QXFix1DsRS
-         FVdF1F4eMkbF6E4Hxk3pa8LtvfW5+/DttpwNAPgUGHi/Pc4td1UXqarhFpqcq2vqPa4/
-         uBJifvgemZagjMRPubAer55hsdgvQJwo/CmEUWX5TLm79tzuij4wPgcgvpMybOfoGvus
-         0/cA==
+        bh=Ml8Dfg8DiRS+hvlcBV4USOy9unLoDNhfJzJGobm3XwQ=;
+        b=ZVADuLw21WhV0y/5bZDOivhWKdb35CkxA5xxqEPxw82ZJdEpq7gKqiBD+panJkPowB
+         ZjfU0YHlop6hHzCwj9CEisQPcyyRp+yGJQ6yVWsaB3LrI1OZPqmW1KxyvQxiKIJwKDOl
+         x845XmJk2TiSfnxfLdeLSgpgKw3VebYT7pDhTDpzitX4QKm/GVLQxuOf0q9D5SGkVcrE
+         6BncuFyVUZ96opTvMqrVooDAuUFvm0CQoCKPFEbSO7dQ4hG5GOGWJ4glONhpNuqh5ay9
+         FtPODEqMbiquXd1hm8o6Kjyic6ZeSPBSg2xalH7lgyGlGzIr/eTYsQ3U0mjHqy9vHUDm
+         tYcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781780994; x=1782385794;
+        d=1e100.net; s=20251104; t=1781781003; x=1782385803;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Mr2TzHHPLOZ5QRNblYXdE64EZ52E5yqz/2kOl9/QETA=;
-        b=APlL2esTQ0JFwBkxaTyfD3CiI5ZPEd8bbxekLus2xsKP2i1uJ4Wwa8Js+QNz41gw+K
-         JsPuFc3rPXldJlvhkADMYMynNuWHVnJ9ZhQAF0AXDNC7Atazm5NRH2A2tNjW7uVY+ctQ
-         +S+bX1f24ivv+At46DkUKvYzcpE3K/MpueU0yCXoB8+NGFXsg9UNtQGPrFTDyPLPj5ym
-         i/YxLnJainTikTuRpn5gm4UqtMAKO1d54y0wYvEiybHnLxshQ2F8RFxro3RmuyzWwLmt
-         ohDkLwgtOkN0I9u9Nup/+F27y1TxlLrXJ0Y35iy9xDOQQIlIkfQedhWdvC728y5+9r8t
-         tTFA==
-X-Forwarded-Encrypted: i=1; AFNElJ+5c4gdXxa6iMUAJHzGpGy6jMcMBCDZ8Evsj24ZpwFaAp1QSO5GBRg5PEdJtqa37uqRQmRHxA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTDjAAfpe3DIe/Nszdc0Pe/W7VG1XSjzwsgDP8iLNQ+QUGzogN
-	WbygYs3gZl43lmPAQi5QsJeZ9GxYAK/ff6eLwN8v9Ocy08Kczwt/T7C1
-X-Gm-Gg: AfdE7cmOtnncRlt0LKDlmMIZM/Up6Pdvvtj3sjIvlH6FGXqjPYlv9eBzoCZ2qJelU9u
-	4j/OfnR9NnTJizTxDZhxUi5YSreOLIEjRv7W77GuwBYBAvKZD6Wxo8Xtq1YNvw9ukpRjXZJx2El
-	zQ5J/gPS0QCHPHr15YR+TxQtdORXrxa5c/G4OjQRgZSLFC98YtCOddH6ONY1yTYuiT0InTvU0dU
-	LZz0C/0JMk3iWFY3Vx8jX/m/YLASShjOVUaxREc+G4Y0XuEKhu2z8opXw8yR0IzHIyNgACwqocK
-	ZbeICcsnD5pRNijAxEA7Si4Rg7DKbIle2eQZ/kXMZYyk7cngb5rpIvsL5BmXPkDHE+GXXbhsBrG
-	oHGbQAxMf2vTh/TkYykHhypz7AKFBKpV+LB4noGzAJghTcE7+Knw7UTKbR6T7SSa6ZP/QD6XBPD
-	L+k6ZIjITJLEZQRg6dUC1sOtAFE9WgC5BRgdLsvgQtOY22nZE=
-X-Received: by 2002:a17:903:1b6f:b0:2bf:77b2:8b2d with SMTP id d9443c01a7336-2c6bc25ca62mr81275545ad.30.1781780994455;
-        Thu, 18 Jun 2026 04:09:54 -0700 (PDT)
+        bh=Ml8Dfg8DiRS+hvlcBV4USOy9unLoDNhfJzJGobm3XwQ=;
+        b=Kc/zCWgL2AgM59ahsH1sZFIB99O4eIG33600PjcewzWmc5OycltcoPLKc43DwjF6IU
+         2WoG/T609yIMqUTJ0qd6vJzqaJfZoJ4P78pQ3dkoFbEHnvFSB81OogiLDRhQiXlH3saf
+         SgrZKxeEuRkEFZUuVfmCZHR6IkGAqNKBCI9QDwMBdTL4i+HRp+PjeBjVoPRyU7YXcE5O
+         LUDLUvWLr5QAo8lpdxuq/EXbgCAiiNevHxPV1YaIKoCRbjY4uGy+DTqqPPTPyTsWqfMI
+         5N/wbtU626O+P38lI4dCz9vWOQRSGcXVWnE6BI+/dfSDUsAFTEy7MQUXfv8nZYlBn4VE
+         V6gw==
+X-Forwarded-Encrypted: i=1; AFNElJ9Wwg5nw1mM6hHM/f7OzSMpLk020FWnVuSqBs5issNYyyAiOFKLEcFNvwBT94XGFOp2vqMuPw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXkeRk2o3Qr4s9XNzwgUaxTb17nF0rou7vVdKfb8EDZykYo0OM
+	KGPe9AuaLaOrrkRJOjV121PKGDmTXxh1NPPK83qr+0ArCj00OFptZJ5g
+X-Gm-Gg: AfdE7cl0Q6sxshMArnP96B64upcomeMW01T096ppgEqy5vkqwxvVCQTOIM2Mz8cj8q0
+	/MWh6aTeirkMSHrMWxFCGhQocnindN4QfaxSU+cEIloSIx6i/lHu7hMAAmZdG3D6FkCQf8Yz9OB
+	rp4dQbEY/X5VyAdgdw7s0GQT0DSY6N2kqyRhdetX9oMcBm2f+MU3HOgZyaYRDVz86c28GA/DeKD
+	44jQ+BckaMBHruZZRbw0pWyZ17MX2rwkDWqpNJ3Nl6CsaFhyOavcEmNI+DNv9b45A9t45JDW2W7
+	jCuk5TQm0aEHptvrTVv9zh8lIqKBSo41Qgt7q7lAZqHPsX0knQ+S1eXs7jrffce+0v+eb7C9fLz
+	MmkDi985QX2x776Kvv8/QJTNaAWb0OVPF5BELTUK4gRlXINFAnv36WYXOXoIbmcEcwmjcpWEYkq
+	S8FsJ64Y4feSKjQ321QqQiR1k9+H184jueDtQS7c0II7QB9rc=
+X-Received: by 2002:a17:903:249:b0:2b2:ec46:dfed with SMTP id d9443c01a7336-2c6f347409fmr21914825ad.31.1781781003000;
+        Thu, 18 Jun 2026 04:10:03 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.09.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.09.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:09:54 -0700 (PDT)
+        Thu, 18 Jun 2026 04:10:02 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 64/78] ASoC: codecs: wcd934x: Use guard() for mutex locks
-Date: Thu, 18 Jun 2026 18:08:13 +0700
-Message-ID: <20260618110827.232983-8-phucduc.bui@gmail.com>
+Subject: [PATCH 65/78] ASoC: codecs: wcd937x: Use guard() for mutex locks
+Date: Thu, 18 Jun 2026 18:08:14 +0700
+Message-ID: <20260618110827.232983-9-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260618110827.232983-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -116,88 +116,50 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/wcd934x.c | 46 ++++++++++++++++----------------------
- 1 file changed, 19 insertions(+), 27 deletions(-)
+ sound/soc/codecs/wcd937x.c | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index bc41a1466c70..817ad53595fc 100644
---- a/sound/soc/codecs/wcd934x.c
-+++ b/sound/soc/codecs/wcd934x.c
-@@ -1265,13 +1265,12 @@ static int wcd934x_set_sido_input_src(struct wcd934x_codec *wcd, int sido_src)
- 
- static int wcd934x_enable_ana_bias_and_sysclk(struct wcd934x_codec *wcd)
- {
--	mutex_lock(&wcd->sysclk_mutex);
--
--	if (++wcd->sysclk_users != 1) {
--		mutex_unlock(&wcd->sysclk_mutex);
--		return 0;
-+	scoped_guard(mutex, &wcd->sysclk_mutex) {
-+		if (++wcd->sysclk_users != 1) {
-+			mutex_unlock(&wcd->sysclk_mutex);
-+			return 0;
-+		}
- 	}
--	mutex_unlock(&wcd->sysclk_mutex);
- 
- 	regmap_update_bits(wcd->regmap, WCD934X_ANA_BIAS,
- 			   WCD934X_ANA_BIAS_EN_MASK,
-@@ -1328,12 +1327,12 @@ static int wcd934x_enable_ana_bias_and_sysclk(struct wcd934x_codec *wcd)
- 
- static int wcd934x_disable_ana_bias_and_syclk(struct wcd934x_codec *wcd)
- {
--	mutex_lock(&wcd->sysclk_mutex);
--	if (--wcd->sysclk_users != 0) {
--		mutex_unlock(&wcd->sysclk_mutex);
--		return 0;
-+	scoped_guard(mutex, &wcd->sysclk_mutex) {
-+		if (--wcd->sysclk_users != 0) {
-+			mutex_unlock(&wcd->sysclk_mutex);
-+			return 0;
-+		}
- 	}
--	mutex_unlock(&wcd->sysclk_mutex);
- 
- 	regmap_update_bits(wcd->regmap, WCD934X_CLK_SYS_MCLK_PRG,
- 			   WCD934X_EXT_CLK_BUF_EN_MASK |
-@@ -2384,7 +2383,7 @@ static int wcd934x_micbias_control(struct snd_soc_component *component,
- 			__func__, micb_num);
+diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
+index e0169e783ee9..8336316866ea 100644
+--- a/sound/soc/codecs/wcd937x.c
++++ b/sound/soc/codecs/wcd937x.c
+@@ -1056,7 +1056,7 @@ static int wcd937x_micbias_control(struct snd_soc_component *component,
  		return -EINVAL;
  	}
--	mutex_lock(&wcd934x->micb_lock);
-+	guard(mutex)(&wcd934x->micb_lock);
  
+-	mutex_lock(&wcd937x->micb_lock);
++	guard(mutex)(&wcd937x->micb_lock);
  	switch (req) {
  	case MICB_PULLUP_ENABLE:
-@@ -2446,8 +2445,6 @@ static int wcd934x_micbias_control(struct snd_soc_component *component,
+ 		wcd937x->pullup_ref[micb_index]++;
+@@ -1136,7 +1136,6 @@ static int wcd937x_micbias_control(struct snd_soc_component *component,
+ 		}
  		break;
  	}
+-	mutex_unlock(&wcd937x->micb_lock);
  
--	mutex_unlock(&wcd934x->micb_lock);
--
  	return 0;
  }
- 
-@@ -2488,7 +2485,7 @@ static int wcd934x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+@@ -1460,7 +1459,7 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
  					    int req_volt, int micb_num)
  {
- 	struct wcd934x_codec *wcd934x = snd_soc_component_get_drvdata(component);
+ 	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
 -	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en, ret = 0;
 +	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en;
  
  	switch (micb_num) {
  	case MIC_BIAS_1:
-@@ -2506,7 +2503,7 @@ static int wcd934x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+@@ -1475,7 +1474,7 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
  	default:
  		return -EINVAL;
  	}
--	mutex_lock(&wcd934x->micb_lock);
-+	guard(mutex)(&wcd934x->micb_lock);
+-	mutex_lock(&wcd937x->micb_lock);
++	guard(mutex)(&wcd937x->micb_lock);
  	/*
  	 * If requested micbias voltage is same as current micbias
  	 * voltage, then just return. Otherwise, adjust voltage as
-@@ -2521,15 +2518,11 @@ static int wcd934x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
- 						    WCD934X_MICB_VAL_MASK);
+@@ -1490,15 +1489,11 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 						    WCD937X_MICB_VOUT_MASK);
  
  	req_vout_ctl = wcd_get_micb_vout_ctl_val(component->dev, req_volt);
 -	if (req_vout_ctl < 0) {
@@ -214,20 +176,20 @@ index bc41a1466c70..817ad53595fc 100644
 +	if (cur_vout_ctl == req_vout_ctl)
 +		return 0;
  
- 	if (micb_en == WCD934X_MICB_ENABLE)
+ 	if (micb_en == WCD937X_MICB_ENABLE)
  		snd_soc_component_write_field(component, micb_reg,
-@@ -2550,9 +2543,8 @@ static int wcd934x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+@@ -1519,9 +1514,8 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
  		 */
  		usleep_range(2000, 2100);
  	}
 -exit:
--	mutex_unlock(&wcd934x->micb_lock);
+-	mutex_unlock(&wcd937x->micb_lock);
 -	return ret;
 +
 +	return 0;
  }
  
- static int wcd934x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
+ static int wcd937x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
 -- 
 2.43.0
 
