@@ -1,246 +1,138 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC49331A41
-	for <asahi@lists.linux.dev>; Fri, 19 Jun 2026 11:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2267B175A94;
+	Fri, 19 Jun 2026 12:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781867692; cv=none; b=HifHLQFbWdqIFh9tcrKLh3JSdJxo30PHUhnnDZqbGy39YqLNGREPrTJ7L0s+IZ3abZlHXPdbfLiXg8+2R5R7+yu5QzVlyBOB0pe/XRHMVP0ERr9gBt97KydeBEdbD5LyFLwmQFKkuJjvI5hTR44RqHxyzrBZh/geXrZ9zd4JF0U=
+	t=1781872827; cv=none; b=QpaIxMaVRnXYin5e59AEE1YN+yWG6WQHd4+GmuuQtZFscGWlArsVDh3NRoHUf5nIRtYEn/Y1TA2AkNwrb4te93MXaO38wvfQ/RFjfjB5BmuB8DQVNYtvx38O0j79coggDWQSAGqhnYtmSB2to9lyF6EMDlgKW/k/dbrqVbDAL1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781867692; c=relaxed/simple;
-	bh=WFB9ZDoOqVm9cu0zzHzoJnb9cghOb9BIO4ocviwzJkE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PCpPqhmidOTqkyQVfwHamII2678drFg+nKEtXMq+ZpM264LhTqQu+6WwkZppgjRMyxgLDHZgzFSNIdAubUqvGOpVrpxtUeMjLQ/3kjHdI3pW1IevYQ9QKWUO72I1t5sVhdYJlV+jlc5RlNU+v0KhLiZzdzgP6utk97bHn2xiAZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NdgT9um1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g7Yl/P5L; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NdgT9um1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g7Yl/P5L; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781872827; c=relaxed/simple;
+	bh=Cb3ZdyA/Sygb+HYjSu6xZpfCpdsuvwMnjdWRp17jzUw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PnrPFIhvzKI35x9RrSigsbcNZoljCMLcJecnC0F1UucPrEcrsdF4X3ZyqjYh9VJ4iaqRC6MnVx+7/AqCpCKJbKF4i/4DPfzXQtjXPH/QX5U9uxf7AzUYDBjmxPxZrvMvavo6U+X2vqbmk3WZ0V14DG/NG8rF7Hm6xPnrwdvqea4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gC9ulqpz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NdgT9um1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g7Yl/P5L";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NdgT9um1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g7Yl/P5L"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BE63675F42;
-	Fri, 19 Jun 2026 11:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781867689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vA7XD4tzqECot2FsGyw2UfmWr3fnKsx8iWlkrI2RB3A=;
-	b=NdgT9um1MgonkyxrgX+0f7d+CyCvpxEmUhqmJKbQW9+jFKtud5k2Rb8jTDdo4uC75+O6MO
-	pkXMlhuHQiwfPe4FcHod1i8KGjyuwPRgROIN7fFbhjMYsk6JfyqP1Mcbj7DzUvl0+n4RJj
-	4gSmQEhJlLmViXN9IZBt7t7zquN9v+I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781867689;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vA7XD4tzqECot2FsGyw2UfmWr3fnKsx8iWlkrI2RB3A=;
-	b=g7Yl/P5Lz1lvm6VHoMQF1QsbJXVPzTeuORP/mZ0Ej0TGUhh/byZGeItazEsRqhWtqfYfrY
-	KuovKhphpK/l3ZCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781867689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vA7XD4tzqECot2FsGyw2UfmWr3fnKsx8iWlkrI2RB3A=;
-	b=NdgT9um1MgonkyxrgX+0f7d+CyCvpxEmUhqmJKbQW9+jFKtud5k2Rb8jTDdo4uC75+O6MO
-	pkXMlhuHQiwfPe4FcHod1i8KGjyuwPRgROIN7fFbhjMYsk6JfyqP1Mcbj7DzUvl0+n4RJj
-	4gSmQEhJlLmViXN9IZBt7t7zquN9v+I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781867689;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vA7XD4tzqECot2FsGyw2UfmWr3fnKsx8iWlkrI2RB3A=;
-	b=g7Yl/P5Lz1lvm6VHoMQF1QsbJXVPzTeuORP/mZ0Ej0TGUhh/byZGeItazEsRqhWtqfYfrY
-	KuovKhphpK/l3ZCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8791779A8;
-	Fri, 19 Jun 2026 11:14:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kz6MM6gkNWoGWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 19 Jun 2026 11:14:48 +0000
-Date: Fri, 19 Jun 2026 13:14:48 +0200
-Message-ID: <871pe2kcif.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	povik+lin@cutebit.org,
-	Support Opensource <support.opensource@diasemi.com>,
-	Nick Li <nick.li@foursemi.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	nuno.sa@analog.com,
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
-	patches@opensource.cirrus.com,
-	chrome-platform@lists.linux.dev,
-	asahi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 15/78] ASoC: codecs: cs42l43: Use guard() for mutex locks
-In-Reply-To: <CAABR9nGRCZ1zv0cyBGc3yuM8MeFNqBB1MkGUL7bTbtC_LcKKzA@mail.gmail.com>
-References: <20260617103235.449609-1-phucduc.bui@gmail.com>
-	<20260617103235.449609-16-phucduc.bui@gmail.com>
-	<ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
-	<20260617140209.3f89706c@pumpkin>
-	<CAABR9nG+6gOj4KnWmTyykgGN93xy6jKQh+-_f8Xxn=Jkv28vBA@mail.gmail.com>
-	<20260619101346.2ec49087@pumpkin>
-	<ajUcTfG3vSGz3n3d@opensource.cirrus.com>
-	<CAABR9nGRCZ1zv0cyBGc3yuM8MeFNqBB1MkGUL7bTbtC_LcKKzA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gC9ulqpz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 289751F00A3F;
+	Fri, 19 Jun 2026 12:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781872825;
+	bh=rOBaUSm33VpCqiY2t4y4oxN3NFma2nf9WA0jw5TShzk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=gC9ulqpz0uaCD850OKmHaouCJxZTZ3JKNmvg5he4r4YKSBKv4Shi1dCDP+xGSN4Ez
+	 lqZU4COkz48vcwlWGXuIcBEYeFZ9z0vE6cdcgzTkeIuMSi+/lgVmJIgX2ExVRNG2RD
+	 bjPyaDsUrkMy9kCCVV7PaSwUqVwwSPi3w2l8/ePbT6hx4KHZgj0pHbBiL2LjJJjoJL
+	 MGnz9bixozCSNSXHshyxbxaKevLtVCMVHbTwVJjm+p56hNJgHsAYI8q5VU2Jlbc5Zc
+	 baoq1URKHCJu9v6Ig5/oTqlXfrX4lInB6yQQ0b0eHaPHEj1YQN+0wL/x8z17O5rFm1
+	 RpWLffNvRt3fQ==
+Message-ID: <c13d95d0-911f-48f6-b4ca-8a5e9aacef6c@kernel.org>
+Date: Fri, 19 Jun 2026 14:40:22 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLtz4y7943h1dm9t59x9i47taa)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[opensource.cirrus.com,gmail.com,kernel.org,perex.cz,suse.com,chromium.org,cirrus.com,cutebit.org,diasemi.com,foursemi.com,bootlin.com,collabora.com,ti.com,realtek.com,metafoo.de,analog.com,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	TAGGED_RCPT(0.00)[lin];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-
-On Fri, 19 Jun 2026 12:57:57 +0200,
-Bui Duc Phuc wrote:
-> 
-> Hi Charles, David,
-> 
-> 
-> 
-> > > > > > I believe you have to use scoped_guard here, as there is a return
-> > > > > > from the function above, if memory serves it attempts to release
-> > > > > > the mutex on that path despite it being above the guard.
-> > > > >
-> > > > > Indeed.
-> > > > > I believe clang will complain.
-> > > > > That makes these mechanical conversions of existing code dangerous churn.
-> > > > >
-> > > > > While using guard() (etc) can make it easier to ensure the lock is released
-> > > > > when functions have multiple error exits, I'm not convinced it makes the
-> > > > > code any easier to read (other people may disagree).
-> > > >
-> > > > I built the code with both GCC and Clang and didn't see any warnings.
-> > > >
-> > > > My understanding was that the early return exits the function before
-> > > > the guard is instantiated, so it should not affect the guard's cleanup
-> > > > handling.
-> > >
-> > > When a variable is defined (and initialised) part way down a block the
-> > > compiler moves the definition to the top of the block but doesn't initialise
-> > > it at all, the first assignment happens where the code contains the
-> > > definition.
-> > >
-> > > However the destructor is always called at the end of the block.
-> > > So if you return from a function before the definition the destructor
-> > > is called with an uninitialised argument.
-> >
-> > My understanding was exactly as your David, but it seems that isn't
-> > the whole story and indeed I had to fix a bug in our SDCA code
-> > that hit this.  However testing this out, results in some things I
-> > find very hard to explain.
-> >
-> > It seems as far as I have managed to test, the code below works
-> > fine as Phuc suggests. It does not appear to run the mutex_unlock
-> > on the error path.
-> >
-> > int function()
-> > {
-> >         if (error)
-> >                 return;
-> >
-> >         guard(mutex)(&mutex);
-> >
-> >         stuff();
-> >
-> >         return;
-> > }
-> >
-> 
-> Thanks both for the clarification.
-> 
-> > The situation I hit this in before that doesn't work was actually
-> > this:
-> >
-> > int function()
-> > {
-> >         if (error)
-> >                 goto error_label;
-> >
-> >         guard(mutex)(&mutex);
-> >
-> >         stuff();
-> >
-> > error_label;
-> >         return;
-> > }
-> >
-> > Which in this case it does run the mutex_unlock and NULL pointer.
-> > Will try to find sometime to look at the generated assembly, but
-> > this basically totally blows my mind. Very unclear as to if this
-> > is supposed to work this way or just does by pure luck.
-> >
-> 
-> As stated in cleanup.h, mixing goto-based cleanup and scope-based
-> cleanup helpers in the same function is not expected, so I think
-> we should keep a consistent approach here.
-
-Right, and IIRC, clang would complain the mixed goto case at least
-with W=1.
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] arm64: errata: Handle Apple WFI State Loss
+To: Mark Rutland <mark.rutland@arm.com>, Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, Sasha Finkelstein <k@chaosmail.tech>
+References: <20260615-wfi-erratum-v2-1-59a73467f70d@cyberchaos.dev>
+ <ajAT9fWgOd9HY7ei@willie-the-truck>
+ <e105c7b2-a5eb-4b5d-955f-685058143e9d@cyberchaos.dev>
+ <ajUbcv75FuSPPi9o@J2N7QTR9R3>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <ajUbcv75FuSPPi9o@J2N7QTR9R3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Takashi
+
+On 6/19/26 12:38, Mark Rutland wrote:
+> On Wed, Jun 17, 2026 at 09:23:03PM +0200, Yureka Lilian wrote:
+>> On 6/15/26 17:02, Will Deacon wrote:
+>>> On Mon, Jun 15, 2026 at 02:21:36PM +0200, Yureka Lilian wrote:
+>>>> Apple Silicon CPUs can lose register state in WFI, leading to crashes
+>>>> in the idle loop early in the boot process.
+>>>> This applies to any previous Apple Silicon CPUs too, but is worked
+>>>> around by configuring the WFI mode in SYS_IMP_APL_CYC_OVRD sysreg
+>>>> during m1n1's chickens setup.
+>>>> This workaround no longer exists since M4.
+> 
+> Are we *certain* that there's no equivalent control elsewhere? i.e. this
+> hasn't just moved?
+
+We are as certain as we can be short of Apple confirming this which 
+isn't going to happen.
+XNU has a helper function to "force wfi to use clock gating only" [1] 
+which is how we learned about this control originally on M1.
+This has been disabled starting with M4 using the "NO_CPU_OVRD" define 
+which they describe as "CPU_OVRD register accesses are banned" [2]. If 
+there was an equivalent control elsewhere I would expect them to just 
+use that one instead.
+
+In addition most non-architectural sysregs are read-only starting with 
+M4 in the non-Apple-entitled boot mode so even if there was such a 
+control we would likely not be able to access it.
+
+
+[1] 
+https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/osfmk/arm64/machine_routines_asm.s#L1129
+[2] 
+https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/pexpert/pexpert/arm64/board_config.h#L197
+
+> 
+>>>> Add a workaround capability for replacing wfi and wfit with nop, and
+>>>> an erratum to enable it on the affected CPUs if the workaround using the
+>>>> sysreg is not already applied. Leave the decision whether the sysreg
+[...]
+>>>> +	} while (0)
+>>> How can you guarantee that we don't run one of these prior to patching?
+>>
+>> We can't, but there are a few points to our advantage, namely the boot cpu
+>> isn't actually affected by this (when the CYC_OVRD bits are not configured
+>> or not supported), and first round of patching happens quite early before
+>> the other cpus are started.
+> 
+> I think you're saying that:
+> 
+> * On the boot CPU, WFI *never* loses register state.
+> 
+> * On other CPUs, WFI *might* lose register state (and this cannot be
+>    inhibited).
+> 
+> Is that understanding correct, or are there other conditions where a WFI
+> on the boot CPU can lose register state?
+
+Those are our current observations, yes. We don't know why the boot CPU 
+behaves differently and there no differences in any Apple sysregs that 
+would explain it.
+
+But looking at all wfis in the kernel there are bunch in head.S and 
+similar for infinite loops where we don't care if register state is 
+lost. The only two that currently matter are a wfit in __delay and the 
+wfi in the idle loop.
+The __delay one gets enabled after arm64_features are found which 
+happens just before arm64_errata from setup_boot_cpu_features() and 
+there's no __delay call inbetween that and when alternatives are 
+applied. If we follow Will's suggestion with an early_param that happens 
+much earlier as well.
+My understanding is that the idle loop won't be reached before 
+sched_init() and that also happens much later.
+
+> 
+> IIRC kdump doesn't ensure the new kernel is started on the boot CPU, so
+> I think that would be broken. I guess you can't kexec generally due to a
+> lack of offlining of secondary CPUs.
+
+Next to that, kexec also runs into issues with all the various 
+co-processors which we can't easily reset or shut down once they've been 
+brought up once.
+
+
+Sven
+
