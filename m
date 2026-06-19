@@ -1,181 +1,140 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794F13F0ABC
-	for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 11:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781781117; cv=none; b=SPDnCotciUe+y77QWC74brhBxRXQFOqhFKPWUWeK4o8Mzu6MqUXN0YZtKBjxRbsXKAEqLIYcPcZQhjAY7MGqjPmrOj98jZQ1b5o9wr5jTWHyg3Ma+VjKEkr7cID5SiONXxM/irrkVGuY4EAQoP65VfCZI2oqlYXpl8k2jV4JtKQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781781117; c=relaxed/simple;
-	bh=AWgAFvAQViYaJeMV1jCt940qM9vOdEKhz9JyUk2u9dg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SPuXxx51O5GeSKXOxWKcumlQh0wwpYWI5lPmkWxKL6V3Pt9DmO+z6iiJpdleU6o7F/MiQ/+sAynyn0Q0iL7RXFBS4FHZ6PWM1/jdxJ+qViFHJqHNhSASVc9hUomvQUZoTZh7SIaYtqrA6CGmIQVV3RLnDjyWT5y5BmFIxmeQskk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XEXvTmiW; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E8A3546FD
+	for <asahi@lists.linux.dev>; Fri, 19 Jun 2026 08:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781857251; cv=pass; b=doVC2QPFU5KbRyx2zdTmjKcwob/q3pDWZurB2vJ1biFcNMFygxU+Ts/DWKeIivvF3IIvO4cMoAQE9aHjZfOxczSMUG/T7Gx8C2rAPIR+YpvnPVqjpHhLP2meuYbRQjWvaSgcCZA7kRxIEGexN0vX3IEcapKU/2Vy5PfseorKdzg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781857251; c=relaxed/simple;
+	bh=QiRZKCM1EqNiRsnzfvDpC39UOIdXQjIxqxCEPl5e4OU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uqM/kgA36CYWTr/QWIKACYkuGTl+TBNe6ocmFdNAEAWTYx/j7c0xM0tC3gvSQEDbLNkiYv6I9AjH/2hFWUuV7mtNgKV2+vM+nLXHbi6OoPRl7H6pxOgaJDQHfL97px9QkBC6PKrWw0E/SJOME2o7RHCpoIdhQoc5ij2du4rI9II=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T59s5yp0; arc=pass smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XEXvTmiW"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2bf1cda2b17so4854725ad.1
-        for <asahi@lists.linux.dev>; Thu, 18 Jun 2026 04:11:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T59s5yp0"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84231305a80so1071651b3a.0
+        for <asahi@lists.linux.dev>; Fri, 19 Jun 2026 01:20:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781857249; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QGy/x4GJ0ynjIavq4EvELrAe0QLFo4tOgMLNrXiGK/RZJ0SFYwuRC/KOg7md4qJoud
+         JkdAI85EvTtcYXd6ZkTZCnq7XvknB8xpNS7SfMlm/oZ9j9o/9z1XPhNdwe7LERLfVPmN
+         N7So6aP5G+zxa0zzS/RSFhBALHpLSuHozkHY2SKClfQGZ4Inp26loOAoVqlwVcPbPRnS
+         Sr4G294fTdqPrpDSbhvR35ntkgGsxNy5DFke8qSQvcTOKq+6Z5hjLSh57lFs4YHJfMy9
+         2S+I4+PTVNw6HY22UpW6Z82/uRYzHdH2J8qfmO6QUxOZY0G1asHsKlmDjfVI2joHjtsk
+         oZ+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=QiRZKCM1EqNiRsnzfvDpC39UOIdXQjIxqxCEPl5e4OU=;
+        fh=RPK+u2oOPLMuAOXLWR88so/rmHDBTvZcpppx5+FV+JU=;
+        b=c3noohyjEhSzOQEVIUd0fPC/9PTydt0CGy+B43SACcnTQjzXImyRKoZORVjVg/DxOs
+         SV+domVUg5G7LHRkF0h1iaq6KhO1mBU2x58hhZb4Ql7PEE39l3WgJK7obCKWwlKeTAOp
+         qqstkAs0o1x8f1zV50UdTjGP+gejUXaB47t7ZIkRtPdmbNQgr2qC+S9AjxyOAiZW2hua
+         3dsela/KLEMWqflZIR0O339KIMoUoE8GzBKxd3onYnrV8AFa4FjVAQZvqVRFcb6v3Xur
+         INq3Brxz9wehxNcrLRPNCz/MzcvH1i/rHa7Nt39feC9Dfj+cKoVZbs1yEweLNtj2mSss
+         H/nQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781781116; x=1782385916; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rJ9NJmLKLeH+SQoR6J0LdprGbIfcBLY+F247SPRpjXU=;
-        b=XEXvTmiWq/Qbb6J85qwN+YEcWEZJCpBSJubdv3XCjh38V/p7xDae8aW+Q0GyFIz2JW
-         IDpoyR0VR2Csb+qa4PnHrfiPyW+NSpoJ0QXYSAbOictr0N591fZVc//1wg6J5sJWoUWw
-         ZrgXlPuoDhEHuSiMVr0cOnFDjixoDyN8VqAMny64L5qkMdLhIdCPDm69sR0bahGYzxjq
-         sPKL6VpbBwh4w4dXAmiNvAMMIGsdDvV57PMcKc9qOYsUsxF0cKRvJCTgCrtcsonGDK7v
-         KMdK9KbhWsh/EjLuNcMKJmzx8CaUW/5hIALKDTPZ390j7wjGOFib7Dt5eRhpHuk8bAlN
-         omkQ==
+        d=gmail.com; s=20251104; t=1781857249; x=1782462049; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QiRZKCM1EqNiRsnzfvDpC39UOIdXQjIxqxCEPl5e4OU=;
+        b=T59s5yp0dcVrKaQ8iSu8k8hxOuC9H5mzrmDWAXIlVD8OUxP0y8hs1DTcTneIvoGFGj
+         PBrm+AQnoDEY7tt4PxVW0ZuFDTnOY1jocwN3px8SKQxxfaln8PUzoLg5GT3Zikp9FgCR
+         fCDjl2FcwwtqzWkzBMdouLkprdkQQee75MTO2cDulftWeCvMl8/Kvs7kAmntMeDdACup
+         l1oBT41CNtyBGgDb7rnswcopLJqT7BjbRQGbhx2NmLsbAyjKidFOyolOOnKKJN+asche
+         1+HcVVyV0z3Roonjni2CYD40X+c1CHVUDDEH+H29143g30BVGTKpKmTycSW9aGyDZzLX
+         OHag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781781116; x=1782385916;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rJ9NJmLKLeH+SQoR6J0LdprGbIfcBLY+F247SPRpjXU=;
-        b=PIHJ8913dIE/u6v/3xwrfG58KOg2HacNuCqm4Q/rxw1uD993C3INHanQM8T+PXOdpw
-         dmciPWSv+hSzM97kOmZIzr0hef3ankcx9pIp2g5Zi3dZ1yrJLNEPcZ533R41I1fYf2bY
-         VvrIndWDOlChnkd5YU9LpvBgKbhc3cQTPXRm4Nl2MHUKHwpg8FdmlIng8Dtt018UmjJF
-         hoe7gn4t+u8wniZOsyHCNNq/vJnkq4ExdnixiAJCye4ul9SlbxEZE+ZoU+yX5apkQD7H
-         IT4TsIuMRHYPGJmMKFR490oVxv1HzLEuM4rUAinhQetMkr6JY6Ai9WnvxdF4X/gJXb0s
-         JQNw==
-X-Forwarded-Encrypted: i=1; AFNElJ/31C7vCgYSTpgAMm/wW2NkbsqIFHbQrASf2oy2yisiJDL0Xjef1wQChxpxiPmdSUb6iYKQDQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyhHq7ZTlR8qXdv4vP6092I6VnjFVWBgR1/Uf1ONeGIZBkWjuYR
-	DKjoC3pQq7RYDVJD1wVvqv9+uwor9IcZ8egfzUjVmKQN/hae2qpEnbhY
-X-Gm-Gg: AfdE7ckT4vzj2i2hAiGp/Xoayxq1jX0yCtxhMauD1pd3GT6onNsJVpvsEhB7akZMM65
-	OY78EZbsy/vjTsNFq+XZMkvi+vsF6ZtILcU2HsBj8DDeuafxYUsKo/hLra1oBDWKro6dlgCKfSm
-	eOEpit1rhhAFfvNIMKwY8yXSQYx2o64d4ORAsWVaMX26hZr9b3f5KS0DO0pOO1B9nueni1P1WJE
-	bNdeLtrH2tKgvipPK40MRlvHvfLyT+aMk1RoayHdkTiz74aR51DnHXptISlIx1i1pkFxL8/2IMP
-	O2MstC6uEXY7cp6r1bv8GRH6kgNnbZ0NXy6t4t6R9eOs9INvx5YzVh9RGVQXizQ1Oo3pJOFCle2
-	QHkgg9zvZdg0I2BmiFZn6pheNfVFY5tcOCxvb9AEXX3xmvc0A/RrK9bX4UFhJjyDc/5j0jpD5xa
-	D5ZnzlM9ghG3ZUxFPxyKeyuRVOp5qR4HNKdRDq88GEerouX5c=
-X-Received: by 2002:a17:903:3510:b0:2bd:d6f1:3388 with SMTP id d9443c01a7336-2c6e00b0e69mr29505545ad.28.1781781115885;
-        Thu, 18 Jun 2026 04:11:55 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f1f0f19sm196384565ad.10.2026.06.18.04.11.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:11:55 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	povik+lin@cutebit.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Nick Li <nick.li@foursemi.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	nuno.sa@analog.com,
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
-	patches@opensource.cirrus.com,
-	chrome-platform@lists.linux.dev,
-	asahi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 78/78] ASoC: codecs: wsa88xx: Use guard() for mutex locks
-Date: Thu, 18 Jun 2026 18:08:27 +0700
-Message-ID: <20260618110827.232983-22-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260618110827.232983-1-phucduc.bui@gmail.com>
-References: <20260617103235.449609-1-phucduc.bui@gmail.com>
- <20260618110827.232983-1-phucduc.bui@gmail.com>
+        d=1e100.net; s=20251104; t=1781857249; x=1782462049;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QiRZKCM1EqNiRsnzfvDpC39UOIdXQjIxqxCEPl5e4OU=;
+        b=oinxzvjDAidFLSjMcTPyJOtLLA4V9/MzbpMgYOUIXfxy5BO6pe8RTiwowQlPeb8sn7
+         5tWPbl8L66aKw4ZP2LIguNx1TyUvzaIDs4Z6ZXOFSSjAFy86o81U4LDna5wPTnPFW8VP
+         UmkbnpDnvyuNnvux449+dLQQYWTpRB2uoF0N6cTVeh4RF+agHKQvPnvn4GTGoGqRMeul
+         JPdfi8tMl4GMC8Za9Ti/z076WTalwbKoHnv4rvn1rfX4VdrPfROlWKOEbJsuGOErN4Jw
+         3oJwK20mpZZa+f1E3WXuuNkgylDCsdN8sZfyGG+VNGCr2N2618Ngdza6cOafZKxg1ew0
+         h74A==
+X-Forwarded-Encrypted: i=1; AFNElJ+SM2Lx9vnJj1fgfvrF+8DhvHXXAgPBb/IKMBUhfoG7PHYgNEDjmU8Zzpy1G3PERRuYiNADrw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFoEaHE9cirJLbvizL1rueEMlpvveZsRymyyBuHlOBbYvsbrJF
+	AmtfrLzMRE+bEIywQXLE+Wpm3H/4ueGPleLiK6fFKM9jBpHhjdT9SHj6ZTU7vpe+roCIEjdUPHO
+	JCyPVYfNG/NkogARzZJONPLQL6OTOuvo=
+X-Gm-Gg: AfdE7clznkdEbN57n3IOEcuy/L80655s0fEsgV3txsP1RxkclpyW9zipuLgin8gGHzx
+	JisQkPjV0+7hoi5ojAby5dulrUU7yx3I+MpRGwCAwOlhqtZ3yZYZZutmChF9evRNiUSCM90gaow
+	7nKhU9UuYkaBb86M5kahC4HYWYPpDNLbhtG1vLYpsTh6VJb2+ROkHqZoYIGnt8pkF+5lWuOqmW6
+	gcttTDki26En7AYccDu8ZvxF/xW+cqWlqZnkMn1iTqzoamIR1Vcq7tWhq9/wWHSqEMYsizwvLDe
+	X//8k0sJJgTpTjUROam7uVf2PBAla1Ro66hYcQ==
+X-Received: by 2002:a05:6a00:3cc7:b0:842:6a97:52fb with SMTP id
+ d2e1a72fcca58-845507cb50emr2639722b3a.18.1781857248942; Fri, 19 Jun 2026
+ 01:20:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260617103235.449609-1-phucduc.bui@gmail.com>
+ <20260617103235.449609-16-phucduc.bui@gmail.com> <ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
+ <20260617140209.3f89706c@pumpkin>
+In-Reply-To: <20260617140209.3f89706c@pumpkin>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 19 Jun 2026 15:20:37 +0700
+X-Gm-Features: AVVi8Ce6D0PT5nT0JZlv3l3sVJ8JLAPJbKAWX5-seLq2FMr-NiEk00n-taoSGeE
+Message-ID: <CAABR9nG+6gOj4KnWmTyykgGN93xy6jKQh+-_f8Xxn=Jkv28vBA@mail.gmail.com>
+Subject: Re: [PATCH 15/78] ASoC: codecs: cs42l43: Use guard() for mutex locks
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	povik+lin@cutebit.org, Support Opensource <support.opensource@diasemi.com>, 
+	Nick Li <nick.li@foursemi.com>, Herve Codina <herve.codina@bootlin.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com, 
+	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, patches@opensource.cirrus.com, 
+	chrome-platform@lists.linux.dev, asahi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Hi Charles, David,
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Thanks for the review.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/codecs/wsa883x.c | 10 ++++------
- sound/soc/codecs/wsa884x.c | 10 ++++------
- 2 files changed, 8 insertions(+), 12 deletions(-)
+> >
+> > I believe you have to use scoped_guard here, as there is a return
+> > from the function above, if memory serves it attempts to release
+> > the mutex on that path despite it being above the guard.
+>
+> Indeed.
+> I believe clang will complain.
+> That makes these mechanical conversions of existing code dangerous churn.
+>
+> While using guard() (etc) can make it easier to ensure the lock is released
+> when functions have multiple error exits, I'm not convinced it makes the
+> code any easier to read (other people may disagree).
+>
 
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index 468d2b38a22a..7d9e0ceba461 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -1237,9 +1237,8 @@ static int wsa883x_spkr_event(struct snd_soc_dapm_widget *w,
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_POST_PMU:
--		mutex_lock(&wsa883x->sp_lock);
--		wsa883x->pa_on = true;
--		mutex_unlock(&wsa883x->sp_lock);
-+		scoped_guard(mutex, &wsa883x->sp_lock)
-+			wsa883x->pa_on = true;
- 
- 		switch (wsa883x->dev_mode) {
- 		case RECEIVER:
-@@ -1290,9 +1289,8 @@ static int wsa883x_spkr_event(struct snd_soc_dapm_widget *w,
- 					      WSA883X_GLOBAL_PA_EN_MASK, 0);
- 		snd_soc_component_write_field(component, WSA883X_PDM_WD_CTL,
- 					      WSA883X_PDM_EN_MASK, 0);
--		mutex_lock(&wsa883x->sp_lock);
--		wsa883x->pa_on = false;
--		mutex_unlock(&wsa883x->sp_lock);
-+		scoped_guard(mutex, &wsa883x->sp_lock)
-+			wsa883x->pa_on = false;
- 		break;
- 	}
- 	return 0;
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index 6c6b497657d0..89c560428a9e 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -1701,9 +1701,8 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_POST_PMU:
--		mutex_lock(&wsa884x->sp_lock);
--		wsa884x->pa_on = true;
--		mutex_unlock(&wsa884x->sp_lock);
-+		scoped_guard(mutex, &wsa884x->sp_lock)
-+			wsa884x->pa_on = true;
- 
- 		wsa884x_spkr_post_pmu(component, wsa884x);
- 
-@@ -1717,9 +1716,8 @@ static int wsa884x_spkr_event(struct snd_soc_dapm_widget *w,
- 					      WSA884X_PDM_WD_CTL_PDM_WD_EN_MASK,
- 					      0x0);
- 
--		mutex_lock(&wsa884x->sp_lock);
--		wsa884x->pa_on = false;
--		mutex_unlock(&wsa884x->sp_lock);
-+		scoped_guard(mutex, &wsa884x->sp_lock)
-+			wsa884x->pa_on = false;
- 		break;
- 	}
- 
--- 
-2.43.0
+I built the code with both GCC and Clang and didn't see any warnings.
 
+My understanding was that the early return exits the function before
+the guard is instantiated, so it should not affect the guard's cleanup
+handling.
+
+Could you explain what issue you are referring to? I may be missing
+something.
+
+Best regards,
+Phuc
