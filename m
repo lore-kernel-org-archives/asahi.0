@@ -1,39 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8287F2E6CB8;
-	Fri, 19 Jun 2026 09:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19EE9367B85
+	for <asahi@lists.linux.dev>; Fri, 19 Jun 2026 10:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781861100; cv=none; b=jkEBgLu3SBQVuAci0SFXVqU1fyYwO/ZXveSMwALpstxk/yWzwfBOp4pYtsBJrhLhx2glWlhC211VDZCtIcbHeEhUS8Lf9/9t3m7xLd/RcABJKpVLVjyjzjTKH5OZGMk9UE/TVI7pbddc4o5N8HWKUvlb2Y386NosbClcGbdGRYs=
+	t=1781865533; cv=none; b=BjDq8H5r08Q9tCEKSXn0xlDzqtKOFG4JoeQcQfhoWeljxpr+g2keyQJHs1502BB4+ff9NaVxtlldEi09EYeN5lh4ydSVICLEqJVc3UNV8Iy/vk/RxNCQidBEEh5EFk3p6Z7pOxqHSHmQiQz9kLWBBLJl/h5xFa0y+TjaUE/OjTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781861100; c=relaxed/simple;
-	bh=oPE8IfH7Vl0rYGdWVgvVZxURIFdmgSAeaPx/vVZM5UQ=;
+	s=arc-20240116; t=1781865533; c=relaxed/simple;
+	bh=t11mBFRTz90Zla5G7n2blBq+Ez2hOwWd2lYJC6xdYPA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ptzbqb4XCVjTCmvtHzG7xo1TCHXp1dC/5OZBpfwI+DB/ARKGhYNSqEGHv0Mr+8l9JrPFWdOoM29+gJirx1vKLQZQnAEOGQ5/EDE2AiwjjmsyyD9Iw+BRt+uxQQTbKfiVCOrIZU9O9+LWsN249zdx/zJVmh2nTYnduzt+chbEtcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hYhQOY3x; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=T5OPgCc6tPK2jRkSeoAdoWTbz2SjgGr3Dn1RLxGiO+EFmLch8uwL8p8QEXZB7+0L3mBUAtJ11gh33RLUpWn9OQwKTbRjPtqhEEwCnk1PzDpXKivd0zO8ScTZUlP+bviGSsce4pfnZDMhq2gSyHOMvdUJ/RHw6Hm7CfGxpPUlDx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NE8H2ry4; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hYhQOY3x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D94A91F000E9;
-	Fri, 19 Jun 2026 09:24:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781861099;
-	bh=230KIaW9hT+AbOOUOlL6NjIRZroMk5K6aAspsvOlMcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hYhQOY3xrqUPTCie40QkEQxNyCq0+Tlw/vmMjZyF5izkcWe9haa5YLG+bDjbEysvb
-	 9KzQ3A2+1WC/OCFeS+mkqBOJBGFJQ00rS/Ge3hdFieIo7knGTwQC2oYfXtMfnHL4k+
-	 KihSHE+T3H4Sk/jo131yrorQz1Her2LNnFzBAihlH+VuRHXpbX28ZyoVi6wAt6GYVX
-	 vitCzwJ1Kv38QJzMkeER24Y9mhhdbm2eI6JTTFnaLVMTRw8hn8oDemQ1qIOCvcsdzO
-	 KSSDmueFeshkDvwVzELcYXQJ8JOPlMZPcnc8rQcU4PYiy6w5JxUVGWejKaoTVZTCoR
-	 qZLQCz5ms4ZVw==
-Date: Fri, 19 Jun 2026 10:24:54 +0100
-From: Will Deacon <will@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NE8H2ry4"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7BFE293F;
+	Fri, 19 Jun 2026 03:38:46 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3D90E3F62B;
+	Fri, 19 Jun 2026 03:38:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1781865531; bh=t11mBFRTz90Zla5G7n2blBq+Ez2hOwWd2lYJC6xdYPA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NE8H2ry47HVj9GGcAtbh7MNdLemZl0UawKslCZtkX057kggI7H5ErtnFej6E5n+jS
+	 chRgH2ytKdIshceZaA9iB5G6XrUjux8kMuT7ZWzlp6QZuzKK3OdFyozGXc+uB2mkFe
+	 aT9sBylO4KYP2W1CsUxm+jEFfJdJhA69vPu/xMwM=
+Date: Fri, 19 Jun 2026 11:38:41 +0100
+From: Mark Rutland <mark.rutland@arm.com>
 To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
+Cc: Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev, Sasha Finkelstein <k@chaosmail.tech>
 Subject: Re: [PATCH v2] arm64: errata: Handle Apple WFI State Loss
-Message-ID: <ajUK5gIX_ZttSsx6@willie-the-truck>
+Message-ID: <ajUbcv75FuSPPi9o@J2N7QTR9R3>
 References: <20260615-wfi-erratum-v2-1-59a73467f70d@cyberchaos.dev>
  <ajAT9fWgOd9HY7ei@willie-the-truck>
  <e105c7b2-a5eb-4b5d-955f-685058143e9d@cyberchaos.dev>
@@ -49,17 +50,79 @@ In-Reply-To: <e105c7b2-a5eb-4b5d-955f-685058143e9d@cyberchaos.dev>
 
 On Wed, Jun 17, 2026 at 09:23:03PM +0200, Yureka Lilian wrote:
 > On 6/15/26 17:02, Will Deacon wrote:
-> > In fact, would wfe be a better choice than nop for you?
+> > On Mon, Jun 15, 2026 at 02:21:36PM +0200, Yureka Lilian wrote:
+> > > Apple Silicon CPUs can lose register state in WFI, leading to crashes
+> > > in the idle loop early in the boot process.
+> > > This applies to any previous Apple Silicon CPUs too, but is worked
+> > > around by configuring the WFI mode in SYS_IMP_APL_CYC_OVRD sysreg
+> > > during m1n1's chickens setup.
+> > > This workaround no longer exists since M4.
+
+Are we *certain* that there's no equivalent control elsewhere? i.e. this
+hasn't just moved?
+
+> > > Add a workaround capability for replacing wfi and wfit with nop, and
+> > > an erratum to enable it on the affected CPUs if the workaround using the
+> > > sysreg is not already applied. Leave the decision whether the sysreg
+> > > workaround can be used up to the earlier parts of the boot chain which
+> > > already configure the Apple Silicon chicken bits.
+> > > 
+> > > This alternative has to be applied in early boot, since otherwise some
+> > > cores might enter the idle loop before apply_alternatives_all() is run.
+> > > 
+> > > Reviewed-by: Sasha Finkelstein <k@chaosmail.tech>
+> > > Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> > > ---
+> > > Changes since v1:
+> > > Restricted the erratum to EL2 only, since in EL1 we'd expect the
+> > > hypervisor to trap WFI and handle the erratum.
+
+The KVM portion doesn't seem to be implemented in this patch, so we
+can't rely on that as-is.
+
+[...]
+
+> > >   #define wfe()		asm volatile("wfe" : : : "memory")
+> > >   #define wfet(val)	asm volatile("msr s0_3_c1_c0_0, %0"	\
+> > >   				     : : "r" (val) : "memory")
+> > > -#define wfi()		asm volatile("wfi" : : : "memory")
+> > > -#define wfit(val)	asm volatile("msr s0_3_c1_c0_1, %0"	\
+> > > -				     : : "r" (val) : "memory")
+> > > +#define wfi()							\
+> > > +	do {							\
+> > > +		asm volatile(					\
+> > > +		ALTERNATIVE("wfi",				\
+> > > +			    "nop",				\
+> > > +			    ARM64_WORKAROUND_WFI_STATE)		\
+> > > +		: : : "memory");				\
+> > > +	} while (0)
+> > > +#define wfit(val)						\
+> > > +	do {							\
+> > > +		asm volatile(					\
+> > > +		ALTERNATIVE("msr s0_3_c1_c0_1, %0",		\
+> > > +			    "nop",				\
+> > > +			    ARM64_WORKAROUND_WFI_STATE)		\
+> > > +		: : "r" (val) : "memory");			\
+> > > +	} while (0)
+> > How can you guarantee that we don't run one of these prior to patching?
 > 
-> Regarding wfe: Simply replacing the wfi with wfe on these particular
-> machines leads to them getting stuck in the boot process (entering wfe on
-> the boot core and never waking up again), maybe because some kinds of
-> interrupts do not count as as events for the wfe wake-up?
+> We can't, but there are a few points to our advantage, namely the boot cpu
+> isn't actually affected by this (when the CYC_OVRD bits are not configured
+> or not supported), and first round of patching happens quite early before
+> the other cpus are started.
 
-argh, I had forgotten that a pending masked interrupt doesn't wake up
-a WFE (it does wake up a WFI).
+I think you're saying that:
 
-So we probably shouldn't have wfe in the list of idle instruction choices
-(unless we want to rely on the eventstream).
+* On the boot CPU, WFI *never* loses register state.
 
-Will
+* On other CPUs, WFI *might* lose register state (and this cannot be
+  inhibited).
+
+Is that understanding correct, or are there other conditions where a WFI
+on the boot CPU can lose register state?
+
+IIRC kdump doesn't ensure the new kernel is started on the boot CPU, so
+I think that would be broken. I guess you can't kexec generally due to a
+lack of offlining of secondary CPUs.
+
+Mark.
