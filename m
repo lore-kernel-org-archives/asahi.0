@@ -1,119 +1,149 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6885F31F996
-	for <asahi@lists.linux.dev>; Fri, 19 Jun 2026 08:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781857588; cv=pass; b=pJp3b51msW8VXQj+MAm93PpJOjfQEdDCsT1ss6b7mk9sShn1PLYgGjxy0b2HZAvXiaXhz89KVne9ULe/zodLcAIIa8TXBSI74C2dQAbtOGU5K/8I7NaZFHBw5Z5+mwHkgMxJZhla0SOY8OcPyljzYk2cw+k86UWaYZR8QMNOqZA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781857588; c=relaxed/simple;
-	bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t80KNRWC0jGK8v3tAdJREokoiSot841V6YJ4NZU8oGZT6gOQ/ZKqxFQ5VZ/xuJXxJsSX4cAxnfumLmR7UaL7z2yBhOAw/Pell8Jh92baqEBHIuy4u0oFf+qUFYoYwbGbczF7tdWAyh+T2kxaMRPKvK2Tj5Ubu5yIEcjfNSCdBlE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWHbdNA+; arc=pass smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FBF363086
+	for <asahi@lists.linux.dev>; Fri, 19 Jun 2026 09:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781860432; cv=none; b=KEBdPbHFTSRAbT73Cz3MW6auWZgzzQ9qldV/d0yHTEhVhzposMVt29lEMhEvpQg9f92NOzMxm+g7xBMippYNAmnp0XyWS4zvP5E6NXTWETzdCHIMwUKii6OGG7xKD3+RUzmwywynLDnOGiKcNJaBOZVYRUCOR5KHWLo2uiaTKr0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781860432; c=relaxed/simple;
+	bh=lHzB6EZ41MiDTwBOkyeJrpZ0oY0kME/5CGkptBf/jlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ns6+nksTn8R57HrKQPiCrjrJlmdrqMoIYQCqIqB7p/nNO7U0GHlRUtJzfzXKGgwItXb8GnleKF+95r5Rl/qFZErZc4fVpgoXKoQLXQYb9pPmufB4MnGlvqtqGBoUL8XtCREIq6t3qXjGF0stKIgz3slqcVsaP1Y9ndOkD3V0FIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LYWxBFee; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWHbdNA+"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36baeec21dcso1053207a91.3
-        for <asahi@lists.linux.dev>; Fri, 19 Jun 2026 01:26:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781857586; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Le1Ea2slIGjoYTyCUQ8CD0+j54JWBPm0pWD2T6cf5Otj9FFbzXSl89h9UTKQhPPHCN
-         W1zPvoYb2zlmf5qF88ETjy1BrzrHXQeQH6VvJdCutG6tUEUXReBLVi8d9vqLt24XT5hC
-         QTM2GG2t8rfn+PhmDDiiKHwxLTv/48XryTDYmAE2ovoDOy1i6wDGdUF4OpiOd6q8Ikjr
-         H2OemL3daxxXTwKEVNhdmknGY5CoyyViL+Y4/OEsDxFcIaG71zHNQ4VHTzzhot+KfYfg
-         uAklwOXCC+02Za8E/CTTrpbiUhFrIdxJJt2z4TiNWhWCRG3vrYylAbeIsRj/ZFvsWZXK
-         baeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
-        fh=YSoDLlDqc3bXJOEz6XRZtdUVldDijTiYxVR46mpWpBE=;
-        b=cKSj8jaT8sN5V+1R9v4w/jfuVxcrWM/Z5shkhLMIC3BeMFQW5LYv02P26VAM+pTZWO
-         adBURJrRpg90EAiofbwgWL80DpJunLhewDuqC5DskYo/c8rYAy2XuuGonZTLFs6SoXcm
-         TwFZr63ni8ja8cl2DsPPwKCdyXuJrAu+mqHKweXcbZP6D1g1QvnSAeDjf9hdWg0IWVAZ
-         a6qkeKJxlNogkbf2Hnwqlu3Ck7sM/BpmPYD2TajslxFrVKogv9cTIZhYWmnII0grtRsN
-         7xrAIuB/ZTLpWPsH52lfl1tl39HCASh9uiNEyTnRFLRmoNIxeN+KpDtakzTQEz4ibRji
-         WAOA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LYWxBFee"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4645995069bso1050223f8f.1
+        for <asahi@lists.linux.dev>; Fri, 19 Jun 2026 02:13:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781857586; x=1782462386; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
-        b=mWHbdNA+bnPAqTyUInTrbiF3MPjls5CMktbE/xjaVcYA7dIeXp/r/OF3JqfkpNK23a
-         JqSEasf8jOVMimTO9KytbvMdBRvpqxesMTyAfBe3apubeWV0KoxMVSJaKK4QWp6gX+Nd
-         OXxuLUuuRan3Q0Ce8DONNRlIKX4ZMhvtuz0p0TtRmOk6jVC03J9zeuQBcwfc20pzumJt
-         XlozdSIet/15VMaWlc57FEkacYlRxIVttqzCvoEYg/I5c4KD7SwXYzAi7/0VzqY5u9Jy
-         eiwrZDc2fe3LikhwYPjkubL5KFIWHiMztfJvuF+7CvasHODtCMRW4smMjnZAgurODStV
-         sZuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781857586; x=1782462386;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781860429; x=1782465229; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
-        b=rBt0yHOIEFlmXfApzUSiSjyhpgmWJh32KHCYrrvudrZXisi4jo4Dx0HigeHpqr3qXK
-         ZHXtmilBEA7PY77PHQFs08TGloq0fyAlhCbYE9l3r3Kzl473DK8OLfh9cM0QcFpMgZfw
-         GoRpbPyPq5QhXq3RNWJuF6RRTneJxSQA7e7LNTYx1+tHm8Ur4A3YYlLzO8AYE42WTJiB
-         Utip7JksTvLM5QaTUYp1ZH1vZJ2mvzAVKhRYvPeUomlmIa3x6QB8YUfzrXELe9fQYNv1
-         83BLh+IdZkwlE3s2cwziO7ofXnY3J/yTNCl7GyhMMQjTpNqjny5vdpMj4BtiqMqHa3T9
-         HPlA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZJzYPzIDRL6S7zNx2tI2vJ9iMoFMbKvf02nrrqnQ3FmMBnHEyLD/+Nxe7pZclt4Y90sKGGA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCGVZVzfVhI6Pl2mgiFH87+7LFJIBnrNqwhuKNnDwBZ254nQAL
-	LvmVKiAHAiBuA0xJu8RhNkSwhFl723gcWFclaRsDhqzKcBdivfF/XaYydD9Ez/5HlmxCQRWpsle
-	RSAtQDrObgbdAC0bgfVzMMCUMj0uKoAM=
-X-Gm-Gg: AfdE7ckrq8U9bJlY2v98MbbD7w1Zpm1ubszGExu/hlydfAZ25YtvqvY4ee/6v7eRpfa
-	PRUnGDMOQrhYKxC8DuYeyqujKnbIj7UKhBZ9EH32qp2AVstmtIpE+ED7ndRjusDxuLHn3TngZrI
-	j72mj8lgDCFU7qJ3Qbepb4ObA0LkE9WJq9TNaPBGWs1pxRaUpXw2Hk7FqL+5LgJWYoUhLckeW3I
-	NB4yI2IU0ySDJRfCxZWlJbgXjtCqSv736s+q4tt4GWwbOTskUwf6JwhHBwQQoWzxLKX443PhjlH
-	KH81yEUaX1ZzL2fnK1Hk1aXB9zM=
-X-Received: by 2002:a17:90b:35c4:b0:36d:cc9b:2f67 with SMTP id
- 98e67ed59e1d1-37d1e8d2625mr1979109a91.19.1781857585816; Fri, 19 Jun 2026
- 01:26:25 -0700 (PDT)
+        bh=IsrGIaLO7MXNYwDCXl5rLdyTY6/tEE8Vl4Mj+GBAm/g=;
+        b=LYWxBFee5C+IkNhjJv+lMKH2WipIc4uFNGOcUN4Aus7lUnN567lymmuEKpgFni+pB/
+         zC5azEDfY0C5eytNXf7Tp5ktZ/x6MuQyb8w8iI5G4XD6DwrSU9wsfatoba1SWMlq4eM9
+         WRvkXDwoG83xDoMUQI4tYV9rBTRaNppW6VCGqnwg8wa8TtRq7UCGHXR0cLrrYNeSc9+d
+         7cRSVBmixMFhCiQ3mLntm51P2kEwE2fvpSWHPjNqjbbUCeZbghOOqzMbc3PYskO9NJAP
+         1svUhXCcit4nrnGOHmxcMUHNoaP720/QXRwkVAD9ZPnmw+6bCoI0j326OETT7d5+zVq2
+         NQxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781860429; x=1782465229;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IsrGIaLO7MXNYwDCXl5rLdyTY6/tEE8Vl4Mj+GBAm/g=;
+        b=dPnc0dV+08yuYHOteIj1JnW8tvqM18FuRRFv46oTehm4gIRSBlpeJD8Ot0wMEr82LD
+         PIzAZ7svefTv6w0Av8Z/G0uaw3U0yO15wps+zISLBl+7W3jbpwxNf4CDMa0af6XnOq02
+         qk0S9QaPY99YM3HRDUFPTtt8S9Vd5XUr6tytwp3JXujwvoco8O0g6NH36lqR/p+m8Ll+
+         G9cNFzRcZ2BX3VPqQ62dicesywZr0pWePCxfdk444xWU/LtCil3QQhGtqzseYMIVEy0X
+         Z9WiiuOGNweUef9U1DCRXPa02nqXsuqxb6t1YzRupXN3LCWmLrcQZC/8F4yKonBoyqlY
+         tG4g==
+X-Forwarded-Encrypted: i=1; AFNElJ8c2JHdVtcIsnK92mYWpa0jp7nA+dNF5Py4ZyRIcAnLjV1TIvpaY+WzsElpVycN4s9oiWTWcQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5vaMIA8M7MYy1+7ruoNyRmMhDyqLTqcSrq3ElfJBiY4rLjpx+
+	E8AnzQUdhxyPVoW+BjosYSRjMTq1SWT0x7mP30IybcM8SvDVSVDhTyp3
+X-Gm-Gg: AfdE7ck0UdC5TgKQYC1dnpTjNQYQR/MoMc1SAR9MjHB9chpmKS+OhktjDPrKhaxyNm8
+	aS5DDDcYGupdqLPNPGtgiiD2Bi952CIiDel5zYnYaaYbUDZfIrCErLOM8V/7ADPNksfC2FdLJCF
+	ugqVo9gPGbE5RlTUe8HIv0nEkTwYFEcK0ndrTEnt+KuKmjlSAANPeXtjARaDJhGtzP0LPP0lW1r
+	dDCt1ZjFnl+nNLVxQt0Eu4U2qcwy03GxD0OV/zPBA/+fLrFihH/a6+/JAc9OqYKE52p0Ifgrh1L
+	bMYcsFOFv1boWyZwG2g1KohOVrWPnOtsDyKuUr493480g1vq2+WjiB+N7c/hP5jIgTKKDQzqnrl
+	m1nUdVNq6dZV5Zs+6JWRhXcnMRexDZixcir7s/YOxsbXzm2MbDY0BE0YXh8isjrEeexxK2upaCO
+	fzsekZWT3+HOTPI1J/YpRH6Spilzb+h1Xjf71tGdl7P4tGbKMr8g==
+X-Received: by 2002:a05:6000:41ea:b0:464:5df5:332a with SMTP id ffacd0b85a97d-465026e230fmr5178308f8f.34.1781860429313;
+        Fri, 19 Jun 2026 02:13:49 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc428d9sm6387329f8f.27.2026.06.19.02.13.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2026 02:13:48 -0700 (PDT)
+Date: Fri, 19 Jun 2026 10:13:46 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, Mark Brown
+ <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Cheng-Yi Chiang
+ <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck
+ <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, David Rhodes
+ <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>,
+ povik+lin@cutebit.org, Support Opensource <support.opensource@diasemi.com>,
+ Nick Li <nick.li@foursemi.com>, Herve Codina <herve.codina@bootlin.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Shenghao Ding
+ <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
+ <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Oder Chiou
+ <oder_chiou@realtek.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ nuno.sa@analog.com, Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+ patches@opensource.cirrus.com, chrome-platform@lists.linux.dev,
+ asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 15/78] ASoC: codecs: cs42l43: Use guard() for mutex
+ locks
+Message-ID: <20260619101346.2ec49087@pumpkin>
+In-Reply-To: <CAABR9nG+6gOj4KnWmTyykgGN93xy6jKQh+-_f8Xxn=Jkv28vBA@mail.gmail.com>
+References: <20260617103235.449609-1-phucduc.bui@gmail.com>
+	<20260617103235.449609-16-phucduc.bui@gmail.com>
+	<ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
+	<20260617140209.3f89706c@pumpkin>
+	<CAABR9nG+6gOj4KnWmTyykgGN93xy6jKQh+-_f8Xxn=Jkv28vBA@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260617103235.449609-1-phucduc.bui@gmail.com>
- <20260617103235.449609-12-phucduc.bui@gmail.com> <ajNud7QkwF369lBY@google.com>
-In-Reply-To: <ajNud7QkwF369lBY@google.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 19 Jun 2026 15:26:14 +0700
-X-Gm-Features: AVVi8CddXW5ZNLmY1o-M3ykiX-yfQTjv2vw19gnq_6wH9bwOdl1r4oKcoEQ6Mfw
-Message-ID: <CAABR9nGVAiUpnmnoszLiNDC9ooXx8e9YFmMhv5aWLfaik8tjHg@mail.gmail.com>
-Subject: Re: [PATCH 11/78] ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Cheng-Yi Chiang <cychiang@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	povik+lin@cutebit.org, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Nick Li <nick.li@foursemi.com>, 
-	Herve Codina <herve.codina@bootlin.com>, Srinivas Kandagatla <srini@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com, 
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, patches@opensource.cirrus.com, 
-	chrome-platform@lists.linux.dev, asahi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Tzung-Bi,
+On Fri, 19 Jun 2026 15:20:37 +0700
+Bui Duc Phuc <phucduc.bui@gmail.com> wrote:
 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Hi Charles, David,
+> 
+> Thanks for the review.
+> 
+> > >
+> > > I believe you have to use scoped_guard here, as there is a return
+> > > from the function above, if memory serves it attempts to release
+> > > the mutex on that path despite it being above the guard.  
+> >
+> > Indeed.
+> > I believe clang will complain.
+> > That makes these mechanical conversions of existing code dangerous churn.
+> >
+> > While using guard() (etc) can make it easier to ensure the lock is released
+> > when functions have multiple error exits, I'm not convinced it makes the
+> > code any easier to read (other people may disagree).
+> >  
+> 
+> I built the code with both GCC and Clang and didn't see any warnings.
+> 
+> My understanding was that the early return exits the function before
+> the guard is instantiated, so it should not affect the guard's cleanup
+> handling.
+> 
+> Could you explain what issue you are referring to? I may be missing
+> something.
 
+When a variable is defined (and initialised) part way down a block the
+compiler moves the definition to the top of the block but doesn't initialise
+it at all, the first assignment happens where the code contains the
+definition.
 
-Thanks for reviewing the patch.
+However the destructor is always called at the end of the block.
+So if you return from a function before the definition the destructor
+is called with an uninitialised argument.
 
-Best regards,
-Phuc
+This has always been a problem with C++.
+It usually happens when you define a variable inside a switch statement.
+
+	David
+
+> 
+> Best regards,
+> Phuc
+
