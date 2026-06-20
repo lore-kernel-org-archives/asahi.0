@@ -1,138 +1,235 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2267B175A94;
-	Fri, 19 Jun 2026 12:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781872827; cv=none; b=QpaIxMaVRnXYin5e59AEE1YN+yWG6WQHd4+GmuuQtZFscGWlArsVDh3NRoHUf5nIRtYEn/Y1TA2AkNwrb4te93MXaO38wvfQ/RFjfjB5BmuB8DQVNYtvx38O0j79coggDWQSAGqhnYtmSB2to9lyF6EMDlgKW/k/dbrqVbDAL1U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781872827; c=relaxed/simple;
-	bh=Cb3ZdyA/Sygb+HYjSu6xZpfCpdsuvwMnjdWRp17jzUw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PnrPFIhvzKI35x9RrSigsbcNZoljCMLcJecnC0F1UucPrEcrsdF4X3ZyqjYh9VJ4iaqRC6MnVx+7/AqCpCKJbKF4i/4DPfzXQtjXPH/QX5U9uxf7AzUYDBjmxPxZrvMvavo6U+X2vqbmk3WZ0V14DG/NG8rF7Hm6xPnrwdvqea4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gC9ulqpz; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BEB74BE1
+	for <asahi@lists.linux.dev>; Sat, 20 Jun 2026 14:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781965909; cv=pass; b=hFgisXv+ndzlSFuPICwn92NH06MW5/HwXyv793mxLH1sbDlkEImvDYkYAqXJeS4XPeDVhYE+qBoicNt6xY5pO32XWk8NcoNjLGmWuruuqTIcZIDW82OAJYyn5r2iQaEXxSS2C8RWE+05ZMMx/vqBlPcp5sjVV58ACdurlXQST1I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781965909; c=relaxed/simple;
+	bh=wuw9iRRPLEm93Drmsp59C6lLObU7hu/HqKhoKxWsquk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fJ+ZHelLQtzYQkiUPY9p5oRr7CuHxv4o23WXmlTA6QB1mj+7wkOgvpNfmawJHD32WYrqxZb+BMFZjLhTxnqtEkyu9ORx9X0Ax/diByJpAJC4EDNmYYgi7IQM+tmrbkashiJspTUTL8a/eDqiJrYSUouDkFJ6mPTNfPXYxfuRD6g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LXmzaGPR; arc=pass smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gC9ulqpz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 289751F00A3F;
-	Fri, 19 Jun 2026 12:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781872825;
-	bh=rOBaUSm33VpCqiY2t4y4oxN3NFma2nf9WA0jw5TShzk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gC9ulqpz0uaCD850OKmHaouCJxZTZ3JKNmvg5he4r4YKSBKv4Shi1dCDP+xGSN4Ez
-	 lqZU4COkz48vcwlWGXuIcBEYeFZ9z0vE6cdcgzTkeIuMSi+/lgVmJIgX2ExVRNG2RD
-	 bjPyaDsUrkMy9kCCVV7PaSwUqVwwSPi3w2l8/ePbT6hx4KHZgj0pHbBiL2LjJJjoJL
-	 MGnz9bixozCSNSXHshyxbxaKevLtVCMVHbTwVJjm+p56hNJgHsAYI8q5VU2Jlbc5Zc
-	 baoq1URKHCJu9v6Ig5/oTqlXfrX4lInB6yQQ0b0eHaPHEj1YQN+0wL/x8z17O5rFm1
-	 RpWLffNvRt3fQ==
-Message-ID: <c13d95d0-911f-48f6-b4ca-8a5e9aacef6c@kernel.org>
-Date: Fri, 19 Jun 2026 14:40:22 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LXmzaGPR"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-37c8e7c8137so1556856a91.1
+        for <asahi@lists.linux.dev>; Sat, 20 Jun 2026 07:31:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781965907; cv=none;
+        d=google.com; s=arc-20240605;
+        b=U+thbXovTOsvp24pr7o8CdehtMWudDlNwiRaeSsAfAcW4+W5gbfp81kf0orpP8qXBq
+         EgvoLwqHJIYOcuFbGIQM37Ae4BxT1GTzOm3MUcAbQntCJHcqVf0n+eppvO7UJjHIDExC
+         aYiXKwcRlXilt/hzBCgep04dmHCHDw0HnBg3OfhXe8YWHtivXsxV5msBR7FNtMvHITbp
+         NcPmbNRXxNNW/OKwpV0UqlnRLwwvlrcu+fXeGLkN5AuZzbCFIWswzq16ZoWQvuD9HMZp
+         k1YIlkzPuZIxk6Cs6EkFGNd4Dr2a47/xAKDnp4fs/jaOs9NQwy9Bi16SgsZ0GxrOvijR
+         +WMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yoAOMy3f2Itr67+DkmQlpGnqzcUNVVNmM/LFKYJbM+k=;
+        fh=5nn+2oUQWzTiSHJMJMeWOiDNp7QmPr0vCuCuwwZ1ufY=;
+        b=TL8DQeeMWJJPMAX9Vx2Xd+Tftws/1HO2NExXrgtHm6/ox020Gh21KqKA43OGxJOEaO
+         YWgW9nCVb6NxGJ17KviWwwoboNMM714eLillegBMijh1xPsbiVFzSiRrHzpuGA88tGn8
+         68LVAIgHKxrrZfdW9bmqThAvO9ncvog8Ms+JVyShjEZDEg5ZPpQ4qb+NJ3rNcEwWj8/R
+         EogTrJykqRUZvfLTkcunERcnT2DC/NjR8m/ndh4C3/VEGhwH7poFoRrccB7zMpwDgHUd
+         zvbGRXwELr4Slr3pBwCwBQ0R8I7/khseBkpOsqT5tPy/XjjraMiN8nhkC0A1nLC9gIC+
+         ixlg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781965907; x=1782570707; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yoAOMy3f2Itr67+DkmQlpGnqzcUNVVNmM/LFKYJbM+k=;
+        b=LXmzaGPRX6AX1zelsx6Bssh8iUjyqf+Fc8lrrA1nunNWM2Tpzda7JPYud2sZqu6ztM
+         +2r2Rs+7XS/BafoSqDr4QtGpHkE1MAvApTRfVfwakjjVEfhtaK/OygCuCLpcZy+ah1jf
+         7VVoTpKlGAUp6+yoqRuay01N7OU06t5/dGjdRm4WJGUzc2tfRvblvg0vI9JTcK8LOYOB
+         6s/EV93uLsP3/9Qau1lSt3maXIMq5keWZJ4yqY2Q2urkk7CrB2DeI7iZq7qjmOwN6i2g
+         Bzzd09rc+yqFzsmmINUQs266edlYsRJfYdf0xRA4rs+uo1p1vevpE4W4cs7macaEq8LR
+         hHGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781965907; x=1782570707;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yoAOMy3f2Itr67+DkmQlpGnqzcUNVVNmM/LFKYJbM+k=;
+        b=PX2S2Z5GJb08UuH8zGcQb0djUAKMcFURCeFJWGnwG+WgM+4uj9mURpRnrBbYn35akT
+         wISIRGlQhy3kJlkBaAcH5Wku7qdeptctfrxYgHogew3DctTW5FpjXk2aVxcVb966Xcye
+         gLfxWZE1u2zuH3VcIWSwPZHzQd+oijwRqOVmyOjG8t4xqfiML7d+kkjRYSKFQrZGuxld
+         9pTyVxE1JLDiFh2xfMP1JuBzWWp2olwthHq1veAhaetJ5cd44KiuwTl+H8w1vjEqjgXH
+         TTQPka3rIwcy9ncrFuQKNpu0qC3lL67FGa6thgU2+lT7kmch2hV7yGN31EdfogzPHgz+
+         K0DA==
+X-Forwarded-Encrypted: i=1; AFNElJ+q2bquVIbasCPTS5ki88YxFXzQF3Egq/lor+ynObiiCHDeJwTk7TsyhZISOYt3WvfB9LJuLQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJFmKD3TzA0yU/UvFDLgJ3+l3l7oYrQ8uL5Xe1G/FHMNv8b1YB
+	9AiD6RVw12OTvkbrUQzJYRGdTOZyHO1S8rGjBbokDLqbNPdCrDUGu2cvPXnOUjtVzajhYInlV9q
+	9aNUs5ko+6P65MKcz5hB9anToHMbDM0Q=
+X-Gm-Gg: AfdE7clIAcJS8k4b7ydkZc/lagciTSZDmkq67frva60q14aKxqc4DK3p7nLjnAd+frN
+	8h4vv3n5mM5adUEQ3ViDQ68hz0QSNfEid1I9e2Y5zhvf/1MqX3J1Bz4va8F6vU82QELt446jx0m
+	j2Mj6kBSuW4UqcVXLkssSvzr2S1mufifSVAhfasABIzTYTkJ8LP1TLilJroB6cZNwhr8weQYhXJ
+	ksYEwPo0yHpC57JFtFk9yWKgX3wBOPi/evqjL4szlmif2HlkXZyizYyR5lXstqhUcLID1ZXS7wp
+	T8u7j6vih2+8td2dIEpJm3k2Iw8ygln+qR5v151Vkyi6ts6BZBdwqQZgBU1L+A==
+X-Received: by 2002:a17:902:c40f:b0:2b2:4d36:7ba with SMTP id
+ d9443c01a7336-2c7252a8057mr74037005ad.0.1781965906891; Sat, 20 Jun 2026
+ 07:31:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: errata: Handle Apple WFI State Loss
-To: Mark Rutland <mark.rutland@arm.com>, Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, Sasha Finkelstein <k@chaosmail.tech>
-References: <20260615-wfi-erratum-v2-1-59a73467f70d@cyberchaos.dev>
- <ajAT9fWgOd9HY7ei@willie-the-truck>
- <e105c7b2-a5eb-4b5d-955f-685058143e9d@cyberchaos.dev>
- <ajUbcv75FuSPPi9o@J2N7QTR9R3>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <ajUbcv75FuSPPi9o@J2N7QTR9R3>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260617103235.449609-1-phucduc.bui@gmail.com>
+ <20260617103235.449609-16-phucduc.bui@gmail.com> <ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
+ <20260617140209.3f89706c@pumpkin> <CAABR9nG+6gOj4KnWmTyykgGN93xy6jKQh+-_f8Xxn=Jkv28vBA@mail.gmail.com>
+ <20260619101346.2ec49087@pumpkin> <ajUcTfG3vSGz3n3d@opensource.cirrus.com>
+ <CAABR9nGRCZ1zv0cyBGc3yuM8MeFNqBB1MkGUL7bTbtC_LcKKzA@mail.gmail.com> <871pe2kcif.wl-tiwai@suse.de>
+In-Reply-To: <871pe2kcif.wl-tiwai@suse.de>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Sat, 20 Jun 2026 21:31:34 +0700
+X-Gm-Features: AVVi8CdmzIZOlmsJ02kZGuh_kzjdhPUos4g5dG2tFnwGhCYx2Sp6G_przK0DiY8
+Message-ID: <CAABR9nEdHwXpg8+6J5L9Af1PvybGt3KSfRy=LnMHXSQSHnd25w@mail.gmail.com>
+Subject: Re: [PATCH 15/78] ASoC: codecs: cs42l43: Use guard() for mutex locks
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	David Laight <david.laight.linux@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	povik+lin@cutebit.org, Support Opensource <support.opensource@diasemi.com>, 
+	Nick Li <nick.li@foursemi.com>, Herve Codina <herve.codina@bootlin.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com, 
+	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, patches@opensource.cirrus.com, 
+	chrome-platform@lists.linux.dev, asahi@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jun 19, 2026 at 6:14=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Fri, 19 Jun 2026 12:57:57 +0200,
+> Bui Duc Phuc wrote:
+> >
+> > Hi Charles, David,
+> >
+> >
+> >
+> > > > > > > I believe you have to use scoped_guard here, as there is a re=
+turn
+> > > > > > > from the function above, if memory serves it attempts to rele=
+ase
+> > > > > > > the mutex on that path despite it being above the guard.
+> > > > > >
+> > > > > > Indeed.
+> > > > > > I believe clang will complain.
+> > > > > > That makes these mechanical conversions of existing code danger=
+ous churn.
+> > > > > >
+> > > > > > While using guard() (etc) can make it easier to ensure the lock=
+ is released
+> > > > > > when functions have multiple error exits, I'm not convinced it =
+makes the
+> > > > > > code any easier to read (other people may disagree).
+> > > > >
+> > > > > I built the code with both GCC and Clang and didn't see any warni=
+ngs.
+> > > > >
+> > > > > My understanding was that the early return exits the function bef=
+ore
+> > > > > the guard is instantiated, so it should not affect the guard's cl=
+eanup
+> > > > > handling.
+> > > >
+> > > > When a variable is defined (and initialised) part way down a block =
+the
+> > > > compiler moves the definition to the top of the block but doesn't i=
+nitialise
+> > > > it at all, the first assignment happens where the code contains the
+> > > > definition.
+> > > >
+> > > > However the destructor is always called at the end of the block.
+> > > > So if you return from a function before the definition the destruct=
+or
+> > > > is called with an uninitialised argument.
+> > >
+> > > My understanding was exactly as your David, but it seems that isn't
+> > > the whole story and indeed I had to fix a bug in our SDCA code
+> > > that hit this.  However testing this out, results in some things I
+> > > find very hard to explain.
+> > >
+> > > It seems as far as I have managed to test, the code below works
+> > > fine as Phuc suggests. It does not appear to run the mutex_unlock
+> > > on the error path.
+> > >
+> > > int function()
+> > > {
+> > >         if (error)
+> > >                 return;
+> > >
+> > >         guard(mutex)(&mutex);
+> > >
+> > >         stuff();
+> > >
+> > >         return;
+> > > }
+> > >
+> >
+> > Thanks both for the clarification.
+> >
+> > > The situation I hit this in before that doesn't work was actually
+> > > this:
+> > >
+> > > int function()
+> > > {
+> > >         if (error)
+> > >                 goto error_label;
+> > >
+> > >         guard(mutex)(&mutex);
+> > >
+> > >         stuff();
+> > >
+> > > error_label;
+> > >         return;
+> > > }
+> > >
+> > > Which in this case it does run the mutex_unlock and NULL pointer.
+> > > Will try to find sometime to look at the generated assembly, but
+> > > this basically totally blows my mind. Very unclear as to if this
+> > > is supposed to work this way or just does by pure luck.
+> > >
+> >
+> > As stated in cleanup.h, mixing goto-based cleanup and scope-based
+> > cleanup helpers in the same function is not expected, so I think
+> > we should keep a consistent approach here.
+>
+> Right, and IIRC, clang would complain the mixed goto case at least
+> with W=3D1.
+>
+>
+> Takashi
 
+Thank you all.
 
-On 6/19/26 12:38, Mark Rutland wrote:
-> On Wed, Jun 17, 2026 at 09:23:03PM +0200, Yureka Lilian wrote:
->> On 6/15/26 17:02, Will Deacon wrote:
->>> On Mon, Jun 15, 2026 at 02:21:36PM +0200, Yureka Lilian wrote:
->>>> Apple Silicon CPUs can lose register state in WFI, leading to crashes
->>>> in the idle loop early in the boot process.
->>>> This applies to any previous Apple Silicon CPUs too, but is worked
->>>> around by configuring the WFI mode in SYS_IMP_APL_CYC_OVRD sysreg
->>>> during m1n1's chickens setup.
->>>> This workaround no longer exists since M4.
-> 
-> Are we *certain* that there's no equivalent control elsewhere? i.e. this
-> hasn't just moved?
+In fact, I have only been using GCC for building and testing. It was
+only after David mentioned Clang that I decided to give it a try, and
+this is actually the first time I have used it.
 
-We are as certain as we can be short of Apple confirming this which 
-isn't going to happen.
-XNU has a helper function to "force wfi to use clock gating only" [1] 
-which is how we learned about this control originally on M1.
-This has been disabled starting with M4 using the "NO_CPU_OVRD" define 
-which they describe as "CPU_OVRD register accesses are banned" [2]. If 
-there was an equivalent control elsewhere I would expect them to just 
-use that one instead.
+Also, thanks to Takashi-san for adding the W=3D1 build option. It helped
+me catch and address warnings more easily.
 
-In addition most non-architectural sysregs are read-only starting with 
-M4 in the non-Apple-entitled boot mode so even if there was such a 
-control we would likely not be able to access it.
+I will send a v2 to address a few remaining goto cases that slipped through=
+.
+In addition, I will switch to using guards for PM runtime to reduce
+indentation and improve code readability.
 
-
-[1] 
-https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/osfmk/arm64/machine_routines_asm.s#L1129
-[2] 
-https://github.com/apple-oss-distributions/xnu/blob/f6217f891ac0bb64f3d375211650a4c1ff8ca1ea/pexpert/pexpert/arm64/board_config.h#L197
-
-> 
->>>> Add a workaround capability for replacing wfi and wfit with nop, and
->>>> an erratum to enable it on the affected CPUs if the workaround using the
->>>> sysreg is not already applied. Leave the decision whether the sysreg
-[...]
->>>> +	} while (0)
->>> How can you guarantee that we don't run one of these prior to patching?
->>
->> We can't, but there are a few points to our advantage, namely the boot cpu
->> isn't actually affected by this (when the CYC_OVRD bits are not configured
->> or not supported), and first round of patching happens quite early before
->> the other cpus are started.
-> 
-> I think you're saying that:
-> 
-> * On the boot CPU, WFI *never* loses register state.
-> 
-> * On other CPUs, WFI *might* lose register state (and this cannot be
->    inhibited).
-> 
-> Is that understanding correct, or are there other conditions where a WFI
-> on the boot CPU can lose register state?
-
-Those are our current observations, yes. We don't know why the boot CPU 
-behaves differently and there no differences in any Apple sysregs that 
-would explain it.
-
-But looking at all wfis in the kernel there are bunch in head.S and 
-similar for infinite loops where we don't care if register state is 
-lost. The only two that currently matter are a wfit in __delay and the 
-wfi in the idle loop.
-The __delay one gets enabled after arm64_features are found which 
-happens just before arm64_errata from setup_boot_cpu_features() and 
-there's no __delay call inbetween that and when alternatives are 
-applied. If we follow Will's suggestion with an early_param that happens 
-much earlier as well.
-My understanding is that the idle loop won't be reached before 
-sched_init() and that also happens much later.
-
-> 
-> IIRC kdump doesn't ensure the new kernel is started on the boot CPU, so
-> I think that would be broken. I guess you can't kexec generally due to a
-> lack of offlining of secondary CPUs.
-
-Next to that, kexec also runs into issues with all the various 
-co-processors which we can't easily reset or shut down once they've been 
-brought up once.
-
-
-Sven
-
+Best regards,
+Phuc
