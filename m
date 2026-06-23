@@ -1,123 +1,134 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CAA2749F1
-	for <asahi@lists.linux.dev>; Mon, 22 Jun 2026 08:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B1C3D333D
+	for <asahi@lists.linux.dev>; Tue, 23 Jun 2026 11:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782116751; cv=none; b=hgNc3+8s0WeA5geb+wew8IxzIdx0l/d/Ts7cMMybFJhCuLFa0Rvdh2W0hpAWcO9z9mcI3XVuaDJ/57wufCQlpje7FuDP3Qkt5OF6F+GEUIJdXZAtT0RUR3lIZNMEvAsq8kHjkbtUa0e8lmfxf8nTBF8WGbv6wlWiMthCnXkSC1I=
+	t=1782213164; cv=none; b=YR26d6ECw0jjdOiiPbRT+aV4tZhfByT1BzZxRQbuhYVSnOpngeaqLnAyw1JaebX0ZuzbhPqeJyVNPINzCPiVBoug0w7Ki2EzBPIwAn3QsfpomZcCJrQFnvACVE/nMRKxgcM0BqPbshJZbEXeu9kH+PhOjxTjqlSDmIlin7m2Z/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782116751; c=relaxed/simple;
-	bh=hA5oBlxJork1c4h5sHlQY0FI6yyM6hvjSrny1zE1RN8=;
+	s=arc-20240116; t=1782213164; c=relaxed/simple;
+	bh=7RK047XqAhIykEGJb5lPK4UKvV4oKO7yT7rTqZ97/QU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rmTOQTMkC9lC3BgboplkS9PhYDpi89RmLXLaYcqF3lDTq8MO06KW2kVficYZ0UiVhYb6wKHEyMCe9sPpmZyzvUKfUb5/Z8UT3GKQsGj3w+UQtQCO8oQZfNkC6/O1Y7T+wLlcjRHK6e5Zzv74Qbh/rd/BiTgWrZGZAes94KQbZwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HdsZChOi; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=o1TPbue1Im2xUPDeFan2KV/gqrxnvfDuyt4SaiabTnhk3putHNa4aPBFiJl3Y/WMlNIvO+whXuorKNcdPST0ERfFNS08/872pZWy99l6/fIe0pKNnaM6xm37PLMZI4PVVMo5pj7UuBsH0JZzE2nZDjELV20VXH8h6wNQmrrHAD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsNosQgF; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HdsZChOi"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-36bdda53d99so1580286a91.0
-        for <asahi@lists.linux.dev>; Mon, 22 Jun 2026 01:25:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1782116746; x=1782721546; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=urde0H5lw+l0w07oCZ5gmtixK9Wy1aHPm4CdpLxWffg=;
-        b=HdsZChOisXlePT+g1MmHnvKBguC6B5PATeaDF6sEJMz3R/JMg//9FyoZLFDzLAtCxc
-         OiwzAuhwyq6QiNlCj5r2ReDY+AzdYmvJ2CBHuldXLYUKg9V/LRIjk65qQG5hNCUWz9Kc
-         LcU6axtorIBFPDgwE9yvfShhIj8tx5qQ1W21lI6CLrvKxeLTdi+u4PGfsvqXcECnex6k
-         aTdIFsJxJ0uQGhN3ElLuAWKw+ReOCwknVEs0RcvurDAOf0RjWXYmG+JZDBa1d+QM2f3E
-         /hzaE8NGCuGO+Y1COt6ZafeZOAZVMPY0PqBc/E1bls/lwpguFw6r+u4XfegIv0y0wMBP
-         KUOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782116746; x=1782721546;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=urde0H5lw+l0w07oCZ5gmtixK9Wy1aHPm4CdpLxWffg=;
-        b=BEAOyqyJkak40dy7ujFODAKYfGuAbHWmXDgPneRMVYpw/e9Nl4DFNOc182BTVqlAiR
-         Mlm2HTRpcGzFfHXmPs8zl8tQ/T7iBdZ4L8Irbba2D8Wrajkn4uydUJz84R/Bf0Rx3SND
-         v+BhjeEJ8tc+kvbSb0RYhk3M+J0mA+8m+L21n7LlENGWk0O9+tP/H7/WhhMdIn6xil+s
-         DlHlXCR7dKsvtiz+AzpEf2Rq3RbfzjSP3qxRuJY021/4g5m9R5XB+b6xOI3h7cPpm2mP
-         WEFvwKj8/EBiKEHRn5E/PaH+DbQ/ylcaY5mSWmkh+l8sC/wHRNreAqorn1a7h8rnQeTR
-         Dzwg==
-X-Forwarded-Encrypted: i=1; AHgh+RoafttDFezcqYYb8voUjIC/cOn7f90Z7DKGlg7klk0qzKdGys4rhjyWlzW+nQKsr9KFlNMbcA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0KP56oDhEBOQxX2KGaI6GtL/UrS6ZDsIoG2e8KgXU9C7J62X+
-	pJakCs08VsMzLPIysBqYJcb7fQLkacPlZS2YxBoZaKOzj/vz/15KS9aRSQ4qNhjvjiI=
-X-Gm-Gg: AfdE7clHjnRrZlXpx8t3SuJUm8pKMYAcfKB44OxTca+L8UOY10ZR68nRbXyP57IW993
-	QfEyMbquU4/bTE6Nmi7AqIDi2vIQtKc8eHIOAZy9XJb5EAUswWLsXQ5EdWTMMx9PdqjwkA++a85
-	E2bRmKHv6XslU0+qCNUfon83Yh0V9FJghf21CnOX8kk7nyTu4ZTFA43tEfHrSTw2ec9oCr65uQT
-	k025TOI4uo9kUdDhrGHXEw7jUdQjdPbxftCUMOAfAYCUa3bc4+h1ukEL1BS3BbyLFti+u3ch1nV
-	Za1KRWORgyURp+TR6s85KYMmotHBhLNOrfrKiikSsaTcqmUuNjCPf5VCitUbeetXioK1o6oErCG
-	BZ5EKwQfiSngRUGv/AytWWkJOxSTbtN6sE1ggZJP13Ig/uqX3bIffPjE1gRH/Nq2sEMZuh8Qk74
-	sLOD5FdlAr7reBX0mdXmrPWtg=
-X-Received: by 2002:a17:90b:3d47:b0:37c:18e0:90e4 with SMTP id 98e67ed59e1d1-37d4d71da02mr9453775a91.2.1782116745540;
-        Mon, 22 Jun 2026 01:25:45 -0700 (PDT)
-Received: from localhost ([122.172.82.94])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436af310sm71822885ad.2.2026.06.22.01.25.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 01:25:44 -0700 (PDT)
-Date: Mon, 22 Jun 2026 13:55:42 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Haoxiang Li <haoxiang_li2024@163.com>
-Cc: sven@kernel.org, j@jannau.net, neal@gompa.dev, rafael@kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: apple-soc: Add missing OPP table cleanup on
- init failure
-Message-ID: <p4gog5paa5czqzho6i4chgsncyjxsfau5zu3lkxwtkplk2y2f5@l3sa7gohfnqw>
-References: <20260622063148.751787-1-haoxiang_li2024@163.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsNosQgF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782213163; x=1813749163;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7RK047XqAhIykEGJb5lPK4UKvV4oKO7yT7rTqZ97/QU=;
+  b=UsNosQgFfiRPX256nN7n3CR5pRfq+PCgNsKzjnPlpcubgKcdqEOxAahP
+   xumZyx76w+FWrH6YQ7eSo9wIX83RB6FpfZqtGH5L36NfFXCAE+D0zgMHn
+   Prxm3f/tpPF6uIbU4k3w4SUQOyipueIZpfMkEQbs5GmLew9A7bMD+C4/D
+   bjWDyl4b4e481vxaDUuTQOY0YIIKIoXRCe4qAVoilILywta4KTdPvpwde
+   SoDQTOB9BUOafob3qsYg/mMLrz+158dMyYBaY+nMlqlBOtlDghdeTPKW/
+   QofXPSctzJ+Ntu8jgS/kh20thV8J3c2inGWcurN1jVVIAEJ29f4MDZJDL
+   A==;
+X-CSE-ConnectionGUID: x06+QauCT4OnJ5w4AhzTug==
+X-CSE-MsgGUID: YbCDtExwRNqOF6yLYvfRWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="108496510"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="108496510"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 04:12:40 -0700
+X-CSE-ConnectionGUID: bFFQtLhdRxG+nVi0ISy+pg==
+X-CSE-MsgGUID: idiXUos7TYO3l3znmh23qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="249351231"
+Received: from kamilkon-desk.igk.intel.com (HELO localhost) ([10.211.136.201])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 04:12:39 -0700
+Date: Tue, 23 Jun 2026 13:12:20 +0200
+From: Kamil Konieczny <kamil.konieczny@linux.intel.com>
+To: Alyssa Anne Rosenzweig <alyssa@rosenzweig.io>
+Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>,
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev
+Subject: Re: [PATCH i-g-t 0/3] Add infrastruture and initial tests for ashi
+ DRM render driver
+Message-ID: <20260623111220.crlywrqwpe4zck26@kamilkon-DESK.igk.intel.com>
+Mail-Followup-To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
+	Alyssa Anne Rosenzweig <alyssa@rosenzweig.io>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	Development mailing list for IGT GPU Tools <igt-dev@lists.freedesktop.org>,
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev
+References: <20260105-asahi-tests-wave1-v1-0-a6c72617e680@jannau.net>
+ <aV3DENy3WoW7NRZO@fedora>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260622063148.751787-1-haoxiang_li2024@163.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aV3DENy3WoW7NRZO@fedora>
 
-On 22-06-26, 14:31, Haoxiang Li wrote:
-> apple_soc_cpufreq_init() adds the OPP table with
-> dev_pm_opp_of_add_table(), but some later error
-> paths can return without removing it.
+Hi Alyssa,
+On 2026-01-06 at 21:21:24 -0500, Alyssa Anne Rosenzweig wrote:
+> Series is - Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 > 
-> Add the missing dev_pm_opp_of_remove_table() call
-> to clean up the OPP table on init failure.
+> Thanks Janne!
 > 
-> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
-> ---
->  drivers/cpufreq/apple-soc-cpufreq.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
-> index 9396034167e5..4dae968e84df 100644
-> --- a/drivers/cpufreq/apple-soc-cpufreq.c
-> +++ b/drivers/cpufreq/apple-soc-cpufreq.c
-> @@ -260,7 +260,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
->  	ret = apple_soc_cpufreq_find_cluster(policy, &reg_base, &info);
->  	if (ret) {
->  		dev_err(cpu_dev, "%s: failed to get cluster info: %d\n", __func__, ret);
-> -		return ret;
-> +		goto out_remove_table;
->  	}
->  
->  	ret = dev_pm_opp_set_sharing_cpus(cpu_dev, policy->cpus);
-> @@ -326,6 +326,8 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
->  	dev_pm_opp_remove_all_dynamic(cpu_dev);
+> Le Mon, Jan 05, 2026 at 10:03:44PM +0100, Janne Grunau a écrit :
+> > I will start with upstreaming the asahi DRM render driver. The UAPI was
+> > merged in v6.16-rc1 and the downstream Asahi Linux kernel tree has a
+> > driver implementing this fully.
+> > The asahi (OpenGL 4.6 conformant) and honeycomb (Vulkan 1.4 conformant)
+> > user space drivers using this UAPI are available in mesa since 25.2.
+> > 
+> > This initial submission contains test infrastructure and tests for the
+> > ioctl DRM_IOCTL_ASAHI_GET_PARAMS and DRM_IOCTL_ASAHI_GET_TIME.
+> > These two tests are the only ones the initial version of the initial
+> > upstream submission of the driver will pass.
+> > 
+> > I have additional tests which the downstream driver passes as well. I
+> > was planning to submit them together with upstream driver patches which
+> > implement the necessary functionality for the tests.
+> > 
+> > If preferred I could submit all tests and gate them based on the driver
+> > version to avoid expected igt-gpu-tools test failures against
+> > incomplete (as in not implementing the full UAPI) upstream driver
+> > versions.
+> > 
+> > Signed-off-by: Janne Grunau <j@jannau.net>
 
-This driver doesn't add any dynamic (non DT) OPPs, looks like this is incorrect
-?
+Thank you all for contribution, I merged it with a little edit
+for drm uapi description. Please look into my replies and try to
+improve your next contributions.
 
->  out_iounmap:
->  	iounmap(reg_base);
-> +out_remove_table:
-> +	dev_pm_opp_of_remove_table(cpu_dev);
+Regards,
+Kamil
 
-This is also required to be done in apple_soc_cpufreq_exit() ?
-
->  	return ret;
->  }
-
--- 
-viresh
+> > ---
+> > Janne Grunau (3):
+> >       drm-uapi/asahi: Initial import of asahi_drm.h
+> >       asahi: Add test infrastruture for asahi DRM render driver
+> >       tests/asahi: Add test for DRM_IOCTL_ASAHI_GET_TIME
+> > 
+> >  include/drm-uapi/asahi_drm.h   | 1194 ++++++++++++++++++++++++++++++++++++++++
+> >  lib/drmtest.c                  |    1 +
+> >  lib/drmtest.h                  |    1 +
+> >  lib/igt_asahi.c                |   58 ++
+> >  lib/igt_asahi.h                |   15 +
+> >  lib/meson.build                |    1 +
+> >  meson.build                    |    8 +
+> >  tests/asahi/asahi_get_params.c |   55 ++
+> >  tests/asahi/asahi_get_time.c   |   63 +++
+> >  tests/asahi/meson.build        |   14 +
+> >  tests/meson.build              |    2 +
+> >  11 files changed, 1412 insertions(+)
+> > ---
+> > base-commit: cef45b995557367ba082bc460fbab2190af943fd
+> > change-id: 20260105-asahi-tests-wave1-7a850d0e0af0
+> > 
+> > Best regards,
+> > -- 
+> > Janne Grunau <j@jannau.net>
+> > 
