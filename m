@@ -1,122 +1,114 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40E813D891
-	for <asahi@lists.linux.dev>; Wed, 24 Jun 2026 09:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAC01E376C
+	for <asahi@lists.linux.dev>; Wed, 24 Jun 2026 12:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782291660; cv=none; b=aghJNo2VJL9dEa7tsJNZbs4xazKNcl2a0MdaNgux1anZIdXucJ5zAgJOFH3ewFTMZsjBI+I0OKGAJnywVVEGOH9+q4n7ISi7fK35kQua8KrN8C6HNtC31ZfCRzizUegYRqvYCtFVbs7peZ84/OLqgi/guHCsG5xSHJ0wqNfmGrY=
+	t=1782303559; cv=none; b=o2g5Ntq53jPMUMED3QzdlZqTtEbNa8x75Din+qU5tAFBp1wf1OhBTnmSCxsfKxxHNp7F+kjooD6fpyUzI4mTQ0DiHgH/ca58a6NCCKEq4gIyQtFzb80m2CkpKcAIA+UWIj+nNe72ZOxeo6MxKwTdGorcj4/krXnuGcfDftzZAZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782291660; c=relaxed/simple;
-	bh=q3JDxPYJoffUZaBnBehSxpDR8j2xWuIlTCV7gTPM8Gk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gkJLZ/p2l6owPH7obNQbW4KvZxiMBYGPV5dcJ15DxX1oyEo9ERspZ0zOq9TG/GbolVCIU12S/mBwjNM6tvw0VpygZtfhgH7u2AaRBoyPgrqZIPbpoVvK9G+m/vzvb0NeqdGElpyzUjjarp8oCXu41bY/WMolkDcgUzuwjZ3obVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p+mWvf7W; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782303559; c=relaxed/simple;
+	bh=xQoETzVYL7/fMAukFP1/FEY+oMvDH3rg5mFsB8017XU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=uasoS1Ua9dhUDGkFF2iPZTN4awd7x4niWB3QhZlWWjE9BwZlljHLS96KifKUdOLEpT57GBU4cTMjXySpvjfpKr7ugj1XLpYHQazKSWjcJUuNmzTDJxFRZZEzgcd9f5zUy6jxW5Gp6V1gye2zH5dc9KpTjuyVt4N058goXQNPuls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KEv1cfu/; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p+mWvf7W"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8453bcf7276so566583b3a.2
-        for <asahi@lists.linux.dev>; Wed, 24 Jun 2026 02:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782291659; x=1782896459; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cpWHohyYE9TWYB3P2wMAp3c2YwKiLndmTMYD9SWzcTM=;
-        b=p+mWvf7W38SiMldMbpw40l68KTeEPvBabA8hTovf7Cx4b9uV+QS8H34pKs7njn3Psq
-         +cQArX01wuzy/pXZWTvtWNdGc6rk3dk4pmmcT0J475iiw7FgNleIoRk3T1w0CEGPOH3b
-         QGLt9skBTLxewGDLF4JHvlGXJlQSUaoVru7cmGodwtVUXvJjCHUIZA4AJQ8zxyPckxxr
-         DslaSabNfbIMi9JalgwgjAVwBr7WSt1X3LcgC8io+fllUsrecHS3vTxLrWBNhKDMHbfx
-         Sm65zImUCYoJPKaGC0fAm8xjZeyVATe5O+4GM/8WZ305aSAJE63cNcwlbJfmmaqoAT0k
-         aAYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782291659; x=1782896459;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cpWHohyYE9TWYB3P2wMAp3c2YwKiLndmTMYD9SWzcTM=;
-        b=QsREuQoyg9pez89x3jD4iKHF3tN2rzIkP8vtk0W0rCHjctk6gxTzPg35f2n1+cznKS
-         1gSRvGkXWoECH1GTKGIFfN5ZNXy+3yUdI2tVQwgF4vtnAlbcVJ5Jnl+7iBcadlrRzzPd
-         7UW8tfSUWJ9mn3EEIxOJoFeo44X8nadpeyA637k99XDteb6LWXDGFhKmRpmoRNlDi5yi
-         iRFxRp/EWbFoQNpnAoTBHCmLx3rLoj7KsDYNYfiivtMnbFPTpAD+uClGtoC9kCuRGjXZ
-         Bq7czrivUguY4zcisZsPXz1hEpeQOo9IZAGIcLutlVTXORYCaaJHa/zWdIdgjw0giu1C
-         MZZg==
-X-Forwarded-Encrypted: i=1; AFNElJ+qQ6mPy2pPXUWysjQ0ozmM2XnD7XepF4AMK7NsXDtsv6dDOTq3RXozRkqlQJQ7S4rXIC/dZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEwc29AW55if9JSxbtlScAbdSU1mREEDd7JdV1psQvQNOYdz4Q
-	1D2TWD4Xu8l7ozT0I7bcFp742Y7sz9bg2QMO24qObCSQmKv/mK1WVGY=
-X-Gm-Gg: AfdE7clRHFpx0PuE6t+83cYKI++KGaUlSiVdMTCUfbI4aaBW9yd/8M9SWX3O1nawkRw
-	TVrj/zI27kMQrx2X3659U1DXKTm1dCaxZ+o9QQlyWdwBzAKHEtFHYT0aVOHvPd70EJweQxS7V/I
-	0qnsPMjqfQsCBwXhMErlqmkda5g5IaDHJu75ecgLfT4koO5hX8aJjB7jxxCNgmLCB4/mBW5zDDE
-	ItsY/U/szIyXfm44jXJaaMLIhJ1FTt8Mq7i639jy8mTSfVzoCicYCMgbdxBf0OJ28xV4bimV9qy
-	33SsyCFMBE2srgwn/9SlSSxcMuHDygFploca3S1gRkrQZQ5YIl2uBVKLgdyJXMOfCqvyxZmXsHq
-	mp+p1AaT8N8ssxsqUOK7g4sg4dxbH05SrkQdSLXZ2t+7B+Gv5/qNRirWaP6v583hKsVfhS1u9z2
-	uzmOSlMClAf3Yazxv8HxWtbV0wbeBbAw4qOBxMj+h8p0XmwFV95Pe6Fp4dB73n5p1RopZInpr4f
-	IA=
-X-Received: by 2002:a05:6a00:94f7:b0:845:4f20:3834 with SMTP id d2e1a72fcca58-845a2a9666dmr2947535b3a.5.1782291658639;
-        Wed, 24 Jun 2026 02:00:58 -0700 (PDT)
-Received: from localhost.localdomain ([14.5.152.27])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a40d1b0fsm1658035b3a.28.2026.06.24.02.00.54
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 24 Jun 2026 02:00:57 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Janne Grunau <j@jannau.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Myeonghun Pak <mhun512@gmail.com>,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH] drm/adp: Free FE IRQ on bind failure
-Date: Wed, 24 Jun 2026 18:00:43 +0900
-Message-ID: <20260624090050.87051-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KEv1cfu/"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 0F38C1A090E;
+	Wed, 24 Jun 2026 12:19:08 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CBC89601C5;
+	Wed, 24 Jun 2026 12:19:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BEFE4106C83D2;
+	Wed, 24 Jun 2026 14:18:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782303545; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=xQoETzVYL7/fMAukFP1/FEY+oMvDH3rg5mFsB8017XU=;
+	b=KEv1cfu/jYGfDwre6OwZ+P4Da5g/P5DLOoi4ufNgHjjSXbNTPwIbnYk/UOh9ec76Xi6r/G
+	DFd6/DHGMh414txRBF40PoSxV+VlfEMI0dV693nAwprxYHVOsiF4l+Nu7k56WcpLJ+plKt
+	M19npB/jcwdfaojICtMPjr+ioXw/rsjoqIyL5YLlhgzfWwm7gkFRNvDV3r+5fmxgiNLiGR
+	Fpg//myj41KpNJxvcsa7CgwV2XAA3Pq1OFhNBG6SiZNr209BBBOm7pZ+5lA6O75NrZhmgM
+	/YrgBuSybieaZhN5mTMsjq+GstetuZsbblHI6ibs2ayVSjRRAtJDYNmvgfkWLg==
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 24 Jun 2026 14:18:48 +0200
+Message-Id: <DJH9VDITIVKV.1UZLU2S53MLO9@bootlin.com>
+Subject: Re: [PATCH 00/37] drm/bridge: Convert all bridges to atomic
+Cc: "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca
+ Ceresoli" <luca.ceresoli@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ "Sasha Finkelstein" <k@chaosmail.tech>, "Janne Grunau" <j@jannau.net>,
+ <asahi@lists.linux.dev>, "Benson Leung" <bleung@chromium.org>, "Guenter
+ Roeck" <groeck@chromium.org>, <chrome-platform@lists.linux.dev>, "Francesco
+ Dolcini" <francesco@dolcini.it>, "Peter Senna Tschudin"
+ <peter.senna@gmail.com>, "Ian Ray" <ian.ray@ge.com>, "Martyn Welch"
+ <martyn.welch@collabora.co.uk>, "Manikandan Muralidharan"
+ <manikandan.m@microchip.com>, "Dharma Balasubiramani"
+ <dharma.b@microchip.com>, "Russell King" <linux@armlinux.org.uk>, "Inki
+ Dae" <inki.dae@samsung.com>, "Seung-Woo Kim" <sw0312.kim@samsung.com>,
+ "Kyungmin Park" <kyungmin.park@samsung.com>, "Krzysztof Kozlowski"
+ <krzk@kernel.org>, "Alim Akhtar" <alim.akhtar@samsung.com>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, "Linus Walleij" <linusw@kernel.org>,
+ "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ <linux-mediatek@lists.infradead.org>, "Rob Clark"
+ <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
+ "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Jessica Zhang"
+ <jesszhan0024@gmail.com>, "Sean Paul" <sean@poorly.run>, "Marijn Suijten"
+ <marijn.suijten@somainline.org>, <freedreno@lists.freedesktop.org>, "Tomi
+ Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Alain Volmat"
+ <alain.volmat@foss.st.com>, "Raphael Gallais-Pou" <rgallaispou@gmail.com>
+To: "Maxime Ripard" <mripard@kernel.org>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.21.0
+References: <20260617-drm-all-atomic-bridges-v1-0-b63e6316166b@kernel.org>
+In-Reply-To: <20260617-drm-all-atomic-bridges-v1-0-b63e6316166b@kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-adp_drm_bind() requests the front-end IRQ before registering the DRM
-device. If drm_dev_register() fails, the function returns immediately
-and leaves the IRQ handler registered.
+On Wed Jun 17, 2026 at 12:14 PM CEST, Maxime Ripard wrote:
+> Hi,
+>
+> Over the years, most of the bridges have been converted to atomic
+> modesetting and hooks, but not all of them. This forces us to maintain
+> two different code path in quite a few places, which is pretty
+> bothersome. The switch to atomic modesetting for legacy bridges though
+> is pretty trivial, and we don't have a lot of drivers still using the
+> legacy path.
+>
+> This series converts all bridges to atomic modesetting and drops the
+> legacy codepaths where relevant.
+>
+> Let me know what you think,
+> Maxime
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Release the IRQ on the drm_dev_register() error path. The normal unbind
-path still frees the IRQ after successful registration.
+Lovely cleanup!
 
-Fixes: 332122eba628 ("drm: adp: Add Apple Display Pipe driver")
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Apart from what Laurent pointed out, it all LGTM. Instead of spamming with
+an R-by on all patches except 37, I'll just wait for v2 to send a
+full-series R-by in reply to the cover letter.
 
----
- drivers/gpu/drm/adp/adp_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Luca
 
-diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-index 4554cf75565e..20f38543d04e 100644
---- a/drivers/gpu/drm/adp/adp_drv.c
-+++ b/drivers/gpu/drm/adp/adp_drv.c
-@@ -535,9 +535,13 @@ static int adp_drm_bind(struct device *dev)
- 
- 	err = drm_dev_register(&adp->drm, 0);
- 	if (err)
--		return err;
-+		goto err_free_irq;
- 
- 	return 0;
-+
-+err_free_irq:
-+	free_irq(adp->fe_irq, adp);
-+	return err;
- }
- 
- static void adp_drm_unbind(struct device *dev)
--- 
-2.47.1
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
