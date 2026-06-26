@@ -1,63 +1,63 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778513D5226
-	for <asahi@lists.linux.dev>; Fri, 26 Jun 2026 06:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F813D3D10
+	for <asahi@lists.linux.dev>; Fri, 26 Jun 2026 06:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782454551; cv=none; b=NoADcQhRkGbhsHLnLpi8Afx+SKRx37vRgD4cpb4Q2I88G253ZU42rgmj3QYyi/V3+LKQHzHDhox6naPT6/hTU4QCeqtt7JGWMQfzBOpQHiBHy7MrfCAjPjvPRDfWjiQmyNH1okJmd5tsrsIfkl0Aq3bK48iJlSu2kUoUOfFJBqk=
+	t=1782454556; cv=none; b=o+P09ZFglu7VbGEajzZ6rZIu32z+SvrChg1pS398ybScaebeLfyPHXd5Vc5dEmgfZzCFGj/GNtHPkCUpRyQpVRWb02aobU6geadlbSncS3K96egqeRd+ELdz/Sb3wzgZ9ojlNOlPLZZd502QrYMfN4EM5CJpVW7XY0uMLyBjcoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782454551; c=relaxed/simple;
-	bh=N1C18VQ6R1+hqjD0MH354ULBt2PbTMy9FMT2BU1d2WY=;
+	s=arc-20240116; t=1782454556; c=relaxed/simple;
+	bh=em96/ZARght/3otyju63pfWEB2uPboKH1/9p2lcucSI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lv0BulmKRch6ohaDBZlQwC/L7UoTnvko/5ytwoWcJ1BZLoibrgxc94iUz9c9TIQ1nBjpebfaFSGP1SaDt3hQmAqQz1dF0yzp1gqKFcP9aP544qGSt+XBdjkddywAQNX8X3Wi9F8wkASbtlRsLQqcOxra694J+8ex4vb3Xm84Ih8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YxCNL01e; arc=none smtp.client-ip=209.85.216.42
+	 MIME-Version; b=M1Lh6aRcbLLron2VWVC/lA4hwY9iRJRObNlfPLyo0wSXFWAbbGO3ivn7FoV+/Cqcy0Plb+l7s71tJANEiUOhOEssRIXk+LZ3PQEmW2Vme9wlCXD03X7b33BoKJjun5VWPJ5oZi1g5yOitCk26AQjBZAPzwZtNvG8+Iu+xKrRVb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tNimfZOS; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YxCNL01e"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37d826e9811so270165a91.1
-        for <asahi@lists.linux.dev>; Thu, 25 Jun 2026 23:15:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tNimfZOS"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-37cbcf49deaso333624a91.1
+        for <asahi@lists.linux.dev>; Thu, 25 Jun 2026 23:15:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782454550; x=1783059350; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782454555; x=1783059355; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M3eXIkGzz4V44GsXFfq9IipILWhP60rb5QQ2DRgZ+QY=;
-        b=YxCNL01eRQcTFuwQp6Mg4WTjAcbIPAKLnMUJ80RwTVt46aw63IkwMXITHM1DSwv4Yc
-         j4lhikaZL+vVnMepGH2LK+159aoTrtd/N18TMKL2s2LxdxBvEtFccPX3XJ0CEGaSaFki
-         5aPBQSGKd+s9MNz8aeNKkwV98pbTiZ4L/6XO6qzPBVRqgifWAS5qoEfl6nGnXNty9ErI
-         /Mo1n6NWGG3XK/kG6Q0MLT0d8JBfqnAB+XIcAuhP38r6up5P4kuLkvqJarUj4M5jpirs
-         nztBOZXq3fSlyfypr9amZaP47eC16qEFlmbBDFBuFeUMzcyfhG8BvPX3U3GIW3o3aW6F
-         4U5w==
+        bh=VpJFy3k7fzvXeipnHRzRqJbquUwprfOCJ0cYmFTrF80=;
+        b=tNimfZOSAqlve1SCuYiFAFE8sYC+4ituE84fF3d30jL1i2SAY7LJGrLKCyBAB0CXTt
+         WoSxi0kLZQ3UiHSK9Wju0sbqKfpJ+UgoYR9/IVn7a9+KwAaCV+Q7KYzbQ7DslWWMQX1K
+         gAfHVC03bleg2x4WL6zW6cv0KraeGZS3WB+z92Y/6GPVObj1OR0s65SRpxtGRVvykdic
+         4LrAqzvpAQrM8AmchEfao6pIqZ02hsDHv63muIgsBR4dYK4cDhCoLclGett5hS4Uafds
+         uiCJHKujumAzqP3MfGV3AedHscrjhfheBauKqPEoUGEtpScemjyScUiHL39W1OzLWjoI
+         4bGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782454550; x=1783059350;
+        d=1e100.net; s=20251104; t=1782454555; x=1783059355;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=M3eXIkGzz4V44GsXFfq9IipILWhP60rb5QQ2DRgZ+QY=;
-        b=e+sJe0lP8AQNdVDQEy83/7/BoAek1UvJ6gwxhDamroce/NmUD6v5dSYHuW+QWaYKjy
-         TwsnasfRr9UHPPPpWVlHiIdzskiFYbqkXIzZLPYFB33fAfkWU4SForvdk9mlN1qh9qWm
-         xLTD8STxFEAl1BuXdmtWwTTmwoOt71XFKmX2gG5z31VY/dPWK60drh+xsUiu2+KXcWZ6
-         fXVAkvh+RJgXgEE9QWVY0hkEtsiq2ALqjjmhmzD/Rzx4bJ616IlwLgtjcmAGFWPtj23C
-         zLxn7QdjhbmcJWBWgcbpExmem7tGhNWJov6R/0At3byyjzg56mf12yZ0317haup+zB/x
-         fpiQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrDD7lpYFTVgcuonyIpLtVDDAWkL/nv4GPm4ibI3g6yI6mBxPvazs0fgxWhHrG5Y/5ri9U6PQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiiGXQcW4TkN73psEOOvJlhoaQh6Gr64t3Pahe9RlTkrIOxMUG
-	/X/SB3Eltlzrg+W8AdZq8HnaiqFlt0fjONXL0OukR0JOIDm/nQILwX9A
-X-Gm-Gg: AfdE7cmRVSx3jOe+0z4jXzlvuuM1Ui8luhDYCgXldgQ/RBWRogK/b+btQmJrUhWnuar
-	XV8653crqG6ghbkSCg/oi74AQdw6PCWXmW0y8FmaHwRtfsPuYPWRCVxbRCzXqPEgYnDSQ226Cx0
-	iXKUtefmnKrWNSP152f08OPrhm+aJXCVg/fyR37qP7Z8hvKnR+XZlNfABPVysVKxP0mvUvXl50+
-	eDtA3Z1Bh7KnsvNSlNRt6hb4+Gi3OcOIoB/amZiEusuvVlaeibTRTodQsmnx85zh0GvgCIZkbSm
-	o9/HSC9iOA0+7LFlhsjKpQ9AToUGmJ/Om+QJOfgOIE4ENJ8otkysBmPhpXVRPMBJ4YJwkJpBCKG
-	7Ct/YgaOyRIhD7pbzkvduDnEgNXGggUDsZpnKfC4xFkqEC+xnR4sTQyhwAMsvK5IlIeJEXRAi7d
-	HgDx6UTeW7/GqydW1dIWYjro8mibYKC1gr/Nmi4CURjnHJvc8=
-X-Received: by 2002:a17:90a:d888:b0:36d:ae6a:22fe with SMTP id 98e67ed59e1d1-37dfa1d5614mr5298175a91.16.1782454549650;
-        Thu, 25 Jun 2026 23:15:49 -0700 (PDT)
+        bh=VpJFy3k7fzvXeipnHRzRqJbquUwprfOCJ0cYmFTrF80=;
+        b=gj0ACVzxStqnVhkhSJ0b3bzt84n15dxzm9sUSgiYmAI0csV/NVums/4jXr+5tuuGbV
+         2SIJSmi3hzTwNKPlLYrqD4CQ3bWMLd5xndUlb9W/ad/XOvCc4VmWdAqeMJrPSPgWv1OV
+         lHFQyiguteDgVWBPCf2Ua1go9wrVLs1oQTqiEBsVY82WmFKGbUf1zzI4JU4IdzmRZr6C
+         7bJaGvPHaFy2rrBlMbfM/YakJN0OlpmB4+MqPgmcTftwh2IOY142jtA6zz/wVKVuH/31
+         a/7j1BYWQZbmTIkYvNLPMreY7WpK4yUKpnjVIxrmJUgnqylbRpmWeKGWjaxG33UxpZAi
+         Cy9g==
+X-Forwarded-Encrypted: i=1; AHgh+RpoSqcj2fk5t8afTL/BFXrbtHHVhuzXnOiaw2f14oB3CtNGko+OjpgwXqY8t+vzJH3U1Nh7Bg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMjXqSFpFub5S75VYxkyTG75nl3s4MCyooBIRdGcwMHaHFzKGU
+	339dg+Kz/0l8niy/tiYcF1H5sLWzXXrzZnyvHhxeJbbcKdyYqzajZhze
+X-Gm-Gg: AfdE7clNuyHElasS7KWv4h2tftmfiXRwYzGMXck4G/CwJqeFI22mecXRiiY2AVpwIu4
+	wPb9yTCEgwvkkyU34R/3TgCynVW9G5JCK2ksoPinlE12UaPICMa7v83DuRT11vugrq+wF8GGoZf
+	eCyVrHXiHvg5loy/HWgE8riiCZiHMPy5Oi2Ug1w7XICxAeF5wQ23VpPdG7QRznkYQugX1+U+HMo
+	rY9yUp3JwzGEFClU37sxW7ealLLuV43fZa/LK4yK65pTkQDoKJw35TWg1N5ncQpyZd1Bhh+Fh4r
+	yZiIwZBQtOufRiUU5s6a/m8oQKTRIs9H4nZAgPW7AoOWFsyksFOqyE2AguVRrsWD9vPSnZwPDIv
+	3kxyUczRPK8uSZGh9A/t8v5GCEWSczQQnkr6Uzz9HgNTqEb/5YBQYzVW5oqH+DrCSmNPXzaC63q
+	b4GTg9N9U/LdMFnnND0HWxWKnnW9wN04oTO6s+l9jI9iAaMg0=
+X-Received: by 2002:a17:90b:180b:b0:36d:ee3b:fcae with SMTP id 98e67ed59e1d1-37dfa1b664cmr5210147a91.6.1782454554875;
+        Thu, 25 Jun 2026 23:15:54 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37e12da6ec4sm302051a91.2.2026.06.25.23.15.45
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37e12da6ec4sm302051a91.2.2026.06.25.23.15.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 23:15:49 -0700 (PDT)
+        Thu, 25 Jun 2026 23:15:54 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -77,9 +77,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	chrome-platform@lists.linux.dev,
 	asahi@lists.linux.dev,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 16/24] ASoC: codecs: cs42l84: Use guard() for mutex locks
-Date: Fri, 26 Jun 2026 13:13:21 +0700
-Message-ID: <20260626061329.23264-17-phucduc.bui@gmail.com>
+Subject: [PATCH 17/24] ASoC: codecs: cs43130: Use guard() for mutex locks
+Date: Fri, 26 Jun 2026 13:13:22 +0700
+Message-ID: <20260626061329.23264-18-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260626061329.23264-1-phucduc.bui@gmail.com>
 References: <20260626061329.23264-1-phucduc.bui@gmail.com>
@@ -98,60 +98,125 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/cs42l84.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ sound/soc/codecs/cs43130.c | 72 +++++++++++++++++++-------------------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
-index f2a58163de0e..36533a13319d 100644
---- a/sound/soc/codecs/cs42l84.c
-+++ b/sound/soc/codecs/cs42l84.c
-@@ -10,6 +10,7 @@
- 
- #include <linux/bitfield.h>
- #include <linux/bits.h>
+diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
+index e7b06f962790..48d88dad4ceb 100644
+--- a/sound/soc/codecs/cs43130.c
++++ b/sound/soc/codecs/cs43130.c
+@@ -6,6 +6,7 @@
+  *
+  * Authors: Li Xu <li.xu@cirrus.com>
+  */
 +#include <linux/cleanup.h>
  #include <linux/module.h>
  #include <linux/moduleparam.h>
  #include <linux/kernel.h>
-@@ -281,10 +282,9 @@ static int cs42l84_set_jack(struct snd_soc_component *component, struct snd_soc_
- 	struct cs42l84_private *cs42l84 = snd_soc_component_get_drvdata(component);
+@@ -818,26 +819,26 @@ static int cs43130_dsd_hw_params(struct snd_pcm_substream *substream,
+ 	unsigned int required_clk;
+ 	u8 dsd_speed;
  
- 	/* Prevent race with interrupt handler */
--	mutex_lock(&cs42l84->irq_lock);
-+	guard(mutex)(&cs42l84->irq_lock);
- 	cs42l84->jack = jk;
- 	snd_soc_jack_report(jk, cs42l84->hs_type, SND_JACK_HEADSET);
--	mutex_unlock(&cs42l84->irq_lock);
+-	mutex_lock(&cs43130->clk_mutex);
+-	if (!cs43130->clk_req) {
+-		/* no DAI is currently using clk */
+-		if (!(CS43130_MCLK_22M % params_rate(params)))
+-			required_clk = CS43130_MCLK_22M;
+-		else
+-			required_clk = CS43130_MCLK_24M;
++	scoped_guard(mutex, &cs43130->clk_mutex) {
++		if (!cs43130->clk_req) {
++			/* no DAI is currently using clk */
++			if (!(CS43130_MCLK_22M % params_rate(params)))
++				required_clk = CS43130_MCLK_22M;
++			else
++				required_clk = CS43130_MCLK_24M;
++
++			cs43130_set_pll(component, 0, 0, cs43130->mclk, required_clk);
++			if (cs43130->pll_bypass)
++				cs43130_change_clksrc(component, CS43130_MCLK_SRC_EXT);
++			else
++				cs43130_change_clksrc(component, CS43130_MCLK_SRC_PLL);
++		}
+ 
+-		cs43130_set_pll(component, 0, 0, cs43130->mclk, required_clk);
+-		if (cs43130->pll_bypass)
+-			cs43130_change_clksrc(component, CS43130_MCLK_SRC_EXT);
+-		else
+-			cs43130_change_clksrc(component, CS43130_MCLK_SRC_PLL);
++		cs43130->clk_req++;
++		if (cs43130->clk_req == 2)
++			cs43130_pcm_dsd_mix(true, cs43130->regmap);
+ 	}
+ 
+-	cs43130->clk_req++;
+-	if (cs43130->clk_req == 2)
+-		cs43130_pcm_dsd_mix(true, cs43130->regmap);
+-	mutex_unlock(&cs43130->clk_mutex);
+-
+ 	switch (params_rate(params)) {
+ 	case 176400:
+ 		dsd_speed = 0;
+@@ -881,26 +882,26 @@ static int cs43130_hw_params(struct snd_pcm_substream *substream,
+ 	unsigned int required_clk;
+ 	u8 dsd_speed;
+ 
+-	mutex_lock(&cs43130->clk_mutex);
+-	if (!cs43130->clk_req) {
+-		/* no DAI is currently using clk */
+-		if (!(CS43130_MCLK_22M % params_rate(params)))
+-			required_clk = CS43130_MCLK_22M;
+-		else
+-			required_clk = CS43130_MCLK_24M;
++	scoped_guard(mutex, &cs43130->clk_mutex) {
++		if (!cs43130->clk_req) {
++			/* no DAI is currently using clk */
++			if (!(CS43130_MCLK_22M % params_rate(params)))
++				required_clk = CS43130_MCLK_22M;
++			else
++				required_clk = CS43130_MCLK_24M;
++
++			cs43130_set_pll(component, 0, 0, cs43130->mclk, required_clk);
++			if (cs43130->pll_bypass)
++				cs43130_change_clksrc(component, CS43130_MCLK_SRC_EXT);
++			else
++				cs43130_change_clksrc(component, CS43130_MCLK_SRC_PLL);
++		}
+ 
+-		cs43130_set_pll(component, 0, 0, cs43130->mclk, required_clk);
+-		if (cs43130->pll_bypass)
+-			cs43130_change_clksrc(component, CS43130_MCLK_SRC_EXT);
+-		else
+-			cs43130_change_clksrc(component, CS43130_MCLK_SRC_PLL);
++		cs43130->clk_req++;
++		if (cs43130->clk_req == 2)
++			cs43130_pcm_dsd_mix(true, cs43130->regmap);
+ 	}
+ 
+-	cs43130->clk_req++;
+-	if (cs43130->clk_req == 2)
+-		cs43130_pcm_dsd_mix(true, cs43130->regmap);
+-	mutex_unlock(&cs43130->clk_mutex);
+-
+ 	switch (dai->id) {
+ 	case CS43130_ASP_DOP_DAI:
+ 	case CS43130_XSP_DOP_DAI:
+@@ -988,14 +989,13 @@ static int cs43130_hw_free(struct snd_pcm_substream *substream,
+ 	struct snd_soc_component *component = dai->component;
+ 	struct cs43130_private *cs43130 = snd_soc_component_get_drvdata(component);
+ 
+-	mutex_lock(&cs43130->clk_mutex);
++	guard(mutex)(&cs43130->clk_mutex);
+ 	cs43130->clk_req--;
+ 	if (!cs43130->clk_req) {
+ 		/* no DAI is currently using clk */
+ 		cs43130_change_clksrc(component, CS43130_MCLK_SRC_RCO);
+ 		cs43130_pcm_dsd_mix(false, cs43130->regmap);
+ 	}
+-	mutex_unlock(&cs43130->clk_mutex);
  
  	return 0;
  }
-@@ -831,7 +831,7 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
- 	u8 current_ring_state;
- 	int i;
- 
--	mutex_lock(&cs42l84->irq_lock);
-+	guard(mutex)(&cs42l84->irq_lock);
- 	/* Read sticky registers to clear interrupt */
- 	for (i = 0; i < ARRAY_SIZE(stickies); i++) {
- 		regmap_read(cs42l84->regmap, irq_params_table[i].status_addr,
-@@ -902,8 +902,6 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
- 				break;
- 			}
- 
--			mutex_unlock(&cs42l84->irq_lock);
--
- 			return IRQ_HANDLED;
- 		}
- 
-@@ -919,8 +917,6 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
- 		}
- 	}
- 
--	mutex_unlock(&cs42l84->irq_lock);
--
- 	return IRQ_HANDLED;
- }
- 
 -- 
 2.43.0
 
