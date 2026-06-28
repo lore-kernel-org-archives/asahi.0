@@ -1,66 +1,66 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0A334681
-	for <asahi@lists.linux.dev>; Sun, 28 Jun 2026 11:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686B631282F
+	for <asahi@lists.linux.dev>; Sun, 28 Jun 2026 11:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782646979; cv=none; b=TAi6VtdEJs9PWfuCPmCoiqIMefP3JxkIJjMoVkBNgpS6AszPW3kqw1PLMOXP/A1hhbuXYegSUEHnEZPFsDJkTiidWUp38SMu91s6ZcWKCBL3lHfRMx5UzKGVRGjZS15c9/uJPFRrZ2Gaa87uNcqjdJ/IYnHc+E6JeqE3bd8J490=
+	t=1782646982; cv=none; b=ZgzTiZIiOf+t7wORc3Hl62HucHNMx17t0QtUf0ECOGI8EXon/NjG7vPv0oQUm8zyRlzv/6iMlV807Kroy7wGf/xjEiDPZ56dWx4Cfbd/Z8ceoroGN+EncibysGnhYqZGTVxmxv/xmxb3uniLDpiuGKvoisYwM74VGaaKhOtK7Ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782646979; c=relaxed/simple;
-	bh=nvJ+UiJkWWRyGy3f7wALOFyXqoMW/uxTv/G1syn/h+A=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NsJs1iG1gq9OjWSKUTVSq1H714x+MpXRZmykgcoxVzg6CAx0TRhhmxRf+f3zOFvvw8fm1WNbltqA5xrX61+auqV6l6+A1xC5pmJpt7Tw5wlQznXgMk6p1E6BtjSeLxuO2PxOzpdBiH9njbdGQmihO0i8D7vBHEqqBsu/NoD8tPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BejUkSHB; arc=none smtp.client-ip=74.125.82.176
+	s=arc-20240116; t=1782646982; c=relaxed/simple;
+	bh=t9+lcbAdwDvq6j9GMcBzxDd6Ri1EgHg8YLlczJXhS1k=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YN9eAMnOuEdRD1S7ARyf1BXeROCZ7bzTmXFbh8xDCTnEsazq8DltNrRZ7oUUZjWav0x5pQqM+ZvanJPdnHqywtMBbVYWJNgTQy8vK0YAC69hNyAWERHBBcsrytOIaOqkDpJ30Pl9uRqFbpLg+nbaX4jxrfJNlRJ1ijY9NoVD+b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rIu3WC1D; arc=none smtp.client-ip=74.125.82.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BejUkSHB"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-30bf8b2bd20so5060342eec.0
-        for <asahi@lists.linux.dev>; Sun, 28 Jun 2026 04:42:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rIu3WC1D"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-30b9e755555so3665291eec.1
+        for <asahi@lists.linux.dev>; Sun, 28 Jun 2026 04:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782646977; x=1783251777; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YAk8442Avxsgq6imq9OT/N27lrTKWAYKzGpnqp44Y+A=;
-        b=BejUkSHBoNJdwKcMevfx7HtQOgrYTOfpYRagqiiPUTr+l3vySYv8dlyqOfH1V196ta
-         yzXKUORJVhJsKJ2wQgSH25j4thPTuzXRe7TczXraeZYxOkGnEKfcb+AVut3O59lY9snw
-         y2iHAoe1oaFkwMlfNSiGseDAozlRO9TeFByjSAk5drX064v8mMqp5aixEIXbH421W8aG
-         R30973onHy19xmg31fVzwa0FVfHqmQ3tdAIoWAEIWCcUmkvYV8vPSs8e6IjqV8QtNk4q
-         Pn7rGAQ3PfyPGfShYJEz9vceBudxs0SPYbb3LQAGIhzIfFK7YiDsRp5Fu6gLFOk+7Yfn
-         ANTQ==
+        d=gmail.com; s=20251104; t=1782646981; x=1783251781; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lkrl4ZHeVcLevSofgvxJDnh/ABWj9Hg5VAZmH82+HzA=;
+        b=rIu3WC1D4FYhg4gw2gH0JCO2gXyChVcxdc10YezSi9KclHSoY1092P6wzwEVf+7xH6
+         PSrNoQQHarUBkG9hEyio84LmI6M8eQCDyz/YnIQYDeEzhJa1pUwdJhpkQg1OA6BaRlJ5
+         zSowEGAODFsoqitsBMxmvVid4brzli+98O5wmqj8zOojAOS0DHGWQJO3EHwbPanhO9/3
+         9hg9zKzpfXMQOTEiwMhEbIA435ho4n/wZLkqJejpMELg6190BbUx3iDMVAd7H74Seuyf
+         nH8NBmAE5qpJzYYsyrBIEWpaRGABLTJsDIGnp/hVWh46r20mVuNHBglIrCkM6yjCJlMV
+         mvHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782646977; x=1783251777;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YAk8442Avxsgq6imq9OT/N27lrTKWAYKzGpnqp44Y+A=;
-        b=kFYcdYW0bKE1PhuEMCTtxJkUOwQTT3fZ7NEx9QD7jSgvUyt1rYawSJB7hEuH+2KvAB
-         NCIB382g/lzF7JQ2NNYrP93G4EUP4FmaWxBZ/QSaMdL0VQK3FZ9Pak8QsBWIAyeWKejW
-         ecfcqzVFWB9JK/JFKM62TT/lB4Uq/V5eXA/AQsDc/hXwvL0vaDUoa7bgsZtkcdp6xVt9
-         fd239hQOIYa64azRwiSn2LjsdLDPjohXJVdWDpYWJ/3ZGVYIhZ5lFwtzp4pBR1ZuUsSI
-         +CTLO+q5T5iA1bVsRuUVjXoMpQRZG5t3yzJwCAlUv0uXRhlBUvHdehOcz1SXZ6dcSaqZ
-         3s0A==
-X-Gm-Message-State: AOJu0Yw7Uaxr9Cknc8NW5POdJgUh2rWEO5+GEJJPVAVabHYwpg28mEfX
-	/TX0NzLSJXBwhbaRENWIjNbZft6H9mSzRzJIXxWFK6N7rWk/58xD8Ecr
-X-Gm-Gg: AfdE7cnpJrsaBihV5mxi23K3LseO+IVHRHjUxAnwFefakZTC2jeC4TEw035on2r77yU
-	vsD35BkmYPmZy4D8JdQXFEAjr43fqjJdpvkI6+Lt/G3H04xKRqK0zTxP5+PnCmXrNqfPE+n6yZH
-	97vSt8WRDavZpwU7wHdiWunRPUgvLPHmS3/9/eLZDpVC5eciw7KeEZAsQtrVHaLGjG02mBeyks6
-	jniDQGa5kUdIsioKDjn7T4NzSOjn1fL0c08El8tnAvyj/Ghl/Fokk4JeFxhWF81Fz9w9pSXsOu2
-	Zy7AaRVvATFyNYmZaQ7hImJfzNX47QIoHzcGIq0JAZEFl2fHVC1AnJaCxUZrpoM4xQXehETgDmc
-	n3GiW/N9LEza6sTxD8oPrPQnp8uGLvWh2sl5qvoHqa4u/9ZpzdevliB5l2TArsghO47n8pAkU0d
-	+21HFBFa2JafuDRhcq3x02pMgmhu9CAD1YuZdoINAGraLeSiFrXWDzFm1JqGi//8uKXSiTizHp/
-	S7hOwNGCW0sLbBLEJ5oKzbCzJLIAHHl/oYoqxAEmWWVMIUd0XsZufXDbxpUqOe7Uw==
-X-Received: by 2002:a05:7300:fb96:b0:2ef:9961:27fa with SMTP id 5a478bee46e88-30cab22afa3mr6894818eec.18.1782646976615;
-        Sun, 28 Jun 2026 04:42:56 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782646981; x=1783251781;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lkrl4ZHeVcLevSofgvxJDnh/ABWj9Hg5VAZmH82+HzA=;
+        b=roV9C46DQ6vOr0mFv7BLmowhu+8U9iEw0BJYtcGkELS9dtfooJfjRjkvW5+J02I/Jz
+         31lZfi8OfBZB2h4oOYYS6EbqEyL61oI1Qlf1CERnmfNYOY5iTiNyejkYb2DODhPTSqcS
+         bi2pW1VVy8pBk6hIioeduEAAOwSeLYR0R+gdPX52nRauPEu9t2qW3uMBCnGUS5hWCivM
+         QodZEHg4+FwkGnzyyziLkfoiRJIDYa3hmZcUy5rgOyDvp+312E8MMAdCnI6j7S9GadEn
+         FYWjz/dY3Qu/bdd94mH8emhBmvuSbLPwAeB7hkYNOz0/9YsswXXeudf7ZnIAiUuRZsOD
+         xPOw==
+X-Gm-Message-State: AOJu0Yy4ix/MdrLtZS+sfS86pgoCr1BUlNXf8PI6DKQZSotz1npFfeMQ
+	yjtSGOTHV871R9pzgaKjGMoxC6fb1QbxmF80f5hIUnGevNM4JT9hPKPx
+X-Gm-Gg: AfdE7cllCEZTLY5I3jEbIVrzGc1pbSIl2DU8Jxl7/y2OUuBfylRLMLUBJvxIzjY154g
+	Wl6f3onzDRxERgR9mavm52t2GK0M1C5H2tKv+3KTviTQSQ9wzDljrJp6rgr6qOH5+YncRAJSjJ6
+	wKPBHkv9NOY66ICiIl5NZNM9iYkwBMwD/kvFNGjyyoiETE0ji7RqGl4g+3PDIDqM4k2Pf1sk5Jw
+	6m9Hoz3mRZ+iJ6CynnajR7FZEyNvlKlMgi88CSW4NprxHiA11xRylLTobri6Ko5VoecHZMd+7p6
+	ilgVD7jf8vqoj70dD92uAU4Auf/hrwURQaxfvks0A1CwwKdcIP7cltXp/lAGTSJQn0WVirZuAYG
+	+/tOtYyxQ+SpFCrIZug9ukPBvgdVkdmkeRIjDIWXV5OlzjvRxI016Gwubc8kbej5KXoNLzt9trD
+	LmfDjO5Rg5ZCICi/49N1iCBbpRVE8vSRfIImEbdSPERfS1jHaL/FThRHFxJZAOhBYgBt5fn2ClJ
+	/j00Y7QKHWG/PSnDgX3l+2onk4pYMTuhQ1wyMJ0zyXFYUhR7c7TXVPzu6vCm9CNNVmzSQVwkbRg
+X-Received: by 2002:a05:7300:547:b0:30c:38ed:46b5 with SMTP id 5a478bee46e88-30c84c0506amr13805935eec.12.1782646980547;
+        Sun, 28 Jun 2026 04:43:00 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c8b1a80sm34520756eec.18.2026.06.28.04.42.52
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c8b1a80sm34520756eec.18.2026.06.28.04.42.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 04:42:55 -0700 (PDT)
+        Sun, 28 Jun 2026 04:43:00 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Subject: [PATCH v2 0/7] ASoC: apple: mca: support simultaneous I2S capture
- on the frontend
-Date: Sun, 28 Jun 2026 21:41:58 +1000
-Message-Id: <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
+Date: Sun, 28 Jun 2026 21:41:59 +1000
+Subject: [PATCH v2 1/7] ASoC: apple: mca: increase SERDES reset delay
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -68,95 +68,60 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqEMAxA4atI1gZKFAe9irjoTxwjoqW1Ioh3t
- +Msv8V7F0QOwhG64oLAh0TZ1gwqC7CTXr+M4rKBFDWqoQq19wujTk42DOzSieZj6sq1VpEeIXc
- +8Cjn++yHv2MyM9v9N4L7fgCilGRWdQAAAA==
-X-Change-ID: 20260623-apple-audio-redux-b7b43d9c02af
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260628-apple-audio-redux-v2-1-6328269c9652@gmail.com>
+References: <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
+In-Reply-To: <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>, 
- Hector Martin <marcan@marcan.st>
+ linux-kernel@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2468;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1359;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=nvJ+UiJkWWRyGy3f7wALOFyXqoMW/uxTv/G1syn/h+A=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmOHMu0Q0wlmhdlRxYo5oZtW/1gmvuK9oW3qo7wHN7u0
- m+96v65joksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
- GukY6xgxcHEKwFRnCTH8z3cOYzqkx550r0TqZeONfJ6Hy7lcT16vuZfP8kDh899VpxkZVn1zrxZ
- 9EzP/1KaN15Lidzc6fHtz/0mr245XRhNVH1cn8AIA
+ bh=t9+lcbAdwDvq6j9GMcBzxDd6Ri1EgHg8YLlczJXhS1k=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmOHLt3L43hvCb7UXOaWot5/nKxK/z9vd1dr4WWfKpLX
+ BK+Ylt8x0QWBjEuBksxRZYNTUIes43YbvaLVO6FmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
+ jXSMdYwYuDgFYKobHjL8s0hnOjHDYHFJ5LsYb5sfCfsTDrFO9RVX7VqQK1W7sZ/lISPDY0Gfh+Z
+ +pkGGej1M3rs7v1yNOWIl29bDNW3aN02Tl4sYAQ==
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi folks,
+The SERDES clusters in this peripheral take a long time to warm up.
+We tried polling the reset bit until cleared, however this is not
+a reliable signal of readiness to be configured. Only waiting
+~25 us to give the cluster a chance to settle makes it work
+reliably.
 
-This is technically version 2 of a patchset that was supposed to have
-been applied quite some time ago, but seemingly never was. The original
-cover letter is as follows:
+Increase the 2 us delay to 25 us and hope we never have to do this
+again.
 
-This series introduces a number of changes to the ASoC driver
-for the Apple MCA peripheral to enable support for bidirectional
-I2S. This is achieved by allowing frontends to act as clock consumers
-and logically ORing data input lines when multiple backends are linked
-to a frontend.
-
-This allows the Texas Instruments speaker amps used on Apple Silicon Macs
-(Apple-specific revisions of TAS2764 and TAS2770) to send their IVSENSE
-data back to the SoC. Since these amps do not have any sort of integrated
-speaker protection logic, we must use the IVSENSE data and the Thiele/Small
-Parameters of the attached speaker(s) to implement our own in software.
-
+Fixes: d8b3e396088d ("ASoC: apple: mca: Fix SERDES reset sequence")
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
-It is not so bad that these patches did not end up applied, as some changes
-ended up being necessary:
+ sound/soc/apple/mca.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
----
-Changes in v2:
-- Drop readx_poll_timeout use. It ended up being unreliable. Fall back
-  to just bumping up the delay on SERDES reset :/
-- Rebase on asoc/for-next
-- Drop the one patch that was applied
-- Drop clock shutdown relocation patch. This was not actually required
-  and the incorrect thing to do anyway.
----
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index 492165c0e1ea..ebe116f32661 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -210,10 +210,10 @@ static void mca_fe_early_trigger(struct snd_pcm_substream *substream, int cmd,
+ 			   SERDES_STATUS_EN | SERDES_STATUS_RST,
+ 			   SERDES_STATUS_RST);
+ 		/*
+-		 * Experiments suggest that it takes at most ~1 us
+-		 * for the bit to clear, so wait 2 us for good measure.
++		 * The SERDES cluster needs a bit of time to reset itself
++		 * and settle before we start poking it. This is... slow...
+ 		 */
+-		udelay(2);
++		udelay(25);
+ 		WARN_ON(readl_relaxed(cl->base + serdes_unit + REG_SERDES_STATUS) &
+ 			SERDES_STATUS_RST);
+ 		mca_modify(cl, serdes_conf, SERDES_CONF_SYNC_SEL,
 
-Link to v1: https://lore.kernel.org/asahi/20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com/
-
-Regards,
-James
-
-To: Martin Povišer <povik+lin@cutebit.org>
-To: Liam Girdwood <lgirdwood@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev
-Cc: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-
----
-Hector Martin (2):
-      ASoC: apple: mca: Do not mark clocks in use for non-providers
-      ASoC: apple: mca: Add delay after configuring clock
-
-James Calligeros (1):
-      ASoC: apple: mca: increase SERDES reset delay
-
-Martin Povišer (4):
-      ASoC: apple: mca: Separate data & clock port setup
-      ASoC: apple: mca: Factor out mca_be_get_fe
-      ASoC: apple: mca: Support FEs being clock consumers
-      ASoC: apple: mca: Support capture on multiples BEs
-
- sound/soc/apple/mca.c | 301 +++++++++++++++++--------
- 1 file changed, 208 insertions(+), 93 deletions(-)
----
-base-commit: e67251245f42eb4479636d4c082cdbe60b23f5b3
-change-id: 20260623-apple-audio-redux-b7b43d9c02af
-
-Best regards,
---  
-James Calligeros <jcalligeros99@gmail.com>
+-- 
+2.54.0
 
