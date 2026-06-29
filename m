@@ -1,66 +1,34 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853803A5435
-	for <asahi@lists.linux.dev>; Sun, 28 Jun 2026 11:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142DE3F5BD9
+	for <asahi@lists.linux.dev>; Mon, 29 Jun 2026 09:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782647007; cv=none; b=H8mwF9+FpC4gs8tTWpN0J9djpC7StShgJtXcd+Mj8muoZ8yPUmAAebKMJi/Fzn1betW5BKyRXxL7GeQ/kzZWJdcBS91Gxl4LNvAte4s/leueTL+bSH0spTR1DXiTY1k7UjH+FDLin27YryfyBRRh84xDp5bqba9nGuu5zBeXkrU=
+	t=1782726557; cv=none; b=UVL6jK+uqhLCYi8e/PwPYQqfAHmvcRQzZpUJ/iWNF2zNpe5WD7I/mBkzqDO/5x8gAtHGjdRlpjVu8IMrdQcXeTNaLO0KSQaHc4+ymRlXQdylvkaaL0xG1P0+n0THwfMRljFDq84plDhVCLVMM9x74fBSGyuaAL4hZIBK40Vu5Nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782647007; c=relaxed/simple;
-	bh=f9Z8Po5dG+RGUXsODFlcTQisxKau0phFttvagFoIj8Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sKES0mP2gq1Nt3tTO3o/QHonKhHpuvyVHDMPzVBLWcf/EbnPjCdxokoeX/Jijoa2eVCYDqs5tgLnnPHrzKF4qxyRz0Gn0byZF9ytES5Jggk2E2si1rag48jrF5dnGrkPZ1kgj7+8XC6S8AzNO3tfNjxcvY4tZyDkDxYya/QKplU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SAc/QoWs; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782726557; c=relaxed/simple;
+	bh=sqKFDbIEcCs2cvx/DTq3eUOzdy0v/552i0lfDimwwZE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tY2eeOQDtfRIlyftvafegr04HD4VCogBRHACcU8TXtR6csa359i/jZ4znFoawQYeqmO0W1VU+UchsbnBFuhHtWwYZKp4IC5ts5+/R63jKxFq7Z+mYyIgTteB7kP7WTd7oE0gUevYIm8m9jOoEAzuf2uV1ESolz4JIjzk1tLXI+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=qMFhtldV; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SAc/QoWs"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-30ec3dfbcd1so350276eec.0
-        for <asahi@lists.linux.dev>; Sun, 28 Jun 2026 04:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782647006; x=1783251806; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZVxBwO9ofhwXsj5qcE/m/Bgq+dyvGwnXosapaOuR78s=;
-        b=SAc/QoWsNrip8VbK927Z0Pp2K8JbE4C1UUSnJ30RxMpyTFQElsfag8KJOsLWuJAOj/
-         JYXDvzXpZWZ07U+G6vxCRNizG5jiDUU3vFvzqQWCelxTTZMCXGW2DZA493T8jyRtk+Dl
-         fJBl25L9pv31mCuKYlw8i8yS2Zgx/z7JVds9rXiLTBgljp6t7lgzXhcixjxW2CoLu60o
-         QAcFqMgLi18i1s2qETSA8Aq3XsUYo8kssN3kRUwYmzzEtBe00cf2K4f+Ks6TZe26Z8wB
-         mQi2uzAfh6fnU2+SFNG0ZhPBYg5/EwzutnvgosqRiajy4qSUOs3Ftf5s90/6cZGTKNLp
-         adnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782647006; x=1783251806;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZVxBwO9ofhwXsj5qcE/m/Bgq+dyvGwnXosapaOuR78s=;
-        b=JHmhUi8CbiMT4z+22E5l562WZcIwBU2+9KT6L5xe0NvOT/JRXCp2tvsv12va0MHW0D
-         110uAfZbwj2GpG97HCK0xjnifLAdQcurrj4hGocICwucFdZDnbgCTj4a5saa1x2ljexg
-         sHfvoghOAykUZJJaFs/6FtIeN+QQJhHzoo1Sj7mky76NmmVeONII/h16NPeFOaarf5Ir
-         U4EJtIv4VBEWK23wen1IpfGDmlUbxTBINkU5Q7xBq1+wXaOnhy6i+ujMrWGA18wYbhL5
-         hQNS/K5QkM3oucJw15BWl2IPKrfIj22qnl7aF0Xa9rhwHH4QRbgLibtrnjxTPicw22JE
-         H/QA==
-X-Gm-Message-State: AOJu0Yxhvhj70xvT1uVVNiDQGRjhaotHjMl9kKneZ0OFL5OIMD2810Lr
-	AXH9SvTFS7nXPpAELnmKCmK6LEYNOrwNNwJs5WykA5BE2bOwfpPUwexl
-X-Gm-Gg: AfdE7cmknsPQs94U7hkcKvgj0NNdaXB63aeEtm/d6ncVhiuFS5UOEuuUC8+4uRDiQUN
-	7e8rP+kMnrle4lTszqhMyHWgcvzoBu/Aj5lIe+jkeXGDsTZFv/oHv3lcmkxrOZ2yFfAV4gXK9gm
-	1dFrugd1HrHf/RWOm94WF2WnNyqj5RXZiGlmOnIhrvVvojEAJuMx7M5b4ZqidNBBddEhwJtAgL7
-	ByrYxDfvCk37OpG7BjXhkYM0u2j6MWFog/oKynBjpgwGNBOT0kkd4zS+tLIC8n1CD6MpjJ+u2VJ
-	RQrDpFAzPiZflQeXqGimd88yR7B8JFbjpqMaKABAFd3IywfRcvW4t1vvblPgE7lGGk7cC0DS+Sj
-	a+Ui2odwVfbDQTq2yHGoDqQkbqItAUD8Am0HBm1+gyviazhG9se1u+aKhI8ydOX71gUOtasIfy9
-	6T4KueJImV12+gMQrza/yrgCl7pqB42nx6kyVOZXSADfkRE7dd/oUn66t9NNcslb+GXW7XhtQAJ
-	yVxCvQXthpCr2Gy8lvEd6V9rMoBCnCiE6XGPMNnSugfqcN+82c9Z1Zi0L+MfynhWQ==
-X-Received: by 2002:a05:7300:a485:b0:2d8:7302:d3d with SMTP id 5a478bee46e88-30c84d5034emr11553921eec.8.1782647005659;
-        Sun, 28 Jun 2026 04:43:25 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c8b1a80sm34520756eec.18.2026.06.28.04.43.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 04:43:25 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 28 Jun 2026 21:42:05 +1000
-Subject: [PATCH v2 7/7] ASoC: apple: mca: Add delay after configuring clock
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="qMFhtldV"
+Received: by chaosmail.tech (Postfix) id 793011CB983;
+	Mon, 29 Jun 2026 09:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1782726187;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oBhbYYISpLrIPK4lF4gaoN3zx36fHWE0W6XAugBNCrk=;
+	b=qMFhtldVvg7tSNSE+uKpg20xCQN+OrOt/FY8tRyLwSRcIuh3pvJHTMyr35XMx/rzIKy7vn
+	VnmbcfvAik90s9Q0TfKF8jD1SHtyr1FLKfBQn9XQik6KnUNYQmYcTFcPh6oLI1P6zs9WYk
+	rv8c+wNUhXDBPKpgYoDRlsXbrejECFM=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Mon, 29 Jun 2026 11:42:42 +0200
+Subject: [PATCH v3] power: supply: macsmc: Support macOS 27 SMC firmware
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,56 +37,145 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260628-apple-audio-redux-v2-7-6328269c9652@gmail.com>
-References: <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
-In-Reply-To: <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
-To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1040;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=FKofmjv+HMrQuSW7ticy2BojcrI4dpO37WSVpG9Fvcc=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmOHHs2zPshPdexky1RRnnzjANxF16Eyh9O8Z+T1+/lX
- z1RxKGvYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- RjrGOkYMXJwCMNUGcxj+55rULluzUllXxTu2fv4Pp2OvfqtYZkl82lLp5584vfZWFyPDTqt+rbt
- 2+9dfEFFRX/7va8+rhddYT0bFz63Y8nOHlm0mIwA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Message-Id: <20260629-gate-power-v3-1-8428ab93f389@chaosmail.tech>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22OzQ7CIBAGX6XhLAbWBNST72E88LO0GG0bQNQ0f
+ XehXjR6nOSb2Z1IxOAxkn0zkYDZRz/0BTarhphO9S1SbwsTYCCY4Jy2KiEdhzsGapyVIKxhVjp
+ ShDGg848ldjy9Od70GU2qhbrofExDeC7XMq+7v+HMKadbJUACZ1th5KH8MsSr8pd1QtORWs/w6
+ cOXD8W3KIXRO60luh9/nucXXyNCu/sAAAA=
+X-Change-ID: 20260611-gate-power-cfd726dc0d7f
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Sebastian Reichel <sre@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Joshua Peisach <jpeisach@ubuntu.com>, stable@vger.kernel.org, 
+ Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782726186; l=4571;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=sqKFDbIEcCs2cvx/DTq3eUOzdy0v/552i0lfDimwwZE=;
+ b=rAhW13ZQ4HEXnm44sK/vEYVcG2oDhiUbPESwy2G5RRIbCUbMuvLHz1NLGVk56y0zwnvS8yodm
+ MhLGnNtNmmhC9QU2PDJ8upyBNA2Xar8vAA0vo3VggqD6cLw+NpmC4YF
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-From: Hector Martin <marcan@marcan.st>
+The SMC firmware included in macOS 27 changed the size of BCF0 key from
+4 to 1 bytes. This key is used for indicating that battery state is
+critically low.
 
-Right after the early FE setup, ADMAC gets told to start the DMA. This
-can end up in a weird "slip" state with the channels transposed. Waiting
-a bit fixes this; presumably this allows the clock to stabilize.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+Reviewed-by: Sven Peter <sven@kernel.org>
+Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+Reviewed-by: Janne Grunau <j@jannau.net>
+Cc: stable@vger.kernel.org
+Fixes: 0ebf821cf6c7 ("power: supply: Add macsmc-power driver for Apple Silicon")
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
- sound/soc/apple/mca.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Changes in v3:
+- Minor style fixes
+- R-b tags and Cc stable
+- Rebase on 7.2
+- Link to v2: https://patch.msgid.link/20260612-gate-power-v2-1-de76cb9bb7ef@chaosmail.tech
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index a1da01b0be32..eaa4e81f9a3b 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -225,6 +225,12 @@ static void mca_fe_early_trigger(struct snd_pcm_substream *substream, int cmd,
- 			   FIELD_PREP(SERDES_CONF_SYNC_SEL, 0));
- 		mca_modify(cl, serdes_conf, SERDES_CONF_SYNC_SEL,
- 			   FIELD_PREP(SERDES_CONF_SYNC_SEL, cl->no + 1));
-+		/*
-+		 * ADMAC gets started right after this. This delay seems
-+		 * to be needed for that to be reliable, e.g. ensure the
-+		 * clock is stable?
-+		 */
-+		udelay(100);
- 		break;
- 	default:
- 		break;
+Changes in v2:
+- Addressing review feedback
+- Link to v1: https://patch.msgid.link/20260611-gate-power-v1-1-8a62721086c7@chaosmail.tech
+---
+ drivers/power/supply/macsmc-power.c | 36 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 33 insertions(+), 3 deletions(-)
 
--- 
-2.54.0
+diff --git a/drivers/power/supply/macsmc-power.c b/drivers/power/supply/macsmc-power.c
+index ced07f71e0a8..a357e50f81f2 100644
+--- a/drivers/power/supply/macsmc-power.c
++++ b/drivers/power/supply/macsmc-power.c
+@@ -86,6 +86,7 @@ struct macsmc_power {
+ 	bool has_ch0i; /* Force discharge (Older firmware) */
+ 	bool has_ch0c; /* Inhibit charge (Older firmware) */
+ 	bool has_chte; /* Inhibit charge (Modern firmware) */
++	bool bcf0_1byte; /* Battery critical key is 1 byte (Modern firmware) */
+ 
+ 	u8 num_cells;
+ 	int nominal_voltage_mv;
+@@ -273,6 +274,20 @@ static int macsmc_battery_get_date(const char *s, int *out)
+ 	return 0;
+ }
+ 
++static int macsmc_battery_read_bcf0(struct macsmc_power *power, u32 *val)
++{
++	u8 tval = 0;
++	int ret;
++
++	if (power->bcf0_1byte) {
++		ret = apple_smc_read_u8(power->smc, SMC_KEY(BCF0), &tval);
++		*val = tval;
++		return ret;
++	}
++
++	return apple_smc_read_u32(power->smc, SMC_KEY(BCF0), val);
++}
++
+ static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
+ {
+ 	bool flag;
+@@ -280,7 +295,7 @@ static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
+ 	int ret;
+ 
+ 	/* Check for emergency shutdown condition */
+-	if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &val) >= 0 && val)
++	if (macsmc_battery_read_bcf0(power, &val) >= 0 && val)
+ 		return POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
+ 
+ 	/* Check AC status for whether we could boot in this state */
+@@ -577,7 +592,7 @@ static void macsmc_power_critical_work(struct work_struct *wrk)
+ 	 * Check if SMC flagged the battery as empty.
+ 	 * We trigger a graceful shutdown to let the OS save data.
+ 	 */
+-	if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &bcf0) == 0 && bcf0 != 0) {
++	if (macsmc_battery_read_bcf0(power, &bcf0) == 0 && bcf0 != 0) {
+ 		power->orderly_shutdown_triggered = true;
+ 		dev_crit(power->dev, "Battery critical (empty flag set). Triggering orderly shutdown.\n");
+ 		orderly_poweroff(true);
+@@ -616,6 +631,7 @@ static int macsmc_power_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct apple_smc *smc = dev_get_drvdata(pdev->dev.parent);
+ 	struct power_supply_config psy_cfg = {};
++	struct apple_smc_key_info info;
+ 	struct macsmc_power *power;
+ 	bool has_battery = false;
+ 	bool has_ac_adapter = false;
+@@ -714,6 +730,20 @@ static int macsmc_power_probe(struct platform_device *pdev)
+ 		if (apple_smc_key_exists(smc, SMC_KEY(CH0I)))
+ 			power->has_ch0i = true;
+ 
++		ret = apple_smc_get_key_info(power->smc, SMC_KEY(BCF0), &info);
++		if (ret) {
++			dev_err(&pdev->dev, "Failed to determine BCF0 key size\n");
++			return ret;
++		}
++		if (info.size == 1)
++			power->bcf0_1byte = true;
++		else if (info.size == 4)
++			power->bcf0_1byte = false;
++		else {
++			dev_err(&pdev->dev, "Unexpected BCF0 key size %d\n", info.size);
++			return -EIO;
++		}
++
+ 		/* Reset "Optimised Battery Charging" flags to default state */
+ 		if (power->has_chte)
+ 			apple_smc_write_u32(smc, SMC_KEY(CHTE), 0);
+@@ -766,7 +796,7 @@ static int macsmc_power_probe(struct platform_device *pdev)
+ 		power->nominal_voltage_mv = MACSMC_NOMINAL_CELL_VOLTAGE_MV * power->num_cells;
+ 
+ 		/* Enable critical shutdown notifications by reading status once */
+-		apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &val32);
++		macsmc_battery_read_bcf0(power, &val32);
+ 
+ 		psy_cfg.drv_data = power;
+ 		power->batt = devm_power_supply_register(dev, &power->batt_desc, &psy_cfg);
+
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260611-gate-power-cfd726dc0d7f
+
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
