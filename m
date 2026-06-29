@@ -1,34 +1,36 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142DE3F5BD9
-	for <asahi@lists.linux.dev>; Mon, 29 Jun 2026 09:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817B53537DE;
+	Mon, 29 Jun 2026 10:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782726557; cv=none; b=UVL6jK+uqhLCYi8e/PwPYQqfAHmvcRQzZpUJ/iWNF2zNpe5WD7I/mBkzqDO/5x8gAtHGjdRlpjVu8IMrdQcXeTNaLO0KSQaHc4+ymRlXQdylvkaaL0xG1P0+n0THwfMRljFDq84plDhVCLVMM9x74fBSGyuaAL4hZIBK40Vu5Nk=
+	t=1782727272; cv=none; b=YUq3s2BYwCBh9yrdnlsgI2Iw8ELI/a/w8tY3OR8Xua3LJgJN8Oye87PkpB4d2QC7ue5MnPAbE8psGE81aFNtHydPNMPGXPflEuhArGIhQgg8R1e+9ESJKzUzJc5f56KbACJfzZeY1f06JuNll/zzmN+BmdB9lOrq0HhpHHEb1rE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782726557; c=relaxed/simple;
-	bh=sqKFDbIEcCs2cvx/DTq3eUOzdy0v/552i0lfDimwwZE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tY2eeOQDtfRIlyftvafegr04HD4VCogBRHACcU8TXtR6csa359i/jZ4znFoawQYeqmO0W1VU+UchsbnBFuhHtWwYZKp4IC5ts5+/R63jKxFq7Z+mYyIgTteB7kP7WTd7oE0gUevYIm8m9jOoEAzuf2uV1ESolz4JIjzk1tLXI+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=qMFhtldV; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1782727272; c=relaxed/simple;
+	bh=rbgcrkj6z95Tpqoh9xStzNsaQrUhtiLAyJIzfA0gGDg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Sy/nKxzSkG03G0gVmyOc2gzFWaZKuSwfTaCCl7QLsawp4MUoMkDcQSk23jKFz19gs6FUuMuOWUUAZU0/hAp+79INA4pB+j8kADboBWOTclHAP3/P1av/Y9r8RNvPzlHA6IPOAYx5rGlQqePzXGKhKf6O9nFBWQ5uvBI88Pucx3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DCmrBkIJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="qMFhtldV"
-Received: by chaosmail.tech (Postfix) id 793011CB983;
-	Mon, 29 Jun 2026 09:43:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1782726187;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=oBhbYYISpLrIPK4lF4gaoN3zx36fHWE0W6XAugBNCrk=;
-	b=qMFhtldVvg7tSNSE+uKpg20xCQN+OrOt/FY8tRyLwSRcIuh3pvJHTMyr35XMx/rzIKy7vn
-	VnmbcfvAik90s9Q0TfKF8jD1SHtyr1FLKfBQn9XQik6KnUNYQmYcTFcPh6oLI1P6zs9WYk
-	rv8c+wNUhXDBPKpgYoDRlsXbrejECFM=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Mon, 29 Jun 2026 11:42:42 +0200
-Subject: [PATCH v3] power: supply: macsmc: Support macOS 27 SMC firmware
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DCmrBkIJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3225BC19425;
+	Mon, 29 Jun 2026 10:01:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1782727272;
+	bh=rbgcrkj6z95Tpqoh9xStzNsaQrUhtiLAyJIzfA0gGDg=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=DCmrBkIJINrZGTToIVDyLNBHvawuYIFgAEi4hPjA1blHBacfPjR4KKmvCG+PSxeh9
+	 hOvHVOlIaIsFPBdHlaWDTttljRYpthLJCdAg94hNUpVNRW5jO4CJ+SaczWnarKhL+t
+	 QNIkgdRv53747ZJ+24dXvnqZeWjBf50dLXfhugvKskkIw0sViGmCDDNfqKRzlfFiKc
+	 9DMpqnmgaVOBWCIY4MbwrAX66JyAcxvmq7xTr3wSIOjpVcFSH4X51+6Wxv+K0rzTac
+	 2oPlQNGXuDQTJaLvBwfdLV0eRJnBQmGteXw/KA6Q+kupswEl0jL9nWDPfRxZ0YmG2n
+	 y2plyJCUBv7tQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9BAC43458;
+	Mon, 29 Jun 2026 10:01:12 +0000 (UTC)
+From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
+Date: Mon, 29 Jun 2026 20:01:01 +1000
+Subject: [PATCH] arm64: dts: apple: t8122: Fix I2C resources
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,145 +39,137 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260629-gate-power-v3-1-8428ab93f389@chaosmail.tech>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22OzQ7CIBAGX6XhLAbWBNST72E88LO0GG0bQNQ0f
- XehXjR6nOSb2Z1IxOAxkn0zkYDZRz/0BTarhphO9S1SbwsTYCCY4Jy2KiEdhzsGapyVIKxhVjp
- ShDGg848ldjy9Od70GU2qhbrofExDeC7XMq+7v+HMKadbJUACZ1th5KH8MsSr8pd1QtORWs/w6
- cOXD8W3KIXRO60luh9/nucXXyNCu/sAAAA=
-X-Change-ID: 20260611-gate-power-cfd726dc0d7f
+Message-Id: <20260629-t8122-i2c-fix-v1-1-cec044001550@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAFxCQmoC/x2MywqAIBAAfyX23IJtL+tXooPoVnux0IhA/Pek4
+ wzMJIgchCPMVYLAj0Q5fYGmrsAexu+M4goDKRrUQBPeuiFCIYubvLi1o7NT3xltHJTmClz0/1v
+ WnD8NkdvVXwAAAA==
+X-Change-ID: 20260629-t8122-i2c-fix-f37dc954a8ad
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Sebastian Reichel <sre@kernel.org>
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joshua Peisach <jpeisach@ubuntu.com>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Joshua Peisach <jpeisach@ubuntu.com>, stable@vger.kernel.org, 
- Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782726186; l=4571;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=sqKFDbIEcCs2cvx/DTq3eUOzdy0v/552i0lfDimwwZE=;
- b=rAhW13ZQ4HEXnm44sK/vEYVcG2oDhiUbPESwy2G5RRIbCUbMuvLHz1NLGVk56y0zwnvS8yodm
- MhLGnNtNmmhC9QU2PDJ8upyBNA2Xar8vAA0vo3VggqD6cLw+NpmC4YF
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Michael Reeves <michael.reeves077@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782727271; l=3584;
+ i=michael.reeves077@gmail.com; s=20260105; h=from:subject:message-id;
+ bh=hlK9MIO4eVxPvoDNzV4TiPgH3mA8+0MVI+myk5cQbdQ=;
+ b=vYF0LVjBAeCJcRh29ld6F43XBlcJxMcwpDIHly0ExE8C+l4bbcQoAmwrodt/K1BgAyA+/QP+v
+ 1coryZJwg20A0DSyZiyWQEwURtdFJQjZyyobYmlYB8v5roNUuRz/84f
+X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
+ pk=QIrgWBGCm3LG0YYc6MLCDkwuVXLTGGooVBdWX/KhSiU=
+X-Endpoint-Received: by B4 Relay for michael.reeves077@gmail.com/20260105
+ with auth_id=591
+X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
+Reply-To: michael.reeves077@gmail.com
 
-The SMC firmware included in macOS 27 changed the size of BCF0 key from
-4 to 1 bytes. This key is used for indicating that battery state is
-critically low.
+From: Michael Reeves <michael.reeves077@gmail.com>
 
-Reviewed-by: Sven Peter <sven@kernel.org>
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
-Reviewed-by: Janne Grunau <j@jannau.net>
-Cc: stable@vger.kernel.org
-Fixes: 0ebf821cf6c7 ("power: supply: Add macsmc-power driver for Apple Silicon")
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+Correct the MMIO ranges and IRQs for T8122 I2C controllers.
+They were mistakenly incorrect in the original commit. This
+fix is required for i2c dependent hardware to function
+correctly, i.e. audio codecs.
+
+Tested on J613 (MacBook Air M3).
+
+Fixes: c65ab4905e58 ("arm64: dts: apple: Initial t8122 (M3) device trees")
+Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
 ---
-Changes in v3:
-- Minor style fixes
-- R-b tags and Cc stable
-- Rebase on 7.2
-- Link to v2: https://patch.msgid.link/20260612-gate-power-v2-1-de76cb9bb7ef@chaosmail.tech
+ arch/arm64/boot/dts/apple/t8122.dtsi | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-Changes in v2:
-- Addressing review feedback
-- Link to v1: https://patch.msgid.link/20260611-gate-power-v1-1-8a62721086c7@chaosmail.tech
----
- drivers/power/supply/macsmc-power.c | 36 +++++++++++++++++++++++++++++++++---
- 1 file changed, 33 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/power/supply/macsmc-power.c b/drivers/power/supply/macsmc-power.c
-index ced07f71e0a8..a357e50f81f2 100644
---- a/drivers/power/supply/macsmc-power.c
-+++ b/drivers/power/supply/macsmc-power.c
-@@ -86,6 +86,7 @@ struct macsmc_power {
- 	bool has_ch0i; /* Force discharge (Older firmware) */
- 	bool has_ch0c; /* Inhibit charge (Older firmware) */
- 	bool has_chte; /* Inhibit charge (Modern firmware) */
-+	bool bcf0_1byte; /* Battery critical key is 1 byte (Modern firmware) */
+diff --git a/arch/arm64/boot/dts/apple/t8122.dtsi b/arch/arm64/boot/dts/apple/t8122.dtsi
+index c6196225e96e..1ee61c5b3409 100644
+--- a/arch/arm64/boot/dts/apple/t8122.dtsi
++++ b/arch/arm64/boot/dts/apple/t8122.dtsi
+@@ -186,12 +186,12 @@ soc {
+ 		/* Required to get >32-bit DMA via DARTs */
+ 		dma-ranges = <0 0 0 0 0xffffffff 0xffffc000>;
  
- 	u8 num_cells;
- 	int nominal_voltage_mv;
-@@ -273,6 +274,20 @@ static int macsmc_battery_get_date(const char *s, int *out)
- 	return 0;
- }
+-		i2c0: i2c@235010000 {
++		i2c0: i2c@2a1010000 {
+ 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
+-			reg = <0x2 0x35010000 0x0 0x4000>;
++			reg = <0x2 0xa1010000 0x0 0x4000>;
+ 			clocks = <&clkref>;
+ 			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 761 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 780 IRQ_TYPE_LEVEL_HIGH>;
+ 			pinctrl-0 = <&i2c0_pins>;
+ 			pinctrl-names = "default";
+ 			#address-cells = <0x1>;
+@@ -200,12 +200,12 @@ i2c0: i2c@235010000 {
+ 			status = "disabled";
+ 		};
  
-+static int macsmc_battery_read_bcf0(struct macsmc_power *power, u32 *val)
-+{
-+	u8 tval = 0;
-+	int ret;
-+
-+	if (power->bcf0_1byte) {
-+		ret = apple_smc_read_u8(power->smc, SMC_KEY(BCF0), &tval);
-+		*val = tval;
-+		return ret;
-+	}
-+
-+	return apple_smc_read_u32(power->smc, SMC_KEY(BCF0), val);
-+}
-+
- static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
- {
- 	bool flag;
-@@ -280,7 +295,7 @@ static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
- 	int ret;
+-		i2c1: i2c@235014000 {
++		i2c1: i2c@2a1014000 {
+ 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
+-			reg = <0x2 0x35014000 0x0 0x4000>;
++			reg = <0x2 0xa1014000 0x0 0x4000>;
+ 			clocks = <&clkref>;
+ 			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 762 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 781 IRQ_TYPE_LEVEL_HIGH>;
+ 			pinctrl-0 = <&i2c1_pins>;
+ 			pinctrl-names = "default";
+ 			#address-cells = <0x1>;
+@@ -214,12 +214,12 @@ i2c1: i2c@235014000 {
+ 			status = "disabled";
+ 		};
  
- 	/* Check for emergency shutdown condition */
--	if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &val) >= 0 && val)
-+	if (macsmc_battery_read_bcf0(power, &val) >= 0 && val)
- 		return POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
+-		i2c2: i2c@235018000 {
++		i2c2: i2c@2a1018000 {
+ 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
+-			reg = <0x2 0x35018000 0x0 0x4000>;
++			reg = <0x2 0xa1018000 0x0 0x4000>;
+ 			clocks = <&clkref>;
+ 			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 763 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 782 IRQ_TYPE_LEVEL_HIGH>;
+ 			pinctrl-0 = <&i2c2_pins>;
+ 			pinctrl-names = "default";
+ 			#address-cells = <0x1>;
+@@ -228,12 +228,12 @@ i2c2: i2c@235018000 {
+ 			status = "disabled";
+ 		};
  
- 	/* Check AC status for whether we could boot in this state */
-@@ -577,7 +592,7 @@ static void macsmc_power_critical_work(struct work_struct *wrk)
- 	 * Check if SMC flagged the battery as empty.
- 	 * We trigger a graceful shutdown to let the OS save data.
- 	 */
--	if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &bcf0) == 0 && bcf0 != 0) {
-+	if (macsmc_battery_read_bcf0(power, &bcf0) == 0 && bcf0 != 0) {
- 		power->orderly_shutdown_triggered = true;
- 		dev_crit(power->dev, "Battery critical (empty flag set). Triggering orderly shutdown.\n");
- 		orderly_poweroff(true);
-@@ -616,6 +631,7 @@ static int macsmc_power_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct apple_smc *smc = dev_get_drvdata(pdev->dev.parent);
- 	struct power_supply_config psy_cfg = {};
-+	struct apple_smc_key_info info;
- 	struct macsmc_power *power;
- 	bool has_battery = false;
- 	bool has_ac_adapter = false;
-@@ -714,6 +730,20 @@ static int macsmc_power_probe(struct platform_device *pdev)
- 		if (apple_smc_key_exists(smc, SMC_KEY(CH0I)))
- 			power->has_ch0i = true;
+-		i2c3: i2c@23501c000 {
++		i2c3: i2c@2a101c000 {
+ 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
+-			reg = <0x2 0x3501c000 0x0 0x4000>;
++			reg = <0x2 0xa101c000 0x0 0x4000>;
+ 			clocks = <&clkref>;
+ 			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 764 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 783 IRQ_TYPE_LEVEL_HIGH>;
+ 			pinctrl-0 = <&i2c3_pins>;
+ 			pinctrl-names = "default";
+ 			#address-cells = <0x1>;
+@@ -242,12 +242,12 @@ i2c3: i2c@23501c000 {
+ 			status = "disabled";
+ 		};
  
-+		ret = apple_smc_get_key_info(power->smc, SMC_KEY(BCF0), &info);
-+		if (ret) {
-+			dev_err(&pdev->dev, "Failed to determine BCF0 key size\n");
-+			return ret;
-+		}
-+		if (info.size == 1)
-+			power->bcf0_1byte = true;
-+		else if (info.size == 4)
-+			power->bcf0_1byte = false;
-+		else {
-+			dev_err(&pdev->dev, "Unexpected BCF0 key size %d\n", info.size);
-+			return -EIO;
-+		}
-+
- 		/* Reset "Optimised Battery Charging" flags to default state */
- 		if (power->has_chte)
- 			apple_smc_write_u32(smc, SMC_KEY(CHTE), 0);
-@@ -766,7 +796,7 @@ static int macsmc_power_probe(struct platform_device *pdev)
- 		power->nominal_voltage_mv = MACSMC_NOMINAL_CELL_VOLTAGE_MV * power->num_cells;
- 
- 		/* Enable critical shutdown notifications by reading status once */
--		apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &val32);
-+		macsmc_battery_read_bcf0(power, &val32);
- 
- 		psy_cfg.drv_data = power;
- 		power->batt = devm_power_supply_register(dev, &power->batt_desc, &psy_cfg);
+-		i2c4: i2c@235020000 {
++		i2c4: i2c@2a1020000 {
+ 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
+-			reg = <0x2 0x35020000 0x0 0x4000>;
++			reg = <0x2 0xa1020000 0x0 0x4000>;
+ 			clocks = <&clkref>;
+ 			interrupt-parent = <&aic>;
+-			interrupts = <AIC_IRQ 765 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 784 IRQ_TYPE_LEVEL_HIGH>;
+ 			pinctrl-0 = <&i2c4_pins>;
+ 			pinctrl-names = "default";
+ 			#address-cells = <0x1>;
 
 ---
 base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260611-gate-power-cfd726dc0d7f
+change-id: 20260629-t8122-i2c-fix-f37dc954a8ad
 
 Best regards,
---  
-Sasha Finkelstein <k@chaosmail.tech>
+-- 
+Michael Reeves <michael.reeves077@gmail.com>
+
 
