@@ -1,175 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817B53537DE;
-	Mon, 29 Jun 2026 10:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D51240960F
+	for <asahi@lists.linux.dev>; Mon, 29 Jun 2026 13:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782727272; cv=none; b=YUq3s2BYwCBh9yrdnlsgI2Iw8ELI/a/w8tY3OR8Xua3LJgJN8Oye87PkpB4d2QC7ue5MnPAbE8psGE81aFNtHydPNMPGXPflEuhArGIhQgg8R1e+9ESJKzUzJc5f56KbACJfzZeY1f06JuNll/zzmN+BmdB9lOrq0HhpHHEb1rE=
+	t=1782739180; cv=none; b=lizTWV78S2f41jO2A71U5sGAhKm54c29oIYsUIe8vZ/8HP+VKEL1JozDr3df03vdsCZLbBKmkVSPBGOAMw8Q2uS+zV6YJu/n9P3KALzxtxXxbYUQ2I/OBM8IzM55JIHTCTfk4ZrRBV+9G7gboOEy2467UdJ+0BDYvC2ms7VHIhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782727272; c=relaxed/simple;
-	bh=rbgcrkj6z95Tpqoh9xStzNsaQrUhtiLAyJIzfA0gGDg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Sy/nKxzSkG03G0gVmyOc2gzFWaZKuSwfTaCCl7QLsawp4MUoMkDcQSk23jKFz19gs6FUuMuOWUUAZU0/hAp+79INA4pB+j8kADboBWOTclHAP3/P1av/Y9r8RNvPzlHA6IPOAYx5rGlQqePzXGKhKf6O9nFBWQ5uvBI88Pucx3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DCmrBkIJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1782739180; c=relaxed/simple;
+	bh=Xx9QxY6bFvblKuF9fqzy/22glD5cAtCYOVd52XDjTz8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=YgYBL0Kl9Xd/C25vGDpbGBCTW099dDerTqLjimRnMLCbviZfzJ4zvyD+3j7mjd46pjACg4Gl4X33D7Ad2N11EZ8l3CYX3BpUCXggBaOJ/mz4GXOfRxPy6O+WQUIVocG6802HDIPa7hrO0QihbI5QBsWI+KOLyqxzsCoeWqe519I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=CNJ7Lp3J; arc=none smtp.client-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DCmrBkIJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3225BC19425;
-	Mon, 29 Jun 2026 10:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1782727272;
-	bh=rbgcrkj6z95Tpqoh9xStzNsaQrUhtiLAyJIzfA0gGDg=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=DCmrBkIJINrZGTToIVDyLNBHvawuYIFgAEi4hPjA1blHBacfPjR4KKmvCG+PSxeh9
-	 hOvHVOlIaIsFPBdHlaWDTttljRYpthLJCdAg94hNUpVNRW5jO4CJ+SaczWnarKhL+t
-	 QNIkgdRv53747ZJ+24dXvnqZeWjBf50dLXfhugvKskkIw0sViGmCDDNfqKRzlfFiKc
-	 9DMpqnmgaVOBWCIY4MbwrAX66JyAcxvmq7xTr3wSIOjpVcFSH4X51+6Wxv+K0rzTac
-	 2oPlQNGXuDQTJaLvBwfdLV0eRJnBQmGteXw/KA6Q+kupswEl0jL9nWDPfRxZ0YmG2n
-	 y2plyJCUBv7tQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E9BAC43458;
-	Mon, 29 Jun 2026 10:01:12 +0000 (UTC)
-From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Mon, 29 Jun 2026 20:01:01 +1000
-Subject: [PATCH] arm64: dts: apple: t8122: Fix I2C resources
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="CNJ7Lp3J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: Cc: To: From: Subject: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1782739172;
+ bh=DjZIrJ6HPGKrOfJ3YW/zETR3k0l6it1CRKz8MwuOQ3E=;
+ b=CNJ7Lp3J76F7NPOt8hLTThlGtx080zYKSBgX8z/zcdU78bj7osuie2V8JBX4DSsvcQ04CeD2y
+ TV6ur4CHXEczCae9xUJFKQL6vKpKUGipdOTZVxunm1p2sGGBQBAArtVUoRcvDgX/LrtQ214I8DL
+ 11OEWzyBgNCqrXc6pu3jMBkQTJtL59bt2p2eVa2UsN0QyJZ7xbc/VTf8JmsM+gHs/murjI+HNfv
+ OJM+xqrUnW/YU9TDWs1Qq3Z09BiO/THna+OsT/hlgbKbXEhMQSLPTBJRwiAXKcUPtib1HrSzMGQ
+ v7PileuQubVGiMahX/Sv3NG7kBZEiZXtVDbisSO1WSvQ==
+X-Forward-Email-ID: 6a4270e1b7cb0eea61504834
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 121.127.44.73
+X-Forward-Email-Version: 2.9.1
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260629-t8122-i2c-fix-v1-1-cec044001550@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAFxCQmoC/x2MywqAIBAAfyX23IJtL+tXooPoVnux0IhA/Pek4
- wzMJIgchCPMVYLAj0Q5fYGmrsAexu+M4goDKRrUQBPeuiFCIYubvLi1o7NT3xltHJTmClz0/1v
- WnD8NkdvVXwAAAA==
-X-Change-ID: 20260629-t8122-i2c-fix-f37dc954a8ad
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joshua Peisach <jpeisach@ubuntu.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Michael Reeves <michael.reeves077@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782727271; l=3584;
- i=michael.reeves077@gmail.com; s=20260105; h=from:subject:message-id;
- bh=hlK9MIO4eVxPvoDNzV4TiPgH3mA8+0MVI+myk5cQbdQ=;
- b=vYF0LVjBAeCJcRh29ld6F43XBlcJxMcwpDIHly0ExE8C+l4bbcQoAmwrodt/K1BgAyA+/QP+v
- 1coryZJwg20A0DSyZiyWQEwURtdFJQjZyyobYmlYB8v5roNUuRz/84f
-X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
- pk=QIrgWBGCm3LG0YYc6MLCDkwuVXLTGGooVBdWX/KhSiU=
-X-Endpoint-Received: by B4 Relay for michael.reeves077@gmail.com/20260105
- with auth_id=591
-X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
-Reply-To: michael.reeves077@gmail.com
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Mon, 29 Jun 2026 09:19:27 -0400
+Message-Id: <DJLKAJ8IU0Z5.EU158RDQ31H0@ubuntu.com>
+Subject: Re: [PATCH v2 4/7] ASoC: apple: mca: Support FEs being clock
+ consumers
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "James Calligeros" <jcalligeros99@gmail.com>,
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>
+Cc: <asahi@lists.linux.dev>, <linux-sound@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
+ <20260628-apple-audio-redux-v2-4-6328269c9652@gmail.com>
+In-Reply-To: <20260628-apple-audio-redux-v2-4-6328269c9652@gmail.com>
 
-From: Michael Reeves <michael.reeves077@gmail.com>
+On Sun Jun 28, 2026 at 7:42 AM EDT, James Calligeros wrote:
+> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+>
+> Support FEs being I2S clock consumers. This does not mean we support
+> accepting clocks from outside the SoC (although it paves the way for
+> that support in the future), but it means multiple FEs can attach to one
+> BE, one being clock producer and the rest clock consumers.
+>
+> This is useful for grabbing I/V sense data on some machines, since in
+> such a scenario the format of the sense data on the I2S bus differs
+> from that of the audio data (the two formats differing in slot width).
+> With two FEs attached to the bus, we can split the responsibilities and
+> command different slot widths to the two.
+>
+> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  sound/soc/apple/mca.c | 129 ++++++++++++++++++++-----
+>  1 file changed, 106 insertions(+), 23 deletions(-)
+>
+> diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+> index 730ffe0805e1..0c1fc8242907 100644
+> --- a/sound/soc/apple/mca.c
+> +++ b/sound/soc/apple/mca.c
+> @@ -380,6 +406,57 @@ static int mca_be_hw_free(struct snd_pcm_substream *=
+substream,
+>  	return 0;
+>  }
+> =20
+> +static int mca_fe_prepare(struct snd_pcm_substream *substream,
+> +			  struct snd_soc_dai *dai)
+> +{
+> +	struct mca_cluster *cl =3D mca_dai_to_cluster(dai);
+> +	struct mca_data *mca =3D cl->host;
+> +
+> +	if (cl->clk_provider)
+> +		return 0;
+> +
+> +	/* Turn on the cluster power domain if not already in use */
+> +	if (!cl->syncgen_in_use) {
+> +		int port =3D mca_fe_get_port(substream);
+> +
+> +		cl->pd_link =3D device_link_add(mca->dev, cl->pd_dev,
+> +					      DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
+> +						DL_FLAG_RPM_ACTIVE);
+> +		if (!cl->pd_link) {
+> +			dev_err(mca->dev,
+> +				"cluster %d: unable to prop-up power domain\n", cl->no);
+> +			return -EINVAL;
+> +		}
+> +
+> +		writel_relaxed(port + 6 + 1,
+> +			       cl->base + REG_SYNCGEN_MCLK_SEL);
 
-Correct the MMIO ranges and IRQs for T8122 I2C controllers.
-They were mistakenly incorrect in the original commit. This
-fix is required for i2c dependent hardware to function
-correctly, i.e. audio codecs.
+Where does the "6 + 1" come from, and should it have its own #define?
 
-Tested on J613 (MacBook Air M3).
-
-Fixes: c65ab4905e58 ("arm64: dts: apple: Initial t8122 (M3) device trees")
-Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
----
- arch/arm64/boot/dts/apple/t8122.dtsi | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/arch/arm64/boot/dts/apple/t8122.dtsi b/arch/arm64/boot/dts/apple/t8122.dtsi
-index c6196225e96e..1ee61c5b3409 100644
---- a/arch/arm64/boot/dts/apple/t8122.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8122.dtsi
-@@ -186,12 +186,12 @@ soc {
- 		/* Required to get >32-bit DMA via DARTs */
- 		dma-ranges = <0 0 0 0 0xffffffff 0xffffc000>;
- 
--		i2c0: i2c@235010000 {
-+		i2c0: i2c@2a1010000 {
- 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
--			reg = <0x2 0x35010000 0x0 0x4000>;
-+			reg = <0x2 0xa1010000 0x0 0x4000>;
- 			clocks = <&clkref>;
- 			interrupt-parent = <&aic>;
--			interrupts = <AIC_IRQ 761 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <AIC_IRQ 780 IRQ_TYPE_LEVEL_HIGH>;
- 			pinctrl-0 = <&i2c0_pins>;
- 			pinctrl-names = "default";
- 			#address-cells = <0x1>;
-@@ -200,12 +200,12 @@ i2c0: i2c@235010000 {
- 			status = "disabled";
- 		};
- 
--		i2c1: i2c@235014000 {
-+		i2c1: i2c@2a1014000 {
- 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
--			reg = <0x2 0x35014000 0x0 0x4000>;
-+			reg = <0x2 0xa1014000 0x0 0x4000>;
- 			clocks = <&clkref>;
- 			interrupt-parent = <&aic>;
--			interrupts = <AIC_IRQ 762 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <AIC_IRQ 781 IRQ_TYPE_LEVEL_HIGH>;
- 			pinctrl-0 = <&i2c1_pins>;
- 			pinctrl-names = "default";
- 			#address-cells = <0x1>;
-@@ -214,12 +214,12 @@ i2c1: i2c@235014000 {
- 			status = "disabled";
- 		};
- 
--		i2c2: i2c@235018000 {
-+		i2c2: i2c@2a1018000 {
- 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
--			reg = <0x2 0x35018000 0x0 0x4000>;
-+			reg = <0x2 0xa1018000 0x0 0x4000>;
- 			clocks = <&clkref>;
- 			interrupt-parent = <&aic>;
--			interrupts = <AIC_IRQ 763 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <AIC_IRQ 782 IRQ_TYPE_LEVEL_HIGH>;
- 			pinctrl-0 = <&i2c2_pins>;
- 			pinctrl-names = "default";
- 			#address-cells = <0x1>;
-@@ -228,12 +228,12 @@ i2c2: i2c@235018000 {
- 			status = "disabled";
- 		};
- 
--		i2c3: i2c@23501c000 {
-+		i2c3: i2c@2a101c000 {
- 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
--			reg = <0x2 0x3501c000 0x0 0x4000>;
-+			reg = <0x2 0xa101c000 0x0 0x4000>;
- 			clocks = <&clkref>;
- 			interrupt-parent = <&aic>;
--			interrupts = <AIC_IRQ 764 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <AIC_IRQ 783 IRQ_TYPE_LEVEL_HIGH>;
- 			pinctrl-0 = <&i2c3_pins>;
- 			pinctrl-names = "default";
- 			#address-cells = <0x1>;
-@@ -242,12 +242,12 @@ i2c3: i2c@23501c000 {
- 			status = "disabled";
- 		};
- 
--		i2c4: i2c@235020000 {
-+		i2c4: i2c@2a1020000 {
- 			compatible = "apple,t8122-i2c", "apple,t8103-i2c";
--			reg = <0x2 0x35020000 0x0 0x4000>;
-+			reg = <0x2 0xa1020000 0x0 0x4000>;
- 			clocks = <&clkref>;
- 			interrupt-parent = <&aic>;
--			interrupts = <AIC_IRQ 765 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupts = <AIC_IRQ 784 IRQ_TYPE_LEVEL_HIGH>;
- 			pinctrl-0 = <&i2c4_pins>;
- 			pinctrl-names = "default";
- 			#address-cells = <0x1>;
-
----
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260629-t8122-i2c-fix-f37dc954a8ad
-
-Best regards,
--- 
-Michael Reeves <michael.reeves077@gmail.com>
-
-
+-Josh
