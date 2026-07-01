@@ -1,80 +1,80 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680BC34C9AF
-	for <asahi@lists.linux.dev>; Wed,  1 Jul 2026 14:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D6631326C
+	for <asahi@lists.linux.dev>; Wed,  1 Jul 2026 14:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782916537; cv=pass; b=aqmdUFMo4tBFJfvCTBw5nnvY492kgVNUMxCFlew7aRkJl5xIv3T91va/X7SFPdTUyf9ZXCRzh18PGbuEXSkoMaaRs4wfTHovzZRm9aLXE8JDerMPvWNRzj29e12O/bgG/MLVmKR1+w951z1VfV0fqS+KS9vIludAt93fX1V60Bk=
+	t=1782916626; cv=pass; b=gN3FXpeI9NZCADAMpUKBoPoVhzThCZNaSUWSmYVMy7pu8afeS2Odm/W09Z981D7Z3qh5F+4NxFUdudWfPWsy8OmN+0sh/eORoCWc+iFJkLS7Q8CDpWh9mtEY3bLWOCBZE5UmbCHUEWRZbYL5dOQH4+KtgBZWst3kZ+xzIWDvjk0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782916537; c=relaxed/simple;
-	bh=ITer+kkk4mMSsWxMyfWrD36+FmvMAHde/cCZgcgLMa8=;
+	s=arc-20240116; t=1782916626; c=relaxed/simple;
+	bh=uxK3787kwBaK3XoNUtICKMe+9KxBA8wczg+LhmRdR0w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Je0vjiTtaimQsxr75RgLzH7ygPj532PwhM4Ut1BLFBmkemYcwLeMIYH+GxB7Glj9g/zygtop/ihnYIMQK0CmK6xczcnKHp4A1XB77uvvrwLgHnjuQ2thoCE5NBjTRl0iBKCgI6kvkneEWARB2kI0xmKKvJhCpz4PPb3zSJDx7Z0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KD/U+d0G; arc=pass smtp.client-ip=74.125.224.46
+	 To:Cc:Content-Type; b=d2wf6Orm2qOyox9kKnfAoALUBhSwbPF6BbsilhDmNvbA3bJq3zXR06COBUsQZvlQ+bqcjZ3WgICW1LX9prrOkukN+d2D4vKgmyFu9BCj400eQAnS0EClwA+nbDjveVLQcCGzhpc4ZKlcqYSr1z9kgOq4gE8BmU2Ri5RYuunHU4k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7kBWSO0; arc=pass smtp.client-ip=74.125.224.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KD/U+d0G"
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-664ae993e4bso665941d50.0
-        for <asahi@lists.linux.dev>; Wed, 01 Jul 2026 07:35:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782916535; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7kBWSO0"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-664ee752958so972872d50.1
+        for <asahi@lists.linux.dev>; Wed, 01 Jul 2026 07:37:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782916624; cv=none;
         d=google.com; s=arc-20260327;
-        b=FHyhUVGSntmIuWm/5POVyDMkYJWQWJkpNQd17wEfvZFQnqGyw2gIcEIKlFnj43JWL+
-         Gtw84V7lrbq1n+nFuYo5U3l9peFaqm1hMGS2SkWwC1TSiaQ3EqfbFq3Vh+AyuFL9yo5V
-         E9iuaTqQwbawAO0WSfz0Xsz0N5WLFYHukaF9AbU2XUE++Z+riuC/ofM28u7UKPR4HjbF
-         RRqe+Q1u+hWIyVIQ9OaTem0Iugn9Nwo7JePpA8f6eFtsYd8DnirHj+FaPwNq7EMiGVHS
-         +GzjRRhpZXUizumHejK9T8qmoTnDKV1VYdp59ghE1K//dlvwbMOH0iVEgQb/4hB/2tlD
-         qsJQ==
+        b=njzc9IZuX+UYFOZYDJIDjY0kpqH5sWhocMXpMM+Yy4+AZf0vuJ7bSKbmjrqI1Mh0EX
+         79iMC398L6VVhzhDtwRkkASvS3ag24cTl/TkpMKvRihPk9aL5fVWu1Q7BLGmB1Jnu/nr
+         xXZa1nhomnsru8jOhOe0PPa4XqdlUj1n1znDPx0wo4j2PxpXoauTBPszrxz6pDGKWS7J
+         5i0r3pBqR1eIeZEE7TWOd494pu2eAaiv52ciUeMUQ16Kq7SQRTUpIiCu53OlH3Dqcd9i
+         2hvwFHn9SABrTrw8l7RQeOj4wmzz/UzuWecRN/ud9jYx9Zme0Yr+gIcW0+CiXxqQtdCc
+         9uDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ITer+kkk4mMSsWxMyfWrD36+FmvMAHde/cCZgcgLMa8=;
-        fh=kue0y3NiQMY1tFjFwbf/2FWlfiJlPugj9MNVtrwfGhU=;
-        b=NWYFPNJSq6tEoG3Ya4BJgOPat7maTqm5PB4bPodLCwSLTc6yT6I7Aj09OP9OxYFnQ7
-         GADtJTqeADRetmkDzWEBtu5ivn6EsF34zB2G/D1jGcy06XY3ZPPVGVJ5Tv+LMUvA5euk
-         PVg82hLLNHLfsCKNrszWLuq0Jc9tvSluyHL0ZGWiZl60A56lzajt6tPphsYEaLrNf/cQ
-         Fz/JYAFXboXAu+/SqH7Bmv0/NQ9s0SAHHYB4XzZ2KqufNackY2La3sLmRqNL8oCO7yC+
-         +Dg6ZK989/UDvNs1/9mkM0jgAEXWSpjKUft75yJWqTsmYXVDHoxHwmg9vUTAqybZWago
-         SLFg==;
+        bh=uxK3787kwBaK3XoNUtICKMe+9KxBA8wczg+LhmRdR0w=;
+        fh=fM0AO3H4N91IwzPcjTrAFjxBnUn2uWmUYjNXzYCYNCM=;
+        b=qWl8u/7HZQssCEkp4exNhvB3KuSaVRCP4eyI0i5PHvQcaOlT7FxMg/Bb42FeqURNIZ
+         HrZZHyP0ZQTk/JtgHcek4hkqVAWcfQWIC3HeEPI+dT+qn88jp8m+oJFPEk3TBM9xrNts
+         2tzMSOFCk/OAU00CnfueztQ+c7bJjNDvcXFR1CZDSD9n13Wk6jU5XX5bUEy6t9LpX3tD
+         DBbYk17hSmnGE7LkwoOcbtCy7vW4qRnC2vAqFtw0y0VD2oPccObV7JqeVsjcBdkFZ1ZL
+         oCdY/yXA9YBSyltrrM8a69SrkOrVRo3X8GFHB5hSYaZqUHlYyEK7d46Sgo4szNModzfj
+         kyTQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782916535; x=1783521335; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782916624; x=1783521424; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ITer+kkk4mMSsWxMyfWrD36+FmvMAHde/cCZgcgLMa8=;
-        b=KD/U+d0G5HhKpv8bojdkXbPOaPbGR6bJpq4h7KvReQb3mBVyX23j6JTh+xkr8/Eck2
-         ATDJLZUYqAve/rjOfLG19UOR1ZVLqacj0YyNvx98P4aO6sw3i1wSZ8k/djrnTqXtLb7I
-         EUInlkMPw7p2jgwjlx8bwglAlNumRjiwM8XV8eSbhvNfRHjOlV75y+yZj/F+p9nCpbcK
-         v6qlDK8GjNn+OjNSvK7MQuhzAE4QS3l2OJpyQ5W+Jzli3ewcxgy5z7EQ5LNyTiBO0G7C
-         Sr0q/4Y8lhD0i/+mCLFHaCJUR7/AZyuSKDAc8Vuk+ePFaNt7B4F94bPcmWfDUCb1E/PA
-         DrSw==
+        bh=uxK3787kwBaK3XoNUtICKMe+9KxBA8wczg+LhmRdR0w=;
+        b=I7kBWSO06gVcm2zBRuO5sn77Iiub4Jcok3RwCqAkoH73Iq1xPPYZFIuLpb18jQvdTZ
+         XteA6GWBZRwTOmsMLerWEyJy7M4moQ3Fm1ogH6/hdqDDFV6Jr/ISt4CRaazCHrEoMhJv
+         htDkiRkB5KY3f0227OXXW0NAVfF00cI8OHdsJeTOeiDxfepICh7Swj5VHOqx2CboxoKD
+         6kxsqw7pFP53vOxP1N3ATbWbDQlDjYHcwkMzuMKBsAdHwH07n7GbR5OHoTR9QRARHzz1
+         +NWPIZoeQfEIo14n5SrzywesFdlhdVdVZY1+e9WVsiHlvWIqojRo6NASD8ZW81r2hkZe
+         CSug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782916535; x=1783521335;
+        d=1e100.net; s=20251104; t=1782916624; x=1783521424;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ITer+kkk4mMSsWxMyfWrD36+FmvMAHde/cCZgcgLMa8=;
-        b=QNGrea4MnbDOiBMqe1AYc315Dw3D/Kno4/KE9cK7RGJzahB+xvLtjJvQJ2qW8Efg7/
-         jnihvCHD4N0BW2MTp5ayqqxMxi38psjJ/sPXcAygNN7vRs6HxWGILC2Wir6rGANVK8AI
-         jS7NKTnymi1QxA0uJBj6dpoY+uVoqEwyTei98H7L6OAgIuoRNhUiK4R9s45nJIJAXyrl
-         KPidr7gfLABJAQBxg3eT0wHoe7nenFRHkkqHTFpGjqKogQHBScmqHa9Ai1JOkFH14G4y
-         K1/XBQl9Cw/gSygpludAb8ZQ8rEpNngq/lAGDaLgjKNG0AwI6l9NXThtMQdSYD1PtprZ
-         ADoA==
-X-Forwarded-Encrypted: i=1; AHgh+RrYDRjexHMf+qqEfmRLDm2NHu51o/4woyoxzOdCuur6AhY2q/XdZNzcfHz9xHBVy/uTEQtX/Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxE5udoIjNpzwC0ZTLKcWpn9rR4iN/HvP3LDEiYA1UPMDmKJz/Y
-	lhe+sTi/7+QE3r3RBqQCv3ZFSXZ0TCL0kg45rWB1IQWd0moXrqAsfsbTEAo1YQ8vBAWqEcFwvVd
-	sJhh+QWxJNPkauxMAKgDgDooRv8SaAf8=
-X-Gm-Gg: AfdE7ck5emz30cA+H9i4wqbwE0Reb6HGUajs05h4I5zxDXt9zMeHmnFFj7LsZql7g4x
-	XSK9yVcjfSTpmujDzlObIxy09+4tmUB1xC6S5BlxNGVsBE+v9VZec3oOksSzBM+fNK7j0cKmoHZ
-	BQA/TQpV0Wr4mJ8YrCi1rqbn0dWqw3JuXjS94Y9RhtnExwEZmfBkDqq5zjH3WCtIJlj8oynAzpT
-	wHvbZVWCUpZLjlaxFs8M5J72lwHCCp09mWLRhZRtJMEFLhzkInqvB/z+RqmNh5cKCPZlbFiGlrm
-	f6ACrWWkNSCNQvg1PBTuYGoTLGI4ZSh3n/iSeP3i7eGaf4FQm7yD2KJMZZ4ZuA==
-X-Received: by 2002:a05:690e:400a:b0:664:d5ff:2845 with SMTP id
- 956f58d0204a3-66507a15364mr5289486d50.19.1782916535159; Wed, 01 Jul 2026
- 07:35:35 -0700 (PDT)
+        bh=uxK3787kwBaK3XoNUtICKMe+9KxBA8wczg+LhmRdR0w=;
+        b=m72+wHSPpbZd2Mr9rxMhzvKLVQDELpJ2q54xrfDzOUxaEXcLP4shJ+J4NZ8if2q/gp
+         icitNg8Q9MIPEeHzjcczYnzg7dnDRAf8AEGGZapt0VC/oQMRO7vniXlYjqmKGGIzNsU3
+         v5vExOv7IjJE4eKQ/qVi7W6+enL55UOqnioYLtFjLKb06dCZ+9QHA2zJAUCWFUG45Ppj
+         hvSaPE/k22oIUmTUqLdYxPttMXOn0hkpIzQwjWvEAwO8eJ5MHWr3V2Bv5FoA4+NYWLV4
+         AUAkyROgPx661OFcpoY9TsZuM7wOTOXgabowhS7THGEp5sSPQy2/HF81cNKDGV946g3m
+         Jfmg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpm3YmXXh9K3IbM1qzeIO4qUEH+yGDfE8KXz42YI/Ha9pr9hv3QIt3JgPkxLnEyQN2tqQmZhA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyFtXE1/goqpbiSPX3eIDfiU1T52Rw1iNdzgq2UjMoZpqI8j1Kp
+	hSpY1MYJbyx9FUqT9ly+Vakwn/kdoiHM2+0RHvZCa32jbnGRnuKtoJZ5fX0B6XAAFYHlbq1yA0u
+	LMKtIB8eAiiVs/A2cPr4OH1bv0bPtV3o=
+X-Gm-Gg: AfdE7cmsTfG3iRm+r3z6VgbzBCpenmNl3mF8mhsCWHQQocAzaBqjvuHzgWNqHx1MzHH
+	hjCQooipQdXk/jV/oDlMO5mYsdKVMaYN+vr5SdSdU7kqrRfBeLCbR0agrcrs7tJgaSq6hFbxXSm
+	e53Q0FUmUd32xRz65h7Zg36R2a8YNLHAvEXKth+1oSAoNwvHHBGvKPvETXmSExU9gsMKG5DyEAw
+	x0mrx9aTkCceLv2tk9S0ZFglfFCZO+WiubSOGn88z/bOOpncKA2CuVYIiTjUFRH97Nl20xo2ho/
+	EnZ1YiMQZ8wmgJ+llj5F+KTulUm4miW3XjCSXQIkHtVC2bjZE3HZi1lOljrjng==
+X-Received: by 2002:a05:690e:b8d:b0:664:ae68:33b0 with SMTP id
+ 956f58d0204a3-66521d75bb2mr1788278d50.81.1782916624248; Wed, 01 Jul 2026
+ 07:37:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -82,13 +82,13 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260630-apple-mtp-keyboard-final-v1-0-506d936a1707@gmail.com>
- <20260630-apple-mtp-keyboard-final-v1-2-506d936a1707@gmail.com> <20260630-tattling-pacify-3b990261b8b5@spud>
-In-Reply-To: <20260630-tattling-pacify-3b990261b8b5@spud>
+ <20260630-apple-mtp-keyboard-final-v1-4-506d936a1707@gmail.com> <20260630-halves-magnesium-856f9c7d60b2@spud>
+In-Reply-To: <20260630-halves-magnesium-856f9c7d60b2@spud>
 From: Michael Reeves <michael.reeves077@gmail.com>
-Date: Thu, 2 Jul 2026 00:35:23 +1000
-X-Gm-Features: AVVi8Cfa1dzp-N-jQ1tztDZshofJ1mjnAsJpK28Uy4QoNy9Qd76BAukQRwwA8nI
-Message-ID: <CANpmGNtq96uJzbPRLyDG9Qq3hPVGA3yspk0-ezAdD9PUzj0gMA@mail.gmail.com>
-Subject: Re: [PATCH 02/10] dt-bindings: mailbox: apple: Add DockChannel mailbox
+Date: Thu, 2 Jul 2026 00:36:52 +1000
+X-Gm-Features: AVVi8Cc_Z2Ec3ueDKeRbjSSEO7FpMbGiHoLBEK8cPVlZ9DBrXWtcjp1MzslxPtM
+Message-ID: <CANpmGNs9PuH52ngbZq6jGHuJkoZ=Jz+PRk8Bq7Rn21g9KsotEQ@mail.gmail.com>
+Subject: Re: [PATCH 04/10] dt-bindings: input: apple: Add DockChannel HID transport
 To: Conor Dooley <conor@kernel.org>
 Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
 	Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
@@ -102,15 +102,18 @@ Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 1, 2026 at 3:07=E2=80=AFAM Conor Dooley <conor@kernel.org> wrot=
+On Wed, Jul 1, 2026 at 3:08=E2=80=AFAM Conor Dooley <conor@kernel.org> wrot=
 e:
 [...]
-> > +++ b/Documentation/devicetree/bindings/mailbox/apple,dockchannel.yaml
+> > +++ b/Documentation/devicetree/bindings/input/apple,dockchannel-hid.yam=
+l
 >
-> Please name this file matching the t8112 compatible (since that's your
-> fallback).
-> Otherwise, this looks good.
+> Same thing here about the filename. Looks good otherwise, so please
+> change that.
+> pw-bot: changes-requested
+>
 > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 >
-> pw-bot: changes-requested
-Thank you, will change the name in v2.
+> Thanks,
+> Conor.
+Thanks again, will also adjust this name in v2.
