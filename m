@@ -1,170 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725C3313E34;
-	Thu,  2 Jul 2026 19:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA9270830
+	for <asahi@lists.linux.dev>; Thu,  2 Jul 2026 19:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783019944; cv=none; b=mE2kSgjXnBqt4gbd8AkrpxfFOd+qEFyHqLmFp4o0q1fWDyuvn/3aJC+LFc5EE65F9aIbcRaHk7Y5jM9TVFM5NYLO1d3pLgjJjqB2/rCpp23t0hrjxxxpj74xSpq3RuJrhshui7l9OTq+mqafACJNIwHHJC4y+BiQbf3GHPXhEi4=
+	t=1783020742; cv=none; b=JWsK+tYeMbm9j7vbMHpnFB6HKL8QsINv7a/eDg16C7gRy7BHnSKWP51SqA55B5xJ8/xrcozJKX9N+UVcIrFj68HC8A1qPBLMYJWfM7joEvo5MuZN91lJhrmStLDtzFC/m6FgsYYphToYJUq2ML9vUIeNwFeq7qs6nDnSs6fz3is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783019944; c=relaxed/simple;
-	bh=TlEL3eCJeYiJLW2NNTM3t/jPoZjPfvhxGhM6HT00XMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pl5mtqeQb5ZbGrAI1IuqFQmrFbWhtQkQjSSuNx+Ay8RdTMicoMVW6Z6DzScArJOfvd4IdwskDR6sviekc+C6U37ozXRR8K/d7CeifeIPBHVeN+OKUJqy78UjYSwWn+UaZ2taheEyl7RqjbF7xly8jKp6k+ydtXX2skciGyuLAkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SUYzmCEb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783020742; c=relaxed/simple;
+	bh=Y3myU6PC6Y/+0AUV070w4T/IlmTKT4MrSxy6LSocXzY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SHWZIUwape5/iehwaBYcNvi93sCIpk62Uij0WqFL0iol8IknobPqp3RQy7OapC8h+jpc+ihoQSiSNpE3CBvxnZPAP0iiXwaluBNrgAO0aY1uaetMmbP3XBhvuVErqIhyR6sETzp7UmXlVFeF1ngmWXIEMzbB3+iJpVWEpbxsKGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QtYnmaAH; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SUYzmCEb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6D61F000E9;
-	Thu,  2 Jul 2026 19:19:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783019943;
-	bh=5DpZR7hy/lYQjk9fkUaq4KszFvmgNMTrxboiLH/D098=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SUYzmCEbF70SHkDYOx+MOjMQJQknv8liRNr2dstY7HJsRvOWH3l2/gF6kQR49FS4H
-	 Huy5XiNzTyFJSHivHnTdVYyS+c4knzO7jaEScktTItsLJ7whC/7ifuuFBgOcUFTPLc
-	 0cfNhap8UrTCSlfCU0tARr6xQFjlLqlshg7XwjMNJ89OuuChTi7zREfKaoHv59NJEo
-	 O/ZtQZiOejMTMarEuPbCAs4tl57FvnWb8NzGQhp6rOqEjQSd9Brd4AreANqlsLSJ5H
-	 y/lum7Nff69wWi3zq90n1I8qgNqTTxtvuvQgzbWBUX7DUKkyzJ5aiKKb4wxTXuTLqP
-	 aP8FezItzDztg==
-Date: Thu, 2 Jul 2026 20:18:58 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: soc: apple: Add bindings for apple PMGR
- misc controls
-Message-ID: <20260702-kitchen-census-d79e1abb9f36@spud>
-References: <20260702-pmgr-misc-v1-0-4f075a3a95c1@chaosmail.tech>
- <20260702-pmgr-misc-v1-1-4f075a3a95c1@chaosmail.tech>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QtYnmaAH"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-472055b0efaso1488019f8f.2
+        for <asahi@lists.linux.dev>; Thu, 02 Jul 2026 12:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783020739; x=1783625539; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7qgcEW/wpSAcIIpifYaO2mjjD/biPw57/pk0Dft8EAU=;
+        b=QtYnmaAH5B3N1SW+gLrWR3hMIKJ0rzNZk76uX1pihp3ExtSDPNxyR8hMXubxGBJhzE
+         vPouvqYbW2vPsbVIlcJoJwHfOqMDLEXwrbUHn494GQQiM0Dw3a5Vbq56/gGaW+jy3yB5
+         NtkNHJIIfKjhIit6KRQR6+ReVwTnkFScCOxIUGd1faoYzfAT8xtzlrkJN6oTi0EAIsy2
+         8JT2fhnGU79DrJDhJoxaZPQaOFa+5eC1kpdXzVIEXYSuSerLPpu/mb8YMX6TckVl4e8S
+         OHaR3enGAe4C1CBO441aDQxEU0kmuaVBNAeBTzqc7FhqANE5T3S3JHh057hqKC1UN22F
+         JN7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783020739; x=1783625539;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=7qgcEW/wpSAcIIpifYaO2mjjD/biPw57/pk0Dft8EAU=;
+        b=KVNsZOYkkKs6c65ib7kC+jmJlw6mD20lmN26VmhxAffTsfljjshBhYyqbcM6fCh96y
+         kOFYggNtk1Rxy6xso5MZkUb0m9T0PNirsQosev06xNTgh1XBk4XwBnBs8bpf64lJ9K7U
+         ZFq/RVYw6IH7B3V7B2sTU8R9U0yyXp4ddDywT/weakwhjtVmJXK5FFZMWqK9HkIQ3zvL
+         Y+Ba5GM7wfZ3KFSj/jkHUnCUDw9WimV8AbiP9qMa1yzqfW2A0nZ75IPCocmHg7N7rKmx
+         cWqybEXfs53ZZzhLDeKNHrU+/qpCGU0mytq6WSY22+InIHpymKiT6jWVUEx9eluU1wSD
+         yq8Q==
+X-Gm-Message-State: AOJu0YyPQVv6y+302uE4P/85zEFtw0OjFZWSw7odKd73qjZM7Nz9BOzf
+	7FLoqaycxFIwpEUNwHFcz/Q26KWczPf3PBOBHMF8viibT7y6nRUnIyzl
+X-Gm-Gg: AfdE7clILQudfWc5/VegMg+R9SUy19UEL0uv9BDthpd98MtLbtB+lH2ykThqEJfq3qu
+	KSB00PkmRxbtH5arOLQezsVKVseSr4iE0KN3L10hOEZh0d4N075Z3HDHuXQSOY3L0FVM4IIwvSh
+	/sVoK6Hzcg19TZBM6dIdge9Y/zjFUZn1ulq8GzErjO6UWFWoXyCOjvXPSVONjw+legLvzwxg27P
+	18JO/thC9PPZGqRdyg+aojScCPoWJA3/RR1b55MLc7DKofAkBUdh2wU9eP0eLUAI117pa862oBt
+	R+2EBGbzsw43GeTYOnfl0n92AMm7l5bYH7ms/JbVtAXCbzbHl7tBnurR6lOyMq5nHbIAlnFSY4n
+	5+PYpypxuCMTc8fI9QxidgUYcIX36nfGX1+G0mOC9hRueTHJZd1wQdBg5Vrfds5xGH3KpMOHFQR
+	gv58/iYzCWBKakeUNP/h4Zkuin+Joudv0n+E9WVLXLJrxh91XViAkeOIbJoZwwb7Df4+BQbdInL
+	4RMedm7
+X-Received: by 2002:adf:e00b:0:20b0:475:3a97:8e47 with SMTP id ffacd0b85a97d-4775918fa48mr8502412f8f.29.1783020738996;
+        Thu, 02 Jul 2026 12:32:18 -0700 (PDT)
+Received: from [10.128.11.240] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477dd94ce4csm12070471f8f.17.2026.07.02.12.32.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jul 2026 12:32:17 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <a0cee001-7bca-438a-943b-da28528e7df7@gmail.com>
+Date: Thu, 2 Jul 2026 20:32:16 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ocjsct3ZYFMJTFmH"
-Content-Disposition: inline
-In-Reply-To: <20260702-pmgr-misc-v1-1-4f075a3a95c1@chaosmail.tech>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/10] HID: apple: Add DockChannel HID transport driver
+To: michael.reeves077@gmail.com, Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+ Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ iommu@lists.linux.dev, linux-input@vger.kernel.org
+References: <20260630-apple-mtp-keyboard-final-v1-0-506d936a1707@gmail.com>
+ <20260630-apple-mtp-keyboard-final-v1-8-506d936a1707@gmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260630-apple-mtp-keyboard-final-v1-8-506d936a1707@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---Ocjsct3ZYFMJTFmH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Michael,
 
-On Thu, Jul 02, 2026 at 02:06:26PM +0200, Sasha Finkelstein wrote:
-> Certain Apple SoCs include additional PMGR power states that are
-> controlled via a different "misc" control block. On existing SoCs, this
-> includes the fabric and memory controller state.
->=20
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-> ---
->  Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml |=
- 45 +++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                                                            |=
-  1 +
->  2 files changed, 46 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr=
--misc.yaml b/Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-m=
-isc.yaml
-> new file mode 100644
-> index 000000000000..30abedc67fa4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.y=
-aml
-> @@ -0,0 +1,45 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/soc/apple/apple,t6000-pmgr-misc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+On 6/30/26 13:54, Michael Reeves via B4 Relay wrote:
+> +source "drivers/hid/dockchannel/Kconfig"
 > +
-> +title: Apple SoC PMGR Misc Power States
+>  endif # HID
+>  
+
+> +++ b/drivers/hid/dockchannel/Kconfig
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR MIT
 > +
-> +maintainers:
-> +  - Sasha Finkelstein <k@chaosmail.tech>
-> +
-> +description: |
-> +  Certain Apple SoCs include additional PMGR power states that are contr=
-olled
-> +  via a different "misc" control block. On existing SoCs, this includes =
-the
-> +  fabric and memory controller state.
+> +config APPLE_DOCKCHANNEL_HID
+> +	tristate "HID over Apple DockChannel"
+> +	depends on APPLE_DOCKCHANNEL
+> +	depends on APPLE_RTKIT
+> +	depends on HID
 
-Are t6000 and t6020 the "certain Apple SoCs"? I assume so. The bit about
-"existing SoCs" is confusing in a binding (although it would be ok in the
-commit message), because you run into language semantics that imply that
-this sentence is about devices to the ones you're addressing here. I
-think you can just do s/. On existing SoCs//. And add an s to the final
-"state" to make it "states".
+APPLE_DOCKCHANNEL_HID has a duplicate dependency on HID,
+since you put the import for this file inside of 'if HID..endif',
+and then also gave it a 'depends on HID'.
 
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - apple,t6000-pmgr-misc
-> +      - apple,t6020-pmgr-misc
-> +
-> +  reg:
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: fabric-ps
-> +      - const: dcs-ps
-
-"dcs" means memory controller then?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    pmgr_misc: power-management@8e20c000 {
-
-If there's a new version, drop the unused label here please.
-
-> +        compatible =3D "apple,t6000-pmgr-misc";
-> +        reg =3D <0x8e20c000 0x400>,
-> +              <0x8e20c800 0x400>;
-> +        reg-names =3D "fabric-ps", "dcs-ps";
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 15011f5752a9..5a29bb86499f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2607,6 +2607,7 @@ F:	Documentation/devicetree/bindings/power/apple*
->  F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
->  F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
->  F:	Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
-> +F:	Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml
->  F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
->  F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
->  F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
->=20
-> --=20
-> 2.55.0
->=20
-
---Ocjsct3ZYFMJTFmH
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaka5ogAKCRB4tDGHoIJi
-0tlAAQDdgE9j16D8wb54N1NhXZ6tE6JQTMjWT4k+oOAHOEGHXAD+Igpwx/8G2BL5
-x1QpWLWp7T4VAbJhllS/qG+ZIeZTFQY=
-=lPlg
------END PGP SIGNATURE-----
-
---Ocjsct3ZYFMJTFmH--
+- Julian Braha
