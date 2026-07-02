@@ -1,119 +1,92 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D6631326C
-	for <asahi@lists.linux.dev>; Wed,  1 Jul 2026 14:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782916626; cv=pass; b=gN3FXpeI9NZCADAMpUKBoPoVhzThCZNaSUWSmYVMy7pu8afeS2Odm/W09Z981D7Z3qh5F+4NxFUdudWfPWsy8OmN+0sh/eORoCWc+iFJkLS7Q8CDpWh9mtEY3bLWOCBZE5UmbCHUEWRZbYL5dOQH4+KtgBZWst3kZ+xzIWDvjk0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782916626; c=relaxed/simple;
-	bh=uxK3787kwBaK3XoNUtICKMe+9KxBA8wczg+LhmRdR0w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d2wf6Orm2qOyox9kKnfAoALUBhSwbPF6BbsilhDmNvbA3bJq3zXR06COBUsQZvlQ+bqcjZ3WgICW1LX9prrOkukN+d2D4vKgmyFu9BCj400eQAnS0EClwA+nbDjveVLQcCGzhpc4ZKlcqYSr1z9kgOq4gE8BmU2Ri5RYuunHU4k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7kBWSO0; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC01147ECCE
+	for <asahi@lists.linux.dev>; Thu,  2 Jul 2026 12:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782994017; cv=none; b=tVs0BHYWsAi6DzlEGrpQOUl1AvaznCiPXoE3VrcJ5ZLW06S4NypR1xf3ox7nk/SBg3uhXCwv2ct1Sfd8yLf4NnFu4Rz5wsg3x2SC1Oaglz0+HoewZZADf1H38GXx7t+2pSb/wXKzePhvXWyya/XvnLuhPdw6fJRVYE19IgH6O7s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782994017; c=relaxed/simple;
+	bh=jUlZSi3Y3F/0QuIxjuAl+t+pHRC3h/ygSTf4tVgbRFg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dhhDfj4KiJaIemWs2h4V8/vyydWlboUeKr/rkqUSmL3Sx90KT34iVln3EbRL/B4cPmqSeEnIUN9e3SpT3W/mnAoPXxpAk0nP0MWaMYSYs+9dfSs/v/gc9lAT4fRgWUcOMdL7Xl7A5FE82Ls2InJW5+kTPPkSlCA5b3tbLZhzXhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=PvRN39e2; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7kBWSO0"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-664ee752958so972872d50.1
-        for <asahi@lists.linux.dev>; Wed, 01 Jul 2026 07:37:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782916624; cv=none;
-        d=google.com; s=arc-20260327;
-        b=njzc9IZuX+UYFOZYDJIDjY0kpqH5sWhocMXpMM+Yy4+AZf0vuJ7bSKbmjrqI1Mh0EX
-         79iMC398L6VVhzhDtwRkkASvS3ag24cTl/TkpMKvRihPk9aL5fVWu1Q7BLGmB1Jnu/nr
-         xXZa1nhomnsru8jOhOe0PPa4XqdlUj1n1znDPx0wo4j2PxpXoauTBPszrxz6pDGKWS7J
-         5i0r3pBqR1eIeZEE7TWOd494pu2eAaiv52ciUeMUQ16Kq7SQRTUpIiCu53OlH3Dqcd9i
-         2hvwFHn9SABrTrw8l7RQeOj4wmzz/UzuWecRN/ud9jYx9Zme0Yr+gIcW0+CiXxqQtdCc
-         9uDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uxK3787kwBaK3XoNUtICKMe+9KxBA8wczg+LhmRdR0w=;
-        fh=fM0AO3H4N91IwzPcjTrAFjxBnUn2uWmUYjNXzYCYNCM=;
-        b=qWl8u/7HZQssCEkp4exNhvB3KuSaVRCP4eyI0i5PHvQcaOlT7FxMg/Bb42FeqURNIZ
-         HrZZHyP0ZQTk/JtgHcek4hkqVAWcfQWIC3HeEPI+dT+qn88jp8m+oJFPEk3TBM9xrNts
-         2tzMSOFCk/OAU00CnfueztQ+c7bJjNDvcXFR1CZDSD9n13Wk6jU5XX5bUEy6t9LpX3tD
-         DBbYk17hSmnGE7LkwoOcbtCy7vW4qRnC2vAqFtw0y0VD2oPccObV7JqeVsjcBdkFZ1ZL
-         oCdY/yXA9YBSyltrrM8a69SrkOrVRo3X8GFHB5hSYaZqUHlYyEK7d46Sgo4szNModzfj
-         kyTQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782916624; x=1783521424; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uxK3787kwBaK3XoNUtICKMe+9KxBA8wczg+LhmRdR0w=;
-        b=I7kBWSO06gVcm2zBRuO5sn77Iiub4Jcok3RwCqAkoH73Iq1xPPYZFIuLpb18jQvdTZ
-         XteA6GWBZRwTOmsMLerWEyJy7M4moQ3Fm1ogH6/hdqDDFV6Jr/ISt4CRaazCHrEoMhJv
-         htDkiRkB5KY3f0227OXXW0NAVfF00cI8OHdsJeTOeiDxfepICh7Swj5VHOqx2CboxoKD
-         6kxsqw7pFP53vOxP1N3ATbWbDQlDjYHcwkMzuMKBsAdHwH07n7GbR5OHoTR9QRARHzz1
-         +NWPIZoeQfEIo14n5SrzywesFdlhdVdVZY1+e9WVsiHlvWIqojRo6NASD8ZW81r2hkZe
-         CSug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782916624; x=1783521424;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uxK3787kwBaK3XoNUtICKMe+9KxBA8wczg+LhmRdR0w=;
-        b=m72+wHSPpbZd2Mr9rxMhzvKLVQDELpJ2q54xrfDzOUxaEXcLP4shJ+J4NZ8if2q/gp
-         icitNg8Q9MIPEeHzjcczYnzg7dnDRAf8AEGGZapt0VC/oQMRO7vniXlYjqmKGGIzNsU3
-         v5vExOv7IjJE4eKQ/qVi7W6+enL55UOqnioYLtFjLKb06dCZ+9QHA2zJAUCWFUG45Ppj
-         hvSaPE/k22oIUmTUqLdYxPttMXOn0hkpIzQwjWvEAwO8eJ5MHWr3V2Bv5FoA4+NYWLV4
-         AUAkyROgPx661OFcpoY9TsZuM7wOTOXgabowhS7THGEp5sSPQy2/HF81cNKDGV946g3m
-         Jfmg==
-X-Forwarded-Encrypted: i=1; AHgh+Rpm3YmXXh9K3IbM1qzeIO4qUEH+yGDfE8KXz42YI/Ha9pr9hv3QIt3JgPkxLnEyQN2tqQmZhA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFtXE1/goqpbiSPX3eIDfiU1T52Rw1iNdzgq2UjMoZpqI8j1Kp
-	hSpY1MYJbyx9FUqT9ly+Vakwn/kdoiHM2+0RHvZCa32jbnGRnuKtoJZ5fX0B6XAAFYHlbq1yA0u
-	LMKtIB8eAiiVs/A2cPr4OH1bv0bPtV3o=
-X-Gm-Gg: AfdE7cmsTfG3iRm+r3z6VgbzBCpenmNl3mF8mhsCWHQQocAzaBqjvuHzgWNqHx1MzHH
-	hjCQooipQdXk/jV/oDlMO5mYsdKVMaYN+vr5SdSdU7kqrRfBeLCbR0agrcrs7tJgaSq6hFbxXSm
-	e53Q0FUmUd32xRz65h7Zg36R2a8YNLHAvEXKth+1oSAoNwvHHBGvKPvETXmSExU9gsMKG5DyEAw
-	x0mrx9aTkCceLv2tk9S0ZFglfFCZO+WiubSOGn88z/bOOpncKA2CuVYIiTjUFRH97Nl20xo2ho/
-	EnZ1YiMQZ8wmgJ+llj5F+KTulUm4miW3XjCSXQIkHtVC2bjZE3HZi1lOljrjng==
-X-Received: by 2002:a05:690e:b8d:b0:664:ae68:33b0 with SMTP id
- 956f58d0204a3-66521d75bb2mr1788278d50.81.1782916624248; Wed, 01 Jul 2026
- 07:37:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="PvRN39e2"
+Received: by chaosmail.tech (Postfix) id 347FD1C888A;
+	Thu, 02 Jul 2026 12:06:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1782994005;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=SQNpC2MoYnLQAl/v3dxVQexz4TEZdGqYDZch7PZVNZg=;
+	b=PvRN39e2OtdyoOiqOOVP2E/XParelVBDKN6Tf444vbUXewXfCOBlZnpohD/6T1W3NOmIe5
+	dJjT9qJqYMm5oDZmrOLvAh9YMZkHL3re6DIqUkSHUu9VMy1g2An0m+js2RnSAjbydVV8xM
+	T33OvLIxpDx1AYgRkKBZGHH3NJdd/ac=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Subject: [PATCH 0/3] soc: apple: Add "PMGR misc" power controls driver
+Date: Thu, 02 Jul 2026 14:06:25 +0200
+Message-Id: <20260702-pmgr-misc-v1-0-4f075a3a95c1@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260630-apple-mtp-keyboard-final-v1-0-506d936a1707@gmail.com>
- <20260630-apple-mtp-keyboard-final-v1-4-506d936a1707@gmail.com> <20260630-halves-magnesium-856f9c7d60b2@spud>
-In-Reply-To: <20260630-halves-magnesium-856f9c7d60b2@spud>
-From: Michael Reeves <michael.reeves077@gmail.com>
-Date: Thu, 2 Jul 2026 00:36:52 +1000
-X-Gm-Features: AVVi8Cc_Z2Ec3ueDKeRbjSSEO7FpMbGiHoLBEK8cPVlZ9DBrXWtcjp1MzslxPtM
-Message-ID: <CANpmGNs9PuH52ngbZq6jGHuJkoZ=Jz+PRk8Bq7Rn21g9KsotEQ@mail.gmail.com>
-Subject: Re: [PATCH 04/10] dt-bindings: input: apple: Add DockChannel HID transport
-To: Conor Dooley <conor@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QpAMBSA4VfRubbaViivIhd2HBxltIPU8u6Gy
+ 6/+/ghCgUmgziIEOll49QkmzwCnzo+kuE8Gq22pK23VtoxBLSyoOjLo+sKhxQpSvwUa+PpeTft
+ bDjcT7u8A7vsBoLwa2m0AAAA=
+X-Change-ID: 20260702-pmgr-misc-ae1cbd5bc2c7
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <k@chaosmail.tech>, Hector Martin <marcan@marcan.st>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782994005; l=1550;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=jUlZSi3Y3F/0QuIxjuAl+t+pHRC3h/ygSTf4tVgbRFg=;
+ b=24ErvKIbhJOk782EuxDOBxCg4INtj7JZ+kfwYzPQK38zAqwbYHrJ+KabRgYh7yB2Mirj5Qif0
+ Z2vR12trINkDRcS8Vcb7pzaWD7AtPvbEmZ9fFceWRCi171ACZ57jl1N
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-On Wed, Jul 1, 2026 at 3:08=E2=80=AFAM Conor Dooley <conor@kernel.org> wrot=
-e:
-[...]
-> > +++ b/Documentation/devicetree/bindings/input/apple,dockchannel-hid.yam=
-l
->
-> Same thing here about the filename. Looks good otherwise, so please
-> change that.
-> pw-bot: changes-requested
->
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->
-> Thanks,
-> Conor.
-Thanks again, will also adjust this name in v2.
+Certain Apple SoCs have additional power state controls that are using
+a separate "misc" mmio interface. Currently this includes the fabric
+and memory controllers on pro/max/ultra SoCs.
+
+This series adds a driver to put those in a low power state when the
+machine enters sleep. The power savings are SoC-dependent and are
+around 1W.
+
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+---
+Hector Martin (1):
+      soc: apple: Add driver for Apple PMGR misc controls
+
+Sasha Finkelstein (2):
+      dt-bindings: soc: apple: Add bindings for apple PMGR misc controls
+      arm64: dts: apple: Add pmgr-misc nodes to t60xx
+
+ Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml |  45 +++++++++++++++++++++++++++
+ MAINTAINERS                                                            |   1 +
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi                              |   7 +++++
+ arch/arm64/boot/dts/apple/t602x-die0.dtsi                              |   7 +++++
+ drivers/soc/apple/Kconfig                                              |  10 ++++++
+ drivers/soc/apple/Makefile                                             |   2 ++
+ drivers/soc/apple/apple-pmgr-misc.c                                    | 177 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 249 insertions(+)
+---
+base-commit: 59574e5978abfc2ce1c194ea0200eb6fc718d8ce
+change-id: 20260702-pmgr-misc-ae1cbd5bc2c7
+
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
+
