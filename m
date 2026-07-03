@@ -1,61 +1,63 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21D6328B4B
-	for <asahi@lists.linux.dev>; Fri,  3 Jul 2026 05:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2C4285CB3
+	for <asahi@lists.linux.dev>; Fri,  3 Jul 2026 05:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783058057; cv=none; b=qKGggZp6D9UGv8XNfMn+mrnPLATHcHaBjk8kdult0immAxZUUJRT13KuOaWMdnEfXuSt5OHKkNTqGPnJahlvz5HDr+iDKk3ZLQhnp3cNu2CRKfDtZ6698axHQJE9Ew1duOUP9UKDzDDBSEQwqD437TUAi62FlruEjcSrGzP/jaQ=
+	t=1783058067; cv=none; b=UlqNaArwisQwpFfKqbcmI3nC2OWkhmzKmRMXdL4zk8bfjaDLZcIdoXKxm4a1hm/5gFIWxP46musLyF45I3j2nr55+LYl65WMBgPSUGbzL2Czqs0cqzPMxQrRZDs+S3jLce02yHJ7h7HREB6nc+v6ooWmDaiFsrBkgDcsD3Bf9Pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783058057; c=relaxed/simple;
-	bh=UGkLrBuL5irW/Yht46QG6DEBFfiJYbXFRCF2TdC6c7Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QDB/imAIrAPul8C/3Tf1NPG5qsN7NVqQzFv9LDO24nsADX55SR4NIOPPqPC8mt9QhTxG9dOlB/tycG6nw/0/ruOK288Xo/h72ronRmJIQsjXW83PVsnL5nDod6Hktpx6zYm4W0Spco+N9KOej023LBuBSQOdZrKVWD2nzAB9HkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kkAcaAj/; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1783058067; c=relaxed/simple;
+	bh=aeZjPmGhDWlaPCT1RRDfgeSEVWLZ95Hfqxv0L4cptwI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CL8v7jVu1Swb1jSdy2GuhhFR7OAqLS8GWd8DIHZG5n1Ee1pCfzfFZKahZqeK/6uZzQ+L79lqdHtcIlH2Q9wQ8ok8VzRNOIxYGfKxhcI+EIQxDdkMTtRZyR2wVmoTsYXrql+9pOysGFCeAEw2bLcvqYKEsB9uxt0gdMxKv7Qm+74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CDBvVIm4; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kkAcaAj/"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-847917c3678so825752b3a.1
-        for <asahi@lists.linux.dev>; Thu, 02 Jul 2026 22:54:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CDBvVIm4"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8478fe07f65so200321b3a.0
+        for <asahi@lists.linux.dev>; Thu, 02 Jul 2026 22:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783058055; x=1783662855; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KcraQoI+SjGv7MwiOE2COsWrr3yT+rAbe2XY9Shc+ak=;
-        b=kkAcaAj/FZ6tpQ3j4RTAzKw9pfwZFcUPkGMuhxgAtjynU9kPfGGx2h8/XLBYCBQ/61
-         yqT/nGwFLahn+qSb2BY1NXG0iqpnkYjIZ7IF4ppf9Apg3XyUr24lm1UtT5B7n+e035tK
-         0WIkA8TOo1tykODjLH24wCuM1Ek7jM04qlqzauFEOBu08+AO3yebUgNUXQ7PQv7Pw21u
-         /CJQTQGlCOQW9zagieCtMPeSIRfsourECkarpdwYPMHv5piaJWBI9CtNf8vC/xW10/oG
-         JsXxGi1Ge7nvJJgaCh7oQyJfxcddCsJnuLD01jI6olbYPMNy5+oMtEPnhJpfMnughXfg
-         /2Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783058055; x=1783662855;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783058065; x=1783662865; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KcraQoI+SjGv7MwiOE2COsWrr3yT+rAbe2XY9Shc+ak=;
-        b=fhtAtraxrGA39hQ1vU+4XNYEk6Nudzn0HbvkelnmASP2rXjL0L5H3cz9HDvgDMMhup
-         46Z14lplczni4Jzsm/Td+LmnxxNui7qvgnaPi+r8WYCcoB5RzokZ3iB6TtrbgUArU9ib
-         15SdXE9Z521D5BjVTKB4gLKKgCbetsw2rAVzm0e9NtS0hhJGOsX34r9FJsK7rx2XPeXo
-         Ap3x230SipvFtnJps24bUdjdz+NvWL0I3WtVfqB2iEQsdszvG82RCRwJEUtbtN2UpwgL
-         uiGAT5dg4C0EuglD0A/BU+Y/Vj/oekAv5NZCPru67SxZ7RKVyQmig3qDFHlCFhwdNpPR
-         8Sag==
-X-Forwarded-Encrypted: i=1; AHgh+Rqb/zdzzrzNzsNUpTeDt+bILgTAac1fvYrj+RF43Nam6gbwdZy/05cv5aPic4ZN1+wzbJwKuQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+fyNdFyQN1qT4CSzNqgPCkoq5PlknYBhDg7nDQIH/2tJqhezI
-	jraPcyzULUdIzEcPWzPoRHfCR5/yisIqZsxSg1YeA5DLo5mMKJc9zUOf
-X-Gm-Gg: AfdE7ck9SCgHMDP+26Jlkr+/KrTcBEc4lIQBccVoWT0KUYsYYxGL8oKWJVUeBzppmis
-	kPDQZz4OQlMafKOf3ZHyDrweXjoakhMSdYJWlyZyXlmFqvru0AqYpIyRvV9ayhCAhdM1AZ+mh5m
-	lyfYcBNuBxEK8XManKLAbU0FBlXDlIJuyEf2vabDumJn05voGw0uAtMx78fFm/C09H62CdUEZXJ
-	/GIwdFyYyEAlyqR8TKS1Z11J4JfKepJEuejHppOABtO/RCpSbExT9ZmH03u8fzbvYel8njPrGYT
-	f0I2A0dE4hd78WOFtABxJqmvLOQKiBMU5WU/hS1siAeAMlSUQ2VLP6W9kLo3DJsxaB9SUwhUCWx
-	ozTjBsTRLidoMFTNq9LJoHOuPMQk5cQCe19zFY6OVB419+j8tvcGNmaKomBhS6v2qHYXWlWd4mc
-	SDnxVRDiHqN1IMl3jSpdFABugVPTbi+KNfhmET1gJD0kkTXsA=
-X-Received: by 2002:a05:6a00:a253:b0:842:4982:82f with SMTP id d2e1a72fcca58-847e177a4ddmr2707503b3a.2.1783058055114;
-        Thu, 02 Jul 2026 22:54:15 -0700 (PDT)
+        bh=wH3PeQGMbk7TOW2LRX9VqMPl97RF/TvWYaO8+1NfNuc=;
+        b=CDBvVIm4a5yXYMkPgLhMWBGwoEsGRJwtJsYRBaa6du6POgZIUfj81S/vPVYZnWg4bM
+         sMyG1kpzIPN5Z8HPaUtT3BclUHm1mkHhfNGQU4zhoAIu1SsqLxpe3nEEezRedz/f0tuJ
+         lAPi1gIqqBEKaTGgH4bo531+L58YFGbzbHi5rKKx0oNdKGG8ca4iHEbszFL77TjYZmWQ
+         fzS0CLTMICKdnufla6UcFB54S9zML8CU4YPnTf1Agzyhkz8iViK6knerWiUB8LF2x2cB
+         FIssQNJ4pP55u1e+2/gd9AL6RM4cHCjmTbc8wFxqqhiBAJRAZLvYbVwQo4CElW4J8o3/
+         gzbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783058065; x=1783662865;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wH3PeQGMbk7TOW2LRX9VqMPl97RF/TvWYaO8+1NfNuc=;
+        b=BZGHPqqJkVQQ15G0N0SVfISMJbu1O98CgUwY448RY6c311u3fw+6q8eFFSWIvdWLev
+         N+0CT/CA8t6BjiXbp87tmDyJiIFUudS011QFttzjz/lfMnFP3NGfE3WJEKUfSjcSCzMN
+         WvfwCsaaKe3k3+fRhEFN3JlNSdt0ZnPruFptz4inJLMi0IxX34wP9Ef5jdh6Oi64emoX
+         Y61zNLohsh5o8mZhYJNW+chbYEH2egYv8zIdLJ/Y21srf4vo4tGIfjPn6hQMX5NbDhHD
+         jVB4Oh8tnW/GDHRu7/z+MCf9ttema2HKKfEd2WDxk2LF1IbSqXFkYm4MDEatFy0VV483
+         k18Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8yC/hclZWA3YPBCPWrlDRimPveFhSWUBU41ba2JvQ5437oBPoiP8GyXKKQjFnKn9EKr1Nasw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOPQH5TDWRSez6HTz7Z08Fu0Zk38y2EiRFXRVCZr6y1HFPw/Rg
+	RWVpPo2hb50f7UWIyS0Y/Zgupm5gkW1cakd/VMyAsZVP4WcDCQPyPgps
+X-Gm-Gg: AfdE7cnuC4B7nd3kDrKQyCFLYV5L8gUIQWuue5Oi3Vpe9iJvv1H6uTVv+hsG1QGQBLC
+	c0UeIWXvXx+Ds3zdI8hT3sJe2Wi/i54Ci7RGtDVGvJ2GZ4kDSw9NP0EOR3kC+IMiFDFlnm5yvr/
+	m2iCAhaHfDs8MFjzUjI5dL3nuINq2Lr9dS2QwrRK1vPyGtForTQnBB1PIfvg4RD2FcDhjDopNc6
+	3PIlJhzOjXCJahfjrnpyoB2ciWaA+u3iDkuLqIHQCLX1BKgmGfDBWxsnrulJWx7C4PrKuS5Jna+
+	QhCNuuxc+iseatye1QHBC12gniaUsPlx6X/P2uoiZDzJsQcERM51AvzXfAAxdeS0H5EpKUEFV40
+	zHr2sricJulE9yCYM7vb5+CzUxU5vLEHMpNVE1AXEGHxenuOxEU6zBEJOj9gke4KbajAXit6HPV
+	IT24ku9Y6UXcnQi1MnP2Ain/c7hdkvpNyGWU74v2reB0yvALU=
+X-Received: by 2002:a05:6a00:992:b0:835:405a:7e72 with SMTP id d2e1a72fcca58-847c0690f7dmr9119828b3a.11.1783058064965;
+        Thu, 02 Jul 2026 22:54:24 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb94b3e6sm2340028b3a.33.2026.07.02.22.54.07
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb94b3e6sm2340028b3a.33.2026.07.02.22.54.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 22:54:14 -0700 (PDT)
+        Thu, 02 Jul 2026 22:54:24 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -91,10 +93,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	chrome-platform@lists.linux.dev,
 	asahi@lists.linux.dev,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 00/24] ASoC: codecs: Use guard() for mutex & spin lock - part 1 
-Date: Fri,  3 Jul 2026 12:53:31 +0700
-Message-ID: <20260703055355.244898-1-phucduc.bui@gmail.com>
+Subject: [PATCH v2 01/24] ASoC: codecs: ab8500: Use guard() for mutex locks
+Date: Fri,  3 Jul 2026 12:53:32 +0700
+Message-ID: <20260703055355.244898-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260703055355.244898-1-phucduc.bui@gmail.com>
+References: <20260703055355.244898-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -105,90 +109,66 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
 
-This series converts mutex and spinlock handling in ASoC codec drivers
-to use the guard() and scoped_guard() helpers.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/codecs/ab8500-codec.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-This series is split out from a larger 78-patch series to improve
-reviewability and allow for incremental review:
-https://lore.kernel.org/all/20260617103235.449609-1-phucduc.bui@gmail.com/
-
-The changes are purely refactoring and have no functional impact.
-
-Compile-tested only.
-
-link v1:
-https://lore.kernel.org/all/20260626061329.23264-1-phucduc.bui@gmail.com/
-
-Changes in v2:
- - Added Reviewed-by tags from Charles and Richard.
- - Incorporated Charles's review comments:
- +  cs48l32: Removed the unnecessary else block so update_bits() 
-    is not called when no changes are needed. 
- +  cs42l43: Switched to a helper function to avoid code duplication, 
-    while keeping the guard() conversion since it eliminates 12 goto 
-    labels.
- +  arizona-jack: Reworked the code to use an if/else structure, 
-    avoiding code duplication after removing the goto label.
-
-Best regards,
-Phuc
-
-bui duc phuc (24):
-  ASoC: codecs: ab8500: Use guard() for mutex locks
-  ASoC: codecs: ak4613: Use guard() for mutex locks
-  ASoC: codecs: arizona-jack: Use guard() cleanup helpers
-  ASoC: codecs: arizona: Use guard() for mutex locks
-  ASoC: codecs: aw87390: Use guard() for mutex locks
-  ASoC: codecs: aw88081: Use guard() for mutex locks
-  ASoC: codecs: aw88166: Use guard() for mutex locks
-  ASoC: codecs: aw88261: Use guard() for mutex locks
-  ASoC: codecs: aw88395: Use guard() for mutex locks
-  ASoC: codecs: aw88399: Use guard() for mutex locks
-  ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
-  ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
-  ASoC: codecs: cs35l56: Use guard() and PM runtime scope helpers
-  ASoC: codecs: cs42l42: Use guard() cleanup helpers
-  ASoC: codecs: cs42l43: Use guard() and PM runtime scope helpers
-  ASoC: codecs: cs42l84: Use guard() for mutex locks
-  ASoC: codecs: cs43130: Use guard() for mutex locks
-  ASoC: codecs: cs47l15: Use guard() for mutex locks
-  ASoC: codecs: cs47l35: Use guard() for mutex locks
-  ASoC: codecs: cs47l85: Use guard() for mutex locks
-  ASoC: codecs: cs47l90: Use guard() for mutex locks
-  ASoC: codecs: cs47l92: Use guard() for mutex locks
-  ASoC: codecs: cs48l32: Use guard() for mutex locks
-  ASoC: codecs: cs2072x: Use guard() for mutex locks
-
- sound/soc/codecs/ab8500-codec.c           |  12 +--
- sound/soc/codecs/ak4613.c                 |  83 ++++++++-------
- sound/soc/codecs/arizona-jack.c           | 116 ++++++++++-----------
- sound/soc/codecs/arizona.c                |  26 ++---
- sound/soc/codecs/aw87390.c                |  10 +-
- sound/soc/codecs/aw88081.c                |  18 ++--
- sound/soc/codecs/aw88166.c                |  24 ++---
- sound/soc/codecs/aw88261.c                |  21 ++--
- sound/soc/codecs/aw88395/aw88395.c        |  24 ++---
- sound/soc/codecs/aw88395/aw88395_device.c |  40 +++-----
- sound/soc/codecs/aw88399.c                |  15 +--
- sound/soc/codecs/cros_ec_codec.c          |  18 ++--
- sound/soc/codecs/cs-amp-lib.c             |  11 +-
- sound/soc/codecs/cs35l56-shared.c         |  19 ++--
- sound/soc/codecs/cs42l42.c                |  54 +++++-----
- sound/soc/codecs/cs42l43-jack.c           | 120 ++++++++++------------
- sound/soc/codecs/cs42l43.c                |  16 +--
- sound/soc/codecs/cs42l84.c                |  10 +-
- sound/soc/codecs/cs43130.c                |  72 ++++++-------
- sound/soc/codecs/cs47l15.c                |  11 +-
- sound/soc/codecs/cs47l35.c                |  11 +-
- sound/soc/codecs/cs47l85.c                |  11 +-
- sound/soc/codecs/cs47l90.c                |  11 +-
- sound/soc/codecs/cs47l92.c                |  11 +-
- sound/soc/codecs/cs48l32.c                |  26 ++---
- sound/soc/codecs/cx2072x.c                |   5 +-
- 26 files changed, 346 insertions(+), 449 deletions(-)
-
+diff --git a/sound/soc/codecs/ab8500-codec.c b/sound/soc/codecs/ab8500-codec.c
+index 6e8ef9cd1b31..2cf96cbdd294 100644
+--- a/sound/soc/codecs/ab8500-codec.c
++++ b/sound/soc/codecs/ab8500-codec.c
+@@ -14,6 +14,7 @@
+  *         for ST-Ericsson.
+  */
+ 
++#include <linux/cleanup.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/device.h>
+@@ -989,9 +990,8 @@ static int sid_status_control_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct ab8500_codec_drvdata *drvdata = dev_get_drvdata(component->dev);
+ 
+-	mutex_lock(&drvdata->ctrl_lock);
++	guard(mutex)(&drvdata->ctrl_lock);
+ 	ucontrol->value.enumerated.item[0] = drvdata->sid_status;
+-	mutex_unlock(&drvdata->ctrl_lock);
+ 
+ 	return 0;
+ }
+@@ -1014,7 +1014,7 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
+ 		return -EIO;
+ 	}
+ 
+-	mutex_lock(&drvdata->ctrl_lock);
++	guard(mutex)(&drvdata->ctrl_lock);
+ 
+ 	sidconf = snd_soc_component_read(component, AB8500_SIDFIRCONF);
+ 	if (((sidconf & BIT(AB8500_SIDFIRCONF_FIRSIDBUSY)) != 0)) {
+@@ -1025,7 +1025,8 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
+ 		} else {
+ 			status = -EBUSY;
+ 		}
+-		goto out;
++		dev_dbg(component->dev, "%s: Exit\n", __func__);
++		return status;
+ 	}
+ 
+ 	snd_soc_component_write(component, AB8500_SIDFIRADR, 0);
+@@ -1043,9 +1044,6 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
+ 
+ 	drvdata->sid_status = SID_FIR_CONFIGURED;
+ 
+-out:
+-	mutex_unlock(&drvdata->ctrl_lock);
+-
+ 	dev_dbg(component->dev, "%s: Exit\n", __func__);
+ 
+ 	return status;
 -- 
 2.43.0
 
