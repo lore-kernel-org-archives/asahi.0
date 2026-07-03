@@ -1,72 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5B6304976;
-	Fri,  3 Jul 2026 16:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00CF3002D8
+	for <asahi@lists.linux.dev>; Fri,  3 Jul 2026 18:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783095554; cv=none; b=Yi2h1hAV+m0/+S8ZCCaHGRDRBoDDrPoLzbyvwl4jt8wmQUdspDfyXOD+QCu7pSCoo+V2KnhH4uOPBZ3JMze+yudvZ4Qt5WmZQkgAk1PdZgK4LhgN/Zwr1z0nteBLY1Dxn4WeYYEaO7aVVRXEWVUzGKlWCietnAFRdnyZMwPxiJo=
+	t=1783104781; cv=none; b=FnWv/uwyYxxMiOCcykz2wq3JS74A7EF+SNRTVY45Ccv/m4+XinJvzNBH1QI3mtTV7yL5PgSqHebE5zaDjW93lYQM2g4TxmJEEC6oJa9hyE9mAQbXxWFMRvJ09pUVje+aqDC/0VbPCkKI96TfWO5UT/V9A0NjS9QZhSRIwSANjOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783095554; c=relaxed/simple;
-	bh=MDqV3FE/QURKj47Ug9qhhO3Rw6xeNdaWbeaJ1FuMeXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qlvc9EHGRmHzPlHq6our5QsaZNu5Af1YQf9rCYln36WggZX7dfppw17D5mUBgIsnGSIVOhu6erulRtrfjgM4x0KRYl8v9oHuwgabMhptlBgREeeF7Na60u+afTf/KpXZChZSAhkt6f7z3Z/l0f00dZoA1NRvrV+2Xj8GL0XUy2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/j4ZWUr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783104781; c=relaxed/simple;
+	bh=pKYXT+BZ+wJ3YBFYOlgjpxbv7tZC2s26tw/M0N6OYfM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=b+RbSHU83xF/UetPbhGFrVPRpTVZI1XUMhhUMENW9kkyG63XElHmdFnaOaRiJ7XM3eRRlbUifqvrA75v20xnWYYeFt+P3J5LUJ4CRpX+vAyAMyBbTAnK2KV/HNZskhcG1xU3N25Ai+uuixQyEa5mWu5Ek4uWJbLe72rzJCwGzZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=U+ydAsT3; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/j4ZWUr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD6131F000E9;
-	Fri,  3 Jul 2026 16:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783095553;
-	bh=MDqV3FE/QURKj47Ug9qhhO3Rw6xeNdaWbeaJ1FuMeXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d/j4ZWUrtxifnX8y919J8kuQuU5DEj1oB14B6kihoAoypJZRemNaeQiPADNdNsyYm
-	 BKOCus/eZWIPGtPhqVi4YPlgvopBcbw1dilQiwOzO/FYzr0DfSHgaj6yNVGY3XW+U0
-	 u2IKQRCJPgCVFB7HMRVp8Bms73PRBDjuC+Jna+HUsDOJXbhlxA74ZekbcfutiNkFO1
-	 QMGAOrkyEpsVLwoDKqWVEIEFA7qYSS+i8Ns2MdC5hJfWNfyRAZwHLzOYxKigfjn3NN
-	 M1Gp70mq4T9ehJKkvaOroeS6O8RhG5l456YtAHQcErARJxNPRQZCjY5+Ne1fQyXTuk
-	 C4ZZaF2jOLRag==
-Date: Fri, 3 Jul 2026 17:19:08 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: soc: apple: Add Apple PMGR misc
- controls
-Message-ID: <20260703-acre-buffalo-815de034999e@spud>
-References: <20260703-pmgr-misc-v2-0-4b26ba10c5a4@chaosmail.tech>
- <20260703-pmgr-misc-v2-1-4b26ba10c5a4@chaosmail.tech>
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="U+ydAsT3"
+Received: by chaosmail.tech (Postfix) id 61D561CC21E;
+	Fri, 03 Jul 2026 18:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1783104776;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5yh6tx0rcTXUg+w8H4oTXcRUK8TzdWacjEqbGEhyWGI=;
+	b=U+ydAsT3oX7qKlEr/7lwYq9PYT+vx84UTPKteCxy8BvzQLGk0vqE2t6kQhoPW+tJngcZJ4
+	NBagcVBkm8QrO6P+1r4SN2cUpG1CRZ5ztoTTZCfInyjtmBtW2Wm7HxdJP9S68eEkJ/pF2I
+	WDD+eSj/SBTSiin62q2v/KiCBE63dqo=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Fri, 03 Jul 2026 20:52:48 +0200
+Subject: [PATCH] cpufreq: apple-soc: Calculate frequency as a 64-bit value
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ew3fU/QzK+CdPJ5y"
-Content-Disposition: inline
-In-Reply-To: <20260703-pmgr-misc-v2-1-4b26ba10c5a4@chaosmail.tech>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260703-cpufreq-64-v1-1-c406c705319a@chaosmail.tech>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ5AMBBA4avIrDWpIRWuIha0g7Hw06pIpHdXL
+ L/Fezc4skwO6uQGSyc7XpeILE1AT90ykmATDShRyVLmQm9+sLQLVQjsMDclqoxkBTHYLA18fbO
+ m/e18P5M+3gOE8AD6xnmUbgAAAA==
+X-Change-ID: 20260703-cpufreq-64-2a23d7261e09
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783104776; l=1126;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=pKYXT+BZ+wJ3YBFYOlgjpxbv7tZC2s26tw/M0N6OYfM=;
+ b=rV8RlNcoGB9fGgWZo6PqV81pKfRxc4rz0NcyYGjLsMbudvptfAgphE8sUtztRKBGcLRxKfjhX
+ Qj6W+EKtlWKCbSUsLjU5ijhZi4+d6qBuvEjtREm7Vtlu9RHYd1caEeB
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
---Ew3fU/QzK+CdPJ5y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The current frequency calculation is done in 32 bit, causing problems
+if run on a future SoC that can boost higher than 4.2GHz.
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+---
+ drivers/cpufreq/apple-soc-cpufreq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---Ew3fU/QzK+CdPJ5y
-Content-Type: application/pgp-signature; name=signature.asc
+diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
+index 638e5bf72185..6a0f1d36578f 100644
+--- a/drivers/cpufreq/apple-soc-cpufreq.c
++++ b/drivers/cpufreq/apple-soc-cpufreq.c
+@@ -288,7 +288,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
+ 
+ 	/* Get OPP levels (p-state indexes) and stash them in driver_data */
+ 	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
+-		unsigned long rate = freq_table[i].frequency * 1000 + 999;
++		unsigned long rate = freq_table[i].frequency * 1000UL + 999UL;
+ 		struct dev_pm_opp *opp = dev_pm_opp_find_freq_floor(cpu_dev, &rate);
+ 
+ 		if (IS_ERR(opp)) {
 
------BEGIN PGP SIGNATURE-----
+---
+base-commit: 4a50a141f05a8d1737661b19ee22ff8455b94409
+change-id: 20260703-cpufreq-64-2a23d7261e09
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCakfg/AAKCRB4tDGHoIJi
-0jYaAP0aSmWIipYQoz1Y9zbqOWoAnynQ5pXZqcKDuusK7Hf54gD/SC1++acH8F08
-FMU2DVs0tWppBFT9gNOmErqDtSCT+QA=
-=K5Z3
------END PGP SIGNATURE-----
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
---Ew3fU/QzK+CdPJ5y--
