@@ -1,104 +1,47 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE1E364038
-	for <asahi@lists.linux.dev>; Fri,  3 Jul 2026 05:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B741335DA43
+	for <asahi@lists.linux.dev>; Fri,  3 Jul 2026 06:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783058284; cv=none; b=keCFDt9ohKOhoiT3FgRhA1DUYxnDtPFfauE0WS9QIwjQkdUskkWAZhlEGWcvfz2XxFqrJ/vGjnWEbpepqQ+wP+NTQXh7D+eUX6ONq/sT2IQdLBUfafAjJSmYcjD0V2GI9iE9mOq7eu2cClGsSxT+OYClpqwO1H8QIAQ0aGpFP9c=
+	t=1783059710; cv=none; b=WGowBHwolN04qgb0WmdXiAWO6I4P4PHhukK9IsDJ7YclUaENbDRz/A6Nv4FbwrxCQPN8CsLpCBNPzpxV13ov1HFBwPFx0yb4hFbWJoDZinyS6YokmkISryclYo07PLoXla2VWyMOwai1vJwKuMwuYd+Jdoa3FB6zqUumsJoMJb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783058284; c=relaxed/simple;
-	bh=maiamEYW/VmulEyBtMYwj0uqdV8jgFn/WOixNWVxsn8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gKBomE2mNRTcGE+Hht42JWaGxR5zjabUI9AnnoUeSEOqR9wfZEKRImTmf/WlbuNq9/I9cJphLol+RwKC4wUuDHWrvCTw8y7qUfmWafL6TO2aN4zq/fuBmqsjgh3ymzPDe9OlSLM+EXNV3KG10ISaMsRMLpzhgm2GUJpNmMKwT+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NXOFhIag; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783059710; c=relaxed/simple;
+	bh=NJhGiAFsDN15in5OETBvEzBUccCQZDM83X07uR3IuwQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A7tp/KyQxjBNnO1E/U6pYc/uRfk8nC3vb6Dls3tQV7neGvoYusQCYTXvYOaTASOMFaJR4Gzfwao45TrvkDaqNp83P0vRDp/+ExoAJllwcfcZzn+A4BT7CMKt77n9gpTjooHl+cOevezFFEzZtxEV+j+8KehQzey5hTDiDcwQfAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=DfKyCIWW; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NXOFhIag"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-847aa193d98so148524b3a.3
-        for <asahi@lists.linux.dev>; Thu, 02 Jul 2026 22:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783058281; x=1783663081; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SX8XmTSnrku861xf5UWM+H3QucQPdKfApxb7WoywOqQ=;
-        b=NXOFhIag8Eh8JU8fI1FDDrlizTd5wf9wivdaiBxxVJZXKhqE82xH7eB0q11oA9uzGz
-         RT9MJNLnyYAi1wdgw3ltB52l+ZDEZKNNR+gG8A1qkOJsSfgtyTw28n/jG4k4Ro2Sjc5D
-         9J5GWRu4gfCFYsm6of0ctPkVvtq5gWuYHvVRnZloIM4w0VXQzGd9vnLyT6Vkin8bWCs6
-         NjW28zd6DpFut6gD0FjUkOVKXovD9VAnZxkGeSAw/LYhE2+n8nhA3UGn3nfl/FvkIXf+
-         /R6d2/EG+Rx8946nRjncR6sIH0hgiZtCW82384ZOJumWBlFejTINnY9kYWBN9/mcGNMP
-         7tHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783058281; x=1783663081;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SX8XmTSnrku861xf5UWM+H3QucQPdKfApxb7WoywOqQ=;
-        b=h6SMN44HYrZLmyp9qHXlFjapGV3zUX1dgEBBmSgdM27BMoKERsubR2L1ZFj7FuRqz0
-         71Jby8klGGWtf8o5Xc9H0KZzwqIDO5Uw5eYxJL0DsQz+sW9Agl+f2LZqUCPxLmou9RGq
-         M9YBK7C/+WqAhV4QX/V9OZW8bEeXc5dfJh0as+rcyE7qlbVxFjG5yO+ltgilIWOcmEEQ
-         O7iLzXzxqQYTnYzf0FRjKpk6AbYlWn8fvmv1DCKmC9JukA/Z06veVurzkntEdri31DfN
-         NvYDGeFJK7pQYMUFCcNN0oqRqqlf/Zz0lEu5fetgLYRdIfP8ljRT5nO2EfyPbAHpw/ly
-         e7UQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrlVkad9DgiG0hRg9c/uX+qbE/F1kPvVdz0L8LoLjdxnoXlbc1hVivXSc1Dkn/ZoEaofV1rxg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNgcCQ/cA/gj/hvCkBJARLMPvOF2dRLANrhbd4S9PJnFu9MRye
-	uEIb/uYTvetSD+ivVtmCNNNb/t5Mb78Yyte3JtlSwxYMaKVZ2tbaCUH9
-X-Gm-Gg: AfdE7cnarLqGsr75JXIVQ5+LcjBdWGuhhzyzzLV6G8P4XBAuJD3SRPQDgek2Uc6mz0f
-	NDabkhAjyFnnNOpg9phCJXCg+YJHHvHLK+CneXjKraMPO+Ufpkj+mikb3buRTR39fBMrGjyRq4j
-	xOELgnzUawfLleQqUzzCRQwJsTQQYmO+P2YJ8xsJrkRF1QWXHW9RWE24Xq48qo4Kkf47nydlzIW
-	SZfsZtbgMWDZGM4RwGDus1F/oEzKuexGmolUcWUspxnBs5GqhhGNM8po/ftt6oNt1nAkpikAfhL
-	9IyJ2SmkI11Ph6kPAi2KPn+BBF9sOMd/XHOjjAGjx3WliJpMUvfRSeaZrKgsTqhlUvyh4d+SRX9
-	DfjqvS3uSm5D8Wt2eNJw0r9zgpXNBZ8Alabud9khhjCTGuoMUw6ESLEgsBw9ENBbJ6JHikJmx8R
-	ndGpvQ9ErQ/MPCe3OqQBPPXq9pX5VvAU0v2f1+lvb9R40XwLg=
-X-Received: by 2002:a05:6a00:2d18:b0:847:9015:e68c with SMTP id d2e1a72fcca58-847c0703a92mr9190336b3a.17.1783058281340;
-        Thu, 02 Jul 2026 22:58:01 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb94b3e6sm2340028b3a.33.2026.07.02.22.57.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 22:58:01 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	povik+lin@cutebit.org,
-	u.kleine-koenig@baylibre.com,
-	kuninori.morimoto.gx@renesas.com,
-	christian.ehrhardt@codasip.com,
-	Linus Walleij <linusw@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Rosen Penev <rosenp@gmail.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Teguh Sobirin <teguh@sobir.in>,
-	Val Packett <val@packett.cool>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="DfKyCIWW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Ce
+	5xDFXpby+V5V73K8roz6+RbThLVkSsONzOsCEDrhU=; b=DfKyCIWWay1NPfCwCr
+	SSLWQlYzMGqHp2YD2vy+XejkjwViXE2JiUefRFSDIxXuQxVir8q7ploNkIqtCJCH
+	6J8wYHRw7UC26L0O75miFAFp3T7dMZJhVxYRgWs4c1y8VCmOJIHqBCCa7+HZt9gX
+	0GIjMZr59OfUmb/5oj/xB6QS8=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgDXvwnDVEdqd70GFw--.62912S2;
+	Fri, 03 Jul 2026 14:20:53 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: sven@kernel.org,
+	j@jannau.net,
+	neal@gompa.dev,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	marcan@marcan.st,
+	maz@kernel.org
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	chrome-platform@lists.linux.dev,
-	asahi@lists.linux.dev,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 24/24] ASoC: codecs: cs2072x: Use guard() for mutex locks
-Date: Fri,  3 Jul 2026 12:53:55 +0700
-Message-ID: <20260703055355.244898-25-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260703055355.244898-1-phucduc.bui@gmail.com>
-References: <20260703055355.244898-1-phucduc.bui@gmail.com>
+	Haoxiang Li <haoxiang_li2024@163.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] cpufreq: apple-soc: Fix OPP table cleanup
+Date: Fri,  3 Jul 2026 14:20:49 +0800
+Message-Id: <20260703062049.1459175-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -106,47 +49,120 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgDXvwnDVEdqd70GFw--.62912S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXw47trykWrWDKw4UJF48tFb_yoWrJr45pF
+	W5WFW5Kr95GFn7tw45JF4j93W7tw4DJ3yUK3y7Gw1Svw17ZF1vg3W8GFyUuF95CF95JFy3
+	AryUtay7uay8JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUUhL8UUUUU=
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbCxgayIWpHVMZSzgAA3w
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+apple_soc_cpufreq_init() adds OPP tables from firmware, but
+some failure paths do not remove them. The driver also uses
+dev_pm_opp_remove_all_dynamic(), which is not the right cleanup
+helper for OPP tables loaded from firmware.
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Use the cpumask OPP helper after the policy CPU mask has been
+populated. Pair it with the matching cpumask remove helper on
+failure paths and in apple_soc_cpufreq_exit(). This also removes
+the separate dev_pm_opp_set_sharing_cpus() call, as the cpumask
+helper loads the DT OPP tables for all CPUs in the policy.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Fixes: 6286bbb40576 ("cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
 ---
- sound/soc/codecs/cx2072x.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Changes in v2:
+ - Remove unnecessary cleanup calls.
+ - Remove OPP table from apple_soc_cpufreq_exit(). Thanks, Viresh!
+Changes in v3:
+ - Add Fixes and Cc stable tags.
+ - Use cpumask OPP helpers.
+ - Reorder init and failure cleanup. Thanks, Viresh!
+---
+ drivers/cpufreq/apple-soc-cpufreq.c | 36 +++++++++++------------------
+ 1 file changed, 14 insertions(+), 22 deletions(-)
 
-diff --git a/sound/soc/codecs/cx2072x.c b/sound/soc/codecs/cx2072x.c
-index 83c6cbd40804..908344ee5892 100644
---- a/sound/soc/codecs/cx2072x.c
-+++ b/sound/soc/codecs/cx2072x.c
-@@ -9,6 +9,7 @@
- //
+diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
+index 638e5bf72185..3f64f266e695 100644
+--- a/drivers/cpufreq/apple-soc-cpufreq.c
++++ b/drivers/cpufreq/apple-soc-cpufreq.c
+@@ -249,21 +249,19 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
+ 		return -ENODEV;
+ 	}
  
- #include <linux/acpi.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/gpio.h>
-@@ -1408,7 +1409,7 @@ static int cx2072x_jack_status_check(void *data)
- 	unsigned int type = 0;
- 	int state = 0;
+-	ret = dev_pm_opp_of_add_table(cpu_dev);
+-	if (ret < 0) {
+-		dev_err(cpu_dev, "%s: failed to add OPP table: %d\n", __func__, ret);
+-		return ret;
+-	}
++	priv = kzalloc_obj(*priv);
++	if (!priv)
++		return -ENOMEM;
  
--	mutex_lock(&cx2072x->lock);
-+	guard(mutex)(&cx2072x->lock);
+ 	ret = apple_soc_cpufreq_find_cluster(policy, &reg_base, &info);
+ 	if (ret) {
+ 		dev_err(cpu_dev, "%s: failed to get cluster info: %d\n", __func__, ret);
+-		return ret;
++		goto out_free_priv;
+ 	}
  
- 	regmap_read(cx2072x->regmap, CX2072X_PORTA_PIN_SENSE, &jack);
- 	jack = jack >> 24;
-@@ -1434,8 +1435,6 @@ static int cx2072x_jack_status_check(void *data)
- 	/* clear interrupt */
- 	regmap_write(cx2072x->regmap, CX2072X_UM_INTERRUPT_CRTL_E, 0x12 << 24);
+-	ret = dev_pm_opp_set_sharing_cpus(cpu_dev, policy->cpus);
+-	if (ret) {
+-		dev_err(cpu_dev, "%s: failed to mark OPPs as shared: %d\n", __func__, ret);
++	ret = dev_pm_opp_of_cpumask_add_table(policy->cpus);
++	if (ret < 0) {
++		dev_err(cpu_dev, "%s: failed to add OPP table: %d\n", __func__, ret);
+ 		goto out_iounmap;
+ 	}
  
--	mutex_unlock(&cx2072x->lock);
+@@ -271,19 +269,13 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
+ 	if (ret <= 0) {
+ 		dev_dbg(cpu_dev, "OPP table is not ready, deferring probe\n");
+ 		ret = -EPROBE_DEFER;
+-		goto out_free_opp;
+-	}
 -
- 	dev_dbg(codec->dev, "CX2072X_HSDETECT type=0x%X,Jack state = %x\n",
- 		type, state);
- 	return state;
+-	priv = kzalloc_obj(*priv);
+-	if (!priv) {
+-		ret = -ENOMEM;
+-		goto out_free_opp;
++		goto out_free_table;
+ 	}
+ 
+ 	ret = dev_pm_opp_init_cpufreq_table(cpu_dev, &freq_table);
+ 	if (ret) {
+ 		dev_err(cpu_dev, "failed to init cpufreq table: %d\n", ret);
+-		goto out_free_priv;
++		goto out_free_table;
+ 	}
+ 
+ 	/* Get OPP levels (p-state indexes) and stash them in driver_data */
+@@ -318,12 +310,12 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
+ 
+ out_free_cpufreq_table:
+ 	dev_pm_opp_free_cpufreq_table(cpu_dev, &freq_table);
+-out_free_priv:
+-	kfree(priv);
+-out_free_opp:
+-	dev_pm_opp_remove_all_dynamic(cpu_dev);
++out_free_table:
++	dev_pm_opp_of_cpumask_remove_table(policy->cpus);
+ out_iounmap:
+ 	iounmap(reg_base);
++out_free_priv:
++	kfree(priv);
+ 	return ret;
+ }
+ 
+@@ -332,7 +324,7 @@ static void apple_soc_cpufreq_exit(struct cpufreq_policy *policy)
+ 	struct apple_cpu_priv *priv = policy->driver_data;
+ 
+ 	dev_pm_opp_free_cpufreq_table(priv->cpu_dev, &policy->freq_table);
+-	dev_pm_opp_remove_all_dynamic(priv->cpu_dev);
++	dev_pm_opp_of_cpumask_remove_table(policy->cpus);
+ 	iounmap(priv->reg_base);
+ 	kfree(priv);
+ }
 -- 
-2.43.0
+2.25.1
 
