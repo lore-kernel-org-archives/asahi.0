@@ -1,34 +1,34 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF413783A1
-	for <asahi@lists.linux.dev>; Sun,  5 Jul 2026 13:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98973815FF
+	for <asahi@lists.linux.dev>; Sun,  5 Jul 2026 13:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783257456; cv=none; b=RPkQv2+81nBXigOsSXhkz9l2mpIY3X1T6BQKXJwSSpyuBZfXRz8brbkcn24S28K4si3fHbPBaBL0IRGGYXYFyRW6Mdlz95ewdtTUxXq5MxMgiA9NEZgIIeu6ZkQo1dzewcIDDqGKO0Qc1Vp8rA93/gUayScwCDiKKNhl/0JB2Hg=
+	t=1783257458; cv=none; b=i0HMwX1jYBMmPVUXmY56Na4zRW+LQHiBIneSeDPPgO/VFdlRNb/UUFzPA3SVYcXyCnc/MA46MPoRQ1JUnDgawnDOcLqGVeL52uZxfcMbB9bCzTQWim5sMVKXG8F/vI8VdwNbWyuEGs0Aqir1m/AtAwHwLRt5dOB405jKKgSJf+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783257456; c=relaxed/simple;
-	bh=dTuZ5x0/Gb1RE4kn8xDOk1RkVmP8ydl4y35ZQee+zaU=;
+	s=arc-20240116; t=1783257458; c=relaxed/simple;
+	bh=D7Uyn7qmz7QETRTMV2mSIs6n9h1PEV3+JIsiEdj7+fg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Iv5k+qsQGMuZw5sj77ANlCI5pQozpiopp+3OSDJxrPHE057qazTCwXIfAjaR1NIoIMngb7ewlB8z8SiPzFlW/sv4o6BlQLbp0EXRlu2IDRQ8K1GkqHbBokGGOzE1xAnKg6MMlic/XEnvjZtOao4V0pbJHiX1cVqgRnrhknIX/Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=GC4ATiQR; arc=none smtp.client-ip=195.39.247.168
+	 In-Reply-To:To:Cc; b=IXICN5hBlo+VZM5IEBYcIJDocVmFIoWFq4gWvnfiaDiLo/gwv9eYfw/d2+s9LJ7OJt5SYoHYm1VoYwImZYOmHouIK5y7Nd76WxP5IaiMqsIMnu45R9yEBpDk4m2JQegBOgPqvB5eNojfFgwyyc45Acl4JRpQRpsSNFdcufMhLlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=slVSOrn4; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="GC4ATiQR"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="slVSOrn4"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1783257453;
+	s=mail; t=1783257455;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ljbLLNXdPRMRrFNl8paEjzbRJ44yAbxs18opzD0RacA=;
-	b=GC4ATiQR/ykmmCKqubMjENw/3Xr6Ci0ZJQmyTzl15/JXn3E6/pfeQcovEEOuDBcKtE3gfu
-	DjB3MY6wtvGouS8itJVrGfsoLVvmmHq0yuz2TFZ0ME7c5gP2zy5j0SnWc51bwMJk7fgihV
-	we9t/adlMPacke8u70uo7RdEBAmx8FE=
-Date: Sun, 05 Jul 2026 15:17:22 +0200
-Subject: [PATCH 03/10] dt-bindings: watchdog: apple,wdt: Add t8132
+	bh=Gduy/AtSH7oZHtZSjmD3JijsgUcwsJ67NBS9jh3fBIY=;
+	b=slVSOrn4DLi5tGv93JAAA1cXdJ0gDgl6DiztkQRtY9Cyu4bh33fVT4ZO0t4e+b+HC2ROeL
+	MChlrJXHgVgvtGqZiTPsMsCG+ib5bv6uX4kRuJPa1w7/WyNKDoevGNrttq+DsMY53p8cE5
+	pk50zCDwM3K7bzmZTLVzoqpW/7LlAyM=
+Date: Sun, 05 Jul 2026 15:17:25 +0200
+Subject: [PATCH 06/10] dt-bindings: pinctrl: apple,pinctrl: Add t8132
  compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260705-apple-m4-initial-devicetrees-v1-3-e5655ee56523@cyberchaos.dev>
+Message-Id: <20260705-apple-m4-initial-devicetrees-v1-6-e5655ee56523@cyberchaos.dev>
 References: <20260705-apple-m4-initial-devicetrees-v1-0-e5655ee56523@cyberchaos.dev>
 In-Reply-To: <20260705-apple-m4-initial-devicetrees-v1-0-e5655ee56523@cyberchaos.dev>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -58,30 +58,27 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-i2c@vger.kernel.org, linux-pwm@vger.kernel.org, 
  Yureka Lilian <yureka@cyberchaos.dev>
 
-The watchdog on the Apple silicon t8132 (M4) SoC is compatible with the
-existing driver. Add "apple,t8132-wdt" as SoC specific compatible under
-"apple,t8103-wdt" used by the driver.
-
-The M4 wdt block additionally has a secondary watchdog, which is
-disabled by m1n1 and can safely be ignored by Linux.
+The pin controller on the Apple silicon t8132 (M4) SoC is compatible
+with the existing driver. Add "apple,t8132-pinctrl" as SoC specific
+compatible under "apple,t8103-pinctrl" used by the driver.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 1 +
+ Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-index 845b5e8b5abc..b99e7913e398 100644
---- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-@@ -19,6 +19,7 @@ properties:
+diff --git a/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+index 41073176bc69..ef106f9326f3 100644
+--- a/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+@@ -21,6 +21,7 @@ properties:
            - enum:
-               - apple,t6020-wdt
-               - apple,t8122-wdt
-+              - apple,t8132-wdt
-           - const: apple,t8103-wdt
+               - apple,t6020-pinctrl
+               - apple,t8122-pinctrl
++              - apple,t8132-pinctrl
+           - const: apple,t8103-pinctrl
        - items:
-           - enum:
+           # Do not add additional SoC to this list.
 
 -- 
 2.54.0
