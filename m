@@ -1,50 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0038030DEB8;
-	Sun,  5 Jul 2026 14:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3826830DEB8;
+	Sun,  5 Jul 2026 14:29:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783261782; cv=none; b=ccAJBv63H2VDYtJP6hHkctKAJCxbcKSITU8FJOdnDcDS4GoQqCGwN9nDruWp+7ETvc5kxMR6PAILZs2dtVwURwjPtcWQw3Lyw+0A3eZq93daP4otpH7spBV1qoZ8FsShd4YzrityqEelWSE6HAqsyc8xsqexGTymbIFFLfTl0+c=
+	t=1783261788; cv=none; b=jeW39qTLJKWpu8HwUOu2ZW85fpNB9KuEZuPpu3l1hB34lLWnPT1IEdXCeuSixjoWg76aaMZLMtv0wSPd0EzsFJdwMbCWk+MpSIzcBwHX6D/GXjHR36gpmSBgPeqyyslVKYBCeB/D2FiSC7+UBRdpmWCfmPHF5uVQhAtPl1uDiqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783261782; c=relaxed/simple;
-	bh=aTQB9I56qpGc7k2PF7UujZYTkSz/JMzdZU7c0c0lm6E=;
+	s=arc-20240116; t=1783261788; c=relaxed/simple;
+	bh=qbrNbNAa1Vt5JRc6CEL3Gu+jcyQ2MqOw+3K/zMEmbqU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gOF+q0QsjCvVsAON/dMN2VWZMlHTzi02fXYlETQOgj74KA3jOwisQN1U+oA3glt0GzEdE2r1oWRBOOERSLeO9rc7sxJEwuL1202pwpA7eAreLkQ6caLAj/IPcUWFOE85RJdvAZQB+itlLwdgXiM5hP+V/Qm+hO1pkJjz2VOBl2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IpbWHNL4; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=divvUatTqsLtPjQkbMtxryBKQwQST726cvfcvd2Ur6P5LVwYi+JDpZNjuSduwG/BmxGh1P8t254EqHiuUqsi4KlLAJg26CGbbu5v5bN63rkRXPR85z8QWA/Gm4guJJoy0D0M3DSsTObMWIE3FzaLkMfvq198i7fAlkPEKbqSrxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UNDCx/n8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IpbWHNL4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C93C81F000E9;
-	Sun,  5 Jul 2026 14:29:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UNDCx/n8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A7A21F000E9;
+	Sun,  5 Jul 2026 14:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783261781;
-	bh=ME+6HlD+08OSFpQWIBYN3eSrff9bfZygMLpwYCEDWAo=;
+	s=k20260515; t=1783261786;
+	bh=Wu44kjt2jgbV0ZflrkPNRFsVj1L2e1+MVXtOhpoAnqY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=IpbWHNL4aDE28VUq7IZtUjfCn/nl9ZeT8TI5RezI4FqO61dP6vpN3LUIztZD5X/Ix
-	 JdqMyS3n/L5rY/kTYGAhgsRu+GB4YlQD5QhkGF/3Cg0DjBmlKr+gbudAZfi9/sNRc/
-	 52SQQTO/hUuZzMGGipFVTAjJg0zjI1nulzuT8lXYpK/V8n4VO3Rz79FoaW4jowZzZ0
-	 CpxilAAHS23Fu4CfTNd05JnzDRPTy15IaWw9vtumtN+pXvRqPgguepv2l/lxqgfH/k
-	 4D6OE8qxhfdN94LFaDakfO2GQIbH9pAp3aCqbPtdubX29XemcBUuGxp/RC7PPjDCje
-	 Gi90nllJfFWiA==
+	b=UNDCx/n8I/gXJ25IhVcUDEQvWQLjfcQ5SxCtsV4I15uNFUNIImmKDGglWr1Qoopl5
+	 75hc0Muq/lWlgZiDPs1oKifpCNcYJqho87JPaqaE94cSEX2KVGMtg60XmDBYF5p1L4
+	 m+v34mp/26hMz2XaSYHizt/Ht2qmlffvYBaU9IReIaYY4zMafCH70a+PTWUQ08F4E0
+	 FJqlVTAx3cLevPs0GJ+vOTCFIxYpcCrWA3R0diLQuDiK/4NzdjC3ZGRc3+WdakYz4W
+	 4J505RQ716dhefE9Nvt0qKWoCE1OOlEUBoPLX4a75f58lJdIM1JhLK1Wp8LDmz7osg
+	 wpAh5nV1CMSRQ==
 From: Sven Peter <sven@kernel.org>
 To: Janne Grunau <j@jannau.net>,
 	Neal Gompa <neal@gompa.dev>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joshua Peisach <jpeisach@ubuntu.com>,
-	Michael Reeves <michael.reeves077@gmail.com>
-Cc: Sven Peter <sven@kernel.org>,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: apple: t8122: Fix I2C resources
-Date: Sun,  5 Jul 2026 16:29:27 +0200
-Message-ID: <178326164442.9177.5710655356580684765.b4-ty@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: Sven Peter <sven@kernel.org>
+Subject: Re: [PATCH] soc: apple: sart: require device link for consumers
+Date: Sun,  5 Jul 2026 16:29:28 +0200
+Message-ID: <178326164441.9177.8657526397419269575.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260629-t8122-i2c-fix-v1-1-cec044001550@gmail.com>
-References: <20260629-t8122-i2c-fix-v1-1-cec044001550@gmail.com>
+In-Reply-To: <20260616005346.7862-1-pengpeng@iscas.ac.cn>
+References: <20260616005346.7862-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -54,20 +49,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 29 Jun 2026 20:01:01 +1000, Michael Reeves wrote:
-> Correct the MMIO ranges and IRQs for T8122 I2C controllers.
-> They were mistakenly incorrect in the original commit. This
-> fix is required for i2c dependent hardware to function
-> correctly, i.e. audio codecs.
+On Tue, 16 Jun 2026 08:53:46 +0800, Pengpeng Hou wrote:
+> devm_apple_sart_get() obtains the supplier platform device and attempts
+> to create a runtime-PM device link to it, but it ignores device_link_add()
+> failure.  A consumer can then continue without the dependency that keeps
+> the SART supplier ordered and runtime-PM reachable.
 > 
-> Tested on J613 (MacBook Air M3).
+> Treat a failed device link as an error and drop the supplier device
+> reference before returning.
 > 
 > [...]
 
 Applied to sven/linux (apple-soc/fixes-7.2), thanks!
 
-[1/1] arm64: dts: apple: t8122: Fix I2C resources
-      https://github.com/AsahiLinux/linux/commit/09780b4b4bdc
+[1/1] soc: apple: sart: require device link for consumers
+      https://github.com/AsahiLinux/linux/commit/36887b488b253
 
 Best regards,
 -- 
