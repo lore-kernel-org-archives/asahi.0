@@ -1,66 +1,35 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6012D8767
-	for <asahi@lists.linux.dev>; Sun,  5 Jul 2026 03:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F6036C0AC
+	for <asahi@lists.linux.dev>; Sun,  5 Jul 2026 08:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783222744; cv=none; b=hf3qelzsZ4b//APu5MOrMetgJmN9ez9VvIhkgk0Pw74SJhs6X11A2CZqWCLXy0hO9K1IPzgFR9UpeONQklo25tuP6iLpvhcjCbA1XnXAJTUUOFmUdRntfADfMZlr2bSPd0H8I/n3n8e995iEEZ81tA9bhEVhGQjI26ITpQE7XeA=
+	t=1783239407; cv=none; b=rud2wkP/vVqblpox3dKFt2nPnuJVpo2P0ggecWjCJPEYawZFFMjCtwrxXTGDAJ4Z0akpAnZI3TYj32hdZIMhv8rQiN13vrXN5exN/8YWjUVMqRgvl3lWK5JRKPTn8dnKkmfD/yiouzZeBD86MB1HXDBYn18OG3SGy3EhEJ58IPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783222744; c=relaxed/simple;
-	bh=5F6Wpn2wEPSmmQLDtQuHy5iGCnuqtiFIo0tJtr1nPuA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PKV24ZaZTd5+TkYnkk9DIeMCxfw0pDy8T0K1vcjD37cmXKbs3tbV4VPHNuOWTVm9tYVH6mLo5eqCJBw6rpXi0D2hYfhtZvmbGgEiq/k6OF7JJ54VEi5Jy8xvC6CtvoXjPHC0JXZIfz2kLK9GsR/u2tIm35XNREjebexfFxE84ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=njNduTI5; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783239407; c=relaxed/simple;
+	bh=e9CoEDwG1cbuQpb5x6xSuH1axeei/ZWdFetHF10wjzw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qxYSzUwLHDjzN97qZKTOghwQVgjKQtkYX9AqqvgMnouDV6k2OimM/NizVbpLqc80N1V0w2k37VJ52AAY3UOGZEv54NmULxGImrqLU5rJCMsGclbI7ZKgfHtkMRvXfytHQusZwlofNScwyl/m/STBdK9MN5nBHLkC+RhW1SiWZyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=KQIf+CAZ; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="njNduTI5"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c88973b6965so1974842a12.1
-        for <asahi@lists.linux.dev>; Sat, 04 Jul 2026 20:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783222741; x=1783827541; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BmMcSTCtgId6XKkksH0TURh3OjzppyxEGWxNMVEqaKU=;
-        b=njNduTI56PdqcyY6vP3a+CBvCv1rTevoEofVopihPtbiyIPthO3QpIhvpHQUGR4sV8
-         vu0l3mtsdfC9qBSJDWzEim4Pw6Pvtm1Ieky43z0N1NPYyvf3D20x8B59dDyz3mAZ/xhX
-         TQx3kFvt5QjT0FaI3bgfHx681E0rUxwZMMZ/JHVapYZuRem9yQ34L/Dk6TPs3v1+/Xrx
-         7FHKTB2F1cBaq8ShIKc6uOd3IziR7WqCnOZb8iWxdud/yNPmHvvyCUjHgD3SILZAk+zi
-         3ToTTl4+bK0efZLwTw7AO4IGbdk3Wl5/VVzOcD+nNyIYa80jeLQ4wgSK6+oLe7ODrQDQ
-         CTSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783222741; x=1783827541;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=BmMcSTCtgId6XKkksH0TURh3OjzppyxEGWxNMVEqaKU=;
-        b=HiOVT4Ou6lYLRmnwrEAis/WE/WdQEiX6SnugtaBoqT5gPyP2G+fAO+RStFrxiWyk5T
-         GvY+aaIaCsQGZCMrS9BJjIbgpcZsH3vaVa3Bc1+DYGZr2qeE/cr2xRezGv/NjykEtcX9
-         DhwswS1aUldDwFEcEvfH2dJdtmENK4gfSrc3nqLboJq9MeBLD4RA5Rb0rcdAN9Ny6sCB
-         fBcMnwmO+gmRGXlcliSouW396ycD3lOfKqRLhZdHDKQDLe7cD8JctEgJNzsb+CGVWtv1
-         ojvY9axy6E/zUCp3V3LgB6QyfiseYsWlJNjH8xwpc5N7Xb+yzcbchde9e09cnOp2HrmD
-         nuLg==
-X-Gm-Message-State: AOJu0Yxsjxapw1Rpxmpc0MLuracdwHuTQYYiV8/j0kVARjy0NXfmI4EY
-	YYDkmoVZLZNP/vOdunTIeLQvbtcClnVNXhhFg6NN9J8nsYj46hhF8gaP
-X-Gm-Gg: AfdE7cmMxMcbUNvOK8tBsQ1aIp5QQEhX1fvZbNHR7VkYUaQeCkPrDGkbUL0w7EljBkM
-	YsVJiHEEK+3o3Y16IwtvX0gIs0muVbqvWdqc+dRrXdCmMFVEWbL4QM+Y3aMCP5hCCauCJkFLRg6
-	6sMdXd2Km0S6dGbaofNZkT8OztoKiJwlal7Kj3605A+GuxG9ao/fW8tdPq5kw7CzGEQL1RGtOxA
-	LxW4bZ4iikbLqiUx4VIm7DbCcY8Zap5UHbUuF3mdHX1GcPH7rlYb7D9Wm7HW2NqTpU7GB5z5fku
-	QulQKCGOf/sy5CI/k1hQBd0v7lvC/w5hSbBZ5S1mdJj4GQAM2iB7CGrnvZ1Dvdr1edDqe8Qpwvy
-	JtVqPi+rEJnf3Ad3iQPwT8V+CPBGPG5L6XzUpkKdFCijMn+UGdxmvWAwoXPcJBOlva2nFgeOwlu
-	npPrK36pRU1bm05Unb/O321BWQDoZUAHj0IQrBosF/NkqgW+O9TIewuyZnT9FMrJFhFQPO5QS5M
-	X2L75oFzmjS+xVjLKRiOgkaozfb0Z3OR3BOLs8FwYbunu3XzvG0z8Tvxvqngk/ebbWpddhKIH8=
-X-Received: by 2002:a05:6a21:3a85:b0:3b4:7459:85a0 with SMTP id adf61e73a8af0-3c01caacc85mr10346447637.18.1783222741265;
-        Sat, 04 Jul 2026 20:39:01 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b41c364d5sm35463845c88.14.2026.07.04.20.38.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 20:39:01 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 05 Jul 2026 13:37:56 +1000
-Subject: [PATCH v3 7/7] ASoC: apple: mca: Add delay after configuring clock
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="KQIf+CAZ"
+Received: by chaosmail.tech (Postfix) id 9EDFC1CC21F;
+	Sun, 05 Jul 2026 08:16:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1783239398;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pDLQdHX5gTGLk/qcwUj+BnQvTh2X825nYYdv1sm68gE=;
+	b=KQIf+CAZQgI6mEIjvqCmqeZF5EZhfYn7NN+F/meU5c8aKwoehil0dFMYAhcFy4NOb+IKh9
+	6Sgt4AfMXK33gzOU+QiHhrZwrd5OS6CgyDJUnkVwxe2g0JZhJIHRV4nqfIXZl63fglHPWA
+	+MTI9agFqYOGw88gsbDzPkHTQKwH+DE=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Subject: [PATCH v3 0/3] soc: apple: Add "PMGR misc" power controls driver
+Date: Sun, 05 Jul 2026 10:16:29 +0200
+Message-Id: <20260705-pmgr-misc-v3-0-51b75fed6f73@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -69,56 +38,69 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260705-apple-audio-redux-v3-7-ff7a7afe2b6b@gmail.com>
-References: <20260705-apple-audio-redux-v3-0-ff7a7afe2b6b@gmail.com>
-In-Reply-To: <20260705-apple-audio-redux-v3-0-ff7a7afe2b6b@gmail.com>
-To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1040;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=YuGvJxGd7rMKWAmYwBfPtKfCWVffFa0TGyJifMJaBa0=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmeF7cmsAi+1Be+4rOvcFP8HNFbIS/PrGHW+d5/13634
- qn57w7Wd0xkYRDjYrAUU2TZ0CTkMduI7Wa/SOVemDmsTCBDpEUaGICAhYEvNzGv1EjHSM9U21DP
- 0EjHWMeIgYtTAKZar4ORYSebRTdrhZFLRvykXzYH//otf7lwwf0Mv4NXD9gsSPorE8zwVz5X9/J
- dMwb/1/2mlfZ+O/1Pv7S+9vP7t9I3lSc7878lcAIA
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22OzQ6CMBAGX4X0bE1bKERPvofx0C4LrJGftNhoC
+ O9uixcSPX7JzOwuzKMj9OycLcxhIE/jEEd+yBh0ZmiRUx03U0KVohKKT33reE8euEEJttYWFFQ
+ s8pPDhl5b63r7bv+0d4Q5BRLRkZ9H996OBZm4f90gueBFIyptcnPSIC/xk9H3hh7HGaFjKR7UX
+ s/3ukq6VaU1UoA2xY++rusHe0iBjPgAAAA=
+X-Change-ID: 20260702-pmgr-misc-ae1cbd5bc2c7
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <k@chaosmail.tech>, 
+ Conor Dooley <conor.dooley@microchip.com>, Hector Martin <marcan@marcan.st>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783239397; l=1926;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=e9CoEDwG1cbuQpb5x6xSuH1axeei/ZWdFetHF10wjzw=;
+ b=jKItj/3tDyZFn57sHoVKW4ElnRhTcuHnatqYe3oFAnkxL9uFJo8h5ghENN7SPn+8kJ4Fzhxge
+ dEssGlepPjQBonZ1R45SUGLF0O4PxztxG8ey+LAXNxAX2XlUb3CEqMI
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-From: Hector Martin <marcan@marcan.st>
+Certain Apple SoCs have additional power state controls that are using
+a separate "misc" mmio interface. Currently this includes the fabric
+and memory controllers on pro/max/ultra SoCs.
 
-Right after the early FE setup, ADMAC gets told to start the DMA. This
-can end up in a weird "slip" state with the channels transposed. Waiting
-a bit fixes this; presumably this allows the clock to stabilize.
+This series adds a driver to put those in a low power state when the
+machine enters sleep. The power savings are SoC-dependent and are
+around 1W.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
- sound/soc/apple/mca.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Changes in v3:
+- Remove ability to probe only one control, it is not used anyway
+- Allow building as module
+- Style fixes
+- Link to v2: https://patch.msgid.link/20260703-pmgr-misc-v2-0-4b26ba10c5a4@chaosmail.tech
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index 322dd8771111..afb3754a8883 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -225,6 +225,12 @@ static void mca_fe_early_trigger(struct snd_pcm_substream *substream, int cmd,
- 			   FIELD_PREP(SERDES_CONF_SYNC_SEL, 0));
- 		mca_modify(cl, serdes_conf, SERDES_CONF_SYNC_SEL,
- 			   FIELD_PREP(SERDES_CONF_SYNC_SEL, cl->no + 1));
-+		/*
-+		 * ADMAC gets started right after this. This delay seems
-+		 * to be needed for that to be reliable, e.g. ensure the
-+		 * clock is stable?
-+		 */
-+		udelay(100);
- 		break;
- 	default:
- 		break;
+Changes in v2:
+- Error handling fixes
+- Reword binding description
+- Link to v1: https://patch.msgid.link/20260702-pmgr-misc-v1-0-4f075a3a95c1@chaosmail.tech
 
--- 
-2.55.0
+---
+Hector Martin (1):
+      soc: apple: Add driver for Apple PMGR misc controls
+
+Sasha Finkelstein (2):
+      dt-bindings: soc: apple: Add Apple PMGR misc controls
+      arm64: dts: apple: Add pmgr-misc nodes to t60xx
+
+ Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml |  45 +++++++++++++++++++++++++++
+ MAINTAINERS                                                            |   1 +
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi                              |   7 +++++
+ arch/arm64/boot/dts/apple/t602x-die0.dtsi                              |   7 +++++
+ drivers/soc/apple/Kconfig                                              |  10 ++++++
+ drivers/soc/apple/Makefile                                             |   2 ++
+ drivers/soc/apple/apple-pmgr-misc.c                                    | 181 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 253 insertions(+)
+---
+base-commit: e5d9690657844a2645a518cdf838206f6daf513e
+change-id: 20260702-pmgr-misc-ae1cbd5bc2c7
+
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
