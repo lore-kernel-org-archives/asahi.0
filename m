@@ -1,109 +1,159 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0C61AAE28
-	for <asahi@lists.linux.dev>; Sun,  5 Jul 2026 02:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF1F1E1C11
+	for <asahi@lists.linux.dev>; Sun,  5 Jul 2026 03:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783217142; cv=none; b=rfAz84WyHnVnGVaJx/ss6auOEagVm9MRkAjRDUqg3eUqKHIG+iKA/6rAUnigtCGTn9FVJVzNLFRidR5OQdkV9KnKizquNqFZEEHjx5i3Iylfd7vUYrXoKEW23W5Jt+xUZnT9qm3x9wlnBFwDVDG6hujSJdC8CrlrvGC7rowbdEw=
+	t=1783222716; cv=none; b=VzB6L13KKnuxJvtEONA9I+bpzzr64dIpX10cMI7VNFvSgvm7zzm4kAgcZS+xBsOMNgZb5s0gQw2uYwn5Lgn9bL5TC1J4UtWHXxkg2SuUMVIe+Pg+ioQL+qFcfIu6ONLllGA7nOYXHzkwOzEUyWnNvxhbzYhGNld+rqBOPbCkyzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783217142; c=relaxed/simple;
-	bh=so+yhVCvvaIqqGt6b6i9YWmP4WE6FyTqPwNSmqlViWM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=txkiBoZWweMIX+xbBBS2uJsveWn203Kt+gWaiU6aqYM7NoHAurAKmj4D0SG8pF1vL5p5iFadNGo/ZaYYJF98jJ9D8SmWZaYe7p7/zsIFhogZR28kebCEKaC/BCfA2XsoCeI8EuvNypV4lioqTvDxvxrz/Qq9tCKqTXJLSvD4+Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k7kBm2if; arc=none smtp.client-ip=209.85.215.176
+	s=arc-20240116; t=1783222716; c=relaxed/simple;
+	bh=+2zfy9xq1aeQoP0qTkCTVoXz/akpPRJUOmi4fBQNTvw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tjfvcJPQy48/c3jEXa2UCaKEpbHVY5k0YLQxOXlGShsOwM9ZT38SzRGUhrnBUf3DtqQLznGNhe2J8vR5FyFS4UN58mOB8uUZgEyaihwn46gl3hLmn4GWlykJhcFYeFF+faWSRQ1OYoVpS4J8AMh9srtQp3UU1hqGqJZlS9lih18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sKtl/v4X; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k7kBm2if"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9e7391839cso1698381a12.0
-        for <asahi@lists.linux.dev>; Sat, 04 Jul 2026 19:05:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sKtl/v4X"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84794e800f4so952798b3a.0
+        for <asahi@lists.linux.dev>; Sat, 04 Jul 2026 20:38:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783217140; x=1783821940; darn=lists.linux.dev;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HKocKtEz1RsMH+lMlj2oc8msPllSiCeLmatH4dj48Vo=;
-        b=k7kBm2ifb/p0wpaNfZY1Ykh+jd6/N/mI0Bl1xmZxVNB3lfbENg8zlWkjt/SA/IfKUF
-         wAZH9yG4KlyRuEAc/Mq3fMRi6yuLwdv9MsuHTDaWwUJvkw/wK5iz+1mcxFqsVq9QtTiV
-         uiLZ7rK6OoH8kveFnLNpXPHMfQCGtyJa16/WCM97bwwSc37U7GqbsCXnahxicK2l32kQ
-         7XNCEDzYARGN6W0bjD+sRMPt06GtMap/YYfe2WlRxWSx/xC36IFZnigL0Dfw1/BK3lgv
-         /ZaRjiihCzgV+x2uBzey2NmdS8l3Qq+KPYYOz8A++/JBAbTBGyTO05Le7/Jcm4jfRGIH
-         YEYg==
+        d=gmail.com; s=20251104; t=1783222713; x=1783827513; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2bSaAgXz2vnEVHwr4g3ugEAGdhW+11p6q+FhFBdwcqQ=;
+        b=sKtl/v4XjQy9NDVOFHWnZ8MCcP6HTfZ1Ghc7O0T+i1MdmbJsmLUe4SXchfJaNFNrdn
+         UWWTp+EqoSrbj1G1WzQlM4RT24pVnpT/jBZ9W6Kv9jzM3N6FJrq5nThkxGZTqFYjAYLW
+         EtTPlZqFSZ0lpRHtyVu779tgK0Ad8ukaD31TBhlSDFEaxMY1XGI5EAHxgAR8eeY1/2Xx
+         CG44l12wUewMXQWvOaPlGKRvYwBiFcuR1ccN1YFW6xyNaWyWP0Cw+/tGZY/eXVIzHEzX
+         vyqYM7HFcBkGMYCPiDeUgtUJYNuAzBwGGjGMVpfRtwpcQQrhIctxsmc0CKewxZZ32X3l
+         Mu5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783217140; x=1783821940;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HKocKtEz1RsMH+lMlj2oc8msPllSiCeLmatH4dj48Vo=;
-        b=eEwF2uJsZHmFSE74IyAf9UrQ6EsvYVExhc4Rn1Pt2bE6kjUToIJA6Q6mYukD/glWhu
-         IUTFE5piyOLZ1KuBUuZ//JsI/xGBs6hmuie0/cEZKkrU92ExAUI4eypykTueF3/Lix3A
-         B7UwNZc9cCYATc/C8JgplQvNLiyLduNzczvW66nmwe0hZN5Zsz+9CFyEI2JebrGv1BNw
-         wBUqieVu2cmu0jSP7hcz+4DNG47VbFAA0jGKGmod8EaefSugjh1F+MkqM2HUjakKYWi+
-         VOQOG63M1d8pEOX2RfGQkShvSn7KutP6amDHP1+57HwoYOU5KXSBlZ/vmFe31Mu+7Krf
-         wuFw==
-X-Gm-Message-State: AOJu0YzhQmQKuJsppbaNzwcN2u90npxWVfYRr5+B3620j0piCKmif9BW
-	h5spUxnjqWcJ2ws1fXefFO7VAV6sejUgbDYD9Hz1RqtV4S7xpARE5Oxf
-X-Gm-Gg: AfdE7clskrCZjJmx4Sl/b4XR7pmy2noEWAlMl0n2a4aIlbb152DL500Ku9K3GAYi8CA
-	8FUwnN5LPNQ4qoy8jnvG1FH04TPflCBf5jcwmOfBtMjjC5w88u2LVK5kiFUL2W9dbBNElTC1HZr
-	vNs/PFxDxkwhfqyrYellxJZyTwCz12mZ5WqQx+78f6HcuQJ0vPk54+79EX06wL65E3FIr3eBaTt
-	PFT7HKH+f68uEpCLv03ijj/7vKiCZVjURO7UH9J973d9gtaUYf7u9sC3fAu2TD6aKiIwKMkcG2I
-	upWoKlleJoZnGPPHoBQ+qhRbDUvXD2zcwMBAbpxfsTcxHHeTxAbrQ7xLr7oUOQq/A4DzSHM8RrK
-	+oe4W9+HaJPnCkM95OiwNXOxNN9ClI37Z0zf7sFot0Vg8ocGZUl09DYvBtbZ6yKWnx06eLcuejT
-	sDnBAD59AgEdH4tAAdi0wiq0dIgrXGjpgWlve/ZUwRk9YP5wliczQyM8SUSq5BP/EcnWiwfYheK
-	HC+zGdtUKTNnqNz+2olFjGDnmBzhJcPz2t5YIpGmnR93OaFukpBzeOnP1rRuMhYieacLP/g1CYx
-	/6k6
-X-Received: by 2002:a17:90b:3808:b0:37f:9ce1:cda4 with SMTP id 98e67ed59e1d1-3829f2f3fafmr4872588a91.26.1783217140598;
-        Sat, 04 Jul 2026 19:05:40 -0700 (PDT)
-Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f3a9341e0sm27946996eec.12.2026.07.04.19.05.37
+        d=1e100.net; s=20251104; t=1783222713; x=1783827513;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2bSaAgXz2vnEVHwr4g3ugEAGdhW+11p6q+FhFBdwcqQ=;
+        b=mRw4d/Yomqu6MKy+rpcVo7UQfTBh15BKVMmfXEMxHx1HytdQDIWEIdkxHUojy1dIIn
+         FuXA7bH3b1v0sMtJouB/7p/5yN75yf4fRoRKR+DCgCsEj5bKVI2wDatbo2B/o+HruT/6
+         JwKq6+00bbMKm1kSlJGJEfW8avg1H+WssWwajSV6eXLfYzod5nEOgylSFJGQLzYXsUDg
+         mcgMJt68gXbqwtKzzHn/1LSYiIrfeLXufAOywy/WTH7wi8JZ+mriPE5g9tgwcSaNY2RW
+         yP6lSp5vDjcuGnNtYTgFY836ObrbF67C6lwnQE38BYAkFoBS7KU4R/BAbxwJQGJkoxfS
+         qQ+A==
+X-Gm-Message-State: AOJu0YzmMjQ4Da5V8rDzyV6entVB0+fmROi19UBvP7GMv0Ov/wc7opud
+	ZM7t9f/3A0CxrK9bEwdWAK2EPZgvUKxfh4qknRjuOJhqD7T14cfK9/Sd
+X-Gm-Gg: AfdE7cmmQQVNCjrrXeKc9NiEzZfifXacET1YuZoaKrilHv7qHCTjxK8VCXW5j38IIvA
+	6VI48L2doEKhuePCpqRKD2V6vUVq5CqGrjMZpRppMQL8QKheNTnv2gZJ/bJiusNpltI00vr0zOg
+	blnCrkjkNzZjY0DrwHYfuMCgJYaXg15zE99m6BZ5219adEvUpNzY3gzwUa1u+JUHNnyOtpCvSUH
+	wVYz3hu2ajuafZV7uROHaqrzv6xzyUUWqro8Rjlpnr8VeOIRzw7UzE3pOE1c93MkYFSvaUzKUNM
+	ZSdHXVvz9f2OFO9NhzrAyKeo5w7HvhH7uuM/zRxkqK66MVVNEjrQPHQGgyzesqYcTNz7LLL3+dg
+	oBKPdCwOMo9d91/txHCK0BCGaqHB8UZBouZzjSvDgOT/RRftOzCOFCcNdPlssTXV045KR4pOfzy
+	4KyfngU2315t1kER13svNhlmn+OiywOm1ZC4CfNaXUimnCR7bF5Rc7BHqmkViQgHvWiB/QtXUpR
+	25fwd2490odt0Ice7+V1GuC2Yhm2Z2pX51ehfrO6Epsw+kF63t76Dj0AQ0Vumzp
+X-Received: by 2002:a05:6a21:6f12:b0:3bf:6d96:ac40 with SMTP id adf61e73a8af0-3c03e1eeabdmr5540287637.12.1783222713528;
+        Sat, 04 Jul 2026 20:38:33 -0700 (PDT)
+Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b41c364d5sm35463845c88.14.2026.07.04.20.38.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 19:05:40 -0700 (PDT)
+        Sat, 04 Jul 2026 20:38:33 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-To: Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Joshua Peisach <jpeisach@ubuntu.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v2 4/7] ASoC: apple: mca: Support FEs being clock consumers
-Date: Sun, 05 Jul 2026 12:05:33 +1000
-Message-ID: <sCELYiNQSvCxqjQFP0uhkQ@gmail.com>
-In-Reply-To: <DJLKAJ8IU0Z5.EU158RDQ31H0@ubuntu.com>
-References:
- <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
- <20260628-apple-audio-redux-v2-4-6328269c9652@gmail.com>
- <DJLKAJ8IU0Z5.EU158RDQ31H0@ubuntu.com>
+Subject: [PATCH v3 0/7] ASoC: apple: mca: support simultaneous I2S capture
+ on the frontend
+Date: Sun, 05 Jul 2026 13:37:49 +1000
+Message-Id: <20260705-apple-audio-redux-v3-0-ff7a7afe2b6b@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NQQ6CMBBFr0K6dkwz1QquvIdhUdoBxgAlLRAM4
+ e4Cxp3Ll7z//iIiBaYo7skiAk0c2XcbqFMibG26ioDdxgIlaqlRgen7hsCMjj0EcuMMxa24KJd
+ ZiaYU264PVPJ8NJ/5l+NYvMgOe2g3ao6DD+/jdMLd+/XTP/0JQYJWmKLObKav+Khaw83Z+lbk6
+ 7p+AJTXFNjEAAAA
+X-Change-ID: 20260623-apple-audio-redux-b7b43d9c02af
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>, 
+ Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2352;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=+2zfy9xq1aeQoP0qTkCTVoXz/akpPRJUOmi4fBQNTvw=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmeF7d0fvlgtS9byPC5R998Dv6Vz15dWyfkVHhAp6N5l
+ /Xsv0yiHRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ NNIx1jFi4OIUgKkueM3wV+jfghf+u9b3PT85c1pLUm2f99dS743fA7Nef9PdML/wexIjw3K2qtm
+ rbC4UvX/1pPdm44SuNHe96nlXvuc0bzufrnPiIjsA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi Josh,
+Hi folks,
 
-On Monday, 29 June 2026 11:19:27=E2=80=AFpm Australian Eastern Standard Tim=
-e Joshua=20
-Peisach wrote:
-> On Sun Jun 28, 2026 at 7:42 AM EDT, James Calligeros wrote:
-> > +		writel_relaxed(port + 6 + 1,
-> > +			       cl->base + REG_SYNCGEN_MCLK_SEL);
->=20
-> Where does the "6 + 1" come from, and should it have its own #define?
+This series introduces a number of changes to the ASoC driver
+for the Apple MCA peripheral to enable support for bidirectional
+I2S. This is achieved by allowing frontends to act as clock consumers
+and logically ORing data input lines when multiple backends are linked
+to a frontend.
 
-This actually only ever gets set to 0b111 (port =3D 0), and trying to set
-it to anything else breaks the machines which consume VISENSE data from
-the connected codecs. I will just replace this with a static value for
-v3, which seems to work on all the machines we currently support downstream.
+This allows the Texas Instruments speaker amps used on Apple Silicon Macs
+(Apple-specific revisions of TAS2764 and TAS2770) to send their IVSENSE
+data back to the SoC. Since these amps do not have any sort of integrated
+speaker protection logic, we must use the IVSENSE data and the Thiele/Small
+Parameters of the attached speaker(s) to implement our own in software.
 
-> -Josh
+---
+Changes in v3:
+- Changed magic number write in fe prepare to BIT(port)
+- Link to v2: https://patch.msgid.link/20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com
 
+Changes in v2:
+- Drop readx_poll_timeout use. It ended up being unreliable. Fall back
+  to just bumping up the delay on SERDES reset :/
+- Rebase on asoc/for-next
+- Drop the one patch that was applied
+- Drop clock shutdown relocation patch. This was not actually required
+  and the incorrect thing to do anyway.
+---
+
+Link to v1: https://lore.kernel.org/asahi/20250518-mca-fixes-v1-0-ee1015a695f6@gmail.com/
+
+Regards,
 James
 
+To: Martin Povišer <povik+lin@cutebit.org>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev
+Cc: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 
+---
+Hector Martin (2):
+      ASoC: apple: mca: Do not mark clocks in use for non-providers
+      ASoC: apple: mca: Add delay after configuring clock
+
+James Calligeros (1):
+      ASoC: apple: mca: increase SERDES reset delay
+
+Martin Povišer (4):
+      ASoC: apple: mca: Separate data & clock port setup
+      ASoC: apple: mca: Factor out mca_be_get_fe
+      ASoC: apple: mca: Support FEs being clock consumers
+      ASoC: apple: mca: Support capture on multiples BEs
+
+ sound/soc/apple/mca.c | 300 +++++++++++++++++--------
+ 1 file changed, 207 insertions(+), 93 deletions(-)
+---
+base-commit: e67251245f42eb4479636d4c082cdbe60b23f5b3
+change-id: 20260623-apple-audio-redux-b7b43d9c02af
+
+Best regards,
+--  
+James Calligeros <jcalligeros99@gmail.com>
 
