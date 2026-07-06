@@ -1,218 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D19F3DA7F6;
-	Mon,  6 Jul 2026 10:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783333313; cv=fail; b=lZ+S8V48FnBpS5hMO97joM9KolbSK3jGafuF+dzo8lPa7aFEWV07qROtFMEEOxIS1TNRFGSvwhGTTsIB4I4q68HDTPdbh6/z9EKUWomcOkOkbyLB2xLA858dvJiOGQ8qyD7ktETLwQLd4Cyzlwvmckzd2BgvuvyRsUXmQPPVh1A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783333313; c=relaxed/simple;
-	bh=wenGIUCy5N2Byuo2tGBk++q83XAcnt1yrRuOPaeo1qI=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ncORM7UrqpvbGnhp3jx6lM1M+hvW/pWkexGzyXvRRXM5YlPK9q0qUtUXJlwmMSn3RHBe0jsFGCVwl1Opr9age9JmTyhhg59Sa4BiX7RC4S9uIRg4Sl5gYkeAMK/pWLgJ0G+gW+Os38qoOfJzKA/yU08btGeJ6PtsYiCF8WYfvAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QQuCfBS5; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22F63BC664
+	for <asahi@lists.linux.dev>; Mon,  6 Jul 2026 10:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783334379; cv=none; b=URjVhVtSqPY3hEszGiO/V7n+fV2z6nXB0Nf8wrZ2ZbkLMP+AGJUfc5otdsUrDMdkJTiuWsmQ8to8jqx5zmNwkFkk79fRumFr5b3qU4p0YTrAeg2oEvYivVEyN6UIbDRUdrH0vTNDcUGa3iAKuzedYYvf1nmGld0H2Y9WvCHjiIA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783334379; c=relaxed/simple;
+	bh=3NqyvZK6r61fTF0y4rbK6dX7OLUGCMSqOwp3B7dW+hA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BvW24YVTO8pWfi0Vtemnb955e7y6mlWPLo71stQO/EQvnQ1IyU5+sjJ8JE5nZ6/5vEprEPNWdbf4Edga4fKjuRrTtif1X0LJUw1ldUg4Qr5DEqzfsmYnTlkjcaIwxMvMv3TGlEePTxOXtycg/13/EO3aeWRWLje/eOEGoDLzvzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Uj/8+dhn; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QQuCfBS5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783333311; x=1814869311;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=wenGIUCy5N2Byuo2tGBk++q83XAcnt1yrRuOPaeo1qI=;
-  b=QQuCfBS5knn3WqgI6StTAJ0Jvd5cHGnDfPNRRAcxVbvRsJVlsEJtjxJ4
-   SfUA3pzeeJeWj5BQ0M1cMrLmFuNL5PlxgPYEDzh9TfdTr7qhqivTI+vHb
-   zpEU+Zc3sfOPHK8bPSFEJ2q60Zx/sSJBJ5Z6dSzoegfrdIs/GRxCUWeQY
-   cLPfQaLRYGpbF68oy7UmwNFQLYjLne63l7t+vVFdHjzdSV4tTV3GKQNFc
-   gpJgJccsCJAJrBdxuI6LvKhJVJvpW+9BauD7hWFT8ft1rfY7OvQ+jl09E
-   +p1Q3zgEQtKxU+QoMrWlhQekpRJqTzHpVZiV7H9VLkuWfvz+m5i/Dr2V0
-   Q==;
-X-CSE-ConnectionGUID: qUZ27JUjSnCUyYzQVEl0aA==
-X-CSE-MsgGUID: KYg2qpQ5SkCDBJExHnrXFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="95474405"
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="95474405"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 03:21:47 -0700
-X-CSE-ConnectionGUID: txhnT6KFQaWpm5EOHEp6Xg==
-X-CSE-MsgGUID: BsdPPAv1SNqAMimUEBzUIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="255616520"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 03:21:46 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 6 Jul 2026 03:21:45 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Mon, 6 Jul 2026 03:21:45 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.35) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 6 Jul 2026 03:21:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QB6L8epcH2iBNcLRbf8mbTtvXYw4NIdjG1iA3z0czbKiWOS40MPL6uzjFKWxoU20/ZXTpDgwR8jhj2NwIkcMoINX1c93Qy2U9hDegW4TiQ6v9FaRB4bQe34EESGUbPLXBIRD1o0OV5uoedAMf6etiGKCmY7inhiRLkORlKmv0oa9DC6qDulGKYYjvo+NLiEJqWSzTnT1GGxZkH0FxKJUGqif7S5o2GLEaZg4iqaFIBXHP6u8MkcCkkkR2n8Z6RQBKa3O90uZiGDueKfXVttSTdRvwAaX+P0pKx9yXj1THLx+BhAwb9RK2psGVz7HdWMg6HJVlfWAHcHKJJNkWC3ldg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n4KyjI7BskziKk7Gu+Fh7j5oDqTN/MBWOoi1Mm+Nqus=;
- b=OpEM1VA2eDMkaEqmfdN4Qv9L6vqCiSfkaHM2ahsswbiqPAZSkTGAhu5VFp52AXApQimonYKFBv3qR1IxqfdJ5DMIPD2ULGUVD8yjEhwC5pQEepDG5Iy3GEjba2GUlKueqQAbDcB0KzOW50Tgu1vApgN8OPPcQmBdLX2sV26AHLL3wS/ICfvR/vFJGFoLL2IFu7s1B56W0ThPk/Z2P5Ni/Zs/A4jpkaF1/diC3G40mA6WwDU9xsm/pFL21N67QChu6ozz2Uqb0QPbrwr5+bUHa8s//M0jtQ61bD3e53ig7xyvqg5olxhacLJTGD6O3SuVrmdBYnQg/yeLiQtAEQNSzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
- by PH7PR11MB6378.namprd11.prod.outlook.com (2603:10b6:510:1fa::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Mon, 6 Jul 2026
- 10:21:41 +0000
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0181.008; Mon, 6 Jul 2026
- 10:21:41 +0000
-Message-ID: <71b1c1a0-fcef-4102-8ab6-146a2c372adb@intel.com>
-Date: Mon, 6 Jul 2026 12:21:32 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/24] ASoC: codecs: Use guard() for mutex & spin lock
- - part 1
-To: <phucduc.bui@gmail.com>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Cheng-Yi Chiang <cychiang@chromium.org>, Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>, Richard Fitzgerald
-	<rf@opensource.cirrus.com>, <povik+lin@cutebit.org>,
-	<u.kleine-koenig@baylibre.com>, <kuninori.morimoto.gx@renesas.com>,
-	<christian.ehrhardt@codasip.com>, Linus Walleij <linusw@kernel.org>, "Arnd
- Bergmann" <arnd@arndb.de>, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>, Chris Morgan
-	<macromorgan@hotmail.com>, Dan Carpenter <error27@gmail.com>, "Marco
- Crivellari" <marco.crivellari@suse.com>, Rosen Penev <rosenp@gmail.com>,
-	Weidong Wang <wangweidong.a@awinic.com>, Teguh Sobirin <teguh@sobir.in>, "Val
- Packett" <val@packett.cool>, Luca Weiss <luca.weiss@fairphone.com>,
-	wangdicheng <wangdicheng@kylinos.cn>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-	<chrome-platform@lists.linux.dev>, <asahi@lists.linux.dev>, Mark Brown
-	<broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, Tzung-Bi Shih
-	<tzungbi@kernel.org>, David Rhodes <david.rhodes@cirrus.com>, Charles Keepax
-	<ckeepax@opensource.cirrus.com>
-References: <20260703055355.244898-1-phucduc.bui@gmail.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20260703055355.244898-1-phucduc.bui@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VIZP296CA0006.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:800:2a1::7) To SA1PR11MB6967.namprd11.prod.outlook.com
- (2603:10b6:806:2bb::15)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Uj/8+dhn"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47d70879764so791070f8f.2
+        for <asahi@lists.linux.dev>; Mon, 06 Jul 2026 03:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1783334376; x=1783939176; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Go7lNGQE+yUmjPgVI2sZRhO3/S4lEXiftKalvVFj+z0=;
+        b=Uj/8+dhn/CqFp4OTuS0xwacaZ9CMhXFrh+deNNENkMFTS9sg6d5lyDoGNzDx+Wlw/1
+         Eq+910u0ujuI9P9RwRqDAqFwsrGDmFqV7AR+oSyUa0yK6V1X4dGeloLPNPSSCVuR4rTY
+         pOh1Dyw37ujBAuRs5AfT6os4aeWI+cLURbigcedOy9wr8yheMMD3ptiaiZmGfKEUad2U
+         c6gVdg+q6AZT4gnkYZQp/Rj5t2++tMgROYAs1JA21ZrTDotyRLwIhL40VaZnmKOI9shW
+         IVXseCjGdhqahX2ibAOO55v3odZyKZuzPCda33EzWsddNAsQEiT7h/MPlNoCS0BsFdP7
+         GJDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783334376; x=1783939176;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Go7lNGQE+yUmjPgVI2sZRhO3/S4lEXiftKalvVFj+z0=;
+        b=qbYVCXoV54JCK4+aa0JYpwMjZRbQJUR6Um+SF4MLJI0qUStgGgpyhv9hSQK4Uk/oNB
+         96y/elogcU6imViyFjzzW/oh+U1zqyeTg/TqBMVFTTvr6LJqjGl35rkhnqiv+tpiHx2E
+         HG4YQiEOkYwsHDjWNq/mkQLs+Duy0JBoTXxFiz5618HgqPyJilgZxPn1VCUAUW7iasmc
+         NbYHRikhENmJaHWUw3U3165NLinHftu6e+z01y2AiIfKXDmMvWwvWUs+QKdrYWz9Qd1I
+         kqI8Jrlf0JtkOGGto0omIMObIhVXDA5kQu8xApCeb9drWRFbMjEIlgm3gGnrBBMWgQ4R
+         vA2A==
+X-Forwarded-Encrypted: i=1; AHgh+RrSikVbGpUrSNPPbrlirlEmemYMwjX0CdrRovi+rhQHYGkGZnoDCaGTn/ZI1AlFJe5FZ9PGDQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy8xjAFSTzpunE3cgxYS8t6aA1iAck+HMD/9ZPr1Ovxnri7GOV7
+	wphxj+UBtIjLwO08emW4lthLvOchIYzNXu4aNufIXEGhrKhpQMBubMzIGmEcxEUNU6I=
+X-Gm-Gg: AfdE7cl8NwKw63NIA5ONOB5byqSsD+iwYQgvZrT329T15XtXx7AGFuI/uPAiiyuDyLu
+	iNReUbF2VKSeqoH9GzHy2QGFqbMyT8rjZ3KLJrW3nr1hGj48vGxjxHalkP8fkYeMkewt4K4zE5I
+	0OzPz59cdApcXyXRDf6i4Dc9cNPcbiZ+QnwHgGFoaEzvng5vyRmtwTAOoxEMgbHvmrdAUIs2UjJ
+	7gr2BpLWY5jJ5EuY14Cxh2y7ujk/aFeot7RH3+shwkdQmmk1yB/lONBAmAV1KZWW9Jp5kdht+Ev
+	zR0CRDE8EWMngtKYziCXSspskotIotG+G8NK3OHbY1sLd8LfyigiYRR7zr5IxK0jLfuudB79Gxb
+	vZ99lpLmf9dhyJP6z2QW9pNoDwuPWWeiVSuDl6PDRJHqmh8506KyWk53hGztz7RZMsYPPKLHaEo
+	b7c9GZBBf7+1AdwhslgOl4RisVH389w9BjiVDg6A7Z2xuZ03iWJbSeBG87idy0D1QaNy1AJnNqx
+	dbI
+X-Received: by 2002:a05:6000:4698:b0:475:36a:8c97 with SMTP id ffacd0b85a97d-47aab76f017mr8079359f8f.45.1783334376207;
+        Mon, 06 Jul 2026 03:39:36 -0700 (PDT)
+Received: from localhost (p200300f65f47db0426af56a07ec3b32d.dip0.t-ipconnect.de. [2003:f6:5f47:db04:26af:56a0:7ec3:b32d])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9de1d8cdsm25702223f8f.1.2026.07.06.03.39.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 03:39:35 -0700 (PDT)
+Date: Mon, 6 Jul 2026 12:39:34 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@oss.qualcomm.com>
+Cc: Chen Wang <chen.wang@linux.dev>, linux-pwm@vger.kernel.org, 
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Michael Walle <mwalle@kernel.org>, 
+	Inochi Amaoto <inochiama@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Hammer Hsieh <hammerh0314@gmail.com>, 
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, Alexey Charkov <alchark@gmail.com>, 
+	Sean Anderson <sean.anderson@linux.dev>, Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v1 4/5] pwm: Unify coding style of of_device_id arrays
+Message-ID: <akuFirxGTqu_gt4O@monoceros>
+References: <cover.1783263835.git.ukleinek@kernel.org>
+ <20de6cd60c2938aad2d21397b92742849418ab1b.1783263835.git.ukleinek@kernel.org>
+ <973f3d6f-6ff4-4685-9c9f-b07987f74d98@linux.dev>
+ <aktWoIfY_DdO6gb4@monoceros>
+ <bc697542-b1e2-41c2-af36-b708ca4aad5c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|PH7PR11MB6378:EE_
-X-MS-Office365-Filtering-Correlation-Id: 537209b8-4a90-4912-1d03-08dedb485f08
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|7416014|56012099006|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: SfsVL2tuuv1H7ILY30hTw2JSc3ZL0bd6mMi4GBvLMuUF7+nvc1v5ClU+bZmbukL8swLWI4pvam/rvL5WO64KaLrUbWoD+fgPzTu8RjXB/ls4PpFxkjyYz/4UQKbWa+n4cncq79gG3CFNZuyKjzpzM+korDcZ/H2vMNgdWuyCyHla2QeafjqtFuM9uI6ylegntCSX3HZbUMTKjZvev/6NWjOg+h40Ritkpmr++QHfboKNY1OY1+X5oUdev3R9NY6M6UlN9uCw/5PqbvmctBIuhKLWBWTvi7nMwUOPky058ZEAQzmeJBvIEtt072KgpwDYcw7RG9+qhkXVmMt17++NMg0Tt+GDO/UusIdMKjsyxhbOKaKzPzb7tYUzLB0L8EH7SsVHS/9hpI7DU/6szwq8mY1hhn8XtRZkw7fC1kqGhxL0xoxYaBRpCLQXKrElltc0p3BcJGWl50Lxx/m8MCqBO/jxDrzHNEdJw7p+9HaQMy/n4ZC5jMrdP40f+ewWWunNKdr50+vytezuE+dxGQ48Qaw5UCkmFd/whJgiDsHCoZg8lfpkDaLtv9PlUlJYpBqhro7S+S9DBfTnz08JYWUi0rsQ45wflwSZY2Uhd4pm7bCHpCYT/gOimCgaYb2wwZa1bb5x6hHPDiUa675zOwygJPkIwaQXNvGUVQeXzfsBXmU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(7416014)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ak9SRTlKN04rSWlnOFJPYS9tRWdLTjIyVnRETlU0a0RMZGhNOW1neUdDdk42?=
- =?utf-8?B?dUg4VTNMTFhuM2FiUmYvNnBOT2RTa0hRR0FCdEdVbUVQTUZWMy9TWllOU2hF?=
- =?utf-8?B?NmU4cEc4ZUg4a1grQWpwNUJJbW9OWlIzbXMzTTlONDBaUHplRmhLcElaSGl0?=
- =?utf-8?B?UkxYYTNNMUQvMjNrUTZPSThzdll2Y1JSYTdadXBOZEFnTmFFM0didXNBQU9q?=
- =?utf-8?B?dU0rWW0zSGFIVlZpR3pGeU1VeTFCR2pGMlNOZENOeUh0U3h4bVFqVFcrZlZO?=
- =?utf-8?B?T1FMa3YrZG4yZWNVN0FOVGk2ajBuZDQ0aHMwbGpOcVFpWVRQMHQyMjVub282?=
- =?utf-8?B?aExBZDViZ2l3dys1bFhESHBoMk9VdmRFMkRybXdlcXlUNkNZdVltcUU1UzNL?=
- =?utf-8?B?aUcwMzd0WWZEUlhpUk1FUDgyVVVkTTJsSmdHTjJ6V3VlRWJMTzJFSWE2ZmNl?=
- =?utf-8?B?c1NGTHNZMTR4WlNnQzVjYkw3UWJMcVBITWFNWDhlaFlrTmtrMUxWK2hKemNF?=
- =?utf-8?B?djZMMzBCSFRDdU8xSGJZbkxQNmJzNGFhM3RrWGFkSXNOV3BCT2xVOHV6eEJB?=
- =?utf-8?B?dGVuWFprTXp4ekcyMzNWeFloTGVPM2dqNlFSdW1iUGVmbG1KQUpmelBEK25u?=
- =?utf-8?B?dU9MbjZaSlgyVC84UWlnY044bEo1L2I3VVNNVThxWm1QL1YxamxLamxYMnFu?=
- =?utf-8?B?UVJWWWxlUHUrOW11Zk1XYkNpWHVHTXMrQVZVUFBKSGk2cjViUS83b0ZqdDhi?=
- =?utf-8?B?d0RSd3lvcDRvT1lIQkdGMXR3cWNzTTlSaEw0VE5IZTJpTkFJTGUrKzFHOGl4?=
- =?utf-8?B?YzFUMERFenR3UlZ2alhEN2JWakRnWTFYYVBrc3lDb1ZRcEovUVVpUElXdnFZ?=
- =?utf-8?B?WjNPUG02SGZFcE1wejZxa3lRa1QvQWdNNndac1hOUVVreWNDQ1NGSkhnaDRO?=
- =?utf-8?B?QjB4N3ZXZXl3cjltbW5mVk1uRDdXbk04azg5cE5weWgwTThWcEo4dWRJdUFM?=
- =?utf-8?B?cG9sdnRVZXJzTGFBYW44cXFtTklxcGJzS3ljeHFqRjhmc3I4MEhQYUZ3aHMx?=
- =?utf-8?B?SkV4V2FrZ0RFOXRxVXQranhNREtWUmgvQjM1c0JmdUE3N2tLS1NtMC9Ranc1?=
- =?utf-8?B?T01aSkxTaktpV3oyVFc1ajVBNXlURFhldnBPQy84RGQwajNhQjBLeGlqM3Bz?=
- =?utf-8?B?elQ4cEl4TWYxM0dETGVVWllKd01TRXJDRFpNVjhpS05xclZYcjh1emRHWjZM?=
- =?utf-8?B?QnY5VHIwQ0lPVFBWVnRTR3c1ZlczZmc1cDM4UTA2OVhOcUoyanVMeFBlMDhz?=
- =?utf-8?B?SzVXOVBZV0xMM29NbWtUWTdxbThkdEdCUlpmNy94MVB6cGZwbmpYbVA4MlVa?=
- =?utf-8?B?Z2dVNmxRdjFTZXlRbGZwMVUvQ29CVytlNGpjMUFQNjhzY0ZFamV6bEdWamdO?=
- =?utf-8?B?c2Nhc0QzR1YwTFpkNjNRdGhpSWE2eitiNDhlQ2xaNjZQMVYvLytVaG9nbHVX?=
- =?utf-8?B?dC9nWGR4RU5EVUtlVDdWZW8wOXdEdTk4N1UxQVRPb3FvRFpqaVlpUlVPK1dm?=
- =?utf-8?B?SDJsSFZHS3VBT3d6ekNXVDdtOTcwZE4yQ01hNU5Rd0ZraUhDdTZGSkxqaTBz?=
- =?utf-8?B?K3FtSStYR0dGbVdxL1U4QzZtYTJHc2NydndnYzBhQ0tNYldmYklkMm9CRlhm?=
- =?utf-8?B?eWcxeW5Kbzl3cjNrY210dUZ1R0dUN2F2dFc1YTVPZzVvbVl3Qm8xWUdQeDdV?=
- =?utf-8?B?N1ArRmRUNE01SEhMbW9TVDV6L1JxTm5zamNrTkZoTSs0YXBsRXNnTGRSNDh1?=
- =?utf-8?B?NCtJL1gvQU5vZUYzWFY1K1lnVXcwcGhveDlINkIzcmU1d1Vnc2REYk5NanJi?=
- =?utf-8?B?V0lNcTBMSzBGNmhUUUdhcTBjeUVSa0phWFRNaVB4NWJyenc0ZTFBV0VlTjNU?=
- =?utf-8?B?Tm1vNXd0b2hKTktneVBpOERuVEg0Q3hTS0FwM2huYTlKVjE2MHBFOW5xL1k0?=
- =?utf-8?B?dXNUQlZHSzBub0dOQzZHQTcybEtPRzJaL2ZoWTdrTkJGMWNjR3VJZWxPeG5a?=
- =?utf-8?B?MDVCN0VFLzJEekZlS1RBVUhqN1htTCsyNisrNWl1am1ZS095SnJzZkJsMDcr?=
- =?utf-8?B?NHhNS3gybDY2V2RyTzY2Smg2aHUxZWNKNUtMU2wzaW96MVpGVzFhZFVrUEhw?=
- =?utf-8?B?eGxPZFdUc2JsSVhzaUpnbUZIcytKellZeXBFNDc2UjZLL0FQQlV0NGR4eDVL?=
- =?utf-8?B?RElJMTdaWnlWKy9EcXQrVnh4SFUzSlhVd25XTmNvUUs4M0xiOFpNZko0Ulkx?=
- =?utf-8?B?ajhQM1E0d1RpTHYvWlhBdDIwcnJWdFQ3N24za2RTNlZjZmtuMWZzTEg1d0kv?=
- =?utf-8?Q?k8VoTUFMIvod6SrA=3D?=
-X-Exchange-RoutingPolicyChecked: e1KHbn6mA5YycdM3gYn4oPIk4PzNoP9qp0LkUwQ+Vs5pXuJESXVn6awR72ZoEhR5wCOZlqmdbIx2NEuU29YEHSZ6wIH6HzXy7u3jD8NzXkW1UDXdCqV1WyMvVqbqFt0YspqixWnx6dkjS5+oDInniTRC1HlMD98CX5CMXBOvKyvUupQ4y67pYGEGvRdiCCpQidgwH33DwxXNxSAUmUoEQvonxHkqmdUAu40xvHksu0Rr4QjyW896SO1Xfswb6tQTFeMusRvCnWO0RzGDPQZKOl6d2eLn/Zn3UDm6tgRQrHlytfo8K+n29Rgpy+fYT483BZ/PKEG8lkCZFaOuBkFyow==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 537209b8-4a90-4912-1d03-08dedb485f08
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 10:21:41.4057
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N3hOt3yPs53k6ZPeBrwNoT1gn3hJelee9Dy05US1hb6QgZ+e64FP37VYgQ0kVS7nQP6a+mBNTLJWWp30kjOtiuqsF9Lu5c/8tfBUEiqlQO4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6378
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vyrf5kfcddz5uoeo"
+Content-Disposition: inline
+In-Reply-To: <bc697542-b1e2-41c2-af36-b708ca4aad5c@oss.qualcomm.com>
 
-On 7/3/2026 7:53 AM, phucduc.bui@gmail.com wrote:
 
-...
+--vyrf5kfcddz5uoeo
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 4/5] pwm: Unify coding style of of_device_id arrays
+MIME-Version: 1.0
 
-> bui duc phuc (24):
->    ASoC: codecs: ab8500: Use guard() for mutex locks
->    ASoC: codecs: ak4613: Use guard() for mutex locks
->    ASoC: codecs: arizona-jack: Use guard() cleanup helpers
->    ASoC: codecs: arizona: Use guard() for mutex locks
->    ASoC: codecs: aw87390: Use guard() for mutex locks
->    ASoC: codecs: aw88081: Use guard() for mutex locks
->    ASoC: codecs: aw88166: Use guard() for mutex locks
->    ASoC: codecs: aw88261: Use guard() for mutex locks
->    ASoC: codecs: aw88395: Use guard() for mutex locks
->    ASoC: codecs: aw88399: Use guard() for mutex locks
->    ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
->    ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
->    ASoC: codecs: cs35l56: Use guard() and PM runtime scope helpers
->    ASoC: codecs: cs42l42: Use guard() cleanup helpers
->    ASoC: codecs: cs42l43: Use guard() and PM runtime scope helpers
->    ASoC: codecs: cs42l84: Use guard() for mutex locks
->    ASoC: codecs: cs43130: Use guard() for mutex locks
->    ASoC: codecs: cs47l15: Use guard() for mutex locks
->    ASoC: codecs: cs47l35: Use guard() for mutex locks
->    ASoC: codecs: cs47l85: Use guard() for mutex locks
->    ASoC: codecs: cs47l90: Use guard() for mutex locks
->    ASoC: codecs: cs47l92: Use guard() for mutex locks
->    ASoC: codecs: cs48l32: Use guard() for mutex locks
->    ASoC: codecs: cs2072x: Use guard() for mutex locks
-Hi Phuc,
+Hello,
 
-All the guard()-alone patches look good, the ones with PM runtime look 
-monstrous - much harder to review.  Especially in 'cs42l43' and 
-cs42l43_apply_accdet_config() case, I'd split the cleanup.
+On Mon, Jul 06, 2026 at 10:28:16AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Hi Uwe,
+>=20
+> On 6/7/26 09:19, Uwe Kleine-K=C3=B6nig (The Capable Hub) wrote:
+> > Hello Chen,
+> >=20
+> > On Mon, Jul 06, 2026 at 08:33:47AM +0800, Chen Wang wrote:
+> > > On 7/5/2026 11:14 PM, Uwe Kleine-K=F6nig (The Capable Hub) wrote:
+> > > >    - Use a single space in a of_device_id array terminator; A singl=
+e space
+> > > >      after the opening { and before the closing } in non-empty
+> > > >      initializers;
+> > > >    - No comma after an array terminator;
+> > > >    - Also no trailing comma after a named initializer iff the
+> > > iff -> if
+> >=20
+> > This is actually intended. iff =3D "if and only if", see e.g.
+> > https://en.wikipedia.org/wiki/If_and_only_if .
+>=20
+> I agree this scientific idiomatic expression is not well known
+> by non-native English speakers, and using the expanded form is
+> just simpler to review (thinking at non-native English speaker
+> reading your commit in the future).
 
-However, I'm not the one who will run the functional tests for these and 
-from review-perspective, the patchset overall looks OK:
+fine for me, I'll fixup to=20
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+ - Also no trailing comma after a named initializer if (and only if) the
+   closing } is on the same line;
+
+when applying.
+
+Best regards
+Uwe
+
+--vyrf5kfcddz5uoeo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpLheQACgkQj4D7WH0S
+/k6DEQf+JKDZ+NcR412RMDPBxcWuk831SswOfJipQJVDxTsFWtpZIrZIbOu0ZlBp
+IEWpfB5nRfHwTSxF6Ceuf2jTc+wkwcRBKeH4MQsZFpGxBjGa4k7YEEfMSDU9S1vU
+39G1FIVXnf0sDkUOUGf5zIomYewh4gdCoWRwDnCHsV4QnZKAaKCCEpX0U6QdW2OP
+diy3iqasYf6KZyXnUyj0HBQRGjBYY4jBvVutXt4KtCqAKW+AcCANOtubadJgydWD
+xXNkFLpscFQ9aVdyKZK19UP9yKdOwzkjR9pul+TqXDviO0c5UoAZEwMZYDbB1YPi
+AJloqZ9/3vBcnEjZo3eWYk8zkrQifQ==
+=vnC0
+-----END PGP SIGNATURE-----
+
+--vyrf5kfcddz5uoeo--
