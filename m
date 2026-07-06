@@ -1,175 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D315C27EFE9;
-	Mon,  6 Jul 2026 10:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783334535; cv=none; b=B+UlcavTTEROSbPYYvC6wpaJIHW92Gg3Gr9Xsxl6rnGszc3e9Gs8hL9IV3X8inwaoccCnrjYin3TsRiGbPmSW5fF+jiDewfmp150bDfWVsTAzUUOMdFzGADqPF7O8wUyfSc7LRft5eClLqinDfr0nByWgQMI9lcUSPK1rfCQAVo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783334535; c=relaxed/simple;
-	bh=ZI+8Ym1JoAmIg+xj+e8J/p0YVeu9gjmkzgzv5jA8YqY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lr5JRaqfEFDsaEpMjwiX88MPQVWZ23F/IFhGZIIqBG/80Ynk4ecw9LFb1utUA/crjwjYADqBBUsDS1r6H6auDeXg8wiXIYcKKQ3gvwrgut3HVr+2hlTq3aJzG6tAB5UhzVGJfP707vk4WmqM7CJatx7eQerUCBy0nd4E6HKdHLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=niCT3sGc; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062D63E008F
+	for <asahi@lists.linux.dev>; Mon,  6 Jul 2026 10:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783334812; cv=pass; b=MwmpN4sFywLd55wEl7SjXg7+AvQbLMtbV6yfIo5sxXZHMAAn93i/+oFBFww4nC31ubvZ+ASzsHKeBAGg53M2TqJXe6fA2q/c6NZz/7IhDw1DlacW4LzaPBqu26No0RxzA0epDZo8BhX9mE9rWGvRkDqjrvg6vj58EZBCEqRweQM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783334812; c=relaxed/simple;
+	bh=uUIk3kxclfHLCmTIwRsZlNP9+Z44aJAAqLrMNzUY0j0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PKHpZDw190xMhEFsiv2JB/ej3qyO23pTOg9e02vyv8/KCEUod46MlDrsRQ3dyd3oDNqJ9Kxl/6i9YDVkWYRo/o5URVuB04l/WSDqfmX9hfl6FIHWSH6fPuCPF39D+uSBpYZ9U8yHcPD+ne3IcDoNA+0RiMuzNymk973xumpUbrQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvLxpsbn; arc=pass smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="niCT3sGc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A9351F000E9;
-	Mon,  6 Jul 2026 10:41:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783334534;
-	bh=IPNGdHh56ZVB5CsH+UE6uKclV6wrHeJiGGx7ee1V988=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=niCT3sGc0nhu+MKE15cOmixqFTzPAzuM+JXHh8UIXYk/QBka7MHhqMK31Rs7xrUui
-	 xWGDcEAn0KH3fSUj83doKefDip0SFnyx16083vHWs+Kz/7ZVvzznmcx5qDRVfg8LRe
-	 3OGHJyq88POyqmD9Q0N+dHeptgzoKsLXAQyY56gXSsYYda9+mWdnG9RnCgZrXYhEbn
-	 w1koFeCcrUiwzWK3rjzPQ5TtnKvznRG4e/kjkMKoZSJ0vBmrMiHW0HZ0h857QzKX6G
-	 LzLqYxYxRMqnNvvlH6/OgMEZS0QJvZ9Ej3lAOZ6ChIR0MJF9B15eOAaE5AqCdfcyMC
-	 H0rD9sCNUcMXQ==
-Message-ID: <f5fad349-7086-4b3a-a91f-5a471f340c14@kernel.org>
-Date: Mon, 6 Jul 2026 12:41:49 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvLxpsbn"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-381065a7a03so2056152a91.0
+        for <asahi@lists.linux.dev>; Mon, 06 Jul 2026 03:46:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783334810; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QLhP/q2lXIpZGz6XTF9uZpdWM0OyonxroayO8n1zW8cC0ARJygWocW6+FkD6wDh7dU
+         2UvhoMJ9xUnYLLEu7QwPb+nzo6aZYD9dF8hIAK7WGZQEJmd1HAONpRyA7uLfwLFAZMOm
+         F2FrfeRaFFGHhLkdYppoY1iPoUkPjQ3nhcQoBKQbnnJAxEPobaMgPzGGKvpEwKuekfmf
+         ryLu5G4E6zH3q74LhocRnJ9jg1jTRrWUel/VEuTEKy/8qzPK5Z1a4vGt7tphvv4I5O4U
+         k8CZFnIOuhtk34sAcOo8iO8dU6fhhuE2rxlBVR9RQVEmQbOV+YnLFUQLCQUboeiBo3d4
+         3QRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=J86H9bXagD00jbr5qUyNUhzQedlVcUlifJq0za2JQfM=;
+        fh=nabuvkAuaD7ILwv0D9QwT1pr+urNy3zNiePb+WHptLw=;
+        b=jXDnzsy4qxYOmykTEBoUvLtO61HKdK8pt4NH0pqe3mkXGV54yLfeJ3p0fqazxEDESr
+         XfCzoCjoZigSSrvkEWE1fJx7LV3soMxe+DPtCNX5F4y66MiY4lWkJuwW8c++gcC/jCPW
+         cL5Bjn72ZrAtR47iwDMn70n3xZpgxl2NwkxMfErKg3d9/C5gNJqkYpgquF0SIjqVtPds
+         gOAnyhYnsicV8FxfRBTgMjjh6QXKYxrUu2t7ECnW2rZEY1tqCqwFtSQgejgL7P1Znavh
+         88yESziCwykEA5j9D2EJ17O6Dp5mawXUMYWo5LQZ5kbzh6L3Ox+FiHoEsMHdeetk+Xb2
+         vCYQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783334810; x=1783939610; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=J86H9bXagD00jbr5qUyNUhzQedlVcUlifJq0za2JQfM=;
+        b=DvLxpsbngYcCqMLuyjmivq2IroCG8nFiFp3EXM/7YtQxBP3Cont4USSqASehKO6NbM
+         n17Y7Vd1WA/BbJVAfyLDIQdZ7KHYWnYl7u1rLjruYhwIwAPMoejqkTsBfEN1DsSlFmvb
+         Z3Jg+nFDR6mU7mKQs2Yihzg7Vk++gxfUh0+c+O7aLHb6Ql31vXDhIGLAagr/uZwweUSU
+         /apIvhrS9URwasVKSxVtBy2foPWhp7h0u6/5SFqU8QuhaaGElKT/Zw6B99/GF2o3BF6/
+         nVlrY59Rnz4P77JK4yqCaCJC90x7MRpT/udYQAYiV1TBEq7O/XeDuklP76mNgv8aCzrE
+         DNFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783334810; x=1783939610;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J86H9bXagD00jbr5qUyNUhzQedlVcUlifJq0za2JQfM=;
+        b=lm+htxcWxt5wYY25eHbs1Rq5n0imQ9mAxvtWq6cb/1ePYgsvK6+QmEJRFMUMtD0pEY
+         /Z5ayNp2HxlUUcUVdJ7Magdkvx8S0vWY89qugWjDybo4/di4rBwU0xA3AR6DIYqtzX8h
+         NgaU3lj6sPROzPlQNdpdroR9bJR3obNrAdYIA+QlXoLrdLmOkRcXAVEKh1aSTq6UUjdX
+         Ez4iPRRo7Ly31BnTWzoCQRzitf+7b3yRaDpCD0/EAx0yRF9uUjsNWLdUlcUf6Xqe/O0p
+         UaWQIH2T7divGngpliGXCZU2Nj7LS/liBb12jgvcnoglfmJl2I9zRzfigSCgw2AwnFGl
+         C67Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqwEBolgyU7GetEC4T3KhACygV4qdrx+++E5q1L9yX++bCqoexT9kjCqd0yShMX/fGgbsmocA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGqJYyh/S4mGFMtVpM8yFbEqejGqnlZo7sDmogd1mglOPWtnzM
+	+ueD6c4MLbU752d9YgqPPkKd5w3yDmTHPejYcQRt2Cgu4+3y4EsbVsb1qSe2OXKhB2O/mUtfWr4
+	vPUx6YnF484XfkHPPWXkxG+Y01ishiXU=
+X-Gm-Gg: AfdE7clcwUfXDxQ3HLwAuIgPJgBE3i/Kdc7ZCiPrA8Crap/cpgTeQjEDw0CUkJBMcFV
+	XCy5u78qaf1bRX6CByT3srv+O1TBmjYYAyrTK4DPQvcV0S+opnAfYNMuzH4Ju1S5l79tYxKApE5
+	gcI5hTvY/p1Ye3MaaMYiJoXnM6VrAzFr2+hOvZ9VbjJxx6qBBESvMtTy5sS5zFped+4SPyRcbn9
+	AW2i2hn+WxYDkvmFPnKfg5iOac0ajZl6s6/rYnieD8xpDWvkhCFt5aGKt2WGOyuPheXjIHNXuyJ
+	hD6nCOykxSz4axUZIaVf5m1sngI=
+X-Received: by 2002:a17:90b:5390:b0:37f:eb45:e058 with SMTP id
+ 98e67ed59e1d1-3829d70cc30mr9250564a91.19.1783334810241; Mon, 06 Jul 2026
+ 03:46:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/5] pwm: Unify coding style of of_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@oss.qualcomm.com>
-Cc: Chen Wang <chen.wang@linux.dev>, linux-pwm@vger.kernel.org,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>,
- Vladimir Zapolskiy <vz@mleia.com>,
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>,
- Samuel Holland <samuel.holland@sifive.com>, Michael Walle
- <mwalle@kernel.org>, Inochi Amaoto <inochiama@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Hammer Hsieh <hammerh0314@gmail.com>,
- Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
- Alexey Charkov <alchark@gmail.com>, Sean Anderson <sean.anderson@linux.dev>,
- Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-mips@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev
-References: <cover.1783263835.git.ukleinek@kernel.org>
- <20de6cd60c2938aad2d21397b92742849418ab1b.1783263835.git.ukleinek@kernel.org>
- <973f3d6f-6ff4-4685-9c9f-b07987f74d98@linux.dev> <aktWoIfY_DdO6gb4@monoceros>
- <bc697542-b1e2-41c2-af36-b708ca4aad5c@oss.qualcomm.com>
- <akuFirxGTqu_gt4O@monoceros>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <akuFirxGTqu_gt4O@monoceros>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260703055355.244898-1-phucduc.bui@gmail.com>
+ <20260703055355.244898-14-phucduc.bui@gmail.com> <934f9346-f530-4107-aac3-1cdd2829779c@intel.com>
+In-Reply-To: <934f9346-f530-4107-aac3-1cdd2829779c@intel.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Mon, 6 Jul 2026 17:46:38 +0700
+X-Gm-Features: AVVi8CfcqZEkSIP8omXIyORuxkBiX744iOmSXmoaBR0SsfvMSdawSePMoE-lAFE
+Message-ID: <CAABR9nGSRH3DmehUxQVmfJ4Po8TOhfHXDnjjkzVJDZZ1w0_51w@mail.gmail.com>
+Subject: Re: [PATCH v2 13/24] ASoC: codecs: cs35l56: Use guard() and PM
+ runtime scope helpers
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Cheng-Yi Chiang <cychiang@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Benson Leung <bleung@chromium.org>, Richard Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org, 
+	u.kleine-koenig@baylibre.com, kuninori.morimoto.gx@renesas.com, 
+	christian.ehrhardt@codasip.com, Linus Walleij <linusw@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, Chris Morgan <macromorgan@hotmail.com>, 
+	Dan Carpenter <error27@gmail.com>, Marco Crivellari <marco.crivellari@suse.com>, 
+	Rosen Penev <rosenp@gmail.com>, Weidong Wang <wangweidong.a@awinic.com>, 
+	Teguh Sobirin <teguh@sobir.in>, Val Packett <val@packett.cool>, Luca Weiss <luca.weiss@fairphone.com>, 
+	wangdicheng <wangdicheng@kylinos.cn>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
+	chrome-platform@lists.linux.dev, asahi@lists.linux.dev, 
+	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	David Rhodes <david.rhodes@cirrus.com>, Charles Keepax <ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 06/07/2026 12:39, Uwe Kleine-König (The Capable Hub) wrote:
-> Hello,
-> 
-> On Mon, Jul 06, 2026 at 10:28:16AM +0200, Philippe Mathieu-Daudé wrote:
->> Hi Uwe,
->>
->> On 6/7/26 09:19, Uwe Kleine-KÃ¶nig (The Capable Hub) wrote:
->>> Hello Chen,
->>>
->>> On Mon, Jul 06, 2026 at 08:33:47AM +0800, Chen Wang wrote:
->>>> On 7/5/2026 11:14 PM, Uwe Kleine-König (The Capable Hub) wrote:
->>>>>    - Use a single space in a of_device_id array terminator; A single space
->>>>>      after the opening { and before the closing } in non-empty
->>>>>      initializers;
->>>>>    - No comma after an array terminator;
->>>>>    - Also no trailing comma after a named initializer iff the
->>>> iff -> if
->>>
->>> This is actually intended. iff = "if and only if", see e.g.
->>> https://en.wikipedia.org/wiki/If_and_only_if .
->>
->> I agree this scientific idiomatic expression is not well known
->> by non-native English speakers, and using the expanded form is
->> just simpler to review (thinking at non-native English speaker
->> reading your commit in the future).
-> 
-> fine for me, I'll fixup to 
+Hi Cezary, Richard,
 
-Noooo, really, this is nitpicking on this commit. Not that I like that
-commit - it's just churn - but 'iff' is widely known and widely used in
-Linux kernel. It's completely correct, it is common and expected.
+Thanks to both of you for the reviews!
 
-It is not scientific expression. It is common in the kernel docs.
+> > -     ret = IRQ_HANDLED;
+> > +     return IRQ_HANDLED;
+> >
+> > -err:
+> > -     pm_runtime_put(cs35l56_base->dev);
+> > -err_unlock:
+> > -     mutex_unlock(&cs35l56_base->irq_lock);
+> > -
+> > -     return ret;
+> >   }
+> Nitpick: this will leave a superfluous newline.
+
+You're right. I'll remove the extra blank line.
+
+> It looks like a bug that it checks rv but returns ret.
+
+I'm not sure I fully understand what you meant by that comment. This
+conversion preserves the existing behavior, so although checking rv
+and returning ret may look a bit odd, I don't think it changes the
+behavior or introduces a bug.
+
+> The local ret variable can be deleted.
+> Should change all the error returns to directly return IRQ_NONE.
+
+As you suggested,
+I'll remove the ret variable entirely and return IRQ_NONE /
+IRQ_HANDLED directly.
 
 Best regards,
-Krzysztof
+Phuc
