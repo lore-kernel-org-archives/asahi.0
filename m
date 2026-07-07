@@ -1,63 +1,63 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B809381E81
-	for <asahi@lists.linux.dev>; Tue,  7 Jul 2026 05:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EDD3812D1
+	for <asahi@lists.linux.dev>; Tue,  7 Jul 2026 05:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783401163; cv=none; b=lJxR1QtlciNSwFeG8ksebwmRPTRU2DmVma2+z6WkHD1KeufZ/L6sks+PmGJaBntcbFQBfqB/lwl/LQF+KsdMDhxIzKgiLjXDUUuX693U5CPTKD3tf1l3bH3accxE0Ty+fwJj/Q6dT007SYDzhu8sVlRnE4WifOjlNzAM0M1QSg0=
+	t=1783401172; cv=none; b=hZ4TyJ7VYT5jxMS9tNiIhSKTxvG75Pr/RwOjnHMXEDUiLKBt2Vi739BBUfI6fo5+/HAVuR4aO+4mTArYXLOkpZ6yXZtUwZ/2IVA3d8k0JLezBpJNBQA//tPt6ta1FNt/jCXXYsDFtEy25MjxFUFOXR446Jgjcn60tLCl5Dz0tl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783401163; c=relaxed/simple;
-	bh=/r6IWp2lq/IqX/xitXazGqvOEQK7A7aRycIG7RzU7kM=;
+	s=arc-20240116; t=1783401172; c=relaxed/simple;
+	bh=YYnwuzA32vCrBS5jxPe5g87ui5erA9BMb2LXDj2ivxk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h5zhOnZoY5q3u2efRte6B5JkPuBNM9sQ/KsvYtjS6F/cXohHyOozz086R60PHtgAy3YOTavUJ0Nmc/5pIdWZoZ3VOS+h89w0SAdTKMDezboTqAQ28dAJkmQMLemkC0EG7KpO5NN1VBpYnh347iHydWe7KVvu1NkejooqZqC70eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C/RZDarV; arc=none smtp.client-ip=209.85.210.176
+	 MIME-Version; b=TM+fvY28HermrXtRXmLm14fsHTeEi1U4Rt6t0IYOZYGo8q+LWyyBsIymkYpRPRwSCKe5ArKgsWwvs86quncRI9U2UOx9AUOvQNUo7YJDvpXpUESq7eZzGuakICOteZBHuMsWac3SXzjqBWU3ZY0iaVDaQpr45SkSAo4NPzxUE/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c8zgBk57; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/RZDarV"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-84783bce476so2716010b3a.0
-        for <asahi@lists.linux.dev>; Mon, 06 Jul 2026 22:12:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c8zgBk57"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8482074a000so1095583b3a.0
+        for <asahi@lists.linux.dev>; Mon, 06 Jul 2026 22:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783401161; x=1784005961; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783401171; x=1784005971; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Mtl1X3tKc/n7QmmaBl4vTl93wYDxMzIpl5/tn8Gmn8k=;
-        b=C/RZDarVF2z6ZckSbIJUaerJqH9jQTuwM9ZpKBOQ5jAjJCHFlT0kqY6IJOYbBHy/hY
-         Ts+3uXEMqUMJvMA7JclYC3opAb4TGBDtQBY/LLRq+RQ5VQ3G+uTJ5chjtBEPQhsA+8ri
-         e6q3w8c/9vn965LWaCI3J/lf5lvgXOzSzrJ1r/2gNs3IhCANGf0XTNsGUYbtQNItb8ze
-         6CCCosTeoZ1hzxaMFPMqsKNTnm632/pfMpNlFX6bo4fJ64Q47ZUbXNZToNECn3zUhTYR
-         p9jOzP7pDLTkIe9pergj7u+ujydfarVNfCA9SbndytYwCSy1T9uARoVc2EQSC8kxL5wS
-         52Kg==
+        bh=OeTn14ndUmp4M0jbxxRhmn5UH5bvV8+qVb+FxPZ1/7c=;
+        b=c8zgBk57M9pawwcRqoFrHZ+QHg37MzFFT2M0B0UXxJmPqG04g11SfbLpQpMniduleQ
+         TLrh9KfgcumtBDfZoRXjxEANqYfaqB7FntUYA2fbr9LMpd4uw9uK+27tOsYFnN+mX68i
+         +hm08Eo1cvIj3LJniSI5PJ24Pc+wZkRz85006D1jEb6OMyyT+SWTmMLs4BRs1QRbdN6i
+         qOhOXGR1W2gdquAQOXJZZ71eFq5MTuQwAFXZmBNMMTTXS6PpEvOZJwGx5hpSvO6LFM9U
+         pxFoGzjAo7Pa7nNRbZOYEAIdI/M+h1nE/B5eOtrS80aQuFloZZD8mEOyLgZz5+a2lc3g
+         lMbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783401161; x=1784005961;
+        d=1e100.net; s=20251104; t=1783401171; x=1784005971;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Mtl1X3tKc/n7QmmaBl4vTl93wYDxMzIpl5/tn8Gmn8k=;
-        b=JuC0IlKt7EkYZ1M2j4e9sQb6zfDdQLMIfmkF04NhsdBIxXGsvckc1pbdu/d0UDITnL
-         BdQ7ixckDO9YaFGIL/10fQjRC2Or+oRVyRtU4Zz5Fg8e2uu1j/kNuHbYaO4D+lOHUpgB
-         rMawzdB0g8R6cJ9EpocbAPkFIddhfU9OvFUgXEOHbstGd/2s+8pHZlbaqPaxXc4cypo5
-         LvPCLtCDSfSVQizNsbbIdCwtEqCRTPoS9Sa5oUOGluh68tlocdGwPXGnadPj2bObsdOA
-         skdtCEHmC+8kbGfyNSLJiE3Eaz7X1Fkjb3MR6jZU0yGjA+fZLrARhQ+r4Gh9ArAXsqPH
-         oYXw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqt+GPRAErWvb8vPqeGZ02jYxsxSr4Xqd0EIDqbLSvzI++QOrrbTtzzKI7T5RqL1E2yr3SLLg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyuWdJyFMWIgVY9EbPFQiRswz6iP016hfV/+rXgGtLDgmrKiZs1
-	wxiOcAgW+O+H7BcDkwufN1nckdZltrozBnONO3Ka36O1PnT1e5/Hf237
-X-Gm-Gg: AfdE7cmNg7U7bdpozwbVhJukGRj7Luxi1bEeb15oJJN8XY8NXltjRkibC6peUBDl78k
-	G2BFjQrMIMyiQRf7YLSR1kF/JPypEwSP7Z7iIwPW4mWg4Z8S1/Ix5qM2aaI8tjIkrkzMlxH/nfy
-	R7IcU8zZ1uk/VZ4bjAdy3wD8ivx6BVyjTUctp5q33NnZyxopbWAdrN01KT5csTmoXFQmPFQV0K/
-	EuaCvUYQADNIo/UUxSN1iuB8I8EX5Y+InLPhRgWem559DIzGcAuaMKh2FcqJ4RlElb3Zj5K35ft
-	QkmJRa9w1hqb384aR8rmZzNKAdcbxW42zFSnUV8O9iEm0Iyhhd+WmV03D0AnhSIS9/qL/0vLP1O
-	5tzbRDltLMhaW/lZT/wcPdUyLhjtImjbWcRA55g72X+e9J4LSAPbrgqKygebf1yB9tqRKBX43vX
-	doSN0cDtS8tWb7+HRK7bYHqBZ5zjnKJDhfr4eFmBerBjZhwPE=
-X-Received: by 2002:a05:6a00:8d8e:b0:845:c662:2be with SMTP id d2e1a72fcca58-84826ed02f3mr3771280b3a.42.1783401161134;
-        Mon, 06 Jul 2026 22:12:41 -0700 (PDT)
+        bh=OeTn14ndUmp4M0jbxxRhmn5UH5bvV8+qVb+FxPZ1/7c=;
+        b=Tkd/2y2B5E/CaPtwnWEE5Irnug+Mc+YlBGb+atKpnGB9TSGCEZY8AJqxtWWF4iQeJ5
+         BAJyT8r5SvcGXsg0jgELH1pVtvd5uvelcG9G8tRGl26JAnuZ8Hljb7XSuyh6v7Utyu63
+         jYt53Vz4Qmj2QEphDtgYqLebRFEYmAUVrRtWSUiUur56icFg/UmQpbkvRwEpOEon6fDd
+         +14Tl8Nn6t02WS2Mwp859HX801qN2JkXcccUU5Qlf6bnhb84ga4xAarOyaIrAMdNrPEW
+         quMpk72MjoWkrvBs8BWZc5eIZLh8LLfRUIj8/SHPBgL+W6bwoxmOD421+XowpBK14nHW
+         XZ4w==
+X-Forwarded-Encrypted: i=1; AHgh+RqQxQRRXopY5g1YxcvUHOxHDOE2OwKv5iCIiS5betH4ZkOFWWwOpMHB8M9tynS88pFUZvDL7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxI0ffujFxSsLnZoeetU4Ud71+antdD/l8MJXSDIvgb9/5BckRH
+	BDpCS2DlppT12xuVqs7gTfTXyRnQXiaafgHBBK81WMADaXPZ3oy0r1MD
+X-Gm-Gg: AfdE7ckKL5r0R4hsDg1kQqr2T1Nxtwn57AthlC8xArOzmDmnflVP6EnPrje7tKTJJER
+	pfnFCK4Z436IOj4fC6HvenymA5iKik0Y5zWQkIIIrb6OCVExgliq2elLuLWVzII4F7YfqMc3RpU
+	rqEXH23yEakiGUdpEQfmdNWvijociC/cacK9tNvd3kfcdyBf3SbVY3EjAuOE3IGqIjvwWRwG2tC
+	wbBknw2AyYy1PtmgjqISjQfVambjIg1hEJ12MX562/fT2IwbTNU9kHNWBQxve2WBVJ6rGi3yEEQ
+	VQwU/aizi5CfaISS+JcRSq6gIkrFAJ7FA5iTj7l+i4asaPDOel4wzdLWGaIuDrjFafHGtpEF0Nw
+	JRKXJhrkz2pi2Sqy3T0c18XhBlj8YrDAakfS1+qIq4kVBD9UgfkhWKI0Zn3OXiKa+GWdyQBK9kv
+	3BJiFSGWN3qymZ5fERiuL9GKGeEi21ijy83q4EvOphRzo516ndXT5cUAVLIA==
+X-Received: by 2002:a05:6a00:338e:b0:848:2f74:1d62 with SMTP id d2e1a72fcca58-8482f742067mr1273678b3a.72.1783401169864;
+        Mon, 06 Jul 2026 22:12:49 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.12.33
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.12.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 22:12:40 -0700 (PDT)
+        Mon, 06 Jul 2026 22:12:49 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	asahi@lists.linux.dev,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 12/24] ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
-Date: Tue,  7 Jul 2026 12:09:54 +0700
-Message-ID: <20260707051006.20058-13-phucduc.bui@gmail.com>
+Subject: [PATCH v3 13/24] ASoC: codecs: cs35l56: Use guard() and PM runtime scope helpers
+Date: Tue,  7 Jul 2026 12:09:55 +0700
+Message-ID: <20260707051006.20058-14-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260707051006.20058-1-phucduc.bui@gmail.com>
 References: <20260707051006.20058-1-phucduc.bui@gmail.com>
@@ -110,45 +110,81 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Convert the interrupt handler to use guard(mutex) for automatic mutex
+unlocking and PM_RUNTIME_ACQUIRE_IF_ENABLED() to manage the runtime PM
+reference through scope-based cleanup.
+This removes the explicit cleanup paths while preserving the existing
+behavior.
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/cs-amp-lib.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/cs-amp-lib.c b/sound/soc/codecs/cs-amp-lib.c
-index 371e99205b58..41a9a5b005c6 100644
---- a/sound/soc/codecs/cs-amp-lib.c
-+++ b/sound/soc/codecs/cs-amp-lib.c
-@@ -7,6 +7,7 @@
+Changes in v3: 
+ Remove unnecessary blank lines.
+ Remove temporary variables and return directly.
  
- #include <asm/byteorder.h>
- #include <kunit/static_stub.h>
-+#include <linux/cleanup.h>
- #include <linux/debugfs.h>
- #include <linux/dev_printk.h>
- #include <linux/efi.h>
-@@ -83,10 +84,12 @@ static int cs_amp_write_cal_coeff(struct cs_dsp *dsp,
- 	KUNIT_STATIC_STUB_REDIRECT(cs_amp_write_cal_coeff, dsp, controls, ctl_name, val);
+
+ sound/soc/codecs/cs35l56-shared.c | 22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
+
+diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+index f14e2eaaa4ee..d5817e420847 100644
+--- a/sound/soc/codecs/cs35l56-shared.c
++++ b/sound/soc/codecs/cs35l56-shared.c
+@@ -640,23 +640,22 @@ irqreturn_t cs35l56_irq(int irq, void *data)
+ 	unsigned int val;
+ 	int rv;
  
- 	if (IS_REACHABLE(CONFIG_FW_CS_DSP)) {
--		mutex_lock(&dsp->pwr_lock);
--		cs_ctl = cs_dsp_get_ctl(dsp, ctl_name, controls->mem_region, controls->alg_id);
--		ret = cs_dsp_coeff_write_ctrl(cs_ctl, 0, &beval, sizeof(beval));
--		mutex_unlock(&dsp->pwr_lock);
-+		scoped_guard(mutex, &dsp->pwr_lock) {
-+			cs_ctl = cs_dsp_get_ctl(dsp, ctl_name,
-+						controls->mem_region,
-+						controls->alg_id);
-+			ret = cs_dsp_coeff_write_ctrl(cs_ctl, 0, &beval, sizeof(beval));
-+		}
+-	irqreturn_t ret = IRQ_NONE;
+-
+ 	if (!cs35l56_base->init_done)
+ 		return IRQ_NONE;
  
- 		if (ret < 0) {
- 			dev_err(dsp->dev, "Failed to write to '%s': %d\n", ctl_name, ret);
+-	mutex_lock(&cs35l56_base->irq_lock);
++	guard(mutex)(&cs35l56_base->irq_lock);
+ 
+-	rv = pm_runtime_resume_and_get(cs35l56_base->dev);
++	PM_RUNTIME_ACQUIRE_IF_ENABLED(cs35l56_base->dev, pm);
++	rv = PM_RUNTIME_ACQUIRE_ERR(&pm);
+ 	if (rv < 0) {
+ 		dev_err(cs35l56_base->dev, "irq: failed to get pm_runtime: %d\n", rv);
+-		goto err_unlock;
++		return IRQ_NONE;
+ 	}
+ 
+ 	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_STATUS, &val);
+ 	if ((val & CS35L56_IRQ1_STS_MASK) == 0) {
+ 		dev_dbg(cs35l56_base->dev, "Spurious IRQ: no pending interrupt\n");
+-		goto err;
++		return IRQ_NONE;
+ 	}
+ 
+ 	/* Ack interrupts */
+@@ -680,7 +679,7 @@ irqreturn_t cs35l56_irq(int irq, void *data)
+ 
+ 	/* Check to see if unmasked bits are active */
+ 	if (!status1 && !status8 && !status20)
+-		goto err;
++		return IRQ_NONE;
+ 
+ 	if (status1 & CS35L56_AMP_SHORT_ERR_EINT1_MASK)
+ 		dev_crit(cs35l56_base->dev, "Amp short error\n");
+@@ -688,14 +687,7 @@ irqreturn_t cs35l56_irq(int irq, void *data)
+ 	if (status8 & CS35L56_TEMP_ERR_EINT1_MASK)
+ 		dev_crit(cs35l56_base->dev, "Overtemp error\n");
+ 
+-	ret = IRQ_HANDLED;
+-
+-err:
+-	pm_runtime_put(cs35l56_base->dev);
+-err_unlock:
+-	mutex_unlock(&cs35l56_base->irq_lock);
+-
+-	return ret;
++	return IRQ_HANDLED;
+ }
+ EXPORT_SYMBOL_NS_GPL(cs35l56_irq, "SND_SOC_CS35L56_SHARED");
+ 
 -- 
 2.43.0
 
