@@ -1,145 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBEC3947AE;
-	Tue,  7 Jul 2026 09:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DCD37F011
+	for <asahi@lists.linux.dev>; Tue,  7 Jul 2026 12:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783416357; cv=none; b=sLeW5TIKf8lC9fdG0BreSTByHR2+2jR9Gkt342yKvFnQ4t/d64jyqv3q++4vFov0SZH73PLcpY4uNO1jCyJNZkWoNnG33wsOc9/L43FGCYYUzMgRyCuGdNC77//nYkgrQslX4DNl7/OJemlSEHebfNfzRQFwyN0t/k0NkMPyRBY=
+	t=1783425867; cv=none; b=tJIyXzNZyk+s6Ymed0xBVn3pemISzf/RYkIyXShwF7qOjs3nHp0e7KuE3hIgzhTJjUs1PVQrCtlabs8CMl72mHs2Leu4afykW1WExkt9VSufTHX14AabML+oW/yG4ClOww+Ii3PP6vUY5wss8uawRewgftvrSh6uzHS6wQJOkOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783416357; c=relaxed/simple;
-	bh=NZ9lzvP57Ud4WiitzvkiRYtgFXcEGoXdNtl7wfwuFSs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VuKEZJi271dVvBXeLSfnmdRKFRDCxjHUBBhc8wVzwzoy23Iriyht+lyuWJGPbIs1jfdfWvRUQ/CtibJfu6traFkX/FrGocdLqD1GaXMapJt1TLfDSchciPBLrOTLqML5db2IOiJ3nqwe4PD0Cgc7hscXuF+ixExVHE6f3dxHI90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KnruRaKf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783425867; c=relaxed/simple;
+	bh=d0oZZL/m7v35L3SGPEvZbdEktqoolpFwQcWajtU70ro=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gNoyUy74LMaz7VzSgJNDuvg6a6kdE+GGKVnCuli7AJU0HvYmt92lTRltehEkUpTMIoPZHY0LDnwetzHXN3ncnKviB0ZYpbR+XHqy6AVRgAhcJzqDjX1Ham5Ysg/ioxUunCLhwzLnK6ja5nW5UF4FrdRn+tdsTJ9cbuWkNDz63jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=CKowxmzE; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KnruRaKf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46DD81F00A3A;
-	Tue,  7 Jul 2026 09:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783416356;
-	bh=8uyo2XhmUAHRevNoXiCaMuL1oCl90zKZlPv2wkcpU7o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=KnruRaKfHD+xT3Z4ZkAXPUYtv1S3SziqmpW11MvmgPrTZpKhaJ4eZBaCpwBva3NlE
-	 U56oUy52tboS0xyFp0xbs1VISvI8UKsGhcn/gFg918a866mC/j6Hnt+A6WkYs6nNWu
-	 zb5i2h4IFEvbs4gkpVB1aXWqAyIWT37DdANxvPtIkTmA3DhEcr844iujUcGgrBwCuz
-	 L1hIcxQ7ix5RzOIa/AXDe71lufSEIu2OKlMSjbGMJapa4lC/Y2LPCczTiyxDfTxR0l
-	 zSqmQ+5iIvVbO+clviVV+mv8bQ+OPJ5i3zmuSuXda0la8rc9hHEGEEIjjPVIF5oRX+
-	 DFUrHA8rGpsAg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wh23u-00000002KZJ-0bdk;
-	Tue, 07 Jul 2026 09:25:54 +0000
-Date: Tue, 07 Jul 2026 10:25:53 +0100
-Message-ID: <86a4s3p2vy.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,	Krzysztof =?UTF-8?B?V2ls?=
- =?UTF-8?B?Y3p5xYRza2k=?= <kwilczynski@kernel.org>,	Manivannan Sadhasivam
- <mani@kernel.org>,	Rob Herring <robh@kernel.org>,	Bjorn Helgaas
- <bhelgaas@google.com>,	Sven Peter <sven@kernel.org>,	Janne Grunau
- <j@jannau.net>,	Neal Gompa <neal@gompa.dev>,	Krzysztof Kozlowski
- <krzk+dt@kernel.org>,	Conor Dooley <conor+dt@kernel.org>,
-	linux-pci@vger.kernel.org,	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev,	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] PCI: apple: Integrate pwrctrl API
-In-Reply-To: <20260707-apple-pcie-pwren-v1-1-5a281b182fe2@cyberchaos.dev>
-References: <20260707-apple-pcie-pwren-v1-0-5a281b182fe2@cyberchaos.dev>
-	<20260707-apple-pcie-pwren-v1-1-5a281b182fe2@cyberchaos.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="CKowxmzE"
+Message-ID: <8a80a170-a508-4a9e-8090-27cfcedb1cd4@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1783425863;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=V1wR4i3S+qlUwOJNrTeVvJuUHl23Tu3l5qGQqGSCCrM=;
+	b=CKowxmzEvsFi8bPEpRBxQBVEESRS+TLUCPFAFp2Q4CQOSUnmA2luvb+oOSG1ITQLz9Wn8C
+	7IIXPpr5ArZNaxWGpffrKpCC3+CbZqbKCk7zB4JsIpGPqulFijoHPaPnGHwcuHdY5RjVt1
+	YLmBUWejdchZmVwbrsNEyVaGPfcmAWA=
+Date: Tue, 7 Jul 2026 14:04:21 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: yureka@cyberchaos.dev, lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org, robh@kernel.org, bhelgaas@google.com, sven@kernel.org, j@jannau.net, neal@gompa.dev, krzk+dt@kernel.org, conor+dt@kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] PCI: apple: Integrate pwrctrl API
+To: Marc Zyngier <maz@kernel.org>, Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+References: <20260707-apple-pcie-pwren-v1-0-5a281b182fe2@cyberchaos.dev>
+ <20260707-apple-pcie-pwren-v1-1-5a281b182fe2@cyberchaos.dev>
+ <86a4s3p2vy.wl-maz@kernel.org>
+Content-Language: en-US
+From: Yureka Lilian <yureka@cyberchaos.dev>
+In-Reply-To: <86a4s3p2vy.wl-maz@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 06 Jul 2026 23:38:27 +0100,
-Yureka Lilian <yureka@cyberchaos.dev> wrote:
-> 
-> Integrate the PCI pwrctrl framework into the Apple PCIe host driver to
-> provide standardized power management for PCI devices.
-> 
-> Notably, this allows enabling powering on the WiFi, SD card reader on
-> various Macs by means of the pwrctrl framework before probing the ports.
-> 
-> Previously, a custom solution for powering on the WiFi and SD card
-> reader was proposed[1], but we can now use the new pci-pwrctrl-generic
-> driver for this purpose.
-> 
-> Link[1]: https://lore.kernel.org/lkml/20220502093832.32778-4-marcan@marcan.st/
+On 7/7/26 11:25, Marc Zyngier wrote:
+> On Mon, 06 Jul 2026 23:38:27 +0100,
+> Yureka Lilian <yureka@cyberchaos.dev> wrote:
+>> Integrate the PCI pwrctrl framework into the Apple PCIe host driver to
+>> provide standardized power management for PCI devices.
+>>
+>> Notably, this allows enabling powering on the WiFi, SD card reader on
+>> various Macs by means of the pwrctrl framework before probing the ports.
+>>
+>> Previously, a custom solution for powering on the WiFi and SD card
+>> reader was proposed[1], but we can now use the new pci-pwrctrl-generic
+>> driver for this purpose.
+>>
+>> Link[1]: https://lore.kernel.org/lkml/20220502093832.32778-4-marcan@marcan.st/
+>>
+> nit: this paragraph and the accompanying link don't belong in the
+> commit message and should be moved below the --- mark or even better,
+> to the cover letter.
+ack, will leave it out of the commit message of the individual commit in v2
+>> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+>> ---
+>>   drivers/pci/controller/Kconfig      |  1 +
+>>   drivers/pci/controller/pcie-apple.c | 16 ++++++++++++++++
+>>   2 files changed, 17 insertions(+)
+>>
+>> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+>> index 2247709ef6d6..af64630d28fa 100644
+>> --- a/drivers/pci/controller/Kconfig
+>> +++ b/drivers/pci/controller/Kconfig
+>> @@ -46,6 +46,7 @@ config PCIE_APPLE
+>>   	depends on OF
+>>   	depends on PCI_MSI
+>>   	select PCI_HOST_COMMON
+>> +	select PCI_PWRCTRL_GENERIC
+>>   	select IRQ_MSI_LIB
+>>   	help
+>>   	  Say Y here if you want to enable PCIe controller support on Apple
+>> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+>> index c2cffc0659f4..db038a9d4831 100644
+>> --- a/drivers/pci/controller/pcie-apple.c
+>> +++ b/drivers/pci/controller/pcie-apple.c
+>> @@ -30,6 +30,7 @@
+>>   #include <linux/msi.h>
+>>   #include <linux/of_irq.h>
+>>   #include <linux/pci-ecam.h>
+>> +#include <linux/pci-pwrctrl.h>
+>>   
+>>   #include "pci-host-common.h"
+>>   
+>> @@ -825,6 +826,21 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+>>   	if (WARN_ON(!pcie))
+>>   		return -ENOENT;
+>>   
+>> +	ret = pci_pwrctrl_create_devices(pcie->dev);
+>> +	if (ret) {
+>> +		dev_err(pcie->dev, "Failed to create pwrctrl devices: %pe\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	ret = pci_pwrctrl_power_on_devices(pcie->dev);
+>> +	if (ret) {
+>> +		if (ret != -EPROBE_DEFER) {
+>> +			dev_err(pcie->dev, "Failed to power on devices: %pe\n", ret);
+>> +			pci_pwrctrl_destroy_devices(pcie->dev);
+>> +		}
+>> +		return ret;
+>> +	}
+>> +
+> Why is this done globally while the whole driver works on a per-port
+> basis, and that the proposed DT updates are also per port?
+
+pci_pwrctrl_power_on_devices takes a struct device as parameter, but
+pcie-apple does not allocate device structs for the individual ports.
+This could be changed of course. But since pci_pwrctrl_* operate on
+the subnodes recursively, it works just fine this way.
+Additionally, we would like to be sure all the endpoints can be powered
+before we start initializing the individual ports. Otherwise we could
+end up in a situation where some ports are initialized but others are
+not when we realize some driver needed to power on the endpoints for
+port n is not yet bound. There is no appropriate pci_pwrctrl API for
+checking for the availability without changing the state, so this is
+an additional reason to do it early.
+
 >
-
-nit: this paragraph and the accompanying link don't belong in the
-commit message and should be moved below the --- mark or even better,
-to the cover letter.
-
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
-> ---
->  drivers/pci/controller/Kconfig      |  1 +
->  drivers/pci/controller/pcie-apple.c | 16 ++++++++++++++++
->  2 files changed, 17 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
-> index 2247709ef6d6..af64630d28fa 100644
-> --- a/drivers/pci/controller/Kconfig
-> +++ b/drivers/pci/controller/Kconfig
-> @@ -46,6 +46,7 @@ config PCIE_APPLE
->  	depends on OF
->  	depends on PCI_MSI
->  	select PCI_HOST_COMMON
-> +	select PCI_PWRCTRL_GENERIC
->  	select IRQ_MSI_LIB
->  	help
->  	  Say Y here if you want to enable PCIe controller support on Apple
-> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-> index c2cffc0659f4..db038a9d4831 100644
-> --- a/drivers/pci/controller/pcie-apple.c
-> +++ b/drivers/pci/controller/pcie-apple.c
-> @@ -30,6 +30,7 @@
->  #include <linux/msi.h>
->  #include <linux/of_irq.h>
->  #include <linux/pci-ecam.h>
-> +#include <linux/pci-pwrctrl.h>
->  
->  #include "pci-host-common.h"
->  
-> @@ -825,6 +826,21 @@ static int apple_pcie_init(struct pci_config_window *cfg)
->  	if (WARN_ON(!pcie))
->  		return -ENOENT;
->  
-> +	ret = pci_pwrctrl_create_devices(pcie->dev);
-> +	if (ret) {
-> +		dev_err(pcie->dev, "Failed to create pwrctrl devices: %pe\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = pci_pwrctrl_power_on_devices(pcie->dev);
-> +	if (ret) {
-> +		if (ret != -EPROBE_DEFER) {
-> +			dev_err(pcie->dev, "Failed to power on devices: %pe\n", ret);
-> +			pci_pwrctrl_destroy_devices(pcie->dev);
-> +		}
-> +		return ret;
-> +	}
-> +
-
-Why is this done globally while the whole driver works on a per-port
-basis, and that the proposed DT updates are also per port?
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+> Thanks,
+>
+> 	M.
+>
