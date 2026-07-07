@@ -1,63 +1,63 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B2937F73E
-	for <asahi@lists.linux.dev>; Tue,  7 Jul 2026 05:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2E637F8C1
+	for <asahi@lists.linux.dev>; Tue,  7 Jul 2026 05:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783401069; cv=none; b=pzdwEWuhk59B/YGFwRq7SSEOsQ58GluuCwkbMn1Rtswl1Kq/UVqUH30eLUdet0noIvlNspSDX3pjf+HG6scVtTE5FT3JbLgtwIW3m5+eXraFfagBndwRwjpiKiG/SWoSt2QDEw9rNtdoJTbsic3Efrl9vKcdjpYbjCkpUrpWk60=
+	t=1783401077; cv=none; b=rR2ycyDtP1jVMnOkIOgoq39tMRH/lWIZ7vj1oFYAS8P4NKlxr+ZZjvEb5NNJQiOvPptpjr2Qgog/Afz7oFxflZBrGCAb0g25agi3DCthyEQgohc6pR1ojYJwPIQvfpT59hGu2LpoX9cqB+hq59B6d9Ql3y4gJl2jTPYY5le2JAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783401069; c=relaxed/simple;
-	bh=6FLcpNOV0G/lngFmbaJv0KBbbNvewbSjUbmrmr4SBjY=;
+	s=arc-20240116; t=1783401077; c=relaxed/simple;
+	bh=yfnMNacLdodpfRhW2bQZbE7pm8s0ri1caS058dgJKWg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Mk+LzwUbYKlq7aottTMQdFGQ2oXRzmTn7nPliUPtiZrbRtgjft8cvVAIlXXL0d3z+bmzBC2t1TbXWYdoz3DEiZU3Zw/F0y6/Z2gunHv/BfwFZp6cDYLuMA4HxsQbYSxk+XCe0YdHcs/yl1ZQ9FXoDkue4ZjTDznBF5wT1wbsuOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=faPcR3/x; arc=none smtp.client-ip=209.85.210.180
+	 MIME-Version; b=Q8mW0JoyNBhRmkPJ1YmFl5Szw2K0aubdiNnk7ugxxCEaJu3w0bSstqgus+MHCY0LFNEXLrEs4SymZf0FisqE+dOpZFJdAAhcLZ+k4n65+pb0n1xk/ODv5HK/jS6ptK9luILGsAr/8LSwT7TPPxu6evVrNei9nKCkMvkVkGnZRUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oRS+6LKK; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="faPcR3/x"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84832ec2615so97858b3a.1
-        for <asahi@lists.linux.dev>; Mon, 06 Jul 2026 22:11:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oRS+6LKK"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8481fb4324aso978861b3a.2
+        for <asahi@lists.linux.dev>; Mon, 06 Jul 2026 22:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783401067; x=1784005867; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783401076; x=1784005876; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QBAOGNDCN1PJ4euWIObvfkCj8NKOo6+NOGkAVEcmjRI=;
-        b=faPcR3/xx6zC6y9FEFukWuVLE6QrPm8d6YYr5DzHUlZrY6hufm+8Je4DNHO2+gRzMt
-         5LURjMD6QGFH++pZKIrtZKynPf1hJjx8yCDyYvkDsd2PlpqQ41AEgkuWE0hkAdZUJV1i
-         POq47m6dZt/shYNiytUAnqZF738F7h1/tgHm6+F5RIH8LX6hVeVTpvuwkLJrphqMY5+a
-         efMrwd7XohMM0daEvYzjQeMqRw4YJwc/aAptyHTYHaSC5DqbQBHrXlD4OYTx627otScJ
-         wDWM1BVsUr5mhmz1NWw2peeUuuMuWl8RrDv9j7dHu9ao3OKvWqHPX0+BvZlxTMdNg1bk
-         Ictg==
+        bh=Sq5Iddla3Hd0Zh5qEYq/9fp7CsXU6/7TUOr0ybGJuLs=;
+        b=oRS+6LKK49vCAtN4gxkxbrDQ6S0lZBbArInNIe/t2EVV8xqLlELcKk9aXZwy8h+K2p
+         taujJvKnFpUTs5tl4eXZe7ASwTYMHNaUxoesWxJBwhDWRm4LOdnxQ8qWVbgFA4JGyIaE
+         u42t0EbZmQORlxBvBGjRzL7QKV+oALIoVbyIXmu0siTZIheCTialHBJNpZTITWa/WFf6
+         wvXf6dWfwXRov5SWL19Ux4E6DHTVX0sGHObefMqx8s8NMmpjg1WXJQTQ0bZgG6nvev5s
+         c2psK0Al0bwDrR48pFuvflo9b1O9pm/9xHBnfBY/cveO6Efcrr8pjZ3SWNazdz9tbyhD
+         Gsfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783401067; x=1784005867;
+        d=1e100.net; s=20251104; t=1783401076; x=1784005876;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QBAOGNDCN1PJ4euWIObvfkCj8NKOo6+NOGkAVEcmjRI=;
-        b=GTEgLR3i63oA1hJUom2iSZ+srugSIqAkwOozSVAExZuZWpM+y7/MS6sQ8dF6quOXDQ
-         SLrjUQXYO9DUcA8rA1uvjaMEgeTcjZJ+FyA2earuYoyvcKaa9RChCEaOYxDao+DxuQ1d
-         KvcnYnyy1MLQS15jPY+1z1B3v9Ec1IQBKjtq1yWGuFd0mSrupLJl6EuR8oVTWhXt3/Tb
-         ItZplcea5tq6zvyltA6Bnn4isauWZRLcRowrqJmTAl+5D6VjXqK5igcd2FhM3MPK+xgF
-         allV6Y4NNLBroktF8Mp+/mzJtk8uTDxhzwV9tRgq8PXOD+P/Ol2/roF79Jyc2tBux/S7
-         AWWw==
-X-Forwarded-Encrypted: i=1; AHgh+RrMOFH9CFinKSPa7LK1PrbSbUDCvVMpTeMCkJ0g1Tt3gyGXgY6ISTPYnoWAU0sRzOvRVP+qtA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzH/3meHk75ZXy/6hmGQwTub3Aimtk+PjlSlPSNd5g5tTpjTjUt
-	XQEaak0n2NC7fZEzKCUIDr/9bY8kgPMo1JztHvQtHrCv2D7Yl3HgSp26
-X-Gm-Gg: AfdE7ckLGoOagaKG64SKV+jgHucFK0bxaMrs9PQQ400l6HlbYmbgQ/ozZg/1+bZwoWZ
-	/kkS5Qk4ZEMamCBTZ/IuVm5hkPfgA7OVzJkF8DWIGaipK2tE9bs6hqWjPhrKgXPNLFLwpGby5Ut
-	ml2BsRNUQ/tbw/ZRL+Q5zMFWWClWqUs38hO/YdqR80CnAoVFc9HO0NyRO33s9dgOYjEVce0Gjcj
-	pa8hfjTM0O7Nfmrg3FZcnv72lytNPvnddyLc0R3xT3qrsGyMpgvsDeNksHGQ1Ki8xU+HypZBCz5
-	wpKGYS3Bjd2Sq1QWleZvRLnB5ea8sH9uDvont5ZPp5NJ9DZZRnVLC83SL3WC1ttVxWLPS+dI4eX
-	lPpUUVjYG5D6wt5ZfHXusUkyzK/WdfpsbWkG+5l4C/N0idoALX/t9IrZAhwbGr3eoc++So1MoWe
-	0ZvoJJSzqTku7/VhzEp1hNWgL6DX+9l5lwzQJaicZpSksZnWY=
-X-Received: by 2002:a05:6a00:1c90:b0:845:c0db:3924 with SMTP id d2e1a72fcca58-84826bbfdf7mr3074399b3a.24.1783401067431;
-        Mon, 06 Jul 2026 22:11:07 -0700 (PDT)
+        bh=Sq5Iddla3Hd0Zh5qEYq/9fp7CsXU6/7TUOr0ybGJuLs=;
+        b=D+xDtiUEO/zGlfBqxm8/K8OKajAt+i0NHPV/FV3/NPU/PCz+JMndB6+du6WVjPujyj
+         7gf5loesMQD5OYEBlFrs9ey1WYQCjPLBhajmtOvkSZXXvfWIR3kRdWHbcneECre4QaOU
+         /AzaejdKAkXcJJ3bn8+gFS/huTHWJwxPN16sQ1GuVpBMDqQjrl0HPlSkACJXU4UCKpC2
+         g8B8K1Rf7RO2MRIKuKzfuPatw/Lle3Wyy0adPS1MAXJxp7GVrvulixUngrMk/KHlKauV
+         vD7NvhE3HuNx32qrgClJ/7SpIhZiBN1VAfZ9j+B/+f+zJzYIjfYVZcRrVAIqjOzcce2Z
+         KTKg==
+X-Forwarded-Encrypted: i=1; AHgh+RqMQoB/LltDq/IO005m6iwhbC5mBskPh4GjHTJoxPGJm4uPvDGiHAAcE5/zGSCCTZwpU1Mp0A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxRnb6Wpk1AJsdH5n2YCCodeUYoXFkpVs066BavIXbxbPCCO8j6
+	KnZo7aNdmUxQkQIaFZlqwD1Zd94kTkq+QQ/cLwEfnxp2WlUMTNYzB9bs
+X-Gm-Gg: AfdE7cmRWuKxe6IJJ08SWE7SgqpqpKJAvI3D9318TuhZ36TJ2U/F0M9o1Ex5br0C91S
+	PJGtT4+4llmR0XlX2oDkSnS2sGYfu0ht7Z0JgnB1q6ADqKhxOUr6bT4ToujufA/BX6LS8hDi/Et
+	gY6UquTqTiH77Vuzt4UI3YcnqssO+TE2rYmOGK62Fzyms714HP7962uO8EvtoySN/dZ9b6nHjvQ
+	8z7SLnhOn+pK9RVrtAUhkZp3JANdHCSWplbtgQDW7nDjezk1k10e6tzKScLmTIXG9FDp7yOaPuL
+	g/AtBQxlrMdT6V557UpZA81bAtkcvW6+m84HlDBJCRBernzx1Drf9VSmJRZn+5u9odEh2gaA46i
+	6SIp7NH5vKXEiEtVEKY8DQ8ZpZMarHec2C2uc+W5GDwLYs05vD8PKCnfDeMKhcrFrZjzeYTPBJE
+	OCA+TB2vcZS43NvO0heTdyh9xYtLaO3SgZThoyYZskHMM3kag=
+X-Received: by 2002:a05:6a00:3a07:b0:847:9268:d73f with SMTP id d2e1a72fcca58-84826c1e243mr3462917b3a.9.1783401075794;
+        Mon, 06 Jul 2026 22:11:15 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.11.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.11.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 22:11:07 -0700 (PDT)
+        Mon, 06 Jul 2026 22:11:15 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	asahi@lists.linux.dev,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 04/24] ASoC: codecs: arizona: Use guard() for mutex locks
-Date: Tue,  7 Jul 2026 12:09:46 +0700
-Message-ID: <20260707051006.20058-5-phucduc.bui@gmail.com>
+Subject: [PATCH v3 05/24] ASoC: codecs: aw87390: Use guard() for mutex locks
+Date: Tue,  7 Jul 2026 12:09:47 +0700
+Message-ID: <20260707051006.20058-6-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260707051006.20058-1-phucduc.bui@gmail.com>
 References: <20260707051006.20058-1-phucduc.bui@gmail.com>
@@ -114,98 +114,61 @@ Clean up the code using guard() for mutex locks.
 Merely code refactoring, and no behavior change.
 
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/arizona.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+ sound/soc/codecs/aw87390.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/codecs/arizona.c b/sound/soc/codecs/arizona.c
-index 8c683b0bb74c..4411165c3734 100644
---- a/sound/soc/codecs/arizona.c
-+++ b/sound/soc/codecs/arizona.c
+diff --git a/sound/soc/codecs/aw87390.c b/sound/soc/codecs/aw87390.c
+index 020213e0ca4b..8150670fde2d 100644
+--- a/sound/soc/codecs/aw87390.c
++++ b/sound/soc/codecs/aw87390.c
 @@ -7,6 +7,7 @@
-  * Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
-  */
+ // Author: Weidong Wang <wangweidong.a@awinic.com>
+ //
  
 +#include <linux/cleanup.h>
- #include <linux/delay.h>
- #include <linux/gcd.h>
- #include <linux/module.h>
-@@ -1158,17 +1159,16 @@ int arizona_dvfs_up(struct snd_soc_component *component, unsigned int flags)
- 	struct arizona_priv *priv = snd_soc_component_get_drvdata(component);
- 	int ret = 0;
+ #include <linux/i2c.h>
+ #include <linux/firmware.h>
+ #include <linux/regmap.h>
+@@ -225,11 +226,10 @@ static int aw87390_profile_set(struct snd_kcontrol *kcontrol,
+ 	struct aw87390 *aw87390 = snd_soc_component_get_drvdata(codec);
+ 	int ret;
  
--	mutex_lock(&priv->dvfs_lock);
-+	guard(mutex)(&priv->dvfs_lock);
- 
- 	if (!priv->dvfs_cached && !priv->dvfs_reqs) {
- 		ret = arizona_dvfs_enable(component);
- 		if (ret)
--			goto err;
-+			return ret;
+-	mutex_lock(&aw87390->lock);
++	guard(mutex)(&aw87390->lock);
+ 	ret = aw87390_dev_set_profile_index(aw87390->aw_pa, ucontrol->value.integer.value[0]);
+ 	if (ret) {
+ 		dev_dbg(codec->dev, "profile index does not change\n");
+-		mutex_unlock(&aw87390->lock);
+ 		return 0;
  	}
  
- 	priv->dvfs_reqs |= flags;
--err:
--	mutex_unlock(&priv->dvfs_lock);
-+
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(arizona_dvfs_up);
-@@ -1179,7 +1179,7 @@ int arizona_dvfs_down(struct snd_soc_component *component, unsigned int flags)
- 	unsigned int old_reqs;
- 	int ret = 0;
- 
--	mutex_lock(&priv->dvfs_lock);
-+	guard(mutex)(&priv->dvfs_lock);
- 
- 	old_reqs = priv->dvfs_reqs;
- 	priv->dvfs_reqs &= ~flags;
-@@ -1187,7 +1187,6 @@ int arizona_dvfs_down(struct snd_soc_component *component, unsigned int flags)
- 	if (!priv->dvfs_cached && old_reqs && !priv->dvfs_reqs)
- 		ret = arizona_dvfs_disable(component);
- 
--	mutex_unlock(&priv->dvfs_lock);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(arizona_dvfs_down);
-@@ -1199,7 +1198,7 @@ int arizona_dvfs_sysclk_ev(struct snd_soc_dapm_widget *w,
- 	struct arizona_priv *priv = snd_soc_component_get_drvdata(component);
- 	int ret = 0;
- 
--	mutex_lock(&priv->dvfs_lock);
-+	guard(mutex)(&priv->dvfs_lock);
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_POST_PMU:
-@@ -1222,7 +1221,6 @@ int arizona_dvfs_sysclk_ev(struct snd_soc_dapm_widget *w,
- 		break;
+@@ -238,8 +238,6 @@ static int aw87390_profile_set(struct snd_kcontrol *kcontrol,
+ 		aw87390_power_on(aw87390->aw_pa);
  	}
  
--	mutex_unlock(&priv->dvfs_lock);
+-	mutex_unlock(&aw87390->lock);
+-
+ 	return 1;
+ }
+ 
+@@ -280,14 +278,12 @@ static int aw87390_request_firmware_file(struct aw87390 *aw87390)
+ 		return ret;
+ 	}
+ 
+-	mutex_lock(&aw87390->lock);
++	guard(mutex)(&aw87390->lock);
+ 
+ 	ret = aw88395_dev_cfg_load(aw87390->aw_pa, aw87390->aw_cfg);
+ 	if (ret)
+ 		dev_err(aw87390->aw_pa->dev, "aw_dev acf parse failed\n");
+ 
+-	mutex_unlock(&aw87390->lock);
+-
  	return ret;
  }
- EXPORT_SYMBOL_GPL(arizona_dvfs_sysclk_ev);
-@@ -1657,13 +1655,11 @@ static void arizona_wm5102_set_dac_comp(struct snd_soc_component *component,
- 		{ 0x80, 0x0 },
- 	};
  
--	mutex_lock(&arizona->dac_comp_lock);
--
--	dac_comp[1].def = arizona->dac_comp_coeff;
--	if (rate >= 176400)
--		dac_comp[2].def = arizona->dac_comp_enabled;
--
--	mutex_unlock(&arizona->dac_comp_lock);
-+	scoped_guard(mutex, &arizona->dac_comp_lock) {
-+		dac_comp[1].def = arizona->dac_comp_coeff;
-+		if (rate >= 176400)
-+			dac_comp[2].def = arizona->dac_comp_enabled;
-+	}
- 
- 	regmap_multi_reg_write(arizona->regmap,
- 			       dac_comp,
 -- 
 2.43.0
 
