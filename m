@@ -1,121 +1,176 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144B241DEC9
-	for <asahi@lists.linux.dev>; Tue,  7 Jul 2026 13:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783431758; cv=pass; b=GDdvUvREwpCQnToYwTN95fGf34cSRVSsJ82gIii56AYQQrhIs1r/qnny5dVZVrszWkOU7PCYR1yJVo4GM5mGQMnUE9LfogCXo9zYgIy/xjvTGwLYJpRt8BfmEkD0OvM/E+bofmq2NdHzVwOjkkkrYu/+mu6/2cTfCXf9MbHRGJA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783431758; c=relaxed/simple;
-	bh=E1zAPP9belnBMx2I7CyLtNbspD4kzIfqj0U5PW0gNQ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gglAtPG9mL+X+0CXeP92NUlUZFg6JvXWfdNLt2vWoDd4kxeszANslTQKLi5rdTXAA9ztG6vDl8BgaKF+ee70sF8203MruSW3mfeRP1SH1EQYa3mMZYC6BqWZdNlAubEZiP91bRI8kfsHN4wzZt7q60/jhagIVVtKV40w4r2L9tA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sK+wk/Rt; arc=pass smtp.client-ip=74.125.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DE3422543;
+	Tue,  7 Jul 2026 13:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783432723; cv=none; b=Q3n75dwKTUpGJQJ46bCTVohveoQ54Sqq7QIm6726GsFcVA5bO7MZUgAKo0t123W34q9SsR3RstqkE85Thby1zu9PekYz+qfso+autKg8t3wDh+RSlSTqRniKPVlZfw/NPT+JRK+lveQI37WB/flDP5dMLydd+WA3w8hDORimXy8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783432723; c=relaxed/simple;
+	bh=wG1CI6m/OcslDzCF/fiO2NDeZxfQ0urmKXaqy2O+Q5Q=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AX1BT91jAWatIwYaqTtnzG6h7V83qKFoHygdqmpdgmxV4Spx01gY58KeyE6qSwM4gXlS5yEciqGbAbVVoAlvEoL9L4rgpolDH2AFHRunzE/6Cpb8E63MvwdF+NMdiFy8K9DFGffpouAcGVQu7hwh1RkVMeaJtOKbkEvWTNYFp/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XVcT43nV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sK+wk/Rt"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-66780d9d901so1729858d50.0
-        for <asahi@lists.linux.dev>; Tue, 07 Jul 2026 06:42:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783431756; cv=none;
-        d=google.com; s=arc-20260327;
-        b=slFkiXemeLpYXrRTolgeBCDgUDKCJWSO5jMpOf+UyQv08rRP4V/2yrDSbLhYM1qf/W
-         xlm4ki+FuTjRpTl5zp/x0EN38FfZiguuZuQgqqksnjh5yPG9kieQqRjvAFub0dWfrCnw
-         w+HxhHuu2Vl+rmplICxvwffiFl0mbyj+wObe9T2ua3AzjUmSto/p8Fbx4G4id9BzlMgs
-         DYeRxeUGFrbumqKf68x3dQmcMNTjRq29790ptk94+wRj/+VKFXjDN2rBxrJDGj1aHpfg
-         jF5FhLNb2ceFmvoxG3KYPIB0WEsrIAVxQYPilaq+vYWDhWnLQDcPxJmpOd+qAWFsJnzw
-         QjTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1TwL3+aqF7dc4/lpQ2JLA2uoetuIwHkPHzHxzge8914=;
-        fh=Xq11gT/4exsOCyeP+xwtAZ66PLyPOUIRnXKxmnGTI3w=;
-        b=QYCJiamJmwN2RQCxRXP9ysgkBzs02PM4hAe/hA9USBDtml93HdqBjUQ7i+eIOK5VIl
-         rtzNbTKFAM5n+A0i++iAjE/RxywI3LDsyisTPciPnX1XxKwCfTrzQJEH/3FPYH82VwWh
-         sboYoA0TVhJAc9kZanAgqvLoiJT5kcadAv6wylgDsOHT20rsagtJ1KTX4wtmQwDfh7lf
-         Vlzkiv+ut/lkYN3r3E8qGFeGVu6NRFYKV9CoM9NWPCjpHfUvNaubI/FuaqzsnA6sTzUz
-         KB9QvxX5DLUngEOjjdUfgzaE9w2twqeHyQCw9sm2XBHntWUBlccBoEB2vxewa51hCruK
-         xlUQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783431756; x=1784036556; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1TwL3+aqF7dc4/lpQ2JLA2uoetuIwHkPHzHxzge8914=;
-        b=sK+wk/RtjNiew4pAMd3CCsIMI+SupolyavmcMvY9so4B9j75Ed9iaCf6p6F1x2zolt
-         8zrejjT6Ikvv/kO84bgUUewprApbk/M6oVctqD7xMOmD/TG97FQnK5zwwUw82nfKm+1o
-         Vv9ZQQgl7vzkR/T3UyuHL//4IYqIcm9CXUUV3t4urtb1Xbty52l8EW9WZFOrSOSkfCrR
-         Q/s1okBVqoW71f6veYga3w9ao3qkhslECd2ocZipqSIJdhJDilh/Us+yxA2TwF9R4DnY
-         1unX+bLkQZve059MlY3yXbfZ45lv3ZQszDZj9daxJ+tt9EoCR+bHdOdBnNTtp8W7VVPU
-         vkAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783431756; x=1784036556;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1TwL3+aqF7dc4/lpQ2JLA2uoetuIwHkPHzHxzge8914=;
-        b=GoABo1/hdO7nCn6pBdLcphliq3EBoIu+kqpr5JXxhFiiljx1x7KMDsFIIPR3zIvuLp
-         U5/tnTlPuxlP4axjY4jaFIVzQUKs8vC22MXJcCPooFFZdJkJtQyolbywQ7fLeJR4iTe2
-         hNYf/2Ftp17fwl9rpJwlyUcFSzB+WfDhFp51mWY8A8wfqrdva+Pk34CDhTd678ooRZVp
-         hL1w3SDhE6c9HC55eAlPoCi/I4mwQQVz6c2mRgtrciEXkH4258fkOaq85dF3CD9P/xUd
-         FKe4axfg8Q4ccpmO6T3Xw4vyIgr6KkGWErmtxS8XQZFmWch9sp25z8/DlbOgMmkYkh48
-         rncA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro0MORoUzrBRObNtlqaWYgBFlTj+RjdpDTW2P3XPxo8lYqagJ693vXxSmqfD50wLTd0tkcHqw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcpFkMaOqlKzdITp2am6dxSZFduNmfCigxZ1RLM+suFTYZV737
-	/y8VMewV13nZ7WHe28ZZ+/oMOj7MR5zirSo1UW6BGA6eNL0lirO/5pbOLDNMT4DBnXxD6AJ3tuM
-	62B2UJWDTrQSbKQVBQMsQal1He0dA168=
-X-Gm-Gg: AfdE7cnGmHcuzcIjMNRVuWe+/R1POxhA0Xw8AEcI1YGWVD9NQPmrGzROGKF0L+hAJBj
-	yWnJ6lV19Odugm0Y5xIWbaJXfxobM/l5Sr/ZM32aQpxPku9LXeIoDvNCgMiPjzcB76W/+gsU6Hd
-	QXa4T3qVDD3TY7kTkMWzTBdpI7KfFLqyE+W9eSGEeECj0yU5o/gJK+a5Yi2Tqv6wRd6vbFCYkhB
-	SORWFgxi8K52ofXzgQZdP25cxfE3K/jZeOsnnLi8y+Kxd1RcNrjwguUWldOsWmNEA0qOggN35Uq
-	8BxCHj+8hK9Ac7o/2QYoWv18zHOFVo81+I6qSxrYlPbAPhCzkZsH9u2SgCb5VGOOu9h+rRs3
-X-Received: by 2002:a05:690e:488c:20b0:664:d231:2f73 with SMTP id
- 956f58d0204a3-6677fbd4331mr2922458d50.50.1783431755730; Tue, 07 Jul 2026
- 06:42:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XVcT43nV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62B861F000E9;
+	Tue,  7 Jul 2026 13:58:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783432722;
+	bh=CJcM49RM2FlBZTuuqbu3ibPxbKkT8R770pCrHBILAwQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=XVcT43nVa9ADCQj7yGrCAhL2dagLOQb2tTPXVoiGP6OCfLnIXHqI4t75wsxUuaYFV
+	 LQwxhgAymxZZLG1yjbzE8tpvbtLJxkaoetuqFb5ak/JGdiuLhZrPFGVz45TFHLEqC2
+	 esJWvK9f4YXU+3FKiIeaWCh5jS0AsbdRVG8mhFakl9Q/EeS3eriaQCawOFbZttOhE3
+	 U+3YcIit+kC6CvdwWj2gArxUnwHyolTyVX9vDZtbH96HzbPQ5/JnOTvzFmQ7tseRix
+	 oYqJnBwCfZkv0kP0Vqix1eS3U1aUOR2ZJs/g3PnzE/sTeem+kJVnXj1MnzPYEcL1yT
+	 s6+mhJLUq2BeQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wh6Js-00000002R7k-1z9a;
+	Tue, 07 Jul 2026 13:58:40 +0000
+Date: Tue, 07 Jul 2026 14:58:39 +0100
+Message-ID: <865x2qq4ts.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>,	Krzysztof =?UTF-8?B?V2ls?=
+ =?UTF-8?B?Y3p5xYRza2k=?= <kwilczynski@kernel.org>,	Manivannan Sadhasivam
+ <mani@kernel.org>,	Rob Herring <robh@kernel.org>,	Bjorn Helgaas
+ <bhelgaas@google.com>,	Sven Peter <sven@kernel.org>,	Janne Grunau
+ <j@jannau.net>,	Neal Gompa <neal@gompa.dev>,	Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,	Conor Dooley <conor+dt@kernel.org>,
+	linux-pci@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] PCI: apple: Integrate pwrctrl API
+In-Reply-To: <8a80a170-a508-4a9e-8090-27cfcedb1cd4@cyberchaos.dev>
+References: <20260707-apple-pcie-pwren-v1-0-5a281b182fe2@cyberchaos.dev>
+	<20260707-apple-pcie-pwren-v1-1-5a281b182fe2@cyberchaos.dev>
+	<86a4s3p2vy.wl-maz@kernel.org>
+	<8a80a170-a508-4a9e-8090-27cfcedb1cd4@cyberchaos.dev>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260630-apple-mtp-keyboard-final-v1-0-506d936a1707@gmail.com>
- <20260630-apple-mtp-keyboard-final-v1-5-506d936a1707@gmail.com> <e23e4581-7eee-4f4e-aa82-6b6bb6177678@cyberchaos.dev>
-In-Reply-To: <e23e4581-7eee-4f4e-aa82-6b6bb6177678@cyberchaos.dev>
-From: Michael Reeves <michael.reeves077@gmail.com>
-Date: Tue, 7 Jul 2026 23:42:24 +1000
-X-Gm-Features: AVVi8Cepx_g_efgo_16NLDYw5eSOtcfEnI_otyB3OoPCUn9_yzRFa4EgaystrR0
-Message-ID: <CANpmGNtnZo20nPyM4qB7Jcty=bRFsxsDWnAOk9Md6Y+Rd9n7ZA@mail.gmail.com>
-Subject: Re: [PATCH 05/10] mailbox: apple: Add DockChannel FIFO controller
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: yureka@cyberchaos.dev, lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org, robh@kernel.org, bhelgaas@google.com, sven@kernel.org, j@jannau.net, neal@gompa.dev, krzk+dt@kernel.org, conor+dt@kernel.org, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Sun, Jul 5, 2026 at 6:14=E2=80=AFAM Yureka Lilian <yureka@cyberchaos.dev=
-> wrote:
-[...]
-> > +             while (block) {
-> > +                     writeb_relaxed(*p++, dc->data_base + DATA_TX8);
->
-> This must be writel_relaxed, as writeb_relaxed in this mmio region will
-> cause an SError. This is why we have separate addresses putting 8-bits
-> and 32-bits into the FIFO I guess.
-Ah, thanks for the pickup. Sorry for the silly typo from me, must have miss=
-ed
-it because all the HID writes are 4-byte aligned. Will correct in v2
-which I should
-be able to send out by the weekend unless I get busy.
+On Tue, 07 Jul 2026 13:04:21 +0100,
+Yureka Lilian <yureka@cyberchaos.dev> wrote:
+> 
+> On 7/7/26 11:25, Marc Zyngier wrote:
+> > On Mon, 06 Jul 2026 23:38:27 +0100,
+> > Yureka Lilian <yureka@cyberchaos.dev> wrote:
+> >> Integrate the PCI pwrctrl framework into the Apple PCIe host driver to
+> >> provide standardized power management for PCI devices.
+> >> 
+> >> Notably, this allows enabling powering on the WiFi, SD card reader on
+> >> various Macs by means of the pwrctrl framework before probing the ports.
+> >> 
+> >> Previously, a custom solution for powering on the WiFi and SD card
+> >> reader was proposed[1], but we can now use the new pci-pwrctrl-generic
+> >> driver for this purpose.
+> >> 
+> >> Link[1]: https://lore.kernel.org/lkml/20220502093832.32778-4-marcan@marcan.st/
+> >> 
+> > nit: this paragraph and the accompanying link don't belong in the
+> > commit message and should be moved below the --- mark or even better,
+> > to the cover letter.
+> ack, will leave it out of the commit message of the individual commit in v2
+> >> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> >> ---
+> >>   drivers/pci/controller/Kconfig      |  1 +
+> >>   drivers/pci/controller/pcie-apple.c | 16 ++++++++++++++++
+> >>   2 files changed, 17 insertions(+)
+> >> 
+> >> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+> >> index 2247709ef6d6..af64630d28fa 100644
+> >> --- a/drivers/pci/controller/Kconfig
+> >> +++ b/drivers/pci/controller/Kconfig
+> >> @@ -46,6 +46,7 @@ config PCIE_APPLE
+> >>   	depends on OF
+> >>   	depends on PCI_MSI
+> >>   	select PCI_HOST_COMMON
+> >> +	select PCI_PWRCTRL_GENERIC
+> >>   	select IRQ_MSI_LIB
+> >>   	help
+> >>   	  Say Y here if you want to enable PCIe controller support on Apple
+> >> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+> >> index c2cffc0659f4..db038a9d4831 100644
+> >> --- a/drivers/pci/controller/pcie-apple.c
+> >> +++ b/drivers/pci/controller/pcie-apple.c
+> >> @@ -30,6 +30,7 @@
+> >>   #include <linux/msi.h>
+> >>   #include <linux/of_irq.h>
+> >>   #include <linux/pci-ecam.h>
+> >> +#include <linux/pci-pwrctrl.h>
+> >>     #include "pci-host-common.h"
+> >>   @@ -825,6 +826,21 @@ static int apple_pcie_init(struct
+> >> pci_config_window *cfg)
+> >>   	if (WARN_ON(!pcie))
+> >>   		return -ENOENT;
+> >>   +	ret = pci_pwrctrl_create_devices(pcie->dev);
+> >> +	if (ret) {
+> >> +		dev_err(pcie->dev, "Failed to create pwrctrl devices: %pe\n", ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	ret = pci_pwrctrl_power_on_devices(pcie->dev);
+> >> +	if (ret) {
+> >> +		if (ret != -EPROBE_DEFER) {
+> >> +			dev_err(pcie->dev, "Failed to power on devices: %pe\n", ret);
+> >> +			pci_pwrctrl_destroy_devices(pcie->dev);
+> >> +		}
+> >> +		return ret;
+> >> +	}
+> >> +
+> > Why is this done globally while the whole driver works on a per-port
+> > basis, and that the proposed DT updates are also per port?
+> 
+> pci_pwrctrl_power_on_devices takes a struct device as parameter, but
+> pcie-apple does not allocate device structs for the individual ports.
+> This could be changed of course. But since pci_pwrctrl_* operate on
+> the subnodes recursively, it works just fine this way.
 
-Thanks again,
-Michael
+Works fine is one thing. Being consistent with the way the rest of the
+driver works is another. pci_pwrctrl_create_device() and
+pci_pwrctrl_power_on_device() appear to do exactly what would be
+required for a single port. They just needs to be exported made
+global/exported.
+
+> Additionally, we would like to be sure all the endpoints can be powered
+> before we start initializing the individual ports. Otherwise we could
+> end up in a situation where some ports are initialized but others are
+> not when we realize some driver needed to power on the endpoints for
+> port n is not yet bound.
+
+How can a driver be bound to a device connected to a port if we
+haven't been through the initial link-up dance, which is what
+apple_pcie_setup_port() does? The power supplies are per-port for a
+reason.
+
+> There is no appropriate pci_pwrctrl API for checking for the
+> availability without changing the state, so this is an additional
+> reason to do it early.
+
+Availability of what? To be clear, I'm not suggesting delaying
+switching of the power. I'm merely suggesting managing it on a per
+port basis.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
