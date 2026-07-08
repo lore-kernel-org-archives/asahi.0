@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C833F58D1;
-	Wed,  8 Jul 2026 07:16:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02633F6C26;
+	Wed,  8 Jul 2026 07:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783494962; cv=none; b=V8Py6nEzB+iflG9fHFN4qOAwzYCTQlEPPSRFlzkKV69AFly03ORubI6yByQjooNsviyam355u5mof6SDCOe8NVd44kGfapwlqkFtchdi8AEBGmy34UBSw+MnVgq57TFxbvzxDTpN9Eh2AksI6XAcBCR9RqWIG+pIpKMDx3mG/pg=
+	t=1783494962; cv=none; b=Fhl1l4VxpWF3jZLKND8c+bmcVtXCz6cw8jngSPCfs8bL1wsVvgGE0CG8cfmvnt8cwyzpmNKCUA8Na9U3KqL0n1rNO9UVpEQTdf7BJw5vB6zBOYos3YJLBjdZ84ClsdWeqXGtc4oBJSDWbXUS/yg7q8oClHnZFI3PXci7mr6cf6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783494962; c=relaxed/simple;
-	bh=nOsULZjZbVA2mBgEIT5SVodSejvaPfgFr2B4sY5qQhk=;
+	bh=Inmjc7fy2KHCPtWNbqaEGcDOCoTWrKNk24udNuAiX/Q=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=O7lzBcT5XIxlKDhcOo/+Mwjtm9eLnvDWFLTU2WE6e4ugHMxxHT06Ly2aQwRx3P+IYjDz+GylxvJZVxfiMVpyGTBkt+gfmXfWGmm3/gwVD4kUWpfnmD1cQ6fpa832LVWzPSipQkHxgM2Ku1etXosZHo865iAK/OV+mXz4NgtjjeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OhI42u4/; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=k8bFLlgiu+hYNhru631npiD0NsybvBd0t0VUz4L/+iDrpct0gY7HjkRlH2fEQKSqUDZmORtvq7Z/yzngyibd+TEg1nutAZYFhBw3KkBDMZuSDwdlJ9mIu+NE3WCzEeJJI0RmTKs6dUSCzMFZPZi1AYlAAWkXIN7/CxprbrTFSPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cUXRdBJD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OhI42u4/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B6B9FC2BCB9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cUXRdBJD"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D83AAC2BD00;
 	Wed,  8 Jul 2026 07:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1783494960;
-	bh=nOsULZjZbVA2mBgEIT5SVodSejvaPfgFr2B4sY5qQhk=;
+	bh=Inmjc7fy2KHCPtWNbqaEGcDOCoTWrKNk24udNuAiX/Q=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=OhI42u4/TFum2sWXzVkF/vWkXx6bIAPWt6CE28NafJBV6KOoVuNu8iVtcxlwR/Bhk
-	 YIe3u6JaupzEBysjKDepBFKFSQjgrFNgw0UGUUavyfo/RkycNYcJfkeLJ1xExZjckD
-	 nXSV4i/BwjIPoAECHK3TupPci94BiAcgqi81Dm4JRIbNjkPcw7sSNS5vlweaywadmk
-	 6xbWk7i8An2o37wyKWOTIA/ExpEDvK02GNLc6n7A3wA6KjYOJnQm7+J8v7pkMNgL3s
-	 U0FQKIVdpw2+Hle7nHVUshXhtL1allqce/+o4g06kurZS/cc9TjUBtohRX8zU8TS3k
-	 l4VnM/YW/1OOg==
+	b=cUXRdBJDI0E/Xw2KvOlJn6fUGNMuJCUeq+AGhCs64w5A2fjSeelXSGeh9vK4qbS8Y
+	 5bMuFOFH9IcXkDYjTWvMOvFPUaVSpMQfAFtKTl4dittqQO3tQeCZLWcB2PENb90bpe
+	 P6t3+me4dtrkb6DkEZCcZY889nqoYBDOpgwIEdX3heC2jvava5SWZh24siX+kRO2rI
+	 22Pv24C18XVq+5ifp7zKeZ5n7NQJn3cO10ibAUpEDOk0T6oht7wzlhKiy9MB1faFU8
+	 kE27B0BYcFmAiDUjIiMGVJMSvjgwzxFl9RL2iTukV4g4C9c7DB3rNN6TeEqdsglFe7
+	 n6z95XxnP5b6Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96921C44501;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6F06C43458;
 	Wed,  8 Jul 2026 07:16:00 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Wed, 08 Jul 2026 09:15:38 +0200
-Subject: [PATCH RFC 2/6] arm64/efi: Add and parse custom PSCI EFI
- configuration table
+Date: Wed, 08 Jul 2026 09:15:41 +0200
+Subject: [PATCH RFC 5/6] firmware/psci: Add EFI runtime conduit
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260708-efi-psci-v1-2-9efb3abf0e4c@kernel.org>
+Message-Id: <20260708-efi-psci-v1-5-9efb3abf0e4c@kernel.org>
 References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
 In-Reply-To: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
 To: Mark Rutland <mark.rutland@arm.com>, 
@@ -56,219 +55,152 @@ Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
  asahi@lists.linux.dev, Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7959; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4276; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=nOsULZjZbVA2mBgEIT5SVodSejvaPfgFr2B4sY5qQhk=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ5bvT81ftSelW0tlt+9u/prB9fhjnU7c6592857xrLrre
- aH6mzhbRykLgxgXg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAiXNcZGY78DCqeec827IFI
- 7cEDs+TTvJk/+faVJYTF/N0ast66+TfDP+PtS4Kj53aul5lep3Zot9D0hLsmwXN2n9/E2y96VdW
- okg8A
+ bh=Inmjc7fy2KHCPtWNbqaEGcDOCoTWrKNk24udNuAiX/Q=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ5bvT23luh6jNRmec1i/zfwgLh37Z3XochFpTrvb7ybPi
+ f/qH7Ggo5SFQYyLQVZMkWX7fnvTJw/fCC7ddOk9zBxWJpAhDFycAjARbx+G/5UnObc9rFeO2jJR
+ LuD0u3VzzCY1Of3eHFblG+C9UbP0wk1Ghna5/cuSDr+zmtEQMcVq4jaHp98DlQXLDh5mrt+22+Y
+ TLzsA
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-On Apple Silicon, the kernel runs in the highest privilege level (EL2)
-leaving no higher level to trap into for PSCI firmware calls. Instead,
-we keep the firmware in the same level and expose it as an EFI runtime
-service. Add a new custom EFI configuraiton table and extract the
-pointer to the PSCI handler from it such that it can later be used by
-the PSCI code.
+Apple Silicon machines run the kernel at the highest available exception
+level, leaving no higher level to trap into for PSCI firmware calls. The
+firmware implementing PSCI therefore shares that level with the kernel and
+is exposed as an EFI runtime service instead of being reached through an
+SMC or HVC trap.
 
-The handler is invoked as a plain call under the EFI virtual mapping rather
-than through the EFI runtime services dispatch path, so the usual runtime
-call environment is not set up around it. This relies on two guarantees
-from the firmware: the handler must not use FP/SIMD or any other
-lazily-saved CPU state, so the caller can skip saving and restoring it,
-and it must be reentrant and independent of the other EFI runtime
-services, so it can be invoked from the cpuidle and secondary CPU
-bring-up paths which cannot take the sleeping efi_runtime_lock.
+Add a new "efi" conduit that routes PSCI calls to the handler extracted
+from the custom EFI configuration table.
+
+PSCI_VERSION, MIGRATE_INFO_TYPE and PSCI_FEATURES are queried during early
+CPU bring-up before EFI runtime services are available and have to be
+answered directly from the firmware-provided table.
 
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- arch/arm64/include/asm/efi.h | 56 ++++++++++++++++++++++++++++++++++++++++++
- arch/arm64/kernel/efi.c      | 58 ++++++++++++++++++++++++++++++++++++++++++++
- arch/arm64/kernel/setup.c    |  2 +-
- include/linux/efi.h          |  1 +
- 4 files changed, 116 insertions(+), 1 deletion(-)
+ drivers/firmware/psci/psci.c | 64 ++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/arm-smccc.h    |  1 +
+ 2 files changed, 65 insertions(+)
 
-diff --git a/arch/arm64/include/asm/efi.h b/arch/arm64/include/asm/efi.h
-index e8a9783235cb..bc7cf4dd00ae 100644
---- a/arch/arm64/include/asm/efi.h
-+++ b/arch/arm64/include/asm/efi.h
-@@ -14,10 +14,12 @@
+diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
+index e73bae6cb23a..af022bf2cb9f 100644
+--- a/drivers/firmware/psci/psci.c
++++ b/drivers/firmware/psci/psci.c
+@@ -10,6 +10,7 @@
+ #include <linux/arm-smccc.h>
+ #include <linux/cpuidle.h>
+ #include <linux/debugfs.h>
++#include <linux/efi.h>
+ #include <linux/errno.h>
+ #include <linux/linkage.h>
+ #include <linux/of.h>
+@@ -24,6 +25,7 @@
  
- #ifdef CONFIG_EFI
- extern void efi_init(void);
-+extern void arm64_efi_init(void);
+ #include <asm/cpuidle.h>
+ #include <asm/cputype.h>
++#include <asm/efi.h>
+ #include <asm/hypervisor.h>
+ #include <asm/system_misc.h>
+ #include <asm/smp_plat.h>
+@@ -131,6 +133,63 @@ __invoke_psci_fn_smc(unsigned long function_id,
+ 	return res.a0;
+ }
  
- bool efi_runtime_fixup_exception(struct pt_regs *regs, const char *msg);
- #else
- #define efi_init()
-+#define arm64_efi_init()
- 
- static inline
- bool efi_runtime_fixup_exception(struct pt_regs *regs, const char *msg)
-@@ -151,4 +153,58 @@ efi_status_t efi_handle_corrupted_x18(efi_status_t s, const char *f);
- 
- void efi_icache_sync(unsigned long start, unsigned long end);
- 
-+/*
-+ * PSCI handler exposed by the firmware through
-+ * LINUX_EFI_ARM_PSCI_HANDLER_TABLE_GUID.
-+ *
-+ * Unlike the regular EFI runtime services, this handler is invoked as a plain
-+ * call under the EFI virtual mapping and not through the runtime services
-+ * dispatch path. The OS therefore does not set up the usual runtime call
-+ * environment around it, which imposes two requirements on the firmware:
-+ *
-+ *  - The handler must not corrupt FP/SIMD/SVE or any other lazily-saved CPU
-+ *    state.
-+ *
-+ *  - The handler must be reentrant and independent of the other EFI runtime
-+ *    services. It is only guaranteed to run with interrupts disabled on the
-+ *    core it is called.
-+ */
-+typedef unsigned long efi_psci_handler_t(unsigned long function_id,
-+					 unsigned long arg0,
-+					 unsigned long arg1,
-+					 unsigned long arg2);
-+
-+#define EFI_PSCI_MAX_FN 0x20
-+
-+/**
-+ * struct efi_psci_table - firmware-provided PSCI conduit table
-+ * @version:      PSCI version implemented by the firmware, in the format
-+ *                returned by PSCI_VERSION (major in bits 16-30, minor in
-+ *                bits 0-15).
-+ * @num_features: Number of valid entries in @features. Function numbers at
-+ *                or above this value are treated as not supported. Guaranteed
-+ *                to be at least 0x20.
-+ * @psci_handler: Firmware entry point invoked for PSCI calls that are not
-+ *                served from the cached fields above. Called via
-+ *                arm64_efi_psci_call() with the EFI runtime mapping active.
-+ * @features:     PSCI_FEATURES results indexed by PSCI function number (the
-+ *                low byte of the function ID, which is identical for the
-+ *                SMC32 and SMC64 variants).
-+ *
-+ * Populated at boot from the firmware's PSCI handler configuration table
-+ * (LINUX_EFI_ARM_PSCI_HANDLER_TABLE_GUID). @version, @num_features and
-+ * @features cache the answers to the PSCI calls that must be serviced before
-+ * EFI runtime services can be invoked. All other calls are forwarded to
-+ * @psci_handler using arm64_efi_psci_call().
-+ */
-+extern struct efi_psci_table {
-+	u32 version;
-+	u32 num_features;
-+	efi_psci_handler_t *psci_handler;
-+	s32 features[EFI_PSCI_MAX_FN];
-+} efi_psci;
-+
-+unsigned long arm64_efi_psci_call(unsigned long function_id, unsigned long arg0,
-+				  unsigned long arg1, unsigned long arg2);
-+
- #endif /* _ASM_EFI_H */
-diff --git a/arch/arm64/kernel/efi.c b/arch/arm64/kernel/efi.c
-index 30cd7f804398..e40885567f9e 100644
---- a/arch/arm64/kernel/efi.c
-+++ b/arch/arm64/kernel/efi.c
-@@ -18,6 +18,7 @@
- #include <asm/stacktrace.h>
- #include <asm/vmap_stack.h>
- 
-+
- static bool region_is_misaligned(const efi_memory_desc_t *md)
- {
- 	if (PAGE_SIZE == EFI_PAGE_SIZE)
-@@ -242,6 +243,63 @@ bool efi_runtime_fixup_exception(struct pt_regs *regs, const char *msg)
- /* EFI requires 8 KiB of stack space for runtime services */
- static_assert(THREAD_SIZE >= SZ_8K);
- 
-+struct efi_psci_table efi_psci __ro_after_init;
-+static unsigned long efi_psci_handler_table __initdata = EFI_INVALID_TABLE_ADDR;
-+const efi_config_table_type_t efi_arch_tables[] __initconst = {
-+	{LINUX_EFI_ARM_PSCI_HANDLER_TABLE_GUID, &efi_psci_handler_table},
-+	{}
-+};
-+
-+static void __init arm64_efi_init_psci(void)
++#if IS_ENABLED(CONFIG_EFI) && IS_ENABLED(CONFIG_ARM64)
++static bool efi_psci_fn_valid(unsigned long function_id)
 +{
-+	struct efi_psci_table *psci;
++	if (function_id >= PSCI_0_2_FN_BASE &&
++	    function_id <= PSCI_0_2_FN(EFI_PSCI_MAX_FN))
++		return true;
 +
-+	if (efi_psci_handler_table == EFI_INVALID_TABLE_ADDR)
-+		return;
++	if (function_id >= PSCI_0_2_FN64_BASE &&
++	    function_id <= PSCI_0_2_FN64(EFI_PSCI_MAX_FN))
++		return true;
 +
-+	psci = early_memremap_ro(efi_psci_handler_table, sizeof(*psci));
-+	if (psci == NULL) {
-+		pr_warn("Unable to map PSCI table.\n");
-+		return;
++	return false;
++}
++
++static unsigned long __invoke_psci_fn_efi(unsigned long function_id,
++					  unsigned long arg0,
++					  unsigned long arg1,
++					  unsigned long arg2)
++{
++	u32 fn;
++
++	/* These are called before EFI runtime services are available */
++	switch (function_id) {
++	case PSCI_0_2_FN_PSCI_VERSION:
++		return efi_psci.version;
++	case PSCI_0_2_FN_MIGRATE_INFO_TYPE:
++		return PSCI_0_2_TOS_MP;
++	case PSCI_1_0_FN_PSCI_FEATURES:
++		if (!efi_psci_fn_valid(arg0))
++			return PSCI_RET_NOT_SUPPORTED;
++		fn = arg0 & 0xff;
++		if (fn >= efi_psci.num_features || fn >= EFI_PSCI_MAX_FN)
++			return PSCI_RET_NOT_SUPPORTED;
++		return efi_psci.features[fn];
 +	}
 +
-+	memcpy(&efi_psci, psci, sizeof(*psci));
-+	early_memunmap(psci, sizeof(*psci));
-+}
++	if (!efi_psci_fn_valid(function_id))
++		return PSCI_RET_NOT_SUPPORTED;
 +
-+void __init arm64_efi_init(void)
++	if (WARN_ON_ONCE(!efi_psci.psci_handler))
++		return PSCI_RET_NOT_SUPPORTED;
++	if (WARN_ON_ONCE(!efi_enabled(EFI_RUNTIME_SERVICES)))
++		return PSCI_RET_NOT_SUPPORTED;
++
++	return arm64_efi_psci_call(function_id, arg0, arg1, arg2);
++}
++#else
++static unsigned long __invoke_psci_fn_efi(unsigned long function_id,
++					  unsigned long arg0,
++					  unsigned long arg1,
++					  unsigned long arg2)
 +{
-+	efi_init();
-+	arm64_efi_init_psci();
++	WARN(1, "EFI PSCI conduit invoked but kernel has not EFI support");
++	return PSCI_RET_NOT_SUPPORTED;
 +}
++#endif
 +
-+unsigned long arm64_efi_psci_call(unsigned long function_id, unsigned long arg0,
-+				  unsigned long arg1, unsigned long arg2)
-+{
-+	unsigned long ret, flags;
-+
-+	/*
-+	 * Note that unlike for regular EFI runtime calls we don't have to save
-+	 * FP/SIMD state here because the handler ABI forbids using those.
-+	 * Likewise, we do not take any lock here because the handler has to be
-+	 * re-entrant. We couldn't take the sleeping efi_runtime_lock here
-+	 * anyway because we may be called from atomic context for cpuidle
-+	 * and CPU bring-up.
-+	 */
-+	local_irq_save(flags);
-+	efi_virtmap_load();
-+	uaccess_ttbr0_enable();
-+	post_ttbr_update_workaround();
-+
-+	ret = efi_psci.psci_handler(function_id, arg0, arg1, arg2);
-+
-+	uaccess_ttbr0_disable();
-+	efi_virtmap_unload();
-+	local_irq_restore(flags);
-+
-+	return ret;
-+}
-+
- static int __init arm64_efi_rt_init(void)
+ static __always_inline int psci_to_linux_errno(int errno)
  {
- 	void *p;
-diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-index 23c05dc7a8f2..01735fcacf2a 100644
---- a/arch/arm64/kernel/setup.c
-+++ b/arch/arm64/kernel/setup.c
-@@ -320,7 +320,7 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
- 	cpu_uninstall_idmap();
+ 	switch (errno) {
+@@ -277,6 +336,9 @@ static void set_conduit(enum arm_smccc_conduit conduit)
+ 	case SMCCC_CONDUIT_SMC:
+ 		invoke_psci_fn = __invoke_psci_fn_smc;
+ 		break;
++	case SMCCC_CONDUIT_EFI:
++		invoke_psci_fn = __invoke_psci_fn_efi;
++		break;
+ 	default:
+ 		WARN(1, "Unexpected PSCI conduit %d\n", conduit);
+ 	}
+@@ -299,6 +361,8 @@ static int get_set_conduit_method(const struct device_node *np)
+ 		set_conduit(SMCCC_CONDUIT_HVC);
+ 	} else if (!strcmp("smc", method)) {
+ 		set_conduit(SMCCC_CONDUIT_SMC);
++	} else if (!strcmp("efi", method)) {
++		set_conduit(SMCCC_CONDUIT_EFI);
+ 	} else {
+ 		pr_warn("invalid \"method\" property: %s\n", method);
+ 		return -EINVAL;
+diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
+index 4de81848fe2e..7328e1e222ca 100644
+--- a/include/linux/arm-smccc.h
++++ b/include/linux/arm-smccc.h
+@@ -322,6 +322,7 @@ enum arm_smccc_conduit {
+ 	SMCCC_CONDUIT_NONE,
+ 	SMCCC_CONDUIT_SMC,
+ 	SMCCC_CONDUIT_HVC,
++	SMCCC_CONDUIT_EFI,
+ };
  
- 	xen_early_init();
--	efi_init();
-+	arm64_efi_init();
- 
- 	if (!efi_enabled(EFI_BOOT)) {
- 		if ((u64)_text % MIN_KIMG_ALIGN)
-diff --git a/include/linux/efi.h b/include/linux/efi.h
-index ccbc35479684..f3db3a18b540 100644
---- a/include/linux/efi.h
-+++ b/include/linux/efi.h
-@@ -422,6 +422,7 @@ void efi_native_runtime_setup(void);
- #define LINUX_EFI_COCO_SECRET_AREA_GUID		EFI_GUID(0xadf956ad, 0xe98c, 0x484c,  0xae, 0x11, 0xb5, 0x1c, 0x7d, 0x33, 0x64, 0x47)
- #define LINUX_EFI_BOOT_MEMMAP_GUID		EFI_GUID(0x800f683f, 0xd08b, 0x423a,  0xa2, 0x93, 0x96, 0x5c, 0x3c, 0x6f, 0xe2, 0xb4)
- #define LINUX_EFI_UNACCEPTED_MEM_TABLE_GUID	EFI_GUID(0xd5d1de3c, 0x105c, 0x44f9,  0x9e, 0xa9, 0xbc, 0xef, 0x98, 0x12, 0x00, 0x31)
-+#define LINUX_EFI_ARM_PSCI_HANDLER_TABLE_GUID	EFI_GUID(0xf9b47651, 0x4674, 0x4ed9,  0x94, 0x3b, 0x5c, 0xea, 0xd2, 0x10, 0x9a, 0x8b)
- 
- #define RISCV_EFI_BOOT_PROTOCOL_GUID		EFI_GUID(0xccd15fec, 0x6f73, 0x4eec,  0x83, 0x95, 0x3e, 0x69, 0xe4, 0xb9, 0x40, 0xbf)
- 
+ /**
 
 -- 
 2.55.0
