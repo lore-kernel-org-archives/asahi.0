@@ -1,231 +1,209 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B584252C6;
-	Wed,  8 Jul 2026 12:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783513128; cv=fail; b=mv/DO5N/HeUiotsFEDMRHnmdTF/zgEbBQ9pJvcoqUqBd01DBvHvnkBg1E+ZJizr+VyeVQB/EVy/n13y+VuSEK8tPOYQOHOpt5+Fi6F3pnHqHlKc7sX8eE/eLda409bIG+eMeftGbTqvUn/wWP8XSEgJdBg53/fN5dwW28p3GeuY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783513128; c=relaxed/simple;
-	bh=xB24EGu1dSrdkYsg2CaNvYqgHVJdkBATS/+4ZLO123Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LPjpvrWDOmNrXqDiPpU9MiVg9HfM1lrO9A+0krD6B5LI3jiOnb3zjU913xOgWglxDxjHJXIGztOlVlJJbpxJhkfZxU9Z/5pIkWwa04qFRz6S1VPzZ7ZxMGQKIoa45L3Tq0AEEeYV6H1IPtFgANzhE7is/KdXGBZRT3TgnDYUrHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=IkZBJ+ra; dkim=fail (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=xBxoOesS reason="signature verification failed"; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9E5348C5E
+	for <asahi@lists.linux.dev>; Wed,  8 Jul 2026 12:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783515033; cv=none; b=rMGS1kju7be7DXVcJ/C15uOvNtkB3D7bI7gUD+opIazRRZF9gWqA0RCZ0GglxkjBlCJl174EuiPVVjS5zIA3BkSwFocNRYA3aiFEQwzGxM24MTNLoNWsqSO35KpCe3Thn4OaBKuhn/AYGYGJUc8NjFvQ8xmZCaCtoFWqUzBR2cU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783515033; c=relaxed/simple;
+	bh=w11QooIMUNCBToWMi2codyMg1YXbxG7zD9BvFPZfqrE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HY950T/mGP9hKppMZY8+DL4AqRyFnKmVyxuPTr/ftDS7onyIQIDJIEiBbhAjzoq0oV0Iz/P3Dl+J6Ikyx6ksdmpyw+lAkTrqG12b8KGaAQ698G/k7oJqwsGOBZdcOTWSlPPNfccu3M0xP8uXJrM2Cp5j/GKTHJo9uAQZokjb6eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XBBtIQTV; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="IkZBJ+ra";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="xBxoOesS"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668934Ia3306096;
-	Wed, 8 Jul 2026 07:18:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=XGJUac9104TObIpNWbR9EWZ0V9tMEEp8kOa0oEcOx3w=; b=
-	IkZBJ+raRb1vzrWXS3GjkgQwqZGv/I9JJhUN2fegKX7hcUbkRPfOq2Q/YyCjxh2Z
-	2pstUZ5d45kPgW4C24jxT+3sSvqWVcYD+NBlOw2MiNaLfzg/9F2EA0w1jkmbvepx
-	O+MIQ8ccSqWy10Ywkku/hOukZnqaCkg3daVJNw0/Nobz6sDAyuvWj5+nn6Ghcv3C
-	UkekfD0ACRFmOp1mOT+wp5wJFQjOlMVZMlZ/wuY0dyNCqG4XGNIol/OjoaMIsIL0
-	0ZQevavqyy0O5znxxDG35YwBYBKBTi1Pi98Wsif/ATgZAkS41POfPPTBTHfR6P5I
-	m+Pz17YEduFt3YO4h7p8Dg==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11022136.outbound.protection.outlook.com [40.93.195.136])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4f6yjxp4bg-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 08 Jul 2026 07:18:44 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Za+dnQje+JZMp80ccp6WDxKTSEKZDUhQPTFGaWN3gneRCZEUWLjInvxRYrajjK/ZVX9u/Mb1i8i2/kbcSM0wnU5pDGAVkwdwSMLnSo02XdXHM95csgZtiysVqqfHhqvDRmYqSumSRe/KLxX/f/FK2K0cpgvLaI43P1HNZc1RgJowlut0xJe59STvWAYlZ9KtTxZ9aF3XVvNayZpBfgZFoUEE8tjJaHHn0fn6j4eCrDANoT67JL2LvLxZEIYoIoBi8xExMvwmgi/DwdFqPAAZXhL9XKsIKsZyAvMhF4VI4tknMccgmzhbyKBkuL7Rj588MeehnPbMuk16zCP1Fnhv7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BQz++E58YQqpGecUeeqhedx547eJTWVzup9T6XFgHeY=;
- b=EVIvcE0y9t2bFQpkBMeXqIw/frIfxlgot5QuvVQV37RXupvwraH7sb5/WfgSrMH2dFSNNtw606hpc0y+I5/opiDnerobIrIVP2SwJWF2QS0qrcRiS9LK0Coj63n8h6zm6DTQPRYrU2zjijRvmTFnnJrn97h7N4ZLHpjUQLvhwXSS4uJpNh4X9V/imBkFz55M7EBN7fSntoNbxcoT9TWue6w8riS3cE+hAYz007nsTL8FdO1YKJKCTs3iNDBZTORYScO3puZp+5At5VYmcbl0/Ln6kuKEPNSRKeDKBXfupfyPQwhYsRTeY18J7wkbIXy07e9yHxR68MvEQuuFMSMALw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=lists.infradead.org
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XBBtIQTV"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-382ef647e20so717419a91.1
+        for <asahi@lists.linux.dev>; Wed, 08 Jul 2026 05:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BQz++E58YQqpGecUeeqhedx547eJTWVzup9T6XFgHeY=;
- b=xBxoOesSJUSbT7He9w4P77Knb4Q7VuH2vcE/koEN7BkjC1Pub72vvzUS4q0tAOpd/iI7CJeXkwk1s57BiKCXMmDGyl7M0ttDKCfpuzK91UsvkjLyxv/HZ1yrguCsGR0w9xrdBPqnNVrTUMiYi6qxPCsD5kt/Gw9KsMNUyHp5re0=
-Received: from MN0P221CA0004.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:52a::11)
- by DS7PR19MB4437.namprd19.prod.outlook.com (2603:10b6:5:2c4::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.15; Wed, 8 Jul
- 2026 12:18:37 +0000
-Received: from BL02EPF0002992C.namprd02.prod.outlook.com
- (2603:10b6:208:52a:cafe::61) by MN0P221CA0004.outlook.office365.com
- (2603:10b6:208:52a::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.10 via Frontend Transport; Wed, 8
- Jul 2026 12:18:37 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL02EPF0002992C.mail.protection.outlook.com (10.167.249.57) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
- via Frontend Transport; Wed, 8 Jul 2026 12:18:37 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 4FC30406542;
-	Wed,  8 Jul 2026 12:18:36 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 2948282025A;
-	Wed,  8 Jul 2026 12:18:36 +0000 (UTC)
-Date: Wed, 8 Jul 2026 13:18:35 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        Chen-Yu Tsai <wens@kernel.org>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        James Ogletree <jogletre@opensource.cirrus.com>,
-        Fred Treven <fred.treven@cirrus.com>,
-        Ben Bright <ben.bright@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Tim Harvey <tharvey@gateworks.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-        Neal Gompa <neal@gompa.dev>,
-        Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        =?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-        Saravanan Sekar <sravanhome@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Andreas Kemnade <andreas@kemnade.info>,
-        Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@kernel.org>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, mfd@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        patches@opensource.cirrus.com, linux-rpi-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
-        imx@lists.linux.dev, linux-omap@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 21/23] mfd: Unify style of of_device_id arrays
-Message-ID: <ak5AG3ReEVvDsAAC@opensource.cirrus.com>
-References: <cover.1783507945.git.u.kleine-koenig@baylibre.com>
- <ce43f6ec640a7835d64d3d696ff09229c3d31075.1783507945.git.u.kleine-koenig@baylibre.com>
+        d=gmail.com; s=20251104; t=1783515030; x=1784119830; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=g+8LUBht7Ch9JyJgm4hJtusVhllo3ouZ+moFwd0Yi+U=;
+        b=XBBtIQTVG5FOh1WHnllJmRP6mZ53xRsE2Ys9sanyJK4O8f1DyaxjR5fW1HOeCU2WUp
+         8EwFaMaTVQmGQ4t/UkOdRM9iEVfj3+oez3EBPVX/REhyKrnfz7aH79ugbYwrndfT09TG
+         w9YBWdPPKcbko3SMy/7s4Kuh97e5NOYtLxhZ2aa9reb2qyurmLtF6Az7pRvHM2ZUYH9H
+         rIBbcdzXdt/jamD7pA8tr8PNHrt6mJ21aXMno9zPjy/eP2aHzw6HW8F7PEXwq/5PgIX0
+         qprIHdf3Hy5/tdDmmRyebvI1/omYLl26Abwif0NcwzpxkKO9RJhBNdZeT6lSD3atm+xu
+         3PKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783515030; x=1784119830;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=g+8LUBht7Ch9JyJgm4hJtusVhllo3ouZ+moFwd0Yi+U=;
+        b=BL12SZJfvPVy3DuTmRnxdPS4tN1P+k/f6HQT5VHgqVh1ZoG6+Xrf+aqh+x1+AH7JuV
+         ckn943Ahu9VTVGcWxYSLBa0evFd92HUpB/dheZf/QgyUiuePvHxJoRu5FscEvQf5fEWn
+         J/kJDLYLOkCYRE1IqXjhsMXOcMhqzrPNVYZ6YNdwT8v6ZQoKC17vLWZgEA+6lpcKx0gw
+         w2Nd9Uepf4aIOcHvMyoEhiWmeIYNryuYXAKtv5EtnULLlGZCMPn4707TOk34uFspYrSa
+         y/m8MiYuLuSspnbo8YuelhF6NEP76EKuAPubOr8tMzIus0l24nElbp9KaYWjKtYYhr+I
+         vZLg==
+X-Forwarded-Encrypted: i=1; AHgh+RphUmHypXBQDNrdU/g2pqY0yxOGudtSqE2v1A3J6KN8ShI/+h2mt1vDT7LlVKSeZ+NUFkeU2A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIQijP0mAMuFlpsxEmwxnm3GXK31rwtH8+lt46FH5m9jAtgj6X
+	atrY1U1Mn72NL4PAKAnR5QfFRBmvV1tIphYP1cFBjWx4qso9QI0r9EVN
+X-Gm-Gg: AfdE7ckJ5KSL6vuz/iDIUaEXcMKQFo4I03sw6saE6eHugaCfZ9HPM3YqsgK/GzfqUlH
+	QlWNC8sVBuubvy/3BLbn5b4Ftb05WLhuUqTz40pbOLNvsDV7v7/LsgvXs//PYEFYCsl6YZXSvO8
+	Jkn/7j8t7TaBDFCq2LZ3KM5U1jLD3wd0nnCSPAJeg5zAsVeLx2dcn5D3Ecywd55MxsTfadIbskn
+	dfkE4sPCNgz0wfhduUhDDs52Z8ZVTZKs6fLLmzyAvUSNLNIxodxVEouLHozEPLn4IDd3RRgp9ia
+	FKC5K9khud6shib5zzSjTCUZHSBZky0BqbASrPPYfkBxUs2+uWsvO2R6gPcO9rGJAbci3auJqlx
+	PQMPQR6i7i8bzoZPj1PYO4IiKnQt7HX4I2Wj6T69zPG+rfiRGo6V5LVf6cL9yMlSPqzWGCvkMNs
+	26fgzS63vtkP8w3v1V8p1QBtxi2I4c9xVedagsQDlDh5VzukY=
+X-Received: by 2002:a17:90b:2f06:b0:381:a766:efc9 with SMTP id 98e67ed59e1d1-38941101dfemr2493491a91.7.1783515030068;
+        Wed, 08 Jul 2026 05:50:30 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d20a2f2fsm2784349a91.13.2026.07.08.05.50.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 05:50:29 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Cheng-Yi Chiang <cychiang@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	povik+lin@cutebit.org,
+	u.kleine-koenig@baylibre.com,
+	kuninori.morimoto.gx@renesas.com,
+	christian.ehrhardt@codasip.com,
+	Linus Walleij <linusw@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Rosen Penev <rosenp@gmail.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Teguh Sobirin <teguh@sobir.in>,
+	Val Packett <val@packett.cool>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	wangdicheng <wangdicheng@kylinos.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	chrome-platform@lists.linux.dev,
+	asahi@lists.linux.dev,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v4 00/24] ASoC: codecs: Use guard() for mutex & spin lock - part 1 
+Date: Wed,  8 Jul 2026 19:49:37 +0700
+Message-ID: <20260708125002.202515-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ce43f6ec640a7835d64d3d696ff09229c3d31075.1783507945.git.u.kleine-koenig@baylibre.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0002992C:EE_|DS7PR19MB4437:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68a28bc5-46db-42c1-1932-08dedceb09dc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|61400799027|23010399003|7416014|376014|82310400026|11063799006|56012099006|5023799004|4143699003|22082099003|16102099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	dNN+PCMXP3dNBGx2Acjn7RSsQiqZp8uFLYQgGEMzLAzvXJ7UA2OpJI00vgG7oZi4G2Zd4HlNIsIW5jR+p9GNmHaERVwbkdsi1+YcrlGEycOrNmMfXJyffBqMwWOM11E21kf52MlI3oNg5yXLzK7T28PeLY9II/NnMF62ua7Nt+UQjoIvG3NOfEwSIlbSDzL8LTQrL2tKIQIKXzGRqRqjT045mhhZEMU3TViEUlp1CmvCDFdtKGD6S8nLU+KvCXPepBD6h/HWhe84zCf/VW3Q2C0V97ToZ9sUdV/yaSXUC1g44yo5ftPxxx07fBezQnjOpMMgoN/EoqYBtcEwVFIfSvV0A5bK/k6IZ9PAPGnmT99MxZMRxNG2TeeEw9bLXwpMYutz0pQSevUdVgZ31XERHi1g+p7t5yGbLcuwu6zX/Km1z7QKXYL03Nm50Bpp5K0IpcL47rxZt2Zupfr6A3GNWLrkkeJhSixCJHnph9cTLirGwqlydjRLVJ+Zsxinwe5Tn1iRia6+p4pFuS7JHCZPXq0zUmQtst8r8Gcex6vWgMe5UaQt43So+pKJR+FrcELJJ8jVPztxoo6/EPd7MiI1K+OZ3a9qgSSpllqZkk381KdCrBJ2FJvdDxuxFcmvXuMAWjxrkpdodc9ZCGnCwqL6T8n4h0EGCa8sQOA6BNXkIvLxqguYmPj9lJtFBwC3s97bY1yLcAfF+g0mC4ryCaSsYg==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(61400799027)(23010399003)(7416014)(376014)(82310400026)(11063799006)(56012099006)(5023799004)(4143699003)(22082099003)(16102099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Y+W/UKYfxPi2pz5l8SMpCjvaZeNsEDM1v4bzL3wNk6mO/iVxe3AHF4M6p3HnwOWD5tFVSsodiRyTWvG/41yb/qowp7nnmd1iJ3AlzanXM4M0XRX+9a46Iern16VtE/dctOjuw/BorQ8m04yonxFXZ6d7p1IyWCyNzEo5NFG9X7rNDUEko29DsY2k8Nlz5XKkOLAg8Wyg3EKRsX6U5UpFm89N8C4o1scffH2oJ+r/bzPe2qqH21XdQgroQgAS/+k0sId3dQBkx5nYIYknrIVwGgvkmgEaJa0P2j32JUpi3ZDTSVnPAmisyyCOg5d7v31aOOiPC09SVPKr2hLg1d0VkRrTLhRGlU9uThdjH7BD149Mwki1ueyrZ7BLu5bVgFPBOH0hycznJ0J8x1U909+k3ejdUPctUGqn6+X4YZrPpaku3cqS79PaCgXRID6zuEr1
-X-Exchange-RoutingPolicyChecked:
-	YlW4LBdvqj8Vkw6H2aPWjK/IZsmXvBongAE14JgyeUxzWwqsh6DYxxMGDx1Ph/G7szI2AfO4BgmlUnhgBgi4glRKZXLLZSv8C0LoTDrkLkqos6KLSLccDIGobWh3O8MeAMcBDp0rQ3tJm87/UiAjr4YA93aqXrTIbEbNMQh91hyKTI/+btdasaAgk/QPDPBHQ9ciBYpk+YxNxMDumyjLtEwiQ0aldnqtBV5uW8j8reuLMTPVqaB8KraEyrnITx0dA8Q7t/GdvfHDlv/mg0DXpBBbJRC4J15UUkhHn98qzx8TsP1fMAYh0txOs4WeH9RCgrKUaf2PLbr6EBoGxcbl1A==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 12:18:37.1994
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68a28bc5-46db-42c1-1932-08dedceb09dc
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL02EPF0002992C.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB4437
-X-Authority-Analysis: v=2.4 cv=Fo81OWrq c=1 sm=1 tr=0 ts=6a4e4024 cx=c_pps
- a=2hJN3FG5vRdYsizhUtvj5Q==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=8nJEP1OIZ-IA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=IpJZQVW2AAAA:8 a=w1d2syhTAAAA:8 a=Dc1nfGASFo0QrZ5EXQ8A:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=IawgGOuG5U0WyFbmm1f5:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDEyMCBTYWx0ZWRfX1uloLmf0t/ao
- 761/Ct/lnjjBxRUW7PnQYIp0stqXGPTVksQUAK6+4drkMLSm1GWEAwb5JeZgSXaNeaDu6dGlM9K
- N/Sk0F/RO5lgb3XJ9N4AIsHDdXL6ELw=
-X-Proofpoint-GUID: n02IjOAvDwPUpUShZRVgjN3fPeAOoOT3
-X-Proofpoint-ORIG-GUID: n02IjOAvDwPUpUShZRVgjN3fPeAOoOT3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDEyMCBTYWx0ZWRfX6+Ougbz0z3yr
- zmG8ifQvARHtBJS2OmIBQRIKjwzBUnyRhLiykaHBzw4QwXi9fCb1hLt7JOhBRbi3Sj56Qpt3Ah5
- ST02bg9FoXNimO3QplpBQSFpBYl42MuuIJF8Qcy+Iy7v7MC2pgFBl6tl+8jaZmrSZkjjCSptlb2
- c51D2AleKfytcXfoKSKlggvUEAm0cmqi6ZTIY7hpBiBHrNC/s+5Oz0roWyv5pYJKSrz21lnpwKO
- LoFgllcgh9s97gVDnWM5kxizKnDOIhX1WQDkS6mdJjcU8rC7bJP7c9fPIlkqFcnb50qEJIiFZCs
- lWPhoglyYZ2ncVrhZRCbQuXjBFi65KnJtp/Z2H7yQuj6zT7P6J8sgB2k7NtTP56Xmp3UnXS1od5
- SDzrF0E9WJE+m4ZgYuDfEVhYdYwmdMU6/yk0eXEZzezcCAYS9WchAEMzLxxMqsE5HgiOA90Smv/
- 1Y+xgdg7KTabZvnms0g==
-X-Proofpoint-Spam-Reason: safe
 
-On Wed, Jul 08, 2026 at 01:15:28PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> These arrays already mostly match the most used and generally
-> recommended coding style. That is:
-> 
->  - no comma after the list terminator;
->  - a comma after an initializer if (and only if) the closing } is not
->    directly following;
->  - no explicit zeros in the list terminator;
->  - a space after an opening { and before a closing }, a single space in
->    the list terminator;
-> 
-> Adapt the offenders accordingly.
-> 
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
-> ---
->  drivers/mfd/arizona-i2c.c      |  2 +-
->  drivers/mfd/arizona-spi.c      |  2 +-
->  drivers/mfd/cs40l50-i2c.c      |  2 +-
->  drivers/mfd/cs40l50-spi.c      |  2 +-
->  drivers/mfd/cs42l43-i2c.c      |  2 +-
->  drivers/mfd/lochnagar-i2c.c    |  2 +-
->  drivers/mfd/madera-core.c      |  2 +-
->  drivers/mfd/wm831x-core.c      |  2 +-
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Hi all,
 
-Thanks,
-Charles
+This series converts mutex and spinlock handling in ASoC codec drivers
+to use the guard() and scoped_guard() helpers.
+
+This series is split out from a larger 78-patch series to improve
+reviewability and allow for incremental review:
+https://lore.kernel.org/all/20260617103235.449609-1-phucduc.bui@gmail.com/
+
+The changes are purely refactoring and have no functional impact.
+
+Compile-tested only.
+
+Link v1:
+https://lore.kernel.org/all/20260626061329.23264-1-phucduc.bui@gmail.com/
+Link v2:
+https://lore.kernel.org/all/20260703055355.244898-1-phucduc.bui@gmail.com/
+Link v3: 
+https://lore.kernel.org/all/20260707051006.20058-1-phucduc.bui@gmail.com/
+
+Changes in v2:
+ - Added Reviewed-by tags from Charles and Richard.
+ - Incorporated Charles's review comments:
+ +  cs48l32: Removed the unnecessary else block so update_bits() 
+    is not called when no changes are needed. 
+ +  cs42l43: Switched to a helper function to avoid code duplication, 
+    while keeping the guard() conversion since it eliminates 12 goto 
+    labels.
+ +  arizona-jack: Reworked the code to use an if/else structure, 
+    avoiding code duplication after removing the goto label.
+
+Changes in v3:
+ - Added Reviewed-by tags from Charles and Cezary.
+ - Incorporated review comments from Richard, Charles, and Cezary:
+ + Remove unnecessary blank lines in arizona-jack and cs35l56.
+ + Remove temporary variables and return directly in cs42l43 and cs35l56.
+ 
+Changes in v4:
+ - Added Reviewed-by tags from Charles and Richard.
+ - Correct the patch subject from cs2072x to cx2072x.
+
+Best regards,
+Phuc
+
+bui duc phuc (24):
+  ASoC: codecs: ab8500: Use guard() for mutex locks
+  ASoC: codecs: ak4613: Use guard() for mutex locks
+  ASoC: codecs: arizona-jack: Use guard() cleanup helpers
+  ASoC: codecs: arizona: Use guard() for mutex locks
+  ASoC: codecs: aw87390: Use guard() for mutex locks
+  ASoC: codecs: aw88081: Use guard() for mutex locks
+  ASoC: codecs: aw88166: Use guard() for mutex locks
+  ASoC: codecs: aw88261: Use guard() for mutex locks
+  ASoC: codecs: aw88395: Use guard() for mutex locks
+  ASoC: codecs: aw88399: Use guard() for mutex locks
+  ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
+  ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
+  ASoC: codecs: cs35l56: Use guard() and PM runtime scope helpers
+  ASoC: codecs: cs42l42: Use guard() cleanup helpers
+  ASoC: codecs: cs42l43: Use guard() and PM runtime scope helpers
+  ASoC: codecs: cs42l84: Use guard() for mutex locks
+  ASoC: codecs: cs43130: Use guard() for mutex locks
+  ASoC: codecs: cs47l15: Use guard() for mutex locks
+  ASoC: codecs: cs47l35: Use guard() for mutex locks
+  ASoC: codecs: cs47l85: Use guard() for mutex locks
+  ASoC: codecs: cs47l90: Use guard() for mutex locks
+  ASoC: codecs: cs47l92: Use guard() for mutex locks
+  ASoC: codecs: cs48l32: Use guard() for mutex locks
+  ASoC: codecs: cx2072x: Use guard() for mutex locks
+
+ sound/soc/codecs/ab8500-codec.c           |  12 +-
+ sound/soc/codecs/ak4613.c                 |  83 +++++++------
+ sound/soc/codecs/arizona-jack.c           | 117 +++++++++---------
+ sound/soc/codecs/arizona.c                |  26 ++--
+ sound/soc/codecs/aw87390.c                |  10 +-
+ sound/soc/codecs/aw88081.c                |  18 +--
+ sound/soc/codecs/aw88166.c                |  24 ++--
+ sound/soc/codecs/aw88261.c                |  21 ++--
+ sound/soc/codecs/aw88395/aw88395.c        |  24 ++--
+ sound/soc/codecs/aw88395/aw88395_device.c |  40 +++----
+ sound/soc/codecs/aw88399.c                |  15 +--
+ sound/soc/codecs/cros_ec_codec.c          |  18 ++-
+ sound/soc/codecs/cs-amp-lib.c             |  11 +-
+ sound/soc/codecs/cs35l56-shared.c         |  22 ++--
+ sound/soc/codecs/cs42l42.c                |  54 ++++-----
+ sound/soc/codecs/cs42l43-jack.c           | 138 ++++++++++------------
+ sound/soc/codecs/cs42l43.c                |  16 +--
+ sound/soc/codecs/cs42l84.c                |  10 +-
+ sound/soc/codecs/cs43130.c                |  72 +++++------
+ sound/soc/codecs/cs47l15.c                |  11 +-
+ sound/soc/codecs/cs47l35.c                |  11 +-
+ sound/soc/codecs/cs47l85.c                |  11 +-
+ sound/soc/codecs/cs47l90.c                |  11 +-
+ sound/soc/codecs/cs47l92.c                |  11 +-
+ sound/soc/codecs/cs48l32.c                |  26 ++--
+ sound/soc/codecs/cx2072x.c                |   5 +-
+ 26 files changed, 353 insertions(+), 464 deletions(-)
+
+-- 
+2.43.0
+
