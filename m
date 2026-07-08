@@ -1,158 +1,148 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A71D43E4A1
-	for <asahi@lists.linux.dev>; Wed,  8 Jul 2026 12:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FE1466B7D
+	for <asahi@lists.linux.dev>; Wed,  8 Jul 2026 12:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783515214; cv=none; b=rAEjQsu+V6WlishqhWAOBjYO2C8EFGavhdVehXEDKG2ap+/uWF7Az50wl6kiij+X1lQY5JO7g5U2ETlJTOOK/QFjzTP5iFIN/l/W/0zQ6M6gUwEEgjbH2dp91IW5snoho7+wjsPwyZP67EXeAiyeoAi2nB7WlDJrB0W4YaPCS2o=
+	t=1783515490; cv=none; b=SJs1VAEwaAK+FZQuatLBMDy2I9viJHtwBweBKVLTZ3RcouM/+kjW/mJbCVAWquADyoyZrkolm6YURw0j55GJEeL6HPcKN3/VnvcoWBbnxd1/+eLdqvQngegvLKgKcFjVK1qrAs5TROQNAOn9+1XHXkxIc/HhzN6NDT9XDKq8H8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783515214; c=relaxed/simple;
-	bh=hGJisYIpxWO2FMmrkv7mmiemg24xqGVestMhlsmhqYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ngVWFy8h4yr7kS2KWX9tWbnMOqx2/j88XhEJQdvjytGEaG76vLwNS+Vj8b6SU1oI7Q+BXG/DKjeG25yDbAhvjNfzZB1/ik4bkmU/8+aABtqpZszMcmAG4+dJETrk/NcLR26Ci0M0Y7FJf7jErGlTNo9cSKsZGD63Om/KadBZwnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HDFKN+RZ; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783515490; c=relaxed/simple;
+	bh=rcoRsbC0BO6uVEMaG71BCowfWGAxbSpWO+tIQGO84C8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=spBehVW3gCQeFh5CNfa2kGJ7c+rbRPaxd/b68IHSijEqZzVaAMGecylz2ZErVGbfwu6Hplv4/F7m3sBGhczST0OFdlfuwXi4x6q9lCFj2jrkLKOaWUqvRk/SD2ksokZGoKAqKXp1nd0WYqHMdWQCwQlzYKI8GozU9FGj2EDbryY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tRmGR0hn; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HDFKN+RZ"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-37cab825ec9so773238a91.1
-        for <asahi@lists.linux.dev>; Wed, 08 Jul 2026 05:53:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tRmGR0hn"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c126b8118afso89859366b.2
+        for <asahi@lists.linux.dev>; Wed, 08 Jul 2026 05:58:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783515212; x=1784120012; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=H3l5tTjQV1iS4ShC4Q6Dv1Lqn7dKOZsvCTX3q5ZLt6U=;
-        b=HDFKN+RZj3fufF6wLw3CTFzV0oaqPK1L6WIATJjmPEhCFtNV44MOdaOdFEXAXU5UfW
-         /DkHvdn6n2XJLrGNbMc7XnFr0TopF7rZMdlZb8I6fJLT33TIFZt2pWGNBa594whVLTIL
-         2VEXydf0t8QT4sVpp3ur3WPGpWo5qqdmY+FaQlUq4uQ7segOCqisH1syUM/sqxRCguch
-         LATe/os72I4y2bqpg7xzAH5+bnmknXURLwf1HumMmRZ3jwMNBH/EQe+RrT0k7knpl4z8
-         7Qs3nWhR9m54aMFiq70Bjl1U7o7lzDNvvJwKSCgSTh51VYxg7Nr/BLXDhWI/R3caemuj
-         WH4A==
+        d=linaro.org; s=google; t=1783515487; x=1784120287; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=rcoRsbC0BO6uVEMaG71BCowfWGAxbSpWO+tIQGO84C8=;
+        b=tRmGR0hnzx3h8i35q2KhxyUqUCiQE3npDyQHch+cMdVDPuG0vP4eEC3zHPSYYH/Lsx
+         N42OFGdZXA67Exnl0i2L5aHepF32QNXxXCvMsyGIZKjdagMUxuLGHCNstTC2cdQYyCdJ
+         +3oOuy1oCP2w0p8ZQuGlIawJRaJ1JPns82se4naTzG5pqknU6fmsZx+ecTa/48yQIpzn
+         Xrb+Df0tbt0jyqixjAG8AzFLE94H9DpzIbM+ztl/WRVp81+GKkwx9W4noY2WpWMJVNL1
+         hOMSc8+sxG4NW9hnTlLxMp+H40RsTndV1PuMvAWZZZ4icfkGDXs0ECnn8q+gwjiAzjh2
+         sOfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783515213; x=1784120013;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H3l5tTjQV1iS4ShC4Q6Dv1Lqn7dKOZsvCTX3q5ZLt6U=;
-        b=AL59uElgf1oNfVEAYnz8wD42oBre0WHF7HCNr3vFlPBZhEpnQRuG0Kk1+of1pJNb27
-         raVxF86HQVoTQdLuge3oYMzESKw3enTK8xCzTZqORjO9rWp9RgVsHFsJOdOUkCLS9jzs
-         VxkgnGJ56/5fn4VxYXWrHvVD4Z8XbiK2uuawQPYne3v8bR/FWtUd7vrc3179uZjanoIB
-         ZB/wD/iolAgyAms7yQX4nXDYoACXUaWy74O+yu2VbFNauJe0E4GHt+qTf7WBE4uBifFn
-         nY0dKidJkg79rASiMF18izH6nrELifnSjCoWoAIu0IyRdgVS0xhyyCyNleNcq7W8xfrM
-         Fwdw==
-X-Forwarded-Encrypted: i=1; AHgh+RrRfkPJksUAtcY2VVrQfO8DLkWuzXQ6EtKiQ57rWRA+yDRHbmCPs41rw1vo09zCOJsgKsMnyQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuskseR+kfajNEny9ksJ33sx6wY8F+PSZHnIsh74E88tGalh4i
-	nrPUBWbiQwOY6u+IaGjCMM5mdtgArpE8CPZsK5jHawxPFcrQ9p0z5HQ3
-X-Gm-Gg: AfdE7clELa5AVo6fGBaFA9caaVQnM9wc/tGV4ltpeDNtZoDSsGU5ljJn4Uu1ESUh76K
-	T0cxc2yB1a4EkMtOzTXCq7inPH+fbL0NcysYaeubCAhQTnaDApTDKvkefGbe3P5vra0UyeCpO8l
-	mzBYUbvvkMsIKsyElWj5LtR16BSBSBiNLXup8otgiibKuhr7pfOR6GAp2Pi6g50Bzw7BDcB8xY6
-	sMMOfBM65aV+q4lNzy9j/dx4yTyXZ7/HCSEwgDp7rC0s8t2yoBL3n+pq3b+qtw0YDLhLR2ML5av
-	DjH0+36NqoHEyua+u2EEO86R6LHNJ7MtZ84LSMxoEfj/UdQMUppbHTbvfkj2LPh61A6UZVDvXQ2
-	kPa6TorsaGhhdPjyrwJLcEaCXuxdvUtQNpatbhkY2nodY6QP8FI3UhxMSVwLo2pNLRAnusiGZJW
-	cRQwMUiQeuqnsJgKyoQeP+hT60Tpv6b9u+uz4aHF+3hQIKEpA=
-X-Received: by 2002:a17:90b:2e0f:b0:387:df8f:1402 with SMTP id 98e67ed59e1d1-38942b823d3mr2508534a91.35.1783515212595;
-        Wed, 08 Jul 2026 05:53:32 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d20a2f2fsm2784349a91.13.2026.07.08.05.53.26
+        d=1e100.net; s=20251104; t=1783515487; x=1784120287;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rcoRsbC0BO6uVEMaG71BCowfWGAxbSpWO+tIQGO84C8=;
+        b=X93fXMGOG4TuZkxxEncNp0bH45nRgDdqA5VA1+734RYyABquknWzMxGRgULBDUXLTp
+         06zWq79qVNMxqvMrDJC8836cb4ImkXdWdHZBzzvjecK88UMO4fUU3gksM2ahTAMsizgQ
+         o+eVHjFYg7X5nmVtfOM9Ds3xKpCR+qixB1RwB8G+opAnWUnDIXTG4QVjqQ480qvodYUh
+         on3+xb4VA42db2PDFkp5ETxGsrU4FsNoKKUcDGF34owGwIrA89rA5q3lQrPg/ZhgmlA1
+         AnMdUfQy+/gcQnjVy48F/WXnJuOInwxYknxRVqg8DuA7+yUpaJD/4E3hhAPwGZ4wVePg
+         +v3Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrTXU6bXf6bInguXFEIZcYRD+TciT1wO87m2/sCX/tOWRhzkUJX7O/rF2vGJ9VzTyyY7Q9YSw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgT73Qr0lUB7dpU0mDAnAqhYKpOfxPOHECEQIVeZTP9kE1C3sI
+	Xc+BkESAl0zbMNNslqM/+OHTpYq5KTtyXk4/Y7jIRTS0BTENzaoWlW/PRytbY1mCUX4=
+X-Gm-Gg: AfdE7cn1SiDjwLZqT1b3YIhnOKiBXWZ1R4c57NXpBUad6mFM3OP8xkKMhV3N21/OF/h
+	5bJ9qT+kE8eppQYk6rLiY5g2RQf/g8EYq7rKGwYCbmuoDyt3ivDgBN5I7xCYjt0dH015nMVBPAK
+	8iKKruu/CZjYSYHHQQHEletAPRrKYSn+xgwguIiBIWbNuFsUTg3otjX9KRFkh1/m6ImD7QchVUv
+	n7pMtJIS+Bf+jmq3gFFTslbURcAu+XuUG5dH5n1UM3H5qlaq19Szk2s1kmnfdhlNW8FB1Kpcv93
+	+OV5BroOJdsFMNaMYiCoHO/mFEmYHfyvMV4XwV7oyxwA8ua2EmE0mW6MGqlXZTCzsxpWgQvh2tB
+	OhAqOC4eIGnSzz8OLb0uKWGBBB1mIgdfXE9RDkruTUyXT7d5H3s78dw687fCTlqmDlMAvNuq3v3
+	7pHbvzpiB7E4OyGnd53k0=
+X-Received: by 2002:a17:907:7211:b0:c12:4597:601f with SMTP id a640c23a62f3a-c15ce131902mr120160066b.53.1783515486648;
+        Wed, 08 Jul 2026 05:58:06 -0700 (PDT)
+Received: from draszik.lan ([212.129.81.171])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad84c636sm324005266b.22.2026.07.08.05.58.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 05:53:32 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	povik+lin@cutebit.org,
-	u.kleine-koenig@baylibre.com,
-	kuninori.morimoto.gx@renesas.com,
-	christian.ehrhardt@codasip.com,
-	Linus Walleij <linusw@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Rosen Penev <rosenp@gmail.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Teguh Sobirin <teguh@sobir.in>,
-	Val Packett <val@packett.cool>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	chrome-platform@lists.linux.dev,
-	asahi@lists.linux.dev,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v4 24/24] ASoC: codecs: cx2072x: Use guard() for mutex locks
-Date: Wed,  8 Jul 2026 19:50:01 +0700
-Message-ID: <20260708125002.202515-25-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260708125002.202515-1-phucduc.bui@gmail.com>
-References: <20260708125002.202515-1-phucduc.bui@gmail.com>
+        Wed, 08 Jul 2026 05:58:06 -0700 (PDT)
+Message-ID: <eed86cadd335597d7c7a4278a9a09706913ba6a3.camel@linaro.org>
+Subject: Re: [PATCH v2 21/23] mfd: Unify style of of_device_id arrays
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= "(The Capable Hub)"
+	 <u.kleine-koenig@baylibre.com>
+Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>, Nicolas
+ Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,  Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Chen-Yu Tsai <wens@kernel.org>, Florian
+ Fainelli	 <florian.fainelli@broadcom.com>, Broadcom internal kernel review
+ list	 <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, Marek Vasut
+ <marek.vasut+renesas@gmail.com>, James Ogletree	
+ <jogletre@opensource.cirrus.com>, Fred Treven <fred.treven@cirrus.com>, Ben
+ Bright <ben.bright@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald	 <rf@opensource.cirrus.com>, Support Opensource
+ <support.opensource@diasemi.com>,  Krzysztof Kozlowski	 <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar	
+ <alim.akhtar@samsung.com>, Tim Harvey <tharvey@gateworks.com>, Neil
+ Armstrong	 <neil.armstrong@linaro.org>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>,  Sven Peter <sven@kernel.org>, Janne
+ Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, Mathieu Dubois-Briand
+ <mathieu.dubois-briand@bootlin.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Luca Ceresoli	 <luca.ceresoli@bootlin.com>, Saravanan Sekar
+ <sravanhome@gmail.com>,  Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team	 <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Jonathan =?ISO-8859-1?Q?Neusch=E4fer?=	
+ <j.neuschaefer@gmx.net>, Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas
+ Kemnade	 <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, Roger
+ Quadros	 <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, Matti
+ Vaittinen	 <mazziesaccount@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang	 <baolin.wang@linux.alibaba.com>, Chunyan Zhang
+ <zhang.lyra@gmail.com>,  Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue	
+ <alexandre.torgue@foss.st.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>,  Lorenzo Pieralisi
+ <lpieralisi@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm	 <magnus.damm@gmail.com>, mfd@lists.linux.dev,
+ linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ patches@opensource.cirrus.com, 	linux-rpi-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, 	linux-sound@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, 	linux-amlogic@lists.infradead.org,
+ asahi@lists.linux.dev, 	linux-mediatek@lists.infradead.org,
+ imx@lists.linux.dev, 	linux-omap@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, 	linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev
+Date: Wed, 08 Jul 2026 13:58:20 +0100
+In-Reply-To: <ce43f6ec640a7835d64d3d696ff09229c3d31075.1783507945.git.u.kleine-koenig@baylibre.com>
+References: <cover.1783507945.git.u.kleine-koenig@baylibre.com>
+	 <ce43f6ec640a7835d64d3d696ff09229c3d31075.1783507945.git.u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-8+build1 
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Wed, 2026-07-08 at 13:15 +0200, Uwe Kleine-K=C3=B6nig (The Capable Hub) =
+wrote:
+> These arrays already mostly match the most used and generally
+> recommended coding style. That is:
+>=20
+> =C2=A0- no comma after the list terminator;
+> =C2=A0- a comma after an initializer if (and only if) the closing } is no=
+t
+> =C2=A0=C2=A0 directly following;
+> =C2=A0- no explicit zeros in the list terminator;
+> =C2=A0- a space after an opening { and before a closing }, a single space=
+ in
+> =C2=A0=C2=A0 the list terminator;
+>=20
+> Adapt the offenders accordingly.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
+aylibre.com>
+> ---
+> =C2=A0drivers/mfd/max77759.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 2 +-
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
-
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
-
-Changes in v4:
- - Correct the patch subject from cs2072x to cx2072x.
-
- sound/soc/codecs/cx2072x.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/codecs/cx2072x.c b/sound/soc/codecs/cx2072x.c
-index 83c6cbd40804..908344ee5892 100644
---- a/sound/soc/codecs/cx2072x.c
-+++ b/sound/soc/codecs/cx2072x.c
-@@ -9,6 +9,7 @@
- //
- 
- #include <linux/acpi.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/gpio.h>
-@@ -1408,7 +1409,7 @@ static int cx2072x_jack_status_check(void *data)
- 	unsigned int type = 0;
- 	int state = 0;
- 
--	mutex_lock(&cx2072x->lock);
-+	guard(mutex)(&cx2072x->lock);
- 
- 	regmap_read(cx2072x->regmap, CX2072X_PORTA_PIN_SENSE, &jack);
- 	jack = jack >> 24;
-@@ -1434,8 +1435,6 @@ static int cx2072x_jack_status_check(void *data)
- 	/* clear interrupt */
- 	regmap_write(cx2072x->regmap, CX2072X_UM_INTERRUPT_CRTL_E, 0x12 << 24);
- 
--	mutex_unlock(&cx2072x->lock);
--
- 	dev_dbg(codec->dev, "CX2072X_HSDETECT type=0x%X,Jack state = %x\n",
- 		type, state);
- 	return state;
--- 
-2.43.0
-
+Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org> # for Maxim MAX7=
+7759
