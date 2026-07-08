@@ -1,34 +1,38 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D5737A4BA
-	for <asahi@lists.linux.dev>; Tue,  7 Jul 2026 15:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72503F54DD;
+	Wed,  8 Jul 2026 07:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783437095; cv=none; b=cRr3GGIycfLeRqy47usmXGnsMA5pzuRMLbY3RlDCvDicrPXGpeZN5BzEhj8Dzyh9dgnx8Zv+LW5zvGliVbRUiqCzgsmutRxLIZzm5ifdqo4tOCa0jklhdmgtCetvRmhpQOst/8k972lyjqcxhTJYQ2Aqd24PA8nGz4ea0OkVOKI=
+	t=1783494962; cv=none; b=a28Y2uNbxZy6QRNh3ch9JLZZiNw+UmIXif0iN31+JajZnUodDmp+mWpqR2IQPRG9ZvxNBl7Ywu96eAHiM0juXRfWOTUSyGDmvSAKPmM5zD/hNu4+euenESuoks1ZqogdHz5KucIlaBLvHnIv5ic1l1pXJl6GCVG/Y2AKefk5tw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783437095; c=relaxed/simple;
-	bh=+nhqY/LWx2IsqXCg0BmBhXKkyh+8SWcxWidi7+2EbV0=;
+	s=arc-20240116; t=1783494962; c=relaxed/simple;
+	bh=/ejZ9kEPzd3EuCno7ps+9xBx6LGHpjeL3VowrnL2/78=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XvOQcPh3YiA1K6HcNYVVnl/vY6BUf5e1PPbAjfDaCiWqSebt2Smpm5hnwUVWu/TumRGWd7vM2LN3rJg7o6mTmRDTZo5U7QWeFjNS6ctV5GFh3DKkGENYha5EJBLw8Ej8XYqs5zXCqtxPhK6nsdxdh4xyCuiAKkVESqlUb3/EUrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c/g803Sl; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=uBKJroeev+azTK3qnGYKBVwZJ8R0PLVo3Sutew7za+QCDWbXPjMIo1HiPBFJwutcTKq4ItMJ6L1gLFwG7nuQwDjuuV24EEktkJCMYK3cXGdoh2h0cmuA9/0wjCHr7lhgwjSSFvdMDzzzHRgy7G+XrzY4PiCpqql16yXd+Z+NPKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkA2XLCe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c/g803Sl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDCAD1F000E9;
-	Tue,  7 Jul 2026 15:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783437093;
-	bh=bNnY3o4bpJKNjE/Pa/DEiRez3VL3L1EDXfn5ZiFKjV4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=c/g803Sl+ttGkEp1mnxdGOonhFz3i02oYN0tyVmobjIUVgxB2tVY8pjMN0Sc8b4PN
-	 rMBPcrXd+5gZfMIemhI/HkyuSywGERUcqTEb3M9Nqkt6vTH69k9HWVNoZ8cBHIP3V1
-	 XOLUemggJwGrRKzYAsbQ3jHPMH9eS+O/aAN4pX8Hzf8rKxgup2a6PtQ09B9vK2OAbm
-	 T5TBOVEL9e1DE9d+rfRXbEDmncI722iBFr5MgL/ZCGp8wcUEnDJmwitCdZH36rQB2q
-	 KYG74TntLwuv3Gqr5qEqdhicOuHtGzXtttd/qNkfTC//nNA/Q3qCQNRGftXJ+dgU2g
-	 7dubayX7LVP+A==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 07 Jul 2026 17:11:08 +0200
-Subject: [PATCH v2 01/37] drm/adp: mipi: Add atomic bridge state handlers
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkA2XLCe"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CD0BFC2BCFB;
+	Wed,  8 Jul 2026 07:16:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783494960;
+	bh=/ejZ9kEPzd3EuCno7ps+9xBx6LGHpjeL3VowrnL2/78=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=EkA2XLCetEn+0X3MLOpEK0EDgDo4DCBZKaerH//y9NGxL+gOzpZ5yDGvIqJY40geb
+	 QIStN89D9V9eiOsbg8lhNBXoMcB/vmzUi3vH3IKoJp1G1duTUiFEm4lYkvIRNzJoXA
+	 +9cXElE6H+m339LtH8vm0Xp8FdoF43kGu5UVaUkofZ9mSQYO44YcRxOsGB9gtwrS05
+	 6yInfa0rxgwvXSvyXJIVI8s0eioZ5l6jTjpXpAooxRjmJOwNBhIa8lamZdtHJm5IqV
+	 UHUorOMEs5ZInv4vgyu65aw7g90+h+FKDi058XukEXNhIAF3dzM8Gr2nqJSzBrT0EG
+	 gBbUM7aG6pOdg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B616BC44503;
+	Wed,  8 Jul 2026 07:16:00 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Wed, 08 Jul 2026 09:15:40 +0200
+Subject: [PATCH RFC 4/6] arm64/efi: Honor EFI_MEMORY_ISA_MASK for
+ Device-nGnRnE vs -nGnRE
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,202 +41,95 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260707-drm-all-atomic-bridges-v2-1-21d03cbca446@kernel.org>
-References: <20260707-drm-all-atomic-bridges-v2-0-21d03cbca446@kernel.org>
-In-Reply-To: <20260707-drm-all-atomic-bridges-v2-0-21d03cbca446@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, dri-devel@lists.freedesktop.org, 
- Maxime Ripard <mripard@kernel.org>, Joshua Peisach <jpeisach@ubuntu.com>, 
- Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>, 
- asahi@lists.linux.dev
+Message-Id: <20260708-efi-psci-v1-4-9efb3abf0e4c@kernel.org>
+References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
+In-Reply-To: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Sudeep Holla <sudeep.holla@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
+ asahi@lists.linux.dev, Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4099; i=mripard@kernel.org;
- h=from:subject:message-id; bh=+nhqY/LWx2IsqXCg0BmBhXKkyh+8SWcxWidi7+2EbV0=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFm+4gJv5tmWPy/PeT2jNEO9cl+BhGrX+it/r3rsqhF5I
- qtxq0mxYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEwk9Bxjwy4GJaXjynOsuOdX
- 1jtPKhLdc1ae+WKpyo+rPG297v/7D1TVzZpRH+ayxfJ12faHR9xmMDZ8XjS7eMLf6IbJi+RczT+
- Z1rxd+qRbwCrocU3enStSsTebr/ff4mBNtuUWFPRy801KbgYA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1905; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=/ejZ9kEPzd3EuCno7ps+9xBx6LGHpjeL3VowrnL2/78=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ5bvT20VobN/mkSjXybcUAyb9+Z88s/JF8WfOJrfK1Ge9
+ T/5kZhWRykLgxgXg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAiR68wMsw/Pqu0ZI/KjOyn
+ DLbql2JYL5V908i9WRd1+mWnzWJHcUlGhqttB8R9OEyec165K7C9z9xZ4uftR93tR4XKbs1h4mX
+ 6wQ4A
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-The mipi bridge doesn't implement any enable or disable callbacks, but
-is still missing the atomic state handlers.
+On Apple Silicon, access to MMIO requires Device-nGnRnE while Device-nGnRE
+results in SErrors. UEFI defines the EFI_MEMORY_ISA_MASK for cases like
+that which just contains the MAIR attribute bits. We cannot support any
+other Device- types without changing MAIR so just warn and fall back to
+the previous default, Device-nGnRE, if we encounter anything else.
 
-In order to remove the legacy bridge callback support from the DRM
-bridge core, add them.
-
-Generated by the following Coccinelle script:
-
-@ is_bridge @
-identifier funcs;
-@@
-
- struct drm_bridge_funcs funcs = {
-	...,
- };
-
-@ has_create_state depends on is_bridge @
-identifier funcs, f;
-@@
-
-struct drm_bridge_funcs funcs = {
-  ...,
-  .atomic_create_state = f,
-  ...,
-};
-
-@ update_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
-
- struct drm_bridge_funcs funcs = {
-+	.atomic_create_state = drm_atomic_helper_bridge_create_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	...,
- };
-
-@ update_pre_enable_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
-
- struct drm_bridge_funcs funcs = {
- 	...,
--	.pre_enable = f,
-+	.atomic_pre_enable = f,
- 	...,
- };
-
-@ update_pre_enable_impl depends on update_pre_enable_struct @
-identifier update_pre_enable_struct.f;
-identifier b;
-@@
-
--void f(struct drm_bridge *b)
-+void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
- {
-	...
- }
-
-@ update_enable_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
-
- struct drm_bridge_funcs funcs = {
- 	...,
--	.enable = f,
-+	.atomic_enable = f,
- 	...,
- };
-
-@ update_enable_impl depends on update_enable_struct @
-identifier update_enable_struct.f;
-identifier b;
-@@
-
--void f(struct drm_bridge *b)
-+void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
- {
-	...
- }
-
-@ update_disable_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
-
- struct drm_bridge_funcs funcs = {
- 	...,
--	.disable = f,
-+	.atomic_disable = f,
- 	...,
- };
-
-@ update_disable_impl depends on update_disable_struct @
-identifier update_disable_struct.f;
-identifier b;
-@@
-
--void f(struct drm_bridge *b)
-+void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
- {
-	...
- }
-
-@ update_post_disable_struct depends on (is_bridge && !has_create_state) @
-identifier is_bridge.funcs;
-identifier f;
-@@
-
- struct drm_bridge_funcs funcs = {
- 	...,
--	.post_disable = f,
-+	.atomic_post_disable = f,
- 	...,
- };
-
-@ update_post_disable_impl depends on update_post_disable_struct @
-identifier update_post_disable_struct.f;
-identifier b;
-@@
-
--void f(struct drm_bridge *b)
-+void f(struct drm_bridge *b, struct drm_atomic_commit *commit)
- {
-	...
- }
-
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Sven Peter <sven@kernel.org>
 ---
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Janne Grunau <j@jannau.net>
-Cc: dri-devel@lists.freedesktop.org
-Cc: asahi@lists.linux.dev
----
- drivers/gpu/drm/adp/adp-mipi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm64/kernel/efi.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/adp/adp-mipi.c b/drivers/gpu/drm/adp/adp-mipi.c
-index cba7d32150a9..232bb9539423 100644
---- a/drivers/gpu/drm/adp/adp-mipi.c
-+++ b/drivers/gpu/drm/adp/adp-mipi.c
-@@ -3,10 +3,11 @@
- #include <linux/component.h>
- #include <linux/iopoll.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
+diff --git a/arch/arm64/kernel/efi.c b/arch/arm64/kernel/efi.c
+index e40885567f9e..50ba8e9112fc 100644
+--- a/arch/arm64/kernel/efi.c
++++ b/arch/arm64/kernel/efi.c
+@@ -7,6 +7,7 @@
+  * Copyright (C) 2013, 2014 Linaro Ltd.
+  */
  
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_mipi_dsi.h>
++#include <linux/bitfield.h>
+ #include <linux/efi.h>
+ #include <linux/init.h>
+ #include <linux/kmemleak.h>
+@@ -16,6 +17,7 @@
  
- #define DSI_GEN_HDR 0x6c
- #define DSI_GEN_PLD_DATA 0x70
-@@ -220,10 +221,13 @@ static int adp_dsi_bridge_attach(struct drm_bridge *bridge,
+ #include <asm/efi.h>
+ #include <asm/stacktrace.h>
++#include <asm/sysreg.h>
+ #include <asm/vmap_stack.h>
  
- 	return drm_bridge_attach(encoder, adp->next_bridge, bridge, flags);
- }
  
- static const struct drm_bridge_funcs adp_dsi_bridge_funcs = {
-+	.atomic_create_state = drm_atomic_helper_bridge_create_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.attach	= adp_dsi_bridge_attach,
- };
+@@ -38,7 +40,27 @@ static __init ptval_t create_mapping_protection(efi_memory_desc_t *md)
+ 	u32 type = md->type;
  
- static int adp_mipi_probe(struct platform_device *pdev)
- {
+ 	if (type == EFI_MEMORY_MAPPED_IO) {
+-		pgprot_t prot = __pgprot(PROT_DEVICE_nGnRE);
++		pgprot_t prot;
++
++		if (attr & EFI_MEMORY_ISA_VALID) {
++			u8 mair = FIELD_GET(EFI_MEMORY_ISA_MASK, attr);
++
++			switch (mair) {
++			case MAIR_ATTR_DEVICE_nGnRnE:
++				prot = __pgprot(PROT_DEVICE_nGnRnE);
++				break;
++			case MAIR_ATTR_DEVICE_nGnRE:
++				prot = __pgprot(PROT_DEVICE_nGnRE);
++				break;
++			default:
++				prot = __pgprot(PROT_DEVICE_nGnRE);
++				pr_warn("unsupported MAIR attribute %#x for EFI MMIO region at 0x%llx, using Device-nGnRE\n",
++					mair, md->phys_addr);
++				break;
++			}
++		} else {
++			prot = __pgprot(PROT_DEVICE_nGnRE);
++		}
+ 
+ 		if (arm64_is_protected_mmio(md->phys_addr,
+ 					    md->num_pages << EFI_PAGE_SHIFT))
 
 -- 
-2.54.0
+2.55.0
+
 
