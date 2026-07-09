@@ -1,116 +1,197 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4764C6F0A
-	for <asahi@lists.linux.dev>; Wed,  8 Jul 2026 17:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514A63E44EB
+	for <asahi@lists.linux.dev>; Thu,  9 Jul 2026 07:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783530798; cv=none; b=t4YIozgV4sbYy6MBA0IudHwZf/2SJ6sezvMRVvmNcH86wjVQ0IyYbhcBkT1s7TeaOZQkWcHYJXAoDa14Oiu3eEJYF9xdbxOxd8GSf8PPI+aJeUk2oKG8SdsUz5T6K6xVmFWl6nkOZLTiAAvye0gOc+CFXaVieXXFcL7xFDwOvUo=
+	t=1783582278; cv=none; b=FdS7zWSWU5WI2XFL3EBNc+Xy4/OtkhiHcGclPvoUjz5yDEI4tTrUUYz1gRqURNQBgAawEsknv+mWfme4GeZiQA6At3al4fvsOSiJ8FNB25O2Q2dw4r1XjX0LucvmT5X8qX967gCLdAGbZ768tDvryYbVrAXeYjmd1q/Z9w8PFb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783530798; c=relaxed/simple;
-	bh=zfmAyoMMb2wOrJd1JOChx63QvBzEFg9LxEcj6r2lKq0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=WtHx6VAvJWHTdepanTTAnnPWNG1mdjHCmD/ihtF3AsH6teKzfgSsdgysPhiGON+5pG8imUJUTr4u35VikQJa1Twfl3epjhsD8W07+PTLHhgWPV9vFG3lyH8Ty0LBDduPDCuV+0qb7Ki7WkPoxTVderCAXwxfU4NM7kj/zSHnz64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NULni/6N; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1783582278; c=relaxed/simple;
+	bh=XsJSiWwd2mbK2l11b/JXgHSqFuO9/PYl34cq33dd54o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=AT8JIcBXchijWP4aVz4QqZhBe7iRO6P+LJrlBibyZ+JimAZCwKLgplOJgvfyX6fDf1qTh902JSjZm5UhUThTNwXC38QdZUCPgjVItTE/qzYIsZvtpB1CuNCIoQ34/ikmx+P5Fav+CV5q2m4ThaT1yaTJast8vVOvmv5dw4x0qm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=hrhXbskg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RFwp6tIW; arc=none smtp.client-ip=103.168.172.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NULni/6N"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B7DC54E40CF3;
-	Wed,  8 Jul 2026 17:13:12 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 79AB260339;
-	Wed,  8 Jul 2026 17:13:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 537A811BC19AE;
-	Wed,  8 Jul 2026 19:12:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1783530790; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=zfmAyoMMb2wOrJd1JOChx63QvBzEFg9LxEcj6r2lKq0=;
-	b=NULni/6NFJ20KXh/pLbAeGrodYIPFdy8eBKw/RzQ8jTjYVIOvQUspy5qI1oy+zxGvEH+zJ
-	WvoEK/O51fn4m48VZqqjYI81CQOxKWiScZbhJgJK2YVbNsZS1VGyuYZaMx3SLmnfr6jQoI
-	YR2AKo/UgzIYjSUwzS3rpj+IKjb2Q+LhZ7cuFyaUM6XIR+e8wEmd4HbVythE68S0mmv3Cs
-	j3oVLe6v+J9QSUhcNCD7mRipL0D8vtu88BOWe2ZQTs+kPxWTy/tKTtUto+VyBJhtPXpxqr
-	+JFdA0Avyf2sOR23P7FkAyhriBrPYmbpdEOaTOxocTMTFz9QJqO1ky88LwxwQA==
-Date: Wed, 08 Jul 2026 19:12:56 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-CC: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org, Joshua Peisach <jpeisach@ubuntu.com>,
- Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>,
- asahi@lists.linux.dev, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Francesco Dolcini <francesco@dolcini.it>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Ian Ray <ian.ray@gehealthcare.com>,
- Peter Senna Tschudin <peter.senna@gmail.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Russell King <linux@armlinux.org.uk>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- Linus Walleij <linusw@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>
-Subject: Re: [PATCH v2 00/37] drm/bridge: Convert all bridges to atomic
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260707-drm-all-atomic-bridges-v2-0-21d03cbca446@kernel.org>
-References: <20260707-drm-all-atomic-bridges-v2-0-21d03cbca446@kernel.org>
-Message-ID: <CB4505B9-E9E5-402D-B5A6-A72395D2E5E9@bootlin.com>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="hrhXbskg";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RFwp6tIW"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id 7BC79138006C;
+	Thu,  9 Jul 2026 03:31:15 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 09 Jul 2026 03:31:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1783582275; x=1783589475; bh=ty
+	kZSdBbFVnoxsjT3yV+4MRoChTaLH6xBUntMi9i5W8=; b=hrhXbskg7JksXDuhBv
+	pHSvTZd++o1Vmt7b3L4uOQO2/ACUBJDBMlVJXM0JcuJVERnncBNTzucq4b5my8yP
+	XnNg1UXNWqMy+kmlieCZndfewzQtUFKNS2u/6rmZxEd6XM6h/mnPhzp7oS3PWGvX
+	jI7c/OvWTQzUPwf/NwH357ABxZe/HRaeWjtPJcDUf2nj98XDARAH5YQw3rSV4DD1
+	l747e1WbLXj2TMWJV7+gKSrzesjowFKYaHOeMXIeDfVHCWyF96CTNDyGs/VCU/SQ
+	DtssinlyUUEREryjZ3AlneErCnqYdVATDS3UDqeaYOFOR3FZvW1jXPS+xhJCsJXX
+	/Llg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1783582275; x=1783589475; bh=tykZSdBbFVnoxsjT3yV+4MRoChTa
+	LH6xBUntMi9i5W8=; b=RFwp6tIWojWBFLZDWC5WAYOMVlj4RM0q9CjscGm3Zlgh
+	ATAhn8WHAaKRA8GItkeStdixzP6i4YM4h6KZM9EeRKjtsttiWQEiJjVqMwBk5gFh
+	xxt4ThvagRrU7HGbgqq0u9tkOL/bQnX9YMeRG3Q+mU0EUIXdl4hYxH6ntIeGXLXF
+	BVv7IzOq+v+AIbdnGVUKVIvsNBjmF7CUO4ElxcrnIuhkyKEvYqsy4cepYNW9JdwJ
+	1ymbm+R/RmqfxwOjcLxFcBNQVgctvItbe/T4+GNJLsbZjmAehVn2hYRcAc83r1zz
+	N8Ug1+delKrjwIG+EOxEWeOdZ0D69fTwtRgSZlrLVQ==
+X-ME-Sender: <xms:Qk5PapHK1MCI5wSYHX4pCDhHSXnnNEItquukk4c3NTeDt2K84iM4Xw>
+    <xme:Qk5PapGWcBzcsF2mORJhqFxs2crrE8itSAUN93Z-e0KrxQDwTFTfrqIVAg_BLA9zF
+    W-TZ7X4WL1-6qmopyRS7NDvzWVWU_MKoG7CLJTDjkwpJ29DWKJARAE>
+X-ME-Received: <xmr:Qk5PaqAxhdsSrf3gspn8Dwv3_-SKxUNex04JzmoNEAbQ1XKleg0cHUvC8a7J91HgLKJheCDJiC9CTvB16tzwCw_a3llcf-ehBbI>
+X-ME-Proxy-Cause: dmFkZTFSjdEBfLERVP1KXx0Gpwc6pvTv5Wcp1YpThT70UXH1FfpqSJZOc0ISQHxtU+MxDh
+    +67W+jKjcWO8Emjnwx9c2cPI4vcHYm1fIHunL9bsxD8PvVLg5zc3fwVzQnOE6XGe4mQMXh
+    TSRu6QPliu32CCyJiDgidFV/7cS84vyzWqS9tOjtyj+mnlJB8CW0rhQxWJ8lM8jziJMgf7
+    H2SI+DFO4cOB23YJrS8Fxa11AAGNyy9ItlV/2w5Gsa33KvxZDeGAZ4/eEPGffX9DTjsgJH
+    rKsoYtROEtnhh1n33QQUze7uf45lNJYJ0FYDovQk5IIReAIcX4szV+xhyKuYFmiO7YGxN+
+    daQL240SQMBC0r16xXUA08C+cDICvlWtBgD9i+daAwsYUlMg0G22prlM8K/0VTpgt4BtDh
+    V13zM8XQ9qHUdwWnGekOridrdTdY4oITDg/j3ifY1ZWOd4NQMc230YjEzrrafOQJtmZrrP
+    BDbt8JdBQxbT/MwObfW8DgI/NK+HGdx33+ceu1NA2bHslqU0LbJkmLq3dMvKXPAIKEJiR1
+    uhzGa5MVoKK+gkCHHsMigTnA37v4VhiDaUelwJ+Ybe17Q19Vl0bqC/UU9CN6LJf6WA9Lql
+    ftAqFgnYlnhnqp5bH4rZRZ5MRh5hbyyTsVtEcUC3cfINW4KQj5bLVuFq6MSg
+X-ME-Proxy: <xmx:Qk5Pal06FD5BdD0PI-YxYR0xLFVuDllFzEnM8too4AaWQos66OnbVA>
+    <xmx:Qk5PagCv8twDCim9dDzErvGkCFu-mJJyvDikCmD2QKowwBYshrCnBA>
+    <xmx:Qk5PaubCS7lrU8__KEGzuPXGQDdKqR3DtshK3dWxCGZqblVjO7frUQ>
+    <xmx:Qk5PasawQIjMxHYAEMWX5QoQF_ua2g0kxvSDS_Nz3A9fLZDdpYKxTA>
+    <xmx:Q05Pas6ZstJ0dtMI1s7oIfw-7SmibGgDUFcOxtm-4l-AyTxEPiz8rQiG>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Jul 2026 03:31:14 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH 00/11] Initial Apple M3 Pro, Max and Ultra device trees
+Date: Thu, 09 Jul 2026 09:30:46 +0200
+Message-Id: <20260709-apple-t603x-initial-devices-v1-0-55b305833123@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCMBBG4auUWTsQR1rRq4iLMfnVkRJDEqVQe
+ vfGuvwW781UkA2Fzt1MGV8r9o4N+11H/qnxAbbQTOJkcEfXs6Y0guvgDhNbtGo6cmihR2EBvEo
+ 4BemV2iFl3G3a7pfr3+Vze8HX35KWZQViqfcWfwAAAA==
+X-Change-ID: 20260705-apple-t603x-initial-devices-2eeca2d9d25a
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>, Linus Walleij <linusw@kernel.org>, 
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Sasha Finkelstein <k@chaosmail.tech>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-watchdog@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4913; i=j@jannau.net;
+ h=from:subject:message-id; bh=XsJSiWwd2mbK2l11b/JXgHSqFuO9/PYl34cq33dd54o=;
+ b=kA0DAAoWoRs8240vZWYByyZiAGpPTjuh9olovaOYNi3XzaP1uc61FQmexw9PBlpGAc/0hjYyu
+ YiRBAAWCgA5FiEEYivpiACrfCFcfeBWoRs8240vZWYFAmpPTjsbFIAAAAAABAAObWFudTIsMi41
+ KzEuMTIsMywyAAoJEKEbPNuNL2Vm7AcA/iD+hDv9ElL1sz9sRA/SN6GrZQ2xJQ6sdUFXTTUym0s
+ vAQDKbRQtKmQe72JfQHpxagdyyBgz7xwRrGYKMROSSPjACQ==
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
+This series adds device trees for Apple silicon devices with M3 Pro, Max
+and Ultra SoCs. The M3 generation has fewer devices than their M1 and M2
+predecessors. The only non-laptop device is the M3 Ultra Mac Studio. The
+Laptops are the known 14 and 16-inch Macbook Pros now with M3 Pro and
+M3 Max SoCs. The M3 Max variant with fewer CPU and GPU cores has
+additionally only a 384-bit wide memory bus instead of 512-bit of the
+full M3 Max. It has a separate identifier (T6034) and so there are six
+laptop device trees.
+Another difference to M1 and M2 Pro/Max/Ultra is that the M3 Pro is
+distinct SoC design and not a smaller M3 Max. For this reason both M3
+Max variants and the M3 Ultra will use "apple,t6030" as compatible
+prefix. In the M1 and M2 generations Pro, Max and Ultra SoCs shared
+"apple,t6000" / "apple,t6020" as common prefix. There is currently no
+known difference but M3 Pro and M3 Max are not as closely related as
+previously.
 
+This series adds the same level of hardware as the base M3 (T8122) has
+in v7.2-rc1. This includes CPU cores, interrupt controller, power
+states, watchdog, serial, pin controller, i2c and the boot framebuffer.
+This is intended as base so that support for additional hardware can be
+added to all M3 based devices at the same time.
 
-Il 7 luglio 2026 17:11:07 CEST, Maxime Ripard <mripard@kernel=2Eorg> ha sc=
-ritto:
->Hi,
->
->Over the years, most of the bridges have been converted to atomic
->modesetting and hooks, but not all of them=2E This forces us to maintain
->two different code path in quite a few places, which is pretty
->bothersome=2E The switch to atomic modesetting for legacy bridges though
->is pretty trivial, and we don't have a lot of drivers still using the
->legacy path=2E
->
->This series converts all bridges to atomic modesetting and drops the
->legacy codepaths where relevant=2E
->
->Let me know what you think,
->Maxime
->
->Signed-off-by: Maxime Ripard <mripard@kernel=2Eorg>
+Merge strategy:
+Since the dt-binding add new compatible strings without driver changes
+it would be preferred if the whole [1] series would be merged through
+apple-soc/arm-soc. This will help ensuring a warning free
+`make dtbs_check` for followup series with additional M3* hardware
+support I hope to send for this cycle.
 
-I'm out of office so I'm afraid I can only reply from mobile, but I review=
-ed the series on a real laptop:
+This series will conflict with the M4 series [3] sent A couple of days
+ago. I would prefer if this could be merged first (in order of SoC
+release).
 
-Reviewed-by: Luca Ceresoli <luca=2Eceresoli@bootlin=2Ecom>
+[1]: I see that the M4 watchdog change was already picked up by Guenter
+     in [2] 
 
-Luca
+Link: https://lore.kernel.org/asahi/a03c19ee-cf74-4f26-826d-f2bfb816fb3f@roeck-us.net/ [2]
+Link: https://lore.kernel.org/asahi/20260705-apple-m4-initial-devicetrees-v1-0-e5655ee56523@cyberchaos.dev/ [3]
+
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Janne Grunau (11):
+      dt-bindings: arm: apple: Add M3 Pro/Max/Ultra devices (T603x)
+      dt-bindings: interrupt-controller: apple,aic2: Invert #interrupt-cells condition
+      dt-bindings: interrupt-controller: apple,aic2: Add apple,t6031-aic3 compatible
+      dt-bindings: arm: apple: apple,pmgr: Add t6030 and t6031 compatibles
+      dt-bindings: power: apple,pmgr-pwrstate: Add t6030 and t6031 compatibles
+      dt-bindings: watchdog: apple,wdt: Add t6030 and t6031 compatibles
+      dt-bindings: pinctrl: apple,pinctrl: Add t6030 and t6031 compatibles
+      dt-bindings: i2c: apple,i2c: Add t6030 and t6031 compatibles
+      dt-bindings: pwm: apple,s5l-fpwm: Add t6030 and t6031 compatibles
+      arm64: dts: apple: Initial T603[124] (M3 Max and Ultra) device trees
+      arm64: dts: apple: Initial T6030 (M3 Pro) device trees
+
+ Documentation/devicetree/bindings/arm/apple.yaml   |   37 +
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |    2 +
+ .../devicetree/bindings/i2c/apple,i2c.yaml         |    2 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |   10 +-
+ .../devicetree/bindings/pinctrl/apple,pinctrl.yaml |    2 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |    2 +
+ .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |    2 +
+ .../devicetree/bindings/watchdog/apple,wdt.yaml    |    2 +
+ arch/arm64/boot/dts/apple/Makefile                 |    7 +
+ arch/arm64/boot/dts/apple/t6030-j514s.dts          |   22 +
+ arch/arm64/boot/dts/apple/t6030-j516s.dts          |   22 +
+ arch/arm64/boot/dts/apple/t6030-pmgr.dtsi          | 1437 ++++++++++++
+ arch/arm64/boot/dts/apple/t6030.dtsi               |  524 +++++
+ arch/arm64/boot/dts/apple/t6031-base.dtsi          |  297 +++
+ arch/arm64/boot/dts/apple/t6031-die0.dtsi          |  197 ++
+ arch/arm64/boot/dts/apple/t6031-dieX.dtsi          |  107 +
+ arch/arm64/boot/dts/apple/t6031-gpio-pins.dtsi     |   53 +
+ arch/arm64/boot/dts/apple/t6031-j514c.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6031-j516c.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6031-pmgr.dtsi          | 2400 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t6031.dtsi               |   48 +
+ arch/arm64/boot/dts/apple/t6032-j575d.dts          |   46 +
+ arch/arm64/boot/dts/apple/t6032.dtsi               |  419 ++++
+ arch/arm64/boot/dts/apple/t6034-j514m.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6034-j516m.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6034.dtsi               |   12 +
+ arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi     |   67 +
+ 27 files changed, 5785 insertions(+), 4 deletions(-)
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260705-apple-t603x-initial-devices-2eeca2d9d25a
+
+Best regards,
+--  
+Janne Grunau <j@jannau.net>
+
