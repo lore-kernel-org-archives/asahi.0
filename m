@@ -1,156 +1,147 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03EC3DE424
-	for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 08:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30604071F5
+	for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 10:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783670595; cv=none; b=U2sAJWJAA8MKiFak3n0cBXG9qAdrqnHlZ9vNcSFnVHLNM2jMmZ3map+j2MmLZpQ7RVPAC0kpEpP1r7a8GIUgE8AHIqWqwhGkoSZVmkjfcBSdmE4IDRcxuuIPSNmK+rU9sgnWRUZoixFkoNCVv3yd+2+0gUp+kEqeSYAk+solRTs=
+	t=1783679304; cv=none; b=G/tsUD9iApBZLZpiFnsRdZKMAhApIfceTXq5ber79nIWRRl3vENBDNeTGUqg9f1gU3onMXaFtzOxdg9oA3PW33BKarqbCMqk5+U8xGl81HgM7hhG9EO52Yf0NZ66eSFDwIMZvln7BqCY++jd+O1pAs6CxL7g2CUuf59AyCWX7TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783670595; c=relaxed/simple;
-	bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eqW/bLxdBxKut3eWI09otM+UN3OncsyA8EBJo3d4UwVONLDVXUKiJMa/nRgWWsolqXXCwyyJaZcxjtjSdE1NNOrZFS1HGo1vzh4q+6MqKq5sXhtGO+S9bEI6a1tu6QmFIovLsb/OgTWurx9Qm8lVo9jlb3BbHqQle6Ui1KQUYBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=IljZosE6; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="IljZosE6"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493f4638f4aso3201215e9.3
-        for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 01:03:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783670591; x=1784275391; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
-        b=IljZosE6QWRG5Wb6zWVuDa5ameLKZX0nKC4pnbAkoFHk+hBfnZ1zUxEDNqgLIlKvmZ
-         BS+/7Bs30OLBnKXLntvHmhvZeyAGXgpN9nr+0pJm+6gl/Qp5AVFtt+dlpwNQcd2XpFWM
-         R6VX2Zl3ZP96P/vokbQQE2BHDcinlac/Va3ZNebvhxuOuCmjfguRXgHnjA9TSACLqDF/
-         5QwtJxsxzF91ZJ6y6z2fvQAnNdZfHfD03GimcSypb525rsMn5JALpfc6bD5E8zxIZ5z2
-         MYqgXJJMPNYZqJnQazx92TZOtraPpQxDE4xCeEBI1SDN8uNZ6bJqyy8QFsCw/NVGa29P
-         dwAw==
+	s=arc-20240116; t=1783679304; c=relaxed/simple;
+	bh=8Lu8OMpVPc16MxdZvSkmOEt9Lvt01fn1EVEQixIYHBA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hutUPcGgIvuS0i7T+2XpKVI7e1Wp1Z4oHGp5cKdgQrm6WkcSI46R2SZvQBbBqJyRdhH+Ab/tRLuZQQWd/PfgI9lUKEaort4EXTaOdGLrZ+O5i+mposOh9amjZiKpCjGwTVsX7XrFd+FcRqNZ6iDaBe4S1imzdEPifb23AywZvIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-80d33d13a23so9663297b3.1
+        for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 03:28:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783670591; x=1784275391;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1783679302; x=1784284102;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
-        b=Zf6DzqsVMT/VSF9nvM+dQmZkEBmxeocjR36B4jMJkNh4FXkKp0lVAo2ZOIwrR7WYxH
-         1JCSFFYFskw0s3LRMtG6Kxfizd2Jb1NGLa9gYc6uoVzOpz84nxSsB5pujlEzfx7yw1AZ
-         C0L9+nojySxgLNzLfeYgsFVIHswni8/ErtuNTeQxxxDZebIx19j2asSFd0sxIYiPNEC+
-         P4GfmxjQZ3pIHq5cf/XQvhmT7PC25JKOpAr+nZObwqpExT8ymZ3Sn/S/B2P6IGvYEUh7
-         45ikOZA4kb6km03J7+pL/0X6xOpav8jNVtYSZc0vrOUix9KoLgvpltiSrnUFfpPDEu8W
-         QpWw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpn/AVvCDSQCvYA6gd7UtTPvufi1y07xI7qEHIVAckbiPc8WtYjU3Ft32VNPUiIDCiyynVr6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzIKWwMKYwzl7UE1b47vv1C5Z1gkabd9G+7lMjImu2oSk54VTcL
-	PjW94vc5lIbzE7LtE9EGBAXNApYULWXtuV5kznCGUvoiQLSc30IXqMOuZaqyFgJUUr8=
-X-Gm-Gg: AfdE7cnHrUb+YgMVugvGuqeXCDfSyTroxjYwpvaC3o1AOETVzKs+QvOujNFicySO6gh
-	elbGOufJ9HaH2Aqz1JBM0WSOo1ESFJZdZ9F6cyebau2JZgTByztBZjtK+z5QMwv59qA5xU3/XWo
-	UBU25WSK9Ji0emZogFl9l3C4UIRLrqkV/ludQzuvtJvKITL7s9zF59L14AppY5dHbTm7jOw0ARM
-	6EVNoQ5naN0NodKTExJJkMLgZMl4OcGyqT3jOUKiDlGokwIsCjbkquGxIIgbUqvb5+NPwR45wEf
-	L/9MWge4XF6gModHxXQS3ES6ZLhvR2u0IaBL6DlP4H9y+viD+XAWQu2o9C3PHpftSIKbxQY1FzS
-	Wp5OvXR8OK75Q60ZwrwpsTTKyZtQ1XZGa+Wgokzke2sjN87e9T/1W247+V4VMtsoIrGK2ATAq0o
-	DVKKjNr+TOaJ8N6C2U2CMSJYCYMOwFrb9SQDh4WeUTtsKDcTuXJv9/52T8yREcLQ95NDztzfzT5
-	N47
-X-Received: by 2002:a05:600c:e557:20b0:493:c0ec:9a5f with SMTP id 5b1f17b1804b1-493e68ddd9bmr75755495e9.19.1783670590951;
-        Fri, 10 Jul 2026 01:03:10 -0700 (PDT)
-Received: from localhost (p200300f65f47db04fbea22a44ee9ba38.dip0.t-ipconnect.de. [2003:f6:5f47:db04:fbea:22a4:4ee9:ba38])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9e4d6e4csm55102028f8f.10.2026.07.10.01.03.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 01:03:10 -0700 (PDT)
-Date: Fri, 10 Jul 2026 10:03:09 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: linux-pwm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>, 
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>, 
-	Samuel Holland <samuel.holland@sifive.com>, Michael Walle <mwalle@kernel.org>, 
-	Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
-	Alexey Charkov <alchark@gmail.com>, Sean Anderson <sean.anderson@linux.dev>, 
-	Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
-	linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v1 0/5] pwm: Unify arrays of various *_device_id
-Message-ID: <alCm-J1wRBnhoH0C@monoceros>
-References: <cover.1783263835.git.ukleinek@kernel.org>
+        bh=HsVN2cPDw+/JUxMMLcOD68aRVLlq59TmevfTz9ChQ+g=;
+        b=kV0HUFKKc0gVMFATiVwzDGvNAyWzzBlQAgJHe5m+MdCo8A37m3+qvhAVyDisy7eCxE
+         2waKJLf8p//6qjTuEUadpg/cUi0Sk4ivmYmC9LEKvITdm45SqAtD5KtkrngAERrwHroU
+         YudukS4C3HV9uaTAB8FD0eWM9xhjGJblh1P13HSZDd7bEF9u56mV1Og55wWxR6lNpQK1
+         s3D9Jr3sFU+oTAiotvK5k9qzIdQCtEbMWvpxWlAJzskuJrfB5zXitzZjCcp5cQ1Q311Y
+         M/jlFupEEDpnJu1h9PinDSjsNI6joi9c46FYVoL+ayWwtC51Wbh+vNajJ61fafZqLlDM
+         RbSA==
+X-Forwarded-Encrypted: i=1; AHgh+RpQMO1VjMKHBAkvfwA07PY9hxav28uDp3uR8oVOssjpSNarhJ2YOe4fbzsdilMSqJokGeVcdw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjlDU5JQlMFTIcqIuH6IjHE2krZNFwcIooyovxSvX785Tge+gq
+	wpegjDi7hpi94P7octBiluwBi1GScN8PBTUeEKOcTwl55EDIbNWQQz6t1KT/fOWrZtQ=
+X-Gm-Gg: AfdE7ckAgwIlI1uPuP9EUl5NBBM6T655DDcfoZ1ZfFVw5G9XfTpAKsnv4N6Lb0nz70A
+	krTlVGuMawCYq4cE5XYqo1HVUBfrRkfuBcC5vG7c9GBaxpMmiuFU3+YJetKw6J642eOB2oDpPZL
+	hBRhVM1yR95/X3Rop6O42Nzt1bI10CPXV4ElV/yP5a0O8/igFZNv0MF2zo0ohftBry0avKZ5dnd
+	MsvZ6CYXE0EcXbXNl+DZ2JXh2sTkcrcyVMz1LFaOaGU2pK4sr+Etg9Vz+/PigFPZO50teuMkT4n
+	wKJ36hriX8hBSs22SXJkaTvF6oWghkNwAS7dYqXF5lzwyv7U8nc6w1zeNZyPNLxhQLdV7YCGBA2
+	MCOaRXo0LVsHR/xONbp+YUFODEq4ObnK8xOcON7h4G29Mgr2LOhyEoEQbP03Llt87h4b88KgaX3
+	VV3VQbXfeqAC+bhWsGXKDPcmbz6O+WYilddHURtNdqcDa81NqZ4w==
+X-Received: by 2002:a05:690c:2501:b0:80b:9114:3b85 with SMTP id 00721157ae682-81dba3eeeb2mr82073127b3.0.1783679301853;
+        Fri, 10 Jul 2026 03:28:21 -0700 (PDT)
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com. [74.125.224.49])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6bc4285asm42002367b3.0.2026.07.10.03.28.21
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 03:28:21 -0700 (PDT)
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-66771ded50aso1271636d50.1
+        for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 03:28:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoZ7QcrBFBvoIJTgVn4XBkuFXV79t1CT4tDAFM2JRQ3Aabo+uiGIwVX/u6lOdcb0YOYuh8/2A==@lists.linux.dev
+X-Received: by 2002:a05:6102:3911:b0:726:e608:6658 with SMTP id
+ ada2fe7eead31-744dff43a82mr6415934137.11.1783678885257; Fri, 10 Jul 2026
+ 03:21:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iuf5svn2mmf3pdwc"
-Content-Disposition: inline
-In-Reply-To: <cover.1783263835.git.ukleinek@kernel.org>
-
-
---iuf5svn2mmf3pdwc
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
+References: <cover.1783615311.git.u.kleine-koenig@baylibre.com> <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 10 Jul 2026 12:21:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW4Thb0en6jeD23KhDp4pTe2F8o5GcBx4fnB+JAxPG-bQ@mail.gmail.com>
+X-Gm-Features: AUfX_mxlLApCIjqxIsg4l7Qhe6Rgf_3Xy6YCZC9GZlPPApUQFkmqIVPuBIh_jUI
+Message-ID: <CAMuHMdW4Thb0en6jeD23KhDp4pTe2F8o5GcBx4fnB+JAxPG-bQ@mail.gmail.com>
+Subject: Re: [PATCH v3 21/23] mfd: Unify style of of_device_id arrays
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Chen-Yu Tsai <wens@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	James Ogletree <jogletre@opensource.cirrus.com>, Fred Treven <fred.treven@cirrus.com>, 
+	Ben Bright <ben.bright@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Support Opensource <support.opensource@diasemi.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Tim Harvey <tharvey@gateworks.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Sven Peter <sven@kernel.org>, 
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, Chanwoo Choi <cw00.choi@samsung.com>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+	Saravanan Sekar <sravanhome@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
+	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
+	Tony Lindgren <tony@atomide.com>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, mfd@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
+	linux-rpi-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1 0/5] pwm: Unify arrays of various *_device_id
-MIME-Version: 1.0
 
-Hello,
+On Thu, 9 Jul 2026 at 19:00, Uwe Kleine-K=C3=B6nig (The Capable Hub)
+<u.kleine-koenig@baylibre.com> wrote:
+> These arrays already mostly match the most used and generally
+> recommended coding style. That is:
+>
+>  - no comma after the list terminator;
+>  - a comma after an initializer if (and only if) the closing } is not
+>    directly following;
+>  - no explicit zeros in the list terminator;
+>  - a space after an opening { and before a closing }, a single space in
+>    the list terminator;
+>
+> Adapt the offenders accordingly.
+>
+> Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org> # for Maxim MA=
+X77759
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
+aylibre.com>
 
-On Sun, Jul 05, 2026 at 05:14:12PM +0200, Uwe Kleine-K=F6nig (The Capable H=
-ub) wrote:
-> this series is part of a preparation for changing .driver_data (and
-> similarily named members) of *_device_id to an anonymous union.
-> See e.g.
-> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre=
-=2Ecom/
-> for the idea behind it. I also grabbed the opportunity to unify the
-> coding style for all these arrays while going through these.
->=20
-> The patch series is based on pwm/for-next + "pwm: pxa: Depend on OF and
-> simplify accordingly" [1].
+>  drivers/mfd/rz-mtu3.c          |  2 +-
 
-Applied the series with s/iff/if (and only if)/ in the of_device_id
-style patch.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
 
-Best regards
-Uwe
+Gr{oetje,eeting}s,
 
---iuf5svn2mmf3pdwc
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpQpzoACgkQj4D7WH0S
-/k4qdwgAk8w911oLsA5aqycP2AV5trJAC5zx53mJ8LxbKoImqWjYyvmd9Kb5YCt2
-LPeZPEPqg6LIhPMbDp91hBWArDL5UUUJ5OfgC8/i0zK1+zWS0B+UPtXUGxzQOkwk
-stkrTAN5eVW7rhVy1AtT4N+EJVm4Y8958RVsmNi75/idP+gmhs7RdJg8zMdhrVVy
-M7XB5Q1zxVcmhsx5TDStZ8tzeFMsDbMqz0s0xVECWSq50U70IwD0Scn0a1BN68kQ
-+fZQMwGT3KhdqqmLJV44puWQoDqj8OwGeAuWJQykzluefOFNtRHtRhurlZQAUOrv
-W4X++IXkqXbyyTO72ousttS/RpH5ig==
-=4YUW
------END PGP SIGNATURE-----
-
---iuf5svn2mmf3pdwc--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
