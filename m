@@ -1,94 +1,156 @@
-Received: from mail.maslowski.xyz (mail.maslowski.xyz [45.77.158.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D6433D4FB
-	for <asahi@lists.linux.dev>; Thu,  9 Jul 2026 23:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.77.158.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03EC3DE424
+	for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 08:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783639428; cv=none; b=Mv7eL2vZ7OLSnyM1dDmi8CkE1UMF0hlgvpJMzP9EqEQiDPsiLavvcitwNl2CTpImkLFE27eZ/J/+xg2fbk5KNgJ3gu3u8YTZR7f7ads2MzzKpquSD+NGcV2R95ci7i/WQ0IIHauOgOFZ86cU4eZNX6IcaP/IMyyqiVb52hRngH4=
+	t=1783670595; cv=none; b=U2sAJWJAA8MKiFak3n0cBXG9qAdrqnHlZ9vNcSFnVHLNM2jMmZ3map+j2MmLZpQ7RVPAC0kpEpP1r7a8GIUgE8AHIqWqwhGkoSZVmkjfcBSdmE4IDRcxuuIPSNmK+rU9sgnWRUZoixFkoNCVv3yd+2+0gUp+kEqeSYAk+solRTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783639428; c=relaxed/simple;
-	bh=6p4mTHct6xG4EjksULhZhC0FBM6s3IkWFA5OdscgQ9g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=YQNEUPMtfpGTsaICbeow6wFRj61/sMqP//1j8Sn2rrhnFN7cF4yuS+IyF60mobj0hfyRgXFEfaG7mY7OdaRfsYlQUIJubvJi5fETWk0EiU8w/4UnJP6BCqv05tO8uyFcTIsisjA2nl91lXRvobHLgZZQ24AoiSw3f098qpUPevQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=maslowski.xyz; spf=pass smtp.mailfrom=maslowski.xyz; dkim=pass (2048-bit key) header.d=maslowski.xyz header.i=@maslowski.xyz header.b=FzT9y8Xb; arc=none smtp.client-ip=45.77.158.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=maslowski.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maslowski.xyz
+	s=arc-20240116; t=1783670595; c=relaxed/simple;
+	bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eqW/bLxdBxKut3eWI09otM+UN3OncsyA8EBJo3d4UwVONLDVXUKiJMa/nRgWWsolqXXCwyyJaZcxjtjSdE1NNOrZFS1HGo1vzh4q+6MqKq5sXhtGO+S9bEI6a1tu6QmFIovLsb/OgTWurx9Qm8lVo9jlb3BbHqQle6Ui1KQUYBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=IljZosE6; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=maslowski.xyz header.i=@maslowski.xyz header.b="FzT9y8Xb"
-Received: from localhost (public-gprs387849.centertel.pl [37.47.146.74])
-	by mail.maslowski.xyz (Postfix) with ESMTPSA id EB0CE7D5AC;
-	Thu,  9 Jul 2026 23:17:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=maslowski.xyz;
-	s=mail; t=1783639063;
-	bh=6p4mTHct6xG4EjksULhZhC0FBM6s3IkWFA5OdscgQ9g=;
-	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
-	b=FzT9y8Xb8ZNgiWivEhcuM9ax/2mZEvdYBOIH9b3rFWRnv+oUTd3enuolQPLD7SKOq
-	 hRTkLGZtoXjWkqAB8SwxF51ELLrVeAJWbycZ2TxTnHyGBf3I4J26pqjITfSQwXXblc
-	 7OyjEgrjZ0dTD2rOMo1ncmD1z3KiP/Q8yDuUv2o8/bVhRFjtcZYb0/Yu4EadKso4Tj
-	 BlBZH9/wr1tt6PGKIkNac2nB7j9vzkaiEYtSJttq1Vlpf4S4+SMPZ+9Ps/mqHJfEO+
-	 MAsSfXywvllxKToDmvCYNk4kr3PzsrUnGhoK0Rqo1rJssb78m7yhYLw/irtxpvdesY
-	 IHgcA1OmICZrQ==
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="IljZosE6"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493f4638f4aso3201215e9.3
+        for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 01:03:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1783670591; x=1784275391; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
+        b=IljZosE6QWRG5Wb6zWVuDa5ameLKZX0nKC4pnbAkoFHk+hBfnZ1zUxEDNqgLIlKvmZ
+         BS+/7Bs30OLBnKXLntvHmhvZeyAGXgpN9nr+0pJm+6gl/Qp5AVFtt+dlpwNQcd2XpFWM
+         R6VX2Zl3ZP96P/vokbQQE2BHDcinlac/Va3ZNebvhxuOuCmjfguRXgHnjA9TSACLqDF/
+         5QwtJxsxzF91ZJ6y6z2fvQAnNdZfHfD03GimcSypb525rsMn5JALpfc6bD5E8zxIZ5z2
+         MYqgXJJMPNYZqJnQazx92TZOtraPpQxDE4xCeEBI1SDN8uNZ6bJqyy8QFsCw/NVGa29P
+         dwAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783670591; x=1784275391;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DWdfXN3BNh6HNT+0goMzdBpTUvzgP37bXlBu5ybAYas=;
+        b=Zf6DzqsVMT/VSF9nvM+dQmZkEBmxeocjR36B4jMJkNh4FXkKp0lVAo2ZOIwrR7WYxH
+         1JCSFFYFskw0s3LRMtG6Kxfizd2Jb1NGLa9gYc6uoVzOpz84nxSsB5pujlEzfx7yw1AZ
+         C0L9+nojySxgLNzLfeYgsFVIHswni8/ErtuNTeQxxxDZebIx19j2asSFd0sxIYiPNEC+
+         P4GfmxjQZ3pIHq5cf/XQvhmT7PC25JKOpAr+nZObwqpExT8ymZ3Sn/S/B2P6IGvYEUh7
+         45ikOZA4kb6km03J7+pL/0X6xOpav8jNVtYSZc0vrOUix9KoLgvpltiSrnUFfpPDEu8W
+         QpWw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpn/AVvCDSQCvYA6gd7UtTPvufi1y07xI7qEHIVAckbiPc8WtYjU3Ft32VNPUiIDCiyynVr6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIKWwMKYwzl7UE1b47vv1C5Z1gkabd9G+7lMjImu2oSk54VTcL
+	PjW94vc5lIbzE7LtE9EGBAXNApYULWXtuV5kznCGUvoiQLSc30IXqMOuZaqyFgJUUr8=
+X-Gm-Gg: AfdE7cnHrUb+YgMVugvGuqeXCDfSyTroxjYwpvaC3o1AOETVzKs+QvOujNFicySO6gh
+	elbGOufJ9HaH2Aqz1JBM0WSOo1ESFJZdZ9F6cyebau2JZgTByztBZjtK+z5QMwv59qA5xU3/XWo
+	UBU25WSK9Ji0emZogFl9l3C4UIRLrqkV/ludQzuvtJvKITL7s9zF59L14AppY5dHbTm7jOw0ARM
+	6EVNoQ5naN0NodKTExJJkMLgZMl4OcGyqT3jOUKiDlGokwIsCjbkquGxIIgbUqvb5+NPwR45wEf
+	L/9MWge4XF6gModHxXQS3ES6ZLhvR2u0IaBL6DlP4H9y+viD+XAWQu2o9C3PHpftSIKbxQY1FzS
+	Wp5OvXR8OK75Q60ZwrwpsTTKyZtQ1XZGa+Wgokzke2sjN87e9T/1W247+V4VMtsoIrGK2ATAq0o
+	DVKKjNr+TOaJ8N6C2U2CMSJYCYMOwFrb9SQDh4WeUTtsKDcTuXJv9/52T8yREcLQ95NDztzfzT5
+	N47
+X-Received: by 2002:a05:600c:e557:20b0:493:c0ec:9a5f with SMTP id 5b1f17b1804b1-493e68ddd9bmr75755495e9.19.1783670590951;
+        Fri, 10 Jul 2026 01:03:10 -0700 (PDT)
+Received: from localhost (p200300f65f47db04fbea22a44ee9ba38.dip0.t-ipconnect.de. [2003:f6:5f47:db04:fbea:22a4:4ee9:ba38])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47a9e4d6e4csm55102028f8f.10.2026.07.10.01.03.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 01:03:10 -0700 (PDT)
+Date: Fri, 10 Jul 2026 10:03:09 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: linux-pwm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>, 
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Paul Walmsley <pjw@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Michael Walle <mwalle@kernel.org>, 
+	Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>, 
+	Alexey Charkov <alchark@gmail.com>, Sean Anderson <sean.anderson@linux.dev>, 
+	Michal Simek <michal.simek@amd.com>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, imx@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, sophgo@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v1 0/5] pwm: Unify arrays of various *_device_id
+Message-ID: <alCm-J1wRBnhoH0C@monoceros>
+References: <cover.1783263835.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iuf5svn2mmf3pdwc"
+Content-Disposition: inline
+In-Reply-To: <cover.1783263835.git.ukleinek@kernel.org>
+
+
+--iuf5svn2mmf3pdwc
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 10 Jul 2026 01:17:39 +0200
-Message-Id: <DJUFA03SIN5C.1A8B6N89448P0@maslowski.xyz>
-To: "Janne Grunau" <j@jannau.net>
-Cc: "Sven Peter" <sven@kernel.org>, "Neal Gompa" <neal@gompa.dev>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>,
- "Wim Van Sebroeck" <wim@linux-watchdog.org>, "Guenter Roeck"
- <linux@roeck-us.net>, "Linus Walleij" <linusw@kernel.org>, "Mark Kettenis"
- <kettenis@openbsd.org>, "Andi Shyti" <andi.shyti@kernel.org>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Sasha
- Finkelstein" <k@chaosmail.tech>, <asahi@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-watchdog@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>
-Subject: Re: [PATCH 08/11] dt-bindings: i2c: apple,i2c: Add t6030 and t6031
- compatibles
-From: =?utf-8?q?Piotr_Mas=C5=82owski?= <piotr@maslowski.xyz>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260709-apple-t603x-initial-devices-v1-0-55b305833123@jannau.net> <20260709-apple-t603x-initial-devices-v1-8-55b305833123@jannau.net>
-In-Reply-To: <20260709-apple-t603x-initial-devices-v1-8-55b305833123@jannau.net>
+Subject: Re: [PATCH v1 0/5] pwm: Unify arrays of various *_device_id
+MIME-Version: 1.0
 
-Hello. This is the tiniest possible nitpick, but it could
-throw somebody off when grepping through commit messages so:
+Hello,
 
-On Thu Jul 9, 2026 at 9:30 AM CEST, Janne Grunau wrote:
-> The i2c block on Apple silicon M3 Pro, Max and Ultra SoCs are compatible
-> with the t8103 (M1) one. Add "apple,t6030-i2c" for M3 Pro and
-> "apple,t6031-i2c" for M3 Max and Ultra as per-S0C compatibles.
+On Sun, Jul 05, 2026 at 05:14:12PM +0200, Uwe Kleine-K=F6nig (The Capable H=
+ub) wrote:
+> this series is part of a preparation for changing .driver_data (and
+> similarily named members) of *_device_id to an anonymous union.
+> See e.g.
+> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre=
+=2Ecom/
+> for the idea behind it. I also grabbed the opportunity to unify the
+> coding style for all these arrays while going through these.
+>=20
+> The patch series is based on pwm/for-next + "pwm: pxa: Depend on OF and
+> simplify accordingly" [1].
 
-You've got a '0' (zero) instead of an 'O' here.  ^
+Applied the series with s/iff/if (and only if)/ in the of_device_id
+style patch.
 
->
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
->  Documentation/devicetree/bindings/i2c/apple,i2c.yaml | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml b/Docum=
-entation/devicetree/bindings/i2c/apple,i2c.yaml
-> index 9e59200ad37b..d39f5e3f1df4 100644
-> --- a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
-> @@ -24,6 +24,8 @@ properties:
->        - items:
->            - enum:
->                - apple,t6020-i2c
-> +              - apple,t6030-i2c
-> +              - apple,t6031-i2c
->                - apple,t8122-i2c
->            - const: apple,t8103-i2c
->        - items:
+Best regards
+Uwe
 
-Cheers,
-Piotr Mas=C5=82owski
+--iuf5svn2mmf3pdwc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpQpzoACgkQj4D7WH0S
+/k4qdwgAk8w911oLsA5aqycP2AV5trJAC5zx53mJ8LxbKoImqWjYyvmd9Kb5YCt2
+LPeZPEPqg6LIhPMbDp91hBWArDL5UUUJ5OfgC8/i0zK1+zWS0B+UPtXUGxzQOkwk
+stkrTAN5eVW7rhVy1AtT4N+EJVm4Y8958RVsmNi75/idP+gmhs7RdJg8zMdhrVVy
+M7XB5Q1zxVcmhsx5TDStZ8tzeFMsDbMqz0s0xVECWSq50U70IwD0Scn0a1BN68kQ
++fZQMwGT3KhdqqmLJV44puWQoDqj8OwGeAuWJQykzluefOFNtRHtRhurlZQAUOrv
+W4X++IXkqXbyyTO72ousttS/RpH5ig==
+=4YUW
+-----END PGP SIGNATURE-----
+
+--iuf5svn2mmf3pdwc--
