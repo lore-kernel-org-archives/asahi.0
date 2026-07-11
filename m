@@ -1,67 +1,67 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB02023183C
-	for <asahi@lists.linux.dev>; Sat, 11 Jul 2026 01:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8CC23ABBF
+	for <asahi@lists.linux.dev>; Sat, 11 Jul 2026 01:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783732316; cv=none; b=dxv204Paf8ppNdTQcyvVuZczn/VwV892Eg+htfrhpkgUZ+jyMloBKRkgqBIN+hJilCQFWkiE1mYcLEo8ojfbeTqS1AkvSgIl5OyBxW3U4AxXY+GD2Tnp4e4WBD+cyQULEIV1VAAXama97lOFl655VoI9rWyh4EpSU2uWHMvv0is=
+	t=1783732320; cv=none; b=O0wGS82BhyqxSSDUix6eMnOGeeupLw7bXjdvA76+e3kYykuPoDurD226xY6zEPK4BWNoql/50UfwEuZbVzJysXpTzoyaLhR7WZHlhDgYYKG+Tihh0dINtAHbL/8MBn2C0JckHDz+rr8JTqtMo/ZSBLlhiJeB7iAMXDldDCVddDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783732316; c=relaxed/simple;
-	bh=fzB4hBsyB/ZNFCUZEx9jbpCf/t78o9fj5k3ty/VCCds=;
+	s=arc-20240116; t=1783732320; c=relaxed/simple;
+	bh=GHpRJg9oxVD6GKahUW6+PTUDA5kAW0ptFe5dE4sEofw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ssIX3hYYe7o0DpoMNTJ/TGhTt1sdJIFIsPcx+to8lM7wjBJu/gIwq5jHpFllo8+8PKDoh4XUsrnQeuE0aU2DUN6dEfUkcVEFDZp6bGyr8j+Nzl2NqbQ9JCTQB84ab4Kq94qCY4Q/keoh49ARmghv/uhsQy1v+jgzMcBvP18H0Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UK3w3Wpq; arc=none smtp.client-ip=209.85.210.180
+	 In-Reply-To:To:Cc; b=D5wEl36klQgHSzYMeyg+kOu0gPfEG1ixrzi2jggOfHjfHST5S4slT0Gbp+sOqQT/mlqX4QAytQY7jv0EerH+88AjAdOQzwgo/kRr2FD60RQzKWIk+/keZ41zZDM3XkRJmqEZRIRqWEmyUFHhgGl/2NLMFkTV5m2qUyTuB7DL8pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kfQr445o; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UK3w3Wpq"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8486672f03cso1359522b3a.0
-        for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 18:11:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kfQr445o"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8423f236418so1129076b3a.1
+        for <asahi@lists.linux.dev>; Fri, 10 Jul 2026 18:11:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783732314; x=1784337114; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783732318; x=1784337118; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9OmZuNm0i6GJNLZMl4qH6fj6FYGbdFW+PYBbGIIysyE=;
-        b=UK3w3Wpq7/3iJv5bATNh9JglRPOBWxZx0dPjcQjVZsiQKxxxUXweajn+gh2GnIIFbO
-         d5yjD0Vw4jJJoXEW5QvBLvmpQOuvYadGu8kTdp3E0D7SWsJk0YTL9M/Sa9jnBdxKPmmZ
-         Pa41qVktB1/2v1IPfQooHM2dXx6BR7pbSqjFkS1+q4EAUTVcdKmYCsehYAUa69e1nrIZ
-         HYWGORqzsxcuz1uGTKyarXIiZe2edKdks66UA+AGGvhta01GNLQxNA/f/nEpiRmjrcX4
-         ukUPg7JU4loG58gzB5P6tT99uYqDwq14vBgeA7qiPOh/J1SAmyyc3nmWkm/u0crk8XXg
-         5haQ==
+        bh=Ns9UFkQuF2E3pwYAgWuXOFZxiBt3YnXgvvVMaDlLWEk=;
+        b=kfQr445oZ8SxZWLStZ4PJ+ty2L7HJZjcX8CYuiau/be824V5yMKMJjKfZFq1DFt54s
+         P8dA2nPUomJuZAemvxBHlbOvX6vx7O6j8iltNc5n9HhzEflwW7ydHFucBhl5kBSNnxlR
+         13qkkX5CRu67TOhDnba3NmiaXEtmX46R1d5PFfSSCUjPS+vT4a1x5qEZzOSgg2HMt9ec
+         nYT3mMCEVZibRovR7Nf/psGlNLcjpAj5YQzZquirV5SFQ4SzGxRKMI6d3C6YttGW60SZ
+         EivGGTtp8N4MtoFPqco81L76TyNKfoa2j6JQEUZ6XSHpRJkHOrLoGt2jHIUwh9JmyCJP
+         t7dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783732314; x=1784337114;
+        d=1e100.net; s=20251104; t=1783732318; x=1784337118;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9OmZuNm0i6GJNLZMl4qH6fj6FYGbdFW+PYBbGIIysyE=;
-        b=D9TCcCEbbd6lDUnCBKMeTVdrBFrMAx0Sc0zYm3F2qWg6B6AmTZFkwX/HOp3feAtMpZ
-         GzAU3hHvKX0rw8qRvjB04aBBU7kmnml/vSEbpkOZ5ttrNcU0MXMvQSAmEBSENddYDPzY
-         0BPgikurfpI5lLuyHOMrSKHUl7ALfd5wZITTiHcXTIbe1k25ekdEzs2jhVpsjLc20CKf
-         O0YZVmGqK9pzR+V3pkiCGlOoKJU20Dr5XAoKiP+0lntUDKAs4bGKJtmZiUJfycVFfq6u
-         AlI4fgUw/B/WaHDyFTzCGQQ3MMIZKrYFDCuB9Oy2p3eqONjZj4hNpFtApHOA5DoVGSPw
-         ffXA==
-X-Gm-Message-State: AOJu0YzASZy4niMUtJNjDHrhzZR/zPODYRmshBpHdfM/+0A5gDUH/jZc
-	pxu9W1ZKmBoPRzRp9UGyiX1RtNKtYMUtVAiKGHabLOBKkcyEbNkEdPy6
-X-Gm-Gg: AfdE7cnVFm0Qcv6jU4PPpzBd1dT6YVdVYmpfu52Q8/OwYMj2VRWeowb4M0lQhveObAR
-	bed8lDMPHfBvpYClAh3TpgJRSpsDt9T/XWdG9MKzbIlu78M1A7nELWstgcqsSk3B7ezDi/C2ogF
-	UU1YUSAxbETVA7igJrSKI4Dc72Ao6UNCHPNK1e3sLIbdJWdM4D3kZZc5zOy6gOHNDHSqF7Yx2Gj
-	9UeWNzfOIr8Z9ewN3YvfpJQRQwYJiIOwQ20KC356M13yA7axt/WMlkAIlZrxaS4vyS2og2dUixj
-	0RQuL3+o0i5GcQH3NRQeK6rsU74hx4CEpjlM/58DRz4tZ1DoCs5zfA7eTHNP5FsVFl4K4x2VVEZ
-	RJHP/RUrJizgF6cy+ue2ERa8Nei0qnkCCz+Qtk5EE5OOB05EtnEVFgR9J6EFwSvTMcyF3FP+Mnr
-	auzAo0WPaltSsXNAzUYIkIbn2sidYB/w7xM8RRI5FA1ukynqllfk2DInWLKPnbhiRrjJZtvVe24
-	fd/FtRlS0CZMgJXe2Gqy8i3OzwvC1wZ8Pu6rHfWIQwLlceZxwqzGQE9jlIHDV10OQ==
-X-Received: by 2002:a05:6a00:e18:b0:848:44d2:72a2 with SMTP id d2e1a72fcca58-8488961a7b7mr1123594b3a.27.1783732313978;
-        Fri, 10 Jul 2026 18:11:53 -0700 (PDT)
+        bh=Ns9UFkQuF2E3pwYAgWuXOFZxiBt3YnXgvvVMaDlLWEk=;
+        b=gHz9GmLe6Jke1S9qTAVpw6eTG6nclUVINi54yYYAwkQrBEBxcyoccfvycrLCjp6V0a
+         7DiRxn+xi75PtCSraOoSiIjFxil6x0Cx8Qt98hdZkppyD2LFJdoU8BkTPd4NgL8riWG5
+         PkwydeAX6lLfT6+lhgtanvFLm62oXb04cU/iADNnSpo0srF2UoLbK2xYqH8QOlfFCo78
+         K1Zr+den27Q5AI56hNOl53Xp4xrRGlpRWFvI8eIqocaSXNwPMr4mnhSHy8UdFGyvnTxe
+         RDFhrcLmbPmNCt54vRWSYrKvLZyoLCUbeewBVqB7LioSMrzbnOXt09MzaW5w/O27MKF6
+         1mzw==
+X-Gm-Message-State: AOJu0YwP9xW7S/XVPhPOHw8p5A38/5UhJU/VzW8CE/WLGS5NDf15sAdO
+	wEu0uGtFdD9uZExJdqKD8d0DrkEe/WsN6Ydar9pvk/pbbOOvY+Ve8SNv
+X-Gm-Gg: AfdE7ckmp9GNUqVCb+7TH8FRm9HCXk3PCSuTYogi+JpPY0lMDdY522IK5Vv/8C+sJPZ
+	lpzBf6/It+4/5cCa/wdbUjFn53MwmGTVFC++76tI0gLdAsu1+JNputbs3f02CzsWeXtQRXzfR8s
+	NbZE8MMP5oXm9t82pWql0oKBN4Rf4yxHLsLmit9NClCw3PYVw8f09V8Q90M2ymN02v+3HWX+Stx
+	fEn01ugFq+ri3i3/eAkMFCpKDryaHRhMAAtOl3fTK7Bhzy2yXonB4LiQA2u8HXjv85BQbRWv2xF
+	HWspULjOCaqeEAxyEHHljF+Igrv+TyBPhBaGe1a0bFJ0Kx24u75Tv2j7m+Zd+8jqpLDHwblA6QP
+	8jbrMc8NCfNBIAQz8XIZgREpA9kfb+ABhKjQAMetTK60VdmdJZq6kFBeVHpBcyCpN0YWcIJFUKP
+	hUaAonUGpF//X0r+1Z5fi4mMZRpZcDjmRV6CxGaVLa6uU+3g+i28NQ2jatGeI0iTb4fUr9QTfVP
+	AZvFKYqHsXWv6RAk3O2ToBtRN23im3V6BcFvEfkkNXTO/z3qBfhW6IXWWW1uoIdGw==
+X-Received: by 2002:a05:6a00:448a:b0:848:2f74:1d5e with SMTP id d2e1a72fcca58-8488972ebb9mr1061334b3a.68.1783732318176;
+        Fri, 10 Jul 2026 18:11:58 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-848530c5a12sm3751929b3a.5.2026.07.10.18.11.49
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-848530c5a12sm3751929b3a.5.2026.07.10.18.11.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 18:11:53 -0700 (PDT)
+        Fri, 10 Jul 2026 18:11:57 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sat, 11 Jul 2026 11:11:20 +1000
-Subject: [PATCH v4 2/7] ASoC: apple: mca: Separate data & clock port setup
+Date: Sat, 11 Jul 2026 11:11:21 +1000
+Subject: [PATCH v4 3/7] ASoC: apple: mca: Factor out mca_be_get_fe
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260711-apple-audio-redux-v4-2-2994d87c2f24@gmail.com>
+Message-Id: <20260711-apple-audio-redux-v4-3-2994d87c2f24@gmail.com>
 References: <20260711-apple-audio-redux-v4-0-2994d87c2f24@gmail.com>
 In-Reply-To: <20260711-apple-audio-redux-v4-0-2994d87c2f24@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
@@ -79,203 +79,80 @@ To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
 Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6207;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1985;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=bWPKqHbY/xPPHWUKnzHa8zHFmKVCCvsO/sA6ZKPo+UY=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmBM7x2JM2RdL71/at2cra3QQJribum0+LwaQ5L1tya0
- 2bhfryxYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- RjrGOkYMXJwCMNWzVjH8Uz6sXeoSetB7ncb3N++n/rwrndfmfrniQeS6j/3V/+dJtjIyLNn+Yuv
- yao+zux5ZdU6R/dF/b+HdnH0Hn9XYqml+9UnUYwEA
+ bh=gZo+qAecjsjEu2IDUW/qEj1Tcf3OnB55qMCIoJb2Flk=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmBM7yVJ9Zo2iWUT+6+N/80++qjtZbxSdZshU57U+umq
+ akEtgV2TGRhEONisBRTZNnQJOQx24jtZr9I5V6YOaxMIEOkRRoYgICFgS83Ma/USMdIz1TbUM/Q
+ SMdYx4iBi1MApvpQJiPDhsXiuzZGKS176hOaczYz4oVlp/b8vSsSXxdscaw6EOM0i5Hh0PeNawI
+ Wn5bt1+eX2SQUXLPMaFHy162KuY/7bTJnbX7CCAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Martin Povišer <povik+lin@cutebit.org>
 
-Up until now FEs were always the clock providers -- feeding the clocks
-on any ports (BEs) they are attached to. This will soon change and FEs
-will be allowed to be clock consumers. Once that happens, the routing
-of clocks and data will to some degree decouple.
-
-In advance of the change, make preparations:
-
- * Narrow down semantics of what was formerly the 'port_driver' field
-   to refer to clocks only.
-
- * On 'startup' of BEs, separate the clock and data aspects of the port
-   setup.
+This is a function that we also want to use from within mca_be_shutdown,
+so factor it out.
 
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/soc/apple/mca.c | 67 ++++++++++++++++---------
- 1 file changed, 42 insertions(+), 25 deletions(-)
+ sound/soc/apple/mca.c | 31 ++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
 diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index ebe116f32661..55cdb4e0f0b4 100644
+index 55cdb4e0f0b4..1e9a5c9cfc54 100644
 --- a/sound/soc/apple/mca.c
 +++ b/sound/soc/apple/mca.c
-@@ -133,8 +133,8 @@ struct mca_cluster {
- 	struct clk *clk_parent;
- 	struct dma_chan *dma_chans[SNDRV_PCM_STREAM_LAST + 1];
- 
--	bool port_started[SNDRV_PCM_STREAM_LAST + 1];
--	int port_driver; /* The cluster driving this cluster's port */
-+	bool port_clk_started[SNDRV_PCM_STREAM_LAST + 1];
-+	int port_clk_driver; /* The cluster driving this cluster's port */
- 
- 	bool clocks_in_use[SNDRV_PCM_STREAM_LAST + 1];
- 	struct device_link *pd_link;
-@@ -157,7 +157,7 @@ struct mca_data {
- 	struct reset_control *rstc;
- 	struct device_link *pd_link;
- 
--	/* Mutex for accessing port_driver of foreign clusters */
-+	/* Mutex for accessing port_clk_driver of foreign clusters */
- 	struct mutex port_mutex;
- 
- 	int nclusters;
-@@ -311,7 +311,7 @@ static bool mca_fe_clocks_in_use(struct mca_cluster *cl)
- 	for (i = 0; i < mca->nclusters; i++) {
- 		be_cl = &mca->clusters[i];
- 
--		if (be_cl->port_driver != cl->no)
-+		if (be_cl->port_clk_driver != cl->no)
- 			continue;
- 
- 		for_each_pcm_streams(stream) {
-@@ -331,10 +331,10 @@ static int mca_be_prepare(struct snd_pcm_substream *substream,
- 	struct mca_cluster *fe_cl;
- 	int ret;
- 
--	if (cl->port_driver < 0)
-+	if (cl->port_clk_driver < 0)
- 		return -EINVAL;
- 
--	fe_cl = &mca->clusters[cl->port_driver];
-+	fe_cl = &mca->clusters[cl->port_clk_driver];
- 
- 	/*
- 	 * Typically the CODECs we are paired with will require clocks
-@@ -360,7 +360,7 @@ static int mca_be_hw_free(struct snd_pcm_substream *substream,
- 	struct mca_data *mca = cl->host;
- 	struct mca_cluster *fe_cl;
- 
--	if (cl->port_driver < 0)
-+	if (cl->port_clk_driver < 0)
- 		return -EINVAL;
- 
- 	/*
-@@ -368,7 +368,7 @@ static int mca_be_hw_free(struct snd_pcm_substream *substream,
- 	 * belong to the same PCM, accesses should have been
- 	 * synchronized at ASoC level.
- 	 */
--	fe_cl = &mca->clusters[cl->port_driver];
-+	fe_cl = &mca->clusters[cl->port_clk_driver];
- 	if (!mca_fe_clocks_in_use(fe_cl))
- 		return 0; /* Nothing to do */
- 
-@@ -708,12 +708,15 @@ static const struct snd_soc_dai_ops mca_fe_ops = {
- 	.trigger = mca_fe_trigger,
- };
- 
--static bool mca_be_started(struct mca_cluster *cl)
-+/*
-+ * Is there a FE attached which will be feeding this port's clocks?
-+ */
-+static bool mca_be_clk_started(struct mca_cluster *cl)
- {
- 	int stream;
- 
- 	for_each_pcm_streams(stream)
--		if (cl->port_started[stream])
-+		if (cl->port_clk_started[stream])
- 			return true;
+@@ -721,30 +721,35 @@ static bool mca_be_clk_started(struct mca_cluster *cl)
  	return false;
  }
-@@ -744,28 +747,38 @@ static int mca_be_startup(struct snd_pcm_substream *substream,
  
+-static int mca_be_startup(struct snd_pcm_substream *substream,
+-			  struct snd_soc_dai *dai)
++static struct snd_soc_pcm_runtime *mca_be_get_fe(struct snd_soc_pcm_runtime *be,
++						 int stream)
+ {
+-	struct snd_soc_pcm_runtime *be = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_pcm_runtime *fe;
+-	struct mca_cluster *cl = mca_dai_to_cluster(dai);
+-	struct mca_cluster *fe_cl;
+-	struct mca_data *mca = cl->host;
++	struct snd_soc_pcm_runtime *fe = NULL;
+ 	struct snd_soc_dpcm *dpcm;
+ 
+-	fe = NULL;
+-
+-	for_each_dpcm_fe(be, substream->stream, dpcm) {
++	for_each_dpcm_fe(be, stream, dpcm) {
+ 		if (fe && dpcm->fe != fe) {
+-			dev_err(mca->dev, "many FE per one BE unsupported\n");
+-			return -EINVAL;
++			dev_err(be->dev, "many FE per one BE unsupported\n");
++			return NULL;
+ 		}
+ 
+ 		fe = dpcm->fe;
+ 	}
+ 
++	return fe;
++}
++
++static int mca_be_startup(struct snd_pcm_substream *substream,
++			  struct snd_soc_dai *dai)
++{
++	struct snd_soc_pcm_runtime *be = snd_soc_substream_to_rtd(substream);
++	struct snd_soc_pcm_runtime *fe = mca_be_get_fe(be, substream->stream);
++	struct mca_cluster *cl = mca_dai_to_cluster(dai);
++	struct mca_cluster *fe_cl;
++	struct mca_data *mca = cl->host;
++
+ 	if (!fe)
+ 		return -EINVAL;
+-
  	fe_cl = mca_dai_to_cluster(snd_soc_rtd_to_cpu(fe, 0));
  
--	if (mca_be_started(cl)) {
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		writel_relaxed(PORT_DATA_SEL_TXA(fe_cl->no),
-+			       cl->base + REG_PORT_DATA_SEL);
-+		mca_modify(cl, REG_PORT_ENABLES, PORT_ENABLES_TX_DATA,
-+			   PORT_ENABLES_TX_DATA);
-+	}
-+
-+	if (mca_be_clk_started(cl)) {
- 		/*
- 		 * Port is already started in the other direction.
- 		 * Make sure there isn't a conflict with another cluster
--		 * driving the port.
-+		 * driving the port clocks.
- 		 */
--		if (cl->port_driver != fe_cl->no)
-+		if (cl->port_clk_driver != fe_cl->no)
- 			return -EINVAL;
- 
--		cl->port_started[substream->stream] = true;
-+		cl->port_clk_started[substream->stream] = true;
- 		return 0;
- 	}
- 
--	writel_relaxed(PORT_ENABLES_CLOCKS | PORT_ENABLES_TX_DATA,
--		       cl->base + REG_PORT_ENABLES);
- 	writel_relaxed(FIELD_PREP(PORT_CLOCK_SEL, fe_cl->no + 1),
- 		       cl->base + REG_PORT_CLOCK_SEL);
-+
- 	writel_relaxed(PORT_DATA_SEL_TXA(fe_cl->no),
- 		       cl->base + REG_PORT_DATA_SEL);
-+
-+	mca_modify(cl, REG_PORT_ENABLES, PORT_ENABLES_CLOCKS,
-+		   PORT_ENABLES_CLOCKS);
-+
- 	scoped_guard(mutex, &mca->port_mutex)
--		cl->port_driver = fe_cl->no;
--	cl->port_started[substream->stream] = true;
-+		cl->port_clk_driver = fe_cl->no;
-+	cl->port_clk_started[substream->stream] = true;
- 
- 	return 0;
- }
-@@ -776,17 +789,21 @@ static void mca_be_shutdown(struct snd_pcm_substream *substream,
- 	struct mca_cluster *cl = mca_dai_to_cluster(dai);
- 	struct mca_data *mca = cl->host;
- 
--	cl->port_started[substream->stream] = false;
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		mca_modify(cl, REG_PORT_ENABLES, PORT_ENABLES_TX_DATA, 0);
-+		writel_relaxed(0, cl->base + REG_PORT_DATA_SEL);
-+	}
- 
--	if (!mca_be_started(cl)) {
-+	cl->port_clk_started[substream->stream] = false;
-+	if (!mca_be_clk_started(cl)) {
- 		/*
- 		 * Were we the last direction to shutdown?
--		 * Turn off the lights.
-+		 * Turn off the lights (clocks).
- 		 */
--		writel_relaxed(0, cl->base + REG_PORT_ENABLES);
--		writel_relaxed(0, cl->base + REG_PORT_DATA_SEL);
-+		mca_modify(cl, REG_PORT_ENABLES, PORT_ENABLES_CLOCKS, 0);
-+		writel_relaxed(0, cl->base + REG_PORT_CLOCK_SEL);
- 		scoped_guard(mutex, &mca->port_mutex)
--			cl->port_driver = -1;
-+			cl->port_clk_driver = -1;
- 	}
- }
- 
-@@ -1092,7 +1109,7 @@ static int apple_mca_probe(struct platform_device *pdev)
- 		cl->host = mca;
- 		cl->no = i;
- 		cl->base = base + CLUSTER_STRIDE * i;
--		cl->port_driver = -1;
-+		cl->port_clk_driver = -1;
- 		cl->clk_parent = of_clk_get(pdev->dev.of_node, i);
- 		if (IS_ERR(cl->clk_parent)) {
- 			dev_err(&pdev->dev, "unable to obtain clock %d: %ld\n",
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
 
 -- 
 2.55.0
