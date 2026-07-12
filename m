@@ -1,34 +1,66 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4D0311967
-	for <asahi@lists.linux.dev>; Sat, 11 Jul 2026 22:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068053988FB
+	for <asahi@lists.linux.dev>; Sun, 12 Jul 2026 09:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783810220; cv=none; b=JgYyjrTnnWaFwRUaHkPR0NfBn/0kO/wFdQ5B3OvsU3ZzR3NYNqKocAd25bGlU8njdJFSjqI281bpiA7q5fvzwqdNfKlgXC+y/itKLtQs1MiAi7nm3Mx5+IgvK/FuBQ87clSUweT9S2SJS5nATZqSFKU84PgqQ7SPKNNWX/2nNXM=
+	t=1783849452; cv=none; b=OVx5PFtPfPcKJR8mSkSm/vVZLU3a2Lb4wrs6oeuFgiZbeaNNXy6lqOPtzMIlkFDspsDWy3SiQAp2iK86YUGmUpEy/6ShlXTypTeeRMeULZJDb4cbhvjnM+uM3l3oqgLQ5GYxJDcLGQzupRCWA3tPnHF5JgfanvbKbTQc+PICPYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783810220; c=relaxed/simple;
-	bh=9hEttOjxUo4x8VZA0u6Zh8it9IZ1e1B/QRSppPFee94=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LxYlKvy0nfiMrNkOhBhNOavO/Cb16gSlzq2Yrhni2WN1+9OXsCJmEIn0ZC8UHsGUVDwYPgSxitiKtbjb4FKFAlBBMOK8B3H97TxCixMvgFkDO2Yy7NCMVPLPd5CAh7qPN4rsXxf4+9RwCgKZ0dQbJLIbF2oK3LkJrQg2W0wwyzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=T3xlR045; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1783849452; c=relaxed/simple;
+	bh=YNi+KaL09fSqJUFhYIm9Pv1YZHlYeYppyCtgEVXaTS0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oCxIXx1jPMXBGj4VzQxlmbZOgPYMLbUn1bQel9+miBl9kHmX65a31dqen3DZZcUMXsWUCiUtuHYxKhxWhZLWvcI476ODUnLxmVYspWAmfJgJ/fWs3IcyGDCJDC7KcIOjRDfHrusk9X/+okgC0gLTvp4X7Rp7fudBrDY+n5rrcoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dY5l2/Cs; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="T3xlR045"
-Received: by chaosmail.tech (Postfix) id 2256B1C8673;
-	Sat, 11 Jul 2026 22:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1783810207;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=BqTPpzuvZrixISR9QYSmrDSTNk2cgTef1nAy5K2DnE4=;
-	b=T3xlR0454W0UcaNa9HsYGVt63N1K7Vvfn2XsjjAWPW9fTA2Bz4vtxrWWCPBArqroirWByc
-	w6PDEYFcp4SMFyebriPEtY7G7y7NHwSqmIOWB/onHKNjWjcMVA/39mAbIBlCmID5QTZlbX
-	bC72qJ9MPc1pMJlmXyGANLEZeyMinaw=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Sun, 12 Jul 2026 00:48:56 +0200
-Subject: [PATCH v4] power: supply: macsmc: Support macOS 27 SMC firmware
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dY5l2/Cs"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-382ef647e20so2138978a91.1
+        for <asahi@lists.linux.dev>; Sun, 12 Jul 2026 02:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783849450; x=1784454250; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=rPmXWzvpcr2U5us8E3wSwDjB0cnRDNPHHdHK0WpIwuA=;
+        b=dY5l2/Cstq0p58SxTkEdBn+4wv4LWu2bp08dye3sq/Vlig2/3p2aav0PZDuBjZs7Xh
+         d7oyx3TMHQfEZMryGKOAtmSI5bmVuXGRFmPClPGRGkgPEYONP/vrBTi29ArXxJUMv2X0
+         F8IhXmiKEn2PQwOTPDOXCRdp2gwmYhcskf1vkFGHocslq85/iNzqMHLRaxfeG8lJWTJs
+         Tb7zpgdvB0VVydGHGX5MNKKUdOzLJotshekdCc5Oj39aLhWXCG0h69/NbgU5hmvUtHCm
+         5kn6VlWlPW6HLp6fBGM9yJXYtTo6Qv508w5gj32Z8sJXit5JfsljeCb1rDZwRgFcp5qW
+         71Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783849450; x=1784454250;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=rPmXWzvpcr2U5us8E3wSwDjB0cnRDNPHHdHK0WpIwuA=;
+        b=gN8kBh/qKHx9sEnk0HTnDR922G6B4URxlia6D/n/0/vngglzesCOCCUbOsmyMQoILp
+         7SPnAgSydSaLXErrc8dIg58Dai4C6uWL1xwLEWLcAbKNeK2BpWSffXTarm5lH8qZA9c2
+         gCXUUirhlCpIwSrYcQ/y++oD7tIWxe10QYXze29WEF0h3L1vsdJm2uH3dqflQAzcR8Lc
+         tY9FfoptJv2LMAhMK5OMSAQ4EcPoesJbg+zUp/DdU+ykChGEep+aJkJtqwgIeUPNnUI2
+         vKiCgHJbt31hWGICMM7CmYCz6UsrCv7ptJPIH2TDUpqQ818hVjZAh3hsl9gXbOlHXDhJ
+         8+QQ==
+X-Gm-Message-State: AOJu0Yys68u4T442tfsfpSL2llK8bREajZmXTu6okwZdeg74upCb5zDk
+	X0BZH9NBPbIKEczn33uKQJJfPMJBfH6RQuuN+82WLHBSSYRKatJRldrT
+X-Gm-Gg: AfdE7ckxYDA7G8vbBYeMsdOVBWaxhl8/XJq/8KbcDASZCflsj7/jLNZa2GkerkBPZYm
+	+INac1jZ0u2gH/3kWFzyybRRz/VXOEHcMs6taL9si2spgxW0Gnx/MLL3fU7EHVoKXp1mbXZI+5m
+	m6SCLNIuYor24S0vLnhvjbu1WY7ZUCs+VyxXVF+DHbRG9uz9vCTobAZH/InkJAhjHwPJRYW6M7q
+	I89M2BmRmfJHd/GxOlwsG8PaejkJkZCZ7XqQg7ZSdSttjaoi+2e/3urpM4J6bOi/CIhoSi8dPPZ
+	IiAhwEwWV0X8VR+8Vzf3xcOMPcxfs28XEu1ShjjTBn2m9Vzto9fXLTxxG/rvE8DaybiWI9k1XBI
+	Jm+RcN4rKr3hXKYjZLl4GVShrlM1nSVn8Q0v2/ofi3hUMWwMFc61hLcE8VrXiVz9uxDonUk5E4E
+	ozCy1QqG0uOAuIrt7XEG9h+oaabSbS9XqOUDgE8frWp6fbVO41vN/aNMh9ES1oacrbBe7yxoZ7C
+	b/ICC9Wjnq4O9wGGjW/V7ZCTYFr22MdKDgHCUc/1NzSZjsOM+KV/JzfvG3ms7IK
+X-Received: by 2002:a17:90b:3911:b0:369:7f25:cec0 with SMTP id 98e67ed59e1d1-38dc72b44c6mr5259932a91.0.1783849450298;
+        Sun, 12 Jul 2026 02:44:10 -0700 (PDT)
+Received: from [10.160.6.73] ([119.17.57.186])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313c50c70c9sm15268919eec.29.2026.07.12.02.44.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jul 2026 02:44:09 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH 00/12] arm64: dts: apple: Add SMC hwmon nodes
+Date: Sun, 12 Jul 2026 19:43:19 +1000
+Message-Id: <20260712-smc-subdev-dt-v1-0-7763006d57c7@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,186 +69,122 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260712-gate-power-v4-1-aa59c6583247@chaosmail.tech>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23OOw7CMBAE0Ksg1xjFG+QPFfdAFP6sEyMgyA4BF
- OXu2KEBkXKkfTM7koQxYCK71UgiDiGF7prDdr0ittXXBmlwOROogFecMdroHumte2Ck1jsB3Nn
- KCU8yuEX04TmXHY6fnO7mhLYvDeWiDanv4mteG1i5WyweGGVUag4CWCW5Ffv8S5cuOpw3PdqWl
- PYBvj38eMjeoeDWKGME+kVff3lQP74u+1uQ2qja11L9+Wma3teBhBI7AQAA
-X-Change-ID: 20260611-gate-power-cfd726dc0d7f
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDc0Mj3eLcZN3i0qSU1DLdlBJdg+REE3MDMyNTI8M0JaCegqLUtMwKsHn
+ RsRA+UHFWanIJyBCl2loAYoy1bXEAAAA=
+X-Change-ID: 20260712-smc-subdev-dt-0ca47062521f
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Sebastian Reichel <sre@kernel.org>
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Joshua Peisach <jpeisach@ubuntu.com>, stable@vger.kernel.org, 
- Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783810207; l=6328;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=9hEttOjxUo4x8VZA0u6Zh8it9IZ1e1B/QRSppPFee94=;
- b=7RHM7NDNYULbELZ142reJuoDQRRO402Ewn+zyEZnHcC7TyyVJz9M7AfU8S7PqkuPAeVuvmB+s
- n9R19EQxBTyC/6f4EFmEQIRIqTJkdvjL0/9ivANdcprnByU9Kcme7hx
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ James Calligeros <jcalligeros99@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4957;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=YNi+KaL09fSqJUFhYIm9Pv1YZHlYeYppyCtgEVXaTS0=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnBiU/eKAhPs7t7/lyq706ND7fYvWe6iLJu0/t0bjtTj
+ 2HezxeqHRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ NNIx1jFi4OIUgKlmX8jI0HxEMYLHwVl16YH/Rd2nXkemhFX5r1Wcxe67+Ml6T88XxxkZ5hg4vev
+ jrbwWlvhNxD6le3fgZ0Hu0rP+IT7/zm57sOU+JwA=
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-The SMC firmware included in macOS 27 changed the size of BCF0 key from
-4 to 1 bytes. This key is used for indicating that battery state is
-critically low. In addition, B0RM key has changed endianness.
+Hi folks,
 
-Reviewed-by: Sven Peter <sven@kernel.org>
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
-Reviewed-by: Janne Grunau <j@jannau.net>
-Cc: stable@vger.kernel.org
-Fixes: 0ebf821cf6c7 ("power: supply: Add macsmc-power driver for Apple Silicon")
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
-Changes in v4:
-- Also fix B0RM endianness
-- Link to v3: https://patch.msgid.link/20260629-gate-power-v3-1-8428ab93f389@chaosmail.tech
+Following on from the series which added SMC hwmon driver[1], this
+series spins out and adds the Devicetree nodes required for the hwmon
+driver to operate. These were missed back in December.
 
-Changes in v3:
-- Minor style fixes
-- R-b tags and Cc stable
-- Rebase on 7.2
-- Link to v2: https://patch.msgid.link/20260612-gate-power-v2-1-de76cb9bb7ef@chaosmail.tech
+The System Management Controller on Apple Silicon devices exposes
+the temperature, voltage, power and fan speed data from numerous
+(potentially hundreds) of sensors scattered about the SoC and
+device at large. Unfortunately there is very little rhyme or reason
+to how Apple expose these using the SMC firmware's FourCC key-value
+system. Some sensors are reliably common across all devices and
+all SoCs, like PSTR which measures the total platform power consumption.
+Others are specific to a class of device, like the fan control
+keys, which are only present on devices with fans. Some are specific
+to a single SoC, and others still are specific to a single device.
+To complicate matters further, some SoCs are not even consistent
+across devices; the application core temperature sensors for a
+given SoC are read from different keys depending on the device
+that SoC is in...
 
-Changes in v2:
-- Addressing review feedback
-- Link to v1: https://patch.msgid.link/20260611-gate-power-v1-1-8a62721086c7@chaosmail.tech
----
- drivers/power/supply/macsmc-power.c | 52 +++++++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 45 insertions(+), 7 deletions(-)
+Trying to express all of this in every device's Devicetree is a fool's
+errand. To eliminate duplication, we instead use .dtsi files to
+compose a set of sensors for each device in a saner way:
+    - Sensors empirically proven to exist on all SoCs for all devices
+      go in hwmon-common.dtsi
+    - Sensors empirically proven to exist on all devices with a given
+      SoC can go in a SoC-specific hwmon-${soc}.dtsi file, much as we
+      do with PMGR and GPIO currentlyo
+    - Sensors empirically proven to exist on all devices of a specific
+      class go in hwmon-${class}.dtsi (e.g. hwmon-laptop.dtsi)
+    - Fan control endpoints are reliably common across all devices
+      with fans, which will #include hwmon-fan-*.dtsi
+    - Sensors specific to one device only can be expressed in that
+      device's specific .dts file
 
-diff --git a/drivers/power/supply/macsmc-power.c b/drivers/power/supply/macsmc-power.c
-index ced07f71e0a8..ef735f86394e 100644
---- a/drivers/power/supply/macsmc-power.c
-+++ b/drivers/power/supply/macsmc-power.c
-@@ -86,6 +86,11 @@ struct macsmc_power {
- 	bool has_ch0i; /* Force discharge (Older firmware) */
- 	bool has_ch0c; /* Inhibit charge (Older firmware) */
- 	bool has_chte; /* Inhibit charge (Modern firmware) */
-+	/*
-+	 * Battery critical key is 1 byte and charge key is little endian
-+	 * (Modern firmware)
-+	 */
-+	bool fw_ge_27;
- 
- 	u8 num_cells;
- 	int nominal_voltage_mv;
-@@ -273,6 +278,20 @@ static int macsmc_battery_get_date(const char *s, int *out)
- 	return 0;
- }
- 
-+static int macsmc_battery_read_bcf0(struct macsmc_power *power, u32 *val)
-+{
-+	u8 tval = 0;
-+	int ret;
-+
-+	if (power->fw_ge_27) {
-+		ret = apple_smc_read_u8(power->smc, SMC_KEY(BCF0), &tval);
-+		*val = tval;
-+		return ret;
-+	}
-+
-+	return apple_smc_read_u32(power->smc, SMC_KEY(BCF0), val);
-+}
-+
- static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
- {
- 	bool flag;
-@@ -280,7 +299,7 @@ static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
- 	int ret;
- 
- 	/* Check for emergency shutdown condition */
--	if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &val) >= 0 && val)
-+	if (macsmc_battery_read_bcf0(power, &val) >= 0 && val)
- 		return POWER_SUPPLY_CAPACITY_LEVEL_CRITICAL;
- 
- 	/* Check AC status for whether we could boot in this state */
-@@ -303,6 +322,12 @@ static int macsmc_battery_get_capacity_level(struct macsmc_power *power)
- 		return POWER_SUPPLY_CAPACITY_LEVEL_NORMAL;
- }
- 
-+static s16 macsmc_swap_b0rm(struct macsmc_power *power, s16 b0rm)
-+{
-+	/* B0RM was Big Endian, likely pass through from TI gas gauge */
-+	return power->fw_ge_27 ? b0rm : (s16)swab16(b0rm);
-+}
-+
- static int macsmc_battery_get_property(struct power_supply *psy,
- 				       enum power_supply_property psp,
- 				       union power_supply_propval *val)
-@@ -397,8 +422,7 @@ static int macsmc_battery_get_property(struct power_supply *psy,
- 		break;
- 	case POWER_SUPPLY_PROP_CHARGE_NOW:
- 		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RM), &vu16);
--		/* B0RM is Big Endian, likely pass through from TI gas gauge */
--		val->intval = (s16)swab16(vu16) * 1000;
-+		val->intval = macsmc_swap_b0rm(power, vu16) * 1000;
- 		break;
- 	case POWER_SUPPLY_PROP_ENERGY_FULL_DESIGN:
- 		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0DC), &vu16);
-@@ -410,8 +434,7 @@ static int macsmc_battery_get_property(struct power_supply *psy,
- 		break;
- 	case POWER_SUPPLY_PROP_ENERGY_NOW:
- 		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0RM), &vu16);
--		/* B0RM is Big Endian, likely pass through from TI gas gauge */
--		val->intval = (s16)swab16(vu16) * power->nominal_voltage_mv;
-+		val->intval = macsmc_swap_b0rm(power, vu16) * power->nominal_voltage_mv;
- 		break;
- 	case POWER_SUPPLY_PROP_TEMP:
- 		ret = apple_smc_read_u16(power->smc, SMC_KEY(B0AT), &vu16);
-@@ -577,7 +600,7 @@ static void macsmc_power_critical_work(struct work_struct *wrk)
- 	 * Check if SMC flagged the battery as empty.
- 	 * We trigger a graceful shutdown to let the OS save data.
- 	 */
--	if (apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &bcf0) == 0 && bcf0 != 0) {
-+	if (macsmc_battery_read_bcf0(power, &bcf0) == 0 && bcf0 != 0) {
- 		power->orderly_shutdown_triggered = true;
- 		dev_crit(power->dev, "Battery critical (empty flag set). Triggering orderly shutdown.\n");
- 		orderly_poweroff(true);
-@@ -616,6 +639,7 @@ static int macsmc_power_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct apple_smc *smc = dev_get_drvdata(pdev->dev.parent);
- 	struct power_supply_config psy_cfg = {};
-+	struct apple_smc_key_info info;
- 	struct macsmc_power *power;
- 	bool has_battery = false;
- 	bool has_ac_adapter = false;
-@@ -714,6 +738,20 @@ static int macsmc_power_probe(struct platform_device *pdev)
- 		if (apple_smc_key_exists(smc, SMC_KEY(CH0I)))
- 			power->has_ch0i = true;
- 
-+		ret = apple_smc_get_key_info(power->smc, SMC_KEY(BCF0), &info);
-+		if (ret) {
-+			dev_err(&pdev->dev, "Failed to determine BCF0 key size\n");
-+			return ret;
-+		}
-+		if (info.size == 1)
-+			power->fw_ge_27 = true;
-+		else if (info.size == 4)
-+			power->fw_ge_27 = false;
-+		else {
-+			dev_err(&pdev->dev, "Unexpected BCF0 key size %d\n", info.size);
-+			return -EIO;
-+		}
-+
- 		/* Reset "Optimised Battery Charging" flags to default state */
- 		if (power->has_chte)
- 			apple_smc_write_u32(smc, SMC_KEY(CHTE), 0);
-@@ -766,7 +804,7 @@ static int macsmc_power_probe(struct platform_device *pdev)
- 		power->nominal_voltage_mv = MACSMC_NOMINAL_CELL_VOLTAGE_MV * power->num_cells;
- 
- 		/* Enable critical shutdown notifications by reading status once */
--		apple_smc_read_u32(power->smc, SMC_KEY(BCF0), &val32);
-+		macsmc_battery_read_bcf0(power, &val32);
- 
- 		psy_cfg.drv_data = power;
- 		power->batt = devm_power_supply_register(dev, &power->batt_desc, &psy_cfg);
+This series introduces some basic sensors we know about to get the ball
+rolling. As you can imagine trying to find every valid sensor on every
+device and figure out what it's actually measuring is a tedious and
+labour intensive process, so expect more sensors at some point in
+the future.
+
+Regards,
+James
+
+[1] https://lore.kernel.org/asahi/20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com/
 
 ---
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260611-gate-power-cfd726dc0d7f
+James Calligeros (12):
+      arm64: dts: apple: t8112: Add SMC hwmon node
+      arm64: dts: apple: t8103: Add SMC hwmon node
+      arm64: dts: apple: t600x: Add SMC hwmon node
+      arm64: dts: apple: t602x: Add SMC hwmon node
+      arm64: dts: apple: Add common SMC hwmon infrastructure
+      arm64: dts: apple: t8103: Add common SMC hwmon sensors
+      arm64: dts: apple: t8112: Add common SMC hwmon sensors
+      arm64: dts: apple: t600x: Add common SMC hwmon sensors
+      arm64: dts: apple: t602x: Add common SMC hwmon sensors
+      arm64: dts: apple: t8103: jxxx: Add device-specific SMC hwmon sensors
+      arm64: dts: apple: t8112: jxxx: Add device-specific SMC hwmon sensors
+      arm64: dts: apple: t60xx: jxxx: Add device-specific SMC hwmon sensors
+
+ arch/arm64/boot/dts/apple/hwmon-common.dtsi    | 38 ++++++++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi  | 23 +++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/hwmon-fan.dtsi       | 17 +++++++++++++++++
+ arch/arm64/boot/dts/apple/hwmon-laptop.dtsi    | 38 ++++++++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/hwmon-mini.dtsi      | 16 ++++++++++++++++
+ arch/arm64/boot/dts/apple/t6001-j375c.dts      |  2 ++
+ arch/arm64/boot/dts/apple/t6001.dtsi           |  2 ++
+ arch/arm64/boot/dts/apple/t6002-j375d.dts      |  2 ++
+ arch/arm64/boot/dts/apple/t6002.dtsi           |  2 ++
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  4 ++++
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t6020-j474s.dts      |  2 ++
+ arch/arm64/boot/dts/apple/t6021-j475c.dts      |  2 ++
+ arch/arm64/boot/dts/apple/t6021.dtsi           |  2 ++
+ arch/arm64/boot/dts/apple/t6022-j475d.dts      |  2 ++
+ arch/arm64/boot/dts/apple/t6022.dtsi           |  2 ++
+ arch/arm64/boot/dts/apple/t602x-die0.dtsi      |  4 ++++
+ arch/arm64/boot/dts/apple/t8103-j274.dts       |  2 ++
+ arch/arm64/boot/dts/apple/t8103-j293.dts       |  3 +++
+ arch/arm64/boot/dts/apple/t8103-j313.dts       |  2 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi           |  5 +++++
+ arch/arm64/boot/dts/apple/t8112-j413.dts       |  2 ++
+ arch/arm64/boot/dts/apple/t8112-j415.dts       |  2 ++
+ arch/arm64/boot/dts/apple/t8112-j473.dts       |  2 ++
+ arch/arm64/boot/dts/apple/t8112-j493.dts       |  3 +++
+ arch/arm64/boot/dts/apple/t8112.dtsi           |  5 +++++
+ 26 files changed, 186 insertions(+)
+---
+base-commit: 44696aa3a489d2baf58efa61b37833f100072bee
+change-id: 20260712-smc-subdev-dt-0ca47062521f
 
 Best regards,
 --  
-Sasha Finkelstein <k@chaosmail.tech>
+James Calligeros <jcalligeros99@gmail.com>
 
