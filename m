@@ -1,68 +1,43 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E7A3988FB
-	for <asahi@lists.linux.dev>; Sun, 12 Jul 2026 09:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EC832FA2C;
+	Mon, 13 Jul 2026 17:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783849505; cv=none; b=ky8Ijs5XijPfByr3orLCU8DArE159jmjZ/4veydp6KLxoL/vOVRfVY+0EuL3YFpDrU04p54pG1czGbvebqTHZTldhI/+ptiksn10i7iAX1TKJf4jCdCft7zJfoe2qSfWlbU3EaY3JLPYo3xrIzO5ZwSg5rfqKpWu24DA2Whc+UU=
+	t=1783964999; cv=none; b=n3h6jn4pIggygWDC8hBdvZSscSsO/D1bVgx4XcD3vNZTSScP00KUIheYfF9PzomwMlOlpJgoHmw2rLV2R5PmMKS+l8Tk8FNCQKIQxql5pDMBK+mdkhbHrcf88kpIoYAvzB/05V2wLfMsTq40asDnyjLl2lnQakrJcSradvslfu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783849505; c=relaxed/simple;
-	bh=x8Grz8Kqtnr/cWgyc/taQbax1eaDHX8U8ipxLd2qWVQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VtH2DWx92X0ukNDdTXtBChUWjnBT6KC4XuXAqdlLdUqGxxGxQOjZjS4Rp8p9Ki2U+MsyFuVVDP8YyPP0vJNazfiUWxorE+2r42Y+aLEkBPstzxS/syR8M3OzOCMJaB1VHDCJYBY0SQliQT1XottGcXWeuCFH4nnJk+PbbJol0Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kIPcBUhg; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783964999; c=relaxed/simple;
+	bh=EdBCH5dd+Q2QtgXmbzmLCph1xdgtSkuOxy/KJSgUQGs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=sLk8/AFnuEObnI2Je7Pn5Ja9IUksP3V1TVM1qN19dZmkUze+MMMY285ePCbalFVL1T/ToySiz3/0KMTg5q0xt0zY8GqfTb7I59nDsSVr9JzkVZyDPPdIf9nFckssruUruST2PniuNvpKNrtkuIh0zNk3g+dmiQHVuI9bpc4sBXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oeIkudY2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kIPcBUhg"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-384c94c9414so2096242a91.3
-        for <asahi@lists.linux.dev>; Sun, 12 Jul 2026 02:45:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783849503; x=1784454303; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EvzgOVO6jhm4u4fWUb2VkpKCzhTp79gobTgqrCwBTWQ=;
-        b=kIPcBUhgxcxu+SXB3QpZwk6qxhG85lUduoOBjwYp8xQOqbxq/MCMgXlqppA/rKqSf3
-         0WFk8MdlrJ3YVyrNa34d4qfaRWM4lKTRbGbPNzB/T/ubXFI1Y7zQeOG0sWV0CS5ZjLrf
-         shfnuCzN8Xy0HGAZQ2VDf9a/SDFAsmIS6XGWMZrnDTQHOjsHDSBvJo1WI/MKguu/ruiJ
-         f8mlZ4pWUg+oIsnXRe7mkixYwopwXCdUy/t+eIDD1/Kbq/63YFe6yTo/7YFuHmoXTfmB
-         oEn0ZOTeiYjR88m+vdReKuOAD3EDlI6McFVR/HF+saYi7rIrh8maWp7hwLtTpz69EKWW
-         eVmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783849503; x=1784454303;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EvzgOVO6jhm4u4fWUb2VkpKCzhTp79gobTgqrCwBTWQ=;
-        b=X7/bYSHurz+tosG4EMBcluYg20zQKAOMk2xP8aixHTf/geyu9cpcI98yj9bmn3LxUC
-         HyDFpdMTfE5Yme8JR03Qg33JeIBZXta2bIGmY1pwt1ztDKM9n7w2p0XpUOn7iMD0ZP2n
-         t3JllcT/NeaeiN6DmzkJKmPWdIwCOLsDEBc0zurjE0kRgT97E9UQ6kF9H/zRtbHLpDy1
-         DSLWBArqtXwMe0CVlOTR+J7jzy7A5Q9r0xI2Ew1t4KQbtXkLYOLScqUevUHvluuIZ0P+
-         GS+aBJUYGIDKI3OGN3cFmvWadB4wLH4gKG4dZU4uGZvJ9LiQB055EvD3iQjVn5ATrJLK
-         ATUQ==
-X-Gm-Message-State: AOJu0Yzao8g5HfExyPI2q4yLLvcSUORQF9VMrOS1UCya/wGJhKNRYmVP
-	/5AuP6zMmenmrDvLMyQrVhXRWcW4EZtJY3Q3hapxojNeVSnojC77eb8j
-X-Gm-Gg: AfdE7cmGgwm9CHznkbRcFnRwuXRlDvezDQwxThrYsiuuu0pJd7COuLV/vderaVbV8MG
-	3zkY/zpave3vJSt2VqZK/IeYIqyjZsAbmocucoMPqyT6HB5gSwfSqaQLSIKd+zBSNkgX/unIsRP
-	H9wd/mgcY/Yd6q6NU2NWsk1CjLwdo341EFyt9JsIMFHe7YThgHMCOotpsyg/fvUhKCjiqzqPd/E
-	7AhMj9BzQsABWajQ1YK657QaF0FCPet30PGGNKDer9gkpbHHCFd10tPBi+kZX6lCnSurStlHYLu
-	4MZA6XcaurgD1/mMtoCkAqECZQ4Mx6JtssX1AnUH/s9nr2jiYfYzBleLAXPi/oeETru0YW6UAVi
-	EB9ai/qO4rfFl4Aem0p5bVLkOb/wKfZvdBh5v1RNsewCMdBrFVSUvI/bBYMAKDmhxJQ5XNOa34G
-	6SuMkNAi4eIdy2rvPU7F/7dZN9/JAInq5N6R7PP17SAf+tFykudbcYnkz2lWrXps6TRARS+ldVe
-	xHlu2j+rhRaPMJpf0+DA/Rgc4HlTAAGNJku4/grVfKIjW5nvjXyq3jE+kj49J7E
-X-Received: by 2002:a17:90b:514e:b0:387:e0db:bc28 with SMTP id 98e67ed59e1d1-38dc77cf117mr4925674a91.40.1783849503296;
-        Sun, 12 Jul 2026 02:45:03 -0700 (PDT)
-Received: from [10.160.6.73] ([119.17.57.186])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313c50c70c9sm15268919eec.29.2026.07.12.02.44.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 02:45:02 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 12 Jul 2026 19:43:31 +1000
-Subject: [PATCH 12/12] arm64: dts: apple: t60xx: jxxx: Add device-specific
- SMC hwmon sensors
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oeIkudY2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92DDC1F00A3D;
+	Mon, 13 Jul 2026 17:49:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783964998;
+	bh=Fa5TT7A7iaJiXQk7cDzWrcccsXQ1AmFPBgeZw6vo3Kk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=oeIkudY260diCJSQ180U3sbXGFrYTgvquUEo6c6E/H5baUd2zX92IrLkpo4+SULPl
+	 RQftAWQ8Vq0q8ky7aeRmdmFsEH35aZhNCNrxCFI1oc+/yeaS0HLDquqwzlwpY9RIcp
+	 RZKPh8k3aQ0vPV5NouggYU5pzaVayKPiL5oUNOcYXPQETEjtibfQjCnbR2lt/MRRKe
+	 bBHMdKdktAyat2GOhy8nd/UOh/vlHOXrukIDYzUrcB88nlhqShh5645CCPg95Mx91G
+	 egnpM09lxCOH0nFpNrax0dgQV9V13NeepmTxbP+qGioOLYhZrgtkrwfLTdRMFDhUIQ
+	 eK06G+RQ5K45Q==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+In-Reply-To: <20260711-apple-audio-redux-v4-0-2994d87c2f24@gmail.com>
+References: <20260711-apple-audio-redux-v4-0-2994d87c2f24@gmail.com>
+Subject: Re: [PATCH v4 0/7] ASoC: apple: mca: support simultaneous I2S
+ capture on the frontend
+Message-Id: <178394656784.7914.15876722756156903983.b4-ty@b4>
+Date: Mon, 13 Jul 2026 13:42:47 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,106 +46,69 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260712-smc-subdev-dt-v1-12-7763006d57c7@gmail.com>
-References: <20260712-smc-subdev-dt-v1-0-7763006d57c7@gmail.com>
-In-Reply-To: <20260712-smc-subdev-dt-v1-0-7763006d57c7@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2858;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=x8Grz8Kqtnr/cWgyc/taQbax1eaDHX8U8ipxLd2qWVQ=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnBiU/3dR4qK5p210l/pqS3Vv7mW7v7f6a3pPXXqx/VN
- NhzM2Bmx0QWBjEuBksxRZYNTUIes43YbvaLVO6FmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
- jXSMdYwYuDgFYKqPH2H4p/mTUfXNvp1bmnnO8ZfNF2XfMTfIIE8nf0KO8IfHMRJzGxgZOuR3r5H
- uuX197szpeboFmqt5+zey2S1qsSyYfvZDi9V6LgA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2172; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=EdBCH5dd+Q2QtgXmbzmLCph1xdgtSkuOxy/KJSgUQGs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqVSVDhdOgL1wxEVz/vduoL+nULsCHvqWT4NC3F
+ Ll3ZKq/FrOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalUlQwAKCRAk1otyXVSH
+ 0NLpB/4n4YUXqH3WNvZCBAANZopBaFRX/qJmaFsvGxs5hVjQ0KK6cegVA/tOVRZNL54PPbjoz/s
+ qdE7Z39jBXi/X0O+xuXPje5uXGjvxIZ4fTAEw2dYm4lofbdK9EC/Ce0wJMXs9DXutHyFaBtrq5g
+ yoLQ+NdWdk5Gdhh+zqO3M+9qnoHqvDNbkvpo7JbEpJQX9X2EWNwb08YqvEDziT9Cl8fgVn4Xz8f
+ ZwePfHlAk897lQtr4y784c1eE6aK4nzth7xehIkMAMNZsKPBprUsePDBcssJGuzuIfGav4IqQ2+
+ uQV78Kni1tzgSIVhUAcemYLHZNi1QTrKOnEg6pkrt4FQev24
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Add the device-specific hwmon sensors for select T60xx-based devices
+On Sat, 11 Jul 2026 11:11:18 +1000, James Calligeros wrote:
+> ASoC: apple: mca: support simultaneous I2S capture on the frontend
+> 
+> Hi folks,
+> 
+> This series introduces a number of changes to the ASoC driver
+> for the Apple MCA peripheral to enable support for bidirectional
+> I2S. This is achieved by allowing frontends to act as clock consumers
+> and logically ORing data input lines when multiple backends are linked
+> to a frontend.
+> 
+> [...]
 
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- arch/arm64/boot/dts/apple/t6001-j375c.dts      | 2 ++
- arch/arm64/boot/dts/apple/t6002-j375d.dts      | 2 ++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 2 ++
- arch/arm64/boot/dts/apple/t6020-j474s.dts      | 2 ++
- arch/arm64/boot/dts/apple/t6021-j475c.dts      | 2 ++
- arch/arm64/boot/dts/apple/t6022-j475d.dts      | 2 ++
- 6 files changed, 12 insertions(+)
+Applied to
 
-diff --git a/arch/arm64/boot/dts/apple/t6001-j375c.dts b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-index 2e7c23714d4d..08276114c1d8 100644
---- a/arch/arm64/boot/dts/apple/t6001-j375c.dts
-+++ b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-@@ -24,3 +24,5 @@ &wifi0 {
- &bluetooth0 {
- 	brcm,board-type = "apple,okinawa";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index a2a24d028cbb..e6eb6b6c386d 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -184,6 +184,8 @@ atcphy5_usb3: endpoint {
- 	};
- };
- 
-+#include "hwmon-fan-dual.dtsi"
-+
- /* delete unused USB nodes on die 1 */
- 
- /delete-node/ &dwc3_2_dart_0_die1;
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index fee84f809a9c..caded1636f3d 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -367,3 +367,5 @@ &atcphy3 {
- };
- 
- #include "spi1-nvram.dtsi"
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6020-j474s.dts b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-index 7c7ad5b8ad18..e3c2635d84fa 100644
---- a/arch/arm64/boot/dts/apple/t6020-j474s.dts
-+++ b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-@@ -45,3 +45,5 @@ &pcie0 {
- 			<0x200 &pcie0_dart_2 1 1>,
- 			<0x300 &pcie0_dart_3 1 1>;
- };
-+
-+#include "hwmon-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6021-j475c.dts b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-index 533e35774874..82689c380cdf 100644
---- a/arch/arm64/boot/dts/apple/t6021-j475c.dts
-+++ b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-@@ -35,3 +35,5 @@ &port01 {
- &pcie0_dart_1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6022-j475d.dts b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-index 31f24bbda968..f50a6d56f3d8 100644
---- a/arch/arm64/boot/dts/apple/t6022-j475d.dts
-+++ b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-@@ -44,6 +44,8 @@ &typec5 {
- 	label = "USB-C Front Left";
- };
- 
-+#include "hwmon-fan.dtsi"
-+
- /* delete unused USB nodes on die 1 */
- /delete-node/ &dwc3_2_dart_0_die1;
- /delete-node/ &dwc3_2_dart_1_die1;
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
--- 
-2.55.0
+Thanks!
+
+[1/7] ASoC: apple: mca: increase SERDES reset delay
+      https://git.kernel.org/broonie/sound/c/cccd721e5aab
+[2/7] ASoC: apple: mca: Separate data & clock port setup
+      https://git.kernel.org/broonie/sound/c/108d4b654d82
+[3/7] ASoC: apple: mca: Factor out mca_be_get_fe
+      https://git.kernel.org/broonie/sound/c/2aab6230f8d8
+[4/7] ASoC: apple: mca: Support FEs being clock consumers
+      https://git.kernel.org/broonie/sound/c/00309bfb1f54
+[5/7] ASoC: apple: mca: Support capture on multiples BEs
+      https://git.kernel.org/broonie/sound/c/108a14b20f95
+[6/7] ASoC: apple: mca: Do not mark clocks in use for non-providers
+      https://git.kernel.org/broonie/sound/c/889c26cfb98d
+[7/7] ASoC: apple: mca: Add delay after configuring clock
+      https://git.kernel.org/broonie/sound/c/8dd595bca51a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
