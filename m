@@ -1,67 +1,68 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED793DB30F
-	for <asahi@lists.linux.dev>; Tue, 14 Jul 2026 06:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF3A37DEAA
+	for <asahi@lists.linux.dev>; Tue, 14 Jul 2026 06:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784010520; cv=none; b=h5h54A1nMvmmZrPKCwNniTw7xFydkQqyxM5MPE/Dv6DlGIWgZu0q/b6gY9GusA1W1OigosbRELObMgRrBGa1rie6ARvtgeXSXfIrCbbB0Dk59rXi5YSXXskB4kaiKd2Nr5pG4epbcQLuo59j8eBiQ4o/aLrBwOlvHxS+64cwnSE=
+	t=1784010525; cv=none; b=NLJ48ToD4aZGhoBCP9efl2EI/9D4q5mYvzc3/tlWl++rqjShC21uXnCOk99Y2oTgQbEtPxVsj66ywa80tHJgovO3SvvcfbNo+gwaL9xVb4nZHGA1Tfox5qOPya0SQXz8j2tlbeLVmVdVl3C1m17WyNLIXOCItEJBhHMKudTjt8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784010520; c=relaxed/simple;
-	bh=gUnSQx6EnJXaYhEgNgLK/1mFnXBvIddQLwTUbxqQBrI=;
+	s=arc-20240116; t=1784010525; c=relaxed/simple;
+	bh=S7RyjJPJgk8bM8bSvDin/ELs3Q0NaOfmTEAFhGjIglA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Bh8EUa8C04zJVtE7H3ivg9kcmVdBTNovsAwlltOygF0Nb8g0DXXMRT81yslKq2Hvr3kFVWKZbdFMyWUnKdzlsvpqIJ/v7IzbEwBbsxdD/Q7bcULxd5tFINkWPMcS0NdlMeY2KPwoq12wU2rne9UTkUw8VilqofHqN1JXMaEIYSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jzzf8tL7; arc=none smtp.client-ip=209.85.214.171
+	 In-Reply-To:To:Cc; b=cLmJ0sXfsZxeHunLEE0h0jlBFZpAXeCRurztaaYx3FKRKTUYpBV6meUQL0v65huMy9/KsFZvDkWxVi02QaOEPaXk9Q+eh0iIcENO7TbocIU/1OtbKrWVCzwbJPtOo4+Okh2s+8uSpPvxOi0ZArW1goYK9Wh0fgvBvsajEjv5bcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vv2QE6qC; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jzzf8tL7"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ce98cb8165so6370815ad.1
-        for <asahi@lists.linux.dev>; Mon, 13 Jul 2026 23:28:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vv2QE6qC"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-37e0a189b0bso591793a91.1
+        for <asahi@lists.linux.dev>; Mon, 13 Jul 2026 23:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784010519; x=1784615319; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784010523; x=1784615323; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=a1sDKgNris4bKIsSSZ8ZkjrW6Ok7Lj+2yHiTlwt8/ug=;
-        b=jzzf8tL7UBo0ohVn7yk1n3NIIW6uCoGVTEcefcRbffmlIOukMNyxcCp4HRk4RFSZKD
-         Ij4MTV8ZMQ3SuI5M3d5XNiDuCM5z8kYhGlvNHGLYgrqzmK0VCPa4y+7+7LSCAzNiYNIq
-         L3oh5y1qhWOLbCUWjNoe9jC+Qoa78QiKfI2xcM0FKg3MwEPbLFoViKcmP0FOP58PyaBN
-         kxhoXhXU/0zoNDNGTHUKVVXOcwFH8ZYiholng5wVT07LuH87FUe785/6Ri7DeKTyuSi6
-         xLIwniAgxt5xi32vVL/3o2q19q/zwDOCT9tc8TtYBA99ID2E6ihL2Cy6qsHgHRMI6mRT
-         WUGA==
+        bh=brQxkQcBSLeOu8llLPLKYoA1VBGbas+TGQGDU2SyhI0=;
+        b=Vv2QE6qCeZIO1oVoToGnwVf6YZLNyOjhdEG7PNo5ETMBMRcSxtnKNoS5OxpxZhGQCr
+         JPeMt72K/MuRkm4nZka5Tuo/a7h/Rk/RcMB0pr3EEjSltA46CZhyK5vr7UpzmYtyNOC0
+         W92St0yy16SUFnXk2m7rtJ3go3gjFaFTAu98r57083E+4VHjXKdodDB8XKtIbS/XUS74
+         bjzib89dAN3gYgWVEeLnu6lT/gdtdG67d+8qKrUy+XYD4C53i3CvyfAIRyJg9LsaRYCp
+         Ri7VegK/lZhZQGIvVjgG/atPuYCDSknONP3sI3pGR8s8uin5jG6PQaiHoJTAvDCS3ymz
+         zuDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784010519; x=1784615319;
+        d=1e100.net; s=20251104; t=1784010523; x=1784615323;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=a1sDKgNris4bKIsSSZ8ZkjrW6Ok7Lj+2yHiTlwt8/ug=;
-        b=VaWl1f6X87m2UyrtVbnP8tdNf0On2kApHMOrTvOZqvLio0bnec6KFrV2+wldIF8rbX
-         D2AQX7ILbbrIlxe4gTNVbjMLpkoeyb8YLbpF7F5gwJQLTKL3Wj9K6VT/x/1AqwJTflFw
-         eYqBeEZtXBDLnITgDyrUVEMgvN8uFKplBfCz0kj2DMcQCztvowFFvDPpc3PQCuL8HpDg
-         0PvHOPvq/UPBalHMqNusns2gfzws4ZNIVcEn2qh8SU02XvxrTsYw0qUSqWEJ7xPRCoo3
-         vs6Wl7NGAcxvNPWr5bIZSQuOndMypRyi2XGdFaLuueuU9W4hsCSOmG1O9OYMdVycBfXH
-         w5Zw==
-X-Gm-Message-State: AOJu0Yxh+G5+OMfjgkewDtD297f0CIgcqk7lmKriBjjE9K8m0EciuFQt
-	J0sTuKjsHktpor3Sm3X/wClcONLqZgFzJWiwVeWEYM0Wu0CNZhikoMs/
-X-Gm-Gg: AfdE7cmHW841DHqjYtsyYLbJEVsxUEASzW88Vdoz5CbWNwx6tbZ9O2p19so7SnxejWz
-	RdIZFChs2sEHKMQU/0D1Wey9zz3zF7EyvuQ5BgnZOEKaHPNdN5JtCFrNfaNY0jAbybXHok/gRvl
-	apA/MGpYjXP0llmq/Xe5BTBCSb+jpDj96pMCqiyMtwHYQS+sPSfuXhdcO1AwAts4wQlhly9qddf
-	5kVnOStUTAmZCOkbsYgLho2P1bT9a3Ra1BMiBF2KoJw6GupqjxErQ9f2lu1i8SXy95v6dM7cQ/B
-	GtpSWRrvIBWGoIzEKPOwW0b0TEV6nFJQj8clhEhuCjqr0ONNXe+s+x8sX6mYkFY5N5Hvbw+Z4xd
-	cCuUvn6cpq3RZMdFtiAcc7hSyo5lggz2bgvrOW0CQw/KFaPWDT9xc4HdCXBdI5eKwXFNOHHoF+E
-	OFYa5eykl1cd1WNkdrIwwGT/dz6FrrJOdXYmaZCUqEfPQbQ6ch8y8vVlIv+ry46eGG7j9yWvE0B
-	FFKZK5XjQO4buZawn9fkJX9RL+qbhmt5Lq2IEoCYHUf/GpaVgFj9N+w7d8hIyqM
-X-Received: by 2002:a17:903:1b08:b0:2c9:ed2e:b8c1 with SMTP id d9443c01a7336-2cea17f82a7mr116774045ad.12.1784010519128;
-        Mon, 13 Jul 2026 23:28:39 -0700 (PDT)
+        bh=brQxkQcBSLeOu8llLPLKYoA1VBGbas+TGQGDU2SyhI0=;
+        b=R2g7UWTolGAarel0M+pOLuJN8NexyZOPupVz1weldNKPOTxmbLWqj27EI65m0btRPb
+         Ntsj9On7AhGTuRp+hjJGD4E6issdVYCx52lw6DUJSxBuyL7rdP7x6xiAnVs2Qj4uHDxr
+         QHOeZHDWtM3fd9kxUawMIbfAHjkMDFZbxUNuJ4eathkWrnmv3rmYecn2xjv5gtE6U4a0
+         7xEJ0iu6d4RcRf9dN6he2AnQvb87TjMj81NNaYUAvY0QR3766j8iaa/NegTY0HqWJ/hN
+         ctmk8EDXBq9/Ck06UIjzSI99M0bncfCygyL9Qc18P8R+J80wC037d6N/6aUtT2AC4wyR
+         Wz+Q==
+X-Gm-Message-State: AOJu0YyA0BfZXneeXWIraY6CnzfBmvUSd08m0JcDFlJUSKR3Of8Nnr4H
+	u9IvQHSlB4oO0/Cb8oCce2oGrHnuQbk14sbu/MhlcAYlacSsbNPeRIld
+X-Gm-Gg: AfdE7cl8lAxXvUet6AcUroldMVKwIbW5Gjj22kUe43hWPSG98Zsx8U1GjI4qn6bM3Ac
+	vFRQlLAI58YYyjeqleorA24NKlK65Dh0UpCxd9KGDLtOs+kGnI/gKLCEMmR5EFaSs+JSigGaYPf
+	oiptyoZnGy4s0g0wkjV2SpjI9sJ58LgO1kuSb0Ce5rnPtkQd8RUF9DJ1rPjuVPLKvVpsKlF5A7I
+	lclp7Z0FJbIEAZHmVn1YxY04GNjwsYsu96t02pD5PHF6LxjUBT6IBE+kz26XFWuTpPXG7uQLVcB
+	uWfKYTs23E4JxP1qSiokza34FDkoNYdYdxas8w1NeIUD/G6/GBOSQ4CVctgWTr3IPuO75WvnI30
+	ov5tIa00cq1VApl7Lr2lPXFIcKg8MQt8pYYGDXXCJvaiekGMfNZZTheTJFMqUWzts15tgaLEsEf
+	Sls4HHMQg6ovHdtofyNcyx9if0CW2TIYo1mkyl8FglzcoGdpjFOlosBBpiYRO408GSPJ8rSa8PK
+	VvcuMm5qYp8tLzFolwGDs2D1Qu1HFGsvFFl0Aj8m4f7P/tyKVHeNIe7L2kDiALJ
+X-Received: by 2002:a17:90b:3e44:b0:38e:21da:9257 with SMTP id 98e67ed59e1d1-38e21da9302mr1670a91.37.1784010523324;
+        Mon, 13 Jul 2026 23:28:43 -0700 (PDT)
 Received: from [10.160.5.76] ([119.17.57.186])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc99cc5aasm110915985ad.0.2026.07.13.23.28.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc99cc5aasm110915985ad.0.2026.07.13.23.28.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 23:28:38 -0700 (PDT)
+        Mon, 13 Jul 2026 23:28:43 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 14 Jul 2026 16:28:11 +1000
-Subject: [PATCH v2 04/12] arm64: dts: apple: t602x: Add SMC hwmon node
+Date: Tue, 14 Jul 2026 16:28:12 +1000
+Subject: [PATCH v2 05/12] arm64: dts: apple: Add common SMC hwmon
+ infrastructure
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,7 +71,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260714-smc-subdev-dt-v2-4-13fa78873121@gmail.com>
+Message-Id: <20260714-smc-subdev-dt-v2-5-13fa78873121@gmail.com>
 References: <20260714-smc-subdev-dt-v2-0-13fa78873121@gmail.com>
 In-Reply-To: <20260714-smc-subdev-dt-v2-0-13fa78873121@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -81,38 +82,206 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=681;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5127;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=gUnSQx6EnJXaYhEgNgLK/1mFnXBvIddQLwTUbxqQBrI=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmh1xnWivv/W/4/x3RrdIzlzWU9vRK7mipW71t6cSbT+
- hMPL1/62jGRhUGMi8FSTJFlQ5OQx2wjtpv9IpV7YeawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
- QyMdYx0jBi5OAZjq5hiG/8GNy25EbpV/PVXZ3fRO947qQNbgU4tFsrZyLBbt3NVn6sDIsEZmxYw
- ljJN2/DrpbLKm3v2p04OaCZdWXxaP83gd3hJwkR8A
+ bh=S7RyjJPJgk8bM8bSvDin/ELs3Q0NaOfmTEAFhGjIglA=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmh1xka6jk+65YWZOUf4s7+HZpuvFN036yOdsHm5IUWS
+ W9D553tmMjCIMbFYCmmyLKhSchjthHbzX6Ryr0wc1iZQIZIizQwAAELA19uYl6pkY6Rnqm2oZ6h
+ kY6xjhEDF6cATPWxJoZ/minvdaRu3zLs22cnV8L7I4LpiP6550ad2eafcw+pxixMZvgrFRk65dW
+ D7+YBO3OeK8g/snqz4ciGi/I5F4MP/pzaoPSXEwA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Add the SMC hwmon subdevice
+Apple's System Management Controller exposes the readings
+from numerous sensors scattered around the SoC and elsewhere
+in the machine. Some of these sensors are reliably common
+on all devices, whereas others are exposed at SMC keys
+specific to either the SoC or even the particular device.
 
+To account for this and expose the right sensors for the
+right device without tedious Devicetree duplication, we
+can include fragments of increasing specificity in the
+per-device .dts files such that the individual keys
+(of which there are potentially hundreds) do not need to
+be copied in for every device.
+
+Add the initial set of SMC hwmon sensors that are common
+to multiple devices so that they can be included in
+the per-device Devicetrees.
+
+Co-developed-by: Janne Grunau <j@jannau.net>
+Signed-off-by: Janne Grunau <j@jannau.net>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- arch/arm64/boot/dts/apple/t602x-die0.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm64/boot/dts/apple/hwmon-common.dtsi   | 38 ++++++++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi | 23 +++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/hwmon-fan.dtsi      | 17 +++++++++++++++++
+ arch/arm64/boot/dts/apple/hwmon-laptop.dtsi   | 38 ++++++++++++++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/hwmon-mini.dtsi     | 16 ++++++++++++++++
+ 5 files changed, 132 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t602x-die0.dtsi b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-index 8622ddea7b44..301df2f006a0 100644
---- a/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-@@ -122,6 +122,10 @@ smc_reboot: reboot {
- 				"boot_error_count", "panic_count";
- 		};
- 
-+		smc_hwmon: hwmon {
-+			compatible = "apple,smc-hwmon";
-+		};
+diff --git a/arch/arm64/boot/dts/apple/hwmon-common.dtsi b/arch/arm64/boot/dts/apple/hwmon-common.dtsi
+new file mode 100644
+index 000000000000..a35c7b14fec8
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/hwmon-common.dtsi
+@@ -0,0 +1,38 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * hwmon sensors expected on all systems
++ *
++ * Copyright The Asahi Linux Contributors
++ */
 +
- 		rtc {
- 			compatible = "apple,smc-rtc";
- 			nvmem-cells = <&rtc_offset>;
++&smc_hwmon {
++	power-PSTR {
++		apple,key-id = "PSTR";
++		label = "Total System Power";
++	};
++
++	power-PDTR {
++		apple,key-id = "PDTR";
++		label = "AC Input Power";
++	};
++
++	power-PMVR {
++		apple,key-id = "PMVR";
++		label = "3.8 V Rail Power";
++	};
++
++	temperature-TH0x {
++		apple,key-id = "TH0x";
++		label = "NAND Flash Temperature";
++	};
++
++	voltage-VD0R {
++		apple,key-id = "VD0R";
++		label = "AC Input Voltage";
++	};
++
++	current-ID0R {
++		apple,key-id = "ID0R";
++		label = "AC Input Current";
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi b/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi
+new file mode 100644
+index 000000000000..e87997d21e22
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi
+@@ -0,0 +1,23 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Copyright The Asahi Linux Contributors
++ *
++ * Fan hwmon sensors for machines with 2 fan.
++ */
++
++#include "hwmon-fan.dtsi"
++
++&smc_hwmon {
++	fan-F0Ac {
++		label = "Fan 1";
++	};
++
++	fan-F1Ac {
++		apple,key-id = "F1Ac";
++		label = "Fan 2";
++		apple,fan-minimum = "F1Mn";
++		apple,fan-maximum = "F1Mx";
++		apple,fan-target = "F1Tg";
++		apple,fan-mode = "F1Md";
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/hwmon-fan.dtsi b/arch/arm64/boot/dts/apple/hwmon-fan.dtsi
+new file mode 100644
+index 000000000000..180eb8d7441f
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/hwmon-fan.dtsi
+@@ -0,0 +1,17 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Copyright The Asahi Linux Contributors
++ *
++ * Fan hwmon sensors for machines with a single fan.
++ */
++
++&smc_hwmon {
++	fan-F0Ac {
++		apple,key-id = "F0Ac";
++		label = "Fan";
++		apple,fan-minimum = "F0Mn";
++		apple,fan-maximum = "F0Mx";
++		apple,fan-target = "F0Tg";
++		apple,fan-mode = "F0Md";
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi b/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi
+new file mode 100644
+index 000000000000..cadffd000c76
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi
+@@ -0,0 +1,38 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * hwmon sensors expected on all laptops
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++&smc_hwmon {
++	power-PHPC {
++		apple,key-id = "PHPC";
++		label = "Heatpipe Power";
++	};
++
++	temperature-TB0T {
++		apple,key-id = "TB0T";
++		label = "Battery Hotspot";
++	};
++
++	temperature-TCHP {
++		apple,key-id = "TCHP";
++		label = "Charge Regulator Temp";
++	};
++
++	temperature-TW0P {
++		apple,key-id = "TW0P";
++		label = "WiFi/BT Module Temp";
++	};
++
++	voltage-SBAV {
++		apple,key-id = "SBAV";
++		label = "Battery Voltage";
++	};
++
++	voltage-VD0R {
++		apple,key-id = "VD0R";
++		label = "Charger Input Voltage";
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/hwmon-mini.dtsi b/arch/arm64/boot/dts/apple/hwmon-mini.dtsi
+new file mode 100644
+index 000000000000..7fd86e911acf
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/hwmon-mini.dtsi
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * hwmon sensors common to the Mac mini desktop
++ * models, but not the Studio or Pro.
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++#include "hwmon-fan.dtsi"
++
++&smc_hwmon {
++	temperature-TW0P {
++		apple,key-id = "TW0P";
++		label = "WiFi/BT Module Temp";
++	};
++};
 
 -- 
 2.55.0
