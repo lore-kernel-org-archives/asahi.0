@@ -1,67 +1,67 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F523DB636
-	for <asahi@lists.linux.dev>; Tue, 14 Jul 2026 06:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F4E3DE451
+	for <asahi@lists.linux.dev>; Tue, 14 Jul 2026 06:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784010533; cv=none; b=UZRhcuJ7wdyfwSQqIv7rcp9hpP+a8qwO4RCL+BP6iobjpwbJkcp6WtZkkZEEO87WHqsF6cXIdJb8zxaC28rokpxGH1MJwl3O60FuEcocJOkN0Bj3zST5/rN01eM4zXVtG6zyPPptkx6nsqzmGkrzr4ubZn3vBPo/pliV/8X7fgY=
+	t=1784010538; cv=none; b=Myq5akWTHj7er6M+SK6if5WCMB438T1py+1K/wqQLejVjbJhCmMe+982A1tCemtRIGT0XTXdSCxlb89khKwWxfLmwuYARvBnvhO65RRr1b43ZlcKhAz0cez04RglJ7VpP4T7J4y7km+U/rYVB5ffAaje3trfk6BDEtMtzi5rkMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784010533; c=relaxed/simple;
-	bh=uEOX/VWb2IzaqOqmoZJ5LrpiOfc1OnKwSpPs8c3o0oI=;
+	s=arc-20240116; t=1784010538; c=relaxed/simple;
+	bh=HLHEl0SO/lEahgCGK95iQtDGGar7Zg/9GoIChI66pAs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WinTAqq2ougceRDYxxB5sThcIK1pPHbHw6UDuYS+w6MfwU8UUsS2e0jOBlHoW5h75ChZg2PmFvEQiGRhGj6I6UHeyk+OXRyuxeEM4O+aQ0HcKiYGG/8f7BxKit0tNmrZegF6CuZY1DO5DQn0uxvHj5bUXBizXPqBMOrRW7K/+7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hx6sElEU; arc=none smtp.client-ip=209.85.214.174
+	 In-Reply-To:To:Cc; b=S7hEXKkNfaW5Uo455M386MZRThuSQLTU31PqVNUIS4EOZJcKOaXsHvjfuccUxyWmsBoSVrwOYhJdfMGBYWyNT1oli3yys4YarCHrvKiNEDd+vejkf5O3jC8KC5BUwF0tqat8jB5baC+AaPlWO02VUsHdKQNLBGxftaXQ651f2p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D/Y+DoAs; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hx6sElEU"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2cca0c5799eso7146105ad.0
-        for <asahi@lists.linux.dev>; Mon, 13 Jul 2026 23:28:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D/Y+DoAs"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cca0c5799eso7146795ad.0
+        for <asahi@lists.linux.dev>; Mon, 13 Jul 2026 23:28:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784010532; x=1784615332; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784010536; x=1784615336; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=52kZejFtRxHWJh8aWpxhVLVG7ppdIETUdLQgRUaIxpA=;
-        b=Hx6sElEUouCGM9tYI7kUhtOUV7BfgDwCY2C9FjCO1WSmOgSWk+n9GgSikKdClHfc56
-         SnIFKrzVxNO3r7ECPWtXxHEk36rdmyC1SVVjsS0hWzfW/iwwroHH0ECTqQ2of8gCEuwx
-         fPbTDtB1AkqWnQon4kVGYOPBC+GtnOWatXvsDCx7pDpoGERWhxTjB5stmiyZGZjzJZwU
-         9zqmJDUkMPAVnUsoiO+Ebp0JojBkIn2Ai6oVjdbSp5TkKjE+0/cwjxiM+iH8HEvHKmUf
-         +XPT8A2gWOsPRTALO8k1mxyts2jCau50bXmvIpVwyaNmANsADB3ykwSj2FiNsBN7dmz0
-         WhhQ==
+        bh=fsJLZhqOR3UbjWEM7x+FIdlo40Tmj4551WlKIRMpMPg=;
+        b=D/Y+DoAsav2B8ze50qqkETKEYVY1ZGf4gYks/Lm1M+fwn5yKXYJf5mD1PZsVY/l8++
+         odxFX92eVKK2ZtXROTRAVN+oHXmz2kywVPI/tYG5yupOaAM72eB+HV8s9bSeIPAIcG8x
+         UHz6t5f0ffgTiGoBehDGDhj/3Mw6jAph0INpvYtDsIQPbt4JVyen99PP/y52koJ47ruU
+         k9LMOhXv/vRP080hder6Y3h97I826aPhMjEV+hrApU/lXJVKsEmRX4D7PpXOtmQyvAFJ
+         T/JlUwfR5ste2OE0R58Ql+c1g/dGNdpN1cXC4SBBOo1TDkiG/HkoX/CmWkLtk5YrbyUv
+         PP7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784010532; x=1784615332;
+        d=1e100.net; s=20251104; t=1784010536; x=1784615336;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=52kZejFtRxHWJh8aWpxhVLVG7ppdIETUdLQgRUaIxpA=;
-        b=ZgSorIrEV4ZuLqPmykS2ku9d5NXRY2QZq1Y0nuoCgA+4mu5b9dRm/mhkMGz9ItC7MC
-         +BlFgWT83su8WutlNzZER8HdHZsPcukPC1jXcEx4dy50LCgVoGDVke7X1VhUraFpbGTM
-         ela7dR8xEuyAFeUmBHNVlU81b0BwbPJqPuTQBTryXNm5ObcGsIKfMjcxkuHICjCoSg45
-         MXH3WcJ/M/6nVYPRwAaKwoiQhDGgUkc+W6PWdsdNPYc622yBpfkmEcolH6mv0aiAD4Pi
-         uxdYunorg7nq/NDgDPmydZ8saGiK+a1ElX/nz701pD4aCgYhfwiACNcXem6e6WgT/mCJ
-         hXbg==
-X-Gm-Message-State: AOJu0YxzdIJ4LTx7cHiFAuZDrk0l5qW9vPO8JDc5g2UpYZLJl8iGUajK
-	TWOYTojy2YRzQAtVHDfSLFCUMeljjemlYU/hVcC4yBfJdCEKX13s/L8o
-X-Gm-Gg: AfdE7clXhcBF4u/Tau+nOwYXL+seiZLKq14b3rxyZ4UMMqkDDz4w1KLlVJQoQg5DfoP
-	t4ppMzjPXV1Hi2oe18c0uKGE0cAF5DX7LTfWxc/0hiINnrFVDowLfOlS8iXtjJG0ibYKhp/00SX
-	aE9cLixTYKufMOU363CZTjI7A1GJv3yzkpzTIi95uNQEYl5yGll5RiDP4oY5WXM0yCiG+476eQe
-	l/648+AOYyVqJZcsckq3lR6AMJa4PI4aviXioaCD8YSwCdEsxLLG9tAk9kLvko28C436MwM2lFU
-	TgjC+9wTfoG6tV26DmzD27X8Qo038bDoFLwFxet1ktVcyc1mnk0vVgkJeJPQLlLOjy2fsq1ZKpR
-	zdxXim9ObHsjZw27DPt9O69f6UNWrz4lT3fX7/I0Yc/ebvRE5zepBDn8WUDdw6t+RMNzZWtQ2Ph
-	iR91ULq2Qyb8H2SU5sEbiz19GdJtFQibdNQezCw5Fejwxuexcw03qRb7x9LmZtw+oUQp2opJgxt
-	gvb7SJOL6WidCHD25C0t/i+iVLuGkirgg7lbTKp+u8AiUHlhAItXEeNf7nZ0gDTXr/47Kn+JTM=
-X-Received: by 2002:a17:903:17c7:b0:2ce:e747:c5d4 with SMTP id d9443c01a7336-2cee747c649mr27101265ad.46.1784010531885;
-        Mon, 13 Jul 2026 23:28:51 -0700 (PDT)
+        bh=fsJLZhqOR3UbjWEM7x+FIdlo40Tmj4551WlKIRMpMPg=;
+        b=I5VfmB/ArWVjGBwjHfjjRAU8dqyAmuJ9WFMUBvg9r0XqUrgGk1MW+kSskDTwOlt72H
+         IUR0i8RmQhCTT7J/tM6VlcUYfq6DDk9vnNLFOV6XWXigtBXkT87imTODner96945XdEW
+         qUwzmyvWQHRdyNVHlbzPbnbV/YtMUhhtD+a6KCnLzX4VDrx9+mUChd+BZOHtPFsCsX7T
+         93TuqhCzDdG1BeMvz1kh1TVVhP0RPrf0BC5jx6ttwOmsRG5oHj3pEVTn9LxRqvJWcInL
+         PnwZjsvToIIOyJFB/X0mthxQm2P2vTN6fRfaMEgFEJtoG+3PESGpvJhD8xFjic++BnDT
+         FdJQ==
+X-Gm-Message-State: AOJu0YzZEjaJMzk0k1PubBa+eSAn2pc/W1Z0jP20xTCjzPv72zL/T29P
+	XGRCZFA1TeHvo5iaG6HCN852p7u8n958GSA0YYigLgf5+d7gKGx9XwzB
+X-Gm-Gg: AfdE7cm34CPDrF9yZ7A6EWx4wz/tzEWDx7cLkmmJiqBKtvkedLo6/0/0+/3L2+FiVqF
+	YoSgC+96ZTOxufmkDVoTalrzUjv8jpXOqx/Xp/pdqSwrYvh1l8vI9UCdsDybxVPu47b3OPQKKTy
+	liKx28YFu75gw7RF/iTFK63jF8RE9H550CO4RStYApoBnuc392PvrSSj1+7triY868Zx1U3rZXC
+	HpFoazs4K0rRncQJli46XaCBvI7vZvh85xxBJsZnKEneOkHIkgOZny9wO23/iAFGxZX7pB2UCVD
+	LK6BvualiAoDmzeS38cbC0vv8zu9zpsvs0kx8GzTA6TbG/gLGcehAt1uo+qJor6SvUZC+5ADfVV
+	AqY8pXjioyKDExl36hMNq1/RUZ3eici6PWsj/prveu9FzXBX4GqhdeY6GYiwitigKMtjoxT62Yb
+	PCVlVAlxScoSxznBiCUMGkMTET/5D8gJq9mAEcjdItb9lPX8p/T+FdcphZhXVi9bQiqsXgw+QOV
+	aIbRpoU5IRLIo8pgrVyXwCVlG/pan6Az2nI4hLVn66JKuhKWENk5Oc/nQshiz8V
+X-Received: by 2002:a17:903:b4f:b0:2bf:7b62:a038 with SMTP id d9443c01a7336-2ce9eae29c0mr123749945ad.9.1784010536065;
+        Mon, 13 Jul 2026 23:28:56 -0700 (PDT)
 Received: from [10.160.5.76] ([119.17.57.186])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc99cc5aasm110915985ad.0.2026.07.13.23.28.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc99cc5aasm110915985ad.0.2026.07.13.23.28.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 23:28:51 -0700 (PDT)
+        Mon, 13 Jul 2026 23:28:55 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 14 Jul 2026 16:28:14 +1000
-Subject: [PATCH v2 07/12] arm64: dts: apple: t8112: Add common SMC hwmon
+Date: Tue, 14 Jul 2026 16:28:15 +1000
+Subject: [PATCH v2 08/12] arm64: dts: apple: t600x: Add common SMC hwmon
  sensors
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260714-smc-subdev-dt-v2-7-13fa78873121@gmail.com>
+Message-Id: <20260714-smc-subdev-dt-v2-8-13fa78873121@gmail.com>
 References: <20260714-smc-subdev-dt-v2-0-13fa78873121@gmail.com>
 In-Reply-To: <20260714-smc-subdev-dt-v2-0-13fa78873121@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -82,13 +82,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=535;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=966;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=uEOX/VWb2IzaqOqmoZJ5LrpiOfc1OnKwSpPs8c3o0oI=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmh1xntfl1++Gx/cdpDy/4Lqe7P/HrcQ+dkFm9dumDjH
- 73ZbrerOiayMIhxMViKKbJsaBLymG3EdrNfpHIvzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
- aKRjrGPEwMUpAFOdVc7IcDQ98Uj5oxkh8UuuKh6NmLf+gtqSwzP2bPX3stjE25Vi08/IMPfUKpH
- 4VEfHp9PrQg9frn554/RM85uZaxcJtbEyrPHP5AIA
+ bh=HLHEl0SO/lEahgCGK95iQtDGGar7Zg/9GoIChI66pAs=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmh1xlFnAxDa7pW5PYsjBK9Y2uTcDjovdya+zbN+YdXn
+ Jbz/36yYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
+ RjrGOkYMXJwCMNU38xn+e674tCBa0vCiu9z24NabgidN4qQdXebeK3Dcqcm76vHPYIbfLCw/Orv
+ eiW/nTDKRPZz8Nevu9TprtdDLvDzCr6ccVnFmBAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
@@ -96,17 +96,29 @@ Add the SMC hwmon sensors common to all SoCs
 
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- arch/arm64/boot/dts/apple/t8112.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/apple/t6001.dtsi | 2 ++
+ arch/arm64/boot/dts/apple/t6002.dtsi | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index a3241c816c26..ec248ca052cb 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -1289,3 +1289,4 @@ port03: pci@3,0 {
+diff --git a/arch/arm64/boot/dts/apple/t6001.dtsi b/arch/arm64/boot/dts/apple/t6001.dtsi
+index 6dcb71a1d65a..4fb934d7e71f 100644
+--- a/arch/arm64/boot/dts/apple/t6001.dtsi
++++ b/arch/arm64/boot/dts/apple/t6001.dtsi
+@@ -67,3 +67,5 @@ p-core-pmu-affinity {
+ &gpu {
+ 	compatible = "apple,agx-g13c", "apple,agx-g13s";
  };
- 
- #include "t8112-pmgr.dtsi"
++
++#include "hwmon-common.dtsi"
+diff --git a/arch/arm64/boot/dts/apple/t6002.dtsi b/arch/arm64/boot/dts/apple/t6002.dtsi
+index a532e5401c4e..0f81fc612a2a 100644
+--- a/arch/arm64/boot/dts/apple/t6002.dtsi
++++ b/arch/arm64/boot/dts/apple/t6002.dtsi
+@@ -305,3 +305,5 @@ &ps_gfx {
+ &gpu {
+ 	compatible = "apple,agx-g13d", "apple,agx-g13s";
+ };
++
 +#include "hwmon-common.dtsi"
 
 -- 
