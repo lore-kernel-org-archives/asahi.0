@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD7F377A80;
-	Tue, 14 Jul 2026 18:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159FC433047;
+	Tue, 14 Jul 2026 19:48:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784054423; cv=none; b=f5sVChcejRnRpIMu8L3D0tIk+yMuncC2OZ4ErnyQXA5mwhXfiwfQ1Htc9WtYAcZe1AQf+h/Qxw5m4LQ00h9FwbrF9KF2og/mSdQmigaO5nQAHs2kLsR7NPS0ytS9m7YI6NNCPLmnN5kEe8gIidfppM6YRbZ5YzZSnrHJ/gZRJXg=
+	t=1784058489; cv=none; b=kynygfMhhQd3WfJfzl5e8SoAbv5R55v1aby+WYd0eo4WutPOIta68rzKzDe6K70CkI8UNOdy1IGLtZAPD6lt9wCHFfcguE7soNOkg5WJqkXaULdXTJMBOcnJHycxcm9oB29wkkWxapdkCWjeteoPmC0Lr/tpPU76Nuo6Ir9LUL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784054423; c=relaxed/simple;
-	bh=znvyPCkEdiKeYivI5ze0b5EULN4zaBPm4/6ksrRIV4Y=;
+	s=arc-20240116; t=1784058489; c=relaxed/simple;
+	bh=B/L/X9V9PjtyIkDoHFL2DD8jdxZBz4bQhuxjlzo8bYw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fe2eEr7FvXWRPK+XF6SbGtU9PlqhdxOtMa8hOF9G5wqbY3jWcUwGUV+/wUOkGF1bl25U4j46F5R8r21WBenCc9Y1Wv7TbmX/rQGDguVKWm2y98fVlH+6wzSfAFYE3RBlemWUcDQ9lhWazIGa1FkiRrWO3IHp3uho0M1iJwiQ3CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mWttzLoC; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=rmHfFip1KZ0MS6/52yRV6KASDPEaPLdQNYotWUEHwncfOHAB2oZB9BwstYWbmE0jnye6mjklkNjWo7YWXfjBnhRmmeYDLZqAizX4KRNHG9f6uelnrJa/icigTLBZ0kWMIZoVYU5C5nOF3jmiwLH/9UktkRXpzsvelmGCnAJ0eMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hJjbRkjo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWttzLoC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D6BE1F000E9;
-	Tue, 14 Jul 2026 18:40:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hJjbRkjo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8CA91F000E9;
+	Tue, 14 Jul 2026 19:48:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784054413;
-	bh=nSj4JAQhU4abQQk3qlmUmKoHk4BO6ATzaMq9q+rma+o=;
+	s=k20260515; t=1784058486;
+	bh=oUqzUmCd5C8LaJR7q3XMrWlHVSAMJDyXvnpn53blVaI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mWttzLoCJ3wa6ikXcsYuU7K0BDHpCwW/Ou6zSAENGHHQBYP/sTcI6T5KO4NzMnV5J
-	 YsSjGoLjXIgN+b9e5NMXPskyqm8iwg2URngqsR1qSxNhmFZWJhCiz3efZHTmq4wm3T
-	 E+e71+DqVwukfxEMrP0Dk+5zYy+mYwZQbP3d1kVEM6Igu1wNO9qUdErbfAVKSJUSsU
-	 nc8P/Sm+CXMMh92GRSQudDrGotP+C4RzCv5du1t41zPkg20MMSpe9jZs6G+bjJXJK8
-	 0xxfVMqOexlJi8/UtXirxLidJt/ysuYJS8vWToyDVtZ+D3BkgaNOqGvAzDXasN/B7z
-	 4N4U/VwPEDMCA==
-Message-ID: <5f1d19c5-7a60-439e-903f-1db7953388c5@kernel.org>
-Date: Tue, 14 Jul 2026 20:40:09 +0200
+	b=hJjbRkjodStNV3aFkSroSh3RyI1uRsygLQn7A7gDs39Y2nFzt9uMuVciIxK1tCwid
+	 66Zsi7OXdiuAxDKyEIZCZr3Y9I8GCiLF/6JSPmQZtGTO8IhFtkj+duE81iHc26IQn2
+	 sGcHzOYVs7sqGGWXhxqTLkkpdp94MM5U3iMnjO88g90e1AK0JU0DxA1vT9yJ/oIBbD
+	 K6F0yyuRNESCDE6QhmYjyn5BKZVDrwP3/e/WhQLW4pw6uiJDgBOq28fGTs/p01Oh+b
+	 Hyzzf9nPwI6aCkawKUD5Q+mQgyttB7YY8h5gKwGVoQ4zWjrPBvu3GeScAb0VXeMkTr
+	 MNslCVmGm6Uqg==
+Message-ID: <6c3a01f7-957d-4dc4-a892-3af2826928af@kernel.org>
+Date: Tue, 14 Jul 2026 21:47:59 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,39 +35,118 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/3] soc: apple: Add "PMGR misc" power controls driver
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH 10/10] arm64: dts: apple: Add minimal t8132 (M4) device
+ trees
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Hector Martin <marcan@marcan.st>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
  Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>,
- Hector Martin <marcan@marcan.st>, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-References: <20260705-pmgr-misc-v3-0-51b75fed6f73@chaosmail.tech>
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck
+ <linux@roeck-us.net>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Linus Walleij <linusw@kernel.org>, Sasha Finkelstein <k@chaosmail.tech>,
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+ Thomas Gleixner <tglx@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-pwm@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>,
+ Mark Kettenis <kettenis@openbsd.org>
+References: <20260705-apple-m4-initial-devicetrees-v1-0-e5655ee56523@cyberchaos.dev>
+ <20260705-apple-m4-initial-devicetrees-v1-10-e5655ee56523@cyberchaos.dev>
 Content-Language: en-US
 From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260705-pmgr-misc-v3-0-51b75fed6f73@chaosmail.tech>
+In-Reply-To: <20260705-apple-m4-initial-devicetrees-v1-10-e5655ee56523@cyberchaos.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/5/26 10:16, Sasha Finkelstein wrote:
-> Certain Apple SoCs have additional power state controls that are using
-> a separate "misc" mmio interface. Currently this includes the fabric
-> and memory controllers on pro/max/ultra SoCs.
+
+
+On 7/5/26 15:17, Yureka Lilian wrote:
+> Added device trees for the following devices:
+> - apple,j604 - MacBook Pro (14-inch, M4, 2024)
+> - apple,j623 - iMac (24-inch, 2x USB-C, M4, 2024)
+> - apple,j624 - iMac (24-inch, 4x USB-C, M4, 2024)
+> - apple,j713 - MacBook Air (13-inch, M4, 2025)
+> - apple,j715 - MacBook Air (15-inch, M4, 2025)
+> - apple,j773g - Mac mini (M4, 2024)
 >
-> This series adds a driver to put those in a low power state when the
-> machine enters sleep. The power savings are SoC-dependent and are
-> around 1W.
+> The device trees have a minimal set of devices limited to CPU cores,
+> interrupt controller, power states, watchdog, serial, pin controller,
+> i2c and framebuffer.
+> The device trees for the notebooks add a PWM controller for the keyboard
+> LED illumination.
 >
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> Using the macOS 26.6b3 iBoot/firmware, the Mac mini reliably boots on a
+> single core using the stock kernel.
+> Booting with smp requires avoiding the wfi and wfit instructions
+> in the idle loop and `delay()` respectively, since those instructions
+> cause a loss of architectural state on the secondary cores, and even
+> then boot is unreliable.
+>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 > ---
+>   arch/arm64/boot/dts/apple/Makefile        |    6 +
+>   arch/arm64/boot/dts/apple/t8132-j604.dts  |   35 +
+>   arch/arm64/boot/dts/apple/t8132-j623.dts  |   18 +
+>   arch/arm64/boot/dts/apple/t8132-j624.dts  |   18 +
+>   arch/arm64/boot/dts/apple/t8132-j713.dts  |   35 +
+>   arch/arm64/boot/dts/apple/t8132-j715.dts  |   35 +
+>   arch/arm64/boot/dts/apple/t8132-j773g.dts |   25 +
+>   arch/arm64/boot/dts/apple/t8132-jxxx.dtsi |   48 ++
+>   arch/arm64/boot/dts/apple/t8132-pmgr.dtsi | 1125 +++++++++++++++++++++++++++++
+>   arch/arm64/boot/dts/apple/t8132.dtsi      |  440 +++++++++++
+>   10 files changed, 1785 insertions(+)
 >
+> diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
+> index 6fc3349a5842..181bd0e28965 100644
+> --- a/arch/arm64/boot/dts/apple/Makefile
+> +++ b/arch/arm64/boot/dts/apple/Makefile
+> @@ -1,4 +1,10 @@
+>   # SPDX-License-Identifier: GPL-2.0
+> +dtb-$(CONFIG_ARCH_APPLE) += t8132-j604.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t8132-j623.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t8132-j624.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t8132-j713.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t8132-j715.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t8132-j773g.dtb
+Please put these at the correct position in the Makefile and not at the 
+very top.
 
-Thanks, applied! First two patches to apple-soc/drivers-7.3 and the dts 
-one to apple-soc/dt-7.3.
+>   dtb-$(CONFIG_ARCH_APPLE) += s5l8960x-j71.dtb
+>   dtb-$(CONFIG_ARCH_APPLE) += s5l8960x-j73.dtb
+>   dtb-$(CONFIG_ARCH_APPLE) += s5l8960x-j85m.dtb
+> diff --git a/arch/arm64/boot/dts/apple/t8132-j604.dts b/arch/arm64/boot/dts/apple/t8132-j604.dts
+> new file mode 100644
+> index 000000000000..c4be915cb33a
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/apple/t8132-j604.dts
+> @@ -0,0 +1,35 @@
+> +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> +/*
+> + * Apple MacBook Pro (14-inch, M4, 2024)
+> + *
+> + * target-type: J604
+> + *
 
+[...]
 
-Best,
+> +
+> +		pmgr: power-management@380700000 {
+> +			compatible = "apple,t8132-pmgr", "apple,t8103-pmgr", "syscon", "simple-mfd";
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +			reg = <0x3 0x80700000 0 0x14000>;
+> +			/* child nodes are added in t8132-pmgr.dtsi */
+> +		};
+> +
+> +		aic: interrupt-controller@381180000 {
+> +			compatible = "apple,t8132-aic3", "apple,t8122-aic3";
+> +			#interrupt-cells = <3>;
+> +			interrupt-controller;
+> +			reg = <0x00000003 0x81000000 0x00000000 0x1cc000>,
+
+You have 381180000 in the node name but 381000000 here, I guess the node 
+name is a copy paste error. W=1 flags this fwiw.
 
 
 Sven
