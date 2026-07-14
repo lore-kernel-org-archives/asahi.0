@@ -1,176 +1,328 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E4835E1B7
-	for <asahi@lists.linux.dev>; Tue, 14 Jul 2026 06:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECAF3ECBC7
+	for <asahi@lists.linux.dev>; Tue, 14 Jul 2026 07:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784010555; cv=none; b=hOId224EGn5P5ZUT1/kYiirPf0M78qBYLprWh3thycUUxsOtSEb0rGmdGfddGxZsb7x4kIeetoziYaj+CPr8b2vVQ2Vp0d/RhOJ7Vba0RLsC5L5WpxLAIRb91FVE9OwxNo8s1CIwEd16lU/bz2MzLNeKb2jXFHE0/EPEj5rNZy8=
+	t=1784013917; cv=none; b=E7wL5zNJGAS0H7mWLSkAaLd01lgJJJ0GDN1S6TXooh3Gn9CcH5tvyI+bYVD1adHy1y9fyt74YAtkZapT7Eb2gLtMg+p4GKboYJi01BTOIy0ELCcnYKlGlgkeg5MxeGYWp1lwYfHpnSY1JUTC6RlRnb92+p/GnKg8ksOPRr6eZWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784010555; c=relaxed/simple;
-	bh=cPhUEwaWC4vFg+vWUv3YAUV9bYjnh8Y5E9GoO7RBxkE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HxyVFxZbG7J0ViKR/QzyPwYBmvX43UD1rnzEUFUrQ0x+K1rH/FAwmGkcgV+E3+JvaIYrkUUbq9zQ2YSojx9uho32YLaah4JUuhvRsCY4rXZnHoQZiz0OVqhZQDzB18wed6pJvy8l6hm9M8bQU1vdduQ3mLE+BIgdzCKnIOyBZtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EzWWpDA4; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784013917; c=relaxed/simple;
+	bh=R2k78ifV57I7bqElN2rqk35dKurD9aNrsEluPiAhhMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q7WfgIPZXWBm1NvmDY1uQHkoAioII+ncI4Tb2DqmH3kFCAau7fKmgSK1qUz3kkFpg/K1BIFhtgUr3APgbbSvQRAdnhjZn8FeQpdYk/OJQf0TAmx8G4D9D5JfGOe6m/PH0PJOYXjLripzXOvYAMcOTvZei3CAaA/FOMffJDmiaKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=N+DUBFUs; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EzWWpDA4"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ce7d2adef4so7663665ad.3
-        for <asahi@lists.linux.dev>; Mon, 13 Jul 2026 23:29:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="N+DUBFUs"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493c5220cb7so4295135e9.3
+        for <asahi@lists.linux.dev>; Tue, 14 Jul 2026 00:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784010553; x=1784615353; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ByqUUoCmAxr64mZfxOgoGrIy+E/ii+Kkqp5CiJVXt+U=;
-        b=EzWWpDA4R+XHekOryDQhUq1/XKjsZvxbdMCsmpSunlXNul7Oeiy3xsK2aNBBD+kA9a
-         Glfd7ybvabUS4Vw/WnpNyONqIRAiFmHI8+n9km/Ken3fUuWIuk6XbJLgEeD/AcVBzI08
-         GRhmMAL+vBaZJ95ImiDn++PEKe9OBCVnnEFf1MJ924WNLwaCJJXEt7yHyBS65iOicpkJ
-         dq9NUhdCXIfs2uw4wlMZ9X2vpr76FyvaypxFkLOkrMW4G4b/P8wnSu4vscPrgIprlgRY
-         YoGd6Zg+9G0qZhABKLSa1BADFvBmdwhtUYuSIresbuyBCh1F1nRa9I2H2bJFORqDLS6h
-         Naog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784010553; x=1784615353;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=baylibre.com; s=google; t=1784013912; x=1784618712; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ByqUUoCmAxr64mZfxOgoGrIy+E/ii+Kkqp5CiJVXt+U=;
-        b=rNZY2PVuQLsbVubSLHmsKrEK/vaUoM3SRYfGcRHO2ZjTrxroyImxGrYVg5u/krFwrm
-         xnDLec38EQUz+WdOdonBY8s9etxS+bGhbngAG8QxKbyFr/TCh64Cwmv54vSYbVYRbGin
-         GtgsRAeCYv3xYvb0Otr8CakR9Gz6B8JhnG9U2VchbpTvHAdCtJQYDOYZ+UAg+aDKrky/
-         tQM+PfDIFTaEUnZfoZdPtv046avVBBcInpLy3z09CFveWnCXoOH1OebGaXeBTGs6rhN4
-         GRr0DLNNymyFU5xyAwuPPoMsIe6VxbEnw5VVR61Kp3Vhy7l8QOTPIx8tc1ufI7fUP4f6
-         Ry9g==
-X-Gm-Message-State: AOJu0Yyq61icCGwyiGgqpoTeEVQ0fpLvhTEblRnlQcNoorkMAdJZlei5
-	4mU211YNzTq9fJtQQGkLPIBQN4eruGNBXuUruloOVRJ5eFV/R2w2Q++5O3qnKg==
-X-Gm-Gg: AfdE7cnSPFy4pYINvcWEagkvcqvZer63/XkSfIpZrg3/XU51GywdvyuTJy3IfAYkvEX
-	OAOr2u+hBJS1qM8FwL71prv20oRtXZDj7Mo9dpLe8Ck/O04BQOK5IiXiAtZE33BN0WQZRs0WKrV
-	jYnbujE9dxiFjLqFRyXlaJI12AUOI3hN/btH/C1vK2E7TqxbSeSDC+uaIVI/cv2guk77FTwXH8c
-	hsYJ23yg9W5mMNliI2bwYBLJbiWt8lsje8s72zJPc5Xxm9zCB3EPVi63EoCOsK+HlrZlm2Lv9KA
-	c+e8+urFSLSjWvOPooKzWb0+kshqBGcpmC7JPBOcdz8XDQxS6TySkVyZoo0bf41A0w6YTOjWMqV
-	LneOje0yXNmWxEXC+o5K1IqghDKV6rrTvEztDr2OJr0asWt8Tfo3FCaTFcrNCivItV3XN4fm+DD
-	DAOzgovI4j6j82OrMs+JpFZjtGKdRBLHJ8k2Uqmmzrd73wNFbrKpu7fmG/95rBcKlDLUBD5zUVD
-	BS0BrnitdRdVEikzdE94BZ78KzhgLDZj+NenVjPf34qS+yO+UIeeNmyKIe32LN6
-X-Received: by 2002:a17:902:ef0a:b0:2ca:9ab:e725 with SMTP id d9443c01a7336-2ce9e59d62cmr125013935ad.1.1784010552958;
-        Mon, 13 Jul 2026 23:29:12 -0700 (PDT)
-Received: from [10.160.5.76] ([119.17.57.186])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc99cc5aasm110915985ad.0.2026.07.13.23.29.09
+        bh=peGrgF9PpfvVPhNKWNItMli4F0UFAyd4BhokmZXNYpk=;
+        b=N+DUBFUsCTEPXNwBkyb1raIMVUIRlqkkViStu+exwAVyNDliSFtu1A1G2qCR1sSFV3
+         UKRvXZaDRx0oZBQUYviUB3nLEBW3f3rb6GMcmXLYZ9QceOFykzPn282mT5U36EiiwL8R
+         Yyo6tXyekrfzwdiUBrT7RfKDksOnrg09rWS0GrJO9M7QNt/TPTZGHWERxrN7r7vYqsyR
+         B19hbu/CfMZTqQ5nmT4hvq14g9Wh5b+GUTyQzfE/C9baEtWlD+ohg5KzBGbPzoJ+gLws
+         qEZMQtjLOLdcyfG0bf+xdmWDNw2e6TQOFrGvQB0fcdbjYRP4W9yUuxLsTza1Qx2iwiCw
+         juFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784013912; x=1784618712;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=peGrgF9PpfvVPhNKWNItMli4F0UFAyd4BhokmZXNYpk=;
+        b=mpK0gsDSaZYUGd40WvEGYtrPE9SyW34VmLQ0J9IYvQGR0QAPCTXjzl8FtSzSS9LrWb
+         +Lk8ooKUalewgeZhSRrHisx1KO4VO9DzNj9pxud0DFuxoJTA4uD/gl75ZQ0R/j23djAl
+         oOF60z3vszQ+l3b/zc+U12oaaBAgLhTo+1sHxPRIg/SDhSkTQCsKd/awfFYoysNA/x7h
+         z2lS+cRi3763q+LlOO4x4utl6AWRe0AH+6JVL5raXXn7TLWBp433HQu3nQnCXZYpQIbD
+         xX5//BXHykCT9gjZmCsFR3BcJpvb3eXoRAzvEbwKRO8JMuvOnxUP7GBPSD6o4TmX4N6i
+         x+XA==
+X-Forwarded-Encrypted: i=1; AHgh+RqZnAJQ2vJdN63qZU+iCCAcB4CSvOfa759+X4cS7Nhq+udM2LgxoxKC1E5Q84JM/Xw7Guhl6w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKTCLuzdAqk72pZB+3BBWEaJHgX0t6O0aZa4DkeKZSRLC7z0aQ
+	YcFfLRaLfRbc2g3871VYPLpx5H7mASivpkcc3u6uLUO+lPC52dKAuhC5NAVCXLsGxT4=
+X-Gm-Gg: AfdE7clc0uxNCdpOGgv/vyvDwXydR/Ct05SlrFlUCHnKfz9s07qVh9vMXhLwV6yh7/G
+	0tztC2jXZKnltU3cxWOOToHCrsWRePBebvB9DmHbdusYpd0fwU2NWjrmeTzFkWII4w40CR3Ni+Z
+	YAnuxL3DgBmGRU1hmytumlQRJTUePO0uXY2z+fNv1XrRatER++zxc1Q0ZXnU8otIm1iNY5hTA90
+	0aZ3RcI292804x7aqyymKsEd5a8IUtd9xzZRWplH4gf81HY9c8PcmREmGVUSszBSu1Ul1o9S9UA
+	SU041CZbP4nO7taVa3V2EkyKMpQfbj52MUczDmPH+RH3P+ohhh6F6+eM6bcp6ZMqpheIOV5CqB7
+	YyYn7Syv4Bbtwn7sl56LJ35dSmyMF5coyXWsKPzEka2OYf7MP75KtkYvqP3YVUp3ihBC4Vhlfh+
+	KqAKyScYkQrLWFMm8VWfRcdoNo0I1NIDAT9rFcHweA/VVkKqq03Mg7F2vskTUAG4mzdV1cTBwez
+	gE+
+X-Received: by 2002:a05:600c:8108:b0:495:39a9:f8bb with SMTP id 5b1f17b1804b1-49539a9f8cbmr778035e9.27.1784013912057;
+        Tue, 14 Jul 2026 00:25:12 -0700 (PDT)
+Received: from localhost (p200300f65f47db04b44a80421173aa03.dip0.t-ipconnect.de. [2003:f6:5f47:db04:b44a:8042:1173:aa03])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493f3a60404sm297426135e9.1.2026.07.14.00.25.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 23:29:12 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 14 Jul 2026 16:28:19 +1000
-Subject: [PATCH v2 12/12] arm64: dts: apple: t60xx: jxxx: Add
- device-specific SMC hwmon sensors
+        Tue, 14 Jul 2026 00:25:11 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>
+Cc: Yang Shen <shenyang39@huawei.com>,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lixu Zhang <lixu.zhang@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Ray Jui <rjui@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Imre Kaloz <kaloz@openwrt.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Daniel Palmer <daniel@thingy.jp>,
+	Romain Perier <romain.perier@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	Mika Westerberg <westeri@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-acpi@vger.kernel.org,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
+	"Enrico Weigelt, metux IT consult" <info@metux.net>,
+	Viresh Kumar <vireshk@kernel.org>,
+	virtualization@lists.linux.dev,
+	Yinbo Zhu <zhuyinbo@loongson.cn>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-tegra@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Adrian Ng <adrianhoyin.ng@altera.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Alban Bedel <albeu@free.fr>,
+	James Cowgill <james.cowgill@blaize.com>,
+	Matt Redfearn <matt.redfearn@blaize.com>,
+	Neil Jones <neil.jones@blaize.com>,
+	Nikolaos Pasaloukos <nikolaos.pasaloukos@blaize.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Keerthy <j-keerthy@ti.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	=?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+	Bamvor Jian Zhang <bamv2005@gmail.com>,
+	=?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Kevin Hilman <khilman@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Michael Walle <mwalle@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
+	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+	Srinivas Neeli <srinivas.neeli@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-aspeed@lists.ozlabs.org,
+	asahi@lists.linux.dev,
+	linux-mediatek@lists.infradead.org,
+	openbmc@lists.ozlabs.org,
+	linux-omap@vger.kernel.org,
+	linux-unisoc@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-renesas-soc@vger.kernel.org,
+	Michael Buesch <m@bues.ch>,
+	William Breathitt Gray <wbg@kernel.org>,
+	Robert Richter <rric@kernel.org>
+Subject: [PATCH v1 00/20] gpio: Improvements around device-id arrays
+Date: Tue, 14 Jul 2026 09:24:01 +0200
+Message-ID: <cover.1784013063.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260714-smc-subdev-dt-v2-12-13fa78873121@gmail.com>
-References: <20260714-smc-subdev-dt-v2-0-13fa78873121@gmail.com>
-In-Reply-To: <20260714-smc-subdev-dt-v2-0-13fa78873121@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2868;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=cPhUEwaWC4vFg+vWUv3YAUV9bYjnh8Y5E9GoO7RBxkE=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmh1xnnR1SwsOTv9eNQ3bE66PE5DjtG/yOLj7VfcsmLO
- cbxv3xHx0QWBjEuBksxRZYNTUIes43YbvaLVO6FmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
- jXSMdYwYuDgFYKrldjH80yzWPOwV2XW/ap3i9sV/e+798Dn1aptA26qa2r/cEh7ZXAz/jINkVvd
- eP3tJW8Us3FL5ktTfJ9lz/lhN9pKTXen746g6GwA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7258; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=R2k78ifV57I7bqElN2rqk35dKurD9aNrsEluPiAhhMs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqVeQbXm7nXijEy1eKUYHbl4wNScCj2qk8mUj+/ y7zzDJKfG2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCalXkGwAKCRCPgPtYfRL+ TjNvB/9C7+ymz4UqICZy8QPsc/Ow/qn0VBiFWbW1tSEKOBwwkQZo1Hy7AQ+gRBuqZ6lBXIdivbl J6Moa1BauQELgVWaBtRg0uf+8VuSizBtFiZs9QSAnyGq1As8Ig3H0TlZMAEH7loRfQoggE2XZy9 Z6FBACymjA3pjCM6m6bFnTEdA7tf/NkWWZgyekUvsu73ijI6WRdlCw8zOm3IsrB5CrRvIp5ys9E 168mnbodlTxBlZAxkLyLZkx1mBnl7QBeAFNihaznSJgydZjTVWUJ8Mg0DbCJcUjhwIRfsM0cj+S HdpAl3yxTBLjbpBAO/O99zNroQbc5aZ9lfnoj9rKKt4u/QJg
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-Add the device-specific hwmon sensors for select T60xx-based devices
+Hello,
 
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- arch/arm64/boot/dts/apple/t6001-j375c.dts      | 2 ++
- arch/arm64/boot/dts/apple/t6002-j375d.dts      | 2 ++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 2 ++
- arch/arm64/boot/dts/apple/t6020-j474s.dts      | 2 ++
- arch/arm64/boot/dts/apple/t6021-j475c.dts      | 2 ++
- arch/arm64/boot/dts/apple/t6022-j475d.dts      | 2 ++
- 6 files changed, 12 insertions(+)
+the original motivation for this series are the patches that convert the
+arrays to use named initializers, see
+https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+for the idea behind it. Then the quest grew, due to thinking to convert
+all device id arrays in a single series to not bother each subsystem
+repeatedly[1], then I spotted a few missing MODULE_DEVICE_TABLE annotations
+and decided to fix these. Then I noticed that some driver_data entries
+to be unused and then dropped them instead of converting to named
+initializers. And as my scripts that do most of these changes also cared
+about trailing commas and how the list terminators look, this is also
+addressed in this series. And so this grew to 20 patches ...
 
-diff --git a/arch/arm64/boot/dts/apple/t6001-j375c.dts b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-index 2e7c23714d4d..08276114c1d8 100644
---- a/arch/arm64/boot/dts/apple/t6001-j375c.dts
-+++ b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-@@ -24,3 +24,5 @@ &wifi0 {
- &bluetooth0 {
- 	brcm,board-type = "apple,okinawa";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index a2a24d028cbb..e6eb6b6c386d 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -184,6 +184,8 @@ atcphy5_usb3: endpoint {
- 	};
- };
- 
-+#include "hwmon-fan-dual.dtsi"
-+
- /* delete unused USB nodes on die 1 */
- 
- /delete-node/ &dwc3_2_dart_0_die1;
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index fee84f809a9c..caded1636f3d 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -367,3 +367,5 @@ &atcphy3 {
- };
- 
- #include "spi1-nvram.dtsi"
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6020-j474s.dts b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-index 7c7ad5b8ad18..e3c2635d84fa 100644
---- a/arch/arm64/boot/dts/apple/t6020-j474s.dts
-+++ b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-@@ -45,3 +45,5 @@ &pcie0 {
- 			<0x200 &pcie0_dart_2 1 1>,
- 			<0x300 &pcie0_dart_3 1 1>;
- };
-+
-+#include "hwmon-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6021-j475c.dts b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-index 533e35774874..9fe17f1f7f59 100644
---- a/arch/arm64/boot/dts/apple/t6021-j475c.dts
-+++ b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-@@ -35,3 +35,5 @@ &port01 {
- &pcie0_dart_1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6022-j475d.dts b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-index 31f24bbda968..32938a3bf96a 100644
---- a/arch/arm64/boot/dts/apple/t6022-j475d.dts
-+++ b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-@@ -44,6 +44,8 @@ &typec5 {
- 	label = "USB-C Front Left";
- };
- 
-+#include "hwmon-fan-dual.dtsi"
-+
- /* delete unused USB nodes on die 1 */
- /delete-node/ &dwc3_2_dart_0_die1;
- /delete-node/ &dwc3_2_dart_1_die1;
+This is based on yesterday's next and obviously merge window material.
 
+Best regards
+Uwe
+
+[1] Of course this only works if no new entries are added that
+    initialize .driver_data by a positional initializer until I come
+    around to add the union to the respecive device id struct.
+
+Uwe Kleine-König (The Capable Hub) (20):
+  gpio: Drop unused assignment of acpi_device_id driver data
+  gpio: max7301: Drop unused assignment of spi_device_id driver data
+  gpio: mmio: Drop unused assignment of platform_device_id driver data
+  gpio: ljca: Drop unused assignment of auxiliary_device_id driver data
+  gpio: Add missing ACPI module annotations
+  gpio: sodaville: Add missing pci module annotations
+  gpio: Add missing OF module annotations
+  gpio: pxa: Add missing platform module annotations
+  gpio: Add missing dmi module annotations
+  gpio: pl061: Use empty initializer for amba_id terminator
+  gpio: Use named initializers for acpi_device_id array
+  gpio: Use named initializers for spi_device_id array
+  gpio: virtio: Use a named initializer for virtio_device_id array
+  gpio: pcf857x: Use named initializers for of_device_id array
+  gpio: Unify style of acpi_device_id arrays
+  gpio: Unify style of of_device_id arrays
+  gpio: max77620: Unify style of platform_device_id arrays
+  gpio: Unify style of spi_device_id arrays
+  gpio: Unify style of pci_device_id arrays
+  gpio: Unify style of various *_device_id arrays
+
+ drivers/gpio/gpio-74x164.c          |  4 ++--
+ drivers/gpio/gpio-adnp.c            |  4 ++--
+ drivers/gpio/gpio-aggregator.c      |  2 +-
+ drivers/gpio/gpio-altera-a10sr.c    |  2 +-
+ drivers/gpio/gpio-altera.c          |  4 ++--
+ drivers/gpio/gpio-amd8111.c         |  2 +-
+ drivers/gpio/gpio-amdpt.c           |  8 ++++----
+ drivers/gpio/gpio-aspeed-sgpio.c    | 10 +++++-----
+ drivers/gpio/gpio-aspeed.c          | 10 +++++-----
+ drivers/gpio/gpio-ath79.c           |  2 +-
+ drivers/gpio/gpio-bcm-kona.c        |  1 +
+ drivers/gpio/gpio-blzp1600.c        |  2 +-
+ drivers/gpio/gpio-brcmstb.c         |  2 +-
+ drivers/gpio/gpio-bt8xx.c           |  2 +-
+ drivers/gpio/gpio-cadence.c         |  4 ++--
+ drivers/gpio/gpio-creg-snps.c       |  5 +++--
+ drivers/gpio/gpio-davinci.c         |  6 +++---
+ drivers/gpio/gpio-dwapb.c           | 14 +++++++-------
+ drivers/gpio/gpio-em.c              |  4 ++--
+ drivers/gpio/gpio-ep93xx.c          |  1 +
+ drivers/gpio/gpio-ftgpio010.c       |  3 ++-
+ drivers/gpio/gpio-graniterapids.c   |  4 ++--
+ drivers/gpio/gpio-grgpio.c          |  2 +-
+ drivers/gpio/gpio-gw-pld.c          |  4 ++--
+ drivers/gpio/gpio-hisi.c            |  6 +++---
+ drivers/gpio/gpio-hlwd.c            |  4 ++--
+ drivers/gpio/gpio-imx-scu.c         |  1 +
+ drivers/gpio/gpio-ixp4xx.c          |  4 ++--
+ drivers/gpio/gpio-ljca.c            |  4 ++--
+ drivers/gpio/gpio-loongson-64bit.c  |  4 ++--
+ drivers/gpio/gpio-lp3943.c          |  2 +-
+ drivers/gpio/gpio-lpc32xx.c         |  4 ++--
+ drivers/gpio/gpio-macsmc.c          |  4 ++--
+ drivers/gpio/gpio-max3191x.c        | 12 ++++++------
+ drivers/gpio/gpio-max7301.c         |  2 +-
+ drivers/gpio/gpio-max7360.c         |  8 ++++----
+ drivers/gpio/gpio-max77620.c        |  4 ++--
+ drivers/gpio/gpio-max77759.c        |  2 +-
+ drivers/gpio/gpio-mb86s7x.c         |  2 +-
+ drivers/gpio/gpio-ml-ioh.c          |  2 +-
+ drivers/gpio/gpio-mlxbf3.c          |  4 ++--
+ drivers/gpio/gpio-mm-lantiq.c       |  2 +-
+ drivers/gpio/gpio-mmio.c            |  3 +--
+ drivers/gpio/gpio-mockup.c          |  4 ++--
+ drivers/gpio/gpio-moxtet.c          |  4 ++--
+ drivers/gpio/gpio-mpc5200.c         |  5 +++--
+ drivers/gpio/gpio-mpc8xxx.c         | 25 +++++++++++++------------
+ drivers/gpio/gpio-mpfs.c            |  1 +
+ drivers/gpio/gpio-mpsse.c           |  3 +--
+ drivers/gpio/gpio-msc313.c          |  1 +
+ drivers/gpio/gpio-mt7621.c          |  2 +-
+ drivers/gpio/gpio-mvebu.c           |  1 +
+ drivers/gpio/gpio-mxc.c             |  2 +-
+ drivers/gpio/gpio-mxs.c             |  4 ++--
+ drivers/gpio/gpio-nomadik.c         |  7 ++++---
+ drivers/gpio/gpio-novalake-events.c |  4 ++--
+ drivers/gpio/gpio-npcm-sgpio.c      |  6 +++---
+ drivers/gpio/gpio-octeon.c          |  2 +-
+ drivers/gpio/gpio-omap.c            |  2 +-
+ drivers/gpio/gpio-palmas.c          | 10 +++++-----
+ drivers/gpio/gpio-pca953x.c         |  3 ++-
+ drivers/gpio/gpio-pca9570.c         |  2 +-
+ drivers/gpio/gpio-pcf857x.c         | 26 +++++++++++++-------------
+ drivers/gpio/gpio-pci-idio-16.c     |  3 ++-
+ drivers/gpio/gpio-pcie-idio-24.c    |  8 +++++---
+ drivers/gpio/gpio-pisosr.c          |  4 ++--
+ drivers/gpio/gpio-pl061.c           |  2 +-
+ drivers/gpio/gpio-pmic-eic-sprd.c   |  2 +-
+ drivers/gpio/gpio-pxa.c             | 20 +++++++++++---------
+ drivers/gpio/gpio-qixis-fpga.c      |  3 +--
+ drivers/gpio/gpio-rda.c             |  2 +-
+ drivers/gpio/gpio-realtek-otto.c    |  2 +-
+ drivers/gpio/gpio-rockchip.c        |  4 ++--
+ drivers/gpio/gpio-sama5d2-piobu.c   |  2 +-
+ drivers/gpio/gpio-sifive.c          |  2 +-
+ drivers/gpio/gpio-sl28cpld.c        |  2 +-
+ drivers/gpio/gpio-sodaville.c       |  3 ++-
+ drivers/gpio/gpio-spear-spics.c     |  3 ++-
+ drivers/gpio/gpio-sprd.c            |  2 +-
+ drivers/gpio/gpio-stmpe.c           |  2 +-
+ drivers/gpio/gpio-stp-xway.c        |  2 +-
+ drivers/gpio/gpio-tegra.c           |  2 +-
+ drivers/gpio/gpio-tegra186.c        |  2 +-
+ drivers/gpio/gpio-thunderx.c        |  3 +--
+ drivers/gpio/gpio-tps65218.c        |  2 +-
+ drivers/gpio/gpio-ts4800.c          |  4 ++--
+ drivers/gpio/gpio-twl4030.c         |  4 ++--
+ drivers/gpio/gpio-usbio.c           | 13 +++++++------
+ drivers/gpio/gpio-vf610.c           |  4 ++--
+ drivers/gpio/gpio-virtio.c          |  4 ++--
+ drivers/gpio/gpio-visconti.c        |  2 +-
+ drivers/gpio/gpio-waveshare-dsi.c   |  2 +-
+ drivers/gpio/gpio-xgene-sb.c        |  6 +++---
+ drivers/gpio/gpio-xgene.c           | 10 ++++++----
+ drivers/gpio/gpio-xgs-iproc.c       |  2 +-
+ drivers/gpio/gpio-xilinx.c          |  2 +-
+ drivers/gpio/gpio-xlp.c             |  6 +++---
+ drivers/gpio/gpio-xra1403.c         |  6 +++---
+ drivers/gpio/gpio-zevio.c           |  5 +++--
+ drivers/gpio/gpio-zynqmp-modepin.c  |  2 +-
+ drivers/gpio/gpiolib-acpi-quirks.c  |  3 ++-
+ 101 files changed, 231 insertions(+), 211 deletions(-)
+
+
+base-commit: 49362394dad7df66c274c867a271394c10ca2bb8
 -- 
-2.55.0
+2.55.0.11.g153666a7d9bb
 
