@@ -1,77 +1,77 @@
 Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9B33EF67E
-	for <asahi@lists.linux.dev>; Wed, 15 Jul 2026 09:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166BF3F4825
+	for <asahi@lists.linux.dev>; Wed, 15 Jul 2026 09:12:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784106734; cv=none; b=EmJ0HmavUDz4RVXmoz4CTua04nJUk1Dg7PM4mYmwcNh1bPBo3zADIBwvbCnupuaUkuiS+1A1ZiBwJHfrNTqn9U2Wrg9pWySPZR933aKgEdjapZ1GHgZaZsME76mi3s3AoVM0TNd+E1R6gK7wN/H5c0IAAS4WqQ9wCHG2nWlNlIw=
+	t=1784106736; cv=none; b=aayx19xYtYy6e0lrNoiSTbYo9sqz5BGM/yWRQqeJQJ/FbV44E5k5eYSrYSA4bB5L+D0RPufkwWk7v/9/bIDbLVB5wKMhoGfWnUv2XU3O1b5GBInMFyUKbVltOoH9dCG3yTszJCze7pfa3mInei5p6mHYltNXvXNcxFjDL+rH0XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784106734; c=relaxed/simple;
-	bh=L0b7qOk4f9cIVTO4+6vKfh1rtbZML3fU+/KBOYxvoLA=;
+	s=arc-20240116; t=1784106736; c=relaxed/simple;
+	bh=S26aWssmrcL04fggmWOi1VbjBZkaSi2GWBxk3WpTUnQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GIxVEC9oy+G3qS6wcz9Fan5jQ5zrJgywpiFA3mzRuBlSZwzgRjg96Kiy7kl9463B5F4fi4uiv2EBEodkMx0sfx4aJlssUoQLf8YTmFK6TdDhTawH4ikqV738dM4HzLVpURfqmBVCEe2/898miheygZGI87UNa3nebyURlv/P7uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=Ej6NH5iI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nih0J9/A; arc=none smtp.client-ip=103.168.172.159
+	 In-Reply-To:To:Cc; b=qYjYtWlNOH+D4eXLF4uQO7jtqYYEB6gIB608UkyLsTlID8UzbhP50jV7MiMpnV/Exp+OerMMHhZ1CR2ZsZknClgdGetv6O7vfHbnTExg3NNHnGc7GxaGS3p5qD2vihh+3wERmyJSMyb6ObIQwp8VNO3WVmInWUwe1HET1ONvtqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=AbUl8UD0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OLPX7VFG; arc=none smtp.client-ip=103.168.172.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="Ej6NH5iI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nih0J9/A"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="AbUl8UD0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OLPX7VFG"
 Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CE8781400124;
-	Wed, 15 Jul 2026 05:12:05 -0400 (EDT)
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 795FC140015E;
+	Wed, 15 Jul 2026 05:12:07 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 15 Jul 2026 05:12:05 -0400
+  by phl-compute-04.internal (MEProxy); Wed, 15 Jul 2026 05:12:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1784106725;
-	 x=1784193125; bh=Bv/arUod9l00opGcXfe/lRDuK5gV6GDy1OMTK4lRcbQ=; b=
-	Ej6NH5iIG4Lxfaj/Pr4MzeqVoogzzr2NcmDzrsc1bMnhd/QwbWeiYxWluRxRMMBK
-	rdBxzCUxk6kVdqhBBjBHaEiTnRUr1BlnSWEkh098F6rrhiDw/1rakoRWMBdqCHgq
-	K6bpiTw0bm+xr71qarr0OJOoevpYEKhC12BzQAKhaZGtIUpQjuapK86JqGf+fw44
-	4WvJtFv4KLGZ4QjWSsv6RyCpyZX49v1oLtlRwoTqnKgdql8AeOstLJWGK9xJ2JCD
-	rGFXTLXbaLaNCm+QHZoEw7tzoPvnAn8CEz05yAd9A/GSrpvLIOifZECyPDGSoRKq
-	flz76xUPQ3/2mICEBowAKA==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1784106727;
+	 x=1784193127; bh=f4HRh2PONW6e6WBYwL+bRJGF3U1xDlt9qqHYqQt/mB8=; b=
+	AbUl8UD0NKu0OJyWD2u4Q1XAwtNEdC9yQh7MV8VOWaZb1LYUEDfX+1rAlxOrh4Vb
+	j2RNLCfkpcLpzfyxUJwSX686NLAqU7UyJq9c/3dbJwrACF49rNXFCxJl8aBMjWOS
+	dxV7std0EMPdlaOCJDXfeikIwjSdg30RZIIinIj9UAEI+D3Rc21dIgAUWH2tYVE3
+	tk2uRkjlUHVQ36ro2sGgTYVi/AgJh04zcHHUKpyqV9ggAhNBNL52k1C513E+YqQ8
+	Fv1+lkG8NzwBvAReQaJrbgT3epZ1oy8PMBPl/GLQHkwi0Rc87GjRaegxjDQZzpYn
+	14PUPNjW4lm21592UCQGAA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784106725; x=
-	1784193125; bh=Bv/arUod9l00opGcXfe/lRDuK5gV6GDy1OMTK4lRcbQ=; b=n
-	ih0J9/AzPc+0niAbNdVOLt6hN7vQOVz72RvnwA40OLJ7lzBcWFTJSUya2tNGNVyk
-	HEfwzSu3R/Ec2o0JWAcpU0en9O8ezoSRxYI2jjEo9cE680o6hBNqpBkVykUklYbI
-	Cmo8HFktr9ryUpSypkIRAg1TqIYtlQPj8/WDLWWtyddPbpkzKtmMD+FgksBp82mI
-	ZMaaZhWoie/7csUKXTYk3zrTnBbp/Dyzwk5AdV2kLHICv14BgHmX+3YpFGu4T4z5
-	2Rb1qQ9nC4Ove3N8r0kDAaWp14D3LGjQd/kJBmN/EVZus3cOYCdfXXIUn8CgatHO
-	6SRWW/ptJZma6lzP1uobA==
-X-ME-Sender: <xms:5U5Xailu4Y2ETxZtr4UmzZJE28kKsxd6Fxd3AjjgdyJXl2u-FI_XjQ>
-    <xme:5U5XaqNxz9diQHoXa3XY7lM3x1fGXJhK00NtnwyuXEHkauEYk992n0HPooSVrxoer
-    25mOVF0Po_RbpgGQ1ehWStcxRuGMFisrIprhXjTiNeZ4S61-S8zaj6M>
-X-ME-Received: <xmr:5U5Xahziad5BoSsGyEdQcXSNr1Htai4gu2SxQYTnBrUcyprafXol_lr6QNfS4gKQ8FuHOnG5c4AifHDzburydxFhLNdDhQZ30gffUw>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784106727; x=
+	1784193127; bh=f4HRh2PONW6e6WBYwL+bRJGF3U1xDlt9qqHYqQt/mB8=; b=O
+	LPX7VFGuOC6Sabc6EiWqbwywGNxJAKeQv/iUKJBCHPMDSg9C1bhPYoUzRoNNYHmB
+	m+DoecJrZCNbQICdPzNfGJiz31YKE/NuoEww6r8u+WVhmS1dCesUOG6VVQY0jrYp
+	B2e/nvZViNfvR+8S+qHum82Rk2sOrDutBaDaniMaBatlSowIuB/HzAjUNwYE2UEd
+	VPsr2L4Wnl9H8vKQ+G49jlsRP9DxM4cyQHKdvptOHwajaEMiEknixXDlrpQnLuRa
+	QP1gbQ/CVbltj1nRPDzgUZqPZeUdk+h8zrebA6ga/XU1in4QFXMZB5GhqGWxR4AZ
+	kV4RbLRrkR8qU2mkPuMfA==
+X-ME-Sender: <xms:505Xapgc6L6AVuexQ9Xo2SW4D8WawvKOPMcG_Qwq5YtQONuVmYsjpw>
+    <xme:505XauZws8iINoDve1jDrxpyBJKVjWERSREXj2wEn5zaYk-Ktt0BH1N7vwjgpKVN-
+    bQ-1o4vQT4L8R2hwsVrsBNZ3zznVXayxjHa5mYvzzIBmPa33ZzT_WE>
+X-ME-Received: <xmr:505XaqPDl7KCRYwQ7iz3AVMZdWEZXzR-iEaVk2vwnkDPdRvvuVI5VG9YijIGYVLfPZ_L2li3mgofhKuNPeGi005ihPY1hH3HfcXM0Q>
 X-ME-Proxy-Cause: dmFkZTEW04HtTf+zNef7m5r/Wybx1ydSPmxeGPzAYI5SWVBIt9NF+gliEmmzRtNMmeyncy
     0yH12g4gcKN4bwgQ9/fxkVDLkA/oJQKBqhvmVPbO8YzIkt35ekG+/k0lN1XR1RUOe2vlYy
     9oh0a9s2MeN7rHW5UMydYFPb+rmR89Xmz+kCkWxhD+fm56RfXxSYKM4k+nBq3+TLUtm39d
     wb/YON6eLtDPA751fCTGB9EwOodztE2RbFbzkkek/KiqmBaiq89taQ8SgYyX4XMGIxWBrs
-    FEpjBwG/7g2vXO1BGnw4zPV7vNeivmHu8Q5ocRpo3auKeu4wiZy38k1ASmncIsKxkpdusl
-    R7ga0pukykfz49LSv8iX/rJWFQ71xIEuQD2gAj16ro2QukL4brZMidz5uCSBrJQBiClD3P
-    8Pcb8fGruRJmkNh4j1JZTjbbgQo6LEbsuYo0jC8FQhC0+XwZxG1M6xJZvVJTFenacbvO6I
-    RoGx6DMmSEsNMMLtoewQi/yibBzvoEUjjezHl2CU+qwLE6i38OYsbwv4SOi7z86oRg5c/a
-    R6B9hzQaZ9k0aStw709VzETCyI1DENWEAp7JCSHij/UvJ2bIorBG0DoIksPahIE4kNPVNP
-    rlkdJ3/uTAvxEg0Xap4JHNRS18hl3v9qU5QpF82bN5EeDnE7DixlR6zsjKcg
-X-ME-Proxy: <xmx:5U5Xaikf3Cvqe4uuuEkVjE3-w3TrllXdLOGxexLVXHEHbrmdEX7I3A>
-    <xmx:5U5Xav8es1OBRBDwzCusg4nURE1-rLoWstw7VpurFER43Mt16ecnyA>
-    <xmx:5U5XamP07PDe_CHmZtC_4-ciCc2UMJjOQiSS6k3AKUzc2XjAYt1PXg>
-    <xmx:5U5Xap-d3uMf_TBtmop-8G01C7WPft8BPL8TsM6VX96wiGBshwXeJQ>
-    <xmx:5U5Xaq2asfmWoRE08qhKcBRl26y17spTdL8y88oiJab4uC-KvbT9vUc4>
+    FEpjBwG/7g2vXO1BGnw4zPV7vNeivmHu8Q5ocRpo3auKeu4wiZy38k1ASmncIsKxkpduQg
+    Sxbztx1UCoyZBkFI5KZinpRhQoaodwh5fddm255XUArpeSXsIP7tbP9guhW4USnO88izTC
+    hBtl/WqWYmCrHUY0LzIt3tGKSuHG/JCP3jSVr3tpxcd5kzJlzqy7oo4zd0A/KdkK1osBFi
+    tOSKvVNQN7i1khBs9f9/8tHJGPKD7E0/b93LcyimE2XDY4clHatfp8coTbKCJAtZhMXyNN
+    O8/jhYE/G0xSEcHLxN65l7l1Hvz4hY41/BTHsXN+4EovuiPLQj3frD029ldR5ESC2QG5O+
+    kyTEQQZlBcsJgxZ0bZaggS5GbKz62RnR5uQZDp2FbSLokfGtKEVtJrzsBlAQ
+X-ME-Proxy: <xmx:505XaqRveLZUpdwDlx_srif-A3NIqcQx9FF2kQPuZQ44WfMEFg3WnA>
+    <xmx:505Xal7l86Pg5lOlvqXHPIOranzbJEwk-aXWpIqE6s0grKbR9fqvGg>
+    <xmx:505XatbETpDBHAyYb2Y_J5jjn-TuqInkNb2vnRSb0cjpazV2qpr1QA>
+    <xmx:505Xapawz4WJs96E2vgvFK1yPiTvNGTOkp_wf6tcA7SAMZ245ZT-Qg>
+    <xmx:505XaswkYUnW3RLEkRNPen80RHtDthDk9UlHDP8zJ2P51adlGHX35VNE>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Jul 2026 05:12:05 -0400 (EDT)
+ 15 Jul 2026 05:12:06 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Wed, 15 Jul 2026 11:11:50 +0200
-Subject: [PATCH v2 03/10] dt-bindings: interrupt-controller: apple,aic2:
- Add apple,t6031-aic3 compatible
+Date: Wed, 15 Jul 2026 11:11:51 +0200
+Subject: [PATCH v2 04/10] dt-bindings: arm: apple: apple,pmgr: Add t6030
+ and t6031 compatibles
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -80,7 +80,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260715-apple-t603x-initial-devices-v2-3-df65b2485710@jannau.net>
+Message-Id: <20260715-apple-t603x-initial-devices-v2-4-df65b2485710@jannau.net>
 References: <20260715-apple-t603x-initial-devices-v2-0-df65b2485710@jannau.net>
 In-Reply-To: <20260715-apple-t603x-initial-devices-v2-0-df65b2485710@jannau.net>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -96,45 +96,38 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-watchdog@vger.kernel.org, linux-i2c@vger.kernel.org, 
  linux-pwm@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1233; i=j@jannau.net;
- h=from:subject:message-id; bh=L0b7qOk4f9cIVTO4+6vKfh1rtbZML3fU+/KBOYxvoLA=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqxwv+tzD0fu1rnRsWF27lmtAtlOrokubDKN3Nqpxt5MU
- xuPlG7smMjCIMbFYCmmyJKk/bKDYXWNYkztgzCYOaxMIEOkRRoYgICFgS83Ma/USMdIz1TbUM/Q
- SMdYx4iBi1MApnrOf4b/meYLDGZsubSzzn3CfZ+SDe2MO320zslaXAy+EZrB+HJbF8NfQY6fB+2
- WMVhqbMrNtzmynMd7QX7XQ66rU3XmHOd5LvuKFQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=999; i=j@jannau.net;
+ h=from:subject:message-id; bh=S26aWssmrcL04fggmWOi1VbjBZkaSi2GWBxk3WpTUnQ=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqxwvxsKZ7apZAV+ZFrXcq25mfn+0v1nt+Wnpzq9/lLI+
+ bf3fuTCjoksDGJcDJZiiixJ2i87GFbXKMbUPgiDmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
+ jXSMdYwYuDgFYKp33mf4p2jj8P7sH5+0eBXLM49mzPm5/aBDM8OK8wlTs/655vptCGRkaNtjd8S
+ 3JG+Zj+nP3LDt7Y0vXh/7sOF+RE/FxKCcmsPZDAA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-The Apple M3 Max and Ultra SoCs use AICv3 as interrupt controller. It is
-compatible to the base M3 AICv3. Add "apple,t6031-aic3" as compatible
-and add it to the list for 4 #interrupt-cells used for multi-die SoCs.
+The block on Apple M3 Pro, Max and Ultra SoCs is compatible with
+"apple,t8103-pmgr". Add "apple,t6030-pmgr" and "apple,t6031-pmgr" as
+per-SoC compatibles for M3 Pro and M3 Max and Ultra.
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml | 2 ++
+ Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-index a94787939d34..726a6720e05f 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-@@ -44,6 +44,7 @@ properties:
+diff --git a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
+index c67b67ba065a..1d2001836eb4 100644
+--- a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
++++ b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
+@@ -38,6 +38,8 @@ properties:
        - items:
            - enum:
-               - apple,t6030-aic3
-+              - apple,t6031-aic3
-           - const: apple,t8122-aic3
-       - const: apple,t8122-aic3
- 
-@@ -130,6 +131,7 @@ allOf:
-             enum:
-               - apple,t6000-aic
-               - apple,t6020-aic
-+              - apple,t6031-aic3
-     then:
-       properties:
-         '#interrupt-cells':
+               - apple,t6020-pmgr
++              - apple,t6030-pmgr
++              - apple,t6031-pmgr
+               - apple,t8122-pmgr
+           - const: apple,t8103-pmgr
+           - const: syscon
 
 -- 
 2.54.0
