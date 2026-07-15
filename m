@@ -1,109 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAF448BD27;
-	Wed, 15 Jul 2026 15:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6293F3C13E3
+	for <asahi@lists.linux.dev>; Wed, 15 Jul 2026 16:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784131196; cv=none; b=XipapQ5Qn+sUAGlCJ0Ww5yXWRMAiBvivAK9rypo+gmPxQWTB3Nh/WeOQ1Iuak7thV+XDJq71tfJVj1ambN6x9xMK/7Xhr38Ot0qYkfs7/mOSI4s0zGSNniO2hHHEcprA9x5BL9HkK1m/YPfhm3plL9MNSaczvjH3G180peUaotE=
+	t=1784133350; cv=none; b=HXz4L7GI7/wD/09KEQKF1gCay/jYQs6uAm5ShVt8F0t8eP9GF92mOuLGQcGa894+ZlXbibCuW0pjqzhMUw8531iLDrXL5CAyqhYLr0v0H2ZH0QxFk8MACiQSxwVACht94spCQnD2Ytq7Ig2VEvfsa7RK5vgHeBr8LmSYOsLn1NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784131196; c=relaxed/simple;
-	bh=bnezhdfIEjttCekTAw0vG3iuJhH/Y0Y3BK6tdMGVugk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oFd8IrL1W3jdiS7OVFslVSvmLAIOAtjwsr8sLkgLGVE44Eg1bPyeA6caUP8JnfjHtXALRwVo8EW4Z7yHFPrDKRN7iYI0tS1OvJvV5R0CVHll/AvsZ1pDkmdm0TZPhuZ25BIzSP7uFqG6feecAVzYSHTw5qYx8l7EMEENJxGTo8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+uYLfKr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784133350; c=relaxed/simple;
+	bh=7IrB0okd03Aqpih7Ns5d5dds/+Un1am8C/UF9ELzHjk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R/Pkfv7Z/nQg0VeGyDd+nyc9s07yhoDbk0Wc5fyChKMtbDVyKqQZDoAkenThXi6fygr5vqbsDq3TBmPzgYOWTIWNqgHAhGZBpfdSvDhGFssc2Vq/avyhnn0mW5y4H+QY7Tk9oJtqCP4FufeSc7+MdYYzFgua99pypylWT1+79O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tz6+FCD+; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+uYLfKr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5971F1F000E9;
-	Wed, 15 Jul 2026 15:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784131195;
-	bh=N+qVwV2aNltYFdxx/9mvVwz5Hq1QR+apcslhNzwT5x0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=V+uYLfKrlDGoRE018a/ACM72eQ//ba/OxJxjMN+blpaRXH5vj+QPK/MWIKI7wF6DV
-	 JvqLQf/7seBAaUE4aKlC61cJjenMDGkJI9vTW46OYXS9O2lhlLdZ3r9o1+5MZz3N4A
-	 fMIaUUg7xMuXFZjS8u5Na1cjqthXymyVev0vfR5of0o8w3X8F64AvFPy3P5lhtLrRV
-	 Zng2+as+VzSKGmP1Wt3r7acB6aFmKMyQW5DcDMyxchEXb5uK5beVW4nZICqa6kCAl6
-	 vDecircMkneRozZgJ1uMdP7C4QHnuI0OD7Pja8vPGTrTIv+Zx4tXvsx8Nfwo8eyaPl
-	 XxfT2iHuYXciQ==
-Message-ID: <f8ff669d-da2c-4560-ac7c-617b18c41177@kernel.org>
-Date: Wed, 15 Jul 2026 17:59:49 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tz6+FCD+"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-848593533cbso3103621b3a.3
+        for <asahi@lists.linux.dev>; Wed, 15 Jul 2026 09:35:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784133346; x=1784738146; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=xKMpslmS1nZLwbcYPHb8iOZLrmPISU+0dOPEfAdriDw=;
+        b=Tz6+FCD+oTvvMClm2waOXSZ5uaIzRfUbXJoBpnJAi0b7SsZcACGjnGdFVrnIAljOqL
+         WS5SoXm/OrwGhgQYZ2LFHY78ZYeUVM2pFxI/f+uF0rla2yUpHCCfPfcFKVnai6xPo1j2
+         dfOMzUZnIeCYkDIDwjywovEJFwDdh2kAvU57ffZDVRgX+njOaVy1HxlgYMGT3SkEnYoG
+         XmbvxPlubSAuvAJO5FZmHREjKsFdUHBzxVqE3dvg4umjgwc07ild1O00EPhn70oHtGrb
+         68Jjr9efxWZkmOdU2+m8fHSDOPGx132LE+PvAL6G1u48aQkuKeK6KwKPBF2k1lOv0QST
+         Y9sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784133346; x=1784738146;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xKMpslmS1nZLwbcYPHb8iOZLrmPISU+0dOPEfAdriDw=;
+        b=P+o2JEI4BHTSd+ZD4wNCLtlZUGM9wGiw7HhM2yprEUMYmA+karjDau9dMK1b/H+Zap
+         Ne9pcIYC8e7JF9KdvC30z/ycJTDzb7SNJc7yKZvthWCL7u42YSZkjsIj00W6s9eIWxbO
+         IdUYWxB7VwmAbbqNvlxdlB/aB1kxkQw1BHin2swlC69wqx66GGbkfxjHYp8upfc6H9b9
+         rAOeCrD+Ga/mwyhHT9CZUQaMI0K80tY8htfAE0m96bEFL1yrzuJY4v6Zu+bR0sVtD8o5
+         bpxwhT8qloyPAsC1hIhVZpRH0PWaU02rgdhR9uVGr7/q/M9woOn8DuwIcxVddBMnflH3
+         W/Hw==
+X-Forwarded-Encrypted: i=1; AHgh+RoDqKwAp5ta4DONxeTGj/m2MFG5sbYtREOaj4xeuK/scTYcAr0E2HIU3Wz86paNPs7wCfUb8Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwDB4tLguoX4B0p/dzVnWY0Y8OU6b++Lf+VAvlljT2Ok8Eb7rp
+	TRs7vzNNeh7ObSRawRdEJ0GKUbDhwjdDnaAUYuGUK+iBPM3s0aRrRvS7
+X-Gm-Gg: AfdE7cm1OPUpnce7mX7rCMDBzS6pt3GShpxaokyOOywn7mFiZxjgUO9UfwyEXPyBGe2
+	jH0w/IE7/jed2n5wu4hpaXhHHeaK4xCRg+RNg7wNA8dxW2QJuIX8B0e6fQ+cjaNAe1MfQaF8m/m
+	6/oQ7x6tDTu2woKXUCFSFkjAm30dVCJywSX7P5BjeUcfD7UL8I+TWMyR2apFXNLFMb6c8ZK7C8W
+	rI17q16wDEP3yVhppGVN5cf1fGmK2+8jVIlMLGe/R5uknVQMS4h/R5pU0QwOu5ojPO9bAk3uvqP
+	9/Ura3dEPLxLCTHPpxOMM1bPlOlAuMeTIpM/bV6gsZxeY5ie5QdDh8FqSlXskoSGZpRXaUzI2YC
+	z4c93iAXcQud1cYEqm1uXPb81vvdrCV+f032x47qDP3QE8wJBAyUyEiOaNwjZh5uGwW+iip8WKi
+	Kn8rQ5Qd8/3RC9Lf0P7TUKcKar9g==
+X-Received: by 2002:a05:6a00:2d8b:b0:847:770f:da4c with SMTP id d2e1a72fcca58-84a672425fdmr2861024b3a.16.1784133346501;
+        Wed, 15 Jul 2026 09:35:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f238b21sm3470359b3a.7.2026.07.15.09.35.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jul 2026 09:35:45 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 15 Jul 2026 09:35:44 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Sasha Finkelstein <k@chaosmail.tech>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 06/10] dt-bindings: watchdog: apple,wdt: Add t6030 and
+ t6031 compatibles
+Message-ID: <990ec316-5050-4e7b-93f4-b5a2a85ef447@roeck-us.net>
+References: <20260715-apple-t603x-initial-devices-v2-0-df65b2485710@jannau.net>
+ <20260715-apple-t603x-initial-devices-v2-6-df65b2485710@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/10] Initial Apple M3 Pro, Max and Ultra device trees
-To: Guenter Roeck <linux@roeck-us.net>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Andi Shyti
- <andi.shyti@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Sasha Finkelstein <k@chaosmail.tech>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-pwm@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-References: <20260715-apple-t603x-initial-devices-v2-0-df65b2485710@jannau.net>
- <c2bbbd1a-a188-41f0-8225-65ca52ee3afe@roeck-us.net>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <c2bbbd1a-a188-41f0-8225-65ca52ee3afe@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715-apple-t603x-initial-devices-v2-6-df65b2485710@jannau.net>
 
+Hi,
 
+On Wed, Jul 15, 2026 at 11:11:53AM +0200, Janne Grunau wrote:
+> The watchdog on Apple silicon M3 Pro, Max and Ultra SoCs is compatible
+> with the t8103 (M1) one. Add "apple,t6030-wdt" for M3 Pro and
+> "apple,t6031-wdt" for M3 Max and Ultra as per-SoC compatibles.
+> 
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-On 7/15/26 17:55, Guenter Roeck wrote:
-> On 7/15/26 02:11, Janne Grunau wrote:
->> This series adds device trees for Apple silicon devices with M3 Pro, Max
->> and Ultra SoCs. The M3 generation has fewer devices than their M1 and M2
->> predecessors. The only non-laptop device is the M3 Ultra Mac Studio. The
->> Laptops are the known 14 and 16-inch Macbook Pros now with M3 Pro and
->> M3 Max SoCs. The M3 Max variant with fewer CPU and GPU cores has
->> additionally only a 384-bit wide memory bus instead of 512-bit of the
->> full M3 Max. It has a separate identifier (T6034) and so there are six
->> laptop device trees.
->> Another difference to M1 and M2 Pro/Max/Ultra is that the M3 Pro is
->> distinct SoC design and not a smaller M3 Max. For this reason both M3
->> Max variants and the M3 Ultra will use "apple,t6030" as compatible
->> prefix. In the M1 and M2 generations Pro, Max and Ultra SoCs shared
->> "apple,t6000" / "apple,t6020" as common prefix. There is currently no
->> known difference but M3 Pro and M3 Max are not as closely related as
->> previously.
->>
->> This series adds the same level of hardware as the base M3 (T8122) has
->> in v7.2-rc1. This includes CPU cores, interrupt controller, power
->> states, watchdog, serial, pin controller, i2c and the boot framebuffer.
->> This is intended as base so that support for additional hardware can be
->> added to all M3 based devices at the same time.
->>
->> Merge strategy:
->> Since the dt-binding add new compatible strings without driver changes
->> it would be preferred if the whole [1] series would be merged through
->> apple-soc/arm-soc. This will help ensuring a warning free
->> `make dtbs_check` for followup series with additional M3* hardware
->> support I hope to send for this cycle.
->>
->> This series will conflict with the M4 series [3] sent A couple of days
->> ago. I would prefer if this could be merged first (in order of SoC
->> release).
->>
->> [1]: I see that the M4 watchdog change was already picked up by Guenter
->>       in [2]
->>
->
-> Whatever one does with individual patches in such series seems to be
-> wrong. Are you saying that I should drop the M4 (t8132) patch from
-> the watchdog-next branch ?
+This patch didn't trigger any conflicts against watchdog-next,
+so I applied it directly.
 
-Feel free to keep it. I'll just pick up everything that's left once this 
-series is ready and make sure there are no duplicate patches in -next.
+Guenter
 
-
-Sven
-
-
+> ---
+>  Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> index 845b5e8b5abc..bef8255022fa 100644
+> --- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> @@ -18,6 +18,8 @@ properties:
+>        - items:
+>            - enum:
+>                - apple,t6020-wdt
+> +              - apple,t6030-wdt
+> +              - apple,t6031-wdt
+>                - apple,t8122-wdt
+>            - const: apple,t8103-wdt
+>        - items:
