@@ -1,163 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEF2266B72;
-	Thu, 16 Jul 2026 17:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D57433027;
+	Thu, 16 Jul 2026 17:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784223924; cv=none; b=DrdAQMm87DFLUenR89/GV/6rYiD1Lvcm4bx6rhP3wd6wo2+fWxvVG2hfgLYXNjxYFUkFzvCBISGq+/yGXUdfmPC76P5pLYxw+iNWMVAZZt8vscANaMAktMe3TuuLxQfIAtvDMLMER7J6Uj0vl+sAMqLMQf7ll2wwpeK4eAdrnrk=
+	t=1784224151; cv=none; b=U+s7Me+8D2HTzq+BTrStew6qfAYqqPX1mGMHD2nHx1WJTt8oTccLqD3wMs+qm0KYGGFR6XrIJIrDbgA4ewipO9bo5Fkd38UksLJ2CuHph7Dsn3Qed9SKexFq9gvIMxvDbO6puQPOMviC21d+iiZYJB6TIcMy4EXbObrkF3uaDis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784223924; c=relaxed/simple;
-	bh=zbVibP9aLTK8oNvSIhVNQ4AgGcuyaBeKvV56UEcTcpQ=;
+	s=arc-20240116; t=1784224151; c=relaxed/simple;
+	bh=WDOpxcwFle75xJgV45Y3mz4ze1wpcOya2GSWIlnO6Qg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BAhNWrBy1WVVTtg3W0Nb1NQlgToJy8kx/dFRNBni50gsJFJwLXuZ9p6Mjh1YQ0oirEY/OQma2gbPUQuo2jXTpY5VMT/mS5al3SsuBhyBxKVHyj09rcpI6xqK5qGvezoiLp6M7vqk6NHH/uKsqRYeRq+K+Nuxl5E5i9W9nig8AoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fa1lntsR; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LpfYNr3Nt+hCBIvzEVHbV85lx0RQ7fmVKnrhJqhaEdZncYrFNypSwpS32SWDSV6MFOEc2dP/V7hCwMfyGOK2kQvJuCk6WVyCt6BSVL45ZNBI//29LWD9g5RduqQKfmIn5vKhl6mTMdEDB1ZZRMT1VW3DEPyZa8YQPJnest0FDOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EHKxKrpy; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fa1lntsR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EHKxKrpy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784223923; x=1815759923;
+  t=1784224150; x=1815760150;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=zbVibP9aLTK8oNvSIhVNQ4AgGcuyaBeKvV56UEcTcpQ=;
-  b=fa1lntsR0KjstL+qAvyVKMc1vA2g4rw5JjZ+lcdVvSGiUTBrrAS6812V
-   f+uiFX9SR05hATboMM1i3aGrDUAbd1sqs7OinwzrKT2kz7C6cs1DGPJ5b
-   gtaCMcj8c98+KwyDGMce8L5l0U68UGIvmy8Pk1a3DBFNfRI9T5TdD1+xM
-   /bI9DrcPoO4EdDXvSqb3NIAUcWJd7ycc4GU4686JXRUHfeONjmPy+MDYZ
-   1foP+4QkdWzzDwkF9HugSBn2MIlGaq6YnQmJgOjXHQYrP3oABlqxS6nEI
-   uhqvDJPmzC8o1NwlL5ae6ajWoDhUgz+UgXo5u1Ii4Q9Nr6ngDaw/8c09D
-   w==;
-X-CSE-ConnectionGUID: LN5gVqcJS4a9AKtb7MsrCw==
-X-CSE-MsgGUID: TBoSIlzeSUyYllUrM/t/Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="85090272"
+  bh=WDOpxcwFle75xJgV45Y3mz4ze1wpcOya2GSWIlnO6Qg=;
+  b=EHKxKrpypfwt/Hy6uUdYyp3klYP5s5/RREy7f3rxX+50j7JYfdacii34
+   zQR6OIRHl3hgi5w2d43Mp35XKGtHHmVTBQt7lMpAoaJT9uSNkOHIm71VJ
+   0oQ41eTE3GofMZYvBuelWArVHJ6DOFEwWPJr4VAFQqTncRoIIYvKENDgy
+   Evn6qI+axGWNI8x+o5V2h38/ulUt89sSKeP3cXTMoLnGbWFf4fcaYw37o
+   RDABEa/74HwVcWqkqkAn/+pvrKZleX7JDKLeKtVTkelXJ0p+9xFRDRJmH
+   oaXLi/dUG86ufSihMmaqtXMPCbA40ZHO3uQyLmVGDVV+dEgvP4m9WVFIM
+   Q==;
+X-CSE-ConnectionGUID: YNkwSD0GTl+6cgz2UyIwSg==
+X-CSE-MsgGUID: IxSp8SYWSkC7YdMxAGoZ0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="84853697"
 X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="85090272"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:45:22 -0700
-X-CSE-ConnectionGUID: tUarK1GxR1ydTColBfz7Rw==
-X-CSE-MsgGUID: kqVQX9ajR9KmsayDkRu5Zg==
+   d="scan'208";a="84853697"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:49:10 -0700
+X-CSE-ConnectionGUID: XfGCLMq2TIOWPCEFC2xIgw==
+X-CSE-MsgGUID: kOYF/zaMQF25P48lYMtL6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="279834026"
+   d="scan'208";a="255415130"
 Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.26])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:45:03 -0700
-Date: Thu, 16 Jul 2026 20:45:01 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Lixu Zhang <lixu.zhang@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Ray Jui <rjui@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:49:00 -0700
+Date: Thu, 16 Jul 2026 20:48:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Link Mauve <linkmauve@linkmauve.fr>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
 	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Imre Kaloz <kaloz@openwrt.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Daniel Palmer <daniel@thingy.jp>,
-	Romain Perier <romain.perier@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	"Enrico Weigelt, metux IT consult" <info@metux.net>,
-	Viresh Kumar <vireshk@kernel.org>, virtualization@lists.linux.dev,
-	Yinbo Zhu <zhuyinbo@loongson.cn>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Alban Bedel <albeu@free.fr>,
-	James Cowgill <james.cowgill@blaize.com>,
-	Matt Redfearn <matt.redfearn@blaize.com>,
-	Neil Jones <neil.jones@blaize.com>,
-	Nikolaos Pasaloukos <nikolaos.pasaloukos@blaize.com>,
-	Doug Berger <opendmb@gmail.com>, Keerthy <j-keerthy@ti.com>,
+	Fabio Estevam <festevam@gmail.com>,
 	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Bamvor Jian Zhang <bamv2005@gmail.com>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
-	Benjamin Fair <benjaminfair@google.com>,
-	Santosh Shilimkar <ssantosh@kernel.org>,
-	Kevin Hilman <khilman@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Michael Walle <mwalle@kernel.org>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
-	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	Srinivas Neeli <srinivas.neeli@amd.com>,
-	Michal Simek <michal.simek@amd.com>, linux-aspeed@lists.ozlabs.org,
-	asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	openbmc@lists.ozlabs.org, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-unisoc@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
+	Kalyani Akula <kalyani.akula@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	Michael Buesch <m@bues.ch>, William Breathitt Gray <wbg@kernel.org>,
-	Robert Richter <rric@kernel.org>, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 00/21] gpio: Improvements around device-id arrays
-Message-ID: <alkYnQdzZlKf2bfB@ashevche-desk.local>
-References: <cover.1784133987.git.u.kleine-koenig@baylibre.com>
- <alkYWcuMsfE5jkLR@ashevche-desk.local>
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] nvmem: fix a const-unsoundness in reg_write
+Message-ID: <alkZiozKVGlAYVUb@ashevche-desk.local>
+References: <20260715195520.25410-1-linkmauve@linkmauve.fr>
+ <alieVR1cOtOySi4_@ashevche-desk.local>
+ <ali7bki3jqpd8ckE@luna>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <alkYWcuMsfE5jkLR@ashevche-desk.local>
+In-Reply-To: <ali7bki3jqpd8ckE@luna>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jul 16, 2026 at 08:44:14PM +0300, Andy Shevchenko wrote:
-> On Wed, Jul 15, 2026 at 06:55:05PM +0200, Uwe Kleine-K�nig (The Capable Hub) wrote:
-> > Hello,
-> > 
-> > as with v1 the original motivation for this series are the patches that
-> > convert the arrays to use named initializers, see
-> > https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
-> > for the idea behind it. Then by not closing the eyes for small issues
-> > spotted while working on that, this series grew a bit.
-> > 
-> > Changes since v1 (available at
-> > https://lore.kernel.org/linux-kernel/cover.1784013063.git.u.kleine-koenig@baylibre.com):
-> 
-> Sorry, but at first glance it seems this version is messed up.
-> I'm not going to look into it deeply, waiting for *carefully*
-> checked v3...
+On Thu, Jul 16, 2026 at 01:07:26PM +0200, Link Mauve wrote:
+> On Thu, Jul 16, 2026 at 12:03:17PM +0300, Andy Shevchenko wrote:
+> > On Wed, Jul 15, 2026 at 09:55:16PM +0200, Link Mauve wrote:
 
-And with the above being said, my tags against v2 are not valid
-(withdrawn).
+...
+
+> I’ve attached a patch fixing this particular issue, I will include it in
+> my v3 if that’s ok with you (or it could go as a different series, I
+> don’t care much).
+
+Works for me.
+
+> I think I’ve found another bug in that driver, it says .max_register =
+> 0xffff but .size = 0xffff, one or the other is probably off-by-one, and
+> I suspect .size should be 0x10000 instead.
+
+Yeah, max_register means offset of the last _accessible_ register.
+So, 0xffff sounds about right there. As for size being 0xffff, I weakly
+remember that there was a discussion about these values. Can you dig the
+lore archive?
 
 -- 
 With Best Regards,
