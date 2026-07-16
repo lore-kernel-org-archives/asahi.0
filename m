@@ -1,52 +1,26 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from luna.linkmauve.fr (82-65-109-163.subs.proxad.net [82.65.109.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030B33F6C4F;
-	Thu, 16 Jul 2026 09:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4060F3AFAE3;
+	Thu, 16 Jul 2026 11:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784192617; cv=none; b=FoeC6YVsdfBrOww7WYN7QcUAGEgPBjmRUAypHUJkDusSB8NYPi4C8fzgAACC4wrjVcMJMyWjcCr+amjGspnIGbvXfmntrGmQnvjTgndAcSx2Av7k4gHftQX6pBoQVhQ190qs7b4oB1qsxAxKC73A87Lsd8A0XDM3zevNksXPsBM=
+	t=1784200054; cv=none; b=jZGYMYlgp2lS/6ZM0g+e8SU8yYkku6ugYXev8UAAXlXKB/g4bF2oAAzjH9umRYRrcocAgszQR2sKcHaIT24cEyX6dWSjYz9TxxnEjQM8GJcC9CSRBU12C03Zwaff2HLjUKGaXtPIdXUTiVDYAevd0aZF+MJbk49xUWeUFClCWh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784192617; c=relaxed/simple;
-	bh=mdc0Qg0CaS9HhMRhYLzKY0lvqzMX6zDKQ+/7G+CVATM=;
+	s=arc-20240116; t=1784200054; c=relaxed/simple;
+	bh=Q6VGXW5tf9e1NERg0XxzMyBWsizwiO2Hrp5/U9CR138=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ozk6D7dTHNabHWgsX9DDVnr/tIls/HphAJqVxrAGPTkOB9Gl9tU/Xf1UXg6h2bsRUE4dOKAumw9AXj28nEcyJK5tHIZOyL5vttSwVMJo9sn/pUp65chWzRx4b3NeHhJJyXU8knrJSh4lM051f9onqRcS1yGTI7MUpLDZeIF0pDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmCfPuud; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmCfPuud"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784192614; x=1815728614;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mdc0Qg0CaS9HhMRhYLzKY0lvqzMX6zDKQ+/7G+CVATM=;
-  b=XmCfPuudKfg96rOkNRVBKpg+cmRsN4UpwQPR3YDHt9Z57QWU2BOrwx5E
-   Tww1l3QYiHH+7BLiqcBl+wURkjW3CyfU2IWVT7hImvknmFM2T9OUveqTJ
-   X/MWlmP1qe2BRp8hEuvPt1iNH8cNCyKoj2382RJ3B0lHLDREPn4yvAdZN
-   GMoC/e1Fok5jz3z94IRg/3vhJKJfOTfbDAQtw8mfErUawrqX1g0JL2TUj
-   lbjO2Goj2EbRruYVeU0WreIOOaVDHqQlNPnjJAvVrFh2L+cju/1kOBEpR
-   BBLnjMjv2M+GAnuPYg2xEzO+8l6Kwrvq7McCS7TyHUq7XknhNfaIipZ0W
-   w==;
-X-CSE-ConnectionGUID: r+KNLlL0R9SrHAvTSTzyLQ==
-X-CSE-MsgGUID: Eyg11fxkS6CvWOeUdGoB/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84874224"
-X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="84874224"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 02:03:30 -0700
-X-CSE-ConnectionGUID: lRoi4/cIQz+TT/pG5vIyBg==
-X-CSE-MsgGUID: /nbhLZgmScmziK0fSPUDtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="260260162"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.26])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 02:03:20 -0700
-Date: Thu, 16 Jul 2026 12:03:17 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=NabNtQBxbntOMOWeoMEQxWSNGGp8NSi8z0XgWpS78bvYv1D0vD330bfH4hCIsNfg4ybrFfdr1sTIalvv/sQk5DBd6AcSUk0A3GQHkCpNtulH+oe/k7CqAMiH5/eqFHv+xgyBOpw6AGiVyNvwRuURnLZctBjgsQcNI1ZpLdD0AIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+	id D604FF40D30; Thu, 16 Jul 2026 13:07:26 +0200 (CEST)
+Date: Thu, 16 Jul 2026 13:07:26 +0200
+From: Link Mauve <linkmauve@linkmauve.fr>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Link Mauve <linkmauve@linkmauve.fr>,
+	Srinivas Kandagatla <srini@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>, Sven Peter <sven@kernel.org>,
 	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
 	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
@@ -82,61 +56,164 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	linux-stm32@st-md-mailman.stormreply.com,
 	rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 0/2] nvmem: fix a const-unsoundness in reg_write
-Message-ID: <alieVR1cOtOySi4_@ashevche-desk.local>
+Message-ID: <ali7bki3jqpd8ckE@luna>
 References: <20260715195520.25410-1-linkmauve@linkmauve.fr>
+ <alieVR1cOtOySi4_@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="siXK+shzjeD2fFGh"
 Content-Disposition: inline
-In-Reply-To: <20260715195520.25410-1-linkmauve@linkmauve.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <alieVR1cOtOySi4_@ashevche-desk.local>
+Jabber-ID: linkmauve@linkmauve.fr
 
-On Wed, Jul 15, 2026 at 09:55:16PM +0200, Link Mauve wrote:
-> This callback used to take a mutable void * for no reason, which causes
-> the compiler to be unaware that the val buffer should never be modified
-> by the callback.
+--siXK+shzjeD2fFGh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+On Thu, Jul 16, 2026 at 12:03:17PM +0300, Andy Shevchenko wrote:
+> On Wed, Jul 15, 2026 at 09:55:16PM +0200, Link Mauve wrote:
+> > This callback used to take a mutable void * for no reason, which causes
+> > the compiler to be unaware that the val buffer should never be modified
+> > by the callback.
+> > 
+> > This was found while drafting the nvmem-provider Rust abstraction.
+> > 
+> > Thanks to the guidance of Andy Shevchenko, this now introduces a new
+> > callback and deprecates the existing one, with the goal of renaming the
+> > new one into the old one once no user remains in the kernel.
 > 
-> This was found while drafting the nvmem-provider Rust abstraction.
+> You forgot to use --base. It's unclear against what should be this applied.
+> I tried Linux Next (next-20260715), and it fails.
 > 
-> Thanks to the guidance of Andy Shevchenko, this now introduces a new
-> callback and deprecates the existing one, with the goal of renaming the
-> new one into the old one once no user remains in the kernel.
+> Yes, it applies against v7.2-rc3, but it means that this won't be applied on
+> top of maintainer's tree (which has something already that you have to take
+> into consideration).
 
-You forgot to use --base. It's unclear against what should be this applied.
-I tried Linux Next (next-20260715), and it fails.
+Indeed I developed against Linus’s master, I’ll rebase on linux-next for
+v3.
 
-Yes, it applies against v7.2-rc3, but it means that this won't be applied on
-top of maintainer's tree (which has something already that you have to take
-into consideration).
+> 
+> For the record, the first version of the series was no go as the first patch
+> there breaks the things, like
+> 
+> drivers/nvmem/qfprom.c:446:22: error: incompatible function pointer types assigning to 'nvmem_reg_write_t' (aka 'int (*)(void *, unsigned int, const void *, unsigned long)') from 'int (void *, unsigned int, void *, size_t)' (aka 'int (void *, unsigned int, void *, unsigned long)') [-Wincompatible-function-pointer-types]
+>   446 |                         econfig.reg_write = qfprom_reg_write;
+>       |                                           ^ ~~~~~~~~~~~~~~~~
+> 1 error generated.
+> 
+> This version doesn't have this issue (at least with my smoke build tests
+> on x86_64).
 
-For the record, the first version of the series was no go as the first patch
-there breaks the things, like
+Yup, I enabled the drivers but didn’t select COMPILE_TEST, so they
+didn’t actually build and I assumed everything was correct…  This won’t
+happen again.
 
-drivers/nvmem/qfprom.c:446:22: error: incompatible function pointer types assigning to 'nvmem_reg_write_t' (aka 'int (*)(void *, unsigned int, const void *, unsigned long)') from 'int (void *, unsigned int, void *, size_t)' (aka 'int (void *, unsigned int, void *, unsigned long)') [-Wincompatible-function-pointer-types]
-  446 |                         econfig.reg_write = qfprom_reg_write;
-      |                                           ^ ~~~~~~~~~~~~~~~~
-1 error generated.
+> 
+> Now, what catches me is that regmap_bulk_read() proto used for both cases in
+> drivers/nvmem/apple-spmi-nvmem.c without any changes. Which makes me think
+> that the approach can be done in a simpler way, id est converting users first
+> to use const specifiers in their callbacks first. But this trick is done with
+> using (void *) casting (?) which makes warning to disappear, which is
+> interesting case. So I think the Apple driver should actually use proper
+> protos and hence wrappers, otherwise it makes compiler blind, which is not
+> good. TL;DR: you should fix the Apple driver (and might more if any of them
+> use that dirty trick).
 
-This version doesn't have this issue (at least with my smoke build tests
-on x86_64).
+This series only affects the reg_write callback, not reg_read, so it’s
+to be expected that regmap_bulk_read() keeps its void * parameter as it
+will modify it, it’s regmap_bulk_write() which correctly takes const
+void *.  The Apple driver completely removes all function pointer safety
+by casting the function into void *, although that’s not due to const
+incompatibility but due to the first argument being struct regmap *
+instead of void *.
 
-Now, what catches me is that regmap_bulk_read() proto used for both cases in
-drivers/nvmem/apple-spmi-nvmem.c without any changes. Which makes me think
-that the approach can be done in a simpler way, id est converting users first
-to use const specifiers in their callbacks first. But this trick is done with
-using (void *) casting (?) which makes warning to disappear, which is
-interesting case. So I think the Apple driver should actually use proper
-protos and hence wrappers, otherwise it makes compiler blind, which is not
-good. TL;DR: you should fix the Apple driver (and might more if any of them
-use that dirty trick).
+I’ve attached a patch fixing this particular issue, I will include it in
+my v3 if that’s ok with you (or it could go as a different series, I
+don’t care much).
+
+I think I’ve found another bug in that driver, it says .max_register =
+0xffff but .size = 0xffff, one or the other is probably off-by-one, and
+I suspect .size should be 0x10000 instead.
+
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
+
+Thanks!
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Link Mauve
+
+--siXK+shzjeD2fFGh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment;
+	filename=0001-nvmem-apple-spmi-improve-calling-safety-with-wrapper.patch
+
+From ec85ce97c6c835d99aa28b11b78af2744b45dc49 Mon Sep 17 00:00:00 2001
+From: Link Mauve <linkmauve@linkmauve.fr>
+Date: Thu, 16 Jul 2026 12:59:13 +0200
+Subject: [PATCH] nvmem: apple-spmi: improve calling safety with wrapper
+ functions
+
+This driver used to cast the regmap_bulk_*() functions to void *,
+bypassing any compiler safety around incompatible function pointers.
+
+With two small helpers, which just convert the void * priv parameter
+into the wanted struct regmap *, we can remove the void * cast
+altogether.
+
+Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
+---
+ drivers/nvmem/apple-spmi-nvmem.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvmem/apple-spmi-nvmem.c b/drivers/nvmem/apple-spmi-nvmem.c
+index cbf25c53d048..81d9e242c836 100644
+--- a/drivers/nvmem/apple-spmi-nvmem.c
++++ b/drivers/nvmem/apple-spmi-nvmem.c
+@@ -18,6 +18,20 @@ static const struct regmap_config apple_spmi_regmap_config = {
+ 	.max_register	= 0xffff,
+ };
+ 
++static int apple_spmi_nvmem_read(void *priv, unsigned int offset,
++				 void *val, size_t bytes)
++{
++	struct regmap *regmap = priv;
++	return regmap_bulk_read(regmap, offset, val, bytes);
++}
++
++static int apple_spmi_nvmem_write(void *priv, unsigned int offset,
++				  const void *val, size_t bytes)
++{
++	struct regmap *regmap = priv;
++	return regmap_bulk_write(regmap, offset, val, bytes);
++}
++
+ static int apple_spmi_nvmem_probe(struct spmi_device *sdev)
+ {
+ 	struct regmap *regmap;
+@@ -28,8 +42,8 @@ static int apple_spmi_nvmem_probe(struct spmi_device *sdev)
+ 		.word_size = 1,
+ 		.stride = 1,
+ 		.size = 0xffff,
+-		.reg_read = (void *)regmap_bulk_read,
+-		.reg_write_const = (void *)regmap_bulk_write,
++		.reg_read = apple_spmi_nvmem_read,
++		.reg_write_const = apple_spmi_nvmem_write,
+ 	};
+ 
+ 	regmap = devm_regmap_init_spmi_ext(sdev, &apple_spmi_regmap_config);
+-- 
+2.55.0
 
 
+--siXK+shzjeD2fFGh--
