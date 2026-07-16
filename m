@@ -1,142 +1,162 @@
-Received: from luna.linkmauve.fr (82-65-109-163.subs.proxad.net [82.65.109.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A826C425875;
-	Thu, 16 Jul 2026 14:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189CB42D742;
+	Thu, 16 Jul 2026 14:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784211889; cv=none; b=eJ+sB9jBxLhYERcQCPp3rS6DkcAtiCUEZVzRW2UIkEQ6si2C3IZmVYjBKlzdSt9agYqFw0ANtF6XWWdVTLUfGvBEuvsWo7MAb3q3J4l3NcY/zm23+aRchb+8nNLdG7p7a77/Xj8NZuuJdNa8znNQmIzgUUVzg37N9BKlCDBtti4=
+	t=1784213385; cv=none; b=Dz7mnZeCbKBtZrP3aJJLA2ssIyNDhvywT0AzqqpQEr65aeAqXTnmGvpnbg0HyNF6gXwbdnRAAlvtoaMzQQGr5ScjfPdqTALGw7lA2dDYB9u2nDXvURBdmAkbQFFKKYA+HDg9/dfzFpNJecQpBkysCOAIoIgbxclIqfoD0Szw31s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784211889; c=relaxed/simple;
-	bh=4oUXBcR6zeOwaBNh+bQp4Z78oNqV2MBaE5uHHU6QNBc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qtgO69TKxmh54MWSfTLBNmrPS10vEpGeNr9CnPk6hb0X/hnSgDzDGB3OibkQh1GpxGItmjNJ8moEOCoV0WKm2yTTmh4Glpp6LtWZTB/q10aJPgOCC83nrRrp2+AB4dX7yyeYISBsLD3CBU7yZfzUxmH3bQh58e0vdIjQ6h0bDE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-	id 9B9B3F40D36; Thu, 16 Jul 2026 16:24:29 +0200 (CEST)
-From: Link Mauve <linkmauve@linkmauve.fr>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Link Mauve <linkmauve@linkmauve.fr>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Kalyani Akula <kalyani.akula@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Johan Hovold <johan@kernel.org>,
-	Ronald Claveau <linux-kernel-dev@aliel.fr>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v3 4/4] firmware: meson: pass a const buffer to meson_sm_call_write()
-Date: Thu, 16 Jul 2026 16:24:11 +0200
-Message-ID: <20260716142415.28718-5-linkmauve@linkmauve.fr>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260716142415.28718-1-linkmauve@linkmauve.fr>
-References: <20260716142415.28718-1-linkmauve@linkmauve.fr>
+	s=arc-20240116; t=1784213385; c=relaxed/simple;
+	bh=Par/M6s70tTS2iRS3SIAoAqNhvnWQDmlDyc1kEtdMtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UYNkc37byC5WKqj+hqOYH93jl+tljES8uoEu0wxKJvy9PXGrFPM8XyIIm6pHYpGkCd2Co8c+E7wUNfMztOSqX/dZNzItGrJW7I3CIZxmhiyn3GZWOMUs9g41hQdpxhndoaJjY+j2SwWFGgWI4C21MUaYRJCQS5GZp/d425FjAI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K3esabGf; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K3esabGf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D7B1F000E9;
+	Thu, 16 Jul 2026 14:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784213384;
+	bh=zqNK14fvUgJPkPKSw3F2wEzBp6SPYyPXK1qyOUdckgI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=K3esabGfmFIKjOLPgAKaolLSygDxiOrWrwG/Ry2KPI0YTB50PTTslkIhpdBVK24PH
+	 eqPi1gcalpvP/P65xerJArZDH03ErvYW+Ls2wOb98Y7u5DcbUsk/tJtRVludwWgps0
+	 scZvArB+O9fDEE+uh+OlV0FCHOqxjFMxycWqbf1/JDOIgziKpP+JiejFIUc3SOEsBI
+	 QVLc3HhonSLz2/9j0TJl/+98YUfTDlqhYNgi9nosmAWXQpfgvrcbVDV1ArAKx5OHJc
+	 4serm5zFAq3uG1kEn3yWDECkW50gOHrGA0TsdONZQfTErTY9kPNOSvR6RORaWJAQjQ
+	 bJJ1PUEbjZmCQ==
+Date: Thu, 16 Jul 2026 16:49:29 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Marc Zyngier <maz@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-pci@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] PCI: apple: Integrate pwrctrl API
+Message-ID: <pbxefv7wotwcaavoas347htdx22rdupfqn6cbuyjf4y2kjlv4p@7xdael6h7d57>
+References: <20260707-apple-pcie-pwren-v1-0-5a281b182fe2@cyberchaos.dev>
+ <20260707-apple-pcie-pwren-v1-1-5a281b182fe2@cyberchaos.dev>
+ <86a4s3p2vy.wl-maz@kernel.org>
+ <8a80a170-a508-4a9e-8090-27cfcedb1cd4@cyberchaos.dev>
+ <865x2qq4ts.wl-maz@kernel.org>
+ <jqaxvdaxfpm5g3tdwdqpuk2ubkwim6ckmlblocvakloqishvmm@c5ofbdbdj7lf>
+ <76243051-e391-45d2-b47a-d4a904f0a36f@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <76243051-e391-45d2-b47a-d4a904f0a36f@cyberchaos.dev>
 
-This was found while introducing the new nvmem-provider reg_write_const
-callback in meson_sm_call_write()’s only user, in meson-efuse.
+On Tue, Jul 14, 2026 at 06:57:11PM +0200, Yureka Lilian wrote:
+> 
+> On 7/9/26 14:29, Manivannan Sadhasivam wrote:
+> > On Tue, Jul 07, 2026 at 02:58:39PM +0100, Marc Zyngier wrote:
+> > > On Tue, 07 Jul 2026 13:04:21 +0100,
+> > > Yureka Lilian <yureka@cyberchaos.dev> wrote:
+> > > > On 7/7/26 11:25, Marc Zyngier wrote:
+> > > > > On Mon, 06 Jul 2026 23:38:27 +0100,
+> > > > > Yureka Lilian <yureka@cyberchaos.dev> wrote:
+> > > > > > Integrate the PCI pwrctrl framework into the Apple PCIe host driver to
+> > > > > > provide standardized power management for PCI devices.
+> > > > > > 
+> > > > > > Notably, this allows enabling powering on the WiFi, SD card reader on
+> > > > > > various Macs by means of the pwrctrl framework before probing the ports.
+> > > > > > 
+> > > > > > Previously, a custom solution for powering on the WiFi and SD card
+> > > > > > reader was proposed[1], but we can now use the new pci-pwrctrl-generic
+> > > > > > driver for this purpose.
+> > > > > > 
+> > > > > > Link[1]: https://lore.kernel.org/lkml/20220502093832.32778-4-marcan@marcan.st/
+> > > > > > 
+> > > > > nit: this paragraph and the accompanying link don't belong in the
+> > > > > commit message and should be moved below the --- mark or even better,
+> > > > > to the cover letter.
+> > > > ack, will leave it out of the commit message of the individual commit in v2
+> > > > > > Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> > > > > > ---
+> > > > > >    drivers/pci/controller/Kconfig      |  1 +
+> > > > > >    drivers/pci/controller/pcie-apple.c | 16 ++++++++++++++++
+> > > > > >    2 files changed, 17 insertions(+)
+> > > > > > 
+> > > > > > diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+> > > > > > index 2247709ef6d6..af64630d28fa 100644
+> > > > > > --- a/drivers/pci/controller/Kconfig
+> > > > > > +++ b/drivers/pci/controller/Kconfig
+> > > > > > @@ -46,6 +46,7 @@ config PCIE_APPLE
+> > > > > >    	depends on OF
+> > > > > >    	depends on PCI_MSI
+> > > > > >    	select PCI_HOST_COMMON
+> > > > > > +	select PCI_PWRCTRL_GENERIC
+> > > > > >    	select IRQ_MSI_LIB
+> > > > > >    	help
+> > > > > >    	  Say Y here if you want to enable PCIe controller support on Apple
+> > > > > > diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+> > > > > > index c2cffc0659f4..db038a9d4831 100644
+> > > > > > --- a/drivers/pci/controller/pcie-apple.c
+> > > > > > +++ b/drivers/pci/controller/pcie-apple.c
+> > > > > > @@ -30,6 +30,7 @@
+> > > > > >    #include <linux/msi.h>
+> > > > > >    #include <linux/of_irq.h>
+> > > > > >    #include <linux/pci-ecam.h>
+> > > > > > +#include <linux/pci-pwrctrl.h>
+> > > > > >      #include "pci-host-common.h"
+> > > > > >    @@ -825,6 +826,21 @@ static int apple_pcie_init(struct
+> > > > > > pci_config_window *cfg)
+> > > > > >    	if (WARN_ON(!pcie))
+> > > > > >    		return -ENOENT;
+> > > > > >    +	ret = pci_pwrctrl_create_devices(pcie->dev);
+> > > > > > +	if (ret) {
+> > > > > > +		dev_err(pcie->dev, "Failed to create pwrctrl devices: %pe\n", ret);
+> > > > > > +		return ret;
+> > > > > > +	}
+> > > > > > +
+> > > > > > +	ret = pci_pwrctrl_power_on_devices(pcie->dev);
+> > > > > > +	if (ret) {
+> > > > > > +		if (ret != -EPROBE_DEFER) {
+> > > > > > +			dev_err(pcie->dev, "Failed to power on devices: %pe\n", ret);
+> > > > > > +			pci_pwrctrl_destroy_devices(pcie->dev);
+> > > > > > +		}
+> > > > > > +		return ret;
+> > > > > > +	}
+> > > > > > +
+> > > > > Why is this done globally while the whole driver works on a per-port
+> > > > > basis, and that the proposed DT updates are also per port?
+> > > > pci_pwrctrl_power_on_devices takes a struct device as parameter, but
+> > > > pcie-apple does not allocate device structs for the individual ports.
+> > > > This could be changed of course. But since pci_pwrctrl_* operate on
+> > > > the subnodes recursively, it works just fine this way.
+> > > Works fine is one thing. Being consistent with the way the rest of the
+> > > driver works is another. pci_pwrctrl_create_device() and
+> > > pci_pwrctrl_power_on_device() appear to do exactly what would be
+> > > required for a single port. They just needs to be exported made
+> > > global/exported.
+> > > 
+> > I'm fine with exporting pci_pwrctrl_create_device() and
+> > pci_pwrctrl_power_on_device() and calling them with per-port np.
+> > 
+> > - Mani
+> 
+> In theory I do agree this would work to power on the slots, and I can send a
+> v2 of the patch doing it that way, but I don't quite understand yet how this
+> fits better with the existing driver code: If this is the case, what is the
+> difference between pcie-apple and pcie-qcom and why should pcie-qcom use the
+> recursive function but pcie-apple not?
+> 
 
-Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
----
- drivers/firmware/meson/meson_sm.c       | 2 +-
- drivers/nvmem/meson-efuse.c             | 4 ++--
- include/linux/firmware/meson/meson_sm.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+For pcie-qcom, it needs to iterate through all PCI child nodes, not just the RP
+as we have multiple nodes due to PCIe switch (and switches in some design). So
+this per-port API wouldn't work there.
 
-diff --git a/drivers/firmware/meson/meson_sm.c b/drivers/firmware/meson/meson_sm.c
-index ab9751a59b55..5d4da2e3c3a9 100644
---- a/drivers/firmware/meson/meson_sm.c
-+++ b/drivers/firmware/meson/meson_sm.c
-@@ -196,7 +196,7 @@ EXPORT_SYMBOL(meson_sm_call_read);
-  *
-  * Return:	size of sent data on success, a negative value on error
-  */
--int meson_sm_call_write(struct meson_sm_firmware *fw, void *buffer,
-+int meson_sm_call_write(struct meson_sm_firmware *fw, const void *buffer,
- 			unsigned int size, unsigned int cmd_index, u32 arg0,
- 			u32 arg1, u32 arg2, u32 arg3, u32 arg4)
- {
-diff --git a/drivers/nvmem/meson-efuse.c b/drivers/nvmem/meson-efuse.c
-index c922c5bcbd10..5e056e707a96 100644
---- a/drivers/nvmem/meson-efuse.c
-+++ b/drivers/nvmem/meson-efuse.c
-@@ -20,7 +20,7 @@ static int meson_efuse_read(void *context, unsigned int offset,
- 	struct meson_sm_firmware *fw = context;
- 	int ret;
- 
--	ret = meson_sm_call_read(fw, (u8 *)val, bytes, SM_EFUSE_READ, offset,
-+	ret = meson_sm_call_read(fw, val, bytes, SM_EFUSE_READ, offset,
- 				 bytes, 0, 0, 0);
- 
- 	return ret < 0 ? ret : 0;
-@@ -32,7 +32,7 @@ static int meson_efuse_write(void *context, unsigned int offset,
- 	struct meson_sm_firmware *fw = context;
- 	int ret;
- 
--	ret = meson_sm_call_write(fw, (u8 *)val, bytes, SM_EFUSE_WRITE, offset,
-+	ret = meson_sm_call_write(fw, val, bytes, SM_EFUSE_WRITE, offset,
- 				  bytes, 0, 0, 0);
- 
- 	return ret < 0 ? ret : 0;
-diff --git a/include/linux/firmware/meson/meson_sm.h b/include/linux/firmware/meson/meson_sm.h
-index 3ebc2bd9a976..92cc61f3a1c0 100644
---- a/include/linux/firmware/meson/meson_sm.h
-+++ b/include/linux/firmware/meson/meson_sm.h
-@@ -21,7 +21,7 @@ struct meson_sm_firmware;
- 
- int meson_sm_call(struct meson_sm_firmware *fw, unsigned int cmd_index,
- 		  s32 *ret, u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
--int meson_sm_call_write(struct meson_sm_firmware *fw, void *buffer,
-+int meson_sm_call_write(struct meson_sm_firmware *fw, const void *buffer,
- 			unsigned int b_size, unsigned int cmd_index, u32 arg0,
- 			u32 arg1, u32 arg2, u32 arg3, u32 arg4);
- int meson_sm_call_read(struct meson_sm_firmware *fw, void *buffer,
+- Mani
+
 -- 
-2.55.0
-
+மணிவண்ணன் சதாசிவம்
