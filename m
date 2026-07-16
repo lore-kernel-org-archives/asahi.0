@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F196442FB4;
-	Thu, 16 Jul 2026 17:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51DA315D5D;
+	Thu, 16 Jul 2026 18:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784224237; cv=none; b=NWnKhmvXRuXpacqfeKLmYO2RhD53T2g2eN6kcG+QyCfsc+OfaV/Y6MbEan9/xwZtcWKVT4VG7zF/MLbihc6VqjIGbTctMZmuDtJZYQU7Uc6gtNZAMoz0GUbksDPnPD3FeuUTHej5QugI2GpFgIPURvpw2qMbkPcPjOsQ+NnemFI=
+	t=1784225247; cv=none; b=BLGLJo11AuYGcQWfe+irkA6bHDtu0w7Jb7XJ0lFHja62yUKD93KXrnMzVLzlDREkb1UsIM5tdtvoyuj0a+rm8WnRHD+IIPKslMg5tpavhUfN+mFvd1KMSFYDXAon6OFn2NIWtQS/6DIjgINNDMp6GcKkB5RbZ4dBpVTS7fSznQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784224237; c=relaxed/simple;
-	bh=xxOjee7glhv2bbNIZZyyAk70a5eC9HP+MBjlGBfZqNA=;
+	s=arc-20240116; t=1784225247; c=relaxed/simple;
+	bh=3zU61iR89W7q/QfMisKJJhMrwLX8REl16SCm0WWEqt0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZFf1byVtrU2GnHLmkt9ulrRlBQABNXeTnyryqfXYjCERphGdF+8BuJ9teF92L8PZMfIAKKW3UIXqPvsj/2B2J30YOKc96PGOgUylbe+5fzbGGMn6fad6auxfwGt6Xc/4CgaxJJKXCEy5k/nZMIR6kJ7ezufrjV5eThGsSen3wI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDbeXriR; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eq+aCH6w8y7pEuNf7WZG0uQhX/3BEX+FQwpzY/iyubP8fLReXezcWhc0lT+C/D2IWou1ufdTLEtyLeeFAxDRppzqg5HCX8vSoBy22f4/knBFkhK8HBbNiBYQTU5AeUpNYIb3bNuu81rbD+EylLjfNI1F137wa1nXZeLPz4zZR0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C/ssUJ/x; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDbeXriR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/ssUJ/x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784224235; x=1815760235;
+  t=1784225246; x=1815761246;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=xxOjee7glhv2bbNIZZyyAk70a5eC9HP+MBjlGBfZqNA=;
-  b=nDbeXriRYv3YJnoEpmRF6rjM6trWkuJ+tsqXNrfNOdacNAeCfjiYP3Rr
-   YbcJ1qu6QoTN6nWMdQQmZWz6TPwK8Fv/yO5QdWmXbRwO8oMjLm3Az+YlV
-   4FqGhipWmQr6MpagEKO7JKEImG6p4xl1JofqBYsU9MGAYXakpII8HchfQ
-   cFP2Ul+6c1fTmgbUn784sisfz845k+vR98GXvAzjbUbbj28JK7wYwtkmj
-   vvtP0Ik34Ve7rGOhyh48crLvKF16xqzFWxyRGoo0Xf3byd3L+aNWNYNBP
-   LM0VkaKslXxnIlC2foErhsD5X6m04d1NypT4DyaZd+5CApi9rWogeGPJQ
+   mime-version:in-reply-to;
+  bh=3zU61iR89W7q/QfMisKJJhMrwLX8REl16SCm0WWEqt0=;
+  b=C/ssUJ/xnxscDBES1HMe7zYgIcKz6O/EOWJITNJSTto9Slp88//YhQh6
+   fYuxZFdT3bGKfBWOUhAFVWbgdbsZ9Abku/sqVyqVX3AaOYMtXg2GdmdW4
+   uyKozGHG9dozF7z19wlvj6mvvMVQAmJeROT9LkocO0bLsX48tq3Xrjsed
+   QzhCAt/RheR66P01a0OVGRyYXXLX/XanUF8vvFxB8xKSLyBqG2P8qKMrL
+   QLCI1/+cy14qQvF2QZwar6QTeFZGoOtlQ5xqpLMQXOCMD3gAMpzN21dTQ
+   DaJnEjjA5hd8yXOFyyeGM31kQp0OL035qjvzPsLLXuSrv4deOVIdoK5cD
    g==;
-X-CSE-ConnectionGUID: mLKgrJu8QSWHyDIilI8Uag==
-X-CSE-MsgGUID: 8AWH0CmaSe2OjYqHNeuOXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="88569112"
+X-CSE-ConnectionGUID: q+E7t1HcTmerawXqIBvINQ==
+X-CSE-MsgGUID: WIH/JL/MQ46T9xxfYncP/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="95250916"
 X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="88569112"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:50:35 -0700
-X-CSE-ConnectionGUID: KSXdeNBXTx+whu28zmJl9Q==
-X-CSE-MsgGUID: ISrJSJNIRJu4vj7xXuRo5w==
+   d="scan'208";a="95250916"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 11:07:26 -0700
+X-CSE-ConnectionGUID: APJCwIcNR12AYNk0i8vioQ==
+X-CSE-MsgGUID: qNYSOzF+SJGatiaUqRLDtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="260854065"
+   d="scan'208";a="253929056"
 Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.26])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:50:25 -0700
-Date: Thu, 16 Jul 2026 20:50:22 +0300
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 11:07:16 -0700
+Date: Thu, 16 Jul 2026 21:07:13 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Link Mauve <linkmauve@linkmauve.fr>
 Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>, Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	Kevin Hilman <khilman@baylibre.com>,
 	Jerome Brunet <jbrunet@baylibre.com>,
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
 	Orson Zhai <orsonzhai@gmail.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	Chunyan Zhang <zhang.lyra@gmail.com>,
@@ -76,45 +76,84 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Tamir Duberstein <tamird@kernel.org>,
 	Alexandre Courbot <acourbot@nvidia.com>,
 	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	Ronald Claveau <linux-kernel-dev@aliel.fr>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] nvmem: fix a const-unsoundness in reg_write
-Message-ID: <alkZ3tVY0y31RYUz@ashevche-desk.local>
-References: <20260715195520.25410-1-linkmauve@linkmauve.fr>
- <alieVR1cOtOySi4_@ashevche-desk.local>
- <aljAqBNVXV1aVJqx@luna>
+Subject: Re: [PATCH v3 3/4] nvmem: apple-spmi: improve calling safety with
+ wrapper functions
+Message-ID: <alkd0WWr3KX7MS5O@ashevche-desk.local>
+References: <20260716142415.28718-1-linkmauve@linkmauve.fr>
+ <20260716142415.28718-4-linkmauve@linkmauve.fr>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aljAqBNVXV1aVJqx@luna>
+In-Reply-To: <20260716142415.28718-4-linkmauve@linkmauve.fr>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jul 16, 2026 at 01:29:44PM +0200, Link Mauve wrote:
-> On Thu, Jul 16, 2026 at 12:03:17PM +0300, Andy Shevchenko wrote:
-
-[…]
-
-> > TL;DR: you should fix the Apple driver (and might more if any of them
-> > use that dirty trick).
+On Thu, Jul 16, 2026 at 04:24:10PM +0200, Link Mauve wrote:
+> This driver used to cast the regmap_bulk_*() functions to void *,
+> bypassing any compiler safety around incompatible function pointers.
 > 
-> It was the only one of the drivers/nvmem/ to do that.  Three other
-> drivers use a pattern where they merge read and write operations into a
-> single access function with a type=read/write parameter, so const safety
-> can’t work there and I’ll continue casting from const void * to void *
-> in the write function to keep that pattern working.
+> With two small wrappers, which just convert the void * priv parameter
+> into the wanted struct regmap *, we can remove the void * cast
+> altogether.
 
-I meant all the driver in the kernel that are going to be affected by this
-change.
+Reported-by: ?
+
+> Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
+
+...
+
+> +static int apple_spmi_nvmem_read(void *priv, unsigned int offset,
+> +				 void *val, size_t bytes)
+> +{
+
+> +	struct regmap *regmap = priv;
+
+No need :-)
+
+> +	return regmap_bulk_read(regmap, offset, val, bytes);
+> +}
+
+static int apple_spmi_nvmem_read(void *map, unsigned int offset,
+				 void *val, size_t bytes)
+{
+	return regmap_bulk_read(map, offset, val, bytes);
+}
+
+...
+
+> +static int apple_spmi_nvmem_write(void *priv, unsigned int offset,
+> +				  const void *val, size_t bytes)
+> +{
+> +	struct regmap *regmap = priv;
+> +	return regmap_bulk_write(regmap, offset, val, bytes);
+> +}
+
+In the similar way as above.
+
+...
+
+> -		.reg_read = (void *)regmap_bulk_read,
+> -		.reg_write_const = (void *)regmap_bulk_write,
+> +		.reg_read = apple_spmi_nvmem_read,
+> +		.reg_write_const = apple_spmi_nvmem_write,
+
+I think the proper ordering is to address this first (before your main change)
+and update later with const argument. Yes, it will be a bit more changes, but
+it will be cleaner.
 
 -- 
 With Best Regards,
