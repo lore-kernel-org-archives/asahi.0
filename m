@@ -1,236 +1,161 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022092.outbound.protection.outlook.com [52.101.96.92])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CE33385AC;
-	Thu, 16 Jul 2026 15:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.92
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784215436; cv=fail; b=WRITnS7MYxhjCgsi8vaJJ7pmvgT+7VPmuXdGmu8wnrLun+4zCO9rNd0ItZ5/hiRkyRXvRyvNP7TmOYs642Vs3s3JovAwjjrHGUsNz8fsuyubqXGykCKigj57cmiNsSBGz3gP+o6Muz73Ha0/COrt11LYGp3Ue6s2UoNFG06hnr4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784215436; c=relaxed/simple;
-	bh=ElX0ovtlsMmQpEGZbL2eevmXwy+n0OY4GwxQUFchUFs=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=rkgjQGiNiJSoNAcVell1SwRM5U+bjs2iEmus73eRZlStCl1moEVnJZpoLxyCVMJeJ3IT6xdbOYFZe17cYQR4DAFW1lYpWaoSoyfrnSn1xys7himPbOYrBSwIPjzUaSI0dy56Dmx03cx3WZ72rU6MgPyjovda9CQmUzT/ZP5f/y4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=UI2h/GFf; arc=fail smtp.client-ip=52.101.96.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BEB385D88;
+	Thu, 16 Jul 2026 17:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784223858; cv=none; b=ofCwsl1UJz+Ua/5/8zUxUX0BRJLGkgiq9CTL9XiGyuA28ZEce8XBuU7TjZc38/MVIcBa8Ok9mNmOmZ5ad7Mo3SR9qMGnekKeDTytAI+zdz4rxPhdW2T1jN+hxrLVL09PPUuJkmzlWbJQ9cmFqaTlmrHwTjEJ6eXlRg8DIsk+OH8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784223858; c=relaxed/simple;
+	bh=jR5j9NUUUDWrKfOXsM73JV6fyT1VqUxtuhsCIIn6jKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Aq7rnB6583hxcRDYrDiE19b0KqXCX0bfNIiDqziOz+Lo8A4vsEMa7JPBlkNI8ihsEP/HRY/sx2jgaq6+HpIsoSPPz7+ChSdrIVdi1ru4O+2q6APNqphV3L2UGxs8ruZJRlO9k744Mckz+LTGKRZWZviija5ZtaoAqqnvpnl656g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBFu8dIS; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="UI2h/GFf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HF6vgeCcAwVwak/CZC1G8m18yZtJAY1tZlplX9GRsT3xwY38EZx5iRTOHnuNFKx61nCvJVGffD+kCzjGWZtNUePLn093BX7/TF2jfR2kVwHKb6xL6WzHwofMo3jiJaLqAIUpwj6E9JSmK+Scon1Nj/KcND0pGdDOdBuuqcxwWsG84L/OKFttW5McqIxpveqLoHvISX8/pdw2DTMJVTTB62gtxHAHlj2L9LvUutATEn6iWZUKuelFbMMd/vTeEEXERyTj49MVd9gCyvRW2L0uUA9ueaG6dMh6oqMEpbI0i9NuUJmE7pOMs0l50azelgAaqA+g8sVyoyZ5IfTt4foIXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jjta1IMoeWuR+Tk3AelrBcb43oQk+2/qwBFW4GV0pK0=;
- b=Tn7t72u36x+trkZBpogVd9pCrsJVs2ilHITwEiWca0gcM2rVY6RGdKTtyuThxGgAIQdCphamu7CMV3XCa22g2UiUfpvfjZ/x0FNy7/raQTFsGoYoqQ95UA5CPXLdn7v6+D7QYfvzEt+ju0d+hq8Sydp5P2rOh0pHHI4QuZxiXPEvBPFAOqHVUWp2NgMPky4s3ZGUxtF6nDrYgr0z5l8GwlaakwSNc10IJ2Q6AM/IG8qIdo7MSlRkYmCrVJzhe4hohGhLHan2q5Lx7Fd/wqGVRVJU3V/mr/+vtlysMxJOPjofkZ7Dd+2C0YqJIk+gQe4W43qcC+RI90of0GzwrzsAKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jjta1IMoeWuR+Tk3AelrBcb43oQk+2/qwBFW4GV0pK0=;
- b=UI2h/GFfWGjRvYr/peuvAhKLIAnxYZSJLQZ4BuPefWncIZ80lfQgE3d32go6BOzgtATVcmXdOeJK8NFk1fJhr+B8mNzY3ZFFnWjFrpYd6oW3uymZGIspUbeqDZetARXhGfXhjMsswZPW8EXNc7xo7VuMkU9KD1lBSyOExC6ihYM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO7P265MB8325.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:466::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.11; Thu, 16 Jul
- 2026 15:23:47 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0223.008; Thu, 16 Jul 2026
- 15:23:47 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Jul 2026 16:23:46 +0100
-Message-Id: <DK03KZBE5E3T.3VQJY9DIBYON7@garyguo.net>
-To: "Link Mauve" <linkmauve@linkmauve.fr>, "Srinivas Kandagatla"
- <srini@kernel.org>
-Cc: "Andy Shevchenko" <andriy.shevchenko@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Kevin Hilman" <khilman@baylibre.com>, "Jerome
- Brunet" <jbrunet@baylibre.com>, "Martin Blumenstingl"
- <martin.blumenstingl@googlemail.com>, "Sven Peter" <sven@kernel.org>,
- "Janne Grunau" <j@jannau.net>, "Neal Gompa" <neal@gompa.dev>, "Frank Li"
- <Frank.Li@nxp.com>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix
- Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>,
- "Vladimir Zapolskiy" <vz@mleia.com>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Orson Zhai" <orsonzhai@gmail.com>, "Baolin
- Wang" <baolin.wang@linux.alibaba.com>, "Chunyan Zhang"
- <zhang.lyra@gmail.com>, "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
- "Alexandre Torgue" <alexandre.torgue@foss.st.com>, "Kalyani Akula"
- <kalyani.akula@amd.com>, "Michal Simek" <michal.simek@amd.com>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Johan Hovold"
- <johan@kernel.org>, "Ronald Claveau" <linux-kernel-dev@aliel.fr>, "Daniel
- Lezcano" <daniel.lezcano@kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-amlogic@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <asahi@lists.linux.dev>, <imx@lists.linux.dev>,
- <linux-arm-msm@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v3 0/4] nvmem: fix a const-unsoundness in reg_write
-From: "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <20260716142415.28718-1-linkmauve@linkmauve.fr>
-In-Reply-To: <20260716142415.28718-1-linkmauve@linkmauve.fr>
-X-ClientProxiedBy: LO4P123CA0647.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:296::22) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBFu8dIS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784223857; x=1815759857;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jR5j9NUUUDWrKfOXsM73JV6fyT1VqUxtuhsCIIn6jKM=;
+  b=PBFu8dIS6lPrXKqPR/f3wVgD/fhR/CvWS2WZCTQBLoRRwd8XNeuipGrM
+   LAxkimcOd3KMvfSEAM1uhZViALQHUf+8J4QeGf8ZVoPFFvEoT68WSbXzD
+   0oYTFW8Ag3RDbzHC8e2PGyET9EfpQIFbQTS8pQuRHmC+srczE5qMto14R
+   sb38PpvblsL1RIlgSopAA9u/cIEHZmPQ+Fkvv5BNTMP+UsfyXFdMjKDNg
+   ox1dTQgiJ0R34AKrdmDJc6V48uuMYDjNl432gauZAGY9TUktL1ZNiWNku
+   Lz03fiSonJs0fY6X3hFGvVm2Spyb7rW4C6LLbKlJnk1eNKs9KkyhNsaR1
+   w==;
+X-CSE-ConnectionGUID: bJpkf1S6RTKv9Q+u1RhAaA==
+X-CSE-MsgGUID: hxnicePfQmip7A/wVXrjkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="83877228"
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="83877228"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:44:15 -0700
+X-CSE-ConnectionGUID: aMxhVdAuQT2VWNRoxPa/nw==
+X-CSE-MsgGUID: NDeukz9TQ02LlIOQEavzaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="256023287"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.26])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:43:55 -0700
+Date: Thu, 16 Jul 2026 20:43:53 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Lixu Zhang <lixu.zhang@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Ray Jui <rjui@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Imre Kaloz <kaloz@openwrt.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Daniel Palmer <daniel@thingy.jp>,
+	Romain Perier <romain.perier@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	"Enrico Weigelt, metux IT consult" <info@metux.net>,
+	Viresh Kumar <vireshk@kernel.org>, virtualization@lists.linux.dev,
+	Yinbo Zhu <zhuyinbo@loongson.cn>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Alban Bedel <albeu@free.fr>,
+	James Cowgill <james.cowgill@blaize.com>,
+	Matt Redfearn <matt.redfearn@blaize.com>,
+	Neil Jones <neil.jones@blaize.com>,
+	Nikolaos Pasaloukos <nikolaos.pasaloukos@blaize.com>,
+	Doug Berger <opendmb@gmail.com>, Keerthy <j-keerthy@ti.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Bamvor Jian Zhang <bamv2005@gmail.com>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Kevin Hilman <khilman@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Michael Walle <mwalle@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
+	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+	Srinivas Neeli <srinivas.neeli@amd.com>,
+	Michal Simek <michal.simek@amd.com>, linux-aspeed@lists.ozlabs.org,
+	asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	openbmc@lists.ozlabs.org, linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-unisoc@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Michael Buesch <m@bues.ch>, William Breathitt Gray <wbg@kernel.org>,
+	Robert Richter <rric@kernel.org>, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 00/21] gpio: Improvements around device-id arrays
+Message-ID: <alkYWcuMsfE5jkLR@ashevche-desk.local>
+References: <cover.1784133987.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO7P265MB8325:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1764aef4-e3ca-43ee-5c86-08dee34e3af1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|23010399003|7416014|376014|366016|5023799004|56012099006|6133799003|22082099003|18002099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	n9p6E+IQ5Ec24YRxYYSTdUZ2t1WbiFfsOeKKBN6ok7WaTx+SaoK4AJZaAkH8gf+qACSFJZQgDPvhtEaGSiloOEfkdnkQlOtgdS5fKtRUn49/FAWfGa94naofpPnhDC7mjfvZKXLBMjYy9zNR5nbO5+RY/CCHRzyYOC8GuN86nRmVAHunE/+KO3/gEIAvcMJ1c2BobPL7Rzp/cEBVvjHGnL4rp5H+xcnkxBSq4qAoQawbwQkOXPxray83/IEinGouxslBP0VYuPqwjMYSRt5BpGcSTi6Shv5ltb21cPyhjvEhGRRAxriu6WAzyJs00jaBGEEJoWXmp4i3SeBk4gzFlFvptNN2ZH+GBrUxQDmh6wEVerjdnnX2etOTCZAhW6cylCn0OhfiTRa9RhP6yG6HlYQXvZyg5WPWcCA2Z0lXWD5GAchykEsDg0YC6HwYogv3iZg48VylJxqtMeCHAZDjEv2heqlM914SfpxhlC3nlYY6l86wOgg4x82q0Q2ovFrgP8IDt7ktTior/NQ9U2Tpy/3gtQ2CxNlAHqc8HrF7O5e3AOTgce7ALe03u3Aw6iBYESazteXiXvNpH9yP+sHqto1rVSdkpwHNovspR6/WxMlhXaofG8PAF0jL04rQ0LPfLaWbe+P4rvTYsHHg/Rm3ne8gvRkbsVCa2oH7T7lfF9Q=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(23010399003)(7416014)(376014)(366016)(5023799004)(56012099006)(6133799003)(22082099003)(18002099003)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VVNWbS9PQ2tTVDVLMDBZQXphUEVZRk94anlDMjhjVm4yblJGbnNFK0F0blQy?=
- =?utf-8?B?a0tXQ1VlSzhWTm5DS2tQM3BOWGlPNDVpVTBZVHZXWi9vL1MvMThWWnB1V2dx?=
- =?utf-8?B?NmE3TW84RG93VXpYd1pmQUxtQkE3L09DUXUyT1UwSlk2R3BweVdiQitSTDlS?=
- =?utf-8?B?Q29CQXFURGdKamYya1JpZXRydVZaeUUvV1ZRbjliNlB4d2R1aS9XeDNlUW03?=
- =?utf-8?B?NjBhMjVFcHJEeVZnMU95U0wxQnBZUG9RTks4eHpHYlltdHZzU2dWTlBoNmlX?=
- =?utf-8?B?MlU4WE9abnJLQmlUclJsZ3lvVjFxTHFyU3puTVNYVFFTQThscis5MmZoek9l?=
- =?utf-8?B?blFxVmF1bUd4UGRlUXhrcHJ1cnlUVnRNTmg3QitsQkgzVWRRdHlWT3VlWkdm?=
- =?utf-8?B?QlFDaHFMUmcvR3Y3QVBPVjlhYnQ2Ui9xMWlzaE1pUXdHVmpsTW9BMVdJMDd1?=
- =?utf-8?B?RmJGNnE4b2VYT2EwZzIvc1VSb29QSnc2elE4a3hLaFFKNnRjVWhDUSswdU5V?=
- =?utf-8?B?UVZkd2QwWHB6dS9YempibXdoQ00wNkpUQVZwZmFXa2dYTVJDQzdKdENKNHFj?=
- =?utf-8?B?azlhTHh3dlNjS1lxTkR2b3RMUjczTGE4ZVRCY2lxVFhiNEdaa29tZmc5TkJx?=
- =?utf-8?B?MGZnNTJUWjJFcjRPVTNHNklUUWJ4NSt1WmhsTGRCelREQmJrZmdPUS9URDEr?=
- =?utf-8?B?QVAzS1JVZkNYQXBlMTJjUytXZGh0Q1V2QnlqZUgyRkgyVFFsb3dEdXNyNStl?=
- =?utf-8?B?YU1zRDFaY1JBeUJwNy95L0gyajFWa2tPQ0NzRnRvTUpId1FZMHl4dXdEbXRn?=
- =?utf-8?B?ajBPRURkbGk1ajVDNzRteityV1JYalNjam9mUlc1WnZWdWFoU1EreFdIY3dL?=
- =?utf-8?B?WHdqNmNsUi9WYVVNYXVqR1VuTmRURXFWRGpYdExYL2hqZ0hrOUFJOS91cHZH?=
- =?utf-8?B?aU05Q0FSSnRUT3VZUjRMMnBIL0NCVGRTaFQzaHNGRHF4dnF4QzhYclJJNEZi?=
- =?utf-8?B?VHFWZExWZkZpZEZWODNDcC9WUjk4b3dFYmNNUEwvcjRzTGdJWFJoOWFva2w3?=
- =?utf-8?B?Q1czZkJMR04rSlRHbDI5TU51Q1ZOVCtKb3lKWXNWOGxIL2RCY3hWbGZGUU9s?=
- =?utf-8?B?MGkrUnA4dDN2R1U4MVAxVzVEaXQzMGhyUEEyVUNYTlorYjd0UjZMcSs0MHFp?=
- =?utf-8?B?U21NR2tpbW52TWcvbEo2MHF2Z2xRbTFIS2JBWTZFOWxaUzZwVmxkWXhkdDc5?=
- =?utf-8?B?cXZETDhING1ZY0NNTk1rVU5jdnR3dmFqSDJ3eUViS1d1SmZlQlREWnVRQkdC?=
- =?utf-8?B?SEpDc3NZRkl1OHRWeno0eUN2WlBhWFNRazhjb3JKYnBXUmlodTEvMWFZVGxW?=
- =?utf-8?B?QkpvT1kxbkNjY2FkTG1KSnowVEUwTE44ekpLdlNZWUd0RkRmOHZhZ1ZJbGFR?=
- =?utf-8?B?K09JYmFKU3FVVG5JdnhUaUdKZURuZjI2c0dYUS9xNnhZbzlsSXJXWWMrMjJ2?=
- =?utf-8?B?QUVRblJFTTJLWm9JUmVaSUlXYTUwVG56bFF6QVhqN0lCSHM5UFJ4Zkwxdm5I?=
- =?utf-8?B?VElDS1NZZUgzMzBLcDZ0VDZyc3Q1YzR0WXV1N2tlVXN3REtqTGpxbUhhbWtM?=
- =?utf-8?B?Q3g1Z0dtMlMrQktLVStCb29hMDlWUnhLOXRhTnU5SXJ6T3ZZZWtjeGgrVzVI?=
- =?utf-8?B?SW9yTDd4WUpkSzh1YzNvaFJxTHRmL3BxTno2WG1wU3VBRkpJOGdNV0lrQXB4?=
- =?utf-8?B?ajhpRWFxM2MxSGpXOTN0Nld4aWpoYjZ1ME9FaitIbS8zeE5BR2dvQ3VKQ3hw?=
- =?utf-8?B?dGJhemk1Z0R5Z3pCVk1NMjVIVFpJdCtQMktlZ2lITnlGZURhMWc1eDEyckZN?=
- =?utf-8?B?R1A1U2JTUU1OK0pRa2hQeFNzdTJSekZIc3p4YzRkUks0YXdyQktUelJjTSs3?=
- =?utf-8?B?eFpRaE9YZWlma3Rac2x5L25Ldm1tN2oycVIwbTFkL2gyUzdjWUtoOGdrc2Nm?=
- =?utf-8?B?aStMaE1zK3VLYnUzUU43cFhsd1ZyN1hydXRjazdjY3hMeW5GOW9Db3cvNjlD?=
- =?utf-8?B?TDZWQVlRanZKd1N6a3I4WTRjYlc0cVgwQkZpOW5NSXh5STV2M0Y3c2puV0Mv?=
- =?utf-8?B?ajI5cXZEZ2lSREY3QVBZcW9zUGRnS25NeWNUL0ttZW9SRGZtKzBodS9WN2Zm?=
- =?utf-8?B?TTJQeFlEblJ2TWxJRGZPTFhlREdMS21EV090ejZkdDdlaU9nM2dMaGZSOFdY?=
- =?utf-8?B?Vk9sZFJ1SzE0UHZGN2haZnEwTzdjbVk2SDloS2RDMW81UTVvbVArdmJFMWlH?=
- =?utf-8?B?QXBCeFZWOXArbTB2VytVL2cwN0wrcEFjaDJqTnpDbzFaUnhCeEwyUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1764aef4-e3ca-43ee-5c86-08dee34e3af1
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 15:23:47.0178
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 345MzfAWA8p8zb/1ZFejTJFcYJiUP4HsDAYwK3bX3MopVX3NQuFyGBlZf6BdR7sFub/du2/gw1nEgU0mrLqZyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB8325
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1784133987.git.u.kleine-koenig@baylibre.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu Jul 16, 2026 at 3:24 PM BST, Link Mauve wrote:
-> This callback used to take a mutable void * for no reason, which causes
-> the compiler to be unaware that the val buffer should never be modified
-> by the callback.
->
-> This was found while drafting the nvmem-provider Rust abstraction.
->
-> Thanks to the guidance of Andy Shevchenko, this now introduces a new
-> callback and deprecates the existing one, with the goal of renaming the
-> new one into the old one once no user remains in the kernel.
+On Wed, Jul 15, 2026 at 06:55:05PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> Hello,
+> 
+> as with v1 the original motivation for this series are the patches that
+> convert the arrays to use named initializers, see
+> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+> for the idea behind it. Then by not closing the eyes for small issues
+> spotted while working on that, this series grew a bit.
+> 
+> Changes since v1 (available at
+> https://lore.kernel.org/linux-kernel/cover.1784013063.git.u.kleine-koenig@baylibre.com):
 
-I wouldn't call the series "const-unsoundness fix". There's nothing wrong (=
-in
-the sense of UB) in using "void *" for constant data as long as it is not
-actually mutated. Yes, it's better to use "const void *", but just call it
-"migrate to const void * in reg_write" or something similar.
+Sorry, but at first glance it seems this version is messed up.
+I'm not going to look into it deeply, waiting for *carefully*
+checked v3...
 
-Best,
-Gary
-
->
-> Changes since v2:
-> - Link to v2:
->   https://lore.kernel.org/rust-for-linux/aljAqBNVXV1aVJqx@luna/T/
-> - Rebase on top of linux-next/master.
-> - Fix logic error which made all devices read-only.
-> - Remove a blanket cast of function pointers to void * in
->   apple-spmi-nvmem (patch 3).
-> - Also fix constness of write buffer in firmware: meson, which is used
->   exclusively by meson-efuse (patch 4).
-> - Re-review all changes to make sure the passed types are more correct
->   than they were before.
-> - Actually test with COMPILE_TEST, which I forgot to enable before=E2=80=
-=A6
->
-> Changes since v1:
-> - Link to v1:
->   https://lore.kernel.org/rust-for-linux/20260715175229.24672-1-linkmauve=
-@linkmauve.fr/
-> - Removed all changes to other subsystems than nvmem.
-> - Added a new reg_write_const callback instead of changing the exisitng
->   reg_write.
-> - Deprecated the existing reg_write callback, it will get removed once
->   all users in the kernel will be done migrating to the new one.
->
-> Link Mauve (4):
->   nvmem: core: deprecate reg_write callback and add reg_write_const
->   nvmem: make all reg_write callbacks take const void *
->   nvmem: apple-spmi: improve calling safety with wrapper functions
->   firmware: meson: pass a const buffer to meson_sm_call_write()
->
->  drivers/firmware/meson/meson_sm.c       |  2 +-
->  drivers/nvmem/apple-spmi-nvmem.c        | 18 ++++++++++++++--
->  drivers/nvmem/bcm-ocotp.c               |  8 +++----
->  drivers/nvmem/core.c                    | 28 ++++++++++++++-----------
->  drivers/nvmem/imx-ocotp-scu.c           |  6 +++---
->  drivers/nvmem/imx-ocotp.c               |  6 +++---
->  drivers/nvmem/internals.h               |  1 +
->  drivers/nvmem/lan9662-otpc.c            |  6 +++---
->  drivers/nvmem/lpc18xx_eeprom.c          |  6 +++---
->  drivers/nvmem/max77759-nvmem.c          |  4 ++--
->  drivers/nvmem/meson-efuse.c             |  8 +++----
->  drivers/nvmem/qcom-spmi-sdam.c          |  6 +++---
->  drivers/nvmem/qfprom.c                  |  6 +++---
->  drivers/nvmem/rave-sp-eeprom.c          |  6 +++---
->  drivers/nvmem/snvs_lpgpr.c              |  4 ++--
->  drivers/nvmem/sprd-efuse.c              |  6 +++---
->  drivers/nvmem/stm32-bsec-optee-ta.c     |  2 +-
->  drivers/nvmem/stm32-bsec-optee-ta.h     |  4 ++--
->  drivers/nvmem/stm32-romem.c             | 10 ++++-----
->  drivers/nvmem/zynqmp_nvmem.c            |  6 +++---
->  include/linux/firmware/meson/meson_sm.h |  2 +-
->  include/linux/nvmem-provider.h          |  6 +++++-
->  22 files changed, 87 insertions(+), 64 deletions(-)
->
->
-> base-commit: b8809969e1d7a591e0f49dd464a5d04b3cf02ab1
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
