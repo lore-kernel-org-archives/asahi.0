@@ -1,74 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A663BCD1A;
-	Thu, 16 Jul 2026 21:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0413A9615
+	for <asahi@lists.linux.dev>; Fri, 17 Jul 2026 09:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784235785; cv=none; b=frMoPMiZ85fuMeQ49ZY4h+2VkhpPE3LeoeFgWxWN+VL7XTBj+zvKIgrGXczl144C3/5uDCaAgUYxiWSpSt67Uqk6BIz/v2bYCARG77g6uXSDFJiyHAzf13+uwCCGSQH8Fh8qaANhLrmitIvGgIX6zLINuuCcQKhGO93N9ERlGM0=
+	t=1784279825; cv=none; b=jnqa6Qcpt+76rWm9h3kiJ0wm76SaloU5cPkeOmHogpRa8sCSdYjL28On1y2iNKHd8NXvTdVVPnPcVE/YXhrTw8lGgtWJnxwU5sVUPSLsfLhdA6WNyp65ONxCX5HqpEysURBv6dUNa0iqvTyUEdS1yG78NxQZ6cFd/A3AHl5P1cU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784235785; c=relaxed/simple;
-	bh=gURF/f26LtgYi+6R0afhLgaUW3MQbcR7pLq89FPcdsE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Dtu4dbT3Ba+qN46/v7bsDAkhC6qMNHLSew1gdNAxFa7YZEwUV9MAvBNQQmhroxC/SYbPITVe12UbW+yAu+E3Fejpc+iWc27hCPtnpuEv2rWa6BXb4U4p/jHNGkrGoCXyxv0CWjL4pgu52ojS2YRNtp5oxszfpfXG8jOz/f6Qia0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=noHJF1qe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784279825; c=relaxed/simple;
+	bh=8NOZBHoiBki1nYBte5Bsg6biVgb+C3gvMFTiUF58j0g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NYbDfMNY99woAxDHNiMe89bU2EMcg49/oyrS8Jw4VBUUDb2Gt0tCTXK9we6s56pB3itxaFPyPkQDzcgRu9cxHqTuZA+be76RntPVQ1KrIyv8rslSiMndYfidsVKnt3UmzmkAWyGgzZcmbSh31s6nZOybiqvv4JVRIb4o9gdZFjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=p0YeJ7J5; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="noHJF1qe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85DA31F000E9;
-	Thu, 16 Jul 2026 21:03:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784235784;
-	bh=pKdQgrIHceIREIVVGmwICTro/Yl0whar3mIxzUvC2EQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=noHJF1qed21YcW2RCttyeswAkDNRSam4Smt5cM2wpzo8VYpTv22oZ2+GNHdD+pgnG
-	 xzLmUe00opKKpwEkmGTsdxs84jodvuYUGg+jZRCkh+Ug8IzuzvaUohAWdy/8fEWxsv
-	 nCXZUalcG8qYFaAXX4iqgdgTQJ331ETw9spLLm1mFS1k7LkSdWeysmOJxUIFxsIlAL
-	 pwib5jEAHKkjknhbD9bzIz9ihiqVYXfSQ3E7/oxlDeXEvixtCzj4Ph2Mzrkra3uEB7
-	 OS4soAVuw38ALp+fVN2oNTWeSQUxP3dSHw/6bvzAnuXpZS+eGjx96vbmEf37SSpp8H
-	 /bHIP2DflS8Wg==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Sasha Finkelstein <k@chaosmail.tech>, Hector Martin <marcan@marcan.st>, 
- Aelin Reidel <aelin@mainlining.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Clayton Craft <craftyguy@postmarketos.org>, 
- stable@vger.kernel.org
-In-Reply-To: <20260611-apple-spmi-nvmem-cfi-v1-1-9dd90938ef4a@mainlining.org>
-References: <20260611-apple-spmi-nvmem-cfi-v1-1-9dd90938ef4a@mainlining.org>
-Subject: Re: [PATCH RESEND] nvmem: apple-spmi-nvmem: wrap regmap calls to
- satisfy CFI
-Message-Id: <178423578232.378288.5894319743008111004.b4-ty@kernel.org>
-Date: Thu, 16 Jul 2026 22:03:02 +0100
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="p0YeJ7J5"
+Message-ID: <5439c27a-84c9-455d-9c2d-be84a37469fe@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1784279814;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tHnjMIAGRm2ejsywkpInpP3dH/N1dPQydtPOOeL+IoE=;
+	b=p0YeJ7J5SHfYAAl34NLbf0yPli175elPbpLSRPmFGKTsrMkQgqwBQvdM1sVdP1rjJIYQQS
+	iEld3eWbyM4t71a0BQ7o2xqdyxD2oMSj1nqb7Q+AjfIcdtqxtIaEQr/0yoA3mWbYj88keW
+	Z4cbd3/7xkEdcCsUnyiUu1Zsug2+9c0=
+Date: Fri, 17 Jul 2026 11:16:48 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Subject: Re: [PATCH 08/10] dt-bindings: pwm: apple,s5l-fpwm: Add t8132
+ compatible
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Lorenzo Pieralisi
+ <lpieralisi@kernel.org>, Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+ Thomas Gleixner <tglx@kernel.org>, Wim Van Sebroeck
+ <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
+ Hector Martin <marcan@marcan.st>, Linus Walleij <linusw@kernel.org>,
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Sasha Finkelstein <k@chaosmail.tech>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+References: <20260705-apple-m4-initial-devicetrees-v1-0-e5655ee56523@cyberchaos.dev>
+ <20260705-apple-m4-initial-devicetrees-v1-8-e5655ee56523@cyberchaos.dev>
+ <alj0EbuIzZUa48di@monoceros>
+Content-Language: en-US
+From: Yureka Lilian <yureka@cyberchaos.dev>
+In-Reply-To: <alj0EbuIzZUa48di@monoceros>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 7/16/26 17:11, Uwe Kleine-König wrote:
+> Hello,
+>
+> On Sun, Jul 05, 2026 at 03:17:27PM +0200, Yureka Lilian wrote:
+>> The PWM controller on the Apple silicon t8132 (M4) SoC is compatible
+>> with the existing driver. Add "apple,t8132-fpwm" as SoC specific
+>> compatible under "apple,s5l-fpwm" used by the driver.
+>>
+>> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+>> ---
+>>   Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+>> index 25ef04b60ca1..c85a2b85a66a 100644
+>> --- a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+>> +++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+>> @@ -19,6 +19,7 @@ properties:
+>>             - apple,t8103-fpwm
+>>             - apple,t8112-fpwm
+>>             - apple,t8122-fpwm
+>> +          - apple,t8132-fpwm
+>>             - apple,t6000-fpwm
+>>             - apple,t6020-fpwm
+>>         - const: apple,s5l-fpwm
+> There is no merge plan specified in the cover letter, but I assume this
+> should go via arm-soc?
+
+Yes, this will go through the appropriate -soc trees since there is no 
+driver change.
+Sorry for not mentioning it in the original cover letter, I wasn't aware 
+of the procedures at the time.
+
+>   In that case:
+>
+> Acked-by: Uwe Kleine-König <ukleinek@kernel.org>
+>
+> Best regards
+> Uwe
 
 
-On Thu, 11 Jun 2026 05:46:48 +0200, Aelin Reidel wrote:
-> The Apple SPMI NVMEM driver previously cast regmap_bulk_read/write to
-> void * when assigning them to nvmem_config's reg_read/reg_write
-> function pointers.
-> 
-> This cast breaks the expected function signature of nvmem_reg_read_t
-> and nvmem_reg_write_t. With CFI enabled, indirect calls through
-> these pointers fail:
-> 
-> [...]
+Thanks,
 
-Applied, thanks!
-
-[1/1] nvmem: apple-spmi-nvmem: wrap regmap calls to satisfy CFI
-      commit: 7089170e1df160f5f8fb395bc5aa2e2697b4e896
-
-Best regards,
--- 
-Srinivas Kandagatla <srini@kernel.org>
+— Yureka
 
