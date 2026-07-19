@@ -1,139 +1,522 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A81733F390
-	for <asahi@lists.linux.dev>; Sat, 18 Jul 2026 17:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F3034FF41
+	for <asahi@lists.linux.dev>; Sun, 19 Jul 2026 09:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784395526; cv=none; b=iBy5mnGSanmqsxIPZHbDIL6F0QQ18SY2MEWBKR7HOijQydohLmZmLOJ6bEnTpFuQP4MjHQJDjOUL7dVMYay+vhbwE9C0GjZHwKmDdtR+0FGJuvhlW8/tCT/CjYupEzuGjb4i5zqFIFqmZbwBRxZbZ9l7ofUtwxvyUTSPlGmVclQ=
+	t=1784454029; cv=none; b=re/VMSDuIieg0QTxZcIuDtxXAHGbPuh58/IpakbC5fQBTCEfCDnLmUfNAlMnksE4/jT+Lz1i0/JYOLG9zyUPSyUC+iClvK1/mnYiEHtxHAGAhgOFJs05FAb58SgD7UyYSHGY7SsEt3fjkn6UVUxaw/dg1W2UKb38xHON4opcU5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784395526; c=relaxed/simple;
-	bh=szLs5CcDZwYWzOei8Q+NZivNVZp3qcW3phKkPE5EB1U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KvcHRzQ8SxZdrGCYyuOIR9mIWqPiEKyu4rI76MKxvMzsJo7HB08j1N94Avp1y4V1boj9yXHNWO8CZuZHrCSFnWQOdB3u9nyGyA1+r25eKlVTFecJWPZwIdH2AtDH0L8Ml3GNq8YcbVhTfA/NyRV3Tp+1IjKUCIScMcrXrUtQ34A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=h6sucMOY; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1784454029; c=relaxed/simple;
+	bh=togJWXnKUJdE93x/BQ/TnyqkYFwv5hyTiQStzYDzDtE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fd+WrwgTMGdOVSTbGCNJ/uxEXRfu3zfHRDVFosPbLsxDonHR1MPZCnhtcfk11x/6XCEhjPTniLDQn/iePs1EoeCoXfgjVJk4Pe3EvUe3r5dQyTmBlPIMMo642aBSQMGUwlX7j3zqCL0RwY5FApHK3WlJ8t/gztp8Rgw30laKIs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=aw4wzNa/; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="h6sucMOY"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493c733f15aso76604365e9.0
-        for <asahi@lists.linux.dev>; Sat, 18 Jul 2026 10:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1784395521; x=1785000321; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oiJo0XVJPw2rjt+rcIvwSaUqFzjRlb/yk8buMFhbHKw=;
-        b=h6sucMOY4uXzRuh89De6JsEFAMrPjvlM4DlpIwzAPL2Xm9L13yjcxV+epOBUfydCHq
-         M84VWPG8d+fPdHeqlQ4aYc817NHtKnPrq6ps4g+uVxSFjY6AdsJHuwril8irtruuEnYc
-         mQMCbYEG545eM1WT2QBuirDEQmpCS1P9xHrJFZ/JAfwHD7yQhG6XiGPgRa1dv7DuXrfa
-         3IpUh5VBNdkmv4SfoUKk3c9sW22HfzgSq8yXUQ6VkOQWdVeWTDT37OCdlJnOAueQ9jzN
-         c4y1G4tfX5F6o9kiwceOzE0YFMIxzkLXtH846PrSfPW/EBDycBFtBBJv8Bgzl/7dJKCC
-         vOyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784395521; x=1785000321;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oiJo0XVJPw2rjt+rcIvwSaUqFzjRlb/yk8buMFhbHKw=;
-        b=F5e9Kw5PGSyccZGus5DTXfw9F4QGwid1t8nsJgj9X3orR3uXlD4H7V5usO5R6Djo+Q
-         mectFK5BAvb8aoRXLKthTBToCHJZLYSW4p6PZ3+G517aYWTiS1ypzVJZVZKvqk1xHkZz
-         FhUrwcoNKnuTgytYC1THr41c94LtXdAmv7ELdugwRhUFZeV5Nl9A74v3EtX5uD8SZdyj
-         mbVdZFEWxvop1CPJFSZ/BQb7YI7uG7R31fsv5eBWI01Q6u8NAJ8XlRk/4EvXzwlaqWv1
-         g6ywEoPxbE7IirbS2TeVc0HWSZTzqfm8feqPTPZ/kbI/huf4KsGdBmVjKevwslBGNwgr
-         1DIw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqly6xJxQ4LXlKAlHxXUdPtY6UtaFCOnl42SaUHX/nd7GOsb7+NJOBlfNFqBEr3UGqF+Rbkug==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+QEv/ASKvZ6hL1vGwx1qWUJtYQcJiL/RKCtaYzhmsr7Z8HMq1
-	4aL5Yi7mXLgnOvB/0JAs1511GjjCc8ykpY/8U2mdrjswo/p5t3kpliUcvWvNaugvZJA=
-X-Gm-Gg: AfdE7cm6+fD1h6ZmBxH97T+hZ7UIxRUQgxixp9peT8ShII+OUY0GMtyvLRGwM2o95nA
-	/qUZSHy0S+BnVrzY3zfNmSVsinfj7n3rdl7xoSUOBrl90m8WLU7WymdV3JM0Ha9R119bbpwmwol
-	r7CxSwOeI3Sm1CueONm1OT+PjFfaFHN0BKg0y3KYnSqryFa5ZcPvQJ+oFzXBiLTmJspOYkn6v2w
-	T17uhV+3sv2nZuz/pa2m+6/L1IJRdjfX/P3Xs+mnNxAWEN6znyvgYMNhXIBIFpS5D/voe0UTm6t
-	RPht0NdnFodrGhiNsIS1LGpth5vt6nU7Oww/79h2EMCNF/GOXszbSKLbyjzIAsfw0rjAkEYd6xQ
-	J0zIL3H6e00sSUEDVX2iopv1fe53E5jWiWTv6CZrEA1kdMKXPavKsgwOsa1jysWT6i4zdnCBmdV
-	ZeFe4jyxw=
-X-Received: by 2002:a05:600c:1551:b0:495:5858:e163 with SMTP id 5b1f17b1804b1-4955858e1damr1152765e9.27.1784395521571;
-        Sat, 18 Jul 2026 10:25:21 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-495499a5847sm102758895e9.2.2026.07.18.10.25.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 10:25:21 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Neal Gompa <neal@gompa.dev>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] Bluetooth: hci_bcm4377: Use named initializers for pci_device_id array
-Date: Sat, 18 Jul 2026 19:25:12 +0200
-Message-ID: <20260718172513.986134-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="aw4wzNa/"
+Message-ID: <a5f180dd-de55-41b7-8c71-5fe8c4dce226@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1784454018;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wSEu9/tPhby54KUOcjTniSUiXkLMLT3qB89UaElhX30=;
+	b=aw4wzNa/heknOmC6KDFIo9p2zgv8n9GJgFTeppaY8JDzO/ittDOXtwp29B4VgAFYgCpcxJ
+	b+drSA+kQny9ufWUzUCIY8bh2UvF0hve/hc8gxri9SH1N9hl8NM3M+BmxH1Og+yMgdsH8o
+	HF3Nsru3133obC+c7AY6plERDsoHT8Y=
+Date: Sun, 19 Jul 2026 11:40:15 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2277; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=szLs5CcDZwYWzOei8Q+NZivNVZp3qcW3phKkPE5EB1U=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqW7b5l0Xf7DwIpP+bsrs2vbQ/0/z6agzIC30mc po64ff2EqSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCalu2+QAKCRCPgPtYfRL+ To50CACKAOW2gW2kAvbfG1qPbjTY5veMSIusBRt/vgLy1JwBLwrE3YL1Vr8xDm480Vo5R8Y564E 6h5yd/+HFf7L6zW2S9ed9J5TMpsfK959oUZj3p9v754oxy2N0Y9UDo2g5BRzuaGOjlVk0LHxpHW 7Q55+MdVLRvZTVkoqBfhWjatzbaDmqkUoNJI24uqTwCmPoUEDtQiUUQkGuVbOX/josyADAf+4Te nAaMpGU/X7oEjt+akpqneCOqxkgnwh0RN3VAz6KZG6x1WC4K9wx3h7vxwOnmfbTfVCFJlSj1tKw CWi6ngKPT6xfbRklyiBSkGWz8eKGq+moaY9vUUeaaZTTE5y0
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Subject: Re: [PATCH v2 09/10] arm64: dts: apple: Initial T603[124] (M3 Max and
+ Ultra) device trees
+To: Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>,
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Andi Shyti <andi.shyti@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Sasha Finkelstein <k@chaosmail.tech>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+References: <20260715-apple-t603x-initial-devices-v2-0-df65b2485710@jannau.net>
+ <20260715-apple-t603x-initial-devices-v2-9-df65b2485710@jannau.net>
+Content-Language: en-US
+From: Yureka Lilian <yureka@cyberchaos.dev>
+In-Reply-To: <20260715-apple-t603x-initial-devices-v2-9-df65b2485710@jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Initializing a struct using list initializers is hard to read, compared
-to that using named initializers is more ideomatic. Convert the macro
-used to assign values in the driver's pci_device_id array accordingly.
+On 7/15/26 11:11, Janne Grunau wrote:
+> Contains minimal device trees for all M3 Max and Ultra Apple silicon
+> devices. Those are 14-inch and 16-inch MacBook Pros with M3 Max released
+> in November 2023 and Mac Studio with M3 Ultra released in 2025.
+> This does not include M3 Pro since it is separate SoC and not a smaller
+> variant of the M3 Max contrary to the M1 and M2 generations.
+> The smaller M3 Max variant (10 performance cores) has its own chip
+> variant (T6034) but is clearly the same design as T6031. Besides fewer
+> CPU performance cores and GPU cores it misses also on fourth of the
+> memory controllers and thus has an aggregated bus width of 384 bit
+> instead of 512 bit.
+> Both M3 Ultra variants (28 or 32 CPU cores) are based on T6031 judging
+> by the advertised memory bandwidth of 819GB/s.
+> This uses the same multi-die macros as t600x*.dtsi and t602x.dtsi to
+> support M3 Max and M3 Ultra without duplicating device nodes. Since the
+> M3 Pro can't use the same .dtsi files "t6031*.dtsi" are used to define
+> common nodes for T6031, T6032 and T6034.
+> The device trees have devices nodes for CPU cores, timer, interrupt
+> controller, power states, watchdog, serial, pin controller, i2c,
+> PWM based keyboard LED illumination and the boot framebuffer.
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>   arch/arm64/boot/dts/apple/Makefile             |    5 +
+>   arch/arm64/boot/dts/apple/t6031-base.dtsi      |  297 +++
+>   arch/arm64/boot/dts/apple/t6031-die0.dtsi      |  197 ++
+>   arch/arm64/boot/dts/apple/t6031-dieX.dtsi      |  107 ++
+>   arch/arm64/boot/dts/apple/t6031-gpio-pins.dtsi |   53 +
+>   arch/arm64/boot/dts/apple/t6031-j514c.dts      |   18 +
+>   arch/arm64/boot/dts/apple/t6031-j516c.dts      |   18 +
+>   arch/arm64/boot/dts/apple/t6031-pmgr.dtsi      | 2400 ++++++++++++++++++++++++
+>   arch/arm64/boot/dts/apple/t6031.dtsi           |   48 +
+>   arch/arm64/boot/dts/apple/t6032-j575d.dts      |   46 +
+>   arch/arm64/boot/dts/apple/t6032.dtsi           |  416 ++++
+>   arch/arm64/boot/dts/apple/t6034-j514m.dts      |   18 +
+>   arch/arm64/boot/dts/apple/t6034-j516m.dts      |   18 +
+>   arch/arm64/boot/dts/apple/t6034.dtsi           |   12 +
+>   arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi |   66 +
+>   15 files changed, 3719 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
+> index 6fc3349a5842..a22b4a8068b6 100644
+> --- a/arch/arm64/boot/dts/apple/Makefile
+> +++ b/arch/arm64/boot/dts/apple/Makefile
+> @@ -87,6 +87,11 @@ dtb-$(CONFIG_ARCH_APPLE) += t6021-j416c.dtb
+>   dtb-$(CONFIG_ARCH_APPLE) += t6020-j474s.dtb
+>   dtb-$(CONFIG_ARCH_APPLE) += t6021-j475c.dtb
+>   dtb-$(CONFIG_ARCH_APPLE) += t6022-j475d.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t6031-j514c.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t6031-j516c.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t6032-j575d.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t6034-j514m.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t6034-j516m.dtb
+>   dtb-$(CONFIG_ARCH_APPLE) += t8112-j413.dtb
+>   dtb-$(CONFIG_ARCH_APPLE) += t8112-j415.dtb
+>   dtb-$(CONFIG_ARCH_APPLE) += t8112-j473.dtb
+> diff --git a/arch/arm64/boot/dts/apple/t6031-base.dtsi b/arch/arm64/boot/dts/apple/t6031-base.dtsi
+> new file mode 100644
+> index 000000000000..0bb7373b3f06
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/apple/t6031-base.dtsi
+> @@ -0,0 +1,297 @@
+> +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> +/*
+> + * Nodes common for T6031, T6032 and T6034 family SoCs (M3 Max/Ultra)
+> + *
+> + * Other names: H15J, H15S, "Palma"
+> + *
+> + * Copyright The Asahi Linux Contributors
+> + */
+> +
+> +/ {
+> +	#address-cells = <2>;
+> +	#size-cells = <2>;
+> +
+> +	cpus {
+> +		#address-cells = <2>;
+> +		#size-cells = <0>;
+> +
+> +		cpu-map {
+> +			cluster0 {
+> +				core0 {
+> +					cpu = <&cpu_e00>;
+> +				};
+> +				core1 {
+> +					cpu = <&cpu_e01>;
+> +				};
+> +				core2 {
+> +					cpu = <&cpu_e02>;
+> +				};
+> +				core3 {
+> +					cpu = <&cpu_e03>;
+> +				};
+> +			};
+> +
+> +			cluster1 {
+> +				core0 {
+> +					cpu = <&cpu_p00>;
+> +				};
+> +				core1 {
+> +					cpu = <&cpu_p01>;
+> +				};
+> +				core2 {
+> +					cpu = <&cpu_p02>;
+> +				};
+> +				core3 {
+> +					cpu = <&cpu_p03>;
+> +				};
+> +				core4 {
+> +					cpu = <&cpu_p04>;
+> +				};
+> +				core5 {
+> +					cpu = <&cpu_p05>;
+> +				};
+> +			};
+> +
+> +			cluster2 {
+> +				core0 {
+> +					cpu = <&cpu_p10>;
+> +				};
+> +				core1 {
+> +					cpu = <&cpu_p11>;
+> +				};
+> +				core2 {
+> +					cpu = <&cpu_p12>;
+> +				};
+> +				core3 {
+> +					cpu = <&cpu_p13>;
+> +				};
+> +				core4 {
+> +					cpu = <&cpu_p14>;
+> +				};
+> +				core5 {
+> +					cpu = <&cpu_p15>;
+> +				};
+> +			};
+> +		};
+> +
+> +		cpu_e00: cpu@0 {
+> +			compatible = "apple,sawtooth";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x0>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* to be filled by loader */
+> +			next-level-cache = <&l2_cache_0>;
+> +			i-cache-size = <0x20000>;
+> +			d-cache-size = <0x10000>;
+> +		};
+> +
+> +		cpu_e01: cpu@1 {
+> +			compatible = "apple,sawtooth";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x1>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* to be filled by loader */
+> +			next-level-cache = <&l2_cache_0>;
+> +			i-cache-size = <0x20000>;
+> +			d-cache-size = <0x10000>;
+> +		};
+> +
+> +		cpu_e02: cpu@2 {
+> +			compatible = "apple,sawtooth";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x2>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* to be filled by loader */
+> +			next-level-cache = <&l2_cache_0>;
+> +			i-cache-size = <0x20000>;
+> +			d-cache-size = <0x10000>;
+> +		};
+> +
+> +		cpu_e03: cpu@3 {
+> +			compatible = "apple,sawtooth";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x3>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* to be filled by loader */
+> +			next-level-cache = <&l2_cache_0>;
+> +			i-cache-size = <0x20000>;
+> +			d-cache-size = <0x10000>;
+> +		};
+> +
+> +		cpu_p00: cpu@10100 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10100>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_1>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p01: cpu@10101 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10101>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_1>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p02: cpu@10102 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10102>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_1>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p03: cpu@10103 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10103>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_1>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p04: cpu@10104 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10104>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_1>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p05: cpu@10105 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10105>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_1>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p10: cpu@10200 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10200>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_2>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p11: cpu@10201 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10201>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_2>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p12: cpu@10202 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10202>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_2>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p13: cpu@10203 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10203>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_2>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p14: cpu@10204 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10204>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_2>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		cpu_p15: cpu@10205 {
+> +			compatible = "apple,everest";
+> +			device_type = "cpu";
+> +			reg = <0x0 0x10205>;
+> +			enable-method = "spin-table";
+> +			cpu-release-addr = <0 0>; /* To be filled by loader */
+> +			next-level-cache = <&l2_cache_2>;
+> +			i-cache-size = <0x30000>;
+> +			d-cache-size = <0x20000>;
+> +		};
+> +
+> +		l2_cache_0: l2-cache-0 {
+> +			compatible = "cache";
+> +			cache-level = <2>;
+> +			cache-unified;
+> +			cache-size = <0x400000>;
+> +		};
+> +
+> +		l2_cache_1: l2-cache-1 {
+> +			compatible = "cache";
+> +			cache-level = <2>;
+> +			cache-unified;
+> +			cache-size = <0x1000000>;
+> +		};
+> +
+> +		l2_cache_2: l2-cache-2 {
+> +			compatible = "cache";
+> +			cache-level = <2>;
+> +			cache-unified;
+> +			cache-size = <0x1000000>;
+> +		};
+> +	 };
+Nit: The indentation is weird here. The parenthesis close is not aligned 
+with the "timer" in the next section.
+> +
+> +	timer {
+> +		compatible = "arm,armv8-timer";
+> +		interrupt-parent = <&aic>;
+> +		interrupt-names = "phys", "virt", "hyp-phys", "hyp-virt";
+> +		interrupts = <AIC_FIQ 0 AIC_TMR_GUEST_PHYS IRQ_TYPE_LEVEL_HIGH>,
+> +			     <AIC_FIQ 0 AIC_TMR_GUEST_VIRT IRQ_TYPE_LEVEL_HIGH>,
+> +			     <AIC_FIQ 0 AIC_TMR_HV_PHYS IRQ_TYPE_LEVEL_HIGH>,
+> +			     <AIC_FIQ 0 AIC_TMR_HV_VIRT IRQ_TYPE_LEVEL_HIGH>;
+> +	};
+> +
+> +	clkref: clock-ref {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <24000000>;
+> +		clock-output-names = "clkref";
+> +	};
+> +
+> +	reserved-memory {
+> +		#address-cells = <2>;
+> +		#size-cells = <2>;
+> +		ranges;
+> +	};
+> +};
+>
+[...]
+> diff --git a/arch/arm64/boot/dts/apple/t6034.dtsi b/arch/arm64/boot/dts/apple/t6034.dtsi
+> new file mode 100644
+> index 000000000000..aa73af9c512d
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/apple/t6034.dtsi
+> @@ -0,0 +1,12 @@
+> +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> +/*
+> + * Apple T6034 "M3 Max" SoC
+> + *
+> + * Copyright The Asahi Linux Contributors
+> + */
+> +
+> +#include "t6031.dtsi"
+> +
+> +/ {
+> +	compatible = "apple,t6034", "apple,arm-platform";
+> +};
 
-This change doesn't introduce any changes to the compiled array on an
-x86 and an arm64 build.
+You mentioned the reduced number of memory channels on the 14-core 
+variant, but the corresponding pmgr nodes are not disabled here.
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
-Hello,
 
-it seems in the bluetooth patchwork patches are archived automatically
-after a month. And that even if there is recent activity. I consider
-that very annoying for contributors.
+> diff --git a/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi b/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
+> new file mode 100644
+> index 000000000000..517b84c183ca
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
+> @@ -0,0 +1,66 @@
+> +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> +/*
+> + * MacBook Pro (14/16-inch, 2023)
+> + *
+> + * This file contains the parts common to J514 and J516 devices with t6030,
+> + * t6031 and t6034.
+> + *
+> + * target-type: J514s / J514m / J514c / J516s / J516m / J516c
+> + *
+> + * Copyright The Asahi Linux Contributors
+> + */
+> +
+> +/*
+> + * These models are essentially identical to the previous generations, other
+> + * than the GPIO indices and using SPMI based USB Type-C port controllers.
+> + */
+> +
+> +#include <dt-bindings/leds/common.h>
+> +
+> +/ {
+> +	chassis-type = "laptop";
+> +
+> +	aliases {
+> +		serial0 = &serial0;
+> +	};
+> +
+> +	chosen {
+> +		#address-cells = <2>;
+> +		#size-cells = <2>;
+> +		ranges;
+> +
+> +		stdout-path = "serial0";
+> +
+> +		framebuffer0: framebuffer@0 {
+> +			compatible = "apple,simple-framebuffer", "simple-framebuffer";
+> +			reg = <0 0 0 0>; /* To be filled by loader */
+> +			/* Format properties will be added by loader */
+> +			status = "disabled";
+> +			power-domains = <&ps_disp_fe>;
+> +		};
+> +	};
+> +
+> +	memory@10000000000 {
+> +		device_type = "memory";
+> +		reg = <0x100 0 0x2 0>; /* To be filled by loader */
+> +	};
+> +
+> +	led-controller {
+> +		compatible = "pwm-leds";
+> +		led-0 {
+> +			pwms = <&fpwm0 0 40000>;
+> +			function = LED_FUNCTION_KBD_BACKLIGHT;
+> +			color = <LED_COLOR_ID_WHITE>;
+> +			max-brightness = <255>;
+> +			default-state = "keep";
+> +		};
+> +	};
+> +};
+> +
+> +&serial0 {
+> +	status = "okay";
+> +};
+> +
+> +&fpwm0 {
+> +	status = "okay";
+> +};
 
-So to get back on the list of considered patches, here comes a resend.
-The original submission can be found at
-https://lore.kernel.org/linux-bluetooth/20260504160940.2168650-2-u.kleine-koenig@baylibre.com
-or 
-https://patchwork.kernel.org/project/bluetooth/patch/20260504160940.2168650-2-u.kleine-koenig@baylibre.com/
-.
 
-Best regards
-Uwe
+Thanks!
 
- drivers/bluetooth/hci_bcm4377.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index 925d0a635945..89c317561bfb 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -2525,11 +2525,12 @@ static const struct bcm4377_hw bcm4377_hw_variants[] = {
- 	},
- };
- 
--#define BCM4377_DEVID_ENTRY(id)                                             \
--	{                                                                   \
--		PCI_VENDOR_ID_BROADCOM, BCM##id##_DEVICE_ID, PCI_ANY_ID,    \
--			PCI_ANY_ID, PCI_CLASS_NETWORK_OTHER << 8, 0xffff00, \
--			BCM##id                                             \
-+#define BCM4377_DEVID_ENTRY(id)                                                 \
-+	{                                                                       \
-+		PCI_DEVICE(PCI_VENDOR_ID_BROADCOM, BCM ## id ## _DEVICE_ID),    \
-+		.class = PCI_CLASS_NETWORK_OTHER << 8,                          \
-+		.class_mask = 0xffff00,                                         \
-+		.driver_data = BCM ## id,                                       \
- 	}
- 
- static const struct pci_device_id bcm4377_devid_table[] = {
-
-base-commit: 0718283ab28bc3907e10b61a6b4be6fefa1cbb2f
--- 
-2.55.0.11.g153666a7d9bb
+— Yureka
 
