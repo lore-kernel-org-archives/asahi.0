@@ -1,110 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DA142AA9;
-	Sun, 19 Jul 2026 14:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988203A4267
+	for <asahi@lists.linux.dev>; Sun, 19 Jul 2026 15:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784470317; cv=none; b=G5VQubsD04Fbux5dMQHvVtxIEzBMDibe0OTAojMuHvoE5MQCyW51yFr/J7XeD529edKafB8kz/BGLi5NIvdE6TnEuh3VNaPDTw0bIGaW1wMPG7y3kSbeS9rv0R9RJg6MtrZaHuJCnBjcJjUwKGfcUIscMUL51Z/4AtlsSmrEtOw=
+	t=1784473451; cv=none; b=pfDwnlsdJC4pPdMK/TlWGh/RuXQBszZA9xI2VNUehEUnf8iadkotUbVuXeuIYiV4dM2WXX6Vn1xokqkWaGHsauKaFn9rZcOjY1ms68C7+UyQb/lX8aNP9bRYP99LQdMg/suFdkme+hFKm6vXFQ3SnEYTS16IGZKCw3o2K0irlQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784470317; c=relaxed/simple;
-	bh=1n4f4ph2m2vryUVwWtQZ+/DH85ZIYg/9jCxo/DMQkO8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g0bSScSH67wLNXsJRbYXj5JJktzHUnDekU8O29MLuRcxJCyfcxLwUMcC7m7Em+GfWof0XK3hFLTaUklWC86dp01/NMBVYtMRZ/JaXyZzelJMFSO1Vs9qdJoURJOHVzqFKtpOMvnOD/OCg5ckPm9S2GDQ7Il/Td5oyrkW8uHMXJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9QwXI7S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784473451; c=relaxed/simple;
+	bh=l5D/QQEeLYIeXaEs+i2n+UTW/nJVFOmjamxH4yZ6ftM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=kM6koklWMwA3xClDLTorz+sG+7LF4xPtIBokDRdMy8gozYziizAM9B6QaNHzf2fooxGWbVoyPzTXtSoLgmLev848rfxd5RTCJGa3uzATcq/8wPj/PCLzIIwuhl6m4xdtE9AKE3aNjqMfvkRBJoQbjbBlyjPDFfucQrO0lARrzzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=h5TdnQqK; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9QwXI7S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A83311F000E9;
-	Sun, 19 Jul 2026 14:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784470315;
-	bh=9rqBzsr+hZ6+IGvDv8xid+NE2IZ7dsQ2695/49Tv2/I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=X9QwXI7SKPPM8MKn1FY16apc0Z2fcabt/B6JxNOn5JJ/Ifh6XWwdcOyyNoI87tj+H
-	 XgCb92agRsDwzXAzYaDOtEdGnv8cOyeQOaNeRX4auFGNKFbTclMiZHKZDbvLsME7vt
-	 N+Vm/7dr+zwt012VORSUFvSAieO4QYroSLWWsMiEypQ5VUEeW4C14KgDr89PphjikF
-	 T8pnMzhUnX7Oro4LsLuXH+8Rsr0XfsvMkcvS4Rn4Z+SRnPrOCIdtJMQj4rDQ5krGMJ
-	 Qq1KIs0LwuvUxp4fpFRMr4M1IKVIvkru0BtocBptFW0dd7BMiIM8rDqwYJS/3G1clH
-	 aw54crTFdSa/w==
-Message-ID: <d9f1c018-793e-4021-9aec-d7139a6468f1@kernel.org>
-Date: Sun, 19 Jul 2026 16:11:52 +0200
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="h5TdnQqK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1784473443;
+ bh=VAtcnOfqiiOyUAHauK6NUyg4WFqcLnTDUNxtGWK9Lr4=;
+ b=h5TdnQqK4bDZFK5NtKHVrIOA25TAVpCHyhqUBb1eZ40tN/1/K4AGdv0B4wcGKugGcDLoL7GGE
+ rbf6urNSBo3SoH6oqikoVk+QXwoWPBLdvopxylYJR+YK4ux96DYCgr1XhRoPmbe1ecDv3U+mUUh
+ 1TDi4QRWEKCPi7qHuBv4P+XJpo34iIZGuuEFwyyUAzyg/cIyBZxoQZ45vpWGCet1VBAQ8AMOb5k
+ HNOlEOuvhYuCRSrQU0fNHJquCYxqPyW/oMa3ca70hrBqMlB2JPHG3cjNLEZQWtRyLB081pDcS4s
+ DHmYdeQyapANLYyAo2nR/tCE76Yulq/Wvc3cGVaqZhEg==
+X-Forward-Email-ID: 6a5ce717e6d4cb6492a15b36
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 2.11.4
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/12] arm64: dts: apple: Add SMC hwmon nodes
-To: James Calligeros <jcalligeros99@gmail.com>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260714-smc-subdev-dt-v2-0-13fa78873121@gmail.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260714-smc-subdev-dt-v2-0-13fa78873121@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Sun, 19 Jul 2026 11:02:45 -0400
+Message-Id: <DK2N0ITFL309.1Y5VHF18YIQ7M@ubuntu.com>
+Cc: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, "kernel test robot" <lkp@intel.com>
+Subject: Re: [PATCH] mfd: macsmc: Fix key count endianness annotation
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Sven Peter" <sven@kernel.org>, "Janne Grunau" <j@jannau.net>, "Neal
+ Gompa" <neal@gompa.dev>, "Lee Jones" <lee@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260719-b4-macsmc-be32-fix-v1-1-c7b1936307fa@kernel.org>
+In-Reply-To: <20260719-b4-macsmc-be32-fix-v1-1-c7b1936307fa@kernel.org>
 
-
-
-On 7/14/26 08:28, James Calligeros wrote:
-> Hi folks,
+On Sun Jul 19, 2026 at 9:00 AM EDT, Sven Peter wrote:
+> SMC firmware returns the value of the #KEY key in big-endian unlike most
+> other keys. Reading it through apple_smc_read_u32() into a plain u32
+> and then converting with be32_to_cpu() makes sparse complain:
 >
-> Following on from the series which added SMC hwmon driver[1], this
-> series spins out and adds the Devicetree nodes required for the hwmon
-> driver to operate. These were missed back in December.
+>   drivers/mfd/macsmc.c:462:26: sparse: cast to restricted __be32
 >
-> The System Management Controller on Apple Silicon devices exposes
-> the temperature, voltage, power and fan speed data from numerous
-> (potentially hundreds) of sensors scattered about the SoC and
-> device at large. Unfortunately there is very little rhyme or reason
-> to how Apple expose these using the SMC firmware's FourCC key-value
-> system. Some sensors are reliably common across all devices and
-> all SoCs, like PSTR which measures the total platform power consumption.
-> Others are specific to a class of device, like the fan control
-> keys, which are only present on devices with fans. Some are specific
-> to a single SoC, and others still are specific to a single device.
-> To complicate matters further, some SoCs are not even consistent
-> across devices; the application core temperature sensors for a
-> given SoC are read from different keys depending on the device
-> that SoC is in...
+> Read the raw value into a __be32 using apple_smc_read() instead.
 >
+> Fixes: e038d985c982 ("mfd: Add Apple Silicon System Management Controller=
+")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202607181046.OANjIoqR-lkp@i=
+ntel.com/
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  drivers/mfd/macsmc.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
+> index 358feec2d088..514cba7dc897 100644
+> --- a/drivers/mfd/macsmc.c
+> +++ b/drivers/mfd/macsmc.c
+> @@ -410,7 +410,7 @@ static int apple_smc_probe(struct platform_device *pd=
+ev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+>  	struct apple_smc *smc;
+> -	u32 count;
+> +	__be32 count;
+>  	int ret;
+> =20
+>  	smc =3D devm_kzalloc(dev, sizeof(*smc), GFP_KERNEL);
+> @@ -461,8 +461,10 @@ static int apple_smc_probe(struct platform_device *p=
+dev)
+>  	dev_set_drvdata(&pdev->dev, smc);
+>  	BLOCKING_INIT_NOTIFIER_HEAD(&smc->event_handlers);
+> =20
+> -	ret =3D apple_smc_read_u32(smc, SMC_KEY(#KEY), &count);
+> -	if (ret)
+> +	ret =3D apple_smc_read(smc, SMC_KEY(#KEY), &count, sizeof(count));
+> +	if (ret >=3D 0 && ret !=3D sizeof(count))
+> +		ret =3D -EINVAL;
+> +	if (ret < 0)
+>  		return dev_err_probe(smc->dev, ret, "Failed to get key count");
+>  	smc->key_count =3D be32_to_cpu(count);
 
-Applied to sven/linux (apple-soc/dt-7.3), thanks!
+This makes sense, it just feels weird reading because u32 is.. not a
+be32 (that gets passed into be32_to_cpu).
 
-[01/12] arm64: dts: apple: t8112: Add SMC hwmon node
-        https://github.com/AsahiLinux/linux/commit/89efdbd8ea62
-[02/12] arm64: dts: apple: t8103: Add SMC hwmon node
-        https://github.com/AsahiLinux/linux/commit/4dea4ee249ec
-[03/12] arm64: dts: apple: t600x: Add SMC hwmon node
-        https://github.com/AsahiLinux/linux/commit/d02aeb6980b6
-[04/12] arm64: dts: apple: t602x: Add SMC hwmon node
-        https://github.com/AsahiLinux/linux/commit/f424abc3075b
-[05/12] arm64: dts: apple: Add common SMC hwmon infrastructure
-        https://github.com/AsahiLinux/linux/commit/56c65dc95f3d
-[06/12] arm64: dts: apple: t8103: Add common SMC hwmon sensors
-        https://github.com/AsahiLinux/linux/commit/d77603e44f55
-[07/12] arm64: dts: apple: t8112: Add common SMC hwmon sensors
-        https://github.com/AsahiLinux/linux/commit/ae42d7fe0793
-[08/12] arm64: dts: apple: t600x: Add common SMC hwmon sensors
-        https://github.com/AsahiLinux/linux/commit/fe521d15d9c5
-[09/12] arm64: dts: apple: t602x: Add common SMC hwmon sensors
-        https://github.com/AsahiLinux/linux/commit/fd42ff865357
-[10/12] arm64: dts: apple: t8103: jxxx: Add device-specific SMC hwmon 
-sensors
-        https://github.com/AsahiLinux/linux/commit/b6935375d536
-[11/12] arm64: dts: apple: t8112: jxxx: Add device-specific SMC hwmon 
-sensors
-        https://github.com/AsahiLinux/linux/commit/da160f258c36
-[12/12] arm64: dts: apple: t60xx: jxxx: Add device-specific SMC hwmon 
-sensors
-        https://github.com/AsahiLinux/linux/commit/e88070b74578
+I guess it doesn't really matter.
 
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
-
-
+-Josh
