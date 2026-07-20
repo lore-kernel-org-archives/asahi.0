@@ -1,47 +1,100 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6528A3CCFDE
-	for <asahi@lists.linux.dev>; Mon, 20 Jul 2026 08:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94383FFF81
+	for <asahi@lists.linux.dev>; Mon, 20 Jul 2026 16:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784535985; cv=none; b=ajEf/6lmjotplV8TaqjSer8fZYfR6YgAkg3tIRNkUvbTBtohSl2SDumE+i8lT4R5/fnDhPsfngNKPyXJh/pRItJG15mvJwGVhYRJSLqV2blJTbfjluYU5lTUJwShaidwp3S/pUqiQnMpu6a6a/SbeWbVKcUlTMDvxi+apjezxIs=
+	t=1784563598; cv=none; b=QOj+gMHXSTW3u43gv7YEHoYaBvzcmFMbM5pUure6B+6xwkltNzS3XL1kirJedlOZtnLAI1B63TothuctmRIgVxBogj8wxZDm5SPKo2G+f6U/hLr7LNUoxz3UYFF4a+8/EPxease2AYSJTmPgjzEJUk1gW6eB+zGL/06oCIgGbrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784535985; c=relaxed/simple;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p4ZNoGcVp2FuJWZJFrZbSAkPVt6+aNiaQVGaUIfxQQRlcNG4dJuayX4JrFmtm+Vu3F5U/JGfVtwzKF978Tww02FrNRlVkJAMTwaHM280E1f/FN46yUzreX6ZICDu5pt2bf6d+xwtD2d1zeAZj8ZKgavQYM6doCuEvDBWKG65SsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B8D4968C7B; Mon, 20 Jul 2026 10:26:16 +0200 (CEST)
-Date: Mon, 20 Jul 2026 10:26:16 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Pan Chuang <panchuang@vivo.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"open list:ARM/APPLE MACHINE SUPPORT" <asahi@lists.linux.dev>,
-	"moderated list:ARM/APPLE MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] nvme-apple: Remove redundant dev_err_probe()
-Message-ID: <20260720082616.GA20679@lst.de>
-References: <20260716033301.212797-1-panchuang@vivo.com>
+	s=arc-20240116; t=1784563598; c=relaxed/simple;
+	bh=Rl4gtFq9U9GnBRV2RK17LMlMovBDRPjRJ9dKTTad/Pc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=DTZZ/cTtKPovuetz86Dpq8yrihg4zt0Ld0SQzY+nVSOaIVY2t+dQwbDtWxTDI4flJvgA3miKsXhRTe2YWtaOP8pi9KWAZkRIstrwU97HBmixXgld6h5qX8gkfUfRdvXkPE7iwHzNwggV0eQJS73MgU4nd8sBPk2fI/rdYF6XQwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=NZg7uAbH; arc=none smtp.client-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="NZg7uAbH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: Cc: To: From: Subject: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1784563595;
+ bh=4V1kLYIy9VLaH4izcRngdk5f4+oVLN80Pe1S3oyCuaM=;
+ b=NZg7uAbHnm7eupu7n5GAhHFJKB3ygOZJsdrBm98QQNwClE/VmM4lf8H0X88dt/JWN+QWnDhKc
+ 5HDR+fiCSW9olhz3dRb8KjhsW2+OWRQ55EYlz+UXT1puuJhtqdLfInGGh4DtCWmo2M2V5894Oyf
+ de/iBzGaXS1INnHA8ErLzb3Dz7gi/lss9EwhONJQLko9bCc8NBTQgyP/xV62no0S82eehUG2rWp
+ XEP9vl337hMHFLJtSjnqYP5vgZDG0QmcB0+MN3ogUOXssHVF3Pu4FAuNJMbT1ew9loe/7303Qwb
+ g72QD7+bTfKVcUWFTLjeP7LN1K3NWReCupzcZo1T1yVQ==
+X-Forward-Email-ID: 6a5e473e79814abe71f8e3c1
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 121.127.44.73
+X-Forward-Email-Version: 2.11.4
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260716033301.212797-1-panchuang@vivo.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Mon, 20 Jul 2026 12:05:17 -0400
+Message-Id: <DK3IYY2FP62G.2ZOAUMLYJP77P@ubuntu.com>
+Subject: Re: [PATCH v2] cpufreq: apple-soc: Calculate frequency as a 64-bit
+ value
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Sasha Finkelstein" <k@chaosmail.tech>, "Sven Peter" <sven@kernel.org>,
+ "Janne Grunau" <j@jannau.net>, "Neal Gompa" <neal@gompa.dev>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, "Viresh Kumar" <viresh.kumar@linaro.org>
+Cc: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260720-cpufreq-64-v2-1-72bd9b4e5ca0@chaosmail.tech>
+In-Reply-To: <20260720-cpufreq-64-v2-1-72bd9b4e5ca0@chaosmail.tech>
 
-Looks good:
+On Mon Jul 20, 2026 at 3:25 AM EDT, Sasha Finkelstein wrote:
+> The current frequency calculation is done in 32 bit, causing problems
+> if run on a future SoC that can boost higher than 4.2GHz. Ideally, we
+> should use a true u64 instead of unsigned long and "knowning" that this
+> only runs on 64 bit machines, but the core code uses ulong everywhere,
+> so this should be good enough.
+>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+> Changes in v2:
+> - Minor style fixes
+> - Link to v1: https://patch.msgid.link/20260703-cpufreq-64-v1-1-c406c7053=
+19a@chaosmail.tech
+> ---
+>  drivers/cpufreq/apple-soc-cpufreq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-=
+soc-cpufreq.c
+> index 638e5bf72185..5ad274a1e6ae 100644
+> --- a/drivers/cpufreq/apple-soc-cpufreq.c
+> +++ b/drivers/cpufreq/apple-soc-cpufreq.c
+> @@ -288,7 +288,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_poli=
+cy *policy)
+> =20
+>  	/* Get OPP levels (p-state indexes) and stash them in driver_data */
+>  	for (i =3D 0; freq_table[i].frequency !=3D CPUFREQ_TABLE_END; i++) {
+> -		unsigned long rate =3D freq_table[i].frequency * 1000 + 999;
+> +		unsigned long rate =3D freq_table[i].frequency * 1000UL + 999;
+>  		struct dev_pm_opp *opp =3D dev_pm_opp_find_freq_floor(cpu_dev, &rate);
+> =20
+>  		if (IS_ERR(opp)) {
+>
+> ---
+> base-commit: 4a50a141f05a8d1737661b19ee22ff8455b94409
+> change-id: 20260703-cpufreq-64-2a23d7261e09
+>
+> Best regards,
+> -- =20
+> Sasha Finkelstein <k@chaosmail.tech>
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-
+Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
