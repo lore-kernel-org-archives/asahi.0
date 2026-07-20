@@ -1,134 +1,97 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FED39B94D
-	for <asahi@lists.linux.dev>; Sun, 19 Jul 2026 15:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A9D38E8A8
+	for <asahi@lists.linux.dev>; Mon, 20 Jul 2026 07:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784474913; cv=none; b=cRem371hDXJ9uyvUMxLcAsYWMPpnCG9yHaMhQ2K+uX0bXncJj0MRXT0BIIToTPziVd8aQXf/bmSCn44h0WL4Yr1eAa2w5b9U4Y/VuBdOlQGyKWDbDtYhalUwnzSJ0ZEGgrGSJIBsX0WCV34/jU6Brtiz9WJmtpFJIa3PGuT3V+w=
+	t=1784532362; cv=none; b=rw6BMjN2zQHH9Dm+HjJJGKQ25lf0O5NCDe/3M0vlom5MEMmsnDSXFWSn5+HSj61dm1MUc6VkfsXLBqcPjwRZoeByuoSsSG32MwTjAvDKDH0INDQ++VeMOxvqyQJduBclgRt/B2bhE0/nBU+mKS9LCsZKHomk3n2zGtcbQXQB0KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784474913; c=relaxed/simple;
-	bh=z3bcQYkQZt/TrC3+4/QDswAa5KSqpmEtZ/5nFygMrjc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=DVqI4J6Kry4TxYqGvrZMV/zqCOQCtwK+Al55yilYbSERvUO+bYaygBnyYMcgKwQqr8bTTEYxxZkMV38/CnF908wlU/uu/pojNGRNTPQ8qwazW6mH3b7g2YumE7hgyYUCsn5poihWq26N2R5MoXk3Apu/tF7LOmRoLvktAQh7WrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=cwzBul+N; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1784532362; c=relaxed/simple;
+	bh=tZhM/iGRRI+oZD5fXQ5GSzTaLhc9y+lLypS7IUaOEQk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jH23WguAoFhFn9l/UkUaeg6arn4Snp/AzhwX3nSU7pHkTnaICe2FDGN1xRgOZnVnTiH2ycIX6s8Of9qdqwUj+dbjAOoEQYIpl6951NMh3gYygEBZ/3DRR/L5hJ5jtM1phi/wI6maSxYiTjrJalV6USdbiZLkwBN0NW7ARdQLQHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=WZLAR6na; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="cwzBul+N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1784474910;
- bh=z3bcQYkQZt/TrC3+4/QDswAa5KSqpmEtZ/5nFygMrjc=;
- b=cwzBul+NR2oGbbdUNNxD9q4/HCjAeD5SeD2HgwCILB4L34G/J6ppaDPOyI70+d/hcxspGU9jK
- 66dlZXQ3ZduTw2Qzu56KzHowUudXfpI/ZYjlr7xpNKVzEdQ2Hr1VQMIIV7E3nKQhGK6s2e+X1Cn
- hrotFYBv/hJu2ki4U/lmC6m2QER/W+qrvlNb0lnvVFFmHhAZE9DZUnRuPPXBaTOMmT80GbCs3g2
- dC9cJuBYMjkTW2C1nJ9VO68vZRuQE8jLEk9W+zijrSRIm/++N3BaPb5LRRFM4ZfInTKpNcZCtAc
- wHZmEp/O3cq3lVm+7EKt8EuKE9pafT8cYyJVvNM1l4Ew==
-X-Forward-Email-ID: 6a5ced1adf3bed975f54cda3
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 2.11.4
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="WZLAR6na"
+Received: by chaosmail.tech (Postfix) id 3AE4A1C8676;
+	Mon, 20 Jul 2026 07:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1784532357;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZU8H4o4KTkb6BEX2VrLFhnIWaFZnnK8taJBxY5eb+bI=;
+	b=WZLAR6na6wI7D9oror3TOoNxolFu58n2FIqQpLaY3PSIGomx6kX0seBrLulwSys8LDwSsX
+	MgAjnD1PWjv/S3A0hFFxYQu9yE8T/CrjyOL3qPf/nf2YQPp+gJXd/I2/ymdqdM1+1UIPvH
+	rJVGA/V/b9Kibo4xZP49fI8ZO8Gk+Ic=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Mon, 20 Jul 2026 09:25:10 +0200
+Subject: [PATCH v2] cpufreq: apple-soc: Calculate frequency as a 64-bit
+ value
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Sun, 19 Jul 2026 11:28:25 -0400
-Message-Id: <DK2NK6ERU0Z6.3FEOZDJN7UP74@ubuntu.com>
-Cc: <asahi@lists.linux.dev>, "Janne Grunau" <j@jannau.net>, "Lee Jones"
- <lee@kernel.org>, "Neal Gompa" <neal@gompa.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- "kernel test robot" <lkp@intel.com>
-Subject: Re: [PATCH] mfd: macsmc: Fix key count endianness annotation
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Sven Peter" <sven@kernel.org>, "Joshua Peisach" <jpeisach@ubuntu.com>
-X-Mailer: aerc 0.21.0
-References: <20260719-b4-macsmc-be32-fix-v1-1-c7b1936307fa@kernel.org>
- <DK2N0ITFL309.1Y5VHF18YIQ7M@ubuntu.com>
- <07d37cf5-d49d-4507-82c8-7c6d8c9e01af@kernel.org>
-In-Reply-To: <07d37cf5-d49d-4507-82c8-7c6d8c9e01af@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260720-cpufreq-64-v2-1-72bd9b4e5ca0@chaosmail.tech>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22Oyw6CMBREf4XctTV9YBtc8R+GRS0XuUYBW2g0h
+ H+3xa3Lk8ycmRUCesIA52IFj5ECjUMCeSjA9Xa4IaM2MUguNTdcMTctnccX0yWTVqrWSC2QV5A
+ Kk8eO3rvs0vw4LNc7ujkbcqKnMI/+s69FkXN/xVEwwVzJtTP8pERl6/RlDE9Lj+OMrodm27Yvc
+ l/rhrsAAAA=
+X-Change-ID: 20260703-cpufreq-64-2a23d7261e09
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784532357; l=1448;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=tZhM/iGRRI+oZD5fXQ5GSzTaLhc9y+lLypS7IUaOEQk=;
+ b=8SXwAKh7TXuOgyGGdO2AwRp/Tzz/IEEkfMgzHejSJrJTksw4kmQHgHd+K6CsujzN5ORVt2YwL
+ QJRRTKA3HnlA/lOU8JsMyRsR0MBdClhN6lno4cT+7mq8Gv//EBIaApK
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-On Sun Jul 19, 2026 at 11:15 AM EDT, Sven Peter wrote:
->
->
-> On 7/19/26 17:02, Joshua Peisach wrote:
->> On Sun Jul 19, 2026 at 9:00 AM EDT, Sven Peter wrote:
->>> SMC firmware returns the value of the #KEY key in big-endian unlike mos=
-t
->>> other keys. Reading it through apple_smc_read_u32() into a plain u32
->>> and then converting with be32_to_cpu() makes sparse complain:
->>>
->>> =C2=A0 drivers/mfd/macsmc.c:462:26: sparse: cast to restricted __be32
->>>
->>> Read the raw value into a __be32 using apple_smc_read() instead.
->>>
->>> Fixes: e038d985c982 ("mfd: Add Apple Silicon System Management=20
->>> Controller")
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Closes:=20
->>> https://lore.kernel.org/oe-kbuild-all/202607181046.OANjIoqR-lkp@intel.c=
-om/
->>> Signed-off-by: Sven Peter <sven@kernel.org>
->>> ---
->>> =C2=A0drivers/mfd/macsmc.c | 8 +++++---
->>> =C2=A01 file changed, 5 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
->>> index 358feec2d088..514cba7dc897 100644
->>> --- a/drivers/mfd/macsmc.c
->>> +++ b/drivers/mfd/macsmc.c
->>> @@ -410,7 +410,7 @@ static int apple_smc_probe(struct platform_device=
-=20
->>> *pdev)
->>> =C2=A0{
->>> =C2=A0=C2=A0=C2=A0=C2=A0 struct device *dev =3D &pdev->dev;
->>> =C2=A0=C2=A0=C2=A0=C2=A0 struct apple_smc *smc;
->>> -=C2=A0=C2=A0=C2=A0 u32 count;
->>> +=C2=A0=C2=A0=C2=A0 __be32 count;
->>> =C2=A0=C2=A0=C2=A0=C2=A0 int ret;
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0 smc =3D devm_kzalloc(dev, sizeof(*smc), GFP_KE=
-RNEL);
->>> @@ -461,8 +461,10 @@ static int apple_smc_probe(struct=20
->>> platform_device *pdev)
->>> =C2=A0=C2=A0=C2=A0=C2=A0 dev_set_drvdata(&pdev->dev, smc);
->>> =C2=A0=C2=A0=C2=A0=C2=A0 BLOCKING_INIT_NOTIFIER_HEAD(&smc->event_handle=
-rs);
->>>
->>> -=C2=A0=C2=A0=C2=A0 ret =3D apple_smc_read_u32(smc, SMC_KEY(#KEY), &cou=
-nt);
->>> -=C2=A0=C2=A0=C2=A0 if (ret)
->>> +=C2=A0=C2=A0=C2=A0 ret =3D apple_smc_read(smc, SMC_KEY(#KEY), &count, =
-sizeof(count));
->>> +=C2=A0=C2=A0=C2=A0 if (ret >=3D 0 && ret !=3D sizeof(count))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D -EINVAL;
->>> +=C2=A0=C2=A0=C2=A0 if (ret < 0)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return dev_err_probe(s=
-mc->dev, ret, "Failed to get key count");
->>> =C2=A0=C2=A0=C2=A0=C2=A0 smc->key_count =3D be32_to_cpu(count);
->>
->> This makes sense, it just feels weird reading because u32 is.. not a
->> be32 (that gets passed into be32_to_cpu).
->
-> count is __be32 now (the SMC firmware returns that value as big-endian=20
-> because Apple likes to think different) and we read that using=20
-> apple_smc_read now which just reads raw bytes. be32_to_cpu then converts=
-=20
-> that to a u32, i.e. the type of smc->key_count. There's no functional=20
-> change here. What's weird about that?
->
->
-> Sven
+The current frequency calculation is done in 32 bit, causing problems
+if run on a future SoC that can boost higher than 4.2GHz. Ideally, we
+should use a true u64 instead of unsigned long and "knowning" that this
+only runs on 64 bit machines, but the core code uses ulong everywhere,
+so this should be good enough.
 
-Pfft, brain fart. I thought you were going other way around.
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+---
+Changes in v2:
+- Minor style fixes
+- Link to v1: https://patch.msgid.link/20260703-cpufreq-64-v1-1-c406c705319a@chaosmail.tech
+---
+ drivers/cpufreq/apple-soc-cpufreq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
+index 638e5bf72185..5ad274a1e6ae 100644
+--- a/drivers/cpufreq/apple-soc-cpufreq.c
++++ b/drivers/cpufreq/apple-soc-cpufreq.c
+@@ -288,7 +288,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
+ 
+ 	/* Get OPP levels (p-state indexes) and stash them in driver_data */
+ 	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
+-		unsigned long rate = freq_table[i].frequency * 1000 + 999;
++		unsigned long rate = freq_table[i].frequency * 1000UL + 999;
+ 		struct dev_pm_opp *opp = dev_pm_opp_find_freq_floor(cpu_dev, &rate);
+ 
+ 		if (IS_ERR(opp)) {
+
+---
+base-commit: 4a50a141f05a8d1737661b19ee22ff8455b94409
+change-id: 20260703-cpufreq-64-2a23d7261e09
+
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
+
