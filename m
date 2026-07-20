@@ -1,100 +1,107 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94383FFF81
-	for <asahi@lists.linux.dev>; Mon, 20 Jul 2026 16:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266203B2FDB
+	for <asahi@lists.linux.dev>; Mon, 20 Jul 2026 16:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784563598; cv=none; b=QOj+gMHXSTW3u43gv7YEHoYaBvzcmFMbM5pUure6B+6xwkltNzS3XL1kirJedlOZtnLAI1B63TothuctmRIgVxBogj8wxZDm5SPKo2G+f6U/hLr7LNUoxz3UYFF4a+8/EPxease2AYSJTmPgjzEJUk1gW6eB+zGL/06oCIgGbrE=
+	t=1784564250; cv=none; b=njPBpKHM598IXNdicT5+kpOQMnqmUPCko6zK80j8YYdZIjDfiPxlzeawSuVtpqw5AGWSgZqUc+0fQIQdbU7MJOUlkKJdt7A4FxMT8kSF20QAED+e7jGThEMOTIWjxLeqg3uaIIVLdzRkS397tVqHkE5k0trFrXGFnRNwBjOtTUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784563598; c=relaxed/simple;
-	bh=Rl4gtFq9U9GnBRV2RK17LMlMovBDRPjRJ9dKTTad/Pc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=DTZZ/cTtKPovuetz86Dpq8yrihg4zt0Ld0SQzY+nVSOaIVY2t+dQwbDtWxTDI4flJvgA3miKsXhRTe2YWtaOP8pi9KWAZkRIstrwU97HBmixXgld6h5qX8gkfUfRdvXkPE7iwHzNwggV0eQJS73MgU4nd8sBPk2fI/rdYF6XQwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=NZg7uAbH; arc=none smtp.client-ip=121.127.44.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1784564250; c=relaxed/simple;
+	bh=pwEE6fibC3x6lQyfDb+v+RGRyll+J5mMBnA1XQCUdSQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l6oF+F0O9fpeGOiqgb146t4F6WiArEZWroxfS0zEPWj2dvLNYRrw3asAAE4wLyBPyD7rU3yIEnIEt+LSdwpQjGeXlZRmL9dI3APvKRG5GpiXouO6ITEoZyjWudcphNqfEwBog/MjVayHxZF64AcJTFWRzgRfqHrWdrHrlirBMas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U1sH2EB9; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="NZg7uAbH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: Cc: To: From: Subject: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1784563595;
- bh=4V1kLYIy9VLaH4izcRngdk5f4+oVLN80Pe1S3oyCuaM=;
- b=NZg7uAbHnm7eupu7n5GAhHFJKB3ygOZJsdrBm98QQNwClE/VmM4lf8H0X88dt/JWN+QWnDhKc
- 5HDR+fiCSW9olhz3dRb8KjhsW2+OWRQ55EYlz+UXT1puuJhtqdLfInGGh4DtCWmo2M2V5894Oyf
- de/iBzGaXS1INnHA8ErLzb3Dz7gi/lss9EwhONJQLko9bCc8NBTQgyP/xV62no0S82eehUG2rWp
- XEP9vl337hMHFLJtSjnqYP5vgZDG0QmcB0+MN3ogUOXssHVF3Pu4FAuNJMbT1ew9loe/7303Qwb
- g72QD7+bTfKVcUWFTLjeP7LN1K3NWReCupzcZo1T1yVQ==
-X-Forward-Email-ID: 6a5e473e79814abe71f8e3c1
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 2.11.4
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1sH2EB9"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c9fe3c9bd5fso2536822a12.0
+        for <asahi@lists.linux.dev>; Mon, 20 Jul 2026 09:17:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784564247; x=1785169047; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=bgWQqTl41PqRe7SjquS4u/1d/gci4UsHSjvtso+pedQ=;
+        b=U1sH2EB9VKNw3lYDj4O1esydkHhIOHCOjnNfQqwknaE+JolD9Tw8m7pKzoaARt/F9e
+         0gfdqkdOnXdTAE8y14RiMwKFFUdMCE45ZyTvd+o544/JntBTr8J7B8m5x4mKeS6v7gB7
+         /LeaoTLnxZx3uGb5WfteBU9sBmFcp5oMn1wMBB1wUECB9pOioIHz7blGpyz+YfXcgynm
+         QdrNLdhJdOeQIK02EEE3jvTP1Du6Fot/HAyyywRRfk+K7XfT6f86ZV4snwSpLijUm/sR
+         Mts59NJs70kyU65EEKSXGCihH/znPjuxR4Oa8Sh1dXu01Qp+rWPKerXrVB0Ai9UPDXyD
+         rA4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784564247; x=1785169047;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bgWQqTl41PqRe7SjquS4u/1d/gci4UsHSjvtso+pedQ=;
+        b=aUotvOo+Ce519IHgU5JSEiy6xpXTKJ1xDzsx0gwVSy13u3TAjI6yPih/83GxQ2+ReE
+         vEeHfPZ6OWaC0TKXLgc3W6cA5gtT46eIuSh3jFHflI+QbPcxR+/zJJqYaoBmujcMph1i
+         CUZgRr+YEnhw7zNY82G/5XUrILWZocHyhPJ17ekF3BrxeD4tiWPKObiWosSFlJTxW8k7
+         QgVi8lkNuDJf3SyQfsp0oGqqfccxTRavgGx5xrk+Kdx1MqT8gIamo0zRaR04HBl4Z71q
+         xqRlgLQcHvCAufrnOGUDjVtE3c53Uh0AEj7d4Y7PQCmzz9Z7B8lSrF0H6k5uaFQ4fxXL
+         1IRA==
+X-Forwarded-Encrypted: i=1; AHgh+RrfMdyignnav00i+QNc7ZbM+DTZauJdnTTT/zx5jj0XsnHgzo/1crbEwU0OPutEXy6k9J/jcA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz80eIWpSVIlua1L7RmFLjvSxCYsZD2doPXyMzu2KZZ7Wz/toec
+	LIxDoCiTk4Ms559TuUrSv0QgLEgRPQecW4cABFlcrlgN0u96eWLlKz7j
+X-Gm-Gg: AfdE7cmp8fJDwGoxU+wFzUulMhPFLH8WtSJuyX92j3vxrSd4Ww0Y72aiDCH/ROkbHFQ
+	X9aK6k4b6ogwX6XRvJQMPb/FpQBDorlgV7kROTmHI+l1kHEHI7VTfFJPAE8tRWfyo8tWT5BAQbC
+	qPAX/4mZ38OtkT10kmlCe/WtsOqNjyvPueACYXOkAyoe3LHl8Qxr4jJR7oGRM3czCig70uraCyV
+	t/298HD6iybcr8qT133TYSaesOKTJqVxLQiKWH1K/wjpkwaMeasBzlUPppyxUcd6XyUDAEO00Gi
+	w5wbONjNRHr5Tz3Ng0tTN87PwLbQJj8r2WiHXpNPsdMbqrC1mpDb2c488asE16ts1eB9yk3xhUO
+	q4jtpEJHZ7sMW/lUJiMmK6HnFEpL33JmpoIdA8v5GpbtgJ+4St/JPDoIZwLgUkoht0/9nMKpwQo
+	oshSdGZUdRoBiXk5davqDe4BpIzw==
+X-Received: by 2002:a05:6a20:939f:b0:3bf:ecf8:abe with SMTP id adf61e73a8af0-3c38d512647mr21472934637.0.1784564246909;
+        Mon, 20 Jul 2026 09:17:26 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a1ddeb6sm43145565eec.20.2026.07.20.09.17.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 09:17:26 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 20 Jul 2026 09:17:25 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Sasha Finkelstein <k@chaosmail.tech>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 06/11] dt-bindings: watchdog: apple,wdt: Add t6030 and
+ t6031 compatibles
+Message-ID: <f0d4a047-5dd3-484b-9fb0-89c12bd93ad0@roeck-us.net>
+References: <20260709-apple-t603x-initial-devices-v1-0-55b305833123@jannau.net>
+ <20260709-apple-t603x-initial-devices-v1-6-55b305833123@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Mon, 20 Jul 2026 12:05:17 -0400
-Message-Id: <DK3IYY2FP62G.2ZOAUMLYJP77P@ubuntu.com>
-Subject: Re: [PATCH v2] cpufreq: apple-soc: Calculate frequency as a 64-bit
- value
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Sasha Finkelstein" <k@chaosmail.tech>, "Sven Peter" <sven@kernel.org>,
- "Janne Grunau" <j@jannau.net>, "Neal Gompa" <neal@gompa.dev>, "Rafael J.
- Wysocki" <rafael@kernel.org>, "Viresh Kumar" <viresh.kumar@linaro.org>
-Cc: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260720-cpufreq-64-v2-1-72bd9b4e5ca0@chaosmail.tech>
-In-Reply-To: <20260720-cpufreq-64-v2-1-72bd9b4e5ca0@chaosmail.tech>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260709-apple-t603x-initial-devices-v1-6-55b305833123@jannau.net>
 
-On Mon Jul 20, 2026 at 3:25 AM EDT, Sasha Finkelstein wrote:
-> The current frequency calculation is done in 32 bit, causing problems
-> if run on a future SoC that can boost higher than 4.2GHz. Ideally, we
-> should use a true u64 instead of unsigned long and "knowning" that this
-> only runs on 64 bit machines, but the core code uses ulong everywhere,
-> so this should be good enough.
->
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-> ---
-> Changes in v2:
-> - Minor style fixes
-> - Link to v1: https://patch.msgid.link/20260703-cpufreq-64-v1-1-c406c7053=
-19a@chaosmail.tech
-> ---
->  drivers/cpufreq/apple-soc-cpufreq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-=
-soc-cpufreq.c
-> index 638e5bf72185..5ad274a1e6ae 100644
-> --- a/drivers/cpufreq/apple-soc-cpufreq.c
-> +++ b/drivers/cpufreq/apple-soc-cpufreq.c
-> @@ -288,7 +288,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_poli=
-cy *policy)
-> =20
->  	/* Get OPP levels (p-state indexes) and stash them in driver_data */
->  	for (i =3D 0; freq_table[i].frequency !=3D CPUFREQ_TABLE_END; i++) {
-> -		unsigned long rate =3D freq_table[i].frequency * 1000 + 999;
-> +		unsigned long rate =3D freq_table[i].frequency * 1000UL + 999;
->  		struct dev_pm_opp *opp =3D dev_pm_opp_find_freq_floor(cpu_dev, &rate);
-> =20
->  		if (IS_ERR(opp)) {
->
-> ---
-> base-commit: 4a50a141f05a8d1737661b19ee22ff8455b94409
-> change-id: 20260703-cpufreq-64-2a23d7261e09
->
-> Best regards,
-> -- =20
-> Sasha Finkelstein <k@chaosmail.tech>
+On Thu, Jul 09, 2026 at 09:30:52AM +0200, Janne Grunau wrote:
+> The watchdog on Apple silicon M3 Pro, Max and Ultra SoCs is compatible
+> with the t8103 (M1) one. Add "apple,t6030-wdt" for M3 Pro and
+> "apple,t6031-wdt" for M3 Max and Ultra as per-SoC compatibles.
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+Applied.
+
+Thanks,
+Guenter
