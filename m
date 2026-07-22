@@ -1,101 +1,133 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058C63C1418
-	for <asahi@lists.linux.dev>; Tue, 21 Jul 2026 04:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD122479885
+	for <asahi@lists.linux.dev>; Wed, 22 Jul 2026 10:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784609927; cv=none; b=APhgJSKI6TsXcAiEse2Tud3Zrdf2ffK0aKsgaEt2axK4XRbepEv4x2qnBP9PRHdJhKAN7tycSoKhVwn/2Q5tnafzPDLKk+/9fKfx1r5285IxUi4WYSB6KAf7Yr8pFVibItiWFyYl51B4JOJ9KoTKr5PpaQz4A/OymjrxbkCNJYA=
+	t=1784714589; cv=none; b=b6Wizs81z2IqNDOOHCNv3r4tH80PtY0D3VIVeJ4g2wCl2hJ/f4+pZBVAgZo2e5Bxv2jsEBcV7Dk6QDp/lnnJAkngmwGa70sQbaaS0hTg+3fXIkhG8xfYawHFEB92GsOrvlXizWhjslNFJG03i/wgdkJmjBbn2CQVG0wjt4JFd8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784609927; c=relaxed/simple;
-	bh=WyjKr27BexD8uSwIrNS1ESTwNr61UqqGx5Li5oKMhiM=;
+	s=arc-20240116; t=1784714589; c=relaxed/simple;
+	bh=GjXVLoNVZdknAFpuG6ApjBnvBgqHHVMfqE7Gr1NseEA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RAs+6zHs8CNqNhdB4/+Uq6wRdu8LzDHMh7KYro2taqXC3WomWxpvbkBgDlke9uEZTEQAPW4+nbwmuRB0MP+4sayMrot8HAuHCbdS0Cr8sajRBeDDiv1krWNsd25uRA5hXRGfOD7VhqFuORi3+91x8WlDsiF5avoZ8qAD6Ow8lPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZUYIHiCJ; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=a4LGExN2FTQnSTxxoSF3Xn9x9yrxWS51OQQpIjfS1uHMeY+ipkkKgCNITL5rXug//PitpiYZNJPVB+Pvi2Y0/9SM6X3O2IVAB3JYj5tN8sb9BV1ygXss8x5lnN3Agv5TIBsaaLHJo+D740WNqXuSVdsfLu6jA/fSdqkjCJgAh/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=JRhtTuVE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DD/hIJHC; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZUYIHiCJ"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso7572573a12.0
-        for <asahi@lists.linux.dev>; Mon, 20 Jul 2026 21:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1784609925; x=1785214725; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wbE1vu8p57+mDxFNsPodzCeB4DHzKs8bR2Bh8D54hrw=;
-        b=ZUYIHiCJvZOoNbK5j5nTrW0M4F+4A8nady+yoGARqTSv9VVb6rPHojbjofz4g4v+HS
-         xh6sdvnGnjtp15AE+a2BVhTM7apx1IxLy8kac9rQMIyEYJJFz+wsuqRg43vvfZRfC+4d
-         juxmADS/FUqhf23R2Q9Gc8qA8dLmpcWe5yu9hft0cqeGp0Tf/HNq/mHGeZUN58tL83tT
-         mu+S4AX5jm/f5RypmGYJ4J4pURHSHopoqt7r0NYztyMacO313sJCg68Xk6rTpGILGdU0
-         gkfs0QXdBumTxiRuaINk0FqJSH7MvvrDs012B9Y57j1oGgYWa72EHKkMljnzWyYjqNSZ
-         2t1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784609925; x=1785214725;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wbE1vu8p57+mDxFNsPodzCeB4DHzKs8bR2Bh8D54hrw=;
-        b=SfaJKNtncc+cpil7RXYzgUDwzVfqDe1TixrPyde/IxZpJv5ZReI+dgXPdap2sqT2mr
-         rijVjIhtGgN00sNSG8WB/WdhJovoaAoocoMP/mWcaPMotJTELFoUC3ewgcRohzBqyKoq
-         h2hpZcSHH+sY4jwokD/K+CEvvI8P3ZTT+FyR37+isuQoE4GYkxQ3q2pvuBz/ulhGW1gi
-         WK7SbSZcvuZAmNlKcFwe8sKVrfkghk5YeVvizgcN3hs1xN8CnV5vlNTji6vqOx+rckDs
-         KnNgfdVJyBVzUOOVCXqPG7Csk8L7kDY7nAOCSTUUN/J9vu2uW48DVqzvxSCtmEYbJsZW
-         4DXQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrEdyHVBASXXFnCfU60Te/0Wo5e3+PAzmY6T0fJNYwjOp9dj0e1ldPu/8oMKpTtPrybXCWoew==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyg4Y+01uuu7oHsJ0SqjWsC5OPh5X5v32hLVt5/pmqYfYD+yR41
-	bQNnWEfPE/cdM+23s1pFoarOc3b2XfpYY169PLXFT48bVT8CgPAUjBszAsVOTHdILGs=
-X-Gm-Gg: AfdE7cmC411nOkJ4avU9MOWdOsxvTxMhywL6eAG2/1LEQDDz5a1TpONmflu48bH8rnz
-	Z2FN4CV4OYQ5+9FGTqRCPyLjt3jwN/2V78+G94INEGzIvjYBnQC9+Adc8J7dOU4JjrAGcw83ul3
-	TOYigfjHD4DhCQ0FNMTNwe7Yo+lRaAEMw3d9gv7n79ylFzOeahd8MKaJym1nEifIuwTB2diwasW
-	sj4y31h4J5d9aevXlbKUxx3iXK/8B1CZNAi7FCupbPUbQnklJ/fOUyI/2YhCzy7pf2fFandgR+B
-	qcHmfzDIru5rdrV++6UgY4dWb0n80gdNqOJRM/9SoaFkdK+t3c74tfahSJ59kbejyPTM2Ayq+8U
-	22vCQ6QLw5hkEI9SsN/d8qTvMYFNtfDQt0VHYV5wQHbblD2O6TSLd2CX4N/hMxJNgH7ruWDH+02
-	Xzhw==
-X-Received: by 2002:a05:6a21:9206:b0:3bf:a638:4371 with SMTP id adf61e73a8af0-3c3ad5d4660mr18319984637.10.1784609924997;
-        Mon, 20 Jul 2026 21:58:44 -0700 (PDT)
-Received: from localhost ([122.172.82.94])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a20bf96sm41516259eec.28.2026.07.20.21.58.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 21:58:43 -0700 (PDT)
-Date: Tue, 21 Jul 2026 10:28:40 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, "Rafael J. Wysocki" <rafael@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] cpufreq: apple-soc: Calculate frequency as a 64-bit
- value
-Message-ID: <gleaxjdn6dyndlqr4lfgyvpnyje5rwznrktjf4e25giozkwjas@cp7upcmeae4j>
-References: <20260720-cpufreq-64-v2-1-72bd9b4e5ca0@chaosmail.tech>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="JRhtTuVE";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DD/hIJHC"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id B33BD7A00FD;
+	Wed, 22 Jul 2026 06:03:04 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 22 Jul 2026 06:03:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1784714584; x=1784800984; bh=keKA3TlG+D
+	aLEUEaEDJmog5OO6jAFV1sLmP/aGQcwRA=; b=JRhtTuVEliUcZMjRNFdamt8xk0
+	cR++RlzQH6z8VjhM6yg1tso36vYeUGFDsDC3JfPjSfoV8iHV9n2cw6aguii0BVfv
+	CwNsZMYITuAiG9aKOvoYn1YANhorVhjrRFAizhKZEvtrcpmjfBjpbDReVIidSehr
+	ckdSX5PQlqlNoRW73xGJvpVzPZeo4diwRtp9gTKELNEcAStQ586Hi7H6EJYNpphG
+	AT1y4Qw+qXx+TBXAJFABeA6kieyHVefsoqvZGUgujeDlCGQi6duUUaMd3sT8k5me
+	iRLay5O8ofeR7NmNMk3xE8VFLtJIzqMLQF9P6+hOKcRrJXwVKeVs9zBbVZYg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1784714584; x=1784800984; bh=keKA3TlG+DaLEUEaEDJmog5OO6jAFV1sLmP
+	/aGQcwRA=; b=DD/hIJHCfnM5x57RyHoh5f9AQMTIcB7DPor0TEDiu6j7dm3Ma0l
+	KkQO6hYHCe/jT2GjwdL+tSUmmQijdLjwG1hPxyO1sJx52PyvXESqYR1260IOHC7d
+	x3U5D07/1cyqSvjLlHaa38F3L6Avex/xLPzsj7+twRMnHHyBcdliMNAMRfQWxsgG
+	9Ji61ZzcJAxI/U3fMFWJERWcMfZItASAI2MIjkre4ly4Pia/aesbh34THbjIeM0B
+	zaMeX8sLTVXrRNgk0Urk+lxka8FM3JE1xPC0HYF8m0uBcEKXJ4GKPXbhUHjgIwNb
+	oXLBoZrMpr8vbdgXUaOlcl7NqaLpxTUkCyQ==
+X-ME-Sender: <xms:WJVgarfKM_7a4ihsIll2hRUPbcDHnPJ1_r5M9LsKWswwoVaM5djv8Q>
+    <xme:WJVgarQZL6n9kW86Qf3F2Y4Dq8K9oltwH4BnzQQ3kcxpxe7o6TcB127VPMIJATSdX
+    KVwEYY6a8BFZiwrzdXQEkkqRleCaP5ilv2N0QvppQr05kqr7dzEp_4U>
+X-ME-Received: <xmr:WJVgakYF8JeuYb1tmk4RYfcHBP85iyxF5VZTaaPIzhkP2ubvtvfl9Yi8vQ0U-01oqYrK4uOI-bGMKXoDmXp8yNBlJErrKP7E5Us>
+X-ME-Proxy-Cause: dmFkZTFMHwcTuNUz+Dcyz4D6Eq3Ysli2skDtxz3i8YUC46qtzqdEaZEA3XhE58UAQKCIxg
+    8WwMgfQJVjUb9e6CGiVSPzkF/1zRCVGoCwyv6/SYTO5SGpHIM2laUyY9O5u+1/YhFgSsEe
+    ImAxI33mVE1jDPhNk6jQV1GB1SsqUtD77jLpI+2pX/PT4TiE0UeBzTXZgi5bQ5/BZQHjMo
+    WZs3sxHWiO/P3X0RA6BKW1YLqXwYJr6xq2Q/oftQ7WhWQcYiD1sBjWOOXvRSuJEbBpa42w
+    OyIK0OJADwqzymSV3W5ANqZecViPgytan5OrBwnlHtbA1dB4wX5rqw/IMRnVB4f9GGbyTD
+    B/UGbJJmkilsTCD6V4AeeGXe3zZfZ4oWQpTSfgld0wWNbp6V+8oSgZhldSRf9uzjPa8lXt
+    0dpwvazIlr75A3gICNKnqycyWmfIuT4wZMh46PVqNCSdX2TN2dr+kxcigbj5Rf0vSfqZa9
+    Q0s8s/L8d8USfmHVvRe7ub35Q46SLmLI8YUH7cuZj7zuJZDccO8LhQZ5kjbXEzjrdOuS4v
+    ykPBtQAAFxiawcm2VkhsX9tn0aCfvYyGPwxVlrthqiUlURscdxsh2oI6ONBGTjGKIww0I7
+    liEjVoIWNpBCeGO2leyqZVPXoLtcNwb5DwOfb0kbcyVQnmnegVkts/LOaecA
+X-ME-Proxy: <xmx:WJVgaucd4HRIqrelKWrPiXhGS08dKjpWgOWfgHfD6fxUVf-dS_kVuQ>
+    <xmx:WJVgalIDy5RErK_SUH0yMiUnQEvAKy_tG9PkUo0SrW-byHHkma61tg>
+    <xmx:WJVgarIz7V-Gc9Txf8u1HJCq-Mr7dlCTqfVK9yiiRCipCwMA6IGnnw>
+    <xmx:WJVgakV9xyDMfkdYLF8oOb36mNwdnsUqgl4XrchHoZpBKNygkownAQ>
+    <xmx:WJVgagW-NqsXY_3voi300yzs0QImcoDauZMleI0Tegsy-xa6WfSE_lho>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Jul 2026 06:03:03 -0400 (EDT)
+Date: Wed, 22 Jul 2026 12:03:02 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sven Peter <sven@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] mfd: macsmc: Fix key count endianness annotation
+Message-ID: <20260722100302.GA4159739@robin.jannau.net>
+References: <20260719-b4-macsmc-be32-fix-v1-1-c7b1936307fa@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260720-cpufreq-64-v2-1-72bd9b4e5ca0@chaosmail.tech>
+In-Reply-To: <20260719-b4-macsmc-be32-fix-v1-1-c7b1936307fa@kernel.org>
 
-On 20-07-26, 09:25, Sasha Finkelstein wrote:
-> The current frequency calculation is done in 32 bit, causing problems
-> if run on a future SoC that can boost higher than 4.2GHz. Ideally, we
-> should use a true u64 instead of unsigned long and "knowning" that this
-> only runs on 64 bit machines, but the core code uses ulong everywhere,
-> so this should be good enough.
+On Sun, Jul 19, 2026 at 03:00:32PM +0200, Sven Peter wrote:
+> SMC firmware returns the value of the #KEY key in big-endian unlike most
+> other keys. Reading it through apple_smc_read_u32() into a plain u32
+> and then converting with be32_to_cpu() makes sparse complain:
 > 
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+>   drivers/mfd/macsmc.c:462:26: sparse: cast to restricted __be32
+> 
+> Read the raw value into a __be32 using apple_smc_read() instead.
+> 
+> Fixes: e038d985c982 ("mfd: Add Apple Silicon System Management Controller")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202607181046.OANjIoqR-lkp@intel.com/
+> Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
-> Changes in v2:
-> - Minor style fixes
-> - Link to v1: https://patch.msgid.link/20260703-cpufreq-64-v1-1-c406c705319a@chaosmail.tech
-> ---
->  drivers/cpufreq/apple-soc-cpufreq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/mfd/macsmc.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
+> index 358feec2d088..514cba7dc897 100644
+> --- a/drivers/mfd/macsmc.c
+> +++ b/drivers/mfd/macsmc.c
+> @@ -410,7 +410,7 @@ static int apple_smc_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct apple_smc *smc;
+> -	u32 count;
+> +	__be32 count;
+>  	int ret;
+>  
+>  	smc = devm_kzalloc(dev, sizeof(*smc), GFP_KERNEL);
+> @@ -461,8 +461,10 @@ static int apple_smc_probe(struct platform_device *pdev)
+>  	dev_set_drvdata(&pdev->dev, smc);
+>  	BLOCKING_INIT_NOTIFIER_HEAD(&smc->event_handlers);
+>  
+> -	ret = apple_smc_read_u32(smc, SMC_KEY(#KEY), &count);
+> -	if (ret)
+> +	ret = apple_smc_read(smc, SMC_KEY(#KEY), &count, sizeof(count));
+> +	if (ret >= 0 && ret != sizeof(count))
+> +		ret = -EINVAL;
+> +	if (ret < 0)
+>  		return dev_err_probe(smc->dev, ret, "Failed to get key count");
+>  	smc->key_count = be32_to_cpu(count);
+>  
+> 
 
-Applied. Thanks.
-
--- 
-viresh
+Reviewed-by: Janne Grunau <j@jannau.net>
