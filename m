@@ -1,36 +1,35 @@
 Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AAD2F7EF5
-	for <asahi@lists.linux.dev>; Sat, 25 Jul 2026 13:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DB630E821
+	for <asahi@lists.linux.dev>; Sat, 25 Jul 2026 16:21:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784987298; cv=none; b=jmEzyfpHrYbp9tX6DGGtYTl+qCyzZIMrSdqSAeAC5V+ZogPPlTyjeFkQLQMaDxLosPeiUffDHquYypsNHACclSDt73ZaUf1/TgcU/5irNdehvT1h9gIcd06pgeTKcyGaao+8PlSNz4FRTS6Q504F7Ie8qSXBm55CjLyr2TB0pPU=
+	t=1784996469; cv=none; b=T1DnV262m4ai04llksohJsSwbSDNSxTgYmEEwQ+jRlDfuEHxt5meOhxxOpeFUE2uAqzA+UTi+H2IGCWl/XN5Fe2klSa/rLqPQShwpwAM6odfSVSCg/3SExdpzc3FYj7fehKY/o121MuJ6sPzJn37BiXQ1LLdcs2Y8cRuc+fe7wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784987298; c=relaxed/simple;
-	bh=r0FsqJvWDd2UGYCRd/e4lOeXaFDyknB6twEzTndskp0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nQf/qYqTWtNtQZYOjOqaBGK11cAVQ8MrSdITEnBj/QV9hyShQH9oJPvowryOWlwxYEZmlD/sQV0yVL/YzzSI58jYUmltc+REfKGpWnwhlyOzjUiqWUhbLbdKonZAyW4ZEFQoL+9zIBOP9igzaPZKLCHxcOuMnjH63kYx6p7psMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=Mga+HXgZ; arc=none smtp.client-ip=77.81.229.115
+	s=arc-20240116; t=1784996469; c=relaxed/simple;
+	bh=GYWvY5URAkNkQ1kqNOw2smlI2JLCatnep+JhlX9A0gg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Qm1ZQkcVlwe8McU27r9Z2CAxKO0N0GqV73fZsUV6fFNpqlL1x2fDxMKkL6+etTMvLwytHdqZk1M7Ro45ILV4MyWEwjkI+rWsbjbnr9ad2ipDwhh3+cvUie4V0/0QPUpe2dEtGhVbSGuizW0MHE2RC6n2EJYFnVeTIw5bKR+Sx9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=rRepT9lL; arc=none smtp.client-ip=77.81.229.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="Mga+HXgZ"
-Received: by chaosmail.tech (Postfix) id 699491C89CE;
-	Sat, 25 Jul 2026 13:48:12 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="rRepT9lL"
+Received: by chaosmail.tech (Postfix) id 6FF811C8684;
+	Sat, 25 Jul 2026 16:21:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1784987293;
+	s=mail; t=1784996464;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JOEGBPj9wdiW2j/Jxo2hUYrDiU/CZnzQIqSAqmVHv+E=;
-	b=Mga+HXgZx+8JJveqlZZrpB1KkuiOKAm2X8Y7E9xZAAKzVmN1oF00enZEhEGF6dwmi7dif/
-	eHWOUsD/2VdJOkt5fuIbGE3p+wMYaXsh/HUN95cpNS3IY94197bU22o1JhrOigG4sJEE2Y
-	kt0lzrZHpjJDXnvF7nlPDo52V5zPzNw=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=u1zr8HrJdV/Y3pfey2B5/XTcYM1ZBV0D6sRxUfn6RJ0=;
+	b=rRepT9lL2ve9XWMdScLOYZz60oFQXgqWqByzHaGHplnW5vmOV63DpVJi3VmKd3T40xH4WM
+	gkMi9CXhgZSN/DZvxmiID70iSDrcuZDxxcIRZ4doR8CGrj0FiLwGZRc3KROcYpmzCTgu91
+	XNYVtvBsN5eWPYJb1NyjD0oSBnjic9U=
 From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Sat, 25 Jul 2026 15:48:02 +0200
-Subject: [PATCH 5/7] spmi: apple: lock around FIFOs
+Subject: [PATCH 0/3] usb: typec: tipd: Add sn201202x (ACE3) support
+Date: Sat, 25 Jul 2026 18:20:55 +0200
+Message-Id: <20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -39,113 +38,56 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260725-t603x-spmi-v1-5-e1a29fcd2d38@chaosmail.tech>
-References: <20260725-t603x-spmi-v1-0-e1a29fcd2d38@chaosmail.tech>
-In-Reply-To: <20260725-t603x-spmi-v1-0-e1a29fcd2d38@chaosmail.tech>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ5AMBBA0avIrDUZlRKuIhZVU8aimhaRiLsrl
+ i/5+RdECkwR2uyCQAdHXl1CkWdgZu0mEjwmg0RZYS2V2NiPQhsqBTY4WFUjWdVA6n0gy+f36vr
+ fcR8WMts7gPt+AE3TmJdtAAAA
+X-Change-ID: 20260725-tipd-ace3-090bf570ef59
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, 
+ Neal Gompa <neal@gompa.dev>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Sasha Finkelstein <k@chaosmail.tech>, Alba Mendez <me@alba.sh>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784987288; l=2615;
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
+ Alyssa Milburn <amilburn@zall.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784996463; l=1521;
  i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=2qgrnGCpOEesoQxzumLBAIJ6PZsro+tCragOJF7RrLM=;
- b=yjKT/ZwlZdbSTSzYb0LgSssHIETLtaCHX3M+W0nzBUVmztu+Dwd1eGAYdhabQkDvyUAJMXDAw
- GelAE7K1FzND4wMhTa7Z86b/UoXRcJdfYmjAHZNqiZLS89KjqOwPAMS
+ bh=GYWvY5URAkNkQ1kqNOw2smlI2JLCatnep+JhlX9A0gg=;
+ b=YMosi9qQh+R/gX1yMPeFJxRyRY7C4hDqEbiw1DvZHWQ+b7nhU64ka/wrJ4M30rMCsdXj/uYry
+ sHyhlyAf+j4BQRLV66+ITlol2pb5j4YPqexxKOEfCQDn1ViBJwLyDzr
 X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-From: Alba Mendez <me@alba.sh>
+Add support for sn201202x (a.k.a ACE3), an Apple-specific tps6598x
+variant that wraps the tps6598x core register set with a SPMI based
+regmap-like protocol, first appearing in Apple M3 devices. This series
+first makes the core parts bus-agnostic, and then adds the new SPMI
+interface as a custom regmap implementation.
 
-The driver was missing locking around register interactions
-
-Signed-off-by: Alba Mendez <me@alba.sh>
 Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
- drivers/spmi/spmi-apple-controller.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+Alyssa Milburn (1):
+      usb: typec: tipd: Factor out i2c specifics
 
-diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-index d69d16665ce8..d8509f027df6 100644
---- a/drivers/spmi/spmi-apple-controller.c
-+++ b/drivers/spmi/spmi-apple-controller.c
-@@ -14,6 +14,7 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/platform_device.h>
- #include <linux/spmi.h>
- 
-@@ -35,6 +36,7 @@
- 
- struct apple_spmi {
- 	void __iomem *regs;
-+	struct mutex fifo_lock;
- };
- 
- #define poll_reg(spmi, reg, val, cond) \
-@@ -73,6 +75,10 @@ static int spmi_raw_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 	size_t i = 0, j;
- 	int ret;
- 
-+	ret = mutex_lock_interruptible(&spmi->fifo_lock);
-+	if (ret)
-+		return ret;
-+
- 	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
- 
- 	while (i < len) {
-@@ -86,7 +92,7 @@ static int spmi_raw_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 
- 	ret = apple_spmi_wait_rx_not_empty(ctrl);
- 	if (ret)
--		return ret;
-+		goto out;
- 
- 	reply = readl(spmi->regs + SPMI_RSP_REG);
- 
-@@ -94,7 +100,8 @@ static int spmi_raw_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 	while (len_read < ilen) {
- 		if (readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY) {
- 			dev_err(&ctrl->dev, "FIFO lacks reply data, controller stuck?\n");
--			return -EIO;
-+			ret = -EIO;
-+			goto out;
- 		}
- 		rsp = readl(spmi->regs + SPMI_RSP_REG);
- 		i = 0;
-@@ -107,6 +114,8 @@ static int spmi_raw_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY))
- 		dev_warn(&ctrl->dev, "FIFO has extra data\n");
- 
-+	mutex_unlock(&spmi->fifo_lock);
-+
- 	if (!ilen && !(reply & SPMI_REPLY_ACK)) {
- 		dev_err(&ctrl->dev, "command not acknowledged\n");
- 		return -EIO;
-@@ -116,6 +125,10 @@ static int spmi_raw_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 		return -EIO;
- 	}
- 	return 0;
-+
-+out:
-+	mutex_unlock(&spmi->fifo_lock);
-+	return ret;
- }
- 
- /* Send a raw command with 1..16 input data frames */
-@@ -181,6 +194,7 @@ static int apple_spmi_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	spmi = spmi_controller_get_drvdata(ctrl);
-+	mutex_init(&spmi->fifo_lock);
- 
- 	spmi->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(spmi->regs))
+Sasha Finkelstein (2):
+      dt-bindings: usb: tps6598x: Add sn201202x/ACE3
+      usb: typec: tipd: Add sn201202x support
 
--- 
-2.55.0
+ Documentation/devicetree/bindings/usb/apple,sn201202x.yaml |  78 +++++++++++++++++++++++++++++++
+ MAINTAINERS                                                |   2 +
+ drivers/usb/typec/tipd/Kconfig                             |  14 ++++++
+ drivers/usb/typec/tipd/Makefile                            |  12 +++--
+ drivers/usb/typec/tipd/{core.c => core.h}                  | 119 +++++++++++++++--------------------------------
+ drivers/usb/typec/tipd/i2c.c                               |  86 ++++++++++++++++++++++++++++++++++
+ drivers/usb/typec/tipd/spmi.c                              | 297 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 523 insertions(+), 85 deletions(-)
+---
+base-commit: 0ce37745d4bfbc493f718169c3974898ffec8ee7
+change-id: 20260725-tipd-ace3-090bf570ef59
+
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
