@@ -1,152 +1,146 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from luna.linkmauve.fr (82-65-109-163.subs.proxad.net [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8F533F59D
-	for <asahi@lists.linux.dev>; Sun, 26 Jul 2026 11:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6812F1E47CC;
+	Sun, 26 Jul 2026 12:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785063617; cv=none; b=rThEtmF/wQZzaB8NEghSpwD3mT5EJFPjWGS5khtbYZXsfjUTUf9P9u4G1nJTJgDmDMptDXFa1NBl/8TY/ZDPoiCaBQIEG5YP7VKpfLVeaPuW1bhAPc8UGyuh/IXtSVUHXuXm5N+R9WSvYI9eMB4yLgz+7RskqNL+niP97QlIwCQ=
+	t=1785070586; cv=none; b=jHd98EE3kAYZnWiBhz35W/E/Lg6MC8IQKfNVf1W3LZZxHFmsM6nyMm5ttoijT9JHo+/kZBfljIYJSXvATKvCCJUiF5TaJ753ARbH+hhU0CXuPFE6iPpZgqo3f7ZjX+0wVcG7JVIWtmIHh2KH9ybOZYNfALpG6p4/EQPiyb7K9hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785063617; c=relaxed/simple;
-	bh=byvuZJYZYd2MSiuhVWfo6h4n7bx3BOovOl/DMV0oaKE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X8OxkfvGwhsrRxORTlre3OUD5BuRNJbWuBeLOyjHim92X5cMrdGrvJ9tFJG+N8tkJR144MAx3iAviE07wTFDcVtLkZrNsgvwtrwnYn+oMREp9G6r4PGNzknk3iKA5IGhHDZ8B/Vm8/uv3EB1/679UjGRTgEyaZuercgLHp5qDH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ndSU9Ufj; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ndSU9Ufj"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-495757ccbc1so16477035e9.2
-        for <asahi@lists.linux.dev>; Sun, 26 Jul 2026 04:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785063614; x=1785668414; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GUYubJZOlyk7ZUcTegsKcSoPhTLrbF/NRujnb44b+Dg=;
-        b=ndSU9UfjCz2Ge0/Q1cNa0QFrqxz1Ye/icQyDGITeVK0ECqjQTIIzV1MAgh+8PlYHP9
-         qG/AmrfrutojKU6O3QNAN2foW17t4nUyDOi+gmXUcrR3XKvl7J6ynUt9DuXXxBzNvgbP
-         Xnn9mctswS1E0PaGnJxaXmdHde7PIz79TznBBFedtBwDkjJcl0MSrR5f480qrDcCMMU0
-         vCck6mwAFXSWAqPrroUpjXxu3oVVD8SMr6sIrgV+Te6izB1MiaecuV4dZkVSGmkFNL+M
-         MsLnAni0Huu9sRn03RsLOY5DNt+6rqUjXqJqw7iI3fIY/CLPprFh3qW/xs1zOUNkn/9i
-         0/GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785063614; x=1785668414;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GUYubJZOlyk7ZUcTegsKcSoPhTLrbF/NRujnb44b+Dg=;
-        b=WidqMq4s9ZZ2Z9+Jw9U9RT4bLa5EJiguXtVcLSSYrvleM0PwcD+swkguh30W69cgck
-         7SAFDPSOM6unmExmdJQax/M7XhufLHgRP6+R8BeONUDD7TCcoNoE7z824EJ4xLspvOpq
-         1j1IbU+/k0V76B2txFdg7am3/MtTohWqeghhJu2ipq12UynPY+jRtY18F+2jP83ftcID
-         27sZjEuOk8dTOTl1lnUfcrXmYMvLMvUhc2hDjsnMIoLi+KOkJ1p7OfqG3FJ6DNIdiJPf
-         OM4lOgxaAW1tnWe97RKkU3hAyM+cZ/ZREeGJTmh3tq5PIyH3RVQutE3AO4bdJXW9cGbX
-         dCrQ==
-X-Gm-Message-State: AOJu0YyhrKtJlaVVkkR7n60Xpr4GtnVU/hvkYuIVdbj/NRy+LqyEzU2O
-	/r/sGavV2OIxjFO+YwdzIoTczgeqJO1drsDopytWeIgMt9GpxRoWM62r
-X-Gm-Gg: AR+sD12ZmIAx5uKYxrpGtrtsOt7h+xR2o9OxttekfUrWG6eVNmaDoWzgShUavgz+Kpv
-	Bbrm6GAOgijG4a0bbtQlUjipX2pDx1RDHIf8EAZFuNWKjCecssCBZpMix/8cKrLQEIyuPHMznrS
-	o2+WCOWwedHQGFLqC6ptpoHAhdmAnTuLcQbGlimqddRMqRUUL/seY50RwZEe94DMIhxNnojd05O
-	5BKAywTr2StYbLMFuTsHJW6xEngLDRo05+j497L2vbIQlmtyx8V4JnuLpg2OQ7DL7QM3aC4cHGh
-	koVJ6anolPs5Ml8mcTZueS42qv+AyFe5RkATHrklAoKE1PN2qF6o+UeSgbjoBvk04H3xINTGOTt
-	BlMPuncSZowC/SlTX3WNlA7im9/7u3/kTpe5AVMDhfDjNcQstQObyImI/oEaqb7F3EH+vdy4FqB
-	QsXFl+MtjxsN+XDkSuU5wM
-X-Received: by 2002:a05:600c:350c:b0:493:f639:9b2f with SMTP id 5b1f17b1804b1-496b5ddd7dfmr62118035e9.39.1785063613640;
-        Sun, 26 Jul 2026 04:00:13 -0700 (PDT)
-Received: from [192.168.1.110] ([223.122.38.120])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4ee0e91sm132606545e9.4.2026.07.26.04.00.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jul 2026 04:00:13 -0700 (PDT)
-Message-ID: <2b553c1a-a2d3-44d8-8e98-976835e3d436@gmail.com>
-Date: Sun, 26 Jul 2026 19:00:06 +0800
+	s=arc-20240116; t=1785070586; c=relaxed/simple;
+	bh=qOWSLoFTRbEIxSauVxZ4vA0xfF8LEiuIbFTNM/LfThE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ftKbnf6RMAomj3nOPvIWdnHj0atfa2OmPZ1j2D+w7j6uTkp48dUlE9cV6Bjql2VuoEHqU6HVOHjvHRvfizM3PpPip3HGOZ53YLV8dV4L2ClEhNgTtHtHtc1od7xaDUlw7jTvQyd3QP3x13+AmmgRf5DNr/GWCasPGmsEg4X5KLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+	id 046A5F40DDF; Sun, 26 Jul 2026 14:56:17 +0200 (CEST)
+Date: Sun, 26 Jul 2026 14:56:16 +0200
+From: Link Mauve <linkmauve@linkmauve.fr>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Link Mauve <linkmauve@linkmauve.fr>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Kalyani Akula <kalyani.akula@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Johan Hovold <johan@kernel.org>,
+	Ronald Claveau <linux-kernel-dev@aliel.fr>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] nvmem: apple-spmi: improve calling safety with
+ wrapper functions
+Message-ID: <amYD8I6a1c01fnvs@luna>
+References: <20260716142415.28718-1-linkmauve@linkmauve.fr>
+ <20260716142415.28718-4-linkmauve@linkmauve.fr>
+ <alkd0WWr3KX7MS5O@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] spmi: apple: use IRQ for RX FIFO if possible
-Content-Language: en-MW
-To: Sasha Finkelstein <k@chaosmail.tech>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Alba Mendez <me@alba.sh>
-References: <20260725-t603x-spmi-v1-0-e1a29fcd2d38@chaosmail.tech>
- <20260725-t603x-spmi-v1-6-e1a29fcd2d38@chaosmail.tech>
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20260725-t603x-spmi-v1-6-e1a29fcd2d38@chaosmail.tech>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <alkd0WWr3KX7MS5O@ashevche-desk.local>
+Jabber-ID: linkmauve@linkmauve.fr
 
+Ah, someone independently sent the same patch as this one in
+7089170e1df160f5f8fb395bc5aa2e2697b4e896, so I’ll drop it from v4.
 
+Sorry it took that long!
 
-Sasha Finkelstein 於 2026/7/25 晚上9:48 寫道:
-> From: Alba Mendez <me@alba.sh>
+On Thu, Jul 16, 2026 at 09:07:13PM +0300, Andy Shevchenko wrote:
+> On Thu, Jul 16, 2026 at 04:24:10PM +0200, Link Mauve wrote:
+> > This driver used to cast the regmap_bulk_*() functions to void *,
+> > bypassing any compiler safety around incompatible function pointers.
+> > 
+> > With two small wrappers, which just convert the void * priv parameter
+> > into the wanted struct regmap *, we can remove the void * cast
+> > altogether.
 > 
-> The IRQ fires as soon as the reply is available, which is usually takes
-> a few us instead of the 10ms sleep interval for polling
+> Reported-by: ?
 > 
-> Signed-off-by: Alba Mendez <me@alba.sh>
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-> ---
->  drivers/spmi/spmi-apple-controller.c | 97 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 96 insertions(+), 1 deletion(-)
+> > Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
 > 
-> diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-> index d8509f027df6..d627187b3ac0 100644
-> --- a/drivers/spmi/spmi-apple-controller.c
-> +++ b/drivers/spmi/spmi-apple-controller.c
-
-[...]
-
-> @@ -195,6 +277,7 @@ static int apple_spmi_probe(struct platform_device *pdev)
->  
->  	spmi = spmi_controller_get_drvdata(ctrl);
->  	mutex_init(&spmi->fifo_lock);
-> +	init_completion(&spmi->fifo_rx);
->  
->  	spmi->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(spmi->regs))
-> @@ -206,11 +289,23 @@ static int apple_spmi_probe(struct platform_device *pdev)
->  	ctrl->write_cmd = spmi_write_cmd;
->  	ctrl->cmd = spmi_cmd;
->  
-> +	irq = platform_get_irq_optional(pdev, 0);
-> +	if (irq < 0 && irq != -ENXIO)
-> +		return irq;
-> +	if (irq >= 0) {
-> +		ret = apple_spmi_init_irq(pdev, spmi, irq);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	ret = devm_spmi_controller_add(&pdev->dev, ctrl);
->  	if (ret)
->  		return dev_err_probe(&pdev->dev, ret,
->  				     "spmi_controller_add failed\n");
->  
-> +	dev_dbg(&pdev->dev, irq >= 0 ? "Initialized with IRQ" :
-> +			"Initialized without IRQ, falling back to polling");
-> +
-This does not compile with clang:
-
-drivers/spmi/spmi-apple-controller.c:453:22: error: initializer element is not a compile-time constant
-  453 |         dev_dbg(&pdev->dev, irq >= 0 ? "Initialized with IRQ" :
-      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  454 |                         "Initialized without IRQ, falling back to polling");
-      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
->  	return 0;
->  }
->  
+> ...
+> 
+> > +static int apple_spmi_nvmem_read(void *priv, unsigned int offset,
+> > +				 void *val, size_t bytes)
+> > +{
+> 
+> > +	struct regmap *regmap = priv;
+> 
+> No need :-)
+> 
+> > +	return regmap_bulk_read(regmap, offset, val, bytes);
+> > +}
+> 
+> static int apple_spmi_nvmem_read(void *map, unsigned int offset,
+> 				 void *val, size_t bytes)
+> {
+> 	return regmap_bulk_read(map, offset, val, bytes);
+> }
+> 
+> ...
+> 
+> > +static int apple_spmi_nvmem_write(void *priv, unsigned int offset,
+> > +				  const void *val, size_t bytes)
+> > +{
+> > +	struct regmap *regmap = priv;
+> > +	return regmap_bulk_write(regmap, offset, val, bytes);
+> > +}
+> 
+> In the similar way as above.
+> 
+> ...
+> 
+> > -		.reg_read = (void *)regmap_bulk_read,
+> > -		.reg_write_const = (void *)regmap_bulk_write,
+> > +		.reg_read = apple_spmi_nvmem_read,
+> > +		.reg_write_const = apple_spmi_nvmem_write,
+> 
+> I think the proper ordering is to address this first (before your main change)
+> and update later with const argument. Yes, it will be a bit more changes, but
+> it will be cleaner.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
 > 
 
-Best Regards,
-Nick Chan
-
+-- 
+Link Mauve
