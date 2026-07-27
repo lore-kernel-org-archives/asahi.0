@@ -1,123 +1,143 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5585C3FCB0C
-	for <asahi@lists.linux.dev>; Mon, 27 Jul 2026 13:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFC5409624
+	for <asahi@lists.linux.dev>; Mon, 27 Jul 2026 13:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785157557; cv=none; b=dY6L2dspYrTOe91aAG1ODixHGKtBIdJHnERpfZXUyMShBXuD0qu69D0BsCdePstqk7c1FTBxdTSE74L4xqH0EX/zSMsz2Ic92kn0nKWtFpaANV/w5D/uu2o8dm1Upwj1iaCmZlCYMkFU4NgspLamX8M4/53z9aXb/rEgJIsNKiM=
+	t=1785158619; cv=none; b=gOwfQcSkheWi4I7i+Lczg+U+GcVTHgZYfenIfd5SWAYrB8x7LuZ/ltWRs+lQirwRADr36x8I6X4yf8dYD8QphzEbLiHW1+jlDQyZRnx7ZGImpQfynLCeQg4qSImPdpojW9jtnorkmga9vlGVAjN3XJw+xB6pWaJrXkWvBVpenHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785157557; c=relaxed/simple;
-	bh=r7lsKKTnpoE5fxwbu5ZemxHb0/HMVfK5LkXqnfA2Aec=;
-	h=Content-Type:MIME-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=hVHOcnx7Lrcpm8h7Qb/Oc/4/MScGSAKUZu7HWbGCZepjbeOlIWCjZDwZ0ELdJ90eGrtBsG5LdtJroq95Lb+GDvNPt5QM9I3dLB3OKfIfUIn8NsnAgNJIUOgUAGNnRpOYvYLjNevYzEWdwlXjjukSV1DB6/+IusQrdlxU+BczrwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=pHpmR5nH; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1785158619; c=relaxed/simple;
+	bh=9pcL3Ujn9dRR9maqYrHBCcnkr1bH2U7cX7wpTCk3sCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EZyt2qjO51J6p0TGtQS7MSc0ty1H1+TLC+StQG2HqtPMIzXY+r1aVh0GIIC6zDzc51HqBINmZrmnHOKhIncqTLx+gFLQjqAxP7exYjkOKxBvjSubA7Xc/KYXUK/7SB5ZvG7tVUjkkilWMgu18QSK5l+LZHqSHBnobnBas7dbSxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewUBYCF/; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="pHpmR5nH"
-Received: by chaosmail.tech (Postfix) id B143B1C9733;
-	Mon, 27 Jul 2026 13:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1785157547;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+CRjLtzZlQPexomBbHw5/yUmpMluSz1BR7RnnnOQPNw=;
-	b=pHpmR5nH6TZ1kYs7zQkAoSXNb72SC3jEOTFMvYJ1u3qq7piGC8M4qWsbFM1msqQKlIaCc7
-	GODdhSW6AL6/hfh0YfTBMpCj5mmcg+7V7ZIBcrgltI+Z7EnPkBmxfibJUi7pdb+dw29tG2
-	MX2FVufJSG8Q0r0lq38IO8pH00GNAaI=
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewUBYCF/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785158614; x=1816694614;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9pcL3Ujn9dRR9maqYrHBCcnkr1bH2U7cX7wpTCk3sCU=;
+  b=ewUBYCF/57ACbfeClfPziUhGwekytk6tiDi3/gwBNJna70RlA8f4HSy7
+   pqQzjefJeyJmZVt3A6N+SQVHRHqpvYzTbU8x6TUSVVH4niFDj7eIOZiLu
+   52vQupoIUS9hKkHo5EPNiX3rtz2Io7w8vOncxR+SD6GBv/sfHId8RfpkT
+   ePpKbAxR+s4w7XrTgnwNFKLHTgqRhabXHJ9nw1CybiZHE8E4kUds1Gvk8
+   wNEVniSYKCHnGlln/QFknV1xuWj0+SekTG9qBYtBUX2bsP2FU9EKLDTZk
+   XOaOdo6z3w4aC4Vg+F2WzBrorfLnpSeeV/DAE/FzkA+LS5B2x13579pq4
+   g==;
+X-CSE-ConnectionGUID: w9iJZ/WWT8GxbaPNk4t98g==
+X-CSE-MsgGUID: O+MWW3QKRbi6q9t6bjBYPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="108520757"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="108520757"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 06:23:27 -0700
+X-CSE-ConnectionGUID: rFuhpQTTT7SO9zph0JLhXw==
+X-CSE-MsgGUID: MlxXu+csT3egRYyxci+Lkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="297641534"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa001.jf.intel.com with ESMTP; 27 Jul 2026 06:23:25 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 888BF99; Mon, 27 Jul 2026 15:23:23 +0200 (CEST)
+Date: Mon, 27 Jul 2026 15:23:23 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alyssa Milburn <amilburn@zall.org>
+Subject: Re: [PATCH 2/3] usb: typec: tipd: Factor out i2c specifics
+Message-ID: <amdby6x3xQ0Z3-1G@black.igk.intel.com>
+References: <20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech>
+ <20260725-tipd-ace3-v1-2-73202d36138a@chaosmail.tech>
+ <amdVkYEiv_tOZuwG@black.igk.intel.com>
+ <2D85C0F7-4223-4DA3-89E8-EEC96DB4FBC6@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/3] usb: typec: tipd: Factor out i2c specifics
-From: Sasha Finkelstein <k@chaosmail.tech>
-In-Reply-To: <amdVkYEiv_tOZuwG@black.igk.intel.com>
-Date: Mon, 27 Jul 2026 15:05:35 +0200
-Cc: Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Alyssa Milburn <amilburn@zall.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <2D85C0F7-4223-4DA3-89E8-EEC96DB4FBC6@chaosmail.tech>
-References: <20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech>
- <20260725-tipd-ace3-v1-2-73202d36138a@chaosmail.tech>
- <amdVkYEiv_tOZuwG@black.igk.intel.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2D85C0F7-4223-4DA3-89E8-EEC96DB4FBC6@chaosmail.tech>
 
-On Jul 27, 2026, at 14:56, Heikki Krogerus =
-<heikki.krogerus@linux.intel.com> wrote:
->=20
-> Hi,
->=20
-> On Sat, Jul 25, 2026 at 06:20:57PM +0200, Sasha Finkelstein wrote:
->> From: Alyssa Milburn <amilburn@zall.org>
->>=20
->> Make the core driver more bus-agnostic to prepare for SPMI variants =
-of
->> the tipd chip
->>=20
->> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
->> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
->> ---
->> drivers/usb/typec/tipd/Makefile           |   2 +-
->> drivers/usb/typec/tipd/{core.c =3D> core.h} | 109 =
-++++++++++++++++++++++++++++----------------------------------------------=
------------------------------------
->=20
-> That has to be a mistake, right? You don't move code into a header
-> like that.
+On Mon, Jul 27, 2026 at 03:05:35PM +0200, Sasha Finkelstein wrote:
+> On Jul 27, 2026, at 14:56, Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
+> > 
+> > Hi,
+> > 
+> > On Sat, Jul 25, 2026 at 06:20:57PM +0200, Sasha Finkelstein wrote:
+> >> From: Alyssa Milburn <amilburn@zall.org>
+> >> 
+> >> Make the core driver more bus-agnostic to prepare for SPMI variants of
+> >> the tipd chip
+> >> 
+> >> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
+> >> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> >> ---
+> >> drivers/usb/typec/tipd/Makefile           |   2 +-
+> >> drivers/usb/typec/tipd/{core.c => core.h} | 109 ++++++++++++++++++++++++++++---------------------------------------------------------------------------------
+> > 
+> > That has to be a mistake, right? You don't move code into a header
+> > like that.
+> 
+> Yes, it was a bad idea, already fixed in a v2 that will be sent in the
+> near future.
+> 
+> >> +static struct tps6598x *tps6598x_from_device(struct device *dev)
+> >> +{
+> >> + struct i2c_client *client = i2c_verify_client(dev);
+> >> + struct tps6598x *tps = i2c_get_clientdata(client);
+> >> + return tps;
+> >> +}
+> > 
+> > You should not need anything like that.
+> 
+> This should make more sense together with the following patch, as it
+> can get the tps6598x from either the i2c or spmi backend.
 
-Yes, it was a bad idea, already fixed in a v2 that will be sent in the
-near future.
+You would only need this in the PM callbacks, and those you need to
+keep in the glue drivers for i2c and spmi. The core.c can export
+common functions for suspend and resume like I told you.
 
->> +static struct tps6598x *tps6598x_from_device(struct device *dev)
->> +{
->> + struct i2c_client *client =3D i2c_verify_client(dev);
->> + struct tps6598x *tps =3D i2c_get_clientdata(client);
->> + return tps;
->> +}
->=20
-> You should not need anything like that.
+> >> --- /dev/null
+> >> +++ b/drivers/usb/typec/tipd/i2c.c
+> >> @@ -0,0 +1,86 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * Driver for TI TPS6598x USB Power Delivery controller family
+> >> + *
+> >> + * Copyright (C) 2017, Intel Corporation
+> >> + * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> >> + */
+> > 
+> > This driver is not coming from me.
+> 
+> I kept the attribution as both core and i2c are your driver, but split
+> into two. Should I have done something else?
 
-This should make more sense together with the following patch, as it
-can get the tps6598x from either the i2c or spmi backend.
+This will not be the same module as the core. You will have separate
+modules for the core and for both glue driver.
 
->> --- /dev/null
->> +++ b/drivers/usb/typec/tipd/i2c.c
->> @@ -0,0 +1,86 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Driver for TI TPS6598x USB Power Delivery controller family
->> + *
->> + * Copyright (C) 2017, Intel Corporation
->> + * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
->> + */
->=20
-> This driver is not coming from me.
+Note. You can also refactor the core a little so that by default it
+works with i2c, but it also exports the init/probe function so that it
+can be used as a library with spmi. In that way you don't need to add
+the i2c.c at all. But the you will depend on i2c also when you use the
+spmi.
 
-I kept the attribution as both core and i2c are your driver, but split
-into two. Should I have done something else?
+Thanks,
 
->=20
-> Thanks,
->=20
-> --=20
-> heikki
-
-
+-- 
+heikki
