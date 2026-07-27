@@ -1,473 +1,162 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C9941D233
-	for <asahi@lists.linux.dev>; Mon, 27 Jul 2026 16:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E997042CAFC
+	for <asahi@lists.linux.dev>; Mon, 27 Jul 2026 20:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785168596; cv=none; b=LRt1GG8DlmV+ids8UdbRPe5LMibC+D810Bd3vK8FFZ80cOA15sMbAjyensPcoivVFXzgJpbCS/0mjN2LAZ0uf8LcwxwJUM5dFZW2eX8iGMdXJXaS7rzychnL2bA37hE3K24EDdWk/p9aolgjbmikpyJsejJnkhNVcEKK9ksZ3oQ=
+	t=1785184267; cv=none; b=QaBtrIQDSowJpjwdLK64bLCnB2Xgo3E7i38GLHhAlvxwm8xCDbsfOgyx2OrX8H3V3eSzhjN0l8sz2zJDNdrBRr43TRHybRj5hLdFI5UMmslMT8zEiQD5mRBL6W59GBu1eagyA6jRZYO9KNRM5uoUPbJFzYOBUGmZlAoOGIK9Itc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785168596; c=relaxed/simple;
-	bh=ZXM7IXxZOUXn1IdwoPYYuoQjNm2CioiZdjdWmg8BKC4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tytNjMjWlXYGhx23HSl9RYEN7gVDyXC+vGHajdJZsiweGZOV28BKhRptOJ3+2anV3gK5Me2wrVmg8nehexZ6LuZNqZ4XzEmZ3FC5ne7XJ28ffWCq4ZLmi8hoz6hJ8VR+wpJU3V9gJFz6HxYxAzEPb8AsOjRVUbxT3Y8lbjvCVio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=x7nVssiX; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1785184267; c=relaxed/simple;
+	bh=52mgaibdl5c58d3AYAN5WRtXVWbPgmpaRi1q76IfdMM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sQZ2rginaixdb1QiQxw4IUAln0Nx+OXafjLykCAfplANcp9Y5sxFK2dq9lDFqKHAGrqEOrGpJeSarbcsqRC8O4YpUPom4K8jL9fv7x7hkj1KtDMxTLKiDwWNgof4QI85V2bRtbGeJDQI7TKwHILwUYHVbgzSsvbs5GbDFetGBvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bjdGNoC1; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="x7nVssiX"
-Received: by chaosmail.tech (Postfix) id 63B231CA44F;
-	Mon, 27 Jul 2026 16:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1785168592;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bD+R7gDpHlaSy0I1sOwPGCB5kfvEOKExAflSPqhs6vg=;
-	b=x7nVssiX3fmv02n5iVbiTRLfsG+7b81UwMOAqOkqnaIvI2vKfnP/DIf8MAJfTI6c1+Ky1o
-	n204TZDp262OByzzXPjg76hWxj7wJ3eel0QFTmZbTsZ35f5zHslK6xIg8NWzbnL0h60kyx
-	7c9nl6HiE4LFVAm2JmyF7JKv/dq9hco=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Mon, 27 Jul 2026 18:09:30 +0200
-Subject: [PATCH v2 3/3] usb: typec: tipd: Add sn201202x support
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bjdGNoC1"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cfbbdfa60bso29136475ad.3
+        for <asahi@lists.linux.dev>; Mon, 27 Jul 2026 13:31:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785184265; x=1785789065; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Wtr6C7a2bWw56KI7UgkJ9lIBa9lQozueu7UESTIAJSY=;
+        b=bjdGNoC1E5cru7kcwdLPoj/JoAdDUWfP+eaumwqXndY33TjgdWNv8eCoilsUTHGCqb
+         bdOGBFz9vBVfI85SXCpnkKPx9cfAVpiG+i/kAsz28OS9ZT3mSd2/5Nj1wQkYtR9vtN+X
+         euGNcabd3NTLMlsM+ydSPUlbfEXrf2XUaQ8tA9vSmMBBCJIv+7niUk/yaUKD9GtBjVZo
+         X217MC+hsuclWFz304GwNkpqaFFQnQ1uvDdsjL/B5oBk6tQQqpSDGSh7oXDIscMvmIGX
+         qXNfqUfSSFHIFztpZiy0IrwP08dJUQHUytvsuBhKdd+cTDKwucJ49C/fwyTzzi26604E
+         5CcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785184265; x=1785789065;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Wtr6C7a2bWw56KI7UgkJ9lIBa9lQozueu7UESTIAJSY=;
+        b=I4mrNIopECNbyH0FR+mXIMaSYXCKobO9ko/udKPKwLeq/keRETRNmJk0wvlJvw11Bl
+         qYnZD3yDU+MOEf0KyeZ4qely3UpcSnq+8yL+UvZA4uRuaCuOpSUC23soAWdjIPt/N1XK
+         sygTSO+kx+HQgJKvm2+skxctN2jM3jO66xKVElXNjxHMkAwlx4vJgI49po7W51XoJMKY
+         rCLv+ryqs35aXQhGk7YTYoX3pmqSv0N8LbvJXHaPcilmano9M3pkncwmWaeT8AFQaxXz
+         G4SatjvYo3kYiWBhM59Uc7xGAIAUZPDPGGUOyfYqpXJ3kG9sKT9PzBUy8aLu7hKlUXQ8
+         d5NQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro7tqeBucr1zLJzUBY7h2q8KmG9veMHOS4y4qvq2LlIdV4u5bycrEmmW1GiUT98CFfwguXRnQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyL7vVTfEtbhghwDO1SIsHun6pmFRGgf7dyLZr0D3OfDo7LXKx8
+	iTXrnb6hQZ031EC/gS4nEBevh7uyjQF9aXKAI0tsb6dS55TJ2Tw70cSe
+X-Gm-Gg: AR+sD11hRS/0m9Qgh1x8FWmSC64layCuPqoRG+8VxW4J064Qfids4vaWrURtpMDyhch
+	05QD+lpGhJs+wm6nN3hkHLExImafSAObKKXbblIYDIDe5XmLdN5gYR6AbtccCHfVCfklb/63vco
+	xB/tNKKOtUUq0P1FznD7YD/D/GxoLVQoOsi4LtHCFYZS6570TWPsf38tpPNOLfZkC8PR17Vn1/r
+	UAZ67/KKiKDHs2WcuyAhsWR3l1BlH69Aod0+QRcdfIDQ4nDh5P/v6uskDp0CmLrKbmOi7GrFSEc
+	toU14qP/eGns2H8rnnj1Q1bumP2MhM/7PeavPeBnFeqCOugWOYmq/Ydsz39EE/rqFKjItkMrJ60
+	XpzU/5GxbZx1lusc2ISl99r5ir+4C2LBdsvzG7F9O5oMLeCmUFYWW9IYsInAxOB54yVI6m/jElz
+	SCCRlL
+X-Received: by 2002:a17:902:f547:b0:2cf:9344:b80c with SMTP id d9443c01a7336-2cfde7aca4dmr86641865ad.18.1785184265001;
+        Mon, 27 Jul 2026 13:31:05 -0700 (PDT)
+Received: from cryptic.lan ([2001:569:7fab:e200:3789:64f9:8855:c0af])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde59b768sm41551805ad.4.2026.07.27.13.31.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 13:31:04 -0700 (PDT)
+From: Allen Pais <allen.lkml@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>
+Cc: Allen Pais <allen.lkml@gmail.com>,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Kees Cook <kees@kernel.org>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 03/64] dmaengine: apple-admac: use dma_chan BH callback
+Date: Mon, 27 Jul 2026 13:28:31 -0700
+Message-ID: <3804b35d529e0b80d8d0898f1dad1fd4cb917fcb.1785183549.git.allen.lkml@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1785183549.git.allen.lkml@gmail.com>
+References: <20260108080332.2341725-1-allen.lkml@gmail.com> <cover.1785183549.git.allen.lkml@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260727-tipd-ace3-v2-3-1345957bd635@chaosmail.tech>
-References: <20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech>
-In-Reply-To: <20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
- Alyssa Milburn <amilburn@zall.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785168588; l=11849;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=ZXM7IXxZOUXn1IdwoPYYuoQjNm2CioiZdjdWmg8BKC4=;
- b=LtuIt7evS+eTR/c4VssIDFWPIhAOZlC+3eHCFrpHj3kqALmLmxhoT4XxMXhIVEashJWvmHdfn
- xiUgxLgLKKqBPxltrHTGsiDwDcOQt0tWdnr6B5O4+cNhn3DOdOI5YVn
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+Content-Transfer-Encoding: 8bit
 
-Add support for sn201202x (aka ACE3), a tipd variant that uses a very
-similar register map, that is exposed over a "logical register"
-interface on the SPMI bus.
+Replace the per-channel tasklet with the shared dma_chan BH helper.
+The handler continues to run in softirq context while dmaengine owns
+the common scheduling and teardown mechanism.
 
-Co-developed-by: Alyssa Milburn <amilburn@zall.org>
-Signed-off-by: Alyssa Milburn <amilburn@zall.org>
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- MAINTAINERS                       |   1 +
- drivers/usb/typec/tipd/Kconfig    |  12 ++++++
- drivers/usb/typec/tipd/Makefile   |   3 ++
- drivers/usb/typec/tipd/core.c     |  20 ++++++++++
- drivers/usb/typec/tipd/spmi.c     | 288 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/typec/tipd/tps6598x.h |   9 +++++
- 6 files changed, 333 insertions(+)
+ drivers/dma/apple-admac.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b2819ca62e0c..821932703b60 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2641,6 +2641,7 @@ F:	drivers/soc/apple/*
- F:	drivers/spi/spi-apple.c
- F:	drivers/spmi/spmi-apple-controller.c
- F:	drivers/usb/dwc3/dwc3-apple.c
-+F:	drivers/usb/typec/tipd/spmi.c
- F:	drivers/video/backlight/apple_dwi_bl.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
-diff --git a/drivers/usb/typec/tipd/Kconfig b/drivers/usb/typec/tipd/Kconfig
-index c87cbe6109ca..8177f860f89d 100644
---- a/drivers/usb/typec/tipd/Kconfig
-+++ b/drivers/usb/typec/tipd/Kconfig
-@@ -14,3 +14,15 @@ config TYPEC_TPS6598X
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 14a5ee14a481..84483247bde6 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -89,7 +89,6 @@ struct admac_chan {
+ 	unsigned int no;
+ 	struct admac_data *host;
+ 	struct dma_chan chan;
+-	struct tasklet_struct tasklet;
  
- 	  If you choose to build this driver as a dynamically linked module, the
- 	  module will be called tps6598x.ko.
-+
-+config TYPEC_SN201202X
-+	tristate "TI SN201202x USB Power Delivery controller support"
-+	depends on SPMI
-+	select TYPEC_TPS6598X_CORE
-+	help
-+	  Say Y here to enable support for SN201202x, a TPS6598x variant
-+	  that uses SPMI as a host bus, and is found on Apple devices starting
-+	  from the M3 series.
-+
-+	  If you choose to build this driver as a dynamically linked module, the
-+	  module will be called sn201202x.ko.
-diff --git a/drivers/usb/typec/tipd/Makefile b/drivers/usb/typec/tipd/Makefile
-index c741bf44f52f..6f5ebc1e1a5f 100644
---- a/drivers/usb/typec/tipd/Makefile
-+++ b/drivers/usb/typec/tipd/Makefile
-@@ -7,3 +7,6 @@ tps6598x-core-$(CONFIG_TRACING)		+= trace.o
+ 	u32 carveout;
  
- obj-$(CONFIG_TYPEC_TPS6598X)		+= tps6598x.o
- tps6598x-y				:= i2c.o
-+
-+obj-$(CONFIG_TYPEC_SN201202X)		+= sn201202x.o
-+sn201202x-y				:= spmi.o
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index aadadfdc6ed1..6577bc2f1e0f 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -1889,6 +1889,26 @@ const struct tipd_data tipd_tps25750_data = {
- };
- EXPORT_SYMBOL_GPL(tipd_tps25750_data);
+@@ -521,10 +520,7 @@ static int admac_terminate_all(struct dma_chan *chan)
+ 		list_add_tail(&adchan->current_tx->node, &adchan->to_free);
+ 		adchan->current_tx = NULL;
+ 	}
+-	/*
+-	 * Descriptors can only be freed after the tasklet
+-	 * has been killed (in admac_synchronize).
+-	 */
++	/* Descriptors are released once the BH is flushed in admac_synchronize */
+ 	list_splice_tail_init(&adchan->submitted, &adchan->to_free);
+ 	list_splice_tail_init(&adchan->issued, &adchan->to_free);
+ 	spin_unlock_irqrestore(&adchan->lock, flags);
+@@ -543,7 +539,7 @@ static void admac_synchronize(struct dma_chan *chan)
+ 	list_splice_tail_init(&adchan->to_free, &head);
+ 	spin_unlock_irqrestore(&adchan->lock, flags);
  
-+const struct tipd_data tipd_sn201202x_data = {
-+	.irq_handler = cd321x_interrupt,
-+	.irq_mask1 = APPLE_CD_REG_INT_POWER_STATUS_UPDATE |
-+		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
-+		     APPLE_CD_REG_INT_PLUG_EVENT,
-+	.tps_struct_size = sizeof(struct sn201202x),
-+	.remove = cd321x_remove,
-+	.register_port = cd321x_register_port,
-+	.unregister_port = cd321x_unregister_port,
-+	.trace_data_status = trace_cd321x_data_status,
-+	.trace_power_status = trace_tps6598x_power_status,
-+	.trace_status = trace_tps6598x_status,
-+	.init = cd321x_init,
-+	.read_data_status = cd321x_read_data_status,
-+	.reset = cd321x_reset,
-+	.switch_power_state = cd321x_switch_power_state,
-+	.connect = cd321x_connect,
-+};
-+EXPORT_SYMBOL_GPL(tipd_sn201202x_data);
-+
- MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Core Functions");
-diff --git a/drivers/usb/typec/tipd/spmi.c b/drivers/usb/typec/tipd/spmi.c
-new file mode 100644
-index 000000000000..7a8bba4fc448
---- /dev/null
-+++ b/drivers/usb/typec/tipd/spmi.c
-@@ -0,0 +1,288 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/interrupt.h>
-+#include <linux/of_device.h>
-+#include <linux/of_irq.h>
-+#include <linux/regmap.h>
-+#include <linux/spmi.h>
-+
-+#include "tps6598x.h"
-+
-+#define tps_to_sn(tps) container_of_const((tps), struct sn201202x, cd.tps)
-+
-+static int regmap_sn201202x_select_reg(struct spmi_device *sdev, u8 reg)
-+{
-+	int err;
-+	u8 val;
-+	bool warned = false;
-+	int attempts = 5;
-+	struct tps6598x *tps = spmi_device_get_drvdata(sdev);
-+	struct sn201202x *sn = tps_to_sn(tps);
-+
-+	reinit_completion(&sn->select_completion);
-+	err = spmi_register_zero_write(sdev, reg);
-+	if (err)
-+		return err;
-+
-+	if (!wait_for_completion_timeout(&sn->select_completion, msecs_to_jiffies(100)))
-+		return -ETIMEDOUT;
-+
-+	while (--attempts) {
-+		err = spmi_register_read(sdev, 0, &val);
-+		if (err)
-+			return err;
-+		if (val == (reg | 0x80)) {
-+			if (!warned) {
-+				dev_warn(tps->dev,
-+					 "Got interrupt but selection not complete?\n");
-+				warned = true;
-+			}
-+			msleep(20);
-+			continue;
-+		}
-+		if (val == reg)
-+			return 0;
-+		return -EIO;
-+	}
-+
-+	return -EIO;
-+}
-+
-+static int regmap_sn201202x_read(void *context,
-+				 const void *reg, size_t reg_size,
-+				 void *val, size_t val_size)
-+{
-+	int err;
-+	unsigned int offset = 0x20;
-+	size_t len;
-+	u8 addr;
-+
-+	if (reg_size != 1) {
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+	if (val_size > 0x40) {
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+
-+	addr = *(u8 *)reg;
-+
-+	err = regmap_sn201202x_select_reg(context, addr);
-+	if (err)
-+		return err;
-+
-+	while (val_size) {
-+		len = min_t(size_t, val_size, 16);
-+		err = spmi_ext_register_read(context, offset, val, len);
-+		if (err)
-+			return err;
-+		offset += len;
-+		val += len;
-+		val_size -= len;
-+	}
-+
-+	return 0;
-+}
-+
-+static int regmap_sn201202x_write(void *context, const void *data,
-+				  size_t count)
-+{
-+	int err = 0;
-+	unsigned int offset = 0xa0;
-+	size_t len;
-+	u8 addr;
-+
-+	if (count < 1) {
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+
-+	addr = *(u8 *)data;
-+	data += 1;
-+	count -= 1;
-+
-+	if (count > 0x40) {
-+		WARN_ON(1);
-+		return -EINVAL;
-+	}
-+
-+	err = regmap_sn201202x_select_reg(context, addr);
-+	if (err)
-+		return err;
-+
-+	while (count) {
-+		len = min_t(size_t, count, 16);
-+		err = spmi_ext_register_write(context, offset, data, len);
-+		if (err)
-+			return err;
-+		offset += len;
-+		data += len;
-+		count -= len;
-+	}
-+
-+	return err;
-+}
-+
-+static irqreturn_t sn201202x_irq(int irq, void *data)
-+{
-+	struct completion *c = data;
-+
-+	complete(c);
-+	return IRQ_HANDLED;
-+}
-+
-+static const struct regmap_bus regmap_sn201202x = {
-+	.read				= regmap_sn201202x_read,
-+	.write				= regmap_sn201202x_write,
-+	.reg_format_endian_default	= REGMAP_ENDIAN_NATIVE,
-+	.val_format_endian_default	= REGMAP_ENDIAN_NATIVE,
-+};
-+
-+static struct regmap *__devm_regmap_init_sn201202x(struct spmi_device *sdev,
-+						   const struct regmap_config *config,
-+						   struct lock_class_key *lock_key,
-+						   const char *lock_name)
-+{
-+	return __devm_regmap_init(&sdev->dev, &regmap_sn201202x, sdev, config,
-+				  lock_key, lock_name);
-+}
-+
-+#define devm_regmap_init_sn201202x(dev, config)				\
-+	__regmap_lockdep_wrapper(__devm_regmap_init_sn201202x, #config,	\
-+				dev, config)
-+
-+static const struct of_device_id sn201202x_of_match[] = {
-+	{ .compatible = "apple,sn201202x", &tipd_sn201202x_data},
-+	{}
-+};
-+
-+static int sn201202x_probe(struct spmi_device *device)
-+{
-+	const struct of_device_id *match;
-+	const struct tipd_data *data;
-+	struct sn201202x *sn;
-+	struct tps6598x *tps;
-+	int irq_select, irq_sleep, irq_wake;
-+	int ret;
-+
-+	match = of_match_device(sn201202x_of_match, &device->dev);
-+	if (!match)
-+		return -EINVAL;
-+	data = match->data;
-+
-+	sn = devm_kzalloc(&device->dev, data->tps_struct_size, GFP_KERNEL);
-+	if (!sn)
-+		return -ENOMEM;
-+	sn->sdev = device;
-+	tps = &sn->cd.tps;
-+
-+	mutex_init(&tps->lock);
-+	tps->dev = &device->dev;
-+	tps->data = data;
-+
-+	tps->irq = of_irq_get_byname(device->dev.of_node, "irq");
-+	if (tps->irq < 0)
-+		return tps->irq;
-+	irq_select = of_irq_get_byname(device->dev.of_node, "select");
-+	if (irq_select < 0)
-+		return irq_select;
-+	irq_sleep = of_irq_get_byname(device->dev.of_node, "sleep");
-+	if (irq_sleep < 0)
-+		return irq_sleep;
-+	irq_wake = of_irq_get_byname(device->dev.of_node, "wake");
-+	if (irq_wake < 0)
-+		return irq_wake;
-+
-+	init_completion(&sn->select_completion);
-+	init_completion(&sn->sleep_completion);
-+	init_completion(&sn->wake_completion);
-+
-+	ret = devm_request_irq(&device->dev, irq_select, sn201202x_irq,
-+			       0, NULL, &sn->select_completion);
-+	if (ret)
-+		return ret;
-+	ret = devm_request_irq(&device->dev, irq_sleep, sn201202x_irq,
-+			       0, NULL, &sn->sleep_completion);
-+	if (ret)
-+		return ret;
-+	ret = devm_request_irq(&device->dev, irq_wake, sn201202x_irq,
-+			       0, NULL, &sn->wake_completion);
-+	if (ret)
-+		return ret;
-+
-+	spmi_device_set_drvdata(device, tps);
-+	tps->regmap = devm_regmap_init_sn201202x(device, &tps6598x_regmap_config);
-+	if (IS_ERR(tps->regmap))
-+		return PTR_ERR(tps->regmap);
-+
-+	ret = spmi_command_wakeup(device);
-+	if (ret)
-+		return ret;
-+	if (!wait_for_completion_timeout(&sn->wake_completion, msecs_to_jiffies(100)))
-+		return -ETIMEDOUT;
-+
-+	return tipd_init(tps);
-+}
-+
-+static void sn201202x_remove(struct spmi_device *device)
-+{
-+	struct tps6598x *tps = spmi_device_get_drvdata(device);
-+	struct sn201202x *sn = tps_to_sn(tps);
-+
-+	tipd_remove(tps);
-+	spmi_command_sleep(sn->sdev);
-+}
-+
-+static int __maybe_unused sn201202x_resume(struct device *dev)
-+{
-+	struct tps6598x *tps = dev_get_drvdata(dev);
-+	struct sn201202x *sn = tps_to_sn(tps);
-+	int err;
-+
-+	reinit_completion(&sn->wake_completion);
-+	err = spmi_command_wakeup(sn->sdev);
-+	if (err)
-+		return err;
-+	if (!wait_for_completion_timeout(&sn->wake_completion, msecs_to_jiffies(100)))
-+		return -ETIMEDOUT;
-+	return tipd_resume(tps);
-+}
-+
-+static int __maybe_unused sn201202x_suspend(struct device *dev)
-+{
-+	struct tps6598x *tps = dev_get_drvdata(dev);
-+	struct sn201202x *sn = tps_to_sn(tps);
-+	int err;
-+
-+	err = tipd_suspend(tps);
-+	if (err)
-+		return err;
-+	reinit_completion(&sn->sleep_completion);
-+	err = spmi_command_sleep(sn->sdev);
-+	if (err)
-+		return err;
-+	if (!wait_for_completion_timeout(&sn->sleep_completion, msecs_to_jiffies(100)))
-+		return -ETIMEDOUT;
-+	return 0;
-+}
-+
-+MODULE_DEVICE_TABLE(of, sn201202x_of_match);
-+
-+static const struct dev_pm_ops sn201202x_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(sn201202x_suspend, sn201202x_resume)
-+};
-+
-+static struct spmi_driver sn201202x_driver = {
-+	.driver = {
-+		.name = "sn201202x",
-+		.pm = &sn201202x_pm_ops,
-+		.of_match_table = sn201202x_of_match,
-+	},
-+	.probe = sn201202x_probe,
-+	.remove = sn201202x_remove,
-+};
-+module_spmi_driver(sn201202x_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("TI SN201202x USB Power Delivery Controller Driver");
-diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
-index e57583cc9dcd..f9f03480de78 100644
---- a/drivers/usb/typec/tipd/tps6598x.h
-+++ b/drivers/usb/typec/tipd/tps6598x.h
-@@ -373,9 +373,18 @@ struct cd321x {
- 	struct usb_pd_identity cur_partner_identity;
- };
+-	tasklet_kill(&adchan->tasklet);
++	dma_chan_kill_bh(&adchan->chan);
  
-+struct sn201202x {
-+	struct cd321x cd;
-+	struct completion select_completion;
-+	struct completion sleep_completion;
-+	struct completion wake_completion;
-+	struct spmi_device *sdev;
-+};
-+
- extern const struct tipd_data tipd_cd321x_data;
- extern const struct tipd_data tipd_tps6598x_data;
- extern const struct tipd_data tipd_tps25750_data;
-+extern const struct tipd_data tipd_sn201202x_data;
- extern const struct regmap_config tps6598x_regmap_config;
+ 	list_for_each_entry_safe(adtx, _adtx, &head, node) {
+ 		list_del(&adtx->node);
+@@ -662,7 +658,7 @@ static void admac_handle_status_desc_done(struct admac_data *ad, int channo)
+ 		tx->reclaimed_pos %= 2 * tx->buf_len;
  
- int tipd_init(struct tps6598x *tps);
-
+ 		admac_cyclic_write_desc(ad, channo, tx);
+-		tasklet_schedule(&adchan->tasklet);
++		dma_chan_schedule_bh(&adchan->chan);
+ 	}
+ 	spin_unlock_irqrestore(&adchan->lock, flags);
+ }
+@@ -712,9 +708,9 @@ static irqreturn_t admac_interrupt(int irq, void *devid)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void admac_chan_tasklet(struct tasklet_struct *t)
++static void admac_chan_bh(struct dma_chan *chan)
+ {
+-	struct admac_chan *adchan = from_tasklet(adchan, t, tasklet);
++	struct admac_chan *adchan = to_admac_chan(chan);
+ 	struct admac_tx *adtx;
+ 	struct dmaengine_desc_callback cb;
+ 	struct dmaengine_result tx_result;
+@@ -886,7 +882,7 @@ static int admac_probe(struct platform_device *pdev)
+ 		INIT_LIST_HEAD(&adchan->issued);
+ 		INIT_LIST_HEAD(&adchan->to_free);
+ 		list_add_tail(&adchan->chan.device_node, &dma->channels);
+-		tasklet_setup(&adchan->tasklet, admac_chan_tasklet);
++		dma_chan_init_bh(&adchan->chan, admac_chan_bh);
+ 	}
+ 
+ 	err = reset_control_reset(ad->rstc);
 -- 
-2.55.0
+2.43.0
 
