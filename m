@@ -1,92 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615DF443A94;
-	Thu, 30 Jul 2026 16:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316AE30C371
+	for <asahi@lists.linux.dev>; Fri, 31 Jul 2026 16:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785428478; cv=none; b=hFt9xoRMyGjuitIOnH8gTd+pozAS0SmMIbOlj3H+/9IEptx9Y5lT7uk5SHwwTuXL/gV6yLKcCSNIz5sywdRE9Q5qz2Ceiq1dCDhvozR/42WUdBOsa3Y3tmgIAs8kub2L6qg3aFpasURjoudWoDX8zUxyDCj8wn6b0PRHttEuLgo=
+	t=1785516783; cv=none; b=Yj0h+G10duo0t7yqGsDXDrO8kg6LnOhFPFBcjw8wOv9Nsna+SK1NzOEUtU82epYMjSekLEX41QBXo4oVqLHdDZMjLL9PfatTg+8EKxg8ezA/JjqGTJjrtkZj9U/9Z3QZKxjdOlWvy4h3jFJSROBljTgNdjyZaPl6h7M8qJcKCQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785428478; c=relaxed/simple;
-	bh=vgAaEDYnEiyIcw8WvXb+LJM4O/djtYS0hbJLAP6qGBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8xxlNiAiI7HME1F8FvBWtpUCdMCJxXen5ol/z5F1DuWPrxcuZTl9i3Z3jpK9lVZGFU2YTfNylaR/ejRsyhAT9KJGaOvAoVyQNNJUmAoLCxnZIq0xiKCSCw1LfjT2m5RJHs11FUni196GPa49ALLv/lIXImkoUHTMC9NxNyb4+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vPJ9CUUg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785516783; c=relaxed/simple;
+	bh=fLWDbsNTZMdxVcHTCqdVdGr2gSHbWMZtMd5WxH/z+N4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TSGDYkTlBJPpMmn0ZBReV8PXflOThjFF8jqWjHk1nCW784tVBnGRBYfIFau7IpmzYT7qZzB9HSv0gICrlTjMVzozdxeA63hmJwEdQJcEhug7l7zKx3S2vYt6tx3LGjIK0Z8MvRZiLGPntozw/GXHY9VsyIvHXGzU8ybXRXREJ0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TI4IvWUj; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vPJ9CUUg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B676F1F000E9;
-	Thu, 30 Jul 2026 16:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785428477;
-	bh=f9wvIaksClS1jB3hklR/Msv5qmQ/ojOlrqo8+jkn6vQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=vPJ9CUUgL/+A/2/2zFeWe0+jlEx+O/0w5vk71RJ4KmWGMLkGVfZ81vi9T7l3eZ3L9
-	 qWCIHptjOhjv+lJAcRjYraoe8LMZG7BeICluw2kWTgPa7AE8ntWWVP6BNuPA4B6gfq
-	 XhaYe0CCG9+da8wV1G5HwWOW7S2tOZVR7N/7duT0=
-Date: Thu, 30 Jul 2026 17:05:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Gompa <neal@gompa.dev>
-Cc: Danilo Krummrich <dakr@kernel.org>, Russ Weight <russ.weight@linux.dev>,
-	Luis Chamberlain <mcgrof@kernel.org>, asahi@lists.linux.dev,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH] firmware_loader: Add /lib/firmware/vendor paths for
- Apple ARM platforms
-Message-ID: <2026073008-crane-jolly-2204@gregkh>
-References: <20260730004759.3089449-1-neal@gompa.dev>
- <2026073019-emoticon-decidable-200e@gregkh>
- <CAEg-Je9X8ho7LyiRBL+z9aWf-EdwmgDdrzgfB3KaOaVGiEx_xQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TI4IvWUj"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2d01548ac96so1215345ad.3
+        for <asahi@lists.linux.dev>; Fri, 31 Jul 2026 09:53:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785516781; x=1786121581; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LonlxyNI/UROq/7FsvfLYFpLarTm2H6nAAjtd6tWp9A=;
+        b=TI4IvWUjJKp+WIrCD0wpMc5zezPgYE2hF5s4hVz89eSv0fKJpXR+1iTuKrwZ4EmwJJ
+         iy8Nst7wkX72SEtS8RhWvFOOi87J7U6+ivI2iI7l53iWOOQuWmiH5FwKe433T/rc8PaF
+         Wfoc89Na3Sn+DXNR+iSgYC/b8z5TUJATqBuO6Cn5pO6a16xIaQQAhwnI/D8aIEKzaraI
+         6rhu1Pd7eZ2ZgmgX4lq68UW457+sd9UeBXAgPJe5+mY2gHJ4GzXtgLyZqqqVEwKpkvE+
+         5FeeJqmx1F43RE+Ll9hbEnGYTnRaPBrG3S49Tz6twCB8BJR4v/jx/AvGNRzwqkPf8uoj
+         8TDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785516781; x=1786121581;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LonlxyNI/UROq/7FsvfLYFpLarTm2H6nAAjtd6tWp9A=;
+        b=ZFwlSC+vdhrBGLpmewQ2ttCGgt257OfGGIQUshZbV9DP+l88mfub64zNcqWALVvUsd
+         sjd8UIveacRlZfe1lRnQddPbDtr6k0H365zFkgPLuCfztfQihzEmWDTNBK5zHNUSSfvn
+         s8T18z6c6B7d4dmqRpZFI5G/8d7nwDJCuoicsplOvzjSoJLTSEBYxJwZI7AX0mDAS4Qj
+         0CqgbS+mVqpCjEqTT2g0iKHULiaf1nrdmMmExguWL3NM3FdqJo8fIqTAMMcfs4Z39L0c
+         9fCDj/rJJNev7YWV9GSQOQ/aiZrxe+koWBz2r7Ty5Fnrri2F1O9dSJsrVWExZOpPmpmR
+         klUQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoY9T4jzz40ujh6fbkwWPk32yXbBKxpsqRaQ092mFSDQ2MVMmwuPG+xZUFtV+zsqyRRH7xnQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGRjDgmoC+R7v8WVtc40rPf15VGQiPg51kMDDSo5FUT4Tu/Nxe
+	SdccS+IHFyt/s24tRjcIxDK9OrnAujJVQEWjlbYmJRFvxb3IAiyyts8MkxR1cA==
+X-Gm-Gg: AR+sD13gqa9A35tWMGcid3lT2ymMpmNnJXQXEW+326BuR/ui3ec9h3Mu5BGxOIlvEMh
+	yWMLDy+8tdpjYSBURiwGck5YnoaCgW6o+5qH05iMa4iR/kI41jOJBJQDbMk/uXW5p+sbvVFAdHM
+	WrCyyyrbrw9QjX7urO5gD1s7OtkasSNvO8nMcW7cJ2W+HZSxWPdq6rNFzvkp1LkFl9toEl/slUl
+	FExKWpZ0r/qZv30OLSRoYQ3VH7aHVKhAnygfB3Z3HhwAPLHFDNie4aLfpzgmyvkbQmUo7oGWpDd
+	ayEcylMO+5ANLVLJQud+lb0jU7LTyyPXxTzGPeROV6bsO+b1OFITGyUnr2hCfqLRFkPMOUgbA15
+	cjODzXctjvLQmQ30fzcrPINiG9lgbVMciz1vLwwRUE69PqXQkRMT9tc+hSoLaeCtCVqGCPlCvTH
+	xqa4nh1ErgcuJqJ56rkJ9oZvr8g+LoWSRV95lA5mK7vnN0D8qqWZ9eUw==
+X-Received: by 2002:a17:902:ced1:b0:2c9:fbde:ab68 with SMTP id d9443c01a7336-2d0523c0f5emr9691545ad.3.1785516781082;
+        Fri, 31 Jul 2026 09:53:01 -0700 (PDT)
+Received: from kali ([2402:e280:3d7c:a2:536a:b505:93f5:9d5d])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153ddda5d9sm10399096eec.13.2026.07.31.09.52.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jul 2026 09:53:00 -0700 (PDT)
+From: Pavitra Jha <jhapavitra98@gmail.com>
+To: Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>
+Cc: Neal Gompa <neal@gompa.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Pavitra Jha <jhapavitra98@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] soc: apple: rtkit: fix OOB reads in crashlog parser
+Date: Fri, 31 Jul 2026 12:52:10 -0400
+Message-ID: <20260731165210.113227-1-jhapavitra98@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEg-Je9X8ho7LyiRBL+z9aWf-EdwmgDdrzgfB3KaOaVGiEx_xQ@mail.gmail.com>
 
-On Thu, Jul 30, 2026 at 10:55:00AM -0400, Neal Gompa wrote:
-> On Thu, Jul 30, 2026 at 2:01 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Wed, Jul 29, 2026 at 08:42:58PM -0400, Neal Gompa wrote:
-> > > On Apple ARM machines (branded Apple Silicon Macs), there is
-> > > non-redistributable firmware provided in macOS that is required
-> > > for Linux to leverage the hardware to run properly.
-> > >
-> > > The firmware covers Wi-Fi+BT support, USB, hardware ISP, the touchbar
-> > > touchscreen, and the trackpad.
-> > >
-> > > In order to ensure this firmware can be installed without messing
-> > > with firmware provided by linux-firmware and other packages that
-> > > put things in the tree, the empty "vendor" subdirectory was created
-> > > to serve this purpose. This directory is used by the asahi dracut
-> > > module as part of the Asahi Linux installation process to transfer
-> > > firmware from macOS to the newly installed Linux system.
-> >
-> > Why is this needed when there is the ability for userspace to add their
-> > own firmware search path to the list today?
-> >
-> > We aren't going to keep adding random paths here, please use the option
-> > that is designed specifically for this:
-> >
-> > >  * fw_path_para - module parameter - default is empty so this is ignored
-> >
-> > Right there.
-> 
-> I was not familiar with this feature, and I had inherited the patch as
-> part of our cleanup effort to upstream the Asahi work. Sorry about
-> that!
-> 
-> Based on the documentation, this is the patch I've created for our
-> dracut module: https://github.com/AsahiLinux/asahi-scripts/pull/72
-> 
-> Is this how it is supposed to be used?
+apple_rtkit_crashlog_dump() parses a binary blob copied from a shared
+memory region populated by the RTKit coprocessor after a crash. The
+blob is treated as trusted structured data, but four distinct bugs
+allow a malicious or compromised coprocessor to trigger out-of-bounds
+reads against the kernel heap:
 
-If it works, yes :)
+1. Section header read without tail-space guard
+   The main loop is guarded by (offset < size), but the section header
+   occupies bytes [offset, offset+16). A section starting within the
+   last 15 bytes of the buffer causes the memcpy at offset+12 to read
+   past the end of the allocation.
+
+2. section_size not validated against remaining buffer space
+   section_size is a u32 read verbatim from the coprocessor blob.
+   It is passed directly to each handler as the 'size' argument without
+   checking offset + section_size <= size. Every handler therefore
+   operates on memory past the end of the shadow buffer. Additionally,
+   section_size == 0 causes an infinite loop because offset never
+   advances.
+
+3. dump_mailbox: size_t underflow when section_size < 28
+   n_messages = (size - 28) / sizeof(entry) performs size_t arithmetic.
+   If the coprocessor reports section_size < 28, the subtraction wraps
+   to ~0UL, n_messages becomes enormous, and the subsequent memcpy loop
+   reads and dev_warn-logs arbitrary adjacent slab memory, constituting
+   a kernel heap info-leak.
+
+KASAN confirmed (kernel 7.1.0, QEMU/x86_64, kasan_multi_shot):
+
+  BUG: KASAN: slab-out-of-bounds in apple_rtkit_crashlog_dump.cold
+  Read of size 24 at addr ffff88800469f08c by task insmod/60
+
+  Call Trace:
+    kasan_check_range
+    __asan_memcpy
+    apple_rtkit_crashlog_dump.cold
+    rtkit_poc_init
+
+4. dump_version and dump_str: bare %s with no NUL guarantee
+   dump_version() ignores its size argument entirely and passes bfr+16
+   directly to dev_warn() as a %s argument. If section_size places the
+   section end before a NUL byte, dev_warn walks arbitrarily past the
+   allocation. dump_str() has the same issue in its else branch: memchr
+   correctly bounds the search, but the resulting pointer is then passed
+   to dev_warn() as %s without a NUL guarantee within the real buffer.
+
+Fix:
+- Check offset + 16 <= size before reading each section header.
+- Reject section_size < 16 or offset + section_size > size before
+  dispatching, ensuring every handler receives a size bounded by the
+  real buffer. This also eliminates the infinite-loop case.
+- Add an explicit size < 28 guard in dump_mailbox() to prevent the
+  size_t underflow regardless of the outer check.
+- Replace bare %s with %.*s in dump_version() and the else branch of
+  dump_str(), using the (now validated) size argument as the bound.
+
+Attacker model: any entity able to influence RTKit coprocessor firmware
+or crash-log shared memory (coprocessor compromise, DMA-capable
+peripheral on the same interconnect) can trigger these bugs against any
+Linux system running Asahi Linux on Apple Silicon hardware.
+
+Fixes: 9bd1d9a0d8bb ("soc: apple: Add RTKit IPC library")
+Cc: stable@vger.kernel.org
+Signed-off-by: Pavitra Jha <jhapavitra98@gmail.com>
+---
+ drivers/soc/apple/rtkit-crashlog.c | 28 +++++++++++++++++++++++++---
+ 1 file changed, 25 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/soc/apple/rtkit-crashlog.c b/drivers/soc/apple/rtkit-crashlog.c
+index 8319e3651..3af17c31d 100644
+--- a/drivers/soc/apple/rtkit-crashlog.c
++++ b/drivers/soc/apple/rtkit-crashlog.c
+@@ -81,8 +81,8 @@ static void apple_rtkit_crashlog_dump_str(struct apple_rtkit *rtk, u8 *bfr,
+ 			*newline = tmp;
+ 			ptr = newline + 1;
+ 		} else {
+-			dev_warn(rtk->dev, "RTKit: Message (id=%x): %s", idx,
+-				 ptr);
++			dev_warn(rtk->dev, "RTKit: Message (id=%x): %.*s", idx,
++				 (int)(end - ptr), ptr);
+ 			break;
+ 		}
+ 	}
+@@ -91,7 +91,12 @@ static void apple_rtkit_crashlog_dump_str(struct apple_rtkit *rtk, u8 *bfr,
+ static void apple_rtkit_crashlog_dump_version(struct apple_rtkit *rtk, u8 *bfr,
+ 					      size_t size)
+ {
+-	dev_warn(rtk->dev, "RTKit: Version: %s", bfr + 16);
++	if (size < 17) {
++		dev_warn(rtk->dev, "RTKit: Version section too small: 0x%zx",
++			 size);
++		return;
++	}
++	dev_warn(rtk->dev, "RTKit: Version: %.*s", (int)(size - 16), bfr + 16);
+ }
+ 
+ static void apple_rtkit_crashlog_dump_time(struct apple_rtkit *rtk, u8 *bfr,
+@@ -112,6 +117,11 @@ static void apple_rtkit_crashlog_dump_mailbox(struct apple_rtkit *rtk, u8 *bfr,
+ 
+ 	memcpy(&type, bfr + 16, 4);
+ 	memcpy(&index, bfr + 24, 4);
++	if (size < 28) {
++		dev_warn(rtk->dev, "RTKit: Mailbox section too small: 0x%zx",
++			 size);
++		return;
++	}
+ 	n_messages = (size - 28) / sizeof(entry);
+ 
+ 	dev_warn(rtk->dev, "RTKit: Mailbox history (type = %d, index = %d)",
+@@ -206,8 +216,20 @@ void apple_rtkit_crashlog_dump(struct apple_rtkit *rtk, u8 *bfr, size_t size)
+ 	offset = sizeof(header);
+ 
+ 	while (offset < size) {
++		if (offset + 16 > size) {
++			dev_warn(rtk->dev,
++				 "RTKit: Crashlog section header out of bounds at 0x%zx",
++				 offset);
++			break;
++		}
+ 		memcpy(&section_fourcc, bfr + offset, 4);
+ 		memcpy(&section_size, bfr + offset + 12, 4);
++		if (section_size < 16 || offset + section_size > size) {
++			dev_warn(rtk->dev,
++				 "RTKit: Crashlog section size out of bounds: %u at 0x%zx",
++				 section_size, offset);
++			break;
++		}
+ 
+ 		switch (section_fourcc) {
+ 		case APPLE_RTKIT_CRASHLOG_HEADER:
+-- 
+2.53.0
+
