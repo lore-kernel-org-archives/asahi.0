@@ -1,91 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3202F3C1D73;
-	Sat,  1 Aug 2026 21:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A6C346A0C
+	for <asahi@lists.linux.dev>; Sat,  1 Aug 2026 21:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785618581; cv=none; b=RcFc0Me97dHgwsbcfEY0cs6YjJttVGt343lOM+ei6J3upQw+QGsyjwxicy84mMCWm5+Do2AoY5iKMRLxRfU4pXtAZbSbXnnBFbU1+HZjbNeJWaqIEHnOT1BCZgWcQQnmm6w1Qb+lZSF6L55k9zXrMvs/ZnXvfesUQIip5fcoAdw=
+	t=1785619856; cv=none; b=TH2HP7vLlSFazUxBGWRoTYrKp57Lzs/XOeCpHokRQFM2kP3oHqtp99r1x+QCPA6E0LmcwoeujyeGICETGltUJVKJLj6LlQW+PrGK7onlWAzAfdjGaOl4RXClq4sU/7sueQQJpN4LtphHv1XNCdcmj+bV/AUWiJRDMsedTwL8KmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785618581; c=relaxed/simple;
-	bh=5sM1xs0sfKD4TGM5Irnf3QPHUB+3BbN18lEhfjT8RSc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=t0WWfBRkzsOl+pezJ/i4Ogyb9kpLZ78YHd5TC3LeMdgQjSmashKDSS0jSzUqc7aIhpSsP4ihQiHNohQq5akaQDZHS9B0Nv/zgNhUp8BV+Fk7DHipCPzsABYc+ETwHP3FdRfDP+WfsMgYhqtzgebjpc2Os5ckmAHWDo82iahnGJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cjc3+Gfy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785619856; c=relaxed/simple;
+	bh=MUzHrXbd8n2NCD9Eadg2uDAMQrUrE7yS0G6eYeDPv0g=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TaG2z70DD6+BH8vLkQ4amPkNE7N9pPsmcWIa5be1GKiuAbUTVyEn0Tin5yfRYdbhbNmfhWh9hBOld2BAcScC6tt/X+CTTWxN4dL74QlovToy6ETPd58gCwgv91X17HaaCvPr5l5siSgPYBriHfHe4wwzGx1lY21xzv4UdT30KWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=hpY3Ti2k; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cjc3+Gfy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A83271F00AC4;
-	Sat,  1 Aug 2026 21:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785618579;
-	bh=HG9IH65XypfCAd/Nj6Z7NZAQdDapw3NbVOoaxeRscxg=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=Cjc3+Gfy0Y/N4Bfrfpsi84q8fG+NeA0OGt0vQnwJQqSvnSrOEMnKW7/YsWrRESrtb
-	 rPftNeXy3tLj0X5BP4jmuI2QkrdZRPWN6fcbiKNLu42E012z5MGs/siPFUeZUXKwX9
-	 fhGVNxecXNOmU97gd+2icWTGHk1wPPYtUd4/ZwhRWsnHiy6zGucuUAKHRKG9p1c7kb
-	 AzjjFvJhE7tcqpTssp9MCiaZr7mpe/6JoWLSCYzYMh66x+mRDfo6xooQ+ujwV7jKgJ
-	 or9DPGGoj7FT4QIzlIz+wvrQftMLcCAlcXFBXxRml6233VeHfDmXbrmvYqX4PS/aTv
-	 amE/VtrmnTryQ==
-Message-ID: <d00e0a4f-2065-4f37-b499-c27b6698c897@kernel.org>
-Date: Sat, 1 Aug 2026 23:09:08 +0200
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="hpY3Ti2k"
+Received: by chaosmail.tech (Postfix) id 07BBB1C87FF;
+	Sat, 01 Aug 2026 21:30:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1785619845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=hwPIDXkHOLX2pofkwEoqOv94i7apCAfdrwYcx+PPWXo=;
+	b=hpY3Ti2kFDmdXWOiUJdvoAwGQA/Q80DVPeV55NDmAD32OpQ1/MdJSHVAZJnzdaMqv7Hs/q
+	b4PDTnvZ1Oaub4mJbr+JlZXNbFc3MKRqcyjCtsArQ6jsJhk2QKhWiIBEUAoRp97f97yCmP
+	U0Ql+desJQD6pJ2fO3k38f3CbOsa9PU=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Subject: [PATCH v3 0/3] usb: typec: tipd: Add sn201202x (ACE3) support
+Date: Sat, 01 Aug 2026 23:30:09 +0200
+Message-Id: <20260801-tipd-ace3-v3-0-8332f2eca4fc@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] arm64: dts: Correct white-space style
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <zajec5@gmail.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Patrice Chotard <patrice.chotard@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Michal Simek <michal.simek@amd.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Khuong Dinh <khuong@os.amperecomputing.com>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Dinh Nguyen <dinguyen@kernel.org>,
- Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org,
- asahi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org
-References: <20260801210210.383417-3-krzysztof.kozlowski@oss.qualcomm.com>
- <20260801210210.383417-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260801210210.383417-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22Oyw7CIBBFf8WwFsNDinXlfxgXFKZ2jLYNINE0/
+ Xehbpro8ubec2YmEsAjBHLcTMRDwoBDn4PcbojtTH8Fii5nIpiomBaKRhwdNRYkZTVrWqUZtKo
+ meT96aPG1uM6Xbw7P5gY2FkFZdBji4N/LscTL7p83ccqolrlxsuLyYE75kyE8DN53EWxHijyJN
+ a7XuMg4l3tVK924SqoffJ7nD+D59YT4AAAA
+X-Change-ID: 20260725-tipd-ace3-090bf570ef59
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
+ Alyssa Milburn <amilburn@zall.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785619844; l=2244;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=MUzHrXbd8n2NCD9Eadg2uDAMQrUrE7yS0G6eYeDPv0g=;
+ b=4rMMRI6uvsP8G5nm7hRToUMIg43AAPOr9CMuHWJhUpabTvpG2bg6Pl8Gf3qt43Qh1FBCy4kiy
+ /lfancP4YViCftm0RwjT9Kegbyk/5Jyj6xyZ9gJHN2uGM67T6OfMn9g
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-On 01.08.26 23:02, Krzysztof Kozlowski wrote:
-> Correct a few white-space issues, like missing space before bracket '{'
-> character or spurious space, which will be flagged by dt-check-style
-> ("redundant-whitespace" warning).  No functional changes.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ---
+Add support for sn201202x (a.k.a ACE3), an Apple-specific tps6598x
+variant that wraps the tps6598x core register set with a SPMI based
+regmap-like protocol, first appearing in Apple M3 devices. This series
+first makes the core parts bus-agnostic, and then adds the new SPMI
+interface as a custom regmap implementation.
 
-Acked-by: Sven Peter <sven@kernel.org> # for apple dts
+To simplify the merge strategy, the device tree entries will be sent
+in a future patch series.
 
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+---
+Changes in v3:
+- Restore accidentally deleted static
+- Fix building with tracepoints
+- Sleep the device on failed probe
+- Link to v2: https://patch.msgid.link/20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech
 
-Thanks,
+Changes in v2:
+- Use a -core module instead of building everything twice
+- Fix completion handling
+- Make regmaps debugfs-safe
+- Link to v1: https://patch.msgid.link/20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech
 
+---
+Alyssa Milburn (1):
+      usb: typec: tipd: Factor out i2c specifics
 
-Sven
+Sasha Finkelstein (2):
+      dt-bindings: usb: tps6598x: Add sn201202x/ACE3
+      usb: typec: tipd: Add sn201202x support
+
+ Documentation/devicetree/bindings/usb/apple,sn201202x.yaml |  78 +++++++++++++++++++++++++++++++
+ MAINTAINERS                                                |   2 +
+ drivers/usb/typec/tipd/Kconfig                             |  20 +++++++-
+ drivers/usb/typec/tipd/Makefile                            |  14 ++++--
+ drivers/usb/typec/tipd/core.c                              | 241 +++++++++++++++++++++--------------------------------------------------------------------------
+ drivers/usb/typec/tipd/i2c.c                               | 104 +++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/typec/tipd/spmi.c                              | 297 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/typec/tipd/tps6598x.h                          | 124 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 8 files changed, 685 insertions(+), 195 deletions(-)
+---
+base-commit: 0ce37745d4bfbc493f718169c3974898ffec8ee7
+change-id: 20260725-tipd-ace3-090bf570ef59
+
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
