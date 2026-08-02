@@ -1,72 +1,72 @@
 Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB072737E3
-	for <asahi@lists.linux.dev>; Sun,  2 Aug 2026 09:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6367C3955F9
+	for <asahi@lists.linux.dev>; Sun,  2 Aug 2026 09:19:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785661642; cv=none; b=cib3ZDXoE9RDdP4YYif76f4bYqDD5OF5UzpvdP2wqVXcDrRadrH5sm76STW7rcseK0/7pn+egylIgMRe1j0+6xbpoXVz26ZFlfH76xFL8Sw/wK+UXb3o/URC4sVVfrg0FGQkWx4TzDBsY9ilg8xB0F+oZabZRG6Knw0QRyH82fw=
+	t=1785662351; cv=none; b=eiJ1Jx2mBNcCsutCPPO78HIj+gPt/O27uX01vLBRIF25vEaM6A6XxwCDxhsGVeiD/llEw1UACnOG+fgu1FaIGDKrt8SfZP+6r+agXQuC+wJPdcFzGvwy03Q6s7Z9DGjEw5+LA1Bf/ozj2MXddV68G5bVOIQ7GVHekYyinfe0kUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785661642; c=relaxed/simple;
-	bh=RZ3yeMXR+2/THY7/Ox9OZK06r1AGGecqE3hZGQgHT2o=;
+	s=arc-20240116; t=1785662351; c=relaxed/simple;
+	bh=5Arqzfev1YUAGg8yMQC2vovq/wBiufkQ44jDNNmByfo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p/3rbNpVs0i31n7lr8o0/o5FMLocE6I11Sp6okXQjZ5LskmkoCCaEjpsUUeB3NIlHfWzk2Zaow5ikQT47VC0l3csu5hlk2g9CxUfkdlNRmd2Ezkte1mt6idIAqdXk2FWtru1Zx/CzlcUZPIIHHlagL9NydF3Q86mKE8wxjEL9Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=U45ZRKdZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iaYYdgdb; arc=none smtp.client-ip=103.168.172.158
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ew9rjzvsjAk2FkkUFKQ9uGYjXsMJq1OuyBSdIQYD3WMYDmJKxK4hY8AeXkEeKJpdezD6NLZFdtouv7CAaioCjy4iNppPaExbsUnl6ZNUcysMp7HGvIK75hka+nixGZi0YrYy+vUydzwARp/4uWVRcYBIihjigJkxeiCyBfBjkK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=VvUxUaY7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ALErArKO; arc=none smtp.client-ip=103.168.172.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="U45ZRKdZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iaYYdgdb"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 695B51400143;
-	Sun,  2 Aug 2026 05:07:20 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="VvUxUaY7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ALErArKO"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6905B1400155;
+	Sun,  2 Aug 2026 05:19:07 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Sun, 02 Aug 2026 05:07:20 -0400
+  by phl-compute-06.internal (MEProxy); Sun, 02 Aug 2026 05:19:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1785661640; x=1785748040; bh=GcowD4hPna
-	FHV6viQpEqJbkWL7F/EROyiT8dzgigGfM=; b=U45ZRKdZUacgCfJeuXq+8XIfwg
-	FkIe3LnHpKEl5LZJzKpkZTEgYvJADxrQbnUIvbEwJyCCQupTT7g1AudaCAvgZtp/
-	RjF9+arRNJ48T5pSgAIuDBfzh+zJJtnGAt1iG+LI4uZcLJduk00/VvCLXj1y3xHV
-	gHhEI8jFKw+kT4tctCg2ELCF0l9d/Avz7YJBnhQaL9njlSlzrH7Iug/RbFmlcbMm
-	SDlGlTNWsXZYvQOrkGNn+GoiPYMEp9VlNc8Bzb7xGKdwJUC+RqQwkH0IYRQRbkE2
-	Te2wKs6uO697k2wbzywGcnp7ABhMNLYghb4fjPYXfqoOx/TCuwzI45B9Dwlw==
+	:subject:to:to; s=fm1; t=1785662347; x=1785748747; bh=Ko76THsfnX
+	Z043OG9zh/F8AdTxAYTWWKZfq1z6rekAY=; b=VvUxUaY724cssEc/xuev07u9L0
+	Xs0MjyrQSrzaxdz2mhPLEe8doVKtUX8OKQ7IFYSRduiYBVyOhFcWoNYeiADM7099
+	HdDKUpzZNWNzs3WghBPUl6EKSiRqU/Klv8QkNoWB6BpfQtTP/eNXfLv13bURM2e9
+	y10Tclqb8YBJgSfDT3Q5s7eaZxS/jTAa6lic9upPFb3QYsKziDhriTiPYiFl8lfo
+	EGoShX9KU+8LkH/E5Lan0/SbNFUPTxKaAclv/KwzgX4tyMSkWcdYDhJ5o7sCnlRj
+	pWVjEPuToGj53BjYo0jBeqIevVikGYTiJodtrSfHRVWki/w1GM6Kj17ZYnbg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1785661640; x=1785748040; bh=GcowD4hPnaFHV6viQpEqJbkWL7F/EROyiT8
-	dzgigGfM=; b=iaYYdgdbc8hho4RDdf68ER6YQuxvEMU+b7dGVXkT9FVnk+yYfq4
-	qG1KtjuFg5G3rczAV6kXJR/rgTMgjt0O4q1d+lCgaAKkFXgfmPgg2IMX1YXfrAti
-	FF7VWQqdR5R9t+FPL8YDgBAS+Bp24T388klJ9ryT/KB9zfXRgut0FvbEQKZxRbvd
-	wChNh+5sJWSy43jyHOdcRhY6W6zd3V7kufYjHYRDBXDV9n1ZkzgSFAM9KYGGnWH1
-	2sa1fdelusbFhAlfYi4v30FI4M0Ll67c92XII7dUtuPj+gJMzHe+3KeDZvoKy5aJ
-	KmQuCb8B2QowbuP5Wn6Nk9UOwmI9nAFfRZA==
-X-ME-Sender: <xms:yAhvavzFCbnwRH47grekZXx3M80xjHwUS2f7ceA3O8S_mjzElsA1qg>
-    <xme:yAhvajEfi1o6NOMMub6v71PdXbVSMiJGDsQYYdGUSroH4bF4I7SSBTgp87fwSbgU0
-    _yjrBDh5Axng75fouGr_XeWBra9Us4BX1tGixBh30r2aBOOfNBSyb1U>
-X-ME-Received: <xmr:yAhvakuHv5JBVcUcW7EpRX-j8oelL8B5iZraeS1zagRG1EKa00DOUcOR5gYuC3M7jGpQYvHwxXavZ43kBb9q0oSXbwGzB0lwXO4>
-X-ME-Proxy-Cause: dmFkZTEtazb3aefcffG10LA8PvMPA8OYtMmfWjpIL55fBjfd9AI95fb06+KDp5LodwwKTa
-    JPvvjV0gUCD7/zA2r57MQ/BJw8SCZtTm5v+4VIwFpWnYvam2fq3cTt08REowgdxfh7rF3s
-    VEphO0c6UxRqSZepVtejjjSkCN9sKq2+9ZuSJBL3UYvaCGrAM/lrjjkRbtfjqShy8h2Fri
-    YcIQenOsldMbNDI/gnvMnwByKKzfL1ldbQFa9u8fJghDFWRJZszVcpQNJt7BgBPuUwOmFs
-    BilQLr70C8SPZH1vvDkfwZY369BotsIrtohR0HJdUnOylvl26JOeljIMdfkXrTXTluBdDm
-    mvoIqoTrzoLZ9ro/RwQhiJFXDbhaTYoJ15tHxiI6BaotM/COL/qA5k+Zy6qE32ZXOM8y3A
-    hVcCm9gORpMU159ZDU63ZUIPc01jnAPJOfL0qta4AYgMvbw7aFvJvW466LRYqGQY6n5jS/
-    xambnA9eMiJQ9M7Xer7dGN8ivfsZWzgsJz1aF4WmT0Jou4G6Wpb5mU/bLAAq1D0P3Hm9zO
-    nfMrVdvUxOIGaFHc/feZDhYubM9ETHYEKzxRApkBzhAfbHzvsAPfcEklD9EZ5zvtp1TOeE
-    V4pEeGkAjiGf32VBFMhL5XFreaAAWsKwRCWL3sXUL8FMuYKpLVWpw5zDPnaA
-X-ME-Proxy: <xmx:yAhvajA67ISfiPShw4ZqH6oZvH5brpyEvRoR1cReTSoIjNMkkIg7dQ>
-    <xmx:yAhvavB8pl8k_EnC_ieSqQqJvqGoEuxrrd8hUG4gV9YD0xVrqNfKtw>
-    <xmx:yAhvatqjYcYtyYrOuHc3MKU5-ZZLECogejx28JgAw3kfKMMVcUshMA>
-    <xmx:yAhvaqGtWRMhPvec5bjrutgo3-kEngXxBxEvo63EpEG92a07DeXoSw>
-    <xmx:yAhvahc9ngYaMtqECeuIW5VkzET0QgVu5qbqgBNIR01peIrlA9XFkgoQ>
+	1785662347; x=1785748747; bh=Ko76THsfnXZ043OG9zh/F8AdTxAYTWWKZfq
+	1z6rekAY=; b=ALErArKORJUpxgnYIQpxQJwFuHBp8WBubOJYhvwxJcivE096fIV
+	2VneqUvYjJTao6gy8TBOJ45TW5sE4Clq/CLrzjCEsktDQDR/O7i2MYFDARqQ7/Mo
+	VIG5pzqsUN86hMBACfRg+QyQ1EQ8ZymZgJPlfApblTlIR8G2aGEsdo5NsStn0oT1
+	IePvjUFmgxYrpNPMgliYrsZqV5HqTx4CyyNYjcFQ7i5YWRtJqusxvCUFCm6I96UK
+	oYs3qwK4Ha6XJuVwss7D1Zx7oo3+SqQGUCaLua1+KxDUT8L7fszgCo98ZEqb0Azn
+	pF8ObsNHMPSIJer9ydeaaJYEafrNtaWMipQ==
+X-ME-Sender: <xms:igtvak5biAlTSpUvtzLPZU0O1OJpucMbiCw3DfRB0Jy68g5woSZlhA>
+    <xme:igtvasRyabOKD86Mz-1Vtm3BnLy2DvRPe9FvOUGNx2UkU7QSexKRpJZM8MB6TgUlb
+    5jSJOXCs8QoWEWR0x2sgtPvW-tWTNEAw5UK8SC7A6bhFg3kJnHQNn4>
+X-ME-Received: <xmr:igtvavsWomI7M2dJruCkBlYusOOlwrH8GYl9CB8plyMlHe-lkZX56-YwV_p5SLfq0ychjlre2sXaE70fQZedLgHkrHEETA-eM-Q>
+X-ME-Proxy-Cause: dmFkZTEr8HrNx3Cr5ni6UAa7SmNpYhsyawGdrEF8NEKNgj/AOO9YDh3BTzAEdJ7Jch1tnW
+    Qp4K4U3EN0sA/l40npR75Xu2RxqowGvJy08sH0BiJy1S3MBM8gsm/pJmrPtuyrFxSSEvtD
+    wwashyBPQ/kP8+Z5TrmoQqsMLmFT2oOI1AYZ59KOxQv432TtjAh7QhK0BoKrNhUM/jyWOu
+    TsyOfXGKPXaC9gfJLyauN0sR+3prLnDoPVx/rXeJ1Mq43MR7E4Grdzr6No7SuXb+jkwRAz
+    JIxQJvVh+MRaUGm/ZLJpF8or/p/OxLYBDOAGd6YPag0MN+ZHTmP3vnXOSUAjzeg0sjqjon
+    BDLeCF6JN0Jtd4GmdBS0kmeWNFqPzclsQaNVmLr4GU3lxD3+N+0+xtjiXmTUg6ErQ/cg4g
+    ARAXdztQUihmTfGQ0pi0VqQSioFSEbDlixQNkpZ8O82p9+qpqy3wmAqo87vvr0c1Pwvu44
+    fD+YsDxGrWjFgbBPXmJT1cBatyhbAt3OoIjjuyuuuxTl9UWDA3CSdiAdnIiMK5/MPyRSJT
+    NTe6hDVvHXOfwqgMRy7+zMj6myo03mejOzAu0hBH+7XbRwmyVdAwGDKjWBU1y1ZrALoQNt
+    xoRlD3nbkbRQJz8G8fDdjq0tOxH7HPBPKE0S5PH3lOk3REBR6RDH+kOMxpLA
+X-ME-Proxy: <xmx:igtvam_qet7EeQoQzhjG3hM11t7o5lqh9nN8fNfD5-mGunsqkbtxpg>
+    <xmx:igtvagyWMyJ7sDkP16FnbUMknMvS7yVcz747MrwIaNGVnBNdvsx5pg>
+    <xmx:igtvag_3f7FWSpJuimNZvvvF96eDWBkXtFws8G874znD01R680ovdg>
+    <xmx:igtvamOONclzGS6P_V-7opz2Fig2FK6Hbt4EXiP2LgNlplXy5E0pXg>
+    <xmx:iwtvapdikZr1oYW0x6nULWS0Q77Y9-tBuuxXsQY7exJtL2eRLmAbEe-b>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 2 Aug 2026 05:07:19 -0400 (EDT)
-Date: Sun, 2 Aug 2026 11:07:18 +0200
+ 2 Aug 2026 05:19:06 -0400 (EDT)
+Date: Sun, 2 Aug 2026 11:19:05 +0200
 From: Janne Grunau <j@jannau.net>
 To: Sasha Finkelstein <k@chaosmail.tech>
 Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
@@ -74,11 +74,11 @@ Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: spmi: apple,spmi: Add t603x
-Message-ID: <20260802090718.GC806854@robin.jannau.net>
+	devicetree@vger.kernel.org, Alba Mendez <me@alba.sh>
+Subject: Re: [PATCH v2 2/7] spmi: apple: Validate FIFO state
+Message-ID: <20260802091905.GD806854@robin.jannau.net>
 References: <20260728-t603x-spmi-v2-0-f43e5f10e583@chaosmail.tech>
- <20260728-t603x-spmi-v2-1-f43e5f10e583@chaosmail.tech>
+ <20260728-t603x-spmi-v2-2-f43e5f10e583@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -87,57 +87,64 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260728-t603x-spmi-v2-1-f43e5f10e583@chaosmail.tech>
+In-Reply-To: <20260728-t603x-spmi-v2-2-f43e5f10e583@chaosmail.tech>
 
-On Tue, Jul 28, 2026 at 11:28:07AM +0200, Sasha Finkelstein wrote:
-> Add t603x compatibles, interrupt support, and support for SPMI
-> controllers that are not always-on.
+On Tue, Jul 28, 2026 at 11:28:08AM +0200, Sasha Finkelstein wrote:
+> From: Alba Mendez <me@alba.sh>
 > 
-> Keeping the "interrupt-controller" property as optional, as taking the
-> j514c as an example, we only need this functionality on 3 out of 10
-> SPMI controllers present on this SoC.
+> Check for data before reading the body of a reply, and check for
+> end of data afterwards.
 > 
+> Signed-off-by: Alba Mendez <me@alba.sh>
 > Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 > ---
->  Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  drivers/spmi/spmi-apple-controller.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-> index 3e5b14bc8c31..9fc511bb0cb8 100644
-> --- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-> +++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-> @@ -20,6 +20,8 @@ properties:
->        - items:
->            - enum:
->                - apple,t6020-spmi
-> +              - apple,t6030-spmi
-> +              - apple,t6031-spmi
->                - apple,t8012-spmi
->                - apple,t8015-spmi
->            - const: apple,t8103-spmi
-
-Please add "apple,t8122-spmi" as well
-
-> @@ -34,6 +36,18 @@ properties:
->    reg:
->      maxItems: 1
+> diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
+> index 376cf682c43e..b4f442d0b4ad 100644
+> --- a/drivers/spmi/spmi-apple-controller.c
+> +++ b/drivers/spmi/spmi-apple-controller.c
+> @@ -78,6 +78,10 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
 >  
-> +  interrupts:
-> +    maxItems: 1
-> +    description: Optional, operates in polled mode if not present
-> +
-> +  interrupt-controller: true
-> +
-> +  "#interrupt-cells":
-> +    const: 2
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
->  required:
->    - compatible
->    - reg
+>  	/* Read SPMI data reply */
+>  	while (len_read < len) {
+> +		if (readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY) {
+> +			dev_err(&ctrl->dev, "FIFO lacks reply data, controller stuck?\n");
 
-Reviewed-by: Janne Grunau <j@jannau.net>
+this looks like it maybe should use dev_err_ratelimited()
+
+> +			return -EIO;
+> +		}
+>  		rsp = readl(spmi->regs + SPMI_RSP_REG);
+>  		i = 0;
+>  		while ((len_read < len) && (i < 4)) {
+> @@ -86,6 +90,9 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+>  		}
+>  	}
+>  
+> +	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY))
+> +		dev_warn(&ctrl->dev, "FIFO has extra data\n");
+
+would it make sense to flush the fifo here to avoid issues on the next
+command? I would assume if we don't flush this condition will trigger
+for every following command.
+
+> +
+>  	return 0;
+>  }
+>  
+> @@ -115,6 +122,9 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+>  	/* Discard */
+>  	readl(spmi->regs + SPMI_RSP_REG);
+>  
+> +	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY))
+> +		dev_warn(&ctrl->dev, "FIFO has extra data\n");
+
+same here
+
+> +
+>  	return 0;
+>  }
 
 Janne
