@@ -1,138 +1,143 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F240394EB7
-	for <asahi@lists.linux.dev>; Sun,  2 Aug 2026 09:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB072737E3
+	for <asahi@lists.linux.dev>; Sun,  2 Aug 2026 09:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785661416; cv=none; b=u0LhsRv5b04oiGcL8D/j34PBMvJkU/3ljgM+zsJ7nYWo0cCz4jc7IJT+9rL0qOvMjPGHJwcd6C3MA+lBiVmKrf05oFMdy4zQ39BYcKvptJ/UtjUKCxZV4kYECvqh/zDv9weeOZlG5pes04aAgYgYejbG/3kxY3sl3P0zHc0XpZo=
+	t=1785661642; cv=none; b=cib3ZDXoE9RDdP4YYif76f4bYqDD5OF5UzpvdP2wqVXcDrRadrH5sm76STW7rcseK0/7pn+egylIgMRe1j0+6xbpoXVz26ZFlfH76xFL8Sw/wK+UXb3o/URC4sVVfrg0FGQkWx4TzDBsY9ilg8xB0F+oZabZRG6Knw0QRyH82fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785661416; c=relaxed/simple;
-	bh=tVFVxLd/XVzU836PdWgXeU6KVTWz9bou5XC4X2akdq8=;
-	h=Content-Type:MIME-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=rIZiCHGjnxJpKXPOupMiBbK31Iu57anipQBO3tbeTTB3Z/wWqYKYZMq8EARYvs6xhjaXTMptCEsJ9rWL9NGcT/JCYcD2vEqevTFEj7Ovg9S404Y47DXkDzA4NDEXr+LlImPsDPTgHo5mSyseTJpCEJfB0KQFF21ckfUqhxthNuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=BXWbBUiE; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1785661642; c=relaxed/simple;
+	bh=RZ3yeMXR+2/THY7/Ox9OZK06r1AGGecqE3hZGQgHT2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p/3rbNpVs0i31n7lr8o0/o5FMLocE6I11Sp6okXQjZ5LskmkoCCaEjpsUUeB3NIlHfWzk2Zaow5ikQT47VC0l3csu5hlk2g9CxUfkdlNRmd2Ezkte1mt6idIAqdXk2FWtru1Zx/CzlcUZPIIHHlagL9NydF3Q86mKE8wxjEL9Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=U45ZRKdZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iaYYdgdb; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="BXWbBUiE"
-Received: by chaosmail.tech (Postfix) id EDFEB1C878A;
-	Sun, 02 Aug 2026 09:03:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1785661409;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=85mK8UDi7QBt5jRlKz/7QZeVLFWA6U447/S6wVm/foA=;
-	b=BXWbBUiEb3uVA/1XQUswnLyz+0300SrCRvxedsG2jqHRPfNKGH3RtC3U4RrlCRfdgtDObe
-	HxLo2fxifS0FpMNW51EhEHAkR0LHcXJFkL22Fw4/CBDkC50tGjGtObdLC9sNxtywpEUW/w
-	vskDobfKQ370LfOaAEcM89eOmhYnXuY=
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="U45ZRKdZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iaYYdgdb"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 695B51400143;
+	Sun,  2 Aug 2026 05:07:20 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Sun, 02 Aug 2026 05:07:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1785661640; x=1785748040; bh=GcowD4hPna
+	FHV6viQpEqJbkWL7F/EROyiT8dzgigGfM=; b=U45ZRKdZUacgCfJeuXq+8XIfwg
+	FkIe3LnHpKEl5LZJzKpkZTEgYvJADxrQbnUIvbEwJyCCQupTT7g1AudaCAvgZtp/
+	RjF9+arRNJ48T5pSgAIuDBfzh+zJJtnGAt1iG+LI4uZcLJduk00/VvCLXj1y3xHV
+	gHhEI8jFKw+kT4tctCg2ELCF0l9d/Avz7YJBnhQaL9njlSlzrH7Iug/RbFmlcbMm
+	SDlGlTNWsXZYvQOrkGNn+GoiPYMEp9VlNc8Bzb7xGKdwJUC+RqQwkH0IYRQRbkE2
+	Te2wKs6uO697k2wbzywGcnp7ABhMNLYghb4fjPYXfqoOx/TCuwzI45B9Dwlw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1785661640; x=1785748040; bh=GcowD4hPnaFHV6viQpEqJbkWL7F/EROyiT8
+	dzgigGfM=; b=iaYYdgdbc8hho4RDdf68ER6YQuxvEMU+b7dGVXkT9FVnk+yYfq4
+	qG1KtjuFg5G3rczAV6kXJR/rgTMgjt0O4q1d+lCgaAKkFXgfmPgg2IMX1YXfrAti
+	FF7VWQqdR5R9t+FPL8YDgBAS+Bp24T388klJ9ryT/KB9zfXRgut0FvbEQKZxRbvd
+	wChNh+5sJWSy43jyHOdcRhY6W6zd3V7kufYjHYRDBXDV9n1ZkzgSFAM9KYGGnWH1
+	2sa1fdelusbFhAlfYi4v30FI4M0Ll67c92XII7dUtuPj+gJMzHe+3KeDZvoKy5aJ
+	KmQuCb8B2QowbuP5Wn6Nk9UOwmI9nAFfRZA==
+X-ME-Sender: <xms:yAhvavzFCbnwRH47grekZXx3M80xjHwUS2f7ceA3O8S_mjzElsA1qg>
+    <xme:yAhvajEfi1o6NOMMub6v71PdXbVSMiJGDsQYYdGUSroH4bF4I7SSBTgp87fwSbgU0
+    _yjrBDh5Axng75fouGr_XeWBra9Us4BX1tGixBh30r2aBOOfNBSyb1U>
+X-ME-Received: <xmr:yAhvakuHv5JBVcUcW7EpRX-j8oelL8B5iZraeS1zagRG1EKa00DOUcOR5gYuC3M7jGpQYvHwxXavZ43kBb9q0oSXbwGzB0lwXO4>
+X-ME-Proxy-Cause: dmFkZTEtazb3aefcffG10LA8PvMPA8OYtMmfWjpIL55fBjfd9AI95fb06+KDp5LodwwKTa
+    JPvvjV0gUCD7/zA2r57MQ/BJw8SCZtTm5v+4VIwFpWnYvam2fq3cTt08REowgdxfh7rF3s
+    VEphO0c6UxRqSZepVtejjjSkCN9sKq2+9ZuSJBL3UYvaCGrAM/lrjjkRbtfjqShy8h2Fri
+    YcIQenOsldMbNDI/gnvMnwByKKzfL1ldbQFa9u8fJghDFWRJZszVcpQNJt7BgBPuUwOmFs
+    BilQLr70C8SPZH1vvDkfwZY369BotsIrtohR0HJdUnOylvl26JOeljIMdfkXrTXTluBdDm
+    mvoIqoTrzoLZ9ro/RwQhiJFXDbhaTYoJ15tHxiI6BaotM/COL/qA5k+Zy6qE32ZXOM8y3A
+    hVcCm9gORpMU159ZDU63ZUIPc01jnAPJOfL0qta4AYgMvbw7aFvJvW466LRYqGQY6n5jS/
+    xambnA9eMiJQ9M7Xer7dGN8ivfsZWzgsJz1aF4WmT0Jou4G6Wpb5mU/bLAAq1D0P3Hm9zO
+    nfMrVdvUxOIGaFHc/feZDhYubM9ETHYEKzxRApkBzhAfbHzvsAPfcEklD9EZ5zvtp1TOeE
+    V4pEeGkAjiGf32VBFMhL5XFreaAAWsKwRCWL3sXUL8FMuYKpLVWpw5zDPnaA
+X-ME-Proxy: <xmx:yAhvajA67ISfiPShw4ZqH6oZvH5brpyEvRoR1cReTSoIjNMkkIg7dQ>
+    <xmx:yAhvavB8pl8k_EnC_ieSqQqJvqGoEuxrrd8hUG4gV9YD0xVrqNfKtw>
+    <xmx:yAhvatqjYcYtyYrOuHc3MKU5-ZZLECogejx28JgAw3kfKMMVcUshMA>
+    <xmx:yAhvaqGtWRMhPvec5bjrutgo3-kEngXxBxEvo63EpEG92a07DeXoSw>
+    <xmx:yAhvahc9ngYaMtqECeuIW5VkzET0QgVu5qbqgBNIR01peIrlA9XFkgoQ>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 2 Aug 2026 05:07:19 -0400 (EDT)
+Date: Sun, 2 Aug 2026 11:07:18 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] dt-bindings: spmi: apple,spmi: Add t603x
+Message-ID: <20260802090718.GC806854@robin.jannau.net>
+References: <20260728-t603x-spmi-v2-0-f43e5f10e583@chaosmail.tech>
+ <20260728-t603x-spmi-v2-1-f43e5f10e583@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2] dmaengine: apple-admac: Add M3 generation ADMACs
-From: Sasha Finkelstein <k@chaosmail.tech>
-In-Reply-To: <20260802085437.GA806854@robin.jannau.net>
-Date: Sun, 2 Aug 2026 11:03:18 +0200
-Cc: Sven Peter <sven@kernel.org>,
- Vinod Koul <vkoul@kernel.org>,
- Frank Li <Frank.Li@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- dmaengine@vger.kernel.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Message-Id: <6AC365D2-475C-4DE4-BDFC-C31923A121B6@chaosmail.tech>
-References: <20260729-t603x-admac-v2-0-e4b2bb6ca45e@chaosmail.tech>
- <20260729-t603x-admac-v2-2-e4b2bb6ca45e@chaosmail.tech>
- <20260802085437.GA806854@robin.jannau.net>
-To: Janne Grunau <j@jannau.net>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260728-t603x-spmi-v2-1-f43e5f10e583@chaosmail.tech>
 
-On Aug 2, 2026, at 10:54, Janne Grunau <j@jannau.net> wrote:
+On Tue, Jul 28, 2026 at 11:28:07AM +0200, Sasha Finkelstein wrote:
+> Add t603x compatibles, interrupt support, and support for SPMI
+> controllers that are not always-on.
 > 
-> On Wed, Jul 29, 2026 at 01:46:35PM +0200, Sasha Finkelstein wrote:
->> The admacs present on t8122 and t603x SoCs need additional writes in
->> order to operate correctly. The exact purpose of this register
->> is unknown
->> 
->> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
->> ---
->> drivers/dma/apple-admac.c | 32 ++++++++++++++++++++++++++++++--
->> 1 file changed, 30 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
->> index 14a5ee14a481..72ff677c8ce5 100644
->> --- a/drivers/dma/apple-admac.c
->> +++ b/drivers/dma/apple-admac.c
->> @@ -39,10 +39,14 @@
->> 
->> #define FLAG_DESC_NOTIFY BIT(16)
->> 
->> +#define T8122_UNK_28_VAL 0x200000
+> Keeping the "interrupt-controller" property as optional, as taking the
+> j514c as an example, we only need this functionality on 3 out of 10
+> SPMI controllers present on this SoC.
 > 
-> maybe BIT(21)
-
-Probably not, this is not in any way related to channel 21. I suspect
-but can't confirm that this is rather an address.
-
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+>  Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
->> #define REG_TX_START 0x0000
->> #define REG_TX_STOP 0x0004
->> #define REG_RX_START 0x0008
->> #define REG_RX_STOP 0x000c
->> +#define REG_UNK_28 0x0028
->> +#define REG_UNK_2C 0x002c
->> #define REG_IMPRINT 0x0090
->> #define REG_TX_SRAM_SIZE 0x0094
->> #define REG_RX_SRAM_SIZE 0x0098
->> @@ -127,6 +131,7 @@ struct admac_data {
->> struct mutex cache_alloc_lock;
->> struct admac_sram txcache, rxcache;
->> 
->> + bool set_unk28;
->> int irq;
->> int irq_index;
->> int nchannels;
->> @@ -147,6 +152,10 @@ struct admac_tx {
->> struct list_head node;
->> };
->> 
->> +struct admac_hw {
->> + bool set_unk28;
->> +};
->> +
->> static int admac_alloc_sram_carveout(struct admac_data *ad,
->>      enum dma_transfer_direction dir,
->>      u32 *out)
->> @@ -747,6 +756,11 @@ static int admac_device_config(struct dma_chan *chan,
->> u32 bus_width = readl_relaxed(ad->base + REG_BUS_WIDTH(adchan->no)) &
->> ~(BUS_WIDTH_WORD_SIZE | BUS_WIDTH_FRAME_SIZE);
->> 
->> + if (ad->set_unk28) {
->> + writel_relaxed(T8122_UNK_28_VAL, ad->base + REG_UNK_28);
->> + writel_relaxed(T8122_UNK_28_VAL, ad->base + REG_UNK_2C);
->> + }
-> 
-> can this be done in probe? This writes the same value for every channel
-> without obvious way how the bit in those two registers can reset? If it
-> needs to be done here a comment explaining why would be useful.
+> diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+> index 3e5b14bc8c31..9fc511bb0cb8 100644
+> --- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+> +++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+> @@ -20,6 +20,8 @@ properties:
+>        - items:
+>            - enum:
+>                - apple,t6020-spmi
+> +              - apple,t6030-spmi
+> +              - apple,t6031-spmi
+>                - apple,t8012-spmi
+>                - apple,t8015-spmi
+>            - const: apple,t8103-spmi
 
-Those are getting reset. The AOP-attached ADMAC has it's power
-controlled by the AOP firmware, so I can't even touch any registers
-in probe, as the hw is off at that point and will SError at us.
-device_config is the earliest point when the ADMAC is powered on. There
-is an explanation of this setup in the commit history for this file.
-(8d55e8a16f019211163f1180fd9f9fbe05901900)
+Please add "apple,t8122-spmi" as well
 
+> @@ -34,6 +36,18 @@ properties:
+>    reg:
+>      maxItems: 1
+>  
+> +  interrupts:
+> +    maxItems: 1
+> +    description: Optional, operates in polled mode if not present
+> +
+> +  interrupt-controller: true
+> +
+> +  "#interrupt-cells":
+> +    const: 2
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - reg
 
+Reviewed-by: Janne Grunau <j@jannau.net>
+
+Janne
