@@ -1,72 +1,72 @@
 Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A263002D1
-	for <asahi@lists.linux.dev>; Sun,  2 Aug 2026 10:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE95E10785
+	for <asahi@lists.linux.dev>; Sun,  2 Aug 2026 11:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785665937; cv=none; b=lTQeYNZxIS6ciTpYZHCebtleYvTLqAoLcEyxflrQFxoKIFNi4ARl/KVNVb5ZvGyVpOQj5m8qI3ONjNcWUzkJWsHk7V4UdLcJAnyjkjsLng15kSELI7xWMzvJlK1JB0G8sgTd+HkXERpTVy8oIaZ9oPoEVYnhEUZM1HmjGsjho3g=
+	t=1785669538; cv=none; b=srpRNC15ZVcanjT5OOS/tTWKsmPFJqvrEAYTTmBqfML2O4Yo9K+4MMKKumanQCfeCrBo4VtswVAQ8YxTHWF9IfGZ5iI+xljZWfTtt8Lh41SW8xp+ljKdPpTCYVih5cPcGXzXDOiS1hjHvfjc9yPVOkaMAOglhrXMrXk/MTPh3Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785665937; c=relaxed/simple;
-	bh=PIZLbD2r8FbPkKX+GXuA2GM5jUVaIQKf2uTBTxcgYq4=;
+	s=arc-20240116; t=1785669538; c=relaxed/simple;
+	bh=ORdmWQQ/abT6swmDCA1ZJ9Sk73YOBwpnF75U8BuMjnI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rMrRmqRC89tT637zznJ6Sc2LWAX+408Ly/vs+4yQi0SAXvEDEBzY+TjmG1rjkFX0FUW2NyP79lkQlQuB5kU8UDm58GIlJtMRcxIzpuHeJU0EQDtP0A/uf/k53yrRhd6G9W/Kjq3zFc17ls0MYzgeVaP5nKkCnEHVheOflD50M0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=Bmy2tmd4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AlXsz0OY; arc=none smtp.client-ip=103.168.172.154
+	 Content-Type:Content-Disposition:In-Reply-To; b=raT0Zf5AljvZXufhbzb7BKQiBVTZXZwd7QSMpejmbXcvC5MNiIs0zsNNt6cn5jmj6Kj7XxNcNxbqTN72ht74lutUinzqs/ptMB4A0T/CZcTx95nGEz8qFXqWbhU1XGQcaD5CxKSsMKGHPYGaeQz7hGXKNeW1U5EzKEmMyaXobhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=NpEMCYdZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lioA2m/b; arc=none smtp.client-ip=103.168.172.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="Bmy2tmd4";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AlXsz0OY"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6E00B140014E;
-	Sun,  2 Aug 2026 06:18:54 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sun, 02 Aug 2026 06:18:54 -0400
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="NpEMCYdZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lioA2m/b"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id CB92D1400146;
+	Sun,  2 Aug 2026 07:18:55 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Sun, 02 Aug 2026 07:18:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1785665934; x=1785752334; bh=sYjFgrqQtD
-	yTaV/XiPsfNDKjVnYviPk0fwgxGzdp6UY=; b=Bmy2tmd4pr5/+lwTCZdk2URI4L
-	cPlEjDHLOmuzfqmT7CG8+Sp0c6eKRwEQdFuA8FJADnfyS9DQLm3LmFSHFi/TaNxN
-	yPJPQSzsQGB2NjCPchzmKW8qqsn7CwWIT/EI2XghzohRAATSoIMUwcb/2/W0Yvj2
-	U5TrUXRWrjIRDfdkOjbLNeVMN9xWyPr77akmbYLcMGsNwF0JjplFaQwBdpHlwbnW
-	OkD/G5IzszSjQCb91V2SKinVN+/+z4UYdURZYHFaoKva8iElb9vAWiSbMvorj9XA
-	YZxmsj7SgaBCB2yVvHXSLVQog9dXhgsn16xUsb8a83XjV1AEcAAg+Y+cKqfg==
+	:subject:to:to; s=fm1; t=1785669535; x=1785755935; bh=N4T6zPehO+
+	hI7YbHINYC2+U0zW4QCef9+KZUmysYs/8=; b=NpEMCYdZ3TwLII8uIWNO3NVF66
+	v93X+iyxv/foIC9YU9OpHPk5MvpIbhqYJ6sKNSvevP+dVz1OA8OVBWEpW4NASOVK
+	L0WluxiNBUuVnpe0Hlv5tkKXZHjxuJbk6QvG+vddKnkYuHie+DrxIrg9JjtYv7C9
+	jfFQOIcyb1tpkBDCsTIyGJvlCf1MYfgTknKfYCixIExneM09beIlLSY4hwX+Vp7v
+	B7Wdi9hyPn4frLhIhrxRoNWOfFMdQDH23Q9Q5GXCkD1IiiebgXX5Wk3WGse1brQw
+	vl5NvnFSWypr2LoU0e8x17IVBJKbEj2TByav84JLCIDUUtTwPI32IWexG/qg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1785665934; x=1785752334; bh=sYjFgrqQtDyTaV/XiPsfNDKjVnYviPk0fwg
-	xGzdp6UY=; b=AlXsz0OYf3EhPWW6UNuWHm2Bo0oUarsaRkEQmsJ3brW8Blvv8HX
-	kAgxcstDvFp98hmi6HZ5UoHUyF6WsoiVNUUdgiS7n+8mTtUt5pSsrreTbtGxn0PQ
-	0P6B2pBZwEvQWBQBd5KT6SZnSJfv9bQ2NFxrzy1XZtKc5Xi/9kvK406rWE+0Wim8
-	lpvAoQQ1rKedEOgoI/yOGnLS0pNXDJbh0PoRAtwJsez8JtA78TMp86jVZt/YXv7H
-	3ivEYRbIO+nLmvUNKLjSnclId+HF0+PG719QJfAY+iNjOJrUQhEwoFuAwDsRRu7+
-	3uTft+CTImnd0V+I9swuAB/T7a4smtzSNZw==
-X-ME-Sender: <xms:jRlvavINX3-T1DGV9piYOLRPnGwC4ayV87hu8V4Ej0F89UcxwwgcwA>
-    <xme:jRlvapjagqs5PeSH5SknUTMyV9LkkmNx98J1bVK1ardWtVeXt51SIJdvT63iZwUZ8
-    nsZMx2Ldmxrsgap-5NarcpAD8A-jCBNyE2dxQKwIb_yGWxzEElEcA>
-X-ME-Received: <xmr:jRlvaj_EK2j2Y9rC6WKn8gwtYclaXklfLBY9uYgzwRD_AdJ8zUaL80_BrViH1CsRiGXKne2mdfaRcG5wf_cxrScZpVpHymElPVg>
-X-ME-Proxy-Cause: dmFkZTFjHCw4CSqjnCBFOt9sM9Qq66+yAIV8Fxa6AOKC9eLT2RSFltDg+ZhMdJVRhD2hls
-    RjhJpTxja3NpZ1aqkeKV78I159Ambir1/X/Pg8gYP+sSkXkzQBMybxhmpk50Xae6+SgTh3
-    ALPLMSCzkrpXKsKgqrhODaTV2v27PZJ0f1CR7dzQjfR7kh2UrIlhQaNaaCqLNihNJ/cEdK
-    8mBanYcKSMOONdPC8gykSX3Upuw6SsSXr0LASWWSZOXOldvtz3Joi0pEqtJO/T8uJ2gD/A
-    eCZlpbABkY50ANWv/uOEykOrEdgRmyfipJL5Rd/53rJtcRvxfVlxuGV1At9mgwvhLkG3Cj
-    K0BVXsZsdYcxmPp79bEpmVX7wGqwAP2uZPNIqB1GbD3b84hBWY49MG/O7H5qQCPRPEqthT
-    fD7nHEGSgmHFVECwdfgx6mK8cpmddvP/TDK8gksDcF7k00nH2UKpJ8XcAGQQAuErmZE4UO
-    AUUgGKoezkwxr1y8pqeipR5TfN67DiViLEgfO0yA97CUlqqqOldGQw4DTF9SuNCKslIPRn
-    +RmfwX2mdLq1w/mSp6yM/j63g2pRYJoTAPVh0Nlvvz5zg3e1JQfTanSkoeAHAy+UtVJJla
-    jcgWSmU7jXQAI4f68XMgqLOUIrZdknZUT7a7B/DWUmWShKZuf6bgi/GASkVA
-X-ME-Proxy: <xmx:jRlvamPIdJ7fHBBQico0IgKsIT5F0SekmcCKz2oFr2QNMBKnT8DygA>
-    <xmx:jRlvavBO8JHi8F1nNJ5XACrh77m2NugxTG_lvp8MfbWgqnEeNyaCTg>
-    <xmx:jRlvaiOIJ_0RfmyVf34giDkfWOLclCTnNdOKOlur5KFL6UfqfPEYOw>
-    <xmx:jRlvaudLVqI8UBi0DKoTc_3KFF2xUZNSe482GbuOW4S6yG1iGUGelg>
-    <xmx:jhlvaluKpUMu4grviNO9zDAC8QyuIw5JZbeMsMo35n_gPi7b4ShIy_Z6>
+	1785669535; x=1785755935; bh=N4T6zPehO+hI7YbHINYC2+U0zW4QCef9+KZ
+	UmysYs/8=; b=lioA2m/bKb5+GjOZSDN9Rv2zU3a8t+UrEkm/3RmATDeROtjdHjw
+	kIrY4oBzUyWi9YqBu7BpwXIGLuwMt72DmkGYzZoS0JKqaO6x65MQhKROiYvmDjHa
+	qHOGPgeLHpEl0YwzHlUBmhPi8XdmwDfqAy69oQRiIIWcci+pAsT154ywLOL1ZY1n
+	sYW/ukkOzmGGgt7HNqGKEsZJ6hOQmA6WXg8fudXDGjUV5eQeZyzL4Ag/DHPkAiLy
+	Fnjioj2aUtsTz2OhElF3qY94XP8eJMN0xT5rOvRr59YGRRNdNygELx8Z0JiGKsu0
+	+XnufqXQVrVqzwgC7j0x0mQikNgCy2MLXUw==
+X-ME-Sender: <xms:nydvaiQ5XJtzIoM9aJPUAogQuO5cAHpBpNEdwYSKg5y6MpmIbBE68g>
+    <xme:nydvauIqNTmvfipe7juMBWCDSREuWWp1viIxtDPdsw7foyA_zrkxccD9Fi0w3uNok
+    5QnU-pnX0LwpSm8trwem_lLPzD7X3VkHuk7c4jbZ3Jyl4qux0ZRl6tX>
+X-ME-Received: <xmr:nydvasFvciE3mysf7ol8vAARDH-SXjwnDj7JykX24mn7GqZRyn4phKPCQDfniwH9DVS5YbDWwrOsWa4O_npUkrOUcZFRaMiJ_4g>
+X-ME-Proxy-Cause: dmFkZTEIJqUgXfrT4dZfY/1nXl2Cq2Tg8N0SAszZYsNsi6GiUd4/g++Jzh0qgz53mD7Rcx
+    WNKEAcUDCRAy+XdLBH27TnEUyNog2Xgk1/XTMThjE6+ZJ2taccpk3BXF9AbVOOtE7uJD2n
+    qqUU+8F5iK0Orgq3k6WyZREq+ZnaStzQOVhQyOHzdcSpB+Aj1/M4o96/9Ej45kRv1JQRHS
+    vPc//RUrZpMqt2txL/kq47OZkQITVYwOr7EvllAoWn3bk4FUxbbkYMA15zmShzz+ora1dr
+    ow7v8J604Njl8UDZzrWm8Tt/4kDG7O27E5m9PCMvN2N2fqbqiRJeERhZgsg9vH0qZ5HbK4
+    1nN9fK4fnxB1EOoggd5mf1AvawFey4ZT9RYuKNXLnQ3G8jTM9nubqz1TKOxKYvq1ga8wR7
+    Ca3r4bKnLM70KSUKo7JL5JYjC8b8t82+fEBpGm8CNzyecM5sHQpVvvaRuMpMmVzyUqE2dx
+    28Uoz6SQyEKLUIYSlhqFEjnzfZC5Hm0ob1Wj/bD8zPteV3QxzBIcePgChn1fbcws1dQvce
+    Z/Dqerh8cAexUE+8K2JV3aX7DLUq7MlwKY3+3hyoz2B0fET5ic85OQ3EfWk1wD8IJ+PRte
+    qG+qMBVaFJAOVCzrE01W8orCg+dCeHIzutEnQF7gdWvtrXezj/Kt6G6CRE6g
+X-ME-Proxy: <xmx:nydvar2aetf5jBkfMKFJnmDn-PH-oDcmcNqhUDhdYTrA5JcHd-FN9A>
+    <xmx:nydvakK7XwspzVrck6oORFYyhS9Cu-VQ_biibNLfQ153OF7kFg2USA>
+    <xmx:nydvag1TgsQxdCaaXD6WTvIRhvkDSONlPkIYKAJ0Af_Pd0GKa99D3g>
+    <xmx:nydvaontBBKTUToN-iX3rUyX4_WQQmbUEbV2UZ3tejRB6n5atYTy5w>
+    <xmx:nydvah3_GG9DeYOMQMCjhHW9qDnkMaEjBHJ8XJ8VQzkPjzgjssnfPUSP>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 2 Aug 2026 06:18:53 -0400 (EDT)
-Date: Sun, 2 Aug 2026 12:18:52 +0200
+ 2 Aug 2026 07:18:54 -0400 (EDT)
+Date: Sun, 2 Aug 2026 13:18:53 +0200
 From: Janne Grunau <j@jannau.net>
 To: Sasha Finkelstein <k@chaosmail.tech>
 Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
@@ -75,10 +75,10 @@ Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
 	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org, Alba Mendez <me@alba.sh>
-Subject: Re: [PATCH v2 3/7] spmi: apple: check transaction status
-Message-ID: <20260802101852.GE806854@robin.jannau.net>
+Subject: Re: [PATCH v2 4/7] spmi: apple: Implement remaining commands
+Message-ID: <20260802111853.GF806854@robin.jannau.net>
 References: <20260728-t603x-spmi-v2-0-f43e5f10e583@chaosmail.tech>
- <20260728-t603x-spmi-v2-3-f43e5f10e583@chaosmail.tech>
+ <20260728-t603x-spmi-v2-4-f43e5f10e583@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -87,101 +87,212 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260728-t603x-spmi-v2-3-f43e5f10e583@chaosmail.tech>
+In-Reply-To: <20260728-t603x-spmi-v2-4-f43e5f10e583@chaosmail.tech>
 
-On Tue, Jul 28, 2026 at 11:28:09AM +0200, Sasha Finkelstein wrote:
+On Tue, Jul 28, 2026 at 11:28:10AM +0200, Sasha Finkelstein wrote:
 > From: Alba Mendez <me@alba.sh>
 > 
-> Check for parity errors and missing command ACKs
+> Add support for zero write and power management commands
 > 
 > Signed-off-by: Alba Mendez <me@alba.sh>
 > Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 > ---
->  drivers/spmi/spmi-apple-controller.c | 23 ++++++++++++++++++-----
->  1 file changed, 18 insertions(+), 5 deletions(-)
+>  drivers/spmi/spmi-apple-controller.c | 106 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------------------
+>  1 file changed, 68 insertions(+), 38 deletions(-)
 > 
 > diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-> index b4f442d0b4ad..4678a9e5270a 100644
+> index 4678a9e5270a..aed18b7df15c 100644
 > --- a/drivers/spmi/spmi-apple-controller.c
 > +++ b/drivers/spmi/spmi-apple-controller.c
-> @@ -22,6 +22,12 @@
->  #define SPMI_CMD_REG 0x4
->  #define SPMI_RSP_REG 0x8
+> @@ -41,9 +41,9 @@ struct apple_spmi {
+>  	readl_poll_timeout((spmi)->regs + (reg), (val), (cond), \
+>  			   REG_POLL_INTERVAL_US, REG_POLL_TIMEOUT_US)
 >  
-> +/* SPMI_RSP_REG reply word */
-> +#define SPMI_REPLY_FRAME_PARITY_OFFSET 16
-
-SPMI_REPLY_FRAME_PARITY_STATUS GENMASK(31, 16)
-
-> +#define SPMI_REPLY_ACK BIT(15)
-> +#define SPMI_REPLY_SLAVE_ID GENMASK(14, 8)
-> +#define SPMI_REPLY_CMD GENMASK(7, 0)
-> +
->  #define SPMI_RX_FIFO_EMPTY BIT(24)
->  
->  #define REG_POLL_INTERVAL_US 10000
-> @@ -62,7 +68,7 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> -static inline u32 apple_spmi_pack_cmd(u8 opc, u8 sid, u16 saddr, size_t len)
+> +static inline u32 apple_spmi_pack_cmd(u8 opc, u8 sid, u16 param)
 >  {
->  	struct apple_spmi *spmi = spmi_controller_get_drvdata(ctrl);
->  	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, saddr, len);
-> -	u32 rsp;
-> +	u32 reply, rsp;
->  	size_t len_read = 0;
->  	u8 i;
->  	int ret;
-> @@ -73,8 +79,7 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
->  	if (ret)
->  		return ret;
+> -	return opc | sid << 8 | saddr << 16 | (len - 1) | (1 << 15);
+> +	return opc | sid << 8 | (u32)param << 16 | (1 << 15);
+>  }
 >  
-> -	/* Discard SPMI reply status */
-> -	readl(spmi->regs + SPMI_RSP_REG);
-> +	reply = readl(spmi->regs + SPMI_RSP_REG);
->  
->  	/* Read SPMI data reply */
->  	while (len_read < len) {
-> @@ -93,6 +98,10 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
->  	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY))
->  		dev_warn(&ctrl->dev, "FIFO has extra data\n");
->  
-> +	if ((~reply >> SPMI_REPLY_FRAME_PARITY_OFFSET) & ((1 << len) - 1)) {
-
-if (~GET_FIELD(SPMI_REPLY_FRAME_PARITY_STATUS, reply) & ((1 << len) - 1)) {
-
-not sure this is clear improvement
-
-> +		dev_err(&ctrl->dev, "some frames failed parity check\n");
-> +		return -EIO;
-> +	}
+>  /* Wait for Rx FIFO to have something */
+> @@ -63,18 +63,27 @@ static int apple_spmi_wait_rx_not_empty(struct spmi_controller *ctrl)
 >  	return 0;
 >  }
 >  
-> @@ -101,6 +110,7 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> -static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> -			 u16 saddr, u8 *buf, size_t len)
+> +static int spmi_raw_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> +			 u16 param, const u8 *buf, size_t len, u8 *ibuf, size_t ilen)
 >  {
 >  	struct apple_spmi *spmi = spmi_controller_get_drvdata(ctrl);
->  	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, saddr, len);
-> +	u32 reply;
->  	size_t i = 0, j;
+> -	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, saddr, len);
+> +	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, param);
+>  	u32 reply, rsp;
+>  	size_t len_read = 0;
+> -	u8 i;
+> +	size_t i = 0, j;
 >  	int ret;
 >  
-> @@ -119,12 +129,15 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+>  	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
+>  
+> +	while (i < len) {
+> +		j = 0;
+> +		spmi_cmd = 0;
+> +		while ((j < 4) & (i < len))
+> +			spmi_cmd |= buf[i++] << (j++ * 8);
+
+		spmi_cmd = 0;
+		size_t bytes = min_t(size_t, 4, len - i);
+		memcpy(&spmi_cmd, buf + i, bytes);
+		i += bytes;
+
+Is easier to read and it's extremely unlikely that this driver will ever
+be used on big-endian system.
+
+> +
+> +		writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
+> +	}
+> +
+>  	ret = apple_spmi_wait_rx_not_empty(ctrl);
 >  	if (ret)
 >  		return ret;
+> @@ -82,15 +91,15 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+>  	reply = readl(spmi->regs + SPMI_RSP_REG);
 >  
-> -	/* Discard */
-> -	readl(spmi->regs + SPMI_RSP_REG);
-> +	reply = readl(spmi->regs + SPMI_RSP_REG);
->  
+>  	/* Read SPMI data reply */
+> -	while (len_read < len) {
+> +	while (len_read < ilen) {
+>  		if (readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY) {
+>  			dev_err(&ctrl->dev, "FIFO lacks reply data, controller stuck?\n");
+>  			return -EIO;
+>  		}
+>  		rsp = readl(spmi->regs + SPMI_RSP_REG);
+>  		i = 0;
+> -		while ((len_read < len) && (i < 4)) {
+> -			buf[len_read++] = ((0xff << (8 * i)) & rsp) >> (8 * i);
+> +		while ((len_read < ilen) && (i < 4)) {
+> +			ibuf[len_read++] = ((0xffU << (8 * i)) & rsp) >> (8 * i);
+
+This could be rewritten with memcpy as well
+
+>  			i += 1;
+>  		}
+>  	}
+> @@ -98,47 +107,67 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+
 >  	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY))
 >  		dev_warn(&ctrl->dev, "FIFO has extra data\n");
 >  
-> +	if (!(reply & SPMI_REPLY_ACK)) {
-
-if (!GET_FIELD(SPMI_REPLY_ACK, reply)) {
-
+> -	if ((~reply >> SPMI_REPLY_FRAME_PARITY_OFFSET) & ((1 << len) - 1)) {
+> +	if (!ilen && !(reply & SPMI_REPLY_ACK)) {
 > +		dev_err(&ctrl->dev, "command not acknowledged\n");
 > +		return -EIO;
 > +	}
+> +	if ((~reply >> SPMI_REPLY_FRAME_PARITY_OFFSET) & ((1 << ilen) - 1)) {
+
+Is the parity check useful for write commands? I'm not sure if packing
+all command processing into a single function is a good idea for code
+readability. The diff is annoying to read.
+
+>  		dev_err(&ctrl->dev, "some frames failed parity check\n");
+>  		return -EIO;
+>  	}
 >  	return 0;
 >  }
+>  
+> -static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> -			  u16 saddr, const u8 *buf, size_t len)
+> +/* Send a raw command with 1..16 input data frames */
+> +static int spmi_raw_cmd_input(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> +			 u16 param, u8 *buf, size_t len)
+>  {
+> -	struct apple_spmi *spmi = spmi_controller_get_drvdata(ctrl);
+> -	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, saddr, len);
+> -	u32 reply;
+> -	size_t i = 0, j;
+> -	int ret;
+> -
+> -	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
+> +	return spmi_raw_cmd(ctrl, opc, sid, param, NULL, 0, buf, len);
+> +}
+>  
+> -	while (i < len) {
+> -		j = 0;
+> -		spmi_cmd = 0;
+> -		while ((j < 4) & (i < len))
+> -			spmi_cmd |= buf[i++] << (j++ * 8);
+> +/* Send a raw command with (optional) body and an input ACK */
+> +static int spmi_raw_cmd_ack(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> +			  u16 param, const u8 *buf, size_t len)
+> +{
+> +	return spmi_raw_cmd(ctrl, opc, sid, param, buf, len, NULL, 0);
+> +}
+>  
+> -		writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
+> +static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> +			 u16 saddr, u8 *buf, size_t len)
+> +{
+> +	switch (opc) {
+> +	case SPMI_CMD_EXT_READ:
+> +	case SPMI_CMD_EXT_READL:
+> +		return spmi_raw_cmd_input(ctrl, opc | (len - 1), sid, saddr, buf, len);
+> +	case SPMI_CMD_READ:
+> +		return spmi_raw_cmd_input(ctrl, opc | saddr, sid, saddr, buf, len);
+>  	}
+> +	return -EINVAL;
+> +}
+>  
+> -	ret = apple_spmi_wait_rx_not_empty(ctrl);
+> -	if (ret)
+> -		return ret;
+> -
+> -	reply = readl(spmi->regs + SPMI_RSP_REG);
+> -
+> -	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY))
+> -		dev_warn(&ctrl->dev, "FIFO has extra data\n");
+> -
+> -	if (!(reply & SPMI_REPLY_ACK)) {
+> -		dev_err(&ctrl->dev, "command not acknowledged\n");
+> -		return -EIO;
+> +static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+> +			  u16 saddr, const u8 *buf, size_t len)
+> +{
+> +	switch (opc) {
+> +	case SPMI_CMD_WRITE:
+> +		return spmi_raw_cmd_ack(ctrl, opc | saddr, sid, buf[0] << 8 | saddr, NULL, 0);
+> +	case SPMI_CMD_ZERO_WRITE:
+> +		return spmi_raw_cmd_ack(ctrl, opc | buf[0], sid, buf[0] << 8 | saddr, NULL, 0);
+> +	case SPMI_CMD_EXT_WRITE:
+> +	case SPMI_CMD_EXT_WRITEL:
+> +		return spmi_raw_cmd_ack(ctrl, opc | (len - 1), sid, saddr, buf, len);
+>  	}
+> -	return 0;
+> +	return -EINVAL;
+> +}
+> +
+> +static int spmi_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid)
+> +{
+> +	if (
+> +		opc == SPMI_CMD_RESET || opc == SPMI_CMD_SLEEP ||
+> +		opc == SPMI_CMD_SHUTDOWN || opc == SPMI_CMD_WAKEUP
+> +	)
+
+no! a switch like for read/write would be nicer to read but this
+formatting is just no.
+
+> +		return spmi_raw_cmd_ack(ctrl, opc, sid, 0, NULL, 0);
+> +	return -EINVAL;
+>  }
+>  
+>  static int apple_spmi_probe(struct platform_device *pdev)
+> @@ -161,6 +190,7 @@ static int apple_spmi_probe(struct platform_device *pdev)
+>  
+>  	ctrl->read_cmd = spmi_read_cmd;
+>  	ctrl->write_cmd = spmi_write_cmd;
+> +	ctrl->cmd = spmi_cmd;
+>  
+>  	ret = devm_spmi_controller_add(&pdev->dev, ctrl);
+>  	if (ret)
 
 Janne
