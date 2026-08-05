@@ -1,531 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD8C435A88
-	for <asahi@lists.linux.dev>; Wed,  5 Aug 2026 11:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2811B449ED6
+	for <asahi@lists.linux.dev>; Wed,  5 Aug 2026 11:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785930467; cv=none; b=oDy22dk3koQzwylyKFXaxUZMCd0tENCGetg/3QkQnDOSMSS7eMCMfF9o2bG5aqMEyRJILvh66I/wUVRDN188P8RFahwvG8Yp6kAzEfocCGCJPZIpHUgO/tKTZSGTE0XoEocXpC9ZR2k3maYnSeMH2+3Sefr2NFdGwu480haFdyQ=
+	t=1785931055; cv=none; b=CwCOaFlU0zRko9JuIiHTZH4vKHt6mkuH7Mlc5abvIuZzuba32Hai4oOxFtBO48VmskzJQkw4A2WhPiX6Pa1MFqEWKNAMYzbSWfsjG3ql1mNC28lSEthAunf+lHiIZuNHFwcUuqqTpbjk1ZesF58ojxjJYY99uVAKaAmNpv1XODw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785930467; c=relaxed/simple;
-	bh=GHEQA7zE2Q7m0lCPj2/Gzzf6Dy30RMpWXQ1Kz2fOrjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=osgOzr68KJsvLUJGab4OmzCESwbJAErDPrwxlaxLGXM2nJSUpxBdM/8zXcVYAlCSPBTNWy7OMXzDvpujzoywnnGAHWRvmRyCsmxiSjCCfGC65Sq2RjWwYdSwQoe4UAg3K/HX3Z3IM6pSJAQCdwjHp5K0zXssdwAI/XSh9xqq0ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=la5iqx/S; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1785931055; c=relaxed/simple;
+	bh=fhVJOI/iWMfAidx5QvrgBKyOQQvEhaR/KBcGi/ST9nI=;
+	h=Content-Type:MIME-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=niJ61cHOCYSv4B2tgAvHNFoG/sZLg3RxaptE9zOF48t2/tbYvq/dRjQ2lgn/1rzETfid6k8nFlqGEI13YVlxgGrKVDxVmPvnAwVZ+Z/15vUO2XFmrkpxn8WOJjsccthZFBQgbmp5cxUAAQ3E64Lo7p7JboGueURZmIN4PkkbaWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=m9M3sVw1; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="la5iqx/S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785930464; x=1817466464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GHEQA7zE2Q7m0lCPj2/Gzzf6Dy30RMpWXQ1Kz2fOrjA=;
-  b=la5iqx/SV9vj7JVQPTUnYvZ6/k3Bg08i6d8MwM7T/ax5E+lhWqhgKLpn
-   NfSF/pmGBJwPZin4Y2sexOLPJFVCWBHx9FE1e/8BFngM88yo7iFxWQ4ms
-   4gaD5P5zUashThpSat5UORiwQ2XT9g8MhscUiGD/Nw+B7mB8OrO5YRBsG
-   bAIK+BLXakBINJmV0aa2ViBADx2jPS+0sxrtBvKMTioFJc2JKnXGJM5ZG
-   sP160YTvqMtjglMeNkQjJTESWiEiycvopEgGy7n8qQ634MYQIgbI6tBJj
-   4Ha298BUIJPeLa172ZrlBOaRw65YG9PZP+KtkWG0cyuxNbT8XFS5JNW3b
-   w==;
-X-CSE-ConnectionGUID: sOBtjXfTTE2wMXRdlwia7A==
-X-CSE-MsgGUID: oV84NTruQ9+eT9qUKWJwcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="90385031"
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="90385031"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 04:47:43 -0700
-X-CSE-ConnectionGUID: mW0NGWteQ6WLVnKOlmafdQ==
-X-CSE-MsgGUID: BKtAXhwDT+m59ThNsdWdSQ==
-X-ExtLoop1: 1
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Aug 2026 04:47:40 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id AB16999; Wed, 05 Aug 2026 13:47:38 +0200 (CEST)
-Date: Wed, 5 Aug 2026 13:47:38 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alyssa Milburn <amilburn@zall.org>
-Subject: Re: [PATCH v2 2/3] usb: typec: tipd: Factor out i2c specifics
-Message-ID: <anMi2q5FmsvE4z8W@black.igk.intel.com>
-References: <20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech>
- <20260727-tipd-ace3-v2-2-1345957bd635@chaosmail.tech>
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="m9M3sVw1"
+Received: by chaosmail.tech (Postfix) id 6801F1C867A;
+	Wed, 05 Aug 2026 11:57:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1785931050;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fhVJOI/iWMfAidx5QvrgBKyOQQvEhaR/KBcGi/ST9nI=;
+	b=m9M3sVw1v0K3H7rD9qC4lQMMiOkiLN1VJEUvTTA06lHKB1t9gAxf9S4Lrpf5NkXDruibn6
+	zJB8GkxwbvCX9e2iQt0EgwvZnl6LwrGtDDd05mY+4wsyoja0w2+pc5TJydTN3QzEEdzF7W
+	4aTavklZlZT+MK5DIkKzTF9p8ma3gvc=
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260727-tipd-ace3-v2-2-1345957bd635@chaosmail.tech>
+Subject: Re: [PATCH v2 2/3] usb: typec: tipd: Factor out i2c specifics
+From: Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <anMi2q5FmsvE4z8W@black.igk.intel.com>
+Date: Wed, 5 Aug 2026 13:57:18 +0200
+Cc: Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Alyssa Milburn <amilburn@zall.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <7D31226B-98F2-4DF2-BA47-31CF9B269A7F@chaosmail.tech>
+References: <20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech>
+ <20260727-tipd-ace3-v2-2-1345957bd635@chaosmail.tech>
+ <anMi2q5FmsvE4z8W@black.igk.intel.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Hi,
+On Aug 5, 2026, at 13:47, Heikki Krogerus =
+<heikki.krogerus@linux.intel.com> wrote:
+>>=20
+>> -static const struct regmap_config tps6598x_regmap_config =3D {
+>> +const struct regmap_config tps6598x_regmap_config =3D {
+>> .reg_bits =3D 8,
+>> .val_bits =3D 8,
+>> .max_register =3D 0x7F,
+>> };
+>> +EXPORT_SYMBOL_GPL(tps6598x_regmap_config);
+>=20
+> Don't export that. Just move it to i2c.c
 
-Sorry to keep you waiting.
+I use this one in spmi.c too, the regmap configuration is the same,
+just the backend is different
 
-On Mon, Jul 27, 2026 at 06:09:29PM +0200, Sasha Finkelstein wrote:
-> From: Alyssa Milburn <amilburn@zall.org>
-> 
-> Make the core driver more bus-agnostic to prepare for SPMI variants of
-> the tipd chip
-> 
-> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-> ---
->  drivers/usb/typec/tipd/Kconfig    |   8 ++++--
->  drivers/usb/typec/tipd/Makefile   |  11 ++++---
->  drivers/usb/typec/tipd/core.c     | 224 ++++++++++++++++++++++-------------------------------------------------------------------------------------------------------------------------
->  drivers/usb/typec/tipd/i2c.c      | 104 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/usb/typec/tipd/tps6598x.h | 114 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 265 insertions(+), 196 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tipd/Kconfig b/drivers/usb/typec/tipd/Kconfig
-> index b82715293072..c87cbe6109ca 100644
-> --- a/drivers/usb/typec/tipd/Kconfig
-> +++ b/drivers/usb/typec/tipd/Kconfig
-> @@ -1,9 +1,13 @@
-> +config TYPEC_TPS6598X_CORE
-> +	tristate
-> +	select USB_ROLE_SWITCH
-> +	select POWER_SUPPLY
-> +
->  config TYPEC_TPS6598X
->  	tristate "TI TPS6598x USB Power Delivery controller driver"
->  	depends on I2C
-> -	select POWER_SUPPLY
->  	select REGMAP_I2C
-> -	select USB_ROLE_SWITCH
-> +	select TYPEC_TPS6598X_CORE
->  	help
->  	  Say Y or M here if your system has TI TPS65982 or TPS65983 USB Power
->  	  Delivery controller.
 
-Looks better now.
 
-> diff --git a/drivers/usb/typec/tipd/Makefile b/drivers/usb/typec/tipd/Makefile
-> index aa439f80a889..c741bf44f52f 100644
-> --- a/drivers/usb/typec/tipd/Makefile
-> +++ b/drivers/usb/typec/tipd/Makefile
-> @@ -1,6 +1,9 @@
->  # SPDX-License-Identifier: GPL-2.0
-> -CFLAGS_trace.o			:= -I$(src)
-> +CFLAGS_trace.o				:= -I$(src)
->  
-> -obj-$(CONFIG_TYPEC_TPS6598X)	+= tps6598x.o
-> -tps6598x-y			:= core.o
-> -tps6598x-$(CONFIG_TRACING)	+= trace.o
-> +obj-$(CONFIG_TYPEC_TPS6598X_CORE)	+= tps6598x-core.o
-> +tps6598x-core-y				:= core.o
-> +tps6598x-core-$(CONFIG_TRACING)		+= trace.o
-> +
-> +obj-$(CONFIG_TYPEC_TPS6598X)		+= tps6598x.o
-> +tps6598x-y				:= i2c.o
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index d5ee0af9058b..aadadfdc6ed1 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -9,7 +9,6 @@
->  #include <linux/i2c.h>
->  #include <linux/acpi.h>
->  #include <linux/gpio/consumer.h>
-> -#include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/power_supply.h>
->  #include <linux/regmap.h>
-> @@ -92,31 +91,6 @@ struct tps6598x_rx_identity_reg {
->  	struct usb_pd_identity identity;
->  } __packed;
->  
-> -/* TPS_REG_USB4_STATUS */
-> -struct tps6598x_usb4_status_reg {
-> -	u8 mode_status;
-> -	__le32 eudo;
-> -	__le32 unknown;
-> -} __packed;
-> -
-> -/* TPS_REG_DP_SID_STATUS */
-> -struct tps6598x_dp_sid_status_reg {
-> -	u8 mode_status;
-> -	__le32 status_tx;
-> -	__le32 status_rx;
-> -	__le32 configure;
-> -	__le32 mode_data;
-> -} __packed;
-> -
-> -/* TPS_REG_INTEL_VID_STATUS */
-> -struct tps6598x_intel_vid_status_reg {
-> -	u8 mode_status;
-> -	__le32 attention_vdo;
-> -	__le16 enter_vdo;
-> -	__le16 device_mode;
-> -	__le16 cable_mode;
-> -} __packed;
-> -
->  /* Standard Task return codes */
->  #define TPS_TASK_TIMEOUT		1
->  #define TPS_TASK_REJECTED		3
-> @@ -143,81 +117,6 @@ static const char *const modes[] = {
->  /* Unrecognized commands will be replaced with "!CMD" */
->  #define INVALID_CMD(_cmd_)		(_cmd_ == 0x444d4321)
->  
-> -struct tps6598x;
-> -
-> -struct tipd_data {
-> -	irq_handler_t irq_handler;
-> -	u64 irq_mask1;
-> -	size_t tps_struct_size;
-> -	void (*remove)(struct tps6598x *tps);
-> -	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
-> -	void (*unregister_port)(struct tps6598x *tps);
-> -	void (*trace_data_status)(u32 status);
-> -	void (*trace_power_status)(u16 status);
-> -	void (*trace_status)(u32 status);
-> -	int (*apply_patch)(struct tps6598x *tps);
-> -	int (*init)(struct tps6598x *tps);
-> -	int (*switch_power_state)(struct tps6598x *tps, u8 target_state);
-> -	bool (*read_data_status)(struct tps6598x *tps);
-> -	int (*reset)(struct tps6598x *tps);
-> -	int (*connect)(struct tps6598x *tps, u32 status);
-> -};
-> -
-> -struct tps6598x {
-> -	struct device *dev;
-> -	struct regmap *regmap;
-> -	struct mutex lock; /* device lock */
-> -	u8 i2c_protocol:1;
-> -
-> -	struct gpio_desc *reset;
-> -	struct typec_port *port;
-> -	struct typec_partner *partner;
-> -	struct usb_pd_identity partner_identity;
-> -	struct usb_role_switch *role_sw;
-> -	struct typec_capability typec_cap;
-> -
-> -	struct power_supply *psy;
-> -	struct power_supply_desc psy_desc;
-> -	enum power_supply_usb_type usb_type;
-> -
-> -	int wakeup;
-> -	u32 status; /* status reg */
-> -	u32 data_status;
-> -	u16 pwr_status;
-> -	struct delayed_work	wq_poll;
-> -
-> -	const struct tipd_data *data;
-> -};
-> -
-> -struct cd321x_status {
-> -	u32 status;
-> -	u32 pwr_status;
-> -	u32 data_status;
-> -	u32 status_changed;
-> -	struct usb_pd_identity partner_identity;
-> -	struct tps6598x_dp_sid_status_reg dp_sid_status;
-> -	struct tps6598x_intel_vid_status_reg intel_vid_status;
-> -	struct tps6598x_usb4_status_reg usb4_status;
-> -};
-> -
-> -struct cd321x {
-> -	struct tps6598x tps;
-> -
-> -	struct tps6598x_dp_sid_status_reg dp_sid_status;
-> -	struct tps6598x_intel_vid_status_reg intel_vid_status;
-> -	struct tps6598x_usb4_status_reg usb4_status;
-> -
-> -	struct typec_altmode *port_altmode_dp;
-> -	struct typec_altmode *port_altmode_tbt;
-> -
-> -	struct typec_mux *mux;
-> -	struct typec_mux_state state;
-> -
-> -	struct cd321x_status update_status;
-> -	struct delayed_work update_work;
-> -	struct usb_pd_identity cur_partner_identity;
-> -};
-> -
->  static enum power_supply_property tps6598x_psy_props[] = {
->  	POWER_SUPPLY_PROP_USB_TYPE,
->  	POWER_SUPPLY_PROP_ONLINE,
-> @@ -1087,11 +986,12 @@ static int tps6598x_check_mode(struct tps6598x *tps)
->  	return -ENODEV;
->  }
->  
-> -static const struct regmap_config tps6598x_regmap_config = {
-> +const struct regmap_config tps6598x_regmap_config = {
->  	.reg_bits = 8,
->  	.val_bits = 8,
->  	.max_register = 0x7F,
->  };
-> +EXPORT_SYMBOL_GPL(tps6598x_regmap_config);
-
-Don't export that. Just move it to i2c.c
-
->  static int tps6598x_psy_get_online(struct tps6598x *tps,
->  				   union power_supply_propval *val)
-> @@ -1738,27 +1638,13 @@ static void cd321x_remove(struct tps6598x *tps)
->  	cancel_delayed_work_sync(&cd321x->update_work);
->  }
->  
-> -static int tps6598x_probe(struct i2c_client *client)
-> +int tipd_init(struct tps6598x *tps)
->  {
-> -	const struct tipd_data *data;
-> -	struct tps6598x *tps;
->  	struct fwnode_handle *fwnode;
->  	u32 status;
->  	u32 vid;
->  	int ret;
->  
-> -	data = i2c_get_match_data(client);
-> -	if (!data)
-> -		return -EINVAL;
-> -
-> -	tps = devm_kzalloc(&client->dev, data->tps_struct_size, GFP_KERNEL);
-> -	if (!tps)
-> -		return -ENOMEM;
-> -
-> -	mutex_init(&tps->lock);
-> -	tps->dev = &client->dev;
-> -	tps->data = data;
-> -
->  	tps->reset = devm_gpiod_get_optional(tps->dev, "reset", GPIOD_OUT_LOW);
->  	if (IS_ERR(tps->reset))
->  		return dev_err_probe(tps->dev, PTR_ERR(tps->reset),
-> @@ -1766,23 +1652,12 @@ static int tps6598x_probe(struct i2c_client *client)
->  	if (tps->reset)
->  		msleep(TPS_SETUP_MS);
->  
-> -	tps->regmap = devm_regmap_init_i2c(client, &tps6598x_regmap_config);
-> -	if (IS_ERR(tps->regmap))
-> -		return PTR_ERR(tps->regmap);
-> -
->  	if (!device_is_compatible(tps->dev, "ti,tps25750")) {
->  		ret = tps6598x_read32(tps, TPS_REG_VID, &vid);
->  		if (ret < 0 || !vid)
->  			return -ENODEV;
->  	}
->  
-> -	/*
-> -	 * Checking can the adapter handle SMBus protocol. If it can not, the
-> -	 * driver needs to take care of block reads separately.
-> -	 */
-> -	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-> -		tps->i2c_protocol = true;
-> -
->  	if (tps->data->switch_power_state) {
->  		ret = tps->data->switch_power_state(tps, TPS_SYSTEM_POWER_STATE_S0);
->  		if (ret)
-> @@ -1816,7 +1691,7 @@ static int tps6598x_probe(struct i2c_client *client)
->  	 * with existing DT files, we work around this by deleting any
->  	 * fwnode_links to/from this fwnode.
->  	 */
-> -	fwnode = device_get_named_child_node(&client->dev, "connector");
-> +	fwnode = device_get_named_child_node(tps->dev, "connector");
->  	if (fwnode)
->  		fw_devlink_purge_absent_suppliers(fwnode);
->  
-> @@ -1842,14 +1717,14 @@ static int tps6598x_probe(struct i2c_client *client)
->  			goto err_unregister_port;
->  		ret = tps->data->connect(tps, status);
->  		if (ret)
-> -			dev_err(&client->dev, "failed to register partner\n");
-> +			dev_err(tps->dev, "failed to register partner\n");
->  	}
->  
-> -	if (client->irq) {
-> -		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-> +	if (tps->irq) {
-> +		ret = devm_request_threaded_irq(tps->dev, tps->irq, NULL,
->  						tps->data->irq_handler,
->  						IRQF_SHARED | IRQF_ONESHOT,
-> -						dev_name(&client->dev), tps);
-> +						dev_name(tps->dev), tps);
->  	} else {
->  		dev_warn(tps->dev, "Unable to find the interrupt, switching to polling\n");
->  		INIT_DELAYED_WORK(&tps->wq_poll, tps6598x_poll_work);
-> @@ -1860,13 +1735,12 @@ static int tps6598x_probe(struct i2c_client *client)
->  	if (ret)
->  		goto err_disconnect;
->  
-> -	i2c_set_clientdata(client, tps);
->  	fwnode_handle_put(fwnode);
->  
->  	tps->wakeup = device_property_read_bool(tps->dev, "wakeup-source");
-> -	if (tps->wakeup && client->irq) {
-> -		devm_device_init_wakeup(&client->dev);
-> -		enable_irq_wake(client->irq);
-> +	if (tps->wakeup && tps->irq) {
-> +		devm_device_init_wakeup(tps->dev);
-> +		enable_irq_wake(tps->irq);
->  	}
->  
->  	return 0;
-> @@ -1887,15 +1761,14 @@ static int tps6598x_probe(struct i2c_client *client)
->  
->  	return ret;
->  }
-> +EXPORT_SYMBOL_GPL(tipd_init);
->  
-> -static void tps6598x_remove(struct i2c_client *client)
-> +void tipd_remove(struct tps6598x *tps)
->  {
-> -	struct tps6598x *tps = i2c_get_clientdata(client);
-> -
-> -	if (!client->irq)
-> +	if (!tps->irq)
->  		cancel_delayed_work_sync(&tps->wq_poll);
->  	else
-> -		devm_free_irq(tps->dev, client->irq, tps);
-> +		devm_free_irq(tps->dev, tps->irq, tps);
->  
->  	if (tps->data->remove)
->  		tps->data->remove(tps);
-> @@ -1910,29 +1783,26 @@ static void tps6598x_remove(struct i2c_client *client)
->  	if (tps->reset)
->  		gpiod_set_value_cansleep(tps->reset, 1);
->  }
-> +EXPORT_SYMBOL_GPL(tipd_remove);
->  
-> -static int __maybe_unused tps6598x_suspend(struct device *dev)
-> +int tipd_suspend(struct tps6598x *tps)
->  {
-> -	struct i2c_client *client = to_i2c_client(dev);
-> -	struct tps6598x *tps = i2c_get_clientdata(client);
-> -
->  	if (tps->wakeup) {
-> -		disable_irq(client->irq);
-> -		enable_irq_wake(client->irq);
-> +		disable_irq(tps->irq);
-> +		enable_irq_wake(tps->irq);
->  	} else if (tps->reset) {
->  		gpiod_set_value_cansleep(tps->reset, 1);
->  	}
->  
-> -	if (!client->irq)
-> +	if (!tps->irq)
->  		cancel_delayed_work_sync(&tps->wq_poll);
->  
->  	return 0;
->  }
-> +EXPORT_SYMBOL_GPL(tipd_suspend);
->  
-> -static int __maybe_unused tps6598x_resume(struct device *dev)
-> +int tipd_resume(struct tps6598x *tps)
->  {
-> -	struct i2c_client *client = to_i2c_client(dev);
-> -	struct tps6598x *tps = i2c_get_clientdata(client);
->  	int ret;
->  
->  	ret = tps6598x_check_mode(tps);
-> @@ -1946,25 +1816,22 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
->  	}
->  
->  	if (tps->wakeup) {
-> -		disable_irq_wake(client->irq);
-> -		enable_irq(client->irq);
-> +		disable_irq_wake(tps->irq);
-> +		enable_irq(tps->irq);
->  	} else if (tps->reset) {
->  		gpiod_set_value_cansleep(tps->reset, 0);
->  		msleep(TPS_SETUP_MS);
->  	}
->  
-> -	if (!client->irq)
-> +	if (!tps->irq)
->  		queue_delayed_work(system_power_efficient_wq, &tps->wq_poll,
->  				   msecs_to_jiffies(POLL_INTERVAL));
->  
->  	return 0;
->  }
-> +EXPORT_SYMBOL_GPL(tipd_resume);
->  
-> -static const struct dev_pm_ops tps6598x_pm_ops = {
-> -	SET_SYSTEM_SLEEP_PM_OPS(tps6598x_suspend, tps6598x_resume)
-> -};
-> -
-> -static const struct tipd_data cd321x_data = {
-> +const struct tipd_data tipd_cd321x_data = {
->  	.irq_handler = cd321x_interrupt,
->  	.irq_mask1 = APPLE_CD_REG_INT_POWER_STATUS_UPDATE |
->  		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
-> @@ -1982,8 +1849,9 @@ static const struct tipd_data cd321x_data = {
->  	.switch_power_state = cd321x_switch_power_state,
->  	.connect = cd321x_connect,
->  };
-> +EXPORT_SYMBOL_GPL(tipd_cd321x_data);
-
-There shouldn't be need to export these either. You can add a
-variant flag member to struct tps6598x for now, and pick the correct
-data for example from a lookup table.
-
-Ideally IMO each variant would be handled in its own file. But that
-would require a bit more refactoring of course.
-
-> -static const struct tipd_data tps6598x_data = {
-> +const struct tipd_data tipd_tps6598x_data = {
->  	.irq_handler = tps6598x_interrupt,
->  	.irq_mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
->  		     TPS_REG_INT_DATA_STATUS_UPDATE |
-> @@ -2000,8 +1868,9 @@ static const struct tipd_data tps6598x_data = {
->  	.reset = tps6598x_reset,
->  	.connect = tps6598x_connect,
->  };
-> +EXPORT_SYMBOL_GPL(tipd_tps6598x_data);
->  
-> -static const struct tipd_data tps25750_data = {
-> +const struct tipd_data tipd_tps25750_data = {
->  	.irq_handler = tps25750_interrupt,
->  	.irq_mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
->  		     TPS_REG_INT_DATA_STATUS_UPDATE |
-> @@ -2018,33 +1887,8 @@ static const struct tipd_data tps25750_data = {
->  	.reset = tps25750_reset,
->  	.connect = tps6598x_connect,
->  };
-> -
-> -static const struct of_device_id tps6598x_of_match[] = {
-> -	{ .compatible = "ti,tps6598x", &tps6598x_data},
-> -	{ .compatible = "apple,cd321x", &cd321x_data},
-> -	{ .compatible = "ti,tps25750", &tps25750_data},
-> -	{}
-> -};
-> -MODULE_DEVICE_TABLE(of, tps6598x_of_match);
-> -
-> -static const struct i2c_device_id tps6598x_id[] = {
-> -	{ .name = "tps6598x", .driver_data = (kernel_ulong_t)&tps6598x_data },
-> -	{ }
-> -};
-> -MODULE_DEVICE_TABLE(i2c, tps6598x_id);
-> -
-> -static struct i2c_driver tps6598x_i2c_driver = {
-> -	.driver = {
-> -		.name = "tps6598x",
-> -		.pm = &tps6598x_pm_ops,
-> -		.of_match_table = tps6598x_of_match,
-> -	},
-> -	.probe = tps6598x_probe,
-> -	.remove = tps6598x_remove,
-> -	.id_table = tps6598x_id,
-> -};
-> -module_i2c_driver(tps6598x_i2c_driver);
-> +EXPORT_SYMBOL_GPL(tipd_tps25750_data);
->  
->  MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
-> -MODULE_LICENSE("GPL v2");
-> -MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Driver");
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Core Functions");
-
-Thanks,
-
--- 
-heikki
