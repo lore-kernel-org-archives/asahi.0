@@ -1,419 +1,531 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF48141D109
-	for <asahi@lists.linux.dev>; Wed,  5 Aug 2026 10:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD8C435A88
+	for <asahi@lists.linux.dev>; Wed,  5 Aug 2026 11:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785924690; cv=none; b=NAD3WWiHNJJ3FDvqszptn7gFrUrflvkv72Go3JNsweVYfOMMQhrkKBtlvTjCaNfhKnDoOw1JGdDy31bJcqZr8DV/mTrvCXBREqsGMQexifFDGZwCxxw+fixrKhq2AHfaD7EtWVvJ5e2hJbjdaUh8E5Yn0j6brLJyeT2T198LfHE=
+	t=1785930467; cv=none; b=oDy22dk3koQzwylyKFXaxUZMCd0tENCGetg/3QkQnDOSMSS7eMCMfF9o2bG5aqMEyRJILvh66I/wUVRDN188P8RFahwvG8Yp6kAzEfocCGCJPZIpHUgO/tKTZSGTE0XoEocXpC9ZR2k3maYnSeMH2+3Sefr2NFdGwu480haFdyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785924690; c=relaxed/simple;
-	bh=mFA/xOyUUMJbV+b/D2+k812JhItvP5+SODMgwIdc0Og=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q+UdQ8QrUK6X97gvYCIGmucul12XD7wv+2tolVq/38mEKpa7hZ2+ad7d0WIAsXc2R7MxaF+QPXKA/0H6AkXVNOIWgG8WdhxrCamKln8aZznrNthNK+mPxqz8g6YKsLGkgFh5FA5/SXSaksbEGvJrniW8xNWAI0gBtJlfI0zkCSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=P6ijPLMt; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1785930467; c=relaxed/simple;
+	bh=GHEQA7zE2Q7m0lCPj2/Gzzf6Dy30RMpWXQ1Kz2fOrjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=osgOzr68KJsvLUJGab4OmzCESwbJAErDPrwxlaxLGXM2nJSUpxBdM/8zXcVYAlCSPBTNWy7OMXzDvpujzoywnnGAHWRvmRyCsmxiSjCCfGC65Sq2RjWwYdSwQoe4UAg3K/HX3Z3IM6pSJAQCdwjHp5K0zXssdwAI/XSh9xqq0ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=la5iqx/S; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="P6ijPLMt"
-Received: by chaosmail.tech (Postfix) id 09C911C8820;
-	Wed, 05 Aug 2026 10:11:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1785924679;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1Slt7NKhIR4KoxaRQR8Vyr2DxtGwNw8zMJXfa1p3G4I=;
-	b=P6ijPLMtri9AvDqdH/A3SaNged+5hmc8xjgRiVIHfo1JbvDXms8oq1siBndOPk7JXlypqB
-	pGvMcCucDMthV2ZvuNgKI86PFd6FtYC5kRVSkUCgyiS76Q7gdfSJLyPUbUneWpooeJetjX
-	s4iv/L5PqLgoXLow44bfEpFDPgz48Ds=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Wed, 05 Aug 2026 12:11:16 +0200
-Subject: [PATCH v4 6/6] spmi: apple: Add interrupt functionality
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="la5iqx/S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785930464; x=1817466464;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GHEQA7zE2Q7m0lCPj2/Gzzf6Dy30RMpWXQ1Kz2fOrjA=;
+  b=la5iqx/SV9vj7JVQPTUnYvZ6/k3Bg08i6d8MwM7T/ax5E+lhWqhgKLpn
+   NfSF/pmGBJwPZin4Y2sexOLPJFVCWBHx9FE1e/8BFngM88yo7iFxWQ4ms
+   4gaD5P5zUashThpSat5UORiwQ2XT9g8MhscUiGD/Nw+B7mB8OrO5YRBsG
+   bAIK+BLXakBINJmV0aa2ViBADx2jPS+0sxrtBvKMTioFJc2JKnXGJM5ZG
+   sP160YTvqMtjglMeNkQjJTESWiEiycvopEgGy7n8qQ634MYQIgbI6tBJj
+   4Ha298BUIJPeLa172ZrlBOaRw65YG9PZP+KtkWG0cyuxNbT8XFS5JNW3b
+   w==;
+X-CSE-ConnectionGUID: sOBtjXfTTE2wMXRdlwia7A==
+X-CSE-MsgGUID: oV84NTruQ9+eT9qUKWJwcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="90385031"
+X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
+   d="scan'208";a="90385031"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 04:47:43 -0700
+X-CSE-ConnectionGUID: mW0NGWteQ6WLVnKOlmafdQ==
+X-CSE-MsgGUID: BKtAXhwDT+m59ThNsdWdSQ==
+X-ExtLoop1: 1
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa003.fm.intel.com with ESMTP; 05 Aug 2026 04:47:40 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id AB16999; Wed, 05 Aug 2026 13:47:38 +0200 (CEST)
+Date: Wed, 5 Aug 2026 13:47:38 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alyssa Milburn <amilburn@zall.org>
+Subject: Re: [PATCH v2 2/3] usb: typec: tipd: Factor out i2c specifics
+Message-ID: <anMi2q5FmsvE4z8W@black.igk.intel.com>
+References: <20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech>
+ <20260727-tipd-ace3-v2-2-1345957bd635@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260805-t603x-spmi-v4-6-c15a12d9a7d1@chaosmail.tech>
-References: <20260805-t603x-spmi-v4-0-c15a12d9a7d1@chaosmail.tech>
-In-Reply-To: <20260805-t603x-spmi-v4-0-c15a12d9a7d1@chaosmail.tech>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Sasha Finkelstein <k@chaosmail.tech>, Alba Mendez <me@alba.sh>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785924674; l=10882;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=iFfcOvRrLwNXZ/rOeZ8JUAskkaIdKQYHDW+xZsGT2qU=;
- b=AQ8d9a3XOTqQHD5JxSSoKU8olodwLVJstZURWjMkmqtwRdeqmNTWxuzrPpNGLWRK/6veWGxM4
- f0BYFUM0xF2CWFirhS1Vt2MFF0NdIQPzF0FN5tIGuZtlasZzkb41ziS
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260727-tipd-ace3-v2-2-1345957bd635@chaosmail.tech>
 
-From: Alba Mendez <me@alba.sh>
+Hi,
 
-Add support for interrupts sent by slave devices and use IRQ for
-RX FIFO if possible, as that IRQ fires as soon as the reply is
-available, which is usually takes a few us instead of the 10ms sleep
-interval for polling
+Sorry to keep you waiting.
 
-Signed-off-by: Alba Mendez <me@alba.sh>
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
- drivers/spmi/Kconfig                 |   3 +-
- drivers/spmi/spmi-apple-controller.c | 254 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 255 insertions(+), 2 deletions(-)
+On Mon, Jul 27, 2026 at 06:09:29PM +0200, Sasha Finkelstein wrote:
+> From: Alyssa Milburn <amilburn@zall.org>
+> 
+> Make the core driver more bus-agnostic to prepare for SPMI variants of
+> the tipd chip
+> 
+> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+>  drivers/usb/typec/tipd/Kconfig    |   8 ++++--
+>  drivers/usb/typec/tipd/Makefile   |  11 ++++---
+>  drivers/usb/typec/tipd/core.c     | 224 ++++++++++++++++++++++-------------------------------------------------------------------------------------------------------------------------
+>  drivers/usb/typec/tipd/i2c.c      | 104 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/usb/typec/tipd/tps6598x.h | 114 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 265 insertions(+), 196 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/Kconfig b/drivers/usb/typec/tipd/Kconfig
+> index b82715293072..c87cbe6109ca 100644
+> --- a/drivers/usb/typec/tipd/Kconfig
+> +++ b/drivers/usb/typec/tipd/Kconfig
+> @@ -1,9 +1,13 @@
+> +config TYPEC_TPS6598X_CORE
+> +	tristate
+> +	select USB_ROLE_SWITCH
+> +	select POWER_SUPPLY
+> +
+>  config TYPEC_TPS6598X
+>  	tristate "TI TPS6598x USB Power Delivery controller driver"
+>  	depends on I2C
+> -	select POWER_SUPPLY
+>  	select REGMAP_I2C
+> -	select USB_ROLE_SWITCH
+> +	select TYPEC_TPS6598X_CORE
+>  	help
+>  	  Say Y or M here if your system has TI TPS65982 or TPS65983 USB Power
+>  	  Delivery controller.
 
-diff --git a/drivers/spmi/Kconfig b/drivers/spmi/Kconfig
-index a80cf4047b86..7243863a09b4 100644
---- a/drivers/spmi/Kconfig
-+++ b/drivers/spmi/Kconfig
-@@ -13,7 +13,8 @@ if SPMI
- 
- config SPMI_APPLE
- 	tristate "Apple SoC SPMI Controller platform driver"
--	depends on ARCH_APPLE || COMPILE_TEST
-+	select IRQ_DOMAIN_HIERARCHY
-+	depends on ARCH_APPLE || (COMPILE_TEST && 64BIT)
- 	help
- 	  If you say yes to this option, support will be included for the
- 	  SPMI controller present on many Apple SoCs, including the
-diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-index c3bc1f6d5741..7e86d7983fb4 100644
---- a/drivers/spmi/spmi-apple-controller.c
-+++ b/drivers/spmi/spmi-apple-controller.c
-@@ -13,11 +13,17 @@
- 
- #include <linux/bitfield.h>
- #include <linux/bits.h>
-+#include <linux/completion.h>
-+#include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/iopoll.h>
-+#include <linux/irq.h>
-+#include <linux/irqchip/chained_irq.h>
-+#include <linux/irqdomain.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
-+#include <linux/spinlock.h>
- #include <linux/spmi.h>
- 
- /* SPMI Controller Registers */
-@@ -26,6 +32,13 @@
- #define SPMI_RSP_REG 0x8
- #define SPMI_ACT_REG 0xa4
- 
-+#define SPMI_IRQ_MASK_BASE 0x20
-+#define SPMI_IRQ_ACK_BASE 0x60
-+#define SPMI_NUM_PERIPHERAL_IRQS 256
-+#define SPMI_NUM_IRQS (SPMI_NUM_PERIPHERAL_IRQS + 32)
-+
-+#define SPMI_IRQ_NOTIFY 256
-+
- /* SPMI_RSP_REG reply word */
- #define SPMI_REPLY_FRAME_PARITY_STATUS GENMASK(31, 16)
- #define SPMI_REPLY_ACK BIT(15)
-@@ -41,6 +54,12 @@
- struct apple_spmi {
- 	void __iomem *regs;
- 	struct mutex fifo_lock;
-+	struct completion fifo_rx;
-+	struct irq_domain *irqd;
-+	raw_spinlock_t irq_mask_lock;
-+	DECLARE_BITMAP(irq_mask_cache, SPMI_NUM_PERIPHERAL_IRQS);
-+	int irq;
-+	bool notify_irq;
- 	bool prev_fail;
- };
- 
-@@ -48,6 +67,56 @@ struct apple_spmi {
- 	readl_poll_timeout((spmi)->regs + (reg), (val), (cond), \
- 			   REG_POLL_INTERVAL_US, REG_POLL_TIMEOUT_US)
- 
-+static void apple_spmi_irq_ack_raw(struct apple_spmi *spmi, u32 irq)
-+{
-+	u32 __iomem *reg = spmi->regs + SPMI_IRQ_ACK_BASE + (irq / 32) * 4;
-+
-+	writel(BIT(irq % 32), reg);
-+}
-+
-+static void apple_spmi_irq_mask_raw(struct apple_spmi *spmi, u32 irq)
-+{
-+	u32 __iomem *reg = spmi->regs + SPMI_IRQ_MASK_BASE + (irq / 32) * 4;
-+
-+	writel(readl(reg) & ~BIT(irq % 32), reg);
-+}
-+
-+static void apple_spmi_irq_unmask_raw(struct apple_spmi *spmi, u32 irq)
-+{
-+	u32 __iomem *reg = spmi->regs + SPMI_IRQ_MASK_BASE + (irq / 32) * 4;
-+
-+	writel(readl(reg) | BIT(irq % 32), reg);
-+}
-+
-+static void apple_spmi_irq_ack(struct irq_data *d)
-+{
-+	struct apple_spmi *spmi = irq_data_get_irq_chip_data(d);
-+
-+	apple_spmi_irq_ack_raw(spmi, d->hwirq);
-+}
-+
-+static void apple_spmi_irq_mask(struct irq_data *d)
-+{
-+	struct apple_spmi *spmi = irq_data_get_irq_chip_data(d);
-+	unsigned long flags;
-+
-+	raw_spin_lock_irqsave(&spmi->irq_mask_lock, flags);
-+	apple_spmi_irq_mask_raw(spmi, d->hwirq);
-+	clear_bit(d->hwirq, spmi->irq_mask_cache);
-+	raw_spin_unlock_irqrestore(&spmi->irq_mask_lock, flags);
-+}
-+
-+static void apple_spmi_irq_unmask(struct irq_data *d)
-+{
-+	struct apple_spmi *spmi = irq_data_get_irq_chip_data(d);
-+	unsigned long flags;
-+
-+	raw_spin_lock_irqsave(&spmi->irq_mask_lock, flags);
-+	set_bit(d->hwirq, spmi->irq_mask_cache);
-+	apple_spmi_irq_unmask_raw(spmi, d->hwirq);
-+	raw_spin_unlock_irqrestore(&spmi->irq_mask_lock, flags);
-+}
-+
- static inline u32 apple_spmi_pack_cmd(u8 opc, u8 sid, u16 param)
- {
- 	return opc | sid << 8 | (u32)param << 16 | (1 << 15);
-@@ -60,7 +129,19 @@ static int apple_spmi_wait_rx_not_empty(struct spmi_controller *ctrl)
- 	int ret;
- 	u32 status;
- 
--	ret = poll_reg(spmi, SPMI_STATUS_REG, status, !(status & SPMI_RX_FIFO_EMPTY));
-+	if (spmi->notify_irq) {
-+		ret = wait_for_completion_timeout(&spmi->fifo_rx,
-+			usecs_to_jiffies(REG_POLL_TIMEOUT_US));
-+		if (!ret)
-+			ret = -ETIMEDOUT;
-+		else if (readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY)
-+			ret = -EIO;
-+		else
-+			ret = 0;
-+	} else {
-+		ret = poll_reg(spmi, SPMI_STATUS_REG, status, !(status & SPMI_RX_FIFO_EMPTY));
-+	}
-+
- 	if (ret) {
- 		spmi->prev_fail = true;
- 		dev_err(&ctrl->dev,
-@@ -85,8 +166,10 @@ static int spmi_raw_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 
- 	if (spmi->prev_fail) {
- 		writel(SPMI_ACT_FIFO_FLUSH, spmi->regs + SPMI_RSP_REG);
-+		apple_spmi_irq_ack_raw(spmi, SPMI_IRQ_NOTIFY);
- 		spmi->prev_fail = false;
- 	}
-+	reinit_completion(&spmi->fifo_rx);
- 
- 	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
- 
-@@ -188,6 +271,164 @@ static int spmi_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid)
- 	return -EINVAL;
- }
- 
-+static int apple_spmi_irq_set_type(struct irq_data *d, unsigned int type)
-+{
-+	/* all interrupts have MSI semantics */
-+	return type == IRQ_TYPE_EDGE_RISING ? 0 : -EINVAL;
-+}
-+
-+static struct irq_chip apple_spmi_irq_chip = {
-+	.name = "apple_spmi",
-+	.irq_mask = apple_spmi_irq_mask,
-+	.irq_unmask = apple_spmi_irq_unmask,
-+	.irq_ack = apple_spmi_irq_ack,
-+	.irq_set_type = apple_spmi_irq_set_type,
-+	.flags = IRQCHIP_ONESHOT_SAFE,
-+};
-+
-+static int apple_spmi_irq_domain_map(struct irq_domain *irqd,
-+					unsigned int irq, irq_hw_number_t hw)
-+{
-+	irq_domain_set_info(irqd, irq, hw, &apple_spmi_irq_chip, irqd->host_data,
-+				handle_edge_irq, NULL, NULL);
-+	return 0;
-+}
-+
-+static int apple_spmi_irq_domain_translate(struct irq_domain *irqd,
-+					struct irq_fwspec *fwspec,
-+					unsigned long *hwirq,
-+					unsigned int *type)
-+{
-+	u32 *args = fwspec->param;
-+
-+	if (fwspec->param_count != 2)
-+		return -EINVAL;
-+
-+	if (args[0] >= SPMI_NUM_PERIPHERAL_IRQS)
-+		return -EINVAL;
-+	*hwirq = args[0];
-+	*type = args[1] & IRQ_TYPE_SENSE_MASK;
-+	return 0;
-+}
-+
-+static int apple_spmi_irq_domain_alloc(struct irq_domain *irqd, unsigned int virq,
-+				unsigned int nr_irqs, void *arg)
-+{
-+	unsigned int type = IRQ_TYPE_NONE;
-+	struct irq_fwspec *fwspec = arg;
-+	irq_hw_number_t hwirq;
-+	int i, ret;
-+
-+	ret = apple_spmi_irq_domain_translate(irqd, fwspec, &hwirq, &type);
-+	if (ret)
-+		return ret;
-+
-+	if (hwirq + nr_irqs > SPMI_NUM_PERIPHERAL_IRQS)
-+		return -EINVAL;
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		ret = apple_spmi_irq_domain_map(irqd, virq + i, hwirq + i);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void apple_spmi_irq_domain_free(struct irq_domain *irqd, unsigned int virq,
-+				unsigned int nr_irqs)
-+{
-+	int i;
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		struct irq_data *d = irq_domain_get_irq_data(irqd, virq + i);
-+
-+		irq_set_handler(virq + i, NULL);
-+		irq_domain_reset_irq_data(d);
-+	}
-+}
-+
-+static const struct irq_domain_ops apple_spmi_irq_domain_ops = {
-+	.translate	= apple_spmi_irq_domain_translate,
-+	.alloc		= apple_spmi_irq_domain_alloc,
-+	.free		= apple_spmi_irq_domain_free,
-+};
-+
-+static void apple_spmi_irq_handler(struct irq_desc *desc)
-+{
-+	struct apple_spmi *spmi = irq_desc_get_handler_data(desc);
-+	struct irq_chip *chip = irq_desc_get_chip(desc);
-+	bool handled = false;
-+	unsigned long val, offset, bit;
-+
-+	chained_irq_enter(chip, desc);
-+	val = readl(spmi->regs + SPMI_IRQ_ACK_BASE + (SPMI_IRQ_NOTIFY / 32) * 4);
-+	if (val & BIT(SPMI_IRQ_NOTIFY % 32)) {
-+		apple_spmi_irq_ack_raw(spmi, SPMI_IRQ_NOTIFY);
-+		complete(&spmi->fifo_rx);
-+		handled = true;
-+	}
-+
-+	for (offset = 0; offset < SPMI_NUM_PERIPHERAL_IRQS / 8; offset += sizeof(val)) {
-+		val = readq(spmi->regs + SPMI_IRQ_ACK_BASE + offset);
-+		/**
-+		 * because of other masters in the bus, we're going to get a multitude of
-+		 * interrupts we're not interested in. irq_resolve_mapping isn't very
-+		 * optimized for the nonexistent path, so instead we mask with (a locally
-+		 * cached version of) the IRQ mask
-+		 */
-+		val &= spmi->irq_mask_cache[offset / sizeof(val)];
-+		for_each_set_bit(bit, &val, 64) {
-+			generic_handle_domain_irq(spmi->irqd, offset * 8 + bit);
-+			handled = true;
-+			val &= ~BIT(bit);
-+		}
-+	}
-+	if (!handled)
-+		handle_bad_irq(desc);
-+	chained_irq_exit(chip, desc);
-+}
-+
-+static void remove_chained_handler(void *data)
-+{
-+	unsigned int irq = (unsigned int)(uintptr_t)data;
-+
-+	irq_set_chained_handler_and_data(irq, NULL, NULL);
-+}
-+
-+static int apple_spmi_init_irq(struct platform_device *pdev,
-+			  struct apple_spmi *spmi, int irq)
-+{
-+	int ret;
-+	struct irq_domain_info info = {
-+		.fwnode		= pdev->dev.fwnode,
-+		.hwirq_max	= ~0U,
-+		.ops		= &apple_spmi_irq_domain_ops,
-+		.host_data	= spmi,
-+	};
-+
-+	raw_spin_lock_init(&spmi->irq_mask_lock);
-+
-+	for (size_t offset = 0; offset < SPMI_NUM_IRQS / 8; offset += 4) {
-+		writel(0, spmi->regs + SPMI_IRQ_MASK_BASE + offset);
-+		writel(U32_MAX, spmi->regs + SPMI_IRQ_ACK_BASE + offset);
-+	}
-+
-+	spmi->irqd = devm_irq_domain_instantiate(&pdev->dev, &info);
-+	if (IS_ERR(spmi->irqd))
-+		return PTR_ERR(spmi->irqd);
-+
-+	spmi->notify_irq = true;
-+	ret = devm_add_action(&pdev->dev, remove_chained_handler, (void *)(uintptr_t)spmi->irq);
-+	if (ret)
-+		return ret;
-+
-+	irq_set_chained_handler_and_data(spmi->irq, apple_spmi_irq_handler, spmi);
-+	apple_spmi_irq_unmask_raw(spmi, SPMI_IRQ_NOTIFY);
-+
-+	return 0;
-+}
-+
- static int apple_spmi_probe(struct platform_device *pdev)
- {
- 	struct apple_spmi *spmi;
-@@ -200,6 +441,8 @@ static int apple_spmi_probe(struct platform_device *pdev)
- 
- 	spmi = spmi_controller_get_drvdata(ctrl);
- 	mutex_init(&spmi->fifo_lock);
-+	init_completion(&spmi->fifo_rx);
-+	platform_set_drvdata(pdev, spmi);
- 
- 	spmi->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(spmi->regs))
-@@ -211,6 +454,15 @@ static int apple_spmi_probe(struct platform_device *pdev)
- 	ctrl->write_cmd = spmi_write_cmd;
- 	ctrl->cmd = spmi_cmd;
- 
-+	spmi->irq = platform_get_irq_optional(pdev, 0);
-+	if (spmi->irq < 0 && spmi->irq != -ENXIO)
-+		return spmi->irq;
-+	if (spmi->irq >= 0) {
-+		ret = apple_spmi_init_irq(pdev, spmi, spmi->irq);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = devm_spmi_controller_add(&pdev->dev, ctrl);
- 	if (ret)
- 		return dev_err_probe(&pdev->dev, ret,
+Looks better now.
+
+> diff --git a/drivers/usb/typec/tipd/Makefile b/drivers/usb/typec/tipd/Makefile
+> index aa439f80a889..c741bf44f52f 100644
+> --- a/drivers/usb/typec/tipd/Makefile
+> +++ b/drivers/usb/typec/tipd/Makefile
+> @@ -1,6 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -CFLAGS_trace.o			:= -I$(src)
+> +CFLAGS_trace.o				:= -I$(src)
+>  
+> -obj-$(CONFIG_TYPEC_TPS6598X)	+= tps6598x.o
+> -tps6598x-y			:= core.o
+> -tps6598x-$(CONFIG_TRACING)	+= trace.o
+> +obj-$(CONFIG_TYPEC_TPS6598X_CORE)	+= tps6598x-core.o
+> +tps6598x-core-y				:= core.o
+> +tps6598x-core-$(CONFIG_TRACING)		+= trace.o
+> +
+> +obj-$(CONFIG_TYPEC_TPS6598X)		+= tps6598x.o
+> +tps6598x-y				:= i2c.o
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index d5ee0af9058b..aadadfdc6ed1 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/i2c.h>
+>  #include <linux/acpi.h>
+>  #include <linux/gpio/consumer.h>
+> -#include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/power_supply.h>
+>  #include <linux/regmap.h>
+> @@ -92,31 +91,6 @@ struct tps6598x_rx_identity_reg {
+>  	struct usb_pd_identity identity;
+>  } __packed;
+>  
+> -/* TPS_REG_USB4_STATUS */
+> -struct tps6598x_usb4_status_reg {
+> -	u8 mode_status;
+> -	__le32 eudo;
+> -	__le32 unknown;
+> -} __packed;
+> -
+> -/* TPS_REG_DP_SID_STATUS */
+> -struct tps6598x_dp_sid_status_reg {
+> -	u8 mode_status;
+> -	__le32 status_tx;
+> -	__le32 status_rx;
+> -	__le32 configure;
+> -	__le32 mode_data;
+> -} __packed;
+> -
+> -/* TPS_REG_INTEL_VID_STATUS */
+> -struct tps6598x_intel_vid_status_reg {
+> -	u8 mode_status;
+> -	__le32 attention_vdo;
+> -	__le16 enter_vdo;
+> -	__le16 device_mode;
+> -	__le16 cable_mode;
+> -} __packed;
+> -
+>  /* Standard Task return codes */
+>  #define TPS_TASK_TIMEOUT		1
+>  #define TPS_TASK_REJECTED		3
+> @@ -143,81 +117,6 @@ static const char *const modes[] = {
+>  /* Unrecognized commands will be replaced with "!CMD" */
+>  #define INVALID_CMD(_cmd_)		(_cmd_ == 0x444d4321)
+>  
+> -struct tps6598x;
+> -
+> -struct tipd_data {
+> -	irq_handler_t irq_handler;
+> -	u64 irq_mask1;
+> -	size_t tps_struct_size;
+> -	void (*remove)(struct tps6598x *tps);
+> -	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
+> -	void (*unregister_port)(struct tps6598x *tps);
+> -	void (*trace_data_status)(u32 status);
+> -	void (*trace_power_status)(u16 status);
+> -	void (*trace_status)(u32 status);
+> -	int (*apply_patch)(struct tps6598x *tps);
+> -	int (*init)(struct tps6598x *tps);
+> -	int (*switch_power_state)(struct tps6598x *tps, u8 target_state);
+> -	bool (*read_data_status)(struct tps6598x *tps);
+> -	int (*reset)(struct tps6598x *tps);
+> -	int (*connect)(struct tps6598x *tps, u32 status);
+> -};
+> -
+> -struct tps6598x {
+> -	struct device *dev;
+> -	struct regmap *regmap;
+> -	struct mutex lock; /* device lock */
+> -	u8 i2c_protocol:1;
+> -
+> -	struct gpio_desc *reset;
+> -	struct typec_port *port;
+> -	struct typec_partner *partner;
+> -	struct usb_pd_identity partner_identity;
+> -	struct usb_role_switch *role_sw;
+> -	struct typec_capability typec_cap;
+> -
+> -	struct power_supply *psy;
+> -	struct power_supply_desc psy_desc;
+> -	enum power_supply_usb_type usb_type;
+> -
+> -	int wakeup;
+> -	u32 status; /* status reg */
+> -	u32 data_status;
+> -	u16 pwr_status;
+> -	struct delayed_work	wq_poll;
+> -
+> -	const struct tipd_data *data;
+> -};
+> -
+> -struct cd321x_status {
+> -	u32 status;
+> -	u32 pwr_status;
+> -	u32 data_status;
+> -	u32 status_changed;
+> -	struct usb_pd_identity partner_identity;
+> -	struct tps6598x_dp_sid_status_reg dp_sid_status;
+> -	struct tps6598x_intel_vid_status_reg intel_vid_status;
+> -	struct tps6598x_usb4_status_reg usb4_status;
+> -};
+> -
+> -struct cd321x {
+> -	struct tps6598x tps;
+> -
+> -	struct tps6598x_dp_sid_status_reg dp_sid_status;
+> -	struct tps6598x_intel_vid_status_reg intel_vid_status;
+> -	struct tps6598x_usb4_status_reg usb4_status;
+> -
+> -	struct typec_altmode *port_altmode_dp;
+> -	struct typec_altmode *port_altmode_tbt;
+> -
+> -	struct typec_mux *mux;
+> -	struct typec_mux_state state;
+> -
+> -	struct cd321x_status update_status;
+> -	struct delayed_work update_work;
+> -	struct usb_pd_identity cur_partner_identity;
+> -};
+> -
+>  static enum power_supply_property tps6598x_psy_props[] = {
+>  	POWER_SUPPLY_PROP_USB_TYPE,
+>  	POWER_SUPPLY_PROP_ONLINE,
+> @@ -1087,11 +986,12 @@ static int tps6598x_check_mode(struct tps6598x *tps)
+>  	return -ENODEV;
+>  }
+>  
+> -static const struct regmap_config tps6598x_regmap_config = {
+> +const struct regmap_config tps6598x_regmap_config = {
+>  	.reg_bits = 8,
+>  	.val_bits = 8,
+>  	.max_register = 0x7F,
+>  };
+> +EXPORT_SYMBOL_GPL(tps6598x_regmap_config);
+
+Don't export that. Just move it to i2c.c
+
+>  static int tps6598x_psy_get_online(struct tps6598x *tps,
+>  				   union power_supply_propval *val)
+> @@ -1738,27 +1638,13 @@ static void cd321x_remove(struct tps6598x *tps)
+>  	cancel_delayed_work_sync(&cd321x->update_work);
+>  }
+>  
+> -static int tps6598x_probe(struct i2c_client *client)
+> +int tipd_init(struct tps6598x *tps)
+>  {
+> -	const struct tipd_data *data;
+> -	struct tps6598x *tps;
+>  	struct fwnode_handle *fwnode;
+>  	u32 status;
+>  	u32 vid;
+>  	int ret;
+>  
+> -	data = i2c_get_match_data(client);
+> -	if (!data)
+> -		return -EINVAL;
+> -
+> -	tps = devm_kzalloc(&client->dev, data->tps_struct_size, GFP_KERNEL);
+> -	if (!tps)
+> -		return -ENOMEM;
+> -
+> -	mutex_init(&tps->lock);
+> -	tps->dev = &client->dev;
+> -	tps->data = data;
+> -
+>  	tps->reset = devm_gpiod_get_optional(tps->dev, "reset", GPIOD_OUT_LOW);
+>  	if (IS_ERR(tps->reset))
+>  		return dev_err_probe(tps->dev, PTR_ERR(tps->reset),
+> @@ -1766,23 +1652,12 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	if (tps->reset)
+>  		msleep(TPS_SETUP_MS);
+>  
+> -	tps->regmap = devm_regmap_init_i2c(client, &tps6598x_regmap_config);
+> -	if (IS_ERR(tps->regmap))
+> -		return PTR_ERR(tps->regmap);
+> -
+>  	if (!device_is_compatible(tps->dev, "ti,tps25750")) {
+>  		ret = tps6598x_read32(tps, TPS_REG_VID, &vid);
+>  		if (ret < 0 || !vid)
+>  			return -ENODEV;
+>  	}
+>  
+> -	/*
+> -	 * Checking can the adapter handle SMBus protocol. If it can not, the
+> -	 * driver needs to take care of block reads separately.
+> -	 */
+> -	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+> -		tps->i2c_protocol = true;
+> -
+>  	if (tps->data->switch_power_state) {
+>  		ret = tps->data->switch_power_state(tps, TPS_SYSTEM_POWER_STATE_S0);
+>  		if (ret)
+> @@ -1816,7 +1691,7 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	 * with existing DT files, we work around this by deleting any
+>  	 * fwnode_links to/from this fwnode.
+>  	 */
+> -	fwnode = device_get_named_child_node(&client->dev, "connector");
+> +	fwnode = device_get_named_child_node(tps->dev, "connector");
+>  	if (fwnode)
+>  		fw_devlink_purge_absent_suppliers(fwnode);
+>  
+> @@ -1842,14 +1717,14 @@ static int tps6598x_probe(struct i2c_client *client)
+>  			goto err_unregister_port;
+>  		ret = tps->data->connect(tps, status);
+>  		if (ret)
+> -			dev_err(&client->dev, "failed to register partner\n");
+> +			dev_err(tps->dev, "failed to register partner\n");
+>  	}
+>  
+> -	if (client->irq) {
+> -		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
+> +	if (tps->irq) {
+> +		ret = devm_request_threaded_irq(tps->dev, tps->irq, NULL,
+>  						tps->data->irq_handler,
+>  						IRQF_SHARED | IRQF_ONESHOT,
+> -						dev_name(&client->dev), tps);
+> +						dev_name(tps->dev), tps);
+>  	} else {
+>  		dev_warn(tps->dev, "Unable to find the interrupt, switching to polling\n");
+>  		INIT_DELAYED_WORK(&tps->wq_poll, tps6598x_poll_work);
+> @@ -1860,13 +1735,12 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	if (ret)
+>  		goto err_disconnect;
+>  
+> -	i2c_set_clientdata(client, tps);
+>  	fwnode_handle_put(fwnode);
+>  
+>  	tps->wakeup = device_property_read_bool(tps->dev, "wakeup-source");
+> -	if (tps->wakeup && client->irq) {
+> -		devm_device_init_wakeup(&client->dev);
+> -		enable_irq_wake(client->irq);
+> +	if (tps->wakeup && tps->irq) {
+> +		devm_device_init_wakeup(tps->dev);
+> +		enable_irq_wake(tps->irq);
+>  	}
+>  
+>  	return 0;
+> @@ -1887,15 +1761,14 @@ static int tps6598x_probe(struct i2c_client *client)
+>  
+>  	return ret;
+>  }
+> +EXPORT_SYMBOL_GPL(tipd_init);
+>  
+> -static void tps6598x_remove(struct i2c_client *client)
+> +void tipd_remove(struct tps6598x *tps)
+>  {
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+> -
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		cancel_delayed_work_sync(&tps->wq_poll);
+>  	else
+> -		devm_free_irq(tps->dev, client->irq, tps);
+> +		devm_free_irq(tps->dev, tps->irq, tps);
+>  
+>  	if (tps->data->remove)
+>  		tps->data->remove(tps);
+> @@ -1910,29 +1783,26 @@ static void tps6598x_remove(struct i2c_client *client)
+>  	if (tps->reset)
+>  		gpiod_set_value_cansleep(tps->reset, 1);
+>  }
+> +EXPORT_SYMBOL_GPL(tipd_remove);
+>  
+> -static int __maybe_unused tps6598x_suspend(struct device *dev)
+> +int tipd_suspend(struct tps6598x *tps)
+>  {
+> -	struct i2c_client *client = to_i2c_client(dev);
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+> -
+>  	if (tps->wakeup) {
+> -		disable_irq(client->irq);
+> -		enable_irq_wake(client->irq);
+> +		disable_irq(tps->irq);
+> +		enable_irq_wake(tps->irq);
+>  	} else if (tps->reset) {
+>  		gpiod_set_value_cansleep(tps->reset, 1);
+>  	}
+>  
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		cancel_delayed_work_sync(&tps->wq_poll);
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL_GPL(tipd_suspend);
+>  
+> -static int __maybe_unused tps6598x_resume(struct device *dev)
+> +int tipd_resume(struct tps6598x *tps)
+>  {
+> -	struct i2c_client *client = to_i2c_client(dev);
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+>  	int ret;
+>  
+>  	ret = tps6598x_check_mode(tps);
+> @@ -1946,25 +1816,22 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
+>  	}
+>  
+>  	if (tps->wakeup) {
+> -		disable_irq_wake(client->irq);
+> -		enable_irq(client->irq);
+> +		disable_irq_wake(tps->irq);
+> +		enable_irq(tps->irq);
+>  	} else if (tps->reset) {
+>  		gpiod_set_value_cansleep(tps->reset, 0);
+>  		msleep(TPS_SETUP_MS);
+>  	}
+>  
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		queue_delayed_work(system_power_efficient_wq, &tps->wq_poll,
+>  				   msecs_to_jiffies(POLL_INTERVAL));
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL_GPL(tipd_resume);
+>  
+> -static const struct dev_pm_ops tps6598x_pm_ops = {
+> -	SET_SYSTEM_SLEEP_PM_OPS(tps6598x_suspend, tps6598x_resume)
+> -};
+> -
+> -static const struct tipd_data cd321x_data = {
+> +const struct tipd_data tipd_cd321x_data = {
+>  	.irq_handler = cd321x_interrupt,
+>  	.irq_mask1 = APPLE_CD_REG_INT_POWER_STATUS_UPDATE |
+>  		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
+> @@ -1982,8 +1849,9 @@ static const struct tipd_data cd321x_data = {
+>  	.switch_power_state = cd321x_switch_power_state,
+>  	.connect = cd321x_connect,
+>  };
+> +EXPORT_SYMBOL_GPL(tipd_cd321x_data);
+
+There shouldn't be need to export these either. You can add a
+variant flag member to struct tps6598x for now, and pick the correct
+data for example from a lookup table.
+
+Ideally IMO each variant would be handled in its own file. But that
+would require a bit more refactoring of course.
+
+> -static const struct tipd_data tps6598x_data = {
+> +const struct tipd_data tipd_tps6598x_data = {
+>  	.irq_handler = tps6598x_interrupt,
+>  	.irq_mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
+>  		     TPS_REG_INT_DATA_STATUS_UPDATE |
+> @@ -2000,8 +1868,9 @@ static const struct tipd_data tps6598x_data = {
+>  	.reset = tps6598x_reset,
+>  	.connect = tps6598x_connect,
+>  };
+> +EXPORT_SYMBOL_GPL(tipd_tps6598x_data);
+>  
+> -static const struct tipd_data tps25750_data = {
+> +const struct tipd_data tipd_tps25750_data = {
+>  	.irq_handler = tps25750_interrupt,
+>  	.irq_mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
+>  		     TPS_REG_INT_DATA_STATUS_UPDATE |
+> @@ -2018,33 +1887,8 @@ static const struct tipd_data tps25750_data = {
+>  	.reset = tps25750_reset,
+>  	.connect = tps6598x_connect,
+>  };
+> -
+> -static const struct of_device_id tps6598x_of_match[] = {
+> -	{ .compatible = "ti,tps6598x", &tps6598x_data},
+> -	{ .compatible = "apple,cd321x", &cd321x_data},
+> -	{ .compatible = "ti,tps25750", &tps25750_data},
+> -	{}
+> -};
+> -MODULE_DEVICE_TABLE(of, tps6598x_of_match);
+> -
+> -static const struct i2c_device_id tps6598x_id[] = {
+> -	{ .name = "tps6598x", .driver_data = (kernel_ulong_t)&tps6598x_data },
+> -	{ }
+> -};
+> -MODULE_DEVICE_TABLE(i2c, tps6598x_id);
+> -
+> -static struct i2c_driver tps6598x_i2c_driver = {
+> -	.driver = {
+> -		.name = "tps6598x",
+> -		.pm = &tps6598x_pm_ops,
+> -		.of_match_table = tps6598x_of_match,
+> -	},
+> -	.probe = tps6598x_probe,
+> -	.remove = tps6598x_remove,
+> -	.id_table = tps6598x_id,
+> -};
+> -module_i2c_driver(tps6598x_i2c_driver);
+> +EXPORT_SYMBOL_GPL(tipd_tps25750_data);
+>  
+>  MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
+> -MODULE_LICENSE("GPL v2");
+> -MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Core Functions");
+
+Thanks,
 
 -- 
-2.55.0
-
+heikki
