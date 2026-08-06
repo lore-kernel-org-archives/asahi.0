@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B9647AF6F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FA247AF75;
 	Thu,  6 Aug 2026 15:28:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786030127; cv=none; b=dyQfnnkk7gE1cv12nVsuMTah4L17FurL3P9qLAyLlVzqpkC2lFYUJyYkf/wGelnLICYo0kQz+e36ks8JkaDEoDP7Xk3hrC6q7edqJ0Dxak+wo3kfbYOq+GBndtOj+AcAeo5NfanoMfhbKyuIaE1LDgC5rEDvmHKVFodh59p8y3U=
+	t=1786030127; cv=none; b=lUTnuVRcORz46iwwo7lT+/RJAvZsWgUrlJh+jtpoLQFo8gldcJ2AHcRcD9xiCPViyTOBtL3VdeWf00g8wIQrjBT/s39J+SaONbQcVfv5GSzUDwcyDPS+Wzvxa6Aqia1EQ8a0jmvuILNGhUTgKJnx1FeRiIEnRPZ0srO7y1o6ACY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786030127; c=relaxed/simple;
-	bh=YxBzcKnSFS/hs7Z6ZB2yAm0XU5wv5qxZmHDbDUlH1so=;
+	bh=dAxz+dTFl0FTz8kxXwslhiRnWUyMoDrUdWvhssxEJSw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JdZpEN0MSsp6z7EaIdDyh/yGASGst/3o2SpymtP3zAd1JFlprfZCpnLCQEEBP7nI5oHpn8xAFZpLK2RARWTQIaSGgsCc1U3n4H4y4iHzChExXd1SIlG4HCYJseEgGkdrpVwsS6cv+qitO5cNOUIfaasCHQjSARdJpY++MXan2BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rIzbwdeF; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=PTrHFesPEWcYGhE7zSWsfPfI+KbvAbVHSePlwK6lUEvGOK81hzeasKS7e1AUsEwILic9xOG80Wk9FY0HHN0buipaNJbVWFXxZs2YswjPzOeOk4KPnyEpZnswWMYS5JBbrB/OM1SAe46mZ5MJhEQPYxPL6st5WDoyRb7VBb+Urjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUO6FoT0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rIzbwdeF"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A5956C2BCF7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUO6FoT0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 932C2C2BD01;
 	Thu,  6 Aug 2026 15:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1786030127;
-	bh=YxBzcKnSFS/hs7Z6ZB2yAm0XU5wv5qxZmHDbDUlH1so=;
+	bh=dAxz+dTFl0FTz8kxXwslhiRnWUyMoDrUdWvhssxEJSw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=rIzbwdeF3ZCdd01M+KYWYEYL6jSkwAO4FkUwgZFiOIGgvTDC+B6zKRU8zxE6DSMAL
-	 RqwblFxs8UEbTMsxj0dbn7LBBWoIaLlsoeZZYVaPctzP1Jw3jBM8UuhMDX9Jafh0T3
-	 0QRF/w3AlUQDfxEQqfQf7BelQdrE2wcm4kNjjfVddPbRZrA+q1w2u8UAEApPC+a+kI
-	 ktZs3fn4mC5gQVgaARpmUS86yZczTDZbM6sekoVsdxlthHXqalGopMIT1K0SE1s3zO
-	 uzJes6c7FD/Nu5EqoBER1RC8PII8yYvLSUjTNW9nuOlxtNSzyusu7f0PKxt9dqBXTW
-	 sRoVphMTNe1vw==
+	b=KUO6FoT0yqyl2dQPlXccPllRhl4ypwRdrI0bAMN0cMNzqZyg8Rw+69dJWMx4hD4ry
+	 GeweXlf0T1PfqIvynTaX+z7AWV1q+NMrgrhm0Ga03DXdQhalP8+yEAe6hxEb1LcHMC
+	 zl0RBX2MyAjGdEi9MqObjaWtbsvhuNVyfLlb9OzlZunCzHXmUlDwbUyBTFWRAQIvZ4
+	 dSIpsykUH0FQeFiOwryvDdKhVCErp7mIH9ddCLys6K60A5nvaauBGcyNelRKsXJIiW
+	 IT1lKRA3o6ZJYzgmIbXCRGakroxnggLqgz6jOwSuny2l8C0k56wwmXTYWdrppjQkmG
+	 EbGYaZIM4r+Iw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC1DC56208;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E1E3C56205;
 	Thu,  6 Aug 2026 15:28:47 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Thu, 06 Aug 2026 17:27:38 +0200
-Subject: [PATCH 6/6] nvme-apple: Drop the PRP null check chicken bit
+Date: Thu, 06 Aug 2026 17:27:37 +0200
+Subject: [PATCH 5/6] nvme-apple: Require page aligned buffers on the admin
+ queue
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260806-b4-nvme-fwabi-v1-6-bde19ce8db04@kernel.org>
+Message-Id: <20260806-b4-nvme-fwabi-v1-5-bde19ce8db04@kernel.org>
 References: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
 In-Reply-To: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
 To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
@@ -51,65 +52,44 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1941; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1155; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=YxBzcKnSFS/hs7Z6ZB2yAm0XU5wv5qxZmHDbDUlH1so=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ1bJCp3+P3XspXXZp+S/LvvxxCa4t3kKT7zkhKjNH0pcx
- Q/WhLF0lLIwiHExyIopsmzfb2/65OEbwaWbLr2HmcPKBDKEgYtTACYyaQIjw+qi5gKbfSf7NWV+
- fK+33TfR8mlZgl6E6Ksfnx/7HNIxmMnIMD/3TkTyRp0doQ9vxm14oc5lOps3Y0Fd58ZI/ecT9Zg
- iuAA=
+ bh=dAxz+dTFl0FTz8kxXwslhiRnWUyMoDrUdWvhssxEJSw=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ1bJCu3jwav3XP1gL5oT/P+sw+uG28fLbRzP2HXuuqm9Y
+ KqmsFZsRykLgxgXg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAiXNqMDF/OO2w1/yDVs+r0
+ lENcfPv4Ll9/LSBQE+HVtm/ril16m/4x/I+tfMy6KcTqqJiu0HneHhtxU5H1wuZSM5/OCfn/7+P
+ TDk4A
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-Now that we program the DMA direction correctly the NULL check that used
-to make commands fail passes. Another side effect of this bit was that
-non-align buffers on the admin queue were silently allowed and that's
-been fixed now as well and we this don't need this chicken bit anymore.
-More importantly, starting with the firmware installed with macOS 15,
-which is required for M4 but can also be installed on the previous SoCs,
-the controller no longer exposes this control register and any access
-SErrors instead. Just drop the write entirely.
+Now that we have a quick to align buffers on the admin queue to the NVMe
+controller page size use it for Apple controllers. This fixes pre-M1
+controllers, which always rejected unaligned requests, and also makes
+this driver work for M4 SoCs and for M1/M2/M3 SoCs that have been
+updated to the firmware shipped with macOS 15.
 
 Fixes: 5bd2927aceba ("nvme-apple: Add initial Apple SoC NVMe driver")
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/nvme/host/apple.c | 14 --------------
- 1 file changed, 14 deletions(-)
+ drivers/nvme/host/apple.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index 78f89b5679e5..bf1c32c66153 100644
+index 1ea732c3df1c..78f89b5679e5 100644
 --- a/drivers/nvme/host/apple.c
 +++ b/drivers/nvme/host/apple.c
-@@ -47,9 +47,6 @@
- #define APPLE_ANS_BOOT_STATUS	 0x1300
- #define APPLE_ANS_BOOT_STATUS_OK 0xde71ce55
- 
--#define APPLE_ANS_UNKNOWN_CTRL	 0x24008
--#define APPLE_ANS_PRP_NULL_CHECK BIT(11)
--
- #define APPLE_ANS_LINEAR_SQ_CTRL 0x24908
- #define APPLE_ANS_LINEAR_SQ_EN	 BIT(0)
- 
-@@ -1127,17 +1124,6 @@ static void apple_nvme_reset_work(struct work_struct *work)
- 		/* Setup the NVMMU for the maximum admin and IO queue depth */
- 		writel(anv->hw->max_queue_depth - 1,
- 			anv->mmio_nvme + APPLE_NVMMU_NUM_TCBS);
--
--		/*
--		 * This is probably a chicken bit: without it all commands
--		 * where any PRP is set to zero (including those that don't use
--		 * that field) fail and the co-processor complains about
--		 * "completed with err BAD_CMD-" or a "NULL_PRP_PTR_ERR" in the
--		 * syslog
--		 */
--		writel(readl(anv->mmio_nvme + APPLE_ANS_UNKNOWN_CTRL) &
--			~APPLE_ANS_PRP_NULL_CHECK,
--			anv->mmio_nvme + APPLE_ANS_UNKNOWN_CTRL);
+@@ -1583,7 +1583,8 @@ static struct apple_nvme *apple_nvme_alloc(struct platform_device *pdev)
  	}
  
- 	/* Setup the admin queue */
+ 	ret = nvme_init_ctrl(&anv->ctrl, anv->dev, &nvme_ctrl_ops,
+-			     NVME_QUIRK_SKIP_CID_GEN | NVME_QUIRK_IDENTIFY_CNS);
++			     NVME_QUIRK_SKIP_CID_GEN | NVME_QUIRK_IDENTIFY_CNS |
++			     NVME_QUIRK_ADMIN_PAGE_ALIGN);
+ 	if (ret) {
+ 		dev_err_probe(dev, ret, "Failed to initialize nvme_ctrl");
+ 		goto put_dev;
 
 -- 
 2.55.0
