@@ -1,89 +1,93 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37AA381E8A
-	for <asahi@lists.linux.dev>; Thu,  6 Aug 2026 16:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4FA3B52E9
+	for <asahi@lists.linux.dev>; Thu,  6 Aug 2026 17:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786035053; cv=none; b=IlloiE3V0d8Ofq/zCrNmnIKpMaggIhs4Jkp6f4dSKmCWm+6xUgYaF5tfY2APBTx/m1mcgNfXRUrLYpwMcqyvKXR6YnTXkj40x5VK9kD6pM8Vbj+aQEjoBNReZ/7FXciyJrDJAINmzMPMtEdN5yiNNtSCxc0fDpU87lwvnKA6HHU=
+	t=1786037853; cv=none; b=Fs2hzyPoXQj/INvRzRS5EpH7ifJBjJLC8PZny1zzjrc1c5j/FADFj+rGvolm0WgUUt2kAKe22f6lEVhGOQmY0trYNjO3N7J58LvJVLOAUKEmwVgix4PJIN08aTkMBLl7UPcpzoQ+jUAYPMYNd1SJleXHrDF40wFX7bHNSKTXQ9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786035053; c=relaxed/simple;
-	bh=7fHTowmCuTPX4X4NEfGSqGZeshkbcsulBw5ZLhqhO7A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NQvl4NKj4zPmgXV//Bn+UdU4lgChjXg2DSjEEioM/7PtNxkca+WTchKPE9k/4EXiub8NKmxtXmUbk6xbIzjZ838IAKv5TTMPp5uvrvcJuIAEHr/wYYrN4McZbw5n8YYiZUON6roKEm2OEHNgsQINbiov3VLw8cRz6cUNPuYLGmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dwd6I/DI; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786037853; c=relaxed/simple;
+	bh=5IDpeGoVi7UJYFyWRcM7ZaQZoQV0M709o0nywzNbIVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MAkyn/ig1cBP5v6t9y8sd4brFPbjD+W4KACwHOvi0OY7MFODYA/TsFpcyCsxykAk3yOAPfWeuZ1+9JLP8uA6qkU6OfwRFIhazqi1mrusa4jWlZx2KDNrbj33P8dv+uduxONNRFftO9lObUCgna496mWrMg2UK/3tTcbdy42FrJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=IUyxeOGl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=huILaywR; arc=none smtp.client-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dwd6I/DI"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cc891373e0so30460645ad.2
-        for <asahi@lists.linux.dev>; Thu, 06 Aug 2026 09:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786035043; x=1786639843; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UpSZxsO2+OojqlTHRs9iVFREpITIpLS70LTpaRzcVr8=;
-        b=dwd6I/DIs3xzhnBrwhUMTCt0QpfE+ZunYlqQOuXmQuhZ8QgdVMe1BnwaemoPrODybX
-         vIgH+nSI7IeI98AsLnyPD1V8MnYHVLNNMMCyPonHeLXiLp3JbySzaaegJckn+zLxt7an
-         VyE476514xNwrjxDYq4UO0V9s3Kg/JBbf2kP/+VKDmoL7m0ylBrKmQDtWSU/rePgoP9J
-         84FazuuRJLkhrUb7ZoYg91NQZr7aOLpGeyn3xeRiut5vzDK8bOYwSNsWlNBrya05IGFe
-         VRGQeuRyifV+itQxnAP0ir586QUAVms5nmxzzqKdZm1idIPd4UCYCEIyT3b1TN+D9yZU
-         OM2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786035043; x=1786639843;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UpSZxsO2+OojqlTHRs9iVFREpITIpLS70LTpaRzcVr8=;
-        b=TWIvFRHTZcpTmMvNhEFgsBR8fNPFP6ZD2TZ8aUu7hick0svtiI/UutvBAk+Phap6js
-         GvSxedEwOZmvzHR1R3ABHGHJHBlnQgUJ8QtfTI1t4uf98IbLPzszt6VVgfOKlweREBKg
-         i+hhjugCZYpyPij7AzBvCkki24eFlpqc12JyIWzJsjzvie0w33H+sMudIhTRcPl7bE8w
-         4+zuQLWHI93eO9gpcv8sA9P+44+SeCBvsSH3tJat+bASAL30H+zX+uJezjzACcxeCxak
-         JyJC6fnBqNIOvP220orBpSudDn6CIFh9wt1K5HsgZ3aooEr8/EX7F9rnmPXX6IdzyfJL
-         9Q5Q==
-X-Gm-Message-State: AOJu0Yx1yiSG2zTalD9C+MCl6Q/3zkRwYXCv4uSuqBaYuwS6U5VK6jg0
-	ED3/gP0fCx95B5K0KUCt3ZRRoNP6ZFIUnsH8bKJh6bra+pAb+3nfdnqA
-X-Gm-Gg: AR+sD12GE6qjiFiMArHr51HkSd7aQLOoYiGIc1TySblwDLYZuxQiF6jKNT77efPrWLT
-	8rbl6mfZfgHqktlUY4wMunCniUBoRwRgtj4v36Zqp5fE4IoipuevaMYoSwkA7iBRE3bwPts+fPO
-	ASd7tvExwrD6nJ6rY61XCVTmjGhYAhGBo0CBaxdmH6RcXLY4clxYPDkuN0kmvnXG46llSYQLB/Y
-	TKdqbP0PSFwkIroAnBwACkLKyngS5SZsxYNmFXxOKXRhrjf6uK2+ULB+rtC8nUR87WWpqIFxzAo
-	ywpkYtwoCGNP6Xa7P/N2u06C7t/BnOa9GPgitqeLfOedSxGQeKm05E+DgETOANVCVaStbeAgMcF
-	MyrUcSZyHdUwNnWtvnUDMI9t17rvstKEal8SytBWxyR48QWnzVVonztaIxHJ89YfkGHa1c4gGo3
-	j0JT6R1/2x2sz257yKP5obhf1vrO1S+8N6Gf99Rn14LfBYL8I0Z5Ck7zu0z12Pz+P4tR5P
-X-Received: by 2002:a17:903:2ac5:b0:2c9:b8b7:5d27 with SMTP id d9443c01a7336-2d0ca712d8fmr201739305ad.1.1786035042793;
-        Thu, 06 Aug 2026 09:50:42 -0700 (PDT)
-Received: from [192.168.1.113] ([223.122.38.120])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0aa4ec8c7sm34434975ad.80.2026.08.06.09.50.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2026 09:50:42 -0700 (PDT)
-Message-ID: <0ea8c38b-0230-4ef3-acac-e43208d7c9b2@gmail.com>
-Date: Fri, 7 Aug 2026 00:50:38 +0800
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="IUyxeOGl";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="huILaywR"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 06D6B1D000BD;
+	Thu,  6 Aug 2026 13:37:31 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 06 Aug 2026 13:37:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1786037850; x=1786124250; bh=tHnqyOO1uD
+	suoF/xnUQI2mRzSuyrmk/rA7QZretz+bg=; b=IUyxeOGlOih7TBAnxusRso1hWL
+	+YD1l8lbfLnHwA0Ufvz6nUguE6wwkFRDKrbNNYhXtEFBUpmukgRUgSdJk0Ln2sgw
+	xYvY8JiJKYPkRPDovyP31TrBfVNapNytvyr13BZVzjfbl1R5GRlqgHZgZ8PXX+us
+	bu8VG8QXT0lV/Hh4MVs0Dm3L90Ew05oiZxdWsZ1z+i9a8oF+TME47U4gM5bS/qfd
+	gaNCY2QiH8jhF7vaAQsQMokKtQC3t0L/OiSnnre23g2NUWte/GDVb3ZQo24NRze5
+	gGU4lrjdt3hHY8D84AifjhevQg0CjH+XlLGbOm3Onc8FMMIleaCdPdpmyuvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1786037850; x=1786124250; bh=tHnqyOO1uDsuoF/xnUQI2mRzSuyrmk/rA7Q
+	Zretz+bg=; b=huILaywRzta094cghAmg/6V4TdtDqy2H/XXrwFKqf95sUihGqZ3
+	81y+lRl2fPzTG3A0Uk/nfvOdKcFG1lmiq8lkmReWqtIVnehpDYEFaAYiUAiasQ8z
+	IdC4ukU8TiqEK8ZM32l7isyoTeJNbGpPif3MGRbIsogQfuFvAAlCmQu4PPn0eWNm
+	ntyV4M4xr8Zpz+CUBIQzAUFcxTc3zhFuIs3AEvCQKdnldzQwLpyhRJY2ij4JZl0+
+	3BpMeWdSDXFlK6fH7iZhzxCZeQ+74BSEMz6xD1Rcejel7DvbcWKBDzYgkNmQyWnx
+	BNXU2mxZNfgbttuKZVXrFFPtVoCEg79Ufzg==
+X-ME-Sender: <xms:WsZ0asjitWyoR78JyGC827Km5p7ELDBt5EyTjboqKOA4kuPIDIxIDg>
+    <xme:WsZ0ag2qwvBL5raTTuIq3xNoKOEHT9QyPgo8gg30TEab1g71OdTSjrKIJhI7j4tJz
+    lNQ2deOwpyE6A6g72opBziBGDtESv7yE_L2gocK-QwagR61--HyIKw>
+X-ME-Received: <xmr:WsZ0avdO9znJLTTAKvHxJc1Y5JHT8XPOdEJZak_5utkTpDTwYG5XhAaDeuMPvUMYqSzO-vWDE-WukJwEL9FF7SysAt1VEI9yL7o>
+X-ME-Proxy-Cause: dmFkZTGwCXBcn4aLfwWdfO4trPZD1QJnLbrbvPnKiG1qC8XfJLrdxauf+uW9V1IadvHpNS
+    l5/Rx2MIiAcq66IRw6VMNUNmUS8TMak8AF662vYKZTkaUb9XRvR3Hq5ZAly3FQS82dOD/I
+    4+krjZ6PDY8zDg9K5QtufjuF7verAuoLHeGORs8+FMIAy6vf4TJevfTLkBahtqzGNudqIp
+    iIYMJZZHHEsfRL5babwzPWb74SeHSZPNEoaDGDsaEGPqXhdTAhVvEf3mcMgDTUfm01KbNe
+    3awc5mWY2/ljAsdLPc3I8Eji1uJDQFl78xVLs0EIksEuFDfEUFgdFbpIMbb/3lMTV/MroX
+    7vJLKhjVBRD9TNWGb4gVqNEBqgrqsBX1nLp2nlySFTGREb3kRF4FTj0wlVkEKHeYz1uhse
+    IAF0V7fJroKG015cX/hl+yIpMupTZq8aFUslwBqeHbSEAgsYz7zHWKWYfrOZvgpwrCoqpy
+    cQEXtyjVsn+xUvfLOx1SEUWntwSxS54UMqKz3IdDwJCNNJRH8FdCZXF/SEKkMqkPgDaYPw
+    RR14r5sUSe+UTd/GPp9Q03lcoLGMAGhR8wrOaqK0ILBlBjavlLbSa2DEkfSLJpL/KJQHOS
+    NidEGnsb2LJMV9HTmqZNDp2CTvQ9jBSni+FdQVBb9fvYn7agCX7VHpTNXUAA
+X-ME-Proxy: <xmx:WsZ0amzGoA_8Pqn4FLbFJQwVPwDUW5AVWeEYuRNjSvaez5uPnSRu6w>
+    <xmx:WsZ0anwa1PMy9xcRax62pV8WbhZYJ0_NT0h4qxZB8n3s9FSk9Ze96Q>
+    <xmx:WsZ0anaAaX4TbHmCUIdK_TtLIwNJ15EtoBrr0FRBzptOFUIhcg5B3w>
+    <xmx:WsZ0ag3EtiYRGPs7tq1OaBZaH0E2oHJl506hZtU7uFL86p-ayp2zCg>
+    <xmx:WsZ0an5YLg3nZukQbedDSXz2LgIABtNCffZm2HXNwIhwQZbZVGx0fze->
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Aug 2026 13:37:29 -0400 (EDT)
+Date: Thu, 6 Aug 2026 19:37:28 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sven Peter <sven@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Arnd Bergmann <arnd@arndb.de>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/6] Apple NVMe fixes for macOS 15+ firmware / M4 support
+Message-ID: <20260806173728.GA682012@robin.jannau.net>
+References: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] Apple NVMe fixes for macOS 15+ firmware / M4 support
-Content-Language: en-MW
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Arnd Bergmann <arnd@arndb.de>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
-From: Nick Chan <towinchenmi@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-
-
-Sven Peter 於 2026/8/6 晚上11:27 寫道:
+On Thu, Aug 06, 2026 at 05:27:32PM +0200, Sven Peter wrote:
 > Hi,
 > 
 > This series fixes a bunch of bugs that were working fine with M1/M2 NVMe
@@ -96,37 +100,10 @@ Sven Peter 於 2026/8/6 晚上11:27 寫道:
 > to initialize, which now happens for the first time with the new
 > firmware. The other fixes then make it work again.
 
-For the whole series:
+Whole series tested on devices with pre macOS 15 system firmware, a M1
+with system firmware 13.2 (OS firmware 12.3) and M1 Max with system
+firmware 14.5 (OS firmware 13.5).
 
-Tested-by: Nick Chan <towinchenmi@gmail.com> # pre-M1 controllers
+Tested-by: Janne Grunau <j@jannau.net>
 
-> 
-> Best,
-> 
-> Sven
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
-> Sven Peter (6):
->       nvme-apple: Destroy the admin queue on removal
->       nvme-apple: Don't set a DMA direction for commands without a data transfer
->       nvme-apple: Never set the opcode in the NVMMU TCB
->       nvme: Add a quirk for page aligned admin queue buffers
->       nvme-apple: Require page aligned buffers on the admin queue
->       nvme-apple: Drop the PRP null check chicken bit
-> 
->  drivers/nvme/host/apple.c | 32 +++++++++++++++-----------------
->  drivers/nvme/host/core.c  |  5 ++++-
->  drivers/nvme/host/nvme.h  |  7 +++++++
->  3 files changed, 26 insertions(+), 18 deletions(-)
-> ---
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> change-id: 20260806-b4-nvme-fwabi-000386148b21
-> 
-> Best regards,
-> --  
-> Sven Peter <sven@kernel.org>
-> 
-> 
-> 
-
+Janne
