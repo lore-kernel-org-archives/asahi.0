@@ -1,102 +1,86 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96A2472790
-	for <asahi@lists.linux.dev>; Fri,  7 Aug 2026 15:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B122733B6FB;
+	Fri,  7 Aug 2026 16:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786116987; cv=none; b=Uz2lw3VGYUajSUi9TBXuG7JRGZtffNhZ7GEOAN+EENAut/CFG+LlH7Lan24tv1jWG0xbdWBiYHInbg64sEF8ISZBAdiEVJ9NyCONvsPz+RBUaGh0evoVF+1YUD9V4gceV7ymkDfr+Fcir3IThSxtMasCpvbWcf1K8Ud532pzNTw=
+	t=1786119534; cv=none; b=HIVMuXN4VVDH8/Deu7CPAeu2B0Ohi3QQbG6chgFKH2yU6LHPlTNIf4yG+EDQpzawE3R1jxc/J8DMIKAzSB+N/N5bxgcbdoaDN6kta7/udLYxZNU+73Nm89HuG5TkAJO3aeG268cPGZgdxFfFea9A9eNicFVZynq0syMOu0XY9zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786116987; c=relaxed/simple;
-	bh=IDpY1+KfrdeDpS9BOMeRp2ST5NX0el1Fq1Ngk5UX0mc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=oF4Exx30n93xOm4rNA1ivR6ZNwqNAJe3UeUVdyK+okwv9wjHkK4cbzMUsj+5IrRYTC4/EnSdGV8CKqcVCV2L4TxJCFh3SJigXxNW3994qFZCZhuK6jcftqNRyILaWO/5LFEsvDDRPFzqW8vaXM9lUrMCiPK5jD49bD1ZYqGmnEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=mcV3olV9; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1786119534; c=relaxed/simple;
+	bh=8P9tFu6IRyymLXeRwyYnFMXaE6qf29qhwLtHj5XLmMM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JIOi7QrqNTt5cDbVbNyE5y2Cwsd7M9uDR99TP8Ay//8Kijx7u+FbNFJ3DyGm5Lc4HA+dkqKxbFj7HNqfioY092HxnLkJ2G0M+dCOHHw9Au5gPcofAjFo/ao+j6CEaaMao872+3K9956Nd9hNG1XDE34q3U1ane1erNxVLMQIZcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsX6h+Qc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="mcV3olV9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1786116978;
- bh=zzOSRUF+7X160qCUSiX8xJSfS6L9qF78Knb+9kxZ4EU=;
- b=mcV3olV9UKNCwoSyzDIXel7YkoWFvRFsmAIiOoW2njslQI+g5Fybkz24ngb5m+wSdwTEazFL4
- UMc5ldEwS57P2Ni0H3mN2BCb1T62xNLAzhinHhjG76a4+Jvbkh5bJjslvrs8k6q+kyeVtujhd9n
- x4wIdogWxDKXmxzaUDPfxBoEIxWkrm52Z6swK6UyKy+ewJTJTTB7EHV342M9+OeoFQcCm7F4A/z
- RPvdCg5Pb2jQmn3kDlNNE/2v8UNBtB6u34GyeLtdOcOHHhVKxPi4O1gDqxhPxM6BXOinGPuKbs/
- bEorEmZeg4NWWXLlwuL/XGM0B5tYyjG454G0gEo9xoPg==
-X-Forward-Email-ID: 6a75fb6318a12650795556ff
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 2.13.10
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsX6h+Qc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E37F1F000E9;
+	Fri,  7 Aug 2026 16:18:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786119533;
+	bh=zgSHsXQk29ui9Z+91QJ9ktuD4OjC/hGwUOW699BKQWQ=;
+	h=From:To:Cc:Subject:Date;
+	b=PsX6h+QcY2eV7aDOCo2ooJK+kXzqprGYPxw3vifWXV7J6m3aGX39KWv3IiG1M3ckw
+	 US6zpsXZVjowWHuwiD52v/rimYUky6440s3g/YGrIVvE4Bb4MNgdtwXx8VcSGtaVV+
+	 gqclCHeys4zIX373nZUrx2vbGOsVOinqere21yX578CnNvv8P4jnwpbJEgoPF3HQfS
+	 AEcPJew8xgyW+vuWGVmh/X6kYooaqDjyiOe08nn0yA0TkmUJNP5T56qIKtmCfLejn5
+	 VkGRcnp37T5Qw+BKzlVO46tXxhsGrZg+Y7nhFCW0yKWz9/ZhxrLOBvYxKJLlGT15ou
+	 46jKcXN9t9rQA==
+From: Sven Peter <sven@kernel.org>
+To: soc@lists.linux.dev
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Sven Peter <sven@kernel.org>
+Subject: [GIT PULL] Apple SoC driver changes for v7.3
+Date: Fri,  7 Aug 2026 18:18:34 +0200
+Message-ID: <20260807161840.6011-1-sven@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Fri, 07 Aug 2026 11:36:01 -0400
-Message-Id: <DKITMCODIHJM.PFQGZCZKZJIH@ubuntu.com>
-Cc: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/6] Apple NVMe fixes for macOS 15+ firmware / M4
- support
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Sven Peter" <sven@kernel.org>, "Janne Grunau" <j@jannau.net>, "Neal
- Gompa" <neal@gompa.dev>, "Keith Busch" <kbusch@kernel.org>, "Jens Axboe"
- <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg"
- <sagi@grimberg.me>, "Arnd Bergmann" <arnd@arndb.de>
-X-Mailer: aerc 0.21.0
-References: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
-In-Reply-To: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Aug 6, 2026 at 11:27 AM EDT, Sven Peter wrote:
-> Hi,
->
-> This series fixes a bunch of bugs that were working fine with M1/M2 NVMe
-> controllers with older firmware but are now starting to bite us.
-> With macOS 15 a new firmware is installed for the controller and both
-> XNU and the controller are a bit more strict now. This firmware is
-> required once we add M4 support.
->
-> The first patch fixes a panic that can happen when the controller fails
-> to initialize, which now happens for the first time with the new
-> firmware. The other fixes then make it work again.
->
-> Best,
->
-> Sven
->
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
-> Sven Peter (6):
->       nvme-apple: Destroy the admin queue on removal
->       nvme-apple: Don't set a DMA direction for commands without a data t=
-ransfer
->       nvme-apple: Never set the opcode in the NVMMU TCB
->       nvme: Add a quirk for page aligned admin queue buffers
->       nvme-apple: Require page aligned buffers on the admin queue
->       nvme-apple: Drop the PRP null check chicken bit
->
->  drivers/nvme/host/apple.c | 32 +++++++++++++++-----------------
->  drivers/nvme/host/core.c  |  5 ++++-
->  drivers/nvme/host/nvme.h  |  7 +++++++
->  3 files changed, 26 insertions(+), 18 deletions(-)
-> ---
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> change-id: 20260806-b4-nvme-fwabi-000386148b21
->
-> Best regards,
-> -- =20
-> Sven Peter <sven@kernel.org>
+The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
-On MacBookPro18,1 (J316s, 2021) with macOS 27 beta installed.
+  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
 
-Tested-by: Joshua Peisach <jpeisach@ubuntu.com>
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git tags/apple-soc-drivers-7.3
+
+for you to fetch changes up to fef9350c314bf089a11a62858261e6576ada867b:
+
+  soc: apple: Add driver for Apple PMGR misc controls (2026-07-14 20:28:42 +0200)
+
+----------------------------------------------------------------
+Apple Soc driver updates for 7.3
+
+- New driver and dt-bindings for Apple PMGR misc controls, which tweaks
+  various global power related states and saves about 1W of power on M1
+  Pro/Max/Ultra during s2idle.
+- A small fix for device links in SART
+
+Signed-off-by: Sven Peter <sven@kernel.org>
+
+----------------------------------------------------------------
+Hector Martin (1):
+      soc: apple: Add driver for Apple PMGR misc controls
+
+Pengpeng Hou (1):
+      soc: apple: sart: require device link for consumers
+
+Sasha Finkelstein (1):
+      dt-bindings: soc: apple: Add Apple PMGR misc controls
+
+ .../bindings/soc/apple/apple,t6000-pmgr-misc.yaml  |  45 +++++
+ MAINTAINERS                                        |   1 +
+ drivers/soc/apple/Kconfig                          |  10 ++
+ drivers/soc/apple/Makefile                         |   2 +
+ drivers/soc/apple/apple-pmgr-misc.c                | 181 +++++++++++++++++++++
+ drivers/soc/apple/sart.c                           |   9 +-
+ 6 files changed, 246 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml
+ create mode 100644 drivers/soc/apple/apple-pmgr-misc.c
