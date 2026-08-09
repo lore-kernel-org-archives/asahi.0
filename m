@@ -1,157 +1,110 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690AD1F16B
-	for <asahi@lists.linux.dev>; Sun,  9 Aug 2026 14:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9DF263F34
+	for <asahi@lists.linux.dev>; Sun,  9 Aug 2026 15:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786285868; cv=none; b=FgcyOhmYDhUFhVDIJlYgXIg6zk/MkHwVc9YeeWibTAs51X1tvEYxjNP/fB90hlG1E08q58OnWsHSEW7ZKgxZiSDPOSDfv5vZghP7dSC2FSM0g3oWAvYHydlLLRZGJC+0m7F5KwFyoswHXly8lxKpGvKyOTZc+HyNkOv1TZ+rgSw=
+	t=1786287625; cv=none; b=smrnxikQjLMFWNnZnfkeNmQVitZstPgX15EnKC2j9L6I3SKRrwiAZXofmYgUw+DKLH93cKbvGEbPHuJzdu9Nl4vMz4jQEbgkI5wqG58AGV/8rHQHCPdKH3yfO5tNKVgw/6gt2SwKhd+cJamq1Od9WmOt+/rjBtZH2CRip8sRLm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786285868; c=relaxed/simple;
-	bh=hpkdnaKNFHBwuw0Q71KEfjOzckx55NGQYX0XgHyeCPs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=qNipZ3KSux2t3ZbSESTevn1y71j6Uk03VCvYEbI7roDiPSXJfYLUq9FbjqghLQ25mSqBRYEdjAbG0exnd8dq62r4p14NFuu/vHb18A2YbOGvg7WzedT0/fy5ey7Gs7vVbqgdQKUsO0a9CZCHcxXhdzZzPeU/zaiGDJeMIAoYHEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=nvFBQUaY; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1786287625; c=relaxed/simple;
+	bh=++2CDr8sslAi9FkAF5CJbSrtCQTx4S/16bfjERCe4qI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACfy1+VFKOIfBNw4gcVMV3qddFSTQOicYAreqVf6HpvyUGNe455Vx/E9SThardaGR1L6cJSKekbmpAfcz3DPir4d1ABME74y1rtqtUg7S4NdNSTPpNRBtY41Q+8+a/O5Y0Xil79USv+bB1SGDBFHQrcywUw45QmU8h1Xh/z8u1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o5lKbqyE; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="nvFBQUaY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1786285860;
- bh=FikuqY3b2pZlaNCLUbHPKWMhWQP0Tun7aZ9UkowPV+8=;
- b=nvFBQUaYoKRqVMUXq8KSb5yhOdFu1DLx0yQPsdMhW3CcZakHtQ03CRmDNG8DJ8kcwHjQbNmRf
- 0tQKz/pAFjw/qzQ+VewztyaGo53foVWPxoE8fzFDfwsGiJeYsxtUfORNJTi//EKKKK4k+pn6Qp/
- KMgAcsUgoZiUtO66F3Jm+s9qaOgljEWm+H9tv2trIrLT+mVWJhsyzPNMU3n3JcwIAnUeFspkWvY
- dsiu/0K/33sVDIhjCO6w0JxhGVPDsWcl/16Hnquz8aX7ZlA5DSPP3gbJnjptb/2e5dkeShs/qGo
- ArBmDDYLJdB25pVu6n9b6lQ/qn/x8SSHpGxgyiSwiqEg==
-X-Forward-Email-ID: 6a788f1b2fa0fb6ccea01ae2
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 2.13.10
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o5lKbqyE"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-ca7bea5e5b3so825058a12.1
+        for <asahi@lists.linux.dev>; Sun, 09 Aug 2026 08:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786287620; x=1786892420; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lTzrk2R8kv6gXqCQ/BV0ySdWUtQekk7wApQHuKS3F5E=;
+        b=o5lKbqyEfAOJZogHj0WqF25e94IEskth5vYL5So8ijwzx/kugsc7oUO/1mwKdruAx1
+         Meo877Fs82Id4v4BNRbyyQn9nJMO+i+nhvAAufq9/rW7NnsfJuAiIl/CzXp+DMtV7zva
+         jrHct0wAOtrhTxJjc4m67KqgzWbJChU1ijCnFA4jm9dwf4IE5lE4a7pWUzqn9/hkH52w
+         EM+qlMfYbDteXce0QoF3nD/6LQeyB1UKTtx55Gq/xKUrBwtYIXmolCDAIjVBu/fTwLPn
+         GR1Qlqap7ysry7hyULV4SN2TLoIER0NDvUWlO1DFFQEaCFRlGw6/+j1QtWYL9xJ7IFO+
+         UNHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786287620; x=1786892420;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lTzrk2R8kv6gXqCQ/BV0ySdWUtQekk7wApQHuKS3F5E=;
+        b=k01d2/LAeMCHrJXsDQMR95RL+OYu7uWSqEjcl3Lgs8u+hjwgUoOu0qdysNLKGNppsM
+         VdfoZKPihtYr9SRaXo8Uocq/asI0AKXTGv5XoDlyDK5XcaHrWBdCLeclb35RVyu4efV1
+         irpLKRwOlP7LDspmegF98NxNibq0foUVhAwjfPaHS90FKznRzjEkkYTQRFUXvG9w9wkz
+         03Yyu3KS4m1kNdwcvwl5DA8Gx2Ser3DCH5/IXIYUpKCBX/5/Etc68WaZuaaUizrsR35t
+         3/n/OaAbrkojCJ4QFof9YDHO1vmBbkPUzjRX2o3yLSNEKnzXrCHsUuJti/4mrhKBjIfj
+         DrVw==
+X-Forwarded-Encrypted: i=1; AHgh+RolKEmVqp/kwnJNX6BRr4doXrDpS1pPtl1ROiiI8Zwi6NiObyn0oBT4HEM6f0geEHO1+PNdKg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy8y95l8ERwVLHkJyVCxg+JLPajaaZRnj8RLaDfmrgFkQU68bzI
+	Ade5pGQBC9pHyEa73NrxJ7e6fhDeSudNcbmokAd9KB+dOGeth+ga19jq
+X-Gm-Gg: AR+sD10pEtjn5+znC3s+nesmApF42le9wld2kM1lWA4bY2XrS9FKHeVHoOHeYLkDWH/
+	NNaxSVQZtH6L1jKRws2+DQUJZldTEWkkc2mOcSVu3KHaJZmLL4Nt2vPR8JwZNvRiYGN6qmWreu9
+	gho8QZ1JuxOjjD4LnBHcrC1j1SG7Gtzyga+6n50gb9zxQWW7bD8INM2S34gjgVdQOPBjFr728Im
+	KWtFZYIM1npRRe4LcVf28YuXoJK3OaDyl8X2xq3hg7liMeuxXLkMlv5qQjIAQbtaG20uGGneGyx
+	you93GinzhXqcHQOKpy5/zv5DplSypw9wNxe14xmfwpZb7RtV0SWXrJroRDmubKdvekabPa+k5g
+	21okzrsKuwc/jGziEFaMKu6hlb1vuAjiL1bJ/JvjK0ROK3Xv1kzmb17E37mhA6xcJ1jfF03lggY
+	EPeKoq/SEy/NfVp10Qp/mpbkiQwWpyqe3nga4lc5ihcWX2XHYmBQ9ZGQtunrvDQgX3hbUZ+4h6h
+	c108ohDGEagEg==
+X-Received: by 2002:a05:6a20:6a1f:b0:3c6:61b9:917c with SMTP id adf61e73a8af0-3cb85e2b463mr38599908637.11.1786287620225;
+        Sun, 09 Aug 2026 08:00:20 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14101b7b39bsm26361846c88.14.2026.08.09.08.00.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2026 08:00:19 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 9 Aug 2026 08:00:18 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH] watchdog: apple: Constify some structures
+Message-ID: <50bec487-2900-47df-b9ae-0ff13791f4de@roeck-us.net>
+References: <99019b7e560c2d9c087be340e68f9cce4db1988e.1786283336.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Sun, 09 Aug 2026 10:30:49 -0400
-Message-Id: <DKKHHITWR3F4.390HXQFLQR8X5@ubuntu.com>
-Cc: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/3] reset: Add Apple SoC CIO reset driver
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Sven Peter" <sven@kernel.org>, "Janne Grunau" <j@jannau.net>, "Neal
- Gompa" <neal@gompa.dev>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Philipp Zabel" <p.zabel@pengutronix.de>
-X-Mailer: aerc 0.21.0
-References: <20260809-b4-cio-reset-v1-0-4f33777d9b4b@kernel.org>
- <20260809-b4-cio-reset-v1-2-4f33777d9b4b@kernel.org>
-In-Reply-To: <20260809-b4-cio-reset-v1-2-4f33777d9b4b@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <99019b7e560c2d9c087be340e68f9cce4db1988e.1786283336.git.christophe.jaillet@wanadoo.fr>
 
-On Sun Aug 9, 2026 at 8:16 AM EDT, Sven Peter wrote:
-> Add a driver for the reset of the CIO (USB4/Thunderbolt) blocks on
-> Apple Silicon SoCs which has to be deasserted before their
-> co-processor can be booted. On t8103 each port comes with a dedicated
-> register page while t600x uses a single register with one request bit
-> per port shared by all ports of a die inside the PMGR MMIO region.
->
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
->  MAINTAINERS                     |   1 +
->  drivers/reset/Kconfig           |  10 +++
->  drivers/reset/Makefile          |   1 +
->  drivers/reset/reset-apple-cio.c | 182 ++++++++++++++++++++++++++++++++++=
-++++++
->  4 files changed, 194 insertions(+)
+On Sun, Aug 09, 2026 at 03:49:10PM +0200, Christophe JAILLET wrote:
+> 'struct watchdog_ops' and 'struct watchdog_info' are not modified in this
+> driver.
+> 
+> Constifying these structure moves some data to a read-only section, so
+> increases overall security, especially when the structure holds some
+> function pointers.
+> 
+> On a x86_64, with allmodconfig:
+> Before:
+> ======
+>    text	   data	    bss	    dec	    hex	filename
+>    7319	   1768	      0	   9087	   237f	drivers/watchdog/apple_wdt.o
+> 
+> After:
+> =====
+>    text	   data	    bss	    dec	    hex	filename
+>    7543	   1544	      0	   9087	   237f	drivers/watchdog/apple_wdt.o
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-> +
-> +static int apple_cio_reset_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct apple_cio_reset *priv;
-> +	int ret;
-> +
-> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->variant =3D of_device_get_match_data(dev);
+Applied.
 
-Might be a dumb question, but does priv->variant also need to be
-checked? Because later priv->variant->pmgr_child is and I *think*
-it could return NULL.
-
-(Or is this not necessary since in theory the device should only run
-this if detected... so this should never be an issue?)
-
-> +
-> +	ret =3D devm_mutex_init(dev, &priv->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (priv->variant->pmgr_child) {
-> +		priv->regmap =3D syscon_node_to_regmap(dev->of_node->parent);
-> +		if (IS_ERR(priv->regmap))
-> +			return dev_err_probe(dev, PTR_ERR(priv->regmap),
-> +					     "Failed to get parent regmap");
-> +
-> +		ret =3D of_property_read_u32(dev->of_node, "reg", &priv->offset);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "Failed to read reg offset");
-> +	} else {
-> +		void __iomem *base;
-> +
-> +		base =3D devm_platform_ioremap_resource(pdev, 0);
-> +		if (IS_ERR(base))
-> +			return PTR_ERR(base);
-> +
-> +		priv->regmap =3D devm_regmap_init_mmio(dev, base,
-> +						     &apple_cio_reset_regmap_config);
-> +		if (IS_ERR(priv->regmap))
-> +			return dev_err_probe(dev, PTR_ERR(priv->regmap),
-> +					     "Failed to init MMIO regmap");
-> +	}
-> +
-> +	priv->rcdev.owner =3D THIS_MODULE;
-> +	priv->rcdev.ops =3D &apple_cio_reset_ops;
-> +	priv->rcdev.of_node =3D dev->of_node;
-> +	priv->rcdev.nr_resets =3D priv->variant->nr_resets;
-> +
-> +	return devm_reset_controller_register(dev, &priv->rcdev);
-> +}
-> +
-> +static const struct of_device_id apple_cio_reset_match[] =3D {
-> +	{
-> +		.compatible =3D "apple,t8103-cio-reset",
-> +		.data =3D &apple_t8103_cio_reset,
-> +	},
-> +	{
-> +		.compatible =3D "apple,t6000-cio-reset",
-> +		.data =3D &apple_t6000_cio_reset,
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, apple_cio_reset_match);
-> +
-> +static struct platform_driver apple_cio_reset_driver =3D {
-> +	.driver =3D {
-> +		.name =3D "apple-cio-reset",
-> +		.of_match_table =3D apple_cio_reset_match,
-> +	},
-> +	.probe =3D apple_cio_reset_probe,
-> +};
-> +module_platform_driver(apple_cio_reset_driver);
-> +
-> +MODULE_AUTHOR("Sven Peter <sven@kernel.org>");
-> +MODULE_DESCRIPTION("Apple SoC CIO block reset driver");
-> +MODULE_LICENSE("Dual MIT/GPL");
-
+Thanks,
+Guenter
