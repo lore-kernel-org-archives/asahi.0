@@ -1,111 +1,157 @@
-Received: from smtp.smtpout.orange.fr (smtp-76.smtpout.orange.fr [80.12.242.76])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558483793BF
-	for <asahi@lists.linux.dev>; Sun,  9 Aug 2026 13:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690AD1F16B
+	for <asahi@lists.linux.dev>; Sun,  9 Aug 2026 14:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786283443; cv=none; b=YcC0f/WTybAuTjHFN4dRFUwZ2Psaclk3Lvnz/ivo1gZSoxbEWINjivqNKc+XI63ngXjP5OviSyougnPrinCiwQNjfuuqwmERk7cj/ifQMgumQuHCoerZsYavzW9mr1a7s5qEoTccuwCUHLC4qqp+QupyiZDr6cQaMx5V/SfW7/M=
+	t=1786285868; cv=none; b=FgcyOhmYDhUFhVDIJlYgXIg6zk/MkHwVc9YeeWibTAs51X1tvEYxjNP/fB90hlG1E08q58OnWsHSEW7ZKgxZiSDPOSDfv5vZghP7dSC2FSM0g3oWAvYHydlLLRZGJC+0m7F5KwFyoswHXly8lxKpGvKyOTZc+HyNkOv1TZ+rgSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786283443; c=relaxed/simple;
-	bh=UN5qYfceQ3ckH2R4oH1JEa46tWKVcyoKp44kz6TD2nA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZZhaOIsOEkFwhcK5e4Te4NUZjRbZJZlH1TCQ/gR+GfQRj18rPZXtiVf35D1Hhgq1koCaMZV7ir+DrfLEhHk3ra+hvd4zpk6PKqvvJliBQkUEECsAXPdpHafIKn9T+x5ziU1uec0cR2TJHfD2aaGY0LJRhpvDCKxQYCcPhkXyAOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=YC2cf7QG; arc=none smtp.client-ip=80.12.242.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1786285868; c=relaxed/simple;
+	bh=hpkdnaKNFHBwuw0Q71KEfjOzckx55NGQYX0XgHyeCPs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=qNipZ3KSux2t3ZbSESTevn1y71j6Uk03VCvYEbI7roDiPSXJfYLUq9FbjqghLQ25mSqBRYEdjAbG0exnd8dq62r4p14NFuu/vHb18A2YbOGvg7WzedT0/fy5ey7Gs7vVbqgdQKUsO0a9CZCHcxXhdzZzPeU/zaiGDJeMIAoYHEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=nvFBQUaY; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="YC2cf7QG"
-Received: from device-101.home ([10.65.86.57])
-	by smtp.orange.fr with ESMTP
-	id t3u0wdVT8TUFJt3u0wB9vm; Sun, 09 Aug 2026 15:49:24 +0200
-Received: from device-101.home ([IPv6:2a01:cb10:785:b00:6128:9b8c:c203:905])
-	by smtp.orange.fr with ESMTPSA
-	id t3tnw3cg2k6xLt3towWMXk; Sun, 09 Aug 2026 15:49:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1786283356;
-	bh=Ti0lq77YCohFOsswk+8chbqQ3hHI0aVo1aBVQ+5rD4g=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=YC2cf7QGJq+3QVFiUplisQRBrKIdQqwENIlZon9xvxdAtupuci/Eo++/UnyNgETMk
-	 WtnSRImatXz1TyNjUFVkmVZmGPAhZK5mZe/6BfX4iXWsj/q3Lbqo7GnjLKGGOGP6/l
-	 DQBdWOiV8N+UVNzIDgvpiTMzj/Qau1lWDrauMlkq9iMw0oQYp12JetM9J3Mcw0Z9TE
-	 UaZMQrK1Yd258CBFJB7QfhuWmcQAdIeUFUN0AIr0mO25116LNUZv3DvJpCArkMX6y+
-	 61rAaYFD0FdssPss2AOBeK48AH20F5JTWBRq/RlEIoy5VZTukU0Mi5z+rKyW4YPR0y
-	 R63hEvOJ2iLbg==
-X-ME-Helo: device-101.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 09 Aug 2026 15:49:16 +0200
-X-ME-IP: 2a01:cb10:785:b00:6128:9b8c:c203:905
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-watchdog@vger.kernel.org
-Subject: [PATCH] watchdog: apple: Constify some structures
-Date: Sun,  9 Aug 2026 15:49:10 +0200
-Message-ID: <99019b7e560c2d9c087be340e68f9cce4db1988e.1786283336.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="nvFBQUaY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1786285860;
+ bh=FikuqY3b2pZlaNCLUbHPKWMhWQP0Tun7aZ9UkowPV+8=;
+ b=nvFBQUaYoKRqVMUXq8KSb5yhOdFu1DLx0yQPsdMhW3CcZakHtQ03CRmDNG8DJ8kcwHjQbNmRf
+ 0tQKz/pAFjw/qzQ+VewztyaGo53foVWPxoE8fzFDfwsGiJeYsxtUfORNJTi//EKKKK4k+pn6Qp/
+ KMgAcsUgoZiUtO66F3Jm+s9qaOgljEWm+H9tv2trIrLT+mVWJhsyzPNMU3n3JcwIAnUeFspkWvY
+ dsiu/0K/33sVDIhjCO6w0JxhGVPDsWcl/16Hnquz8aX7ZlA5DSPP3gbJnjptb/2e5dkeShs/qGo
+ ArBmDDYLJdB25pVu6n9b6lQ/qn/x8SSHpGxgyiSwiqEg==
+X-Forward-Email-ID: 6a788f1b2fa0fb6ccea01ae2
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 2.13.10
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Sun, 09 Aug 2026 10:30:49 -0400
+Message-Id: <DKKHHITWR3F4.390HXQFLQR8X5@ubuntu.com>
+Cc: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/3] reset: Add Apple SoC CIO reset driver
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Sven Peter" <sven@kernel.org>, "Janne Grunau" <j@jannau.net>, "Neal
+ Gompa" <neal@gompa.dev>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Philipp Zabel" <p.zabel@pengutronix.de>
+X-Mailer: aerc 0.21.0
+References: <20260809-b4-cio-reset-v1-0-4f33777d9b4b@kernel.org>
+ <20260809-b4-cio-reset-v1-2-4f33777d9b4b@kernel.org>
+In-Reply-To: <20260809-b4-cio-reset-v1-2-4f33777d9b4b@kernel.org>
 
-'struct watchdog_ops' and 'struct watchdog_info' are not modified in this
-driver.
+On Sun Aug 9, 2026 at 8:16 AM EDT, Sven Peter wrote:
+> Add a driver for the reset of the CIO (USB4/Thunderbolt) blocks on
+> Apple Silicon SoCs which has to be deasserted before their
+> co-processor can be booted. On t8103 each port comes with a dedicated
+> register page while t600x uses a single register with one request bit
+> per port shared by all ports of a die inside the PMGR MMIO region.
+>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  MAINTAINERS                     |   1 +
+>  drivers/reset/Kconfig           |  10 +++
+>  drivers/reset/Makefile          |   1 +
+>  drivers/reset/reset-apple-cio.c | 182 ++++++++++++++++++++++++++++++++++=
+++++++
+>  4 files changed, 194 insertions(+)
 
-Constifying these structure moves some data to a read-only section, so
-increases overall security, especially when the structure holds some
-function pointers.
+> +
+> +static int apple_cio_reset_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev;
+> +	struct apple_cio_reset *priv;
+> +	int ret;
+> +
+> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->variant =3D of_device_get_match_data(dev);
 
-On a x86_64, with allmodconfig:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-   7319	   1768	      0	   9087	   237f	drivers/watchdog/apple_wdt.o
+Might be a dumb question, but does priv->variant also need to be
+checked? Because later priv->variant->pmgr_child is and I *think*
+it could return NULL.
 
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-   7543	   1544	      0	   9087	   237f	drivers/watchdog/apple_wdt.o
+(Or is this not necessary since in theory the device should only run
+this if detected... so this should never be an issue?)
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested only.
----
- drivers/watchdog/apple_wdt.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
-index 6b9b0f9b05ce..f533953294f6 100644
---- a/drivers/watchdog/apple_wdt.c
-+++ b/drivers/watchdog/apple_wdt.c
-@@ -139,7 +139,7 @@ static int apple_wdt_restart(struct watchdog_device *wdd, unsigned long mode,
- 	return 0;
- }
- 
--static struct watchdog_ops apple_wdt_ops = {
-+static const struct watchdog_ops apple_wdt_ops = {
- 	.owner = THIS_MODULE,
- 	.start = apple_wdt_start,
- 	.stop = apple_wdt_stop,
-@@ -149,7 +149,7 @@ static struct watchdog_ops apple_wdt_ops = {
- 	.restart = apple_wdt_restart,
- };
- 
--static struct watchdog_info apple_wdt_info = {
-+static const struct watchdog_info apple_wdt_info = {
- 	.identity = "Apple SoC Watchdog",
- 	.options = WDIOF_MAGICCLOSE | WDIOF_KEEPALIVEPING | WDIOF_SETTIMEOUT,
- };
--- 
-2.55.0
+> +
+> +	ret =3D devm_mutex_init(dev, &priv->lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (priv->variant->pmgr_child) {
+> +		priv->regmap =3D syscon_node_to_regmap(dev->of_node->parent);
+> +		if (IS_ERR(priv->regmap))
+> +			return dev_err_probe(dev, PTR_ERR(priv->regmap),
+> +					     "Failed to get parent regmap");
+> +
+> +		ret =3D of_property_read_u32(dev->of_node, "reg", &priv->offset);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "Failed to read reg offset");
+> +	} else {
+> +		void __iomem *base;
+> +
+> +		base =3D devm_platform_ioremap_resource(pdev, 0);
+> +		if (IS_ERR(base))
+> +			return PTR_ERR(base);
+> +
+> +		priv->regmap =3D devm_regmap_init_mmio(dev, base,
+> +						     &apple_cio_reset_regmap_config);
+> +		if (IS_ERR(priv->regmap))
+> +			return dev_err_probe(dev, PTR_ERR(priv->regmap),
+> +					     "Failed to init MMIO regmap");
+> +	}
+> +
+> +	priv->rcdev.owner =3D THIS_MODULE;
+> +	priv->rcdev.ops =3D &apple_cio_reset_ops;
+> +	priv->rcdev.of_node =3D dev->of_node;
+> +	priv->rcdev.nr_resets =3D priv->variant->nr_resets;
+> +
+> +	return devm_reset_controller_register(dev, &priv->rcdev);
+> +}
+> +
+> +static const struct of_device_id apple_cio_reset_match[] =3D {
+> +	{
+> +		.compatible =3D "apple,t8103-cio-reset",
+> +		.data =3D &apple_t8103_cio_reset,
+> +	},
+> +	{
+> +		.compatible =3D "apple,t6000-cio-reset",
+> +		.data =3D &apple_t6000_cio_reset,
+> +	},
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, apple_cio_reset_match);
+> +
+> +static struct platform_driver apple_cio_reset_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "apple-cio-reset",
+> +		.of_match_table =3D apple_cio_reset_match,
+> +	},
+> +	.probe =3D apple_cio_reset_probe,
+> +};
+> +module_platform_driver(apple_cio_reset_driver);
+> +
+> +MODULE_AUTHOR("Sven Peter <sven@kernel.org>");
+> +MODULE_DESCRIPTION("Apple SoC CIO block reset driver");
+> +MODULE_LICENSE("Dual MIT/GPL");
 
