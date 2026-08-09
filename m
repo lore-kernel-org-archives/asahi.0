@@ -1,36 +1,37 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71733D25C5
-	for <asahi@lists.linux.dev>; Sat,  8 Aug 2026 11:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69033379C5F;
+	Sun,  9 Aug 2026 12:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786188693; cv=none; b=nOQ9s2TT7TSVFJs7o3qytUB3N2EKBkYmvgnpsXBDpOqI9dUwX2JaXaPgdQYksiXvTP64TVNRTLR+b6pIsClyOU9mr8fhdqQu5Bdfki4VxVCtsG1KFMIP6A1VOI9xepo3jPlAv6HCCBSX72QNJWvzZf8LTaeRgUPCVep/wUKQ4dg=
+	t=1786277772; cv=none; b=EeWmesmkzA1r1HR/PH6wRDf6cPsDhSSUiqv9PUL8KNsPBqQ0n2kMGr4wolIQw5DikpXy27NoxLLyhMDTjhgErvd8ChCQeIZsYkiwlz6eNWhEOyCM0PUsP/5S7wMP5TnL8TjKG6JOlpo5Pj4ff0+5EdX0D/8HpEobPE6k4ggSmQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786188693; c=relaxed/simple;
-	bh=G0Scdhu9XueZLVKKuygKbhGaqRb4rzAhxxxWR3bdohA=;
+	s=arc-20240116; t=1786277772; c=relaxed/simple;
+	bh=s0VuUVB5ruw7/XiIUSNF4+H9ehJ1hObbx+QlQJOTfhs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qAt4sKYKdbBc7Y6g6sEBy8ZdeCVI8ADIRjc+5BMkVTZcYWsAVTus6oDsLyqokUaQMz9hiDyqvjtAioIBDhf1audcNgC5yqAgNVHPEuPn/5fjvQFs6189tVSX/+XjKK07jgDV+5EDqDsEJU7DlB6RyMWFdYEu/9yWz2q1BTr2Pmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=EY2fsMkH; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	 In-Reply-To:To:Cc; b=l67EcZ+i+xL6FL6zs94UOs+GHHGjvi0YKMTDK3H8atVxVR508735Rtmoo50MeGJY2hxpMqG8m1ZAWfBgOeB/W6Cs8AU46O75j5mNfYqco82RPFOiYfHuAvj9CGaCK6OWehgatbD7vV2todHixJk+KIrCAtqOrTestrZ3x927+lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IuuwaaSI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="EY2fsMkH"
-Received: by chaosmail.tech (Postfix) id E31911C8825;
-	Sat, 08 Aug 2026 11:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1786188683;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=necKaEXkGW/LKu0GtILmc4/c8t+1auAJcMEGNwiOxJo=;
-	b=EY2fsMkHfcMkEzjFeLKHP3lWopRzeabbvvI9aZGEooqWSTYzt2WIu5kkaOwY+D28YiB3zN
-	gWMPlMehEDIoap1mwz6lmr3j1YrekRRmQm7RoOs0hHMjVdSR7XvOgR0nQG8l4kTsKMwric
-	FK/w00F30LQNHdeu3UbKJsZIK3VbrjA=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Sat, 08 Aug 2026 13:31:22 +0200
-Subject: [PATCH v5 6/6] spmi: apple: Add interrupt functionality
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IuuwaaSI"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E325C2BCFA;
+	Sun,  9 Aug 2026 12:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786277772;
+	bh=s0VuUVB5ruw7/XiIUSNF4+H9ehJ1hObbx+QlQJOTfhs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=IuuwaaSIFz1Hg3Kf3NHuxB6IkmIpuY0ZsrCQY4AanfxqUEAMJcYmuRJEAHf9YLzcE
+	 R/Tnov+tbi3SrOpsTLL+HT9NhtfM1tyCBO3nIJT1P5J0gNYZgjAEUaPyWfBRBHKoin
+	 OFyzG2oIup3aZvXo2SdH2os6+e+QIw3IH6yKJcVMpwevoOsBdwONQKS3mInD0eaVZk
+	 M9MW0zT0NTopr4CcuOMF/kKGjwPnnShcaoBUnXSNGQuPp57O+idUUARnwJQqA62ZGo
+	 B2dLtqmKPWr+ASFdcGkC6SdgVqvRhCvBCUVUSDYPI2IEmFnnslIBNsN789JXPRYFjp
+	 5uFoFhqq/rpKw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00461C5AC80;
+	Sun,  9 Aug 2026 12:16:11 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Sun, 09 Aug 2026 14:16:03 +0200
+Subject: [PATCH 2/3] reset: Add Apple SoC CIO reset driver
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -39,385 +40,277 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260808-t603x-spmi-v5-6-553c5ac2f137@chaosmail.tech>
-References: <20260808-t603x-spmi-v5-0-553c5ac2f137@chaosmail.tech>
-In-Reply-To: <20260808-t603x-spmi-v5-0-553c5ac2f137@chaosmail.tech>
+Message-Id: <20260809-b4-cio-reset-v1-2-4f33777d9b4b@kernel.org>
+References: <20260809-b4-cio-reset-v1-0-4f33777d9b4b@kernel.org>
+In-Reply-To: <20260809-b4-cio-reset-v1-0-4f33777d9b4b@kernel.org>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Sasha Finkelstein <k@chaosmail.tech>, Alba Mendez <me@alba.sh>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786188678; l=11049;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=jXqJ2afBq/93rE4d69X+HGx0v7FvVT6gkJCl+u/WBTc=;
- b=GPeJkml8uxzFh7BQtlkoavoEsLwdFhAD/es1dl2n/zFMtlWtu2wBq0Wuerbz2J/RgMM2lbF+8
- HQCm3B5kz+KDnUIj01cqFQB+TUsHG0bMwas2LdEpBZy5yDTzNHl7Rzo
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7782; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=s0VuUVB5ruw7/XiIUSNF4+H9ehJ1hObbx+QlQJOTfhs=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ1ZFfkdY/AmVNMlde1wLd34yLY7ks269ftA06uKJU2eTt
+ S9sknDsKGVhEONikBVTZNm+3970ycM3gks3XXoPM4eVCWQIAxenAEzkQx/DP9vufRkLil96XWfY
+ 2yY6zUwhMLzLQKZQc4HGiXVrOzcu0WP4w6m+v9a6y6Ff/7FiKCPH7x/3j4d+EpAJja8rPT49uTW
+ OFQA=
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-From: Alba Mendez <me@alba.sh>
+Add a driver for the reset of the CIO (USB4/Thunderbolt) blocks on
+Apple Silicon SoCs which has to be deasserted before their
+co-processor can be booted. On t8103 each port comes with a dedicated
+register page while t600x uses a single register with one request bit
+per port shared by all ports of a die inside the PMGR MMIO region.
 
-Add support for interrupts sent by slave devices and use IRQ for
-RX FIFO if possible, as that IRQ fires as soon as the reply is
-available, which is usually takes a few us instead of the 10ms sleep
-interval for polling.
-
-Signed-off-by: Alba Mendez <me@alba.sh>
-Reviewed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/spmi/Kconfig                 |   3 +-
- drivers/spmi/spmi-apple-controller.c | 257 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 258 insertions(+), 2 deletions(-)
+ MAINTAINERS                     |   1 +
+ drivers/reset/Kconfig           |  10 +++
+ drivers/reset/Makefile          |   1 +
+ drivers/reset/reset-apple-cio.c | 182 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 194 insertions(+)
 
-diff --git a/drivers/spmi/Kconfig b/drivers/spmi/Kconfig
-index a80cf4047b86..7243863a09b4 100644
---- a/drivers/spmi/Kconfig
-+++ b/drivers/spmi/Kconfig
-@@ -13,7 +13,8 @@ if SPMI
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4b78528324c8..5425051c0f99 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2636,6 +2636,7 @@ F:	drivers/pinctrl/pinctrl-apple-gpio.c
+ F:	drivers/power/reset/macsmc-reboot.c
+ F:	drivers/power/supply/macsmc-power.c
+ F:	drivers/pwm/pwm-apple.c
++F:	drivers/reset/reset-apple-cio.c
+ F:	drivers/rtc/rtc-macsmc.c
+ F:	drivers/soc/apple/*
+ F:	drivers/spi/spi-apple.c
+diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
+index d009eb0849a3..1e83cb5c68ce 100644
+--- a/drivers/reset/Kconfig
++++ b/drivers/reset/Kconfig
+@@ -22,6 +22,16 @@ config RESET_A10SR
+ 	  This option enables support for the external reset functions for
+ 	  peripheral PHYs on the Altera Arria10 System Resource Chip.
  
- config SPMI_APPLE
- 	tristate "Apple SoC SPMI Controller platform driver"
--	depends on ARCH_APPLE || COMPILE_TEST
-+	select IRQ_DOMAIN_HIERARCHY
-+	depends on ARCH_APPLE || (COMPILE_TEST && 64BIT)
- 	help
- 	  If you say yes to this option, support will be included for the
- 	  SPMI controller present on many Apple SoCs, including the
-diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-index fabccd25aa0d..1e6cc30da196 100644
---- a/drivers/spmi/spmi-apple-controller.c
-+++ b/drivers/spmi/spmi-apple-controller.c
-@@ -13,11 +13,17 @@
- 
- #include <linux/bitfield.h>
- #include <linux/bits.h>
-+#include <linux/completion.h>
-+#include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/iopoll.h>
-+#include <linux/irq.h>
-+#include <linux/irqchip/chained_irq.h>
-+#include <linux/irqdomain.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
-+#include <linux/spinlock.h>
- #include <linux/spmi.h>
- 
- /* SPMI Controller Registers */
-@@ -26,6 +32,13 @@
- #define SPMI_RSP_REG 0x8
- #define SPMI_ACT_REG 0xa4
- 
-+#define SPMI_IRQ_MASK_BASE 0x20
-+#define SPMI_IRQ_ACK_BASE 0x60
-+#define SPMI_NUM_PERIPHERAL_IRQS 256
-+#define SPMI_NUM_IRQS (SPMI_NUM_PERIPHERAL_IRQS + 32)
++config RESET_APPLE_CIO
++	tristate "Apple SoC CIO block reset driver"
++	depends on ARCH_APPLE || COMPILE_TEST
++	select MFD_SYSCON
++	help
++	  This enables the reset driver for the CIO (USB4/Thunderbolt) blocks
++	  found on Apple Silicon SoCs. It is required to start the blocks
++	  before the USB4/Thunderbolt host routers inside them can be brought
++	  up by the thunderbolt driver.
 +
-+#define SPMI_IRQ_NOTIFY 256
+ config RESET_ASPEED
+ 	tristate "ASPEED Reset Driver"
+ 	depends on ARCH_ASPEED || COMPILE_TEST
+diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
+index 3e52569bd276..6554649bc139 100644
+--- a/drivers/reset/Makefile
++++ b/drivers/reset/Makefile
+@@ -7,6 +7,7 @@ obj-y += starfive/
+ obj-y += sti/
+ obj-y += tegra/
+ obj-$(CONFIG_RESET_A10SR) += reset-a10sr.o
++obj-$(CONFIG_RESET_APPLE_CIO) += reset-apple-cio.o
+ obj-$(CONFIG_RESET_ASPEED) += reset-aspeed.o
+ obj-$(CONFIG_RESET_ATH79) += reset-ath79.o
+ obj-$(CONFIG_RESET_AXS10X) += reset-axs10x.o
+diff --git a/drivers/reset/reset-apple-cio.c b/drivers/reset/reset-apple-cio.c
+new file mode 100644
+index 000000000000..951340455468
+--- /dev/null
++++ b/drivers/reset/reset-apple-cio.c
+@@ -0,0 +1,182 @@
++// SPDX-License-Identifier: GPL-2.0-only OR MIT
++/*
++ * Apple SoC CIO (USB4/Thunderbolt) block reset driver
++ *
++ * Copyright The Asahi Linux Contributors
++ *
++ * The CIO blocks have a reset inside the power manager (PMGR) that
++ * has to be deasserted before their co-processor can be booted. On
++ * t8103 each port comes with a dedicated register page while t600x
++ * uses a single register shared by all ports of a die inside the PMGR
++ * MMIO region.
++ */
 +
- /* SPMI_RSP_REG reply word */
- #define SPMI_REPLY_FRAME_PARITY_STATUS GENMASK(31, 16)
- #define SPMI_REPLY_ACK BIT(15)
-@@ -41,6 +54,12 @@
- struct apple_spmi {
- 	void __iomem *regs;
- 	struct mutex fifo_lock;
-+	struct completion fifo_rx;
-+	struct irq_domain *irqd;
-+	raw_spinlock_t irq_mask_lock;
-+	DECLARE_BITMAP(irq_mask_cache, SPMI_NUM_PERIPHERAL_IRQS);
-+	int irq;
-+	bool notify_irq;
- 	bool prev_fail;
- };
- 
-@@ -48,6 +67,56 @@ struct apple_spmi {
- 	readl_poll_timeout((spmi)->regs + (reg), (val), (cond), \
- 			   REG_POLL_INTERVAL_US, REG_POLL_TIMEOUT_US)
- 
-+static void apple_spmi_irq_ack_raw(struct apple_spmi *spmi, u32 irq)
-+{
-+	u32 __iomem *reg = spmi->regs + SPMI_IRQ_ACK_BASE + (irq / 32) * 4;
++#include <linux/bits.h>
++#include <linux/mfd/syscon.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++#include <linux/reset-controller.h>
 +
-+	writel(BIT(irq % 32), reg);
-+}
++#define APPLE_CIO_RESET_POLL_US 100
++#define APPLE_CIO_RESET_TIMEOUT_US 100000
 +
-+static void apple_spmi_irq_mask_raw(struct apple_spmi *spmi, u32 irq)
-+{
-+	u32 __iomem *reg = spmi->regs + SPMI_IRQ_MASK_BASE + (irq / 32) * 4;
++#define T8103_CIO_CTRL_STRIDE 0x4000
++#define T8103_CIO_CTRL_INIT_REQ BIT(0)
++#define T8103_CIO_CTRL_INIT_DONE BIT(2)
 +
-+	writel(readl(reg) & ~BIT(irq % 32), reg);
-+}
++#define T6000_CIO_CTRL_INIT_REQ(port) BIT(port)
++#define T6000_CIO_CTRL_INIT_BUSY(port) BIT(16 + (port))
 +
-+static void apple_spmi_irq_unmask_raw(struct apple_spmi *spmi, u32 irq)
-+{
-+	u32 __iomem *reg = spmi->regs + SPMI_IRQ_MASK_BASE + (irq / 32) * 4;
++struct apple_cio_reset;
 +
-+	writel(readl(reg) | BIT(irq % 32), reg);
-+}
-+
-+static void apple_spmi_irq_ack(struct irq_data *d)
-+{
-+	struct apple_spmi *spmi = irq_data_get_irq_chip_data(d);
-+
-+	apple_spmi_irq_ack_raw(spmi, d->hwirq);
-+}
-+
-+static void apple_spmi_irq_mask(struct irq_data *d)
-+{
-+	struct apple_spmi *spmi = irq_data_get_irq_chip_data(d);
-+	unsigned long flags;
-+
-+	raw_spin_lock_irqsave(&spmi->irq_mask_lock, flags);
-+	apple_spmi_irq_mask_raw(spmi, d->hwirq);
-+	clear_bit(d->hwirq, spmi->irq_mask_cache);
-+	raw_spin_unlock_irqrestore(&spmi->irq_mask_lock, flags);
-+}
-+
-+static void apple_spmi_irq_unmask(struct irq_data *d)
-+{
-+	struct apple_spmi *spmi = irq_data_get_irq_chip_data(d);
-+	unsigned long flags;
-+
-+	raw_spin_lock_irqsave(&spmi->irq_mask_lock, flags);
-+	set_bit(d->hwirq, spmi->irq_mask_cache);
-+	apple_spmi_irq_unmask_raw(spmi, d->hwirq);
-+	raw_spin_unlock_irqrestore(&spmi->irq_mask_lock, flags);
-+}
-+
- static inline u32 apple_spmi_pack_cmd(u8 opc, u8 sid, u16 param)
- {
- 	return opc | sid << 8 | (u32)param << 16 | (1 << 15);
-@@ -60,7 +129,19 @@ static int apple_spmi_wait_rx_not_empty(struct spmi_controller *ctrl)
- 	int ret;
- 	u32 status;
- 
--	ret = poll_reg(spmi, SPMI_STATUS_REG, status, !(status & SPMI_RX_FIFO_EMPTY));
-+	if (spmi->notify_irq) {
-+		ret = wait_for_completion_timeout(&spmi->fifo_rx,
-+			usecs_to_jiffies(REG_POLL_TIMEOUT_US));
-+		if (!ret)
-+			ret = -ETIMEDOUT;
-+		else if (readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY)
-+			ret = -EIO;
-+		else
-+			ret = 0;
-+	} else {
-+		ret = poll_reg(spmi, SPMI_STATUS_REG, status, !(status & SPMI_RX_FIFO_EMPTY));
-+	}
-+
- 	if (ret) {
- 		spmi->prev_fail = true;
- 		dev_err(&ctrl->dev,
-@@ -84,8 +165,10 @@ static int spmi_raw_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid, u16 param,
- 
- 	if (spmi->prev_fail) {
- 		writel(SPMI_ACT_FIFO_FLUSH, spmi->regs + SPMI_ACT_REG);
-+		apple_spmi_irq_ack_raw(spmi, SPMI_IRQ_NOTIFY);
- 		spmi->prev_fail = false;
- 	}
-+	reinit_completion(&spmi->fifo_rx);
- 
- 	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
- 
-@@ -188,6 +271,167 @@ static int spmi_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid)
- 	return -EINVAL;
- }
- 
-+static int apple_spmi_irq_set_type(struct irq_data *d, unsigned int type)
-+{
-+	/* all interrupts have MSI semantics */
-+	return type == IRQ_TYPE_EDGE_RISING ? 0 : -EINVAL;
-+}
-+
-+static struct irq_chip apple_spmi_irq_chip = {
-+	.name = "apple_spmi",
-+	.irq_mask = apple_spmi_irq_mask,
-+	.irq_unmask = apple_spmi_irq_unmask,
-+	.irq_ack = apple_spmi_irq_ack,
-+	.irq_set_type = apple_spmi_irq_set_type,
-+	.flags = IRQCHIP_ONESHOT_SAFE,
++struct apple_cio_reset_variant {
++	unsigned int nr_resets;
++	bool pmgr_child;
++	int (*deassert)(struct apple_cio_reset *priv, unsigned long id);
 +};
 +
-+static int apple_spmi_irq_domain_map(struct irq_domain *irqd,
-+					unsigned int irq, irq_hw_number_t hw)
-+{
-+	irq_domain_set_info(irqd, irq, hw, &apple_spmi_irq_chip, irqd->host_data,
-+				handle_edge_irq, NULL, NULL);
-+	return 0;
-+}
-+
-+static int apple_spmi_irq_domain_translate(struct irq_domain *irqd,
-+					struct irq_fwspec *fwspec,
-+					unsigned long *hwirq,
-+					unsigned int *type)
-+{
-+	u32 *args = fwspec->param;
-+
-+	if (fwspec->param_count != 2)
-+		return -EINVAL;
-+
-+	if (args[0] >= SPMI_NUM_PERIPHERAL_IRQS)
-+		return -EINVAL;
-+	*hwirq = args[0];
-+	*type = args[1] & IRQ_TYPE_SENSE_MASK;
-+	return 0;
-+}
-+
-+static int apple_spmi_irq_domain_alloc(struct irq_domain *irqd, unsigned int virq,
-+				unsigned int nr_irqs, void *arg)
-+{
-+	unsigned int type = IRQ_TYPE_NONE;
-+	struct irq_fwspec *fwspec = arg;
-+	irq_hw_number_t hwirq;
-+	int i, ret;
-+
-+	ret = apple_spmi_irq_domain_translate(irqd, fwspec, &hwirq, &type);
-+	if (ret)
-+		return ret;
-+
-+	if (hwirq + nr_irqs > SPMI_NUM_PERIPHERAL_IRQS)
-+		return -EINVAL;
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		ret = apple_spmi_irq_domain_map(irqd, virq + i, hwirq + i);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void apple_spmi_irq_domain_free(struct irq_domain *irqd, unsigned int virq,
-+				unsigned int nr_irqs)
-+{
-+	int i;
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		struct irq_data *d = irq_domain_get_irq_data(irqd, virq + i);
-+
-+		irq_set_handler(virq + i, NULL);
-+		irq_domain_reset_irq_data(d);
-+	}
-+}
-+
-+static const struct irq_domain_ops apple_spmi_irq_domain_ops = {
-+	.translate	= apple_spmi_irq_domain_translate,
-+	.alloc		= apple_spmi_irq_domain_alloc,
-+	.free		= apple_spmi_irq_domain_free,
++struct apple_cio_reset {
++	struct reset_controller_dev rcdev;
++	const struct apple_cio_reset_variant *variant;
++	struct regmap *regmap;
++	u32 offset;
++	struct mutex lock; /* serializes access to the shared t600x register */
 +};
 +
-+static void apple_spmi_irq_handler(struct irq_desc *desc)
++static int t8103_cio_deassert(struct apple_cio_reset *priv, unsigned long id)
 +{
-+	struct apple_spmi *spmi = irq_desc_get_handler_data(desc);
-+	struct irq_chip *chip = irq_desc_get_chip(desc);
-+	bool handled = false;
-+	unsigned long val, offset, bit;
-+
-+	chained_irq_enter(chip, desc);
-+	val = readl(spmi->regs + SPMI_IRQ_ACK_BASE + (SPMI_IRQ_NOTIFY / 32) * 4);
-+	if (val & BIT(SPMI_IRQ_NOTIFY % 32)) {
-+		apple_spmi_irq_ack_raw(spmi, SPMI_IRQ_NOTIFY);
-+		complete(&spmi->fifo_rx);
-+		handled = true;
-+	}
-+
-+	for (offset = 0; offset < SPMI_NUM_PERIPHERAL_IRQS / 8; offset += sizeof(val)) {
-+		val = readq(spmi->regs + SPMI_IRQ_ACK_BASE + offset);
-+		/**
-+		 * because of other masters in the bus, we're going to get a multitude of
-+		 * interrupts we're not interested in. irq_resolve_mapping isn't very
-+		 * optimized for the nonexistent path, so instead we mask with (a locally
-+		 * cached version of) the IRQ mask
-+		 */
-+		val &= spmi->irq_mask_cache[offset / sizeof(val)];
-+		for_each_set_bit(bit, &val, 64) {
-+			generic_handle_domain_irq(spmi->irqd, offset * 8 + bit);
-+			handled = true;
-+		}
-+	}
-+	if (!handled)
-+		handle_bad_irq(desc);
-+	chained_irq_exit(chip, desc);
-+}
-+
-+static void apple_spmi_teardown_irq(void *data)
-+{
-+	struct apple_spmi *spmi = data;
-+
-+	for (size_t offset = 0; offset < SPMI_NUM_IRQS / 8; offset += 4)
-+		writel(U32_MAX, spmi->regs + SPMI_IRQ_MASK_BASE + offset);
-+
-+	synchronize_irq(spmi->irq);
-+	irq_set_chained_handler_and_data(spmi->irq, NULL, NULL);
-+}
-+
-+static int apple_spmi_init_irq(struct platform_device *pdev,
-+			       struct apple_spmi *spmi, int irq)
-+{
++	u32 offset = priv->offset + id * T8103_CIO_CTRL_STRIDE;
++	u32 val;
 +	int ret;
-+	struct irq_domain_info info = {
-+		.fwnode		= pdev->dev.fwnode,
-+		.hwirq_max	= ~0U,
-+		.ops		= &apple_spmi_irq_domain_ops,
-+		.host_data	= spmi,
-+	};
 +
-+	raw_spin_lock_init(&spmi->irq_mask_lock);
-+
-+	for (size_t offset = 0; offset < SPMI_NUM_IRQS / 8; offset += 4) {
-+		writel(0, spmi->regs + SPMI_IRQ_MASK_BASE + offset);
-+		writel(U32_MAX, spmi->regs + SPMI_IRQ_ACK_BASE + offset);
-+	}
-+
-+	spmi->irqd = devm_irq_domain_instantiate(&pdev->dev, &info);
-+	if (IS_ERR(spmi->irqd))
-+		return PTR_ERR(spmi->irqd);
-+
-+	ret = devm_add_action(&pdev->dev, apple_spmi_teardown_irq, spmi);
++	ret = regmap_write(priv->regmap, offset, T8103_CIO_CTRL_INIT_REQ);
 +	if (ret)
 +		return ret;
 +
-+	irq_set_chained_handler_and_data(spmi->irq, apple_spmi_irq_handler, spmi);
-+	apple_spmi_irq_unmask_raw(spmi, SPMI_IRQ_NOTIFY);
-+	spmi->notify_irq = true;
-+
-+	return 0;
++	return regmap_read_poll_timeout(priv->regmap, offset, val,
++					val == T8103_CIO_CTRL_INIT_DONE,
++					APPLE_CIO_RESET_POLL_US,
++					APPLE_CIO_RESET_TIMEOUT_US);
 +}
 +
- static int apple_spmi_probe(struct platform_device *pdev)
- {
- 	struct apple_spmi *spmi;
-@@ -200,6 +444,8 @@ static int apple_spmi_probe(struct platform_device *pdev)
- 
- 	spmi = spmi_controller_get_drvdata(ctrl);
- 	mutex_init(&spmi->fifo_lock);
-+	init_completion(&spmi->fifo_rx);
-+	platform_set_drvdata(pdev, spmi);
- 
- 	spmi->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(spmi->regs))
-@@ -211,6 +457,15 @@ static int apple_spmi_probe(struct platform_device *pdev)
- 	ctrl->write_cmd = spmi_write_cmd;
- 	ctrl->cmd = spmi_cmd;
- 
-+	spmi->irq = platform_get_irq_optional(pdev, 0);
-+	if (spmi->irq < 0 && spmi->irq != -ENXIO)
-+		return spmi->irq;
-+	if (spmi->irq >= 0) {
-+		ret = apple_spmi_init_irq(pdev, spmi, spmi->irq);
++static int t6000_cio_deassert(struct apple_cio_reset *priv, unsigned long id)
++{
++	u32 val;
++	int ret;
++
++	guard(mutex)(&priv->lock);
++
++	ret = regmap_write(priv->regmap, priv->offset, T6000_CIO_CTRL_INIT_REQ(id));
++	if (ret)
++		return ret;
++
++	return regmap_read_poll_timeout(priv->regmap, priv->offset, val,
++					!(val & T6000_CIO_CTRL_INIT_BUSY(id)),
++					APPLE_CIO_RESET_POLL_US,
++					APPLE_CIO_RESET_TIMEOUT_US);
++}
++
++static const struct apple_cio_reset_variant apple_t8103_cio_reset = {
++	.nr_resets = 2,
++	.deassert = t8103_cio_deassert,
++};
++
++static const struct apple_cio_reset_variant apple_t6000_cio_reset = {
++	.nr_resets = 4,
++	.pmgr_child = true,
++	.deassert = t6000_cio_deassert,
++};
++
++static int apple_cio_reset_deassert(struct reset_controller_dev *rcdev, unsigned long id)
++{
++	struct apple_cio_reset *priv =
++		container_of(rcdev, struct apple_cio_reset, rcdev);
++
++	return priv->variant->deassert(priv, id);
++}
++
++static const struct reset_control_ops apple_cio_reset_ops = {
++	.deassert = apple_cio_reset_deassert,
++};
++
++static const struct regmap_config apple_cio_reset_regmap_config = {
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++};
++
++static int apple_cio_reset_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct apple_cio_reset *priv;
++	int ret;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->variant = of_device_get_match_data(dev);
++
++	ret = devm_mutex_init(dev, &priv->lock);
++	if (ret)
++		return ret;
++
++	if (priv->variant->pmgr_child) {
++		priv->regmap = syscon_node_to_regmap(dev->of_node->parent);
++		if (IS_ERR(priv->regmap))
++			return dev_err_probe(dev, PTR_ERR(priv->regmap),
++					     "Failed to get parent regmap");
++
++		ret = of_property_read_u32(dev->of_node, "reg", &priv->offset);
 +		if (ret)
-+			return ret;
++			return dev_err_probe(dev, ret, "Failed to read reg offset");
++	} else {
++		void __iomem *base;
++
++		base = devm_platform_ioremap_resource(pdev, 0);
++		if (IS_ERR(base))
++			return PTR_ERR(base);
++
++		priv->regmap = devm_regmap_init_mmio(dev, base,
++						     &apple_cio_reset_regmap_config);
++		if (IS_ERR(priv->regmap))
++			return dev_err_probe(dev, PTR_ERR(priv->regmap),
++					     "Failed to init MMIO regmap");
 +	}
 +
- 	ret = devm_spmi_controller_add(&pdev->dev, ctrl);
- 	if (ret)
- 		return dev_err_probe(&pdev->dev, ret,
++	priv->rcdev.owner = THIS_MODULE;
++	priv->rcdev.ops = &apple_cio_reset_ops;
++	priv->rcdev.of_node = dev->of_node;
++	priv->rcdev.nr_resets = priv->variant->nr_resets;
++
++	return devm_reset_controller_register(dev, &priv->rcdev);
++}
++
++static const struct of_device_id apple_cio_reset_match[] = {
++	{
++		.compatible = "apple,t8103-cio-reset",
++		.data = &apple_t8103_cio_reset,
++	},
++	{
++		.compatible = "apple,t6000-cio-reset",
++		.data = &apple_t6000_cio_reset,
++	},
++	{},
++};
++MODULE_DEVICE_TABLE(of, apple_cio_reset_match);
++
++static struct platform_driver apple_cio_reset_driver = {
++	.driver = {
++		.name = "apple-cio-reset",
++		.of_match_table = apple_cio_reset_match,
++	},
++	.probe = apple_cio_reset_probe,
++};
++module_platform_driver(apple_cio_reset_driver);
++
++MODULE_AUTHOR("Sven Peter <sven@kernel.org>");
++MODULE_DESCRIPTION("Apple SoC CIO block reset driver");
++MODULE_LICENSE("Dual MIT/GPL");
 
 -- 
 2.55.0
+
 
