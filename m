@@ -1,52 +1,26 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983D439D6EF;
-	Mon, 10 Aug 2026 07:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BC83A7195;
+	Mon, 10 Aug 2026 10:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786346869; cv=none; b=r7dXvah96kYqMTiUNIKt6301Spr7BPDYNCfPbSKdzCmyoyDf2g1LBte8p8CvPstmrwN2hEW/BKm7Y15kzAl+bkQCRtAdjTEmURG0k46OlGtAEYGkRBOfZ89ASCh8Zc1BV1vUvj2+Icemtf+qclq+KAh6U1E/TPFQnTR/S1ljFHo=
+	t=1786356235; cv=none; b=G/IcSGhNU7uVRF9785At2G+PNKtiJFAPSxGeg/1GS2n2yfNEhaKSMmC+D11gNtoo3tfNl8etxeI7Sr7Me5I916aG4NTNkOj0k4DMFZa/gxCB86/W3pjMbqiEEWskIacT7X9K8EIvR+Nu4d4Ij9yHQvc3HG7+80ikhobcfmTYnjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786346869; c=relaxed/simple;
-	bh=xQLhwS8wv9sFqYFOv/TIN/5z4j31qZTJrUsswVUaMwY=;
+	s=arc-20240116; t=1786356235; c=relaxed/simple;
+	bh=/lSWpkgbaFYwGuprUNg21Fj/qhzEtOap45oTOdy7qmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XdCkw5kDLxb19XNJhMqxRzSI0KULX/soQ1RrLCUHnZVyAJEt599yFvS4/ZPNPbe+MtIACY3eOoDLT6O0X8OBVz2JnaRfwOC9EzSKuSfW0JoPZjAUMs3qOL6nfxF5fJDUg/DRwHkkjC08JkGtDII4nsG6sRikBxzDW7VfdiAheD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FG75gnP7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FG75gnP7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786346867; x=1817882867;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xQLhwS8wv9sFqYFOv/TIN/5z4j31qZTJrUsswVUaMwY=;
-  b=FG75gnP7rW6eu0m595W1Sd3oeT2R0aMzbWX9W1zCQFqsMlKA0CcV9kUj
-   AXzCPoGefjFBqElLD2PjL6EqoJIU+XbHvzR2/eTE+vHvm4BphqQ3W/qoa
-   tz2qar7gTfUEMaP5/kVdO3QtzKedH5bjaT9Wvnb+Q3GkfKvS6EzvyKJ+E
-   kyo42KMBbf3YwsYX2Q8LQKVHwv3SwcrqTaEK+fFfNvLNo9ByX87PWYfSY
-   1itkPPUM0zC3/BoDwTQX+0Ks5czmbtP20m6KbO/LFc8V5kKFLCS9YFuMl
-   Kw+mvolaiDB6+p5DN9c354GC4dBh7619x93dCQdQI3Jj+r+cA6JOV/eEr
-   w==;
-X-CSE-ConnectionGUID: HBsIvXuhTReYhDSt5i7FLQ==
-X-CSE-MsgGUID: dr2RfRXvRze42o4ob0snaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11870"; a="112400366"
-X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="112400366"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 00:27:46 -0700
-X-CSE-ConnectionGUID: fVqcRD4QTWCn0dQ6j9/S5A==
-X-CSE-MsgGUID: 7ZXTFfZuQhmUulcEeVHcvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,215,1779174000"; 
-   d="scan'208";a="263584571"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.99])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 00:27:36 -0700
-Date: Mon, 10 Aug 2026 10:27:33 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=pNWkRbNmoY+8SPvWzp8nguVr7Upm/J1V6Opc9jvZ+SFCS/Cp9kAZQ18iPwk2SB60r+HFkSAM/8MoW9p5NIv6ddNkAd3o+J+zre7Gusqrz49OUt09hzjgj+QuROnnlTh+BDAdUx+ntTEfnTr3JHOJhng3TNE60K9LemXwnuG/Ubw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
+Received: by linkmauve.fr (Postfix, from userid 1000)
+	id 0C2B470AF95E; Mon, 10 Aug 2026 12:03:45 +0200 (CEST)
+Date: Mon, 10 Aug 2026 12:03:45 +0200
+From: Link Mauve <linkmauve@linkmauve.fr>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Link Mauve <linkmauve@linkmauve.fr>,
+	Srinivas Kandagatla <srini@kernel.org>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	Kevin Hilman <khilman@baylibre.com>,
 	Jerome Brunet <jbrunet@baylibre.com>,
@@ -86,39 +60,52 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	linux-stm32@st-md-mailman.stormreply.com,
 	rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v4 0/3] nvmem: migrate to const void * in reg_write
-Message-ID: <anl9ZRM0REenBK8t@ashevche-desk.local>
+Message-ID: <anmiAfteOQzPXRqX@desktop>
 References: <20260726131724.15299-1-linkmauve@linkmauve.fr>
+ <anl9ZRM0REenBK8t@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260726131724.15299-1-linkmauve@linkmauve.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <anl9ZRM0REenBK8t@ashevche-desk.local>
+Jabber-ID: linkmauve@linkmauve.fr
 
-On Sun, Jul 26, 2026 at 03:17:18PM +0200, Link Mauve wrote:
-> This callback used to take a mutable void * for no reason, which causes
-> the compiler to be unaware that the val buffer should never be modified
-> by the callback.
+On Mon, Aug 10, 2026 at 10:27:33AM +0300, Andy Shevchenko wrote:
+> On Sun, Jul 26, 2026 at 03:17:18PM +0200, Link Mauve wrote:
+> > This callback used to take a mutable void * for no reason, which causes
+> > the compiler to be unaware that the val buffer should never be modified
+> > by the callback.
+> > 
+> > This was found while drafting the nvmem-provider Rust abstraction.
+> > 
+> > Thanks to the guidance of Andy Shevchenko, this now introduces a new
+> > callback and deprecates the existing one, with the goal of renaming the
+> > new one into the old one once no user remains in the kernel.
 > 
-> This was found while drafting the nvmem-provider Rust abstraction.
+> LGTM now, FWIW,
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 > 
-> Thanks to the guidance of Andy Shevchenko, this now introduces a new
-> callback and deprecates the existing one, with the goal of renaming the
-> new one into the old one once no user remains in the kernel.
+> But I think you also need to provide a road map of finishing this job (the best
+> is to provide a continuation in some of yours public Git trees to point out).
 
-LGTM now, FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+I’ve just pushed these changes here, as usual just build-tested:
+https://github.com/linkmauve/linux/commits/nvmem-v6
 
-But I think you also need to provide a road map of finishing this job (the best
-is to provide a continuation in some of yours public Git trees to point out).
+I was planning on working on those after the 7.3 merge window if this
+series indeed goes into 7.3, but I was never worried this would be hard
+to do, it’s a pretty mechanical change.
+
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Link Mauve
