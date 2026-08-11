@@ -1,42 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72A53B71C9;
-	Mon, 10 Aug 2026 22:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3F843E073;
+	Tue, 11 Aug 2026 13:53:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786401894; cv=none; b=HhHNSV/2fq8vHppCP+9Q+kXPhA7Wov7hXMU9dEcPOrklC6/tYIZpFvnoj3uBEPkcK1I/Y5LVuV4Cz1EAm4ac3y5NMV9mkxf9VmJ+Vzmjjjbs/LOdRnxs4hFlafKus9jpr2BlPVpsJgJQWBXQ12Sojp9sXPf4URB/i3n8XWf1Ycs=
+	t=1786456410; cv=none; b=UxEx1AbNjpWrYjXxF95LJO6eLlUHkKd4JpNxVWVJmOyoUsdSSDC0rqS0rtPsNLJ9Vq5BygTEtMwU+CpPY8ML/esbD7Z7ohLbWCEADXf4CfrYIXmcIPH91pG0aNfuBY0wuNkomnrTGzCGAY1IIUNKrlKUP5q0Xc+R+75zD5rEljU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786401894; c=relaxed/simple;
-	bh=dSQORQle+KIjxWhBpp5lvo41Zkwkl4W5lq+6fRaJHgQ=;
+	s=arc-20240116; t=1786456410; c=relaxed/simple;
+	bh=Aag11kzP6OoZz2CrvTPwTWGO5OWYsZlR/JtjlWsGX/I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N+MnPg2sb3ACPtET3pl9JDo3q2UJQx4G3mWAecmafv9LpXV0NpRddY1OzAo7tsozzuCLdINXyf4HexBT1OSUuYSsWspUAK5hoYB2NIuTdvk+A0UpjkYQX6IKzd7QlcJS5jSIDxR95lfDgP3Z0YlCcXWUVW/By8JQz29J8p6ftqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WnwgvrqR; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z4MBSePL6vMWS8eWWBQPdaH9DqYTG8BTL9i0tr6mEQWJ59ftddv58gmMY31KMqdh0VESWaAF8+psgsFG/erbVgo6lzR4utppJF0E6xvghz0Z5v8BK+0KHMkln5kb5qN5wwBQW4EhSnRIQEDna68T63j5PpJCQ7qapvLHTyscib4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X8WocTfH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WnwgvrqR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2AB11F000E9;
-	Mon, 10 Aug 2026 22:44:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X8WocTfH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DB351F000E9;
+	Tue, 11 Aug 2026 13:53:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786401892;
-	bh=KOkdJ9BIhW7CEAYkZmo2pUOQFCIBoHZYKysMZy5gsdo=;
+	s=k20260515; t=1786456402;
+	bh=zOISgtHJcoVhgbuQw7i0w6TcTYQ6uT3lh6JpZDeNOrI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WnwgvrqRwNq2x/bxhu6M6wH2qcxd8xI8dq3yzelF0ZPCriLIYO9uyrxakrp3qr/h2
-	 YsGij9lp0ZTPBWr6X4i7ckJtlqEfBRZoDJ2DnXgGBJEtjUnozgFX9/sdUri9Am7PyH
-	 J1IwpTthoG9Oau9DDhUDcLbA1lU6l8MNTPR89odUHBiMAAtXB9zZzCYdo3AKc13ZiK
-	 PGhPr+gyN07MK1xss7mtJDV71gYFIbd0/ew/Hd0Lt7v4SoEuK8BiuRYxFAaTlF5PKG
-	 N/YGJKWgyeYPohjpOBs122rIHXVwCbVokX62M5Jh2P4sshIvLfHOrhmI2URYdlued2
-	 JYobGVi2j8cSQ==
-Date: Mon, 10 Aug 2026 16:44:50 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Arnd Bergmann <arnd@arndb.de>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] Apple NVMe fixes for macOS 15+ firmware / M4 support
-Message-ID: <anpUYquvgliLp2N-@kbusch-mbp>
-References: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
+	b=X8WocTfHhpLtdAwDoaaQDw/vdNWROCYyO3plt/WqxSeP3Wo6K3OvPtwIsjIXu0ca2
+	 QNvX3PqF2wNK+1PDfdhf4dGEtpNaiBB5fyglxRi1EJOIfrYSFfNGXvI3fNqFKlaD4q
+	 roE2kLEz5AWLENwxlSVzftQXQ7wpXTxUIuLqXZN4m68iGh/JB2aDpBvoRc8f3mVFit
+	 /wKatjrvVPjtTRTv8xXvwx0AgMW3rYRyPk+oLZnXCAkro15h3f3pviKeE60rDzBHXv
+	 O+7aIFFUoKnHs3QnI/bqvQqQlRrsKCd8cHs5Su6oGkMVwgd4/Z2O4bdqKdPUWVf8TB
+	 1f3JxiYEoGBUw==
+Date: Tue, 11 Aug 2026 08:53:21 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: linux-pwm@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+	asahi@lists.linux.dev, Mark Kettenis <kettenis@openbsd.org>,
+	Radu Rendec <radu@rendec.net>, Sven Peter <sven@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Janne Grunau <j@jannau.net>,
+	Linus Walleij <linusw@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Neal Gompa <neal@gompa.dev>, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	linux-i2c@vger.kernel.org,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v2 5/9] dt-bindings: pinctrl: apple,pinctrl: Add t8132
+ compatible
+Message-ID: <178645640149.2074555.4681413696186496761.robh@kernel.org>
+References: <20260801-apple-m4-initial-devicetrees-v2-0-5cb07cc275da@cyberchaos.dev>
+ <20260801-apple-m4-initial-devicetrees-v2-5-5cb07cc275da@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -45,19 +56,26 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260806-b4-nvme-fwabi-v1-0-bde19ce8db04@kernel.org>
+In-Reply-To: <20260801-apple-m4-initial-devicetrees-v2-5-5cb07cc275da@cyberchaos.dev>
 
-On Thu, Aug 06, 2026 at 05:27:32PM +0200, Sven Peter wrote:
-> Hi,
-> 
-> This series fixes a bunch of bugs that were working fine with M1/M2 NVMe
-> controllers with older firmware but are now starting to bite us.
-> With macOS 15 a new firmware is installed for the controller and both
-> XNU and the controller are a bit more strict now. This firmware is
-> required once we add M4 support.
-> 
-> The first patch fixes a panic that can happen when the controller fails
-> to initialize, which now happens for the first time with the new
-> firmware. The other fixes then make it work again.
 
-Thanks, applied to nvme-7.3.
+On Sat, 01 Aug 2026 23:40:35 +0200, Yureka Lilian wrote:
+> The pin controller on the Apple silicon t8132 (M4) SoC is compatible
+> with t8103. Add "apple,t8132-pinctrl" as SoC specific compatible under
+> "apple,t8103-pinctrl".
+> 
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> 
+> ---
+> This should be pulled via the pinctrl subtree, since it depends on
+> "dt-bindings: pinctrl: apple,pinctrl: Add t6030 and t6031 compatibles"[1]
+> which has been applied in the pinctrl tree. Thanks!
+> 
+> Link: https://lore.kernel.org/all/20260709-apple-t603x-initial-devices-v1-7-55b305833123@jannau.net/ [1]
+> ---
+>  Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
