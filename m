@@ -1,59 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C361336B90C;
-	Tue, 11 Aug 2026 21:50:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D043502A8;
+	Tue, 11 Aug 2026 23:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786485053; cv=none; b=Ac82dC+GyLWrhd19vivAC/amOEssPb7VztKuX+khW1GWj2wIq1LzYGHS8baMMqMQRNwNon7ZtPC0JEotrWf8KU44wnuUqz2I++eJpy2Jvc4QNJV25nInRP04h/xXuBNnNn/TFDE/xyLhAPqiZK6rs43/l1tVk0uIXXABfY8e9rg=
+	t=1786489883; cv=none; b=d8BIZCB5Kl67apax5U3ubekuC8WQbnIGnML141LauADaRkxFKmi2vHd4ZHft5f1CscqHQDrEQ5tMlNU2Mi+eU5EzX6QHRlL6kM412O9QBR1L4yuy8DwmQshKE29dkcbeJ4Dp8Zava4BMZMhyMAS6odH28Ldgc8nnBO4uoYTDJ3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786485053; c=relaxed/simple;
-	bh=oNotUDNgQ8UZjenFwsyWnUMmTe/fyWUngSnL9ho6ZJU=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=moBni5XPse1SkPCGBZx0vVcRwtTUdckiPQ23ce/rcR7gJUt7WfAsK586g4vmNYyUdockFiEOOUvgrD2O1e/rI2rUAdR/NHHgU0tEf13Y+Nwzb2GObOb62qxtyblSKBpq2JiFyH84xIZ+mijc86yoj44/bxLfv2zXPeJc3QL074E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GEMTPOnN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786489883; c=relaxed/simple;
+	bh=qx7WHh5PDY96/SwEo2Y4XDeSrY1cClhCqngsjDf2LOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aFv80wRTM1SxljXkb7fFmFkHxGsO8avhJw+H7HU8SZWGHEXG9wn+e3GbPXdc8lRzYbNUm5fTJzFD+Y2EK1Wfj/jv4f5b7HcF6sKMwBghLwTS+gusPOJvb/RUSg1PUfn5hCCKLm6T2kGKh8X84OKNAk746yalWEoSTeI9p4NISN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ghr9OGG0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GEMTPOnN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 499C61F000E9;
-	Tue, 11 Aug 2026 21:50:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ghr9OGG0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856C31F000E9;
+	Tue, 11 Aug 2026 23:11:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786485052;
-	bh=J3oMfD0Rq+z8p5nHwNCV4j/eMEhapnPfZydoy6fPclM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject;
-	b=GEMTPOnNBIUotAhleac9wYSy745kJ2AxqFIDIXoc+FVtTc9xi94ZugIIe2RMHSwwz
-	 oQEz4mHuMwfN4RnGWMg04Jn//gxlY9bqxa8voe4WGjrRobAI1Bd6hHdIx9zk52PJ6s
-	 S7E3QYAd6UvI2TpDt+sbhWP5BeeSjF3s7e8T6+9TRyRefGqH2xouHzcuKC0MoFMRXS
-	 o7kIGL1jMSGbxn0N+svDGMBOX6U4XhdafVuZoQ8AbVo5YyFbf3ttX4wgp+ktDj04WF
-	 IBGQndww5oWBWrsOSQ2whb6yTn66TAzUPgiOiNk+6D/y3e2MTtK+UqAC2irirsyPK5
-	 nn+WWvMSKExGA==
-Date: Tue, 11 Aug 2026 16:50:51 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1786489881;
+	bh=a1Qc4t1sKMfE9AWA3aPgD1xYl+DO2MyYkWPuNL/ZCng=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ghr9OGG05qlPjUggALEtkyE5b+GM7qpO4c51ZCG0KTcJ5XtJCjYOKuo+J7TdCzw3Q
+	 9oH4pUlnU326LvYyYlS25XM4e8g3JWhtyAXJLVDnS2+3D7fJA7vQm2EhNs29BJ2hzG
+	 5igv69JDygLHU7MZpp46rJeVYVa21NNl/znFRLqOTC1nSIzD/CFG8vUSdWUNX6PPyl
+	 QzxfPAoEwR+AHgW5PFf3Z0WSHYyzpSGTt4hDLZaPlRJf5uyLJTQG9137Ob3dk++wd8
+	 34V6mAEINb4a1+MGZRl78UP1jzE1f8LCnPa+FIaOhRQUOv2bF4bADCU6e7MHj680Lx
+	 OnwxxB4v6xv2Q==
+Date: Tue, 11 Aug 2026 18:11:21 -0500
+From: Rob Herring <robh@kernel.org>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/2] dt-bindings: nvme: Add apple,t8132-nvme-ans2
+ compatible
+Message-ID: <20260811231121.GA271810-robh@kernel.org>
+References: <20260811-apple-nvme-t8132-v1-0-865be32e42c3@cyberchaos.dev>
+ <20260811-apple-nvme-t8132-v1-1-865be32e42c3@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
- devicetree@vger.kernel.org, Sven Peter <sven@kernel.org>, 
- Christoph Hellwig <hch@lst.de>, Neal Gompa <neal@gompa.dev>, 
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-To: Yureka Lilian <yureka@cyberchaos.dev>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20260811-apple-nvme-t8132-v1-1-865be32e42c3@cyberchaos.dev>
-References: <20260811-apple-nvme-t8132-v1-0-865be32e42c3@cyberchaos.dev>
- <20260811-apple-nvme-t8132-v1-1-865be32e42c3@cyberchaos.dev>
-Message-Id: <178648505154.4642.5846109337375334027.robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: nvme: Add apple,t8132-nvme-ans2
- compatible
 
-
-On Tue, 11 Aug 2026 22:49:47 +0200, Yureka Lilian wrote:
+On Tue, Aug 11, 2026 at 10:49:47PM +0200, Yureka Lilian wrote:
 > Add a new base compatible for the ANS2 NVMe on the Apple t8132 (M4) SoC,
 > which uses a separate MMIO base for its NVMMU.
 > 
@@ -62,29 +61,94 @@ On Tue, 11 Aug 2026 22:49:47 +0200, Yureka Lilian wrote:
 >  .../devicetree/bindings/nvme/apple,nvme-ans.yaml   | 77 ++++++++++++++--------
 >  1 file changed, 48 insertions(+), 29 deletions(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+> index 4c0b1f90aff8..c8a41b268b9c 100644
+> --- a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+> +++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+> @@ -16,6 +16,7 @@ properties:
+>        - items:
+>            - const: apple,t6020-nvme-ans2
+>            - const: apple,t8103-nvme-ans2
+> +      - const: apple,t8132-nvme-ans2
+>        - items:
+>            - enum:
+>                # Do not add additional SoC to this list.
+> @@ -24,16 +25,6 @@ properties:
+>                - apple,t6000-nvme-ans2
+>            - const: apple,nvme-ans2
+>  
+> -  reg:
+> -    items:
+> -      - description: NVMe and NVMMU registers
+> -      - description: ANS2 co-processor control registers
+> -
+> -  reg-names:
+> -    items:
+> -      - const: nvme
+> -      - const: ans
+> -
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Keep properties defined at the top level. More below.
 
-yamllint warnings/errors:
+>    resets:
+>      maxItems: 1
+>  
+> @@ -68,25 +59,53 @@ properties:
+>  
+>        The SART address filter is documented in iommu/apple,sart.yaml.
+>  
+> -if:
+> -  properties:
+> -    compatible:
+> -      contains:
+> -        enum:
+> -          - apple,t6000-nvme-ans2
+> -          - apple,t6020-nvme-ans2
+> -then:
+> -  properties:
+> -    power-domains:
+> -      minItems: 3
+> -    power-domain-names:
+> -      minItems: 3
+> -else:
+> -  properties:
+> -    power-domains:
+> -      maxItems: 2
+> -    power-domain-names:
+> -      maxItems: 2
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: apple,t8132-nvme-ans2
+> +    then:
+> +      properties:
+> +        reg:
+> +          items:
+> +            - description: NVMMU registers
+> +            - description: NVMe registers
+> +            - description: ANS2 co-processor control registers
+> +        reg-names:
+> +          items:
+> +            - const: nvmmu
+> +            - const: nvme
+> +            - const: ans
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/nvme/apple,nvme-ans.example.dtb: nvme@7bcc0000 (apple,t8103-nvme-ans2): 'reg', 'reg-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/nvme/apple,nvme-ans.yaml
+New entries go on the end. So nvmmu last and defined at the top level. 
+Then this is just 'minItems: 3'
 
-doc reference errors (make refcheckdocs):
+> +    else:
+> +      properties:
+> +        reg:
+> +          items:
+> +            - description: NVMe and NVMMU registers
+> +            - description: ANS2 co-processor control registers
+> +        reg-names:
+> +          items:
+> +            - const: nvme
+> +            - const: ans
 
-See https://patchwork.kernel.org/project/devicetree/patch/20260811-apple-nvme-t8132-v1-1-865be32e42c3@cyberchaos.dev
+And 'maxItems: 2' on these 2.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Rob
