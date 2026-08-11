@@ -1,176 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CFC3191D6;
-	Tue, 11 Aug 2026 18:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE783911BC
+	for <asahi@lists.linux.dev>; Tue, 11 Aug 2026 19:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786472928; cv=none; b=rAC9C48RoDQSEzWYyPZYWTIUfn63rRxJ+DMAyt1C75rR0MKmC42G4dx/YbgTHgboDDNMwXw424GNd8oTy4vxwx6DrulgNShQNnc1Zf0oMrgtXtcJsw8STtmB44Yt0DckiulkW5UYE7zN01axy9Cpj4pErjX30HN0m9BGWpou+1A=
+	t=1786477032; cv=none; b=pWgQ66YzeVEDltakxDn+6AgjuJg3J9w+CRkY7iqDfrvvySBSFoZo9lkSLAMOgd1+z4jZ+QLmk3ifBHApEMWqf2lzJ6ea73aBfAnC1gIXRAfLjDALaATIsFOIeYtUWe2B42c45pOeCC/X/jdx32W3VqAvl18e79LIZ5twT4W/GKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786472928; c=relaxed/simple;
-	bh=DcGeEs3Hc8FIyqubjnhTxYn+huNvKxHhROHkaOAgpZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lDepmSw9S6JpzDRTx2OCoxIFnNZk+ptzHDwRuvurRe3xR/pb2Jmk1dgW9D4Wl4ewPOMbN4+jA7CIN0GpyYsUur7fdkom8INViLp+RfdMawb7/qAiAKomCios4v5x6r2XRDkCXEatTnty4kM+y+YQ2m0sR0F4PAKKasgayqSVbGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKvMqOph; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786477032; c=relaxed/simple;
+	bh=XhCocvRlqpxz3Ix+dK0e/T+Ux+SQ85BXJDki4NEkc4o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ANNsXIkiIlW9sePqZmh26hpqld8aU7scpZb61dzLpoqyOXB3BOYZv75W73Dh/X/wTch5aryCjXY5qrjqLeauCkIlePrtmgwtI/zrRihCt8jwduHmhEv5P7nw9Qhts6DTQwlsOFbOBXSYGoB6TZraC9DxUpCwLK+xElWrzplrVjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=1G1uTXbo; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKvMqOph"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D31D1F000E9;
-	Tue, 11 Aug 2026 18:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786472927;
-	bh=ya+4xAk3b9GRJKT32eLs8eaWcWBhkgMfQFx7wWWN/IU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UKvMqOphbiJUNaa5ts+Y9am/XwtJ6dwfPziuh/XKgmo+HzPYCO6jWaGM7LObGDotM
-	 as05F1nNxlEzhRNPsrml2O9DW7aCx0l63XqmdOm86dXfK6uVCA8cf5O0G2s9hbCILE
-	 WD98v0JjAc7gdEogrPGXUGnU1zeVTXU9LN8uJduEPAB4KYJbPSOlUfgIlFPQ8YFCEL
-	 G3ZGYoxqaggsXxoxfe+sTQaia5MtFDPflsPuiS/E/McEm65q3Om1lzEMNG4Kjim2AE
-	 joLmQVTjg4+3X7+q2zRG3ZMJVOCFOKxF44XX1NiWduV686ujwCybBEdpNZlfUDkSZP
-	 RqTaZA9OwKmQQ==
-Date: Tue, 11 Aug 2026 23:58:42 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Frank Li <Frank.Li@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dmaengine: apple-admac: Add M3 generation ADMACs
-Message-ID: <antp2mWv6ZvK-4Qg@vaman>
-References: <20260729-t603x-admac-v2-0-e4b2bb6ca45e@chaosmail.tech>
- <20260729-t603x-admac-v2-2-e4b2bb6ca45e@chaosmail.tech>
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="1G1uTXbo"
+From: Yureka Lilian <yureka@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1786477022;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OHA9zlC97iQEd9Z/K0ZMi6fcOGFr2AIQ8m935rD2YRM=;
+	b=1G1uTXboJ3+0TChcjCo/PBxFkklV7vYSqa+BsVaxW5SfprIUFR/lq/XMANH7pPjWjl4F/w
+	mbcRdore3GBWcwEHmDyLwwG6gFsSD/YsO0i8PEixQ50f5uwD83pXJUmx8EjWfkrcKqmCh9
+	7QVj4VQfNQqFgldVij4bekfLU5YVGto=
+Subject: [PATCH v3 0/9] Initial Apple Silicon M4 device trees and
+ dt-bindings
+Date: Tue, 11 Aug 2026 21:36:53 +0200
+Message-Id: <20260811-apple-m4-initial-devicetrees-v3-0-6bf32d45ad0b@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260729-t603x-admac-v2-2-e4b2bb6ca45e@chaosmail.tech>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42QzU4DMQyEX6XKmSDnz0l64j0Qh8Tx0iDaLZvti
+ qrqu5NtD0hwgIulkcbf2HMRjafKTWw3FzHxUlsdD12Yh42gXTq8sqyla6FBI3hwMh2P7yz3VtZ
+ DnWt6l6VvEc8Tc5MDcs6KfNJUREccJx7q5w3//HLX7ZTfmOaVuTp2tc3jdL7lL2r1/TNqURIkO
+ 3SO16nNE50zT/3osT12o1jzFv1NDKD+IOpOdJTBE2nvSvpFvN5fmPjj1Iua73+JnBpLGvf7Om8
+ 3yCFCHtBa7ZwhnweHAX2KinTJHUw6ughwayfNtOv9bjeRKFpIiMBBlRQYDLAJhjVScckDDKw5/
+ NhSCcFoNSCyjWBVUYV1QDso9AEgJjAOdbT98OsX8jfwIekBAAA=
+X-Change-ID: 20260705-apple-m4-initial-devicetrees-f6ebb1c7a2cd
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
+ Hector Martin <marcan@marcan.st>, Linus Walleij <linusw@kernel.org>, 
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Sasha Finkelstein <k@chaosmail.tech>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-On 29-07-26, 13:46, Sasha Finkelstein wrote:
-> The admacs present on t8122 and t603x SoCs need additional writes in
-> order to operate correctly. The exact purpose of this register
-> is unknown
-> 
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-> ---
->  drivers/dma/apple-admac.c | 32 ++++++++++++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-> index 14a5ee14a481..72ff677c8ce5 100644
-> --- a/drivers/dma/apple-admac.c
-> +++ b/drivers/dma/apple-admac.c
-> @@ -39,10 +39,14 @@
->  
->  #define FLAG_DESC_NOTIFY	BIT(16)
->  
-> +#define T8122_UNK_28_VAL	0x200000
-> +
->  #define REG_TX_START		0x0000
->  #define REG_TX_STOP		0x0004
->  #define REG_RX_START		0x0008
->  #define REG_RX_STOP		0x000c
-> +#define REG_UNK_28		0x0028
-> +#define REG_UNK_2C		0x002c
->  #define REG_IMPRINT		0x0090
->  #define REG_TX_SRAM_SIZE	0x0094
->  #define REG_RX_SRAM_SIZE	0x0098
-> @@ -127,6 +131,7 @@ struct admac_data {
->  	struct mutex cache_alloc_lock;
->  	struct admac_sram txcache, rxcache;
->  
-> +	bool set_unk28;
->  	int irq;
->  	int irq_index;
->  	int nchannels;
-> @@ -147,6 +152,10 @@ struct admac_tx {
->  	struct list_head node;
->  };
->  
-> +struct admac_hw {
-> +	bool set_unk28;
-> +};
-> +
->  static int admac_alloc_sram_carveout(struct admac_data *ad,
->  				     enum dma_transfer_direction dir,
->  				     u32 *out)
-> @@ -747,6 +756,11 @@ static int admac_device_config(struct dma_chan *chan,
->  	u32 bus_width = readl_relaxed(ad->base + REG_BUS_WIDTH(adchan->no)) &
->  		~(BUS_WIDTH_WORD_SIZE | BUS_WIDTH_FRAME_SIZE);
->  
-> +	if (ad->set_unk28) {
-> +		writel_relaxed(T8122_UNK_28_VAL, ad->base + REG_UNK_28);
-> +		writel_relaxed(T8122_UNK_28_VAL, ad->base + REG_UNK_2C);
-> +	}
-> +
->  	switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
->  	case DMA_SLAVE_BUSWIDTH_1_BYTE:
->  		wordsize = 1;
-> @@ -805,6 +819,7 @@ static int admac_probe(struct platform_device *pdev)
->  	struct device_node *np = pdev->dev.of_node;
->  	struct admac_data *ad;
->  	struct dma_device *dma;
-> +	const struct admac_hw *hw;
->  	int nchannels;
->  	int err, irq, i;
->  
-> @@ -813,6 +828,9 @@ static int admac_probe(struct platform_device *pdev)
->  		dev_err(&pdev->dev, "missing or invalid dma-channels property\n");
->  		return -EINVAL;
->  	}
-> +	hw = of_device_get_match_data(&pdev->dev);
-> +	if (!hw)
-> +		return -EINVAL;
->  
->  	ad = devm_kzalloc(&pdev->dev, struct_size(ad, channels, nchannels), GFP_KERNEL);
->  	if (!ad)
-> @@ -821,6 +839,7 @@ static int admac_probe(struct platform_device *pdev)
->  	platform_set_drvdata(pdev, ad);
->  	ad->dev = &pdev->dev;
->  	ad->nchannels = nchannels;
-> +	ad->set_unk28 = hw->set_unk28;
->  	mutex_init(&ad->cache_alloc_lock);
->  
->  	/*
-> @@ -935,9 +954,18 @@ static void admac_remove(struct platform_device *pdev)
->  	reset_control_rearm(ad->rstc);
->  }
->  
-> +static const struct admac_hw admac_t8103_hw = {
-> +	.set_unk28 = false,
-> +};
+Hi,
 
-This is dummy, why not this be default
+This series adds initial device trees and dt-bindings for the Apple
+Silicon devices using the M4 (t8132) SoC. For the most part it mirrors
+Janne's M3 (t8122) bringup series as it was merged in the 7.2 cycle.
 
-> +
-> +static const struct admac_hw admac_t8122_hw = {
-> +	.set_unk28 = true,
+This series covers only a minimal amount of hardware, which is useful
+as a basis for future developments. The hardware added here has remained
+largely unchanged between the M3 and M4 generations.
 
-and we set this
+Most of the changes for bringing these M4 devices into a bootable state
+have been happening in the m1n1 bootloader, which, compared to the M3
+generation, is no longer responsible for setting the configuration bits
+(🐔-bits) of the CPU, since these are now set and locked by iBoot.  
 
-> +};
-> +
->  static const struct of_device_id admac_of_match[] = {
-> -	{ .compatible = "apple,t8103-admac", },
-> -	{ .compatible = "apple,admac", },
-> +	{ .compatible = "apple,t8122-admac", .data = &admac_t8122_hw },
-> +	{ .compatible = "apple,t8103-admac", .data = &admac_t8103_hw },
-> +	{ .compatible = "apple,admac", .data = &admac_t8103_hw },
+Additionally, SMP boot depends on patches to avoid WFI and WFIT
+instructions, such as the idle=nop patches I sent out just before v1.
+Even with those, SMP boot remains unreliable.
 
-so only change would be adding this for admac_t8122_hw. If driver data
-is not defined (older and whereever not used), we dont set these..
+Since there are no actual driver changes, we'd generally prefer to merge
+the dt-bindings changes through the apple-soc tree once Acked by the
+respective maintainers.
+There are two notable exceptions in this patch series, due to some
+commits having already been applied to the respective subsystems' trees:
+- "dt-bindings: watchdog: apple,wdt: Add t8132 compatible"[1] has already
+  been applied to the watchdog subsystem tree, and this patch series
+  will pass check_dtbs when applied on top of linux-next, which includes
+  that commit.
+- "dt-bindings: pinctrl: apple,pinctrl: Add t8132 compatible" should be
+  applied through the pinctrl tree, since it depends on
+  "dt-bindings: pinctrl: apple,pinctrl: Add t6030 and t6031 compatibles"[2]
+  which has been applied in the pinctrl tree.
 
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, admac_of_match);
-> 
-> -- 
-> 2.55.0
+Link: https://lore.kernel.org/asahi/20260705-apple-m4-initial-devicetrees-v1-3-e5655ee56523@cyberchaos.dev/ [1]
+Link: https://lore.kernel.org/all/20260709-apple-t603x-initial-devices-v1-7-55b305833123@jannau.net/ [2]
 
--- 
-~Vinod
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+---
+Changes in v3:
+- Fix pinctrl_nub node ordering
+- Add i-cache-size and d-cache-size
+- Link to v2: https://patch.msgid.link/20260801-apple-m4-initial-devicetrees-v2-0-5cb07cc275da@cyberchaos.dev
+
+Changes in v2:
+- Rebased on top of the M3 Pro/Max patch series, which was applied to
+  apple-soc earlier today.
+- Fix several typos
+- Explain merge strategy in cover letter
+- Drop "dt-bindings: watchdog: apple,wdt: Add t8132 compatible", as it's
+  been applied in linux-watchdog.
+- Reword dt-bindings commit messages to not reference the driver
+- Add apple,always-on to ps_ans node, since powering it off causes reboots
+- Disable ps_disp*_cpu nodes, since even reading their state causes
+  SErrors with recent firmware
+- Fix inconsistency of name and reg of aic node
+- Add M4 devices to the global description in Documentation/devicetree/bindings/arm/apple.yaml
+- Link to v1: https://patch.msgid.link/20260705-apple-m4-initial-devicetrees-v1-0-e5655ee56523@cyberchaos.dev
+
+---
+Yureka Lilian (9):
+      dt-bindings: arm: cpus: Add Apple M4 CPU core compatibles
+      dt-bindings: interrupt-controller: apple,aic2: Add apple,t8132 compatible
+      dt-bindings: arm: apple: apple,pmgr: Add t8132 compatible
+      dt-bindings: power: apple,pmgr-pwrstate: Add t8132 compatible
+      dt-bindings: pinctrl: apple,pinctrl: Add t8132 compatible
+      dt-bindings: i2c: apple,i2c: Add t8132 compatible
+      dt-bindings: pwm: apple,s5l-fpwm: Add t8132 compatible
+      dt-bindings: arm: apple: Add M4 based devices
+      arm64: dts: apple: Add minimal t8132 (M4) device trees
+
+ Documentation/devicetree/bindings/arm/apple.yaml   |   21 +
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |    1 +
+ Documentation/devicetree/bindings/arm/cpus.yaml    |    2 +
+ .../devicetree/bindings/i2c/apple,i2c.yaml         |    1 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |    1 +
+ .../devicetree/bindings/pinctrl/apple,pinctrl.yaml |    1 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |    1 +
+ .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |    1 +
+ arch/arm64/boot/dts/apple/Makefile                 |    6 +
+ arch/arm64/boot/dts/apple/t8132-j604.dts           |   35 +
+ arch/arm64/boot/dts/apple/t8132-j623.dts           |   18 +
+ arch/arm64/boot/dts/apple/t8132-j624.dts           |   18 +
+ arch/arm64/boot/dts/apple/t8132-j713.dts           |   35 +
+ arch/arm64/boot/dts/apple/t8132-j715.dts           |   35 +
+ arch/arm64/boot/dts/apple/t8132-j773g.dts          |   25 +
+ arch/arm64/boot/dts/apple/t8132-jxxx.dtsi          |   48 +
+ arch/arm64/boot/dts/apple/t8132-pmgr.dtsi          | 1130 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8132.dtsi               |  467 ++++++++
+ 18 files changed, 1846 insertions(+)
+---
+base-commit: 6e890bf6442553c7bf56867a91c2dbcc2c295900
+change-id: 20260705-apple-m4-initial-devicetrees-f6ebb1c7a2cd
+prerequisite-patch-id: 9cc940a660e81da8e030e383e26cd5a700fe2e80
+prerequisite-patch-id: 1a60321f66e49041d1de2864f1678009a0356294
+
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
+
