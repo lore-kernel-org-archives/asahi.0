@@ -1,36 +1,36 @@
 Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D9C3FFACC
-	for <asahi@lists.linux.dev>; Wed, 12 Aug 2026 09:26:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6310940927D
+	for <asahi@lists.linux.dev>; Wed, 12 Aug 2026 09:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786526810; cv=none; b=LnlKE/rsT1PyCTzcikatMzrArWRGFp7SoxPV+AlaqLxQpT/ZRq6A3mHmQhHZLG6JfeCxAaSnsnHn3Lgs1THrVLqFcWJpxqm72QqwtFcjPn3oEN8kVJkUbJNqjf9W+vimhsMeiAEJgkU3C9uy6fRv+TKixY4CESBAJ8Q/6r4w8Pc=
+	t=1786526810; cv=none; b=NOSwlKmQdGB0vRruuPJEprcXQc8bWVWB6s0M41y6REUnEwd+t4heldVIemdJdnguPrf7KrPFJZt1EmAetBL3xd7y45oAwOGEA3DwIiH5su5jCK2lSjvtaL4ljrTAGIIsCdqN0k6ou+OrIqrsLQqBe5dGILy23a0RpTz1WTidKts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786526810; c=relaxed/simple;
-	bh=3u3QE19SmPpO/aRh7YhNURUWTLddt0t0CS44cHgFr3U=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TDz4aS5QurpwmKdCxc0rqQwjU+GUZXifY2p9tM6V5dwNTlZMmC8xyZVSmFIG0XB4/6wiS2jYS+UJ0nnFCI7ynPqbwT+0GqFOAVaREXO2DK0Vc4T94mkSk6VIcBmeGrSlnUqeGpbBk3ezyS2t3AIE5twXhwFDn0TXy4TR0X5Fphs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=ZWIqQpVt; arc=none smtp.client-ip=77.81.229.115
+	bh=iqpgnXjoJctug1BS/CGLHHYEeWe15yGKDUxQ6dH13qQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=A5T/uOd8X4Supg0/ZELGZ3WsBEABhbctidHC1nVH0BS+2FTtYYs0rUgWwUmmIz+H7EdueyaoKNn9E4tp58dKkIttXXFSsVMLB52+saaGv2tDq7vSNJPmk466xShfczdCNn2LAS82xF5vbyCElOCDn0B3299OtWDnS6O75yzdGgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=rNr92pCX; arc=none smtp.client-ip=77.81.229.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="ZWIqQpVt"
-Received: by chaosmail.tech (Postfix) id 9D3AB1CBF47;
-	Wed, 12 Aug 2026 09:26:37 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="rNr92pCX"
+Received: by chaosmail.tech (Postfix) id 525731CBF49;
+	Wed, 12 Aug 2026 09:26:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1786526798;
+	s=mail; t=1786526800;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=f9AVvI/rzO1xlw04zuQKTwjeDA+3NqKNZVc0uqJpvu8=;
-	b=ZWIqQpVtS+Atl0Z/sP2B6O3bEQ4MDdjCKBnSy54gc7qKXk28Msr6airV21WeLNnb1YK9Nq
-	AU8lD3kUziZhCahn4xPAu7Q8HxkZenQjs1HvbIiYhdw+vC7e7SeyOChsupHArvPQxXQQ6u
-	dgGAW0z5VSOGMHMyZFyV5xTzyQjqe7w=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nro8Z0P34FiLOz9GekJpKeBnvOZx/XL2v+1wurWV7cA=;
+	b=rNr92pCXZ4vaNHvd/VvNbi8vEEEZ3ebtgTRqb6Do2t648LZgznF9JJUUNnC5m9UWjAtvmI
+	reQKn2wbKf6mAcmcaVri19JyTPXGzJ/wyvbXsuRotoF9a6zHTdYd0J9DbAYNm4LhdjDEwu
+	U+H4jz6hLeV/Vw8kP8p6DIHIyNPqIZQ=
 From: Sasha Finkelstein <k@chaosmail.tech>
-Subject: [PATCH v3 0/2] dmaengine: apple-admac: Add support for M3
- generation
-Date: Wed, 12 Aug 2026 11:26:32 +0200
-Message-Id: <20260812-t603x-admac-v3-0-d1f137f803e1@chaosmail.tech>
+Date: Wed, 12 Aug 2026 11:26:34 +0200
+Subject: [PATCH v3 2/2] dmaengine: apple-admac: Add M3 generation ADMACs
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -39,11 +39,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23OQQ6CMBAF0KuQrq0pQynRlfcwLqZlkBoR09YGQ
- 7i7LW40uvzJn/dnZp6cJc/2xcwcRevteEuh2hTM9Hg7E7dtygwEKNFAzYMS1cSxHdBwLLVoEIz
- RtWTp4u6os9OqHU/v7B/6QiZkIjd668PonutcLHPvvxxLLrhC2ZIRUHUCDumb0Q9or9tApmeZj
- /AJ7L4BSABJDVorg7KmH2BZlhc1I2lU/gAAAA==
-X-Change-ID: 20260725-t603x-admac-a1b07a2ccb54
+Message-Id: <20260812-t603x-admac-v3-2-d1f137f803e1@chaosmail.tech>
+References: <20260812-t603x-admac-v3-0-d1f137f803e1@chaosmail.tech>
+In-Reply-To: <20260812-t603x-admac-v3-0-d1f137f803e1@chaosmail.tech>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -51,46 +49,106 @@ To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
  =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
- Joshua Peisach <jpeisach@ubuntu.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786526797; l=1162;
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786526797; l=2761;
  i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=3u3QE19SmPpO/aRh7YhNURUWTLddt0t0CS44cHgFr3U=;
- b=SPFkVGKOfj9cw1v+THOzC4ymtBZRhIOgNqarJLO50npnORVat3BScv3f+tPc2d0rpKu3Etv+M
- 6DpKVn4jhJuCsm3YtGfKtA7b5DJhELa7pB0Hr6Z8G/vwnTaAPjqo3K0
+ bh=iqpgnXjoJctug1BS/CGLHHYEeWe15yGKDUxQ6dH13qQ=;
+ b=2rnOo8+wzdSbWJ7P2hhJ5HESQh4EKmOYckNlJHriSClRw8ejfOfqy9vaxCGXEFiQRq/qszbJe
+ 1+LQAp1QFd3BSfFKFaoMohjBztDe0TgTVf4rhdu2P8rq0l5Hspsggs2
 X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-The ADMACs present in M3 series devices (t8122 and t603x SoCs) need
-additional register writes in order to function correctly. Add a new
-compatible chain for those, and change the driver to do the write.
-
-To simplify the merge strategy, the device tree entries will be sent
-in a future patch series.
+The admacs present on t8122 and t603x SoCs need additional writes in
+order to operate correctly. The exact purpose of this register
+is unknown
 
 Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
-Changes in v3:
-- Use t8013 hw data as default
-- Link to v2: https://patch.msgid.link/20260729-t603x-admac-v2-0-e4b2bb6ca45e@chaosmail.tech
+ drivers/dma/apple-admac.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-Changes in v2:
-- Typo fix
-- Link to v1: https://patch.msgid.link/20260725-t603x-admac-v1-0-6a4dec023f02@chaosmail.tech
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 14a5ee14a481..fd6236c7c024 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -39,10 +39,14 @@
+ 
+ #define FLAG_DESC_NOTIFY	BIT(16)
+ 
++#define T8122_UNK_28_VAL	0x200000
++
+ #define REG_TX_START		0x0000
+ #define REG_TX_STOP		0x0004
+ #define REG_RX_START		0x0008
+ #define REG_RX_STOP		0x000c
++#define REG_UNK_28		0x0028
++#define REG_UNK_2C		0x002c
+ #define REG_IMPRINT		0x0090
+ #define REG_TX_SRAM_SIZE	0x0094
+ #define REG_RX_SRAM_SIZE	0x0098
+@@ -127,6 +131,7 @@ struct admac_data {
+ 	struct mutex cache_alloc_lock;
+ 	struct admac_sram txcache, rxcache;
+ 
++	bool set_unk28;
+ 	int irq;
+ 	int irq_index;
+ 	int nchannels;
+@@ -147,6 +152,10 @@ struct admac_tx {
+ 	struct list_head node;
+ };
+ 
++struct admac_hw {
++	bool set_unk28;
++};
++
+ static int admac_alloc_sram_carveout(struct admac_data *ad,
+ 				     enum dma_transfer_direction dir,
+ 				     u32 *out)
+@@ -747,6 +756,11 @@ static int admac_device_config(struct dma_chan *chan,
+ 	u32 bus_width = readl_relaxed(ad->base + REG_BUS_WIDTH(adchan->no)) &
+ 		~(BUS_WIDTH_WORD_SIZE | BUS_WIDTH_FRAME_SIZE);
+ 
++	if (ad->set_unk28) {
++		writel_relaxed(T8122_UNK_28_VAL, ad->base + REG_UNK_28);
++		writel_relaxed(T8122_UNK_28_VAL, ad->base + REG_UNK_2C);
++	}
++
+ 	switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
+ 	case DMA_SLAVE_BUSWIDTH_1_BYTE:
+ 		wordsize = 1;
+@@ -805,6 +819,7 @@ static int admac_probe(struct platform_device *pdev)
+ 	struct device_node *np = pdev->dev.of_node;
+ 	struct admac_data *ad;
+ 	struct dma_device *dma;
++	const struct admac_hw *hw;
+ 	int nchannels;
+ 	int err, irq, i;
+ 
+@@ -822,6 +837,9 @@ static int admac_probe(struct platform_device *pdev)
+ 	ad->dev = &pdev->dev;
+ 	ad->nchannels = nchannels;
+ 	mutex_init(&ad->cache_alloc_lock);
++	hw = of_device_get_match_data(&pdev->dev);
++	if (hw)
++		ad->set_unk28 = hw->set_unk28;
+ 
+ 	/*
+ 	 * The controller has 4 IRQ outputs. Try them all until
+@@ -935,7 +953,12 @@ static void admac_remove(struct platform_device *pdev)
+ 	reset_control_rearm(ad->rstc);
+ }
+ 
++static const struct admac_hw admac_t8122_hw = {
++	.set_unk28 = true,
++};
++
+ static const struct of_device_id admac_of_match[] = {
++	{ .compatible = "apple,t8122-admac", .data = &admac_t8122_hw },
+ 	{ .compatible = "apple,t8103-admac", },
+ 	{ .compatible = "apple,admac", },
+ 	{ }
 
----
-Sasha Finkelstein (2):
-      dt-bindings: dma: apple,admac: Add M3 generation ADMACs
-      dmaengine: apple-admac: Add M3 generation ADMACs
-
- Documentation/devicetree/bindings/dma/apple,admac.yaml | 10 ++++++++--
- drivers/dma/apple-admac.c                              | 23 +++++++++++++++++++++++
- 2 files changed, 31 insertions(+), 2 deletions(-)
----
-base-commit: 0ce37745d4bfbc493f718169c3974898ffec8ee7
-change-id: 20260725-t603x-admac-a1b07a2ccb54
-
-Best regards,
---  
-Sasha Finkelstein <k@chaosmail.tech>
+-- 
+2.55.0
 
