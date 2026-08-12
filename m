@@ -1,37 +1,36 @@
 Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89C44052AA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D9C3FFACC
 	for <asahi@lists.linux.dev>; Wed, 12 Aug 2026 09:26:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786526809; cv=none; b=TEmbTlJaxXHzgir6tr4YjftsYABuj0lKUssHD6KoX+cd2t31Kyi9nScL76yzVSbMbegENhZuGi28KKTySnYgbQCEaKmVh1kq6jelwoj4VmPMj034vpwujycFavnIlNty+cSzWZ9IMSOLOyDduaG57zt+GRO2UHnJf6C/PVs4xi0=
+	t=1786526810; cv=none; b=LnlKE/rsT1PyCTzcikatMzrArWRGFp7SoxPV+AlaqLxQpT/ZRq6A3mHmQhHZLG6JfeCxAaSnsnHn3Lgs1THrVLqFcWJpxqm72QqwtFcjPn3oEN8kVJkUbJNqjf9W+vimhsMeiAEJgkU3C9uy6fRv+TKixY4CESBAJ8Q/6r4w8Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786526809; c=relaxed/simple;
-	bh=3cJuwk+SwgAMtlNgWNyBZ4gRlYU1RemC2UGW6KC37gs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pwabe81Y3u9ThTfsOSbak+X+YhVI5gO/sGYxPYyWUzUT8iS66cY70fFaHXl6jPd4FpBfstfORRaQqtMg6flK/oa951K60DbSm/Csh0+LGCYAO2005R8P7TNjCgA91fvj1g1b8DkYil9a1OyNRvg7FV6mxxiiT03xloPIFEgLygc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=IHUOdoEK; arc=none smtp.client-ip=77.81.229.115
+	s=arc-20240116; t=1786526810; c=relaxed/simple;
+	bh=3u3QE19SmPpO/aRh7YhNURUWTLddt0t0CS44cHgFr3U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TDz4aS5QurpwmKdCxc0rqQwjU+GUZXifY2p9tM6V5dwNTlZMmC8xyZVSmFIG0XB4/6wiS2jYS+UJ0nnFCI7ynPqbwT+0GqFOAVaREXO2DK0Vc4T94mkSk6VIcBmeGrSlnUqeGpbBk3ezyS2t3AIE5twXhwFDn0TXy4TR0X5Fphs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=ZWIqQpVt; arc=none smtp.client-ip=77.81.229.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="IHUOdoEK"
-Received: by chaosmail.tech (Postfix) id 786C31CBF48;
-	Wed, 12 Aug 2026 09:26:38 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="ZWIqQpVt"
+Received: by chaosmail.tech (Postfix) id 9D3AB1CBF47;
+	Wed, 12 Aug 2026 09:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1786526799;
+	s=mail; t=1786526798;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TXFSBU1xWiPxMVGUsDxH0Yvws9+xQ3ZgpzZeeM1bKsA=;
-	b=IHUOdoEKdC2GR15W21totkGTsYxvVSpUw1Rgx6UTOQICM1kOkDbJ1YgtzdL7JsRExyKOZc
-	TtTkJFVB85W7yedbPq0zGHNNXYvFyCH5dx0XRi0ZTcUUrFDSmiGoWsI5kJInKuCFGYCekl
-	ypFbVR2FZepqLPWAyBGovdWUaS2hTAc=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=f9AVvI/rzO1xlw04zuQKTwjeDA+3NqKNZVc0uqJpvu8=;
+	b=ZWIqQpVtS+Atl0Z/sP2B6O3bEQ4MDdjCKBnSy54gc7qKXk28Msr6airV21WeLNnb1YK9Nq
+	AU8lD3kUziZhCahn4xPAu7Q8HxkZenQjs1HvbIiYhdw+vC7e7SeyOChsupHArvPQxXQQ6u
+	dgGAW0z5VSOGMHMyZFyV5xTzyQjqe7w=
 From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Wed, 12 Aug 2026 11:26:33 +0200
-Subject: [PATCH v3 1/2] dt-bindings: dma: apple,admac: Add M3 generation
- ADMACs
+Subject: [PATCH v3 0/2] dmaengine: apple-admac: Add support for M3
+ generation
+Date: Wed, 12 Aug 2026 11:26:32 +0200
+Message-Id: <20260812-t603x-admac-v3-0-d1f137f803e1@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,9 +39,11 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260812-t603x-admac-v3-1-d1f137f803e1@chaosmail.tech>
-References: <20260812-t603x-admac-v3-0-d1f137f803e1@chaosmail.tech>
-In-Reply-To: <20260812-t603x-admac-v3-0-d1f137f803e1@chaosmail.tech>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23OQQ6CMBAF0KuQrq0pQynRlfcwLqZlkBoR09YGQ
+ 7i7LW40uvzJn/dnZp6cJc/2xcwcRevteEuh2hTM9Hg7E7dtygwEKNFAzYMS1cSxHdBwLLVoEIz
+ RtWTp4u6os9OqHU/v7B/6QiZkIjd668PonutcLHPvvxxLLrhC2ZIRUHUCDumb0Q9or9tApmeZj
+ /AJ7L4BSABJDVorg7KmH2BZlhc1I2lU/gAAAA==
+X-Change-ID: 20260725-t603x-admac-a1b07a2ccb54
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -52,61 +53,44 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
  Joshua Peisach <jpeisach@ubuntu.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786526797; l=1733;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786526797; l=1162;
  i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=3cJuwk+SwgAMtlNgWNyBZ4gRlYU1RemC2UGW6KC37gs=;
- b=etnzUXOg2TP1uuUZnOGX8Mq2EU0UnnOyLlJRqLwdT8oicdKQLjEaBqxoFDtIbKIVrfm4kvCA/
- S70u/F+NwcnBOD1Hq5grUbMp2nx5bnsQFyuZfDuKJ6DDsD2FmlnipTe
+ bh=3u3QE19SmPpO/aRh7YhNURUWTLddt0t0CS44cHgFr3U=;
+ b=SPFkVGKOfj9cw1v+THOzC4ymtBZRhIOgNqarJLO50npnORVat3BScv3f+tPc2d0rpKu3Etv+M
+ 6DpKVn4jhJuCsm3YtGfKtA7b5DJhELa7pB0Hr6Z8G/vwnTaAPjqo3K0
 X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-The admacs seen in M3-generation SoCs (t603x, t8122) need additional
-configuration writes and so are getting a new compatible chain.
+The ADMACs present in M3 series devices (t8122 and t603x SoCs) need
+additional register writes in order to function correctly. Add a new
+compatible chain for those, and change the driver to do the write.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
-Reviewed-by: Janne Grunau <j@jannau.net>
+To simplify the merge strategy, the device tree entries will be sent
+in a future patch series.
+
 Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
+Changes in v3:
+- Use t8013 hw data as default
+- Link to v2: https://patch.msgid.link/20260729-t603x-admac-v2-0-e4b2bb6ca45e@chaosmail.tech
+
+Changes in v2:
+- Typo fix
+- Link to v1: https://patch.msgid.link/20260725-t603x-admac-v1-0-6a4dec023f02@chaosmail.tech
+
+---
+Sasha Finkelstein (2):
+      dt-bindings: dma: apple,admac: Add M3 generation ADMACs
+      dmaengine: apple-admac: Add M3 generation ADMACs
+
  Documentation/devicetree/bindings/dma/apple,admac.yaml | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/dma/apple-admac.c                              | 23 +++++++++++++++++++++++
+ 2 files changed, 31 insertions(+), 2 deletions(-)
+---
+base-commit: 0ce37745d4bfbc493f718169c3974898ffec8ee7
+change-id: 20260725-t603x-admac-a1b07a2ccb54
 
-diff --git a/Documentation/devicetree/bindings/dma/apple,admac.yaml b/Documentation/devicetree/bindings/dma/apple,admac.yaml
-index 6a200cbd7d02..5b4fd8348f99 100644
---- a/Documentation/devicetree/bindings/dma/apple,admac.yaml
-+++ b/Documentation/devicetree/bindings/dma/apple,admac.yaml
-@@ -10,7 +10,7 @@ description: |
-   Apple's Audio DMA Controller (ADMAC) is used to fetch and store audio samples
-   on SoCs from the "Apple Silicon" family.
- 
--  The controller has been seen with up to 24 channels. Even-numbered channels
-+  The controller has been seen with up to 32 channels. Even-numbered channels
-   are TX-only, odd-numbered are RX-only. Individual channels are coupled to
-   fixed device endpoints.
- 
-@@ -33,6 +33,12 @@ properties:
-               - apple,t8103-admac
-               - apple,t8112-admac
-           - const: apple,admac
-+      - items:
-+          - enum:
-+              - apple,t6030-admac
-+              - apple,t6031-admac
-+          - const: apple,t8122-admac
-+      - const: apple,t8122-admac
- 
-   reg:
-     maxItems: 1
-@@ -43,7 +49,7 @@ properties:
-       Clients specify a single cell with channel number.
- 
-   dma-channels:
--    maximum: 24
-+    maximum: 32
- 
-   interrupts:
-     minItems: 4
-
--- 
-2.55.0
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
