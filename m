@@ -1,87 +1,81 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36C43B0585
-	for <asahi@lists.linux.dev>; Thu, 13 Aug 2026 18:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ACB37AA77
+	for <asahi@lists.linux.dev>; Fri, 14 Aug 2026 07:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786646669; cv=none; b=iLBrU4EyZbBCbuogtmcIXug71PtWpcvh0KfV80GBxS9h+mBuONdbelCEwPgQK90mxIXYEl4KsZV5gbhfUovelFZvgvSov05LMAIXSyvt0Mx8CFgBfDwrLrYj2bTCRkhbXnToeIPhTE0swXml2OeXTMXeTxyfEbIMk/R9tliMx+c=
+	t=1786692219; cv=none; b=twiDqG2jrXs2oYSF2nBQncXdKbXvkd4xc+493PCD68rb3NtgzkS3u+Qf/NCG31ihDH/7H4bP39OW358bsHu7/PWAegoOUej6DQgqJEAQH9NnE3FJgR4PNWk6b2EdKr2u/G6qMVgPl2srg41lV6pIvkmpNlBqS+liibhk+slAAPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786646669; c=relaxed/simple;
-	bh=8OjxNhHePidmg1fuKU7xo+rrS9JcoHVOhiq3oQjVaNA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bb50r2aXWiEjyJR5wa+DLX/5S06RaIR+EEUFDwDj17EhpMcAanYZ6WDDGKHJiL2H8Vxca1YmqFYrnMIZKfRqxXWaJtGPItrzN3ydXENUylzmpNgorKgoBGPlYS1oJpxN8CbPS86ZpuN2M1sM0UD+CNOf3tRE0t4fR5aTwZ4hMSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NM3Swirr; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786692219; c=relaxed/simple;
+	bh=bAbqMVMN/BsTtzWBffV3qCZS+XOlVzSdX4AUrrnqi/s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nDPPpc5Lp3vJcZn2WL+x7xmq155AUCQ5JpnQlkTFYgCOC8uuPU14r1CwEgnY5RwxXnlc79ymV+IX6DpXqm78AKYClPYO6sGGi31JIH2TgOs9Tiw3ECNQBe7JWimy3QuqK4p0kz812+oOxCCbEuxKtg4oYJZaaB0RquRvF4RqWns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJy6V0pW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NM3Swirr"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39dbe684115so10080051fa.1
-        for <asahi@lists.linux.dev>; Thu, 13 Aug 2026 11:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786646666; x=1787251466; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8OjxNhHePidmg1fuKU7xo+rrS9JcoHVOhiq3oQjVaNA=;
-        b=NM3Swirr52eveki2zRM8/lhLMHJYV4dpoqFqbRUXhuf4HsJUc+VDxrVOj8hccmVbOv
-         QY8m6cfoqsQtfXTYmFL8VPQKHA6UfHRtU+vfCkFGuU9WY/8TrC6YHd74AJis8DSPTiuR
-         j/oPV/gODDUBUchyfq70jQU/ISLuJ/+npDbibqgNFIqfUZPLl9oC4/ZeNY873aJPDtqV
-         cPmfHh1YyVk19sEoVF2ST4OmqWP9E0mV2alf4L+Fcq/8YQ9G8jfQeLKnttBd276SXD0s
-         7fRwOvxbwy1FdNsqJwQ3Be0ePrRlECpQbS3hjTrJNST9bqWROY5FRW0BB1zfRXa98Gxi
-         0GwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786646666; x=1787251466;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8OjxNhHePidmg1fuKU7xo+rrS9JcoHVOhiq3oQjVaNA=;
-        b=kztc7uPB6lc9M2TVIFR3O5kdAt0N5MVlRMy7TvZIQkkbYUVszshB3SSwgzMIdI/2EC
-         PPK4fX5Xlcb0cxBzIcCJxJIwijKySAvu21duxYok1p9Dh9P5kLWIUIwlaWx8mg5tfjUZ
-         nlh85FYbHoEzxn+3k+Xs00eHWek6Ecz6Bw24Yf2MsQAqUffhviGYBnDaV34lzPb6nAdR
-         nFGFHWl6v+oF24NYJuPIU2hOuU50So8DtvYh42OfzMZ3emNtKeI48Xfsny2GD9fVsgsp
-         fDVnChFWNUCqvRpJzxiJvp2biPSbOFD+BWbT0XgEARxqLId6BCPWKQVbYDljjxUoK06D
-         ojhw==
-X-Gm-Message-State: AOJu0YxgIApu7RCgabWTRrnNU/hscw7gm/5eKiABsYS93qKLPThjh2Q+
-	owRgSG162rpwJ8TRh+K86GN9Hw/fN/7RgiZhs02jXmhU9kcnInyEGUM7
-X-Gm-Gg: AR+sD10Qk4SK81ubTC1BPfJH9u5sxnLOFcE/laiOgokqaKbl9T93GfFdaS7/BHa4aB1
-	N8+NUiX576DZnkXFrK0kqXhRQzVOa/FbbBth0olSj1treQqNgUmGJOsoPvuUGLWK9D9u4/msJFQ
-	fTtVnMF0HA08j/q5+FmvLV/wfqmrf24Wg29+XnsO9ZZ4O5ce4x6BVYE+USjRXZhiOKX3n+xmjsC
-	mjgz+IPdypPGLRMf3WzX2/7qjQs4oQoXiim1C6elzte38KN3IdR1qG3Ts/sNes/JLQykYbZibF0
-	0sevx4o7JL8CgIohWq5xsEIG/zpyXZSEr64Rc/IjY36Ff/ZVlAdQc4X1Tc0uGEZIdGyqELe34BY
-	eG8Taea3gxCBspk/P0qJwgyoOvzVpdaTptco+WTwZ47cc8/j9eiAXinz/8h3pS0f7sxT+qJc3a1
-	Rb7P0DtjUIYxplKIA13eNGrvjD30omy8VvWr0ON6Ui/yeiKxPHUwPsUNY3clucf2SlXD97SD6+P
-	tZJwAT1+5BY/4TlRb6E/q397OfjWriL3knsoTmzKG1fMY1SemX2
-X-Received: by 2002:a2e:bd12:0:b0:39f:af21:75d7 with SMTP id 38308e7fff4ca-3a11b9206d7mr11997201fa.2.1786646665697;
-        Thu, 13 Aug 2026 11:44:25 -0700 (PDT)
-Received: from XPS-15.tail097737.ts.net ([178.81.193.36])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a130cfa1dcsm1187621fa.28.2026.08.13.11.44.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 11:44:24 -0700 (PDT)
-From: rafayahmed317 <ahmedrafay888@gmail.com>
-X-Google-Original-From: rafayahmed317 <85213825+rafayahmed317@users.noreply.github.com>
-To: sven@kernel.org
-Cc: asahi@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	heikki.krogerus@linux.intel.com,
-	j@jannau.net,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	neal@gompa.dev,
-	stable@vger.kernel.org,
-	Rafay <ahmedrafay888@gmail.com>
-Subject: Re: [PATCH] usb: typec: tipd: fix VDO handling
-Date: Thu, 13 Aug 2026 21:43:13 +0300
-Message-ID: <20260813184313.405826-1-85213825+rafayahmed317@users.noreply.github.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260813-b4-tipd-vdo-fix-v1-1-70317f2cd554@kernel.org>
-References: <20260813-b4-tipd-vdo-fix-v1-1-70317f2cd554@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJy6V0pW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B4CD1F0155A
+	for <asahi@lists.linux.dev>; Fri, 14 Aug 2026 07:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786692217;
+	bh=bAbqMVMN/BsTtzWBffV3qCZS+XOlVzSdX4AUrrnqi/s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=KJy6V0pWt4inxzaONO5r/SYmxSvSNcUSz5kJsa1YRGstbc6oizBjSdp/D1AnpAQ42
+	 kMMdV9hOzmNV4Xl9yJnCm1QEVUQviExUvJ7ldSOaj/jv2sDTSs2H4JIZAUz1eAFA8p
+	 7BCAn46mLMOmw8y9y3Dc0/62xfR43xeDWmuOTIUR3q3mxMJLgRPfRFlDMm1DIzT61Q
+	 a8TrOZaPIcoEhM91+5VBpz3zoteSb698T8RBYCoHYakvBXALz3NDZi8R70lbPFzods
+	 94uH9IVRy0AvQGXGayMl2CYibCn5+7Kr/zRMeIDCCBsA0ibI9DLkYri76S0VFxNow1
+	 uppzM0tr2vFcg==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c908d6cb6so6793191fa.1
+        for <asahi@lists.linux.dev>; Fri, 14 Aug 2026 00:23:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoN9WFnqaVB789T55ts2K9jywny6hNsw9gRp6QtQzG+xDxLD5avEARX8HTublZyA0m+z5vorA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIK60AilDwFvBV0LXayqu+lj51+ALzbfckJ4eZT3Gfvwhkk0/4
+	vXPMF9yj+a92SeMyh88ZFQFL/w3GqaHL1KRH57n8OFKyR0ZSAkH8QwEchCyIzOBRInIviOLQb1J
+	8g8AmxTgHJokPHkKRMVtP97xvM16Ujp8=
+X-Received: by 2002:a05:6512:3409:b0:5ae:b136:acdc with SMTP id
+ 2adb3069b0e04-5b45917eafamr436015e87.35.1786692216083; Fri, 14 Aug 2026
+ 00:23:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260811-apple-m4-initial-devicetrees-v3-0-6bf32d45ad0b@cyberchaos.dev>
+ <20260811-apple-m4-initial-devicetrees-v3-2-6bf32d45ad0b@cyberchaos.dev>
+In-Reply-To: <20260811-apple-m4-initial-devicetrees-v3-2-6bf32d45ad0b@cyberchaos.dev>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 14 Aug 2026 09:23:23 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=wF3CVQB=8PJUZBUDS1zaXkucBjUQ0Rw1P+jHk1f0T1g@mail.gmail.com>
+X-Gm-Features: AcwNN1Vqt4-grpwuqjlFcEbTAF3ktUGE_yOp_pIgiwSf_3uQeKVFZ3BJgIoiEp0
+Message-ID: <CAD++jL=wF3CVQB=8PJUZBUDS1zaXkucBjUQ0Rw1P+jHk1f0T1g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] dt-bindings: interrupt-controller: apple,aic2: Add
+ apple,t8132 compatible
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, Hector Martin <marcan@marcan.st>, 
+	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Sasha Finkelstein <k@chaosmail.tech>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Tested-by: Rafay <ahmedrafay888@gmail.com>
+On Tue, Aug 11, 2026 at 9:37=E2=80=AFPM Yureka Lilian <yureka@cyberchaos.de=
+v> wrote:
+
+> The Apple t8132 (M4) SoC uses an AIC3 as interrupt controller, same as
+> the M3 predecessor.
+>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+
+Reviewed-by: Linus Walleij <linusw@kernel.org>
+
+Yours,
+Linus Walleij
