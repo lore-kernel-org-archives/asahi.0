@@ -1,125 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBF937AA7E
-	for <asahi@lists.linux.dev>; Fri, 14 Aug 2026 20:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F49A3A544D
+	for <asahi@lists.linux.dev>; Sat, 15 Aug 2026 10:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786739781; cv=none; b=oRzsOj0xBaRZjVqZMny3b6E12joVAreK7ZeNWz5CbvpzCX7TIleaevwil6iL8udPjemzziQq5gaOUGMLGDQ8I2/W7a/8t/FBdetE/yh/sILfO2W9xVdWU+jpzhKcOz+0twaWg7fdXdmBsnK33lmBMWAv5F4uviTSZE8kd4Momn4=
+	t=1786790515; cv=none; b=ZNwa9lfCyZ1fbdZ6Vjoh2+lEYby6pdWYbkko7vGoJv+DBTZHAuDpQ1aeOfWSPcSkis9PyXrKiINItzErPsvnd9oViVVoumjQphjxibVucQ6a32anYA4W2vK8DhOce2Fgp02FPNGbwXr3+BvvG/or7lryZHvc97h03pGW9lRf5lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786739781; c=relaxed/simple;
-	bh=eedkQEXrorNp37ksZK/2amUEphp9uBOtzRKZqiLu8RY=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=CXD+9xm9Lzt4RirQFIVqt75RKMVJ1IHi7DRy7DZlln9zTIKrVMQCXx/nkzltutt4rQ+BFHvDvQUtLFeCGm6+knbyknDR14BsqWbjO+kECN3nTjodb6vM9DHN74a/K+L1Wv50X83gPDhPhnZ+dXJzJnIYVPDmXJF9RbEHDwNtMfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jR2wUlcX; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1786790515; c=relaxed/simple;
+	bh=6o2SmQ7oKeKKGo+Lr0gJTUIospqUw8y5xkGfdrNx5Ms=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=R0rl8thoOsJjfpdbUsA83olyDiTSMr7OCFtsCjmOhvpBcOI+aWJPX8LeLXCGCVNEKA2b+f/9GfQlekop0Q2YdkZS3HLs+N/1Uz8eMixbf1auSz8qTANG/Z+Xv2joHn5O+xFQAFZ2z0hk/SRBo8wOgMiw0Ql04yjY+GxjUKjtmcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=g/NBGHmn; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jR2wUlcX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1786739778;
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="g/NBGHmn"
+Received: by chaosmail.tech (Postfix) id 27B8F1C9866;
+	Sat, 15 Aug 2026 10:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1786790512;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UEzS7cgh0s3kpDJoSKFSaeUbfz26XKFwvX4uV6Y0kQg=;
-	b=jR2wUlcXvtHdtlBdHJzrd5vYFI6F6voOVQypI/TEaOEbGsSLS3bN8dnHbJ2FJgVEXB+d4P
-	Y6yymO0KFzMeAl9hV3+wXiMCJYum5dlkrwYpJ38KCjzavWT+jyiIxkvuBRgBogYsbDTYfY
-	KJdlUiHRpylCg/9QZY37ZUrfN0Fb/e8=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-459-oqOvZT7bMEW5oR1aBhdpHw-1; Fri,
- 14 Aug 2026 16:36:07 -0400
-X-MC-Unique: oqOvZT7bMEW5oR1aBhdpHw-1
-X-Mimecast-MFC-AGG-ID: oqOvZT7bMEW5oR1aBhdpHw_1786739765
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8FF7D195608A;
-	Fri, 14 Aug 2026 20:36:04 +0000 (UTC)
-Received: from GoldenWind.lan (unknown [10.22.64.233])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 94B5E197751A;
-	Fri, 14 Aug 2026 20:36:00 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	nouveau@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	asahi@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-samsung-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	spice-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	imx@lists.linux.dev
-Subject: [PATCH 4/5] drm/vblank: Use drm_for_each_crtc() in drm_vblank_init()
-Date: Fri, 14 Aug 2026 16:35:32 -0400
-Message-ID: <20260814203542.1405135-5-lyude@redhat.com>
-In-Reply-To: <20260814203542.1405135-1-lyude@redhat.com>
-References: <20260814203542.1405135-1-lyude@redhat.com>
+	bh=0OgYR5cG7RLSaxiqpMZoRB+CAStVXsS8fZioSnlSgzg=;
+	b=g/NBGHmnzwZVgfjiJ1k8rovpGanAjlkOQiYmsco+as1lG/G51U8uSnzXWCXASlS/CI404i
+	AGaQAh3X/p+Vr6eas1HZbmoeBcj57pVv0Hl8y/rHm3KMcu7EHZuD1hp6ZGFsaMcrXOSsHV
+	bQ5LGQLlsmZG5BmgCS93DI8czYL9hxE=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Sat, 15 Aug 2026 12:41:39 +0200
+Subject: [PATCH v4 2/2] dmaengine: apple-admac: Add M3 generation ADMACs
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: ZdGyPtSGV67OhHdCN_DdhgKBayHB1sqZl6r-sLyay8w_1786739765
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260815-t603x-admac-v4-2-1149e342dcb0@chaosmail.tech>
+References: <20260815-t603x-admac-v4-0-1149e342dcb0@chaosmail.tech>
+In-Reply-To: <20260815-t603x-admac-v4-0-1149e342dcb0@chaosmail.tech>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786790508; l=2802;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=6o2SmQ7oKeKKGo+Lr0gJTUIospqUw8y5xkGfdrNx5Ms=;
+ b=89yI0A4qNo+x/fuUfTR6XYKzUK9iB42AIpO5joowlOWPM3xLQr6jeuT+bPQJRlVt0fuB1/eE5
+ D5iEC64VRP3Cx4O0q5SCRJm03b0musrcktSb0SeySEw/c87Posf7LUI
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-No functional changes yet, we just should be using this iterator here
-instead of manually counting the number of CRTCs anyhow.
+The admacs present on t8122 and t603x SoCs need additional writes in
+order to operate correctly. The exact purpose of this register
+is unknown
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
- drivers/gpu/drm/drm_vblank.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/dma/apple-admac.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 17283e8920378..d57405050554f 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -547,19 +547,20 @@ static void drm_vblank_init_release(struct drm_device *dev, void *ptr)
- int drm_vblank_init(struct drm_device *dev)
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 14a5ee14a481..9a1c79c12268 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -39,10 +39,14 @@
+ 
+ #define FLAG_DESC_NOTIFY	BIT(16)
+ 
++#define T8122_UNK_28_VAL	0x200000
++
+ #define REG_TX_START		0x0000
+ #define REG_TX_STOP		0x0004
+ #define REG_RX_START		0x0008
+ #define REG_RX_STOP		0x000c
++#define REG_UNK_28		0x0028
++#define REG_UNK_2C		0x002c
+ #define REG_IMPRINT		0x0090
+ #define REG_TX_SRAM_SIZE	0x0094
+ #define REG_RX_SRAM_SIZE	0x0098
+@@ -85,6 +89,10 @@
+ struct admac_data;
+ struct admac_tx;
+ 
++struct admac_hw {
++	bool set_unk28;
++};
++
+ struct admac_chan {
+ 	unsigned int no;
+ 	struct admac_data *host;
+@@ -127,6 +135,7 @@ struct admac_data {
+ 	struct mutex cache_alloc_lock;
+ 	struct admac_sram txcache, rxcache;
+ 
++	const struct admac_hw *hw;
+ 	int irq;
+ 	int irq_index;
+ 	int nchannels;
+@@ -747,6 +756,11 @@ static int admac_device_config(struct dma_chan *chan,
+ 	u32 bus_width = readl_relaxed(ad->base + REG_BUS_WIDTH(adchan->no)) &
+ 		~(BUS_WIDTH_WORD_SIZE | BUS_WIDTH_FRAME_SIZE);
+ 
++	if (ad->hw->set_unk28) {
++		writel_relaxed(T8122_UNK_28_VAL, ad->base + REG_UNK_28);
++		writel_relaxed(T8122_UNK_28_VAL, ad->base + REG_UNK_2C);
++	}
++
+ 	switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
+ 	case DMA_SLAVE_BUSWIDTH_1_BYTE:
+ 		wordsize = 1;
+@@ -800,11 +814,18 @@ static int admac_device_config(struct dma_chan *chan,
+ 	return 0;
+ }
+ 
++static const struct admac_hw admac_base_hw = {};
++
++static const struct admac_hw admac_t8122_hw = {
++	.set_unk28 = true,
++};
++
+ static int admac_probe(struct platform_device *pdev)
  {
- 	int ret;
--	unsigned int num_crtcs = dev->mode_config.num_crtc;
--	unsigned int i;
-+	struct drm_crtc *crtc;
+ 	struct device_node *np = pdev->dev.of_node;
+ 	struct admac_data *ad;
+ 	struct dma_device *dma;
++	const struct admac_hw *hw;
+ 	int nchannels;
+ 	int err, irq, i;
  
- 	spin_lock_init(&dev->vbl_lock);
- 	spin_lock_init(&dev->vblank_time_lock);
+@@ -822,6 +843,8 @@ static int admac_probe(struct platform_device *pdev)
+ 	ad->dev = &pdev->dev;
+ 	ad->nchannels = nchannels;
+ 	mutex_init(&ad->cache_alloc_lock);
++	hw = of_device_get_match_data(&pdev->dev);
++	ad->hw = hw ? hw : &admac_base_hw;
  
--	dev->vblank = drmm_kcalloc(dev, num_crtcs, sizeof(*dev->vblank), GFP_KERNEL);
-+	dev->vblank = drmm_kcalloc(dev, dev->mode_config.num_crtc,
-+				   sizeof(*dev->vblank), GFP_KERNEL);
- 	if (!dev->vblank)
- 		return -ENOMEM;
+ 	/*
+ 	 * The controller has 4 IRQ outputs. Try them all until
+@@ -936,6 +959,7 @@ static void admac_remove(struct platform_device *pdev)
+ }
  
- 	dev->has_hw_vblank = true;
- 
--	for (i = 0; i < num_crtcs; i++) {
-+	drm_for_each_crtc(crtc, dev) {
-+		unsigned int i = crtc->index;
- 		struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, i);
- 
- 		vblank->dev = dev;
+ static const struct of_device_id admac_of_match[] = {
++	{ .compatible = "apple,t8122-admac", .data = &admac_t8122_hw },
+ 	{ .compatible = "apple,t8103-admac", },
+ 	{ .compatible = "apple,admac", },
+ 	{ }
+
 -- 
 2.55.0
 
