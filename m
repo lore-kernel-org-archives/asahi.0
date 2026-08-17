@@ -1,125 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C0E2EC54A;
-	Mon, 17 Aug 2026 18:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CD83CBE6D;
+	Mon, 17 Aug 2026 19:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786992897; cv=none; b=Fg4aC0yy8VVyvZezd5d9s/mTNuIM4TEcgq6I21iz/HGi1NFxZeT5MX0Bwrj5lfrNVUImAAuPPcrztAnwHNfonZuk9JRSIwYraaAcpvnY9UmM9Y+zAYeIvbWacnO7ctCPr9utTXY4pZ7q7HDPuP8Bm/u7DUmOwAr7jqSu0yKVtQs=
+	t=1786996450; cv=none; b=TrLrtG7/fLNOUjKO0QzyL7LlLKJ8sguG8mfNw34ZW6/NyXGubr7xnpqxcieDxN1vk7SLo6uykc0uWIy2P8VnTzCLrRFRAHiKnJsDWI4IeybeOY5NckNXYN1XjLW/tPqdRNBpnPkOBsnqPuAXQk7sS2si17fgS84lDoiD9eaoikQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786992897; c=relaxed/simple;
-	bh=UagiHACKsOzSdTkMKQraTvqxzxYR38G+03DH+tjOxy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h+wOk6kBst6i0hNCn9CWZZ0nviuDGZ/D0tgMaQ0tFdytb7RcKM7cPhk9Q0j6v2iUNMuL1Fcg/+pbPeCI4yicFd5/zgRUHpPhlj+sy4uHE/4BAGRBso8CSQVlR0Uq7SwZnFVLhZc2sbRJSKQyO6B8rtEiASlmnWdw45v3f+X9+UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Im+Qbwla; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786996450; c=relaxed/simple;
+	bh=Wvk/GoG5BUNG7j62FvnpVbC2KSxj9mBYK7LX+M98XUw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=HAUYTk/z+ORQIejskrxUzb0DhVJBH/24KAYNJKvbaf+bGPzxuuFLFLs2FeTH9FKi4n4dbAYSUOhbEi9Rtf4O5MTv6FQyUgC7zAhSIXaCbEw92camP2DyvpIVAxlI0hoGtAqb8tqgYZc/2ozmQyF5CIRBa0uezzzCJKoS8rECnEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJ/H/Fs6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Im+Qbwla"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786992896; x=1818528896;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UagiHACKsOzSdTkMKQraTvqxzxYR38G+03DH+tjOxy8=;
-  b=Im+QbwlaWwDxj/9L0TuFT7z8Zn/ylilwg/lAUVoYtc8R/616OrkwlUT3
-   hYc5TW7dcMBv7j0C1EN0ng3bVp4BN6QGKwKQw+LXosg0gQGzckJqGDRII
-   ksJgzZUNLKZques4mFxwUr2LTHaZZqU3NwW6Ykvzhq5DelxP0R55ropkL
-   Q1yg0tJ7UZ/YMTLgmd31RaRrwf7zkJKbQiKDNWAG4uqbfUkweC3RcvFEB
-   azGI+5TVxaEZZ69n1wPvXj8KEdLrbrpQNVRluQ7xbULdGU9rrsHnMcXut
-   xhB+thpd9w/s/BRHCkDyB/UqEf6ui4bkq9KKvB2g+PhpTqa/erSfzHfY0
-   w==;
-X-CSE-ConnectionGUID: vuZdotADTb2dh7ybSA21LQ==
-X-CSE-MsgGUID: ug6ApJJzR66oojV+x6l/kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87330820"
-X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
-   d="scan'208";a="87330820"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 11:54:55 -0700
-X-CSE-ConnectionGUID: yFyEuGAqQ9Gm8zboujI71g==
-X-CSE-MsgGUID: Z79PQw2ITnSV0r6BrpxHAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,229,1779174000"; 
-   d="scan'208";a="266971517"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 11:54:45 -0700
-Date: Mon, 17 Aug 2026 21:54:43 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Kalyani Akula <kalyani.akula@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Johan Hovold <johan@kernel.org>,
-	Ronald Claveau <linux-kernel-dev@aliel.fr>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] nvmem: migrate to const void * in reg_write
-Message-ID: <aoNY85rdMdBDSiGW@ashevche-desk.local>
-References: <20260804135940.2378737-1-linkmauve@linkmauve.fr>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJ/H/Fs6"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D3DDC2BCFC;
+	Mon, 17 Aug 2026 19:54:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786996450;
+	bh=Wvk/GoG5BUNG7j62FvnpVbC2KSxj9mBYK7LX+M98XUw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=GJ/H/Fs6QggOUmmy34BTXEShCg8Aw5WBF/rfLsuAa2ho21zussWee38eG/YO9+Lto
+	 PHj/JDj42kGnr01kVGBppRHdS4UtzEcVQaOJPZouwo+wlTyJhAcg+G6O2lYviZ0jWn
+	 UTC0xVEQ6B0fGdL1604bNslwTg13OOBom6Z2ksCCeGzx5yYBeQZOaWRMLebrkTzbsA
+	 HkjExn70iR6tEUtWJU4eR16IT60DcyACWYkh67Z/7VNK3fOuQlIr053RP2+9yJN7AC
+	 du8yfNlvoMEpkaxpzvQMocv52veTYeET4+RtgPKrRW0/x61C3doLFrMyJ8XoLsHkVL
+	 Oz3hOjjXpyq8A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47445C5DF7F;
+	Mon, 17 Aug 2026 19:54:10 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Mon, 17 Aug 2026 21:54:01 +0200
+Subject: [PATCH 4/5] thunderbolt: Don't access a DP tunnel after its DPRX
+ read was canceled
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260804135940.2378737-1-linkmauve@linkmauve.fr>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260817-b4-tbt-fixes-v1-4-eded2461f5fc@kernel.org>
+References: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
+In-Reply-To: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
+To: Andreas Noever <andreas.noever@gmail.com>, 
+ Mika Westerberg <westeri@kernel.org>, 
+ Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: asahi@lists.linux.dev, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
+ Sven Peter <sven@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3140; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=Wvk/GoG5BUNG7j62FvnpVbC2KSxj9mBYK7LX+M98XUw=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ1Zz2j3RWz+WHPqf/6gjIbvVb2nfokfamiHuEz9eZrsZv
+ eNjavTZjlIWBjEuBlkxRZbt++1Nnzx8I7h006X3MHNYmUCGMHBxCsBEwr4yMjzta3nyKXDTgU3l
+ m9vftK2Li+gyK79/VWZlmuaxjc4nN+9nZJgoVvZEoOTMUq5m70MH7T4sXPRF0/bYvJ1/Us24BDq
+ l73ADAA==
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-On Tue, Aug 04, 2026 at 03:59:34PM +0200, Link Mauve wrote:
-> This callback used to take a mutable void * for no reason, which causes
-> the compiler to be unaware that the val buffer should never be modified
-> by the callback.
-> 
-> This was found while drafting the nvmem-provider Rust abstraction.
-> 
-> Thanks to the guidance of Andy Shevchenko, this now introduces a new
-> callback and deprecates the existing one, with the goal of renaming the
-> new one into the old one once no user remains in the kernel.
+tb_dp_dprx_work checks dprx_canceled before it takes tb->lock so it
+misses a tb_dp_dprx_stop that could not cancel the already running
+work. It then polls the DPRX capabilities and runs the callback for a
+tunnel that is being torn down and touches routers that may already be
+gone after an unplug.
 
-FWIW, if the approach taken is okay by maintainers,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Check the flag with tb->lock held instead and check it again in
+tb_dp_tunnel_active because the callback runs after the lock has been
+dropped again.
 
-I think this is right direction to go. We should use all possible ways to
-protect the data from corruption.
+Also clear the flag in tb_dp_dprx_start so that it only ever describes
+the work that is currently in flight.
+
+Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+ drivers/thunderbolt/tb.c     | 12 ++++++++++++
+ drivers/thunderbolt/tunnel.c | 11 +++++++++--
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index fb9da53fe391..e368a6b53f64 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -1910,6 +1910,18 @@ static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
+ 	struct tb *tb = data;
+ 
+ 	mutex_lock(&tb->lock);
++
++	/*
++	 * If the DPRX read was canceled the tunnel is already being torn
++	 * down by whoever canceled it. Do not touch the adapters here
++	 * because the routers may be gone by now.
++	 */
++	if (tunnel->dprx_canceled) {
++		tb_tunnel_dbg(tunnel, "DPRX read canceled, not activating\n");
++		mutex_unlock(&tb->lock);
++		return;
++	}
++
+ 	if (tb_tunnel_is_active(tunnel)) {
+ 		int consumed_up, consumed_down, ret;
+ 
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 82d9c0b556dd..52fa90786ff8 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -1090,8 +1090,14 @@ static void tb_dp_dprx_work(struct work_struct *work)
+ 	struct tb_tunnel *tunnel = container_of(work, typeof(*tunnel), dprx_work.work);
+ 	struct tb *tb = tunnel->tb;
+ 
++	/*
++	 * The DPRX read can be canceled while this work is waiting for
++	 * tb->lock. Check the flag only once it is held: while the lock is
++	 * held the tunnel cannot be torn down under us and the adapters are
++	 * safe to access.
++	 */
++	mutex_lock(&tb->lock);
+ 	if (!tunnel->dprx_canceled) {
+-		mutex_lock(&tb->lock);
+ 		if (tb_dp_is_usb4(tunnel->src_port->sw) &&
+ 		    tb_dp_wait_dprx(tunnel, TB_DPRX_WAIT_TIMEOUT)) {
+ 			if (ktime_before(ktime_get(), tunnel->dprx_timeout)) {
+@@ -1103,8 +1109,8 @@ static void tb_dp_dprx_work(struct work_struct *work)
+ 		} else {
+ 			tb_tunnel_set_active(tunnel, true);
+ 		}
+-		mutex_unlock(&tb->lock);
+ 	}
++	mutex_unlock(&tb->lock);
+ 
+ 	if (tunnel->callback)
+ 		tunnel->callback(tunnel, tunnel->callback_data);
+@@ -1123,6 +1129,7 @@ static int tb_dp_dprx_start(struct tb_tunnel *tunnel)
+ 		tb_domain_get(tunnel->tb);
+ 
+ 		tunnel->dprx_started = true;
++		tunnel->dprx_canceled = false;
+ 		tunnel->dprx_timeout = dprx_timeout_to_ktime(dprx_timeout);
+ 		queue_delayed_work(tunnel->tb->wq, &tunnel->dprx_work, 0);
+ 		return -EINPROGRESS;
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.55.0
 
 
