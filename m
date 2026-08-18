@@ -1,111 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723DD3B637E;
-	Tue, 18 Aug 2026 10:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2C63A5436
+	for <asahi@lists.linux.dev>; Tue, 18 Aug 2026 18:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787048317; cv=none; b=gLw4cm7TvCm7nD1F4G4ewVchABVvFTOxRalRlZMkpUQuKVPAxCWZJt9/LYrvYHW5e0QkSMcOxXjUGrvmzFSpH/umx3VsLWfepqEanA9kmH2dV3yDXPIzJZuyH//GV3yXdwClN/QjXK6sWH7IJNrs/HFH1tgobXTEyXraUr0gcjM=
+	t=1787078028; cv=none; b=uJGSHXaPzL8ls/9ccNYBW/j52J5BhRCzDGRuIx501PBo8xDaOZhwtE2ecZyKOOoWHmjdZ0XsooVXDOmzV+q2mmqo6M3kHu494/BDfZmaHZsrul+jNqfNsMSlvRlEIyaPbvQ9zDLnUCzHTFIzjPjzotBFFj246S7dMwM5FrdwEKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787048317; c=relaxed/simple;
-	bh=W1YH3+8VVyvfEepL+yHDGcRwlem1OIr1djZsbDMYCGI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p1G5xVdMRfQLxV06qynilKWYxdD4yZy4o34fIs4LTugLlkFxo8/wsjZA0jjOcXGAsPWHTG7lvYqwfbrGUtINGkgKk6AAScDTE0Af/HzL1vONOseCBgvm2Wrv6EY6Znbi8Ww5ESI93mj9hHaYjXK4lQ9oZLh5YLlOwVcV7ZrS/BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KV386nPW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787078028; c=relaxed/simple;
+	bh=6OqlLgbwT3A+zqyYXf5DfSfc4ts3mlhzwvgwzdupCBI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GzxTEc7J7KHY+hjNYx58XQtuZ+HFEBJTVeMcEuCKD6/wC3gL6v4PKzJeQ4XsTbsG3G57PjTHDIKN7UctTDAJna1QHygQsHEvi3wV1MtHM7u5vWgedwoburvmUnxwnLygpOpYmRx8Y1q7+zcGNyeyI5tneYAyCyZReSyheCFWRfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=WTx8unpA; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KV386nPW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECAF21F000E9;
-	Tue, 18 Aug 2026 10:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787048316;
-	bh=jwMVdHrvk7kTvruvTnXxLTgiBwjN9S2XLihzM95fzKA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KV386nPWRRE08204XuIMIhxBIzXbvitBA2n8kC55lLchcC5H77jxWoNLp+CcZpgn3
-	 2LTsZDmsFve1IDOETXFC31pTaUC6MfVOaYE6NuvXCjh/RzCry0bp9mbFs2YZLEwSi6
-	 oDATN7X738a1cU1OBcGN4JFa2c6YxmKRqdxEVKExxYfuq7Doi24xvNkSfVcJwA4zmV
-	 a35f81ArZpZD7kevePUAlhXuTZMr71l2xfygQfsQub6A0mylXm3vaZqOT0UlpqPG07
-	 FpGyINUmTYl6VeIi1AW37N4uDPvYztCq/elHtEVXuU9F7lFFLOmQMxTQAQ+7ebylFv
-	 jC9UKQtXv+BQw==
-Message-ID: <63b6eb28-dc1b-4e51-89c0-1591ff216da5@kernel.org>
-Date: Tue, 18 Aug 2026 12:18:31 +0200
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="WTx8unpA"
+Received: by chaosmail.tech (Postfix) id 67B2F1C889D;
+	Tue, 18 Aug 2026 18:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1787078018;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RoxLjw+FaEv6UBa2auRBgAVGOoEFVhZL0a0SozhjcLw=;
+	b=WTx8unpAvBBTxAAdbkktoPEcRwsjzh5Tt/18nERFncPKA/xdHqlZZvVxinXtjaOMBUmaIZ
+	VNFZleUN/0Y7HXRW7w3KJMBUKF39y4sRtVVAxSQP0pRFZAoSTmgr2FH83XXJa//wVp9wQV
+	xzfoq71PG69lg8TRaCu1uFdLYVmqHwg=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Tue, 18 Aug 2026 20:32:41 +0200
+Subject: [PATCH v7 2/6] spmi: apple: Validate FIFO state
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Bluetooth: hci_bcm4377: Ignore reserved PHY in ext adv
- reports on BCM4378
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260818-fix-bcm4378-ext-adv-v1-1-81a143eac194@kernel.org>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260818-fix-bcm4378-ext-adv-v1-1-81a143eac194@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260818-t603x-spmi-v7-2-dafebe6e7739@chaosmail.tech>
+References: <20260818-t603x-spmi-v7-0-dafebe6e7739@chaosmail.tech>
+In-Reply-To: <20260818-t603x-spmi-v7-0-dafebe6e7739@chaosmail.tech>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Sasha Finkelstein <k@chaosmail.tech>, Alba Mendez <me@alba.sh>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787078015; l=3000;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=D9GL2Z01e0tzF0XHDaJ4oJIv+24UCKbgdDmyLz2zBJU=;
+ b=2LyWUC3Rwp8d+kgm2SQ7tt6DXr/wm5DZg88QhV7PE/OqSYTP2zpL8FgiqsAr1N3lFDLcYCh3k
+ dE5jRv4OAcBB7wheQdus932GrNCBhcNr882WCqjQNXM+XPhYiXP9o+j
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-On 18.08.26 11:49, Lorenzo Stoakes (ARM) wrote:
-> Commit ed2a2ef16a6b ("Bluetooth: Add quirk to ignore reserved PHY bits in
-> LE Extended Adv Report") added a quirk to handle creative use of the
-> reserved bits in the PHY fields for 4388 controllers in Apple silicon.
-> 
-> I observed the same issue with the BCM4378 Bluetooth controller (14e4:5f69,
-> rev 05) on an Apple MacBook Pro (13-inch, M2, 2022):
-> 
->> HCI Event: LE Meta Event (0x3e) plen 51
->        LE Extended Advertising Report (0x0d)
->          Num reports: 1
->          Entry 0
->            Event type: 0x2513
->              Props: 0x0013
->                Connectable
->                Scannable
->                Use legacy advertising PDUs
->              Data status: Complete
->              Reserved (0x2500)
->            Legacy PDU Type: Reserved (0x2513)
->            Address type: Random (0x01)
->            Address: EA:C1:82:F0:24:C6 (Static)
->            Primary PHY: Reserved
->            Secondary PHY: No packets
->            SID: no ADI field (0xff)
->            TX power: 127 dBm
->            RSSI: -57 dBm (0xc7)
->            Periodic advertising interval: 0.00 msec (0x0000)
->            Direct address type: Public (0x00)
->            Direct address: 00:00:00:00:00:00 (OUI 00-00-00)
->            Data length: 25
-> 
-> This results in the firmware rejecting connection attempts with
-> "Unsupported Feature or Parameter Value" (0x11).
-> 
-> Fix the issue by using the same quirk for BCM4378 devices too.
-> 
-> I tested this locally and confirmed that the issue is resolved.
-> 
-> This was observed when attempting to connect a Kinesis Advantage 360
-> keyboard to the MacBook.
-> 
-> Assisted-by: Claude:claude-fable-5
-> Fixes: 2e7ed5f5e69b ("Bluetooth: hci_sync: Use advertised PHYs on hci_le_ext_create_conn_sync")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
+From: Alba Mendez <me@alba.sh>
 
-Reviewed-by: Sven Peter <sven@kernel.org>
+Check for data before reading the body of a reply, and check for
+end of data afterwards.
 
-Kinda surprised no one ran into this so far tbh.
+Signed-off-by: Alba Mendez <me@alba.sh>
+Reviewed-by: Janne Grunau <j@jannau.net>
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+---
+ drivers/spmi/spmi-apple-controller.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
+diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
+index 376cf682c43e..15721cb41d5c 100644
+--- a/drivers/spmi/spmi-apple-controller.c
++++ b/drivers/spmi/spmi-apple-controller.c
+@@ -21,7 +21,9 @@
+ #define SPMI_STATUS_REG 0
+ #define SPMI_CMD_REG 0x4
+ #define SPMI_RSP_REG 0x8
++#define SPMI_ACT_REG 0xa4
+ 
++#define SPMI_ACT_FIFO_FLUSH BIT(0)
+ #define SPMI_RX_FIFO_EMPTY BIT(24)
+ 
+ #define REG_POLL_INTERVAL_US 10000
+@@ -29,6 +31,7 @@
+ 
+ struct apple_spmi {
+ 	void __iomem *regs;
++	bool prev_fail;
+ };
+ 
+ #define poll_reg(spmi, reg, val, cond) \
+@@ -49,6 +52,7 @@ static int apple_spmi_wait_rx_not_empty(struct spmi_controller *ctrl)
+ 
+ 	ret = poll_reg(spmi, SPMI_STATUS_REG, status, !(status & SPMI_RX_FIFO_EMPTY));
+ 	if (ret) {
++		spmi->prev_fail = true;
+ 		dev_err(&ctrl->dev,
+ 			"failed to wait for RX FIFO not empty\n");
+ 		return ret;
+@@ -67,6 +71,11 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+ 	u8 i;
+ 	int ret;
+ 
++	if (spmi->prev_fail) {
++		writel(SPMI_ACT_FIFO_FLUSH, spmi->regs + SPMI_ACT_REG);
++		spmi->prev_fail = false;
++	}
++
+ 	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
+ 
+ 	ret = apple_spmi_wait_rx_not_empty(ctrl);
+@@ -78,6 +87,12 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+ 
+ 	/* Read SPMI data reply */
+ 	while (len_read < len) {
++		if (readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY) {
++			spmi->prev_fail = true;
++			dev_err_ratelimited(&ctrl->dev,
++					    "FIFO lacks reply data, controller stuck?\n");
++			return -EIO;
++		}
+ 		rsp = readl(spmi->regs + SPMI_RSP_REG);
+ 		i = 0;
+ 		while ((len_read < len) && (i < 4)) {
+@@ -86,6 +101,11 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+ 		}
+ 	}
+ 
++	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY)) {
++		dev_warn(&ctrl->dev, "FIFO has extra data\n");
++		spmi->prev_fail = true;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -97,6 +117,11 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+ 	size_t i = 0, j;
+ 	int ret;
+ 
++	if (spmi->prev_fail) {
++		writel(SPMI_ACT_FIFO_FLUSH, spmi->regs + SPMI_ACT_REG);
++		spmi->prev_fail = false;
++	}
++
+ 	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
+ 
+ 	while (i < len) {
+@@ -115,6 +140,11 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
+ 	/* Discard */
+ 	readl(spmi->regs + SPMI_RSP_REG);
+ 
++	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY)) {
++		dev_warn(&ctrl->dev, "FIFO has extra data\n");
++		spmi->prev_fail = true;
++	}
++
+ 	return 0;
+ }
+ 
 
-Best,
-
-
-Sven
-
+-- 
+2.55.0
 
