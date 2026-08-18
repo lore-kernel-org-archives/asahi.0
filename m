@@ -1,51 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7744518B0A
-	for <asahi@lists.linux.dev>; Tue, 18 Aug 2026 06:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD58A34DCD6
+	for <asahi@lists.linux.dev>; Tue, 18 Aug 2026 06:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787032849; cv=none; b=ZsOdkeiFLfu9Ck71HAV9qAyKsACcdUNDrWLqpS4jO+2HWc3R5O6jbM74QeTIHvXkV8w6uFTIV6GYrpltPWVKSW+/DnozANLU5kLxiutwt2s/G0zh7+fPzg1k81SdM/zhiK4jGtTRWUTA3x1uyyWmGLdDayLkb9bK2gT3IJxboAk=
+	t=1787033114; cv=none; b=t6dJmjWCNi6UOxjD/0QXRqtyeCT4PNy3WYwJPDyViVx7N7sx1MDejP6mgt3LrzdmOHC/KegU6sbDGNzHbQqLKXWG5TpmpJ0gZl8X2zo1ZaIj2SXzpwP8ZR5dzik+AvrihXM1KPLvsm6loqxp1PqV7W7zSCKU3fMmbgojJzHOVnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787032849; c=relaxed/simple;
-	bh=+cXZ0FpmHhcKsrJEyZoUFWUHKywMp8sR4JiIH0Muxy4=;
+	s=arc-20240116; t=1787033114; c=relaxed/simple;
+	bh=3LdCHce4oQ9qEx0BbeaIBtKUeAV9h84AOTuAbNmU3v4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PYG7+X6cGR6md/Sa5uB5l77jnYOHh8Azm0Tl/+AjvMkbciZreruQdzOSTy8zuBXEKD5XsP5Vg/Z5v1yh0dHAcVjsmyto3s5HKBZVh/Mt8oMHHiie1MMkCumTwxsmU0eUsD0X9p/KdyRwp35xXVta8wF9GE63UWgK0KISTvNe9Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TP1H/D/y; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=FywemMR2i59lYSRMMbaPFhlq/dSsD56pY8k1DDAZQr/7EL5Nk/Gf5qPkHpJA2lqC4TajpjSGmfUPcnw1noGUwBK1LeZSlaNOAuTLaEO3pcppO2kNxgifp1EpoW9E/bNzU8knFZmbw+dxUeSgKMPoruVGejEeNyLnwq4ME8wgruA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4ixyA1h; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TP1H/D/y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4ixyA1h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787032848; x=1818568848;
+  t=1787033112; x=1818569112;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+cXZ0FpmHhcKsrJEyZoUFWUHKywMp8sR4JiIH0Muxy4=;
-  b=TP1H/D/ygoGwbkSl8DvQgTW7/J/J5E4dPkqSRsEJtAXr1WGzZencLHUV
-   +29b7ibvRpMGvwgoLBou7Ho/+4u+wKde/E5sHTa54+g3sZC6y42oTXQ9s
-   cjuXPezOirxNOL1wZa1SS/RFBLpZzexUsPpCvLV4ee5JboiSDoM9MTDBN
-   cs21i2vbUBvRJCzPZX0TMqA/WzfKEaYGCKZ1MQN9PVOCIQXfoniVv4sE4
-   k3TW74s9l2sPrszOf3aJP3267+qh0KOwpuAdqsTzIit2pvHWh1HYSyVqz
-   C9HrhZ97EpuFH7cHeWXy+sn9j5EfNTtwcRDiJd+5iQXfsVnxXb+NIK/nO
+  bh=3LdCHce4oQ9qEx0BbeaIBtKUeAV9h84AOTuAbNmU3v4=;
+  b=d4ixyA1hDBVLlaCTl0LC0JSMTPOc7l8nq2hGLHGUM+zrPTMDFTsQd/Q4
+   Sd6UQMfCbTk+EpfOws2Scl11LOaK7ujRFPKfesPO4xsQCYzCxAPzMJ4Tc
+   baQ/4Not60o/ZonJvnRyA4seYn0ijQDRtXf0xEORrpHD8dvOQXM20OKqC
+   SqDljX3MKPHQ7/6ugiDa5PY3kL67HigsRiWXbJuhg9OQcI9UQ8PvRbR29
+   K5iOgbTBuNfGWTL7DP0wicLYguA5MIfXS6uAFjdgonIuz9OtT+/01a3P/
+   /g+uqdZ5u8oaWvFZmcb1sHpAvLbzRAJKHNncvDysAP42QrEgfybll7Dj5
    w==;
-X-CSE-ConnectionGUID: JES3wTGDQfmmpbDC2uzxAw==
-X-CSE-MsgGUID: 43eW4g0tSNGxdIRWPtVCIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="97852411"
+X-CSE-ConnectionGUID: 5lm///k3S9Gsy1oY5bRXhA==
+X-CSE-MsgGUID: kJ6IJzDeRFCw209W6stuJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="110299653"
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="97852411"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 23:00:47 -0700
-X-CSE-ConnectionGUID: tGshTIw1ROGZa0dEfYH5jA==
-X-CSE-MsgGUID: BVpIiZuLRB6xL2XJ1tKfAA==
+   d="scan'208";a="110299653"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 23:05:11 -0700
+X-CSE-ConnectionGUID: ifrrDgw3RpCPHi4euI4Kgg==
+X-CSE-MsgGUID: oVTwruWvSLaJfoPLA3Jh7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
-   d="scan'208";a="303357934"
+   d="scan'208";a="261845305"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 17 Aug 2026 23:00:45 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 17 Aug 2026 23:05:08 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 0778B99; Tue, 18 Aug 2026 08:00:44 +0200 (CEST)
-Date: Tue, 18 Aug 2026 08:00:44 +0200
+	id 1CF0899; Tue, 18 Aug 2026 08:05:07 +0200 (CEST)
+Date: Tue, 18 Aug 2026 08:05:07 +0200
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: Sven Peter <sven@kernel.org>
 Cc: Andreas Noever <andreas.noever@gmail.com>,
@@ -53,13 +53,11 @@ Cc: Andreas Noever <andreas.noever@gmail.com>,
 	Yehezkel Bernat <YehezkelShB@gmail.com>, asahi@lists.linux.dev,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Konrad Dybcio <konradybcio@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] thunderbolt: Fix tunnel reference leak when the DPRX
- work is not started
-Message-ID: <20260818060044.GT893316@black.igk.intel.com>
+Subject: Re: [PATCH 2/5] thunderbolt: Hold a switch reference for each path
+ hop
+Message-ID: <20260818060507.GU893316@black.igk.intel.com>
 References: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
- <20260817-b4-tbt-fixes-v1-1-eded2461f5fc@kernel.org>
- <20260818044232.GS893316@black.igk.intel.com>
- <b9100abf-b284-4e56-a4e7-9dfbf96734a8@kernel.org>
+ <20260817-b4-tbt-fixes-v1-2-eded2461f5fc@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -68,59 +66,117 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b9100abf-b284-4e56-a4e7-9dfbf96734a8@kernel.org>
+In-Reply-To: <20260817-b4-tbt-fixes-v1-2-eded2461f5fc@kernel.org>
 
-Hi,
+Hi
 
-On Tue, Aug 18, 2026 at 07:44:35AM +0200, Sven Peter wrote:
+In $subject I prefer "router" over "switch" as that's what USB4 calls it.
+
+On Mon, Aug 17, 2026 at 09:53:59PM +0200, Sven Peter wrote:
+> tb_stop drops the reference to all DP tunnels but does not deactivate
+> them, thus nothing cancels a dprx_work still in flight (which holds its
+> own tunnel reference) and the tunnel can outlive tb_switch_remove. The
+> HopID releases in tb_path_free then operate on freed IDAs and trigger
+> warnings like
 > 
-> Hi,
+>   ida_free called for id=8 which is not allocated.
 > 
-> On 8/18/26 06:42, Mika Westerberg wrote:
-> > Hi,
-> > 
-> > On Mon, Aug 17, 2026 at 09:53:58PM +0200, Sven Peter wrote:
-> > > tb_dp_dprx_start always takes a tunnel reference which is only dropped
-> > > by dprx_work eventually. Tunnels that have no callback don't ever queue
-> > > that work and tb_dp_dprx_stop then has nothing to cancel. It however only
-> > > releases the reference if cancel_delayed_work returned true and the
-> > > reference is leaked then.
-> > Okay but we always actually pass that callback there so I guess you are
-> > hitting this because you have modified the caller in tb.c not to pass the
-> > callback, right? If that's the case then I suggest mention how you actually
-> > reproduced this whole issue.
-> > 
-> > I'm thinking we should make the callback mandatory instead as we always
-> > need it for DP tunnels anyway. It should work the same also in Apple
-> > silicon (one you have the DP tunneling in place).
+> Take or release a reference for both ports of each hop whenever the
+> HopIDs are allocated or released to ensure they have the same lifetime.
+
+You reproduce this by unloading the driver while DPRX work is still
+running, correct? Can you mention this in the commit log, I mean how this
+can be triggered.
+
+> The KUnit tests allocate their switches without ever registering them so
+> initialize the embedded struct device there as well to make these
+> references work.
 > 
-> As mentioned a few lines below,
-> > ---
-> > I didn't actually hit this on hardware but found it while fixing a domain
-> > leak in the same area and that fix depends on this one.
-> > ---
-
-Hehe, sorry missed that one.
-
-> ^-- there, I didn't actually hit this. It's just that there's also a
-> tb_domain leak here (see patch 3) and when fixing that one the asymmetry
-> here just jumps out. There's nothing special my code does to tb.c , the only
-> reason DP tunnels don't work yet is because they need two separate MMIO
-> blocks (what macOS calls "DP IN PHY" and "display crossbar") and possibly
-> also the display co-processor to be up. Once that's done they should come up
-> normally.
->
-> Tunnels discovered in tb_tunnel_discover_dp setup a DP tunnel with callback
-> = NULL but also never start the dptx_work there and I'm not familiar enough
-> with the code to know if it's possible to ever have those end up in the
-> "normal" paths which queue the dprx_work then.
-> I'm happy to also just make the callback mandatory though and just bail if
-> it's not set.
-
-For the discovery (happens when the boot firmware/kexec sets up the
-tunnels) DPRX negotiation is already done so we never need to do that for
-those. I think it simplifies this if we just make it mandatory.
-
-BTW, is this bringup stuff available somewhere already? I have M1 Mac here
-so perhaps I can at least help testing things (assuming setting these up is
-not super complex).
+> Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+>  drivers/thunderbolt/path.c | 21 +++++++++++++++++++++
+>  drivers/thunderbolt/test.c | 12 ++++++++++++
+>  2 files changed, 33 insertions(+)
+> 
+> diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
+> index b2c322e76b8a..02c5e7a2101e 100644
+> --- a/drivers/thunderbolt/path.c
+> +++ b/drivers/thunderbolt/path.c
+> @@ -196,6 +196,12 @@ struct tb_path *tb_path_discover(struct tb_port *src, int src_hopid,
+>  		path->hops[i].out_port = out_port;
+>  		path->hops[i].next_hop_index = next_hop;
+>  
+> +		/* Keep the ports alive, see tb_path_free() */
+> +		if (alloc_hopid) {
+> +			tb_switch_get(path->hops[i].in_port->sw);
+> +			tb_switch_get(path->hops[i].out_port->sw);
+> +		}
+> +
+>  		tb_dump_hop(&path->hops[i], &hop);
+>  
+>  		h = next_hop;
+> @@ -323,6 +329,10 @@ struct tb_path *tb_path_alloc(struct tb *tb, struct tb_port *src, int src_hopid,
+>  		path->hops[i].out_port = out_port;
+>  		path->hops[i].next_hop_index = out_hopid;
+>  
+> +		/* Keep the ports alive, see tb_path_free() */
+> +		tb_switch_get(path->hops[i].in_port->sw);
+> +		tb_switch_get(path->hops[i].out_port->sw);
+> +
+>  		in_hopid = out_hopid;
+>  	}
+>  
+> @@ -356,6 +366,17 @@ void tb_path_free(struct tb_path *path)
+>  			if (hop->out_port)
+>  				tb_port_release_out_hopid(hop->out_port,
+>  							  hop->next_hop_index);
+> +			/*
+> +			 * Only drop the switch references after both HopIDs
+> +			 * have been released: the path may be freed after the
+> +			 * switch was already removed (e.g. asynchronous DP
+> +			 * tunnel teardown) and these references are what
+> +			 * keeps the ports and their HopID IDAs alive.
+> +			 */
+> +			if (hop->in_port)
+> +				tb_switch_put(hop->in_port->sw);
+> +			if (hop->out_port)
+> +				tb_switch_put(hop->out_port->sw);
+>  		}
+>  	}
+>  
+> diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
+> index 05652ee82fbf..034c56845380 100644
+> --- a/drivers/thunderbolt/test.c
+> +++ b/drivers/thunderbolt/test.c
+> @@ -33,6 +33,11 @@ static void kunit_ida_init(struct kunit *test, struct ida *ida)
+>  	kunit_alloc_resource(test, __ida_init, __ida_destroy, GFP_KERNEL, ida);
+>  }
+>  
+> +static void tb_test_switch_release(struct device *dev)
+> +{
+> +	/* The memory is owned by KUnit, nothing to do here */
+> +}
+> +
+>  static struct tb_switch *alloc_switch(struct kunit *test, u64 route,
+>  				      u8 upstream_port, u8 max_port_number)
+>  {
+> @@ -44,6 +49,13 @@ static struct tb_switch *alloc_switch(struct kunit *test, u64 route,
+>  	if (!sw)
+>  		return NULL;
+>  
+> +	/*
+> +	 * The paths take a reference to their switches and those devices
+> +	 * have to be initialized for that to work.
+> +	 */
+> +	sw->dev.release = tb_test_switch_release;
+> +	device_initialize(&sw->dev);
+> +
+>  	sw->config.upstream_port_number = upstream_port;
+>  	sw->config.depth = tb_route_length(route);
+>  	sw->config.route_hi = upper_32_bits(route);
+> 
+> -- 
+> 2.55.0
+> 
