@@ -1,146 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C1246D0B5;
-	Mon, 17 Aug 2026 19:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C5C3A5E87
+	for <asahi@lists.linux.dev>; Tue, 18 Aug 2026 04:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786996451; cv=none; b=shzehI0+5VY4e6qePvjxS5afd4mRyxBGXp3QbNw2byM6ZDDs5w8lRkWnv5DF1HG1virs9jShXjouRIiTP4SXFdcmQfJ+0Ege07ucaQwPYtkFtNTDLqMxhyJNQ+GyoDEELBo033ixwhVcrZJIICflI78f+wvEYz80HZvf74gCrFI=
+	t=1787028158; cv=none; b=eNcmEWxlA9rnWkIgTNVp/V23bkTTjoeOseE0+ya8LfR8sf51ZgpVF54RTr4druuukgo8YGxNevqNpSNFLGp+HyR1RDh5jE/ooyQbFIgfTQ0zFjbaPK2OzrbG9/XiuhYGgEjh8jYSl5McEtdxs/1L3lAiju2WrnXbiy6d2Cq1TZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786996451; c=relaxed/simple;
-	bh=xAAxDyvnDi8yNJ6ByWgjRWlh3/HZjKsKtAZ8OmkRJfM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kdevGyBMtutsxd/n9N+KgZuubQgtCDWpvpITpVoZ0TsyG8jZ7CWk6JgDJuZqZtwUAS+25nBYADUdu0VMycTfKb/M9KJRbYKeqHkmjU5rb7zj/YomCFJCW/FWRL1c32CZ99LAekA/0aR3qs2y/g453a0cyf+TH27yr0yn0moA9NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QIEtRiu3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787028158; c=relaxed/simple;
+	bh=beJQykPMz75byPsAGpDchMYPEmOy2/H1CoYZ5C4bcsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tdEye34VJPuPlD+pNhXRuz0euooYyC/aPQ6NE3RxQlsszf2F3GyXDi6DvcZvSfSikCiWA5EwmAoEdP55LFKw8XAGWek/qlBEKmoi1XTHbckA8YjuVfIv7yGcvTOBpTJIGi/1aS+LDsNCZL7MxVgYrClCAUO5Xps/3ymE+UFQwmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F0mE4OnY; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QIEtRiu3"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 714F3C4AF09;
-	Mon, 17 Aug 2026 19:54:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786996450;
-	bh=xAAxDyvnDi8yNJ6ByWgjRWlh3/HZjKsKtAZ8OmkRJfM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=QIEtRiu3cyoFUP8Dlj+glac4A/3KoXETHv6QY9C08p+CnNSW0wSceq8gJ3/OrNwZN
-	 uJgmfs/nKEtc5/TrmPIrGwSLShC5MGfhOCZ50DaXcWQAyU7elkJwAxE2hwBlxT9VwV
-	 S2yPiP70Cb0UyC8ug5bqe++vRtw1bWnJFKL47yRERHbnsj2wtKYVLTzl7ZyZwmCNdW
-	 U565SMo4zJc/xCROE53PviKhBTT660Sn8oeQ2ljT+WaPDJ8mBq2wViEIOrs4XYXIYU
-	 bc72PeU8F9UEBm03Vs9qVymN/9sqg7hbIlnVLyG+V8WnYMdd6NIsgJ1Jr7dXpgITJR
-	 lfWbdW8GCiWrA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A37C5DF7E;
-	Mon, 17 Aug 2026 19:54:10 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Mon, 17 Aug 2026 21:54:02 +0200
-Subject: [PATCH 5/5] thunderbolt: Cancel the DPRX read when the domain is
- stopped
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F0mE4OnY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787028157; x=1818564157;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=beJQykPMz75byPsAGpDchMYPEmOy2/H1CoYZ5C4bcsw=;
+  b=F0mE4OnYPvtPENzjKreY1y5z8rvxZnBM5lgfSO7y9n0gNEWpYVb+LIa1
+   0giPBkVLaT0+3aXeO/NUjU6QTSO6N5Sc2zNeGnzzQtpsHQpLvBb91b7JK
+   b16lI/VY9B+tD1NftIuuf8kk3GQ2RydZ/cGlNc3Hy1ocnftS18iX0Q5BK
+   hJHvL0Zjm8X/PELAOtSJS6vMCuuvJbas6f0WKokPT0xy2F53DivAjm2XW
+   nq66yzF6r7ZimNAqLoREEjLM/6t+OVbAKvCtpulfARH4J0Wk5BOObLPpn
+   FIWmYk2eAXHyCpSe/+Kw9DDheqyZKZLyXpWexw+aVlevyXSZxkpE2kaHt
+   w==;
+X-CSE-ConnectionGUID: kcxwyVm9SymJaUKxit581Q==
+X-CSE-MsgGUID: 9Fz/w0AaTmy/Kr7eydbNQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11878"; a="87529075"
+X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
+   d="scan'208";a="87529075"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 21:42:36 -0700
+X-CSE-ConnectionGUID: 1gfHfwMZRZOINcQ8JGDwAg==
+X-CSE-MsgGUID: 01wVAVsjRm2AG06qDtxQFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,230,1779174000"; 
+   d="scan'208";a="261369324"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Aug 2026 21:42:33 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 5B72399; Tue, 18 Aug 2026 06:42:32 +0200 (CEST)
+Date: Tue, 18 Aug 2026 06:42:32 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>, asahi@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Konrad Dybcio <konradybcio@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH 1/5] thunderbolt: Fix tunnel reference leak when the DPRX
+ work is not started
+Message-ID: <20260818044232.GS893316@black.igk.intel.com>
+References: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
+ <20260817-b4-tbt-fixes-v1-1-eded2461f5fc@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260817-b4-tbt-fixes-v1-5-eded2461f5fc@kernel.org>
-References: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
-In-Reply-To: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
-To: Andreas Noever <andreas.noever@gmail.com>, 
- Mika Westerberg <westeri@kernel.org>, 
- Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: asahi@lists.linux.dev, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
- Sven Peter <sven@kernel.org>, stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3116; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=xAAxDyvnDi8yNJ6ByWgjRWlh3/HZjKsKtAZ8OmkRJfM=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ1Zz2v3HMVJchkYPVucEcU2w2VV2NLYnJ/+X0mGDrZp95
- RfXmct0lLIwiHExyIopsmzfb2/65OEbwaWbLr2HmcPKBDKEgYtTACai4sTI8Cg2d5/x75PfSv+t
- KXjgpv52v9D6nir1uEc1Mf3S3TuM7jP8ZDyfHekRmVYR+rytTcJ7Y9Z2z2/v+/tul5oF6nf3vO/
- hAAA=
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260817-b4-tbt-fixes-v1-1-eded2461f5fc@kernel.org>
 
-tb_stop only tears down DMA tunnels so a DP tunnel that is still
-waiting for dprx_work to complete keeps that work queued while the
-routers are removed and the control channel is stopped. The work only
-stops once the DPRX timeout has passed and because it requeues itself
-until then the flush_workqueue in tb_domain_remove won't wait for its
-final run. The callback then runs against a domain that is already torn
-down. A reference to that domain is kept so the completion waiting for
-that domain to disappear in unbind will block until the timeout is
-eventually reached.
+Hi,
 
-Just cancel the work in tb_stop. This doesn't affect DP tunnels that are
-already alive and keeps those displays working.
+On Mon, Aug 17, 2026 at 09:53:58PM +0200, Sven Peter wrote:
+> tb_dp_dprx_start always takes a tunnel reference which is only dropped
+> by dprx_work eventually. Tunnels that have no callback don't ever queue
+> that work and tb_dp_dprx_stop then has nothing to cancel. It however only
+> releases the reference if cancel_delayed_work returned true and the
+> reference is leaked then.
 
-Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sven Peter <sven@kernel.org>
----
-I also didn't run into this but noticed it when fixing the hop alloc thing
-and think it makes sense to fix it anyway.
----
- drivers/thunderbolt/tb.c     | 5 ++++-
- drivers/thunderbolt/tunnel.c | 9 +++++++++
- drivers/thunderbolt/tunnel.h | 1 +
- 3 files changed, 14 insertions(+), 1 deletion(-)
+Okay but we always actually pass that callback there so I guess you are
+hitting this because you have modified the caller in tb.c not to pass the
+callback, right? If that's the case then I suggest mention how you actually
+reproduced this whole issue.
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index e368a6b53f64..f7e68372da09 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -2958,10 +2958,13 @@ static void tb_stop(struct tb *tb)
- 		/*
- 		 * DMA tunnels require the driver to be functional so we
- 		 * tear them down. Other protocol tunnels can be left
--		 * intact.
-+		 * intact but a DPRX capabilities read that is still in
-+		 * flight has to be canceled before the routers go away.
- 		 */
- 		if (tb_tunnel_is_dma(tunnel))
- 			tb_tunnel_deactivate(tunnel);
-+		else if (tb_tunnel_is_dp(tunnel))
-+			tb_tunnel_cancel_dprx(tunnel);
- 		tb_tunnel_put(tunnel);
- 	}
- 	tb_switch_remove(tb->root_switch);
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index 52fa90786ff8..5b1ae5a0c12b 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -2487,6 +2487,15 @@ void tb_tunnel_deactivate(struct tb_tunnel *tunnel)
- 	tb_tunnel_set_active(tunnel, false);
- }
- 
-+/**
-+ * tb_tunnel_cancel_dprx() - Cancel the DPRX capabilities read work
-+ * @tunnel: tunnel to cancel the DPRX capabilities read work for
-+ */
-+void tb_tunnel_cancel_dprx(struct tb_tunnel *tunnel)
-+{
-+	tb_dp_dprx_stop(tunnel);
-+}
-+
- /**
-  * tb_tunnel_port_on_path() - Does the tunnel go through port
-  * @tunnel: Tunnel to check
-diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
-index 4878763a82b3..9de5fac04269 100644
---- a/drivers/thunderbolt/tunnel.h
-+++ b/drivers/thunderbolt/tunnel.h
-@@ -138,6 +138,7 @@ struct tb_tunnel *tb_tunnel_alloc_usb3(struct tb *tb, struct tb_port *up,
- void tb_tunnel_put(struct tb_tunnel *tunnel);
- int tb_tunnel_activate(struct tb_tunnel *tunnel);
- void tb_tunnel_deactivate(struct tb_tunnel *tunnel);
-+void tb_tunnel_cancel_dprx(struct tb_tunnel *tunnel);
- 
- /**
-  * tb_tunnel_is_active() - Is tunnel fully activated
+I'm thinking we should make the callback mandatory instead as we always
+need it for DP tunnels anyway. It should work the same also in Apple
+silicon (one you have the DP tunneling in place).
 
--- 
-2.55.0
-
-
+> Fix this by only taking the reference when dprx_work is actually queued.
+> 
+> Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+> I didn't actually hit this on hardware but found it while fixing a domain
+> leak in the same area and that fix depends on this one.
+> ---
+>  drivers/thunderbolt/tunnel.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+> index b7f32305f14a..50580ebdac4b 100644
+> --- a/drivers/thunderbolt/tunnel.c
+> +++ b/drivers/thunderbolt/tunnel.c
+> @@ -1113,15 +1113,14 @@ static void tb_dp_dprx_work(struct work_struct *work)
+>  
+>  static int tb_dp_dprx_start(struct tb_tunnel *tunnel)
+>  {
+> -	/*
+> -	 * Bump up the reference to keep the tunnel around. It will be
+> -	 * dropped in tb_dp_dprx_stop() once the tunnel is deactivated.
+> -	 */
+> -	tb_tunnel_get(tunnel);
+> -
+> -	tunnel->dprx_started = true;
+> -
+>  	if (tunnel->callback) {
+> +		/*
+> +		 * Bump up the reference to keep the tunnel around until the
+> +		 * work has run or has been canceled.
+> +		 */
+> +		tb_tunnel_get(tunnel);
+> +
+> +		tunnel->dprx_started = true;
+>  		tunnel->dprx_timeout = dprx_timeout_to_ktime(dprx_timeout);
+>  		queue_delayed_work(tunnel->tb->wq, &tunnel->dprx_work, 0);
+>  		return -EINPROGRESS;
+> 
+> -- 
+> 2.55.0
+> 
