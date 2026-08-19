@@ -1,74 +1,76 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D65343552F
-	for <asahi@lists.linux.dev>; Wed, 19 Aug 2026 09:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21A93806B0;
+	Wed, 19 Aug 2026 14:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787132642; cv=none; b=Gjm9dZeGyk+qDkw1gQF6qaNuW2cDPxWWPWnT0CoU8xcn42frYA03UanDG4oDMxJzbPKAJu4j+On7uPTktcERzLkwyyB6CNE2RtR5GM8gYwxm9LXZ06lBUfEVYuRxjo18TQF8n3BfukMphpFgT+TjhsV7cFu6pPuJh87EqJIyBjc=
+	t=1787151174; cv=none; b=elVSx3r6Er2MSnIZDk7BeL/8BpVK48b+aM9NMi6DYeAZquJ4msAm0OD1Lcwxblp4f3ZKBZlDb5QLkEYp4M7DD/UY03m1t4Tz3hSlCHd3mdGQs988s7RzTdOCGmVPG9GxRe8aJUFeL65x97oQVAHqYVCOPsmSuKWlsddqUCXKjAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787132642; c=relaxed/simple;
-	bh=Lism6yv1MGJcG58S10QG/O7T+8yyDB/o9f+cVZgKT58=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gMc1bxY8oByDxi496aTg/E1hzKkQKPju6xQsqmmdTWcrrD/eCcsEjtfK3ZDpOjTze9IQHFeNzlAbqw8UWbauiOCbLJ0p/ye0fCgjb+lqtX85b0lETj0SHCJ6f+En4SAa5ICd/gCA5MZK1NQj/8+LMw+7r7dBuywYPvMCKrK2OhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=pogD0cbo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XEBz4Ovy; arc=none smtp.client-ip=202.12.124.145
+	s=arc-20240116; t=1787151174; c=relaxed/simple;
+	bh=X1xG4Kti7UIhBCAaxOlNaOaly0r9qV++jQJBZvB4bzY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qmlo2B+qvrF3ikHYRT5VBDMLGk6L4+7sA56VFF8c3vq3XwJ+5RaJ3al0TOJNEVxx8xPPA8XYECzaNsUn45cGPWy7VN7kR1d/5P1cGjb5iUBg6MmHT2z75jJGaOOnzP1m/H3mV8U0CZNc+FhOH+csi5KKQOM2Sy6x6g84hplgQ/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=GZh+AQ7t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=duVt8ETT; arc=none smtp.client-ip=103.168.172.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="pogD0cbo";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XEBz4Ovy"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 6ABBD1D000B9;
-	Wed, 19 Aug 2026 05:43:59 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 19 Aug 2026 05:43:59 -0400
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="GZh+AQ7t";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="duVt8ETT"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 13D2A1400162;
+	Wed, 19 Aug 2026 10:52:51 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 19 Aug 2026 10:52:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1787132639; x=1787219039; bh=G8
-	dxy1bvw4F4ogJCbhIvSHrgPeuDdkx54rPLG+xIkQ4=; b=pogD0cbo4BfT/bFmTA
-	VdeHIZQM83qZhoSiYZCd95KTqz/2mO4aYEvKbncI857KSV9pakY6SCtyvKEZFWds
-	K314iyHVMfJXLYagdrUyUdelLKv8btdRsYVK0AV33umX0oZEzIoq+jjD29bckVxP
-	Bk7bycfzHMZzfm5kbLMazy8cUPK8qX5rbVGN0eLrMWcuUXG1zZ8GfSKRSHcs97IG
-	Vf++6SZn9bLpMQsRPFuxHFZhINhGy42zRXE9GYwcIQM0wMQUFbLal5FOw9oqxCkZ
-	2T97vpams5aEOCk0wqvn5BjObMzDsGgS6dqISqfpJFr4CL8cxRYuqW8LHLj9uykl
-	7Ovw==
+	:subject:subject:to:to; s=fm2; t=1787151171; x=1787237571; bh=+B
+	s+pMSu1VkeOn9n/HUp7Qz2+0g+eALUwogZ0nkvl2o=; b=GZh+AQ7tvllWonwb9x
+	gcNt162S/Lulqm18JmDUmgGl55csWBPbQDhcW9psf0gb9t7EENYdvaOIItOgkE3q
+	/Uku36Lt5TjWi1Yx0vtgb2/97gQi3vYAwcX8twWxIEzbpLlryYiBilNTY+VqpXjI
+	KzdUojz1sb1UKWG8KLVwjBc5/eP3eOjBdeEvROoLo1oDnvqMfJNUmKUd9cO3psue
+	4JXMvYmKNtDEotn4YFxN6PoVL4SktjRW6yZ064FLu02HhyC3wgikfS75CaOQ5Uqb
+	x3+6r/F30Bh+RV/8g+FwgJkpQsJU8CkCGIAoRv/gyqPPfqP2zcPkgommccjtQqYM
+	dNow==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
 	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1787132639; x=1787219039; bh=G8dxy1bvw4F4ogJCbhIvSHrgPeuD
-	dkx54rPLG+xIkQ4=; b=XEBz4Ovy2ZspS42Um5pCX1URKpZ3KOTzeq04Y9UoOHyL
-	uUonVsHQrPp6Po7u2ryJFnpKGmQCvAouOIbSI8pTtypUd8Gs4VbQIDKCOonrX+Nv
-	33uWZooA8Jn1C1yFyJfXG6Uy33u7c3H1bNt5FT6Sxvi3ZB9eq6RDv2iqO7ylrta/
-	0ohUTBbLStlZ+LVBVdBdEyOamulh/ZdtqHAPmcwxbEnxjbGrKlM28fUe2+on019W
-	F+6Obs1vGc7uuMrzY284+fX2wKdpUsHCNVG4FdS6/HRtVQ/aU0VGOHZSFDH6YWPp
-	iQ0hqQnQxn5UUHOZrVeBtqvkn/5+6BCnVbhyfOaIOA==
-X-ME-Sender: <xms:3nqFaoqHkDfcg4AiPTN4vLdtHC7pkmrGeAwNrNRQ6bfN1aj8rWQ8kw>
-    <xme:3nqFaqccud70u3YVhhKRkbK0t2SySB2nm-8Gbno6wudZV0KnMwFqvF4tNnb3JiuoC
-    6FlM9_Is2OT0Ssw4uos63UvDgWf1f52qkggG8m0pSj57hy926CqHQ>
-X-ME-Received: <xmr:3nqFaol21CgE_iDqrPXCooVqCNOMuFYyPIGS4Qd8Or5r_Na9ZMfwvzaFgpliNo4DY5q3Jgcl0CFAcY0LDOYWSNYH9uqcZ_nV6pDu9Q>
-X-ME-Proxy-Cause: dmFkZTEPfYnyGtIFwE+jLUl++h1B0Id3zsGtTrGerwUGe0iM50gDTu1HkwkqVDqeoFCzP4
-    2V2C/oGc6sp+g8MBhg36y0zm5pDCKsBI4+0o+itdK7nn6vaMw7GeDouTr/g+nE834CgUHM
-    1Ll4bhN4yBhCG6IxERtFDIHKOudrrgRldMCH3QLY+jyHOtB5nqGEOVfUpKUpfRm4z3Xexg
-    FfeZrEI8N7Xdn1LNx9Qh8Tbf83o3ffI6dGI+lLXmPdscRqwbrvwPnUh/mpsrYXJBSIZMyb
-    M3nQCsg0oLnaQOkGQydNb0e+BKVpUvGdgj/e12B3NH/NYQwbLB6hX4XaLc+XshDFxITsXy
-    GxsydLNsfTEXHpxtMS/nxRaj4MOv8jq6S22APTuFM9AMRCzghJhd6CH8VgYizRvqogLoOX
-    fkQuoW2ZhM5DBXW2t2MRkxcGfA7hS4V8yl6ClxGu5g7NSz+o9SpWyNBtl24NcYm4oehJoz
-    HcPW4OHckWfaaa6dZwx3vA42r76jdIw/hfROlVAxfT7P/wEqyzKGeUQT5F4XlMgW4Cyz5O
-    Ngu8KewzIpWxVT2ck0k+867Y2PRKyKjaBzOu2FWJ+1A2psQV9s6SMKP2eoMaOw3VEYCxW3
-    8hf0EGqLWTOtD7cAYnC2P+fRtViU0MGd7vtbqyBtsarfAYVUG9HhdcF99Kdw
-X-ME-Proxy: <xmx:3nqFapbL74sBC44ialZstIPpUVzNOQfF_WdDGbOalYULubwxe_FPgw>
-    <xmx:3nqFal4J1Q5A11_4Al1sMyni3hRuE9387EJ4pe0O_t-LYPMkSE1zjA>
-    <xmx:3nqFarBCxgg2QRrApKcEjBvbpKbxbYH6ET7TW8-WUJ2i2BoqCgIpwQ>
-    <xmx:3nqFar-SLcAWqOggthX7Fy23Q42grRedeXmm3TxzrwVaMQ2vjV-7Sg>
-    <xmx:33qFatsNEq-nUqrWEWWFkwozVTIWu1sURRtGURTiuCg__ENeD74mEkyp>
+	fm3; t=1787151171; x=1787237571; bh=+Bs+pMSu1VkeOn9n/HUp7Qz2+0g+
+	eALUwogZ0nkvl2o=; b=duVt8ETT5ad/Q03hXA5FxQ0HaINaUcYoyASE5hiPAmdj
+	DneflhvgZhz18sauAvc+N10GVKFCY3ntYdAknQBkjD6k12gd/nzMVKpZNo5Jqn7s
+	2zDri/+/tNmswfBMj8PBM9j093VR3Ix6nBjTMvPQsetqITWvv5SRpf3eOQEc9zQa
+	7NKjwt/DO/XXal3xSemyrpODoUn4raR/cL1Qg9Pik6+CwdDcpufIKOyALRhZwhcA
+	hStQQWb1/ETf76TqgtuixnuhSoCPyqU0P2vSd4uGfz+7qDskT2vn700UW8T+RPxT
+	pxnZ4MW0NaSRCtIk2Nh/sjqXTpXOvj/pbRtKGmdAqg==
+X-ME-Sender: <xms:QsOFau4MGlWn5dIP98cHZgHbi7Q0BVxSmFFA6NzhOU0tT0KivxwKwQ>
+    <xme:QsOFavckr0m9tMTs1vZ7kX2Vrw-g1mFBZodnqI72XqUE9MQV-bhZ2ChAVQguXZ9i8
+    AoK5hyxy_ag7nJ0jBcfZDNjAj5IxfHNdtHN5H5yGzHWNCARBwhQiw>
+X-ME-Received: <xmr:QsOFatGxJxuVPiyyz-eknaHpWWVAreedcqPfeAGu94P5TBRCUiH4H-NkvHX93_9Tqzc7OaGO_FzA5tyoG_klJn_Q5_wYm-ErJUIXaw>
+X-ME-Proxy-Cause: dmFkZTE6YB3JNns8bfRytE6dZ1jon8G7xO0nm76xYPMj4e26q+SpmC/dc7fRyZlphoFfhq
+    WUYxLH7X6fyYf15L8HMJUJuKlgexmgRalnAsEvxvUICSMI6A74cmSHfPmgjCnHLZq70Vsb
+    aBNOvSJVs2+kN74AcRrHPRN2/dwRPCA3v0iPPqfwf0DEJWfnAtpNKayf6PVX0DQlEZfLCh
+    i8/aVcpYrKElaDgNcLWEN2EeK6AJAuJ1Aj1eRBu711R3Her2vzzlOZFvCtmvHxDnR9Di+l
+    VtANwnLxh1f1MF/XNVqHWGHZ1/5WR6HIbcVgzaAFOTDKvkEiir164+W59LgJdUmjL/WWb+
+    bOGmBDiicOp0qF66bnEuL7OZVDRBxenI9gGtNBjSy2cscIucn0TRExko9nHLbkwzSbwLJP
+    NlbyMfTfN1wPe3VC7unsULtty4pnqry9uSnb4mMzyR03TAxlGo6KpdQypfFhf4/aFVj8kS
+    Ouav5RjdRFUjtGvy3qDz35fajq3dU1mngMDEYZN45MfjQLnhayvuY/dHz+RcbTFgii+fPa
+    QkFudgitMtfzy8lUAQeE2wrJuex7HMRUcsd0/y2uAgmCMp6gyzVfVXghtpBKYpbc9xX5cc
+    JI5pDMhYWOaPlcgBejpWuS2qUb3Jf1YQ/MkHHZcpdTpPFV+ICDvFDzwXdhww
+X-ME-Proxy: <xmx:QsOFan7bBxiJPm2KHQnSYv_KvXR7ROSRI4CX164nd3Aq0_S9UcguYg>
+    <xmx:QsOFaoswBfs9XbXB5vLxPkBTJxJh7UHcL9lUNSyXJi6TVr05bssFRA>
+    <xmx:QsOFaj_LfLQwt-lL38-96AE1CVyRsMnRUSBtTuZGVJyxwkCFr4kW2g>
+    <xmx:QsOFaqk_zW1pEQKNtsrvS3v0_T6ymoTyibsG2FV5w3vpDGc_6FES3w>
+    <xmx:Q8OFaleh5c8Ke_St7ylE9WQ_FOTzrods3oRjsQ7mMpZM2m0KD3f335wW>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Aug 2026 05:43:58 -0400 (EDT)
+ 19 Aug 2026 10:52:49 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Wed, 19 Aug 2026 11:43:43 +0200
-Subject: [PATCH] arm64: dts: apple: t602x: Add identity dma-ranges mapping
+Subject: [PATCH 0/2] iommu: apple-dart: device specific DMA aperture
+ support
+Date: Wed, 19 Aug 2026 16:52:26 +0200
+Message-Id: <20260819-iommu-apple-dart-aperture-v1-0-252703f381aa@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -77,64 +79,70 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260819-arm64-dts-apple-t6021-dma-ranges-v1-1-a00e109640f6@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2N0QrCMAwAf2Xk2UBbRzr9FdlDtJkG3CzJEGHs3
- 60+Hhx3G7iYisO528Dkra6vpUE8dHB78HIX1NIYUkgUhnhCtpl6LKsj1/oUXCmkiGVmtJ/ueJ0
- oU07DMfcMLVNNJv38F5dx37/7gnYAcgAAAA==
-X-Change-ID: 20260819-arm64-dts-apple-t6021-dma-ranges-bf676728374a
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MwQqDMBAFf0X23AVjQRt/RXpIk2e7UDVsogjiv
+ xu8zRxmDkpQQaK+OkixSZJlLmIeFfmfm79gCcWpqZu2fhnLskzTyi7GPzg4zQWheVWwf36s950
+ NHQyVPipG2e/38D7PC2XbnKVrAAAA
+X-Change-ID: 20260819-iommu-apple-dart-aperture-c3b9cc79d7e1
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
+ iommu@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>, 
+ Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1297; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2004; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=jIVm9jmB6LtdksOtq1LbIxXUgWuIi51D3+VNabMcUaw=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqzWqjsr1KN0P/3i6r7k/vbEzmLN10F/SudkOm3sO1tx3
- l9s0q1dHaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACZyTZjhf2rUi94+/22X5URk
- P54VSngfPHmu19THPzbu37PDbJEGZwPD/5x11y7X6NxPvOcbW87/bPVLi3Xn29LYXj59/NXBxfp
- IGzMA
+ bh=X1xG4Kti7UIhBCAaxOlNaOaly0r9qV++jQJBZvB4bzY=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqzWw/Yqh7SW3gsLLLzStkRrxbYpoktrLziYudRHTNu13
+ yLj07/gjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABM5M4nhf/kXs8WCStIlfP6P
+ Wn2LW98o8H05dslMYnK93uVpr+vLSxn+qTJKxB3ddnxnrzPvHcWw1PSco72iezcet1sYEvXfmuM
+ cIwA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-From: Hector Martin <marcan@marcan.st>
+Apple DARTs are often connected directly to devices that expect only a
+portion of their address space to be used for DMA (for example, because
+other ranges are mapped directly to something else).
 
-Without this, the OF core ends up limiting all DMA masks to the default
-32-bit, since that runs before drivers set up the proper DMA mask.
+The USB4 native host controller on M2 Pro/Max/Ultra devices expected to
+be sent by Sven after v7.3-rc1 requires this. In the Asahi downstream
+kernel the display controller and ISP require a specified DMA aperture
+as well.
+The downstream kernel uses a "apple,dma-range" property in the  iommu
+node to specify the aperture. This is not a good way to describe the
+aperture as it is not property of the iommu itself but of its connected
+device. iommu.txt describes this use case as DMA window in its
+"#iommu-cells = <4>" example.
 
-Skipping the highest page because it is impossible to express a full
-64-bit range in the DT.
+Implement this for DART allowing additionally 5 iommu-cells specifying a
+64-bit aperture start and length. 0x100_0000_0000 is a commonly used
+aperture start and the aperture often spans 36-bit address space.
 
-Fixes: a8f20eb60788 ("arm64: dts: apple: Add initial t6020/t6021/t6022 DTs")
-Signed-off-by: Hector Martin <marcan@marcan.st>
+This range *can* be outside of the DART's IAS. In that case, it is
+assumed that the hardware truncates addresses and the page tables will
+only map the lower bits of the address. However, the specified range
+cannot straddle an IAS boundary (you cannot cover more than IAS worth
+of address space nor wrap).
+
+This corresponds to the vm-base and vm-size properties on the Apple
+device tree side of things.
+
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
-Add overlooked "/soc" "dma-ranges" property for t6020 and t6021 missed
-in the initial addition of the M2 Pro/Max/Ultra device trees. They are
-present in t6022.dtsi.
----
- arch/arm64/boot/dts/apple/t6021.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
+Janne Grunau (2):
+      dt-bindings: iommu: dart: Support specifying the DMA aperture
+      iommu: apple-dart: Support specifying the DMA aperture in the DT
 
-diff --git a/arch/arm64/boot/dts/apple/t6021.dtsi b/arch/arm64/boot/dts/apple/t6021.dtsi
-index 62907ad6a546..1da3c42f6f88 100644
---- a/arch/arm64/boot/dts/apple/t6021.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6021.dtsi
-@@ -28,6 +28,8 @@ soc {
- 
- 		ranges;
- 		nonposted-mmio;
-+		/* Required to get >32-bit DMA via DARTs */
-+		dma-ranges = <0 0 0 0 0xffffffff 0xffffc000>;
- 
- 		// filled via templated includes at the end of the file
- 	};
-
+ .../devicetree/bindings/iommu/apple,dart.yaml      | 12 +++--
+ drivers/iommu/Kconfig                              |  2 +-
+ drivers/iommu/apple-dart.c                         | 62 ++++++++++++++++++----
+ 3 files changed, 61 insertions(+), 15 deletions(-)
 ---
 base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
-change-id: 20260819-arm64-dts-apple-t6021-dma-ranges-bf676728374a
+change-id: 20260819-iommu-apple-dart-aperture-c3b9cc79d7e1
 
 Best regards,
 -- 
