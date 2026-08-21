@@ -1,159 +1,128 @@
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C91B387361;
-	Fri, 21 Aug 2026 17:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D12135F60E;
+	Fri, 21 Aug 2026 17:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787333709; cv=none; b=c/dg0dY5egvBFdcpESaZDMhlakaLz+ZKFqybFGtwSnQ9O+7yrcKsdCY2uuDmPQqwWlmIMKLjjboPZTK8Du7iU0ipVuuJ0kyuxGUMdxvfB63XXfu7raawHN8qseVe/qEZgQS4rSlphXvRlakUTZY6cSKU2AqJr6lRdNqrPZrg2mU=
+	t=1787335101; cv=none; b=NzVBC+141Ig0kMnUObJ5judQAutTbi2B5hiAD9LKecO+R9eIfoJPYCqFWw/q8g1jheyD+IdwHevjJ3pvEXJDIWKJ8/xy04twPaZlnFqTW3tYH+IwuBt0Q/TgHr6hyoYm3zlD85MxqfAXxAfzQlnNmRREBWXMTXy5l6c3W1bQ0nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787333709; c=relaxed/simple;
-	bh=tm57Ad6PECZlLu7lczCl2+y1DS+vkQi7R0ed20Yj/ag=;
+	s=arc-20240116; t=1787335101; c=relaxed/simple;
+	bh=IuvXl22zqV1mpWxgbDnK2t4/VY68QqAPCkUvcMS60HY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H+Q9dgX0V94ix+blokeoTGCdKRXJzELNoFEcpT2WBIpssxmoSTB3L99/mNOzrnSNd4sw7DJXbmO+3yJAJN6ERjNu+2qonIuEcaE7sLCSfMNQm2mRrU7sttUA+wogYALOwOzWQ1hpyUJZCwF4Ex4BQIvPABiyDS61viYdDl/xH1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=HQtt7lVZ; arc=none smtp.client-ip=195.39.247.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	 In-Reply-To:Content-Type; b=rZPT+XFgZ6mXjkUU0jP3dYhUYDKsjT/Zb4oGaWgjvC3rE0rNIyUlV+5NkdeLhf/yTQXiBqSeE1rFRxz2gSXntxtk1cLRLyk2SS7TCjjwHWlnzArAsu7j+MB6vVmTG1hQfrwHbKps3RN2ua1K8HvQcee1wRYYNNLGk3bBIb9u48A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mrSoXhLC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="HQtt7lVZ"
-Message-ID: <bbaca769-312c-4a24-9524-16cb2b4f277f@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1787333180;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4zprVL5/9BVqDOihmvOs/Q42nl1VQUNgjTILqKSw0w0=;
-	b=HQtt7lVZcfVo8TYCvTeQ0igRuXaLHurfb35TIR+j+82dPXJmzUG154fUu75jZxBEkcGoWz
-	jQF6wuQccZftNV5xbWF9/BZb4GXb3VPF9QyKki+En6V7FOPkbtwAbl5I3vuDSh0u10PNot
-	uaRP2PHGDi0hh8BcUCzRWJymQ8yzwY4=
-Date: Fri, 21 Aug 2026 19:26:12 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mrSoXhLC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D3FB1F000E9;
+	Fri, 21 Aug 2026 17:58:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787335100;
+	bh=qzKSa1SgH7pGsOvdpuCR/HK4FY/wDBHvqCO83CUMiGo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mrSoXhLC4ZBTPLJAxC18QFdYI7wyG6FgBHv5TvBr3JsZrlTzfSUdVZlpUV0PWA4iI
+	 M3iTA0Fs/tVV+8UkcK8fm+QpTOPqfleklUS6+5nKcG3S1bsRRZw4W+2JDoo+WhRyE5
+	 GN9mrK2WJM3NKc0yXiEDDh46E8Uh2a4qCyrX8efD/5lAr48CGusxysL2uOxonRTEoI
+	 Jpt3Y/yC9ncnPhZni7RhNHpDNP/WQvAsa6z5iGh8QKTptwtfkgRAFdCVzTIv7Sjmnx
+	 mzOio1eOhbZBAJdsrJse5mle5Lt9s+oDQBdbwP8fyb5esKitMzve7x8UHuCD4qsFlS
+	 6FT7N8PvGHS5Q==
+Message-ID: <1a51d323-8437-4d59-b185-710901eb9922@kernel.org>
+Date: Fri, 21 Aug 2026 19:58:16 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH 08/10] HID: apple: Add DockChannel HID transport driver
-To: Yureka Lilian <yureka@cyberchaos.dev>,
- Michael Reeves <michael.reeves077@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, iommu@lists.linux.dev,
- linux-input@vger.kernel.org
-References: <20260630-apple-mtp-keyboard-final-v1-0-506d936a1707@gmail.com>
- <20260630-apple-mtp-keyboard-final-v1-8-506d936a1707@gmail.com>
- <05d39c4d-8405-4fe7-a798-c8a9c92699ed@cyberchaos.dev>
- <CANpmGNs3s2yLw05jkpZ9mscQNZ9JvfbqEgyW8V=cMD29aU8c2A@mail.gmail.com>
- <03eb4c22-045e-470e-8259-ebf9b1cfe2ed@cyberchaos.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] thunderbolt: Cancel the DPRX read when the domain is
+ stopped
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, asahi@lists.linux.dev, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
+ stable@vger.kernel.org
+References: <20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org>
+ <20260817-b4-tbt-fixes-v1-5-eded2461f5fc@kernel.org>
+ <20260818061717.GW893316@black.igk.intel.com>
 Content-Language: en-US
-From: Yureka Lilian <yureka@cyberchaos.dev>
-In-Reply-To: <03eb4c22-045e-470e-8259-ebf9b1cfe2ed@cyberchaos.dev>
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20260818061717.GW893316@black.igk.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 8/1/26 23:56, Yureka Lilian wrote:
-> On 7/1/26 16:32, Michael Reeves wrote:
->> Hi Yureka,
->>
->> Thank you for the review and the feedback.
->>
->> On Tue, Jun 30, 2026 at 11:21 PM Yureka Lilian 
->> <yureka@cyberchaos.dev> wrote:
->> [...]
->>>> +     strscpy(hid->uniq, dchid->serial, sizeof(hid->uniq));
->>> If the keyboard appeared before stm, dchip->serial might be 
->>> uninitialized.
->> Yes, true, thank you for picking this up!
->> [...]
->>>> +     /*
->>>> +      * Prefer to enable STM first, since it provides device IDs. 
->>>> Some
->>>> +      * firmware versions do not expose STM, so let the keyboard 
->>>> start
->>>> +      * without it.
->>>> +      */
->>>> +     if (iface->dchid->id_ready || !strcmp(iface->name, "stm") ||
->>>> +         !strcmp(iface->name, "keyboard"))
->>> I specifically asked for a mechanism to let the keyboard probe even on
->>> devices which do not expose/have stm. Thanks for adding that!
->>> However, I think this might need some more sophisticated mechanism to
->>> decide whether the stm is still going to appear after the keyboard, or
->>> not at all. I'm not sure if there is a way to tell this at this point,
->>> or we need to add a timeout for the stm to appearing, which needs to
->>> expire before we create the other interfaces with fake serials.
->>>
->> I do not think there is a way to tell at this point, unfortunately.
->>
->> I think the best way to resolve this would be to implement a delayed 
->> work
->> item that is scheduled during probe. If STM appears and initalises 
->> before
->> the timer (I'm not sure how long it should be right now, I will 
->> prototype and
->> experiment) we cancel the delayed work, get the real serial, and spin up
->> the keyboard. If the timeout expires without seeing the STM 
->> interface, we
->> assume the platform does not have one, mark id_ready as true, and
->> proceed to init the keyboard.
->
-> I see three ways forward (no specific order):
->
-> 1) Implement the timeout as you described.
->
-> 2) Use the approach that always waits for the stm to appear, and is 
-> proven to work well on the M2 devices targeted by this series. A 
-> different behavior that does not wait for the stm / determines the 
-> serials using other means can be added at a later point in the same 
-> driver but with a different compatible string.
->
-> 3) Add an stm subnode (like the downstream Asahi device trees have for 
-> their dockchannel-mtp nodes [1]) which indicates whether the stm is 
-> present. Check for the existence of this subnode to decide whether to 
-> wait for the stm or add the HID devices with fake serials. Support for 
-> other methods of retrieving the serials can be added later and 
-> indicated by other subnodes.
->
-> I would appreciate feedback from all of you on which of these options 
-> we should move forward with.
+Hi,
 
-After checking ioreg -l under macOS on the MacBook Neo (which is the one 
-Apple Silicon MacBook having the non-force-touch trackpad variant, and 
-sending no stm report), I'm convinced it legit has no Serial to report 
-for the keyboard/trackpad HID devices, so we'll always have to use the 
-fake one there.
-
-Knowing this, I'd rule out Option 2). Between option 1 (timeout) and 
-option 3 (device tree node), I prefer the device tree node. We already 
-have the keyboard subnode and we know for each MacBook model whether it 
-has an stm or not, so having the stm subnode seems logical. As a bonus, 
-the code for this is quite simple, and I will prepare the v2 of this 
-series shortly.
-
+On 8/18/26 08:17, Mika Westerberg wrote:
+> Hi,
 >
+> On Mon, Aug 17, 2026 at 09:54:02PM +0200, Sven Peter wrote:
+>> tb_stop only tears down DMA tunnels so a DP tunnel that is still
+>> waiting for dprx_work to complete keeps that work queued while the
+>> routers are removed and the control channel is stopped. The work only
+>> stops once the DPRX timeout has passed and because it requeues itself
+>> until then the flush_workqueue in tb_domain_remove won't wait for its
+>> final run. The callback then runs against a domain that is already torn
+>> down. A reference to that domain is kept so the completion waiting for
+>> that domain to disappear in unbind will block until the timeout is
+>> eventually reached.
 >>
->> I will work on this and experiment to see if it's the best solution or
->> if there's
->> any others as well as to find the ideal timeout, and submit as part 
->> of v2.
->> [...]
+>> Just cancel the work in tb_stop. This doesn't affect DP tunnels that are
+>> already alive and keeps those displays working.
 >>
->> Thanks again,
->> Michael
+>> Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Sven Peter <sven@kernel.org>
+>> ---
+>> I also didn't run into this but noticed it when fixing the hop alloc thing
+>> and think it makes sense to fix it anyway.
+>> ---
+>>   drivers/thunderbolt/tb.c     | 5 ++++-
+>>   drivers/thunderbolt/tunnel.c | 9 +++++++++
+>>   drivers/thunderbolt/tunnel.h | 1 +
+>>   3 files changed, 14 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+>> index e368a6b53f64..f7e68372da09 100644
+>> --- a/drivers/thunderbolt/tb.c
+>> +++ b/drivers/thunderbolt/tb.c
+>> @@ -2958,10 +2958,13 @@ static void tb_stop(struct tb *tb)
+>>   		/*
+>>   		 * DMA tunnels require the driver to be functional so we
+>>   		 * tear them down. Other protocol tunnels can be left
+>> -		 * intact.
+>> +		 * intact but a DPRX capabilities read that is still in
+>> +		 * flight has to be canceled before the routers go away.
+>>   		 */
+>>   		if (tb_tunnel_is_dma(tunnel))
+>>   			tb_tunnel_deactivate(tunnel);
+>> +		else if (tb_tunnel_is_dp(tunnel))
+>> +			tb_tunnel_cancel_dprx(tunnel);
+> I prefer not to expose "non-generic" functions for the CM if possible. I
+> wonder if this would work:
 >
->
-> Thanks,
->
-> - Yureka
->
-> Link: 
-> https://github.com/AsahiLinux/linux/blob/asahi-7.1.5-2/arch/arm64/boot/dts/apple/t8112-j413.dts#L260 
-> [1]
->
+> 		else if (tb_tunnel_is_dp(tunnel) && !tb_tunnel_is_active(tunnel))
+> 			tb_tunnel_deactivate(tunnel);
+
+I think this might also tear down discovered tunnels because they aren't 
+originally set to active in tb_tunnel_discover_dp().
+Only on the resume path tb_tunnel_activate() is then called on 
+everything in tcm->tunnel_list which will, because they have no 
+callback, then reach tb_dp_dprx_start(), take the synchronous path and 
+then finally end up in tb_tunnel_activate().
+
+I think setting them to active in _discover is the correct thing to do 
+here and should be fine, but I'm still not familiar enough with the code 
+to know if this has any other side effects.
+
+This is probably another reason to just make the callback mandatory and 
+run it on resume as well so that we're not stuck for ~12 seconds in the 
+synchronous path there in the worst case.
+
+
+Best,
+
+
+Sven
+
