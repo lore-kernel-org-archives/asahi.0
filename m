@@ -1,194 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E6F3793B4;
-	Fri, 21 Aug 2026 15:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C91B387361;
+	Fri, 21 Aug 2026 17:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787327147; cv=none; b=T/Ak9UTo+j6lT+V6KpgobO6KmJ7yOMOZ5gCSVv5QgIVK+OABCR3gpEPrgDK+dFANARC2hvFA9PIWG/YxoGl+QEvRl+HXe2zXTlhlb9RBQuHq5A6taFJOAoProZRopPfneA26WnpcMBGikLw9506M5z9YSkos8OWNbAIkZfJfmyk=
+	t=1787333709; cv=none; b=c/dg0dY5egvBFdcpESaZDMhlakaLz+ZKFqybFGtwSnQ9O+7yrcKsdCY2uuDmPQqwWlmIMKLjjboPZTK8Du7iU0ipVuuJ0kyuxGUMdxvfB63XXfu7raawHN8qseVe/qEZgQS4rSlphXvRlakUTZY6cSKU2AqJr6lRdNqrPZrg2mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787327147; c=relaxed/simple;
-	bh=+ixko2Bt0RcawsuOfq9EeeMloylw3ayN6yWX9GXtlRI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KfXEZ8yE8gBicX2Np+MWLaMbAWePOEdt6lVP0K4WTh+AeF+vg9GrzDkG3rQyA9R2OUKLoqAmtucn/wFZdpj5DxB5darJBPrTvh9v6PTGI7hthvoY4vJiQWGzaFVE6NZoAUvd0d4FtxXoi07N2oAQ9js/l5n9sjUFztFDOfPKkMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dsg9dIcl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787333709; c=relaxed/simple;
+	bh=tm57Ad6PECZlLu7lczCl2+y1DS+vkQi7R0ed20Yj/ag=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H+Q9dgX0V94ix+blokeoTGCdKRXJzELNoFEcpT2WBIpssxmoSTB3L99/mNOzrnSNd4sw7DJXbmO+3yJAJN6ERjNu+2qonIuEcaE7sLCSfMNQm2mRrU7sttUA+wogYALOwOzWQ1hpyUJZCwF4Ex4BQIvPABiyDS61viYdDl/xH1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=HQtt7lVZ; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dsg9dIcl"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8FF1BC2BCF4;
-	Fri, 21 Aug 2026 15:45:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787327146;
-	bh=+ixko2Bt0RcawsuOfq9EeeMloylw3ayN6yWX9GXtlRI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=dsg9dIclTvdZX2VEI3Zx4breRowsGScDS9Zr+W0bSyJK2HKzoVlH2yvzHeGlID3aQ
-	 JMzwlMT0VEvpIuqsiKLcMbZvcW5lN292PfcN25ltMRnff2naQboIvRo/YeoMnxBwZa
-	 zqGsRQDaTSg8rD+QEw+bYqO+aStcza2gqjGq1A4VN4KT6b7vaoud3dDG0pYWnjt0Vl
-	 JCF+8yiui9IggyZ/eUbNmIZ7lsipqLqmLodjjbynNwttNqdh21Q2LW0DTC7AxHBatA
-	 lXZ3NntI+K0bP1BadXUoivEYj6nAUXME3wsTMy7ZmflVNofvRmW5Eas3RUuX/iofzA
-	 Akp3rEwfn4B1A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED1AC5DF7D;
-	Fri, 21 Aug 2026 15:45:46 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Fri, 21 Aug 2026 17:44:54 +0200
-Subject: [PATCH v2 1/3] dt-bindings: reset: Add Apple SoC CIO reset
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="HQtt7lVZ"
+Message-ID: <bbaca769-312c-4a24-9524-16cb2b4f277f@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1787333180;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4zprVL5/9BVqDOihmvOs/Q42nl1VQUNgjTILqKSw0w0=;
+	b=HQtt7lVZcfVo8TYCvTeQ0igRuXaLHurfb35TIR+j+82dPXJmzUG154fUu75jZxBEkcGoWz
+	jQF6wuQccZftNV5xbWF9/BZb4GXb3VPF9QyKki+En6V7FOPkbtwAbl5I3vuDSh0u10PNot
+	uaRP2PHGDi0hh8BcUCzRWJymQ8yzwY4=
+Date: Fri, 21 Aug 2026 19:26:12 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-b4-cio-reset-v2-1-2d045f80a424@kernel.org>
-References: <20260821-b4-cio-reset-v2-0-2d045f80a424@kernel.org>
-In-Reply-To: <20260821-b4-cio-reset-v2-0-2d045f80a424@kernel.org>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Joshua Peisach <jpeisach@ubuntu.com>, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4541; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=+ixko2Bt0RcawsuOfq9EeeMloylw3ayN6yWX9GXtlRI=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ1ZH0bKdNpa/NnYFXzwkcf7KcrnH86OqN98KO9jP7P532
- 9PXkbd3d5SyMIhxMciKKbJs329v+uThG8Glmy69h5nDygQyhIGLUwAmwsfIyDDLZrNhekGTYeF1
- DvPtq/3v+PMrpRqcE+Tqznsb1XJPM4OR4drV/qsXw3ma/a49PBD0+6kSz0uVqaYZE0pmXLqXzyy
- exgMA
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
+Subject: Re: [PATCH 08/10] HID: apple: Add DockChannel HID transport driver
+To: Yureka Lilian <yureka@cyberchaos.dev>,
+ Michael Reeves <michael.reeves077@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, iommu@lists.linux.dev,
+ linux-input@vger.kernel.org
+References: <20260630-apple-mtp-keyboard-final-v1-0-506d936a1707@gmail.com>
+ <20260630-apple-mtp-keyboard-final-v1-8-506d936a1707@gmail.com>
+ <05d39c4d-8405-4fe7-a798-c8a9c92699ed@cyberchaos.dev>
+ <CANpmGNs3s2yLw05jkpZ9mscQNZ9JvfbqEgyW8V=cMD29aU8c2A@mail.gmail.com>
+ <03eb4c22-045e-470e-8259-ebf9b1cfe2ed@cyberchaos.dev>
+Content-Language: en-US
+From: Yureka Lilian <yureka@cyberchaos.dev>
+In-Reply-To: <03eb4c22-045e-470e-8259-ebf9b1cfe2ed@cyberchaos.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The CIO (USB4/Thunderbolt) blocks on Apple Silicon SoCs have a reset
-inside the power manager that has to be deasserted before their
-co-processor can be booted. On t8103 each port comes with a dedicated
-register page, represented as a standalone node. On t600x a single
-register shared by all ports of a die is located in the middle of the
-PMGR MMIO region instead, represented as a sub-node of the PMGR syscon.
+On 8/1/26 23:56, Yureka Lilian wrote:
+> On 7/1/26 16:32, Michael Reeves wrote:
+>> Hi Yureka,
+>>
+>> Thank you for the review and the feedback.
+>>
+>> On Tue, Jun 30, 2026 at 11:21 PM Yureka Lilian 
+>> <yureka@cyberchaos.dev> wrote:
+>> [...]
+>>>> +     strscpy(hid->uniq, dchid->serial, sizeof(hid->uniq));
+>>> If the keyboard appeared before stm, dchip->serial might be 
+>>> uninitialized.
+>> Yes, true, thank you for picking this up!
+>> [...]
+>>>> +     /*
+>>>> +      * Prefer to enable STM first, since it provides device IDs. 
+>>>> Some
+>>>> +      * firmware versions do not expose STM, so let the keyboard 
+>>>> start
+>>>> +      * without it.
+>>>> +      */
+>>>> +     if (iface->dchid->id_ready || !strcmp(iface->name, "stm") ||
+>>>> +         !strcmp(iface->name, "keyboard"))
+>>> I specifically asked for a mechanism to let the keyboard probe even on
+>>> devices which do not expose/have stm. Thanks for adding that!
+>>> However, I think this might need some more sophisticated mechanism to
+>>> decide whether the stm is still going to appear after the keyboard, or
+>>> not at all. I'm not sure if there is a way to tell this at this point,
+>>> or we need to add a timeout for the stm to appearing, which needs to
+>>> expire before we create the other interfaces with fake serials.
+>>>
+>> I do not think there is a way to tell at this point, unfortunately.
+>>
+>> I think the best way to resolve this would be to implement a delayed 
+>> work
+>> item that is scheduled during probe. If STM appears and initalises 
+>> before
+>> the timer (I'm not sure how long it should be right now, I will 
+>> prototype and
+>> experiment) we cancel the delayed work, get the real serial, and spin up
+>> the keyboard. If the timeout expires without seeing the STM 
+>> interface, we
+>> assume the platform does not have one, mark id_ready as true, and
+>> proceed to init the keyboard.
+>
+> I see three ways forward (no specific order):
+>
+> 1) Implement the timeout as you described.
+>
+> 2) Use the approach that always waits for the stm to appear, and is 
+> proven to work well on the M2 devices targeted by this series. A 
+> different behavior that does not wait for the stm / determines the 
+> serials using other means can be added at a later point in the same 
+> driver but with a different compatible string.
+>
+> 3) Add an stm subnode (like the downstream Asahi device trees have for 
+> their dockchannel-mtp nodes [1]) which indicates whether the stm is 
+> present. Check for the existence of this subnode to decide whether to 
+> wait for the stm or add the HID devices with fake serials. Support for 
+> other methods of retrieving the serials can be added later and 
+> indicated by other subnodes.
+>
+> I would appreciate feedback from all of you on which of these options 
+> we should move forward with.
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Sven Peter <sven@kernel.org>
----
- .../devicetree/bindings/arm/apple/apple,pmgr.yaml  | 12 +++++
- .../bindings/reset/apple,t8103-cio-reset.yaml      | 61 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 3 files changed, 74 insertions(+)
+After checking ioreg -l under macOS on the MacBook Neo (which is the one 
+Apple Silicon MacBook having the non-force-touch trackpad variant, and 
+sending no stm report), I'm convinced it legit has no Serial to report 
+for the keyboard/trackpad HID devices, so we'll always have to use the 
+fake one there.
 
-diff --git a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-index c67b67ba065a..49b4bec36461 100644
---- a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-+++ b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-@@ -59,6 +59,12 @@ patternProperties:
-     type: object
-     $ref: /schemas/power/apple,pmgr-pwrstate.yaml#
- 
-+  "reset-controller@[0-9a-f]+$":
-+    description:
-+      Reset controller for the CIO (USB4/Thunderbolt) blocks
-+    type: object
-+    $ref: /schemas/reset/apple,t8103-cio-reset.yaml#
-+
- required:
-   - compatible
-   - reg
-@@ -103,6 +109,12 @@ examples:
-                 label = "uart0";
-                 power-domains = <&ps_uart_p>;
-             };
-+
-+            reset-controller@13034 {
-+                compatible = "apple,t6000-cio-reset";
-+                reg = <0x13034 0x4>;
-+                #reset-cells = <1>;
-+            };
-         };
- 
-         power-management@23d280000 {
-diff --git a/Documentation/devicetree/bindings/reset/apple,t8103-cio-reset.yaml b/Documentation/devicetree/bindings/reset/apple,t8103-cio-reset.yaml
-new file mode 100644
-index 000000000000..6f602669d242
---- /dev/null
-+++ b/Documentation/devicetree/bindings/reset/apple,t8103-cio-reset.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/reset/apple,t8103-cio-reset.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple SoC CIO (USB4/Thunderbolt) block reset controller
-+
-+maintainers:
-+  - Sven Peter <sven@kernel.org>
-+
-+description: |
-+  The CIO (Converged I/O) blocks on Apple Silicon SoCs have a reset
-+  inside the power manager (PMGR) that has to be deasserted before
-+  their co-processor can be booted. On t8103 each port comes with a
-+  dedicated register page, represented as a standalone node. On t600x a
-+  single register shared by all ports of a die with one request bit per
-+  port is used instead. Since this register is located in the middle of
-+  the PMGR MMIO region it is represented as a sub-node of the PMGR
-+  syscon with reg used as an offset into it.
-+
-+  In both cases the reset id is the CIO port index on the die.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - enum:
-+          - apple,t8103-cio-reset
-+          - apple,t6000-cio-reset
-+      - items:
-+          - const: apple,t8112-cio-reset
-+          - const: apple,t8103-cio-reset
-+      - items:
-+          - const: apple,t6020-cio-reset
-+          - const: apple,t6000-cio-reset
-+
-+  reg:
-+    maxItems: 1
-+
-+  '#reset-cells':
-+    const: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - '#reset-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    soc {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        reset-controller@23b784000 {
-+            compatible = "apple,t8103-cio-reset";
-+            reg = <0x2 0x3b784000 0x0 0x8000>;
-+            #reset-cells = <1>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8014b9f8253e..e1ec54f4d80e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2606,6 +2606,7 @@ F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
- F:	Documentation/devicetree/bindings/power/reset/apple,smc-reboot.yaml
- F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-+F:	Documentation/devicetree/bindings/reset/apple,t8103-cio-reset.yaml
- F:	Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
- F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
- F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+Knowing this, I'd rule out Option 2). Between option 1 (timeout) and 
+option 3 (device tree node), I prefer the device tree node. We already 
+have the keyboard subnode and we know for each MacBook model whether it 
+has an stm or not, so having the stm subnode seems logical. As a bonus, 
+the code for this is quite simple, and I will prepare the v2 of this 
+series shortly.
 
--- 
-2.55.0
-
-
+>
+>>
+>> I will work on this and experiment to see if it's the best solution or
+>> if there's
+>> any others as well as to find the ideal timeout, and submit as part 
+>> of v2.
+>> [...]
+>>
+>> Thanks again,
+>> Michael
+>
+>
+> Thanks,
+>
+> - Yureka
+>
+> Link: 
+> https://github.com/AsahiLinux/linux/blob/asahi-7.1.5-2/arch/arm64/boot/dts/apple/t8112-j413.dts#L260 
+> [1]
+>
