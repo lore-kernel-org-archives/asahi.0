@@ -1,342 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAE138F24D;
-	Sun, 23 Aug 2026 16:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AF73AE6F3
+	for <asahi@lists.linux.dev>; Sun, 23 Aug 2026 19:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787501415; cv=none; b=U7Xgfg87X+jFC+HeYpXoo15T1LEaJGRaQvQWu5Zlc4eq0yAQ95MO4MrqTwJvNWts519GLKbFCuFPg/cnuzh65fVx+wpyshwL7m4Cn32lGYSFdhIQk8EPwxEEN5XdHOsSVyh2aNeHeWEtnyOPd/0coY8Pv33zmtElQEN6BGlSNHE=
+	t=1787514614; cv=none; b=PyBjX+ToEhiV1LJ01ddGMsHFowlbSk3s1rnhOoCHpMxPUwmq7jVD+d3Y/85qZ4jbv+WCXJiywiVLd5dBNDKRrSN3JCXKB6+H2p/Qai211hZKS6NeyFDNwnQq/0eAUbbrVicYeq+3MQEz4cJfjPs8zeQGSsegHwD4d01RFA/AHNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787501415; c=relaxed/simple;
-	bh=4/gZflZqyfX3VI0ASxHBldunkbN3iGh6yKI7giShHRE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NGCuuTRt52I48QWvzcN6tF/IbODLPlXJYvh49srzYS2aGTUDSh+cUhvy579s4vNvLN/3x3VUycPkdyvUCvJbEmZSJjvHbojhN5SuMRHwUp1nDK8q45i3VLzL3LkgDmRKmAYDJUtcyZxfuy77iMEdFMSO/0YYNDJOcWMNHp9DznQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z5FTSr/v; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787514614; c=relaxed/simple;
+	bh=rX+v7xxXwzLAYpmhtlb2z6doTB3XCvraR4aE3uvDS2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dj/BMI38OL8Vq+karp2upWVk23LriuhpSI7mP4+QLwADZKmrLPjpUBwXa8n6xQyTTn8Wgfd8Zc4no73fCQAUcvLd0Y1XP6sO9dx4/PjR2ojC33C3US49xhtX1ym0vUY0kV7AvbGa9tv1T4FzDXlbP3ENPsqjZnW7BiDVHyPc9nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=VZfZauhO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=guCDXltv; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z5FTSr/v"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B21EDC2BCFC;
-	Sun, 23 Aug 2026 16:10:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787501415;
-	bh=4/gZflZqyfX3VI0ASxHBldunkbN3iGh6yKI7giShHRE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Z5FTSr/vNytzkdH2iny8wdq5jPl0tezlqY3qXN0YG/gBgkXHk/JS/SX5ianxkaN/S
-	 pm9JdDlAWvcLwrrMMU/EClmieUb1XqZbGOZJsPNPdhyiBe9ZDebBt3+9JxVE/cdNCE
-	 iMOzI7/bsXVH1/YdRnX15E/8Cw6GQnVWNRmmicH91jCxvRvRxXgzDh9tO553qev3iO
-	 fsjt3Ikk1VStF7w5+GEL+53B2l8Gxj07qwPAJg+tQvLW5A+KIEeDzklr2B1Y96aNl4
-	 rW2pW34rimFhIAKupWv3FSlOYsOg43ZZbwSv4UEj0+2C1joMot4QgoasEM6eufZQo1
-	 oTAldXnx8HiGg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F4A2C5DF81;
-	Sun, 23 Aug 2026 16:10:15 +0000 (UTC)
-From: Sven Peter <sven@kernel.org>
-Date: Sun, 23 Aug 2026 18:09:20 +0200
-Subject: [PATCH v2 7/7] thunderbolt: Drop the DP tunnel activation callback
- data
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="VZfZauhO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="guCDXltv"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id CE575EC01A5;
+	Sun, 23 Aug 2026 15:50:09 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Sun, 23 Aug 2026 15:50:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1787514609; x=1787601009; bh=pQKnZDxeoh
+	OW6VM9kosMPFjb8ePOTXj9OU7E2dBPW+s=; b=VZfZauhOQaHcDD8Lq8LM/pmZRd
+	nVazpJ3BCIwRX/Qs6S7KcQ2+vHU9whE6khErzX15mJvKhJNNDR1kHXsnbaIuSr63
+	ufMFACxLFA/pGpgb/d0g82CSsnF4C/RYjv2EzPVOLMB2A8kLR4zLLm/wPo54XWV4
+	qMqpqTjV3O5x9bXwqHH32eoJOvK8ugiMSQRaTZZrusq9zRJOu7mP+ZdfEvljP0Be
+	Z44uCmxynw8U0WxlexsqOw7KHQJC/rnvfhm3H/+h7jNlopWnWIokyxLxeWHswC1s
+	j/OM+c6eX8hNxGLzOWFAKPd/33OvACno6Gr5Ama9/JolSXdIjONy5534plNQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1787514609; x=1787601009; bh=pQKnZDxeohOW6VM9kosMPFjb8ePOTXj9OU7
+	E2dBPW+s=; b=guCDXltvLKP7vB0PN4d07t+niTl0JA3Qfc7bREgejZ2KZi7KtC9
+	A411G8OJSSoKNah1UOk9uqu48gieBEyy7BwhG40emz1OamaGD/I+zICMh3s1GrXs
+	TpDnD737hgaIA7dvmUzG+oPpphL/yV3Ni3SWEJewRk+EKUm+pYtskg0GgvzVzLp9
+	ZbOVlsEr3sFXzUD8N5sfMFYx/H9quBr/iwf44FVzQ0YlldFeMUapV3BLylRX3Dhj
+	CnnfoMOw9axJRseXi2UmW27pULYWbbVEol37pvxauFlox64mPH10RR3c6r1usBO+
+	GBffrMDlgKr8J/0KJh34FTm4qUkdW3kakmg==
+X-ME-Sender: <xms:8E6LagQGo4DwS3TBlmbpTE42HpdjKzh9ymQ0Ah0MnwzAVXQHhWyTzA>
+    <xme:8E6LaiW7_CKQJRYKjeGpimug3E8_JVZcEegpCj08ztaaWkVawy_qv4XpoZgn5T4VB
+    oY7_dEO850_dDmiDMT0WLOFuN9ZsmHUnc3w52meOArWDxM1ly5UNDo>
+X-ME-Received: <xmr:8E6Laq9su9Idxv2ABaAxtsxKU71lXplROg2C2JtLbkuCVpqdO8liyuyILsYhPwFQ_JD_6sbBjQ_2x0iSbecH57V_5T_ik_aXExA>
+X-ME-Proxy-Cause: dmFkZTEgrk7A58agCDVcNKxfDluB8i4Efx5YmwwxBhKTud2OzRsywHdKffRyobKFKCEKCN
+    sFUvmCo4CAyvgWf8Bhyvpt1YqjWK0/zcxoheKuyfThaV90hW6k4ZwLacDrMYlDkYiyNLIH
+    JG8iJMtaEI9BE9iq0OnlzxBqW6RC89CZ6zkqicfRmy26QD0sBvT+orAIi6LQJ/VOsMdZaK
+    k8mjSks0botyaotjJUIYa1tv1VudpwFM1ueAKcPDNZTnyZbacbxa3+muVRw+J+Ut/nR9Th
+    hMxbEidqEtF7AeZ80LvKooHB4sGQ0PeUrfDqXi8IMk0oXfUah52Ah7YzF0p1upWm0ZbOZF
+    PcGUpKXYmSm/t3EUE9UPI6snQUdMyiLFe3bXljxhLBx1wum8yHUD+b6gP7Me4egyhjvmvE
+    XxjzrW27GaV569oHAqf5U41kIBrB5gwo1EZVQexNzlvIAjd+0AvfBED1odPK+G41dP8tut
+    VH1DL69/eYg/xuFZUkC0hYcOkFQ/ahxQPpyZeWuZZhJ4QrYzONfJ3Fjbk0nG1/XxDU7ZoQ
+    w9tVPfeZ0ijoneq/kV+dwKh1za6hURDCdyGmB2RaTHrq7njqcy9EDGGWFMWtzIVUqwN6I7
+    DJl4p5QPkPE1CkVS7kNu7TBitX44daVRMiTK2nroH5xrJK7xMT25llwNqUgQ
+X-ME-Proxy: <xmx:8E6Laq0RglNLJUS8M7oBoAB3bwqZ4Z6C-2bCnZsqHcgpyvuox5AR5A>
+    <xmx:8E6LancJ9EIBYVPcOisEWNhOB4i43xgWxfeglfz1K-BBTF8_JoKoNg>
+    <xmx:8E6LapCR41oWBXbNDsFgq-cAlDsov___sf5DhW6f5UPzbhHCOxLNyQ>
+    <xmx:8E6Lam9-01NBZiS6Y9r7gWfc9ey2GJcGtvqQOv5z8098NlmqwSnj6g>
+    <xmx:8U6Laruj9DN9mm4zjg8UOMRpgH4lJrT19_MbtFw5OkN0MGUCz_v865xz>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 23 Aug 2026 15:50:07 -0400 (EDT)
+Date: Sun, 23 Aug 2026 21:50:05 +0200
+From: Janne Grunau <j@jannau.net>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alyssa Milburn <amilburn@zall.org>
+Subject: Re: [PATCH v5 2/3] usb: typec: tipd: Factor out i2c specifics
+Message-ID: <20260823195005.GA773834@robin.jannau.net>
+References: <20260821-tipd-ace3-v5-0-3244ed3bdc3f@chaosmail.tech>
+ <20260821-tipd-ace3-v5-2-3244ed3bdc3f@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260823-b4-tbt-fixes-v2-7-26a18a426c9f@kernel.org>
-References: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
-In-Reply-To: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
-To: Andreas Noever <andreas.noever@gmail.com>, 
- Mika Westerberg <westeri@kernel.org>, 
- Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>, 
- Konrad Dybcio <konradybcio@kernel.org>, asahi@lists.linux.dev, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sven Peter <sven@kernel.org>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11508; i=sven@kernel.org;
- h=from:subject:message-id;
- bh=4/gZflZqyfX3VI0ASxHBldunkbN3iGh6yKI7giShHRE=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ1a3dMrbozeLWpMy+gI43ogs7LNWXTVv1ysr7TM6pst+L
- G3d6p3TUcrCIMbFICumyLJ9v73pk4dvBJduuvQeZg4rE8gQBi5OAZjI0jMMv5imV7nse7OVt3Su
- 5uY7HBNPhrv03spZUV0z/+ZVd+bn57wY/he8czLNmnBgh1xxy4HGUsv3gZtvZmhXnxZ5cXXHy2+
- 3nnEAAA==
-X-Developer-Key: i=sven@kernel.org; a=openpgp;
- fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
-X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
- auth_id=407
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260821-tipd-ace3-v5-2-3244ed3bdc3f@chaosmail.tech>
 
-The callback data is always the domain the tunnel belongs to which the
-callback can just take from the tunnel itself.
+On Fri, Aug 21, 2026 at 10:26:20AM +0200, Sasha Finkelstein wrote:
+> From: Alyssa Milburn <amilburn@zall.org>
+> 
+> Make the core driver more bus-agnostic to prepare for SPMI variants of
+> the tipd chip
+> 
+> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+>  drivers/usb/typec/tipd/Kconfig    |   8 +++--
+>  drivers/usb/typec/tipd/Makefile   |  11 ++++---
+>  drivers/usb/typec/tipd/core.c     | 230 ++++++++++++++++++++++++-----------------------------------------------------------------------------------------------------------------------
+>  drivers/usb/typec/tipd/i2c.c      | 106 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/usb/typec/tipd/tps6598x.h | 123 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 280 insertions(+), 198 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index 522f56742aa9..36fccd45858b 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -2085,33 +1950,14 @@ static const struct tipd_data tps25750_data = {
+>  	.connect = tps6598x_connect,
+>  };
+>  
+> -static const struct of_device_id tps6598x_of_match[] = {
+> -	{ .compatible = "ti,tps6598x", &tps6598x_data},
+> -	{ .compatible = "ti,tps66993", &tps66993_data},
+> -	{ .compatible = "apple,cd321x", &cd321x_data},
+> -	{ .compatible = "ti,tps25750", &tps25750_data},
+> -	{}
+> -};
+> -MODULE_DEVICE_TABLE(of, tps6598x_of_match);
+> -
+> -static const struct i2c_device_id tps6598x_id[] = {
+> -	{ .name = "tps6598x", .driver_data = (kernel_ulong_t)&tps6598x_data },
+> -	{ }
+> -};
+> -MODULE_DEVICE_TABLE(i2c, tps6598x_id);
+> -
+> -static struct i2c_driver tps6598x_i2c_driver = {
+> -	.driver = {
+> -		.name = "tps6598x",
+> -		.pm = &tps6598x_pm_ops,
+> -		.of_match_table = tps6598x_of_match,
+> -	},
+> -	.probe = tps6598x_probe,
+> -	.remove = tps6598x_remove,
+> -	.id_table = tps6598x_id,
+> +const struct tipd_data *tipd_hw_variants[] = {
+> +	[TIPD_VARIANT_CD321X] = &tipd_cd321x_data,
+> +	[TIPD_VARIANT_TPS6598X] = &tipd_tps6598x_data,
+> +	[TIPD_VARIANT_TPS66993] = &tipd_tps6598x_data,
 
-Signed-off-by: Sven Peter <sven@kernel.org>
----
- drivers/thunderbolt/tb.c     | 10 +++++-----
- drivers/thunderbolt/test.c   | 24 ++++++++++++------------
- drivers/thunderbolt/tunnel.c | 12 +++---------
- drivers/thunderbolt/tunnel.h | 10 +++-------
- 4 files changed, 23 insertions(+), 33 deletions(-)
+this should be &tipd_tps66993_data
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 921adba3544f..40a5a3ebb31d 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -89,7 +89,7 @@ static void tb_dp_resource_unavailable(struct tb *tb, struct tb_port *port,
- 				       const char *reason);
- static void tb_queue_dp_bandwidth_request(struct tb *tb, u64 route, u8 port,
- 					  int retry, unsigned long delay);
--static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data);
-+static void tb_dp_tunnel_active(struct tb_tunnel *tunnel);
- 
- static void tb_queue_hotplug(struct tb *tb, u64 route, u8 port, bool unplug)
- {
-@@ -387,7 +387,7 @@ static void tb_switch_discover_tunnels(struct tb_switch *sw,
- 		switch (port->config.type) {
- 		case TB_TYPE_DP_HDMI_IN:
- 			tunnel = tb_tunnel_discover_dp(tb, port, alloc_hopids,
--						       tb_dp_tunnel_active, tb);
-+						       tb_dp_tunnel_active);
- 			tb_increase_tmu_accuracy(tunnel);
- 			break;
- 
-@@ -1905,11 +1905,11 @@ static struct tb_port *tb_find_dp_out(struct tb *tb, struct tb_port *in)
- 	return NULL;
- }
- 
--static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
-+static void tb_dp_tunnel_active(struct tb_tunnel *tunnel)
- {
- 	struct tb_port *in = tunnel->src_port;
- 	struct tb_port *out = tunnel->dst_port;
--	struct tb *tb = data;
-+	struct tb *tb = tunnel->tb;
- 
- 	mutex_lock(&tb->lock);
- 
-@@ -2038,7 +2038,7 @@ static void tb_tunnel_one_dp(struct tb *tb, struct tb_port *in,
- 	       available_up, available_down);
- 
- 	tunnel = tb_tunnel_alloc_dp(tb, in, out, link_nr, available_up,
--				    available_down, tb_dp_tunnel_active, tb);
-+				    available_down, tb_dp_tunnel_active);
- 	if (!tunnel) {
- 		tb_port_dbg(out, "could not allocate DP tunnel\n");
- 		goto err_reclaim_usb;
-diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
-index fc3f647bf664..9e128c26f003 100644
---- a/drivers/thunderbolt/test.c
-+++ b/drivers/thunderbolt/test.c
-@@ -1398,7 +1398,7 @@ static void tb_test_tunnel_pcie(struct kunit *test)
- 	tb_tunnel_put(tunnel1);
- }
- 
--static void tb_test_dp_tunnel_active(struct tb_tunnel *tunnel, void *data)
-+static void tb_test_dp_tunnel_active(struct tb_tunnel *tunnel)
- {
- }
- 
-@@ -1423,7 +1423,7 @@ static void tb_test_tunnel_dp(struct kunit *test)
- 	out = &dev->ports[13];
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 1, 0, 0,
--				    tb_test_dp_tunnel_active, NULL);
-+				    tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_NOT_NULL(test, tunnel);
- 	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, in);
-@@ -1470,7 +1470,7 @@ static void tb_test_tunnel_dp_chain(struct kunit *test)
- 	out = &dev4->ports[14];
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 1, 0, 0,
--				    tb_test_dp_tunnel_active, NULL);
-+				    tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_NOT_NULL(test, tunnel);
- 	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, in);
-@@ -1521,7 +1521,7 @@ static void tb_test_tunnel_dp_tree(struct kunit *test)
- 	out = &dev5->ports[13];
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 1, 0, 0,
--				    tb_test_dp_tunnel_active, NULL);
-+				    tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_NOT_NULL(test, tunnel);
- 	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, in);
-@@ -1587,7 +1587,7 @@ static void tb_test_tunnel_dp_max_length(struct kunit *test)
- 	out = &dev12->ports[13];
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 1, 0, 0,
--				    tb_test_dp_tunnel_active, NULL);
-+				    tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_NOT_NULL(test, tunnel);
- 	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, in);
-@@ -1658,7 +1658,7 @@ static void tb_test_tunnel_3dp(struct kunit *test)
- 	out3 = &dev4->ports[14];
- 
- 	tunnel1 = tb_tunnel_alloc_dp(NULL, in1, out1, 1, 0, 0,
--				     tb_test_dp_tunnel_active, NULL);
-+				     tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_TRUE(test, tunnel1 != NULL);
- 	KUNIT_EXPECT_EQ(test, tunnel1->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->src_port, in1);
-@@ -1667,7 +1667,7 @@ static void tb_test_tunnel_3dp(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, tunnel1->paths[0]->path_length, 3);
- 
- 	tunnel2 = tb_tunnel_alloc_dp(NULL, in2, out2, 1, 0, 0,
--				     tb_test_dp_tunnel_active, NULL);
-+				     tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_TRUE(test, tunnel2 != NULL);
- 	KUNIT_EXPECT_EQ(test, tunnel2->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->src_port, in2);
-@@ -1676,7 +1676,7 @@ static void tb_test_tunnel_3dp(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, tunnel2->paths[0]->path_length, 4);
- 
- 	tunnel3 = tb_tunnel_alloc_dp(NULL, in3, out3, 1, 0, 0,
--				     tb_test_dp_tunnel_active, NULL);
-+				     tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_TRUE(test, tunnel3 != NULL);
- 	KUNIT_EXPECT_EQ(test, tunnel3->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel3->src_port, in3);
-@@ -1775,7 +1775,7 @@ static void tb_test_tunnel_port_on_path(struct kunit *test)
- 	out = &dev5->ports[13];
- 
- 	dp_tunnel = tb_tunnel_alloc_dp(NULL, in, out, 1, 0, 0,
--				       tb_test_dp_tunnel_active, NULL);
-+				       tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_NOT_NULL(test, dp_tunnel);
- 
- 	KUNIT_EXPECT_TRUE(test, tb_tunnel_port_on_path(dp_tunnel, in));
-@@ -2208,7 +2208,7 @@ static void tb_test_credit_alloc_dp(struct kunit *test)
- 	out = &dev->ports[14];
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 1, 0, 0,
--				    tb_test_dp_tunnel_active, NULL);
-+				    tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_NOT_NULL(test, tunnel);
- 	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)3);
- 
-@@ -2445,7 +2445,7 @@ static struct tb_tunnel *TB_TEST_DP_TUNNEL1(struct kunit *test,
- 	in = &host->ports[5];
- 	out = &dev->ports[13];
- 	dp_tunnel1 = tb_tunnel_alloc_dp(NULL, in, out, 1, 0, 0,
--					tb_test_dp_tunnel_active, NULL);
-+					tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_NOT_NULL(test, dp_tunnel1);
- 	KUNIT_ASSERT_EQ(test, dp_tunnel1->npaths, (size_t)3);
- 
-@@ -2483,7 +2483,7 @@ static struct tb_tunnel *TB_TEST_DP_TUNNEL2(struct kunit *test,
- 	in = &host->ports[6];
- 	out = &dev->ports[14];
- 	dp_tunnel2 = tb_tunnel_alloc_dp(NULL, in, out, 1, 0, 0,
--					tb_test_dp_tunnel_active, NULL);
-+					tb_test_dp_tunnel_active);
- 	KUNIT_ASSERT_NOT_NULL(test, dp_tunnel2);
- 	KUNIT_ASSERT_EQ(test, dp_tunnel2->npaths, (size_t)3);
- 
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index 3785e29cf92b..cbffb1e612b6 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -1113,7 +1113,7 @@ static void tb_dp_dprx_work(struct work_struct *work)
- 	}
- 	mutex_unlock(&tb->lock);
- 
--	tunnel->callback(tunnel, tunnel->callback_data);
-+	tunnel->callback(tunnel);
- 	tb_tunnel_put(tunnel);
- 	tb_domain_put(tb);
- }
-@@ -1589,7 +1589,6 @@ static void tb_dp_dump(struct tb_tunnel *tunnel)
-  * @alloc_hopid: Allocate HopIDs from visited ports
-  * @callback: Callback that is called when the DP tunnel is fully
-  *	      activated (or there is an error)
-- * @callback_data: Data for @callback
-  *
-  * If @in adapter is active, follows the tunnel to the DP out adapter
-  * and back. Returns the discovered tunnel or %NULL if there was no
-@@ -1599,8 +1598,7 @@ static void tb_dp_dump(struct tb_tunnel *tunnel)
-  */
- struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in,
- 					bool alloc_hopid,
--					void (*callback)(struct tb_tunnel *, void *),
--					void *callback_data)
-+					void (*callback)(struct tb_tunnel *))
- {
- 	struct tb_tunnel *tunnel;
- 	struct tb_port *port;
-@@ -1625,7 +1623,6 @@ struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in,
- 	tunnel->consumed_bandwidth = tb_dp_consumed_bandwidth;
- 	tunnel->src_port = in;
- 	tunnel->callback = callback;
--	tunnel->callback_data = callback_data;
- 	INIT_DELAYED_WORK(&tunnel->dprx_work, tb_dp_dprx_work);
- 
- 	path = tb_path_discover(in, TB_DP_VIDEO_HOPID, NULL, -1,
-@@ -1696,7 +1693,6 @@ struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in,
-  *	      %0 if no available bandwidth.
-  * @callback: Callback that is called when the DP tunnel is fully
-  *	      activated (or there is an error)
-- * @callback_data: Data for @callback
-  *
-  * Allocates a tunnel between @in and @out that is capable of tunneling
-  * Display Port traffic. The @callback is called after tb_tunnel_activate()
-@@ -1710,8 +1706,7 @@ struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in,
- struct tb_tunnel *tb_tunnel_alloc_dp(struct tb *tb, struct tb_port *in,
- 				     struct tb_port *out, int link_nr,
- 				     int max_up, int max_down,
--				     void (*callback)(struct tb_tunnel *, void *),
--				     void *callback_data)
-+				     void (*callback)(struct tb_tunnel *))
- {
- 	struct tb_tunnel *tunnel;
- 	struct tb_path **paths;
-@@ -1737,7 +1732,6 @@ struct tb_tunnel *tb_tunnel_alloc_dp(struct tb *tb, struct tb_port *in,
- 	tunnel->max_up = max_up;
- 	tunnel->max_down = max_down;
- 	tunnel->callback = callback;
--	tunnel->callback_data = callback_data;
- 	INIT_DELAYED_WORK(&tunnel->dprx_work, tb_dp_dprx_work);
- 
- 	paths = tunnel->paths;
-diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
-index 7d1d255ab5a7..28f49f7e9f56 100644
---- a/drivers/thunderbolt/tunnel.h
-+++ b/drivers/thunderbolt/tunnel.h
-@@ -67,7 +67,6 @@ enum tb_tunnel_state {
-  * @dprx_timeout: If set DPRX capabilities read poll work will timeout after this passes
-  * @dprx_work: Worker that is scheduled to poll completion of DPRX capabilities read
-  * @callback: Callback called when DP tunnel is fully activated
-- * @callback_data: Data for @callback
-  * @paths: All paths required by the tunnel
-  */
- struct tb_tunnel {
-@@ -104,8 +103,7 @@ struct tb_tunnel {
- 	bool dprx_canceled;
- 	ktime_t dprx_timeout;
- 	struct delayed_work dprx_work;
--	void (*callback)(struct tb_tunnel *tunnel, void *data);
--	void *callback_data;
-+	void (*callback)(struct tb_tunnel *tunnel);
- 
- 	struct tb_path *paths[] __counted_by(npaths);
- };
-@@ -118,13 +116,11 @@ bool tb_tunnel_reserved_pci(struct tb_port *port, int *reserved_up,
- 			    int *reserved_down);
- struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in,
- 					bool alloc_hopid,
--					void (*callback)(struct tb_tunnel *, void *),
--					void *callback_data);
-+					void (*callback)(struct tb_tunnel *));
- struct tb_tunnel *tb_tunnel_alloc_dp(struct tb *tb, struct tb_port *in,
- 				     struct tb_port *out, int link_nr,
- 				     int max_up, int max_down,
--				     void (*callback)(struct tb_tunnel *, void *),
--				     void *callback_data);
-+				     void (*callback)(struct tb_tunnel *));
- struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
- 				      struct tb_port *dst, int transmit_path,
- 				      int transmit_ring, int receive_path,
-
--- 
-2.55.0
-
-
+Janne
