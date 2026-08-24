@@ -1,33 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635DC409121;
-	Mon, 24 Aug 2026 11:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23FC390603;
+	Mon, 24 Aug 2026 11:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787569578; cv=none; b=YHohmUuhUWmLT49XKbIxpxW8TmEe3ZDz2go82O/YlUOFL/EHsPeVC6uFniR7qzSw9qd8HcgQzq2KEPkf/aFal/+rs4qBHGaprAf0ujwVOloUjfK991LWTF+iRFA/IaWxjIh9QTBMR0o4DviiRxiUkI/k6vt8sR/GrMP5VR98Uwk=
+	t=1787570951; cv=none; b=eiUiQT9djvLpgYXo6xhomxW6s6N8MzVPPO0qFezhpvBvirpEsg2TxnXtPnWz9cMwuXBzMXI5iLvA6yNfw2ci5X0rUe2zmnuFRyduDJln83iGdB03t010QUM/tSGu9TxBOyt1oJU1bOXWuovJwg/7Ve27d08anKBy027A7VJMN0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787569578; c=relaxed/simple;
-	bh=cdNbg7ierzQ4SVqvczdngiZomV/AJvrAnFnUZFFGlVk=;
+	s=arc-20240116; t=1787570951; c=relaxed/simple;
+	bh=sdV8IKSzvBM2QqVDwBaCbcaPhegAg+U0Rp2ZABkRGd8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dYWwI/q6vKfxK0YYdVfoUBtElWNCX34X0y/FydCTm0CKbq0EHEu71HnVvielM0hdxhv8fulox5HsLeWl1BjsfsOKPvHqR/1gvI71VnC8sWgiHFQGHi2GK7lOpHo0jPnbW8B4VIfRTayZjqRxhPnMmPdeAxSjkucadtU7AfRy+LU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwV/J4Aq; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=CTuYDspakAVWb6o98TefmZe0CrhWntMyu43uFK8UJPB+VpubLdkCQ0qV0ReIoPIdEguDGC4/V7Luknz9qSJQWn4vzgYvKSRQW5yg4f5M0onde/KAi2z+XFykTCqte2dlIjZLPZ4UZyvRJDVJYYLcrF446ILJngffhILyYRDJVTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jPAk+QU8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5lDYM8Sp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bsPlg+u0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OLusts3S; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwV/J4Aq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E7E31F00A3A;
-	Mon, 24 Aug 2026 11:06:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787569576;
-	bh=YIW9cDWMhEnjUil/FTCyHPfyEMgCmBZe7DzJHN1+g9o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mwV/J4AqfZ7bGlyOcS6CjfOdHCZbZ/smQgCVNwcxgZ2Fiwpw+3OLWD4gtk83e4QId
-	 FsQtS9OgtXG4SNhznzIcdn03DWmVHKukB/+b3voqdEmy+ZBbfPA0cWJHmPg1o7a9Ht
-	 r8P5o8EDYBd5jCg8ekXEA5qfXdNHotU7jgAlyuL19WSVINyrD07U/5IwkQnpahL4wc
-	 EoQ7MG+B+M+SVlCKDHuYIqnlDUOMBgI5SocFD2lH6YOE6luEIPi/MIYsv3m2k8ttvm
-	 e0yHx9CfLAfYWc7H26T/B2HmE58wk7jCKW8G29sQA2JNw60tjsFIl6EoMi9kYbWmsH
-	 osuWyKCA34UiQ==
-Message-ID: <295cce78-47d2-4a6e-af90-696edb60a05d@kernel.org>
-Date: Mon, 24 Aug 2026 13:06:12 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jPAk+QU8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5lDYM8Sp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bsPlg+u0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OLusts3S"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2B5911F82E;
+	Mon, 24 Aug 2026 11:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787570893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=oRfeKqw0N0kQLKC+424hjjzXjyHez3BAAze+hVfK2Rg=;
+	b=jPAk+QU8Oz9JiYGtn+V5jZxMEyjAvNiz7x+giw+idIe7iWHZ3M9kfknb1WdCY6dzXCmQD3
+	RUzjbubEF3hnieEB81hcTriJJ/TZwn9WrJvXmwfrSSxcQQ1ZlbjhLeh4wlav9BK5HaMwO3
+	6684oDDWCwOgqkGGromNNiB5crtoKp8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787570893;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=oRfeKqw0N0kQLKC+424hjjzXjyHez3BAAze+hVfK2Rg=;
+	b=5lDYM8Sp+2Zs/UK8WEQsqpqKl/p+3waU+CqzB8+6scnvBPnqiDamSiTmKrctumFJCWBEYi
+	aX34sUfDAX5NblCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787570889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=oRfeKqw0N0kQLKC+424hjjzXjyHez3BAAze+hVfK2Rg=;
+	b=bsPlg+u0OwdeHNbNGrLeK44/R8qCs4CSg2PYS8tAMdo+SiYAgso2oR9h7L/qr4Kf3DuMkG
+	JKgB4VRdqQ8XdeAhqD8b8vI76Bx+jM9yHqOPuKlYDaI0OV9UYbWCi5Q1nsdyTPB6peYLQF
+	TjI7tAEaxq6cznVveiRZRfRGOnX5P94=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787570889;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=oRfeKqw0N0kQLKC+424hjjzXjyHez3BAAze+hVfK2Rg=;
+	b=OLusts3Smqe2AFyYsDutCyN37J42MZz2JAj9qpn2mbZkclBOoroaTNZlb/XsAZWC4PdLh8
+	KxcB0oUEd1WRgsCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2DC4E1333B;
+	Mon, 24 Aug 2026 11:28:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l1sQCsYqjGpBYAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 24 Aug 2026 11:28:06 +0000
+Message-ID: <c56a1ec4-b70d-4ff6-a2ca-4ff625845b4e@suse.de>
+Date: Mon, 24 Aug 2026 13:28:05 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,187 +82,368 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] thunderbolt: Hold a router reference for each path
- hop
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>,
- asahi@lists.linux.dev, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
- <20260823-b4-tbt-fixes-v2-1-26a18a426c9f@kernel.org>
- <20260824104237.GF893316@black.igk.intel.com>
+Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
+ atomic_create_state and remove reset
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Janne Grunau <j@jannau.net>,
+ Sasha Finkelstein <k@chaosmail.tech>, asahi@lists.linux.dev,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ Liviu Dudau <liviu.dudau@arm.com>, Russell King <linux@armlinux.org.uk>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Alison Wang <alison.wang@nxp.com>, Stefan Agner <stefan@agner.ch>,
+ Ruben Wauters <rubenru09@aol.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Yongbang Shi <shiyongbang@huawei.com>, John Stultz <jstultz@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Yongqin Liu
+ <yongqin.liu@linaro.org>, Dexuan Cui <decui@microsoft.com>,
+ Long Li <longli@microsoft.com>, Saurabh Sengar
+ <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org,
+ Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+ Liu Ying <victor.liu@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, imx@lists.linux.dev,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>,
+ linux-mips@vger.kernel.org, Anitha Chrisanthus
+ <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-amlogic@lists.infradead.org, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Dmitry Baryshkov <lumag@kernel.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Marek Vasut <marex@denx.de>, Dave Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, Geert Uytterhoeven
+ <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org,
+ Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Aditya Garg <gargaditya08@proton.me>, Aun-Ali Zaidi <admin@kodeit.net>,
+ LiangCheng Wang <zaq14760@gmail.com>, Alex Lanzano <lanzano.alex@gmail.com>,
+ Hans de Goede <hansg@kernel.org>, Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Michal Simek <michal.simek@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, Jocelyn Falempe
+ <jfalempe@redhat.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Dharma Balasubiramani <dharma.b@microchip.com>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Huacai Chen <chenhuacai@kernel.org>,
+ Jianmin Lv <lvjianmin@loongson.cn>, Mingcong Bai <jeffbai@aosc.io>,
+ Qianhai Wu <wuqianhai@loongson.cn>, Xi Ruoyao <xry111@xry111.site>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Danilo Krummrich
+ <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ nouveau@lists.freedesktop.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Iker Pedrosa <ikerpedrosam@gmail.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@kernel.org>, linux-tegra@vger.kernel.org,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Zack Rusin <zack.rusin@broadcom.com>
+References: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
 Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260824104237.GF893316@black.igk.intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -0.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-0.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	FORGED_RECIPIENTS(2.00)[m:airlied@gmail.com,m:simona@ffwll.ch,m:k@chaosmail.tech,m:christian.koenig@amd.com,m:alexander.deucher@amd.com,m:liviu.dudau@arm.com,m:linux@armlinux.org.uk,m:alim.akhtar@samsung.com,m:inki.dae@samsung.com,m:kyungmin.park@samsung.com,m:sw0312.kim@samsung.com,m:linux-samsung-soc@vger.kernel.org,m:stefan@agner.ch,m:rubenru09@aol.com,m:tiantao6@hisilicon.com,m:kong.kongxinwei@hisilicon.com,m:jstultz@google.com,m:linux-hyperv@vger.kernel.org,m:festevam@gmail.com,m:kernel@pengutronix.de,m:s.hauer@pengutronix.de,m:laurentiu.palcu@oss.nxp.com,m:l.stach@pengutronix.de,m:paul@crapouillou.net,m:linux-mips@vger.kernel.org,m:paulk@sys-base.io,m:jbrunet@baylibre.com,m:khilman@baylibre.com,m:martin.blumenstingl@googlemail.com,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:linux-arm-msm@vger.kernel.org,m:marex@denx.de,m:airlied@redhat.com,m:kraxel@redhat.com,m:geert+renesas@glider.be,m:linux-renesas-soc@vger.kern
+ el.org,m:marcus.folkesson@gmail.com,m:zhang.lyra@gmail.com,m:orsonzhai@gmail.com,m:alain.volmat@foss.st.com,m:rgallaispou@gmail.com,m:alexandre.torgue@foss.st.com,m:mcoquelin.stm32@gmail.com,m:philippe.cornu@foss.st.com,m:raphael.gallais-pou@foss.st.com,m:yannick.fertre@foss.st.com,m:samuel@sholland.org,m:gargaditya08@proton.me,m:zaq14760@gmail.com,m:lanzano.alex@gmail.com,m:olvaffe@gmail.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:michal.simek@amd.com,m:javierm@redhat.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:jfalempe@redhat.com,m:alexandre.belloni@bootlin.com,m:claudiu.beznea@tuxon.dev,s:kieran.bingham@ideasonboard.com,s:laurent.pinchart@ideasonboard.com,s:tomi.valkeinen@ideasonboard.com,s:mcanal@igalia.com,s:chenhuacai@kernel.org,s:chunkuang.hu@kernel.org,s:dakr@kernel.org,s:thierry.reding@kernel.org,s:nouveau@lists.freedesktop.org,s:linux-rockchip@lists.infradead.org,s:lvjianmin@loongson.cn,s:wuqianhai@loongson.cn,s:manikandan.m@microchip.com,s:
+ nicolas.ferre@microchip.com,s:jonathanh@nvidia.com,s:mperttunen@nvidia.com];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[renesas];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,jannau.net,chaosmail.tech,lists.linux.dev,amd.com,arm.com,armlinux.org.uk,samsung.com,kernel.org,linaro.org,vger.kernel.org,nxp.com,agner.ch,aol.com,hisilicon.com,huawei.com,google.com,microsoft.com,linux.microsoft.com,gmail.com,pengutronix.de,oss.nxp.com,crapouillou.net,intel.com,sys-base.io,baylibre.com,googlemail.com,lists.infradead.org,linux.dev,somainline.org,oss.qualcomm.com,poorly.run,denx.de,redhat.com,glider.be,linux.alibaba.com,foss.st.com,sholland.org,iki.fi,ideasonboard.com,proton.me,kodeit.net,iscas.ac.cn,collabora.com,chromium.org,igalia.com,bootlin.com,tuxon.dev,microchip.com,loongson.cn,aosc.io,xry111.site,bp.renesas.com,sntech.de,rock-chips.com,nvidia.com,raspberrypi.com,broadcom.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLoadnimawcdo3as9ydearnodd)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[135];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,suse.com:url]
 
-Hi,
+Hi Maxime
 
-
-On 8/24/26 12:42, Mika Westerberg wrote:
-> Hi,
+Am 21.08.26 um 16:38 schrieb Maxime Ripard:
+> This is a follow-up to the plane reset removal series, and part of a
+> larger effort to remove the reset hook from all KMS objects.
 >
-> On Sun, Aug 23, 2026 at 06:09:14PM +0200, Sven Peter wrote:
->> tb_stop drops the reference to all DP tunnels but does not deactivate
->> them, thus nothing cancels a dprx_work still in flight (which holds its
->> own tunnel reference) and the tunnel can outlive tb_switch_remove. The
->> HopID releases in tb_path_free then operate on freed IDAs and trigger
->> warnings like
->>
->>    ida_free called for id=8 which is not allocated.
->>
->> This can be triggered by unbinding the driver while a DP tunnel is still
->> waiting for the DPRX capabilities read to finish. On the Apple NHI
->> unplugging the cable runs into just that reliably because the read can
->> never finish right now and because the unplug powers down the
->> entire USB4 complex and removes the NHI device.
-> Thanks for adding this.
+> The CRTC reset hook is overloaded: it is called both at probe time to
+> create the initial software state and during suspend/resume to reset
+> hardware and software state. These two roles have different
+> requirements, and the reset hook is not fallible, making error
+> handling difficult for the initial state allocation path.
 >
-> Is this behaviour due to something missing still on PM side or this is how
-> it is designed to work on Apple silicon? This resembles the early PC way
-> where ACPI dealt with all the hotplug PCIe stuff and the host router was
-> only present when a cable was connected. I would kind of expect that Apple
-> did this using "RTD3" way so keeping the host router present and the OS
-> then deals with putting it into D3 and back.
-
-So unfortunately the entire USB hardware is best described as horribly 
-broken :(
-For USB2 already we only ever receive a single hotplug interrupt in 
-dwc3. If the first device is unplugged and another one plugged in 
-nothing happens. The only way around that is to tear down dwc3/xhci and 
-the PHY completely, assert all external reset lines and then bring them 
-up again.
-Upstream drivers/usb/dwc3/dwc3-apple.c contains more details in the very 
-first comment at the top.
-
-With USB4 this gets a bit worse: There's a block called "ACIO" (Apple 
-Converged I/O) which can only be brought up correctly after the PHY has 
-been switched to Thunderbolt/USB4 mode. This block has a co-processor 
-which then exposes the host router, NHI, IOMMU, etc. to our address space.
-We then have to write cable information into a vendor-specific 
-capabilities register and only then do we get the hotplug event and the 
-link comes up. This register appears to be effectively write-once after 
-each boot of the co-processor. If I try to write 0 that still works but 
-trying to write the value for the next connection then crashes the 
-co-processor with a very helpful message along the lines of "assert 4357 
-violated".
-So there's no way around first tearing everything down, then shutting 
-down the co-processor and the entire ACIO block and then finally 
-bringing it all up again after the next cable is connected. I've tried 
-to find ways around this but didn't succeed without documentation and 
-could only reproduce what XNU does.
-
-
+> While reset has the semantics to reset both the software and hardware
+> state, the vast majority of implementations and all the helpers only
+> reset the software state, making them equivalent to
+> atomic_create_state in practice. The atomic_create_state hook makes
+> this explicit: it only allocates and initializes a pristine state
+> without any side effect, and returns the state pointer or an ERR_PTR
+> on failure.
 >
->> Take or release a reference for both ports of each hop whenever the
->> HopIDs are allocated or released to ensure they have the same lifetime.
->>
->> The KUnit tests allocate their switches without ever registering them so
->> initialize the embedded struct device there as well to make these
->> references work.
->>
->> Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Sven Peter <sven@kernel.org>
->> ---
->>   drivers/thunderbolt/path.c | 21 +++++++++++++++++++++
->>   drivers/thunderbolt/test.c | 12 ++++++++++++
->>   2 files changed, 33 insertions(+)
->>
->> diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
->> index b2c322e76b8a..02c5e7a2101e 100644
->> --- a/drivers/thunderbolt/path.c
->> +++ b/drivers/thunderbolt/path.c
->> @@ -196,6 +196,12 @@ struct tb_path *tb_path_discover(struct tb_port *src, int src_hopid,
->>   		path->hops[i].out_port = out_port;
->>   		path->hops[i].next_hop_index = next_hop;
->>   
->> +		/* Keep the ports alive, see tb_path_free() */
->> +		if (alloc_hopid) {
->> +			tb_switch_get(path->hops[i].in_port->sw);
->> +			tb_switch_get(path->hops[i].out_port->sw);
->> +		}
-> I wonder if we can put this in tb_port_alloc_in/out_hopid() instead? That
-> would be more "natural" IMHO.
-
-Sure, I'll give it a try.
+> This series converts all CRTC drivers tree-wide from the reset hook to
+> atomic_create_state, then removes the reset hook from struct
+> drm_crtc_funcs entirely. Two drivers (tilcdc and loongson) had actual
+> hardware reset logic mixed into their reset hook; those are moved to
+> CRTC creation instead. The conversions were done using a combination of
+> Coccinelle semantic patches and manual adjustments.
 >
->> +
->>   		tb_dump_hop(&path->hops[i], &hop);
->>   
->>   		h = next_hop;
->> @@ -323,6 +329,10 @@ struct tb_path *tb_path_alloc(struct tb *tb, struct tb_port *src, int src_hopid,
->>   		path->hops[i].out_port = out_port;
->>   		path->hops[i].next_hop_index = out_hopid;
->>   
->> +		/* Keep the ports alive, see tb_path_free() */
->> +		tb_switch_get(path->hops[i].in_port->sw);
->> +		tb_switch_get(path->hops[i].out_port->sw);
->> +
->>   		in_hopid = out_hopid;
->>   	}
->>   
->> @@ -356,6 +366,17 @@ void tb_path_free(struct tb_path *path)
->>   			if (hop->out_port)
->>   				tb_port_release_out_hopid(hop->out_port,
->>   							  hop->next_hop_index);
->> +			/*
->> +			 * Only drop the switch references after both HopIDs
-> Let's use "router" universally.
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Sure!
+I've gone through the series and it looks good to me; except for patch 50.
 
+Feel free to add
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+to the series with the exception of patch 50.
+
+Best regards
+Thomas
+
+
+> ---
+> Maxime Ripard (70):
+>        drm/adp: Switch to drm_atomic_helper_crtc_create_state
+>        drm/amdgpu: vkms: Switch to drm_atomic_helper_crtc_create_state
+>        drm/arm: hdlcd: Switch to drm_atomic_helper_crtc_create_state
+>        drm/armada: Switch to drm_atomic_helper_crtc_create_state
+>        drm/exynos: Switch to drm_atomic_helper_crtc_create_state
+>        drm/fsl-dcu: Switch to drm_atomic_helper_crtc_create_state
+>        drm/gud: Switch to drm_atomic_helper_crtc_create_state
+>        drm/hisilicon: hibmc: Switch to drm_atomic_helper_crtc_create_state
+>        drm/hisilicon: kirin: Switch to drm_atomic_helper_crtc_create_state
+>        drm/hyperv: Switch to drm_atomic_helper_crtc_create_state
+>        drm/imx: dc: Switch to drm_atomic_helper_crtc_create_state
+>        drm/imx: dcss: Switch to drm_atomic_helper_crtc_create_state
+>        drm/ingenic: Switch to drm_atomic_helper_crtc_create_state
+>        drm/kmb: Switch to drm_atomic_helper_crtc_create_state
+>        drm/logicvc: Switch to drm_atomic_helper_crtc_create_state
+>        drm/meson: Switch to drm_atomic_helper_crtc_create_state
+>        drm/msm: mdp4: Switch to drm_atomic_helper_crtc_create_state
+>        drm/mxs: mxsfb: Switch to drm_atomic_helper_crtc_create_state
+>        drm/qxl: Switch to drm_atomic_helper_crtc_create_state
+>        drm/renesas: shmobile: Switch to drm_atomic_helper_crtc_create_state
+>        drm/simple-kms: Remove unused reset_crtc hook
+>        drm/simple-kms: Switch to drm_atomic_helper_crtc_create_state
+>        drm/sitronix: st7571: Switch to drm_atomic_helper_crtc_create_state
+>        drm/sprd: Switch to drm_atomic_helper_crtc_create_state
+>        drm/sti: Switch to drm_atomic_helper_crtc_create_state
+>        drm/stm: Switch to drm_atomic_helper_crtc_create_state
+>        drm/sun4i: Switch to drm_atomic_helper_crtc_create_state
+>        drm/tests: Switch to drm_atomic_helper_crtc_create_state
+>        drm/tilcdc: Move hardware reset to CRTC creation
+>        drm/tilcdc: Switch to drm_atomic_helper_crtc_create_state
+>        drm/tiny: appletbdrm: Switch to drm_atomic_helper_crtc_create_state
+>        drm/tiny: bochs: Switch to drm_atomic_helper_crtc_create_state
+>        drm/tiny: cirrus: Switch to drm_atomic_helper_crtc_create_state
+>        drm/tiny: pixpaper: Switch to drm_atomic_helper_crtc_create_state
+>        drm/tiny: sharp: Switch to drm_atomic_helper_crtc_create_state
+>        drm/udl: Switch to drm_atomic_helper_crtc_create_state
+>        drm/vbox: Switch to drm_atomic_helper_crtc_create_state
+>        drm/verisilicon: Switch to drm_atomic_helper_crtc_create_state
+>        drm/virtio: Switch to drm_atomic_helper_crtc_create_state
+>        drm/xlnx: Switch to drm_atomic_helper_crtc_create_state
+>        drm/mipi-dbi: Switch to drm_atomic_helper_crtc_create_state
+>        drm/atomic-helper: Remove drm_atomic_helper_crtc_reset
+>        sysfb: Convert to create_state
+>        drm/amdgpu: dm: Convert to atomic_create_state
+>        drm/komeda: Convert to atomic_create_state
+>        drm/malidp: Convert to atomic_create_state
+>        drm/ast: Convert to atomic_create_state
+>        drm/atmel-hlcdc: Convert to atomic_create_state
+>        drm/imx: ipuv3: Convert to atomic_create_state
+>        drm/loongsoon: Move hardware reset to CRTC creation
+>        drm/loongson: Convert to atomic_create_state
+>        drm/mediatek: Convert to atomic_create_state
+>        drm/mgag200: Convert to atomic_create_state
+>        drm/msm: dpu1: Convert to atomic_create_state
+>        drm/msm: mdp5: Convert to atomic_create_state
+>        drm/mxsfb: lcdif: Convert to atomic_create_state
+>        drm/nouveau: Convert to atomic_create_state
+>        drm/omapdrm: Convert to atomic_create_state
+>        drm/rcar-du: Convert to atomic_create_state
+>        drm/rzg2l-du: Convert to atomic_create_state
+>        drm/rockchip: vop: Convert to atomic_create_state
+>        drm/rockchip: vop2: Convert to atomic_create_state
+>        drm/sitronix: st7920: Convert to atomic_create_state
+>        drm/solomon: ssd130x: Convert to atomic_create_state
+>        drm/tegra: Convert to atomic_create_state
+>        drm/vc4: Convert to atomic_create_state
+>        drm/vkms: Convert to atomic_create_state
+>        drm/vmwgfx: Convert to atomic_create_state
+>        drm/atomic-helper: Remove __drm_atomic_helper_crtc_reset
+>        drm/crtc: Remove reset
 >
->> +			 * have been released: the path may be freed after the
->> +			 * switch was already removed (e.g. asynchronous DP
->> +			 * tunnel teardown) and these references are what
->> +			 * keeps the ports and their HopID IDAs alive.
->> +			 */
->> +			if (hop->in_port)
->> +				tb_switch_put(hop->in_port->sw);
->> +			if (hop->out_port)
->> +				tb_switch_put(hop->out_port->sw);
->>   		}
->>   	}
->>   
->> diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
->> index 05652ee82fbf..034c56845380 100644
->> --- a/drivers/thunderbolt/test.c
->> +++ b/drivers/thunderbolt/test.c
->> @@ -33,6 +33,11 @@ static void kunit_ida_init(struct kunit *test, struct ida *ida)
->>   	kunit_alloc_resource(test, __ida_init, __ida_destroy, GFP_KERNEL, ida);
->>   }
->>   
->> +static void tb_test_switch_release(struct device *dev)
->> +{
->> +	/* The memory is owned by KUnit, nothing to do here */
->> +}
->> +
->>   static struct tb_switch *alloc_switch(struct kunit *test, u64 route,
->>   				      u8 upstream_port, u8 max_port_number)
->>   {
->> @@ -44,6 +49,13 @@ static struct tb_switch *alloc_switch(struct kunit *test, u64 route,
->>   	if (!sw)
->>   		return NULL;
->>   
->> +	/*
->> +	 * The paths take a reference to their switches and those devices
->> +	 * have to be initialized for that to work.
->> +	 */
->> +	sw->dev.release = tb_test_switch_release;
->> +	device_initialize(&sw->dev);
-> The idea was that we don't use this as real device but if we go this route
-> then I think we should call put_device() to release it and check for any
-> subtleties device_initialize() possibly does.
+>   drivers/gpu/drm/adp/adp_drv.c                      |  2 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |  2 +-
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 17 ++++----
+>   drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   | 18 ++++----
+>   drivers/gpu/drm/arm/hdlcd_crtc.c                   |  2 +-
+>   drivers/gpu/drm/arm/malidp_crtc.c                  | 18 ++++----
+>   drivers/gpu/drm/armada/armada_crtc.c               |  2 +-
+>   drivers/gpu/drm/ast/ast_mode.c                     | 18 ++++----
+>   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c     | 19 ++++-----
+>   drivers/gpu/drm/drm_atomic_state_helper.c          | 45 --------------------
+>   drivers/gpu/drm/drm_mode_config.c                  |  4 +-
+>   drivers/gpu/drm/drm_simple_kms_helper.c            | 13 +-----
+>   drivers/gpu/drm/exynos/exynos_drm_crtc.c           |  2 +-
+>   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c         |  2 +-
+>   drivers/gpu/drm/gud/gud_drv.c                      |  2 +-
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c     |  2 +-
+>   drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c    |  2 +-
+>   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c        |  2 +-
+>   drivers/gpu/drm/imx/dc/dc-crtc.c                   |  2 +-
+>   drivers/gpu/drm/imx/dcss/dcss-crtc.c               |  2 +-
+>   drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c             | 18 ++++----
+>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  2 +-
+>   drivers/gpu/drm/kmb/kmb_crtc.c                     |  2 +-
+>   drivers/gpu/drm/logicvc/logicvc_crtc.c             |  2 +-
+>   drivers/gpu/drm/loongson/lsdc_crtc.c               | 26 ++++++------
+>   drivers/gpu/drm/mediatek/mtk_crtc.c                | 18 ++++----
+>   drivers/gpu/drm/meson/meson_crtc.c                 |  2 +-
+>   drivers/gpu/drm/mgag200/mgag200_drv.h              |  4 +-
+>   drivers/gpu/drm/mgag200/mgag200_mode.c             | 15 ++++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 18 ++++----
+>   drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c          |  2 +-
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          | 20 ++++-----
+>   drivers/gpu/drm/mxsfb/lcdif_kms.c                  | 17 ++++----
+>   drivers/gpu/drm/mxsfb/mxsfb_kms.c                  |  4 +-
+>   drivers/gpu/drm/nouveau/dispnv50/head.c            | 14 +++----
+>   drivers/gpu/drm/omapdrm/omap_crtc.c                | 17 ++++----
+>   drivers/gpu/drm/qxl/qxl_display.c                  |  2 +-
+>   drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c     | 17 ++++----
+>   drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c      | 15 +++----
+>   drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c  |  2 +-
+>   drivers/gpu/drm/rockchip/rockchip_drm_vop.c        | 18 ++++----
+>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       | 18 ++++----
+>   drivers/gpu/drm/sitronix/st7571.c                  |  2 +-
+>   drivers/gpu/drm/sitronix/st7920.c                  | 10 +++--
+>   drivers/gpu/drm/solomon/ssd130x.c                  | 10 +++--
+>   drivers/gpu/drm/sprd/sprd_dpu.c                    |  2 +-
+>   drivers/gpu/drm/sti/sti_crtc.c                     |  2 +-
+>   drivers/gpu/drm/stm/ltdc.c                         |  4 +-
+>   drivers/gpu/drm/sun4i/sun4i_crtc.c                 |  2 +-
+>   drivers/gpu/drm/sysfb/drm_sysfb_helper.h           |  4 +-
+>   drivers/gpu/drm/sysfb/drm_sysfb_modeset.c          | 20 ++++-----
+>   drivers/gpu/drm/tegra/dc.c                         | 18 ++++----
+>   drivers/gpu/drm/tests/drm_kunit_helpers.c          |  2 +-
+>   drivers/gpu/drm/tilcdc/tilcdc_crtc.c               | 49 +++++++++-------------
+>   drivers/gpu/drm/tiny/appletbdrm.c                  |  2 +-
+>   drivers/gpu/drm/tiny/bochs.c                       |  2 +-
+>   drivers/gpu/drm/tiny/cirrus-qemu.c                 |  2 +-
+>   drivers/gpu/drm/tiny/pixpaper.c                    |  2 +-
+>   drivers/gpu/drm/tiny/sharp-memory.c                |  2 +-
+>   drivers/gpu/drm/udl/udl_modeset.c                  |  2 +-
+>   drivers/gpu/drm/vboxvideo/vbox_mode.c              |  2 +-
+>   drivers/gpu/drm/vc4/tests/vc4_mock_crtc.c          |  2 +-
+>   drivers/gpu/drm/vc4/vc4_crtc.c                     | 14 +++----
+>   drivers/gpu/drm/vc4/vc4_drv.h                      |  2 +-
+>   drivers/gpu/drm/vc4/vc4_txp.c                      |  2 +-
+>   drivers/gpu/drm/verisilicon/vs_crtc.c              |  2 +-
+>   drivers/gpu/drm/virtio/virtgpu_display.c           |  2 +-
+>   drivers/gpu/drm/vkms/vkms_crtc.c                   | 18 ++++----
+>   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                | 22 ++++------
+>   drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |  2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |  2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |  2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |  2 +-
+>   drivers/gpu/drm/xlnx/zynqmp_kms.c                  |  2 +-
+>   include/drm/drm_atomic_state_helper.h              |  3 --
+>   include/drm/drm_crtc.h                             | 12 ------
+>   include/drm/drm_mipi_dbi.h                         |  2 +-
+>   include/drm/drm_simple_kms_helper.h                |  1 -
+>   78 files changed, 275 insertions(+), 385 deletions(-)
+> ---
+> base-commit: 7ea58b9ddb52264a4ed36bccb975062ada32c62d
+> change-id: 20260709-drm-no-more-crtc-reset-14a4d5bc8d41
+>
+> Best regards,
 
-Ack.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
 
-
-Best,
-
-
-Sven
 
