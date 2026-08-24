@@ -1,228 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D40A399CFC;
-	Mon, 24 Aug 2026 07:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4663A6418
+	for <asahi@lists.linux.dev>; Mon, 24 Aug 2026 08:26:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787557647; cv=none; b=ZFoQQok6085xq9mDyozvAOJCNg0JU8a2EsU9QPONElE9XW0UidfdmJqkiYZtYI9cpKajF8LcQaBb8uQsStnYbHkEQcZnpJ/7FfNAXefcFt3rNlZeCI3vG84/rINPkyKucLw4vXz3RY6cyl+0JgfBqYD0BP7aAKYqZwHQjoyPISQ=
+	t=1787560011; cv=none; b=HHViJdr3grmMJvZhhmtYhih5n/DM3vyA9PAKla7n0IqqPwBjDixiv4awhzXVOpNzuncBwpSsTtE82nhBruXwIprfF4vqowOIl1fj4ejALReICJ+NZ2Sjt7voXmTm0CoDMYvRfQp3OEeTa1tM/7z2Fk45uvVVrPg3nmxWjZvVu0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787557647; c=relaxed/simple;
-	bh=BkVxzeXRrmErxQMyAj7+2qXNTJZhiEfY+yBOWS6vP98=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=o3kV+3LRAt3aD52qeFqcosjbl4fLn3HTilpGWs5/nRD2SOYIWRz+okI0mgtx2fKAMh96ctDUlNUc7GJ8RtmjPtiDMm1xams5CIbA+kB9Hs5uFg/KWJi7LkIKUPd8xg2f/9I3CSRPbcsaFNVXK2YR8RQQae1bblE9dkHXNndCp34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kMM1gx0i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787560011; c=relaxed/simple;
+	bh=7K3qF4MHbnXOzGNTTxNufyBZaxyiQ5GnnlzSoo75z0Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MwpAK7MjjY6yb+JNyBK93MlTms6ykG5zbJFwcHXeqjkYh0cAB8HE1gXkZgCq8+DrVLQfkMVJyUnXpTd0Zjx3BB8BEErZZ2fDqDLgXA+WziTW2IB5VFcNnruTMsumKDiaaafTEELA8SOVSwznyQ6RHlF9R6mHMOHVgxPelv2mKn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dl9QP3TV; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kMM1gx0i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B86991F000E9;
-	Mon, 24 Aug 2026 07:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787557646;
-	bh=hj7/s+j6NHMyFBaYg+JKp2NMB5fFO+T1WpKQCf87wwk=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=kMM1gx0iiuqeD+Ra55RRDPhAsn33uc4wUkbkih2ERM0dY01vMN0FcnHevDdI9Q4An
-	 qXdx8CN2viXPoFD+BQz9XVYmfP7yWJ/JA055TI+lZ/T/n3Ck/B/+t8aj1LVTTxFdRM
-	 Hljj/EKiMZyUOCFhkM6XHSHwc6Jb3Sa9BF6WUfaHPIQbt+PVQmtHszMJmhTxj0cWKi
-	 1K8h92hm2qx16n2bHwvIVUTwvab6PLkZgOYcTI7zUZDlo5ZSDzumV+MkeStr4gi99k
-	 pLvE4kCkiJ9wWFsucd9gG/ojUN557BfgiExsRTe3D+k6tUIXyKoUt8CxDCaOQrnEFN
-	 9KRgC+rk8t+2w==
-Message-ID: <e85ca927-223e-4752-95c3-72edba41f16a@kernel.org>
-Date: Mon, 24 Aug 2026 09:47:23 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dl9QP3TV"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cf452def93so29620425ad.1
+        for <asahi@lists.linux.dev>; Mon, 24 Aug 2026 01:26:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787560009; x=1788164809; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CgyNog9WpL8OyqKZAIeKVr+B+H34q6AdaVPTiDSA/FQ=;
+        b=Dl9QP3TV64FA1Q92U5AM2Lvc/SaOqYYwPGXf9QqqaZ6RjVLgW035Btsh6wW2ptd0o1
+         UlzJE3jZoaAk+e6ti9J16aYSAVdiOCyaWIeTb+G2WW4qCFtR8ASFvO3uNCQRfv5zYQex
+         2A4bXTF61fi9LmQiandSMgd5ES6l57clZa1krCEaB9DKbQmv/s+edgWwMCOI4VLhPzyg
+         5I+8LFDYc9MSbJZJPPxmSGwAUyozQJ97DLvcNpZNilfupP8bRwW56gklaD36aQdDATMu
+         far1htHEBMTj2NqsoDmcDUZq/ksMdNrEc8ZwnlhfJe7l2hhJxJTJKgVkgwqPOYkt7EBz
+         5loA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787560009; x=1788164809;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CgyNog9WpL8OyqKZAIeKVr+B+H34q6AdaVPTiDSA/FQ=;
+        b=oSF8TeGAuICcoeTjGHr4SBXgB3//vzQiZX2Fw53sQTv+6bWHU9tDS7108LqdTP7kcV
+         4d4vmRtNk8zJWHhEu88RVu/eZkmZzXCvfuqVRux6eAs4lssJwk4o/Yjm0qO9VwW0m340
+         oFcw7qeslxPWfPDtakQfJltqAthbjU5/KNGM+Tv5fAfrm7GVdE9mddjYOUY/9kTXgOV8
+         HWNFvmTjacbPRGKuS603Xi5QdNXW1JLhZuGK5lmt766MJ1+7c7rDGaIojvN+3HZvYe2b
+         ossFuq8nVnPsos4JNJaK3vOL5LTavKxEFOTHjQOEemmNy+NAS4ZhrnQSnA7AhQe0Z0gF
+         a5rA==
+X-Forwarded-Encrypted: i=1; AHgh+RpC1GKbOe4UymeVLXuxiMNIJMT35eQv0st/DdgRIJGnJu+sxsbDim10g0zrdijD1j14FaCuYw==@lists.linux.dev
+X-Gm-Message-State: AFuF++kbP+r5orEsGlpuOfGIhmSeIFPqwxQUyI295gSfOtOHgu7xoIcM
+	+xEnDjCLOXMAXUqptkSANtTZh+xf9yFviHqAeFwRiWZu+adl4xmGuRYX
+X-Gm-Gg: AR+sD11s/LnkojT4NhxZlH7jRsxt+IpdJvuQqRn0xEpjrnVr7W3htvAfLSZ8e2XQvF4
+	IJychIGg98gA+h4TJ1jKkkOMqV7n+lNuFYGnUKrYxZvMfyZa0t28U/GJs/wGBUbhtKiTAKkav1N
+	KsVW+rTpS/3RaSzYC5VL04ijEb8dfpUSgncjxKdYObHJeIgfY7PoQo/09hWC8Q7qymZq37SA3qf
+	t/OD/iz8tCKPoDCl2Y5CYZAtbZQtgszjfvlvD5UQu14NXSnYRyWyiXVNmtdPgnslPNfa7RSV6PJ
+	+tagypF8TtH86mCHPp1Puocn0StVpySYnpeUQ1DiSf0TvETwCut2Wt++wmikJLjin8FZdwdK47K
+	Zl9UO8Fy7BbgBKIpU3yi85o9/VeP5Lj0wM9BIAAcAq0msADdvnKIdECpi6dF/TdjpbI0WmJk97e
+	FbKTUMYPU5DwRf87hUsXSkmUkFcB7N0bpARcxDEuTBR86YbfTvu0ckQfPHdvcmf5gNdI0/o4uJO
+	cWcV683BC3VFZpR22VJSj3dgck+lygUSaQyGLmd5DucP6kEIy0ufe6+H9Bi3KWqhbAPaYE9uURA
+	XbjBRyeipCkp6h0TyxDQTYYrCyjZrxrX2Oev+KCCbVJw9AakPZQuXKCAZdz4b1II/J/hfmVUuJ4
+	/60/Kaif1Opwu512QiasVh+cClreqk4uOBGyGo59UM2Ln64c=
+X-Received: by 2002:a17:90b:4ac8:b0:380:ce69:2669 with SMTP id 98e67ed59e1d1-395a0510f96mr35860154a91.9.1787560009190;
+        Mon, 24 Aug 2026 01:26:49 -0700 (PDT)
+Received: from localhost.localdomain ([101.251.7.10])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f90c0dd3sm25994595eec.7.2026.08.24.01.26.44
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 24 Aug 2026 01:26:48 -0700 (PDT)
+From: Laxman Acharya Padhya <acharyalaxman8848@gmail.com>
+To: Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>
+Cc: Neal Gompa <neal@gompa.dev>,
+	Arnd Bergmann <arnd@arndb.de>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2 0/4] soc: apple: rtkit: harden syslog shared-buffer handling
+Date: Mon, 24 Aug 2026 14:11:36 +0545
+Message-ID: <cover.1787559303.git.acharyalaxman8848@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Sven Peter <sven@kernel.org>
-Subject: Re: [PATCH] soc: apple: rtkit: bound syslog copies to the shared
- buffer
-To: Laxman Acharya Padhya <acharyalaxman8848@gmail.com>
-Cc: Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Janne Grunau <j@jannau.net>
-References: <20260822095121.53451-1-acharyalaxman8848@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20260822095121.53451-1-acharyalaxman8848@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Split the syslog hardening into focused changes as requested. The first
+patch fixes the SYSLOG_INIT reinitialization leak. The second prevents
+zero-sized messages and out-of-bounds shared-memory copies. The third
+corrects the entry-count boundary, and the fourth rate limits validation
+warnings controlled by the coprocessor.
 
+The index-boundary change has not been tested on Apple hardware running
+Linux. Asahi m1n1 describes the initialization field as COUNT, consistent
+with the kernel's syslog_n_entries name, but patch 3 is kept independent so
+it can be reverted without removing the shared-memory bounds protection.
 
-On 8/22/26 11:51, Laxman Acharya Padhya wrote:
-> apple_rtkit_syslog_rx_log() copies a log entry out of the coprocessor
-> shared-memory ring using an index and layout that the coprocessor
-> itself chose (SYSLOG_INIT n_entries / msg_size, plus the 8-bit idx in
-> the LOG message). Those values are never checked against
-> syslog_buffer.size, so a compromised or buggy RTKit firmware can make
-> the kernel memcpy_fromio()/memcpy() past the DMA mapping.
->
-> SYSLOG_INIT also accepted msg_size == 0. kzalloc(0) returns
-> ZERO_SIZE_PTR, which is non-NULL, and strnlen(..., msg_size - 1) then
-> wraps to SIZE_MAX.
->
-> Treat n_entries as a count (reject idx >= n_entries), reject a zero
-> message size, and refuse shared-memory copies that do not fit in the
-> buffer. Rate-limit the new OOB warning so a coprocessor cannot flood
-> the kernel log.
->
-> Fixes: 9bd1d9a0d8bb ("soc: apple: Add RTKit IPC library")
-> Cc:stable@vger.kernel.org
-> Signed-off-by: Laxman Acharya Padhya<acharyalaxman8848@gmail.com>
-> ---
->   drivers/soc/apple/rtkit.c | 73 ++++++++++++++++++++++++++++++---------
->   1 file changed, 56 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-> index a3fdac8f6f06..63b85d082a7a 100644
-> --- a/drivers/soc/apple/rtkit.c
-> +++ b/drivers/soc/apple/rtkit.c
-> @@ -348,14 +348,28 @@ static void apple_rtkit_free_buffer(struct apple_rtkit *rtk,
->   	bfr->is_mapped = false;
->   }
->   
-> -static void apple_rtkit_memcpy(struct apple_rtkit *rtk, void *dst,
-> -			       struct apple_rtkit_shmem *bfr, size_t offset,
-> -			       size_t len)
-> +static bool apple_rtkit_shmem_ok(struct apple_rtkit_shmem *bfr, size_t offset,
-> +				 size_t len)
->   {
+Testing:
+  - arm64 GCC build of drivers/soc/apple/rtkit.o with W=1 in Docker
+  - scripts/checkpatch.pl --strict on each patch
 
-This is only used in a single place and doesn't have to be its own function.
+Changes since v1:
+  - inline the one-use shared-memory bounds check
+  - use == 0 for the crashlog copy and < 0 for syslog copies
+  - split the SYSLOG_INIT leak fix into patch 1
+  - split the idx == n_entries change into patch 3
+  - make the zero-size guard independent of the leak fix
+  - rate limit existing malformed-syslog warnings in patch 4
+  - rebase onto upstream commit 0a0d1d55dad5
 
-> +	return offset <= bfr->size && len <= bfr->size - offset;
-> +}
-> +
-> +static int apple_rtkit_memcpy(struct apple_rtkit *rtk, void *dst,
-> +			      struct apple_rtkit_shmem *bfr, size_t offset,
-> +			      size_t len)
-> +{
-> +	if (!apple_rtkit_shmem_ok(bfr, offset, len)) {
-> +		dev_warn_ratelimited(rtk->dev,
-> +				     "RTKit: shared-memory copy out of bounds (off 0x%zx len 0x%zx size 0x%zx)\n",
-> +				     offset, len, bfr->size);
-> +		return -EINVAL;
-> +	}
-> +
->   	if (bfr->iomem)
->   		memcpy_fromio(dst, bfr->iomem + offset, len);
->   	else
->   		memcpy(dst, bfr->buffer + offset, len);
-> +	return 0;
->   }
->   
->   static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
-> @@ -384,9 +398,10 @@ static void apple_rtkit_crashlog_rx(struct apple_rtkit *rtk, u64 msg)
->   	 */
->   	bfr = kzalloc(rtk->crashlog_buffer.size, GFP_KERNEL);
->   	if (bfr) {
-> -		apple_rtkit_memcpy(rtk, bfr, &rtk->crashlog_buffer, 0,
-> -				   rtk->crashlog_buffer.size);
-> -		apple_rtkit_crashlog_dump(rtk, bfr, rtk->crashlog_buffer.size);
-> +		if (!apple_rtkit_memcpy(rtk, bfr, &rtk->crashlog_buffer, 0,
-> +					rtk->crashlog_buffer.size))
+Laxman Acharya Padhya (4):
+  soc: apple: rtkit: free syslog buffer before reinitializing
+  soc: apple: rtkit: bound syslog copies to the shared buffer
+  soc: apple: rtkit: reject syslog indices outside the entry count
+  soc: apple: rtkit: rate limit malformed syslog warnings
 
-nit: please use == 0 here since that's easier to read
-
-> +			apple_rtkit_crashlog_dump(rtk, bfr,
-> +						  rtk->crashlog_buffer.size);
->   	} else {
->   		dev_err(rtk->dev,
->   			"RTKit: Couldn't allocate crashlog shadow buffer\n");
-> @@ -422,10 +437,29 @@ static void apple_rtkit_ioreport_rx(struct apple_rtkit *rtk, u64 msg)
->   
->   static void apple_rtkit_syslog_rx_init(struct apple_rtkit *rtk, u64 msg)
->   {
-> -	rtk->syslog_n_entries = FIELD_GET(APPLE_RTKIT_SYSLOG_N_ENTRIES, msg);
-> -	rtk->syslog_msg_size = FIELD_GET(APPLE_RTKIT_SYSLOG_MSG_SIZE, msg);
-> +	size_t n_entries = FIELD_GET(APPLE_RTKIT_SYSLOG_N_ENTRIES, msg);
-> +	size_t msg_size = FIELD_GET(APPLE_RTKIT_SYSLOG_MSG_SIZE, msg);
->   
-> -	rtk->syslog_msg_buffer = kzalloc(rtk->syslog_msg_size, GFP_KERNEL);
-> +	kfree(rtk->syslog_msg_buffer);
-
-this fixes a separate memory leak, please split this into another patch.
-
-> +	rtk->syslog_msg_buffer = NULL;
-> +	rtk->syslog_n_entries = 0;
-> +	rtk->syslog_msg_size = 0;
-> +
-> +	/*
-> +	 * msg_size == 0 would make kzalloc() return ZERO_SIZE_PTR (non-NULL)
-> +	 * and later strnlen(..., msg_size - 1) wrap to SIZE_MAX.
-> +	 */
-> +	if (!msg_size) {
-> +		dev_warn(rtk->dev, "RTKit: syslog msg_size is zero\n");
-> +		return;
-> +	}
-> +
-> +	rtk->syslog_msg_buffer = kzalloc(msg_size, GFP_KERNEL);
-> +	if (!rtk->syslog_msg_buffer)
-> +		return;
-> +
-> +	rtk->syslog_n_entries = n_entries;
-> +	rtk->syslog_msg_size = msg_size;
->   
->   	dev_dbg(rtk->dev,
->   		"RTKit: syslog initialized: entries: %zd, msg_size: %zd\n",
-> @@ -441,10 +475,11 @@ static void apple_rtkit_syslog_rx_log(struct apple_rtkit *rtk, u64 msg)
->   {
->   	u8 idx = msg & 0xff;
->   	char log_context[24];
-> -	size_t entry_size = 0x20 + rtk->syslog_msg_size;
-> +	size_t entry_size;
-> +	size_t offset;
->   	int msglen;
->   
-> -	if (!rtk->syslog_msg_buffer) {
-> +	if (!rtk->syslog_msg_buffer || !rtk->syslog_msg_size) {
->   		dev_warn(
->   			rtk->dev,
->   			"RTKit: received syslog message but no syslog_msg_buffer\n");
-> @@ -462,17 +497,21 @@ static void apple_rtkit_syslog_rx_log(struct apple_rtkit *rtk, u64 msg)
->   			"RTKit: received syslog message but no syslog_buffer.buffer or syslog_buffer.iomem\n");
->   		goto done;
->   	}
-> -	if (idx > rtk->syslog_n_entries) {
-> +	if (idx >= rtk->syslog_n_entries) {
-
-Have you verified this on hardware? With the bounds check in memcpy this 
-won't result in anything bad and I don't know if rtkit firmware treats 
-idx == n_entries as valid. I *think* this is correct but it would be 
-good to test this and split it into a separate commit so that it's 
-easier to revert if it breaks.
->   		dev_warn(rtk->dev, "RTKit: syslog index %d out of range\n",
->   			 idx);
-While you're at it, it would be good to make these rate-limited as well, 
-possibly as a follow-up patch as well.
->   		goto done;
->   	}
->   
-> -	apple_rtkit_memcpy(rtk, log_context, &rtk->syslog_buffer,
-> -			   idx * entry_size + 8, sizeof(log_context));
-> -	apple_rtkit_memcpy(rtk, rtk->syslog_msg_buffer, &rtk->syslog_buffer,
-> -			   idx * entry_size + 8 + sizeof(log_context),
-> -			   rtk->syslog_msg_size);
-> +	entry_size = 0x20 + rtk->syslog_msg_size;
-> +	offset = (size_t)idx * entry_size + 8;
-> +	if (apple_rtkit_memcpy(rtk, log_context, &rtk->syslog_buffer, offset,
-> +			       sizeof(log_context)))
-> +		goto done;
-nit: like above, < 0 please to make it easier to read.
-
-> +	if (apple_rtkit_memcpy(rtk, rtk->syslog_msg_buffer, &rtk->syslog_buffer,
-> +			       offset + sizeof(log_context),
-> +			       rtk->syslog_msg_size))
-> +		goto done;
->   
->   	log_context[sizeof(log_context) - 1] = 0;
->   
+ drivers/soc/apple/rtkit.c | 75 +++++++++++++++++++++++++--------------
+ 1 file changed, 49 insertions(+), 26 deletions(-)
 
 
-Best,
-
-
-Sven
-
+base-commit: 0a0d1d55dad570724bf8c7ea83409639cfb4be9b
+-- 
+2.51.2
