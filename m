@@ -1,121 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB8D42902E
-	for <asahi@lists.linux.dev>; Mon, 24 Aug 2026 14:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA652DB7B8
+	for <asahi@lists.linux.dev>; Tue, 25 Aug 2026 16:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787581084; cv=none; b=uB7/4Lsn7mW8dK+HbqgmN9o83GxwXIWtOGY4Mb+QjBSZ++s2/J4L4VFeXaICTjLeWUh2VHl9UZVcUFkpfy5lC0sfdOEbD7b/rCrLBc9yNmDqHA6vK9KkZLf6ys1HQDtnglqkzG11V3dtmFl6LDoVJncSpYPx5dgCqrr1VEvtrpw=
+	t=1787675462; cv=none; b=aeBtyJwypo8vti8BWfbiQFz7DpB3W3rEE1DoYaSEPqV2i86FCz1HdjZ8YZo2w4FDhFZjG4nOws1VtpDPU+MedFIaYGYi8ROwoJ9yjCbjmITBO+RPSgwDZbq6sNHujgzixttxny135LWFVMZ4GYvJFgtIasXN769PE2cQ0ChqtiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787581084; c=relaxed/simple;
-	bh=5u5XWutov21XCm8kelqGZUt5Fwj29/nTjgyQqrilABI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ejyU+A9hZJeODoPoVV42bnM89TGVmLpe3KDM56poidezFiiO6etR5lxPpDbQBE+YqBJOfzZ4a1CjslNn/40BsvYIKiqhX4Bl0a5TyXlrrYxeY+cfpKP8KkzYH0c5SeQXkdRX2WBlCBN6Xb2Bhl1vX3NBz1Z45euast0oblX6CXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eoom/OaO; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1787675462; c=relaxed/simple;
+	bh=8gPSlijviAlTqGSPvgKUDoU91zNJ5lWH0S0fe3s50qo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:
+	 References:In-Reply-To; b=jh4IHbHh8AuIW6/9MT7pXItBYP9gctTPvKRSWArirUD5oH1oPwKjr4pOZt0wgrcd5xxqA1XHxGYMBJB0r/Uogcnc93L7WHRZ0PD2KuuYB2r7pi6CsskiLTQwEb4tvhVA+JlS5V4mOoukAdNzQF+VCo8wmseZ1FpoRwIJDoZNnms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Kqk0P/I0; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eoom/OaO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787581082; x=1819117082;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5u5XWutov21XCm8kelqGZUt5Fwj29/nTjgyQqrilABI=;
-  b=eoom/OaO6hEg2DhiTj7K0RjH/hiOjkol6aVmlKsQm9AFsBnye/qVP2aL
-   wSFnp5ZxA9Mjt+hU04BGbj76jLWHdAzh+93A9XoFs2zRFvE+XL8fcnclq
-   FfJMtmMgThht4ElTESoTNmDso7sA/c+YJePWrldwM4v8zp1QGUTz3B+oq
-   RZRNyL9kGcWGhu+TGmMWgYdVhjoK2giXgqyrrLIxPG6ix1/mpd8u4lXZt
-   NRibfGdIb4/cRN4oT1qIiGJ2h2BJ9FhM7yzanN3h/Eo+eSaZYSazVHsDX
-   /HHNU4nPGzj6Igx0V0zUrno6e11ZDTA8WFuqeRRYLzcHAgWX1AfQAxluF
-   A==;
-X-CSE-ConnectionGUID: dBPDK2YTSFasNRi9lv+XJQ==
-X-CSE-MsgGUID: WLNGn2mWReGaiHtD9FkHuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="98708704"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="98708704"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 07:18:01 -0700
-X-CSE-ConnectionGUID: 1F9tGv5vRq6Vmx5tddnKRg==
-X-CSE-MsgGUID: Py++nsuKQDuzdYWzMar1gA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="272233082"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Aug 2026 07:17:59 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id F181199; Mon, 24 Aug 2026 16:17:57 +0200 (CEST)
-Date: Mon, 24 Aug 2026 16:17:57 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Konrad Dybcio <konradybcio@kernel.org>, asahi@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] thunderbolt: Make the DP tunnel activation
- callback mandatory
-Message-ID: <20260824141757.GI893316@black.igk.intel.com>
-References: <20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org>
- <20260823-b4-tbt-fixes-v2-2-26a18a426c9f@kernel.org>
- <20260824104546.GG893316@black.igk.intel.com>
- <b15f514d-d7de-46b7-8b78-fa21515f1fe2@kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Kqk0P/I0"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 4EE041A17E4;
+	Tue, 25 Aug 2026 16:30:57 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 162DA604C4;
+	Tue, 25 Aug 2026 16:30:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5EBEF11C78249;
+	Tue, 25 Aug 2026 18:30:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1787675451; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=m1ciE4mYdhWnn2uJ9Ax82y7IDLWdKdWZPrLVFii7Ef8=;
+	b=Kqk0P/I0+CTDCRJPMRSOKaDnJkdBQEfUhNwMffJabez8+kA093HDVf1eLdcGHZOcz8Mtiw
+	mxWKa829Bxr725bfRw/87lhii2v91yf2R+nBn/jDm7yx8JpeCv5bm/MR5k6QqzEBbh1jWf
+	/8jvvj3xx23SfOMkdy5HS3K2WLjAWhBAg0QMeyQG2QkCHV3d/dPl+3RmetOf0wTxfQ9aoZ
+	dwwJz6AsYbL9fKVYNe7xn124NEruqet4XnA7ZahoVfD358nBsl5u1CBpYrUF/3LLlqBY0b
+	4TW90bDdi8NnXkaHhFp+Ojh3HG9ul/1YRAHqRoyi5mXwAmmErO7NCJ9Ohz918Q==
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b15f514d-d7de-46b7-8b78-fa21515f1fe2@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 25 Aug 2026 18:30:34 +0200
+Message-Id: <DKY61WY891FQ.2FRJCHV9RY9WA@bootlin.com>
+To: "Osama Abdelkader" <osama.abdelkader@gmail.com>,
+ <luca.ceresoli@bootlin.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Jessica Zhang" <jesszhan0024@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Joel Selvaraj"
+ <jo@jsfamily.in>, "Icenowy Zheng" <icenowy@aosc.io>, "Jagan Teki"
+ <jagan@amarulasolutions.com>, "Sumit Semwal" <sumit.semwal@linaro.org>,
+ "Casey Connolly" <casey.connolly@linaro.org>, "Michael Tretter"
+ <m.tretter@pengutronix.de>, =?utf-8?q?Guido_G=C3=BCnther?=
+ <agx@sigxcpu.org>, "Purism Kernel Team" <kernel@puri.sm>, "Ondrej Jirman"
+ <megi@xff.cz>, "Sasha Finkelstein" <k@chaosmail.tech>, "Janne Grunau"
+ <j@jannau.net>, "Michael Trimarchi" <michael@amarulasolutions.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <asahi@lists.linux.dev>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v4 6/6] drm/panel: Use managed helpers in assorted
+ panels
+X-Mailer: aerc 0.22.0
+References: <20260812155401.96968-1-osama.abdelkader@gmail.com>
+In-Reply-To: <20260812155401.96968-1-osama.abdelkader@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Aug 24, 2026 at 04:13:44PM +0200, Sven Peter wrote:
-> 
-> 
-> On 8/24/26 12:45, Mika Westerberg wrote:
-> > On Sun, Aug 23, 2026 at 06:09:15PM +0200, Sven Peter wrote:
-> > > tb_tunnel_alloc_dp() takes an optional callback which is run from
-> > > dprx_work once the DPRX capabilities read has completed. Without that
-> > > callback tb_dp_dprx_start() reads the capabilities synchronously and
-> > > never queues the work. It however always takes a tunnel reference which
-> > > is only dropped by dprx_work itself or by tb_dp_dprx_stop() when
-> > > cancel_delayed_work() actually canceled that work. That reference is
-> > > thus leaked for every tunnel without a callback.
-> > > 
-> > > The only tunnels without one are those from tb_tunnel_discover_dp(),
-> > > which are activated again when restoring from hibernation.
-> > > Pass the callback to tb_tunnel_discover_dp() as well and drop the
-> > > synchronous path such that the DPRX capabilities are always read from
-> > > dprx_work. Hibernation restore then also no longer blocks for up to 12
-> > > seconds while waiting for that read to complete.
-> > > 
-> > > Also fix up the KUnit tests.
-> > > 
-> > > Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Sven Peter <sven@kernel.org>
-> > > ---
-> > >   drivers/thunderbolt/tb.c     |  4 +++-
-> > >   drivers/thunderbolt/test.c   | 37 +++++++++++++++++++++++-----------
-> > >   drivers/thunderbolt/tunnel.c | 47 ++++++++++++++++++++++++--------------------
-> > >   drivers/thunderbolt/tunnel.h |  8 +++++---
-> > >   4 files changed, 60 insertions(+), 36 deletions(-)
-> > > 
-> > > diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> > > index f43f2d952372..29b9879c40d8 100644
-> > > --- a/drivers/thunderbolt/tb.c
-> > > +++ b/drivers/thunderbolt/tb.c
-> > > @@ -89,6 +89,7 @@ static void tb_dp_resource_unavailable(struct tb *tb, struct tb_port *port,
-> > >   				       const char *reason);
-> > >   static void tb_queue_dp_bandwidth_request(struct tb *tb, u64 route, u8 port,
-> > >   					  int retry, unsigned long delay);
-> > > +static void tb_dp_tunnel_active(struct tb_tunnel *tunnel, void *data);
-> > If possible move the whole function here instead of forward declaration.
-> 
-> It calls a bunch of helpers that are only defined further down and I'd have
-> to move all of them as well (or forward declare them which defeats the
-> purpose of doing that)
+On Wed Aug 12, 2026 at 5:53 PM CEST, Osama Abdelkader wrote:
+> Use the managed MIPI DSI attach and panel add helpers in assorted
+> panel drivers and drop the corresponding manual detach and panel remove
+> calls from remove paths.
+>
+> Suggested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+> ---
+> v4:
+> - use devm_drm_panel_add instead of drm_panel_add.
+>
+>  drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c  | 20 +++--------
+>  drivers/gpu/drm/panel/panel-chipwealth-ch13726a.c | 20 +++--------
+>  drivers/gpu/drm/panel/panel-dsi-cm.c          | 15 ++++-----
+>  drivers/gpu/drm/panel/panel-ebbg-ft8719.c     | 20 +++--------
+>  drivers/gpu/drm/panel/panel-elida-kd35t133.c  | 20 +++--------
+>  drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c | 19 +++--------
+>  drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c | 19 +++--------
+>  drivers/gpu/drm/panel/panel-hydis-hv101hd1.c  | 24 +++-----------
+>  drivers/gpu/drm/panel/panel-innolux-p079zca.c | 33 +++----------------
+>  drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 19 +++--------
+>  drivers/gpu/drm/panel/panel-khadas-ts050.c    | 23 +++----------
+>  drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c    | 30 ++-----------=
+----
+>  drivers/gpu/drm/panel/panel-lg-sw43408.c      | 22 ++++---------
+>  drivers/gpu/drm/panel/panel-lincolntech-lcd197.c  | 20 ++---------
+>  drivers/gpu/drm/panel/panel-lxd-m9189a.c      | 24 +++-----------
+>  drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c  | 16 +++------
+>  drivers/gpu/drm/panel/panel-newvision-nv3051d.c   | 22 +++----------
+>  drivers/gpu/drm/panel/panel-orisetech-otm8009a.c  | 16 +++------
+>  drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c    | 23 +++----------
+>  drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c  | 31 ++-----------=
+----
+>  drivers/gpu/drm/panel/panel-ronbo-rb070d30.c  | 19 +++--------
+>  drivers/gpu/drm/panel/panel-simple.c          | 22 ++++---------
 
-Okay then this is fine.
+I think due to its relevance, panel-simple should be a patch on its
+own. But see below too.
+
+...
+
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -737,7 +737,9 @@ static struct panel_simple *panel_simple_probe(struct=
+ device *dev)
+>  		goto disable_pm_runtime;
+>  	}
+>
+> -	drm_panel_add(&panel->base);
+> +	err =3D devm_drm_panel_add(dev, &panel->base);
+> +	if (err)
+> +		goto disable_pm_runtime;
+>
+>  	return panel;
+>
+> @@ -785,7 +787,6 @@ static void panel_simple_remove(struct device *dev)
+>  {
+>  	struct panel_simple *panel =3D dev_get_drvdata(dev);
+>
+> -	drm_panel_remove(&panel->base);
+>  	panel_simple_shutdown(dev);
+>
+>  	pm_runtime_dont_use_autosuspend(dev);
+> @@ -6551,24 +6552,15 @@ static int panel_simple_dsi_probe(struct mipi_dsi=
+_device *dsi)
+>  	dsi->format =3D desc->format;
+>  	dsi->lanes =3D desc->lanes;
+>
+> -	err =3D mipi_dsi_attach(dsi);
+> -	if (err) {
+> -		struct panel_simple *panel =3D mipi_dsi_get_drvdata(dsi);
+> -
+> -		drm_panel_remove(&panel->base);
+> -	}
+> +	err =3D devm_mipi_dsi_attach(&dsi->dev, dsi);
+> +	if (err)
+> +		return err;
+>
+> -	return err;
+> +	return 0;
+>  }
+>
+>  static void panel_simple_dsi_remove(struct mipi_dsi_device *dsi)
+>  {
+> -	int err;
+> -
+> -	err =3D mipi_dsi_detach(dsi);
+> -	if (err < 0)
+> -		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
+> -
+>  	panel_simple_remove(&dsi->dev);
+>  }
+
+You are changing the removal order here, with potential risk.
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
