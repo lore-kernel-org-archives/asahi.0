@@ -1,88 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDB8417D9C;
-	Thu, 27 Aug 2026 09:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D604341DDEC
+	for <asahi@lists.linux.dev>; Thu, 27 Aug 2026 09:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787822118; cv=none; b=CwO7m3agABES7Xh4n2KBSnQVyXLIry7LqAiyRLGEBZFgRb8OUYutMD0K/4F3xKSxa44MCEHy0ZXmqzYJZOXA2QMzgxE6euTDCc2HhdcZl6kOgULSW+T42qgvi1AmN3iTf4OgWffV+ZG9NT6Sc4gfj6tkUJ5FhYyp8u+O2FCkmbs=
+	t=1787822270; cv=none; b=lnp20MobECeM9o9f/aAicAF7JePMkD0ggQMtPVnDQbv66WfEGblVxcHfwEDVdFlHLRzoK0h2PbLkiQRcG0BvN+9iwuOy1NCzPI73qi/3ldWm1hrJRgeKJl1QbyPj6KXQFjbPIlrs+90fTiQN0y0bCclt9cTd+BiSKGT6EkK0fQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787822118; c=relaxed/simple;
-	bh=Kr7o/zNjit8WWWD191s7+7OMGGaB7zhVZg4obMvI8pA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kq3/aEqX1EET3pYuojH/OxEc4SWWCZj7SHGIDb+8ZZGpSREd1WLQwwwI75L+4KSc2ptyM9L+vFDVF5zIa0RH2sVtFvLk0j3OtVXFSMJzSoGtR4CBtRMdMxjrsmEANgtOJD4lmcpttjZAXtqN79/l2Onc08oSA9fa9uDOShhkyeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ix+B0AWX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787822270; c=relaxed/simple;
+	bh=M4JL2DDh2kFEEIBztGWVHhTHMhrmj6tjJLoT35GI3g4=;
+	h=Content-Type:MIME-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=GKBf0iij2adcQxQr3x8VHpuSQD+TeBYDCxojHnJd3ZZ1FPieR4ErRylbuHYIhwjIjAciIvMXt4QlynHPLRIgbSNU/76JBJ8tnoy4yklmHCKJTVzm5MEGyrlXzXQoEQha0tOSWaBz24k8WsKbx+oUnseToEJOziHw/n0vKsf69GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=RTM768D6; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ix+B0AWX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7306C1F000E9;
-	Thu, 27 Aug 2026 09:15:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787822106;
-	bh=LdRXpOvpY8MU9GMUpEh8fPVPCUtndoEd5nrLrISpGFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ix+B0AWXNJJWen1w78P2vTxR1ovIcsbPrDM3oBaZYsZ4Yz8UODavHLF+fd+FrxlDr
-	 69z/8n1uDLFKPcqThIe5Iu5S71zbYi1h/pJgVMcSDTTFkNlsKDw/cJ8opO0GLNl5T1
-	 yjtEvDmUWBi5wfgVsrGmCxmx1gSSpuzQKjz5IGDMecu9z4W68jHDm3FxFvg+NIHA29
-	 w+cbIdrpKCwBd1Z8XyAhWPA8fiORQjalN8SYdigZ+DI8D3ohOA6IZTKVcjMCDiaq+o
-	 MdHb8OFuC6c3HfN2NzgpBUUeFDFeRfCH7yje8CF7v4kX3aCkbSRZYjKeN9gyC2EQOw
-	 7KfuTHRDBTpPA==
-Date: Thu, 27 Aug 2026 11:15:03 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v7 1/6] dt-bindings: spmi: apple,spmi: Add t603x and t8122
-Message-ID: <20260827-curvy-competent-bee-fcd81d@quoll>
-References: <20260818-t603x-spmi-v7-0-dafebe6e7739@chaosmail.tech>
- <20260818-t603x-spmi-v7-1-dafebe6e7739@chaosmail.tech>
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="RTM768D6"
+Received: by chaosmail.tech (Postfix) id 0B8ED1CC004;
+	Thu, 27 Aug 2026 09:17:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1787822258;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B3d6qXAoH2ydeKOTX+N21t6om6kaUfysJTrx7H/1Esk=;
+	b=RTM768D65uV9EGE7KIHZHXEhVA8fU4yBLezNY2ButWgK+qMZkKwAETCTj8wIp+DumjX51z
+	hgdse1rrUH9++OWsmH35RBcoDRLakI4cGy+3OBM58tHSmY7TV68CK2JKmKAZwesmemOL4k
+	06UqESq2A1V6t55Qd1/9nmXJZfUDYfI=
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260818-t603x-spmi-v7-1-dafebe6e7739@chaosmail.tech>
+Subject: Re: [PATCH v7 1/6] dt-bindings: spmi: apple,spmi: Add t603x and t8122
+From: Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <20260827-curvy-competent-bee-fcd81d@quoll>
+Date: Thu, 27 Aug 2026 11:17:27 +0200
+Cc: Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <E0136D1E-4CB0-44A8-BB70-D499F113D211@chaosmail.tech>
+References: <20260818-t603x-spmi-v7-0-dafebe6e7739@chaosmail.tech>
+ <20260818-t603x-spmi-v7-1-dafebe6e7739@chaosmail.tech>
+ <20260827-curvy-competent-bee-fcd81d@quoll>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 
-On Tue, Aug 18, 2026 at 08:32:40PM +0200, Sasha Finkelstein wrote:
-> Add t603x and t8122 compatibles, interrupt support, and support for
-> SPMI controllers that are not always-on.
+On Aug 27, 2026, at 11:15, Krzysztof Kozlowski <krzk@kernel.org> wrote:
 > 
-> Reviewed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-> ---
->  Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 37 ++++++++++++++++++++++++++++++++++---
->  1 file changed, 34 insertions(+), 3 deletions(-)
+> On Tue, Aug 18, 2026 at 08:32:40PM +0200, Sasha Finkelstein wrote:
+>> 
+>> -required:
+>> -  - compatible
+>> -  - reg
 > 
-> diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-> index 3e5b14bc8c31..1d14025b44c5 100644
-> --- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-> +++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-> @@ -20,8 +20,11 @@ properties:
->        - items:
->            - enum:
->                - apple,t6020-spmi
-> +              - apple,t6030-spmi
-> +              - apple,t6031-spmi
->                - apple,t8012-spmi
->                - apple,t8015-spmi
-> +              - apple,t8122-spmi
->            - const: apple,t8103-spmi
->        - items:
->            - enum:
-> @@ -34,9 +37,37 @@ properties:
->    reg:
->      maxItems: 1
->  
-> -required:
-> -  - compatible
-> -  - reg
+> This stays. Which device does not need reg or compatible? I think none.
 
-This stays. Which device does not need reg or compatible? I think none.
-
-Best regards,
-Krzysztof
+I have moved it to the else: section of the if/then below, so it is 
+still present
 
