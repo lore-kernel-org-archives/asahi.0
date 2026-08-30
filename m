@@ -1,116 +1,157 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A447A3B42FB
-	for <asahi@lists.linux.dev>; Sun, 30 Aug 2026 15:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1CC242910;
+	Sun, 30 Aug 2026 18:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788104799; cv=none; b=XVZRM4q8wccryDdJX3hOOOu64JhstEOlU9Ey04MffVCoUaOMvd6rDldGhr1qV8LdtnHbjzaRq88HoWQFFgut6nNrqGKBy/yQKnyxvqmlBKURtuUXn7TcCl+N48WjpPJ456lGxnCYFtITwb11AA9i8Z6+KiO+I+MGhs3cju4btNQ=
+	t=1788114305; cv=none; b=hYWP2Lj6kmhNBcqfMo20veCafAdEYTRivoiR9O+5U97xfsw1HpZ1hqPr3kGsWZXYNTmxOPl4Gxo9j94FYGhgIYiWJqj/WE0Avvh8U5f5pV/w4gE3aFC6QzxbOIu0FzvYDzx1ZXGjsno79iG1TzlkfGkE82WmBiPU0vOYNbC84Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788104799; c=relaxed/simple;
-	bh=PnXdbbonI6TDVucUJnB/aGVbLdU6d3iGG+sX+Bz32RU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OqlgJ+4ggv5cifjNyraiQxQpdDt9y0T0m1iZ8FKRCIN03LUIZzmRg93FU0zxbNWVL1UVwg/nWoZ/kVrJhG1Ol6b59yIBqW6yfP+QxoZLeoZZF8pDWkBasQrlbAV1w0w0rlV/CXefLSjYHNra3+HmwnR+oZdxs/Uc/vd7xWrwjXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=Awu3naLG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PEP181CD; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1788114305; c=relaxed/simple;
+	bh=JMPnBMGvgZ/FE+epN+cZJhAYFT7odaEQX02dt28/WNA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jqVv2yMKhCqngEdfL6/SgvAVD5FUG+3dPa1Sobxjv5/v8LxoF9paS2zpYN0TErlop1xg5FakkfCJVtRCCeqz00TLXILkWsf1H4W/4e1Fs6T7jR3ASbZeiruwEkUFfk1G/tNKaEDbUBbNT38AwlCekrWFnGhy8EVp7Kpjtm6u/eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hgLFNbu7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="Awu3naLG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PEP181CD"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id B7088EC0175;
-	Sun, 30 Aug 2026 11:46:35 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Sun, 30 Aug 2026 11:46:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1788104795; x=1788191195; bh=MihlHA0jeW
-	9cf62qZZuSDAm/xr/Skg1GoMpPWPUioZI=; b=Awu3naLGhxs6DNzMVZ/y5uVxuH
-	mo/jt2sQdf3xqebztoCcdDi5HxuDDLpYAVqXvFpDlTV9+CuQ88IhpOugj2RyspWZ
-	GdDQnJDxwIoA7eNsTbqlN1B6ULQXmXJe+7BLq1T0jEy77YvwL9LBSOw+G5R6isaH
-	Tr29zTOKWoZuz8JQt28Kb/cldynUfVOcea7v8Jr8mrFqWyb1xX50jPgKpKEwdxda
-	bYCb6S34iEAZzs21zqcOSPPsvCIRqUGUzq5zHZbLUfGzK6l3k6r+SHka9LI39LCn
-	BKAJKVrUH5deSkwRD6PbBoDHBTF3vPACB2G+nW3DNiXeKYoi6mJGVLT8rKzg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1788104795; x=1788191195; bh=MihlHA0jeW9cf62qZZuSDAm/xr/Skg1GoMp
-	PWPUioZI=; b=PEP181CDMaZody9j/uydol4/X0uG5oOkaaioYRRHeWHZdhdH9+8
-	RiMROxs8/62QJuhZWbQYLcUS0SguOemsam5DmsT9fMZPBhxxHbj5uIsW0SuonDgh
-	3nN/xmaL3NLaDsUd8h7XErNNrGM7QGjCfwNigfTXL1TjCxGnmSUH68pemkDybSnE
-	lcgNEWhmKcL3ilv/yN9dTGY/iPE63DRjotYoYF54E96e2MOZAjMQ5Gnf9kG+o6yo
-	/FFnvDHv15dR62IUnh1+sBY8dwz5XsfSAEzcSFvH+ebFVQyq5QRsWBUDBz62Ho2C
-	aZW/+t9/k/ursxa3I3sZUA29vQ/6hJsu2Zg==
-X-ME-Sender: <xms:W1CUanVfhvurg80lEyKTCNvzbdgjSzZuSERAXBL6bg6ID9Iz1lOk6w>
-    <xme:W1CUasKpob-wfo0jHe9491cCn5uVeFtmi1QcRXike50lCIc8AlpTiMFdE0PIvOtfz
-    N0E9wi5fv42IEzYerCFvIryHrSrL5mJaJwSEyd3MCiNXES8NsGhUQ>
-X-ME-Received: <xmr:W1CUan3M1wR4M9LP_CwTz7lmuBIHqQuJbUh9DiivOPBfNkrsdBiApwJdrw018Sm3xVEBlBk6slD1txVuXx8o0voDOAhYQpMm6pU>
-X-ME-Proxy-Cause: dmFkZTEOYRK4gF0nS1OU3xem0WZp15SpUOTtBPG0aPfGupIuYPdkf//EB6U20QS5qwMibE
-    5xh3VNHbQsPBXG/WzMft+EW7AUnukz/ERkxvkIAczmn9Y258jeSCGpTxCNUvven2Kxx+JU
-    /eR5GnwCNq0xJCKmedT8YmYPRbtXx3vF1jmbPtdcFR+QipxXHZFc+keCuudFGmpoJGX419
-    KKmLoe2RuisnuCQSErHe+aeQOdLg5w4+3PhUCUQnbPTriE4Iq08GroO9iA1cgQG3zNcKSc
-    6T8v6Sl4d+5howPOj81vFOPmvZj+0Ri9+yj0AMYH4nHLVMkfzjXT9oic2CEPTmSTuO38Jg
-    CIcfGw2h6zpEfHXQ2eEnHK3ACmSZnxW/uUrwn0KGpBxSgT9BOQtCsPs/+F4julBRH1Yhg5
-    BgBRsBn6MLOreK0uviMip8UyEvzMRPLm/6Rljyf4U4ioeH+GSmWMNq4ctEiIz9UB2iiEJb
-    irdWJrOxMLhT3JLNhKEqvBSCbFLyL0VOiZtydeV6mIn+iTfgkDfP3+930ZPjHK0TQXlVAu
-    49+jOmB8QaUXvPvQH8GvalWLWC0TOV/1i782v4fx618ZU/b0YCEUq5pOfcsvgspG4hw0+N
-    JunNhCTJ9JwwqiiLI6nI0+76aSqT4cegUANCcW+1NLD84Z3mygeVK1zp6EQw
-X-ME-Proxy: <xmx:W1CUapJgSwv0S6NbiF_dhTq3QJtGAxrpy4i6GS_92UfcfiTT1BH_wg>
-    <xmx:W1CUaigikYbJQFZdKjtXuXqHfi48-Tu5EAup5DhsjGSitVDLb1C_fg>
-    <xmx:W1CUapDyXbY2XedCU43bJkXxIfk0pk4nVrJz4s07y4ZXSCzwdDMZ1w>
-    <xmx:W1CUak4Qbh6ZdJSZIYIqKUS_v_YU-Ja0Y6Fs8XmdwegztRE6M9X__Q>
-    <xmx:W1CUaoxI285qFTACu9dfBQhKSnolp32zwxlAVlogOEgibArVn9zzgcbx>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 30 Aug 2026 11:46:34 -0400 (EDT)
-Date: Sun, 30 Aug 2026 17:46:33 +0200
-From: Janne Grunau <j@jannau.net>
-To: Sven Peter <sven@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] arm64: dts: apple: Fix cpus node indentation
-Message-ID: <20260830154633.GA1748618@robin.jannau.net>
-References: <20260830-b4-apple-dts-fixes-v1-0-cc20f8445754@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hgLFNbu7"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9AEE1C4AF0C;
+	Sun, 30 Aug 2026 18:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788114304;
+	bh=JMPnBMGvgZ/FE+epN+cZJhAYFT7odaEQX02dt28/WNA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=hgLFNbu7pQOFE86+Nn+EvMVyaFMhVUdAV210xp/i5fqL4Lk5Bc2LjywLcPaD9LXtS
+	 kHABlqck0qrWG/Eu6LN2fGSQa2UgoJzfWAB5dylssEreSgcwQaPhHknkgTVE2YhUkB
+	 tv3rG3S/sHtlBDRFr1JumSyDymqIKRqJeCVpUACsSxDeWNm8jubK8TqS9B6Ex1LyL/
+	 kJaJwnQb097mEOyrHHVUBC88BZFSN05wzAIJGBmfjl58VjpuMOsNVIQng2ZpRz8c9d
+	 dCRhAMqu8QAdCm9DlZljBZNA1IhK465hJ6vVD1i+6hsgdseiLLbq4cD4DU5a4f3qA6
+	 xy1PS3GT129Ag==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FFCC61DE2;
+	Sun, 30 Aug 2026 18:25:04 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Sun, 30 Aug 2026 20:24:55 +0200
+Subject: [PATCH 2/2] dt-check-style: Handle indented fragments in
+ indent-consistent
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260830-b4-apple-dts-fixes-v1-0-cc20f8445754@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260830-b4-dts-check-fix-v1-2-e7c1b2774730@kernel.org>
+References: <20260830-b4-dts-check-fix-v1-0-e7c1b2774730@kernel.org>
+In-Reply-To: <20260830-b4-dts-check-fix-v1-0-e7c1b2774730@kernel.org>
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>
+Cc: Daniel Golle <daniel@makrotopia.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, asahi@lists.linux.dev, 
+ Sven Peter <sven@kernel.org>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3411; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=JMPnBMGvgZ/FE+epN+cZJhAYFT7odaEQX02dt28/WNA=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ9aU0robe566yklmrM+RC37v+mxHgWgpz9H6NTdlVj3ic
+ JhV5PK6o5SFQYyLQVZMkWX7fnvTJw/fCC7ddOk9zBxWJpAhDFycAjCR2mqGv1ITv+08E6b6zGup
+ oXHevOAZi44zccuInjYQWCAZUaTje5qR4YJcopmn5XzV7PcWnYeF934IjT9cyeB6Sm2FWXU0T/B
+ HZgA=
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-On Sun, Aug 30, 2026 at 04:22:06PM +0200, Sven Peter wrote:
-> Hi,
-> 
-> Just a small series to drop a spurious space in our dts file. No
-> functional changes.
-> 
-> Best,
-> 
-> Sven
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
-> Sven Peter (3):
->       arm64: dts: apple: t602x: Fix cpus node indentation
->       arm64: dts: apple: t6030: Fix cpus node indentation
->       arm64: dts: apple: t6032: Fix cpus node indentation
-> 
->  arch/arm64/boot/dts/apple/t602x-common.dtsi | 2 +-
->  arch/arm64/boot/dts/apple/t6030.dtsi        | 2 +-
->  arch/arm64/boot/dts/apple/t6032.dtsi        | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+indent-consistent compares every line against its nesting depth without
+accounting for the constant indentation prefix used for include fragments.
+It thus rejects otherwise valid fragments.
 
-whole series
+Fix that by adding the fragment prefix to the expected indentation and add
+test fixtures.
 
-Reviewed-by: Janne Grunau <j@jannau.net>
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+ scripts/dtc/dt-check-style                            |  3 ++-
+ .../dt-style-selftest/bad/dts-fragment-indent.dtsi    | 12 ++++++++++++
+ .../expected/dts-fragment-indent.dtsi.txt             |  3 +++
+ scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi  | 19 +++++++++++++++++++
+ 4 files changed, 36 insertions(+), 1 deletion(-)
 
-Janne
+diff --git a/scripts/dtc/dt-check-style b/scripts/dtc/dt-check-style
+index 2afc05fa6602..f867cb6d8070 100755
+--- a/scripts/dtc/dt-check-style
++++ b/scripts/dtc/dt-check-style
+@@ -486,6 +486,7 @@ def check_indent_consistent(ctx):
+         if unit != '\t':
+             return
+ 
++    prefix = detect_fragment_offset(ctx)
+     for dl in ctx.lines:
+         if dl.linetype in (LineType.BLANK, LineType.PREPROCESSOR):
+             continue
+@@ -498,7 +499,7 @@ def check_indent_consistent(ctx):
+         # The indent must be 'unit' repeated dl.depth times, exactly.
+         # NODE_CLOSE lines have depth equal to the post-decrement value,
+         # which matches the indent expected.
+-        expected = unit * dl.depth
++        expected = prefix + unit * dl.depth
+         if dl.indent_str != expected:
+             yield (dl.lineno,
+                    'indent mismatch (expected depth %d * %r)' %
+diff --git a/scripts/dtc/dt-style-selftest/bad/dts-fragment-indent.dtsi b/scripts/dtc/dt-style-selftest/bad/dts-fragment-indent.dtsi
+new file mode 100644
+index 000000000000..6d143c4dd9b2
+--- /dev/null
++++ b/scripts/dtc/dt-style-selftest/bad/dts-fragment-indent.dtsi
+@@ -0,0 +1,12 @@
++// SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++/* Incorrect indentation inside an indented include fragment. */
++
++	bus@10000 {
++		compatible = "simple-bus";
++		reg = <0x10000 0x1000>;
++
++		device@100 {
++				compatible = "example,test";
++				reg = <0x100 0x10>;
++		};
++	};
+diff --git a/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt b/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt
+new file mode 100644
+index 000000000000..84ec8eb73468
+--- /dev/null
++++ b/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt
+@@ -0,0 +1,3 @@
++# mode=strict
++bad/dts-fragment-indent.dtsi:9: [indent-consistent] indent mismatch (expected depth 2 * '\t')
++bad/dts-fragment-indent.dtsi:10: [indent-consistent] indent mismatch (expected depth 2 * '\t')
+diff --git a/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi b/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi
+new file mode 100644
+index 000000000000..58735112d3aa
+--- /dev/null
++++ b/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi
+@@ -0,0 +1,19 @@
++// SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++/* Include fragment indented for its inclusion context. */
++
++	bus@10000 {
++		compatible = "simple-bus";
++		reg = <0x10000 0x1000>;
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		device@100 {
++			compatible = "example,test";
++			reg = <0x100 0x10>;
++		};
++	};
++
++	bus@20000 {
++		compatible = "simple-bus";
++		reg = <0x20000 0x1000>;
++	};
+
+-- 
+2.55.0
+
+
