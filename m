@@ -1,166 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B1442E8FA;
-	Mon, 31 Aug 2026 13:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0623454937E;
+	Mon, 31 Aug 2026 13:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183395; cv=none; b=R44sq6RE59GlOGY0yEbw2RP94GYrsh4/gjQ1weNvSQUgdCB5sZv58xGKvM2c8CV5mu+qNY/iNDdRW4r1gE5wEU3ZDTzHOpL0CLEo/ZM6cEEBhqEKPSVjYOnGWCMWLNJeZpodyVDdEu11MbW0DiBph1XLtTFQ7jv7obp8SU5V9PI=
+	t=1788183989; cv=none; b=st4b+GiKg60gwZp4AksRvFCf3tfAEIT0rZvGuX/fTm3JX+hAiKD6oItLJ25AknG78r6utUpLgVmTOsFFUr0TjnERE20tOiFMmaQBxOtCp6tmV61Ho01y1nIeGYENy+UpJ+MCQ2ipGpu9a+MtTzouwXWGS6TaSz9pVzfyKNTkbbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183395; c=relaxed/simple;
-	bh=3d2wE4iPk/eSRIKBUJMr1Vert2gthTCrW2UXhnx95p4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dD0DD9xQiC3uzOWpMNluZckbv9WDXbuDq2jfiYTG0ppx1FHM/top8kJx2V0JsskKvmdBPqC1Iw3fx4if4/cSGyKWzrwfgOgViuaHmQhvkgIenzsLTJHyqxS2vSHJlmWsyE6MgN+/TzsZJ9jFRNaBhtNUMR9I0UuSRhTzsDITxEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fa7a1Q3Y; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788183989; c=relaxed/simple;
+	bh=g3bHuiF2eZyWuULtviNSCTfwDIZfKAG9MuMKJoMM/e4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=a4HPG+lx77WPxZNOGzYXxhMNbdIUd+HkfyK9YPlM4RcbvpTWaTojUlEYy7CQwlwylvrIl9MHBM4Lq/KXiFhVIlPpFbpRUCFECB4ej4KS1+SJF9n3r0PgncEfS3p22wIX6Hx7gzfyrv5t0obdLd2pSN6FxvMhmrF94oLWkIf8prY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=pWyC59VG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PyaRBkqn; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fa7a1Q3Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016D61F000E9;
-	Mon, 31 Aug 2026 13:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183394;
-	bh=3d2wE4iPk/eSRIKBUJMr1Vert2gthTCrW2UXhnx95p4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Fa7a1Q3YoUsfdoMvZbQAiBxdeh/TNaAy2cWmN+gHJtD0G5fAKj07cg5+8PsqlLHGz
-	 A1PAQuTvFk3cBiBuBnU9BX06M7lLnfqiM9pOLnHs/A2YOWF6hTp4V8VTsE2c/GmSFo
-	 URF1s+nDBwrxxWO45AdqLpYaq6wzMJThp7iMOVVQEGXgXFPN8CtiP/WnqMUZqdnyKW
-	 EQDpd7/10qJ2kUHSiXAJKr/GRWQLdNSiDsyIUkC44uOO8x+JESPpssnyKwOnT03CZH
-	 1TMqMRafZA0VRWtpwFEEpq9yiXTseAFhl04jX5wKhiXF3DXtIzYeLnD80tcC/prJs1
-	 YmW1jKy9yiPhA==
-Date: Mon, 31 Aug 2026 15:36:29 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Janne Grunau <j@jannau.net>, 
-	Sasha Finkelstein <k@chaosmail.tech>, asahi@lists.linux.dev, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	amd-gfx@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>, 
-	Russell King <linux@armlinux.org.uk>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Inki Dae <inki.dae@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Peter Griffin <peter.griffin@linaro.org>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, linux-samsung-soc@vger.kernel.org, 
-	Alison Wang <alison.wang@nxp.com>, Stefan Agner <stefan@agner.ch>, 
-	Ruben Wauters <rubenru09@aol.com>, Tian Tao <tiantao6@hisilicon.com>, 
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>, Yongbang Shi <shiyongbang@huawei.com>, 
-	John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Xinliang Liu <xinliang.liu@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Saurabh Sengar <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, 
-	Frank Li <Frank.Li@nxp.com>, Liu Ying <victor.liu@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, imx@lists.linux.dev, 
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org, 
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org, 
-	Abhinav Kumar <abhinav.kumar@linux.dev>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Jessica Zhang <jesszhan0024@gmail.com>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org, 
-	linux-arm-msm@vger.kernel.org, Marek Vasut <marex@denx.de>, Dave Airlie <airlied@redhat.com>, 
-	Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org, 
-	virtualization@lists.linux.dev, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	linux-renesas-soc@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Raphael Gallais-Pou <rgallaispou@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	linux-sunxi@lists.linux.dev, Jyri Sarha <jyri.sarha@iki.fi>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Aditya Garg <gargaditya08@proton.me>, 
-	Aun-Ali Zaidi <admin@kodeit.net>, LiangCheng Wang <zaq14760@gmail.com>, 
-	Alex Lanzano <lanzano.alex@gmail.com>, Hans de Goede <hansg@kernel.org>, 
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>, Chia-I Wu <olvaffe@gmail.com>, 
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
-	Michal Simek <michal.simek@amd.com>, Javier Martinez Canillas <javierm@redhat.com>, 
-	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Jocelyn Falempe <jfalempe@redhat.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Dharma Balasubiramani <dharma.b@microchip.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Huacai Chen <chenhuacai@kernel.org>, Jianmin Lv <lvjianmin@loongson.cn>, 
-	Mingcong Bai <jeffbai@aosc.io>, Qianhai Wu <wuqianhai@loongson.cn>, 
-	Xi Ruoyao <xry111@xry111.site>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
-	linux-rockchip@lists.infradead.org, Iker Pedrosa <ikerpedrosam@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, linux-tegra@vger.kernel.org, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Haneen Mohammed <hamohammed.sa@gmail.com>, 
-	Louis Chauvet <louis.chauvet@bootlin.com>, Melissa Wen <melissa.srw@gmail.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Zack Rusin <zack.rusin@broadcom.com>
-Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
- atomic_create_state and remove reset
-Message-ID: <apWDRq8YOTwvGuSf@houat>
-References: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="pWyC59VG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PyaRBkqn"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 75D7B1400041;
+	Mon, 31 Aug 2026 09:46:24 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 31 Aug 2026 09:46:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1788183984; x=1788270384; bh=g4
+	/XPVLrP5egtPNVWUyJ/PG5UFV4N/qltkV3ELg9guw=; b=pWyC59VGXVwtGE7jxK
+	0fvG5y9233VGY9k2Pp4TKIbBHpUmdOWYPROY+8jzilZ9qBnwb3aAqFs+9A7H0LCf
+	V2swXI611Al3ogdwMZ2H4OjYgoL1Bj22+G6It77CnYp0SeTSGR3DHL8MolybURWf
+	A6IBF86BRxCIHWyy2F3XL9cdxa2lnCneK6g21k2tMMpVLiUvu2cYD58T7qL24MPw
+	x2B4yvY2cND4vAjQNtA/lC4XnlFXVM4y/K4Ysw9hLnsiSdI59AlocRsqCsoQ+ki7
+	scbGCwqzWMtpIb7dI9MOeGZ6ltPQziUApHWngoQMjEf8djNOVk0PLeYHQznqXXX0
+	6/1A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1788183984; x=1788270384; bh=g4/XPVLrP5egtPNVWUyJ/PG5UFV4
+	N/qltkV3ELg9guw=; b=PyaRBkqngoXLhLW0vtay3lx32XeqT4Xo89hqv78sf9AA
+	tXlrYNwG+FRyd9UZ3hWnkGYkxQxVjTs83GVTw05Tsd0bp5x/rXNsGjxHGZO6VuQg
+	1nd2mOc+kEWpbT/O6wDToS4IpCn+E2ZStyfN7+0G0I7aXUvOpo7UABBZHJ00T2Qu
+	YkQa0UHsqpBPmv2eb23sTVnCLKgO6JopelsLwGxxdUyD7crbr1D2e+p3XNsv/J8v
+	ZH28wH5ZyqHiaVdisZYk2DhpJ6+hrQ2YLt0cLv5EdELGFiDgf/fngfNUKoO/4p7M
+	Jhb7I8aitc/tYE4twQ1o6ZdYJz2SuAr+hdOG+T3EEw==
+X-ME-Sender: <xms:sIWVagpRnYxRqO4aYwMtyOWrQVcTowCgLYNCcu75vDSlnzgGt1qxIw>
+    <xme:sIWVauNMlO01SI9I4okCxgZ8kVd1wxjo1fpcDyhhFPCIQ120jaAD7CvksfKX4Kxg0
+    9dYEmS40lpkdjU06HovQB3kL5EjmV_DgCVWqALdG3N8gIE23iNmYUU>
+X-ME-Received: <xmr:sIWVak25JzsUSjExxmVAeZY_1FjyrJHhABWfEKz92ptsx9ZxS8-ymd4j4eTPWcmhcySWRBEzJWETYUToNVF18FhP8s4DLhllodmVCw>
+X-ME-Proxy-Cause: dmFkZTEvZMkLEr7MhWmsStG7sJZXSLt7S/MV99zX9keQluRTeC57NW+zSl9TBQNf7FCT0S
+    RXUa9Qi0huZw7DA+PRaJ8kjJOGulGLX/LiEN4HozDLX996QN7h/AOwG62KOyPTtLmclyik
+    UHj7e7+vMjCfGxOG7OXwW475YieXIhYchvFCr+heSc7oFhINNeY21c1xRHLgBdfYjwDmVO
+    grhY5RQNgA1kjTZTEMjAFDX+9YjO6jFERPW1FbHLuNe+dmrUdOEfypWf5n9tbhXajYMKiT
+    QqEDXTOJ+ghOws43X9Z+YPTMVomE7EACJ7/jHjGM9Yme83Mw/KKcvSxUFWyF/TlOEVUvIn
+    uU+2rlECtsqv3fBiGUSDwjJu7QdT3GfY0D5J9WrlLI8ygmpkx1tolzbXB4MWB63spDLuUy
+    V1D4Yc2MMkpXvdW6P97vYdip1ZyQfOB02veRDW/eteKeamSgh+e5xrP5puCcjMYTwkBpSM
+    mTcI/mEJgLi+UO/mCGPRtOY7GiNmrI6T0zVfR3jXmowo3epjNdDCH9iNAObwTBr4bdO5Gj
+    UShA9Ck3lIRf7kZ98bp2YdEF7aUOWZp6+dcvxjKlioYlk0kYOeuekjuswa0Jdska1bs7ou
+    x2Px/mOodOEGCibbDTDsoM7EsQMWm6qZIX5i+MfcNUkMRO0eEL4fn4fzZ6fA
+X-ME-Proxy: <xmx:sIWVakpzFC2EjKUzSrmGuzKUDNTfvCCZyYiO40u62GaQnvgDtZ-icQ>
+    <xmx:sIWVamca0xnfrYqJrJSI5_K_Pd4R8w3opLkgTPVOSTr_TfoaSZaV-g>
+    <xmx:sIWVausFFTEhiamIR823ckEc_yjVmcx-1M9hr_TvLZuJEpE3dTwlIA>
+    <xmx:sIWVauXC5H3dhH69dF_q5s1lkynYDgfMSXPjdMvtOiX5a-87WpuaKw>
+    <xmx:sIWVaqM-_XAM7WANhzrvEK8yMGjyFkOSYj9-i4XcBVhEc8K-AtpCpOZo>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 31 Aug 2026 09:46:23 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH v2 0/2] iommu: apple-dart: device specific DMA aperture
+ support
+Date: Mon, 31 Aug 2026 15:46:07 +0200
+Message-Id: <20260831-iommu-apple-dart-aperture-v2-0-d16ce3770299@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="eainbiqt42xdkeio"
-Content-Disposition: inline
-In-Reply-To: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0Jm7Zi2RAFX3sOwGMsgNdKSaSEaw
+ t2tnMDdfz/5768QWRxHuBQrCC8uuuAzmEMBdiD/YHRdZjDKnFWtG3RhHGekaXoxdiQpR5Y0C6M
+ t7421VdNVrCHvJ+HevXf3rc08uJiCfParRf/af6yLRoXmZCpV9mWtia5P8p7mo+cE7bZtX5sWL
+ aDDAAAA
+X-Change-ID: 20260819-iommu-apple-dart-aperture-c3b9cc79d7e1
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ iommu@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>, 
+ Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2211; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=g3bHuiF2eZyWuULtviNSCTfwDIZfKAG9MuMKJoMM/e4=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqyprWs62h1eFt7nVK6b+eLhibSEegfJpetf9G1stC2Ze
+ DF3p0tiRykLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgImkbWD4p/Put7t0181crdWS
+ +luXNspsY/9b8sItYKcvv0hlgKDNIUaGu0cuGU/VPhh6mEdr4s5tXC/YjptX/9j39qtvb+tx8eZ
+ 53AA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
+Apple DARTs are often connected directly to devices that expect only a
+portion of their address space to be used for DMA (for example, because
+other ranges are mapped directly to something else).
 
---eainbiqt42xdkeio
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
- atomic_create_state and remove reset
-MIME-Version: 1.0
+The USB4 native host controller on M2 Pro/Max/Ultra devices expected to
+be sent by Sven after v7.3-rc1 requires this. In the Asahi downstream
+kernel the display controller and ISP require a specified DMA aperture
+as well.
+The downstream kernel uses a "apple,dma-range" property in the  iommu
+node to specify the aperture. This is not a good way to describe the
+aperture as it is not property of the iommu itself but of its connected
+device. iommu.txt describes this use case as DMA window in its
+"#iommu-cells = <4>" example.
 
-On Fri, Aug 21, 2026 at 04:38:36PM +0200, Maxime Ripard wrote:
-> This is a follow-up to the plane reset removal series, and part of a
-> larger effort to remove the reset hook from all KMS objects.
->=20
-> The CRTC reset hook is overloaded: it is called both at probe time to
-> create the initial software state and during suspend/resume to reset
-> hardware and software state. These two roles have different
-> requirements, and the reset hook is not fallible, making error
-> handling difficult for the initial state allocation path.
->=20
-> While reset has the semantics to reset both the software and hardware
-> state, the vast majority of implementations and all the helpers only
-> reset the software state, making them equivalent to
-> atomic_create_state in practice. The atomic_create_state hook makes
-> this explicit: it only allocates and initializes a pristine state
-> without any side effect, and returns the state pointer or an ERR_PTR
-> on failure.
->=20
-> This series converts all CRTC drivers tree-wide from the reset hook to
-> atomic_create_state, then removes the reset hook from struct
-> drm_crtc_funcs entirely. Two drivers (tilcdc and loongson) had actual
-> hardware reset logic mixed into their reset hook; those are moved to
-> CRTC creation instead. The conversions were done using a combination of
-> Coccinelle semantic patches and manual adjustments.
->=20
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Implement this for DART allowing additionally 5 iommu-cells specifying a
+64-bit aperture start and length. 0x100_0000_0000 is a commonly used
+aperture start and the aperture often spans a 36-bit address space.
 
+This range *can* be outside of the DART's IAS. In that case, it is
+assumed that the hardware truncates addresses and the page tables will
+only map the lower bits of the address. However, the specified range
+cannot straddle an IAS boundary (you cannot cover more than IAS worth
+of address space nor wrap).
 
-Applied patches 1,3-14,16-28,31-41,43,45-49,52-62,64-68 to drm-misc-next
+This corresponds to the vm-base and vm-size properties on the Apple
+device tree side of things.
 
-Maxime
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Changes in v2:
+- validation of the DTS supplied aperture: page size alignment and
+  overflow checks
+- actually add `64BIT` to the COMPILE_TEST depends
+- Link to v1: https://lore.kernel.org/r/20260819-iommu-apple-dart-aperture-v1-0-252703f381aa@jannau.net
 
---eainbiqt42xdkeio
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+Janne Grunau (2):
+      dt-bindings: iommu: dart: Support specifying the DMA aperture
+      iommu: apple-dart: Support specifying the DMA aperture in the DT
 
------BEGIN PGP SIGNATURE-----
+ .../devicetree/bindings/iommu/apple,dart.yaml      | 12 ++--
+ drivers/iommu/apple-dart.c                         | 74 +++++++++++++++++++---
+ 2 files changed, 72 insertions(+), 14 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260819-iommu-apple-dart-aperture-c3b9cc79d7e1
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCapWDXQAKCRAnX84Zoj2+
-dtnDAYDvbcHtYOX7CuJCyNGSb99Ed+Livj62dMg0nsp864oeIMVzqxGBJIKgPp8Z
-RCHnUyUBfAxvXYJDr3LaH94QifMoTvJPOgPapZRwWXp6VAygmOgZF8WFxC9cEp2h
-0/QjaJymHA==
-=mCUP
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
---eainbiqt42xdkeio--
