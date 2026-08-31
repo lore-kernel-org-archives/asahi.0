@@ -1,68 +1,70 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7033C1F57
-	for <asahi@lists.linux.dev>; Mon, 31 Aug 2026 11:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A2A3E2740
+	for <asahi@lists.linux.dev>; Mon, 31 Aug 2026 11:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788175995; cv=none; b=BANrCBo0qBhWalJJCdWiM+/u8RpXGtv692Cx3jQzI97IMgwZatc5j8GQN5Dn71lyjT9HPte+TUGXUPPKN8BjcCcy2zAnEwFzM3x5wLsdeFSi0gZheNNc2TPXgwO27TTapY+WLh8YzWBj9NAUpT59bg32W5Aejveqpfhj2qzBR5c=
+	t=1788176001; cv=none; b=NYtOk4OFNl4o2AbU3S+PjhHOneOZ5rZW0/R2fZy/cu2IsJ6WlMipzDdd95RkwzWP6wQmm92cu59l+OYizxssoXuZJH8cKoN57G8UPuoIjqaniLvuxsRK0N7baTefsYPR1mmHM4F3HOU26d2fycXqzXN0raqdUINtPVI5LE/vAKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788175995; c=relaxed/simple;
-	bh=JA8jrHKuhk0CJFLWQ126/WU45hXRi8573vPGNkgvooI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=M+XmjLcS46GmfXtjPKGzoRW50cLJSo3lPMmoSW4Olsp+A8Zaks/Agc9W3ILxDccAZkPjW2XOaZx/UTwe0FKp+zPpTIn3ZLQIWM/79AykKd8MnoICQy9Afmge34wcq3yym2Pdy5GhL3bfS+BVtf9rGkSpAHzDkVveR8w0RgFzuLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U6qKO4MV; arc=none smtp.client-ip=209.85.215.181
+	s=arc-20240116; t=1788176001; c=relaxed/simple;
+	bh=ZRo1GcG9w93sfzG7bw0j1Jl6KpqxxS3Chp+d8qV6No8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=XvR8p5y7jn14z8U0C58D6wx8pVlv/k3TyKRaPpe+Otu9A5wH2OtoufGKXpGKNqSACeQDJd7+ouSE9yB+KXfX+osvCFuzKuS5oSBZ0GEK9d3kPJJAHNuVumpBK0ST7GpdmK3himl2gLS1SML1A8/4ZAtgsOUtdo245MuVhM3VRuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A+RsRtUU; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U6qKO4MV"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cc11a905ba5so2367581a12.2
-        for <asahi@lists.linux.dev>; Mon, 31 Aug 2026 04:33:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+RsRtUU"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so2759363a91.0
+        for <asahi@lists.linux.dev>; Mon, 31 Aug 2026 04:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788175993; x=1788780793; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=YwoI9pJbspw0thPYgo5uRAdd6p/MMBJUTUU3yjoPKkw=;
-        b=U6qKO4MVlSO1kIhGtAAaSvGMaI/LiNatyZHVxFWEUlJx0V6Xxh8Xmxcz3BaFq0Fndl
-         Vs+Z1Ct4keMK19LnP+NbFWJZoxlBp37OU+SX05VCMLihLvztqPdmt7Pdy3iK9qdsT0yj
-         7++Wwu8itFD1nQUYjKXOg64KOMiVGJaEYIi1XnrGV3r2hj83HdZt4PfG8M/9tSIHJA3R
-         Hn5W8WhTK6obblsKXRKYgQdAMBPyeZjp+HT6xMq3iVYMMMYeDXxuiS9AfTjjAN2Swc2q
-         fgJPbU7PLGRCrqPhPmIgO92x7C7UyBJnR2B+UUgEjRaIxSm9c9cS3BAE0Y5TuAm7dXnK
-         uxWw==
+        d=gmail.com; s=20251104; t=1788175999; x=1788780799; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dS9uXLr3qezTsn5dVmuEZ66xzV07pi9cC42Sze/GMZE=;
+        b=A+RsRtUUFdWbQTCSVDrgsBg5F2XZrUJPGR/21uekI6zANl1sSuRcdh8wgj/sk3+IXJ
+         AKFgOOJ5RYvdWCPHXxoSBXjBsGTYFCYgq58KA3ix+Blic/tn3GWcVOloBzm77S+5kHP4
+         +5uo6lK5tZZjTEur/egHupBwZP0uADGOJA5QwAmjn1u8zEL+ZWdaQEKxj3i9jXX88MAs
+         kbXeHc5UM3uriZYDl+NrtPkYpeh9lWhgLDhc4uTfiH+QbaeWdVMF91lFYl9NwXvc4gZ4
+         D5ZpZPwOF5q7lF1lD2S1TJVpdwjHf3SNLsq8GfO0VuD9LlQSmV12Ufaxr9TriIUI30QG
+         zWEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788175993; x=1788780793;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=YwoI9pJbspw0thPYgo5uRAdd6p/MMBJUTUU3yjoPKkw=;
-        b=HtRxgb49RIGB1Ta0bwIWvYqvRMI3xbLT7BxqrbV8CfwjVgtL2zGkPIorKGcc4A9v/3
-         H9398Boi7U0aZr6BjsfXcSQ27pnk+pojM29fttQNMj7A7iLC43R+2QPL9rDLxQTf2fbf
-         XdMM34mE5rrZaq6Q3CH6HR1gnzIK3z0CitLIlQg3JBDwsUh0i7GAy4FvzbweQGJpmxsL
-         CKHO2bIKpr76C4HWz702Kgj8T7eB98MAUN+ovieXVbEijvSHcf7UHHlnb1+TACAfWC3M
-         tsr7qogXWlAteZ4TtSyR+Rqgo5jrS1rhfJoCE+EZn9RILUMLj/24/0djW56tyBvEaXbp
-         ybCA==
-X-Forwarded-Encrypted: i=1; AKwUvBzOgrhBODQ5ebQHw+FqH/5d+H0jo9DEuDBfV2gw5H0dOzgmWfLLgZQNIVupGurj/biiVfZAFA==@lists.linux.dev
-X-Gm-Message-State: AFuF++mTvXoVmWdnxtVaFzItbeE4yJ+griV2QTp+rTgNoFEZeLqG5I/0
-	ZCExDDAh19WXvLaxBpna3QBh4Vw8T+tIYIudr8MA/K2DVNRor9bnwjVc
-X-Gm-Gg: AYBFou0RlDLXQf5pi8sPe89jQ0QhdAomyb4zxRA0XPANI9WQrB+LWJ5x9+IJkxpO7Ri
-	7yxlMJAZoGXKltGBROLBmmwOtz7c+Ajk+OhdhjZyxfi8tsah8dHmsiF9LYtA0CznG+5gjXFTF28
-	q09m+UalbnivlGw+iNSQ23365OwijjlBKKIYvNyfCnKDKCc482wkcb/t4QIlr40LpL3XxF3HbAW
-	FhbWmozlf0JDLGy1CODqHuAtRXgmDAu1htNvpegdCEBkeXUFEUeIqD8WFEYSN9ftOKzdRuw7dw1
-	CR1DhIlgS2dJuwIMpqIBK9hb8d6AHTHqoXCM8wVTJZmJctAuin7zzQIG7vC5PC2DlIKGaoC0jKy
-	ZbK83BM9hQCQrZwBvGFKAJbMwpOxHi1B6RmdEF/mzzy2JXk34XwvuTmRMkuYF2MIb9HPRVGCxGd
-	+W92sFmRUrFAgIVNbKgz3FeeRpHTQO2CuBpjiExpdT3CXObQA8QZsaldyQEf0lkZ1dqlfDJ4InQ
-	yE66HLzXzrAoBFSGX0nFTKsZRz49jgu/Bp40zJVdcd4KIH8HCLLrFC9wgq6Hrg6Aepnn4lRzrgL
-	6G4prRjKi+QoOc22Yc7Avdc3Kv5Oo8ChWPbygjLDanjEdpw=
-X-Received: by 2002:a17:90b:2f0f:b0:396:41d1:cbc7 with SMTP id 98e67ed59e1d1-396d0d92d15mr41287848a91.3.1788175992822;
-        Mon, 31 Aug 2026 04:33:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788175999; x=1788780799;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dS9uXLr3qezTsn5dVmuEZ66xzV07pi9cC42Sze/GMZE=;
+        b=NE+S5t82m5mThaTi82afudlmfHLIOgKW8F8Q4kyVL96F2YNCi+jcmiPelDgMkghk3u
+         z3QFcxYBUMI/12Awd+tmziaN2aw2qi9y+SwLfYCi4Fo5YMXxd3iXkfoUD8us7MeqELq9
+         vyF9ZYqYw/3jzhVph9MWBzuWONPakXkuiGsKArzNRt56Gbc8/tM5m3lIiNKIdIV2cA24
+         VB0g2bwOGFXccb06avbN8vbEYxvIuoCkqTOEsYC0GB3PqVtoMbd2kF9lWZzRgT7KhS/L
+         M3Mmy8Td+PXWPY9S2dEcNCPOARp5KOrCeFMw5bpJLwalXHiANDLwAzKv1nW+pWo7Ncw6
+         tedQ==
+X-Forwarded-Encrypted: i=1; AKwUvByoDzGLuKp2BVW4WYXBK4HHNL6XkSwVQa/pn5awftGCzpZAHgPhEMeksGCXBvS7uXJ+IMr2eA==@lists.linux.dev
+X-Gm-Message-State: AFuF++kzDx6Hu8C1hPnuJZX/7DFndRwgxlXLUXtk9kBFM9EiBLOZusK+
+	uqzAJaUNvFwbZPCjcuQs5Jf2REzwHCI1M2I3xjKodLytfJ+q4PQ2mrzo
+X-Gm-Gg: AYBFou0ITx3kf+TBGPDmwx6gAXMZtg8oHYTi4fwY+RrJPe7mm5qwU6dOGzwatl1p6wT
+	OaMvzoYvNdHBLA0SlJbjU42o/GMmm5KCuDrntP6SCR+PAcsIKTTlan5OQgVHbr+r9gkF8j5RVKk
+	fcRc/hFCPLPz2bQNpDeSDT8bqttOjpInEo9ludE7ly5MegG0gIdlKZ8LqppSVwHwAgcFA0aqZE/
+	I4unrMvHB0EPBzO44hXddMVxdZeADenNDSvSH8rKjD53D5svNsYfFnMmkQDSq+IbF9PYbhEHDCm
+	XwlLlPHN5z4tOm+CfKRFIrSSUZgFCnRxjYs/swAfklGIig0lXnINBani7pupEkcHfF6GjRWHu96
+	9Q6B3pGEeYBUCv7/yr2DDWJGK4HiHtlENJ/zMQH0Lmymg+ljfhlmAVZZw55sWWVVr3d8wjdDSQZ
+	4HHLWU6CQ7Yco2RuTflXMmTmPzKEOMQTRAoP+oCeENLT8D3Q6oiOzZ6orXj/In10CGeN1A3buAG
+	qViPidecUGoX0SSBMX9dwie/9zCIOq9lk4G/59RBhtZYofXPsg3r2dPR5VDweQ/35OaTEHb7dti
+	p5kvIYlhesHF/gh7vVIZUMmFPIZe6oITAqvaVyHqwiq5KPE=
+X-Received: by 2002:a17:90b:564e:b0:381:25ce:bcc2 with SMTP id 98e67ed59e1d1-396d0ee7010mr36676598a91.6.1788175998887;
+        Mon, 31 Aug 2026 04:33:18 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f7bc825sm34111826eec.9.2026.08.31.04.33.07
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f7bc825sm34111826eec.9.2026.08.31.04.33.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 04:33:12 -0700 (PDT)
+        Mon, 31 Aug 2026 04:33:18 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Subject: [PATCH 0/3] Enable shared GPIO for Apple Silicon audio support
-Date: Mon, 31 Aug 2026 21:32:38 +1000
-Message-Id: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
+Date: Mon, 31 Aug 2026 21:32:39 +1000
+Subject: [PATCH 1/3] arm64: Kconfig: Select HAVE_SHARED_GPIOS for Apple
+ Silicon
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,10 +73,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTNJqVKBqxAXFX5gCIGmo8aEc
- HcrLr/FezspokCpyXaKeIvKtiYUeUbd5NcRLH0yWWOdqWzNPoQFrJOP6HkMsrEzQ+Vwu+JSekp
- diBjkcz7b+9/6eszonr8RHccXNvdv2HUAAAA=
-X-Change-ID: 20260829-apple-shared-gpio-60f86e74e35a
+Message-Id: <20260831-apple-shared-gpio-v1-1-e855b12e18ce@gmail.com>
+References: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
+In-Reply-To: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, 
  Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
  Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
@@ -85,77 +86,40 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
  James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2665;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=785;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=JA8jrHKuhk0CJFLWQ126/WU45hXRi8573vPGNkgvooI=;
- b=kA0DAAoW1DYy0VH3eWAByyZiAGqVZm6gk8hq/DZpJ7Sxzc6aABaz6Amen7+KLPp8mgNqyZt2h
- IiRBAAWCgA5FiEEsIISSJsyBtmPFHm91DYy0VH3eWAFAmqVZm4bFIAAAAAABAAObWFudTIsMi41
- KzEuMTIsMywyAAoJENQ2MtFR93lgVXIA/jxuSb36HlgsJsBZYezGXmJU5VV9xJiVbYBpEWb7i9w
- ZAP94S1jJis0hOEMTV0nlB7uKc1AoDcePfnSn7FH6oi7sBw==
+ bh=ZRo1GcG9w93sfzG7bw0j1Jl6KpqxxS3Chp+d8qV6No8=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlT04oMJE42LXo8Wb8t2cF478qDHBbL2O8eXvXK6sppi
+ xrf9ea7OiayMIhxMViKKbJsaBLymG3EdrNfpHIvzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
+ aKRjrGPEwMUpAFOdVc/IsO+wxZql0dWHOg3v3+Zhf1SSpPpFdL3D47ja+qai5Xnyzxn+Fzp47bW
+ +9UfwAfv7oB+f6lvnPa1f715rdE43Q2VuygRdFgA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi folks,
+Apple Silicon Macs use a shared GPIO line for all speaker codec
+shutdown pins.
 
-On Apple Silicon Macs, every speaker codec's software shutdown pin
-is connected to the same GPIO line. This line must be pulled high
-whenever any codec asserts it so.
+Select HAVE_SHARED_GPIOS for ARCH_APPLE so that we can use the
+shared GPIO proxy infrastructure for this.
 
-This makes power management impossible. When we goe through the list of
-codecs and call each suspend/resume, the GPIO line is asserted low or high
-by the first suspended/resumed codec. This causes issues for the subsequent
-codecs; they are already shut off by the time we try to cache the register
-state on suspend.
-
-In the downstream Asahi Linux kernel[1], we were previously (ab)using the
-regulator API to work around this safely. We replaced the shutdown-gpios
-property in the codec Devicetree nodes with a virtual regulator which acts
-as a proxy for the GPIO line. The regulator will not deassert the pin until
-every consumer wants it off, and it will assert it as soon as any one
-codec requires it.
-
-Now that the kernel has shared GPIO support, this has become unnecessary.
-The first commit in this series enables shared GPIO for ARCH_APPLE so
-that we can take advantage of this new(ish) infrastructure.
-
-The shared GPIO infrastructure considers the first state change of a
-line to be the "default" state, which is the state that it will allow
-to be asserted without all consumers agreeing. Currently the TAS2764 and
-TAS2770 drivers initialise the shutdown GPIO high, which means the first
-change is to low. This does not help us, as the line will not be reasserted
-on resume until all codecs have tried to assert it. Since both drivers
-explicitly pull the line high on codec probe, we can initialise it low,
-causing the first state change to be from low to high. This makes the
-shared GPIO proxy behave as we intend. The second and third commits in this
-series implement this.
-
-This has been enabled in the Asahi Linux kernel since 7.1.9, and addresses
-the last obstacle to attempting to upstream the machine driver for this
-platform.
-
-We intend to take the Kconfig patch via our soc tree. The two codec driver
-changes should be taken via asoc.
-
-Regards,
-James
-
-[1] https://github.com/AsahiLinux/linux
-
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
-James Calligeros (3):
-      arm64: Kconfig: Select HAVE_SHARED_GPIOS for Apple Silicon
-      ASoC: tas2764: Initialise SDZ GPIO low
-      ASoC: tas2770: Initialise SDZ GPIO low
-
  arch/arm64/Kconfig.platforms | 1 +
- sound/soc/codecs/tas2764.c   | 2 +-
- sound/soc/codecs/tas2770.c   | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
----
-base-commit: cf72cbb39da84b6f02f90c07f33b102fc10b16f0
-change-id: 20260829-apple-shared-gpio-60f86e74e35a
+ 1 file changed, 1 insertion(+)
 
-Best regards,
---  
-James Calligeros <jcalligeros99@gmail.com>
+diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
+index d2acfac73003..76a6a0e6ae4f 100644
+--- a/arch/arm64/Kconfig.platforms
++++ b/arch/arm64/Kconfig.platforms
+@@ -37,6 +37,7 @@ config ARCH_APPLE
+ 	bool "Apple Silicon SoC family"
+ 	select APPLE_AIC
+ 	select APPLE_PMGR_PWRSTATE if PM
++	select HAVE_SHARED_GPIOS
+ 	help
+ 	  This enables support for Apple's in-house ARM SoC family, such
+ 	  as the Apple M1.
+
+-- 
+2.55.0
 
