@@ -1,136 +1,166 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5073403ED
-	for <asahi@lists.linux.dev>; Mon, 31 Aug 2026 11:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B1442E8FA;
+	Mon, 31 Aug 2026 13:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788176013; cv=none; b=oiXAxSpJoS6C2ja2h3xMLtFvnSPCw8mhOeYV9Vj8BA+HkPKi43Ckzrh5z85SRQcJypfkSNhp6kMznP+pJKJ0a3q2GJdpCuFkcrZg+lhYYbwqGIONzW5W84LtD1ea69IVy1Gj4gP0ZIwd2b7sisr50iLKEWqkEoAqImlK/96tYN8=
+	t=1788183395; cv=none; b=R44sq6RE59GlOGY0yEbw2RP94GYrsh4/gjQ1weNvSQUgdCB5sZv58xGKvM2c8CV5mu+qNY/iNDdRW4r1gE5wEU3ZDTzHOpL0CLEo/ZM6cEEBhqEKPSVjYOnGWCMWLNJeZpodyVDdEu11MbW0DiBph1XLtTFQ7jv7obp8SU5V9PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788176013; c=relaxed/simple;
-	bh=iTXhJnYnvUyhcSvEeSQQcBq1TiwCB1jc+QCIXDOLjsM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WJNLF19Ttu6x+kKPlQcPASzyGBp2Iu+R8ceCnTinbPnRTrYm9Es94ocNsvIFtwqHNr1QHqAR+GOI7S58VPYXCm5rDbmPvHn0xM2CuWL4/0wlxv78/A3Yx9ceFiocdl61t6A1W4dTspfVodra62I+9Gt90D/Ls+xaPuAyaDUCyPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cTpOlbgt; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788183395; c=relaxed/simple;
+	bh=3d2wE4iPk/eSRIKBUJMr1Vert2gthTCrW2UXhnx95p4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dD0DD9xQiC3uzOWpMNluZckbv9WDXbuDq2jfiYTG0ppx1FHM/top8kJx2V0JsskKvmdBPqC1Iw3fx4if4/cSGyKWzrwfgOgViuaHmQhvkgIenzsLTJHyqxS2vSHJlmWsyE6MgN+/TzsZJ9jFRNaBhtNUMR9I0UuSRhTzsDITxEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fa7a1Q3Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cTpOlbgt"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38e58034d05so2729940a91.2
-        for <asahi@lists.linux.dev>; Mon, 31 Aug 2026 04:33:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788176012; x=1788780812; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0V+6zXu1ZixQJ8ktO5+SKn8z2jHgggq58T5gsH9x6kw=;
-        b=cTpOlbgtnSjMhayDEDKDLMc+BSANKEuVzkYBc+EJ3ttjvq0F9cXAT8/DP5BHc+ws8V
-         8oM+mgwRUklYQIAFHllJep2y7qOMKrLPu08vP2Zl88MKu+Yh3eW8fR/mvZTVgrjGkrOW
-         /NojbYDrhTqpDtwytXQAECqE/Y6F3QbuGA279iPLb2w1chNo6jZcfL9yYOfGWvYkhpOz
-         XqstV92H/94EWe6+ESF4+oF1t0gW+6hH3/uqCL6jhqaYfScJHNZFpJfY//2x8rHBf/ns
-         1YRxfLzpeVsoMQWzah9HQmS0ef5Fop93NVFJ+0WshXw7ny5YpaopD4v0VRxbzVZjle/P
-         ZDJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788176012; x=1788780812;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0V+6zXu1ZixQJ8ktO5+SKn8z2jHgggq58T5gsH9x6kw=;
-        b=jv0pe4ItipPdq5DYc/3FsBBkSV6P/DigIwjJIXVIMGi8KKgJ04gByVdyXKVG+hh/0g
-         oFGt1fcf2wxT9E//wO7FdRBQP/apv+7jXX8PU1inel1eXGbv/9BLpXCntMeBlFRw+NlQ
-         zQBXBumRIvYJCB/AUwyfdTVQZ4/LUZDgwIlUduzHPMpQPU7soxUMe3M5lIIbTXFWUojC
-         hDB+YoWbPbVfPrbpROcZXkffoOWi9r1bRb7IJ2kkNrA202NH2eu9gKNDuI902Zowkx5F
-         tPWPUSwlgtSmFkfndRCw0U2AziexClAAIR0+VfC3B7NWhNx1lpvqYIRz4hiXvQJFun7q
-         ajQA==
-X-Forwarded-Encrypted: i=1; AKwUvBx4U/moNfwSanLZOD9NBtrU0/a5YFd0k7ZeezMmQ83E11XtxIHyEq2qjHes8tJ0coU8/pnAgQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++kv+u22M8kkarALTfmcx268/8Kk/2nYz7riTv2FOVHYAh1m0TxJ
-	IJMdFDdL3ZPBtV02AR/L4BjVZ12tofsN7/V+RLS0MI9Tt+wZxqcS/Tyg
-X-Gm-Gg: AYBFou38ExKWwA6Xp7QqDCNWIAdWvy3aepa2qtgpVFY6jx0V+Z9ZXH5gVZtEtFuPTWQ
-	h+bFAeBilGCM0qK8iiTq23S46/mf57owNcjnCkCVyEdXqezmM+/qTC8HyRcL5oZl2hDhGBNubNq
-	4PhOIo0woK16Gms41akYMArL1cy4b9e7/mdOmPoXhewkcOCGlGrh4WxfN/Kkx7rbJsVtlXa0xoR
-	/ikrQhtbKlBsLZy21QQKq8AbfNFelbdkP3sTzkQ07f6IvIxx4zTcV/eavW1/okS64e7YMz6c3NN
-	yPuoYPdNKwbFJT0nXjr7c7pCbc/HTbtK/XgcMOeL7mRSR08Jg6aGy3tHeJ7bNaTTRQK/sNBrpAM
-	/HZaAGNQT1EPi4Bke9JaA+gW6ZZakPh0A5rWVsvSlQlEIDxIfOfAxkzo1K7wXhUE1oMiWoNyAX1
-	GEgM+wAdqeX81fRetMjUsoDMtqTYUWolH1DzUTifzio23V1FHkSn9YRm9wiT1sj5dOPBkk1CgHn
-	rstClg1bXz+NM7HOxXYW7RolhDr8R/y46H8C/lY3wCPrT2FgtyS1G9O8rQcKTugWOXa9vLtg7CP
-	0YBBOOfoC4RF26nLaxAjsAt8UZRy7q9ndGNV
-X-Received: by 2002:a17:90a:d646:b0:366:3517:1aa2 with SMTP id 98e67ed59e1d1-39907231958mr322558a91.0.1788176011913;
-        Mon, 31 Aug 2026 04:33:31 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f7bc825sm34111826eec.9.2026.08.31.04.33.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Aug 2026 04:33:31 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Mon, 31 Aug 2026 21:32:41 +1000
-Subject: [PATCH 3/3] ASoC: tas2770: Initialise SDZ GPIO low
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fa7a1Q3Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016D61F000E9;
+	Mon, 31 Aug 2026 13:36:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788183394;
+	bh=3d2wE4iPk/eSRIKBUJMr1Vert2gthTCrW2UXhnx95p4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Fa7a1Q3YoUsfdoMvZbQAiBxdeh/TNaAy2cWmN+gHJtD0G5fAKj07cg5+8PsqlLHGz
+	 A1PAQuTvFk3cBiBuBnU9BX06M7lLnfqiM9pOLnHs/A2YOWF6hTp4V8VTsE2c/GmSFo
+	 URF1s+nDBwrxxWO45AdqLpYaq6wzMJThp7iMOVVQEGXgXFPN8CtiP/WnqMUZqdnyKW
+	 EQDpd7/10qJ2kUHSiXAJKr/GRWQLdNSiDsyIUkC44uOO8x+JESPpssnyKwOnT03CZH
+	 1TMqMRafZA0VRWtpwFEEpq9yiXTseAFhl04jX5wKhiXF3DXtIzYeLnD80tcC/prJs1
+	 YmW1jKy9yiPhA==
+Date: Mon, 31 Aug 2026 15:36:29 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Janne Grunau <j@jannau.net>, 
+	Sasha Finkelstein <k@chaosmail.tech>, asahi@lists.linux.dev, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	amd-gfx@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>, 
+	Russell King <linux@armlinux.org.uk>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Inki Dae <inki.dae@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Peter Griffin <peter.griffin@linaro.org>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, linux-samsung-soc@vger.kernel.org, 
+	Alison Wang <alison.wang@nxp.com>, Stefan Agner <stefan@agner.ch>, 
+	Ruben Wauters <rubenru09@aol.com>, Tian Tao <tiantao6@hisilicon.com>, 
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>, Yongbang Shi <shiyongbang@huawei.com>, 
+	John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Xinliang Liu <xinliang.liu@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Saurabh Sengar <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, 
+	Frank Li <Frank.Li@nxp.com>, Liu Ying <victor.liu@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, imx@lists.linux.dev, 
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org, 
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org, 
+	linux-arm-msm@vger.kernel.org, Marek Vasut <marex@denx.de>, Dave Airlie <airlied@redhat.com>, 
+	Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org, 
+	virtualization@lists.linux.dev, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-renesas-soc@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Raphael Gallais-Pou <rgallaispou@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	linux-sunxi@lists.linux.dev, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Aditya Garg <gargaditya08@proton.me>, 
+	Aun-Ali Zaidi <admin@kodeit.net>, LiangCheng Wang <zaq14760@gmail.com>, 
+	Alex Lanzano <lanzano.alex@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>, Chia-I Wu <olvaffe@gmail.com>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
+	Michal Simek <michal.simek@amd.com>, Javier Martinez Canillas <javierm@redhat.com>, 
+	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Jocelyn Falempe <jfalempe@redhat.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Dharma Balasubiramani <dharma.b@microchip.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Huacai Chen <chenhuacai@kernel.org>, Jianmin Lv <lvjianmin@loongson.cn>, 
+	Mingcong Bai <jeffbai@aosc.io>, Qianhai Wu <wuqianhai@loongson.cn>, 
+	Xi Ruoyao <xry111@xry111.site>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
+	linux-rockchip@lists.infradead.org, Iker Pedrosa <ikerpedrosam@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, linux-tegra@vger.kernel.org, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Haneen Mohammed <hamohammed.sa@gmail.com>, 
+	Louis Chauvet <louis.chauvet@bootlin.com>, Melissa Wen <melissa.srw@gmail.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Zack Rusin <zack.rusin@broadcom.com>
+Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
+ atomic_create_state and remove reset
+Message-ID: <apWDRq8YOTwvGuSf@houat>
+References: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260831-apple-shared-gpio-v1-3-e855b12e18ce@gmail.com>
-References: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
-In-Reply-To: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1552;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=iTXhJnYnvUyhcSvEeSQQcBq1TiwCB1jc+QCIXDOLjsM=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlT04p0ojMTfJ47b7SRnZUfffPPzFsJ2mILz5YKajz7v
- DCFiZO9YyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- RjrGOkYMXJwCMNX7BBj+2Tuf7OX2/MlUtqT1y8kYbgfvZ2sehv49cGLzGy4/i/pnZYwME77mzdr
- ycp8ic9rElYYiz4IcBZ6ZaqXve/UiTX3N7LlBnAA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="eainbiqt42xdkeio"
+Content-Disposition: inline
+In-Reply-To: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
 
-On Apple Silicon machines integrating TAS2770, the SDZ pin of all
-codecs is connected to a shared GPIO line. The kernel's shared
-GPIO infrastructure relies on the first change of the GPIO state
-being marked as its "default" state, and allows any consumer of the
-shared line to assert that state without consensus from other
-consumers.
 
-If the pin is initialised high, the shared GPIO core does not
-allow the line to be asserted without consensus. This breaks
-resuming from suspend on Apple Silicon machines; the driver attempts
-to restore the codec's register state and fails because other
-codecs are still holding the line low.
+--eainbiqt42xdkeio
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
+ atomic_create_state and remove reset
+MIME-Version: 1.0
 
-Initialise the SDZ GPIO low so that the first state change on probe
-asserts it high, allowing any codec to pull the line up when
-it needs to.
+On Fri, Aug 21, 2026 at 04:38:36PM +0200, Maxime Ripard wrote:
+> This is a follow-up to the plane reset removal series, and part of a
+> larger effort to remove the reset hook from all KMS objects.
+>=20
+> The CRTC reset hook is overloaded: it is called both at probe time to
+> create the initial software state and during suspend/resume to reset
+> hardware and software state. These two roles have different
+> requirements, and the reset hook is not fallible, making error
+> handling difficult for the initial state allocation path.
+>=20
+> While reset has the semantics to reset both the software and hardware
+> state, the vast majority of implementations and all the helpers only
+> reset the software state, making them equivalent to
+> atomic_create_state in practice. The atomic_create_state hook makes
+> this explicit: it only allocates and initializes a pristine state
+> without any side effect, and returns the state pointer or an ERR_PTR
+> on failure.
+>=20
+> This series converts all CRTC drivers tree-wide from the reset hook to
+> atomic_create_state, then removes the reset hook from struct
+> drm_crtc_funcs entirely. Two drivers (tilcdc and loongson) had actual
+> hardware reset logic mixed into their reset hook; those are moved to
+> CRTC creation instead. The conversions were done using a combination of
+> Coccinelle semantic patches and manual adjustments.
+>=20
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- sound/soc/codecs/tas2770.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index e79754edac5c..ecc37d4ac00b 100644
---- a/sound/soc/codecs/tas2770.c
-+++ b/sound/soc/codecs/tas2770.c
-@@ -886,7 +886,7 @@ static int tas2770_parse_dt(struct device *dev, struct tas2770_priv *tas2770)
- 	if (rc)
- 		tas2770->pdm_slot = -1;
- 
--	tas2770->sdz_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
-+	tas2770->sdz_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_LOW);
- 	if (IS_ERR(tas2770->sdz_gpio)) {
- 		if (PTR_ERR(tas2770->sdz_gpio) == -EPROBE_DEFER)
- 			return -EPROBE_DEFER;
+Applied patches 1,3-14,16-28,31-41,43,45-49,52-62,64-68 to drm-misc-next
 
--- 
-2.55.0
+Maxime
 
+--eainbiqt42xdkeio
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCapWDXQAKCRAnX84Zoj2+
+dtnDAYDvbcHtYOX7CuJCyNGSb99Ed+Livj62dMg0nsp864oeIMVzqxGBJIKgPp8Z
+RCHnUyUBfAxvXYJDr3LaH94QifMoTvJPOgPapZRwWXp6VAygmOgZF8WFxC9cEp2h
+0/QjaJymHA==
+=mCUP
+-----END PGP SIGNATURE-----
+
+--eainbiqt42xdkeio--
