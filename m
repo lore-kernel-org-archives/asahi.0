@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760E34A1E17;
-	Tue,  1 Sep 2026 18:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26BD49F13B;
+	Tue,  1 Sep 2026 18:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288800; cv=none; b=d1aBYxXJSY/KLQ68taKJZMQZu2p3/BJV6G4u92qdyiHSoExflLkK+1kKtyhZqJRSeYKMNmjvVQQcVpHcxj5c1OsnjfToFLt8WbvgmUmHr/kgdW1e9Eb1kSOIirLw3hA16Uox9IXXRe5efVU8p8L3OI59wwHxtW07vyXNLJvUf38=
+	t=1788288995; cv=none; b=uGwWaz3kQXkcbI9/iviuJSus1B8Rr5zh+1DHLj20M9qcKtaA/5KT3gAfBWOUihwPpoRvt0sF4b+HutSNJXiTi+vgx38T9CiaYA3J3UFmQCid+Sn3Vvy128xDj/1reAy9FCfz93eNM2FfWzm0pA4zp/RQk4Btjbt6cakrEcfTbr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788288800; c=relaxed/simple;
-	bh=BKj1b1KNDHMXWwM1uQ3zWXzUvWvLlqbaYTeVi9tVg+Y=;
+	s=arc-20240116; t=1788288995; c=relaxed/simple;
+	bh=q5QuUKJDeWCGWw5FZIn0pla+4QA0N53j/PFvJ2v9otw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pY6/wMucJJ3neYawJRmYJRCfNQAU5xsG13AdZKxwhla86BIfcKs0ia9fhPPBw/+fIkf98bdi4bJ41LL5nP3XFrM9gNHDxeGwTw4+27uWLOyPSkQJbo1YYd9cBeA9d1JR8r0MrD3SmUuG1VTTcZOu0P61p9zWW93AYFkIkqncbzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lgi41B19; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Y03gr7SGBxSbsFGhyL+QRE46R7jM6WUn7IbE+77RJsmSk/L+z9GtIviF0ET2M9TZJ7twMf09DVipqY++l8ga8fX3drEYJN4E7vSuimcXGRmZUDx6/YwF6EbeCXbtYoVQ9j/igpnLz7xXMwHdGRl3O7JQ+qnZ3S5kHkkDZJ5cfHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pk5Vs0IP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lgi41B19"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E0FA1F00A3F;
-	Tue,  1 Sep 2026 18:53:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pk5Vs0IP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB2991F000E9;
+	Tue,  1 Sep 2026 18:56:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788288796;
-	bh=6hy0E/ezwSdd6yfoO7/lSW22XS0mfjgDyq2kZCgxDkk=;
+	s=k20260515; t=1788288994;
+	bh=soj2uFsYNX757aHImCwMM0LMVX32Pw6BHhDFsDFZfdc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Lgi41B19SdUfJXJ66su8/5/5+V4L6xeprIRUzsEiHI4CpXfXKr0AexXn3E6fh8b2k
-	 geMB1LeTkPHIHzdBVcc8hdnmojf7fZ2XfrHOx94QypDIj3X3nJuVbfeLj+gTNCUCBg
-	 zirXjZd3i5ErVJ6MO9s0VZFk7xQO+NoIxJgHnzdo9+wBJJZoenmkfSMUXxVsSHo7ZT
-	 yk3XbYOb1r0jT/nnk3Oc32jBPAFs6kVfdlsz46ROHEuTUsLeWXu/r5PrevgtCVVgAn
-	 ZWI84MTayR7M7A9ceqdbR2Ayb+2XQPcKNUhZJRDJR+tg5XvNGTe2PwXZ4zgzeA/XiK
-	 DDZgdzpDSeg8w==
-Message-ID: <4d84884d-9848-46fb-b751-074c3cba8ffb@kernel.org>
-Date: Tue, 1 Sep 2026 20:53:11 +0200
+	b=Pk5Vs0IPCvpa2mVAmhiOng2EmTWFN6zn/Q42Pc6xkIUrXSMEvSh5GJYTtz1Abl2bm
+	 8TeAs8lSjBBPZelsoGeQ75FmbeH0ZsmS1SOq+N2vXnadIBXaa2C4UJqROXRfwro8we
+	 Akox8XBMUdaAVZXU8LdDI2IHdbMKnGWeg4xJGncMoZyU55AVyp+62gtQgDz8J3tMus
+	 0DeYFqzIvOMXFd7LpLmZnNQwwXi6NvYGi5OitGqlcfLOzFIIdwu1a4kREN58VkQ8/B
+	 vzO9vEi4xYY2w1+8y5t/QR5kM1sYa1ddBqyf/lmc/fayxAr3m49w6QM6S/lpsCvTJm
+	 zhLqrbATkE/ig==
+Message-ID: <8348dc87-15f2-4019-9e27-744ab4a801b8@kernel.org>
+Date: Tue, 1 Sep 2026 20:56:29 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,82 +35,76 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/19] usb: typec: Add thunderbolt switch
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: Re: [PATCH 10/19] thunderbolt: Make the ring register layout
+ configurable
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Andreas Noever <andreas.noever@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+ Andreas Noever <andreas.noever@gmail.com>,
  Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
  <YehezkelShB@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
  Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
- <20260830-b4-apple-soc-tbt-v1-2-44bc9348683c@kernel.org>
- <apa0Ypc4xpaeHTBb@black.igk.intel.com>
+ <20260830-b4-apple-soc-tbt-v1-10-44bc9348683c@kernel.org>
+ <20260901085802.GC106095@black.igk.intel.com>
 Content-Language: en-US
 From: Sven Peter <sven@kernel.org>
-In-Reply-To: <apa0Ypc4xpaeHTBb@black.igk.intel.com>
+In-Reply-To: <20260901085802.GC106095@black.igk.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Heikki,
+Hi,
 
-On 9/1/26 13:17, Heikki Krogerus wrote:
-> Hi Sven,
+On 9/1/26 10:58, Mika Westerberg wrote:
+> Hi,
 >
-> On Sun, Aug 30, 2026 at 10:19:20PM +0200, Sven Peter wrote:
->> On Apple Silicon the USB4/Thunderbolt host router can only be brought
->> up after the Type-C PHY has been configured and requires cable details
->> known only to the Type-C port controller.
->>
->> The existing orientation switch only forwards the cable orientation.
->> The mode switch also forwards most of the required details but
->> represents devices which configure or route the Type-C signal path. The
->> ACIO host router is a consumer of that path and has additional ordering
->> requirements: it has to be started after the PHY has been configured
->> and stopped again before the PHY is disabled.
->>
->> The mode switch code calls all handlers in the same order both when
->> entering and leaving a mode and cannot express this reverse teardown
->> order. Treating ACIO as another mode switch could therefore leave the
->> NHI active after its PHY has been disabled, which can result in an
->> asynchronous SError or a SoC watchdog reset.
->>
->> Add a separate Thunderbolt switch which Type-C port drivers can use to
->> forward the negotiated Thunderbolt or USB4 cable details and explicitly
->> order host router setup and teardown around the mode switch. This is
->> similar to a USB role switch: each connection has exactly one host
->> router and the callback controls the lifetime of that functional
->> controller instead of configuring a signal mux.
-> You are bypassing and duplicating things that are already supported in
-> the typec bus.
->
-> Your typec port driver probable does not register the partner altmode
-> that you need, so you just need to fix that. After that you should be
-> able to get the details you need simply by registering a typec bus
-> notifier in the thunderbolt driver. We can add a helper for that if
-> needed - the DRM subsystem will use the same notifier with the DP
-> altmode soon.
+> On Sun, Aug 30, 2026 at 10:19:28PM +0200, Sven Peter wrote:
+>> The ring descriptor and options registers are laid out differently on
+>> the Apple NHI. Describe their offsets and strides with a
+>> tb_nhi_ring_layout struct that NHI drivers can override.
+> This is odd because Apple is sitting in USB-IF and they are behind the
+> original register layout so why they do not follow it themselves?
 
-Thanks for the pointer, I think that can indeed work out just fine. The 
-bus notifier isn't enough though, I need a notification specifically 
-when typec_altmode_update_active() happens (and not when the partner is 
-registered as a possible altmode) and that only triggers a sysfs_notify 
-and a kobject_uevent unless I'm missing something. Adding a simple 
-notifier call chain should be possible there though.
-
+My guess is as good as yours but knowing Apple's culture it's probably 
+separate teams not being allowed to talk to each other...
 
 >
-> USB4 is meant to be handled as an altmode too, but it looks like it is
-> not supported yet - I need to check the status with that. This may
-> still need to be fixed, but that should not be a problem.
+>> Signed-off-by: Sven Peter <sven@kernel.org>
+>> ---
+>>   drivers/thunderbolt/nhi.c   | 30 ++++++++++++++++++++++++------
+>>   drivers/thunderbolt/nhi.h   | 18 ++++++++++++++++++
+>>   include/linux/thunderbolt.h |  3 +++
+>>   3 files changed, 45 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+>> index fc54ff7edfb9..3a3d334e69fd 100644
+>> --- a/drivers/thunderbolt/nhi.c
+>> +++ b/drivers/thunderbolt/nhi.c
+>> @@ -176,19 +176,32 @@ void nhi_disable_interrupts(struct tb_nhi *nhi)
+>>   
+>>   /* ring helper methods */
+>>   
+>> +static const struct tb_nhi_ring_layout nhi_default_ring_layout = {
+>> +	.tx_desc_base = REG_TX_RING_BASE,
+>> +	.rx_desc_base = REG_RX_RING_BASE,
+>> +	.desc_stride = 16,
+>> +	.tx_options_base = REG_TX_OPTIONS_BASE,
+>> +	.rx_options_base = REG_RX_OPTIONS_BASE,
+>> +	.options_stride = 32,
+>> +};
+> I'm not fan of these to be honest.
+>
+> I think either adding ring_ops that includes hooks that can be overridden
+> by non-standard HI or not sure if we can take advantage of regmap here?
 
-It isn't, but that indeed should not be hard to add.
-
-Best,
+Sure! I don't think regmap buys us anything but I think I can get away 
+with just adding nhi_ring_desc_base() and nhi_ring_options_base() to the 
+ops.
 
 
 Sven
-
