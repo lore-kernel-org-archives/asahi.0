@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3B24772A2;
-	Tue,  1 Sep 2026 08:49:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D78935E926;
+	Tue,  1 Sep 2026 08:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788252550; cv=none; b=Puj0vdJef8WPON5yLAueyrWR2zLY918yPaZ3+hgpoGMLU+GjC5tGDuxQe2LTxX85bWxA9UfHJvSkdu4cGGySfOp0dBY8vk/Bcu+xGWsTtRfx5PLHsI8FXwuHpA92mfT6e0yK9uj1Hmv5qDuVnJ5nG90+tyApYIaALwWd423aYOg=
+	t=1788252815; cv=none; b=s+zJNjxWGKtSe/puD+Jjh++Cb5iiPpFo+unHuuYtOWkpDNvddEnxPAc98iEt9y3hCLMdg6UYztrpta/71CimtfMuzzk0WaNkFYB5m2mqr9qSfgbYF782cFkNHftR6QAghEJ23T1DCGT0M0ubS02VdgxAi+HxWGcDBTphrpRE/TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788252550; c=relaxed/simple;
-	bh=BAaJKs/MsSUfw3bKxCSKef8r2tUVBE6DhtfuTs/AAUg=;
+	s=arc-20240116; t=1788252815; c=relaxed/simple;
+	bh=HmHGhENmx1zfzoANCEaUHyFEWFfzElv3LdyoS8aqriM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JnrEEwTVL3Kk7hVS4rrfY4k8KlMDcQfsYFPC9mtSFGif/EsMwzsGXSJxYohFfq9iSFwHOX1bzznEJ2y7SGmfO65yfdj6t9P5ppPf9W97TdC0AIWbaarlnRTvkpyCmHsIQ4pfpmGwrlAdXoRoh8ThO+cBcVrNnYpEhK96M7qmAFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cpThLpME; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ApG0Lzxp+3Sx5IhI7o+8b9f8jPM7o9D1X5i64ulqV+VZkvLlOw3yhoqp/c+N8wxK9ph8UMzKUi1pSadHNdo5hLxxME2S1RZCrx+5XZOy0wqdfS2XQNhupNeE0P7KtAOzk6sW7eFHFC1F2LUHKEW8usyZI8X7g/ZvlgIROmwlXiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UYo+SoMx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cpThLpME"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C6E31F000E9;
-	Tue,  1 Sep 2026 08:49:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UYo+SoMx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 211E91F000E9;
+	Tue,  1 Sep 2026 08:53:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788252548;
-	bh=RDrCUHp86k6keyJJMl9083cG2tyxbKuBSwQQaJ+bpS8=;
+	s=k20260515; t=1788252813;
+	bh=dQJU98biTFI2j0fBN1HFz4j5aySI6T8wL//bYy3tt6k=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=cpThLpME+PX9SfzJ8ufHXpVmFwReYZoB8qn2UTJuqz21v23OW9CiJ53oeEw5BRhXt
-	 F6qE/r0oQQBqOz5HCpv898QgsKyj9cGNPvUn1k1aZYbydQRYnYLphBDoTIZ8OZK29r
-	 /dulnbeAZMQpUl89Q1QI617eDb6vIOSOY2waCRKx1gVj8pSEGKN2QM2NF8tCLpth4Q
-	 vLUoxBbvsKruStcFQhSL9j8gJdLDPQkrNRkNNZcuj9EWW0O2++s6ZMTXF4n3a2Ya4v
-	 V5+xneECDqqbSnWGJx9fSyM0Vr3tjOcWMdu1NQUB4T64bP+cZ7vS2rbx2GAEIhQnoY
-	 WlkHXWl7DG6GQ==
-Message-ID: <8e3633ca-6e82-4c2e-b441-adeac02d3eff@kernel.org>
-Date: Tue, 1 Sep 2026 10:49:05 +0200
+	b=UYo+SoMxASHNScw6bHBQ3pYYAIAYztpH17/qKP90Supd3le3mlnEZuBEMlG8Xmdz7
+	 kJkQygAvMgiYmqNXdGUaii8RNtO2sGg3YLqxnfnNyNZxmV+zg2V5IhK5L6+ZJJ4c4N
+	 5qbqlHBwRz7u2b70JOXueUMDno3Csoi6HIv2cq4J4Dxvm4jjaP3nj5qsxpeOJsotzk
+	 Ro1LJOyiZBwtHyQfArxCVvoMcDUMAbA75mKQPSA7ChvQmzj7KEOmKY9zup9UZZQOkF
+	 9b8OmZjm9uLXleIgT7ZeNQWl97X6M4TJKSGCQHY4nEED9qOy40mVajNQ4Ac1qo2B0P
+	 I+alpLciXRKHQ==
+Message-ID: <7f269572-7dae-4894-b148-56314cd21bbd@kernel.org>
+Date: Tue, 1 Sep 2026 10:53:30 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,53 +35,49 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-check-style: Handle indented fragments in
- indent-consistent
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
- Daniel Golle <daniel@makrotopia.org>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, asahi@lists.linux.dev
-References: <20260830-b4-dts-check-fix-v1-0-e7c1b2774730@kernel.org>
- <20260830-b4-dts-check-fix-v1-2-e7c1b2774730@kernel.org>
- <20260901-platinum-dalmatian-of-intensity-b18743@quoll>
+Subject: Re: [PATCH v3 0/7] thunderbolt: Fix DP tunnel teardown while an async
+ DPRX read is running
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>,
+ asahi@lists.linux.dev, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kernel.org>
+ <20260901081924.GA106095@black.igk.intel.com>
 Content-Language: en-US
 From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20260901-platinum-dalmatian-of-intensity-b18743@quoll>
+In-Reply-To: <20260901081924.GA106095@black.igk.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi,
 
+On 9/1/26 10:19, Mika Westerberg wrote:
+>> ---
+>> Sven Peter (7):
+>>        thunderbolt: Hold a router reference for each allocated HopID
+>>        thunderbolt: Make the DP tunnel activation callback mandatory
+>>        thunderbolt: Fix domain reference leak when DPRX read is canceled
+>>        thunderbolt: Don't access a DP tunnel after its DPRX read was canceled
+>>        thunderbolt: Mark discovered tunnels as active
+>>        thunderbolt: Tear down inactive DP tunnels when the domain is stopped
+> Applied 1-6 to thunderbolt.git/fixes, with minor changes in the commit
+> messages and the condition in patch 6, thanks! Please check that it is
+> okay. My testing at least it works as expected.
 
-On 9/1/26 10:22, Krzysztof Kozlowski wrote:
-> On Sun, Aug 30, 2026 at 08:24:55PM +0200, Sven Peter wrote:
->> diff --git a/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt b/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt
->> new file mode 100644
->> index 000000000000..84ec8eb73468
->> --- /dev/null
->> +++ b/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt
->> @@ -0,0 +1,3 @@
->> +# mode=strict
->> +bad/dts-fragment-indent.dtsi:9: [indent-consistent] indent mismatch (expected depth 2 * '\t')
->> +bad/dts-fragment-indent.dtsi:10: [indent-consistent] indent mismatch (expected depth 2 * '\t')
->> diff --git a/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi b/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi
->> new file mode 100644
->> index 000000000000..58735112d3aa
->> --- /dev/null
->> +++ b/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi
->> @@ -0,0 +1,19 @@
->> +// SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +/* Include fragment indented for its inclusion context. */
->> +
->> +	bus@10000 {
-> So here is a good example... and this is code is wrong.
+Looks good to me, thanks!
+
 >
-> You CANNOT have MMIO node outside of MMIO bus or a new node outside of
-> root node indented with one tab.
+>>        thunderbolt: Drop the DP tunnel activation callback data
+> Since this one is a cleanup, I wonder if you can send it again later when
+> the DPRX fixes have landed? I typically base my next branch after -rc1 and
+> don't merge fixes/rc's there constantly so preferably after v7.4-rc1 is
+> released.
 
-Fair enough, just ignore this series then.
-I'll just do the whitespace fix then and un-indent the -dieX files for 
-apple which I think should make them pass the checker then.
+Sure, I can resend it after 7.4-rc1 is out.
 
 
 Sven
+
 
