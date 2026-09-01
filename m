@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBF847D94B;
-	Tue,  1 Sep 2026 09:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F3B19CCF5;
+	Tue,  1 Sep 2026 09:53:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788255666; cv=none; b=d5Km2zk2buPmo4dQAPSserXrk9iciePJ7Jr8RYLEOYhw4S4s4pkPsrQIMVPhx0avt6XozMqtk1dsOuKwpDL3lfMXqW87Euno8H6dE7b4VrN6e+soIODOpfoRhTTWA8cGKFl/esX5Wb8po22Nbsh840vGgkA1+yuUsjuWLPOS/SE=
+	t=1788256423; cv=none; b=OnT2VwAqyWWTpvi/bmRvR+PlQFYH3zpCrUA9U02Mj/m3mj2TR28+Clr8WLzsQo8C07sEpvZ7GAGjfPjL+EPllLCbYBXcaSg9jf48ngo5WlSAl6a61cUlJ3V/zUQhgSVhJtcAyACEZbKD3rU2jsipfbQM5gy9/4N9uoNRrrmTjtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788255666; c=relaxed/simple;
-	bh=fR4E3wsARI1w2gb71VPhpglPlxt/SQnuehWv/DFvrVM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qDcr31J56stKLlsqMSp1fE6N7YJpIg+ARzTttTgT4qaaNIyq6hIL91IOBHzVIH8y2ePsKeSMBu4xO4YaCrzXSpGMUP2F2FqZy+Jt6zvmGKLowgmvtfYzTO9kVOXM6gMk3jyJTUTdrfAfWWAmbl5kwuBwc2liik/0ywMmvsEQ7wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y8FZmP8S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788256423; c=relaxed/simple;
+	bh=qYoEdaSqdhD4wZXO/KAmOFJRXYWnl8t1XRLZZvc5aAw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=IxjhhBT0rurSjuw3kXtVMWNi68n2wtN26FywAgHRlsnqH9T0TTC/f9hktDHVbeRRJ1Aw3ES/L55AAooCxQsjlBYrO8rzyxhj0cKmKMYE5q7bJjftVu5LLR0pw6ikeGHhwe/W4B5s6eMbNqxvclnHzZMnJIitTEkLh4TidHRweFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZOExV1Yw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y8FZmP8S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A4D41F00A3E;
-	Tue,  1 Sep 2026 09:40:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZOExV1Yw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9F411F000E9;
+	Tue,  1 Sep 2026 09:53:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788255649;
-	bh=mrdbPn5g4KWTIRCTOMc9dnD5O7PBdloYDk2yNJfLDUQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Y8FZmP8S0oTpR0LUJhEqkaLouko1cWU/+ioznyq1jl/2lMtjmoE9mlAEciqEYk9zq
-	 BU7Nbt4zCztP169slRWwj6F6AK3lO8X78mRICetZ58LuDRd3E+g4VxSA79vMxZai21
-	 Eaz/mEDFOG0OVr+2V/lrPsxcjKJpTB6urn1cuTWcTJgCyYaWyudEd2m3q/x9T2Qt6F
-	 S8yG0Cprhm55F4ndHAkATAU80S0bnmJD0152HAUI6obsKoZ7IvD+akbxSKp5wwER/F
-	 1u7J7hFN62AuNABDyk+1VfmZUmVpwuC/LDllBO4gHfd0HjOvLbEQ20yEas05zbTzK9
-	 gG3PjlIThh0pw==
-Message-ID: <e2365307-32d6-4ef9-9919-55ba69786741@kernel.org>
-Date: Tue, 1 Sep 2026 11:40:44 +0200
+	s=k20260515; t=1788256421;
+	bh=IsPg6lwOcCL7n0mR9TKMBNCMRv/T61det35vBFLLGBg=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=ZOExV1YwU5W1/joPSVtaAaZXGrWqF+i8uJRTGCn8GKSV0zPRXCL4gSv3JK0eD+G30
+	 /rB4w80b1p+h8+gcHNzyZqmWg45VGz2NfdiuKVkWbiDfXGq8NBvBgBhMDFuySNONDv
+	 GWA/yTcs4O8TZOCgugSpGEll0S6hfHAn+ZfrllbOOiqVY+oM4dVNZ6qgSrFX+ATyug
+	 gQ5UOA2eEslFx/JBNYiSo7xComZfOYl1DAOVyqXAbCYbFUFBFt4s2pRcdNH+/qKp7H
+	 9OFPdj23cQuvgRRFH8QADEu0u6l/mSh+XKEL1rlTgn6oMDti8kPqkLBsFYSRMqheL+
+	 tyuWYThXQCWHw==
+Message-ID: <01da577b-e139-4332-9197-2c17c63a101e@kernel.org>
+Date: Tue, 1 Sep 2026 11:53:37 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,6 +35,7 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Subject: Re: [PATCH 2/2] dt-check-style: Handle indented fragments in
  indent-consistent
 To: Sven Peter <sven@kernel.org>
@@ -45,7 +46,7 @@ References: <20260830-b4-dts-check-fix-v1-0-e7c1b2774730@kernel.org>
  <20260830-b4-dts-check-fix-v1-2-e7c1b2774730@kernel.org>
  <20260901-platinum-dalmatian-of-intensity-b18743@quoll>
  <8e3633ca-6e82-4c2e-b441-adeac02d3eff@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <e2365307-32d6-4ef9-9919-55ba69786741@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -90,56 +91,39 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <8e3633ca-6e82-4c2e-b441-adeac02d3eff@kernel.org>
+In-Reply-To: <e2365307-32d6-4ef9-9919-55ba69786741@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 01/09/2026 10:49, Sven Peter wrote:
-> 
-> 
-> On 9/1/26 10:22, Krzysztof Kozlowski wrote:
->> On Sun, Aug 30, 2026 at 08:24:55PM +0200, Sven Peter wrote:
->>> diff --git a/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt b/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt
->>> new file mode 100644
->>> index 000000000000..84ec8eb73468
->>> --- /dev/null
->>> +++ b/scripts/dtc/dt-style-selftest/expected/dts-fragment-indent.dtsi.txt
->>> @@ -0,0 +1,3 @@
->>> +# mode=strict
->>> +bad/dts-fragment-indent.dtsi:9: [indent-consistent] indent mismatch (expected depth 2 * '\t')
->>> +bad/dts-fragment-indent.dtsi:10: [indent-consistent] indent mismatch (expected depth 2 * '\t')
->>> diff --git a/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi b/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi
->>> new file mode 100644
->>> index 000000000000..58735112d3aa
->>> --- /dev/null
->>> +++ b/scripts/dtc/dt-style-selftest/good/dts-fragment.dtsi
->>> @@ -0,0 +1,19 @@
->>> +// SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>> +/* Include fragment indented for its inclusion context. */
->>> +
->>> +	bus@10000 {
->> So here is a good example... and this is code is wrong.
+On 01/09/2026 11:40, Krzysztof Kozlowski wrote:
+>>> You CANNOT have MMIO node outside of MMIO bus or a new node outside of
+>>> root node indented with one tab.
 >>
->> You CANNOT have MMIO node outside of MMIO bus or a new node outside of
->> root node indented with one tab.
+>> Fair enough, just ignore this series then.
+>> I'll just do the whitespace fix then and un-indent the -dieX files for 
+>> apple which I think should make them pass the checker then.
+>>
 > 
-> Fair enough, just ignore this series then.
-> I'll just do the whitespace fix then and un-indent the -dieX files for 
-> apple which I think should make them pass the checker then.
+> I see Apple DTS two soc nodes, so overriding/extending by phandle is a
+> bit trickier, but this should work in t600x-dieX.dtsi:
 > 
+> // earlier macro (or however you concatenate these)
+> #define DIE_NODE die0
+> 
+> &DIE_NODE {
 
-I see Apple DTS two soc nodes, so overriding/extending by phandle is a
-bit trickier, but this should work in t600x-dieX.dtsi:
+Obviously this should be called differently not to conflict with
+existing DIE_NODE(), but I hope you get the point.
 
-// earlier macro (or however you concatenate these)
-#define DIE_NODE die0
+> 	// here goes stuff with original indentation
+> 	DIE_NODE(cpufreq_e): cpufreq@210e20000 {
+> 		...
+> 	};
+> };
+> 
+> Best regards,
+> Krzysztof
 
-&DIE_NODE {
-	// here goes stuff with original indentation
-	DIE_NODE(cpufreq_e): cpufreq@210e20000 {
-		...
-	};
-};
 
 Best regards,
 Krzysztof
