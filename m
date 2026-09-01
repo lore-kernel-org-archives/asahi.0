@@ -1,105 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A23499F30;
-	Tue,  1 Sep 2026 18:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5F449B211
+	for <asahi@lists.linux.dev>; Tue,  1 Sep 2026 18:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788286847; cv=none; b=fGolvlhO8qNVE9ax4L45nnUnnG8aC+D83I80cqkgVnvB0KBtwUCqw2fGD1wSC1puMsU9kj3WQr7xdptymrJeCbB2Wdg0biPIQHF6MiEgmvTRCr5mRvjEJNaExila0visjpJqsdfX2bnkCleEIvUfrqORAB+occ9299cc0Gj9uB8=
+	t=1788287075; cv=none; b=A2Xlrhysrh70jGDbsfVdWHmH44z1iMNvIe/wLtqKylcmER+0WZEIUMEzpJW0aQTgq/0xgiY4yWLnflLpf7Ijywwo8sXtWC0hgmBL9ZLwga/7c3llV2LA2S0o81vX5JU5ngq8Gf5XKoyeFWDVRDOKMFzWVPzhrXsKjdEQOL3GZ1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788286847; c=relaxed/simple;
-	bh=zMAznwTrjGlv6LsHPtXbJmH6HgxU8Mpga2sT8tWq+To=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IQH2Sk79yeZJEHz+ODxsiUQ9zGLy44P5NF3VRS0hD1oAHNHGTAhY6kMjCugcBIq2kQLclecwtZLs4nGVUuCkdYkxJnnvWnUHtdshMHBp7aj2m86i6vmjXRCKRWGat0lEdRlrXuSG1bWjRYmL7pCnttMOmeMKcUObCgmRykFV51c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLAZQFQq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788287075; c=relaxed/simple;
+	bh=Dbvx0sDSqnoFXbOknr7ZXcd10mndDk1sduAHZUxLQcw=;
+	h=Content-Type:MIME-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=XVInADrW1oPmq1WqboIQleBkQdjTXRyt1EBPRaifYKcKP+Z7rtkxqjz7FuXUVL2dfPqbwIQvzlszeVFSvcXhyE2/SpPAFVbQsvYzsHBvEBQQWyWXdN81x3iUbSRfLtpZNpOVIDoSsqkodgP/9JalbXTofKf7SSkVxd3/rcaWBlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=C47RqzGM; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLAZQFQq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6904F1F000E9;
-	Tue,  1 Sep 2026 18:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788286846;
-	bh=1yh7XuHloez7+OO+Q7zttgY4q8xC1jjwMT4fr0NaBN4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=PLAZQFQq/Qu58bCbYoRk95ITvXMNNETa1KoERJjOXKNiGuj4RC9stccis7uZiy0DC
-	 a/JgGtLSetpB2B8PYnPP3nPRuhfMu3VQKxaAamnZgJwrvJLnAktA9yFdHcs4M3RxAA
-	 J8KgWD2SJmc0oDjXUHj/XYcJmNXfoa/zBFyoD3xQxBm2S4YGRk4IwCqqPpscRRkwWp
-	 f5SkuiQDO3JnH6/u8sbRrzhl/8nofkW29MSfXGUJcxyinJT/amciv7/0ppNJL8gzfJ
-	 WWREFpRQLQ9QV+cBzajHhO2ceSG1ZAT42BF8rWsD63DTUMVoIzQ/yALxA9UPD8LYPJ
-	 oxHPJg0ZRiHFg==
-From: Mark Brown <broonie@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, James Calligeros <jcalligeros99@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, asahi@lists.linux.dev
-In-Reply-To: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
-References: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
-Subject: Re: (subset) [PATCH 0/3] Enable shared GPIO for Apple Silicon
- audio support
-Message-Id: <178817837781.5427.14614213924415204585.b4-ty@b4>
-Date: Mon, 31 Aug 2026 13:12:57 +0100
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="C47RqzGM"
+Received: by chaosmail.tech (Postfix) id BA34B1C7E88;
+	Tue, 01 Sep 2026 18:24:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1788287070;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gYkD1BDeagh/tU4CJQnf9fXkpvpMWmQPMRYmn9m9tvY=;
+	b=C47RqzGMBN50QFiqeZghBFTLkfNglzevyGvp/t34nae41elfZ3+0Zyn4D2LV490ecC4wvk
+	3FEW5djWGgMi2I3m1/DHHZCvzzJ85AiUeq6lc3q5fRrPggF3dwZ7SymBOkYxUQkkjokhHA
+	+vf3qHLjjqkOSPkF7syqqnIwo2uUB3A=
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH v9 1/6] dt-bindings: spmi: apple,spmi: Add t603x and t8122
+From: Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <20260901-clapped-fled-2ae6126df5cc@spud>
+Date: Tue, 1 Sep 2026 20:24:19 +0200
+Cc: Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1425; i=broonie@kernel.org;
- h=from:subject:message-id; bh=zMAznwTrjGlv6LsHPtXbJmH6HgxU8Mpga2sT8tWq+To=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqlxd515re3aOu94/A8T4lwlDOihUI8QnVnRuZk
- sKmdaAEUgGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapcXeQAKCRAk1otyXVSH
- 0MIQB/90tLoiF2P3pn3sdLzvnrc2QiH+kRCxRWY77pZ9PN24aXxDiu5L4uxD7xwTmrGfg7SL1R9
- kDoVs40grVeR/CMbhRZIV7GtfqmKicgizgHgUobp33i9JOl1YGUW0T4kkw4pE2dglRMZED22tzc
- YzzBZJaTH0LTJCJ8f39Bd1knuEF/4HX8lgA2QxsHTReo1z1bVu3Is870k4hVM49ALqvnnkd9N/v
- 1hrdm2378O1YwubHAukbZN/3oPeHF9Te6CXHD4trcN1Kp5zOK3BzpCMl7hVjJjpf4cvTsh8X7iw
- ZNjna0t5+jkrgIDRJbDwxuLyIFLN/Oh7ij2JeJvdRA2e/m4D
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Message-Id: <F6BE1957-CB62-4D6A-ACA1-1521A14A3E23@chaosmail.tech>
+References: <20260901-t603x-spmi-v9-0-09e702e3b153@chaosmail.tech>
+ <20260901-t603x-spmi-v9-1-09e702e3b153@chaosmail.tech>
+ <20260901-clapped-fled-2ae6126df5cc@spud>
+To: Conor Dooley <conor@kernel.org>
 
-On Mon, 31 Aug 2026 21:32:38 +1000, James Calligeros wrote:
-> Enable shared GPIO for Apple Silicon audio support
+
+
+> On Sep 1, 2026, at 19:41, Conor Dooley <conor@kernel.org> wrote:
+>> +if:
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        enum:
+>> +          - apple,t8122-spmi
+>> +          - apple,t6030-spmi
+>> +          - apple,t6031-spmi
+>> +then:
+>> +  required:
+>> +    - interrupt-controller
+>> +    - "#interrupt-cells"
+>> +    - interrupts
 > 
-> Hi folks,
-> 
-> On Apple Silicon Macs, every speaker codec's software shutdown pin
-> is connected to the same GPIO line. This line must be pulled high
-> whenever any codec asserts it so.
-> 
-> [...]
+> else: false?
+> Or do the existing devices also support these?
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-
-Thanks!
-
-[2/3] ASoC: tas2764: Initialise SDZ GPIO low
-      https://git.kernel.org/broonie/sound/c/e152ac60589b
-[3/3] ASoC: tas2770: Initialise SDZ GPIO low
-      https://git.kernel.org/broonie/sound/c/87e41baa36fc
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Yes, they do, we are just not planning to use that.
 
