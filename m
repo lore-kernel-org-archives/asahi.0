@@ -1,63 +1,42 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21F437D13D
-	for <asahi@lists.linux.dev>; Tue,  1 Sep 2026 08:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA62D3812DD;
+	Tue,  1 Sep 2026 08:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788250770; cv=none; b=HMUgiEIbV/IX7FbuifYpKVaWOaqpylrZ7a78kgMpi89R9AAjHxGotUFBlb0+vOK7Gt33pO6/sq6AqaDu/+JLsq1WikxB3fmyuIPvVfdO/PwkXv0AXmZP3A7A6uSY0GhQEMZbHH6iBBnc7xixXcaSPIb6A/y2Voigtb1HpBL/zro=
+	t=1788250886; cv=none; b=iO26j84DGgB+qjFIQeJjrLmewrmCcZNBrvyqbpBaWauGm9Z95ZPTF9tcDVGLi9cHHetjUoYZG6JN6SAirVBkg42KyryjfqIC1z+Rz/qAajI4Z1j1dLDDd5Sr7RzOlod+1SX9OfwWVNxWvxsP7fdNdOoCOEm408kcKwsZhK0GDpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788250770; c=relaxed/simple;
-	bh=33uW+A7VN8o9QY5De0mnpKtluG0XoYT1In59tmM0yHc=;
+	s=arc-20240116; t=1788250886; c=relaxed/simple;
+	bh=3z9FlMuwFeEP8NtG2NQH9s4DhyDCmMQBroSkqEkvXA0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZMxOx7+Yi9CZFKPJ2/cz87xLdpTfN5SYytGqFvGCDhKz+mFzmsa2wIkxxkr74bD+EBQVWCgWi9XxDQ1yJa4RNofaFacOeTPLudzNNlv52amdA7jPOaBw/gdQUhNQ1iV6Hg9GSXHH+Rg4L0r6gcsiFY8Amn52UFJcyTep1s2iMzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k0o6Q4u0; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uI+ALbw6w2226c2KCKs6zz/TG3I1IbVgdAYV3diSyu7gnbhuu4TwA2K7qxhEB1NsaR3UIlQ0M/IJZqQVikEfBOp7C215KbBwnImgbXBCbiFeNpzbguPvuZWjFqvK8TI5OJ5VB8AHfISLPsIjjT8d9HjUtYi0DglLIcb4BtZlTzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=es9JJSCY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k0o6Q4u0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788250769; x=1819786769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=33uW+A7VN8o9QY5De0mnpKtluG0XoYT1In59tmM0yHc=;
-  b=k0o6Q4u0bXo7r4VQnzx5ftwcRI4YoeU9A1Vzfnlv56llD/TPlSf7W+sj
-   TdXzsMjmn/G5/mp475A4ZloUPnDbh8M5SOQmRnlEG5xDj12dEO2URX502
-   KmBhj0loHvXg85cxTG0b8E/G4LJ8xZs5xrQ4IlgvOYDcI1W1qhLd/udV9
-   h8nMHtB2WB1W67CK1xWrdivkgVBkoywMnBywxPRlgzfswBmwM9pcGZ8Ap
-   jQOdmo5+93n1RB4PUBxgX2F8r2t2vDhFV9zOiZ1jvaoaHUOGvXEkMx1DP
-   dpePYO4ImocUe96Di2QD3EC1EQp3yYN+I3Fv5Jo7UltyYd2f23y5ol27e
-   Q==;
-X-CSE-ConnectionGUID: DHwNWrMGQzWC/fOFgG1bNQ==
-X-CSE-MsgGUID: TImb49PUTcWkobgX/X/9UQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="99831435"
-X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="99831435"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 01:19:28 -0700
-X-CSE-ConnectionGUID: AGfkyWGGR5eZtn19L41M/Q==
-X-CSE-MsgGUID: SjPY5xXpTgaPLamYkxyy2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="264744147"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Sep 2026 01:19:26 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id F34EE99; Tue, 01 Sep 2026 10:19:24 +0200 (CEST)
-Date: Tue, 1 Sep 2026 10:19:24 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="es9JJSCY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43CCD1F00A3D;
+	Tue,  1 Sep 2026 08:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788250885;
+	bh=kZfvDFaLatUlB1wp5I2s/R7TKlec2rrMOd8ygLJGYk4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=es9JJSCYblCEbnlkbdP4qJCKdURohgCDMFXz25i4fLE3f62KV+QBIFpXArlySGq1c
+	 fBSbMdEEuhnLpXyWOdAmGR5tuQDGQeB8CSLBmRWFgnySM70Ewp3PxouLDTl0s3ck+/
+	 +719D6XX/b18DYbi74HeQzoxYJZMz8+/ux1gpFER8CqDin+DxaJoF40ruJWLGYKgQe
+	 9vTxIUB4MIyoocxcQhyRK1l6LftRDGPjLsBqFGvUXI7kXk8tsnfWk2XXjpwyTxv9TS
+	 jrifj0wwA2ZPdVutYK8w9E6rmLeOgNFRx7qAqKTr68C7RQQG84lRLWbP/mNso8fooG
+	 DTnEam+cybRNg==
+Date: Tue, 1 Sep 2026 10:21:21 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Sven Peter <sven@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Konrad Dybcio <konradybcio@kernel.org>, asahi@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] thunderbolt: Fix DP tunnel teardown while an
- async DPRX read is running
-Message-ID: <20260901081924.GA106095@black.igk.intel.com>
-References: <20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Daniel Golle <daniel@makrotopia.org>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	asahi@lists.linux.dev
+Subject: Re: [PATCH 1/2] dt-check-style: Handle indented fragments in
+ indent-unit-dts
+Message-ID: <20260901-relaxed-hare-of-romance-abad1f@quoll>
+References: <20260830-b4-dts-check-fix-v1-0-e7c1b2774730@kernel.org>
+ <20260830-b4-dts-check-fix-v1-1-e7c1b2774730@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -66,70 +45,193 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kernel.org>
+In-Reply-To: <20260830-b4-dts-check-fix-v1-1-e7c1b2774730@kernel.org>
 
-Hi,
-
-On Sat, Aug 29, 2026 at 10:08:32AM +0200, Sven Peter wrote:
-> Hi,
+On Sun, Aug 30, 2026 at 08:24:54PM +0200, Sven Peter wrote:
+> The multi-die Apple SoCs contain most of their nodes in a file that is
+> included to instantiate the same nodes across both dies. These included
+> fragments all have a tabs-only prefix that is correct in the final
+> composed file. dt-check-style however finds the first line starting with
+> two (or more) tabs and then indent-unit-dts rejects those correctly
+> indented files.
 > 
-> This series contains a bunch of fixes related to teardown while an async
-> DPRX read is running. I ran into some of these while bringing up the
-> Apple Silicon NHI and just haven't implemented DP tunneling support yet
-> such that the DPRX capabilities read can never complete and will always
-> time out.
+> Fix that by detecing a tabs-only prefix shared by rootless files and
+> treat that as a constant offset. Also add fixtures to test this.
 > 
-> None of it is specific to that hardware though so I figured it
-> makes sense to already send them out.
-> 
-> Best,
-> 
-> Sven
-> 
+> Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
-> Changes in v3:
-> - Take the router references in the HopID allocation/release helpers
-> - Actually call put_device() via a cleanup action for the KUnit tests
-> - Link to v2: https://patch.msgid.link/20260823-b4-tbt-fixes-v2-0-26a18a426c9f@kernel.org
+>  scripts/dtc/dt-check-style                         | 69 +++++++++++++++++-----
+>  .../bad/dts-fragment-missing-prefix.dtsi           |  6 ++
+>  .../bad/dts-indented-ref-node.dtsi                 |  6 ++
+>  .../expected/dts-fragment-missing-prefix.dtsi.txt  |  2 +
+>  .../expected/dts-indented-ref-node.dtsi.txt        |  2 +
+>  5 files changed, 70 insertions(+), 15 deletions(-)
 > 
-> Changes in v2:
-> - Make the DP tunnel activation callback mandatory. The DPRX
->   caps are now always read inside dprx_work which now also happens to
->   discovered tunnels when they are activated again after hibernation
->   restore.
-> - Mark discovered tunnels as active
-> - Add a cleanup commit to drop the callback data that's always the same now
-> - Tear down DP tunnels that are inactive in tb_stop instead of
->   exposing tb_tunnel_cancel_dprx.
-> - Use "router" instead of "switch" in the subject
-> - Added comments how these issues can be reproduced
-> - Link to v1: https://patch.msgid.link/20260817-b4-tbt-fixes-v1-0-eded2461f5fc@kernel.org
-> 
-> To: Andreas Noever <andreas.noever@gmail.com>
-> To: Mika Westerberg <westeri@kernel.org>
-> To: Yehezkel Bernat <YehezkelShB@gmail.com>
-> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: Konrad Dybcio <konradybcio@kernel.org>
-> Cc: asahi@lists.linux.dev
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> 
-> ---
-> Sven Peter (7):
->       thunderbolt: Hold a router reference for each allocated HopID
->       thunderbolt: Make the DP tunnel activation callback mandatory
->       thunderbolt: Fix domain reference leak when DPRX read is canceled
->       thunderbolt: Don't access a DP tunnel after its DPRX read was canceled
->       thunderbolt: Mark discovered tunnels as active
->       thunderbolt: Tear down inactive DP tunnels when the domain is stopped
+> diff --git a/scripts/dtc/dt-check-style b/scripts/dtc/dt-check-style
+> index 96deffc0d8a7..2afc05fa6602 100755
+> --- a/scripts/dtc/dt-check-style
+> +++ b/scripts/dtc/dt-check-style
+> @@ -380,12 +380,43 @@ def check_mixed_indent_chars(ctx):
+>                  yield (cont.lineno, 'mixed tabs and spaces in indent')
+>  
 
-Applied 1-6 to thunderbolt.git/fixes, with minor changes in the commit
-messages and the condition in patch 6, thanks! Please check that it is
-okay. My testing at least it works as expected.
+I did not expect simultaneous work, so I did some renaming and moving
+which unfortunately will cause you conflicts.
 
->       thunderbolt: Drop the DP tunnel activation callback data
+My patches got merged and they add _ to detect_indent_unit(), so please
+follow. Also other functions go to a bit different place after sorting.
 
-Since this one is a cleanup, I wonder if you can send it again later when
-the DPRX fixes have landed? I typically base my next branch after -rc1 and
-don't merge fixes/rc's there constantly so preferably after v7.4-rc1 is
-released.
+>  
+> +def detect_fragment_offset(ctx):
+> +    """Return the indentation inherited from an include context.
+> +
+> +    A fragment has neither a root nor top-level reference nodes and all
+
+What is a DTS fragment?
+
+> +    its top-level lines share the same tabs-only indentation.
+
+I don't think you are fixing right problem or at least not completely.
+The Apple DTS is incorrect, because - I assume we talk about
+t600x-dieX.dtsi - this should not be indented with a tab in the first
+place. Apple does not get separate coding style, although I am working
+on supression tags to avoid certain warnings.
+
+
+
+
+> +    """
+> +    if ctx.file_type != 'dts':
+> +        return ''
+> +    offset = None
+> +    for dl in ctx.lines:
+> +        if dl.depth != 0:
+> +            continue
+> +        if dl.linetype not in (LineType.NODE_OPEN, LineType.NODE_CLOSE,
+> +                               LineType.PROPERTY):
+> +            continue
+> +        if dl.linetype == LineType.NODE_OPEN and \
+> +                (dl.node_name == '/' or dl.ref_name is not None):
+> +            return ''
+> +        if offset is None:
+> +            offset = dl.indent_str
+> +        elif dl.indent_str != offset:
+> +            return ''
+> +    if not offset:
+> +        return ''
+> +    if any(char != '\t' for char in offset):
+> +        return ''
+> +    return offset
+> +
+> +
+>  def detect_indent_unit(ctx):
+>      """Find the indent unit used at depth 1 in this block.
+>  
+>      Returns tuple of string (one of: '  ' (2 spaces), '    ' (4 spaces),
+> -    '\\t' (tab), or None if depth-1 is empty or ambiguous) and line number when
+> -    detection was made)."""
+> +    '\\t' (tab), or None if depth-1 is empty or ambiguous), line number when
+> +    detection was made, and whether the detected fragment prefix is valid.
+> +    """
+> +    prefix = detect_fragment_offset(ctx)
+>      for dl in ctx.lines:
+>          if dl.depth != 1:
+>              continue
+> @@ -395,20 +426,25 @@ def detect_indent_unit(ctx):
+>              continue
+>          if not dl.indent_str:
+>              continue
+> -        if dl.indent_str == '\t':
+> -            return ('\t', dl.lineno)
+> -        if dl.indent_str == '    ':
+> -            return ('    ', dl.lineno)
+> -        if dl.indent_str == '  ':
+> -            return ('  ', dl.lineno)
+> +        indent = dl.indent_str
+> +        if prefix and not indent.startswith(prefix):
+> +            return (indent, dl.lineno, False)
+> +        if prefix:
+> +            indent = indent[len(prefix):]
+> +        if indent == '\t':
+> +            return ('\t', dl.lineno, True)
+> +        if indent == '    ':
+> +            return ('    ', dl.lineno, True)
+> +        if indent == '  ':
+> +            return ('  ', dl.lineno, True)
+>          # Anything else at depth 1 is non-canonical; flag elsewhere.
+> -        return (dl.indent_str, dl.lineno)
+> -    return (None, None)
+> +        return (indent, dl.lineno, True)
+> +    return (None, None, True)
+>  
+>  
+>  def check_indent_unit_relaxed(ctx):
+>      """YAML examples: 2 or 4 spaces. Never tabs or other widths."""
+> -    (unit, lineno) = detect_indent_unit(ctx)
+> +    (unit, lineno, _) = detect_indent_unit(ctx)
+>      if unit is None:
+>          return
+>      if unit not in ('  ', '    '):
+> @@ -417,7 +453,10 @@ def check_indent_unit_relaxed(ctx):
+>  
+>  def check_indent_unit_dts(ctx):
+>      """DTS files: 1 tab per level. Always required."""
+> -    (unit, lineno) = detect_indent_unit(ctx)
+> +    (unit, lineno, prefix_valid) = detect_indent_unit(ctx)
+> +    if not prefix_valid:
+> +        yield (lineno, 'indent does not start with fragment offset')
+> +        return
+>      if unit is None:
+>          return
+>      if unit != '\t':
+> @@ -426,7 +465,7 @@ def check_indent_unit_dts(ctx):
+>  
+>  def check_indent_unit_strict(ctx):
+>      """YAML: must be exactly 4 spaces. DTS: 1 tab (same as relaxed)."""
+> -    (unit, lineno) = detect_indent_unit(ctx)
+> +    (unit, lineno, _) = detect_indent_unit(ctx)
+>      if unit is None:
+>          return
+>      if ctx.file_type == 'yaml':
+> @@ -437,8 +476,8 @@ def check_indent_unit_strict(ctx):
+>  
+>  def check_indent_consistent(ctx):
+>      """All indented lines must be a multiple of the detected unit."""
+> -    (unit, lineno) = detect_indent_unit(ctx)
+> -    if unit is None:
+> +    (unit, lineno, prefix_valid) = detect_indent_unit(ctx)
+> +    if unit is None or not prefix_valid:
+>          return
+>      if ctx.file_type == 'yaml':
+>          if unit not in ('  ', '    '):
+> diff --git a/scripts/dtc/dt-style-selftest/bad/dts-fragment-missing-prefix.dtsi b/scripts/dtc/dt-style-selftest/bad/dts-fragment-missing-prefix.dtsi
+> new file mode 100644
+> index 000000000000..a72735e0884b
+> --- /dev/null
+> +++ b/scripts/dtc/dt-style-selftest/bad/dts-fragment-missing-prefix.dtsi
+> @@ -0,0 +1,6 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +/* Include fragment whose child does not contain the inherited indentation. */
+> +
+> +		bus@10000 {
+> +	compatible = "simple-bus";
+> +		};
+> diff --git a/scripts/dtc/dt-style-selftest/bad/dts-indented-ref-node.dtsi b/scripts/dtc/dt-style-selftest/bad/dts-indented-ref-node.dtsi
+> new file mode 100644
+> index 000000000000..cabe4ee96d10
+> --- /dev/null
+> +++ b/scripts/dtc/dt-style-selftest/bad/dts-indented-ref-node.dtsi
+> @@ -0,0 +1,6 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +/* Reference nodes must remain at column zero. */
+> +
+> +	&example {
+> +		status = "okay";
+> +	};
+
+A good example would be useful and probably made the discussion easier -
+we would see that "good" example is actually not desired/correct style.
+
+Best regards,
+Krzysztof
+
