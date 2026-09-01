@@ -1,83 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B0E41A559;
-	Tue,  1 Sep 2026 20:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092424A4401;
+	Tue,  1 Sep 2026 20:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788293534; cv=none; b=Qj4O54QWL4ljMEURFLsswyZxYFaU0bCjUI5Jp+7FeQtsM6PiN979NQyHdzJ9ZZUFGVOQ2457KkSohGBy6tyTzKxtF8nMFkvP1ZY5ywn7Mb/0T6n1j+5WDkjLWJO3EuRsBRdSBSgOs/tfv4MDZOUcu1sTpbp62bQNjCNxFnEQ5tk=
+	t=1788295559; cv=none; b=OkxdVkAmw1eoYcWKKtwb3LAD9smHEMxQrWLqmZL/gZ3JMAxN5CYg+tRDhtnSCmazXp20HoQt87mHoo+hvJ/uMS1q9NDJKkeJD+xwlhks/IxGcMharD3uDTpbAdW3b8Z05+ptqnBBFHF7v9bic7agAzKwcjQP7floD/YBN3mUtZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788293534; c=relaxed/simple;
-	bh=SJzR72pQD5gBS1917aRa/6DlPqZhK4s88RdnKtT4toI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NOZt77XFLz+mBxXfkQp3fSt2xpzGEBQsGly8QJprV/AkFXA43gxG98/BDJfmwm+9fivZTDn3mJJudGVB0wMd7zaCXYK/gOJsKthfguSCauTJqTPxxj4VCZkNg4CgpCyzz2XhXMa7FWBihrcvpCQG7i/DLD9Et59N6xFFLx5RHFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WM2N7lrj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788295559; c=relaxed/simple;
+	bh=zRMEa5c5ui2nn0EcJvJsdjakYRKPPxlzAFWBj5ZyHAM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HePgH5Lic5UiekhD8qoBJkhg2gtKuDB19vCRx7U/0OHUoKcsTJ9PAGM7PMOvESCqVw6B3a+ZV+CN3o1WY6e5rSp9MGlWAnvVbpZ6jsmUQescsjwdn0QBfTsk1ok6OkHkMnASXDnAPnKUP8KEtDRNQUjiRPslFxkhvFKnoTYY4wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l7BEi9MF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WM2N7lrj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543B81F000E9;
-	Tue,  1 Sep 2026 20:12:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l7BEi9MF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78FFE1F000E9;
+	Tue,  1 Sep 2026 20:45:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788293526;
-	bh=DvTXiWu/bItfCARpRA0b3rATqvTSL8ODsEPyVemaOF0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WM2N7lrjPxJ1DhG0v9z4XllQeGB7wDmCo9H5eQugxtozEiOiK/XKhjDtgeSTFCM/h
-	 hDj8MvkL0bj7/UyK/C4l/2bIK9f0J/lZh8Y96EV4fs8GInMi+dUrElML02gGCBtJaX
-	 nanKfArkiZIQnGx0gInO4JS26MsZqc/iG4DZSt+ipx3aRO5pIXm9a8F054cZI9t7AZ
-	 dG/XhLpx3xeZIV4/bP/PvrKOogxatb//m8ELpkuDdsYjEoTi8m+7aAlq6hfENHq1DG
-	 NRkbQYDEIV4gMD50NuxmYpW+yk5Ei3v0FUBy3D3cfdEPCEOpyWLuh5+wnIRn3NimoG
-	 HsicGnEIfLyzw==
-From: Sven Peter <sven@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	James Calligeros <jcalligeros99@gmail.com>
-Cc: Sven Peter <sven@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: (subset) [PATCH 0/3] Enable shared GPIO for Apple Silicon audio support
-Date: Tue,  1 Sep 2026 22:11:37 +0200
-Message-ID: <178829346733.46626.4826048578689802871.b4-ty@b4>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
-References: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
+	s=k20260515; t=1788295557;
+	bh=zRMEa5c5ui2nn0EcJvJsdjakYRKPPxlzAFWBj5ZyHAM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=l7BEi9MFmuTupEv7HxYHW0JJUAGv2eP4grXl8QE/a1dhT/y6E2jk44LxtzEFdf89b
+	 XZhPCV1uzTE3KgMlUY9GsTHYkqavoQlXuy5YW3mjL3O8UmVV4EB1tgIUyhOZc3GLgE
+	 R+JDBdW5sDkZ8Xx2BXlTc7F1EwEE9vCva+mRwJMx4bg6DciEXnWQ1l81a7doZ40czx
+	 PpIw7GkdBCNtU2vlAEa1kQBRfBDiVPxNRPEefF3ea/V2G4Fg2R5Us1XZwMJENcJT6U
+	 z1TogSnBYLl8SJbL1lZxPQdSNGWnvBj1CPS7veVxM13tvOG4WPMbiNJzSAvTyDk/o+
+	 ORBqadjH1u+oQ==
+Message-ID: <2b95fa20-22a5-4ef2-9ea6-c6fb7d1f16ac@kernel.org>
+Date: Tue, 1 Sep 2026 22:45:52 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] iommu: apple-dart: Support specifying the DMA
+ aperture in the DT
+To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+References: <20260831-iommu-apple-dart-aperture-v2-0-d16ce3770299@jannau.net>
+ <20260831-iommu-apple-dart-aperture-v2-2-d16ce3770299@jannau.net>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20260831-iommu-apple-dart-aperture-v2-2-d16ce3770299@jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 31 Aug 2026 21:32:38 +1000, James Calligeros wrote:
-> On Apple Silicon Macs, every speaker codec's software shutdown pin
-> is connected to the same GPIO line. This line must be pulled high
-> whenever any codec asserts it so.
-> 
-> This makes power management impossible. When we goe through the list of
-> codecs and call each suspend/resume, the GPIO line is asserted low or high
-> by the first suspended/resumed codec. This causes issues for the subsequent
-> codecs; they are already shut off by the time we try to cache the register
-> state on suspend.
-> 
-> [...]
+Hi,
 
-Applied to git@github.com:AsahiLinux/linux.git (apple-soc/drivers-7.4), thanks!
+On 8/31/26 15:46, Janne Grunau wrote:
+> Apple DARTs are often connected directly to devices that expect only a
+> portion of their address space to be used for DMA (for example, because
+> other ranges are mapped directly to something else). Devices can specify
+> the start and end of the aperture via "iommus" args if the DART device
+> node specifies "#iommu-cells = <5>. Aperture start and length are 64-bit
+> values as apertures above and larger than 4GB are used.
+> Limit compile testing to 64-bit architectures to avoid warnings in the
+> calculation of 64-bit dma_addr_t values.
 
-[1/3] arm64: Kconfig: Select HAVE_SHARED_GPIOS for Apple Silicon
-      https://github.com/AsahiLinux/linux/commit/a416a347931f
+I don't see any Kconfig hunk below, did you drop it by accident?
+Otherwise:
 
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
+Reviewed-by: Sven Peter <sven@kernel.org>
+
+
+Sven
+
 
