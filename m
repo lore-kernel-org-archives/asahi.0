@@ -1,83 +1,144 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47797378D8B;
-	Tue,  1 Sep 2026 17:06:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0285348A2CC;
+	Tue,  1 Sep 2026 17:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788282413; cv=none; b=tEUzqmGWAsxXmq0KYaz+HGKEhL1CkDwF0pkxmC3tUWCrp3vHjxnxSgU22bFLB8A/d7O3whjZs1tNpbjKSRyv4r1Zv7WgRe9XCKxEPusxiQQwxWVyyIXn362lppVppT5XJtXnEVuJxBOFFB6jMCNZYYd9ZpHBTrl7Qfj/FBDAjhA=
+	t=1788284502; cv=none; b=mpiuTjP2Q03KXK/ksr85rSwXIULPrBK05TxR6wWcQQPqmL7xoIMColvRi7i8pzJQfF8tHK0LgzxFpEfsZW9xTmNGWUrtHWkkqZaK0WIhRF7WgIjUyNWzEX8AEpdG26DoRKPfGbIswRVBNELA5ebhYExpwyDdLZ0rYW/iqG/LMaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788282413; c=relaxed/simple;
-	bh=sNSa/voaOsHZjjRDqp25c+/MX+/wj6BeRzvBnb1IUhg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=MKWocVO1DW71zHN7jW+tYLGctVrpH6FRlAckkDZ4NczCr6uOqEZPPpEzzVVYUnSq2Pkq+2+drtwHGu6SvbwHIfs28RIoID5XJIuRd/KcpRxBVbYljBZps7PqyYLxYeGUb2wVN59DzlFk5h0mXBXatiZgIeMcIV9/juMtzwPGflA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B+9hs4x5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788284502; c=relaxed/simple;
+	bh=QdbhJrSOKE0Vy3jn0YIDd9iAVHenFAm9KpqRynCSryc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dZVt6QSD7P4TNPg1nX/4vSrIP7Bh4cHADcre0THi3WUT6naOQUZBb3xi2toLmk6D4ymOne7qOYPXVbw2L1nmTdS5yVW/WcnJpqf/hHDQ7ract+dV5cIRaDmB/q9P8RubAwNB0UNAPQoxIPxqx+BafnWxKjXqdklThDBomczW05c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQ/rpKo6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B+9hs4x5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8801F000E9;
-	Tue,  1 Sep 2026 17:06:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQ/rpKo6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BB1F1F000E9;
+	Tue,  1 Sep 2026 17:41:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788282411;
-	bh=4X6ne0Uit8P26QhcBLgYQcoxfNjm1+NrZSLM/Ma+6Gs=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=B+9hs4x51CerXJGm2Kz2FazK25vRVZnw8AXRDpfnZWrX6t83Agp7ZgfH9lRIsU2sc
-	 PV4wRQI9tH3q0oA9/9/qU6HPvtJVVLCELewZG1LQI53enGfV2Bw8QO90JQrrIo7bCI
-	 QHl52OrK262QmCjAHB/ahRMvx+nPPAVr80PT0YJXFP7GnZGApwHmJbqOixngb0ppbv
-	 2bTk8QJ7q62nTpcT+YszZsOfQAhdF9mo/KdlbVjeekMthdnJgYnBUon/zEVrelLr5k
-	 tlZFEFPHh13B45ZcgKCOPoFoUoAeD0cF+gaEQq8GkdiR+zj2VSdmXwCP5yZhIrthxE
-	 lvly1PZVaNbcg==
-Message-ID: <3b916a31-3da8-47b3-afc0-51c9d178e645@kernel.org>
-Date: Tue, 1 Sep 2026 19:06:46 +0200
+	s=k20260515; t=1788284500;
+	bh=z6WIo0le5aCjppNEWyLWRZs3BwOlvsDBl4hM2DulWIE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TQ/rpKo61z4uWgcE2dxBn1uB9Qz4RJzXzkFiyAN+YmFZ80FMWZnj0Z+tSgQgZQCbU
+	 n9IYEavZvt/+Vt7JeVF/vl1KG/jzNiKqfe8wtJP64yBZm6lS/eFrKE0IbPduyD84Jj
+	 E6S08167Y+ip85lt3GtLQBP7DFerBQ/awcwTd08tlLkhoUIveiaZx2xjXSl86jOL9o
+	 5mMF1LyJ7E3NPWnxI9FK8j8kg56cAYD7as0d8W4ZGcZvxkPw9PZyx8ABJSh5Ap0a7o
+	 fkCgXNrKmKzcJl8njX9P86tBIodoof6g72OQoTvV22dgGIIeRMx2mj9mpVHwOpsKkV
+	 qLDuFU/8FHwCw==
+Date: Tue, 1 Sep 2026 18:41:36 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v9 1/6] dt-bindings: spmi: apple,spmi: Add t603x and t8122
+Message-ID: <20260901-clapped-fled-2ae6126df5cc@spud>
+References: <20260901-t603x-spmi-v9-0-09e702e3b153@chaosmail.tech>
+ <20260901-t603x-spmi-v9-1-09e702e3b153@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Sven Peter <sven@kernel.org>
-Subject: Re: [PATCH 13/19] thunderbolt: Add QUIRK_NO_DMA_PORT
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org>
- <20260830-b4-apple-soc-tbt-v1-13-44bc9348683c@kernel.org>
- <20260901090439.GD106095@black.igk.intel.com>
-Content-Language: en-US
-In-Reply-To: <20260901090439.GD106095@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hg5NX2NBXwQM0W36"
+Content-Disposition: inline
+In-Reply-To: <20260901-t603x-spmi-v9-1-09e702e3b153@chaosmail.tech>
 
+--hg5NX2NBXwQM0W36
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Sep 01, 2026 at 12:29:00PM +0200, Sasha Finkelstein wrote:
+> Add t603x and t8122 compatibles, interrupt support, and support for
+> SPMI controllers that are not always-on.
+>=20
+> Reviewed-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+>  Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 29 ++++++++++++=
++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Doc=
+umentation/devicetree/bindings/spmi/apple,spmi.yaml
+> index 3e5b14bc8c31..4e73083ecec3 100644
+> --- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+> +++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+> @@ -20,8 +20,11 @@ properties:
+>        - items:
+>            - enum:
+>                - apple,t6020-spmi
+> +              - apple,t6030-spmi
+> +              - apple,t6031-spmi
+>                - apple,t8012-spmi
+>                - apple,t8015-spmi
+> +              - apple,t8122-spmi
+>            - const: apple,t8103-spmi
+>        - items:
+>            - enum:
+> @@ -34,10 +37,36 @@ properties:
+>    reg:
+>      maxItems: 1
+> =20
+> +  interrupts:
+> +    maxItems: 1
+> +    description: Optional, operates in polled mode if not present
+> +
+> +  interrupt-controller: true
+> +
+> +  "#interrupt-cells":
+> +    const: 2
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - reg
+> =20
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - apple,t8122-spmi
+> +          - apple,t6030-spmi
+> +          - apple,t6031-spmi
+> +then:
+> +  required:
+> +    - interrupt-controller
+> +    - "#interrupt-cells"
+> +    - interrupts
 
-On 9/1/26 11:04, Mika Westerberg wrote:
-> Hi,
->
-> On Sun, Aug 30, 2026 at 10:19:31PM +0200, Sven Peter wrote:
->> Apple Silicon machines load and update the host router firmware with a
->> separate, proprietary mechanism and have no DMA port. Add a quirk to
->> skip its initialization.
-> DMA port is Intel Thunderbolt 1-3 thing and not expected to found on USB4
-> routers. The current code should not even be trying to find it, if it does
-> then that's a bug that should be fixed.
->
-> USB4 router firmware upgrades use the standard operations and if those are
-> not supported then we just don't expose the corresponding NVMem nodes.
+else: false?
+Or do the existing devices also support these?
 
-Yeah, you're right, I can just drop this and everything still works.
-I think this may have been broken back in 2023 when I brought this all 
-up for the first time (and still had trouble with the Type-C PHY and PD 
-controller which is why I didn't try to upstream any of this back then)
+> +
+>  unevaluatedProperties: false
+> =20
+>  examples:
+>=20
+> --=20
+> 2.55.0
+>=20
 
+--hg5NX2NBXwQM0W36
+Content-Type: application/pgp-signature; name=signature.asc
 
-Sven
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCapcOUAAKCRB4tDGHoIJi
+0t6oAQDdgxxRZq1b3END8pXTYQu7T4+mLdGrboIhqtjJLukvMAD9GVqu+LOfBqEZ
+iS/zJektpRLtyh9L3LReuKM1rmeDbwg=
+=+C9d
+-----END PGP SIGNATURE-----
+
+--hg5NX2NBXwQM0W36--
