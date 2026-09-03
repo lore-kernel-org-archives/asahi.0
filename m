@@ -1,311 +1,153 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043CB3905EA;
-	Wed,  2 Sep 2026 19:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DBA45D5F5;
+	Thu,  3 Sep 2026 11:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788376751; cv=none; b=BfESxNsOwzT+lpTnQ1tBIvCOEixy/aQaTCvGyt44X7s7uKyKFpyWu5eehattAKhNNf1v4DIv6KAMsjsAM03G8T7x9ulTwZ6QznG0NcWORneVD9CUlpMrdKHnxVRaYfjP2uV3lydbkowF69TvafTNAcCj/fLlFiIree6BZNPESRc=
+	t=1788435333; cv=none; b=DBfYZZPl7FGPsBmSx7hD5TY9MTG8LIRZ4j5Ph4DoSgfuU//sY2Nm9zYNsYbQmQqyvZxyLGFspzwvP9c2KYwyD9gJE3pwWDO7xTANVv8K8KAf92aCkIRLxkB+vAikg2zkiKNX51W+hAnGl9NkWs+SBtWGnaDdxCBF/AIrVFB+9s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788376751; c=relaxed/simple;
-	bh=AzFRd3uMZ0IcJqKW0o690cDqHnbklcnOKswFQ0IdXwg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nW1sttzIzJMdlO19lp1ruSX6Cx8zYRJeiWpZJ5D3kK4rKucBpAEkStr9fdPqEKornMP92gxI6m8T6DBPHbtf3sKVzaZ/XK5V7UewLeISaxdcALYLYoRQnoQqvLy6FcDxPbXn8e+ibi3Pjsf0amOe2uyxfrt3pfhgmPG2yN60/Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=MAieeHfX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XYxlkVQq; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1788435333; c=relaxed/simple;
+	bh=WNhBU4gBRi7n5E2RV+yY1aQmqX5dEeo2lb8vnV0Klcc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=DsBp5lFa1yIjItdlFwmYCMo/13uLPk0oo5zKL6G57EtiEQe/jrWSeVjJMXxvMIbcj6LI2dmsJB5SIe+0ZV+aPLxUISGgY/ROzidXdQbr7q7nm60o206KLj9qkmjey80wviw9svCRYXDxCaGe9PMQNEtzd0fSlS+y3TKG6e84KhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O2IlCtuM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="MAieeHfX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XYxlkVQq"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 39F55EC026E;
-	Wed,  2 Sep 2026 15:19:09 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 02 Sep 2026 15:19:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1788376749;
-	 x=1788463149; bh=NQdO7P96jiTQ2vGB+LQMTce6TI6ijWre0g6HXNRAZnQ=; b=
-	MAieeHfXCgyqIZiuglMyJGbkL7xZntf7dp8HR9VnfCNxT8JT5Cmnp8Vaayw/vhF+
-	TEuVh6aS7oSruuY5sHle7TbGy5760v4Y/Y88TLfQNCCQN9xWrEOwnf69qDMtt42e
-	YpigM878IwvsTdudrZ+h4cSKQONhi95HeurDR7IaHGKz+c5C5d+Iu5J4sCygw2uP
-	9U8upk4/HXG4MuA9CfxvL6ZYuVpNwkWqWGjQuNWI3xzRb02Yk5YiUZ8+Kval63Nr
-	UOVPKFaY6TpCmDgt8TQ1btEDWisE2XcSx6KysKtogbbnW/zwszkFDDGybO3PR60b
-	K4kUmVIGPXFh7Tn9jPWz8w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788376749; x=
-	1788463149; bh=NQdO7P96jiTQ2vGB+LQMTce6TI6ijWre0g6HXNRAZnQ=; b=X
-	YxlkVQqvnaALTgr/+kH0/YNW8+27O4U/+XR0RBReV+jHvjxVgOr0NiKf/PzMi2Hc
-	rRJBVmYv0HRNUE4HThlbPdP4gaiL8EFUpZk1fDvVMyUYBmpJw+tngdIul7pi4Xy0
-	/Xhw+0Mx4dDf6uaQgaiGE9lYfhzYetbIkTo0yJuCiUUKYhvK4cP2QwN+YJuv9g6J
-	mtYOi+t9e5ExK63O4cnIa+/FYer/e71kvj11WGxL9rgdYD8r8gDGAZioi6lTV20z
-	+WSuiqzqy6kdNYofI2cseBNUWFfElGnZdCTynh5WKyJvd1n5F8UKhgN+9yxaufh2
-	5b634RQlUIRfgCj5zJlsg==
-X-ME-Sender: <xms:rXaYahY2A3ILvpMZtmdTJ3jdeUJu7FslXhwqNMF5zlsb6X-Z8YC9NQ>
-    <xme:rXaYav-az7TrKtBJQoHD2EA0Z1409Gt8vLX3zRV8NHw55q_mWbS0jR5mrEY_8G_FQ
-    rIMBryxmUWQfXIRi7q8RYT0bJ_IMiJBS8PpWMZQHrRBr6FDiyj1sTyH>
-X-ME-Received: <xmr:rXaYajkjZaFAUB9hSZJsmZEXFAm8cFOFDcIzijqhTcW1D1pAkWW2NAlWUIwAfAM7FC8paevKZntoXrQ_P4DigKFGlToqql4UZn5LuQ>
-X-ME-Proxy-Cause: dmFkZTE89tjtn2Bc6WrCwdLeNoBdvJR6LgkOyMNQKpFp1TjkiaqcmsCiC8kvrS7T8Jp5oi
-    cIW0UnwXmqV3oC7eAHpTzIGJga2xoAPx8GEnFdDNBab77iSzjXmCh1vKt+5d7wJkXOr2VC
-    rE5841g2jNxb6p1kbNpFRDNDdq1GYBQSQBcl+GE4IEVVOkkhbgZApi3Ptb2xxuKlhSMG0E
-    EOS48D6SGNDHa/XRZdR6SN1/sKBEBUdJJkTJl+8d2Yfwe7ahYEwxJfjYD63OgrtT4gIYR1
-    hwNIjQzSLtryyDlnl+S3fmeeQKlp2yc1//CP8qulUPt9Gc7zUmxU+NSlYVI0CNef0PA6qg
-    u+KpiwXV4qWtaS5Q1OphHYXkO9rRemOOmitHGKrw/mrnroj3f4u9NtpxlVZYQYahircdo4
-    nQ9xcOY4qc5rESeJyIt4mOQ6kYwTF3M2310JmwLboZPtJo7lyv6cL/iYk0iYOVM1E5n67m
-    fWEJd9dHH+uiic+TlGlACkZXdN9F1tAYRhEPaOlccZjTDBP0IeMTBzWph3Vz7TNa95Ueeg
-    ZF7bVTbeITwiYx+vcNIPWQTLRZPZxdkOofgl7QwCDRNENqghGNJegZSrNCiy2cwOvU2VFQ
-    grwoXmBRXUL/BmQVO6GhhKkLEGku0r/vClHwuFdeuojioHfLlkKgwXbr6xJA
-X-ME-Proxy: <xmx:rXaYasaU9C-NRIvCl7pkgnZdVIEpqtRM-7ub9DVelfHZn73TPwQI3g>
-    <xmx:rXaYajPEphcAugqq6-Wr5Ry05xMoXuj9tsdCv7QhGpbsDCOYC5mjOw>
-    <xmx:rXaYaseZ0d7nK4H7jV7K-WLEtZxoyDewXWwbVnz4O1qNVaROq8Jeqg>
-    <xmx:rXaYapFf1_oo4TeFP7qif4mSk8agQAcTn2J6CLSj4vWeLoMmSgc9iQ>
-    <xmx:rXaYavj3OWzEO3yn0_zc3QDNmzn6dE41Btnv8GK92XG1-jg9qjkSEc6B>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Sep 2026 15:19:08 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Wed, 02 Sep 2026 21:18:55 +0200
-Subject: [PATCH v3 2/2] iommu: apple-dart: Support specifying the DMA
- aperture in the DT
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O2IlCtuM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618FE1F00A3D;
+	Thu,  3 Sep 2026 11:35:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788435322;
+	bh=GI67CPM8yi0ZXHmIKGRDTSpV4PxMt/Uk06vuw2OahkI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=O2IlCtuMNbakoyXY2D31P0E159cHIcVJigxX8w1haBC94Qr6S6epMXjHIa6zRKBcI
+	 OE+3f+rxDwwrGfsAD39fX4eezjvDMWYQsiEBdjcI2ykCvpuYqCZaATkfJtH49cQ18l
+	 krxnRw67DEnZu6K+iHbcYVCl8cpwh6T+2TyVgAZ1f3p50VYIJOnhiW6vlOJB77V4Ko
+	 bG6Ibq/G59tGMPHPCGWYjsKzLdkjHjjnOyo4mBexT8oQGRPZLzX6I9LxqSU40yLiBI
+	 6ioEwGaIon7j50uKjJMCzEfi2pGebyH9VSRHP603iIbFtQsc0r2t+s5gmnlXTPVxsg
+	 JAvkM9kZDFz6A==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id E4DBF1980047;
+	Thu,  3 Sep 2026 07:35:19 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Thu, 03 Sep 2026 07:35:19 -0400
+X-ME-Sender: <xms:dVuZaovR-c4KRU0bTmDyoCGKVMfDysb6kHC1eD5iZo1XHtRzHLg5MA>
+    <xme:dVuZagTuUyST6iT-SQLgc4S5CPheVwCXWPsq_mLPsKpOjysyPxS8RjXzOtmsnJIsE
+    R0PLVOL7-kSEieR9iijT3rSlPzPfP4Uw1qparPP_tnFvwZYqtGYWTHQ>
+X-ME-Proxy-Cause: dmFkZTE35Cj2o9w6o+pggtHOOqOz+sFl03EWpmd0tgzo6J4wCd8a6EDhiYd49BIPNtsWXQ
+    0iMYBwpT31vuwS1JR8RCBFTjzAOhlfyq3ma8jZDDtkEvhBXicIKS9OZnuxqiHsod5f97xV
+    J8FuqC6e1eFexwdHQ5OjGxcGDKBn7IryT10wtxIaC4dZKH5cEiidOl7qSUhty7IyZid1Fl
+    fJ0P/6Mj3V5MrBQ8WAroV/0glwDye2vhVcP3ViBaNekQHcc/o76j8jjKJ02MtH+5zbHJSw
+    +wpKAV5qAtjs+NgZNC3uSWYGjXjfwAGnlPYRQsAVCbM4H1PPFRNi5pfmReEaN61S6yq6m/
+    m2p+KCzk8ukGUj/kpko5dgEeh1qnctYJ9br2Pae92FQF+tYhovlKnfL2iqeYktjPnfAk/m
+    QjD5Bzno//eaVQPd+UzOzdmPZgjpenScHoY+Trtdb2FKlTvt0XEgWaQ5kDNUaGo1qGjiwo
+    nlswmSKj5eQT7TsC7UUKNsL+u8qbVBS/QO6Ds8ZwXRRCiIlcAfYe+la8gV/Tovgl2NjQOO
+    dweU/H5/dm2ZtkVoyH71W94LMdRNNDu5RgOWguqkAVYgC4NDPF2qmjcSI6JU9aBDfc5FPQ
+    nhqY/ZXhVMXQQ6ujvQfC/dRftD41+DoPW3t84Fqh1lJN4xRWiI6VMF5Jrbwg
+X-ME-Proxy: <xmx:d1uZalmMn24bZvw6ZcLzuvbcrJAKUgXdzzzS8Ud0C6nXYA5EVSPc0Q>
+    <xmx:d1uZariQuCSm2xXM69lE3G6vkzqSsl66MJ4aSRGJ0xZNmHI3CWwIlg>
+    <xmx:d1uZaiSh-nrRtvN90zTY6qN6k34XEQY-5mUsY52qudIhz0_2VpP38g>
+    <xmx:d1uZagiQ1esEatnM-Y_IcDnASzPxDyVKHWkMTHuTWVtpIJAbsM8j7g>
+    <xmx:d1uZauiiVEu2LLn_6b5rQDBKimEFB2v8DRx7K80_-fufnxKLOWw9oQim>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 12337F8007A; Thu,  3 Sep 2026 07:35:17 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Date: Thu, 03 Sep 2026 13:34:56 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Sven Peter" <sven@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>,
+ "Lorenzo Pieralisi" <lpieralisi@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>,
+ "Sudeep Holla" <sudeep.holla@kernel.org>, "Janne Grunau" <j@jannau.net>,
+ "Neal Gompa" <neal@gompa.dev>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+ asahi@lists.linux.dev
+Message-Id: <9c53cfd7-e193-4441-83ca-7710060225b7@app.fastmail.com>
+In-Reply-To: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
+References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
+Subject: Re: [PATCH RFC 0/6] PSCI-via-EFI to support firmware and kernel sharing EL2
+ for Apple Silicon
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-iommu-apple-dart-aperture-v3-2-252ce55b7001@jannau.net>
-References: <20260902-iommu-apple-dart-aperture-v3-0-252ce55b7001@jannau.net>
-In-Reply-To: <20260902-iommu-apple-dart-aperture-v3-0-252ce55b7001@jannau.net>
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>, 
- Hector Martin <marcan@marcan.st>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7155; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=AzFRd3uMZ0IcJqKW0o690cDqHnbklcnOKswFQ0IdXwg=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqwZZcs9GnwvauaULRa4l8JUXS5vHrxXOcjk1suPFeWPn
- 7bEqHV2lLIwiHExyIopsiRpv+xgWF2jGFP7IAxmDisTyBAGLk4BmIiOJcP/sNYj7Ctuv9j265Zf
- ZAG/VY67zDvbJbfPuHzaIPolwn7jbYY/XJIrjNdwNNg0vFghdN9Xm2FJ0N/Yd6v2d6++s7n+442
- dzAA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Apple DARTs are often connected directly to devices that expect only a
-portion of their address space to be used for DMA (for example, because
-other ranges are mapped directly to something else). Devices can specify
-the start and end of the aperture via "iommus" args if the DART device
-node specifies "#iommu-cells = <5>. Aperture start and length are 64-bit
-values as apertures above and larger than 4GB are used.
-Limit compile testing to 64-bit architectures to avoid warnings in the
-calculation of 64-bit dma_addr_t values.
+Hi Sven,
 
-This range *can* be outside of the DART's IAS. In that case, it is
-assumed that the hardware truncates addresses and the page tables will
-only map the lower bits of the address. However, the specified range
-cannot straddle an IAS boundary (you cannot cover more than IAS worth
-of address space nor wrap).
+On Wed, 8 Jul 2026, at 09:15, Sven Peter wrote:
+> Hi,
+>
+> Usually, idle and sleep state are implemented in firmware running in
+> e.g. EL3 with the kernel trapping into that from EL2. Unfortunately,
+> there's no EL3 on Apple Silicon machines and we'd rather not run the
+> kernel in EL1 since this would result in losing KVM support.
+>
+> While the shallower states could be implemented inside a custom cpuidle
+> driver (like we do downstream, see [1]) the deeper states result in a
+> complete loss of state and require bootstraping the cores again which is
+> quite involved. So instead we need some way to call back into our
+> open-source firmware to be able to handle that. This is even more
+> important for M4+ which don't even support the architectural wfi anymore
+> and always lose state when that instruction is executed.
+>
+> Luckily, EFI runtime services provide much of scaffolding we need,
+> namely a way to keep some code and data mapped and the ability to jump
+> into there from inside the kernel.
+>
+> This series adds a custom EFI table that points to a PSCI entry point
+> (plus some other stuff that has to be available before EFI runtime
+> services are set up) and adds support for this new conduit to the psci
+> code. We can't directly use the normal EFI runtime path because that one
+> takes a sleeping lock and we need to be able to call into PSCI from
+> atomic context during e.g. cpu bringup or during idle.
+> It also adds support for specifying the specific MAIR attributes for EFI
+> runtime mappings as defined in the latest UEFI spec since Apple Silicon
+> is rather allergic to using Device-nGnRnE vs. Device-nGnRE for its MMIO.
+>
+> This all results in a surprisingly small diffstat. I believe this
+> approach was originally suggested in some IRC discussion years ago,
+> possibly by Ard, but I can't find the old logs anymore.
+> Happy to add a Suggested-by tag though if anyone remembers.
+>
+> The firmware implementation I used for testing can be found at [2] and
+> the full kernel tree with this series applied at [3].
+>
+> Best,
+>
+> Sven
+>
+> [1] 
+> https://github.com/AsahiLinux/linux/blob/asahi/drivers/cpuidle/cpuidle-apple.c
+> [2] https://github.com/AsahiLinux/m1n1/tree/psci-via-efi
+> [3] 
+> https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git/log/?h=efi-psci
+>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+> ---
+> Sven Peter (6):
+>       dt-bindings: arm: psci: Add EFI conduit
+>       arm64/efi: Add and parse custom PSCI EFI configuration table
+>       efi: Add EFI_MEMORY_ISA_{MASK,VALID}
+>       arm64/efi: Honor EFI_MEMORY_ISA_MASK for Device-nGnRnE vs -nGnRE
+>       firmware/psci: Add EFI runtime conduit
+>       arm64: dts: apple: t8103: Add PSCI and CPU idle states
+>
 
-This corresponds to the vm-base and vm-size properties on the Apple
-device tree side of things.
+I've picked up patches #3 and #4, which are useful in their own right.
 
-Co-developed-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Sven Peter <sven@kernel.org>
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/iommu/Kconfig      |  2 +-
- drivers/iommu/apple-dart.c | 74 ++++++++++++++++++++++++++++++++++++++++------
- 2 files changed, 66 insertions(+), 10 deletions(-)
+I'm not sure if the arm64 maintainers will want to consider this, but
+I think it's a reasonable compromise, as it puts the abstraction in
+the right place.
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 6e07bd69467a..27954f462582 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -303,7 +303,7 @@ config SPAPR_TCE_IOMMU
- 
- config APPLE_DART
- 	tristate "Apple DART IOMMU Support"
--	depends on ARCH_APPLE || COMPILE_TEST
-+	depends on ARCH_APPLE || (COMPILE_TEST && 64BIT)
- 	depends on !GENERIC_ATOMIC64	# for IOMMU_IO_PGTABLE_DART
- 	select IOMMU_API
- 	select IOMMU_IO_PGTABLE_DART
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index b160fb464c5f..ebf4547d32b4 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -21,6 +21,7 @@
- #include <linux/io-pgtable.h>
- #include <linux/iommu.h>
- #include <linux/iopoll.h>
-+#include <linux/minmax.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
-@@ -267,6 +268,7 @@ struct apple_dart_domain {
- 	struct io_pgtable_ops *pgtbl_ops;
- 
- 	bool finalized;
-+	u64 mask;
- 	struct mutex init_lock;
- 	struct apple_dart_atomic_stream_map stream_maps[MAX_DARTS_PER_DEVICE];
- 
-@@ -285,6 +287,13 @@ struct apple_dart_master_cfg {
- 	/* Intersection of DART capabilitles */
- 	u32 supports_bypass : 1;
- 
-+	/*
-+	 * DMA aperture start and end to be overridden by "iommus"' phandle
-+	 * args. By default determined by DART's ias but may be outside of it.
-+	 */
-+	dma_addr_t dma_min;
-+	dma_addr_t dma_max;
-+
- 	struct apple_dart_stream_map stream_maps[MAX_DARTS_PER_DEVICE];
- };
- 
-@@ -537,7 +546,7 @@ static phys_addr_t apple_dart_iova_to_phys(struct iommu_domain *domain,
- 	if (!ops)
- 		return 0;
- 
--	return ops->iova_to_phys(ops, iova);
-+	return ops->iova_to_phys(ops, iova & dart_domain->mask);
- }
- 
- static int apple_dart_map_pages(struct iommu_domain *domain, unsigned long iova,
-@@ -551,8 +560,8 @@ static int apple_dart_map_pages(struct iommu_domain *domain, unsigned long iova,
- 	if (!ops)
- 		return -ENODEV;
- 
--	return ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot, gfp,
--			      mapped);
-+	return ops->map_pages(ops, iova & dart_domain->mask, paddr, pgsize,
-+			      pgcount, prot, gfp, mapped);
- }
- 
- static size_t apple_dart_unmap_pages(struct iommu_domain *domain,
-@@ -563,7 +572,8 @@ static size_t apple_dart_unmap_pages(struct iommu_domain *domain,
- 	struct apple_dart_domain *dart_domain = to_dart_domain(domain);
- 	struct io_pgtable_ops *ops = dart_domain->pgtbl_ops;
- 
--	return ops->unmap_pages(ops, iova, pgsize, pgcount, gather);
-+	return ops->unmap_pages(ops, iova & dart_domain->mask, pgsize, pgcount,
-+				gather);
- }
- 
- static void
-@@ -590,6 +600,7 @@ static int apple_dart_finalize_domain(struct apple_dart_domain *dart_domain,
- {
- 	struct apple_dart *dart = cfg->stream_maps[0].dart;
- 	struct io_pgtable_cfg pgtbl_cfg;
-+	u32 ias = min_t(u32, dart->ias, fls64(cfg->dma_max));
- 	int ret = 0;
- 	int i, j;
- 
-@@ -610,7 +621,7 @@ static int apple_dart_finalize_domain(struct apple_dart_domain *dart_domain,
- 
- 	pgtbl_cfg = (struct io_pgtable_cfg){
- 		.pgsize_bitmap = dart->pgsize,
--		.ias = dart->ias,
-+		.ias = ias,
- 		.oas = dart->oas,
- 		.coherent_walk = 1,
- 		.iommu_dev = dart->dev,
-@@ -623,10 +634,10 @@ static int apple_dart_finalize_domain(struct apple_dart_domain *dart_domain,
- 		goto done;
- 	}
- 
-+	dart_domain->mask = DMA_BIT_MASK(pgtbl_cfg.ias);
- 	dart_domain->domain.pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
--	dart_domain->domain.geometry.aperture_start = 0;
--	dart_domain->domain.geometry.aperture_end =
--		(dma_addr_t)DMA_BIT_MASK(pgtbl_cfg.ias);
-+	dart_domain->domain.geometry.aperture_start = cfg->dma_min;
-+	dart_domain->domain.geometry.aperture_end = cfg->dma_max;
- 	dart_domain->domain.geometry.force_aperture = true;
- 
- 	dart_domain->finalized = true;
-@@ -803,20 +814,65 @@ static int apple_dart_of_xlate(struct device *dev,
- 	struct platform_device *iommu_pdev = of_find_device_by_node(args->np);
- 	struct apple_dart *dart = platform_get_drvdata(iommu_pdev);
- 	struct apple_dart *cfg_dart;
-+	dma_addr_t dma_max = DMA_BIT_MASK(dart->ias);
-+	dma_addr_t dma_min = 0;
- 	int i, sid;
- 
- 	put_device(&iommu_pdev->dev);
- 
--	if (args->args_count != 1)
-+	if (args->args_count != 1 && args->args_count != 5)
- 		return -EINVAL;
-+
- 	sid = args->args[0];
- 
-+	if (args->args_count == 5) {
-+		dma_addr_t length = ((dma_addr_t)args->args[3] << 32) | args->args[4];
-+
-+		if (!length)
-+			return -EINVAL;
-+
-+		dma_min = ((dma_addr_t)args->args[1] << 32) | args->args[2];
-+
-+		if (!IS_ALIGNED(dma_min, dart->pgsize) ||
-+		    !IS_ALIGNED(length, dart->pgsize)) {
-+			dev_err(dev, "Unaligned DMA window %pad, %pad (0x%x)\n",
-+				&dma_min, &length, dart->pgsize);
-+			return -EINVAL;
-+		}
-+		if (check_add_overflow(dma_min, length - 1, &dma_max)) {
-+			dev_err(dev, "DMA window length (%pad) overflows range for start %pad\n",
-+				&length, &dma_min);
-+			return -EINVAL;
-+		}
-+
-+		/*
-+		 * Ensure that the DMA window does not exceed the DART's ias.
-+		 */
-+		if ((dma_min ^ dma_max) & ~DMA_BIT_MASK(dart->ias)) {
-+			dev_err(dev, "Invalid DMA window for ias=%d\n",
-+				dart->ias);
-+			return -EINVAL;
-+		}
-+	}
-+
- 	if (!cfg) {
- 		cfg = kzalloc_obj(*cfg);
- 		if (!cfg)
- 			return -ENOMEM;
- 		/* Will be ANDed with DART capabilities */
- 		cfg->supports_bypass = true;
-+		/* Will be merged with other DARTs to the common range. */
-+		cfg->dma_min = dma_min;
-+		cfg->dma_max = dma_max;
-+	} else {
-+		if (dma_min >= cfg->dma_max || cfg->dma_min >= dma_max) {
-+			dev_err(dev, "non-overlapping DMA windows: %pad..%pad, %pad..%pad\n",
-+				&dma_min, &dma_max,
-+				&cfg->dma_min, &cfg->dma_max);
-+			return -EINVAL;
-+		}
-+		cfg->dma_min = max(dma_min, cfg->dma_min);
-+		cfg->dma_max = min(dma_max, cfg->dma_max);
- 	}
- 	dev_iommu_priv_set(dev, cfg);
- 
+I take it this will be contributed to u-boot if it gets accepted here?
 
--- 
-2.55.0
+
 
