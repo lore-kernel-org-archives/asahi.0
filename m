@@ -1,77 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA11F4F55B1;
-	Thu,  3 Sep 2026 17:05:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A50B4B512A;
+	Thu,  3 Sep 2026 18:01:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788455104; cv=none; b=kEwyBD4a9Gpd+PwmzcrWIlUx0s6afYOfUAWnSt0b01UQVITGyIn443eufEYTEW20euXH5Lc7I36ZhYLr6TLJrPcTpfEN44MPSWF7hpBUM3cEiI1l0uDeVZdsGIY9vaGhhM/SNdUig0zIK3L0ABRmBfZZBgl/jufsTkkMnfOs//E=
+	t=1788458515; cv=none; b=ELkoI0+SHu8XrONBEgBE1/2HgPj1pzhfMpuFkblgV1DhgRbpggQqOW4W2hakMxj7sheyQMg+6Un7p3STBAdilDyKShuA4gQ6oKCsf3TUFEueINcozsZ5O4uX00rO8/09g5zmeO6gVUrdm0GPxgHSDoMt2AHYObNi9HqFUmdIG5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788455104; c=relaxed/simple;
-	bh=GdiaDF7/pVaDnZdmT0wFDgSYTZ5oEoOufJSiwn4IpDY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Til5nGeEI1jfzTQK9WwcJOwVh7l75vhGRzLjQp+SDiI2spZCGXYkt23JM6QRgcOhFdXePzWHs/ob6MRGnKX1UE7Yx0oJtl2q6Xj2hcex0qG44XWOqlVpq6zH6/fQnLiDZrR6Z9DNb75Siun8L41TDgL0aL2MAu+4RJyse/+nxmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kpa0PuKT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788458515; c=relaxed/simple;
+	bh=5A1QYfa6A6TwbHZ40DsvlwxTmcMjlVcOQHbaH73blu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y7eXisAZScVctDOQdtVXSAUS6+gjQJ2oAKk3ET9DFzz24LbRwPx7WAnlB/Cv034Ndh3KrrNkAlQYl9eJwb8/EUBsTTINFuI6Pf2RB+AK0QvSRkvKYeZlFZwNEmY4WTt6Q9xvFh8N7z2a4qDH54lJVYbk3zfPaN2aTuos2dxPPi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LGgqy440; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kpa0PuKT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA1F1F000E9;
-	Thu,  3 Sep 2026 17:04:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LGgqy440"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7551F000E9;
+	Thu,  3 Sep 2026 18:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788455103;
-	bh=PWg9hCOLqFxOrA4F6TdJHIMFdDYu5fIc3xaiM79wORA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Kpa0PuKTgQmLiHG9kdJoZKCepP4pUgtmDC2oADbYk+GTYSUs+YgarBcUcP7s+4XP4
-	 qqKHXCcEtUHLbqb7U2aawCpajPW0ycWyGDUWfGTMju1434BIpbEs8UabeY2zDO/3z5
-	 4/8Tlf/bu7i5mPePS2ZpTUq/938qA5u4mdrTNvKFRRPfCYPiEKchNshfYS5x3Y+Y/p
-	 KLvwyAuFTrjbL3nE3lG4p/clKKlCAKwuQkR1LjKPjG03Ek0gl6mw5zxUGMMIiuQEQk
-	 z6WZ3Wl08HlBH4TGeglIjmKxDmdZyGU123ztGrmB4M8ag5HUkobFXbUp5bobR4KLgL
-	 oZMr+t0nwcSNA==
-From: Vinod Koul <vkoul@kernel.org>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Frank Li <Frank.Li@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Sasha Finkelstein <k@chaosmail.tech>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Joshua Peisach <jpeisach@ubuntu.com>
-In-Reply-To: <20260815-t603x-admac-v4-0-1149e342dcb0@chaosmail.tech>
-References: <20260815-t603x-admac-v4-0-1149e342dcb0@chaosmail.tech>
-Subject: Re: [PATCH v4 0/2] dmaengine: apple-admac: Add support for M3
- generation
-Message-Id: <178845509899.1711546.15996486451264669043.b4-ty@kernel.org>
-Date: Thu, 03 Sep 2026 22:34:58 +0530
+	s=k20260515; t=1788458513;
+	bh=5A1QYfa6A6TwbHZ40DsvlwxTmcMjlVcOQHbaH73blu0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LGgqy440wXjW4z+2ej4u2b4i0GXg+WhbIy3OSPK2T8EnQeTv97lOTo1HBuZExQuau
+	 utxcsrjiFdtV4uH20iMAjhw1GOpdVjC+WYCkI3iTsEEaooKBp5NIopFiAJuhSXzzBW
+	 qhAEGu/OFRIvC/9nxFafESHVsu46agx8gOidMyyQTTtbF8eeHuPV+PaHzyV/rQJWe2
+	 oO28qKDpDKvQL/4fPa+gIxMT90aQMSGuLCqYsbbInWGv+QIhEJu8EiLdZElSx9eVlW
+	 Thvhw+++DDOz+yk1mWOMjTR2XmERgyPfSXGGZ2YjzDyOC38YXiXX1njmx/g4QA/aNz
+	 FPdhl7ut8vxPg==
+Date: Thu, 3 Sep 2026 19:01:49 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: iommu: dart: Support specifying the
+ DMA aperture
+Message-ID: <20260903-uptight-lifter-fa7519487839@spud>
+References: <20260902-iommu-apple-dart-aperture-v3-0-252ce55b7001@jannau.net>
+ <20260902-iommu-apple-dart-aperture-v3-1-252ce55b7001@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="P9Nxr44pFcdtpVBU"
+Content-Disposition: inline
+In-Reply-To: <20260902-iommu-apple-dart-aperture-v3-1-252ce55b7001@jannau.net>
 
+--P9Nxr44pFcdtpVBU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 15 Aug 2026 12:41:37 +0200, Sasha Finkelstein wrote:
-> The ADMACs present in M3 series devices (t8122 and t603x SoCs) need
-> additional register writes in order to function correctly. Add a new
-> compatible chain for those, and change the driver to do the write.
-> 
-> To simplify the merge strategy, the device tree entries will be sent
-> in a future patch series.
-> 
-> [...]
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Applied, thanks!
+--P9Nxr44pFcdtpVBU
+Content-Type: application/pgp-signature; name=signature.asc
 
-[1/2] dt-bindings: dma: apple,admac: Add M3 generation ADMACs
-      commit: b16c2ef38cc45fa73a68aefa769c0139f6a53006
-[2/2] dmaengine: apple-admac: Add M3 generation ADMACs
-      commit: 40c92b5df91f5b4a7bf562a6829f044f1a748375
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
--- 
-~Vinod
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCapm2DQAKCRB4tDGHoIJi
+0uC4AQDQIi8jH2g1PVdYyk/QAhScZWhhLt/8d1AAueQhbMe9zQEAzmP/bNMIrhWH
+QzUpM1skvbDONjwjgUjC3gF28M/4qw4=
+=gvlv
+-----END PGP SIGNATURE-----
 
-
+--P9Nxr44pFcdtpVBU--
