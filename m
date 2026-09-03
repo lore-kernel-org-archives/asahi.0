@@ -1,149 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CFD4AF9DE;
-	Thu,  3 Sep 2026 13:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8324B1483
+	for <asahi@lists.linux.dev>; Thu,  3 Sep 2026 13:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788441945; cv=none; b=mOuMj9krbzI8+HaJdOdt7YhJDNsCoDvWpxG3rYJ6AX41BoXLjhhoeGwBB0jfPJyokQpoyIodfWJabyTdoDGicKkfT2+JSP3dkxEyrhZYbuikC339igiq86fr2258E8LTtU/YPFWp3oZ4UotFgM6LBTnkW9Z3aGdn+k+D2Lnx84c=
+	t=1788443984; cv=none; b=sr/tISojsec9pwMc1YcDjvNtOr+tweHLRkbDUUeWn7jJ4EF6tMr/bMr49IwHqrX575Zb4QUg6G/7x++6e4onq1Oh7s03nErIT6o7Q0d+jWiQwBn3C+Y7435T/Q83etuTi3c0MsfsOl7SCdvmM3SWtj7CWfEYXhJRRjM0YswtdFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788441945; c=relaxed/simple;
-	bh=fI1v58DiUDTvYzcFsqOyVQnztgwmpPxTGP5ugtuKTVY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=sPR/lwecBddDzKVQHeHJgVofE4YQ27j8X4sq6jnaj3llbPl1FaHxFM/0aH02oOMQ2i82lW6bSxsTSgXVDnVaL+2PEE1GLUZiHf7SCuyhCMX5p9cE25HFEr9cwJtsV3HwSgST6oAloik5Vh1Svc0bK1EUMXOVtzZLE0Asuv+C7BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAScSK95; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788443984; c=relaxed/simple;
+	bh=I8Gyi+isa/p1O2wNWeROvhfqx8xw+u0txi6tLoZTgaQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DPGl4q+rnSK2tIdCziE/TURmxo0uSPr7OKj5Mk39mmgLYb4pySpzFvS1UH1tdQsoL2SjuMvomDo17pTSpfwmb7bO/Ksw0BhKDkM5ti4hGtB3LGxvo/Yfa54fKX5YXreJfV62R9AN732fZ0/zVpG7SsuY1ovuXDjd12O6wfl4QAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=fBVcwxLD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pRp4FOBz; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAScSK95"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BF701F00AC4;
-	Thu,  3 Sep 2026 13:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788441930;
-	bh=1azHr/pFB85CwC7zH3lRMPgTlUgrQQX8vJrLWV7gSGU=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=iAScSK95bfJe+nKYfXcOiKnM4KisHtUhGA+EturTjomDTIr4BnzSTRK8OrKh7rQZa
-	 +qNnkB8/KnXPk4a3UpOfEzbTV2lL+LVfGkoB9D/avwcXIBmI5bnKSgB/Tocb/4q4NX
-	 /EwvjO5Dzmi4vA4kfKHkv3atdg4JsxQWSvxLImqzRVBBGV1s2myp8FGlKc5OPkxEjr
-	 qoe2V+4QHK10sVjGdfXb7Tnjaufa31M28N6/Cn1CGBDbrlsvb/UxwSso2CQ1Ljvksg
-	 JP6u7ziLCN86hAb3w98fdqocurNPVLmnjDZQjrViTpksRD2PIeGWWzt1rx1Ow+wmL+
-	 HI9Oad3TBBO0g==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id A95751980054;
-	Thu,  3 Sep 2026 09:25:27 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Thu, 03 Sep 2026 09:25:27 -0400
-X-ME-Sender: <xms:RHWZavYfB9IcqusGjjKg9YIjxTlGMDDVrZvksuer_zpwFsHeyaTzMQ>
-    <xme:RHWZapNzFnoX2Q_vFyeWpTgHR63mSfzpYfEI8YU1p1B9UyyqCtKPM3A_2ClDO_hGf
-    l15SZ62eBgDJHQ5GzSqmVtvmhiNm3uToZuJfS4eUM-it5ZAXI3MEmNE>
-X-ME-Proxy-Cause: dmFkZTEBFahIaOgOchPvaJwkXi7OrDv/Fnn0kYaKRFOEQRaWDfkT+vLtdbOL8paoS8OOHH
-    K5JclVIP75Um7tw21sHpu+ivQkbbHsI9NinbZp2VtxElur3ErbPWsd6GhM5viQMbvfjg+A
-    0XA5KuxNYyJUpb3RQMWjV9dfEbe7zol+JOpzrfHexm/Zy8IMysnQ3g8NCXY3aBUMyTlH8Q
-    2hHgvvWDRqoe1QAV1OHtiEtJreU+h+Ei6lPFEuruNeGyrouHtVol380KIeytBS08KTdbcG
-    eTRvwCZXSYmlUrz/ZhWxvNyCaPPXouWq5siTiP7ZtiK9NrhcKLq+g7VGX9CXhLRQAZgdrN
-    SksStJUoSUqOHF01TnOJeBjyug63zIvag1oGTCTXpZNrIu+sDDXZhKpj/XMg6QrHLfqcNk
-    1dzRN0rwUXSm4CQXQ8xbwhs6hbwM2Y5OZ61HUEaP8ZZqbE++tDYWO0U/ws3fN4vf9L/0IG
-    DGM502U78C15At/aU9FhO5tDI7eQW+2hAJjkZWxty2R6i/ODgDtgee0PsW8SnNTcm1QHzg
-    hurkRkTMCkNKqNC3n0hsHopDmQI5V7LDIFVxRWYvQ1KMrdvmRS/NsVFFL3RkYnzFXKYlAd
-    0cIV1/ixTMoY05S07kcAgmRv81f+iTKXId23IsEE53rjXVTmjxECGtRCd7MA
-X-ME-Proxy: <xmx:R3WZanwLas00yLMNlYOuic2WR4zFwZzmBuwtPUx2G-dtfVTJJ9bCYg>
-    <xmx:R3WZap8kbv0kRlsByFuEDBcQwUm-SQy43hkfLRp6CceCgdmauGLPDQ>
-    <xmx:R3WZan8kII6MPPoPwX_T-ZQT1cRBfC528oFpLUqi9lbpvMmk5RqqBQ>
-    <xmx:R3WZasc_tsgnbDREW1sS2PsNW3bpJqfMruw51VLAwCTvKgCAngPrkg>
-    <xmx:R3WZajsR-dqZDeJSqnSl5cvXn04GCZ9y20d62gSDhBDPvnzwNO3qvdBg>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id AC653F8007A; Thu,  3 Sep 2026 09:25:24 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="fBVcwxLD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pRp4FOBz"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id CEC80EC035E;
+	Thu,  3 Sep 2026 09:59:34 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Thu, 03 Sep 2026 09:59:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1788443974; x=1788530374; bh=Dt
+	TW1L9CteYH31Afl0XmISOi/CVI+FNzcOwRvC8l1k0=; b=fBVcwxLDlK5CO5P5iS
+	A2jvf/ucOLhZQ3UMEJvIbL98vDmxIIP7RxkbBia42vL3OFrj/aiC2zI9wbH8YCpf
+	GUjxdBNXVEUbSwDYw8Ec5cgXfuXNrYofQEcTkELYk80c62vOOupCxa8+EhFvGgRX
+	jkKqGO4UiG2irKSZGmj0oe/XWGt7GCNQmDMpVdelSh/bUBaBZC8P1LeEQYiGj12g
+	2NytmVBs5Xow3SKrLwmWKNP9nYGnN2FyBjlPEjSXKwzpyDS4aG6sKYBNUVBVpBqq
+	NZjIqt43AU8Lpg7CJ76CCIhBQa4hWKSnWJ2hnFFbaU/wsdcWoZ4uJe7rX39cdCiI
+	i5rg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1788443974; x=1788530374; bh=DtTW1L9CteYH31Afl0XmISOi/CVI
+	+FNzcOwRvC8l1k0=; b=pRp4FOBzSHxr23+Mc59tQff6FHBmFntR3EgqKZSv/XOl
+	T9kZ3VaqqWkL0mE3z36gChEADWWwhiGzkrE0ZA0ePQYHTLBwKonImkFNhTG36hm+
+	9r0iEZ0X+FvlslfV9ewbx42pM8av9Th1Q7GTeJox4UEGkvdzyeHMBK5mgn4eo5lC
+	6U11WhwWPgQSyRS61EB8ZVLEMA/tY3mxxqSnLfPzoQBMeg2lX67OFONrzL0cH4tl
+	+3k1w1s6zH+BHBdrT2MASzRHAuo5yppEQtbZGdEfipGK/hkFMRqKUXdDBR6jMq65
+	eYg50/3wom2O/3mklg3BIzp1KxC894qKu1wVA4oyAA==
+X-ME-Sender: <xms:Rn2ZagW3OPgjvxuwSgCXMsCHmoUagTBEdfyv9E-4t8-Z9_4N0X0Zhw>
+    <xme:Rn2ZagbWYXDMbC1Y7XYlY19W5P8fV4ZnpFdqL8V9rjaavJdAGYncpnXslqjhgEXHk
+    pJEESuehANyxJ2eZW9Sdo7lqbnyGg8s2jonZBDZjl13c_IHo0Y6ZUB9>
+X-ME-Received: <xmr:Rn2Zavy9ygk5xxqxr0TZEJh4GckgR8n4_UXemMGtuBMncltZFiQ0uYM0FmcYEWpiAIuxICuzZMyRFDKp9bYNcTusmVkbW9KH8dLK2Q>
+X-ME-Proxy-Cause: dmFkZTGzA2xEus0Ux9NLq2ASgukLUme45vhECBV0qD4rY9LY6YMcVHp+TmAWmzJEYZPlqE
+    /Bj2TASFACbeo4vHchm0M1fcb6ISBLnjUCtTM0/dbphHSSA7Ei9/0xo8RJoESuKHGYcrmL
+    jhd3iPrgMhqerCqFXiKSO2EVgL72BaApgAQ/cWISRsqHEV7QkVc3wB9kJ+bZzJHUub1JTz
+    smDC1gS1Xg4PMpMxw1XVj2u/qYApAg/pMnr/4dqMjhJ1vGXTxkyj2+UzyeMMX+mUe6FvN4
+    XLTViPbw2UTeWgp+1Lv3NhL9N7G4HEtziybuIcIi3n+IUYYf0T/NekBvltfrq2y4BCT0ZB
+    vTJLFk954C/TRrp0Bw2QPcXxywnoEiBv3/bgws0LVCkZu67dFazBgVnMSx3oegrZTTgYYv
+    9E0GqAlJQkTxewWIY2dq119SOBYCx9K7f+DU37bXYDPqAdFNGu29pB6p8Qmfq+TG3erKok
+    +kiRywlv0+jItuGRteGK4hGMjloRlxkhwPz9hqfgKwii8pDi/UYPbu3Py7PGIW+5BiIid2
+    UrOuzBCuZi9D5qa397kybCTNDTMV5vZk8d6zCQIkGfolEXDWtMflEZyyC2MroGiaNztFpF
+    ck3XZuRNI37bbaZ/Dkm0bH9+V1u6JI2gNf3U5wLQ7kzmeWafqWYKECNnGtCg
+X-ME-Proxy: <xmx:Rn2Zao2JATHnXi-2t8_87SGLyG24iwxOirgly6CA-rIxFwe_S9QceQ>
+    <xmx:Rn2ZaonVwpntQAax7ZGPtnawEKcSa_xkJsMJoSBdCN7g6Ng5HOc9SQ>
+    <xmx:Rn2Zav_SGFcKgjfonsB9Sgh2odQ13zDMDBjbCVEiacQawB1cc2LpUQ>
+    <xmx:Rn2ZamL-z9G-ur3mYQmvAUzUR5uttBwx8WFKJfhblouDwjp5z2y-lg>
+    <xmx:Rn2ZaqShLOWRsL1QkEe61awT9EAW8WfVEySO_5Bx8DgW9y9pygsgsprK>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Sep 2026 09:59:33 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH 0/3] Fix dt-style-check issues in Apple silicon multi die
+ .dtsi
+Date: Thu, 03 Sep 2026 15:59:31 +0200
+Message-Id: <20260903-apple-soc-multi-die-style-v1-0-eeb05ea0c187@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 03 Sep 2026 15:25:04 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Will Deacon" <will@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>
-Cc: "Sven Peter" <sven@kernel.org>,
- "Lorenzo Pieralisi" <lpieralisi@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Sudeep Holla" <sudeep.holla@kernel.org>, "Janne Grunau" <j@jannau.net>,
- "Neal Gompa" <neal@gompa.dev>, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-efi@vger.kernel.org, asahi@lists.linux.dev
-Message-Id: <eb75b82a-8910-4198-b89a-5c8b487c0fd5@app.fastmail.com>
-In-Reply-To: <aplk2hHRB7Yw9FWW@willie-the-truck>
-References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
- <9c53cfd7-e193-4441-83ca-7710060225b7@app.fastmail.com>
- <apldL6Ml91GW-tE9@J2N7QTR9R3.cambridge.arm.com>
- <aplk2hHRB7Yw9FWW@willie-the-truck>
-Subject: Re: [PATCH RFC 0/6] PSCI-via-EFI to support firmware and kernel sharing EL2
- for Apple Silicon
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MywqEMAyF4VeRrA20AYvOqwwutKYa8FJaZ1DEd
+ ze4/H4454LMSTjDp7gg8V+ybKvClgX4qVtHRhnUQIacaYzFLsaZMW8el9+8Cw6i2k9tjqqeqLY
+ huBp0HxMHOd7vb3vfDxMxJ8JrAAAA
+X-Change-ID: 20260901-apple-soc-multi-die-style-625b2281ff68
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>, Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1831; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=I8Gyi+isa/p1O2wNWeROvhfqx8xw+u0txi6tLoZTgaQ=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqyZtc6XQ+WE49WcGjYdWrjtRWVPRp5ug+acYJ1rlWu39
+ WbeD0nsKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMBGxDob/vv/VXxhk367eVLjy
+ k5DFY6Uj77x2pWuzv73eZp95eovJG4b/PopeW3RfOid1C52qOhoQd7Z70YY7ipuWTL3Zcj/50kt
+ lZgA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-On Thu, 3 Sep 2026, at 14:15, Will Deacon wrote:
-> On Thu, Sep 03, 2026 at 12:42:39PM +0100, Mark Rutland wrote:
->> On Thu, Sep 03, 2026 at 01:34:56PM +0200, Ard Biesheuvel wrote:
->> > On Wed, 8 Jul 2026, at 09:15, Sven Peter wrote:
->> > > This series adds a custom EFI table that points to a PSCI entry point
->> > > (plus some other stuff that has to be available before EFI runtime
->> > > services are set up) and adds support for this new conduit to the psci
->> > > code. We can't directly use the normal EFI runtime path because that one
->> > > takes a sleeping lock and we need to be able to call into PSCI from
->> > > atomic context during e.g. cpu bringup or during idle.
->> > > It also adds support for specifying the specific MAIR attributes for EFI
->> > > runtime mappings as defined in the latest UEFI spec since Apple Silicon
->> > > is rather allergic to using Device-nGnRnE vs. Device-nGnRE for its MMIO.
->> 
->> > >       dt-bindings: arm: psci: Add EFI conduit
->> > >       arm64/efi: Add and parse custom PSCI EFI configuration table
->> > >       efi: Add EFI_MEMORY_ISA_{MASK,VALID}
->> > >       arm64/efi: Honor EFI_MEMORY_ISA_MASK for Device-nGnRnE vs -nGnRE
->> > >       firmware/psci: Add EFI runtime conduit
->> > >       arm64: dts: apple: t8103: Add PSCI and CPU idle states
->> > >
->> > 
->> > I've picked up patches #3 and #4, which are useful in their own right.
->> > 
->> > I'm not sure if the arm64 maintainers will want to consider this, but
->> > I think it's a reasonable compromise, as it puts the abstraction in
->> > the right place.
->> 
->> Sorry for the late reply; I've been away almost all of August and I'm
->> slowly catching up on things.
->> 
->> As with last time this was proposed (in abstract), I am not happy about
->> bodging an EFI conduit into PSCI, given that the manner in which state
->> is managed is completely different from SMCCC.
->> 
->> If we need a mechanism for doing hotplug and/or idle without HVC/SMC,
->> that's one thing we can consider. I don't think we should pretend that
->> it is PSCI.
->
-> What do you have in mind for an alternative mechanism? I understand your
-> objection to this proposal, but at least it keeps the interface fairly
-> high-level and avoids opening the flood gates for a bunch of SoC-specific
-> idle routines. Are you thinking of extensions to the PSCI spec or
-> something else?
->
+The MMIO nodes in t60{0x,2x,31}-{die0,dieX,nvme}.dtsi are indented by
+one level to signify that included at this level. This looks weird by
+itself and dt-style-check comaplains about it. This can be fixed by
+moving the referenced soc nodes into these .dtsi files. Since the parent
+soc node varies add a preprocessor define for them. The multi die .dtsi
+files already depend on the preprocessor. Suggested by Krzysztof
+Kozlowski in [1].
 
-I can't speak for Mark, of course, but I could imagine EFI being used as a
-conduit to provide a callable set of interfaces (with a rigorously defined
-set of constraints such as the ones in this patch, i.e., reentrancy, no FP
-or SIMD, not relying on ISA features that the OS needs to know about and
-enable, etc).
+1: https://lore.kernel.org/asahi/e2365307-32d6-4ef9-9919-55ba69786741@kernel.org/
 
-There is prior art here in ACPI PRM, which does something similar, and this
-also relies on EFI runtime services.
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Janne Grunau (3):
+      arm64: dts: apple: Fix style issues for t600x multi die .dtsi
+      arm64: dts: apple: Fix style issues for t602x multi die .dtsi
+      arm64: dts: apple: Fix style issues for t6031 multi die .dtsi
 
-You'd still need to implement the CPU ops and a cpuidle driver afaict (no
-expert here), but at least those would be coded against an interface that
-the kernel itself specified, and can be made as generic as we choose to.
+ arch/arm64/boot/dts/apple/t6001.dtsi      | 11 +++++------
+ arch/arm64/boot/dts/apple/t6002.dtsi      | 18 ++++++++----------
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi |  3 ++-
+ arch/arm64/boot/dts/apple/t600x-dieX.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t600x-nvme.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t6021.dtsi      | 10 ++++------
+ arch/arm64/boot/dts/apple/t6022.dtsi      | 18 ++++++++----------
+ arch/arm64/boot/dts/apple/t602x-die0.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t602x-dieX.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t602x-nvme.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t6031-die0.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t6031-dieX.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t6031.dtsi      |  9 ++++-----
+ arch/arm64/boot/dts/apple/t6032.dtsi      | 16 +++++++---------
+ 14 files changed, 52 insertions(+), 47 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260901-apple-soc-multi-die-style-625b2281ff68
 
-Not saying this is all great, but it might be a worthwhile compromise to
-consider.
-
-
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
