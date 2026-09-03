@@ -1,222 +1,142 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DEC44B2030
-	for <asahi@lists.linux.dev>; Thu,  3 Sep 2026 13:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06161348C6E;
+	Thu,  3 Sep 2026 16:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788443999; cv=none; b=o3E/XT+6Vg4wUUi8BCWAfYYKEF0X6LlnHr26448WXWpYoyMgFmXF/qWdf0teYnUuQQHWEbKa2pQkrfyLrMMl70l74EGY8TKiJO/qoYkgBGCNYM6andBFoYCl/eNmHiqyQOJgFBRJWVwf0JYIaJlOr72UlLTtLxoGN9DEMED7hwE=
+	t=1788452785; cv=none; b=gGGzKn6P7MClAEcEvBXF+2oyOEgiVqr4V8Hj1hcIm4dGzEdhZXoQHLQPAlU5kr5Wj/mVmyGKB2tbNapyNXLzuUvOnAkXWlHKrPsqquErMhUNmx066StSDzvtbckn9ncD79o1o/tKL9hzoOEEHUYd6UWCmN8eWN52XxCEbdBxdK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788443999; c=relaxed/simple;
-	bh=Jmv8TOkTNNbuZrKlY6isB4PxsULVGUqZEwDiBEXAa0Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rS34Pzl2wndvBNGaIxAidHUeZEC2Y7o20IUnQzuztcacc0HIm20L+BLHlSmzCuYgZHsG/A4JevMo3JbaPJihUILVqPxtdMD7ypmQUOLm+tr7F+iFXjzLGzO9HiEwD0E4S7OIG6+sAFMBReeqM2R43cDuYDPz7sPu38+RUhvVIuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=JRt7SxMu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lgiPQG2g; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1788452785; c=relaxed/simple;
+	bh=FTN85+wh6Pdn0k0De7Y3v0wgVKMDrH7hi/h5YG7U70A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ltUGxtXgUM1bN13f2ylaO/HwN7ey7kdWQ6EvKaz6d9ZNrtZYCstKxzXVLNVDPCDtwFs3m8PM1xvsDm/JDoE7IrRYxTGpZZMv9HgaJOoV3haAXFbebVMecr9ogj07FW37qkYnPOuVbgW1S0WdIOI4Bn9hEJOy36PN/85XAMFcWXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BesfQ5/m; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="JRt7SxMu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lgiPQG2g"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id 9C4D1EC0326;
-	Thu,  3 Sep 2026 09:59:40 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Thu, 03 Sep 2026 09:59:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1788443980;
-	 x=1788530380; bh=ZIy2jDUjDSAzq3rl2IQj+FVKtP8cUbBzF4JE8HwUg7I=; b=
-	JRt7SxMuq9IczuoFLeKnV+xmCBKqTyM4Eah5p+CAQI+7ebBIyALZU3f9OzRbgxmW
-	TgIqLCT/JAbageB9wCj1rN+vXLzi2EmKT1DZCQ2DcvmvVHo9K/FV+gxU/NSFFIEK
-	glOGM96fXaMlR6vPfmmX+dyBA1l2KOSWKNZ8+DOneWXq1azlJvQIEME+UgbucONd
-	U4//7F1MPbROzKqsEjm2cQUS/lTYJxCoQvVf+1H0SCimZEnfAzp1ddNIWjwreYUB
-	jPcpIYXCSBgtihEM5Hvd7EGmH2JuDrn7D2ms8/qG3HZhAjmUNNJ4gh7OwBUTZXr9
-	mD8sxpqTuCppZWXNLiMpxg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788443980; x=
-	1788530380; bh=ZIy2jDUjDSAzq3rl2IQj+FVKtP8cUbBzF4JE8HwUg7I=; b=l
-	giPQG2gYSRNfnkzfUE55GdNC7fCRhfAUNU8krzdp11eIPWNhoXqYII26c0NhLIHd
-	S9g0KX8Y9v29PKkoUEwTQh6HC7yqQarphzkUxl4uX/4ETYzkiGOM0HcqwM+yI2z2
-	6lepwIW960h1LSWAZG2W+445y6mgC6WeHT90UAulqGfP5rrE/bqk9mY8a8Nx9bHK
-	+Pgvnod2rIM+ilBWwu0aCfm3LO0OnbeAlpAd/GOYKC9gGQ43AOAb045ZlWcQja83
-	2G9kP43Nn+yoMrAKLvgJm8pzYme18TeysgeAne/edgj3k/SnyXm1HTRtY8oyAJHn
-	6aHqs3ECCWiNmoZyXhjMw==
-X-ME-Sender: <xms:TH2ZatLfEXgnSKNYRO3QLjfmwj2DMIrnlktiq5NzVL19Uzdtt-YN_Q>
-    <xme:TH2Zak9jfF2Ks5ESXjcEEeYs1JHy3sRQKCbDwzAkIHSr3YRFqp2deJ6EYVuJZ6QA5
-    Y50YyXqdz4jNwBzIvvlapdGN_TZllotKu8zzc0EiAZ56idbXwHFiQE>
-X-ME-Received: <xmr:TH2ZahF8VGYF9gTKy2ukh9gq2lofd_xhF4J17BaZ1ba32cie1aKArTXR42APu4_mkEU8KhGlnHod0V5ch8tu8ZoBKWb_0UDQE-yZsA>
-X-ME-Proxy-Cause: dmFkZTFcpYBTRCFgODwx4IUPoR4bJaChIXKsH3afFh2Xpvizaclb5S80INlpKeKv9BXFDq
-    yMiKsUELK0YRBY2/3hc4KHy6MZ7+ukA8Bsji12NtSMlKDu7omlMWGJILS+nkqBsvx4lAvX
-    QyL6tx71DnbrVejTwb9SC1ubmR5U6JByW6CfEDlo5jadjY6i6Asq9X+Pj0CgCbJDQuypY+
-    dE2XudzWCIm/XbuPUNuGXbDz+EMs3E4DYPNedwhjdwXk78b9ptrdC+i1jlA8pr/NGncTN1
-    Fmj24k3fFvYxIY4xYrFU6RuwbZ1Q1Kr2Zwb7/7NQQ6F8bGvEw5bv2yW+tAOyzVRvKJw7MQ
-    JgliSoBGNOj8OaDuwrWKLIWgn9PU6KGMwRfyAyyUPEpyqobqqna3OofwsXCx7PyjHEMlvU
-    K/KCPviyFDP1VEqU/NEB796y39PwPQBjsJU834XVlQ3YnDiEpjy/CJAjd55seZ7+obO8HI
-    QgCBZsVJFNvLHhsF5rKmkWy3y8HHO03qaHeJW+CKARmskBlW6rtp9fup8i9dM47oIe5IXq
-    K4KTMGSrEMsUBWiSWgZoR17uL/rPNOwVtM2WrqWSLHsIZN84mibSNl+/PXlJ9U9be7l7Ps
-    hCMoNvSMD/hZg2DO+9JDMm4CRtKgPzMRUn62Zu0NH1kEiiGdK+v0Pwqn/yDA
-X-ME-Proxy: <xmx:TH2Zan5WyskQLzDGKiZDOfwY8wPF4bRnd9K4PD3wVx8hFbfew7ObyQ>
-    <xmx:TH2ZaiaejvvVWyK-x0-_lKpnT-aTFBPeVWJ8PWJ9ILnqeOdf5yzhkA>
-    <xmx:TH2ZathL1iewcbjcCgqYyDi_oZTfK-IZD8IGQdigZPiZ6gmtJuwZoQ>
-    <xmx:TH2ZasdoG4OZl6Z_5v2mZMnr7E67kByvhTe2wqDv3REV2KpZvfEZLA>
-    <xmx:TH2ZajWRgApIX3SW53mXvGJWbumIG_oTLW3Na1ZKMK2ULjM-ox17pI4w>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Sep 2026 09:59:40 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Thu, 03 Sep 2026 15:59:34 +0200
-Subject: [PATCH 3/3] arm64: dts: apple: Fix style issues for t6031 multi
- die .dtsi
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BesfQ5/m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 269911F000E9;
+	Thu,  3 Sep 2026 16:26:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788452783;
+	bh=Yklku70u8AEdfLgrIe06VUjsn48xfAtvDjV3kRMaOPc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BesfQ5/mUpvGx3f+5eEtnewfGkXq60IW2E7K8lGAqDntWpvphQ+1dpFUL1T4N7ZLw
+	 WtmmxSkCKv5vuExm2oFDDjhbgBaBFNGh8Msdb9AwAAl6dz9CNM8wmycJpaCFB2CohK
+	 B9/N5m+Ti5EigTEERBbSnH9jqMuwM82/6d7qcxDuUDX9eYOudRJIPzU2c8SVwel+2D
+	 0phIgmgO88ljgkKMm2xbXd2DkKS2ROPqORhMlx6xfgUn0q4pAIcNQqWpIEi79K4n1R
+	 X/nXhmP9qwHJllhWSBTSTUvREa+Coq8wP6pWSCp8iSybho7RIquD9R2XYNbEJ22Ktm
+	 5zU3fmtRl8eDw==
+Message-ID: <acdf2acc-a1a7-4a02-8924-4605e0d929b0@kernel.org>
+Date: Thu, 3 Sep 2026 18:26:18 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/6] PSCI-via-EFI to support firmware and kernel
+ sharing EL2 for Apple Silicon
+To: Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sudeep Holla <sudeep.holla@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
+ <9c53cfd7-e193-4441-83ca-7710060225b7@app.fastmail.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <9c53cfd7-e193-4441-83ca-7710060225b7@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260903-apple-soc-multi-die-style-v1-3-eeb05ea0c187@jannau.net>
-References: <20260903-apple-soc-multi-die-style-v1-0-eeb05ea0c187@jannau.net>
-In-Reply-To: <20260903-apple-soc-multi-die-style-v1-0-eeb05ea0c187@jannau.net>
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Janne Grunau <j@jannau.net>, Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3433; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=Jmv8TOkTNNbuZrKlY6isB4PxsULVGUqZEwDiBEXAa0Y=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqyZtS6Ts/3eXwiuW+f5VPSabnLUmeyCHTVuMzd6qYUe4
- deauqi3o5SFQYyLQVZMkSVJ+2UHw+oaxZjaB2Ewc1iZQIYwcHEKwEROv2Fk2PbGYkf9mrcyhwy3
- sH1y2F8rfF7q+6bFkhv67jKY/KyKVGP473pK5JcEv5/phNS9DDUZZdH7RXVFd4aJRcmtja7yt1n
- OBQA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-The M3 Max/Ultra .dtsi files containing most MMIO nodes are a collection
-of nodes without parent. The proper embedding inside a "simple-bus"
-parent only happens in t6031.dtsi and t6032.dtsi.
-Fix these dt style issue by using a define for their parent soc node and
-bracket those MMIO nodes inside it.
+Hi Ard,
 
-Link: https://lore.kernel.org/asahi/e2365307-32d6-4ef9-9919-55ba69786741@kernel.org/
-Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- arch/arm64/boot/dts/apple/t6031-die0.dtsi |  2 ++
- arch/arm64/boot/dts/apple/t6031-dieX.dtsi |  2 ++
- arch/arm64/boot/dts/apple/t6031.dtsi      |  9 ++++-----
- arch/arm64/boot/dts/apple/t6032.dtsi      | 16 +++++++---------
- 4 files changed, 15 insertions(+), 14 deletions(-)
+On 03.09.26 13:34, Ard Biesheuvel wrote:
+> Hi Sven,
+> 
+> On Wed, 8 Jul 2026, at 09:15, Sven Peter wrote:
+>> Hi,
+>>
+>> Usually, idle and sleep state are implemented in firmware running in
+>> e.g. EL3 with the kernel trapping into that from EL2. Unfortunately,
+>> there's no EL3 on Apple Silicon machines and we'd rather not run the
+>> kernel in EL1 since this would result in losing KVM support.
+>>
+>> While the shallower states could be implemented inside a custom cpuidle
+>> driver (like we do downstream, see [1]) the deeper states result in a
+>> complete loss of state and require bootstraping the cores again which is
+>> quite involved. So instead we need some way to call back into our
+>> open-source firmware to be able to handle that. This is even more
+>> important for M4+ which don't even support the architectural wfi anymore
+>> and always lose state when that instruction is executed.
+>>
+>> Luckily, EFI runtime services provide much of scaffolding we need,
+>> namely a way to keep some code and data mapped and the ability to jump
+>> into there from inside the kernel.
+>>
+>> This series adds a custom EFI table that points to a PSCI entry point
+>> (plus some other stuff that has to be available before EFI runtime
+>> services are set up) and adds support for this new conduit to the psci
+>> code. We can't directly use the normal EFI runtime path because that one
+>> takes a sleeping lock and we need to be able to call into PSCI from
+>> atomic context during e.g. cpu bringup or during idle.
+>> It also adds support for specifying the specific MAIR attributes for EFI
+>> runtime mappings as defined in the latest UEFI spec since Apple Silicon
+>> is rather allergic to using Device-nGnRnE vs. Device-nGnRE for its MMIO.
+>>
+>> This all results in a surprisingly small diffstat. I believe this
+>> approach was originally suggested in some IRC discussion years ago,
+>> possibly by Ard, but I can't find the old logs anymore.
+>> Happy to add a Suggested-by tag though if anyone remembers.
+>>
+>> The firmware implementation I used for testing can be found at [2] and
+>> the full kernel tree with this series applied at [3].
+>>
+>> Best,
+>>
+>> Sven
+>>
+>> [1]
+>> https://github.com/AsahiLinux/linux/blob/asahi/drivers/cpuidle/cpuidle-apple.c
+>> [2] https://github.com/AsahiLinux/m1n1/tree/psci-via-efi
+>> [3]
+>> https://git.kernel.org/pub/scm/linux/kernel/git/sven/linux.git/log/?h=efi-psci
+>>
+>> Signed-off-by: Sven Peter <sven@kernel.org>
+>> ---
+>> Sven Peter (6):
+>>        dt-bindings: arm: psci: Add EFI conduit
+>>        arm64/efi: Add and parse custom PSCI EFI configuration table
+>>        efi: Add EFI_MEMORY_ISA_{MASK,VALID}
+>>        arm64/efi: Honor EFI_MEMORY_ISA_MASK for Device-nGnRnE vs -nGnRE
+>>        firmware/psci: Add EFI runtime conduit
+>>        arm64: dts: apple: t8103: Add PSCI and CPU idle states
+>>
+> 
+> I've picked up patches #3 and #4, which are useful in their own right.
 
-diff --git a/arch/arm64/boot/dts/apple/t6031-die0.dtsi b/arch/arm64/boot/dts/apple/t6031-die0.dtsi
-index 47d08672a047..cffab6b51d12 100644
---- a/arch/arm64/boot/dts/apple/t6031-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6031-die0.dtsi
-@@ -6,6 +6,7 @@
-  * Copyright The Asahi Linux Contributors
-  */
- 
-+&SOC_NODE {
- 	aic: interrupt-controller@292400000 {
- 		compatible = "apple,t6031-aic3", "apple,t8122-aic3";
- 		#interrupt-cells = <4>;
-@@ -195,3 +196,4 @@ serial0: serial@391200000 {
- 		power-domains = <&ps_uart0>;
- 		status = "disabled";
- 	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6031-dieX.dtsi b/arch/arm64/boot/dts/apple/t6031-dieX.dtsi
-index 2e9d3d2e6dea..524a72f5483e 100644
---- a/arch/arm64/boot/dts/apple/t6031-dieX.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6031-dieX.dtsi
-@@ -6,6 +6,7 @@
-  * Copyright The Asahi Linux Contributors
-  */
- 
-+&SOC_NODE {
- 	DIE_NODE(pmgr): power-management@292280000 {
- 		compatible = "apple,t6031-pmgr", "apple,t8103-pmgr", "syscon", "simple-mfd";
- 		#address-cells = <1>;
-@@ -105,3 +106,4 @@ DIE_NODE(pmgr_gfx): power-management@408e80000 {
- 
- 		reg = <0x4 0x8e80000 0 0x4000>;
- 	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6031.dtsi b/arch/arm64/boot/dts/apple/t6031.dtsi
-index 0059afe9a844..2ba0768c33bc 100644
---- a/arch/arm64/boot/dts/apple/t6031.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6031.dtsi
-@@ -35,14 +35,13 @@ soc: soc {
- 
- #define DIE
- #define DIE_NO 0
-+#define SOC_NODE soc
- 
--&soc {
--	#include "t6031-die0.dtsi"
--	#include "t6031-dieX.dtsi"
--};
--
-+#include "t6031-die0.dtsi"
-+#include "t6031-dieX.dtsi"
- #include "t6031-gpio-pins.dtsi"
- #include "t6031-pmgr.dtsi"
- 
- #undef DIE
- #undef DIE_NO
-+#undef SOC_NODE
-diff --git a/arch/arm64/boot/dts/apple/t6032.dtsi b/arch/arm64/boot/dts/apple/t6032.dtsi
-index bbf19ecdaaec..12171efe8e2e 100644
---- a/arch/arm64/boot/dts/apple/t6032.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6032.dtsi
-@@ -317,31 +317,29 @@ die1: soc@2200000000 {
- 
- #define DIE
- #define DIE_NO 0
-+#define SOC_NODE die0
- 
--&die0 {
--	#include "t6031-die0.dtsi"
--	#include "t6031-dieX.dtsi"
--};
--
-+#include "t6031-die0.dtsi"
-+#include "t6031-dieX.dtsi"
- #include "t6031-pmgr.dtsi"
- #include "t6031-gpio-pins.dtsi"
- 
- #undef DIE
- #undef DIE_NO
-+#undef SOC_NODE
- 
- #define DIE _die1
- #define DIE_NO 1
-+#define SOC_NODE die1
- 
--&die1 {
--	#include "t6031-dieX.dtsi"
--};
--
-+#include "t6031-dieX.dtsi"
- #include "t6031-pmgr.dtsi"
- 
- /delete-node/ &ps_pmp_die1;
- 
- #undef DIE
- #undef DIE_NO
-+#undef SOC_NODE
- 
- /* delete non-present DISP power-states */
- /delete-node/ &ps_disp_cpu;
+thanks, I think i had a fixup for one of those in my local v2. I'll 
+check and send it as a separate patch if it was important.
 
--- 
-2.55.0
+> 
+> I'm not sure if the arm64 maintainers will want to consider this, but
+> I think it's a reasonable compromise, as it puts the abstraction in
+> the right place.
+> 
+> I take it this will be contributed to u-boot if it gets accepted here?
+
+Yeah, that was my plan: First agree on something that can be accepted 
+into the kernel and then work on the rest of the boot chain. The current 
+code in m1n1 that sets up bare bones EFI tables is just a hack to proof 
+this all actually works.
+
+
+Sven
+
 
