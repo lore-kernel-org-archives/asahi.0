@@ -1,32 +1,49 @@
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904BF361956
-	for <asahi@lists.linux.dev>; Fri,  4 Sep 2026 09:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E436949CF45;
+	Fri,  4 Sep 2026 15:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788513228; cv=none; b=hR/3ajPfFwGY9czq8mGtgZmfcgquymF1k5bpg2vvpXgc6lraJ7CxOJ4VGpyR9ZgnCVEtYil/p8RtCkTVS+J7yPC/bwk+SpL/gAB+KE+sTalOmG5gzUHqUZjYxiaXv1l3NQ5AiXd58XqlfJh8GEFVfNWF451/FN6k9hL4OFJMNJM=
+	t=1788534526; cv=none; b=UgBY9VBQkn4KdBl9R4a852TwWVVJamTCL5OyKS3HkQD1yeseXI9/8CFL/vIGFRteNRxMcx4njY5Sn4O83KlUY+jIRdFH8w2dMM+NT7bKnQMBpf9akI2MLqqC7R+rHZTaFWx69VAYL6/n72r0Poh54cfzAdE+TwZst+6pvBe+vMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788513228; c=relaxed/simple;
-	bh=0P9F76FVBx2qhXy71sSOIagKjgFRrK/Pomv0R/cAf+o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JlsoZ+gJ8zqIMu3Wh518IxGjxckVCl7Eoo8Zm94R8wokxTpDPbn6M64djWVLe+z+IbajDjWkm4BP5jrjrmYuJmNGke8e9oRvbpjWvZiF8kPzG3b4w/XbtepfC88izrQIXyMOzs0ukPVcObcvShe8FwJcdEKAox1++RbiJ/JxmzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=WHrPmDgK; arc=none smtp.client-ip=195.39.247.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	s=arc-20240116; t=1788534526; c=relaxed/simple;
+	bh=/Sz84cjM/WkNc7OjvlzlSI/jTOJRmAiB0LFZjsvW2v4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NXxQ2OK6rx1fXtigIZoeMrBNg9KZJ/D9+WbfvF8Xljn7zyOObSq15KUcLhZoOW/5KQ71AZkO2VDZJHLMw5sVYa1C901JZDFyKgPd81HY+INdnQNJbCvptzRt+Px2jlkoct/RnemSywssigWXV3UGlCIOfGu0PV1ByMGQhuiCR7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2lE3+q1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="WHrPmDgK"
-From: Yureka Lilian <yureka@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1788512814;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=xN3oFt0Y2IcujH1DIfbY1diyGBQXYknSa0KCk1kgoTY=;
-	b=WHrPmDgKRLot/ajyWVqGI2TnujNsYmC+yXxif15HSpN61jqKi2Z0yiYpLsvGGwE01Y0jDO
-	Q1XgKDWWv//DucrFXEe4+/a3041XWylvD94ceRA3pD/BTiDzsDqKGziS0Fgh1WFgS+vc3W
-	EdjbjyOqKshI+jjBXlijkA2g+cgLsMI=
-Date: Fri, 04 Sep 2026 11:06:52 +0200
-Subject: [PATCH] tty: serial: samsung: Fix S5L on Apple A18 Pro
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2lE3+q1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 126D21F00A3D;
+	Fri,  4 Sep 2026 15:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788534524;
+	bh=ARvk+jeiMUzyhbYcfXcJvSnOgQhd/AjgGwr4YyE7wU8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=B2lE3+q1t75Z/keg6U27hOdQWvP8u0eogpLupMhpMzoGVnjHx1j+FvSgBJBLHMxvU
+	 1yAWM9S66TtsB9Uo0fNgdOqQXfvtHEuf2Q61vVBofpp2AJSPa5A8DfOyS0tLBy+9tL
+	 6gxfdxgbJ22F7GDTjyyMaErDk4ku3DpvY6Of8pRR5cmk0H4HVRX5FMZJBWJSTsW7tr
+	 WL0p5Kn7roZ7Bq0MCy2dRY/S0SvDbBEjSjnapnCf7uDp9FumgaD5yuOwPOM+tSoyYR
+	 cUkIBHFYt9cCCr4OflYzcY8E5vRikyHsvswoI3Sern0GLuRfpKIERUN6Bw7cKQRYPf
+	 EfhuG+vuvVpOg==
+From: Sven Peter <sven@kernel.org>
+To: Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 0/3] Fix dt-style-check issues in Apple silicon multi die .dtsi
+Date: Fri,  4 Sep 2026 17:08:27 +0200
+Message-ID: <178853445265.30635.15460192495790532545.b4-ty@b4>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260903-apple-soc-multi-die-style-v1-0-eeb05ea0c187@jannau.net>
+References: <20260903-apple-soc-multi-die-style-v1-0-eeb05ea0c187@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -34,62 +51,29 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-apple-s5l-a18-pro-v1-1-4995312062ad@cyberchaos.dev>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTtJWwtBr2JcDPgDYwg0HTUmh
- Ltbdfkt3tvIkBVG52qjjJearkuBP1TUT7KMYL0VU3ChcScXWVKawVbPLL7llFeuh9Ad4SUiCpU
- uZQz6/j0v17/t2d3RP74j2vcPuWaEuXUAAAA=
-X-Change-ID: 20260904-apple-s5l-a18-pro-5f2b3e1a4e4a
-To: Krzysztof Kozlowski <krzk@kernel.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- Yureka Lilian <yureka@cyberchaos.dev>
+Content-Transfer-Encoding: 8bit
 
-The UCON BIT(10) is set on boot on the S5L serials on Apple Silicon Macs
-of all generations and old iPhones [1]. It's unknown what it does
-exactly, but on the MacBook Neo (A18 Pro / T8140 SoC) clearing this bit
-breaks the uart and leads to garbled data in both directions.
-Add it to the APPLE_S5L_UCON_MASK to prevent it being cleared.
+On Thu, 03 Sep 2026 15:59:31 +0200, Janne Grunau wrote:
+> The MMIO nodes in t60{0x,2x,31}-{die0,dieX,nvme}.dtsi are indented by
+> one level to signify that included at this level. This looks weird by
+> itself and dt-style-check comaplains about it. This can be fixed by
+> moving the referenced soc nodes into these .dtsi files. Since the parent
+> soc node varies add a preprocessor define for them. The multi die .dtsi
+> files already depend on the preprocessor. Suggested by Krzysztof
+> Kozlowski in [1].
+> 
+> [...]
 
-Link[1]: https://oftc.catirclogs.org/asahi-dev/2026-07-24#35537011
-Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
----
- include/linux/serial_s3c.h | 3 +++
- 1 file changed, 3 insertions(+)
+Applied to local tree (apple-soc/dt-7.4), thanks!
 
-diff --git a/include/linux/serial_s3c.h b/include/linux/serial_s3c.h
-index f54cb6e23f85..1732bc9240ff 100644
---- a/include/linux/serial_s3c.h
-+++ b/include/linux/serial_s3c.h
-@@ -247,10 +247,12 @@
- 				 S5PV210_UFCON_RXTRIG4)
- 
- #define APPLE_S5L_UCON_RXTO_ENA			9
-+#define APPLE_S5L_UCON_UNK			10
- #define APPLE_S5L_UCON_RXTO_LEGACY_ENA		11
- #define APPLE_S5L_UCON_RXTHRESH_ENA		12
- #define APPLE_S5L_UCON_TXTHRESH_ENA		13
- #define APPLE_S5L_UCON_RXTO_ENA_MSK		BIT(APPLE_S5L_UCON_RXTO_ENA)
-+#define APPLE_S5L_UCON_UNK_MSK			BIT(APPLE_S5L_UCON_UNK)
- #define APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK	BIT(APPLE_S5L_UCON_RXTO_LEGACY_ENA)
- #define APPLE_S5L_UCON_RXTHRESH_ENA_MSK		BIT(APPLE_S5L_UCON_RXTHRESH_ENA)
- #define APPLE_S5L_UCON_TXTHRESH_ENA_MSK		BIT(APPLE_S5L_UCON_TXTHRESH_ENA)
-@@ -259,6 +261,7 @@
- 					 S3C2410_UCON_RXIRQMODE | \
- 					 S3C2410_UCON_RXFIFO_TOI)
- #define APPLE_S5L_UCON_MASK		(APPLE_S5L_UCON_RXTO_ENA_MSK | \
-+					 APPLE_S5L_UCON_UNK_MSK | \
- 					 APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK | \
- 					 APPLE_S5L_UCON_RXTHRESH_ENA_MSK | \
- 					 APPLE_S5L_UCON_TXTHRESH_ENA_MSK)
-
----
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-change-id: 20260904-apple-s5l-a18-pro-5f2b3e1a4e4a
+[1/3] arm64: dts: apple: Fix style issues for t600x multi die .dtsi
+      https://github.com/AsahiLinux/linux/commit/7973168301e4
+[2/3] arm64: dts: apple: Fix style issues for t602x multi die .dtsi
+      https://github.com/AsahiLinux/linux/commit/dc0336fd26c4
+[3/3] arm64: dts: apple: Fix style issues for t6031 multi die .dtsi
+      https://github.com/AsahiLinux/linux/commit/f3f2d38a606e
 
 Best regards,
---  
-Yureka Lilian <yureka@cyberchaos.dev>
+-- 
+Sven Peter <sven@kernel.org>
 
