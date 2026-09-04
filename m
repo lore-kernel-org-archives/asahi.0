@@ -1,76 +1,34 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA70B517BB2
-	for <asahi@lists.linux.dev>; Fri,  4 Sep 2026 19:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FDB3B14B1
+	for <asahi@lists.linux.dev>; Fri,  4 Sep 2026 19:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788549790; cv=none; b=MLn+bKMnsvoo08rzxisI+yWo0EpVo4qEm2ZM+Od0VkA0o/Poj/DULj1JjWmOQ946K0cJMCzab9mty70SRCzzrjtUqml7RwSkPFG/9fb+Aq2ean/R7wwXo4QRseQ1PBQ42Y98hf4UB08oOP6n6qJL1NXc7HYZh+s09PxIOBepafs=
+	t=1788551400; cv=none; b=EROWM5nvzT38KGRNnF+R7wPJ560w7U7zn6Fc6V6wcHvhN8+VOLk9j7VmrR3t2OC3+ABMCW0TZs/+db7abdBpdSV9rV2d/t+GOj09X977fRWKmosDwmS8TnG0f5KyYfHccBSrG3HDKECWXZBL/8cYNcXQKr+VSs4utv+lrgdiSAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788549790; c=relaxed/simple;
-	bh=BDEA6GudxwgaelSOCprdOjpqHWFJeXmM352vY61q+c8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IU9Hlj4qX7JEVJ8ZUIL3iDdbJQFDj7/NUtShOYY11PjjB0audQK/sWw+b5Y640+Nv+ukda/XMJtkHLqnKVhgMbawFYfMOVfYCVQR8aKU5gefy3j9zYhvhVWk9lXtAZ7EXhNilop3SKLEwvMklgW8bG8h0nU6qgI0z4wwDQ6Y/6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=CPBf9+GE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=i1E1/XLk; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1788551400; c=relaxed/simple;
+	bh=vUFojEKSu4nojjRgLmjYvWl3R/nDR5Y5OLHePAnI3/E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=COq5+siYGLFooPak1amI5BEeKvWhmUgWM7z4nKMw/6FV4eJKTj81WAW04+rr0n1p0tU941N3M0MlXvRReyt6GwWwdU9Fn5ceTQPO0iXzDfOAmqgZsc5CPcM71rq+8kAAPZAs8wX/2DO1ZoYwj7N4bKc4V9Z1mFekYP1jWlnSQVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=ns7uE3Cz; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="CPBf9+GE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="i1E1/XLk"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id B98851D000C6;
-	Fri,  4 Sep 2026 15:23:07 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 04 Sep 2026 15:23:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1788549787;
-	 x=1788636187; bh=NgAYkIVz3qqE8Evm69pEQadiQpGzFTgARH7DryhLzks=; b=
-	CPBf9+GE1b79vDZ8fdGbDraxE/4s7lqTd10XiaL6lUavt4hPxmuDefWZK8y4APvz
-	2Fm4h+Lj/NQTxF3LK03GLSdzS3z4FZARnlh0USu4ZD/dKiWcTWp9N8zW9sWSoOHz
-	xwSfL0my7OoYjxssEsdciKpI73hYrtS1HTT8L8JvAu1Ma3jVdFmSs/PFOqFaXw8n
-	H5nPA2TbrS6AlL+hXbAsrpdaVThHkGT06U5XlO+8250PFqGw1VCeCrflCm3KXcAS
-	e8RZpTy9cVrTERYhKSdr4kaB7Tpn+G291bMxmqpn7vQQ20w9qEmtOY8tGx9JeMCs
-	e8fJ7S4GEkww/bwx84lSGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788549787; x=
-	1788636187; bh=NgAYkIVz3qqE8Evm69pEQadiQpGzFTgARH7DryhLzks=; b=i
-	1E1/XLkCsRS+pP4Qvbx9UhGolC9SoQBN1uODBYU+TsLRq7611zXJsWbTwNIiYh1j
-	RTzBLkuefzs3WMcRfTni6RK/GSNMQ6dFXUJOi/wP3oCUmVN7lp5x8VgNm9XUUFb9
-	jSh1bcj/Gq5KBnZ2k6HSyo46RpT1xD8cm5OWKOjX2AV72yNfvA2Ld8ZsGzqfbSvm
-	9rQ/kSVuxvKRFlDYiP0GunPeXwIjjgZx4oaM9AH86R/Thqhw1pPe8tLgbo/cF828
-	s0XdP1qOJDuCp2pYSMsD01hQrMJCvwfQYMLvvAb7LQLj9mrRc0ypEHBvWw6u+ZNz
-	BjDy325hQRsrL/kqKApJw==
-X-ME-Sender: <xms:mxqbagUq5nqRe6y5LXF3Ni3RrLJw68RUlQsXq3JxjJcAiGqiQp0Z3g>
-    <xme:mxqbapgX6T36YreLXaWsx9jo0SuTrE1AGtENaBnm7NzZH8nggj5p4FvvH435Fsl4Y
-    oYwzAnj0TR2UeGf3i0Pn-Y_4FpjCkB0aNf_8CDIAuVF7OUUe8wMQFpH>
-X-ME-Received: <xmr:mxqbaorLEdmPgHaYZiwFrcyBPpdpAEp2ad8p05K8pZgXOF4tFCi_O_I4FOuSZHjAn6bELWZIxm9b-u8gQEMM11equPKV2UbP8LQEYg>
-X-ME-Proxy-Cause: dmFkZTGE5u1UdZxmTiONsLlgAgk1Upsu+uCvGB/VsgdfAX2dMLyJQAWoEyM7Hh0aP5oFp0
-    +loYn89F63ra14QUB1ZnCrimTyLeACWE6DTONQA+wsQVbcFnaXDT2wnltHUtR3uvu0GYXi
-    YJl9eAqqa/NMqYlqY/YUfeocpekeqyKkWcM2a7K+bYiJATu3nX8Sa1ZwiJwlKu8PuPzAN9
-    HjKhSslaBogp3SYq0AZIoRYXLxl3vPW+rxRxTfSwWKWn6HyLfiOSdCO3VKcRZm2xLZNCwb
-    A2N4vuLhQcULsgb+gjoqon+76I9WP6rBq2gDKnQ1OhNWQOrMofW/0K+BXJ+VJnn8JaJmcm
-    S4DC3oQT3IFnCjLgNarx2AICjuU5dfeAZnGRf9QsYVOjsqXI/qIUhGdAAvjnq7zKLGHstg
-    af3ZxhuzeSqxCBWhKI6Xfw+VLBJWEMh8Vdc/54Sd3UD0sKh/8nheP/TyzBavMtSOfY4MBo
-    gRX2MdvL1+zIDE7tJ+c4NzzoKZ0dfZwxayrCDJU1VUiB92GXBcg2ofadUYkCirBL+mQQPB
-    dN6/k/fIRGGnOd2BU6WUi7R7vXa4Diqw7esKM3r8zcDnJ8gP9Lx88iJFP5DO2DozaohBYy
-    3OLLaDjKvSCzAGVHfC3bspe5fEGSb6UdhVB8xnmCayn5A/Y45pkqgRZeJiAQ
-X-ME-Proxy: <xmx:mxqbavFbS8rwk1SMKRprHkgQQp50_DYDDI4zKxKpDJyAxxB3uCjsvw>
-    <xmx:mxqbat6n41-MLepmoe33YUwnkO_7btdGQnpfJnV0umDAKenJeoZ4ZQ>
-    <xmx:mxqbanfUMxlALehd8kwYeYTI6iXz_W4MHUwAOMWOLq8sahOc9kJ_6A>
-    <xmx:mxqbao6ZTs80AWmnbOGeqf07-RWkJAoQWHWouPmpFz9vYY5OjS3wXw>
-    <xmx:mxqbahuGaUWEgj2hDJCKJ7Zhr2UjNsSYT5fp90zMKXhnAdFePM8jI9Rk>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Sep 2026 15:23:07 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Fri, 04 Sep 2026 21:22:42 +0200
-Subject: [PATCH 4/4] nvme: apple: Drop the PRP null check chicken bit
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="ns7uE3Cz"
+From: Yureka Lilian <yureka@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1788551390;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=G6nu6f3eskigT1nHIrz3vKzjlgiwHqGKGUwb4qaTnQM=;
+	b=ns7uE3Czw/EgAaPZFvtJLPWiG+VFAvLxP7ByO9c0YnwiUl9vQXEO6wzKexI24xL5FtFmRh
+	D98+3xxZZRZJsEw15PH6EcwGX1wO4egXQFAlTr1LooqmrGFyOnN6Q4SF/bKn3/1mHMAQs1
+	kV5sIq8M1Y0pg40d/J5+k3c4W697PV4=
+Subject: [PATCH 0/6] Initial Apple Silicon A18 Pro device trees and
+ dt-bindings
+Date: Fri, 04 Sep 2026 21:49:33 +0200
+Message-Id: <20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -79,68 +37,79 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-apple-nvme-fwabi-v1-4-f7ede661c469@jannau.net>
-References: <20260904-apple-nvme-fwabi-v1-0-f7ede661c469@jannau.net>
-In-Reply-To: <20260904-apple-nvme-fwabi-v1-0-f7ede661c469@jannau.net>
-To: u-boot@lists.u-boot-project.org
-Cc: asahi@lists.linux.dev, Mark Kettenis <kettenis@openbsd.org>, 
- Sven Peter <sven@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>, 
- Francois Berder <fberder@outlook.fr>, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1847; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=BDEA6GudxwgaelSOCprdOjpqHWFJeXmM352vY61q+c8=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqzZUr1pCi3zVFbcz/XIKDjPO/tNzozu+7+Ltgqfl4rsv
- Ce5cV1dRykLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgIkkMDMy3Pu2+faM6fe9WXPL
- eRdNOuK24F3bd9HAmUdcPC7WXlxspsbIcDHuu2NK9NzezC1yIu8ab19ac+fzlLqYW+tc153+cSr
- iETsA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22Nyw6CMBBFf4V07RjKwyq/Yli0w6BjeNkWYkL4d
+ 8sjcePyJPeeMwtHlsmJIpqFpYkd910AeYoEPnX3IOAqsEji5BLf4gz0MDQEWl5hsD1wx551A1W
+ 4InlL5ACzXFUyUVSjEcEzWKr5szXu5c5uNC9Cv4qPhaX3GOJ+n/3aRbSVVZwf5Tb7G60vZIxEp
+ ROsiildrUY7Auzbln0RTeqcgkUpymX5Apb9/531AAAA
+X-Change-ID: 20260904-apple-a18-pro-initial-devicetrees-c457d127efcb
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Hector Martin <marcan@marcan.st>, Thomas Gleixner <tglx@kernel.org>, 
+ Radu Rendec <radu@rendec.net>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-watchdog@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>
 
-Now that we program the DMA direction correctly the NULL check that used
-to make commands fail passes. Another side effect of this bit was that
-non-align buffers on the admin queue were silently allowed and that's
-been fixed now as well and we this don't need this chicken bit anymore.
-More importantly, starting with the firmware installed with macOS 15,
-which is required for M4 but can also be installed on the previous SoCs,
-the controller no longer exposes this control register and any access
-SErrors instead. Just drop the write entirely.
+Hi,
 
-Based on Linux kernel commit 8ce883fd068b ("nvme-apple: Drop the PRP
-null check chicken bit").
+This series adds initial device trees and dt-bindings for the A18 Pro
+(t8140) SoC and the MacBook Neo (the only Mac using this SoC).
+It only covers a minimal amount of hardware, but is nontheless useful
+for further development work. The hardware added here has remained
+largely unchanged from the earlier generation Apple Silicon Macs.
 
-Link: https://lore.kernel.org/asahi/20260806-b4-nvme-fwabi-v1-6-bde19ce8db04@kernel.org/
-Fixes: 50333c94f2de ("nvme: apple: Add driver for Apple NVMe storage controller")
-Signed-off-by: Janne Grunau <j@jannau.net>
+Similar to the M4 devices, changes to the m1n1 bootloader are required
+to boot Linux on the MacBook Neo.
+Also, SMP boot depends on further patches to avoid WFI and WFIT
+instructions [1][2].
+
+Merge strategy:
+
+Since there are no actual driver changes in this series, we'd prefer to
+merge the dt-bindings changes through the apple-soc tree once Acked by
+the respective maintainers.
+
+Link[1]: https://lore.kernel.org/all/20260804-arm64-idle-param-v3-1-d10f8159062b@cyberchaos.dev/
+Link[2]: https://lore.kernel.org/all/20260811-idreg-override-wfxt-v1-1-1c71228d0719@cyberchaos.dev/
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- drivers/nvme/nvme_apple.c | 5 -----
- 1 file changed, 5 deletions(-)
+Yureka Lilian (6):
+      dt-bindings: arm: cpus: Add Apple A18 Pro CPU core compatibles
+      dt-bindings: arm: apple: apple,pmgr: Add t8140 compatible
+      dt-bindings: arm: power: apple,pmgr-pwrstate: Add t8140 compatible
+      dt-bindings: interrupt-controller: apple,aic2: Add apple,t8140 compatible
+      dt-bindings: watchdog: apple,wdt: Add t8140 compatible
+      arm64: dts: apple: Add minimal MacBook Neo device tree
 
-diff --git a/drivers/nvme/nvme_apple.c b/drivers/nvme/nvme_apple.c
-index 54821f80c81..948a56e518b 100644
---- a/drivers/nvme/nvme_apple.c
-+++ b/drivers/nvme/nvme_apple.c
-@@ -26,8 +26,6 @@
- #define ANS_BOOT_STATUS		0x01300
- #define  ANS_BOOT_STATUS_OK	0xde71ce55
- #define ANS_MODESEL		0x01304
--#define ANS_UNKNOWN_CTRL	0x24008
--#define  ANS_PRP_NULL_CHECK	(1 << 11)
- #define ANS_LINEAR_SQ_CTRL	0x24908
- #define  ANS_LINEAR_SQ_CTRL_EN	(1 << 0)
- #define ANS_ASQ_DB		0x2490c
-@@ -257,9 +255,6 @@ static int apple_nvme_probe(struct udevice *dev)
- 	writel(((ANS_MAX_QUEUE_DEPTH << 16) | ANS_MAX_QUEUE_DEPTH),
- 	       priv->base + ANS_MAX_PEND_CMDS_CTRL);
- 
--	writel(readl(priv->base + ANS_UNKNOWN_CTRL) & ~ANS_PRP_NULL_CHECK,
--	       priv->base + ANS_UNKNOWN_CTRL);
--
- 	strcpy(priv->ndev.vendor, "Apple");
- 
- 	writel((ANS_NVMMU_TCB_SIZE / ANS_NVMMU_TCB_PITCH) - 1,
+ Documentation/devicetree/bindings/arm/apple.yaml   |  11 +
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |   1 +
+ Documentation/devicetree/bindings/arm/cpus.yaml    |   2 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |   1 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |   1 +
+ .../devicetree/bindings/watchdog/apple,wdt.yaml    |   1 +
+ arch/arm64/boot/dts/apple/Makefile                 |   1 +
+ arch/arm64/boot/dts/apple/t8140-j700.dts           |  52 ++
+ arch/arm64/boot/dts/apple/t8140-pmgr.dtsi          | 771 +++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8140.dtsi               | 202 ++++++
+ 10 files changed, 1043 insertions(+)
+---
+base-commit: e5e04726cdd043e309677071ab1b65a4b18f422b
+change-id: 20260904-apple-a18-pro-initial-devicetrees-c457d127efcb
+prerequisite-change-id: 20260705-apple-m4-initial-devicetrees-f6ebb1c7a2cd:v3
+prerequisite-patch-id: 11762ddf0be3ad407ea90e5b01a0856a57ce1242
+prerequisite-patch-id: d303d5493a501b215f43bd1ff9d40a889203f907
+prerequisite-patch-id: 15a6a7981c2a70392f0a4c3d2fe274785c69c045
+prerequisite-patch-id: aa33c268df85bae717859a0e70ac2be14cfc9a14
+prerequisite-patch-id: 2a38f6f2f025888d93b0092f1188541f38e96747
+prerequisite-patch-id: 0ffe9857d951e317ec349ee50a7acf827ed94cc5
+prerequisite-patch-id: 66bfdc68d5b66325495b07f256117afa2b5c99af
+prerequisite-patch-id: 4752b7d602d93b04ed879c6eaf7161b3546ad953
+prerequisite-patch-id: 88d22cb297f45d9044363727d74864ed4ad95eee
 
--- 
-2.55.0
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
 
