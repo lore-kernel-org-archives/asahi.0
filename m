@@ -1,35 +1,34 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF0E3264CC
-	for <asahi@lists.linux.dev>; Fri,  4 Sep 2026 19:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB253C4575
+	for <asahi@lists.linux.dev>; Fri,  4 Sep 2026 19:50:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788551405; cv=none; b=PwDCr9vwkXyOGnNCYLC9IHOGLYi6SW7wil8J3Rx6psqiaEBz9MUAwG2jhrpgVnNzhoqawoIi7n/myd8xiaajWbrtXchvnlAnx1MeyI1zAHLFQ3mETuamE/pw+DijoHocmn6Fo565pWrnpmJbwS5QFetMOSy49NsEszsynE3dOYs=
+	t=1788551408; cv=none; b=rSvw7zAG5z3UZlbuc2X29Mb2EIWp0vTq6O91vgG3eMKP5tj3nfUGlLeYA+2F9rA7/5nbSxUPjS0oCGEM7LWcc7DzMfqtzI9WHGQL9XfhQVQu3vwKHkJONiGzRFPcqZTlphPOlkEdvHO3b47nGy7qYLMQ+C36lbXokxDys0q3zMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788551405; c=relaxed/simple;
-	bh=/OmSYrm0FCFYc9hbupI51jfnKBd1bG7XnXmGhQ5kzOU=;
+	s=arc-20240116; t=1788551408; c=relaxed/simple;
+	bh=CXj+icXWNtP+kWIdP0einQIx1r24LE2szcQxXlI1FL4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MjNrP3nP20TO2hCDA+15appDnPzUaIEJ0bQW6dptnz1zIFjICvnbiavoOryfd0V/DaDHooLfjsFzbznZLITrWQxXz+ZTlWfStMBXoI2sMidFXw6cv9klq5f5FTXh5YeihKQmsTWiY/WUG/I3h2Y/h+4o9eyh7es65snVmh2aSUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=orRiY2wu; arc=none smtp.client-ip=195.39.247.168
+	 In-Reply-To:To:Cc; b=OhF3I2QlmOaP7P5IneeW2Lrb9a8030tZ9Lw94U3y0SdSRT+Huc3wcUnkw4eb/i22ANq0EU6vSOoy/pFBcu7GtaFrb3Dx//lNXjB3luwDk8TMOPs2rO3dteSFx45EPwUas+p4X6pYzIDbi27mzCV1++B1aVJHTGc395PyCMk2KOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=nVRBG4E/; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="orRiY2wu"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="nVRBG4E/"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1788551397;
+	s=mail; t=1788551398;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hfhvNN0fjj6swoLbh/0FaAvtFZVMTHuJaXk4F3s84AQ=;
-	b=orRiY2wupK3rLMxbW7L52E0Jw+dWTnnQVzD/aWVuK+WPPOXvHsSLmDRxg7jotHxutG2teS
-	2UyI5PdGLzzh3x4DaxZX6cJBZeCPOU+ptB9S4BW4d30lyhcrTwJI2Y/7KQ6k6OBozv4T4Y
-	95kGdKad823Wl8Vzt+JWP7iCbysTt3c=
-Date: Fri, 04 Sep 2026 21:49:37 +0200
-Subject: [PATCH 4/6] dt-bindings: interrupt-controller: apple,aic2: Add
- apple,t8140 compatible
+	bh=03++u1hMJUN4CZOnETD7tedBCxAbjIXy0LEGbGeWhRE=;
+	b=nVRBG4E/PeFU3TVNNZq9jmhM9oC8orfOE0SM/nLoLI9Jb25QDoa6i/Z385rmKqw9oAn04E
+	ZQb/PGvX0RxghI3/613mbbsW1lLzjYEZZUxzJaiQj7kBaR9CL8FM/DbiLcWh1/4PfRtRNs
+	Abjw+at8jUcdu38LoKyZQkMtsosmC2o=
+Date: Fri, 04 Sep 2026 21:49:38 +0200
+Subject: [PATCH 5/6] dt-bindings: watchdog: apple,wdt: Add t8140 compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-apple-a18-pro-initial-devicetrees-v1-4-0c25401d165d@cyberchaos.dev>
+Message-Id: <20260904-apple-a18-pro-initial-devicetrees-v1-5-0c25401d165d@cyberchaos.dev>
 References: <20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev>
 In-Reply-To: <20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -52,26 +51,26 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-watchdog@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>
 
-The Apple t8140 (A18 Pro) SoC uses an AIC3 as interrupt controller, same as
-the M1-M4 SoCs.
+The watchdog on the Apple t8140 (A18 Pro) SoC is compatible with the
+M1-M4 SoCs. Add "apple,t8140-wdt" as SoC specific compatible.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml | 1 +
+ Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-index 1cb886785173..e3cadc5ad39d 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-@@ -46,6 +46,7 @@ properties:
-               - apple,t6030-aic3
-               - apple,t6031-aic3
-               - apple,t8132-aic3
-+              - apple,t8140-aic3
-           - const: apple,t8122-aic3
-       - const: apple,t8122-aic3
- 
+diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+index ca4cf01db59f..1af924157f7c 100644
+--- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+@@ -22,6 +22,7 @@ properties:
+               - apple,t6031-wdt
+               - apple,t8122-wdt
+               - apple,t8132-wdt
++              - apple,t8140-wdt
+           - const: apple,t8103-wdt
+       - items:
+           - enum:
 
 -- 
 2.55.0
