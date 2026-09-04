@@ -1,35 +1,35 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5605F3B42D1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B543B71C2
 	for <asahi@lists.linux.dev>; Fri,  4 Sep 2026 19:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788551401; cv=none; b=qxj97XCBS3/RQciitVZ+vpMsOuAbZNa9tpBpsSb7aBOV+0XahFpgLoogxtG1N2haGmOQDJ29BUpf5EwrOdZ5sb9MmBH6g6HBSOKwVN0DSinAfcL68xyHHhfTpXBG81GGMRs8vgIv0Az6iMV7/FUMMscmtPyQbb/wzvWpxqcl6E4=
+	t=1788551403; cv=none; b=nEvCYqk5oa4xxXbKnt/HVFftYvL6/TRsxtrIGcHcWK5zAkxOO4Shy0fLX74OoAOpit9DW56inpJGGsl8e48xjwCfiCf+lBUScIkXI0FQBml4664D62KPQ5Oui/SNVmZQolAibNB+XIKRQuS4nUjP8MxQh/KDUUq+SqPDjj7N3fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788551401; c=relaxed/simple;
-	bh=7Gcnf5wCDoLtr4HIfOgKcPzRilxfUnW8awfERfv910s=;
+	s=arc-20240116; t=1788551403; c=relaxed/simple;
+	bh=tEPA6uRdYuQ6PY6zBqXkquvyO5/4DfLy75Cass7/Zyw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BvL9NRnqnbHcZgwhhcQyqkX2rhnDAs9PXaKe8lJg3/EIGVMdsnCvn/WT2ZURy+uBJoAR89+ZdcoNbBI8srbyD7LYu3c1HrXEe3/vNIZTHrng5aLzTVqFL8ne7CL9z/s2re48tGE4aDxRSZanZDTnJOJ52MLrkCw0usJUk7xduAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=pgS0yDhQ; arc=none smtp.client-ip=195.39.247.168
+	 In-Reply-To:To:Cc; b=DZWcKltT3wjkyl3XLreZxrA7zYUVnFknHh/LTsyWjmAM9MRR1HsRtiSeUITXmJBDVbwhRmPZsAHfHMo6ZwFhj6tD20d5IuNGDczLNP6Bx7dobNybX1ChFcDa0d1OJlnj+FYNAgQY9wLX8eJsoxlshPJ220YktZYgutD/gyjJWxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=FHQrs/iB; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="pgS0yDhQ"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="FHQrs/iB"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1788551393;
+	s=mail; t=1788551395;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a7TJP6C/Qw+F87kAw4tMQffqwL/vexUGjzH8ez3okMs=;
-	b=pgS0yDhQ6/AJ3YT8siKQ5zNoq981WT1j3XtdWCFqEa8ay20AocZtID9b+KFzVp//Df9C9m
-	YFNtGMQU+Ui8AL5hw7DPzXSYKW5RPf0qd0/KAe9epZ5kYjm8C0P0YlxFbRTGe9viofYp58
-	oRinQQX949VtWLgXMN175FAq/8fY460=
-Date: Fri, 04 Sep 2026 21:49:35 +0200
-Subject: [PATCH 2/6] dt-bindings: arm: apple: apple,pmgr: Add t8140
- compatible
+	bh=MnQifhsyepgUfl4SRUFqkKt3aBBkCt2ItCLaLcqAOuc=;
+	b=FHQrs/iBkK93NwDUDAltwIWR4AePBtQMwY68TLgCqyxrEm2asYvfonuUbA4Fn7ehDML64z
+	oKLCU98/XLEWnRXh5cYdAYuzOwUjuOGUoaSWpBv5DtoTiI83cy/nxydANNAqzTMwGfBqYc
+	UkBPfsuseMWiYkFsc6weo5xfJgVfzmA=
+Date: Fri, 04 Sep 2026 21:49:36 +0200
+Subject: [PATCH 3/6] dt-bindings: arm: power: apple,pmgr-pwrstate: Add
+ t8140 compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-apple-a18-pro-initial-devicetrees-v1-2-0c25401d165d@cyberchaos.dev>
+Message-Id: <20260904-apple-a18-pro-initial-devicetrees-v1-3-0c25401d165d@cyberchaos.dev>
 References: <20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev>
 In-Reply-To: <20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -52,57 +52,27 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-watchdog@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>
 
-The PMGR blocks on the Apple silicon A18 Pro SoC (t8140) is compatible
-with the M1-M4 SoCs. Add "apple,t8140-pmgr" as A18 Pro specific
-compatible.
+The device power state management of the PMGR blocks on the Apple
+silicon A18 Pro SoC (t8140) is compatible with the M1-M4 SoCs.
+Add "apple,t8140-pmgr-pwrstate" as A18 Pro specific compatible.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/arm/apple.yaml            | 11 +++++++++++
- Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml |  1 +
- 2 files changed, 12 insertions(+)
+ Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/apple.yaml b/Documentation/devicetree/bindings/arm/apple.yaml
-index 5d87a4fef193..7c3e7131a5e7 100644
---- a/Documentation/devicetree/bindings/arm/apple.yaml
-+++ b/Documentation/devicetree/bindings/arm/apple.yaml
-@@ -82,6 +82,10 @@ description: |
-   - iPhone 8 Plus
-   - iPhone X
+diff --git a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+index b24ea8e54e11..dcffdd12c8c7 100644
+--- a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
++++ b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+@@ -49,6 +49,7 @@ properties:
+               - apple,t6031-pmgr-pwrstate
+               - apple,t8122-pmgr-pwrstate
+               - apple,t8132-pmgr-pwrstate
++              - apple,t8140-pmgr-pwrstate
+           - const: apple,t8103-pmgr-pwrstate
  
-+  Devices based on the "A18 Pro" SoC:
-+
-+  - MacBook Neo (A18 Pro, 2026)
-+
-   Devices based on the "M1" SoC:
- 
-   - Mac mini (M1, 2020)
-@@ -300,6 +304,13 @@ properties:
-           - const: apple,t8015
-           - const: apple,arm-platform
- 
-+      - description: Apple A18 Pro SoC based platforms
-+        items:
-+          - enum:
-+              - apple,j700  # MacBook Neo (A18 Pro, 2026)
-+          - const: apple,t8140
-+          - const: apple,arm-platform
-+
-       - description: Apple M1 SoC based platforms
-         items:
-           - enum:
-diff --git a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-index da660fa13f77..bf21a5b3a4ac 100644
---- a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-+++ b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
-@@ -42,6 +42,7 @@ properties:
-               - apple,t6031-pmgr
-               - apple,t8122-pmgr
-               - apple,t8132-pmgr
-+              - apple,t8140-pmgr
-           - const: apple,t8103-pmgr
-           - const: syscon
-           - const: simple-mfd
+   reg:
 
 -- 
 2.55.0
