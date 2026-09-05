@@ -1,111 +1,123 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029A0393DF1
-	for <asahi@lists.linux.dev>; Sat,  5 Sep 2026 08:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE413CB55D
+	for <asahi@lists.linux.dev>; Sat,  5 Sep 2026 08:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788595473; cv=none; b=rUtfBbtpkZagafTND+I+0NR90cUexNvw3siJ5XoJA1VE6RkS72S++XKyrY6Ku38/KIyFn7uZHLXcgB7iozoS8NsA6px75S7deidHE5Bf7DsKWuVAEEBuQpD5UwEVoUxiX+moC7LhNdVRo3DYmdtExJeAY0mS7iVp4Is4qS6LOok=
+	t=1788596749; cv=none; b=Ey/pj3LV5Yoy78WVvkFhkpYLX4YYqx4cLXM2SZbJBaIPjHtJxTy9GfWmKnmKx4FODpJ8OwdhS2nldCV3dt3kjqcb2ivpl6JPYeNQ+o1yfkrqFFkG4EY0X7bEN/4/T6bij+1p7ERGf10v09tO4NpFww5kUv861ea3EZd1BdAXoHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788595473; c=relaxed/simple;
-	bh=K4huxOZ9oO9kmk3tdxCPoKHD04VmjTzxbvqPSWtbDgM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XgRYZrGBl4aAzBUdytde98F9ixAuyJ1VnxZVdbq2YkgLG6ctbnB0qVzYOh+BeLegXPduILY2cbNE80iTOvwYtT63UFSBXKRM4WH95AuZ/Pm0pk+80FIh2TcbRYE+aZAEEEevWDGE1ViYpGxTYeLPvWlktnZUCeP+SI/MKlG3gHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NCk1NwvL; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1788596749; c=relaxed/simple;
+	bh=OviR5kaHs976PRzULV1vC0IpWTkvgJa0y9VkRRzLNZ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W9p++GA32jCmzP1Ka5ldSK2rdQCMIa0VLQX60hiL6/6WPM49kG+A8vFEz4Vgad06uA+KlD9QF9hramGYUppWyt2mPVEcvFvZDaXcN+/UFqv5BFNeDL7eciCw9tvvcM1oGdE0LffXJ2BiKqYKdWe37Z2mY/nlH0Yejk82kn78R6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TQQCTBco; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NCk1NwvL"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48584dc164fso1733641f8f.0
-        for <asahi@lists.linux.dev>; Sat, 05 Sep 2026 01:04:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TQQCTBco"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3966791a6eeso2102593a91.3
+        for <asahi@lists.linux.dev>; Sat, 05 Sep 2026 01:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788595470; x=1789200270; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3aAKAsF8AwsDem/eK9L5mJ4rLY5jdRGrl/F/Zd/H9PA=;
-        b=NCk1NwvLYujFp2DlWy0qkcWahRm0SePJgR6Efn7S1hKiEiTMi+fzhLQhGgs9Msekwp
-         hBcXiWjB4dIahWy3+thMM28xv0WQwbUPVJsx1HWqrO+3TwS6ClBq6mKoNV11N59W3CXv
-         nWmpYS4W0VI2fcHw4y7qadRNyjcAxz7i2mFQel1rSFpOYHCaxgKPzeU++juT3+KyMxTt
-         i/bbsMoIjGx/lqj2kz9ZjomNLq32sKNarPdKhN3vWF4NPwvzCV1V4DKDGbPNxPwLLfE0
-         /cWmSbFY5Vgi+24LzQFDm3yKRrWHqZUB6o0BUwWUNtB542cnnGdlhwcDK6hlYVq4PQyi
-         jY8w==
+        d=gmail.com; s=20251104; t=1788596743; x=1789201543; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=w4JWIpadkBBtpyHMGkKKLMv6w38PE5gnqdnr/RtDlQw=;
+        b=TQQCTBconFXbhKAtF/+QgUcrq9ru85xA03qTijH71HKzpPWsYdQme/r7RoSuPtxB4/
+         SYdzJ7eNAwRy+LVkMdU4+xIgRpXQKZJcXxx3ReU9vAgRfNvOjqdXaMspaQFTaS+iCWO8
+         EiHPBdaiTNpQncFr2TrQRkmtji17fY30mmRJiifUI4GBcPt0Cf57XJsdwxx7/TKuqkiL
+         LAosBrpzuwaoSSiiJQS59tMx9ENoU7aTeSD0/huU+IlbVKRM+XOeeqoYUZsY9pe5Bget
+         sKHOlzcjTb9bFupVdO0SwTQoOrzVEAEg1EOWCOue0XsiLIMgogBTRl5zvVywq0rO4czm
+         DIiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788595470; x=1789200270;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1788596743; x=1789201543;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3aAKAsF8AwsDem/eK9L5mJ4rLY5jdRGrl/F/Zd/H9PA=;
-        b=lOtbo4pZ6fXPm/TV29rzaKyYhIktgB+EzKt39n2uRH0keadp8/v1cn7p4U9d2T8CeX
-         WQsZzoaEQ8xzQygi/1vH+DzWUCFtLliOY3EE/LAPEO3tMWwEQ9hYDV7glkbz+keXXLfN
-         2TJMGoY91qYExPQbpR3MRNhynNuuVsr68WgUFII3c4jb3QzmpC+P5w6pN/CZptQ/ZW1o
-         OjdpeZGSifx5WLgNlmZjmzYII4ALpPJyoLRR2cCmhGZjcj7jvl/5P9QBJQoCV4Dw8P7K
-         R6YdDvoJ3xOzS/PFdC15XNiuGNe3p1Pt9C+noz15Tl6yafhN9KXzjHkPXlPomCPvdKw+
-         KEnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzwIn8n5w5J6hchKvlkZkHSDcA5NGPo9JCKx3TpY1Y84xozYGy4j4Md2IBnRCK8PTxQWyOhpQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++kjur8dqQQiuhJYdc//QR7P1RFu6F8JaO4ZBsPWl/2LwGiQxlyn
-	f7aUX0HvN0884RGuYOh68HutYc2cywZd9KUSgqckz20E5PB26rLqulKU
-X-Gm-Gg: AYBFou36HTINdnzSr2P43LNYgitUwyS6QYBDmPhAJ9bDWLTtQUrW51nSAFC7L0pLRUI
-	HQiJlEJXwlqQU0pVcJAE0fTQ9bvOCt8GYqec2zxHwADdNC2qDjocH164bkR3dk8okBmQGArw8Mb
-	543slywTQS4gZe5KWij0ZTX9gIQfmMi9LFxSFoqcQD4hZBUrb5SKgoLU5l8kloCrtOwM9kBTwcy
-	Tc+cjhj3OnJxIevGWgHEr4Co5VhDW98vpX118owzUO4x5QZY5m6ToOFFR5Ldsw7+sp9I2iLXT3q
-	2RyvJO+ixA2Gw3XGE6iz+Y0lD6W1IO1b6dYYSykylo0ThlrKcJD7eoanVnEXF7HvOJ7lKThsKeg
-	Jox3DkvxX2h8RBzjh80K63goD5Koas+XwJZOyI/MnKwiMrtb5lPMSqyYTQZJLnOHN8UZx4FoGRE
-	Kz2kWUPCQfqa9e/Blv868VUABYust4eqSi8pm1UjI+XMmRDitn5SiHjRzB9L9ykSniJ3ahxIfEO
-	xSpabw42Iblptcf0zYn+uADBuc3B2mR22FL001tF44flJXgL2dKL8JMR8XhSFmg7kveK7uN0a1E
-	mbYFsyTnzIAgOtqAmCAH8JiLrq4R5OoMBC732UhZqXKeHrjVyh/uYSgjhr4TMM5bCsY=
-X-Received: by 2002:a05:600c:1551:b0:49c:fa21:1c89 with SMTP id 5b1f17b1804b1-49cfa211d5fmr91911335e9.30.1788595470025;
-        Sat, 05 Sep 2026 01:04:30 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cfbe5b252sm96770125e9.3.2026.09.05.01.04.29
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 01:04:29 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Janne Grunau <j@jannau.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev
-Subject: [PATCH] drm/adp: Drop the select of the nonexistent CONFIG_DRM_KMS_DMA_HELPER
-Date: Sat,  5 Sep 2026 10:04:26 +0200
-Message-Id: <20260905080426.34224-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+        bh=w4JWIpadkBBtpyHMGkKKLMv6w38PE5gnqdnr/RtDlQw=;
+        b=a0Qx+u/c97jmzQxn7o25VCx9TUWiP6c3nS74EmrFQnLUtudxcRA2yc2YOsoQc6tXkd
+         rFN/G8YIg2+TFApHdxmzvV8aTWcr4W47DOq7vZozJnWfswB1YkWiTr5bJJUejnicJe7y
+         NnfsN12munS2yHHATbwMu0MQBfP0/YaFN0sax6NWKLm7+3AuzOUwVRTTdEtH7wYbseA3
+         ICUoYty2uXvRp2os6ez3v1RGGz1EbUL/lVWJEelTWdVYg8H85xEgo2CSa49r9qwLh5xa
+         gqImgtl+f9lVV5vomCM/yaXe2JTcV2s5DEjvbf3/Hja+pcSy1OvSfnVr9ENW31ikIzW7
+         KTuQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwtql0lkE3WYFcqrhJe8JQ9WZNAhQzbOnEtts+DUUzOEWymts/ApDAjePlzwLjyPBdCWN92BQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++ljayBpBwqAODyTNCKNz36oT6WtO63opn6XjRhwYM8WekKNOtem
+	ttgQcenp2hlp10xNgFccufA50LBRb4T/86SdqZYhR4DKQOXj7qf/wBIE
+X-Gm-Gg: AYBFou2KEcaPKa3a7flQYQQzO4CTb5SMoZ/KatHvWlaNptNNEG5TGKDwwEOi1CVwS+S
+	LjVAzikQsqEQooSWcpCGuqJtGApPWwnqg7Lj5NrStAb1GhwCap1MXTw9pLXVAyetAFeJP+59+vi
+	arurc3CciHpSxgFFUDjyZidVMLzTdlbyo8CdZFG4jefvDoxbUHUocqCADpYOL+oh4V8BMSd6q1+
+	anW72eNNhRK8RNgUhnspvJioA6/NNQQUf1SyhxXqYrdiCUMfL2GNxHfVxYu46NRbbauwzQiARZq
+	Y6y8V3MLtTpIYaLxRT6jPyukBpAhqqeM3sv+aEVwRlZFN5W14LPMnWcHgzwtt7ejPLCH5H6Y3hr
+	wmH1ErKvpX8L/LN4Fk4dYLV+1tX2yDFkIrT7UKPlgTVsMgyg0TW/fH6grM+Xlsn0ypxNrnfayAN
+	IcMSps9aSkwGcYfxGZBAOQCi1Drymv7xu7IWaVH3WHqz23/d4/cnhm0Uhv77dhVKoKQ6HX+/3Uh
+	7KMBw==
+X-Received: by 2002:a17:90b:17d0:b0:398:9bd4:d18 with SMTP id 98e67ed59e1d1-39b26298ba1mr15383737a91.23.1788596743161;
+        Sat, 05 Sep 2026 01:25:43 -0700 (PDT)
+Received: from [192.168.1.107] ([223.122.38.120])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885ca07sm14262328eec.1.2026.09.05.01.25.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Sep 2026 01:25:42 -0700 (PDT)
+Message-ID: <4e65ef39-cf1b-49d4-a899-da36acb442c2@gmail.com>
+Date: Sat, 5 Sep 2026 16:25:36 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/6] dt-bindings: interrupt-controller: apple,aic2: Add
+ apple,t8140 compatible
+To: Yureka Lilian <yureka@cyberchaos.dev>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
+ Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-watchdog@vger.kernel.org
+References: <20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev>
+ <20260904-apple-a18-pro-initial-devicetrees-v1-4-0c25401d165d@cyberchaos.dev>
+Content-Language: en-US
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20260904-apple-a18-pro-initial-devicetrees-v1-4-0c25401d165d@cyberchaos.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-There is no Kconfig symbol CONFIG_DRM_KMS_DMA_HELPER. The former
-CONFIG_DRM_KMS_CMA_HELPER was removed by commit 09717af7d13d ("drm:
-Remove CONFIG_DRM_KMS_CMA_HELPER option") before this driver was added,
-so the select does nothing. The driver already selects
-CONFIG_DRM_GEM_DMA_HELPER, which is what it needs.
 
-Remove the dead line.
+Yureka Lilian 於 2026/9/5 凌晨3:49 寫道:
+> The Apple t8140 (A18 Pro) SoC uses an AIC3 as interrupt controller, same as
+> the M1-M4 SoCs.
+>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> ---
+>  Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
+> index 1cb886785173..e3cadc5ad39d 100644
+> --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
+> @@ -46,6 +46,7 @@ properties:
+>                - apple,t6030-aic3
+>                - apple,t6031-aic3
+>                - apple,t8132-aic3
+> +              - apple,t8140-aic3
 
-Fixes: 332122eba628 ("drm: adp: Add Apple Display Pipe driver")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- drivers/gpu/drm/adp/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+the title should be "... Add t8140 compatible" describing the hardware corresponding
+to the added compatible since the compatible being added is not "apple,t8140".
 
-diff --git a/drivers/gpu/drm/adp/Kconfig b/drivers/gpu/drm/adp/Kconfig
-index 9fcc27eb200d..acfa21ee06d2 100644
---- a/drivers/gpu/drm/adp/Kconfig
-+++ b/drivers/gpu/drm/adp/Kconfig
-@@ -6,7 +6,6 @@ config DRM_ADP
- 	select DRM_KMS_HELPER
- 	select DRM_BRIDGE_CONNECTOR
- 	select DRM_DISPLAY_HELPER
--	select DRM_KMS_DMA_HELPER
- 	select DRM_GEM_DMA_HELPER
- 	select DRM_PANEL_BRIDGE
- 	select VIDEOMODE_HELPERS
--- 
-2.53.0
+(Alternatively, if you mention the compatible in title, say "...Add apple,t8140-aic3" as
+"compatible" is already implied)
 
+
+>            - const: apple,t8122-aic3
+>        - const: apple,t8122-aic3
+>  
+>
