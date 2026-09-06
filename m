@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79B126296;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A4831960B;
 	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788719827; cv=none; b=Hl9XUGZAsrBPSimkrrb9DwZOIJR9vpI6OxBN5PhMbLd8UAASGb0fulThS3N824k0xRYJE66ZBBjvLVdTu+nfLuI7aymjXqBV6X5osY1BlbQKsN7ix4AlXfz1e2CqR9OlQBk6dD9Cuz7azU5KRpFQ9Q2x4kpZAYefceoIXb0Hj5c=
+	t=1788719827; cv=none; b=cJ11QaNJ51YBpuOubaYGyKE8Mr2zaSYc/N9OlxB7uVriAD/WLSU7tYQqydPiWbkpxuuY9myp/mOkESRgCsUFd9YumX7XF3uDlILAJxokevHbZoRFWzYA34Z3dFhE+Lc6tfw9SeZj6ii6/luEJ/K+/Hwg79NhuZiFqe6/n7WHPSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788719827; c=relaxed/simple;
-	bh=ctP7tFAUzmbrQ//d68YH++TkcYEnYEQHDv78Hba+RxY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FtxUdpf6DunkXE0jfHsh15pg+wp8mMCBw84yjn4t2FTR8PMaxdqIBFkMZkfNrY14m18ba+V570R82Eg2iB7iw+Uz2seUStJIQ9t/iFOV148xd8mtn++KwXAmULwg2MYFdJhTo6WoWQrAg3uqvvqky9U2A6yObiBY7wS7LQMB7OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n9kBQS04; arc=none smtp.client-ip=10.30.226.201
+	bh=HIg42Vsn0TNmV8kxJI54k7Wj89qIig0luyI+sG+agh8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jWg/MCaSuyz7Eb5/nh4SI99QLPFR/hMg3cv1B+gq/jcipzIOzmSQ2MHIbDBF0Yh6fgRqHXZh4kKDy6za/jtOtO1giH55jLMvFTr5yTUZTJXC4j1DvTqTgUbboJoAYi15FEIeLYCi74isR5jLEuK2E8qD7GKGh1aRmOnuhiSNGEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JGiHzvVX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n9kBQS04"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3833FC2BCF5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JGiHzvVX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 62656C2BD04;
 	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788719827;
-	bh=ctP7tFAUzmbrQ//d68YH++TkcYEnYEQHDv78Hba+RxY=;
-	h=From:Subject:Date:To:Cc:From;
-	b=n9kBQS04ZI8t3NR+mtu6/DnzLZ7kWoSytvxf03AyYevmxnlxqcGOfxiZKwV6br5DE
-	 CL+bXbAO+YhQqmR4xkFKjcXwJB5U9MPT2nw5/GbZeki024jBfJb7fsGP7VpBe0tDwP
-	 tcnVBn73MZBiDgd3wVE4p/KbnhNh1f29/Olh5N5JVB+1W9SzDoTdwiIw2CIFU19INb
-	 zUWyjolkFfm+EMGLmzqOA3fFw0+mXoX3kBRY61h8WNfOKr9ojeSoB1OJUwrsvTN2+c
-	 gPNxKJhqEV71PvqWvNtPNz1KNuGuiY+LyB77Teip+n/2Biwytu7g4BBnnM/rqdy4+/
-	 5pA99a1UAB08w==
+	bh=HIg42Vsn0TNmV8kxJI54k7Wj89qIig0luyI+sG+agh8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=JGiHzvVXZFi6R/WMjPm8By+ZLAS4DPhew68YEq0MAk2LAirDho3iepimJXWhURxA3
+	 V62qZKppExPfR94QRzkGjK5YAa13dJ4IwNlvXrpZYlkWKC8S85Qyz4V5XD4kDKBvFn
+	 8wvE8j3bnIIbjsveD+j4PaS2Ac8hRW8xwYxJ5GoE403cq9nlNBGJ+CH970PIlH94U0
+	 0VprXoskBxjcGporkvMKTlBDgWMzbDI6fTNGEiZ/GRMKoVDK68/LsIfFxjlC+jG0Cd
+	 YF2huZEMN9EkluMUAExncm8c+blPkrXOcb42FMdibaivvzYGFqBgjPakH0o2UnWwUO
+	 myy/bVSrugypA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11961C79F85;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B241C79FA0;
 	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Subject: [PATCH v2 00/22] Initial USB4/Thunderbolt support for Apple
- M1/M2/M3 SoCs
-Date: Sun, 06 Sep 2026 20:36:23 +0200
-Message-Id: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+Date: Sun, 06 Sep 2026 20:36:26 +0200
+Subject: [PATCH v2 03/22] usb: typec: tipd: Register a USB4 port mode for
+ CD321x
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,11 +41,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WOQQ6CMBBFr0K6dkxtKxZX3sOwaMsIVUKxLURDu
- LsFSVy4fJP//5uJBPQWAzlnE/E42mBdl4DtMmIa1dUItkpMGGU5lawALUD1fYsQnIGoIyhKUZ6
- 4OrJKk1TrPd7sa528ll8Og76jicvOlvD4HJIr/mKNDdH59/rIeFium5PTf+d4AApCaFNwIXPJz
- eWBvsN273xNynmeP94g8K7YAAAA
-X-Change-ID: 20260829-b4-apple-soc-tbt-a00e873a52db
+Message-Id: <20260906-b4-apple-soc-tbt-v2-3-1f80085f93fb@kernel.org>
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -57,207 +55,82 @@ To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Sven Peter <sven@kernel.org>, Joshua Peisach <jpeisach@ubuntu.com>
+ Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9734; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2166; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=ctP7tFAUzmbrQ//d68YH++TkcYEnYEQHDv78Hba+RxY=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ9bcTet62P+LfRQ0ObU86dLJuSwGjWzVnOwCVy3qtlgxf
- Kn7/dmoo5SFQYyLQVZMkWX7fnvTJw/fCC7ddOk9zBxWJpAhDFycAjCRg6cZ/vDZ6MTlulx85/xg
- YqCg6KbrIfrhPUu+zdvt9uPEh1Yjt0SG/4mPGitfNfZx655rCJ5VsfXR89BHe6a2bqthue86/4t
- 2EA8A
+ bh=HIg42Vsn0TNmV8kxJI54k7Wj89qIig0luyI+sG+agh8=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ9bcTbuX8HqzOHkmRlrHf5xS6rrOkaVksumZtuvWVtFin
+ a+YGVw7SlkYxLgYZMUUWbbvtzd98vCN4NJNl97DzGFlAhnCwMUpABOx/c/wv3D+xkWzTmcX3Pkh
+ YyHK7rVyCa+sQ3wqd9B7DmHh1MUWyxn+50apskv23p+/UJX9WOr+ggPHQkxWhbjsW2N49LqybqM
+ lNwA=
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-Hi,
+Register a USB4 mode next to the DP and Thunderbolt alternate modes so
+that negotiated USB4 partner modes can be linked to the port. Identify
+it using TYPEC_MODE_KIND_USB4 without an SVID or mode index.
 
-This series adds initial USB4/Thunderbolt support for Apple Silicon
-M1, M2 and M3 SoCs. Each USB4 capable Type-C port comes with an ACIO
-("Apple Converged I/O") block which contains a Cortex-M3 co-processor
-and the hardware implementing the USB4 router.
-
-The NHI and DART IOMMU are part of this ACIO block as well. Instead of
-being exposed as independent always-accessible devices the main SoC bus
-only gets a 16 MiB window into ACIO's MMIO space while its co-processor
-is running. It is not entirely clear whether this is ACIO's own address
-space or a window into the co-processor's address space.
-
-This is why the device tree represents the NHI and DART as children of
-ACIO with addresses relative to that window. The driver only populates
-these children after booting the co-processor and removes them again
-before powering ACIO down. This setup is slightly unusual but matches
-both the MMIO layout and the lifetime of the devices.
-
-ACIO also has rather strict ordering requirements: it can only be
-started after the Type-C PHY has been configured for USB4/Thunderbolt
-(and ideally has to be stopped again before the PHY is powered down but
-this doesn't break anything unlike getting startup wrong). It also
-needs cable details which are only known to the Type-C port controller.
-
-The first two patches add synchronous Type-C alternate mode state
-notifiers and support for representing USB4 connections on the Type-C
-bus. USB4 uses Enter_USB instead of Enter Mode and has no SVID, so it
-gets its own mode kind and stores the negotiated EUDO directly.
-The next two patches register a USB4 port mode and publish
-the negotiated Thunderbolt and USB4 partner modes on the Type-C bus,
-along with the Thunderbolt cable mode. These modes are marked active
-after the mux has been configured and deactivated before it is switched
-back to its safe state.
-
-The following two patches add the bindings for the NHI and ACIO. The
-Thunderbolt core patches prepare for the different NHI register layout
-and interrupt handling, read the USB4 router DROM from the device tree,
-unlock the host router ports and find the Apple VSE capability. They
-also add a hook for device links to tunneled native ports, a quirk for
-USB3 bandwidth allocation not implemented by the Apple hardware and
-the symbol exports needed by the driver.
-
-The main driver registers the newly introduced notifications for the
-negotiated Type-C modes, powers up ACIO, boots the co-processor,
-populates the DART and NHI children once their MMIO regions are
-accessible and registers the NHI with the software connection
-manager. The last three patches add the device tree nodes
-for the M1 and M2. M3 nodes will follow once the rest of the stack is
-upstream, but the current Thunderbolt/USB4 code has already been
-successfully tested on those.
-
-Right now only XDomain connections and USB3-via-USB4 tunnels are
-supported. Both PCIe and DisplayPort tunnels will come later since those
-require additional work and reverse engineering that is not done yet.
-Suspend is also not supported yet and we actually have to prevent
-suspending whenever an active connection is present because we would
-otherwise resume into an SError.
-
-This series depends on the Apple CIO reset controller [1], the ATCPHY
-USB3-via-4 pipehandler support [2], support for specifying the DART DMA
-aperture in the device tree [3], a fix for CD321x Thunderbolt
-altmode VDOs [4], and fixes for making the DPTX capabilities read fail
-gracefully [5]. I couldn't split it any further since the remaining
-patches now directly depend upon each other.
-Except for the dts changes the series applies cleanly without these
-dependencies though.
-
-For merging we'll probably need an immutable brach with the first two
-commits after they've been reviewed which is then merged in both the usb
-and thunderbolt tree sincethere are other tipd changes in flight as well.
-
-Happy to split this series in two as well if you prefer that.
-
-Best,
-
-Sven
-
-[1] https://patch.msgid.link/20260821-b4-cio-reset-v2-0-2d045f80a424@kernel.org
-[2] https://patch.msgid.link/20260821-b4-atcphy-usb4-v1-0-45c0b741e0c0@kernel.org
-[3] https://patch.msgid.link/20260819-iommu-apple-dart-aperture-v1-0-252703f381aa@jannau.net
-[4] https://patch.msgid.link/20260813-b4-tipd-vdo-fix-v1-1-70317f2cd554@kernel.org
-[5] https://patch.msgid.link/20260829-b4-tbt-fixes-v3-0-e1fab6ac54fe@kernel.org
-
----
-Changes in v2:
-- Dropped thunderbolt switch in favor of the typec bus and an additional
-  notifer
-- Add USB4 to the Type-C bus with its own mode kind instead of an SVID
-- Register port/partner altmodes for CD321x
-- Replaced the struct with ring MMIO offsets with two callbacks insid
-  tb_nhi_ops
-- Moved port unlock sequence and finding the Apple VSE capability into
-  core tb code
-- Added device links for USB3 tunnels
-- Move the USB3 BW quirk from an NHI quirk to a router quirk
-- Added Joshua's rb to patches which didn't change
-- Link to v1: https://patch.msgid.link/20260830-b4-apple-soc-tbt-v1-0-44bc9348683c@kernel.org
-
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Janne Grunau <j@jannau.net>
-To: Neal Gompa <neal@gompa.dev>
-To: Andreas Noever <andreas.noever@gmail.com>
-To: Mika Westerberg <westeri@kernel.org>
-To: Yehezkel Bernat <YehezkelShB@gmail.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Sven Peter <sven@kernel.org>
-
 ---
-Sven Peter (22):
-      usb: typec: Add alternate mode state notifiers
-      usb: typec: Represent USB4 on the Type-C bus
-      usb: typec: tipd: Register a USB4 port mode for CD321x
-      usb: typec: tipd: Publish CD321x partner alternate modes
-      dt-bindings: thunderbolt: Add Apple USB4/Thunderbolt NHI
-      dt-bindings: thunderbolt: Add Apple USB4/Thunderbolt ACIO block
-      thunderbolt: Try reading host DROM from device tree first
-      thunderbolt: Don't read the UID if we already know it
-      thunderbolt: Allocate ring HopID before requesting the ring interrupt
-      thunderbolt: Unlock host router ports during startup
-      thunderbolt: Find Apple VSE capability during startup
-      thunderbolt: Add ring_interrupt_active to tb_nhi_ops
-      thunderbolt: Add ring register accessors to tb_nhi_ops
-      thunderbolt: Add ring_interrupt_mask to tb_nhi_ops
-      thunderbolt: Add ring_configure to tb_nhi_ops
-      thunderbolt: Add add_links to tb_nhi_ops
-      thunderbolt: Add QUIRK_NO_USB3_BW_ALLOC
-      thunderbolt: Export symbols required by the Apple Silicon driver
-      thunderbolt: Add Apple Silicon support
-      arm64: dts: apple: t8103: Add USB4 ACIO and NHI
-      arm64: dts: apple: t8112: Add USB4 ACIO and NHI
-      arm64: dts: apple: t60xx: Add USB4 ACIO and NHI
+ drivers/usb/typec/tipd/core.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
- Documentation/ABI/testing/sysfs-bus-typec          |   36 +
- .../thunderbolt/apple,t8103-usb4-acio.yaml         |  213 ++++
- .../bindings/thunderbolt/apple,t8103-usb4-nhi.yaml |  151 +++
- MAINTAINERS                                        |    4 +
- arch/arm64/boot/dts/apple/t6002-j375d.dts          |  101 +-
- arch/arm64/boot/dts/apple/t600x-dieX.dtsi          |  376 ++++++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi     |  158 ++-
- arch/arm64/boot/dts/apple/t600x-j375.dtsi          |  205 +++-
- arch/arm64/boot/dts/apple/t6022-j180d.dts          |  304 ++++-
- arch/arm64/boot/dts/apple/t6022-j475d.dts          |   10 +
- arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi         |   91 +-
- arch/arm64/boot/dts/apple/t602x-dieX.dtsi          |  376 ++++++
- arch/arm64/boot/dts/apple/t8103-jxxx.dtsi          |   95 +-
- arch/arm64/boot/dts/apple/t8103.dtsi               |  184 +++
- arch/arm64/boot/dts/apple/t8112-jxxx.dtsi          |   95 +-
- arch/arm64/boot/dts/apple/t8112.dtsi               |  186 +++
- drivers/thunderbolt/Kconfig                        |   13 +
- drivers/thunderbolt/Makefile                       |    3 +
- drivers/thunderbolt/apple.c                        | 1277 ++++++++++++++++++++
- drivers/thunderbolt/ctl.c                          |    2 +
- drivers/thunderbolt/domain.c                       |    2 +
- drivers/thunderbolt/eeprom.c                       |   27 +-
- drivers/thunderbolt/nhi.c                          |  127 +-
- drivers/thunderbolt/nhi.h                          |   20 +
- drivers/thunderbolt/quirks.c                       |    9 +
- drivers/thunderbolt/switch.c                       |    8 +-
- drivers/thunderbolt/tb.c                           |   18 +-
- drivers/thunderbolt/tb.h                           |    4 +
- drivers/thunderbolt/tb_regs.h                      |    1 +
- drivers/thunderbolt/tunnel.c                       |   60 +-
- drivers/usb/typec/bus.c                            |   67 +-
- drivers/usb/typec/bus.h                            |    6 +
- drivers/usb/typec/class.c                          |  142 ++-
- drivers/usb/typec/mode_selection.c                 |    6 +-
- drivers/usb/typec/tipd/core.c                      |  241 +++-
- include/linux/usb/typec.h                          |   36 +-
- include/linux/usb/typec_altmode.h                  |   10 +-
- 37 files changed, 4533 insertions(+), 131 deletions(-)
----
-base-commit: 19998fc5177866e77a3be488644438a2227ff370
-change-id: 20260829-b4-apple-soc-tbt-a00e873a52db
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index f76f563dc42b..8c7f93d4270e 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -211,6 +211,7 @@ struct cd321x {
+ 
+ 	struct typec_altmode *port_altmode_dp;
+ 	struct typec_altmode *port_altmode_tbt;
++	struct typec_altmode *port_altmode_usb4;
+ 
+ 	struct typec_mux *mux;
+ 	struct typec_mux_state state;
+@@ -1312,6 +1313,18 @@ static int cd321x_register_port_altmodes(struct cd321x *cd321x)
+ 	}
+ 	cd321x->port_altmode_tbt = amode;
+ 
++	memset(&desc, 0, sizeof(desc));
++	desc.mode_kind = TYPEC_MODE_KIND_USB4;
++	amode = typec_port_register_altmode(cd321x->tps.port, &desc);
++	if (IS_ERR(amode)) {
++		typec_unregister_altmode(cd321x->port_altmode_dp);
++		typec_unregister_altmode(cd321x->port_altmode_tbt);
++		cd321x->port_altmode_dp = NULL;
++		cd321x->port_altmode_tbt = NULL;
++		return PTR_ERR(amode);
++	}
++	cd321x->port_altmode_usb4 = amode;
++
+ 	return 0;
+ }
+ 
+@@ -1347,8 +1360,10 @@ cd321x_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
+ err_unregister_altmodes:
+ 	typec_unregister_altmode(cd321x->port_altmode_dp);
+ 	typec_unregister_altmode(cd321x->port_altmode_tbt);
++	typec_unregister_altmode(cd321x->port_altmode_usb4);
+ 	cd321x->port_altmode_dp = NULL;
+ 	cd321x->port_altmode_tbt = NULL;
++	cd321x->port_altmode_usb4 = NULL;
+ err_unregister_port:
+ 	typec_unregister_port(tps->port);
+ 	return ret;
+@@ -1371,6 +1386,8 @@ cd321x_unregister_port(struct tps6598x *tps)
+ 	cd321x->port_altmode_dp = NULL;
+ 	typec_unregister_altmode(cd321x->port_altmode_tbt);
+ 	cd321x->port_altmode_tbt = NULL;
++	typec_unregister_altmode(cd321x->port_altmode_usb4);
++	cd321x->port_altmode_usb4 = NULL;
+ 	typec_unregister_port(tps->port);
+ }
+ 
 
-Best regards,
---  
-Sven Peter <sven@kernel.org>
+-- 
+2.55.0
 
 
