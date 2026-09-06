@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9718363C63;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB98E3C4B93;
 	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788719827; cv=none; b=fWE+2LfQ3nD1Jn9dNggro/FyLsHx7o4///SPsHs++6UIFmWn5l2fCNas75INtZ8gWdpnD7BsYlHIxhBXAHJ1cgEgaHhfrF0xf5kVCIolpFlcTPJ/9KHR6mIG/ZzAA6vcxZMZM3YS+Z6AKw7k/Ey/WgJnpn5V8aBxeyO0C9vXhHc=
+	t=1788719827; cv=none; b=azxVbgxGMxX3kim0EReuFvljVFuKZ1pqsUgJVHrvCOhXhzUoWNOgRLqy/V83nj7pvM6Q9OumXql8UiqusJCrLAYlzDxTKDhUsnJlpE1UDBC/dl+dRWIbNGHO6vvoA2fq+YaFNQcYd1JL/Xu0BsUBf1D4Pq5Nxir33y/AZItarg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788719827; c=relaxed/simple;
-	bh=B634TnNykRGoLyUS0h7xbpVjfO6WrqvJEEZ0/eEafiM=;
+	bh=Lrw4AjJ97p2myBlJOEqJM3QBI7DYQbZi5S0l017NVLM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TjM6ECKy7O8eDMUvzaZhZuQT3iZflOcTjFNsD7phN0N/D0QUL7baIhu3rMUnW66U6PhXgdnheBXAmEKo/XTBAWEmv8bP0iFN4k8SBR8PhdujqpSHsF0UU8C2QuPVc91M0+Pwrqo77xm6X+sbLTEa6yUQeIeXahLHkXVYWYCtDbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JX2SobR0; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=bWv1pE5EPwMCUM0jAkVLWplUU8l8ys60AG8YVcHv+m4JqH2XDDb2KKEMu8osVkZbefx9jNNdITjfeTLDCSyoun4Kh/ek5kz0lIja32p2mWsA17YMwsmLcAULWT/mma/GQBrTUX+fgqqOiAHuaorwJBp7bFT+7tQKSLuZ3adu11o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B676NGc/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JX2SobR0"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 73BC6C2BD01;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B676NGc/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9507FC32781;
 	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1788719827;
-	bh=B634TnNykRGoLyUS0h7xbpVjfO6WrqvJEEZ0/eEafiM=;
+	bh=Lrw4AjJ97p2myBlJOEqJM3QBI7DYQbZi5S0l017NVLM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JX2SobR0UyxYTtL/4Tru+EoJ5ES2JmqKmrObml57fGSrtWpgeerdNqdrJJ/hWgqrG
-	 e8wt0iknJx0XKKgT4S8TBG1qkJBF+XWvfbn+0r+9wZ0mVswkR27PcmzT8bfXdurUiw
-	 JDviAArnSKM3tcgc7OIQ/js7g0UaUAiIUG17T2v2rgqDoDIIdJQFEYK9K0nx+rjGeD
-	 Ikx1UlqeLw0y9uybjLPxxo9weQFlCYacs0K6V1czKjz4VGgutfHk0S35eI9VbLcmXD
-	 R+ysreJs0dpnphNLukGtAKOy1Obcp1VcFnCfiX1HjON8TkUWNzK+t93IWnF5tMqH7t
-	 CCxv+B/unSwJA==
+	b=B676NGc/3yk3/GO43PXmKq5N2RlKlj7n4G9LmGll0WmYj+a2m+/RfHplkON+mEq9w
+	 /9jNusV+Yz0Xn7hq2pomcPxZVYouEr5rUCueTSK0k4Ls+zFoWhcDa8lRAaRblGqZau
+	 c0gi3aP6MD9D/pvwCqCbmTamQwl6HBDhkiBz/YMAPyDjQVtSVfpkQus3Ghh0nD5aVp
+	 fJeWMH8zRdRDBAPwP4UduIdlEXtIJdEWq5iB1Q7o8/Ud16d1L1k3koPsMU0Cp0At0u
+	 7vNkmUdgOzDo8TKOn+5MlEReSidb8kla3V8W0LzRrUTewSobYMm2V1qOJH2kRr+loh
+	 uD7Y6CEZTBP/g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D532C79FA3;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82426C79F8C;
 	Sun,  6 Sep 2026 18:37:07 +0000 (UTC)
 From: Sven Peter <sven@kernel.org>
-Date: Sun, 06 Sep 2026 20:36:27 +0200
-Subject: [PATCH v2 04/22] usb: typec: tipd: Publish CD321x partner
- alternate modes
+Date: Sun, 06 Sep 2026 20:36:29 +0200
+Subject: [PATCH v2 06/22] dt-bindings: thunderbolt: Add Apple
+ USB4/Thunderbolt ACIO block
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260906-b4-apple-soc-tbt-v2-4-1f80085f93fb@kernel.org>
+Message-Id: <20260906-b4-apple-soc-tbt-v2-6-1f80085f93fb@kernel.org>
 References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
 In-Reply-To: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -57,356 +57,267 @@ Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12306; i=sven@kernel.org;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9043; i=sven@kernel.org;
  h=from:subject:message-id;
- bh=B634TnNykRGoLyUS0h7xbpVjfO6WrqvJEEZ0/eEafiM=;
- b=owGbwMvMwCXmIlirolUq95LxtFoSQ9bcTXviH/5qfx0zcX1//lzFxWr8/ee1bqd/7Cw8u9xue
- cHz5e6rOkpZGMS4GGTFFFm277c3ffLwjeDSTZfew8xhZQIZwsDFKQATCXjByPD34s3TlyuOxh1k
- knoff/z71SPmhckX95qnf5bN8H1btmcuw/+090+zcvaayKq8WeSncnVq4tb7ixhOHfTgmMPwtIn
- 7PiM7AA==
+ bh=Lrw4AjJ97p2myBlJOEqJM3QBI7DYQbZi5S0l017NVLM=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ9bcTXttWH5+EHMIZJlVcvJ8lVbye1auNz52yX+2ld6zm
+ Mb8+0NmRykLgxgXg6yYIsv2/famTx6+EVy66dJ7mDmsTCBDGLg4BWAikgUM/z13brGW3GcdkpBx
+ T8bb+nJFfbf7noJ1xYUz+MO8c8t2aTP8D85x7T457cGM/dHVG3pMDtvd2hHV7rtTIjg/b6XY2wn
+ /WQE=
 X-Developer-Key: i=sven@kernel.org; a=openpgp;
  fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
 X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
  auth_id=407
 
-Register Thunderbolt partner and cable modes once their VDOs are
-available and USB4 as a partner mode once firmware has negotiated it,
-with the EUDO stored in its eudo field. The CD321X firmware still controls
-mode selection and entry itself. This just makes the negotiated modes
-available to consumers on the Type-C bus.
+Each Type-C port with USB4/Thunderbolt support on Apple Silicon SoCs
+comes with block called ACIO ("Apple Converged I/O"). It contains a
+Cortex-M3 co-processor, the hardware blocks implementing the USB4 host
+router, the Native Host Interface (NHI) and a DART IOMMU. The
+co-processor exposes the NHI and its DART to the main SoC bus while it
+is running.
 
-Mark them active after the Type-C mux has been configured and deactivate
-them before the mux is switched back to its safe state to make sure any
-consuming driver is initialized and shut down in the correct order.
+ACIO can only be powered on after the Type-C PHY has been switched to
+USB4/Thunderbolt mode. The Type-C PD controller publishes the negotiated
+mode and cable information through the Type-C class. ACIO finds the
+corresponding Type-C port through the OF graph connection.
 
 Signed-off-by: Sven Peter <sven@kernel.org>
 ---
- drivers/usb/typec/tipd/core.c | 224 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 209 insertions(+), 15 deletions(-)
+ .../thunderbolt/apple,t8103-usb4-acio.yaml         | 213 +++++++++++++++++++++
+ MAINTAINERS                                        |   1 +
+ 2 files changed, 214 insertions(+)
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 8c7f93d4270e..218b52b07b5a 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -213,6 +213,12 @@ struct cd321x {
- 	struct typec_altmode *port_altmode_tbt;
- 	struct typec_altmode *port_altmode_usb4;
- 
-+	struct typec_cable *cable;
-+	struct typec_plug *plug;
-+	struct typec_altmode *plug_altmode_tbt;
-+	struct typec_altmode *partner_altmode_tbt;
-+	struct typec_altmode *partner_altmode_usb4;
+diff --git a/Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-acio.yaml b/Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-acio.yaml
+new file mode 100644
+index 000000000000..5bfe7a66923e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-acio.yaml
+@@ -0,0 +1,213 @@
++# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/thunderbolt/apple,t8103-usb4-acio.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	struct typec_mux *mux;
- 	struct typec_mux_state state;
- 
-@@ -674,13 +680,156 @@ static void tps6598x_handle_plug_event(struct tps6598x *tps, u32 status)
- 	}
- }
- 
-+static void cd321x_unregister_tbt_altmodes(struct cd321x *cd321x)
-+{
-+	if (cd321x->partner_altmode_tbt && cd321x->partner_altmode_tbt->active)
-+		typec_altmode_update_active(cd321x->partner_altmode_tbt, false);
-+	if (cd321x->plug_altmode_tbt && cd321x->plug_altmode_tbt->active)
-+		typec_altmode_update_active(cd321x->plug_altmode_tbt, false);
++title: Apple Silicon USB4/Thunderbolt Host Router (ACIO)
 +
-+	typec_unregister_altmode(cd321x->partner_altmode_tbt);
-+	cd321x->partner_altmode_tbt = NULL;
-+	typec_unregister_altmode(cd321x->plug_altmode_tbt);
-+	cd321x->plug_altmode_tbt = NULL;
-+	typec_unregister_plug(cd321x->plug);
-+	cd321x->plug = NULL;
-+	typec_unregister_cable(cd321x->cable);
-+	cd321x->cable = NULL;
-+}
++maintainers:
++  - Sven Peter <sven@kernel.org>
 +
-+static void cd321x_unregister_usb4_altmode(struct cd321x *cd321x)
-+{
-+	if (cd321x->partner_altmode_usb4 && cd321x->partner_altmode_usb4->active)
-+		typec_altmode_update_active(cd321x->partner_altmode_usb4, false);
++description: |
++  Each Type-C port with USB4/Thunderbolt support on Apple Silicon SoCs has a
++  host router complex called ACIO (Apple Converged I/O). It contains a
++  Cortex-M3 co-processor, the hardware blocks implementing the USB4 router
++  and its PCIe, USB3 and DisplayPort adapters.
 +
-+	typec_unregister_altmode(cd321x->partner_altmode_usb4);
-+	cd321x->partner_altmode_usb4 = NULL;
-+}
++  The co-processor exposes the Native Host Interface (NHI) and its DART IOMMU
++  to the main SoC bus once it is running. They are therefore represented as
++  child nodes. All child registers are located in a single 16 MiB MMIO window
++  and use addresses relative to this window.
 +
-+static void cd321x_unregister_partner_altmodes(struct cd321x *cd321x)
-+{
-+	cd321x_unregister_tbt_altmodes(cd321x);
-+	cd321x_unregister_usb4_altmode(cd321x);
-+}
++  ACIO can only be powered on after the Type-C PHY has been switched to
++  USB4/Thunderbolt mode. Before the connection to the remote device can be
++  established the Type-C PD controller has to publish the negotiated mode and
++  cable information through the Type-C class. ACIO finds the corresponding
++  Type-C port through the OF graph connection.
 +
-+static void cd321x_deactivate_altmodes(struct cd321x *cd321x)
-+{
-+	if (cd321x->partner_altmode_tbt && cd321x->partner_altmode_tbt->active)
-+		typec_altmode_update_active(cd321x->partner_altmode_tbt, false);
-+	if (cd321x->plug_altmode_tbt && cd321x->plug_altmode_tbt->active)
-+		typec_altmode_update_active(cd321x->plug_altmode_tbt, false);
-+	if (cd321x->partner_altmode_usb4 && cd321x->partner_altmode_usb4->active)
-+		typec_altmode_update_active(cd321x->partner_altmode_usb4, false);
-+}
++properties:
++  compatible:
++    oneOf:
++      - const: apple,t8103-usb4-acio
++      - items:
++          - enum:
++              - apple,t6000-usb4-acio
++              - apple,t6020-usb4-acio
++              - apple,t6030-usb4-acio
++              - apple,t6031-usb4-acio
++              - apple,t8112-usb4-acio
++              - apple,t8122-usb4-acio
++          - const: apple,t8103-usb4-acio
 +
-+static int cd321x_register_tbt_altmodes(struct cd321x *cd321x,
-+					struct typec_thunderbolt_data *tbt_data,
-+					u32 data_status)
-+{
-+	struct typec_cable_desc cable_desc = {
-+		.type = USB_PLUG_TYPE_C,
-+		.active = !!(data_status & TPS_DATA_STATUS_ACTIVE_CABLE),
-+	};
-+	struct typec_plug_desc plug_desc = {
-+		.index = TYPEC_PLUG_SOP_P,
-+	};
-+	struct typec_altmode_desc desc = {
-+		.svid = USB_TYPEC_TBT_SID,
-+		.mode = TYPEC_ANY_MODE,
-+		.mode_selection = true,
-+	};
-+	int ret;
++  reg:
++    items:
++      - description: Root complex and co-processor control registers
++      - description: SRAM used for communication with the co-processor
 +
-+	if (cd321x->partner_altmode_tbt && cd321x->plug_altmode_tbt &&
-+	    cd321x->partner_altmode_tbt->vdo == tbt_data->device_mode &&
-+	    cd321x->plug_altmode_tbt->vdo == tbt_data->cable_mode)
-+		return 0;
++  reg-names:
++    items:
++      - const: rc
++      - const: sram
 +
-+	cd321x_unregister_tbt_altmodes(cd321x);
++  mboxes:
++    maxItems: 1
++    description: Mailbox used for RTKit communication with the co-processor
 +
-+	cd321x->cable = typec_register_cable(cd321x->tps.port, &cable_desc);
-+	if (IS_ERR(cd321x->cable)) {
-+		ret = PTR_ERR(cd321x->cable);
-+		cd321x->cable = NULL;
-+		return ret;
-+	}
++  resets:
++    maxItems: 1
++    description: Reset used to start the ACIO block before booting the
++      co-processor
 +
-+	cd321x->plug = typec_register_plug(cd321x->cable, &plug_desc);
-+	if (IS_ERR(cd321x->plug)) {
-+		ret = PTR_ERR(cd321x->plug);
-+		cd321x->plug = NULL;
-+		goto err_unregister;
-+	}
++  power-domains:
++    maxItems: 3
 +
-+	desc.vdo = tbt_data->cable_mode;
-+	cd321x->plug_altmode_tbt = typec_plug_register_altmode(cd321x->plug, &desc);
-+	if (IS_ERR(cd321x->plug_altmode_tbt)) {
-+		ret = PTR_ERR(cd321x->plug_altmode_tbt);
-+		cd321x->plug_altmode_tbt = NULL;
-+		goto err_unregister;
-+	}
++  apple,tunable-rc:
++    $ref: /schemas/types.yaml#/definitions/uint32-matrix
++    items:
++      items:
++        - description: Register offset
++        - description: Mask of bits to clear
++        - description: Bits to set
++    description: |
++      List of (register offset, mask, value) tuples copied from Apple's Device
++      Tree, converted by the bootloader and used to configure the root complex
++      after the co-processor has booted.
 +
-+	desc.vdo = tbt_data->device_mode;
-+	cd321x->partner_altmode_tbt =
-+		typec_partner_register_altmode(cd321x->tps.partner, &desc);
-+	if (IS_ERR(cd321x->partner_altmode_tbt)) {
-+		ret = PTR_ERR(cd321x->partner_altmode_tbt);
-+		cd321x->partner_altmode_tbt = NULL;
-+		goto err_unregister;
-+	}
++  '#address-cells':
++    const: 1
 +
-+	return 0;
++  '#size-cells':
++    const: 1
 +
-+err_unregister:
-+	cd321x_unregister_tbt_altmodes(cd321x);
-+	return ret;
-+}
++  ranges:
++    maxItems: 1
++    description: Single 16 MiB MMIO window containing all child registers
 +
-+static int cd321x_register_usb4_altmode(struct cd321x *cd321x, u32 eudo)
-+{
-+	struct typec_altmode_desc desc = {
-+		.mode_kind = TYPEC_MODE_KIND_USB4,
-+		.eudo = eudo,
-+		.mode_selection = true,
-+	};
-+	int ret;
++  nonposted-mmio: true
 +
-+	if (cd321x->partner_altmode_usb4 &&
-+	    cd321x->partner_altmode_usb4->eudo == eudo)
-+		return 0;
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    description:
++      OF graph ports for the USB4 router. The port numbers correspond to the
++      USB4 router adapter numbers.
++    properties:
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Lane 0 adapter of the connector-facing USB4 port
 +
-+	cd321x_unregister_usb4_altmode(cd321x);
-+	cd321x->partner_altmode_usb4 =
-+		typec_partner_register_altmode(cd321x->tps.partner, &desc);
-+	if (IS_ERR(cd321x->partner_altmode_usb4)) {
-+		ret = PTR_ERR(cd321x->partner_altmode_usb4);
-+		cd321x->partner_altmode_usb4 = NULL;
-+		return ret;
-+	}
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Lane 1 adapter of the connector-facing USB4 port
 +
-+	return 0;
-+}
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: PCIe adapter
 +
- static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status *st)
- {
- 	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
-+	int ret;
++      port@4:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: USB3 adapter
 +
-+	if ((st->data_status & TPS_DATA_STATUS_DATA_CONNECTION) &&
-+	    !(st->data_status & CD321X_DATA_STATUS_USB4_CONNECTION)) {
-+		if (st->data_status & TPS_DATA_STATUS_USB3_CONNECTION)
-+			typec_partner_set_usb_mode(tps->partner, USB_MODE_USB3);
-+		else if (st->data_status & TPS_DATA_STATUS_USB2_CONNECTION)
-+			typec_partner_set_usb_mode(tps->partner, USB_MODE_USB2);
-+	}
- 
- 	if (!(st->data_status & TPS_DATA_STATUS_DATA_CONNECTION)) {
--		if (cd321x->state.mode == TYPEC_STATE_SAFE)
-+		if (cd321x->state.mode == TYPEC_STATE_SAFE &&
-+		    (!cd321x->partner_altmode_tbt || !cd321x->partner_altmode_tbt->active) &&
-+		    (!cd321x->partner_altmode_usb4 || !cd321x->partner_altmode_usb4->active))
- 			return;
++      port@5:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: First DP IN adapter
 +
-+		cd321x_deactivate_altmodes(cd321x);
- 		cd321x->state.alt = NULL;
- 		cd321x->state.mode = TYPEC_STATE_SAFE;
- 		cd321x->state.data = NULL;
-@@ -718,6 +867,7 @@ static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status
- 			return;
- 		}
- 
-+		cd321x_deactivate_altmodes(cd321x);
- 		dp_data.status = le32_to_cpu(st->dp_sid_status.status_rx);
- 		dp_data.conf = le32_to_cpu(st->dp_sid_status.configure);
- 		cd321x->state.alt = cd321x->port_altmode_dp;
-@@ -728,7 +878,8 @@ static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status
- 		struct typec_thunderbolt_data tbt_data;
- 
- 		if (cd321x->state.alt == cd321x->port_altmode_tbt &&
--		   cd321x->state.mode == TYPEC_TBT_MODE)
-+		    cd321x->state.mode == TYPEC_TBT_MODE &&
-+		    cd321x->partner_altmode_tbt && cd321x->partner_altmode_tbt->active)
- 			return;
- 
- 		tbt_data.cable_mode = TBT_MODE |
-@@ -744,27 +895,54 @@ static void cd321x_typec_update_mode(struct tps6598x *tps, struct cd321x_status
- 			(u32)le16_to_cpu(st->intel_vid_status.device_mode) << 16;
- 		tbt_data.enter_vdo =
- 			(u32)le16_to_cpu(st->intel_vid_status.enter_vdo) << 16;
++      port@6:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Second DP IN adapter
 +
-+		ret = cd321x_register_tbt_altmodes(cd321x, &tbt_data, st->data_status);
-+		if (ret) {
-+			dev_err(tps->dev, "failed to register Thunderbolt altmodes: %d\n", ret);
-+			return;
-+		}
++    required:
++      - port@1
 +
-+		cd321x_deactivate_altmodes(cd321x);
- 		cd321x->state.alt = cd321x->port_altmode_tbt;
- 		cd321x->state.mode = TYPEC_TBT_MODE;
- 		cd321x->state.data = &tbt_data;
--		typec_mux_set(cd321x->mux, &cd321x->state);
-+		ret = typec_mux_set(cd321x->mux, &cd321x->state);
-+		if (!ret) {
-+			typec_altmode_update_active(cd321x->plug_altmode_tbt, true);
-+			typec_altmode_update_active(cd321x->partner_altmode_tbt, true);
-+		}
- 	} else if (st->data_status & CD321X_DATA_STATUS_USB4_CONNECTION) {
- 		struct enter_usb_data eusb_data;
- 
--		if (cd321x->state.alt == NULL && cd321x->state.mode == TYPEC_MODE_USB4)
-+		if (!cd321x->state.alt &&
-+		    cd321x->state.mode == TYPEC_MODE_USB4 &&
-+		    cd321x->partner_altmode_usb4 && cd321x->partner_altmode_usb4->active)
- 			return;
- 
- 		eusb_data.eudo = le32_to_cpu(st->usb4_status.eudo);
- 		eusb_data.active_link_training =
- 			!!(st->data_status & TPS_DATA_STATUS_ACTIVE_LINK_TRAIN);
- 
-+		ret = cd321x_register_usb4_altmode(cd321x, eusb_data.eudo);
-+		if (ret) {
-+			dev_err(tps->dev, "failed to register USB4 altmode: %d\n", ret);
-+			return;
-+		}
++  iommu@a80000:
++    $ref: /schemas/iommu/apple,dart.yaml#
++    description: DART IOMMU exposed by ACIO and used for DMA from the NHI
 +
-+		cd321x_deactivate_altmodes(cd321x);
- 		cd321x->state.alt = NULL;
- 		cd321x->state.data = &eusb_data;
- 		cd321x->state.mode = TYPEC_MODE_USB4;
--		typec_mux_set(cd321x->mux, &cd321x->state);
-+		ret = typec_mux_set(cd321x->mux, &cd321x->state);
-+		if (!ret) {
-+			typec_partner_set_usb_mode(tps->partner, USB_MODE_USB4);
-+			typec_altmode_update_active(cd321x->partner_altmode_usb4, true);
-+		}
- 	} else {
- 		if (cd321x->state.alt == NULL && cd321x->state.mode == TYPEC_STATE_USB)
- 			return;
++  nhi@f00000:
++    $ref: /schemas/thunderbolt/apple,t8103-usb4-nhi.yaml#
++    description: Native Host Interface exposed by ACIO
 +
-+		cd321x_deactivate_altmodes(cd321x);
- 		cd321x->state.alt = NULL;
- 		cd321x->state.mode = TYPEC_STATE_USB;
- 		cd321x->state.data = NULL;
-@@ -819,24 +997,30 @@ static void cd321x_update_work(struct work_struct *work)
- 				  &cd321x->cur_partner_identity, sizeof(struct usb_pd_identity))));
- 
- 	/* If we are switching from an active role, transition to USB_ROLE_NONE first */
--	if (old_role != USB_ROLE_NONE && (new_role != old_role || was_disconnected))
-+	if (old_role != USB_ROLE_NONE &&
-+	    (new_role != old_role || partner_changed || was_disconnected))
- 		usb_role_switch_set_role(tps->role_sw, USB_ROLE_NONE);
- 
--	/* Process partner disconnection or change */
--	if (!new_connected || partner_changed) {
--		if (!IS_ERR(tps->partner))
--			typec_unregister_partner(tps->partner);
--		tps->partner = NULL;
--	}
--
--	/* If there was a disconnection, set PHY to off */
--	if (!new_connected || was_disconnected) {
-+	/*
-+	 * Also deactivate any altmodes and switch to SAFE_STATE if there was an
-+	 * active connection.
-+	 */
-+	if (!new_connected || partner_changed || was_disconnected) {
-+		cd321x_deactivate_altmodes(cd321x);
- 		cd321x->state.alt = NULL;
- 		cd321x->state.mode = TYPEC_STATE_SAFE;
- 		cd321x->state.data = NULL;
- 		typec_set_mode(tps->port, TYPEC_STATE_SAFE);
- 	}
- 
-+	/* Process partner disconnection or change after all child modes exited. */
-+	if (!new_connected || partner_changed) {
-+		cd321x_unregister_partner_altmodes(cd321x);
-+		if (!IS_ERR(tps->partner))
-+			typec_unregister_partner(tps->partner);
-+		tps->partner = NULL;
-+	}
++required:
++  - compatible
++  - reg
++  - reg-names
++  - mboxes
++  - power-domains
++  - resets
++  - '#address-cells'
++  - '#size-cells'
++  - ranges
++  - nonposted-mmio
++  - ports
++  - iommu@a80000
++  - nhi@f00000
 +
- 	/* Update Type-C properties */
- 	typec_set_pwr_opmode(tps->port, pwr_opmode);
- 	typec_set_pwr_role(tps->port, TPS_STATUS_TO_TYPEC_PORTROLE(st.status));
-@@ -863,6 +1047,7 @@ static void cd321x_update_work(struct work_struct *work)
- 		tps->partner = typec_register_partner(tps->port, &desc);
- 		if (IS_ERR(tps->partner)) {
- 			dev_warn(tps->dev, "%s: failed to register partner\n", __func__);
-+			tps->partner = NULL;
- 			return;
- 		}
- 
-@@ -1380,6 +1565,7 @@ cd321x_unregister_port(struct tps6598x *tps)
- {
- 	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
- 
-+	cd321x_unregister_partner_altmodes(cd321x);
- 	typec_mux_put(cd321x->mux);
- 	cd321x->mux = NULL;
- 	typec_unregister_altmode(cd321x->port_altmode_dp);
-@@ -1802,6 +1988,14 @@ static void cd321x_remove(struct tps6598x *tps)
- 	struct cd321x *cd321x = container_of(tps, struct cd321x, tps);
- 
- 	cancel_delayed_work_sync(&cd321x->update_work);
++additionalProperties: false
 +
-+	guard(mutex)(&tps->lock);
-+	cd321x_deactivate_altmodes(cd321x);
-+	cd321x->state.alt = NULL;
-+	cd321x->state.mode = TYPEC_STATE_SAFE;
-+	cd321x->state.data = NULL;
-+	typec_set_mode(tps->port, TYPEC_STATE_SAFE);
-+	cd321x_unregister_partner_altmodes(cd321x);
- }
- 
- static int tps6598x_probe(struct i2c_client *client)
++examples:
++  - |
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        cio@501ac0000 {
++            compatible = "apple,t8103-usb4-acio";
++            reg = <0x5 0x01ac0000 0x0 0xc000>,
++                  <0x5 0x01080000 0x0 0x20000>;
++            reg-names = "rc", "sram";
++            ranges = <0x0 0x5 0x01000000 0x1000000>;
++            #address-cells = <1>;
++            mboxes = <&usb4_1_mbox>;
++            nonposted-mmio;
++            pinctrl-0 = <&acio1_pins>;
++            pinctrl-names = "default";
++            power-domains = <&ps_atc1_cio>,
++                            <&ps_atc1_cio_pcie>,
++                            <&ps_atc1_cio_usb>;
++            resets = <&cio_reset 1>;
++            #size-cells = <1>;
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@1 {
++                    reg = <1>;
++
++                    endpoint {
++                        remote-endpoint = <&typec1_con_tbt>;
++                    };
++                };
++            };
++
++            usb4_1_dart: iommu@a80000 {
++                compatible = "apple,t8103-dart";
++                reg = <0xa80000 0x4000>;
++                interrupt-parent = <&aic>;
++                interrupts = <1 890 4>;
++                #iommu-cells = <1>;
++            };
++
++            nhi@f00000 {
++                compatible = "apple,t8103-usb4-nhi";
++                reg = <0xf00000 0x100000>,
++                      <0xdb0000 0x30004>;
++                reg-names = "nhi", "pdf";
++                interrupt-parent = <&aic>;
++                interrupts = <1 863 4>, <1 864 4>, <1 865 4>, <1 866 4>,
++                             <1 867 4>, <1 868 4>, <1 869 4>, <1 870 4>,
++                             <1 871 4>, <1 872 4>, <1 873 4>, <1 874 4>,
++                             <1 875 4>, <1 876 4>, <1 877 4>, <1 878 4>,
++                             <1 879 4>, <1 880 4>, <1 881 4>, <1 882 4>,
++                             <1 883 4>, <1 884 4>, <1 885 4>, <1 886 4>;
++                interrupt-names = "txring0", "txring1", "txring2", "txring3",
++                                  "txring4", "txring5", "txring6", "txring7",
++                                  "txring8", "txring9", "txring10", "txring11",
++                                  "rxring0", "rxring1", "rxring2", "rxring3",
++                                  "rxring4", "rxring5", "rxring6", "rxring7",
++                                  "rxring8", "rxring9", "rxring10", "rxring11";
++                iommus = <&usb4_1_dart 1>;
++                /* To be filled by the loader */
++                apple,thunderbolt-drom = [00];
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a9d2e2a914c2..406cf664dedc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2659,6 +2659,7 @@ F:	Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
+ F:	Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml
+ F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
+ F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
++F:	Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-acio.yaml
+ F:	Documentation/devicetree/bindings/thunderbolt/apple,t8103-usb4-nhi.yaml
+ F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
 
 -- 
 2.55.0
