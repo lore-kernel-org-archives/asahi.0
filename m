@@ -1,123 +1,110 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE413CB55D
-	for <asahi@lists.linux.dev>; Sat,  5 Sep 2026 08:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B553033EB;
+	Sun,  6 Sep 2026 12:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788596749; cv=none; b=Ey/pj3LV5Yoy78WVvkFhkpYLX4YYqx4cLXM2SZbJBaIPjHtJxTy9GfWmKnmKx4FODpJ8OwdhS2nldCV3dt3kjqcb2ivpl6JPYeNQ+o1yfkrqFFkG4EY0X7bEN/4/T6bij+1p7ERGf10v09tO4NpFww5kUv861ea3EZd1BdAXoHw=
+	t=1788697446; cv=none; b=qjROs+6cnVGhxlOhmmRRI2vr1fo6I1kdcMacUuzfto6HB8fugGOcbPfDtEx8rL3mbxum2RFbO09LIjIqjoitS5vJqfQK77vGtyQh4ibNUgOCt3hh2fCc3dibN4ZzHyXqAOk2eoDzFwXtv2ni9SOExeDWpO7Cj7Sfh/87wj2TAd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788596749; c=relaxed/simple;
-	bh=OviR5kaHs976PRzULV1vC0IpWTkvgJa0y9VkRRzLNZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W9p++GA32jCmzP1Ka5ldSK2rdQCMIa0VLQX60hiL6/6WPM49kG+A8vFEz4Vgad06uA+KlD9QF9hramGYUppWyt2mPVEcvFvZDaXcN+/UFqv5BFNeDL7eciCw9tvvcM1oGdE0LffXJ2BiKqYKdWe37Z2mY/nlH0Yejk82kn78R6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TQQCTBco; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788697446; c=relaxed/simple;
+	bh=PPCoiTnejb2A7HeZJrPTsLj/TNjrcnpr7ZZdHjJJ0t8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HjmxkAsSnkpIrwH79gO8Pdqnax4HiosBtoELQacgDfNa+n4JXJLWFvgmgHc1eZ2yZN0oGW2uLJ+ZPwJf+f18e4XjYgI0+ot55mIEkXmv8jIcgrU3U1qJmsQ7B24JrUx9n/lQoWZ6dO2UnqgXCCvjaPMtgRTyLN/ArX3G6qmym6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NgaPn1zD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TQQCTBco"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3966791a6eeso2102593a91.3
-        for <asahi@lists.linux.dev>; Sat, 05 Sep 2026 01:25:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788596743; x=1789201543; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=w4JWIpadkBBtpyHMGkKKLMv6w38PE5gnqdnr/RtDlQw=;
-        b=TQQCTBconFXbhKAtF/+QgUcrq9ru85xA03qTijH71HKzpPWsYdQme/r7RoSuPtxB4/
-         SYdzJ7eNAwRy+LVkMdU4+xIgRpXQKZJcXxx3ReU9vAgRfNvOjqdXaMspaQFTaS+iCWO8
-         EiHPBdaiTNpQncFr2TrQRkmtji17fY30mmRJiifUI4GBcPt0Cf57XJsdwxx7/TKuqkiL
-         LAosBrpzuwaoSSiiJQS59tMx9ENoU7aTeSD0/huU+IlbVKRM+XOeeqoYUZsY9pe5Bget
-         sKHOlzcjTb9bFupVdO0SwTQoOrzVEAEg1EOWCOue0XsiLIMgogBTRl5zvVywq0rO4czm
-         DIiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788596743; x=1789201543;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=w4JWIpadkBBtpyHMGkKKLMv6w38PE5gnqdnr/RtDlQw=;
-        b=a0Qx+u/c97jmzQxn7o25VCx9TUWiP6c3nS74EmrFQnLUtudxcRA2yc2YOsoQc6tXkd
-         rFN/G8YIg2+TFApHdxmzvV8aTWcr4W47DOq7vZozJnWfswB1YkWiTr5bJJUejnicJe7y
-         NnfsN12munS2yHHATbwMu0MQBfP0/YaFN0sax6NWKLm7+3AuzOUwVRTTdEtH7wYbseA3
-         ICUoYty2uXvRp2os6ez3v1RGGz1EbUL/lVWJEelTWdVYg8H85xEgo2CSa49r9qwLh5xa
-         gqImgtl+f9lVV5vomCM/yaXe2JTcV2s5DEjvbf3/Hja+pcSy1OvSfnVr9ENW31ikIzW7
-         KTuQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwtql0lkE3WYFcqrhJe8JQ9WZNAhQzbOnEtts+DUUzOEWymts/ApDAjePlzwLjyPBdCWN92BQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++ljayBpBwqAODyTNCKNz36oT6WtO63opn6XjRhwYM8WekKNOtem
-	ttgQcenp2hlp10xNgFccufA50LBRb4T/86SdqZYhR4DKQOXj7qf/wBIE
-X-Gm-Gg: AYBFou2KEcaPKa3a7flQYQQzO4CTb5SMoZ/KatHvWlaNptNNEG5TGKDwwEOi1CVwS+S
-	LjVAzikQsqEQooSWcpCGuqJtGApPWwnqg7Lj5NrStAb1GhwCap1MXTw9pLXVAyetAFeJP+59+vi
-	arurc3CciHpSxgFFUDjyZidVMLzTdlbyo8CdZFG4jefvDoxbUHUocqCADpYOL+oh4V8BMSd6q1+
-	anW72eNNhRK8RNgUhnspvJioA6/NNQQUf1SyhxXqYrdiCUMfL2GNxHfVxYu46NRbbauwzQiARZq
-	Y6y8V3MLtTpIYaLxRT6jPyukBpAhqqeM3sv+aEVwRlZFN5W14LPMnWcHgzwtt7ejPLCH5H6Y3hr
-	wmH1ErKvpX8L/LN4Fk4dYLV+1tX2yDFkIrT7UKPlgTVsMgyg0TW/fH6grM+Xlsn0ypxNrnfayAN
-	IcMSps9aSkwGcYfxGZBAOQCi1Drymv7xu7IWaVH3WHqz23/d4/cnhm0Uhv77dhVKoKQ6HX+/3Uh
-	7KMBw==
-X-Received: by 2002:a17:90b:17d0:b0:398:9bd4:d18 with SMTP id 98e67ed59e1d1-39b26298ba1mr15383737a91.23.1788596743161;
-        Sat, 05 Sep 2026 01:25:43 -0700 (PDT)
-Received: from [192.168.1.107] ([223.122.38.120])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885ca07sm14262328eec.1.2026.09.05.01.25.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Sep 2026 01:25:42 -0700 (PDT)
-Message-ID: <4e65ef39-cf1b-49d4-a899-da36acb442c2@gmail.com>
-Date: Sat, 5 Sep 2026 16:25:36 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NgaPn1zD"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 05D1AC2BCFD;
+	Sun,  6 Sep 2026 12:24:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788697445;
+	bh=PPCoiTnejb2A7HeZJrPTsLj/TNjrcnpr7ZZdHjJJ0t8=;
+	h=From:Date:Subject:To:Cc:From;
+	b=NgaPn1zDgE5UdQl6JCJeBbgxcZrZJ+aEflhpNPNigLrQukmS+ILnuRqRv58v04XE8
+	 sNqWI+xuyA5VcnBqytUEb0Kg2gAZjflJ/UJK2DFpIL0x22hrw4eBSS8q40K0pAVqJ1
+	 0JzZT+GSvvKNhJ8qMMdECF6883uKCYSO9HnuiJEh/8ImExXSwhSEyd8CH61GdizDoQ
+	 b2hK1DgPuK7/vteyj6sXb6WsxSNeLocVhLlTZ1WMRsH8k/GSEq8Vw/al+3oZkrvpLD
+	 AzAzkrku6wkQpEzrGx940thr97IG04U8wJLAykaO2s00yLznFU9/6ikodj6lEzQU5Q
+	 PtSJExpvun5eg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4014C79F99;
+	Sun,  6 Sep 2026 12:24:04 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Sun, 06 Sep 2026 14:24:00 +0200
+Subject: [PATCH] usb: typec: tipd: Disable mode control for CD321x
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] dt-bindings: interrupt-controller: apple,aic2: Add
- apple,t8140 compatible
-To: Yureka Lilian <yureka@cyberchaos.dev>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
- Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-watchdog@vger.kernel.org
-References: <20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev>
- <20260904-apple-a18-pro-initial-devicetrees-v1-4-0c25401d165d@cyberchaos.dev>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20260904-apple-a18-pro-initial-devicetrees-v1-4-0c25401d165d@cyberchaos.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260906-b4-tipd-mode-ctrl-v1-1-71032eaaa452@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw5FMBCA4VeRWZuk6nLwKmJBO5wRt7QlEvHui
+ uW3+P8TLBkmC2VwgqGdLS+zRxQGoP7N3BOy9gYpZCYKkWGboONV47RoQuXMiLnI41QXFHc/Cb5
+ bDXV8vM+q/my3diDlnhFc1w1X7lvzdQAAAA==
+X-Change-ID: 20260906-b4-tipd-mode-ctrl-80835d9e3f72
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: asahi@lists.linux.dev, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1660; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=PPCoiTnejb2A7HeZJrPTsLj/TNjrcnpr7ZZdHjJJ0t8=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ9bc6ERf2TU/jQwrPzo/PDlT5tjjLxdKjH/tDDLLvaXss
+ bd3/4YnHaUsDGJcDLJiiizb99ubPnn4RnDppkvvYeawMoEMYeDiFICJrHrIyPBsnqVjSmCM/VTx
+ 458qpoh86/3ya1V8Y8yFRRfnbDr3+d5BRobGZSuSvFxYdmRa3BKLejqJaeVeoZqnjHzXlwXfsA2
+ 6/YAPAA==
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
+
+Apple's CD321X firmware controls which alternate mode is entered and
+cannot be influenced from Linux. Set the no_mode_control capability to
+accurately reflect this to the typec subsystem.
+
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+ drivers/usb/typec/tipd/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 522f56742aa9..8fdb37e288b4 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -151,6 +151,7 @@ struct tipd_data {
+ 	irq_handler_t irq_handler;
+ 	u64 irq_mask1;
+ 	size_t tps_struct_size;
++	bool no_mode_control;
+ 	void (*remove)(struct tps6598x *tps);
+ 	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
+ 	void (*unregister_port)(struct tps6598x *tps);
+@@ -1242,6 +1243,7 @@ tps6598x_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
+ 	typec_cap.driver_data = tps;
+ 	typec_cap.ops = &tps6598x_ops;
+ 	typec_cap.fwnode = fwnode;
++	typec_cap.no_mode_control = tps->data->no_mode_control;
+ 
+ 	switch (TPS_SYSCONF_PORTINFO(conf)) {
+ 	case TPS_PORTINFO_SINK_ACCESSORY:
+@@ -2015,6 +2017,7 @@ static const struct tipd_data cd321x_data = {
+ 		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
+ 		     APPLE_CD_REG_INT_PLUG_EVENT,
+ 	.tps_struct_size = sizeof(struct cd321x),
++	.no_mode_control = true,
+ 	.remove = cd321x_remove,
+ 	.register_port = cd321x_register_port,
+ 	.unregister_port = cd321x_unregister_port,
+
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260906-b4-tipd-mode-ctrl-80835d9e3f72
+
+Best regards,
+--  
+Sven Peter <sven@kernel.org>
 
 
-Yureka Lilian 於 2026/9/5 凌晨3:49 寫道:
-> The Apple t8140 (A18 Pro) SoC uses an AIC3 as interrupt controller, same as
-> the M1-M4 SoCs.
->
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
-> ---
->  Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> index 1cb886785173..e3cadc5ad39d 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> @@ -46,6 +46,7 @@ properties:
->                - apple,t6030-aic3
->                - apple,t6031-aic3
->                - apple,t8132-aic3
-> +              - apple,t8140-aic3
-
-the title should be "... Add t8140 compatible" describing the hardware corresponding
-to the added compatible since the compatible being added is not "apple,t8140".
-
-(Alternatively, if you mention the compatible in title, say "...Add apple,t8140-aic3" as
-"compatible" is already implied)
-
-
->            - const: apple,t8122-aic3
->        - const: apple,t8122-aic3
->  
->
