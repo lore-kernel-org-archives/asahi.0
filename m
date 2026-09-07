@@ -1,74 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741EC37C0F8;
-	Mon,  7 Sep 2026 17:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B0E503BC5;
+	Mon,  7 Sep 2026 17:23:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788801616; cv=none; b=KaAkUrIrqiUptqPgEBZlwJ1xtfPnpyD2zNfWSJrL5U1mq27jaSl3xEnw2O4FuDuOgZ9KhRgibN8Dxgg4P0X5ByTm1QFqJrEKABIJC5K68fAlW4x5A5jS40BUIc295EMgb/QPPsVPlHdMpoi3RHUNAzqOAkS/sYjRIgXz/F+N7OA=
+	t=1788801838; cv=none; b=oRZwS/FmacGc5XCergDMmzaPs2aWdP0AGqsfprNdK2/kLozA35OX5cizTKfnwuwyagu/Rx3D0XBMI9ACX/TYLJOz5edTnv/1Rk2bMVT8hXPVk4GKHiFxNq9bSlTJhQzulKZDyAsvOiWn4So3oxb58togKRVTe35ho37Nx8Eah0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788801616; c=relaxed/simple;
-	bh=97+OIOU3FVs5e16jdVP2eQyN+TbIv2ppCbJRSjhQBf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=de34JiWR0ZbIY9BFS/DOhDh1k5Mzqks3hyLdAbWD8VcvEGsbA/GyeC36JRfDwuFWpFEN/Kk65IPTUVyDY8rO54noBqtbdE4Zb5nTJna3adPLHZ6TYvosc5+NhdXH3X0k1es0jGJzAmrusm/taPKwh1IHS6sKjHQxs2RdGn/9BJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CUJ5jmuQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788801838; c=relaxed/simple;
+	bh=VPIix+7AnaBedj/9o6f9YRK+QLjnUUv24fnzZhVoMeY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G/IZvc4rzwuKSADFrluak+vUJeVyH3bE64c6notNs9OWKq2XCEwhzn6RWWU5JhFtS4fi2uAmjS1TeN2QeZ7qQzpn2h3N2HpLWE/S9vCf8LaQGxraCDdsB/bg2mtKDFSTaSIxAXaGOraOdG2/1TZYQOVjef38dIbUdKonb3lcwL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AJvMuifV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CUJ5jmuQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B4AE1F00A3A;
-	Mon,  7 Sep 2026 17:20:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AJvMuifV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 674201F00A3A;
+	Mon,  7 Sep 2026 17:23:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788801615;
-	bh=97+OIOU3FVs5e16jdVP2eQyN+TbIv2ppCbJRSjhQBf8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CUJ5jmuQm/wfO9+umLYxJakXxI1ArGbpBbYEih7cYop9zMveg0RDrcjW5SH9fjJ0J
-	 nYwaBBa3xuRg0qO/7Tr637jz+Nio9SlFp3QjoOz+JTfdING80kAcTDN5zHBTIx4dbJ
-	 pHqWLwdpYQVEvA1s9lklHO4C+T90Ta9tfkEb4kQcX46oH+tdt1ALCpmWp+mx1xcChY
-	 kGFs2MnM2evTSmjxj+ozFWD2zjV6dYkm6r09ZAzu4Gd2LXS/uo7WBsqsQ9AbGGd7Hy
-	 lSZmHL9KupVjupnaKyXj/u7pHMe9n9aw+puqV+dk6LJHWfluT1HOAT8gv7NrRcR5Id
-	 LzVcJj7GUpFUQ==
-Date: Mon, 7 Sep 2026 18:20:10 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: nvme: Add apple,t8132-nvme-ans2
- compatible
-Message-ID: <20260907-provoking-peculiar-835c812fd019@spud>
-References: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
- <20260906-apple-nvme-t8132-v2-1-ac0328590823@cyberchaos.dev>
+	s=k20260515; t=1788801837;
+	bh=VPIix+7AnaBedj/9o6f9YRK+QLjnUUv24fnzZhVoMeY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=AJvMuifV/ySOJl35bWcRxUaZJ5UPFD8LTnXwHqNkE8397RX+9FesEOyfk1YcJrz4n
+	 Fx0Mf1BatExxqtDFrIOyrWYHXW/WwZ717n8XtUOb34tx+X4dmXGgs6SEeWBOrza71H
+	 +WZw7XZzG7fNsl4AKsXW/wpO5I8KEq4gYw128qr3oePlvnPPyorqklx7Hdtq08lMTf
+	 oRnPazAmw1GUUeueqLoAaRWgE2amzDnP1tvVP+Q/cY0Q8bvjmINIJjyRriqt9ZjFGD
+	 cBLUpT8P0xIIH/7xVZbKOhf6MMzN34Sx/xMf1akGFfOHRsiPdug63huToARwjGSyJO
+	 yLxHrpLGPm2YA==
+Message-ID: <4c10971a-6165-49e6-b97f-978bbe6e1cb3@kernel.org>
+Date: Mon, 7 Sep 2026 19:23:52 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KWWMlReF3FRZYBOp"
-Content-Disposition: inline
-In-Reply-To: <20260906-apple-nvme-t8132-v2-1-ac0328590823@cyberchaos.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] nvme: apple: add t8132 (M4) ANS2 NVMe support
+To: Yureka Lilian <yureka@cyberchaos.dev>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
+ <20260906-apple-nvme-t8132-v2-2-ac0328590823@cyberchaos.dev>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20260906-apple-nvme-t8132-v2-2-ac0328590823@cyberchaos.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---KWWMlReF3FRZYBOp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+On 9/6/26 22:15, Yureka Lilian wrote:
+> Add support for ANS2 NVMe on the Apple t8132 (M4) SoC.
+>
+> This variant requires the IO queues to be registered using additional
+> MMIO writes. The qsize of the create_{cq,sq} command is now ignored, and
+> instead a write to mmio_nvme+0x1210 (which was previously known as
+> APPLE_ANS_MAX_PEND_CMDS_CTRL) sets the IO queue sizes.
+>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> ---
+Reviewed-by: Sven Peter <sven@kernel.org>
 
---KWWMlReF3FRZYBOp
-Content-Type: application/pgp-signature; name=signature.asc
 
------BEGIN PGP SIGNATURE-----
+Best,
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCap7ySQAKCRB4tDGHoIJi
-0tMiAQCxaFqnJ8/puuY16UC+S1C3igPHNaEUPwH63h8vCXlZwwEArbh0khR951c7
-OsyS6qOdcmVhldFbjDikXdJH9bbAmQg=
-=Kaxe
------END PGP SIGNATURE-----
-
---KWWMlReF3FRZYBOp--
+Sven
