@@ -1,116 +1,118 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC9E45FFAC
-	for <asahi@lists.linux.dev>; Mon,  7 Sep 2026 10:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C5C46983C
+	for <asahi@lists.linux.dev>; Mon,  7 Sep 2026 12:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788777912; cv=none; b=MfpyGnwuZFkKaxd7EOLGWTkV7bGYJOc6pd1lOZck+2W4uNGUOEUtqTLSG/mCmM2s0F7oN2XL+Stq3Qeyce+miFWU8eAcdYYl7Nva2b5o+r5t3NhRCW/tflmsjHtKmMpfoz9WIa/8H6NvxvgBV38O3MMPMKNAXXkpfIBqg2Ony24=
+	t=1788782924; cv=none; b=XdCFGK1ECcY+r5crZQKUFAYZAcEwA/dqNAXBiRr8CqeHzuU7hPdaL635+O2yAfSXAdB/FWE9tE9x+eYXPZ2B9JnXCsQYuaDh/0D5sgMK1vP81qKo2KhnZMoSOi+1KcyqRfneEl9wherVHNBKQmZLLH+z6xGppHzKzSxM/A/yiY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788777912; c=relaxed/simple;
-	bh=GgOqK2ftxVGqo5F5dGaYAFOyQu2ErjRl67FkwxVrs0M=;
+	s=arc-20240116; t=1788782924; c=relaxed/simple;
+	bh=74FzT5xvhYQ9YWQapkVwrpxd0VrXliCap1qsp2bOkRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JE6NYY+beWCFcsUqc9ajvNjH4mWmYpS5KL7Pf8hWwUzfYbv7M4ReIjSnnjzxIEG67RyCD8Ae0lJIVPrvUSFxpUAYDue4rEOpfJIVn029BMjFueDgaKmH0gai7S/dJ06l2RZIb70lp5qOOwJMSfnXe64wTYYiaLI53u5+td4Sqpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=RI6Izzk8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gV42Ai7+; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bz8w8/5Q8X+AHIvfKpo5SGEyjS/0ndg1cjz0YvPyNK5XDVLjB6QOQeLG3FMrjOaYyCCLbB077mNLCIPIicbGsah8ySO7EkuVHsfKjHPTRnWC9fXiUF38xBJEVZRIESxfnjvC3TcShVuMhk9Ohuhv7EOie5rtna5Op3bWQoq2jIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/N7lN3S; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="RI6Izzk8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gV42Ai7+"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 0DEB17A0125;
-	Mon,  7 Sep 2026 06:45:09 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 07 Sep 2026 06:45:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1788777908; x=1788864308; bh=+RrwGJfL3J
-	uxaUg5J53rktsg4suPz5veslg2CafSxYM=; b=RI6Izzk8a8VYevx/T7wNgrK0Gv
-	Mqm4P6KqDhbC+PamIdAnw8DbwJIfzUOj3trxOvgnzFLJk981dnPN+0+kwiUoQtGl
-	igfMZZ/o3vYnnKRlEBGje/wBKb2MfJJIhzrGdtQralJ5J5SKQxsiTqr6sdV7QLb7
-	QBrptEzumJpx5LZB6ABoJHKZYLiht72mwTk53x33QxWsx58uzA3iU2wHUMEZCGD1
-	Ger+VqEIOyMSqI3hJTCu6QmjcpdKZAeqvh+06tKz+WwwtICNz2pYWzDJfpMRII8e
-	0p0EjdUncqC2sqjXcGvi9D+TCzr8TxFu8DQXrvZE4heAGY9PBC6s6m5cE9bw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1788777908; x=1788864308; bh=+RrwGJfL3JuxaUg5J53rktsg4suPz5veslg
-	2CafSxYM=; b=gV42Ai7+rTLZJ5Ae08Ut6m4kCu5iwp6ay7muN9b4Jtk2AHd2k/B
-	OsacfRUG6H7aRwWTtrkRbbS15oZ5ddLWALDZcFF+nIRYeYFk9huZJxuvSCcU5tzn
-	fCSqFsjeZcFt4pQlX1Wsuk+UdZo9/ESLYSvUq3V/S7ggpJYm0ZQ62vxHUd+S1mVn
-	dFy88RdvdosyVfuZrfp2RWN1HsebtIL9z9S55zQ4YVMVEryClXfAIPWsrJaamBI6
-	NSqMqeK1dsXmZ+FOvP6YFBN54N209cyK5j4PSJFKibythKWzT/sdVF8RHeFzyF5M
-	Fl4aflVBobLNLN/eiqRoJNKGaiGikXXCqyw==
-X-ME-Sender: <xms:tJWeakDlcaPHZcZdvYyo3YjSVNdNngmH6lN2Q9tpQ9jvleSgBOknaw>
-    <xme:tJWeakyi7iQuia03Lnz0LZgxw76e4i4ulnMj8XAsxgvDfzSG_V8aUk_c3pq25RAMu
-    sJENICowxc6Q7j5fuPU8fcmBd7i0qAR5AkBLGcEbojv3pJj9Q8cO_8>
-X-ME-Received: <xmr:tJWeag6myZxgU6Ly4-lKvv36Ybkh6_Px38GNx_g9VaJEYpXfhPEx2qYTin9120TCVGhf6LkDY5cg6ClsnaxtoA5qvihWa9kxbCQ>
-X-ME-Proxy-Cause: dmFkZTEpZ37bV4WAbkr9w4Sjl1i+LGHCK0Z5tw4Ea6D9Stl38OBgl43DDxBEw2rl4fcZbG
-    HXqcdNArxZlhomcadAqdQKJfIjkOBSn1fPIRagr4/tpbZtNDxT6tEobXOqmKW1S+MX43Hv
-    vmud5whkkkEPpT807XSIPSoyN/NlVUzVXepHgf4EyV5Gjo3CzoYVNrL0j9jxJtUIfju3IO
-    6M3qtEB8S1Zz0OVDLyBrV/Wi+Q1YXS1czzm5+1JL5BH+faLFNWI4vPqjzAWZCh9eaj1O7P
-    yQViG8ITIkMV+ytiviEt1DOuJ0nOnYiUxttDTFqqRozLuu3eCCLc/mBpQJP+bCuz4hGTa1
-    27WAdTFhSItm4Mp9cmiQV3iRfbzlUxSqOP1C3Sk1t4v2sVE7Jzq76N4qXee3rc6RoYeXAH
-    MBH6DiiOsG3tpGfbF1bPmNo5WUQOStVo02gnbnTK+LWCh1dD16hio1F6r8WUvuCtNh2Su5
-    CYGpXxgxYpl/D/gwC5WhQz7xIsGCj76BHCUd/ydW25+V65CF5o7ldqjieWz4NhVk6c+vCH
-    5cB615ht3Byb1mbUxvn4dZPrE1dDl+fgLvgIaHpEJAOoI2QTu4eP+ixQ/S9l5NK0Sxotlm
-    9h7KPBVimfM9Rwk0SzuNo0Ut4plwgzXYBY+8vpYrMFGqr8v82aQAIH8D0mXw
-X-ME-Proxy: <xmx:tJWeatwa2RybXBWUDvxZrCDiZNmJIbZzpx16Bcns5GDk210ezQbzmQ>
-    <xmx:tJWeascyLbFdZ45Ay2VpeuhcHdibjaLg8fMhnWqq8crlIcgRZZAg6A>
-    <xmx:tJWeaqDTgirLdwnxQ3s4zbukNzuYtP2UjRgLiIbl7FH7OBwy9Vzugg>
-    <xmx:tJWeao4Up0PkgeqZv-YkQVuZRiG9_NheT807ib665Sa2c3Vg_F6sQA>
-    <xmx:tJWearN8eNZ6BsTjmBS9CCeAOuPQcCkXu4ZXuhKT5JBW-BhfEq0gpiQo>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Sep 2026 06:45:07 -0400 (EDT)
-Date: Mon, 7 Sep 2026 12:45:05 +0200
-From: Janne Grunau <j@jannau.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/N7lN3S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788782924; x=1820318924;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=74FzT5xvhYQ9YWQapkVwrpxd0VrXliCap1qsp2bOkRA=;
+  b=a/N7lN3SVZNjpEfMrSb7r3xcPd9te3Kx4h2pumdAo7ilL/tWViiRT+5k
+   1rcvJ/1s/NnHsVtpe0Jip42AX+FUAQTublW/lS3SHpTyYAWgyLF9ncEQA
+   eOYDKGNpAbHHoBPHgPGPmXERBf4AqYo2Ya879P1hqzusQ2ThThJq6oFTE
+   k8WX1kYPMHWsAnLFA9VcpSfLwJlJh7SzKuCuxxIvBXG2QTghmoUgMw9tF
+   xs1vaN/qpIB/l+mmAhTwK6yVsNTOMm0TFcdllb+EK9bDiZRJbaFKvsBHm
+   seFR7H6i0LR3YahLJexScQMLBXcCZrgzFqtdLAwpoGbnz+wUrXyI2uxEe
+   A==;
+X-CSE-ConnectionGUID: 5v02ZVi7RAeigT+p3ZoJLA==
+X-CSE-MsgGUID: FTZ7NFe7QXyJp7pj3U5deA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11898"; a="89029414"
+X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
+   d="scan'208";a="89029414"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 05:08:43 -0700
+X-CSE-ConnectionGUID: 41fBlsJpReCUVNx4ojz0SQ==
+X-CSE-MsgGUID: DwKU8ZnWTHK6Dp2R8UC6xA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,267,1779174000"; 
+   d="scan'208";a="272623748"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 07 Sep 2026 05:08:41 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 4A79E99; Mon, 07 Sep 2026 14:08:40 +0200 (CEST)
+Date: Mon, 7 Sep 2026 14:08:40 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To: Sven Peter <sven@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Paul Cristian <p4ulcristian@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 0/3] phy: apple: atc: Prepare USB3-via-4 tunneling
-Message-ID: <20260907104505.GB2760037@robin.jannau.net>
-References: <20260821-b4-atcphy-usb4-v1-0-45c0b741e0c0@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: tipd: Disable mode control for CD321x
+Message-ID: <ap6pSJbx_HNPerOs@black.igk.intel.com>
+References: <20260906-b4-tipd-mode-ctrl-v1-1-71032eaaa452@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821-b4-atcphy-usb4-v1-0-45c0b741e0c0@kernel.org>
+In-Reply-To: <20260906-b4-tipd-mode-ctrl-v1-1-71032eaaa452@kernel.org>
 
-On Fri, Aug 21, 2026 at 03:50:26PM +0200, Sven Peter wrote:
-> Hi,
-> 
-> This short series first fixes an oversight that prevents USB2 from
-> working when DP AltMode with 4 lanes is used. Then it adds the required
-> sequence to point dwc3's PIPE interface to the USB4 Native Host
-> Interface which I plan to submit soon to support USB3-via-USB4 tunnels.
-> 
-> Best,
-> 
-> Sven
+On Sun, Sep 06, 2026 at 02:24:00PM +0200, Sven Peter wrote:
+> Apple's CD321X firmware controls which alternate mode is entered and
+> cannot be influenced from Linux. Set the no_mode_control capability to
+> accurately reflect this to the typec subsystem.
 > 
 > Signed-off-by: Sven Peter <sven@kernel.org>
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
-> Sven Peter (3):
->       phy: apple: atc: Support DUMMY PIPEHANDLER state in configure_pipehandler
->       phy: apple: atc: Factor out the PIPE mux sequence
->       phy: apple: atc: Implement the USB4 pipehandler state
+>  drivers/usb/typec/tipd/core.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
->  drivers/phy/apple/atc.c | 91 ++++++++++++++++++++++++++++++++-----------------
->  1 file changed, 59 insertions(+), 32 deletions(-)
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index 522f56742aa9..8fdb37e288b4 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -151,6 +151,7 @@ struct tipd_data {
+>  	irq_handler_t irq_handler;
+>  	u64 irq_mask1;
+>  	size_t tps_struct_size;
+> +	bool no_mode_control;
+>  	void (*remove)(struct tps6598x *tps);
+>  	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
+>  	void (*unregister_port)(struct tps6598x *tps);
+> @@ -1242,6 +1243,7 @@ tps6598x_register_port(struct tps6598x *tps, struct fwnode_handle *fwnode)
+>  	typec_cap.driver_data = tps;
+>  	typec_cap.ops = &tps6598x_ops;
+>  	typec_cap.fwnode = fwnode;
+> +	typec_cap.no_mode_control = tps->data->no_mode_control;
+>  
+>  	switch (TPS_SYSCONF_PORTINFO(conf)) {
+>  	case TPS_PORTINFO_SINK_ACCESSORY:
+> @@ -2015,6 +2017,7 @@ static const struct tipd_data cd321x_data = {
+>  		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
+>  		     APPLE_CD_REG_INT_PLUG_EVENT,
+>  	.tps_struct_size = sizeof(struct cd321x),
+> +	.no_mode_control = true,
+>  	.remove = cd321x_remove,
+>  	.register_port = cd321x_register_port,
+>  	.unregister_port = cd321x_unregister_port,
+> 
+> ---
+> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> change-id: 20260906-b4-tipd-mode-ctrl-80835d9e3f72
+> 
+> Best regards,
+> --  
+> Sven Peter <sven@kernel.org>
+> 
 
-Whole series
-
-Reviewed-by: Janne Grunau <j@jannau.net>
-
-Janne
+-- 
+heikki
