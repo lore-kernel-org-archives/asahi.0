@@ -1,34 +1,34 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22F44EC65D
-	for <asahi@lists.linux.dev>; Mon,  7 Sep 2026 13:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB06C4EBAD9
+	for <asahi@lists.linux.dev>; Mon,  7 Sep 2026 13:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788787636; cv=none; b=NIloIoKaEpsbu3FEas93C9XIDHwGe5eUBtaZgGU5hYz1Y1ruDrlN19kDFFzCfyTcAQDqIbkGNsHma0RtQsPNgcJ4RvQKSEhcReLnrz2cYORTXixH5GSAW5qtxnRDhLFYdefMyPGaZGiWfMwn1FLYwwxdt3G3XIkeQPplMvJX/ic=
+	t=1788787912; cv=none; b=As8R1o9HZ6+EMW8/BwuF1P4WLZd5RKyk38n6BFWCLVoseJHkPgUzsXwniFu/BD2nVGKLOC0jv3uKi3L0DHtFZQTFK65JAWvcDYUVE5qYD8zte0iqwQcPDDYahJ9AHGVTXKoQkEZsNZMq6sfZJnBf16O6kfpJDJ6B2n9lpe/SEnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788787636; c=relaxed/simple;
-	bh=BfSa8Qa4HHA9XdtDni3WI6484fC1X2X/LXoDqzeOHac=;
+	s=arc-20240116; t=1788787912; c=relaxed/simple;
+	bh=vSD2AYUqreAplwWCoXjMl8VsUBh+Ur5feTbvL7P08Rk=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=QFVXtUbxnlpLzUpVSq+URIF+QYbxaB+C/GSfH7MSEMp0KSmvH7P2qium3HO4pAgqwSG+Go1TGPGJe9LIyUzxtJAoLayx2Uqfd3wlgZw0SmrufeSfzQz+v5fuPPdijtylWkXAf3kUaEorJANH4AFKolzS8DI77NOU/Aw114agL68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=V2B0iXlI; arc=none smtp.client-ip=121.127.44.73
+	 References:In-Reply-To; b=LZ/RqZudzWoBl+h/0C+hhmmDuhWqQYe3PQoTtlZs0wKNxvCZhofW6M+ece/ueYed3307gOJRWn/SbEzDiwdzF4KJwzn+qqLoJom9PMRVmudt2YlQmS/Q4cQ0GfBaVZkj9K3S1iGID9cEDuAlLvw8RHw8KwKjH8UBIv23C2PAosw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=KQxmBaSu; arc=none smtp.client-ip=149.28.215.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="V2B0iXlI"
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="KQxmBaSu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
  h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
  Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1788787630;
- bh=y7VvGigwn27AdfNBSG1mKimtn1nQapTyJ3WDolaxsys=;
- b=V2B0iXlIsS3+EnjdFjC3qPSNYl7sm6NaLCbGA1L7RNb0OQxOnL5QFClTktGYY1v5YVD0ouDfv
- PNqc/ZuRp6+DpvUM8SWpI8y4Pum1puy/sgYjzqUeLr0wSGbXx2GalwTOFqJjKwV1B16maq+TTjT
- dCTfT8UA4po/SRoHUB2Tx7u3Lru1VaG/sX3xBgb74H8blOqAr0lflTcrj2misOfr+VN4P6PKU3e
- epvD1vrw/SJSg/BjXPXQ7RiMKX5A6j4LSdQ877ISFaldzXmYIwO4ezc9/2AWKFtT7sPscSfrnQp
- 7GELo5W0HiiCaK052IxHhvTkG9rbievfit2bFHOZzqLA==
-X-Forward-Email-ID: 6a9ebbaa16171017b32ba5b2
+ s=fe-953a8a3ca9; t=1788787909;
+ bh=VxFACcZSg9jdFJMF6rmUZ+dSf6/n4Bae3xVZCZ/pLgY=;
+ b=KQxmBaSut3APOHniqWhuMNcJZ9NNk6yRteGP/uxGD1u5vhM8aWJY3uTqHvkm78ak31cnwMAms
+ ZCUiDWeQh9slZjzXgsqLIM2A1M0wCeKtAXaQG77tNjVKuIleBhenluwlxqWrVcM1jOb4h/34Aan
+ 89uJ6LV6V6c027i8UpGLzsg2kybyioTRObvyEHuLO5xqhsggQrPKjdKuiOXodI472DADRUkl1Pg
+ x3zjXRrNAitJd30UhmTZz+cEVY9F7g3mU3L+1fUW84YisN1D6YrvjwlQp5PEp6roatwJHsZ2fAM
+ Ytl10C3Ng0+pHne5hiLqtLOFGjr2+LJ7mMsa8SDILJww==
+X-Forward-Email-ID: 6a9ebcb816171017b32bae93
 X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.73
+ 149.28.215.223
 X-Forward-Email-Version: 2.14.2
 X-Forward-Email-Website: https://forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
@@ -42,12 +42,12 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Mon, 07 Sep 2026 09:27:04 -0400
-Message-Id: <DL94AI9QUZEG.LE27ALKI8UIX@ubuntu.com>
+Date: Mon, 07 Sep 2026 09:31:34 -0400
+Message-Id: <DL94DYGNRZC8.18LI4590FX0S3@ubuntu.com>
 Cc: "Konrad Dybcio" <konradybcio@kernel.org>, <linux-usb@vger.kernel.org>,
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v2 01/22] usb: typec: Add alternate mode state notifiers
+Subject: Re: [PATCH v2 02/22] usb: typec: Represent USB4 on the Type-C bus
 From: "Joshua Peisach" <jpeisach@ubuntu.com>
 To: "Sven Peter" <sven@kernel.org>, "Heikki Krogerus"
  <heikki.krogerus@linux.intel.com>, "Greg Kroah-Hartman"
@@ -59,51 +59,34 @@ To: "Sven Peter" <sven@kernel.org>, "Heikki Krogerus"
  <p.zabel@pengutronix.de>
 X-Mailer: aerc 0.21.0
 References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-1-1f80085f93fb@kernel.org>
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-1-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-2-1f80085f93fb@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-2-1f80085f93fb@kernel.org>
 
 On Sun Sep 6, 2026 at 2:36 PM EDT, Sven Peter wrote:
-> The Apple Silicon USB4/Thunderbolt driver needs to be made aware of
-> cable details and whenever USB4 or Thunderbolt is entered. The cable
-> details are already available as part of the typec subsystem but there
-> is no way to get a notification on typec_altmode_update_active() so
-> far.
+> USB4 technically isn't alternate mode and entered using the EUDO and has
+> no SVID or Discover Modes Response. We can still represent it like an
+> altmode on the Type-C bus though by adding a mode kind. Exclude the USB4
+> modes from any SVID-specific operations and driver binding, but allow
+> consumers to observe their state through notifications.
 >
-> Add a blocking notifier chain to each alternate mode and call it
-> whenever the mode is activated or deactivated right next to the already
-> existing sysfs and kobject_uevent notifications. Replay activations when =
-a
-> notifier is registered.
+> Like for other altmodes, expose the USB4 mode to sysfs: Add a mode_kind
+> to be able to differentiate and then expose the EUDO, make the USB4
+> active state read-only since we only represent firmware-negotiated USB4
+> modes and omit anything that only applies to SVID-specific altmodes.
 >
 > Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
->  drivers/usb/typec/bus.h   |  6 +++++
->  drivers/usb/typec/class.c | 59 +++++++++++++++++++++++++++++++++++++++++=
-++++++
->  include/linux/usb/typec.h | 16 +++++++++++++
->  3 files changed, 81 insertions(+)
+> Hope it's fine to add you as the contact for the sysfs documentation,
+> happy to add myself otherwise though.
+> ---
+>  Documentation/ABI/testing/sysfs-bus-typec | 36 ++++++++++++++
+>  drivers/usb/typec/bus.c                   | 67 ++++++++++++++++++++-----
+>  drivers/usb/typec/class.c                 | 83 +++++++++++++++++++++++++=
+++----
+>  drivers/usb/typec/mode_selection.c        |  6 ++-
+>  include/linux/usb/typec.h                 | 20 +++++++-
+>  include/linux/usb/typec_altmode.h         | 10 +++-
+>  6 files changed, 193 insertions(+), 29 deletions(-)
 >
-> diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
-> index 7df5deb1dd3a..4dc60c48c91e 100644
-> --- a/drivers/usb/typec/bus.h
-> +++ b/drivers/usb/typec/bus.h
-> @@ -3,6 +3,8 @@
->  #ifndef __USB_TYPEC_ALTMODE_H__
->  #define __USB_TYPEC_ALTMODE_H__
-> =20
-> +#include <linux/mutex.h>
-> +#include <linux/notifier.h>
->  #include <linux/usb/typec_altmode.h>
-> =20
->  struct typec_mux;
-> @@ -23,6 +25,10 @@ struct altmode {
-> =20
->  	struct altmode			*partner;
->  	struct altmode			*plug[2];
-> +
-> +	/* Serializes active state changes and notifier registration. */
-> +	struct mutex			state_lock;
-> +	struct blocking_notifier_head	state_notifier;
->  };
-> =20
-space/tab formatting
+
+Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
