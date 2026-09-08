@@ -1,85 +1,70 @@
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F29477995
-	for <asahi@lists.linux.dev>; Tue,  8 Sep 2026 08:34:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF16427F8A
+	for <asahi@lists.linux.dev>; Tue,  8 Sep 2026 08:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788856457; cv=none; b=rgN8jx/VfJsm4rwUF9K2+zXPWBqLtJYOcJHi/1E21S9+iRL1MJArH2Fv+jZMfJ4OkaLPIYnBJ3tLVgju7M+kghs8hSa76y5AuHLjAXjde+iT3NzoWJJkge0LO0ID5uessVMUQ+XO2Dvs8+apXSPuxFjiSqsPaTH76NuTrTj7AuU=
+	t=1788856516; cv=none; b=ScM7e7Yd0zc3IKlAr3caJCZwkZKJwcuzlimhfzot8mHB6aTMDiilMfbPbzHk/LJsDT3ZWNKagLhSb60SCZl+jINXRElxE4zMFxZhvZnsgYDImdYJeD/KwOpyONCzfBfz/JoQt2kJrKfULe8/orxae0SnvLZ9w6Zd3eRghuyl/XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788856457; c=relaxed/simple;
-	bh=MTYRwzIeFMh3bWmr0nxzz6nSDg+FFp1duWAuZGhrrsY=;
+	s=arc-20240116; t=1788856516; c=relaxed/simple;
+	bh=jbFKZP3usfl3nbiXQQBQushr/COmFgv99A0YQe7Np5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GT2uhklhcoVerSjphyeWG/ne4y/a3wlZUBAS0h7p68wg3SVlnonZOP/QAusrLC/RHUo+X9WiUIlDNQHT5EoUOuFU7wDsZJdVS4Y2LRSqyOExId/kvczhOE8yNWSSgrVqTbL1zrHhqR/waF60rbH+LbQj+JDcXDKSEuyi0jYKYtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=ETVY4yhq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=t99o+0I8; arc=none smtp.client-ip=103.168.172.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=XxozRE4ssbxaFnxpLVOLsrDA9pcI/tW8opsdA5+N3zdixp47Mv2Cd5zFbVTsn8xOEUoMjbhjvWRoaZ1Wo+j6YlxFElUdLiGZaZfrKhmKRAuHEIoFjk6NfPbYfHYZxyCUFsE0gGTlc4okcQrFkcxbtp9F4nDCmsBuR4KDRlgmX+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGpyb+kZ; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="ETVY4yhq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="t99o+0I8"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 1E1F01400091;
-	Tue,  8 Sep 2026 04:34:14 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Tue, 08 Sep 2026 04:34:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1788856454; x=1788942854; bh=s9qYyu4B8z
-	L2inOcDy7y8XxRjYDGVeJX+azMjQN6uUI=; b=ETVY4yhqljIBPbzgoyBBMggOaq
-	P12nc6iLAJqaIwDS6UF5jh0fXDoStLVlSSKUl5iN2oIX+SeLN6ZpapSsHmm5d84D
-	iwskfVXD8GY4zCwryx+LFZ/Exo3HSIkJgISs2vX0TnLZSpNS5pYeDMZhrL7onkwn
-	Cqzt2PrSiO0Q+3JjdCsbKXRC+IsgGtc/m0zlC2ZlZ9Rj0sz47KhWODavY+JGJgEd
-	4rLHNwGe5acGGuZtVTb020LFK/b7vcjXrRnkiZCFzjfauA4i9qvWutPkcmuTsJU4
-	pwM/RODhA1pQN9m6dLelaLf9559tGfoklGXMN8zMSM48l6gDmxIEwvJyzmLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1788856454; x=1788942854; bh=s9qYyu4B8zL2inOcDy7y8XxRjYDGVeJX+az
-	MjQN6uUI=; b=t99o+0I8BALTeY1NtVnrsUd66xqYd0xcoLU5RMMWRIeh1vWeD8Z
-	O7Q6nLbH+dlxTkW2bds8rqpNK3oZg9+IhHg5R/DJ7wBg9mSuu9+lPNhX2u2hRVQm
-	UGysg4uEMzug/6svFrLgyTuH3V+RxzwA29bxCgo3ZAGMK3QQunVrJ2DNAnWAO5UJ
-	4AFE14SjiWfrEWFy5nglFP7AZx+Isef9RC4h3qO2BloNkmBUD2ASNctwfPRJHJRs
-	Orknp0AnhfsmT+lt0OrfXgPgFiVEQZQC6kPPvn8pO6H8BOZKikKuJm2GYiektQKq
-	0PdYC0lnvpz/auO6mFJQfdNhmCo2e8yRB6A==
-X-ME-Sender: <xms:hcifahmxS4aG3CgVokBF3hh51G_3XQA1IYfX9JgD-9zHZNBKr1aW8A>
-    <xme:hcifam7oTLmLeVg5qNfBhVkf0k94aY70cmwZ6JfN-TjHateYN6Wx0vdDpLYbmxMLh
-    _cSNTToQ1XFyvg1kfFbV1q_1aKT1dLIu5R0V-KHoMzAN4_K7N4EqyQ>
-X-ME-Received: <xmr:hcifaskWpLUN7JXE97QWUr1WBsmWT3mPO_fJZd2f4DInHmZOsWUZJYK5FrbBGD0MmuHY0OWv31eE7OOkk5UrOwwEO31qGj_Jhsc>
-X-ME-Proxy-Cause: dmFkZTEJWvfoSZaWVEoP5Nwu0msHDNbn6E/kt5/jlAK/rOXQkSLDlD4Ac9c0422oqf/8iV
-    vY/VITN743tUEXL8pvjOlSA5WTdi1AQYkNc0jvyjNkXeS4QJHlgAHDLY8bHyccrzYyMpmo
-    RMAS1/5JJfc7xYrXJLTe6h6lrP/G+dbNs2ClY7VuT0LbFXa/1DMlM+Zb51JH/yoEo1mqp4
-    hHUnSB9Ydz8TQTrCNH+20KgcuEVdl6FvPd/H/Tvtn3RT4ofWuOZfvGA3e10sZG3qcuDMNA
-    +AMR2AoyLvUhUUBmeD2UaoJGBGiXPSlkGEJZlVudsxXLQ56fdY3qFf9ShY4hLHfYp48aQC
-    5yHmta1jRJk7ZH1rUKYpyaltaq2RUsIpdnxXPoRcwx0Q2uRmJz5sUu8dOEhpb/VBpw4MNb
-    /s2Q9kZpyUBR0Wd+7/AIr6h90qMNoNHRSXOqY8IlZk8L127ajcbW/dZDuDvlu4yhVfNGXG
-    8Tr4xE+9QmFO6vce7V2XUb+M4EA5NxLc5XxDn+paCFoYjVRg0ocVO21rhUOF/s1FeUQMbd
-    j6MfJrcJbPDMSgYiaBTY+zdwJuMb5QxBjGECg22ywFFoCc/ZU8s2aH7Ay/JcEODhtTepwF
-    cF86hVyeHHapVpBGhigEtLo04K9s2cO8Zf0GnS97Qmle2TVogWj1jl/Do/JA
-X-ME-Proxy: <xmx:hcifapUskIwT-yVC2xqpuU3htqVzI9VYvBtROOpTo8AIc3XdazktXg>
-    <xmx:hcifatTMkk7bYGtqJ0hzM1hjTSkPp2YdZjqK9ZtpsxHJWog4u-wgMg>
-    <xmx:hcifauD7bsscK6mKiVcyxXvO4PGdnTs7O6I7W-qLT0JaYgryACYb1g>
-    <xmx:hcifatvFjPfCbNBNZha1zuS5685_PYc6D__GQzmwVxZavbzt1Ez5Kg>
-    <xmx:hsifarI-mZ8j6MFU8NKtZAokfw44JdITGWwje-JckDsgsW_hOp7e_5Qu>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Sep 2026 04:34:13 -0400 (EDT)
-Date: Tue, 8 Sep 2026 10:34:11 +0200
-From: Janne Grunau <j@jannau.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGpyb+kZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788856514; x=1820392514;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jbFKZP3usfl3nbiXQQBQushr/COmFgv99A0YQe7Np5A=;
+  b=fGpyb+kZTVM1ttqTFdFv8DWSPlQ9yRiNqPlITz6ElS1Li2+82h+I3k1i
+   v2MRfb1yvNRS6QoW/EdS4s0f8edCvIN6sFhBB7QVUwrAJQERVj/HANwI0
+   F0peH92bAjeDTVzrnR2/zyXr9WYm1tGYg0XxIJRC7WqvlUmeiNzYBs37H
+   loMgxyZnPMjo8LUNNe9NMCfCvHShbFRi8SV0NzKQsD6enFieFgFVtHLSE
+   VKAkbFySykgszatJNhqF/b4fHgq1t7ShC/f5K47lLE50jH5Z3aV8k1vj0
+   JAZ1FaJx3+Hcd2qefPQ9/yuKHN75Z7c4D70TAhIJ+m5HCpmm1sPQdCGXb
+   A==;
+X-CSE-ConnectionGUID: R0qHgs5CS2uzVox9w8QgCg==
+X-CSE-MsgGUID: 62s9MeFnQ62ENzATCOdWZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="93071026"
+X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
+   d="scan'208";a="93071026"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 01:35:12 -0700
+X-CSE-ConnectionGUID: pU9Z+xzrR/emitPm4jDWdA==
+X-CSE-MsgGUID: PUIMPEdDRmalDned3mUMyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
+   d="scan'208";a="270892197"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa007.jf.intel.com with ESMTP; 08 Sep 2026 01:35:08 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 8409C99; Tue, 08 Sep 2026 10:35:07 +0200 (CEST)
+Date: Tue, 8 Sep 2026 10:35:07 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: Sven Peter <sven@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
-	Joshua Peisach <jpeisach@ubuntu.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v2 0/3] Apple SoC CIO (USB4/Thunderbolt) reset controller
-Message-ID: <20260908083411.GC2760037@robin.jannau.net>
-References: <20260821-b4-cio-reset-v2-0-2d045f80a424@kernel.org>
+	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 16/22] thunderbolt: Add add_links to tb_nhi_ops
+Message-ID: <20260908083507.GC106095@black.igk.intel.com>
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-16-1f80085f93fb@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -88,71 +73,62 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260821-b4-cio-reset-v2-0-2d045f80a424@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-16-1f80085f93fb@kernel.org>
 
-On Fri, Aug 21, 2026 at 05:44:53PM +0200, Sven Peter wrote:
-> Hi,
+Hi,
+
+On Sun, Sep 06, 2026 at 08:36:39PM +0200, Sven Peter wrote:
+> PCI NHI drivers discover device links through ACPI or PCI topology but
+> platform drivers, like the Apple Silicon one, can use neither of those
+> methods. Instead, add a callback so that platform drivers can discover
+> and add these links through e.g. device tree connections.
 > 
-> The CIO blocks used for USB4/Thunderbolt on Apple Silicon SoCs have a
-> reset inside the power manager that has to be deasserted before their
-> co-processor can be booted. On t8103 and t8112 each port comes with a
-> dedicated register page while t600x and t602x use a single register
-> with one request bit per port shared by all ports of a die in the
-> middle of the PMGR MMIO region.
-> 
-> The first patch adds the dt-binding, the second one the driver and the
-> last one the device tree nodes for all SoCs. This will be used by the
-> upcoming USB4/Thunderbolt series to start the host routers before
-> booting their co-processors.
-> 
-> Best,
-> 
-> Sven
-> 
+> Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
-> Changes in v2:
-> - dt-bindings: move the t600x example with the PMGR sub-node over to the
->   PMGR binding itself where it can use the correct number of address
->   cells such that the unit address matches reg again (Conor)
-> - bail out of probe when no match data is available (Joshua, sashiko)
-> - explain why neither a read-modify-write nor a delay before polling
->   is required for the shared t600x register (sashiko)
-> - fix a copy/paste error for the M2 MMIO region in the dts change
-> - Link to v1: https://patch.msgid.link/20260809-b4-cio-reset-v1-0-4f33777d9b4b@kernel.org
+>  drivers/thunderbolt/nhi.h | 2 ++
+>  drivers/thunderbolt/tb.c  | 3 ++-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
 > 
-> To: Sven Peter <sven@kernel.org>
-> To: Janne Grunau <j@jannau.net>
-> To: Neal Gompa <neal@gompa.dev>
-> To: Rob Herring <robh@kernel.org>
-> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> To: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Joshua Peisach <jpeisach@ubuntu.com>
-> Cc: asahi@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
+> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+> index e4964772a442..addb8bcb4849 100644
+> --- a/drivers/thunderbolt/nhi.h
+> +++ b/drivers/thunderbolt/nhi.h
+> @@ -65,6 +65,7 @@ extern const struct dev_pm_ops nhi_pm_ops;
+>   * @ring_configure: NHI specific hook to program the ring options registers
+>   *		    and enable the ring with the given flags. If not set
+>   *		    the standard USB4 NHI registers are used.
+> + * @add_links: NHI specific hook to add device links to tunneled native ports
+
+I just pushed a change that does similar to my thunderbolt.git/next tree.
+This is to support Apple T2 macs (Intel Ice Lake based). Can you rebase
+this on top of that change?
+
+>   * @is_present: Whether the device is currently present on the parent bus
+>   * @init_interrupts: NHI specific interrupt initialization hook
+>   * @reset_interface: Resets the host interface
+> @@ -85,6 +86,7 @@ struct tb_nhi_ops {
+>  	void (*ring_interrupt_active)(struct tb_ring *ring, bool active);
+>  	void (*ring_interrupt_mask)(struct tb_ring *ring, bool mask);
+>  	void (*ring_configure)(struct tb_ring *ring, u32 flags, u32 e2e_flags);
+> +	bool (*add_links)(struct tb_nhi *nhi);
+>  	bool (*is_present)(struct tb_nhi *nhi);
+>  	int (*init_interrupts)(struct tb_nhi *nhi);
+>  	void (*reset_interface)(struct tb_nhi *nhi);
+> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> index d2832323cc36..72418a07166e 100644
+> --- a/drivers/thunderbolt/tb.c
+> +++ b/drivers/thunderbolt/tb.c
+> @@ -3434,7 +3434,8 @@ struct tb *tb_probe(struct tb_nhi *nhi)
+>  	 * before the PCIe/USB stack is resumed so complain here if we
+>  	 * found them missing.
+>  	 */
+> -	if (!tb_apple_add_links(nhi) && !tb_acpi_add_links(nhi))
+> +	if (!(nhi->ops->add_links && nhi->ops->add_links(nhi)) &&
+> +	    !tb_apple_add_links(nhi) && !tb_acpi_add_links(nhi))
+>  		tb_warn(tb, "device links to tunneled native ports are missing!\n");
+>  
+>  	return tb;
 > 
-> ---
-> Sven Peter (3):
->       dt-bindings: reset: Add Apple SoC CIO reset
->       reset: Add Apple SoC CIO reset driver
->       arm64: dts: apple: Add CIO reset controllers
+> -- 
+> 2.55.0
 > 
->  .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |  12 ++
->  .../bindings/reset/apple,t8103-cio-reset.yaml      |  61 +++++++
->  MAINTAINERS                                        |   2 +
->  arch/arm64/boot/dts/apple/t600x-dieX.dtsi          |   8 +-
->  arch/arm64/boot/dts/apple/t602x-dieX.dtsi          |   8 +-
->  arch/arm64/boot/dts/apple/t8103.dtsi               |   6 +
->  arch/arm64/boot/dts/apple/t8112.dtsi               |   6 +
->  drivers/reset/Kconfig                              |  10 ++
->  drivers/reset/Makefile                             |   1 +
->  drivers/reset/reset-apple-cio.c                    | 200 +++++++++++++++++++++
->  10 files changed, 312 insertions(+), 2 deletions(-)
-
-whole series
-
-Reviewed-by: Janne Grunau <j@jannau.net>
-
-Janne
