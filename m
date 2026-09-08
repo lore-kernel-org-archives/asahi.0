@@ -1,51 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5735D42640C
-	for <asahi@lists.linux.dev>; Tue,  8 Sep 2026 08:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EA447279F
+	for <asahi@lists.linux.dev>; Tue,  8 Sep 2026 08:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788855929; cv=none; b=t5X8KGGLs9C7Qk9OSI1hMdMFwm4piS/1J2cn5hCKZaE2ENAACnemDkGALFPec3TvIfMRJU1vfuNduulmNKYAz1oW3BwG4aF11Sid836V74qhFOmOsNCRSH3HGsRt0nfXpjufoTR5o4qFLhvCDCbyeJ92boTHzfsMbR6NzujhFd8=
+	t=1788856328; cv=none; b=INROPvgtIT5TBQh4eoHI0BJ9WFVMcHKaF+b1j6rdm+LuFVyoeAtTOd37lr1zpijDyBIvJxOaiHrDVlGUpgn8SoHC+7P4FHcCePkqDsdNKIlpTO04OxpBbDTwxFB0UkdJKDrMffhieOCfI1GlQaRqosNr1tZETzuI4zZvkVCfI3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788855929; c=relaxed/simple;
-	bh=MNBOqjbiFY5cvbGJa0db+s9GIphlrm1cbRc2huUpNRk=;
+	s=arc-20240116; t=1788856328; c=relaxed/simple;
+	bh=nOT4Eoib7zA3suYgkaqyyF849Y+bZjaLnTlxfZH8Emg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YJUhYmK1YojrJlnkMbDkhJPs24Y22+P18fb4OcqzxkjKhEqFWGMNDUjRrxdiuKJW1DHNDOpCTAQxdjbs7lY59eIPHgrjG0Rs8db+Ivj67sobTGTWuYx7ErAAfYEQ3xL09glnshaFzht2bTOGt72aigLUvvu1HNKIe46AbxOu7rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OoRH/r9A; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=g713zybNvOSsPNUJYfHrDYvUFR1EqNooBTQwAyE4e7fYIV95CxQ5CWBrqaGR1XTl2IV+8X0iozP+luCFHBWlm3O2zj3ATXasvWDTQ1Hp9MyexaakS4vJDwD08Yji88WxYEojbfDSzcp80p1MbhMyjT7W7ZS3NNeS5ViieKjAZZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lExQIWbD; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OoRH/r9A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lExQIWbD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788855926; x=1820391926;
+  t=1788856326; x=1820392326;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MNBOqjbiFY5cvbGJa0db+s9GIphlrm1cbRc2huUpNRk=;
-  b=OoRH/r9AYaiOZ/4k9e4g/J9lTrOIaVc90W5TQKBk7ecRKGTvPxJy0axp
-   h5Iggg1iWKiH0GcAgtDXdxiUemNwuGX54f1B+oMiStC1fUh7xDwTkF269
-   S+JtL4f0n5eVJ98JL8FKecXI43IWOGEvmUz4nhFovICn65mR2zoh36Qw0
-   99HcPtZMyNbfltp6LdWkoIaQlieFhtMhjiY9ZLk7qN+hWbRaCFVWEXfKk
-   Jz0i1GM8f8FPD4jKCSyhp/dJYRXwcyKNdiHbQ6C1INPBTYt7m2HPEVMHS
-   HYihVz2A5+JwPGqjGecrLAWgZ3WIM0hx+IQMI3jomaPa8tlkfcuK9dHrn
-   Q==;
-X-CSE-ConnectionGUID: 98sKvGAERAOnJgf6tGc7Sw==
-X-CSE-MsgGUID: LQ+og0sNT86NihH5f1XF/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="93114664"
+  bh=nOT4Eoib7zA3suYgkaqyyF849Y+bZjaLnTlxfZH8Emg=;
+  b=lExQIWbDrxBK5Flk/H90pE0DbSdAsKeN0Hs/Y6jg6RwGrxVKMZs4BQ4h
+   8eiUYrcouP70ajdcibQfvjqkFciFmYkk81OvQ5Dpz8XK/NCK/0mYTZhq1
+   LnoFCrcst/exTe5J38+Cp/PnSHOoCWEQPAEY2GLg0HuzNP5ElnrvOKYeE
+   5EbiWday+qevVno2xMzkE9p0F8FyQ0DX9xQZCmoiB7u9FqZhzG1hJHZEq
+   0Hd0S3KDzSoNTt8xmLxuHrir/mEZRaw40Nrh1ECMU3d0B3Gg0hd3ut6H0
+   yvtOTnCuYPkYtij0AyFr3fDHL13hUTCF4S1wcqwa2eHDD3j80JyLZ5XkB
+   A==;
+X-CSE-ConnectionGUID: dnHJywhKSTKLUy/EzR8jEA==
+X-CSE-MsgGUID: qGIBX06WSn6iPF4lrteRdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="100607207"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="93114664"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 01:25:25 -0700
-X-CSE-ConnectionGUID: FvNg+61LQ+2F8JqhAbC94Q==
-X-CSE-MsgGUID: kH58JbXiSn2WhYPwc39J2g==
+   d="scan'208";a="100607207"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 01:32:05 -0700
+X-CSE-ConnectionGUID: L0vP5RY3Q8CzJ4V843MEdg==
+X-CSE-MsgGUID: s0OkRcE2TVSoxzUM3lwz2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="269196840"
+   d="scan'208";a="295832154"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 08 Sep 2026 01:22:19 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 08 Sep 2026 01:32:01 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 08F8E99; Tue, 08 Sep 2026 10:22:18 +0200 (CEST)
-Date: Tue, 8 Sep 2026 10:22:18 +0200
+	id A80BF99; Tue, 08 Sep 2026 10:32:00 +0200 (CEST)
+Date: Tue, 8 Sep 2026 10:32:00 +0200
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: Sven Peter <sven@kernel.org>
 Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -61,11 +61,11 @@ Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 10/22] thunderbolt: Unlock host router ports during
- startup
-Message-ID: <20260908082218.GA106095@black.igk.intel.com>
+Subject: Re: [PATCH v2 13/22] thunderbolt: Add ring register accessors to
+ tb_nhi_ops
+Message-ID: <20260908083200.GB106095@black.igk.intel.com>
 References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-10-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-13-1f80085f93fb@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -74,54 +74,143 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-10-1f80085f93fb@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-13-1f80085f93fb@kernel.org>
 
-On Sun, Sep 06, 2026 at 08:36:33PM +0200, Sven Peter wrote:
-> The downstream ports of the host router may still be locked after a
-> reset. Unlock them when the software connection manager starts before
-> scanning for any connected devices.
+Hi,
+
+On Sun, Sep 06, 2026 at 08:36:36PM +0200, Sven Peter wrote:
+> The ring descriptor and options registers are laid out differently on
+> the Apple NHI. Add optional tb_nhi_ops hooks for their base addresses
+> which fall back to the standard USB4 register layout when they are not
+> set.
 > 
 > Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
->  drivers/thunderbolt/tb.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  drivers/thunderbolt/nhi.c | 32 ++++++++++++++++++++++++++------
+>  drivers/thunderbolt/nhi.h |  6 ++++++
+>  2 files changed, 32 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> index 47753a5c0f2e..bf1c192ec10a 100644
-> --- a/drivers/thunderbolt/tb.c
-> +++ b/drivers/thunderbolt/tb.c
-> @@ -3016,6 +3016,7 @@ static int tb_scan_finalize_switch(struct device *dev, void *data)
->  static int tb_start(struct tb *tb, bool reset)
+> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+> index fc54ff7edfb9..1b1e4a12c744 100644
+> --- a/drivers/thunderbolt/nhi.c
+> +++ b/drivers/thunderbolt/nhi.c
+> @@ -179,19 +179,37 @@ void nhi_disable_interrupts(struct tb_nhi *nhi)
+>  static void __iomem *ring_desc_base(struct tb_ring *ring)
 >  {
->  	struct tb_cm *tcm = tb_priv(tb);
-> +	struct tb_port *port;
->  	bool discover = true;
->  	int ret;
->  
-> @@ -3049,6 +3050,14 @@ static int tb_start(struct tb *tb, bool reset)
->  		return dev_err_probe(tb->nhi->dev, ret, "failed to add host router\n");
->  	}
->  
-> +	/* Make all host router downstream ports accessible to the CM. */
-
-Nit: Drop the . from single line comments
-
-	/* Make all host router downstream ports accessible to the CM */
-
-> +	tb_switch_for_each_port(tb->root_switch, port) {
-
-We should introduce tb_switch_for_each_null_port() at some point, not the
-job of this series though.
-
-> +		if (!tb_port_is_null(port))
-> +			continue;
-> +		if (tb_port_unlock(port))
-> +			tb_port_warn(port, "failed to unlock port\n");
-> +	}
+>  	void __iomem *io = ring->nhi->iobase;
 > +
+
+Unintended change?
+
+>  	io += ring->is_tx ? REG_TX_RING_BASE : REG_RX_RING_BASE;
+>  	io += ring->hop * 16;
+>  	return io;
+>  }
+>  
+> +static void __iomem *nhi_ring_desc_base(struct tb_ring *ring)
+> +{
+> +	if (ring->nhi->ops->ring_desc_base)
+> +		return ring->nhi->ops->ring_desc_base(ring);
+> +
+> +	return ring_desc_base(ring);
+> +}
+> +
+>  static void __iomem *ring_options_base(struct tb_ring *ring)
+>  {
+>  	void __iomem *io = ring->nhi->iobase;
+> +
+
+Ditto here.
+
+>  	io += ring->is_tx ? REG_TX_OPTIONS_BASE : REG_RX_OPTIONS_BASE;
+>  	io += ring->hop * 32;
+>  	return io;
+>  }
+>  
+> +static void __iomem *nhi_ring_options_base(struct tb_ring *ring)
+> +{
+> +	if (ring->nhi->ops->ring_options_base)
+> +		return ring->nhi->ops->ring_options_base(ring);
+> +
+> +	return ring_options_base(ring);
+
+This is better IMO. Although I think even better would be to populate
+nhi->ops for both the standard NHI and for Apple (and possibly others) and
+then we can just do:
+
+	ring->nhi->ops->ring_options_base(..)
+
+or with a wrapper like this that makes it slightly more readable.
+
+It does not need to be part of this series but wanted to mention here.
+
+> +}
+> +
+>  static void ring_iowrite_cons(struct tb_ring *ring, u16 cons)
+>  {
 >  	/*
->  	 * To support highest CLx state, we set host router's TMU to
->  	 * Normal mode.
+> @@ -199,29 +217,31 @@ static void ring_iowrite_cons(struct tb_ring *ring, u16 cons)
+>  	 * are ignored by the hardware so we can save one ioread32() by
+>  	 * filling the read-only bits with zeroes.
+>  	 */
+> -	iowrite32(cons, ring_desc_base(ring) + 8);
+> +	iowrite32(cons, nhi_ring_desc_base(ring) + 8);
+>  }
+>  
+>  static void ring_iowrite_prod(struct tb_ring *ring, u16 prod)
+>  {
+>  	/* See ring_iowrite_cons() above for explanation */
+> -	iowrite32(prod << 16, ring_desc_base(ring) + 8);
+> +	iowrite32(prod << 16, nhi_ring_desc_base(ring) + 8);
+>  }
+>  
+>  static void ring_iowrite32desc(struct tb_ring *ring, u32 value, u32 offset)
+>  {
+> -	iowrite32(value, ring_desc_base(ring) + offset);
+> +	iowrite32(value, nhi_ring_desc_base(ring) + offset);
+>  }
+>  
+>  static void ring_iowrite64desc(struct tb_ring *ring, u64 value, u32 offset)
+>  {
+> -	iowrite32(value, ring_desc_base(ring) + offset);
+> -	iowrite32(value >> 32, ring_desc_base(ring) + offset + 4);
+> +	void __iomem *base = nhi_ring_desc_base(ring);
+> +
+> +	iowrite32(value, base + offset);
+> +	iowrite32(value >> 32, base + offset + 4);
+>  }
+>  
+>  static void ring_iowrite32options(struct tb_ring *ring, u32 value, u32 offset)
+>  {
+> -	iowrite32(value, ring_options_base(ring) + offset);
+> +	iowrite32(value, nhi_ring_options_base(ring) + offset);
+>  }
+>  
+>  static bool ring_full(struct tb_ring *ring)
+> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+> index 4884c3f5a2b2..3a963b0b5b46 100644
+> --- a/drivers/thunderbolt/nhi.h
+> +++ b/drivers/thunderbolt/nhi.h
+> @@ -52,6 +52,10 @@ extern const struct dev_pm_ops nhi_pm_ops;
+>   * @post_nvm_auth: hook to run after Thunderbolt 3 NVM authentication
+>   * @request_ring_irq: NHI specific interrupt retrieval hook
+>   * @release_ring_irq: NHI specific interrupt release hook
+> + * @ring_desc_base: NHI specific hook returning the ring descriptor registers.
+> + *		    If not set the standard USB4 NHI registers are used.
+> + * @ring_options_base: NHI specific hook returning the ring option registers.
+> + *		       If not set the standard USB4 NHI registers are used.
+>   * @ring_interrupt_active: NHI specific hook to activate/deactivate the
+>   *			   interrupt of a single ring. If not set the
+>   *			   standard USB4 NHI registers are used.
+> @@ -70,6 +74,8 @@ struct tb_nhi_ops {
+>  	void (*post_nvm_auth)(struct tb_nhi *nhi);
+>  	int (*request_ring_irq)(struct tb_ring *ring, bool no_suspend);
+>  	void (*release_ring_irq)(struct tb_ring *ring);
+> +	void __iomem *(*ring_desc_base)(struct tb_ring *ring);
+> +	void __iomem *(*ring_options_base)(struct tb_ring *ring);
+>  	void (*ring_interrupt_active)(struct tb_ring *ring, bool active);
+>  	bool (*is_present)(struct tb_nhi *nhi);
+>  	int (*init_interrupts)(struct tb_nhi *nhi);
 > 
 > -- 
 > 2.55.0
