@@ -1,71 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EA447279F
-	for <asahi@lists.linux.dev>; Tue,  8 Sep 2026 08:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F29477995
+	for <asahi@lists.linux.dev>; Tue,  8 Sep 2026 08:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788856328; cv=none; b=INROPvgtIT5TBQh4eoHI0BJ9WFVMcHKaF+b1j6rdm+LuFVyoeAtTOd37lr1zpijDyBIvJxOaiHrDVlGUpgn8SoHC+7P4FHcCePkqDsdNKIlpTO04OxpBbDTwxFB0UkdJKDrMffhieOCfI1GlQaRqosNr1tZETzuI4zZvkVCfI3E=
+	t=1788856457; cv=none; b=rgN8jx/VfJsm4rwUF9K2+zXPWBqLtJYOcJHi/1E21S9+iRL1MJArH2Fv+jZMfJ4OkaLPIYnBJ3tLVgju7M+kghs8hSa76y5AuHLjAXjde+iT3NzoWJJkge0LO0ID5uessVMUQ+XO2Dvs8+apXSPuxFjiSqsPaTH76NuTrTj7AuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788856328; c=relaxed/simple;
-	bh=nOT4Eoib7zA3suYgkaqyyF849Y+bZjaLnTlxfZH8Emg=;
+	s=arc-20240116; t=1788856457; c=relaxed/simple;
+	bh=MTYRwzIeFMh3bWmr0nxzz6nSDg+FFp1duWAuZGhrrsY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g713zybNvOSsPNUJYfHrDYvUFR1EqNooBTQwAyE4e7fYIV95CxQ5CWBrqaGR1XTl2IV+8X0iozP+luCFHBWlm3O2zj3ATXasvWDTQ1Hp9MyexaakS4vJDwD08Yji88WxYEojbfDSzcp80p1MbhMyjT7W7ZS3NNeS5ViieKjAZZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lExQIWbD; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GT2uhklhcoVerSjphyeWG/ne4y/a3wlZUBAS0h7p68wg3SVlnonZOP/QAusrLC/RHUo+X9WiUIlDNQHT5EoUOuFU7wDsZJdVS4Y2LRSqyOExId/kvczhOE8yNWSSgrVqTbL1zrHhqR/waF60rbH+LbQj+JDcXDKSEuyi0jYKYtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=ETVY4yhq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=t99o+0I8; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lExQIWbD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788856326; x=1820392326;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nOT4Eoib7zA3suYgkaqyyF849Y+bZjaLnTlxfZH8Emg=;
-  b=lExQIWbDrxBK5Flk/H90pE0DbSdAsKeN0Hs/Y6jg6RwGrxVKMZs4BQ4h
-   8eiUYrcouP70ajdcibQfvjqkFciFmYkk81OvQ5Dpz8XK/NCK/0mYTZhq1
-   LnoFCrcst/exTe5J38+Cp/PnSHOoCWEQPAEY2GLg0HuzNP5ElnrvOKYeE
-   5EbiWday+qevVno2xMzkE9p0F8FyQ0DX9xQZCmoiB7u9FqZhzG1hJHZEq
-   0Hd0S3KDzSoNTt8xmLxuHrir/mEZRaw40Nrh1ECMU3d0B3Gg0hd3ut6H0
-   yvtOTnCuYPkYtij0AyFr3fDHL13hUTCF4S1wcqwa2eHDD3j80JyLZ5XkB
-   A==;
-X-CSE-ConnectionGUID: dnHJywhKSTKLUy/EzR8jEA==
-X-CSE-MsgGUID: qGIBX06WSn6iPF4lrteRdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="100607207"
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="100607207"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 01:32:05 -0700
-X-CSE-ConnectionGUID: L0vP5RY3Q8CzJ4V843MEdg==
-X-CSE-MsgGUID: s0OkRcE2TVSoxzUM3lwz2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="295832154"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Sep 2026 01:32:01 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A80BF99; Tue, 08 Sep 2026 10:32:00 +0200 (CEST)
-Date: Tue, 8 Sep 2026 10:32:00 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="ETVY4yhq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="t99o+0I8"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 1E1F01400091;
+	Tue,  8 Sep 2026 04:34:14 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Tue, 08 Sep 2026 04:34:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1788856454; x=1788942854; bh=s9qYyu4B8z
+	L2inOcDy7y8XxRjYDGVeJX+azMjQN6uUI=; b=ETVY4yhqljIBPbzgoyBBMggOaq
+	P12nc6iLAJqaIwDS6UF5jh0fXDoStLVlSSKUl5iN2oIX+SeLN6ZpapSsHmm5d84D
+	iwskfVXD8GY4zCwryx+LFZ/Exo3HSIkJgISs2vX0TnLZSpNS5pYeDMZhrL7onkwn
+	Cqzt2PrSiO0Q+3JjdCsbKXRC+IsgGtc/m0zlC2ZlZ9Rj0sz47KhWODavY+JGJgEd
+	4rLHNwGe5acGGuZtVTb020LFK/b7vcjXrRnkiZCFzjfauA4i9qvWutPkcmuTsJU4
+	pwM/RODhA1pQN9m6dLelaLf9559tGfoklGXMN8zMSM48l6gDmxIEwvJyzmLw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1788856454; x=1788942854; bh=s9qYyu4B8zL2inOcDy7y8XxRjYDGVeJX+az
+	MjQN6uUI=; b=t99o+0I8BALTeY1NtVnrsUd66xqYd0xcoLU5RMMWRIeh1vWeD8Z
+	O7Q6nLbH+dlxTkW2bds8rqpNK3oZg9+IhHg5R/DJ7wBg9mSuu9+lPNhX2u2hRVQm
+	UGysg4uEMzug/6svFrLgyTuH3V+RxzwA29bxCgo3ZAGMK3QQunVrJ2DNAnWAO5UJ
+	4AFE14SjiWfrEWFy5nglFP7AZx+Isef9RC4h3qO2BloNkmBUD2ASNctwfPRJHJRs
+	Orknp0AnhfsmT+lt0OrfXgPgFiVEQZQC6kPPvn8pO6H8BOZKikKuJm2GYiektQKq
+	0PdYC0lnvpz/auO6mFJQfdNhmCo2e8yRB6A==
+X-ME-Sender: <xms:hcifahmxS4aG3CgVokBF3hh51G_3XQA1IYfX9JgD-9zHZNBKr1aW8A>
+    <xme:hcifam7oTLmLeVg5qNfBhVkf0k94aY70cmwZ6JfN-TjHateYN6Wx0vdDpLYbmxMLh
+    _cSNTToQ1XFyvg1kfFbV1q_1aKT1dLIu5R0V-KHoMzAN4_K7N4EqyQ>
+X-ME-Received: <xmr:hcifaskWpLUN7JXE97QWUr1WBsmWT3mPO_fJZd2f4DInHmZOsWUZJYK5FrbBGD0MmuHY0OWv31eE7OOkk5UrOwwEO31qGj_Jhsc>
+X-ME-Proxy-Cause: dmFkZTEJWvfoSZaWVEoP5Nwu0msHDNbn6E/kt5/jlAK/rOXQkSLDlD4Ac9c0422oqf/8iV
+    vY/VITN743tUEXL8pvjOlSA5WTdi1AQYkNc0jvyjNkXeS4QJHlgAHDLY8bHyccrzYyMpmo
+    RMAS1/5JJfc7xYrXJLTe6h6lrP/G+dbNs2ClY7VuT0LbFXa/1DMlM+Zb51JH/yoEo1mqp4
+    hHUnSB9Ydz8TQTrCNH+20KgcuEVdl6FvPd/H/Tvtn3RT4ofWuOZfvGA3e10sZG3qcuDMNA
+    +AMR2AoyLvUhUUBmeD2UaoJGBGiXPSlkGEJZlVudsxXLQ56fdY3qFf9ShY4hLHfYp48aQC
+    5yHmta1jRJk7ZH1rUKYpyaltaq2RUsIpdnxXPoRcwx0Q2uRmJz5sUu8dOEhpb/VBpw4MNb
+    /s2Q9kZpyUBR0Wd+7/AIr6h90qMNoNHRSXOqY8IlZk8L127ajcbW/dZDuDvlu4yhVfNGXG
+    8Tr4xE+9QmFO6vce7V2XUb+M4EA5NxLc5XxDn+paCFoYjVRg0ocVO21rhUOF/s1FeUQMbd
+    j6MfJrcJbPDMSgYiaBTY+zdwJuMb5QxBjGECg22ywFFoCc/ZU8s2aH7Ay/JcEODhtTepwF
+    cF86hVyeHHapVpBGhigEtLo04K9s2cO8Zf0GnS97Qmle2TVogWj1jl/Do/JA
+X-ME-Proxy: <xmx:hcifapUskIwT-yVC2xqpuU3htqVzI9VYvBtROOpTo8AIc3XdazktXg>
+    <xmx:hcifatTMkk7bYGtqJ0hzM1hjTSkPp2YdZjqK9ZtpsxHJWog4u-wgMg>
+    <xmx:hcifauD7bsscK6mKiVcyxXvO4PGdnTs7O6I7W-qLT0JaYgryACYb1g>
+    <xmx:hcifatvFjPfCbNBNZha1zuS5685_PYc6D__GQzmwVxZavbzt1Ez5Kg>
+    <xmx:hsifarI-mZ8j6MFU8NKtZAokfw44JdITGWwje-JckDsgsW_hOp7e_5Qu>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 8 Sep 2026 04:34:13 -0400 (EDT)
+Date: Tue, 8 Sep 2026 10:34:11 +0200
+From: Janne Grunau <j@jannau.net>
 To: Sven Peter <sven@kernel.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
+Cc: Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 13/22] thunderbolt: Add ring register accessors to
- tb_nhi_ops
-Message-ID: <20260908083200.GB106095@black.igk.intel.com>
-References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-13-1f80085f93fb@kernel.org>
+	Joshua Peisach <jpeisach@ubuntu.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 0/3] Apple SoC CIO (USB4/Thunderbolt) reset controller
+Message-ID: <20260908083411.GC2760037@robin.jannau.net>
+References: <20260821-b4-cio-reset-v2-0-2d045f80a424@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -74,144 +88,71 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-13-1f80085f93fb@kernel.org>
+In-Reply-To: <20260821-b4-cio-reset-v2-0-2d045f80a424@kernel.org>
 
-Hi,
-
-On Sun, Sep 06, 2026 at 08:36:36PM +0200, Sven Peter wrote:
-> The ring descriptor and options registers are laid out differently on
-> the Apple NHI. Add optional tb_nhi_ops hooks for their base addresses
-> which fall back to the standard USB4 register layout when they are not
-> set.
+On Fri, Aug 21, 2026 at 05:44:53PM +0200, Sven Peter wrote:
+> Hi,
 > 
-> Signed-off-by: Sven Peter <sven@kernel.org>
+> The CIO blocks used for USB4/Thunderbolt on Apple Silicon SoCs have a
+> reset inside the power manager that has to be deasserted before their
+> co-processor can be booted. On t8103 and t8112 each port comes with a
+> dedicated register page while t600x and t602x use a single register
+> with one request bit per port shared by all ports of a die in the
+> middle of the PMGR MMIO region.
+> 
+> The first patch adds the dt-binding, the second one the driver and the
+> last one the device tree nodes for all SoCs. This will be used by the
+> upcoming USB4/Thunderbolt series to start the host routers before
+> booting their co-processors.
+> 
+> Best,
+> 
+> Sven
+> 
 > ---
->  drivers/thunderbolt/nhi.c | 32 ++++++++++++++++++++++++++------
->  drivers/thunderbolt/nhi.h |  6 ++++++
->  2 files changed, 32 insertions(+), 6 deletions(-)
+> Changes in v2:
+> - dt-bindings: move the t600x example with the PMGR sub-node over to the
+>   PMGR binding itself where it can use the correct number of address
+>   cells such that the unit address matches reg again (Conor)
+> - bail out of probe when no match data is available (Joshua, sashiko)
+> - explain why neither a read-modify-write nor a delay before polling
+>   is required for the shared t600x register (sashiko)
+> - fix a copy/paste error for the M2 MMIO region in the dts change
+> - Link to v1: https://patch.msgid.link/20260809-b4-cio-reset-v1-0-4f33777d9b4b@kernel.org
 > 
-> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-> index fc54ff7edfb9..1b1e4a12c744 100644
-> --- a/drivers/thunderbolt/nhi.c
-> +++ b/drivers/thunderbolt/nhi.c
-> @@ -179,19 +179,37 @@ void nhi_disable_interrupts(struct tb_nhi *nhi)
->  static void __iomem *ring_desc_base(struct tb_ring *ring)
->  {
->  	void __iomem *io = ring->nhi->iobase;
-> +
-
-Unintended change?
-
->  	io += ring->is_tx ? REG_TX_RING_BASE : REG_RX_RING_BASE;
->  	io += ring->hop * 16;
->  	return io;
->  }
->  
-> +static void __iomem *nhi_ring_desc_base(struct tb_ring *ring)
-> +{
-> +	if (ring->nhi->ops->ring_desc_base)
-> +		return ring->nhi->ops->ring_desc_base(ring);
-> +
-> +	return ring_desc_base(ring);
-> +}
-> +
->  static void __iomem *ring_options_base(struct tb_ring *ring)
->  {
->  	void __iomem *io = ring->nhi->iobase;
-> +
-
-Ditto here.
-
->  	io += ring->is_tx ? REG_TX_OPTIONS_BASE : REG_RX_OPTIONS_BASE;
->  	io += ring->hop * 32;
->  	return io;
->  }
->  
-> +static void __iomem *nhi_ring_options_base(struct tb_ring *ring)
-> +{
-> +	if (ring->nhi->ops->ring_options_base)
-> +		return ring->nhi->ops->ring_options_base(ring);
-> +
-> +	return ring_options_base(ring);
-
-This is better IMO. Although I think even better would be to populate
-nhi->ops for both the standard NHI and for Apple (and possibly others) and
-then we can just do:
-
-	ring->nhi->ops->ring_options_base(..)
-
-or with a wrapper like this that makes it slightly more readable.
-
-It does not need to be part of this series but wanted to mention here.
-
-> +}
-> +
->  static void ring_iowrite_cons(struct tb_ring *ring, u16 cons)
->  {
->  	/*
-> @@ -199,29 +217,31 @@ static void ring_iowrite_cons(struct tb_ring *ring, u16 cons)
->  	 * are ignored by the hardware so we can save one ioread32() by
->  	 * filling the read-only bits with zeroes.
->  	 */
-> -	iowrite32(cons, ring_desc_base(ring) + 8);
-> +	iowrite32(cons, nhi_ring_desc_base(ring) + 8);
->  }
->  
->  static void ring_iowrite_prod(struct tb_ring *ring, u16 prod)
->  {
->  	/* See ring_iowrite_cons() above for explanation */
-> -	iowrite32(prod << 16, ring_desc_base(ring) + 8);
-> +	iowrite32(prod << 16, nhi_ring_desc_base(ring) + 8);
->  }
->  
->  static void ring_iowrite32desc(struct tb_ring *ring, u32 value, u32 offset)
->  {
-> -	iowrite32(value, ring_desc_base(ring) + offset);
-> +	iowrite32(value, nhi_ring_desc_base(ring) + offset);
->  }
->  
->  static void ring_iowrite64desc(struct tb_ring *ring, u64 value, u32 offset)
->  {
-> -	iowrite32(value, ring_desc_base(ring) + offset);
-> -	iowrite32(value >> 32, ring_desc_base(ring) + offset + 4);
-> +	void __iomem *base = nhi_ring_desc_base(ring);
-> +
-> +	iowrite32(value, base + offset);
-> +	iowrite32(value >> 32, base + offset + 4);
->  }
->  
->  static void ring_iowrite32options(struct tb_ring *ring, u32 value, u32 offset)
->  {
-> -	iowrite32(value, ring_options_base(ring) + offset);
-> +	iowrite32(value, nhi_ring_options_base(ring) + offset);
->  }
->  
->  static bool ring_full(struct tb_ring *ring)
-> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-> index 4884c3f5a2b2..3a963b0b5b46 100644
-> --- a/drivers/thunderbolt/nhi.h
-> +++ b/drivers/thunderbolt/nhi.h
-> @@ -52,6 +52,10 @@ extern const struct dev_pm_ops nhi_pm_ops;
->   * @post_nvm_auth: hook to run after Thunderbolt 3 NVM authentication
->   * @request_ring_irq: NHI specific interrupt retrieval hook
->   * @release_ring_irq: NHI specific interrupt release hook
-> + * @ring_desc_base: NHI specific hook returning the ring descriptor registers.
-> + *		    If not set the standard USB4 NHI registers are used.
-> + * @ring_options_base: NHI specific hook returning the ring option registers.
-> + *		       If not set the standard USB4 NHI registers are used.
->   * @ring_interrupt_active: NHI specific hook to activate/deactivate the
->   *			   interrupt of a single ring. If not set the
->   *			   standard USB4 NHI registers are used.
-> @@ -70,6 +74,8 @@ struct tb_nhi_ops {
->  	void (*post_nvm_auth)(struct tb_nhi *nhi);
->  	int (*request_ring_irq)(struct tb_ring *ring, bool no_suspend);
->  	void (*release_ring_irq)(struct tb_ring *ring);
-> +	void __iomem *(*ring_desc_base)(struct tb_ring *ring);
-> +	void __iomem *(*ring_options_base)(struct tb_ring *ring);
->  	void (*ring_interrupt_active)(struct tb_ring *ring, bool active);
->  	bool (*is_present)(struct tb_nhi *nhi);
->  	int (*init_interrupts)(struct tb_nhi *nhi);
+> To: Sven Peter <sven@kernel.org>
+> To: Janne Grunau <j@jannau.net>
+> To: Neal Gompa <neal@gompa.dev>
+> To: Rob Herring <robh@kernel.org>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Joshua Peisach <jpeisach@ubuntu.com>
+> Cc: asahi@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
 > 
-> -- 
-> 2.55.0
+> ---
+> Sven Peter (3):
+>       dt-bindings: reset: Add Apple SoC CIO reset
+>       reset: Add Apple SoC CIO reset driver
+>       arm64: dts: apple: Add CIO reset controllers
 > 
+>  .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |  12 ++
+>  .../bindings/reset/apple,t8103-cio-reset.yaml      |  61 +++++++
+>  MAINTAINERS                                        |   2 +
+>  arch/arm64/boot/dts/apple/t600x-dieX.dtsi          |   8 +-
+>  arch/arm64/boot/dts/apple/t602x-dieX.dtsi          |   8 +-
+>  arch/arm64/boot/dts/apple/t8103.dtsi               |   6 +
+>  arch/arm64/boot/dts/apple/t8112.dtsi               |   6 +
+>  drivers/reset/Kconfig                              |  10 ++
+>  drivers/reset/Makefile                             |   1 +
+>  drivers/reset/reset-apple-cio.c                    | 200 +++++++++++++++++++++
+>  10 files changed, 312 insertions(+), 2 deletions(-)
+
+whole series
+
+Reviewed-by: Janne Grunau <j@jannau.net>
+
+Janne
