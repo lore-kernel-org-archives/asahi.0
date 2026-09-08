@@ -1,172 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBB452E076
-	for <asahi@lists.linux.dev>; Tue,  8 Sep 2026 12:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75EB5616D0
+	for <asahi@lists.linux.dev>; Tue,  8 Sep 2026 13:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788869288; cv=none; b=cLGLxYEF19HXThd96keaw3AnGuRRSHb8DnaHB7nw0ax12hdCCXm8lsqHnmCG7J14kyv19kItLlqncKNsV9wCGqytS+K3AVMFcEgO0n0+pF97KmU3yXF8qcSGCzrsA+NZRbXNwqZJPJrO7pBsNpw0JC35lYvagMbmFT59QDP0uBs=
+	t=1788874107; cv=none; b=AhU/yqXw03q5/abopqpkrzwSwXKpQjXRUeKWlS+A+9nMyKvBI415b1RxpHPrw/YS8KbsLgoXrrmOIpRWk/iz027XRtTouvRmBeu4EPbP5o4uoosnXHjZtSAbeplFrCEEjRVgCmgorS2qLpCYtqbzGI0QklQVlqqtflD0y51tgfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788869288; c=relaxed/simple;
-	bh=nY/f36e4XCBpBx5q/CWt81lKze9qX8oQl+TRB/FvkTs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cz/5snvrKLkgqOdxamrVWXzOIYC4kkBQm/riadTNgar97YwIqtkc0zVVHnHXOGcvkh8Wphxq6F6yW+rnt0VJ0u1mxiHNm8o03R66/fDH/VpI9COz9vvuj9huyJScFlN25iTGqh0ftxBP0WUAG+0CxuKYa9XF+84XcN1Zb/5fju8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kO+eFi4u; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788874107; c=relaxed/simple;
+	bh=KUIMycDtluXPPj0q/UHerrngXZIyqXuVLyk5jfZzNto=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JLW9lLH0iECyyotDKsUzF38xQRLpW5Q+vZGejeGGFytMl+2+Lck4SBeqIena5n4i3OPab8yGVdCeWbYsnaPZ/LbT+H6UGg2EvPz+3VGyw9l0g92hSQ6GK8kBUxSDTQ/iI6cKLWFRsOYE8N0dEURkM1QpQ13A2QztqbEdhYDEKZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CnagBxND; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2UyCYwyk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DmMxsPk6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+Zz7VjMO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kO+eFi4u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788869281; x=1820405281;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nY/f36e4XCBpBx5q/CWt81lKze9qX8oQl+TRB/FvkTs=;
-  b=kO+eFi4uHBd73OdCswL2g84Dw9u07dlM3aXOfNfsVEY9XY1w+RmKo5QQ
-   JL6vOr21S3gEjgDsY/9YmnRGkqqo5rpNMYFkmUE7tsPeSIh+rbPsll2Ze
-   1bB+muPw/8sz6rXurrPjt32PfECogPP3SbwAx9aBbqJ/8GYdJgSGnoBDR
-   Sd3HdjQoBjas+POZpeqG63elLR+5klMB1DB1RonirltKkwkwA7NGf4mND
-   DZTgYWROznVVKb2V1MVVc3fDIosO1wMp1umzwA2hAtYaEKda/AqnkLXpl
-   svDfZrxaDnHIk6agSNlZsGaXAa4SerXjISDXeTrDXQ2AVh7TX/yzlIn8A
-   g==;
-X-CSE-ConnectionGUID: IzSqYkPMRJ2pl/aLYTRYLA==
-X-CSE-MsgGUID: O6s4MvnbRvqXG0sv9/z3Zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="114808212"
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="114808212"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 05:07:54 -0700
-X-CSE-ConnectionGUID: aBvCWuEhSdG7xqg4PMl2eg==
-X-CSE-MsgGUID: VDjQnp8RRumfORIpT2bbvw==
-X-ExtLoop1: 1
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Sep 2026 05:07:50 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id BC6F499; Tue, 08 Sep 2026 14:07:49 +0200 (CEST)
-Date: Tue, 8 Sep 2026 14:07:49 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 02/22] usb: typec: Represent USB4 on the Type-C bus
-Message-ID: <ap_6lY1fBb5L6VaO@black.igk.intel.com>
-References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-2-1f80085f93fb@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CnagBxND";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2UyCYwyk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DmMxsPk6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+Zz7VjMO"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2754E1F7F1;
+	Tue,  8 Sep 2026 13:27:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788874083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Z1qth4FercD0SEHk5Z1iw0vE+3kbgaicgYQzV9YzRKY=;
+	b=CnagBxNDcB0x/j/Jsco/t4fDdwt0RbmRtrmjMwYjq2iETqGI6iQ0uh4kTm+/souXWgCee2
+	Hgs2xVXmYtPh0Xo0h1xLPwph7jXzGLPrT2U3C+xo0aeIVSLl/t2mxGSun8V4iRqMlqlbM8
+	Zp7ga2ffMC5PbOeB/XoWXDlM9LeVzgE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788874083;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Z1qth4FercD0SEHk5Z1iw0vE+3kbgaicgYQzV9YzRKY=;
+	b=2UyCYwykgkGJb5ig/0U9WiLvtBvFE1j9kGWgvykBqYxDfdVmk2UYg4D1pGuaKlZN6aFUDf
+	YnCbPWf73YFkqyBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DmMxsPk6;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+Zz7VjMO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788874079; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Z1qth4FercD0SEHk5Z1iw0vE+3kbgaicgYQzV9YzRKY=;
+	b=DmMxsPk6w5gJodjCF20ZaJLqVDCUHYroDenANO2owizsRnB4wY1SFzbRl5BeRS6ITdltdx
+	wPgNAHWmT1qOx77HAZNXF3WhF3+TUF5xwU90jZPUOtiep44DS78iGJnLIMEUyR0qmAarvh
+	CJ0lkd4Uao/WTEOT74FDiKD9Z+azt7I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788874079;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Z1qth4FercD0SEHk5Z1iw0vE+3kbgaicgYQzV9YzRKY=;
+	b=+Zz7VjMOO7t31NkR9/Jn2wmFpnFs/0InRnWZJT29KoQtV8lmqtUowmnEbbwEGnpkh3OrAY
+	XzZNpHikXUq/rpDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D151413332;
+	Tue,  8 Sep 2026 13:27:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UXenMV4NoGq/SwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 08 Sep 2026 13:27:58 +0000
+Message-ID: <0c4d25a3-c68e-4415-9065-5123e7b4c683@suse.de>
+Date: Tue, 8 Sep 2026 15:27:58 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-2-1f80085f93fb@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/adp: Drop the select of the nonexistent
+ CONFIG_DRM_KMS_DMA_HELPER
+To: Karl Mehltretter <kmehltretter@gmail.com>,
+ Sasha Finkelstein <k@chaosmail.tech>
+Cc: Janne Grunau <j@jannau.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
+References: <20260905080426.34224-1-kmehltretter@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260905080426.34224-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 2754E1F7F1
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,chaosmail.tech];
+	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,suse.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid,suse.com:url]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 
-On Sun, Sep 06, 2026 at 08:36:25PM +0200, Sven Peter wrote:
-> USB4 technically isn't alternate mode and entered using the EUDO and has
-> no SVID or Discover Modes Response. We can still represent it like an
-> altmode on the Type-C bus though by adding a mode kind. Exclude the USB4
-> modes from any SVID-specific operations and driver binding, but allow
-> consumers to observe their state through notifications.
-> 
-> Like for other altmodes, expose the USB4 mode to sysfs: Add a mode_kind
-> to be able to differentiate and then expose the EUDO, make the USB4
-> active state read-only since we only represent firmware-negotiated USB4
-> modes and omit anything that only applies to SVID-specific altmodes.
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
+
+
+Am 05.09.26 um 10:04 schrieb Karl Mehltretter:
+> There is no Kconfig symbol CONFIG_DRM_KMS_DMA_HELPER. The former
+> CONFIG_DRM_KMS_CMA_HELPER was removed by commit 09717af7d13d ("drm:
+> Remove CONFIG_DRM_KMS_CMA_HELPER option") before this driver was added,
+> so the select does nothing. The driver already selects
+> CONFIG_DRM_GEM_DMA_HELPER, which is what it needs.
+>
+> Remove the dead line.
+>
+> Fixes: 332122eba628 ("drm: adp: Add Apple Display Pipe driver")
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 > ---
-> Hope it's fine to add you as the contact for the sysfs documentation,
-> happy to add myself otherwise though.
-> ---
->  Documentation/ABI/testing/sysfs-bus-typec | 36 ++++++++++++++
->  drivers/usb/typec/bus.c                   | 67 ++++++++++++++++++++-----
->  drivers/usb/typec/class.c                 | 83 +++++++++++++++++++++++++++----
->  drivers/usb/typec/mode_selection.c        |  6 ++-
->  include/linux/usb/typec.h                 | 20 +++++++-
->  include/linux/usb/typec_altmode.h         | 10 +++-
->  6 files changed, 193 insertions(+), 29 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-typec b/Documentation/ABI/testing/sysfs-bus-typec
-> index 205d9c91e2e1..524bbcbadf64 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-typec
-> +++ b/Documentation/ABI/testing/sysfs-bus-typec
-> @@ -12,6 +12,35 @@ Description:
->  
->  		Valid values are boolean.
->  
-> +		For USB4 mode devices this attribute is read-only. On a port it
-> +		indicates whether USB4 support is enabled; on a partner it reports
-> +		whether USB4 is active. USB4 entry and exit are controlled by the
-> +		port controller. Partner state changes notify this attribute and
-> +		generate KOBJ_CHANGE uevents.
-> +
-> +What:		/sys/bus/typec/devices/.../mode_kind
-> +Date:		September 2026
-> +Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> +Description:
-> +		Read-only protocol kind represented by this mode device:
-> +		"altmode" for an SVID-specific alternate mode, or "usb4" for
-> +		USB4 negotiated using Enter_USB.
-> +
-> +		USB4 devices do not expose svid, mode, vdo, or priority
-> +		attributes, or the legacy modeN attribute group. USB4 partner
-> +		uevents contain MODE_KIND=usb4 instead of SVID, MODE, and
-> +		MODALIAS variables.
-> +
-> +What:		/sys/bus/typec/devices/.../eudo
-> +Date:		September 2026
-> +Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> +Description:
-> +		Read-only Enter_USB Data Object (EUDO), formatted as
-> +		0x followed by eight hexadecimal digits. Present only on USB4
-> +		partner mode devices, not on ports or SVID-specific alternate
-> +		modes. USB4 cable information is encoded in the EUDO; there are
-> +		no USB4 cable plug mode devices.
-> +
->  What:		/sys/bus/typec/devices/.../description
->  Date:		July 2018
->  Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> @@ -36,6 +65,8 @@ Description:
->  		the mode index is not assigned, identifying the alternate mode
->  		must be done with either mode VDO or the description.
->  
-> +		This attribute is not present on USB4 mode devices.
-> +
->  What:		/sys/bus/typec/devices/.../svid
->  Date:		July 2018
->  Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> @@ -43,9 +74,14 @@ Description:
->  		The Standard or Vendor ID (SVID) assigned by USB-IF for this
->  		alternate mode.
->  
-> +		This attribute is not present on USB4 mode devices.
-> +
->  What:		/sys/bus/typec/devices/.../vdo
->  Date:		July 2018
->  Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
->  Description:
->  		Shows the VDO in hexadecimal returned by Discover Modes command
->  		for this mode.
-> +
-> +		This attribute is not present on USB4 mode devices. USB4 partner
-> +		mode devices expose the EUDO in the eudo attribute.
-
-USB4 needs to have its own device type. The USB4 mode should not
-expose things like svid and the vdo at all. And the USB4 mode
-registration should be done with a dedicated API IMO.
-
-Thanks,
+>   drivers/gpu/drm/adp/Kconfig | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/adp/Kconfig b/drivers/gpu/drm/adp/Kconfig
+> index 9fcc27eb200d..acfa21ee06d2 100644
+> --- a/drivers/gpu/drm/adp/Kconfig
+> +++ b/drivers/gpu/drm/adp/Kconfig
+> @@ -6,7 +6,6 @@ config DRM_ADP
+>   	select DRM_KMS_HELPER
+>   	select DRM_BRIDGE_CONNECTOR
+>   	select DRM_DISPLAY_HELPER
+> -	select DRM_KMS_DMA_HELPER
+>   	select DRM_GEM_DMA_HELPER
+>   	select DRM_PANEL_BRIDGE
+>   	select VIDEOMODE_HELPERS
 
 -- 
-heikki
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
+
+
