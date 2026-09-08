@@ -1,116 +1,65 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D122D879E
-	for <asahi@lists.linux.dev>; Mon,  7 Sep 2026 21:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808773769E6;
+	Tue,  8 Sep 2026 08:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788816271; cv=none; b=PjN57JhkrmcblVSDgxPY8LYBfPAt69A91SEIVDIJdEaWs3ixH3LO9sK9pxsg/O/Z7py86CQe7G4q9FgaME4kdeagBudl9nBY8XjNj4pFyGzKkEYjh0hk1PJoE7EKIEB9ltZ03H9W3c0AWZDkmYjIk+M2s583jh5WgRYS9ZPitmU=
+	t=1788854707; cv=none; b=aGd2Tr5RXERl3iEqvDydKw8flfwaPLfq02HjWT3BuDbGdzeDp+TBmORU+LcxEq8gt+CVjqwoktpzcWf3n4pgjXeIdEb/uBhMU9/5P83l+xk2idevj6PSqSIwoQsYNHTuinJuD7vw7ERjbaoXT9LhfNEnxfKi4wGxBkFny4Hlhlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788816271; c=relaxed/simple;
-	bh=ESxfzcPJSQgd+EG4I3mz4+YpdACrezLGXe/CMW1/FWc=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=gCUdO4JImggg/zy+PUd2qSo1RuhC+g48ymwpVZTq7KLod2rXJ4gq+agIynp1EsirerV1LbqzJUmh6tX+CKWsdUyfTnu9k7lhXO6BvA4RuNt95qtr1CdWZd1jKikpLyhPEfQcjS3Pe9GMVGUSpWBI0ViiRrfpUWLVCAtXaxwThzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=RsVMNezK; arc=none smtp.client-ip=195.121.94.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1788854707; c=relaxed/simple;
+	bh=seY5u/CslOZWGwYGsNn5hjJXNmlm43fT37xsIKmFsc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AMfufTo+tWFL2k9ghPmtaoRDPkUTDxc8kijKJNfDMwZWeMh0jRX8cjSW4mziS6nR4eElkvDqnvoBUQFjIjo2f48RAdjLFpEoNLiE9zCUhYGg55HID1vqbwvAFcICmQ2e+e6gu4e7D0qq3ACVpG/3tkSMhiRzoFL5fdJYfSOmPz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T79nZLeE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="RsVMNezK"
-X-KPN-MessageId: 56dc52ea-ab02-11f1-b2a8-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 56dc52ea-ab02-11f1-b2a8-005056abbe64;
-	Mon, 07 Sep 2026 23:23:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=IvVnuFeUbloygyYn25mc+9Gp/L3QtXZRWFkaJAOj734=;
-	b=RsVMNezK9AXQMP0JV8alZqyfH5Lj0G5SrkPqxqcYsXzLhChDm12tk4HKFTeBt6pMhRN2frfPldUaN
-	 dk4RLJXYr8HlYExQlZhlM46g9EJ4utIiSiD5yacHwL6QDm3kYMRK9UpheStHoMpuol4Y3yViXa3wQG
-	 hEHYMIjFl7k5cbqrUVBlBy//mMhQx1jstQoGQ8+s2qAuUzodiGLqK/7rOKWrrL3a+brjVawigsXAi7
-	 r7wncQm9OFpk1OUJLWgsxg5S+SQDzV2aa5UZxdQtiCIs3IcbpnmP9r+UXDTpvZUIg9Zk2nDxUiOAhu
-	 s+x80tScQcjRLPd5BOlig54ypUPapEA==
-X-KPN-MID: 33|MTWnIGqkllysgsfqHDR98i492UoaM4/A9cguGGH0YWEncjA5h//DzB91+IpzSde
- YeNp9NGsCroSmRCtRmqia7iV98bDyvkQqKgqP7If3f8c=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|HYbRrgTuKesxlP8v4FocLVQ44hkeQvDqXDyPINzYl4Zy93JwNi0EtPVtVNZ8Tem
- D6B2SWnz1jgAX7LOL+43ncg==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 5650de84-ab02-11f1-86b8-005056ab7584;
-	Mon, 07 Sep 2026 23:23:15 +0200 (CEST)
-Date: Mon, 07 Sep 2026 23:23:15 +0200
-Message-Id: <87qzj4sqm4.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Janne Grunau <j@jannau.net>
-Cc: u-boot@lists.u-boot-project.org, asahi@lists.linux.dev,
-	kettenis@openbsd.org, sven@kernel.org,
-	neil.armstrong@linaro.org, bmeng.cn@gmail.com,
-	trini@konsulko.com, fberder@outlook.fr, j@jannau.net
-In-Reply-To: <20260904-apple-nvme-fwabi-v1-3-f7ede661c469@jannau.net> (message
-	from Janne Grunau on Fri, 04 Sep 2026 21:22:41 +0200)
-Subject: Re: [PATCH 3/4] nvme: apple: Add WARN_ON_ONCE for non page-aligned
- admin queue buffers
-References: <20260904-apple-nvme-fwabi-v1-0-f7ede661c469@jannau.net> <20260904-apple-nvme-fwabi-v1-3-f7ede661c469@jannau.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T79nZLeE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6DAF1F00ADE;
+	Tue,  8 Sep 2026 08:05:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788854706;
+	bh=bJh2MhdLa63Ttm1UiskqgHeI5PnKcOO9wH8EfHh8qRY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=T79nZLeE+MVQkkVQxP9ZC5GbaJPNSYzCCObJMkr86s5FAmSJwWsKWyDgBG6bJrtZr
+	 KhLZNUrzDCtihT/T+SqIKKECtWJk13iY3sbu6Ddt1Pyhk0fxAj/X3/kXzP3H1YJWpV
+	 0WXUR7qDhNbVuHk4z2/OJRIDoBpOPz1EYEkp+UjkmeH9yfyIb/VGrrNFmEgwutuddQ
+	 EJHJoX4OC4IXHW+WsvVv/OaC/dOoDUObw/pGQihOCxKzrDrVZ3eurYe8pmfeq2GkHA
+	 yhZZHNrYchon4fIfcG6sfHEIh6/QTeahbY7/DRMNWAaYy0BAsntnT/nK4sa2aiW7GZ
+	 3UNgj54YJNDsQ==
+Date: Tue, 8 Sep 2026 10:04:58 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-phy@lists.infradead.org, Sven Peter <sven@kernel.org>, 
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, "open list:ARM/APPLE MACHINE SUPPORT" <asahi@lists.linux.dev>, 
+	"moderated list:ARM/APPLE MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] phy: apple: atc: remove stale kernel-doc for removed
+ struct members
+Message-ID: <veg6ies4ob234g3gerxzvnlfxwcjlle7sarkbzp5ptycfljixe@2kgokqw53ncw>
+References: <20260608053525.12354-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260608053525.12354-1-rosenp@gmail.com>
 
-> From: Janne Grunau <j@jannau.net>
-> Date: Fri, 04 Sep 2026 21:22:41 +0200
+On Sun, Jun 07, 2026 at 10:35:25PM -0700, Rosen Penev wrote:
+> The @sw and @mux members were removed from struct apple_atcphy but their kernel-doc entries remained, causing kernel-doc warnings.
 > 
-> Apple controllers seem to require any queue buffers on the admin queue
-> to be aligned to the NVMe controller page size. Weirdly, this constraint
-> does not apply to the i/o queue where any alignment is fine. This has
-> always been required on pre-M1 controllers and is required starting with
-> macOS 15 firmware or post-M4 controllers again. On M1/M2/M3 there was a
-> chicken bit to disable this requirement.
-> 
-> U-boot appears to always use page-aligned buffers for the admin queue.
-> Add WARN_ON_ONCE to make it very obvious if/when that changes or wasn't
-> true to begin with.
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Probably a good idea.  We aren't really size constrained.
+These members were never present. So 'removed' is misleading.
 
-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+> Assisted-by: opencode:big-pickle
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
 
-> ---
->  drivers/nvme/nvme_apple.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/nvme/nvme_apple.c b/drivers/nvme/nvme_apple.c
-> index f615f8fac4a..54821f80c81 100644
-> --- a/drivers/nvme/nvme_apple.c
-> +++ b/drivers/nvme/nvme_apple.c
-> @@ -12,6 +12,7 @@
->  #include <asm/io.h>
->  #include <asm/arch/rtkit.h>
->  #include <asm/arch/sart.h>
-> +#include <linux/bug.h>
->  #include <linux/iopoll.h>
->  #include <linux/sizes.h>
->  
-> @@ -116,9 +117,15 @@ static void apple_nvme_submit_cmd(struct nvme_queue *nvmeq,
->  {
->  	struct apple_nvme_priv *priv =
->  		container_of(nvmeq->dev, struct apple_nvme_priv, ndev);
-> +	u32 page_size = nvmeq->dev->page_size;
->  	struct ans_nvmmu_tcb *tcb;
->  	u16 tail = nvmeq->sq_tail;
->  
-> +	if (nvmeq->qid == NVME_ADMIN_Q) {
-> +		WARN_ON_ONCE(!IS_ALIGNED(cmd->common.prp1, page_size));
-> +		WARN_ON_ONCE(!IS_ALIGNED(cmd->common.prp2, page_size));
-> +	}
-> +
->  	tcb = ((void *)priv->tcbs[nvmeq->qid]) + tail * ANS_NVMMU_TCB_PITCH;
->  	memset(tcb, 0, sizeof(*tcb));
->  	tcb->opcode = 0;
-> 
-> -- 
-> 2.55.0
-> 
-> 
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
