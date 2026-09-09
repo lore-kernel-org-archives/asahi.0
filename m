@@ -1,137 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CB225F99F;
-	Wed,  9 Sep 2026 07:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADBE3E49E4
+	for <asahi@lists.linux.dev>; Wed,  9 Sep 2026 10:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788940146; cv=none; b=DEqgOSo/TTSFxxKgd4qPmxMTvqNO2zQLLpOUm41IMEkx3SZs05aPQCHd6Ss7kir8OHFnRb/fT50EQq4QlRGx7yEwxCYUQBcGanPMYhbvIH3LzX+wCHuCDwnYrbn9jQFwKO64LlD/zbKjx8C6vFEqvw+JkjeFJdb+uiW268odkWU=
+	t=1788949634; cv=none; b=NvgP6MwqE1t8DbWHsPquiZh60NlMHptbxVU5qrPuX81U1Rz54vExjslc88rY87yPMxyL1dK/A27tmwsqf7Ayjkm5Qp7P0QG374wEjYfhaQ7sh1LyKknQnXYIA4MS/OFNY5A8Z4xFM5Y3EbldVLIaLxJ/1cyF/J8Au7Ei3mmFcAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788940146; c=relaxed/simple;
-	bh=ISQDd1oJEQJmG/NynBkrUI70OPSeSTJUlMkBuQns42Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kc5qz50Y9lSAtZLqEMxNlAg8nEbmWTkvqygrVsCt4aCn1IqCMiKGqabWbIITlPmTbayjz8U+JwzjR09PbXDmJOOt7CvZX20pe+PqmS+nyf+AkOLO8ONkJwNs5/yMch4+L6fOIgD6kg41wGHTMF8kmlsCGtK301uIQHRJgd2rf+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aoutg6l0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788949634; c=relaxed/simple;
+	bh=ml4ZBju4B1tq+rmMxB/b+E1KZR7TEWBug3bye3R6QM0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qDY0b83Eo6kYFVfGsPL75EHWhkNemESixxUfN9/BE+xkydY7FezIL2Y3IegJjR4w5MbeBWd9IhmGk01lIjoReKHeIbWz+RP9bMqBPq0bokqbwaWeSb7GVmEWwBvO7cnl7ReDSWf/t/cXWRH3AI3JY3h4pYIjkQHcr+7a+Qqvze0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=Px7tzLuh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LGDh2m6j; arc=none smtp.client-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aoutg6l0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B71A1F00A3D;
-	Wed,  9 Sep 2026 07:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788940145;
-	bh=hgnZT+2Mit5xpVjYvXSjzD7nZQWY3h9bkFOl6mmp6VE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=aoutg6l0ahEWNqSvkL74AzduJYMljzmNogoR3fwrcgiv8TqgtrQACSc53f29qsR+Y
-	 zKB4X5gSunES93G58vRXWZhe9XC2xTrHs0pfuophcsW1KziqpVXNEcL2QLGeqcl73y
-	 8Q2lJlG67Q3J4mGJYb1z6dczTn3Vt/4MPe8n4ujPV6qDUafyRsaDqIzcfaFdTlnn+o
-	 9QoKWuPr/EzRnP+7cGpUqdI8xxek1TvzFTHwUnfiIC0adkO3YHsK9l/aahG18br4ib
-	 W1wz4dNeq4vDzgeE/yUtXJI7L6mwqZvRRVUWvwSUFLxISEiRC8ZoRc7qG5/FarHap4
-	 b59RMVAAygeoA==
-Message-ID: <37dab3cf-c138-4d05-8e34-461a86d71281@kernel.org>
-Date: Wed, 9 Sep 2026 09:48:56 +0200
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="Px7tzLuh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LGDh2m6j"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id DD1CF1D00064;
+	Wed,  9 Sep 2026 06:27:08 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 09 Sep 2026 06:27:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1788949628; x=1789036028; bh=D7
+	0P5bBP7rJfC/wD9nHjID+dIb3h0sckQlDoFdS+bEI=; b=Px7tzLuh5KjvlGa5Gu
+	KbeFo/yNzIfN38aYA8viwGgy2SWI4hJ/z4Z2QZna/CbsNmPDC2iVQjYqhNaUywR4
+	QnXKmNy8PWBS7ex3j6c6haev83NLnB9Y73K3ndONxWTbBtv5eaWRz2xxBkv/PFqX
+	JPVkLjO1z0JZu1mf4tfj8OCOzhcbrLFA71N9tHB/ZGhObjxOoy8SGWGqV5BoEJKf
+	zYU9tHeuM3O8A3mqrakXTNt/jsp9k0U9Rj85As96CcHUo+yJ5TpRdC4UdKLDWRI9
+	UHFJ1iY0USZKdz8kzuX1qf14qq0qPxQi7B60j5m8m7Asrzo1tYcrMQOF4nDoT10l
+	CSqA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1788949628; x=1789036028; bh=D70P5bBP7rJfC/wD9nHjID+dIb3h
+	0sckQlDoFdS+bEI=; b=LGDh2m6jPvBSaidnHogBtFO+3bMyGlCSocgfmKwEJdEJ
+	pobfgdizmB2TReo+CMK4jXINfGJOV5RslTpijBWDwESDYnM9lmpYBHMsS9w9BC0d
+	l9IS4a/ztcxypmkB4IyMnOEA+wBbEwLjyKKnQdLraBMPY8kieWz0xF2YGz3wPwTy
+	4OgLSt1bvUOi/nLeplNSuWyZf/iJzeehNYAj/Li+zHUWEXavA4rdGxYDMpyw3Buc
+	QlaHKJL1xewCDE4HL/jZ8UiglFdSZA05HSNLMRusstalJyQgUEmYCivhOgeaeOWb
+	HjGPLxHS7cd7LbOHJjbSEZJSCryFoobhAWA27elDxQ==
+X-ME-Sender: <xms:fDShapPcOHOqosI9IR0TvyhU1XnIgn0ClSycfMz-6OFQRXvA1xxAfg>
+    <xme:fDSharq-YIBxhrG-0ehWyOyprXehXUseuMLllXHYwlRL__m0C6vv2goOJbdMpBWXk
+    AnAQ_pHmXKJZrQgJuydOYC3t7UBb9v4VX9-JkLvi6CEziTnQzbju39Stw>
+X-ME-Received: <xmr:fDShaj7XfBYKRFOnCOy-Al78kxTsCWKdAyE2R0EO2nt4jjb5dGWQ7L0tG1PaU0la5C0YK9rhP83TUUzyFK10IDkBqLtkqWXOsQ3Cjw>
+X-ME-Proxy-Cause: dmFkZTEf4elS+wM/oH1d+m2RM29yelr5k28FlgAMFpXVnOmPLs/wmBFdIa1odYJsNDDKoo
+    fG24n5KC5Q7+pkltWM2DlWzke2+LarQxLyUIH/nNcGJJcOwbN1i5IEwV15FA2077BdCJur
+    mYAjt8UdNBh9VaR+pLpELIcspaKwuO+M1AmBa/LfiDOqMGBwmbhHkRWFRwjvEN2VlDCseG
+    8WW2eMEX4p423JGSmCMl79aK1yeMbD0jFviYopJvy+FqEP3X5jPxbSFHhp8v49GwH9NLXc
+    5JTE3imxs5DByzPYxSmgGoxY4ztOom+x3R9s8nrHgHGENKPsd0KH1umbYiKeQezDJu5hBI
+    4mZUSKnBA2gR3+aEFeCBeXIoX8m9KjWTJGmRyoFporsJ3/tYTLQPYJ4uVXB05FO7gr0tZU
+    fQgsE/o7f0f7NuyO1Xpk8jZrBbIPINRGc5e/S+0t+7VNFbL5FyyG3XL4xQIte2O6Zziq5P
+    RJ0FMedD3ngABRC1S0JKp1F0pazo5ECGIxaiYH5QTCJE6NeAs146PWcYmmxUYO6v95HL4j
+    GXwaK0b5c2iW3kBfefMy9/8p38mgZJdZVI6YvazQrmR6k8jwVuxjbdm4aF/x5DNXtSBYQ6
+    0SHP6uE0UdbhMeTZgBi2aWtcdHsXAi7fOWLquzLEgNXYFa/E0ZzidwFnQ70w
+X-ME-Proxy: <xmx:fDShahid_-T_UJDhNP8WvQhsT7T67-bLwbhffQsSAUeEUVQ8k615Cw>
+    <xmx:fDShah5G_sDlX8owIb5BX_JyEX-kbR2Cg3q4VX2RvzAWx1w9m-1tfg>
+    <xmx:fDShauHptRblPWyLpKUh5eP71iNWkHXW1U14Tjpm6cRN244HV69eiw>
+    <xmx:fDSharIlMpKBlLyugUSxFb_wOYZUkzZxUZLeTdzk835jijZkZrnVLQ>
+    <xmx:fDShagIHMoDBo6Gog-nEAATz9QSDgxYIA_H5bFw1ed2qwByjzWr8NvTr>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Sep 2026 06:27:08 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH 00/13] dt-style-check strict fixes for Apple M3, M3
+ Pro/Max/Ultra
+Date: Wed, 09 Sep 2026 12:26:56 +0200
+Message-Id: <20260909-apple-dts-m3-dt-style-check-v1-0-4c546e2d9d51@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] dt-bindings: interrupt-controller: apple,aic2: Add
- apple,t8140 compatible
-To: Yureka Lilian <yureka@cyberchaos.dev>, Nick Chan <towinchenmi@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Lorenzo Pieralisi
- <lpieralisi@kernel.org>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Thomas Gleixner <tglx@kernel.org>,
- Radu Rendec <radu@rendec.net>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org
-References: <20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev>
- <20260904-apple-a18-pro-initial-devicetrees-v1-4-0c25401d165d@cyberchaos.dev>
- <4e65ef39-cf1b-49d4-a899-da36acb442c2@gmail.com>
- <20260909-advanced-marble-lorikeet-eebeef@quoll>
- <76ad4ffe-82b8-42ec-abbe-a8c35ed8705f@kernel.org>
- <76d1c5c8-f051-4365-b113-e18be5aaa9a0@cyberchaos.dev>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <76d1c5c8-f051-4365-b113-e18be5aaa9a0@cyberchaos.dev>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqEMAxA0atI1gbaCs7Uq4iL0sYxzIyWRkQR7
+ 25w9Xmbf4JQYRLoqhMKbSy8zApbVxCnMH8IOanBGdcabzyGnH+EaRX8NxqU9VDHieIXjYv+ZW1
+ 4+5RAD7nQyPtz74frugEM2PGvbQAAAA==
+X-Change-ID: 20260909-apple-dts-m3-dt-style-check-02c9711a89dd
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3432; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=ml4ZBju4B1tq+rmMxB/b+E1KZR7TEWBug3bye3R6QM0=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqyFJhUTpl2WXHdrtyWTe+3OmSFTFVS0579TXiM25YHoi
+ svVxh7+HaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACZi4crwvyi7Q0tZM1r8QOS2
+ i/aNe9zZX8rN99rRqvbU5uy74NdBGYwM+9dtOMG94pyAzcPwKIuAhUs+c6+5qaQ826Ql+2xf5pV
+ N/AA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-On 09/09/2026 09:34, Yureka Lilian wrote:
->>>>> diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
->>>>> index 1cb886785173..e3cadc5ad39d 100644
->>>>> --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
->>>>> +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
->>>>> @@ -46,6 +46,7 @@ properties:
->>>>>                 - apple,t6030-aic3
->>>>>                 - apple,t6031-aic3
->>>>>                 - apple,t8132-aic3
->>>>> +              - apple,t8140-aic3
->>>> the title should be "... Add t8140 compatible" describing the hardware corresponding
->>>> to the added compatible since the compatible being added is not "apple,t8140".
->>> Commit msg is correct, it does exactly what you wrote, no?
->>>
->>>> (Alternatively, if you mention the compatible in title, say "...Add apple,t8140-aic3" as
->>>> "compatible" is already implied)
->>> That would be repeating diff, so not really helpful.
->>
->> Ah, you meant the subject of the patch...
->>
->>
->> Best regards,
->> Krzysztof
-> 
-> 
-> That's how I parsed it too. Removed the "apple," from the subject, so 
-> it's just "dt-bindings: interrupt-controller: apple,aic2: Add t8140 
-> compatible".
+Hej,
 
-Sure
+this series fixes most dt-style-check issues in strict strict mode for
+Apple M3 and M3 Pro, Max and Ultra device trees. These device trees are
+small so fixing most of the issues helps to check that new additions do
+not introduce new dt-style-check issues.
+
+Not handled in this series are property-order and line-length issues in
+t*-pmgr.dtsi. I don't expect those files to be touched often and the
+diffs would be huge.
+In addition it leaves line-length issues for lines with up to 82
+columns.
+
+Cache related properties for CPU nodes unfortunately do not share a
+prefix so strict property-order would decrease human readability. This
+series does not address property-order order for "d-cache-size" and adds
+a blank line before it to keep all cache related properties grouped
+together.
+
+I verified that the series does not introduce functional changes by
+comparing the preprocessed device trees with dtdiff. The diff shows only
+phandle changes caused by reordering nodes.
+
+Series based on apple-soc/dt-7.4 (commit f3f2d38a606e ("arm64: dts:
+apple: Fix style issues for t6031 multi die .dtsi")).
+
+Janne
+
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Janne Grunau (13):
+      arm64: dts: apple: t603x: Fix all blank line dt-style-check issues
+      arm64: dts: apple: t8122: Fix blank line related dt-style-check issues
+      arm64: dts: apple: t603x: Fix child-name-order dt-style-check issues
+      arm64: dts: apple: t8122: Fix child-name-order dt-style-check issues
+      arm64: dts: apple: t8122: Fix child-address-order dt-style-check issues
+      arm64: dts: apple: t6031: Fix continuation alignment
+      arm64: dts: apple: t8122: Fix continuation alignment
+      arm64: dts: apple: t6030: Fix most property-order dt-style-check issues
+      arm64: dts: apple: t603[12]: Fix most property-order dt-style-check issues
+      arm64: dts: apple: t8122: Fix most property-order dt-style-check issues
+      arm64: dts: apple: t6032-j575d: Remove unused "framebuffer0" label
+      arm64: dts: apple: t603x: Break overly long lines
+      arm64: dts: apple: t8122: Break overly long lines
+
+ arch/arm64/boot/dts/apple/t6030-pmgr.dtsi      |   1 -
+ arch/arm64/boot/dts/apple/t6030.dtsi           | 277 ++++++++++++++-----------
+ arch/arm64/boot/dts/apple/t6031-base.dtsi      | 191 +++++++++--------
+ arch/arm64/boot/dts/apple/t6031-die0.dtsi      |  61 +++---
+ arch/arm64/boot/dts/apple/t6031-dieX.dtsi      |  92 ++++----
+ arch/arm64/boot/dts/apple/t6031-gpio-pins.dtsi |  18 +-
+ arch/arm64/boot/dts/apple/t6031-pmgr.dtsi      |   6 +
+ arch/arm64/boot/dts/apple/t6031.dtsi           |   7 +-
+ arch/arm64/boot/dts/apple/t6032-j575d.dts      |  10 +-
+ arch/arm64/boot/dts/apple/t6032.dtsi           | 175 +++++++++-------
+ arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi |  15 +-
+ arch/arm64/boot/dts/apple/t8122-j504.dts       |  10 +-
+ arch/arm64/boot/dts/apple/t8122-j613.dts       |   9 +-
+ arch/arm64/boot/dts/apple/t8122-j615.dts       |   9 +-
+ arch/arm64/boot/dts/apple/t8122-jxxx.dtsi      |   5 +-
+ arch/arm64/boot/dts/apple/t8122-pmgr.dtsi      |   1 -
+ arch/arm64/boot/dts/apple/t8122.dtsi           | 256 +++++++++++++----------
+ 17 files changed, 640 insertions(+), 503 deletions(-)
+---
+base-commit: f3f2d38a606edf92259aa5e57e083484798d7ea8
+change-id: 20260909-apple-dts-m3-dt-style-check-02c9711a89dd
 
 Best regards,
-Krzysztof
+-- 
+Janne Grunau <j@jannau.net>
+
