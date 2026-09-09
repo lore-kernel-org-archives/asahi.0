@@ -1,76 +1,77 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADBE3E49E4
-	for <asahi@lists.linux.dev>; Wed,  9 Sep 2026 10:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC843E9C18
+	for <asahi@lists.linux.dev>; Wed,  9 Sep 2026 10:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788949634; cv=none; b=NvgP6MwqE1t8DbWHsPquiZh60NlMHptbxVU5qrPuX81U1Rz54vExjslc88rY87yPMxyL1dK/A27tmwsqf7Ayjkm5Qp7P0QG374wEjYfhaQ7sh1LyKknQnXYIA4MS/OFNY5A8Z4xFM5Y3EbldVLIaLxJ/1cyF/J8Au7Ei3mmFcAA=
+	t=1788949635; cv=none; b=nvldEjK2te9oJmtFFxeMshNXYKYZEWjkgAYw45oPl7ZEMKImvxjQBAiQdLcFxMR9wvQrCG4d1Ytq5PN2q3yH46CVOzb8IzHQ6NT0gtImoqDgpC9fE5AIMcSVMZYbuvC4qOk0UdlnwzK9d0Gwhk37LKMN5mkrT6OwZ2FLPxwrliw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788949634; c=relaxed/simple;
-	bh=ml4ZBju4B1tq+rmMxB/b+E1KZR7TEWBug3bye3R6QM0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qDY0b83Eo6kYFVfGsPL75EHWhkNemESixxUfN9/BE+xkydY7FezIL2Y3IegJjR4w5MbeBWd9IhmGk01lIjoReKHeIbWz+RP9bMqBPq0bokqbwaWeSb7GVmEWwBvO7cnl7ReDSWf/t/cXWRH3AI3JY3h4pYIjkQHcr+7a+Qqvze0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=Px7tzLuh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LGDh2m6j; arc=none smtp.client-ip=202.12.124.151
+	s=arc-20240116; t=1788949635; c=relaxed/simple;
+	bh=o8HxpYTWYHHj1oP2x+jFHXd9bfJrq6lJRPSdeAjeGp8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=djxsOC7HTCde2sUXbSDZVErDtONVnlZsC7w+UoLypiDqP5aJPv7PYWXjoxnUf2Lj9dNptguYRBVbHdegYLR+GUFR9vnSycx6nsdWNwlak/TFto3tvATmip/s2SCRFbziRLu0tjq6MMnFEbCcL71oy9mheoU5B4AhCfov2m0RPIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=HPN89Tjb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=N2dNE00c; arc=none smtp.client-ip=202.12.124.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="Px7tzLuh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LGDh2m6j"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id DD1CF1D00064;
-	Wed,  9 Sep 2026 06:27:08 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="HPN89Tjb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="N2dNE00c"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 627417A007C;
+	Wed,  9 Sep 2026 06:27:11 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 09 Sep 2026 06:27:09 -0400
+  by phl-compute-03.internal (MEProxy); Wed, 09 Sep 2026 06:27:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1788949628; x=1789036028; bh=D7
-	0P5bBP7rJfC/wD9nHjID+dIb3h0sckQlDoFdS+bEI=; b=Px7tzLuh5KjvlGa5Gu
-	KbeFo/yNzIfN38aYA8viwGgy2SWI4hJ/z4Z2QZna/CbsNmPDC2iVQjYqhNaUywR4
-	QnXKmNy8PWBS7ex3j6c6haev83NLnB9Y73K3ndONxWTbBtv5eaWRz2xxBkv/PFqX
-	JPVkLjO1z0JZu1mf4tfj8OCOzhcbrLFA71N9tHB/ZGhObjxOoy8SGWGqV5BoEJKf
-	zYU9tHeuM3O8A3mqrakXTNt/jsp9k0U9Rj85As96CcHUo+yJ5TpRdC4UdKLDWRI9
-	UHFJ1iY0USZKdz8kzuX1qf14qq0qPxQi7B60j5m8m7Asrzo1tYcrMQOF4nDoT10l
-	CSqA==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1788949631;
+	 x=1789036031; bh=v9cVzalYWb/deBRS9aiFq2Ry2KJzg6JfvgxLZIC4kcY=; b=
+	HPN89TjbHYLR9mVsbZ4S5QSrWrTMcxPz7uSF8DB4NObTcw4sG3N3/dpFP+QCF6os
+	o5GE0h48rhHXTNB+YhBbm/CsHzpDB3ymE61HtY7ZTLFNitwgP+AjDmj49G25lXIo
+	EmSYnmggbZT7zzVSh2ZpTCgH0Mv9A52mYqWUU7ViXXKW+iDg2WL+fk2f3Jxr7bpX
+	0SIOgzaLzilrd5sPZohe9GvFcsBBLeqEnEFN7RMn1OavX1J4FhsVqsVi80FwUBVK
+	A4xGj47W14T9QmJa6mPBEvgAflDZ7mr2s6EXn824GEhMtmhsZVZTqNTOm9pRU5A3
+	qlwdY51a4Dj5N0Nh/EETmQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1788949628; x=1789036028; bh=D70P5bBP7rJfC/wD9nHjID+dIb3h
-	0sckQlDoFdS+bEI=; b=LGDh2m6jPvBSaidnHogBtFO+3bMyGlCSocgfmKwEJdEJ
-	pobfgdizmB2TReo+CMK4jXINfGJOV5RslTpijBWDwESDYnM9lmpYBHMsS9w9BC0d
-	l9IS4a/ztcxypmkB4IyMnOEA+wBbEwLjyKKnQdLraBMPY8kieWz0xF2YGz3wPwTy
-	4OgLSt1bvUOi/nLeplNSuWyZf/iJzeehNYAj/Li+zHUWEXavA4rdGxYDMpyw3Buc
-	QlaHKJL1xewCDE4HL/jZ8UiglFdSZA05HSNLMRusstalJyQgUEmYCivhOgeaeOWb
-	HjGPLxHS7cd7LbOHJjbSEZJSCryFoobhAWA27elDxQ==
-X-ME-Sender: <xms:fDShapPcOHOqosI9IR0TvyhU1XnIgn0ClSycfMz-6OFQRXvA1xxAfg>
-    <xme:fDSharq-YIBxhrG-0ehWyOyprXehXUseuMLllXHYwlRL__m0C6vv2goOJbdMpBWXk
-    AnAQ_pHmXKJZrQgJuydOYC3t7UBb9v4VX9-JkLvi6CEziTnQzbju39Stw>
-X-ME-Received: <xmr:fDShaj7XfBYKRFOnCOy-Al78kxTsCWKdAyE2R0EO2nt4jjb5dGWQ7L0tG1PaU0la5C0YK9rhP83TUUzyFK10IDkBqLtkqWXOsQ3Cjw>
-X-ME-Proxy-Cause: dmFkZTEf4elS+wM/oH1d+m2RM29yelr5k28FlgAMFpXVnOmPLs/wmBFdIa1odYJsNDDKoo
-    fG24n5KC5Q7+pkltWM2DlWzke2+LarQxLyUIH/nNcGJJcOwbN1i5IEwV15FA2077BdCJur
-    mYAjt8UdNBh9VaR+pLpELIcspaKwuO+M1AmBa/LfiDOqMGBwmbhHkRWFRwjvEN2VlDCseG
-    8WW2eMEX4p423JGSmCMl79aK1yeMbD0jFviYopJvy+FqEP3X5jPxbSFHhp8v49GwH9NLXc
-    5JTE3imxs5DByzPYxSmgGoxY4ztOom+x3R9s8nrHgHGENKPsd0KH1umbYiKeQezDJu5hBI
-    4mZUSKnBA2gR3+aEFeCBeXIoX8m9KjWTJGmRyoFporsJ3/tYTLQPYJ4uVXB05FO7gr0tZU
-    fQgsE/o7f0f7NuyO1Xpk8jZrBbIPINRGc5e/S+0t+7VNFbL5FyyG3XL4xQIte2O6Zziq5P
-    RJ0FMedD3ngABRC1S0JKp1F0pazo5ECGIxaiYH5QTCJE6NeAs146PWcYmmxUYO6v95HL4j
-    GXwaK0b5c2iW3kBfefMy9/8p38mgZJdZVI6YvazQrmR6k8jwVuxjbdm4aF/x5DNXtSBYQ6
-    0SHP6uE0UdbhMeTZgBi2aWtcdHsXAi7fOWLquzLEgNXYFa/E0ZzidwFnQ70w
-X-ME-Proxy: <xmx:fDShahid_-T_UJDhNP8WvQhsT7T67-bLwbhffQsSAUeEUVQ8k615Cw>
-    <xmx:fDShah5G_sDlX8owIb5BX_JyEX-kbR2Cg3q4VX2RvzAWx1w9m-1tfg>
-    <xmx:fDShauHptRblPWyLpKUh5eP71iNWkHXW1U14Tjpm6cRN244HV69eiw>
-    <xmx:fDSharIlMpKBlLyugUSxFb_wOYZUkzZxUZLeTdzk835jijZkZrnVLQ>
-    <xmx:fDShagIHMoDBo6Gog-nEAATz9QSDgxYIA_H5bFw1ed2qwByjzWr8NvTr>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1788949631; x=
+	1789036031; bh=v9cVzalYWb/deBRS9aiFq2Ry2KJzg6JfvgxLZIC4kcY=; b=N
+	2dNE00cPGMykazK+KM8tF5i4gILFEViNPLAb6aZBEFqWbaHB29Nzohm+MHmeGceZ
+	6ECAqAyWcUBOdPysMgCutvbv9U95rOlm3YMgnJbwdWt2YTDgrTQSZlfIsLIclkb5
+	Xu9Mn1ohCGzN8unyzVLMbbovK/oiln3DwwFqb2Yg+JWGK/VLhRxKTdCndEeijNfs
+	qZ3q+72bdmGKhtJ+uSkRhFgQv3mugi2s7ino4tLnR2DLnfun1yi/tbAyOmLArXz/
+	XTlfgOR5rlaOThLuontC1J1ckUhPoNOkuiiZhBycbrvLxqIIm1Pw75IVSeazqTM/
+	PhVJAUGHk+Ii8hy7Z33og==
+X-ME-Sender: <xms:fzShaqzEfo36I7AOV3vbGra-WDLe3oLQLJN6RqrWOeEWlKVH-zgmpg>
+    <xme:fzShaudVrlyBfNHLEWI1fIa5YF8s1lXX2IpaDJOSiQFBdX7GqZV8FvXcjip2_Jk3k
+    A-FqP4Gsi30KTDht67BLvyBaRWCYuyoz8ZtZecvDYgav9YmvpkROvt8tQ>
+X-ME-Received: <xmr:fzShan7f1iNZ2JDwuNOyt03saKygk9siYC_L0gW_vAtU6orK0bV4-eJe9r0TP7zhNysU6Lfw8Gt4nlu15tnpiCJYr-EAbKW29zAL9w>
+X-ME-Proxy-Cause: dmFkZTFx5WkaY4CDAlu0ZuU0hrQzpafzkGsOaaQGEhoUmSRPpPX76dVLRDYSy3Ff36O28i
+    2b99czRBR+aM2sP9W0jn3TnWedWS1aurEII+sX65de2uh7zYXOOp/7zyDNqGFAsFsn5G92
+    BaS0m5e4Kv8PJlU26VdOhZ/DVyTkQd6kagOvbn+jkexDsbD8nNJOHEvi4uQdLIXSeayDWh
+    nMJWoPiW/JuVJBDcDNmg7gGLig4IK9iLSNltxhecCMWDtrvVn5YADCi0ePKsJDVJujcxSN
+    ZZDmN0eLKwvqavAQsRwATwIBAsHaWpd4LLVFp74ef13oKcetFr2d4tMXguUSWmQiXc9eB3
+    IMU6xytROrg0UKsapgkgOhOKyaHbCMGEt0V32f9wBbseAMQs6qzIpviZLCFZr+lRXJcV26
+    jX9dMpon8D62vgeVZeDkio1rCke4kzEPP/XsSfJkIrUtJEgdTX4b+vKWdVkMaTwdyXFHjE
+    fDXG+OdhJeu8R36waON+zyNWtDNqqyz6NfrCgBXRm+7e4trbKWqqQlSip1HqtmWWUVts2Y
+    WxSNQt8Utr3OMoqLvAij3vF+uCX0HEYeduqseWOtBPwdnpZW/HZ3DcKWy+MgrFUa2ou/0j
+    d/W99UhFPQAj5zUSZ9Dt0hWKbeWEk7+9xSK/iaFU9PXsUIvY8KvqGISMKRYQ
+X-ME-Proxy: <xmx:fzSharLi6P3JekzXGm1PQgO1MivDOaWVQvnPWO65ckMN4RgAApmbZg>
+    <xmx:fzShany1OqewVZWwdLoYPAavjlpBGLMsdnmSgInBIBNv68bmXyFPBA>
+    <xmx:fzSharKAQcBMWvgKM6vDoT3sLej8Mht5SJBFfMZ7xnSxZyX1n7azBA>
+    <xmx:fzShauXSZoU0bTHlhC3yKioYMl2Yld_GPTGKZU-uNzrKJJu7kJNFfw>
+    <xmx:fzShagQ6sr5A4766ftIA2KdNGVN64SKITsr2DBozVCfcCAT_1lXA8EUO>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Sep 2026 06:27:08 -0400 (EDT)
+ 9 Sep 2026 06:27:10 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Subject: [PATCH 00/13] dt-style-check strict fixes for Apple M3, M3
- Pro/Max/Ultra
-Date: Wed, 09 Sep 2026 12:26:56 +0200
-Message-Id: <20260909-apple-dts-m3-dt-style-check-v1-0-4c546e2d9d51@jannau.net>
+Date: Wed, 09 Sep 2026 12:26:57 +0200
+Subject: [PATCH 01/13] arm64: dts: apple: t603x: Fix all blank line
+ dt-style-check issues
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -79,10 +80,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqEMAxA0atI1gbaCs7Uq4iL0sYxzIyWRkQR7
- 25w9Xmbf4JQYRLoqhMKbSy8zApbVxCnMH8IOanBGdcabzyGnH+EaRX8NxqU9VDHieIXjYv+ZW1
- 4+5RAD7nQyPtz74frugEM2PGvbQAAAA==
-X-Change-ID: 20260909-apple-dts-m3-dt-style-check-02c9711a89dd
+Message-Id: <20260909-apple-dts-m3-dt-style-check-v1-1-4c546e2d9d51@jannau.net>
+References: <20260909-apple-dts-m3-dt-style-check-v1-0-4c546e2d9d51@jannau.net>
+In-Reply-To: <20260909-apple-dts-m3-dt-style-check-v1-0-4c546e2d9d51@jannau.net>
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>
@@ -90,84 +90,467 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3432; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10244; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=ml4ZBju4B1tq+rmMxB/b+E1KZR7TEWBug3bye3R6QM0=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqyFJhUTpl2WXHdrtyWTe+3OmSFTFVS0579TXiM25YHoi
- svVxh7+HaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACZi4crwvyi7Q0tZM1r8QOS2
- i/aNe9zZX8rN99rRqvbU5uy74NdBGYwM+9dtOMG94pyAzcPwKIuAhUs+c6+5qaQ826Ql+2xf5pV
- N/AA=
+ bh=o8HxpYTWYHHj1oP2x+jFHXd9bfJrq6lJRPSdeAjeGp8=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqyFJhXr3Lf9vfb96NZ7LRt5k+4KNtq8vLD32wf26rk6p
+ Uv5XJekdJSyMIhxMciKKbIkab/sYFhdoxhT+yAMZg4rE8gQBi5OAZjI+w0MfyWfhGuXrpqV/X3h
+ Teviba2fmA7ZrTvBxXnzi5zfmis1MoaMDFdd1ybXXXe2EeYxY+FcrbGlbwKP/50VP68lzvf/cNG
+ 5lgkA
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Hej,
-
-this series fixes most dt-style-check issues in strict strict mode for
-Apple M3 and M3 Pro, Max and Ultra device trees. These device trees are
-small so fixing most of the issues helps to check that new additions do
-not introduce new dt-style-check issues.
-
-Not handled in this series are property-order and line-length issues in
-t*-pmgr.dtsi. I don't expect those files to be touched often and the
-diffs would be huge.
-In addition it leaves line-length issues for lines with up to 82
-columns.
-
-Cache related properties for CPU nodes unfortunately do not share a
-prefix so strict property-order would decrease human readability. This
-series does not address property-order order for "d-cache-size" and adds
-a blank line before it to keep all cache related properties grouped
-together.
-
-I verified that the series does not introduce functional changes by
-comparing the preprocessed device trees with dtdiff. The diff shows only
-phandle changes caused by reordering nodes.
-
-Series based on apple-soc/dt-7.4 (commit f3f2d38a606e ("arm64: dts:
-apple: Fix style issues for t6031 multi die .dtsi")).
-
-Janne
+Fixes dt-style-check 'blank-lines' and 'required-blank-lines' issues
+reported in strict mode.
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
-Janne Grunau (13):
-      arm64: dts: apple: t603x: Fix all blank line dt-style-check issues
-      arm64: dts: apple: t8122: Fix blank line related dt-style-check issues
-      arm64: dts: apple: t603x: Fix child-name-order dt-style-check issues
-      arm64: dts: apple: t8122: Fix child-name-order dt-style-check issues
-      arm64: dts: apple: t8122: Fix child-address-order dt-style-check issues
-      arm64: dts: apple: t6031: Fix continuation alignment
-      arm64: dts: apple: t8122: Fix continuation alignment
-      arm64: dts: apple: t6030: Fix most property-order dt-style-check issues
-      arm64: dts: apple: t603[12]: Fix most property-order dt-style-check issues
-      arm64: dts: apple: t8122: Fix most property-order dt-style-check issues
-      arm64: dts: apple: t6032-j575d: Remove unused "framebuffer0" label
-      arm64: dts: apple: t603x: Break overly long lines
-      arm64: dts: apple: t8122: Break overly long lines
+ arch/arm64/boot/dts/apple/t6030-pmgr.dtsi      |  1 -
+ arch/arm64/boot/dts/apple/t6030.dtsi           | 18 ++++++++++++++++++
+ arch/arm64/boot/dts/apple/t6031-base.dtsi      | 13 +++++++++++++
+ arch/arm64/boot/dts/apple/t6031-die0.dtsi      | 10 ++++++++++
+ arch/arm64/boot/dts/apple/t6031-pmgr.dtsi      |  6 ++++++
+ arch/arm64/boot/dts/apple/t6032-j575d.dts      |  3 ++-
+ arch/arm64/boot/dts/apple/t6032.dtsi           | 13 +++++++++++++
+ arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi |  4 +++-
+ 8 files changed, 65 insertions(+), 3 deletions(-)
 
- arch/arm64/boot/dts/apple/t6030-pmgr.dtsi      |   1 -
- arch/arm64/boot/dts/apple/t6030.dtsi           | 277 ++++++++++++++-----------
- arch/arm64/boot/dts/apple/t6031-base.dtsi      | 191 +++++++++--------
- arch/arm64/boot/dts/apple/t6031-die0.dtsi      |  61 +++---
- arch/arm64/boot/dts/apple/t6031-dieX.dtsi      |  92 ++++----
- arch/arm64/boot/dts/apple/t6031-gpio-pins.dtsi |  18 +-
- arch/arm64/boot/dts/apple/t6031-pmgr.dtsi      |   6 +
- arch/arm64/boot/dts/apple/t6031.dtsi           |   7 +-
- arch/arm64/boot/dts/apple/t6032-j575d.dts      |  10 +-
- arch/arm64/boot/dts/apple/t6032.dtsi           | 175 +++++++++-------
- arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi |  15 +-
- arch/arm64/boot/dts/apple/t8122-j504.dts       |  10 +-
- arch/arm64/boot/dts/apple/t8122-j613.dts       |   9 +-
- arch/arm64/boot/dts/apple/t8122-j615.dts       |   9 +-
- arch/arm64/boot/dts/apple/t8122-jxxx.dtsi      |   5 +-
- arch/arm64/boot/dts/apple/t8122-pmgr.dtsi      |   1 -
- arch/arm64/boot/dts/apple/t8122.dtsi           | 256 +++++++++++++----------
- 17 files changed, 640 insertions(+), 503 deletions(-)
----
-base-commit: f3f2d38a606edf92259aa5e57e083484798d7ea8
-change-id: 20260909-apple-dts-m3-dt-style-check-02c9711a89dd
+diff --git a/arch/arm64/boot/dts/apple/t6030-pmgr.dtsi b/arch/arm64/boot/dts/apple/t6030-pmgr.dtsi
+index 932388ea13c9..b890d622566e 100644
+--- a/arch/arm64/boot/dts/apple/t6030-pmgr.dtsi
++++ b/arch/arm64/boot/dts/apple/t6030-pmgr.dtsi
+@@ -1434,4 +1434,3 @@ ps_atc3_usb: power-controller@f0 {
+ 		power-domains = <&ps_atc3_usb_aon>, <&ps_atc3_common>;
+ 	};
+ };
+-
+diff --git a/arch/arm64/boot/dts/apple/t6030.dtsi b/arch/arm64/boot/dts/apple/t6030.dtsi
+index 5ff12edfc553..0bfa8db59db4 100644
+--- a/arch/arm64/boot/dts/apple/t6030.dtsi
++++ b/arch/arm64/boot/dts/apple/t6030.dtsi
+@@ -24,18 +24,23 @@ cluster0 {
+ 				core0 {
+ 					cpu = <&cpu_e00>;
+ 				};
++
+ 				core1 {
+ 					cpu = <&cpu_e01>;
+ 				};
++
+ 				core2 {
+ 					cpu = <&cpu_e02>;
+ 				};
++
+ 				core3 {
+ 					cpu = <&cpu_e03>;
+ 				};
++
+ 				core4 {
+ 					cpu = <&cpu_e04>;
+ 				};
++
+ 				core5 {
+ 					cpu = <&cpu_e05>;
+ 				};
+@@ -45,18 +50,23 @@ cluster1 {
+ 				core0 {
+ 					cpu = <&cpu_p00>;
+ 				};
++
+ 				core1 {
+ 					cpu = <&cpu_p01>;
+ 				};
++
+ 				core2 {
+ 					cpu = <&cpu_p02>;
+ 				};
++
+ 				core3 {
+ 					cpu = <&cpu_p03>;
+ 				};
++
+ 				core4 {
+ 					cpu = <&cpu_p04>;
+ 				};
++
+ 				core5 {
+ 					cpu = <&cpu_p05>;
+ 				};
+@@ -254,6 +264,7 @@ i2c1: i2c@289014000 {
+ 			#address-cells = <0x1>;
+ 			#size-cells = <0x0>;
+ 			power-domains = <&ps_i2c1>;
++
+ 			status = "disabled";
+ 		};
+ 
+@@ -268,6 +279,7 @@ i2c2: i2c@289018000 {
+ 			#address-cells = <0x1>;
+ 			#size-cells = <0x0>;
+ 			power-domains = <&ps_i2c2>;
++
+ 			status = "disabled";
+ 		};
+ 
+@@ -282,6 +294,7 @@ i2c3: i2c@28901c000 {
+ 			#address-cells = <0x1>;
+ 			#size-cells = <0x0>;
+ 			power-domains = <&ps_i2c3>;
++
+ 			status = "disabled";
+ 		};
+ 
+@@ -296,6 +309,7 @@ i2c4: i2c@289020000 {
+ 			#address-cells = <0x1>;
+ 			#size-cells = <0x0>;
+ 			power-domains = <&ps_i2c4>;
++
+ 			status = "disabled";
+ 		};
+ 
+@@ -310,6 +324,7 @@ i2c6: i2c@289028000 {
+ 			#address-cells = <0x1>;
+ 			#size-cells = <0x0>;
+ 			power-domains = <&ps_i2c6>;
++
+ 			status = "disabled";
+ 		};
+ 
+@@ -324,6 +339,7 @@ i2c8: i2c@289030000 {
+ 			#address-cells = <0x1>;
+ 			#size-cells = <0x0>;
+ 			power-domains = <&ps_i2c8>;
++
+ 			status = "disabled";
+ 		};
+ 
+@@ -333,6 +349,7 @@ fpwm0: pwm@289040000 {
+ 			power-domains = <&ps_fpwm0>;
+ 			clocks = <&clkref>;
+ 			#pwm-cells = <2>;
++
+ 			status = "disabled";
+ 		};
+ 
+@@ -349,6 +366,7 @@ serial0: serial@289200000 {
+ 			clocks = <&clkref>, <&clkref>;
+ 			clock-names = "uart", "clk_uart_baud0";
+ 			power-domains = <&ps_uart0>;
++
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/apple/t6031-base.dtsi b/arch/arm64/boot/dts/apple/t6031-base.dtsi
+index 74e1fa51242d..6df3be68d740 100644
+--- a/arch/arm64/boot/dts/apple/t6031-base.dtsi
++++ b/arch/arm64/boot/dts/apple/t6031-base.dtsi
+@@ -20,12 +20,15 @@ cluster0 {
+ 				core0 {
+ 					cpu = <&cpu_e00>;
+ 				};
++
+ 				core1 {
+ 					cpu = <&cpu_e01>;
+ 				};
++
+ 				core2 {
+ 					cpu = <&cpu_e02>;
+ 				};
++
+ 				core3 {
+ 					cpu = <&cpu_e03>;
+ 				};
+@@ -35,18 +38,23 @@ cluster1 {
+ 				core0 {
+ 					cpu = <&cpu_p00>;
+ 				};
++
+ 				core1 {
+ 					cpu = <&cpu_p01>;
+ 				};
++
+ 				core2 {
+ 					cpu = <&cpu_p02>;
+ 				};
++
+ 				core3 {
+ 					cpu = <&cpu_p03>;
+ 				};
++
+ 				core4 {
+ 					cpu = <&cpu_p04>;
+ 				};
++
+ 				core5 {
+ 					cpu = <&cpu_p05>;
+ 				};
+@@ -56,18 +64,23 @@ cluster2 {
+ 				core0 {
+ 					cpu = <&cpu_p10>;
+ 				};
++
+ 				core1 {
+ 					cpu = <&cpu_p11>;
+ 				};
++
+ 				core2 {
+ 					cpu = <&cpu_p12>;
+ 				};
++
+ 				core3 {
+ 					cpu = <&cpu_p13>;
+ 				};
++
+ 				core4 {
+ 					cpu = <&cpu_p14>;
+ 				};
++
+ 				core5 {
+ 					cpu = <&cpu_p15>;
+ 				};
+diff --git a/arch/arm64/boot/dts/apple/t6031-die0.dtsi b/arch/arm64/boot/dts/apple/t6031-die0.dtsi
+index cffab6b51d12..932c97579f99 100644
+--- a/arch/arm64/boot/dts/apple/t6031-die0.dtsi
++++ b/arch/arm64/boot/dts/apple/t6031-die0.dtsi
+@@ -71,6 +71,7 @@ i2c1: i2c@391014000 {
+ 		power-domains = <&ps_i2c1>;
+ 		#address-cells = <0x1>;
+ 		#size-cells = <0x0>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -85,6 +86,7 @@ i2c2: i2c@391018000 {
+ 		power-domains = <&ps_i2c2>;
+ 		#address-cells = <0x1>;
+ 		#size-cells = <0x0>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -99,6 +101,7 @@ i2c3: i2c@39101c000 {
+ 		power-domains = <&ps_i2c3>;
+ 		#address-cells = <0x1>;
+ 		#size-cells = <0x0>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -113,6 +116,7 @@ i2c4: i2c@391020000 {
+ 		power-domains = <&ps_i2c4>;
+ 		#address-cells = <0x1>;
+ 		#size-cells = <0x0>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -127,6 +131,7 @@ i2c5: i2c@391024000 {
+ 		power-domains = <&ps_i2c5>;
+ 		#address-cells = <0x1>;
+ 		#size-cells = <0x0>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -141,6 +146,7 @@ i2c6: i2c@391028000 {
+ 		power-domains = <&ps_i2c6>;
+ 		#address-cells = <0x1>;
+ 		#size-cells = <0x0>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -155,6 +161,7 @@ i2c7: i2c@39102c000 {
+ 		power-domains = <&ps_i2c7>;
+ 		#address-cells = <0x1>;
+ 		#size-cells = <0x0>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -169,6 +176,7 @@ i2c8: i2c@391030000 {
+ 		power-domains = <&ps_i2c8>;
+ 		#address-cells = <0x1>;
+ 		#size-cells = <0x0>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -178,6 +186,7 @@ fpwm0: pwm@391040000 {
+ 		power-domains = <&ps_fpwm0>;
+ 		clocks = <&clkref>;
+ 		#pwm-cells = <2>;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -194,6 +203,7 @@ serial0: serial@391200000 {
+ 		clocks = <&clkref>, <&clkref>;
+ 		clock-names = "uart", "clk_uart_baud0";
+ 		power-domains = <&ps_uart0>;
++
+ 		status = "disabled";
+ 	};
+ };
+diff --git a/arch/arm64/boot/dts/apple/t6031-pmgr.dtsi b/arch/arm64/boot/dts/apple/t6031-pmgr.dtsi
+index f80ee5f7ebcf..721ab2e9fd4b 100644
+--- a/arch/arm64/boot/dts/apple/t6031-pmgr.dtsi
++++ b/arch/arm64/boot/dts/apple/t6031-pmgr.dtsi
+@@ -1383,6 +1383,7 @@ DIE_NODE(ps_afi_d2d_0): power-controller@2d0 {
+ 		#reset-cells = <0>;
+ 		label = DIE_LABEL(afi_d2d_0);
+ 		apple,always-on;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -1393,6 +1394,7 @@ DIE_NODE(ps_afi_d2d_1): power-controller@2e0 {
+ 		#reset-cells = <0>;
+ 		label = DIE_LABEL(afi_d2d_1);
+ 		apple,always-on;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -1403,6 +1405,7 @@ DIE_NODE(ps_afc_d2d_0): power-controller@2f0 {
+ 		#reset-cells = <0>;
+ 		label = DIE_LABEL(afc_d2d_0);
+ 		apple,always-on;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -1413,6 +1416,7 @@ DIE_NODE(ps_afc_d2d_1): power-controller@300 {
+ 		#reset-cells = <0>;
+ 		label = DIE_LABEL(afc_d2d_1);
+ 		apple,always-on;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -1423,6 +1427,7 @@ DIE_NODE(ps_afr_d2d_0): power-controller@310 {
+ 		#reset-cells = <0>;
+ 		label = DIE_LABEL(afr_d2d_0);
+ 		apple,always-on;
++
+ 		status = "disabled";
+ 	};
+ 
+@@ -1433,6 +1438,7 @@ DIE_NODE(ps_afr_d2d_1): power-controller@320 {
+ 		#reset-cells = <0>;
+ 		label = DIE_LABEL(afr_d2d_1);
+ 		apple,always-on;
++
+ 		status = "disabled";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/apple/t6032-j575d.dts b/arch/arm64/boot/dts/apple/t6032-j575d.dts
+index 56edfb1139fb..71f4a00e1b1c 100644
+--- a/arch/arm64/boot/dts/apple/t6032-j575d.dts
++++ b/arch/arm64/boot/dts/apple/t6032-j575d.dts
+@@ -30,8 +30,9 @@ framebuffer0: framebuffer@0 {
+ 			compatible = "apple,simple-framebuffer", "simple-framebuffer";
+ 			reg = <0 0 0 0>; /* To be filled by loader */
+ 			/* Format properties will be added by loader */
+-			status = "disabled";
+ 			power-domains = <&ps_dispext0_cpu>;
++
++			status = "disabled";
+ 		};
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/apple/t6032.dtsi b/arch/arm64/boot/dts/apple/t6032.dtsi
+index 0a966370cc82..aa48f2483fbb 100644
+--- a/arch/arm64/boot/dts/apple/t6032.dtsi
++++ b/arch/arm64/boot/dts/apple/t6032.dtsi
+@@ -33,12 +33,15 @@ cluster3 {
+ 				core0 {
+ 					cpu = <&cpu_e10>;
+ 				};
++
+ 				core1 {
+ 					cpu = <&cpu_e11>;
+ 				};
++
+ 				core2 {
+ 					cpu = <&cpu_e12>;
+ 				};
++
+ 				core3 {
+ 					cpu = <&cpu_e13>;
+ 				};
+@@ -48,18 +51,23 @@ cluster4 {
+ 				core0 {
+ 					cpu = <&cpu_p20>;
+ 				};
++
+ 				core1 {
+ 					cpu = <&cpu_p21>;
+ 				};
++
+ 				core2 {
+ 					cpu = <&cpu_p22>;
+ 				};
++
+ 				core3 {
+ 					cpu = <&cpu_p23>;
+ 				};
++
+ 				core4 {
+ 					cpu = <&cpu_p24>;
+ 				};
++
+ 				core5 {
+ 					cpu = <&cpu_p25>;
+ 				};
+@@ -69,18 +77,23 @@ cluster5 {
+ 				core0 {
+ 					cpu = <&cpu_p30>;
+ 				};
++
+ 				core1 {
+ 					cpu = <&cpu_p31>;
+ 				};
++
+ 				core2 {
+ 					cpu = <&cpu_p32>;
+ 				};
++
+ 				core3 {
+ 					cpu = <&cpu_p33>;
+ 				};
++
+ 				core4 {
+ 					cpu = <&cpu_p34>;
+ 				};
++
+ 				core5 {
+ 					cpu = <&cpu_p35>;
+ 				};
+diff --git a/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi b/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
+index 517b84c183ca..3ac8a2f0723b 100644
+--- a/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
++++ b/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
+@@ -35,8 +35,9 @@ framebuffer0: framebuffer@0 {
+ 			compatible = "apple,simple-framebuffer", "simple-framebuffer";
+ 			reg = <0 0 0 0>; /* To be filled by loader */
+ 			/* Format properties will be added by loader */
+-			status = "disabled";
+ 			power-domains = <&ps_disp_fe>;
++
++			status = "disabled";
+ 		};
+ 	};
+ 
+@@ -47,6 +48,7 @@ memory@10000000000 {
+ 
+ 	led-controller {
+ 		compatible = "pwm-leds";
++
+ 		led-0 {
+ 			pwms = <&fpwm0 0 40000>;
+ 			function = LED_FUNCTION_KBD_BACKLIGHT;
 
-Best regards,
 -- 
-Janne Grunau <j@jannau.net>
+2.55.0
 
