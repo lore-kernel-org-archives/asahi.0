@@ -1,110 +1,115 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6FD489FAD
-	for <asahi@lists.linux.dev>; Wed,  9 Sep 2026 22:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA1C29A309
+	for <asahi@lists.linux.dev>; Thu, 10 Sep 2026 04:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788991697; cv=none; b=o8qtZplrXLLKLutzVsUGwPCEMbhSYmy2GN9pY6/48A2p17xykVaXD4DEvSGLXSXB0FfLWEFKXt7j8ZrxmoN2dY4qA8G80vAsOfyYyLXFealFCxYi+xxRiX3N5ArEAOr3e9FPTpg+oRKAycb3bzMWONBy9PiHAoCzEP45pCcIUBc=
+	t=1789015840; cv=none; b=Jyc8doRRc4U6N4+2poJoNLCOOUME3z/Wp6RJ/taIIXjMpVinhGLGDnCzj00TDRnaSJYpT7sM6qPAOqbQlpOp/jyoW3jtOKwms45FGVMvkY0R9oQgFeNqQI2QlNTix+6RdhavYOulpidr7hNMD2638sR0VtmUHTG2nemZM5jGzTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788991697; c=relaxed/simple;
-	bh=oX1NfBQzeNTxwy+1fSOgKyKEYwKoCAwxIi6O628mhnE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=riDBfZxe/gtcxChtJ1PqhUGEh5Nw92XdIy/jkWF0GUbH0oDgatMEaAqsVIe3Yf44qU4Gb/jdKWTqFUsjxruuhAWMymOWZc3Nhp2Fkx0N7sSgMIW/VZYYQPJtdLKFZ6TJ24RcYv4oltmXqlb9LGPd6Qj/vUd5vAuc+CKdlmxHhGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iIbvYWCj; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789015840; c=relaxed/simple;
+	bh=27sjqAX3mzIarYqMVpWaoeAe05sB9malX0xlN8XrmvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qLEyusByUf8q7sqtlOf+SLpuiN8wUfn3yvSzBMnOSIKocc7xUC0DqihYtfde3jvrnNUf1gkxz5zvB+GrxYqAa53lyjz1igXaDRz+3CKM8HE+vnJrea2X2MxRIy5OtzX8z36IOg9ScB4VQert7Z3m+B1GQGdke64rhYW00kDameE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mJx4LAk+; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iIbvYWCj"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2d91ff7d9acso56065255ad.3
-        for <asahi@lists.linux.dev>; Wed, 09 Sep 2026 15:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788991695; x=1789596495; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=C7UZ+CZSXqHjsWNSA8dThjGs+0DrX3xzvJgXi6EfD+U=;
-        b=iIbvYWCjMOD/hkkCALsowUVW2eTjPTu0PSQw5wp8znpFJExUfLNM7iHnbTD4mFL3HG
-         8b+GIHlfsg84PN6WraoDR+hdAakj7mgdL+2Xk2gk1UNNkaNEC0zFhhWOM1a9JwRKYpwN
-         tLbPC5y9I3vaaYGnBLpN3uvrupwMr/ByhppZMBq47bux1soDi1vNiqDx3lSeZoyfAB/8
-         YUum4sDVX+ew7K2icf4Ai1NVySsY+vA5zR0PHWlDsrDFvkC8fQ0v44V2yu60PQHQZUth
-         yk6mKyQBxqscBhF8orJVvQWMq93NqtQIhGJF45V/a31VoLfGSUFLaeDMZnSLhMqqjxhl
-         2Kaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788991695; x=1789596495;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=C7UZ+CZSXqHjsWNSA8dThjGs+0DrX3xzvJgXi6EfD+U=;
-        b=GAYeX2T5mZJ4zvjB12wrLQddYHAKvszpa/MXW4xWjZpTnNVzudFCJM3DuRTYDMEDP9
-         q4YXAdjjX6O0XYoZZFpebQP8I0jG40kwyUIc+V+jLSdXFAbvYwOrY8EDLNwtWp+ZerLQ
-         7xtY1rtA+yIaTcCXcF/EFHcdfRtRNs/PW3w+N0AL/otbSl6IAt+eB1YIQlhEZY5GpdYF
-         FK6ZdwOBEQlGCA55tWWbP7/hNaHgZvDnGIoZ2U33BhJbJ/KtaAOvIFryo8qMlq2FkESH
-         zzhEPFMofxG6CbB6D7zMLBDjfGYMQzrHdVHqjeyNThuFdsl8/eZo+XVM0Ug2JE4fuMDD
-         RFxw==
-X-Forwarded-Encrypted: i=1; AKwUvBwD7Ovn96JVa6F2BebCU6RW9LfoC/m3tIsijBkA2vMj7vzW0ctE33gEEe1XDD1DL0ZTEqlxEQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lfPFujf/QvOgxhEgEAC82PdXWiVC7QKsMLD66wrwJhzOyjMGsR
-	nAAfnBCpRVCrvJAcxVNytVLjLUiC9vK6iCSipYFapiWlDlydp2oA/5xU
-X-Gm-Gg: AYBFou0w9JMj+eKghqXcok/DlVHQvr5v2H47qbvBONVvj86hvFw6jnz8SNzF4890fhJ
-	nYZjj094T+ReaYIKPH8VmBPdxCospDQ4zgHkFSv/Q4W1ILuW4FoK1ni8peO+VNvoyiMWhvEwdNy
-	q941RoJZlbPFmZobCGCYO/wpd3+Gn7lVppJZhT8N9htPzNSElnp3Iw9W68yNUg+E/puX9FM6h6O
-	sCicB2gn/bL5P4k4hAW2jFHn6ovSBOBQ50WYA6Vg22X7YzEgkn0mJt0EIUdHEdWVMozeWxEd1Sc
-	Lsi+JX3LzkpcABtjmUeMJQftmnkEfMowP04Cxkk3i+FL9FZTnie/ipQk2qWOS6S08Pibw/qd68D
-	fTIjwqDfK25b3RgKawn6YIvJqS+EhjuXhNo0kQRZ2x2ZwdJeV/AkPaRpGFv/eIMTqO4d4veEQK4
-	MCNkI2uNj9WepUmeViZskoL6uQgLMbdf6YN+z2mWQ5kTDIglt9W/WdWQBNAPFaSkqIdDhMA7Xyu
-	pxbvd17BT3EIndomxNbYQ4gR4Fjfl+9RmQPtG/nwTeakjfxvaHzPNAY424DitRM98yI6mja5hGP
-	rl/lepzRJh1MRnVX+tqrJdA2BWKU9CGEtFawuWhUed8uTwcA
-X-Received: by 2002:a17:902:da8d:b0:2d5:3f5f:e645 with SMTP id d9443c01a7336-2db125ca419mr522760655ad.12.1788991694359;
-        Wed, 09 Sep 2026 15:08:14 -0700 (PDT)
-Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db2c60f687sm65423565ad.58.2026.09.09.15.08.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 15:08:13 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-phy@lists.infradead.org
-Cc: Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mJx4LAk+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789015839; x=1820551839;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=27sjqAX3mzIarYqMVpWaoeAe05sB9malX0xlN8XrmvM=;
+  b=mJx4LAk+y+YN+2aSbVTt37cXNVg7ZMnIS3I+KPJOf3T9R2wOJya41L0R
+   I7LlxEZfC6jaYQ7IRQvzScnKAyX4vHZAgmVFc2Da6jF1Ijoz1gYfxiPVT
+   l1p1Pyg0iQ3BsvkeA/Ebtmw70gwlEVcKdnbiMQO0xAv/cjVjFzJ1AFDxX
+   JmjL5uzctE85PRka5OWMInJ355OGshTZnbb9YtUjq3NJYz9YslFHZNGfp
+   jCXp3gf1wTmjxLTEm6HHfu6hXGID1a05k2HMq7HYeJWU7vPFcLHW8DO+G
+   hUQKVBtmcrAdk+BJv8SSAxXplSA6rHwPSI3jo+AIIxOoprZ9tPCtn8YiY
+   A==;
+X-CSE-ConnectionGUID: Q1gHimQoQLq+A8YtNbJ7iQ==
+X-CSE-MsgGUID: rpbYHUJDRCaAUylL8i1Nhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="100621090"
+X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
+   d="scan'208";a="100621090"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 21:50:39 -0700
+X-CSE-ConnectionGUID: t3yLjyHCRoasgCwgzmWvog==
+X-CSE-MsgGUID: u1n+qZFcRfqsUdFaiUs8fg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
+   d="scan'208";a="268257232"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Sep 2026 21:50:35 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 999D699; Thu, 10 Sep 2026 06:50:33 +0200 (CEST)
+Date: Thu, 10 Sep 2026 06:50:33 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Sven Peter <sven@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
 	Neal Gompa <neal@gompa.dev>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	asahi@lists.linux.dev (open list:ARM/APPLE MACHINE SUPPORT),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/APPLE MACHINE SUPPORT),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCHv2] phy: apple: atc: remove stale kernel-doc for removed struct members
-Date: Wed,  9 Sep 2026 15:08:10 -0700
-Message-ID: <20260909220810.52310-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 19/22] thunderbolt: Add Apple Silicon support
+Message-ID: <20260910045033.GN106095@black.igk.intel.com>
+References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-19-1f80085f93fb@kernel.org>
+ <20260908091844.GD106095@black.igk.intel.com>
+ <22808191-5310-4d90-9fac-68d0d85b4c54@kernel.org>
+ <20260909060615.GJ106095@black.igk.intel.com>
+ <33699664-6afb-4b46-99d1-98a0f5e57f39@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <33699664-6afb-4b46-99d1-98a0f5e57f39@kernel.org>
 
-The @sw and @mux members were never present in struct apple_atcphy,
-causing kernel-doc warnings.
+Hi,
 
-Assisted-by: opencode:big-pickle
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
----
- v2: remove removed in description
- drivers/phy/apple/atc.c | 2 --
- 1 file changed, 2 deletions(-)
+On Wed, Sep 09, 2026 at 05:20:35PM +0200, Sven Peter wrote:
+> Hi,
+> 
+> On 09.09.26 08:06, Mika Westerberg wrote:
+> 
+> [...]
+> 
+> > 
+> > If it is possible, I suggest to use the same way we do in ACPI side here:
+> > 
+> > https://learn.microsoft.com/en-us/windows-hardware/drivers/pci/dsd-for-pcie-root-ports#map-native-protocols-pcie-displayport-tunneled-through-usb4-to-usb4-host-routers
+> > 
+> > It was specifically designed so that it should support DT as well (that's
+> > why it uses the device properties _DSD).
+> 
+> Oh, nice, I didn't know those existed. Konrad already has a PR open to add
+> these to dt-schema [1] and a PR that already makes use of these for dwc3
+> [2].
 
-diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-index 4156fabad742..f09305dd76d1 100644
---- a/drivers/phy/apple/atc.c
-+++ b/drivers/phy/apple/atc.c
-@@ -585,8 +585,6 @@ struct atcphy_mode_configuration {
-  * @phys.dp: DisplayPort PHY instance
-  * @phy_provider: PHY provider instance
-  * @rcdev: Reset controller device
-- * @sw: Type-C switch instance
-- * @mux: Type-C mux instance
-  * @lock: Mutex for synchronizing register access across PHY, Type-C switch/mux and reset controller
-  */
- struct apple_atcphy {
--- 
-2.55.0
+Great.
 
+> I can just write generic code similar to the ACPI one then to add the device
+> links and split it off from this series, though I think that dt-schema PR
+> must be merged before we're allowed to use that representation.
+> I'll adjust the dt-bindings here for v3 to just drop the representation as
+> OF ports/endpoints as well.
+> For the PCIe/DP tunnel notifications I should be able to use the same
+> representation, possibly with an additional usb4-adapter-index property or
+> similar to differentiate between the two DP IN adapters, once I get to that
+> then.
+
+For PCIe yes, for DP you should not need those at all.
