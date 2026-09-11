@@ -1,61 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4BD37473A;
-	Fri, 11 Sep 2026 15:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8774915B8
+	for <asahi@lists.linux.dev>; Fri, 11 Sep 2026 16:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789140161; cv=none; b=FHVcE7ullF2lzdG7wEdrisAUk4Mxd8M4WxztaviU0OVe2vAELBtZ6n19SVYWhPADoxMyB30qw92863xgRyODCtbkSe+3XkmPYNk6XJyh6GlrzVmK7LXk0EjXnSOJxjrPsIM7DUeBFCZnYbG/iUxXTMgOzTqsT1kgv5P5biO+U84=
+	t=1789145955; cv=none; b=iRdnv8ogLvXS0IcU9V/jVWqUkJ4C2i/PHEYV7SsZawOZASHQk7q85qjaoenB855bD0hjPFK9qA29jcuKPQjeG/lZHaMeAqwSdrErMlEvCxU93mmikB4Gafzfa1LyS4ZQ9m+KgsEyeMQRq3W8RaPlWRnaUXNoGugTxZ69AZ9XqZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789140161; c=relaxed/simple;
-	bh=pnvn6VK51bsdcs9/p9eAFLbgewvU2ePUZgnsgj/rkGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=unITcAV4qNmlAE7LrMnk5aNZKq0qAdfjq8R+kFwzEY1rgApk/N0cFCaQcnYkcj546KhXvpSnUK+aCk/BY2fBzDvtk4dgVfi5qY+uLfh5avWXCohLvW70PgSG4WKNlDhpRkrhhWJOEVRrjtoI1+ofpWkVmwj2H4lwgp1GO9p4YxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKZRuG22; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789145955; c=relaxed/simple;
+	bh=elc7WKWi1F0YB7bxaZ/ywv4IXKK5m81xTNzt4TQNReg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=G8qGw1qCM4dTwnF0aqcrpumL9ynIbWFJDEE+7ceIxcu/JnIxrOvWBIG+lzadbAGIaeMBmoN9jXK6OjmXjYAXEZCXYxuZPTtRQ3usMAv7q8VXVUujcfSpPCnjy9Ux1KKuw2elzOMQtdK5MjsR16EW+EPhljlu6/7u8Rnld68H4N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=HMluchDQ; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKZRuG22"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E8EF1F000FF;
-	Fri, 11 Sep 2026 15:22:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789140159;
-	bh=q+v1gtFzTVZ9q73cE4Nq8oqrnGDKcy3JKZg27z2WKH8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DKZRuG22tMKiaV1cnpgF9/BNc3PHSh2tuhVG69RHesvJPA4iTQhpuyG1IqYuHAcTq
-	 YoT2RrTEiZd2GD9q0OBK63mTsteCW/akfGzq3yI4Gv93AAeeSqspopySPQMb0txPXG
-	 7BIWuQMcyigy/44YksoFS6d21BdEnZeOeVd3GsK+7O1bK3aGCOm5eXz/HihjZ6iDma
-	 7qJtC8Z+L32JpDW3aiDV7ApiyzZAT85Y96Zu8cRCDgEiKP4MqUFz1qSOq+H70hmJgx
-	 4NTbatYQyAM8cdYhDHa2ODijPAGY8z83k0frGa4UExCM/LMfz3XSd3J786uLF6UwgO
-	 bHwpY3iIPBnjA==
-Date: Fri, 11 Sep 2026 09:22:37 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 0/2] nvme: apple: add t8132 (M4) ANS2 NVMe support
-Message-ID: <aqQcvdAl0FA4wslB@kbusch-mbp>
-References: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="HMluchDQ"
+From: Yureka Lilian <yureka@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1789145938;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V2pzDXgQJTG2z18artCPOHnfkenDA9xNqA3wa8CBDNg=;
+	b=HMluchDQPfveokt32jc3buWq13R7lpukUxlSzsabn+ukk9wYzX/z9MEriHsznweXkIcKW6
+	X1llwW3G1XRQSW1aJojAIqb/gqhZTqz/l+SAzY9PB/m+zDUvkT6PXNTSUKlc3A8wvsw0py
+	y2qpCR76CVl/nIvG2LdGbpw8N90Gk4E=
+Subject: [PATCH v2 0/7] Initial Apple Silicon A18 Pro device trees and
+ dt-bindings
+Date: Fri, 11 Sep 2026 18:58:37 +0200
+Message-Id: <20260911-apple-a18-pro-initial-devicetrees-v2-0-08d06cf011d4@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260906-apple-nvme-t8132-v2-0-ac0328590823@cyberchaos.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WPyw6CMBBFf4V07Zi24aGu/A/DorSDjCG0toVIC
+ P9uQRPXLs/kzn0sLKAnDOySLczjRIHskEAeMqY7NdwRyCRmksuSn3kOyrkeQYkTOG+BBoqkejD
+ pVWP0iAF0XlRGyApb3bDk4zy29NozbvWHw9g8UMfN+Kvw+BxTePzJOgrR+nlvNont+k+JSQAHr
+ mWRc2FEWZirnhv0aZMNxyRk9bqub6OPH+T+AAAA
+X-Change-ID: 20260904-apple-a18-pro-initial-devicetrees-c457d127efcb
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Hector Martin <marcan@marcan.st>, Thomas Gleixner <tglx@kernel.org>, 
+ Radu Rendec <radu@rendec.net>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-watchdog@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-On Sun, Sep 06, 2026 at 10:15:28PM +0200, Yureka Lilian wrote:
-> This patch series adds dt-bindings and driver support for ANS2 NVMe on
-> the Apple t8132 (M4) SoC.
-> 
-> This variant requires the IO queues to be registered using additional
-> MMIO writes. Otherwise it is largerly the same as the ANS2 NVMe variants
-> present on Apple M1-M3 SoCs.
+Hi,
 
-Thanks, applied to nvme-7.3.
+This series adds initial device trees and dt-bindings for the A18 Pro
+(t8140) SoC and the MacBook Neo (the only Mac using this SoC).
+It only covers a minimal amount of hardware, but is nontheless useful
+for further development work. The hardware added here has remained
+largely unchanged from the earlier generation Apple Silicon Macs.
+
+Similar to the M4 devices, changes to the m1n1 bootloader are required
+to boot Linux on the MacBook Neo.
+Also, SMP boot depends on further patches to avoid WFI and WFIT
+instructions [1][2].
+
+Merge strategy:
+
+Since there are no actual driver changes in this series, we'd prefer to
+merge the dt-bindings changes through the apple-soc tree once Acked by
+the respective maintainers.
+
+Link[1]: https://lore.kernel.org/all/20260804-arm64-idle-param-v3-1-d10f8159062b@cyberchaos.dev/
+Link[2]: https://lore.kernel.org/all/20260811-idreg-override-wfxt-v1-1-1c71228d0719@cyberchaos.dev/
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+---
+Changes in v2:
+- Added " (A18 Pro, 2026)" to model name
+- Fixed memory node alias inconsistency
+- Fixed wdt and machine dt-bindings being in the same commit
+- Reworded aic dt-bindings commit message
+- Reformatted/reordered according to dt-check-style --mode=strict
+- Link to v1: https://patch.msgid.link/20260904-apple-a18-pro-initial-devicetrees-v1-0-0c25401d165d@cyberchaos.dev
+
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>
+To: Neal Gompa <neal@gompa.dev>
+To: Hector Martin <marcan@marcan.st>
+To: Thomas Gleixner <tglx@kernel.org>
+To: Radu Rendec <radu@rendec.net>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: asahi@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-watchdog@vger.kernel.org
+
+---
+Yureka Lilian (7):
+      dt-bindings: arm: cpus: Add Apple A18 Pro CPU core compatibles
+      dt-bindings: arm: apple: apple,pmgr: Add t8140 compatible
+      dt-bindings: arm: power: apple,pmgr-pwrstate: Add t8140 compatible
+      dt-bindings: interrupt-controller: apple,aic2: Add t8140 compatible
+      dt-bindings: watchdog: apple,wdt: Add t8140 compatible
+      dt-bindings: arm: apple: Add A18 Pro based devices
+      arm64: dts: apple: Add minimal MacBook Neo device tree
+
+ Documentation/devicetree/bindings/arm/apple.yaml   |  11 +
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |   1 +
+ Documentation/devicetree/bindings/arm/cpus.yaml    |   2 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |   1 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |   1 +
+ .../devicetree/bindings/watchdog/apple,wdt.yaml    |   1 +
+ arch/arm64/boot/dts/apple/Makefile                 |   1 +
+ arch/arm64/boot/dts/apple/t8140-j700.dts           |  53 ++
+ arch/arm64/boot/dts/apple/t8140-pmgr.dtsi          | 777 +++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8140.dtsi               | 205 ++++++
+ 10 files changed, 1053 insertions(+)
+---
+base-commit: f3f2d38a606edf92259aa5e57e083484798d7ea8
+change-id: 20260904-apple-a18-pro-initial-devicetrees-c457d127efcb
+
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
+
