@@ -1,34 +1,35 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815034A8A24
-	for <asahi@lists.linux.dev>; Fri, 11 Sep 2026 16:59:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5722B4A5C29
+	for <asahi@lists.linux.dev>; Fri, 11 Sep 2026 16:59:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789145967; cv=none; b=Lwhx8Fp3/fdHgHe/fl/uZ5ZrK5x+19L1UUOqjtOY5/t+shMILszSOrycg0XEgSKpT4zJW4ZyF9y11IHphStfs90aqAJnTtF9lKBv6z9NToy/DIZHLkjagN8vgHA98Sfwu6ODMR9/sLc1DHTIz5T5omfQYxSYudLESsvNt2FNTtY=
+	t=1789145968; cv=none; b=HQIsB0aJGFBYbxEAghB+WC2AHjZAlV5DuPhtxu4TgoVtDJsTswzXK6lqtiUNwpMI+ZvdZHcbkw2TvWnJb4+PuoXzio+eeB0E6Xxmf/ftognFohznplnRn65IqNnNDu0yPzp2sPge7NMsyhEQlpulbTiAauElB2oXLABUPmMeVnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789145967; c=relaxed/simple;
-	bh=czeNJJdVNPL8UxOkum6nDyYjfN+WvmL6awgYK1zopGg=;
+	s=arc-20240116; t=1789145968; c=relaxed/simple;
+	bh=CXj+icXWNtP+kWIdP0einQIx1r24LE2szcQxXlI1FL4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TOH2Pu+F8H4X6zguvXdshn1k+EYoInJutYdvd+dZaiNBXXPCsyBHEdxOoJHTGDTIu34Jb9BTEq7InvH35Y3nOZ8+i9B49bPaTdI4rP26MZFcZqfjla1n2hgEYbxdLx8HWSoTTIIz1+w3UDqq431iP7HzM9ysSrRSG+iTA1Ergfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=QYU6ec2D; arc=none smtp.client-ip=195.39.247.168
+	 In-Reply-To:To:Cc; b=P7SgNRTFdVqT69h0nLYYkolJRc8xwrXuOzQgRm9yGMxfTh6cb7w2xmX87a9bB1eRahDi+FmuDGHeEiCqp9fQwYhNyhJNarZYTU7ZmOXALGtMQz5nQrupfpYPCepnBPb3a/aoApNnpNi1r4ulQ5Jkz/BCnhiyllUNzuSviTzBFDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=2ow8XYnl; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="QYU6ec2D"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="2ow8XYnl"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1789145945;
+	s=mail; t=1789145944;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QhaWFx61kHNCtJzO3v3Zb7ybhjB0BIEw4dr94SHhlkY=;
-	b=QYU6ec2D+zraPFgfIUKBDhDG6DSmlD0le3Jh7cacdIo/7Sra2+QoxG65wsYQDJq2SIbpQC
-	//yWU98B2G5WunZ/S1LeRpK20mnDOBY1sqNsxHu/jliXPgSGMiH/wlZF3D+BbUyYvfbZ3U
-	fqw+x+gAk0/o96pTDg3ZziDeDu/i+c8=
-Date: Fri, 11 Sep 2026 18:58:43 +0200
-Subject: [PATCH v2 6/7] dt-bindings: arm: apple: Add A18 Pro based devices
+	bh=03++u1hMJUN4CZOnETD7tedBCxAbjIXy0LEGbGeWhRE=;
+	b=2ow8XYnlexIJTa++XuE6SrigvBbIqOQNk/EaVKNguwGKckb1wqBunE+9Qu9U/VqIUE8MY5
+	vl1AyOhE40hmaFQjEMshux7J76r3mAs6rN5uCTvI+ehsChbGpG+NvcmcwCxhSPjsGNFDZF
+	KywPxcUCYNzr2I41U9zlyaRLa0F1M+Q=
+Date: Fri, 11 Sep 2026 18:58:42 +0200
+Subject: [PATCH v2 5/7] dt-bindings: watchdog: apple,wdt: Add t8140
+ compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260911-apple-a18-pro-initial-devicetrees-v2-6-08d06cf011d4@cyberchaos.dev>
+Message-Id: <20260911-apple-a18-pro-initial-devicetrees-v2-5-08d06cf011d4@cyberchaos.dev>
 References: <20260911-apple-a18-pro-initial-devicetrees-v2-0-08d06cf011d4@cyberchaos.dev>
 In-Reply-To: <20260911-apple-a18-pro-initial-devicetrees-v2-0-08d06cf011d4@cyberchaos.dev>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -51,45 +52,25 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-watchdog@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>
 
-The MacBook Neo is the first MacBook to use an A-Series Apple Silicon
-SoC. The MacBook Neo is overall similar to the M4 series devices.
-
-The iPhone 16 Pro is based on the same SoC, but Apple does not allow
-users running a custom OS on this device.
+The watchdog on the Apple t8140 (A18 Pro) SoC is compatible with the
+M1-M4 SoCs. Add "apple,t8140-wdt" as SoC specific compatible.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/arm/apple.yaml | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/apple.yaml b/Documentation/devicetree/bindings/arm/apple.yaml
-index 5d87a4fef193..7c3e7131a5e7 100644
---- a/Documentation/devicetree/bindings/arm/apple.yaml
-+++ b/Documentation/devicetree/bindings/arm/apple.yaml
-@@ -82,6 +82,10 @@ description: |
-   - iPhone 8 Plus
-   - iPhone X
- 
-+  Devices based on the "A18 Pro" SoC:
-+
-+  - MacBook Neo (A18 Pro, 2026)
-+
-   Devices based on the "M1" SoC:
- 
-   - Mac mini (M1, 2020)
-@@ -300,6 +304,13 @@ properties:
-           - const: apple,t8015
-           - const: apple,arm-platform
- 
-+      - description: Apple A18 Pro SoC based platforms
-+        items:
-+          - enum:
-+              - apple,j700  # MacBook Neo (A18 Pro, 2026)
-+          - const: apple,t8140
-+          - const: apple,arm-platform
-+
-       - description: Apple M1 SoC based platforms
-         items:
+diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+index ca4cf01db59f..1af924157f7c 100644
+--- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+@@ -22,6 +22,7 @@ properties:
+               - apple,t6031-wdt
+               - apple,t8122-wdt
+               - apple,t8132-wdt
++              - apple,t8140-wdt
+           - const: apple,t8103-wdt
+       - items:
            - enum:
 
 -- 
