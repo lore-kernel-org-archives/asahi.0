@@ -1,36 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C522931FB;
-	Sat, 12 Sep 2026 08:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68DC417BC3;
+	Sat, 12 Sep 2026 09:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789200223; cv=none; b=R33TCw95PbQM2EBeJOLm0XaGEbvf3bfI2PqW4rimvJFDllLkUlfNcFxL03zISFPQqlUWAvbZ5UqLwiKfBTf+YdU4bCRGmBh7mFy+eQRsj4OjUbqHvmNBKjLpVu5d495wIzTEBd1JI2L8x0aRY3RN6SV9LounxK7CWmira/7CsPk=
+	t=1789206069; cv=none; b=Y5pzQejqrjlnoVz0EIwnRUnvEp5vp6/lm6Hiww2AlYBwzIPmS2iyL+2n8Tnue/Y5UUV5X6bYymKCmqimxCxFgQsgGB+KFXwOA/hGmSvtBsCAqbBVA4UU4cLlkobmRbwDfvjwpPEkstQrHJZW4wP5c1LjiHMYcafWsjhzhx3/ESg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789200223; c=relaxed/simple;
-	bh=ILKNp+WUMz7m60Cj2U3b3QKfAIuTdzWdXrka2tpZqXw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BCOtiIlVRoywWSkShR7kfnGl3Eo20ACu0HTaIEViNanOU6ZWZmKIQynkCBXNQ5YiEOA2x+SViEsywqbAoOfVL0nKdPFczXuNRtiy0suAoISGI21B+s5iMaIc6TkAM8826Im5xiVdh14J6ttmCSwor8RV+uIM+QcG+Jn034TRFGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkZiD4uF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1789206069; c=relaxed/simple;
+	bh=ddGcxI1iJxi2m2MhRVKWXwBPpir+KlK0dMvBt9NihKA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dEarE0m/uVf1ypeSBblXhR3bvwBX7eGEGoltSv5LBd1qsG9lMz6s+ofq1mdmOxZIHR39YG2sXp0PRZo//Vdm3gzH0rudTBkCnnSskHjDmCb2ZzQM/xkxYb1X1gibql6vOPEC2GmqZXQLJVzCy/CyPOA0orLT8V7xm2H2sk4hws8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=bf7Y37Bf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=wbI5F+KE; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkZiD4uF"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D0EC2C2BCF4;
-	Sat, 12 Sep 2026 08:03:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1789200222;
-	bh=ILKNp+WUMz7m60Cj2U3b3QKfAIuTdzWdXrka2tpZqXw=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=bkZiD4uF5TCVrUKm68zSiu3UsGrSnIROJB8jRqeUX0SgnekRupH45MgAKqAVHFzhn
-	 uVOVmxgy4NCSHafnrSf+sICm8tSeYW6jG1ziihWox+nY96AmlBZ+KoA3qf8mjbVBjv
-	 o9QcxiNQnyKwSXX9mk6879UnB9WzT8bk658znHSEuh+GX/Rlq5CrUylHVvhYbcKflu
-	 +B7KKIAJ3i6EvnaAPvVhmsU+fEiUlAPmfmK2+LIS/3XLuFk+oh9Ah4IiDK/A66yxW5
-	 rXGP5taFECRp98rp2yAX8taCg+51fiipg1DhzM03AZTQ2XNlqzV0EW2C//7B6+acKf
-	 9YKlDMmbU/0Pw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE2F1C88E4D;
-	Sat, 12 Sep 2026 08:03:42 +0000 (UTC)
-From: Myria Sarvay via B4 Relay <devnull+myrialsarvay.gmail.com@kernel.org>
-Date: Sat, 12 Sep 2026 18:03:35 +1000
-Subject: [PATCH] drivers/perf: apple_m1: Add macOS 27 M2 Event
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="bf7Y37Bf";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="wbI5F+KE"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 33163EC0092;
+	Sat, 12 Sep 2026 05:41:05 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Sat, 12 Sep 2026 05:41:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1789206065; x=1789292465; bh=hg
+	elB1aNZIxrLEiIkWEq3TlDBqZxOBKRli3gG0SLtmI=; b=bf7Y37BfiRHP4lQkTk
+	j9gtd0h8bVr6CJyisVl2Q5PqvijKSybxvV7vr5OjM0XzLhnmeOEAqJgOtLZeDtwB
+	S2YLmwG9ueGf6MdJOMXu7PBSce7f2B0VONzbOFLp2UsyPg6K8Z3UsSx9iMRFqO7x
+	VLMDO3iOa8F2EALkDc84RexHUfhHTSGLtoD7vXEm29HOfSlvETqMOSt7knW73Oz6
+	9kh1cNct0fhFSRe3llUd5ObIwwiIoo3Hh75QkSCjCM0weEI3Ygn9+DzxcFw6qFQe
+	1+arzcAFq1uuxOVDwZipsSqtFu/Mc/j3EAGVgZNwY/EOI3QK7cGruIJy4Txj2wGC
+	MwYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1789206065; x=1789292465; bh=hgelB1aNZIxrLEiIkWEq3TlDBqZx
+	OBKRli3gG0SLtmI=; b=wbI5F+KEnfOi2BCL8e+RcTVonaVA4FSrgcHr/dQ8eOnY
+	w1Atf7aA6rRQXUwstvsWBN8iyV2QLeZZAJhBn58ibw4nYDx3wYzyRW6L2uHW7w55
+	0WEn+iRuUrynPZHlZvvsRoTm0QLqPhjCCY2WNMF7988fSCq6MdQIwPlA4DX3hbRP
+	Of8gqZSY7kzeyt0tQc/8UHUj2Na/NTzQC6/tboj2WHWtiqDbifYbO7JFbinKJZZY
+	M355HucrUDXGKnhIGejlS6igo4r7yVQIF6yXc47ifcCnVegsvCr4SBVqDOT3/wlT
+	aYNFseZlQcqSmgh+Wo6muCKk80dCVisMkdWR6tPqow==
+X-ME-Sender: <xms:MB6laosLFTmM9uvmL2mozEd9LJ7w7ypu51LxSldHyhCaRQC0xec2Gw>
+    <xme:MB6laqoT-ZTWaZadFYFRSbPmCLpouKVEuzwqn8i5r9lW2nGCVU8MIuQP9__6j2hQP
+    RPvwVuVkxK2bj8nG2gz5yMPhMyqZ2FzLT2LtEBmH0YEgLYS27pyYRw>
+X-ME-Received: <xmr:MB6lanKj2uFwtv9aPk1QTQPrRKMeTmwyBIipffzBrzvgp-TmFonbX7fiGP3hNnRSP__N0kbzqniUZ9OQiptbuCF1edojXxChR9yzXA>
+X-ME-Proxy-Cause: dmFkZTGMMXxsWH1QA8Yl0LAzl/pT4bdCejj2Kw6+qtO58AApVjKHspXnqQhgwf2GP2kCJ6
+    AWZpTBnfySAXQUTWeBOifuFmR0WrLuTnzTavcovK63y77UMk7exYrU44UVWz/tzgneH6h7
+    XlM32+xqTqxJRK4OGRK0KG1HoN9KKCuv18DjEJZlvEnGPO2fsjS8XjI49W0KUtb8/FlqY5
+    yMVGyVfoltZFC3FuavBhr5e/KfKmlVcnsnYZ2y0d5blQirggJqcso87oKaM3sCdVChw5wT
+    OlVTpUIFQzgrqZ0e90NMewDqIsxeAr+T/gB6c33/uzTHNjksqOl/d2OEvoUsm0aHNkiGk/
+    umj68XXlUq3TiXFeGN87pSEnDNSSzPyxTSwRN19nmdT5nzBfAd5nfxNiLDnjVE07CTUJRf
+    VQnDBv1NmrC6srdTuhke3muqchoqPGbTvSk/Abm8qcSU/AIrnV6o6vjDlw2+XQl5LLSbbK
+    uDPy3x6CkXZH8uqcn5kW7BkAdSJc+KuYhSCaaykHZQqbpTv2SkTwhwFIx8tLiA9Obj9buZ
+    bAIYoh9IG/VAjPGTDHtGrO18T73t2EUQVJzacmimMIt0sEe4Dk7NC4uSkAu4fd9sppLa8C
+    ZIKr9UHSPSTc2Rj5sTMTn/cn9JsADF01i8TEzY2XKxPNCkYHLY6MaIS4BHpA
+X-ME-Proxy: <xmx:MB6laqtCJsBKIRnuV--rCgVifyycg_Xs4WxVcootbmwM1hjMC_f7dA>
+    <xmx:MB6lakCYT9Jzj3cic1No8RD3G7x0sG-BFaEdTBrw8ZgLVXAb8w2Iqg>
+    <xmx:MB6lai7TjSps0ZCi8fV4QxvbuYWDDgHIqYiAsF_KtX4NBnA5dSAFIA>
+    <xmx:MB6lasDPQV_fx5r0HhP8-vYHp5yu_e1y1Abv6EczySY4KqnZlrS8TA>
+    <xmx:MR6larFXeElB3ac3b9EM0uq9OnyT59sjcLqpASKkf8tfEvvMIvZQH4T7>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 12 Sep 2026 05:41:04 -0400 (EDT)
+From: Janne Grunau <j@jannau.net>
+Date: Sat, 12 Sep 2026 11:40:51 +0200
+Subject: [PATCH] wifi: brcmfmac: cfg80211: Report port_authorized for 4-way
+ HS offload
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -39,74 +78,97 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260912-m2-9f-pmu-name-v1-1-da682557453c@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrB3QKajjVYoLm07aEZJKYkQQ7
- 96oy7f4f4coQSVCX+wQZNWoP59RlwWY7+g/gvrOBqqoqbgmdIRscXYJ/egE246NbejBtmXI0Rz
- E6nYNn8PtmF6TmOW8wHH8AWdXnI5yAAAA
-X-Change-ID: 20260912-m2-9f-pmu-name-789cf6239f79
-To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- Myria Sarvay <myrialsarvay@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1883;
- i=myrialsarvay@gmail.com; h=from:subject:message-id;
- bh=WE/9S0PEWj724ZfvllqIPRhYse7Qz5ha7AiDrC/FTsg=;
- b=owJ4nJvAy8zAJRbk4iixYu2/l4yn1ZIYspayxz65P616LZ9MUu9hz417PhrzyN/98Wr2pZPXq
- g4Kqv4IMn/eUcrCIMbFICumyKJvmqY9ma3hUuky1y0wc1iZQIYwcHEKwET0rRgZlv4v+ytisH/V
- bqWbC7UP50ttuHTvbs7Vdjcvb+b+oMU3lBgZdvy9F5kzfcrGTY6/DLfXWXYdFnbz/DBZV4Jt0QP
- NvyEKzADqTksT
-X-Developer-Key: i=myrialsarvay@gmail.com; a=openpgp;
- fpr=2F35662B930680D275A645B452444118A8ADFEE9
-X-Endpoint-Received: by B4 Relay for myrialsarvay@gmail.com/default with
- auth_id=1027
-X-Original-From: Myria Sarvay <myrialsarvay@gmail.com>
-Reply-To: myrialsarvay@gmail.com
+Message-Id: <20260912-brcmfmac-4way-handshake-offload-authenticated-event-v1-1-e41a6a8281a2@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2NQQrCMBBFr1Jm7UCaWqleRVyMyYwZtIkksSqld
+ ze4ew8e/69QOCsXOHUrZF60aIpN+l0HLlC8MapvDtbYgzn2Fq/ZzTKTw/2bvtgSXwLdGZPII5F
+ HetXAsaqjyh55aYzTOMg4EVszMLTlZ2bRz//1fNm2H3DI07SFAAAA
+X-Change-ID: 20260912-brcmfmac-4way-handshake-offload-authenticated-event-853f58ae203e
+To: Arend van Spriel <arend.vanspriel@broadcom.com>, 
+ Hante Meuleman <meuleman@broadcom.com>, 
+ "Gautam Shukla (Gautam Kumar)" <gautams@broadcom.com>, 
+ Kalle Valo <kvalo@kernel.org>, 
+ Pieter-Paul Giesberts <pieterpg@broadcom.com>
+Cc: Jason Huang <jason.huang2@infineon.com>, linux-wireless@vger.kernel.org, 
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3353; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=ddGcxI1iJxi2m2MhRVKWXwBPpir+KlK0dMvBt9NihKA=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqylcno2wmmeAd0NXEvfPY6XSDE82LJYsOv6FWb3tCOtJ
+ Xf+TK/oKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJGzRQz/LJ9k/JTZslopdkJM
+ +bXcA/vWWZ6ds3PW2pOKxYfinolV3mL4p24Xs1ji4CGz4LAjp4svvPZVXXvs+bMitxm1moK/z8+
+ NZwUA
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-From: Myria Sarvay <myrialsarvay@gmail.com>
+Since commit 416386060 ("Mark authorization completed on driver
+indication during 4-way HS offload") [0] wpa_supplicant expects
+NL80211_CMD_PORT_AUTHORIZED to complete the authentication when the
+driver supports 4-way handshake offload.
+This was apparently never tested with the upstream brcmfmac driver as it
+does not report this. This broke authentication on Apple silicon devices
+(BRCM4378, BRMC4387, BRMC4388) and other devices when wpa_supplicant
+2.11 was released [1]. This was initially dealt with by reverting the
+commit in Fedora [2] and other Linux distributions.
+Instead of carrying the revert over to wpa_supplicant 2.12 add the
+expected NL80211_CMD_PORT_AUTHORIZED when the connection is established.
+This will conflict with the "brcmfmac: add FT/OKC roaming offload
+support" [3] series but is written in a way to easily resolve the
+conflicts.
 
-This patch adds another known PMU event that can be found under
-/usr/share/kpep on macOS 27 for M2 macs. INST_SIMD_ALU_VEC purports to
-count "Retired non-load/store vector Advanced SIMD instructions", and as
-we already noted, can only be registered on counter 7. Though this event
-only shows up on the M2 kpep records, it can be set on M1 CPUs, and
-records something.
+The "Fixes:" tag is not fully accurate as this has only become an issue
+after userspace changes years later. Since the change is expected to be
+required in all active stable branches for wpa_supplicant 2.11 / 2.12
+compatibility it is helpful even though BRCMF_PROFILE_FWSUP_SAE did not
+exists then.
 
-Link: https://github.com/0ax1/apmc/blob/9cff99a9df2ae055f1e3065c64f633e38bb6beec/counters/m2.md
-Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
+Link: https://github.com/zephyrproject-rtos/hostap/commit/41638606054a09867fe3f9a2b5523aa4678cbfa5 [0]
+Link: https://lists.infradead.org/pipermail/hostap/2024-August/042893.html [1]
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2302577 [2]
+Link: https://lore.kernel.org/linux-wireless/20260911065656.1269623-5-Jason.Huang2@infineon.com/ [3]
+Cc: stable@vger.kernel.org
+Fixes: b8a64f0e96c2 ("brcmfmac: support 4-way handshake offloading for WPA/WPA2-PSK")
+Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-index 81b6f1a62349..1f73c8a77462 100644
---- a/drivers/perf/apple_m1_cpu_pmu.c
-+++ b/drivers/perf/apple_m1_cpu_pmu.c
-@@ -81,7 +81,7 @@ enum m1_pmu_events {
- 	M1_PMU_PERFCTR_INST_SIMD_ALU				= 0x9a,
- 	M1_PMU_PERFCTR_INST_LDST				= 0x9b,
- 	M1_PMU_PERFCTR_INST_BARRIER				= 0x9c,
--	M1_PMU_PERFCTR_UNKNOWN_9f				= 0x9f,
-+	M1_PMU_PERFCTR_INST_SIMD_ALU_VEC			= 0x9f,
- 	M1_PMU_PERFCTR_L1D_TLB_ACCESS				= 0xa0,
- 	M1_PMU_PERFCTR_L1D_TLB_MISS				= 0xa1,
- 	M1_PMU_PERFCTR_L1D_CACHE_MISS_ST			= 0xa2,
-@@ -150,7 +150,7 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
- 	[M1_PMU_PERFCTR_INST_SIMD_ALU]				= BIT(7),
- 	[M1_PMU_PERFCTR_INST_LDST]				= BIT(7),
- 	[M1_PMU_PERFCTR_INST_BARRIER]				= ONLY_5_6_7,
--	[M1_PMU_PERFCTR_UNKNOWN_9f]				= BIT(7),
-+	[M1_PMU_PERFCTR_INST_SIMD_ALU_VEC]			= BIT(7),
- 	[M1_PMU_PERFCTR_L1D_CACHE_MISS_LD_NONSPEC]		= ONLY_5_6_7,
- 	[M1_PMU_PERFCTR_L1D_CACHE_MISS_ST_NONSPEC]		= ONLY_5_6_7,
- 	[M1_PMU_PERFCTR_L1D_TLB_MISS_NONSPEC]			= ONLY_5_6_7,
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+index 872c48806d09..9fd0ec6255b0 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+@@ -6504,6 +6504,7 @@ brcmf_bss_connect_done(struct brcmf_cfg80211_info *cfg,
+ 	struct brcmf_cfg80211_profile *profile = &ifp->vif->profile;
+ 	struct brcmf_cfg80211_connect_info *conn_info = cfg_to_conn(cfg);
+ 	struct cfg80211_connect_resp_params conn_params;
++	bool authorized;
+ 
+ 	brcmf_dbg(TRACE, "Enter\n");
+ 
+@@ -6528,7 +6529,15 @@ brcmf_bss_connect_done(struct brcmf_cfg80211_info *cfg,
+ 		conn_params.req_ie_len = conn_info->req_ie_len;
+ 		conn_params.resp_ie = conn_info->resp_ie;
+ 		conn_params.resp_ie_len = conn_info->resp_ie_len;
++		authorized = completed &&
++			     ((profile->use_fwsup == BRCMF_PROFILE_FWSUP_SAE) ||
++			      (profile->use_fwsup == BRCMF_PROFILE_FWSUP_PSK));
+ 		cfg80211_connect_done(ndev, &conn_params, GFP_KERNEL);
++		if (authorized) {
++			cfg80211_port_authorized(ndev, profile->bssid, NULL, 0,
++						 GFP_KERNEL);
++			brcmf_dbg(CONN, "Report port authorized\n");
++		}
+ 		brcmf_dbg(CONN, "Report connect result - connection %s\n",
+ 			  completed ? "succeeded" : "failed");
+ 	}
 
 ---
 base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-change-id: 20260912-m2-9f-pmu-name-789cf6239f79
+change-id: 20260912-brcmfmac-4way-handshake-offload-authenticated-event-853f58ae203e
 
 Best regards,
---  
-Myria Sarvay <myrialsarvay@gmail.com>
-
+-- 
+Janne Grunau <j@jannau.net>
 
