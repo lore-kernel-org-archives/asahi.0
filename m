@@ -1,76 +1,76 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD0640EB91
-	for <asahi@lists.linux.dev>; Mon, 14 Sep 2026 08:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C0B411A08
+	for <asahi@lists.linux.dev>; Mon, 14 Sep 2026 08:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789375252; cv=none; b=RFsAAFM78ShkMpmUiXmirwJAwBI0tIUlvJGcAYMeXjvaN6ua2PKb+ZdQnc4z6kRxgzRdcxQLrUDFU6DZp0niqKwaalgDADDoC2jvpqWYCWVj9WRSj36npp2FFwNoTLrrUrmIWpPCDLtEAWQzLbbYZ0zDcHDf3SDxSSOR7pS92Lg=
+	t=1789375256; cv=none; b=gOnVquT8tcmDm3GVnZSjkAR+devk1JTFXT4t5H9CsG43izw42qPy5xCa3P+E6Z2m1CWjhD1y0+4Yamob78c5CkBkiLFHy9PjeyFCkt8pTXO4Cm3fORv7J839nX9JwuyCgosJVZpNgXeFjFKKmYv93/8TyzAWQ2Tqa+REtOi1+70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789375252; c=relaxed/simple;
-	bh=1UsHloy/L2sarxFvpPUMHmIp2lRWVoyjmt1Tj9haRyA=;
+	s=arc-20240116; t=1789375256; c=relaxed/simple;
+	bh=KQEtZ8nZptaMvldtSk9ZHKjNUaBiwDDrzs1q02ay9Lo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GJv+7gTmOLEiO1m7049ctdeATe8d1R3e82ID/7p2FiBWz/GNZ0bOsqyx+eNddlYi2RYqVScKcMRbm4mK1E1E6Kl8YWSayRvY4nGrT2hS25pEuqgdOGKHpDL6uDWbR0SGR0W9OY+CmHd3LZmMV+05Ca/T51TnqEot+1coLY4o2Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=BQ8gMpnO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cmxmLMYh; arc=none smtp.client-ip=103.168.172.156
+	 In-Reply-To:To:Cc; b=fsZCNsd2Nj5MXhiLhr/bQb5N29tkMakUEXK20MqHhtkEEam75Hw4OWLHRLQWAo5aVzJ/wJftmU+FBJ3XJOPX7FFQT4cxqPeM7OaaYfjeclfb5LQ5MCp5Fne0EyKKnqHF/S/i+626+rQsUlkIHTOLnYzpD4jT1OkCCSsN+0ySdo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=UCOMoXcj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bx3qDIag; arc=none smtp.client-ip=103.168.172.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="BQ8gMpnO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cmxmLMYh"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 03C51140009E;
-	Mon, 14 Sep 2026 04:40:46 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Mon, 14 Sep 2026 04:40:46 -0400
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="UCOMoXcj";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bx3qDIag"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 66798EC05DD;
+	Mon, 14 Sep 2026 04:40:44 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 14 Sep 2026 04:40:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1789375246;
-	 x=1789461646; bh=qGCNF78R8wJOtYi2eSbyY81WkHIiBzIfw2hpbakjkPU=; b=
-	BQ8gMpnOBAPndWSXYt//cK7WcDAoGl/T1nRA0GnvfNked0gr4kN9EPzDJhPMAMf/
-	9Ufwd8hZm/49KwQKLNWMob+4MCXiIAMTYMijIc7ivasCQfWLG9PosgdhuE6yvvLB
-	BrDmzNTbgo5ti8bLK/dNr4GTKnIopct9TEhw2vUlfYvU11XdkvL2qD2Lhw7Gh82e
-	SDsVgKw2ghyqlwEQUTaoeXPox0WSR2CEjBAODfF9fmr6decfpwFZI+uQi2TkyGcK
-	r0VFdQ7RIPDP6w+V8tNdaP/3FnOsilGrdjxF4oQDIaueDT+KvlCkAn8wat74ViUJ
-	p66yp401+3PfQRA792zdEA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1789375244;
+	 x=1789461644; bh=gGNuYks9l8k6RKHlJoOk84pwpKQUzci+L+rdDp6XAgo=; b=
+	UCOMoXcjKmYD2m94fFit3OJazyOvGTIhgBBiRAr9ABckNObQyUcBLSS1iDGo8CEB
+	AfMsKKGRlfQezciTFiwWO1AdlO8aM16bdUU5LtGXeSDX/TYRl5a2OeyIT9hovKEF
+	wIabNn2UsRnn/vTUX6erhUHzM5mS4XK1JNkePi0fhzRY1fTWhPd2r4UgKruoR/HA
+	x5j+AklXz2LILMX+DSXW5e2uu6POgbWRtD1keP0uQLJtBIW5T+1K/B49LXU1Vr1a
+	54VK0QT53SNnWgdBUFOPdE+FU0fqerBQ3hrzcXJI2eHITF4w4rJNZuPYWcSSZiRc
+	mt41tzc8DxYjV/7rUQe80w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789375246; x=
-	1789461646; bh=qGCNF78R8wJOtYi2eSbyY81WkHIiBzIfw2hpbakjkPU=; b=c
-	mxmLMYhVWiGtSiDe968yKNA9aopHSLerhkKpyPJ//VKbMYNSfmrxpv1aiSvjnWmh
-	D8FYRAeViV/eZMbLgvqg+L9EdQ1S7UK5BFIwUDMrXq6PR3Na9A3s1mRtKlIsUuwi
-	paneC6KHFBBXF6lfY7FlpkVR4yWPykNUtD83ULaLuwjqxHK6HudBh1sITc8iCNPk
-	sLsV/MdZAqv+cGEktBYu+pv1Boeb+dn6N2oyv/+Uuvk9KKh5JtPxzMcDuLRjRgrK
-	YSKy/pKagI5c2NikjempUd2DN1jbHkWcdBoGfu/+ibyUP0cWPmHjroEJkf/uC2Jl
-	x9drR0C7FG52aeJdGgfMQ==
-X-ME-Sender: <xms:DbOnasXVHmlHrHnu2MsSIxvjw8jPcivKlWBqjhcOz8NU55dn2gIlaw>
-    <xme:DbOnaowTPiBoESBYQ-6QHAGplEBTdyjRlTpqU2ViO6cb4YlHg0Xn9LhkHqaszmowd
-    gtLNTXqqiBtQFNlZ3ECxS5smxaSmX6XGbOf0HwS01VlyuOHhnoAWZIG9w>
-X-ME-Received: <xmr:DbOnar_ciHZY3SGigOWeTKYEzgDT2_Nr_aRMVDqgC0Xx5uAn-kU8Mbj88SdzJi1SjmA4UOdW8_C5UOjRvysI0L-xm49LmjNL3PjZKw>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789375244; x=
+	1789461644; bh=gGNuYks9l8k6RKHlJoOk84pwpKQUzci+L+rdDp6XAgo=; b=B
+	x3qDIag+XGhm6Xen0m9AznhH6a3oeFXjnQwMIlheBEsPUlk4954qyMBgR1lOQGP8
+	8q1Eg03nHO0GFJk1TEtVI5GjF9RiT6i+i7D9JlDWS3NobKReN/m6axW4cAXFGNgs
+	eds3NYI9h2WAccSH3IzZBgWQa9ru2XA7hGByY7jEomLotOVEFDSVABfUyIjztVWT
+	ifLerZNJZGx8qp6mBZL6iKpezvcI4O9IzPI1VwZuyc3eVsjx2t5E177XrU8WskZ2
+	gNMXx1+OjJaBNDNm428vZwN7tbWi4JOBQMQQ8XurOzqZJIkjasFNiQ/qz67Gyn2K
+	NwWhDLtNY4aVORAq5Y38Q==
+X-ME-Sender: <xms:DLOnakVr8qWFLm64imxNBETjc2KDJJ5idq4RO54A8RGfnouGrl3eeg>
+    <xme:DLOnagy7pfApijhgZN7n7iHb9aaWohhKU4m7Mab94BuFtquXlik7zMZRP1HzNTbFO
+    YO4ng9ouDp_S3qx02eDROB4Z8hO3aYJ5m01gkwPV-mWdGMTBAZzk_IN>
+X-ME-Received: <xmr:DLOnaj8uKL21JlSvBox6DGzgMSg7Z-WROzBRu8OtzOUa6CCRuwJtJF6Hjpe6jQaSiPaHzoJnyuAeU5iJKyW19EIg5sjPHaqlnYT-wg>
 X-ME-Proxy-Cause: dmFkZTE4K6JMrxd6sPzZVNrePGCzWSArxKGqIFy2UwUC7nS/ZY+sStdcZ7vmPmE2pNoHZC
     9MiqcQ5OXckdWGFiy01IJr2JkZ+n3p+fcnek7D1Qwk8LgHRtAPwJ3G0I5cz7ZhSuemTIJc
     i9Rs6SyTtRrS0p1PgXmcVZpifTNEIm8RuZjsFaFCWemyhP462rhvuOdftkbms6ekvvuLIV
     6HeACEZ35ia1OWZxWsqljJDvRhxvUU8yfY+GnRLK37wYdoIiqubcn305EIee0gH5ypsRyC
-    0b6zJacisih6eDtoNCnZwnv1woWj2R2DHm/YruUPQexvu5t1hokHp9I+EwChY3zqidyUQy
-    3yAiyGB3X1Cjr2VvfEjsV7rs4+tSOLd+orK+v+d00vTve3WcpxhQPCJs7s1dhbwRhi96+0
-    J0ZvlEqgAGDGN9ZiQ3o4tz7663DiFJOhx50e4k0gf+GegkRIn6CmirzJJ9ZdCvJICzDbsg
-    uV/NMcmKJiNwImigdyvqNN60K9mI4vCS2PWaRA+WD44n2K2DC4ZJxjjXoAzMczjAex8qYW
-    Nm7HXqAirw+V4tRv5YdtThjSJYkl8WtqtUVxavk3vPc2T8fUNRe0xURM9sDQDUvFv2d/X/
-    weS18JmTPvdNalTEhMwIOeJSJ+/wNYtZAwDVKgdSfX2wwjqE+qeWgBvRLMcg
-X-ME-Proxy: <xmx:DbOnal8dJvN4zw3_5OluJ4fDyiz4Pedv80O3Mripk2lo6TSmlHNXCw>
-    <xmx:DbOnaiUfgDI6AeTvAkyaRsyVeB6IAjVpbBErBrZsDZv1W9FIvU9XYw>
-    <xmx:DbOnaqdTiV-TZmLLTDFtq2M6QB7lJHeEiL3J1NcPIO-BUrF9p49EBg>
-    <xmx:DbOnajbDX87PUUFUmV7vt0Hwb71FX7vMSHqQE4QA1PY0J3X8XiSxWQ>
-    <xmx:DrOnauVLncNmCmIRuWyf35Z-hy6hnpeEuw69ha7bqg8dK3A906Q29zcj>
+    0b6zJacisih6eDtoNCnZwnv1woWj2R2DHm/YruUPQexvu5t1hokHp9I+EwChY3zqidyUDO
+    mZSf5ieyc384TBYHAJiC0+L2HDaefkeOewdUYU5+K2fiLw9NovyDRVICv1RagdOjI0mqed
+    xMoAPqzO7I5QedrLLyT6+10qQPfpO2pUCunDkH5nBsAFlG2piSNk/N9bpYlbmj5IMVv4jN
+    eWKEW+yyvtLuYbUKjYWbcHX0Zhgi7TUAQ0/0yWJhfV/pmtQc2RSqqNU+UlUHznWH2iJflV
+    jMbR/p3G7MH0fLs4NzlUHlxWayXo8yL8HSkcyUqqsP3zDXdtoCEc26dUxnMu+aIfsEZZ/v
+    lfLnoUBHeRDBdtdYOtGBCdmAJjqRP2iU65LsiwA71EejVjJHsW2xNxDec0Yg
+X-ME-Proxy: <xmx:DLOnat_QNEoGlw6BRzNUtT4gCTbG2G9no4ppp-csGL2zU-knIu7FJQ>
+    <xmx:DLOnaqWMB_PoxPVEdA8dH-Hg2AzYUJUIhHCpjSfgSf_Cr5hnFynS0g>
+    <xmx:DLOnaifzk_czq7ab23MOEb5pJ21TCXf8653cKzVg_MM8TK7eXb7pFg>
+    <xmx:DLOnarasMiB_iDPLe7WbunBM8vqrhRAHRjFZ79E6rGDh93sSQEcOfA>
+    <xmx:DLOnamWNQbNuoIKk9FecEtoOWpLrdEELADGKX6jzho7I3VsIqC_BKJpU>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Sep 2026 04:40:45 -0400 (EDT)
+ 14 Sep 2026 04:40:43 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Mon, 14 Sep 2026 10:40:34 +0200
-Subject: [PATCH v2 04/13] arm64: dts: apple: t8122: Fix child-name-order
+Date: Mon, 14 Sep 2026 10:40:33 +0200
+Subject: [PATCH v2 03/13] arm64: dts: apple: t603x: Fix child-name-order
  dt-check-style issues
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -80,7 +80,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-apple-dts-m3-dt-style-check-v2-4-e3e89c33f562@jannau.net>
+Message-Id: <20260914-apple-dts-m3-dt-style-check-v2-3-e3e89c33f562@jannau.net>
 References: <20260914-apple-dts-m3-dt-style-check-v2-0-e3e89c33f562@jannau.net>
 In-Reply-To: <20260914-apple-dts-m3-dt-style-check-v2-0-e3e89c33f562@jannau.net>
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
@@ -90,13 +90,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1986; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3217; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=1UsHloy/L2sarxFvpPUMHmIp2lRWVoyjmt1Tj9haRyA=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqzlm5kvXt14+1BTGYOuJgunxNZ4reA9v3qu3Fj40iiVQ
- c//0Ue/jlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABNp0GX4X5gRu7/L8cjEOfOy
- /xj8mHKi8qb8vsO7juVnGdw/tnvN8y5GhvVqN0pr2DZ6tfO+CTM/4CrLOXX+lPZ9jC/DK+5mNSs
- xsgIA
+ bh=KQEtZ8nZptaMvldtSk9ZHKjNUaBiwDDrzs1q02ay9Lo=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqzlm5klT7WLpe43mZ2q/OSky6yPyb0WRg7xapEGSk3JM
+ cfduj06SlkYxLgYZMUUWZK0X3YwrK5RjKl9EAYzh5UJZAgDF6cATCQih+F/VsA9NUWdRc45W+wW
+ Rn1TDqm8LMW2bRIfP59x7OuS3oo8RoYNnOu7Otd9DbwiOu3o8rynsv/33dYpi5lgMPN1S90mhsv
+ sAA==
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
@@ -104,14 +104,15 @@ Reorder child nodes by name to fix dt-check-style warnings.
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- arch/arm64/boot/dts/apple/t8122.dtsi | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ arch/arm64/boot/dts/apple/t6030.dtsi      | 34 +++++++++++++++----------------
+ arch/arm64/boot/dts/apple/t6031-base.dtsi | 26 +++++++++++------------
+ 2 files changed, 30 insertions(+), 30 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/apple/t8122.dtsi b/arch/arm64/boot/dts/apple/t8122.dtsi
-index de09989c5663..481f68a570ec 100644
---- a/arch/arm64/boot/dts/apple/t8122.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8122.dtsi
-@@ -20,6 +20,13 @@ / {
+diff --git a/arch/arm64/boot/dts/apple/t6030.dtsi b/arch/arm64/boot/dts/apple/t6030.dtsi
+index 0bfa8db59db4..0b5824c9f1bf 100644
+--- a/arch/arm64/boot/dts/apple/t6030.dtsi
++++ b/arch/arm64/boot/dts/apple/t6030.dtsi
+@@ -15,6 +15,13 @@ / {
  	#address-cells = <2>;
  	#size-cells = <2>;
  
@@ -125,7 +126,7 @@ index de09989c5663..481f68a570ec 100644
  	cpus {
  		#address-cells = <2>;
  		#size-cells = <0>;
-@@ -165,23 +172,6 @@ l2_cache_1: l2-cache-1 {
+@@ -220,23 +227,6 @@ l2_cache_1: l2-cache-1 {
  		};
  	};
  
@@ -146,11 +147,11 @@ index de09989c5663..481f68a570ec 100644
 -		clock-output-names = "clkref";
 -	};
 -
- 	soc {
- 		compatible = "simple-bus";
+ 	reserved-memory {
  		#address-cells = <2>;
-@@ -451,6 +441,16 @@ pinctrl_aop: pinctrl@2f4824000 {
- 				     <AIC_IRQ 352 IRQ_TYPE_LEVEL_HIGH>;
+ 		#size-cells = <2>;
+@@ -537,6 +527,16 @@ pinctrl_aop: pinctrl@374824000 {
+ 			#interrupt-cells = <2>;
  		};
  	};
 +
@@ -165,7 +166,56 @@ index de09989c5663..481f68a570ec 100644
 +	};
  };
  
- #include "t8122-pmgr.dtsi"
+ #include "t6030-pmgr.dtsi"
+diff --git a/arch/arm64/boot/dts/apple/t6031-base.dtsi b/arch/arm64/boot/dts/apple/t6031-base.dtsi
+index 6df3be68d740..667f32e9e606 100644
+--- a/arch/arm64/boot/dts/apple/t6031-base.dtsi
++++ b/arch/arm64/boot/dts/apple/t6031-base.dtsi
+@@ -11,6 +11,13 @@ / {
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
+ 
++	clkref: clock-ref {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <24000000>;
++		clock-output-names = "clkref";
++	};
++
+ 	cpus {
+ 		#address-cells = <2>;
+ 		#size-cells = <0>;
+@@ -285,6 +292,12 @@ l2_cache_2: l2-cache-2 {
+ 		};
+ 	};
+ 
++	reserved-memory {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++	};
++
+ 	timer {
+ 		compatible = "arm,armv8-timer";
+ 		interrupt-parent = <&aic>;
+@@ -294,17 +307,4 @@ timer {
+ 			     <AIC_FIQ 0 AIC_TMR_HV_PHYS IRQ_TYPE_LEVEL_HIGH>,
+ 			     <AIC_FIQ 0 AIC_TMR_HV_VIRT IRQ_TYPE_LEVEL_HIGH>;
+ 	};
+-
+-	clkref: clock-ref {
+-		compatible = "fixed-clock";
+-		#clock-cells = <0>;
+-		clock-frequency = <24000000>;
+-		clock-output-names = "clkref";
+-	};
+-
+-	reserved-memory {
+-		#address-cells = <2>;
+-		#size-cells = <2>;
+-		ranges;
+-	};
+ };
 
 -- 
 2.55.0
