@@ -1,68 +1,69 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EF8439351
-	for <asahi@lists.linux.dev>; Mon, 14 Sep 2026 10:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C4E477980;
+	Mon, 14 Sep 2026 14:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789382093; cv=none; b=Fkwf6W6A0HF2wgEn9gpYsv1YmUt/S5ZVBKolzKzKuQWOLPcNW4xZCZqFNYtzupx1SjYYqLHYpT6i02jDVy24/4qYRENSJZXFMM4yfPBabYGw9x9spM6V86bQ4Mr83aRAZ2qoEBv8eQamcFqN+zIIoi8Lx0GVxq0Gv4M8gGnVPqc=
+	t=1789395208; cv=none; b=FuMvIFcywqg4hu+p9AVW2KStHMDqbn5doE5XWhGRLTCQBlJ9cLGL7gdlyP2uBLQWfUga/9tJUUkN7MvS6aPSRt8vGNN1Zksm+2rlZe3Qx9muv21A2fyPk3xz4FefRLrAc0gxtiER7TtdJFJcCvc74ItoFWblcR/3GKlWU0CgECA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789382093; c=relaxed/simple;
-	bh=z4grfnNl5pEzLYB8FuYyFsBKa7t++n0aZP5su0DrsKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NYkjcZyDyi41BBcRmKlxztpzMEIG5DKHoSMLOVb9qf6bwywqTesTa77lfASdz+Df/b1k2PGQF5Dy2Ha6C86cTAb3Y89r77NWwqtAGDRVIC9QArGEIcOl+SXzimrsKw+5OXF2vJsTfKDBFcziL6VZSjhAol1DeMHk7OHhqurEXBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G/VxfcXe; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G/VxfcXe"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48702adb1c9so388474f8f.2
-        for <asahi@lists.linux.dev>; Mon, 14 Sep 2026 03:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789382090; x=1789986890; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bzA4Ev9bFl4S+BlvHkgaYE+G7jqrAFXbwzypM6V761A=;
-        b=G/VxfcXefySen71lh+3JbYiwHRJ1yTWCLnMnowohZqK0KKKebeWWAxFgFYnwbhOfZN
-         A0FdkEkrFT+4gcSH8oGaNdQ7xr8DZWo1cNXinUEFR2BjLwem9/TWLuByMre0GwCbkGhx
-         c9AqyDt3mrWHc+PoQtkDpX4ClQeZT7YX+LmcBh+At5yl+a4mFhRnugi/Pe7Qh31109ZI
-         sQ6admIDgYkrZTxGFu0r5/ff1EOLJkIfmRimLehsFeuZNB+2zxbX0D1WKn/x4qsLgsyZ
-         VzQ3uQwHWt6tysxJwux6zUw2kJvaWWxdPiUOmOSuO+UMC5D1XmfbG4B6v1yKliGcsF6N
-         VXcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789382090; x=1789986890;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bzA4Ev9bFl4S+BlvHkgaYE+G7jqrAFXbwzypM6V761A=;
-        b=ffjR6/IVQgP202BhKLuil70rxLIUbQhldUovXOQ2R6T+tYtu88Uh+xCwlrg1m2nJ8l
-         2eNBNuYnG81CVzLZGvvOuq64I2iUbhr2J/tZMMYOxg324yN0psdkzZwYoDZr6h8UTlm/
-         N3y17LXmuimXbfZFPDc0EjHfn0zrMQGy2BjrJ3OzgLR7KzIvEtMRVYhmdypdLQY2jEXY
-         eG4KCTFHSjiABAZF7+kZwqLIG2hUOXkaZp70aCW9QBO/LqIb/Rcx13zlN7LIHIMZe/CK
-         6CyTExEF/RH47dkMz3tLD3mDSom3lrL6Zbz/UWFxY2GIqdj+lAWX2HaKbz15JzZwT1SR
-         gmRA==
-X-Gm-Message-State: AFuF++lFU+exmBfYYLzGIpFOCqm+va81Qw1FUpjir9Nhq6QHMDDurlq1
-	IIdI42DtS4X4o5pHuTrqfh/W64goZ2QXpbxaJemK3GkcJoEacQBXQ8qb
-X-Gm-Gg: AYBFou3cFRdnEFAsx9pbflUhjxojYNmQIw41TdRHve4h4XSs1sUccCCKpCXwQkaBS3m
-	gKdkH1jST1hcGxTHeYnzCfSNUzovOsUAfrjDrTxQuvsUJjfRfxmiuWO+B80uMpSCB8jJaOmq9sx
-	3DpK/zPmZYIjQCrqrXETlPYrbVPV1cy4ckbDi+heCdTRSWBN9YkdP91Txgh8toNs7mUKlceWUrL
-	wWhTtp1rlNI6tGRoRxqIgrDCdygOCLhGombzwzIPdDf9pej7F5PbrUrEa5pXbQDkeAjqnexrREV
-	7J7gucCV3bubbhbBfaY7KnWxi/qGchwPb9ZIUf03S400iAIsrVSSu99tIxjACDlKpzzbJcB48k+
-	oyFEs/b56HEbrSNM1iJX0f+Lb6rkWDUZNh5o4wOJ0T7JA0vG6eeI1I7R783nG3OtlxgC3Tm2qIK
-	ZHG8BI7grSFutM7uiDbPoWo/QYXGMZe9P1df964lKjBKGUygRF8/Um6Lo9tt8dRwaQ7CM=
-X-Received: by 2002:a5d:6f16:0:b0:487:37f:9ea7 with SMTP id ffacd0b85a97d-487037fa075mr1474421f8f.32.1789382090414;
-        Mon, 14 Sep 2026 03:34:50 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb2ed106sm25223409f8f.1.2026.09.14.03.34.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 03:34:49 -0700 (PDT)
-Date: Mon, 14 Sep 2026 13:34:46 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Sven Peter <sven@kernel.org>
-Cc: asahi@lists.linux.dev, linux-nvme@lists.infradead.org
-Subject: [bug report] nvme-apple: Destroy the admin queue on removal
-Message-ID: <aqfNxqqlIRbClbOk@stanley.mountain>
+	s=arc-20240116; t=1789395208; c=relaxed/simple;
+	bh=HPoZWFDHbv/7IEvQj89VBgQug8JWRFu6B46ZI2l/FlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X3bRhkpBAz4l/JyJka57IG2btJDlVISht36wa7ADPwA9+SAFAkb42Dpr8NiViwmF82ypC80HOL9Yxs8wWm4ztpq/NekOU/EfNrb37lacbI/RGaT3kwdpC4I3Z8Yp/QDVAS6DVNoaAeb7xsjaUUV9bCafxOJqtnOGyOiiuz7gk04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
+Received: by linkmauve.fr (Postfix, from userid 1000)
+	id 6BE34717EC24; Mon, 14 Sep 2026 16:13:17 +0200 (CEST)
+Date: Mon, 14 Sep 2026 16:13:17 +0200
+From: Link Mauve <linkmauve@linkmauve.fr>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Link Mauve <linkmauve@linkmauve.fr>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Kalyani Akula <kalyani.akula@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Johan Hovold <johan@kernel.org>,
+	Ronald Claveau <linux-kernel-dev@aliel.fr>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, imx@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v5 0/3] nvmem: migrate to const void * in reg_write
+Message-ID: <aqgA_bGo3yqBNL0_@desktop>
+References: <20260804135940.2378737-1-linkmauve@linkmauve.fr>
+ <aoNY85rdMdBDSiGW@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,29 +72,45 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <aoNY85rdMdBDSiGW@ashevche-desk.local>
+Jabber-ID: linkmauve@linkmauve.fr
 
-Hello Sven Peter,
+Hi,
 
-Commit 87d5b9864c81 ("nvme-apple: Destroy the admin queue on
-removal") from Aug 6, 2026, leads to the following Smatch complaint:
+On Mon, Aug 17, 2026 at 09:54:43PM +0300, Andy Shevchenko wrote:
+> On Tue, Aug 04, 2026 at 03:59:34PM +0200, Link Mauve wrote:
+> > This callback used to take a mutable void * for no reason, which causes
+> > the compiler to be unaware that the val buffer should never be modified
+> > by the callback.
+> > 
+> > This was found while drafting the nvmem-provider Rust abstraction.
+> > 
+> > Thanks to the guidance of Andy Shevchenko, this now introduces a new
+> > callback and deprecates the existing one, with the goal of renaming the
+> > new one into the old one once no user remains in the kernel.
+> 
+> FWIW, if the approach taken is okay by maintainers,
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-    drivers/nvme/host/apple.c:1642 apple_nvme_remove()
-    warn: variable dereferenced before check 'anv->ctrl.admin_q' (see line 1641)
+Thanks for the review!
 
-drivers/nvme/host/apple.c
-  1640		nvme_remove_namespaces(&anv->ctrl);
-  1641		apple_nvme_disable(anv, true);
-                                   ^^^
-This dereferences anv->ctrl.admin_q
+> 
+> I think this is right direction to go. We should use all possible ways to
+> protect the data from corruption.
 
-  1642		if (anv->ctrl.admin_q && !blk_queue_dying(anv->ctrl.admin_q)) {
-                    ^^^^^^^^^^^^^^^^^
-So this NULL check is pointless and can be removed.
+Sorry for not pinging again before the end of the 7.3 merge window, I
+was on vacations, but this only delayed that work by one cycle.
 
-  1643			/*
-  1644			 * If the controller was reset during removal, it's possible
+Is there anything I could do to make it happen for 7.4, or should I just
+wait until a maintainer picks up that series?  I just tested and
+everything still builds file on top of linux-next as of next-20260911.
 
-This email is a free service from the Smatch-CI project [smatch.sf.net].
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
 
-regards,
-dan carpenter
+-- 
+Link Mauve
