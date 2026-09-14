@@ -1,116 +1,127 @@
-Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C4E477980;
-	Mon, 14 Sep 2026 14:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4B6380FFB;
+	Mon, 14 Sep 2026 18:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789395208; cv=none; b=FuMvIFcywqg4hu+p9AVW2KStHMDqbn5doE5XWhGRLTCQBlJ9cLGL7gdlyP2uBLQWfUga/9tJUUkN7MvS6aPSRt8vGNN1Zksm+2rlZe3Qx9muv21A2fyPk3xz4FefRLrAc0gxtiER7TtdJFJcCvc74ItoFWblcR/3GKlWU0CgECA=
+	t=1789409893; cv=none; b=eWFCnGfWliimf7mUZJE90wjJm6Rs8CD8fZ2C5HvFi2kWsypLG4/UDpwU520/FFONJ6cm/cw6ARx/YCraSq7klqluIV4LKpbkRs4GG9Ow8v1tpDfKHFl1GpFTvelArzQytqhifF0tRiBiH9cVsTpmATBbYZBMNn0D53nqlStsQ9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789395208; c=relaxed/simple;
-	bh=HPoZWFDHbv/7IEvQj89VBgQug8JWRFu6B46ZI2l/FlA=;
+	s=arc-20240116; t=1789409893; c=relaxed/simple;
+	bh=LeGJVJUrFccUrTCqBYPQTfeXCn2hPt8IfFObYNGk4eU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X3bRhkpBAz4l/JyJka57IG2btJDlVISht36wa7ADPwA9+SAFAkb42Dpr8NiViwmF82ypC80HOL9Yxs8wWm4ztpq/NekOU/EfNrb37lacbI/RGaT3kwdpC4I3Z8Yp/QDVAS6DVNoaAeb7xsjaUUV9bCafxOJqtnOGyOiiuz7gk04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by linkmauve.fr (Postfix, from userid 1000)
-	id 6BE34717EC24; Mon, 14 Sep 2026 16:13:17 +0200 (CEST)
-Date: Mon, 14 Sep 2026 16:13:17 +0200
-From: Link Mauve <linkmauve@linkmauve.fr>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Link Mauve <linkmauve@linkmauve.fr>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=LETLpUPFWmRH2iIUobkRC7JtUxPPB1hFNatFKEB4ucN6gS65FgSF3k32coRXsUNebqnneucapRZCvvimfuaflZf3ClBDQIlOQ5XICxOD5/0QWw0rh+L2fCEc/JKq54Tbic+3SrApT6U7uSP5kC/yBHa1/nrr3SzoeCalcE3K8bI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nDpojIh2; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nDpojIh2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE94A1F00893;
+	Mon, 14 Sep 2026 18:18:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789409891;
+	bh=UfV2+3ufoodcnS2hr2MvymVG9xMpLrrAfO1Pi9klSVg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nDpojIh2i5FVIFYzzVAshOI8GnTHsdKHqfOhmt4+rDQ8byU+w+2gVVVqlik8hIy6K
+	 35AwBNdW/FhoJf2pIszi34Jfkr97mkz6sVSNjxocSuqf2u0gzNR97iy/oZv3X50Foc
+	 cxpJLldl6TiTpdS1N28tSkzl1MV/WAVkffi4mT71XLg8N8kyUPwRF0iUrSR3re5v7b
+	 6J3flpuzkP0Yx1DQVaYJ6zfCPjy1HNwJekjW66mO46h5p3UJPZCfZfQ6fCvkWNbwq+
+	 6+yj5QSrhJ5MZjydlDKliQLVCmZgQIvdefuUXRWsJsx+NFqIRhtZu/2w5X7Qz8ZF7W
+	 nGs0jHncwc+iQ==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id EAE67FDACBA; Mon, 14 Sep 2026 19:17:57 +0100 (BST)
+Date: Mon, 14 Sep 2026 19:17:57 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Kalyani Akula <kalyani.akula@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Johan Hovold <johan@kernel.org>,
-	Ronald Claveau <linux-kernel-dev@aliel.fr>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Khanh Le <khanh.le.xr@renesas.com>,
+	Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	David Rau <David.Rau.opensource@dm.renesas.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Yingkun Meng <mengyingkun@loongson.cn>,
+	Trevor Wu <trevor.wu@mediatek.com>,
+	Julien Massot <jmassot@collabora.com>,
+	Jiaxin Yu <jiaxin.yu@mediatek.com>,
+	Shane Chien <shane.chien@mediatek.com>,
+	Daniel Beer <daniel.beer@igorinstitute.com>,
+	Sebastian Reichel <sre@kernel.org>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev, imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] nvmem: migrate to const void * in reg_write
-Message-ID: <aqgA_bGo3yqBNL0_@desktop>
-References: <20260804135940.2378737-1-linkmauve@linkmauve.fr>
- <aoNY85rdMdBDSiGW@ashevche-desk.local>
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: dt-bindings: Use consistent indentation in the
+ example
+Message-ID: <aqg6VUKriyVANv6u@sirena.org.uk>
+References: <20260914093657.61218-2-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lBcZ00JTkHLtIO8U"
+Content-Disposition: inline
+In-Reply-To: <20260914093657.61218-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Cookie: Orders subject to approval.
+
+
+--lBcZ00JTkHLtIO8U
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aoNY85rdMdBDSiGW@ashevche-desk.local>
-Jabber-ID: linkmauve@linkmauve.fr
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Sep 14, 2026 at 11:36:58AM +0200, Krzysztof Kozlowski wrote:
+> Correct indentation in the examples to consistent 2- or 4-spaces
+> indentation to fix dt-check-style warnings ("example 0
+> [indent-consistent] indent mismatch ...").  Preferred is 4-spaces, but
+> re-indenting entire example just for that is too much churn.
+>=20
+> While changing the lines, correct also node name to be generic in
+> cirrus,cs35l45.yaml, cirrus,cs42l42.yaml and dialog,da7219.yaml.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-On Mon, Aug 17, 2026 at 09:54:43PM +0300, Andy Shevchenko wrote:
-> On Tue, Aug 04, 2026 at 03:59:34PM +0200, Link Mauve wrote:
-> > This callback used to take a mutable void * for no reason, which causes
-> > the compiler to be unaware that the val buffer should never be modified
-> > by the callback.
-> > 
-> > This was found while drafting the nvmem-provider Rust abstraction.
-> > 
-> > Thanks to the guidance of Andy Shevchenko, this now introduces a new
-> > callback and deprecates the existing one, with the goal of renaming the
-> > new one into the old one once no user remains in the kernel.
-> 
-> FWIW, if the approach taken is okay by maintainers,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Can you rebase this against current for-7.4 please?
 
-Thanks for the review!
+--lBcZ00JTkHLtIO8U
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> I think this is right direction to go. We should use all possible ways to
-> protect the data from corruption.
+-----BEGIN PGP SIGNATURE-----
 
-Sorry for not pinging again before the end of the 7.3 merge window, I
-was on vacations, but this only delayed that work by one cycle.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqoOlUACgkQJNaLcl1U
+h9CLWQf/VFTw/qe/g+8peqE05M8nHdQKkYqM+VK25BVf7NMl4rlEDI4nR8k4bWEW
+17u4cI3rTrRngHBJYjWjjUC0UiYUR7325nlIvtC30fNLDIctjAGClIGzHVQK2hPB
+XJ7EI7rdJhwcimKRi1SfB7zbKG4fCKI8LWaAQ/mGdleTtwEsCOT44F6Kyx5fVfkX
+0RtEzTl7X6PnR1BwjiB4jGSUObEPfPTr5144+S7TCCfzAzAQClmOtcIwyGqZekNu
+ByUbfJcB5JGDnHnLkn9NL/QU3J4jNOAwEs54z3SUk1hQoQro8UQc6Jh2KUeNGIHG
+CdWnP+p/QA1EiUgQEJpb6pMeRUj3AA==
+=TYrF
+-----END PGP SIGNATURE-----
 
-Is there anything I could do to make it happen for 7.4, or should I just
-wait until a maintainer picks up that series?  I just tested and
-everything still builds file on top of linux-next as of next-20260911.
-
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
-
--- 
-Link Mauve
+--lBcZ00JTkHLtIO8U--
