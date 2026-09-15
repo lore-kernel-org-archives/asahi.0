@@ -1,64 +1,64 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657B53CB546
-	for <asahi@lists.linux.dev>; Tue, 15 Sep 2026 15:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608084AF680
+	for <asahi@lists.linux.dev>; Tue, 15 Sep 2026 15:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789484408; cv=none; b=BxNrAgC9NAQsAeV89IZ6coEAYeYQ6UlYqAbnHOZMCNPXO6D0WP651XVsWcFIDxshW50iGuA9kGRwtfHDXZ0wbTTEAuJDLpc7BsokHZy/ZzkzOFejmsOaUoOgMk6zP1LwAaBNmRKm/lw3CGDv8Z554zdMUp+glKpHjjATTsentqc=
+	t=1789487239; cv=none; b=BuOjaHlu1hljhrEaaRMqvL1U0Lk7aQSC8uIJx06eBIqS0tLgEOKw6lEJNMM37qkAodFEbwkneMMKWdFq85rnW1X+7TNPML35B+MVvgmcoTl4s4MEUf10VR6dy2x/SGYJB+Tx75QKI9tCE/uQUrQMrlU6rWwIQDTrlyTGWxOF+k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789484408; c=relaxed/simple;
-	bh=Hw+sg3Jgw/oVSpdVZievCQ86NaHWgrxH+LU6k1BJFP0=;
+	s=arc-20240116; t=1789487239; c=relaxed/simple;
+	bh=dk33PUMtMjD5jXtQPvcOWRNwzXViS6dx9uYvv3O2kMw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AKcEjWf5YjkeJvhBQUcDQUyKmR7HwR9ud4skQ1k5IXUkYwRIZFyjmtNE33A63eQOkseRffE9V09TMfKUCjfLz5F8o9+zM+UlAD3RQufyVKt4W4nEtUPQgWE0wOyzYNBY9Kzi8rkHbVwMjim3zQ9TElcJfBp0drhqyfuqXMxow+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BtO/JqDN; arc=none smtp.client-ip=74.125.225.76
+	 MIME-Version; b=NmK7Ct0qojW0qM3E461ca0d7CXMI4J+Y4pZsD56LlvNNSrydETmC+2JbPYqaWXBxp/LEuz+wuy59iWbaYROZMdgJ6/fIzOU+MDy+542sjy+edZDAv92WBcDy6cbMXvBRKbuUdjYduUTes2YpILFX7jJHs4SXnxb9C3PtMOJ8A8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J5DZ2YfO; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BtO/JqDN"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48434392b02so2670583f8f.3
-        for <asahi@lists.linux.dev>; Tue, 15 Sep 2026 08:00:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5DZ2YfO"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d097b4939so16364565e9.0
+        for <asahi@lists.linux.dev>; Tue, 15 Sep 2026 08:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789484404; x=1790089204; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789487230; x=1790092030; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XB6ikU+gImLwLa5yXnRI1U7B1rVuYpGJ0FNt9R5cuBY=;
-        b=BtO/JqDNZbQeTPRFRdE226m0f/jYTqPlE1kbw97UVqVZlQaIUMP8kRJfoQFuqscaUz
-         ydazUntgeUHsnqkNzQ+bFybrvcn9ZkCF+Mcws8lJvyvW/lP5mLbdQSqmatjv7mXlAIj2
-         oYOPmFuB/aCih4llmEnkGEwjjPrc2US/PTT/GHDuM7d2kQpe90+Xk7k/Mje381SiYI4i
-         4T9NivSLCQvNJTR+2sBSqfZt9CQl770ltmF9vBJhHVg0OewBPQT2C4qybBbS3TKwXNYu
-         6rq5PfIrm8VAZ9eSBWKu9V4YlEpWu8m425RchbAT4qHF6peORn4deDhEFBVKkN+vCpnM
-         6yoA==
+        bh=Cg8nGFx5Gy1x6V+dG1Vlp88xcAyVOUzqqVqZbxa21KM=;
+        b=J5DZ2YfO4CSG56cr1k2Jzwltw1NFX9Bnj3Fqnnrpz6D11AC2zU5rimuXASWS4Gz9hb
+         sgA3ZwavaFPSr6mTuEZQhk8Yx358UaziT2C6ZEMakyI/l6j+NHffiUFXIaCW4c/GprVf
+         UW7gHep9T0OpxKGK7uuZ/Of5JQ2CAi/9z3hbbO3KRg/mktBbbd6IletIGM4/gJXkK//1
+         SAB2ab+c4V6hr2ZhYUmFOjI/W6RenJW95plmrXPyjCDuGs5owDeQqbrSWmckaPLBtoE8
+         8XTvHEt4zs0ijFErQh2YXCH0OdEQcSi1Tmqjmsrdji4kl0gyJ8fK6GuGSgVLDHFYoLJP
+         b7dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789484404; x=1790089204;
+        d=1e100.net; s=20260707; t=1789487230; x=1790092030;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XB6ikU+gImLwLa5yXnRI1U7B1rVuYpGJ0FNt9R5cuBY=;
-        b=NE8HEPpbnwlLWnlJyAW+UBW5B91HFy2f1RhgsuUxflb/vtbkKrQ9+D51fVychaR1hf
-         ltP4/rMMXAmow2xKIO+CNw+iC0s9CKCWvI8OhXrSzRz3vgdwUZsOJwL86hWx6ZJasd1D
-         1f/3ORM6CcZ2twuT+y/WCwxA1dFdPmIcDD5nrIIu7MOtZPBRyyy8QOuYsqh8g7gZJa8U
-         JN07Tnhshs/lBxaDUrxyQVl6NvFxJ4AAvM1wiAHuqYPb5T0m/toooaLIfzKUPRH5F/80
-         IlneSEXOygUBmwmLigI7Wfp5YqbNgDZ6a7zp5jFZ9S6f3GQZ8B4UajYM+coWnQWD6561
-         oriQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy0leauKVMXwJKSwNDUYLIOlLiUHyAhrw2IZU2er2SDhtveoDDPYE+YGzwb1HdV1cqQSQG2Qg==@lists.linux.dev
-X-Gm-Message-State: AFuF++k4L8W2EqkdaCPAOMj5js1p7z0/gYnDWgvkXgJ+T4oeYj31SYD8
-	iH8uXw9/X6iKhQowZXlTUE672IhBsn4Gg54ADmaPP2Otgws0jBoeSzIO
-X-Gm-Gg: AYBFou3mNiBQuZuQhigEQli7r5w/1LKpO/qyDfUFYvQY92f/B4wJL3C9Af9eIcpKCPn
-	3gOAw8i75rfe7XKMz1T4h8gRu9+HbWsjzAX6aDDRE6vzz93vKE6KMmweK10ur+1u91jnPcZ82t5
-	7V4LBe00xHi0NDX5P0gy3Deu2vg3fFfF35UjhA8TMeKjdLP7jsgYAoiQo4yXSxrTXwwzS5aqt2O
-	U234gVlwH2O/tKLhHPyOS04qAZ4Clv9tJZMkgYx0mNuEqYcfB/vgwf2Why3Lhsh31iOwaV/xnmD
-	1QKNiW940tI4WqRGc/pLzMkZ9YhmpR57fmJph9Wo5++kwr9Fin5JJatsJKC8Z5xAkrMCRjQrfFt
-	aD/vaweXKGl8nD1VzTLQV3xVOcRiOmERpvouTyEve5V3g3EsQjGiV1LdXG1CkDEQAFf3y+KYVJS
-	DYtqXF/CSIAskEesMtWNRwbNgBzLX5iGnCyuptSOEilP/JaI6Bg96O4aE3FG0kjohj6wm1NDMu1
-	DfMP4aHRXBJJQopBD8YmskOahnbRjfSag==
-X-Received: by 2002:a05:6000:4a17:b0:486:fba1:6f74 with SMTP id ffacd0b85a97d-48702aace76mr18477367f8f.3.1789484403176;
-        Tue, 15 Sep 2026 08:00:03 -0700 (PDT)
+        bh=Cg8nGFx5Gy1x6V+dG1Vlp88xcAyVOUzqqVqZbxa21KM=;
+        b=gHlxoAEotMzglWVbKlfwrj0u2k7Pm3NWpq/sI+oRnVpZAQjsE/Dka/NskuNUxY0a66
+         oloInBONmSCit3scpG6VTFWs6rF08YJYutNLSlsij8dKE8Ybx9c9SBW3c9UaI0YGKGIH
+         riUHt3kcfqQPD/4SxoDWY6+eMr5YgRY6nE7MN5nK6JsiztqnMyblY5/miedBvMb2tqEf
+         Y+LMjv9nz27uhiepFMmEGfag4I9fhvvHbIZlEKSyCLyxQ6FMAZvi3uF+VQ5apZSPjSnI
+         dXocW2j1E/0/pAiSoIOrUrv+Unq2/bg/rqP5SzTPwNmFRhz8u38JIDtF4GyX0DAm/t/T
+         Yg8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxGTSeQJJ4uDa7HTt6QFjkYE7BC4Ph5pXCbX3j2nj3gq7slbxP11oC+t6zqpGpxmEEisI8pbA==@lists.linux.dev
+X-Gm-Message-State: AFuF++mexiMLGYjTpkSAd/LU1AxbJbS9FuLIwtPtx6ZCaKn7ABbfIA07
+	QFYszL3HdK+xbOnIvx3KqO3ofnmimtwC+WJEKtS3mfTFtmOP4eU2U/Hw
+X-Gm-Gg: AYBFou2/haZbORQdoJ/FT7v5ZvcwvTn462/VVuBN3wtO7DnVM3RUi8yWIsNa2GNfFU6
+	xYyY3XpseYBQR4MjesQzun8V6saLmYILkw5sbc/BVt5atunhJfDOY2own9f1AKT4UsG5+A59DJn
+	Xbtn3rQaK4Nu5VZb2x6DoSZXh6EvkeXzlW2KNzNlQeO7RJhEm4/FsRlcXH7hzmGh0qW8Vf+oXUq
+	jo4s4hB9Q3RPW/Gxc9STIAWMwYfR5CB3p6sdESYOtYpMyZlLnLJpliCnBXA+mZctiA5axIdIyVv
+	vW7m+gNIFM0alDMKmGHgC4LPs5XsIh0NtqKyvz/CeYDp5rSlxmCBJFCHhASMTNtjI7vlz9Xy/IX
+	8kfrSGS/kk7Lh31Uvcc/7GlQdTy1d1Lv6MTw+I+ffZfm9SI5I3gOw1EgV/MCr+esiOVVfwShIY/
+	13+0PIdTX+w7z9AL4kKuWm953n8Bg41u9YcsM7g3wNqOadjM3ftNu2ufsS+HDBiLTYZ4cmJYMFc
+	nC2fxl3kB717JjfZGKCicROIfXCsypglDJVpZrXBs4z
+X-Received: by 2002:a05:600c:a015:b0:49d:1f32:c911 with SMTP id 5b1f17b1804b1-49e7a65ce8cmr101097945e9.3.1789487229891;
+        Tue, 15 Sep 2026 08:47:09 -0700 (PDT)
 Received: from osama.. ([156.223.70.89])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48707e00133sm5081128f8f.11.2026.09.15.08.00.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fc02sm34160468f8f.16.2026.09.15.08.47.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 08:00:02 -0700 (PDT)
+        Tue, 15 Sep 2026 08:47:09 -0700 (PDT)
 From: Osama Abdelkader <osama.abdelkader@gmail.com>
 To: luca.ceresoli@bootlin.com,
 	Neil Armstrong <neil.armstrong@linaro.org>,
@@ -84,12 +84,12 @@ To: luca.ceresoli@bootlin.com,
 	linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev
 Cc: Osama Abdelkader <osama.abdelkader@gmail.com>
-Subject: [PATCH v5 3/4] drm/panel: Use managed helpers in assorted panels
-Date: Tue, 15 Sep 2026 16:59:30 +0200
-Message-ID: <20260915145935.60397-4-osama.abdelkader@gmail.com>
+Subject: [PATCH v6 3/3] drm/panel: Use managed helpers in assorted panels
+Date: Tue, 15 Sep 2026 17:46:40 +0200
+Message-ID: <20260915154644.104460-4-osama.abdelkader@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260915145935.60397-1-osama.abdelkader@gmail.com>
-References: <20260915145935.60397-1-osama.abdelkader@gmail.com>
+In-Reply-To: <20260915154644.104460-1-osama.abdelkader@gmail.com>
+References: <20260915154644.104460-1-osama.abdelkader@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -105,21 +105,42 @@ calls from remove paths.
 Suggested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
 ---
+v6:
+- Dropped panel-simple.c and panel-dsi-cm.c from this patch entirely
+  (panel-simple.c was split into its own patch 4/4 in v5; that patch is
+  now gone). Both remove() paths run extra teardown (panel-simple:
+  unprepare/disable, pm_runtime_disable, and a DDC adapter
+  put_device(); panel-dsi-cm: sysfs_remove_group and an external
+  backlight put_device()) after where drm_panel_remove() used to run.
+  Deferring drm_panel_remove() to devm moves it to run *after* that
+  teardown instead of before/interleaved as before, which reopens the
+  panel to of_drm_find_panel() while its DDC adapter reference and PM
+  state are already torn down - a real use-after-put/UAF window if a
+  concurrent probe looks the panel up and calls drm_panel_get_modes()
+  during that window. Confirmed by re-checking
+  drm_panel_remove()/of_drm_find_panel() in drm_panel.c and the devres
+  release ordering in __device_release_driver(). Neither file is
+  safely convertible without also wrapping their extra cleanup in its
+  own devm_add_action_or_reset() registered before
+  devm_drm_panel_add(), which is a bigger, separate change; left both
+  fully unconverted for now. (sashiko-AI)
+- khadas-ts050, tdo-tl070wsh30: fixed a build break - the mechanical
+  conversion introduced `ret = devm_drm_panel_add(...)` in
+  khadas_ts050_panel_add()/tdo_tl070wsh30_panel_add(), but those
+  functions only declare `err`, not `ret`. Caught by actually
+  compiling all 44 files this patch touches (previously I'd only
+  spot-checked 3 of them); confirmed no other file in the set has the
+  same issue. (sashiko-AI)
 v5:
-- panel-simple.c is now its own patch (4/4), given its wide reach across
-  many boards. (Luca)
-- dsi-cm: keep mipi_dsi_attach()/mipi_dsi_detach() manual instead of
-  devm_mipi_dsi_attach(), since dsicm_remove() also tears down sysfs and
-  an external backlight device; deferring the detach to devm would run
-  it after that cleanup instead of before it, changing the teardown
-  order. Same class of issue Luca pointed out for nt35510 and
-  panel-simple.
+- dsi-cm: kept mipi_dsi_attach()/mipi_dsi_detach() manual instead of
+  devm_mipi_dsi_attach(), since dsicm_remove() also tears down sysfs
+  and an external backlight device. Superseded in v6 above by a full
+  revert of this file.
 v4:
 - use devm_drm_panel_add instead of drm_panel_add.
 
  .../drm/panel/panel-asus-z00t-tm5p5-n35596.c  | 20 +++--------
  .../gpu/drm/panel/panel-chipwealth-ch13726a.c | 20 +++--------
- drivers/gpu/drm/panel/panel-dsi-cm.c          | 16 +++++----
  drivers/gpu/drm/panel/panel-ebbg-ft8719.c     | 20 +++--------
  drivers/gpu/drm/panel/panel-elida-kd35t133.c  | 20 +++--------
  .../gpu/drm/panel/panel-feixin-k101-im2ba02.c | 19 +++--------
@@ -145,7 +166,7 @@ v4:
  .../gpu/drm/panel/panel-synaptics-r63353.c    | 25 ++------------
  drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c  | 19 +++--------
  .../gpu/drm/panel/panel-xinpeng-xpp055c272.c  | 20 +++--------
- 28 files changed, 118 insertions(+), 468 deletions(-)
+ 27 files changed, 109 insertions(+), 461 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
 index db006576d704..0f98ea096f5f 100644
@@ -240,49 +261,6 @@ index 562dc573528d..e72636919d5a 100644
  	.driver = {
  		.name = "panel-ch13726a-amoled",
  		.of_match_table = ch13726a_of_match,
-diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
-index ae6e9ffc46cb..0a0741804fd3 100644
---- a/drivers/gpu/drm/panel/panel-dsi-cm.c
-+++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
-@@ -559,16 +559,17 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
- 	dsi->hs_rate = ddata->panel_data->max_hs_rate;
- 	dsi->lp_rate = ddata->panel_data->max_lp_rate;
- 
--	drm_panel_add(&ddata->panel);
-+	r = devm_drm_panel_add(dev, &ddata->panel);
-+	if (r)
-+		goto err_sysfs;
- 
- 	r = mipi_dsi_attach(dsi);
- 	if (r < 0)
--		goto err_dsi_attach;
-+		goto err_sysfs;
- 
- 	return 0;
- 
--err_dsi_attach:
--	drm_panel_remove(&ddata->panel);
-+err_sysfs:
- 	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
- err_bl:
- 	if (ddata->extbldev)
-@@ -580,12 +581,13 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
- static void dsicm_remove(struct mipi_dsi_device *dsi)
- {
- 	struct panel_drv_data *ddata = mipi_dsi_get_drvdata(dsi);
-+	int ret;
- 
- 	dev_dbg(&dsi->dev, "remove\n");
- 
--	mipi_dsi_detach(dsi);
--
--	drm_panel_remove(&ddata->panel);
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
- 
- 	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
- 
 diff --git a/drivers/gpu/drm/panel/panel-ebbg-ft8719.c b/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
 index fb9f9f42be4f..508ea77f007b 100644
 --- a/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
@@ -630,7 +608,7 @@ index 5202c1ffc6e1..b6fadab7cfec 100644
  		.name = "jadard-jd9365da",
  		.of_match_table = jadard_of_match,
 diff --git a/drivers/gpu/drm/panel/panel-khadas-ts050.c b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-index 67ca055f06f3..e63f382d53be 100644
+index 67ca055f06f3..b3c56ed4589e 100644
 --- a/drivers/gpu/drm/panel/panel-khadas-ts050.c
 +++ b/drivers/gpu/drm/panel/panel-khadas-ts050.c
 @@ -825,7 +825,9 @@ static int khadas_ts050_panel_add(struct khadas_ts050_panel *khadas_ts050)
@@ -638,9 +616,9 @@ index 67ca055f06f3..e63f382d53be 100644
  		return err;
  
 -	drm_panel_add(&khadas_ts050->base);
-+	ret = devm_drm_panel_add(dev, &khadas_ts050->base);
-+	if (ret)
-+		return ret;
++	err = devm_drm_panel_add(dev, &khadas_ts050->base);
++	if (err)
++		return err;
  
  	return 0;
  }
@@ -1369,7 +1347,7 @@ index 3a74d48753d9..73447d7b15d3 100644
  };
  
 diff --git a/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c b/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
-index 13cfe252a838..5d458c3b6ebb 100644
+index 13cfe252a838..abe63ae3edfd 100644
 --- a/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
 +++ b/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
 @@ -166,7 +166,9 @@ static int tdo_tl070wsh30_panel_add(struct tdo_tl070wsh30_panel *tdo_tl070wsh30)
@@ -1377,9 +1355,9 @@ index 13cfe252a838..5d458c3b6ebb 100644
  		return err;
  
 -	drm_panel_add(&tdo_tl070wsh30->base);
-+	ret = devm_drm_panel_add(dev, &tdo_tl070wsh30->base);
-+	if (ret)
-+		return ret;
++	err = devm_drm_panel_add(dev, &tdo_tl070wsh30->base);
++	if (err)
++		return err;
  
  	return 0;
  }
