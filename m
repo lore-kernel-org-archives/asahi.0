@@ -1,143 +1,329 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC0B48424E;
-	Wed, 16 Sep 2026 09:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627EB501F34
+	for <asahi@lists.linux.dev>; Wed, 16 Sep 2026 13:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789551167; cv=none; b=F4NS0a9qcYbaNHCEG4KuzOQwvovTU0ZSdgrbn76y4EtPDtFjyzT7w6957LqwK5MfKySlTgg3lZCI4wY959qGtyBhUcRPOOzBgzapIy8CkYqFadq6aw3YFWSNuS5jZY4+kY7i7FwqQbRLvxXgMta3oGxybtsfFc65iOOLBW2czMY=
+	t=1789566359; cv=none; b=U8tdNsU07MQIbqEDPOr4PivjgsQJ7c4g+CZufI9ARSbaV6x1LrHkjkm7TOXe9E9A5UDFif3UBr3F/NbdgB4FA6Sn1xakX0Sf8qYnZf4rSJ6OnvX6XfxXW0g8KKJEYFpgyzAEKNiC6XM8NKdrNH1TABCT3/o1j1nLdZDcgcOvAzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789551167; c=relaxed/simple;
-	bh=hu4BuH1cQdRVEJ1jJbRZ8GoJqJJvOJ4nSYQiQUsbp8U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eBO3mMyleVNZvMhSIjAVDppkY9Yt4Lo8H/vnIPGaAly6QgzjVyHCSPUemJp+czpmhxFEAsMeJk5eBcCeWpxRwXdnMkJL7MSfnr8N4mDo/fRp1slYBpYvUoEfRbtSTlLgypNspfNHa9DLd3DjpHn2TEASICHLZWsPbw/vKRMAAn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=mrAso95w; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B5GpTbll; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1789566359; c=relaxed/simple;
+	bh=bS8ZdorY5hLWLPb20IAn7+t22mIMZzb8NxXMhyRWUbI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tMlU3HgIhbO3fKvfKcusfu+z3MqYyU7G3JO5lO472CRIKI+KxVXjlhb0G7N89cQ9ld0D9oKhCf5qB4MXh7F/7SBWdvvwVxLb7/d3Wsu/dbwB5EuehxAAK82D/qxl9BWsjzJfeUMArQCzjgol4/BCXS+pbGgWGP4Ya2lkL84YLdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=n3aO308I; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="mrAso95w";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B5GpTbll"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 7A0607A00A4;
-	Wed, 16 Sep 2026 05:32:26 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Wed, 16 Sep 2026 05:32:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1789551146; x=1789637546; bh=n+Nib39VXX
-	A5iK7EsTney4u0A/eOskGXnz+cLsmv+Zs=; b=mrAso95w6FNGmI3Y4jPMDHZlS0
-	vFHyybBRfDoqg4pDHo1PLBGAm62nfIJ3OBC7cTOObQA42AU2et6+K1rKtRu5MNZm
-	3HzBPrRPkmeC+D5YumwYaIowuULN9RWpwwEUytiQDqDAHZyClZOTBGsGjXsZQ5hr
-	JxvlkrEuu8uttAx42JmCGwZqpG5Xc72DJtzAY9cJ3/pnwOfhCVjbkmQ2WOtNXOPF
-	J3gWurLunN0TnEFFpAbhPHy0jvuzDqzQWCLzkH3QGVZsj5oGaqHgVYph3MK2AK4H
-	iwisVP6QnWu6Rk9ZGjsiLeCVnQ1y9diE3sAyyd7IUlM9vMl8zbVYnoUazkEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1789551146; x=1789637546; bh=n+Nib39VXXA5iK7EsTney4u0A/eOskGXnz+
-	cLsmv+Zs=; b=B5GpTbllK9VizhmOXcK2Tb8GCYBjku66zMm5U4/xbxA62GfbVOu
-	4FT5KQ5qTrG4NaQ+kATSysAgRhz8wdw1uMje/sBuG74Ed6hAwC/cZb2//pDZG3GU
-	A6AJGVezzVa6WHRrl912ue1327UfoxTJP0C/Ca5bLm6CIwlb4xri36uPnejVh1ky
-	H+uR91Ykd7d8IHduxQpXgS4nvbNU0i28xe+viEirdvT+0/XSYpYzyBc9YmKk1uNa
-	G77rY4A34WmiQtt7MoI6GY7MjkI5hU34T2b36f+DCo1ZEwD+x1ya+ZGQ7WOjZ8Fv
-	vlYDLPBUOTnY1aI+bzIzKBNb/BhQPaTo0aw==
-X-ME-Sender: <xms:KmKqalykJKQ4P10d2gK0h8_SVSLU80h6UkFi0NwKaRQbeCxb5EHsUw>
-    <xme:KmKqarxCgoEwFHoKd9gL1sJKPsUSzUt7o21N1Iv9xOVCD9K2mUCUWt62F89vE9r7g
-    5FDNcsrvw9IXa1jMb7hDFeVHAc8OTOSCZguV6Hmt923Psz2EYvzzoU>
-X-ME-Received: <xmr:KmKqatVcpVKJVCR_i0rKuwJaqA-zGcylnCusgu3S28ht1Mok_NokciATDulT6ZTKgNxQdjWiBhBs6jmD8XqgP4LmGamAQPE7FCI>
-X-ME-Proxy-Cause: dmFkZTF+oMnapl6+ZEZ7rqXpvtPkdYXLNy3CQAjNF2hGqQGKxr1a2xOEDBhi5APyjFS9+E
-    DBoM79i1SO460kazsDa/ZJxITmQN4S4pqjHST2L0Gbcoa6t29c2xSnwKp0QLXWH9oVg5jl
-    1urCwduJSFnYdlHXgBphRvQmzkycwjuvX1cqYmC0hZEMcnOaF7Qbe7reQtXm4I+n6p24/R
-    Btp8ZiqoLIvarZ5Lmwmofqf3AJhDMaFkkhSaZrxN3KDeHki7HFuVHBKdJBWimJd1HK7dFo
-    XeAs4NC9/qVJU4KSufYms80WKbIqv9jKw+vSbifCF+Zq2MRUpH8CWFxIAsA8TQ5IhKmsGd
-    q4Y5gWlwD1feQC+MVakjnQgiyCN3ufIVJ656uRiB0x+Ut9zQ17rs/J9WtyZ2bo/Lv6kh1T
-    BbSfmcCrqD7rX2F6TqfZuAnWMAVcp+qJfqY7iCJpeclQXRxXEoEDFAYSKE6cYt3Kr1qC32
-    nxPR2USAwsDKbvRVTBY15TmkhK+ULSjFevy7o3P65bgJl9dU0yx9uaWHzdDZl9Br2fZveb
-    6OnknmqSzYKrX0EZgBuOO+zKtyN39OilK6mnh9HTIyNWV3xUlH68ViZppYgOCp3ZIl7SkF
-    lmZzf9pmhXQ2MkNERaxFx8CSp+ioDozgv70CQz+Xukk2v/WmVEQzjxzNZ4cQ
-X-ME-Proxy: <xmx:KmKqaqQw1hn-LW6lbFJTwAUbUlkQzOwC6fJcBF5JBUgwrCwdcqCCyg>
-    <xmx:KmKqatTwA_nb_6R2WdRniSPXWeyXHkIdxFSNYzG4lIBAfRju51nYSg>
-    <xmx:KmKqaqf1QQrOYcnIi1UFXObRmZ86ueXGnU806-VLMJ9JRhOs-stWlg>
-    <xmx:KmKqarfvNLBAVmVzLSyGbGfj8RpB8HGcUfduUFu0Z3fsRqdFgNekBg>
-    <xmx:KmKqamsqfu3-G20tay6k73ZNWwPY3TBd6meXYCyK4noTdG5AnYjOyZ5k>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Sep 2026 05:32:25 -0400 (EDT)
-Date: Wed, 16 Sep 2026 11:32:23 +0200
-From: Janne Grunau <j@jannau.net>
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: Arend van Spriel <arend.vanspriel@broadcom.com>,
-	Hante Meuleman <meuleman@broadcom.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Pieter-Paul Giesberts <pieterpg@broadcom.com>,
-	Jason Huang <jason.huang2@infineon.com>,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Report port_authorized for
- 4-way HS offload
-Message-ID: <20260916093223.GB212312@robin.jannau.net>
-References: <20260912-brcmfmac-4way-handshake-offload-authenticated-event-v1-1-e41a6a8281a2@jannau.net>
- <3422e0b3b7d4889d2a728c41b0b02f6c80fa71bf.camel@sipsolutions.net>
- <20260915190527.GA212312@robin.jannau.net>
- <b07d37cbb90b6132df0aebc1c603bad903d8d0cb.camel@sipsolutions.net>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="n3aO308I"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 5C32F1A07A8;
+	Wed, 16 Sep 2026 13:45:48 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 20DC660337;
+	Wed, 16 Sep 2026 13:45:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 70B7511C7B031;
+	Wed, 16 Sep 2026 15:45:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789566345; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=q4C1pzG9+EtJ/2hH0YXWQ40f9dRoQswHxQlqElZewcs=;
+	b=n3aO308IOwzLiSpBj6Rpkxe9ZNqdqPI0CmCQMKrNSfN9UPSPY5uVwsfDsm/D9PMNLSGDAz
+	D3NsmMr0PdC9qhjOn9RXm3tf2sw3OQwvoKGTpxWxbs0JtsMoE5Lg76KnpwBvIj9Wqrd+Vz
+	tXwe77zGb9Se2LcKSr36bWDFRtdgAP7SgOUYwZtFaBAT/vqQwTmcliaWroX5T+REJdc8qQ
+	J0GMPNron3ITx86jJFd+8gtaLAY/dp9wsxse3bzg1iseCzrGdyC/7fNtanZ+k1RNrezSSo
+	T581sGjN2JOLUhCCMjM0zc0YtHluFtfSdpVRRdTnrMNbpbCj31YbMx3WcmzZgw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v3 00/19] drm/panel: embed a drm_bridge into every
+ drm_panel
+Date: Wed, 16 Sep 2026 15:45:24 +0200
+Message-Id: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b07d37cbb90b6132df0aebc1c603bad903d8d0cb.camel@sipsolutions.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WQ3WrDMAyFXyX4eh7+Texc7T3GGLasrB7Nz5zEr
+ JS++5yEUQbrnQ6SviOdK5kxRZxJW11JwhznOA5FyKeKwMkNH0hjKJoIJmpmuKAh9dSnGEoHM6Y
+ LndyAZ+q4tnWosUOnSFmeEnbxewe/vh16Xv0nwrLRtolTnJcxXXbnzLe5XxP1yCRzyii3ELRoG
+ gATXvw4Luc4PMPYk80mizvIMvkQJApIOG8QhdLS4F/Q7Tg44ddaAlmOL+55tNV/aZTy/aDDGd2
+ wTpRZDBqAM6tMm/dYvJuRFo8+Lm3lwDMNRmiUVpbSKBe8Vo3wnfe8AcOkdNZ25aDbD/C9UqmpA
+ QAA
+X-Change-ID: 20260812-drm-bridge-every-panel-a1596d6efea4
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Linus Walleij <linusw@kernel.org>, 
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, Sean Paul <sean@poorly.run>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Albert Esteve <aesteve@redhat.com>, 
+ Anusha Srivatsa <asrivats@redhat.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-mips@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, asahi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.16.0
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, Sep 16, 2026 at 10:32:38AM +0200, Johannes Berg wrote:
-> On Tue, 2026-09-15 at 21:05 +0200, Janne Grunau wrote:
-> > On Tue, Sep 15, 2026 at 03:22:50PM +0200, Johannes Berg wrote:
-> > > On Sat, 2026-09-12 at 11:40 +0200, Janne Grunau wrote:
-> > > > 
-> > > > This will conflict with the "brcmfmac: add FT/OKC roaming offload
-> > > > support" [3] series but is written in a way to easily resolve the
-> > > > conflicts.
-> > > 
-> > > I ... no, I'm not going to take that conflict, and I applied the FT/OKC
-> > > series to wireless-next. Please create this patch on top of wireless-
-> > > next, if needed at all, and then you can backport something later to
-> > > stable if needed.
-> > 
-> > That is very unfortunate. I hoped this change could merged as a fix for
-> > 7.3.
-> > 
-> > The change is required. wpa_supplicant 2.12 (and unpatched 2.11) will
-> > run into its authentication timeout and disconnect WPA2/3 PSK networks
-> > on brcmfmac devices with firmware offload support.
-> > 
-> > I'll rebase onto wireless-next and send a v2 but I think it's serious
-> > issue in the process that it will take until after v7.4-rc1 (7+ weeks
-> > from now) before this fix will land in stable kernel releases.
-> 
-> That process issue is yours - wpa_s 2.11 was released *well over two
-> years ago*, and nobody cared to fix the issue since. AFAICT this could
-> have been fixed in kernel 6.11 or so, but now it's suddenly urgent
-> enough to make life more complicated for everyone? ...
+This series embeds a drm_bridge into every drm_panel, as previously
+discussed [1][2] and in previous iterations.
 
-yes, the kernel change fell of the table 2 years ago. Nothing can be
-done about that anymore.
+This will allow bridges and encoders to interact with the next pipeline
+component always with the bridge API, not caring whether it is a panel or
+another device (e.g. a bridge from a bus to another bus).
 
-The issue became urgent due to the wpa_supplicant 2.12 release. That was
-more than one month ago but I became aware of it and the reintroduction
-of the authentication issue last week after Gentoo shipped
-wpa_supplicant 2.12.
+Currently a drm_panel does not have a corresponding drm_bridge when it is
+created. A panel_bridge is often created afterwards by the component
+accessing it (typically the previous bridge or encoder). This creates a
+mismatch between the drm_panel and the drm_bridge (part of the
+panel_bridge), in terms of lifetime and devm ownership. It also makes
+implementing bridge hotplug close to impossible in some cases.
 
-The patch to avoid this issue in wpa_supplicant 2.11 does not apply to
-wpa_supplicant 2.12. So distributions either drop the patch and are
-broken or adept it for 2.12. One distro maintainer was reluctant to
-carry a patch for a second release. Based on this I disagree that fixing
-the issue quickly in stable kernels makes life more complicated for
-everyone. It would make life easier for distro maintainers and users of
-distributions shipping unpatched wpa_supplicant 2.12.
+This work leverages the work done by Anusha Srivatsa and Albert Esteve to
+implement drm_panel lifetime.
 
-Janne
+== panel_bridge API impact
+
+This series moves the panel_bridge code inside drm_panel.c and changes it
+to be reusable by the panel code. However this implies the old panel_bridge
+behaviour (drm_panel_bridge_add() and derivatives create a panel_bridge, to
+name one) cannot coexist with the new behaviour (devm_drm_panel_alloc()
+allocates an embedded drm_bridge and initializes it).
+
+To handle this, the old panel_bridge API is kept to not break its users,
+but now behaves differently:
+
+ * drm_panel_bridge_add() and derivatives don't create a bridge, they
+   just drm_bridge_get() and return a pointer to the existing one
+ * drm_panel_bridge_remove() and devm_drm_panel_bridge_release() don't
+   remove the bridge, they just drm-bridge_put() it
+ * The other panel_bridge functions stack on those listed in the previous 2
+   bullets, so their behaviour is changed correspondingly
+
+As a result, all drivers using the panel_bridge now behave the new way
+without any changes. Converting them to not stop using the panel_bridge is
+a goal, but can be done over time. Still this series converts a few
+drivers.
+
+== Series outline
+
+ 1. move code around in preparation
+
+      drm: of: move drm_of_find_panel_or_bridge() from drm_of.c to drm_panel.c
+      drm: of: remove now unnecessary forward declarations
+      drm/panel: move to a new module
+      drm/bridge: panel: move all code to drm_panel.c
+
+ 2. The main change
+
+      drm/panel: embed a drm_bridge into every drm_panel
+
+ 3. API cleanup
+
+      drm/bridge: remove devm_drm_put_bridge()
+      drm/panel: deprecate panel-bridge APIs
+      drm/todo: add entry for removing the panel_bridge API
+
+ 4. Update some drivers to not create a panel_bridge
+
+      drm/bridge: tc358767: don't create a panel_bridge
+      drm/bridge: waveshare-dsi: don't create a panel_bridge
+      drm/mcde: dsi: remove unused includes
+      drm/mcde: dsi: don't create a panel_bridge
+      drm/bridge: fsl-ldb: don't create a panel_bridge
+      drm/bridge: samsung-dsim: don't create a panel_bridge
+      drm/bridge: tc358768: don't create a panel_bridge
+      drm/bridge: ssd2825: don't create a panel_bridge
+      drm/omap: dss: don't create a panel_bridge
+      drm/tve200: don't create a panel_bridge
+      drm/bridge: analogix_dp: don't create a panel_bridge
+
+== Dependencies
+
+This series depends on:
+
+ * "drm/bridge: Kconfig: cleanup DRM_PANEL usage"
+   https://lore.kernel.org/r/20260915-drm-bridge-drm_panel-cleanup-v4-0-30401d9406f3@bootlin.com
+   Reason: trivial, both touch drivers/gpu/drm/bridge/Kconfig, would
+           conflict otherwise
+
+== Grand plan
+
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [0].
+
+Here's the work breakdown (➜ marks the current series):
+
+ 1. ➜ add refcounting to DRM bridges struct drm_bridge,
+      based on devm_drm_bridge_alloc()
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. ✔ protect encoder bridge chain with a mutex (v7.2)
+       7. ✔ of_drm_find_bridge
+          a. ✔ add of_drm_get_bridge() (v7.0),
+               convert basic direct users (v7.0-v7.1)
+          b. ✔ convert direct of_drm_get_bridge() users, part 2 (v7.0)
+          c. ✔ convert direct of_drm_get_bridge() users, part 3 (v7.0)
+          d. ✔ convert direct of_drm_get_bridge() users, part 4 (v7.1-v7.2)
+          e. ✔ bridge-only drm_of_find_panel_or_bridge() users (v7.2)
+       8. ➜ panel_bridge lifetime
+          a. … cleanup DRM_PANEL in bridge drivers
+	  b. ➜ add a panel_bridge to every panel
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. ✔ handle gracefully atomic updates during bridge removal
+    A. ✔ Add drm_bridge_enter/exit() to protect device resources (v7.0)
+    B. ✔ Add drm_bridge_clear_and_put() (v7.1)
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. ✔ Migrate i.MX LCDIF driver to bridge-connector (v7.2)
+ 6. … DRM bridge hotplug
+    A. … Bridge hotplug management in the DRM core
+       1. ✔ bridge-connector: attach encoder to the connector (v7.2)
+       2. … drm bridge hotplug
+    B.   Device tree description
+
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+
+[1]  https://lore.kernel.org/all/emuj2innmp6zmzd7pyakqzjqpdzhly6qfhakya3ydwmd63pl26@5jwxaidpikjw/
+[2]  https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-8-9d6f2c9c3058@bootlin.com/
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v3:
+- Move the panel_bridge code to drm_panel.c, don't duplicate it, and change
+  the panel_bridge API to just wrap the newly embedded drm_bridge
+- Remove deprecated devm_drm_put_bridge() and TODO entry
+- Deprecate panel_bridge APIA, add TODO entry for its removal
+- Link to v2: https://patch.msgid.link/20260903-drm-bridge-every-panel-v2-0-2ab8ee24538e@bootlin.com
+
+Changes in v2:
+- Totally new approach: embed a drm_bridge, don't create it dynamically
+- New approach to module dependencies management: new drm_panel module etc
+- Convert more drivers, including a complex, multi-user one (analogix_dp)
+- Add Albert and Anusha to Cc list
+- Minor improvements
+- Link to v1: https://patch.msgid.link/20260814-drm-bridge-every-panel-v1-0-19cd5277cc8d@bootlin.com
+
+---
+Luca Ceresoli (19):
+      drm: of: move drm_of_find_panel_or_bridge() from drm_of.c to drm_panel.c
+      drm: of: remove now unnecessary forward declarations
+      drm/panel: move to a new module
+      drm/bridge: panel: move all code to drm_panel.c
+      drm/panel: embed a drm_bridge into every drm_panel
+      drm/bridge: remove devm_drm_put_bridge()
+      drm/panel: deprecate panel-bridge APIs
+      drm/todo: add entry for removing the panel_bridge API
+      drm/bridge: tc358767: don't create a panel_bridge
+      drm/bridge: waveshare-dsi: don't create a panel_bridge
+      drm/mcde: dsi: remove unused includes
+      drm/mcde: dsi: don't create a panel_bridge
+      drm/bridge: fsl-ldb: don't create a panel_bridge
+      drm/bridge: samsung-dsim: don't create a panel_bridge
+      drm/bridge: tc358768: don't create a panel_bridge
+      drm/bridge: ssd2825: don't create a panel_bridge
+      drm/omap: dss: don't create a panel_bridge
+      drm/tve200: don't create a panel_bridge
+      drm/bridge: analogix_dp: don't create a panel_bridge
+
+ Documentation/gpu/todo.rst                         |  33 +-
+ drivers/gpu/drm/Makefile                           |   3 +-
+ drivers/gpu/drm/adp/adp-mipi.c                     |   1 +
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |   1 +
+ drivers/gpu/drm/bridge/Kconfig                     |  10 +-
+ drivers/gpu/drm/bridge/analogix/Kconfig            |   1 +
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  40 +-
+ drivers/gpu/drm/bridge/aux-bridge.c                |   1 +
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c     |   1 +
+ drivers/gpu/drm/bridge/fsl-ldb.c                   |  19 +-
+ drivers/gpu/drm/bridge/imx/imx93-pdfc.c            |   1 +
+ drivers/gpu/drm/bridge/panel.c                     | 563 -----------------
+ drivers/gpu/drm/bridge/samsung-dsim.c              |  24 +-
+ drivers/gpu/drm/bridge/ssd2825.c                   |  23 +-
+ drivers/gpu/drm/bridge/tc358767.c                  |  64 +-
+ drivers/gpu/drm/bridge/tc358768.c                  |  25 +-
+ drivers/gpu/drm/bridge/ti-tdp158.c                 |   1 +
+ drivers/gpu/drm/bridge/waveshare-dsi.c             |  17 +-
+ drivers/gpu/drm/display/drm_bridge_connector.c     |   1 +
+ drivers/gpu/drm/drm_bridge.c                       |  17 -
+ drivers/gpu/drm/drm_of.c                           |  63 --
+ drivers/gpu/drm/drm_panel.c                        | 664 +++++++++++++++++++--
+ drivers/gpu/drm/exynos/exynos_dp.c                 |  36 +-
+ drivers/gpu/drm/imx/dc/dc-kms.c                    |   1 +
+ drivers/gpu/drm/imx/dcss/Kconfig                   |   1 +
+ drivers/gpu/drm/ingenic/Kconfig                    |   1 +
+ drivers/gpu/drm/logicvc/Kconfig                    |   1 +
+ drivers/gpu/drm/mcde/Kconfig                       |   2 +-
+ drivers/gpu/drm/mcde/mcde_display.c                |   1 +
+ drivers/gpu/drm/mcde/mcde_dsi.c                    |  45 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |   1 +
+ drivers/gpu/drm/msm/dsi/dsi.c                      |   3 +-
+ drivers/gpu/drm/omapdrm/dss/omapdss.h              |   1 -
+ drivers/gpu/drm/omapdrm/dss/output.c               |  42 +-
+ drivers/gpu/drm/panel/Kconfig                      |   2 +-
+ drivers/gpu/drm/pl111/Kconfig                      |   1 +
+ drivers/gpu/drm/rockchip/Kconfig                   |   2 +
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |   9 -
+ drivers/gpu/drm/stm/Kconfig                        |   1 +
+ drivers/gpu/drm/tegra/rgb.c                        |   1 +
+ drivers/gpu/drm/tidss/Kconfig                      |   1 +
+ drivers/gpu/drm/tve200/Kconfig                     |   2 +-
+ drivers/gpu/drm/tve200/tve200_drm.h                |   1 -
+ drivers/gpu/drm/tve200/tve200_drv.c                |  30 +-
+ include/drm/bridge/analogix_dp.h                   |   1 -
+ include/drm/drm_bridge.h                           |  54 --
+ include/drm/drm_of.h                               |  15 +-
+ include/drm/drm_panel.h                            |  99 ++-
+ 48 files changed, 855 insertions(+), 1072 deletions(-)
+---
+base-commit: acb05c825e393b0584adb5472bfbb17c8033a99f
+change-id: 20260812-drm-bridge-every-panel-a1596d6efea4
+prerequisite-change-id: 20260812-drm-bridge-drm_panel-cleanup-09ed5cc10948:v4
+prerequisite-patch-id: e15ab172f92263f58d86253708d0ad31d0a876e2
+prerequisite-patch-id: 8e8841279db302d98d060c2311781c51673031cd
+prerequisite-patch-id: 45c8dac16aad1187d7573c3680117954544b75ff
+prerequisite-patch-id: 9afefac08440b7aab2979bb919baf78ba60af1c0
+prerequisite-patch-id: 904a81179c02e6a3fe9e85d9a356cf265a4f4d11
+prerequisite-patch-id: 665576b9273a19567a410888e2eaf1ac3221ae3e
+prerequisite-patch-id: 9578cfffb25341935a89501736a5a59e59c50c56
+prerequisite-patch-id: ec32062a627672377ee6621cf73a7a1b99680403
+prerequisite-patch-id: d311eba3ac81be3b6af2264442369ff2b8fd5e48
+
+Best regards,
+--  
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
