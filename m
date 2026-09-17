@@ -1,311 +1,111 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from outbound.qs.icloud.com (qs-2003f-snip4-7.eps.apple.com [57.103.86.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6CE519939
-	for <asahi@lists.linux.dev>; Wed, 16 Sep 2026 13:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A522463B73
+	for <asahi@lists.linux.dev>; Thu, 17 Sep 2026 07:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.86.60
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789566515; cv=none; b=YpJgsVTzFdR/9TivvCPQZeZrJ1r+0sxq+28uJey6xIIVMwZnOODLf0Dq/M9twB2Tny36PgrK1g8W+/n2Pvsj/fFBLrK3RMOM1AZL3UyKw6odZLIEiIzAGpXnekiPW+GnkarbrByx1aEPwTmHRjPYmgzgKSqxpI2DcZ4RIFG8QOo=
+	t=1789629822; cv=none; b=c1jqX0xScoYY153MgJH68c1x1Nc2HNVAUtdeQgosAKE67wH9ortrhbteyaISjI3ReG85umyRxoV9X9TpwEIQsxTvNU/yBHtCbDJU54tCaGP4dr4lrYETKBkQmCEsXD9mRM8gvYau/3PTH3JE+592CW5fx1fH58mDUrnKhMMSKTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789566515; c=relaxed/simple;
-	bh=5zCJ/EGPFGROemHcudBi6o6pDtxWs0QMeETsL/EZic8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=vAi35/N2QEr2jX879nzwq0EHv6Yj1Kp9enZcvq3ihrlP/6U2pUVtQRB2NcwlUeg36+husFzUamrnSEMPMYCwKkouFcHV8lUZz1UU3p/0Pl55sNJ06ht26K7arrDFkUJoalcUB4ibApV8xsjgFWSFvbhpspRScWeuEgUWbWUZhH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lqMs18pt; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1789629822; c=relaxed/simple;
+	bh=YSCX4grizeyXBMyqAbzzgzO6QzhJQJBp0lm0LXRKTgo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wn8to22al+bBECysk3rDYLay5qFaLcr0cwbG5Is+yBiSiG156YYLOx7lz4d5Y0imNgsSipk+lJUfJDv6CqPUv4LC8f67XBjvg2SlQdbirHSxj0/qYUO9J2cTfrp/PaUEbYGUPKs/yS8SXbS2Ubf0Qs6/t+CM8+7DqZiFS4yuBWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aurorasilicon.org; spf=pass smtp.mailfrom=aurorasilicon.org; dkim=pass (2048-bit key) header.d=aurorasilicon.org header.i=@aurorasilicon.org header.b=WS/9E9lx; arc=none smtp.client-ip=57.103.86.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aurorasilicon.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aurorasilicon.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lqMs18pt"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 2394F4E40736;
-	Wed, 16 Sep 2026 13:48:28 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E9E0B60337;
-	Wed, 16 Sep 2026 13:48:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4B60B11C7B031;
-	Wed, 16 Sep 2026 15:48:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789566501; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=MD4jPpx6j1WYD4nbW7d8UqWXM8K9b2WkM/tu92eB2HU=;
-	b=lqMs18ptXF8NUeKU+aI21TpbFbBcw1SoqWE6OMCl3CiiAOPaZ2r2AkiTc2GN1UMh6yMoMd
-	nHpD4gqZRQF51T9INEtHYF9r5v8vzyhTqH/xqmOYLb7fETXdA5YkCrkhB4qiBZQTWPJkmp
-	l1epuxUJcnn5aNIYwdG9nC6z25Ty4A9I3yCUvD81EDNhoZc+bqI9TPyoT5ormKNMLFTSww
-	H9zwhIf8a62TuSAbuEYuN5gbZcwErbWDIQzjy2RUzybhp0HDVBHRJGYSrfUxwPMZyc0QTz
-	CA6oWZsWkVSOEzQmAPDLNiWz1vhVCLauw7lDX8anlUJiulXnMLM4imFm64hYgA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 16 Sep 2026 15:45:43 +0200
-Subject: [PATCH v3 19/19] drm/bridge: analogix_dp: don't create a
- panel_bridge
+	dkim=pass (2048-bit key) header.d=aurorasilicon.org header.i=@aurorasilicon.org header.b="WS/9E9lx"
+Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-2d-20-percent-1 (Postfix) with ESMTPS id C38C01800182;
+	Thu, 17 Sep 2026 07:23:37 +0000 (UTC)
+X-ICL-RepId: 01a0ae3f-e36d-7390-bfb3-210cab0546db
+X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQFPHVwFWhxCDUEdXANYEhVdRUEUVgVyEUwKXB9WGFscUBtcAxkEQBcZHldQVh5AH0sZQARbAlEfV1ZcH1BLQBMESQFNXw5eHwQXRhlVBEceXVZCHhkCURxWDVdDVARfUEkMQVBsWgBHF0gdXRlZb1BdHA4MQhldAlgLWgFeCF0eFxdBChcGWxQERFACQQ5AXghPC1QBWQJDCEAdCl4fHAJAGV0tVh5AH0sZQARbAlEfV1ZcH1BVEgRACFZQVB5BBFYVbAlYBlMZVw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aurorasilicon.org; s=sig1; t=1789629818; x=1792221818; bh=gGdGUAat4LoOu5kUAAgrO8YTLTdkT/ubcZydi6xNMhs=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=WS/9E9lx89sUANQbFLMSCaIG1fHryzH7uMGvFwweCCBEr7j0OK/Lp5kS6AESx6kw7Q1d74Q5JTvtcvxagtZXv9mjqeS1VeExbgCVONh/zw+WY9J1ahxgCCTj5nsrCB9ljlZ0QxFZIaKmxnWf4DC7ptqml20YziSMqEyS5rW/3ApC/8rRyFYGBl8vt/Fgw0W9NtOX65xtK6Olef30mwoO0XOz2m/C8teuuHZw2ItR3d6mcXQGbHKD3M1TJWy6BlH4U9FYn1gV0wmstG10JYf5sFjkEB4WOkBtnIIxlROwU5zZbyVcwUNU94hKv/vZptiLOWL761K6tLCRzXKkmBbW3g==
+mail-alias-created-date: 1786334582283
+Received: from localhost.localdomain (unknown [17.57.155.37])
+	by p00-icloudmta-asmtp-us-east-2d-20-percent-1 (Postfix) with ESMTPSA id 5D9A61800107;
+	Thu, 17 Sep 2026 07:23:34 +0000 (UTC)
+From: Ryan Murray <ryan@aurorasilicon.org>
+To: patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Cc: david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	james.schulman@cirrus.com,
+	povik+lin@cutebit.org,
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/2] ASoC: CS42L83 Apple headset remote support
+Date: Thu, 17 Sep 2026 17:23:30 +1000
+Message-ID: <cover.1789620318.git.ryan@aurorasilicon.org>
+X-Mailer: git-send-email 2.50.1
+Reply-To: ryan@aurorasilicon.org
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260916-drm-bridge-every-panel-v3-19-83afb4f1a707@bootlin.com>
-References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
-In-Reply-To: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
- Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
- Paul Kocialkowski <paulk@sys-base.io>, Linus Walleij <linusw@kernel.org>, 
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, Sean Paul <sean@poorly.run>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: Albert Esteve <aesteve@redhat.com>, 
- Anusha Srivatsa <asrivats@redhat.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-mips@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, asahi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.16.0
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=PLYCOPqC c=1 sm=1 tr=0 ts=6aab957a
+ cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
+ a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=zQbyrsbpmBOX9-MpknoA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDA5OSBTYWx0ZWRfX8hUakZ39EnMK
+ pSWfU1lHM4WaFiXYGgY+QMGf6l1ivKCGCndCSb2iV53pgOaxZFDNpLQpunVPdhPdlgW5IHQ8UUg
+ HS9oP69V04FgGzjVJK7r9lLx2Sg2yKKasfouJ2e2bE8SUH9LyMgFi7Z1cKm64EfSjKC4GJx2oD8
+ vymLuAQk+x6vYN1TvHkTk7wc0OQnKuJzJ+hMwWls7lUnpMV212hWzmR55R3WoOsFrOPzeNqwzDK
+ yto475v+vOUvlyrdBWNHkoNXdU+WxqoIUt+ObSwD271g6NeKHMVGRxHqq67jSRX3DDQ80/dlzHa
+ QRWRx1HimZYYwl2oWBhDplCwNezuyaAvj6r8DWykSKxo2jj3LW/EDOMBxHsjSU=
+X-Proofpoint-GUID: xnEZTvyN8BV5vsS9fM6fOHGBGWRYkHZD
+X-Proofpoint-ORIG-GUID: xnEZTvyN8BV5vsS9fM6fOHGBGWRYkHZD
+X-JNJ: AAAAAAAB2uIwFmkymreUzYprAxOayPWwgUuOELCfvlqXafK0vn1Utry+kdbUMOXeXdTdAN8NlPQiWq/WTqeQYoLWGPar/CM63u0ODnmnM0p+OlfD1yWaa9YnRg6f7n3u6H6RlKRoZxcncnXPF4sdWXIFCr2Tpjnas4OzNYb1+djk00LqGy+AdC5lxCJ3BvLLO5kv8DANeNNL7FY3tanZPApbti/oywd5+GdTauwUCstNY3FnLU+J0J+aVQpOTYNnEzzXa9Tx7EjURZS6epByxs5JGqQRK6YmBJKMfj073h0ZqQ8E/kkytwUMTF9PQsYaBCMC8rHHD/66KLJSbbnt2JSBG6zO5PZnGvrXkOYB+NFVil4fKFmbszB2OC6p4FaJ/8s0Db7nrxj3vLUeT9yki+rZe8+tzHaOfCs+iDGhCwsTs9MLuvzLMEy8ol3noZxxEuhQvQk+DchsSrmSQAJ15OlCQW+ieMefdI7Kz3ZsVakiYE4jamkkDrtejgZnBot3dYn+h6Bi66xU3CCREsEKdxcqvG/BiSKmhhKcugP6WXhWIWREAmygdmGQ7v1g/BUp46A2hfVkk/UNVce78/sRVEhp/YovNp3YabVZKiSF8FNyHa2lyI3Qp0RAIofQcWVda3L/HEhy21klQuXRJtBFs38E3KVt6CDO5IdheCtQIbAVRO/815XtevzpJtoRSOlUbbEtmkpwoatZwzps+Ro8Z6ofuRUdML6cujV2Z2n/M5KORyGXs5xST8l053m+5usdnzS0Uzbn75cT3lygJJDrRScbmzl7t0N9fh9/KUXrco1HfEGPCUgBYKyFo/G+/81btfnSRw66QV3rScpkp7CbGIQ86bHDncvzwEVPzCChrvbOldp0EryOfeAhdcehicQ6aA7VEOvvqTYHy7D1PFQDDWjrRJq3vp2zbrWAvoxxSrkMAIEizQfPAJhvkguBZqot4Ck5CcZ9FX40YVfk3HXsbgK4o0rY/7m
+ iqj4vonHH4pHB5xVncc+l/NdwgWw0qDRpcGgcb4itpMuPcq3QJMES6yrnmv6UoRBU0ngBo7pciUj6b05aUtkoXsCoHRGqwNgX+g2BONWgupyMepllFJy6GnKTMm21SoxVLx3Bgl0gwxglySBlCcWhhlxsucc3LQ/DYqaxj7BPMUM8ebySQI9LfW069dNDNgDZBuo6Zhoni920kQ+n60Bq+tNMtzvSPY57ee6FSscLLfrd0hUUVqt2/ycrZGkW9/2V6OfU3BQs076mpvJgX+C/T/jL/BVNnM1QxYQLFDfeHNTZpclGjBcaHKBYYR75CJGlMYejl7IpOZU5QsQSxmAcMCOGzB4e6YltavD4S+10EXxb+n/DUUqMN5nsunq9JiOLeTU=
 
-Now a panel_bridge is automatically created for every drm_panel and the
-panel-bridge API is just a deprecated wrapper to access it.
+Hi,
 
-Update and simplify the code by just getting a reference to the
-already-existing bridge using of_drm_get_bridge_by_endpoint().
+This series adds Apple wired-headset remote support to CS42L83, including
+volume-button events while audio is idle. Identification is bounded and
+falls back to the analogue detector on failure. It uses the existing
+regmap, threaded IRQ and ASoC jack paths; no new DT or clock interface is
+needed.
 
-As of_drm_get_bridge_by_endpoint() returns a refcounted bridge, take care
-of putting the bridge reference. This is not easily done in the remove path
-due to the different probe paths of the user drivers, so add a devm action
-to ensure the reference is put only when it was taken.
+Patch 1 checks interrupt I/O and runtime-resume errors. Patch 2 adds remote
+identification and button handling. Machine drivers must expose the button
+capabilities and key mappings; J700 platform support is outside this series.
 
-Assisted-by: opencode:deepseek-v4-flash-0731
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/analogix/Kconfig            |  1 -
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 40 +++++++++++++---------
- drivers/gpu/drm/exynos/exynos_dp.c                 | 36 ++-----------------
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |  9 -----
- include/drm/bridge/analogix_dp.h                   |  1 -
- 5 files changed, 25 insertions(+), 62 deletions(-)
+Hardware testing on J700/CS42L83 B0 with Apple earbuds covered idle buttons,
+unplug/replug, playback, capture and full duplex, including identification
+with streams running. The mainline series was build-tested separately:
+arm64 modules with PM on/off and built-in PM. Extracted-source ASan/UBSan
+tests cover malformed replies, timeouts, I/O faults and recovery.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
-index da156fd15764..5672d83cb4a1 100644
---- a/drivers/gpu/drm/bridge/analogix/Kconfig
-+++ b/drivers/gpu/drm/bridge/analogix/Kconfig
-@@ -33,7 +33,6 @@ config DRM_ANALOGIX_DP
- 	depends on DRM
- 	depends on OF
- 	select DRM_DISPLAY_DP_AUX_BUS
--	select DRM_PANEL
- 
- config DRM_ANALOGIX_ANX7625
- 	tristate "Analogix Anx7625 MIPI to DP interface support"
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 18e76d1e78e1..6df6963740d2 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -29,7 +29,6 @@
- #include <drm/drm_device.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_of.h>
--#include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -1567,15 +1566,6 @@ int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
- 	if (ret)
- 		goto err_unregister_aux;
- 
--	if (dp->plat_data->panel) {
--		dp->plat_data->next_bridge = devm_drm_panel_bridge_add(dp->dev,
--								       dp->plat_data->panel);
--		if (IS_ERR(dp->plat_data->next_bridge)) {
--			ret = PTR_ERR(dp->plat_data->next_bridge);
--			goto err_unregister_aux;
--		}
--	}
--
- 	ret = drm_bridge_attach(dp->encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret) {
- 		DRM_ERROR("failed to create bridge (%d)\n", ret);
-@@ -1647,6 +1637,11 @@ struct drm_dp_aux *analogix_dp_get_aux(struct analogix_dp_device *dp)
- }
- EXPORT_SYMBOL_GPL(analogix_dp_get_aux);
- 
-+static void analogix_dp_put_bridge(void *data)
-+{
-+	drm_bridge_put(data);
-+}
-+
- static int analogix_dp_aux_done_probing(struct drm_dp_aux *aux)
- {
- 	struct analogix_dp_device *dp = to_dp(aux);
-@@ -1655,14 +1650,25 @@ static int analogix_dp_aux_done_probing(struct drm_dp_aux *aux)
- 	int ret;
- 
- 	/*
--	 * If drm_of_find_panel_or_bridge() returns -ENODEV, there may be no valid panel
--	 * or bridge nodes. The driver should go on for the driver-free bridge or the DP
--	 * mode applications.
-+	 * If of_drm_get_bridge_by_endpoint() returns -ENODEV, there may be no
-+	 * valid panel or bridge nodes. The driver should go on for the
-+	 * driver-free bridge or the DP mode applications.
- 	 */
--	ret = drm_of_find_panel_or_bridge(dp->dev->of_node, port, 0,
--					  &plat_data->panel, &plat_data->next_bridge);
--	if (ret && ret != -ENODEV)
--		return ret;
-+	plat_data->next_bridge = of_drm_get_bridge_by_endpoint(dp->dev->of_node,
-+							       port, 0);
-+	if (IS_ERR(plat_data->next_bridge)) {
-+		if (PTR_ERR(plat_data->next_bridge) == -ENODEV)
-+			plat_data->next_bridge = NULL;
-+		else
-+			return PTR_ERR(plat_data->next_bridge);
-+	}
-+
-+	if (plat_data->next_bridge) {
-+		ret = devm_add_action_or_reset(dp->dev, analogix_dp_put_bridge,
-+					       plat_data->next_bridge);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	return component_add(dp->dev, plat_data->ops);
- }
-diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
-index e1c9e2946b8a..82c238829921 100644
---- a/drivers/gpu/drm/exynos/exynos_dp.c
-+++ b/drivers/gpu/drm/exynos/exynos_dp.c
-@@ -26,7 +26,6 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_of.h>
--#include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/exynos_drm.h>
-@@ -147,7 +146,6 @@ static const struct component_ops exynos_dp_ops = {
- static int exynos_dp_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct device_node *np;
- 	struct exynos_dp_device *dp;
- 
- 	dp = devm_kzalloc(&pdev->dev, sizeof(struct exynos_dp_device),
-@@ -163,18 +161,6 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 	 */
- 	platform_set_drvdata(pdev, dp);
- 
--	/* This is for the backward compatibility. */
--	np = of_parse_phandle(dev->of_node, "panel", 0);
--	if (np) {
--		dp->plat_data.panel = of_drm_find_panel(np);
--
--		of_node_put(np);
--		if (IS_ERR(dp->plat_data.panel))
--			return PTR_ERR(dp->plat_data.panel);
--
--		goto out;
--	}
--
- 	if (of_get_display_timings(dev->of_node)) {
- 		dp->plat_data.next_bridge = devm_drm_of_display_mode_bridge(dp->dev,
- 									dp->dev->of_node,
-@@ -189,19 +175,11 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 	dp->plat_data.power_off = exynos_dp_poweroff;
- 	dp->plat_data.ops = &exynos_dp_ops;
- 
--out:
- 	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
--	if (IS_ERR(dp->adp)) {
--		/*
--		 * The driver core does not invoke remove() for failed probes,
--		 * so release the probe-time panel reference here.
--		 */
--		if (dp->plat_data.panel)
--			drm_panel_put(dp->plat_data.panel);
-+	if (IS_ERR(dp->adp))
- 		return PTR_ERR(dp->adp);
--	}
- 
--	if (dp->plat_data.panel || dp->plat_data.next_bridge)
-+	if (dp->plat_data.next_bridge)
- 		return component_add(&pdev->dev, &exynos_dp_ops);
- 	else
- 		return analogix_dp_finish_probe(dp->adp);
-@@ -209,16 +187,6 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 
- static void exynos_dp_remove(struct platform_device *pdev)
- {
--	struct exynos_dp_device *dp = platform_get_drvdata(pdev);
--
--	/*
--	 * Release the probe-time reference from of_drm_find_panel(). If bind
--	 * ran, the panel_bridge holds a second reference that devm cleanup
--	 * will release when the bridge is destroyed after remove() returns.
--	 */
--	if (dp->plat_data.panel)
--		drm_panel_put(dp->plat_data.panel);
--
- 	component_del(&pdev->dev, &exynos_dp_ops);
- }
- 
-diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-index 587e60232ec7..071d31aa5288 100644
---- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-@@ -28,7 +28,6 @@
- #include <drm/drm_bridge_connector.h>
- #include <drm/bridge/analogix_dp.h>
- #include <drm/drm_of.h>
--#include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -488,14 +487,6 @@ static void rockchip_dp_remove(struct platform_device *pdev)
- {
- 	struct rockchip_dp_device *dp = platform_get_drvdata(pdev);
- 
--	/*
--	 * Release the probe-time reference from of_drm_find_panel(). If bind
--	 * ran, the panel_bridge holds a second reference that devm cleanup
--	 * will release when the bridge is destroyed after remove() returns.
--	 */
--	if (dp->plat_data.panel)
--		drm_panel_put(dp->plat_data.panel);
--
- 	component_del(&pdev->dev, &rockchip_dp_component_ops);
- }
- 
-diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
-index 0e0b87abee59..6033137b651e 100644
---- a/include/drm/bridge/analogix_dp.h
-+++ b/include/drm/bridge/analogix_dp.h
-@@ -35,7 +35,6 @@ static inline bool analogix_dp_is_rockchip(enum analogix_dp_devtype type)
- 
- struct analogix_dp_plat_data {
- 	enum analogix_dp_devtype dev_type;
--	struct drm_panel *panel;
- 	struct drm_bridge *next_bridge;
- 	struct drm_encoder *encoder;
- 	struct drm_connector *connector;
+Other boards/revisions, OMTP, analogue-only headsets and system
+suspend/resume remain untested.
 
--- 
-2.55.0
+I'd appreciate Cirrus/ASoC feedback on:
+- Whether CS42L83 identity alone is sufficient across revisions.
+- The undocumented receiver controls, particularly HS_BIAS_CTL bits 3:2,
+  and the receive-acknowledgment/identifier interpretation.
 
+This is an independent implementation based on register-level reverse
+engineering and hardware tests. No proprietary source or firmware is
+included. LLM assistance covered implementation, analysis, testing and
+text; the patches carry Assisted-by: LLM.
+
+Thanks,
+Ryan
+
+Ryan Murray (2):
+  ASoC: cs42l42: handle jack interrupt I/O and resume errors
+  ASoC: cs42l42: support Apple headset remotes on CS42L83
+
+ sound/soc/codecs/cs42l42.c | 286 +++++++++++++++++++++++++++++++++++--
+ sound/soc/codecs/cs42l42.h |  15 ++
+ 2 files changed, 293 insertions(+), 8 deletions(-)
+
+
+base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
