@@ -1,51 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13931288C81;
-	Thu, 17 Sep 2026 22:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46349409277;
+	Thu, 17 Sep 2026 22:33:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789684255; cv=none; b=a378T4GZJxz/quIZARPq89zoilcW1CVomrXYH5bghu3SbAfYgf24F4FjpGuUZzSUL7g3xusfwF4oXYE8Bq7EtZkslEc8Khah+prLXLnrUz+7WiWTxOnQkerMXo7C+LXqG9pmam4dyDsRDpD0DX5mTb3uuD3GJcDS+1ugsaSkJeU=
+	t=1789684439; cv=none; b=Cl1nOvuBgQsLCYWmKw7gpALdjRlowdKQLRVofTi7OuSqGC91D6FGlGEJxm5xeo2tV7WQNREgXq4jQF2uhNifyO7R6XWw/9F/SIBjNsu7j9S/BtNVIEoMi1jsQQ0IMkSFoC7fGFd7JnO371YrJzrXL1+n9obYtqTz91EN+BAcmE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789684255; c=relaxed/simple;
-	bh=yMVntEvByiQnwXoY/WDeu9YYuOKVHTMYd+Zy59/3QDI=;
+	s=arc-20240116; t=1789684439; c=relaxed/simple;
+	bh=2G1CPJjM6uhgtZBULO5YltYISxOjafoeCkhP9z7kLeg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ujQs6iHQxCyvwGHLqJ80gVYVb1XmkV1H0QX5YtfRfm9xLMkIqHjbkgBcIIprcH7zU+4RCJ6ZgmVYXErBQEithLgS3n3ZeqKgyc4qqAI2qaDS8EYpuFKs89rTAmdv5Qb/TckCMk0vywBKvPAlaYSRAxb0xyz3DF+T6ZLiej3zkf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLPLzJkL; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=X/Pg1CgR987Gi7zAmBlih2iV33sKgs8t3VzZQ8uoQUU/GILPZxYje/WL0HsNOjtRaBiHOidZZ9w7HVbelWCC4ZZ0tmlIfgh/jjIidCK4oACPmtmqC9+ukC7aA5F3PISm2Qdb+DhKFQ3EyBuqSCMN9U4/sJFLjRFF69C2OAb3CBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Itur1K5D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLPLzJkL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC811F000FF;
-	Thu, 17 Sep 2026 22:30:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Itur1K5D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D8C1F00893;
+	Thu, 17 Sep 2026 22:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789684253;
-	bh=4/qx3gACLobp/kVaCWxWU6urjoLYTDk1lm6knmcF17E=;
+	s=k20260515; t=1789684437;
+	bh=yumYLHUvW3/1TS23nhuUD9hW8oj7UmGI7exEUoW5L3Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OLPLzJkL2pS51ZSdjvIK3zdS7esWlyTgsGn50j02Y2ZED9OxLGUZj7V58u32BmEVK
-	 mX85kSqvR/CetXKufKiQsPtO5BR1RnM3JufEsmwuZFSQ2JISfXRFnHaqZhMILoYcBT
-	 Bvd5PDr8DhkgvFvdihoRBfnNnxj3vscpeS3yKXdIXLuxYh1VEMXTEJM5MD30ZrehVZ
-	 zNULAC0juzOT3fAL3u3cbRGdHpCTaOdwUye3he5MwrRa1ZyY14KJZtNhvcXcwHjjq/
-	 ek+uXsramaiYLMPIhp70TYdNX/cb5Vfj9+a5zJU2Se9X5x4PhfMRaRd/IKAA6FCgyQ
-	 rtAnBRZI1P99w==
-Date: Thu, 17 Sep 2026 17:30:51 -0500
+	b=Itur1K5DcIonMQiFwCuSHBNC+G+XgkC1by6FAyKs3y5O1/YfSdAXaH9OEQN3hR5AV
+	 rvBEyOiDZQYrAyqvbgJPSJWjXECGWbV/YJT5QX4ThTxAmqSbQSxG+j3ggXfuxCu3Pg
+	 +e9FkKsonOK5nog+e/qOAxVUbhvfFXxF/2KgcY+oc3ugc0ZjJrcVKUywXno/WfGr/d
+	 dM5WesB0jmc2W4QxyudRDtKmUZ+w1unw6lajm/d956LXWI3WssEghNuKZ049iVCWIJ
+	 dyxFwqs8sE1zQR3gS3UR+mY4AYP8ahkRcrJ7OSgi4oncb34suUc5a9NHY2zS/bHSJq
+	 hacZuzCMFWZAQ==
+Date: Thu, 17 Sep 2026 17:33:55 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Philipp Zabel <p.zabel@pengutronix.de>,
-	Neal Gompa <neal@gompa.dev>, Konrad Dybcio <konradybcio@kernel.org>,
-	devicetree@vger.kernel.org, Joshua Peisach <jpeisach@ubuntu.com>,
-	asahi@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
-	Mika Westerberg <westeri@kernel.org>,
+Cc: Neal Gompa <neal@gompa.dev>, Janne Grunau <j@jannau.net>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>, devicetree@vger.kernel.org,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Mika Westerberg <westeri@kernel.org>, linux-usb@vger.kernel.org,
 	Andreas Noever <andreas.noever@gmail.com>,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH v2 05/22] dt-bindings: thunderbolt: Add Apple
- USB4/Thunderbolt NHI
-Message-ID: <178968425120.4102150.11013505530489451162.robh@kernel.org>
+	Konrad Dybcio <konradybcio@kernel.org>, asahi@lists.linux.dev,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 06/22] dt-bindings: thunderbolt: Add Apple
+ USB4/Thunderbolt ACIO block
+Message-ID: <178968443469.4111891.16643051848376045316.robh@kernel.org>
 References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-5-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-6-1f80085f93fb@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -54,29 +53,27 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-5-1f80085f93fb@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-6-1f80085f93fb@kernel.org>
 
 
-On Sun, 06 Sep 2026 20:36:28 +0200, Sven Peter wrote:
-> The Native Host Interface (NHI) provides the TX and RX rings used by the
-> software connection manager on Apple Silicon SoCs.
+On Sun, 06 Sep 2026 20:36:29 +0200, Sven Peter wrote:
+> Each Type-C port with USB4/Thunderbolt support on Apple Silicon SoCs
+> comes with block called ACIO ("Apple Converged I/O"). It contains a
+> Cortex-M3 co-processor, the hardware blocks implementing the USB4 host
+> router, the Native Host Interface (NHI) and a DART IOMMU. The
+> co-processor exposes the NHI and its DART to the main SoC bus while it
+> is running.
 > 
-> The NHI is part of the ACIO host router and is exposed to the main SoC
-> bus while the ACIO co-processor is running.
-> 
-> T6000 and T6020 use one DART stream for the TX and RX control rings and
-> one shared by all other rings, which are used for XDomain connections.
-> This likely improves the isolation of those host-to-host connections.
-> 
-> The M3 generation uses a slightly insane set of 24 IOMMU entries. These
-> are probably one DART stream for each TX and RX ring.
+> ACIO can only be powered on after the Type-C PHY has been switched to
+> USB4/Thunderbolt mode. The Type-C PD controller publishes the negotiated
+> mode and cable information through the Type-C class. ACIO finds the
+> corresponding Type-C port through the OF graph connection.
 > 
 > Signed-off-by: Sven Peter <sven@kernel.org>
-> Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
 > ---
->  .../bindings/thunderbolt/apple,t8103-usb4-nhi.yaml | 151 +++++++++++++++++++++
->  MAINTAINERS                                        |   2 +
->  2 files changed, 153 insertions(+)
+>  .../thunderbolt/apple,t8103-usb4-acio.yaml         | 213 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 214 insertions(+)
 > 
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
