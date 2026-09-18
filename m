@@ -1,38 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8044F68D7;
-	Fri, 18 Sep 2026 13:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEED503BC7
+	for <asahi@lists.linux.dev>; Fri, 18 Sep 2026 16:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789738120; cv=none; b=BMepowVKewGy+0Hvw1vXevtT6PMCjvxh5JRuxz1qNxxF0Z/s7wTlJyldrRO+zt6rMvc1pce8/ShN3p5rHyi0yStT4NsrCkVoCfbIHWidkAHuzFzWIphHquKOKVemcgDcKLzVQQtK7V6gefVc65LxgaeC0R9YxgrHmadlkC2VWHQ=
+	t=1789750057; cv=none; b=mYt1q4ClphwVoEubq9p3D1TqL9zStlHtfRqyUrPydkAsnbYFwyiOAPJ+FIImZTNv3f5mxjAmbqHiFWdfyAMLfDl53dadpFWFThnxuHQJualxZez+KoZZS55a2Gznt3aUO7+MuH4Yf1NOPZDXeYTxhS097gTIQFZCLpNKNr1jHI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789738120; c=relaxed/simple;
-	bh=kshdd0UgoZdMmGyTQdR78b5BxL4LZLWUeh+/eMSqKDQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SUqA2rqC39ckKMcF0W5xWOBzGcejY7aZ0YyaLoxAHzIfIqdkrAz9mf+cKvOFCM/ziiLYm9PXUs+coZcGSmh75s8HYQs3lpS0VLU5glYKJkjRo+nb4h956CDF7tQxiYqyv15//jgj2Sd2+HV8YoKk72LmlcGQlhq51ds2sY5tqT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgg69dyq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1789750057; c=relaxed/simple;
+	bh=9ThTR4usKlllKQeYQGdfTkQcMVtWtvUIwI1QCDrW3UU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aEoUAPwzawEGQvmZ+34McJOpVcOJ4IDF3ksrxToEls/lrAklQK1p49r3jr+AwWebnQAx9Ih1lHzN6BCYa52+djktfYKTDdWBfRBetZMZ9RyVS4Fq6nBeR+ULlLshKxy8ogl9fAu8Wt/cmD3e36aXS4rrcZp8/scARWFcpv303Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dbjEQv8s; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgg69dyq"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5168DC4AF15;
-	Fri, 18 Sep 2026 13:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1789738120;
-	bh=kshdd0UgoZdMmGyTQdR78b5BxL4LZLWUeh+/eMSqKDQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=dgg69dyqPjDbJkCHJy86/caNLZe3SQEm0XwzcNvJhEwUB1xjAQkZU6TSApJVQhzbM
-	 G4TpSZt4nDaIhgSQ0weihgl/k980sm+zCDKubw6Nji5HDWLZVnhYvmwt0zqJ4JpxXr
-	 /8Mpj9RdVzQamQZdFxWWPQ1NWl/iW85zfswOQPujEeBoPMPHHT0r65l/Cd/lIkcUXx
-	 s3p3xICge71MtwyxhQvbRZbm2FJrJCpCscrsAUJfd4yprVYAgZHI2WK+DNROraN+No
-	 4H38MVp3oBMi/6JhwoXjQlfoCYpuJ427Z4rKShiGLAn1uLprka+e8yS9bV3TBDimcK
-	 6vbnL01pvtyVw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDBFC982D8;
-	Fri, 18 Sep 2026 13:28:40 +0000 (UTC)
-From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Fri, 18 Sep 2026 23:28:37 +1000
-Subject: [PATCH v3 07/10] HID: apple: Add support for DockChannel HID
- keyboards
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dbjEQv8s"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469d20963so724422b3a.1
+        for <asahi@lists.linux.dev>; Fri, 18 Sep 2026 09:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789750056; x=1790354856; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=n6D3MKECmB1Q9b8DagSOBbCm9EGs/3yp1gtCOGWTpSk=;
+        b=dbjEQv8s2ne3IbOv3nUAjDbElMP6XqYWnC4pngFDqXlv755Z5mmogi3BBEk5JD7TV6
+         j8lfa1yKAQZrM33IaY7CdrhpzXMKHwmXSYr7vGwTJUY1EDuxW+bLR2lq9ZWwsj9Z6sNa
+         6QyzVhXMI6kOh/lXk1lbrMJAIy6ZKFEtvsJsst2EtT3gYoNkZV1z5vcGI9zB1pF4hE+e
+         BW+v/dEEEg1cVe3Bf/de4qWpLzf3cEQeC4SxQh4bTiIoKqp/RRYmm8BP4LOUtzLbpXcb
+         5H+aGTTgXQ0tXI0GKe+oXGK38CR/JO+vXHOVD/su7jiLQQtQgqlSdXtoM/6qHggf7bT9
+         5wwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789750056; x=1790354856;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=n6D3MKECmB1Q9b8DagSOBbCm9EGs/3yp1gtCOGWTpSk=;
+        b=SzJCvBKNzjhUslRIlhOHPpFAyIE6QSzammq6IbuwVvIdw3V2VJGPxyWauTpRnivPsv
+         ONj+Fhi++i/U2zSXVXmjiTcxdLUYY7wd6fKRblEAXRVrSOJ0RQZmbah+fkpDwjWnJGVZ
+         bP3/U7RiRla/HzsX5kWw3yyqDre7wnsBbP0DQrKduxX+t6myhLD7nc6M2cwzSKpMYdDQ
+         cSKJdh8B21qpfH+T/9sA3xmqqO+dizugZ1TluIfkD77yvRkiUIBINOXwXodDw1eN9fkk
+         XDOeoF2rO0dLlMBiVmdlwYHYb0nui9865l55Hr4SrxbYL8bdxx+bddepzo1IVvpgd0/P
+         tfGQ==
+X-Gm-Message-State: AFuF++m4FqfpbioUfxlNej0uYAEoXZtFMSG8wfOcqCcn5GW+W0Y72uB2
+	PltHGMKHuYp2fHGALFc/Uc3GiNNE98yqo6+SR/rnq9n7sDhEDL+dC22f
+X-Gm-Gg: AYBFou1u4qIXd8aGm4QsR7cK0AOQajw3nmomRNTJLjDzZ5/0ATPqmLaSp/SvTPn1hHb
+	3V87MP2LFpRjb95mq6DC/yseGNU0lOA5hHtgSR6LPV0Fq1DyuPBtj9AlDiQglpr2v+nnPgy9K+h
+	g+P8ThIbtoj4kofkQu/kouFmDHBiu2lsojhKt+RJTYWoZ5z2sO7ucDZckhzdHypy54koxysdugX
+	gALnmVEkMGlGLMi4jnoFXJWecxVSi3dXiiF6nxwDgqa5KiuP5ue2sNlqrf8b5YWlTpf7vq+FhWa
+	KYqPWWOx5mxkqzx2BKTMxBvBfp9nfm03kDIPsh6WTCeJjCfErob+Q8/dGKR3eAUY9XnARkJbLW3
+	vTk+s5Z/NAkbPDgTxR0SU7/mR95OdEajtsfllqsYfjH/2Ba+wqsSQyDugsR9/+FE95jTjyOdLVx
+	tDGg0eulwq5rFHsbRUc7YLIfVTMuUW8XEXp3mEh+0qB1WNx9cCk8G9oHABQi4/Qws1nNOnXZjHZ
+	VlfreWaGU8=
+X-Received: by 2002:a05:6a00:4196:b0:874:708d:b637 with SMTP id d2e1a72fcca58-874df800839mr6021748b3a.35.1789750055865;
+        Fri, 18 Sep 2026 09:47:35 -0700 (PDT)
+Received: from [127.0.1.1] ([223.122.38.120])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-877a8dfe201sm50514b3a.18.2026.09.18.09.47.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 09:47:34 -0700 (PDT)
+From: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH 0/2] soc: apple: rtkit-crashlog: Add AArch32 IOP state
+ parsing
+Date: Sat, 19 Sep 2026 00:47:02 +0800
+Message-Id: <20260919-rtkit-armv7-crashlog-v1-0-f4a671ea453c@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,231 +70,51 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260918-apple-mtp-keyboard-final-v3-7-e356464e454b@gmail.com>
-References: <20260918-apple-mtp-keyboard-final-v3-0-e356464e454b@gmail.com>
-In-Reply-To: <20260918-apple-mtp-keyboard-final-v3-0-e356464e454b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQ5AMBBA4avIrE1CUT9XEYtiMEErUxGJuLvG8
+ lu894AnYfLQRA8IXezZ2YA0jmBYjJ0JeQwGlSid1GmFcq58opH9KnEQ45fNzajGiSqdF1mvMwj
+ pITTx/W/b7n0/0qGdUGYAAAA=
+X-Change-ID: 20260918-rtkit-armv7-crashlog-2dfe86453b63
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>, 
- Michael Reeves <michael.reeves077@gmail.com>, 
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>
+ Neal Gompa <neal@gompa.dev>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- iommu@lists.linux.dev, linux-input@vger.kernel.org, 
- Yureka Lilian <yureka@cyberchaos.dev>, Julian Braha <julianbraha@gmail.com>, 
- Sasha Finkelstein <k@chaosmail.tech>
+ linux-kernel@vger.kernel.org, Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789738118; l=7532;
- i=michael.reeves077@gmail.com; s=fedora-20260918;
- h=from:subject:message-id;
- bh=Jn8V1WltiVnkawdzC5bVKS+cIf6Ev+2/cLas2bYpiBs=;
- b=CCaAE3SKILaat8IshUCCrbFZQu9WJgizsWYZDIJbVD8PTc6Cc1dh/F3s9FFcyCmmn9/ysQgB+
- CZQe16TorGVCjkpNzvMDacYVQqhti4SCS+kgkcspXLT/MVO4lsLb2uP
-X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
- pk=VJ0TvyQ9TvfzYZa908YSE9kpkjFLLD5luv0bERu+boc=
-X-Endpoint-Received: by B4 Relay for
- michael.reeves077@gmail.com/fedora-20260918 with auth_id=1035
-X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
-Reply-To: michael.reeves077@gmail.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=784; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=9ThTR4usKlllKQeYQGdfTkQcMVtWtvUIwI1QCDrW3UU=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBqrWsfexwtBAWkKYwS3MiJyZn7cTBuRWss6Kylh
+ VQ5Upp/K0WJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaq1rHwAKCRABygi3psUI
+ JAnKD/9KcNtXTJThW/oYrX6AuZvPBkFL4cKG1KjGW8UZdPaOwY7mplNnesgBdScWem3kqA3it4z
+ yuN10j2LV4F5X+OUWqKW8oQAKhtDnTwZhzZjPaO4H7+zw34dnDj7GVzVZ5H+uvvc02YjidfhLHu
+ zKoN4hKN0706khQrDj6f6UCCBR8iNPyS4LyWnuDYzpIZvRnSAn+8cP221UA3lLJZ6ICcbw36nvY
+ l6NIKpZ6L0TxRjhQhwq/RdrzLOMu8f+41XVqq/UX/Fqx9Szror5vFiMWHd14DbqtArKudSR9Yi8
+ 9v206cnl/BbV1IAqawlnzslkxUo19HiIZ3HqveIB69bz5WGliPAv8/JTGqpZtkjqxuJPMIBun42
+ hxil79HgAUgVFUs226Agxo0IgDL7z6juaYUlRI9EdAyQ+f5E+pbWw+kiqSuoG+asR/uTZ9bsTx9
+ QdvuHwR2TmuXNJck4VwJNhhpqGM4nGr32SdlJ0hRnfycXmB0F1antz3c8l+5IM5gyCJ21zfxxFo
+ dMKEfTl6ONzG4OPwxFkM48OcyXRPI5PNslw7U0G/4rBZ3F+CNnibmVuqIFXNhNZfEazvveE8MRr
+ OHT364iCn23+MuCoMFZdXzZ7pCP3ODotL+da0UxVMA/mMim7zYqrkDoVbRsECG1B1a2aXZyVuCU
+ 0E3WPsnO33qh5Lw==
+X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
+ fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-From: Michael Reeves <michael.reeves077@gmail.com>
+Some RTKit coprocessors runs on AArch32 CPUs. When they crash, a 'CrgA'
+crashlog section may be reported containing their architectural state.
 
-DockChannel keyboards are registered as host-bus Apple HID devices
-instead of USB or Bluetooth devices.
+It is useful to get it so as to figure out what the firmware was doing,
+add a decoder for them.
 
-Match them in hid-apple and use the modern Magic Keyboard function-key
-table. Honor the per-device special-driver quirk when matching.
-
-Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- drivers/hid/hid-apple.c | 118 +++++++++++++++++++++++++++++-------------------
- include/linux/hid.h     |   1 +
- 2 files changed, 73 insertions(+), 46 deletions(-)
+Nick Chan (2):
+      soc: apple: rtkit-crashlog: rename 'Crg8' section from regs to aarch64
+      soc: apple: rtkit-crashlog: Add support for AArch32 state 'CrgA' section
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index f6134c582..524ac80cb 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -395,6 +395,12 @@ static bool apple_is_omoton_kb066(struct hid_device *hdev)
- 		strcmp(hdev->name, "Bluetooth Keyboard") == 0;
- }
- 
-+static bool apple_is_dockchannel_keyboard(struct hid_device *hdev)
-+{
-+	return hdev->bus == BUS_HOST &&
-+	       hdev->group == HID_GROUP_APPLE_DOCKCHANNEL;
-+}
-+
- static inline void apple_setup_key_translation(struct input_dev *input,
- 		const struct apple_key_translation *table)
- {
-@@ -482,53 +488,57 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
- 		asc->fn_on = !!value;
- 
- 	if (real_fnmode) {
--		switch (hid->product) {
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI:
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_ISO:
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_JIS:
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI:
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ISO:
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_JIS:
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ANSI:
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO:
--		case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_JIS:
--			table = magic_keyboard_alu_fn_keys;
--			break;
--		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015:
--		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015:
--			table = magic_keyboard_2015_fn_keys;
--			break;
--		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021:
--		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021:
--		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021:
--		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024:
--		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2024:
--		case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2024:
-+		if (apple_is_dockchannel_keyboard(hid)) {
- 			table = magic_keyboard_2021_and_2024_fn_keys;
--			break;
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132:
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213:
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680:
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680_ALT:
--			table = macbookpro_no_esc_fn_keys;
--			break;
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F:
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J214K:
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J223:
--			table = macbookpro_dedicated_esc_fn_keys;
--			break;
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J140K:
--		case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J230K:
--			table = apple_fn_keys;
--			break;
--		default:
--			if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
--			    hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
--				table = macbookair_fn_keys;
--			else if (hid->product < 0x21d || hid->product >= 0x300)
--				table = powerbook_fn_keys;
--			else
-+		} else {
-+			switch (hid->product) {
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI:
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_ISO:
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_JIS:
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI:
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ISO:
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_JIS:
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ANSI:
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_ISO:
-+			case USB_DEVICE_ID_APPLE_ALU_WIRELESS_2011_JIS:
-+				table = magic_keyboard_alu_fn_keys;
-+				break;
-+			case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2015:
-+			case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2015:
-+				table = magic_keyboard_2015_fn_keys;
-+				break;
-+			case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021:
-+			case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021:
-+			case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021:
-+			case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2024:
-+			case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2024:
-+			case USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2024:
-+				table = magic_keyboard_2021_and_2024_fn_keys;
-+				break;
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J132:
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J213:
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680:
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J680_ALT:
-+				table = macbookpro_no_esc_fn_keys;
-+				break;
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J152F:
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J214K:
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J223:
-+				table = macbookpro_dedicated_esc_fn_keys;
-+				break;
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J140K:
-+			case USB_DEVICE_ID_APPLE_WELLSPRINGT2_J230K:
- 				table = apple_fn_keys;
-+				break;
-+			default:
-+				if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&
-+				    hid->product <= USB_DEVICE_ID_APPLE_WELLSPRING4A_JIS)
-+					table = macbookair_fn_keys;
-+				else if (hid->product < 0x21d || hid->product >= 0x300)
-+					table = powerbook_fn_keys;
-+				else
-+					table = apple_fn_keys;
-+			}
- 		}
- 
- 		trans = apple_find_translation(table, code);
-@@ -768,7 +778,7 @@ static int apple_input_configured(struct hid_device *hdev,
- 	struct apple_sc *asc = hid_get_drvdata(hdev);
- 
- 	if (((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) || apple_is_omoton_kb066(hdev)) {
--		hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disabling Fn key handling\n");
-+		hid_info(hdev, "Disabling function quirk for device without function key\n");
- 		asc->quirks &= ~APPLE_HAS_FN;
- 	}
- 
-@@ -1019,6 +1029,18 @@ static void apple_remove(struct hid_device *hdev)
- 	hid_hw_stop(hdev);
- }
- 
-+static bool apple_match(struct hid_device *hdev, bool ignore_special_driver)
-+{
-+	if (ignore_special_driver ||
-+	    (hdev->quirks & HID_QUIRK_IGNORE_SPECIAL_DRIVER))
-+		return false;
-+
-+	if (hdev->group == HID_GROUP_APPLE_DOCKCHANNEL)
-+		return apple_is_dockchannel_keyboard(hdev);
-+
-+	return true;
-+}
-+
- static const struct hid_device_id apple_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MIGHTYMOUSE),
- 		.driver_data = APPLE_MIGHTYMOUSE | APPLE_INVERT_HWHEEL },
-@@ -1240,6 +1262,9 @@ static const struct hid_device_id apple_devices[] = {
- 		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT),
- 		.driver_data = APPLE_MAGIC_BACKLIGHT },
-+	{ HID_DEVICE(BUS_HOST, HID_GROUP_APPLE_DOCKCHANNEL,
-+		     HID_ANY_ID, HID_ANY_ID),
-+		.driver_data = APPLE_HAS_FN | APPLE_ISO_TILDE_QUIRK },
- 
- 	{ }
- };
-@@ -1248,6 +1273,7 @@ MODULE_DEVICE_TABLE(hid, apple_devices);
- static struct hid_driver apple_driver = {
- 	.name = "apple",
- 	.id_table = apple_devices,
-+	.match = apple_match,
- 	.report_fixup = apple_report_fixup,
- 	.probe = apple_probe,
- 	.remove = apple_remove,
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 8d17b7416..40be5eabf 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -441,6 +441,7 @@ struct hid_item {
- #define HID_GROUP_STEAM				0x0103
- #define HID_GROUP_LOGITECH_27MHZ_DEVICE		0x0104
- #define HID_GROUP_VIVALDI			0x0105
-+#define HID_GROUP_APPLE_DOCKCHANNEL		0x0106
- 
- /*
-  * HID protocol status
+ drivers/soc/apple/rtkit-crashlog.c | 139 +++++++++++++++++++++++++++++++------
+ 1 file changed, 118 insertions(+), 21 deletions(-)
+---
+base-commit: fd73f4a6659897191fa0d40695fe370925dd3780
+change-id: 20260918-rtkit-armv7-crashlog-2dfe86453b63
 
+Best regards,
 -- 
-2.55.0
-
+Nick Chan <towinchenmi@gmail.com>
 
