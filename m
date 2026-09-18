@@ -1,67 +1,67 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEED503BC7
-	for <asahi@lists.linux.dev>; Fri, 18 Sep 2026 16:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042515187FD
+	for <asahi@lists.linux.dev>; Fri, 18 Sep 2026 16:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789750057; cv=none; b=mYt1q4ClphwVoEubq9p3D1TqL9zStlHtfRqyUrPydkAsnbYFwyiOAPJ+FIImZTNv3f5mxjAmbqHiFWdfyAMLfDl53dadpFWFThnxuHQJualxZez+KoZZS55a2Gznt3aUO7+MuH4Yf1NOPZDXeYTxhS097gTIQFZCLpNKNr1jHI0=
+	t=1789750064; cv=none; b=MnjIuF4Hcgh2YMDCcXWqmksgrUnJDa7IN0zYZXNouljTShcPzgQVQABmtT/RJNMzEZ/tT53+dnDs/5GPh1mZP9i6+laWkUU2bBtEN38zj6Gbvd/mzwuCjMUpePQlCX911TyUdnplYFz9CG1B2VLTyUDkd9qIDutUtyNxqrv5clY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789750057; c=relaxed/simple;
-	bh=9ThTR4usKlllKQeYQGdfTkQcMVtWtvUIwI1QCDrW3UU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aEoUAPwzawEGQvmZ+34McJOpVcOJ4IDF3ksrxToEls/lrAklQK1p49r3jr+AwWebnQAx9Ih1lHzN6BCYa52+djktfYKTDdWBfRBetZMZ9RyVS4Fq6nBeR+ULlLshKxy8ogl9fAu8Wt/cmD3e36aXS4rrcZp8/scARWFcpv303Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dbjEQv8s; arc=none smtp.client-ip=74.125.228.12
+	s=arc-20240116; t=1789750064; c=relaxed/simple;
+	bh=T5ePlaPWKKBlTLSmPKKBLXleGmVB5tFWU+61peT575U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=AcuPEpTCJMvvNXI0380HP8SvSY+oYDm58I/yjTgI1I9IW4PvZJNmt40BPXIW7bweCDHKMHOJcXoBxnxcD2xswqbJVFuP4Qs3KprWbV2GXaySBSGBgXo46qobXaii7wtIK8ZfcU4JvIcB0N7sE9XiX+Dcr2PUTej56QpNfJqvSzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OiegDJY5; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dbjEQv8s"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469d20963so724422b3a.1
-        for <asahi@lists.linux.dev>; Fri, 18 Sep 2026 09:47:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiegDJY5"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-86ec25cf7ecso1960445b3a.1
+        for <asahi@lists.linux.dev>; Fri, 18 Sep 2026 09:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789750056; x=1790354856; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=n6D3MKECmB1Q9b8DagSOBbCm9EGs/3yp1gtCOGWTpSk=;
-        b=dbjEQv8s2ne3IbOv3nUAjDbElMP6XqYWnC4pngFDqXlv755Z5mmogi3BBEk5JD7TV6
-         j8lfa1yKAQZrM33IaY7CdrhpzXMKHwmXSYr7vGwTJUY1EDuxW+bLR2lq9ZWwsj9Z6sNa
-         6QyzVhXMI6kOh/lXk1lbrMJAIy6ZKFEtvsJsst2EtT3gYoNkZV1z5vcGI9zB1pF4hE+e
-         BW+v/dEEEg1cVe3Bf/de4qWpLzf3cEQeC4SxQh4bTiIoKqp/RRYmm8BP4LOUtzLbpXcb
-         5H+aGTTgXQ0tXI0GKe+oXGK38CR/JO+vXHOVD/su7jiLQQtQgqlSdXtoM/6qHggf7bT9
-         5wwA==
+        d=gmail.com; s=20251104; t=1789750059; x=1790354859; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EXzJLAY9j5odxKClr8BsLGTEU4HkCb/vEygnN5tSKcI=;
+        b=OiegDJY5GNGm2agySMXq/y7DMX+bwdZCKnlQMbggPyJKFXL//tz+n9Wyb92Gj2bZgs
+         Nli3I17X4emMn3YOujQ/013KULVLsIzabb09STnO7BxUSovWkVvkrkHK6fT43CtJVm+S
+         cXP6f0xw+gq9vkS3/+twdBL1hy8aK3vr89RCGuKYBK3BNVAkv3LS3yAA7+wZ5GYMoP5F
+         0GL1HM/KLiDPFoGehjKoGdtvHhppzgAExBecdoGaNGktIyvBvI6YrVk73YQG/WO/QwY4
+         BZRLzUb4Z0A3mARsf2SJsXCq0iacV/7BJ128aEUNvc0O9nfwG4O7wyg9yJgVWl7rpFHa
+         wkOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789750056; x=1790354856;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=n6D3MKECmB1Q9b8DagSOBbCm9EGs/3yp1gtCOGWTpSk=;
-        b=SzJCvBKNzjhUslRIlhOHPpFAyIE6QSzammq6IbuwVvIdw3V2VJGPxyWauTpRnivPsv
-         ONj+Fhi++i/U2zSXVXmjiTcxdLUYY7wd6fKRblEAXRVrSOJ0RQZmbah+fkpDwjWnJGVZ
-         bP3/U7RiRla/HzsX5kWw3yyqDre7wnsBbP0DQrKduxX+t6myhLD7nc6M2cwzSKpMYdDQ
-         cSKJdh8B21qpfH+T/9sA3xmqqO+dizugZ1TluIfkD77yvRkiUIBINOXwXodDw1eN9fkk
-         XDOeoF2rO0dLlMBiVmdlwYHYb0nui9865l55Hr4SrxbYL8bdxx+bddepzo1IVvpgd0/P
-         tfGQ==
-X-Gm-Message-State: AFuF++m4FqfpbioUfxlNej0uYAEoXZtFMSG8wfOcqCcn5GW+W0Y72uB2
-	PltHGMKHuYp2fHGALFc/Uc3GiNNE98yqo6+SR/rnq9n7sDhEDL+dC22f
-X-Gm-Gg: AYBFou1u4qIXd8aGm4QsR7cK0AOQajw3nmomRNTJLjDzZ5/0ATPqmLaSp/SvTPn1hHb
-	3V87MP2LFpRjb95mq6DC/yseGNU0lOA5hHtgSR6LPV0Fq1DyuPBtj9AlDiQglpr2v+nnPgy9K+h
-	g+P8ThIbtoj4kofkQu/kouFmDHBiu2lsojhKt+RJTYWoZ5z2sO7ucDZckhzdHypy54koxysdugX
-	gALnmVEkMGlGLMi4jnoFXJWecxVSi3dXiiF6nxwDgqa5KiuP5ue2sNlqrf8b5YWlTpf7vq+FhWa
-	KYqPWWOx5mxkqzx2BKTMxBvBfp9nfm03kDIPsh6WTCeJjCfErob+Q8/dGKR3eAUY9XnARkJbLW3
-	vTk+s5Z/NAkbPDgTxR0SU7/mR95OdEajtsfllqsYfjH/2Ba+wqsSQyDugsR9/+FE95jTjyOdLVx
-	tDGg0eulwq5rFHsbRUc7YLIfVTMuUW8XEXp3mEh+0qB1WNx9cCk8G9oHABQi4/Qws1nNOnXZjHZ
-	VlfreWaGU8=
-X-Received: by 2002:a05:6a00:4196:b0:874:708d:b637 with SMTP id d2e1a72fcca58-874df800839mr6021748b3a.35.1789750055865;
-        Fri, 18 Sep 2026 09:47:35 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789750059; x=1790354859;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EXzJLAY9j5odxKClr8BsLGTEU4HkCb/vEygnN5tSKcI=;
+        b=rI27EPtvgzZVY8Yf6Wj9sqweBhHl3vW869zLFsR54MAXazzxqgtOnfQN8b3+iLK4Kb
+         maruzxX2HgrjkC8w7vbA9AKD2xIDro+LmeXuGq/2/mmOT0LdsKaWpDym6IQgSTdgn3Nd
+         m49g1UPyq+Ou2+X0YT0SEpCQuDryHCG/1jw6f0MledmDEi0pVobhjua+NPo8Io0UzSuW
+         Afy+L/Ejm1fXIE/S3u2jgf1l9GJek6so7KiDOQsNMuFkcRQSsOJ+rcKIc8d8DVKYo9zN
+         +l+CqyutlbfUEZzcr7Wc0lKtSsX+wRu+zfl72gGNovANy0huB2AW0Dcs8OFb4Wx4UhPn
+         6gdQ==
+X-Gm-Message-State: AFuF++nbQQZFKWaqPKArks26CZeK+ikQXENlrPtJ+Vts/8aii9Uvguvm
+	1ZyW0vuA5Cp6h2hgVLZLJMpoe2PD1QByLuzhCtKTT33R8GSG51qu/xDG
+X-Gm-Gg: AYBFou1ch3Kb6XE6keclkgXuVbLHEzpIYeVAT43nKtSv4FFvMd8r6P41Hh30j3K0v/U
+	nIwoDAsvsDKpU2PWf+fPY4lukpri3ZHx09G3Tdf9fXaqpn41ypUJ0m0bVEkyNhs5MaLTtesPv9H
+	CpzdyLbt9+6Ax8/IG32xRygHVCvPPfmarTzbrOsdZwJhCcCKMUGnqqXXdQXtESzRxYT2LBGbF8O
+	o1QbsAe7PuQee2QcP6o1NPwRGVQh9b7fDokS211pifiwpoqXg+QBUEBidbVRo6KNmcLwNT8mhD1
+	gx7n+xNHxYT1nFwu3QJiJsDHenUGbvoysRZDl4FOU58xr2awFaaxwySl9MqbLZIpI1NCgsGUJUt
+	gu7Az1sJfRhoacYnvEX8zBeYmMUJPFHqsKOTMLxFGaFQMKKUJA6i4BDwEVp/XwOUMBwkaaBlEWA
+	bZKUDoXxxA9DE/ZAvnLw+MdGXzJ0UlbYnKTOs43Rd77RgxMfgoaQCExL+H3hIwvPtYJleIvFDu
+X-Received: by 2002:a05:6a00:4099:b0:842:3c77:5996 with SMTP id d2e1a72fcca58-87341085fd4mr10175647b3a.1.1789750059163;
+        Fri, 18 Sep 2026 09:47:39 -0700 (PDT)
 Received: from [127.0.1.1] ([223.122.38.120])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-877a8dfe201sm50514b3a.18.2026.09.18.09.47.32
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-877a8dfe201sm50514b3a.18.2026.09.18.09.47.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 09:47:34 -0700 (PDT)
+        Fri, 18 Sep 2026 09:47:37 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH 0/2] soc: apple: rtkit-crashlog: Add AArch32 IOP state
- parsing
-Date: Sat, 19 Sep 2026 00:47:02 +0800
-Message-Id: <20260919-rtkit-armv7-crashlog-v1-0-f4a671ea453c@gmail.com>
+Date: Sat, 19 Sep 2026 00:47:03 +0800
+Subject: [PATCH 1/2] soc: apple: rtkit-crashlog: rename 'Crg8' section from
+ regs to aarch64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,51 +70,149 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQ5AMBBA4avIrE1CUT9XEYtiMEErUxGJuLvG8
- lu894AnYfLQRA8IXezZ2YA0jmBYjJ0JeQwGlSid1GmFcq58opH9KnEQ45fNzajGiSqdF1mvMwj
- pITTx/W/b7n0/0qGdUGYAAAA=
-X-Change-ID: 20260918-rtkit-armv7-crashlog-2dfe86453b63
+Message-Id: <20260919-rtkit-armv7-crashlog-v1-1-f4a671ea453c@gmail.com>
+References: <20260919-rtkit-armv7-crashlog-v1-0-f4a671ea453c@gmail.com>
+In-Reply-To: <20260919-rtkit-armv7-crashlog-v1-0-f4a671ea453c@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Neal Gompa <neal@gompa.dev>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=784; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=9ThTR4usKlllKQeYQGdfTkQcMVtWtvUIwI1QCDrW3UU=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBqrWsfexwtBAWkKYwS3MiJyZn7cTBuRWss6Kylh
- VQ5Upp/K0WJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaq1rHwAKCRABygi3psUI
- JAnKD/9KcNtXTJThW/oYrX6AuZvPBkFL4cKG1KjGW8UZdPaOwY7mplNnesgBdScWem3kqA3it4z
- yuN10j2LV4F5X+OUWqKW8oQAKhtDnTwZhzZjPaO4H7+zw34dnDj7GVzVZ5H+uvvc02YjidfhLHu
- zKoN4hKN0706khQrDj6f6UCCBR8iNPyS4LyWnuDYzpIZvRnSAn+8cP221UA3lLJZ6ICcbw36nvY
- l6NIKpZ6L0TxRjhQhwq/RdrzLOMu8f+41XVqq/UX/Fqx9Szror5vFiMWHd14DbqtArKudSR9Yi8
- 9v206cnl/BbV1IAqawlnzslkxUo19HiIZ3HqveIB69bz5WGliPAv8/JTGqpZtkjqxuJPMIBun42
- hxil79HgAUgVFUs226Agxo0IgDL7z6juaYUlRI9EdAyQ+f5E+pbWw+kiqSuoG+asR/uTZ9bsTx9
- QdvuHwR2TmuXNJck4VwJNhhpqGM4nGr32SdlJ0hRnfycXmB0F1antz3c8l+5IM5gyCJ21zfxxFo
- dMKEfTl6ONzG4OPwxFkM48OcyXRPI5PNslw7U0G/4rBZ3F+CNnibmVuqIFXNhNZfEazvveE8MRr
- OHT364iCn23+MuCoMFZdXzZ7pCP3ODotL+da0UxVMA/mMim7zYqrkDoVbRsECG1B1a2aXZyVuCU
- 0E3WPsnO33qh5Lw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4600; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=T5ePlaPWKKBlTLSmPKKBLXleGmVB5tFWU+61peT575U=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBqrWskADcmCOtokPCqj1yGNH6q8CXYa2yckF60P
+ 9FNoYp3liiJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaq1rJAAKCRABygi3psUI
+ JE/OD/9Fop6CLfJ+FGs1WPvP0YASFDiEJBUsmpWiWlsK1im1oxn7BYgcc2POZWxDKIp79qhz6YL
+ U/CXIDQrU7agwe/cHOJRGXCBW5VgfUkxkgIfIX3DTg5UPPZ1c5uXTYE8l4HRm+/WRXLsRVS6f/Y
+ 27Oog1lG/01iZtYCsrtTV3AA82LxWldSykRyuVvPdqTCZdZjR9SYS2mWU7lsAvyU1KRjFab/vaB
+ qthXOQSIihlpyVv3c5b8pLOnx0boPZ1zR36FgEpYJuS5DfxuqLBFTEaCalWpjdZo+m+Y38lHM3y
+ ol08sA27qnwsK3EjduTpllJjDb/YzodiMlBUsAAj2U7UYoUPff0v2G8N+BInwTs1jkTuhZtFaZi
+ Fef9+cjD0m0hT+IjC4mE4zpqRZl+1aT6RS6xXZo3HMbwgdVPwIQmrcBnFpozNvwYxP+fiaPKpiF
+ Bs06tSqQ/PETttfAjFgKt59qxkx2K6TlK1O0EgLibTytDnwmY+YzrPUhBRkNlr0d0iGeO5oSKlc
+ eTjNHjH5B9M3lRJdE2HVwIKc6zM1mZJqvCYzl7aQDkmsIGn0phgpHiQgb2PW+7JojlzfZGxy2NV
+ g6SAHeu8NWlULXW6X36e2WWTGZtBxCMHXGpHDYA8b69OzeNQlpCMPIK7NJ81RkmsgFklgUIQtiQ
+ 0+TOUrIY/+70KIg==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-Some RTKit coprocessors runs on AArch32 CPUs. When they crash, a 'CrgA'
-crashlog section may be reported containing their architectural state.
-
-It is useful to get it so as to figure out what the firmware was doing,
-add a decoder for them.
+This section contains AArch64 CPU state of the IOP when the exception
+occurred, including register information. Rename this section to be clear
+about the CPU architecture as support for crashlog section with AArch32
+CPU state will be added.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
-Nick Chan (2):
-      soc: apple: rtkit-crashlog: rename 'Crg8' section from regs to aarch64
-      soc: apple: rtkit-crashlog: Add support for AArch32 state 'CrgA' section
+ drivers/soc/apple/rtkit-crashlog.c | 43 +++++++++++++++++++-------------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
- drivers/soc/apple/rtkit-crashlog.c | 139 +++++++++++++++++++++++++++++++------
- 1 file changed, 118 insertions(+), 21 deletions(-)
----
-base-commit: fd73f4a6659897191fa0d40695fe370925dd3780
-change-id: 20260918-rtkit-armv7-crashlog-2dfe86453b63
+diff --git a/drivers/soc/apple/rtkit-crashlog.c b/drivers/soc/apple/rtkit-crashlog.c
+index 8319e365110b..6a8273e81e61 100644
+--- a/drivers/soc/apple/rtkit-crashlog.c
++++ b/drivers/soc/apple/rtkit-crashlog.c
+@@ -13,7 +13,7 @@
+ #define APPLE_RTKIT_CRASHLOG_VERSION FOURCC('C', 'v', 'e', 'r')
+ #define APPLE_RTKIT_CRASHLOG_MBOX FOURCC('C', 'm', 'b', 'x')
+ #define APPLE_RTKIT_CRASHLOG_TIME FOURCC('C', 't', 'i', 'm')
+-#define APPLE_RTKIT_CRASHLOG_REGS FOURCC('C', 'r', 'g', '8')
++#define APPLE_RTKIT_CRASHLOG_AARCH64 FOURCC('C', 'r', 'g', '8')
+ 
+ /* For COMPILE_TEST on non-ARM64 architectures */
+ #ifndef PSR_MODE_EL0t
+@@ -42,7 +42,7 @@ struct apple_rtkit_crashlog_mbox_entry {
+ };
+ static_assert(sizeof(struct apple_rtkit_crashlog_mbox_entry) == 0x18);
+ 
+-struct apple_rtkit_crashlog_regs {
++struct apple_rtkit_crashlog_aarch64 {
+ 	u32 unk_0;
+ 	u32 unk_4;
+ 	u64 regs[31];
+@@ -58,7 +58,7 @@ struct apple_rtkit_crashlog_regs {
+ 	u64 esr;
+ 	u64 unk_Z;
+ } __packed;
+-static_assert(sizeof(struct apple_rtkit_crashlog_regs) == 0x350);
++static_assert(sizeof(struct apple_rtkit_crashlog_aarch64) == 0x350);
+ 
+ static void apple_rtkit_crashlog_dump_str(struct apple_rtkit *rtk, u8 *bfr,
+ 					  size_t size)
+@@ -123,21 +123,22 @@ static void apple_rtkit_crashlog_dump_mailbox(struct apple_rtkit *rtk, u8 *bfr,
+ 	}
+ }
+ 
+-static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
+-					   size_t size)
++static void apple_rtkit_crashlog_dump_aarch64(struct apple_rtkit *rtk, u8 *bfr,
++					      size_t size)
+ {
+-	struct apple_rtkit_crashlog_regs *regs;
++	struct apple_rtkit_crashlog_aarch64 *state;
+ 	const char *el;
+ 	int i;
+ 
+-	if (size < sizeof(*regs)) {
+-		dev_warn(rtk->dev, "RTKit: Regs section too small: 0x%zx", size);
++	if (size < sizeof(*state)) {
++		dev_warn(rtk->dev, "RTKit: AArch64 section too small: 0x%zx",
++			 size);
+ 		return;
+ 	}
+ 
+-	regs = (struct apple_rtkit_crashlog_regs *)bfr;
++	state = (struct apple_rtkit_crashlog_aarch64 *)bfr;
+ 
+-	switch (regs->psr & PSR_MODE_MASK) {
++	switch (state->psr & PSR_MODE_MASK) {
+ 	case PSR_MODE_EL0t:
+ 		el = "EL0t";
+ 		break;
+@@ -160,11 +161,11 @@ static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
+ 
+ 	dev_warn(rtk->dev, "RTKit: Exception dump:");
+ 	dev_warn(rtk->dev, "  == Exception taken from %s ==", el);
+-	dev_warn(rtk->dev, "  PSR    = 0x%llx", regs->psr);
+-	dev_warn(rtk->dev, "  PC     = 0x%llx\n", regs->pc);
+-	dev_warn(rtk->dev, "  ESR    = 0x%llx\n", regs->esr);
+-	dev_warn(rtk->dev, "  FAR    = 0x%llx\n", regs->far);
+-	dev_warn(rtk->dev, "  SP     = 0x%llx\n", regs->sp);
++	dev_warn(rtk->dev, "  PSR    = 0x%llx", state->psr);
++	dev_warn(rtk->dev, "  PC     = 0x%llx\n", state->pc);
++	dev_warn(rtk->dev, "  ESR    = 0x%llx\n", state->esr);
++	dev_warn(rtk->dev, "  FAR    = 0x%llx\n", state->far);
++	dev_warn(rtk->dev, "  SP     = 0x%llx\n", state->sp);
+ 	dev_warn(rtk->dev, "\n");
+ 
+ 	for (i = 0; i < 31; i += 4) {
+@@ -172,12 +173,12 @@ static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
+ 			dev_warn(rtk->dev,
+ 					 "  x%02d-x%02d = %016llx %016llx %016llx %016llx\n",
+ 					 i, i + 3,
+-					 regs->regs[i], regs->regs[i + 1],
+-					 regs->regs[i + 2], regs->regs[i + 3]);
++					 state->regs[i], state->regs[i + 1],
++					 state->regs[i + 2], state->regs[i + 3]);
+ 		else
+ 			dev_warn(rtk->dev,
+ 					 "  x%02d-x%02d = %016llx %016llx %016llx\n", i, i + 3,
+-					 regs->regs[i], regs->regs[i + 1], regs->regs[i + 2]);
++					 state->regs[i], state->regs[i + 1], state->regs[i + 2]);
+ 	}
+ 
+ 	dev_warn(rtk->dev, "\n");
+@@ -229,9 +230,9 @@ void apple_rtkit_crashlog_dump(struct apple_rtkit *rtk, u8 *bfr, size_t size)
+ 			apple_rtkit_crashlog_dump_time(rtk, bfr + offset + 16,
+ 						       section_size);
+ 			break;
+-		case APPLE_RTKIT_CRASHLOG_REGS:
+-			apple_rtkit_crashlog_dump_regs(rtk, bfr + offset + 16,
+-						       section_size);
++		case APPLE_RTKIT_CRASHLOG_AARCH64:
++			apple_rtkit_crashlog_dump_aarch64(rtk, bfr + offset + 16,
++							  section_size);
+ 			break;
+ 		default:
+ 			dev_warn(rtk->dev,
 
-Best regards,
 -- 
-Nick Chan <towinchenmi@gmail.com>
+2.55.0
 
