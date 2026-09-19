@@ -1,244 +1,236 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D314E519926
-	for <asahi@lists.linux.dev>; Fri, 18 Sep 2026 16:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16C822D7A1;
+	Sat, 19 Sep 2026 06:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789750064; cv=none; b=nrH/h3hGc73pgbvdmRHi/YhbdNoiQXKEW8QNf5xxAUmHbttz9S43pQMZLbYTlMQuEfqWeo0GOHr59u9nWPP/jcAMCHN/0CvnB5mw2fUJntdJRH0MYOgEOJksgSFKhf9uvs0QNgZV8CTijgcoXf+zMopk9EP6bIT8mdvQhsy20x0=
+	t=1789800401; cv=none; b=M8nctqhpCgT9Bu9dOuoVFEcLtp0ySL0GdwcBVw6IXHPzj/BPVcJTk655TuWt6j4O8aZk+jNc7OeSWRBuegij2mvWeeBvSiPYhHo1CSUgXOXBi46oKsKEvlYywsH8MKVZammV/iFO2VO4SSeRmoHv+Mqi55eBnmv7CyMjF70fkVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789750064; c=relaxed/simple;
-	bh=Y77Z1J3VIhFnhKwdKSgUSyUOgqiXcpPLGPr9pLwn6OA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=akdEGOGXhR7Cjazlgg1y+7cscj8JaSCqD1vgASudYXKGyOgW2M6VDJwzq8ztFRR3b3hykEP4QSzBvrFanYaVkUC5DdULP5x6ekI6oI9Gq2j35Yggz4f7LbL8eNqBvKna0xegwr3QXuiK3Fsi+4cPhj7oBpMgdAEkcKij9VcsY0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n7X/gq7o; arc=none smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789800401; c=relaxed/simple;
+	bh=9rSDcW9bexOpCbCkD7PgguNzMAuVswgEc6mK09AtZ3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U0lXvY63zJvQrAZws6/0Io7zH4pXCvXT59F8ZVDEvxxsDS4k9z+V1+nCtedOY7omkSkyVsvAeii9qRKqGytHjogTXTBnzjO1bpJBwMOZE32RHNBVycCMZ9k4cgGEPZU2ZQfQJPzIAT+w4RMW+fDNP1kpCe4DwUFCM6Z/UOMz20s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zzq8pKyF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n7X/gq7o"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469a34908so984433b3a.0
-        for <asahi@lists.linux.dev>; Fri, 18 Sep 2026 09:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789750062; x=1790354862; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KWKD/UjAbfhc4ufwKqglnF54JbL9r5nugGNbeX3aT9w=;
-        b=n7X/gq7oAHwqs9EbdCs3Vn1rQK2qgOdWg4HQuSWrYSNi3rf5RYjOw4OIe4k+FW/v4d
-         NGHnIOhW8eHFLfBLVpZxEq+iyu9t/aNaHWIihQYiDx6Mc+rqWe9WEO9eOE1MQJG95+A4
-         h+JX07WZAJpKcGmXrqKD9cJilVBolXvtAR7dcAUBxg+GEjB3gZH9lNxlPFlUzg3/iZHD
-         bl3DpWvLceoaFZWLZCVzt2q3/+Q3gOAxMV3w4VHc5oZ+ZOkt6YYpmL/wVNBQBnUvMs0v
-         gUEFLJDRs1v7WwR0OnkdP9KMwJBiE9m3zYl/wa7lbf46VR0KRpJsNC8pArDuxY7k4zrk
-         f/fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789750062; x=1790354862;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KWKD/UjAbfhc4ufwKqglnF54JbL9r5nugGNbeX3aT9w=;
-        b=VXje+hY5b0smvB6CCKnPzuaAAaYwOdaixG5Xrd3C761uDTJnyweAPxWePQi85Wzuaz
-         WWJp2/bo4VsTUv2+2h606PpsgFPSIl4rLsTfhbzcijOdQEh0TGTWRBZFaX4lSncSGHPv
-         vI69rBQr/s5kxwcqyVe1EFCCWR+fkSxCWABiocI4KKsxM5GVUx4fsGkJ1mVEvnDlLo4j
-         Y2QEwoqIe0KmUe1LXCPU0pWIG6KW836NzEGZWaLFPqdb1BB8RcJ0mP7g56+BS7AJK0TQ
-         SoZuxfzX8gLNX+WzSrOCopOT1mE7im7gIAzvlB6D0pJQ9T06vDrNJS64h9bvUKH9HMHN
-         b9Sg==
-X-Gm-Message-State: AFuF++lnQFUWvxXIoeodUY2Z87bLI00/KgYIQLbvgo/fsdqhZZ2lxh+U
-	ZMoiZ2nhZrP93/3HTBcbwUUIt6m3Q2HiIUMSioQZCX+3ZWKQm/hnayW8
-X-Gm-Gg: AYBFou1y9pZYDzTIRBcOFIWPqqSekHgtFhLtVNK1qNm5+2qsCKZZWFjtIssQEXIRwsP
-	b9czi+BQIECwvF09NB23bv0zCCtdf9K2orYyEqxaXyrZmArLdYT2xxiv40pb4hRlo+Kt3pS6Rlp
-	DyI338LlEYxa0XZ6eCGFgAc0fNRHYiaxr0w+28T+ty3ZdaLwd56QbbzGbwUwp4ECFEc27g4kAlf
-	hgenBuJRuXmREZEogI125kXcPCu41Hw1olDxTXFIxd3aOvg2kgHPqhNjeX8xZ2KV4nkCEMMP4Fs
-	NNFIdRWS///7epl736kZ2YntsSr9UQja0FJV7XJRfzL1H1zpWs4QiDc+WP9V6SFhx1QFL2m7vZy
-	POM0oS7W9nqVBh3Ziguh22ixsPLcSQXUEjk+NWBFfqu/LFckS16kiyWsbOfAYgoQ8cPJPtR6WC8
-	tQ73Kf94skrs5aj9vjKqHCTO16nNdNaOa2ORfPuI18+B6qFWfMgLXH4bGTY/KhN9Wz1Egk9o+L
-X-Received: by 2002:a05:6a00:f87:b0:86d:7462:414a with SMTP id d2e1a72fcca58-874db8eb145mr6579181b3a.7.1789750061944;
-        Fri, 18 Sep 2026 09:47:41 -0700 (PDT)
-Received: from [127.0.1.1] ([223.122.38.120])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-877a8dfe201sm50514b3a.18.2026.09.18.09.47.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 09:47:41 -0700 (PDT)
-From: Nick Chan <towinchenmi@gmail.com>
-Date: Sat, 19 Sep 2026 00:47:04 +0800
-Subject: [PATCH 2/2] soc: apple: rtkit-crashlog: Add support for AArch32
- state 'CrgA' section
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zzq8pKyF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E04CA1F000FF;
+	Sat, 19 Sep 2026 06:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789800400;
+	bh=5vk7OvicrTQRWGuZTF4fATOQub6s05myuBV5giJTLMM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Zzq8pKyFIekr3ojnhCCzOd2e3OcZiBDr9VFA6CcCEkh2FlxDDU8Xu5jILCEUwgPKr
+	 WC0Stvg6lfBJO3L12oTmGVjPu/TrHBkg9rV88Y6S6m3uSJMJWUNlGr94PJK4UbVjRq
+	 ZSgyOEKBUCY5ahWvT6XbbZwJ8ngKxFr5SXFjdXDcxVIPc+wKbeAKusEjUV+uQdOOsP
+	 jt2wefAK7Idi8to02UbxYom/2BVKBFkZFOI6sIPGaPRPBFNq9bRzvv7RjjMK0WUvEj
+	 7AqtuTYqmgs7loBbSj19ye1lMKPU28EJu4V43mQKTctxatmmPGQlAKjGAC8MNZqF5d
+	 Ryp83MTZMvB0g==
+Message-ID: <c8d25275-3c45-4e9a-826c-cf856938d60e@kernel.org>
+Date: Sat, 19 Sep 2026 08:46:31 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/14] dt-bindings: media: add apple,avd
+To: Sofus Forstreuter <sofus.c@icloud.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20260918-avd-v1-0-49977931f455@icloud.com>
+ <20260918-avd-v1-2-49977931f455@icloud.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260918-avd-v1-2-49977931f455@icloud.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260919-rtkit-armv7-crashlog-v1-2-f4a671ea453c@gmail.com>
-References: <20260919-rtkit-armv7-crashlog-v1-0-f4a671ea453c@gmail.com>
-In-Reply-To: <20260919-rtkit-armv7-crashlog-v1-0-f4a671ea453c@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Nick Chan <towinchenmi@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4198; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=Y77Z1J3VIhFnhKwdKSgUSyUOgqiXcpPLGPr9pLwn6OA=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBqrWsk7omeMzvdcitvH2/8gz8Yi+jaRw/Tk4IgI
- 5534I+qe7qJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaq1rJAAKCRABygi3psUI
- JEK0D/9Kfa7Epjlhe9qqYxU2jBhD/ZecorVNyE0jqtyJshS01kR+G55qbyUSKIagHwbniwuAsl+
- odn+CsCvydbje8Oso042k1X1wlgngDBwMFL202WWl8rw9yXmnp7YqO68OYZMy4Hx7Yb3AkiaK5O
- +q7Wl5CF/GgG8kmlg5DuC2pNCyVTi5tKESXoz6UoVhZqrUkP7nFZs63/9oxBFnYbabY0flUvXJf
- ZoNzQX2LTk0jp44E+n2F0xVngzMZzU/J6hDh8aUUFav91BxuOTBqt9uT6Fs1tOAlSH9W6Z6IEWP
- KOPP/oxlZWVpsq0+8wXzmbIDaCMR7axhCIm6/SE6HUhdW2hyeFWuMBfhNrBOaAXwf7L5o0yYX4l
- wOiMLNo+StR9SlSBobAbPwkFWYi2ccI8VApQnkjoy7WDS0HmJq5VzUgltq8gBu5s27HFLePjzAx
- 7MRr2a2z6SJmuk0PjoJNf8WkNI/W84fA9cA1gsJUsBEPOQF8sd4O0td6uKOgnULPGBXtE8XsMN/
- ZKwV3D2AvsZoKjVvzPNlGu1Ug/p5Qkd1MWXkf0tnCRHAngZYRQ+lFeJ2w5ppMym3kAHLhHvP7zS
- qqmqkFv15Pv0EDpROnVPfQi+lyt6Pn4KS0gHNZ5nvYZO9f4ghN7j1vgcGbObDr0FmA5403IrkwV
- mcbuhp+SNze+7Bg==
-X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
- fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 
-Add support for CrgA section containing the AArch32 IOP CPU state, which
-may appear when an AArch32 RTKit IOP crashes.
+On 18/09/2026 15:15, Sofus Forstreuter wrote:
+> Document the Apple Video Decoder. A hardware video decoder present on
+> Apple hardware.
+> 
+> Signed-off-by: Sofus Forstreuter <sofus.c@icloud.com>
+> ---
+>  .../devicetree/bindings/media/apple,avd.yaml       | 112 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 113 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/apple,avd.yaml b/Documentation/devicetree/bindings/media/apple,avd.yaml
+> new file mode 100644
+> index 000000000000..34a4129d6a46
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/apple,avd.yaml
+> @@ -0,0 +1,112 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/apple,avd.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple Video Decoder (AVD)
+> +
+> +description: |
+> +  AVD is a stateless video decode IP block present on Apple devices.
+> +  Notably it includes an ARM Cortex-M3 and associated DMA controller.
+> +  AVD is capable of decoding H264, H265, VP9 and AV1 on never SoCs.
+> +
+> +  The IP does not change much, with changes being mostly the CM3 having more
+> +  memory and interrupts.
+> +
+> +maintainers:
+> +  - Sofus Forstreuter <sofus.c@icloud.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - apple,t6030-avd
+> +              - apple,t6031-avd
+> +          - const: apple,t8122-avd
+> +      - enum:
+> +          - apple,t8103-avd
+> +          - apple,t8112-avd
+> +          - apple,t8122-avd
+> +          - apple,t6000-avd
+> +          - apple,t6020-avd
+> +
+> +  reg:
+> +    minItems: 4
+> +    items:
+> +      - description: Cortex-M3 code (unsigned)
+> +      - description: Cortex-M3 sram
+> +      - description: Mailbox
+> +      - description: Video decode control
+> +      - description: DMA control
+> +
+> +  reg-names:
+> +    items:
+> +      - const: code
+> +      - const: sram
+> +      - const: mbox
+> +      - const: ctrl
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- drivers/soc/apple/rtkit-crashlog.c | 96 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 96 insertions(+)
+Sashiko comments are valid.
 
-diff --git a/drivers/soc/apple/rtkit-crashlog.c b/drivers/soc/apple/rtkit-crashlog.c
-index 6a8273e81e61..195b7869ce58 100644
---- a/drivers/soc/apple/rtkit-crashlog.c
-+++ b/drivers/soc/apple/rtkit-crashlog.c
-@@ -13,6 +13,7 @@
- #define APPLE_RTKIT_CRASHLOG_VERSION FOURCC('C', 'v', 'e', 'r')
- #define APPLE_RTKIT_CRASHLOG_MBOX FOURCC('C', 'm', 'b', 'x')
- #define APPLE_RTKIT_CRASHLOG_TIME FOURCC('C', 't', 'i', 'm')
-+#define APPLE_RTKIT_CRASHLOG_AARCH32 FOURCC('C', 'r', 'g', 'A')
- #define APPLE_RTKIT_CRASHLOG_AARCH64 FOURCC('C', 'r', 'g', '8')
- 
- /* For COMPILE_TEST on non-ARM64 architectures */
-@@ -25,6 +26,21 @@
- #define PSR_MODE_MASK	0x0000000f
- #endif
- 
-+/*
-+ * AArch32 mode definitions: APPLE_RTKIT depends on APPLE_MAILBOX, which
-+ * depends on 64BIT, so there is no need to care about COMPILE_TEST on ARM.
-+ */
-+#define USR_MODE        0x00000010
-+#define FIQ_MODE        0x00000011
-+#define IRQ_MODE        0x00000012
-+#define SVC_MODE        0x00000013
-+#define MON_MODE        0x00000016
-+#define ABT_MODE        0x00000017
-+#define HYP_MODE        0x0000001a
-+#define UND_MODE        0x0000001b
-+#define SYSTEM_MODE     0x0000001f
-+#define MODE_MASK_32    0x0000001f
-+
- struct apple_rtkit_crashlog_header {
- 	u32 fourcc;
- 	u32 version;
-@@ -60,6 +76,20 @@ struct apple_rtkit_crashlog_aarch64 {
- } __packed;
- static_assert(sizeof(struct apple_rtkit_crashlog_aarch64) == 0x350);
- 
-+struct apple_rtkit_crashlog_aarch32 {
-+	u32 unk_0;
-+	u32 unk_4;
-+	u32 regs[16];
-+	u32 psr;
-+	u32 unk_x1;
-+	u8 stack[0x100];
-+	u32 unk_x2;
-+	u32 unk_x3;
-+	u32 unk_x4;
-+	u32 unk_x5;
-+} __packed;
-+static_assert(sizeof(struct apple_rtkit_crashlog_aarch32) == 0x160);
-+
- static void apple_rtkit_crashlog_dump_str(struct apple_rtkit *rtk, u8 *bfr,
- 					  size_t size)
- {
-@@ -123,6 +153,68 @@ static void apple_rtkit_crashlog_dump_mailbox(struct apple_rtkit *rtk, u8 *bfr,
- 	}
- }
- 
-+static void apple_rtkit_crashlog_dump_aarch32(struct apple_rtkit *rtk, u8 *bfr,
-+					      size_t size)
-+{
-+	struct apple_rtkit_crashlog_aarch32 *state;
-+	const char *mode;
-+	int i;
-+
-+	if (size < sizeof(*state)) {
-+		dev_warn(rtk->dev, "RTKit: AArch32 section too small: 0x%zx", size);
-+		return;
-+	}
-+
-+	state = (struct apple_rtkit_crashlog_aarch32 *)bfr;
-+
-+	switch (state->psr & MODE_MASK_32) {
-+	case USR_MODE:
-+		mode = "User";
-+		break;
-+	case FIQ_MODE:
-+		mode = "FIQ";
-+		break;
-+	case IRQ_MODE:
-+		mode = "IRQ";
-+		break;
-+	case SVC_MODE:
-+		mode = "Supervisor";
-+		break;
-+	case MON_MODE:
-+		mode = "Monitor";
-+		break;
-+	case ABT_MODE:
-+		mode = "Abort";
-+		break;
-+	case HYP_MODE:
-+		mode = "Hypervisor";
-+		break;
-+	case UND_MODE:
-+		mode = "Undefined";
-+		break;
-+	case SYSTEM_MODE:
-+		mode = "System";
-+		break;
-+	default:
-+		mode = "Unknown";
-+		break;
-+	}
-+
-+	dev_warn(rtk->dev, "RTKit: Exception dump:");
-+	dev_warn(rtk->dev, "  == Exception taken from %s mode ==", mode);
-+	dev_warn(rtk->dev, "  PSR    = 0x%x", state->psr);
-+	dev_warn(rtk->dev, "\n");
-+
-+	for (i = 0; i < 16; i += 4)
-+		dev_warn(rtk->dev,
-+				 "  r%02d-r%02d = %08x %08x %08x %08x\n",
-+				 i, i + 3,
-+				 state->regs[i], state->regs[i + 1],
-+				 state->regs[i + 2], state->regs[i + 3]);
-+
-+	dev_warn(rtk->dev, "\n");
-+}
-+
- static void apple_rtkit_crashlog_dump_aarch64(struct apple_rtkit *rtk, u8 *bfr,
- 					      size_t size)
- {
-@@ -230,6 +322,10 @@ void apple_rtkit_crashlog_dump(struct apple_rtkit *rtk, u8 *bfr, size_t size)
- 			apple_rtkit_crashlog_dump_time(rtk, bfr + offset + 16,
- 						       section_size);
- 			break;
-+		case APPLE_RTKIT_CRASHLOG_AARCH32:
-+			apple_rtkit_crashlog_dump_aarch32(rtk, bfr + offset + 16,
-+							  section_size);
-+			break;
- 		case APPLE_RTKIT_CRASHLOG_AARCH64:
- 			apple_rtkit_crashlog_dump_aarch64(rtk, bfr + offset + 16,
- 							  section_size);
+> +
+> +  iommus:
+> +    minItems: 1
+> +    maxItems: 3
+> +    description: |
+> +      The block contains 3 iommus, one for decode operations, one the DMA
+> +      controller can use and the last for decoding drm-protected content.
 
--- 
-2.55.0
+List the items with description with minItems instead.
 
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 2
+> +    items:
+> +      - description: mailbox 0
+> +      - description: mailbox 1
+> +      - description: mailbox 2
+> +      - description: mailbox 3
+> +      - description: flag 0
+> +      - description: flag 1
+> +      - description: DMA status
+> +    description: |
+> +      Notably there are no decode related interrupts. All decode related
+> +      interrupts are sent to the CM3.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - reg-names
+> +  - iommus
+> +  - power-domains
+> +  - resets
+> +
+
+Why properties are unconstrained per each variant? Why are they flexible?
+
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/apple-aic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        avd: avd@289080000 {
+
+Drop unused label
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+If you cannot find a name matching your device, please check in kernel
+sources for similar cases or you can grow the spec (via pull request to
+DT spec repo).
+
+Don't use custom names, like apple. Codecs are usually video-codecs. Or
+isp if this is ISP.
+
+Best regards,
+Krzysztof
