@@ -1,136 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outbound.ms.icloud.com (ms-2006j-snip4-7.eps.apple.com [57.103.75.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA723F4DEB;
-	Sun, 20 Sep 2026 10:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8E73D4128
+	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 10:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.75.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789898893; cv=none; b=OBJyhMcExn7Dn+QIRkE+1OQZSYl6arGuhNnFPYDR2SDiCE/1t3JMFNiG8L1KcMpt83zI7+a4x+xmiBuqSlDB2NCd+6WZgVazAq4bYLOva7M+jmoetDALHjXBkyo/IeTfkQuutqGmD5zQ046y1l00C4qxBB1I+WPgHiNxvxIdzFU=
+	t=1789901465; cv=none; b=TIygqBoDCCkrOpMe0+Q1qxG2D4c8kSvRkpS1w5rtR/B11cQzPyzMoym+swrYf3RzSKIpT9NXAhBGU7KzaDUT3OrxRbzqP+SVRjlNmfchv2TUajhVw3es9EzkbrYFHmMRD0g2ZRwQldtOrfo4VqwE2rMCCHQXDyAO9+87n+0V32M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789898893; c=relaxed/simple;
-	bh=pzro5xNTMOnRijjVYFDPWCHoqz/t3bJKUCEuc2uMFAg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HW2W6Qzt9PoqgZjs5v20KPdgcvFRm7CLeG0g00C9+O/pcFvlk9pLWnzoeBTzmIm0Vlr49HxF77jvYWQSHHsz81Z1jOp2qumO3zYRP7N3pzaQpC7oNGkJzQydtmDv7UEd4LMRX7GKbpfzBOIyCQaGSpkfyyUJrvuUMGRz+HgTKZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P52aX3g9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789901465; c=relaxed/simple;
+	bh=egRJ5b7nNc4Ns1L7iB8i+MJYwlWqzkSslKOAvISd6H4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ImCjBYBmvhPbF+VAm3PP4n0/Lzxu6TEPv4DCgDUQVgJrCfnGNQUnmX2Y5ZgrbXXuQ6cTgvj2GSSqItXTw//jKZE0T7r6/g2VoTSZqbguzxWVCSp2V7VsKg9P6qVSlLIJsWy7k3jPX7zkwN8Bkaac/IxsJOS1FnGmSno8e18yVUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=yLmHyOIM; arc=none smtp.client-ip=57.103.75.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P52aX3g9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 795EB1F000FF;
-	Sun, 20 Sep 2026 10:08:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789898891;
-	bh=mH+Q5wd7lUfaqxnNVA1Wifkg7F6QqQpknKLOza7T+3U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=P52aX3g9Tpd/QHd1YCdoOV3d9WztBDvQe33yoPR5YjMp7rZqnG7TmD9aPQB6dHAX3
-	 4sAnjNMRfme5MWZQSg89Kh073DUsH6t8w1KH0c5RnbZbE2iuM+9Y8Jhiq8FS6A8OQw
-	 0NGJI4nsX6eGkAdZL31MsUCI0ME1and3iW9TZfA/NbszkoeB562KqBrM2WtEDINqOE
-	 PS4IbHyM3oHvFTfESMmrpjQNjwkuwrWjWxUreGoKn9dlvlEpPlw5xcPUbnQjQGFGlv
-	 29bwiqr1V/dgI+l6YeDZG10/5MrNsCkS2PNuu0uyNay7mD588QAvjQryD5h+mKTIa8
-	 0SbyX2OrxztLg==
-Message-ID: <da42fe72-4351-46f2-8c5b-fc3292f7d8e1@kernel.org>
-Date: Sun, 20 Sep 2026 12:08:02 +0200
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="yLmHyOIM"
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-20-percent-0 (Postfix) with ESMTPS id 7DD80180010D;
+	Sun, 20 Sep 2026 10:50:59 +0000 (UTC)
+X-ICL-RepId: 01a0be70-cfe5-743c-a40f-0bfcbd3f9845
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQFMHV8EUxxCDFYAXRcOVk1KF1UYREVRMFAbXwJCDxwTVhUTC1NWWxNVF0YJGQhdHRkKUFAGXRIYXBRcUFgeRhJWDV0JGQZBXlAbXwJCDxwTVhUTHUMZDysISgRDB0UCXgslEwlTVlsTVRdGCRkIXR0ZFVoJCldTARROWgdUJ3whCSdJXHxech0KRhMZThtXTVAbXwJCDw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1789901463; x=1792493463; bh=WBhLPgrlGgFAfYUVRbZshd/sQEaG2cdzCoRPJ5AG9Bs=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=yLmHyOIMBXapUE8pdFmj9skk9bN+eIqJWIPjk5wyB8bYY9ZAcKaBKTuUL1x03dYWOr4TruMjAH3tSLFiFsWi5NDf30P9yVP9nQ5YNrOu1UUCIx1fcnnK9/pHSlw8vdDo4OqroY4uhnsXR85rqSyeb/NxjLduSqt71A2nnNcngDAhyq+wb7ES6IEo7hnlBfQa7xtPShLuPIQcvGUvy3xsDD42H8b+KaRSj+EgWXMm5DrcV5KLYpweLEXxQLB+q3GmKWyXw4mm+KDkR58sWKvNxBPrnSBdtP5ATBMihNNIGssxxDXeEsTWRLqOV9Igr/vRFWG9To15Z+BLkbYzd0HI8Q==
+Received: from m3 (unknown [17.156.208.39])
+	by p00-icloudmta-asmtp-us-west-3a-20-percent-0 (Postfix) with ESMTPSA id CC0AF1800105;
+	Sun, 20 Sep 2026 10:50:53 +0000 (UTC)
+Date: Sun, 20 Sep 2026 12:50:50 +0200
+From: Sofus Forstreuter <sofus.c@icloud.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 02/14] dt-bindings: media: add apple,avd
+Message-ID: <aq-6ijcLNQ0_z1K5@m3>
+References: <20260918-avd-v1-0-49977931f455@icloud.com>
+ <20260918-avd-v1-2-49977931f455@icloud.com>
+ <490c0413.5a83.1a0bdde450c.Coremail.andyshrk@163.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] dt-bindings: media: add apple,avd
-To: Sofus Forstreuter <sofus.c@icloud.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-rockchip@lists.infradead.org
-References: <20260918-avd-v1-0-49977931f455@icloud.com>
- <20260918-avd-v1-2-49977931f455@icloud.com>
- <c8d25275-3c45-4e9a-826c-cf856938d60e@kernel.org> <aq-RBuOWrHU07pXS@m3>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <aq-RBuOWrHU07pXS@m3>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <490c0413.5a83.1a0bdde450c.Coremail.andyshrk@163.com>
+X-Proofpoint-GUID: TUTuRvhIyPU2YPOdSF7_ItX2FwVbVyXC
+X-Proofpoint-ORIG-GUID: TUTuRvhIyPU2YPOdSF7_ItX2FwVbVyXC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIwMDE1NyBTYWx0ZWRfXxID0Ug9pFl2x
+ Gt2DeK68aaq7XpmlYV2+WNUtQB8P5O5RNnIMRmLz0+j+Qnrcwt69Ih8cYGPBwBPHwzmZAPA+tMP
+ iIDuJp90DvmavgoeZq6zTq6OB8Rdq/UaBUa1mrCybaXAK74bXCTg3+YQYqaVdQA2VT7HEWqIGfH
+ oihwb0jXk+C+y41V0mSxZboLLBKOP62zrBLU1CxCO7/2EVqof8gQZRET3n396Mxr3I4ELmMiscx
+ S48DXCkysUvpTbPRvc8QUlnkSGq7c+KD85p6eUQ2UwZFJcLfierddp3MjgjTSbUO2kdG10is8ML
+ xF2lh27FPAsAQpEy40GHii5ZeAXH3nNZGzkM2DzLjqxR7BwseWOSOL4iobHsPk=
+X-Authority-Info-Out: v=2.4 cv=ZMLaWH7b c=1 sm=1 tr=0 ts=6aafba94
+ cx=c_apl:c_pps:t_out a=kRaGL2Q7qLiahLf3O6OaIA==:117
+ a=kRaGL2Q7qLiahLf3O6OaIA==:17 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=x7bEGLp0ZPQA:10 a=kLM9Tyy99jAA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gEfo2CItAAAA:8 a=v3ZZPjhaAAAA:8 a=WH1DJqfT7gfZrbUwWXkA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=sptkURWiP4Gy88Gu7hUp:22
+X-JNJ: AAAAAAABK/4gmxiVowMzIMHXMSy26Rhac+DXdQy6vWvpsOjoMG5ChvcQxkIW75BW4NzgkT4ijfeodeZKHGA+3zfDWuXSWEkgKCZu3+5UEWxxFk3ACHig4MA4J3omOEPweTH3l3ZAnI27iiLAHGS+Zng8MN0ADe+jGtlSAx14k4wo9TvXgPpJmxGwfgcuO0xIfuLLy5iLo94wE1XLoN+vcNXbEAcllKLmxa4Kg2KajS3uJk0IRX+zaM3xJcXBExMVf4icWnA3rJkq91iRpu8E7oQ6z2smV4Xz5gyTGJ7DmNmt+C5mhyxDxfRZs3v9Phu7ipaByTKUX7ep7AnKy/ckFbDg5VX0g3DF9G2VSA7VRCbP6tXTGXgJcPXsAfOudSvj8FCAGL4fGHVtl6k8oBNOObSFi2O36jt9DSic0u84BoGCpWjpvo1n4X6BirBuaN/hzfnsq0w8sMOlSl08PpyAxmiEFtBdbIIzZp5xaVtTlStYNVQnYd+CthVRJdKXZRXr+xuwoMEXcHXLhNdeJGRjC5q1XMHlzrGxM/KeAyVjMB5J8y8I9awlYZV/3JCzjiurBnE530nKnqawJzSWTTJaX/gYX31lx2OX93jXd4ourmN9OfHQqsmgkMLBHIFMoF/45PqMSsM5z5JoBNZKIx1nn9t/IjayMiLI66zLBSVPV5PgdHYT/FaUKpuUrF1/QR0bX37m4x5nRazEAc/skztzF+2+Bnx8JehNQFvcrgcbE70773p+FWv7WIbuX4x/7q04tcBGuHhxlzvV6Qo1C423W5OzVtxOkCWKE7XVmyjd9T0bYo0Wc1H1LOfaG8hvNHwDifxUlDj95Dc3W8yQU9DAPKymZnhB2AQDEFqZkQAEGa0vzpxf2USs/SLhcVQ+8gebzq1u6eZkrgUr7ftbUeUcYIQc3xIAGEP8KrDG8sNnRCgaoZgeVJ3YA5yCalm0SzQKpnyK+vodFriVnwsMmGPdycVe/Znuhtg
+ 4Sp0WO1J5Nzme1e1NJLyK151VFr3ye+54PDXRNOXrTXX7ECwAD3zhOWIsZnf2fkGAyhC02lHz4W2ZO/BN56OEc0S6uhjnY0ak7Q1twCzliz6ql+8OePQezAqZRzLbu9dpRlFRvKfe0I5iMmvZRN6I+02GmT3NY3WyoNtsYS/NZMwFRIvMJpNhK4XRdC3z68OISgtx3b6rErWteg8x01oYew9drjl9f0WYk873qZfA0pLqX7w+ilfLZmvWESjur5U7xW6YsDNJJoBgKq7/r0TqX843zo3uSasjrX7ZBpO4eurUNLbw3Sq93EML9c+Is7CSzdRN98C7r4SZ1oniUytxqyKj2bMsdAh0HLTAX8dsMPGpKENnyHo2jtlia3CkJ4PUcsGWlJRNdqhU/V4UyxoKWJzmXx/7s3e9ILMuaqmZk+G3rio6EgswHQiU4w2JdJDqzw+PxsVEMvYjfXwGc6KmHA0THVN7nJXUTA==
 
-On 20/09/2026 09:53, Sofus Forstreuter wrote:
+Hi Andy,
 
->>> +  interrupts:
->>> +    minItems: 2
->>> +    items:
->>> +      - description: mailbox 0
->>> +      - description: mailbox 1
->>> +      - description: mailbox 2
->>> +      - description: mailbox 3
->>> +      - description: flag 0
->>> +      - description: flag 1
->>> +      - description: DMA status
->>> +    description: |
->>> +      Notably there are no decode related interrupts. All decode related
->>> +      interrupts are sent to the CM3.
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - interrupts
->>> +  - reg-names
->>> +  - iommus
->>> +  - power-domains
->>> +  - resets
->>> +
->>
->> Why properties are unconstrained per each variant? Why are they flexible?
->>
+On Sun, Sep 20, 2026 at 04:10:55PM +0800, Andy Yan wrote:
 > 
-> There is no reason for this. I will remove the unused interrupts.
+> Hello，
+> 
+> At 2026-09-18 21:15:07, "Sofus Forstreuter" <sofus.c@icloud.com> wrote:
+> >Document the Apple Video Decoder. A hardware video decoder present on
+> >Apple hardware.
+> >
+> >Signed-off-by: Sofus Forstreuter <sofus.c@icloud.com>
+> >---
+> > .../devicetree/bindings/media/apple,avd.yaml       | 112 +++++++++++++++++++++
+> > MAINTAINERS                                        |   1 +
+> > 2 files changed, 113 insertions(+)
+> >
+> >diff --git a/Documentation/devicetree/bindings/media/apple,avd.yaml b/Documentation/devicetree/bindings/media/apple,avd.yaml
+> >new file mode 100644
+> >index 000000000000..34a4129d6a46
+> >--- /dev/null
+> >+++ b/Documentation/devicetree/bindings/media/apple,avd.yaml
+> >@@ -0,0 +1,112 @@
+> >+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> >+%YAML 1.2
+> >+---
+> >+$id: http://devicetree.org/schemas/media/apple,avd.yaml#
+> >+$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >+
+> >+title: Apple Video Decoder (AVD)
+> >+
+> >+description: |
+> >+  AVD is a stateless video decode IP block present on Apple devices.
+> >+  Notably it includes an ARM Cortex-M3 and associated DMA controller.
+> >+  AVD is capable of decoding H264, H265, VP9 and AV1 on never SoCs.
+> 
+> Typo： s/never/Newer？
+> 
 
-Hardware should be completely described, so if there are interrupts
-there should be here as well. And in DTS. This should not be flexible,
-unless hardware actually is flexible (but rarely is).
-
-Best regards,
-Krzysztof
+Yes, thanks!
