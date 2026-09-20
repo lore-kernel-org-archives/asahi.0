@@ -1,69 +1,68 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980E73CB544
-	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA9A3CDBAA
+	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880166; cv=none; b=Nf0awN+Q2hMwUnwx7JcvNLs4bSenUYjqgsOSfLRVo6amwWzehSqNbdXkO2EgB119lryMFml4X+ynsyfGc1QkvQnpDSdJZsztXWrv2qXF0tC8564fh1uq6yEHWPTUON9vEzf+R2bb/PV1DF3Po0jES6CzK/1WDaxKVsVIMcsdhPs=
+	t=1789880175; cv=none; b=gXZ81FjME3yZo7hcVi07CiXkhbqZcF+8IdVPf8GYD3Air086TG8du70stsTeXjevMM1JbHCs5MZIDXC5FgvW+OYQ2AQzt5GwDrMHNmIwwGsDhEmehn1Dp8efYTdcDJkIvmhg3idgJeqtiHU3CryopLC044+/WR14YgKdyoLVcek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880166; c=relaxed/simple;
-	bh=o6Mmzyd7BRwU9H5C74qoe+G2Tq+aI/IRIDM1u7th/B4=;
+	s=arc-20240116; t=1789880175; c=relaxed/simple;
+	bh=N7Gm9GhSadDaVeGyGSMSt56iAjPKqX+nSRnxDMmatR8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hByhLTHM/KjbqArPLkCVZVYL9xND0eqi3lb55sfYHJy5e/xBPTCFdI/DMqQrWa/rPds5Otke+6Zha4OoRNhcwli2C4YKfvg5C4FugoY2gkxZzgUnGZOJVAwlehqAQ9y/m+Q0pTBGTIbD9U/NA4xWzu37SYfEY9DWcle0BUd3Jjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SisglCQu; arc=none smtp.client-ip=74.125.227.140
+	 In-Reply-To:To:Cc; b=LBLY1zNMuf+ggqmuYR1/VrEseyapjkGY0vJcfs/91rEreg/pDrzOPDIpiqR0aoAGY7ahhqT0sXiTIyvAjOn1H38bSv9O4vKWxeuEg6H2i0NZSBaQuFMc22b/9hQWeYZ1zLH+bG0et5GrSZO6GEcpFKTHWkFyiCvSQYMfk1vFo4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ksGKjXiC; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SisglCQu"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747eb79f7so13408695ad.1
-        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:56:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ksGKjXiC"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2dd77300825so20378495ad.1
+        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789880165; x=1790484965; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789880174; x=1790484974; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2MoZTcxnKczPWM7o1mzqY2ipongGCpZ7IBnK4RjYvUM=;
-        b=SisglCQulTHVOmQzVBbBM9IaEUotIZDXo9X8JzUIUrokGyhOPmASEpwCNKCSQ1sUjs
-         s1j076FWvtHROSDrFQ2VnCf+P8x4gSIYUrztJh42CEvkTfNKdAPTrj/P1KOT1mjZy/4K
-         wyE4DBj17uDPahHs010YeUIE2H3PLRCWG8FRjXeruOuD44YhxjbH1QfbN0K5l7AsMCUY
-         w0bmOCS/OqXtWPIJb2k9peyFQGg/tNCOgMdkmj01KCJmRrT/vkzswI+c6Sc7k7slVi1v
-         i5MeSQdY9lsXzKNbndm25EZ3MOg488ZSSOaHgzUw97AigW5znFVIfnPMpvuGyLwVOe8T
-         kRRQ==
+        bh=Z4y87oy6OKAiqnu/jIL3XduDUN3BGcMssQM5AWBSQLw=;
+        b=ksGKjXiCFIIvho4K+i87hagrp3bO9irvEhiKlRl5MctXighmNbpa2sjCNsL2YQlPiD
+         nwzuZOdfgDaACjGfM4PQILzKnoxU3loUZaZK5bKsmcLtUqOvyoiEuz87W//UbTso7NPU
+         9ThVrWBeWedKue3sx830CJU0Fu5Dr7PTlLHvo2zSe1PgZvxmtdnq3MypLIAAzoGQERKI
+         wx5qmZapD67KEfr4ze1pOCZZgTgPKvgMQldkRBlWlXZnX39fx8m0s2zruw/hrwoj1Zqc
+         RRr/L4FxjGJ4awsFf4Tcij8rzSQsQ9yitl+GDs8QMNH3XADEKLjrsCxG2SYt7G1ZQJj7
+         lMOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789880165; x=1790484965;
+        d=1e100.net; s=20260707; t=1789880174; x=1790484974;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2MoZTcxnKczPWM7o1mzqY2ipongGCpZ7IBnK4RjYvUM=;
-        b=MlAdCi3M3i0ZRwKSuFW2N7Ku3f3yvwmiCAkzx8YwY2MQrTLcxHCFR+8Y/xWyinsEEd
-         epsxY861gvVkKQQEe6x93G8M4MLeXv0k5KhdqAmDMUzMkpi5u2E1yPA9VHc9cGI7eGbG
-         gCbDRt9l/OjMm4m4OwRRdAdOtQTwp4tn8yC8QlmUw9rnrmdD+UNGEnjlfqd5T7vSpsfn
-         LI10O3B9Jdfa0Dlaareh4C/wekhcnU2emRctSXHViYKFMPcJTIj8pkTJXYDIZ92R79VL
-         Gh+x8GRvEI0FCWKk40WLDPGutbFwcl2lrQUcktd7R8pgmNNJdTlDt/t5thuGY8xkP7yV
-         bx0g==
-X-Gm-Message-State: AFuF++kvrUJ7tQhLzE+cUgB6J31YbMjBDKFGC4Fz59nKRxn+J/r3p7oL
-	bzj4pcF8IGsRiISeCzN4XPbKdFIKrTzsDSuoR/DMj/3fRAsNozLupLZn
-X-Gm-Gg: AYBFou2QADZOOP7xakFwO/LOiULIoR6eQeawgjcC6v2zM1ajAH9dOwKWZ0mfZdrcUvl
-	vz+gVh2+17XJm8avDKad/4TBR8MS+001PteO9kcBgLt97OFsB6xnGcjHAkO17CDXb/Gg+ctvOCD
-	41vz0tODZKcSWumo/ng1nlmv6j90LQQ7bkj7a7b1PtVN9RETF+FX6OSdJseTx/sAItSgrWzpMVE
-	wytqJb+RO3727svP+g3en+X3cFYVFPDg/Jov+OCV0ITY63APZv0gCdiSna9o2skUwW+QCRQNvg6
-	pBkLqTlevNHbD94r6WUGyIvTBDoZPf2llMMt5NTqa7uPrSifAhiONVMXgsexkpBb21d3cg0ilU9
-	AwD1uGAbV0yMphl5SqVQNAniu+QjhY69dR/9n113p6mP9cSGmNHwPVAof2/twDv7f2jl75m9kHL
-	NRnxGpXraDV5fRhQVqCqFb7HssAjvU5Q3HgT3OMFbcfMgCwkoeH9igWdVbzt8V2+vZOX3HZWF6g
-	oMWyl1v8nhCKdNykFHzGkuvU+pC2RTKnuxkIJYdyWT09TJM5eh0C+6GxkjOrC7sKzWb/AzHWO+t
-	1kGyTjO+KlkSieYYPWe6LV5+D+s8kZhAyMfA1UdNlLsu7Z0=
-X-Received: by 2002:a17:903:fa5:b0:2dd:c053:82f1 with SMTP id d9443c01a7336-2ddc053841bmr56459515ad.40.1789880164957;
-        Sat, 19 Sep 2026 21:56:04 -0700 (PDT)
+        bh=Z4y87oy6OKAiqnu/jIL3XduDUN3BGcMssQM5AWBSQLw=;
+        b=dTyHaJCoq5K1JRqzdeOUacsrdh4b0TrV3iWMsO4jJL3KS9kEcvNA2kCj+TzKJ1NfqP
+         EaQgR0kXC8iX20eHnnPSlffDVot7K0JRzgnYAlxG7S2GRSNavoRMU3kUffSpKOHqOkMy
+         yAlRbE8m3H6dJXwPbLCjO6uwRIm7rXKQh7zbuKYZpjPhUNdlwFIzqlxKgVaIMU3JbhpT
+         XIVT9+Mdbg0Nl3aIhVpS/oqIaIL9Jgv8eyPKqnA8pC0Ec5rA4ZYV90VtuLhceqX/l3QQ
+         PRrATP5AlCaF61bRike+e/Iag0aFYicbmibXO9hxLtKhHH1DcM1+eIvdcrMEY71+RMIh
+         H9TQ==
+X-Gm-Message-State: AFuF++lNCbnwsZqRQrama2v1Mod5DeVCm8+9L/eFbXdwv2UE5fH2bfXH
+	cyrd3A3p003odEaLUVC2imCOVgJ6ywTntfoIHuLV1ww90jRCalM/vR/M
+X-Gm-Gg: AYBFou1CRmIQW2dCDImVpogMQ52QJFevaELXlfuXB+hQybls2ft0KWyWF2w3QgWJAgd
+	QKx3c8FkQeU76SSm5IxWsIRNvTiHtsCtd/yweTtBTlV5oceo33eU2oTDNfKxxg4lyof5AaUOJea
+	K7MP+RILWMd7ocf2po6sqHfv/2C9FZPcP3nAxYqD+AtVHw1sCKcCwGZGgkZuNHZpa6Y5a9mYMdv
+	5efYEBb3LRA7w3vcDMoMIfHPesn0UCdUp265ZB88dupxQSujMBuySeR8HjY5zvZPIuvGMVF/EMF
+	Yz34P5n1l0Tj5uQO3Nj1ZjzDsL3LHAudbX5e2fPsKD0RAARBdw5sHjysLJJf5QrKc5MAj4g5noX
+	fgEeFobi+7B6710kMpU1TPcynZ4ef0Lgw/d1BeTVAjd0Vd6StAXIQGozc5pY6xRWko+FqY8qvF0
+	uxLYhl+VAbwLUJL2hdDk7nNOMIxUVpizuDIriLnPNZ7wfXv38jYEWE2HpXLtBl+ZCRt6qG/aPWt
+	ivVu1qYJJsI17ghMPMqYaq4SWMRj9Qm9Z7s6KdSVCftjO+8qWRIgRsJ5+d8vljDbghRytSkgezz
+	a3YeEQepNMbncuDYkuTJZe1hg5JNemt7LPlrxDxyZgBlF84=
+X-Received: by 2002:a17:903:b48:b0:2c9:bf82:dd11 with SMTP id d9443c01a7336-2ddb1adc353mr126021925ad.7.1789880173735;
+        Sat, 19 Sep 2026 21:56:13 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.55.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.56.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 21:56:04 -0700 (PDT)
+        Sat, 19 Sep 2026 21:56:13 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 20 Sep 2026 14:53:45 +1000
-Subject: [PATCH 06/28] ALSA: dmaengine: Always terminate DMA when a PCM is
- closed
+Date: Sun, 20 Sep 2026 14:53:46 +1000
+Subject: [PATCH 07/28] ALSA: Support nonatomic dmaengine PCMs
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,8 +70,8 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260920-macaudio-v1-6-741cc20a74e5@gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260920-macaudio-v1-7-741cc20a74e5@gmail.com>
 References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 In-Reply-To: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
@@ -95,53 +94,99 @@ To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
 Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
- Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org, 
- Hector Martin <marcan@marcan.st>
+ Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1367;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2677;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=zGb+++j8iUZe/cn0Z0nFJK8T6VZ7UceNkKMJL+0HzLM=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0+UNCs+tnF8jm/Fr9rnD+qaz/5/MlJvafvnEpdXpu
- SeWZM6J65jIwiDGxWAppsiyoUnIY7YR281+kcq9MHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
- oZGOsY4RAxenAEz1kxJGhmuLz9eF5142Xp283+/t0Rc/gw80iqvZZe94zfXn23/Xh9UM/2yWb2j
- yPuE6S9JqBqt0gZDlkrU7xeS3e7Hc+lrDvndKKxsA
+ bh=KObS9Pt9I+T74LqcNTQHQ5cFB2c2q8qsj/Np1ljqwI0=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0xU2+4Xv/r+xROS6dVFDzcSiOyfWXf7+o3x2v8XN+
+ f7e1oJ/OyayMIhxMViKKbJsaBLymG3EdrNfpHIvzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
+ aKRjrGPEwMUpAFP9+xXDX8GZ9xRU9+7bXXMt7eK5Zew5L14t2sB48Drv779sq+Sd1d8xMkxZv9d
+ N4ur99eJhaqns17xjBA3fHwku4TzRxB7rpBbQwwsA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-From: Hector Martin <marcan@marcan.st>
+From: Martin Povišer <povik+lin@cutebit.org>
 
-When a PCM is suspended, we pause the DMA. If the PCM is then closed
-while in this state, it does not receive the STOP trigger (as it is not
-running). In this case, we fail to properly terminate the DMA, calling
-dmaengine_synchronize() nonetheless, which is undefined behavior.
+Add support for nonatomic dmaengine PCMs.
 
-Make sure we always call dmaengine_terminate_async() on PCM close,
-regardless of whether it has been called previously or not in the
-trigger callbacks.
-
-Fixes: bc0e7345168c ("ALSA: pcm_dmaengine: Properly synchronize DMA on shutdown")
-Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/core/pcm_dmaengine.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ sound/core/pcm_dmaengine.c | 32 ++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
 diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
-index 1306b04be171..e59b561b849d 100644
+index e59b561b849d..839ff2711f5e 100644
 --- a/sound/core/pcm_dmaengine.c
 +++ b/sound/core/pcm_dmaengine.c
-@@ -355,6 +355,11 @@ static void __snd_dmaengine_pcm_close(struct snd_pcm_substream *substream,
- 	if (status == DMA_PAUSED)
- 		dmaengine_terminate_async(prtd->dma_chan);
+@@ -22,6 +22,8 @@
+ struct dmaengine_pcm_runtime_data {
+ 	struct dma_chan *dma_chan;
+ 	dma_cookie_t cookie;
++	struct work_struct complete_wq; /* for nonatomic PCM */
++	struct snd_pcm_substream *substream;
  
-+	/*
-+	 * The PCM might have been closed while suspended, which would
-+	 * skip the STOP trigger. Make sure we terminate.
-+	 */
-+	dmaengine_terminate_async(prtd->dma_chan);
+ 	unsigned int pos;
+ };
+@@ -147,6 +149,24 @@ static void dmaengine_pcm_dma_complete(void *arg)
+ 	snd_pcm_period_elapsed(substream);
+ }
+ 
++static void dmaengine_pcm_dma_complete_nonatomic(struct work_struct *wq)
++{
++	struct dmaengine_pcm_runtime_data *prtd = container_of(wq,
++							       struct dmaengine_pcm_runtime_data,
++							       complete_wq);
++	struct snd_pcm_substream *substream = prtd->substream;
++
++	dmaengine_pcm_dma_complete(substream);
++}
++
++static void dmaengine_pcm_dma_complete_nonatomic_callback(void *arg)
++{
++	struct snd_pcm_substream *substream = arg;
++	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
++
++	schedule_work(&prtd->complete_wq);
++}
++
+ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
+ {
+ 	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
+@@ -169,7 +189,11 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
+ 	if (!desc)
+ 		return -ENOMEM;
+ 
+-	desc->callback = dmaengine_pcm_dma_complete;
++	if (substream->pcm->nonatomic)
++		desc->callback = dmaengine_pcm_dma_complete_nonatomic_callback;
++	else
++		desc->callback = dmaengine_pcm_dma_complete;
++
+ 	desc->callback_param = substream;
+ 	prtd->cookie = dmaengine_submit(desc);
+ 
+@@ -322,6 +346,10 @@ int snd_dmaengine_pcm_open(struct snd_pcm_substream *substream,
+ 	if (!prtd)
+ 		return -ENOMEM;
+ 
++	if (substream->pcm->nonatomic)
++		INIT_WORK(&prtd->complete_wq, dmaengine_pcm_dma_complete_nonatomic);
++
++	prtd->substream = substream;
+ 	prtd->dma_chan = chan;
+ 
+ 	substream->runtime->private_data = prtd;
+@@ -361,6 +389,8 @@ static void __snd_dmaengine_pcm_close(struct snd_pcm_substream *substream,
+ 	 */
+ 	dmaengine_terminate_async(prtd->dma_chan);
  	dmaengine_synchronize(prtd->dma_chan);
++	if (substream->pcm->nonatomic)
++		flush_work(&prtd->complete_wq);
  	if (release_channel)
  		dma_release_channel(prtd->dma_chan);
+ 	kfree(prtd);
 
 -- 
 2.55.0
