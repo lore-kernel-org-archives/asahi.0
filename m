@@ -1,68 +1,69 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E36E3CF204
-	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980E73CB544
+	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880158; cv=none; b=J/UHmFqj9LtjckHUKDh7IUINKaZlf7rmZ+uPbTo0/I4dwfzDf2IEW+WYu0k/oMaNLPbxAw5gxNKgf2ayxzJKA4aVXsEZYK1Zsaz0luikqp/wz2ph/4hGyLbQMVkxKg3fRarKP46y9q/DbMyJWMXnHaRyZB+mId7v3NG+ZsYsUBc=
+	t=1789880166; cv=none; b=Nf0awN+Q2hMwUnwx7JcvNLs4bSenUYjqgsOSfLRVo6amwWzehSqNbdXkO2EgB119lryMFml4X+ynsyfGc1QkvQnpDSdJZsztXWrv2qXF0tC8564fh1uq6yEHWPTUON9vEzf+R2bb/PV1DF3Po0jES6CzK/1WDaxKVsVIMcsdhPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880158; c=relaxed/simple;
-	bh=kx5kKJMfW173nOCJWUzv3mwvx0YJN3LDcuLBMFQLo60=;
+	s=arc-20240116; t=1789880166; c=relaxed/simple;
+	bh=o6Mmzyd7BRwU9H5C74qoe+G2Tq+aI/IRIDM1u7th/B4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EUhWKzgE5ef4gks/0DNuHajWaNjXgoV7JeRHrYyQKZzPIFX4AWQZHjCM0Ra6mz3v4oD2VH64a4I+5Xjl0mkNyUHbWsrzBtaHWPozdUkwDaLqsc9Mchvzj7p5XiC+FnGpsDSJl+StcJuhNQOfYfalEGV7ufOjeU1ZEL6Rym+9tZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TLEYxIYo; arc=none smtp.client-ip=74.125.227.141
+	 In-Reply-To:To:Cc; b=hByhLTHM/KjbqArPLkCVZVYL9xND0eqi3lb55sfYHJy5e/xBPTCFdI/DMqQrWa/rPds5Otke+6Zha4OoRNhcwli2C4YKfvg5C4FugoY2gkxZzgUnGZOJVAwlehqAQ9y/m+Q0pTBGTIbD9U/NA4xWzu37SYfEY9DWcle0BUd3Jjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SisglCQu; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TLEYxIYo"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747f066d8so6962515ad.1
-        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:55:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SisglCQu"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747eb79f7so13408695ad.1
+        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789880155; x=1790484955; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789880165; x=1790484965; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xzyP2lP6mDo2Tguvti7VeQ501kHVG6IAx4yYOdJMaeY=;
-        b=TLEYxIYohQvnBjz7eaFe3NJbQbU7Cs0KnkhFn3Doo1z7Dtvw3bF6yvVcD4WkdG+M/x
-         nx8Hb0h7LTlQLaAOugqhpVqpUwTDBbhIjR4y6nb9qEOCfi7cyiXaA57nb3q9BHhvg4jP
-         F5Sw2AIJsucEuLwxUQgXJmFutJI6bEtg716xtqnoyneV3wkSQZasKTMx4bwOs3IWz1Ln
-         examHMQ8J7fNKr158LGqyuyVogM6sDWV0sYheSJ62lyNMQIA5BDJr2e1QkVAm0n1YFGD
-         2qGT3j/UypuzvO42REoaoP8P9IY9D8jOYi2jW8/idVxHK1K4/W6uRZLIZN9SQu7eyI3Q
-         ZPCA==
+        bh=2MoZTcxnKczPWM7o1mzqY2ipongGCpZ7IBnK4RjYvUM=;
+        b=SisglCQulTHVOmQzVBbBM9IaEUotIZDXo9X8JzUIUrokGyhOPmASEpwCNKCSQ1sUjs
+         s1j076FWvtHROSDrFQ2VnCf+P8x4gSIYUrztJh42CEvkTfNKdAPTrj/P1KOT1mjZy/4K
+         wyE4DBj17uDPahHs010YeUIE2H3PLRCWG8FRjXeruOuD44YhxjbH1QfbN0K5l7AsMCUY
+         w0bmOCS/OqXtWPIJb2k9peyFQGg/tNCOgMdkmj01KCJmRrT/vkzswI+c6Sc7k7slVi1v
+         i5MeSQdY9lsXzKNbndm25EZ3MOg488ZSSOaHgzUw97AigW5znFVIfnPMpvuGyLwVOe8T
+         kRRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789880155; x=1790484955;
+        d=1e100.net; s=20260707; t=1789880165; x=1790484965;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xzyP2lP6mDo2Tguvti7VeQ501kHVG6IAx4yYOdJMaeY=;
-        b=VnEv5JhZdsGH3H6Td2XsmZKEDVxBQ4Q1hOh8HjF5hn631FpaiQa+/XFpVmVKhAEIzB
-         S3jeF0Uij62qb1v1TDwu9SuDaukGwSW2gsDzpPe+y7I1TBKISA0XkW5eufEokFnGVlWK
-         hPi4qAVwPHU286Af4x2B87skN3WtY3REydp4W9YBJYCIhuxaaJzwcjV7MaHSmS+sg6HM
-         fULBl7kZmliU4L9EMy0HPrThYzQ0ZUOj3tdGiPLh05NMXDOCwYz7gBpi0dGEVS13BV6b
-         7cDehhPyOUFe2SbY9Z5+pmu7A0rAoXbnekrGa+KJZ/9azZ5R+OCN/CMWhYJP3mYigbFx
-         lgPQ==
-X-Gm-Message-State: AFuF++kSUoYc52g8ER+vLQHfJTAq9Y2d9kJnY4/5Cxjj+kIrpKl4GWuL
-	BzBT25dRIUxpPDQvqGny+6CcFxNDInjYFtxWdAfUiA/8WVV3MUyIsOd0
-X-Gm-Gg: AYBFou2ms0ZSq6+4b2Hv78d6zlRvljn039RMxrjuhJHy5xtoqgMowkivVszvSG6FYT5
-	Xrp0sZ4I6rWpGMiN4u2rlC9ovOadLpskJPVNcg678YDOwZbLTSVqlrei7j/l5Gaa0z4fZfg6uOk
-	Tl/e0C3KaFqoKAn+BqZDYpN0B90xqX7+LlPSrs0uSU1+jYY7mdZ2wvXpWDyw7Eqmlge0J1QKCQV
-	RnvUKNJ1ZM0eoJD15MCJE/2G1kGXYDJOKpPD0zWiOXeHFNZDulgHoWavmoQKtuFCEIJ/D1nQL+c
-	3Z17UXoZIkqq2LKDYzngB7s9YxH58OlofwkJi5gNd8nRNWfXMacyA5BYpw/uI5LHCktkLOKGw5E
-	mRyVJSS2lZkz+0njciWdFAlRH2N19JdULO2+ND2Vt/fcD97PsXrqDF8Ay1Jsm9eTspDmaJqJhA/
-	irRV2cpgISjnZWIeOT+RSUU0XZ8k2+v5hjM4jMxTgGH0Lv4E3jIAX+F713ljyiTcrPFfIg75TCb
-	epE68g0IlFBl8awFqso7Vb701bx59ft4F+3zbW8TVU0SQd30zsG7phit3tALeRQ4xDe5RAZCNGs
-	0InLEcGdJlen+778+/USWdVr/4XxG1ybocFphW4o+o5ly0E=
-X-Received: by 2002:a17:902:d2d2:b0:2dd:ad73:5b5a with SMTP id d9443c01a7336-2ddb224f33bmr80978895ad.21.1789880155541;
-        Sat, 19 Sep 2026 21:55:55 -0700 (PDT)
+        bh=2MoZTcxnKczPWM7o1mzqY2ipongGCpZ7IBnK4RjYvUM=;
+        b=MlAdCi3M3i0ZRwKSuFW2N7Ku3f3yvwmiCAkzx8YwY2MQrTLcxHCFR+8Y/xWyinsEEd
+         epsxY861gvVkKQQEe6x93G8M4MLeXv0k5KhdqAmDMUzMkpi5u2E1yPA9VHc9cGI7eGbG
+         gCbDRt9l/OjMm4m4OwRRdAdOtQTwp4tn8yC8QlmUw9rnrmdD+UNGEnjlfqd5T7vSpsfn
+         LI10O3B9Jdfa0Dlaareh4C/wekhcnU2emRctSXHViYKFMPcJTIj8pkTJXYDIZ92R79VL
+         Gh+x8GRvEI0FCWKk40WLDPGutbFwcl2lrQUcktd7R8pgmNNJdTlDt/t5thuGY8xkP7yV
+         bx0g==
+X-Gm-Message-State: AFuF++kvrUJ7tQhLzE+cUgB6J31YbMjBDKFGC4Fz59nKRxn+J/r3p7oL
+	bzj4pcF8IGsRiISeCzN4XPbKdFIKrTzsDSuoR/DMj/3fRAsNozLupLZn
+X-Gm-Gg: AYBFou2QADZOOP7xakFwO/LOiULIoR6eQeawgjcC6v2zM1ajAH9dOwKWZ0mfZdrcUvl
+	vz+gVh2+17XJm8avDKad/4TBR8MS+001PteO9kcBgLt97OFsB6xnGcjHAkO17CDXb/Gg+ctvOCD
+	41vz0tODZKcSWumo/ng1nlmv6j90LQQ7bkj7a7b1PtVN9RETF+FX6OSdJseTx/sAItSgrWzpMVE
+	wytqJb+RO3727svP+g3en+X3cFYVFPDg/Jov+OCV0ITY63APZv0gCdiSna9o2skUwW+QCRQNvg6
+	pBkLqTlevNHbD94r6WUGyIvTBDoZPf2llMMt5NTqa7uPrSifAhiONVMXgsexkpBb21d3cg0ilU9
+	AwD1uGAbV0yMphl5SqVQNAniu+QjhY69dR/9n113p6mP9cSGmNHwPVAof2/twDv7f2jl75m9kHL
+	NRnxGpXraDV5fRhQVqCqFb7HssAjvU5Q3HgT3OMFbcfMgCwkoeH9igWdVbzt8V2+vZOX3HZWF6g
+	oMWyl1v8nhCKdNykFHzGkuvU+pC2RTKnuxkIJYdyWT09TJM5eh0C+6GxkjOrC7sKzWb/AzHWO+t
+	1kGyTjO+KlkSieYYPWe6LV5+D+s8kZhAyMfA1UdNlLsu7Z0=
+X-Received: by 2002:a17:903:fa5:b0:2dd:c053:82f1 with SMTP id d9443c01a7336-2ddc053841bmr56459515ad.40.1789880164957;
+        Sat, 19 Sep 2026 21:56:04 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.55.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.55.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 21:55:55 -0700 (PDT)
+        Sat, 19 Sep 2026 21:56:04 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 20 Sep 2026 14:53:44 +1000
-Subject: [PATCH 05/28] alsa: pcm: Remove the qos request only if active
+Date: Sun, 20 Sep 2026 14:53:45 +1000
+Subject: [PATCH 06/28] ALSA: dmaengine: Always terminate DMA when a PCM is
+ closed
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,7 +72,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260920-macaudio-v1-5-741cc20a74e5@gmail.com>
+Message-Id: <20260920-macaudio-v1-6-741cc20a74e5@gmail.com>
 References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 In-Reply-To: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
@@ -97,60 +98,50 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org, 
  Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1854;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1367;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=sB9amKGCujymCV5dzhnXLQgtXCZDFSeONKc8RiAMJk8=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0+UN5p3NCRDcX2rwtCeY+U1o1BqxOV9aeCT2Pg2+s
- cW76L9px0QWBjEuBksxRZYNTUIes43YbvaLVO6FmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
- jXSMdYwYuDgFYKojPRn+adW6m8+Zu2WmcdojE37fL2mVgR13MvV2nf3JeWLWmeYpRxj+mShcjNp
- sw+Q7MyPW1PitzbHnSd8+notYbJv1bMt81fmGPAA=
+ bh=zGb+++j8iUZe/cn0Z0nFJK8T6VZ7UceNkKMJL+0HzLM=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0+UNCs+tnF8jm/Fr9rnD+qaz/5/MlJvafvnEpdXpu
+ SeWZM6J65jIwiDGxWAppsiyoUnIY7YR281+kcq9MHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
+ oZGOsY4RAxenAEz1kxJGhmuLz9eF5142Xp283+/t0Rc/gw80iqvZZe94zfXn23/Xh9UM/2yWb2j
+ yPuE6S9JqBqt0gZDlkrU7xeS3e7Hc+lrDvndKKxsA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Hector Martin <marcan@marcan.st>
 
-Fixes warning:
+When a PCM is suspended, we pause the DMA. If the PCM is then closed
+while in this state, it does not receive the STOP trigger (as it is not
+running). In this case, we fail to properly terminate the DMA, calling
+dmaengine_synchronize() nonetheless, which is undefined behavior.
 
-[    8.502802] ------------[ cut here ]------------
-[    8.503445] cpu_latency_qos_remove_request called for unknown object
-[    8.504269] WARNING: CPU: 5 PID: 2790 at kernel/power/qos.c:322 cpu_latency_qos_remove_request+0x48/0x98
-[    8.505499] CPU: 5 PID: 2790 Comm: wireplumber Tainted: G        W          6.5.0-asahi-00708-gb9b88240f7ae #2291
-[    8.506777] Hardware name: Apple MacBook Air (13-inch, M2, 2022) (DT)
-<snip regs>
-[    8.519099] Call trace:
-[    8.519402]  cpu_latency_qos_remove_request+0x48/0x98
-[    8.520027]  snd_pcm_ioctl+0x86c/0x182c
-[    8.520519]  __arm64_sys_ioctl+0xf8/0xbd0
-[    8.521020]  invoke_syscall.constprop.0+0x78/0xc8
-[    8.521604]  do_el0_svc+0x58/0x154
-[    8.522026]  el0_svc+0x34/0xe4
-[    8.522409]  el0t_64_sync_handler+0x120/0x12c
-[    8.522951]  el0t_64_sync+0x190/0x194
-[    8.523408] ---[ end trace 0000000000000000 ]---
+Make sure we always call dmaengine_terminate_async() on PCM close,
+regardless of whether it has been called previously or not in the
+trigger callbacks.
 
-Fixes: 5371a79be97c ("sound: Call cpu_latency_qos_*() instead of pm_qos_*()")
+Fixes: bc0e7345168c ("ALSA: pcm_dmaengine: Properly synchronize DMA on shutdown")
 Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- sound/core/pcm_native.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ sound/core/pcm_dmaengine.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 6d32c12fb79b..88c83e5fd6cf 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -971,8 +971,9 @@ static int snd_pcm_hw_free(struct snd_pcm_substream *substream)
- 		goto unlock;
- 	result = do_hw_free(substream);
- 	snd_pcm_set_state(substream, SNDRV_PCM_STATE_OPEN);
--	cpu_latency_qos_remove_request(&substream->latency_pm_qos_req);
-- unlock:
-+	if (cpu_latency_qos_request_active(&substream->latency_pm_qos_req))
-+		cpu_latency_qos_remove_request(&substream->latency_pm_qos_req);
-+unlock:
- 	snd_pcm_buffer_access_unlock(runtime);
- 	return result;
- }
+diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+index 1306b04be171..e59b561b849d 100644
+--- a/sound/core/pcm_dmaengine.c
++++ b/sound/core/pcm_dmaengine.c
+@@ -355,6 +355,11 @@ static void __snd_dmaengine_pcm_close(struct snd_pcm_substream *substream,
+ 	if (status == DMA_PAUSED)
+ 		dmaengine_terminate_async(prtd->dma_chan);
+ 
++	/*
++	 * The PCM might have been closed while suspended, which would
++	 * skip the STOP trigger. Make sure we terminate.
++	 */
++	dmaengine_terminate_async(prtd->dma_chan);
+ 	dmaengine_synchronize(prtd->dma_chan);
+ 	if (release_channel)
+ 		dma_release_channel(prtd->dma_chan);
 
 -- 
 2.55.0
