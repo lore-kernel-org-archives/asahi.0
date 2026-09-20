@@ -1,21 +1,20 @@
 Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E44B33557D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E72D393DFB;
 	Sun, 20 Sep 2026 11:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789902615; cv=none; b=biG2aUOfjFOKtykunIFt/Ooi+Ux/98XaLZwI7gJHPQMahIV/hmHc6o+EOrThLj23TiE3iQCIK2xNscq/recJ1DL1XapNudLfl8fhIIavHLj4uqzHGAtJ48zlKU0xjG8/ZAWGdAmd62x0uuhBcMlDctj1MiHHIBHFzCZWefZTkeM=
+	t=1789902616; cv=none; b=ip3C/sq8ycfxkvt4MnpaCN5NRV+cOa+A3Z2TH/6QVBHBfgb2r6M9WXfhJvJmgiJ0+VtDJ1q65g3DosVpdqJa0zsQzNUzX1231/hSKvP83C+WTKSGtk37JNg+7F4okZhh7zwQqIn4tJxeBS6c7+ukRf3U/uHUHCStjd+eFVJtD38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789902615; c=relaxed/simple;
-	bh=8jtHXts22NMPFAisUu0L5owsq6SoZk1pOpwgPhZuu7s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WBi4Gh8pY+vkSOv6bl1ztOCaf60yYrJzgvI9fhMaIkIjF/VDC1eUSeQlLgBQN3U3FGEZz/tqgXSY8tmJdxhVtRF8Oqv/chO5Pf/SyuuqO4WmQGfAfGCMpnb1tCSUtmZj2iPEk/VAA6cVcEepsnHK4AuShZ6GLjAg/LpAF8DmWTg=
+	s=arc-20240116; t=1789902616; c=relaxed/simple;
+	bh=u29sGFKwWHVxG8aja6ha7NNcMsEl1vkRb15OAMRSyYg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XGLsehgvg8ZNJYEodmFWtBEYuyO8R3jXBxFkdMFerA7fqOkXhrXFUMpugYObEiUZk0QEGW2zsvsNOZVazNwNpxWRRXIhUuqKoc1ICvjOIcC83NC/F/4LPThU3PulbAniwSB1u7SlcE4lOt+Q29H+YWnroV04MrPcP2Zlc9s8q/w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
 Received: by linkmauve.fr (Postfix, from userid 1000)
-	id 7ED297189A58; Sun, 20 Sep 2026 13:10:03 +0200 (CEST)
+	id 796D87189A55; Sun, 20 Sep 2026 13:10:03 +0200 (CEST)
 From: Link Mauve <linkmauve@linkmauve.fr>
 To: Srinivas Kandagatla <srini@kernel.org>
 Cc: Link Mauve <linkmauve@linkmauve.fr>,
@@ -65,12 +64,10 @@ Cc: Link Mauve <linkmauve@linkmauve.fr>,
 	linux-arm-msm@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v6 1/4] firmware: meson: pass a const buffer to meson_sm_call_write()
-Date: Sun, 20 Sep 2026 13:09:54 +0200
-Message-ID: <20260920111000.2404131-2-linkmauve@linkmauve.fr>
+Subject: [PATCH v6 0/4] nvmem: migrate to const void * in reg_write
+Date: Sun, 20 Sep 2026 13:09:53 +0200
+Message-ID: <20260920111000.2404131-1-linkmauve@linkmauve.fr>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260920111000.2404131-1-linkmauve@linkmauve.fr>
-References: <20260920111000.2404131-1-linkmauve@linkmauve.fr>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -80,64 +77,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This was found while introducing the new nvmem-provider reg_write_const
-callback in meson_sm_call_write()’s only user, in meson-efuse.
+This callback used to take a mutable void * for no reason, which causes
+the compiler to be unaware that the val buffer should never be modified
+by the callback.
 
-Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
----
- drivers/firmware/meson/meson_sm.c       | 2 +-
- drivers/nvmem/meson-efuse.c             | 4 ++--
- include/linux/firmware/meson/meson_sm.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+This was found while drafting the nvmem-provider Rust abstraction.
 
-diff --git a/drivers/firmware/meson/meson_sm.c b/drivers/firmware/meson/meson_sm.c
-index ab9751a59b55..5d4da2e3c3a9 100644
---- a/drivers/firmware/meson/meson_sm.c
-+++ b/drivers/firmware/meson/meson_sm.c
-@@ -196,7 +196,7 @@ EXPORT_SYMBOL(meson_sm_call_read);
-  *
-  * Return:	size of sent data on success, a negative value on error
-  */
--int meson_sm_call_write(struct meson_sm_firmware *fw, void *buffer,
-+int meson_sm_call_write(struct meson_sm_firmware *fw, const void *buffer,
- 			unsigned int size, unsigned int cmd_index, u32 arg0,
- 			u32 arg1, u32 arg2, u32 arg3, u32 arg4)
- {
-diff --git a/drivers/nvmem/meson-efuse.c b/drivers/nvmem/meson-efuse.c
-index d7f9ac99a212..f71854f89950 100644
---- a/drivers/nvmem/meson-efuse.c
-+++ b/drivers/nvmem/meson-efuse.c
-@@ -20,7 +20,7 @@ static int meson_efuse_read(void *context, unsigned int offset,
- 	struct meson_sm_firmware *fw = context;
- 	int ret;
- 
--	ret = meson_sm_call_read(fw, (u8 *)val, bytes, SM_EFUSE_READ, offset,
-+	ret = meson_sm_call_read(fw, val, bytes, SM_EFUSE_READ, offset,
- 				 bytes, 0, 0, 0);
- 
- 	return ret < 0 ? ret : 0;
-@@ -32,7 +32,7 @@ static int meson_efuse_write(void *context, unsigned int offset,
- 	struct meson_sm_firmware *fw = context;
- 	int ret;
- 
--	ret = meson_sm_call_write(fw, (u8 *)val, bytes, SM_EFUSE_WRITE, offset,
-+	ret = meson_sm_call_write(fw, val, bytes, SM_EFUSE_WRITE, offset,
- 				  bytes, 0, 0, 0);
- 
- 	return ret < 0 ? ret : 0;
-diff --git a/include/linux/firmware/meson/meson_sm.h b/include/linux/firmware/meson/meson_sm.h
-index 3ebc2bd9a976..92cc61f3a1c0 100644
---- a/include/linux/firmware/meson/meson_sm.h
-+++ b/include/linux/firmware/meson/meson_sm.h
-@@ -21,7 +21,7 @@ struct meson_sm_firmware;
- 
- int meson_sm_call(struct meson_sm_firmware *fw, unsigned int cmd_index,
- 		  s32 *ret, u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
--int meson_sm_call_write(struct meson_sm_firmware *fw, void *buffer,
-+int meson_sm_call_write(struct meson_sm_firmware *fw, const void *buffer,
- 			unsigned int b_size, unsigned int cmd_index, u32 arg0,
- 			u32 arg1, u32 arg2, u32 arg3, u32 arg4);
- int meson_sm_call_read(struct meson_sm_firmware *fw, void *buffer,
+Thanks to the guidance of Andy Shevchenko, this now introduces a new
+callback and deprecates the existing one, with the goal of renaming the
+new one into the old one once no user remains in the kernel.
+
+Changes since v5:
+- Link to v5:
+  https://lore.kernel.org/rust-for-linux/20260804135940.2378737-1-linkmauve@linkmauve.fr/T/
+- Add a dev_warn() when registering a nvmem driver with a deprecated
+  reg_write callback.
+- Add a fourth patch enabling COMPILE_TEST on three more nvmem drivers,
+  which forgot to depend on that config.
+- Remove a few unneeded (void *) and (const void *) casts in core.c.
+
+Changes since v4:
+- Link to v4:
+  https://lore.kernel.org/rust-for-linux/20260726131724.15299-1-linkmauve@linkmauve.fr/T/
+- Rebase on top of linux-next 20260803, the previous series didn’t apply
+  any more due to changes in core.c.
+- Also convert the at24, at25, eeprom_93xx46 and m24lr drivers to the
+  new reg_write_const callback, these were missed because they got moved
+  to the nvmem directory in linux-next between v3 and v4.
+
+Changes since v3:
+- Link to v3:
+  https://lore.kernel.org/rust-for-linux/20260716142415.28718-1-linkmauve@linkmauve.fr/T/
+- Drop Apple SPMI patch, which had already been independently included
+  in linux-next as 7089170e1df160f5f8fb395bc5aa2e2697b4e896.
+- Reword the cover letter’s subject.
+- Reorder the meson firmware patch before the other ones, so that every
+  commit is always working correctly.
+
+Changes since v2:
+- Link to v2:
+  https://lore.kernel.org/rust-for-linux/aljAqBNVXV1aVJqx@luna/T/
+- Rebase on top of linux-next/master.
+- Fix logic error which made all devices read-only.
+- Remove a blanket cast of function pointers to void * in
+  apple-spmi-nvmem (patch 3).
+- Also fix constness of write buffer in firmware: meson, which is used
+  exclusively by meson-efuse (patch 4).
+- Re-review all changes to make sure the passed types are more correct
+  than they were before.
+- Actually test with COMPILE_TEST, which I forgot to enable before…
+
+Changes since v1:
+- Link to v1:
+  https://lore.kernel.org/rust-for-linux/20260715175229.24672-1-linkmauve@linkmauve.fr/
+- Removed all changes to other subsystems than nvmem.
+- Added a new reg_write_const callback instead of changing the exisitng
+  reg_write.
+- Deprecated the existing reg_write callback, it will get removed once
+  all users in the kernel will be done migrating to the new one.
+
+Link Mauve (4):
+  firmware: meson: pass a const buffer to meson_sm_call_write()
+  nvmem: core: deprecate reg_write callback with reg_write_const
+  nvmem: make all reg_write callbacks take const void *
+  nvmem: enable COMPILE_TEST for more drivers
+
+ drivers/firmware/meson/meson_sm.c       |  2 +-
+ drivers/nvmem/Kconfig                   |  6 +++---
+ drivers/nvmem/apple-spmi-nvmem.c        |  4 ++--
+ drivers/nvmem/at24.c                    |  6 +++---
+ drivers/nvmem/at25.c                    |  4 ++--
+ drivers/nvmem/bcm-ocotp.c               |  8 ++++----
+ drivers/nvmem/core.c                    | 26 ++++++++++++++++---------
+ drivers/nvmem/eeprom_93xx46.c           |  6 +++---
+ drivers/nvmem/imx-ocotp-scu.c           |  6 +++---
+ drivers/nvmem/imx-ocotp.c               |  6 +++---
+ drivers/nvmem/internals.h               |  1 +
+ drivers/nvmem/lan9662-otpc.c            |  6 +++---
+ drivers/nvmem/lpc18xx_eeprom.c          |  6 +++---
+ drivers/nvmem/m24lr.c                   |  4 ++--
+ drivers/nvmem/max77759-nvmem.c          |  4 ++--
+ drivers/nvmem/meson-efuse.c             |  8 ++++----
+ drivers/nvmem/qcom-spmi-sdam.c          |  6 +++---
+ drivers/nvmem/qfprom.c                  |  6 +++---
+ drivers/nvmem/rave-sp-eeprom.c          |  6 +++---
+ drivers/nvmem/snvs_lpgpr.c              |  4 ++--
+ drivers/nvmem/sprd-efuse.c              |  6 +++---
+ drivers/nvmem/stm32-bsec-optee-ta.c     |  2 +-
+ drivers/nvmem/stm32-bsec-optee-ta.h     |  4 ++--
+ drivers/nvmem/stm32-romem.c             | 10 +++++-----
+ drivers/nvmem/zynqmp_nvmem.c            |  6 +++---
+ include/linux/firmware/meson/meson_sm.h |  2 +-
+ include/linux/nvmem-provider.h          |  6 +++++-
+ 27 files changed, 87 insertions(+), 74 deletions(-)
+
+
+base-commit: 3f2425f5b5bbbdd991ca9cdfd5502e68d8895998
 -- 
 2.55.0
 
