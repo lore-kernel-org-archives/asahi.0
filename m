@@ -1,185 +1,130 @@
-Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17C1406261;
-	Sun, 20 Sep 2026 11:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8E03559D6;
+	Sun, 20 Sep 2026 18:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789903131; cv=none; b=jEMJn7oVCsWvXe59YUi79YtQKO3SwMdrCANjG89XdoGbpi6gK+Iepsd0tZm9cWq1U+RFRCXousn5HiX2xQx+CkPCgHZjJdrXQaEzGpzmBQtohBi1ndMlGvnOktU0td79+z/Rc9B9wOJsHSwgXqlyxRxuOCJ6qgVX4VU/8EbuYK4=
+	t=1789929967; cv=none; b=PKYQx5opBeo4lDHqx9EEQsHtxlJqsFktRm3+QX/E6kT1ItauFgncaxjD9Y0MhOjLw6F/8rZi9Im2Fht9Eog71qfOHx6awVtySHMep3Mwoi3y8PL7uvLFh5rgT/iNyyd9qtXA7wcQAZncN5AvMZDP7beSaMAuA21B8Q2nVm8p+R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789903131; c=relaxed/simple;
-	bh=YHFSIfa4pVKxrlhxSffj9dcUAOSEVU/P5QMiQksQiaU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZYhXxh90nTqUAcGxjBW4J5A2MMJlI35nxKILPZp3prV7CWVJjMNDbmFZhrVzn66geoOYo22vD4WoL6EX3VYY65VYheyftXrgjUxYQ1iyaRHBA97/ZchFwTzEWolTJvPYiWJSC4eJ4glX/1n5wMYvySRBvTqEenKvZu18pMUvJms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by linkmauve.fr (Postfix, from userid 1000)
-	id 8CCBF7189A90; Sun, 20 Sep 2026 13:18:45 +0200 (CEST)
-Date: Sun, 20 Sep 2026 13:18:45 +0200
-From: Link Mauve <linkmauve@linkmauve.fr>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Kalyani Akula <kalyani.akula@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Johan Hovold <johan@kernel.org>,
-	Ronald Claveau <linux-kernel-dev@aliel.fr>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, imx@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v6 0/4] nvmem: migrate to const void * in reg_write
-Message-ID: <aq_BFQ4wgnJqGngQ@desktop>
-References: <20260920111000.2404131-1-linkmauve@linkmauve.fr>
+	s=arc-20240116; t=1789929967; c=relaxed/simple;
+	bh=Q3uMs1G6z74jTt5qeS31A+mvx2NgAtq7cA44lxi9nrI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CJDSO/HEy9MQAh4nn5QTQuN84BKmr+hxdTDr42YVOR5BfF36iK2LAF5C7+/mzoGbRZ1zgcO7GORdF/ByndQcvJPwfqEuwSQUn90/jeh6DwyI/dsraRoJAEGScy02s5NHugKocJjtr/PlxJQ5zj5E6CtCdED7k0XVCZb91NPMtfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IECg6RA8; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IECg6RA8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 431801F000FF;
+	Sun, 20 Sep 2026 18:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789929965;
+	bh=7ynaufQVtyfTr5NQ4iLsrxfZxiHcy95lGY5BmduC6Mo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=IECg6RA8t5Y5NM/O2OoL6T2FKPBTNxPWYMFFG5dVV6UPBJlyurapze0Oxk9g14wsT
+	 BA6iMjkH6lhbW6ktnVI8U+D2PwRwruPh8xo/e42R0FJIibymnZmCTZuWT44yysLemY
+	 RAV6b0ezBUx5FQlFEP58xX2ToCAgJSSGvhQvIAZ0CA8UWcNDfbl1Du3koLWv1dhDeL
+	 LJdq+MapRumNtkV/j7xWJ/XxzbvxLeLN4D6Ua+9gV+rinWDUswdKlTUj6LYnxWqsO+
+	 HRiVrUM/J9T3Bdm3VK425koantZzNKVn4Z+NLlRu3tsM9cXf0OSGU+U639KHGcTVs+
+	 NWzZzI53CAtew==
+Message-ID: <7074efa0-17f3-45f9-9cde-301f81c68005@kernel.org>
+Date: Sun, 20 Sep 2026 20:45:54 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/28] dt-bindings: sound: Add Apple Macs sound
+ peripherals
+To: James Calligeros <jcalligeros99@gmail.com>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Ulf Hansson <ulfh@kernel.org>, Amit Kucheria <amit.kucheria@linaro.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ James Schulman <james.schulman@cirrus.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
+ Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org
+References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+ <20260920-macaudio-v1-1-741cc20a74e5@gmail.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20260920-macaudio-v1-1-741cc20a74e5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260920111000.2404131-1-linkmauve@linkmauve.fr>
-Jabber-ID: linkmauve@linkmauve.fr
 
-Oops, I forgot to carry the tag I got in v5…
+Hi,
 
-Here it is:
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+On 20.09.26 06:53, James Calligeros wrote:
+> From: Martin Povišer <povik+lin@cutebit.org>
+> 
+> Add binding for Apple Silicon Macs machine-level integration of sound
+> peripherals.
+> 
+> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+> Co-developed-by: James Calligeros <jcalligeros99@gmail.com>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>   .../bindings/sound/apple,macaudio.yaml   | 235 +++++++++++++++++++++++++
+>   1 file changed, 235 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/apple,macaudio.yaml b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
+> new file mode 100644
+> index 000000000000..bd844c9928c9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
+> @@ -0,0 +1,235 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/apple,macaudio.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sound peripheral integration for Apple Silicon Macs
+> +
+> +description:
+> +  This binding represents the overall machine-level integration of sound
+> +  peripherals on Apple Silicon Macs, starting with the M1 series.
+> +
+> +maintainers:
+> +  - James Calligeros <jcalligeros99@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - description: First-of-their-kind machines
+> +        items:
+> +          - enum:
+> +              - apple,j180-macaudio
+> +              - apple,j274-macaudio
+> +              - apple,j293-macaudio
+> +              - apple,j313-macaudio
+> +              - apple,j314-macaudio
+> +              - apple,j316-macaudio
+> +              - apple,j375-macaudio
+> +              - apple,j413-macaudio
+> +              - apple,j415-macaudio
+> +              - apple,j473-macaudio
+> +              - apple,j456-macaudio
+> +              - apple,j457-macaudio
+> +          - const: apple,macaudio
 
-On Sun, Sep 20, 2026 at 01:09:53PM +0200, Link Mauve wrote:
-> This callback used to take a mutable void * for no reason, which causes
-> the compiler to be unaware that the val buffer should never be modified
-> by the callback.
-> 
-> This was found while drafting the nvmem-provider Rust abstraction.
-> 
-> Thanks to the guidance of Andy Shevchenko, this now introduces a new
-> callback and deprecates the existing one, with the goal of renaming the
-> new one into the old one once no user remains in the kernel.
-> 
-> Changes since v5:
-> - Link to v5:
->   https://lore.kernel.org/rust-for-linux/20260804135940.2378737-1-linkmauve@linkmauve.fr/T/
-> - Add a dev_warn() when registering a nvmem driver with a deprecated
->   reg_write callback.
-> - Add a fourth patch enabling COMPILE_TEST on three more nvmem drivers,
->   which forgot to depend on that config.
-> - Remove a few unneeded (void *) and (const void *) casts in core.c.
-> 
-> Changes since v4:
-> - Link to v4:
->   https://lore.kernel.org/rust-for-linux/20260726131724.15299-1-linkmauve@linkmauve.fr/T/
-> - Rebase on top of linux-next 20260803, the previous series didn’t apply
->   any more due to changes in core.c.
-> - Also convert the at24, at25, eeprom_93xx46 and m24lr drivers to the
->   new reg_write_const callback, these were missed because they got moved
->   to the nvmem directory in linux-next between v3 and v4.
-> 
-> Changes since v3:
-> - Link to v3:
->   https://lore.kernel.org/rust-for-linux/20260716142415.28718-1-linkmauve@linkmauve.fr/T/
-> - Drop Apple SPMI patch, which had already been independently included
->   in linux-next as 7089170e1df160f5f8fb395bc5aa2e2697b4e896.
-> - Reword the cover letter’s subject.
-> - Reorder the meson firmware patch before the other ones, so that every
->   commit is always working correctly.
-> 
-> Changes since v2:
-> - Link to v2:
->   https://lore.kernel.org/rust-for-linux/aljAqBNVXV1aVJqx@luna/T/
-> - Rebase on top of linux-next/master.
-> - Fix logic error which made all devices read-only.
-> - Remove a blanket cast of function pointers to void * in
->   apple-spmi-nvmem (patch 3).
-> - Also fix constness of write buffer in firmware: meson, which is used
->   exclusively by meson-efuse (patch 4).
-> - Re-review all changes to make sure the passed types are more correct
->   than they were before.
-> - Actually test with COMPILE_TEST, which I forgot to enable before…
-> 
-> Changes since v1:
-> - Link to v1:
->   https://lore.kernel.org/rust-for-linux/20260715175229.24672-1-linkmauve@linkmauve.fr/
-> - Removed all changes to other subsystems than nvmem.
-> - Added a new reg_write_const callback instead of changing the exisitng
->   reg_write.
-> - Deprecated the existing reg_write callback, it will get removed once
->   all users in the kernel will be done migrating to the new one.
-> 
-> Link Mauve (4):
->   firmware: meson: pass a const buffer to meson_sm_call_write()
->   nvmem: core: deprecate reg_write callback with reg_write_const
->   nvmem: make all reg_write callbacks take const void *
->   nvmem: enable COMPILE_TEST for more drivers
-> 
->  drivers/firmware/meson/meson_sm.c       |  2 +-
->  drivers/nvmem/Kconfig                   |  6 +++---
->  drivers/nvmem/apple-spmi-nvmem.c        |  4 ++--
->  drivers/nvmem/at24.c                    |  6 +++---
->  drivers/nvmem/at25.c                    |  4 ++--
->  drivers/nvmem/bcm-ocotp.c               |  8 ++++----
->  drivers/nvmem/core.c                    | 26 ++++++++++++++++---------
->  drivers/nvmem/eeprom_93xx46.c           |  6 +++---
->  drivers/nvmem/imx-ocotp-scu.c           |  6 +++---
->  drivers/nvmem/imx-ocotp.c               |  6 +++---
->  drivers/nvmem/internals.h               |  1 +
->  drivers/nvmem/lan9662-otpc.c            |  6 +++---
->  drivers/nvmem/lpc18xx_eeprom.c          |  6 +++---
->  drivers/nvmem/m24lr.c                   |  4 ++--
->  drivers/nvmem/max77759-nvmem.c          |  4 ++--
->  drivers/nvmem/meson-efuse.c             |  8 ++++----
->  drivers/nvmem/qcom-spmi-sdam.c          |  6 +++---
->  drivers/nvmem/qfprom.c                  |  6 +++---
->  drivers/nvmem/rave-sp-eeprom.c          |  6 +++---
->  drivers/nvmem/snvs_lpgpr.c              |  4 ++--
->  drivers/nvmem/sprd-efuse.c              |  6 +++---
->  drivers/nvmem/stm32-bsec-optee-ta.c     |  2 +-
->  drivers/nvmem/stm32-bsec-optee-ta.h     |  4 ++--
->  drivers/nvmem/stm32-romem.c             | 10 +++++-----
->  drivers/nvmem/zynqmp_nvmem.c            |  6 +++---
->  include/linux/firmware/meson/meson_sm.h |  2 +-
->  include/linux/nvmem-provider.h          |  6 +++++-
->  27 files changed, 87 insertions(+), 74 deletions(-)
-> 
-> 
-> base-commit: 3f2425f5b5bbbdd991ca9cdfd5502e68d8895998
-> -- 
-> 2.55.0
-> 
+We've had some not-so-great experiences with these generic compatibles 
+in the past. I'd just drop it.
 
--- 
-Link Mauve
+
+
+Sven
+
