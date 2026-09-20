@@ -1,68 +1,68 @@
 Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8633D0903
-	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E8D3CFF6A
+	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:57:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880220; cv=none; b=YIJOvsOUIEeRMCUIFSbmGSOY6hS0f9gfqS0uT53QmCCEixEc9ZdMFYEUTzkwsyeixEQ1cdSnHJWJW7a0d/HsQd3xpo9qDscMVYV5VexcYHYX6T29thoyMQk2fQMvmA1IcR8uanQwZzM54TRzM8StuIPn0c2K+cE6Jef2SZ+yWo0=
+	t=1789880231; cv=none; b=ga5iMzYY7aaZG5objMjCFqXTkpQMrcmh2LLk3GnMXLsKnM9MPFUuU50lZC/F4bM1Zyj6b3Bie5iOsmZQTQ4lWCV4A4hh9SPIFjp3MOCbK8Tl2daLgjfBj4AlzmiW5S5Nu3AXSWZqDlmyaBIZpNok1k+hDtiuYyG+RzBvOkLmXRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880220; c=relaxed/simple;
-	bh=dKaT5/AJvuu/ovhkji/q4clDn7hNGscBb7o5Poe/oV8=;
+	s=arc-20240116; t=1789880231; c=relaxed/simple;
+	bh=zDu5vJd6sfeXYn8zauBK//VBQImq8vA1wPLHgVDUDsA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=g6f2YYBdZfeYIeLfbVUqItwM/c6xu8s+YGn2xw1CzgoX0gBKdjHGfuR1Kue1Wsi2fAq9hB7zDcyo2tIMjaicbHFqeVLC8qwyKgnIF9UL27/snOpZRbw8FCuj8plaeCQj7Y3seikgtdMMw5c9xDWbQcJBNoJSOKq+wYjvfR48Gk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UFyEi3ao; arc=none smtp.client-ip=74.125.227.141
+	 In-Reply-To:To:Cc; b=kUBIdJGW2332zknXsX7AZ02K4iRfn8nY/ymLodRRqiWyphNMIKSRLiYwuFChxOKMeLoPer1BXJ9hd1t9QmbJSG+Q46JUKqnKl4/AU42m9joIPLq37s+25esbPpxCt/diPcds/OJ71ncbcscs+/aOAL69T2CG729fZHx7TnLkA7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GXc2Im6a; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFyEi3ao"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747ee1f38so19495825ad.2
-        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:56:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GXc2Im6a"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747f066d8so6963895ad.1
+        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789880219; x=1790485019; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789880228; x=1790485028; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YuKu80M7pHMVvwxhK5F4M5xUsUReDWNtyKOTcL7spBk=;
-        b=UFyEi3aoDI2ICZyn1D14YqpUDcq/kmqbQYmP5y7g3pB/awhJIWAgJ7hyW4AARgnQnt
-         f5i55n2vP6a0X5wa0/wSloP05JJQpEevOksPHeQp66FlMxEyLY1iUZK/WfA/1cuvYVDz
-         WPzGAUPlM1b5weLLc17usCBGHWfMrVure3nugbWOeS/nMXH8pe7deEJoDqMxLeYfVgQJ
-         aBX9Qv7g2NQYDlRuZuZnMtCgPEz57cWSY6Yok5fz/bqS6pJO5pw/Oa37pRRVjHuaQE4m
-         qfGKmd1XTKn0zz11W6dBKopi/pFLkC8Z4lQBePKhV6wZcm5/4fDSfr0VoDmXPkWMBmqw
-         kRWw==
+        bh=0Em5RHq8kurLglT2Y/3vN8YPxgrqKKepZuisLHT8U5Q=;
+        b=GXc2Im6ahBD95aBg57Zq+wDPCvfpbUDOD7EktIYUEZCefv0Tia1HGCArLZh9loVTjQ
+         vs2G30OV6Z/SzdkKpm0006k+/vioJzoI3S3dS80/g70aepBLMRNlrYJ6sKadzy3J/ygz
+         8OjNXJLZrZIfLNYjXQiWH8SgZBnDGzW2uADvQlAc5hx8OxZvvEgrXfwWeoBLPs2/w93i
+         tmhKBAY4uclqKp64nUJmcRcFWkahHYt6vRlUO9DHJ5E5k0TTxO36lv6lzlRWfNxN6GdL
+         nk2zd21TDTnvzYtyybKioAPz8C8LSb3f63BBq3jeBOqp5d3HVFKo4e1NbegJxTBfr3DW
+         X7PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789880219; x=1790485019;
+        d=1e100.net; s=20260707; t=1789880228; x=1790485028;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YuKu80M7pHMVvwxhK5F4M5xUsUReDWNtyKOTcL7spBk=;
-        b=whVq5o9s5ADtNA471bTx12qMM5mA1d3eWy8q5KPzMM+qb57m5ecc36cHN0Is6CxMus
-         TwO3e0NNpG/VTnxWMCdNy5GN6ZdeTQyL6RB5XPWHnN2F7JXxbxTgTecPUWIhMCR0IVAz
-         hCpgmk3oVKpCSyDxHrXiSGMK/8wrz41JYqF7ATjS+nlnPZmEglCKkFY1WXx8m+mvIKSA
-         lRRjfZ7Hs+Iu517OmaFrK1tlgsSkh0u7das3uRc4UleI1cCvAdLuqwllTmQJPeeXtInN
-         w1sH48xhdRhQXb8nCILUW8TiWYGCwvkCv1hhROP/1gKq6ZqRZjSxeVRtHEDZah/eRc9T
-         EsGw==
-X-Gm-Message-State: AFuF++kWKo6vfJmSiVxs6LTtcBbnQFwn+kyZLFSaaI7VsaGeGJHKb3B/
-	C1fgzTfAURy1jY6XHTipxguimA1HlX7PEJKPaeP9jYL8ajo7WkOLabqa
-X-Gm-Gg: AYBFou36ATnwC/+IQYLY8Om0xn/WNCS/PQ0DEMHD25tNJ7NuUkjrzfQaKGwRhvrI7rS
-	iFI2agduARbiFxLs4eVnZLCXk4W/WS0bqqF/W/Ws0kJZjI2YWzrtMsmIzTjZHaw7Eu/qDzwKX2R
-	yKvwNEhOu5r60DlTP4d5xovAxzH/G+dBv681sIPp6bXhQi6ivYY8jlWUdaaANMd1tE/c1Ht3HUl
-	FJQLYWXJBhrsKb4vE6IWflVz3RNjVr2YyCKMBLVKBDBhmkWs+qS8LoKZR2b+mZBm3eqDO7Z3Oh+
-	H05y1zvOFuLaaho7UDX5Z7ahV36c4Lr4Yedmmfi9MEHjgznQ9Acj+P/14ngZwbEhZ0DdUiDbRZY
-	kLHkcDR6c66C/wDZE3h9VxU/u8KA0/kklod5sV929AETt0+Tbu8DCl4/loVw6avhTXPp2mTsgHQ
-	QrUYwwaXxhgzv2h9Yi15RmugWUMYvFZhyCkwr+cyCvydmNZh4pM9sjBMze5H31GF33SYiMCeWCS
-	1eFDsRBIkOP0N0pVG9AumwtuCN07glxrX1hadCaDkCy5y2C4tELHJm4E3j84WLilShE0hsgYfck
-	+BDe+rFIzW1VJjdkpm2yWmzXkDmxmVoc3bwrgb37O7bx778=
-X-Received: by 2002:a17:903:32d2:b0:2dd:7ab0:7313 with SMTP id d9443c01a7336-2ddb1c17059mr113999215ad.18.1789880218740;
-        Sat, 19 Sep 2026 21:56:58 -0700 (PDT)
+        bh=0Em5RHq8kurLglT2Y/3vN8YPxgrqKKepZuisLHT8U5Q=;
+        b=euIoC/W7DBYI4M9epGYhUnKv21vSl7ZaAW9CQdzSK60nc37pxYTFR5fPCNp/sLnxyJ
+         zxkw8wcuDN4caFG5CNfJLw+TvfC8YIp1DLJFUCEriteySOBeUb/XtxsM0oBtdjK9EHNw
+         3tAhbHo0TVsBiH/fVxhtSunMY+eA+jD37r8YT6BD+W4LZqpb9I5yESLisTp071zhWypb
+         4odvj9FivDmqZwn4y8FRGJrwY7mQPLC+7AyzER1zuxpRE0w+qvffbwsfXDaBpXyMad1N
+         yuUhik9omClMR/xf+6luY4gSoNJbZV+jh6BqmY3RJcIjpWJN6MrHmfcZcatlOyesinVT
+         LQUg==
+X-Gm-Message-State: AFuF++mwV8uzGgqrMuGXb9W/ciMm+1vqMkkN45r5U22J2vqjTaf/Xr29
+	Vhlk8YeNvrOuuZo8z5jYhLIF528RZ+VbmIJf0YXmeeZce6Xcpvg7Rbjl
+X-Gm-Gg: AYBFou2Ee6ZYGRQWpshYVhTCdZU5Ms93l06oGn6gGrG06oSuu34pcusHf1cNbh+215n
+	rwoOpPPItLL2ot59STOd/BwcG3GIBL1S2JOLs22hHa20sstq175SkHNhK3FMaFOMEHzh11TMcIN
+	47upyKJqS/tsV1VxctsDxPXbF8gejoDPWsdFgVq1w9ZWpdQe58Zsrq3/bk/Cx96JosWkXW47ZNg
+	EXDrXTxrmn2tF1zxCDWNkPCEPkndy8YoF/duHT5EerYU2AKClqHr5USV0q8CigWt4iln6KGS3D/
+	wKN5cupwN7A2SxzHKVZW4KLjF0i9iyfyM1XVXhHO/mR60uYueg0zfYmxHI+d4elhYmGhiKN4PwH
+	fm/wozikri8gR+rzF1M+GBYwwd78+Oaox/IMoefYuDXXUCGPQhdHmukjNLxyi/WhKpAriGFVVBu
+	d1Gtg1xYRZ81d2Qvo/S0U3PoLbDIibFADlvyx4Wj+uPxuFnYvOwsReGD92oCUysJxSqlRxMNn1d
+	B6N8wUh7bKCu5XE6X5UUTa+lco9K3piPOJKPNrhN/30VNjoNEc+RCBt+9Ech7pbs5n65SIqWDY7
+	JIn+S/ewdwsDcksWNOmIDjHElyzpmT6H0WyCAPHchPJTh+s=
+X-Received: by 2002:a17:903:1786:b0:2dd:c053:b9c6 with SMTP id d9443c01a7336-2ddc053ba3amr47265835ad.23.1789880227909;
+        Sat, 19 Sep 2026 21:57:07 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.56.50
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.56.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 21:56:58 -0700 (PDT)
+        Sat, 19 Sep 2026 21:57:07 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 20 Sep 2026 14:53:51 +1000
-Subject: [PATCH 12/28] ASoC: ops: Introduce 'soc_set_enum_kctl'
+Date: Sun, 20 Sep 2026 14:53:52 +1000
+Subject: [PATCH 13/28] ASoC: card: Let 'fixup_controls' return errors
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260920-macaudio-v1-12-741cc20a74e5@gmail.com>
+Message-Id: <20260920-macaudio-v1-13-741cc20a74e5@gmail.com>
 References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 In-Reply-To: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
@@ -96,123 +96,119 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
  Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3075;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3700;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=ALw7GM6BAIc0MHLkA2EcsPFMi9t4wRSGpPulB3kFXSk=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0xWYKk3fyLwPOWP4bnLrx6JZ3MlXbuismZzzpHTX6
- 3LxGCfTjoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
- GukY6xgxcHEKwFTf7GBk2PQ34GexV8erhzy3oqqqFix1cXzjEnblC8NqE4dtJQfP9TH891WtZX0
- Tk7ag3Txt7df9e//ssZq+ujZri9HMeyxeITUFvAA=
+ bh=2WG4d/8EDKjA/Ac+P1A9R66HR3H99W3M7nFvRZ5lYJI=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0xXbV/kqyabeldw5w2j/zMmctyr9Nt7e4LXyl2qa2
+ mN+iVsSHRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ NNIx1jFi4OIUgKnWTGb4H9DXG5xQ1eBqtVFoYY2L8Brh1RZyjQeO3XsbkSDNPeXYd4Z/iu2mXVX
+ qp19ZtQiuXdPgxaSWP+vVtKRV37rcbndO7dvPBAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Martin Povišer <povik+lin@cutebit.org>
 
-The new function is to be used to set enumerated controls to desired
-values -- either a single control or many controls in bulk by pattern.
-It is something a machine driver may call in fixup_controls.
+Let the 'fixup_controls' card method return error values which will roll
+back the half-done binding of the card.
 
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- include/sound/soc.h |  2 +
- sound/soc/soc-ops.c | 70 +++++++++++++++++++++++++
- 2 files changed, 72 insertions(+)
+ include/sound/soc-card.h                 |  2 +-
+ include/sound/soc.h                      |  2 +-
+ .../soc/mediatek/mt8188/mt8188-mt6359.c  |  4 +++-
+ sound/soc/soc-card.c                     | 12 +++++++++---
+ sound/soc/soc-core.c                     |  5 ++++-
+ 5 files changed, 18 insertions(+), 7 deletions(-)
 
+diff --git a/include/sound/soc-card.h b/include/sound/soc-card.h
+index 1f1e7d45f553..c392e6c4844b 100644
+--- a/include/sound/soc-card.h
++++ b/include/sound/soc-card.h
+@@ -44,7 +44,7 @@ int snd_soc_card_resume_post(struct snd_soc_card *card);
+ 
+ int snd_soc_card_probe(struct snd_soc_card *card);
+ int snd_soc_card_late_probe(struct snd_soc_card *card);
+-void snd_soc_card_fixup_controls(struct snd_soc_card *card);
++int snd_soc_card_fixup_controls(struct snd_soc_card *card);
+ int snd_soc_card_remove(struct snd_soc_card *card);
+ 
+ void snd_soc_card_set_topology_name(struct snd_soc_card *card, const char *preifx);
 diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 973ffaf6f060..f356b553227d 100644
+index f356b553227d..d638fc69925c 100644
 --- a/include/sound/soc.h
 +++ b/include/sound/soc.h
-@@ -580,6 +580,8 @@ int snd_soc_limit_volume(struct snd_soc_card *card,
- 	const char *name, int max);
- int snd_soc_deactivate_kctl(struct snd_soc_card *card,
- 	const char *name, int active);
-+int snd_soc_set_enum_kctl(struct snd_soc_card *card,
-+	const char *name, const char *strval);
- int snd_soc_bytes_info(struct snd_kcontrol *kcontrol,
- 		       struct snd_ctl_elem_info *uinfo);
- int snd_soc_bytes_get(struct snd_kcontrol *kcontrol,
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index d35e24df891b..dc27d1c409ab 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -550,6 +550,76 @@ int snd_soc_deactivate_kctl(struct snd_soc_card *card,
- }
- EXPORT_SYMBOL_GPL(snd_soc_deactivate_kctl);
+@@ -1005,7 +1005,7 @@ struct snd_soc_card {
  
-+static int soc_set_enum_kctl(struct snd_kcontrol *kctl, const char *strval)
-+{
-+	struct snd_ctl_elem_value value;
-+	struct snd_ctl_elem_info info;
-+	int sel, i, ret;
-+
-+	ret = kctl->info(kctl, &info);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (info.type != SNDRV_CTL_ELEM_TYPE_ENUMERATED)
-+		return -EINVAL;
-+
-+	for (sel = 0; sel < info.value.enumerated.items; sel++) {
-+		info.value.enumerated.item = sel;
-+		ret = kctl->info(kctl, &info);
-+		if (ret < 0)
-+			return ret;
-+
-+		if (!strcmp(strval, info.value.enumerated.name))
-+			break;
-+	}
-+
-+	if (sel == info.value.enumerated.items)
-+		return -EINVAL;
-+
-+	for (i = 0; i < info.count; i++)
-+		value.value.enumerated.item[i] = sel;
-+
-+	return kctl->put(kctl, &value);
-+}
-+
-+/**
-+ * snd_soc_set_enum_kctl - Set enumerated controls matching a pattern
-+ *
-+ * @card: where to look for the controls
-+ * @name: name pattern
-+ * @value: string value to set the controls to
-+ *
-+ * Return number of matching and set controls on success, else error.
-+ * No controls need to match.
-+ */
-+int snd_soc_set_enum_kctl(struct snd_soc_card *card,
-+	const char *name, const char *value)
-+{
-+	struct snd_kcontrol *kctl;
-+	int hits = 0;
-+	int ret;
-+
-+	/* Sanity check for name */
-+	if (unlikely(!name))
-+		return -EINVAL;
-+
-+	list_for_each_entry(kctl, &card->snd_card->controls, list) {
-+		if (!soc_control_matches(kctl, name))
-+			continue;
-+
-+		ret = soc_set_enum_kctl(kctl, value);
-+		if (ret < 0)
-+			return ret;
-+		hits++;
-+	}
-+
-+	if (!hits)
-+		return -EINVAL;
-+
-+	return hits;
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_set_enum_kctl);
-+
- int snd_soc_bytes_info(struct snd_kcontrol *kcontrol,
- 		       struct snd_ctl_elem_info *uinfo)
+ 	int (*probe)(struct snd_soc_card *card);
+ 	int (*late_probe)(struct snd_soc_card *card);
+-	void (*fixup_controls)(struct snd_soc_card *card);
++	int (*fixup_controls)(struct snd_soc_card *card);
+ 	int (*remove)(struct snd_soc_card *card);
+ 
+ 	/* the pre and post PM functions are used to do any PM work before and
+diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+index 75c90d1d165f..14890af97706 100644
+--- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
++++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+@@ -1280,7 +1280,7 @@ static struct snd_soc_dai_link mt8188_mt6359_dai_links[] = {
+ 	},
+ };
+ 
+-static void mt8188_fixup_controls(struct snd_soc_card *card)
++static int mt8188_fixup_controls(struct snd_soc_card *card)
  {
+ 	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(card);
+ 	struct mtk_platform_card_data *card_data = soc_card_data->card_data;
+@@ -1302,6 +1302,8 @@ static void mt8188_fixup_controls(struct snd_soc_card *card)
+ 		else
+ 			dev_warn(card->dev, "Cannot find ctl : Headphone Switch\n");
+ 	}
++
++	return 0;
+ }
+ 
+ static struct snd_soc_card mt8188_mt6359_soc_card = {
+diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
+index 282d666dae9e..e4d81329cde3 100644
+--- a/sound/soc/soc-card.c
++++ b/sound/soc/soc-card.c
+@@ -184,10 +184,16 @@ int snd_soc_card_late_probe(struct snd_soc_card *card)
+ 	return 0;
+ }
+ 
+-void snd_soc_card_fixup_controls(struct snd_soc_card *card)
++int snd_soc_card_fixup_controls(struct snd_soc_card *card)
+ {
+-	if (card->fixup_controls)
+-		card->fixup_controls(card);
++	if (card->fixup_controls) {
++		int ret = card->fixup_controls(card);
++
++		if (ret < 0)
++			return soc_card_ret(card, ret);
++	}
++
++	return 0;
+ }
+ 
+ int snd_soc_card_remove(struct snd_soc_card *card)
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 06167a198591..2092373698db 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -2109,7 +2109,10 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+ 		if (ret < 0)
+ 			goto probe_end;
+ 	}
+-	snd_soc_card_fixup_controls(card);
++
++	ret = snd_soc_card_fixup_controls(card);
++	if (ret < 0)
++		goto probe_end;
+ 
+ 	ret = snd_card_register(card->snd_card);
+ 	if (ret < 0) {
 
 -- 
 2.55.0
