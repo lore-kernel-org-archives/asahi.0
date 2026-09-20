@@ -1,21 +1,21 @@
 Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784713CF698;
-	Sun, 20 Sep 2026 11:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E44B33557D;
+	Sun, 20 Sep 2026 11:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789902615; cv=none; b=YeHD0OPjmQUfYR5ajWik1KP8S+pT28YRYuHao2hvuKPVtXXgAACc1wQ2/raG0LWjv1qeGTTAzl+T3/F/VRS5aTRfyrclLFzRkS8M5fb0g3GLPu/HBEBWSMmNOmJmUwuV94UjP1dkSAcaDehmQfxS74P+6OH63ieJsZvzy2lHgXM=
+	t=1789902615; cv=none; b=biG2aUOfjFOKtykunIFt/Ooi+Ux/98XaLZwI7gJHPQMahIV/hmHc6o+EOrThLj23TiE3iQCIK2xNscq/recJ1DL1XapNudLfl8fhIIavHLj4uqzHGAtJ48zlKU0xjG8/ZAWGdAmd62x0uuhBcMlDctj1MiHHIBHFzCZWefZTkeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789902615; c=relaxed/simple;
-	bh=lPF7X82nx6xcu6+jfTW15He4vor2gIJdixv2iZdfJWg=;
+	bh=8jtHXts22NMPFAisUu0L5owsq6SoZk1pOpwgPhZuu7s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Li34KyUIs/j4xkw1WBWHZJIDuhy2ezZNof0wFmdiKG3xcdP4z5kG8ViePyZMOA8S2tJgs4iqmA/8+MfG9LnHWBEzCka4FCLGXR8hI6i2yrumPxtG/WrDLEmYDoFlCvCoNEEofuSAIPmcEN9Uk86eh5XmmvCAAG04fMBvtaiynas=
+	 MIME-Version:Content-Type; b=WBi4Gh8pY+vkSOv6bl1ztOCaf60yYrJzgvI9fhMaIkIjF/VDC1eUSeQlLgBQN3U3FGEZz/tqgXSY8tmJdxhVtRF8Oqv/chO5Pf/SyuuqO4WmQGfAfGCMpnb1tCSUtmZj2iPEk/VAA6cVcEepsnHK4AuShZ6GLjAg/LpAF8DmWTg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
 Received: by linkmauve.fr (Postfix, from userid 1000)
-	id 8E1657189A61; Sun, 20 Sep 2026 13:10:03 +0200 (CEST)
+	id 7ED297189A58; Sun, 20 Sep 2026 13:10:03 +0200 (CEST)
 From: Link Mauve <linkmauve@linkmauve.fr>
 To: Srinivas Kandagatla <srini@kernel.org>
 Cc: Link Mauve <linkmauve@linkmauve.fr>,
@@ -65,9 +65,9 @@ Cc: Link Mauve <linkmauve@linkmauve.fr>,
 	linux-arm-msm@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v6 4/4] nvmem: enable COMPILE_TEST for more drivers
-Date: Sun, 20 Sep 2026 13:09:57 +0200
-Message-ID: <20260920111000.2404131-5-linkmauve@linkmauve.fr>
+Subject: [PATCH v6 1/4] firmware: meson: pass a const buffer to meson_sm_call_write()
+Date: Sun, 20 Sep 2026 13:09:54 +0200
+Message-ID: <20260920111000.2404131-2-linkmauve@linkmauve.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260920111000.2404131-1-linkmauve@linkmauve.fr>
 References: <20260920111000.2404131-1-linkmauve@linkmauve.fr>
@@ -80,49 +80,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Three drivers had a depends on ARCH_*, but didn’t also compile when
-COMPILE_TEST is enabled, making it harder than it should be to test
-them.
-
-Some other drivers also don’t have a COMPILE_TEST, but those have
-additional dependencies and I didn’t want to investigate too much.
+This was found while introducing the new nvmem-provider reg_write_const
+callback in meson_sm_call_write()’s only user, in meson-efuse.
 
 Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
 ---
- drivers/nvmem/Kconfig | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/firmware/meson/meson_sm.c       | 2 +-
+ drivers/nvmem/meson-efuse.c             | 4 ++--
+ include/linux/firmware/meson/meson_sm.h | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvmem/Kconfig b/drivers/nvmem/Kconfig
-index c36c2a4c2a0b..d38097d6648b 100644
---- a/drivers/nvmem/Kconfig
-+++ b/drivers/nvmem/Kconfig
-@@ -354,7 +354,7 @@ config NVMEM_NINTENDO_OTP
+diff --git a/drivers/firmware/meson/meson_sm.c b/drivers/firmware/meson/meson_sm.c
+index ab9751a59b55..5d4da2e3c3a9 100644
+--- a/drivers/firmware/meson/meson_sm.c
++++ b/drivers/firmware/meson/meson_sm.c
+@@ -196,7 +196,7 @@ EXPORT_SYMBOL(meson_sm_call_read);
+  *
+  * Return:	size of sent data on success, a negative value on error
+  */
+-int meson_sm_call_write(struct meson_sm_firmware *fw, void *buffer,
++int meson_sm_call_write(struct meson_sm_firmware *fw, const void *buffer,
+ 			unsigned int size, unsigned int cmd_index, u32 arg0,
+ 			u32 arg1, u32 arg2, u32 arg3, u32 arg4)
+ {
+diff --git a/drivers/nvmem/meson-efuse.c b/drivers/nvmem/meson-efuse.c
+index d7f9ac99a212..f71854f89950 100644
+--- a/drivers/nvmem/meson-efuse.c
++++ b/drivers/nvmem/meson-efuse.c
+@@ -20,7 +20,7 @@ static int meson_efuse_read(void *context, unsigned int offset,
+ 	struct meson_sm_firmware *fw = context;
+ 	int ret;
  
- config NVMEM_S32G_OCOTP
- 	tristate "S32G SoC OCOTP support"
--	depends on ARCH_S32
-+	depends on ARCH_S32 || COMPILE_TEST
- 	help
- 	  This is a driver for the 'OCOTP' peripheral available on S32G
- 	  platforms.
-@@ -518,7 +518,7 @@ config NVMEM_SUNPLUS_OCOTP
+-	ret = meson_sm_call_read(fw, (u8 *)val, bytes, SM_EFUSE_READ, offset,
++	ret = meson_sm_call_read(fw, val, bytes, SM_EFUSE_READ, offset,
+ 				 bytes, 0, 0, 0);
  
- config NVMEM_SUNXI_SID
- 	tristate "Allwinner SoCs SID support"
--	depends on ARCH_SUNXI
-+	depends on ARCH_SUNXI || COMPILE_TEST
- 	help
- 	  This is a driver for the 'security ID' available on various Allwinner
- 	  devices.
-@@ -563,7 +563,7 @@ config NVMEM_VF610_OCOTP
+ 	return ret < 0 ? ret : 0;
+@@ -32,7 +32,7 @@ static int meson_efuse_write(void *context, unsigned int offset,
+ 	struct meson_sm_firmware *fw = context;
+ 	int ret;
  
- config NVMEM_ZYNQMP
- 	tristate "Xilinx ZYNQMP SoC nvmem firmware support"
--	depends on ARCH_ZYNQMP
-+	depends on ARCH_ZYNQMP || COMPILE_TEST
- 	help
- 	  This is a driver to access hardware related data like
- 	  soc revision, IDCODE... etc by using the firmware
+-	ret = meson_sm_call_write(fw, (u8 *)val, bytes, SM_EFUSE_WRITE, offset,
++	ret = meson_sm_call_write(fw, val, bytes, SM_EFUSE_WRITE, offset,
+ 				  bytes, 0, 0, 0);
+ 
+ 	return ret < 0 ? ret : 0;
+diff --git a/include/linux/firmware/meson/meson_sm.h b/include/linux/firmware/meson/meson_sm.h
+index 3ebc2bd9a976..92cc61f3a1c0 100644
+--- a/include/linux/firmware/meson/meson_sm.h
++++ b/include/linux/firmware/meson/meson_sm.h
+@@ -21,7 +21,7 @@ struct meson_sm_firmware;
+ 
+ int meson_sm_call(struct meson_sm_firmware *fw, unsigned int cmd_index,
+ 		  s32 *ret, u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
+-int meson_sm_call_write(struct meson_sm_firmware *fw, void *buffer,
++int meson_sm_call_write(struct meson_sm_firmware *fw, const void *buffer,
+ 			unsigned int b_size, unsigned int cmd_index, u32 arg0,
+ 			u32 arg1, u32 arg2, u32 arg3, u32 arg4);
+ int meson_sm_call_read(struct meson_sm_firmware *fw, void *buffer,
 -- 
 2.55.0
 
