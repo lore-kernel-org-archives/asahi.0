@@ -1,184 +1,226 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.st.icloud.com (st-2003c-snip4-3.eps.apple.com [57.103.77.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA193D3302
-	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E283C3F5E
+	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 07:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.77.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880366; cv=none; b=JXUd5yHAHwIv/vVOFRvmQOAvIX46D388me+9heJrW+5JA5dgh4aMtvUksjdH1Q4TmkvQB6GTm5A6uLe1zcpS8pIlUvRcE1QzghoUdkENFNbL3B/h1N5gzRtgtiDnnr78mwjX+8Rp/VSJhF8yOOCwQJDWYlZsqKC2bV/DucTu3zQ=
+	t=1789890832; cv=none; b=ZLOUbUmcsAuE1g6k/Oh3dJ7SXazAnqrBGY5SjM1k3YOxY69kPKFIONXeqDxXYLGnlrh6zj4SXsSkZks+Spx14vAa+oTnSPLDBnpiuvvddg6Dj4Q4MZDs0YqQBGrSJyvZTBj1YiVJuLO++lSHgcPkXWQv8s2Arpx7ypM18X7wGLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880366; c=relaxed/simple;
-	bh=wZ33HmVJ/5Act5G23FfyEoldMO69+O+FCZBZLHA6YUE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B72prYraeYQxl3MadxFktlSglutf1/bBMoRg9p+/7oALax45tAzCJaiHMkLzfQTYsxhnNJU0T48LXUi7rwHzZmPAvfangPTl1eFMTLrK1uzV7Yuyzi0WPH7/myiye1cWQ8v+m14HzJJoHVzDW8Cnm+3U/aLqv6j/KP8P+XDaw40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oXlHwyhC; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789890832; c=relaxed/simple;
+	bh=5cEPnyU75Ah5V+nfOTE9fMSfyh2Z4xhjWLVmWJVBdBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GiRIoE+6IO4ZoX95rb/gijEocUtyRL2QSS4lr1xtbSQ4Ert3Q8FXVcqLdnKVJrX468s9L7ws3S6FBofq3aRjbdVnhYeb5uZlA5d8mI+nr8Dnl9EMiyTqrj6aJ2UOG9BxWadL4/OUNnF8KFw4W4SnfvLWdktQSc/Ax92bhdXP4XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=QCFVtEG1; arc=none smtp.client-ip=57.103.77.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oXlHwyhC"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d9004a1ac0so12574615ad.3
-        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789880365; x=1790485165; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OYHqvApWBxaD4bUAOaE882+EY9mUZ0r309+FWLunq88=;
-        b=oXlHwyhC5p3o/vEfgzkCWSfDwVx3j43/UC3ZarEx/QD/0kAD8Dv1xozPDUJUHTfCFA
-         EN+kBRbhlx9QPR6iabEnp6p5VkTNjZKUdhpFEfy4AW344U6Z5Zlqw+7431jrfMU9DA+O
-         5EkgBPl0aIDGtu/Eet2hAmejemLxZuWEI4fPORhyLEdXKRCiDoUNw2DOi1mK/33uC39d
-         iT3xpq0KcX1RK69UoeWP1l1d4Td3AHc/BBJIPLTmS/p9rfPkM/D4Dji+O/Jkb+kFYlv8
-         IrGl0xxBS0bNIp0r9s/kjA2iXtNUwpy7CpBlRGVakw0Z5/qO8G6hRWuyLjNZdFIcNQcz
-         J9fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789880365; x=1790485165;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OYHqvApWBxaD4bUAOaE882+EY9mUZ0r309+FWLunq88=;
-        b=sE+Pv6XMrdqjkUZkIrOZCUm983T92ugsZ70vb8kH1DLM3/U93qi4YNsEKNp7mdS5ku
-         kQvernkQwx6uBnnXgYEu4ToKHXeg/C8mUG7RgfhHKF0+2PMGsjVu+s+O/W/khKqBalQI
-         2oyzp2nB3pEYRLETxUnHC8RASZmX+ykEbbgWzMiWtySPw83N05x4JsJRSZJIUgVRHeXK
-         4YgsfjGflEUnhPzjVJR5ruwQphI/se7tPcaFUbeyI4cUJB9I/2jKFl5vCg3qZM7wmknT
-         YWRI0mh+4iUeYQHwQ/xGXIEVa1J32PlBliz6iERUlVHjNWs236iV05nYIzp3MU9nH+x/
-         ltiw==
-X-Gm-Message-State: AFuF++k7hgxSH8b/v2WnK3aQp6DQOqX1xe7bCbCSdrtGQ1XUxxlOO847
-	E02kfk9pfVEODUY9Jilafxp0Q/Yny50x5Bkm/pA1sRIRl6rZ/i32TT9y
-X-Gm-Gg: AYBFou0T7/+afwDABOzeyw9ksNLrOGpblp9lYmZ2UQNen2tIpEYBctMJDqk609e5Icw
-	vNZXdbDtq8dc0ln8YEvOLFToTqMHok0SuaTrvJL64ieETjaMKCr66TNe2LMo0cQL3BkyI0jkvF8
-	cIuJWUqTIKqSJOAGFXXvqOYjGI1HBVQgQ9gxNRAHzmggkacdg4UL8nU2voa2juohPSVpek3pi9S
-	a9YzeS1iJvMBTd0wu7CB/onlYwRCrp05QVzXTs1oR17iN8WnjMTxChBBYGja12DrVC5QZ5W7r6p
-	YTWoA409QaNr6xijFPPNLsp+CMOXa5Hr6yAXmG+cySF+J6+d5hZSAxS1O6nLoCABPyNqqE5auHt
-	Zyx/BTbboqXStFJwk8gvxh60KTXhfXNBRr5UEuysRAc+5OPzO1IP9+YbWd3TxuvDKVgR3EMp586
-	VCdQcPaSrsSbXsqfBITtvl0tVRdf5ARll4zBr52V0pgeJsaj5Xii0sPquZQz5zNmL0fHwyvsW27
-	VMwHvJmaWdh/at5/DUbKe9Eg8Zmv3oLctdhybgv6ZsCZLkNp+wO1KLiyUG3C2w9VW1h0cKeOKjQ
-	Q/i7PBNwPaw0ow1sFyCC7WeG2LhzqhyebgxuByLD5VvL0OM=
-X-Received: by 2002:a17:902:d4cb:b0:2dd:c053:e0f7 with SMTP id d9443c01a7336-2ddc053e14amr57727015ad.38.1789880364897;
-        Sat, 19 Sep 2026 21:59:24 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.59.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 21:59:24 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 20 Sep 2026 14:54:07 +1000
-Subject: [PATCH 28/28] arm64: dts: apple: t602x-j47x: Add speaker/headset
- jack nodes
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="QCFVtEG1"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-1 (Postfix) with ESMTPS id 437E6180018B;
+	Sun, 20 Sep 2026 07:53:48 +0000 (UTC)
+X-ICL-RepId: 01a0bdce-97ac-79a0-a605-840ad6523340
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQFMHV8EUxxCDFYAXRcOVk1KF1UYREVRMFAbXwJCDxwTVhUTC1NWWxNVF0YJGQhdHRkKUFAGXRIYXBRcUFgeRhJWDV0JGRhGXlAbXwJCDxwTVhUTHUMZDysISgRDB0UCXgslEwlTVlsTVRdGCRkIXR0ZFVoJCldTARQqcRh4PEA4bEgEHW84ch0KRhMZThtXTVAbXwJCDw==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1789890830; x=1792482830; bh=DXZPtUyU9s9mMrfe78UMcGtXrJp17csOpzh6GOS48Q8=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=QCFVtEG182IXgVBxAKY7nnZCiPlBZRHpplCiaF6ihECKi14jcF0o1m5sCrk2FYwjXQqRn1sTOYU6PwDFHrYzivkaFLkD1w/yx0xzJ20tDTrwApKuoKzrcTsEIFM64AlzqtL+LSCuJXwQO/B/znPpDOC/E1T5tikt1AJNp5Hagx4Bj0eCJTC4nvjK1ziFJU3zaSiVS6HFFPZyBu7ds69JITA0a9DwIDHyrRojCbRl2l7gS18SWcRCYeqCGJatyCf3NSnRPdk+Lg18iGTPc+sZNaDgaB3eJ6oxmxDgaTnOJmJrxm3ciDugM+4lrLHVvrei66u6+ZUSk5T4VHdvDX5rUg==
+Received: from m3 (unknown [17.156.216.30])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-1 (Postfix) with ESMTPSA id 8602A18000A1;
+	Sun, 20 Sep 2026 07:53:45 +0000 (UTC)
+Date: Sun, 20 Sep 2026 09:53:42 +0200
+From: Sofus Forstreuter <sofus.c@icloud.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 02/14] dt-bindings: media: add apple,avd
+Message-ID: <aq-RBuOWrHU07pXS@m3>
+References: <20260918-avd-v1-0-49977931f455@icloud.com>
+ <20260918-avd-v1-2-49977931f455@icloud.com>
+ <c8d25275-3c45-4e9a-826c-cf856938d60e@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260920-macaudio-v1-28-741cc20a74e5@gmail.com>
-References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
-In-Reply-To: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
-To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>, 
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Ulf Hansson <ulfh@kernel.org>, Amit Kucheria <amit.kucheria@linaro.org>, 
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- James Calligeros <jcalligeros99@gmail.com>, 
- James Schulman <james.schulman@cirrus.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
- Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2560;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=wZ33HmVJ/5Act5G23FfyEoldMO69+O+FCZBZLHA6YUE=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr05VFbxtZ2sxO6rz5yvjZ5FtlffdnP/XfybTQ3vFf9
- vQgWa01HRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
- NNIx1jFi4OIUgKlebcbIsNF/880JArN/VbEXGrKU3y9d/+feZy3e5XYinUf3PvpbEcvwv3o111H
- 9zCXse1hj/pyY9fsPb83NyDkbHzH1O+07w70vhgkA
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c8d25275-3c45-4e9a-826c-cf856938d60e@kernel.org>
+X-Proofpoint-GUID: S6e61XuDsmK33ipxJAJUc3U2l_BzDx8T
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIwMDExMiBTYWx0ZWRfX66J5KzOfJs2q
+ 1a8B4E/MxpTpFX277QX4b/b72REyTW3BCVALxCdqtA7uFe8/6nnpXPVDWGcJN1Hq27AI8s7KQ4d
+ XigJEBUxqigohz0HEjMO98zT14nCpx35jdkY+XFMJ4sIiUOdf6VHzTUP14b528zMRkMP+h9TqvK
+ 6KcIw/Vrd1ltAi/g2KTwLufAhGQeUrYeTtD5tHm3pW+R244yvAhBKWClpe0jgzLm+W1EG7AG3zL
+ lL8R9f0HynC8yiNvDlDDSYOSa8XtGS/M1+r/JOM2ckHWxcc+fu7SQzh/ZRLP+O8doyPKHlk9t3c
+ 6UN+z+Vc+GHPyqn6LWcwU5Gisywj9VhOKOtRquKk8qAhH1WI9SUecYhup9KZLE=
+X-Authority-Info-Out: v=2.4 cv=bdRmkePB c=1 sm=1 tr=0 ts=6aaf910d
+ cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
+ a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10
+ a=x7bEGLp0ZPQA:10 a=kLM9Tyy99jAA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gEfo2CItAAAA:8 a=UXIAUNObAAAA:8 a=v3ZZPjhaAAAA:8 a=uNVY81mLXwUjaPPEvSoA:9
+ a=CjuIK1q_8ugA:10 a=sptkURWiP4Gy88Gu7hUp:22 a=a1s67YnXd6TbAZZNj1wK:22
+X-Proofpoint-ORIG-GUID: S6e61XuDsmK33ipxJAJUc3U2l_BzDx8T
+X-JNJ: AAAAAAABh2Ju8KJ8gttMZDPbI8BBILSbRiIsMboAJb0CbhsvCLsTv+PP2ZG7K7lphsDv6u96pQ9fxQj9KeqmYI+KNGwjGDnPxR8ImYypsja/+aL1Yq5gCD1pab6QkLiPb7IMuPGBfC7cJoYqSxigkSv3ixoD7cVw29wB7rwrEKc4physV7n7p92lSKrID1E7wXJi+mI4xZfq7ZyiwMeP4BYYAqsuTEOn5CSZHPuWhVL5WcdFkZgC2jZR4r2YSyeEuWzn/trSRmEbiVhLP0AZ1m02IZf/o89Z60avwzkjsSfzhSlulL+2YWEEsYmj0hy1275qmSxc1K/jotixKi/CuuWbW35H6rfgtd6EEBBtrD2FsLgWdMskd1GTXtCnfxkmSsKDAHLGSejxhVRsfwJqXWRq4ufGD/3Dqz5an1DS7vYVeI5NwjGYYD0ybwnByOIjNHxbsstCJCO03dyo9M1z7ZQ/d0qjAunYBVJDeNc5pdgwREE0RmNxRc295lqOPz/WSZVOVV5Bzcx+yAWqbqtlv+KLpyPsUofhFNfUYpSJ2lmKXOmFEy1g2oiZ3bnxo6frB6Q0TgR/ksSZarDuDwOfbSIjpfO3DBTh1OMO4h8JW8TaoyB/Eu9uTSHJbEdHJcMlVEfI/ZcZWZyRKrACY0iP6Q6Zk2rpNGFqpFZQLsP1/LIZqEzrfW2/C8tMqzC5Bv49DwENK1iArZvQ3Al8b9b9ZvfhhhPD0EhfJKzhIbZhZpQOyjx8+OXSDjBaiYPW1i1GaWHh0OfD3tiqJ0GVx7OjVKyENYcAB4mhAXSy2jcJyoztjJEAtYp4YXW14z4U2jcAsaPgjKZym+A6X1It442CLrFt6RIILydpD5Re95VnX1NqSDBzPgFdcsMxP2/SJZxYciu2cIZ8VQK9v9C4yz8AmnL7KgZ53q/I72hAmPzPuCzsmXeBdq+KpwLCKjuOpkFjqHU+u64aCj0duc6apNSJ7TA42bEPFtC
+ UxmoNV4oh6LtbD2+LeuoxpzS/koLZBKdJ4FL5zap4cOVDP1UkBdE9iU3zluZ0FWWu3kFdYXdFPN9dxMGRy4j6QiUh4bW4ZZuWMzkmmvyzjpeClPAx7UIFuQZGV48pDQzF/Mbs+fV6v4iF6L+0oYfGTFcg8G0G6iO0MacbeceUbhhhHGlh8rzOOdw1MLwkf73+uRuuqC+bAOoRcK1FDztMY91q7nPydNUZ1i3Jw3LKXZVUSkrbcdHzpuepsw7pmsInKEpPfAphuc+0HbPap0Rwy1YAdUBdAlMc3fYfAUXMKdS96TB8Hcnd0wR13GXSJU746A9+EPzG3/Ap+mw17K9MIRIo32IvrFVhHwXRrZGRD7BvuGAnaCDQ9QllDFEhyli2nVPe1zyKJ+EJNIUuMKZG34SBKwhGGdAR0pExIdB4Liv7pMHEJKjiJUE1bg==
 
-The M2 Pro/Max/Ultra Mac mini and Mac Studio integrate Apple-specific
-variants of the TI TAS2764 and Cirrus CS42L42. Add these nodes and
-advertise them to the machine driver via the sound node.
+Hi Krzysztof,
 
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- .../arm64/boot/dts/apple/t6020-j474s.dts |  5 +++++
- .../arm64/boot/dts/apple/t6021-j475c.dts |  5 +++++
- .../arm64/boot/dts/apple/t6022-j475d.dts |  5 +++++
- .../boot/dts/apple/t602x-j474-j475.dtsi  | 10 ++++++++++
- 4 files changed, 25 insertions(+)
+Thanks for your review and time!
 
-diff --git a/arch/arm64/boot/dts/apple/t6020-j474s.dts b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-index e3c2635d84fa..e79315b15f11 100644
---- a/arch/arm64/boot/dts/apple/t6020-j474s.dts
-+++ b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-@@ -46,4 +46,9 @@ &pcie0 {
- 			<0x300 &pcie0_dart_3 1 1>;
- };
- 
-+&sound {
-+	compatible = "apple,j474-macaudio", "apple,j473-macaudio", "apple,macaudio";
-+	model = "Mac Studio J473";
-+};
-+
- #include "hwmon-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6021-j475c.dts b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-index 9fe17f1f7f59..8aecd23e0ac3 100644
---- a/arch/arm64/boot/dts/apple/t6021-j475c.dts
-+++ b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-@@ -36,4 +36,9 @@ &pcie0_dart_1 {
- 	status = "okay";
- };
- 
-+&sound {
-+	compatible = "apple,j475-macaudio", "apple,j375-macaudio", "apple,macaudio";
-+	model = "Mac Studio J475";
-+};
-+
- #include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6022-j475d.dts b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-index 32938a3bf96a..91ba7c1d2612 100644
---- a/arch/arm64/boot/dts/apple/t6022-j475d.dts
-+++ b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-@@ -73,3 +73,8 @@ &bluetooth0 {
- 	compatible = "pci14e4,5f72";
- 	brcm,board-type = "apple,canary";
- };
-+
-+&sound {
-+	compatible = "apple,j475-macaudio", "apple,j375-macaudio", "apple,macaudio";
-+	model = "Mac Studio J475";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-index 926bb4ab77af..7f1faefcf9bb 100644
---- a/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-+++ b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-@@ -36,3 +36,13 @@ &hpm2 {
- &hpm3 {
- 	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
- };
-+
-+&speaker {
-+	interrupts-extended = <&pinctrl_ap 58 IRQ_TYPE_LEVEL_LOW>;
-+	shutdown-gpios = <&pinctrl_ap 57 GPIO_ACTIVE_HIGH>;
-+};
-+
-+&jack_codec {
-+	interrupts-extended = <&pinctrl_ap 59 IRQ_TYPE_LEVEL_LOW>;
-+	reset-gpios = <&pinctrl_nub 8 GPIO_ACTIVE_HIGH>;
-+};
+On Sat, Sep 19, 2026 at 08:46:31AM +0200, Krzysztof Kozlowski wrote:
+> On 18/09/2026 15:15, Sofus Forstreuter wrote:
+> > Document the Apple Video Decoder. A hardware video decoder present on
+> > Apple hardware.
+> > 
+> > Signed-off-by: Sofus Forstreuter <sofus.c@icloud.com>
+> > ---
+> >  .../devicetree/bindings/media/apple,avd.yaml       | 112 +++++++++++++++++++++
+> >  MAINTAINERS                                        |   1 +
+> >  2 files changed, 113 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/apple,avd.yaml b/Documentation/devicetree/bindings/media/apple,avd.yaml
+> > new file mode 100644
+> > index 000000000000..34a4129d6a46
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/apple,avd.yaml
+> > @@ -0,0 +1,112 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/apple,avd.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Apple Video Decoder (AVD)
+> > +
+> > +description: |
+> > +  AVD is a stateless video decode IP block present on Apple devices.
+> > +  Notably it includes an ARM Cortex-M3 and associated DMA controller.
+> > +  AVD is capable of decoding H264, H265, VP9 and AV1 on never SoCs.
+> > +
+> > +  The IP does not change much, with changes being mostly the CM3 having more
+> > +  memory and interrupts.
+> > +
+> > +maintainers:
+> > +  - Sofus Forstreuter <sofus.c@icloud.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - apple,t6030-avd
+> > +              - apple,t6031-avd
+> > +          - const: apple,t8122-avd
+> > +      - enum:
+> > +          - apple,t8103-avd
+> > +          - apple,t8112-avd
+> > +          - apple,t8122-avd
+> > +          - apple,t6000-avd
+> > +          - apple,t6020-avd
+> > +
+> > +  reg:
+> > +    minItems: 4
+> > +    items:
+> > +      - description: Cortex-M3 code (unsigned)
+> > +      - description: Cortex-M3 sram
+> > +      - description: Mailbox
+> > +      - description: Video decode control
+> > +      - description: DMA control
+> > +
+> > +  reg-names:
+> > +    items:
+> > +      - const: code
+> > +      - const: sram
+> > +      - const: mbox
+> > +      - const: ctrl
+> 
+> Sashiko comments are valid.
+> 
 
--- 
-2.55.0
+Ack
 
+> > +
+> > +  iommus:
+> > +    minItems: 1
+> > +    maxItems: 3
+> > +    description: |
+> > +      The block contains 3 iommus, one for decode operations, one the DMA
+> > +      controller can use and the last for decoding drm-protected content.
+> 
+> List the items with description with minItems instead.
+> 
+
+Ack, i will drop the third iommu as its unlikely that will ever be used.
+
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    minItems: 2
+> > +    items:
+> > +      - description: mailbox 0
+> > +      - description: mailbox 1
+> > +      - description: mailbox 2
+> > +      - description: mailbox 3
+> > +      - description: flag 0
+> > +      - description: flag 1
+> > +      - description: DMA status
+> > +    description: |
+> > +      Notably there are no decode related interrupts. All decode related
+> > +      interrupts are sent to the CM3.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - reg-names
+> > +  - iommus
+> > +  - power-domains
+> > +  - resets
+> > +
+> 
+> Why properties are unconstrained per each variant? Why are they flexible?
+> 
+
+There is no reason for this. I will remove the unused interrupts.
+
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/apple-aic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    soc {
+> > +        #address-cells = <2>;
+> > +        #size-cells = <2>;
+> > +
+> > +        avd: avd@289080000 {
+> 
+> Drop unused label
+> 
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+> If you cannot find a name matching your device, please check in kernel
+> sources for similar cases or you can grow the spec (via pull request to
+> DT spec repo).
+> 
+> Don't use custom names, like apple. Codecs are usually video-codecs. Or
+> isp if this is ISP.
+> 
+
+Ack
+
+Best regards,
+Sofus
