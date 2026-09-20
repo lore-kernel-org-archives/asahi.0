@@ -1,68 +1,68 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8543CE0B4
-	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8633D0903
+	for <asahi@lists.linux.dev>; Sun, 20 Sep 2026 04:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880211; cv=none; b=gAVmv+mI9gyQQ9it1381WqAMlN4k/UNDUdpr0bvmGgT75AsZniIibF7nH8Ykbm8Qr+iCBo/1YftM2VywaZ563eoyvke4A+pUyVnHP8iV2UKCnQtGASIsPeNkcgaFhu5wo5WSgmQqoQp8DbOE0PvY+8Gz4Z/Qf+nuhf0Go6rs9O8=
+	t=1789880220; cv=none; b=YIJOvsOUIEeRMCUIFSbmGSOY6hS0f9gfqS0uT53QmCCEixEc9ZdMFYEUTzkwsyeixEQ1cdSnHJWJW7a0d/HsQd3xpo9qDscMVYV5VexcYHYX6T29thoyMQk2fQMvmA1IcR8uanQwZzM54TRzM8StuIPn0c2K+cE6Jef2SZ+yWo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880211; c=relaxed/simple;
-	bh=T6mbgeWv9jzF1B9kGkNBo77HMeI/WqXPSrUa9mCj9Mc=;
+	s=arc-20240116; t=1789880220; c=relaxed/simple;
+	bh=dKaT5/AJvuu/ovhkji/q4clDn7hNGscBb7o5Poe/oV8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c1hlWfMydIoE39yEHwjoY0X17T44AhOaPX9e0wVyuqB1b6zb3y4wLRuKCgpJV7zvF5Ga3zyRgzDngHogBWzhfCXByM58RrCFCJRBlKCor9h45JehszW81ia96a9Oe1WqkNTDbkTFjtRlWkIgpp2co+ZVP5lf+8QtbbrTeuAJUWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eDitiHIa; arc=none smtp.client-ip=74.125.227.140
+	 In-Reply-To:To:Cc; b=g6f2YYBdZfeYIeLfbVUqItwM/c6xu8s+YGn2xw1CzgoX0gBKdjHGfuR1Kue1Wsi2fAq9hB7zDcyo2tIMjaicbHFqeVLC8qwyKgnIF9UL27/snOpZRbw8FCuj8plaeCQj7Y3seikgtdMMw5c9xDWbQcJBNoJSOKq+wYjvfR48Gk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UFyEi3ao; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eDitiHIa"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2dd58e1e2c7so17344195ad.0
-        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:56:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFyEi3ao"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747ee1f38so19495825ad.2
+        for <asahi@lists.linux.dev>; Sat, 19 Sep 2026 21:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789880210; x=1790485010; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789880219; x=1790485019; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3dXNK/OowzWM58hnD1jde+T7w0Zoo6WExVjNMgQVHK8=;
-        b=eDitiHIaOVuIP2UG9m6ZuN7wJ1rnrFUE2+VkQ60iLDKfGMkq1vWgxkJGTShramXIQ/
-         BLwTJvP1F0U5EDQvD6QBbzlyX454dIJnqjbIITW0GoZYM/QPtbtFmTyXr5caung92VAq
-         hBuWjJZ603BbhMvIlt8Y9AMB2KBBek1I2fPB9Kq4mxFmrWNKuo4vF+JkyT234ffHa8MZ
-         4boR3aljFjTS96JPL3tiNghUqZRQCp8GjibzNLLkC74PD33/WroeRMO1bsAr+ZJBrjZ7
-         oH1bdRD2j7gNDd+NGARQNX7Q6gZbDYNWAcH0o8PB1hJGdWlxt2Z2GfDY3BGOeoHHT75V
-         ShCg==
+        bh=YuKu80M7pHMVvwxhK5F4M5xUsUReDWNtyKOTcL7spBk=;
+        b=UFyEi3aoDI2ICZyn1D14YqpUDcq/kmqbQYmP5y7g3pB/awhJIWAgJ7hyW4AARgnQnt
+         f5i55n2vP6a0X5wa0/wSloP05JJQpEevOksPHeQp66FlMxEyLY1iUZK/WfA/1cuvYVDz
+         WPzGAUPlM1b5weLLc17usCBGHWfMrVure3nugbWOeS/nMXH8pe7deEJoDqMxLeYfVgQJ
+         aBX9Qv7g2NQYDlRuZuZnMtCgPEz57cWSY6Yok5fz/bqS6pJO5pw/Oa37pRRVjHuaQE4m
+         qfGKmd1XTKn0zz11W6dBKopi/pFLkC8Z4lQBePKhV6wZcm5/4fDSfr0VoDmXPkWMBmqw
+         kRWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789880210; x=1790485010;
+        d=1e100.net; s=20260707; t=1789880219; x=1790485019;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3dXNK/OowzWM58hnD1jde+T7w0Zoo6WExVjNMgQVHK8=;
-        b=DEDter3z6YRwn0TZ2bvBev7nCKQncp6y4BSNEUtvGNrwWLB7+yZvU1XK5/d4WUPv9r
-         LuEDqIhpMkR4D+7Kotn2Mqru7/92BxYIEhE9z5JOrJ6ZfMgOSDvj5XjtHh6Ek9LQBL42
-         UGTIE7SDVxqihiAp2rb2XQzbir3a8rKpnGHvWqEgdz9jXgWlFGCthT/ivVecBS/1+BG+
-         09bo1GgW8ESL1rIS0Yr2mTuJBNIBh7lMwnbcQju8zQN8Ltu/7mVjrEoD5fP7ICoPr2NK
-         erwK+1lKNcufT7b89YMzl1dOlxJRMOYaF4tbklWp32K2Fp/zMdXhg5qNV7B0Vjke/A0P
-         5idw==
-X-Gm-Message-State: AFuF++kn0EJVav0fdJyfL8JEDzl5KVv2ZyqPTOILPtRrJqV61SrJHRYG
-	L9BOekx39UflHcG7gi13fw3SZwLrYgbIpgMo5yJWIAzTA7USZYYj0kE2
-X-Gm-Gg: AYBFou1EWU1NNMU3ztoOr6Ld4WBVQmV6etKKqG2DOx+pAa6CO82X/upT5bREgQv5tSa
-	RidCAKSN4BEI57FWyyF6VCpx8hUikLPrI0K53sGD9/V1keOWAIj6War+qJJkiqC3i5hpH3zv8Nr
-	nJQ5LgBmFKjJ6V8u9ikKl/pnhehYngyL3BGzoU3lCnPWSVCdmdrV35N45DdKam84DxK4N6dMj66
-	c0t2B0l6bNUOaGqNEM3x1O/yUQ3E/l+fAerId07xAaB9otp6JrdOCgdCW0z9IEac1+tZ1OM+6Ni
-	usOeidV1gZGhooqeWOKhwxzAlh95juucj1BzA6WDzN2MTje4OOOY8y2a1Ak1cgKAdZPSy8KVTZ/
-	BU7s+7bJBMnVUiiVUtu9v/2bjB3u1UYKPnysMo+F+jtxYpf2/I8lN9WpCqqdzwTB1I5iBtlUrUQ
-	anzv/E6S8QgDSHZYGYEPJFWx9qiiCDhg+sDSApJC/ZdoaZ9K9ocvsmHkRIzfe15C3JxWMoSLXHV
-	tWMxoN5vtW+EQ85ryZiIr6tvexYLwzb3rufc6x0pCQ79g+5P1uADA4m0pLIlSoVVvfdtQvonAvR
-	nPIF8nH3dBRWEkmaX2HDVUkswSGnef/lUNjOJEqI5VUtZzg=
-X-Received: by 2002:a17:902:f645:b0:2d8:d4d0:792b with SMTP id d9443c01a7336-2ddb1b79d84mr118058735ad.15.1789880209811;
-        Sat, 19 Sep 2026 21:56:49 -0700 (PDT)
+        bh=YuKu80M7pHMVvwxhK5F4M5xUsUReDWNtyKOTcL7spBk=;
+        b=whVq5o9s5ADtNA471bTx12qMM5mA1d3eWy8q5KPzMM+qb57m5ecc36cHN0Is6CxMus
+         TwO3e0NNpG/VTnxWMCdNy5GN6ZdeTQyL6RB5XPWHnN2F7JXxbxTgTecPUWIhMCR0IVAz
+         hCpgmk3oVKpCSyDxHrXiSGMK/8wrz41JYqF7ATjS+nlnPZmEglCKkFY1WXx8m+mvIKSA
+         lRRjfZ7Hs+Iu517OmaFrK1tlgsSkh0u7das3uRc4UleI1cCvAdLuqwllTmQJPeeXtInN
+         w1sH48xhdRhQXb8nCILUW8TiWYGCwvkCv1hhROP/1gKq6ZqRZjSxeVRtHEDZah/eRc9T
+         EsGw==
+X-Gm-Message-State: AFuF++kWKo6vfJmSiVxs6LTtcBbnQFwn+kyZLFSaaI7VsaGeGJHKb3B/
+	C1fgzTfAURy1jY6XHTipxguimA1HlX7PEJKPaeP9jYL8ajo7WkOLabqa
+X-Gm-Gg: AYBFou36ATnwC/+IQYLY8Om0xn/WNCS/PQ0DEMHD25tNJ7NuUkjrzfQaKGwRhvrI7rS
+	iFI2agduARbiFxLs4eVnZLCXk4W/WS0bqqF/W/Ws0kJZjI2YWzrtMsmIzTjZHaw7Eu/qDzwKX2R
+	yKvwNEhOu5r60DlTP4d5xovAxzH/G+dBv681sIPp6bXhQi6ivYY8jlWUdaaANMd1tE/c1Ht3HUl
+	FJQLYWXJBhrsKb4vE6IWflVz3RNjVr2YyCKMBLVKBDBhmkWs+qS8LoKZR2b+mZBm3eqDO7Z3Oh+
+	H05y1zvOFuLaaho7UDX5Z7ahV36c4Lr4Yedmmfi9MEHjgznQ9Acj+P/14ngZwbEhZ0DdUiDbRZY
+	kLHkcDR6c66C/wDZE3h9VxU/u8KA0/kklod5sV929AETt0+Tbu8DCl4/loVw6avhTXPp2mTsgHQ
+	QrUYwwaXxhgzv2h9Yi15RmugWUMYvFZhyCkwr+cyCvydmNZh4pM9sjBMze5H31GF33SYiMCeWCS
+	1eFDsRBIkOP0N0pVG9AumwtuCN07glxrX1hadCaDkCy5y2C4tELHJm4E3j84WLilShE0hsgYfck
+	+BDe+rFIzW1VJjdkpm2yWmzXkDmxmVoc3bwrgb37O7bx778=
+X-Received: by 2002:a17:903:32d2:b0:2dd:7ab0:7313 with SMTP id d9443c01a7336-2ddb1c17059mr113999215ad.18.1789880218740;
+        Sat, 19 Sep 2026 21:56:58 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.56.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.56.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 21:56:49 -0700 (PDT)
+        Sat, 19 Sep 2026 21:56:58 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 20 Sep 2026 14:53:50 +1000
-Subject: [PATCH 11/28] ASoC: ops: Introduce 'snd_soc_deactivate_kctl'
+Date: Sun, 20 Sep 2026 14:53:51 +1000
+Subject: [PATCH 12/28] ASoC: ops: Introduce 'soc_set_enum_kctl'
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260920-macaudio-v1-11-741cc20a74e5@gmail.com>
+Message-Id: <20260920-macaudio-v1-12-741cc20a74e5@gmail.com>
 References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 In-Reply-To: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
@@ -96,62 +96,94 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
  Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2331;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3075;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=4cm5zIm3FR1CXBqv5TeTAc7DTM6jYX/PUwYOK0HZ2oU=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0xVeP9V2u/i9uIX1ytYqxZ/snN8836Rv+51+YvqOp
- vWx0vd8OyayMIhxMViKKbJsaBLymG3EdrNfpHIvzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
- aKRjrGPEwMUpAFMtt5rhf3hUQtvsyg7bl9YHX3CIpm9Wea/cHlYhG3Jxoc2m8Led0owMv//eL7J
- x5Duk6RhwIVNQ43zMTevZAQlyynuN2G49FnzPDQA=
+ bh=ALw7GM6BAIc0MHLkA2EcsPFMi9t4wRSGpPulB3kFXSk=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0xWYKk3fyLwPOWP4bnLrx6JZ3MlXbuismZzzpHTX6
+ 3LxGCfTjoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GukY6xgxcHEKwFTf7GBk2PQ34GexV8erhzy3oqqqFix1cXzjEnblC8NqE4dtJQfP9TH891WtZX0
+ Tk7ag3Txt7df9e//ssZq+ujZri9HMeyxeITUFvAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Martin Povišer <povik+lin@cutebit.org>
 
-The new function can be used to deactivate controls -- either a single
-one or in bulk by pattern. It is something a machine driver may call in
-fixup_controls.
+The new function is to be used to set enumerated controls to desired
+values -- either a single control or many controls in bulk by pattern.
+It is something a machine driver may call in fixup_controls.
 
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- include/sound/soc.h |  2 ++
- sound/soc/soc-ops.c | 38 +++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ include/sound/soc.h |  2 +
+ sound/soc/soc-ops.c | 70 +++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
 
 diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 553bb7e2be98..973ffaf6f060 100644
+index 973ffaf6f060..f356b553227d 100644
 --- a/include/sound/soc.h
 +++ b/include/sound/soc.h
-@@ -578,6 +578,8 @@ int snd_soc_put_volsw_sx(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol);
- int snd_soc_limit_volume(struct snd_soc_card *card,
+@@ -580,6 +580,8 @@ int snd_soc_limit_volume(struct snd_soc_card *card,
  	const char *name, int max);
-+int snd_soc_deactivate_kctl(struct snd_soc_card *card,
-+	const char *name, int active);
+ int snd_soc_deactivate_kctl(struct snd_soc_card *card,
+ 	const char *name, int active);
++int snd_soc_set_enum_kctl(struct snd_soc_card *card,
++	const char *name, const char *strval);
  int snd_soc_bytes_info(struct snd_kcontrol *kcontrol,
  		       struct snd_ctl_elem_info *uinfo);
  int snd_soc_bytes_get(struct snd_kcontrol *kcontrol,
 diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index 2f91ee7946bb..d35e24df891b 100644
+index d35e24df891b..dc27d1c409ab 100644
 --- a/sound/soc/soc-ops.c
 +++ b/sound/soc/soc-ops.c
-@@ -512,6 +512,44 @@ int snd_soc_limit_volume(struct snd_soc_card *card, const char *name, int max)
+@@ -550,6 +550,76 @@ int snd_soc_deactivate_kctl(struct snd_soc_card *card,
  }
- EXPORT_SYMBOL_GPL(snd_soc_limit_volume);
+ EXPORT_SYMBOL_GPL(snd_soc_deactivate_kctl);
  
++static int soc_set_enum_kctl(struct snd_kcontrol *kctl, const char *strval)
++{
++	struct snd_ctl_elem_value value;
++	struct snd_ctl_elem_info info;
++	int sel, i, ret;
++
++	ret = kctl->info(kctl, &info);
++	if (ret < 0)
++		return ret;
++
++	if (info.type != SNDRV_CTL_ELEM_TYPE_ENUMERATED)
++		return -EINVAL;
++
++	for (sel = 0; sel < info.value.enumerated.items; sel++) {
++		info.value.enumerated.item = sel;
++		ret = kctl->info(kctl, &info);
++		if (ret < 0)
++			return ret;
++
++		if (!strcmp(strval, info.value.enumerated.name))
++			break;
++	}
++
++	if (sel == info.value.enumerated.items)
++		return -EINVAL;
++
++	for (i = 0; i < info.count; i++)
++		value.value.enumerated.item[i] = sel;
++
++	return kctl->put(kctl, &value);
++}
++
 +/**
-+ * snd_soc_deactivate_kctl - Activate/deactivate controls matching a pattern
++ * snd_soc_set_enum_kctl - Set enumerated controls matching a pattern
 + *
 + * @card: where to look for the controls
 + * @name: name pattern
-+ * @active: non-zero to activate, zero to deactivate
++ * @value: string value to set the controls to
 + *
-+ * Return number of matching controls on success, else error.
++ * Return number of matching and set controls on success, else error.
 + * No controls need to match.
 + */
-+int snd_soc_deactivate_kctl(struct snd_soc_card *card,
-+	const char *name, int active)
++int snd_soc_set_enum_kctl(struct snd_soc_card *card,
++	const char *name, const char *value)
 +{
 +	struct snd_kcontrol *kctl;
 +	int hits = 0;
@@ -165,7 +197,7 @@ index 2f91ee7946bb..d35e24df891b 100644
 +		if (!soc_control_matches(kctl, name))
 +			continue;
 +
-+		ret = snd_ctl_activate_id(card->snd_card, &kctl->id, active);
++		ret = soc_set_enum_kctl(kctl, value);
 +		if (ret < 0)
 +			return ret;
 +		hits++;
@@ -176,7 +208,7 @@ index 2f91ee7946bb..d35e24df891b 100644
 +
 +	return hits;
 +}
-+EXPORT_SYMBOL_GPL(snd_soc_deactivate_kctl);
++EXPORT_SYMBOL_GPL(snd_soc_set_enum_kctl);
 +
  int snd_soc_bytes_info(struct snd_kcontrol *kcontrol,
  		       struct snd_ctl_elem_info *uinfo)
