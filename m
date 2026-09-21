@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76E84A6CE6;
-	Mon, 21 Sep 2026 15:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E224B4893;
+	Mon, 21 Sep 2026 15:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790004150; cv=none; b=LJWT0dTjwq0myjS4Xno87igdCF34uPcJYVbT/3ijhuvZODl9l4XqFOms5Zlo2wMKDZ5q8rBryFNZ/Al+DGG7Cu1XrmuiH1rs//lqkoITUN6EsAI2a+JgTx2kIwKtoQyNQcmDozXjp14OU+u+TDB5MbUUyM/1LwKTTIZV28DOA7E=
+	t=1790004351; cv=none; b=e7Ds8z8PNg2H1lEl/x5G+mqXfihiy9w8b0V+qxYMf+PEu6pXAHM5J1PfqV6e+4jddfgGNOFEjJolwYy8JExr9hzOzRMi4PHfj8dD00EIoW/q5/tQsg7onli0f4v9SFAN0SXxLEyrnRANvsqIfoYCrLkG0UaUfmQ99pq5iRC/wcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790004150; c=relaxed/simple;
-	bh=VXUsg3+dZhmol/9l/MYhF/EWP685nUKqfT/ZySayUhM=;
+	s=arc-20240116; t=1790004351; c=relaxed/simple;
+	bh=52tNeDu8Sx+QHd6wEVEFM9NUN84pRBXq3nOTjLgEzE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GcGAeakSXStGRtNgpbkGao6GsVzPqwX0h8ghjsViNp3QgDHAUAhE1bdybGfpNtjrsydxjl1VfLEr9/ruSlAJZbk3kjb04WB2FzJUDcBiVSquZe84eq4Q4NFE/BXSQZ0xAz5Kv+BpH4Nno5ZiYwmPay+syCYVWRLVApHmRaBGrcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C2ZU9Id/; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=g/GrFsYM5qEzX3JItTrYGRi3XUUCS4/Ky6Nc8hQ21nMnD9D+PLa7dCw4b+hGMBuQEVXixOM/LMR5iTx0/9OOyBSCL0i7VDAu9iqIHMGumJ6gVjFlorSJasMAB4pEmba+BOeaP+BoRxeH4K5DBaymcRvdT2zKOqtWuEE1wFJUpAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lx18RnvP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C2ZU9Id/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 521351F000FF;
-	Mon, 21 Sep 2026 15:22:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lx18RnvP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B221F000FF;
+	Mon, 21 Sep 2026 15:25:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790004149;
-	bh=bOzR8GVrme4M89CxBLevVcZ1IZiI/sDrZnX7jk52Wno=;
+	s=k20260515; t=1790004349;
+	bh=52tNeDu8Sx+QHd6wEVEFM9NUN84pRBXq3nOTjLgEzE8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C2ZU9Id/+o1irOenoCt9jM34dfFp6/t2bWH0fXwvb2Jy9dd0QU7QgEOUE6aaFSh24
-	 ToidA/ICs5d9V0HBZPj9oTwsLLE/lG+jfwZ4qNdgQ3J2mVj6aNrHZJeXB9uPT6/ezr
-	 gXQVF4K8q7fJBfeInuGl2eceBeaRH6wz6s46Gh8KJc3HrDs3zH4dQIjIU0cvlbiSbj
-	 NuE943hL8XPvQt6FSMoxRLuOaQgZnCm/MyA9lsUapoUk3aeDQr/qjeVHR2chXn8lK/
-	 fnevuSvK1Qjau09aVKkyer+OS5zMNmo2RkEil1IK4TTwuUiid4f4jF8L2Nd6tQKvho
-	 tS+6MZU40uEcA==
+	b=lx18RnvPmerMwYKQBdZc24TN0CA72fv1PlKnIN7fmREb7z4DLrOzWNxX0v1AfkThT
+	 2on/RpJJUThi4V13fYJKL2Orrx5UD2dx4E38CnNYuvwOUU6bgjsNJ5hsuzm1zwAxCl
+	 01DDbFqnAHOV56oV49xPxn5toCEHk2gjkb/Po/jisxflIq8qlh9vxjUCN4PvcR9tKe
+	 XoOIXln291MBXqB0BLKdNEl0l33QzQpmeM8f0MGLf5uWGgFXm17X6RzdeQu0PIE/AY
+	 ptaH/kTFHjN9PS16mhnjg0DVXQ9gvdsqIBHBm/l1M+CRzO4v+FQwld92QZOSh1R6g4
+	 RLll6pDrbXqjg==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id B5E3B1AC56A7; Mon, 21 Sep 2026 16:22:22 +0100 (BST)
-Date: Mon, 21 Sep 2026 17:22:22 +0200
+	id 569CB1AC56A7; Mon, 21 Sep 2026 16:25:46 +0100 (BST)
+Date: Mon, 21 Sep 2026 17:25:46 +0200
 From: Mark Brown <broonie@kernel.org>
 To: James Calligeros <jcalligeros99@gmail.com>
 Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
@@ -51,12 +51,12 @@ Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 01/28] dt-bindings: sound: Add Apple Macs sound
- peripherals
-Message-ID: <arFLrr23j9QVjKp5@sirena.co.uk>
+	linux-mediatek@lists.infradead.org,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik@protonmail.com>
+Subject: Re: [PATCH 02/28] ASoC: cs42l42: Fix typo
+Message-ID: <arFMetXGoogEAwmJ@sirena.co.uk>
 References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
- <20260920-macaudio-v1-1-741cc20a74e5@gmail.com>
+ <20260920-macaudio-v1-2-741cc20a74e5@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -64,45 +64,38 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9DlXPXtwe81yJB7g"
+	protocol="application/pgp-signature"; boundary="G0JcrUZHHYSZL8sl"
 Content-Disposition: inline
-In-Reply-To: <20260920-macaudio-v1-1-741cc20a74e5@gmail.com>
+In-Reply-To: <20260920-macaudio-v1-2-741cc20a74e5@gmail.com>
 X-Cookie: Too clever is dumb.
 
 
---9DlXPXtwe81yJB7g
+--G0JcrUZHHYSZL8sl
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 20, 2026 at 02:53:40PM +1000, James Calligeros wrote:
-> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+On Sun, Sep 20, 2026 at 02:53:41PM +1000, James Calligeros wrote:
+> From: Martin Povi=C5=A1er <povik@protonmail.com>
 >=20
-> Add binding for Apple Silicon Macs machine-level integration of sound
-> peripherals.
+> Fixes: 2c394ca79604 ("ASoC: Add support for CS42L42 codec")
 
-> +      - description: Machines compatible with J293
-> +        items:
-> +          - enum:
-> +              - apple,j493-macaudio
-> +          - const: apple,j293-macaudio
-> +          - const: apple,macaudio
+This one is a very clear example of something that should have been
+split out, it's unrelated to the rest of the series.
 
-This doesn't seem to correspond to the DT for j493.
-
---9DlXPXtwe81yJB7g
+--G0JcrUZHHYSZL8sl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxS60ACgkQJNaLcl1U
-h9CEPAf/dQqOTFUfSqvlY/jmFLZk+OUZk4RtOYaqTJ/vfY4z/YQ/sCnFIXYeZnin
-TSXdhiD4jqVa4STh+dsIzzsnODcQyStOhfCGFXIYzSoV9gdR00T3DwHlTKU6zrlz
-qDFc3jxbaHcdW2VZ10YmawxZ9PIjGevKTgKQwrLLD9rxjWEa64yVb+1hgc8jAmWv
-vn8e4DnGoR0qfJvzIJ/GgiRmwEY2EK2zXw4x+QtQzFVCrV01QmrIuQIvKKXlFkmQ
-BiHssUi3qgPFuaWRNe6yubT8pq/8qGFBiBtr/YMoYPNv9vGp0Tr0ARhCo8ycHTsH
-yOa386ia8Ee7BbOlalJdhEWFxxxwqw==
-=e0C1
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxTGAACgkQJNaLcl1U
+h9Caewf+N5iufxYFZ1liCvBd7fhltp9ck3djJSBs5D9F/V24SiXkujxzDT8AQdtt
+gcgzgX64NeQHbmgXRupfcESD2zeVGOOzSmbL9Kp3ohp8j5YqYey3hJEerIOlWxw0
+ZXWOY0jdi4I3A3PE0Y5H4R6jO044TTmVVNeOFHTHXIN+zxhAVNvnjfuZImzoI8R9
+dpGasJ1qTw75x1hZbryAhBcS7ho28ZT9t6kPhehrfRP3iXUinwItU8yiFBghmVvM
+FrcKdFdM1AvZjLiIE/rqudAdqlpszUVWDjluAnWdJb0w4onBKbbMgjmsE2KAygHC
+75lcoKFZI0G6SoaytCypAVZ/dAJeMA==
+=I6dw
 -----END PGP SIGNATURE-----
 
---9DlXPXtwe81yJB7g--
+--G0JcrUZHHYSZL8sl--
