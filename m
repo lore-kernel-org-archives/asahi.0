@@ -1,148 +1,107 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1B73EC81C
-	for <asahi@lists.linux.dev>; Tue, 22 Sep 2026 08:08:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F1E40B10C;
+	Tue, 22 Sep 2026 08:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790064497; cv=none; b=UpgsyX0Lvi4DVOXqlHhZF4Sr3BtEFhMEgf+/Egz4Vqj5PuntUEMBAg8sYdu7LhliMTH4SKh5usKCFX6wmmfwbZJG4gs9fx//TtPDCqXkBKNoYQgo6+MlULo9I94vKnQmClhEZH+yqm0giOasvYia1ZwsB/Ni4Q9BIch2GugI6jk=
+	t=1790064581; cv=none; b=UjBvV1uKFuvcyJuxhsaXo2Yw2s77+QYAus0SuJHqfRXZhyzTrn7C1GNNTHTI9HYTDPc2Dyw0SFQh1MlD+CKkG1lxQ6ksaOyPNT/9J0DdIBUg0GsNeAYQUh57DXnlXp5cm63KP4sYvK//4STa//DgdZwVY1YW1+OTb9yR5WHJXLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790064497; c=relaxed/simple;
-	bh=zcp8tcZsfdsmxUcen5sJupr/nyZnxY5fTXf1NQWKnsw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=dqAxGmuA8IZr8L0nyb4HpudqVzlm7r66g8ardVYVlklJOi7hEj/lFQoL6o5C9XcMOqgIbKblK+zEvXVUa6vLc2vMhBj107ktq4N9prT/Y1sLMuxKeRwq2oBPk+/pA2aHVihkoE0CzzGAQfG8AhIIq5Xpaw3W7L1LcrwQWMeGrVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FGUyk9MH; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1790064581; c=relaxed/simple;
+	bh=Dz9IwbZu3OKgYqy1hNfLGMSmOzUloJte22ImO5hx94M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L7jQfshOHhn488qVYURCTtmvCSC3O981QDfTSqAXN+OYlM95GZJDsN19VJnVNMF+hHojAKsBX4nbwkPVBr+zcB+9M5CQ5mtOUB9x878SiUt+Na6XhwFe+ghUd6R9lZ+UUc7sCvo5OIPSt0COODeI58LOni/FJo6C/vkpX1LOp2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DZbbCPoT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FGUyk9MH"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id ED834C23DB6;
-	Tue, 22 Sep 2026 08:08:47 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 468C860580;
-	Tue, 22 Sep 2026 08:08:01 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4056C1032925B;
-	Tue, 22 Sep 2026 10:07:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790064477; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=zcp8tcZsfdsmxUcen5sJupr/nyZnxY5fTXf1NQWKnsw=;
-	b=FGUyk9MHJzJ0m0z8YAThEo2DOBHDLTsuC25rLZr2qIfJay2Q0I+gVCvTxsv2nvY/dDnJb9
-	IgXAUJLDLFyWtCu0gq4m+hX3dLL+xecsNJ8WJa5QPeWS1Zy6AUoS89OPdFALC8X5Qo/SYt
-	P+8Axb3+Z77DYvypZw+Bo1A5RcA0P5rB/gomubC1yCw1+sui5hmFk5wLv6D9zSGNbH/9I3
-	BDo6gZcaNWSmUaB3MSGwrUc50FkG95rYvnEytrHx7tFcZXjfqgUddfJurME6kZVkekBte7
-	SOpxzk5wN3ckVBb+KRlg6NycfNY3+6MfShb4b9lHPUZw9BG8DyTys0vA4UWL/w==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DZbbCPoT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CCF51F000FF;
+	Tue, 22 Sep 2026 08:09:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790064548;
+	bh=OrvI0lS5iedsIuWwFJtRVpqvsYUQdMp/dmyITNGxSg8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DZbbCPoTSBcurUYk2bz1VDxkNWDMV02RvhWrWaiMNpPz6ljb/j9YGOTwoSVab/b0a
+	 N6G9FFCwypeOzY92+k7EwJLGDxA4l1FrS/oE8wrhv5oT19CwwEJzHzGyleT25NEG7J
+	 QragPj5OgzHOHobEPQY28YnPMIUb3mLuULNFeKa5LUn69I2dhr/faKLe+JTiWXicwF
+	 VdXenJ3YXYc//eoor40OzvZ2yBtIdA6SG3/zPi6aKuDJuB4NxtqMx9C3bOt9uLsJqO
+	 dZcqz3FayH52g5YJkxpReTDqATZD3kUvaiaovKoI9t3mKoGCPEtOJ7484u3md+1eyj
+	 AGnX/+OzQnHNw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 44B461AC56A7; Tue, 22 Sep 2026 09:09:05 +0100 (BST)
+Date: Tue, 22 Sep 2026 10:09:05 +0200
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Amit Kucheria <amit.kucheria@linaro.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
+	linux-mediatek@lists.infradead.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 05/28] alsa: pcm: Remove the qos request only if active
+Message-ID: <arI3ofru4is-jDF_@sirena.co.uk>
+References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+ <20260920-macaudio-v1-5-741cc20a74e5@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VcZRb/AbZTZ33dvh"
+Content-Disposition: inline
+In-Reply-To: <20260920-macaudio-v1-5-741cc20a74e5@gmail.com>
+X-Cookie: Too clever is dumb.
+
+
+--VcZRb/AbZTZ33dvh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 22 Sep 2026 10:07:36 +0200
-Message-Id: <DLLOW2ROGP6L.3GTVT76VYPGAU@bootlin.com>
-Subject: Re: [PATCH v3 19/19] drm/bridge: analogix_dp: don't create a
- panel_bridge
-Cc: "Albert Esteve" <aesteve@redhat.com>, "Anusha Srivatsa"
- <asrivats@redhat.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
- "Ian Ray" <ian.ray@gehealthcare.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mips@vger.kernel.org>,
- <linux-rockchip@lists.infradead.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <asahi@lists.linux.dev>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <linux-tegra@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, "Heiko Stuebner" <heiko@sntech.de>
-To: "Damon Ding" <damon.ding@rock-chips.com>, "Luca Ceresoli"
- <luca.ceresoli@bootlin.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Robert Foss"
- <rfoss@kernel.org>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jessica Zhang"
- <jesszhan0024@gmail.com>, "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>,
- "Lucas Stach" <l.stach@pengutronix.de>, "Frank Li" <Frank.Li@nxp.com>,
- "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Paul
- Cercueil" <paul@crapouillou.net>, "Paul Kocialkowski" <paulk@sys-base.io>,
- "Linus Walleij" <linusw@kernel.org>, "Inki Dae" <inki.dae@samsung.com>,
- "Jagan Teki" <jagan@amarulasolutions.com>, "Marek Szyprowski"
- <m.szyprowski@samsung.com>, "Sean Paul" <sean@poorly.run>, "Jonathan
- Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
- Dunlap" <rdunlap@infradead.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.22.0
-References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
- <20260916-drm-bridge-every-panel-v3-19-83afb4f1a707@bootlin.com>
- <975a4d45-9a61-4858-b498-8bc0a1e44746@rock-chips.com>
- <96882735-091f-49c6-a47b-5da8be711818@rock-chips.com>
-In-Reply-To: <96882735-091f-49c6-a47b-5da8be711818@rock-chips.com>
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Damon,
+On Sun, Sep 20, 2026 at 02:53:44PM +1000, James Calligeros wrote:
+> From: Hector Martin <marcan@marcan.st>
+>=20
+> Fixes warning:
+>=20
+> [    8.502802] ------------[ cut here ]------------
+> [    8.503445] cpu_latency_qos_remove_request called for unknown object
+> [    8.504269] WARNING: CPU: 5 PID: 2790 at kernel/power/qos.c:322 cpu_la=
+tency_qos_remove_request+0x48/0x98
 
-On Mon Sep 21, 2026 at 8:34 AM CEST, Damon Ding wrote:
-> On 9/21/2026 11:07 AM, Damon Ding wrote:
->> Hi Luca,
->>
->> On 9/16/2026 9:45 PM, Luca Ceresoli wrote:
->>> Now a panel_bridge is automatically created for every drm_panel and the
->>> panel-bridge API is just a deprecated wrapper to access it.
->>>
->>> Update and simplify the code by just getting a reference to the
->>> already-existing bridge using of_drm_get_bridge_by_endpoint().
->>>
->>> As of_drm_get_bridge_by_endpoint() returns a refcounted bridge, take ca=
-re
->>> of putting the bridge reference. This is not easily done in the remove
->>> path
->>> due to the different probe paths of the user drivers, so add a devm
->>> action
->>> to ensure the reference is put only when it was taken.
->>>
->>> Assisted-by: opencode:deepseek-v4-flash-0731
->>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->>> ---
->>> =C2=A0 drivers/gpu/drm/bridge/analogix/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
->>> =C2=A0 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 40 ++++++++=
-++++
->>> +---------
->>> =C2=A0 drivers/gpu/drm/exynos/exynos_dp.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 36 +
->>> +-----------------
->>> =C2=A0 drivers/gpu/drm/rockchip/analogix_dp-rockchip.c=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 9 -----
->>> =C2=A0 include/drm/bridge/analogix_dp.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 1 -
->>> =C2=A0 5 files changed, 25 insertions(+), 62 deletions(-)
->>>
->
-> [snip]
->
->>> @@ -488,14 +487,6 @@ static void rockchip_dp_remove(struct
->>> platform_device *pdev)
->>> =C2=A0 {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct rockchip_dp_device *dp =3D platfo=
-rm_get_drvdata(pdev);
->
-> The above unused &rockchip_dp_device could be also remved.
+Do we know why this is being triggered?  It makes me a bit nervous to
+just shut up a warning without an commentary on why whatever the warning
+is telling us about isn't an issue.
 
-Ah, indeed!
+--VcZRb/AbZTZ33dvh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I guess I can keep your review tags if applying this patch with only this
-line removed. Correct?
+-----BEGIN PGP SIGNATURE-----
 
-Luca
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyN6AACgkQJNaLcl1U
+h9Dq1Af/Rvn6BWUaXoit9+fIWsqMQTQahObIGVt9y9ZaK4eU5kRQZDy4XXcqXGj7
+guQpBstVggAYk0rrNXsGwPkKcibW446LRRrT5dPYXr5XMXcz5S7UYFnOZQrP41U/
+nJwjC5LLzJZkCcogV8Y+UDBda2ny2XMHgQYHFaRYRnVn0P4cfCckgTPbqRBNT9rd
+mJDM0h2B8n1CNvoAKxL8NJyozqmtO/u+M9ks3TLQ7rRpP0BhngvBEFQ3L8/auQm5
+9LThLXY908JZXJUCDVmT9OxhQk57RbY6tnXZ6QufWM2LvVG5BcQplu/maBqwSTVf
+bgv6QOlSelzI1sx1m+fvlFPwkh5NTg==
+=v+bB
+-----END PGP SIGNATURE-----
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--VcZRb/AbZTZ33dvh--
