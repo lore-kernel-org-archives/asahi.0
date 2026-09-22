@@ -1,97 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E523C1F4F;
-	Tue, 22 Sep 2026 06:41:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7A44D7D22;
+	Tue, 22 Sep 2026 06:57:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790059316; cv=none; b=a3qgndrLPEZ8t8f8nJ89ldDMaj1xpNi9SlBNGV9lQVgPKh3LRK4Knu9up6OCmD8w5rZsb8+6bDC/2eq7Exya49Fffgv1twLL5Itijif7ISRjHr3EqJ83h+2ou/VsmfirRk1MC+JxHix+CnvOdzD3D/RrchAxvXJEhgxd4jA5ukY=
+	t=1790060233; cv=none; b=mdyPqRFeUTNkLyABBUlOeX6WE8DXeZAkW0yp135o+Oosekq/FOa3B//udllVP2XR8+5McZtop3NkLqUr8938wBlXM3gbo1eKv8/EhPyWHa8fqcpzQhWd7BGZBr8TqCooNGmEmMmzhNUAN8GazkSEd7CebAHn8LbR46gbz+i7P9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790059316; c=relaxed/simple;
-	bh=MhjZa3wgllmRAO0BQy9DXxkLnS0K4iYUdfSooRsMZLM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AdSLAbO3VopTeRp/yPEcor8k5Z9yUXUl/ky4IlEiZkSwxylKO/L++HA3u/f5SpPkA6fHndtw7oPld5NeogfHlehYxlaK5IXgMC2jjxLkJc3GGiU1/9FTQonAptyljHIq/EQPHYcXTWPW3Hu3/p6Mn+EQTCkfQefqULX42bL6+ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=elvscenE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790060233; c=relaxed/simple;
+	bh=1d/dvcHxVamna9owaFeoSOXs3fDbPWjgtvVHJ9x58IE=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=IttfEl0aMB7N1rQReIXj0MhZAhQuqbsaLWwOl5Feec4SN2FcplPdlH/S0bk5/Z0rFTt64CVd43gZJ/GWSVudmm6GNC1wwbk1vKBYT7kwOW76qVAiA8q+2fYknU0YSTzpSRW2g4Ek20QYS4mTewMFytD6NfrE/1yollz+67gSIik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TDo0ofYb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="elvscenE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 528831F000FF;
-	Tue, 22 Sep 2026 06:41:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TDo0ofYb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B991F00898;
+	Tue, 22 Sep 2026 06:57:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790059315;
-	bh=fKq8Pd+IrYIhmTfjiXM0xc9evQeYupJSgiTwqknNByo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=elvscenEAu6o081RV3og1212GNvhKmyX/daXtm1XcRH2EPQp4bfKtFwkpeVA0Kz0j
-	 HwsTmqS67zyLJFRUF0S34sUltwPk6TpgYMbixF6+dVIDt/7hpvU0q/GtoIof3kH9yf
-	 WUn03LXrmE+WTs9TOF50ohjP0VqCaj9rifYv11G3EfxyYfJJOq8k8a4cc4VYiyVNRc
-	 p8Wu+YxG3CT4IkAXfm258ay+t4ODvk2GRbgs6VVVUDIewzt31s0hMPkbMGC6iqXoHz
-	 NPmerFfeVmzcOhHr4bR8UPBWF9kMAE/5hjOTC5smPk7Wbcw3wCxXm6JvHIK7aDQvBZ
-	 FgXWp/sW/aXhQ==
-From: Sven Peter <sven@kernel.org>
-To: Neal Gompa <neal@gompa.dev>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] dt-check-style strict fixes for Apple M3, M3 Pro/Max/Ultra
-Date: Tue, 22 Sep 2026 08:41:35 +0200
-Message-ID: <179005928268.4871.7584482094844751159.b4-ty@b4>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260914-apple-dts-m3-dt-style-check-v2-0-e3e89c33f562@jannau.net>
-References: <20260914-apple-dts-m3-dt-style-check-v2-0-e3e89c33f562@jannau.net>
+	s=k20260515; t=1790060223;
+	bh=1d/dvcHxVamna9owaFeoSOXs3fDbPWjgtvVHJ9x58IE=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc;
+	b=TDo0ofYbNdfgzlG8qaMtA+hOaXzI2f+8O7RhKvtC64oAxw5fY99+Xnmpn4wuSn1k/
+	 UFu1OOvp2Y+3cDkZCdyu8ToN+hSihOfZ6cIqvShfoUL3SY+CbYSlsweV1In9DuAobn
+	 STQEIh6E7UqqP0lkiUPyBOVRhKndm6Dg5wROir+eZsX5I+1nyyew2NF26rf7yj3rRE
+	 vIkNS3s0GDFHUxy2TYFchLghJvCIFbA6HR/9eZOTUGyPoP4f1wgH1CTIXFhybpxNEM
+	 GMK6KQfYL+R/4HGOjBKfQN89DJMtXwJEDfsFr4ODWV1iocn/bH64X/PssKOFOp6jIC
+	 6rraVpPj7OLzg==
+Message-ID: <3925411c892a96d8e72872191a915deb@kernel.org>
+Date: Tue, 22 Sep 2026 06:56:59 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v3 05/19] drm/panel: embed a drm_bridge into every
+ drm_panel
+In-Reply-To: <20260916-drm-bridge-every-panel-v3-5-83afb4f1a707@bootlin.com>
+References: <20260916-drm-bridge-every-panel-v3-5-83afb4f1a707@bootlin.com>
+Cc: asahi@lists.linux.dev, dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, "Albert
+ Esteve" <aesteve@redhat.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Anusha
+ Srivatsa" <asrivats@redhat.com>, "David Airlie" <airlied@gmail.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Fabio Estevam" <festevam@gmail.com>, "Frank
+ Li" <Frank.Li@nxp.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Ian Ray" <ian.ray@gehealthcare.com>, "Inki
+ Dae" <inki.dae@samsung.com>, "Jagan Teki" <jagan@amarulasolutions.com>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <jesszhan0024@gmail.com>, "Jonas
+ Karlman" <jonas@kwiboo.se>, "Jonathan Corbet" <corbet@lwn.net>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>, "Linus
+ Walleij" <linusw@kernel.org>, "Lucas Stach" <l.stach@pengutronix.de>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marek Szyprowski" <m.szyprowski@samsung.com>, "Maxime
+ Ripard" <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>, "Paul
+ Cercueil" <paul@crapouillou.net>, "Paul Kocialkowski" <paulk@sys-base.io>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, "Randy Dunlap" <rdunlap@infradead.org>, "Robert
+ Foss" <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Sean
+ Paul" <sean@poorly.run>, "Shuah Khan" <skhan@linuxfoundation.org>, "Simona
+ Vetter" <simona@ffwll.ch>, "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 
-On Mon, 14 Sep 2026 10:40:30 +0200, Janne Grunau wrote:
-> Hej,
-> 
-> this series fixes most dt-check-style issues in strict strict mode for
-> Apple M3 and M3 Pro, Max and Ultra device trees. These device trees are
-> small so fixing most of the issues helps to check that new additions do
-> not introduce new dt-check-style issues.
-> 
-> [...]
+On Wed, 16 Sep 2026 15:45:29 +0200, Luca Ceresoli wrote:
+> Adding a drm_panel does currently not add a panel_bridge wrapping
+> it. Usually the panel_bridge creation happens later, when some other driv=
+er
+> (e.g. the previous bridge or the encoder) calls *_of_get_bridge() and the
+> following element in the pipeline is a panel.
+>=20
+>=20
+> [ ... ]
 
-Applied to git@github.com:AsahiLinux/linux.git (apple-soc/dt-7.4), thanks!
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-[01/13] arm64: dts: apple: t603x: Fix all blank line dt-check-style issues
-        https://github.com/AsahiLinux/linux/commit/eaec5e1207c1
-[02/13] arm64: dts: apple: t8122: Fix blank line related dt-check-style issues
-        https://github.com/AsahiLinux/linux/commit/aca5ce9bfb0a
-[03/13] arm64: dts: apple: t603x: Fix child-name-order dt-check-style issues
-        https://github.com/AsahiLinux/linux/commit/c7513cd44e08
-[04/13] arm64: dts: apple: t8122: Fix child-name-order dt-check-style issues
-        https://github.com/AsahiLinux/linux/commit/29cf25245028
-[05/13] arm64: dts: apple: t8122: Fix child-address-order dt-check-style issues
-        https://github.com/AsahiLinux/linux/commit/2448980d56e5
-[06/13] arm64: dts: apple: t6031: Fix continuation alignment
-        https://github.com/AsahiLinux/linux/commit/030d45664eb6
-[07/13] arm64: dts: apple: t8122: Fix continuation alignment
-        https://github.com/AsahiLinux/linux/commit/14ed3757881a
-[08/13] arm64: dts: apple: t6030: Fix most property-order dt-check-style issues
-        https://github.com/AsahiLinux/linux/commit/bd48cf6ef754
-[09/13] arm64: dts: apple: t603[12]: Fix most property-order dt-check-style issues
-        https://github.com/AsahiLinux/linux/commit/d9ac2af8714b
-[10/13] arm64: dts: apple: t8122: Fix most property-order dt-check-style issues
-        https://github.com/AsahiLinux/linux/commit/8578146c48d9
-[11/13] arm64: dts: apple: t6032-j575d: Remove unused "framebuffer0" label
-        https://github.com/AsahiLinux/linux/commit/be0bd5b0d880
-[12/13] arm64: dts: apple: t603x: Break overly long lines
-        https://github.com/AsahiLinux/linux/commit/d8f5ecdd7712
-[13/13] arm64: dts: apple: t8122: Break overly long lines
-        https://github.com/AsahiLinux/linux/commit/6b49aa53f416
-
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
-
+Thanks!
+Maxime
