@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EB64DDB5C;
-	Tue, 22 Sep 2026 09:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6865352FE39;
+	Tue, 22 Sep 2026 10:12:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790070786; cv=none; b=kUrAq/j/Cqbrd6/XQosegMxg8G9NE+fegdDLA/X5GVf7QpU9tNCA1D2ZfQS7FhSeB5Nhcwfk6AtBxO6fXT4glL68fb+qGr08k9Rfy9hXulz/Ou7kIMhZLTEP8OHGIjAW2weSh4wh76HxvHDTWdeoA0Y2w55R4Vwg8DK5w0ReVVY=
+	t=1790071951; cv=none; b=rdGRw4uT1cuD4GmNwfY0ixu8M6mgllIwAZHbTca6ajSvWg/rpoG5//X4IVX8W32IL2ErtX9357MdBG61zHXaIbmVfCqSmzEnVpgvXqHhS2m/73WhFGWVRexGZRGgi9iQ4gLxlhR5SO6sjx9lAyfB3AXV/stFclYhh8GVlmbhhNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790070786; c=relaxed/simple;
-	bh=waQg2ujP0aUmO5NUWplq2PDQJEwHtoE33QRboY67UHg=;
+	s=arc-20240116; t=1790071951; c=relaxed/simple;
+	bh=RCczAd6rRCjl+z1bCRL9mHWnCXKdbTyfadA77NuaG/g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YlFBdHdVXFOOHILo4ncbciwvfwXBA7MFL/OhnWMg0KYMyoppTEdmF7dvjPYenYicUJUoBu85R0kacri08BVYOFd9vtCy6DB2gx+V/BwkE6Yk0vN7wS+q5pAptyyta+yVu48H+T1esiaBFenJQT0FrcasX/N+9v1WTyZ2YxnR5E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nEitEp8X; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tby5us85BO+JKhxveboAgfZcleiVPDxEEye/zhcsOgzA3RVUSyA1AeT5f8qXtVrL2PrnVYX/icu45w4CltSyNqFvGdvsu1tHwE2lg7vY9HsCeEOSwE9hF5KUj7Hzs06+49cR4JUGqioTmSErUV2DavkWTuQSGOL8ZPUYEEehFrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fG+6R961; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nEitEp8X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 338E11F000FF;
-	Tue, 22 Sep 2026 09:53:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fG+6R961"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 309971F000FF;
+	Tue, 22 Sep 2026 10:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790070784;
-	bh=nARjhrFD1a4uFrGP/wTAfcQAeQqUTGrmqUP9jR7qHek=;
+	s=k20260515; t=1790071948;
+	bh=RCczAd6rRCjl+z1bCRL9mHWnCXKdbTyfadA77NuaG/g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nEitEp8XesXa66ohsqaPXQhbL3xF2VPi5jxpeHfvNKIelbcU57N2LlISpDXR4evDD
-	 vWNbSH91JwOgPgmdtya5yFo+mSJVrjLJj3A465KYYbP/dN41QMpwIvWzr/Z4EaQVLB
-	 FI8W5AaB7aug9wFKd8IDgPQ92g22Dd8mLQPvHEQO83K4yoViaHkQjKh5wBmUZZcTlw
-	 OsKFoOoHj9WgXWXEk/y+PFkIsojPUo8YD3iG/fp4lJ7AwCXb5e9Y6Cs/GfQ4KhWley
-	 dl84p0fnYpc9aSNLr5eovi55Wa8ABpuLhiZK7BdLN8Ig9pzkyA13/USzmDMzuA4Djp
-	 6PITUPc2KwKiA==
+	b=fG+6R961EA4yrEigbIif5vmei3DVEwm80+ODauHnon7uJ1tcU4/BLWyevxnbqN8Er
+	 3yx5z+Dd/GmgfNmm8CKcebMfTZzMXiMH0Imxm1rHZrKnXkpJFDqw5/UsPMEFAHSY2k
+	 8MABgMWnWJmgbtIxw70uBIY0C5PrNWwVbF+SkwVxQG7kF9+bEQ3HMhTVPZmTidEDqu
+	 pGfu983jjupSUjJVC0g0lBBoFAdQxU8PDADuQFWhwdF/2W6DCBIkCaATiUYHLIwK8t
+	 SdmRF2DXQQp4wm4DNnMGckojCSCMRaOSBmbX+QfjQ0eRi2ntqs6IDBk2sh0XwkxbUq
+	 J6GtaEQHbOlhg==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id E17FB1AC56BF; Tue, 22 Sep 2026 10:53:00 +0100 (BST)
-Date: Tue, 22 Sep 2026 11:53:00 +0200
+	id 2934F1AC56BF; Tue, 22 Sep 2026 11:12:25 +0100 (BST)
+Date: Tue, 22 Sep 2026 12:12:25 +0200
 From: Mark Brown <broonie@kernel.org>
 To: James Calligeros <jcalligeros99@gmail.com>
 Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
@@ -51,11 +51,13 @@ Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 11/28] ASoC: ops: Introduce 'snd_soc_deactivate_kctl'
-Message-ID: <arJP_AjGtyaIOg6m@sirena.co.uk>
+	linux-mediatek@lists.infradead.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 06/28] ALSA: dmaengine: Always terminate DMA when a PCM
+ is closed
+Message-ID: <arJUiUjJXtFkIIy7@sirena.co.uk>
 References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
- <20260920-macaudio-v1-11-741cc20a74e5@gmail.com>
+ <20260920-macaudio-v1-6-741cc20a74e5@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -63,49 +65,46 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mNc7H9Mf9fLW1Byg"
+	protocol="application/pgp-signature"; boundary="sT7HIJNNlVwRAJA+"
 Content-Disposition: inline
-In-Reply-To: <20260920-macaudio-v1-11-741cc20a74e5@gmail.com>
+In-Reply-To: <20260920-macaudio-v1-6-741cc20a74e5@gmail.com>
 X-Cookie: Too clever is dumb.
 
 
---mNc7H9Mf9fLW1Byg
-Content-Type: text/plain; charset=utf-8
+--sT7HIJNNlVwRAJA+
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 20, 2026 at 02:53:50PM +1000, James Calligeros wrote:
-> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+On Sun, Sep 20, 2026 at 02:53:45PM +1000, James Calligeros wrote:
+> From: Hector Martin <marcan@marcan.st>
 >=20
-> The new function can be used to deactivate controls -- either a single
-> one or in bulk by pattern. It is something a machine driver may call in
-> fixup_controls.
+> When a PCM is suspended, we pause the DMA. If the PCM is then closed
+> while in this state, it does not receive the STOP trigger (as it is not
+> running). In this case, we fail to properly terminate the DMA, calling
+> dmaengine_synchronize() nonetheless, which is undefined behavior.
+>=20
+> Make sure we always call dmaengine_terminate_async() on PCM close,
+> regardless of whether it has been called previously or not in the
+> trigger callbacks.
 
-> + * Return number of matching controls on success, else error.
-> + * No controls need to match.
-> + */
-> +int snd_soc_deactivate_kctl(struct snd_soc_card *card,
-> +	const char *name, int active)
+See 6a7db25aad8ce (ALSA: dmaengine_pcm: terminate dmaengine before
+synchronize) - we should already be handling anything that's already
+saying it's paused.
 
-> +	if (!hits)
-> +		return -EINVAL;
-
-The comment says no controls need to match, but we return an error in
-that case.
-
---mNc7H9Mf9fLW1Byg
+--sT7HIJNNlVwRAJA+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyT/wACgkQJNaLcl1U
-h9Bvewf+Iop+x5OZDye45hxw6ccSgPW7Odu2Npcda77dIryeRPAjpXLVz6dcrc8K
-4TJrQC+WG0m5H635RmrywLTgJyupe4kIfVxZ/86xfmqvkRBrDFRpSeb/scudUuRp
-zoa9hMGNFAw3qTIa+ppM7BLfb9zrs/ykSC3r+c+fwXEFrh/fnRBbbLtmRbN5rnkD
-OLbvOykV5l8HTXUrB1duSzCZS9dWNoHd9Dyg8b3fFhE1cIXNYbcUUaJ8Yv4Jplx9
-Jfz8kxonRvN8YUbcAL60O7PNAGtFdzOCr02Qv9/d5jrDQi9Ae4UXm63i4/umUXRg
-3gUTHLNhDGEH2e8PtdKXh5uH43Ww/Q==
-=khxA
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyVIgACgkQJNaLcl1U
+h9DhyAf/X6q2AWvRH1MFMzPD/e8912CrW4cklVOfvh51L3pxhjQ/6JFWDI+pyTLs
+AVff/x4OgIlUuhgxgEk/Y99g122aZRx91ZsDmQeKifSiJGXwxKsk2ZmW4lZb/VNL
+ncqE5q63FDDYPIUoB/bBfQ6GfuhzZ7p0+oB5+U8Ec+mRaAsicuIIUZPPaeFVx92V
++nRFciaP5xg9bFFIDNX0jkO7TdqR8VbuJ3qmomHv7hUi3ZsYrUoPG+qI3o4Gc0vV
+JRiMoaUgQihkntAo4L92KjTNkNJrcezERaU3xjd0x0q7IPAtr9sHwpaTdS78IV5T
+dQGbVZsRQq3iRrdFnJqwezyQXWtfUg==
+=I6pM
 -----END PGP SIGNATURE-----
 
---mNc7H9Mf9fLW1Byg--
+--sT7HIJNNlVwRAJA+--
