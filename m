@@ -1,110 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6865352FE39;
-	Tue, 22 Sep 2026 10:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5252E3254A9
+	for <asahi@lists.linux.dev>; Wed, 23 Sep 2026 02:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790071951; cv=none; b=rdGRw4uT1cuD4GmNwfY0ixu8M6mgllIwAZHbTca6ajSvWg/rpoG5//X4IVX8W32IL2ErtX9357MdBG61zHXaIbmVfCqSmzEnVpgvXqHhS2m/73WhFGWVRexGZRGgi9iQ4gLxlhR5SO6sjx9lAyfB3AXV/stFclYhh8GVlmbhhNU=
+	t=1790130235; cv=none; b=re44SAv3ksKPpN1eo8NEv/KDFNVahmgoHaD1c3NYsEGLddK+85Acj/TNUuelYg5NTHHj8thGv1We+Uuk74cwULneqTj/twUHrLgln4mlMun+i8O7qJSdKONHaGCvNIBd9c9H5s4meakkfFZ2flifkbL6VWYQz2LXqZwTFnanOwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790071951; c=relaxed/simple;
-	bh=RCczAd6rRCjl+z1bCRL9mHWnCXKdbTyfadA77NuaG/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tby5us85BO+JKhxveboAgfZcleiVPDxEEye/zhcsOgzA3RVUSyA1AeT5f8qXtVrL2PrnVYX/icu45w4CltSyNqFvGdvsu1tHwE2lg7vY9HsCeEOSwE9hF5KUj7Hzs06+49cR4JUGqioTmSErUV2DavkWTuQSGOL8ZPUYEEehFrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fG+6R961; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fG+6R961"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 309971F000FF;
-	Tue, 22 Sep 2026 10:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790071948;
-	bh=RCczAd6rRCjl+z1bCRL9mHWnCXKdbTyfadA77NuaG/g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fG+6R961EA4yrEigbIif5vmei3DVEwm80+ODauHnon7uJ1tcU4/BLWyevxnbqN8Er
-	 3yx5z+Dd/GmgfNmm8CKcebMfTZzMXiMH0Imxm1rHZrKnXkpJFDqw5/UsPMEFAHSY2k
-	 8MABgMWnWJmgbtIxw70uBIY0C5PrNWwVbF+SkwVxQG7kF9+bEQ3HMhTVPZmTidEDqu
-	 pGfu983jjupSUjJVC0g0lBBoFAdQxU8PDADuQFWhwdF/2W6DCBIkCaATiUYHLIwK8t
-	 SdmRF2DXQQp4wm4DNnMGckojCSCMRaOSBmbX+QfjQ0eRi2ntqs6IDBk2sh0XwkxbUq
-	 J6GtaEQHbOlhg==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 2934F1AC56BF; Tue, 22 Sep 2026 11:12:25 +0100 (BST)
-Date: Tue, 22 Sep 2026 12:12:25 +0200
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Amit Kucheria <amit.kucheria@linaro.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
-	James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
-	linux-mediatek@lists.infradead.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 06/28] ALSA: dmaengine: Always terminate DMA when a PCM
- is closed
-Message-ID: <arJUiUjJXtFkIIy7@sirena.co.uk>
-References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
- <20260920-macaudio-v1-6-741cc20a74e5@gmail.com>
+	s=arc-20240116; t=1790130235; c=relaxed/simple;
+	bh=vqFMPjQWlxbj7M2C2z9wc7VWBFB95EXi5KDIe2h8Fh8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bfbGHr6R3vyfcqbWN2kozqZPxGXPwD5ZUc3KXMcbT63xkTqlI509DUXrmcJSMFDciHHUVLuL8EKAnUpyrQoEAwOzE2Idjt+ziAQ4aodeCTDMs/DbUpLS5NRp/SCuXxydvdzVSJOc+I4MQUoJwS2qfnj/kdjbvKLYBVZnDgj2TEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wB3migtOLNq4vsvAQ--.4161S3;
+	Wed, 23 Sep 2026 10:23:42 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app4 (Coremail) with SMTP id zi_KCgAH7DQtOLNqzObNAw--.61111S2;
+	Wed, 23 Sep 2026 10:23:41 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Neal Gompa <neal@gompa.dev>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Song Li <songl@zju.edu.cn>
+Subject: [PATCH] nvme: apple: don't unbind the driver on reset failure
+Date: Wed, 23 Sep 2026 02:22:46 +0000
+Message-Id: <20260923022246.396036-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sT7HIJNNlVwRAJA+"
-Content-Disposition: inline
-In-Reply-To: <20260920-macaudio-v1-6-741cc20a74e5@gmail.com>
-X-Cookie: Too clever is dumb.
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zi_KCgAH7DQtOLNqzObNAw--.61111S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?o5En3QXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnXz+g1OQfMo27QHy5TwQyZx14AC2V9q43cqIiEB7VCKWQgzTF47xQDkI8NAgYzF2bFu/
+	H+AHJg4+1EcSoEokfq2p9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoWxZF18CFWxCry8tw43JFWftFc_yoW5Wr1kpF
+	4rWasI9rZrWr1Dtr1UJr4DuF98uw1fJryUJryIgw4rur1FqryrZ3s8KFyY9FW5Ar9Yva13
+	ZFWrJw15CF1kJFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
+	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
+	6r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
+	Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
+	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7gAwDUUUU
 
+When apple_nvme_reset_work() fails it queues anv->remove_work, whose
+callback apple_nvme_remove_dead_ctrl_work() unbinds the driver through
+device_release_driver(). The work is embedded in the devm-allocated
+apple_nvme, but apple_nvme_remove() only flushes ctrl.reset_work, so an
+external unbind while the work is pending frees anv through
+devres_release_all() before the callback runs, and it operates on freed
+memory.
 
---sT7HIJNNlVwRAJA+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix this by not unbinding from a work item at all, mirroring commit
+c7c16c5b1967 ("nvme-pci: don't unbind the driver on reset failure"):
+on reset failure, disable the controller, mark the namespaces dead and
+leave the controller in the dead state instead of queueing the deferred
+unbind. The device stays bound and can be recovered by unbinding and
+rebinding the driver. apple_nvme_disable() is now passed shutdown=true,
+as in the final disable in apple_nvme_remove(), so entered requests are
+completed.
 
-On Sun, Sep 20, 2026 at 02:53:45PM +1000, James Calligeros wrote:
-> From: Hector Martin <marcan@marcan.st>
->=20
-> When a PCM is suspended, we pause the DMA. If the PCM is then closed
-> while in this state, it does not receive the STOP trigger (as it is not
-> running). In this case, we fail to properly terminate the DMA, calling
-> dmaengine_synchronize() nonetheless, which is undefined behavior.
->=20
-> Make sure we always call dmaengine_terminate_async() on PCM close,
-> regardless of whether it has been called previously or not in the
-> trigger callbacks.
+Draining the work from apple_nvme_remove() is not an option: that path
+holds the device lock the callback blocks on, so waiting would deadlock.
 
-See 6a7db25aad8ce (ALSA: dmaengine_pcm: terminate dmaengine before
-synchronize) - we should already be handling anything that's already
-saying it's paused.
+This issue was found by an in-house static analysis tool.
 
---sT7HIJNNlVwRAJA+
-Content-Type: application/pgp-signature; name="signature.asc"
+Fixes: 5bd2927aceba ("nvme-apple: Add initial Apple SoC NVMe driver")
+Cc: stable@vger.kernel.org
+Co-developed-by: Song Li <songl@zju.edu.cn>
+Signed-off-by: Song Li <songl@zju.edu.cn>
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+ drivers/nvme/host/apple.c | 2 insertions(+), 15 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -193,7 +193,6 @@
+ 	mempool_t *iod_mempool;
+ 
+ 	struct nvme_ctrl ctrl;
+-	struct work_struct remove_work;
+ 
+ 	struct apple_nvme_queue adminq;
+ 	struct apple_nvme_queue ioq;
+@@ -1224,20 +1223,9 @@
+ out:
+ 	dev_warn(anv->ctrl.device, "Reset failure status: %d\n", ret);
+ 	nvme_change_ctrl_state(&anv->ctrl, NVME_CTRL_DELETING);
+-	nvme_get_ctrl(&anv->ctrl);
+-	apple_nvme_disable(anv, false);
++	apple_nvme_disable(anv, true);
+ 	nvme_mark_namespaces_dead(&anv->ctrl);
+-	if (!queue_work(nvme_wq, &anv->remove_work))
+-		nvme_put_ctrl(&anv->ctrl);
+-}
+-
+-static void apple_nvme_remove_dead_ctrl_work(struct work_struct *work)
+-{
+-	struct apple_nvme *anv =
+-		container_of(work, struct apple_nvme, remove_work);
+-
+-	nvme_put_ctrl(&anv->ctrl);
+-	device_release_driver(anv->dev);
++	nvme_change_ctrl_state(&anv->ctrl, NVME_CTRL_DEAD);
+ }
+ 
+ static int apple_nvme_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+@@ -1531,7 +1519,6 @@
+ 	}
+ 
+ 	INIT_WORK(&anv->ctrl.reset_work, apple_nvme_reset_work);
+-	INIT_WORK(&anv->remove_work, apple_nvme_remove_dead_ctrl_work);
+ 	spin_lock_init(&anv->lock);
+ 
+ 	ret = apple_nvme_queue_alloc(anv, &anv->adminq);
+-- 
+2.39.5
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyVIgACgkQJNaLcl1U
-h9DhyAf/X6q2AWvRH1MFMzPD/e8912CrW4cklVOfvh51L3pxhjQ/6JFWDI+pyTLs
-AVff/x4OgIlUuhgxgEk/Y99g122aZRx91ZsDmQeKifSiJGXwxKsk2ZmW4lZb/VNL
-ncqE5q63FDDYPIUoB/bBfQ6GfuhzZ7p0+oB5+U8Ec+mRaAsicuIIUZPPaeFVx92V
-+nRFciaP5xg9bFFIDNX0jkO7TdqR8VbuJ3qmomHv7hUi3ZsYrUoPG+qI3o4Gc0vV
-JRiMoaUgQihkntAo4L92KjTNkNJrcezERaU3xjd0x0q7IPAtr9sHwpaTdS78IV5T
-dQGbVZsRQq3iRrdFnJqwezyQXWtfUg==
-=I6pM
------END PGP SIGNATURE-----
-
---sT7HIJNNlVwRAJA+--
