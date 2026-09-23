@@ -1,141 +1,126 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5252E3254A9
-	for <asahi@lists.linux.dev>; Wed, 23 Sep 2026 02:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D7739E9AC
+	for <asahi@lists.linux.dev>; Wed, 23 Sep 2026 11:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790130235; cv=none; b=re44SAv3ksKPpN1eo8NEv/KDFNVahmgoHaD1c3NYsEGLddK+85Acj/TNUuelYg5NTHHj8thGv1We+Uuk74cwULneqTj/twUHrLgln4mlMun+i8O7qJSdKONHaGCvNIBd9c9H5s4meakkfFZ2flifkbL6VWYQz2LXqZwTFnanOwI=
+	t=1790161963; cv=none; b=FYAo7Pu1UP+vB4gLtuGERcXTXXn+ELF8KNwvoDftj5mKh8VWWod+7ZMxg2I/lyfQy6w9X9nst0cQ5es6yo8++N83z3J8LuOAo0msUDubfJkK6WGRceAkeOblOLNUf+jCZFMdtr0TG1ABlTfvsakXAFLqFJkmzXiWVyqaXoRwcHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790130235; c=relaxed/simple;
-	bh=vqFMPjQWlxbj7M2C2z9wc7VWBFB95EXi5KDIe2h8Fh8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bfbGHr6R3vyfcqbWN2kozqZPxGXPwD5ZUc3KXMcbT63xkTqlI509DUXrmcJSMFDciHHUVLuL8EKAnUpyrQoEAwOzE2Idjt+ziAQ4aodeCTDMs/DbUpLS5NRp/SCuXxydvdzVSJOc+I4MQUoJwS2qfnj/kdjbvKLYBVZnDgj2TEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wB3migtOLNq4vsvAQ--.4161S3;
-	Wed, 23 Sep 2026 10:23:42 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app4 (Coremail) with SMTP id zi_KCgAH7DQtOLNqzObNAw--.61111S2;
-	Wed, 23 Sep 2026 10:23:41 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Neal Gompa <neal@gompa.dev>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Song Li <songl@zju.edu.cn>
-Subject: [PATCH] nvme: apple: don't unbind the driver on reset failure
-Date: Wed, 23 Sep 2026 02:22:46 +0000
-Message-Id: <20260923022246.396036-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1790161963; c=relaxed/simple;
+	bh=4kFjPPVTiTU44/Rc2PKmvKJZjxEZERC4DkD/eRB6BvE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RiBw2Gskqyvi7xxrjOFIBSYyhmVBCDf4WCOsH/xHOTqoVGrd9vEqG8twMgvX9ykx9oJfM+/RHajEKbKLOVPLHkAQxh5clpXn0Mmtt48xrAIyzqfUXOzDeEZQUd5lSrXahj/vwt9jBp6mczJy0OrLbqQ2R3Pwj1PxJZUVMwRiZsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ydpoq0ee; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ydpoq0ee"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d91c22d27dso2814055ad.1
+        for <asahi@lists.linux.dev>; Wed, 23 Sep 2026 04:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790161961; x=1790766761; darn=lists.linux.dev;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4kFjPPVTiTU44/Rc2PKmvKJZjxEZERC4DkD/eRB6BvE=;
+        b=Ydpoq0eeXsK0d46xve9fQxX+DKSWIToadvvbzlFEyT4vhd9SXkUJ+OI7QfF+gYP8oV
+         koXLHPtCzCC1PxbxXuM+3q7JNSoSIR7IACBAkAwe/yGh0iYgKLtkAWUsCqHTIwuHEZNr
+         lXZncrr8ZQbXIJaYMqE+umkxCdsuy74xWSrV9xtBDhaKt2Q8g35SWvc8L1RjDDWKBQ6t
+         OFQ6aqXcimRJ9XSfgcT2VhkYn9WI9xMzTdU6ubIxXQoWIKU3KTrCsgVi5olH0TZJmO1H
+         C4mRPhuk6d+/ZqJe+JvTPUqTZPCBnuOJKoCdWKUIugWKE0m89DDWOh7bj5e54HSJhPQ6
+         49ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790161961; x=1790766761;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4kFjPPVTiTU44/Rc2PKmvKJZjxEZERC4DkD/eRB6BvE=;
+        b=LUQvJhMaft4X3RXyqXQECYHtEy4rjxCtLWDPaYXc2E8j5IQSSQenFDaQt+4ctg3Srb
+         WLurcRxFYwT3qQ1h1S/kQd7zeJke6HpFfyXpcoaDUFJYVRBsDVaX746Fy5fyhYzkVvnP
+         GKin3H6DFdsDn6QAxm2s6N1D9MhgvTtol5Zh/BVjPx6NcDoq6IZhCTwD+DMQ6VaFzfQL
+         4Ykj0YJ0XjC/sPxC3idZMeI01qxR4G0TdTynBdYD/yA1wWFb/lksCIgOmBFtYX7og3x9
+         F/JCdykstO/nVGeIugIguJs1/59P8Bqa4Nk7+eUtS6IbFDYQL+qadu9seADjc2J0zX1h
+         nDDA==
+X-Forwarded-Encrypted: i=1; AKwUvBzKUJ5/7mEP/6lLtUv12J7BBgegweTd1IJ6M/tB+gXtOShe3OUQJNKJBPP095RGCUpdP7Mhjg==@lists.linux.dev
+X-Gm-Message-State: AFuF++l+wGCdrnlWvTSqdk+upH6hhUdZmdLdWRLHK8Xgnzy9fYt3x74E
+	zo9awp5OajBFEn4GwOxLz5PnaENi9RoB3lU/Ug6A1HPTbeTBIHOswxbb
+X-Gm-Gg: AYBFou3zn6EVYbv3203bJvne8mNrXQ6TnG9P5iqIEhaaWLwtEzOqdOjA7z5+FXPdVoN
+	Ou/86+kvd12eRSQrRfKHyLmKVBAKvWv9qDa1NxsLq61Ae2n0sjrrEsjQhvpQjloB6lCIu2hJr9y
+	95jhT4q0Kkta+tcWOnKKO0PTlZvahMJZIT9tWhUs7gUObI9fXMt1jX1Sl49G4mnUYKq4XI4qttZ
+	XCJsHSSUpDo/pQcnvTFvNyxj5U/VIV/VHbmQjjKR+iwrmHsQG6pK1sfeWEkQSHK9+1dju6CeCgG
+	8MfFjiGgpqc0J4U1FufgJs6XjjWhIIeK4LNOy1XBs+4YIbKaC88PakVfer3g7PjsOIwhjMn9Z1K
+	Pn60vdHtH9/S4EmSZG08ao653IDOZ7O6Jdm+gTHMlSLnX7SDP4mf+IzLRBOT9QkfMbVf6NEryYM
+	okLeduXg9kSJ6H4AAtZSvEefgAiQ5z+OZlO9pS0Ki6wRhVAe67T7Kv46c2bsldqka0g2j/C9uLS
+	CmpDdoSUat9Q9tYIhCGX7gl1BLoAdASznnh/9MNX59hVejAjpN/NB1DN8/JlulAUianThpZ34du
+	lLG15Jiq1NPBqKmpUzOKSEAtzgYnrij7hvI1YDLVvYSuHx+hmp4=
+X-Received: by 2002:a17:902:d54a:b0:2dd:c053:d739 with SMTP id d9443c01a7336-2df69dacfb9mr19455635ad.32.1790161960734;
+        Wed, 23 Sep 2026 04:12:40 -0700 (PDT)
+Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df6a5f5886sm8814555ad.72.2026.09.23.04.12.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 04:12:40 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Ulf Hansson <ulfh@kernel.org>, Amit Kucheria <amit.kucheria@linaro.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 10/28] ASoC: ops: Accept patterns in snd_soc_limit_volume
+Date: Wed, 23 Sep 2026 21:12:29 +1000
+Message-ID: <EVVfptRVTru_6AKB_uY-lw@gmail.com>
+In-Reply-To: <arFa+frv9QcL4b36@opensource.cirrus.com>
+References:
+ <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+ <arFM5QGrJx1aYhGK@sirena.co.uk> <arFa+frv9QcL4b36@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zi_KCgAH7DQtOLNqzObNAw--.61111S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?o5En3QXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnXz+g1OQfMo27QHy5TwQyZx14AC2V9q43cqIiEB7VCKWQgzTF47xQDkI8NAgYzF2bFu/
-	H+AHJg4+1EcSoEokfq2p9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoWxZF18CFWxCry8tw43JFWftFc_yoW5Wr1kpF
-	4rWasI9rZrWr1Dtr1UJr4DuF98uw1fJryUJryIgw4rur1FqryrZ3s8KFyY9FW5Ar9Yva13
-	ZFWrJw15CF1kJFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Cr1j6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
-	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
-	Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
-	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
-	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
-	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU7gAwDUUUU
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-When apple_nvme_reset_work() fails it queues anv->remove_work, whose
-callback apple_nvme_remove_dead_ctrl_work() unbinds the driver through
-device_release_driver(). The work is embedded in the devm-allocated
-apple_nvme, but apple_nvme_remove() only flushes ctrl.reset_work, so an
-external unbind while the work is pending frees anv through
-devres_release_all() before the callback runs, and it operates on freed
-memory.
+On Tuesday, 22 September 2026 2:27:37=E2=80=AFam Australian Eastern Standar=
+d Time=20
+Charles Keepax wrote:
+> Are you using the wildcard mostly to skip the component prefix
+> stuff? I wonder if adding an option to match without that might
+> be more explicit.
 
-Fix this by not unbinding from a work item at all, mirroring commit
-c7c16c5b1967 ("nvme-pci: don't unbind the driver on reset failure"):
-on reset failure, disable the controller, mark the namespaces dead and
-leave the controller in the dead state instead of queueing the deferred
-unbind. The device stays bound and can be recovered by unbinding and
-rebinding the driver. apple_nvme_disable() is now passed shutdown=true,
-as in the final disable in apple_nvme_remove(), so entered requests are
-completed.
+We use it in two places. The first is as part of the speaker protection
+system, to ensure that all the relevant kctrls have been locked by
+the same owner (us). This one just matches without the component prefix.
+We also use this facility to eliminate duplication across left and right
+channels, matching partially on the component prefix but without "Left"
+or "Right" in the string. The second use case is rather superfluous so
+I am happy to get rid of that. I think at that point it would make more
+sense to just construct the full kctrl name in the driver and pass that
+in to the existing API in the one place this actually remains necessary.
 
-Draining the work from apple_nvme_remove() is not an option: that path
-holds the device lock the callback blocks on, so waiting would deadlock.
+>=20
+> Thanks,
+> Charles
 
-This issue was found by an in-house static analysis tool.
+James
 
-Fixes: 5bd2927aceba ("nvme-apple: Add initial Apple SoC NVMe driver")
-Cc: stable@vger.kernel.org
-Co-developed-by: Song Li <songl@zju.edu.cn>
-Signed-off-by: Song Li <songl@zju.edu.cn>
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
- drivers/nvme/host/apple.c | 2 insertions(+), 15 deletions(-)
 
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -193,7 +193,6 @@
- 	mempool_t *iod_mempool;
- 
- 	struct nvme_ctrl ctrl;
--	struct work_struct remove_work;
- 
- 	struct apple_nvme_queue adminq;
- 	struct apple_nvme_queue ioq;
-@@ -1224,20 +1223,9 @@
- out:
- 	dev_warn(anv->ctrl.device, "Reset failure status: %d\n", ret);
- 	nvme_change_ctrl_state(&anv->ctrl, NVME_CTRL_DELETING);
--	nvme_get_ctrl(&anv->ctrl);
--	apple_nvme_disable(anv, false);
-+	apple_nvme_disable(anv, true);
- 	nvme_mark_namespaces_dead(&anv->ctrl);
--	if (!queue_work(nvme_wq, &anv->remove_work))
--		nvme_put_ctrl(&anv->ctrl);
--}
--
--static void apple_nvme_remove_dead_ctrl_work(struct work_struct *work)
--{
--	struct apple_nvme *anv =
--		container_of(work, struct apple_nvme, remove_work);
--
--	nvme_put_ctrl(&anv->ctrl);
--	device_release_driver(anv->dev);
-+	nvme_change_ctrl_state(&anv->ctrl, NVME_CTRL_DEAD);
- }
- 
- static int apple_nvme_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
-@@ -1531,7 +1519,6 @@
- 	}
- 
- 	INIT_WORK(&anv->ctrl.reset_work, apple_nvme_reset_work);
--	INIT_WORK(&anv->remove_work, apple_nvme_remove_dead_ctrl_work);
- 	spin_lock_init(&anv->lock);
- 
- 	ret = apple_nvme_queue_alloc(anv, &anv->adminq);
--- 
-2.39.5
 
