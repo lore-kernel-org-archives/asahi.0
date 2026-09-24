@@ -1,61 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BD74398F1
-	for <asahi@lists.linux.dev>; Thu, 24 Sep 2026 07:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B607440A0A;
+	Thu, 24 Sep 2026 08:57:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790236332; cv=none; b=kcpu+9PuMGfH+TxgVdHiBYQXc5seOvNDlcVru1srvevEtf2jAnTcUrA32TEoM/cHdkqW+bAcQo0AbHk2WuusPYigho/kObtTmpwk9f3f8C4oKOHrF/EAdQBHtNdRlWerg/w8nBVhtHcCDBgsKJd2G0cIzhA1WJT3e5eLvpTAYBU=
+	t=1790240253; cv=none; b=FtGh/EX9IjAvnVieWwL9SftCA/McbhWRa4iN8sk3KBbortIzwiZ/ouwd+F/4/3ovzlVshfvLmYA1nGceXqNFUpk/deCW0FJ1pSMN0dFjcmqHCWYjrOma1e6HZRLENMghM3I+UHXKj75F3G0+XUAR59nvk27SOY2ajD3yWpM9S3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790236332; c=relaxed/simple;
-	bh=Q2w6LF4/zIJhMqgnul1q5Ke3T8Fce4xJ7qGlNUdJ/6g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gUsRTbtnZxJYK+wP21B5EXLrjbxZGye3kweULT6TYK2axcEmNY6Ix+/4HjjM7LmcC66BhJCmaLmJHMJptKNKvXl+7NqZrDKs7Z2R2/k6n3J/qXA55ZsKLQdVj6a3jA4JoDOJha4B5LC69xHRolgPAivrbn+CEb2Ey4iD4dxfBqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2I/fvPn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790240253; c=relaxed/simple;
+	bh=xsiuJQwIZ5xEk8gorL2gE4ZMImjXNE15Fspti5LUvPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tk34WMAHsFrRyDuqkbeD36b8lgmQFC7bEf1oj4Yzu503Cun+2j0TFuxdn7tsad1FSmoCVuC3sSOD1mdIEOYC77UkVMSlz5l2v3dbjHXE+gWTN1Jc4CePrvY+UysK+zEXfA6BrvdWE+dIverdSdx+88oHQWVZhowJePdr2kRRX1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y66Nn1F7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2I/fvPn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED01C1F000FF
-	for <asahi@lists.linux.dev>; Thu, 24 Sep 2026 07:52:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y66Nn1F7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AAFF1F00893;
+	Thu, 24 Sep 2026 08:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790236330;
-	bh=flhXc27wZ7lq+96q79C1lo9pyNK1W5OvD7SOTlgsYQY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=G2I/fvPnhzBwiTSzPd3k7x4JWZsKCGb4j7VG6x2YnmbJxbyRU5tVgRqOyZ571A67J
-	 puwHI17+boGxREGxd2bqTxfZ2IqP3Ra8hnxg+i9aCY+7rLtq1kah9sqYEBU7J3utDq
-	 U1S5Kw/5ZeVHUnLycq5YZ0sMxUKw5BhOIW+A+XSHnY97gDLKCkkru0uZYK7P4sJrFi
-	 TpZonTLVAnbMtmu0mIaIwKb0NDS8zvlFDagOw1qjPXvI1ytDW4GxpRS4MhJG7f2dSS
-	 D6R1DzIL2HmpIhTNrIChM24ika2V+uJ/rBPVdk/TjTqlXGhHzWNn6nsZ1Yyte1eq55
-	 jYWwdnYtNdwIw==
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f1744fso2332591e87.2
-        for <asahi@lists.linux.dev>; Thu, 24 Sep 2026 00:52:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzKt3LIg7rAc2O74nt1o4grf5lNzB3phcTakkF4XXx7fT++HTcSECUDwj0DyeitxJKUQeZYEA==@lists.linux.dev
-X-Gm-Message-State: AFuF++lWiuU8Rps9/p0S8cHDwDkxIdwFvfK9RtSsA3Y81m2COcdHEv3K
-	AMUfgjqRkWAczGp62m+rlgjjYL0FBp7qG2MDlL93S9VIa0I+ulfqbjAWG0YwoPfiJmiHm+v3AMP
-	DEhGRfqJ+Kzc+NnERP1iJRxeEgi+S4G8=
-X-Received: by 2002:a05:6512:6c8:b0:5b8:b419:b7b with SMTP id
- 2adb3069b0e04-5b8e0a18d1cmr355916e87.49.1790236328001; Thu, 24 Sep 2026
- 00:52:08 -0700 (PDT)
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
- <20260916-drm-bridge-every-panel-v3-12-83afb4f1a707@bootlin.com>
- <arInho2bsfJiCgjV@houat> <DLNCQEG62F5N.O98WAO4U2FJO@bootlin.com>
-In-Reply-To: <DLNCQEG62F5N.O98WAO4U2FJO@bootlin.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 24 Sep 2026 09:51:53 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkk-a0MrQUiaDD8OoDDoYVwBwSjFTj5ZBy=Xo7MS4+01g@mail.gmail.com>
-X-Gm-Features: AclHuK8rPixm6Txa-uGEDmLc8FjUZWkrHeBO_IgguNN-8bSfUZSDFWgY_JslL90
-Message-ID: <CAD++jLkk-a0MrQUiaDD8OoDDoYVwBwSjFTj5ZBy=Xo7MS4+01g@mail.gmail.com>
-Subject: Re: [PATCH v3 12/19] drm/mcde: dsi: don't create a panel_bridge
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	s=k20260515; t=1790240248;
+	bh=KsfA+7ZRfaMaOYHf9FLzqm+87QxZc0nf8pdVelteCEk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y66Nn1F70+EOrXieRS0criFH3uxMANVUI7oanFcCoy8GmyXIy+pJT4bYVlm/thmPG
+	 N7qIdDiz1YmSsvWNdouFIMEZW4BAqVieOEmxdbjyjg8VeCwPdmNl98xvvOpohxm65Y
+	 GyNzGB6Z7BI3y56gBKntItSCJRjU51zGLLQXLvZnr16k3FQ6buDS49+J1C+07Q9T63
+	 n6nHxyci7fO61wmUlSLUGoMKJe5Tmzp5UMO6z0QysEePeglKrYmnlnSTGRtL4Xmc0R
+	 znGcbePU3j8NmjIOaR7E0m14ncuBzwafBVjkGLhSAzXI59gpYQZewywAESCZXVQDnZ
+	 5vqxv1raD/1Pw==
+Date: Thu, 24 Sep 2026 10:57:24 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
 	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
 	Jessica Zhang <jesszhan0024@gmail.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
@@ -64,56 +41,101 @@ Cc: Maxime Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
 	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
 	Paul Kocialkowski <paulk@sys-base.io>, Inki Dae <inki.dae@samsung.com>, 
 	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Albert Esteve <aesteve@redhat.com>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+	Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Albert Esteve <aesteve@redhat.com>, Anusha Srivatsa <asrivats@redhat.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+	Ian Ray <ian.ray@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v3 12/19] drm/mcde: dsi: don't create a panel_bridge
+Message-ID: <arTlpd-KAsVpj3UH@houat>
+References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
+ <20260916-drm-bridge-every-panel-v3-12-83afb4f1a707@bootlin.com>
+ <arInho2bsfJiCgjV@houat>
+ <DLNCQEG62F5N.O98WAO4U2FJO@bootlin.com>
+ <CAD++jLkk-a0MrQUiaDD8OoDDoYVwBwSjFTj5ZBy=Xo7MS4+01g@mail.gmail.com>
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="fta6xv3zcvscpec2"
+Content-Disposition: inline
+In-Reply-To: <CAD++jLkk-a0MrQUiaDD8OoDDoYVwBwSjFTj5ZBy=Xo7MS4+01g@mail.gmail.com>
+
+
+--fta6xv3zcvscpec2
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 12/19] drm/mcde: dsi: don't create a panel_bridge
+MIME-Version: 1.0
 
-Hi Luca,
-
-sorry for my slowness!
-
-On Thu, Sep 24, 2026 at 9:01=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
-n.com> wrote:
-> On Tue Sep 22, 2026 at 9:09 AM CEST, Maxime Ripard wrote:
-
-> >> -    } else if (bridge) {
-> >> +    if (!bridge) {
-> >> +            dev_err(dev, "no bridge\n");
-> >> +            return -ENODEV;
-> >> +    } else if (!drm_bridge_is_panel(bridge)) {
-> >>              /* TODO: AV8100 HDMI encoder goes here for example */
-> >>              dev_info(dev, "connected to non-panel bridge (unsupported=
-)\n");
-> >>              return -ENODEV;
+On Thu, Sep 24, 2026 at 09:51:53AM +0200, Linus Walleij wrote:
+> Hi Luca,
+>=20
+> sorry for my slowness!
+>=20
+> On Thu, Sep 24, 2026 at 9:01=E2=80=AFAM Luca Ceresoli <luca.ceresoli@boot=
+lin.com> wrote:
+> > On Tue Sep 22, 2026 at 9:09 AM CEST, Maxime Ripard wrote:
+>=20
+> > >> -    } else if (bridge) {
+> > >> +    if (!bridge) {
+> > >> +            dev_err(dev, "no bridge\n");
+> > >> +            return -ENODEV;
+> > >> +    } else if (!drm_bridge_is_panel(bridge)) {
+> > >>              /* TODO: AV8100 HDMI encoder goes here for example */
+> > >>              dev_info(dev, "connected to non-panel bridge (unsupport=
+ed)\n");
+> > >>              return -ENODEV;
+> > >
+> > > I wonder if we still need that branch. Every panel is a bridge now, a=
+nd
+> > > it looks like we don't have any specific panel handling in this drive=
+r,
+> > > so I guess it supports bridges already?
+> > >
+> > > Linus, do you know why this condition was here in the first place?
 > >
-> > I wonder if we still need that branch. Every panel is a bridge now, and
-> > it looks like we don't have any specific panel handling in this driver,
-> > so I guess it supports bridges already?
+> > I had the same thought while writing the patch, but I chose to be
+> > conservative.
 > >
-> > Linus, do you know why this condition was here in the first place?
->
-> I had the same thought while writing the patch, but I chose to be
-> conservative.
->
-> Linus, unless you have more info I'm going to apply the patch as
-> is. Removing this special case would be welcome as a later patch.
+> > Linus, unless you have more info I'm going to apply the patch as
+> > is. Removing this special case would be welcome as a later patch.
+>=20
+> I'd say go ahead as-is.
 
-I'd say go ahead as-is.
+I'm fine with that, but I really want this removed at some point.
 
-I do have the idea to code up and submit the AV8100 encoder
-and I have the hardware to test it, but every other user should
-be using panels directly, and I would be the only non-panel
-user so I can deal with it when it comes up.
+> I do have the idea to code up and submit the AV8100 encoder
+> and I have the hardware to test it, but every other user should
+> be using panels directly, and I would be the only non-panel
+> user so I can deal with it when it comes up.
 
-Yours,
-Linus Walleij
+It won't change a thing. All existing "panel" users will be bridge users
+after this patch is merged. So whether you want to enable a bridge or
+not shouldn't matter, the only thing that does is whether the existing
+users would still work.
+
+Maxime
+
+--fta6xv3zcvscpec2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCarTl8wAKCRAnX84Zoj2+
+dhwWAXwI9qMs84ZRfc2g48IeAyQiE/CtbfMWnKHKCoJcY62gOn2KtPtJlfAUSVSt
+Fz2FzIoBf1P/bkrhzAS0uao6/CjJ0F2xh689BoYPK8a7rDMJeckpdh6Df4f795pW
+2kQWWS2bNQ==
+=k5VA
+-----END PGP SIGNATURE-----
+
+--fta6xv3zcvscpec2--
