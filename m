@@ -1,34 +1,35 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB728387590
-	for <asahi@lists.linux.dev>; Thu, 24 Sep 2026 13:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A09485508
+	for <asahi@lists.linux.dev>; Thu, 24 Sep 2026 13:22:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790256170; cv=none; b=PkzEpE7DVtvmewHZhdONQk/iXygRLVP1W4TRSw04CVUvA/Fa6ZdK63Y7VJpX7bWuqGZAXRR50RStsDBwbYhZ+AbDq5wxZRh42MAQRCi6adqVP4AR5ob5QY4T8TzGeiwQTDuMtg41M7OE7rW912w5W6qpZoP0QhvFVhtCJwmKuYc=
+	t=1790256169; cv=none; b=HWkktcH6QyCuQmwCOERBRrMf9wmz2h0yT17jahiJ0LrpazHf4H502hMsdR6ydAdFPHp5trvpZDaVL9EJYqakuMKn8aGfJND2Z6JM2X3zwmUT7wPI+PLNMhzzJd3buo7938YamaYgfYeAHnMTKiipiASOVYB7LLlDGR4bwjN8jR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790256170; c=relaxed/simple;
-	bh=Av2FYaVaDd1JBZFAXqH2sO2sXPEwc0QKlMWYTmIJAg8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cOfrfKwbZNCUBLSaGoMk67YkAn6hobGDGgxseny1pB5FGVB9m9h/L24MWeIfHbkiaylYZtelPFu4Fh4owB077v/O/+KaMlAO0IMcF9+1zpm+VTsW0ywEgQqnYsrC5UkSfc/Dw0djDxAPMBsciDUWq1rKyjG2aB71XWoLckoYzY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=LbcviaqS; arc=none smtp.client-ip=195.39.247.168
+	s=arc-20240116; t=1790256169; c=relaxed/simple;
+	bh=PwqeSbe2g21wY95vHrL5TImbAzcSEHkRY9hGmoF6mB0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=QJiyEq2y4azm6dErDyQAaVctaR4Lh34/H9XtT8fT04vK3MeywiUUIJSYOt+KiBTgwFE2Q0xciIdNxUJYp/tOcrUz6HfZS8j19lNUJ3rqL6U7cSrfC1GAUFuqzPXrDlOr4dkrwyKIBr0MCl7EMx8Ystgf6/u2Cjjrc+CGyuRwb5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=g456k/Hp; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="LbcviaqS"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="g456k/Hp"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1790256153;
+	s=mail; t=1790256156;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=i73iHN07Xn5dbQ15hrDEY+QFRLYirRH7hxrF8MHF8eQ=;
-	b=LbcviaqSxqHSmF7WPlr5Qub3WMBvHwWqUNfXcyzATsTziknRRpIqWEuTM3wTkwgIwHE5pw
-	s2tf69q9DiEH3xk8Px9Wa6XxcJXmR+77e9W3XZFtGU4c4ofPcMaFv1gDeTHu3Shdct3JBA
-	FQs7NhKf+y5zK55C5uH3Cl4XXP65EDk=
-Subject: [PATCH 0/3] arm64: dts: apple: dt-check-style strict fixes for
- Apple M4
-Date: Thu, 24 Sep 2026 15:22:22 +0200
-Message-Id: <20260924-apple-dts-m4-dt-style-check-v1-0-3ec651d75baf@cyberchaos.dev>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=asFSRPzAeSqh5Upg0pBvvouJIpJ240yq43ylJBSx25Y=;
+	b=g456k/HpL8JbzCiYLSwKSwARfDAjU/ie0GWp5WS07QQFjmWdSyTe8F5lX58GZllZDnNkeF
+	5LLmzVS9dKmYEaLQ0IwG1Habrpm6iRVcEioKALKaMctDSxLSvTNtGKarDMx0VL4c6p/EzQ
+	1arMu6mKIDajOYfHoSbmg3SW5wO3abk=
+Date: Thu, 24 Sep 2026 15:22:25 +0200
+Subject: [PATCH 3/3] dts: apple: t8132: Fix some line-length-related
+ dt-check-style issues
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,10 +38,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ6CQAxA4auQrm0yTAg6XsW4wE6R+oOT6WAgh
- LtbdfXybd4KyllY4VitkPktKq/RUO8qoKEbr4wSzeCdb13wDXYpPRhjUXw2FtSymGlgumPLdR8
- iBX9we7BDytzL/Lufzn/rdLkxle8Stu0D3tQgyn8AAAA=
-X-Change-ID: 20260924-apple-dts-m4-dt-style-check-6e1f9dc92807
+Message-Id: <20260924-apple-dts-m4-dt-style-check-v1-3-3ec651d75baf@cyberchaos.dev>
+References: <20260924-apple-dts-m4-dt-style-check-v1-0-3ec651d75baf@cyberchaos.dev>
+In-Reply-To: <20260924-apple-dts-m4-dt-style-check-v1-0-3ec651d75baf@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -49,39 +49,64 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Yureka Lilian <yureka@cyberchaos.dev>
 
-Hi,
-
-mirroring recent changes to the M3 and M3 Pro/Max/Ultra device trees,
-this makes the M4 device trees broadly compliant with
-`dt-check-style --mode=strict`, leaving the same exceptions:
-
-- line-length errors up to 82 columns are left as-is
-- cache-related properties are left out of order to preserve human
-  readability
-- the property-order and line-length issues in the generated pmgr nodes
-  are left as-is
-
-I checked carefully that the modifications do not cause any functional
-change in the compiled DTs.
+This fixes most `dt-check-style --mode=strict` issues related to line
+length. Lines up to 82 columns are left as-is.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
-Yureka Lilian (3):
-      dts: apple: t8132: Fix blank-lines-related dt-check-style issues
-      dts: apple: t8132: Fix ordering-related dt-check-style issues
-      dts: apple: t8132: Fix some line-length-related dt-check-style issues
+ arch/arm64/boot/dts/apple/t8132-jxxx.dtsi | 3 ++-
+ arch/arm64/boot/dts/apple/t8132.dtsi      | 9 ++++++---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
- arch/arm64/boot/dts/apple/t8132-j604.dts  |   9 +-
- arch/arm64/boot/dts/apple/t8132-j713.dts  |   9 +-
- arch/arm64/boot/dts/apple/t8132-j715.dts  |   9 +-
- arch/arm64/boot/dts/apple/t8132-jxxx.dtsi |   8 +-
- arch/arm64/boot/dts/apple/t8132.dtsi      | 210 +++++++++++++++++-------------
- 5 files changed, 142 insertions(+), 103 deletions(-)
----
-base-commit: eea4f3b5e9e19389af3b99af64cdf7352b67c298
-change-id: 20260924-apple-dts-m4-dt-style-check-6e1f9dc92807
+diff --git a/arch/arm64/boot/dts/apple/t8132-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8132-jxxx.dtsi
+index 09ab380a00e9..108c546545d5 100644
+--- a/arch/arm64/boot/dts/apple/t8132-jxxx.dtsi
++++ b/arch/arm64/boot/dts/apple/t8132-jxxx.dtsi
+@@ -22,7 +22,8 @@ chosen {
+ 		stdout-path = "serial0";
+ 
+ 		framebuffer0: framebuffer@0 {
+-			compatible = "apple,simple-framebuffer", "simple-framebuffer";
++			compatible = "apple,simple-framebuffer",
++			             "simple-framebuffer";
+ 			reg = <0 0 0 0>; /* To be filled by loader */
+ 			power-domains = <&ps_disp_fe>, <&ps_dptx_phy>;
+ 			/* Format properties will be added by loader */
+diff --git a/arch/arm64/boot/dts/apple/t8132.dtsi b/arch/arm64/boot/dts/apple/t8132.dtsi
+index 350ad7b3772b..76e96846c695 100644
+--- a/arch/arm64/boot/dts/apple/t8132.dtsi
++++ b/arch/arm64/boot/dts/apple/t8132.dtsi
+@@ -216,7 +216,8 @@ soc: soc {
+ 		#size-cells = <2>;
+ 
+ 		pmgr: power-management@380700000 {
+-			compatible = "apple,t8132-pmgr", "apple,t8103-pmgr", "syscon", "simple-mfd";
++			compatible = "apple,t8132-pmgr", "apple,t8103-pmgr",
++			             "syscon", "simple-mfd";
+ 			reg = <0x3 0x80700000 0 0x14000>;
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+@@ -234,7 +235,8 @@ aic: interrupt-controller@381000000 {
+ 
+ 			affinities {
+ 				e-core-pmu-affinity {
+-					cpus = <&cpu_e0 &cpu_e1 &cpu_e2 &cpu_e3 &cpu_e4 &cpu_e5>;
++					cpus = <&cpu_e0 &cpu_e1 &cpu_e2
++					       &cpu_e3 &cpu_e4 &cpu_e5>;
+ 					apple,fiq-index = <AIC_CPU_PMU_E>;
+ 				};
+ 
+@@ -269,7 +271,8 @@ pinctrl_nub: pinctrl@3881f0000 {
+ 		};
+ 
+ 		pmgr_mini: power-management@388280000 {
+-			compatible = "apple,t8132-pmgr", "apple,t8103-pmgr", "syscon", "simple-mfd";
++			compatible = "apple,t8132-pmgr", "apple,t8103-pmgr",
++			             "syscon", "simple-mfd";
+ 			reg = <0x3 0x88280000 0 0x4000>;
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
 
-Best regards,
---  
-Yureka Lilian <yureka@cyberchaos.dev>
+-- 
+2.55.0
 
