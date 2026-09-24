@@ -1,49 +1,87 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E271947A0C4;
-	Thu, 24 Sep 2026 11:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790249860; cv=none; b=NVcBJdGv58qgIy4BqM5YxuAKQNCaVA0+ImdUBx79+BPif4MCDy9t6J0Wrwc9NWB6/xTMRfv3RuofBxUSoTQVqtvytcn3jKg7t8j3P44BBKkqXShF90IIoOSu9XGvH5xUwLESNdcvN0EIwTBv8idulKWBlBmplY3/HAqtbnOQaPM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790249860; c=relaxed/simple;
-	bh=2EznhBAf4tapLikwBNVBshdXp25sQtmOgYlIBY42W08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F8g1GHb4+Kg1LH12IWahSwDeCmw3Udg/BxC2H9ylF9rQQxdXeEF3gPwoSUuu1khoI+4bkgMvcIWbbEjppTKCujiZG9lNQe2I7X9GLj//jiRqtm/UgTvpGiHy9lOtYh7W+oFMQuwUlyE7jtUlvy2RxQA0UwareSPrnQ4Umv+bwdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Received: from 8bytes.org (p200300f6af404a00e4ccc4fdbbd66590.dip0.t-ipconnect.de [IPv6:2003:f6:af40:4a00:e4cc:c4fd:bbd6:6590])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id D53671C7465;
-	Thu, 24 Sep 2026 13:37:32 +0200 (CEST)
-Date: Thu, 24 Sep 2026 13:37:31 +0200
-From: "Joerg Roedel (AMD)" <joro@8bytes.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	iommu@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v3 0/2] iommu: apple-dart: device specific DMA aperture
- support
-Message-ID: <arULHr3O14OerdLR@8bytes.org>
-References: <20260902-iommu-apple-dart-aperture-v3-0-252ce55b7001@jannau.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB728387590
+	for <asahi@lists.linux.dev>; Thu, 24 Sep 2026 13:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790256170; cv=none; b=PkzEpE7DVtvmewHZhdONQk/iXygRLVP1W4TRSw04CVUvA/Fa6ZdK63Y7VJpX7bWuqGZAXRR50RStsDBwbYhZ+AbDq5wxZRh42MAQRCi6adqVP4AR5ob5QY4T8TzGeiwQTDuMtg41M7OE7rW912w5W6qpZoP0QhvFVhtCJwmKuYc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790256170; c=relaxed/simple;
+	bh=Av2FYaVaDd1JBZFAXqH2sO2sXPEwc0QKlMWYTmIJAg8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cOfrfKwbZNCUBLSaGoMk67YkAn6hobGDGgxseny1pB5FGVB9m9h/L24MWeIfHbkiaylYZtelPFu4Fh4owB077v/O/+KaMlAO0IMcF9+1zpm+VTsW0ywEgQqnYsrC5UkSfc/Dw0djDxAPMBsciDUWq1rKyjG2aB71XWoLckoYzY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=LbcviaqS; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="LbcviaqS"
+From: Yureka Lilian <yureka@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1790256153;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=i73iHN07Xn5dbQ15hrDEY+QFRLYirRH7hxrF8MHF8eQ=;
+	b=LbcviaqSxqHSmF7WPlr5Qub3WMBvHwWqUNfXcyzATsTziknRRpIqWEuTM3wTkwgIwHE5pw
+	s2tf69q9DiEH3xk8Px9Wa6XxcJXmR+77e9W3XZFtGU4c4ofPcMaFv1gDeTHu3Shdct3JBA
+	FQs7NhKf+y5zK55C5uH3Cl4XXP65EDk=
+Subject: [PATCH 0/3] arm64: dts: apple: dt-check-style strict fixes for
+ Apple M4
+Date: Thu, 24 Sep 2026 15:22:22 +0200
+Message-Id: <20260924-apple-dts-m4-dt-style-check-v1-0-3ec651d75baf@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260902-iommu-apple-dart-aperture-v3-0-252ce55b7001@jannau.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ6CQAxA4auQrm0yTAg6XsW4wE6R+oOT6WAgh
+ LtbdfXybd4KyllY4VitkPktKq/RUO8qoKEbr4wSzeCdb13wDXYpPRhjUXw2FtSymGlgumPLdR8
+ iBX9we7BDytzL/Lufzn/rdLkxle8Stu0D3tQgyn8AAAA=
+X-Change-ID: 20260924-apple-dts-m4-dt-style-check-6e1f9dc92807
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Yureka Lilian <yureka@cyberchaos.dev>
 
-On Wed, Sep 02, 2026 at 09:18:53PM +0200, Janne Grunau wrote:
-> Janne Grunau (2):
->       dt-bindings: iommu: dart: Support specifying the DMA aperture
->       iommu: apple-dart: Support specifying the DMA aperture in the DT
+Hi,
 
-Missed that there is a v3, applied this instead.
+mirroring recent changes to the M3 and M3 Pro/Max/Ultra device trees,
+this makes the M4 device trees broadly compliant with
+`dt-check-style --mode=strict`, leaving the same exceptions:
+
+- line-length errors up to 82 columns are left as-is
+- cache-related properties are left out of order to preserve human
+  readability
+- the property-order and line-length issues in the generated pmgr nodes
+  are left as-is
+
+I checked carefully that the modifications do not cause any functional
+change in the compiled DTs.
+
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+---
+Yureka Lilian (3):
+      dts: apple: t8132: Fix blank-lines-related dt-check-style issues
+      dts: apple: t8132: Fix ordering-related dt-check-style issues
+      dts: apple: t8132: Fix some line-length-related dt-check-style issues
+
+ arch/arm64/boot/dts/apple/t8132-j604.dts  |   9 +-
+ arch/arm64/boot/dts/apple/t8132-j713.dts  |   9 +-
+ arch/arm64/boot/dts/apple/t8132-j715.dts  |   9 +-
+ arch/arm64/boot/dts/apple/t8132-jxxx.dtsi |   8 +-
+ arch/arm64/boot/dts/apple/t8132.dtsi      | 210 +++++++++++++++++-------------
+ 5 files changed, 142 insertions(+), 103 deletions(-)
+---
+base-commit: eea4f3b5e9e19389af3b99af64cdf7352b67c298
+change-id: 20260924-apple-dts-m4-dt-style-check-6e1f9dc92807
+
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
+
