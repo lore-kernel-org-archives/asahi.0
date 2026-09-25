@@ -1,117 +1,96 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC284D796A
-	for <asahi@lists.linux.dev>; Fri, 25 Sep 2026 16:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6340F3B71C6;
+	Fri, 25 Sep 2026 21:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790354020; cv=none; b=hG/qUiq/snL6+IPrc/Cyi6oEgpHoPjzZkLnevS5xl3o4oq+NERRXmn3EzK2N4yPBQIoqvAGiZvIo2nekwH+1Gi8ZzxyQ+99QBeKns4rgTknzTOMUwCmVqxM7yJONiyjPQr9eTtxH7+G2zYMRt9+fRiuBF2Na7c2y1shSsN25aUQ=
+	t=1790370270; cv=none; b=fWUuMyfF2iFCcvkw2SF8MVBZwRxJPoD8bqMxWg+F3KoySKthjbwTMlpvXadApMhSfYoBjwL2Xeh00PXd6upi5YVorLRwKS0dvBnj2qMDOJyMH4lp7s09BKWNBUEWkNYBJG5UVsfJwtCOCl+Ejc/KsPgzWb/MlniFRGkZ3ZC9XV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790354020; c=relaxed/simple;
-	bh=foA8UbomajTa22DkRxj3005Wjy2ttgaDybzSQGdZd1s=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=eg/HOH+T6PNj8sfflTOFpmwXTRRuisydjdIO5PVgWUyonM9YmYcwnPvEbLaSdzDXLK4w7GI5uJMD6tn0cvwaF8aNRxczJqKBSNDGsdx9dYnsDAV19fkIiU9MpZwN5W1nfbN98SNlhvgpJ50pVGbHhlVZnR73ejbAzgt95mQfETQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UVIlKBXc; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1790370270; c=relaxed/simple;
+	bh=8OZln4xl1G0DvkU/QUDhzZUlHdsJZ4OIkxVTE2N405g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=llu8s8mTWLeeqEPwyCBf6megKOmWu5Ty27DMhhIRpoZ5dzfz9Ruh+Y6MQNY0+Bz5xlZGbP6K8Q/05mqZTE77p17R73denrYDOzk5tVkotMhCcueykmun8VGYy7Z8R20dR/5PpRpgURQ4UnxiRoztOwlnPCQmJZPS6ptuRbCqA7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CfSfEEKh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UVIlKBXc"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 0C5E5C653F2;
-	Fri, 25 Sep 2026 16:34:24 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EE3D46073B;
-	Fri, 25 Sep 2026 16:33:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A19C0102F1E2A;
-	Fri, 25 Sep 2026 18:33:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790354012; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=foA8UbomajTa22DkRxj3005Wjy2ttgaDybzSQGdZd1s=;
-	b=UVIlKBXcttrLLrKy6BGsauS7t/MyVySVo242G5oaPV7ZhSacbtUL9/V/bjZW7WNZtfq1nR
-	+p0xFsBSa6zjnsGOeaC4k55ZqS4p+L8CxFJ1kj9MDub7xt9b3MNbX/WBAAq8ZeIMvJrNJN
-	SfRoXd/ROpQ7w178tshiDhesA0DA7g37XVn2x5dwzGwQywmZcqUx40vWCBnfSSsYwE+JWR
-	RXubplVcLtikf8ywNM5oq/ITzF96yQOLn6ut5IGpZZm8xsnwWbfhqacoN8hxaeuPcZ74XL
-	FwQynJsoxdHzXMb8CFGKszltbAs2WVNKelNcVq7xoiwSgsz1TAy9wZGUtAtoEQ==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CfSfEEKh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B94C1F000FF;
+	Fri, 25 Sep 2026 21:04:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790370259;
+	bh=f/7V9ZWZkMokG7CJ9aBSYknLa+Ei+QcS2Lclf77fH7E=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=CfSfEEKhUZk9XSt5q+z3lsaqtaersmxd+9WaBNJCoZzvYFEmCewDa8ufauCzlsDSH
+	 iNhV+KSUPfBmtgobpItQthF4nvB1Qddw8OAV/Z9gelXDRP5NrpuUzm+78wAB5eFrd4
+	 grAV7C2hg8B3kRW4YZa2eWgLu3rwPUofkEvktGHPMP6aXoCWKcst2UrKTEIDo9jbm6
+	 YO50RNqD7IvfH9shdDMIcA8X2m5B7ZN7utJuwueDHt7FCI6bZDIvGNzRDQutd9YdRa
+	 rJsu3OUMvIc0Jj4iPH89Af9NgarTBh+rnoNt125SZAsDNRd1Y8xxsrzUpgy9B0Udaw
+	 jqRP2C2CMoofQ==
+From: Sven Peter <sven@kernel.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Hector Martin <marcan@marcan.st>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Radu Rendec <radu@rendec.net>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v3 0/7] Initial Apple Silicon A18 Pro device trees and dt-bindings
+Date: Fri, 25 Sep 2026 23:04:00 +0200
+Message-ID: <179037002764.105455.15409082344174622046.b4-ty@b4>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260924-apple-a18-pro-initial-devicetrees-v3-0-94f7ea52cc64@cyberchaos.dev>
+References: <20260924-apple-a18-pro-initial-devicetrees-v3-0-94f7ea52cc64@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 25 Sep 2026 18:33:15 +0200
-Message-Id: <DLOJIV124RG7.27SOPEOHBTA7W@bootlin.com>
-Subject: Re: [PATCH v3 12/19] drm/mcde: dsi: don't create a panel_bridge
-Cc: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Jessica Zhang" <jesszhan0024@gmail.com>, "Laurentiu
- Palcu" <laurentiu.palcu@oss.nxp.com>, "Lucas Stach"
- <l.stach@pengutronix.de>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Paul
- Cercueil" <paul@crapouillou.net>, "Paul Kocialkowski" <paulk@sys-base.io>,
- "Inki Dae" <inki.dae@samsung.com>, "Jagan Teki"
- <jagan@amarulasolutions.com>, "Marek Szyprowski"
- <m.szyprowski@samsung.com>, "Sean Paul" <sean@poorly.run>, "Jonathan
- Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
- Dunlap" <rdunlap@infradead.org>, "Albert Esteve" <aesteve@redhat.com>,
- "Anusha Srivatsa" <asrivats@redhat.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
- "Ian Ray" <ian.ray@gehealthcare.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mips@vger.kernel.org>,
- <linux-rockchip@lists.infradead.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <asahi@lists.linux.dev>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <linux-tegra@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>
-To: "Linus Walleij" <linusw@kernel.org>, "Maxime Ripard"
- <mripard@kernel.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.22.0
-References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
- <20260916-drm-bridge-every-panel-v3-12-83afb4f1a707@bootlin.com>
- <arInho2bsfJiCgjV@houat> <DLNCQEG62F5N.O98WAO4U2FJO@bootlin.com>
- <CAD++jLkk-a0MrQUiaDD8OoDDoYVwBwSjFTj5ZBy=Xo7MS4+01g@mail.gmail.com>
- <arTlpd-KAsVpj3UH@houat>
- <CAD++jLmktDoqn2EbXsNnyGRudo-q2NCxUf+9ZjeU+WrY4CBMWw@mail.gmail.com>
-In-Reply-To: <CAD++jLmktDoqn2EbXsNnyGRudo-q2NCxUf+9ZjeU+WrY4CBMWw@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hello Linus,
+On Thu, 24 Sep 2026 16:17:04 +0200, Yureka Lilian wrote:
+> This series adds initial device trees and dt-bindings for the A18 Pro
+> (t8140) SoC and the MacBook Neo (the only Mac using this SoC).
+> It only covers a minimal amount of hardware, but is nontheless useful
+> for further development work. The hardware added here has remained
+> largely unchanged from the earlier generation Apple Silicon Macs.
+> 
+> Similar to the M4 devices, changes to the m1n1 bootloader are required
+> to boot Linux on the MacBook Neo.
+> Also, SMP boot depends on further patches to avoid WFI and WFIT
+> instructions [1][2].
+> 
+> [...]
 
-On Fri Sep 25, 2026 at 6:25 PM CEST, Linus Walleij wrote:
-> On Thu, Sep 24, 2026 at 10:57=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
-g> wrote:
->> On Thu, Sep 24, 2026 at 09:51:53AM +0200, Linus Walleij wrote:
->
->> > > Linus, unless you have more info I'm going to apply the patch as
->> > > is. Removing this special case would be welcome as a later patch.
->> >
->> > I'd say go ahead as-is.
->>
->> I'm fine with that, but I really want this removed at some point.
->
-> If Luca wanna fix this up (drop this path) that's fine by me,
-> else send a patch immediately after this is applied and I'll
-> ACK it.
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/dt-7.4), thanks!
 
-To avoid postponing this series I plan to apply as is on Monday. I can send
-another patch later to remove the !panel case.
+[1/7] dt-bindings: arm: cpus: Add Apple A18 Pro CPU core compatibles
+      https://github.com/AsahiLinux/linux/commit/9e70c02c5536
+[2/7] dt-bindings: arm: apple: apple,pmgr: Add t8140 compatible
+      https://github.com/AsahiLinux/linux/commit/4eb4d9efe290
+[3/7] dt-bindings: arm: power: apple,pmgr-pwrstate: Add t8140 compatible
+      https://github.com/AsahiLinux/linux/commit/16c4ea7772d1
+[4/7] dt-bindings: interrupt-controller: apple,aic2: Add t8140 compatible
+      https://github.com/AsahiLinux/linux/commit/c47142fd192f
+[6/7] dt-bindings: arm: apple: Add A18 Pro based devices
+      https://github.com/AsahiLinux/linux/commit/a1baa6329a3d
+[7/7] arm64: dts: apple: Add minimal MacBook Neo device tree
+      https://github.com/AsahiLinux/linux/commit/ccf16d328c35
 
-Thanks for the feedback!
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
