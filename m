@@ -1,237 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332E34A68AB;
-	Fri, 25 Sep 2026 13:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8BF4DA9B8
+	for <asahi@lists.linux.dev>; Fri, 25 Sep 2026 16:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790343825; cv=none; b=suY47XvUOrOqMHngOBjvU8mhDqjeRneA9ni6kQqfmJZH0SceJFiwH2DEIuU5u5jSsTgkIcGXqxLcrB5Omp7aK2eFQ7Ku7RGOQNCe+Is0oXBMHEo8q4gpVtNKQ9QXyorxeKNpPGVaz1ddTluo9+OiozP4YgOTlFRD/hZI8Ll5aHw=
+	t=1790353554; cv=none; b=QTPBXzr1kdGF/jiOqiNvTcE2AxD4gOVZcXuBbO6EjzjQNHjz/59aiZ1Q7wwA7K6y051WJotPX55SIhVI7bm9nKG9YqC7HlbTh9wERKmtoqnZGlbA4p8qRPs7sgPYuAMQ+MUd3j1o0geQzj0gptTcRhRbC7up8O40/Eh/iKv8XZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790343825; c=relaxed/simple;
-	bh=J0plH6eue9ZtwmxKolaqA1ZRDV58gANSgRdjYQ/V6HM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=edZd6RfXx9HhPEjfdCAAtE8pFuNteZYgjzO/HYfaY+iM8IGK+bSJB/+mUdv1/7a2Wokb1163gXwS25CNLFhYiOc6uEt8Avn7Unt71iIooih2b2HYizW4OhcgCCHQThKHnOgQURmKmRH5lQGVRQmL+Ngp6WgQ7Yym00T4Ne51iaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=clG5EImw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790353554; c=relaxed/simple;
+	bh=6fYDLPuw7TdEq9beCl8lZHCEAKip/STw7RgtlWkrkg8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bWBUSf+RynqF/li/F5GcpFQ/7pagPQU/B7+WUyAm8Vd8OVW43UJUqirUwTQ35/nWOO4dwExNLI0xCYJSRx18oB13dWjhDqScQIQ0QtpKChpm+M3zxASY/3Wecx2sQpgOD/V9GUjN/JTj/m0kgtWfO3QohYlSv71XRgQDYtYAy/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SkZTyo4x; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="clG5EImw"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 14E2DC2BCF6;
-	Fri, 25 Sep 2026 13:43:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790343825;
-	bh=J0plH6eue9ZtwmxKolaqA1ZRDV58gANSgRdjYQ/V6HM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=clG5EImw+mXZsEmQ3ERFYIWb++79yDCKBAqGMBPr7KgtNvVx5z8jFQAMeuvYfAGOB
-	 6n6+haZJZDlqSKLVyOSeygpCzNwMNBJ0KOoSpOuZTXPZQrG/UrzQid35I7ALa9322N
-	 eFvSZWVBIQMmritAmFPxg6tant7p4z5qTbb4QWiFQiW9R6UEgvGU9fyfsRNmlB3zFZ
-	 vN7lHTJ83QVd7PpuYyZWq2dEixnKYgZMWWv6EssxWJFwQBaIxAIkHVA59Hr0b5uuDt
-	 fvnVsbzgWEIzcFWSja/f4KHIpcPFfra/LQt/pHjGGeUb9ilwH38LoI8EsRcfQFUagW
-	 eKXt25gZRlNrA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01202C98324;
-	Fri, 25 Sep 2026 13:43:45 +0000 (UTC)
-From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Fri, 25 Sep 2026 23:43:48 +1000
-Subject: [PATCH 13/13] wifi: brcmfmac: Add BCM4388 support
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SkZTyo4x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F3D1F008A2
+	for <asahi@lists.linux.dev>; Fri, 25 Sep 2026 16:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790353552;
+	bh=6fYDLPuw7TdEq9beCl8lZHCEAKip/STw7RgtlWkrkg8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=SkZTyo4xxfFfIHkKIcVzKt/r6NVyGCRHYPlxBuj/CfdOc5/UiPnHhsNeysafJ83uT
+	 PrsApt20TbtzJyRpj/ArQV+ysPRtw70TjqJbVdGUsvZcqDtlWD9Kq6uCr9e2hR5TcQ
+	 WqHkFq31PmtukKbdE6y/W8GS9/XSR4o73yuajz9jGmCx6GdhINz2kzewMKYZle40Rz
+	 Jc4eglh/tm38aa+rDhaE+rYk23PpYcf8o3TBVaTamJ/idDzDGvcrFiD2suq/GxYFWK
+	 zgFkLbpLOozrM5LhUI306UQ1mmZ30ZjqiBsz8Sk4d6Pq2YHLUgL3h7x5LiWU8/PFE8
+	 PJ7V94nNq5nFA==
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b76ff64d78so1087240e87.1
+        for <asahi@lists.linux.dev>; Fri, 25 Sep 2026 09:25:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBz4qaGP6b8cHJ6HdcxyvseXyRdS65cvdC4JTkazDCnDjTwh+qU96UvZ4EduSNqrh7CdwwyVCQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++l35e1HEXYE7/B+tAAiN5HvC1TqUc6kjSIDD3S++Ihv2Wwt2DKE
+	fxhTjCcdhMgguLrrCWAOZdYBqI+O4kLOXtz50g5l/sT1bRYBGQC/WCj7NSJxNe9jExJSoC5YYyT
+	PBAQkL+gc3vWk7ALtHHkndLjVrByQuD0=
+X-Received: by 2002:a05:6512:1344:b0:5b6:1a7c:59db with SMTP id
+ 2adb3069b0e04-5b8df0d22f7mr2083445e87.53.1790353550897; Fri, 25 Sep 2026
+ 09:25:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260925-brcm4388-submit-v1-13-b5cbc2cde2fb@gmail.com>
-References: <20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com>
-In-Reply-To: <20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com>
-To: Arend van Spriel <arend.vanspriel@broadcom.com>, 
- Pieter-Paul Giesberts <pieterpg@broadcom.com>, 
- "Franky Lin (Zhenhui)" <frankyl@broadcom.com>, 
- Mathy Vanhoef <vanhoefm@gmail.com>, Kalle Valo <kvalo@kernel.org>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev, 
- brcm80211-dev-list.pdl@broadcom.com, asahi@lists.linux.dev, 
- Hector Martin <marcan@marcan.st>, Daniel Berlin <dberlin@dberlin.org>, 
- Janne Grunau <j@jannau.net>, linux-kernel@vger.kernel.org, 
- Hante Meuleman <meuleman@broadcom.com>, linux-hardening@vger.kernel.org, 
- Michael Reeves <michael.reeves077@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790343821; l=6944;
- i=michael.reeves077@gmail.com; s=fedora-20260918;
- h=from:subject:message-id;
- bh=0ssO1sL/zwTcjM/uwq1dbdxySVDbT2P3POHSvMWy5LY=;
- b=15qzXe8Zs0JsLnL9Pn/RjhYlBaxsVIeRapxQFIYp6sy0SHTGIY+nQBKVoQVMwnETOzvXEaVk3
- uEJR2ldFpjKCde00dCcsJqB0/m3lXkTsBr1C3dhfPvvZSfXbqxRn2fg
-X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
- pk=VJ0TvyQ9TvfzYZa908YSE9kpkjFLLD5luv0bERu+boc=
-X-Endpoint-Received: by B4 Relay for
- michael.reeves077@gmail.com/fedora-20260918 with auth_id=1035
-X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
-Reply-To: michael.reeves077@gmail.com
+References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
+ <20260916-drm-bridge-every-panel-v3-12-83afb4f1a707@bootlin.com>
+ <arInho2bsfJiCgjV@houat> <DLNCQEG62F5N.O98WAO4U2FJO@bootlin.com>
+ <CAD++jLkk-a0MrQUiaDD8OoDDoYVwBwSjFTj5ZBy=Xo7MS4+01g@mail.gmail.com> <arTlpd-KAsVpj3UH@houat>
+In-Reply-To: <arTlpd-KAsVpj3UH@houat>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 25 Sep 2026 18:25:35 +0200
+X-Gmail-Original-Message-ID: <CAD++jLmktDoqn2EbXsNnyGRudo-q2NCxUf+9ZjeU+WrY4CBMWw@mail.gmail.com>
+X-Gm-Features: AclHuK_fq2ZWJ1A-qMmc6hpV7kHeTfdnkXq9HUzMYWRHIkAmDRIf8rPpfyjUW1o
+Message-ID: <CAD++jLmktDoqn2EbXsNnyGRudo-q2NCxUf+9ZjeU+WrY4CBMWw@mail.gmail.com>
+Subject: Re: [PATCH v3 12/19] drm/mcde: dsi: don't create a panel_bridge
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+	Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Paul Kocialkowski <paulk@sys-base.io>, Inki Dae <inki.dae@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Albert Esteve <aesteve@redhat.com>, 
+	Anusha Srivatsa <asrivats@redhat.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Hector Martin <marcan@marcan.st>
+On Thu, Sep 24, 2026 at 10:57=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
+> On Thu, Sep 24, 2026 at 09:51:53AM +0200, Linus Walleij wrote:
 
-Add BCM4388 firmware mappings, RAM base and OTP handling, and increase
-the RX posting and completion ring capacities to 2048 items.
+> > > Linus, unless you have more info I'm going to apply the patch as
+> > > is. Removing this special case would be welcome as a later patch.
+> >
+> > I'd say go ahead as-is.
+>
+> I'm fine with that, but I really want this removed at some point.
 
-On BCM4388, DMA_FROM_DEVICE mappings for posted receive buffers cause
-DART read-permission faults followed by firmware DMA failure. Map these
-buffers with DMA_BIDIRECTIONAL to allow device reads as well as writes.
-Keep the existing mapping direction for other chips.
+If Luca wanna fix this up (drop this path) that's fine by me,
+else send a patch immediately after this is applied and I'll
+ACK it.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Co-developed-by: Michael Reeves <michael.reeves077@gmail.com>
-Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
----
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c      |  1 +
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c    |  8 +++++---
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.h    |  4 ++--
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c      | 12 +++++++++++-
- .../net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h    |  2 ++
- 5 files changed, 21 insertions(+), 6 deletions(-)
+> > I do have the idea to code up and submit the AV8100 encoder
+> > and I have the hardware to test it, but every other user should
+> > be using panels directly, and I would be the only non-panel
+> > user so I can deal with it when it comes up.
+>
+> It won't change a thing. All existing "panel" users will be bridge users
+> after this patch is merged. So whether you want to enable a bridge or
+> not shouldn't matter, the only thing that does is whether the existing
+> users would still work.
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
-index 253ab45c33..411188010f 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
-@@ -751,6 +751,7 @@ static u32 brcmf_chip_tcm_rambase(struct brcmf_chip_priv *ci)
- 	case BRCM_CC_4366_CHIP_ID:
- 	case BRCM_CC_43664_CHIP_ID:
- 	case BRCM_CC_43666_CHIP_ID:
-+	case BRCM_CC_4388_CHIP_ID:
- 		return 0x200000;
- 	case BRCM_CC_4355_CHIP_ID:
- 	case BRCM_CC_4359_CHIP_ID:
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-index 8e5c697e7f..5ad46d7ec6 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-@@ -12,6 +12,7 @@
- #include <linux/netdevice.h>
- #include <linux/etherdevice.h>
- 
-+#include <brcm_hw_ids.h>
- #include <brcmu_utils.h>
- #include <brcmu_wifi.h>
- 
-@@ -51,7 +52,7 @@
- #define MSGBUF_TYPE_D2H_MAILBOX_DATA		0x24
- 
- #define NR_TX_PKTIDS				2048
--#define NR_RX_PKTIDS				1024
-+#define NR_RX_PKTIDS				2048
- 
- #define BRCMF_IOCTL_REQ_PKTID			0xFFFE
- 
-@@ -330,7 +331,6 @@ brcmf_msgbuf_init_pktids(u32 nr_array_entries,
- 	return pktids;
- }
- 
--
- static int
- brcmf_msgbuf_alloc_pktid(struct device *dev,
- 			 struct brcmf_msgbuf_pktids *pktids,
-@@ -1695,8 +1695,10 @@ int brcmf_proto_msgbuf_attach(struct brcmf_pub *drvr)
- 						     DMA_TO_DEVICE);
- 	if (!msgbuf->tx_pktids)
- 		goto fail;
-+	/* BCM4388 firmware also reads from posted RX buffers. */
- 	msgbuf->rx_pktids = brcmf_msgbuf_init_pktids(NR_RX_PKTIDS,
--						     DMA_FROM_DEVICE);
-+			drvr->bus_if->chip == BRCM_CC_4388_CHIP_ID ?
-+			DMA_BIDIRECTIONAL : DMA_FROM_DEVICE);
- 	if (!msgbuf->rx_pktids)
- 		goto fail;
- 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.h b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.h
-index 18b56d0789..1d0233c619 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.h
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.h
-@@ -8,10 +8,10 @@
- #ifdef CONFIG_BRCMFMAC_PROTO_MSGBUF
- 
- #define BRCMF_H2D_MSGRING_CONTROL_SUBMIT_MAX_ITEM	64
--#define BRCMF_H2D_MSGRING_RXPOST_SUBMIT_MAX_ITEM	1024
-+#define BRCMF_H2D_MSGRING_RXPOST_SUBMIT_MAX_ITEM	2048
- #define BRCMF_D2H_MSGRING_CONTROL_COMPLETE_MAX_ITEM	64
- #define BRCMF_D2H_MSGRING_TX_COMPLETE_MAX_ITEM		1024
--#define BRCMF_D2H_MSGRING_RX_COMPLETE_MAX_ITEM		1024
-+#define BRCMF_D2H_MSGRING_RX_COMPLETE_MAX_ITEM		2048
- #define BRCMF_H2D_TXFLOWRING_MAX_ITEM			512
- 
- #define BRCMF_H2D_MSGRING_CONTROL_SUBMIT_ITEMSIZE	40
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index 48402eb2ef..32c95b8f51 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -71,6 +71,8 @@ BRCMF_FW_CLM_DEF(4377B3, "brcmfmac4377b3-pcie");
- BRCMF_FW_CLM_DEF(4378B1, "brcmfmac4378b1-pcie");
- BRCMF_FW_CLM_DEF(4378B3, "brcmfmac4378b3-pcie");
- BRCMF_FW_CLM_DEF(4387C2, "brcmfmac4387c2-pcie");
-+BRCMF_FW_CLM_DEF(4388B0, "brcmfmac4388b0-pcie");
-+BRCMF_FW_CLM_DEF(4388C0, "brcmfmac4388c0-pcie");
- BRCMF_FW_CLM_DEF(54591, "brcmfmac54591-pcie");
- 
- /* firmware config files */
-@@ -113,6 +115,8 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
- 	BRCMF_FW_ENTRY(BRCM_CC_4378_CHIP_ID, 0x0000000F, 4378B1), /* revision ID 3 */
- 	BRCMF_FW_ENTRY(BRCM_CC_4378_CHIP_ID, 0xFFFFFFE0, 4378B3), /* revision ID 5 */
- 	BRCMF_FW_ENTRY(BRCM_CC_4387_CHIP_ID, 0xFFFFFFFF, 4387C2), /* revision ID 7 */
-+	BRCMF_FW_ENTRY(BRCM_CC_4388_CHIP_ID, 0x0000000F, 4388B0),
-+	BRCMF_FW_ENTRY(BRCM_CC_4388_CHIP_ID, 0xFFFFFFF0, 4388C0), /* revision ID 4 */
- };
- 
- #define BRCMF_PCIE_FW_UP_TIMEOUT		5000 /* msec */
-@@ -2397,6 +2401,11 @@ static int brcmf_pcie_read_otp(struct brcmf_pciedev_info *devinfo)
- 		base = 0x113c;
- 		words = 0x170;
- 		break;
-+	case BRCM_CC_4388_CHIP_ID:
-+		coreid = BCMA_CORE_GCI;
-+		base = 0x115c;
-+		words = 0x150;
-+		break;
- 	default:
- 		/* OTP not supported on this chip */
- 		return 0;
-@@ -2459,7 +2468,7 @@ static int brcmf_pcie_read_otp(struct brcmf_pciedev_info *devinfo)
- 
- static bool brcmf_pcie_request_fw_signature(struct brcmf_pciedev_info *devinfo)
- {
--	return false;
-+	return devinfo->ci->chip == BRCM_CC_4388_CHIP_ID;
- }
- 
- static void brcmf_pcie_setup(struct device *dev, int ret,
-@@ -3114,6 +3123,7 @@ static const struct pci_device_id brcmf_pcie_devid_table[] = {
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_4377_DEVICE_ID, WCC_SEED),
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_4378_DEVICE_ID, WCC_SEED),
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_4387_DEVICE_ID, WCC_SEED),
-+	BRCMF_PCIE_DEVICE(BRCM_PCIE_4388_DEVICE_ID, WCC_SEED),
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_43752_DEVICE_ID, WCC_SEED),
- 	BRCMF_PCIE_DEVICE(CY_PCIE_54591_DEVICE_ID, CYW),
- 	{ /* end: all zeroes */ }
-diff --git a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
-index df3b67ba4d..f749337a06 100644
---- a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
-+++ b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
-@@ -57,6 +57,7 @@
- #define BRCM_CC_4377_CHIP_ID		0x4377
- #define BRCM_CC_4378_CHIP_ID		0x4378
- #define BRCM_CC_4387_CHIP_ID		0x4387
-+#define BRCM_CC_4388_CHIP_ID		0x4388
- #define CY_CC_4373_CHIP_ID		0x4373
- #define CY_CC_43012_CHIP_ID		43012
- #define CY_CC_43439_CHIP_ID		43439
-@@ -99,6 +100,7 @@
- #define BRCM_PCIE_4377_DEVICE_ID	0x4488
- #define BRCM_PCIE_4378_DEVICE_ID	0x4425
- #define BRCM_PCIE_4387_DEVICE_ID	0x4433
-+#define BRCM_PCIE_4388_DEVICE_ID	0x4434
- #define CY_PCIE_54591_DEVICE_ID		0x4417
- 
- /* brcmsmac IDs */
+I know, all it does is create a snag that I would run into myself.
 
--- 
-2.55.0
+But it's not gonna be a problem for anyone else, that's all I meant.
 
-
+Yours,
+Linus Walleij
