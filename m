@@ -1,434 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BA649B5DB;
-	Fri, 25 Sep 2026 12:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CAA3AB262;
+	Fri, 25 Sep 2026 12:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790338178; cv=none; b=n1iQAxfpZbqUTvVsIO04JztGcsAo9R/5pbQV1eRt/y38qfytvqL8MkPczNCxsAgvrO5n3vByDtylau0zPtcuKxLQzrbDk55ZgmXLWM56HNU6hYUw39Fo32cxwvgDINV3SY9kOEDhZACpMIqvPH5RDw3+Fy+CDI4KVIbxwgX3o9E=
+	t=1790338964; cv=none; b=B2ePhWreeYrRzsDaQlhE1c9qIMrY9z6Fi1hJs9+DDRfXcBBt9HHr45Y3nwko+57uPV2xtzRfDo1dhvEtrMyKT4oto7MWcNn5C9svjNHKaIXpfRTmSllGZhldx8DpdyChsybX++PIqO/hqZusVgVdRg74kSld8wZDbuMuQZhmRdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790338178; c=relaxed/simple;
-	bh=XsLeQwB1fLUCtAKmgPFpm557IbbzSOp56z8va3WVDH8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LkPwfpYN5WsNXE/se5hQvXNl2rBRblLonLGQCCtxk5POWObw7OMaY1FGvC2ofy+RJvca8FZwilI1ptoR/EzoQAK6FygZylomuU/36yXtv0OpWtNCa0pBu7WWH2qc2sG5F1dmmre0gPI/DkqJptYsnUuavepF8gKmvzxbXOHzaUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dli4+cuM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790338964; c=relaxed/simple;
+	bh=kuLNl+1ZFMd31q/aWZ/wE3h709FqVMDuybc7TRci5jc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m8KLpiHT1cL4gtrIlrbrvn/rBhgo/pYSBuXC8FGg/AMcboDrecAlGGSyg6WfxyqRdUw4z0r2thGg80Ne6TjTg4UC/OYv9UITsRHVx4ZtH/PtiHBiUOT/jaRjrzLhODxuyOA3q6ISlBMfnsYK/I2b0nf/Z8ULSBuy1Vmfi63ulDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EJa6vShx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dli4+cuM"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EEC12C4AF4D;
-	Fri, 25 Sep 2026 12:09:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790338178;
-	bh=XsLeQwB1fLUCtAKmgPFpm557IbbzSOp56z8va3WVDH8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=dli4+cuMN0u7RmEBTOKNBZsdhUPIwJWtl2HRXaYY5GDarKEnRsbtjMv2c7YOKAZnF
-	 vMjK/iig8ki4HD9SdlsdstdYShoEL8SHr5J5NSZYjigWZ42O0Ork9zWZxCIGIRdJ50
-	 AKbcFD9CY5wjJ8bXmw/6fasygpdxeMxCHKKYNXBjjr61znpROLbo73HBbUPeO0Iugg
-	 QNrPRXBVbAbHbY00hvPuIuFfgUF8ektv13o7K0l21UJDGBj4GoV2WeXqI6MWf37Omn
-	 IYJVnvwsaiZIDz3vzA3m8kigptczIjK3vzz7fbHwelku8TO+O3wnRFM0cFAN7rbWGe
-	 uAtHHBYoAgHIA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C5BC98328;
-	Fri, 25 Sep 2026 12:09:37 +0000 (UTC)
-From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Fri, 25 Sep 2026 22:09:37 +1000
-Subject: [PATCH v4 10/10] arm64: dts: apple: Enable DockChannel HID on M2
- and M3 laptops
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJa6vShx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDD911F000FF;
+	Fri, 25 Sep 2026 12:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790338963;
+	bh=BtXeJJ65S4UeVQRbUtMGQJKB5yrfWtpwgfn2OXm0/sw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EJa6vShxQR9gYfBXxH4t8oW8oAjA+NqrsyJahnkJ0JwN8bsuGI8EEuaXcIDF+Jowy
+	 fo7GnGFg+LHkSNAmJmBLSP/sXYTgwS+QK0rqRCS/mAvYYdrvpgTuNaIOfw1BSpTZ7X
+	 aplE3IqieC7LiZIdGAhh9rJA5GUHZKiXaHD3y9cf7VKlRenuQoGk3d39n8R4x7UreY
+	 CHNm553SgmbzcKUywpoo7KsWzBGGvJVzVRi3RJ22GCcpw13qFuN+9WqfVYxQJjoKjU
+	 o/TrB77RhtsXgIX/b5uN7gkvHs6Y+MJkh1e6gAauvO3yTWB2/oyNA1aFxn1r5tRXal
+	 AiQBvgt5ovygg==
+Date: Fri, 25 Sep 2026 13:22:39 +0100
+From: Mark Brown <broonie@kernel.org>
+To: michael.reeves077@gmail.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, asahi@lists.linux.dev
+Subject: Re: [PATCH] regmap: Drop map lock during cache init and exit
+Message-ID: <60c791d7-10fd-4019-81c2-69057002ac83@sirena.org.uk>
+References: <20260925-regcache-lifecycle-submit-v1-1-83b75ca79d96@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260925-apple-mtp-keyboard-final-v4-10-304c267518f4@gmail.com>
-References: <20260925-apple-mtp-keyboard-final-v4-0-304c267518f4@gmail.com>
-In-Reply-To: <20260925-apple-mtp-keyboard-final-v4-0-304c267518f4@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>, 
- Michael Reeves <michael.reeves077@gmail.com>, 
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- iommu@lists.linux.dev, linux-input@vger.kernel.org, 
- Yureka Lilian <yureka@cyberchaos.dev>, Julian Braha <julianbraha@gmail.com>, 
- Sasha Finkelstein <k@chaosmail.tech>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790338174; l=7273;
- i=michael.reeves077@gmail.com; s=fedora-20260918;
- h=from:subject:message-id;
- bh=78kUfdeWKUeiEf4dX7SZ0qB0VILZ/K/tdCVxq/uYAb0=;
- b=ql9b1OpCgKfu67ylj2k8zetQeCfYcC6Vpmvh2QhbqF+cpxXdXncshFDHpVSiDQPzPgZoEwBQw
- HZG5Zi/+UUuD7XirlcCk1oyY+PElWJlNFz/ZfHdU3uuQi1czsVv8DEJ
-X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
- pk=VJ0TvyQ9TvfzYZa908YSE9kpkjFLLD5luv0bERu+boc=
-X-Endpoint-Received: by B4 Relay for
- michael.reeves077@gmail.com/fedora-20260918 with auth_id=1035
-X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
-Reply-To: michael.reeves077@gmail.com
-
-From: Michael Reeves <michael.reeves077@gmail.com>
-
-Enable the MTP mailbox, DART, DockChannel mailbox, and HID transport on
-the M2 and M3 laptop device trees using this internal input path.
-
-Add a keyboard alias and keyboard child node for each machine so the
-transport can expose the internal keyboard.
-
-Co-developed-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
----
- arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi | 29 ++++++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi | 24 +++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8112-j413.dts       | 24 +++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8112-j415.dts       | 24 +++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8112-j493.dts       | 26 ++++++++++++++++++++++-
- arch/arm64/boot/dts/apple/t8122-j504.dts       | 26 +++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8122-j613.dts       | 27 ++++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8122-j615.dts       | 27 ++++++++++++++++++++++++
- 8 files changed, 206 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi b/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi
-index 0e806d8dd..91fda44d9 100644
---- a/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi
-+++ b/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi
-@@ -16,6 +16,12 @@
- 
- #include "t600x-j314-j316.dtsi"
- 
-+/ {
-+	aliases {
-+		keyboard = &keyboard;
-+	};
-+};
-+
- &framebuffer0 {
- 	power-domains = <&ps_disp0_cpu0>, <&ps_dptx_phy_ps>;
- };
-@@ -43,3 +49,26 @@ &wifi0 {
- &bluetooth0 {
- 	compatible = "pci14e4,5f72";
- };
-+
-+&mtp_mbox {
-+	status = "okay";
-+};
-+
-+&mtp_dart {
-+	status = "okay";
-+};
-+
-+&mtp_dockchannel {
-+	status = "okay";
-+};
-+
-+&mtp_hid {
-+	status = "okay";
-+
-+	keyboard: keyboard {
-+		hid-country-code = <0>;
-+	};
-+
-+	stm {
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi b/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
-index 517b84c18..f6fe382de 100644
---- a/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
-+++ b/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
-@@ -21,6 +21,7 @@ / {
- 	chassis-type = "laptop";
- 
- 	aliases {
-+		keyboard = &keyboard;
- 		serial0 = &serial0;
- 	};
- 
-@@ -64,3 +65,26 @@ &serial0 {
- &fpwm0 {
- 	status = "okay";
- };
-+
-+&mtp_mbox {
-+	status = "okay";
-+};
-+
-+&mtp_dart {
-+	status = "okay";
-+};
-+
-+&mtp_dockchannel {
-+	status = "okay";
-+};
-+
-+&mtp_hid {
-+	status = "okay";
-+
-+	keyboard: keyboard {
-+		hid-country-code = <0>;
-+	};
-+
-+	stm {
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 7ccfceb08..5b9bdad3d 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -20,6 +20,7 @@ / {
- 
- 	aliases {
- 		bluetooth0 = &bluetooth0;
-+		keyboard = &keyboard;
- 		wifi0 = &wifi0;
- 	};
- 
-@@ -93,3 +94,26 @@ &fpwm1 {
- };
- 
- #include "hwmon-laptop.dtsi"
-+
-+&mtp_mbox {
-+	status = "okay";
-+};
-+
-+&mtp_dart {
-+	status = "okay";
-+};
-+
-+&mtp_dockchannel {
-+	status = "okay";
-+};
-+
-+&mtp_hid {
-+	status = "okay";
-+
-+	keyboard: keyboard {
-+		hid-country-code = <0>;
-+	};
-+
-+	stm {
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8112-j415.dts b/arch/arm64/boot/dts/apple/t8112-j415.dts
-index fdc3409d2..3da132eeb 100644
---- a/arch/arm64/boot/dts/apple/t8112-j415.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j415.dts
-@@ -20,6 +20,7 @@ / {
- 
- 	aliases {
- 		bluetooth0 = &bluetooth0;
-+		keyboard = &keyboard;
- 		wifi0 = &wifi0;
- 	};
- 
-@@ -93,3 +94,26 @@ &fpwm1 {
- };
- 
- #include "hwmon-laptop.dtsi"
-+
-+&mtp_mbox {
-+	status = "okay";
-+};
-+
-+&mtp_dart {
-+	status = "okay";
-+};
-+
-+&mtp_dockchannel {
-+	status = "okay";
-+};
-+
-+&mtp_hid {
-+	status = "okay";
-+
-+	keyboard: keyboard {
-+		hid-country-code = <0>;
-+	};
-+
-+	stm {
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index 7cea5c594..ecc057929 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+ OR MIT
- /*
-- * Apple MacBook Pro (13-inch, M1, 2022)
-+ * Apple MacBook Pro (13-inch, M2, 2022)
-  *
-  * target-type: J493
-  *
-@@ -24,6 +24,7 @@ / {
- 	 */
- 	aliases {
- 		bluetooth0 = &bluetooth0;
-+		keyboard = &keyboard;
- 		touchbar0 = &touchbar0;
- 		wifi0 = &wifi0;
- 	};
-@@ -149,3 +150,26 @@ touchbar0: touchbar@0 {
- 
- #include "hwmon-laptop.dtsi"
- #include "hwmon-fan.dtsi"
-+
-+&mtp_mbox {
-+	status = "okay";
-+};
-+
-+&mtp_dart {
-+	status = "okay";
-+};
-+
-+&mtp_dockchannel {
-+	status = "okay";
-+};
-+
-+&mtp_hid {
-+	status = "okay";
-+
-+	keyboard: keyboard {
-+		hid-country-code = <0>;
-+	};
-+
-+	stm {
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8122-j504.dts b/arch/arm64/boot/dts/apple/t8122-j504.dts
-index 464491b55..a08a130be 100644
---- a/arch/arm64/boot/dts/apple/t8122-j504.dts
-+++ b/arch/arm64/boot/dts/apple/t8122-j504.dts
-@@ -18,6 +18,10 @@ / {
- 	compatible = "apple,j504", "apple,t8122", "apple,arm-platform";
- 	model = "Apple MacBook Pro (14-inch, M3, 2023)";
- 
-+	aliases {
-+		keyboard = &keyboard;
-+	};
-+
- 	led-controller {
- 		compatible = "pwm-leds";
- 		led-0 {
-@@ -35,3 +39,25 @@ &fpwm1 {
- 	status = "okay";
- };
- 
-+&mtp_mbox {
-+	status = "okay";
-+};
-+
-+&mtp_dart {
-+	status = "okay";
-+};
-+
-+&mtp_dockchannel {
-+	status = "okay";
-+};
-+
-+&mtp_hid {
-+	status = "okay";
-+
-+	keyboard: keyboard {
-+		hid-country-code = <0>;
-+	};
-+
-+	stm {
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8122-j613.dts b/arch/arm64/boot/dts/apple/t8122-j613.dts
-index 51894ea70..a81326cd5 100644
---- a/arch/arm64/boot/dts/apple/t8122-j613.dts
-+++ b/arch/arm64/boot/dts/apple/t8122-j613.dts
-@@ -17,6 +17,10 @@ / {
- 	compatible = "apple,j613", "apple,t8122", "apple,arm-platform";
- 	model = "Apple MacBook Air (13-inch, M3, 2024)";
- 
-+	aliases {
-+		keyboard = &keyboard;
-+	};
-+
- 	led-controller {
- 		compatible = "pwm-leds";
- 		led-0 {
-@@ -33,3 +37,26 @@ led-0 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+&mtp_mbox {
-+	status = "okay";
-+};
-+
-+&mtp_dart {
-+	status = "okay";
-+};
-+
-+&mtp_dockchannel {
-+	status = "okay";
-+};
-+
-+&mtp_hid {
-+	status = "okay";
-+
-+	keyboard: keyboard {
-+		hid-country-code = <0>;
-+	};
-+
-+	stm {
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8122-j615.dts b/arch/arm64/boot/dts/apple/t8122-j615.dts
-index 2a1970c1b..21bcacb6f 100644
---- a/arch/arm64/boot/dts/apple/t8122-j615.dts
-+++ b/arch/arm64/boot/dts/apple/t8122-j615.dts
-@@ -17,6 +17,10 @@ / {
- 	compatible = "apple,j615", "apple,t8122", "apple,arm-platform";
- 	model = "Apple MacBook Air (15-inch, M3, 2024)";
- 
-+	aliases {
-+		keyboard = &keyboard;
-+	};
-+
- 	led-controller {
- 		compatible = "pwm-leds";
- 		led-0 {
-@@ -33,3 +37,26 @@ led-0 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+&mtp_mbox {
-+	status = "okay";
-+};
-+
-+&mtp_dart {
-+	status = "okay";
-+};
-+
-+&mtp_dockchannel {
-+	status = "okay";
-+};
-+
-+&mtp_hid {
-+	status = "okay";
-+
-+	keyboard: keyboard {
-+		hid-country-code = <0>;
-+	};
-+
-+	stm {
-+	};
-+};
-
--- 
-2.55.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="i9aQO7k9vw3SMnrp"
+Content-Disposition: inline
+In-Reply-To: <20260925-regcache-lifecycle-submit-v1-1-83b75ca79d96@gmail.com>
+X-Cookie: Love America -- or give it back.
 
 
+--i9aQO7k9vw3SMnrp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, Sep 25, 2026 at 08:43:22PM +1000, Michael Reeves via B4 Relay wrote:
+
+> Commit fd4ebc07b4df ("regmap: Hold the regmap lock when allocating and
+> freeing the cache") added the lock for Maple tree lockdep validation.
+> The current Maple tree backend uses internal locking, and cache
+> population is now separate from cache allocation.
+
+Do you have a reference for what you're referencing here?  The issue is
+precisely that the maple tree does it's own locking with a spinlock, if
+we ever use the maple tree from a hardirq context the use of the
+spinlock in hardirq context will be tracked and then on removal we'll
+get a locking inversion warning when we try to free it.  The maple tree
+locking is entirely unneeded and forces us to jump through these hoops
+but there's no way to turn it off.
+
+--i9aQO7k9vw3SMnrp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq2Z44ACgkQJNaLcl1U
+h9AdGAf/acoumXnzD/1JovsKiVPTl9ydt4aplkNH9EIe2DlPkiZ6w2uF8RVJr0X4
+V5OkYLCafg3YEBkqjYuZ1Jl210mvQCjBqs3bewhp+6r+Bs0Wdszj7o4KuQCb2RjP
+pxEHX1y9GaOIYm1+vmXcD3SS1WNz8ArdhJX+oMJ+F/g5YNKgG/IZWucxVqm4AEpT
+AogQjFQ8tObgIyorVXg9Ue4nZjOwgxM+f0bZSVeM35+Ks1tlpGm/J1d+r9Crqn1F
+ZHvDnHaJ8/NjcQBnFptNSnfsluwajlQ6gJ7S4q9QHx3TSBvAHWiaZ2SmmgFzmNOz
+50IEIUqYhEwzOXNwzj9eaMi4XvTV5A==
+=AWkm
+-----END PGP SIGNATURE-----
+
+--i9aQO7k9vw3SMnrp--
