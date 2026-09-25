@@ -1,76 +1,36 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA7E489FD6;
-	Fri, 25 Sep 2026 09:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D525B49A3C8;
+	Fri, 25 Sep 2026 10:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790329681; cv=none; b=sohry/XfA7N0qoajKuamVBSHF+yWmk16XuzQ00s1zhUd5e87WMU7e6i11VQRuFE4RD9mE39RjLPxwCvzXQjKaCe5J/IQNeR4mWkjdLM8vCDJGawmsd2tOSDaRWMLYve4/P9zJOySTgJS5QXeFORoRw3XvG6iepsOPEIxZ3xY8wk=
+	t=1790333008; cv=none; b=o8qmG1BkDX6vS6OGCVCvHxVcbG9osMjYDUJhZ0KUR0l3yVnAJy+yMuIeOhrjBpjsqNtSY4HwBuAJWLQjs0WgLHR3EvaxWQdhhbtwPv9oI2brCYwMicA4Gabj4pFqyxVFj1q7xfe8BN/xRqTXPi2wmRLM59El1gWH9gOUB0/PZEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790329681; c=relaxed/simple;
-	bh=N0D3NkBBrwa7rcqpwLwS4FCwTgWc3QERRpCpbHUh2tA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u4vHnxmOqFbo1x1eLd7ceX7yBdnWe8wlfGLS7NbCP9pG1gljEGW5uG8xSCLJzNsdIqfrJ/wxr0sGjLcSCBfX4szgW6dI/kF6GqCbvIiIWXaY1qzWbr/xZkMkwebGOcCV1efKnLRN9V1pbueDYE/gQ9tHS3d4EuF6ZABqx96t4qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=RR6lrjD0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p848kTUY; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1790333008; c=relaxed/simple;
+	bh=jPWO8NRa+f0g0v8dbKCK2h3llHZx7aafBFUVGLf4TaM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AyktKFbinxiSGwju8C9HE7yEGd3F+6luLjM/OxLguwv4j3KEjBtPPcrKA3GZdbqHWter0sRHJUN0poOVG25IvMfYyXVUjbdUuB/SWtvZUITV//XBH8FzC9H+VnXwJCJD1nxyNpIlpHeybLZ/7QmoB5y7K2p4VlQzuoGeQ8pQk14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NFnPZ3FP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="RR6lrjD0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p848kTUY"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id 56DE0EC01A7;
-	Fri, 25 Sep 2026 05:47:55 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Fri, 25 Sep 2026 05:47:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1790329675;
-	 x=1790416075; bh=FKrsPM1b2jKe3kZvS/DYTtfcN8visrVVzc3p9LNJVVg=; b=
-	RR6lrjD0+xjZKyP8BpgxpLM3qfVxKob83DDQzZS2NqWW9DE2U1D4vTddAszuVqQA
-	RTB3apLGkzlUfj+EfXWJsWVMX39sx9Fr6sg2MP9d4vaN/BIMNjlWSaFntNkZ6sHf
-	niYdJ2JU44NB/fe5MrWXOFdWbRqI3vMie9F+0yt3lfOnHQqoArsTKWUrKLp9UxL6
-	CjaDULPowIyEVhLyGU2NhCbJSDv3jhW+AbePjPLsLMUyNFtSB5Uzym7C0n/FddyU
-	wS9jdes0RjNlHjaArFuidmJ7AYcSwMtOPJmfjTWrbih8ikVImyE3LnGyONjMkTWF
-	dcpVlCXXGGd8rMDaG7W1fg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790329675; x=
-	1790416075; bh=FKrsPM1b2jKe3kZvS/DYTtfcN8visrVVzc3p9LNJVVg=; b=p
-	848kTUYf3OebsyBDwiks8mXpXyZSwggJUFkUahqKUvaauaGOwCkjyQEzlAclvZPT
-	Ao3OkmPVcPt64M8SUxm+vlqN6WToTPQjK0fCD70xn47sK3D4X1Tkmlw/Um/WShrl
-	oTkLNyEYOprUIoTZYVOk27XPR5oGF9g3tg9JoLmddSuwHrDh7Ohdrxvlnj4S+ow/
-	E6Ok4OlGSycO9XqKYZi9Pe35X0JnNWIBBz0ZslOR86F9XXy4IXpCyBFA48hVkQDB
-	vHTLHevpllSLDYCTnsf8PievWuoSzy0TaFWtQineFChbUtDj/+3uXpm8Nps83w2C
-	KYV4QbeBi63WM/xQQhtgg==
-X-ME-Sender: <xms:SkO2arQ1FmfITNakwmBA9jTDtU7_flYhV3YNf2h44jidR3sMQiW66Q>
-    <xme:SkO2atNcEY52XO2yaxPog2fO_hnu3hWV0dRL4YsJFPZku9WDkfwggJ0_7sOQtvkot
-    pcHh-HilsmCokDdzNwgFoPGCTQOMjEmT6jlZRr56F3m0cAOz96Y0ZI_>
-X-ME-Received: <xmr:SkO2amRbDHgysunKxK7edd37caWTiG8uI1y2vegaPSU12Wt7EsT3n036g3wT1tEpoPk9wwA>
-X-ME-Proxy-Cause: dmFkZTEwps/QxAWSkagPSHBbcYwuI37XW4DvirwdiYOGwq9AEZKxmSwYz63+coJ7wZHluP
-    jgjVctfghm5b5XWz2n07A9q1QaNev+5azhP7D1mIEnWcc7GyMeAKCOuAf09Zm6QFlhMejE
-    gEXz+W+bKMz+kccVLYaqKBvNoAlmwe4qHn6j33++Tfk8NkCZ/4YxJmJFnYYt6bNYB5JyX7
-    wU1UqpqLmMC5vJwj6KME23vX03QIuAPw+2Jxt7R/8XYigoV9KzDK+UG3MNfCxO5B75MboJ
-    lkHYESZxGP1e30qhetVcIgSKr1zAlGTH0xqrbEx7tCd6z8+Rraubfup+2SsfcRLuC6VyDj
-    vah13dLsEtIh2kbwx38xLkiiz77plwhH8qDYtUShkJw0slpRyOxJZBpaxrgH8I4aeiEJnU
-    SGvJkV4mEIGTId9wutnvsH5srs9LG1RLEOQnkBxunfGnBgX8kwqYfl668bbItCE6VrIZEj
-    hqK19htMTraOfEljILtswA2Ix9Ln+XlSWJN0kgQtLMocFLGv3itHoft+z1ByP8QIGM1RXA
-    1KhvX0aOQg1G1vxqN2NXoId/GcxUTDBM53sdQTTrt3MXnOxNpxGv3HXRS6+51hzyosIUn8
-    CuB2kYos3kacOjB6zpyGV4or9C1aZmVJhxGcoeczY5f4H8ntOoOoRehgwCnQ
-X-ME-Proxy: <xmx:SkO2ao8Yx0UqWR76YWTlAG56S721sZD0hx49iOMK6ac4-xCvDEFdLQ>
-    <xmx:S0O2aoVnYTNYWKGAyxDEQhXMnhHzrExWZaQBO5IxFBjRZYaUMTTFBw>
-    <xmx:S0O2auOY3z1l43c9cZm7zPGbl5WrkH009GP2XxBpM51b4utqqgddMw>
-    <xmx:S0O2agfwlW2sJJa5jpIgnbMG-BlDKq9jcBsOURBwjZAmf_jV_YC4Vg>
-    <xmx:S0O2aqMNQtx_YHc1j1RCxRmM4lZAcmE4YEyoHjERFcT3_d5IXL94hfZx>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Sep 2026 05:47:54 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Fri, 25 Sep 2026 10:22:54 +0200
-Subject: [PATCH 7/7] arm64: dts: apple: t8122: Add NVMe device nodes
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NFnPZ3FP"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 57C5CC2BCF5;
+	Fri, 25 Sep 2026 10:43:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790333008;
+	bh=jPWO8NRa+f0g0v8dbKCK2h3llHZx7aafBFUVGLf4TaM=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=NFnPZ3FP/8F1OoewYjeni1ZY/a1kRs38FIUf2j3LOylDc1YbfB23fKRCE5oHGZmio
+	 0nMbbjLKGEUFFvdrwh5vhx8gKa1rs9B1nqru62OVqce04swom3QiXqZDHAKHmspmln
+	 jmDVLUGqrYz+hI7TlxXTnUU5ZQcb1o8K6J2ezCFd43ukarr3I4h4tg2Vly7Kf1VrOZ
+	 gOGcqw5Zn3dvPVuxxUFqusaLCOfEXoETBL4BJjoYUlGv+tpIrZ9gxmN6WjHVfevXxX
+	 VVMN75kXkNYhhJPY6/fn/BfpJ/EhzWW6BOfSSfowver+dRSOAW+xT678aQmfZqVM5e
+	 oeaxvVdQBqlmg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 337C5C98321;
+	Fri, 25 Sep 2026 10:43:28 +0000 (UTC)
+From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
+Date: Fri, 25 Sep 2026 20:43:22 +1000
+Subject: [PATCH] regmap: Drop map lock during cache init and exit
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -79,99 +39,118 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260925-apple-m3-nvme-v1-7-5e832e2f4aa9@jannau.net>
-References: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
-In-Reply-To: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Keith Busch <kbusch@kernel.org>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Jens Axboe <axboe@kernel.dk>, Jens Axboe <axboe@kernel.dk>
-Cc: linux-nvme@lists.infradead.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, iommu@lists.linux.dev, 
- Janne Grunau <j@jannau.net>, Michael Reeves <michael.reeves077@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2081; i=j@jannau.net;
- h=from:subject:message-id; bh=19Hv0hKKWlJhIfvihHJebyj8UmWVLiDDYFirA9GLXFI=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqxtzjqW7xsXa0VMlPM6UiDvHpzcXhOg9v5XuLKOpVHly
- gThPLWOiSwMYlwMlmKKLEnaLzsYVtcoxtQ+CIOZw8oEMkRapIEBCFgY+HIT80qNdIz0TLUN9QyN
- dIx1jBi4OAVgqlNkGP6HTU/elDZH//rL9eGJm2evt39hfYvt0D6x2yENz27LSs1QZmRYq+90bIX
- F6d6CWZECe1yDY+R6w4V2/X3/rUbMU3pa2SEOAA==
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+Message-Id: <20260925-regcache-lifecycle-submit-v1-1-83b75ca79d96@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQrCMBBG4auUWRuIVSN6FXGRjH+agTbKTBWl9
+ O5Gl9/ivYUMKjA6dwspXmJyrw3bTUdcYh3g5NZMve+DP/UHpxg4coEbJYM/PMLZM00yu+M+70J
+ I8Dkxtf6hyPL+vy/X5hQNLmmsXH7HKdoMpXX9AqTUvreEAAAA
+X-Change-ID: 20260925-regcache-lifecycle-submit-74f366be0fbc
+To: Mark Brown <broonie@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ asahi@lists.linux.dev, Michael Reeves <michael.reeves077@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790333007; l=3198;
+ i=michael.reeves077@gmail.com; s=fedora-20260918;
+ h=from:subject:message-id;
+ bh=bhjdNcpqzJyQqu6KoQ8twHsi4wLo39lzrrDM3q6SV2U=;
+ b=dUG6HMWKRqJlIop9DgRJPb3yaHf2oRN1ulewe0RSquIucnpgEeaD4QYiU0nCrYihnyo2OHmbE
+ ZqaWLU/lz7nCNl5ztbqyWdqV8WQL4Uud5DiTfVkChm4nrPoRdWuzwbm
+X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
+ pk=VJ0TvyQ9TvfzYZa908YSE9kpkjFLLD5luv0bERu+boc=
+X-Endpoint-Received: by B4 Relay for
+ michael.reeves077@gmail.com/fedora-20260918 with auth_id=1035
+X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
+Reply-To: michael.reeves077@gmail.com
 
 From: Michael Reeves <michael.reeves077@gmail.com>
 
-On Apple Silicon, NVMe communication is mediated by a
-coprocessor known as the ANS, and protected by its own
-IOMMU known as the SART.
+On systems with CONFIG_PROVE_RAW_LOCK_NESTING enabled, Apple GPIO probe
+triggers an "Invalid wait context" lockdep warning.
 
-Add the following nodes to the M3 (t8122) device tree:
-- Mailbox for the ANS coprocessor
-- SART (IOMMU for the ANS coprocessor)
-- The NVMe / ANS coprocessor itself
+The driver uses a regmap with a raw spinlock and REGCACHE_FLAT. During
+regcache_init(), regcache_flat_init() allocates memory while holding the
+raw spinlock. The memory allocator can acquire a non-raw spinlock, which
+causes an invalid raw-to-non-raw lock nesting error. The abbreviated call
+chain is:
 
+  apple_gpio_pinctrl_probe
+    regcache_init
+      regcache_flat_init
+        __kmalloc_noprof
+          __pcs_replace_empty_main
+            refill_objects
+              _raw_spin_lock_irqsave
+
+GFP_ATOMIC does not make this lock nesting valid.
+
+Holding the map lock during cache allocation and exit is not needed:
+
+- Cache allocation occurs before the regmap is published.
+- Cache destruction occurs only after all users stop access.
+- regmap_reinit_cache() requires callers to prevent concurrent access.
+
+Commit fd4ebc07b4df ("regmap: Hold the regmap lock when allocating and
+freeing the cache") added the lock for Maple tree lockdep validation.
+The current Maple tree backend uses internal locking, and cache
+population is now separate from cache allocation.
+
+Remove map locking from the cache init and exit callbacks. Keep map
+locking for cache population and normal register access.
+
+Fixes: fd4ebc07b4df ("regmap: Hold the regmap lock when allocating and freeing the cache")
 Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
-Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- arch/arm64/boot/dts/apple/t8122.dtsi | 40 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+Tested on Apple M3 MacBook Air (T8122):
 
-diff --git a/arch/arm64/boot/dts/apple/t8122.dtsi b/arch/arm64/boot/dts/apple/t8122.dtsi
-index 52257fa22631..959ddf36efa1 100644
---- a/arch/arm64/boot/dts/apple/t8122.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8122.dtsi
-@@ -454,6 +454,46 @@ pinctrl_aop: pinctrl@2f4824000 {
- 
- 			apple,npins = <54>;
- 		};
-+
-+		ans_mbox: mbox@309408000 {
-+			compatible = "apple,t8122-asc-mailbox",
-+				     "apple,asc-mailbox-v4";
-+			reg = <0x3 0x09408000 0x0 0x4000>;
-+
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 730 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 731 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 732 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 733 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "send-empty", "send-not-empty",
-+					  "recv-empty", "recv-not-empty";
-+
-+			#mbox-cells = <0>;
-+			power-domains = <&ps_ans>;
-+		};
-+
-+		sart: sart@30dc50000 {
-+			compatible = "apple,t8122-sart", "apple,t6000-sart";
-+			reg = <0x3 0x0dc50000 0x0 0x10000>;
-+			power-domains = <&ps_ans>;
-+		};
-+
-+		nvme: nvme@30dcc0000 {
-+			compatible = "apple,t8122-nvme-ans2",
-+				     "apple,t8103-nvme-ans2";
-+			reg = <0x3 0x0dcc0000 0x0 0x60000>,
-+			      <0x3 0x09400000 0x0 0x4000>;
-+			reg-names = "nvme", "ans";
-+
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 742 IRQ_TYPE_LEVEL_HIGH>;
-+			mboxes = <&ans_mbox>;
-+			power-domains = <&ps_ans>, <&ps_apcie_st>;
-+			power-domain-names = "ans", "apcie0";
-+			resets = <&ps_ans>;
-+
-+			apple,sart = <&sart>;
-+		};
- 	};
- 
- 	timer {
+- All 4 GPIO controllers probe successfully with lockdep enabled.
+- The "Invalid wait context" warning no longer occurs.
+- All 549 regmap KUnit tests pass (38 test groups).
+---
+ drivers/base/regmap/regcache.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
+diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
+index 0d58d900a..b137ded7f 100644
+--- a/drivers/base/regmap/regcache.c
++++ b/drivers/base/regmap/regcache.c
+@@ -225,9 +225,7 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+ 	if (map->cache_ops->init) {
+ 		dev_dbg(map->dev, "Initializing %s cache\n",
+ 			map->cache_ops->name);
+-		map->lock(map->lock_arg);
+ 		ret = map->cache_ops->init(map);
+-		map->unlock(map->lock_arg);
+ 		if (ret)
+ 			goto err_free_reg_defaults;
+ 	}
+@@ -259,9 +257,7 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+ err_exit:
+ 	if (map->cache_ops->exit) {
+ 		dev_dbg(map->dev, "Destroying %s cache\n", map->cache_ops->name);
+-		map->lock(map->lock_arg);
+ 		map->cache_ops->exit(map);
+-		map->unlock(map->lock_arg);
+ 	}
+ err_free_reg_defaults:
+ 	kfree(map->reg_defaults);
+@@ -281,9 +277,7 @@ void regcache_exit(struct regmap *map)
+ 	if (map->cache_ops->exit) {
+ 		dev_dbg(map->dev, "Destroying %s cache\n",
+ 			map->cache_ops->name);
+-		map->lock(map->lock_arg);
+ 		map->cache_ops->exit(map);
+-		map->unlock(map->lock_arg);
+ 	}
+ 
+ 	kfree(map->reg_defaults);
+
+---
+base-commit: 5dd1818b15d98d4a20806cd00b1b40320b06004f
+change-id: 20260925-regcache-lifecycle-submit-74f366be0fbc
+
+Best regards,
 -- 
-2.55.0
+Michael Reeves <michael.reeves077@gmail.com>
+
 
