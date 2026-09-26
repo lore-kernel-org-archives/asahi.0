@@ -1,33 +1,34 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D4C3DBD5E
-	for <asahi@lists.linux.dev>; Sat, 26 Sep 2026 14:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02203DBD5E
+	for <asahi@lists.linux.dev>; Sat, 26 Sep 2026 14:52:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790434337; cv=none; b=Rws4/blE2VquMpd+PPIg5nAllyG6KX7qs4/mPq5mwxdckAoxDMgdVzRhurNshjwrrUDgy4I9Se2oNFtQPmH7YTUvNiMsHvigcNO8RogLFcZmDQldq8xd8VPc9b36LWfp03aFy3kYtvXkLyBcZ3ZaAE51vd9GKTcI6aiDDoqrlw4=
+	t=1790434339; cv=none; b=tPCrHwOhLwUtiK6a0grYaw+M8WJ/3zDK1Ktjl/RwWnzOHFxsu464agqr/3hxYHGXMzi1T+g2pUBsbgBFFTlML/etB4lT43fd0cgW9Y6GY0txYmjMajqdV545QBg9oBbBwAtDoUgZzdmnA/L78EZCv3Pv2XBkJztX6ZZ9Oj/QR08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790434337; c=relaxed/simple;
-	bh=5abk7LyybJMxfmauaAYXDtYtWyg+bJ6GD6yviS5jHzI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ROXlLlFTiRoGCdjjnuD14M9zTr6EFMAbF6l4Olad3F3eR40xifE6uooM+y0e1h5AYMbKnNZBFpwa+lMYDqNwVDbEVirl8sipVPnHHMUoLmmcJ8nITvb9nPmcLETQCXU6gqAJP2mVK5hu6xbqBacge76NSE1jzl1/J8nFvVkmvxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=LWxRlisf; arc=none smtp.client-ip=195.39.247.168
+	s=arc-20240116; t=1790434339; c=relaxed/simple;
+	bh=YhOnroczOeyZBNtumsfhr+6nBMM5ISlTs2iBtvA9eLc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=b+qsIjWxmUgV4Eb0gaXsEmUVbJs/c5gLTvenvIj1oLNV/KasB9TjHCKnE5DjT5QIop0aUmrUxOHeun2gJOHVdA60CxwIsgT4A5Jsltcbv8hwTDhyLqfzZBPblUMfw+qvnb0qdPF6wIJeNo46XOFrMOiCRoUa/L/zhPQgSeFFUWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=xFl6egS/; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="LWxRlisf"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="xFl6egS/"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1790434325;
+	s=mail; t=1790434329;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=A9v+lq5mWAV72Yfuty4BldqMgAV25TnkmTFu7i2y98Q=;
-	b=LWxRlisfozjEhIessbuyZAk7IaeAMUg+HKCT5qMWQvG1zpBKMqtED9r5oByf6asRZD8SE+
-	gbfL1ThShjc3nKZ9Hax3VbKgf1d0prqblzjcFU6L/zhuC1aKBo0G9TGKavkXh5Y6Ps4FFT
-	LSxt4WXpb+plKo2MG/8iz+kitjTUKhU=
-Subject: [PATCH v2 0/2] pinctrl: apple: Add t8140-pinctrl support
-Date: Sat, 26 Sep 2026 16:51:44 +0200
-Message-Id: <20260926-apple-pinctrl-t8140-v2-0-620bd11cd2a1@cyberchaos.dev>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pMERds1aQrUorYxnjOG7U3TBg9X08veCZQ/DwuVV+W8=;
+	b=xFl6egS/phrUrCgkYxRPqLQxfqS5RP3ZKrYS1/5OajXWDTiAb7N1l5MP69vR5jHB9KsSFz
+	cTWg8UIMCWGQy26ugxRqy3MUfeu+B0jIqmlZKqqBhOl7gjxRDduPd+92qAftJ+Cn49LKLD
+	EFc3CWQEWdKDYA5n8oijwhmX2MaMavc=
+Date: Sat, 26 Sep 2026 16:51:46 +0200
+Subject: [PATCH v2 2/2] pinctrl: apple: Add t8140-pinctrl support
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -36,11 +37,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32OwQqDMBBEf0X23JRsULE99T/EQ4ybukU0JGmoi
- P/eaO89Pph5MxsE8kwB7sUGnhIHXuYM6lKAGfX8JMFDZlBS1fKmKqGdm0g4nk30k4gNllJIUkr
- bEmvbGMhN58ny57S23Y/Du3+RiYfqSIwc4uLXczbhkfu/kFBIgVhhP2irrLUPs/bk88UlXAdK0
- O37/gVqM55VzQAAAA==
-X-Change-ID: 20260925-apple-pinctrl-t8140-0e22af416f8c
+Message-Id: <20260926-apple-pinctrl-t8140-v2-2-620bd11cd2a1@cyberchaos.dev>
+References: <20260926-apple-pinctrl-t8140-v2-0-620bd11cd2a1@cyberchaos.dev>
+In-Reply-To: <20260926-apple-pinctrl-t8140-v2-0-620bd11cd2a1@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Neal Gompa <neal@gompa.dev>, Linus Walleij <linusw@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -49,51 +48,80 @@ Cc: Yureka Lilian <yureka@cyberchaos.dev>, asahi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 
-This patch series has fixes for probing the pinctrl_ap GPIO controller
-on the MacBook Neo. The previous code would crash in the regmap_init on
-this device, since reading the REG_GPIOx for certain pins causes an
-SError.
-To mitigate this, we adapt the gpio-reserved-ranges property to describe
-pins which are unusable and whose REG_GPIOx should not be accessed.
-
-Also add the new t8140 base compatible to the dt-bindings, signifying
-the different behavior of the t8140 pinctrl_ap device, and make the
-driver accept it since it now respects the gpio-reserved-ranges property.
+Ensure the regmap does not attempt to read REG_GPIOx of any of the pins
+marked with gpio-reserved-ranges. For this purpose, move the regmap_init
+just before the first regmap_read, at which point the valid_mask has
+been populated from the gpio-reserved-ranges device tree property.
+With this, make the driver accept the new t8140 base compatible as with
+this modifications the driver can now be loaded on this SoC without
+crashing.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
-Changes in v2:
-- EDITME: describe what is new in this series revision.
-- EDITME: use bulletpoints and terse descriptions.
-- Link to v1: https://patch.msgid.link/20260925-apple-pinctrl-t8140-v1-0-1151bdaf2fff@cyberchaos.dev
+ drivers/pinctrl/pinctrl-apple-gpio.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-To: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>
-To: Neal Gompa <neal@gompa.dev>
-To: Linus Walleij <linusw@kernel.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Mark Kettenis <kettenis@openbsd.org>
-Cc: asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-gpio@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
+index 6305b96aaa73..6b26a23d283c 100644
+--- a/drivers/pinctrl/pinctrl-apple-gpio.c
++++ b/drivers/pinctrl/pinctrl-apple-gpio.c
+@@ -66,6 +66,13 @@ struct apple_gpio_pinctrl {
+ #define REG_GPIOx_DRIVE_STRENGTH1 GENMASK(23, 22)
+ #define REG_IRQ(g, x)        (0x800 + 0x40 * (g) + 4 * ((x) >> 5))
+ 
++static bool apple_gpio_readable_register(struct device *dev, unsigned int reg)
++{
++	struct apple_gpio_pinctrl *pctl = dev_get_drvdata(dev);
++
++	return gpiochip_line_is_valid(&pctl->gpio_chip, reg / 4);
++}
++
+ static const struct regmap_config regmap_config = {
+ 	.reg_bits = 32,
+ 	.val_bits = 32,
+@@ -75,6 +82,7 @@ static const struct regmap_config regmap_config = {
+ 	.num_reg_defaults_raw = 512,
+ 	.use_relaxed_mmio = true,
+ 	.use_raw_spinlock = true,
++	.readable_reg = apple_gpio_readable_register,
+ };
+ 
+ /* No locking needed to mask/unmask IRQs as the interrupt mode is per pin-register. */
+@@ -90,6 +98,13 @@ static u32 apple_gpio_get_reg(struct apple_gpio_pinctrl *pctl,
+ 	int ret;
+ 	u32 val;
+ 
++	if (!pctl->map)	{
++		pctl->map = devm_regmap_init_mmio(pctl->dev, pctl->base, &regmap_config);
++		if (IS_ERR(pctl->map))
++			return dev_err_probe(pctl->dev, PTR_ERR(pctl->map),
++					"Failed to create regmap\n");
++	}
++
+ 	ret = regmap_read(pctl->map, REG_GPIO(pin), &val);
+ 	if (ret)
+ 		return 0;
+@@ -475,11 +490,6 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
+ 	if (IS_ERR(pctl->base))
+ 		return PTR_ERR(pctl->base);
+ 
+-	pctl->map = devm_regmap_init_mmio(&pdev->dev, pctl->base, &regmap_config);
+-	if (IS_ERR(pctl->map))
+-		return dev_err_probe(&pdev->dev, PTR_ERR(pctl->map),
+-				     "Failed to create regmap\n");
+-
+ 	for (i = 0; i < npins; i++) {
+ 		pins[i].number = i;
+ 		pins[i].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "PIN%u", i);
+@@ -522,6 +532,7 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id apple_gpio_pinctrl_of_match[] = {
++	{ .compatible = "apple,t8140-pinctrl", },
+ 	{ .compatible = "apple,t8103-pinctrl", },
+ 	{ .compatible = "apple,pinctrl", },
+ 	{ }
 
----
-Yureka Lilian (2):
-      dt-bindings: pinctrl: apple,pinctrl: Add t8140 compatible
-      pinctrl: apple: Add t8140-pinctrl support
-
- .../devicetree/bindings/pinctrl/apple,pinctrl.yaml  | 12 ++++++++++++
- drivers/pinctrl/pinctrl-apple-gpio.c                | 21 ++++++++++++++++-----
- 2 files changed, 28 insertions(+), 5 deletions(-)
----
-base-commit: 63fcbd85bbb795805ce1014637de186c647fa59d
-change-id: 20260925-apple-pinctrl-t8140-0e22af416f8c
-
-Best regards,
---  
-Yureka Lilian <yureka@cyberchaos.dev>
+-- 
+2.55.0
 
