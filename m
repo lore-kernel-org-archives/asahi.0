@@ -1,72 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3663563FA;
-	Sun, 27 Sep 2026 16:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B5748FF99;
+	Mon, 28 Sep 2026 08:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790527847; cv=none; b=bIX5tF61Izviut71nDtXdDz4GlQ3ovSJH0MZIYt+He9rftlifOUkIxWCsmMuP77ZW2p4ZCnlwOKzEB2XH+N0SYCQ0B5CUAuZzvS9yB2ZbrPbuO91lCAoujrmmLVXjMzBqq8gWK/qbCAAmLifetLJquBAmdiUBJrXnj5qhp25Gh8=
+	t=1790585327; cv=none; b=bQbPzqXKvhphJv2nFHlPRwKlvW+MLB7w6Tqw6SxZqFeIOau7vEDPpN2DsIl6T84hS8PuyNScEYOswyXVwlCwFBq8S8LWbjjHK6wshMZ8Vo9lP45ud/vup31WXALzkMH+lUFEcszrawPWxxrxJrdZT6m4tB0WpzghFuqTji49cYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790527847; c=relaxed/simple;
-	bh=W2HXUiys3LGbxm3XGgUdZ9VD6f2yAoAEVScvRVgCpq8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HeEju+AC2l4gGU5MeldLPvOHIeubh1MyptmA98FIrnz4xnQNXJq0e74+V3+TDchwbwj6ZSK1UFnroDO9VEGrP0vlq6BnUYwCTEQ5s2CSYysFV2ZHR1q2h/y12Tc+yLwCl1Clf0mExYTg/mmBussO3PnmGVC5Kf38+lv/YFLyMKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g09DHE8l; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790585327; c=relaxed/simple;
+	bh=4TrL1LK87jREhsshgj9afbV5g3GJEMSvHjNMsw4bwYc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=rTccrh4OdeG0T6D+4+wepa51RD/XQSt/8YutBGYSHWC57bg3Up4+nqgzQdXMC+ZUakB20Xcf8w6FwUvGeH+DmPday7YRgVzJNmlDCQUMb7zH1BZXowhfxCcp0DfXrs7Bd+Uh7KRPfB58G0OYwZrRJtbObyijokIPqZUSZ48fIJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZDa58Au2; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g09DHE8l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F5D81F000FF;
-	Sun, 27 Sep 2026 16:50:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790527846;
-	bh=xh4KzMUFpTj8qOebhQWdsAIU8pmtZ3z7e4KeEKEYSgw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=g09DHE8lTWfUZq2Qm6MoveJcrsrICkGKJ4Y4TmvPsp0pIpjTZlNyUv8NP/S9MDtac
-	 aeliovvMLSurJRMDWqtFO0/cfWumaZl0cmHgtvV51OCR1UJWYahkLKqJ4u7aeiTulJ
-	 4PEvrHhAbYUItiG0fJk3V2wcF9zXuOOwdF08nAcJp70/gopo27XjwH7LUsUMdYgWjw
-	 q/ifnlvtSTEwwQggl9WzhB1r+hTdbwDvEhPOvdOCgaBR41z74a7z5g6EKux5fzyDOV
-	 aP8UaU8fGNEu7ySD8iWcaiRukpdZxg3xIeytw5CU9UQMBAF7bmVlJtCX5y3M0Kxy5N
-	 mBfUivAbSpa4A==
-From: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] soc: apple: rtkit-crashlog: Add AArch32 IOP state parsing
-Date: Sun, 27 Sep 2026 18:50:29 +0200
-Message-ID: <179052779403.16295.253181744749057325.b4-ty@b4>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260919-rtkit-armv7-crashlog-v1-0-f4a671ea453c@gmail.com>
-References: <20260919-rtkit-armv7-crashlog-v1-0-f4a671ea453c@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZDa58Au2"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id EB1EBC5CD51;
+	Mon, 28 Sep 2026 08:49:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BA3E4601BD;
+	Mon, 28 Sep 2026 08:48:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B9ED0102F1EA6;
+	Mon, 28 Sep 2026 10:48:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790585317; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=4TrL1LK87jREhsshgj9afbV5g3GJEMSvHjNMsw4bwYc=;
+	b=ZDa58Au2RHTizRo43gJ1JRUszIzTyZQkH6fdz231iZk+mFK47kmlmDY+0VETY5yPpnsekI
+	H2W47fDdg16ql/VlkfIClEu+3ESEBPzsHVxHQwSdkpqq7xS/LmLFAZ+c1Cwv0IKbwSw7wN
+	UNguMPFymrWlqGCyroCsOi8X9w+cBGPYBNKhNvYG1RBg11GdeNJxoWlU5ueicQVxlBuyqM
+	rssKNaxcGDmyEx8/mRYdRbY6UDDqUJjccvTKQdvCwKLp+ozx2FfNr7mFPECEsnr5mrfBuE
+	Qly9BUoYG+GYmxYZ6jpGEQOn3mIhX3sFqMhz33riAziOXByw/e3sDqg5nym3vw==
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 28 Sep 2026 10:48:20 +0200
+Message-Id: <DLQTIJA71AQ1.1RASTM0D6GMGX@bootlin.com>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jessica Zhang"
+ <jesszhan0024@gmail.com>, "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>,
+ "Lucas Stach" <l.stach@pengutronix.de>, "Frank Li" <Frank.Li@nxp.com>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Paul
+ Cercueil" <paul@crapouillou.net>, "Paul Kocialkowski" <paulk@sys-base.io>,
+ "Linus Walleij" <linusw@kernel.org>, "Inki Dae" <inki.dae@samsung.com>,
+ "Jagan Teki" <jagan@amarulasolutions.com>, "Marek Szyprowski"
+ <m.szyprowski@samsung.com>, "Sean Paul" <sean@poorly.run>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
+ Dunlap" <rdunlap@infradead.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v3 00/19] drm/panel: embed a drm_bridge into every
+ drm_panel
+Cc: "Albert Esteve" <aesteve@redhat.com>, "Anusha Srivatsa"
+ <asrivats@redhat.com>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
+ "Ian Ray" <ian.ray@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-mips@vger.kernel.org>,
+ <linux-rockchip@lists.infradead.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <asahi@lists.linux.dev>,
+ <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+ <linux-tegra@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>
+X-Mailer: aerc 0.22.0
+References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
+In-Reply-To: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sat, 19 Sep 2026 00:47:02 +0800, Nick Chan wrote:
-> Some RTKit coprocessors runs on AArch32 CPUs. When they crash, a 'CrgA'
-> crashlog section may be reported containing their architectural state.
-> 
-> It is useful to get it so as to figure out what the firmware was doing,
-> add a decoder for them.
-> 
-> 
-> [...]
+On Wed Sep 16, 2026 at 3:45 PM CEST, Luca Ceresoli wrote:
+> This series embeds a drm_bridge into every drm_panel, as previously
+> discussed [1][2] and in previous iterations.
 
-Applied to git@github.com:AsahiLinux/linux.git (apple-soc/drivers-7.4), thanks!
+Series applied to drm-misc-next.
 
-[1/2] soc: apple: rtkit-crashlog: rename 'Crg8' section from regs to aarch64
-      https://github.com/AsahiLinux/linux/commit/1a2ae085282a
-[2/2] soc: apple: rtkit-crashlog: Add support for AArch32 state 'CrgA' section
-      https://github.com/AsahiLinux/linux/commit/4edbfa916dbf
+Luca
 
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
