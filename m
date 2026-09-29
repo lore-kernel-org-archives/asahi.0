@@ -1,76 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74A14B0CA4;
-	Tue, 29 Sep 2026 08:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E214C6517
+	for <asahi@lists.linux.dev>; Tue, 29 Sep 2026 09:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790671610; cv=none; b=MoKdLngkQJXacbqezdx2Gaq7/WwbDsxA342xqsMfBlMhyOP+lxb5oF6b7zkiNHg0kh/4OU+nBzV2iAAud4aBZPGhUak42J/qUi+mvyNGs1MF1JIujSNS7alSPSXUePF3hWbEumurUgb0263+61r8XoXEdYcDkBhIfyUdB8JJpX0=
+	t=1790675597; cv=none; b=t7+6nqH1hSgLQd3GibWWFzJLwDa3I4B3E9kEX/pwmP0tn/HDTw2YYjASLm/Fa1riDh3BZBHCTRuPJJiUt7ph6HJ9UL/xsuE4iVPSQQgZ2AuBYdeXnK5Ag0a2eNOBB3CYKynOjfBErBzOVpq6SwX6FeD94hnWB6+k1Ms7eO6E3PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790671610; c=relaxed/simple;
-	bh=nhZa9US+a3qozdFWza4F1MJneaEX3eFGl7c26J3N4CY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kcICyj6l9cB7FBrSRx5oEPEBL3h2l9IojK/BsCNXPTEW4NFUyNBdM/NG1l7DEW6JQwu6lMYsUAoNSCSgXC4PQesG0SL5rlTm6N32nSlVo4adtDk4H6TfWL2hCLmKku0+ATbVRFONQWr80SZJtyx6Yi7qRbkY5sBqM7ejKmg8JdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bQno3+SU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790675597; c=relaxed/simple;
+	bh=PAjiuSr7PL6hMz7MSL0vi4gKrIrqTOCgAAdXyGLcVOA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BBAfyMvqUPtpye/oNemPkhga/tATUJw/SknkfjqeGQnTFJnWESk/n6ah96U0RlEr1Vj1xG3uXUfozOIrJvL3UDrSLviiHZx9VP9YFj7JBbqI9o+sPRjiVJEDIMlkfHKwTcRr/u9igs1E5WlpeQEH6SuyY25OIzrjoj5Cjcuor+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IR6OyRhy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RI2iC9Uy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ef8ORTcE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jy6iYy8+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bQno3+SU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB8FC1F00899;
-	Tue, 29 Sep 2026 08:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790671596;
-	bh=X2bjnjkfAYn9RGZpcWaVsSZdftTR1zHRUBhxYKKVJts=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bQno3+SULrhkcdpaywbcogY3sw2IWoviVqeWjhZujw5vJL2hriSaN+jCc4r/oyM4o
-	 YWtKD/lKoaGUMqRFEWHGWI9sYi+96XjjMHCXUCkQwFnFiJ2EzS0RnCJv0BUTyxh9/b
-	 YCFe8i3LfGV0euQkNSuCSHFs5PvKCpGoFe6ndmmaD+d9z7uyqvYXTN6h2s32BL98/x
-	 yK5GwUvFJ6h4ZzkhW0GWeyJL5+mOBUPvg64cPgilh3WI29gbOIofA1zQiQ4P4yDDem
-	 HP6zTyCFR5uN6KjjbehUUOLQT0oPq3jZe5/kxbgRKlAsA9KWfCP7z4k/RiPnPIxaQQ
-	 bVIPuWr/pCtxQ==
-Date: Tue, 29 Sep 2026 10:46:32 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sofus Forstreuter <sofus.c@icloud.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Heiko Stuebner <heiko@sntech.de>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 01/17] dt-bindings: media: add apple,avd
-Message-ID: <20260929-poised-sympathetic-hound-c0ddf1@quoll>
-References: <20260926-avd-v2-0-ecebe6a3648e@icloud.com>
- <20260926-avd-v2-1-ecebe6a3648e@icloud.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IR6OyRhy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RI2iC9Uy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ef8ORTcE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jy6iYy8+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 820551F444;
+	Tue, 29 Sep 2026 09:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790675588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5QndERAeyHrOlKw2dyPW8c3xDWXtZf30X6T2Mz/d8oU=;
+	b=IR6OyRhy9njtgSWGu5dmBV5fq2a2iSY7zSpuCnAC4r1LDvrMzaF7HrsGWBC9yc7030Cmey
+	YXmlWgv3VqyPwuNf6kxvymlGhY+o3GG7NYNBT62HDXFxRifA5OUEMpQOyaq/Fld9DIfyDk
+	mCEsKPFAsFoM4TFKDJjgzKC0O/tdx+c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790675588;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5QndERAeyHrOlKw2dyPW8c3xDWXtZf30X6T2Mz/d8oU=;
+	b=RI2iC9Uyd+Kid4F1uCZuCevrwCYLsVo5HsM3K2NX+dg/JmeWGYDnMpfctjG7FyGif9graT
+	+6ofcNl6xgt105CA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ef8ORTcE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Jy6iYy8+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790675584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5QndERAeyHrOlKw2dyPW8c3xDWXtZf30X6T2Mz/d8oU=;
+	b=ef8ORTcEBdUmzDfukXYj0Ra0pCYyGNwZY3AeOcAIG9jdfWU/pD8IBdQxlADdWGHW2yjS6A
+	USif8lF+XS4DV8rGdUqE4YbVrGT9WjOalCZ06HO8AR4WHsw6bsgl4+Gl/jJMvmgwsZ/1Tx
+	MYw0bRj5uKlZTEEFtZz8mpZtlsATiUg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790675584;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5QndERAeyHrOlKw2dyPW8c3xDWXtZf30X6T2Mz/d8oU=;
+	b=Jy6iYy8+AVNnk0GnA+0G2zcraJ5WdNWWhd1npGOvbUlB+jAegV9NL2JeFC1K2wDFiPXusW
+	ht7mubNR55etGoCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03EE2136E4;
+	Tue, 29 Sep 2026 09:53:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id P+SYMn+Ku2pSLQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 09:53:04 +0000
+Date: Tue, 29 Sep 2026 11:52:59 +0200
+Message-ID: <878q4k2xl0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?ISO-8859-2?Q?Povi=B9er?= <povik+lin@cutebit.org>,	Liam Girdwood
+ <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,	Rob Herring
+ <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,	Conor Dooley
+ <conor+dt@kernel.org>,	Sven Peter <sven@kernel.org>,	Janne Grunau
+ <j@jannau.net>,	Neal Gompa <neal@gompa.dev>,	David Rhodes
+ <david.rhodes@cirrus.com>,	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Ulf
+ Hansson <ulfh@kernel.org>,	Amit Kucheria <amit.kucheria@linaro.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,	Lars-Peter Clausen
+ <lars@metafoo.de>,	Vinod Koul <vkoul@kernel.org>,	Matthias Brugger
+ <matthias.bgg@gmail.com>,	AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,	Shenghao Ding
+ <shenghao-ding@ti.com>,	Kevin Lu <kevin-lu@ti.com>,	Baojun Xu
+ <baojun.xu@ti.com>,	Sen Wang <sen@ti.com>,	James Schulman
+ <james.schulman@cirrus.com>,	asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org,	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,	linux-arm-kernel@lists.infradead.org,
+	patches@opensource.cirrus.com,	Takashi Iwai <tiwai@suse.de>,
+	linux-mediatek@lists.infradead.org,	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 08/28] ALSA: control: Add kcontrol callbacks for lock/unlock
+In-Reply-To: <20260920-macaudio-v1-8-741cc20a74e5@gmail.com>
+References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+	<20260920-macaudio-v1-8-741cc20a74e5@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260926-avd-v2-1-ecebe6a3648e@icloud.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 820551F444
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-1.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,marcan.st:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[cutebit.org,gmail.com,kernel.org,jannau.net,gompa.dev,cirrus.com,opensource.cirrus.com,perex.cz,suse.com,linaro.org,intel.com,metafoo.de,collabora.com,ti.com,lists.linux.dev,vger.kernel.org,lists.infradead.org,suse.de,marcan.st];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[lin,dt];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLs9qncch5cpanyka9neihc978)];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Flag: NO
+X-Spam-Score: -1.01
+X-Spam-Level: 
 
-On Sat, Sep 26, 2026 at 03:14:40PM +0200, Sofus Forstreuter wrote:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - apple,t6030-avd
-> +              - apple,t6031-avd
-> +          - const: apple,t8122-avd
-> +      - enum:
-> +          - apple,t8103-avd
-> +          - apple,t8112-avd
-> +          - apple,t8122-avd
-> +          - apple,t6000-avd
-> +          - apple,t6020-avd
+On Sun, 20 Sep 2026 06:53:47 +0200,
+James Calligeros wrote:
+> 
+> From: Hector Martin <marcan@marcan.st>
+> 
+> This allows drivers to implement policy around locking/unlocking
+> controls, such as enforcing that a group of controls may only be locked
+> by the same process/file, and taking actions when the controls
+> lock/unlock (such as granting special access on lock and resetting
+> values on unlock).
+> 
+> This is, in particular, useful to implement volume safety controls, such
+> that only a particular process (that locks controls and completes a
+> handshake) may increase volumes above a given safe limit. It also allows
+> the volume to be automatically lowered if that process dies (which will
+> trigger an implicit unlock).
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 
-These are misordered. Order is alphabetical.
+This doesn't sound like a good approach to me, and this looks rather
+irrelevant with the purpose of the series.
 
-With this fixed:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+thanks,
 
-Best regards,
-Krzysztof
-
+Takashi
