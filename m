@@ -1,172 +1,125 @@
-Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A0C515965;
-	Tue, 29 Sep 2026 11:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790681253; cv=none; b=RBE2tPHMBYTH+9wFawyZ+dXRqDvSU7St4Z0Vylxdmq6bLDWYBKf2krw437yeIzvUyoIJu/SJilezb8Fa30hLAc12OFFeEiXL7ZecJIV+lCJnK+c4IjWknNUftvvZ4zUbL/4jDITFjgwVIMiTTtpWXL3UwzziQyVEEMuh2fZ//Fs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790681253; c=relaxed/simple;
-	bh=YM3+c1WRIWYb+SV1yQ30hgqvyfKEvXQJdImu3QeAUdI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=D+KN7EQWgHGGHA4qaj595xuvZmqW0dIMwY5zbYLhANV6bdtd6u8uVVZ1hiYos8vLlTFlM+DgwUa6m+GyPzi0Q4+9Nj+l/Cx/ePWgHLMtSEWA2GEb5SNmWjv3W9OWvZqgyxb6ykD9l/E6ZU1VD/EQBWcMr7zJUIhW701YtORZSZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=iT/bF8t/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KqTCPQpm; arc=none smtp.client-ip=103.168.172.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953CE5275BB
+	for <asahi@lists.linux.dev>; Tue, 29 Sep 2026 13:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790688145; cv=pass; b=uOw4b8swTFSttKDvcWXaRrau1Oc9rD7J3Qa27sm4gZidcErUz1ytPmi8/MVmd6bPPiHhxk/6tsLxo2SGSVM6hzx7mtw+8HGxb5TnNC1AFWMAcFHxeXT0dCQ1M145140ROzNl0qCl+ZqMclimrdtAGGPRPhd/SiWlui+ZrgypVe8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790688145; c=relaxed/simple;
+	bh=9kGGIoKUXsVY33zGMSg04jYAL3JPXU1LBRMzAUAEyQ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zk47+5YHlyzpNuyvY/2EgU31NwwN51VU7kKpw50zzhjzLCgzfeNMR/e8OvdXHCNRofsOQtEbPuEwlFOPWkonquGmyZ/qxb1D38GlCJOi3orY5nQ5ryiWZm3z9nbAuglfwNxOutcGaeQqeIqtPQ5MDN02h9KVeM2QlLhnLsf0Jv0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gDhdp6JA; arc=pass smtp.client-ip=74.125.229.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="iT/bF8t/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KqTCPQpm"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailflow.phl.internal (Postfix) with ESMTP id 2486C1380204;
-	Tue, 29 Sep 2026 07:27:25 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Tue, 29 Sep 2026 07:27:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1790681244;
-	 x=1790688444; bh=wTvvV6l4+D0DDEvQZ4FQw43WlY8/FKGuhNm/go7qrHc=; b=
-	iT/bF8t/sH7Stz7uph9Y0fcqw3GQUD8oTyj95WXxH6cZxaVv3l9+WqCLaDFyvNn3
-	j+3rERPsaqANGRlvCdUCN5FnYn5X7RWVmHG71amN9KfthA7WDQmyeFx0mkQAWFeS
-	hAwUdDBzAVLyPNJsUYjilQsn4DmG0C61IiM0kN9mrhHPIwcKUZrk21f64cCVQAIJ
-	ZCPvafg8lkk1eEgHa4xjhqGFDLEI3r6bpRG1/BOXWz1mZ0mKSpfn2SDRYQOJQo9s
-	KboHWddWz8BDd8SyhZ+8bRol37acP1auXwa2KkURVSXlvfVbC69oOrHGGhD9mYgX
-	UpBmkhDrJ4TKc+XFgh6XDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790681244; x=
-	1790688444; bh=wTvvV6l4+D0DDEvQZ4FQw43WlY8/FKGuhNm/go7qrHc=; b=K
-	qTCPQpmyqsQFARj6k0N20Mz6aA92TcwRzMupe1fF3O8d6CjX4yHaOOFqAwv4r9mY
-	zcpRWpTz28gdEf3NM2V9ouc/6PiTM4hqEQl2fus5hlwqiLh9fhQvBlQhp7juqEws
-	hFYGjTCdGsja8lDlPj5OPz5V75P7jeBx/00a8ds4t2QHkoV10ZnrM3L+LfboKOag
-	WjgXSx0B22B2caV5SU4GvBz5Fk31dLClKF1rocoPqZx4uYl3LFOb6MqhPYvt9mLb
-	hRHVJFVZISxlSaKQWaX7TatUJ+3M2yy2XOA6FYobMwwUxdxHASjQPvvZXoaLuiFv
-	ax4cqIlMGs5/BQW6azJQA==
-X-ME-Sender: <xms:i6C7aoI-jpEAOdaBrVX5V_qYGxK08UamsTSaBMWg8tQGWLV4Jr20bg>
-    <xme:i6C7ai89IP0_SvJFrBUZdec9wW34sz22E1wmIEJsy9dwJN-q9ESldYdloRuY7GNi7
-    6uGIDXChIwXimeyWcGg8SXdCHD4fYGk204A1fPewtHXTAAkSEroEeqs>
-X-ME-Proxy-Cause: dmFkZTGEQyTqpDFAht/OKgejp9f8hYWmA/2GICdCvkSdg3uuYP50Haf1z67CR8BM6faFlK
-    NALY3BpxgNxHIjm780QOA8qhvsbITTo9wOUnM2zMrM36EsLjvtjeJiitynZv8QTCkXD3DE
-    DM0ToVVumES1jOvjudMBBTa0yOLxpqU4PQGgxpsfchLGW6y1+626bx82qpocXbtCqMJoxR
-    Z1Z4EdQVrtimSPxQrOQJFLyKJn0lqc7NKABI6P2gFUwnL5KHmdLokQQDAU4r9w2jkSob6p
-    +cTwJmxH8jt/ydTJUUKL52z+IeMzPNVguKInT5ePuqAP01yOUDEyPfdVaSaNNCwL8rSRrh
-    oPMn/YZcvJAllqQrr7bh80UCmQAJXKnopk52y5QhfKN+dU36OohTX3A/kQFo1d3FuKjQo+
-    pUcbL19ybCxrOQ+YKG36iqPjepZekmleiPK2hw86h8eVXh7Jw+Jj6VjAuo4bapmN3JoLCU
-    P2uXGQ4nocZOhtDXMQrcCdwMEXpeV9i1x6KfBlj90X9lPGgNv0/+KEhnwtXmwqSx76U/3I
-    zf1jj01trO1052OTFaHOgwP43HPP17CobSeubsQUvgQteYY2ixiNnvThNYLiEwih4phlzi
-    DElpzYTGokMCKMp6UmnL2FJ7naxtXcoA3h6orVOircv3zTiW9VSHhDbGEytQ
-X-ME-Proxy: <xmx:kqC7amhcIvecj-ULK3l7n1TynvTXBl3_PvAatfksP4zzZJq9_Wi4sw>
-    <xmx:kqC7ah59wSovxYe-98CML8954xHqOcg9DghZMo88o64o_eav3dr9_g>
-    <xmx:kqC7ag9WV4hjEw5rIME_K9ZWON8Z4Z7j8avngkl5_zIESNokRzPNDw>
-    <xmx:kqC7ao_T9qYlnLb7BNo6saZ9-_4P0gz0ILr4GttKO_dUMdx2a7Rv_g>
-    <xmx:nKC7amE87G7xekMefKYKvjgHTV8kmgxCxo1RxbL6blpJS_s0NTCmDbhg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 2F97632A008D; Tue, 29 Sep 2026 07:27:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gDhdp6JA"
+Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-341d0522b4dso6437522eec.1
+        for <asahi@lists.linux.dev>; Tue, 29 Sep 2026 06:22:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790688143; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IFoAuPI6PFQFGSGHlVT/huHJOLZKnt1S9EM46GaYS2uDyjOj54gzQlNfvdFoUOFixl
+         w/vmTtFAPK+tA14S+npbjrGIgY7IIBHUuufmG155+uCijl0TqJpz5dz9bY1XuPnOOd6V
+         PpTKj0DtLKIoF3E2AN1OD6lzDy7qoPIHo1sOqyOZFEU8NcYKIw6fj9pUFSZI/oyZldqq
+         zwcpuferqvBpNPOQ5LAfT/wgKo89+0vkseS3vOmUoHwy3zTtgz9P0GCRryvKqZoIbRkO
+         7osJODQvC7ZgKsa0XhoakifMnURiPpVkxv22MI5F9O6R4Gdu58O4LP9Qjf7NI7kAk2Qx
+         /t9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=LRXRMKUc7hby8sfn6/3owXND2OxfjdsuZ9xeJILdsHY=;
+        fh=nURKbDRAwxhYqLru4uzrevlhOg+lXDs4NaSCdW2Y9gw=;
+        b=VYpGH1YjXtTu3ExDOdpGii4TIXbh64OBcQ6TEH0AQIxAIe2eIRwObIMY1EFjA57w2e
+         mn4KSQE1Y9GDySeCl8q9XMzo8wPeSw9B9L4piJn9S90tX6ZwlF6NhjW0PTN3/mSnOF2x
+         yvHuzZ1Eq4/wkYCC4QgIOzi+KoPSPIvT0J5tcPBrjBKLZwOTKpS7HpiPrRVdf2sGMiKI
+         C6LkRnI/Uvw9bv2j+lgiSx3Za5vDOuHB1q9Y++n4qibFO8pvFOtAhyCNDF+kXgqOPyWr
+         SttcxNZ+EXUtt4Kt01lGPky2FPfbWQvEkPL4RTMbqJpkC7YqLfZqB0S+14X1L9ngZFD2
+         vtDw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790688143; x=1791292943; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LRXRMKUc7hby8sfn6/3owXND2OxfjdsuZ9xeJILdsHY=;
+        b=gDhdp6JAKj6QTkZjkm2qdqpzpVxS6TnTQv1X8kN0FBQxKAyJIOnlTT8Nkxr/nsKu5I
+         0y4wr19SMoVvtpxxMaahJIVqn/vAU25rt6jsQ6x3TDn8m5NH5KLW9D/lXrzfIIkM+K4L
+         EPYFudU5cUyrMNgfhhIT8z1sdmCSe/95PT58v5OedbueQEraCjxg/P+W+NHTz2V4y/cW
+         ov+Hdg1kPaWyqkEFdji/W+WtCwem5DUL6IFfagcKBZ3TXXL1U5TLmMnkenwcilBfpmwl
+         gkTpXTsgNGz+nJipiAn+N5nJko98FVdf3mDkjiAYJ1dsV0eWV0FPtx+jrfnhzmWiNKym
+         s4Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790688143; x=1791292943;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=LRXRMKUc7hby8sfn6/3owXND2OxfjdsuZ9xeJILdsHY=;
+        b=oK/FQS5kOdCwpz3KpR6k+EhiZC0XjqTe1oZs4+H4v41xaADAmo/taneUzA36RZunU5
+         4H79itWRP5lrzF5yYsKTKQnQN0nHoaKZxxORDuZoXrg2ALpvIUEUhBQKDAN4rGxPa8Gh
+         kD5V28wGZ1iqeI4GS2vj6E7qSuC0UuO9BToeONiqjqPUHSWrLR3EAFDC+d0r5+Fe9lZI
+         t8817WZE/bIDhJQfYsTEjCMl0pWzG/bMxHUd30quGyNnPxr0/1OCloS3aLUeZZnVsxzB
+         PU7b3E7MjK92H1j/q3XaeZcDDsi3spxOgCNyDyw4SpDzmExBwEue8DP2nK3fVFE3bwo4
+         DXZA==
+X-Forwarded-Encrypted: i=1; AKwUvBxwoLlJIlRtPRQdIZx85P+HeDMpgoksZeqw7X79PMPdr7wE7yZd0DhZoaXvVgZvo2QfTYQo6g==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJsc9s9KxJM3GyfBU8e8fZnXCemZSmbkrNgXqRuLCSaza9Ppr+7
+	4QlYJzpARpNQ4xm52jVjllKJQLqa924n4qmgiZpVCRqUCcGPTAAtW6kxLZZpp4XlNm4m5XC5EHX
+	51sHORHugzELwHAM6o6nH2iAwkUdQ0ic=
+X-Gm-Gg: AYBFou0ZmO0oche+Im5jW2q/sfyorYDGxYgL6YcuBqtDuL68PCbHwr/1OmY48O+VZi2
+	UQppu8R2RqGDO/lumyAOHdCsd5CaU6jqkSu04Bz9DydazL2M7IlH3EXHYDw6Aar1PuwPNiG4q2v
+	9gZQ7xRgcOFtviIkoUta2UPUoaXiUFi6yM/Pisu8JwpbK3qE5Y+TJtoK7tpOzU1s9qVvTIMnG9g
+	CVKhUh8B2fddU7G3kgsrVek5Bk5Tad/5R1XJyc2mCCjSD9SkK43RsXNMVlhnR6qjdTJAThxxC4i
+	1RAnEPA9ccFcgXbzm1aXxiXZ+RPN5u24AwPA6oIQMfg0knWotw03gqeOHRyOaLVYXQsl9veXq5x
+	12/UWDcTZie/RiCem1yrnQ6KJLNTBlZXpFScPq6jifQ4mvKiG/4GHjEY7pON6nsBD+qElZBZUl3
+	HCxXZkX5pywDIC4pA9TpnUEA31uqR0fu6zqoJuxV0udaJKW4AF5RQ=
+X-Received: by 2002:a05:7301:1501:b0:343:fdea:9a4 with SMTP id
+ 5a478bee46e88-343fdea2578mr10273152eec.28.1790688142453; Tue, 29 Sep 2026
+ 06:22:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AxWFZG7AZFUJ
-Date: Tue, 29 Sep 2026 13:26:36 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>,
- "Arnd Bergmann" <arnd@kernel.org>, "Dave Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>
-Cc: "Sasha Finkelstein" <k@chaosmail.tech>, "Janne Grunau" <j@jannau.net>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Manikandan Muralidharan" <manikandan.m@microchip.com>,
- "Dharma.B" <dharma.b@microchip.com>,
- "Nicolas Ferre" <nicolas.ferre@microchip.com>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
- "Jagan Teki" <jagan@amarulasolutions.com>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>,
- "laurent.pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Liu Ying" <victor.liu@nxp.com>, "Frank Li" <Frank.Li@nxp.com>,
- "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>,
- "Fabio Estevam" <festevam@gmail.com>,
- "Doug Anderson" <dianders@chromium.org>,
- "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>,
- "Matthias Brugger" <matthias.bgg@gmail.com>,
- "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- "Rob Clark" <robin.clark@oss.qualcomm.com>,
- "Dmitry Baryshkov" <lumag@kernel.org>,
- "Abhinav Kumar" <abhinav.kumar@linux.dev>,
- "Jessica Zhang" <jesszhan0024@gmail.com>, "Sean Paul" <sean@poorly.run>,
- "Marijn Suijten" <marijn.suijten@somainline.org>,
- "Marek Vasut" <marex@denx.de>, "Stefan Agner" <stefan@agner.ch>,
- "Orson Zhai" <orsonzhai@gmail.com>,
- "Baolin Wang" <baolin.wang@linux.alibaba.com>,
- "Chunyan Zhang" <zhang.lyra@gmail.com>, "Jyri Sarha" <jyri.sarha@iki.fi>,
- "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "Icenowy Zheng" <zhengxingda@iscas.ac.cn>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Message-Id: <4a566036-af8c-494e-9749-cd713d952d39@app.fastmail.com>
-In-Reply-To: <DLRMF4TI56I2.3PTB24KN9ORJ3@bootlin.com>
-References: <20260928161605.2271412-1-arnd@kernel.org>
- <DLRMF4TI56I2.3PTB24KN9ORJ3@bootlin.com>
-Subject: Re: [PATCH] drm/bridge: add missing drm/drm_panel.h inclusions
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20260925-apple-m3-nvme-v1-0-5e832e2f4aa9@jannau.net>
+ <20260925-apple-m3-nvme-v1-2-5e832e2f4aa9@jannau.net> <20260929-debonair-busy-hamster-be2fda@quoll>
+In-Reply-To: <20260929-debonair-busy-hamster-be2fda@quoll>
+From: Luna Jernberg <droidbittin@gmail.com>
+Date: Tue, 29 Sep 2026 15:22:09 +0200
+X-Gm-Features: AclHuK_jJoonbrdcWTM4pJ6-SA0D9nOYSb3Qq4ribSs7qfnRaIDq9x1ahszR1jY
+Message-ID: <CADo9pHg2JyGyOA=_6orXdhDwj7NaKRBciyQMG2w7fQcPm0MNwg@mail.gmail.com>
+Subject: Re: [PATCH 2/7] dt-bindings: mailbox: Add Apple M3 compatibles
+To: Krzysztof Kozlowski <krzk@kernel.org>, Luna Jernberg <droidbittin@gmail.com>
+Cc: Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, Keith Busch <kbusch@kernel.org>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, 
+	linux-nvme@lists.infradead.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 29, 2026, at 09:27, Luca Ceresoli wrote:
-> On Mon Sep 28, 2026 at 6:04 PM CEST, Arnd Bergmann wrote:
+https://youtu.be/TPwe53kCJuM
 
+Den tis 29 sep. 2026 kl 10:21 skrev Krzysztof Kozlowski <krzk@kernel.org>:
 >
-> So I see two option for a better fix:
+> On Fri, Sep 25, 2026 at 10:22:49AM +0200, Janne Grunau wrote:
+> > The ASC mailbox on Apple M3, M3 Pro and M3 Max/Ultra is compatible to
+> > the mailbox on M1 ("apple,asc-mailbox-v4"). Add their per-SoC
+> > compatibles "apple,t8122-asc-mailbox", "apple,t6030-asc-mailbox" and
+> > "apple,t6031-asc-mailbox" to its dt-bindings.
+> >
+> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > ---
+> >  Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml | 3 +++
+> >  1 file changed, 3 insertions(+)
 >
->  * Option 1 -- fix the really affected drivers by switching from the
->    deprecated API to the one they recommended one. Based on quick analysis
->    there are about 6.
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 >
->  * Option 2 -- a quick surgical fix:
+> Best regards,
+> Krzysztof
 >
->    In drm_of.h:
 >
->      #if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
->       #include <linux/of.h>
->       #include <drm/drm_bridge.h>
->      -#include <drm/drm_panel.h>
->       #endif
->      +#include <drm/drm_panel.h> /* Temporary for *_of_get_bridge() */
->
->    This can easily be tracked and reverted once all
->    devm_drm_of_get_bridge() users are converted to
->    of_drm_get_bridge_by_endpoint().
->
-> I'm working right now on option 1, hoping to get a series in a few hours
-> from now.
-
-Sounds good to me.
-
-> I can switch to option 2 in case of unexpected issues with option
-> 1, or if a fix "really right now" is wanted.
-
-It's only really a problem for randconfig build bots, so as long as
-you are fine with getting more reports (and possibly patches from
-others) until your fix is in linux-next, I don't think we need
-another workaround first.
-
-I've added your new series on my randconfig tree in place of my
-patch and will let you know if something comes up. 
-
-     Arnd
