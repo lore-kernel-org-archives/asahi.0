@@ -1,170 +1,193 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E214C6517
-	for <asahi@lists.linux.dev>; Tue, 29 Sep 2026 09:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED94951616E;
+	Tue, 29 Sep 2026 10:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790675597; cv=none; b=t7+6nqH1hSgLQd3GibWWFzJLwDa3I4B3E9kEX/pwmP0tn/HDTw2YYjASLm/Fa1riDh3BZBHCTRuPJJiUt7ph6HJ9UL/xsuE4iVPSQQgZ2AuBYdeXnK5Ag0a2eNOBB3CYKynOjfBErBzOVpq6SwX6FeD94hnWB6+k1Ms7eO6E3PY=
+	t=1790678387; cv=none; b=LzpoXxdFLgKnn0D/PIf0evdGNmy4vnfQ/cekeU4dIjgYmRZHUHYzBSrLON42Ml4ksOnO0N4RR7C795EciGGm56qysj9JE8VbI00Q6ymDHqhhIV5n92da/0QOTRIwiWMnf4Ft7ceERevg5HJphU4u2o4d3mlanDPWHk4hzaHD0dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790675597; c=relaxed/simple;
-	bh=PAjiuSr7PL6hMz7MSL0vi4gKrIrqTOCgAAdXyGLcVOA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BBAfyMvqUPtpye/oNemPkhga/tATUJw/SknkfjqeGQnTFJnWESk/n6ah96U0RlEr1Vj1xG3uXUfozOIrJvL3UDrSLviiHZx9VP9YFj7JBbqI9o+sPRjiVJEDIMlkfHKwTcRr/u9igs1E5WlpeQEH6SuyY25OIzrjoj5Cjcuor+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IR6OyRhy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RI2iC9Uy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ef8ORTcE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jy6iYy8+; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790678387; c=relaxed/simple;
+	bh=6j2piQDUFgmBlu5XXZWQNNaTqk1oY46t5o3CJ2xDkg8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=DaHt0e24YBMiQxjtgIVVgizJztuk4w0aT/ABPhDUPG/TGwWRtwOB5+vXyrHo98dQu06ludBv+DUIUXElDricK52TUE50ts6TMLLq3//7bgLkgoZttXMkItcyVL+P96dcqWAxib2wnyAsS8FHniJnhvt9ZJwX0ALA7rZwH7kXi4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=y8iHsgOz; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IR6OyRhy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RI2iC9Uy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ef8ORTcE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jy6iYy8+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 820551F444;
-	Tue, 29 Sep 2026 09:53:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790675588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5QndERAeyHrOlKw2dyPW8c3xDWXtZf30X6T2Mz/d8oU=;
-	b=IR6OyRhy9njtgSWGu5dmBV5fq2a2iSY7zSpuCnAC4r1LDvrMzaF7HrsGWBC9yc7030Cmey
-	YXmlWgv3VqyPwuNf6kxvymlGhY+o3GG7NYNBT62HDXFxRifA5OUEMpQOyaq/Fld9DIfyDk
-	mCEsKPFAsFoM4TFKDJjgzKC0O/tdx+c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790675588;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5QndERAeyHrOlKw2dyPW8c3xDWXtZf30X6T2Mz/d8oU=;
-	b=RI2iC9Uyd+Kid4F1uCZuCevrwCYLsVo5HsM3K2NX+dg/JmeWGYDnMpfctjG7FyGif9graT
-	+6ofcNl6xgt105CA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ef8ORTcE;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Jy6iYy8+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790675584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5QndERAeyHrOlKw2dyPW8c3xDWXtZf30X6T2Mz/d8oU=;
-	b=ef8ORTcEBdUmzDfukXYj0Ra0pCYyGNwZY3AeOcAIG9jdfWU/pD8IBdQxlADdWGHW2yjS6A
-	USif8lF+XS4DV8rGdUqE4YbVrGT9WjOalCZ06HO8AR4WHsw6bsgl4+Gl/jJMvmgwsZ/1Tx
-	MYw0bRj5uKlZTEEFtZz8mpZtlsATiUg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790675584;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5QndERAeyHrOlKw2dyPW8c3xDWXtZf30X6T2Mz/d8oU=;
-	b=Jy6iYy8+AVNnk0GnA+0G2zcraJ5WdNWWhd1npGOvbUlB+jAegV9NL2JeFC1K2wDFiPXusW
-	ht7mubNR55etGoCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03EE2136E4;
-	Tue, 29 Sep 2026 09:53:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id P+SYMn+Ku2pSLQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 09:53:04 +0000
-Date: Tue, 29 Sep 2026 11:52:59 +0200
-Message-ID: <878q4k2xl0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Martin =?ISO-8859-2?Q?Povi=B9er?= <povik+lin@cutebit.org>,	Liam Girdwood
- <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,	Rob Herring
- <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,	Conor Dooley
- <conor+dt@kernel.org>,	Sven Peter <sven@kernel.org>,	Janne Grunau
- <j@jannau.net>,	Neal Gompa <neal@gompa.dev>,	David Rhodes
- <david.rhodes@cirrus.com>,	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Ulf
- Hansson <ulfh@kernel.org>,	Amit Kucheria <amit.kucheria@linaro.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,	Lars-Peter Clausen
- <lars@metafoo.de>,	Vinod Koul <vkoul@kernel.org>,	Matthias Brugger
- <matthias.bgg@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Shenghao Ding
- <shenghao-ding@ti.com>,	Kevin Lu <kevin-lu@ti.com>,	Baojun Xu
- <baojun.xu@ti.com>,	Sen Wang <sen@ti.com>,	James Schulman
- <james.schulman@cirrus.com>,	asahi@lists.linux.dev,
-	linux-sound@vger.kernel.org,	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,	linux-arm-kernel@lists.infradead.org,
-	patches@opensource.cirrus.com,	Takashi Iwai <tiwai@suse.de>,
-	linux-mediatek@lists.infradead.org,	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 08/28] ALSA: control: Add kcontrol callbacks for lock/unlock
-In-Reply-To: <20260920-macaudio-v1-8-741cc20a74e5@gmail.com>
-References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
-	<20260920-macaudio-v1-8-741cc20a74e5@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="y8iHsgOz"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 5A6944E410B7;
+	Tue, 29 Sep 2026 10:39:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 22DB3601BD;
+	Tue, 29 Sep 2026 10:39:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 229EF103295E3;
+	Tue, 29 Sep 2026 12:39:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790678366; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=lGp4cm2Ao4TU3TW+1e8kXshs8WwzfjIeavwApsw+nKM=;
+	b=y8iHsgOzqp61uI69hlHbnIn/SOZzJaK4I0ClIaNgnr4hF/z9198ioBh7DYqGI9U233L00z
+	ityL4ZmohA70XfIBALxxdj3B2rfdgFw5h6ES+FCV6paHkLemgBSI3x91FGgUVtPSjFQeyn
+	awOVxDv33Tk02Wpn0gJXsrG4zjWvZ7vOfP46TV0dXrZnS92da4hCDQV0ADHB2rxTk1oJIO
+	B4eczD1RtoTAsKosdL9QrrjZjQxNEXqbYrMDSlOK9ko8dO0foldA0AsPlk8HEUKI0bRVI2
+	bgZI7tvR2MpxS2FJuF8WpqbEdShvEiv9PnLK6GykO6Xvl+Ylz08gtDyawQ3+kw==
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 820551F444
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,marcan.st:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[cutebit.org,gmail.com,kernel.org,jannau.net,gompa.dev,cirrus.com,opensource.cirrus.com,perex.cz,suse.com,linaro.org,intel.com,metafoo.de,collabora.com,ti.com,lists.linux.dev,vger.kernel.org,lists.infradead.org,suse.de,marcan.st];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[lin,dt];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLs9qncch5cpanyka9neihc978)];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Spam-Flag: NO
-X-Spam-Score: -1.01
-X-Spam-Level: 
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 29 Sep 2026 12:39:09 +0200
+Message-Id: <DLRQHX9JC9YJ.1HR59B2KFZ90L@bootlin.com>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Arnd Bergmann"
+ <arnd@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH] drm/bridge: add missing drm/drm_panel.h inclusions
+Cc: "Arnd Bergmann" <arnd@arndb.de>, "Sasha Finkelstein" <k@chaosmail.tech>,
+ "Janne Grunau" <j@jannau.net>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Manikandan Muralidharan"
+ <manikandan.m@microchip.com>, "Dharma Balasubiramani"
+ <dharma.b@microchip.com>, "Nicolas Ferre" <nicolas.ferre@microchip.com>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
+ <claudiu.beznea@tuxon.dev>, "Jagan Teki" <jagan@amarulasolutions.com>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Liu Ying"
+ <victor.liu@nxp.com>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Douglas
+ Anderson" <dianders@chromium.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Chun-Kuang Hu" <chunkuang.hu@kernel.org>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Rob Clark"
+ <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
+ "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Jessica Zhang"
+ <jesszhan0024@gmail.com>, "Sean Paul" <sean@poorly.run>, "Marijn Suijten"
+ <marijn.suijten@somainline.org>, "Marek Vasut" <marex@denx.de>, "Stefan
+ Agner" <stefan@agner.ch>, "Orson Zhai" <orsonzhai@gmail.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Chunyan Zhang" <zhang.lyra@gmail.com>,
+ "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Icenowy Zheng"
+ <zhengxingda@iscas.ac.cn>, <dri-devel@lists.freedesktop.org>,
+ <asahi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <imx@lists.linux.dev>,
+ <linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>
+X-Mailer: aerc 0.22.0
+References: <20260928161605.2271412-1-arnd@kernel.org>
+ <DLRMF4TI56I2.3PTB24KN9ORJ3@bootlin.com>
+In-Reply-To: <DLRMF4TI56I2.3PTB24KN9ORJ3@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, 20 Sep 2026 06:53:47 +0200,
-James Calligeros wrote:
-> 
-> From: Hector Martin <marcan@marcan.st>
-> 
-> This allows drivers to implement policy around locking/unlocking
-> controls, such as enforcing that a group of controls may only be locked
-> by the same process/file, and taking actions when the controls
-> lock/unlock (such as granting special access on lock and resetting
-> values on unlock).
-> 
-> This is, in particular, useful to implement volume safety controls, such
-> that only a particular process (that locks controls and completes a
-> handshake) may increase volumes above a given safe limit. It also allows
-> the volume to be automatically lowered if that process dies (which will
-> trigger an implicit unlock).
-> 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+Hello,
 
-This doesn't sound like a good approach to me, and this looks rather
-irrelevant with the purpose of the series.
+On Tue Sep 29, 2026 at 9:27 AM CEST, Luca Ceresoli wrote:
+> Hello Arnd,
+>
+> On Mon Sep 28, 2026 at 6:04 PM CEST, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> The devm_drm_of_get_bridge() declaration moved to drm_panel.h, but
+>> not all callers include this, which leads to build failures in
+>> some configurations:
+>>
+>> drivers/gpu/drm/imx/lcdc/imx-lcdc.c: In function 'imx_lcdc_probe':
+>> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:404:18: error: implicit declaration =
+of function 'devm_drm_of_get_bridge' [-Wimplicit-function-declaration]
+>>   404 |         bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 0, =
+0);
+>>       |                  ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/verisilicon/vs_bridge.c: In function 'vs_bridge_init':
+>> drivers/gpu/drm/verisilicon/vs_bridge.c:306:16: error: implicit declarat=
+ion of function 'devm_drm_of_get_bridge' [-Wimplicit-function-declaration]
+>>   306 |         next =3D devm_drm_of_get_bridge(drm_dev->dev, drm_dev->d=
+ev->of_node,
+>>       |                ^~~~~~~~~~~~~~~~~~~~~~
+>>
+>> Include the new header in all files that need it.
+>>
+>> Fixes: aa8a8c7e4641 ("drm/bridge: panel: move all code to drm_panel.c")
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>
+> Thanks for the very quick reaction to this regression! However I think we
+> should fix it differently.
+>
+> I had definitely build-tested most if not all these drivers, and also
+> runtime tested a few. Now I realized the build failure actually happens
+> only in !OF defconfigs which I haven't build-tested (sorry about
+> that!). Here's why:
+>
+>  * the affected drivers (all or most of them) include drm_of.h
+>  * drm_of.h does:
+>      #if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
+>      #include <linux/of.h>
+>      #include <drm/drm_bridge.h>
+>      #include <drm/drm_panel.h>
+>      #endif
+>  * DRM_PANEL_BRIDGE is always set when DRM is set, so not a problem
+>  * drivers which don't depend on OF and don't include drm_panel.h now fai=
+l
+>
+> Most of the drivers changed by this patch do 'depend on OF', so they are
+> not affected. So the patch could be trimmed significantly. But still I'm
+> not in favor of including drm_panel.h in the remaining drivers, because:
+>
+>  * in the first place most/all of these drivers are now supposed to not u=
+se
+>    the drm_panel API anymore; thsy should just use the drm_bridge API
+>
+>  * devm_drm_of_get_bridge() is now a deprecated [0], complicated way of
+>    calling of_drm_get_bridge_by_endpoint(), which is rightfully in
+>    drm_bridge.h
+>    * for this reason Documentation/drm/todo.rst says it must be removed [=
+1]
+>    * removal is easy, so I plan to do it in a few weeks globally
+>    * after the removal all these #include <drm_panel.h> would have to
+>      be removed, but some might easily be forgotten
+>
+> So I see two option for a better fix:
+>
+>  * Option 1 -- fix the really affected drivers by switching from the
+>    deprecated API to the one they recommended one. Based on quick analysi=
+s
+>    there are about 6.
+>
+>  * Option 2 -- a quick surgical fix:
+>
+>    In drm_of.h:
+>
+>      #if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
+>       #include <linux/of.h>
+>       #include <drm/drm_bridge.h>
+>      -#include <drm/drm_panel.h>
+>       #endif
+>      +#include <drm/drm_panel.h> /* Temporary for *_of_get_bridge() */
+>
+>    This can easily be tracked and reverted once all
+>    devm_drm_of_get_bridge() users are converted to
+>    of_drm_get_bridge_by_endpoint().
+>
+> I'm working right now on option 1, hoping to get a series in a few hours
+> from now. I can switch to option 2 in case of unexpected issues with opti=
+on
+> 1, or if a fix "really right now" is wanted.
 
+Done [0]. I found only 3 drivers affected, but I fixed all the others that
+build without OF.
 
-thanks,
+[0] https://lore.kernel.org/r/20260929-drm-fix-of_get_bridge-build-regressi=
+on-v1-0-ccb7e602daad@bootlin.com
 
-Takashi
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
