@@ -1,36 +1,36 @@
 Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB81E377034
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDF147B43B
 	for <asahi@lists.linux.dev>; Thu,  1 Oct 2026 20:35:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790886930; cv=none; b=UJeffo9I9uSVAy6+15n5RbpK6vywk68HDfF6ZLltnINSMdGC78YLC7ZmOH59pLImEvg/RD5Zzcosl5NzCIeuh5izZ9Nm9TRiGPiq42RWNZ29PaeV8m41wOEvdmRCf1bgIhOJ8tKHqJ71JpKRc9FSGPRWzUUGZ0MmZhNidzZx7/o=
+	t=1790886931; cv=none; b=iiryoxIjTbSVi859LxsTIpGsGZeSKa/L1uLRtT0aBOryHOzq5X7Sy4owYfUni6ePIuLbJL60MY+1Oc4TWa7Ca3LyoTBT3Kjp1+t71R2V7qNR/qCgA6726HHqo1os7CcMiyMvYOVzLSyXdJgvVqeEda67psANEh2jRP5lxTk+G7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790886930; c=relaxed/simple;
-	bh=hB41yiTeB7yUdgLmPck4QL6QQEw/Im8eycw8rMjdcpE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kEnOdBu0OmWFtdpXzON1QkRUBSBP/8IilIyVi1s2k/c/V+5bnaQUCJ5g+1i42ecGy0MjucMMjQ3KqPIkZAuwQbRTLaOdpWB3zc99OOtxlbPnFfg52Sbax3T3HGL+jp+zIHpT5rQzQqO0vjlHYLb7O5fkrWoEs9eNaq80TtmcaU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=Mn/r1KrY; arc=none smtp.client-ip=77.81.229.115
+	s=arc-20240116; t=1790886931; c=relaxed/simple;
+	bh=s/CySsdC5G6TeidNg99K1zBN/eh7iI0dzxg8QUI8iao=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dFFXC7e9LUe7/hrjMmq5IRZGhKJ/J2pL1MMZ2eKulIxM6RsJObMYbLlbEPAjyfdMXR5R0yZeL8m8GezEaKvhRHYfAfGwO6ng/4BbIXhMWGax2EnqN13lIKZ7sQVT6nEOB0Q5LsAEc0oSRv/F1SAVzoM32gIMkQuU00YhRC1uKNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=RtS44OAb; arc=none smtp.client-ip=77.81.229.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="Mn/r1KrY"
-Received: by chaosmail.tech (Postfix) id 11A6F1C8DB2;
-	Thu, 01 Oct 2026 20:27:02 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="RtS44OAb"
+Received: by chaosmail.tech (Postfix) id 3FC061C885F;
+	Thu, 01 Oct 2026 20:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1790886422;
+	s=mail; t=1790886421;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j+zwGGV7ihofYpqOYK7iJnQ5635HlS3lYL7TQsZckEE=;
-	b=Mn/r1KrYyIcdpuPGXO+80+SB7lNpz70rHhIFeJuW7fAVUL1p835Vym0NQT8cU4QdRQ3/pT
-	EiGLINwMST7UPSD5N0TVK9dJb04L47dO2J+TVREU0eZxBJ+bJ6+xZ+WTy8leSMTBAluO5m
-	bok5r3ZdGFbXY8b+8PChGqbS8YEUp/c=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1WGqm1vuYzHEBlHp/h/pCaC3YP6K1f63I3x2yNkSZ08=;
+	b=RtS44OAbyQAwJoMGywm/ryiDWf7YFcdG4mEQAyEYfNj+jqSvZmhUP0jYVIUGQ4aZmQvsuV
+	2xEZq32IFwDu5/VK9P3FoV5quwANCF8x5DtBYltvA5J7Axlrw0bznYaERMbQZPYr0iZseA
+	diwj/wYBPieQV9g4GpYwWOUBnRjUEAE=
 From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Thu, 01 Oct 2026 22:26:56 +0200
-Subject: [PATCH v10 1/6] dt-bindings: spmi: apple,spmi: Add t603x and t8122
+Subject: [PATCH v10 0/6] spmi: apple: Additional commands and interrupt
+ support.
+Date: Thu, 01 Oct 2026 22:26:55 +0200
+Message-Id: <20261001-t603x-spmi-v10-0-ff815c66c73f@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -39,9 +39,13 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261001-t603x-spmi-v10-1-ff815c66c73f@chaosmail.tech>
-References: <20261001-t603x-spmi-v10-0-ff815c66c73f@chaosmail.tech>
-In-Reply-To: <20261001-t603x-spmi-v10-0-ff815c66c73f@chaosmail.tech>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23RS04DMQwG4KtUs2aQnXdYcQ/EIg+HBkFbTYZRU
+ dW7kymLTiBLR/5+W85lKDRlKsPT7jJMtOSSj4daIDzshrB3hzcac6wPAwOmQDM5zgr4eSynzzx
+ qoTj4hB4cDBWcJkr5fEt7ef2ty5d/pzCvCWvHPpf5OH3fxi249nWDFxxhJHTMphBZ5Oa57nIsn
+ y5/PM4U9sOavrCtN41n1SfBSSYEkoZ3Pb97A7zxvPqA2ktQ0aLDrhdb3+4vbl46ZNE6Hftebn2
+ 7v6xeSh6kCywh112vNh5V49U6XzpvtHNCaN/1euvb+br66BJ5UqQ1t11vNv7P/U31GkwUERlBi
+ l1v794CNt5WD5Y0MOIe5f//u16vP7yIe0G8AgAA
+X-Change-ID: 20260725-t603x-spmi-74630bf1b0a0
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -49,79 +53,87 @@ To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  Sasha Finkelstein <k@chaosmail.tech>, 
- Conor Dooley <conor.dooley@microchip.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790886421; l=1694;
+ Conor Dooley <conor.dooley@microchip.com>, Alba Mendez <me@alba.sh>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790886421; l=2735;
  i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=hB41yiTeB7yUdgLmPck4QL6QQEw/Im8eycw8rMjdcpE=;
- b=tYhSRgI62c8w8T20AZaKQqeBjXJreQT+gRgFVKrGaSB/3+I5ouCmKpMi6hulQIqQPHBMl2rHn
- rrdlPm64MPwAi6OfKNyAkHP6IUqoDWbMAx81Afvu8z178sVlPebNPPP
+ bh=s/CySsdC5G6TeidNg99K1zBN/eh7iI0dzxg8QUI8iao=;
+ b=XnOueGpokl4+aoo+aeeh7eR9DVzAVy33ChysJ30ovSlgrXfbDmRmRbVUhpP1x69+uMOeHRbp6
+ w48tnIqnFVvDfA+uH2z0F/7qESasPm8NrXD6wjZ1eXlQxac2ZpAZoFg
 X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-Add t603x and t8122 compatibles, interrupt support, and support for
-SPMI controllers that are not always-on.
+The SPMI bus has grown additional responsibilities in the M3
+generation, making the current driver insufficient. Add M3 comatibles,
+support for slave-sent interrupts, FIFO interrupts, power management
+commands, parity validation, and fix locking.
 
-Reviewed-by: Janne Grunau <j@jannau.net>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+To simplify the merge strategy, the device tree entries will be sent
+in a future patch series.
+
 Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
- Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+Changes in v10:
+- Just collecting tags, effectively a resend
+- Link to v9: https://patch.msgid.link/20260901-t603x-spmi-v9-0-09e702e3b153@chaosmail.tech
 
-diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-index 3e5b14bc8c31..4e73083ecec3 100644
---- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-+++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
-@@ -20,8 +20,11 @@ properties:
-       - items:
-           - enum:
-               - apple,t6020-spmi
-+              - apple,t6030-spmi
-+              - apple,t6031-spmi
-               - apple,t8012-spmi
-               - apple,t8015-spmi
-+              - apple,t8122-spmi
-           - const: apple,t8103-spmi
-       - items:
-           - enum:
-@@ -34,10 +37,36 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  interrupts:
-+    maxItems: 1
-+    description: Optional, operates in polled mode if not present
-+
-+  interrupt-controller: true
-+
-+  "#interrupt-cells":
-+    const: 2
-+
-+  power-domains:
-+    maxItems: 1
-+
- required:
-   - compatible
-   - reg
- 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - apple,t8122-spmi
-+          - apple,t6030-spmi
-+          - apple,t6031-spmi
-+then:
-+  required:
-+    - interrupt-controller
-+    - "#interrupt-cells"
-+    - interrupts
-+
- unevaluatedProperties: false
- 
- examples:
+Changes in v9:
+- more dt-binding fixes
+- Link to v8: https://patch.msgid.link/20260828-t603x-spmi-v8-0-708d4d12e0fd@chaosmail.tech
 
--- 
-2.55.0
+Changes in v8:
+- dt-binding style fixes per review
+- Link to v7: https://patch.msgid.link/20260818-t603x-spmi-v7-0-dafebe6e7739@chaosmail.tech
+
+Changes in v7:
+- Require interrupt support on M3+
+- Link to v6: https://patch.msgid.link/20260816-t603x-spmi-v6-0-c5ab87aa447b@chaosmail.tech
+
+Changes in v6:
+- Fix interrupt controller teardown
+- Link to v5: https://patch.msgid.link/20260808-t603x-spmi-v5-0-553c5ac2f137@chaosmail.tech
+
+Changes in v5:
+- Style fixes per review
+- Fix fifo flush
+- Link to v4: https://patch.msgid.link/20260805-t603x-spmi-v4-0-c15a12d9a7d1@chaosmail.tech
+
+Changes in v4:
+- Re-do error recovery.
+- Fix an address calculation mistake
+- Link to v3: https://patch.msgid.link/20260803-t603x-spmi-v3-0-c17b506d91a1@chaosmail.tech
+
+Changes in v3:
+- Rework interrupt support
+- Address review comments
+- Link to v2: https://patch.msgid.link/20260728-t603x-spmi-v2-0-f43e5f10e583@chaosmail.tech
+
+Changes in v2:
+- Change locking to non-interruptible
+- Reorder irq ack
+- Clarify dt binding
+- Some data type cleanups
+- Link to v1: https://patch.msgid.link/20260725-t603x-spmi-v1-0-e1a29fcd2d38@chaosmail.tech
+
+---
+Alba Mendez (5):
+      spmi: apple: Validate FIFO state
+      spmi: apple: check transaction status
+      spmi: apple: Implement remaining commands
+      spmi: apple: lock around FIFOs
+      spmi: apple: Add interrupt functionality
+
+Sasha Finkelstein (1):
+      dt-bindings: spmi: apple,spmi: Add t603x and t8122
+
+ Documentation/devicetree/bindings/spmi/apple,spmi.yaml |  29 ++++++++++
+ drivers/spmi/Kconfig                                   |   3 +-
+ drivers/spmi/spmi-apple-controller.c                   | 389 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------
+ 3 files changed, 389 insertions(+), 32 deletions(-)
+---
+base-commit: 0f23d56f17fdfc7db69d51f64c8b91bbab947aa9
+change-id: 20260725-t603x-spmi-74630bf1b0a0
+
+Best regards,
+--  
+Sasha Finkelstein <k@chaosmail.tech>
 
