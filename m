@@ -1,158 +1,80 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC063486419
-	for <asahi@lists.linux.dev>; Thu,  1 Oct 2026 20:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A019A53445E
+	for <asahi@lists.linux.dev>; Thu,  1 Oct 2026 21:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790886932; cv=none; b=adxF4d7Ua+9viUxuwNSqw9qrdhe6h982Bxj+gisOoay09eQpopYYQz7XEaWILvpTA60oMUXT5aYLuI9THYeozneMI7ZKH6IfidVLIZQ0Exb/FsPqGd1FwXWaeB6IZczcrn+2BVX0QeklXyrCtLbKtyroBLpxY/TT65rej1DNotg=
+	t=1790889234; cv=none; b=CIBduHxT94XVUz+8wGln8yvNwa+NpR/Qsa+uzC0gZhY7YEX7fxcrV7RVLnlRa52rGrbNintWrBCKw1GHKPsCczpJe4pLn7ZJVqsSN9Eutaxp4RUtPBfDqPBevB/Yk8vAMxUQju9/RT0iR3UUJb3Md8WR+hT9pLyUnokM2I+sfqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790886932; c=relaxed/simple;
-	bh=h6ymgcV3EFdULvBN7pXvXFtJZciM6qsk6AqGU/0i1j0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fQ3UY04W7DiLUwpAdU2i5pN6FVlLvBWoiNrBSWDLnN4Zt/rMWWRW6wAPihXC/XITQvTPZpIy43Op2Rt/NW3BQkEdyTXX5PnVk8kitGiMW/j/HSQztqk7b3LA3Yx1b7EfN7RH1zk+WaN/sXxUjAzut4kRypDIGPijGSItB437ZXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=w4MRNPDu; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1790889234; c=relaxed/simple;
+	bh=XyDDvvco+d3mYshhwaSSq4pDGDpCB4IF/PEVe4NawGo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CCsqKEGId8Hzg8iDZW7r+6a83+UmQL8754/dCM77T9MI/bXI4BEZL8ywAB6K3VtWPTS2v18+7QrvDk+6dT+gKN4El41JWLQzpzmcKe+PEC/L3+/h4as1Jbaw19hNI27fOshlEE6RAGzUlet4opWV+V+43+n/IfcDyArCNz3Gn/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VJmeh5ks; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="w4MRNPDu"
-Received: by chaosmail.tech (Postfix) id 93E101C90D6;
-	Thu, 01 Oct 2026 20:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1790886424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VlhlhN6Ao8cxtOBbRD5JaNyRrKmX5FvsiLtDWtyTEJY=;
-	b=w4MRNPDu9/UCxAvQ+qLku9ud5x5xkJd17U8SBaBoo88xjqh9wwntXuR4cue0d11HdYgE2/
-	2EfLaFDVcu3aLS9m5dOuq2/9UsLJtGby1HTkFWXGAk1X3QohEnsJTKYUCYrHMqcZWQH8a/
-	r1fsUc5gQjJcSWU6T2jCkr/nOifo5wA=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Thu, 01 Oct 2026 22:26:58 +0200
-Subject: [PATCH v10 3/6] spmi: apple: check transaction status
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJmeh5ks"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7565F1F0089A
+	for <asahi@lists.linux.dev>; Thu,  1 Oct 2026 21:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790889233;
+	bh=XyDDvvco+d3mYshhwaSSq4pDGDpCB4IF/PEVe4NawGo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=VJmeh5ksyazvF5b+uHiFuo+Fkk6I2oEkomFcTpQ21cV7s7Ezpvo2WgVusFoCZgkcq
+	 0zMsaKO6LO+hSz4EJ60U7PJejykfqbW755h946vLBB6L1w5baFM7MtYHfbgXR7s7Ic
+	 DsNON4VsPVifglKVHnHekmWa1Hm32i3mwLRJlEo78moodMhXS9K15e8KCLX2R2eaL5
+	 jWWTgRAFbdVHjAHmKmJTCU1aazlhC3iWjD8Ovh+PKsZrpknhpTuTwmQ2Z32CUkGIz4
+	 26chOz/4enh/ta858jhMXP5Fok4BYwf53CDVQErWoh0nbDdETeMLinDeFNGQMOQnmo
+	 XDskNRObVbmtw==
+Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a776fd3b88so17268791fa.3
+        for <asahi@lists.linux.dev>; Thu, 01 Oct 2026 14:13:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzyDfA5wVu0eySKej8ve/VrMJwNnOavMUCTo6USmLlsu0PR+76oibthjovOw6wLZ7GMjgEbsQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKCHOk0o9CRPcAY7F4XUhgZoeeqGKGWBEY0uokiKuaqHkPk37tD
+	uz12OobKSA43eSW6pLoLpvvjpSbukevSYEpbMBg73MJIuo+kPz/a12lNNLeS2GgD8rHVvGoRkYH
+	zxid7zhtqBcLiJg+ZXRI7gWkOMiCoBLo=
+X-Received: by 2002:a05:651c:210e:b0:3a6:32a5:efa0 with SMTP id
+ 38308e7fff4ca-3a8877c5ae7mr1272461fa.22.1790889232244; Thu, 01 Oct 2026
+ 14:13:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261001-t603x-spmi-v10-3-ff815c66c73f@chaosmail.tech>
-References: <20261001-t603x-spmi-v10-0-ff815c66c73f@chaosmail.tech>
-In-Reply-To: <20261001-t603x-spmi-v10-0-ff815c66c73f@chaosmail.tech>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Sasha Finkelstein <k@chaosmail.tech>, Alba Mendez <me@alba.sh>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790886421; l=2846;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=EambuisSIw3s+EavjiZydICr5EUeyWSuYrWkUmgadRo=;
- b=td1fRxeD6RF5ssspxjD3QcF315LxL0J+L8ZtYu2M5CGZF1XJJBm90wv26VxF2Q4NVF+kVhce4
- TnwuA7qGF5gBdquwxmawr6KcvabL98HZKGq0j2dIwyQ7H2LkWyE4fRY
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+References: <20260926-apple-pinctrl-t8140-v2-0-620bd11cd2a1@cyberchaos.dev>
+In-Reply-To: <20260926-apple-pinctrl-t8140-v2-0-620bd11cd2a1@cyberchaos.dev>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 1 Oct 2026 23:13:39 +0200
+X-Gmail-Original-Message-ID: <CAD++jLm1tFh073xxPx2WzidABvP_fRY0Bhf8DkO64W6VBQ8UYw@mail.gmail.com>
+X-Gm-Features: AclHuK_bJIEK2xjDLFUNw_m3k1RB-KhI2mP3RWR1EocLD8uDhL9bs84JVwEtVgI
+Message-ID: <CAD++jLm1tFh073xxPx2WzidABvP_fRY0Bhf8DkO64W6VBQ8UYw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] pinctrl: apple: Add t8140-pinctrl support
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Alba Mendez <me@alba.sh>
+On Sat, Sep 26, 2026 at 4:52=E2=80=AFPM Yureka Lilian <yureka@cyberchaos.de=
+v> wrote:
 
-Check for parity errors and missing command ACKs.
+> This patch series has fixes for probing the pinctrl_ap GPIO controller
+> on the MacBook Neo. The previous code would crash in the regmap_init on
+> this device, since reading the REG_GPIOx for certain pins causes an
+> SError.
+> To mitigate this, we adapt the gpio-reserved-ranges property to describe
+> pins which are unusable and whose REG_GPIOx should not be accessed.
+>
+> Also add the new t8140 base compatible to the dt-bindings, signifying
+> the different behavior of the t8140 pinctrl_ap device, and make the
+> driver accept it since it now respects the gpio-reserved-ranges property.
+>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 
-Signed-off-by: Alba Mendez <me@alba.sh>
-Reviewed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
- drivers/spmi/spmi-apple-controller.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+Patches applied!
 
-diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-index 15721cb41d5c..b1c127cf5f44 100644
---- a/drivers/spmi/spmi-apple-controller.c
-+++ b/drivers/spmi/spmi-apple-controller.c
-@@ -11,6 +11,8 @@
-  *		spmi-pmic-arb.c Copyright (c) 2021, The Linux Foundation.
-  */
- 
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
- #include <linux/io.h>
- #include <linux/iopoll.h>
- #include <linux/module.h>
-@@ -23,6 +25,12 @@
- #define SPMI_RSP_REG 0x8
- #define SPMI_ACT_REG 0xa4
- 
-+/* SPMI_RSP_REG reply word */
-+#define SPMI_REPLY_FRAME_PARITY_STATUS GENMASK(31, 16)
-+#define SPMI_REPLY_ACK BIT(15)
-+#define SPMI_REPLY_SLAVE_ID GENMASK(14, 8)
-+#define SPMI_REPLY_CMD GENMASK(7, 0)
-+
- #define SPMI_ACT_FIFO_FLUSH BIT(0)
- #define SPMI_RX_FIFO_EMPTY BIT(24)
- 
-@@ -66,7 +74,7 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- {
- 	struct apple_spmi *spmi = spmi_controller_get_drvdata(ctrl);
- 	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, saddr, len);
--	u32 rsp;
-+	u32 reply, rsp;
- 	size_t len_read = 0;
- 	u8 i;
- 	int ret;
-@@ -82,8 +90,7 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 	if (ret)
- 		return ret;
- 
--	/* Discard SPMI reply status */
--	readl(spmi->regs + SPMI_RSP_REG);
-+	reply = readl(spmi->regs + SPMI_RSP_REG);
- 
- 	/* Read SPMI data reply */
- 	while (len_read < len) {
-@@ -106,6 +113,10 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 		spmi->prev_fail = true;
- 	}
- 
-+	if (~FIELD_GET(SPMI_REPLY_FRAME_PARITY_STATUS, reply) & ((1 << len) - 1)) {
-+		dev_err(&ctrl->dev, "some frames failed parity check\n");
-+		return -EIO;
-+	}
- 	return 0;
- }
- 
-@@ -114,6 +125,7 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- {
- 	struct apple_spmi *spmi = spmi_controller_get_drvdata(ctrl);
- 	u32 spmi_cmd = apple_spmi_pack_cmd(opc, sid, saddr, len);
-+	u32 reply;
- 	size_t i = 0, j;
- 	int ret;
- 
-@@ -137,14 +149,17 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 	if (ret)
- 		return ret;
- 
--	/* Discard */
--	readl(spmi->regs + SPMI_RSP_REG);
-+	reply = readl(spmi->regs + SPMI_RSP_REG);
- 
- 	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY)) {
- 		dev_warn(&ctrl->dev, "FIFO has extra data\n");
- 		spmi->prev_fail = true;
- 	}
- 
-+	if (!FIELD_GET(SPMI_REPLY_ACK, reply)) {
-+		dev_err(&ctrl->dev, "command not acknowledged\n");
-+		return -EIO;
-+	}
- 	return 0;
- }
- 
-
--- 
-2.55.0
-
+Yours,
+Linus Walleij
