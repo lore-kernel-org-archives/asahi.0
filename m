@@ -1,80 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A019A53445E
-	for <asahi@lists.linux.dev>; Thu,  1 Oct 2026 21:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E682419FDA
+	for <asahi@lists.linux.dev>; Fri,  2 Oct 2026 09:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790889234; cv=none; b=CIBduHxT94XVUz+8wGln8yvNwa+NpR/Qsa+uzC0gZhY7YEX7fxcrV7RVLnlRa52rGrbNintWrBCKw1GHKPsCczpJe4pLn7ZJVqsSN9Eutaxp4RUtPBfDqPBevB/Yk8vAMxUQju9/RT0iR3UUJb3Md8WR+hT9pLyUnokM2I+sfqE=
+	t=1790934593; cv=none; b=lviBdNOe9GW/3aT2pBz8TJhJRK52FaVQ1O7A++8+t2n/+i73Sr8IWaF9w2hmd2tyYk+PHgkVKGMiVeS7phhS9ohVDoszefRqXSz9Fz+AgHcIf23ETXGgAH+I63H4hZJ2ixbsktl4T719c0m5+6nsC44Q+6HdDYL/RLe+Pn+vHYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790889234; c=relaxed/simple;
-	bh=XyDDvvco+d3mYshhwaSSq4pDGDpCB4IF/PEVe4NawGo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CCsqKEGId8Hzg8iDZW7r+6a83+UmQL8754/dCM77T9MI/bXI4BEZL8ywAB6K3VtWPTS2v18+7QrvDk+6dT+gKN4El41JWLQzpzmcKe+PEC/L3+/h4as1Jbaw19hNI27fOshlEE6RAGzUlet4opWV+V+43+n/IfcDyArCNz3Gn/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VJmeh5ks; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790934593; c=relaxed/simple;
+	bh=0UD9OIqCmDhTrj0b9dG//QSQztmY8kSUpwuV73z/Ymw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mbfqlVJpQD8b0oGB4fC3eqiVL0FZqT1pO4+NI+mh5Ipu/02X3qUV0G5dXUsyqFHFSsL9Dhd7sy+aD9JYea6f9fvgqspPISS/jLblCGzGQthG7QX+TRHJBrTFuELYjQzQ+iUMxHQnSzMSOWohQNPimUuez3YI+oCZfzPf7UTJbFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=XIyPyxmE; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJmeh5ks"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7565F1F0089A
-	for <asahi@lists.linux.dev>; Thu,  1 Oct 2026 21:13:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790889233;
-	bh=XyDDvvco+d3mYshhwaSSq4pDGDpCB4IF/PEVe4NawGo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=VJmeh5ksyazvF5b+uHiFuo+Fkk6I2oEkomFcTpQ21cV7s7Ezpvo2WgVusFoCZgkcq
-	 0zMsaKO6LO+hSz4EJ60U7PJejykfqbW755h946vLBB6L1w5baFM7MtYHfbgXR7s7Ic
-	 DsNON4VsPVifglKVHnHekmWa1Hm32i3mwLRJlEo78moodMhXS9K15e8KCLX2R2eaL5
-	 jWWTgRAFbdVHjAHmKmJTCU1aazlhC3iWjD8Ovh+PKsZrpknhpTuTwmQ2Z32CUkGIz4
-	 26chOz/4enh/ta858jhMXP5Fok4BYwf53CDVQErWoh0nbDdETeMLinDeFNGQMOQnmo
-	 XDskNRObVbmtw==
-Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a776fd3b88so17268791fa.3
-        for <asahi@lists.linux.dev>; Thu, 01 Oct 2026 14:13:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzyDfA5wVu0eySKej8ve/VrMJwNnOavMUCTo6USmLlsu0PR+76oibthjovOw6wLZ7GMjgEbsQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKCHOk0o9CRPcAY7F4XUhgZoeeqGKGWBEY0uokiKuaqHkPk37tD
-	uz12OobKSA43eSW6pLoLpvvjpSbukevSYEpbMBg73MJIuo+kPz/a12lNNLeS2GgD8rHVvGoRkYH
-	zxid7zhtqBcLiJg+ZXRI7gWkOMiCoBLo=
-X-Received: by 2002:a05:651c:210e:b0:3a6:32a5:efa0 with SMTP id
- 38308e7fff4ca-3a8877c5ae7mr1272461fa.22.1790889232244; Thu, 01 Oct 2026
- 14:13:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="XIyPyxmE"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a022e9cbebso11477645e9.0
+        for <asahi@lists.linux.dev>; Fri, 02 Oct 2026 02:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1790934585; x=1791539385; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=17hXUf/wpq+x73auKkD+LetKx3d+qKZ9hCfZeZlNHuU=;
+        b=XIyPyxmEFBgk0e0AA3GUbOBMc0AgtwGW0NZx3zJAenhWbQvCMMtCxULHbkZW2QnI5o
+         o9LmTlyMPN/vDJQP8eS4SQQIR84sjAdkxoGAvU+NdEOFgVc9eue42F4Uc+S4xJS7FC/5
+         0xQdpDpCx7kZhEEb5clQqD9Bx1G82dSEP56yw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790934585; x=1791539385;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=17hXUf/wpq+x73auKkD+LetKx3d+qKZ9hCfZeZlNHuU=;
+        b=lO+sHdti7MF8cmfZsrHCaoausfTWyJP1nhczx3asprcnrj5ypwnUfE3hZZPrtMo3VN
+         C4Nnbd5Qk/Ensdp9hKJEeB5rp5tCv47L55IhHZqFR9fTfU8fcyEiaYpxFANtF5SWGviv
+         Bv+vl2gFnJX520gkCDsEVHNS9V8+8qs8RsCHgEkic7Ok3/4zF+sa9CNUHqlqhkxUt/SR
+         sJXFKnKDNOSsVt+owJshI271K50/nmqIgCt8Q+RmdaMmUfZh05rKK7QzYt9A0zWHcqYS
+         7uXux2o5mjq0mDSKCG+qTGHo/kw3MHzb3RVJ2dKJf4inO7s5J4xk8WIO4J1Ma/AQra3r
+         i8ew==
+X-Forwarded-Encrypted: i=1; AKwUvByqQlC946nSL62FwWMQWsVwCVs6uHbju5Uk5FHLEBZLvyJBFNJeE0bz4aUsfqEn4LHv9fFUBQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++nZ5P0NQ/9yIDRPB0mU2nkqhe5gXu9IjAUgjH0STrdVHupM8UEx
+	pnsxvmJxaC04r5OPh/3iFuo1XM1GRYmTdR8UPbCacMCkXPPidvPAwIu4I8ngIK+safI=
+X-Gm-Gg: AYBFou156WWox62BwbLWVaTuJ9g1sPPj8D5HkKdHbxaqe+PDOPMpiYcsjC0doGh7DB1
+	zjLTy/zomBbHoVJfZpMqa7Q1kio6LyOSVz5XT0Mo0VAk6wubTjPtMR/4NeksAvb1YWwfLbB736H
+	Izgiq2r5uHKX8LR3VH5pj9pQvAtXzkhbdto+6XLIl3ng/aCAY7mQ5yYx/CA10+bMSOrIV3kAHsB
+	fCe50V1KtP+UXZkWz+jJvRyv54Zh55mjwvZe4Vw80+n3NMEsIokasccCOcl6o7WqYf71xwkPfj9
+	PurgXhF0FDwFUVK2Aqs5iFyphZBNC9ZM2uNzLffp3smIcz3zWG5FNMV+mLhz7jLYcpzA719NwLF
+	ZMSksF4nSLoxq3FuvBVCA1KoMUk9Gs8j8Bgk85hqXNE4cyfV+u97lqBSx7S+RZs8UigNnynTgFP
+	KLezp7RbpQp/0fkPPaMBZIcizDNaME/E1M2XBsB//KeVeAMYR8s0M6XvqfxRSLq6grSDjDNBkY3
+	MM=
+X-Received: by 2002:a05:600c:3144:b0:4a0:1c0e:b2a8 with SMTP id 5b1f17b1804b1-4a0275780d3mr35684945e9.28.1790934584855;
+        Fri, 02 Oct 2026 02:49:44 -0700 (PDT)
+Received: from localhost ([93.90.163.238])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0280c8bb0sm73051165e9.11.2026.10.02.02.49.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2026 02:49:44 -0700 (PDT)
+From: =?utf-8?q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>
+Subject: [PATCH 0/5] ASoC: pcm179x: Add support for pcm1795 and pcm1796
+Date: Fri, 02 Oct 2026 11:49:29 +0200
+Message-Id: <20261002-work-v1-0-f0e53bc7331f@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260926-apple-pinctrl-t8140-v2-0-620bd11cd2a1@cyberchaos.dev>
-In-Reply-To: <20260926-apple-pinctrl-t8140-v2-0-620bd11cd2a1@cyberchaos.dev>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 1 Oct 2026 23:13:39 +0200
-X-Gmail-Original-Message-ID: <CAD++jLm1tFh073xxPx2WzidABvP_fRY0Bhf8DkO64W6VBQ8UYw@mail.gmail.com>
-X-Gm-Features: AclHuK_bJIEK2xjDLFUNw_m3k1RB-KhI2mP3RWR1EocLD8uDhL9bs84JVwEtVgI
-Message-ID: <CAD++jLm1tFh073xxPx2WzidABvP_fRY0Bhf8DkO64W6VBQ8UYw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] pinctrl: apple: Add t8140-pinctrl support
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDAwMj3fL8omxdcwPTNCODJDMDIwsTJaDSgqLUtMwKsDHRsRB+cWlSVmp
+ yCUivUm0tALTQLfVoAAAA
+X-Change-ID: 20261002-work-705f20b60284
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Peter Rosin <peda@lysator.liu.se>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ asahi@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>, 
+ linux-amarula@amarulasolutions.com, 
+ Michael Trimarchi <michael@amarulasolutions.com>
+X-Mailer: b4 0.15.2
 
-On Sat, Sep 26, 2026 at 4:52=E2=80=AFPM Yureka Lilian <yureka@cyberchaos.de=
-v> wrote:
+This adds support for the PCM1795 and the PCM1796 to the pcm179x driver.
 
-> This patch series has fixes for probing the pinctrl_ap GPIO controller
-> on the MacBook Neo. The previous code would crash in the regmap_init on
-> this device, since reading the REG_GPIOx for certain pins causes an
-> SError.
-> To mitigate this, we adapt the gpio-reserved-ranges property to describe
-> pins which are unusable and whose REG_GPIOx should not be accessed.
->
-> Also add the new t8140 base compatible to the dt-bindings, signifying
-> the different behavior of the t8140 pinctrl_ap device, and make the
-> driver accept it since it now respects the gpio-reserved-ranges property.
->
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+The PCM1795 is register compatible with the PCM1792A, but it encodes two
+of the register 18 FMT[2:0] values differently, so the format encoding is
+described with a per-codec table instead of the width switches. Only the
+PCM1795 has real 32-bit formats; on the PCM1792A and the PCM1796 a 32-bit
+container keeps the 24-bit code, as it always has. Left-justified, which
+the driver accepted but never programmed, is added on the way.
 
-Patches applied!
+This series is based on a work done in 2016 by my collegue:
+https://lore.kernel.org/all/20160311232856.GC27257@panicking/
 
-Yours,
-Linus Walleij
+Signed-off-by: Roman Smrž <roman@amarulasolutions.com>
+---
+Michael Trimarchi (2):
+      ASoC: dt-bindings: Add ti,pcm1795 and ti,pcm1796
+      ASoC: pcm179x: Add support for pcm1975
+
+Roman Smrž (3):
+      ASoC: pcm179x: Refactor regmap value lookup
+      ASoC: pcm179x: Add left-justified formats for pcm1792a
+      ASoC: pcm179x: Add pcm1796 as compatible with pcm1792a
+
+ .../devicetree/bindings/sound/trivial-codec.yaml   |   2 +
+ sound/soc/codecs/pcm179x-i2c.c                     |   2 +
+ sound/soc/codecs/pcm179x-spi.c                     |   2 +
+ sound/soc/codecs/pcm179x.c                         | 116 +++++++++++++++------
+ sound/soc/codecs/pcm179x.h                         |  12 ++-
+ 5 files changed, 101 insertions(+), 33 deletions(-)
+---
+base-commit: ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
+change-id: 20261002-work-705f20b60284
+
+Best regards,
+--  
+Roman Smrž <roman@amarulasolutions.com>
+
