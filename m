@@ -1,193 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECEC3BED66
-	for <asahi@lists.linux.dev>; Sat,  3 Oct 2026 09:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74DF358D27
+	for <asahi@lists.linux.dev>; Sat,  3 Oct 2026 11:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791019363; cv=none; b=fd5yh3zeXNvb2TKK9eXZgqPaCrAVfXXcFW9yDqCVf6Jy0kWJiISjyVw/A1xVrPzQPIYiYri5aWYxmsn6RQhP0YvxauVgFN6FI8i2ZOKlVq+bWoYexu3n9j+WxHVtfxEPvssKwPUGZVByZa4SdOd4hCzJ71AZTn8LgcmFGUNkAbA=
+	t=1791028510; cv=none; b=QVfbrUIsHD3BADg0+02MkSwZdOgGuSCbuBI6rw/VebsZXwJhBREUJh6iMDdeBf5S7zMdVjab0FqZpSyFlf9Fu6snyOdtLUMcr2xve+gDg3FctUH/S6Zr9N+IgdNhVLS9gN+Rf9hsEtCb922V5oSV5/EVIQe27QBXShq6lS3dEso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791019363; c=relaxed/simple;
-	bh=TF27ZLneeG9cgfK7XGN2merjaga8WF3G4Qh7s93x+fY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mt/8mdVbugH0dcE78CH3Qjg9TiGhSsRRT2ZOPfWptVLExux59Yog9ZtAwBGCGTfsGp1KjEd4/hyCYqC52SVYuxrPbhKzV2FVFA9gk6gTS1t6LpkM1b01Wu72EQm1S3pi5LVTHzTWfAZiLWU15CFXDpmoN5GaTo7HsYnQyIs3Xxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=my52R8VS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y0e4ZY/x; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o0qnjyBd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tKiNhQPy; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1791028510; c=relaxed/simple;
+	bh=DuA6Gva5pOH1WYrmkTbRDGD9itOlqM+XAxH+anGgmL4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BuPaVT2nPbEXDjeDVHtHqNnDymc5AMK2oLpW3PT40TgYHSTR9zUutIZuEBb7h3/+i0IAqPsAQeExd+GAnYneJdyeBDKUnjttO1sMyyEUlE6a6lRS/4V86yCn8NJlsUABwI76Sa4SulRDVL3rzeYOXyiVQCIlWjIGs1TtJ6p72Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=Y2td9nO9; arc=none smtp.client-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="my52R8VS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y0e4ZY/x";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o0qnjyBd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tKiNhQPy"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 046611FECE;
-	Sat,  3 Oct 2026 09:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791019353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="Y2td9nO9"
+Message-ID: <94912d46-381d-4988-800a-6ef3b595233f@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1791028505;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4CEGk7PrMceY9JeyothIm/f0yHByMW+ulWmkh/YcGW0=;
-	b=my52R8VSIc8jiRLCwxnGDMah/d0WwzVDvjzRTIJTlK9GAFKAvrqTQ67aGfZbZ8GORxGkEt
-	pBWBC/ecjvRjMDmS45a0Z+Zj/V3ytzTX3W6pbhLcTBFi7tRhHKh/zf1Q4FmwSgtd9CJRSq
-	MLRVo2Ffd4xTt3Tiu45K2trgd7Qqtwc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791019353;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4CEGk7PrMceY9JeyothIm/f0yHByMW+ulWmkh/YcGW0=;
-	b=y0e4ZY/x/TijHmgs32hn1KqyWePaDtRh3o0dbqpSmUr3s4aLjjUDCu93NADdtVSKZtTWqN
-	bE11BeY0SlMNLwAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791019349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4CEGk7PrMceY9JeyothIm/f0yHByMW+ulWmkh/YcGW0=;
-	b=o0qnjyBdc81rS3mR5z80q6HVqgP3FC+xtHgJzjReQt5TLk9IxCelCFG1xofvS2Okrva/jO
-	XngN2vy3wUWWpqEigs5U1Re04z2VWQ4syhsN2WoGbsdeF9EJBG50Y4SalCIAmAO8ecsSi4
-	dbv3Oiy4GjgAgi6vbux8kP3IVSYmIlE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791019349;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4CEGk7PrMceY9JeyothIm/f0yHByMW+ulWmkh/YcGW0=;
-	b=tKiNhQPy6pFKT6VAQEePtpoOWhJQJNWWwMrNGF15zCU3LCOT0rgsqjT46Ob8jSm+06t6En
-	YNjsNdqTI68AtECw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E974413712;
-	Sat,  3 Oct 2026 09:22:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7r3OLlPJwGodKgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 03 Oct 2026 09:22:27 +0000
-Date: Sat, 03 Oct 2026 11:22:27 +0200
-Message-ID: <87fqynxhnw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Martin =?ISO-8859-2?Q?Povi=B9er?= <povik+lin@cutebit.org>,	Liam Girdwood
- <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,	Rob Herring
- <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,	Conor Dooley
- <conor+dt@kernel.org>,	Sven Peter <sven@kernel.org>,	Janne Grunau
- <j@jannau.net>,	Neal Gompa <neal@gompa.dev>,	David Rhodes
- <david.rhodes@cirrus.com>,	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Ulf
- Hansson <ulfh@kernel.org>,	Amit Kucheria <amit.kucheria@linaro.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,	Lars-Peter Clausen
- <lars@metafoo.de>,	Vinod Koul <vkoul@kernel.org>,	Matthias Brugger
- <matthias.bgg@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Shenghao Ding
- <shenghao-ding@ti.com>,	Kevin Lu <kevin-lu@ti.com>,	Baojun Xu
- <baojun.xu@ti.com>,	Sen Wang <sen@ti.com>,	James Schulman
- <james.schulman@cirrus.com>,	asahi@lists.linux.dev,
-	linux-sound@vger.kernel.org,	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,	linux-arm-kernel@lists.infradead.org,
-	patches@opensource.cirrus.com,	linux-mediatek@lists.infradead.org,	Hector
- Martin <marcan@marcan.st>
-Subject: Re: [PATCH 08/28] ALSA: control: Add kcontrol callbacks for lock/unlock
-In-Reply-To: <87wlrzxp7v.wl-tiwai@suse.de>
-References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
-	<20260920-macaudio-v1-8-741cc20a74e5@gmail.com>
-	<878q4k2xl0.wl-tiwai@suse.de>
-	<u9VW29vaRPGENsSTq9RHUg@gmail.com>
-	<87wlrzxp7v.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=TANupNPWri8xwQs5Q+uaxNBtEA6grayuDJGaesA0B3Q=;
+	b=Y2td9nO9LpScuzyhMiGCjYwcds81El2zfh+nKQTxtGzQqQxRMk3T8UelFMlprC8rTZoXJi
+	V5S5WDxgm/YNmf7j7b25TPuB1bdxirYUS5Yk3NCdD0v2IDq2euCcLqLBTHd20UuiWYuqVr
+	mZ+jdXoN4/6W+d9Z6ayQt1h6Vx/B0Zc=
+Date: Sat, 3 Oct 2026 13:55:01 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Subject: Re: [PATCH] nvme: do not reset controllers in NVME_CTRL_NEW state
+To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org, mlombard@arkamax.eu, hch@lst.de,
+ hare@suse.de, dwagner@suse.de, asahi@lists.linux.dev,
+ Sven Peter <sven@kernel.org>
+References: <20260915095827.698928-1-mlombard@redhat.com>
+Content-Language: en-US
+From: Yureka Lilian <yureka@cyberchaos.dev>
+In-Reply-To: <20260915095827.698928-1-mlombard@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[lin,dt];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[cutebit.org,gmail.com,kernel.org,jannau.net,gompa.dev,cirrus.com,opensource.cirrus.com,perex.cz,suse.com,linaro.org,intel.com,metafoo.de,collabora.com,ti.com,lists.linux.dev,vger.kernel.org,lists.infradead.org,marcan.st];
-	R_RATELIMIT(0.00)[to_ip_from(RLf66hkhxcz6y1w5afddqk81z3)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
 
-On Sat, 03 Oct 2026 08:39:16 +0200,
-Takashi Iwai wrote:
-> 
-> On Sat, 03 Oct 2026 03:34:07 +0200,
-> James Calligeros wrote:
-> > 
-> > On Tuesday, 29 September 2026 7:52:59 pm Australian Eastern Standard Time 
-> > Takashi Iwai wrote:
-> > > On Sun, 20 Sep 2026 06:53:47 +0200,
-> > > 
-> > > James Calligeros wrote:
-> > > > From: Hector Martin <marcan@marcan.st>
-> > > > 
-> > > > This allows drivers to implement policy around locking/unlocking
-> > > > controls, such as enforcing that a group of controls may only be locked
-> > > > by the same process/file, and taking actions when the controls
-> > > > lock/unlock (such as granting special access on lock and resetting
-> > > > values on unlock).
-> > > > 
-> > > > This is, in particular, useful to implement volume safety controls, such
-> > > > that only a particular process (that locks controls and completes a
-> > > > handshake) may increase volumes above a given safe limit. It also allows
-> > > > the volume to be automatically lowered if that process dies (which will
-> > > > trigger an implicit unlock).
-> > > > 
-> > > > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > > > Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> > > 
-> > > This doesn't sound like a good approach to me, and this looks rather
-> > > irrelevant with the purpose of the series.
-> > 
-> > I'm not sure what you mean by it being irrelevant. A significant portion
-> > of the machine driver is dedicated to implementing safety interlocks based
-> > on the functionality added via this patch. It would be impossible to prevent
-> > badly-behaving users{,pace} from defeating the safety guarantees made by
-> > speakersafetyd (and thus permanently damaging the machine) without giving
-> > speakersafetd exclusive ownership over the safety interlock kcontrol.
-> 
-> Improving the lock/unlock itself can be an interesting idea (but we
-> should do in a different way instead of blindly extending each kernel
-> control ops).  OTOH, the whole implementation of the driver and the
-> feature depending on that stuff sounds rather fragile.
+On 9/15/26 11:58, Maurizio Lombardi wrote:
+> During NVMe controller creation, the controller is exposed to sysfs via
+> nvme_add_ctrl() while it is still in the NVME_CTRL_NEW state.
+> This creates a narrow race window where a userspace process can write to
+> the reset_controller sysfs node before the initialization thread
+> transitions the state to NVME_CTRL_CONNECTING.
+>
+> If a reset is triggered during this window, the state machine allows the
+> transition from NVME_CTRL_NEW to NVME_CTRL_RESETTING, and the reset work
+> is queued. However, the original creation thread continues its execution,
+> subsequently moving the state to NVME_CTRL_CONNECTING and finally to
+> NVME_CTRL_LIVE.
+>
+> When the delayed reset work finally executes, it attempts to tear down
+> the controller and transition the state to NVME_CTRL_CONNECTING. Because
+> the state is now NVME_CTRL_LIVE, this transition fails, triggering a
+> WARN_ON in the reset work.
+>
+> Fix this by removing NVME_CTRL_NEW from the allowed prior states for
+> the NVME_CTRL_RESETTING transition.
+>
+> Fixes: 8bfc3b4c6f9d ("nvmet: switch loopback target state to connecting when resetting")
+> Reported-by: syzbot+4a1d521d19d6321f5aad@syzkaller.appspotmail.com
+> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+> ---
+>   drivers/nvme/host/core.c | 1 -
+>   1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index beea23d04a70..7ea8dd27d08d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -598,7 +598,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>   		break;
+>   	case NVME_CTRL_RESETTING:
+>   		switch (old_state) {
+> -		case NVME_CTRL_NEW:
+>   		case NVME_CTRL_LIVE:
+>   			changed = true;
+>   			atomic_long_inc(&ctrl->nr_reset);
 
-Also, if you want a locking by user-space, how about to simply provide
-a boolean control element for locking, instead of extending the whole
-API and infrastructure?  The control can be taken exclusively for a
-process, and the driver just blocks the operations from others while
-the flag is set via that kcontrol.
+Hi!
 
+I was testing something with linux-next 2026-10-02 and ran into an issue 
+with the
+nvme-apple driver where /dev/nvme0 exists but none of the namespaces appear,
+and the dmesg is awfully quiet about the nvme device. I bisected it down to
+this patch, which as far as I can tell leads to the nvme-apple being 
+stuck in
+NVME_CTRL_NEW state. Without being familiar with the matter, this looks like
+the nvme-apple driver was using this transition as part of its 
+initialization
+procedure.  If one of the NVMe people who know how these transitions are
+supposed to work could have a look, that would be much appreciated, as
+otherwise this will break nvme-apple in 7.3-rc6.
 
-Takashi
+Thanks,
+
+- Yureka
+
