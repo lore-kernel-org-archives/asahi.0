@@ -1,94 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E4337DADD;
-	Sat,  3 Oct 2026 14:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C8243E096;
+	Sat,  3 Oct 2026 15:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791038122; cv=none; b=QurUZe9VoSFfMfW1j/i+WILK+YXXg/gN895xECdxLY98T8Nnn4Jg4qQlSjnlTSx+JEA1Jzcow7wM1adG7APpG8VUSO0OsTL+P94UsQkODs5gXCwFOQA6wquxQ05aBdg4l4NbGMLhSLoWkl08tAyFputndoijII+k2C6tZWm4Ht0=
+	t=1791041129; cv=none; b=mL+Lgi/12waPWQ7t9XAXjjZ7QtemTF28/mZfpqaGHtcALCOPAyl8jePJoDjCJflP8FKGk2WMNc4MXoGn3aCCiJEqV4d8FVZIvTQya2AxZBwLFob1e0SrSWVb1RiM8pe7oInWfnOaLbbuoHSbK09WXw89EgCAn8NQlgkOOoXN4ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791038122; c=relaxed/simple;
-	bh=NAjrL1JkF6EDw+nhNXITlH9ICONMTArYO3x2qA5YUIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N7+7VY4RxmaQCA9n8zmJ1PfqUiR320FSwO8GpYNtnrdrlv6WGoZ1Vdp7aNWd7xfCPggjKN7WtzzfeVNeaKNwYsEN25MO3zoGYKCt9gLMrqEREOKuhnBFrKRT2+koCv52kBE3/BNqg5zR47kl3FQfv3PCOPyJ6hozqraXLor3I98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XWB4Fb3L; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791041129; c=relaxed/simple;
+	bh=lx2x1hklsigjm1yShPIOoDaDKiB3yHLeirhQggA1NN0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DgSvSIY/zOvtV4ccpb8foGInXMUba3Oy0IUXDcon964KKZ7MnjGXuNo7N8MQvmbhnPsGPx57bcOX8PskbHo+Ztmte2vAql+tIMgTzDR4QgTZgQplUJPUmMEJpnPZ+hOGbwn1ft1njViHO17SM/BPKDyPqy9Zy2mNOPqgW0GQSQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MA8BBvY0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XWB4Fb3L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A6AA1F0089B;
-	Sat,  3 Oct 2026 14:35:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MA8BBvY0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001C01F0089B;
+	Sat,  3 Oct 2026 15:25:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791038121;
-	bh=a9OOJ2qmGtnw/zqCDkpqedwIrbMwoYyNLYRbTgVDKXo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XWB4Fb3LO7VY8+829JpfcOM1Z4ohvxKpWJ+bPA6yDd55IlizVv27U7hP/JiFxe6zt
-	 GXmMHjwaD3A5DthIYPYm9Si67fC+f+NmkTZwqlUS5z58W2i6u8tMmrdkHJBUgqMI0Q
-	 WNSQj/RLxLWeKXMflCCaXjnwX42hN31Wl22WK/oXrgq5mZz+NrkH936nWB3GT68Tlt
-	 EEu0aXwFMdGdNVsrHoniJ2x++YTWX75xkyWlC/v2DLs0WnTWyBJpHnnog9Z2G8+gmr
-	 IrdMOEhURjnyo3QHSsIxaakS+IEvAUDxRwYJyoEj/zb9LAUmOs6CbRReYtto54z4G7
-	 q9t6e1YQFjqqA==
-Date: Sat, 3 Oct 2026 16:35:18 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Roman =?utf-8?B?U21yxb4=?= <roman@amarulasolutions.com>
-Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Peter Rosin <peda@lysator.liu.se>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	patches@opensource.cirrus.com, linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com
-Subject: Re: [PATCH 4/5] ASoC: pcm179x: Add pcm1796 as compatible with
- pcm1792a
-Message-ID: <20261003-generous-angelic-spaniel-181ab2@quoll>
-References: <20261002-work-v1-0-f0e53bc7331f@amarulasolutions.com>
- <20261002-work-v1-4-f0e53bc7331f@amarulasolutions.com>
+	s=k20260515; t=1791041127;
+	bh=23Y/2PgTxZUSaSmiQQfmGqgPefme+EflMV6C57Dhc+k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=MA8BBvY0ou10kc8WBVXZjL4stUd0LzlylLRTDrUop31oOaz6fkE8QYjQJF9aX4g74
+	 cxxeRYPlFn7YiiDxiVbtof6pHcpcA8GA8Tlof/m6YOMeIfl6gTVgr+p6Pre6sgh8wZ
+	 Pv1OKhKstaP9k6NxwECz95xX4OT4k2Ev0yNdGAuZJkKKP+o9uMdEKuY1n3iQkWt8yY
+	 naO8oaIFK99O/JCIf04jL3UWM34vPeRWb/FVmXsydxmeL3VRURQaCIfixmhLt2U7oq
+	 sCYwq/H/CISdQCG8ZZ3T31V4OsXBK/PtLnE05Fon9uLHOnOrYRpnH6LarRCWdzbs52
+	 9FziDx0tLUByg==
+From: Vinod Koul <vkoul@kernel.org>
+To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Sven Peter <sven@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Paul Cristian <p4ulcristian@gmail.com>, stable@vger.kernel.org
+In-Reply-To: <20260821-b4-atcphy-usb4-v1-0-45c0b741e0c0@kernel.org>
+References: <20260821-b4-atcphy-usb4-v1-0-45c0b741e0c0@kernel.org>
+Subject: Re: [PATCH 0/3] phy: apple: atc: Prepare USB3-via-4 tunneling
+Message-Id: <179104112470.223537.13101636843380037853.b4-ty@kernel.org>
+Date: Sat, 03 Oct 2026 17:25:24 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20261002-work-v1-4-f0e53bc7331f@amarulasolutions.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Fri, Oct 02, 2026 at 11:49:33AM +0200, Roman Smr=C5=BE wrote:
-> The PCM1796 is fully compatible with the PCM1792A.
->=20
-> Signed-off-by: Roman Smr=C5=BE <roman@amarulasolutions.com>
-> ---
->  sound/soc/codecs/pcm179x-i2c.c | 1 +
->  sound/soc/codecs/pcm179x-spi.c | 1 +
->  2 files changed, 2 insertions(+)
->=20
-> diff --git a/sound/soc/codecs/pcm179x-i2c.c b/sound/soc/codecs/pcm179x-i2=
-c.c
-> index 5337bcc7c62c..e81e20fadadf 100644
-> --- a/sound/soc/codecs/pcm179x-i2c.c
-> +++ b/sound/soc/codecs/pcm179x-i2c.c
-> @@ -32,6 +32,7 @@ static int pcm179x_i2c_probe(struct i2c_client *client)
->  #ifdef CONFIG_OF
->  static const struct of_device_id pcm179x_of_match[] =3D {
->  	{ .compatible =3D "ti,pcm1792a", },
-> +	{ .compatible =3D "ti,pcm1796", },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, pcm179x_of_match);
-> diff --git a/sound/soc/codecs/pcm179x-spi.c b/sound/soc/codecs/pcm179x-sp=
-i.c
-> index 192fee90c971..e5e4b942acfc 100644
-> --- a/sound/soc/codecs/pcm179x-spi.c
-> +++ b/sound/soc/codecs/pcm179x-spi.c
-> @@ -31,6 +31,7 @@ static int pcm179x_spi_probe(struct spi_device *spi)
-> =20
->  static const struct of_device_id pcm179x_of_match[] __maybe_unused =3D {
->  	{ .compatible =3D "ti,pcm1792a", },
-> +	{ .compatible =3D "ti,pcm1796" },
 
-Why are you updating only one place?
+On Fri, 21 Aug 2026 15:50:26 +0200, Sven Peter wrote:
+> This short series first fixes an oversight that prevents USB2 from
+> working when DP AltMode with 4 lanes is used. Then it adds the required
+> sequence to point dwc3's PIPE interface to the USB4 Native Host
+> Interface which I plan to submit soon to support USB3-via-USB4 tunnels.
+> 
+> Best,
+> 
+> [...]
+
+Applied, thanks!
+
+[1/3] phy: apple: atc: Support DUMMY PIPEHANDLER state in configure_pipehandler
+      commit: a2fd3d1f4db720ac1deb477ce4811c5e4e60e5f8
+[2/3] phy: apple: atc: Factor out the PIPE mux sequence
+      commit: 8ca2e111117bf1d571f7c9de5d0dd91f5b770b11
+[3/3] phy: apple: atc: Implement the USB4 pipehandler state
+      commit: c319906aa47f8616019b01b1dd5c14eef293bb66
 
 Best regards,
-Krzysztof
+-- 
+~Vinod
+
 
