@@ -1,32 +1,32 @@
 Received: from arkamax.eu (128-116-240-228.dyn.eolo.it [128.116.240.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744D338B140
-	for <asahi@lists.linux.dev>; Sat,  3 Oct 2026 12:39:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCF42264A6
+	for <asahi@lists.linux.dev>; Sat,  3 Oct 2026 13:09:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.116.240.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791031187; cv=none; b=l1svQAtRFufpdA4AjD5R9aVWlS1/ejnQUNmIGJ+IeqSgcVFDZoHyE306lnQaZtJcNfz3DGFOy6kCtb9MDo5B04a4UUTINczQJYzX/GYkvy+cXPvR9oJdDHWLUVDP3Bkfl+ni/W2rmtqHC/I+8sGL+1h8rFubq6hwjLQ5FHyGed8=
+	t=1791032998; cv=none; b=udVHMBpLU8NOlWwIZXKhrTwGQjOleaIY+vOSSIIldWCNhGhjVhnv0M4Be1L2/+lfaIraVo+JKhw6lkbOGu9vVB03tOJ3oCkuobprVcSgWbb6zpOzOUNmhbnBLuwr7WKqHQGfR63EdBsb1cHlOxN19NSytvP8lzAcnZO2Qk4zxrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791031187; c=relaxed/simple;
-	bh=AHWwi2RygPrOnNpVFuECy+vvC6Lk/DVmV3VXA83YzMI=;
+	s=arc-20240116; t=1791032998; c=relaxed/simple;
+	bh=TyfxVXOoBof91OwTiEmFt4WF3sFAvG5dlDx8dAIQTxM=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Eq1ekewpqEjYTs5zk/z5aAS4XK1nF6Ok67t57P1NNDI9VJY8dMDrS4skmOoX3tTTBhU1M/Mo/5VaTgEzOe3Ruv8z6pREZHj2YbfwfVXcuNpA04N60MswOtlEpRBi5H3tv3aXcsMyhM2/tilJJd8c0DJR2Wg3AuauQNTUzo1iCFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arkamax.eu; spf=pass smtp.mailfrom=arkamax.eu; dkim=pass (2048-bit key) header.d=arkamax.eu header.i=@arkamax.eu header.b=n/Ryms9s; arc=none smtp.client-ip=128.116.240.228
+	 References:In-Reply-To; b=aDUsp607NTmGOz2KP+lo4TLiTaNJZgHUc+C2mGgA6TjMzD9LV4Z/NxjkDqOTfdJQlfZ6hgrlVl8NzlSW2ge4yZUt/6LxGpwTmTzsVcoSUHCI9o07QwZY5BvhoxKtmracuoPmdTZU4rPEACcBGeQ2Pg5+KItNhRzgtTx08y5lLHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arkamax.eu; spf=pass smtp.mailfrom=arkamax.eu; dkim=pass (2048-bit key) header.d=arkamax.eu header.i=@arkamax.eu header.b=IXot2zbv; arc=none smtp.client-ip=128.116.240.228
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arkamax.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arkamax.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arkamax.eu header.i=@arkamax.eu header.b="n/Ryms9s"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=AHWwi2RygPrOnN
-	pVFuECy+vvC6Lk/DVmV3VXA83YzMI=; h=in-reply-to:references:to:from:
-	subject:cc:date; d=arkamax.eu; b=n/Ryms9sTkAj9ApaVaOFDy+3tF9z+X2gqHHDx
-	+Ki0LO2BDN24XVKuDm4B+bPrSTwjsJE5uzKOpN74WdvEMFgDUNd7d1qn9cikha1sthrmJR
-	fJnaA3qiKs1uCIjJjygxj2jjKnRj1o9E3eN/C3DTmI8tAUj2F8USgOSjFcZSGHP2shGBzq
-	g/plOiZT9cAQhAEHtBaS5byL00nBue3swqyXUtWLHKLryAxsCTwyN8oQrmCXdkWMZs7PU7
-	ZoGycJqgPKzaPw8GChVycUCf0qgqbbkMLWwYREqR382lmRRqbL2Vf3vftsrrGYBZkTaEaj
-	pay8dN9bIBK1BJ3epVy2YTmVQ==
+	dkim=pass (2048-bit key) header.d=arkamax.eu header.i=@arkamax.eu header.b="IXot2zbv"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=mail1; bh=TyfxVXOoBof91O
+	wTiEmFt4WF3sFAvG5dlDx8dAIQTxM=; h=in-reply-to:references:to:from:
+	subject:cc:date; d=arkamax.eu; b=IXot2zbv+fNlaVGZ8rueQ55Zcdpn4wV3EmL6W
+	hg1TvcmSmToi3RA9ach7MMkJohxESdpSsFtKpml8eZcgUj8xj4nEKpL0nkJEKnbkotocvV
+	X+dYTYLSt8ANB/nmNkjGapBwOKdPQ7f0RtAPhtw/Dlq6ZIXzKMpw5AkAUAu1aALVODFmaG
+	pwsEsceDlFs1bqgfEUOrkpQL6/ZiskNqVyO2N+A8XlGOiTy40xRhOxzAv3o7YSZHL1UFMX
+	tKE6xipSJXXuNEvtZd1xun/u68JpgwJcTmyfXZCKNmIr4YYnn51DtqTzgUDrYO+SYUfC20
+	bibCT6hfKDJv6LC+0yAgjp4Lg==
 Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 2092ede2 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Sat, 3 Oct 2026 14:33:00 +0200 (CEST)
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id f2ea9b1a (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Sat, 3 Oct 2026 15:09:51 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,93 +35,33 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 03 Oct 2026 14:33:00 +0200
-Message-Id: <DLV7F9W5HSFS.1D5WQW59ZEHEL@arkamax.eu>
+Date: Sat, 03 Oct 2026 15:09:51 +0200
+Message-Id: <DLV87HMYWE6U.BG10862VYDK@arkamax.eu>
 Cc: <linux-nvme@lists.infradead.org>, <hch@lst.de>, <hare@suse.de>,
  <dwagner@suse.de>, <asahi@lists.linux.dev>, "Sven Peter" <sven@kernel.org>
 Subject: Re: [PATCH] nvme: do not reset controllers in NVME_CTRL_NEW state
 From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Yureka Lilian" <yureka@cyberchaos.dev>, "Maurizio Lombardi"
- <mlombard@redhat.com>, <kbusch@kernel.org>
-X-Mailer: aerc 0.20.0
+To: "Maurizio Lombardi" <mlombard@arkamax.eu>, "Yureka Lilian"
+ <yureka@cyberchaos.dev>, "Maurizio Lombardi" <mlombard@redhat.com>,
+ <kbusch@kernel.org>
+X-Mailer: aerc 0.22.0
 References: <20260915095827.698928-1-mlombard@redhat.com>
  <94912d46-381d-4988-800a-6ef3b595233f@cyberchaos.dev>
-In-Reply-To: <94912d46-381d-4988-800a-6ef3b595233f@cyberchaos.dev>
+ <DLV7F9W5HSFS.1D5WQW59ZEHEL@arkamax.eu>
+In-Reply-To: <DLV7F9W5HSFS.1D5WQW59ZEHEL@arkamax.eu>
 
-On Sat Oct 3, 2026 at 1:55 PM CEST, Yureka Lilian wrote:
-> On 9/15/26 11:58, Maurizio Lombardi wrote:
->> During NVMe controller creation, the controller is exposed to sysfs via
->> nvme_add_ctrl() while it is still in the NVME_CTRL_NEW state.
->> This creates a narrow race window where a userspace process can write to
->> the reset_controller sysfs node before the initialization thread
->> transitions the state to NVME_CTRL_CONNECTING.
->>
->> If a reset is triggered during this window, the state machine allows the
->> transition from NVME_CTRL_NEW to NVME_CTRL_RESETTING, and the reset work
->> is queued. However, the original creation thread continues its execution=
-,
->> subsequently moving the state to NVME_CTRL_CONNECTING and finally to
->> NVME_CTRL_LIVE.
->>
->> When the delayed reset work finally executes, it attempts to tear down
->> the controller and transition the state to NVME_CTRL_CONNECTING. Because
->> the state is now NVME_CTRL_LIVE, this transition fails, triggering a
->> WARN_ON in the reset work.
->>
->> Fix this by removing NVME_CTRL_NEW from the allowed prior states for
->> the NVME_CTRL_RESETTING transition.
->>
->> Fixes: 8bfc3b4c6f9d ("nvmet: switch loopback target state to connecting =
-when resetting")
->> Reported-by: syzbot+4a1d521d19d6321f5aad@syzkaller.appspotmail.com
->> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
->> ---
->>   drivers/nvme/host/core.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index beea23d04a70..7ea8dd27d08d 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -598,7 +598,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->>   		break;
->>   	case NVME_CTRL_RESETTING:
->>   		switch (old_state) {
->> -		case NVME_CTRL_NEW:
->>   		case NVME_CTRL_LIVE:
->>   			changed =3D true;
->>   			atomic_long_inc(&ctrl->nr_reset);
+On Sat Oct 3, 2026 at 2:33 PM CEST, Maurizio Lombardi wrote:
+> Thanks for reporting this,
+> it seems that nvme-apple is the only driver that still initializes the
+> controller by performing a reset directly from a NEW state.
 >
-> Hi!
->
-> I was testing something with linux-next 2026-10-02 and ran into an issue=
-=20
-> with the
-> nvme-apple driver where /dev/nvme0 exists but none of the namespaces appe=
-ar,
-> and the dmesg is awfully quiet about the nvme device. I bisected it down =
-to
-> this patch, which as far as I can tell leads to the nvme-apple being=20
-> stuck in
-> NVME_CTRL_NEW state. Without being familiar with the matter, this looks l=
-ike
-> the nvme-apple driver was using this transition as part of its=20
-> initialization
-> procedure.=C2=A0 If one of the NVMe people who know how these transitions=
- are
-> supposed to work could have a look, that would be much appreciated, as
-> otherwise this will break nvme-apple in 7.3-rc6.
->
-> Thanks,
+> This should be easy to fix by moving the state to CONNECTING in
+> apple_nvme_probe, just before nvme_reset_ctrl() is called.
 
-Thanks for reporting this,
-it seems that nvme-apple is the only driver that still initializes the
-controller by performing a reset directly from a NEW state.
+Ops, this won't work, as we can enter the resetting state only when the
+controller is live.
 
-This should be easy to fix by moving the state to CONNECTING in
-apple_nvme_probe, just before nvme_reset_ctrl() is called.
-
-Would you be able to test the patch if I prepare it?
+Keith, I think we have no other option but revert this patch to unbreak
+apple-nvme until I find a proper fix.
 
 Maurizio
-
