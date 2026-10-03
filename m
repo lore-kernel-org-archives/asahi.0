@@ -1,73 +1,76 @@
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE03A233924
-	for <asahi@lists.linux.dev>; Sat,  3 Oct 2026 14:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CBC3403F5;
+	Sat,  3 Oct 2026 14:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791037341; cv=none; b=T1uwBG2UDEnxIwEHvVsLBl+35Lw5xZMYKpQ/0OzC/rE8fWWnlQWr1SKMKF7EuHuB9udd1gxY3GU9+b/8bSL5ddtKrRy9iCgpAx5y6EWvimF9pMMCxi9V9MtaYBeg3FLPxqrKNHnZF9qqrRd/5HGw+ywxgkkihv4qxB6wowV7WjA=
+	t=1791038066; cv=none; b=n4ap5eslb/hO7VYO6kzLdRLExQq2CoYmpNnWkbK0c2hB9sCgIYsYjoTuERQbDuFQ9w6yf6n6UFgdjOETxuQrrway+QjOUtLf5mW5sTUG2Csr29yywlPSqlvfyN6ye8Y/FEgZaf47W+ByTsJ07SdPrs3q6PtEvo7Oqrdvxt/+udI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791037341; c=relaxed/simple;
-	bh=j8SoTISxeuImEvzVx48WhdNYp3ituwGtbkN/htg20EI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g4DVi96mB8tWWIEl44bbnPA3+LQ5nPpyAgO+ZNCpBzS5Ie8QmiO/P3lBKXe/za2z8K9tOuPpf75JKqzhttng4Lg3Z9sIfqPozYuLpKtaRLLue45eJja/ma5W2NyGwRT4PKcAkaQm83qaPP9NTqH3Y6uho90fc/GRMx+QUtETUG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=YImGM8T5; arc=none smtp.client-ip=195.39.247.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	s=arc-20240116; t=1791038066; c=relaxed/simple;
+	bh=EUHTVU2Thlb9v5HDYZ9brf9jSxeVOJkLoCthUKqlyeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E8+139M+fHEB01D/nWsw8oys7pDA+1h9KPMJ9j5pO6VXBKSFykoxZITHueZcGigTW6MI1i/Y7bMDElcQnu9aOs0tA1xTEU35ErWtREUp7F9hbYsTSkhZ8KkXd5cFmie/q9vcK91jcDYf1D8aJGByiz3EQ5hgXOV6JdV2uyjQULE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDd+ju+t; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="YImGM8T5"
-Message-ID: <a8975c9a-b0c8-41cf-90e4-a770666e975a@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1791037336;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/UYIospwFRvaHAndMVRzyTf5yTdHhAMhzoOJSJBaSM4=;
-	b=YImGM8T5OGOECKzOFIKO68P6aQwccPbmQd6wHrPhR18cnhTcQE00pjUynX4YQZMqcBoXPl
-	sS3n7yOZbD6dZ+S9sZgR9Xem7x+2I261ZvZo5tJ/XFCVt53Dlarf+Wt+Zz6ceg80wsdBb1
-	lja4fSOW5jZI5MroBhXHsVSlJPpmifs=
-Date: Sat, 3 Oct 2026 16:22:09 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDd+ju+t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A24681F0089B;
+	Sat,  3 Oct 2026 14:34:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791038064;
+	bh=EUHTVU2Thlb9v5HDYZ9brf9jSxeVOJkLoCthUKqlyeY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VDd+ju+tGZ3HYnSZ4xnE2vL3ZUZHyHawSVnNiF0K1dMr0HzBPDBx6/2sry3ubHLRw
+	 rkUPxXe5cJr7fF7K/GGWB9a61ufK3uOQHIO8MyvO0NCdsZLqCHW79Ob1bUyrCDvL5u
+	 ZxCYA4wCj2sj9p6Tn+3a3z5AqMFtnL48XCxuNmB7x8fMB0HcixlN2FT3P9+4B7B46e
+	 p2G2QP0Uj+g3H8KJUqfGiSXips5KWsy2WWbjMRFsp6jpm3TXIbc1otFBqkrJaSnHdN
+	 GI1E9plAmdWwE86JDgcdU1ZmP5M3Dae4YoWM9yykkmsXXm3co+iUzNyMNQwUBrum58
+	 Wxi8XYx4JYWVw==
+Date: Sat, 3 Oct 2026 16:34:21 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Roman =?utf-8?B?U21yxb4=?= <roman@amarulasolutions.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Peter Rosin <peda@lysator.liu.se>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	patches@opensource.cirrus.com, linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+	Michael Trimarchi <michael@amarulasolutions.com>
+Subject: Re: [PATCH 1/5] ASoC: dt-bindings: Add ti,pcm1795 and ti,pcm1796
+Message-ID: <20261003-adept-lush-beluga-09750d@quoll>
+References: <20261002-work-v1-0-f0e53bc7331f@amarulasolutions.com>
+ <20261002-work-v1-1-f0e53bc7331f@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] nvme: do not reset controllers in NVME_CTRL_NEW state
-To: Maurizio Lombardi <mlombard@arkamax.eu>,
- Yureka Lilian <yureka@cyberchaos.dev>,
- Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, hare@suse.de,
- dwagner@suse.de, asahi@lists.linux.dev, Sven Peter <sven@kernel.org>
-References: <20260915095827.698928-1-mlombard@redhat.com>
- <94912d46-381d-4988-800a-6ef3b595233f@cyberchaos.dev>
- <DLV7F9W5HSFS.1D5WQW59ZEHEL@arkamax.eu> <DLV87HMYWE6U.BG10862VYDK@arkamax.eu>
-Content-Language: en-US
-From: Yureka Lilian <yureka@cyberchaos.dev>
-In-Reply-To: <DLV87HMYWE6U.BG10862VYDK@arkamax.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261002-work-v1-1-f0e53bc7331f@amarulasolutions.com>
 
-On 10/3/26 15:09, Maurizio Lombardi wrote:
-> On Sat Oct 3, 2026 at 2:33 PM CEST, Maurizio Lombardi wrote:
->> Thanks for reporting this,
->> it seems that nvme-apple is the only driver that still initializes the
->> controller by performing a reset directly from a NEW state.
->>
->> This should be easy to fix by moving the state to CONNECTING in
->> apple_nvme_probe, just before nvme_reset_ctrl() is called.
-> Ops, this won't work, as we can enter the resetting state only when the
-> controller is live.
->
-> Keith, I think we have no other option but revert this patch to unbreak
-> apple-nvme until I find a proper fix.
->
-> Maurizio
+On Fri, Oct 02, 2026 at 11:49:30AM +0200, Roman Smr=C5=BE wrote:
+> From: Michael Trimarchi <michael@amarulasolutions.com>
+>=20
+> The pcm179x driver gains support for the PCM1795 and the PCM1796. Both
 
+Driver does not matter here, it is not a reason to add bindings.
 
-When you eventually propose a new variant of this, I can certainly test 
-it with nvme-apple.
+Instead explain the hardware briefly.
 
+> are register compatible with the PCM1792A, so they belong in the trivial
+> codec schema.
+>=20
+> pcm179x.txt no longer exists upstream, it was folded into
+> trivial-codec.yaml when the trivial codec bindings were consolidated.
 
-- Yureka
+That's almost confusing, how does it matter? Drop paragraph.
+
+Best regards,
+Krzysztof
+
