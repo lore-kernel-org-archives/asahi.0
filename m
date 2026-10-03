@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CBC3403F5;
-	Sat,  3 Oct 2026 14:34:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E4337DADD;
+	Sat,  3 Oct 2026 14:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791038066; cv=none; b=n4ap5eslb/hO7VYO6kzLdRLExQq2CoYmpNnWkbK0c2hB9sCgIYsYjoTuERQbDuFQ9w6yf6n6UFgdjOETxuQrrway+QjOUtLf5mW5sTUG2Csr29yywlPSqlvfyN6ye8Y/FEgZaf47W+ByTsJ07SdPrs3q6PtEvo7Oqrdvxt/+udI=
+	t=1791038122; cv=none; b=QurUZe9VoSFfMfW1j/i+WILK+YXXg/gN895xECdxLY98T8Nnn4Jg4qQlSjnlTSx+JEA1Jzcow7wM1adG7APpG8VUSO0OsTL+P94UsQkODs5gXCwFOQA6wquxQ05aBdg4l4NbGMLhSLoWkl08tAyFputndoijII+k2C6tZWm4Ht0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791038066; c=relaxed/simple;
-	bh=EUHTVU2Thlb9v5HDYZ9brf9jSxeVOJkLoCthUKqlyeY=;
+	s=arc-20240116; t=1791038122; c=relaxed/simple;
+	bh=NAjrL1JkF6EDw+nhNXITlH9ICONMTArYO3x2qA5YUIQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E8+139M+fHEB01D/nWsw8oys7pDA+1h9KPMJ9j5pO6VXBKSFykoxZITHueZcGigTW6MI1i/Y7bMDElcQnu9aOs0tA1xTEU35ErWtREUp7F9hbYsTSkhZ8KkXd5cFmie/q9vcK91jcDYf1D8aJGByiz3EQ5hgXOV6JdV2uyjQULE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDd+ju+t; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=N7+7VY4RxmaQCA9n8zmJ1PfqUiR320FSwO8GpYNtnrdrlv6WGoZ1Vdp7aNWd7xfCPggjKN7WtzzfeVNeaKNwYsEN25MO3zoGYKCt9gLMrqEREOKuhnBFrKRT2+koCv52kBE3/BNqg5zR47kl3FQfv3PCOPyJ6hozqraXLor3I98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XWB4Fb3L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDd+ju+t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A24681F0089B;
-	Sat,  3 Oct 2026 14:34:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XWB4Fb3L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A6AA1F0089B;
+	Sat,  3 Oct 2026 14:35:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791038064;
-	bh=EUHTVU2Thlb9v5HDYZ9brf9jSxeVOJkLoCthUKqlyeY=;
+	s=k20260515; t=1791038121;
+	bh=a9OOJ2qmGtnw/zqCDkpqedwIrbMwoYyNLYRbTgVDKXo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VDd+ju+tGZ3HYnSZ4xnE2vL3ZUZHyHawSVnNiF0K1dMr0HzBPDBx6/2sry3ubHLRw
-	 rkUPxXe5cJr7fF7K/GGWB9a61ufK3uOQHIO8MyvO0NCdsZLqCHW79Ob1bUyrCDvL5u
-	 ZxCYA4wCj2sj9p6Tn+3a3z5AqMFtnL48XCxuNmB7x8fMB0HcixlN2FT3P9+4B7B46e
-	 p2G2QP0Uj+g3H8KJUqfGiSXips5KWsy2WWbjMRFsp6jpm3TXIbc1otFBqkrJaSnHdN
-	 GI1E9plAmdWwE86JDgcdU1ZmP5M3Dae4YoWM9yykkmsXXm3co+iUzNyMNQwUBrum58
-	 Wxi8XYx4JYWVw==
-Date: Sat, 3 Oct 2026 16:34:21 +0200
+	b=XWB4Fb3LO7VY8+829JpfcOM1Z4ohvxKpWJ+bPA6yDd55IlizVv27U7hP/JiFxe6zt
+	 GXmMHjwaD3A5DthIYPYm9Si67fC+f+NmkTZwqlUS5z58W2i6u8tMmrdkHJBUgqMI0Q
+	 WNSQj/RLxLWeKXMflCCaXjnwX42hN31Wl22WK/oXrgq5mZz+NrkH936nWB3GT68Tlt
+	 EEu0aXwFMdGdNVsrHoniJ2x++YTWX75xkyWlC/v2DLs0WnTWyBJpHnnog9Z2G8+gmr
+	 IrdMOEhURjnyo3QHSsIxaakS+IEvAUDxRwYJyoEj/zb9LAUmOs6CbRReYtto54z4G7
+	 q9t6e1YQFjqqA==
+Date: Sat, 3 Oct 2026 16:35:18 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Roman =?utf-8?B?U21yxb4=?= <roman@amarulasolutions.com>
 Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
@@ -37,12 +37,12 @@ Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
 	Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
 	patches@opensource.cirrus.com, linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
-	Michael Trimarchi <michael@amarulasolutions.com>
-Subject: Re: [PATCH 1/5] ASoC: dt-bindings: Add ti,pcm1795 and ti,pcm1796
-Message-ID: <20261003-adept-lush-beluga-09750d@quoll>
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com
+Subject: Re: [PATCH 4/5] ASoC: pcm179x: Add pcm1796 as compatible with
+ pcm1792a
+Message-ID: <20261003-generous-angelic-spaniel-181ab2@quoll>
 References: <20261002-work-v1-0-f0e53bc7331f@amarulasolutions.com>
- <20261002-work-v1-1-f0e53bc7331f@amarulasolutions.com>
+ <20261002-work-v1-4-f0e53bc7331f@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -52,24 +52,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20261002-work-v1-1-f0e53bc7331f@amarulasolutions.com>
+In-Reply-To: <20261002-work-v1-4-f0e53bc7331f@amarulasolutions.com>
 
-On Fri, Oct 02, 2026 at 11:49:30AM +0200, Roman Smr=C5=BE wrote:
-> From: Michael Trimarchi <michael@amarulasolutions.com>
+On Fri, Oct 02, 2026 at 11:49:33AM +0200, Roman Smr=C5=BE wrote:
+> The PCM1796 is fully compatible with the PCM1792A.
 >=20
-> The pcm179x driver gains support for the PCM1795 and the PCM1796. Both
-
-Driver does not matter here, it is not a reason to add bindings.
-
-Instead explain the hardware briefly.
-
-> are register compatible with the PCM1792A, so they belong in the trivial
-> codec schema.
+> Signed-off-by: Roman Smr=C5=BE <roman@amarulasolutions.com>
+> ---
+>  sound/soc/codecs/pcm179x-i2c.c | 1 +
+>  sound/soc/codecs/pcm179x-spi.c | 1 +
+>  2 files changed, 2 insertions(+)
 >=20
-> pcm179x.txt no longer exists upstream, it was folded into
-> trivial-codec.yaml when the trivial codec bindings were consolidated.
+> diff --git a/sound/soc/codecs/pcm179x-i2c.c b/sound/soc/codecs/pcm179x-i2=
+c.c
+> index 5337bcc7c62c..e81e20fadadf 100644
+> --- a/sound/soc/codecs/pcm179x-i2c.c
+> +++ b/sound/soc/codecs/pcm179x-i2c.c
+> @@ -32,6 +32,7 @@ static int pcm179x_i2c_probe(struct i2c_client *client)
+>  #ifdef CONFIG_OF
+>  static const struct of_device_id pcm179x_of_match[] =3D {
+>  	{ .compatible =3D "ti,pcm1792a", },
+> +	{ .compatible =3D "ti,pcm1796", },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, pcm179x_of_match);
+> diff --git a/sound/soc/codecs/pcm179x-spi.c b/sound/soc/codecs/pcm179x-sp=
+i.c
+> index 192fee90c971..e5e4b942acfc 100644
+> --- a/sound/soc/codecs/pcm179x-spi.c
+> +++ b/sound/soc/codecs/pcm179x-spi.c
+> @@ -31,6 +31,7 @@ static int pcm179x_spi_probe(struct spi_device *spi)
+> =20
+>  static const struct of_device_id pcm179x_of_match[] __maybe_unused =3D {
+>  	{ .compatible =3D "ti,pcm1792a", },
+> +	{ .compatible =3D "ti,pcm1796" },
 
-That's almost confusing, how does it matter? Drop paragraph.
+Why are you updating only one place?
 
 Best regards,
 Krzysztof
