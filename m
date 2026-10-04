@@ -1,181 +1,121 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-qv1-f98.google.com (mail-qv1-f98.google.com [209.85.219.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925D140F744
-	for <asahi@lists.linux.dev>; Sun,  4 Oct 2026 06:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEE241611D
+	for <asahi@lists.linux.dev>; Sun,  4 Oct 2026 09:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791094037; cv=none; b=eGvAd58RYgWK1I/l2KB9aU6DghlHcQOx5CwTc05MUhsvsYMSX2K+5y6jOzZBSwj7aWu/FP6jXbdELa/uvNp5VhX26xb7HkaooD3fxV/8h7B4+7zaTBRtXT+ArHjJBc6bjq0aQZ4446I0V3B8alVoruCTvqexPOUuAoKZa1NrrSw=
+	t=1791107142; cv=none; b=RF/BrjwdTWlU69IeiWM+QNw6B8NrKYIiQgE15XT6h9Tjp/yNrXDblu92FhnJoP1idiE8KiFuNLyzIB1RGAj/ZWfZmCHsy5pTQy+2eYUrCB0SJfg41TISj5gF4dFDPVTeesgJYI+KUjpcRH6TqL0kEOQg/zLssPPuDkw30aLsHRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791094037; c=relaxed/simple;
-	bh=j+2mD3Lw4/MJvYfFqphn19jd5ntuiOHqc4m1K2MPqJs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bsGEv8IU5FCCpmsN5O+xO2gO2rc6H8UQu4ly4/hr8X3XMXxjsJU4aodHFoLpiENOM1Nq9g/bkOqY+V69U+MGI8dIPwy7earnDN0EbEdoUv4nVbGdRVrF+KZi0f/o97X9lG15xf8iXE1bqkRNgSHQpTpcxKlYOvTHq0o0EK87LqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KgK9mc82; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791107142; c=relaxed/simple;
+	bh=uSpJlr9pWB8cp8BrFmQO5ngregHs2jVsmD4SjTxJsbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=K4WzauQrE1S6H/Yoq8jpgj5PTuojQA24xl1lnV1FxFR9ctngWubSr214uejcVDcJYSiRZr9e/fdqScbMimgNpZXcZlCEByGlMEDrRSFWDHpM/JUx7/jV/Vbtj4PS87IppxJoyG9egO2n9PYSxgB3OVNEEIR8377+H9HoyVfhC7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=H/x0bRsb; arc=none smtp.client-ip=209.85.219.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KgK9mc82"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso529871a91.3
-        for <asahi@lists.linux.dev>; Sat, 03 Oct 2026 23:07:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791094036; x=1791698836; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uzaFTmYz+CkkadaQPdQFMgjPkjJonjXtWn2mskY5OKw=;
-        b=KgK9mc82IFR2hIEFKdJYg97veu3kE3dtn++16tnWJyTw2ldg3Sx/Uy+a1ibpiLdT6Y
-         0IzUHkR5O2rZn/kKVCRzgqSuf3yf5enpuB5QsGZpekxdArTtkg0V3AW4su9mHIPDuYOc
-         O85ggOpVc5Sw4gCAhhT6mR6bLolOwjFhYpPwhnifdffxDHK8IvVwVTeOxAPpwmUUzsxK
-         +nhjshPCHFitLmsvgYJK7wuz4l9b+Y/LzVAZ0hO7sGPZsiGGZ+CztxPhEh+gnoFIz9lN
-         VUr+KWPzOgEw+4MYS0s9j7XIio1dKXnnpQ9GY450094BPNCZKcR5Yjx0n2zIGp3prJ7X
-         j0lw==
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="H/x0bRsb"
+Received: by mail-qv1-f98.google.com with SMTP id 6a1803df08f44-9196d8543cbso4458156d6.1
+        for <asahi@lists.linux.dev>; Sun, 04 Oct 2026 02:45:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791094036; x=1791698836;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1791107136; x=1791711936;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uzaFTmYz+CkkadaQPdQFMgjPkjJonjXtWn2mskY5OKw=;
-        b=Des+Wqrsm07/kR5n3icsAY9vRNxQ9qIISn86LfOgrfE8j8k0Uq5A7Xu/dzAMpwqeeh
-         z8Md12Mh65O459Kc1d3jaycD9/hr1DSMY+oF3DQeAruRyEbY37Z69Yy7EalRhdHuNiIo
-         vJjaPhJSXLOrlsUJb5Fv9DI/C4O7+S3c9AkukGGKTDqySd3kB0RqmAFZ8azyIf5wWqOY
-         7Bf/VqYNrIzGkKmLUdi3d2ugau9zhRfSKYzZhtayAo3KbbW8ffjBGEdE58d2LbReIyKX
-         KQxMcxdTDN4scRJ86eahpF6PoKBb/CONcSKhmQNkKDBeXkjpCkBL4FH0j4l0PSWukbRt
-         bQWQ==
-X-Gm-Message-State: AFq9FYK2xAsLs3RfBbAwdbZ9CGKAxn/QgPSgbEhEOARDg3OgPEqpyhSL
-	ExPKXpJ+sF5cFKieGcIEm6/oOX96HUpirR1UJ+Sqq5azfD8IruBr54uJ
-X-Gm-Gg: AYBFou1zzaG+DHFnIThlnA9410Y4OMNY30vKOrowdo2fc6MfUU6vRYCJN4G8P+SOXv9
-	4yxcG3o7XdgN/nKo+dNXZzrulSQXGeWl/RSwI59dpDhW43AtYfXTmBMA2gzECDk5BQMGVtvr3A3
-	Ces3BuAXU7vgGc2iUbnmKINj6YslUZPOTX8m4klU/SYfuYQ8TxJtxDQvNjqXaOOiPfhNdQJ/z2V
-	y+pMTmhZixJv0xHg7TwovDsKj1HLKZ95/+GJX/TrYAcwJMjs603/nlxJnxsvNaUx3zzwOXTIsAb
-	ym5H82lEuG66mnedUHZaX/rg4jCpK6OxXq+fijVr6uj+UtOcAuwma8VVuq6vzitbw6oR0NW8cOg
-	A8wnHBWA62sra5w07tZxXEfFPA/xjMJOpGUsmLFM3ct6RSPj6g8XBb+rF4E/QpVmWiTJvLodM9z
-	rJ7GVgQk8NIH9SPNXL2CaPJ8v7KfeE4z5enjhsvh7dszaUA++rPfu+xXEuLprPB+1SMfg0ssZw/
-	2T9z8K1ur19NugJHxBgwmaEL7mk3ZjMptw/8t5WIHG0zbeIfyC+LjbXtJDQLDLpGDnRmUC2zMBP
-	Grm27Eg8Cm65mjYBPxsVJdiUV0oMkgP0oZKVDf5vAXJi49k=
-X-Received: by 2002:a17:90a:c2cc:b0:3a4:e89a:21bf with SMTP id 98e67ed59e1d1-3a7873db396mr2837779a91.39.1791094036003;
-        Sat, 03 Oct 2026 23:07:16 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a78d4a869esm5844094a91.2.2026.10.03.23.07.08
+        bh=KxK826MAOAYwXMvz4tvmAzJFT8E/SsdJVdTSWQcGqO8=;
+        b=hhFgKPkhUscYER39pzOnDUN374qKC7igoZV6ZkksqmCTo5DdW16LhGMgOBtqLlqhe6
+         scbMB5CNytyJc+V8Lvp932rBF82z7gxz5pvNsd7SdQjL2xp5MGq/0ArxcYn0y79qENe9
+         vsyb2T6d2P9JQ+g73GJo0jN+fo9YuTwIaNhW16JCfDNFaUuZz+BDb74aAyobxZbzy/fz
+         zSx72qIbclOFn29nkOoLOkLDR9E3TmDj6EFW7QyF7TpIWOjqIPVjZ85iwYAyYvVlnH9V
+         lcg1lp3MOrCmHqYcytY9QRm6kOvLAdoYnT6BFUP50TUr/uW7E/sUaOXenPbYPDYNT3Dt
+         f81Q==
+X-Forwarded-Encrypted: i=1; AKwUvByAQdHTjjZH124fqsWYzaC+x1ayKFdyurUVFUhMt69SNvYtUqACYTDZ6lr4jN2Svod44jr3hw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mCQLCe/Qd3dPNqjSxcalUw1aPVR5B/HKoZCfYQ9Wl8/xuVPocq
+	Pv5weaXtg2eoc/Qe/ZLO5oYn7QT5hNceb8zyg+Tg2XnJ1e+Ui8AzMjRQggZ/lhhug8jMCSe20iH
+	2r2KBNbrzVOeoJZQYOyRLqr21Uq4mDwoIrO29bwCJ4vF+y8sN5BDi2dVWlQ2ty7+IU6i8iCGMP9
+	oasZSuXsskz/d7W/VdCpKgWB30k3L7JKB7YBxLmKzVr4C6+uZ7yryIg//YN7T8R/WSREHw1QKbR
+	OaoedlROVI+BLQ3
+X-Gm-Gg: AYBFou15z87wHSLzH9WZJqz/W5Nfk4x7OdSWIKX6eGtVE0WJ8G+ibMRNHOHywbPVESi
+	AUAYIw6lXQbnHtdIGhBqkTUq5leh2y4q306hXeA2fiCtXOYbPUpqCGWigioTvvDfGjQyLnzS7sX
+	kWqXZ0bN8HRpbE0T+nzUlmVQ6Jxp96O/9Dm3Xhq7anjALCiONVtRezSgm0/mzcVxiOZGoopfvW1
+	wY+yG4hYV0YCbop20pQlwI9lCL/j1Xzenph3tJ7B1dXk0Htk0q4lRqjOZAzjhZqKkd8M6nuy7e5
+	U3InOuBlqlJbsAqpAneJtU0cvcAFF4ei/gCM9IgjGLjUegdg0EqhxS0WGEBG9txwPHNmrjq9gJ0
+	YYSUuIe9Ff35kq6JoWxiqv6vtvWnJe394oGeCHoae3WJrqmMpKtmiPvtisYiFeq/cwmX1VerRr0
+	AEHftNp/F3SdFrv4U9cTdjC8ssIpeah8deziD7nw8=
+X-Received: by 2002:a05:620a:bd5:b0:939:feee:630 with SMTP id af79cd13be357-93e50ffc710mr741335185a.30.1791107135780;
+        Sun, 04 Oct 2026 02:45:35 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-16.dlp.protect.broadcom.com. [144.49.247.16])
+        by smtp-relay.gmail.com with ESMTPS id af79cd13be357-93cca30e892sm292661385a.9.2026.10.04.02.45.34
+        for <asahi@lists.linux.dev>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 04 Oct 2026 02:45:35 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-34d80ca2184so1226399eec.0
+        for <asahi@lists.linux.dev>; Sun, 04 Oct 2026 02:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1791107134; x=1791711934; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KxK826MAOAYwXMvz4tvmAzJFT8E/SsdJVdTSWQcGqO8=;
+        b=H/x0bRsbboFxhAnW8OZxr8NYtel5p1jvrZ3qcR9e/hV9xck32HAiB98wIfYkg8M8IF
+         O0PaMv5SJ80DEhuO9B4bl3YJbEr8MW8cyrsk5GpG4sNQHtV6/Zw34HVWuih7DuYG484r
+         WGZ7V8nQUQKRB7nfEQIjxsF17S86Uy094hHKg=
+X-Forwarded-Encrypted: i=1; AKwUvBzDebIIGvZpGnFXY90OEJh2ZTCQ33oqlDx9YPoAzYS78UP5Izbw1bAKovZ+443WWCUqmH2PFw==@lists.linux.dev
+X-Received: by 2002:a05:7300:d509:b0:351:23ce:992d with SMTP id 5a478bee46e88-35123cea7f7mr2847627eec.27.1791107133678;
+        Sun, 04 Oct 2026 02:45:33 -0700 (PDT)
+X-Received: by 2002:a05:7300:d509:b0:351:23ce:992d with SMTP id 5a478bee46e88-35123cea7f7mr2847594eec.27.1791107133106;
+        Sun, 04 Oct 2026 02:45:33 -0700 (PDT)
+Received: from bld-bun-02.bun.broadcom.net ([192.19.176.227])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-351272f27dcsm3508030eec.30.2026.10.04.02.45.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 23:07:15 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 04 Oct 2026 16:03:48 +1000
-Subject: [PATCH v2 21/21] arm64: dts: apple: t602x-j47x: Add
- speaker/headset jack nodes
+        Sun, 04 Oct 2026 02:45:32 -0700 (PDT)
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+To: Janne Grunau <j@jannau.net>
+Cc: Hante Meuleman <meuleman@broadcom.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Pieter-Paul Giesberts <pieterpg@broadcom.com>,
+	Jason Huang <jason.huang2@infineon.com>,
+	linux-wireless@vger.kernel.org,
+	brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com,
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Arend van Spriel <arend.vanspriel@broadcom.com>
+Subject: Re: [PATCH v2] wifi: brcmfmac: cfg80211: Report port_authorized for 4-way HS offload
+Date: Sun,  4 Oct 2026 02:45:27 -0700
+Message-ID: <20261004094527.1324037-1-arend.vanspriel@broadcom.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260915-brcmfmac-4way-handshake-offload-authenticated-event-v2-1-fbb9cc7ac177@jannau.net>
+References: <20260915-brcmfmac-4way-handshake-offload-authenticated-event-v2-1-fbb9cc7ac177@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261004-macaudio-v2-21-7b47ed6335a8@gmail.com>
-References: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
-In-Reply-To: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- James Calligeros <jcalligeros99@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2504;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=j+2mD3Lw4/MJvYfFqphn19jd5ntuiOHqc4m1K2MPqJs=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFkH3+Rf2a8aUrExzb1QOepzh8zJfDu2xPAy/q8rvjbJZ
- 8xfeqK1YyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- RjrGOkYMXJwCMNW/tzAyTH/13rXH33uWx1NR3gB53XwtpaUvo/kPyArq3Wd/sm35NEaGnR6/n6y
- /xiJSZzNZ7uVUVp0VBRsfaWW1plgdP7/06ZMTLAA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Transfer-Encoding: 8bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-The M2 Pro/Max/Ultra Mac mini and Mac Studio integrate Apple-specific
-variants of the TI TAS2764 and Cirrus CS42L42. Add these nodes and
-advertise them to the machine driver via the sound node.
+On Tue, 15 Sep 2026 21:17:38 +0200, Janne Grunau wrote:
+> Since commit 416386060 ("Mark authorization completed on driver
+> indication during 4-way HS offload") [0] wpa_supplicant expects
+> NL80211_CMD_PORT_AUTHORIZED to complete the authentication when the
+> driver supports 4-way handshake offload.
 
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- .../arm64/boot/dts/apple/t6020-j474s.dts |  5 +++++
- .../arm64/boot/dts/apple/t6021-j475c.dts |  5 +++++
- .../arm64/boot/dts/apple/t6022-j475d.dts |  5 +++++
- .../boot/dts/apple/t602x-j474-j475.dtsi  | 10 ++++++++++
- 4 files changed, 25 insertions(+)
+[...]
 
-diff --git a/arch/arm64/boot/dts/apple/t6020-j474s.dts b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-index e3c2635d84fa..7b4c4ef471be 100644
---- a/arch/arm64/boot/dts/apple/t6020-j474s.dts
-+++ b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-@@ -46,4 +46,9 @@ &pcie0 {
- 			<0x300 &pcie0_dart_3 1 1>;
- };
- 
-+&sound {
-+	compatible = "apple,j474-macaudio", "apple,j473-macaudio";
-+	model = "Mac mini J473";
-+};
-+
- #include "hwmon-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6021-j475c.dts b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-index 9fe17f1f7f59..f8f776f9eb1e 100644
---- a/arch/arm64/boot/dts/apple/t6021-j475c.dts
-+++ b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-@@ -36,4 +36,9 @@ &pcie0_dart_1 {
- 	status = "okay";
- };
- 
-+&sound {
-+	compatible = "apple,j475-macaudio", "apple,j375-macaudio";
-+	model = "Mac Studio J475";
-+};
-+
- #include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6022-j475d.dts b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-index 32938a3bf96a..153899f1569b 100644
---- a/arch/arm64/boot/dts/apple/t6022-j475d.dts
-+++ b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-@@ -73,3 +73,8 @@ &bluetooth0 {
- 	compatible = "pci14e4,5f72";
- 	brcm,board-type = "apple,canary";
- };
-+
-+&sound {
-+	compatible = "apple,j475-macaudio", "apple,j375-macaudio";
-+	model = "Mac Studio J475";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-index 926bb4ab77af..7f1faefcf9bb 100644
---- a/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-+++ b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-@@ -36,3 +36,13 @@ &hpm2 {
- &hpm3 {
- 	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
- };
-+
-+&speaker {
-+	interrupts-extended = <&pinctrl_ap 58 IRQ_TYPE_LEVEL_LOW>;
-+	shutdown-gpios = <&pinctrl_ap 57 GPIO_ACTIVE_HIGH>;
-+};
-+
-+&jack_codec {
-+	interrupts-extended = <&pinctrl_ap 59 IRQ_TYPE_LEVEL_LOW>;
-+	reset-gpios = <&pinctrl_nub 8 GPIO_ACTIVE_HIGH>;
-+};
+> Cc: stable@vger.kernel.org
+> Fixes: b8a64f0e96c2 ("brcmfmac: support 4-way handshake offloading for WPA/WPA2-PSK")
 
--- 
-2.55.0
+Acked-by: Arend van Spriel <arend.vanspriel@broadcom.com>
 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> ---
+>  .../wireless/broadcom/brcm80211/brcmfmac/cfg80211.c  | 20 ++++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
