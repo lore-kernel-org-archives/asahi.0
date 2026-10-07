@@ -1,172 +1,119 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pl1-f225.google.com (mail-pl1-f225.google.com [209.85.214.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80AD471437
-	for <asahi@lists.linux.dev>; Wed,  7 Oct 2026 09:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B457845A295
+	for <asahi@lists.linux.dev>; Wed,  7 Oct 2026 12:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791365631; cv=none; b=ITe47e38/DFyoXFHfz2D8fYJBOXcpbga2Kbs6hnrsSyKPu2h4UcRfl0n7nb/tXS7oFRKVvWhSwL7/j/e+KlN7twaz3z25oTAjQu7OO9Q55s8Xr7ABbBg2Su1n7pFJeUn4VvoNZy6wZdp1ftJOc99ooeX3ck+HiHuKtOviPx9X8A=
+	t=1791377663; cv=none; b=TO9ip69fV5roUQEUdRUFKGnNVrAFZOoaBCvLZIGmIuZ7pGLlpJXEEqnNCJtsIftKASkJ8Dqu7Bae/AbA0mw+Amn1KLgxVuxNPgODKDZf4eJr3z6yvywLL4mYEq8H9Dw41lZUqr+p3UGwazLWwHk7dpfZqmSWCINWDUprmYFvRwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791365631; c=relaxed/simple;
-	bh=C3V4UXgsMyjfls0kAgGHGbnZQnqSrUwTQ3JG/daKfzg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Dz8G0CmYMz32V9LsUuBnCbC1PCDPFJ/COVutW9Wbk37bDq9OVsT9nPweABW96xBaCj+/Y748XeG60D/vt9mikoYFw0yCtSnmUiqoYMYAVFXY9ZQ0dVxPZQSDvW/JKRlbHIY9sEifAlUAhCaYbR9T6f0DydClcNXc87I8w8BS4sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QOh6Ii2r; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791377663; c=relaxed/simple;
+	bh=vQ5ti0IRpJKxnO/ajOgsAv5J3ZdzP6Vf+7alXOHlJ2U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G7K7wk4sRa0FDY3Ou2vjb8BBt1gcLBbcWNm5r+/aUS5NQRLvuEYUVOIvNmXzTPHlYOcD7zJc3obNZe0eABaPBFCdIGKRaXL6GcROyRvWPWlUxLCgM3+C3N3sWckApL0iGNorhmLmZ1ZWOrh5RhnL7KneH0MYl/+lWM1osohAXF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=EkQ95eLZ; arc=none smtp.client-ip=209.85.214.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOh6Ii2r"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3a80d1c98f5so2126433a91.0
-        for <asahi@lists.linux.dev>; Wed, 07 Oct 2026 02:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791365617; x=1791970417; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Vy63mdqIPndIk85N+xwyTXgE3amsDxjtRy55K/v9EX0=;
-        b=QOh6Ii2rHMQLChJbY1+T551XiPVlWuIWtGTrpwUgG/2AhxyMpYvZ6omy26MJG0gFju
-         6//rH7IVz6mfYotvRd/AJm4ethPo7C7hPgH4ebVwQ9i+ZEQgoMsEdCXySkXYcp9TYT7i
-         2PkYQOVkpiZI41h1b65T19vg1lB7anvVztjUPxMYdFhlpYZ7BggPt1Y8J+TPrzDccUzP
-         BuWLB8eftLgSp+itshgmrG1k2MXuHlLCevI356172Ts+DsBzzlPC5JBLuN0BFUPKkqBt
-         CpJ55O/Al03mw05q5aJzYYEUf2HYB43KrUJIPMDlkeJ0PAkrtygHJjkvW3e2qG7r7mDt
-         BIYg==
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="EkQ95eLZ"
+Received: by mail-pl1-f225.google.com with SMTP id d9443c01a7336-2e60f9af6e6so4513395ad.3
+        for <asahi@lists.linux.dev>; Wed, 07 Oct 2026 05:54:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791365617; x=1791970417;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+        d=1e100.net; s=20260707; t=1791377654; x=1791982454;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Vy63mdqIPndIk85N+xwyTXgE3amsDxjtRy55K/v9EX0=;
-        b=cytJvl77YKrs4EWZvvE1OicX+dZAUMLqqa+v14TvQDLaSXV/cR78VUIss5fHHFh/oH
-         cF6aIMP+RyJm+VyLFPifTQ3WtzDfF1cdzhpq3DVfK8CPfmPLhvnHEQH0zMrvqsfmHsEu
-         Eg+HAwWbuGt0mdWQiRsm4Ny7skJc9fEcr9qHDP6ssj4qMjYWuLxDFaoaNVephEUpND2M
-         /JN539dhMf/LOoul41ts/aPdPlVKdtman4lpSX6tetji3ePKIWLKkMmGdHy48mbl0DxK
-         BhC4Yq1FvLSMCGKwObExtdBICq/7Mi1z8d5PygWFlxMHwDfLboRnen2UXBRk4V9jkbTt
-         uhIw==
-X-Forwarded-Encrypted: i=1; AKwUvByZ8AyLL3WaIdTWbUC2KMQGbNbZrN9sVN5yaI7d6kU2VPe2rvhipfIyfFi17mqsSf0hnGs0GQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKkXLQ1IOqub+lFs1nJpqAOgeAV9cCE/YwjgXWA/YtRAVtFujYp
-	1OQgzc+XrLqQOihbZ1isOQLLDiKjG3ahG68wBSFjW+OSnkI3WzVIe3T3
-X-Gm-Gg: AYBFou1vpHHmoNk5Vv6AzXob/8jaCV+hGa/qV7OUTHDjyv+7yjC1LF5YLsJhxsivK8B
-	fYi12OnrySD/1Qo6Ho84Bsj9bzCoZKbMITv7ZopD9cgX2TOQp4dKLcFROhR/kb9/vo9WhahCTlR
-	FiAEy2A8hsPT5qX0doJ3rU3MJwUTpFtCusMIifQmZ24ze7TfScIkWiveq1YmD4YsDgFZnSI7KHK
-	O7t08mlqFjCvFydro4f43XfT+VSLfCjvOuZ8WiuGRxWqoKmpM/vmP1s1CXXe9uPMPDKTORODuo/
-	Gh/uY3XozD62gCcOvfhWDShK/cFBC0mBQwLmSFUcaVqacG9k+p/uOQWGw7ED+LjT00NCvnAxjhC
-	WoHyABdpG+RVxMRgXknMnxt5h+Q9LKvKYWUDlm/9PPbaY9aE4HjKBRcqyUiTZu37o3OzAH9HpHo
-	UfwjVnOke/dqCORm7wzI/4168k9wgRQqFIi9eDeSeTEQOWWiHB5lDdHWIqrW6Ia3Az4MjxPCwal
-	DscAg8eTjKsrvJpS3rWJXffF+mnvnx8KJn8ekYiQnm+IC8Un4WxAsKyxPEFPM5cVXXlD2wmJM0e
-	CFnKZnpPB2rMRw5pxwgznoDQajHhRJTT+JbKWXw6uQvflBQlQpxVb/UAnw==
-X-Received: by 2002:a17:90b:4a86:b0:3a7:f64f:6473 with SMTP id 98e67ed59e1d1-3a8a1be69d6mr1440644a91.50.1791365616910;
-        Wed, 07 Oct 2026 02:33:36 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a853e662a5sm9119994a91.4.2026.10.07.02.33.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 02:33:36 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 07 Oct 2026 19:33:19 +1000
-Subject: [PATCH v3] drm/fourcc: Add Apple Interchange layout format
- modifier
+        bh=WRr2bOzV+ACM051eiPZmuzY0jHiw8RpNfmmijxyyZ5s=;
+        b=Xn+mgZi1xKPiqxrGw78+pvuXoPO29R3Ugp4793RobnnVBlrVpdnEhgDpBSxae1M3HX
+         t8L1lAlfkW46YIXSt6htc6zSLCwk2zQo3FULG0uhYuu5vcciLJ7FG6fIciq4IPWEkIze
+         wis4/2jlbtnvBsjV/pXlSJvgvYpkFLTtMpUEd7YPZ9CAjI6ZIvmPz9ffCC6fUqMjm4XW
+         Ui3Vi5lvg9xkKBh00I+MLfAzIXmWjGThzhRy8Yuz0Nc9YKhtlr43JNRp7r4eKiDKzW92
+         w7v7c4w3NFq/xT2qfFV5cJkSp9xN+t6QJ6d61EvQSglCrN8hMcS0nzYPySVPhBOA/j1i
+         x5wQ==
+X-Forwarded-Encrypted: i=1; AKwUvByP5UsWpL39tHQoOvlnbjgzBrNVsVtXkHmPjZqjsVzr8hmlTlJ9wv/v1uFcpwVxsN9NT4t97Q==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLo54mMU5IEPd+kpUHo9Dt+8EUeonshqrrkgZm08BR60gGDnigA
+	g2X9SY6yQXvLnBjAnN5Jy3YUWaoMlr7dNL/0RQsBN4xNs2BkaZ3N+qsff7d70qJXUuLBjSmUW8V
+	y93lzQRE6DGzNAR/2Rg3BEvY6Kc6tQ+CnzCtOaU8gdr9GMnUotbiYgXqeErUj2vmvQFm2FnPNnR
+	vMpT/73AOeNx1Xcz5YuJKBsUM/YSQllFoe4VYK/YsY408I0Ptl+89NqDkupBjvQ8XxrxkWevU9t
+	2u9SM1Ld5RbanjM
+X-Gm-Gg: AYBFou0dZg3Eytr7wHLFHNznog9GospLFc4+E6mUfhMamyrHjjePkd4drRqchn/OC0I
+	iuTJXB3x6Hroo6N7P9tiEm+uOUiuSw90IhEZJHBjxFkO3OvbZL84ajsxnSUACRJ8yLqKc7lfcsd
+	2Os4J0sULBqd8qjEDuNUSHcVcWpogXS0fRtwjhJ16AQ0TMjEaQADVbrnLaForV4B/3JOOfQVB5l
+	idsGeXpuxVC3Uj8coDyNWH4AAPh1EUk1Kxj7+IxdgocqqlePDltX9iWkb2u4HyIUAU6+1Usd6Ej
+	UZfjZbt6zfcpRwyDA/aYOYpUf9DmFgaQ9Hrjc5OkCU6IIIKYRCSraqQNVX8yUAD8nIQgkYygBN+
+	P4/GJKjJ/YUiGj6mCMOhH7ZwWY6MeAgPYJIT5C7+PdNWsdR55TK47xgHL9zGi0e62t3vgbuD466
+	w2oJ6PUoKSKxIqGPPdbLNpR4jXJo2h6AM9Vx2vYIcthw==
+X-Received: by 2002:a17:902:db02:b0:2e3:1d30:8654 with SMTP id d9443c01a7336-2e5ffc3b453mr21073585ad.10.1791377653745;
+        Wed, 07 Oct 2026 05:54:13 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-124.dlp.protect.broadcom.com. [144.49.247.124])
+        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2e60481edefsm822685ad.38.2026.10.07.05.54.13
+        for <asahi@lists.linux.dev>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 07 Oct 2026 05:54:13 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-88c4da716f4so5331030b3a.3
+        for <asahi@lists.linux.dev>; Wed, 07 Oct 2026 05:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1791377652; x=1791982452; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WRr2bOzV+ACM051eiPZmuzY0jHiw8RpNfmmijxyyZ5s=;
+        b=EkQ95eLZ03h1+2k8wHuMpy4hoZrEf4bFV+7JF7ISUOfoAKE2Ha6HPD6M1N0aBdTVia
+         mH4vskyEj0nhfdZ+sIzNmZ1qGaLmZOCMx8/S5Mqbe7rWOZVnGWk6TKa8dLPPULoYzNZC
+         8EozG0UMxYUwTqlvG/aWQ2GPs0VjrGjDmKd6s=
+X-Forwarded-Encrypted: i=1; AKwUvBye5y5Jd5NHZUIgHQ4SCN7Zh/fOf6sINaNfEf49eMDNaXtQdwOCao9fzvKVG9n8MK79yfNStg==@lists.linux.dev
+X-Received: by 2002:a05:6a21:3990:b0:3dd:85aa:452c with SMTP id adf61e73a8af0-3e134044716mr1756556637.30.1791377651838;
+        Wed, 07 Oct 2026 05:54:11 -0700 (PDT)
+X-Received: by 2002:a05:6a21:3990:b0:3dd:85aa:452c with SMTP id adf61e73a8af0-3e134044716mr1756535637.30.1791377651379;
+        Wed, 07 Oct 2026 05:54:11 -0700 (PDT)
+Received: from [10.176.2.78] ([192.19.176.227])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd0a92d5b51sm1411697a12.14.2026.10.07.05.54.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Oct 2026 05:54:10 -0700 (PDT)
+Message-ID: <d28a1cfd-1bcc-4319-bbbf-7189a1ff8dc3@broadcom.com>
+Date: Wed, 7 Oct 2026 14:54:04 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/13] wifi: brcmfmac: Add BCM4388 support
+To: michael.reeves077@gmail.com, Pieter-Paul Giesberts
+ <pieterpg@broadcom.com>, "Franky Lin (Zhenhui)" <frankyl@broadcom.com>,
+ Mathy Vanhoef <vanhoefm@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, asahi@lists.linux.dev,
+ Hector Martin <marcan@marcan.st>, Daniel Berlin <dberlin@dberlin.org>,
+ Janne Grunau <j@jannau.net>, linux-kernel@vger.kernel.org,
+ Hante Meuleman <meuleman@broadcom.com>, linux-hardening@vger.kernel.org
+References: <20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com>
+Content-Language: en-US
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+In-Reply-To: <20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261007-apple-interchange-modifier-v3-1-721fc44abf6b@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32Nyw6CMBBFf4V0bU2nBURX/odxAe0UxvBKi0RD+
- HcLPuKK5bm5OWdiHh2hZ6doYg5H8tS1AdQuYrrK2xI5mcBMCpmKTAme930dxnZA9zk0nSFL6Lg
- utFYAOlOJYUHQO7T0WOWX65v9vbihHhbj8qjID517rvURlt83BFuhETjwxKQoD/ZolcjOZZNTv
- dddw5bQKH8qECLeVMmgikHkyogkBpv+q+Z5fgEOhUYuIQEAAA==
-X-Change-ID: 20260830-apple-interchange-modifier-cbcc311c835d
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Oliver Bestmann <oliver.bestmann@googlemail.com>, 
- sofus <sofus.c@icloud.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenz.ca>, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2877;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=C3V4UXgsMyjfls0kAgGHGbnZQnqSrUwTQ3JG/daKfzg=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnHBF/88+VblZ+1TMx8yeJ83+NmB837n12arO/f7q3Vm
- Xw0OO9/x0QWBjEuBksxRZYNTUIes43YbvaLVO6FmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
- jXSMdYwYuDgFYKpZKhj+Wbsab5+a0sgcHXn+o20uo7j+PPcyxQCZoK4qtZzv6cc5GBnuqXKZ597
- SvBPqMTfAw9O9rLVdyZO9I/oda4RefVNvDSMA
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-Apple Interchange is a tiled and compressed image layout used
-for buffer exchange between Apple hardware blocks. It is
-similar to the already-supported GPU_TILED_COMPRESSED layout.
+On 25/09/2026 15:43, Michael Reeves via B4 Relay wrote:
+> The Broadcom BCM4388 chipset requires new PCIe initialization and
+> firmware interfaces. Add support for these interfaces to brcmfmac to
+> enable basic station operation.
+> 
+> This series adds:
+> - Signed firmware loading and mailbox transport
+> - Fixes for chip identification and firmware capability matching
+> - Versioned scan and join requests, and extended PMK payloads
+> - Updated event mask handling
 
-Add a format modifier for Apple Interchange so that it can be
-used for buffer exchange.
+Thanks for this series. It is taking me longer to review the full 
+series, but wanted to let you know I am looking at it.
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenz.ca>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
-Changes in v3:
-- Explicitly mention lack of stride and single-plane treatment
-- Pick up Alyssa's R-b
-- Link to v2: https://patch.msgid.link/20261004-apple-interchange-modifier-v2-1-410a3d0541f6@gmail.com
-
-Changes in v2:
-- Fix typo
-- Link to v1: https://patch.msgid.link/20260831-apple-interchange-modifier-v1-1-5d6e27f9f308@gmail.com
-
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-To: David Airlie <airlied@gmail.com>
-To: Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
----
- include/uapi/drm/drm_fourcc.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index a103fdc0b3a3..0bb049f91524 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -1626,6 +1626,30 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
- #define DRM_FORMAT_MOD_APPLE_GPU_TILED fourcc_mod_code(APPLE, 1)
- #define DRM_FORMAT_MOD_APPLE_GPU_TILED_COMPRESSED fourcc_mod_code(APPLE, 2)
- 
-+/*
-+ * Apple Interchange layout
-+ *
-+ * Apple Interchange is a compressed framebuffer format used exclusively for
-+ * sharing buffers between hardware blocks (GPU, display controller, video
-+ * codecs) on Apple platforms. It is similar to and uses the same compression
-+ * scheme as GPU_TILED_COMPRESSED. There is no known uncompressed variant
-+ * of Apple Interchange.
-+ *
-+ * Unlike the GPU layouts, tile size is not dependent on bit depth. RGB
-+ * images and the chroma components of YUV images use 16x16 tiles. The
-+ * luma component of YUV images uses 32x32 tiles. Compression tiles
-+ * are once again 16x16 with 8 bytes of metadata per compression subtile.
-+ *
-+ * Following the example set by GPU_TILED_{,COMPRESSED}, Interchange images
-+ * are treated as a single plane by software and do not have a meaningful
-+ * stride.
-+ *
-+ * AGX has limited support for Apple Interchange. It cannot be used for Z/S
-+ * buffers or array images, for example. It is intended for scanout buffer
-+ * sharing only.
-+ */
-+#define DRM_FORMAT_MOD_APPLE_INTERCHANGE fourcc_mod_code(APPLE, 3)
-+
- /*
-  * AMD modifiers
-  *
-
----
-base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
-change-id: 20260830-apple-interchange-modifier-cbcc311c835d
-
-Best regards,
---  
-James Calligeros <jcalligeros99@gmail.com>
-
+Regards,
+Arend
