@@ -1,164 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0C729A309;
-	Fri,  9 Oct 2026 07:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736EA3D5661;
+	Fri,  9 Oct 2026 08:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791530989; cv=none; b=cMV8g/Ngdk081hyfTzrYvGLYjMEK/cUquv7Y4H28T5DCk8+muwcd0JNA9y2oN/lUKSX0fFFzcDJBxs2h8BxezRdB4QH0D8llM/fu9GyZkKDbRCdUexfuLnFMpEddEZDidgSKk3PL9Lo/KAY1rcrWQRIxBNLxtqUOcV0Lp1YfHVY=
+	t=1791533769; cv=none; b=LbdLt1cfULZfvGVqOW5+DdY0kZj9X/KUrRbhV7Q6b18NRxAmWsJllFuBjBfIf1Ek94wLJ5ZMwmyACXojB9f0dqo7gR6h7g073CVGt63thN2n5te8RCKfxI1iLkI63RiciZq3aFjD3tJ/2mO2MF6sdvPlstoj3A5/KxTMLe8DrsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791530989; c=relaxed/simple;
-	bh=gIdGvVerVBjlAY5FJTnRGxSGodZbvv30G71GWfeeVgc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YlUMtY6QKH5ZLMS0Whj5nTgpSaQrX8R+16u0YMqf/aSczdxD5xyYgOTmRrmgt7U2UifSB7Uh7eRWJ3UZUXELrwNrS+uQcfUcHCJZozj+9wysM6qY6egLAgxP5QeZgktKOlQ32h366x3UKW8XpA+jK8U7QcvwL86cA5SBTd1CI5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ASsMTGOC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791533769; c=relaxed/simple;
+	bh=6L+KaznwAuHpheVwOwoX+V92qKrNouPZyPH9NAHcH7E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kCmULKogtFgRyIRARGlK5WbUtI9mJLEGMH1mbc8I3YlKSzi8kC16iJa0DoRt6FN+/xSsM8v39Vs9OqteMq0ktiTfH0j/VEwCPzPRWAr+sa6Tjufwl19v/j1fzOqKwB+fb6A42iB8h9Pr3feA9gfNPIhze8TzITZqp/onSZWqQE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ean2+KIy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ASsMTGOC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F6661F00893;
-	Fri,  9 Oct 2026 07:29:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ean2+KIy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF2651F000FF;
+	Fri,  9 Oct 2026 08:16:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791530988;
-	bh=/s3Lbiloemf0P5lVKd7CO+NXtdjl9lXaZ6C19RxmqW0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ASsMTGOC32s6aRYigVMmUQeV7zp1Hf6b3fNWY7FBM2nbBfgHAMV0hvTq1FOMmt3uC
-	 AlDWrO9PdjPggh+EZRE0M0wnwCzlSwqWv6A1q3KAVnoVM9FXOzO+uIb4CQ6RL5QEd4
-	 XrMbkj9im5A5QvpbPvmNIvS4k84VdKLgVUU1zFHHhmngSXIS1uTz3nhM0dJlBPyHNr
-	 /oc97sd/SgVvE4L0LanE9bTeqVoBtrjgKWLhLHhYtgkttzsXUaZN38FtC23D2PeSyX
-	 oNrmADhUd8uxUReUGYyfjaLgQSq76RI4e+S4vkslAAqopjnFFKOxCtxHm4ZLt+RZ9L
-	 FX0q6iUolIGmg==
-Message-ID: <2d7acd00-0cb5-4002-9663-a39dc4e55ad3@kernel.org>
-Date: Fri, 9 Oct 2026 09:29:38 +0200
+	s=k20260515; t=1791533766;
+	bh=0Q7Iq9ZQuMAvACwALePa9WJpZ8LPn0xN+4LqXcd3aNs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ean2+KIyYeG7dauOrNMQKn6Vnu7vA5ABJHULRILgDBXtUR6qMAZeVVNLkWQohjcaf
+	 pyNJbAJiZ0AlyzCWVYbgriI6uJhBwkqsrYIebZ3q1MVR+mVNDIxQ/qA7Qx9Wi2Upt3
+	 L1ky3wVFsuXnKRwy0iuzKcoZ4Oh4jPuEYkW7dcuJnbgWSNsG8uME9h8pZMUa3Gr9sA
+	 OMeLKnmfDn2EUKr+j3iYrdfzo+LwrJ/dc6g+bExp8dh+eYxsoLtKvQGkdslXX1I3iu
+	 vSuzYHiAqkcLpK7YybCi28XQbhOP7NGVnPWMEMlM6XBOomPrzjmOLRkl9JhXM7i+I1
+	 FfcwlGs0oyZFw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1xF5ls-00000000uDQ-1006;
+	Fri, 09 Oct 2026 08:16:04 +0000
+Date: Fri, 09 Oct 2026 09:16:03 +0100
+Message-ID: <86bj932ssc.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Michael Reeves <michael.reeves077@gmail.com>
+Cc: Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Myria Sarvay <myrialsarvay@gmail.com>,
+	Yureka Lilian <yureka@cyberchaos.dev>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] arm64: Apply existing Apple CPU workarounds to M3 and M4
+In-Reply-To: <CANpmGNv4uYRLALMLKZn-HJwTiqJO90Fx23DOO7K7d-PfSWn=2w@mail.gmail.com>
+References: <20261008-apple-m3-m4-kvm-v1-0-7bb4cbf3d63b@gmail.com>
+	<20261008-apple-m3-m4-kvm-v1-2-7bb4cbf3d63b@gmail.com>
+	<86cxtk2utm.wl-maz@kernel.org>
+	<CANpmGNv4uYRLALMLKZn-HJwTiqJO90Fx23DOO7K7d-PfSWn=2w@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/21] ASoC: dt-bindings: Add binding for Apple Silicon
- Mac audio
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-5-7b47ed6335a8@gmail.com>
- <20261009-daring-objective-flounder-c0b66d@quoll>
- <rT1KWd0SSiuQLd7MLQWREA@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <rT1KWd0SSiuQLd7MLQWREA@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: michael.reeves077@gmail.com, oupton@kernel.org, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, myrialsarvay@gmail.com, yureka@cyberchaos.dev, fuad.tabba@linux.dev, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, sven@kernel.org, j@jannau.net, neal@gompa.dev, asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 09/10/2026 09:21, James Calligeros wrote:
-> On Friday, 9 October 2026 5:17:53 pm Australian Eastern Standard Time 
-> Krzysztof Kozlowski wrote:
->> On Sun, Oct 04, 2026 at 04:03:32PM +1000, James Calligeros wrote:
->>> +examples:
->>> +  - |
->>> +    sound {
->>> +      compatible = "apple,j416-macaudio", "apple,j316-macaudio";
->>> +      model = "MacBook Pro J416";
->>> +
->>> +      #address-cells = <1>;
->>> +      #size-cells = <0>;
->>> +
->>> +      dai-link@0 {
->>> +        reg = <0>;
->>> +        link-name = "Speakers";
->>> +
->>> +        dai-tdm-idle-mode-0 = "zero";
->>> +        dai-tdm-idle-mode-3 = "zero";
->>> +        dai-tdm-slot-tx-idle-mask-0 = <0xf0f0f0>;
->>> +        dai-tdm-slot-tx-idle-mask-3 = <0x0f0f0f>;
->>> +
->>> +        codec {
->>> +          sound-dai = <&speaker_left_woof1>,
->>> +                      <&speaker_left_tweet>,
->>> +                      <&speaker_left_woof2>,
->>> +                      <&speaker_right_woof1>,
->>> +                      <&speaker_right_tweet>,
->>> +                      <&speaker_right_woof2>;
->>> +        };
->>> +
->>> +        cpu {
->>> +          sound-dai = <&mca 0>, <&mca 1>;
->>> +        };
->>> +      };
->>> +
->>> +      dai-link@1 {
->>> +        reg = <1>;
->>> +        link-name = "Headphone Jack";
->>> +
->>> +        codec {
->>> +          sound-dai = <&jack_codec>;
->>> +        };
->>> +
->>> +        cpu {
->>> +          sound-dai = <&mca 2>;
->>
->> Example looks incomplete, you miss TDM slot properties.
+On Fri, 09 Oct 2026 01:03:57 +0100,
+Michael Reeves <michael.reeves077@gmail.com> wrote:
 > 
-> The machine driver generates the TDM slot assignments for the DAIs
-> and sets them at runtime.
+> > I can provide the binary (and a few scripts) to test this easily.
+> > Should they have been fixed, we can always create a second
+> > implementation list to cover the PMU.
+> 
+> Can you please send that so we can try? That would be much
+> appreciated, thank you.
 
-Ah, I found them in dai-link node, one level up.
+I've sent you (and Yureka) details over IRC. If you need help with
+setting things up, let me know directly.
 
-Best regards,
-Krzysztof
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
