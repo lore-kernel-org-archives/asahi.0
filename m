@@ -1,69 +1,72 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD54D381AF1
-	for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 02:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A02366054
+	for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 04:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791600526; cv=none; b=go76HqCcA5lNmItWSyuho3PAOOLzksxBlSnXp20we6B9vqJxzANU94dbqmNPG2qd+8SdZvZADF3dnSGqnAZwl4hFVqurL+mWIkENgMoBVle4Yo0YKQK6bH75QaoDOmO4FsjuFN2SvF/vwuZi3uwR+xna9wf86BTPoMFhKegHp6Q=
+	t=1791607268; cv=none; b=AICDSEjcsIjFN/DjbZfusI1VyBJTKAcZ1BWvdFtw5rlI/vU6waZHnd+hNkNEnX7wTfI9vSN/qh2o160E1yW3Nibrk4MsPILp0BxqG0Hq+u8DtUocm7DLUrfzx8j36uQQCGRGHeqO+1ruukhBNFqpz0Vh0E6GBSju+hWT3Eg3NjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791600526; c=relaxed/simple;
-	bh=PR8UKdZZVI65hHMoanhVFfK2UYdeJJzvlhtOcX9oidg=;
+	s=arc-20240116; t=1791607268; c=relaxed/simple;
+	bh=fN6Fd6o/zCGIvEnXn+MFZXCFpeQhWnuklflkSkR1o9A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I3H0vO2vY7Z+fpyfEB9EG5EscPD6U0PhzjeXhN9Qf/EwKw4kmXPfuVXhfZm+W4OGIf3K56n1efJPFNn3lrPBAwO8ciwp298igxZyn+yMZufAxYzQtLB8zOxa8HRKdUYyjQP8pwXuM6pXrEzNsOWOkqhbb1zRxHUfpHJrTtk7E6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ibGxJg6M; arc=none smtp.client-ip=209.85.216.48
+	 MIME-Version:Content-Type; b=lApMZp2PIOs8Zzg5hHtl+2EDW5Scb3SOGdw3I9Mcy70aluzTvXFXCs+cpOdHX+H8Agky7+115YhOrhFq4Ebe0rVwPaPnwMqQZNOUP6LcpBgEK8feNzKON4EQArjpWKCgBOfcvCiX+no01NVfc25QqFw4to3Tng1aF85bQQtzltQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LgpSi71g; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ibGxJg6M"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3ab752f6244so194876a91.2
-        for <asahi@lists.linux.dev>; Fri, 09 Oct 2026 19:48:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LgpSi71g"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2dd76b1361dso1848795ad.1
+        for <asahi@lists.linux.dev>; Fri, 09 Oct 2026 21:41:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791600525; x=1792205325; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791607266; x=1792212066; darn=lists.linux.dev;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Ol+wvlr2CdZCdXa+I/bU7xRVzRqJragTtCzufPOHHa8=;
-        b=ibGxJg6MjfaQ2A/lgbCyaajITe79NaWOp8wajduBcm5zJXuIQLDHZd2JrqMYIuy6oW
-         Q8VutGPHtrpzk3m5o/5zLUpxeg7ZxfWHJ9jBexhLTAiJyH3g61DIxJ3uUNX3tU3TJXTF
-         P7HaGKxW1HAW8am6l8vgJMgz/vWX34fTCPMLIFZh2FDPW68iRD2S/VMT+8t22a1YF+8s
-         6HeG8r/Ouqjz6rJ6mA/I94E3wyShGMbBnpMRP3xBGeQMlnamI/JX0nkQDbkFamyaDtVl
-         V23mTVjwh4+rvCDaMgYVI/Vr7fxr7XN751CxjADIpz3nQ6u7TyJIXi5yvWOddcXVn3xu
-         mYAw==
+        bh=sNrVsnb4FmKFTXfrSdVYo8TWlLsGj3AF2yF7SV7KZcs=;
+        b=LgpSi71gClyhsKXdUE7sRVlCL4R5HYymANUj/4erQEgVSogExQg5zi6uLVRZAOFCKp
+         BM7wbtAt0i/oy2NMqa3bUohzN7AAmcAoIBT9zMZDoj8gGziUlQIpFcxp2XrJpvgSMr6I
+         zgZVb+Jnz67+rQZS5bn5m3eMx62dr+3Prpwl9CcXRbgVTf5HJ6ONzFCmA0BKKFuA+E6p
+         1kdPOvhnR6aUwQq2SBI3HOA/FIXHyo+3coTVKKh+QP8QBJIgtg3/lQypaDbK58PPKn2K
+         GR1bvdYpV3mwsQD4FhN/uJ2IvJ4CNDrL4/XDKFSFXyGJx5u6f4NgxadVF53+NHag0hE7
+         0fxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791600525; x=1792205325;
+        d=1e100.net; s=20260707; t=1791607266; x=1792212066;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Ol+wvlr2CdZCdXa+I/bU7xRVzRqJragTtCzufPOHHa8=;
-        b=NTl662LyMzAPvW1DJaVaDI5hRZE0emAtKQy71s9mfq7E5c05k4dYLcVfZ0/ehGNXYy
-         Q7VRKXgUpgYg0LUKzuLxE8sKrk7T/qZAvExjlyFFcLvDsSbW47Oyvf18nTj3sOg1wA2O
-         QHe6h5Gt3Lg0rLN/en9oas6H1xP/xjMnK4q76YUtoiL8tAJ8b4zfW9X0FR4zPt43PevV
-         UkM2s/ZEw4g7zWrN0q80ZseKb7/nlJ2W3FE1jLRFzeTWLgC5hIzGNCjK5dZKwIx/wKJc
-         cJ7uU0wRLSvtpk6I2VF4ysO9dsJCnV+cOSRDFGHg8UEG3/sVaLnTP3be82I6SVZEeWQF
-         8r2w==
-X-Forwarded-Encrypted: i=1; AKwUvBzWsrMiOknuXbvoYQaTmHtYb9Ouzs7MDkBmeJ16PCVbvhGS+LB0ImsuKRuxUsw74IWDRUQcRA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLwAgLVsM67OfU66NNtnHz9n3XkHjW536oRzKfWUXgGhFZaxQgS
-	IzrJ/LZH7I8kPE6N4y2pGzJ14YanbCCk2WsPJ11qP352IU8ErIH2r+EA
-X-Gm-Gg: AYBFou05T6ChQDPzeA/Wht3Zln08wuU+zTfz1tw9snLtyygjCAtq72DiYJkDzckVcce
-	BiB91OOPqbhSWqLHRasdPqjt3uxOpdYW95jKYIMcSDSoYY6d4WkEGI8eibzW/mkqRNoJSzrwpeX
-	+44jhbcxwoH3EEiWCRHY7PEpaL5VU6gAqp//OyR98M/LHoMRrHa3Qd+uuuz7WXgFZO767e8FB72
-	Ohp0y+cpk2Sh/a78I7k9LdaLrnfSfO/krr/NZnk9sHA/Ji108+l4wKEqRr7in76jZiHBeHMpe4z
-	nstDqnQHfEQhIIEXcsrq9m9/QjpZPOGgpXc6qF+T95fg817FOxNT1pGW3GOIduO4E4cxeM7jM5m
-	GA10XiP1pJgXm0CDhLl5PodqsOQv7cMNHTbn6h8/wVaFyLJ7Zunqy5h5CSAZzMmPjk2/knkG4/M
-	1bOggFlT9esRVk5uJkABQnFn4zwI8mjYESYPFfEGAb1svfnHvkRfD4g+f5PCrlM07cW3MNjQMY5
-	PVbK/gyEbvLfMPeNjq/CQvZTDYuNwBomt2p9xgwvkyDa08GESyd1SLZtHiwc4dq1mexXL8j+LoU
-	KHkq72uzQu/Vng4YhKXX4VH9XwCer0x/v4VK3UF2WFw2R3KK9sM=
-X-Received: by 2002:a17:90b:5887:b0:3ab:364a:9532 with SMTP id 98e67ed59e1d1-3ab3acc548fmr3728946a91.44.1791600525144;
-        Fri, 09 Oct 2026 19:48:45 -0700 (PDT)
+        bh=sNrVsnb4FmKFTXfrSdVYo8TWlLsGj3AF2yF7SV7KZcs=;
+        b=DVrcXiQsqx+tgOc+3OHnXbm7mreLM1/Us7dmGO/hM+V2GTmiipDemglCG0nVxXNYdt
+         mQkSFhKVOqQ2DfmlI9YWsaN5giplsPErgbpPQKk7jRBJJeXLRrzfnYkMB5CBYPmcT0B1
+         Bl9py3EwNYfDKPmsfki5QGH817Dfo+NovIVnyyHV56f9DPKZQchyj3Po2rQacaAGnfvt
+         Tl+pH5D2OhzfuYlI9p8SZcMxHclrvUlZHAemcADzYdItaT8isOWIR0rnC/rc/uTEx+rI
+         barNpkM3LZFDuRmGoU6bjmZrAJi1FQ7lCQ9EjKu0JJo9699FfKxjdyIpeSQWIrZuY68N
+         XATQ==
+X-Gm-Message-State: AFq9FYJC8WLy0w92fWoIJMajjgU2ixSg7okKLjbH32wtdr1PIyzgcbO/
+	si1n8IWNbPHmPaA/nrvWyiaY7Q+dVfTvP8kxKuZn6/I8KiMIKujRP8mv
+X-Gm-Gg: AYBFou13dANeX/ixHsUTFabWRNNS/Wtr9Tmm96PNTgrM9UaTUsBklrTTv4detYAR37n
+	uOhOAha7u/uv9VuOkgfzeIhjiCeSl3M+c810GSTmDulQMubjPxMA3y7dCyKmLBww8NM6d+Dn5gk
+	S/PBfmX9t1FX5RxwmmD/uq2LgWQUTLkMcNkbn/f1R0dHyP8OSgVjmAWGVoJtOF4ty89H0HikzO/
+	g1IyL6HhXqLRhnA10JiYmWwdJqCvQ5VRZpNXaeDlysy5gK1TPVJG5Cl1NL4yzoZUVj4Un2fcOHJ
+	CBR0UDQNo8lLvWxV21nv4X1MD1lejsFMlWLd09nw01cqKt+lr7Mmd5Yn/0x3xqvm3XmIov+hY5D
+	A1bQ/k2Aoubp4vgJeKRemlezxaTPEVeU7bXrw5dBQbvfc6sUNOGtHUOuLgs6+QW2pELYl/dc2c1
+	atwB81rB0Jhq4ioxdVco8i7WDaheAgWE+ljal0vY2m6x1OAKwinHwAHR8lEaa1w4zheJz6AZckJ
+	N+F8CunrMHyjkD05Rwnz22lcEHeVlqQFGSQ0eXRNyoKJ30lBky6eguDKJk5iWkt8i4VMFQTKq8d
+	fOCEzssp716YweWvtf20OSehsre1ne3W58jQYzbpIXuK8R69Eso=
+X-Received: by 2002:a17:903:1a0e:b0:2dd:8639:9931 with SMTP id d9443c01a7336-2e842ab8200mr30793065ad.19.1791607266248;
+        Fri, 09 Oct 2026 21:41:06 -0700 (PDT)
 Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab36ed040dsm7675161a91.6.2026.10.09.19.48.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422e171bsm19910975ad.73.2026.10.09.21.40.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 19:48:44 -0700 (PDT)
+        Fri, 09 Oct 2026 21:41:05 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Hector Martin <marcan@marcan.st>,
+ Sasha Finkelstein <k@chaosmail.tech>, David Rhodes <david.rhodes@cirrus.com>,
  Richard Fitzgerald <rf@opensource.cirrus.com>,
  Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -74,20 +77,15 @@ Cc: David Rhodes <david.rhodes@cirrus.com>,
  Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
  Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
  Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject:
- Re: [PATCH v2 05/21] ASoC: dt-bindings: Add binding for Apple Silicon Mac
- audio
-Date: Sat, 10 Oct 2026 12:48:34 +1000
-Message-ID: <m3VYUqb-SXeeNuWXNMFX0A@gmail.com>
-In-Reply-To: <20261009-daring-objective-flounder-c0b66d@quoll>
+ Neal Gompa <neal@gompa.dev>
+Subject: Re: [PATCH v2 09/21] ASoC: apple: Add macaudio machine driver
+Date: Sat, 10 Oct 2026 14:40:54 +1000
+Message-ID: <l_pd6lBHQaWNYoohhfxhFw@gmail.com>
+In-Reply-To: <3698d260-13c5-4050-8f03-61f7b7185514@intel.com>
 References:
  <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-5-7b47ed6335a8@gmail.com>
- <20261009-daring-objective-flounder-c0b66d@quoll>
+ <20261004-macaudio-v2-9-7b47ed6335a8@gmail.com>
+ <3698d260-13c5-4050-8f03-61f7b7185514@intel.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -97,22 +95,48 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-On Friday, 9 October 2026 5:17:53=E2=80=AFpm Australian Eastern Standard Ti=
-me=20
-Krzysztof Kozlowski wrote:
-> On Sun, Oct 04, 2026 at 04:03:32PM +1000, James Calligeros wrote:
-> > +    patternProperties:
-> > +      "^dai-tdm-idle-mode-[0-9]$":
-> > +        $ref: tdm-slot.yaml#/properties/dai-tdm-idle-mode
->=20
-> This looks like you put several slots into one. TDM slot is for one
-> slot, no?
+Hi,
 
-The codec bus keepers (which these properties exist to support) only
-need to be configured on one codec for the left and one codec for the
-right. We use the "main" L and R woofer codecs for this purpose, so
-the extension of the properties like this allows us to specify which
-codec's bus keeper should be set up, as we need to support machines
-with 6, 4, 2 and 1 speaker(s).
+On Friday, 9 October 2026 9:52:09=E2=80=AFpm Australian Eastern Standard Ti=
+me Cezary=20
+Rojewski wrote:
+> macaudio_dpcm_hw_params()
+> macaudio_be_hw_free()
+> 	both can access the card from the substream/dai without
+> 	relying on the ma-context
+>=20
+> macaudio_parse_of()
+> macaudio_parse_of_be_dai_link()
+> 	called in context which creates the very card
+
+I have fixed all of these by copying what rockchip/rockchip_max98090.c
+does to initialise the card, however
+
+> macaudio_vlimit_enable_timeout()
+> macaudio_vlimit_disable_timeout()
+> macaudio_vlimit_update()
+> 	called in context of delayed part of the trigger() callback.
+> 	I'd need more information on the trigger() implementation of
+> 	yours to present a solution. See the comments below.
+
+are slightly more difficult to deal with. These are called from workqueues
+which only have reference to the driver data struct. Other than keeping a
+pointer to the card around, I'm not sure how else to deal with this other
+than keeping a pointer to card around in the driver data struct.
+
+> Please correct me if I'm wrong but it seems the scheduled work does
+> speaker-volume operations only. Moreover, it seems that
+> ->lock_update_work may schedule a follow up work in form of
+> ->lock_timeout_work. Are you sure trigger() is the right place to do
+> volume-control in delayed manner?
+
+The intention here is to activate the timeout when the stream starts
+so that if speakersafetyd dies at any point during playback, the speaker
+volume(s) are limited to prevent damage. We only want this running when
+speaker playback starts and we need to disable it when that playback stops,
+so trigger() seems like the natural place for this.
+
+James
+
 
 
