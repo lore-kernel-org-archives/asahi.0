@@ -1,93 +1,94 @@
 Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D913546F0
-	for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 12:14:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EABF490BE4
+	for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 12:14:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791634457; cv=none; b=ojnrvW0Igb2MKmdLa6VKsAYyGD0q9AUKeBYlf3VWlDOuwFvy0jvRwD4peu93wbMQP46ZUQEkOlEd5zRa9ofKVtxrw1klQFVOIOJjWg4ON+Ba9PlfPWSA5ilvGgjwuT7WgrSVYfFkMugChtj3+9WUy03oRFnBCpXVZ64sQQguzBg=
+	t=1791634460; cv=none; b=FAqen8Hrfr4evUlRSguWexMBbnDnMjshcOqGASXNjgghGpdyHz6zQsWrsn5GGwIDiyBdEHaL8fwOK9YKSsmEm3KnyRFDZ7jYGCLYfnXE9xHBnVJzwj5eaKWnda4/YaEOrZ5cBsNqUkYZA7C1++rWHdMLn6emGRdbhR4oQlIfl/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791634457; c=relaxed/simple;
-	bh=UMoiybBG3EjMyc1B7IMzWmINUh/I4jezQPJ2/PB11ec=;
+	s=arc-20240116; t=1791634460; c=relaxed/simple;
+	bh=vcrEBnU6ijzpBzqutisMQ5dC4rYwFPRG9N9wVJH7Cpg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cz72vHYbCxf3Q8I7DITs0XErzyyMJSJK5mJct9KflyHkD1gh1i8PorhR6mlIOFcKmXNa83qeW2jBSRX5PJE4k3GBKNxP834TwP49e3CxagmJ7VtaNxMqJS36qWTj3m2wdOpqAC+AZisum/j6kR48QUDjZEdB+G754En0duwDjPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=Tr8UcHOW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Sms/TZRN; arc=none smtp.client-ip=202.12.124.148
+	 In-Reply-To:To:Cc; b=CLccn8dAvCtIiRnfVooZEG5PQjDW5Dfo+J6Stx+W4+8coanjU8otNGvwDIS/K3QSALPbR+ORwK/rEZxRwQ62NbDYVgChC0ZTr9VjqzAPBBdoS2rkpUFeqMvArSKmqHx+msP41IhV/etFUPY5KwxS+CmSGde65iUbzdZQJFyu/rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=mxga2DRP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NTeFiTut; arc=none smtp.client-ip=202.12.124.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="Tr8UcHOW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Sms/TZRN"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 7122D1D000B0
-	for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 08:14:15 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sat, 10 Oct 2026 08:14:15 -0400
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="mxga2DRP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NTeFiTut"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfout.stl.internal (Postfix) with ESMTP id 8F8181D000B0
+	for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 08:14:18 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Sat, 10 Oct 2026 08:14:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1791634455;
-	 x=1791720855; bh=pH2ZSSrEkbK8zvPbZi3q/ueD1GzZZWWoJ2/oevJmUr8=; b=
-	Tr8UcHOWh0so5TB+BrZf4TtL+WM25bmf5UxUy43uuFQLPJjRzuYJsci/NCiEwLdO
-	EMb54XHylGq1qIZ88h6YodM6cdPzdTahQ9b6AljxN6+ie63AQ49HmBuOPVoBOBNm
-	//z3tvcF/qF+8vDkyh/7CUfAHfb3wl9LxD1HCqxG9UoqU4pob6fXAGM7YlDuyaRn
-	jaCXIESfOQHYNoHIW5SZtDwhKwqSO6QOtMP0vMz+HmK03qaS4cbHS4KIW17j0D0R
-	/cRiZAYaf+/US4wCMJO7KPryKmm/08V21uQ2H/HWDnUPxsuc9Pg6sdt5gqKCF6AR
-	CtJyxRz6JNXWDtNINH+U4A==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1791634458;
+	 x=1791720858; bh=8lStNNkLAXUfx0Qk3vJLrMRYLaCj8dnR4qwFp1vdHhU=; b=
+	mxga2DRPMNU2+75hBsLUq5sRR2wUb2eJJm0E4WAI9NVv1LoDU8ckhgUzjmjKkbWR
+	KVMSGpRtGyzMlHdOJ2all0HzJaCKMhOqco50uJF7mwHKhvl5nlExkySsBuGzC+MQ
+	/fRnw4wcYc1bmqgcBcpHLvepUp58rLMUp3zCtcOOoAqTbFSXwe/z3i+dXHb39Kce
+	uHOgb9Y1XZaBMsXWXU3r675Zqwy2kftgOtuj2v9E/aRS7vU2EGA9CSOviYYgenpg
+	dzv4fcOIoaqdH/nOsk/XH1mtstAmNzcHilcwQCdNhE2Muj2SALS2ZYEsvq2C7ivo
+	Q17BXWElH/7/Mlx0vSzt2Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1791634455; x=
-	1791720855; bh=pH2ZSSrEkbK8zvPbZi3q/ueD1GzZZWWoJ2/oevJmUr8=; b=S
-	ms/TZRN6sx8T6O8PRCZZyYLII6BVgzH/PCPRShpjqlhhvmGtEULV8rULjvA7Np4r
-	Od6fvjKthbY6ueFMXU+Vr8iCgrE+mY6S1iEgD4dZRrLd0HWBJtxE3BXiSuwK9arN
-	KM4RUZuo5OviT8/YuXr5bT6LaDcLRYsqQL2u/kMsm7/XUJLI2GlnvXFZYrZYL3xm
-	ltuvw/KUhGlIuPTyqfL6aL24ec177qXVaW+ei3IbbgEoPC2YSKeG09ZYHrwBoe3G
-	bmBGqPgHlCG72C9wt8+0nAA0MxFgEcBntGBTm2i1Howq6Zw0A7dC5bEg/0iNmuEg
-	OHeAYXuPIp0v9r8mjILZQ==
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1791634458; x=
+	1791720858; bh=8lStNNkLAXUfx0Qk3vJLrMRYLaCj8dnR4qwFp1vdHhU=; b=N
+	TeFiTut/wfJ7HeoSN4tAL4jRKJFo1cyFGKpW8hkNtyug199O/5tns1730MQOXD0E
+	EAXWClY8Q9mql3WKVZ0yT9bygMZGq6yRj5KY1NT7qPwpUqQUYCqOBQ/8dHVuUgro
+	JjiDBiaepTFk206wTFLkS/+e9kXwd189cvIHOa8c6PnWquhCATRDGxhABIPml29d
+	oQKshPGQDOSBdXfugyTIZb60ZDgEagkRU/JwGBE+AaDfAHsy099yIxBCUrDO19XE
+	RoQWqhjhkCSAK9uJ19LmI3h4QC27aYBRbPiA+krN8TlRENY9/LURV6S14fa5FY1T
+	ruv/3DeHPd/d10MLSJ8Ow==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
 	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
 	action=sign d=jannau.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1791634455; d=jannau.net;
+DKIM2-Signature: i=1; m=1; t=1791634458; d=jannau.net;
 	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm3:rsa-sha256:FCHAz7qtbj10X806fX5yAdytLyyehNTJ/ctNnuRuEDiitau
-	vKTUnY08YLc5Dod640FciUjr3mlIzvhcGe+IEPllXjyhw+52J/Jy4pU4c5rE5zRN
-	c7kUB50fdWcu75EdU6FgaKVF+Lzqat80PeI1HZqAjUsSfNN0cBtSsNwRmEwR3mAJ
-	YhW2e5unRo92qEfsCiG/nHB15mw4FqhGzI++SfTdJq/Bmgnb/8mQ3ZVC/UQBUoLp
-	r6JAbxSdmyGlW5RnAbZ0WfNu8hKcqohWDZthzDZ4gnE9Lk/vtiNfOkA1muB0kkf8
-	TcCB3JMZrtsE6LzyrwqlB44GCQ7ZONAvBHfpD7Q==;
+	s=fm3:rsa-sha256:c+MCp+ppFrBbz1MYpNTaRjuOonq//fse7PAYbjbzmpb5V4g
+	wWOtUG3loQ5JWrsEjayuPZIWObQltHd+nkEw9GTku3M4rXn4t2Bspf3VmYxD1fzQ
+	WyCrYVwJy3WltHL65N/GLqNW0ujusVKlVZuwGBAeik8ALpZDdCVJTH9aUjL+8t7A
+	zIa+RBjxu5BsWT74PSIHPic7rmne4BXctJrVxsW8acRzqu5Ue2fhMkYLB4/389bG
+	S5fbgkeyvfD+Rn5tcJw/r1bfyayoFYQrdpv9L+k7QCgqEOmY1grG7lSbnz4al4oI
+	SlXRNgW/kPCE7A4eTvAMq4aUzPhC55588HB74tA==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
 	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
 	action=mi-m=1; hc=12;
 	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
 	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:Ch+0ZGnLGNjuSLMEbnyZbEFC/apbCN9ElNqhpie1PfE=:UMoiybBG3EjMyc1B7IMzWmINUh/I4jezQPJ2/PB11ec=;
-X-ME-Sender: <xms:FyzKakPtCTt2Go-UqAC-za3FKN2El4jWdaH_cr3B-DXJlMx9WP_YRA>
-    <xme:FyzKak9VEVcpVVY3kaLDJEVhZaIh-CpOWSdhL9O9cZF0CRlEMnwcaQcaQys8vuwHt
-    3gMjdTCtknyySoKpHp6DTkv3-V9OjTO7bxJOE-trElWRv0-1hGGwwI>
-X-ME-Received: <xmr:FyzKah7bGPTtP27s5iBJzrzDqOxdKPA8JhCCVUaXMwKvy4PSc4ujmzPSXyJnc-qi8D0G0M_mgz-cQz7GhackCL0bnVGf_9D5TYHW_A>
+Message-Instance: m=1; h=sha256:awWpgZhrFpBup8cKHeu/HlU2r1A2vvsESuj07BunT5g=:vcrEBnU6ijzpBzqutisMQ5dC4rYwFPRG9N9wVJH7Cpg=;
+X-ME-Sender: <xms:GizKaqSLVlYWzraOe1Vd5_TcLYnzEOOv58gZE7AThQ3lCM0_RbbXXw>
+    <xme:GizKapzqZ-yQLRKkiuKzLa44eAVVqUxRj8YbaU8WnImKEYK2OL5CyCuuEP2OMfOqB
+    4EzDTe77AWbYyTwfeQNno2rFAB9Jk7HLmOtA0LF1h0SqEGcTQW18x4z>
+X-ME-Received: <xmr:GizKaueaFb2Y6EVCmHIykBAVZrR8DnHbdhbzSJ9d5Hlu0otMohmngq7vX3hTwha5UKFX_w7mehWHshkycpq8P7fcmsl4sLJcuHdNog>
 X-ME-Proxy-Cause: dmFkZTFqpbXI6Y3+CoqfhNPZi+DG5Qw8jkDyXnjv8Zl/hcPn3S78Zk6eoCtECVWjb8Y2mP
     PIW0cluxF5Sc6nA8ZXBbZHx8G7ibOOE8hxiBeWn6zFftUvVf/TcCNPG9UjdVl7tkgXlBTM
     LIHFh5/qAXUQUGnZjrmiiLHT6Mhx9NZvwa2FwbUQYPStfkEM5s3u9Gz4n73nwucxxl+Vrk
     0OjGShLCaE1QK0a/CZkhOjweGMDOC/NfzcH4E1RuSEKg9vyf3c3eEfXLFETICuYPbtU3Nm
-    g7JoKw89k6iDnZDjcXV42ma1zlizScl/jHbpW4kCJPOna53gfhZsymwqsPRvp8WnWwvdF3
-    bbQNlwDZO6SmBoxq02G37YEcBn8LRuEyIMFQK4uZ3cl5hRw4iib6ceKweuQTa8inIknqmA
-    SdR1c7z2Jikm3fbDGUIgY0xg3t0TjkRYLdKK87l8zESOq586v56uYAG3TPluxkrlyiddDk
-    R00iqbFYM4lEhx2EUsHgYrVpo0SaRNqFf35uRG6sAuD+P/XPKaSEJMgF2j/9ljMLhMgAK8
-    XGuijlR2N3MT62lbsXSOSw0fbuWWUVsCAxty6brHlmull2YYrWpobQRCyXEdiBCrQUp11Y
-    QoUjckR0asNShN6TOW5H3EkObMAPe57HsBWIJbwvXLR0Z8cAxPoiBRSvPA+g
-X-ME-Proxy: <xmx:FyzKaq490if3zmWymlUAS5sb9oKKvLu9IGwJ2-mGvuUCVQC8xB5huQ>
-    <xmx:FyzKaqrnGRtR2LGk3pWLZtUy_UP-uYa71JltLF1qj83VGmC8wJ1Ozg>
-    <xmx:FyzKarM_lv-8QPx89gX2HBBb8s1kGA6RQE8j0TD4dLzLni1sAUCSsA>
-    <xmx:FyzKai3GVUr64qvTlXehO_1LIJqwdpFMJzT3qZBOCYCBri_Hgf6h7A>
-    <xmx:FyzKap9zn01jGmRl6kbkd4FdkDcNNXz9OXqMuqCOaTjsUUfIT4hbV1x2>
+    g7JoKw89k6iDnZDjcXV42ma1zlizScl/jHbpW4kCJPOna53gfhZsymwqsPRvp8WnWwvddS
+    h8s3NavUQnx0e/VpFjzmMfC20uSw3oapD0J5PvkfwvJF9/xguGwNcPldu9btJKh8yU/FmS
+    U9X+jkO6jKloxMiV1WMC+kOcHqX+GenLHViPsW39Y3D/2cNj6U020KeLQO+zk+frUXc2Uk
+    d4fob9fVYqbkjJrZh5GrxX6f/aBEg6o8iibc5Y/en9zHOzPRcpL8+GaVmUbSCgMT0Yd+kl
+    oqdKY5KvjVV5xtkqUGZNHGrnJiD/0gd4MVAwuKxu9aWJxF3aHiIPvwcC2dQqJHn9qIQQZp
+    m3wASuHYv/nJy6uKPK897AlO/SUPMFEGz57jEka/8gGOMfmlAb5/TKNXQA8g
+X-ME-Proxy: <xmx:GizKakN8Cut1KaBnTd1aovZxalHaQbDDNJZWW_iRTqYlqEtw69dWJQ>
+    <xmx:GizKahtroqlrr9TH9o88AFJk7NCsJbPnCqrsmMWOtZL96rMAHGgHEQ>
+    <xmx:GizKatC8-X_m8WWklhxyxTNgl90q1CflaLEHTWHRYF6t5NkgMzOJYg>
+    <xmx:GizKaoYZ1tP2BLsWhZguQmwbI53y6utNVKF_YUpy0_K9JZVmGRP9_g>
+    <xmx:GizKaiDve0j9E7h8GZw2K5xNdxzsRV04iDMsJ5--nEVFplmgtbl3Yf5Q>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 10 Oct 2026 08:14:14 -0400 (EDT)
+ 10 Oct 2026 08:14:17 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Sat, 10 Oct 2026 14:13:57 +0200
-Subject: [PATCH 1/3] doc: apple: Add Apple M3 as supported SoC
+Date: Sat, 10 Oct 2026 14:13:58 +0200
+Subject: [PATCH 2/3] arm: apple: Add Apple M3 Pro and Max (t603[014])
+ support
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -96,7 +97,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261010-apple-t603x-support-v1-1-ca529f301a62@jannau.net>
+Message-Id: <20261010-apple-t603x-support-v1-2-ca529f301a62@jannau.net>
 References: <20261010-apple-t603x-support-v1-0-ca529f301a62@jannau.net>
 In-Reply-To: <20261010-apple-t603x-support-v1-0-ca529f301a62@jannau.net>
 To: u-boot@lists.u-boot-project.org
@@ -105,61 +106,167 @@ Cc: Mark Kettenis <kettenis@openbsd.org>, Tom Rini <trini@konsulko.com>,
  Simon Glass <sjg@chromium.org>, asahi@lists.linux.dev, 
  Anshul Dalal <anshuld@ti.com>, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1696; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4492; i=j@jannau.net;
  s=yk2025; h=from:subject:message-id;
- bh=UMoiybBG3EjMyc1B7IMzWmINUh/I4jezQPJ2/PB11ec=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqxTOgKilvYaIjcYziY+udr9UePjwV3z7+7jeLkmXSj0w
- zLrN1U7OkpZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAExE8xojw5qDd3N2WvpYS19I
- fsm0xllNrs9kjews949GCQcvFS+b9ZiR4Y+i7z7vp9XpW69dzA94el+iyiFv0pFPXpmCwk4N8e6
- 7OQE=
+ bh=vcrEBnU6ijzpBzqutisMQ5dC4rYwFPRG9N9wVJH7Cpg=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqxTOgKhMcHnFv8+VW96d8H6tVPFPzJ9++W98pP31DJ+h
+ RN3L52W6yhlYRDjYpAVU2RJ0n7ZwbC6RjGm9kEYzBxWJpAhDFycAjCRxTmMDFt2vXvkVJ/zxybf
+ /38481ODaJUrr8U/8piLGJ3T62WoeM3wP1pgu51eg/8N68db9Rx13a6uXPhw06b9lrP+ancvKCu
+ SYAIA
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Adding M3 (t8122) to the documentation was missed in commit a1a47eee6763
-("arm: apple: Add Apple M3 (t8122) support").
-Since Apple silicon SoCs have switched to upstream DTS stop listing SoCs
-with device trees. The expectation is that u-boot support is added
-together with Linux support. So the device trees might lag a little
-behind. Since u-boot's dtbs are usually not used on Apple SoCs this is
-not an issue.
+Apple's M3 Pro (t6030) and Max (t6031 and t6034) SoCs are similar to
+their M1 and M2 predecessors. The MMIO blocks have been extended but
+M3 Pro and M3 Max still share the same overall layout although they
+aren't as similar as M1/M2 Pro and Max.
+Most of u-boot's existing drivers are compatible with the hardware and
+M3 Pro and Max device trees will carry "apple,t8103-*" as fallback
+compatible strings. Only apple-atcphy-reset will use a new compatible
+due to USB4 and DisplayPort changes relevant to the Linux driver.
 
-Fixes: a1a47eee6763 ("arm: apple: Add Apple M3 (t8122) support")
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- doc/board/apple/m1.rst | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ arch/arm/mach-apple/board.c | 97 +++++++++++++++++++++++++++++++++++++++++++++
+ doc/board/apple/m1.rst      |  6 +++
+ 2 files changed, 103 insertions(+)
 
+diff --git a/arch/arm/mach-apple/board.c b/arch/arm/mach-apple/board.c
+index e74a5a76919a..bd0c69fcb512 100644
+--- a/arch/arm/mach-apple/board.c
++++ b/arch/arm/mach-apple/board.c
+@@ -750,6 +750,99 @@ static struct mm_region t8122_mem_map[] = {
+ 	}
+ };
+ 
++/* Apple M3 Pro and Max */
++
++static struct mm_region t6030_mem_map[] = {
++	{
++		/* I/O */
++		.virt = 0x280000000,
++		.phys = 0x280000000,
++		.size = 2UL * SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			 PTE_BLOCK_NON_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O */
++		.virt = 0x300000000,
++		.phys = 0x300000000,
++		.size = 3UL * SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			 PTE_BLOCK_NON_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* PCIE */
++		.virt = 0x580000000,
++		.phys = 0x580000000,
++		.size = SZ_512M,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			 PTE_BLOCK_NON_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* PCIE */
++		.virt = 0x5a0000000,
++		.phys = 0x5a0000000,
++		.size = SZ_512M,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRE) |
++			 PTE_BLOCK_INNER_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* PCIE */
++		.virt = 0x5c0000000,
++		.phys = 0x5c0000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRE) |
++			 PTE_BLOCK_INNER_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O ATC0 */
++		.virt = 0x700000000,
++		.phys = 0x700000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			 PTE_BLOCK_NON_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O ATC1 */
++		.virt = 0xb00000000,
++		.phys = 0xb00000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			 PTE_BLOCK_NON_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O ATC2 */
++		.virt = 0xf00000000,
++		.phys = 0xf00000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			 PTE_BLOCK_NON_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O ATC3 */
++		.virt = 0x1300000000,
++		.phys = 0x1300000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			 PTE_BLOCK_NON_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* RAM */
++		.virt = 0x10000000000,
++		.phys = 0x10000000000,
++		.size = 16UL * SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL) |
++			 PTE_BLOCK_INNER_SHARE
++	}, {
++		/* Framebuffer */
++		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL_NC) |
++			 PTE_BLOCK_INNER_SHARE |
++			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* List terminator */
++		0,
++	}
++};
++
+ struct mm_region *mem_map;
+ 
+ int board_init(void)
+@@ -799,6 +892,10 @@ void build_mem_map(void)
+ 		mem_map = t6022_mem_map;
+ 	else if (of_machine_is_compatible("apple,t8122"))
+ 		mem_map = t8122_mem_map;
++	else if (of_machine_is_compatible("apple,t6030") ||
++		 of_machine_is_compatible("apple,t6031") ||
++		 of_machine_is_compatible("apple,t6034"))
++		mem_map = t6030_mem_map;
+ 	else
+ 		panic("Unsupported SoC\n");
+ 
 diff --git a/doc/board/apple/m1.rst b/doc/board/apple/m1.rst
-index 900c5e6d91ea..4ed275f7ea8c 100644
+index 4ed275f7ea8c..002f4926ed5e 100644
 --- a/doc/board/apple/m1.rst
 +++ b/doc/board/apple/m1.rst
-@@ -9,6 +9,7 @@ the following SoCs work:
+@@ -16,6 +16,8 @@ the following SoCs work:
+  - Apple M2 Pro SoC (t6020)
+  - Apple M2 Max SoC (t6021)
+  - Apple M2 Ultra SoC (t6022)
++ - Apple M3 Pro SoC (t6030)
++ - Apple M3 Max SoC (t6031 and t6034)
  
-  - Apple M1 SoC (t8103)
-  - Apple M2 SoC (t8112)
-+ - Apple M3 SoC (t8112)
-  - Apple M1 Pro SoC (t6000)
-  - Apple M1 Max SoC (t6001)
-  - Apple M1 Ultra SoC (t6002)
-@@ -24,8 +25,8 @@ On these SoCs the following hardware is supported:
-  - NVMe storage
-  - USB 3.1 Type-C ports
+ On these SoCs the following hardware is supported:
  
--Device trees are provided in dts/upstream/src/arm64/apple/ and available
--for all M1 and M2 (t8103, t8112, t600x and t602x) devices.
-+Device trees are provided in dts/upstream/src/arm64/apple/ and available once
-+they are merged in the Linux kernel tree.
- 
- Building U-Boot
- ---------------
-@@ -82,5 +83,7 @@ supported SoCs.
-      - Base Address
-    * - M1 (t8103) and M2 (t8112)
-      - 0x235200000
-+   * - M3 (t8122)
-+     - 0x2a1200000
+@@ -87,3 +89,7 @@ supported SoCs.
+      - 0x2a1200000
     * - M1 Pro/Max/Ultra (t6000/t6001/t6002) and M2 Pro/Max/Ultra (t6020/t6021/t6022)
       - 0x39b200000
++   * - M3 Pro (t6030)
++     - 0x289200000
++   * - M3 Max/Ultra (t6031/t6034/t6032)
++     - 0x391200000
 
 -- 
 2.55.0
