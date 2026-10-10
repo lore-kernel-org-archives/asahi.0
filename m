@@ -1,171 +1,126 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F98E45349C
-	for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 09:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334302DAFA9
+	for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 10:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791625430; cv=none; b=Mml98g38/a8Ev52NKQcwpbHjgS5CiO/J/v+fpSIisWTJMiQodGui3dVein+qWgWrcBRoZvAX8tUg+mIieBdKHWfVdXSpGFKoY5BjLpITwfJDKrSRrgG7hFS59W/CqEdBfroketQ+BzoeDM1X3Xe2A9kBO2FiXLHfOuwQa8clDFA=
+	t=1791629667; cv=none; b=p+7IijHJO/3COwESSAzZDo47td3EDhK2V2z63Y8dxtb16BTXeA1tBTa5zieEpvgMhVrFDTENYTeIdbJRWF27hsn0ZQLNlLydRESncmvoaB0bCzDPNDgTo4bmBQKOhnQfW4PawCAio12UpQxgHT5QO8WnbVMn+FwlLIdEog6bRXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791625430; c=relaxed/simple;
-	bh=hSa4L+QWc2uDvx/tqmkiTHw4LQoP2Kt3Eb1meqwGiAc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WDHwkuJoq0RZ8zcxOUq+HfdtklyQMNzyFRRHo6x2z6jNdQ+b4woemwTdEMPIBA9nsAcWEFG8vqYAoEut3mgxiO4X86MCMuYGCZqakJAv2mN3Gms3eVkwrdEDWBInkWyovCfM7zezjEiFlrr6mmhk7TjK0d27uT00uj1c+6rv4mY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=HC+LZM4d; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1791629667; c=relaxed/simple;
+	bh=4W6Za8zSDAqEPJR7i+x9GYTAmuRutHQ2CObwAK+Xt9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=be2TwAAkANfM4lnDK0kVQdmt4tx1U3DFr346bNOqzmU70cef+Er/lLuy0WHb7jHMDTFBRM6wXtEyQbEqUtqqM8saANjaTfjtoTj0bfmEzXy2FYTBq9jnAe8jl+WXyhCCYQNsqxXdhoMVcrzlwj+dhOcr8WGUyqRBZ2+Hul/IUC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GLJEGubC; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="HC+LZM4d"
-Received: by chaosmail.tech (Postfix) id 94BD91CC3B9;
-	Sat, 10 Oct 2026 09:38:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1791625086;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mkRk1b0acKcNtNb5LGbx/EpjtFCkjlQU51LIog+QBM0=;
-	b=HC+LZM4dYfGd8D6lih2rnmfy5ULP2O+7DJZgB4ZBrZgihlv6WLp+LWN9Eo8OZsfXpdSMsN
-	D1H8q3YSEmzS+pzJiZ+5FrqOGERGxpowIYj/5RCMVJfC1rFLmBA3MQ/xjtBiO8z1Ezv5dG
-	nh7sXDOEGzjzkihUqKDDkqEghXG9kBk=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Sat, 10 Oct 2026 11:37:55 +0200
-Subject: [PATCH RESEND v7 1/3] dt-bindings: usb: tps6598x: Add
- sn201202x/ACE3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GLJEGubC"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8917c712f32so176178b3a.2
+        for <asahi@lists.linux.dev>; Sat, 10 Oct 2026 03:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791629665; x=1792234465; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=khKL+0SYs5dkK1+NiD4FsLQAnzmLgGQHJt1q1DjIuc8=;
+        b=GLJEGubCLWfD83dV6orSgDCy3NLwYFuH8II8SuHdQaAFc9fc8RUv36fBRTWZhXEOBP
+         vs/yDqZrVBU2LhIy9A4CmQS0ZpuAcJhgpjeWL9FefLQ9vXIgKPOcY7FX0C3RXadBxpr9
+         KVg2FCLIrc/llhzSrye2Ek4+DUgu+xRqCK+v+nP3LBWz+x+6IBHFfWjTl62dHAAlWbUM
+         WClP/AhPqonyEf70PBBUeKrZaBmP57yuRCn8+mcsTF5YMUJhs/aX1tyJ/Dbyd1Id1PcZ
+         NJkzygRJ9InZMEIr/v7F+z/NfMuoXfbt3piGbYzqEnJIyMsXZUCJtDKSzH/8+sOuQRK2
+         RBtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791629665; x=1792234465;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=khKL+0SYs5dkK1+NiD4FsLQAnzmLgGQHJt1q1DjIuc8=;
+        b=t1wXICAOSMfqDQlkZMIna4YuKez1JYqrY3BjctpveldxVJXS/VJ3kQow7qwh7R6ha7
+         d0o6UehlfxMc3CNwyLlJ6okigEUzQTdxyw8i2pNOjoWgelwFMBk0Nv0uZ1IlxfG1C7wT
+         VCvRuxlbmFpd/QCjSCsuOgNNX7rCQ5ZepGMuD9ndaOoULxyO26UTbS5m50MpDXK0waO3
+         /ncWFIBlZg4BDnbyYm5dkbDx1CrtmmT/YXCLd+ey0xB4eG2KocSlDh6X0l84OY7D1Xpn
+         jJYc7+MX2EO+AcBr0bW2/MhiLDwPshP8Fqbiirps47+jIr21waan0C2fQu+RI/jkZvru
+         xTDQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzn/qGcpUipz6tz8XRu9eZA4X8qZz5scuZRDq3QLX1DVEVBS0jqhnlb/4P4DuAf02WK3IvArA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKr9LEKLcyU2LZ5SIi9rrlJcXC4AQ46jWYNjy685MzC2+nfnLuO
+	BDu9Iz1kDedhGs8m1ivRrXCCblUvsEJPgNyCQ7UWig6CdyU297Ruheql
+X-Gm-Gg: AYBFou1ldPXiQE16gi/liA3tTdSEMXb9H+ErKdMz4C86vXPUVgXIdud4I26oC4jghs6
+	A7SH1tIBVRhgU+aLUkLJWRBhRr0FKG3F+h5wnBWAalfxq1mSR9/4ZNS2fr6c1TzZNchoSPem55y
+	Invw94r0NKwOiNB9qhLMDUb9uD/1klF7mwfo6yQN8HCCsEAaTKb5y5qUQT6ZeajpNbHeVTxYRUp
+	ErJ28+afLEGc2liV6peKVUxCpER3uwCAeyVGx6ziT/G6izXktct7/9gWM8A2Dx3DPyVmq4gUhh5
+	cjpUKbLZR9kNq/5/cfMbBhfGBUO9ju9FNwtljdvcjZSEOqYM8yNPl38vRw90t0FXOzRkBWm7M9T
+	u6JEWAtWTMLTOe4qOYb8+2zWe9g8VtVBLiOpdCue7TidB37J/kxVHC/uOggIR8c+YwVVKb/SKqk
+	FK9/3udFrY342FClfJsQKTWx/fwKqs0yh9Q5rPseSPcQR31DLmKcTtPZK0IocGANo0alP5WQRkg
+	Q000hyBAXuqhU6NwGpScA1xBF9CfqaoEbtuBZ+lJRk0ww==
+X-Received: by 2002:a05:6a21:485:b0:3e0:de4c:71ef with SMTP id adf61e73a8af0-3e16bfcd468mr3602361637.58.1791629665376;
+        Sat, 10 Oct 2026 03:54:25 -0700 (PDT)
+Received: from macbookair (n114-72-148-25.mit21.act.optusnet.com.au. [114.72.148.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-896c4996be6sm2203965b3a.58.2026.10.10.03.54.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 03:54:24 -0700 (PDT)
+Date: Sat, 10 Oct 2026 21:54:16 +1100
+From: Myria Sarvay <myrialsarvay@gmail.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Michael Reeves <michael.reeves077@gmail.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Yureka Lilian <yureka@cyberchaos.dev>,
+	Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] arm64: Apply existing Apple CPU workarounds to M3
+ and M4
+Message-ID: <asoZWBEEEsFD5Qrn@macbookair>
+References: <20261008-apple-m3-m4-kvm-v1-0-7bb4cbf3d63b@gmail.com>
+ <20261008-apple-m3-m4-kvm-v1-2-7bb4cbf3d63b@gmail.com>
+ <86cxtk2utm.wl-maz@kernel.org>
+ <CANpmGNv4uYRLALMLKZn-HJwTiqJO90Fx23DOO7K7d-PfSWn=2w@mail.gmail.com>
+ <86bj932ssc.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261010-tipd-ace3-v7-1-317218a96c01@chaosmail.tech>
-References: <20261010-tipd-ace3-v7-0-317218a96c01@chaosmail.tech>
-In-Reply-To: <20261010-tipd-ace3-v7-0-317218a96c01@chaosmail.tech>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791625084; l=3481;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=hSa4L+QWc2uDvx/tqmkiTHw4LQoP2Kt3Eb1meqwGiAc=;
- b=3sE9VFqok7hPqDR4glc4T5rxGsoKkGlSnB9Cs6TXcXoEDRpSdUgRpNouzw7cWZWUzUeLmajyK
- uoYJd+TUSuiBf4Fl0TE8H0nqc2aTw22Td9jmByEmm0cevMWJ34pshL2
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86bj932ssc.wl-maz@kernel.org>
 
-A variant of tps6598x that is attached to a SPMI bus and is found on
-Apple devices starting from the M3 series
+Hi Marc,
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
- Documentation/devicetree/bindings/usb/apple,sn201202x.yaml | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                                                |  1 +
- 2 files changed, 79 insertions(+)
+(Resending because I forgot to reply all, sorry Marc)
 
-diff --git a/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml b/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
-new file mode 100644
-index 000000000000..133a71bbedb7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
-@@ -0,0 +1,78 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/apple,sn201202x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments sn201202x Type-C Power Delivery controller
-+
-+maintainers:
-+  - Sasha Finkelstein <k@chaosmail.tech>
-+
-+description: |
-+  Texas Instruments sn201202x Type-C Power Delivery controller
-+
-+  A variant of tps6598x controller also known as Apple ACE3
-+  present on hardware with Apple SoCs starting from the M3.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - apple,sn201202x
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    items:
-+      - description: Primary irq used for tps6598x events
-+      - description: Logical register selection completed
-+      - description: Standby command completed
-+      - description: Wakeup command completed
-+
-+  interrupt-names:
-+    items:
-+      - const: irq
-+      - const: select
-+      - const: sleep
-+      - const: wake
-+
-+  connector:
-+    $ref: /schemas/connector/usb-connector.yaml#
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/spmi/spmi.h>
-+    spmi {
-+        #address-cells = <2>;
-+        #size-cells = <0>;
-+        usb-pd@c {
-+            compatible = "apple,sn201202x";
-+            reg = <0xc SPMI_USID>;
-+            interrupts = <11 IRQ_TYPE_EDGE_RISING>,
-+                         <13 IRQ_TYPE_EDGE_RISING>,
-+                         <17 IRQ_TYPE_EDGE_RISING>,
-+                         <19 IRQ_TYPE_EDGE_RISING>;
-+            interrupt-names = "irq", "select", "sleep", "wake";
-+
-+            connector {
-+                compatible = "usb-c-connector";
-+                label = "USB-C";
-+
-+                port {
-+                    typec_ep: endpoint {
-+                        remote-endpoint = <&otg_ep>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6215fcb07770..ba4274ed9c79 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2659,6 +2659,7 @@ F:	Documentation/devicetree/bindings/soc/apple/apple,t6000-pmgr-misc.yaml
- F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
- F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
- F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
-+F:	Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	Documentation/hwmon/macsmc-hwmon.rst
- F:	arch/arm64/boot/dts/apple/
+On Fri, Oct 09, 2026 at 09:16:03AM +0100, Marc Zyngier wrote:
+> On Fri, 09 Oct 2026 01:03:57 +0100,
+> Michael Reeves <michael.reeves077@gmail.com> wrote:
+> > 
+> > > I can provide the binary (and a few scripts) to test this easily.
+> > > Should they have been fixed, we can always create a second
+> > > implementation list to cover the PMU.
+> > 
+> > Can you please send that so we can try? That would be much
+> > appreciated, thank you.
+> 
+> I've sent you (and Yureka) details over IRC. If you need help with
+> setting things up, let me know directly.
+> 
+> Thanks,
+> 
+> 	M.
+> 
+> -- 
+> Without deviation from the norm, progress is not possible.
 
--- 
-2.56.0
+I've tested the patches on my M3 Max (t6031-j514c), and without these
+patches, it SErrors, and with them (and including the M3/M4 MIDRs in
+the has_vgic_v3 list in arch/arm64/kernel/cpufeature.c) it doesn't
+SError, and the iso boots correctly to a login getty.
 
