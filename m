@@ -1,153 +1,101 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB6633509B
-	for <asahi@lists.linux.dev>; Tue, 13 Oct 2026 10:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791886373; cv=pass; b=GBcUCODFi5SjMIrrFk6lUJxKm3QdNnwLGm4AzfglEYsahB3yYOB/UOZO8AB2SqzfraAiDjxHcrNZk2rNF+dcqw8WHrWgi0ZyrLDGfG/vOP3N8u7aL3Lm/vKvVYX9C279dhnr15Eyjc5j6uSB7CO+IrgewUR2H0hmCFgsFHE654U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791886373; c=relaxed/simple;
-	bh=oYpuymV3tgk09qaaDkKOhd9dg2Zp4VCoofN6vnpJl7A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tenxQSjPzYr0VagwkF+fdUVgbdClEe6LHSy7QVqvFhVXzfxs1FjsYPMLZ3oVBbX42hHNHepEt5iwHIzWG8ASFQsDRVIlbvLAq6QDYd53WrCxzGDo7RCdGDfhO2grw9QoNVk6aXuhldT2OTwRPsNXBa5nLCBgEp6VA1Cai5tdKlU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNmkqHIq; arc=pass smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E062E367B89;
+	Tue, 13 Oct 2026 11:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791889678; cv=none; b=G9ef0NENxSNHYsVRYOhKxa+HyehNkmhenFJMLUFVo6SEJKrVDgLnBwWx9l5ew1numcq6DuaVzIIN75SnDdFJ8jqD6XqoA7VPruTGVUKI3zLfvLgQmqPDrEfcPqXNC5Ou5GjTIC1tEODNAhgL3Uz/cUUdTd9R3SxiJlCudiCPKLM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791889678; c=relaxed/simple;
+	bh=clBHz8jqLb/gHxHcd/z6kA2QuhPCp5EX6c3TGIzEMtM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pzHiVFLRjg4VCoUIBKTML21ebJqqaSRK5zgdNErcnhl41ZnEalGI2g/CL3N0RE3IF8EI5SzXZ12olewFn+0sm+3Hr9rlsFMEaJ8DMNM7bjbEZHz9vZc2b3DcUtrmxcZDnnHHRDnpRuwWLajHNsaFjgx1jUgG6lWvOBz61YXORCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKImCcVX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNmkqHIq"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-886e61fa30fso892133b3a.1
-        for <asahi@lists.linux.dev>; Tue, 13 Oct 2026 03:12:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791886372; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BAon0AGzJO7wk8pBJrA6rqHg91EEqqzBG2YINCQsTFmaA5t+JPb1yD+1XYQp2g6Prj
-         RQn4Qjx/K9Q8XzMPfmNzQTMi7sjjKzmRQwWI6E8sHdF3aPsc/vaRTOQGupqCzQSkw/Yb
-         ndtx0bOYp1AkcaoLDoSOSde5ZltdtCKtD9bgspAkuRgvkI0wtdokSy+147nmhmlLLv2z
-         cG3JgIkfWYUkLO3CoxQ16TydExKRaGR90mCdSaFCW6yK4MPDkjNNCboysd0HKwlbSDDX
-         bTWdUubqHLd1BagYQOPzauwmK4NeWGF3KsL/si5Zqc1cuIv3wmKw4mhopvsuiE/cKoMK
-         8LAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=oYpuymV3tgk09qaaDkKOhd9dg2Zp4VCoofN6vnpJl7A=;
-        fh=Ifni3Wvw8vGz4RaWLLulZDjm3WOq6oxNpxazprYTjJs=;
-        b=J67YBfXgulb77qUTJwPfgG9OJ9r8CuToayvvlPXe1hJaS+U6IGttjrSdWiemgYxRWU
-         IMzxZ2mvp1A8sJIiGXXwXMEfLeaciht+3hO1Dv/qr6DTk9e6rjE0rWtxwGRn0gae8B+y
-         wLbTH17/+CmdvJ4FAiulKDhQ1cVa0RY05YbGVy8SuspKB/BikgVduam3PcUHyeD3W8Kc
-         bkVxqyxAF0lWJk4Ol84pAPToHQtoef6ddRVvErnWaEk1pqHRBOlCUfrZ/hWgCcSJzifB
-         aLrf7cRJp/YwDC7ZoIG2saLV77T0afSIhrLr9IbVvFqsvaQ2nk3P+18ndB/sJKEYAQ17
-         sXNA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791886372; x=1792491172; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oYpuymV3tgk09qaaDkKOhd9dg2Zp4VCoofN6vnpJl7A=;
-        b=PNmkqHIqqmiAwdcwJXTxkQ3X1SFogz/yPtQ7GFa0x7kaHe2hwSPhcsCkcA9pF03R3W
-         p2d/qcV3MpLZ4O40XsaPgsYUP+AyFI09X4xDSkr0NPoeV+vzXBcxJ5pzH0slRwCCBPcQ
-         MbnIWLr7AvyFk8JMdt1z6BWgBqVCpAqoAAyJBIJ6YY+7A0ZBysZM39d7MipEGe851ifb
-         2zDJy/sh8k2c/NTueOB/b1r/qChgnU8QrAu9qcTD7s+GXauOaPC7sntfzJMzmr5UeYrp
-         y4YFNxnyat7/cKQmDkwsNdoTsZWICKtI6cElY6K4ZH5c3BBZBpGoJWGJXUPopjXgiF26
-         cbvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791886372; x=1792491172;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=oYpuymV3tgk09qaaDkKOhd9dg2Zp4VCoofN6vnpJl7A=;
-        b=FbDoXyHnky1ZozSpsqaV2gszbHfzD3/jHEA/ChHB5s+A3hvCTNJUO3zHmIDSyNltt0
-         WJc1KT6Rt8p7mD5tErZkAgr5yxE27Y8SX1ixM8SDg5U8Mn1DKw+/mkW9EnuYR+iv/bLY
-         lsV1d/zG5rfJFA4UgqO0zST0ph6Utr2SLAhrXMCusG5yObOpfCYErLLgy1GfuOvfPW5d
-         r8vpjh7LCAjyGCtz7usQ6AXQUPBfmUwNftUHluC3R09s5OxUeITzvLFUJfwiAfvZ8/zV
-         3U4Uk7Mlz4OsnwGEBgJBoHYx27NwnGe54Q3R3kV/LgSMLvIeuSb7Me0HyroMsqgFS8Zl
-         daKQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwz6fuEJ908RA7jEaQ1eog1bXxf324MU2BhYiSOUZOwkKW6MyALqIEjr6a7kAMmasXZJs7wHw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL7lr8ywV4pSVrVPzin8i6PvmVt78Salzh5MxLZRcKC7hwHxISH
-	EhERWznvuOUCR5skE0XtnsMQ8fEPh2tIUjnhFmdarY9zH384QZRwrRysetnsIjSdZfclyz5l5ZX
-	Mceyl3b7R3/LfzrvvAqcWk1ev5hyVngg=
-X-Gm-Gg: AYBFou15r4LXaESRGW5/isqqy4B1d/fiTh2IR2+mKAfJ/nvYTk9d+Zs40MG8fgaZ1MC
-	+QUNHdu7yk307F/iWuyf2f2bbdecH3GpimjizLifbH0OYK0Uaqyp69iSfTIgbNjM/waoIvmc2ql
-	2jkrSONnLJE1QtQSNaROKxSJVvzEv/jXujXWwE7e6DEbcbe1LNLqtQYH9mr4uaVnRyFHNhQtyEb
-	jMK/h92oSeO2lPNUKy7uYmS8mQzkl1gM8qAi3wjVXCp+/LRjltaeNbq6r9XZYUj20pGBSkhIwTW
-	TTqXSgM/xELMuHvcgqmI3rAlzi6zMxwL0UCgL8qnTdFMc1FA4Vrd2dUEk4ZHFlaJbMDLm7+UagZ
-	LGBpKu0K13GMTKMA0sSxUVO6FJ2V3hIh/0bxP9IihnpoxP0atmP4W2oP4bHkJQPG1VWU=
-X-Received: by 2002:a05:6300:6bc8:10b0:3e1:9071:acb1 with SMTP id
- adf61e73a8af0-3e19071d79emr3692539637.89.1791886371799; Tue, 13 Oct 2026
- 03:12:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKImCcVX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4321F000FF;
+	Tue, 13 Oct 2026 11:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791889677;
+	bh=ZSWhydPwnGjVmQTHrIt+aT1FeNndN2ccR7i8qMmsYQ0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=GKImCcVX7BlExGaWDJuo0uDFcW2AhnNz/vahq2ceWio6OBpTtQnbsxSnnpNrD3aiy
+	 pBQeaNbnFw6UO7Q9stppMU4fTpC7LpTQkAgNaf9j99prl7jtsqnRCPF6vevl1FmbEn
+	 nNl9JPcXc/0Nv1UOxOEBfRfcvM+mtDiZCeXIiy7oh48TgH9/lKc3wbCYGeKbOVAnRn
+	 tYS5LIYgVGn+ddrhW590Pybu2z9MG/LrxidGyu1QeVnHe/76cj7VoMYY3L6/Q8gcr1
+	 SjFRL8c8pg6Oa5SMyhnMzUgsESw5anipxPwBjlAfWFtOijqJ3DW/PsfvqFToE0/7K8
+	 80DPK2ITuNpcw==
+From: Mark Brown <broonie@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>, 
+ Andrew Ballance <andrewjballance@gmail.com>, 
+ Michael Reeves <michael.reeves077@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev, maple-tree@lists.infradead.org, 
+ asahi@lists.linux.dev, linux-mm@kvack.org
+In-Reply-To: <20261006-regcache-lifecycle-submit-v3-0-37bdd82fd47c@gmail.com>
+References: <20261006-regcache-lifecycle-submit-v3-0-37bdd82fd47c@gmail.com>
+Subject: Re: [PATCH v3 0/2] regmap: Fix cache lifecycle locking and
+ teardown
+Message-Id: <179184676097.1099724.2382944643703457917.b4-ty@b4>
+Date: Tue, 13 Oct 2026 00:12:40 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261008103831.542533-1-phucduc.bui@gmail.com>
- <20261008103831.542533-22-phucduc.bui@gmail.com> <87o6cyxyau.wl-kuninori.morimoto.gx@renesas.com>
- <CAABR9nHvCfabGfBu85bm1r=hP3b0ZiCsgZfShhOv3gNUfjjhGg@mail.gmail.com> <87se2aw3ot.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87se2aw3ot.wl-kuninori.morimoto.gx@renesas.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 13 Oct 2026 17:12:40 +0700
-X-Gm-Features: AclHuK9ysK1Jav05byu2z6c82z-Prt9juV9RV67s1OGQmeMH_qLrceJ2TQNxX6U
-Message-ID: <CAABR9nG-YJZEdj6pVD-gbGU6J2EfRMQYsKd7u0UTgfrWOyAPXA@mail.gmail.com>
-Subject: Re: [PATCH 21/24] ASoC: renesas: msiof: Fix msiof_close() being
- skipped on rollback
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	povik+lin@cutebit.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Andrei Simion <andrei.simion@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, 
-	wangdicheng <wangdicheng@kylinos.cn>, Chris Bainbridge <chris.bainbridge@gmail.com>, 
-	Linus Walleij <linusw@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Neo Chang <YLCHANG2@nuvoton.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, u.kleine-koenig@baylibre.com, 
-	Pengpeng Hou <pengpeng@iscas.ac.cn>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Hemanth Selam <hemanth.selam@gmail.com>, 
-	Md Shofiqul Islam <shofiqtest@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Zain Aboobacker <zainaboobacker33@gmail.com>, Sang-Heon Jeon <ekffu200098@gmail.com>, 
-	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
-	Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>, Bo Shen <voice.shen@atmel.com>, 
-	Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
-	linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1418; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=clBHz8jqLb/gHxHcd/z6kA2QuhPCp5EX6c3TGIzEMtM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOCXLWNUw8lDtDSv3snc7g7oB7P84vYvCcLaGjX6Nw7
+ CnnrjzTjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExkMjfD/5jbGxfd2GTAof3g
+ y8HKvB0Tnz9vSLA/v8XvcEqUrpvlawGGf9olNQ8tRZqFbjse1eV7wb0x7jm/cteHRj6Pu4FL5p+
+ VZAMA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Morimoto-san,
+On Tue, 06 Oct 2026 18:03:14 +1100, Michael Reeves wrote:
+> regmap: Fix cache lifecycle locking and teardown
+> 
+> Fix an "Invalid wait context" lockdep warning during Apple GPIO probe and
+> correct debugfs ordering during cache teardown.
+> 
+> Tested on Apple M3 MacBook Air (T8122):
+> 
+> [...]
 
-Thank you for your confirmation.
+Applied to
 
-> > For MSIOF, I noticed that snd_dmaengine_pcm_open() already calls
-> > snd_pcm_hw_constraint_integer() for SNDRV_PCM_HW_PARAM_PERIODS,
-> > so the call in msiof_open() seems redundant.
-> >
-> > Since the first call succeeds, the second call should return 0.
-> > Would removing the redundant call be acceptable?
->
-> Nice cache, yes please.
->
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.3
 
-For rz-ssi: in DMA mode, the driver registers the generic dmaengine
-PCM component, whose .open callback already applies the integer
-PERIODS constraint via snd_dmaengine_pcm_open().
+Thanks!
 
-Could we drop rz_ssi_pcm_open_dma() instead, and keep the return
-value fix only for rz_ssi_pcm_open_pio()?
+[1/2] regmap: Remove debugfs before cache teardown
+      https://git.kernel.org/broonie/misc/c/834035934cef
+[2/2] regmap: Drop map lock during cache init and exit
+      https://git.kernel.org/broonie/misc/c/abff0a48b110
 
-Best regards,
-Phuc
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
