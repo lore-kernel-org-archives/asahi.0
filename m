@@ -1,21 +1,21 @@
 Received: from linkmauve.fr (linkmauve.fr [82.65.109.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF9D3B8BC5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700424BFE63;
 	Mon, 12 Oct 2026 19:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791834747; cv=none; b=lWtnOt+0Dmpkb4n1w9ien7NKlFBgMfrfmUlKr5KIOjf/KJc13wIaIcfdIHW2h84XW3RisDep7NkZDEkZZzXAvTQFEJzpwABQAIKFZJkMg5rBg/Duz1Am7CCQEGEjgeZsZDPVgIXtLmn1kzXk1F0WjG8H/eSzQA+zmjq8Df52WSg=
+	t=1791834747; cv=none; b=P0M+7IRQLGn4jbl+YRwSkrszUOOimawsRjgFCllzByh7wKNoTBUdRAL8iOmedzdGMYp2Y4pQmsMPy0PNfCs9BKLoJQU3rO8d227aepCaZTFSmKVcWbKMvHWDIcjjL43wjVhRmTjaZYusMDboc1O8oeybmDmmVD7K454YWVTGPmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791834747; c=relaxed/simple;
-	bh=uO+etsfU4J3llkUGQ5+Ndd3P7mQjAbpZQazm1piwuj4=;
+	bh=2Zjm6BZDvKO6SHZVAkCsxH/TywQRjnavCRzQi35j4IM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R4Uuw9tY3nfMuT1UIVs9dWvLoBbbkhzB1tW85YOXTLd0wtWtrkZ+CEU9LpwMmwPSj3CwDf6OpHpfyCBia+6kgs3baeNp5xUu1me72HnKQOzFL6YKObPaiQlpJDVWExrcb0n4sYZzSHC1j3oNvu5Fqx2SMZeU86caQLgDoqa61GM=
+	 MIME-Version; b=RyxQghasvrNAgm4lHM6Epwl5l+FTvQAA4LZ/hbfQM013O+dzbbCJVQSDDLQshuFja1z1wBcdhmfcFLgdaMzEAvEwZ0vOB6M1F/d4vw5+/+5ULX+/uxouq0QiXRJoy5sqMoHJKjbrRxbySR6JcXC/THVrUakzRQT7ya/1RVAOrlY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
 Received: by linkmauve.fr (Postfix, from userid 1000)
-	id 1FDD571FB397; Mon, 12 Oct 2026 21:52:16 +0200 (CEST)
+	id 2515A71FB39B; Mon, 12 Oct 2026 21:52:16 +0200 (CEST)
 From: Link Mauve <linkmauve@linkmauve.fr>
 To: Srinivas Kandagatla <srini@kernel.org>
 Cc: Link Mauve <linkmauve@linkmauve.fr>,
@@ -65,9 +65,9 @@ Cc: Link Mauve <linkmauve@linkmauve.fr>,
 	linux-arm-msm@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v7 1/3] firmware: meson: pass a const buffer to meson_sm_call_write()
-Date: Mon, 12 Oct 2026 21:52:08 +0200
-Message-ID: <20261012195213.875403-2-linkmauve@linkmauve.fr>
+Subject: [PATCH v7 2/3] nvmem: core: deprecate reg_write callback with reg_write_const
+Date: Mon, 12 Oct 2026 21:52:09 +0200
+Message-ID: <20261012195213.875403-3-linkmauve@linkmauve.fr>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261012195213.875403-1-linkmauve@linkmauve.fr>
 References: <20261012195213.875403-1-linkmauve@linkmauve.fr>
@@ -77,68 +77,155 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This was found while introducing the new nvmem-provider reg_write_const
-callback in meson_sm_call_write()’s only user, in meson-efuse.
+This callback used to take a mutable void * for no reason, which causes
+the compiler to be unaware that the val buffer should never be modified
+by the callback.
+
+This was found while drafting the nvmem-provider Rust abstraction.
 
 Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- drivers/firmware/meson/meson_sm.c       | 2 +-
- drivers/nvmem/meson-efuse.c             | 4 ++--
- include/linux/firmware/meson/meson_sm.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvmem/core.c           | 26 +++++++++++++++++---------
+ drivers/nvmem/internals.h      |  1 +
+ include/linux/nvmem-provider.h |  6 +++++-
+ 3 files changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/firmware/meson/meson_sm.c b/drivers/firmware/meson/meson_sm.c
-index ab9751a59b55..5d4da2e3c3a9 100644
---- a/drivers/firmware/meson/meson_sm.c
-+++ b/drivers/firmware/meson/meson_sm.c
-@@ -196,7 +196,7 @@ EXPORT_SYMBOL(meson_sm_call_read);
-  *
-  * Return:	size of sent data on success, a negative value on error
-  */
--int meson_sm_call_write(struct meson_sm_firmware *fw, void *buffer,
-+int meson_sm_call_write(struct meson_sm_firmware *fw, const void *buffer,
- 			unsigned int size, unsigned int cmd_index, u32 arg0,
- 			u32 arg1, u32 arg2, u32 arg3, u32 arg4)
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 7d4cce8e2742..df36ad5e9695 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -71,7 +71,7 @@ static int __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
+ }
+ 
+ static int __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
+-			     void *val, size_t bytes)
++			     const void *val, size_t bytes)
  {
-diff --git a/drivers/nvmem/meson-efuse.c b/drivers/nvmem/meson-efuse.c
-index d7f9ac99a212..f71854f89950 100644
---- a/drivers/nvmem/meson-efuse.c
-+++ b/drivers/nvmem/meson-efuse.c
-@@ -20,7 +20,7 @@ static int meson_efuse_read(void *context, unsigned int offset,
- 	struct meson_sm_firmware *fw = context;
- 	int ret;
+ 	struct nvmem_operations *ops;
+ 	int ret, wr_ok;
+@@ -81,14 +81,17 @@ static int __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
+ 	if (!ops)
+ 		return -ENODEV;
  
--	ret = meson_sm_call_read(fw, (u8 *)val, bytes, SM_EFUSE_READ, offset,
-+	ret = meson_sm_call_read(fw, val, bytes, SM_EFUSE_READ, offset,
- 				 bytes, 0, 0, 0);
+-	if (!ops->reg_write)
++	if (!ops->reg_write && !ops->reg_write_const)
+ 		return -EOPNOTSUPP;
  
- 	return ret < 0 ? ret : 0;
-@@ -32,7 +32,7 @@ static int meson_efuse_write(void *context, unsigned int offset,
- 	struct meson_sm_firmware *fw = context;
- 	int ret;
+ 	ret = gpiod_set_value_cansleep(nvmem->wp_gpio, 0);
+ 	if (ret)
+ 		return ret;
  
--	ret = meson_sm_call_write(fw, (u8 *)val, bytes, SM_EFUSE_WRITE, offset,
-+	ret = meson_sm_call_write(fw, val, bytes, SM_EFUSE_WRITE, offset,
- 				  bytes, 0, 0, 0);
+-	wr_ok = ops->reg_write(nvmem->priv, offset, val, bytes);
++	if (ops->reg_write_const)
++		wr_ok = ops->reg_write_const(nvmem->priv, offset, val, bytes);
++	else
++		wr_ok = ops->reg_write(nvmem->priv, offset, (void *)val, bytes);
  
- 	return ret < 0 ? ret : 0;
-diff --git a/include/linux/firmware/meson/meson_sm.h b/include/linux/firmware/meson/meson_sm.h
-index 3ebc2bd9a976..92cc61f3a1c0 100644
---- a/include/linux/firmware/meson/meson_sm.h
-+++ b/include/linux/firmware/meson/meson_sm.h
-@@ -21,7 +21,7 @@ struct meson_sm_firmware;
+ 	ret = gpiod_set_value_cansleep(nvmem->wp_gpio, 1);
+ 	if (ret)
+@@ -309,7 +312,7 @@ static umode_t nvmem_bin_attr_get_umode(struct nvmem_device *nvmem)
+ 	if (!nvmem->read_only)
+ 		mode |= 0200;
  
- int meson_sm_call(struct meson_sm_firmware *fw, unsigned int cmd_index,
- 		  s32 *ret, u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
--int meson_sm_call_write(struct meson_sm_firmware *fw, void *buffer,
-+int meson_sm_call_write(struct meson_sm_firmware *fw, const void *buffer,
- 			unsigned int b_size, unsigned int cmd_index, u32 arg0,
- 			u32 arg1, u32 arg2, u32 arg3, u32 arg4);
- int meson_sm_call_read(struct meson_sm_firmware *fw, void *buffer,
+-	if (!ops->reg_write)
++	if (!ops->reg_write && !ops->reg_write_const)
+ 		mode &= ~0200;
+ 
+ 	if (!ops->reg_read)
+@@ -346,13 +349,13 @@ static umode_t nvmem_attr_is_visible(struct kobject *kobj,
+ 	struct nvmem_operations *ops = rcu_dereference_raw(nvmem->ops);
+ 
+ 	/*
+-	 * If the device has no .reg_write operation, do not allow
+-	 * configuration as read-write.
++	 * If the device has no .reg_write or .reg_write_const operation, do
++	 * not allow configuration as read-write.
+ 	 * If the device is set as read-only by configuration, it
+ 	 * can be forced into read-write mode using the 'force_ro'
+ 	 * attribute.
+ 	 */
+-	if (attr == &dev_attr_force_ro.attr && !ops->reg_write)
++	if (attr == &dev_attr_force_ro.attr && !ops->reg_write && !ops->reg_write_const)
+ 		return 0;	/* Attribute not visible */
+ 
+ 	return attr->mode;
+@@ -904,7 +907,7 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 	if (!config->dev)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	if (!config->reg_read && !config->reg_write)
++	if (!config->reg_read && !config->reg_write && !config->reg_write_const)
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	nvmem = kzalloc_obj(*nvmem);
+@@ -960,6 +963,7 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 
+ 	ops->reg_read = config->reg_read;
+ 	ops->reg_write = config->reg_write;
++	ops->reg_write_const = config->reg_write_const;
+ 
+ 	nvmem->owner = config->owner;
+ 	if (!nvmem->owner && config->dev->driver)
+@@ -994,8 +998,12 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 	if (rval)
+ 		goto err_put_device;
+ 
++	if (ops->reg_write)
++		dev_warn(&nvmem->dev, "Usage of reg_write in nvmem is deprecated, please "
++		                      "migrate to reg_write_const.\n");
++
+ 	nvmem->read_only = device_property_present(config->dev, "read-only") ||
+-			   config->read_only || !ops->reg_write;
++			   config->read_only || (!ops->reg_write && !ops->reg_write_const);
+ 
+ #ifdef CONFIG_NVMEM_SYSFS
+ 	nvmem->dev.groups = nvmem_dev_groups;
+diff --git a/drivers/nvmem/internals.h b/drivers/nvmem/internals.h
+index bc7a99f5aefb..14243d44815d 100644
+--- a/drivers/nvmem/internals.h
++++ b/drivers/nvmem/internals.h
+@@ -12,6 +12,7 @@
+ struct nvmem_operations {
+ 	nvmem_reg_read_t	reg_read;
+ 	nvmem_reg_write_t	reg_write;
++	nvmem_reg_write_const_t	reg_write_const;
+ };
+ 
+ struct nvmem_device {
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 6063fe5b7784..e944530999b4 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -20,6 +20,8 @@ typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
+ 				void *val, size_t bytes);
+ typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
+ 				 void *val, size_t bytes);
++typedef int (*nvmem_reg_write_const_t)(void *priv, unsigned int offset,
++				       const void *val, size_t bytes);
+ /* used for vendor specific post processing of cell data */
+ typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, int index,
+ 					 unsigned int offset, void *buf,
+@@ -93,7 +95,8 @@ struct nvmem_cell_info {
+  * @root_only:	Device is accessibly to root only.
+  * @of_node:	If given, this will be used instead of the parent's of_node.
+  * @reg_read:	Callback to read data; return zero if successful.
+- * @reg_write:	Callback to write data; return zero if successful.
++ * @reg_write:	**DEPRECATED** - please use reg_write_const instead.
++ * @reg_write_const:	Callback to write data; return zero if successful.
+  * @size:	Device size.
+  * @word_size:	Minimum read/write access granularity.
+  * @stride:	Minimum read/write access stride.
+@@ -128,6 +131,7 @@ struct nvmem_config {
+ 	struct device_node	*of_node;
+ 	nvmem_reg_read_t	reg_read;
+ 	nvmem_reg_write_t	reg_write;
++	nvmem_reg_write_const_t	reg_write_const;
+ 	int	size;
+ 	int	word_size;
+ 	int	stride;
 -- 
 2.56.0
 
