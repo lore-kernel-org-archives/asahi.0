@@ -1,101 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E062E367B89;
-	Tue, 13 Oct 2026 11:07:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90FB513550;
+	Tue, 13 Oct 2026 17:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791889678; cv=none; b=G9ef0NENxSNHYsVRYOhKxa+HyehNkmhenFJMLUFVo6SEJKrVDgLnBwWx9l5ew1numcq6DuaVzIIN75SnDdFJ8jqD6XqoA7VPruTGVUKI3zLfvLgQmqPDrEfcPqXNC5Ou5GjTIC1tEODNAhgL3Uz/cUUdTd9R3SxiJlCudiCPKLM=
+	t=1791913594; cv=none; b=F5qLuUVzJ20LQ6b3PTBuUd59lvTUKC9/PT0dr2JmtOdy2uAnmNnLsMk/KSCjH7WSf5oa24zeoNDgMmq3QRM2HhT2S4/9MVMjSFaQSlOm3aLTahePw22NRNNUIKeLBSvQZ7Mym5bMgAaYNwXdbJijS2ShGEbEVWbOz49D1DBTjkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791889678; c=relaxed/simple;
-	bh=clBHz8jqLb/gHxHcd/z6kA2QuhPCp5EX6c3TGIzEMtM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=pzHiVFLRjg4VCoUIBKTML21ebJqqaSRK5zgdNErcnhl41ZnEalGI2g/CL3N0RE3IF8EI5SzXZ12olewFn+0sm+3Hr9rlsFMEaJ8DMNM7bjbEZHz9vZc2b3DcUtrmxcZDnnHHRDnpRuwWLajHNsaFjgx1jUgG6lWvOBz61YXORCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKImCcVX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791913594; c=relaxed/simple;
+	bh=HYCeAc1t7YDhbo8UUG5XDwubHVOci6vebazkH/sVjcE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cT0QEoS8FNiW5IuhAG69h7iiw3jmnovd8eO051mX3YD78Ozo5iz+Jh/iNwMjRKWkk9aVvDV9AjAfy/iC39VCggxFqRSJhcltf3D18rHaXWiFA4hgy7lO0cX62KIiIrrg/aVqkF/6F9qC5y4Z+y5k9wZfMeDhwIUYBnv0B1UncyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpggZkBK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKImCcVX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4321F000FF;
-	Tue, 13 Oct 2026 11:07:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpggZkBK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 611B71F00893;
+	Tue, 13 Oct 2026 17:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791889677;
-	bh=ZSWhydPwnGjVmQTHrIt+aT1FeNndN2ccR7i8qMmsYQ0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=GKImCcVX7BlExGaWDJuo0uDFcW2AhnNz/vahq2ceWio6OBpTtQnbsxSnnpNrD3aiy
-	 pBQeaNbnFw6UO7Q9stppMU4fTpC7LpTQkAgNaf9j99prl7jtsqnRCPF6vevl1FmbEn
-	 nNl9JPcXc/0Nv1UOxOEBfRfcvM+mtDiZCeXIiy7oh48TgH9/lKc3wbCYGeKbOVAnRn
-	 tYS5LIYgVGn+ddrhW590Pybu2z9MG/LrxidGyu1QeVnHe/76cj7VoMYY3L6/Q8gcr1
-	 SjFRL8c8pg6Oa5SMyhnMzUgsESw5anipxPwBjlAfWFtOijqJ3DW/PsfvqFToE0/7K8
-	 80DPK2ITuNpcw==
+	s=k20260515; t=1791913593;
+	bh=HYCeAc1t7YDhbo8UUG5XDwubHVOci6vebazkH/sVjcE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PpggZkBK3OeaP8o6UC6PixSgCdq6VgfWcoOEf+2JajZOlKBCN26pFKQ+L1f9CZLxG
+	 ij/oTYLtx8caXto0296ZOPLFzOKc+yLjEc3kSEGks5I3hUXDpj8qiWkQab1c6zSmGD
+	 voGZyjBD9Yt9SvmGS6dMfvEQwPAUcwMXlLwgAM4JuliTSJ03XBALwTYrn1n65E/mig
+	 I1sXLiCmF8ffzVkPqf7VFlSfpOKBWejcx5xR/GCyAJQc/b7rBrnsVU4JIp2ai+OACW
+	 612CfR3DIJzvXFW+naxfPxvgLVJb6JQtWHvvRaxTIbMpxYt+b52YXt2dN1smP5Isec
+	 KferN61ngwDwA==
+Date: Tue, 13 Oct 2026 18:46:25 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>, 
- Andrew Ballance <andrewjballance@gmail.com>, 
- Michael Reeves <michael.reeves077@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, linux-kernel@vger.kernel.org, 
- driver-core@lists.linux.dev, maple-tree@lists.infradead.org, 
- asahi@lists.linux.dev, linux-mm@kvack.org
-In-Reply-To: <20261006-regcache-lifecycle-submit-v3-0-37bdd82fd47c@gmail.com>
-References: <20261006-regcache-lifecycle-submit-v3-0-37bdd82fd47c@gmail.com>
-Subject: Re: [PATCH v3 0/2] regmap: Fix cache lifecycle locking and
- teardown
-Message-Id: <179184676097.1099724.2382944643703457917.b4-ty@b4>
-Date: Tue, 13 Oct 2026 00:12:40 +0100
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 02/21] ASoC: dt-bindings: cs42l42: Do not require chip
+ power supplies
+Message-ID: <48d8de43-071a-462f-ae70-2e96a9b9a96a@sirena.org.uk>
+References: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
+ <20261004-macaudio-v2-2-7b47ed6335a8@gmail.com>
+ <20261009-memorable-acoustic-dalmatian-03e22a@quoll>
+ <WT25lTvHQhioJE_CrUW6Dw@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1418; i=broonie@kernel.org;
- h=from:subject:message-id; bh=clBHz8jqLb/gHxHcd/z6kA2QuhPCp5EX6c3TGIzEMtM=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOCXLWNUw8lDtDSv3snc7g7oB7P84vYvCcLaGjX6Nw7
- CnnrjzTjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExkMjfD/5jbGxfd2GTAof3g
- y8HKvB0Tnz9vSLA/v8XvcEqUrpvlawGGf9olNQ8tRZqFbjse1eV7wb0x7jm/cteHRj6Pu4FL5p+
- VZAMA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YsUmANrUs0kpxFup"
+Content-Disposition: inline
+In-Reply-To: <WT25lTvHQhioJE_CrUW6Dw@gmail.com>
+X-Cookie: Some equipment shown is optional.
 
-On Tue, 06 Oct 2026 18:03:14 +1100, Michael Reeves wrote:
-> regmap: Fix cache lifecycle locking and teardown
-> 
-> Fix an "Invalid wait context" lockdep warning during Apple GPIO probe and
-> correct debugfs ordering during cache teardown.
-> 
-> Tested on Apple M3 MacBook Air (T8122):
-> 
-> [...]
 
-Applied to
+--YsUmANrUs0kpxFup
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.3
+On Sat, Oct 10, 2026 at 12:20:04PM +1000, James Calligeros wrote:
+> Krzysztof Kozlowski wrote:
+> > On Sun, Oct 04, 2026 at 04:03:29PM +1000, James Calligeros wrote:
 
-Thanks!
+> > > Some integrators do not expose the power rails connected to the codec
+> > > in a way that can be expressed in the Devicetree. Do not require them
+> > > to be specified on such platforms.
 
-[1/2] regmap: Remove debugfs before cache teardown
-      https://git.kernel.org/broonie/misc/c/834035934cef
-[2/2] regmap: Drop map lock during cache init and exit
-      https://git.kernel.org/broonie/misc/c/abff0a48b110
+> > I don't understand how these cannot be expressed in Devicetree. What are
+> > we missing?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> On Apple devices, the regulator(s) driving these pins are completely opaque.
+> They are not exposed via the Apple Devicetree or any other discoverable
+> interface, and they are not controllable. As far as we can tell, the pins in
+> question are powered whenever the machine is powered on.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+So just put some fixed regulators in your DT if that's what you have?
+They must physically exist.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--YsUmANrUs0kpxFup
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrObnEACgkQJNaLcl1U
+h9D0TAf/RXyh1qyxX0LsoKQj8mCy5yFI4o5W/kAUP2LtHoYyi04v+NllBnz+E+RV
+LHBSSxgBpR8uDmFHBgZMJZGRWzaKMqkjntwLk2UTIcePwz+iDFWumGabGui1CP0H
+EtYQkVZD70ReiM5nPe7Ldqp6DxcK3f81IsKAwBe1laDwcwP0WCiN8MxJKcKDimg9
+HeOPcCbg8o+iLMmViCO7ZPMpLR9MA7LdGpy8i15/hNeHy0Nj51uVwQRWfnmiyV0c
+nZZZQ2GNwIj0LdsJ08byVrvh7iw9pvzrcVW7fGd5QRVw+ldZ/Y5J/FU1aG2W8UhM
+206Pcl5qESO18bA9iGiCAvtESUjcaQ==
+=47vz
+-----END PGP SIGNATURE-----
 
+--YsUmANrUs0kpxFup--
