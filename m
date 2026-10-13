@@ -1,36 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90FB513550;
-	Tue, 13 Oct 2026 17:46:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E06652BE59;
+	Tue, 13 Oct 2026 17:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791913594; cv=none; b=F5qLuUVzJ20LQ6b3PTBuUd59lvTUKC9/PT0dr2JmtOdy2uAnmNnLsMk/KSCjH7WSf5oa24zeoNDgMmq3QRM2HhT2S4/9MVMjSFaQSlOm3aLTahePw22NRNNUIKeLBSvQZ7Mym5bMgAaYNwXdbJijS2ShGEbEVWbOz49D1DBTjkE=
+	t=1791913866; cv=none; b=aIKHg8cE6FlTdJAMDfc0NdSKcnSfIVqu+f1W8RVySX5Dl2mhVT4sGT6Zj7SP86AvzqV9RHkiw626s4cP3U+ImVgC++gurP6+uHNhHUQ5IKQLhovUf/V4eOTjQjEKP3RRHQp8QQ21qu6ZkrVhIC//nOxGrEPDBVcpeclaMqbIWZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791913594; c=relaxed/simple;
-	bh=HYCeAc1t7YDhbo8UUG5XDwubHVOci6vebazkH/sVjcE=;
+	s=arc-20240116; t=1791913866; c=relaxed/simple;
+	bh=vD5fRfaeaWkj+ZGu2vIvObL2dpdWDKimRtwtWQr+D3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cT0QEoS8FNiW5IuhAG69h7iiw3jmnovd8eO051mX3YD78Ozo5iz+Jh/iNwMjRKWkk9aVvDV9AjAfy/iC39VCggxFqRSJhcltf3D18rHaXWiFA4hgy7lO0cX62KIiIrrg/aVqkF/6F9qC5y4Z+y5k9wZfMeDhwIUYBnv0B1UncyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpggZkBK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=MlthUxtQt/Bc2BCSVLdQkHZgRn1Txu7FyBnQJz9EsPtBFjrFvxZuX0SGAnwFCGT3Gn6mkFG1pRopMveWBUQhyINwV7Z3USYWIFJuDPH5pNB9ywLVogInoRdopdYl0+cepUqCU/YpcGu7mKKzIk4opfwLd1+dUvm27oftvxlTGGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a64bBD0r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpggZkBK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 611B71F00893;
-	Tue, 13 Oct 2026 17:46:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a64bBD0r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B91D1F00893;
+	Tue, 13 Oct 2026 17:50:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791913593;
-	bh=HYCeAc1t7YDhbo8UUG5XDwubHVOci6vebazkH/sVjcE=;
+	s=k20260515; t=1791913864;
+	bh=TlBOcrHV7Ks8zjh/VxrmRvdVhbz0DfHdxmu+gmL+0kw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PpggZkBK3OeaP8o6UC6PixSgCdq6VgfWcoOEf+2JajZOlKBCN26pFKQ+L1f9CZLxG
-	 ij/oTYLtx8caXto0296ZOPLFzOKc+yLjEc3kSEGks5I3hUXDpj8qiWkQab1c6zSmGD
-	 voGZyjBD9Yt9SvmGS6dMfvEQwPAUcwMXlLwgAM4JuliTSJ03XBALwTYrn1n65E/mig
-	 I1sXLiCmF8ffzVkPqf7VFlSfpOKBWejcx5xR/GCyAJQc/b7rBrnsVU4JIp2ai+OACW
-	 612CfR3DIJzvXFW+naxfPxvgLVJb6JQtWHvvRaxTIbMpxYt+b52YXt2dN1smP5Isec
-	 KferN61ngwDwA==
-Date: Tue, 13 Oct 2026 18:46:25 +0100
+	b=a64bBD0r0JJvyP+4075Pb++iBLDZ0ukmGa7jx7kSafkLoOS1mJGwANamvreSD7ZDl
+	 OQkPYrx28wtrdCcJifhd6QpjxJictI5PMD9i3BQ/wKqbGkAxrsBVCzc+fygCVlyaEU
+	 lK3n6Ag0uVeQvPWpmqi4U7cvCBOkLoxm0+xNhzAO0ob9zUmUIlTR8qiAVVtiIKa4D6
+	 Mvatl3v7wqWkFVibXWwZhTEKVBHCLc69uAlquyQJvXrfsmG9VJr65FjZ9lPk/+hoa0
+	 1N09ozYCqAJTGjkQKIpXxtoYe3yozRXP0ZMi+nVturmde2UGe4aqXLAMWH4K9fkFIx
+	 eBPxAHPG3IxCQ==
+Date: Tue, 13 Oct 2026 18:50:56 +0100
 From: Mark Brown <broonie@kernel.org>
 To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
+Cc: David Rhodes <david.rhodes@cirrus.com>,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
@@ -47,13 +46,10 @@ Cc: Krzysztof Kozlowski <krzk@kernel.org>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 02/21] ASoC: dt-bindings: cs42l42: Do not require chip
- power supplies
-Message-ID: <48d8de43-071a-462f-ae70-2e96a9b9a96a@sirena.org.uk>
+Subject: Re: [PATCH v2 06/21] ASoC: ops: Introduce 'snd_soc_deactivate_kctl'
+Message-ID: <ae2b9848-c8d6-425c-893e-ab2656158908@sirena.org.uk>
 References: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-2-7b47ed6335a8@gmail.com>
- <20261009-memorable-acoustic-dalmatian-03e22a@quoll>
- <WT25lTvHQhioJE_CrUW6Dw@gmail.com>
+ <20261004-macaudio-v2-6-7b47ed6335a8@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -61,48 +57,45 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YsUmANrUs0kpxFup"
+	protocol="application/pgp-signature"; boundary="vbtYYCCIpz/5OgCu"
 Content-Disposition: inline
-In-Reply-To: <WT25lTvHQhioJE_CrUW6Dw@gmail.com>
+In-Reply-To: <20261004-macaudio-v2-6-7b47ed6335a8@gmail.com>
 X-Cookie: Some equipment shown is optional.
 
 
---YsUmANrUs0kpxFup
+--vbtYYCCIpz/5OgCu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sat, Oct 10, 2026 at 12:20:04PM +1000, James Calligeros wrote:
-> Krzysztof Kozlowski wrote:
-> > On Sun, Oct 04, 2026 at 04:03:29PM +1000, James Calligeros wrote:
+On Sun, Oct 04, 2026 at 04:03:33PM +1000, James Calligeros wrote:
 
-> > > Some integrators do not expose the power rails connected to the codec
-> > > in a way that can be expressed in the Devicetree. Do not require them
-> > > to be specified on such platforms.
+> + * Return 0 for success, else error.
+> + */
+> +int snd_soc_deactivate_kctl(struct snd_soc_card *card,
+> +	const char *name, int active)
+> +{
 
-> > I don't understand how these cannot be expressed in Devicetree. What are
-> > we missing?
+> +	if (kctl) {
+> +		ret = snd_ctl_activate_id(card->snd_card, &kctl->id, active);
+> +		if (ret < 0)
+> +			return ret;
 
-> On Apple devices, the regulator(s) driving these pins are completely opaque.
-> They are not exposed via the Apple Devicetree or any other discoverable
-> interface, and they are not controllable. As far as we can tell, the pins in
-> question are powered whenever the machine is powered on.
+snd_ctl_activate_id() returns 1 on change, 0 on no change, which doesn't
+match the documentation there.
 
-So just put some fixed regulators in your DT if that's what you have?
-They must physically exist.
-
---YsUmANrUs0kpxFup
+--vbtYYCCIpz/5OgCu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrObnEACgkQJNaLcl1U
-h9D0TAf/RXyh1qyxX0LsoKQj8mCy5yFI4o5W/kAUP2LtHoYyi04v+NllBnz+E+RV
-LHBSSxgBpR8uDmFHBgZMJZGRWzaKMqkjntwLk2UTIcePwz+iDFWumGabGui1CP0H
-EtYQkVZD70ReiM5nPe7Ldqp6DxcK3f81IsKAwBe1laDwcwP0WCiN8MxJKcKDimg9
-HeOPcCbg8o+iLMmViCO7ZPMpLR9MA7LdGpy8i15/hNeHy0Nj51uVwQRWfnmiyV0c
-nZZZQ2GNwIj0LdsJ08byVrvh7iw9pvzrcVW7fGd5QRVw+ldZ/Y5J/FU1aG2W8UhM
-206Pcl5qESO18bA9iGiCAvtESUjcaQ==
-=47vz
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrOb4AACgkQJNaLcl1U
+h9AYLwf/aQMd1A49AVVWSLal+oUhDhb+u+eE2UCj4TlvTucP2SjZBbIiudT1v3DH
+Oa7vH82cpqNojB3T3P9lrxMV74PuaL/qQmErb9aCE0oS2dd+98jYmbIBcWY6GAcH
+mpa7g4ufbQe4oHBnKKLffYcxQjn1Hs+u026oRVbOpox4gVi65973qHFCliEWFTSo
+k79JtJ4LzX578YmyKLl/szQ+UCa+xpuV8+4yyhMQx2SOyzPFEbSBkTyULnePqmtM
+rw/j993aXN6aYygCL7YvXp2Lr9FSNT2DMItFvXVXqGFgR5ZEd6wa4stS/WMLbAYh
+8Io75MNDaQCnqUV6b5/CjzjD5d9OLw==
+=Eq2Y
 -----END PGP SIGNATURE-----
 
---YsUmANrUs0kpxFup--
+--vbtYYCCIpz/5OgCu--
