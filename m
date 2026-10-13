@@ -1,134 +1,153 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4C73CB54D
-	for <asahi@lists.linux.dev>; Tue, 13 Oct 2026 07:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB6633509B
+	for <asahi@lists.linux.dev>; Tue, 13 Oct 2026 10:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791875687; cv=pass; b=t3zDxPPaMeJfV4ntuO8EOEkDOfnnRFkFMqp1zykybTdZlWD7soYp3WBE05ftj1V2sGyJ4Wfh/u/lvAL6ks7USFbo4E6ggVoz3hJ3N6SAuRfTguxF2vdV3S5NCo5juwyliPzRNgxyXR5u+DVEYyH5KaH+gv6K3jb9T7j9lfxE3T0=
+	t=1791886373; cv=pass; b=GBcUCODFi5SjMIrrFk6lUJxKm3QdNnwLGm4AzfglEYsahB3yYOB/UOZO8AB2SqzfraAiDjxHcrNZk2rNF+dcqw8WHrWgi0ZyrLDGfG/vOP3N8u7aL3Lm/vKvVYX9C279dhnr15Eyjc5j6uSB7CO+IrgewUR2H0hmCFgsFHE654U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791875687; c=relaxed/simple;
-	bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
+	s=arc-20240116; t=1791886373; c=relaxed/simple;
+	bh=oYpuymV3tgk09qaaDkKOhd9dg2Zp4VCoofN6vnpJl7A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CluVBzHE6beXWFKZnIAXMQlvTEUxeEpd46Gth47QQTSeNiS7XzTdNRxEAOyHkpOx6DhEVLzd/nDnoL5V6Jw4hqTF+P2eW6JDgFG7c4GDWIFXZMeNKBDu0ece8JIXOZ91AKLtfxu5iWtDwHiUB2IMqQwcA+r8i2IpAnXhhLa+bag=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cay2BdNg; arc=pass smtp.client-ip=209.85.167.181
+	 To:Cc:Content-Type; b=tenxQSjPzYr0VagwkF+fdUVgbdClEe6LHSy7QVqvFhVXzfxs1FjsYPMLZ3oVBbX42hHNHepEt5iwHIzWG8ASFQsDRVIlbvLAq6QDYd53WrCxzGDo7RCdGDfhO2grw9QoNVk6aXuhldT2OTwRPsNXBa5nLCBgEp6VA1Cai5tdKlU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNmkqHIq; arc=pass smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cay2BdNg"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-51f2e9e6987so810246b6e.1
-        for <asahi@lists.linux.dev>; Tue, 13 Oct 2026 00:14:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791875685; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNmkqHIq"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-886e61fa30fso892133b3a.1
+        for <asahi@lists.linux.dev>; Tue, 13 Oct 2026 03:12:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791886372; cv=none;
         d=google.com; s=arc-20260327;
-        b=jAD1deBdNNElLcg0WHOKHdT1OwdB0n8hZhyN1Hylokkn3xW1zyB+h5e+CQF5iMuMnm
-         YDeeJMQj03Va1GNYydR6r1PJ0yCY8BwRdoGciixhJLwcOLcaVO13dS4paysJZn76rUaX
-         DZZvl5mvEpymaBovOVCRS95CHgcI1pX16hic7HYqelUZkeUwU+5JjBmZYlxc5E4euv3o
-         NDvz5i6Va2dHIjJbYfaY9JRBM8BH4O9G9Yc+PZxaF01zmCnkRKCXHNnSAAkgMD+X5ec4
-         8XTINuDaasfYLiRWCMrMWf2Te2VLjr7Mfad/TYuSrDvZ5wSKWnLV2j4XIgwZefavzceg
-         5Yjw==
+        b=BAon0AGzJO7wk8pBJrA6rqHg91EEqqzBG2YINCQsTFmaA5t+JPb1yD+1XYQp2g6Prj
+         RQn4Qjx/K9Q8XzMPfmNzQTMi7sjjKzmRQwWI6E8sHdF3aPsc/vaRTOQGupqCzQSkw/Yb
+         ndtx0bOYp1AkcaoLDoSOSde5ZltdtCKtD9bgspAkuRgvkI0wtdokSy+147nmhmlLLv2z
+         cG3JgIkfWYUkLO3CoxQ16TydExKRaGR90mCdSaFCW6yK4MPDkjNNCboysd0HKwlbSDDX
+         bTWdUubqHLd1BagYQOPzauwmK4NeWGF3KsL/si5Zqc1cuIv3wmKw4mhopvsuiE/cKoMK
+         8LAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
-        fh=Kqx/Wnsf4xtHTsFySnIpBFe63Sww7JhO3yz2hVpFGuE=;
-        b=G+vfgkgqN8oEjMCIAIUcd8ZB2lgg67bTpzctZf3wHzpSgQkbvux0i8hjVdQ/qRuG6x
-         /GZaQvJ4LTXbYbhz8wEy8+2T29nRQGyX/Mmxo8d4lGJ9TfwnYbOvJvSwiLpv2fBK9sbw
-         Ao2leMp21xAf/P4fcE4cpEwFjOEK39mxbL3vAS26QvrYvrjZ9w7x7ZpFklW/KphEsUaO
-         h7uMKBVaHbhyl/sxpFO0MByrzBkKfXmpd7CqGLg4mBQ6YZ2y035nUINXlQcQA8f2fTtq
-         iq8oH9e3u5DkNGC7HmM04rRinH0uYMHJt8IqZMnjhMJUQ0P1SL26UzZefyYb2TdfZ36h
-         woEg==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=oYpuymV3tgk09qaaDkKOhd9dg2Zp4VCoofN6vnpJl7A=;
+        fh=Ifni3Wvw8vGz4RaWLLulZDjm3WOq6oxNpxazprYTjJs=;
+        b=J67YBfXgulb77qUTJwPfgG9OJ9r8CuToayvvlPXe1hJaS+U6IGttjrSdWiemgYxRWU
+         IMzxZ2mvp1A8sJIiGXXwXMEfLeaciht+3hO1Dv/qr6DTk9e6rjE0rWtxwGRn0gae8B+y
+         wLbTH17/+CmdvJ4FAiulKDhQ1cVa0RY05YbGVy8SuspKB/BikgVduam3PcUHyeD3W8Kc
+         bkVxqyxAF0lWJk4Ol84pAPToHQtoef6ddRVvErnWaEk1pqHRBOlCUfrZ/hWgCcSJzifB
+         aLrf7cRJp/YwDC7ZoIG2saLV77T0afSIhrLr9IbVvFqsvaQ2nk3P+18ndB/sJKEYAQ17
+         sXNA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791875685; x=1792480485; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
-        b=cay2BdNg18QtK14y2uhyreOeN+dksZs5knDgiZ4gWvAO76GDrYPPh7CG6z/sd+H3Z/
-         dLgOM7/8T9VrAk8dq8WexnctOGJ/aZkfDwCRMnqT1qoPMS1b9QcfZsgTFAjn+pIAL2wn
-         6L1fu6pYEzdZirPww9mEiKtlHKrutAOIb8YadTOhIBejRfhmQXPiLhlS9PeQlEfu6njY
-         ESIfyxMvqbvinzWzIg4PzuvLvp2UgtW1sqcw3tE1mCDLXaYpjxELJIwSIiWNXDRuJ6JH
-         NQI3mwlw+lvzxCveo1q7enlmXTInBRxh5OFG7SmDW1GhxK6sykiKCxB969c4PurkXuVu
-         tF6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791875685; x=1792480485;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791886372; x=1792491172; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
-        b=la0br3g7lCKVWU1V3IrJk7YmuVqRDPHEzLvPp7I15xWdHWoky3S+XpuTJ+L5VUjk74
-         lxPLF4ufyaTY0BJLsPJ0fZJp8HZx6epXHYDjjrgCzg22s0xzFgpaQPyZPFiyzcwkjfm3
-         8Tr4W0l7BCV4HYTGZmTRkMd8SLcCOZ6Ju57J84Ak4yNZbboKZyaHg3A2EROQi/gf+CRw
-         c3GJMNSkTkaMsTV7d71zCReyDTn4N1p1h6pXw4ENR/2tXLu+5j5gibXQcK554qj2J2mU
-         QNm7Z3JGZQverFNQHpNQuaqcY6Pv8nz8kK9uLDfQKBkA1tjv7tN/VdOZZWSkc5a40FnD
-         xgUQ==
-X-Gm-Message-State: AFq9FYKBryOezH0tqRmcbupidmo4UKhwuriSVno5ZZW9U3/Lp5KegS8c
-	Nzoy4PpSiDIN7jH5waikC9SuOqCfZfvlttwJcQ7vav5emYk7AU5mRscyl1lPZaE2s/FE+w+TPo0
-	wbPvQqKYlaMTiqzF+clD+pzeUW89OvRM=
-X-Gm-Gg: AYBFou0EAGCadviIOPy7OV0fOWdasxLKXPzFst+MDqAKZIqhmv1Oxr0cYKS1P6CbsKg
-	O9LACHvHQkubX13aZvAhKb71JAMpAGN9NduWT8ZS+zsT7E1DFpLLRITy9CNMfLngtGOs6hgSCBi
-	O8uyh0YkHlSYhE/6B6pX0BY2yHILTrCaX1GXKQJh+PnaCGcX05Tl7qdc61GdSA5WNXIXMugLiTa
-	Rx8sHvtgPm6ALxxrNbK9ALvyHq7SAKEg5opCfN3UMI9yFwR7xTbE5rCpe2fuJEn89bVN3GAyLwK
-	9cMIU68XnnpE+Z3ASaAtDd99kFPISfTmk+TLbVSa6IZ6TO3DCqMEs3SK8i0gbmLQxZYPkkWlNmC
-	cKh0p42gP8XpXbNdmS84+uIAfDLBc09iKJjvTC5Xk2lUBQvrEZ/wmfB9HtYgV0yoSjf7FkD/pR9
-	w5WoMoCUvD53qqD5ELGPejZ7QWnGHUyUeRtbNaADUA/vx5yh09pA4=
-X-Received: by 2002:a05:6808:30aa:b0:495:ce6d:7d48 with SMTP id
- 5614622812f47-50c4e67cdf5mr8677005b6e.9.1791875685589; Tue, 13 Oct 2026
- 00:14:45 -0700 (PDT)
+        bh=oYpuymV3tgk09qaaDkKOhd9dg2Zp4VCoofN6vnpJl7A=;
+        b=PNmkqHIqqmiAwdcwJXTxkQ3X1SFogz/yPtQ7GFa0x7kaHe2hwSPhcsCkcA9pF03R3W
+         p2d/qcV3MpLZ4O40XsaPgsYUP+AyFI09X4xDSkr0NPoeV+vzXBcxJ5pzH0slRwCCBPcQ
+         MbnIWLr7AvyFk8JMdt1z6BWgBqVCpAqoAAyJBIJ6YY+7A0ZBysZM39d7MipEGe851ifb
+         2zDJy/sh8k2c/NTueOB/b1r/qChgnU8QrAu9qcTD7s+GXauOaPC7sntfzJMzmr5UeYrp
+         y4YFNxnyat7/cKQmDkwsNdoTsZWICKtI6cElY6K4ZH5c3BBZBpGoJWGJXUPopjXgiF26
+         cbvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791886372; x=1792491172;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=oYpuymV3tgk09qaaDkKOhd9dg2Zp4VCoofN6vnpJl7A=;
+        b=FbDoXyHnky1ZozSpsqaV2gszbHfzD3/jHEA/ChHB5s+A3hvCTNJUO3zHmIDSyNltt0
+         WJc1KT6Rt8p7mD5tErZkAgr5yxE27Y8SX1ixM8SDg5U8Mn1DKw+/mkW9EnuYR+iv/bLY
+         lsV1d/zG5rfJFA4UgqO0zST0ph6Utr2SLAhrXMCusG5yObOpfCYErLLgy1GfuOvfPW5d
+         r8vpjh7LCAjyGCtz7usQ6AXQUPBfmUwNftUHluC3R09s5OxUeITzvLFUJfwiAfvZ8/zV
+         3U4Uk7Mlz4OsnwGEBgJBoHYx27NwnGe54Q3R3kV/LgSMLvIeuSb7Me0HyroMsqgFS8Zl
+         daKQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwz6fuEJ908RA7jEaQ1eog1bXxf324MU2BhYiSOUZOwkKW6MyALqIEjr6a7kAMmasXZJs7wHw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYL7lr8ywV4pSVrVPzin8i6PvmVt78Salzh5MxLZRcKC7hwHxISH
+	EhERWznvuOUCR5skE0XtnsMQ8fEPh2tIUjnhFmdarY9zH384QZRwrRysetnsIjSdZfclyz5l5ZX
+	Mceyl3b7R3/LfzrvvAqcWk1ev5hyVngg=
+X-Gm-Gg: AYBFou15r4LXaESRGW5/isqqy4B1d/fiTh2IR2+mKAfJ/nvYTk9d+Zs40MG8fgaZ1MC
+	+QUNHdu7yk307F/iWuyf2f2bbdecH3GpimjizLifbH0OYK0Uaqyp69iSfTIgbNjM/waoIvmc2ql
+	2jkrSONnLJE1QtQSNaROKxSJVvzEv/jXujXWwE7e6DEbcbe1LNLqtQYH9mr4uaVnRyFHNhQtyEb
+	jMK/h92oSeO2lPNUKy7uYmS8mQzkl1gM8qAi3wjVXCp+/LRjltaeNbq6r9XZYUj20pGBSkhIwTW
+	TTqXSgM/xELMuHvcgqmI3rAlzi6zMxwL0UCgL8qnTdFMc1FA4Vrd2dUEk4ZHFlaJbMDLm7+UagZ
+	LGBpKu0K13GMTKMA0sSxUVO6FJ2V3hIh/0bxP9IihnpoxP0atmP4W2oP4bHkJQPG1VWU=
+X-Received: by 2002:a05:6300:6bc8:10b0:3e1:9071:acb1 with SMTP id
+ adf61e73a8af0-3e19071d79emr3692539637.89.1791886371799; Tue, 13 Oct 2026
+ 03:12:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-9-7b47ed6335a8@gmail.com> <3698d260-13c5-4050-8f03-61f7b7185514@intel.com>
- <l_pd6lBHQaWNYoohhfxhFw@gmail.com> <8fcdfd97-fcc5-4ed9-8a9a-3e7eac53fed3@intel.com>
-In-Reply-To: <8fcdfd97-fcc5-4ed9-8a9a-3e7eac53fed3@intel.com>
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 13 Oct 2026 17:14:34 +1000
-X-Gm-Features: AclHuK8TJXmdm-cxsbCKrijwUibcd22A39HSUGZRpbNW3PHDJmMdVBEajRXhBY0
-Message-ID: <CAHgNfTyTQW2vMieSo+U7CTTuckrLZL+PuEKXfKCHYMFDBCFWng@mail.gmail.com>
-Subject: Re: [PATCH v2 09/21] ASoC: apple: Add macaudio machine driver
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, Hector Martin <marcan@marcan.st>, 
-	Sasha Finkelstein <k@chaosmail.tech>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>
+References: <20261008103831.542533-1-phucduc.bui@gmail.com>
+ <20261008103831.542533-22-phucduc.bui@gmail.com> <87o6cyxyau.wl-kuninori.morimoto.gx@renesas.com>
+ <CAABR9nHvCfabGfBu85bm1r=hP3b0ZiCsgZfShhOv3gNUfjjhGg@mail.gmail.com> <87se2aw3ot.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87se2aw3ot.wl-kuninori.morimoto.gx@renesas.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 13 Oct 2026 17:12:40 +0700
+X-Gm-Features: AclHuK9ysK1Jav05byu2z6c82z-Prt9juV9RV67s1OGQmeMH_qLrceJ2TQNxX6U
+Message-ID: <CAABR9nG-YJZEdj6pVD-gbGU6J2EfRMQYsKd7u0UTgfrWOyAPXA@mail.gmail.com>
+Subject: Re: [PATCH 21/24] ASoC: renesas: msiof: Fix msiof_close() being
+ skipped on rollback
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	povik+lin@cutebit.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Andrei Simion <andrei.simion@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
+	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Cezary Rojewski <cezary.rojewski@intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, 
+	wangdicheng <wangdicheng@kylinos.cn>, Chris Bainbridge <chris.bainbridge@gmail.com>, 
+	Linus Walleij <linusw@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Neo Chang <YLCHANG2@nuvoton.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, u.kleine-koenig@baylibre.com, 
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Hemanth Selam <hemanth.selam@gmail.com>, 
+	Md Shofiqul Islam <shofiqtest@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Zain Aboobacker <zainaboobacker33@gmail.com>, Sang-Heon Jeon <ekffu200098@gmail.com>, 
+	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
+	Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>, Bo Shen <voice.shen@atmel.com>, 
+	Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
+	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 12, 2026 at 8:03=E2=80=AFPM Cezary Rojewski
-<cezary.rojewski@intel.com> wrote:
-> How does one know the speaker died? Is there some kind of signal, event
-> or an interrupt we could depend on? As delayed-work is a mechanism of
-> choice here for handling the case, I believe there is still a gap and a
-> chance for bad things to happen.
+Hi Morimoto-san,
 
-speakersafetyd is a userspace daemon, not hardware. It cannot generate
-interrupts. The daemon puts a magic value into a kctl every run of its
-safety model to signal to the driver that it is alive. The driver checks
-every time this kctl is put (see macaudio_slk_put) and schedules delayed
-work for the timeout, resetting the timeout if the correct value is put. If
-the kctl is not put within the timeout (e.g. if the daemon crashes),
-it locks the speaker amp volumes to a safe level that will not cause
-damage.
+Thank you for your confirmation.
 
-We do not want these checks running when the PCM is idle however,
-so when there are no longer any active DAI BEs, we disable the timeout.
+> > For MSIOF, I noticed that snd_dmaengine_pcm_open() already calls
+> > snd_pcm_hw_constraint_integer() for SNDRV_PCM_HW_PARAM_PERIODS,
+> > so the call in msiof_open() seems redundant.
+> >
+> > Since the first call succeeds, the second call should return 0.
+> > Would removing the redundant call be acceptable?
+>
+> Nice cache, yes please.
+>
 
-> Czarek
+For rz-ssi: in DMA mode, the driver registers the generic dmaengine
+PCM component, whose .open callback already applies the integer
+PERIODS constraint via snd_dmaengine_pcm_open().
 
-James
+Could we drop rz_ssi_pcm_open_dma() instead, and keep the return
+value fix only for rz_ssi_pcm_open_pio()?
+
+Best regards,
+Phuc
