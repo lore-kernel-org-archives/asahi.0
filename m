@@ -1,35 +1,35 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6469547142D
-	for <asahi@lists.linux.dev>; Wed, 14 Oct 2026 06:56:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1F147D463
+	for <asahi@lists.linux.dev>; Wed, 14 Oct 2026 06:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791960988; cv=none; b=pNo/F7Of94/4zYA4Xtx4qsHi916nyND37z4TJLk7onLozT/V7e+mwFiY5BnaPtEykL5A6JzGfiMLNv5GDS5yu1hSIeHt5gVvWp2xTunKiYumcVEim1Bsx7DWLBJIQDFxa4PQzxCahxSAZ6WY4PudJvbPxVO2QjXUwDK16kuPcqk=
+	t=1791960989; cv=none; b=SlJGJ0bY2fFOy+2W95zJPk7LBE8/ewXmpLy4Y0Y0fx1+pT9ROzhZZYCan0Xls9zZ/7k98kX3SxD3Zro2ZXBJAdNs3T8lyvJ5YclCt29KYYXhK9NUq2l0eVaKjqzzebRRPad68ebr4DPJjepMM8UwAKavRlb615leYJkOI/EZ0XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791960988; c=relaxed/simple;
-	bh=JIF3PfnEZtEAOC/gjKIJJfAtTAAX0Wcvin8jOshDjhY=;
+	s=arc-20240116; t=1791960989; c=relaxed/simple;
+	bh=rGGjCImcpu0fLNMmhFVoH3zsFBDMb3V5AldSEYoGU58=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NtYIMVlHBoGuhRIQBmvYqAXY4VpFWtA4vBfsWmZQ6embb1CySygjpTkXppEUTl0kM3k9ew3UWBkwtCxOlqjx7SDsAnR43+CZPqt7vp0NkbkJAarII3yfGbN8Aexv9v3hUDfybh5M/Ac75cITJEL1XexnwHQiDuNXry9SPdIrqnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=ewtApc37; arc=none smtp.client-ip=195.39.247.168
+	 In-Reply-To:To:Cc; b=fZyK40CtsPViGo1bo+Iw3iZ59pkyXBDEJd3E95WdoWZVWAgYhQvta620VvkgajEktypgL3l71lEnWeX9w04kl+ujYi7ZClzhQgxLO4yjoezQQMnLw2aPnKCe6SiTNPy8xGGSIstlNwKJHjScxWc9uSNEkYgydlj19YF/nGUZpkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=QwGHkUka; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="ewtApc37"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="QwGHkUka"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1791960978;
+	s=mail; t=1791960981;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=l0e2xAGWSt5cTDmnhY/Kf0rqC98uB8drPok4JKg9Zrg=;
-	b=ewtApc37yl1BufuzBRMMeZEfySQO+80+x2cv1pbc1qaOl5FSwwvzaLEL4GnGyC3bNMijxc
-	FDcmgLIfAy2gGeIFQwEvNcaUFOkCK6++OO4PN+MeSBswGth+OXE0kSUAhDBAWPIuu4mpkH
-	K7E+obS1xYvRYMtxtv8lKuVKXksNMCw=
-Date: Wed, 14 Oct 2026 08:56:10 +0200
-Subject: [PATCH v2 03/10] dt-bindings: arm: cpus: Add Apple M4 Pro/Max CPU
- core compatibles
+	bh=QQ36krX5y+Fc5kdNcZUV9Kc1tIxfS8RooxDxXqucNPI=;
+	b=QwGHkUkatA+uka/LbtYDhfzPKo2SGFmO/MhS6DbU8fWd667Tm8Q7+d0yfHSOgVDQIW0MUD
+	TRXN9p5EoYEcMsJyR3r8yfRylydz8SOAJoEzJUdBz1rlDQ9Iv4TiWID92Z8fkaGDh/oIIo
+	+MFp7IbX3e1q04CJ5EDyWCumHK5uP14=
+Date: Wed, 14 Oct 2026 08:56:13 +0200
+Subject: [PATCH v2 06/10] dt-bindings: pwm: apple,s5l-fpwm: Add t6041
+ compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-apple-m4-pro-max-initial-devicetrees-v2-3-961edd8d661b@cyberchaos.dev>
+Message-Id: <20261014-apple-m4-pro-max-initial-devicetrees-v2-6-961edd8d661b@cyberchaos.dev>
 References: <20261014-apple-m4-pro-max-initial-devicetrees-v2-0-961edd8d661b@cyberchaos.dev>
 In-Reply-To: <20261014-apple-m4-pro-max-initial-devicetrees-v2-0-961edd8d661b@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -57,30 +57,27 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
  Yureka Lilian <yureka@cyberchaos.dev>
 
-Add "apple,brava-e" and "apple,brava-p" compatibles for the M4 Pro/Max
-efficiency and performance CPU cores respectively. As with the base M4
-cores, there is no longer a generational codename, so we assign the core
-compatible based on SoC codename ("Brava") plus core type (E-Core /
-P-Core).
+The PWM controller on Apple Silicon M4 Pro/Max SoCs is compatible with
+the t8103 (M1) one. Add "apple,t6041-fpwm"as per-SoC compatibles for M4
+Pro/Max.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/arm/cpus.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
-index 5d79da63301b..aff78fc331c1 100644
---- a/Documentation/devicetree/bindings/arm/cpus.yaml
-+++ b/Documentation/devicetree/bindings/arm/cpus.yaml
-@@ -85,6 +85,8 @@ properties:
-           - apm,strega
-           - apple,avalanche
-           - apple,blizzard
-+          - apple,brava-e
-+          - apple,brava-p
-           - apple,cyclone
-           - apple,donan-e
-           - apple,donan-p
+diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+index ae8baa5f7bcd..48cafd391ca2 100644
+--- a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+@@ -24,6 +24,7 @@ properties:
+           - apple,t6020-fpwm
+           - apple,t6030-fpwm
+           - apple,t6031-fpwm
++          - apple,t6041-fpwm
+       - const: apple,s5l-fpwm
+ 
+   reg:
 
 -- 
 2.55.0
