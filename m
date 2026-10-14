@@ -1,35 +1,35 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEC646D097
-	for <asahi@lists.linux.dev>; Wed, 14 Oct 2026 06:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AC447143C
+	for <asahi@lists.linux.dev>; Wed, 14 Oct 2026 06:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791960987; cv=none; b=VYNTttE8InxFtnm3fqsDUudBCEioCexogEPzQGPfcWn3V2lzL7p3d++QflZ49N7SrLVXKg7RWEOqV9uTmqnOi8ST08O3L6zTIA/SE8Dw4a7V8+emcX4raP02VpSwm6uAb1Ztigffgbwke0wcXVJER2IvdTduyIaTFyxlMscvTHo=
+	t=1791960988; cv=none; b=B7qXf00l6+44fdDnOhevgvBtzt67HXUW4WUAhrKfFffUb7cVh54DXcHYENJK9EyIHiEhe5nglwqXl+NhDcW+pX+fFTTRjeQUVeAvuhEeTusaehsgXE4+lk7xo19Ow2DNyhAaV1S2zJldwuhEBvwr13lF0pTwseo5N1xIgQdVY8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791960987; c=relaxed/simple;
-	bh=HQELEj1j61Ui8/DKZPfMECbLDDSpSQT7IxH7n0Wh5uQ=;
+	s=arc-20240116; t=1791960988; c=relaxed/simple;
+	bh=FGc31eK0mHMnb8JW5pxuHtnsV7iAOXssJ3DqsyXLDm4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=me+N9Z+OnI0Yuc3s+L2NwL8Sxgwtf8L86RYQs6WDiK9+cM6NmWMKXAdtJ5x8JFBdXCjik1eRiUIutZS9v25O2+cisbwtlipMPsauYzm2AvLmgg2KHezKhZS+pO1YK+7kiJanKiurqj3wFsU8gKnwbP6dTzls9Ft8UgCiqt7OdsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=AGWN47rr; arc=none smtp.client-ip=195.39.247.168
+	 In-Reply-To:To:Cc; b=rWARkX0InkS/Got5VRg7s63gjOJzRKd7SDjcZsMIflODQRo+w+u9BYy0LiCQasqQHAH2liJ+5wNTHJi8mvReyvAOSOUeDLvWOR9Mr6xawLRNuxMO7xqkloyOTwRgR99m7gYHtCDmPle+qVYIhhKVcHNdhtYJM/MphkjnFG0hEaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=U3c3Z0O8; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="AGWN47rr"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="U3c3Z0O8"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1791960976;
+	s=mail; t=1791960977;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Mq+OmcbV9LqeydbDNlmuijp/LrKz0fFwq+3YHnO8+cg=;
-	b=AGWN47rr1CAbA7/7R/WEAF84xt4QiiJEjWpwwaHiLlRSN4pRF0cECgHDrOHoZ50zOgOtYg
-	ENqLdqsMJwhY9J55KCwIiw4hYICEYQFf6o6ZpyC6WbCe1l/l4ExpWGixQiF38Lwihdo9lk
-	eGOnHhdWSoocSzSHNvOVeG9aJ3q+GSY=
-Date: Wed, 14 Oct 2026 08:56:08 +0200
-Subject: [PATCH v2 01/10] dt-bindings: watchdog: apple,wdt: Add t6041
- compatible
+	bh=5ubX5HTXXwERfq8GEYIv/uI1vIKizAEZ4GSFbKVY9fs=;
+	b=U3c3Z0O8dtLi9b3Gv3jAIZOHlMFHSw8JhKQR6lp7iYOQOZfaBReV9PVuM91j68Nj5xXj17
+	cU7t7SkH3lxAK8P2+luy2OmDTFfovJ+YHvHRVEL8NkVpsmpF7ttct8D+p/Q0olTVOnFRme
+	QMQYh32Vefts6KSIScAeT7Z3TOt7z0k=
+Date: Wed, 14 Oct 2026 08:56:09 +0200
+Subject: [PATCH v2 02/10] dt-bindings: interrupt-controller: apple,aic2:
+ Add t6041 compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-apple-m4-pro-max-initial-devicetrees-v2-1-961edd8d661b@cyberchaos.dev>
+Message-Id: <20261014-apple-m4-pro-max-initial-devicetrees-v2-2-961edd8d661b@cyberchaos.dev>
 References: <20261014-apple-m4-pro-max-initial-devicetrees-v2-0-961edd8d661b@cyberchaos.dev>
 In-Reply-To: <20261014-apple-m4-pro-max-initial-devicetrees-v2-0-961edd8d661b@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -57,26 +57,34 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
  Yureka Lilian <yureka@cyberchaos.dev>
 
-The watchdog on the Apple t604x (M4 Pro/Max) SoCs is compatible with the
-M1-M4 SoCs. Add "apple,t6041-wdt" as SoC specific compatible.
+The Apple t604x (M4 Pro/Max) SoCs use an AIC3 as interrupt controller,
+same as the previous M3-M4 SoCs.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-index ca4cf01db59f..bf785bc3cd4f 100644
---- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-@@ -20,6 +20,7 @@ properties:
-               - apple,t6020-wdt
-               - apple,t6030-wdt
-               - apple,t6031-wdt
-+              - apple,t6041-wdt
-               - apple,t8122-wdt
-               - apple,t8132-wdt
-           - const: apple,t8103-wdt
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
+index e3cadc5ad39d..3c2b24be530e 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
+@@ -37,6 +37,7 @@ properties:
+     oneOf:
+       - items:
+           - enum:
++              # Do not add additional SoC to this list.
+               - apple,t6000-aic
+               - apple,t6020-aic
+               - apple,t8112-aic
+@@ -45,6 +46,7 @@ properties:
+           - enum:
+               - apple,t6030-aic3
+               - apple,t6031-aic3
++              - apple,t6041-aic3
+               - apple,t8132-aic3
+               - apple,t8140-aic3
+           - const: apple,t8122-aic3
 
 -- 
 2.55.0
