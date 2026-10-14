@@ -1,35 +1,35 @@
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64AE47CC85
-	for <asahi@lists.linux.dev>; Wed, 14 Oct 2026 06:56:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6469547142D
+	for <asahi@lists.linux.dev>; Wed, 14 Oct 2026 06:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.39.247.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791960988; cv=none; b=YaS9ar9XpZx0oYPuiVvqhdw/gh0WlKx/wTeKdB9FRPDRJ92RAjfUR22A1ELAxHr9zNLBx0m6Ha46Iwwnf9Q2mELYnT8tE7HU0F5Zo5nAIcSk6g9NQRQYK1UNJGM0zWv2OHO+YZ4/dC+iVo/YEAX1Bm9EhvvUA0u0ASiCabhoGPo=
+	t=1791960988; cv=none; b=pNo/F7Of94/4zYA4Xtx4qsHi916nyND37z4TJLk7onLozT/V7e+mwFiY5BnaPtEykL5A6JzGfiMLNv5GDS5yu1hSIeHt5gVvWp2xTunKiYumcVEim1Bsx7DWLBJIQDFxa4PQzxCahxSAZ6WY4PudJvbPxVO2QjXUwDK16kuPcqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791960988; c=relaxed/simple;
-	bh=NPk3Mpzi5X/Gx1lYXRa7EO4Jcn91R5DEsy/XDCA08u8=;
+	bh=JIF3PfnEZtEAOC/gjKIJJfAtTAAX0Wcvin8jOshDjhY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IqWVN6Eqw7UjBWC/ae6BTPR6OjchGa5hENIlNHOz4ZcHOxphbpTDFB/3dV50piy3oBdfGYXB1RKDI6eEboJjz9hG706lgeITzWfkvVEKWv8t/WE4yce59BT39vVjn8U9qXUAQIwqu85lQezhV5RQ+d+0SC/lyjJtShQYk8HzogU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=q6ptbUZi; arc=none smtp.client-ip=195.39.247.168
+	 In-Reply-To:To:Cc; b=NtYIMVlHBoGuhRIQBmvYqAXY4VpFWtA4vBfsWmZQ6embb1CySygjpTkXppEUTl0kM3k9ew3UWBkwtCxOlqjx7SDsAnR43+CZPqt7vp0NkbkJAarII3yfGbN8Aexv9v3hUDfybh5M/Ac75cITJEL1XexnwHQiDuNXry9SPdIrqnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev; spf=pass smtp.mailfrom=cyberchaos.dev; dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b=ewtApc37; arc=none smtp.client-ip=195.39.247.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="q6ptbUZi"
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.b="ewtApc37"
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1791960979;
+	s=mail; t=1791960978;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PS4CNPU3vl3W6seO4KsepsAZ2+gyTA5uwKGG2SD19s8=;
-	b=q6ptbUZiHYtDsi4KzXlk86GC/NIyKA5VucbdPjGgLucT6bIL3m9V7e250/EbPfvM+u12ov
-	FCgOcgSYSHkJvxeU7r7T8omLSxaNJrUn1DXcEznd0cbKcA0pUzIVVOSIwF9U082lJyl3nC
-	oRKgV3NiJhXhirmVdyajtZ20heBt52Y=
-Date: Wed, 14 Oct 2026 08:56:11 +0200
-Subject: [PATCH v2 04/10] dt-bindings: arm: power: apple,pmgr-pwrstate: Add
- t6041 compatible
+	bh=l0e2xAGWSt5cTDmnhY/Kf0rqC98uB8drPok4JKg9Zrg=;
+	b=ewtApc37yl1BufuzBRMMeZEfySQO+80+x2cv1pbc1qaOl5FSwwvzaLEL4GnGyC3bNMijxc
+	FDcmgLIfAy2gGeIFQwEvNcaUFOkCK6++OO4PN+MeSBswGth+OXE0kSUAhDBAWPIuu4mpkH
+	K7E+obS1xYvRYMtxtv8lKuVKXksNMCw=
+Date: Wed, 14 Oct 2026 08:56:10 +0200
+Subject: [PATCH v2 03/10] dt-bindings: arm: cpus: Add Apple M4 Pro/Max CPU
+ core compatibles
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-apple-m4-pro-max-initial-devicetrees-v2-4-961edd8d661b@cyberchaos.dev>
+Message-Id: <20261014-apple-m4-pro-max-initial-devicetrees-v2-3-961edd8d661b@cyberchaos.dev>
 References: <20261014-apple-m4-pro-max-initial-devicetrees-v2-0-961edd8d661b@cyberchaos.dev>
 In-Reply-To: <20261014-apple-m4-pro-max-initial-devicetrees-v2-0-961edd8d661b@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -57,27 +57,30 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
  Yureka Lilian <yureka@cyberchaos.dev>
 
-The device power state management of the PMGR blocks on the Apple
-silicon M4 Pro/Max SoCs (t604x) is compatible with the M1-M4 SoCs.
-Add "apple,t6041-pmgr-pwrstate" as M4 Pro/Max specific compatible.
+Add "apple,brava-e" and "apple,brava-p" compatibles for the M4 Pro/Max
+efficiency and performance CPU cores respectively. As with the base M4
+cores, there is no longer a generational codename, so we assign the core
+compatible based on SoC codename ("Brava") plus core type (E-Core /
+P-Core).
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/arm/cpus.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-index dcffdd12c8c7..a37a837a4eac 100644
---- a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-+++ b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-@@ -47,6 +47,7 @@ properties:
-               - apple,t6020-pmgr-pwrstate
-               - apple,t6030-pmgr-pwrstate
-               - apple,t6031-pmgr-pwrstate
-+              - apple,t6041-pmgr-pwrstate
-               - apple,t8122-pmgr-pwrstate
-               - apple,t8132-pmgr-pwrstate
-               - apple,t8140-pmgr-pwrstate
+diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+index 5d79da63301b..aff78fc331c1 100644
+--- a/Documentation/devicetree/bindings/arm/cpus.yaml
++++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+@@ -85,6 +85,8 @@ properties:
+           - apm,strega
+           - apple,avalanche
+           - apple,blizzard
++          - apple,brava-e
++          - apple,brava-p
+           - apple,cyclone
+           - apple,donan-e
+           - apple,donan-p
 
 -- 
 2.55.0
