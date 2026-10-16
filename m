@@ -1,65 +1,65 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98C231DDBB
-	for <asahi@lists.linux.dev>; Fri, 16 Oct 2026 04:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E497D36F437
+	for <asahi@lists.linux.dev>; Fri, 16 Oct 2026 04:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792123826; cv=none; b=lWImfcBAarJTO0zhV9W2VcRtk5A9i/K58FRrl2QZB1jK0Mrz3uRfg5Es6WV+oyH3sYH1HOH93COS3npk5HmUKhn5RXdekIfL8ocGjzIQmNA/QtTz1R0JmGp/gXcuFtpmSwuV+rE7d8ScYrrModXSPc6TjxaXRcZMA8Sk3IQQl+s=
+	t=1792123838; cv=none; b=Yj3yVzRA5p/MHqyeTCS/T8t65zWDgm9DbUiL+r8FsmNlZdr6pg5KTO/D/5LItbIxH/2XUAnbr0vPfWCeE3N5ngE7K318C+LCQNndX1juZhe8zCmH2eP9vOecZn3U+OQ3VL9U2+rkhPsbVbZctKPbBRJrNqhMF/bTYqZTdZsXDlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792123826; c=relaxed/simple;
-	bh=V7YkcGOeqeXCi9lDzvM4uEOXSB2T7RzqTJxl6SF+/ug=;
+	s=arc-20240116; t=1792123838; c=relaxed/simple;
+	bh=6DbU/lmMa56vZUldhssy3WWvEn6fSDga+TC7sPaI04Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Htrp4ICFnGLEab5RVxQAgg431LLpOnGbOd+WPffvGe1+ro9f60m7fSz2xLokPlHDTYqVbVHmW6+Ef5wDE3CO2136oYxb2leOblF3TCDZ+ud2o33nKDE9p8CUkx9ovYBIIrMOkgu+l8hDtjetx2L8peatDqf7Ebgm0whg4xWeRnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ggccm3dJ; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=BB2Lf8FddwC9mrZH9uNbJsmtpwlCgqiDIOqmMupUVWwtyP8g6DPE3el+/ioCWRmXXT5LR/0roDRCnUTGo0fwGfTJSosj1TWJs6D8jsoCSsIJEwKtkNSly/L5l4DkjwGP6fz0E+M5W30fJoaM7IUJQb4AaqgQqja7AVNPNriaqqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F19Tzzx7; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ggccm3dJ"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e977109392so5452625ad.0
-        for <asahi@lists.linux.dev>; Thu, 15 Oct 2026 21:10:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F19Tzzx7"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e5fb79ce82so34576585ad.0
+        for <asahi@lists.linux.dev>; Thu, 15 Oct 2026 21:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792123824; x=1792728624; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792123836; x=1792728636; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LqPJpnpDl1bjZy/2WTSO/k4hLO3gGJGG3iYDq3mgh9U=;
-        b=ggccm3dJt6F1UTq3VbUNWMJi4fWKAmAJWlUVJXqeT4I66BPrW55j5ffhomqLRPrTUe
-         QS51U4sYrr3x3ZnwIRNmhtLGbzPIoMvkyTgZ5L5/65C3xYbHTfX84kpOdMOLfgj1c88H
-         8WMkgOcjckZOflx5kPIbHuCAaxLB4olazNCoiwbdwWtXiO1kIAwT0CG/ILLEs6G0WZtq
-         sDWleKZl5CBS55aF/SNMRMEPoEi/HLLO7z/xQ6Yz6C57AlQQOBwr57AxV8O/AQqK/xjQ
-         4XgQw6TDx2y4RGhQO1TDFwVq5NIkkLtBRV2hVhhoxM1ihCW44yDHAIcTkS/tZ7TrHePW
-         WLdg==
+        bh=QFH69Gbmd4pLwYRTdAmCw0agJokE4nomqHT+KuDYM2c=;
+        b=F19Tzzx7M3+OPUNywggy3cW7tRfa1qn35pcYH4e1U7fD73ISYoaURLa680lcbF69NB
+         fEaaE8GGA9SQjRPnvfILR26SSSbVELJSjIr/TmwYLcij0BX4q/+6lSURindl8xoWa132
+         L8dENCrw6KIr63XKEnxgnUupgwBi0TlsWQlXiifQiva44YBC87JYx2qbc8ag6lvbEKul
+         mKyF9rwQsu4NsbVcIi9Q9yX27yXt2E6Sd3SAtF65BsTbQtLlLsAtOLbPOQHMXrGQ1xoF
+         QBcO2HvVe1ZbyskZBQqzwAWjqQm+zNTnNH/aOA5aOH+fS6yyJQdMuMTZAedqe7sV3pv9
+         laGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792123824; x=1792728624;
+        d=1e100.net; s=20260707; t=1792123836; x=1792728636;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LqPJpnpDl1bjZy/2WTSO/k4hLO3gGJGG3iYDq3mgh9U=;
-        b=iGO7gHIKYz1fgpSSBs34MutKoHCUBnwv60LFs+REcsDZNkPgMO2HBRsES9+ztocQr3
-         pBUlxAioCOgKMsk+NjD+4zdSL6fn2ZXgjzqoL7NPF4W6FzzPycvesdRorQiFow10G1L7
-         U9x/h8T10wfudgSjLIwFfcKgU7vqJ1ilHxnc1eIk+3gckOFh6Gj67y8Qp3mYtwcFfWOQ
-         b/CmVWx+pweO2dixcZ0ixjDI8kQrHAuRYZ/apGwvMeTkhaBiAA+AOAjC+L+mMyFnXZiF
-         dkErm3TehVXQrM6ky+4ez0SshgNk3iRvmtEPvgFRQKdhPW7SLKTytNkZiuFJAXlQdcyD
-         BMOw==
-X-Forwarded-Encrypted: i=1; AKwUvBwqttSDzDsIbwhqzO8H09Q5KcCCSzqtpxlPwc5ZChGYsOd732VDwFIgINTq04otwDA3o3XcoA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK40h1wr5N0evdiU8E0xv/ODCYDUcH8ZiEm5X5Lfs6/+wAW7z2e
-	3JFHZqW9uvx5M/CQ9uNjG7UNQ/DeV3kWTLeXp+RvL3E3skltUVSIx/0n
-X-Gm-Gg: AYBFou0UywMYyPc5WafwVYBvcEmqTMgUgXFzdDY8XZ6DacEXizDskL1lepz9oZurRc2
-	wOI44aJuOGL3k8h6VAkvNRdo26LLLrREVnUi0WfLuzhQ/qbXbxcS4qh/obHNS48Ptz1wvHf0cGN
-	/oWnoue+vJqhVcFVaB9TyI24fbVGdjNLy4OeWvGkBQUyww5YV9eh4SQWhmLUJKfpFopUpzbMEZD
-	2DVaaJg9m3fBCVy9FZ18l+89+2oNHDnO0BMDc+Uejsu5wAIR0LnizXsq926t344z00mYALcNjxT
-	FRqLdWx1xrvitWqabvAzbU8nYI0oJCarDMkBhA1f6gv6uasMTc+bFfqW95v4N1vNxu6HbanH2BN
-	ILDxxraDouTKio2zouKu+ZjZ5lthCrwcRFnaWHAX01nu8EQzBqtH07cMpMlQ1mS+kwCnVonF5DP
-	V6zuWpjq461Lsi7AIfJk0KCdhub4kW6JEohP63utZfoHz1i93/C3wpqSh4QMOMyqKZrYG+h1fRw
-	qBz23YT9Ds0lWtlcpHeQOuQv2Krfdujw9Sg7rvfgU+WlSYq25objcyuEf0H0yH0c81w/IXYM+9b
-	2e2bLESYVlNitQ==
-X-Received: by 2002:a17:902:d4c8:b0:2e9:970c:2c5 with SMTP id d9443c01a7336-2e9970c073cmr381995ad.39.1792123823874;
-        Thu, 15 Oct 2026 21:10:23 -0700 (PDT)
+        bh=QFH69Gbmd4pLwYRTdAmCw0agJokE4nomqHT+KuDYM2c=;
+        b=FzuevGyX9cnJFgS76E16lcFL7nl8HfT4sUzcJO59tq9Yf7t8eixSoIwwD6aJhWfMsN
+         LqVqHaTh+2SL9HJGos/BaJ44Y6QrRi+c5Ms7JK9AAVcnAlaBWTm5zsdvutROenVYCMhp
+         c6z/OWWJ/7jG4idqKiJpq37BKG/LMzmcm3tC8ob+w1uHnLLVTlyROcwibXd+7/qcz6Qd
+         VX6B7LC1dB0c78ZRowR+jbN/lFgX0eIiOzW+VbJpPab3TppBcXeTuAdpe26Bqa6HBAX5
+         T5w8fpaFo+Whmb1sU67H5pe7upFoZDcTLflz0TD00B+Es2ks6eOzI2bRqySxy1D5xJq3
+         dQPw==
+X-Forwarded-Encrypted: i=1; AKwUvBwjfkNuUEWZV7MT0kKPm0Boh9SH/Lb7pf/ReK+rtUloHXFfoJI1kf5qKuF5TXRA6bDBL0xNGw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIX9PB5FoxVx39QGCgV0OAYZMdULdOoDDPxjsv4+5LtNiRTP7al
+	Op/6K8DLib4IUmD2QNLIAA3eV4pdt9wmkc2UKiToQA7xgERaYbRTDNrx
+X-Gm-Gg: AYBFou3jHqDEoYrI88MWoAux3TiBYjV5rTpYubemsfpfyCuRPqumw5MrMu91/cjmZjY
+	3g/FWr0Nr/9VRaVKwXLOZZoJ3dl/LtZqAUWwcAyCdk1x12j4TQw28goIsgtNIHXaRlzyLsX9N8O
+	pd27wmZuTm/y2XfjdgtsLpoW4wyBYeLlXJymXpASz8XjLnin3QgVF2G8X4CsfgfQD9c5HVBCRmc
+	7zNkUsn86Ci2yTULxrJdHMHw+fddP1jqPcl1CVuLQ+LZk/kfBHfFfPCGoAQgapfXQJAkk7tb5QQ
+	2GSogciB/jh+63UJSHtOeIppvI+d1vTVyKWe2++2UQq4slP94a6458FRbU2XR9RVz0i7+s56UQz
+	EZUSJGyXI8w4LafaFCEE+7LftGHZeMls5UITbZQB1LtekjulqjR3LQvoHPTfUX7uEYDnOdYwLNc
+	rxkWCH3GSLJwmbHsqAsqoKCDJcZMhD0DXoYGAB0ZenBh9DCyeo5kSWqfgapZkmgr2pHAYSsGKZv
+	k2AWtEU76h05TItKZjGodWMTaO4wWk+jekVm5i75S3KenBpzgLORk2qfIj3Q1MdZWKufo1MFM4F
+	W/rblzkHq38zitu+ffaYc34N
+X-Received: by 2002:a17:902:db0b:b0:2db:3b35:1ac6 with SMTP id d9443c01a7336-2e8427efd9dmr210035865ad.5.1792123836136;
+        Thu, 15 Oct 2026 21:10:36 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8ab443sm3815785ad.65.2026.10.15.21.10.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8ab443sm3815785ad.65.2026.10.15.21.10.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 21:10:23 -0700 (PDT)
+        Thu, 15 Oct 2026 21:10:35 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
 	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
@@ -120,9 +120,9 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 01/11] ASoC: amd: Explain component open return value handling
-Date: Fri, 16 Oct 2026 11:09:36 +0700
-Message-ID: <20261016040946.521195-2-phucduc.bui@gmail.com>
+Subject: [PATCH 02/11] ASoC: apple: Explain DAI startup return value handling
+Date: Fri, 16 Oct 2026 11:09:37 +0700
+Message-ID: <20261016040946.521195-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261016040946.521195-1-phucduc.bui@gmail.com>
 References: <20261016040946.521195-1-phucduc.bui@gmail.com>
@@ -136,136 +136,27 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Add comments explaining why the .open() callbacks must return 0
-on success to ensure proper rollback handling and prevent future
-changes from reintroducing the issue.
+Add a comment explaining why .startup() must return 0 on success
+to ensure the DAI is correctly marked as started and prevent
+future changes from reintroducing the issue.
 
-Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/amd/acp/acp-platform.c      | 5 +++++
- sound/soc/amd/ps/ps-pdm-dma.c         | 6 ++++++
- sound/soc/amd/ps/ps-sdw-dma.c         | 6 ++++++
- sound/soc/amd/raven/acp3x-pcm-dma.c   | 6 ++++++
- sound/soc/amd/renoir/acp3x-pdm-dma.c  | 6 ++++++
- sound/soc/amd/vangogh/acp5x-pcm-dma.c | 6 ++++++
- sound/soc/amd/yc/acp6x-pdm-dma.c      | 6 ++++++
- 7 files changed, 41 insertions(+)
+ sound/soc/apple/mca.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/sound/soc/amd/acp/acp-platform.c b/sound/soc/amd/acp/acp-platform.c
-index ba6dfe8fb6b7..f2c8853775ad 100644
---- a/sound/soc/amd/acp/acp-platform.c
-+++ b/sound/soc/amd/acp/acp-platform.c
-@@ -248,6 +248,11 @@ static int acp_dma_open(struct snd_soc_component *component, struct snd_pcm_subs
- 	list_add_tail(&stream->list, &chip->stream_list);
- 	spin_unlock_irq(&chip->acp_lock);
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index 3585432ad49b..26022a42a95e 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -535,6 +535,11 @@ static int mca_fe_startup(struct snd_pcm_substream *substream,
+ 	if (ret < 0)
+ 		return ret;
  
 +	/*
-+	 * ASoC only marks the component as opened when .open() returns 0.
-+	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
-+	 * return 0 to ensure .close() is not skipped on rollback.
-+	 */
- 	return 0;
- }
- 
-diff --git a/sound/soc/amd/ps/ps-pdm-dma.c b/sound/soc/amd/ps/ps-pdm-dma.c
-index 28e0686e9373..12c341e89bce 100644
---- a/sound/soc/amd/ps/ps-pdm-dma.c
-+++ b/sound/soc/amd/ps/ps-pdm-dma.c
-@@ -211,6 +211,12 @@ static int acp63_pdm_dma_open(struct snd_soc_component *component,
- 
- 	pdm_data->acp63_base = adata->acp63_base;
- 	runtime->private_data = pdm_data;
-+
-+	/*
-+	 * ASoC only marks the component as opened when .open() returns 0.
-+	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
-+	 * return 0 to ensure .close() is not skipped on rollback.
-+	 */
- 	return 0;
- }
- 
-diff --git a/sound/soc/amd/ps/ps-sdw-dma.c b/sound/soc/amd/ps/ps-sdw-dma.c
-index 553fe11a2e50..c2640985f54c 100644
---- a/sound/soc/amd/ps/ps-sdw-dma.c
-+++ b/sound/soc/amd/ps/ps-sdw-dma.c
-@@ -337,6 +337,12 @@ static int acp63_sdw_dma_open(struct snd_soc_component *component,
- 	stream->stream_id = cpu_dai->id;
- 	stream->instance = amd_manager->instance;
- 	runtime->private_data = stream;
-+
-+	/*
-+	 * ASoC only marks the component as opened when .open() returns 0.
-+	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
-+	 * return 0 to ensure .close() is not skipped on rollback.
-+	 */
- 	return 0;
- }
- 
-diff --git a/sound/soc/amd/raven/acp3x-pcm-dma.c b/sound/soc/amd/raven/acp3x-pcm-dma.c
-index 072f3dc35d40..765057499021 100644
---- a/sound/soc/amd/raven/acp3x-pcm-dma.c
-+++ b/sound/soc/amd/raven/acp3x-pcm-dma.c
-@@ -237,6 +237,12 @@ static int acp3x_dma_open(struct snd_soc_component *component,
- 
- 	i2s_data->acp3x_base = adata->acp3x_base;
- 	runtime->private_data = i2s_data;
-+
-+	/*
-+	 * ASoC only marks the component as opened when .open() returns 0.
-+	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
-+	 * return 0 to ensure .close() is not skipped on rollback.
-+	 */
- 	return 0;
- }
- 
-diff --git a/sound/soc/amd/renoir/acp3x-pdm-dma.c b/sound/soc/amd/renoir/acp3x-pdm-dma.c
-index c0481a9ba858..89dc60849c06 100644
---- a/sound/soc/amd/renoir/acp3x-pdm-dma.c
-+++ b/sound/soc/amd/renoir/acp3x-pdm-dma.c
-@@ -233,6 +233,12 @@ static int acp_pdm_dma_open(struct snd_soc_component *component,
- 
- 	pdm_data->acp_base = adata->acp_base;
- 	runtime->private_data = pdm_data;
-+
-+	/*
-+	 * ASoC only marks the component as opened when .open() returns 0.
-+	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
-+	 * return 0 to ensure .close() is not skipped on rollback.
-+	 */
- 	return 0;
- }
- 
-diff --git a/sound/soc/amd/vangogh/acp5x-pcm-dma.c b/sound/soc/amd/vangogh/acp5x-pcm-dma.c
-index 33d59d992ee0..72050fa2de80 100644
---- a/sound/soc/amd/vangogh/acp5x-pcm-dma.c
-+++ b/sound/soc/amd/vangogh/acp5x-pcm-dma.c
-@@ -231,6 +231,12 @@ static int acp5x_dma_open(struct snd_soc_component *component,
- 	}
- 	i2s_data->acp5x_base = adata->acp5x_base;
- 	runtime->private_data = i2s_data;
-+
-+	/*
-+	 * ASoC only marks the component as opened when .open() returns 0.
-+	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
-+	 * return 0 to ensure .close() is not skipped on rollback.
-+	 */
- 	return 0;
- }
- 
-diff --git a/sound/soc/amd/yc/acp6x-pdm-dma.c b/sound/soc/amd/yc/acp6x-pdm-dma.c
-index afa9f66533e3..cba2509faaa1 100644
---- a/sound/soc/amd/yc/acp6x-pdm-dma.c
-+++ b/sound/soc/amd/yc/acp6x-pdm-dma.c
-@@ -209,6 +209,12 @@ static int acp6x_pdm_dma_open(struct snd_soc_component *component,
- 
- 	pdm_data->acp6x_base = adata->acp6x_base;
- 	runtime->private_data = pdm_data;
-+
-+	/*
-+	 * ASoC only marks the component as opened when .open() returns 0.
-+	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
-+	 * return 0 to ensure .close() is not skipped on rollback.
++	 * ASoC only marks the DAI as started when .startup() returns 0.
++	 * Since snd_pcm_hw_constraint_minmax() may return 1, explicitly
++	 * return 0 to ensure the DAI is correctly marked as started.
 +	 */
  	return 0;
  }
