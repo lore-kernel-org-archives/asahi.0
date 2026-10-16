@@ -1,135 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702BD372B3C;
-	Fri, 16 Oct 2026 10:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51B8400DFC
+	for <asahi@lists.linux.dev>; Fri, 16 Oct 2026 10:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792146465; cv=none; b=nA5WUYmkMR4X6BH8mBu2krGK1UUWEtMN7gbXJFv+KVlwjcoDXlsZLOl8M6IzwBQs4sfJIALEIBO7zFXRwqTDHGim/EvAndrTZZIiPu5aNLFpcsEf/zGvqwSDzS1im2rw1AQ/JiXSOLBLyZ0lnZg1hZhYbxsDuhHfS0UfSJ1zUMM=
+	t=1792146858; cv=none; b=SB9PKfqhK3vYYRhCL3NGA0NXF6ghfAf5FlnJOT+bDxwd/7lvVd69EL1PJNyNofvm5yq7ciPie4QXtUPsa7tSlWcgCYOoNvRIh44YYahxsKKMT4743Uwvb1a2Qe+XgK5Qp1FqHruqaIecnGQCKk2bx/LjQRITB1Y63vUo++oUXho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792146465; c=relaxed/simple;
-	bh=limMFJbcwwduTpzFLcDiK/5fNhxrgEYq52T7UWtvs0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H+JY18hiQLw2lSKJYiJJskbqzA4AyHFicCpPd0QQ3UxPVYtwby21aovg2g7wXKljszWc+S9+0jg/yU9ATf/DgD64mtnmDZ9x+aVEYtV7qrtlQ8rl2ado3s0SbSALJ4Y+5ewlSRfzJ78rB4kPlmLstIKhHpPTZUD+mSxXO5SpOvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fHEL6kP6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792146858; c=relaxed/simple;
+	bh=BnTr82S8w9wakAEeUEBfR1LlMbPBAs/IS0VPp87s/50=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rnUmtGso4ubATAUHHiPR9hTwpd9QKLJzznug6+aoEQA6qM0TLI2uh3nGPEfwan94hutkGpw+2ja8C0Y2Q6VlID5pUk7z8Ev1fi/QZxyX085BOfFrPxMOkUxBaauI4lMjJJLwZl+s7zpHJHMIcmmNWQSxo4MgWnWUrK+52hAgeZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=iRBGxJuR; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fHEL6kP6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2AE71F000C4;
-	Fri, 16 Oct 2026 10:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792146462;
-	bh=U0J00jo5OiHeBPxzEIa6F1DcCXv2U6x9A+gpdOvbR5U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fHEL6kP6IS5s8belsewK7AeFU5zIrffBszsKo3//zeOY4pQ+UIumG35dxnULGf/3d
-	 EGt29felUqNf9Ch2QvIQZsnCqtVy/W+u/st4lU4MN3C/Dcl/dTc7W/ZbbvESn7cHBc
-	 eqi6D1ok1vbZ5mqfq+W0prdxLrbNmI58Lp7Jtrx5vsHRjUFxpjvTNcwCLCMNZlw8vx
-	 dAmhzmT4L+uzQJ81JqVTU1ciXGN2fNgY0dXoFx6rvI5v5OP64DuDhSesR7W4ptJl6o
-	 pR2pL8DNGR8LlR9297+A5XzUqMTod1ALxmn/eUISmu/nTdZ7t3YKh25BYzSomJDpfx
-	 LCuJ//VjMWTGA==
-Date: Fri, 16 Oct 2026 11:27:29 +0100
-From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	povik+lin@cutebit.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Andrei Simion <andrei.simion@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>, Kees Cook <kees@kernel.org>,
-	Syed Saba Kareem <syed.sabakareem@amd.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	Chris Bainbridge <chris.bainbridge@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Neo Chang <YLCHANG2@nuvoton.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	u.kleine-koenig@baylibre.com, Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Hemanth Selam <hemanth.selam@gmail.com>,
-	Md Shofiqul Islam <shofiqtest@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Zain Aboobacker <zainaboobacker33@gmail.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>,
-	Bo Shen <voice.shen@atmel.com>, Vinod Koul <vkoul@kernel.org>,
-	linux-sound@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 25/25] ASoC: rockchip: rockchip_max98090: Mark the
- link as started on success
-Message-ID: <46a96bc8-2ee7-4c6f-ad8e-94321f8b9630@sirena.org.uk>
-References: <20261015014324.5569-1-phucduc.bui@gmail.com>
- <20261016040048.506531-1-phucduc.bui@gmail.com>
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="iRBGxJuR"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a02718da81so50065595e9.1
+        for <asahi@lists.linux.dev>; Fri, 16 Oct 2026 03:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1792146854; x=1792751654; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=kIHJ0txQc8+sqtyNixhwGX7E5WSVvBAZuK9qukcWHcA=;
+        b=iRBGxJuRoZyNk3FNqxznehrR9Ea9ni5dISILiNZWuyDwGO1S4kHlbIvS0lp/NYDs9O
+         Pu37SYZ0hufTXAB4CZiG9wW+l23QQTmG8neWxUGRwT4r5gW66ebxDCHLEnkAFPxKOtEJ
+         UwNDvff+S+cijSzL8FrX1pFAOqzQxvoHh1674=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792146854; x=1792751654;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=kIHJ0txQc8+sqtyNixhwGX7E5WSVvBAZuK9qukcWHcA=;
+        b=HOU0oC9WaGd9ni3U16QNQaXVnIM7I4y3uCCJiHN1Nfmc6A81W7vwUvxzkNVzFNnARL
+         uvkXS+fImTCWdYYhu7mqjvk2kEoOqJVfLeDxjvFU/RpKp7nm7tQ2bkLsXDMOzL/0daXZ
+         8PSieH3NYxXr7T+BockeII0OGO6dq/A/O5DQTGYMiBwd0hlRbPvI7tNdv811plwBkBf2
+         n/uFtgo8a2PnxQRXLMH0TNwVTFXNEd6at32VqQ6ojCkkOvi+oTQ2ZH8IOaOpgfMiKE9L
+         eMAfnOXC9KeNd2dZhxG6Qstw9wGQVwRS5LxWBt2pz9/X0Rip8nf2U1PxlK6aPpwX/VVV
+         esuQ==
+X-Gm-Message-State: AFq9FYJl7QvlEnkUNt4VJ8k956xewg7ee5dCaF98OkyD8lgtBi5CC8In
+	8+L12Dfom6OS7RFERWTZ8xYGunnFa7eUBBzUFvSVUTZYngRR6AlC8ZisCkPTXUTEows=
+X-Gm-Gg: AYBFou01zdrTBYx0QbtwP5389KA6rqqLtKuYzweFG1cXqxQouMw5xudaWun8Qn0woRc
+	67pvjJoD6L9D6+Q4RBFh1+YHE1au+S37dOZYFWATRqX23RqzkoRmnFJMbgnyMRTthOKP7LCUZMH
+	TKmCPqG/W/2/H6/B/HRWihCxJY00aJL9yysgANglqDt7bV7YjBQKBTGqZBGfieBHetRP/AFGbou
+	W0vK0hXax287xhoGYr0xPWQKD2dD4lhW8kGnDrgcoVLHZYQC8uWjAl35Og6uqGXHYJUwJ32r3of
+	OZS6zb7VoRdzDhL0IU5YXN2lxIffxNBPs/q7gs5SgtK5zS8U418ZpO5M4sDtx122pxL8WW4OWcY
+	UrEPdPAfya6c3AMVKzVR1i+d0kvrsriV+miJF34vWCz/kXixGGzGssoiXcfew6sTm0JheVvu1P+
+	uGsvLm7Ed1UIAXPDyrMMDXCwA5gqofoJkkCTN5Ht8Nfa9/jP0Dvp/FJvvV03sPfQ7nPUGxwAnkm
+	cDNUvE4iw7KmpPRT9hVxQac/1z6/RSO419YD6TG5PQ/v1pOS6tnSYPpaOG8zlak7A==
+X-Received: by 2002:a05:600c:46cc:b0:4a0:8b1:f5c with SMTP id 5b1f17b1804b1-4a18e4b583fmr437610075e9.22.1792146854144;
+        Fri, 16 Oct 2026 03:34:14 -0700 (PDT)
+Received: from localhost (dynamic-2a00-1028-8382-0206-0000-0000-0000-0bc0.ipv6.o2.cz. [2a00:1028:8382:206::bc0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471b06sm4783272f8f.5.2026.10.16.03.34.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 03:34:13 -0700 (PDT)
+From: =?utf-8?q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>
+Subject: [PATCH v2 0/5] ASoC: pcm179x: Add support for pcm1795 and pcm1796
+Date: Fri, 16 Oct 2026 12:33:53 +0200
+Message-Id: <20261016-work-v2-0-9340b9555fbb@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tqlzx0giHWNwlE1k"
-Content-Disposition: inline
-In-Reply-To: <20261016040048.506531-1-phucduc.bui@gmail.com>
-X-Cookie: <<<<< EVACUATION ROUTE <<<<<
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12OTQ6CMBBGr0Jmbc20FTCuvIdhUepUqkBNB1BDu
+ LsFdy5f8r6fGZiiJ4ZTNkOkybMPfQK1y8A2pr+R8NfEoFAVElGJV4gPUWLuFNYFquMBkvqM5Px
+ 7q7lUP+axvpMd1uxqNJ6HED/bziRX769ykgKFQ8p1bUutpTubzsSxNRzacUiveG9DB9WyLF/kR
+ 2KEtQAAAA==
+X-Change-ID: 20261002-work-705f20b60284
+To: Peter Rosin <peda@lysator.liu.se>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ =?utf-8?q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>
+X-Mailer: b4 0.16.0
 
+This adds support for the PCM1795 and the PCM1796 to the pcm179x driver.
 
---tqlzx0giHWNwlE1k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The PCM1795 is register compatible with the PCM1792A, but it encodes two
+of the register 18 FMT[2:0] values differently, so the format encoding is
+described with a per-codec table instead of the width switches. Only the
+PCM1795 has real 32-bit formats; on the PCM1792A and the PCM1796 a 32-bit
+container keeps the 24-bit code, as it always has. Left-justified, which
+the driver accepted but never programmed, is added on the way.
 
-On Fri, Oct 16, 2026 at 11:00:48AM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->=20
-> snd_pcm_hw_constraint_minmax() may return 1, which is then returned
-> from rk_aif1_startup(). ASoC only marks the DAI link as started
-> when .startup() returns 0.
+This series is based on a work done in 2016 by my collegue:
+https://lore.kernel.org/all/20160311232856.GC27257@panicking/
 
-Can you please resubmit this as a separate patch as a new thread without
-the series numbering?  This is really going to mess with the tooling :(
+---
+Changes in v2:
+- Added missing entry to spi_ids.
+- Added SND_SOC_POSSIBLE_DAIFMT_LEFT_J as supported format.
+- Updated description of devicetree bindings commit.
+- Link to v1: https://patch.msgid.link/20261002-work-v1-0-f0e53bc7331f@amarulasolutions.com
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+To: Peter Rosin <peda@lysator.liu.se>
+To: Martin Povišer <povik+lin@cutebit.org>
+To: Lars-Peter Clausen <lars@metafoo.de>
+To: Nuno Sá <nuno.sa@analog.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>
+To: Kevin Lu <kevin-lu@ti.com>
+To: Baojun Xu <baojun.xu@ti.com>
+To: Sen Wang <sen@ti.com>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev
+Cc: linux-sound@vger.kernel.org
+Cc: patches@opensource.cirrus.com
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 
-Series numbering only makes sense within a series for ordering, if
-you're sending something separately to a series or a new series then
-preserving the ordering of the series just causes confusion.
+---
+Michael Trimarchi (2):
+      ASoC: dt-bindings: Add ti,pcm1795 and ti,pcm1796
+      ASoC: pcm179x: Add support for pcm1975
 
---tqlzx0giHWNwlE1k
-Content-Type: application/pgp-signature; name="signature.asc"
+Roman Smrž (3):
+      ASoC: pcm179x: Refactor regmap value lookup
+      ASoC: pcm179x: Add left-justified formats for pcm1792a
+      ASoC: pcm179x: Add compatible string for pcm1796 and spi_ids entry
 
------BEGIN PGP SIGNATURE-----
+ .../devicetree/bindings/sound/trivial-codec.yaml   |   2 +
+ sound/soc/codecs/pcm179x-i2c.c                     |   2 +
+ sound/soc/codecs/pcm179x-spi.c                     |   4 +
+ sound/soc/codecs/pcm179x.c                         | 117 +++++++++++++++------
+ sound/soc/codecs/pcm179x.h                         |  12 ++-
+ 5 files changed, 104 insertions(+), 33 deletions(-)
+---
+base-commit: 2f2f7eeef8b0a1a9b9ca998231419873ccae8d4e
+change-id: 20261002-work-705f20b60284
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrR/BAACgkQJNaLcl1U
-h9AosQf/VknJyrGXrKz1JvZbJBxS2f4nWntI49PwwvAzQ6a4SD3xfvD3bg/M7LAZ
-J5+AHHz3VAcAYPq1gkxEy4pCm8MVao9XTc3Ujwu5jluXqeXIubKVaZnzHh+J84Ux
-cjBkHDIed/T5gVNU5Q+CpctZcDl1jrOFs3dUiUzMw9T3JTDLH3NN8u10CbKzFsaO
-n7SWoLoUuganF2oSbR0LpA9qfDv+AVTwzA0kxeNZA0Uu75kwlJ7nmFxDmpw857/8
-BHCXxOUkS3ASKZ05NU5uuVGM2XAfSRzRAS/AY1SCT45ujPw9O9lhufB70UDqLW7a
-SnN5ueA4U9Y+tWt2D0rrEe/M9oXKtw==
-=No3u
------END PGP SIGNATURE-----
+Best regards,
+--  
+Roman Smrž <roman@amarulasolutions.com>
 
---tqlzx0giHWNwlE1k--
