@@ -1,183 +1,200 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8603F3890F8
-	for <asahi@lists.linux.dev>; Fri, 16 Oct 2026 04:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792123949; cv=none; b=E4JyvdSTgOiikuPCFK9GNZwn/tY3T5Oe9iX1qpXz3IbaN/deQtDLkpjaMjQfXLVVTt9+TCbu92nFox0BkR+d9Kl8TJSSyflX56LohNRdWNITV+MKUBie5miEYfKBAx8yoKkas9F0HfcaFIkkq/OhUm0htwT5VbPuXACW6sWzs+4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792123949; c=relaxed/simple;
-	bh=r7OlKukmBvsw9WjHDtwSqYZmBLqvfhuoOIuidK+OgfM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mXzwds+9z272gfw/kxEuIAvoXHIX+QMNhnjoQot9tApP2jla/H9TqMfrBziu+N4xSVgY191O3zNh8v0cs6D4fHE+NVj2Eto//F2Ni7F87h5MHGtrIOQAnnzZebziciJ6scKauPb1AnvM5dgs2hOGgXAsogDcl/U6J1gQECHSWwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0mro+ed; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9DC44E655;
+	Fri, 16 Oct 2026 09:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792142432; cv=fail; b=TyL7p/BMkdhn6ue92/GwU7MXheaHZnpyDC0m9bF4GRqgeGyv0i54kgFTLzbKGKQ735TCqv4SLVS7vLUNRHGuVfalHl80Bx/kjHFoeF1DJu8ILfryc6utbSsERl3U6whJhMXiFNARxhLkb/gUcnZ2V8IZolbOlGpzSKJtf5toZ+k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792142432; c=relaxed/simple;
+	bh=9Gn93pIhjlNF2GcIS4zKKVIek2/flFBMg90d10jqKuw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iPR7U0G5M7EIJMk0mS8HN7AnjTyH/cp3ZudO3FHYK829Ic+NRIuq5NFfDGWZPFIchtfQILkQ59+0U16RlxL8GMpNX4jn8oZ1tOl5uF9DQmxnuETTtHWfn8WbPro9ppQpg/dYZDG6GFUDOgcdC+sV2I+ANjIbx1yT2A+Fotva/K8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dWIA+cT9; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=sPFl3/Jr; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0mro+ed"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e987a2ba0cso2041385ad.3
-        for <asahi@lists.linux.dev>; Thu, 15 Oct 2026 21:12:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dWIA+cT9";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="sPFl3/Jr"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69G7kQNs978390;
+	Fri, 16 Oct 2026 04:19:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=nZXiGlWdDFGO0cC6N4
+	MG6NRpfeJx2kG0/b8ROZ4+Y8Q=; b=dWIA+cT9cIdrgGf+sdMrfpf9sf9FTSV5GA
+	7acETkgjzmKBciOz9DDn9BsuUb80+gjfJmay8P8JXq7ysfHbVZOglNaVYESCvmmz
+	weCuNRDXY2ciewY+8Ea8NJDA+Lk5o8ga2p3ur3Hz1j5gXuR+mM051vBRGTkGauwx
+	3MA1W1ag34aMzHgCSJVio38+9ZhSEHxEc0+p/8bbdxtZhBGovb0v54kXrDr2t0wL
+	xtFaqJfNUt1yYRON78gBjbuV0/xOY74mjDLaUGVBX2swsutlN8F/B8jNnVBvDVdE
+	wLVHrnOr6HwpVkAdpCiRfB0iu0oOFAAipmgVkA97etC4uk2sa9mA==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022081.outbound.protection.outlook.com [52.101.43.81])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4hayq6hjsj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 16 Oct 2026 04:19:35 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K+C6LnzBWHt9SiqzhmTbXpBtJtamjeLogW8rpd2ac+IRfvfL/S+Tb5H4jTXJ7relmRceLsIWRN9+tFAI8Rtd6g8ip9B5PV2OlTJRzECt1sBiT/BgS2gRYfdQ4+5njQs/GNnKW3xgUwHlQ8NXRWaSFQePvwo5r/aQ2kBS/QfMRk99qBd2q1EiZwcQfXdM7bChDRZ0JNeF8IlfmPYrbUPDUO29TJnwjZIhIfGsm+YfNdW2AUs+xxlrcs9pUjAcRi5CHRG5A+d9g6WR/NA2mOiL/9yogchZiiSmFF3k/onZ7ZD47E3Y5YFizfgY0pRXbo46I85/6xezdXNM6Bvnv1RyQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nZXiGlWdDFGO0cC6N4MG6NRpfeJx2kG0/b8ROZ4+Y8Q=;
+ b=xOHvuNU02w+akVJR4BV7Q5Gb4d8KS+zkZ6IGrLOy/wDzUg0hbcTON2iM8i+CIwIKQhl5GVSoov4Y6WHxMFN7IorLj0TCACmsGlHIiOCCwT/k2SXEPWPOiKJKFj9o5n4tHTfuVBWD6CgM+UKhY234VGxLKTHg7VxmYtE5VNSoRW4uc5H/E488oGHS4+QoHRilsY+6vyiMIxb1Wj6G0DzX+5y4p7sHr4D9Lr7/ax1v9VWOLt1YyLxn6S7Vr8XFQpUsBQwuncRZTA/8LsRGRhxCmq9arOIpPGcef1Qth4TAhcDiy76t8HYQ/coSRSKK2h2diU9VIk8euw+1BItDCOC0uA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=amd.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792123948; x=1792728748; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tCZ6GoTFAN+ex1Ct3jpbL93IWIQW5JGKx6t1S7CNuas=;
-        b=e0mro+edLHTUyODn4mQfLKJc/ybY7dpzr9qgnfW8LRS0f0dF/nBP3F8CwrhfcE75ak
-         QoxyvwBRZbmo8Bn7EzOBq1NlZob/M2Ophkknq6vpx4iWC8M153n9br3x4WUNL4Bg/g8z
-         PWzhTJK6qvZY0zt3WHiAbSPZXuZ9LDVIgysmL9MOya1WWk0wjblnzcvL4gT6SE4NtK/g
-         EOwiajIe5m0uP+pDqbyW3UugvW8IwqswRi0WS5V3aH6sROsGguJqiSefLKTROHIrcCRH
-         ED886CK7c9d+QBmMIQr/mk8gR2WpfC+lgAIfLFrAFrHLsntLOFlLggip5QNji3ipQ8KX
-         FwHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792123948; x=1792728748;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tCZ6GoTFAN+ex1Ct3jpbL93IWIQW5JGKx6t1S7CNuas=;
-        b=huKwffD/A0eMr6RGlUPr0GhXcrijH93/rTje+5UzeiJGuy/Q9bio7lB83QyBnQNsBK
-         w+atVtLjylJ8O3E1MWff5eydJAbwXDolkhgSXikSaRyyfGuX8i7aeUgOzF6MFWEkWIDC
-         ig0Ur8bQ62WaEaG7kPZZnbM5w+pZ+rDhUbp6cvW/IIREwCsQD7nPoQRm3vorugvVcMTN
-         FzBcB+RvuWu97wttSspZTfJa+P4LM7XFhr3XkDVoHtUb4UdYBqU/eWsXCLkSP8HNx7nB
-         wZsSTy+8+nPOTjpwI30ZpIntRruFfTnDUt1jIDo31p7+1rrOkDR8boNjFKyN4kBmRbbV
-         d+5A==
-X-Forwarded-Encrypted: i=1; AKwUvBx9k8nVSq7QIcuGDaNpQxPgTU3fQm2DMObk0mL36LGqIaXfJpMYXyl07OYQFuv9XgezZp6ypw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLNyyJ6UsltsiYzQEB8v1b7uXQYlCncujrewkT4fKB+mh54z1b+
-	ekfVVc72HN9buAVBW5HVdI6gNzl9Nmtwoik5Cb7HhXD8lWVKRoWUGxec
-X-Gm-Gg: AYBFou07whf3eDuWsmJpw8UMXHKSJ01mDQ7UM97DJtJKFdUfpt3cjzuDzYijlE030ih
-	7rb8ksSYROoSi2SszpEN8z90pKyBNuG5yUqxQhl/YjtD34klbwm2kKsCeP2Ndaj8MaquDTddeHx
-	DKr/J/5hpukeGodNedspY32VjP0GRcukEOAeT2IMvKwNZsIw2fPdwLyUuzYG30UNTMvEH5cEgdD
-	uU9GoG6LhdMtTWXH8Ro3lrUYckCfVHEeCUeVZgmh331ilmXt3+UBu7vww0gkNL1YAjXHGFuT53E
-	GKtIRLjZxJj9a5jom4lIfuonuOvFN2eCSjq5Bx1/ugrotl7Bp+hZe7iCy+jjLiG42lqaFzsdUhe
-	FCu8FmMnJkMLHLAsdmKr1DBu+LNLT59l5+05L4LZlYQ818ArZuvt0Cr3odFvAWAOEK2tG0glBCa
-	QhgrCy6OWsdd6/D7GdXtXvXfKErysmPCpVSy1S6XWGPSC404OIQFKut8D8zm20mSxz8oT/5hLM4
-	8AOPN7X/EYce72EoEgy+EkiQIDpNLprRJ8rAtENTGXu5Xxi3wobiJDC5yS1o6TRm071ZeDOuc5i
-	AjC9XTnjkqNB9g==
-X-Received: by 2002:a17:903:94e:b0:2e9:4243:431d with SMTP id d9443c01a7336-2e942434bd5mr63920435ad.30.1792123947778;
-        Thu, 15 Oct 2026 21:12:27 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8ab443sm3815785ad.65.2026.10.15.21.12.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 21:12:27 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	povik+lin@cutebit.org,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Andrei Simion <andrei.simion@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: Kees Cook <kees@kernel.org>,
-	Syed Saba Kareem <syed.sabakareem@amd.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	Chris Bainbridge <chris.bainbridge@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Neo Chang <YLCHANG2@nuvoton.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	u.kleine-koenig@baylibre.com,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Hemanth Selam <hemanth.selam@gmail.com>,
-	Md Shofiqul Islam <shofiqtest@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Zain Aboobacker <zainaboobacker33@gmail.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>,
-	Bo Shen <voice.shen@atmel.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	linux-sound@vger.kernel.org,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	patches@opensource.cirrus.com,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 11/11] ASoC: rockchip: Explain DAI link startup return value handling
-Date: Fri, 16 Oct 2026 11:09:46 +0700
-Message-ID: <20261016040946.521195-12-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261016040946.521195-1-phucduc.bui@gmail.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nZXiGlWdDFGO0cC6N4MG6NRpfeJx2kG0/b8ROZ4+Y8Q=;
+ b=sPFl3/JrQ2Byh2FntkMCf2rsqY5c3ks11KSibOAKnSueJkMyF34J2ayJ+BX+COubq4I+T53UcMYioSh526/zISfMuhUhrLddSR/j4nCODsRP87vjWSw/snNnrTRh3meg3CiXpDdfDzJt1GfJYug9a97vk9BdOjuuXDtLn5KX8/g=
+Received: from CH2PR17CA0023.namprd17.prod.outlook.com (2603:10b6:610:53::33)
+ by PH7PR19MB6780.namprd19.prod.outlook.com (2603:10b6:510:1ba::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Fri, 16 Oct
+ 2026 09:19:30 +0000
+Received: from CH01EPF000BE94E.namprd02.prod.outlook.com
+ (2603:10b6:610:53:cafe::6b) by CH2PR17CA0023.outlook.office365.com
+ (2603:10b6:610:53::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Fri, 16
+ Oct 2026 09:19:30 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH01EPF000BE94E.mail.protection.outlook.com (10.167.244.203) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.6
+ via Frontend Transport; Fri, 16 Oct 2026 09:19:30 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id CA1F8406540;
+	Fri, 16 Oct 2026 09:19:28 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id A077F82024C;
+	Fri, 16 Oct 2026 09:19:28 +0000 (UTC)
+Date: Fri, 16 Oct 2026 10:19:27 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: phucduc.bui@gmail.com
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+        Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        povik+lin@cutebit.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Andrei Simion <andrei.simion@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Shengjiu Wang <shengjiu.wang@gmail.com>,
+        Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+        Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Heiko Stuebner <heiko@sntech.de>, Kees Cook <kees@kernel.org>,
+        Syed Saba Kareem <syed.sabakareem@amd.com>,
+        wangdicheng <wangdicheng@kylinos.cn>,
+        Chris Bainbridge <chris.bainbridge@gmail.com>,
+        Linus Walleij <linusw@kernel.org>, Neo Chang <YLCHANG2@nuvoton.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        u.kleine-koenig@baylibre.com, Pengpeng Hou <pengpeng@iscas.ac.cn>,
+        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+        Hemanth Selam <hemanth.selam@gmail.com>,
+        Md Shofiqul Islam <shofiqtest@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Zain Aboobacker <zainaboobacker33@gmail.com>,
+        Sang-Heon Jeon <ekffu200098@gmail.com>, Bo Shen <voice.shen@atmel.com>,
+        Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org,
+        imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/11] ASoC: codecs: Explain DAI startup return value
+ handling
+Message-ID: <atHsH/hROH3ZLB9/@opensource.cirrus.com>
 References: <20261016040946.521195-1-phucduc.bui@gmail.com>
+ <20261016040946.521195-5-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016040946.521195-5-phucduc.bui@gmail.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH01EPF000BE94E:EE_|PH7PR19MB6780:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01a80738-fa1a-4f53-12b3-08df2b66957e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|61400799027|23010399003|82310400026|36860700016|56012099006|4143699003|11063799006|10067099003|22082099003|18002099003|16102099003;
+X-Microsoft-Antispam-Message-Info:
+	KjRfL3CfSwVz2rjLtieUYlspkfyiRvQ1WDfEhgKRWvaPq4H9q1BTf0cgezzkOXgq1S5JCSdjvbs7MbXRJzZCr6Je32cgAaZN7PVJg1/PylLDqF2kCPy1T4eaDUbWRO5oIi68pD3BNRSrPCgqQzsUHz0o3ujVNmvTOCsUNb4vyn8rSzN3hWUIApzo1KzESpDeHHqUpTgTWt9QokUPy+nfDrDK1+/oN8iwuB51ghg/FAloVIA2Yx4X3IMa9RhCb3ExL3HBqarb/2Bf90gLMgvDlQn0jy2X4SPePRfrc3MxsCYRIZKihI9fmXmp4Z0JSDm3AEK2q7xbwt3AxVugtG25RfkUnyIf0JYhqsrYwC3SsapG0YuBz9a0FIo2UCKMubl1koBxMltFg3wIr8Z3OwrBHH9m8zfUlm2cOyvAQ5UHhPq2815nG5i1TKhY2pl9/qnPa8ir0c1PXdsu8YH6iY88E0KdzgvFEaza1k//MvmgflY02/da3lMurJlKfGJB9G2ii0qjpSK1hgle1ndFctDUsaW9iA9ccdrXzkjgf60+0DPQ7SqmrdK8VFxr7O4Y8Tz+EAMhQXN7mOQMsNB/Un6B5Um1aAy5VyYEKjwJy7uRePnrb6gQCzh76yfcuwxvueIcU83wLY6AziLxVNaxfQV/JeOm7hgNvhGEWK7E4uN1NLdNtEzjmppSyiPYTC0jpH7AM7DPUja7Q8qOgVKUhkIxNg==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(61400799027)(23010399003)(82310400026)(36860700016)(56012099006)(4143699003)(11063799006)(10067099003)(22082099003)(18002099003)(16102099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	OVV0HCsHQqHf+cmQN1jWpD46GKE9ZKXj5K8Dw+BjXmWaMOTRFEJosg6UHwGaUNgBvhvU9ArN16OWaeW+tgLew18Twl79GU+Cq6UcecMgKYx4/+QYzfv8kRC+og58F+sg8Gaq5sl/v2rReiGKF1xyIKG+w4U396EJFY5z0x4o5WTy4HMKFKqdmIzl8IQZBI/rlB5OywNs6009QZW93ivTxgUPGEMvQ87Y99zbuNZ+1sIyxzrgylhUKTNUAbEXjrb2iOD7kPUG+5YiAbCpuIVScZOF8x63FlaJ3kP6jrj4Dw9gCoNS0koSQ4oLdtUQ9BOjjOzB+v/rm644T7Qr3SWcoiyqwKwrUTU3PGpjk87QnRiyssGuxEJ9Y6jt6buvsqS23T01OZDWHabxxPpQxAbTafGgBA4+QyxoECp5HaPgN5FBo9xZaI3/vvp2PqoVHsIy
+X-Exchange-RoutingPolicyChecked:
+	GTnxfprXOYdrESJUMuhwAFynyEr4bpHlONTldlU1V6urFosYcW6kBPjpcfALTcQ3PwPp1LEj+7p9hN9EH5pK97QUl5vuRaKX1DNbq2VR0BIVKjVe6BUaNrNedYZwHYxgXn1ocdtYMF0osJbYftpc32sJYsA1wUC9BQMxHSefoGV0mGNjJpSIEYNj61nNIjUpTPaepOwCRmFe+yic8VQOnVnO9d7OtUiKvPTmmZfskYzGfPtoQg6JLREfkFBF0KkTnwdqHyu07k9rRA1bi7aIfN4pqRPZjRMxkNnJ7GXn08on8buG3UUHbD5Hoci2CUQMMSFa1L5dW6VVd9KmfwCgog==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 09:19:30.2505
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01a80738-fa1a-4f53-12b3-08df2b66957e
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH01EPF000BE94E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6780
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAzNiBTYWx0ZWRfX3dvDztCoZQTb
+ si6vAWnkqDw/o0y35CjI5+jBViSBAVugXgzQz3jG7111yln1qnWd8BVo5gDaJZZeKJwAweXvvV8
+ UhQc10Tg1osZehPxLNZ8AhMqzdiij94=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAzNiBTYWx0ZWRfXwbcponBJqNBo
+ jvLIAGwiemafMiNkM4OjkFJ5Hh3zFsuKCAWYg7VkUYAE20SahIw8mWFlN5EFSAF4BHUU97nCQvs
+ 06otA5YOd8GnkPLbZ4QS7l0zh2p7EntfcuP9RbHv2kk9yxqPu6PsJbRLVHDwjRoR5Gd9JNNmVcB
+ NpMp0ipvjvI0X9t3b9o6fdVwjevq+uQJnLXcVyPbN4W1+Rr4N0j3IQwITr6DYeoBL2mrSsi6QKb
+ TGYfB70KQgtXtLscnpFJB1LPVRdTT7I2Wu0oR4ArbsRVBNkki2eNFpe0XVPSGaQbxCKc9MhxipZ
+ 9WoyK8rzcGmMDuv7Ob+4iwTfkxGnq5l9yPcVdCfgKtH2hGQkIBizarM6BpqZqnCQVSmc0BV7V8N
+ EfsxqUtqWymIU1luacrIGsYOX4/1c83n4SG90YkUlWk0ZlTb4zuBC2vOkOKJAotOj3DLKDX/Ljw
+ Xz8VEKHrxbsqzgMg3DA==
+X-Proofpoint-GUID: fpQxPtWixqWOGLkIlaGJbsnQgF0B9u-6
+X-Proofpoint-ORIG-GUID: fpQxPtWixqWOGLkIlaGJbsnQgF0B9u-6
+X-Authority-Analysis: v=2.4 cv=UuX2pOwB c=1 sm=1 tr=0 ts=6ad1ec27 cx=c_pps
+ a=hO11pga2tcgH964FPuxqBw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=pGLkceISAAAA:8 a=w1d2syhTAAAA:8 a=nCq7GpDsCjV_zRYe78AA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Reason: safe
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Fri, Oct 16, 2026 at 11:09:39AM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Add comments explaining why the .startup() callbacks must return
+> 0 on success to ensure the DAI is correctly marked as started
+> and prevent future changes from reintroducing the issue.
+> 
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
 
-Add comments explaining why the .startup() callbacks must return
-0 on success to ensure the DAI link is correctly marked as started
-and prevent future changes from reintroducing the issue.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/rockchip/rk3399_gru_sound.c  | 5 +++++
- sound/soc/rockchip/rockchip_max98090.c | 5 +++++
- 2 files changed, 10 insertions(+)
-
-diff --git a/sound/soc/rockchip/rk3399_gru_sound.c b/sound/soc/rockchip/rk3399_gru_sound.c
-index 0ec80a4b8c59..d4a0daabfb42 100644
---- a/sound/soc/rockchip/rk3399_gru_sound.c
-+++ b/sound/soc/rockchip/rk3399_gru_sound.c
-@@ -266,6 +266,11 @@ static int rockchip_sound_startup(struct snd_pcm_substream *substream)
- 	if (ret < 0)
- 		return ret;
- 
-+	/*
-+	 * ASoC only marks the DAI link as started when .startup() returns 0.
-+	 * Since snd_pcm_hw_constraint_minmax() may return 1, explicitly
-+	 * return 0 to ensure the DAI link is correctly marked as started.
-+	 */
- 	return 0;
- }
- 
-diff --git a/sound/soc/rockchip/rockchip_max98090.c b/sound/soc/rockchip/rockchip_max98090.c
-index d54c36682415..de392b420ebd 100644
---- a/sound/soc/rockchip/rockchip_max98090.c
-+++ b/sound/soc/rockchip/rockchip_max98090.c
-@@ -202,6 +202,11 @@ static int rk_aif1_startup(struct snd_pcm_substream *substream)
- 	if (ret < 0)
- 		return ret;
- 
-+	/*
-+	 * ASoC only marks the DAI link as started when .startup() returns 0.
-+	 * Since snd_pcm_hw_constraint_minmax() may return 1, explicitly
-+	 * return 0 to ensure the DAI link is correctly marked as started.
-+	 */
- 	return 0;
- }
- 
--- 
-2.43.0
-
+Thanks,
+Charles
