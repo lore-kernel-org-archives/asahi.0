@@ -1,81 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0160C481241
-	for <asahi@lists.linux.dev>; Fri, 16 Oct 2026 13:24:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A403BE178;
+	Sat, 17 Oct 2026 17:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792157058; cv=none; b=ATolAWBFsZENlVM8D8utALHxOzvBukY9dpU/pxkukHheQns2p0ef3QggOM3VgcHtCzi3IGDAcEPPMY8VdOfnY3ywiBZTCdX8B7ePGXYWBNqhNFwyQ0hKVKcXT3QFk7X7tgjPJ6yexKy/bO+7BFj0SL2OYyEm80jYFeXMeQgGJ5s=
+	t=1792259132; cv=none; b=HfA9gUXStamEZJq4ZzoXeS6BpidLmy+PPzC7lrQLIjz1icevgGBCBGlEoqA3Q40A1cuUcQ3Mn/a8Z8X9cdVP4x5Bl7SH18kjSJ1kPGYxgYWAEzDvy/yBB30ibQQveLRVCMDMXquVYc8q+ZHVj+aqJqTAAx4nfVuzpCf8+krbhbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792157058; c=relaxed/simple;
-	bh=tptGbnUMiBCsaJa3McpSM7cvw+fPwwT/+mAijjESQgw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PC56kf2M4MJACGVkZ5sCTGC/cH6ghovLZZKeUOUIqIzxH8nyZZdvPuU7E93YWzOpJSdd+moOKEeW6EH5GwDooEbxEhn5Vc5lobRfpbQPC+mFu+FevLRL6sjOm3vFaivPHCmPcX+CfiX2tAMrhNvQJpQ5832voLy9gw/ERzNhhMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VhVS1sBb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792259132; c=relaxed/simple;
+	bh=owzaTet5v3EgXi5SdOmanPONyS+RQRW3Vx26RCaPIP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QtM6iwnPG7ejOFLQkMnKOwW15LslD/DR9HjVydQSofEoiWUIErhiIMnDEWIhGn0P7KMHq6K2Utmr8M/UQSwEZL+Gp2evujQmxBxBxO6hnT73LqsvhJNvSVTnWVHS8EsoidXNsOutLFyVRq2WL1R8rj6C3YSkvyj58lI1eAgcO9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3PgLbaH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VhVS1sBb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA8A31F000C5
-	for <asahi@lists.linux.dev>; Fri, 16 Oct 2026 13:24:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3PgLbaH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C79F81F000C5;
+	Sat, 17 Oct 2026 17:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792157057;
-	bh=tptGbnUMiBCsaJa3McpSM7cvw+fPwwT/+mAijjESQgw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=VhVS1sBbaKLkdcvLt5i6gurhbGPS6GnTaL9afj14kDG2UyKbacO4DdRHG3unPm1z/
-	 EesiWEHhYiN7gJQo+wJxPOQw7wvbbd35FHkMYzoFAjmul/CgdZa7oHBmt9hBs3bEZl
-	 KOzAFdXS4JaGkCLnNIkil7kTOffV47s1XYtBl3kAOiuEux+AUF1hlIKG5sH6lyuCGP
-	 zhobrqKDM9G/CWliZVlCRhzq7E2eHE1IzfX+CpzBY9qtHcQdyY8KKeEd+w5njxPj32
-	 Gzbmf2VfVG8F3r+9eXSeruqbFG/aaFOo8ax+CERORR6yaMLOtsEn1Fy9uuPfHI/Vfj
-	 i8ld0EEUl51GQ==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3a980c1153bso40370041fa.1
-        for <asahi@lists.linux.dev>; Fri, 16 Oct 2026 06:24:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByVXW49amFgLu/x0NA7lBxjZ6xr1BAMjuz1+nUxZnPos3+wOA6wIteKoJAhHP0yoCCHZmbA0g==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJQl5RouTqMjRyn9vxIhjuoNUwI+nx//SXH1dVNj/q7WpKAkosE
-	CVM2ggtwd++IfsMyrxoiLExd+2G5PnvVyYVZqBP/5J/oFZ+wKRoGB8AHjRNf8hBLtfJaHHtC0v3
-	xuy6frY7H7PgghIvbLf7Q9WvlbiMt+BM=
-X-Received: by 2002:a05:651c:2212:b0:3a9:d70c:f75e with SMTP id
- 38308e7fff4ca-3a9d70cf9femr44778141fa.7.1792157056449; Fri, 16 Oct 2026
- 06:24:16 -0700 (PDT)
+	s=k20260515; t=1792259131;
+	bh=GPzCo40LEnNwcaTb4CaHpuAV9iShvhyOmUd7WqaMELc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b3PgLbaHEGLiLpHaf3B6QCRkw87Ww/ZQ+CksWs3f+U964DOpyTFvb77Zm1PHDPCr0
+	 nJxd8W1Amz5ukzR52U3/KEoFkNVAD8bTK2FGyG+C+S0PovixxnAQ+KhUO8VwS642S5
+	 sWd0846YLvW0Hm3c/Bmz2RNqQkdvRjBw3Uf4u/TG/YHmuHp2MJkeUdZTXif09ROtCm
+	 ML41vGf5KMyKFedqae0ephevU0gI9vjHK9O/xhJ6r1i4Adv3AiMs39q3TUzUG4byP9
+	 8H65cvKYtfDISGA1YmRJxGbk5IkrvsYyc/ZvmBXraPoL6EWKBqEq2idZdP4V6kLbVl
+	 J9wNbbRM5UeSg==
+Date: Sat, 17 Oct 2026 19:45:28 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Roman =?utf-8?B?U21yxb4=?= <roman@amarulasolutions.com>
+Cc: Peter Rosin <peda@lysator.liu.se>, 
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+	Michael Trimarchi <michael@amarulasolutions.com>
+Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: Add ti,pcm1795 and ti,pcm1796
+Message-ID: <20261017-predictable-faithful-orca-3265f2@quoll>
+References: <20261016-work-v2-0-9340b9555fbb@amarulasolutions.com>
+ <20261016-work-v2-1-9340b9555fbb@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261014-apple-m4-pro-max-initial-devicetrees-v2-0-961edd8d661b@cyberchaos.dev>
- <20261014-apple-m4-pro-max-initial-devicetrees-v2-7-961edd8d661b@cyberchaos.dev>
-In-Reply-To: <20261014-apple-m4-pro-max-initial-devicetrees-v2-7-961edd8d661b@cyberchaos.dev>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 16 Oct 2026 15:24:04 +0200
-X-Gmail-Original-Message-ID: <CAD++jLn6dKK+1WSash3t0ha8Av9zJENjY0voXD5kRqOqm+3fHA@mail.gmail.com>
-X-Gm-Features: AclHuK9pL3EIJMMfpSpFM0KiMYOGh8ROn5xZqcFmx2VF7M6wTBgCRfX7l979pQc
-Message-ID: <CAD++jLn6dKK+1WSash3t0ha8Av9zJENjY0voXD5kRqOqm+3fHA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] dt-bindings: pinctrl: apple,pinctrl: Add t6041 compatible
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Hector Martin <marcan@marcan.st>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Sasha Finkelstein <k@chaosmail.tech>, Mark Kettenis <kettenis@openbsd.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-i2c@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261016-work-v2-1-9340b9555fbb@amarulasolutions.com>
 
-On Wed, Oct 14, 2026 at 8:56=E2=80=AFAM Yureka Lilian <yureka@cyberchaos.de=
-v> wrote:
+On Fri, Oct 16, 2026 at 12:33:54PM +0200, Roman Smr=C5=BE wrote:
+> From: Michael Trimarchi <michael@amarulasolutions.com>
+>=20
+> The PCM1795 and PCM1796 are cost/power-reduced variants of PCM1792A.
+> Both are register compatible with the PCM1792A, so they belong in the
+> trivial codec schema.
+>=20
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Roman Smr=C5=BE <roman@amarulasolutions.com>
+>=20
+> ---
+> Changes in v2:
+> - Updated description.
+> ---
+>  Documentation/devicetree/bindings/sound/trivial-codec.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
-> The pin controller on the Apple Silicon T604x (M4 Pro/Max) SoCs is
-> compatible with t8103. Add "apple,t6041-pinctrl" as SoC specific
-> compatible under "apple,t8103-pinctrl".
->
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+Best regards,
+Krzysztof
 
-Yours,
-Linus Walleij
