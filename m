@@ -1,69 +1,69 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E654436CDF2
-	for <asahi@lists.linux.dev>; Sun, 18 Oct 2026 05:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A30C36CDF2
+	for <asahi@lists.linux.dev>; Sun, 18 Oct 2026 05:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792302884; cv=none; b=GqPlytumlPsTSqKhaQOVLVfSbUgeWwo3cUzR0F8pUh7oiIvvK9lHDHpzBHUQIp5Pngu1zncFUiOCHs4fRXDXQAPoDL/AK30bfDr9Km5Eu6MkxUrru4HZfnbY/gHRVkziFPJ88xx9lEb5FZ4yICgJik5cEIXpUC5AmuH2ILmnHns=
+	t=1792302894; cv=none; b=JbQ5ZbIRJ4iw6w0hFDVxr0ffO4wG/Ws/QY7OoI42WnCTC9iCSn+dN+Oy1VTOO4dNtj5F+og2vf22yRG3OiKGl2gdu10yCA66TUGXb81oa7AhySQQHjGjCCTBAyxUJ2s4U8M+iLxD8E9//dNSvAMWrq1EvbglfQMyfdoTaB0LaZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792302884; c=relaxed/simple;
-	bh=vyIYXeTvpK7D1QV50HT+GFALOmTzN0QImSyZ/l8Csqw=;
+	s=arc-20240116; t=1792302894; c=relaxed/simple;
+	bh=5IK2m6ZAqwOkwCJ6kC825xvIJPDhLKuUDHcpYolWipk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OIzNzdrOK2WCD5zRk+5R8gJsIqkzMfTUO2WZj2Z7QmCsP/ApBNViI8R9vu38Z5txHLcaTjcC2XaHXcJNyWvA/mFE52fwZl52cc8vYaJZxfoyo7+fquG6X5hmmd3+jWKpv3pLazQl6ph3tCe18o9zxg9qsrq71wfCjVCh+xghfRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CTRZOsug; arc=none smtp.client-ip=209.85.216.53
+	 In-Reply-To:To:Cc; b=RMz8KbvZS9cswydglD/z8fzXPsHFJwt0EgHgQRtPti/MjLg1sW7TmPkLBXG5YVxO6QDUfpDMTWJV4MVVEAjpfIRE+3mnVohL2Njoo5rDg4famVDwMuCO43FPdwzwYtAhNdzm+Nciq0wrQuHJ30O9WYik4/qXfR+JYyscXuoKtiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=McJ6qzNf; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CTRZOsug"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3a7cfe8f761so1455076a91.1
-        for <asahi@lists.linux.dev>; Sat, 17 Oct 2026 22:54:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="McJ6qzNf"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so709017a91.2
+        for <asahi@lists.linux.dev>; Sat, 17 Oct 2026 22:54:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792302882; x=1792907682; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792302891; x=1792907691; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=pWsmmNgQyuC4nITyeMHO2zX1yCotQ/f74LykMNCcqF4=;
-        b=CTRZOsugi28nzIzyTPsykJY30/+nb4QDXYheLFJQL1jIEboLsXFBt8NF2pLKZ+Xzau
-         XdE+gUNsX9paUlnQgtoL6imTBs/j6WAJlT05sA55/i/0hVRBYfpAWz+Sdjhqu6kvjPD9
-         +K631XiN3FlDlIFmn1HrtCrXeAX4W7oPvJoZKeBm7Kr366tcnI18kPm386E143sNYG6r
-         NElFQ+a0lo/WMnDB77eryPiWU+oqzNz8wE3OcnsgpU9fUV9UuoAGA1j25xz/5gTYPse8
-         +q5GBHUjTR9K9ZHvuKDfq22oc2ervGl6Dc+tYasF8TGy9TJt/jyGQERzfgb5VvHcMgWo
-         LRFw==
+        bh=0cHPjo/FatMXlsf97zuv28872kDRqNq1vxWPR3qNxVw=;
+        b=McJ6qzNfv9upEePnKBsqsbLgiGhWInPD602+DgoaooHncFOXEwvHqRKy/A6Pac0WUE
+         JbPzndyrwMHOzEWR6wsfaRK+NEGX+ScfYkYqPEfLV5XY1wUU08/zJbF3vMxz/np8DzHz
+         pSWIVOPnXUE5ztiEcDxLuHVNNGc1l/oK7562iBJ6+aP5gKBRur8fdnE1KzhOrmCtnwnd
+         b/RKQEtaD+nX8XXQXhCpwjsW/YFz/ZmDa08vDwYR+jYMhQ4QUsMBf0MyzUAfjwgYrwvr
+         poht4ZSTVixmCEjlcCqwNlMNHdhFE1ErrV9Bqr4FRkCeTzkYpyicr+hRIrd/kRMPaENq
+         Bk1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792302882; x=1792907682;
+        d=1e100.net; s=20260707; t=1792302891; x=1792907691;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pWsmmNgQyuC4nITyeMHO2zX1yCotQ/f74LykMNCcqF4=;
-        b=sS25vsvwElfxT5y3mcpM/3cZfPpOZ/Wh1v/CVP68mbenqHIT3SADB4XpFZViOfTUc0
-         HZlVA4bF1Y0BkPuZRDGrRI4z7EWot6/jjaN7FPoBqXfticcwaaE1/AnQgo6Ik8xeIPsq
-         S3j3tdsGSEaraGVAB2VBOpho3oWn1XZsBF/ul/daMwUVWsLjUze+FwDcRz+7zLU7G5Kw
-         roAjBGylpt3WGgeaFkRxNGnaWzkGTBJfqYKLWmz3IZ+nB4xtRXxqmZX5e/oNehioDZg5
-         iUnVpYS3EqQJRad8A/dGcIKHNvtUUzS+71eHZktIXFUCq+BwRaMPhvOUy3ZrysvPfjkq
-         X1XA==
-X-Gm-Message-State: AFq9FYKTtL/a1uZBHmrhPSaJwRUT6Lk+SWM0OAiwFhu6rTNICUoWNedp
-	jHUJuksBq8z6C4m1l14gqW1u9v803xVjlDtlDF24T6UZXjAwZX/sJxyo
-X-Gm-Gg: AYBFou2+h2JiJ8e47P/L0eIWo7xNvqHnWaGzs85cMypvAfkCa0R6wGRGl3KlXh5maGi
-	EUsA1bHjcpPilZVfiErLhN6PLYyRutPX23unQWx1uUjh/hafsFgf684YYT6c7nKmhUkddRq8nZF
-	Z9JSaDLVyyNDxn0lG1p8R90QD3P4cE0yWQsRjQkwqlKxu7/TIP9M76kinZHlCC8rqfKYr2L4MU0
-	CWDdmmsufb40dXEuam97PmTiKxCp5tFGW58rSMhN4hvOaOrIYxCJniRpVsYMd6Qes8CNeUKHJhL
-	Q/eP599rc8qiNrx9o3WPIkQNouwXGjSWqIAYBqAF+eY0PdE5AMbwC6LIP36mAxUvv503InsGOjf
-	BfH4AwR6GqHVXITxmmnUxz/W2AC3vBXSuW3lrpLqzg/hmIRec50N8v7sJDs8vli6WOgxbhWhgOT
-	VMUC7OVkxck2Wr3Rr57odiGDwYLzxgNc+cD/rBigO9GHkN8tWMGIV80OhKw4uugXKqTGo1DEGDu
-	5zQwy9PUBZMCyp9jxL2/Yc9h8jTaeXgIAPqOwlIjGUfnhIfPvRrIDndcBMWb3xLz6SzSsuhfbI9
-	OLsl56HMa1ZEv1f7R92jkCgxnB0fhoHEEAqGwhWfN13eww==
-X-Received: by 2002:a17:90b:4a45:b0:3ac:b6eb:e0cf with SMTP id 98e67ed59e1d1-3acef5dcc94mr2797709a91.40.1792302882329;
-        Sat, 17 Oct 2026 22:54:42 -0700 (PDT)
+        bh=0cHPjo/FatMXlsf97zuv28872kDRqNq1vxWPR3qNxVw=;
+        b=A/PMTE7xemEITUXN1QFSVsAoMxt2OykIZPX6m46PpKJ74vfIp98m0nvLj1m/fipVjJ
+         L0SpWJqVyzbwV1kG5xmsiRqXuOpVEU2NgnmW88Md1d+YmkSFP28hMQbl7T7kLyUt2xSx
+         dAWXcZsLHw0RJ58W6Wo/1KMM8xxKZzewQWHmKTdmBm/+F9d8ehuEAN1B9nP3LClGQtMx
+         U6LDzRs0RPTqUYo1m5BnTuR1TKpMNLh+nhwY90p/nlIVjXAE5zXCWLav703or3Kk2SVz
+         3yiVIbOSKJf89XbmB7Cectrrm/6i/plJ1jm2XINRLvYRm1FREX+3C32fzE3Bk3fRQ4CZ
+         aOug==
+X-Gm-Message-State: AFq9FYK13UpUdHpbZsZapqRgLxm/2IlHCvc93D7asyVyTjJZRx7VLoOP
+	LKjqkN9putvOv4/CxmsQ3BUjJBTs9je3FginfSLQibqpn1W1i7elywDe
+X-Gm-Gg: AYBFou2A1OuElnP68Lcx0hY6OGEfuNsV1eySkoikb1iHPIdRlCEW+8Q8Ii7/i0KCx/N
+	S/bS+633Hr02XW+ixZJ2jQxnSoOl5CTE7BVlLwIkSUSakSNwUoW2u/FfmnPy4YTdbPwF3L5QMt7
+	QAE4vsBwEx6XJExnoQX2h0W8VccBLscLkokHJ/qCNX4sR3Mi31aQxYUeIg+xfISGuxlpUBOXl4O
+	I5lEQQp0D0RXN6eVLoGzIPIDhwclaF+A1+lFvtzF3ZFOitVcYr/6CdpJiBGNimWi4ZfyxEH2NWZ
+	l82v8CqKk+4pyqoenIlk/aZTGKITZOJaf5yHasz4QOMPPA2IOXWxDf1LVbRPK9PjiMAK6PxqF33
+	XhiqNycuoMJMRGuoNL0wr/nzcK/MDgxJIxlkmYz59GuCOYIJhrDIr9mj7DGcix5ZnyaQJipx2RO
+	mABpWMI55AL/nFHTP5oCTT4h5qLOKi6EF/fiAVlN+FM3+iV/C+so2xx3Kil59InFp2scT3yi8EA
+	TiO1oxZuafL7Lt9Ae6tl6nx6dasbvImbT9ieAMkjfiqEQz5GoYGK5dC2oTGnlmxggPNMAHC4akO
+	M44JVDGsabNLYJ7bVlEUQ1wM57AY5PcCCq5iF6fgeL8LNQ==
+X-Received: by 2002:a17:90b:58d0:b0:3ac:7749:2f0 with SMTP id 98e67ed59e1d1-3acef4fecf6mr3732599a91.44.1792302891525;
+        Sat, 17 Oct 2026 22:54:51 -0700 (PDT)
 Received: from [10.0.70.21] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.54.33
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.54.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 22:54:41 -0700 (PDT)
+        Sat, 17 Oct 2026 22:54:51 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 18 Oct 2026 15:53:55 +1000
-Subject: [PATCH v3 01/21] ASoC: dt-bindings: cs42l84: Document
- sound-name-prefix property
+Date: Sun, 18 Oct 2026 15:53:56 +1000
+Subject: [PATCH v3 02/21] ASoC: dt-bindings: cs42l42: Document additional
+ dai-common properties
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,8 +71,8 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261018-macaudio-v3-1-abdff7741dea@gmail.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261018-macaudio-v3-2-abdff7741dea@gmail.com>
 References: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 In-Reply-To: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 To: David Rhodes <david.rhodes@cirrus.com>, 
@@ -94,48 +94,50 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1125;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1227;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=vyIYXeTvpK7D1QV50HT+GFALOmTzN0QImSyZ/l8Csqw=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4rn9v1rM2RbwXkbirPLsz4fsNjM/kRQz5nGODOYKc
- ej5qWHaMZGFQYyLwVJMkWVDk5DHbCO2m/0ilXth5rAygQyRFmlgAAIWBr7cxLxSIx0jPVNtQz1D
- Ix1jHSMGLk4BmGpbf4b/fiY1H4ybv6Rw7+vrXbuf+8/0fd9/cvhsW23Edk9s36MfTAx/RXP0Cq1
- 6awsZZE4+mdUmqcF7qnS9vuaD7RLe2eslDgmwAwA=
+ bh=5IK2m6ZAqwOkwCJ6kC825xvIJPDhLKuUDHcpYolWipk=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4rlTeKpVfv6wUL6uLDBT3M/t/rxVmzZdc+bY0etwM
+ WGyWP2BjoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GukY6xgxcHEKwFTvjGFkOC4T3xDivMi+Xp+N9cutX7f53geaWFz59lmMK0t9j0zUWoZ/Ju+z2xn
+ DitQ87ulqlx/71RBsrtutrMOfZxNj/tP5rzQHAA==
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Some consumers may wish to prepend the codec's name with a known value
-to identify a specific codec among many. Enable this with the common
-sound-name-prefix property.
+We may need to define both #sound-dai-cells and sound-name-prefix on some
+machines where this codec is part of a simple DAI. Document them with
+reference to dai-common to keep the style checker happy.
 
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- .../bindings/sound/cirrus,cs42l84.yaml   | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../bindings/sound/cirrus,cs42l42.yaml   | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-index 94062c1d9d45..ca137aa57461 100644
---- a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-+++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-@@ -9,6 +9,9 @@ title: Cirrus Logic CS42L84 audio CODEC
+diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+index ab4c7d22dc0e..aba2121ac64a 100644
+--- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
++++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+@@ -9,6 +9,9 @@ title: Cirrus Logic CS42L42 audio CODEC
  maintainers:
-   - Martin Povišer <povik+lin@cutebit.org>
+   - patches@opensource.cirrus.com
  
 +allOf:
 +  - $ref: dai-common.yaml#
 +
- description: |
-   The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
-   in personal computers sold by Apple. It was first seen in 2021 Macbook
-@@ -32,6 +35,8 @@ properties:
-   '#sound-dai-cells':
-     const: 0
+ description:
+   The CS42L42 is a low-power audio codec designed for portable applications.
+   It provides a high-dynamic range, stereo DAC for audio playback and a mono
+@@ -26,6 +29,10 @@ properties:
+       The I2C address of the CS42L42.
+     maxItems: 1
  
++  '#sound-dai-cells': true
++
 +  sound-name-prefix: true
 +
- required:
-   - compatible
-   - reg
+   VP-supply:
+     description:
+       VP power supply.
 
 -- 
 2.56.0
