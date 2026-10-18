@@ -1,68 +1,68 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2015348C6D
-	for <asahi@lists.linux.dev>; Sun, 18 Oct 2026 05:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C223C3FF1AC
+	for <asahi@lists.linux.dev>; Sun, 18 Oct 2026 05:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792302933; cv=none; b=RnRf1qZ6QJZD9UHzCtmV8p6Y1rHvjLV87oY03k7Va3I8RwpzuDtlvdvF3Y1lWmkL6++VYIIt+Hw933E1tJDxUOdF94OW3SDzOxFUTQPkQKMd582rCriGbidUfJaaMjZs8wDRhHk0EX+Vwe5azI4F3UPlaXkJhdsAzG8avE2B218=
+	t=1792302941; cv=none; b=boaCsoYCBb6EgNfbnicb9xeXeTs4l73jpvWLLDDNAsL4kQuyUootH0D4M5cBHGJdetjmonBtsp0iDTXS60a3utvfBTTLSOBEHvS3Epoqvh56mvtL8sm4I9Lv000EeED7LdFZTf8fICzi3F9qO3/KEGBDWLqVdZB1IsB0/geS46c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792302933; c=relaxed/simple;
-	bh=L/QlyuMnLBDV61JQRkgIlDc1IxU9ojp/9m+G2x+efgk=;
+	s=arc-20240116; t=1792302941; c=relaxed/simple;
+	bh=9blMBWr7YSyHeQmUBs/7VgENlyvjO/n7aari+GuU1zA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K3zg5yxfKhC5kzWjYgnFA1yd71OJPlwM1ksV10JMTknPGQFo75BPqLtRrhIdlWmp5ml7uPtULxPE/xaqWHXYNOE3v/QojQ0HIvszVMqmi9o1zGdD9FMeiVjgdfmyhc8+hiu29nA7A7s1M177su9k9SMKdZPo3fuMq1c/BBfuKI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N98dp94f; arc=none smtp.client-ip=209.85.216.42
+	 In-Reply-To:To:Cc; b=rFCcCFuaY4MXWqVkcCp/MzlqoO8B3cqdM4dkV/SWw68EOzyONPg0qFEJCD8eSTh7Cfh+szGGg9Pud08kGhqTdPa0CAiPtzf9HGiZZNICHEVgqsDYATgZOnfLGK586dCcQb0QVdN0HVioilsAyduuEZtilxQ8W+5XXgqlmkbN+EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WwNJ7AFL; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N98dp94f"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ab60ff4273so1098941a91.0
-        for <asahi@lists.linux.dev>; Sat, 17 Oct 2026 22:55:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WwNJ7AFL"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3ab98332238so888953a91.3
+        for <asahi@lists.linux.dev>; Sat, 17 Oct 2026 22:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792302931; x=1792907731; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792302940; x=1792907740; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=A8gbur1ARV/hJRgldNVfFQEJ716Dcvui6UIUaLYcvaI=;
-        b=N98dp94fvdQ91ld7V678g1E+ibKZtRgeuYBRGuatrT1bMs30iV7xTmNypchYrvyEos
-         k5U5DfcYwNYEBk4HmxlWCd5oDG1cfqblIL0SlUKNnlqphwZjxEqFk2ljl66TufSBytdS
-         Cm0OpUACxvQQoAV9m/lLe2Qk9PWySLZQKRlYJoJDYHjQbDIlDzzfO43i8wxoHhum8N/Y
-         JHPtlcNe8cHN4dA2MU6N6RTRsBuTLmQ6QJjTy9XK9cEiDVVehx+etxkypI25hSGaRsW9
-         5ly1eU0gUjcuHQ7QlkGAf0u11x2YH7P1csu0N5qymvWDyrRqrZN8gS6bJBRv3BxqMKr+
-         603A==
+        bh=oG7xpTf+2B5oFo7T4YVD/UfNfM1JDvvTcYxZXQ4liDI=;
+        b=WwNJ7AFLOBhK8DelPNsoP0T4739MZBkV20aoDRa0AviZYB8IValr4yBk1R5O8AgbIU
+         4BVllOBBb5xxso6d/snegimicGqbizTCwk7lWwsxtD/VrIJRxTjJhp4Lp8ncNb41d3zL
+         dbSXwmti0fHaOQySjPtvtCkQecnB09fchguVTJrnbDcm/gOZi90M9vVKrRtUd5VdMCXF
+         Y3zMrf7R4AG6Db4xVMlJtelKqmASB4Qn8kUJ+Zi6Bt+DzEOoE1dzWv3SiR4ihMpAntCT
+         pB5XR0jEXJTUUHd+XYzAb6FfV+8msE3TPEC5HWVbu/Qw6TyUFUtGFgeY95MpWhOneitc
+         +RuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792302931; x=1792907731;
+        d=1e100.net; s=20260707; t=1792302940; x=1792907740;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=A8gbur1ARV/hJRgldNVfFQEJ716Dcvui6UIUaLYcvaI=;
-        b=g9Z5f1GnGKflzU17d37xxv+cpjUeBAe5FYpEAMTkBjgQt6y3Ki59lbuGSsmUtw1cOJ
-         egipP3gEzHWMGRVFPZgPGNvR+Rc/D7XPLRUxw/KSC/M28ITT8WOcjnQZmzhSrDsiu/VE
-         YTDyiGFgui23Njw64QihvJFEHDOW31qhZlLRmWCkf8EfCfLN8MeWfgfJrmgb3GCaYvv4
-         ueJ8kw/DyNZePxFhABem5d3qsscinOuDIo2DihbpRDy+NlpqhiQuBzMk+MFtnjLJRyw3
-         hUGdc5Vw/J2qC86dsNXkI3vUqgMzSWYN/kCWywfY/YohxgBDtKvABb98iQVnrohYZpUJ
-         NJMQ==
-X-Gm-Message-State: AFq9FYKeDFIMNfhUeanpI8qm5r2nwE0wmtqQ9gLXL7InGUcUACsryTnG
-	LXLQEYXr4YYSo0lpt/YPjjuSJgZDplV8n5HU80i49pfVO5C4W4SQJgrc
-X-Gm-Gg: AYBFou1JlbkRXmHKFBZlCRexlDcQHuxIDL2g28EQmpDUySjjEkvZ55ynBXQvaZOOqyF
-	AWy4z+hPURwcy14Mmpr518++Kiq2OPfQXWxF5574AtXFt7ovbt9/2vP8LDd9ExOcRGDekkIjzFo
-	snA5mkG3JCGBN5oJt5vlTb57EZ8NuenahGnb/RXMw8rVWTd7N1zEzghpRPxxV7QkECZJ8xJXMS4
-	s++YWV8EkRkBdQ2jJVif4lUQtEoSLfRcLIp8g9bCIKm03Ji3w7EkXVbmAY70aLH4Pd4YZoQdNtx
-	K1qEc8mRZPKEI/kVbOF98/raPQWKJgUFnLk+lXlOem4LwihlaWNWs5KExG6n+de7S/d1bjN/+eJ
-	BHqG6PYQ+7o7R/xsQT5TgFCw5z4bCO8zSprI0oLxr4itgcy8rkRDdSsGcqIzlv1BX7PvTup51f/
-	yfwFarh0GtRRNJ3NK3kW6/uchLMBlHv0r/MwESNANNyHbvqawjiza02Gvc8wYEjNGXfgIs0iKv1
-	kINPbQZyEQkR6QGyykR2ERU43LHIRe7M2giq6zIQHX1Z8Z8BW+XAo+rtgTXZFtVh3SCSRtdPwwk
-	nMWX3DejVD2MLttpqBAYPri1iXmLQZRV69GGysASoobjSQ==
-X-Received: by 2002:a17:90b:388c:b0:3ab:be66:ddbe with SMTP id 98e67ed59e1d1-3acef17b443mr4199337a91.28.1792302931040;
-        Sat, 17 Oct 2026 22:55:31 -0700 (PDT)
+        bh=oG7xpTf+2B5oFo7T4YVD/UfNfM1JDvvTcYxZXQ4liDI=;
+        b=Y4YarvAY4eFmll2IigNWJIIGjFMiEt6cIGmhuXahjVdwy39tyBSANyZfSprjKqFw+C
+         uXBS66PWOTjcE0Zv7Ia1qM+rWDNBiyOJKNufu9olkp9C5c2muSU9vV4dmkwjUu5w2hF/
+         F0XyZ5sJmW3zPVrmnsJ7TlOWhDw+lzg/rtYp3KW4/y6AosHg2EjXqeAshUDu8o1y7hUs
+         31RwMH8uNKdkUaqe7qVsSVqknKzCtMdY4sEay7tV5BJcDZBf29ci5F5ZA/hbtFjbpF/Z
+         dEzjQSsZmBxwpP5rpGRAlwJMyBJ/jbmoFG7SRx1P8+3b+gM9KqhD6gTySyehU/FIfR7x
+         T3gg==
+X-Gm-Message-State: AFq9FYJiyQ2QK5Gx4wgLLPDs3LlCtRQv2JQLMf5HRHUZzdldNII00nmJ
+	gJ3u58tHuP2GIlvy91nZQ189s//DotLgI6jv9QfxCtRJV3Xzc6/BfcFS
+X-Gm-Gg: AYBFou2GTWq5JFHbpwlaKlvT+ATRa4inKddPSxm2bz4D6ZqFesu8yCcsV45dnHRgYvC
+	zM5B0XKEtwEkEcWNZngp1rrC0627MPuMX7gRzPRDhsvV4i0kPozMzV2SVCPIH3pMxc59REWlrDI
+	X62Zbsb31YUVMX6mW+3dn7GG4COAHgrqTITXuIolbWjbpUQxWTC8ecUxJMAWYHSteSyzVB3cOXh
+	g1OkcEIsUVikKTK7tFdH+K5RNqZDsK3zInwN5JZY8wtXmZEE/bCwmi4HFkU1Ias0p+KL8HgRmQX
+	q6o7fYtnvslmoTehA0niZ1KubiGvP8aT/3JlJAX/qINuAocqOeRkPqG+GJDS9Y2FSQ0UmRV+aoL
+	0I1mXBP1rfH3ZphrNuM6ySz6yGtYxKvYSpTxyZwz51HUhSjAjfjxETWw8lkAbQLz+QoK/hWcodM
+	lPWk4jq3PKZ886wRXQ8VpRHav+w0bozzTCqOBw3JUiQL0GhVzb+42QhUdwvktxfrDbozdnbuazV
+	s+D56JULo8hY/ssCTdhp+hi1uXH/+m0341uWaYGqxQEqaepzH9OjO/5MngdJSUui18CI9Mgqeor
+	+WNX7BCdy+egltgNsAsxUtWKCzuWI+82v2wCfa1RuHfSJIQ=
+X-Received: by 2002:a17:90a:d446:b0:3a4:e735:b39d with SMTP id 98e67ed59e1d1-3acef603b1dmr3522678a91.64.1792302940213;
+        Sat, 17 Oct 2026 22:55:40 -0700 (PDT)
 Received: from [10.0.70.21] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.55.20
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.55.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 22:55:29 -0700 (PDT)
+        Sat, 17 Oct 2026 22:55:39 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 18 Oct 2026 15:54:00 +1000
-Subject: [PATCH v3 06/21] ASoC: card: Let 'fixup_controls' return errors
+Date: Sun, 18 Oct 2026 15:54:01 +1000
+Subject: [PATCH v3 07/21] ASoC: tas2770: Add compatible for TAS5770L
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,8 +70,8 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261018-macaudio-v3-6-abdff7741dea@gmail.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261018-macaudio-v3-7-abdff7741dea@gmail.com>
 References: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 In-Reply-To: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 To: David Rhodes <david.rhodes@cirrus.com>, 
@@ -93,119 +93,36 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3700;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=758;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=WKyXFBYrRnpsdpBs7slDgKqmeLl5GkYhostLo7OTo0E=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4nl87T3eH52yiC/OL4kx8RDDVXlZQf9lU9a6vbxw9
- +IPh/hjHRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
- NNIx1jFi4OIUgKne8ZGRYX/F3ut5WcfvqE5O/rHN8cD3KUEB56UknrrOjWb/crB7ricjw2Vm9hK
- RRfx77sqoHRCY9KBn30OXzQzajz/9dbPNujk9jgUA
+ bh=9blMBWr7YSyHeQmUBs/7VgENlyvjO/n7aari+GuU1zA=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4nnc7m2aKqH0TDBh9iuOyj/7pF3478Srb3rG07en6
+ mJ/VbJQx0QWBjEuBksxRZYNTUIes43YbvaLVO6FmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
+ jXSMdYwYuDgFYKrzzjL8s6yU1a66u2PRM+OLheZhW/a1Hub/Fv5y14fNKn+KvT4+5mFkODrn2ZI
+ 8QaFFRdVFE67HGHSc7Zm03eRM7jZDTdv23ua7nAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-From: Martin Povišer <povik+lin@cutebit.org>
+TAS5770L is an Apple-specific variant of TAS2770 found in a number
+of first-generation Apple Silicon Macs. Add a compatible for it.
 
-Let the 'fixup_controls' card method return error values which will roll
-back the half-done binding of the card.
-
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- include/sound/soc-card.h                 |  2 +-
- include/sound/soc.h                      |  2 +-
- .../soc/mediatek/mt8188/mt8188-mt6359.c  |  4 +++-
- sound/soc/soc-card.c                     | 12 +++++++++---
- sound/soc/soc-core.c                     |  5 ++++-
- 5 files changed, 18 insertions(+), 7 deletions(-)
+ sound/soc/codecs/tas2770.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/sound/soc-card.h b/include/sound/soc-card.h
-index 1f1e7d45f553..c392e6c4844b 100644
---- a/include/sound/soc-card.h
-+++ b/include/sound/soc-card.h
-@@ -44,7 +44,7 @@ int snd_soc_card_resume_post(struct snd_soc_card *card);
- 
- int snd_soc_card_probe(struct snd_soc_card *card);
- int snd_soc_card_late_probe(struct snd_soc_card *card);
--void snd_soc_card_fixup_controls(struct snd_soc_card *card);
-+int snd_soc_card_fixup_controls(struct snd_soc_card *card);
- int snd_soc_card_remove(struct snd_soc_card *card);
- 
- void snd_soc_card_set_topology_name(struct snd_soc_card *card, const char *preifx);
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index dcfd706a73ad..a3b9d2610514 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -1005,7 +1005,7 @@ struct snd_soc_card {
- 
- 	int (*probe)(struct snd_soc_card *card);
- 	int (*late_probe)(struct snd_soc_card *card);
--	void (*fixup_controls)(struct snd_soc_card *card);
-+	int (*fixup_controls)(struct snd_soc_card *card);
- 	int (*remove)(struct snd_soc_card *card);
- 
- 	/* the pre and post PM functions are used to do any PM work before and
-diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-index 75c90d1d165f..14890af97706 100644
---- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-@@ -1280,7 +1280,7 @@ static struct snd_soc_dai_link mt8188_mt6359_dai_links[] = {
- 	},
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 882e19857697..5dfddd3bd049 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -978,6 +978,7 @@ MODULE_DEVICE_TABLE(i2c, tas2770_i2c_id);
+ #if defined(CONFIG_OF)
+ static const struct of_device_id tas2770_of_match[] = {
+ 	{ .compatible = "ti,tas2770" },
++	{ .compatible = "ti,tas5770l" }, /* Apple variant */
+ 	{},
  };
- 
--static void mt8188_fixup_controls(struct snd_soc_card *card)
-+static int mt8188_fixup_controls(struct snd_soc_card *card)
- {
- 	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(card);
- 	struct mtk_platform_card_data *card_data = soc_card_data->card_data;
-@@ -1302,6 +1302,8 @@ static void mt8188_fixup_controls(struct snd_soc_card *card)
- 		else
- 			dev_warn(card->dev, "Cannot find ctl : Headphone Switch\n");
- 	}
-+
-+	return 0;
- }
- 
- static struct snd_soc_card mt8188_mt6359_soc_card = {
-diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
-index 282d666dae9e..e4d81329cde3 100644
---- a/sound/soc/soc-card.c
-+++ b/sound/soc/soc-card.c
-@@ -184,10 +184,16 @@ int snd_soc_card_late_probe(struct snd_soc_card *card)
- 	return 0;
- }
- 
--void snd_soc_card_fixup_controls(struct snd_soc_card *card)
-+int snd_soc_card_fixup_controls(struct snd_soc_card *card)
- {
--	if (card->fixup_controls)
--		card->fixup_controls(card);
-+	if (card->fixup_controls) {
-+		int ret = card->fixup_controls(card);
-+
-+		if (ret < 0)
-+			return soc_card_ret(card, ret);
-+	}
-+
-+	return 0;
- }
- 
- int snd_soc_card_remove(struct snd_soc_card *card)
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 06167a198591..2092373698db 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -2109,7 +2109,10 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
- 		if (ret < 0)
- 			goto probe_end;
- 	}
--	snd_soc_card_fixup_controls(card);
-+
-+	ret = snd_soc_card_fixup_controls(card);
-+	if (ret < 0)
-+		goto probe_end;
- 
- 	ret = snd_card_register(card->snd_card);
- 	if (ret < 0) {
+ MODULE_DEVICE_TABLE(of, tas2770_of_match);
 
 -- 
 2.56.0
