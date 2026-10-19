@@ -1,55 +1,55 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E0549D595
-	for <asahi@lists.linux.dev>; Mon, 19 Oct 2026 09:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185F84C4F6C
+	for <asahi@lists.linux.dev>; Mon, 19 Oct 2026 10:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792403962; cv=none; b=elpfST9t0NXmhWYKCZfDRYMNH1ip6h6O59jYXR0u+BK40KmU1j6Xwj6fTOeWgP3yunEpo4bcVlAHYBj77VQ6I9XPWYwo45OafxZfRySWa6sDg2h+RsutC1ZaDFg8bt4TTWeJ5bKoa+vD2tfvHyWZzNG3bSQgx5EOX28Ec8Oa+nw=
+	t=1792404965; cv=none; b=u0u8bcQEIwlVjxtXDTYsK7oVSXxHr82v1pkcNBUoGi+o5NcvlsNwI0DVuYiRiqyRT8OJJKghaCSDb5TiZkjSQ7r78o9zdvb2naSYefw+ZOnAochCyNof4ceE+xRhU3CSKMtmLivileqq7Duo4K32aY7wPu+VhgPJLXgzKBHvgA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792403962; c=relaxed/simple;
-	bh=qXng/NRO7J+ctWSW8wGB48l3qUcjJ7U3gebaN+32eWU=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=B0X9eg6Jqfqs4x0f0xgXaL8v9RjfZYgh+RAJbQYZ4X2DffvYaY/xupu+2Sw6lhvT2wM2z7Q26rSDOvWY7jAGbTqwWK49vHfTTIC22oYIfbLoiwDTFz1jW7NgQfG8X/EtMBuJxLe5gfB5k1czDyJqDOc8KRnvtOKR/JLyLasKh3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=A/7K5J4c; arc=none smtp.client-ip=195.121.94.169
+	s=arc-20240116; t=1792404965; c=relaxed/simple;
+	bh=wtuJMQ2ZK2Wkf5LwKqJOpf7r/3GILIjv+7BzuHseNGE=;
+	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=g++CdmcP+WY8HlydVnEClT++k7MKFII4VALhUscdH2R+6WMPqu8WaVcl2MbD/lPCixO7vRzo2nHc2Y3s1hpYLb8t+lqiRddMKdtbFF0nC7bBlkpjNcrymlgtnUaws0xSvdUngCAihX9wp9v6kqHZVmY37BLZiEa2addvMswH+84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=QvK9Yq7E; arc=none smtp.client-ip=195.121.94.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="A/7K5J4c"
-X-KPN-MessageId: b9d2bcf2-cba3-11f1-a05e-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="QvK9Yq7E"
+X-KPN-MessageId: 140775cf-cba6-11f1-b2ab-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id b9d2bcf2-cba3-11f1-a05e-005056abad63;
-	Mon, 19 Oct 2026 11:59:08 +0200 (CEST)
+	id 140775cf-cba6-11f1-b2ab-005056abbe64;
+	Mon, 19 Oct 2026 12:15:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=subject:to:from:message-id:date;
-	bh=721rIvHurXvzbsv3ReoZHJIOA30PI2Ctef7JDRu3I5Y=;
-	b=A/7K5J4cd2ApTzLbyJKdZPQOGEUtI0W8Gm7xPjX8ecPuEaQfxGhymB49bQmaYW4//+AZcmO1l8WEk
-	 rT+91YMHPX8wenZSNxRYHoJiBXPxmQpTPjNTrAFq1lM+tv73XAqHdzvkKm3ntQS4PXDfA1+hvQJ64i
-	 bi4L8hKkYPfQskeB+dHN4dGdcMB5VqERK3pl21sFCnP+yzjXPLl+svh4cwsb9ODnfs0u+bDsaEVeED
-	 IIhAd3n6KDhXTSzKQ2O/IBqSP/xhs7MXEFwxcHZ06BoA48txoR/cntJl3s6E94EUG4VXTilEaX/RkQ
-	 sJeP/p6PK0pnpVGpm19E9A5ao0e2e8Q==
-X-KPN-MID: 33|lT89nFkYjxKx1DAwBAr16pf1XzDFaOinkIbIlSIvSt6fEju8meFiBqp1PpIdXaX
- LYb6tlX50IDHOGpl9sWi15zubzxJQdvODR4HpReMKMvQ=
+	bh=8M/9VOV4M58wdb34Ao6d8bMluDly1tjynfPCwZqYCII=;
+	b=QvK9Yq7Er/I0bms3nCOVMQzoiviD8DGXH3aoX+oopVO0X7Znxkhd2EQVymW6ugCKPXiRlOsd1IKJ4
+	 ypu4B5AOV6+uVKOkrAb0ikYI35N2UmQEWKMWg8LK3cvQ59zw+ZvgbZr0mpHe9459GrHJs2Fwoyb8SL
+	 sWmmTQ7bQgAYHLTtea9AXWgxuhPCw3UozClQ9ZoxvaHjltmV+wKpsCJm1mjzCRRVYpKJRfXnV5VVjc
+	 7wQN7SpqQd7A45fzxmA0LVbK1lUqEGLfih/GgyVkodcn3/xRyoT6HtICOpDXqph2wfarJO66qCd68Q
+	 wczQw93glSBkvEMnfKuy9WDneEN9g0g==
+X-KPN-MID: 33|FdOQJQjz63tiboHACDrCStziBLNpp7Li3tUAOP3elpwoQK93HUcF0q9ge3WQxQt
+ nkQaQX++VQNOTTeCBwLWhw8P+NlIqsK+ksQgTH4XNemU=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|pugamrQRUnMwWgJiCK6kVC0V6jmSKdmXfgCrduLNU3m0dScKgMXwoSx0ayi5Nkl
- sI0qhM6LRmaEgyix2e8ypyw==
+X-CMASSUN: 33|XNp40WKAGiYwcAK6un/VSX/pxGBIxxnZ5Id2swDdu6nz/uwsP6zqhcpd6AGMlOV
+ LoRMMoeu+6bNp9bTpIfC5yg==
 Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id b95b93b6-cba3-11f1-bd32-005056abf0db;
-	Mon, 19 Oct 2026 11:59:08 +0200 (CEST)
-Date: Mon, 19 Oct 2026 11:59:07 +0200
-Message-Id: <87a4oaypsk.fsf@bloch.sibelius.xs4all.nl>
+	id 13915d12-cba6-11f1-92b4-005056ab1411;
+	Mon, 19 Oct 2026 12:15:58 +0200 (CEST)
+Date: Mon, 19 Oct 2026 12:15:57 +0200
+Message-Id: <878q3uyp0i.fsf@bloch.sibelius.xs4all.nl>
 From: Mark Kettenis <mark.kettenis@xs4all.nl>
 To: Janne Grunau <j@jannau.net>
 Cc: u-boot@lists.u-boot-project.org, kettenis@openbsd.org,
 	trini@konsulko.com, ilias.apalodimas@linaro.org,
 	sjg@chromium.org, asahi@lists.linux.dev, anshuld@ti.com,
 	j@jannau.net
-In-Reply-To: <20261010-apple-t603x-support-v1-0-ca529f301a62@jannau.net>
-	(message from Janne Grunau on Sat, 10 Oct 2026 14:13:56 +0200)
-Subject: Re: [PATCH 0/3] Apple M3 Pro, Max and Ultra support
-References: <20261010-apple-t603x-support-v1-0-ca529f301a62@jannau.net>
+In-Reply-To: <20261010-apple-t603x-support-v1-1-ca529f301a62@jannau.net>
+	(message from Janne Grunau on Sat, 10 Oct 2026 14:13:57 +0200)
+Subject: Re: [PATCH 1/3] doc: apple: Add Apple M3 as supported SoC
+References: <20261010-apple-t603x-support-v1-0-ca529f301a62@jannau.net> <20261010-apple-t603x-support-v1-1-ca529f301a62@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -57,41 +57,58 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 
 > From: Janne Grunau <j@jannau.net>
-> Date: Sat, 10 Oct 2026 14:13:56 +0200
+> Date: Sat, 10 Oct 2026 14:13:57 +0200
 > 
-> Hej,
+> Adding M3 (t8122) to the documentation was missed in commit a1a47eee6763
+> ("arm: apple: Add Apple M3 (t8122) support").
+> Since Apple silicon SoCs have switched to upstream DTS stop listing SoCs
+> with device trees. The expectation is that u-boot support is added
+> together with Linux support. So the device trees might lag a little
+> behind. Since u-boot's dtbs are usually not used on Apple SoCs this is
+> not an issue.
 > 
-> this series adds memory maps of M3 Pro (T6030), M3 Max (T6032 and T6034)
-> and M3 Ultra (T6032) to arch/arm/mach-apple/board.c and lists the SoCs
-> as supported. It contains a missed documentation update for M3 (T8122).
-> 
-> The memory maps for the SoCs are becoming long (alomst 1000 lines) and
-> Apple releases multiple new SoCs each year. I'd propose to move the
-> arrays to headers (one per generation, i.e. "mem_map_m1.h", ...) meant
-> to included only from mach-apple/board.c.
-> I Can do that either as v2 of this patchset or when starting with the
-> M4 generation.
-
-I like that idea.  If you we keep it to a single memory per include
-file, this would make it possible to diff the files to see the
-differences?
-
+> Fixes: a1a47eee6763 ("arm: apple: Add Apple M3 (t8122) support")
 > Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
-> Janne Grunau (3):
->       doc: apple: Add Apple M3 as supported SoC
->       arm: apple: Add Apple M3 Pro and Max (t603[014]) support
->       arm: apple: Add Apple M3 Ultra (t6032) support
+>  doc/board/apple/m1.rst | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
->  arch/arm/mach-apple/board.c | 224 ++++++++++++++++++++++++++++++++++++++++++++
->  doc/board/apple/m1.rst      |  14 ++-
->  2 files changed, 236 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 5508406582f6f7120dce0c4b3059819a41788db2
-> change-id: 20260907-apple-t603x-support-9e77ba0bf855
+> diff --git a/doc/board/apple/m1.rst b/doc/board/apple/m1.rst
+> index 900c5e6d91ea..4ed275f7ea8c 100644
+> --- a/doc/board/apple/m1.rst
+> +++ b/doc/board/apple/m1.rst
+> @@ -9,6 +9,7 @@ the following SoCs work:
+>  
+>   - Apple M1 SoC (t8103)
+>   - Apple M2 SoC (t8112)
+> + - Apple M3 SoC (t8112)
+
+That should be t8122!
+
+>   - Apple M1 Pro SoC (t6000)
+>   - Apple M1 Max SoC (t6001)
+>   - Apple M1 Ultra SoC (t6002)
+> @@ -24,8 +25,8 @@ On these SoCs the following hardware is supported:
+>   - NVMe storage
+>   - USB 3.1 Type-C ports
+>  
+> -Device trees are provided in dts/upstream/src/arm64/apple/ and available
+> -for all M1 and M2 (t8103, t8112, t600x and t602x) devices.
+> +Device trees are provided in dts/upstream/src/arm64/apple/ and available once
+> +they are merged in the Linux kernel tree.
+>  
+>  Building U-Boot
+>  ---------------
+> @@ -82,5 +83,7 @@ supported SoCs.
+>       - Base Address
+>     * - M1 (t8103) and M2 (t8112)
+>       - 0x235200000
+> +   * - M3 (t8122)
+> +     - 0x2a1200000
+>     * - M1 Pro/Max/Ultra (t6000/t6001/t6002) and M2 Pro/Max/Ultra (t6020/t6021/t6022)
+>       - 0x39b200000
 > 
-> Best regards,
 > -- 
-> Janne Grunau <j@jannau.net>
+> 2.55.0
 > 
 > 
