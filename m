@@ -1,51 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B19472F87;
-	Mon, 19 Oct 2026 08:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2A84A8A11;
+	Mon, 19 Oct 2026 09:14:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792400045; cv=none; b=M6cgS1XZTE39OWeAXzIpmizoxX2Oc/oymRuSoz3lJsdcu82hglWh7WP9X9PkCaqXnRsUPV1qd1qE6Ou69USjewJF9avAGPYWtHT0VRSuxJWV+d1HMFusu23b2bL39939apee++ZhHvAuc6yUxX5YBEHENrXp7jf/A+/A0+hAuvc=
+	t=1792401247; cv=none; b=iQ3rdCi5zz/K80tNwY6afFcKRi394DJmGlPhSimxs/CSNNKKHsUHzbHLN6Jx34+kox7BScuyQiNjZ/FKsdo25OxUlq8LU/6MqG5YFtbmA2j9Uaw7R4tmNrwvNlzOgi9Z0CREQqaNWS+vSzzL3mOUSOJ3MOPlVCMUsWQ83mq8Wp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792400045; c=relaxed/simple;
-	bh=bTp8y+1waJDAhENmcOlWp8C5F1Eiv+aK0EqvUVSX7wM=;
+	s=arc-20240116; t=1792401247; c=relaxed/simple;
+	bh=3W4cAYwZGz92pNzMK9iClEcu7WJT2sBpKNAlQk0Ebms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UAqZTzeAXLwkwg9XJf+UCiFAWJI29Q4VAWSY5CdneotKqisFEkngmpkaCENRXsTHpd+txBWzKN+SG2ISWhXfPs/NCDd9q99jVp+kvu8GrEuKqx/H/RYnywUSzB/ctXUJvmM9tR0ptMuf9JLjcF2t7eCjS4Przyy5yiiQjPMspVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bUTpvRew; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=NXC++khBht1aULS/ZtB9ThCf62LzmhCrgY3V/2W98lvvxjfK0glxGQuuZBrX2rRxEUTbh3oP58go8/3fjMHlYwy/EqNAQVq4iioNIT9LAT+otvu6P5ge3z1mb2ukvt/BbnbYHtBByLci0Uf/uFlJiYQeplPaaSZMTnrNVSXcw/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B36kJOtW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bUTpvRew"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ABD81F000C4;
-	Mon, 19 Oct 2026 08:54:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B36kJOtW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F3641F000C5;
+	Mon, 19 Oct 2026 09:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792400044;
-	bh=deOppFeydKzw0+yILTrtXYZ1PYcVSBm6AiEBoif93gI=;
+	s=k20260515; t=1792401243;
+	bh=p193/eXdAlpEtyVeP9Mx6DfUR9LJvk6PjfiJHNyehUs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bUTpvRewgEZ03yMjzvH2QCsI5DzsapK6kjzNUurje84l1cm+lOD6KgigKLw7YnyEK
-	 sBtDeRmMeyvMUWt11tgVnAsFxPsZs8yrG2ftACdfiLe1M2xPX1h/rrW3i0Z16r0oDn
-	 fFdCPxPUom0VseerOYR90OtWOmk2SrgkT1zfqBE18xBqr6t+XRAEalqJCt1FMsWDCr
-	 ZhbRf1Mmt2K0dzHs4tIdlBa4Rmw/TKuKWfM3urkY/8XRLBuyStn4WGAUh8YNrLrX5K
-	 mo4jMpprjgN+jGmY3EYqVxHmSBkDePyGLOuLd9L7wi16aQo4Dw4KktGNIdSKB5x6kV
-	 YKjhowKZci9bQ==
-Date: Mon, 19 Oct 2026 10:54:01 +0200
+	b=B36kJOtWjlEI2DFQu7ZOHAK8nVedVl3ufY729WsU7kCBUl5lWX6ao/0kN9ifxnwii
+	 fMXtzCaXm4ugTlc5B+WeLqbgr/9t5D8hadTxTECh+h1aUX0jxM35XJ6iadjbxFaxuX
+	 pbpUsOdC2m0DeThHEp7OYR3YBFOVHZ6TvzERNwf9XjEez1UTMXg+r7+D/tAbopHg+2
+	 U6l20LwGnHAKpUiVgLc6YCXOJTf084FOQJgVcTKI+WBNaTOSEPUUZpkWR2unf+kXeZ
+	 zQyvzSM4t0oFIXNJSg8QWKamAom9bL0L29NOsWYw00/pMT7+j7KmwMhLWNhAFngOBJ
+	 eZtQ15hFk/AsQ==
+Date: Mon, 19 Oct 2026 11:14:00 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
-	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Sven Peter <sven@kernel.org>, 
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v3 02/21] ASoC: dt-bindings: cs42l42: Document additional
- dai-common properties
-Message-ID: <20261019-overjoyed-outgoing-wren-4fdcc7@quoll>
-References: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
- <20261018-macaudio-v3-2-abdff7741dea@gmail.com>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Neal Gompa <neal@gompa.dev>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	iommu@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: iommu: apple,sart: Add apple,t6050-sart
+ compatible
+Message-ID: <20261019-terrific-attractive-goose-d375b1@quoll>
+References: <20261018-apple-sartv4-v1-0-1eaa5d63f6a2@cyberchaos.dev>
+ <20261018-apple-sartv4-v1-1-1eaa5d63f6a2@cyberchaos.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -54,44 +48,18 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261018-macaudio-v3-2-abdff7741dea@gmail.com>
+In-Reply-To: <20261018-apple-sartv4-v1-1-1eaa5d63f6a2@cyberchaos.dev>
 
-On Sun, Oct 18, 2026 at 03:53:56PM +1000, James Calligeros wrote:
-> We may need to define both #sound-dai-cells and sound-name-prefix on some
-> machines where this codec is part of a simple DAI. Document them with
-> reference to dai-common to keep the style checker happy.
+On Sun, Oct 18, 2026 at 06:38:10PM +0200, Yureka Lilian wrote:
+> The SART4 is on Apple M5 Pro/Max (t6050) SoCs. It has 50% more entries
+> than its SART3 predecessor and is otherwise the same.
 > 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 > ---
->  .../bindings/sound/cirrus,cs42l42.yaml   | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-> index ab4c7d22dc0e..aba2121ac64a 100644
-> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-> @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L42 audio CODEC
->  maintainers:
->    - patches@opensource.cirrus.com
->  
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
->  description:
->    The CS42L42 is a low-power audio codec designed for portable applications.
->    It provides a high-dynamic range, stereo DAC for audio playback and a mono
-> @@ -26,6 +29,10 @@ properties:
->        The I2C address of the CS42L42.
->      maxItems: 1
->  
-> +  '#sound-dai-cells': true
+>  Documentation/devicetree/bindings/iommu/apple,sart.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-Instead const.
-
-> +
-> +  sound-name-prefix: true
-
-And drop this one.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
