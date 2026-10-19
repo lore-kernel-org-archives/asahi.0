@@ -1,243 +1,137 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058FE3F8891
-	for <asahi@lists.linux.dev>; Mon, 19 Oct 2026 11:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584184F5DF7
+	for <asahi@lists.linux.dev>; Mon, 19 Oct 2026 13:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792409068; cv=none; b=P/HJpFOIr0YfJEztb+IkiTYjkPvpe4Pj72mnNtiKcE3ejgsqfc41foKEtd95gss3UNNSX7RVnCJxUabd9aXZuIXiZNexZnb0A0enm11LQ3ORquzcLAm1fpHo6Dm5rS8sCiXamkyGmENw7dx87gJlOfCY8FkXx+tpQ78s7pj3TMo=
+	t=1792416973; cv=none; b=TqU1mKKwrVgag3O+mj/wmx42VCABAnED74axs9EmjA6QxG1XY/Ky9k1V1s6VyFmB8815qpfyUMLjwmgbrEDiKaCdfAGkCZn+NChWOgk5IZ3ZTWVlVo2LjfYp6VZHuJXITAH5MDlTTPyTxvvuFpZfvj275Ls3v3nTWpuz31/3fa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792409068; c=relaxed/simple;
-	bh=NzMMwcrEtJscXn+NU6CRwFMoWwt/YjM4pQ9EIXQsd6Y=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=tkbFH/eaHt8xyM51fhZCRDCqJLuWdGGdgrpz+vRVS6/G1Slbd1RuIUv2LOvo+gBum5JLIed6pJS1ruH2lBo5vAhNC70ZcOsxWJ0q5SxlC0AZ5FzZpj3H7VyMJGc9sKW7Nda/wytR88EwOaPbF0vdxlRWogrth0eEX4flAEGDJIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=GKOKyqAg; arc=none smtp.client-ip=195.121.94.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1792416973; c=relaxed/simple;
+	bh=0YRsJG0zikzQGyPZCwNj3fX9FQhaRP08kplHGzoklOk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=StsSelRPunrOW7qjE8GZKscYo/+Egr/HaqodgbPnW4DyL65JRAM7oTptMWoI6G0erAgHai2L/NEjY4HgpH75y4b4kMi1bwU/zzhAh7UmC6Y3/jSjxk0z8s1WIyB0IQhcvnK3kZZiRKgL7QAPrd3NQXCee5HksaBQK9q96LHQLQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=B/61JcDf; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="GKOKyqAg"
-X-KPN-MessageId: 78797b94-cbaf-11f1-8627-005056aba152
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 78797b94-cbaf-11f1-8627-005056aba152;
-	Mon, 19 Oct 2026 13:23:12 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="B/61JcDf"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48df4f540ebso1141856f8f.3
+        for <asahi@lists.linux.dev>; Mon, 19 Oct 2026 06:36:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=9qKTRWPXou2pUoYMP76ROHflwFeDMPWWub2/5eH/774=;
-	b=GKOKyqAghVzOYEqEEOJJzDYbfVATg9v6NM+9OyNU10u93h1Atbv9i0eKdR1W8FIdO0TQSjPMpyHqr
-	 R5Q2LV9a+0KOKhckAsQ/H3BKS3EspfFBGr8Z9v7wuVzViI9LZuxHCmW30ZqExCBkvJEcDT3xgvrhaR
-	 KW0jrLI5mH1Rr7k0yntjQVSoENUOmNrUdUZHmoKhL1hQw+x48vFLwyKUbYelHjCrBcYoyaKc9age1t
-	 QAEezx6fvvGfFDEWyHlZEyJJByj6JphcElW4ZnquNSJ4GxiK9rqEglDaaGpF9bpB6pqpWHwygFMhVF
-	 m05+icHFnUs1ZLEZ8y4OVpKfXA8atKA==
-X-KPN-MID: 33|nlMB/bceciL7WYirUKhjjJ9qwozPGKnquFilUcdYWpC8As/pm8XlaLeciMrlVN2
- feZQ0syp4gKavxDu6WOgMbA==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|iBg/d0SC4HewNveoPX/e3tcW9UNmsBkK4KfCW6iCziSjnwhy7Y30Na/alB6aPcr
- 1uL59QPRmKPi3l/HZg44O4A==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 77fcc2ef-cbaf-11f1-92b4-005056ab1411;
-	Mon, 19 Oct 2026 13:23:12 +0200 (CEST)
-Date: Mon, 19 Oct 2026 13:23:11 +0200
-Message-Id: <875wyyylwg.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Janne Grunau <j@jannau.net>
-Cc: u-boot@lists.u-boot-project.org, kettenis@openbsd.org,
-	trini@konsulko.com, ilias.apalodimas@linaro.org,
-	sjg@chromium.org, asahi@lists.linux.dev, anshuld@ti.com,
-	j@jannau.net
-In-Reply-To: <20261010-apple-t603x-support-v1-3-ca529f301a62@jannau.net>
-	(message from Janne Grunau on Sat, 10 Oct 2026 14:13:59 +0200)
-Subject: Re: [PATCH 3/3] arm: apple: Add Apple M3 Ultra (t6032) support
-References: <20261010-apple-t603x-support-v1-0-ca529f301a62@jannau.net> <20261010-apple-t603x-support-v1-3-ca529f301a62@jannau.net>
+        d=tuxon.dev; s=google; t=1792416968; x=1793021768; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=u7QI1RqFBazH73cHjUm3bJRQ468s8YNQSYzETjY7O2I=;
+        b=B/61JcDfVa5qOuBWop+pj9SUt1LQU6/+77DEl+vTjuBhRGFXfIybOIFuhm1v7ZdboD
+         NMO98gTAnWynRGF7A01EXUwqEuIJ8aZl+FxyiGv0pyViUSBLBxg3qZEVbypP10RiiDBr
+         TXSZZDywhBMak/k7uauupJGRehJFJLufRm96bw+ZryXiogTKNS3N9p4+BGJFIdPcewHT
+         oFRBhWs7vl89vy2NK/t2fLVX5TDVorAPQWPVUcj81Wo8+j3/jZLixvBgWh8rl0hcx1Qv
+         227NbACElu4Ll93QPI+1GRSGemoiGALSgykG0wl+Szm3EHvU8nGdo2TBaSJshakgWCUi
+         4+mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792416968; x=1793021768;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=u7QI1RqFBazH73cHjUm3bJRQ468s8YNQSYzETjY7O2I=;
+        b=OEH2+QORhFpk83W54CSV6NSElyOgDEIajwl6ytl/5sKr7/xuPXOr8jGIYCGPbD6sC6
+         TYOzIohhGJfXoRroqOCUzv9fnDMqY8HFX01VMTlgWyLN1SfgncrHN8C+6UmT6FxPB414
+         pj0g49puqN4okzA20GqE7L7EeyXJMwnbh8xOqqImIdyXQZl4mDY78hCNhBNPn6oX0OsS
+         kaxHdZD2kH4OODlhAUXIXlKFLspFU+KKQO8sBq50Opt73vjn3+ia8jiF198azR9zkAJn
+         r2HHrjZKK9R2m/9yeSFeO5//gcXl5kbDoLlqs0KgYFGPBY7I6sZIyFt7h/2Rit5LlpWQ
+         rusA==
+X-Forwarded-Encrypted: i=1; AKwUvBwDou7hOapk2URX7EB9ZP6p2ATSpazgMbn0EFJFzD3C+1Qw9TfrJc22gL2B0ff5zyZLsVH0fA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYL3VPqpXIbMecIwiB1hlX9szjgvn2t1Hanpek9m1QsFyYh5ARTn
+	GJnL0706e63XsS07lagWm3qoGhtH0eZwmgut/DH+mjl1/nSYpeCRDPFU1SF/mgftOD8=
+X-Gm-Gg: AYBFou0I59eSRuetu5AthL/kJHyehZ64Re+0aKiqYQjKlDN76t1oBKuQezcOFK8+x1k
+	SWAu1Eax6jLMKfS97akF/tTIijW0nfNnfWOvF0N5KjE2TP6/f0fqr0l1/KLqKaUeHlxK62XnHUW
+	Sz68MVyyjn/wQQNZ4phtP9zv9fXeXpn4VH+tvvTDjKBl+Fz8bUkBXy59bQvDJt+5939+epj6WKB
+	YSN+MBHdjwWQ0afMCaFo86IaAY1RCmj4qdx4QXDFSooOP6EUYI5kCcigl7aFnm4DIl7iiiLl37n
+	JE9grvgmVnQeY6Yk5ik4nmsCtMlCaE1KRPFybk2qGS9f/tmkwHoOKGHB5x7w5TZnhinraTwn3wm
+	i1jmvqlsGrfrRhramPa6jNCgpqo3K7d2oOgUJysv570Ht8QAtf+kQ+2Q2rRfOgxsjIpkpVa4KNx
+	ws2/uaOWeTFUOmKbhSPd1jZ/4CvhFD6IZiusFla1irNl70YYqJl13b4yr4/8uVBAeTN233emDC1
+	fNWofkb
+X-Received: by 2002:a05:600c:c168:b0:4a1:ed0c:f051 with SMTP id 5b1f17b1804b1-4a1ed0cf21dmr30497355e9.5.1792416967770;
+        Mon, 19 Oct 2026 06:36:07 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.221])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f8cfesm20387473f8f.37.2026.10.19.06.36.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2026 06:36:03 -0700 (PDT)
+Message-ID: <0cf7bef8-42fd-475d-b47a-9cb8629644ed@tuxon.dev>
+Date: Mon, 19 Oct 2026 16:35:59 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/11] ASoC: renesas: rz-ssi: Explain component open
+ return value handling
+To: phucduc.bui@gmail.com, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ povik+lin@cutebit.org, Andrei Simion <andrei.simion@microchip.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Heiko Stuebner <heiko@sntech.de>
+Cc: Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>,
+ wangdicheng <wangdicheng@kylinos.cn>,
+ Chris Bainbridge <chris.bainbridge@gmail.com>,
+ Linus Walleij <linusw@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Neo Chang <YLCHANG2@nuvoton.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ u.kleine-koenig@baylibre.com, Pengpeng Hou <pengpeng@iscas.ac.cn>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Hemanth Selam <hemanth.selam@gmail.com>,
+ Md Shofiqul Islam <shofiqtest@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Zain Aboobacker <zainaboobacker33@gmail.com>,
+ Sang-Heon Jeon <ekffu200098@gmail.com>, Bo Shen <voice.shen@atmel.com>,
+ Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org,
+ imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261016040946.521195-1-phucduc.bui@gmail.com>
+ <20261016040946.521195-10-phucduc.bui@gmail.com>
+Content-Language: en-US
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20261016040946.521195-10-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> From: Janne Grunau <j@jannau.net>
-> Date: Sat, 10 Oct 2026 14:13:59 +0200
-> 
-> Apple's M3 Ultra (t6032) SoC consists like its M1 and M2 predecessors of
-> two M3 Max dies with an "UltraFusion" interconnect. Since it is only
-> used in the Mac Studio the mem map does not need to duplicate all
-> entries. Two of the USB4 / Thunderbolt complexes on the second die are
-> unused. Only PCIe host controller on the first die is used directly. The
-> PCIe IO on the second die is used internally to connect the NVMe
-> controller with the NAND flash.
-> Most of u-boot's existing drivers are compatible with the hardware and
-> M3 Ultra device trees will carry "apple,t8103-*" as fallback compatible
-> strings. Only apple-atcphy-reset will use a new compatible as M3 Ultra
-> has ThunderBolt 5 / USB4v2 USB-C ports.
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
->  arch/arm/mach-apple/board.c | 127 ++++++++++++++++++++++++++++++++++++++++++++
->  doc/board/apple/m1.rst      |   1 +
->  2 files changed, 128 insertions(+)
 
-Acked-by: Mark Kettenis <kettenis@openbsd.org>
 
-> diff --git a/arch/arm/mach-apple/board.c b/arch/arm/mach-apple/board.c
-> index bd0c69fcb512..d8ad925a00e6 100644
-> --- a/arch/arm/mach-apple/board.c
-> +++ b/arch/arm/mach-apple/board.c
-> @@ -843,6 +843,131 @@ static struct mm_region t6030_mem_map[] = {
->  	}
->  };
->  
-> +/* Apple M3 Ultra */
-> +
-> +static struct mm_region t6032_mem_map[] = {
-> +	{
-> +		/* I/O */
-> +		.virt = 0x280000000,
-> +		.phys = 0x280000000,
-> +		.size = 2UL * SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O */
-> +		.virt = 0x300000000,
-> +		.phys = 0x300000000,
-> +		.size = 3UL * SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* PCIE */
-> +		.virt = 0x580000000,
-> +		.phys = 0x580000000,
-> +		.size = SZ_512M,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* PCIE */
-> +		.virt = 0x5a0000000,
-> +		.phys = 0x5a0000000,
-> +		.size = SZ_512M,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRE) |
-> +			 PTE_BLOCK_INNER_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* PCIE */
-> +		.virt = 0x5c0000000,
-> +		.phys = 0x5c0000000,
-> +		.size = SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRE) |
-> +			 PTE_BLOCK_INNER_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O ATC0 */
-> +		.virt = 0x700000000,
-> +		.phys = 0x700000000,
-> +		.size = SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O ATC1 */
-> +		.virt = 0xb00000000,
-> +		.phys = 0xb00000000,
-> +		.size = SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O ATC2 */
-> +		.virt = 0xf00000000,
-> +		.phys = 0xf00000000,
-> +		.size = SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O ATC3 */
-> +		.virt = 0x1300000000,
-> +		.phys = 0x1300000000,
-> +		.size = SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O */
-> +		.virt = 0x2280000000,
-> +		.phys = 0x2280000000,
-> +		.size = 2UL * SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O */
-> +		.virt = 0x2300000000,
-> +		.phys = 0x2300000000,
-> +		.size = 3UL * SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O ATC4 */
-> +		.virt = 0x2700000000,
-> +		.phys = 0x2700000000,
-> +		.size = SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* I/O ATC5 */
-> +		.virt = 0x2b00000000,
-> +		.phys = 0x2b00000000,
-> +		.size = SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +			 PTE_BLOCK_NON_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* RAM */
-> +		.virt = 0x10000000000,
-> +		.phys = 0x10000000000,
-> +		.size = 16UL * SZ_1G,
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL) |
-> +			 PTE_BLOCK_INNER_SHARE
-> +	}, {
-> +		/* Framebuffer */
-> +		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL_NC) |
-> +			 PTE_BLOCK_INNER_SHARE |
-> +			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +	}, {
-> +		/* List terminator */
-> +		0,
-> +	}
-> +};
-> +
->  struct mm_region *mem_map;
->  
->  int board_init(void)
-> @@ -896,6 +1021,8 @@ void build_mem_map(void)
->  		 of_machine_is_compatible("apple,t6031") ||
->  		 of_machine_is_compatible("apple,t6034"))
->  		mem_map = t6030_mem_map;
-> +	else if (of_machine_is_compatible("apple,t6032"))
-> +		mem_map = t6032_mem_map;
->  	else
->  		panic("Unsupported SoC\n");
->  
-> diff --git a/doc/board/apple/m1.rst b/doc/board/apple/m1.rst
-> index 002f4926ed5e..f1be55996b95 100644
-> --- a/doc/board/apple/m1.rst
-> +++ b/doc/board/apple/m1.rst
-> @@ -18,6 +18,7 @@ the following SoCs work:
->   - Apple M2 Ultra SoC (t6022)
->   - Apple M3 Pro SoC (t6030)
->   - Apple M3 Max SoC (t6031 and t6034)
-> + - Apple M3 Ultra SoC (t6032)
->  
->  On these SoCs the following hardware is supported:
->  
+On 10/16/26 07:09, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc<phucduc.bui@gmail.com>
 > 
-> -- 
-> 2.55.0
+> Add a comment explaining why .open() must return 0 on success
+> to ensure the component is correctly marked as opened and
+> prevent future changes from reintroducing the issue.
 > 
-> 
+> Signed-off-by: bui duc phuc<phucduc.bui@gmail.com>
+
+FTR:
+
+Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
