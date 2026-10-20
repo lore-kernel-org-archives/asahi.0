@@ -1,50 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792507028;
-	b=qJWX2IxCehBF612J/iyVVdDzrLE8oA/fNFTjD3I9XMOLLFin9nvvQXNvHsoT/mjqk/0J
-	 zDmRi+l2ZWFkrZnJso89+yp+UQ88sDdejfdS+90Q6FxrexLmYvmi2NoKlx/Im05/7lcz2
-	 V3Uz79/7OkMM6AoL478HTjL+ei14g1YeqjQfQs+fF4ovmOSLyJQUFi4syOHff/4VTPO7s
-	 z3XfuzdRoKkgktsPJkKHJ1v/rSm6WuuQ4NnjIXyW3g+Hq0/pj+0bMqXBXvixXuKFf0BHM
-	 7N8d69WrOQwsXRLdPjCFN/MKiQNUKFG+tICcg2K/DdOdVALSdFj/IlKM99ocHQ929xg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792507028;
-	h=DMARC-Filter:Message-ID:DKIM-Signature:Date:MIME-Version:Subject:To:
-	 Cc:References:Content-Language:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=/KQ70MsaDZXGGg9xwr15iwDR73QEsKB18yX4p0CKZSM=;
-	b=2RJHdACkiGcoM9SlmAP4wblYlsSm8idcx0FCVMvwdbvc5hNGuiiB1B1rOpw7/mEH2+Wm
-	 Y1HAGSJb8XtKFpz2I2h8HoC/lUllKVgKbC+qShWGu8XYLahH+4kEs5b0jGpXokcAmQpGN
-	 tvpsv904O6xFVfJbkapfqo+GdQRwd8qt67PTQ0G3dDgPtkox9X78Q7J0PAK7nB8tpd6BR
-	 5IlXaAMTT6N8vQGgwwpNvq/7YIo66iQwbeIP9k+luL/CYVco0I4/+ktXGHOmusvP37uf3
-	 21FzdvTOZVV6Jaht05V02EV7z4zg9+Ng1R1sRwM2NmdWHoSWKETCUXady8QVWTyHt9w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cyberchaos.dev;
-	spf=pass smtp.mailfrom=cyberchaos.dev;
-	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=YggroFkc;
-	arc=none smtp.remote-ip=195.39.247.168
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792540403;
+	b=d98PGgW1BRWDSKYiK0LqNEtUhSeXlAc17+h6knq1Rnpobg1Q9jCkuNO69KgQPF32tb+3
+	 gAh/V+4J+szXPlnbp3dFZKzyQW1IaKgQZA+Eu/dO+UhF0f7PdExlzQOjISxgFDuCqqjef
+	 R7tNTw6KFulm30xLw8aiE3M+PgpBkxFcAiS9mWJLwLLJEYrTrLdHJ9v/SIfUhnvoD2S4l
+	 VQdRUP8Ic6eObVG9yndCOeJqEBjAuqMazAg0VLGdNx3tjXWT400DCp3iRNRCP6YcXgBCs
+	 rnAPLqkUZB6LN+N/typoSStAEeMKBUxhazFxN8YaHg8Tftn4Rw1GRcHJEhnMAB7x2hg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792540403;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=gN0ju8lD81Sz1gc8sNBSSmRi9TErZR5ipKv96L1LgaY=;
+	b=Zj9SV/yYH8TkWtKWK3MWH3+bTWXVVYL/Y0HNBDfr/3j/d19sgiNtsGztaiXQsZSrrQhp
+	 yj43VK+Ns22zQVdAhBIgrQZIQVB1fuiVVlMuNW7Ubtw+8OkeVmh947AZfuCWrF6wXAPIL
+	 ycLhblD9wYLed38jeWJ9jvjtEusYmjkvsCgTZuNAsKPpMp+7Z+aWVERqTDFbkowWsDAnf
+	 lb6CFV/81g/m1ddMJyhc6vw+GrJHQuJr/9wfHr9u5VGCSLMi30vurkRVMPZiFCHOfIo/p
+	 P03leUIbaTB4phbd/2q2lYy4A1uRfWlfPrsZsk6GiBtgouSZbpjJj3FXvbIdeZ/GWsQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aGkCXRtp;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FF2606A319;
+	Tue, 20 Oct 2026 23:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aGkCXRtp
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1792540402;
+	b=u2U1bHzfkEY6I7lLCJ/SFHjBdyF/GaCxkT5TUxNB4ACAhGouKcmmPqqiVEYB0sk2pZHq
+	 ISzQNcPJnwDBUpewZQIYvO6rfv6bYDL04Cb2ZfN+Et+1HFuNoSs4lPDGzkz3qVqCZnecs
+	 DG8wenyHn16CIRZ+pKQrsjTIP2ooUNcaZ/6I9UdphRR0lUKinW/4WvkEOxnHKU2kYSs9/
+	 rcMgUsM6V/XrzOtWR/GdUXCNMNwyq97Vh8XbtRqz1a6TN9tjdBf8m0u9QWyOrj10juwzZ
+	 4T2ivFTanKGXaqHYG74iKfc9aMYfxyGaxkY9++AbKM5hakX8b8OXTriYB2v0Wgd7XSQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1792540402;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=gN0ju8lD81Sz1gc8sNBSSmRi9TErZR5ipKv96L1LgaY=;
+	b=Sv1Qt/e4gRae3oGx14VIXcG0jDEJROu+8CXR8NqXEBOgnlY1s1wTS1Fh4bc0vBn3MiJb
+	 aasfZ/iQsha5jbSxudUULoV1IEfN9DfkvUTvT+OscknNPfpEtewSOSF5HVDl3KNnTfoQV
+	 5+2ymDaZjLKLqnFqNIqsI2XBsUihBwAC6a10n339uTNU+c0La2gjs/Zvkjh5rYToxt9El
+	 Vw5Ui1JwQPyp//WlXhCbrJVx3Q2uW1akWv52Cue5/7BiAuO5Mdc0KJvM5vDRosaqJwIRT
+	 y3FUyfJ7F10V13A+avCTRJLUNIDtVuXN+8b8nJht+6M8e7g1cudyYYtbq3B5NujzVhA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC73606A31B;
-	Tue, 20 Oct 2026 14:37:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBC73606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=YggroFkc
-Message-ID: <7e59d984-1c00-4414-aa45-3092491ac39b@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1792507019;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/KQ70MsaDZXGGg9xwr15iwDR73QEsKB18yX4p0CKZSM=;
-	b=YggroFkcCadfQfVG8niIpNsyieORHWjFzYJGR4w/M8tD1eH9iDKWbMHv5Jgf+IwlrHxLJB
-	usD4/MSGgmm58e7uu+YwBIbmwpP1nLJ/M2O1xRpIi05kCSpf/p72CvGX11rD3GHaQbT2Eq
-	oetmXAEU064lrnsbFA+yaG0sVJJyMwU=
-Date: Tue, 20 Oct 2026 16:36:55 +0200
+	by smtp.kernel.org (Postfix) with ESMTPS id 2A7751F000C9;
+	Tue, 20 Oct 2026 23:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792540402;
+	bh=gN0ju8lD81Sz1gc8sNBSSmRi9TErZR5ipKv96L1LgaY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=aGkCXRtpC0or3gEmzbjpEJic9B2qM3E5Kg4IjQncI7M3S7657e2FivPIiEMEZw+r3
+	 jJVubdBG1R38ftg2434RGaN8tCXxdi+3xBkhYJdss5n84ZzhFYH4eGopPJp5JmM7gu
+	 0AYcI+XsS1UPIhjY1ObLV4fiyjZpzNZJfpA85swasNt+OZSyTKqCfNDtbnq8qbRrDv
+	 eNPMUPnPDpnUJGqPp5Jz2ZpSvz8riwnKi7M95Ky/dO7t8SYEbY3Iwjq24j5GYK2CHY
+	 U5e5yOCgdPI/fssr6cNoGFbt5NDkYonAMaapF386eVpivYXRVCn3v5NLEtvK6B8PnU
+	 Vydixk8nuC9EA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 88B034325C;
+	Tue, 20 Oct 2026 23:53:21 +0000 (UTC)
+From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
+Date: Wed, 21 Oct 2026 10:53:20 +1100
+Subject: [PATCH v2 1/2] arm64: Add CPU part numbers for newer Apple Silicon
+ CPUs
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -54,76 +83,99 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] arm64: Apply existing Apple CPU workarounds to M3 and
- M4
-To: Marc Zyngier <maz@kernel.org>,
- Michael Reeves <michael.reeves077@gmail.com>
-Cc: Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Myria Sarvay <myrialsarvay@gmail.com>,
- Yureka Lilian <yureka@cyberchaos.dev>, Fuad Tabba <fuad.tabba@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20261008-apple-m3-m4-kvm-v1-0-7bb4cbf3d63b@gmail.com>
- <20261008-apple-m3-m4-kvm-v1-2-7bb4cbf3d63b@gmail.com>
- <86cxtk2utm.wl-maz@kernel.org>
- <CANpmGNv4uYRLALMLKZn-HJwTiqJO90Fx23DOO7K7d-PfSWn=2w@mail.gmail.com>
- <86bj932ssc.wl-maz@kernel.org>
-Content-Language: en-US
-From: Yureka Lilian <yureka@cyberchaos.dev>
-Autocrypt: addr=yuka@yuka.dev; keydata=
- xjMEZ3vnnhYJKwYBBAHaRw8BAQdAn6RVMnaxLzmDDx+J3jSUGY7BqjyDhsWhdwKBSI6QpXfN
- Fll1cmVrYSA8eXVrYUB5dWthLmRldj7CjgQTFgoANhYhBPGINbLQ3ypM7JNhigKbtnC7kwpH
- BQJne+eeAhsDBAsJCAcEFQoJCAUWAgMBAAIeBQIXgAAKCRACm7Zwu5MKRx1qAP9ToLaOMd73
- VVf1JdwoMc5G44OZfKNk/+ezt9Dl2oqZdQD/Xvgd0lytU3BZ4WnYeMNzo2xHeRxXmX+MfXhA
- D33tzQ/OOARne+eeEgorBgEEAZdVAQUBAQdAIs9uImfvgSCnJOcfvzshLuaSRJ/a0Vp/9rUA
- eBGZq10DAQgHwngEGBYKACAWIQTxiDWy0N8qTOyTYYoCm7Zwu5MKRwUCZ3vnngIbDAAKCRAC
- m7Zwu5MKRyW9AP0dBOuwgWso+QjBZUsbuEmGGUz2OWtszs2Yb7087RMerwEA3al6E7vqq0HC
- 7LiB3nisU+xqQojJ4n/fWCu70iEkjQw=
-In-Reply-To: <86bj932ssc.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261021-apple-m3-m4-kvm-v2-1-04905152cc2a@gmail.com>
+References: <20261021-apple-m3-m4-kvm-v2-0-04905152cc2a@gmail.com>
+In-Reply-To: <20261021-apple-m3-m4-kvm-v2-0-04905152cc2a@gmail.com>
+To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>
+Cc: Myria Sarvay <myrialsarvay@gmail.com>, 
+ Yureka Lilian <yureka@cyberchaos.dev>, Fuad Tabba <fuad.tabba@linux.dev>, 
+ Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>, linux-arm-kernel@lists.infradead.org, 
+ kvmarm@lists.linux.dev, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Michael Reeves <michael.reeves077@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792540400; l=3412;
+ i=michael.reeves077@gmail.com; s=20261008-m3-m4-kvm;
+ h=from:subject:message-id;
+ bh=juCh5R4p12iRnVQ+5ShiPPNpDD7QYQmROKo57ewmfzo=;
+ b=xd1M2Vm/pX07aguQJcvtqE1esHZjP8TTsj2WXuu/Kgl1MA1T8FOezXwcpxMsXOpvoEXMhu6Pe
+ LZ08uLRwMngDkSFJAG1IA5yzYxFGrG7GYwxpZ+W0pn3NU42VQ0jyU5o
+X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
+ pk=oi7WuppQ1A+qFZp9DdfIwDnpC3WZ+XY6fJK1upV/CSY=
+X-Endpoint-Received: by B4 Relay for
+ michael.reeves077@gmail.com/20261008-m3-m4-kvm with auth_id=1131
+X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
+Reply-To: michael.reeves077@gmail.com
 
-On 10/9/26 10:16, Marc Zyngier wrote:
-> On Fri, 09 Oct 2026 01:03:57 +0100,
-> Michael Reeves <michael.reeves077@gmail.com> wrote:
->>> I can provide the binary (and a few scripts) to test this easily.
->>> Should they have been fixed, we can always create a second
->>> implementation list to cover the PMU.
->> Can you please send that so we can try? That would be much
->> appreciated, thank you.
-> I've sent you (and Yureka) details over IRC. If you need help with
-> setting things up, let me know directly.
->
-> Thanks,
->
-> 	M.
+From: Myria Sarvay <myrialsarvay@gmail.com>
 
+Add CPU part numbers and MIDR definitions for M3, M3 Pro, M3 Max,
+base M4, A18 Pro and M5 Pro so CPU workarounds can identify these cores.
 
-Hi all,
+Use the SoC codenames for M4, A18 Pro and M5 Pro, with suffixes for
+their core types, as separate core codenames are not known.
 
+Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
+Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
+---
+ arch/arm64/include/asm/cputype.h | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-sorry for the long delay on this. I needed to get my testing setup in 
-shape to be able to run the tests with the limited amount of I/O I have 
-working on these devices.
-But I can now confirm, that the following SoCs reproduce the SEIS 
-erratum (produce a host SError using the binary sent by Marc) unless the 
-MIDR part numbers are added to the has_broken_gic_v3_seis list.
+diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+index 1fa29616e..86adfebcb 100644
+--- a/arch/arm64/include/asm/cputype.h
++++ b/arch/arm64/include/asm/cputype.h
+@@ -155,6 +155,18 @@
+ #define APPLE_CPU_PART_M2_AVALANCHE_PRO	0x035
+ #define APPLE_CPU_PART_M2_BLIZZARD_MAX	0x038
+ #define APPLE_CPU_PART_M2_AVALANCHE_MAX	0x039
++#define APPLE_CPU_PART_M3_SAWTOOTH	0x042
++#define APPLE_CPU_PART_M3_EVEREST	0x043
++#define APPLE_CPU_PART_M3_SAWTOOTH_PRO	0x044
++#define APPLE_CPU_PART_M3_EVEREST_PRO	0x045
++#define APPLE_CPU_PART_M3_SAWTOOTH_MAX	0x048
++#define APPLE_CPU_PART_M3_EVEREST_MAX	0x049
++#define APPLE_CPU_PART_M4_DONAN_ECORE	0x052
++#define APPLE_CPU_PART_M4_DONAN_PCORE	0x053
++#define APPLE_CPU_PART_A18_PRO_TAHITI_ECORE	0x060
++#define APPLE_CPU_PART_A18_PRO_TAHITI_PCORE	0x061
++#define APPLE_CPU_PART_M5_PRO_SOTRA_MCORE	0x064
++#define APPLE_CPU_PART_M5_PRO_SOTRA_PCORE	0x065
+ 
+ #define AMPERE_CPU_PART_AMPERE1		0xAC3
+ #define AMPERE_CPU_PART_AMPERE1A	0xAC4
+@@ -250,6 +262,22 @@
+ #define MIDR_APPLE_M2_AVALANCHE_PRO MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_AVALANCHE_PRO)
+ #define MIDR_APPLE_M2_BLIZZARD_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_BLIZZARD_MAX)
+ #define MIDR_APPLE_M2_AVALANCHE_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_AVALANCHE_MAX)
++#define MIDR_APPLE_M3_SAWTOOTH MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M3_SAWTOOTH)
++#define MIDR_APPLE_M3_EVEREST MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M3_EVEREST)
++#define MIDR_APPLE_M3_SAWTOOTH_PRO MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M3_SAWTOOTH_PRO)
++#define MIDR_APPLE_M3_EVEREST_PRO MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M3_EVEREST_PRO)
++#define MIDR_APPLE_M3_SAWTOOTH_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M3_SAWTOOTH_MAX)
++#define MIDR_APPLE_M3_EVEREST_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M3_EVEREST_MAX)
++#define MIDR_APPLE_M4_DONAN_ECORE MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M4_DONAN_ECORE)
++#define MIDR_APPLE_M4_DONAN_PCORE MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M4_DONAN_PCORE)
++#define MIDR_APPLE_A18_PRO_TAHITI_ECORE \
++	MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A18_PRO_TAHITI_ECORE)
++#define MIDR_APPLE_A18_PRO_TAHITI_PCORE \
++	MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A18_PRO_TAHITI_PCORE)
++#define MIDR_APPLE_M5_PRO_SOTRA_MCORE \
++	MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M5_PRO_SOTRA_MCORE)
++#define MIDR_APPLE_M5_PRO_SOTRA_PCORE \
++	MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M5_PRO_SOTRA_PCORE)
+ #define MIDR_AMPERE1 MIDR_CPU_MODEL(ARM_CPU_IMP_AMPERE, AMPERE_CPU_PART_AMPERE1)
+ #define MIDR_AMPERE1A MIDR_CPU_MODEL(ARM_CPU_IMP_AMPERE, AMPERE_CPU_PART_AMPERE1A)
+ #define MIDR_MICROSOFT_AZURE_COBALT_100 MIDR_CPU_MODEL(ARM_CPU_IMP_MICROSOFT, MICROSOFT_CPU_PART_AZURE_COBALT_100)
 
-The affected SoCs are:
-- T8132 (M4)
-- T8140 (A18 Pro)
-- T6050 (M5 Pro)
+-- 
+2.56.0
 
-So please add those to the list for v2 of this series, and probably also 
-add T604x (M4 Pro/Max) and T8142 (M5) since I doubt they will be different).
-
-
-Thanks,
-
-Yureka
 
