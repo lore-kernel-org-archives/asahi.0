@@ -1,79 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792540403;
-	b=z5km9pBemzL1cCmv3a6U9PrART5Hwa7RK7RPFyeu1RVCyoG/YI74S/xUq0NXpQt4N5cq
-	 8ULJ2B1Y4Z0XcMYrKVH2NPQ2yQ8Ocqn0F/bM06BRPi5Z3Z8D1qXkOiOnvbSgz30RHF+h6
-	 z7LxOUYLnmfDGHMLDweF2rWruE/k8bKWNjC4W5mfnpCi0za9+L+7bjkoy7W6bFWM8Gz52
-	 eYkoDxPvR4NTEm8ods/88id9ucwueZz1+6QZhSD11Hole1/Uc/SxAzJwSouM57lO6KZNW
-	 TH5qw0M/SDvYpKr2cAPvbcAQkKt+aHdAPvIrS/Kcl7zXG1V0j3dyPin5CNFP0xQ/gvg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792540403;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=8uxk441ISQMCr6ffs1OiNE54QJj6KTHjiAkmGI9m0+8=;
-	b=r2XYTrW74/feiBgoWg0bM+YG1UyXDFKIfEkHBm6rKc+D00e8rb/UCa8fs+JDsYMlAX3j
-	 BePv57Vc/GvPfwmua4768uElfAPniMOfFg7u2HTpyxXcQO3E02zGt39DKa4JhTnUuRmu6
-	 7YgTSyuK8P3hsnU+51iz8Z5PQSjse1EVV+XqH9XnJs2J6RidIMqtkYjqtBznSOaPGCL0l
-	 R27Rr6PurSHK4JQdzNANGXggVb7BEQ500TXJ11ixXT4rOFkOhtRGHkA6AFDP/DC8t/Mmd
-	 2s156T6tQp05Zfx844yxfRxAgRlh8rySMBtckkULmKyo2nb+ANdU2d8Ec9PFspYn5GA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AnYzOoRA;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792553422;
+	b=4m46IfhoUC1qGHV2YGHy5qodsiRuwXjK4vkJEUAj9HXyGT1QpmDV/ZRyXLv60riiMdoo
+	 dYjOga0u9zQf1cwPHfyUup9sil/WK+QQxKfJvrlkWj4/SdQoWjOCoOUHfUH9JfVnbbwRq
+	 JtRxFZHRx4NNHEERQw2OmFTTZgLWEGEAz9y+XE5nVmrzGccxghLjblfD/uCRQA4ei35pc
+	 dG+ZpBV+tT+043FvHnczDUJReAilTzCyFZ86PjuXeeRXfI6WOFziSkfGy2GIEQFFzHpM2
+	 lQMCkTmG+ho4IvnITdhI33dHTNs1OAc6CCEnTRjxtQXzdCVP8VwlV2ppR7FIqghEVBA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792553422;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=jlz4yAXFlCLddpIKqlcUUKEQPJQbALduC2YYrpZf6jI=;
+	b=VlEPN9q7Qs8XBF/tLUTvJ3hYme/nHLlGu8OG+MBhmf97LCH9HY2rDzSmRwV6gCj4Ur5U
+	 Z95aLPtc5eJyyEeAmg1t1h7dRjFOTk9CsJZUpdRrSDJ9KVxZSaKXilyb4Uw9NyJsJF26g
+	 bDM65nGWi96g8X0KSC32wBrAihphJemgWGR3CTUL0F9H0H92it/IxaQiLxrhf8yL1orNm
+	 EZ4QtZ2bXOzYiLM5b7/2l/P6A89jbs8XUhzYlrHEY+EpZ/jKlGwScJwlWWXzn583JOJjk
+	 MlQGtt6qSvr0hahpHkA3eP99fw9bKyCaNxsGJm0LhIAwus4Xle/qbFD9mPclilh/Ezg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lb1AQ8QN;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5AF606A31F;
-	Tue, 20 Oct 2026 23:53:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1349B606A31F;
+	Wed, 21 Oct 2026 03:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AnYzOoRA
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792540403;
-	b=vGtGllpzHJmtTtoDXCg/wNdQpRXjzeagkkaUhC3kYSrjoAieobwOfjcNRGqwEagu29v2
-	 DZXyMIifnQAme7k/RnKFngawG4x32GnlrSXbyvVnqqnFHMyVhlPZp/r3R2bFKWxYWk7Gy
-	 CjP/qCzYaXmXZzuGktnMEe/C7Owv8Kioj1U9da1N0YbDcYFEd4FHYfe7GDl4gObI3rk72
-	 skCH/Z9g1oBTBTtluGgfaEmBI2O4j9V47Ch2utlsiFFcsW6NPv/LrqxqHMOGjnh/QL+Po
-	 uIntX9QulJdGvObW1GIT77B2MITl+l5Lo5wsrtG04bv6gvogOF3NP5pgdb64hjNlNOw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792540403;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=8uxk441ISQMCr6ffs1OiNE54QJj6KTHjiAkmGI9m0+8=;
-	b=3dBVmFlcpKRT4qxnYtLyF8fPXafZ0YSqKi92slRHj7qIzoo9rHxhWEYF5c9DZ87RXVl1
-	 FW/zT+seH/RfyA1byFPttSi/y79qWyrbEfjQiC1IeZ0GhpFJfgAh+pbjNZ4PCf8cbDsab
-	 09K+qKBYIBNuugIbSjL/cNDmZwuK0/qjwJsAbzXiaAkAJfhlDlKRmS6YTOm0Ia0yEcJYL
-	 Gu3UgLkUxYj2r/umXtFIwE8aLcZ+Eyzgw/O+NThOu7lwL0agUDy+dy4A49/HJg7ZIQcUm
-	 dXgZ6oLbsPYuid6fqklMZs4CJUaT9nmjMnzzzGYrNTfp7SAkHH7lOKrYpPd4aiU//7w==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2A9121F000CA;
-	Tue, 20 Oct 2026 23:53:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lb1AQ8QN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159A51F000C9;
+	Wed, 21 Oct 2026 03:30:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792540403;
-	bh=8uxk441ISQMCr6ffs1OiNE54QJj6KTHjiAkmGI9m0+8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=AnYzOoRAI98rD6gX9bom8k7NKqrMiXMN8Iper7cSb6a3qGGkCzUL1Y8tU6xFgvcZ1
-	 qrs3MphwSNQmt5Uim4Z3xqmG5mW6058AhgnFfT5a0EuVm9T8+MtBoCFQ04p+nz49p8
-	 4eM6JORqX1/4J1wSqVZwnfiMNHH7tDfWocuXX7IXV7e/e1tXTVHXy+yaLXZXa6rPIM
-	 cgZKS5mXoYVAnU0JUSdyyouURFr78EXAnFKHO8l4J1j2S7svNAJSKaaG/t/QVSNa3Q
-	 ztORLw6d0Ok9MCjzm2d7HU7JrNTzeer3DFhT5fmgdLqayEvlo5S3GgAZlJR9hxL7B7
-	 EviZIwlXSMLqA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9015B43267;
-	Tue, 20 Oct 2026 23:53:21 +0000 (UTC)
-From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Wed, 21 Oct 2026 10:53:21 +1100
-Subject: [PATCH v2 2/2] arm64: Apply existing Apple Silicon CPU workarounds
- to newer CPUs
+	s=k20260515; t=1792553421;
+	bh=jlz4yAXFlCLddpIKqlcUUKEQPJQbALduC2YYrpZf6jI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lb1AQ8QNcJ5TpHSken/esH7w1Q4cbkTAgABJzIhuwNKcrW75N23Pif2C1+BgVD1SZ
+	 +E4MI1zGyaa8cvK38W+AV+M6dL1Q+NPLOhrTN4TV1QJTjy+XW8prajnikO7QDecqIm
+	 ZIkMF2s/Vam4OXzlkbrRm3u7XQ4T1KH42W1KibzBMkGWgfumOpvRQiMtuVAjRy4qs+
+	 +PGn5h4s1dCW+N6DCRwr5rRZ4znI2lNjHlOu/bs9HleiZkFg3t65VIreR5+pD6t7Ya
+	 zxt5iPTb6FMjrWJYL4autYSkuZnQsZ6GLsJcSQMgpurxyPwBrHZMGICDHuEkoSEqBG
+	 +px0aasmivaRQ==
+Date: Tue, 20 Oct 2026 22:30:19 -0500
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v3 03/21] ASoC: dt-bindings: Add binding for Apple
+ Silicon Mac audio
+Message-ID: <20261021033019.GA4002608-robh@kernel.org>
+References: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
+ <20261018-macaudio-v3-3-abdff7741dea@gmail.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -83,103 +75,204 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261021-apple-m3-m4-kvm-v2-2-04905152cc2a@gmail.com>
-References: <20261021-apple-m3-m4-kvm-v2-0-04905152cc2a@gmail.com>
-In-Reply-To: <20261021-apple-m3-m4-kvm-v2-0-04905152cc2a@gmail.com>
-To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>
-Cc: Myria Sarvay <myrialsarvay@gmail.com>, 
- Yureka Lilian <yureka@cyberchaos.dev>, Fuad Tabba <fuad.tabba@linux.dev>, 
- Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Zenghui Yu <yuzenghui@huawei.com>, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, Sven Peter <sven@kernel.org>, 
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Michael Reeves <michael.reeves077@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792540400; l=2838;
- i=michael.reeves077@gmail.com; s=20261008-m3-m4-kvm;
- h=from:subject:message-id;
- bh=PFEvneEC+/aHCyp+lZlYQ70fLEswRlQt4crDxkng4ZM=;
- b=tdzSqkZ6HaKIHAWImFyWY66JwbtNxJmwuTwJTnGZZiLnX6q5CW+eemkITphNFG4ER38EIwCOr
- 6m8dQm1oFgJBeqMtTnFaL2l0m6ROA2s5BnrD3vmK7nq+4wKb+MQO9vF
-X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
- pk=oi7WuppQ1A+qFZp9DdfIwDnpC3WZ+XY6fJK1upV/CSY=
-X-Endpoint-Received: by B4 Relay for
- michael.reeves077@gmail.com/20261008-m3-m4-kvm with auth_id=1131
-X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
-Reply-To: michael.reeves077@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261018-macaudio-v3-3-abdff7741dea@gmail.com>
 
-From: Michael Reeves <michael.reeves077@gmail.com>
+On Sun, Oct 18, 2026 at 03:53:57PM +1000, James Calligeros wrote:
+> From: Martin Povišer <povik+lin@cutebit.org>
+> 
+> Add a binding for the primary audio subsystem found on Apple Silicon
+> Macs. This binding integrates the codecs and SoC I2S peripheral
+> used for driving the headset jack and speaker arrays on all Apple
+> Silicon Macs. The internal microphones on this platform are
+> connected to a distinct coprocessor and are not part of this
+> "main" audio subsystem.
+> 
+> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+> Co-developed-by: James Calligeros <jcalligeros99@gmail.com>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  .../bindings/sound/apple,macaudio.yaml   | 212 +++++++++++++++++++++++++
+>  1 file changed, 212 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/apple,macaudio.yaml b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
+> new file mode 100644
+> index 000000000000..af8e9686ba7b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
+> @@ -0,0 +1,212 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/apple,macaudio.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sound peripheral integration for Apple Silicon Macs
+> +
+> +description:
+> +  The speakers and headphone jack on Apple Silicon Macs are
+> +  part of an integrated audio subsystem comprising of Apple's
+> +  I2S peripheral (MCA) and a series of codecs. The machines
+> +  have a wide variety of topologies ranging from a simple
+> +  mono speaker in the desktops to complex stereo arrays with
+> +  dual-opposed woofers and tweeters all driven by their own
+> +  mono amplifiers. This arrangement can be expressed as a
+> +  set of DAI links, where the MCA ports each codec is connected
+> +  to are represented by the CPU side of the link.
 
-Add M3, M3 Pro, M3 Max, base M4, A18 Pro and M5 Pro to apple_cpus
-so they receive the existing PMU trap and broken SEIS workarounds.
+Wrap lines at 80 chars.
 
-Add these CPUs to has_vgic_v3 so KVM detects TDIR support and can
-trap guest DIR accesses without trapping all common registers.
+> +
+> +maintainers:
+> +  - James Calligeros <jcalligeros99@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - apple,j180-macaudio
+> +              - apple,j274-macaudio
+> +              - apple,j293-macaudio
+> +              - apple,j313-macaudio
+> +              - apple,j314-macaudio
+> +              - apple,j316-macaudio
+> +              - apple,j375-macaudio
+> +              - apple,j413-macaudio
+> +              - apple,j415-macaudio
+> +              - apple,j456-macaudio
+> +              - apple,j473-macaudio
+> +      - items:
+> +          - enum:
+> +              - apple,j493-macaudio
+> +          - const: apple,j293-macaudio
+> +      - items:
+> +          - enum:
+> +              - apple,j414-macaudio
+> +              - apple,j504-macaudio
+> +              - apple,j514-macaudio
+> +          - const: apple,j314-macaudio
+> +      - items:
+> +          - enum:
+> +              - apple,j416-macaudio
+> +              - apple,j516-macaudio
+> +          - const: apple,j316-macaudio
+> +      - items:
+> +          - enum:
+> +              - apple,j475-macaudio
+> +              - apple,j575-macaudio
+> +          - const: apple,j375-macaudio
+> +      - items:
+> +          - enum:
+> +              - apple,j613-macaudio
+> +          - const: apple,j413-macaudio
+> +      - items:
+> +          - enum:
+> +              - apple,j615-macaudio
+> +          - const: apple,j415-macaudio
+> +      - items:
+> +          - enum:
+> +              - apple,j457-macaudio
+> +          - const: apple,j456-macaudio
+> +      - items:
+> +          - enum:
+> +              - apple,j474-macaudio
+> +          - const: apple,j473-macaudio
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  model:
+> +    description:
+> +      Model name for presentation to users
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +
+> +patternProperties:
+> +  "^dai-link(@[0-9a-f]+)?$":
+> +    description: |
 
-Co-developed-by: Yureka Lilian <yureka@cyberchaos.dev>
-Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
-Tested-by: Yureka Lilian <yureka@cyberchaos.dev>
-Tested-by: Myria Sarvay <myrialsarvay@gmail.com>
-Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
----
- arch/arm64/kernel/cpu_errata.c | 12 ++++++++++++
- arch/arm64/kernel/cpufeature.c | 12 ++++++++++++
- 2 files changed, 24 insertions(+)
+Don't need '|'.
 
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index e0c094025..bc91bc13b 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -288,6 +288,18 @@ static const struct midr_range apple_cpus[] = {
- 	MIDR_ALL_VERSIONS(MIDR_APPLE_M2_AVALANCHE_PRO),
- 	MIDR_ALL_VERSIONS(MIDR_APPLE_M2_BLIZZARD_MAX),
- 	MIDR_ALL_VERSIONS(MIDR_APPLE_M2_AVALANCHE_MAX),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M3_SAWTOOTH),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M3_EVEREST),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M3_SAWTOOTH_PRO),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M3_EVEREST_PRO),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M3_SAWTOOTH_MAX),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M3_EVEREST_MAX),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M4_DONAN_ECORE),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M4_DONAN_PCORE),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_A18_PRO_TAHITI_ECORE),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_A18_PRO_TAHITI_PCORE),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M5_PRO_SOTRA_MCORE),
-+	MIDR_ALL_VERSIONS(MIDR_APPLE_M5_PRO_SOTRA_PCORE),
- 	{},
- };
- 
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 3ae3ad1a1..bb82b80b3 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -2357,6 +2357,18 @@ static bool can_trap_icv_dir_el1(const struct arm64_cpu_capabilities *entry,
- 		MIDR_ALL_VERSIONS(MIDR_APPLE_M2_AVALANCHE_PRO),
- 		MIDR_ALL_VERSIONS(MIDR_APPLE_M2_BLIZZARD_MAX),
- 		MIDR_ALL_VERSIONS(MIDR_APPLE_M2_AVALANCHE_MAX),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M3_SAWTOOTH),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M3_EVEREST),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M3_SAWTOOTH_PRO),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M3_EVEREST_PRO),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M3_SAWTOOTH_MAX),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M3_EVEREST_MAX),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M4_DONAN_ECORE),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M4_DONAN_PCORE),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_A18_PRO_TAHITI_ECORE),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_A18_PRO_TAHITI_PCORE),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M5_PRO_SOTRA_MCORE),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_M5_PRO_SOTRA_PCORE),
- 		{},
- 	};
- 	struct arm_smccc_res res = {};
+> +      Node for each sound peripheral such as the speaker array, headphones jack,
+> +      or microphone.
+> +    type: object
+> +    $ref: tdm-slot.yaml#
+> +    additionalProperties: false
 
--- 
-2.56.0
+Using tdm-slot.yaml properties, but then disallowing any of them?
 
+> +
+> +    properties:
+> +      reg:
+> +        maxItems: 1
 
+Constraints on the reg values?
+
+> +
+> +      link-name:
+> +        description: Name for the peripheral
+> +        enum: [ Headphone Jack, Speaker, Speakers ]
+> +        $ref: /schemas/types.yaml#/definitions/string
+> +
+> +      codec:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          sound-dai:
+> +            minItems: 1
+> +            maxItems: 8
+> +            description: |
+> +              DAI list with the CODEC-side DAIs connected to the above CPU-side
+> +              DAIs and involved in this sound peripheral.
+> +
+> +              The list is in left/right order if applicable. If there are more
+> +              than one CPU-side DAIs (there can be two), the CODECs must be
+> +              listed first those connected to the first CPU, then those
+> +              connected to the second.
+> +
+> +              In addition, on some machines with many speaker codecs, the CODECs
+> +              are listed in this fixed order:
+> +
+> +              Four speakers: Left Front, Left Rear, Right Front, Right Rear
+> +              Six speakers: Left Woofer 1, Left Tweeter, Left Woofer 2,
+> +                            Right Woofer 1, Right Tweeter, Right Woofer 2
+> +
+> +        required:
+> +          - sound-dai
+> +
+> +      cpu:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          sound-dai:
+> +            minItems: 1
+> +            maxItems: 2
+> +            description: |
+> +              DAI list with CPU-side I2S ports involved in this peripheral.
+> +
+> +        required:
+> +          - sound-dai
+> +
+> +    patternProperties:
+> +      "^dai-tdm-idle-mode-[0-9]$":
+> +        $ref: tdm-slot.yaml#/properties/dai-tdm-idle-mode
+
+Extend tdm-slot.yaml if it doesn't work for you instead of defining a 
+new property using an existing property.
+
+> +
+> +      "^dai-tdm-slot-tx-idle-mask-[0-9]$":
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: Idle slot mask. A bit being set to 1 indicates
+> +          that the corresponding TDM slot is inactive/idle.
+
+Extend tdm-slot.yaml...
+
+Rob
