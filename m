@@ -1,111 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792575883;
-	b=UgIz++TJwkNlkHr1hPgSn+z9jjulc1NfU1yUS2YmJna+M7hf0jX55+zdWZO8lQE1+nal
-	 s4sBmTk9+s1aiKmEu4vQOdPGeDIXLorwp1siFYKd3bkXNyaGFr0USkFcLpy5HeQrCQppd
-	 IJI1fQfYY14AfmtJEFeNHVJgBcFueaRBbiHhWqGC/qZDLEUodufIlMOU8aE3y6eRJMiQj
-	 DRim49Yuq9dhDJ9Njr4jdLoNumnHw+HfaNX6PjNSlNI44QlONxnO4slygCM+jW2IfSEcw
-	 bRItR11CBPKtnHLSmOafBLHcEDl/bPfVgXrVDFQH2aPo+5CYMqt97FjG5g2B9rqPHGQ==
+	t=1792686836;
+	b=Y0IUXX9+OKuyRzO0N3n/oBMldrSBt2A+Rnch2lbgI3XUso5e6n9TapiJ7jUgkorvbuyq
+	 hkv4n0k3bbwUYD+89xKXhRR3Z9xqwC+VY07BxOuEHB0P80hby7oCbpHoHLS9VOdq8bBDA
+	 yeDs7+6TbvY1d9OjjwIGfITDG8xF4Ofpy0N1EtSjqT5jWjaGNoEj7E5l4ScS9wcHSbmcy
+	 bPglPPGj33Ymz0DoZbMjhk8uvuZZK7eOVmrk8wI9Mb3hK7Aqdj31pLWOEO+ZwkRt8biO/
+	 6X/h08LlkscmAezytv0DNtd6RagN+ILmYRvt1zGpS8EVf1SjovYDh+xB8HAvSjpE1Lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792575883;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=ZICGnoDUzzWlAQIxspOsX/uJiYZvuNvYB+Jhm0X2C4U=;
-	b=X2Vf47zHik1vydbKQzEfP7bnfGZyELWVyTKpBluGaTCxHBKQ1TMQ/mZODbGRVR4jLsnJ
-	 I0sEag2fbTGqMOYol/73hF7FLlq2T/e0WqPHN06TtBfioCjnrAraIO8URVu0/KXPLRw6U
-	 p+IGvqDw9AIRCTH0tmUlzn07W9qy7H3h6oxrWmwOtYhexCX4QJl803Z0WgOboTXqi177z
-	 0uJFBB4POj8Q6Js78dMIAZAf1xamu/IXMaqFADHlVb3A3MCk1tqR3SpBFfr2oABqjjUVP
-	 xhbLg8Fzpp7/fAyG37eS+QIeLn4oMDRSjxrbgdy4EmEDX1ODXz/ymSfMqLH0ZI4tyoQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792686836;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=68+IeagKgDrW1nl1tCiiDqs5Zxn2UgVcp46ojvUcCbA=;
+	b=uBkJwqBYy9JSO151bHObz0IQUphhUKst+l/nxXRHsZSd0ESuTuLW/Dp7kMxaS8N2+gkt
+	 5vG/KT9S98lbuKXGbE0qJEMXFPAMobHhz8wgv/OfOY90dvG1+N4pBwCC5gBz9pStkRWT5
+	 mU53FyKZ7tKyMm46eYi2SevlxR/Hd0nh/zriTVIKExFFt5eD8fcLfChQ44AN/XttlPU1J
+	 Wm2sD8NaiHITQYrT1cQGKiG8HwPIuHK408ZEzlazkvnpbSNThwN3kRWUgCm+CQskbu/Zv
+	 Qkv30FQi8JDLc0tvfV4scpuwnnoQkRUWG0J5XzfkrvbEct+IALNKlxQwHx3ChFZqaGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ahXk7078;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dZFbn7jY;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qaiM1DEa;
+	arc=none smtp.remote-ip=209.85.219.43
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31E4606A31F
-	for <asahi@lists.linux.dev>; Wed, 21 Oct 2026 09:44:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E31E4606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374BF606A31B
+	for <asahi@lists.linux.dev>; Thu, 22 Oct 2026 16:33:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 374BF606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ahXk7078;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dZFbn7jY
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69L5jCnZ3711978
-	for <asahi@lists.linux.dev>; Wed, 21 Oct 2026 09:44:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZICGnoDUzzWlAQIxspOsX/uJiYZvuNvYB+Jhm0X2C4U=; b=ahXk7078Eg6/b5Ya
-	BEW6RV60mcxyAc3S+r/XwNQA8a5FhN9ioUdntl5Hh2qEPJaAB6KJuZlvz+rwprEr
-	g9xvPfooth56P+Qs5KIVFP2xPsqNgZwEUq5snCTWrGa5e0dF2G6yPPYDAGQItnKg
-	81trmTb8mz34C1Dmny8QhvNV3lb85iZ+kxmKXeA2I2S6OZ3yk9DIxFvB+qojIotU
-	Z48gmHMqxhI7tsRmT7aDo5PSGmiAvuftosIIImUw7c6r+js6IcXjgqXE20fKdRBV
-	4WH7b66ZvGpz36jOQ+09QSNZX1NusCJY5yu+W3FdP3QLkRHhpjiCi4AfJHXpISgh
-	DhIygQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hed9v3c1u-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <asahi@lists.linux.dev>; Wed, 21 Oct 2026 09:44:41 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93cc50fb0d2so8498085a.0
-        for <asahi@lists.linux.dev>; Wed, 21 Oct 2026 02:44:41 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qaiM1DEa
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-91befe703c4so531006d6.1
+        for <asahi@lists.linux.dev>; Thu, 22 Oct 2026 09:33:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792575881; x=1793180681; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZICGnoDUzzWlAQIxspOsX/uJiYZvuNvYB+Jhm0X2C4U=;
-        b=dZFbn7jY/mZMQKRPLDJJSXjh7ZMDl3YM6xdcYX1d7GJEoTTEJbcIuJWIikH7BTHwhU
-         oHLGFd5HUPd6dLtT+h+Q3cVFTyJXxRAf7ffQlbdgmLOOGiLDgyrL0hdIIjm3ctkLox+Z
-         Pg73axFajVNqZ7ruUhIC3NTkbfLXpEFSkdqt6uTkUi4slc2TbrBEfgX0Pb4wZ74TGS2B
-         cF8roNWzZgHVv1F5X8ZYyeBlnq0ISTfyu5c/DR011eWl7djUPxMSK8aEkU+sXoL71zPf
-         ZcgcYFSujzpLAne2jK6DlW6D6bL8+riL1V/9MwLHt+STb4TMaqX1RQ18DSxgVkNAxp1J
-         nQCg==
+        d=gmail.com; s=20251104; t=1792686835; x=1793291635; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=68+IeagKgDrW1nl1tCiiDqs5Zxn2UgVcp46ojvUcCbA=;
+        b=qaiM1DEaOhw0u3fobOoWvg8EPzfHlUGr51vRoJEPQaw0UUPDIHEtiEtPwjnj22GGox
+         Sn2vBwzlYP934LnUVZ+BJmui967tZ9Cuuj7VoWkKeGcXp13Qw+UEywTmOtNPLNeYDvSN
+         AHGiIXllQu9D7p2g02P3FPb0WDE9+er7p8oAukHQzEHvBsTwnkvwV0dCgdUpXDUKtDKJ
+         1vT7iEp7dsuENhQQiR81dwNUElgaFMarArRbIFIKZ79G6wsKdU5NtWmd3Lo8mdK/GPUL
+         TSKelGQrag+7Twqan5p4FQPl8Kj4rsUWzk4co77BWK5gM421uZ3HCcnLSr++D/3pbdpW
+         ckNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792575881; x=1793180681;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1792686835; x=1793291635;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZICGnoDUzzWlAQIxspOsX/uJiYZvuNvYB+Jhm0X2C4U=;
-        b=ZPc016QCcAhqep9QaA7KXZE8P+SsByMvs9skh+ztGaXotjnEswwh+HNOCR3JzbtXgs
-         +Rc8hVbWQIGr4nJq24HQtvNp4iRFpdzw3Gv/EjWS6tNjyGhIwcsiO09vjhMJeBGW3mqD
-         dn/Y84IHocCqXmaEgbZloouCDvorNdkm71D1i3CT6XVxZeABgYQsImxr8fGbN6wyyCSB
-         jzTjbbVC+eMoZXEkonXK0P5hODY7lVUyM2a0AWyZ16FOn7akX8LPpSJgl4+3FuW5xX/J
-         +bwSoY+S0l+n6rBnJXkZcFmPEWJBmYZj9gG5RLw5xKhjCJT6fpdJTyv8W2p9RFRXTDVA
-         CigA==
-X-Forwarded-Encrypted: i=1; AKwUvBx3b+qERXpJq9xSl1d8oujUaIel/9KBX7NpyDOPcAcgyHqmULsoMYslGZ6Sxxp8jZWBK8wHYw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJXqZy1785LEH75QGM2LcsJ1cbENYN687JdfVAchOX6bYAxkIf6
-	D4/IJgWQ+sWoZ3Nj9GrzoGniIBFvA9Yvc1VmN+5SfFdMokpKeXrQlsdcGjMoSqP642UyHoP56xG
-	D+s38HrASiHjWL48gTGgAVKLdGBMziM7cgVJg/g9vrmA9ibbhwdwLRbMJ8Q==
-X-Gm-Gg: AYBFou2mPEL9CIEhtGhSdVYirPmXDazKAO7yPmihm07qxLNBAbY+yvr5QlonPUSQ3Uj
-	cXcFU/8l8vr5VMN7Mf2KHtAE8x4FQPbDoWZ4qwwR/Evf2vewfuwvEFEJJ/cmXr9eNvrGDKarRKK
-	BFEqTy0z7e68skdDPZPWOkxcKqY5JeTGRNzVRbRYKgIDw9KgpNT7DDlHNieqU2h3IdzozdRsHoS
-	n0K2oFMlYWTzUPuMj0e9/DWpNhyy84DaR9VDRdOpvazKEk9uYhRDfJAoOIqXW8pklBSlZHCsPSB
-	3kC9YxF4VAvweDxLOMo3GD6+gjzyisn592A2sAjMN998Qi99N2eSL/JSTrYAXmdOq4xEOQFltrN
-	dPLtlL0CTv2P+tPeSG5idnQ==
-X-Received: by 2002:a05:620a:4511:b0:93e:6d87:4f69 with SMTP id af79cd13be357-93f57f3bf10mr367396385a.3.1792575880960;
-        Wed, 21 Oct 2026 02:44:40 -0700 (PDT)
-X-Received: by 2002:a05:620a:4511:b0:93e:6d87:4f69 with SMTP id af79cd13be357-93f57f3bf10mr367390585a.3.1792575880494;
-        Wed, 21 Oct 2026 02:44:40 -0700 (PDT)
-Received: from [192.168.226.26] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4678f7cc2csm59794166b.24.2026.10.21.02.44.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Oct 2026 02:44:39 -0700 (PDT)
-Message-ID: <8ceba969-91d2-4b43-81d0-b26e7139664b@oss.qualcomm.com>
-Date: Wed, 21 Oct 2026 11:44:31 +0200
+        bh=68+IeagKgDrW1nl1tCiiDqs5Zxn2UgVcp46ojvUcCbA=;
+        b=2b+ma40defkJSFa+uo3uARrIQ2Q0lb4f3w2HCrFjV5HGIBTFcALmiy7k/lRGSpDAZh
+         e+fUp6QGXJg18CMV66kKdGQDNv+1xnmDzYGAV7qRujP1MSOQ3wBKHV//k9rqhPYLA3oH
+         mv995uFROOjC6BDLawNpizVkry2PvyUwjGEFgYtzGRZRSn3UF2Ub4v5VTBdldoC/BkrS
+         v0dZdMXoE8HNZ++wVZAd4wGssTbVTimgkIZCVkaXQn3xmQBeplvEhHnbQVY+WJFXZrQm
+         ovcmdd+FvaAJF2hPJF/x3od2RRM/Ry+5N8EAHqQda9i5LGuIXqxeX0sI8psgfRrad/p+
+         Dk2A==
+X-Forwarded-Encrypted: i=1; AKwUvByiXEPTXSTOKGi2FhpsOdPLR0M/G+Lh6k3diDaQ0mzT6WScrDI1PIw0zr3N7Oa4LFsUj7GxyA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLVKscCTJWas5YN9HLPIghlGAdktVhjSWpaFR5u9Q0iDSWis0Ta
+	QsCBa65ynAkqjCFV+7+FYzNOgpEB4KOopD6bFw7Xxz4Ahnj0eSKt2oNL
+X-Gm-Gg: AYBFou3AoypiofYZLb4dj5UlPnZ00oLUE1BTcE0QEhbQZSa8iXKxAgBeS0WLmddTNtV
+	0XbSdS9oDgyI5NnIDMv/nqVr4+WKZotHZp1DkX1jN020x5yY5YIW9AfU2Dz5wWaQhD2xIIsI/kf
+	9Qqw4ZaElt9U9GJm37y4NX/WN0oF57i4gwqmlIZOy48TZLzqRmsXyxyDAARVXTJZYxf0XFutoH3
+	/vr/CVS7Xcusxx4CdlfZ6/ALUjgkONfGuubRNTE6DH1FqtmWNWGcuDpbQkl6y0Q7kLqxLGTTTgS
+	KXXIHF0kK3UnmkXkEfO+W2cz/blGCudHx/oXJiVjoMYs8oUqxaRPxutx9fyTr7iRP3ZpwUeF+Fr
+	nMepkzczg0DpMLJiKs0B1PDWhEW2Ub+fhv699wntXSwI2pijkWrXQJvGopxo0XImjkzBwtx58GQ
+	hwJnx3i6nU8U9/gVM57dG0AL0YKGHCGKWvES32uDq0yUYV5rrP45xYA3q0UGrh/f2pDdpc3Up3P
+	qzYMeVHXLVyIX4bh1u551ixZcRsKOj16MYZ+h6QeIeemn0UES4K/CdqMvLlc1T2DkXLYFVV1dHf
+	DMB7dSk7Ty1JzZvoS5vETxvj
+X-Received: by 2002:a05:6214:2026:b0:91b:5d3a:4fcc with SMTP id 6a1803df08f44-91c12f57cd8mr99901036d6.57.1792686834990;
+        Thu, 22 Oct 2026 09:33:54 -0700 (PDT)
+Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c36f0abedsm1511396d6.3.2026.10.22.09.33.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 09:33:54 -0700 (PDT)
+From: Yuho Choi <oss.patchbox@gmail.com>
+To: Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>,
+	Robin Murphy <robin.murphy@arm.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yuho Choi <oss.patchbox@gmail.com>
+Subject: [PATCH v1] iommu/apple-dart: Report TLB flush failures from iotlb_sync_map
+Date: Thu, 22 Oct 2026 12:33:40 -0400
+Message-ID: <20261022163350.23743-2-oss.patchbox@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -115,144 +102,70 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: usb: snps,dwc3: Fix downstream port
- numbering
-To: Chen-Yu Tsai <wenst@chromium.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-        Neal Gompa <neal@gompa.dev>, Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>,
-        Ryan Chen <ryan_chen@aspeedtech.com>,
-        Billy Tsai
- <billy_tsai@aspeedtech.com>,
-        Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Peter Griffin
- <peter.griffin@linaro.org>,
-        =?UTF-8?Q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>,
-        Tudor Ambarus <tudor.ambarus@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>, Yixun Lan <dlan@kernel.org>,
-        Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-        Minda Chen <minda.chen@starfivetech.com>,
-        Shyam Pandey <radhey.shyam.pandey@amd.com>,
-        Wei Yang <yangwei1@eswincomputing.com>,
-        Senchuan Zhang <zhangsenchuan@eswincomputing.com>,
-        Hang Cao <caohang@eswincomputing.com>, Li Jun <jun.li@nxp.com>,
-        Peng Fan <peng.fan@nxp.com>, Roy Luo <royluo@google.com>,
-        Yang Xiwen <forbidden405@foxmail.com>,
-        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
-        Robert Marko <robert.marko@sartura.hr>, Xu Yang <xu.yang_2@nxp.com>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Stanley Chang <stanley_chang@realtek.com>,
-        Ze Huang <huang.ze@linux.dev>, Aswath Govindraju <a-govindraju@ti.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
-        imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-        Mathias Nyman <mathias.nyman@intel.com>
-References: <20261014082037.1774672-1-wenst@chromium.org>
- <20261014082037.1774672-3-wenst@chromium.org>
- <7020a7a6-332e-4fd0-a659-d82eb768614c@linaro.org>
- <CAGXv+5G1kgyumbj7wGf6rPFbg3spSO0zYmEkn-hZT4qUdJbytA@mail.gmail.com>
- <03375a31-0ac6-47a4-b0dc-6327080e1622@linaro.org>
- <b4c0761b-34f2-42ad-97e7-ab34ae776281@oss.qualcomm.com>
- <8d4d3ec2-3c97-4a46-97f8-048fdf81b853@linaro.org>
- <CAGXv+5G_ig=k-eH8Cp0ES70WxTHcBS2TVj9VmHaG9caROiAuQQ@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CAGXv+5G_ig=k-eH8Cp0ES70WxTHcBS2TVj9VmHaG9caROiAuQQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAzOCBTYWx0ZWRfX2Kp5rZJtwyHp
- 1SpfQJ76se7QSL7yNVt+Nn+xa2tvchFOcKKZNBm4XrBG2VLnxLfFmw+cr6CNwbr4W1bWM1PYS3Q
- hNP8PABXntqrqSlEWd8HaRb5mUycY40=
-X-Proofpoint-ORIG-GUID: ClNHOneNFdJxUy7RntOK9uop5L_SO0nD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAzOCBTYWx0ZWRfX4MnwMelS09BV
- 7q7NYnEdq/zxh3An6ZDAhGTQ2fIG8v77aQt3Fjf5pxMAzCM2dWuXqMNfs2mU+/3Yl8CBRUXBpEw
- lJgZ3zlpZFcQcMSpWXAkLJOBIjgjFybrM3ryD3us4CieYUQzfM8eLajiU/cp5jMv7QT/nrYCo0K
- +a/SMp7Y40pbw8CFPFq2+bXcqUuGitanOnOWG/gOVhHLdZGtSdpS+N8Zd0+tqjJDzvYOoKucHyk
- zx4Q0zRL0YfLmZcxwDVEuscWrT4SXDQM1ubDTn5L2rjrzbyEe6713qdgK6DOC50Ng73YkUhwKKO
- /TuZs2d7UCj4dZVmTjkXA/uwdnEPIwon6pmEAFgjbV+7eNqa06Ao+1VBR4z2s4rr8dp4y4B6b+e
- 7MvUaOlDRD4XiySrNTCK1IrM2QQ+0ctR6JOk0dPUtudsps8MXHZuc0DD6upNArfzcUWpRTINRV2
- /83nVbaO4cB2319eB9Q==
-X-Authority-Analysis: v=2.4 cv=I6zw19gg c=1 sm=1 tr=0 ts=6ad88989 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=iuaGvn3fa_lUOTDqeYoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: ClNHOneNFdJxUy7RntOK9uop5L_SO0nD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-21_02,2026-10-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
- impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210038
 
-On 10/15/26 11:00 AM, Chen-Yu Tsai wrote:
-> (Cc-ed Mathias, the xHCI driver maintainer in case I misunderstood xHCI.)
-> 
-> On Thu, Oct 15, 2026 at 4:44 PM Neil Armstrong
-> <neil.armstrong@linaro.org> wrote:
->>
->> On 10/14/26 18:36, Konrad Dybcio wrote:
->>> On 10/14/26 11:44 AM, Neil Armstrong wrote:
->>>> On 10/14/26 11:29, Chen-Yu Tsai wrote:
->>>>> On Wed, Oct 14, 2026 at 5:28 PM Neil Armstrong
->>>>> <neil.armstrong@linaro.org> wrote:
+apple_dart_iotlb_sync_map() flushes the TLBs of every DART the domain
+is attached to after a new mapping has been written. The
+invalidate_tlb() callbacks return -ETIMEDOUT when the busy bit does not
+clear in time, but apple_dart_domain_flush_tlb() drops the result and
+the callback always returns 0, so iommu_map() reports success although
+the flush did not complete.
 
-[...]
+Since commit fa4c4507099f ("iommu: Allow .iotlb_sync_map to fail and
+handle s390's -ENOMEM return"), iommu_map() unmaps the range and fails
+when .iotlb_sync_map() returns an error. Return the error from
+apple_dart_domain_flush_tlb(), after still flushing every DART of the
+domain.
 
+Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
+---
+The unmap path is not changed, as .iotlb_sync() and
+.flush_iotlb_all() cannot report a failure.
 
->> How about the USB4, does it use the USB3.0 port ?
-> 
-> I'm not familiar with USB4. A quick search says that it can tunnel
-> USB 3.x, DP, and PCIe, and it doesn't have its own USB HCI defined.
-> 
-> So I'm thinking the USB4 controller would be more like a nexus node
-> or multiplexing node, or perhaps like a USB C connector. It has input
-> ports for all the protocols it can tunnel, connected to their respective
-> controllers (XHCI, DP, PCIe). The binding probably would be very messy
-> if one controller supported multiple outgoing ports, as each downstream
-> port has a 3-to-1 relationship with its respective upstream protocol
-> interfaces.
+ drivers/iommu/apple-dart.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-Yeah that is more or less it.
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index b160fb464c5f..1119769f9f51 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -494,9 +494,9 @@ static int apple_dart_hw_reset(struct apple_dart *dart)
+ 	return dart->hw->invalidate_tlb(&stream_map);
+ }
+ 
+-static void apple_dart_domain_flush_tlb(struct apple_dart_domain *domain)
++static int apple_dart_domain_flush_tlb(struct apple_dart_domain *domain)
+ {
+-	int i, j;
++	int i, j, ret = 0;
+ 	struct apple_dart_atomic_stream_map *domain_stream_map;
+ 	struct apple_dart_stream_map stream_map;
+ 
+@@ -506,8 +506,11 @@ static void apple_dart_domain_flush_tlb(struct apple_dart_domain *domain)
+ 		for (j = 0; j < BITS_TO_LONGS(stream_map.dart->num_streams); j++)
+ 			stream_map.sidmap[j] = atomic_long_read(&domain_stream_map->sidmap[j]);
+ 
+-		stream_map.dart->hw->invalidate_tlb(&stream_map);
++		/* Flush every DART even if one of them fails. */
++		ret = stream_map.dart->hw->invalidate_tlb(&stream_map) ?: ret;
+ 	}
++
++	return ret;
+ }
+ 
+ static void apple_dart_flush_iotlb_all(struct iommu_domain *domain)
+@@ -524,8 +527,7 @@ static void apple_dart_iotlb_sync(struct iommu_domain *domain,
+ static int apple_dart_iotlb_sync_map(struct iommu_domain *domain,
+ 				     unsigned long iova, size_t size)
+ {
+-	apple_dart_domain_flush_tlb(to_dart_domain(domain));
+-	return 0;
++	return apple_dart_domain_flush_tlb(to_dart_domain(domain));
+ }
+ 
+ static phys_addr_t apple_dart_iova_to_phys(struct iommu_domain *domain,
 
-There needs to be a connection between the USB4 router and the native
-(USB3 *port*, not hub | PCIe *port*, not RC | DPTX) protocol adapter
-where the tunneled packets end up at to create a PM devlink between it
-and the USB4 router.
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+-- 
+2.43.0
 
-ACPI does that by adding a `usb4-host-interface = &reference_to_router`
-property, for DT that's still undecided:
-
-https://github.com/devicetree-org/dt-schema/pull/196
-
-As far as the Qualcomm implementation goes, I was hoping we could
-go forward with base1 numbering as the DWC3 is an XHCI controller:
-
-https://lore.kernel.org/linux-usb/20260929-topic-dwc3_tunneling_state-v4-0-63e296346d57@oss.qualcomm.com/
-
-Konrad
