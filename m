@@ -1,58 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792841457;
-	b=JFgg8HHFvnS77wSY9owtdDqZCauroa+EAPcJFiwpxtchCo+9PxyV/ThD+61zYSJGPCmL
-	 4I74fvJCpxofwuVCNz1bnJKcvigBJyfxdv2eHBDnuUwRymp56tBgPD25QuaGBi7q5kpGa
-	 gFdPArTgpW4YDdtZYzCubLcfcg39fQTGTtsGHgGqKDzDSbjuXQT1Xcn5kXAbYUN46g5KC
-	 lpPjN+8ajncudoXURfA8I651OP52U/2ddZnIb5liADXQTFS/xVuRXzXsGO1RESJm7wuhr
-	 C0QwrEcA1+utaX1KQ7QPQNYV7WWplHx65eKfWhZ9HPFh8FF6GuX5tgaP6BWLe9T82Lg==
+	t=1792898565;
+	b=vpimo+Uffa9Eto4RXpM/CcFkqR+pc2vrI1sb0K+HDw9x8cA3iNNxp5MVJ/eN+Z7a6WAg
+	 Q1XZTgdkDssoXjBtK9gJ/0EZa2zYhXXNExOIg1kYa8NSlMvntwUDaHmFnMI+C0Yy38lZ+
+	 b/C0iGAgo3pL1a7DPhlpHzTXoAUNh25aIxf44lJXU5//Ect79/ypXvxTg2uMfQPdVstos
+	 PATHoaqiE9kfPS0UUGOLEyu0Fq8hYdtuD0Btyn3dhD4XWjeFkRJuFhVKGmeZEdbPilzr3
+	 g6rFC/XWWZ3p4xMZqsq6KENdcGbG1x/ApkO5yz5DTxQf6pGKRc1L55JW4zJmPOpXIUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792841457;
-	h=DMARC-Filter:DKIM-Signature:X-UI-Sender-Class:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:To:Cc:References:Subject:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
-	bh=Stw5+ypxiuuDcFjRfO42e75cnyWQUntYeYbJhTdoraw=;
-	b=1QjYMSWGDuJD+K1b6bEIisTjIWXxB05n/NNLGpETxnUZXPD8d16zyTcbgsmt2v0eO2BH
-	 6e1frP0noH7U8ExeQqETiuohuEWfCwEX9lejewTZQFgnDaWQ+MVBG2hSF+Nm1wxJ1Z0jr
-	 eRUO8R8Qpc+e6rzh8WWmtjF9iieos6atsxjt4zcRe3GS3U+0ETmlNtK9INsVd1xTMpiln
-	 OyRFPJDmIN6bXnSg4XeMbzlWqLER6pfdlHKtSA28/S58TjocQSZhX7LqnE2NUvP0HIXgE
-	 RAGq4EpyXjaQLkt2m+sRoLlAXfd9oCyZAHNuneDsBjEhf5y/Z7LdzBt3kzAh6vuujfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792898565;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=AGASU0krO4dcW1R4gKRMwQopKJJbDchm1ha/pJWZAsA=;
+	b=i5jOnXo8GCKhu/TUDF5GWrpDUhIjmAEFnmPLBHRchy1fc8eRCN5dFPRoiVsmutGHbfMC
+	 a5BN8esunrcctuOQ0Uev75JgiClcShqhGU2OPNtQJEBtOZTuMVyGIt4AsI/Hc8NefjKPr
+	 XfO5n4h5H3o/A3jWwvXu01jZbkrDVlit66s6hdCCy3MVmsbX1fR3HmO+mBihwV20ngip4
+	 vz/zdplV56B94TveUwRaqP/EbleVuKJ+S+GrE9wC35BHhZEEP2gn9LoQkg2nvI9t4LkgL
+	 bY74dBB4xyetGG60dL6WGdeVddBHexbKQl4J4zeAog88AEi+gKHdscJehGXOQaKnGXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=web.de;
-	spf=pass smtp.mailfrom=web.de;
-	dkim=pass header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=ODvfllpv;
-	arc=none smtp.remote-ip=212.227.17.11
-Received: from mout.web.de (mout.web.de [212.227.17.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="E//Jrbrv";
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCA8606A334
-	for <asahi@lists.linux.dev>; Sat, 24 Oct 2026 11:30:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DCA8606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6E6606A31A
+	for <asahi@lists.linux.dev>; Sun, 25 Oct 2026 03:22:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F6E6606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=ODvfllpv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1792841426; x=1793446226; i=markus.elfring@web.de;
-	bh=Stw5+ypxiuuDcFjRfO42e75cnyWQUntYeYbJhTdoraw=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ODvfllpvW0xXoR5C2EMRHOZlr3kwVv1YnlPcQ3iE2rhkfprzRhO+8lSzIrMKJaUb
-	 Enc3qQShfgNA7C5ipKWlSulrTEVZrtLyR8LtCAwJm7k4/QkAQ1O/Fh3vv3doxu174
-	 K1iBFJGf3DCIlbE1kr7o01YuFI2vJBtxsDYcqOUtuGI5pOZAjvf9ExA96k0C9eFrj
-	 0anQqevA4KOmvoOgxZxikaZYVaqmClcDqcPQeYN+uImKmSf5+UL2s/6EgqYNrLsZt
-	 J5yZ9OIhn1tydW6i6mUnY9K4sGRaZcGS0Z0pPh8Bov+dmWpX3fXvVsJbRLTrra+Rn
-	 ncVEpIymIB6cHVRf9Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MIya8-1x1PB53b7S-00KRgp; Sat, 24
- Oct 2026 13:30:25 +0200
-Message-ID: <33b90e9d-096f-4a85-8d17-2e43b0609140@web.de>
-Date: Sat, 24 Oct 2026 13:30:12 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=E//Jrbrv
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-3535bf8b3e0so3300938eec.0
+        for <asahi@lists.linux.dev>; Sat, 24 Oct 2026 20:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792898564; x=1793503364; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=AGASU0krO4dcW1R4gKRMwQopKJJbDchm1ha/pJWZAsA=;
+        b=E//JrbrvH6+KIdaEZj0A95yBsiPoaJalgvTSQN6zgHz7mopSLzTBjo4uAbObHRo023
+         BFKtvDQbMjSTqPR8+qtMONw4UYOvu8hh8iqRKpMNPyekMG4nF4rTfB9EuFt6qU4jvVM1
+         OAzTkHf9omfZGjvUDVoP9z8y7pCd4erVPzxJbT1EL231EgtgtxqquUnEjuJU7hDZnoNL
+         c4ldaR7DkD4I6HMqVEh0PRqkxFGzXNYJ47ThKuMNHwe8Le1W3EjCaNXXPzp26hVC+NY5
+         TZzGWTtEIGK0d/cCPTAzYiAFUrIWM3LHC9NIatlgRvVAe70WwOJVg9/+oDRW0aac1KuW
+         95aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792898564; x=1793503364;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=AGASU0krO4dcW1R4gKRMwQopKJJbDchm1ha/pJWZAsA=;
+        b=x2Qb8lUA9YQf2VolWfkUxG86GCYXWH5hgXhrcXvAXBKiTDFz+GuRQU9ibbZAjl7uHp
+         xzoyr+6wK6xXgG5ti6LG3DMhrBIBQLlVQXXKQDu4wRSOb9IFZg1hnSyugbUWPexr/sF4
+         Jd19+kMVRTPBJOQX58zcbLZHYOGruK/17aVEV/tZl5OaHUZ4+mzxZo/QwBaeFI6fixPq
+         tOUQJXhnXv/TYXPECxNRbtKNWubJQulHY619KUZos15QpccKYWuLH47vZsKJS5VBFV/w
+         dSFZ/HEBqDCJ0nkugPA1ZI+Tl71UdHd8DME4NLJpfcWpKcXJh+HN+2rxMQ2Y48M3x3xe
+         pi3w==
+X-Forwarded-Encrypted: i=1; AKwUvByZeVi9WN46AqEIY7coy2f43NxA9NpP/5zynKluEOg319nhX13erahlyuCaTb/V4P39IEq8tg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJPUl2+jDuh3Mz8E30o7nJAY07hSWuphQOFRH1PrgqBnXWKxd30
+	LaTJeJzRhRYVnpZ2m6cOtbllPABVFP/r8ow8sat83G7B75oxzKGg0bJy04/lYQ==
+X-Gm-Gg: AYBFou1QBti0L/HbPkve1K+TGxSHmcWOfuJ5e90t2BKNwlYsz84JsqpvWIw1UbeXu1t
+	okevEFdZ2b1fowzZK1xq12tKtUC+iYlbCWG4rv1rbmlJt4d2IdI0tdljdQuxSytkKJ/yMqxtjH2
+	+mj8sk3RNrgeMVGxD+D3ofWir9qfH66/nCvWgcx8djVYsZHhwoZwNaLLbXCvZ3ItGCacGL0D4B7
+	54ZmfN78GxbY8TnGy2adSB3m4dCNETPHeFGsp+y/SNPAmvEqO6mOmoOcItYNTJnASj4uH8vTvhf
+	R06WpYTHosaZkCFby4Tb60I/kCMFgy50N5kJLnJT6YJuzcKEFoe5M9FjmnkKZhfNOCUd7eTr/9v
+	kU7jhAX/RPNCAb9sVM+PajvGPZmd8kYDo5pQgPd9RlR5o8erNS50lTNlAtUuFUcFoLBqeVRKipT
+	tY66bj+5xVMC+eWcoM0+wv623C1qvsInXlz33QDP/6W04l0wlZRQ+mIvm51m6Qcc99inCwGm7rl
+	FUFyBuGjq7uEEYb9PpNkdplGDihcSw09WWSXlu3zGnL952puZ5puBFwB0LNuFxDj+AfRAuFFa29
+	VxkmqQTfHNjkKBn8h6m2QMPQ1fGP52o6Jf2/Hr2MPqkPmPylszb3XxS3IWAHLYS6dgClpR3e3d8
+	LQP0k1rHJkVaJvd25J0QyZExI7pqE
+X-Received: by 2002:a05:7301:2293:b0:353:5908:36fc with SMTP id 5a478bee46e88-369e8483d0dmr5753055eec.17.1792898563532;
+        Sat, 24 Oct 2026 20:22:43 -0700 (PDT)
+Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8d93663sm13602486eec.13.2026.10.24.20.22.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2026 20:22:43 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Sun, 25 Oct 2026 13:22:18 +1000
+Subject: [PATCH v2] ASoC: tas2770: Fix error detection in
+ tas2770_set_dai_tdm_idle
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -62,137 +93,125 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: James Calligeros <jcalligeros99@gmail.com>, linux-sound@vger.kernel.org,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- Kevin Lu <kevin-lu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-References: <20261024-tas2770-idle-fix-v1-1-07b02d46ec2e@gmail.com>
-Subject: Re: [PATCH] ASoC: tas2770: Only treat negative return codes as errors
- set_tdm_idle
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20261024-tas2770-idle-fix-v1-1-07b02d46ec2e@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZMtmRPM8eOYd14ieby48mK40EuD8Rjppy4Vq7gK8+welKyac+fP
- IkSmXRCmXFnnCm8doRDzbBN10P9BcjHTLMTTWVM0ODRmheB5s7ufd/wapcTva6PrhovRkh9
- 4jxSkNnwTsMCtvNYwEQtr9gRNYt5+61cUAIHq6K21j1R8NAYIOCCF8MLw6F0pzkBoHDYJO4
- kF4kj72oZRrlc+3uXrCWA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:7LfoKvzZb5M=;V3fz7jbezOlcsmF4JFJrxZb9hVX
- qP1xQiXq1emWKIgEUy9TqT7+KJrBnEdNmX5J6gIm1rrsyDDOn36KG9QYgZzqS3n2TatCzJGuY
- IkCj+6ipPrONGGC3BcxCb3EXQPYRhJEsCJv6vzgG/VBANOj4moP1FqylXtjSilRptib5Eo3rx
- pxP0OPOaRh62H9D1v8mASa5V40vYLj3kxiq/3jjoel7aAAewUVaOM9OY8DGEkdGt5lDzTJIi2
- EpvAc0WtoGt/7Cb/DywrE2yFN7zW+nE6ccHKI3Okof3OOBC7lCOyYuiEhZffB4mq+TXap/vi1
- ePeVDfUoErnO0SdssnrJR3fp0VdhrT6kUeCwvpf5gPqTNINV7gJN16KFwOspgoHBQrlKOj2uf
- MTgamO5tAxrakmTRHvIS+BU98m+Kz2JV8zn6f7v3x2VpsQiFVquDG/t9NhwR1uNsCJTHmo87n
- QcZUlrJpPwDD5Vbc94Aqiuf6SL7mQCMpgHUTGxK/a36E8ELztrriYd3eod5cPFQQkdwuvbGNX
- Lr/Rd+AbYHu67UUz6I7fNOy+Y+THjxt6Tvns9+Wg50mCMDgsOUR0XJwgfUiRP+0DmiHNgp5mr
- /ViE4s4UNxxcwYdwSCxlw2vn94z9UuTu29TtO8iutmwcL2vNw2iBdjQoDClDKXj48OH2tgBqS
- +98wZoJIAP/AzUiG1aXiGLB0I/O6YCehAfJ2H8qBI4zu8wbYpZHWuMyW4uit1M/0Cpp1LTl9C
- qIcuanQNPNAuNY4LTPPAYj9uo5whl8ME2xrVW1vlBvS634QZyayp9Z17LxQtyU5y6MEfb2yVg
- HNu77Fx0JQy3GzhAOKjl1BTG/jLRNdrKFDUSC75Sg77ZhgIhUBJ8xN+GMveKS3pztT5yfjkV2
- b4w8h2z1/YIBw+v+E6v1fC7sejCRQFpZy/3enAVPTbMq94ZSUOBSfOxjx4wa4gkdT9OH8nE0f
- 0W9ENzr19sjRRaGP6HtGyHfgaZj9QUvuvODPPDiZK4084bJEMOEX9ho0w9wiCv9POo5REUQYW
- O8T3CfLi+RrakO0tzaakthy2HQSgrrbMtom6T6zlgOd0GN1BNViEO+U8vDy0JI7PYQiQeKrX2
- Kh93POfL773vV/1tRQEw87hlSq8DD+vnISrmwFWFipCVUhWGiEX0m/KVm76dMDWxKUvif1pHH
- dINZxbC93l3GUSSyWC38oa4xTVmkWLL4FUeYc+0voFBoezdZVAIYrlDtQhitjPWJcOXEI7pbF
- pVC6Jd/0A2yoiO5FckAgKbSlByWvL2AaErxUCjq3dP2Z1wzJcnp7IHAlzaZoKl0+Kz+UkI90w
- JuJfQ7XxIu01Ae/xiF2zqp65YFSYWcEBPwF0FwrRcbrjX1DGrxZiHZRYV/YDTQSQ7o7g36bX0
- TS+f5APyq42/Pmf1LAfRc5l4KoaNhXx1+elRXnR259A3Ig7ZCXAwMCjSwkg3Yuy3fVfXeGVT/
- 7696K7e4isU1kvwkVbMx1Q7EltOceDE5l8hfyZ79tUPRkZrnhY3oVuCs9hDFnd0Y1Jlb+gXkz
- e1Y1R7sEtS86XVamjN0gR+/bpRkhYjWQlzY4IIT9QJ/0hQAADHtcI00XX9TGr9Xn+PD2BcIVx
- wuVKqFsxBVaLMEKzuDy7Bk0oOhA6h5oG+SBFVMT/rpt8kMzTVXWjIfyIRTfoSCJN2xsVyDIfd
- 0vJs9uNVrS20XlcIx8/+YL5zC+4CYRa5oYE1rflt/I8kJpxKIo3SL4BL5DmJc6HX1gjYnumuI
- JB7Gj9Z8N3vjDQAnIdQhqNP3SXk5g3VL9DKDCypVqSVX0T4MmdptiJ/7tomHthEpeTFXZPOY+
- JJKP6qK7hVJRjw//1yWKWteMqBvIUZ9X+vk4h9nFdaUnzbbX8YErqkwRJokI6oBWcstL7AjZT
- npe4xddhaQ4e8xoodhmw8WVCxgEpRPqXmRH6sZaSsZBXJijpcHwnsCP2f3mtCSolsdZM0/KBz
- VfLGv8OWMgTvU314rizyWUkTar57/3ZMcGo0/wRpNH2diqCXyZn2Ut7MngxZgIrK8iVvra8mT
- p7D6cosY7EVa8fgc2Dtd8AxGj+lxmOFf9mH8aWGjElJmvE4LUAehN1m8iwdyZJ/GtQz9kcafC
- zBO5fv06oKlrQ8MNP6L4RsqiWqVspIZaOjyA0z6pUmLZTMMfQvvqbgDhwThsoQFUhat5hTz8H
- 5Zj8tD/baCyfS+aH5HHkYUcjo7dYIAbDR1Dtfn3fd6JXm4J1Sr/lkGmuHbOot+b1iPP9dS6Fx
- An7ekNPV07urJk3QatWtNiDy9sUlaElin9b9WEQLuQ9s4XP0pkIKJpGkn93YVqEunZ9z1lLMs
- tkeoKOCHo4jjx7TqZKIRkVI2oNy44QbmTmIqKqBTiKajbzDVhLS0M+sEKzkuY86Q0zl4X8RWY
- AjO2M7d0iYD8fOaDacurRWsmpVnt49GCqRT4rL/I/TYZCJcrF37QeSgNwtUkx93mVOl2FKDbk
- L7i/xxNx1fNnNPZNmQ/YZuUCn1rgbXnMdqtd4N9ewqQxs9iLuu0tms9QRpX3Uy+XZ7QKkM6ln
- J0yf8qBDj8tm3gGoX4Kc4jKnDRqEa3PV2KAo1lMTyQk2xq73ucuBsAPum8bgsc84a+tJe40gT
- jYa0jdkLMoqoc4LPIhqU7qyKSxoL+YuuGQHJhDOL5ldgYbA9Phv5IUZ6nNnPX8WrWuerXUV7i
- Hk2L4YcIbl9TQd9W7tweYSRCIJ5W0Wz5/BXJUc8IVl64TWLt2scO8nD26Xwb2r1kwxA3lL5Z4
- Ezft3+CXmBdYDMKir9OqAfM8PsI7/h6RQyW0YxdvTX2zDj8Db52SgWToypUz3aKz0mQmCqjQt
- YFzrTDlUSn3FRybChmgIpCEXPY7+pJoNiToqGfZrNAuCPt5iHIkj51zFQN8RWO2DJnRptyYsv
- +zxBtH5JGfsp3zjldPyfcLdJ1QvInDfnC9RIG9f5nsc/RsIZBAa0dBEx1cdieVr5G1Wim0UYL
- R8ikjBmu0D3k/saKwIUZ3XvKExW1Dkc/iMPQmqEbwDbldCS0s9dlm/Y9Z79Tjq5UY6sWXbdXJ
- pXpmBEoqPdVm+7SWy7I1oL8G6i47eoglv4X3CrJrc9aqRvp/rRBjFDNFvQqPYlna7sx0VvF16
- UwELk4GmAUjVOalkVVjXZcgNKsjmlzcgmnNk2lRBoyEI4rAxDb/gLyUcobjH+vN2WKL1dONuv
- Zhw4o3Ljhh2PKzKczBmrfUk9hUZ1gF/+LCyyPTpP63aD8+M1Ig5QtHs7TCBF3u9go+ULeDoVI
- LGtsTsHUi7HuOwrvN7/FM2mFPXWmjHaLgxuoiezB/2//NrcBbTg5j4hLMfml2oYe4lem8H/kQ
- kMHb0OHq1CcSZucesU+eaqdcXBEjPC4O2VlMnBLiQt/2seVhLRIF6W0gCRmjGgXYZUvxBWQE6
- C6R9u7NRbaO56ORRgZR3c7G+QBtus+J4tJ8QWYa99GKxNgPu9/OU4mXOOgLaVE+lPowJnUGmq
- zzdLiP1S9UW3EmX5piII6SdtQrT+9aNWG1Ez73tHTOUmqdmKjNgLqLwr03TMbOoQmpxdTnMem
- 5yMhV7zdrkabMPjyV1cizbU8O7s1BmhmPXwNgRceEr7dbYIRkKf8bf/E65FQeuVN2fsD17ECZ
- wxssLlqxsHber7AD6K1qiE51y+MOOqHzZHxwqyu9TpLGE8IMz4u93eme2vL0tlpVK93HRadmP
- bR6Zc0LIobNI7y/bBuJBY+jrGI8iU1UgjU2k++QPDB+9ukbxo1AAmxTVDWbYgYhviY4IpUchs
- QNR3xLtw4NRVOrT+WsQt9j+/6sS/eC1KJVeT9+FB8/L1jn4WMdoJE7wjbh+2VHFlfZ//NNMux
- EtrLilPw26YCspukTYn2dQ3kW5zkHgAeQU2K/9ItkYVEMHo8V4Dp4AM5EHqAQgu5Tmzv8tBML
- H36rNItofzgfqAv2m3SZg7BzMsIMhEdSFj+r+0Qx+avTQ9b4dAF5HSSKhHW5sD+fzaaR4zSpt
- /GMvQfCaeM2a67MDLxiDiMZ78D9HIS0N0ocAoQmuye7i/8H6Y/2YtNkeBlpySPPguvBdfr2jJ
- 9Yr51gK4Z53uAaAp0ox765e1HPfhaUuFoyG/W0xReOa6gnSQ1L6fvE+r+MC5ZfGKBzMnM4WdC
- 9DrjdAC9JDspXfrCJAcSui/BppRCWLmuVSSXYzuICKJarXXKuPQwYq5QTFXrOeeNva2fqs5B0
- 6xeBQOTDz8mR1Uo23xWxWaZXdXakypWj99hpSzpygB4Zv0htv4Tb3Om/6pQOXHuZQTQilHJM+
- Wiqbf9v8ASqbCFb7iWkPfIXLa7WaFEW7bcfYb4lNfN5sxiKvVL2dai0WAfvJIvzm1Mqv6l9pu
- raqO3v3YbEw5iY0ze9T7BOBSCkTk7zVC5wmPhzBnqTBCDsJHl2LGvZbI6A2r56qQ4/JoKTaes
- WfhtC1ZnLiHqOAAWKM7S9yx0YOGIVnTzs0+duxkNO4d4nEdLkT1SmoVG8ZOJw8v6kT7tOkNiq
- 31SK+nYdRcECiEbPAYEyhyB0VwIAXTIOsi0bS0uZQUKBHtbb1JzvlAYBA2x1S/RZBv5SV9BFn
- a9sSX+T6lqOLfhEqiRiVPvIwDYnHsWULWXwsJxwKK+IWiNlwl+kT9xi82KRruITrMjhNaLW4R
- fVeV+7CPpinaXCJ6HkGr+nLNDRGU3TMl48LStggsCCn6DWNMjNGsv4rPhAuHTWp6Wb0oO+T46
- a13Uf9kmoIF4wCXqsPO4hIvVbP2n9NE6x6caAjrDgN1up5NZJXL073LLjlxShiLiZLGaIy7cq
- R+J8FDk+Fz0KFMWcqEJUeAUPxwX7STnPXjmAKDDvAiZPboSG02kV+ns7kTzgR0tkTMGPgJa9z
- cb1CcMSU4rOo/d3ZsckKyXTV2ciNK8DJ4xPtQZM5ug8kx9LlEJfra6Dow+rbPrA0lZ8TpdswV
- uU2VDpCp5EsMLo0dn1EIXUUNzlRbN1bGpvI9CoAmtTKm+/Kjr64tUYa07rAgYlfSxxWbcfvPd
- 1FsKfrqNLhPwpXlPJ6e4Ob3mBnBq+Y9OL7lDguMwNNdaFbAKIcPw/xNJ5RD09JxEAXZZ9tU/5
- 6cz4u3DqtBlr5dfcajb62aIRjUTwHDm9XeJYPPcjwRhLoOLBjY0Rk3fPvCsY6cyCXlKenCbgv
- P9s/gKw9G2rBOIFRhm3cKq56rm5adKlulGTF+qNXmjcMsbpPkNNHWYVYJtvw9wwdx7RFUP5eZ
- VEes0/2ne79jfc9PFr+6ba66VWn1kZQ1qWXwIXVi2L5gpPniaSJKmD9J5H48IYr7gbSvKdz/s
- VfinM3I+0rg0wyXaqIUQq1Lbpm2pm1GHDAD9+9j0JrFNd8R8f+/+3HjgCiJx3VX6/0FjYcp5A
- 66osNtFfVcH/47LuaJyTPhKjTfS4xm9E4uKvC6rbZej5PHdCH6pqgt+hGlpcJ8q1a5HpZV6ZK
- 9h5TDB4TJFsJ4Cq6cZ2MUBXsYHIGvoc8YdFapHnz51jw147olNJHh77OiLtxBGYdUuUPoEvWr
- wIPLwteTLbFzqjCf7j0h7PmciaV+WNEKZggXeI54S01pTTAJJqj78KOTnelSH8acj7c4Xf2pu
- VwiO10orwBtTE0IAAAzLwz1859invauWhwm8vmj6t4ZFucZyJ1hpsyHgHVTIjt2GAve5P9Yr4
- 02cF9xvoPDsqG073527pUD9cX4/HNOmuv4jnemwBorPL2iGQXDBMeRwQUmIvxMKy0m1QfJ2Eq
- 49CkZpK49xJBpHNornn3Tm7EwSumEdyToG2gV0WjyRf9wCn1qz/MRG0LUgBxdLv2vrtHDcW3f
- t5aR0Ybxuj/hKF68PWPHooaDI5TAu8r751z+0CpKWSQvBCiHf0tai5cPVPlMWcW1g/I89UEDD
- 3QYD4Gsd2hLngl1Lui/wqJAiCX2UMivH8WNjDoip5oaPIeggVYGdYd17dhfN26CpNgAck4zcV
- wwia2BNluaqAXp09NyKwSfExyLpYgu0/SYxYTthLg/1xAslHMx5zFnB52DtDnABcByyH4/ab7
- JxRWEY7jkcnfxLYsXZlH7y9DFmqr4g2zid9ubSNgu7i1dmlLsVMBM5ZGmWR/1xaVFnX/IHqLz
- Bdxp2aqSQa78r3uvXYkAKLUXVUuL2AhZjjhCkSoR18+0vmXn1TRoGd4hvJ5x0zmeIalv+wyaN
- CQL1jkQw63FXpykdlFgeFD18apoym8ZfsH0lDit0zW1KEHBvH5i5LElXNxWuaLF85XAiFJSQi
- 6bjfLM+iN/EskD4IVN351QvVNf8WAQCj7OASTacsU+0nOoIOIP+O9Q+/ZzA5xrsv4yOlGKFxC
- F4zBt83QDUW5IQE1wj+c1WHkd+3MyzjzjuXxq1Txtdp2wXahKB/lEBKqw2RkcP58hgMRn51WJ
- mencDmnv98a2s2hfML/63pcwYpyQmgApj3wOinzKmYLAyYE8Zr+C6lmPXV52g9g297YCKcxr8
- dOSASF8m2Kg7u/2Ua2W2+B2Jni8Cv+LE/Ylzr8YyLDFr6G78juMMQ5N+0lyA0ntOljN9tZZQu
- yClMb8+8p8qR0cW6OISSMFXP4u44Gz5xIn4h9/eV03l7RUeuf4M/8ZElg7hRbtPiEKnUD5uxM
- 6fFEY1mdvx2tDcBYjGa2mYQ5H4Ds2B2t7GlHdMZ4FIFSJAMWThDB3/orI3Ooe1cSbg6EBUBAX
- 7lqWsS3PD5lAbvv9SI9cko37m8AsJGsc1a5z/aAVjQj6Ga96YGLB7J3b8wv3WkA==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261025-tas2770-idle-fix-v2-1-6c8096a87f44@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NzQ6CMBCEX4Xs2ZrtBqh68j0Mh1JWWMOPaZFoC
+ O9ui3eP32TmmxUCe+EAl2wFz4sEmcYIdMjAdXZsWUkTGQip1Ei5mm0gYzDGPau7vFWNGnMuzro
+ wJ4izp+cY78pb9ePwqh/s5uRJjU7CPPnP/rno1PujX7TSCk2N1OQlO+JrO1jpj24aoNq27QsrL
+ QzewgAAAA==
+X-Change-ID: 20261024-tas2770-idle-fix-b0104e591578
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, stable@vger.kernel.org, 
+ James Calligeros <jcalligeros99@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3066;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=+JeNkcg7xxI+ILpKkc9D2dhooDxOFAaRNmDxxxAetxE=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFl3S/9PC2C6sMlpjWb5kqiQAxK+y/QFU7w49D/mz5PUL
+ bx6ZuWljoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GukY6xgxcHEKwFSvk2b4Z/jZrKwqzDrcjN225MTJ+ibNTeFn9/eeXh3wr6hbZO7qnwz/XZ/mrv/
+ ctLmwZ3Zd2rrmFSv+F9fMWTR5deCbaa9X1Isf5AQA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-> snd_soc_component_update_bits returns 1 on a successful update, and
-> we were returning from tas2770_set_dai_tdm_idle early on any nonzero
-> return code. Change this so that only negative return codes are
-> treated as errors.
+snd_soc_component_update_bits returns 1 on a successful update, and
+we were returning from tas2770_set_dai_tdm_idle early on any nonzero
+return code. Change this so that only negative return codes are
+treated as errors.
 
-https://elixir.bootlin.com/linux/v7.3/source/sound/soc/codecs/tas2770.c#L4=
-95-L567
+Fixes: af176d0787d2 ("ASoC: tas2770: expose SDOUT bus keeper via set_tdm_idle")
+Cc: stable@vger.kernel.org
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+---
+Changes in v2:
+- Make commit header more concise
+- CC stable
+- Link to v1: https://patch.msgid.link/20261024-tas2770-idle-fix-v1-1-07b02d46ec2e@gmail.com
 
-* How do you think about to refine the summary phrase another bit
-  like =E2=80=9CFix error detection in tas2770_set_dai_tdm_idle()=E2=80=9D=
-?
+To: Shenghao Ding <shenghao-ding@ti.com>
+To: Kevin Lu <kevin-lu@ti.com>
+To: Baojun Xu <baojun.xu@ti.com>
+To: Sen Wang <sen@ti.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ sound/soc/codecs/tas2770.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-* See also:
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/stable-kernel-rules.rst?h=3Dv7.3#n34
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 882e19857697..6b9ec8f630fe 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -513,7 +513,7 @@ static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
+ 		ret = snd_soc_component_update_bits(component, TAS2770_DIN_PD,
+ 						    TAS2770_DIN_PD_SDOUT,
+ 						    TAS2770_DIN_PD_SDOUT);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		break;
+@@ -521,12 +521,12 @@ static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_FILL, 0);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		break;
+@@ -534,25 +534,25 @@ static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_FILL,
+ 						    TAS2770_TDM_CFG_REG4_TX_FILL);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		break;
+ 	case SND_SOC_DAI_TDM_IDLE_OFF:
+ 		ret = snd_soc_component_update_bits(component, TAS2770_DIN_PD,
+ 						    TAS2770_DIN_PD_SDOUT, 0);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER, 0);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		break;
 
+---
+base-commit: cc3fc99f1bce93c3ae3771ef98cb91a566da857e
+change-id: 20261024-tas2770-idle-fix-b0104e591578
 
-Regards,
-Markus
+Best regards,
+--  
+James Calligeros <jcalligeros99@gmail.com>
+
