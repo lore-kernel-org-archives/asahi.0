@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793088217;
-	b=1uxOEGXd0LW/qfSbDF+apuO4YWrr5gkwJWjwaksSRvp08WWf3Sl7Bwim1Qq0b95O47Eg
-	 dCvN6fNQ7nT3vfYyVgecB0sa17E2Ge20YY0elHsl+3n7Vl5uiKRkyCvavfkmQi/57nnap
-	 cZJR2GzksnhsbMt2yVvirg/TazQ3ZlOiuwDrPwH5ERngAQUuK9anETos7ZMawOgXGIeyK
-	 1inhjL93zrGN4WZrq5gTGA8XnvXTXXx2arWnPZnC/0vJiIJ/D/DvIHHOLbD5zCWLm2oap
-	 g6hlf6lTlwRDatl0RjTmazTgLz7iulX6MRRU4imgbii2Obh3iVHUKA9pCMGDqdMu8AA==
+	b=tVyOxSeeyNpSWTmUKVMVoxe0ewoR7Cdl/Lutbmm18AuksepJKViSyp6oNuklmAa6QWpi
+	 Efg+5oLIF9G8UNtyIymW8vP1ZygsPMwmGPk+KBjJ+hTfHIaEFJnjAUooWrdlMyrSEAhKA
+	 dPVymlmA8S0wV5Sjqzqx7kHgrNeNWelQmfBkPQHSCQ1X6Gp9/rDWRS7u7Jk+kGL9bAV85
+	 NeCyBo5Q8WzEzGhNnuB0gK9MY7U85vj4TUruJH6g2wFjQFCr9oMLoOrutp5Xp17Xocgfe
+	 btNhx4cDS8bPiBwzuY82YFKBMERyJUmyC3OJE42F4Apmnc8wwNmsw3jrrxhe5qH0TVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793088217;
-	h=DMARC-Filter:From:DKIM-Signature:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc;
-	bh=P5c0ApmIJ3lAMNaYphnR5Mx0YPPl4nsPPZL16lmRKXY=;
-	b=S5kUJFCok9qvFEXc+MSl79c60hkxYgoR6Ce9TEQszgjvcd7DPpPT9F/Q5ZgUoG5Omw32
-	 zNySodSt3OuETSVrLPB2NvC6HK1h1fUyCyf4hf+Y/RsjIGQ+DwvQaUIa+/R3p8wJ0wSwl
-	 HX+dihPAgR6jX8hTGyZpd9AuVZ5AhURZU/5CrMd7neqMI1WAXnJmwiqe61TTob6MNp3ot
-	 b+VOMUUFfzrO5uNQDTnxf/zFO/eN6k9d2KAurG8mOlPl+LmvN171qyL2NdP5spvuhGYpU
-	 XxgPAt7sBRMPISC0GiHywCMjP2ZkEpwgxEJpX25fjChe1wvLPOWYdOt8ZMQ5hcCJ9Fw==
+	h=DMARC-Filter:From:DKIM-Signature:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc;
+	bh=dn+ttLjJ/5MynkGaqKFazCfLlj9psHNlnn9E9KLcwZw=;
+	b=cGc07cy0BznF6QfbCFz9DtcpLBClM5bwPjA6/nLF6pc80h3aEA98VJZ/BNqivfW/Z1UE
+	 icxasMZCBKF/q12G+ftZqmP/Lcw0McU6gfKz80zlzZoNKMLpXWwA/tOiO+Ig/kEo4Xr/m
+	 oGB5rlK5PxP3tJAkdGEScgP1xQz76YSuderevk9aUVyaf/KZauf7K8bVEq1nScDkIovHO
+	 /7G9iC85kZxyTNpzyL3QPCrMz0tDaed+j6QSvrtSEEtNfMGi4ULDQn+ncM1qM5D0OiWOp
+	 h7oXTV/nZOg0LPOdsNynVXgLysF82sNwLqd9yghPKlDfGf/NjMcGIluqRwHIEEvLohA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cyberchaos.dev;
 	spf=pass smtp.mailfrom=cyberchaos.dev;
-	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=crVEQopE;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=RhsTqH4v;
 	arc=none smtp.remote-ip=195.39.247.168
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EA8606A31B
-	for <asahi@lists.linux.dev>; Tue, 27 Oct 2026 08:03:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9EA8606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBC5606A31E
+	for <asahi@lists.linux.dev>; Tue, 27 Oct 2026 08:03:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BBC5606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=crVEQopE
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=RhsTqH4v
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1793088208;
+	s=mail; t=1793088209;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=P5c0ApmIJ3lAMNaYphnR5Mx0YPPl4nsPPZL16lmRKXY=;
-	b=crVEQopEfm3vY6etwK7PdIB3SmLmyRWj8Epua/Soc+v5Rbpb7o+MA91lYVv9dA4lORKBQw
-	4mjWnEQToB5OR/G7JHCcBrdfWMV83H8c0Esd3NJdj6D0SCOe0QCqPkKB5TaoHXvSMDQs/P
-	EUuJISIwf1ADXGzbly7QiU3Vl3vIuls=
-Subject: [PATCH 00/10] Initial Apple Silicon M5 device trees and
- dt-bindings
-Date: Tue, 27 Oct 2026 09:03:20 +0100
-Message-Id: <20261027-apple-m5-initial-devicetrees-v1-0-1356181bc50d@cyberchaos.dev>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dn+ttLjJ/5MynkGaqKFazCfLlj9psHNlnn9E9KLcwZw=;
+	b=RhsTqH4vn2aLEFAkDrnxn8OxHKSXJXesZNA9xgKwxrzq5QmvOKqy8hqbpKv5WYf0t0Mit4
+	8lcEf4FAp3yI54NGMYkzFLRtxLwFDyziUW1DTfWEXt7vzjOoGTw5UL1lulTGFBwwOv3iGs
+	Yp6YQArFZuc3HcAqpZ5c8cfN1c8Jsjk=
+Date: Tue, 27 Oct 2026 09:03:21 +0100
+Subject: [PATCH 01/10] dt-bindings: watchdog: apple,wdt: Add t8142
+ compatible
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -58,10 +58,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMywrCMBBG4Vcps3YgqbZSX0Vc5PKrIzWGTBSh9
- N2NuvwW5yykKAKlQ7dQwUtUHqnBbjoKV5cuYInN1Jt+tMaO7HKewfeBJUkVN3NsVUAtgPIuwvh
- pP0x+66ktcsFZ3r/98fS3Pv0NoX6ftK4f2RlBo4AAAAA=
-X-Change-ID: 20261016-apple-m5-initial-devicetrees-4de0b9759b3b
+Message-Id: <20261027-apple-m5-initial-devicetrees-v1-1-1356181bc50d@cyberchaos.dev>
+References: <20261027-apple-m5-initial-devicetrees-v1-0-1356181bc50d@cyberchaos.dev>
+In-Reply-To: <20261027-apple-m5-initial-devicetrees-v1-0-1356181bc50d@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Neal Gompa <neal@gompa.dev>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
  Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
@@ -78,59 +77,27 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
  Yureka Lilian <yureka@cyberchaos.dev>
 
-Hi,
-
-This series adds initial device trees and dt-bindings for the Apple
-Silicon devices using the M5 (t8142) SoCs.
-
-This series covers only a minimal amount of hardware, which is useful
-as a basis for future developments. The hardware added here has remained
-largely unchanged from the earlier Apple Silicon generations.
-
-I applied some version of dt-check-style formatting to all new files
-with the exception of the generated pmgr nodes.
-
-Merge strategy:
-Since there are no actual driver changes, we'd prefer to merge the
-dt-bindings changes through the apple-soc tree once Acked by the
-respective maintainers.
+The watchdog on the Apple t8142 (M5) SoC is compatible with the M1-M4
+SoCs. Add "apple,t8142-wdt" as SoC specific compatible.
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
-Yureka Lilian (10):
-      dt-bindings: watchdog: apple,wdt: Add t8142 compatible
-      dt-bindings: interrupt-controller: apple,aic2: Add t8142 compatible
-      dt-bindings: arm: cpus: Add Apple M5 CPU core compatibles
-      dt-bindings: arm: power: apple,pmgr-pwrstate: Add t8142 compatible
-      dt-bindings: arm: apple: apple,pmgr: Add t8142 compatible
-      dt-bindings: pwm: apple,s5l-fpwm: Add t8142 compatible
-      dt-bindings: pinctrl: apple,pinctrl: Add t8142 compatible
-      dt-bindings: i2c: apple,i2c: Add t8142 compatible
-      dt-bindings: arm: apple: Add M5 based devices
-      arm64: dts: apple: Add minimal t8142 (M5) device trees
+ Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- Documentation/devicetree/bindings/arm/apple.yaml   |   15 +
- .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |    1 +
- Documentation/devicetree/bindings/arm/cpus.yaml    |    2 +
- .../devicetree/bindings/i2c/apple,i2c.yaml         |    1 +
- .../bindings/interrupt-controller/apple,aic2.yaml  |    1 +
- .../devicetree/bindings/pinctrl/apple,pinctrl.yaml |    3 +
- .../bindings/power/apple,pmgr-pwrstate.yaml        |    1 +
- .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |    1 +
- .../devicetree/bindings/watchdog/apple,wdt.yaml    |    1 +
- arch/arm64/boot/dts/apple/Makefile                 |    3 +
- arch/arm64/boot/dts/apple/t8142-j704.dts           |   36 +
- arch/arm64/boot/dts/apple/t8142-j813.dts           |   36 +
- arch/arm64/boot/dts/apple/t8142-j815.dts           |   36 +
- arch/arm64/boot/dts/apple/t8142-jxxx.dtsi          |   50 +
- arch/arm64/boot/dts/apple/t8142-pmgr.dtsi          | 1131 ++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8142.dtsi               |  512 +++++++++
- 16 files changed, 1830 insertions(+)
----
-base-commit: 498a03715b45515444fe1fc6d7b34177cafb6c38
-change-id: 20261016-apple-m5-initial-devicetrees-4de0b9759b3b
+diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+index 00b0f2ec2bdb..8dc71a79af88 100644
+--- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+@@ -24,6 +24,7 @@ properties:
+               - apple,t8122-wdt
+               - apple,t8132-wdt
+               - apple,t8140-wdt
++              - apple,t8142-wdt
+           - const: apple,t8103-wdt
+       - items:
+           - enum:
 
-Best regards,
---  
-Yureka Lilian <yureka@cyberchaos.dev>
+-- 
+2.56.0
 
