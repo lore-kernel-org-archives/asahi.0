@@ -1,80 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793049791;
-	b=rdQ7tzuItYq9EVTUAJ0oOrSsvRCViFRPQu2HNFADmFBF56QtZPPmrY40p+yPsqP2Nkjt
-	 8UPl6zKLAjSUHt1K5MFSgxQjwcT7nwy+1vabzfN04Ey+kR/68WVOJ3ixqfjgWM7RMHcGS
-	 JwpdLtYhKWsk8jVQ6vNG+I1DA2MGG5n7kYnyZa8t9wetNjVGezKaHnqRx+fSEzdxC/+Dn
-	 e0qSyyyGFKKwfww3gzho+cnEEr7Y39acS1oHp46/E9uBe8JGGU/LT90xl6Woo/bq5uy6/
-	 QLacFZGQmvl+hCYEZSv9fLQC3/2en3hzMh+R3TvivAJgm9DiN3XuWgxv2nqVjWEa3ZA==
+	t=1793088217;
+	b=1uxOEGXd0LW/qfSbDF+apuO4YWrr5gkwJWjwaksSRvp08WWf3Sl7Bwim1Qq0b95O47Eg
+	 dCvN6fNQ7nT3vfYyVgecB0sa17E2Ge20YY0elHsl+3n7Vl5uiKRkyCvavfkmQi/57nnap
+	 cZJR2GzksnhsbMt2yVvirg/TazQ3ZlOiuwDrPwH5ERngAQUuK9anETos7ZMawOgXGIeyK
+	 1inhjL93zrGN4WZrq5gTGA8XnvXTXXx2arWnPZnC/0vJiIJ/D/DvIHHOLbD5zCWLm2oap
+	 g6hlf6lTlwRDatl0RjTmazTgLz7iulX6MRRU4imgbii2Obh3iVHUKA9pCMGDqdMu8AA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793049791;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
-	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
-	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
-	 X-Local-Domain:X-CMAE-Envelope;
-	bh=Al40yz8zX8CT/g6ZiarLm9qznrROayr99YdGIejOzh4=;
-	b=kRTHhaD6+j0AEcRUxy6T4h2EDDK6gZf/mzb8ERSeDOKH4rllbDq4VBClcfzhFFzSKQwS
-	 O4zKPRX8slqO6NbohQL4vKeVnBgKp9S959Z7iMBV6ygIZFuP65D5/Ndz0EEpkAwvjl7q7
-	 urbYAUpdGPeFnAbTYP9Nb9q7V8azcJ/p+KyHWwwYREEII9phmHA/LA7EXKpHCFwBkIf1V
-	 sG+jSNHkUx3cu0i1Sthj6a8WL4yL3pkduxhq7xteovPg/ox6Kbq7FGVwUGPvCO8xVxnzR
-	 qI+FzpP7Yuw9/x1DKzu0OzFmTJaU1y7jZLSBcMjSfEsUlND0bmSYhTFLzlxc+ZX/RZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793088217;
+	h=DMARC-Filter:From:DKIM-Signature:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc;
+	bh=P5c0ApmIJ3lAMNaYphnR5Mx0YPPl4nsPPZL16lmRKXY=;
+	b=S5kUJFCok9qvFEXc+MSl79c60hkxYgoR6Ce9TEQszgjvcd7DPpPT9F/Q5ZgUoG5Omw32
+	 zNySodSt3OuETSVrLPB2NvC6HK1h1fUyCyf4hf+Y/RsjIGQ+DwvQaUIa+/R3p8wJ0wSwl
+	 HX+dihPAgR6jX8hTGyZpd9AuVZ5AhURZU/5CrMd7neqMI1WAXnJmwiqe61TTob6MNp3ot
+	 b+VOMUUFfzrO5uNQDTnxf/zFO/eN6k9d2KAurG8mOlPl+LmvN171qyL2NdP5spvuhGYpU
+	 XxgPAt7sBRMPISC0GiHywCMjP2ZkEpwgxEJpX25fjChe1wvLPOWYdOt8ZMQ5hcCJ9Fw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=nuJTrfl2;
-	arc=none smtp.remote-ip=44.202.169.35
-Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=cyberchaos.dev;
+	spf=pass smtp.mailfrom=cyberchaos.dev;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=crVEQopE;
+	arc=none smtp.remote-ip=195.39.247.168
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F4C606A31D
-	for <asahi@lists.linux.dev>; Mon, 26 Oct 2026 21:23:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90F4C606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EA8606A31B
+	for <asahi@lists.linux.dev>; Tue, 27 Oct 2026 08:03:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9EA8606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=nuJTrfl2
-Received: from eig-obgw-5001b.ext.cloudfilter.net ([10.0.29.181])
-	by cmsmtp with ESMTPS
-	id LS2ox5gnKLvgbLS9txoDts; Mon, 26 Oct 2026 21:23:09 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id LS9sxj7iniR5iLS9txthX9; Mon, 26 Oct 2026 21:23:09 +0000
-X-Authority-Analysis: v=2.4 cv=XL8wSRhE c=1 sm=1 tr=0 ts=6adfc4bd
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10
- a=rJ5y2_88ZgdFKM9dSD0A:9 a=CjuIK1q_8ugA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Al40yz8zX8CT/g6ZiarLm9qznrROayr99YdGIejOzh4=; b=nuJTrfl2cv6HWnm3fhxzkWe/wA
-	VRs0DQvGsuWH00LII2CP9tHoiCLQbpQ1gAfDgO3FBNi0UjcPIij5TKwMZQ/8O9Bn90eUZFX2PawpY
-	o6mQhUQ2oruu/5lqTVgcG6tHLUaqTs98tswJg7VsyFAoxVYLDXCdKavCj1Us32IyROR6qkD7uzH67
-	xdd4qsL9/3MoEIE8y8PrEAsWMIuUnacs27mT2FoT5q1gPdp1hnoBdRE8J1e12Udtcb2j2Vu1P15i+
-	etQopKwhHD+6GmUDQutNAX+Ig3VRKBWGqxgpzfGHSol4/LsFBViabi1cWM0haUS09OFpvnO47rnoo
-	pt8t2C0Q==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:35782 helo=server.roeck-us.net)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xLS9s-00000003SIU-1SbN;
-	Tue, 27 Oct 2026 02:53:08 +0530
-Date: Mon, 26 Oct 2026 14:23:07 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Aditya Garg <aditya.garg@linux.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (macsmc) Allow enable writing to fan speeds by
- modifying sysfs
-Message-ID: <2cc7dea9-9a0e-4532-8ed6-74664c621fae@roeck-us.net>
-References: <20261018113248.12243-1-aditya.garg@linux.dev>
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=crVEQopE
+From: Yureka Lilian <yureka@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1793088208;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P5c0ApmIJ3lAMNaYphnR5Mx0YPPl4nsPPZL16lmRKXY=;
+	b=crVEQopEfm3vY6etwK7PdIB3SmLmyRWj8Epua/Soc+v5Rbpb7o+MA91lYVv9dA4lORKBQw
+	4mjWnEQToB5OR/G7JHCcBrdfWMV83H8c0Esd3NJdj6D0SCOe0QCqPkKB5TaoHXvSMDQs/P
+	EUuJISIwf1ADXGzbly7QiU3Vl3vIuls=
+Subject: [PATCH 00/10] Initial Apple Silicon M5 device trees and
+ dt-bindings
+Date: Tue, 27 Oct 2026 09:03:20 +0100
+Message-Id: <20261027-apple-m5-initial-devicetrees-v1-0-1356181bc50d@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -84,66 +56,81 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261018113248.12243-1-aditya.garg@linux.dev>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xLS9s-00000003SIU-1SbN
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:35782
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 9
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfFoDLGiZbtp+pfHX3hZyPLbECWP7jYF2PsngTxc1wK4oWTlOL/r76QD9RaApQxymqYwgKclWBPxL/6lTyEn31mHcqdhdVaAJndR8bbXKT1KfX2+VfJGf
- 64T8WE6LeeS5JvWb07OXqYZD8Yp6gVLT6tH3aiJXmiI6IELQzDGtiIPYYeec9m9aYaWPypUD4T3gEz2TMGLN+7sAhcTlnyjPL3o=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMywrCMBBG4Vcps3YgqbZSX0Vc5PKrIzWGTBSh9
+ N2NuvwW5yykKAKlQ7dQwUtUHqnBbjoKV5cuYInN1Jt+tMaO7HKewfeBJUkVN3NsVUAtgPIuwvh
+ pP0x+66ktcsFZ3r/98fS3Pv0NoX6ftK4f2RlBo4AAAAA=
+X-Change-ID: 20261016-apple-m5-initial-devicetrees-4de0b9759b3b
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Radu Rendec <radu@rendec.net>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ Hector Martin <marcan@marcan.st>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Sasha Finkelstein <k@chaosmail.tech>, Linus Walleij <linusw@kernel.org>, 
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ Yureka Lilian <yureka@cyberchaos.dev>
 
-On Sun, Oct 18, 2026 at 05:02:48PM +0530, Aditya Garg wrote:
-> The fan_control module parameter in the driver enables/disables the user's
-> ability to manually modify the fan speeds. In case the user attempts to
-> change the module parameter via sysfs rather than at the time of modprobe,
-> changing fan speeds is still restricted.
-> 
-> The reason behind this is because during probe the fan_control variable is
-> used to restrict the user in the following two ways:
-> 
-> 1.	if (!fan_control || hwmon->fan.fans[channel].mode.macsmc_key == 0)
-> 		return -EOPNOTSUPP;
-> 
-> Here, if disabled, the OS will return an error and will not allow changing
-> the speeds.
-> 
-> 2.	if (fan->attrs & BIT(attr)) {
-> 		if (attr == hwmon_fan_target && fan_control && fan->mode.macsmc_key)
-> 			return 0644;
-> 
-> 		return 0444;
-> 	}
-> 
-> Here, if disabled, the sysfs files are with permissions 0444.
-> 
-> In case a user changes the module parameter via sysfs, due to the second
-> check, the sysfs files remain with permissions 0444, and user isn't able to
-> change the speeds.
-> 
-> Since 2 checks are practically unnecessary, and the second is causing problems
-> this patch removes the second check. Now, if the module parameter is changed
-> via sysfs, the first check will pass and user will be able to modify the fan
-> speeds.
-> 
-> Signed-off-by: Aditya Garg <aditya.garg@linux.dev>
+Hi,
 
-Applied.
+This series adds initial device trees and dt-bindings for the Apple
+Silicon devices using the M5 (t8142) SoCs.
 
-Thanks,
-Guenter
+This series covers only a minimal amount of hardware, which is useful
+as a basis for future developments. The hardware added here has remained
+largely unchanged from the earlier Apple Silicon generations.
+
+I applied some version of dt-check-style formatting to all new files
+with the exception of the generated pmgr nodes.
+
+Merge strategy:
+Since there are no actual driver changes, we'd prefer to merge the
+dt-bindings changes through the apple-soc tree once Acked by the
+respective maintainers.
+
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+---
+Yureka Lilian (10):
+      dt-bindings: watchdog: apple,wdt: Add t8142 compatible
+      dt-bindings: interrupt-controller: apple,aic2: Add t8142 compatible
+      dt-bindings: arm: cpus: Add Apple M5 CPU core compatibles
+      dt-bindings: arm: power: apple,pmgr-pwrstate: Add t8142 compatible
+      dt-bindings: arm: apple: apple,pmgr: Add t8142 compatible
+      dt-bindings: pwm: apple,s5l-fpwm: Add t8142 compatible
+      dt-bindings: pinctrl: apple,pinctrl: Add t8142 compatible
+      dt-bindings: i2c: apple,i2c: Add t8142 compatible
+      dt-bindings: arm: apple: Add M5 based devices
+      arm64: dts: apple: Add minimal t8142 (M5) device trees
+
+ Documentation/devicetree/bindings/arm/apple.yaml   |   15 +
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |    1 +
+ Documentation/devicetree/bindings/arm/cpus.yaml    |    2 +
+ .../devicetree/bindings/i2c/apple,i2c.yaml         |    1 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |    1 +
+ .../devicetree/bindings/pinctrl/apple,pinctrl.yaml |    3 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |    1 +
+ .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |    1 +
+ .../devicetree/bindings/watchdog/apple,wdt.yaml    |    1 +
+ arch/arm64/boot/dts/apple/Makefile                 |    3 +
+ arch/arm64/boot/dts/apple/t8142-j704.dts           |   36 +
+ arch/arm64/boot/dts/apple/t8142-j813.dts           |   36 +
+ arch/arm64/boot/dts/apple/t8142-j815.dts           |   36 +
+ arch/arm64/boot/dts/apple/t8142-jxxx.dtsi          |   50 +
+ arch/arm64/boot/dts/apple/t8142-pmgr.dtsi          | 1131 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8142.dtsi               |  512 +++++++++
+ 16 files changed, 1830 insertions(+)
+---
+base-commit: 498a03715b45515444fe1fc6d7b34177cafb6c38
+change-id: 20261016-apple-m5-initial-devicetrees-4de0b9759b3b
+
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
+
