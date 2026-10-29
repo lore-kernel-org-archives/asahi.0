@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793264465;
-	b=j6lhihQvS7GaF4TMb81e0NkkrJTWtIKTjtuPsK7jagXEfTBnK3ufrn67poJ4P5yRrxzk
-	 XvqKYaUxZv5SmBWXZhcquIjrpyBTzuDtJCNpQ+wbzZZrlRwI+C2HSXwepakzDB/Ayi/Tm
-	 b3J50nLuiJlnd46/rKsXrfHuCRF4dsE8B5Lv7JNIpUVEmlFVNZ77oqv7tn153f1vgRiqJ
-	 Adwgxx95AJ3iy2UkPmUQaoPv9DcvipMyDZdnkYkFJGumlt8gFG+uTvs4yF+jsRSNtCw3K
-	 K5aU4IIVVQQIUwjrJOT4NB87uFkChZJSn21QmwTqpaFaXQMmsZlGqrkqpuBtiIXSXsQ==
+	t=1793264494;
+	b=K42Mp/l6ojqP8p3OjXL/RAQbBkUu6AJwoyniCrkyEPqCUCHXr7ynZJ607pRaNF6UCBn4
+	 UCpFjrwnyaKraMLp5FvOWQarWLMfCfFDziqPWrPeeem6NZEsepH41pYgRbibLfINMzHEW
+	 n16g/Tt3fsBkAch1uCkqdkZ8XUVLXyRJOZUxN8h8zuEivjjhsCuML+GD1tpT8tx8kVXVm
+	 Rn3DMu55oFpaCCPdmLqkvsaum7vg/R4FZSTP8ZE0PxWeyt/X9eooZnPMAI3Nc7PdyIohj
+	 tVo95/6mM2GjnwhBlNLjiGh31ho0ixTfFrEtBSm/JMTgNFwshPpEZIFvQNoy4+1n7bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793264465;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793264494;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Z3mbcZY+neJw3cJUW+gndo2WA1VaXIZUfre4RITk+7k=;
-	b=wgYY1dXpzYm5XHS/2CxXA1afIXy/5hAlIgnGmGQIzzltGZJHnnZ3wxwXrje6MNKmKu7y
-	 wd4M2MnPuvaCv3LfvH670IJ0XTrQ9e1mMo5WfOj0hk4v9RT8roGcX3uGIh8MVRUbqeP++
-	 kHc4Y0o2oN61OhaRfn8tou89XXZKoa5bM7+ZJhCS5pVlC4qG5Cv5iGZ1FAbUEyBMpBSsK
-	 V1Uqs9Yp2Za4r5d2EIYIWTwaM32ysmaX7mJmZ8rSWCEP5944rTNmabGw43EOCPgIy0cro
-	 DUni8IPvc7jefuJaxNqj1/avRYDhRParH6yoziLKMBsW7xgbzidnwXMxeTgO4oIRmFQ==
+	bh=5ZHPP80P/K5Og+av73zHRl2Ft2Q1yinNFTFs8Wj9Vvw=;
+	b=n6hIBUO5C/seFFk6UBb3dnxk1fMsy4qGNJ7ymN0bQGJSVQ7Fpkxm5Gbd5jqpM3r/+nBx
+	 CU7iutQ8tGqCXq6L/Dr3jCu+v9colCXGC5y220+em96CIFzZA7Wj1dDOrYT6wMQGK26zB
+	 BwLDZg9Emcflw1drQup8Nd69sr64FgwviIE/4WZreXcKi+sbStXpzgqoutjA5mDaPLORW
+	 wU4CDYgo2RMH9pJrOQZ92eCEhO9FpHKM1/up07vGuAuW3ymFhDsmCwMf8o9Lem8PTMdne
+	 Am/vd7gBdQVKfPtjdtE2b7F4Ot1QpdpZj6a1HHI22Xs3mlPjcs+YxdTbq1d71LVIMrg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YoI+X4Ic;
-	arc=none smtp.remote-ip=74.125.82.174
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CqTvGXfY;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8114B606A326
-	for <asahi@lists.linux.dev>; Thu, 29 Oct 2026 09:01:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8114B606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BCB606A330
+	for <asahi@lists.linux.dev>; Thu, 29 Oct 2026 09:01:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03BCB606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YoI+X4Ic
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso1180414eec.0
-        for <asahi@lists.linux.dev>; Thu, 29 Oct 2026 02:01:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CqTvGXfY
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso3465639eec.0
+        for <asahi@lists.linux.dev>; Thu, 29 Oct 2026 02:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793264465; x=1793869265; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793264492; x=1793869292; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Z3mbcZY+neJw3cJUW+gndo2WA1VaXIZUfre4RITk+7k=;
-        b=YoI+X4IcS9XoVy86HddnYWY5eXUW0i5m5Enrtgaxzj/Z8ZTUbO2G/RLzzXKRmVI6PT
-         knOpS39QyQsrZGyGmsLAQCQ6cG7sIca9mclHknXQQ6P2VAW5/67xCX7eYdBr+EOQZNdS
-         WJZzXvg+W8GlF2SrnR/9fDv85Yh4vF/+i9HRcWWOEw+pEIMETEWD5prmLH9JApoOBfCY
-         6CyS33NkFWJ3Vokcw7VxoSP54tpngVn9mLL44V8em31EspYWoFt+vPSIXqGja3HvtIDd
-         gRF1D/Fuj5asO7gG/8d9pkTm4WXnN53Gk33GhO05UJX5FkzZS6oL3qDfMIE/xeyexaEI
-         qjPQ==
+        bh=5ZHPP80P/K5Og+av73zHRl2Ft2Q1yinNFTFs8Wj9Vvw=;
+        b=CqTvGXfYR/+MTw1YPPInUTxCMk0QMSfaqJaoF0oS/fbbS03sIIFeqLjgMOI0rKCBpA
+         7kZCwHfXe9KPVHNT1VRaCdQhz38hOI2CcvxjWi2oaLLemJVArxX3ny1fHH4U8/LjmYpR
+         Eg/gGUpzRuLqbyUR2eU3CSAqY13udHKwdwFTf1DfKerVU3sdrCaSXvkjPLY102BMMmys
+         ZvfmmGRKR71OFihkF5Ry4lLn94v1YRsrZcPDl3KBAT4HrcQNjiIMoDn2hxi8pCiGMeuR
+         z1LrnqoH99z833357TQqrSTPOhXkTrtBosNi05VB4KxYLwg2U9TQV4YOjgCKf7j+TKSX
+         4dHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793264465; x=1793869265;
+        d=1e100.net; s=20260707; t=1793264492; x=1793869292;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Z3mbcZY+neJw3cJUW+gndo2WA1VaXIZUfre4RITk+7k=;
-        b=kC8M4YvuX0NzbKrPomZ07ViU0z5AQ28Jt24SmeuU7356z4kujjPHnd7tSWwwRmjMH7
-         LKZ4AdCVWotk+Ga10p2+syo0wsvaOO6WcDewq9Qne/kif5EAayg+8pfvoY90brJcWjZ3
-         aPhRX3rp+ssVGokCA6lZoySD9oZDmLltxXCwWAiuNxyPZPwcnsXqnpEDVtg/nFhaqpOe
-         /aCNXuwuawkOuDIpeXN8s3Y/8E8bteURbwYbf22aDvUR7EJYZTJUlz6KgbvxswfUJ21u
-         05rvUaY48wWXGkh5aqIBeTGAOYo5xd/WpGlXCJ9ng8g7CuC1ACFOI0ItIEtshHwk13An
-         v9ZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxHS/IGaCixYqv2tHqr0hYJfcS3yeKkTJ6B0ukGxNhvcWdAPOHZ2SLMQO360TNexAuUH1WONw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLhWsRfM8ykbPtNhfxVl+g4PMy3GGWn4QnTzgPoB3RbTVug/R2J
-	STRpK3HEAmaaDxzc22xoYbanFL1ecl+vsTAraRztqQPjiFiSzGsW3Cw=
-X-Gm-Gg: AYBFou1fs0MG5kiSSAtBucJ0clI9yhLNegCxp63xCXSpUX/U1pXZgnnapOB5LUn4rFu
-	XKIZZWWHXMeEVd7Fb4kHdVLVoULacY7Yqckhyoth/R9MwTgIZM4twAJI4X84gMYcC3xXT/vrLDp
-	mKY99JybJia+9LAJZcMajKYYQYGc0P/VIL28MFBwkkUIkCX6TUlPz856mTlrTm59k2+LOt0mALt
-	XXag4KOkWray1svHkVf9cJbZ3ErFAv+4JMjH5iNM03XSYtBKDKd4jp3PJ4iM+wpz3Qc+XHhxLFL
-	D/MoEmXsTC1+CSjsz5DO5SsggQ+SxV7yQ8FwQ2EutpGAZINJkxNSdIErr44KTd2UwPV/361R/NN
-	ekDiq35berIYIpRo1TsgPP+gz7VzllzkaivF1rNc0AQyecVmARsr7bEmA9gEQB4Nyw90r0+bWie
-	p+q7zQUrOQqie/kJU7u7mZw656CVXKsrQek11FNQzLyXxRNvjYUlQaIjAK9SSa0ggBzv+kHx5O2
-	BTuUxppHSrqDEhweIb7gc2nuLWgeZemfTDRGKq/cwtt1OxPPFWD0ndyc+iianK6LRBLLZErQ3TV
-	MjjSH92dlwyVIcMpM9gWAh6wEGit/NufLC5idbQ7/AEqAeuqtXtoN+/65zvkOQ==
-X-Received: by 2002:a05:7300:f894:b0:351:207d:bff4 with SMTP id 5a478bee46e88-36a202bc360mr7083860eec.4.1793264464275;
-        Thu, 29 Oct 2026 02:01:04 -0700 (PDT)
+        bh=5ZHPP80P/K5Og+av73zHRl2Ft2Q1yinNFTFs8Wj9Vvw=;
+        b=1f0C9ouUy9Uqu5x3cJ2rj4lvZtFKW1bhi1vAJWxpKHGQh+LShE4grK8V38PbOxkfat
+         RKNOEFzrdE9JPHHiOl7Fu6Md5sHdstBwebpjBtq7zD/xiF1t+qvXJ6W+eynFZM8f6cp7
+         pSO377r0xv9+xfft/7cP31Aq8vfz3dwYPuxGmFgpUEMg8BCidA8gtQCHSxmYtdON1J0z
+         HT/xzqy32ZBcfkavQcSlMGZc9UQPHBEF7070ZdC55pzh7dxRoaraivGFVHeAJUUbbHeC
+         uAV7vnJIoIW+WP/EuQ85Sv12PsgbGTofQyW2CO0euX9Z9VgfB5wbP+VmvTKaVAszitEH
+         IwtA==
+X-Forwarded-Encrypted: i=1; AKwUvByRmhiwRDwLI/Toz3QjXCxMvFWnV7e4fHiSQl4mFFzd0dZwZ52cYwYXRAI73WAk3Xc0yndCjw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKrmV9uHT0WZsS+SXYN4p7nrZZ0nRRfFgWoix3azxzXhRG3QJ2U
+	OZh+ZyDCdaPXH7eUjCi2SVZaLCZK63c/BmB6/6+/UT6j8hM1YOzn0sk=
+X-Gm-Gg: AYBFou0zei4mNM914FuAIDjzoukSzdETBM6GUjPg5dioE0qFpdXSkynA+21vF4LrTdK
+	RlXeK63wLVMFDE6tI+DytYyvojpyFSZitFoz3dOazKKDzfi3GuAX2IOTMlGFuTnPw1SAF8QRTgX
+	XkZiWMvUJR+GPxs/JUY+YZDiezj0AwiYmEa/xJx2HNPnnaNbTrm37lL+mx66wMq9JBwKBY04nTC
+	7xZFeCyrwfmdyyCxWoz695+e6W2BpWhE9jB9bO0bHYp1XRkSlOAgmQ3hleFpbmUNjIO0S5WTnoC
+	hjrMcR7BmK+LG7MQ6AJA7R8cX4RV1ATO495Iw7OQDIx8TBYrffhkI9bioQckpS7aiOELJu7Qv8l
+	/R567M2wLgCkFZbkgl2hhqFFIa6OGI2rZYdT1RmLgdL5+XP4OH60gdD6o8L/toAJSI8RAtweJIU
+	Segr0QDS4tvZbAFNFnXvPRNUYMVygO07R/7KTI6AokLHsNQDreUmNRE9fL+Ssr2ermfcbOnlBPn
+	YW0oHQDFJpibuzW6RGbc2+L+SmyNPmdbnb+7vqJmSDFzZGw4ethS9/ZIj98FUXOURnGGGNqgkmn
+	oydXPyjvmyOJQSYe8F0BdsCYIxkLti90Nyc/DMXAgp+CKNDElVkUzYOpJf5otQ==
+X-Received: by 2002:a05:7300:f587:b0:369:fc38:6821 with SMTP id 5a478bee46e88-36a20113296mr6116491eec.12.1793264491785;
+        Thu, 29 Oct 2026 02:01:31 -0700 (PDT)
 Received: from at-Standard-PC-Q35-ICH9-2009 ([27.60.20.232])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a23641e78sm16497937eec.0.2026.10.29.02.00.47
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a23641e78sm16497937eec.0.2026.10.29.02.01.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 02:01:03 -0700 (PDT)
+        Thu, 29 Oct 2026 02:01:31 -0700 (PDT)
 From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 To: 
 Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
@@ -133,9 +133,9 @@ Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
 	linux-integrity@vger.kernel.org,
 	keyrings@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: [RFC PATCH 11/14] acpi: disable battery and adapter for x86 apple machines
-Date: Thu, 29 Oct 2026 04:52:08 -0400
-Message-ID: <20261029085504.3547-12-atharvatiwarilinuxdev@gmail.com>
+Subject: [RFC PATCH 12/14] hwmon/macsmc: add more types
+Date: Thu, 29 Oct 2026 04:52:09 -0400
+Message-ID: <20261029085504.3547-13-atharvatiwarilinuxdev@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261029085504.3547-1-atharvatiwarilinuxdev@gmail.com>
 References: <20261029085504.3547-1-atharvatiwarilinuxdev@gmail.com>
@@ -150,73 +150,346 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When macsmc-power is enabled on an Intel Mac, skip acpi-sbs
-and the ACPI battery and adapter drivers, since macsmc-power
-now provides them. This avoids duplicate devices.
+SMC keys come in many data types, and Intel Macs use a lot
+that macsmc-hwmon couldn't read, such as the signed fixed
+point types like sp1e.
+
+Add support for the common integer and fixed point types,
+and allow writing fan speeds.
 
 Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 ---
- drivers/acpi/sbs.c       | 17 +++++++++--------
- drivers/acpi/x86/utils.c |  4 ++++
- 2 files changed, 13 insertions(+), 8 deletions(-)
+ drivers/hwmon/macsmc-hwmon.c | 310 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 310 insertions(+)
 
-diff --git a/drivers/acpi/sbs.c b/drivers/acpi/sbs.c
-index f10bbf13c..b12f2acc0 100644
---- a/drivers/acpi/sbs.c
-+++ b/drivers/acpi/sbs.c
-@@ -634,6 +634,9 @@ static int acpi_sbs_probe(struct platform_device *pdev)
- 	int result = 0;
- 	int id;
- 
-+	if (IS_ENABLED(CONFIG_MACSMC_POWER) && x86_apple_machine)
-+		return -ENODEV;
-+
- 	device = ACPI_COMPANION(&pdev->dev);
- 	if (!device)
- 		return -ENODEV;
-@@ -655,14 +658,12 @@ static int acpi_sbs_probe(struct platform_device *pdev)
- 
- 	result = 0;
- 
--	if (!x86_apple_machine) {
--		result = acpi_manager_get_info(sbs);
--		if (!result) {
--			sbs->manager_present = 1;
--			for (id = 0; id < MAX_SBS_BAT; ++id)
--				if ((sbs->batteries_supported & (1 << id)))
--					acpi_battery_add(sbs, id);
--		}
-+	result = acpi_manager_get_info(sbs);
-+	if (!result) {
-+		sbs->manager_present = 1;
-+		for (id = 0; id < MAX_SBS_BAT; ++id)
-+			if ((sbs->batteries_supported & (1 << id)))
-+				acpi_battery_add(sbs, id);
+diff --git a/drivers/hwmon/macsmc-hwmon.c b/drivers/hwmon/macsmc-hwmon.c
+index 1500ec2cc..2e74dcd66 100644
+--- a/drivers/hwmon/macsmc-hwmon.c
++++ b/drivers/hwmon/macsmc-hwmon.c
+@@ -221,6 +221,313 @@ static int macsmc_hwmon_read_key(struct apple_smc *smc,
+ 			*val = (long)ioft;
+ 		break;
  	}
- 
- 	if (!sbs->manager_present)
-diff --git a/drivers/acpi/x86/utils.c b/drivers/acpi/x86/utils.c
-index 418951639..9f3b9b7d9 100644
---- a/drivers/acpi/x86/utils.c
-+++ b/drivers/acpi/x86/utils.c
-@@ -14,6 +14,7 @@
- #include <linux/dmi.h>
- #include <linux/pci.h>
- #include <linux/platform_device.h>
-+#include <linux/platform_data/x86/apple.h>
- #include <asm/cpu_device_id.h>
- #include <asm/intel-family.h>
- #include "../internal.h"
-@@ -608,6 +609,9 @@ bool acpi_quirk_skip_acpi_ac_and_battery(void)
- 	long quirks = 0;
- 	int i;
- 
-+	if (IS_ENABLED(CONFIG_MACSMC_POWER) && x86_apple_machine)
-+		return true;
++	/* unsigned 8-bit integer */
++	case __SMC_KEY('u', 'i', '8', ' '): {
++		u8 ui8 = 0;
 +
- 	dmi_id = dmi_first_match(acpi_quirk_skip_dmi_ids);
- 	if (dmi_id)
- 		quirks = (unsigned long)dmi_id->driver_data;
++		ret = apple_smc_read_u8(smc, sensor->macsmc_key, &ui8);
++		if (ret)
++			return ret;
++
++		*val = ui8 * scale;
++		break;
++	}
++	/* signed 8-bit integer */
++	case __SMC_KEY('s', 'i', '8', ' '): {
++		s8 si8 = 0;
++
++		ret = apple_smc_read_s8(smc, sensor->macsmc_key, &si8);
++		if (ret)
++			return ret;
++
++		*val = si8 * scale;
++		break;
++	}
++	/* unsigned 16-bit integer */
++	case __SMC_KEY('u', 'i', '1', '6'): {
++		u16 ui16 = 0;
++
++		ret = apple_smc_read_u16(smc, sensor->macsmc_key, &ui16);
++		if (ret)
++			return ret;
++
++		*val = ui16 * scale;
++		break;
++	}
++	/* signed 16-bit integer */
++	case __SMC_KEY('s', 'i', '1', '6'): {
++		s16 si16 = 0;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &si16);
++		if (ret)
++			return ret;
++
++		*val = si16 * scale;
++		break;
++	}
++	/* unsigned 32-bit integer */
++	case __SMC_KEY('u', 'i', '3', '2'): {
++		u32 ui32 = 0;
++
++		ret = apple_smc_read_u32(smc, sensor->macsmc_key, &ui32);
++		if (ret)
++			return ret;
++
++		*val = ui32 * scale;
++		break;
++	}
++	/* signed 32-bit integer */
++	case __SMC_KEY('s', 'i', '3', '2'): {
++		s32 si32;
++
++		ret = apple_smc_read_s32(smc, sensor->macsmc_key, &si32);
++		if (ret)
++			return ret;
++
++		*val = si32 * scale;
++		break;
++	}
++	/* 2.14 unsigned fixed point decimal */
++	case __SMC_KEY('f', 'p', '2', 'e'): {
++		u16 fp2e;
++
++		ret = apple_smc_read_u16(smc, sensor->macsmc_key, &fp2e);
++		if (ret)
++			return ret;
++
++		*val = mult_frac(be16_to_cpu(fp2e), scale, BIT(14));
++		break;
++	}
++
++	/* 3.13 unsigned fixed point decimal */
++	case __SMC_KEY('f', 'p', '3', 'd'): {
++		u16 fp3d;
++
++		ret = apple_smc_read_u16(smc, sensor->macsmc_key, &fp3d);
++		if (ret)
++			return ret;
++
++		*val = mult_frac(be16_to_cpu(fp3d), scale, BIT(13));
++		break;
++	}
++
++	/* 4.12 unsigned fixed point decimal */
++	case __SMC_KEY('f', 'p', '4', 'c'): {
++		u16 fp4c;
++
++		ret = apple_smc_read_u16(smc, sensor->macsmc_key, &fp4c);
++		if (ret)
++			return ret;
++
++		*val = mult_frac(be16_to_cpu(fp4c), scale, BIT(12));
++		break;
++	}
++
++	/* 5.11 unsigned fixed point decimal */
++	case __SMC_KEY('f', 'p', '5', 'b'): {
++		u16 fp5b;
++
++		ret = apple_smc_read_u16(smc, sensor->macsmc_key, &fp5b);
++		if (ret)
++			return ret;
++
++		*val = mult_frac(be16_to_cpu(fp5b), scale, BIT(11));
++		break;
++	}
++
++	/* 6.10 unsigned fixed point decimal */
++	case __SMC_KEY('f', 'p', '6', 'a'): {
++		u16 fp6a;
++
++		ret = apple_smc_read_u16(smc, sensor->macsmc_key, &fp6a);
++		if (ret)
++			return ret;
++
++		*val = mult_frac(be16_to_cpu(fp6a), scale, BIT(10));
++		break;
++	}
++
++	/* 8.8 unsigned fixed point decimal */
++	case __SMC_KEY('f', 'p', '8', '8'): {
++		u16 fp88;
++
++		ret = apple_smc_read_u16(smc, sensor->macsmc_key, &fp88);
++		if (ret)
++			return ret;
++
++		*val = mult_frac(be16_to_cpu(fp88), scale, BIT(8));
++		break;
++	}
++	/* 14.2 fixed point decimal */
++	case __SMC_KEY('f', 'p', 'e', '2'): {
++		/*
++		 * fpe2 is only used for fan stats and fan control
++		 * so precision is not needed
++		 */
++		u16 fpe2;
++
++		ret = apple_smc_read_u16(smc, sensor->macsmc_key, &fpe2);
++		if (ret)
++			return ret;
++
++		*val = (be16_to_cpu(fpe2) >> 2);
++		break;
++	}
++	/* 1.14 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '1', 'e'): {
++		s16 sp1e;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp1e);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp1e), scale, BIT(14));
++		break;
++	}
++
++	/* 2.13 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '2', 'd'): {
++		s16 sp2d;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp2d);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp2d), scale, BIT(13));
++		break;
++	}
++
++	/* 3.12 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '3', 'c'): {
++		s16 sp3c;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp3c);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp3c), scale, BIT(12));
++		break;
++	}
++
++	/* 4.11 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '4', 'b'): {
++		s16 sp4b;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp4b);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp4b), scale, BIT(11));
++		break;
++	}
++
++	/* 5.10 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '5', 'a'): {
++		s16 sp5a;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp5a);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp5a), scale, BIT(10));
++		break;
++	}
++
++	/* 6.9 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '6', '9'): {
++		s16 sp69;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp69);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp69), scale, BIT(9));
++		break;
++	}
++
++	/* 7.8 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '7', '8'): {
++		s16 sp78;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp78);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp78), scale, BIT(8));
++		break;
++	}
++
++	/* 8.7 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '8', '7'): {
++		s16 sp87;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp87);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp87), scale, BIT(7));
++		break;
++	}
++
++	/* 9.6 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', '9', '6'): {
++		s16 sp96;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &sp96);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(sp96), scale, BIT(6));
++		break;
++	}
++
++	/* 10.5 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', 'a', '5'): {
++		s16 spa5;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &spa5);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(spa5), scale, BIT(5));
++		break;
++	}
++
++	/* 12.3 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', 'c', '3'): {
++		s16 spc3;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &spc3);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(spc3), scale, BIT(3));
++		break;
++	}
++
++	/* 13.2 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', 'd', '2'): {
++		s16 spd2;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &spd2);
++		if (ret)
++			return ret;
++
++		*val = mult_frac((s16)be16_to_cpu(spd2), scale, BIT(2));
++		break;
++	}
++
++	/* 15.0 signed fixed point decimal */
++	case __SMC_KEY('s', 'p', 'f', '0'): {
++		s16 spf0;
++
++		ret = apple_smc_read_s16(smc, sensor->macsmc_key, &spf0);
++		if (ret)
++			return ret;
++
++		*val = (s16)be16_to_cpu(spf0) * scale;
++		break;
++	}
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -263,6 +570,9 @@ static int macsmc_hwmon_write_key(struct apple_smc *smc,
+ 	/* unsigned 8-bit integer */
+ 	case __SMC_KEY('u', 'i', '8', ' '):
+ 		return apple_smc_write_u8(smc, sensor->macsmc_key, val);
++	/* 14.2 fixed point decimal */
++	case __SMC_KEY('f', 'p', 'e', '2'):
++		return apple_smc_write_u16(smc, sensor->macsmc_key, cpu_to_be16(val << 2));
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
 -- 
 2.55.0
 
