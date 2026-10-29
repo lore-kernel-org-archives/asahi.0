@@ -1,99 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793271582;
-	b=c8dlfvYFizdCTbW+SXMWk/kughKyhja/b0lJfNH3N2i2ym7FzLL/EPzJyQKyU4fGjEJG
-	 HMttBfCbtbWd1V8bjWFki5aQC5E3NuAOP5vQumKWEuErGimNEDzUuNuRgWGg3HR5MyQMw
-	 QkjJxTHwZD2VdWZsyiPaAGhULp2gAzdC3471qlwL2iYZJbq3W+tiYkQcFv6MTR5WI+l2t
-	 glOe2Adi8gxJJ0hrkpOcY1NnYT6Va8S3wqMI5F6NgGs2twWqN0gqAhUCy6HBHnsODm53N
-	 o4xjGl8k3QHtJKmux9qINe+1lbfxM/QN3AwvQJE5L3ZkwoKTLKYF5hQZTJ/oSKjiADg==
+	t=1793278823;
+	b=eWS9nUtjFCKaktxGlTn5h+Mg5lavNUrR5XdaL/2+SJtLIPpBAtUuBOSNgyoE6ELCeA7y
+	 B1Q/uv3pOgya08U3aUPwV46lUYrgyBOm3P+P+zpIHNcktpP9maYgDzb4UZOXwX63TWBsT
+	 UStgZFdxZwytn1/Ge4JMMwyiM27/ciMGbXnnae9oImlNZP/pbjdAi3uJzQi++RkB3ZHpP
+	 7HKt8vByhTQ6zlog/LyA50Fc+a1QgG6kuCqRwIa2jqxjB1LKV7MV716dsRkoaorDqcCY2
+	 bu0S1915mELU+dqLetF8as/bW6qO+rruYUt3NCIw1R6TPe62ZViU5LnBkaAuVkGYJag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793271582;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=21Pr25KW8iRWF16tMS8FhZNBj9jILGnkXcKJJd4L4vg=;
-	b=MjeCZseICsZGkNRRG9KpXxBAOS2WNikhZJJMdGbB3CVJAI4MyGsOOONMg00UGymDPQnl
-	 pGeN6dg2PyTEoZXC6zhqTRdgqoDNExdu0yL0gobZZkdnMt9ZIDgo74ZX9jAlE88xNZbtR
-	 izHY2Faoed6rxJIZYOcSNIyMR2dp9g7dcI8oAKlGiIBHMJIK1kgBPBQ13tDxSQwnpXZlJ
-	 EwJTdRxEp7xFaK+yuo4ykGIRn6knTeoB8GzLrk2r1EzM3FLsnl5PyZsC9/5LBX+06Q79b
-	 dTpK8asMFZRljviP6OV2qNAUdlZnR5PM4zhhiC4tZeuCwnO9KaNLow+8K2fKejrxAVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793278823;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:Date:To:cc:
+	 Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type;
+	bh=e8owfEJpSE9Jnys+2aSeIDroUxjHdfvyjJl6Hc7Zcjs=;
+	b=NQzSfGLPql8vVoSAZm8mB//7+8cl/3lbHDC6sNbZYL7LgrzATdN1TujLLuVv+HnzUPrL
+	 PAYnSRw29JR7BsIxDv4O1FD7BFEC/3HqnjK2x//NVWgAPgeZb+2MMzbxsrfT/enk6Zcwb
+	 mGNRWMLXqOtkuYICg2r8L1PxHAE0RCA7aJIz6O9kekujeDMlBP+MDtP81nNBmZuFfs5zM
+	 wk9AycYJ3HJwooLlwwUyzK6OFNVVOA+N+TZ20yxpfb7BBJ/jPqpk6paXicCXbALRms7Jo
+	 GJXMAZ3IwPIFxCm2op24A5cFzlazxuH/ZSjch/l2mlmSm8NefHc/fKUYJJ9aTCAfw+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tam5HzPI;
-	arc=none smtp.remote-ip=209.85.218.46
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iV15jqlQ;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F9D606A31C
-	for <asahi@lists.linux.dev>; Thu, 29 Oct 2026 10:59:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66F9D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABA1606A31D;
+	Thu, 29 Oct 2026 13:00:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EABA1606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tam5HzPI
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c43373ae89aso305183166b.3
-        for <asahi@lists.linux.dev>; Thu, 29 Oct 2026 03:59:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793271580; x=1793876380; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=21Pr25KW8iRWF16tMS8FhZNBj9jILGnkXcKJJd4L4vg=;
-        b=tam5HzPIEs6o/QSkg+rOuBbbazcgQn+3Mep0swTtEihdI6CXtuEGPc/mdmdHgcqfDn
-         aMjJE4iEAYBMBJh3umom7cZsQwoAj35htK+x06xuZZ4LpoYd3dYAgFLsSBz34nHaIl4n
-         0NYMfCKz8zuOJHqJgJ0beQolhchZzuPD2x2kXeVAkcWz7FmNeTRU1oHnTYWGNiLEkHQC
-         9QyQOEkEl+gaYFvNQLep3ddfTfE/+qznCbCcPjnd1EME0dMr/VapzIbl/TGyMVSYD2Qg
-         s20gr61UHOhfb4Kh0Ys9fpT4yw9K0hi3Rb6e6YvgfQ8Fpn86IGiOZRg2QZvRpIDGIK2J
-         ay5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793271580; x=1793876380;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=21Pr25KW8iRWF16tMS8FhZNBj9jILGnkXcKJJd4L4vg=;
-        b=FeA9Qji8+tcGMAlcFxZRe0RH7lnQ6aSfGDVkeIPAtMHwrA/XPDZhPSjndYRPtQMRE3
-         PKYueT6Xpyj/msaPP06QNHuyIBfqkM77nBCXcTUKf10ay2FS2RrAIAL8EYQiZMfnvdnv
-         lOr9R+u7e8PWnwkWGxZ8YArtYGFursq7ZrfLyWush+xKhxfHzrcDPC9Ufs6d6c/PUqUe
-         Iv4IlVAX5Swf4ql69c9YUuXUwyOXcA7jqo5zLLsdLtdxcQvAyiAtliG23vIe/gBERbNn
-         bNM34ZtRlYAVgAhdOKXPBA2VoV//VH+3rP8NBkXvY4CQD9bKamLq7NdTy0izSgzCJQK6
-         NhvQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy6mQ5rFBxzEXWlU2zvoZkUbO1ycy4cvoK/+VnU3qVtN0pAZJT0MvlRW25E52xCGak3+vuK8Q==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJBwpMBRkPDyuWq/JcX1TrAsn/0w9lgJ1uBWx5CEOKQDwm15uiJ
-	mBXqRD/WRGJ9ACRU995oX1WPeHCWTjmrKSounWXbI3uTUnfgkiurUYRO
-X-Gm-Gg: AYBFou3r/pajj33glSGWxHH8MYENC9GpBEp57u96XTpYqrqFGHZEUcUMXXLlAWKPPo0
-	VE4AD0/Eb9VXNCb6dexhLv0Lv/iRV3nFOXnJzTt2z4tNXcSDUka44NVqsjvCh7F5Ll0++xSjeQe
-	JFPkhVCM3Ea55Oi+D2k2ZfAHaYbOryvo5ivo9NqJk6Gha4Gae6KMNpylAk333Txy9q8oORusVLr
-	9JUynTJ2WSvlnheukWdn+pODAdvz5BSCHG/Sb6tjwzU6A2M9bgU0XEI0+59yy1hpJbF7tVr9U3t
-	3w/5Ho47TNRMdsoSnIV0aGXkW8/2mMxmqz9mAdp0+yGQxaWaQng8tQikjvngm7X4dTzKtmRrsmv
-	tETESGQISPUxmYGdgoL5WUg2kNEhByhqJzVuCtSY6aWqx6GqDnO6AUUnbyGNh8TfHyNVfEYt5Nq
-	+IvmR2K0J99FcVjAa1PomaxKUEJmed1DoqWa1cVauPBLogefKn93BRlaN7+1FQnfRqwzIa7t2QI
-	k64fVXCW1utREhpGHRDI2JNp3UoKBcIiOat81Qx3/CVwyvrxSGBq7EVGHcWZvVviDPmHIEHNwAO
-	MJXW6qAJESWj06A27iBVu8A6pfcSCExBWKO3gdlRFH/FnpNOXEHQA+zfP+cBEkvR1aXRD7jgEF/
-	4nW3ORq8cKtcCQc0613g3sEGJye6Uii+/IUgjI9ByYB+Llg==
-X-Received: by 2002:a17:907:3f88:b0:c40:9e84:942a with SMTP id a640c23a62f3a-c49be05b0e9mr431771066b.48.1793271579384;
-        Thu, 29 Oct 2026 03:59:39 -0700 (PDT)
-Received: from nixos-macbook.taile68cd7.ts.net (20-144-89-188.ftth.glasoperator.nl. [188.89.144.20])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd7b5d54sm704604266b.86.2026.10.29.03.59.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 03:59:38 -0700 (PDT)
-From: Jacob Procee <sn125164@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Frank Li <Frank.Li@kernel.org>,
-	Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jacob Procee <sn125164@gmail.com>
-Subject: [PATCH] dmaengine: apple-admac: Fix position one period ahead at period boundary
-Date: Thu, 29 Oct 2026 11:59:08 +0100
-Message-ID: <20261029105908.22809-1-sn125164@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iV15jqlQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793278823; x=1824814823;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=pQZ5jTIQQgWy5IOQkc0GctjtqZcLd8xfFvrDyC/7bpA=;
+  b=iV15jqlQKLZfwR6gLD/x+HiOokKRqI18wRYY9PWs9witz2QGwST5WqIk
+   y8+3GuJjbN0hiMTf1zM6uc3dk2o1mm6NXgMB7NBFSETgnVUn1zaQ2RxSb
+   WCHatC+B7vBDM3RgrZyqVnbkEB1hOpg2kEDJWrUNv6yLcwJFM3M+GaE2F
+   qpMBm0USPjZ3C7TX9icg1iKW0yPGGS0YWq9F/hXfwr9Mt/r40S7GqRVqB
+   8k217e4l5ShqDlD8+EN7CXjAlOuitCTjv58oEX3Q7RFadP+O97ZeNHEqd
+   Gdi6UGiyPFaLkcChlihX+YHUiHbs5kSxRUWbhRTZV4NcQV/JjkctyOsZZ
+   Q==;
+X-CSE-ConnectionGUID: NdK/ahGTS1qA6srjBlMZuw==
+X-CSE-MsgGUID: gOB39yNCR6e2ZXpSMDhNCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1903122"
+X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
+   d="scan'208";a="1903122"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 06:00:21 -0700
+X-CSE-ConnectionGUID: aglSvOwORVS4Qiyuh8Rc+w==
+X-CSE-MsgGUID: T9hQ0FJ4QB+MqSRu3PqRdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
+   d="scan'208";a="5243206"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.149])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 06:00:04 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Thu, 29 Oct 2026 14:59:59 +0200 (EET)
+To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+cc: Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+    Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+    Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+    "H. Peter Anvin" <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+    Len Brown <lenb@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+    Bartosz Golaszewski <brgl@kernel.org>, Sven Peter <sven@kernel.org>, 
+    Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+    Guenter Roeck <linux@roeck-us.net>, Jonathan Cameron <jic23@kernel.org>, 
+    David Lechner <dlechner@baylibre.com>, 
+    =?ISO-8859-15?Q?Nuno_S=E1?= <nuno.sa@analog.com>, 
+    Andy Shevchenko <andy@kernel.org>, Lee Jones <lee@kernel.org>, 
+    Pavel Machek <pavel@kernel.org>, Griffin Kroah-Hartman <griffin@kroah.com>, 
+    Hans de Goede <hansg@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+    Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+    Wim Van Sebroeck <wim@linux-watchdog.org>, 
+    Jarkko Sakkinen <jarkko@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
+    Roberto Sassu <roberto.sassu@huawei.com>, 
+    Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+    Eric Snowberg <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>, 
+    James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+    LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org, 
+    linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org, 
+    asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+    linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, 
+    linux-leds@vger.kernel.org, mfd@lists.linux.dev, 
+    platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org, 
+    linux-rtc@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+    linux-integrity@vger.kernel.org, keyrings@vger.kernel.org, 
+    linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH 02/14] platform/x86: add backend for macsmc in intel
+ macs
+In-Reply-To: <20261029085504.3547-3-atharvatiwarilinuxdev@gmail.com>
+Message-ID: <0cba7eea-ed39-d4d8-8587-f1c07cb5b03f@linux.intel.com>
+References: <20261029085504.3547-1-atharvatiwarilinuxdev@gmail.com> <20261029085504.3547-3-atharvatiwarilinuxdev@gmail.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -103,136 +106,806 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Speaker playback on a MacBook Pro 14" (M1 Pro, J314s) underruns at
-irregular intervals, audible as a tick: 8 times in 3.7 hours of
-playback. Where an underrun was caught (4 of 8), the ALSA hw_ptr had
-jumped by one buffer size while about 70 ms of audio was still queued,
-and a kernel trace showed the DMA position stepping back by exactly one
-period at each of the 6 underruns it covered.
+On Thu, 29 Oct 2026, Atharva Tiwari wrote:
 
-admac_cyclic_read_residue() derives the position from the report ring
-(periods finished but not yet reclaimed) and REG_RESIDUE (bytes left in
-the current descriptor). When a descriptor finishes, the residue first
-drops to zero, then the report is posted and the next descriptor is
-loaded. Usually the last two happen together, but occasionally the
-report comes first. A read in that window counts the finished period
-twice:
+> Add a backend that talks to the SMC on Intel Macs over ACPI.
+> It supports the old I/O port interface, and also MMIO and
+> interrupt-driven completion, which applesmc doesn't have.
+> If an interrupt is missed it falls back to polling.
+> 
+> This is the base that lets the macsmc drivers replace
+> applesmc.
 
- - residue2 == 0 with the report already in ring2: the period is
-   counted in nreports and again as the fully consumed current
-   descriptor;
- - residue1 == 0 with the report already in ring1, and the next
-   descriptor loaded by the time residue2 is read: the
-   residue2 > residue1 branch adds one to a ring1 that already holds
-   the report.
+You have 72-75 chars. Don't split intentionally at . unless you really
+start another paragraph.
 
-Either way the position is one period ahead. The next read is behind
-it, snd_pcm_update_hw_ptr0() takes the backwards step for a wrap of the
-whole buffer, and the stream underruns.
+> 
+> Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+> ---
+>  drivers/platform/x86/Kconfig       |  10 +
+>  drivers/platform/x86/Makefile      |   1 +
+>  drivers/platform/x86/macsmc-acpi.c | 642 +++++++++++++++++++++++++++++
+>  3 files changed, 653 insertions(+)
+>  create mode 100644 drivers/platform/x86/macsmc-acpi.c
+> 
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 4851bf451..448aa2db6 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -202,6 +202,16 @@ config ADV_SWBUTTON
+>  	  To compile this driver as a module, choose M here. The module will
+>  	  be called adv_swbutton.
+>  
+> +config MACSMC_ACPI
+> +	tristate "Apple SMC (System Management Controller) ACPI Backend"
+> +	depends on MFD_MACSMC_CORE && ACPI && !SENSORS_APPLESMC
+> +	help
+> +	  This driver allows communication with the SMC (System Management Controller)
+> +	  on Intel-Macs. It is used to control fans, control battery, and more.
+> +
+> +	  To compile this driver as a module, choose M here. The module will
+> +	  be called macsmc_acpi.
+> +
+>  config APPLE_GMUX
+>  	tristate "Apple Gmux Driver"
+>  	depends on ACPI && PCI
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+> index cab20a414..933aed4a8 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -28,6 +28,7 @@ obj-y				+= amd/
+>  obj-$(CONFIG_ADV_SWBUTTON)	+= adv_swbutton.o
+>  
+>  # Apple
+> +obj-$(CONFIG_MACSMC_ACPI)	+= macsmc-acpi.o
+>  obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
+>  
+>  # ASUS
+> diff --git a/drivers/platform/x86/macsmc-acpi.c b/drivers/platform/x86/macsmc-acpi.c
+> new file mode 100644
+> index 000000000..a06ec921a
+> --- /dev/null
+> +++ b/drivers/platform/x86/macsmc-acpi.c
+> @@ -0,0 +1,642 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
+> +/*
+> + * Apple SMC ACPI backend
+> + * Copyright (C) 2026 Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+> + *
+> + * PIO code taken from drivers/hwmon/applesmc.c:
+> + * Copyright (C) 2007 Nicolas Boichat <nicolas@boichat.ch>
+> + * Copyright (C) 2010 Henrik Rydberg <rydberg@euromail.se>
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/byteorder/generic.h>
+> +#include <linux/completion.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/kfifo.h>
+> +#include <linux/mfd/macsmc.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/reboot.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/unaligned.h>
+> +#include <linux/workqueue.h>
+> +
+> +#define SMC_IO_DATA_PORT	0
+> +#define SMC_IO_CMD_PORT		4
+> +#define SMC_IO_NR_PORTS		32
+> +
+> +#define SMC_IO_STATUS_AWAITING_DATA	BIT(0)
+> +#define SMC_IO_STATUS_IB_CLOSED		BIT(1)
+> +#define SMC_IO_STATUS_BUSY		BIT(2)
 
-While the channel runs, a zero residue only occurs between descriptors,
-so read the registers again while either residue is zero. The retries
-are bounded, as the residue also stays zero on a stopped channel or one
-that ran out of descriptors; after the last retry the position is
-computed as before.
+Add include.
 
-With a debug build counting retries, one hour of playback needed a
-retry for 2210 of 3.39 million reads, at most three retries (3.5 us),
-also across pause and stream restart. Both states above showed up in
-the logged register values. There were no underruns in three hours of
-playback with the fix.
+> +
+> +#define SMC_MMIO_KEY_DATA		0
+> +#define SMC_MMIO_KEY_INTERRUPT_STATUS	0x4000
+> +#define SMC_MMIO_KEY_STATUS		0x4005
+> +#define SMC_MMIO_KEY_NAME		0x78
+> +#define SMC_MMIO_KEY_DATA_LEN		0x7D
+> +#define SMC_MMIO_KEY_SMC_ID		0x7E
+> +#define SMC_MMIO_KEY_CMD		0x7F
+> +#define SMC_MMIO_MIN_SIZE		0x4006
+> +
+> +#define SMC_TIMEOUT_MS			1000
+> +
+> +struct apple_smc_acpi {
+> +	struct device *dev;
+> +
+> +	u8 __iomem *iomem_base;
+> +	u32 iomem_base_addr, iomem_base_size;
+> +	bool is_mmio;
+> +
+> +	u16 port_base;
+> +	bool has_port;
+> +
+> +	bool has_interrupt;
+> +	bool interrupt_enabled;
+> +	struct completion cmd_done;
+> +
+> +	struct blocking_notifier_head event_handlers;
+> +	struct work_struct shutdown_work;
+> +	struct work_struct notifier_work;
+> +
+> +	DECLARE_KFIFO(event_fifo, u8, 64);
+> +	spinlock_t event_lock;
 
-Fixes: b127315d9a78 ("dmaengine: apple-admac: Add Apple ADMAC driver")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Jacob Procee <sn125164@gmail.com>
----
-How this was found and tested:
-- The underruns were traced with bpftrace on snd_dmaengine_pcm_pointer():
-  a position read 19-37 us before the period interrupt was exactly one
-  period ahead of the interrupt's own read. The register states were then
-  confirmed with a debug build of this driver that logged the raw report
-  ring and residue values on every retry.
-- There is no hardware documentation for the ordering; all of this is
-  measured. In the 1906 logged retries the next read always showed both
-  the report and the new descriptor, or neither, never the new descriptor
-  with the old report count.
-- The reverse order (next descriptor loaded before the report is posted)
-  would put the position one period behind and is not handled here. The
-  bpftrace probe checked every position read for a backward step, so it
-  would have caught that too: none occurred in the three hours with the
-  fix, roughly 10 million reads.
-- RESIDUE_RETRIES is empirical as well: of the logged retries, 1189 needed
-  one, 621 two and 96 three, none more; the longest complete retry
-  sequence took 3.5 us. A round takes about 1 us, so the limit keeps the
-  additional polling time, with interrupts off, to roughly 10 us in the
-  observed environment. If the limit is reached, the position is computed
-  using the existing calculation, so the original error can still occur
-  in that case.
-- Tested on a MacBook Pro 14" (M1 Pro, J314s) as an out-of-tree module on
-  the Asahi 7.2.12 kernel, whose apple-admac.c matches this tree apart from
-  the unrelated admac_hw rework. The three hours above used a limit of 100
-  retries; the code as posted here (limit 10) ran for another 30 minutes.
-  On this tree the driver builds cleanly with W=1 and C=1 (arm64
-  defconfig), but I have not run it here, nor on other Apple SoCs.
+You must document what the lock protects.
 
-AI assistance: the tracing, analysis, the code change and a first draft of
-this changelog were done with an LLM (Claude) in a session with me. I have
-reviewed and tested the result and can answer for it.
+> +};
+> +
+> +
+> +static int apple_smc_acpi_port_wait(struct apple_smc_acpi *smc, u8 val, u8 mask)
+> +{
+> +	int ms;
+> +
+> +	for (ms = SMC_TIMEOUT_MS; ms != 0; ms--) {
+> +		if ((inb(smc->port_base + SMC_IO_CMD_PORT) & mask) == val)
+> +			return 0;
+> +
+> +		fsleep(1000);
+> +	}
 
- drivers/dma/apple-admac.c | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+Something from iopoll.h should suffice for this.
 
-diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index 9a1c79c12..9b284c658 100644
---- a/drivers/dma/apple-admac.c
-+++ b/drivers/dma/apple-admac.c
-@@ -28,6 +28,12 @@
-  */
- #define SRAM_BLOCK	2048
- 
-+/*
-+ * How often to re-read the residue while a descriptor boundary is in
-+ * progress, see admac_cyclic_read_residue().
-+ */
-+#define RESIDUE_RETRIES	10
-+
- #define RING_WRITE_SLOT		GENMASK(1, 0)
- #define RING_READ_SLOT		GENMASK(5, 4)
- #define RING_FULL		BIT(9)
-@@ -358,11 +364,24 @@ static u32 admac_cyclic_read_residue(struct admac_data *ad, int channo,
- 	u32 residue1, residue2;
- 	int nreports;
- 	size_t pos;
-+	int tries = 0;
- 
--	ring1 =    readl_relaxed(ad->base + REG_REPORT_RING(channo));
--	residue1 = readl_relaxed(ad->base + REG_RESIDUE(channo));
--	ring2 =    readl_relaxed(ad->base + REG_REPORT_RING(channo));
--	residue2 = readl_relaxed(ad->base + REG_RESIDUE(channo));
-+	/*
-+	 * The residue drops to zero when a descriptor finishes, before the
-+	 * next one is loaded. If the finished descriptor's report is already
-+	 * in the ring at that point, the position below comes out one period
-+	 * ahead: with residue2 == 0 directly, with residue1 == 0 through the
-+	 * residue2 > residue1 branch. The next read is then behind it, which
-+	 * ALSA takes for a wrap of the whole buffer. Re-read until the next
-+	 * descriptor is loaded; the limit covers a stopped or starved channel,
-+	 * whose residue stays zero.
-+	 */
-+	do {
-+		ring1 =    readl_relaxed(ad->base + REG_REPORT_RING(channo));
-+		residue1 = readl_relaxed(ad->base + REG_RESIDUE(channo));
-+		ring2 =    readl_relaxed(ad->base + REG_REPORT_RING(channo));
-+		residue2 = readl_relaxed(ad->base + REG_RESIDUE(channo));
-+	} while ((!residue1 || !residue2) && ++tries < RESIDUE_RETRIES);
- 
- 	if (residue2 > residue1) {
- 		/*
+> +	dev_dbg(smc->dev, "port/wait: timeout value:%u, mask:%u\n", val, mask);
 
-base-commit: aff5e6a77fc69a7c490246465940d18422d7c631
+Add include.
+
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static int apple_smc_acpi_port_write_byte(struct apple_smc_acpi *smc, u8 buf)
+> +{
+> +	int ret;
+> +
+> +	ret = apple_smc_acpi_port_wait(smc, 0, SMC_IO_STATUS_IB_CLOSED) ? :
+> +		apple_smc_acpi_port_wait(smc, SMC_IO_STATUS_BUSY, SMC_IO_STATUS_BUSY);
+
+Split this please.
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	outb(buf, smc->port_base + SMC_IO_DATA_PORT);
+> +	return 0;
+> +}
+> +
+> +static int apple_smc_acpi_port_write_cmd(struct apple_smc_acpi *smc, u8 buf)
+> +{
+> +	int ret;
+> +
+> +	ret = apple_smc_acpi_port_wait(smc, 0, SMC_IO_STATUS_IB_CLOSED);
+> +	if (ret)
+> +		return ret;
+> +
+> +	outb(buf, smc->port_base + SMC_IO_CMD_PORT);
+> +	return 0;
+> +}
+> +
+> +static int apple_smc_acpi_port_write_key(struct apple_smc_acpi *smc, smc_key key)
+> +{
+> +	int i;
+> +
+> +	for (i = 3; i >= 0; i--) {
+> +		if (apple_smc_acpi_port_write_byte(smc, (u8)(key >> (i * 8))))
+
+I'd prefer ANDing with 0xff instead of relying on the cast.
+
+> +			return -EIO;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int apple_smc_acpi_port_valid(struct apple_smc_acpi *smc)
+> +{
+> +	int ret;
+> +
+> +	ret = apple_smc_acpi_port_wait(smc, 0, SMC_IO_STATUS_BUSY);
+> +	if (!ret)
+> +		return ret;
+> +
+> +	ret = apple_smc_acpi_port_write_cmd(smc, SMC_MSG_READ_KEY);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return apple_smc_acpi_port_wait(smc, 0, SMC_IO_STATUS_BUSY);
+> +}
+> +
+> +static int apple_smc_acpi_port_read(struct apple_smc_acpi *smc, u8 cmd, smc_key key,
+> +				void *buffer, size_t len)
+> +{
+> +	int ret;
+> +
+> +	ret = apple_smc_acpi_port_valid(smc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (apple_smc_acpi_port_write_cmd(smc, cmd) || apple_smc_acpi_port_write_key(smc, key)) {
+> +		dev_dbg(smc->dev, "port/read: read argument failed, key: 0x%X, cmd: 0x%X\n",
+> +				key, cmd);
+> +		return -EIO;
+> +	}
+> +
+> +	if (apple_smc_acpi_port_write_byte(smc, len)) {
+> +		dev_dbg(smc->dev, "port/read: read len failed, key: 0x%X, len: 0x%lX\n", key, len);
+> +		return -EIO;
+> +	}
+> +
+> +	for (ret = 0; ret < len; ret++) {
+> +		if (apple_smc_acpi_port_wait(smc,
+> +				SMC_IO_STATUS_AWAITING_DATA | SMC_IO_STATUS_BUSY,
+> +				SMC_IO_STATUS_AWAITING_DATA | SMC_IO_STATUS_BUSY)) {
+> +			dev_dbg(smc->dev, "port/read: read failed, key: 0x%X\n", key);
+> +			return -EIO;
+> +		}
+> +		((u8 *)buffer)[ret] = inb(smc->port_base + SMC_IO_DATA_PORT);
+
+Why is buffer void * and not u8 *?
+
+> +	}
+> +
+> +	return apple_smc_acpi_port_wait(smc, 0, SMC_IO_STATUS_BUSY);
+> +}
+> +
+> +static int apple_smc_acpi_port_write(struct apple_smc_acpi *smc, smc_key key, const void *buffer,
+> +		size_t len)
+> +{
+> +	int ret;
+> +
+> +	ret = apple_smc_acpi_port_valid(smc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (apple_smc_acpi_port_write_cmd(smc, SMC_MSG_WRITE_KEY) ||
+> +			apple_smc_acpi_port_write_key(smc, key)) {
+> +		dev_dbg(smc->dev, "port/write: write argument failed, key: 0x%X\n", key);
+> +		return -EIO;
+> +	}
+> +
+> +	if (apple_smc_acpi_port_write_byte(smc, len)) {
+> +		dev_dbg(smc->dev, "port/write: write len failed, key: 0x%X, len: 0x%lX\n",
+> +				key, len);
+> +		return -EIO;
+> +	}
+> +
+> +	for (ret = 0; ret < len; ret++) {
+> +		if (apple_smc_acpi_port_write_byte(smc, ((const u8 *)buffer)[ret])) {
+
+Why is the buffer void *?
+
+> +			dev_dbg(smc->dev, "port/write: write failed, key: 0x%X\n", key);
+> +			return -EIO;
+> +		}
+> +	}
+> +	return apple_smc_acpi_port_wait(smc, 0, SMC_IO_STATUS_BUSY);
+> +}
+> +
+> +static int apple_smc_acpi_port_get_key_info(struct apple_smc_acpi *smc,
+> +			smc_key key, struct apple_smc_key_info *info)
+> +{
+> +	u8 buf[6];
+> +
+> +	if (apple_smc_acpi_port_read(smc, SMC_MSG_GET_KEY_INFO, key, buf, 6))
+
+sizeof(buf)
+
+> +		return -EIO;
+> +
+> +	if (!info)
+> +		return 0;
+> +
+> +	info->size = buf[0];
+> +	info->type_code = get_unaligned_be32(&buf[1]);
+
+Please use a proper endianness type. It would be preferrable to make a 
+(__packed) struct out of this so you can properly name and type the 
+members. It would also get rid if magic number offsets.
+
+Don't forget add include if you use __packed.
+
+> +	info->flags = buf[5];
+> +
+> +	return 0;
+> +}
+> +
+> +static void apple_smc_acpi_mmio_clear(struct apple_smc_acpi *smc)
+> +{
+> +	if (ioread8(smc->iomem_base + SMC_MMIO_KEY_STATUS))
+> +		return iowrite8(0, smc->iomem_base + SMC_MMIO_KEY_STATUS);
+> +}
+> +
+> +static int apple_smc_acpi_mmio_wait(struct apple_smc_acpi *smc)
+> +{
+> +	int ms = SMC_TIMEOUT_MS;
+> +
+> +	if (smc->interrupt_enabled) {
+> +		if (wait_for_completion_timeout(&smc->cmd_done,
+> +					msecs_to_jiffies(SMC_TIMEOUT_MS)) > 0)
+> +			return 0;
+> +
+> +		smc->interrupt_enabled = 0;
+> +		dev_dbg(smc->dev, "mmio/wait: interrupt missed, reverting to polling\n");
+> +	}
+> +
+> +	for (ms = SMC_TIMEOUT_MS; ms != 0; ms--) {
+> +		if (ioread8(smc->iomem_base + SMC_MMIO_KEY_STATUS) & 0x20)
+
+Name the literal with a define.
+
+> +			return 0;
+> +
+> +		fsleep(1000);
+> +	}
+> +	dev_dbg(smc->dev, "mmio/wait: timeout");
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static int apple_smc_acpi_mmio_read(struct apple_smc_acpi *smc, u8 cmd, smc_key key,
+> +		void *buffer, size_t len)
+> +{
+> +	u8 ret;
+> +
+> +	reinit_completion(&smc->cmd_done);
+> +	apple_smc_acpi_mmio_clear(smc);
+> +	iowrite32be(key, smc->iomem_base + SMC_MMIO_KEY_NAME);
+> +	iowrite8(0, smc->iomem_base + SMC_MMIO_KEY_SMC_ID);
+> +	iowrite8(cmd, smc->iomem_base + SMC_MMIO_KEY_CMD);
+> +
+> +	if (apple_smc_acpi_mmio_wait(smc))
+> +		return -EIO;
+> +
+> +	ret = ioread8(smc->iomem_base + SMC_MMIO_KEY_CMD);
+> +	if (ret) {
+> +		dev_dbg(smc->dev, "mmio/read: read failed, ret: 0x%X, key: 0x%X\n", ret, key);
+> +		return -ret;
+> +	}
+> +
+> +	memcpy_fromio(buffer, smc->iomem_base + SMC_MMIO_KEY_DATA, len);
+> +	return 0;
+> +}
+> +
+> +static int apple_smc_acpi_mmio_write(struct apple_smc_acpi *smc, smc_key key, const void *buffer,
+> +		size_t len)
+> +{
+> +	u8 ret;
+> +
+> +	reinit_completion(&smc->cmd_done);
+> +	apple_smc_acpi_mmio_clear(smc);
+> +	iowrite32be(key, smc->iomem_base + SMC_MMIO_KEY_NAME);
+> +	memcpy_toio(smc->iomem_base + SMC_MMIO_KEY_DATA, buffer, len);
+> +	iowrite8(len, smc->iomem_base + SMC_MMIO_KEY_DATA_LEN);
+> +	iowrite8(0, smc->iomem_base + SMC_MMIO_KEY_SMC_ID);
+> +	iowrite8(SMC_MSG_WRITE_KEY, smc->iomem_base + SMC_MMIO_KEY_CMD);
+> +
+> +	if (apple_smc_acpi_mmio_wait(smc))
+> +		return -EIO;
+> +
+> +	ret = ioread8(smc->iomem_base + SMC_MMIO_KEY_CMD);
+> +	if (ret) {
+> +		dev_dbg(smc->dev, "mmio/write: write failed, ret: 0x%X, key: 0x%X\n", ret, key);
+> +		return -ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int apple_smc_acpi_mmio_get_key_info(struct apple_smc_acpi *smc, smc_key key,
+> +					struct apple_smc_key_info *info)
+> +{
+> +	u8 ret;
+> +
+> +	reinit_completion(&smc->cmd_done);
+> +	apple_smc_acpi_mmio_clear(smc);
+> +	iowrite32be(key, smc->iomem_base + SMC_MMIO_KEY_NAME);
+> +	iowrite8(0, smc->iomem_base + SMC_MMIO_KEY_SMC_ID);
+> +	iowrite8(SMC_MSG_GET_KEY_INFO, smc->iomem_base + SMC_MMIO_KEY_CMD);
+> +	if (apple_smc_acpi_mmio_wait(smc))
+> +		return -EIO;
+> +
+> +	ret = ioread8(smc->iomem_base + SMC_MMIO_KEY_CMD);
+
+Don't name non-return-value variables "ret".
+
+> +	if (ret) {
+> +		dev_dbg(smc->dev, "mmio/get_key_info failed, ret: 0x%X, key: 0x%X\n", ret, key);
+> +		return -ret;
+> +	}
+
+Largely identical to another function above? Add a helper?
+
+> +	if (!info)
+> +		return 0;
+> +	info->type_code = cpu_to_be32(ioread32(smc->iomem_base + SMC_MMIO_KEY_DATA));
+> +	info->size = ioread8(smc->iomem_base + 5);
+> +	info->flags = ioread8(smc->iomem_base + 6);
+
+Name the literal indexes with defines.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static void apple_smc_acpi_shutdown_work(struct work_struct *work)
+> +{
+> +	orderly_poweroff(true);
+> +}
+> +
+> +static void apple_smc_acpi_notifier_work(struct work_struct *work)
+> +{
+> +	struct apple_smc_acpi *smc =
+> +		container_of(work, struct apple_smc_acpi, notifier_work);
+> +
+> +	unsigned long flags;
+> +	uint8_t event;
+
+Kernel uses u8 for internal variables.
+
+> +
+> +	for (;;) {
+> +		spin_lock_irqsave(&smc->event_lock, flags);
+> +
+> +		if (!kfifo_get(&smc->event_fifo, &event)) {
+> +			spin_unlock_irqrestore(&smc->event_lock, flags);
+
+Please use scoped_guard() to avoid having to split unlock paths.
+
+> +			break;
+> +		}
+> +		spin_unlock_irqrestore(&smc->event_lock, flags);
+> +
+> +		blocking_notifier_call_chain(&smc->event_handlers, event, NULL);
+> +	}
+> +}
+> +
+> +static irqreturn_t apple_smc_acpi_irq(int irq, void *data)
+> +{
+> +	struct apple_smc_acpi *smc = data;
+> +	uint8_t status = 0, int_id = 0;
+> +	unsigned long flags;
+> +
+> +	if (smc->is_mmio) {
+> +		status = ioread8(smc->iomem_base + SMC_MMIO_KEY_INTERRUPT_STATUS);
+> +		if ((status & 0x20) == 0 && status != 0)
+> +			return IRQ_HANDLED;
+> +	} else {
+> +		status = inb(smc->port_base + SMC_IO_CMD_PORT);
+> +		if ((status & 0x40) == 0 && status != 0)
+
+Name the literals with a define x2
+
+(...) == 0 => !(...)
+
+> +			return IRQ_HANDLED;
+> +	}
+> +
+> +	int_id = inb(smc->port_base + 0x1F);
+> +	switch (int_id) {
+> +	case 0x4B: // SMC Command done
+
+Don't add comments like this at all but make all those named defines,
+you clearly seem to know about they are so name them accordingly.
+
+> +		complete(&smc->cmd_done);
+> +		break;
+> +	case 0x40: // Shutdown Imminet
+> +		schedule_work(&smc->shutdown_work);
+> +		break;
+> +	case 0x41: // bridgeOS Crash
+> +		dev_crit(smc->dev, "BridgeOS Crashed!!!\n");
+> +		break;
+> +	case 0x2A: // ALS Change
+> +	case 0x54: // Thermal Level Changed
+> +	case 0x55: // PlatformFuntion
+> +	case 0x60: // SMS Drop
+> +	case 0x69: // SMS Orientation
+> +	case 0x6F: // SMS Shock
+> +	case 0x80: // PLimit Changed
+> +		spin_lock_irqsave(&smc->event_lock, flags);
+> +		if (!kfifo_put(&smc->event_fifo, int_id))
+> +			dev_warn_ratelimited(smc->dev, "Notification lost: %u\n", int_id);
+> +
+> +		spin_unlock_irqrestore(&smc->event_lock, flags);
+> +
+> +		schedule_work(&smc->notifier_work);
+> +		break;
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static acpi_status apple_smc_acpi_walk_resources(struct acpi_resource *res,
+> +	void *data)
+
+Please align to ( or just use one line (you have long lines below anyway 
+so I don't know why you split this one).
+
+> +{
+> +	struct apple_smc_acpi *smc = data;
+> +	int ret = 0;
+
+Why you need to init this?
+
+> +
+> +	switch (res->type) {
+> +	case ACPI_RESOURCE_TYPE_IO:
+> +		if (!smc->has_port) {
+> +			if (res->data.io.address_length < SMC_IO_NR_PORTS)
+> +				return AE_ERROR;
+> +			smc->port_base = res->data.io.minimum;
+> +			smc->has_port = true;
+> +		}
+> +		return AE_OK;
+> +
+> +	case ACPI_RESOURCE_TYPE_FIXED_MEMORY32:
+> +		if (!smc->is_mmio) {
+> +			if (res->data.fixed_memory32.address_length < SMC_MMIO_MIN_SIZE) {
+> +				dev_dbg(smc->dev, "found mmio support but its too small: %u\n",
+> +					res->data.fixed_memory32.address_length);
+> +				return AE_OK;
+> +			}
+> +			smc->iomem_base_addr = res->data.fixed_memory32.address;
+> +			smc->iomem_base_size = res->data.fixed_memory32.address_length;
+> +			smc->is_mmio = true;
+> +		}
+> +		return AE_OK;
+> +
+> +	case ACPI_RESOURCE_TYPE_IRQ:
+> +		ret = devm_request_irq(smc->dev, res->data.irq.interrupts[0],
+> +					apple_smc_acpi_irq,
+> +					0, "macsmc-acpi", smc);
+
+Align to (
+
+> +		if (ret < 0) {
+> +			dev_dbg(smc->dev, "Unable to register interrupts\n");
+> +			smc->has_interrupt = false;
+> +			return AE_OK;
+> +		}
+> +		smc->has_interrupt = true;
+> +		return AE_OK;
+> +
+> +	case ACPI_RESOURCE_TYPE_END_TAG:
+> +		if (smc->has_port)
+> +			return AE_OK;
+> +		else
+> +			return AE_NOT_FOUND;
+
+Preferrably handle error first by reversing the logic.
+
+Using else in such a construct unnecessary and should be dropped.
+
+> +
+> +	default:
+> +		return AE_OK;
+> +	}
+> +}
+> +
+> +static void apple_smc_acpi_try_enable_mmio(struct apple_smc_acpi *smc)
+> +{
+> +	if (!smc->is_mmio)
+> +		return;
+> +
+> +	u8 ldkn;
+
+Wrong place.
+
+> +
+> +	smc->iomem_base = ioremap(smc->iomem_base_addr, smc->iomem_base_size);
+> +	if (!smc->iomem_base)
+> +		goto out;
+> +
+> +	if (ioread8(smc->iomem_base + SMC_MMIO_KEY_STATUS) == 0xFF) {
+> +		dev_dbg(smc->dev, "mmio enable failed: init status is 0xff\n");
+> +		goto out_iomem;
+> +	}
+> +
+> +	if (apple_smc_acpi_mmio_read(smc, SMC_MSG_READ_KEY, SMC_KEY(LDKN), &ldkn, 1)) {
+
+sizeof(ldkn) ?
+
+> +		dev_dbg(smc->dev, "mmio enable failed: ldkn read failed\n");
+> +		goto out_iomem;
+> +	}
+> +
+> +	if (ldkn < 2) {
+> +		dev_dbg(smc->dev, "mmio enable failed: ldkn version less than 2\n");
+> +		goto out_iomem;
+> +	}
+> +	return;
+> +
+> +out_iomem:
+> +	iounmap(smc->iomem_base);
+> +out:
+> +	smc->is_mmio = false;
+> +}
+> +
+> +static void apple_smc_acpi_try_enable_interrupts(struct apple_smc_acpi *smc)
+> +{
+> +	if (!smc->has_interrupt)
+> +		return;
+> +
+> +	const u8 enable = 1;
+> +	int ret;
+
+These are in wrong place.
+
+> +
+> +	if (smc->is_mmio)
+> +		ret = apple_smc_acpi_mmio_write(smc, SMC_KEY(NTOK), &enable, 1);
+> +	else
+> +		ret = apple_smc_acpi_port_write(smc, SMC_KEY(NTOK), &enable, 1);
+> +
+> +	if (ret < 0) {
+> +		dev_dbg(smc->dev, "Unable to enable interrupts\n");
+> +		smc->interrupt_enabled = 0;
+> +		return;
+> +	}
+> +
+> +	smc->interrupt_enabled = 1;
+> +}
+> +
+> +static int apple_smc_acpi_read(void *cookie, smc_key key, void *buf, size_t size)
+> +{
+> +	struct apple_smc_acpi *smc = cookie;
+> +	int ret;
+> +
+> +	if (smc->is_mmio)
+> +		ret = apple_smc_acpi_mmio_read(smc, SMC_MSG_READ_KEY,
+> +			key, buf, size);
+> +	else
+> +		ret = apple_smc_acpi_port_read(smc, SMC_MSG_READ_KEY,
+> +			key, buf, size);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return size;
+> +
+> +}
+> +
+> +static int apple_smc_acpi_write(void *cookie, smc_key key, const void *buf, size_t size)
+> +{
+> +	struct apple_smc_acpi *smc = cookie;
+> +	int ret;
+> +
+> +	if (smc->is_mmio)
+> +		ret = apple_smc_acpi_mmio_write(smc, key, buf, size);
+> +	else
+> +		ret = apple_smc_acpi_port_write(smc, key, buf, size);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return size;
+> +}
+> +
+> +static int apple_smc_acpi_get_key_by_index(void *cookie, int index, smc_key *key)
+> +{
+> +	struct apple_smc_acpi *smc = cookie;
+> +
+> +	if (smc->is_mmio)
+> +		return apple_smc_acpi_mmio_read(smc, SMC_MSG_GET_KEY_BY_INDEX, (smc_key) index,
+> +				key, 4);
+> +	else
+> +		return apple_smc_acpi_port_read(smc, SMC_MSG_GET_KEY_BY_INDEX, (smc_key) index,
+> +				key, 4);
+> +
+> +}
+> +
+> +static int apple_smc_acpi_get_key_info(void *cookie, smc_key key,
+> +		struct apple_smc_key_info *info)
+> +{
+> +	struct apple_smc_acpi *smc = cookie;
+> +
+> +	if (smc->is_mmio)
+> +		return apple_smc_acpi_mmio_get_key_info(smc, key, info);
+> +	else
+> +		return apple_smc_acpi_port_get_key_info(smc, key, info);
+> +
+> +}
+> +
+> +static void apple_smc_acpi_notifications(void *cookie)
+> +{
+> +	const u8 buf = 0;
+> +
+> +	apple_smc_acpi_write(cookie, SMC_KEY(NTOK), &buf, 1);
+
+sizeof()
+
+> +}
+> +
+> +static const struct apple_smc_backend_ops apple_smc_acpi_be_ops = {
+> +	.read = apple_smc_acpi_read,
+> +	.write = apple_smc_acpi_write,
+> +	.get_key_by_index = apple_smc_acpi_get_key_by_index,
+> +	.get_key_info = apple_smc_acpi_get_key_info,
+> +	.disable_notifications = apple_smc_acpi_notifications,
+> +};
+> +
+> +static int apple_smc_acpi_probe(struct platform_device *pdev)
+> +{
+> +	struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
+> +	struct apple_smc_acpi *smc;
+> +	acpi_status status;
+> +
+> +	smc = devm_kzalloc(&pdev->dev, sizeof(*smc), GFP_KERNEL);
+> +	if (!smc)
+> +		return -ENOMEM;
+> +
+> +	smc->dev = &pdev->dev;
+> +	init_completion(&smc->cmd_done);
+> +	status = acpi_walk_resources(adev->handle, METHOD_NAME__CRS,
+> +				apple_smc_acpi_walk_resources, smc);
+> +
+> +	if (ACPI_FAILURE(status))
+> +		return -ENODEV;
+> +
+> +	apple_smc_acpi_try_enable_mmio(smc);
+> +	BLOCKING_INIT_NOTIFIER_HEAD(&smc->event_handlers);
+> +	INIT_WORK(&smc->shutdown_work, apple_smc_acpi_shutdown_work);
+> +	INIT_WORK(&smc->notifier_work, apple_smc_acpi_notifier_work);
+
+Don't these need cancelling on remove?
+
+> +	spin_lock_init(&smc->event_lock);
+> +	INIT_KFIFO(smc->event_fifo);
+> +	apple_smc_acpi_try_enable_interrupts(smc);
+> +
+> +	return apple_smc_probe(smc->dev, &apple_smc_acpi_be_ops, smc, &smc->event_handlers, true);
+> +}
+> +
+> +static int apple_smc_acpi_resume(struct device *dev)
+> +{
+> +	struct apple_smc *smc = dev_get_drvdata(dev);
+> +	struct apple_smc_acpi *smc_acpi = smc->be_cookie;
+> +
+> +	/* NTOK may be set to 0 on resume */
+> +	if (smc_acpi->interrupt_enabled) {
+> +		smc_acpi->interrupt_enabled = 0;
+> +		apple_smc_acpi_try_enable_interrupts(smc_acpi);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops apple_smc_acpi_ops = {
+> +	.resume = apple_smc_acpi_resume,
+> +};
+> +
+> +static const struct acpi_device_id apple_smc_acpi_ids[] = {
+> +	{"APP0001", 0},
+> +	{"", 0},
+
+{}
+
+No comma on the terminator.
+
+> +};
+> +MODULE_DEVICE_TABLE(acpi, apple_smc_acpi_ids);
+> +
+> +static struct platform_driver apple_smc_acpi_driver = {
+> +	.probe = apple_smc_acpi_probe,
+> +	.driver = {
+> +		.name = "macsmc-acpi",
+> +		.acpi_match_table = apple_smc_acpi_ids,
+> +		.pm = &apple_smc_acpi_ops,
+> +	},
+> +};
+> +module_platform_driver(apple_smc_acpi_driver);
+> +
+> +MODULE_AUTHOR("Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>");
+> +MODULE_LICENSE("Dual MIT/GPL");
+> +MODULE_DESCRIPTION("Apple SMC ACPI backend");
+> +MODULE_DEVICE_TABLE(acpi, apple_smc_acpi_ids);
+> 
+
 -- 
-2.56.0
+ i.
 
